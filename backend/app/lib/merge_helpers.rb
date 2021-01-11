@@ -91,8 +91,8 @@ module MergeHelpers
     # this code breaks selections into arrays like this:
     # ["agent_record_identifiers", 1, "append", 2] // add entire subrec, record is in position 2
     # ["agent_record_controls", 0, "replace", 1] // replace entire subrec, record is in position 1
-    # ["agent_record_controls", 0, "maintenance_status_enum", 1] // replace field, record is in position 1
-    # ["agent_record_controls", 0, "publication_status_enum", 0] // replace field, record is in position 0 
+    # ["agent_record_controls", 0, "maintenance_status", 1] // replace field, record is in position 1
+    # ["agent_record_controls", 0, "publication_status", 0] // replace field, record is in position 0 
     # ["agent_record_controls", 0, "maintenance_agency", 3]
     # and then creates data structures for the subrecords to append, replace entirely, and replace by field. record in in position 3
     selections.each_key do |key|

@@ -14,80 +14,22 @@
 
 <div class="row">
   <div class="col-sm-9">
-
-    <%# IDENTIFIERS %>
-    <%# Only display if identifier is a URL  %>
-    <%# URL Regex from: https://stackoverflow.com/questions/3809401/what-is-a-good-regular-expression-to-match-a-url %>
-
-    <% if json['agent_record_identifiers'] %>
-      <% url_ids = json['agent_record_identifiers'].select do |ari| %>
-        <% ari['record_identifier'] =~ /(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})/ && ari['source_enum'] == "snac" %>
-      <% end %>
-      <% if url_ids.length > 0 %>
-        <h3>Identifiers</h3>
-        <ul>
-          <% url_ids.each do |id| %>
-            <li>
-              <a href="<%= id['record_identifier'] %>"><%= id['record_identifier'] %></a>
-            </li>
-          <% end %>
-        </ul>
-      <% end %>
-    <% end %>
-
-    <%# DATES %>
-    <% if json['dates_of_existence'].any? %>
-      <h3>Dates</h3>
-      <ul>
-        <% json['dates_of_existence'].each do |d| %>
-          <li>
-            <b>Existence:</b>
-            <%= render partial: 'structured_date', locals: {:date => d} %>
-          </li>
-
-        <% end %>
-      </ul>
-    <% end %>
-
-    <%# BIOGRAPHY %>
-    <% bio_notes = json['notes'].select{ |n| n['jsonmodel_type'] == "note_bioghist" && n['publish'] == true} %>
-
-    <% if bio_notes.any? %>
-      <% bio_notes.each do |n| %>
-        <h3><%= n['label'] ? "Biography: #{n['label']}" : 'Biography' %></h3>
-        <% sn = n['subnotes'] %>
-
-        <% if sn.first['publish'] == true %>
-          <p><%= sn.first['content'] %></p>
-        <% end %>
-      <% end %>
-    <% end %>
-
-    <%# GENERAL CONTEXT %>
-    <% gn_notes = json['notes'].select{ |n| n['jsonmodel_type'] == "note_general_context" && n['publish'] == true} %>
-
-    <% if gn_notes.any? %>
-      <% gn_notes.each do |n| %>
-        <h3><%= n['label'] ? "General Context: #{n['label']}" : 'General Context' %></h3>
-        <% sn = n['subnotes'] %>
-
-        <% if sn.first['publish'] == true %>
-          <p><%= sn.first['content'] %></p>
-        <% end %>
-      <% end %>
-    <% end %>
-
-    <br />
-    <br />
-
-    <% if !@results.blank? && @results['total_hits'] > 0 %>
-     <h2><%= t('found', {:count => @results['total_hits'], :type => @results['total_hits'] == 1? t('coll_obj._singular') : t('coll_obj._plural')}) %>:</h2>
-         <%= render partial: 'shared/pagination', locals: {:pager  => @pager}  %>
-         <% @results.records.each do |result| %>
-           <%= render partial: 'shared/result', locals: {:result => result, :props => {:full => false}} %>
-         <% end %>
-         <%= render partial: 'shared/pagination', locals: {:pager  => @pager}  %>
-    <% end %>
+    <%= render partial: 'identifiers', locals: {:result => @result} %>
+    <%= render partial: 'dates', locals: {:result => @result} %>
+    <%= render partial: 'parallel_names', locals: {:result => @result} %>
+    <%= render partial: 'shared/notes', locals: {:result => @result, note_label: I18n.t('agent_notes.bioghist'), note_type: 'note_bioghist'} %>
+    <%= render partial: 'shared/notes', locals: {:result => @result, note_label: I18n.t('agent_notes.general'), note_type: 'note_general_context'} %>
+    <%= render partial: 'shared/notes', locals: {:result => @result, note_label: I18n.t('agent_notes.legal_status'), note_type: 'note_legal_status'} %>
+    <%= render partial: 'shared/notes', locals: {:result => @result, note_label: I18n.t('agent_notes.mandate'), note_type: 'note_mandate'} %>
+    <%= render partial: 'shared/notes', locals: {:result => @result, note_label: I18n.t('agent_notes.structure_or_genealogy'), note_type: 'note_structure_or_genealogy'} %>
+    <%= render partial: 'gender', locals: {:result => @result} %>
+    <%= render partial: 'subjects', locals: {:result => @result, subject_label: I18n.t('agent_function._plural'), subject_type: 'agent_functions'} %>
+    <%= render partial: 'subjects', locals: {:result => @result, subject_label: I18n.t('agent_occupation._plural'), subject_type: 'agent_occupations'} %>
+    <%= render partial: 'places', locals: {:result => @result} %>
+    <%= render partial: 'subjects', locals: {:result => @result, subject_label: I18n.t('agent_topic._plural'), subject_type: 'agent_topics'} %>
+    <%= render partial: 'shared/languages', locals: {:result => @result} %>
+    <%# FOUND IN SECTION %>
+    <%= render partial: 'shared/results', locals: {:results => @results, :pager => @pager} %>
   </div>
 
   <% if show_agents_sidebar?(@result) %>
@@ -98,45 +40,9 @@
 
           <% n = render partial: 'name', locals: {:result => @result} %>
           <%= render partial: 'shared/accordion_panel', locals:
-            {:p_title =>  I18n.t('name_person._plural'),
+            {:p_title =>  I18n.t('agent._public.section.other_names'),
               :p_id => "names_panel",
               :p_body => n } %>
-
-          <% pn = render partial: 'parallel_names', locals: {:result => @result} %>
-          <%= render partial: 'shared/accordion_panel', locals:
-            {:p_title =>  I18n.t('parallel_name_person._plural'),
-              :p_id => "parallel_names_panel",
-              :p_body => pn } %>
-
-          <% fn = render partial: 'functions', locals: {:result => @result} %>
-          <%= render partial: 'shared/accordion_panel', locals:
-            {:p_title =>  I18n.t('agent_function._plural'),
-              :p_id => "agent_functions_panel",
-              :p_body => fn } %>
-
-          <% gd = render partial: 'gender', locals: {:result => @result} %>
-          <%= render partial: 'shared/accordion_panel', locals:
-            {:p_title =>  I18n.t('agent_gender._plural'),
-              :p_id => "agent_gender_panel",
-              :p_body => gd } %>
-
-          <% pl = render partial: 'places', locals: {:result => @result} %>
-          <%= render partial: 'shared/accordion_panel', locals:
-            {:p_title =>  I18n.t('agent_place._plural'),
-              :p_id => "agent_places_panel",
-              :p_body => pl } %>
-
-          <% o = render partial: 'occupations', locals: {:result => @result} %>
-          <%= render partial: 'shared/accordion_panel', locals:
-            {:p_title =>  I18n.t('agent_occupation._plural'),
-              :p_id => "agent_occupations_panel",
-              :p_body => o } %>
-
-          <% tp = render partial: 'topics', locals: {:result => @result} %>
-          <%= render partial: 'shared/accordion_panel', locals:
-            {:p_title =>  I18n.t('agent_topic._plural'),
-              :p_id => "agent_topics_panel",
-              :p_body => tp } %>
 
           <% if @result.respond_to?(:related_agents) && !ASUtils.wrap(@result.related_agents).empty? %>
             <% x = render partial: 'agents/related_agents', locals: {:related_agents => @result.json['related_agents'], :list_clss => 'related_agents'} %>
@@ -145,7 +51,7 @@
 
           <% unless json['agent_resources'].blank? %>
             <% x = render partial: 'shared/present_list_agent_resources', locals: {:list =>  json['agent_resources'], :list_clss => 'external_docs'} %>
-            <%= render partial: 'shared/accordion_panel', locals: {:p_title => t('agent_resources'), :p_id => 'agent_resource_list', :p_body => x} %>
+            <%= render partial: 'shared/accordion_panel', locals: {:p_title => t('agent_resource._plural'), :p_id => 'agent_resource_list', :p_body => x} %>
           <% end %>
 
 

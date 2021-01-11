@@ -17,7 +17,7 @@
             </div>
             <div class="col-md-6">
               <%# Display date preview string %>
-              <% if date['date_type_enum'] == "single" && date["structured_date_single"] %>
+              <% if date['date_type_structured'] == "single" && date["structured_date_single"] %>
                 <% if date["structured_date_single"]["date_expression"] %>
                   <%= date["structured_date_single"]["date_expression"] %>
                   <br>
@@ -26,13 +26,13 @@
                 <% if date["structured_date_single"]["date_standardized"] %>
                   <%= date["structured_date_single"]["date_standardized"] %>
 
-                  <% if date["structured_date_single"]["date_standardized_type_enum"] %>
-                    <%= "(" + date["structured_date_single"]["date_standardized_type_enum"] + ")" %>
+                  <% if date["structured_date_single"]["date_standardized_type"] %>
+                    <%= "(" + date["structured_date_single"]["date_standardized_type"] + ")" %>
                    <br>
                   <% end %>
                 <% end %>
 
-              <% elsif date['date_type_enum'] == "range" && date["structured_date_range"] %>
+              <% elsif date['date_type'] == "range" && date["structured_date_range"] %>
                 <% if date["structured_date_range"]["begin_date_expression"] %>
                   <%= date["structured_date_range"]["begin_date_expression"] %>
                 <% end %>
@@ -51,8 +51,8 @@
                 <% if date["structured_date_range"]["begin_date_standardized"] %>
                   <%= date["structured_date_range"]["begin_date_standardized"] %>
 
-                  <% if date["structured_date_range"]["begin_date_standardized_type_enum"] %>
-                    <%= "(" + date["structured_date_range"]["begin_date_standardized_type_enum"] + ")" %>
+                  <% if date["structured_date_range"]["begin_date_standardized_type"] %>
+                    <%= "(" + date["structured_date_range"]["begin_date_standardized_type"] + ")" %>
                   <% end %>
                 <% end %>
 
@@ -60,8 +60,8 @@
                   -&nbsp;
                   <%= date["structured_date_range"]["end_date_standardized"] %>
 
-                  <% if date["structured_date_range"]["end_date_standardized_type_enum"] %>
-                    <%= "(" + date["structured_date_range"]["end_date_standardized_type_enum"] + ")" %>
+                  <% if date["structured_date_range"]["end_date_standardized_type"] %>
+                    <%= "(" + date["structured_date_range"]["end_date_standardized_type"] + ")" %>
                   <% end %>
                 <% end %>
 
@@ -80,7 +80,7 @@
           <div class="form-horizontal">
             <div class='form-group'>
               <div class='control-label col-sm-2'>Date Type</div>
-              <div class='label-only col-sm-8'><%= I18n.t("enumerations.date_type_enum.#{date['date_type_enum']}", :default => date['date_type_enum']) %></div>
+              <div class='label-only col-sm-8'><%= I18n.t("enumerations.date_type.#{date['date_type']}", :default => date['date_type']) %></div>
             </div>
 
             <% if date['date_certainty'] %>
@@ -107,10 +107,10 @@
            <div class="panel panel-default">
 
             <%# SINGLE SECTION %>
-            <% if date['date_type_enum'] == "single" && date["structured_date_single"] %>
+            <% if date['date_type'] == "single" && date["structured_date_single"] %>
               <div class='form-group'>
                 <div class='control-label col-sm-2'>Role</div>
-                <div class='label-only col-sm-8'><%= I18n.t("enumerations.date_role_enum.#{date['structured_date_single']['date_role_enum']}", :default => date['structured_date_single']['date_role_enum']) %></div>
+                <div class='label-only col-sm-8'><%= I18n.t("enumerations.date_role.#{date['structured_date_single']['date_role']}", :default => date['structured_date_single']['date_role']) %></div>
               </div>
 
               <% if date["structured_date_single"]['date_expression'] %>
@@ -127,15 +127,15 @@
                 </div>
               <% end %>
 
-              <% if date["structured_date_single"]['date_standardized_type_enum'] %>
+              <% if date["structured_date_single"]['date_standardized_type'] %>
                 <div class='form-group'>
                   <div class='control-label col-sm-2'>Date Standardized Type</div>
-                  <div class='label-only col-sm-8'><%= I18n.t("enumerations.date_standardized_type_enum.#{date['structured_date_single']['date_standardized_type_enum']}", :default => date['structured_date_single']['date_standardized_type_enum']) %></div>
+                  <div class='label-only col-sm-8'><%= I18n.t("enumerations.date_standardized_type.#{date['structured_date_single']['date_standardized_type']}", :default => date['structured_date_single']['date_standardized_type']) %></div>
                 </div>
               <% end %>
 
             <%# RANGE SECTION %>
-            <% elsif date['date_type_enum'] == "range" && date["structured_date_range"] %>
+            <% elsif date['date_type'] == "range" && date["structured_date_range"] %>
 
               <% if date["structured_date_range"]['begin_date_expression'] %>
                 <div class='form-group'>
@@ -151,10 +151,10 @@
                 </div>
               <% end %>
 
-              <% if date["structured_date_range"]['begin_date_standardized_type_enum'] %>
+              <% if date["structured_date_range"]['begin_date_standardized_type'] %>
                 <div class='form-group'>
                   <div class='control-label col-sm-2'>Begin Date Standardized Type</div>
-                  <div class='label-only col-sm-8'><%= I18n.t("enumerations.begin_date_standardized_type_enum.#{date['structured_date_range']['begin_date_standardized_type_enum']}", :default => date['structured_date_range']['begin_date_standardized_type_enum']) %></div>
+                  <div class='label-only col-sm-8'><%= I18n.t("enumerations.begin_date_standardized_type.#{date['structured_date_range']['begin_date_standardized_type']}", :default => date['structured_date_range']['begin_date_standardized_type']) %></div>
                 </div>
               <% end %>
 
@@ -172,10 +172,10 @@
                 </div>
               <% end %>
 
-              <% if date["structured_date_range"]['end_date_standardized_type_enum'] %>
+              <% if date["structured_date_range"]['end_date_standardized_type'] %>
                 <div class='form-group'>
                   <div class='control-label col-sm-2'>End Date Standardized Type</div>
-                  <div class='label-only col-sm-8'><%= I18n.t("enumerations.end_date_standardized_type_enum.#{date['structured_date_range']['end_date_standardized_type_enum']}", :default => date['structured_date_range']['end_date_standardized_type_enum']) %></div>
+                  <div class='label-only col-sm-8'><%= I18n.t("enumerations.end_date_standardized_type.#{date['structured_date_range']['end_date_standardized_type']}", :default => date['structured_date_range']['end_date_standardized_type']) %></div>
                 </div>
               <% end %>
 

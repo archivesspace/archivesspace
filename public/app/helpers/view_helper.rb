@@ -20,6 +20,19 @@ module ViewHelper
     record.identifier
   end
 
+  # Only display if identifier is a URL
+  # URL Regex from: https://stackoverflow.com/questions/3809401/what-is-a-good-regular-expression-to-match-a-url %>
+  # TODO: configurable?
+  DISPLAYABLE_IDENTIFIER_REGEX = /(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})/.freeze
+  def lookup_displayable_identifiers(identifiers)
+    identifiers.select { |id| id['record_identifier'] =~ DISPLAYABLE_IDENTIFIER_REGEX && id['source_enum'] == 'snac' }
+  end
+
+  def find_dates_for(result)
+    dates = result.json.fetch('dates_of_existence', [])
+    dates + result.json['names'].map{|names| names['use_dates']}.flatten
+  end
+
   #TODO: figure out a clever way to DRY these helpers up.
 
   # returns repo URL via slug if defined, via ID it not.

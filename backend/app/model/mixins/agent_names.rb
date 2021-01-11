@@ -89,7 +89,7 @@ module AgentNames
       name_fields = %w(dates qualifier source rules) + type_specific_hash_fields
 
       name['use_dates'].each do |date|
-        hash_fields << [:date_type_enum,
+        hash_fields << [:date_type_structured,
                         :date_label].map {|property|
           date[property.to_s] || ' '
         }.join('_')

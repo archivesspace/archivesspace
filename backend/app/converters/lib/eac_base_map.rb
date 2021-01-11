@@ -183,7 +183,7 @@ module EACBaseMap
          name[:script] = node.attr("scriptCode")
        },
        "self::nameEntry[@transliteration]" => Proc.new {|name, node|
-         name[:romanization_enum] = node.attr("transliteration")
+         name[:romanization] = node.attr("transliteration")
        },
        "descendant::part[@localType='prefix']" => Proc.new {|name, node|
          val = node.inner_text
@@ -258,7 +258,7 @@ module EACBaseMap
         name[:script] = node.attr("scriptCode")
       },
       "self::nameEntry[@transliteration]" => Proc.new {|name, node|
-         name[:romanization_enum] = node.attr("transliteration")
+         name[:romanization] = node.attr("transliteration")
        },
       "descendant::part[@localType='primary_name']" => Proc.new {|name, node|
         val = node.inner_text
@@ -325,7 +325,7 @@ module EACBaseMap
         name[:script] = node.attr("scriptCode")
       },
       "self::nameEntry[@transliteration]" => Proc.new {|name, node|
-         name[:romanization_enum] = node.attr("transliteration")
+         name[:romanization] = node.attr("transliteration")
        },
       "descendant::part[@localType='prefix']" => Proc.new {|name, node|
         val = node.inner_text
@@ -390,7 +390,7 @@ module EACBaseMap
       },
       :defaults => {
         :primary_identifier => true,
-        :source_enum => "local" 
+        :source => "local" 
       }
     }
   end  
@@ -404,12 +404,12 @@ module EACBaseMap
           val = node.inner_text
           id[:record_identifier] = val
           id[:primary_identifier] = false
-          id[:identifier_type_enum] = node.attr("localType")
+          id[:identifier_type] = node.attr("localType")
         },
       },
       :defaults => {
         :primary_identifier => false,
-        :source_enum => "local" 
+        :source => "local" 
       }
     }
   end
@@ -421,7 +421,7 @@ module EACBaseMap
       :map => {
         "descendant::maintenanceStatus" => Proc.new {|arc, node|
           val = node.inner_text
-          arc[:maintenance_status_enum] = val
+          arc[:maintenance_status] = val
         },
         "descendant::maintenanceAgency/agencyCode" => Proc.new {|arc, node|
           val = node.inner_text
@@ -437,7 +437,7 @@ module EACBaseMap
         },
         "descendant::publicationStatus" => Proc.new {|arc, node|
           val = node.inner_text
-          arc[:publication_status_enum] = val
+          arc[:publication_status] = val
         },
         "descendant::languageDeclaration/language" => Proc.new {|arc, node|
           arc[:language] = node.attr("languageCode")
@@ -449,7 +449,7 @@ module EACBaseMap
         }
       },
       :defaults => {
-        :maintenance_status_enum => "new"
+        :maintenance_status => "new"
       }
     }
   end
@@ -525,11 +525,11 @@ module EACBaseMap
       :map => {
         "descendant::eventType" => Proc.new {|me, node|
           val = node.inner_text.downcase
-          me[:maintenance_event_type_enum] =  val
+          me[:maintenance_event_type] =  val
         },
         "descendant::agentType" => Proc.new {|me, node|
           val = node.inner_text
-          me[:maintenance_agent_type_enum] =  val
+          me[:maintenance_agent_type] =  val
         },
         "descendant::agent" => Proc.new {|me, node|
           val = node.inner_text
@@ -592,7 +592,7 @@ module EACBaseMap
         "self::entityId" => Proc.new {|id, node|
           val = node.inner_text
           id[:entity_identifier] = val
-          id[:identifier_type_enum] = node.attr("localType")
+          id[:identifier_type] = node.attr("localType")
         }
       },
       :defaults => {
@@ -629,14 +629,14 @@ module EACBaseMap
           end
 
           sds = ASpaceImport::JSONModel(:structured_date_single).new({
-            :date_role_enum => role,
+            :date_role => role,
             :date_expression => exp,
             :date_standardized => std,
-            :date_standardized_type_enum => std_type
+            :date_standardized_type => std_type
           })
 
           date[:date_label] = label
-          date[:date_type_enum] = type
+          date[:date_type_structured] = type
           date[:structured_date_single] = sds
         }
       },
@@ -692,14 +692,14 @@ module EACBaseMap
           sdr = ASpaceImport::JSONModel(:structured_date_range).new({
             :begin_date_expression => begin_exp,
             :begin_date_standardized => begin_std,
-            :begin_date_standardized_type_enum => begin_std_type,
+            :begin_date_standardized_type => begin_std_type,
             :end_date_expression => end_exp,
             :end_date_standardized => end_std,
-            :end_date_standardized_type_enum => end_std_type
+            :end_date_standardized_type => end_std_type
           })
 
           date[:date_label] = label
-          date[:date_type_enum] = type
+          date[:date_type_structured] = type
           date[:structured_date_range] = sdr
         }
       },
@@ -715,7 +715,7 @@ module EACBaseMap
       :map => {
         "descendant::term" => Proc.new {|gender, node|
           val = node.inner_text
-          gender[:gender_enum] = val
+          gender[:gender] = val
         },
         "descendant::date" => agent_date_single_map,
         "descendant::dateRange" => agent_date_range_map,
@@ -734,7 +734,7 @@ module EACBaseMap
     :map => {
       "descendant::placeRole" => Proc.new {|apl, node|
         val = node.inner_text
-        apl[:place_role_enum] = val
+        apl[:place_role] = val
       },
 
       "descendant::placeEntry" => subject_map("self::placeEntry",

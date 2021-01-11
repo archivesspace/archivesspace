@@ -26,9 +26,9 @@
         "dynamic_enum" => "script_iso15924",
         "required" => false
       },
-      "romanization_enum" => {
+      "romanization" => {
         "type" => "string",
-        "dynamic_enum" => "romanization_enum",
+        "dynamic_enum" => "romanization",
         "required" => false
       },
 

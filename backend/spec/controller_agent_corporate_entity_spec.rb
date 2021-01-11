@@ -59,6 +59,35 @@ describe 'Corporate entity agent controller' do
   end
 
 
+  it "publishes the corporate entity agent and subrecords when /publish is POSTed" do
+    ce = create(:json_agent_corporate_entity, {
+                  :publish => false,
+                  :names => [build(:json_name_corporate_entity)],
+                  :external_documents => [build(:json_external_document, {:publish => false})],
+                  :agent_places => [build(:json_agent_place)]
+                })
+
+    # Confirm various subrecords are unpublished
+    ce = JSONModel(:agent_corporate_entity).find(ce.id)
+    expect(ce.publish).to be_falsey
+    expect(ce.external_documents[0]['publish']).to be_falsey
+    expect(ce.agent_places[0]['publish']).to be_falsey
+    expect(ce.agent_places[0]['notes'][0]['publish']).to be_falsey
+
+    url = URI("#{JSONModel::HTTP.backend_url}#{ce.uri}/publish")
+
+    request = Net::HTTP::Post.new(url.request_uri)
+    response = JSONModel::HTTP.do_http_request(url, request)
+
+    # Now they're published
+    ce = JSONModel(:agent_corporate_entity).find(ce.id)
+    expect(ce.publish).to be_truthy
+    expect(ce.external_documents[0]['publish']).to be_truthy
+    expect(ce.agent_places[0]['publish']).to be_truthy
+    expect(ce.agent_places[0]['notes'][0]['publish']).to be_truthy
+  end
+
+
   it "sets the sort name if one is provided" do
     opts = {:names => [build(:json_name_corporate_entity, :sort_name => "Custom Sort Name", :sort_name_auto_generate => false)]}
 

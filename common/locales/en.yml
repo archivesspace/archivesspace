@@ -526,7 +526,7 @@ en:
     script: Script
     script_tooltip: |
         <p>Indicates the script used in recording the name form. Example: Cyrillic (for Каспаров, Г. К. (Гарри Кимович))</p> 
-    romanization_enum: Transliteration
+    romanization: Transliteration
     romanization_tooltip: |
         <p>Indicates the transliteration scheme used in recording the name form.</p>
     _singular: Name
@@ -605,32 +605,32 @@ en:
     <<: *agent_software_attributes
 
   agent_record_identifiers:
-    identifier_type_enum_tooltip: |
+    identifier_type_tooltip: |
         <p>Indicates the type or format of the authority record identifier. Values in this Controlled Value List may be modified.</p>
-    source_enum_tooltip: | 
+    source_tooltip: | 
         <p>Indicates the originating authority file of an associated identifier. Example: NAF (for nr2003017069). Values in this Controlled Value List may be modified.</p>
     record_identifier_tooltip: |
         <p>The identifier for the Agent record, usually consisting of a unique alpha-numeric string. Identifier may originate in an external authority file, or be generated locally.</p> 
     is_primary: Primary
 
   agent_record_control:
-    maintenance_status_enum_tooltip: |
+    maintenance_status_tooltip: |
         <p>Indicates the current state of the record.</p>
-    publication_status_enum_tooltip: |
+    publication_status_tooltip: |
         <p>Indicates whether an Agent record should be publicly available.</p>
-    romanization_enum_tooltip: |
+    romanization_tooltip: |
         <p>Indicates whether the authorized name form was romanized from a non-Latin script, and the type of romanization scheme. Example: National library or bibliographic agency standard (for ALA-LC Romanization Table (e.g., Kasparov, G. K. (Garri Kimovich) for Каспаров, Г. К. (Гарри Кимович)).</p>
-    government_agency_type_enum_tooltip: |
+    government_agency_type_tooltip: |
         <p>Indicates the type of agency or jurisdiction represented by the authorized name form.</p>
-    reference_evaluation_enum_tooltip: |
+    reference_evaluation_tooltip: |
         <p>Indicates the level of consistency between the authorized name form and other name forms in the Agent record. When there are no additional forms, the field should be recorded as "Not applicable".</p>
-    name_type_enum_tooltip: |
+    name_type_tooltip: |
         <p>Indicates the uniqueness of the authorized name form within the Agents module. Unique name entries should be recorded as "Differentiated", while Agent records used to gather multiple Agents with identical names should be marked as "Undifferentiated".</p>
-    level_of_detail_enum_tooltip: |
+    level_of_detail_tooltip: |
         <p>Indicates the completeness of the Agent record according to consortial or local requirements.</p>
-    modified_record_enum_tooltip: |
+    modified_record_tooltip: |
         <p>Indicates whether an Agent record has been modified, and how it has been changed.</p>
-    cataloging_source_enum_tooltip: |
+    cataloging_source_tooltip: |
         <p>Indicates where an Agent record originated. Locally produced records not submitted to a cooperative cataloging program should be recorded as "Other".</p>
     maintenance_agency_tooltip: |
         <p>Code value for the agency or organization responsible for creating or maintaining an Agent record. Code value should be taken from a registry and be recorded using ISO 15511 conventions. Example: US-UPB (for Brigham Young University, using Library of Congress MARC Organization Code).</p>
@@ -688,16 +688,16 @@ en:
         <p>Last date or date and time the linked resource linked in the associated URI was verified.</p>
 
   agent_other_agency_codes:
-    agency_code_type_enum_tooltip: |
+    agency_code_type_tooltip: |
         <p>The source of the maintenance agency code. Example: OCLC.</p>
     maintenance_agency_tooltip: |
         <p>Alternative code values for the agency or organization responsible for creating or maintaining an Agent record. Code value should be taken from a registry and be recorded using ISO 15511 conventions. Example: OCLC-UBY (for United States, Brigham Young University, using the OCLC symbol).</p>
 
 
   agent_maintenance_histories:
-    maintenance_event_type_enum_tooltip: |
+    maintenance_event_type_tooltip: |
         <p>Indicates the type of maintenance event.</p>
-    maintenance_agent_type_enum_tooltip: |
+    maintenance_agent_type_tooltip: |
         <p>Indicates whether the maintenance event was performed by a person or by a software system.</p>
     agent_tooltip: |
         <p>Name of the person, agency, or software responsible for the maintenance event.</p>
@@ -729,7 +729,7 @@ en:
   agent_identifiers:
     entity_identifier_tooltip: |
         <p>Records identifiers associated with an entity, such as legal identifiers assigned by an authoritative agency.</p>
-    identifier_type_enum_tooltip: |
+    identifier_type_tooltip: |
         <p>Indicates the type or source of the entity identifier recorded.</p>
 
 
@@ -740,11 +740,11 @@ en:
         <p>The text script associated with the agent. Example: Latin.</p>    
 
   agent_gender:
-    gender_enum_tooltip: |
+    gender_tooltip: |
         <p>Gender of the subject.</p></br><p>Values for this list can be added or changed via the System -> Manage Controlled Value Lists menu.</p>
 
   agent_place:
-    place_role_enum_tooltip: |
+    place_role_tooltip: |
         <p>Indicates the relationship of the geographic location to the agent.</p> 
 
   agent_resource:

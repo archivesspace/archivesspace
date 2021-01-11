@@ -215,11 +215,11 @@ module JSONModel::Validations
       errors << ["structured_date_single", "must specifiy either a single or ranged date"]
     end
 
-    if hash["structured_date_range"] && hash["date_type_enum"] == "single"
+    if hash["structured_date_range"] && hash["date_type_structured"] == "single"
       errors << ["structured_date_range", "Must specify single date for date type of single"]
     end
 
-    if hash["structured_date_single"] && hash["date_type_enum"] == "range"
+    if hash["structured_date_single"] && hash["date_type_structured"] == "range"
       errors << ["structured_date_range", "Must specify range date for date type of range"]
     end
 
@@ -229,8 +229,8 @@ module JSONModel::Validations
   def self.check_structured_date_single(hash)
     errors = []
 
-    if hash["date_role_enum"].nil?
-      errors << ["date_role_enum", "is required"]
+    if hash["date_role"].nil?
+      errors << ["date_role", "is required"]
     end
 
     has_expr_date = !hash["date_expression"].nil? && 

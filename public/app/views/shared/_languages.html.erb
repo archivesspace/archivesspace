@@ -1,0 +1,11 @@
+<% if result.json['used_languages'] %>
+<h3><%= I18n.t('used_language._plural') %></h3>
+<dl>
+<% result.json['used_languages'].each do |language| %>
+  <dt><%= I18n.t('language_and_script.language') %></dt>
+  <dd><%= I18n.t("enumerations.language_iso639_2.#{language['language']}") %></dd>
+  <dt><%= I18n.t('language_and_script.script') %></dt>
+  <dd><%= I18n.t("enumerations.script_iso15924.#{language['script']}") %></dd>
+<% end %>
+</dl>
+<% end %>

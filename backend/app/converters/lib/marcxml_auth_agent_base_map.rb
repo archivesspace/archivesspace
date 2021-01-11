@@ -1,45 +1,47 @@
 module MarcXMLAuthAgentBaseMap
 
-  def BASE_RECORD_MAP(import_events = false)
+  # import_events determines whether maintenance events are imported
+  # lcnaf_import sets source = 'naf' for names
+  def BASE_RECORD_MAP(import_events = false, lcnaf_import = false)
     {
       # AGENT PERSON
       "//datafield[@tag='100' and (@ind1='1' or @ind1='0')]" => {
         :obj => :agent_person,
-        :map => agent_person_base(import_events)
+        :map => agent_person_base(import_events, lcnaf_import)
       },
       # AGENT CORPORATE ENTITY
       "//datafield[@tag='110' or @tag='111']" => {
         :obj => :agent_corporate_entity,
-        :map => agent_corporate_entity_base(import_events)
+        :map => agent_corporate_entity_base(import_events, lcnaf_import)
       },
       # AGENT FAMILY
       "//datafield[@tag='100' and @ind1='3']" => {
         :obj => :agent_family,
-        :map => agent_family_base(import_events)
+        :map => agent_family_base(import_events, lcnaf_import)
       }
     }
   end
 
-  def agent_person_base(import_events)
+  def agent_person_base(import_events, lcnaf_import)
     {
-      "self::datafield" => agent_person_name_with_parallel_map(:name_person, :names),
+      "self::datafield" => agent_person_name_with_parallel_map(:name_person, :names, lcnaf_import),
       "//record/datafield[@tag='046']" => agent_person_dates_of_existence_map,
       "//record/datafield[@tag='372']/subfield[@code='a']" => agent_topic_map,
       "//record/datafield[@tag='375']/subfield[@code='a']" => agent_gender_map,
     }.merge(shared_subrecord_map(import_events))
   end
 
-  def agent_corporate_entity_base(import_events)
+  def agent_corporate_entity_base(import_events, lcnaf_import)
     {
-      "self::datafield" => agent_corporate_entity_name_with_parallel_map(:name_corporate_entity, :names),
+      "self::datafield" => agent_corporate_entity_name_with_parallel_map(:name_corporate_entity, :names, lcnaf_import),
       "//record/datafield[@tag='046']" => agent_corporate_entity_dates_of_existence_map,
       "//record/datafield[@tag='372']/subfield[@code='a']" => agent_function_map,
     }.merge(shared_subrecord_map(import_events))
   end
 
-  def agent_family_base(import_events)
+  def agent_family_base(import_events, lcnaf_import)
     {
-      "self::datafield" => agent_family_name_with_parallel_map(:name_family, :names),
+      "self::datafield" => agent_family_name_with_parallel_map(:name_family, :names, lcnaf_import),
       "//record/datafield[@tag='046']" => agent_family_dates_of_existence_map,
       "//record/datafield[@tag='372']/subfield[@code='a']" => agent_function_map,
     }.merge(shared_subrecord_map(import_events))
@@ -70,15 +72,15 @@ module MarcXMLAuthAgentBaseMap
     return h
   end
 
-  def agent_person_name_with_parallel_map(obj, rel)
+  def agent_person_name_with_parallel_map(obj, rel, lcnaf_import)
     {
       :obj => obj,
       :rel => rel,
       :map => agent_person_name_components_map.merge({
-        "//datafield[@tag='400' and (@ind1='1' or @ind='0')]" => agent_person_name_map(:parallel_name_person, :parallel_names)
+        "//datafield[@tag='400' and (@ind1='1' or @ind='0')]" => agent_person_name_map(:parallel_name_person, :parallel_names, lcnaf_import)
       }),
       :defaults => {
-        :source => 'local',
+        :source => lcnaf_import ? 'naf' : 'local',
         :rules => 'local',
         :primary_name => 'primary name',
         :name_order => 'direct',
@@ -86,13 +88,13 @@ module MarcXMLAuthAgentBaseMap
     }
   end
 
-  def agent_person_name_map(obj, rel)
+  def agent_person_name_map(obj, rel, lcnaf_import)
     {
       :obj => obj,
       :rel => rel,
       :map => agent_person_name_components_map,
       :defaults => {
-        :source => 'local',
+        :source => lcnaf_import ? 'naf' : 'local',
         :rules => 'local',
         :primary_name => 'primary name',
         :name_order => 'direct',
@@ -100,15 +102,15 @@ module MarcXMLAuthAgentBaseMap
     }
   end
 
-  def agent_corporate_entity_name_with_parallel_map(obj, rel)
+  def agent_corporate_entity_name_with_parallel_map(obj, rel, lcnaf_import)
     {
       :obj => obj,
       :rel => rel,
       :map => agent_corporate_entity_name_components_map.merge({
-        "//datafield[@tag='410' or @tag='411']" => agent_corporate_entity_name_map(:parallel_name_corporate_entity, :parallel_names)
+        "//datafield[@tag='410' or @tag='411']" => agent_corporate_entity_name_map(:parallel_name_corporate_entity, :parallel_names, lcnaf_import)
       }),
       :defaults => {
-        :source => 'local',
+        :source => lcnaf_import ? 'naf' : 'local',
         :rules => 'local',
         :primary_name => 'primary name',
         :name_order => 'direct',
@@ -116,13 +118,13 @@ module MarcXMLAuthAgentBaseMap
     }
   end
 
-  def agent_corporate_entity_name_map(obj, rel)
+  def agent_corporate_entity_name_map(obj, rel, lcnaf_import)
     {
       :obj => obj,
       :rel => rel,
       :map => agent_corporate_entity_name_components_map,
       :defaults => {
-        :source => 'local',
+        :source => lcnaf_import ? 'naf' : 'local',
         :rules => 'local',
         :primary_name => 'primary name',
         :name_order => 'direct',
@@ -130,15 +132,15 @@ module MarcXMLAuthAgentBaseMap
     }
   end
 
-  def agent_family_name_with_parallel_map(obj, rel)
+  def agent_family_name_with_parallel_map(obj, rel, lcnaf_import)
     {
       :obj => obj,
       :rel => rel,
       :map => agent_family_name_components_map.merge({
-        "//datafield[@tag='400' and @ind1='3']" => agent_family_name_map(:parallel_name_family, :parallel_names)
+        "//datafield[@tag='400' and @ind1='3']" => agent_family_name_map(:parallel_name_family, :parallel_names, lcnaf_import)
       }),
       :defaults => {
-        :source => 'local',
+        :source => lcnaf_import ? 'naf' : 'local',
         :rules => 'local',
         :primary_name => 'primary name',
         :name_order => 'direct',
@@ -146,13 +148,13 @@ module MarcXMLAuthAgentBaseMap
     }
   end
 
-  def agent_family_name_map(obj, rel)
+  def agent_family_name_map(obj, rel, lcnaf_import)
     {
       :obj => obj,
       :rel => rel,
       :map => agent_family_name_components_map,
       :defaults => {
-        :source => 'local',
+        :source => lcnaf_import ? 'naf' : 'local',
         :rules => 'local',
         :primary_name => 'primary name',
         :name_order => 'direct',
@@ -329,7 +331,7 @@ module MarcXMLAuthAgentBaseMap
           status = "deleted_replaced"
         end
 
-        arc['maintenance_status_enum'] = status
+        arc['maintenance_status'] = status
       },
       "//record/controlfield[@tag='003']" => Proc.new{|arc, node|
         org = node.inner_text
@@ -460,14 +462,14 @@ module MarcXMLAuthAgentBaseMap
         end
 
 
-        arc['romanization_enum'] = romanization
+        arc['romanization'] = romanization
         arc['language'] = lang
-        arc['government_agency_type_enum'] = gov_agency
-        arc['reference_evaluation_enum'] = ref_eval
-        arc['name_type_enum'] = name_type
-        arc['level_of_detail_enum'] = lod
-        arc['modified_record_enum'] = mod_record
-        arc['cataloging_source_enum'] = catalog_source
+        arc['government_agency_type'] = gov_agency
+        arc['reference_evaluation'] = ref_eval
+        arc['name_type'] = name_type
+        arc['level_of_detail'] = lod
+        arc['modified_record'] = mod_record
+        arc['cataloging_source'] = catalog_source
       },
       "//record/datafield[@tag='040']/subfield[@code='a']" => Proc.new{|arc, node| 
         val = node.inner_text
@@ -507,20 +509,20 @@ module MarcXMLAuthAgentBaseMap
         ari['primary_identifier'] = true
 
         if node.parent.attr("ind1") == "7"
-          ari['identifier_type_enum'] == "local"
+          ari['identifier_type'] == "local"
         else
-          ari['identifier_type_enum'] == "lac"
+          ari['identifier_type'] == "lac"
         end
       },
       "//record/datafield[@tag=016]/subfield[@code='2']" => Proc.new {|ari, node|
         val = node.inner_text
-        ari['source_enum'] = val
+        ari['source'] = val
         ari['primary_identifier'] = true
 
         if node.parent.attr("ind1") == "7"
-          ari['identifier_type_enum'] == "local"
+          ari['identifier_type'] == "local"
         else
-          ari['identifier_type_enum'] == "lac"
+          ari['identifier_type'] == "lac"
         end
       },
       "//record/datafield[@tag=024]/subfield[@code='a']" => Proc.new {|ari, node|
@@ -529,16 +531,16 @@ module MarcXMLAuthAgentBaseMap
         ari['primary_identifier'] = true
 
         if node.parent.attr("ind1") == "7"
-          ari['identifier_type_enum'] == "local"
+          ari['identifier_type'] == "local"
         end
       },
       "//record/datafield[@tag=024]/subfield[@code='2']" => Proc.new {|ari, node|
         val = node.inner_text
-        ari['source_enum'] = val
+        ari['source'] = val
         ari['primary_identifier'] = true
 
         if node.parent.attr("ind1") == "7"
-          ari['identifier_type_enum'] == "local"
+          ari['identifier_type'] == "local"
         end
       },
       "//record/datafield[@tag=035]/subfield[@code='a']" => Proc.new {|ari, node|
@@ -547,21 +549,21 @@ module MarcXMLAuthAgentBaseMap
         ari['primary_identifier'] = true
 
         if node.parent.attr("ind1") == "7"
-          ari['identifier_type_enum'] = "local"
+          ari['identifier_type'] = "local"
         end
       },
       "//record/datafield[@tag=035]/subfield[@code='2']" => Proc.new {|ari, node|
         val = node.inner_text
-        ari['source_enum'] = val
+        ari['source'] = val
         ari['primary_identifier'] = true
 
         if node.parent.attr("ind1") == "7"
-          ari['identifier_type_enum'] = "local"
+          ari['identifier_type'] = "local"
         end
       },
     },
     :defaults => {
-      :source_enum => "local"
+      :source => "local"
     }  
   }
   end
@@ -575,15 +577,15 @@ module MarcXMLAuthAgentBaseMap
         tag5_content = node.inner_text
 
         amh['event_date'] = tag5_content[0..7]
-        amh['maintenance_event_type_enum'] = "created"
-        amh['maintenance_agent_type_enum'] = "machine"
+        amh['maintenance_event_type'] = "created"
+        amh['maintenance_agent_type'] = "machine"
       },
       "//record/controlfield[@tag='008']" => Proc.new{|amh, node|
         tag8_content = node.inner_text
 
         amh['event_date'] = "19" + tag8_content[0..5]
-        amh['maintenance_event_type_enum'] = "created"
-        amh['maintenance_agent_type_enum'] = "machine"
+        amh['maintenance_event_type'] = "created"
+        amh['maintenance_agent_type'] = "machine"
       },
       "//record/datafield[@tag='040']/subfield[@code='d']" => Proc.new{|amh, node|
         val = node.inner_text
@@ -632,7 +634,7 @@ module MarcXMLAuthAgentBaseMap
         })
 
         sdl[:date_label] = label
-        sdl[:date_type_enum] = type
+        sdl[:date_type_structured] = type
         sdl[:structured_date_range] = sdr
       }
     }
@@ -660,7 +662,7 @@ module MarcXMLAuthAgentBaseMap
         })
 
         sdl[:date_label] = label
-        sdl[:date_type_enum] = type
+        sdl[:date_type_structured] = type
         sdl[:structured_date_range] = sdr
       }
     }
@@ -688,7 +690,7 @@ module MarcXMLAuthAgentBaseMap
         })
 
         sdl[:date_label] = label
-        sdl[:date_type_enum] = type
+        sdl[:date_type_structured] = type
         sdl[:structured_date_range] = sdr
       }
     }
@@ -716,7 +718,7 @@ module MarcXMLAuthAgentBaseMap
         })
 
         sdl[:date_label] = label
-        sdl[:date_type_enum] = type
+        sdl[:date_type_structured] = type
         sdl[:structured_date_range] = sdr
       }
     }
@@ -734,7 +736,7 @@ module MarcXMLAuthAgentBaseMap
       "parent::datafield" => date_range_map
     },
     :defaults => {
-      :place_role_enum => "place_of_birth"
+      :place_role => "place_of_birth"
     }
   }
   end
@@ -750,7 +752,7 @@ module MarcXMLAuthAgentBaseMap
       "parent::datafield" => date_range_map
     },
     :defaults => {
-      :place_role_enum => "place_of_death"
+      :place_role => "place_of_death"
     }
   }
   end
@@ -766,7 +768,7 @@ module MarcXMLAuthAgentBaseMap
       "parent::datafield" => date_range_map
     },
     :defaults => {
-      :place_role_enum => "assoc_country"
+      :place_role => "assoc_country"
     }
   }
   end
@@ -782,7 +784,7 @@ module MarcXMLAuthAgentBaseMap
       "parent::datafield" => date_range_map
     },
     :defaults => {
-      :place_role_enum => "residence"
+      :place_role => "residence"
     }
   }
   end
@@ -798,7 +800,7 @@ module MarcXMLAuthAgentBaseMap
       "parent::datafield" => date_range_map
     },
     :defaults => {
-      :place_role_enum => "other_assoc"
+      :place_role => "other_assoc"
     }
   }
   end
@@ -849,7 +851,7 @@ module MarcXMLAuthAgentBaseMap
     :map => {
       "self::subfield" => Proc.new {|gender, node| 
         val = node.inner_text
-        gender['gender_enum'] = val
+        gender['gender'] = val
       },
 
       "parent::datafield" => date_range_map

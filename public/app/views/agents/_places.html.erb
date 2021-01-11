@@ -1,15 +1,15 @@
 <% if result.json['agent_places'].any? %>
-  <ul>
-  <% result.json['agent_places'].each do |n| %>
-    <% subjects = n['subjects'] %>
-
-    <% subjects.each do |s| %>
-    	<% if s['_resolved']['publish'] %>
-      	<li><a href="<%= s['_resolved']['uri']%>"><%= s['_resolved']['title'] %> (<%= I18n.t("enumerations.place_role_enum.#{n['place_role_enum']}") %>)</a></li>
-      <% else %>
-      	<li><%= s['_resolved']['title'] %> (<%= I18n.t("enumerations.place_role_enum.#{n['place_role_enum']}") %>)</li>
-      <% end %>
+<h3><%= I18n.t('agent_place._plural') %></h3>
+<ul>
+<% result.json['agent_places'].each do |n| %>
+  <% subjects = n['subjects'] %>
+  <% subjects.each do |s| %>
+    <% if s['_resolved']['publish'] %>
+      <li><a href="<%= s['_resolved']['uri']%>"><%= s['_resolved']['title'] %> (<%= I18n.t("enumerations.place_role.#{n['place_role']}") %>)</a></li>
+    <% else %>
+      <li><%= s['_resolved']['title'] %> (<%= I18n.t("enumerations.place_role.#{n['place_role']}") %>)</li>
     <% end %>
   <% end %>
-  </ul>
+<% end %>
+</ul>
 <% end %>

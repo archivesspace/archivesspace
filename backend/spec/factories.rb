@@ -105,8 +105,8 @@ FactoryBot.define do
     end
 
     factory :agent_record_control, class: JSONModel(:agent_record_control) do
-      maintenance_status_enum { "new" }
-      publication_status_enum { "approved" }
+      maintenance_status { "new" }
+      publication_status { "approved" }
       maintenance_agency { generate(:alphanumstr) }
       agency_name { generate(:alphanumstr) }
       maintenance_agency_note { generate(:alphanumstr) }
@@ -153,13 +153,13 @@ FactoryBot.define do
     end
 
     factory :agent_other_agency_codes, class: JSONModel(:agent_other_agency_codes) do
-      agency_code_type_enum { "oclc"}
+      agency_code_type { "oclc"}
       maintenance_agency { generate(:alphanumstr) }
     end
 
     factory :agent_maintenance_history, class: JSONModel(:agent_maintenance_history) do
-      maintenance_event_type_enum { "created"}
-      maintenance_agent_type_enum { "human"}
+      maintenance_event_type { "created"}
+      maintenance_agent_type { "human"}
       event_date { generate(:yyyy_mm_dd) }
       agent { generate(:alphanumstr) }
       descriptive_note { generate(:alphanumstr) }
@@ -168,12 +168,12 @@ FactoryBot.define do
     factory :agent_record_identifier, class: JSONModel(:agent_record_identifier) do
       primary_identifier { true }
       record_identifier { generate(:alphanumstr) }
-      source_enum { "naf"}
-      identifier_type_enum { "loc"}
+      source { "naf"}
+      identifier_type { "loc"}
     end
 
     factory :json_agent_place, class: JSONModel(:agent_place) do
-      place_role_enum { "place_of_birth" }
+      place_role { "place_of_birth" }
       dates { [build(:json_structured_date_label)] }
       notes { [build(:json_note_text)] }
       subjects { [{'ref' => create(:json_subject).uri}] }
@@ -217,13 +217,13 @@ FactoryBot.define do
     # NOTE: using this factory will fail unless values are added manually to the gender enum list. See agent_spec_helper.rb#add_gender_values
     factory :json_agent_gender, class: JSONModel(:agent_gender) do
       dates { [build(:json_structured_date_label)] }
-      gender_enum { "not_specified" }
+      gender { "not_specified" }
       notes { [build(:json_note_text)] }
     end
 
     factory :json_agent_identifier, class: JSONModel(:agent_identifier) do
       entity_identifier { generate(:alphanumstr) }
-      identifier_type_enum { "loc"}
+      identifier_type { "loc"}
     end
 
     factory :resource do
@@ -588,7 +588,7 @@ FactoryBot.define do
   end
 
   factory :json_structured_date_label, class: JSONModel(:structured_date_label) do
-    date_type_enum { "single" }
+    date_type_structured { "single" }
     date_label { 'existence' }
     structured_date_single { build(:json_structured_date_single) }
     date_certainty { "approximate" }
@@ -597,7 +597,7 @@ FactoryBot.define do
   end
 
   factory :json_structured_date_label_range, class: JSONModel(:structured_date_label) do
-    date_type_enum { "range" }
+    date_type_structured { "range" }
     date_label { 'existence' }
     structured_date_range { build(:json_structured_date_range) }
     date_certainty { "approximate" }
@@ -605,21 +605,39 @@ FactoryBot.define do
     date_calendar { "gregorian" }
   end
 
+  factory :json_structured_date_label_range_no_expression, class: JSONModel(:structured_date_label) do
+    date_type_structured { "range" }
+    date_label { 'existence' }
+    structured_date_range { build(:json_structured_date_range_no_expression) }
+    date_certainty { "approximate" }
+    date_era { "ce" }
+    date_calendar { "gregorian" }
+  end
+
+
   factory :json_structured_date_single, class: JSONModel(:structured_date_single) do
-    date_role_enum  { "begin" }
+    date_role  { "begin" }
     date_expression { "Yesterday" }
     date_standardized { "2019-06-01" }
-    date_standardized_type_enum { "standard" }
+    date_standardized_type { "standard" }
   end
 
   factory :json_structured_date_range, class: JSONModel(:structured_date_range) do
     begin_date_expression { "Yesterday" }
     begin_date_standardized { "2019-06-01" }
-    begin_date_standardized_type_enum { "standard" }
+    begin_date_standardized_type { "standard" }
     end_date_expression { "Tomorrow" }
     end_date_standardized { "2019-06-02" }
-    end_date_standardized_type_enum { "standard" }
+    end_date_standardized_type { "standard" }
   end
+
+  factory :json_structured_date_range_no_expression, class: JSONModel(:structured_date_range) do
+    begin_date_standardized { "2019-06-01" }
+    begin_date_standardized_type { "standard" }
+    end_date_standardized { "2019-06-02" }
+    end_date_standardized_type { "not_before" }
+  end
+
 
   factory :json_date, class: JSONModel(:date) do
     date_type { generate(:date_type) }
@@ -805,8 +823,9 @@ FactoryBot.define do
     number { generate(:alphanumstr) }
     sort_name { generate(:sort_name) }
     sort_name_auto_generate { true }
-    dates { generate(:alphanumstr) }
     qualifier { generate(:alphanumstr) }
+    use_dates { [build(:json_structured_date_label)] }
+    dates { generate(:alphanumstr) }
     authority_id { generate(:url) }
     source { generate(:name_source) }
   end
@@ -816,6 +835,7 @@ FactoryBot.define do
     family_name { generate(:generic_name) }
     sort_name { generate(:sort_name) }
     sort_name_auto_generate { true }
+    use_dates { [build(:json_structured_date_label)] }
     dates { generate(:alphanumstr) }
     qualifier { generate(:alphanumstr) }
     prefix { generate(:alphanumstr) }
@@ -831,7 +851,25 @@ FactoryBot.define do
     name_order { %w(direct inverted).sample }
     number { generate(:alphanumstr) }
     sort_name_auto_generate { true }
+    use_dates { [build(:json_structured_date_label)] }
     dates { generate(:alphanumstr) }
+    qualifier { generate(:alphanumstr) }
+    fuller_form { generate(:alphanumstr) }
+    prefix { generate(:alphanumstr) }
+    title { generate(:alphanumstr) }
+    suffix { generate(:alphanumstr) }
+    rest_of_name { generate(:alphanumstr) }
+    authority_id { generate(:url) }
+  end
+
+  factory :json_name_person_no_date, class: JSONModel(:name_person) do
+    rules { generate(:name_rule) }
+    source { generate(:name_source) }
+    primary_name { generate(:generic_name) }
+    sort_name { generate(:sort_name) }
+    name_order { %w(direct inverted).sample }
+    number { generate(:alphanumstr) }
+    sort_name_auto_generate { true }
     qualifier { generate(:alphanumstr) }
     fuller_form { generate(:alphanumstr) }
     prefix { generate(:alphanumstr) }
@@ -845,8 +883,9 @@ FactoryBot.define do
     primary_name { generate(:generic_name) }
     name_order { %w(direct inverted).sample }
     number { generate(:alphanumstr) }
-    dates { generate(:alphanumstr) }
     qualifier { generate(:alphanumstr) }
+    use_dates { [build(:json_structured_date_label)] }
+    dates { generate(:alphanumstr) }
     fuller_form { generate(:alphanumstr) }
     prefix { [nil, generate(:alphanumstr)].sample }
     title { [nil, generate(:alphanumstr)].sample }
@@ -860,8 +899,9 @@ FactoryBot.define do
     software_name { generate(:generic_name) }
     sort_name { generate(:sort_name) }
     sort_name_auto_generate { true }
-    dates { generate(:alphanumstr) }
     qualifier { generate(:alphanumstr) }
+    use_dates { [build(:json_structured_date_label)] }
+    dates { generate(:alphanumstr) }
     authority_id { generate(:url) }
   end
 

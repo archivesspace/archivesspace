@@ -3,12 +3,12 @@
 <% define_template "agent_maintenance_histories", jsonmodel_definition(:agent_maintenance_history) do |form| %>
   <div class="subrecord-form-fields">
     <div class="agent-record-control-container">
-      <%= form.label_and_select "maintenance_event_type_enum", [""] + form.possible_options_for("maintenance_event_type_enum", false) %>
+      <%= form.label_and_select "maintenance_event_type", [""] + form.possible_options_for("maintenance_event_type", false) %>
       <%= form.label_and_date "event_date" %>
       <%= form.label_and_textfield "agent",  
         {:field_opts => {:size => 30, :class => "form-control"} }%>
-      <%= form.label_and_select "maintenance_agent_type_enum", form.possible_options_for("maintenance_agent_type_enum", false) %>
-      <%= form.label_and_textfield "descriptive_note",  
+      <%= form.label_and_select "maintenance_agent_type", form.possible_options_for("maintenance_agent_type", false) %>
+      <%= form.label_and_textarea "descriptive_note",  
         {:field_opts => {:size => 30, :class => "form-control"},
         :required => is_required_by_admin?(r, "agent_maintenance_histories", "descriptive_note") }%>
     </div>
@@ -16,7 +16,7 @@
 <% end %>
 
 <% define_template "agent_maintenance_history_required", jsonmodel_definition(:agent_maintenance_history) do |form| %>
-  <% field_names = ["maintenance_event_type_enum", "event_date", "agent", "maintenance_agent_type_enum", "descriptive_note"] %>
+  <% field_names = ["maintenance_event_type", "event_date", "agent", "maintenance_agent_type", "descriptive_note"] %>
   <% field_names.each do |field_name| %>
     <% if form.required?(field_name) %>
       <%= form.label_and_readonly field_name %>
@@ -30,7 +30,7 @@
 
   <%= form.record_level_merge_controls(form, "agent_maintenance_history", false) %>
 
-  <% field_names = ["maintenance_event_type_enum", "event_date", "agent", "maintenance_agent_type_enum", "descriptive_note"] %>
+  <% field_names = ["maintenance_event_type", "event_date", "agent", "maintenance_agent_type", "descriptive_note"] %>
   <% field_names.each do |field_name| %>
     <%= form.label_and_readonly field_name %>
   <% end %>
@@ -42,10 +42,10 @@
 
   <%= form.record_level_merge_controls(form, "agent_maintenance_history", true, !disable_replace) %>
 
-  <%= form.label_and_readonly "maintenance_event_type_enum" %>
+  <%= form.label_and_readonly "maintenance_event_type" %>
   <%= form.label_and_readonly "event_date" %>
   <%= form.label_and_readonly "agent" %>
-  <%= form.label_and_readonly "maintenance_agent_type_enum" %>
+  <%= form.label_and_readonly "maintenance_agent_type" %>
   <%= form.label_and_readonly "descriptive_note" %>
 
   <%= form.hidden_input "id", form.obj["id"] %>

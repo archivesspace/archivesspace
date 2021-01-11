@@ -5,50 +5,50 @@
     "type" => "object",
 
     "properties" => {
-      "maintenance_status_enum" => {
+      "maintenance_status" => {
         "type" => "string",
-        "dynamic_enum" => "maintenance_status_enum",
+        "dynamic_enum" => "maintenance_status",
         "ifmissing" => "error",
         "required" => true
       },
-      "publication_status_enum" => {
+      "publication_status" => {
         "type" => "string",
-        "dynamic_enum" => "publication_status_enum",
+        "dynamic_enum" => "publication_status",
         "required" => false
       },
-      "romanization_enum" => {
+      "romanization" => {
         "type" => "string",
-        "dynamic_enum" => "romanization_enum",
+        "dynamic_enum" => "romanization",
         "required" => false
       },
-      "government_agency_type_enum" => {
+      "government_agency_type" => {
         "type" => "string",
-        "dynamic_enum" => "government_agency_type_enum",
+        "dynamic_enum" => "government_agency_type",
         "required" => false
       },
-      "reference_evaluation_enum" => {
+      "reference_evaluation" => {
         "type" => "string",
-        "dynamic_enum" => "reference_evaluation_enum",
+        "dynamic_enum" => "reference_evaluation",
         "required" => false
       },
-      "name_type_enum" => {
+      "name_type" => {
         "type" => "string",
-        "dynamic_enum" => "name_type_enum",
+        "dynamic_enum" => "name_type",
         "required" => false
       },
-      "level_of_detail_enum" => {
+      "level_of_detail" => {
         "type" => "string",
-        "dynamic_enum" => "level_of_detail_enum",
+        "dynamic_enum" => "level_of_detail",
         "required" => false
       },
-      "modified_record_enum" => {
+      "modified_record" => {
         "type" => "string",
-        "dynamic_enum" => "modified_record_enum",
+        "dynamic_enum" => "modified_record",
         "required" => false
       },
-      "cataloging_source_enum" => {
+      "cataloging_source" => {
         "type" => "string",
-        "dynamic_enum" => "cataloging_source_enum",
+        "dynamic_enum" => "cataloging_source",
         "required" => false
       },
       "language" => {

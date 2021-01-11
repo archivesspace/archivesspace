@@ -5,9 +5,9 @@
     "type" => "object",
 
     "properties" => {
-      "agency_code_type_enum" => {
+      "agency_code_type" => {
           "type" => "string",
-          "dynamic_enum" => "agency_code_type_enum",
+          "dynamic_enum" => "agency_code_type",
           "required" => false
       },
       "maintenance_agency" => {

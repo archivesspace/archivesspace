@@ -6,9 +6,9 @@
 
 			<%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "subjects", :template_erb => "subjects/template", :template => "subrecord_subject_agent_place", :heading_text => "Place Subject", :heading_size => "h4"} %>
       
-      <%= form.label_and_select "place_role_enum", 
-        [""] + form.possible_options_for("place_role_enum", false),
-        :required => is_required_by_admin?(r, "agent_places", "place_role_enum") %>
+      <%= form.label_and_select "place_role", 
+        [""] + form.possible_options_for("place_role", false),
+        :required => is_required_by_admin?(r, "agent_places", "place_role") %>
 
 	    <%= render_aspace_partial :partial => "notes/form", :locals => {:form => form, :all_note_types => note_types_for("agent_place"), :section_id => "agent_place_notes", :nested_note_jsonmodel => "agent_place", :header_size => "h4", :show_apply_note_order_action => false} %>
 
@@ -19,7 +19,7 @@
 <% end %>
 
 <% define_template "agent_place_required", jsonmodel_definition(:agent_place) do |form| %>
-  <% field_names = ["place_role_enum"] %>
+  <% field_names = ["place_role"] %>
   <% field_names.each do |field_name| %>
     <% if form.required?(field_name) %>
       <%= form.label_and_readonly field_name %>
@@ -36,7 +36,7 @@
 
   <%= form.record_level_merge_controls(form, "agent_places", false) %>
 
-  <% field_names = ["place_role_enum"] %>
+  <% field_names = ["place_role"] %>
   <% field_names.each do |field_name| %>
     <%= form.label_and_readonly field_name %>
   <% end %>
@@ -54,7 +54,7 @@
 
   <%= form.record_level_merge_controls(form, "agent_places", true, !disable_replace) %>
   
-  <% field_names = ["place_role_enum"] %>
+  <% field_names = ["place_role"] %>
   <% field_names.each do |field_name| %>
     <%= form.label_and_readonly field_name %>
   <% end %>

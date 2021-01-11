@@ -1,0 +1,11 @@
+<% dates = find_dates_for(result) %>
+<% if dates.any? %>
+  <h3>Dates</h3>
+  <ul>
+    <% dates.each do |d| %>
+      <li>
+        <b>Existence:</b> <%= render partial: 'structured_date', locals: {:date => d} %>
+      </li>
+    <% end %>
+  </ul>
+<% end %>
