@@ -15,7 +15,7 @@
             </div>
             <div class="col-md-6">
               <% if !used_language["language"].blank? %>
-                <%= I18n.t("enumerations.language_iso639_2." + used_language["language"]) %>
+                <%= I18n.t("enumerations.language_iso639_2.#{used_language['language']}", :default => used_language['language']) %>
               <% else %>
                 <%= I18n.t("used_language._singular") %>
               <% end %>
@@ -25,7 +25,7 @@
         <div id="<%= section_id %>_used_language_<%= index %>" class="panel-collapse collapse">
           <%= read_only_view(used_language) %>
           <% if used_language["notes"].length > 0 %>
-            <%= render_aspace_partial :partial => "notes/show", :locals => { :notes => used_language["notes"], :section_id => "#{@agent.agent_type}_used_language__#{index}__notes_", :context => context, :heading_size => "h4" } %>
+            <%= render_aspace_partial :partial => "notes/show", :locals => { :notes => used_language['notes'], :section_id => "#{@agent.agent_type}_used_language__#{index}__notes_", :context => context, :heading_size => "h4" } %>
           <% end %>
         </div>
       </div>

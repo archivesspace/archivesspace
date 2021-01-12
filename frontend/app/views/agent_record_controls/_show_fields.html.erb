@@ -3,7 +3,7 @@
   	<%= I18n.t("agent_record_control.maintenance_status") %>
   </div>
   <div class='label-only col-sm-8'>
-  	<%= I18n.t("enumerations.maintenance_status." + agent_record_control["maintenance_status"]) %>
+  	<%= I18n.t("enumerations.maintenance_status.#{agent_record_control['maintenance_status']}", :default => agent_record_control['maintenance_status']) %>
  	</div>
 </div>
 
@@ -12,8 +12,8 @@
   	<%= I18n.t("agent_record_control.publication_status") %>
   </div>
   <div class='label-only col-sm-8'>
-  	<% if agent_record_control["publication_status"] %>
- 		 	<%= I18n.t("enumerations.publication_status." + agent_record_control["publication_status"]) %>
+  	<% if agent_record_control['publication_status'] %>
+ 		 	<%= I18n.t("enumerations.publication_status.#{agent_record_control['publication_status']}", :default => agent_record_control['publication_status']) %>
   		<% end %>
  	</div>
 </div>
@@ -34,8 +34,8 @@
   	<%= I18n.t("agent_record_control.agency_name") %>
   </div>
   <div class='label-only col-sm-8'>
-  	<% if agent_record_control["maintenance_agency"] %>
-	  	<%= agent_record_control["agency_name"] %>
+  	<% if agent_record_control['maintenance_agency'] %>
+	  	<%= agent_record_control['agency_name'] %>
   		<% end %>
  	</div>
 </div>
@@ -45,8 +45,8 @@
   	<%= I18n.t("agent_record_control.maintenance_agency_note") %>
   </div>
   <div class='label-only col-sm-8'>
-  	<% if agent_record_control["maintenance_agency"] %>
-	  	<%= agent_record_control["maintenance_agency_note"] %>
+  	<% if agent_record_control['maintenance_agency'] %>
+	  	<%= agent_record_control['maintenance_agency_note'] %>
   		<% end %>
  	</div>
 </div>
@@ -56,8 +56,8 @@
   	<%= I18n.t("agent_record_control.language") %>
   </div>
   <div class='label-only col-sm-8'>
-  	<% if agent_record_control["language"] %>
-	  	<%= I18n.t("enumerations.language_iso639_2." + agent_record_control["language"]) %>
+  	<% if agent_record_control['language'] %>
+	  	<%= I18n.t("enumerations.language_iso639_2.#{agent_record_control['language']}", :default => agent_record_control['language']) %>
   		<% end %>
  	</div>
 </div>
@@ -67,8 +67,8 @@
   	<%= I18n.t("agent_record_control.script") %>
   </div>
   <div class='label-only col-sm-8'>
-  	<% if agent_record_control["script"] %>
-	  	<%= I18n.t("enumerations.script_iso15924." + agent_record_control["script"]) %>
+  	<% if agent_record_control['script'] %>
+	  	<%= I18n.t("enumerations.script_iso15924.#{agent_record_control['script']}", :default => agent_record_control['script']) %>
   		<% end %>
  	</div>
 </div>
@@ -78,8 +78,8 @@
   	<%= I18n.t("agent_record_control.language_note") %>
   </div>
   <div class='label-only col-sm-8'>
-  	<% if agent_record_control["language_note"] %>
-	  	<%= agent_record_control["language_note"] %>
+  	<% if agent_record_control['language_note'] %>
+	  	<%= agent_record_control['language_note'] %>
   		<% end %>
  	</div>
 </div>
@@ -89,8 +89,8 @@
   	<%= I18n.t("agent_record_control.romanization") %>
   </div>
   <div class='label-only col-sm-8'>
-  	<% if agent_record_control["romanization"] %>
-	  	<%= I18n.t("enumerations.romanization." + agent_record_control["romanization"]) %>
+  	<% if agent_record_control['romanization'] %>
+	  	<%= I18n.t("enumerations.romanization.#{agent_record_control['romanization']}", :default => agent_record_control['romanization']) %>
   		<% end %>
  	</div>
 </div>
@@ -100,8 +100,8 @@
   	<%= I18n.t("agent_record_control.government_agency_type") %>
   </div>
   <div class='label-only col-sm-8'>
-  	<% if agent_record_control["government_agency_type"] %>
-	  	<%= I18n.t("enumerations.government_agency_type." + agent_record_control["government_agency_type"]) %>
+  	<% if agent_record_control['government_agency_type'] %>
+	  	<%= I18n.t("enumerations.government_agency_type.#{agent_record_control['government_agency_type']}", :default => agent_record_control['government_agency_type']) %>
   		<% end %>
  	</div>
 </div>
@@ -111,8 +111,8 @@
   	<%= I18n.t("agent_record_control.reference_evaluation") %>
   </div>
   <div class='label-only col-sm-8'>
-  	<% if agent_record_control["reference_evaluation"] %>
-	  	<%= I18n.t("enumerations.reference_evaluation." + agent_record_control["reference_evaluation"]) %>
+  	<% if agent_record_control['reference_evaluation'] %>
+	  	<%= I18n.t("enumerations.reference_evaluation.#{agent_record_control['reference_evaluation']}", :default => agent_record_control['reference_evaluation']) %>
   		<% end %>
  	</div>
 </div>
@@ -122,8 +122,8 @@
   	<%= I18n.t("agent_record_control.name_type") %>
   </div>
   <div class='label-only col-sm-8'>
-  	<% if agent_record_control["name_type"] %>
-	  	<%= I18n.t("enumerations.name_type." + agent_record_control["name_type"]) %>
+  	<% if agent_record_control['name_type'] %>
+	  	<%= I18n.t("enumerations.name_type.#{agent_record_control['name_type']}", :default => agent_record_control['name_type']) %>
   		<% end %>
  	</div>
 </div>
@@ -133,8 +133,8 @@
   	<%= I18n.t("agent_record_control.level_of_detail") %>
   </div>
   <div class='label-only col-sm-8'>
-  	<% if agent_record_control["level_of_detail"] %>
-	  	<%= I18n.t("enumerations.level_of_detail." + agent_record_control["level_of_detail"]) %>
+  	<% if agent_record_control['level_of_detail'] %>
+	  	<%= I18n.t("enumerations.level_of_detail.#{agent_record_control['level_of_detail']}", :default => agent_record_control['level_of_detail']) %>
   		<% end %>
  	</div>
 </div>
@@ -144,8 +144,8 @@
   	<%= I18n.t("agent_record_control.modified_record") %>
   </div>
   <div class='label-only col-sm-8'>
-  	<% if agent_record_control["modified_record"] %>
-	  	<%= I18n.t("enumerations.modified_record." + agent_record_control["modified_record"]) %>
+  	<% if agent_record_control['modified_record'] %>
+	  	<%= I18n.t("enumerations.modified_record.#{agent_record_control['modified_record']}", :default => agent_record_control['modified_record']) %>
   		<% end %>
  	</div>
 </div>
@@ -155,8 +155,8 @@
   	<%= I18n.t("agent_record_control.cataloging_source") %>
   </div>
   <div class='label-only col-sm-8'>
-  	<% if agent_record_control["cataloging_source"] %>
-	  	<%= I18n.t("enumerations.cataloging_source." + agent_record_control["cataloging_source"]) %>
+  	<% if agent_record_control['cataloging_source'] %>
+	  	<%= I18n.t("enumerations.cataloging_source.#{agent_record_control['cataloging_source']}", :default => agent_record_control['cataloging_source']) %>
   		<% end %>
  	</div>
 </div>

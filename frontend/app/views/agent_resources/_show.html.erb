@@ -15,9 +15,9 @@
               <span class="glyphicon"></span>
             </div>
             <div class="col-md-6">
-              <%= I18n.t("enumerations.linked_agent_role." + agent_resource["linked_agent_role"]) %>
+              <%= I18n.t("enumerations.linked_agent_role.#{agent_resource['linked_agent_role']}", :default => agent_resource['linked_agent_role']) %>
               :&nbsp;
-              <%= agent_resource["linked_resource"] %>
+              <%= agent_resource['linked_resource'] %>
             </div>
           </div>
         </div>
