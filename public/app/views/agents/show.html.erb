@@ -14,7 +14,6 @@
 
 <div class="row">
   <div class="col-sm-9">
-    <%= render partial: 'identifiers', locals: {:result => @result} %>
     <%= render partial: 'dates', locals: {:result => @result} %>
     <%= render partial: 'parallel_names', locals: {:result => @result} %>
     <%= render partial: 'shared/notes', locals: {:result => @result, note_label: I18n.t('agent_notes.bioghist'), note_type: 'note_bioghist'} %>
@@ -28,6 +27,7 @@
     <%= render partial: 'places', locals: {:result => @result} %>
     <%= render partial: 'subjects', locals: {:result => @result, subject_label: I18n.t('agent_topic._plural'), subject_type: 'agent_topics'} %>
     <%= render partial: 'shared/languages', locals: {:result => @result} %>
+    <%= render partial: 'snac', locals: {:result => @result} %>
     <%# FOUND IN SECTION %>
     <%= render partial: 'shared/results', locals: {:results => @results, :pager => @pager} %>
   </div>

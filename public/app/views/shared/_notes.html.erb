@@ -1,9 +1,9 @@
 <% notes = result.json['notes'].select{ |n| n['jsonmodel_type'] == note_type && n['publish'] == true} %>
 <% if notes.any? %>
   <% notes.each_with_index do |note, idx| %>
-    <h3 class="<%= "#{note_label.downcase}_#{idx + 1}" %>"><%= note['label'] ? "#{note_label}: #{note['label']}" : note_label %></h3>
+    <h3 class="<%= note_label.downcase %>"><%= note['label'] ? note['label'] : note_label %></h3>
     <% note['subnotes'].select{ |sn| sn['publish'] == true }.each do |subnote| %>
-      <p><%= subnote['content'] %></p>
+      <p><%= nl2br subnote['content'] %></p>
     <% end %>
   <% end %>
 <% end %>
