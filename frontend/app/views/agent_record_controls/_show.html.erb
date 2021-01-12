@@ -14,7 +14,7 @@
               <span class="glyphicon"></span>
             </div>
             <div class="col-md-6">
-              <%= I18n.t("enumerations.maintenance_status." + agent_record_control["maintenance_status"]) %>
+              <%= I18n.t("enumerations.maintenance_status.#{agent_record_control['maintenance_status']}", :default => agent_record_control['maintenance_status']) %>
             </div>
           </div>
         </div>

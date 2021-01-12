@@ -3,7 +3,7 @@
     <%= I18n.t("agent_maintenance_history.maintenance_event_type") %>
   </div>
   <div class='label-only col-sm-8'>
-    <%= I18n.t("enumerations.maintenance_event_type." + agent_maintenance_history["maintenance_event_type"]) %>
+    <%= I18n.t("enumerations.maintenance_event_type.#{agent_maintenance_history['maintenance_event_type']}", :default => agent_maintenance_history['maintenance_event_type']) %>
   </div>
 </div>
 
@@ -12,8 +12,8 @@
     <%= I18n.t("agent_maintenance_history.event_date") %>
   </div>
   <div class='label-only col-sm-8'>
-    <% if agent_maintenance_history["event_date"] %>
-      <%= agent_maintenance_history["event_date"] %>
+    <% if agent_maintenance_history['event_date'] %>
+      <%= agent_maintenance_history['event_date'] %>
       <% end %>
   </div>
 </div>
@@ -23,8 +23,8 @@
     <%= I18n.t("agent_maintenance_history.agent") %>
   </div>
   <div class='label-only col-sm-8'>
-    <% if agent_maintenance_history["agent"] %>
-      <%= agent_maintenance_history["agent"] %>
+    <% if agent_maintenance_history['agent'] %>
+      <%= agent_maintenance_history['agent'] %>
       <% end %>
   </div>
 </div>
@@ -34,7 +34,7 @@
     <%= I18n.t("agent_maintenance_history.maintenance_agent_type") %>
   </div>
   <div class='label-only col-sm-8'>
-    <%= I18n.t("enumerations.maintenance_agent_type." + agent_maintenance_history["maintenance_agent_type"]) %>
+    <%= I18n.t("enumerations.maintenance_agent_type.#{agent_maintenance_history['maintenance_agent_type']}", :default => agent_maintenance_history['maintenance_agent_type']) %>
   </div>
 </div>
 
@@ -43,8 +43,8 @@
     <%= I18n.t("agent_maintenance_history.descriptive_note") %>
   </div>
   <div class='label-only col-sm-8'>
-    <% if agent_maintenance_history["descriptive_note"] %>
-      <%= agent_maintenance_history["descriptive_note"] %>
+    <% if agent_maintenance_history['descriptive_note'] %>
+      <%= agent_maintenance_history['descriptive_note'] %>
       <% end %>
   </div>
 </div>
