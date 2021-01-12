@@ -477,7 +477,7 @@ en:
     _public:
       section:
         summary: Summary
-        other_names: Names Forms
+        other_names: Name Forms
         other_names_preamble: "Also known by the following names:"
         related_agents: Related Names
         dates_of_existence: Dates
@@ -588,6 +588,7 @@ en:
     primary_identifier: Is Primary Identifier?
     primary: Primary
     record_identifier: Record Identifier
+    snac: Social Networks and Archival Context (SNAC) Identifier
 
   agent_identifier: &agent_identifier_attributes
     _plural: Entity IDs
@@ -607,8 +608,8 @@ en:
     _singular: Use Date
 
   used_language:
-    _plural: Used Languages
-    _singular: Used Language
+    _plural: Languages Used
+    _singular: Language Used
 
   structured_date_label:
     date_label: Label
