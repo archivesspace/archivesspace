@@ -85,7 +85,7 @@ $(function() {
       return;
     }
     $(".nav-list-record-count").remove();
-    $("#archivesSpaceSidebar .as-nav-list > li").each(function() {
+    $("#archivesSpaceSidebar .as-nav-list > li:not(.sidebar-heading)").each(function() {
       var $nav = $(this);
       var $link = $("a", $nav);
       var $section = $($link.attr("href"));

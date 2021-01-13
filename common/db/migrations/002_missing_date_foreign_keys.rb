@@ -14,26 +14,7 @@ Sequel.migration do
   end
 
   down do
-    foreign_keys = ['agent_person_date_fk',
-                    'agent_family_date_fk',
-                    'agent_corporate_entity_date_fk',
-                    'agent_software_date_fk',
-                    'name_person_date_fk',
-                    'name_family_date_fk',
-                    'name_corporate_entity_date_fk',
-                    'name_software_date_fk']
-
-
-    foreign_keys.each do |fk|
-      alter_table(:date) do
-        drop_constraint(fk)
-      end
-
-      if $db_type == :mysql
-        self.run("alter table date drop foreign key #{fk}")
-      end
-    end
+    # Removed due to changes to foreign keys as part of ANW-429. You can't downgrade anyway.
   end
 
 end
-
