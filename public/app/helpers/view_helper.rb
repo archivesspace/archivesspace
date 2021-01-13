@@ -20,17 +20,39 @@ module ViewHelper
     record.identifier
   end
 
-  # Only display if identifier is a URL
-  # URL Regex from: https://stackoverflow.com/questions/3809401/what-is-a-good-regular-expression-to-match-a-url %>
-  # TODO: configurable?
-  DISPLAYABLE_IDENTIFIER_REGEX = /(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})/.freeze
-  def lookup_displayable_identifiers(identifiers)
-    identifiers.select { |id| id['record_identifier'] =~ DISPLAYABLE_IDENTIFIER_REGEX && id['source_enum'] == 'snac' }
+  def snac_identifiers(identifiers)
+    identifiers.select { |id| id['source'] == 'snac' }
   end
 
   def find_dates_for(result)
     dates = result.json.fetch('dates_of_existence', [])
     dates + result.json['names'].map{|names| names['use_dates']}.flatten
+  end
+
+  def nl2br(text)
+    sanitize(text).gsub(/\n/, '<br>').html_safe
+  end
+
+  def place_title(title, role)
+    role_label = I18n.t("enumerations.place_role.#{role}") if role
+    title = "#{title} (#{role_label})" if role_label
+    title
+  end
+
+  def uri?(uri_candidate)
+    uri_candidate =~ /^#{URI::DEFAULT_PARSER.make_regexp}$/
+  end
+
+  def display_used_language(language)
+    lang = ''
+    lang.concat("<b>#{I18n.t('language_and_script.language')}:</b> ") if language['language'] && language['script']
+    lang.concat("#{I18n.t("enumerations.language_iso639_2.#{language['language']}")}") if language['language']
+    return sanitize(lang) unless language['script']
+
+    lang.concat('. ') if language['language'] # separator
+    lang.concat("<b>#{I18n.t('language_and_script.script')}:</b> ")
+    lang.concat(I18n.t("enumerations.script_iso15924.#{language['script']}"))
+    sanitize(lang)
   end
 
   #TODO: figure out a clever way to DRY these helpers up.
