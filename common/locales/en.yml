@@ -546,7 +546,11 @@ en:
     family_name_tooltip: |
         <p>The last name, or surname, for a family, typically supplemented with the term "family".</p>
     family_type: Family Type
+    family_type_tooltip: |
+        <p>Type of family used as a qualifier to distinguish similar name entries. Examples: Family, Dynasty, Royal house.</p>
     location: Location
+    location_tooltip: |
+        <p>A location used as a qualifier to distinguish similar name entries. Examples: Trigg County, Ky. (for Cunningham (Family : 1795- : Trigg County, Ky.)), Canadian Embassy, Tokyo (for Canada-Japan Twinning Conference (1991 : Canadian Embassy, Tokyo))</p>
 
   parallel_name_family:
     <<: *agent_family_attributes
@@ -565,11 +569,14 @@ en:
         <p>A hierarchical unit with the corporate entity named in the Primary Name field and lower than the unit named in the Subordinate Name 1 field.</p>
 
     jurisdiction: Jurisdiction?
-    jurisdiction_tooltip: Jurisdiction Tooltip
+    jurisdiction_tooltip: |
+        <p>Indicates whether the entity is a legal jurisdiction name entry.</p>
     conference_meeting: Conference Meeting?
-    conference_meeting_tooltip: Conference Meeting Tooltip
+    conference_meeting_tooltip: |
+        <p>Indicates whether the entity is a standard corporate body, or is a conference, meeting, or other named event.</p>
     location: Location
-    location_tooltip: Location Tooltip
+    location_tooltip: |
+        <p>A location used as a qualifier to distinguish similar name entries. Examples: Trigg County, Ky. (for Cunningham (Family : 1795- : Trigg County, Ky.)), Canadian Embassy, Tokyo (for Canada-Japan Twinning Conference (1991 : Canadian Embassy, Tokyo))</p>
 
   parallel_name_corporate_entity:
     <<: *agent_corporate_entity_attributes
@@ -805,6 +812,25 @@ en:
     _singular: Name Form
     _plural: Name Forms
 
+  structured_date_label:
+    date_label_tooltip: |
+        <p>Describes what type of activity the date signifies</p>
+    date_type_structured_tooltip: |
+        <p>Indicates the type for date information, either a single date or a date range.</p>
+    date_certainty_tooltip: |
+        <p>The level of confidence for the information given in a date statement. This information is optional and should only be added when qualifying date information as potentially uncertain based upon the description or cataloging rules in use.</p>
+    date_era_tooltip: |
+        <p>Period during which years are numbered and dates reckoned, such as B.C. or C.E. The value "ce" is the default.</p>
+    date_calendar_tooltip: |
+        <p>System of reckoning time, such as the Gregorian calendar or Julian calendar. The value "gregorian" is the default.</p>
+
+  structured_date_single:
+    date_expression_tooltip: |
+        <p>A natural language expression specifying the date or date range. Required when a standardized date is not recorded.</p>
+
+    date_standardized_tooltip: |
+        <p>A natural language expression specifying the date or date range. Required when a standardized date is not recorded.</p>
+
   agent_contact: &agent_contact
     name: Contact Name
     name_tooltip: |
@@ -960,7 +986,7 @@ en:
     date: Date
     dates: Dates
     ref: Related Agent
-    _singular: Identity Relationship
+    _singular: Agent Relationship Identified With Relator
 
   agent_relationship_hierarchical:
     relator: Specific Relationship Type
@@ -969,7 +995,7 @@ en:
     date: Date
     dates: Dates
     ref: Related Agent
-    _singular: Hierarchical Relationship
+    _singular: Agent Relationship Hierarchical Relator
 
   agent_relationship_temporal:
     relator: Specific Relationship Type
@@ -978,7 +1004,7 @@ en:
     date: Date
     dates: Dates
     ref: Related Agent
-    _singular: Temporal Relationship
+    _singular: Agent Relationship Temporal Relator
 
   agent_relationship_family:
     relator: Specific Relationship Type
@@ -987,7 +1013,7 @@ en:
     date: Date
     dates: Dates
     ref: Related Agent
-    _singular: Family Relationship
+    _singular: Agent Relationship Related Relator
 
   note:
     item: Item

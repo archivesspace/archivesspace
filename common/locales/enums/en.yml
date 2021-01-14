@@ -1727,13 +1727,13 @@ en:
       is_child_of: Child of Related
       is_parent_of: Parent of Related
     agent_relationship_identity_relator:
-      is_identified_with: Identified with Related
+      is_identified_with: Agent Relationship Identified With Relator
     agent_relationship_hierarchical_relator:
-      is_hierarchical_with: Hierarchical with Related
+      is_hierarchical_with: Agent Relationship Hierarchical Relator
     agent_relationship_temporal_relator:
-      is_temporal_with: Temporal with Related
+      is_temporal_with: Agent Relationship Temporal Relator
     agent_relationship_family_relator:
-      is_related_with: Family Related with Related
+      is_related_with: Agent Relationship Related Relator
     accession_sibling_relator:
       sibling_of: Is Sibling of
     accession_parts_relator:
@@ -1971,22 +1971,23 @@ en:
     rights_statement_act_restriction: Rights Statement Act Restriction
     rights_statement_act_type: Rights Statement Act Type
     rights_statement_other_rights_basis: Rights Statement Other Rights Basis
-    maintenance_status: Maintenence Status
-    publication_status: Publication Status
+    maintenance_status: Record Control Maintenence Status
+    publication_status: Record Control Publication Status
     romanization: Romanization
-    government_agency_type: Government Agency Type
-    reference_evaluation:  Reference Evaluation
-    name_type: Name Type
-    level_of_detail: Level of Detail
-    modified_record:  Modified Record
-    cataloging_source: Cataloging Source
-    source: Source
-    identifier_type:  Identifier Type
-    agency_code_type: Agency Code
-    maintenance_event_type: Maintenence Event Type
-    maintenance_agent_type: Maintenence Agent Type
-    gender: Gender
-    place_role: Place Role
+    government_agency_type: Record Control Government Agency Type
+    reference_evaluation:  Record Control Reference Evaluation
+    name_type: Record Control Name Type
+    level_of_detail: Record Control Level of Detail
+    modified_record: Record Control Modified Type
+    cataloging_source: Record Control Cataloging Source
+    identifier_type:  Record Control Identifier Type
+    agency_code_type: Record Control Agency Code Type
+    maintenance_event_type: Record Control Maintenence Event Type
+    maintenance_agent_type: Record Control Maintenence Agent Type
+    gender: Agent Gender
+    place_role: Agent Place Role
     date_type_structured: Date Type
     date_standardized_type: Date Standardized Type
     date_role: Date Role
+    begin_date_standardized_type: Begin Date Standardized Type
+    end_date_standardized_type: End Date Standardized Type
