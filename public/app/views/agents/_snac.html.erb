@@ -5,7 +5,7 @@
     <% identifiers.each do |id| %>
       <li>
         <% if uri?(id['record_identifier']) %>
-          <a href="<%= id['record_identifier'] %>"><%= id['record_identifier'] %></a>
+          <a href="<%= id['record_identifier'] %>" target="_blank" rel="noopener noreferrer"><%= id['record_identifier'] %></a>
         <% else %>
           <%= id['record_identifier'] %>
         <% end %>
