@@ -1806,15 +1806,15 @@ en:
     _frontend:
       action:
         add: Add Record Info
-    maintenance_status: Maintenance Status
-    publication_status: Publication Status
+    maintenance_status: Record Control Maintenance Status
+    publication_status: Record Control Publication Status
     romanization: Romanization
-    government_agency_type: Government Agency Type
-    reference_evaluation: Reference Evaluation
-    name_type: Name Type
-    level_of_detail: Level of Detail
-    modified_record: Modified Record
-    cataloging_source: Cataloging Source
+    government_agency_type: Record Control Government Agency Type
+    reference_evaluation: Record Control Reference Evaluation
+    name_type: Record Control Name Type
+    level_of_detail: Record Control Level of Detail
+    modified_record: Record Control Modified Type
+    cataloging_source: Record Control Cataloging Source
     maintenance_agency: Maintenance Agency
     agency_name: Agency Name
     maintenance_agency_note: Maintenance Agency Note
@@ -1835,8 +1835,8 @@ en:
     <<: *agent_record_control_attributes
 
   agent_gender: &agent_gender_attributes
-    _plural: Gender
-    _singular: Gender
+    _plural: Agent Genders
+    _singular: Agent Gender
     _frontend:
       action:
         add: Add Gender Info
@@ -1910,7 +1910,7 @@ en:
       dates: Dates
     _plural: Places
     _singular: Place
-    place_role: Role
+    place_role: Agent Place Role
     text_note: Note
     dates: Dates
     subjects: Places
@@ -2075,7 +2075,7 @@ en:
     _frontend:
       action:
         add: Add Agency Code
-    agency_code_type: Agency Code Type
+    agency_code_type: Record Control Agency Code Type
     maintenance_agency: Maintenance Agency
 
   agent_other_agency_codes:
@@ -2096,8 +2096,8 @@ en:
     _frontend:
       action:
         add: Add Event
-    maintenance_event_type: Event Type
-    maintenance_agent_type: Agent Type
+    maintenance_event_type: Record Control Maintenance Event Type
+    maintenance_agent_type: Record Control Maintenance Agent Type
     agent: Agent
     descriptive_note: Descriptive Note
     event_date: Event Date
@@ -2120,7 +2120,7 @@ en:
     _frontend:
       action:
         add: Add Record ID
-    identifier_type: Identifier Type
+    identifier_type: Record Control Identifier Type
     source: Source
     primary_identifier: Is Primary Identifier?
     primary: Primary
@@ -2225,7 +2225,7 @@ en:
       messages:
         missing_file: You have not added a file
         not_excel: The file you have chosen is not an Excel Spreadsheet
-        not_excel_csv: The file you have chosen is neither an Excel Spreadsheet nor a CSV file
+        not_excel_csv: The fileRecord Control  you have chosen is neither an Excel Spreadsheet nor a CSV file
         processed: The file has been processed
         error: "ERROR: Error(s) detected: "
         copied: Copied!
