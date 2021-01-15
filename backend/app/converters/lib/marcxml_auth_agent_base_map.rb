@@ -77,7 +77,7 @@ module MarcXMLAuthAgentBaseMap
       :obj => obj,
       :rel => rel,
       :map => agent_person_name_components_map.merge({
-        "//datafield[@tag='400' and (@ind1='1' or @ind='0')]" => agent_person_name_map(:parallel_name_person, :parallel_names, lcnaf_import)
+        "//datafield[@tag='400' and (@ind1='1' or @ind1='0')]" => agent_person_name_map(:parallel_name_person, :parallel_names, lcnaf_import)
       }),
       :defaults => {
         :source => lcnaf_import ? 'naf' : 'local',
@@ -169,20 +169,22 @@ module MarcXMLAuthAgentBaseMap
 
           if node.parent.attr("ind1") == "0"
             delim = " "
+            name[:name_order] = 'direct'
           elsif node.parent.attr("ind1") == "1"
             delim = ","
+            name[:name_order] = 'inverted'
           end
-            
+
           if node.parent.attr("tag") == "100"
             name[:authorized] = true
           else
             name[:authorized] = false
           end
- 
+
           if val =~ /#{delim}/
-            nom_parts = val.split(delim)
+            nom_parts = val.split(delim, 2)
           else
-            nom_parts = val.split(delim)
+            nom_parts = val.split(delim, 2)
           end
 
           name[:primary_name] = nom_parts[0]
@@ -220,21 +222,24 @@ module MarcXMLAuthAgentBaseMap
 
   def agent_corporate_entity_name_components_map
     {
+      "self::datafield[@ind1='1']" => Proc.new {|name, node|
+         name[:jurisdiction] = true
+      },
       "descendant::subfield[@code='a']" => Proc.new {|name, node|
           val = node.inner_text
 
-          if node.parent.attr("tag") == "110" || node.parent.attr("tag") == "410" 
+          if node.parent.attr("tag") == "110" || node.parent.attr("tag") == "410"
             name[:conference_meeting] = false
-          elsif node.parent.attr("tag") == "111" || node.parent.attr("tag") == "411" 
+          elsif node.parent.attr("tag") == "111" || node.parent.attr("tag") == "411"
             name[:conference_meeting] = true
           end
 
-          if node.parent.attr("tag") == "110" || node.parent.attr("tag") == "111" 
+          if node.parent.attr("tag") == "110" || node.parent.attr("tag") == "111"
             name[:authorized] = true
           else
             name[:authorized] = false
           end
- 
+
           name[:primary_name] = val
        },
        "descendant::subfield[@code='b']" => Proc.new {|name, node|
@@ -260,14 +265,14 @@ module MarcXMLAuthAgentBaseMap
        "descendant::subfield[@code='e']" => Proc.new {|name, node|
           val = node.inner_text
 
-          if node.parent.attr("tag") == "111" || node.parent.attr("tag") == "411" 
+          if node.parent.attr("tag") == "111" || node.parent.attr("tag") == "411"
             name[:subordinate_name_1] = val
           end
        },
        "descendant::subfield[@code='q']" => Proc.new {|name, node|
           val = node.inner_text
 
-          if node.parent.attr("tag") == "111" || node.parent.attr("tag") == "411" 
+          if node.parent.attr("tag") == "111" || node.parent.attr("tag") == "411"
             name[:subordinate_name_2] = val
           end
        },
@@ -282,7 +287,7 @@ module MarcXMLAuthAgentBaseMap
           else
             name[:authorized] = false
           end
- 
+
           val = node.inner_text
 
           name[:family_name] = val
@@ -471,17 +476,17 @@ module MarcXMLAuthAgentBaseMap
         arc['modified_record'] = mod_record
         arc['cataloging_source'] = catalog_source
       },
-      "//record/datafield[@tag='040']/subfield[@code='a']" => Proc.new{|arc, node| 
+      "//record/datafield[@tag='040']/subfield[@code='a']" => Proc.new{|arc, node|
         val = node.inner_text
 
         arc['maintenance_agency'] = val
       },
-     "//record/datafield[@tag='040']/subfield[@code='b']" => Proc.new{|arc, node| 
+     "//record/datafield[@tag='040']/subfield[@code='b']" => Proc.new{|arc, node|
         val = node.inner_text
 
         arc['language'] = val
       },
-     "//record/datafield[@tag='040']/subfield[@code='d']" => Proc.new{|arc, node| 
+     "//record/datafield[@tag='040']/subfield[@code='d']" => Proc.new{|arc, node|
         val = node.inner_text
 
         arc['maintenance_agency'] = val
@@ -564,7 +569,7 @@ module MarcXMLAuthAgentBaseMap
     },
     :defaults => {
       :source => "local"
-    }  
+    }
   }
   end
 
@@ -595,7 +600,7 @@ module MarcXMLAuthAgentBaseMap
     },
     :defaults => {
       :agent => "Missing in File"
-    }  
+    }
   }
   end
 
@@ -607,7 +612,6 @@ module MarcXMLAuthAgentBaseMap
       "self::subfield" => Proc.new {|acd, node|
         val = node.inner_text
         acd['name_rule'] = val
-        acd['citation'] = "none"
       }
     }
   }
@@ -702,12 +706,10 @@ module MarcXMLAuthAgentBaseMap
     :obj => :structured_date_label,
     :rel => rel,
     :map => {
-      "self::datafield" => Proc.new {|sdl, node|
-        label = "existence"
-        type = "range"
+      "parent::datafield" => Proc.new {|sdl, node|
 
-        begin_node = node.search("./subfield[@code='#{begin_subfield}']")
-        end_node = node.search("./subfield[@code='#{end_subfield}']")
+        begin_node = node.search("subfield[@code='#{begin_subfield}']")
+        end_node = node.search("subfield[@code='#{end_subfield}']")
 
         begin_exp = begin_node.inner_text if begin_node
         end_exp = end_node.inner_text if end_node
@@ -717,8 +719,8 @@ module MarcXMLAuthAgentBaseMap
           :end_date_expression => end_exp,
         })
 
-        sdl[:date_label] = label
-        sdl[:date_type_structured] = type
+        sdl[:date_label] = 'existence'
+        sdl[:date_type_structured] = 'range'
         sdl[:structured_date_range] = sdr
       }
     }
@@ -733,7 +735,7 @@ module MarcXMLAuthAgentBaseMap
       "self::subfield" => subject_map("self::subfield",
                                       subject_terms_map("geographic"),
                                       subject_source_map),
-      "parent::datafield" => date_range_map
+      "parent::datafield/subfield[@code='s' or @code='t']" => date_range_map
     },
     :defaults => {
       :place_role => "place_of_birth"
@@ -749,7 +751,7 @@ module MarcXMLAuthAgentBaseMap
       "self::subfield" => subject_map("self::subfield",
                                       subject_terms_map("geographic"),
                                       subject_source_map),
-      "parent::datafield" => date_range_map
+      "parent::datafield/subfield[@code='s' or @code='t']" => date_range_map
     },
     :defaults => {
       :place_role => "place_of_death"
@@ -765,7 +767,7 @@ module MarcXMLAuthAgentBaseMap
       "self::subfield" => subject_map("self::subfield",
                                       subject_terms_map("geographic"),
                                       subject_source_map),
-      "parent::datafield" => date_range_map
+      "parent::datafield/subfield[@code='s' or @code='t']" => date_range_map
     },
     :defaults => {
       :place_role => "assoc_country"
@@ -781,7 +783,7 @@ module MarcXMLAuthAgentBaseMap
       "self::subfield" => subject_map("self::subfield",
                                       subject_terms_map("geographic"),
                                       subject_source_map),
-      "parent::datafield" => date_range_map
+      "parent::datafield/subfield[@code='s' or @code='t']" => date_range_map
     },
     :defaults => {
       :place_role => "residence"
@@ -797,7 +799,7 @@ module MarcXMLAuthAgentBaseMap
       "self::subfield" => subject_map("self::subfield",
                                       subject_terms_map("geographic"),
                                       subject_source_map),
-      "parent::datafield" => date_range_map
+      "parent::datafield/subfield[@code='s' or @code='t']" => date_range_map
     },
     :defaults => {
       :place_role => "other_assoc"
@@ -813,7 +815,7 @@ module MarcXMLAuthAgentBaseMap
       "self::subfield" => subject_map("self::subfield",
                                       subject_terms_map("occupation"),
                                       subject_source_map),
-      "parent::datafield" => date_range_map
+      "parent::datafield/subfield[@code='s' or @code='t']" => date_range_map
     }
   }
   end
@@ -826,7 +828,7 @@ module MarcXMLAuthAgentBaseMap
       "self::subfield" => subject_map("self::subfield",
                                       subject_terms_map("topical"),
                                       subject_source_map),
-      "parent::datafield" => date_range_map
+      "parent::datafield/subfield[@code='s' or @code='t']" => date_range_map
     }
   }
   end
@@ -839,7 +841,7 @@ module MarcXMLAuthAgentBaseMap
       "self::subfield" => subject_map("self::subfield",
                                       subject_terms_map("function"),
                                       subject_source_map),
-      "parent::datafield" => date_range_map
+      "parent::datafield/subfield[@code='s' or @code='t']" => date_range_map
     }
   }
   end
@@ -849,12 +851,12 @@ module MarcXMLAuthAgentBaseMap
     :obj => :agent_gender,
     :rel => :agent_genders,
     :map => {
-      "self::subfield" => Proc.new {|gender, node| 
+      "self::subfield" => Proc.new {|gender, node|
         val = node.inner_text
         gender['gender'] = val
       },
 
-      "parent::datafield" => date_range_map
+      "parent::datafield/subfield[@code='s' or @code='t']" => date_range_map
     }
   }
   end
@@ -864,11 +866,11 @@ module MarcXMLAuthAgentBaseMap
     :obj => :used_language,
     :rel => :used_languages,
     :map => {
-      "descendant::subfield[@code='l']" => Proc.new {|lang, node| 
+      "descendant::subfield[@code='l']" => Proc.new {|lang, node|
         val = node.inner_text
         lang['language'] = val
       },
-      "descendant::subfield[@code='a']" => Proc.new {|lang, node| 
+      "descendant::subfield[@code='a']" => Proc.new {|lang, node|
         val = node.inner_text
         lang['language'] = val
       }
@@ -881,15 +883,15 @@ module MarcXMLAuthAgentBaseMap
     :obj => :agent_sources,
     :rel => :agent_sources,
     :map => {
-      "descendant::subfield[@code='b']" => Proc.new {|as, node| 
+      "descendant::subfield[@code='b']" => Proc.new {|as, node|
         val = node.inner_text
         as['descriptive_note'] = val[0..254]
       },
-      "descendant::subfield[@code='a']" => Proc.new {|as, node| 
+      "descendant::subfield[@code='a']" => Proc.new {|as, node|
         val = node.inner_text
         as['source_entry'] = val
       },
-      "descendant::subfield[@code='u']" => Proc.new {|as, node| 
+      "descendant::subfield[@code='u']" => Proc.new {|as, node|
         val = node.inner_text
         as['file_uri'] = val
       }
@@ -903,14 +905,14 @@ module MarcXMLAuthAgentBaseMap
     :obj => :note_bioghist,
     :rel => :notes,
     :map => {
-      "self::datafield" => Proc.new {|note, node| 
+      "self::datafield" => Proc.new {|note, node|
         if node.attr("ind1") == "0"
           note['label'] = "Biographical note"
         elsif node.attr("ind1") == "1"
           note['label'] = "Administrative history"
         end
       },
-      "descendant::subfield[@code='a']" => Proc.new {|note, node| 
+      "descendant::subfield[@code='a']" => Proc.new {|note, node|
         val = node.inner_text
 
         sn = ASpaceImport::JSONModel(:note_text).new({
@@ -918,7 +920,7 @@ module MarcXMLAuthAgentBaseMap
         })
         note['subnotes'] << sn
       },
-      "descendant::subfield[@code='b']" => Proc.new {|note, node| 
+      "descendant::subfield[@code='b']" => Proc.new {|note, node|
         val = node.inner_text
 
         sn = ASpaceImport::JSONModel(:note_abstract).new({
@@ -932,15 +934,15 @@ module MarcXMLAuthAgentBaseMap
 
   def subject_terms_map(term_type)
     Proc.new {|node|
-      [{:term_type => term_type, 
-       :term => node.inner_text, 
+      [{:term_type => term_type,
+       :term => node.inner_text,
        :vocabulary => '/vocabularies/1'}]
     }
   end
 
   def subject_source_map
     Proc.new {|node|
-      source = node.attr("vocabularySource") 
+      source = node.attr("vocabularySource")
     }
   end
 
