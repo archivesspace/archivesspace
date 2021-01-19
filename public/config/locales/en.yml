@@ -481,6 +481,7 @@ en:
         other_names: Name Forms
         other_names_preamble: "Also known by the following names:"
         related_agents: Related Names
+        dates: Dates
         dates_of_existence: Dates
         related_agent_description: Description
         related_agent_dates: Dates
@@ -603,6 +604,10 @@ en:
   dates_of_existence:
     _plural: Dates of Existence
     _singular: Date of Existence
+
+  date_label:
+    existence: Existence
+    usage: Usage
 
   use_date:
     _plural: Use Dates

@@ -5,7 +5,9 @@
   <% subjects = n['subjects'] %>
   <% subjects.each do |s| %>
     <% if s['_resolved']['publish'] %>
-      <li><a href="<%= s['_resolved']['uri']%>"><%= place_title(s['_resolved']['title'], n['place_role']) %></a></li>
+      <li><a href="<%= s['_resolved']['uri']%>"><%= place_title(s['_resolved']['title'], nil) %></a>
+      <% if n['place_role'] %> (<%= I18n.t("enumerations.place_role.#{n['place_role']}") %>)<% end %>
+      </li>
     <% else %>
       <li><%= place_title(s['_resolved']['title'], n['place_role']) %></li>
     <% end %>
