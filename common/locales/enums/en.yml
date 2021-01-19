@@ -21,11 +21,11 @@ en:
     begin_date_standardized_type:
       standard: Standard
       not_before: Not Before
-      not_after: Not After      
+      not_after: Not After
     end_date_standardized_type:
       standard: Standard
       not_before: Not Before
-      not_after: Not After      
+      not_after: Not After
     maintenance_status:
       new: New
       upgraded: Upgraded
@@ -39,7 +39,7 @@ en:
       in_process: In-process
       approved: Approved
     romanization:
-      int_std: International standard 
+      int_std: International standard
       nat_std: National standard
       nl_assoc_std: National library association standard
       nl_bib_agency_std: National library or bibliographic agency standard
@@ -47,7 +47,7 @@ en:
       unknown_standard: Standard of unknown origin
       conv_rom_cat_agency: Conventional romanization or conventional form of name in language of cataloging agency
       not_applicable: Not applicable
-    government_agency_type: 
+    government_agency_type:
       ngo: Non-governmental organization
       sac: Autonomous or semi-autonomous component
       multilocal: Multilocal
@@ -60,53 +60,53 @@ en:
       unknown: Unknown if heading is government agency
       other: Other
       natc: No attempt to code
-    reference_evaluation: 
+    reference_evaluation:
       tr_consistent: Tracings consistent with headings
       tr_inconsistent: Tracings inconsistent with headings
       not_applicable: Not applicable
       natc: No attempt to code
-    name_type: 
+    name_type:
       differentiated: Differentiated
       undifferentiated: Undifferentiated
       not_applicable: Not applicable
       natc: No attempt to code
-    level_of_detail: 
+    level_of_detail:
       fully_established: Fully established
       memorandum: Memorandum
       provisional: Provisional
       preliminary: Preliminary
       not_applicable: Not applicable
       natc: No attempt to code
-    modified_record: 
+    modified_record:
       not_modified: Not modified
       shortened: Shortened
       missing_characters: Missing characters
       natc: No attempt to code
     cataloging_source:
-      nat_bib_agency: National bibliographic agency 
+      nat_bib_agency: National bibliographic agency
       ccp: Cooperative cataloging program
       other: Other
       unknown: Unknown
       natc: No attempt to code
-    source: 
+    source:
       naf: NAF
       snac: SNAC
       local: Local
-    identifier_type: 
+    identifier_type:
       loc: Library of Congress
       lac: Library and Archives Canada
       local: Local
-    agency_code_type: 
+    agency_code_type:
       oclc: OCLC
       local: Local
-    maintenance_event_type: 
+    maintenance_event_type:
       created: Created
       cancelled: Cancelled
       deleted: Deleted
-      derived: Derived 
+      derived: Derived
       revised: Revised
       updated: Updated
-    maintenance_agent_type: 
+    maintenance_agent_type:
       human: Human
       machine: Machine
     linked_event_archival_record_roles:
@@ -413,7 +413,7 @@ en:
       aacr: Anglo-American Cataloging Rules
       dacs: "Describing Archives: A Content Standard"
       rda: Resource Description and Access
-      ccr: Cataloging Cultural Resources 
+      ccr: Cataloging Cultural Resources
       rad: Rules for Archival Description
       isaar: International Standard Archival Authority Record for Corporate Bodies, Persons, and Families
     extent_extent_type:
