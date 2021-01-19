@@ -12,8 +12,8 @@
     <%= I18n.t("agent_sources.descriptive_note") %>
   </div>
   <div class='label-only col-sm-8'>
-    <% if agent_source["descriptive_note"] %>
-      <%= agent_source["descriptive_note"] %>
+    <% if agent_source['descriptive_note'] %>
+      <%= agent_source['descriptive_note'] %>
       <% end %>
   </div>
 </div>
@@ -23,8 +23,8 @@
     <%= I18n.t("agent_sources.file_uri") %>
   </div>
   <div class='label-only col-sm-8'>
-    <% if agent_source["file_uri"] %>
-      <%= agent_source["file_uri"] %>
+    <% if agent_source['file_uri'] %>
+      <%= agent_source['file_uri'] %>
       <% end %>
   </div>
 </div>
@@ -34,7 +34,7 @@
     <%= I18n.t("agent_sources.file_version_xlink_actuate_attribute") %>
   </div>
   <div class='label-only col-sm-8'>
-    <%= I18n.t("enumerations.file_version_xlink_actuate_attribute." + agent_source["file_version_xlink_actuate_attribute"]) if agent_source["file_version_xlink_actuate_attribute"] %>
+    <%= I18n.t("enumerations.file_version_xlink_actuate_attribute.#{agent_source['file_version_xlink_actuate_attribute']}", :default => agent_source['file_version_xlink_actuate_attribute']) if agent_source['file_version_xlink_actuate_attribute'] %>
   </div>
 </div>
 
@@ -43,7 +43,7 @@
     <%= I18n.t("agent_sources.file_version_xlink_show_attribute") %>
   </div>
   <div class='label-only col-sm-8'>
-    <%= I18n.t("enumerations.file_version_xlink_show_attribute." + agent_source["file_version_xlink_show_attribute"]) if agent_source["file_version_xlink_show_attribute"] %>
+    <%= I18n.t("enumerations.file_version_xlink_show_attribute.#{agent_source['file_version_xlink_show_attribute']}", :default => agent_source['file_version_xlink_show_attribute']) if agent_source['file_version_xlink_show_attribute'] %>
   </div>
 </div>
 
@@ -53,8 +53,8 @@
     <%= I18n.t("agent_sources.xlink_title_attribute") %>
   </div>
   <div class='label-only col-sm-8'>
-    <% if agent_source["xlink_title_attribute"] %>
-      <%= agent_source["xlink_title_attribute"] %>
+    <% if agent_source['xlink_title_attribute'] %>
+      <%= agent_source['xlink_title_attribute'] %>
       <% end %>
   </div>
 </div>
@@ -64,8 +64,8 @@
     <%= I18n.t("agent_sources.xlink_role_attribute") %>
   </div>
   <div class='label-only col-sm-8'>
-    <% if agent_source["xlink_role_attribute"] %>
-      <%= agent_source["xlink_role_attribute"] %>
+    <% if agent_source['xlink_role_attribute'] %>
+      <%= agent_source['xlink_role_attribute'] %>
       <% end %>
   </div>
 </div>
@@ -75,8 +75,8 @@
     <%= I18n.t("agent_sources.xlink_arcrole_attribute") %>
   </div>
   <div class='label-only col-sm-8'>
-    <% if agent_source["xlink_arcrole_attribute"] %>
-      <%= agent_source["xlink_arcrole_attribute"] %>
+    <% if agent_source['xlink_arcrole_attribute'] %>
+      <%= agent_source['xlink_arcrole_attribute'] %>
       <% end %>
   </div>
 </div>
@@ -86,8 +86,8 @@
     <%= I18n.t("agent_sources.last_verified_date") %>
   </div>
   <div class='label-only col-sm-8'>
-    <% if agent_source["last_verified_date"] %>
-      <%= agent_source["last_verified_date"] %>
+    <% if agent_source['last_verified_date'] %>
+      <%= agent_source['last_verified_date'] %>
       <% end %>
   </div>
 </div>
