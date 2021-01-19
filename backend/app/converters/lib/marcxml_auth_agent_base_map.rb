@@ -732,9 +732,8 @@ module MarcXMLAuthAgentBaseMap
     :obj => :agent_place,
     :rel => :agent_places,
     :map => {
-      "self::subfield" => subject_map("self::subfield",
-                                      subject_terms_map("geographic"),
-                                      subject_source_map),
+      "self::subfield" => subject_map(subject_terms_map('geographic', 'a'),
+                                      sets_subject_source),
       "parent::datafield/subfield[@code='s' or @code='t']" => date_range_map
     },
     :defaults => {
@@ -748,9 +747,8 @@ module MarcXMLAuthAgentBaseMap
     :obj => :agent_place,
     :rel => :agent_places,
     :map => {
-      "self::subfield" => subject_map("self::subfield",
-                                      subject_terms_map("geographic"),
-                                      subject_source_map),
+      "self::subfield" => subject_map(subject_terms_map('geographic', 'b'),
+                                      sets_subject_source),
       "parent::datafield/subfield[@code='s' or @code='t']" => date_range_map
     },
     :defaults => {
@@ -764,9 +762,8 @@ module MarcXMLAuthAgentBaseMap
     :obj => :agent_place,
     :rel => :agent_places,
     :map => {
-      "self::subfield" => subject_map("self::subfield",
-                                      subject_terms_map("geographic"),
-                                      subject_source_map),
+      "self::subfield" => subject_map(subject_terms_map('geographic', 'c'),
+                                      sets_subject_source),
       "parent::datafield/subfield[@code='s' or @code='t']" => date_range_map
     },
     :defaults => {
@@ -780,9 +777,8 @@ module MarcXMLAuthAgentBaseMap
     :obj => :agent_place,
     :rel => :agent_places,
     :map => {
-      "self::subfield" => subject_map("self::subfield",
-                                      subject_terms_map("geographic"),
-                                      subject_source_map),
+      "self::subfield" => subject_map(subject_terms_map('geographic', 'e'),
+                                      sets_subject_source),
       "parent::datafield/subfield[@code='s' or @code='t']" => date_range_map
     },
     :defaults => {
@@ -796,9 +792,8 @@ module MarcXMLAuthAgentBaseMap
     :obj => :agent_place,
     :rel => :agent_places,
     :map => {
-      "self::subfield" => subject_map("self::subfield",
-                                      subject_terms_map("geographic"),
-                                      subject_source_map),
+      "self::subfield" => subject_map(subject_terms_map('geographic', 'f'),
+                                      sets_subject_source),
       "parent::datafield/subfield[@code='s' or @code='t']" => date_range_map
     },
     :defaults => {
@@ -812,9 +807,8 @@ module MarcXMLAuthAgentBaseMap
     :obj => :agent_occupation,
     :rel => :agent_occupations,
     :map => {
-      "self::subfield" => subject_map("self::subfield",
-                                      subject_terms_map("occupation"),
-                                      subject_source_map),
+      "self::subfield" => subject_map(subject_terms_map('occupation', 'a'),
+                                      sets_subject_source),
       "parent::datafield/subfield[@code='s' or @code='t']" => date_range_map
     }
   }
@@ -825,9 +819,8 @@ module MarcXMLAuthAgentBaseMap
     :obj => :agent_topic,
     :rel => :agent_topics,
     :map => {
-      "self::subfield" => subject_map("self::subfield",
-                                      subject_terms_map("topical"),
-                                      subject_source_map),
+      "self::subfield" => subject_map(subject_terms_map('topical', 'a'),
+                                      sets_subject_source),
       "parent::datafield/subfield[@code='s' or @code='t']" => date_range_map
     }
   }
@@ -838,9 +831,8 @@ module MarcXMLAuthAgentBaseMap
     :obj => :agent_function,
     :rel => :agent_functions,
     :map => {
-      "self::subfield" => subject_map("self::subfield",
-                                      subject_terms_map("function"),
-                                      subject_source_map),
+      "self::subfield" => subject_map(subject_terms_map('function', 'a'),
+                                      sets_subject_source),
       "parent::datafield/subfield[@code='s' or @code='t']" => date_range_map
     }
   }
@@ -932,32 +924,34 @@ module MarcXMLAuthAgentBaseMap
   }
   end
 
-  def subject_terms_map(term_type)
+  def subject_terms_map(term_type, subfield)
     Proc.new {|node|
       [{:term_type => term_type,
-       :term => node.inner_text,
+       :term => node.at_xpath("subfield[@code='#{subfield}']").inner_text,
        :vocabulary => '/vocabularies/1'}]
     }
   end
 
-  def subject_source_map
-    Proc.new {|node|
-      source = node.attr("vocabularySource")
+  def sets_subject_source
+    Proc.new{|node|
+      !node.at_xpath("subfield[@code='2']").nil? ? node.at_xpath("subfield[@code='2']").inner_text : 'Source not specified'
     }
   end
 
   # usually, rel will be :subjects, but in some cases it will be :places
-  def subject_map(xpath, terms, source, rel = :subjects)
+  def subject_map(terms, getsrc, rel = :subjects)
     {
       :obj => :subject,
       :rel => rel,
       :map => {
-        xpath => Proc.new{|subject, node|
+        "parent::datafield" => Proc.new{|subject, node|
           subject.publish = true
-          subject.authority_id = node.attr("vocabularySource")
           subject.terms = terms.call(node)
-          subject.source = source.call(node)
+          subject.source = getsrc.call(node)
           subject.vocabulary = '/vocabularies/1'
+          if !node.at_xpath("subfield[@code='0']").nil?
+            subject.authority_id = node.at_xpath("subfield[@code='0']").inner_text
+          end
         }
       },
       :defaults => {
