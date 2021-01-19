@@ -3,29 +3,7 @@
 require_relative '../spec_helper'
 require 'net/http'
 
-def enable_full_display_mode
-  $config_file.write "\n# Directive below added by agents_spec.rb selenium test\n"
-  $config_file.write "\nAppConfig[:agents_display_full] = true\n"
-  $config_file.flush
-
-  @driver.navigate.to($frontend + "/system_info")
-  @driver.find_element(css: "form button[type='submit']").click
-
-  sleep 1
-end
-
-def disable_full_display_mode
-  $config_file.write "\n# Directive below added by agents_spec.rb selenium test\n"
-  $config_file.write "\nAppConfig[:agents_display_full] = false\n"
-  $config_file.flush
-
-  @driver.navigate.to($frontend + "/system_info")
-  @driver.find_element(css: "form button[type='submit']").click
-
-  sleep 1
-end
-
-describe "Agents" do
+describe "Light Mode" do
   before(:all) do
     @repo = create(:repo, repo_code: "agents_test_#{Time.now.to_i}")
   
@@ -44,10 +22,6 @@ describe "Agents" do
   end
 
   describe 'Full Agent Record' do
-    before(:all) do
-      enable_full_display_mode
-    end
-
     it 'reports errors and warnings when creating an invalid Person Agent' do
       @driver.find_element(:link, 'Create').click
       @driver.find_element(:link, 'Agent').click
@@ -1041,8 +1015,9 @@ describe "Agents" do
 
   describe 'Light Agent Record' do
     before(:all) do
-      disable_full_display_mode
-
+      # user w/o full mode permissions
+      @data_entry_user = create_user(@repo => ['repository-advanced-data-entry'])
+      @driver.login_to_repo(@data_entry_user, @repo)
       @driver.navigate.to($frontend + "/agents/agent_person/new")
     end
 
@@ -1115,7 +1090,8 @@ describe "Agents" do
     end
 
     it 'displays agent_contacts in form' do
-      expect(@driver.is_visible?(:css, "#agent_person_contact_details")).to eq(true)
+      # not available to data entry user
+      expect(@driver.is_visible?(:css, "#agent_person_contact_details")).to eq(false)
     end
 
     it 'displays agent_notes in form' do
