@@ -268,7 +268,6 @@ module MergeHelpers
     end
 
     result << " (#{target["qualifier"]})" if target["qualifier"]
-    result << " (#{target["sort_name_date_string"]})" if target["sort_name_date_string"]
 
     result.lstrip!
 
