@@ -832,12 +832,18 @@ en:
       action:
         add: Add Deaccession
 
-  structured_date_label:
+  structured_date_label: &structured_date_label_attributes
     date_label: Label
     date_type_structured: Date Type
     date_certainty: Certainty
     date_era: Era
     date_calendar: Calendar
+
+  structured_date_label_existence:
+    <<: *structured_date_label_attributes
+
+  structured_date_label_usage:
+    <<: *structured_date_label_attributes
 
   structured_date_single_fields:
     date_role: Date Role
