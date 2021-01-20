@@ -62,6 +62,15 @@ describe 'Agent model' do
     expect(name_corporate_entity['sort_name'] =~ /#{name_date}/)
   end
 
+  it "appends the location to the end of a agent corporate_entity display name" do
+    name_corporate_entity = build(:json_name_corporate_entity)
+
+    location = name_corporate_entity['use_dates'][0]['structured_date_single']['location']
+
+    expect(name_corporate_entity['sort_name'] =~ /#{location}/)
+  end
+
+
 
   it "returns the existing agent if an name authority id is already in place " do
     json =    build( :json_agent_corporate_entity,
