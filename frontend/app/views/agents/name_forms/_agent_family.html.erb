@@ -43,7 +43,7 @@
     <%= form.label_and_textfield "qualifier",
         :required => is_required_by_admin?(r, "names", "qualifier") %>
     <%= form.label_and_textfield "sort_name", {:field_opts => {:automatable => true}, :required => :conditionally}%>
-    <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "use_dates", :template_erb => "dates/template", :template => "structured_date_label", :heading_text => I18n.t("name._frontend.section.use_date"), :heading_size => "h4", :template_overrides => "agents/name_forms/date_labels"} %>
+    <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "use_dates", :template_erb => "dates/template", :template => "structured_date_label_usage", :heading_text => I18n.t("name._frontend.section.use_date"), :heading_size => "h4", :template_overrides => "agents/name_forms/date_labels"} %>
     
     <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "parallel_names", :template => "parallel_name_family", :template_erb => "agents/name_forms/agent_family", :heading_text => I18n.t("name._frontend.section.parallel_names"), :heading_size => "h4"} %>
   </div>
@@ -66,6 +66,6 @@
     <%= form.label_and_select "romanization", [""] + form.possible_options_for("romanization", false) %>
     <hr/>
  
-    <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "use_dates", :template_erb => "dates/template", :template => "structured_date_label", :heading_text => I18n.t("name._frontend.section.use_date"), :heading_size => "h4", :template_overrides => "agents/name_forms/date_labels"} %>
+    <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "use_dates", :template_erb => "dates/template", :template => "structured_date_label_usage", :heading_text => I18n.t("name._frontend.section.use_date"), :heading_size => "h4", :template_overrides => "agents/name_forms/date_labels"} %>
   </div>
 <% end %>

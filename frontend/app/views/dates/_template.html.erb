@@ -46,11 +46,39 @@
   </div>
 <% end %>
 
-<%# ANW-429: structured_date_label template for existence_date, name use_dates, and related agent dates %>
-<% define_template "structured_date_label", jsonmodel_definition(:structured_date_label) do |form| %>
+<%# ANW-429: structured_date_label template for existence_date, has date_label defined as a hidden tag field with value hardcoded as 'existence' %>
+<% define_template "structured_date_label_existence", jsonmodel_definition(:structured_date_label) do |form| %>
   <div class="subrecord-form-fields">
     <div class="structured-date-label-container">
-      <%= form.label_and_select "date_label", form.possible_options_for("date_label", false, :include => ["existence"]) %>
+      <%= form.hidden_input "date_label", 'existence' %>
+      <%= form.label_and_select "date_type_structured", ["Please select"] + (form.possible_options_for("date_type_structured")) %>
+      <%= form.label_and_select("date_certainty", form.possible_options_for("date_certainty", true)) %>
+      <%= form.label_and_select("date_era", form.possible_options_for("date_era", true)) %>
+      <%= form.label_and_select("date_calendar", form.possible_options_for("date_calendar", true)) %>
+
+      <% ranged_dates = [form["structured_date_range"]].compact %>
+      <% single_dates = [form["structured_date_single"]].compact %>
+
+      <% if single_dates.length > 0 %>
+        <%= form.fields_for(single_dates.first, "structured_date_single") do |item| %>
+          <% form.emit_template("structured_date_single_fields", item) %>
+        <% end %>
+      <% elsif ranged_dates.length > 0 %>
+        <%= form.fields_for(ranged_dates.first, "structured_date_range") do |item| %>
+          <% form.emit_template("structured_date_range_fields", item) %>
+        <% end %>
+      <% else %>
+        <div class="sdl-subrecord-form"></div>
+      <% end %>
+    </div>
+  </div>
+<% end %>
+
+<%# ANW-429: structured_date_label template for name use date, has date_label defined as a hidden tag field with value hardcoded as 'usage' %>
+<% define_template "structured_date_label_usage", jsonmodel_definition(:structured_date_label) do |form| %>
+  <div class="subrecord-form-fields">
+    <div class="structured-date-label-container">
+      <%= form.hidden_input "date_label", 'usage' %>
       <%= form.label_and_select "date_type_structured", ["Please select"] + (form.possible_options_for("date_type_structured")) %>
       <%= form.label_and_select("date_certainty", form.possible_options_for("date_certainty", true)) %>
       <%= form.label_and_select("date_era", form.possible_options_for("date_era", true)) %>

@@ -61,7 +61,7 @@
     </h3>
 
 
-  <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "dates_of_existence", :section_id => "#{@agent.agent_type}_dates_of_existence", :template_erb => "dates/template", :template => "structured_date_label", :heading_text => I18n.t("agent._frontend.section.dates_of_existence"), :template_overrides => {"date_label" => "agents/date_labels"}, :help_topic => "#{@agent.agent_type}_dates_of_existence", :invisible => false, :lightmode_toggle => false} %>
+  <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "dates_of_existence", :section_id => "#{@agent.agent_type}_dates_of_existence", :template_erb => "dates/template", :template => "structured_date_label_existence", :heading_text => I18n.t("agent._frontend.section.dates_of_existence"), :template_overrides => {"date_label" => "agents/date_labels"}, :help_topic => "#{@agent.agent_type}_dates_of_existence", :invisible => false, :lightmode_toggle => false} %>
 
 
      <% if @agent.agent_type.to_s == "agent_person" %>
