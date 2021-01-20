@@ -211,10 +211,8 @@ describe 'Structured Date model' do
       ar = AgentPerson.to_jsonmodel(agent.id)
 
       ar["dates_of_existence"].first["structured_date_single"]["date_expression"] = "foo"
-      name_date = ar['names'][0]['use_dates'][0]['structured_date_single']['date_expression']
       ar.save
 
-      expect(ar["names"].first["sort_name"] =~ /#{name_date}/).to be_truthy
       expect(ar["names"].first["sort_name"] =~ /foo/).to be_falsey
     end
 
@@ -224,7 +222,7 @@ describe 'Structured Date model' do
 
       ar = AgentFamily.to_jsonmodel(agent.id)
 
-      ar["names"][0]["use_dates"] = []
+      ar["names"].each { |n| n['dates'] = nil }
       ar["dates_of_existence"].first["structured_date_single"]["date_standardized"] = nil
       ar["dates_of_existence"].first["structured_date_single"]["date_expression"] = "Last Year"
 
@@ -239,7 +237,7 @@ describe 'Structured Date model' do
 
       ar = AgentCorporateEntity.to_jsonmodel(agent.id)
 
-      ar["names"][0]["use_dates"] = []
+      ar["names"].each { |n| n['dates'] = nil }
       ar["dates_of_existence"].first["structured_date_single"]["date_standardized"] = nil
       ar["dates_of_existence"].first["structured_date_single"]["date_expression"] = "Last Year"
 
@@ -254,7 +252,7 @@ describe 'Structured Date model' do
 
       ar = AgentSoftware.to_jsonmodel(agent.id)
 
-      ar["names"][0]["use_dates"] = []
+      ar["names"].each { |n| n['dates'] = nil }
       ar["dates_of_existence"].first["structured_date_single"]["date_standardized"] = nil
       ar["dates_of_existence"].first["structured_date_single"]["date_expression"] = "Last Year"
 
