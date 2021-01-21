@@ -51,7 +51,7 @@
   <div class="subrecord-form-fields">
     <div class="structured-date-label-container">
       <%= form.hidden_input "date_label", 'existence' %>
-      <%= form.label_and_select "date_type_structured", ["Please select"] + (form.possible_options_for("date_type_structured")) %>
+      <%= form.label_and_select "date_type_structured", [""] + (form.possible_options_for("date_type_structured")) %>
       <%= form.label_and_select("date_certainty", form.possible_options_for("date_certainty", true)) %>
       <%= form.label_and_select("date_era", form.possible_options_for("date_era", true)) %>
       <%= form.label_and_select("date_calendar", form.possible_options_for("date_calendar", true)) %>
@@ -79,7 +79,7 @@
   <div class="subrecord-form-fields">
     <div class="structured-date-label-container">
       <%= form.hidden_input "date_label", 'usage' %>
-      <%= form.label_and_select "date_type_structured", ["Please select"] + (form.possible_options_for("date_type_structured")) %>
+      <%= form.label_and_select "date_type_structured", [""] + (form.possible_options_for("date_type_structured")) %>
       <%= form.label_and_select("date_certainty", form.possible_options_for("date_certainty", true)) %>
       <%= form.label_and_select("date_era", form.possible_options_for("date_era", true)) %>
       <%= form.label_and_select("date_calendar", form.possible_options_for("date_calendar", true)) %>

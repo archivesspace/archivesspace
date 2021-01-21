@@ -207,12 +207,12 @@ module JSONModel::Validations
   def self.check_structured_date_label(hash)
     errors = []
 
-    if hash["structured_date_range"] && hash["structured_date_single"]
-      errors << ["structured_date_single", "cannot specify both a single and ranged date"]
+    if !hash["structured_date_range"] && !hash["structured_date_single"]
+      errors << ["structured_date_label", "must_specify_either_a_single_or_ranged_date"]
     end
 
-    if !hash["structured_date_range"] && !hash["structured_date_single"]
-      errors << ["structured_date_single", "must specifiy either a single or ranged date"]
+    if hash["structured_date_range"] && hash["structured_date_single"]
+      errors << ["structured_date_single", "cannot specify both a single and ranged date"]
     end
 
     if hash["structured_date_range"] && hash["date_type_structured"] == "single"
@@ -820,10 +820,11 @@ module JSONModel::Validations
     matches_yyyy       = (date_standardized =~ /^[\d]{4}$/) == 0
     matches_yyyy_mm    = (date_standardized =~ /^[\d]{4}-[\d]{2}$/) == 0
     matches_yyyy_mm_dd = (date_standardized =~ /^[\d]{4}-[\d]{2}-[\d]{2}$/) == 0
+    matches_yyy_mm_dd = (date_standardized =~ /^[\d]{3}-[\d]{2}-[\d]{2}$/) == 0
     matches_mm_yyyy    = (date_standardized =~ /^[\d]{2}-[\d]{4}$/) == 0
     matches_mm_dd_yyyy = (date_standardized =~ /^[\d]{4}-[\d]{2}-[\d]{2}$/) == 0
 
-    errors << [field_name, "must be in YYYY[YYY][YY][Y], YYYY[YYY][YY][Y]-MM, or YYYY-MM-DD format"] unless matches_yyyy || matches_yyyy_mm || matches_yyyy_mm_dd || matches_yyy || matches_yy || matches_y || matches_yyy_mm || matches_yy_mm || matches_y_mm || matches_mm_yyyy || matches_mm_dd_yyyy
+    errors << [field_name, "must be in YYYY[YYY][YY][Y], YYYY[YYY][YY][Y]-MM, or YYYY-MM-DD format"] unless matches_yyyy || matches_yyyy_mm || matches_yyyy_mm_dd || matches_yyy || matches_yy || matches_y || matches_yyy_mm || matches_yy_mm || matches_y_mm || matches_mm_yyyy || matches_mm_dd_yyyy || matches_yyy_mm_dd
 
     return errors  
   end
