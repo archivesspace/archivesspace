@@ -563,7 +563,21 @@
 <% end %>
 
 <% define_template "note_citation_xlink" do | xlink_form | %>
-  <% xlink_form.push "xlink", xlink_form["xlink"] || {} do | xlink_form | %>
+
+  <%# in view mode, fill in some dummy values so the user doesn't see a blank form container. %>
+  <% if xlink_form.readonly? %>
+    <% empty = {"actuate" => "Not set", 
+                "arcrole" => "Not set", 
+                "href" => "Not set",
+                "role" => "Not set", 
+                "show" => "Not set", 
+                "title" => "Not set",
+                "type" => "Not set" } %>
+  <% else %>            
+    <% empty = {} %>
+  <% end %>            
+
+  <% xlink_form.push "xlink", xlink_form["xlink"] || empty do | xlink_form | %>
     <%= xlink_form.label_and_textfield "actuate" %>
     <%= xlink_form.label_and_textfield "arcrole" %>
     <%= xlink_form.label_and_textfield "href" %>
@@ -586,14 +600,14 @@
 
       <% form.emit_template("content_items", :required => form.required?('content')) %>
 
-      <section class="subrecord-form">
-        <h4 class="subrecord-form-heading"><%= I18n.t("note_citation.xlink") %></h4>
-        <div class="subrecord-form-container">
-          <div class="subrecord-form-fields">
-            <% form.emit_template "note_citation_xlink" %>
+        <section class="subrecord-form">
+          <h4 class="subrecord-form-heading"><%= I18n.t("note_citation.xlink") %></h4>
+          <div class="subrecord-form-container">
+            <div class="subrecord-form-fields">
+              <% form.emit_template "note_citation_xlink" %>
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
 
     </div>
   </div>
