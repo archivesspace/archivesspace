@@ -8,6 +8,7 @@ Sequel.migration do
     create_enum("maintenance_status", ["new", "upgraded", "revised_corrected", "derived", "deleted", "cancelled_obsolete", "deleted_split", "deleted_replaced"])
 		create_enum("publication_status", ["in_process", "approved"])
 		create_editable_enum("romanization", ["int_std", "nat_std", "nl_assoc_std", "nl_bib_agency_std", "local_standard", "unknown_standard", "conv_rom_cat_agency", "not_applicable"])
+    create_editable_enum("transliteration", ["ala-lc"])
 		create_enum("government_agency_type", ["ngo", "sac", "multilocal", "fed", "int_gov", "local", "multistate", "undetermined", "provincial", "unknown", "other", "natc"])
 		create_enum("reference_evaluation", ["tr_consistent", "tr_inconsistent", "not_applicable", "natc"])
 		create_enum("name_type", ["differentiated", "undifferentiated", "not_applicable", "natc"])

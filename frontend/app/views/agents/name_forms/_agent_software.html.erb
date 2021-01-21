@@ -30,9 +30,9 @@
         [""] + form.possible_options_for("script", false),
         :required => is_required_by_admin?(r, "names", "script") %>
 
-    <%= form.label_and_select "romanization", 
-        [""] + form.possible_options_for("romanization", false),
-        :required => is_required_by_admin?(r, "names", "romanization") %>
+    <%= form.label_and_select "transliteration", 
+        [""] + form.possible_options_for("transliteration", false),
+        :required => is_required_by_admin?(r, "names", "transliteration") %>
     <hr/>
  
     <%= form.label_and_textfield "qualifier",
@@ -54,7 +54,7 @@
     <hr/>
     <%= form.label_and_select "language", [""] + form.possible_options_for("language", false) %>
     <%= form.label_and_select "script", [""] + form.possible_options_for("script", false) %>
-    <%= form.label_and_select "romanization", [""] + form.possible_options_for("romanization", false) %>
+    <%= form.label_and_select "transliteration", [""] + form.possible_options_for("transliteration", false) %>
     <hr/>
  
     <%= form.label_and_textfield "qualifier" %>

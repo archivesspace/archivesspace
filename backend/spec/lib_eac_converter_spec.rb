@@ -202,7 +202,7 @@ describe 'EAC converter' do
       expect(record['names'][0]['qualifier']).to eq("qualifier")
       expect(record['names'][0]['language']).to eq("eng")
       expect(record['names'][0]['script']).to eq("Latn")
-      expect(record['names'][0]['romanization']).to eq("int_std")
+      expect(record['names'][0]['transliteration']).to eq("int_std")
     end
 
     it "imports parallel names" do

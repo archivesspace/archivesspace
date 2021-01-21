@@ -183,7 +183,7 @@ module EACBaseMap
          name[:script] = node.attr("scriptCode")
        },
        "self::nameEntry[@transliteration]" => Proc.new {|name, node|
-         name[:romanization] = node.attr("transliteration")
+         name[:transliteration] = node.attr("transliteration")
        },
        "descendant::part[@localType='prefix']" => Proc.new {|name, node|
          val = node.inner_text
@@ -258,7 +258,7 @@ module EACBaseMap
         name[:script] = node.attr("scriptCode")
       },
       "self::nameEntry[@transliteration]" => Proc.new {|name, node|
-         name[:romanization] = node.attr("transliteration")
+         name[:transliteration] = node.attr("transliteration")
        },
       "descendant::part[@localType='primary_name']" => Proc.new {|name, node|
         val = node.inner_text
@@ -325,7 +325,7 @@ module EACBaseMap
         name[:script] = node.attr("scriptCode")
       },
       "self::nameEntry[@transliteration]" => Proc.new {|name, node|
-         name[:romanization] = node.attr("transliteration")
+         name[:transliteration] = node.attr("transliteration")
        },
       "descendant::part[@localType='prefix']" => Proc.new {|name, node|
         val = node.inner_text

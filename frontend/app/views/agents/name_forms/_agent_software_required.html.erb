@@ -17,7 +17,7 @@
       <% end %>
     <% end %>
     <hr/>
-    <% field_names = ["language", "script", "romanization"] %>
+    <% field_names = ["language", "script", "transliteration"] %>
     <% field_names.each do |field_name| %>
       <% if form.required?(field_name) %>
         <%= form.label_and_readonly field_name %>

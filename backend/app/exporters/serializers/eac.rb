@@ -611,7 +611,7 @@ class EACSerializer < ASpaceExport::Serializer
   end
 
   def _build_name_entry(name, xml, json, obj)
-    attrs = {"xml:lang" => name['language'], "scriptCode" => name['script'], "transliteration" => name['romanization']}
+    attrs = {"xml:lang" => name['language'], "scriptCode" => name['script'], "transliteration" => name['transliteration']}
     xml.nameEntry(clean_attrs(attrs)) {
 
       obj.name_part_fields.each do |field, localType|
