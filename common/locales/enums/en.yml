@@ -47,6 +47,8 @@ en:
       unknown_standard: Standard of unknown origin
       conv_rom_cat_agency: Conventional romanization or conventional form of name in language of cataloging agency
       not_applicable: Not applicable
+    transliteration:
+      ala-lc: ALA-LC Romanization Tables
     government_agency_type:
       ngo: Non-governmental organization
       sac: Autonomous or semi-autonomous component
@@ -1972,6 +1974,7 @@ en:
     maintenance_status: Record Control Maintenence Status
     publication_status: Record Control Publication Status
     romanization: Romanization
+    transliteration: Transliteration
     government_agency_type: Record Control Government Agency Type
     reference_evaluation:  Record Control Reference Evaluation
     name_type: Record Control Name Type

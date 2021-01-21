@@ -526,8 +526,8 @@ en:
     script: Script
     script_tooltip: |
         <p>Indicates the script used in recording the name form. Example: Cyrillic (for Каспаров, Г. К. (Гарри Кимович))</p> 
-    romanization: Transliteration
-    romanization_tooltip: |
+    transliteration: Transliteration
+    transliteration_tooltip: |
         <p>Indicates the transliteration scheme used in recording the name form.</p>
     _singular: Name
     _plural: Names
