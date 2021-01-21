@@ -8,9 +8,10 @@
    end
    subentry = nil if !defined?(subentry)
    sidebar_heading = nil if !defined?(sidebar_heading)
+   lightmode_toggle = local_assigns.fetch(:lightmode_toggle, false)
 %>
 
-<li class="sidebar-entry-<%= anchor %> <%= "sidebar-heading" if sidebar_heading %>">
+<li class="sidebar-entry-<%= anchor %> <%= "sidebar-heading" if sidebar_heading %> <%= "lightmode_toggle" if lightmode_toggle %>">
   <a href="#<%= anchor %>" style="<%= "padding-left: 25px !important;" if !subentry.nil? %>">
     <%= title %>
     <% if !sidebar_heading %>

@@ -414,7 +414,7 @@ module ApplicationHelper
   end
 
   def full_mode?
-    AppConfig[:agents_display_full] == true && (user_can?("show_full_agents") || user_can?("administer_system"))
+    user_can?("show_full_agents") || user_can?("administer_system")
   end
 
   def has_agent_subrecords?(agent)

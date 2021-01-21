@@ -9,12 +9,6 @@
     </div>
   </div>
   <div class='col-md-9'>
-    <form method="post" action="system_info/config">
-      <input type='hidden' value='<%= form_authenticity_token %>' name='authenticity_token' />
-      <button type="submit" class="btn btn-danger"/>Reload AppConfig</button>
-    </form>
-  </div>
-  <div class='col-md-9'>
     <h3 class="subrecord-form-heading">
       <%= I18n.t("system_info.#{@app_context}") %>   
     </h3>

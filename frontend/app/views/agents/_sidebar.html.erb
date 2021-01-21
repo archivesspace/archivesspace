@@ -30,37 +30,43 @@
         :subrecord_type => 'agent_record_control',
         :property => 'agent_record_controls',
         :anchor => "#{@agent.agent_type}_agent_record_control",
-        :subentry => true) %>
+        :subentry => true,
+        :lightmode_toggle => true) %>
 
         <%= sidebar.render_for_view_and_edit(
         :subrecord_type => 'agent_other_agency_code',
         :property => 'agent_other_agency_codes',
         :anchor => "#{@agent.agent_type}_agent_other_agency_codes",
-        :subentry => true) %>
+        :subentry => true,
+        :lightmode_toggle => true) %>
 
         <%= sidebar.render_for_view_and_edit(
         :subrecord_type => 'agent_conventions_declaration',
         :property => 'agent_conventions_declarations',
         :anchor => "#{@agent.agent_type}_agent_conventions_declaration",
-        :subentry => true) %>
+        :subentry => true,
+        :lightmode_toggle => true) %>
 
         <%= sidebar.render_for_view_and_edit(
         :subrecord_type => 'agent_maintenance_history',
         :property => 'agent_maintenance_histories',
         :anchor => "#{@agent.agent_type}_agent_maintenance_history",
-        :subentry => true) %>
+        :subentry => true,
+        :lightmode_toggle => true) %>
 
         <%= sidebar.render_for_view_and_edit(
         :subrecord_type => 'agent_source',
         :property => 'agent_sources',
         :anchor => "#{@agent.agent_type}_agent_sources",
-        :subentry => true) %>
+        :subentry => true,
+        :lightmode_toggle => true) %>
 
         <%= sidebar.render_for_view_and_edit(
         :subrecord_type => 'agent_alternate_set',
         :property => 'agent_alternate_sets',
         :anchor => "#{@agent.agent_type}_agent_alternate_set",
-        :subentry => true) %>
+        :subentry => true,
+        :lightmode_toggle => true) %>
       <% end %>
 
 
@@ -113,38 +119,44 @@
           :subrecord_type => 'agent_gender',
           :property => 'agent_genders',
           :anchor => "agent_person_agent_gender",
-          :subentry => true) %>
+          :subentry => true,
+          :lightmode_toggle => true) %>
         <% end %>
 
         <%= sidebar.render_for_view_and_edit(
           :subrecord_type => 'agent_place',
           :property => 'agent_places',
           :anchor => "#{@agent.agent_type}_agent_place",
-          :subentry => true) %>
+          :subentry => true,
+          :lightmode_toggle => true) %>
 
         <%= sidebar.render_for_view_and_edit(
           :subrecord_type => 'agent_occupation',
           :property => 'agent_occupations',
           :anchor => "#{@agent.agent_type}_agent_occupation",
-          :subentry => true) %>
+          :subentry => true,
+          :lightmode_toggle => true) %>
 
         <%= sidebar.render_for_view_and_edit(
           :subrecord_type => 'agent_function',
           :property => 'agent_functions',
           :anchor => "#{@agent.agent_type}_agent_function",
-          :subentry => true) %>
+          :subentry => true,
+          :lightmode_toggle => true) %>
 
         <%= sidebar.render_for_view_and_edit(
           :subrecord_type => 'agent_topic',
           :property => 'agent_topics',
           :anchor => "#{@agent.agent_type}_agent_topic",
-          :subentry => true) %>
+          :subentry => true,
+          :lightmode_toggle => true) %>
 
         <%= sidebar.render_for_view_and_edit(
           :subrecord_type => 'used_language',
           :property => 'used_languages',
           :anchor => "#{@agent.agent_type}_used_language",
-          :subentry => true) %>
+          :subentry => true,
+          :lightmode_toggle => true) %>
 
       <% end %>
 
@@ -181,7 +193,8 @@
           :subrecord_type => 'agent_resource',
           :property => 'agent_resources',
           :anchor => "#{@agent.agent_type}_agent_resource",
-          :subentry => true) %>
+          :subentry => true,
+          :lightmode_toggle => true) %>
       <% end %>
 
       <%= sidebar.render_for_view_and_edit(
