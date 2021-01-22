@@ -109,7 +109,7 @@
            <h3><%= I18n.t("agent._frontend.section.dates_of_existence") %></h3>
             <section id="agent_dates_of_existence_left" class="merge-group merge-group-left">
                   <% if @agent.dates_of_existence.length > 0 %>
-                    <%= render_aspace_partial :partial => "shared/subrecord_form_merge", :locals => {:form => form, :name => "dates_of_existence", :section_id => "#{@agent.agent_type}_dates_of_existence", :template_erb => "dates/template_merge_target", :template => "structured_date_label", :heading_text => I18n.t("agent._frontend.section.dates_of_existence"), :heading_size => "h5", :help_topic => "#{@agent.agent_type}_dates_of_existence"} %>
+                    <%= render_aspace_partial :partial => "shared/subrecord_form_merge", :locals => {:form => form, :name => "dates_of_existence", :section_id => "#{@agent.agent_type}_dates_of_existence", :template_erb => "dates/template_merge_target", :template => "structured_date_label_existence", :heading_text => I18n.t("agent._frontend.section.dates_of_existence"), :heading_size => "h5", :help_topic => "#{@agent.agent_type}_dates_of_existence"} %>
                   <% end %>
             </section>
           <% end %>
@@ -330,7 +330,7 @@
             <h3><%= I18n.t("agent._frontend.section.dates_of_existence") %></h3>
             <section id="agent_dates_of_existence_right" class="merge-group merge-group-right">
                   <% if @victim.dates_of_existence.length > 0 %>
-                    <%= render_aspace_partial :partial => "shared/subrecord_form_merge", :locals => {:form => form, :name => "dates_of_existence", :section_id => "#{@victim.agent_type}_dates_of_existence", :template_erb => "dates/template_merge", :template => "structured_date_label", :heading_text => I18n.t("agent._frontend.section.dates_of_existence"), :heading_size => "h5", :help_topic => "#{@victim.agent_type}_dates_of_existence", :replace => (@agent.dates_of_existence.length > 0)} %>
+                    <%= render_aspace_partial :partial => "shared/subrecord_form_merge", :locals => {:form => form, :name => "dates_of_existence", :section_id => "#{@victim.agent_type}_dates_of_existence", :template_erb => "dates/template_merge", :template => "structured_date_label_existence", :heading_text => I18n.t("agent._frontend.section.dates_of_existence"), :heading_size => "h5", :help_topic => "#{@victim.agent_type}_dates_of_existence", :replace => (@agent.dates_of_existence.length > 0)} %>
                   <% end %>
             </section>
           <% end %>
