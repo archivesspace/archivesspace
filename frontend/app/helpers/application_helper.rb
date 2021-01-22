@@ -137,6 +137,10 @@ module ApplicationHelper
            )
   end
 
+  def edit_mode?
+    ['edit', 'update'].include?(controller.action_name)
+  end
+
   def inline?
     params[:inline] === "true"
   end
