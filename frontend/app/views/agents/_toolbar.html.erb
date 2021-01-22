@@ -1,6 +1,6 @@
 <% if user_can?('update_agent_record') %>
   <div class="record-toolbar">
-    <% if !['edit', 'update'].include?(controller.action_name) %>
+    <% if !edit_mode? %>
       <div class="btn-group pull-left">
         <%= link_to I18n.t("actions.edit"), {:controller => :agents, :action => :edit, :id => @agent.id, :agent_type => @agent.agent_type}, :class => "btn btn-sm btn-primary" %>
       </div>
@@ -11,7 +11,7 @@
       </div>
     <% end %>
 
-    <% if ['edit', 'update'].include?(controller.action_name) %>
+    <% if edit_mode? %>
       <div class="pull-left revert-changes">
         <%= link_to I18n.t("actions.revert"), {:controller => :agents, :action => :edit, :id => @agent.id}, :class => "btn btn-sm btn-default" %>
         <%= I18n.t("actions.toolbar_disabled_message") %>
@@ -20,7 +20,7 @@
 
     <div class="btn-toolbar pull-right">
       <div class="btn-group">
-        <% if full_mode? %>
+        <% if edit_mode? && full_mode? %>
           <%= render_aspace_partial :partial => "shared/lightmode_toggle", :locals => {:type => 'agents'} %>
         <% end %>
 
