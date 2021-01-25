@@ -4,6 +4,7 @@ class AgentPlace < Sequel::Model(:agent_place)
   corresponds_to JSONModel(:agent_place)
   
   include Notes
+  include TouchRecords
 
   set_model_scope :global
 
@@ -18,4 +19,11 @@ class AgentPlace < Sequel::Model(:agent_place)
                            :json_property => 'subjects',
                            :contains_references_to_types => proc {[Subject]})
 
+  def self.touch_records(obj)
+    [{
+      type: Subject, ids: (
+        AgentManager.linked_subjects(obj.id, :subject_agent_subrecord, :agent_place)
+      ).uniq
+    }]
+  end
 end

@@ -9,59 +9,61 @@ require_relative 'export_spec_helper'
 describe "Exported METS document" do
 
   before(:all) do
-    $old_repo_id = $repo_id
-    @repo = create(:json_repository)
-    $repo_id = @repo.id
+    as_test_user('admin') do
+      $old_repo_id = $repo_id
+      @repo = create(:json_repository)
+      $repo_id = @repo.id
 
-    JSONModel.set_repository($repo_id)
+      JSONModel.set_repository($repo_id)
 
-    use_statements = []
+      use_statements = []
 
-    10.times {
-      use_statements << generate(:use_statement)
-    }
+      10.times {
+        use_statements << generate(:use_statement)
+      }
 
-    # ensure one duplicate value
-    use_statements << use_statements.last.clone
+      # ensure one duplicate value
+      use_statements << use_statements.last.clone
 
-    @file_versions = use_statements.map {|us| build(:json_file_version, :use_statement => us)}
+      @file_versions = use_statements.map {|us| build(:json_file_version, :use_statement => us)}
 
-    @digital_object = create(:json_digital_object,
-                             :file_versions => @file_versions[0..5])
+      @digital_object = create(:json_digital_object,
+                               :file_versions => @file_versions[0..5])
 
-    @components = []
-    # a child with a file version
-    @components << create(:json_digital_object_component,
-                          :digital_object => {:ref => @digital_object.uri},
-                          :file_versions => @file_versions[6..7])
+      @components = []
+      # a child with a file version
+      @components << create(:json_digital_object_component,
+                            :digital_object => {:ref => @digital_object.uri},
+                            :file_versions => @file_versions[6..7])
 
-    # a grandchild with no file version
-    @components << create(:json_digital_object_component,
-                          :digital_object => {:ref => @digital_object.uri},
-                          :parent => {:ref => @components[0].uri})
+      # a grandchild with no file version
+      @components << create(:json_digital_object_component,
+                            :digital_object => {:ref => @digital_object.uri},
+                            :parent => {:ref => @components[0].uri})
 
-    # a great-grandchild with a file version
-    @components << create(:json_digital_object_component,
-                         :digital_object => {:ref => @digital_object.uri},
-                         :parent => {:ref => @components[1].uri},
-                         :file_versions => @file_versions[8..-1])
+      # a great-grandchild with a file version
+      @components << create(:json_digital_object_component,
+                           :digital_object => {:ref => @digital_object.uri},
+                           :parent => {:ref => @components[1].uri},
+                           :file_versions => @file_versions[8..-1])
 
-    @mets = get_mets(@digital_object)
-    @dc_mets = get_mets(@digital_object, "dc")
+      @mets = get_mets(@digital_object)
+      @dc_mets = get_mets(@digital_object, "dc")
 
-    # puts "SOURCE: #{@digital_object.inspect}\n"
-    # puts "RESULT: #{@mets.to_xml}\n"
+    end
   end
 
   after(:all) do
-    [@digital_objects, @components].flatten.each do |rec|
-      next if rec.nil?
-      rec.delete
+    as_test_user('admin') do
+      [@digital_objects, @components].flatten.each do |rec|
+        next if rec.nil?
+        rec.delete
+      end
+
+
+      $repo_id = $old_repo_id
+      JSONModel.set_repository($repo_id)
     end
-
-
-    $repo_id = $old_repo_id
-    JSONModel.set_repository($repo_id)
   end
 
   it "has the correct namespaces" do

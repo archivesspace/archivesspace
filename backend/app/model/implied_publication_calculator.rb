@@ -135,8 +135,8 @@ class ImpliedPublicationCalculator
     result
   end
 
-  # An subject is published if it's linked to at least one archival record that's
-  # published.
+  # An subject is published if it's linked to at least one archival record
+  # or agent record that's published.
   def for_subjects(subjects)
     result = Hash[subjects.map {|node| [node, false]}]
     subjects_by_id = Hash[subjects.map {|subject| [subject.id, subject]}]
