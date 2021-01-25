@@ -1,6 +1,12 @@
 $(function() {
 
   var initDateForm = function(subform) {
+    // this sets the hidden date label (if found) to the data-date-label value
+    var date_label = $(subform).parents("[data-date-label]:first").data('date-label');
+    var date_label_field = subform.find('[type="hidden"]:first').first();
+    if(date_label_field) {
+      date_label_field.val(date_label);
+    }
 
     $("[name$='[date_type]']", subform).change(function(event) {
       var type = $(this).val();
