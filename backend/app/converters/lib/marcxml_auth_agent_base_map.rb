@@ -50,7 +50,11 @@ module MarcXMLAuthAgentBaseMap
   def shared_subrecord_map(import_events)
     h = {
       "//record/leader" => agent_record_control_map,
-      "//record/controlfield[@tag='001']" => agent_record_identifiers_map,
+      "//record/controlfield[@tag='001']" => agent_record_identifiers_base_map("//record/controlfield[@tag='001']"),
+      "//record/datafield[@tag='010']" => agent_record_identifiers_base_map("//record/datafield[@tag='010']/subfield[@code='a']"),
+      "//record/datafield[@tag='016']" => agent_record_identifiers_base_map("//record/datafield[@tag='016']/subfield[@code='a']"),
+      "//record/datafield[@tag='024']" => agent_record_identifiers_base_map("//record/datafield[@tag='024']/subfield[@code='a']"),
+      "//record/datafield[@tag='035']" => agent_record_identifiers_base_map("//record/datafield[@tag='035']/subfield[@code='a']"),
       "//record/datafield[@tag='040']/subfield[@code='e']" => convention_declaration_map,
       "//record/datafield[@tag='046']" => dates_of_existence_map,
       "//record/datafield[@tag='370']/subfield[@code='a']" => place_of_birth_map,
@@ -447,79 +451,52 @@ module MarcXMLAuthAgentBaseMap
     }
   }
   end
-
-  def agent_record_identifiers_map
-  {
-    :obj => :agent_record_identifier,
-    :rel => :agent_record_identifiers,
-    :map => {
-      "self::controlfield" => Proc.new {|ari, node|
-        val = node.inner_text
-        ari['record_identifier'] = val
+  
+  def set_primary_identifier(node)
+    this_node = node.attr('tag') || node.parent.attr('tag')
+    ids = []
+    ids << node.search("//record/controlfield[@tag='001']").attr('tag')
+    ids << node.search("//record/datafield[@tag='010']").attr('tag')
+    ids << node.search("//record/datafield[@tag='016']").attr('tag')
+    ids << node.search("//record/datafield[@tag='024']").attr('tag')
+    ids << node.search("//record/datafield[@tag='035']").attr('tag')
+    first_node = ids.compact.first.to_s
+    
+    if this_node == first_node
+      true
+    else
+      false
+    end 
+    
+  end 
+  
+  def agent_record_identifiers_base_map(xpath)
+    {
+      :obj => :agent_record_identifier,
+      :rel => :agent_record_identifiers,
+      :map => {
+        xpath => Proc.new {|ari, node|
+          val = node.inner_text
+          ari['record_identifier'] = val
+          ari['primary_identifier'] = set_primary_identifier(node)
+          
+          if node.parent.attr('tag') == '010'
+            ari['source'] = 'naf'
+            ari['identifier_type'] = 'loc'
+          elsif node.parent.attr('tag') == '016'
+            if node.parent.attr('ind1') == "#"
+              ari['source'] = 'lac'
+            end
+          end
+            
+          if node.parent.attr('ind1') == '7'
+            sf_2 = (node.parent).at_xpath("subfield[@code='2']")
+            ari['source'] = sf_2.inner_text if sf_2
+            ari['identifier_type'] = 'local'
+          end
+          
+        }
       },
-      "//record/datafield[@tag=010]/subfield[@code='a']" => Proc.new {|ari, node|
-        val = node.inner_text
-        ari['record_identifier'] = val
-      },
-      "//record/datafield[@tag=016]/subfield[@code='a']" => Proc.new {|ari, node|
-        val = node.inner_text
-        ari['record_identifier'] = val
-        ari['primary_identifier'] = true
-
-        if node.parent.attr("ind1") == "7"
-          ari['identifier_type'] == "local"
-        else
-          ari['identifier_type'] == "lac"
-        end
-      },
-      "//record/datafield[@tag=016]/subfield[@code='2']" => Proc.new {|ari, node|
-        val = node.inner_text
-        ari['source'] = val
-        ari['primary_identifier'] = true
-
-        if node.parent.attr("ind1") == "7"
-          ari['identifier_type'] == "local"
-        else
-          ari['identifier_type'] == "lac"
-        end
-      },
-      "//record/datafield[@tag=024]/subfield[@code='a']" => Proc.new {|ari, node|
-        val = node.inner_text
-        ari['record_identifier'] = val
-        ari['primary_identifier'] = true
-
-        if node.parent.attr("ind1") == "7"
-          ari['identifier_type'] == "local"
-        end
-      },
-      "//record/datafield[@tag=024]/subfield[@code='2']" => Proc.new {|ari, node|
-        val = node.inner_text
-        ari['source'] = val
-        ari['primary_identifier'] = true
-
-        if node.parent.attr("ind1") == "7"
-          ari['identifier_type'] == "local"
-        end
-      },
-      "//record/datafield[@tag=035]/subfield[@code='a']" => Proc.new {|ari, node|
-        val = node.inner_text
-        ari['record_identifier'] = val
-        ari['primary_identifier'] = true
-
-        if node.parent.attr("ind1") == "7"
-          ari['identifier_type'] = "local"
-        end
-      },
-      "//record/datafield[@tag=035]/subfield[@code='2']" => Proc.new {|ari, node|
-        val = node.inner_text
-        ari['source'] = val
-        ari['primary_identifier'] = true
-
-        if node.parent.attr("ind1") == "7"
-          ari['identifier_type'] = "local"
-        end
-      },
-    },
     :defaults => {
       :source => "local"
     }
