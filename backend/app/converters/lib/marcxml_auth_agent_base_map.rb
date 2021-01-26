@@ -267,6 +267,58 @@ module MarcXMLAuthAgentBaseMap
        },
     }
   end
+  
+  def set_maintenance_status(pos_5)
+    case pos_5
+    when 'n'
+      status = "new"
+    when 'a'
+      status = "upgraded"
+    when 'c'
+      status = "revised_corrected"
+    when 'd'
+      status = "deleted"
+    when 'o'
+      status = "cancelled_obsolete"
+    when 's'
+      status = "deleted_split"
+    when 'x'
+      status = "deleted_replaced"
+    end
+    
+    status
+  end
+  
+  def set_maintenance_agency(node)
+    ma_040 = node.search("//record/datafield[@tag='040']/subfield[@code='a']").inner_text
+    if !ma_040.empty?
+      agency = ma_040
+    else
+      agency = node.search("//record/controlfield[@tag='003']").inner_text
+    end
+    
+    agency
+  end
+  
+  def set_record_language(node)
+    lang_040 = node.search("//record/datafield[@tag='040']/subfield[@code='b']").inner_text
+    if !lang_040.empty?
+      lang = lang_040
+    else
+      tag8_content = node.search("//record/controlfield[@tag='008']").inner_text
+      
+      case tag8_content[8]
+      when 'b'
+       lang = 'mul'
+      when 'e'
+       lang = 'eng'
+      when 'f'
+       lang = 'fre'
+      end
+    end
+    
+    lang
+  end
 
   def agent_record_control_map
   {
@@ -274,34 +326,14 @@ module MarcXMLAuthAgentBaseMap
     :rel => :agent_record_controls,
     :map => {
       "self::leader" => Proc.new{|arc, node|
-        leader_text = node.inner_text
-
-        case leader_text[5]
-        when 'n'
-          status = "new"
-        when 'a'
-          status = "upgraded"
-        when 'c'
-          status = "revised_corrected"
-        when 'd'
-          status = "deleted"
-        when 'o'
-          status = "cancelled_obsolete"
-        when 's'
-          status = "deleted_split"
-        when 'x'
-          status = "deleted_replaced"
-        end
-
-        arc['maintenance_status'] = status
+         leader_text = node.inner_text
+      
+         arc['maintenance_status'] = set_maintenance_status(leader_text[5])
+       },
+      "//record" => Proc.new{|arc, node|
+        arc['maintenance_agency'] = set_maintenance_agency(node)
+        arc['language'] = set_record_language(node)
       },
-      "//record/controlfield[@tag='003']" => Proc.new{|arc, node|
-        org = node.inner_text
-        arc['maintenance_agency'] = org
-      },
-
-      # looks something like:
-      # <marcxml:controlfield tag="008">890119nnfacannaab           |a aaa      </marcxml:controlfield>
       "//record/controlfield[@tag='008']" => Proc.new{|arc, node|
         tag8_content = node.inner_text
 
@@ -325,16 +357,7 @@ module MarcXMLAuthAgentBaseMap
         when '|'
           romanization = ""
         end
-
-        case tag8_content[8]
-        when 'b'
-          lang = "eng"
-        when 'e'
-          lang = "eng"
-        when 'f'
-          lang = "fre"
-        end
-
+     
         case tag8_content[28]
         when '#'
           gov_agency = "ngo"
@@ -422,10 +445,8 @@ module MarcXMLAuthAgentBaseMap
         when '|'
           catalog_source = 'natc'
         end
-
-
+     
         arc['romanization'] = romanization
-        arc['language'] = lang
         arc['government_agency_type'] = gov_agency
         arc['reference_evaluation'] = ref_eval
         arc['name_type'] = name_type
@@ -433,21 +454,6 @@ module MarcXMLAuthAgentBaseMap
         arc['modified_record'] = mod_record
         arc['cataloging_source'] = catalog_source
       },
-      "//record/datafield[@tag='040']/subfield[@code='a']" => Proc.new{|arc, node|
-        val = node.inner_text
-
-        arc['maintenance_agency'] = val
-      },
-     "//record/datafield[@tag='040']/subfield[@code='b']" => Proc.new{|arc, node|
-        val = node.inner_text
-
-        arc['language'] = val
-      },
-     "//record/datafield[@tag='040']/subfield[@code='d']" => Proc.new{|arc, node|
-        val = node.inner_text
-
-        arc['maintenance_agency'] = val
-      }
     }
   }
   end
