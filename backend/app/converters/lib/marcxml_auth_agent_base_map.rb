@@ -834,16 +834,16 @@ module MarcXMLAuthAgentBaseMap
       "descendant::subfield[@code='a']" => Proc.new {|note, node|
         val = node.inner_text
 
-        sn = ASpaceImport::JSONModel(:note_text).new({
-          :content => val
+        sn = ASpaceImport::JSONModel(:note_abstract).new({
+          :content => [val]
         })
         note['subnotes'] << sn
       },
       "descendant::subfield[@code='b']" => Proc.new {|note, node|
         val = node.inner_text
 
-        sn = ASpaceImport::JSONModel(:note_abstract).new({
-          :content => [val]
+        sn = ASpaceImport::JSONModel(:note_text).new({
+          :content => val
         })
         note['subnotes'] << sn
       },
