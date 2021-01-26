@@ -28,7 +28,6 @@
         "required" => false
       },
       "sort_name" => {"type" => "string", "maxLength" => 255},
-      "sort_name_date_string" => {"type" => "string", "maxLength" => 255},
       "sort_name_auto_generate" => {"type" => "boolean", "default" => true},
     },
   },
