@@ -331,7 +331,7 @@ Sequel.migration do
 
       Integer :language_id
       Integer :script_id
-      Integer :romanization_id
+      Integer :transliteration_id
 
       HalfLongString :title, :null => true
       TextField :prefix, :null => true
@@ -358,7 +358,7 @@ Sequel.migration do
 
       Integer :language_id
       Integer :script_id
-      Integer :romanization_id
+      Integer :transliteration_id
 
       TextField :family_name, :null => false
 
@@ -383,7 +383,7 @@ Sequel.migration do
 
       Integer :language_id
       Integer :script_id
-      Integer :romanization_id
+      Integer :transliteration_id
 
       TextField :primary_name, :null => false
 
@@ -406,7 +406,7 @@ Sequel.migration do
 
       Integer :language_id
       Integer :script_id
-      Integer :romanization_id
+      Integer :transliteration_id
 
       TextField :software_name, :null => false
 
