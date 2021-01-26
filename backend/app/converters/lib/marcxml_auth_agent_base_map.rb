@@ -199,9 +199,14 @@ module MarcXMLAuthAgentBaseMap
 
           name[:primary_name] = val
        },
-       "descendant::subfield[@code='b']" => Proc.new {|name, node|
-          val = node.inner_text
-          name[:subordinate_name_1] = val
+       "self::datafield[@tag='110' or @tag='410']" => Proc.new {|name, node|
+          subordinate_names = []
+          sf_bs = node.search("./subfield[@code='b']")
+          sf_bs.each do |b|
+            subordinate_names << b.inner_text
+          end
+          name[:subordinate_name_1] = subordinate_names.shift
+          name[:subordinate_name_2] = subordinate_names.join('. ')
        },
        "descendant::subfield[@code='c']" => Proc.new {|name, node|
           val = node.inner_text
