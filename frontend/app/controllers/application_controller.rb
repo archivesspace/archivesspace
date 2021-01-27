@@ -124,7 +124,7 @@ class ApplicationController < ActionController::Base
       end
 
       if obj._exceptions[:errors]
-        instance_variable_set("@exceptions".intern, obj._exceptions)
+        instance_variable_set("@exceptions".intern, clean_exceptions(obj._exceptions))
         return opts[:on_invalid].call
       end
 
@@ -340,6 +340,33 @@ class ApplicationController < ActionController::Base
 
   def set_user_repository_cookie(repository_uri)
     cookies[user_repository_cookie_key] = repository_uri
+  end
+
+  # sometimes we get exceptions that look like this: "translation missing: validation_errors.protected_read-only_list_#/dates_of_existence/0/date_type_structured._invalid_value__add_or_update_either_a_single_or_ranged_date_subrecord_to_set_.__must_be_one_of__single__range
+  # replace the untranslatable text with a generic message
+  # untranslatable messages have a reference to an array index, like record/0/subrecord. We'll look for anything that has an error that matches to /d+/ and replace it with something generic that we can translate.
+  def clean_exceptions(ex)
+    generic_error = I18n.t("validation_errors.generic_validation_error")
+    regex = /\/\d+\//
+
+    ex.each do |key, exception|
+      exception.each do |key, value|
+        # value might be a string or an array of strings
+        if value.is_a?(String)
+          if value =~ regex
+            value = generic_error
+          end
+        elsif value.respond_to?(:each_with_index)
+          value.each_with_index do |subvalue, i|
+            if subvalue =~ regex
+              value[i] = generic_error
+            end
+          end
+        end
+      end 
+    end
+
+    return ex
   end
 
 
