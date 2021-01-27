@@ -46,34 +46,47 @@
   </div>
 <% end %>
 
-<% define_template "structured_date_label", jsonmodel_definition(:structured_date_label) do |form| %>
+<% define_template "structured_date_label_existence", jsonmodel_definition(:structured_date_label) do |form| %>
   <div class="subrecord-form-fields">
     <% disable_replace = false %>
 
     <%= form.record_level_merge_controls(form, "dates_of_existence", true, !disable_replace) %>
-    
-    <div class="date-container">
-      <%= form.label_and_readonly "date_label" %>
-      <%= form.label_and_readonly "date_type_structured" %>
-      <%= form.label_and_readonly "date_certainty" %>
-      <%= form.label_and_readonly "date_era" %>
-      <%= form.label_and_readonly "date_calendar" %>
-      <%= form.hidden_input "id", form.obj["id"] %>
-
-      <% ranged_dates = [form["structured_date_range"]].compact %>
-      <% single_dates = [form["structured_date_single"]].compact %>
-
-      <% if single_dates.length > 0 %>
-        <%= form.fields_for(single_dates.first, "structured_date_single") do |item| %>
-          <% form.emit_template("structured_date_single_fields", item) %>
-        <% end %>
-      <% elsif ranged_dates.length > 0 %>
-        <%= form.fields_for(ranged_dates.first, "structured_date_range") do |item| %>
-          <% form.emit_template("structured_date_range_fields", item) %>
-        <% end %>
-      <% end %>
+    <% form.emit_template("structured_date_label_common_fields") %>
     </div>
   </div>
+<% end %>
+
+<% define_template "structured_date_label_usage", jsonmodel_definition(:structured_date_label) do |form| %>
+  <div class="subrecord-form-fields">
+    <% disable_replace = false %>
+
+    <%= form.record_level_merge_controls(form, "usage", true, !disable_replace) %>
+    <% form.emit_template("structured_date_label_common_fields") %>
+    </div>
+  </div>
+<% end %>
+
+<% define_template "structured_date_label_common_fields", jsonmodel_definition(:structured_date_label) do |form| %>
+  <div class="date-container">
+    <%= form.label_and_readonly "date_label" %>
+    <%= form.label_and_readonly "date_type_structured" %>
+    <%= form.label_and_readonly "date_certainty" %>
+    <%= form.label_and_readonly "date_era" %>
+    <%= form.label_and_readonly "date_calendar" %>
+    <%= form.hidden_input "id", form.obj["id"] %>
+
+    <% ranged_dates = [form["structured_date_range"]].compact %>
+    <% single_dates = [form["structured_date_single"]].compact %>
+
+    <% if single_dates.length > 0 %>
+      <%= form.fields_for(single_dates.first, "structured_date_single") do |item| %>
+        <% form.emit_template("structured_date_single_fields", item) %>
+      <% end %>
+    <% elsif ranged_dates.length > 0 %>
+      <%= form.fields_for(ranged_dates.first, "structured_date_range") do |item| %>
+        <% form.emit_template("structured_date_range_fields", item) %>
+      <% end %>
+    <% end %>
 <% end %>
 
 <% define_template "structured_date_single_fields", jsonmodel_definition(:structured_date_single) do |form| %>
