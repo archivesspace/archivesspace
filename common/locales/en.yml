@@ -2397,6 +2397,7 @@ en:
     or_date_expression_is_required: Dates must specify at least one date expression
     must_specify_either_a_single_or_ranged_date: Dates must be specified as either Single or Ranged
     must_be_in_yyyy[yyy][yy][y]__yyyy[yyy][yy][y]-mm__or_yyyy-mm-dd_format : Standardized dates must be in a standardized format
+    generic_validation_error: Validation Error
 
 
 
