@@ -2,7 +2,7 @@
   <h3><%= I18n.t('agent_gender._plural') %></h3>
   <ul>
   <% result.json['agent_genders'].each do |n| %>
-    <li><%= I18n.t("enumerations.gender.#{n['gender']}") %></li>
+    <li><%= I18n.t("enumerations.gender.#{n['gender']}", default: n['gender']) %></li>
   <% end %>
   </ul>
 <% end %>
