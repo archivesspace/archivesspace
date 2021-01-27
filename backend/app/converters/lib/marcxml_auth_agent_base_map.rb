@@ -56,7 +56,7 @@ module MarcXMLAuthAgentBaseMap
       "//record/datafield[@tag='024']" => agent_record_identifiers_base_map("//record/datafield[@tag='024']/subfield[@code='a']"),
       "//record/datafield[@tag='035']" => agent_record_identifiers_base_map("//record/datafield[@tag='035']/subfield[@code='a']"),
       "//record/datafield[@tag='040']/subfield[@code='e']" => convention_declaration_map,
-      "//record/datafield[@tag='046']" => dates_of_existence_map,
+      "//record/datafield[@tag='046']" => dates_map('self'),
       "//record/datafield[@tag='370']/subfield[@code='a']" => place_of_birth_map,
       "//record/datafield[@tag='370']/subfield[@code='b']" => place_of_death_map,
       "//record/datafield[@tag='370']/subfield[@code='c']" => associated_country_map,
@@ -558,7 +558,7 @@ module MarcXMLAuthAgentBaseMap
   }
   end
 
-  def structured_dates_of_existence_date_for(node, subfields)
+  def structured_date_for(node, subfields)
     date = nil
     subfields.each do |sc|
       date_node = node.at_xpath("subfield[@code='#{sc}']")
@@ -575,7 +575,7 @@ module MarcXMLAuthAgentBaseMap
     date
   end
 
-  def expression_dates_of_existence_date_for(node, subfields)
+  def expression_date_for(node, subfields)
     date = nil
     subfields.each do |sc|
       date_node = node.at_xpath("subfield[@code='#{sc}']")
@@ -586,20 +586,18 @@ module MarcXMLAuthAgentBaseMap
     date
   end
 
-  def dates_of_existence_map
+  def dates_map(base, rel = :dates_of_existence)
   {
     :obj => :structured_date_label,
-    :rel => :dates_of_existence,
+    :rel => rel,
     :map => {
-      "self::datafield" => Proc.new {|sdl, node|
+      "#{base}::datafield" => Proc.new {|sdl, node|
 
-        date_begin = structured_dates_of_existence_date_for(node, ['f', 'q', 's'])
-        date_end = structured_dates_of_existence_date_for(node, ['g', 'r', 't'])
-
-        date_begin_expression = expression_dates_of_existence_date_for(node, ['f', 'q', 's'])
-        date_end_expression = expression_dates_of_existence_date_for(node, ['g', 'r', 't'])
-        date_type = (date_begin_expression and date_end_expression) ? 'range' : 'single'
-
+        date_begin = structured_date_for(node, ['f', 'q', 's'])
+        date_end = structured_date_for(node, ['g', 'r', 't'])
+        date_begin_expression = expression_date_for(node, ['f', 'q', 's'])
+        date_end_expression = expression_date_for(node, ['g', 'r', 't'])
+        
         if ((date_begin and date_end) and (date_end.to_i > date_begin.to_i)) || (date_begin_expression and date_end_expression)
           date_type = 'range'
         else
@@ -633,32 +631,6 @@ module MarcXMLAuthAgentBaseMap
   }
   end
 
-  def date_range_map(rel = :dates, begin_subfield = 's', end_subfield = 't')
-  {
-    :obj => :structured_date_label,
-    :rel => rel,
-    :map => {
-      "parent::datafield" => Proc.new {|sdl, node|
-
-        begin_node = node.search("subfield[@code='#{begin_subfield}']")
-        end_node = node.search("subfield[@code='#{end_subfield}']")
-
-        begin_exp = begin_node.inner_text if begin_node
-        end_exp = end_node.inner_text if end_node
-
-        sdr = ASpaceImport::JSONModel(:structured_date_range).new({
-          :begin_date_expression => begin_exp,
-          :end_date_expression => end_exp,
-        })
-
-        sdl[:date_label] = 'existence'
-        sdl[:date_type_structured] = 'range'
-        sdl[:structured_date_range] = sdr
-      }
-    }
-  }
-  end
-
   def place_of_birth_map
   {
     :obj => :agent_place,
@@ -666,7 +638,7 @@ module MarcXMLAuthAgentBaseMap
     :map => {
       "self::subfield" => subject_map(subject_terms_map('geographic', 'a'),
                                       sets_subject_source),
-      "parent::datafield/subfield[@code='s' or @code='t']" => date_range_map
+      "parent::datafield/subfield[@code='s' or @code='t']" => dates_map('parent', :dates)
     },
     :defaults => {
       :place_role => "place_of_birth"
@@ -681,7 +653,7 @@ module MarcXMLAuthAgentBaseMap
     :map => {
       "self::subfield" => subject_map(subject_terms_map('geographic', 'b'),
                                       sets_subject_source),
-      "parent::datafield/subfield[@code='s' or @code='t']" => date_range_map
+      "parent::datafield/subfield[@code='s' or @code='t']" => dates_map('parent', :dates)
     },
     :defaults => {
       :place_role => "place_of_death"
@@ -696,7 +668,7 @@ module MarcXMLAuthAgentBaseMap
     :map => {
       "self::subfield" => subject_map(subject_terms_map('geographic', 'c'),
                                       sets_subject_source),
-      "parent::datafield/subfield[@code='s' or @code='t']" => date_range_map
+      "parent::datafield/subfield[@code='s' or @code='t']" => dates_map('parent', :dates)
     },
     :defaults => {
       :place_role => "assoc_country"
@@ -711,7 +683,7 @@ module MarcXMLAuthAgentBaseMap
     :map => {
       "self::subfield" => subject_map(subject_terms_map('geographic', 'e'),
                                       sets_subject_source),
-      "parent::datafield/subfield[@code='s' or @code='t']" => date_range_map
+      "parent::datafield/subfield[@code='s' or @code='t']" => dates_map('parent', :dates)
     },
     :defaults => {
       :place_role => "residence"
@@ -726,7 +698,7 @@ module MarcXMLAuthAgentBaseMap
     :map => {
       "self::subfield" => subject_map(subject_terms_map('geographic', 'f'),
                                       sets_subject_source),
-      "parent::datafield/subfield[@code='s' or @code='t']" => date_range_map
+      "parent::datafield/subfield[@code='s' or @code='t']" => dates_map('parent', :dates)
     },
     :defaults => {
       :place_role => "other_assoc"
@@ -741,7 +713,7 @@ module MarcXMLAuthAgentBaseMap
     :map => {
       "self::subfield" => subject_map(subject_terms_map('occupation', 'a'),
                                       sets_subject_source),
-      "parent::datafield/subfield[@code='s' or @code='t']" => date_range_map
+      "parent::datafield/subfield[@code='s' or @code='t']" => dates_map('parent', :dates)
     }
   }
   end
@@ -753,7 +725,7 @@ module MarcXMLAuthAgentBaseMap
     :map => {
       "self::subfield" => subject_map(subject_terms_map('topical', 'a'),
                                       sets_subject_source),
-      "parent::datafield/subfield[@code='s' or @code='t']" => date_range_map
+      "parent::datafield/subfield[@code='s' or @code='t']" => dates_map('parent', :dates)
     }
   }
   end
@@ -765,7 +737,7 @@ module MarcXMLAuthAgentBaseMap
     :map => {
       "self::subfield" => subject_map(subject_terms_map('function', 'a'),
                                       sets_subject_source),
-      "parent::datafield/subfield[@code='s' or @code='t']" => date_range_map
+      "parent::datafield/subfield[@code='s' or @code='t']" => dates_map('parent', :dates)
     }
   }
   end
@@ -780,7 +752,7 @@ module MarcXMLAuthAgentBaseMap
         gender['gender'] = val
       },
 
-      "parent::datafield/subfield[@code='s' or @code='t']" => date_range_map
+      "parent::datafield/subfield[@code='s' or @code='t']" => dates_map('parent', :dates)
     }
   }
   end
