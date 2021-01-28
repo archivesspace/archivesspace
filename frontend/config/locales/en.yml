@@ -846,7 +846,7 @@ en:
     <<: *structured_date_label_attributes
 
   structured_date_single_fields:
-    date_role: Date Role
+    date_role_structured: Date Role
     date_expression: Date Expression
     date_standardized: Standardized Date
     date_standardized_type: Standardized Date Type
@@ -2217,6 +2217,23 @@ en:
   subsections:
     notes: Notes
     dates: Dates
+
+  section_headings:
+    basic_information_tooltip: |
+      <p>This section indicates the agent type and whether the agent is published or not.</p>
+
+    record_control_information_tooltip: |
+      <p>This section contains information about the record itself, with the expectation that it originated outside of ArchivesSpace or is going to be shared with a system other than ArchivesSpace.</p>
+
+    identity_information_tooltip: |
+      <p>This section is the core information about the agent him/her/themselves. A Name Form is the only required sub-record in an Agent record.</p>
+
+    description_information_tooltip: |
+      <p>This section is the core information about the agent him/her/themselves. A Name Form is the only required sub-record in an Agent record.</p>
+
+    relation_information_tooltip: |
+      <p>This section is used to indicate relationships to other agents or materials inside or outside ArchivesSpace.</p>
+
 
   bulk_import:
     _frontend:

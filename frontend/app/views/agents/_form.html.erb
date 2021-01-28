@@ -6,9 +6,12 @@
 <% end %>
 
 <fieldset>
-  <section id="basic_information">
-    <h3>
-      <%= I18n.t("agent._frontend.section.basic_information") %>
+  <section id="basic_information" class="subrecord-form-section">
+    <h3 class='subrecord-form-heading-label'>
+      <% tooltip = I18n.t("section_headings.basic_information_tooltip") %>
+      <span title="" data-placement='bottom' data-html="true" data-delay="500" data-trigger="manual" data-template="<div class=&quot;tooltip archivesspace-help&quot;><div class=&quot;tooltip-arrow&quot;></div><div class=&quot;tooltip-inner&quot;></div></div>" class="has-tooltip subrecord-form-heading-label" data-original-title='<%= tooltip %>'>
+        <%= I18n.t("agent._frontend.section.basic_information") %>
+      </span>
       <%= link_to_help :topic => "#{@agent.agent_type}_basic_information" %>
     </h3>
     <div class="form-group">
@@ -25,9 +28,12 @@
 
   </section>
 
-  <section id="record_control_information" class="agents-subsection">
-    <h3>
-      <%= I18n.t("agent._frontend.section.record_control_information") %>
+  <section id="record_control_information" class="agents-subsection subrecord-form-section">
+    <h3 class='subrecord-form-heading-label'>
+      <% tooltip = I18n.t("section_headings.record_control_information_tooltip") %>
+      <span title="" data-placement='bottom' data-html="true" data-delay="500" data-trigger="manual" data-template="<div class=&quot;tooltip archivesspace-help&quot;><div class=&quot;tooltip-arrow&quot;></div><div class=&quot;tooltip-inner&quot;></div></div>" class="has-tooltip subrecord-form-heading-label" data-original-title='<%= tooltip %>'>
+        <%= I18n.t("agent._frontend.section.record_control_information") %>
+      </span>
     </h3>
 
    <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "agent_record_identifiers", :section_id => "#{@agent.agent_type}_agent_record_identifier", :template => "agent_record_identifiers", help_topic: "agent_record_identifiers", :invisible => false, :lightmode_toggle => false} %>
@@ -45,9 +51,12 @@
    <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "agent_alternate_sets", :section_id => "#{@agent.agent_type}_agent_alternate_set", :template => "agent_alternate_set", help_topic: "agent_alternate_sets", :invisible => !full_mode?, :lightmode_toggle => true} %>
   </section>
 
-  <section id="identity_information" class="agents-subsection">
-    <h3>
-      <%= I18n.t("agent._frontend.section.identity_information") %>
+  <section id="identity_information" class="agents-subsection subrecord-form-section">
+    <h3 class='subrecord-form-heading-label'>
+      <% tooltip = I18n.t("section_headings.identity_information_tooltip") %>
+      <span title="" data-placement='bottom' data-html="true" data-delay="500" data-trigger="manual" data-template="<div class=&quot;tooltip archivesspace-help&quot;><div class=&quot;tooltip-arrow&quot;></div><div class=&quot;tooltip-inner&quot;></div></div>" class="has-tooltip subrecord-form-heading-label" data-original-title='<%= tooltip %>'>
+        <%= I18n.t("agent._frontend.section.identity_information") %>
+      </span>
     </h3>
 
    <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "agent_identifiers", :section_id => "#{@agent.agent_type}_agent_identifier", :template => "agent_identifiers", help_topic: "agent_identifiers", :invisible => false, :lightmode_toggle => false} %>
@@ -55,9 +64,12 @@
   <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "names", :section_id => "#{@agent.agent_type}_names", :template_erb => "agents/name_forms/#{@agent.agent_type}", :template => "name_#{@agent.agent_type.to_s.gsub("agent_","")}", :help_topic => "#{@agent.agent_type}_names", :invisible => false, :lightmode_toggle => false} %>
   </section>
 
-  <section id="description_information"  class="agents-subsection">
-    <h3>
-      <%= I18n.t("agent._frontend.section.description_information") %>
+  <section id="description_information"  class="agents-subsection subrecord-form-section">
+    <h3 class='subrecord-form-heading-label'>
+      <% tooltip = I18n.t("section_headings.description_information_tooltip") %>
+      <span title="" data-placement='bottom' data-html="true" data-delay="500" data-trigger="manual" data-template="<div class=&quot;tooltip archivesspace-help&quot;><div class=&quot;tooltip-arrow&quot;></div><div class=&quot;tooltip-inner&quot;></div></div>" class="has-tooltip subrecord-form-heading-label" data-original-title='<%= tooltip %>'>
+        <%= I18n.t("agent._frontend.section.description_information") %>
+      </span>
     </h3>
 
 
@@ -87,9 +99,12 @@
   <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "external_documents", :section_id => "#{@agent.agent_type}_external_documents", :help_topic => "#{@agent.agent_type}_external_documents", :invisible => false, :lightmode_toggle => false} %>
   </section>
 
-  <section id="relation_information" class="agents-subsection">
-    <h3>
-      <%= I18n.t("agent._frontend.section.relation_information") %>
+  <section id="relation_information" class="agents-subsection subrecord-form-section">
+    <h3 class='subrecord-form-heading-label'>
+      <% tooltip = I18n.t("section_headings.relation_information_tooltip") %>
+      <span title="" data-placement='bottom' data-html="true" data-delay="500" data-trigger="manual" data-template="<div class=&quot;tooltip archivesspace-help&quot;><div class=&quot;tooltip-arrow&quot;></div><div class=&quot;tooltip-inner&quot;></div></div>" class="has-tooltip subrecord-form-heading-label" data-original-title='<%= tooltip %>'>
+        <%= I18n.t("agent._frontend.section.relation_information") %>
+      </span>
     </h3>
 
     <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "agent_resources", :section_id => "#{@agent.agent_type}_agent_resource", :template => "agent_resource", help_topic: "agent_resource", :invisible => !full_mode?, :lightmode_toggle => true} %>
