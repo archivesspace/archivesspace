@@ -3,7 +3,10 @@
   <% notes.each_with_index do |note, idx| %>
     <h3 class="<%= note_label.downcase %>"><%= note['label'] ? note['label'] : note_label %></h3>
     <% note['subnotes'].select{ |sn| sn['publish'] == true }.each do |subnote| %>
-      <p><%= nl2br subnote['content'] %></p>
+      <p>
+        <% if subnote['jsonmodel_type'] != 'note_text' %><h5><%= I18n.t("#{subnote['jsonmodel_type']}.option") %>: </h5><% end %>
+        <%= nl2br subnote['content'] %>
+      </p>
     <% end %>
   <% end %>
 <% end %>
