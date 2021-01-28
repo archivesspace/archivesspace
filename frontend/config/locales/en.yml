@@ -832,7 +832,7 @@ en:
       action:
         add: Add Deaccession
 
-  structured_date_label: &structured_date_label_attributes
+  structured_date_label_common_fields: &structured_date_label_attributes
     date_label: Label
     date_type_structured: Date Type
     date_certainty: Certainty

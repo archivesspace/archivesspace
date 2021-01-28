@@ -30,6 +30,7 @@ module ViewHelper
   end
 
   def nl2br(text)
+    text = text.map{ |t| "<p>#{t}</p>" }.join if text.respond_to? :each
     sanitize(text).gsub(/\n/, '<br>').html_safe
   end
 
