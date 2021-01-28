@@ -846,7 +846,7 @@ en:
     <<: *structured_date_label_attributes
 
   structured_date_single_fields:
-    date_role_structured: Date Role
+    date_role: Date Role
     date_expression: Date Expression
     date_standardized: Standardized Date
     date_standardized_type: Standardized Date Type
