@@ -812,7 +812,7 @@ en:
     _singular: Name Form
     _plural: Name Forms
 
-  structured_date_label:
+  structured_date_label: &sdl_attributes
     date_label_tooltip: |
         <p>Describes what type of activity the date signifies</p>
     date_type_structured_tooltip: |
@@ -824,12 +824,43 @@ en:
     date_calendar_tooltip: |
         <p>System of reckoning time, such as the Gregorian calendar or Julian calendar. The value "gregorian" is the default.</p>
 
-  structured_date_single:
+  structured_date_label_existence: 
+    <<: *sdl_attributes  
+
+  structured_date_single: &sds_attributes
     date_expression_tooltip: |
         <p>A natural language expression specifying the date or date range. Required when a standardized date is not recorded.</p>
 
     date_standardized_tooltip: |
         <p>A natural language expression specifying the date or date range. Required when a standardized date is not recorded.</p>
+
+    date_standardized_type_tooltip: |
+        <p>Used to indicate whether the standardized date reflects the actual date or an estimate of the earliest or latest something could have occurred.</p>
+
+  structured_date_range: &sdr_attributes
+    begin_date_expression_tooltip: |
+        <p>A natural language expression specifying the beginning of a date range. Required when a standardized date is not recorded.</p>
+
+    begin_date_standardized_tooltip: |
+        <p>A date (in the form YYYY, YYYY-MM, or YYYY-MM-DD) representing a single date or the first date in a date range.</p>
+
+    begin_date_standardized_type_tooltip: |
+        <p>Used to indicate whether the beginning standardized date reflects the actual date or an estimate of the earliest or latest something could have occurred.</p>
+
+    end_date_expression_tooltip: |
+        <p>A natural language expression specifying the end of a date range. Required when a standardized date is not recorded.</p>
+
+    end_date_standardized_tooltip: |
+        <p>A date (in the form YYYY, YYYY-MM, or YYYY-MM-DD) representing the last date in a date range.</p>
+
+    end_date_standardized_type_tooltip: |
+        <p>Used to indicate whether the ending standardized date reflects the actual date or an estimate of the earliest or latest something could have occurred.</p>
+
+  structured_date_single_fields:
+    <<: *sds_attributes  
+
+  structured_date_range_fields:
+    <<: *sdr_attributes  
 
   agent_contact: &agent_contact
     name: Contact Name
@@ -873,6 +904,13 @@ en:
     telephones: Telephone Numbers
     _singular: Contact
     _plural: Contact Details
+
+  note_contact_note:
+    contact_notes_tooltip: |
+        <p>Details about the interaction with the contact</p>
+
+    date_of_contact_tooltip: |
+        <p>Used to record the specific date or timeframe of an interaction</p>
 
   telephone: &telephone
     _plural: Telephone Numbers
@@ -1700,7 +1738,8 @@ en:
     agent_occupations_tooltip: Occupation information associated with the agent.
     agent_functions_tooltip: Terms used to identify the functions, processes, tasks, activities or transactions performed by the agent.
     agent_topics_tooltip: A subject associated with the agent.
-    agent_contacts_tooltip: Agent Contacts Tooltip
+    agent_contacts_tooltip: |
+        <p>Contact information for the agent or a representative working on the behalf.</p>
     used_languages_tooltip: "The language(s) associated with the agent. Example: English."
     related_agents_tooltip: Other agents associated with the agent.
     agent_resources_tooltip: Resources and other records associated with the agent.
@@ -2398,7 +2437,7 @@ en:
     must_specify_either_a_single_or_ranged_date: Dates must be specified as either Single or Ranged
     must_be_in_yyyy[yyy][yy][y]__yyyy[yyy][yy][y]-mm__or_yyyy-mm-dd_format : Standardized dates must be in a standardized format
     generic_validation_error: Validation Error
-
+    requires_that_end_dates_are_after_begin_dates: End Dates must be after Begin Dates
 
 
   job:
