@@ -32,7 +32,7 @@
                   <% end %>
                 <% end %>
 
-              <% elsif date['date_type'] == "range" && date["structured_date_range"] %>
+              <% elsif date['date_type_structured'] == "range" && date["structured_date_range"] %>
                 <% if date["structured_date_range"]["begin_date_expression"] %>
                   <%= date["structured_date_range"]["begin_date_expression"] %>
                 <% end %>
@@ -80,7 +80,7 @@
           <div class="form-horizontal">
             <div class='form-group'>
               <div class='control-label col-sm-2'>Date Type</div>
-              <div class='label-only col-sm-8'><%= I18n.t("enumerations.date_type_structured.#{date['date_type_structured']}", :default => date['date_type']) %></div>
+              <div class='label-only col-sm-8'><%= I18n.t("enumerations.date_type_structured.#{date['date_type_structured']}", :default => date['date_type_structured']) %></div>
             </div>
 
             <% if date['date_certainty'] %>
@@ -107,7 +107,7 @@
            <div class="panel panel-default">
 
             <%# SINGLE SECTION %>
-            <% if date['date_type'] == "single" && date["structured_date_single"] %>
+            <% if date['date_type_structured'] == "single" && date["structured_date_single"] %>
               <div class='form-group'>
                 <div class='control-label col-sm-2'>Role</div>
                 <div class='label-only col-sm-8'><%= I18n.t("enumerations.date_role.#{date['structured_date_single']['date_role']}", :default => date['structured_date_single']['date_role']) %></div>
@@ -135,7 +135,7 @@
               <% end %>
 
             <%# RANGE SECTION %>
-            <% elsif date['date_type'] == "range" && date["structured_date_range"] %>
+            <% elsif date['date_type_structured'] == "range" && date["structured_date_range"] %>
 
               <% if date["structured_date_range"]['begin_date_expression'] %>
                 <div class='form-group'>
