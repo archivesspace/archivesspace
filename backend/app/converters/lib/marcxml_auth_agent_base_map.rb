@@ -67,6 +67,13 @@ module MarcXMLAuthAgentBaseMap
       "//record/datafield[@tag='670']" => agent_sources_map,
       "//record/datafield[@tag='678']" => bioghist_note_map,
     }
+    
+    # We only want to import other_agency codes for maintenance agencies not already in record_info
+    if @ma_040_a
+      h.merge!({
+        "//record/datafield[@tag='040']/subfield[@code='d' and text()!='#{@ma_040_a}']" => other_agency_code_map,
+      })
+    end
 
     if import_events
       h.merge!({
@@ -294,10 +301,24 @@ module MarcXMLAuthAgentBaseMap
     status
   end
   
+  def other_agency_code_map
+    {
+      :obj => :agent_other_agency_codes,
+      :rel => :agent_other_agency_codes,
+      :map => {
+        "self::subfield" => Proc.new {|oac, node|
+          oac['maintenance_agency'] = node.inner_text
+        }
+      }
+    }
+  end
+  
   def set_maintenance_agency(node)
-    ma_040 = node.search("//record/datafield[@tag='040']/subfield[@code='a']").inner_text
-    if !ma_040.empty?
-      agency = ma_040
+    # We're gonna save this for later because it matters for other_agency_code_map
+    @ma_040_a = node.search("//record/datafield[@tag='040']/subfield[@code='a']").inner_text
+    
+    if !@ma_040_a.empty?
+      agency = @ma_040_a
     else
       agency = node.search("//record/controlfield[@tag='003']").inner_text
     end
