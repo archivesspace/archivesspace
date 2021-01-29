@@ -737,7 +737,7 @@ module MarcXMLBaseMap
           resource.id_0 = id unless id.empty?
         },
 
-
+        # local LC-style identifer
         "datafield[@tag='090']" => -> resource, node {
           if resource.id_0.nil? or resource.id_0.empty?
             id = concatenate_subfields(('a'..'z'), node, '_')
@@ -745,6 +745,14 @@ module MarcXMLBaseMap
           end
         },
 
+        # local non-LC identifier
+        "datafield[@tag='099']" => -> resource, node {
+          if resource.id_0.nil? or resource.id_0.empty?
+            id = concatenate_subfields(('a'..'z'), node, '_')
+            resource.id_0 = id unless id.empty?
+          end
+        },
+        
         # description rules
         "datafield[@tag='040']/subfield[@code='e']" => :finding_aid_description_rules,
 
