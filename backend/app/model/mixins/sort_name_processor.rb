@@ -32,7 +32,7 @@ module SortNameProcessor
         elsif std
           s_type = date_json["structured_date_single"]["date_standardized_type"]
           date_substring = std
-          date_substring << " #{I18n.t('enumerations.date_standardized_type.' + s_type)}" unless s_type == "standard"
+          date_substring = "#{I18n.t('enumerations.date_standardized_type.' + s_type)} #{date_substring}" unless s_type == "standard"
         end
       elsif date_json["date_type_structured"] == "range"
         b_std = date_json["structured_date_range"]['begin_date_standardized']
@@ -52,11 +52,11 @@ module SortNameProcessor
         elsif b_exp
           date_substring = b_exp
         elsif b_std && e_std
-          b_std += " #{I18n.t('enumerations.date_standardized_type.' + b_s_type)}" unless b_s_type == "standard"
-          e_std += " #{I18n.t('enumerations.date_standardized_type.' + e_s_type)}" unless e_s_type == "standard"
+          b_std = "#{I18n.t('enumerations.date_standardized_type.' + b_s_type)} #{b_std}" unless b_s_type == "standard"
+          e_std = "#{I18n.t('enumerations.date_standardized_type.' + e_s_type)} #{e_std}" unless e_s_type == "standard"
           date_substring = b_std + "-" + e_std
         elsif b_std
-          b_std += " #{I18n.t('enumerations.date_standardized_type.' + b_s_type)}" unless b_s_type == "standard"
+          b_std = "#{I18n.t('enumerations.date_standardized_type.' + b_s_type)} #{b_std}" unless b_s_type == "standard"
           date_substring = b_std
         end
       end

@@ -170,7 +170,7 @@ describe 'Structured Date model' do
       expect(ar["names"].first["sort_name"] =~ /(2020)/).to be_truthy
     end
 
-    it "appends standardized date type if date expression is not present and sdt is not standard" do
+    it "adds standardized date type if date expression is not present and sdt is not standard" do
       ar = AgentPerson.to_jsonmodel(@agent.id)
 
       ar["dates_of_existence"].first["structured_date_single"]["date_standardized_type"] = "not_before"
@@ -179,10 +179,10 @@ describe 'Structured Date model' do
 
       ar.save
 
-      expect(ar["names"].first["sort_name"] =~ /(2020 Not Before)/).to be_truthy
+      expect(ar["names"].first["sort_name"] =~ /(Not Before 2020)/).to be_truthy
     end
 
-    it "appends date expressions for ranged dates" do
+    it "includes date expressions for ranged dates" do
       ar = AgentPerson.to_jsonmodel(@agent.id)
 
       sdr = attributes_for(:json_structured_date_label_range)
@@ -193,7 +193,7 @@ describe 'Structured Date model' do
       expect(ar["names"].first["sort_name"] =~ /Yesterday-Tomorrow/).to be_truthy
     end
 
-    it "appends standardized dates for ranged dates when expressions are blank" do
+    it "add standardized dates for ranged dates when expressions are blank" do
       ar = AgentPerson.to_jsonmodel(@agent.id)
 
       sdr = attributes_for(:json_structured_date_label_range_no_expression)
@@ -201,10 +201,10 @@ describe 'Structured Date model' do
       ar["dates_of_existence"] = [sdr]
       ar.save
 
-      expect(ar["names"].first["sort_name"] =~ /2019-2019 Not Before/).to be_truthy
+      expect(ar["names"].first["sort_name"] =~ /Not Before 2019/).to be_truthy
     end
 
-    it "does not append a date of existence when the name record has its own date" do
+    it "does not add a date of existence when the name record has its own date" do
       agent = build(:json_agent_person_full_subrec) 
       agent.save
 
