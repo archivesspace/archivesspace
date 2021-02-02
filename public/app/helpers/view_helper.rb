@@ -29,6 +29,14 @@ module ViewHelper
     dates + result.json['names'].map{|names| names['use_dates']}.flatten
   end
 
+  def display_date_type?(type)
+    type && type != 'standard'
+  end
+
+  def display_date_type(type, value)
+    "(" + I18n.t("enumerations.#{type}.#{value}") + ")"
+  end
+
   def nl2br(text)
     text = text.map{ |t| "<p>#{t}</p>" }.join if text.respond_to? :each
     sanitize(text).gsub(/\n/, '<br>').html_safe
