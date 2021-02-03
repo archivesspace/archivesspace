@@ -8,7 +8,7 @@ class AgentsController < ApplicationController
 
   before_action :assign_types
   before_action :set_structured_date_type, only: [:create, :update]
-  before_action :get_required
+  before_action :get_required, only: [:new, :create, :required]
 
   include ExportHelper
 

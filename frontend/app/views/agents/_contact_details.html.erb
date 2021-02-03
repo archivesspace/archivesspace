@@ -1,4 +1,4 @@
-<% r = @required.values %>
+<% r = @required ? @required.values : [] %>
 
 <%= render_aspace_partial :partial => "telephones/template" %>
 

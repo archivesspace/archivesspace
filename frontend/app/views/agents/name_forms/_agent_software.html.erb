@@ -1,4 +1,4 @@
-<% r = @required.values %>
+<% r = @required ? @required.values : [] %>
 
 <% define_template "name_software", jsonmodel_definition(:name_software) do |form| %>
   <div class="subrecord-form-fields">

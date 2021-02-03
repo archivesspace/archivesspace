@@ -1,4 +1,4 @@
-<% r = @required.values %>
+<% r = @required ? @required.values : [] %>
 
 <%= form.hidden_input "is_display_name", form["is_display_name"] ? 1 : 0 %>
 <div class="name-authority-fields">
