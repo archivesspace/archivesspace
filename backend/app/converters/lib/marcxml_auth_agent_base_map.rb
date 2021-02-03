@@ -56,7 +56,7 @@ module MarcXMLAuthAgentBaseMap
       "//record/datafield[@tag='024']" => agent_record_identifiers_base_map("//record/datafield[@tag='024']/subfield[@code='a']"),
       "//record/datafield[@tag='035']" => agent_record_identifiers_base_map("//record/datafield[@tag='035']/subfield[@code='a']"),
       "//record/datafield[@tag='040']/subfield[@code='e']" => convention_declaration_map,
-      "//record/datafield[@tag='046']" => dates_map('self'),
+      "//record/datafield[@tag='046']" => dates_map,
       "//record/datafield[@tag='370']/subfield[@code='a']" => place_of_birth_map,
       "//record/datafield[@tag='370']/subfield[@code='b']" => place_of_death_map,
       "//record/datafield[@tag='370']/subfield[@code='c']" => associated_country_map,
@@ -607,12 +607,12 @@ module MarcXMLAuthAgentBaseMap
     date
   end
 
-  def dates_map(base, rel = :dates_of_existence)
+  def dates_map(rel = :dates_of_existence)
   {
     :obj => :structured_date_label,
     :rel => rel,
     :map => {
-      "#{base}::datafield" => Proc.new {|sdl, node|
+      "self::datafield" => Proc.new {|sdl, node|
 
         date_begin = structured_date_for(node, ['f', 'q', 's'])
         date_end = structured_date_for(node, ['g', 'r', 't'])
@@ -657,9 +657,8 @@ module MarcXMLAuthAgentBaseMap
     :obj => :agent_place,
     :rel => :agent_places,
     :map => {
-      "self::subfield" => subject_map(subject_terms_map('geographic', 'a'),
-                                      sets_subject_source),
-      "parent::datafield/subfield[@code='s' or @code='t']" => dates_map('parent', :dates)
+      "self::subfield" => subject_map(subject_terms_map('geographic', 'a')),
+      "parent::datafield[descendant::subfield[@code='s' or @code='t']]" => dates_map(:dates)
     },
     :defaults => {
       :place_role => "place_of_birth"
@@ -672,9 +671,8 @@ module MarcXMLAuthAgentBaseMap
     :obj => :agent_place,
     :rel => :agent_places,
     :map => {
-      "self::subfield" => subject_map(subject_terms_map('geographic', 'b'),
-                                      sets_subject_source),
-      "parent::datafield/subfield[@code='s' or @code='t']" => dates_map('parent', :dates)
+      "self::subfield" => subject_map(subject_terms_map('geographic', 'b')),
+      "parent::datafield[descendant::subfield[@code='s' or @code='t']]" => dates_map(:dates)
     },
     :defaults => {
       :place_role => "place_of_death"
@@ -687,9 +685,8 @@ module MarcXMLAuthAgentBaseMap
     :obj => :agent_place,
     :rel => :agent_places,
     :map => {
-      "self::subfield" => subject_map(subject_terms_map('geographic', 'c'),
-                                      sets_subject_source),
-      "parent::datafield/subfield[@code='s' or @code='t']" => dates_map('parent', :dates)
+      "self::subfield" => subject_map(subject_terms_map('geographic', 'c')),
+      "parent::datafield[descendant::subfield[@code='s' or @code='t']]" => dates_map(:dates)
     },
     :defaults => {
       :place_role => "assoc_country"
@@ -702,9 +699,8 @@ module MarcXMLAuthAgentBaseMap
     :obj => :agent_place,
     :rel => :agent_places,
     :map => {
-      "self::subfield" => subject_map(subject_terms_map('geographic', 'e'),
-                                      sets_subject_source),
-      "parent::datafield/subfield[@code='s' or @code='t']" => dates_map('parent', :dates)
+      "self::subfield" => subject_map(subject_terms_map('geographic', 'e')),
+      "parent::datafield[descendant::subfield[@code='s' or @code='t']]" => dates_map(:dates)
     },
     :defaults => {
       :place_role => "residence"
@@ -717,9 +713,8 @@ module MarcXMLAuthAgentBaseMap
     :obj => :agent_place,
     :rel => :agent_places,
     :map => {
-      "self::subfield" => subject_map(subject_terms_map('geographic', 'f'),
-                                      sets_subject_source),
-      "parent::datafield/subfield[@code='s' or @code='t']" => dates_map('parent', :dates)
+      "self::subfield" => subject_map(subject_terms_map('geographic', 'f')),
+      "parent::datafield[descendant::subfield[@code='s' or @code='t']]" => dates_map(:dates)
     },
     :defaults => {
       :place_role => "other_assoc"
@@ -732,9 +727,8 @@ module MarcXMLAuthAgentBaseMap
     :obj => :agent_occupation,
     :rel => :agent_occupations,
     :map => {
-      "self::subfield" => subject_map(subject_terms_map('occupation', 'a'),
-                                      sets_subject_source),
-      "parent::datafield/subfield[@code='s' or @code='t']" => dates_map('parent', :dates)
+      "self::subfield" => subject_map(subject_terms_map('occupation', 'a')),
+      "parent::datafield[descendant::subfield[@code='s' or @code='t']]" => dates_map(:dates)
     }
   }
   end
@@ -744,9 +738,8 @@ module MarcXMLAuthAgentBaseMap
     :obj => :agent_topic,
     :rel => :agent_topics,
     :map => {
-      "self::subfield" => subject_map(subject_terms_map('topical', 'a'),
-                                      sets_subject_source),
-      "parent::datafield/subfield[@code='s' or @code='t']" => dates_map('parent', :dates)
+      "self::subfield" => subject_map(subject_terms_map('topical', 'a')),
+      "parent::datafield[descendant::subfield[@code='s' or @code='t']]" => dates_map(:dates)
     }
   }
   end
@@ -756,9 +749,8 @@ module MarcXMLAuthAgentBaseMap
     :obj => :agent_function,
     :rel => :agent_functions,
     :map => {
-      "self::subfield" => subject_map(subject_terms_map('function', 'a'),
-                                      sets_subject_source),
-      "parent::datafield/subfield[@code='s' or @code='t']" => dates_map('parent', :dates)
+      "self::subfield" => subject_map(subject_terms_map('function', 'a')),
+      "parent::datafield[descendant::subfield[@code='s' or @code='t']]" => dates_map(:dates)
     }
   }
   end
@@ -772,8 +764,7 @@ module MarcXMLAuthAgentBaseMap
         val = node.inner_text
         gender['gender'] = val
       },
-
-      "parent::datafield/subfield[@code='s' or @code='t']" => dates_map('parent', :dates)
+      "parent::datafield[descendant::subfield[@code='s' or @code='t']]" => dates_map(:dates)
     }
   }
   end
@@ -852,30 +843,40 @@ module MarcXMLAuthAgentBaseMap
   def subject_terms_map(term_type, subfield)
     Proc.new {|node|
       [{:term_type => term_type,
-       :term => node.at_xpath("subfield[@code='#{subfield}']").inner_text,
+       :term => node.inner_text,
        :vocabulary => '/vocabularies/1'}]
     }
   end
-
-  def sets_subject_source
-    Proc.new{|node|
-      !node.at_xpath("subfield[@code='2']").nil? ? node.at_xpath("subfield[@code='2']").inner_text : 'Source not specified'
-    }
-  end
+  
+  # Sometimes we need to create more than one subject from a MARC field with a
+  # subfield 0, but the subject creation will fail if you try to create
+  # subjects with duplicate authority ids. Only create an authority id for the
+  # first subject created, and leaves authority id blank
+  def set_auth_id(node)
+    siblings = node.search("./preceding-sibling::*[not(@code='0' or @code='2')]")
+    
+    if siblings.empty?
+      auth_id = node.parent.at_xpath("subfield[@code='0']").inner_text
+    end
+    
+    auth_id
+  end 
 
   # usually, rel will be :subjects, but in some cases it will be :places
-  def subject_map(terms, getsrc, rel = :subjects)
+  def subject_map(terms, rel = :subjects)
     {
       :obj => :subject,
       :rel => rel,
       :map => {
-        "parent::datafield" => Proc.new{|subject, node|
+        "self::subfield" => Proc.new{|subject, node|
           subject.publish = true
           subject.terms = terms.call(node)
-          subject.source = getsrc.call(node)
+          if !node.parent.at_xpath("subfield[@code='2']").nil?
+            subject.source = node.parent.at_xpath("subfield[@code='2']").inner_text
+          end
           subject.vocabulary = '/vocabularies/1'
-          if !node.at_xpath("subfield[@code='0']").nil?
-            subject.authority_id = node.at_xpath("subfield[@code='0']").inner_text
+          if !node.parent.at_xpath("subfield[@code='0']").nil?
+            subject.authority_id = set_auth_id(node)
           end
         }
       },
