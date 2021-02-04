@@ -182,7 +182,7 @@
 
           <% if @agent.notes.length > 0 || @victim.notes.length > 0 %>
             <h3><%= I18n.t("note._plural") %></h3>
-            <section id="agent_notes_left" class="merge-group">
+            <section id="agent_notes_left" class="merge-group merge-group-left merge-no-color">
                   <% if @agent.notes.length > 0 %>
                     <%= render_aspace_partial :partial => "notes/form_merge_target", :locals => {:form => form, :all_note_types => note_types_for(form['jsonmodel_type']), :section_id => "#{@agent.agent_type}_notes"} %>
                   <% end %>
@@ -400,7 +400,7 @@
 
           <% if @agent.notes.length > 0 || @victim.notes.length > 0 %>
            <h3><%= I18n.t("note._plural") %></h3>
-           <section id="agent_notes_right" class="merge-group merge-group-right">
+           <section id="agent_notes_right" class="merge-group merge-group-right merge-no-color">
                  <% if @victim.notes.length > 0 %>
                    <%= render_aspace_partial :partial => "notes/form_merge", :locals => {:form => form, :all_note_types => note_types_for(form['jsonmodel_type']), :section_id => "#{@agent.agent_type}_notes", :replace => false} %>
                  <% end %>
