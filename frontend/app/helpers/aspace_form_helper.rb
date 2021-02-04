@@ -671,6 +671,7 @@ module AspaceFormHelper
 
       @forms.tag("input", options.merge(opts), false, false)
     end
+    
     def radio(name, value, opts = {})
       options = {:id => "#{id_for(name)}", :type => "radio", :name => path(name), :value => value}
       options[:checked] = "checked" if obj[name] == value
@@ -807,6 +808,35 @@ module AspaceFormHelper
       html.html_safe
 
       end
+    end
+
+    # Same as above, but intended for use with an agents top level notes record instead of a subrecord, in the merge selector form.
+    # Needed because emitting templates as usual breaks the merge selector interface
+    def notes_preview_single(obj)
+      content_label = I18n.t("note._frontend.preview.content")
+      html = ""
+
+      notes_content = ""
+
+      obj['subnotes'].each do |subnote|
+        if subnote['jsonmodel_type'] == "note_text"
+          notes_content << subnote["content"] if subnote["content"]
+        end
+      end
+
+      html << "<br />"
+      html << "<section>"
+        html << "<div class='panel panel-default'>"
+          html << "<div class=\"form-group\">"
+            html << "<label class='control-label col-sm-2'>#{content_label}</label>"
+            html << "<div class='col-sm-9 label-only'>"
+              html << "#{notes_content}"
+            html << "</div>"
+          html << "</div>"
+        html << "</div>"
+      html << "</section>"
+
+      html.html_safe
     end
 
     # ANW-429

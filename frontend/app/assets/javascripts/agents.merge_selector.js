@@ -34,7 +34,7 @@ $(function() {
   $(function() {
     // disable reorder handle, but only for target side
     $('.merge-group-left .drag-handle').removeClass('drag-handle');
-
+    $('.merge-group-left .ui-sortable-handle').removeClass('ui-sortable-handle');
   });
 
   // run victim side code to color replaceable items
@@ -99,7 +99,9 @@ $(function() {
 
     // run for first time for all merge groups to color and enable all replacements
     $(".merge-group-left").each(function() {
-      find_replace_elements($(this));
+      if(!$(this).hasClass("merge-no-color")) {
+        find_replace_elements($(this));
+      }
     });
 
     // clicking on add hides replace and vice versa
