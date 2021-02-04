@@ -476,14 +476,12 @@ module EACBaseMap
         },
         'descendant::descriptiveNote' => proc { |dec, node|
           val = node.inner_text
-          val = val.empty? ? 'No descriptive note specified' : val
           dec[:descriptive_note] = val
         }
       },
       :defaults => {
         :citation => 'citation',
-        :name_rule => 'local',
-        :descriptive_note => 'No descriptive note specified'
+        :name_rule => 'local'
       }
     }
   end
@@ -504,7 +502,6 @@ module EACBaseMap
         },
         'descendant::descriptiveNote' => proc { |as, node|
           val = node.inner_text
-          val = val.empty? ? 'No descriptive note specified' : val
           as[:descriptive_note] = val
         },
         'descendant::componentEntry' => proc { |as, node|
@@ -513,7 +510,6 @@ module EACBaseMap
         }
       },
       :defaults => {
-        :descriptive_note => 'No descriptive note specified'
       }
     }
   end
@@ -544,12 +540,10 @@ module EACBaseMap
         },
         'descendant::eventDescription' => proc { |me, node|
           val = node.inner_text
-          val = val.empty? ? 'No descriptive note specified' : val
           me[:descriptive_note] = val
         }
       },
       :defaults => {
-        :descriptive_note => 'No descriptive note specified'
       }
     }
   end
@@ -574,12 +568,10 @@ module EACBaseMap
         },
         'descendant::descriptiveNote' => proc { |s, node|
           val = node.inner_text
-          val = val.empty? ? 'No descriptive note specified' : val
           s[:descriptive_note] = val
         }
       },
       :defaults => {
-        :descriptive_note => 'No descriptive note specified'
       }
     }
   end
