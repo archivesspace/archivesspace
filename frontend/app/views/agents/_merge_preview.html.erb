@@ -60,7 +60,7 @@
         <% end %>
 
         <% if @agent_type == :agent_person && @agent.agent_genders.length > 0 %>
-          <%= render_aspace_partial :partial => "agent_genders/show", :locals => { :agent_genders => @agent.agent_genders, :section_id => "#{@agent.agent_type}_agent_gender" } %>
+          <%= render_aspace_partial :partial => "agent_genders/show", :locals => { :agent_genders => @agent.agent_genders, :section_id => "#{@agent.agent_type}_agent_gender", :context => readonly } %>
         <% end %>
 
         <% if @agent.agent_places.length > 0 %>
