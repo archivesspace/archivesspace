@@ -52,10 +52,11 @@ describe 'MARC Auth Export' do
   end
 
   describe 'identity and record control tags' do
-    it 'exports to 010' do
+    it 'exports to, and does not duplicate, 010' do
       r = create(:json_agent_person_full_subrec,
                  agent_record_identifiers: [
                    build(:agent_record_identifier, primary_identifier: true),
+                   build(:agent_record_identifier, primary_identifier: false, identifier_type: 'loc'),
                    build(:agent_record_identifier, primary_identifier: false)
                  ])
 
@@ -63,6 +64,7 @@ describe 'MARC Auth Export' do
 
       marc = get_marc_auth(r)
 
+      expect(marc.xpath('//datafield[@tag=010]').count).to eq 1
       expect(marc.xpath('//datafield[@tag=010]').to_s).to match(/#{loc_ids.first['record_identifier']}/)
     end
 
@@ -79,9 +81,10 @@ describe 'MARC Auth Export' do
       expect(marc.xpath('//datafield[@tag=016]').to_s).to match(/#{lac_ids.first['record_identifier']}/)
     end
 
-    it 'exports to 024' do
+    it 'exports to 024 and can export multiple' do
       r = create(:json_agent_person_full_subrec,
                  agent_record_identifiers: [
+                   build(:agent_record_identifier, primary_identifier: true, identifier_type: 'other_unmapped'),
                    build(:agent_record_identifier, primary_identifier: true, identifier_type: 'other_unmapped')
                  ])
 
@@ -89,6 +92,7 @@ describe 'MARC Auth Export' do
 
       marc = get_marc_auth(r)
 
+      expect(marc.xpath('//datafield[@tag=024]').count).to eq 2
       expect(marc.xpath('//datafield[@tag=024]').to_s).to match(/#{other_ids.first['record_identifier']}/)
     end
 
@@ -136,9 +140,6 @@ describe 'MARC Auth Export' do
     after(:all) do
       as_test_user('admin') do
         @rec.delete
-
-        $repo_id = $old_repo_id
-        JSONModel.set_repository($repo_id)
       end
     end
 
@@ -187,9 +188,6 @@ describe 'MARC Auth Export' do
     after(:all) do
       as_test_user('admin') do
         @rec.delete
-
-        $repo_id = $old_repo_id
-        JSONModel.set_repository($repo_id)
       end
     end
 
@@ -271,9 +269,6 @@ describe 'MARC Auth Export' do
     after(:all) do
       as_test_user('admin') do
         @rec.delete
-
-        $repo_id = $old_repo_id
-        JSONModel.set_repository($repo_id)
       end
     end
 
@@ -288,7 +283,6 @@ describe 'MARC Auth Export' do
 
     it 'maps unauthorized name to 400 tag' do
       marc = get_marc_auth(@rec)
-
       primary = @rec['names'].select { |n| n['authorized'] == true }.first
       expect(marc.xpath('//datafield[@tag=100]').to_s).to match(/#{primary['family_name']}/)
       expect(marc.xpath('//datafield[@tag=100]').to_s).to match(/#{primary['dates']}/)
@@ -299,30 +293,29 @@ describe 'MARC Auth Export' do
   describe 'descriptive subrecords' do
     describe 'subject linked subrecords' do
       it 'exports agent_places' do
-        rec = create(:json_agent_person_full_subrec)
+        rec = create(:json_agent_person_full_subrec,
+                     agent_places: [build(:json_agent_place), build(:json_agent_place)])
         marc = get_marc_auth(rec)
-
+        # check that we exported both place subjects (this applies for any subject subrecord)
+        expect(marc.xpath('//datafield[@tag=370]').count).to eq 2
         expect(marc.xpath('//datafield[@tag=370]').to_s).to_not be_nil
       end
 
       it 'exports agent_occupations' do
         rec = create(:json_agent_person_full_subrec)
         marc = get_marc_auth(rec)
-
         expect(marc.xpath('//datafield[@tag=374]').to_s).to_not be_nil
       end
 
       it 'exports agent_functions' do
         rec = create(:json_agent_person_full_subrec)
         marc = get_marc_auth(rec)
-
         expect(marc.xpath('//datafield[@tag=372]').to_s).to_not be_nil
       end
 
       it 'exports agent_topics' do
         rec = create(:json_agent_person_full_subrec)
         marc = get_marc_auth(rec)
-
         expect(marc.xpath('//datafield[@tag=372]').to_s).to_not be_nil
       end
     end
@@ -331,7 +324,6 @@ describe 'MARC Auth Export' do
       it 'exports used_languages' do
         rec = create(:json_agent_person_full_subrec)
         marc = get_marc_auth(rec)
-
         expect(marc.xpath('//datafield[@tag=372]').to_s).to_not be_nil
       end
     end
@@ -382,19 +374,16 @@ describe 'MARC Auth Export' do
 
     it 'creates a 678 tag for bioghist note' do
       marc = get_marc_auth(@rec)
-
       expect(marc.xpath('//datafield[@tag=678]').to_s).to_not be_nil
     end
 
     it "creates an 'a' subfield tag for abstract subnote" do
       marc = get_marc_auth(@rec)
-
       expect(marc.xpath("//datafield[@tag=678]/subnote[@code='a']").to_s).to_not be_nil
     end
 
     it "creates an 'b' subfield tag for content subnote" do
       marc = get_marc_auth(@rec)
-
       expect(marc.xpath("//datafield[@tag=678]/subnote[@code='b']").to_s).to_not be_nil
     end
   end
@@ -402,16 +391,12 @@ describe 'MARC Auth Export' do
   describe 'agent relationships' do
     it 'maps related agents' do
       rec = create(:json_agent_person_full_subrec)
-
       relationship = JSONModel(:agent_relationship_parentchild).new
       relationship.relator = 'is_child_of'
       relationship.ref = rec.uri
-
-      linked_agent = create(:json_agent_person,
-                            related_agents: [relationship.to_hash])
-
+      create(:json_agent_person,
+             related_agents: [relationship.to_hash])
       marc = get_marc_auth(rec)
-
       expect(marc.xpath('//datafield[@tag=500]').to_s).to_not be_nil
     end
   end

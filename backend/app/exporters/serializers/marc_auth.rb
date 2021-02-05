@@ -12,28 +12,6 @@ class MARCAuthSerializer < ASpaceExport::Serializer
 
   private
 
-  # wrapper around nokogiri that creates a node without empty attrs and nodes
-  # def create_node(xml, node_name, attrs, text)
-  #   unless text.nil? || text.empty?
-  #     attrs = attrs.reject {|k, v| v.nil? }
-  #     xml.send(node_name, attrs) {
-  #       xml.text text
-  #     }
-  #   end
-  # end
-
-  # def filled_out?(values, mode = :some)
-  #   if mode == :all
-  #     values.inject {|memo, v| memo && (!v.nil? && !v.empty?) }
-  #   else mode == :some
-  #     values.inject {|memo, v| memo || (!v.nil? && !v.empty?) }
-  #   end
-  # end
-
-  # def clean_attrs(attrs)
-  #   attrs.reject {|k, v| v.nil? }
-  # end
-
   def _marc(obj, xml)
     json = obj.json
     xml.collection(
@@ -45,7 +23,7 @@ class MARCAuthSerializer < ASpaceExport::Serializer
       xml.record do
         _leader(json, xml)
         _controlfields(json, xml)
-        ids(json, xml)
+        record_ids(json, xml)
         record_control(json, xml)
         dates_of_existence(json, xml)
         names(json, xml)
@@ -115,16 +93,13 @@ class MARCAuthSerializer < ASpaceExport::Serializer
 
     if json['agent_record_controls']&.any?
       arc = json['agent_record_controls'].first
-
       xml.controlfield(tag: '003') do
         xml.text arc['maintenance_agency']
       end
     end
 
     if json['agent_maintenance_histories']&.any?
-
       most_recent = json['agent_maintenance_histories'].min { |a, b| b['event_date'] <=> a['event_date'] }
-
       xml.controlfield(tag: '005') do
         xml.text most_recent['event_date'].strftime('%Y%m%d%H%M%S.f')
       end
@@ -274,55 +249,37 @@ class MARCAuthSerializer < ASpaceExport::Serializer
     end
   end
 
-  def ids(json, xml)
-    if json['agent_record_identifiers']&.any?
-      loc_ids = json['agent_record_identifiers'].select { |ari| ari['identifier_type'] == 'loc' }
-      lac_ids = json['agent_record_identifiers'].select { |ari| ari['identifier_type'] == 'lac' }
-      local_ids = json['agent_record_identifiers'].select { |ari| ari['identifier_type'] == 'local' }
-      other_ids = json['agent_record_identifiers'].reject { |ari| ['loc', 'lac', 'local'].include?(ari['identifier_type']) }
+  def record_ids(json, xml)
+    return unless json['agent_record_identifiers']&.any?
 
-      if loc_ids.any?
-        xml.datafield(tag: '010', ind1: ' ', ind2: ' ') do
-          xml.subfield(code: 'a') do
-            xml.text loc_ids.first['record_identifier']
-          end
-        end
+    identifiers = json['agent_record_identifiers']
+    props = ['identifier_type']
+
+    with_value(identifiers, props, 'loc') do |record|
+      xml.datafield(tag: '010', ind1: ' ', ind2: ' ') do
+        subf('a', record['record_identifier'], xml)
       end
+      break # Field is Not-Repeatable
+    end
 
-      if lac_ids.any?
-        xml.datafield(tag: '016', ind1: '7', ind2: ' ') do
-          xml.subfield(code: 'a') do
-            xml.text lac_ids.first['record_identifier']
-          end
-
-          xml.subfield(code: '2') do
-            xml.text lac_ids.first['source']
-          end
-        end
+    with_value(identifiers, props, 'lac') do |record|
+      xml.datafield(tag: '016', ind1: '7', ind2: ' ') do
+        subf('a', record['record_identifier'], xml)
+        subf('2', record['source'], xml)
       end
+    end
 
-      if other_ids.any?
-        xml.datafield(tag: '024', ind1: '7', ind2: ' ') do
-          xml.subfield(code: 'a') do
-            xml.text other_ids.first['record_identifier']
-          end
-
-          xml.subfield(code: '2') do
-            xml.text other_ids.first['source']
-          end
-        end
+    without_values(identifiers, props, ['loc', 'lac', 'local']) do |record|
+      xml.datafield(tag: '024', ind1: '7', ind2: ' ') do
+        subf('a', record['record_identifier'], xml)
+        subf('2', record['source'], xml)
       end
+    end
 
-      if local_ids.any?
-        xml.datafield(tag: '035', ind1: ' ', ind2: ' ') do
-          xml.subfield(code: 'a') do
-            xml.text local_ids.first['record_identifier']
-          end
-
-          xml.subfield(code: '2') do
-            xml.text local_ids.first['source']
-          end
-        end
+    with_value(identifiers, props, 'local') do |record|
+      xml.datafield(tag: '035', ind1: ' ', ind2: ' ') do
+        subf('a', record['record_identifier'], xml)
+        subf('2', record['source'], xml)
       end
     end
   end
@@ -342,23 +299,9 @@ class MARCAuthSerializer < ASpaceExport::Serializer
 
     if a_value || b_value || e_value
       xml.datafield(tag: '040', ind1: ' ', ind2: ' ') do
-        if a_value
-          xml.subfield(code: 'a') do
-            xml.text a_value
-          end
-        end
-
-        if b_value
-          xml.subfield(code: 'b') do
-            xml.text b_value
-          end
-        end
-
-        if e_value
-          xml.subfield(code: 'e') do
-            xml.text e_value
-          end
-        end
+        subf('a', a_value, xml)
+        subf('b', b_value, xml)
+        subf('e', e_value, xml)
       end
     end
   end
@@ -391,14 +334,7 @@ class MARCAuthSerializer < ASpaceExport::Serializer
     end
 
     # all other names and parallel names are put in 400 tags
-    not_primary.each do |n|
-      ind1 = n['name_order'] == 'indirect' ? '1' : '0'
-      xml.datafield(tag: '400', ind1: ind1, ind2: ' ') do
-        person_name_subtags(n, xml)
-      end
-    end
-
-    parallel.each do |n|
+    (not_primary + parallel).each do |n|
       ind1 = n['name_order'] == 'indirect' ? '1' : '0'
       xml.datafield(tag: '400', ind1: ind1, ind2: ' ') do
         person_name_subtags(n, xml)
@@ -407,43 +343,15 @@ class MARCAuthSerializer < ASpaceExport::Serializer
   end
 
   def person_name_subtags(name, xml)
-    xml.subfield(code: 'a') do
-      if name['rest_of_name']
-        xml.text name['primary_name'] + ',' + name['rest_of_name']
-      else
-        xml.text name['primary_name']
-      end
-    end
-
-    if name['number']
-      xml.subfield(code: 'b') do
-        xml.text name['number']
-      end
-    end
-
-    if name['title']
-      xml.subfield(code: 'c') do
-        xml.text name['title']
-      end
-    end
-
-    if name['dates']
-      xml.subfield(code: 'd') do
-        xml.text name['dates']
-      end
-    end
-
-    if name['qualifier']
-      xml.subfield(code: 'g') do
-        xml.text name['qualifier']
-      end
-    end
-
-    if name['fuller_form']
-      xml.subfield(code: 'q') do
-        xml.text name['fuller_form']
-      end
-    end
+    primary = name['rest_of_name'] ? "#{name['primary_name']}, #{name['rest_of_name']}" : name['primary_name']
+    subf('w', 'r', xml) if name['relator']
+    subf('i', name['relator'], xml)
+    subf('a', primary, xml)
+    subf('b', name['number'], xml)
+    subf('c', name['title'], xml)
+    subf('d', name['dates'], xml)
+    subf('g', name['qualifier'], xml)
+    subf('q', name['fuller_form'], xml)
   end
 
   def names_family(primary, not_primary, parallel, xml)
@@ -455,13 +363,7 @@ class MARCAuthSerializer < ASpaceExport::Serializer
     end
 
     # all other names and parallel names are put in 400 tags
-    not_primary.each do |n|
-      xml.datafield(tag: '400', ind1: '3', ind2: ' ') do
-        family_name_subtags(n, xml)
-      end
-    end
-
-    parallel.each do |n|
+    (not_primary + parallel).each do |n|
       xml.datafield(tag: '400', ind1: '3', ind2: ' ') do
         family_name_subtags(n, xml)
       end
@@ -469,29 +371,13 @@ class MARCAuthSerializer < ASpaceExport::Serializer
   end
 
   def family_name_subtags(name, xml)
-    xml.subfield(code: 'a') do
-      xml.text name['family_name']
-    end
-
-    if name['qualifier']
-      xml.subfield(code: 'b') do
-        xml.text name['qualifier']
-      end
-
-      xml.subfield(code: 'c') do
-        xml.text name['qualifier']
-      end
-
-      xml.subfield(code: 'g') do
-        xml.text name['qualifier']
-      end
-    end
-
-    if name['dates']
-      xml.subfield(code: 'd') do
-        xml.text name['dates']
-      end
-    end
+    subf('w', 'r', xml) if name['relator']
+    subf('i', name['relator'], xml)
+    subf('a', name['family_name'], xml)
+    subf('b', name['number'], xml)
+    subf('c', name['prefix'], xml)
+    subf('d', name['dates'], xml)
+    subf('g', name['qualifier'], xml)
   end
 
   def names_corporate_entity(primary, not_primary, parallel, xml)
@@ -508,19 +394,7 @@ class MARCAuthSerializer < ASpaceExport::Serializer
     end
 
     # all other names and parallel names are put in 400 tags
-    not_primary.each do |n|
-      if n['conference_meeting'] == true
-        xml.datafield(tag: '411', ind1: '2', ind2: ' ') do
-          corporate_name_subtags(n, xml)
-        end
-      else
-        xml.datafield(tag: '410', ind1: '2', ind2: ' ') do
-          corporate_name_subtags(n, xml)
-        end
-      end
-    end
-
-    parallel.each do |n|
+    (not_primary + parallel).each do |n|
       if n['conference_meeting'] == true
         xml.datafield(tag: '411', ind1: '2', ind2: ' ') do
           corporate_name_subtags(n, xml)
@@ -534,61 +408,28 @@ class MARCAuthSerializer < ASpaceExport::Serializer
   end
 
   def corporate_name_subtags(name, xml)
-    xml.subfield(code: 'a') do
-      xml.text name['primary_name']
-    end
-
-    if name['subordinate_name_1']
-      xml.subfield(code: 'b') do
-        xml.text name['subordinate_name_1']
-      end
-    end
-
-    if name['subordinate_name_2']
-      xml.subfield(code: 'q') do
-        xml.text name['subordinate_name_2']
-      end
-    end
-
-    if name['location']
-      xml.subfield(code: 'c') do
-        xml.text name['location']
-      end
-    end
-
-    if name['dates']
-      xml.subfield(code: 'd') do
-        xml.text name['dates']
-      end
-    end
-
-    if name['number']
-      xml.subfield(code: 'n') do
-        xml.text name['number']
-      end
-    end
-
-    if name['qualifier']
-      xml.subfield(code: 'g') do
-        xml.text name['qualifier']
-      end
-    end
+    subf('w', 'r', xml) if name['relator']
+    subf('i', name['relator'], xml)
+    subf('a', name['primary_name'], xml)
+    subf('b', name['subordinate_name_1'], xml)
+    subf('q', name['subordinate_name_2'], xml)
+    subf('n', name['number'], xml)
+    subf('d', name['dates'], xml)
+    subf('c', name['location'], xml)
+    subf('g', name['qualifier'], xml)
   end
 
   def dates_of_existence(json, xml)
-    if json['dates_of_existence']&.any?
-      json['dates_of_existence'].each do |doe|
-        if agent_type(json) == :person
-          begin_code = 'f'
-          end_code = 'g'
-        elsif agent_type(json) == :family || agent_type(json) == :corp
-          begin_code = 's'
-          end_code = 't'
-        end
-
-        xml.datafield(tag: '046', ind1: ' ', ind2: ' ') do
-          dates_standardized(doe, begin_code, end_code, xml)
-        end
+    json['dates_of_existence'].each do |doe|
+      if agent_type(json) == :person
+        begin_code = 'f'
+        end_code = 'g'
+      elsif agent_type(json) == :family || agent_type(json) == :corp
+        begin_code = 's'
+        end_code = 't'
+      end
+      xml.datafield(tag: '046', ind1: ' ', ind2: ' ') do
+        dates(doe, begin_code, end_code, xml)
       end
     end
   end
@@ -596,225 +437,108 @@ class MARCAuthSerializer < ASpaceExport::Serializer
   def dates(structured_date, begin_code, end_code, xml)
     if structured_date['date_type_structured'] == 'single'
       begin_date = structured_date['structured_date_single']['date_expression'] || structured_date['structured_date_single']['date_standardized']
+      end_date = nil
     elsif structured_date['date_type_structured'] == 'range'
       begin_date = structured_date['structured_date_range']['begin_date_expression'] || structured_date['structured_date_range']['begin_date_standardized']
       end_date = structured_date['structured_date_range']['end_date_expression'] || structured_date['structured_date_range']['end_date_standardized']
     end
-
-    xml.subfield(code: begin_code) do
-      xml.text begin_date
-    end
-
-    if end_date
-      xml.subfield(code: end_code) do
-        xml.text end_date
-      end
-    end
+    subf(begin_code, begin_date, xml)
+    subf(end_code, end_date, xml)
   end
 
-  # similar to above method, but only outputs standardized dates
-  def dates_standardized(structured_date, begin_code, end_code, xml)
-    if structured_date['date_type_structured'] == 'single'
-      begin_date = structured_date['structured_date_single']['date_standardized']
-    elsif structured_date['date_type_structured'] == 'range'
-      begin_date = structured_date['structured_date_range']['begin_date_standardized']
-      end_date = structured_date['structured_date_range']['end_date_standardized']
-    end
-
-    if begin_date
-      xml.subfield(code: begin_code) do
-        xml.text begin_date
-      end
-    end
-
-    if end_date
-      xml.subfield(code: end_code) do
-        xml.text end_date
-      end
+  def subject_subrecord(record, title_subfield, xml)
+    record['subjects'].each do |subject|
+      subf(title_subfield, subject['_resolved']['title'], xml)
+      # each subject gets the date info. from the first date subcrecord only
+      dates(record['dates'].first, 's', 't', xml) if record['dates'].any?
+      subf('0', subject['_resolved']['authority_id'], xml)
+      subf('2', subject['_resolved']['source'], xml)
     end
   end
 
   def places(json, xml)
-    if json['agent_places'].any?
-      json['agent_places'].each do |place|
-        xml.datafield(tag: '370', ind1: ' ', ind2: ' ') do
-          case place['place_role']
-          when 'place_of_birth'
-            subfield_code = 'a'
-          when 'place_of_death'
-            subfield_code = 'b'
-          when 'assoc_country'
-            subfield_code = 'a'
-          when 'residence'
-            subfield_code = 'd'
-          when 'other_assoc'
-            subfield_code = 'f'
-          end
-
-          xml.subfield(code: subfield_code) do
-            xml.text place['subjects'].first['_resolved']['title']
-          end
-
-          dates(place['dates'].first, 's', 't', xml) if place['dates'].any?
-
-          if place['subjects'].first['_resolved']['authority_id']
-            xml.subfield(code: '2') do
-              xml.text place['subjects'].first['_resolved']['authority_id']
-            end
-          end
-        end
+    json['agent_places'].each do |place|
+      case place['place_role']
+      when 'place_of_birth'
+        subfield_code = 'a'
+      when 'place_of_death'
+        subfield_code = 'b'
+      when 'assoc_country'
+        subfield_code = 'a'
+      when 'residence'
+        subfield_code = 'd'
+      when 'other_assoc'
+        subfield_code = 'f'
       end
-    end
-  end
-
-  def occupations(json, xml)
-    if json['agent_occupations'].any?
-      json['agent_occupations'].each do |occupation|
-        xml.datafield(tag: '374', ind1: ' ', ind2: ' ') do
-          xml.subfield(code: 'a') do
-            xml.text occupation['subjects'].first['_resolved']['title']
-          end
-
-          if occupation['dates'].any?
-            dates(occupation['dates'].first, 's', 't', xml)
-          end
-
-          if occupation['subjects'].first['_resolved']['authority_id']
-            xml.subfield(code: '2') do
-              xml.text occupation['subjects'].first['_resolved']['authority_id']
-            end
-          end
-        end
-      end
-    end
-  end
-
-  def topics(json, xml)
-    if json['agent_topics'].any?
-      json['agent_topics'].each do |topic|
-        xml.datafield(tag: '372', ind1: ' ', ind2: ' ') do
-          xml.subfield(code: 'a') do
-            xml.text topic['subjects'].first['_resolved']['title']
-          end
-
-          dates(topic['dates'].first, 's', 't', xml) if topic['dates'].any?
-
-          if topic['subjects'].first['_resolved']['authority_id']
-            xml.subfield(code: '2') do
-              xml.text topic['subjects'].first['_resolved']['authority_id']
-            end
-          end
-        end
+      xml.datafield(tag: '370', ind1: ' ', ind2: ' ') do
+        subject_subrecord(place, subfield_code, xml)
       end
     end
   end
 
   def functions(json, xml)
-    if json['agent_functions'].any?
-      json['agent_functions'].each do |function|
-        xml.datafield(tag: '372', ind1: ' ', ind2: ' ') do
-          xml.subfield(code: 'a') do
-            xml.text function['subjects'].first['_resolved']['title']
-          end
+    json['agent_functions'].each do |function|
+      xml.datafield(tag: '372', ind1: ' ', ind2: ' ') do
+        subject_subrecord(function, 'a', xml)
+      end
+    end
+  end
 
-          if function['dates'].any?
-            dates(function['dates'].first, 's', 't', xml)
-          end
+  def topics(json, xml)
+    json['agent_topics'].each do |topic|
+      xml.datafield(tag: '372', ind1: ' ', ind2: ' ') do
+        subject_subrecord(topic, 'a', xml)
+      end
+    end
+  end
 
-          if function['subjects'].first['_resolved']['authority_id']
-            xml.subfield(code: '2') do
-              xml.text function['subjects'].first['_resolved']['authority_id']
-            end
-          end
-        end
+  def occupations(json, xml)
+    json['agent_occupations'].each do |occupation|
+      xml.datafield(tag: '374', ind1: ' ', ind2: ' ') do
+        subject_subrecord(occupation, 'a', xml)
       end
     end
   end
 
   def gender(json, xml)
-    if json['agent_genders'].any?
-      json['agent_genders'].each do |gender|
-        xml.datafield(tag: '375', ind1: ' ', ind2: ' ') do
-          xml.subfield(code: 'a') do
-            xml.text gender['gender']
-          end
-
-          dates(gender['dates'].first, 's', 't', xml) if gender['dates'].any?
-        end
+    json['agent_genders'].each do |gender|
+      xml.datafield(tag: '375', ind1: ' ', ind2: ' ') do
+        subf('a', gender['gender'], xml)
+        dates(gender['dates'].first, 's', 't', xml) if gender['dates'].any?
       end
     end
   end
 
   def used_languages(json, xml)
-    if json['used_languages'].any?
-      json['used_languages'].each do |lang|
-        xml.datafield(tag: '377', ind1: ' ', ind2: '7') do
-          xml.subfield(code: 'a') do
-            xml.text lang['language']
-          end
-
-          xml.subfield(code: '2') do
-            xml.text 'iso639-2b'
-          end
-        end
+    json['used_languages'].each do |lang|
+      xml.datafield(tag: '377', ind1: ' ', ind2: '7') do
+        subf('a', lang['language'], xml)
+        subf('2', 'iso639-2b', xml)
       end
     end
   end
 
   def sources(json, xml)
-    if json['agent_sources'].any?
-      json['agent_sources'].each do |source|
-        xml.datafield(tag: '670', ind1: ' ', ind2: ' ') do
-          if source['source_entry']
-            xml.subfield(code: 'a') do
-              xml.text source['source_entry']
-            end
-          end
-
-          if source['descriptive_note']
-            xml.subfield(code: 'b') do
-              xml.text source['descriptive_note']
-            end
-          end
-
-          if source['file_uri']
-            xml.subfield(code: 'u') do
-              xml.text source['file_uri']
-            end
-          end
-        end
+    json['agent_sources'].each do |source|
+      xml.datafield(tag: '670', ind1: ' ', ind2: ' ') do
+        subf('a', source['source_entry'], xml)
+        subf('a', source['descriptive_note'], xml)
+        subf('u', source['file_uri'], xml)
       end
     end
   end
 
   def notes(json, xml)
-    if json['notes'].any?
-      bioghist_notes = json['notes'].select { |n| n['jsonmodel_type'] == 'note_bioghist' }
-
-      bioghist_notes.each do |note|
-        abstract = note['subnotes'].select { |n| n['jsonmodel_type'] == 'note_abstract' }
-        text = note['subnotes'].select { |n| n['jsonmodel_type'] == 'note_text' }
-
-        ind1 = if agent_type(json) == :person || agent_type(json) == :family_name
-                 '0'
-               else
-                 '1'
-               end
-
-        xml.datafield(tag: '678', ind1: ind1, ind2: ' ') do
-          if abstract.any?
-            xml.subfield(code: 'a') do
-              content = clean_text(abstract.first['content'].first)
-              xml.text content
-            end
-          end
-
-          if text.any?
-            xml.subfield(code: 'b') do
-              content = clean_text(text.first['content'])
-              xml.text content
-            end
-          end
+    with_value(json['notes'], 'jsonmodel_type', 'note_bioghist') do |note|
+      ind1 = agent_type(json) == :person || agent_type(json) == :family_name ? '0' : '1'
+      xml.datafield(tag: '678', ind1: ind1, ind2: ' ') do
+        with_value(note['subnotes'], 'jsonmodel_type', 'note_abstract') do |abstract|
+          content = abstract.respond_to?(:key) ? abstract['content'].first : abstract.first['content'].first
+          subf('a', clean_text(content), xml)
+        end
+        with_value(note['subnotes'], 'jsonmodel_type', 'note_text') do |text|
+          content = text.respond_to?(:key) ? text['content'] : text.first['content']
+          subf('b', clean_text(content), xml)
         end
       end
     end
@@ -824,41 +548,33 @@ class MARCAuthSerializer < ASpaceExport::Serializer
   def clean_text(text)
     text.gsub!(/\r\n/, '')
     text.gsub!(/\r/, '')
-
     text
   end
 
   def relationships(json, xml)
-    if json['related_agents']&.any?
-      json['related_agents'].each do |ra|
-        agent = ra['_resolved']
-
-        case agent['jsonmodel_type']
-        when 'agent_person'
-          primary = agent['names'].select { |n| n['authorized'] == true }.first
-          ind1 = primary['name_order'] == 'indirect' ? '1' : '0'
-          xml.datafield(tag: '500', ind1: ind1, ind2: ' ') do
-            person_name_subtags(primary, xml)
+    json['related_agents'].each do |ra|
+      agent = ra['_resolved']
+      primary = agent['names'].select { |n| n['authorized'] == true }.first
+      # smuggle in the relator info. for this relationship
+      primary['relator'] = I18n.t("enumerations.#{ra['jsonmodel_type']}_relator.#{ra['relator']}")
+      case agent['jsonmodel_type']
+      when 'agent_person'
+        ind1 = primary['name_order'] == 'indirect' ? '1' : '0'
+        xml.datafield(tag: '500', ind1: ind1, ind2: ' ') do
+          person_name_subtags(primary, xml)
+        end
+      when 'agent_family'
+        xml.datafield(tag: '500', ind1: '3', ind2: ' ') do
+          family_name_subtags(primary, xml)
+        end
+      when 'agent_corporate_entity'
+        if primary['conference_meeting'] == true
+          xml.datafield(tag: '511', ind1: '2', ind2: ' ') do
+            corporate_name_subtags(primary, xml)
           end
-
-        when 'agent_family'
-          primary = agent['names'].select { |n| n['authorized'] == true }.first
-
-          xml.datafield(tag: '500', ind1: '3', ind2: ' ') do
-            family_name_subtags(primary, xml)
-          end
-
-        when 'agent_corporate_entity'
-          primary = agent['names'].select { |n| n['authorized'] == true }.first
-
-          if primary['conference_meeting'] == true
-            xml.datafield(tag: '511', ind1: '2', ind2: ' ') do
-              corporate_name_subtags(primary, xml)
-            end
-          else
-            xml.datafield(tag: '510', ind1: '2', ind2: ' ') do
-              corporate_name_subtags(primary, xml)
-            end
+        else
+          xml.datafield(tag: '510', ind1: '2', ind2: ' ') do
+            corporate_name_subtags(primary, xml)
           end
         end
       end
@@ -873,16 +589,12 @@ class MARCAuthSerializer < ASpaceExport::Serializer
   # System URI
   def agent_id(json)
     names_with_auth_id = json['names'].select { |n| !n['authority_id'].nil? && !n['authority_id'].empty? }
-
     if json['agent_record_identifiers'].any?
       json['agent_record_identifiers'].first['record_identifier']
-
     elsif json['agent_identifiers'].any?
       json['agent_identifiers'].first['agent_identifier']
-
     elsif names_with_auth_id.any?
       names_with_auth_id.first['authority_id']
-
     else
       "#{AppConfig[:public_proxy_url]}#{json['uri']}"
     end
@@ -896,6 +608,40 @@ class MARCAuthSerializer < ASpaceExport::Serializer
       :family
     when 'agent_corporate_entity'
       :corp
+    end
+  end
+
+  def subf(code, value, xml)
+    return unless code && value
+
+    xml.subfield(code: code) do
+      xml.text value
+    end
+  end
+
+  def with(collection, properties)
+    Array(properties).each do |prop|
+      collection.each do |coll|
+        yield coll, prop if coll[prop]
+      end
+    end
+  end
+
+  def with_value(collection, properties, value)
+    with(collection, properties) do |coll, prop|
+      yield coll if coll[prop] == value
+    end
+  end
+
+  def with_values(collection, properties, values)
+    with(collection, properties) do |coll, prop|
+      yield coll if values.include? coll[prop]
+    end
+  end
+
+  def without_values(collection, properties, values)
+    with(collection, properties) do |coll, prop|
+      yield coll unless values.include? coll[prop]
     end
   end
 end
