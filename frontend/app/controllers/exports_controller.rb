@@ -64,7 +64,7 @@ class ExportsController < ApplicationController
 
   def download_marc_auth
     download_export(
-      "/repositories/#{JSONModel::repository}/marc_auth/#{params[:type].sub(/^agent_/, '').pluralize}/#{params[:id]}.xml")
+      "/repositories/#{JSONModel::repository}/agents/#{params[:type].sub(/^agent_/, '').pluralize}/marc21/#{params[:id]}.xml")
   end
 
   def print_to_pdf
