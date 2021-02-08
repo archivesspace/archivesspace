@@ -60,8 +60,8 @@ module EACBaseMap
       '//eac-cpf/cpfDescription/identity/entityId' => agent_identifier_map,
       '//eac-cpf/cpfDescription/description/existDates//date' => agent_date_single_map('existence', :dates_of_existence),
       '//eac-cpf/cpfDescription/description/existDates//dateRange' => agent_date_range_map('existence', :dates_of_existence),
-      '//places/place' => agent_place_map,
-      '//occupations/occupation' => agent_occupation_map,
+      '//place' => agent_place_map,
+      '//occupation' => agent_occupation_map,
       '//functions/function' => agent_function_map,
       "//localDescription[contains(@localType, 'subject') or contains(@localType, 'Subject')]" => agent_topic_map,
       '//eac-cpf//biogHist' => agent_bioghist_note_map,
@@ -719,8 +719,7 @@ module EACBaseMap
       },
 
       'descendant::placeEntry' => subject_map('self::placeEntry',
-                                              subject_terms_map('geographic'),
-                                              subject_source_map),
+                                              subject_terms_map('geographic')),
 
       'descendant::date' => agent_date_single_map,
 
@@ -740,8 +739,7 @@ module EACBaseMap
     :map => {
 
       'descendant::term' => subject_map('self::term',
-                                        subject_terms_map('occupation'),
-                                        subject_source_map),
+                                        subject_terms_map('occupation')),
 
       'descendant::date' => agent_date_single_map,
 
@@ -761,8 +759,7 @@ module EACBaseMap
     :map => {
 
       'descendant::term' => subject_map('self::term',
-                                        subject_terms_map('function'),
-                                        subject_source_map),
+                                        subject_terms_map('function')),
 
       'descendant::date' => agent_date_single_map,
 
@@ -782,8 +779,7 @@ module EACBaseMap
     :map => {
 
       'descendant::term' => subject_map('self::term',
-                                        subject_terms_map('topical'),
-                                        subject_source_map),
+                                        subject_terms_map('topical')),
 
       'descendant::date' => agent_date_single_map,
 
@@ -1049,14 +1045,8 @@ module EACBaseMap
     }
   end
 
-  def subject_source_map
-    proc { |node|
-      node.attr('vocabularySource')
-    }
-  end
-
   # usually, rel will be :subjects, but in some cases it will be :places
-  def subject_map(xpath, terms, source, rel = :subjects)
+  def subject_map(xpath, terms, rel = :subjects)
     {
       :obj => :subject,
       :rel => rel,
@@ -1065,7 +1055,6 @@ module EACBaseMap
           subject.publish = true
           subject.authority_id = node.attr('vocabularySource')
           subject.terms = terms.call(node)
-          subject.source = source.call(node)
           subject.vocabulary = '/vocabularies/1'
         }
       },
