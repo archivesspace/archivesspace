@@ -849,20 +849,60 @@ module EACBaseMap
     }
   end
 
+  def create_chron_item(node)
+    items = []
+    node.search('./chronItem').each do |n|
+      if (d = n.at_xpath('dateRange'))
+        date = format_content(d.at_xpath('fromDate').inner_text)
+        date += '-'
+        date += format_content(d.at_xpath('toDate').inner_text)
+      elsif n.at_xpath('date')
+        date = format_content(n.at_xpath('date').inner_text)
+      end
+
+      event = n.at_xpath('event')
+      place = n.at_xpath('placeEntry')
+      items << {
+        'event_date' => date || nil,
+        'events' => [event ? format_content(event.inner_text) : nil],
+        'place' => place ? format_content(place.inner_text) : nil
+      }
+    end
+
+    items
+  end
+
   def agent_bioghist_note_map
     {
       :obj => :note_bioghist,
       :rel => :notes,
       :map => {
+        'descendant::abstract' => proc { |note, node|
+          note['subnotes'] << {
+            'jsonmodel_type' => 'note_abstract',
+            'content' => [format_content(node.inner_text)]
+          }
+        },
+        'descendant::chronList' => proc { |note, node|
+          note['subnotes'] << {
+            'jsonmodel_type' => 'note_chronology',
+            'items' => create_chron_item(node)
+          }
+        },
+        'descendant::citation' => citation_subnote_map('self::citation'),
+        # This will handle p's, outlines, and lists.
         'self::biogHist' => proc { |note, node|
+          %w[abstract chronList citation].each do |n|
+            node.search(".//#{n}").remove
+          end
+          content = format_content(node.element_children.to_xml)
           note['subnotes'] << {
             'jsonmodel_type' => 'note_text',
-            'content' => node.inner_text
+            'content' => content
           }
         }
       },
       :defaults => {
-        :label => 'default label'
       }
     }
   end
@@ -979,6 +1019,28 @@ module EACBaseMap
     }
   end
 
+  def citation_subnote_map(xpath, rel = :subnotes)
+    {
+      :obj => :note_citation,
+      :rel => rel,
+      :map => {
+        xpath => proc { |note, node|
+          note.content << node.inner_text
+          note.xlink = {
+            'href' => node.attr('href'),
+            'actuate' => node.attr('xlink:actuate'),
+            'show' => node.attr('xlink:show'),
+            'title' => node.attr('xlink:title'),
+            'role' => node.attr('xlink:role'),
+            'arcrole' => node.attr('xlink:arcrole')
+          }
+        }
+      },
+      :defaults => {
+      }
+    }
+  end
+
   def subject_terms_map(term_type)
     proc { |node|
       [{ :term_type => term_type,
@@ -1046,5 +1108,21 @@ module EACBaseMap
       :defaults => {
       }
     }
+  end
+
+  # A lot of nodes need tweaking to format the content. Like, people love their p's but they don't
+  # actually want to ever see them.
+  def format_content(content)
+    return content if content.nil?
+
+    content.tr!("\n", ' ') # literal linebreaks are assumed to not be part of data
+    content.gsub(%r{(</p>|<p(?:\s+[^>]*)?/>)\s*(<p(?: [^>/]*)?>)}, "\n\n")
+           .gsub(%r{<p(?: [^>/]*)?>}, '')
+           .gsub(%r{</p>|<p(?:\s+[^>]*)?/>}, "\n\n")
+           .gsub('<lb/>', "\n\n")
+           .gsub('<lb>', "\n\n")
+           .gsub('</lb>', '')
+           .strip
+           .squeeze(' ')
   end
 end
