@@ -67,7 +67,7 @@ module EACBaseMap
       '//eac-cpf//biogHist' => agent_bioghist_note_map,
       '//eac-cpf//generalContext' => agent_general_context_note_map,
       '//eac-cpf/cpfDescription/alternativeSet/setComponent' => agent_set_component_map,
-      '//languagesUsed/languageUsed' => agent_languages_map,
+      '//languageUsed' => agent_languages_map,
       '//relations/resourceRelation' => related_resource_map
     }
 
