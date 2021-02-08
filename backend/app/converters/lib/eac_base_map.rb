@@ -24,7 +24,7 @@ module EACBaseMap
     {
       '//identity/nameEntry' => agent_person_name_map(:name_person, :names),
       '//identity/nameEntryParallel/nameEntry[1]' => agent_person_name_with_parallel_map(:name_person, :names),
-      "//localDescriptions/localDescription[@localType='gender']" => agent_person_gender_map
+      "//localDescription[@localType='gender']" => agent_person_gender_map
       # "//relations/cpfRelation" => related_agent_map,
     }.merge(base_map_subfields(import_events))
   end
@@ -63,7 +63,7 @@ module EACBaseMap
       '//places/place' => agent_place_map,
       '//occupations/occupation' => agent_occupation_map,
       '//functions/function' => agent_function_map,
-      "//localDescriptions/localDescription[@localType='associatedSubject']" => agent_topic_map,
+      "//localDescription[contains(@localType, 'subject') or contains(@localType, 'Subject')]" => agent_topic_map,
       '//eac-cpf//biogHist' => agent_bioghist_note_map,
       '//eac-cpf//generalContext' => agent_general_context_note_map,
       '//eac-cpf/cpfDescription/alternativeSet/setComponent' => agent_set_component_map,
