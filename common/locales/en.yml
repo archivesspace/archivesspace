@@ -2439,6 +2439,7 @@ en:
     must_be_in_yyyy[yyy][yy][y]__yyyy[yyy][yy][y]-mm__or_yyyy-mm-dd_format : Standardized dates must be in a standardized format
     generic_validation_error: Validation Error
     requires_that_end_dates_are_after_begin_dates: End Dates must be after Begin Dates
+    must_specify_a_primary_subject: "Description Information: Record is missing a primary subject"
 
   job:
     _singular: Background Job
