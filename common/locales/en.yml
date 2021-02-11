@@ -529,8 +529,8 @@ en:
     transliteration: Transliteration
     transliteration_tooltip: |
         <p>Indicates the transliteration scheme used in recording the name form.</p>
-    _singular: Name
-    _plural: Names
+    _singular: Name Form
+    _plural: Name Forms
 
   name_person:
     <<: *agent_name_attributes
