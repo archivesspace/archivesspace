@@ -113,7 +113,7 @@ BulkContainerSearch.prototype.setup_results_list = function(docs) {
 BulkContainerSearch.prototype.update_button_state = function() {
   var self = this;
   var checked_boxes = $("tbody :checkbox:checked", self.$results_container);
-  var delete_btn = self.$toolbar.find(".btn");
+  var delete_btn = self.$toolbar.find(".btn-default");
 
   if (checked_boxes.length > 0) {
     var selected_records = $.makeArray(checked_boxes.map(function() {return $(this).val();}));
