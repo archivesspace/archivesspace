@@ -11,6 +11,8 @@ class Assessment < Sequel::Model(:assessment)
 
   corresponds_to JSONModel(:assessment)
 
+  include ExternalDocuments
+
   set_model_scope :repository
 
   define_relationship(:name => :assessment,
@@ -34,9 +36,11 @@ class Assessment < Sequel::Model(:assessment)
 
 
   def update_from_json(json, opts = {}, apply_nested_records = true)
+    Log.debug("CLASS::::::: #{self.class}")
     self.class.prepare_monetary_value_for_save(json, opts)
     super
     self.class.apply_attributes(self, json)
+    Log.debug("CLASS::::::: #{self.inspect}")
     self
   end
 
@@ -129,7 +133,7 @@ class Assessment < Sequel::Model(:assessment)
                               .filter(:repo_id => [Repository.global_repo_id, active_repository])
                               .select(:id)
                               .map {|row| row[:id]}
-
+      Log.debug("VALID ATTRIBUTES:: #{valid_attribute_ids}")
       KEY_TO_TYPE.each do |key, type|
         Array(json[key]).each do |attribute|
           next unless valid_attribute_ids.include?(attribute['definition_id'])

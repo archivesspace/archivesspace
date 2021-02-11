@@ -278,4 +278,18 @@ describe 'Assessments' do
     @driver.click_and_wait_until_element_gone(@driver.find_element_with_text('//tr', /assessments_test_/).find_element(:link, 'View'))
     expect(@driver.find_elements(:css, '#linked_assessments_surveyed_by').length).to eq(0)
   end
+
+  it 'can add an external document to an Assessment' do
+    @driver.find_element(css: '#assessment_external_documents_ .subrecord-form-heading .btn:not(.show-all)').click
+    @driver.clear_and_send_keys([:id, 'assessment_external_documents__0__title_'], 'My URI document')
+    @driver.clear_and_send_keys([:id, 'assessment_external_documents__0__location_'], 'http://archivesspace.org')
+
+    @driver.click_and_wait_until_gone(css: "form .record-pane button[type='submit']")
+
+    # check external documents
+    external_document_sections = @driver.blocking_find_elements(css: '#assessment_external_documents_ .subrecord-form-wrapper')
+    expect(external_document_sections.length).to eq 1
+    external_document_sections[0].find_element(link: 'http://archivesspace.org')
+  end
+
 end
