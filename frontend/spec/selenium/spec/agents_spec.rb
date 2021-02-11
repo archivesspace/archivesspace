@@ -3,7 +3,183 @@
 require_relative '../spec_helper'
 require 'net/http'
 
-describe "Light Mode" do
+describe "agents merge" do
+  before(:all) do
+    @repo = create(:repo, repo_code: "agents_test_#{Time.now.to_i}")
+  
+    @driver = Driver.get
+    @driver.login_to_repo($admin, @repo)
+
+    @first_agent = create(:json_agent_corporate_entity_full_subrec)
+    @second_agent = create(:json_agent_corporate_entity_full_subrec)
+
+    run_all_indexers
+  end
+
+  after(:all) do
+    @driver ? @driver.quit : next
+  end
+
+  it 'displays the full merge page without any errors' do
+    @driver.clear_and_send_keys([:id, 'global-search-box'], @first_agent['names'][0]['primary_name'])
+    @driver.find_element(id: 'global-search-button').click
+    @driver.find_element(:link, 'Edit').click
+    @driver.find_element(:link, 'Merge').click
+    input = @driver.find_element(:id, 'token-input-merge_ref_')
+    @driver.typeahead_and_select(input, @second_agent['names'][0]['primary_name'])
+    @driver.find_element(class: 'merge-button').click
+    @driver.find_element(id: 'confirmButton').click
+
+    assert { expect(@driver.find_element(css: 'h2').text).to eq('This record will be updated') }
+  end
+
+  it "merges record ids" do
+    @driver.find_element(id: 'agent_agent_record_identifiers__0__append_').click
+    @driver.find_element(:class, 'preview-merge').click
+
+    target_value = @second_agent['agent_record_identifiers'][0]['record_identifier']
+    id = "agent_corporate_entity_agent_record_identifier_accordion"
+
+    @driver.find_element(:css, "##{id} div.panel:nth-child(2) span").click
+    @driver.find_element_with_text("//div[@id='#{id}']//div", /#{target_value}/)
+
+    @driver.find_element(class: 'close').click
+  end
+
+  it "merges agent record controls" do
+    @driver.find_element(id: 'agent_agent_record_controls__0__replace_').click
+    @driver.find_element(:class, 'preview-merge').click
+
+    target_value = @second_agent['agent_record_controls'][0]['maintenance_agency']
+    id = "agent_corporate_entity_agent_record_control_accordion"
+
+    @driver.find_element(:css, "##{id} div.panel:nth-child(1) span").click
+    @driver.find_element_with_text("//div[@id='#{id}']//div", /#{target_value}/)
+
+    @driver.find_element(class: 'close').click
+  end
+
+  it "merges other agency codes" do
+    @driver.find_element(id: 'agent_agent_other_agency_codes__0__append_').click
+    @driver.find_element(:class, 'preview-merge').click
+
+    target_value = @second_agent['agent_other_agency_codes'][0]['maintenance_agency']
+    id = "agent_corporate_entity_agent_other_agency_codes_accordion"
+
+    @driver.find_element(:css, "##{id} div.panel:nth-child(1) span").click
+    @driver.find_element_with_text("//div[@id='#{id}']//div", /#{target_value}/)
+
+    @driver.find_element(class: 'close').click
+  end
+
+  it "merges conventions declarations" do
+    @driver.find_element(id: 'agent_agent_conventions_declarations__0__append_').click
+    @driver.find_element(:class, 'preview-merge').click
+
+    target_value = @second_agent['agent_conventions_declarations'][0]['citation']
+    id = "agent_corporate_entity_agent_conventions_declaration_accordion"
+
+    @driver.find_element(:css, "##{id} div.panel:nth-child(2) span").click
+    @driver.find_element_with_text("//div[@id='#{id}']//div", /#{target_value}/)
+
+    @driver.find_element(class: 'close').click
+  end
+
+  it "merges maintenance histories" do
+    @driver.find_element(id: 'agent_agent_maintenance_histories__0__append_').click
+    @driver.find_element(:class, 'preview-merge').click
+
+    target_value = @second_agent['agent_maintenance_histories'][0]['descriptive_note']
+    id = "agent_corporate_entity_agent_maintenance_history_accordion"
+
+    @driver.find_element(:css, "##{id} div.panel:nth-child(2) span").click
+    @driver.find_element_with_text("//div[@id='#{id}']//div", /#{target_value}/)
+
+    @driver.find_element(class: 'close').click
+  end
+
+  it "merges agent_sources" do
+    @driver.find_element(id: 'agent_agent_sources__0__append_').click
+    @driver.find_element(:class, 'preview-merge').click
+
+    target_value = @second_agent['agent_sources'][0]['descriptive_note']
+    id = "agent_corporate_entity_agent_sources_accordion"
+
+    @driver.find_element(:css, "##{id} div.panel:nth-child(2) span").click
+    @driver.find_element_with_text("//div[@id='#{id}']//div", /#{target_value}/)
+
+    @driver.find_element(class: 'close').click
+  end
+
+  it "merges agent alternate sets" do
+    @driver.find_element(id: 'agent_agent_alternate_sets__0__append_').click
+    @driver.find_element(:class, 'preview-merge').click
+
+    target_value = @second_agent['agent_alternate_sets'][0]['set_component']
+    id = "agent_corporate_entity_agent_alternate_set_accordion"
+
+    @driver.find_element(:css, "##{id} div.panel:nth-child(2) span").click
+    @driver.find_element_with_text("//div[@id='#{id}']//div", /#{target_value}/)
+
+    @driver.find_element(class: 'close').click
+  end
+
+  it "merges agent identifiers" do
+    @driver.find_element(id: 'agent_agent_identifiers__0__append_').click
+    @driver.find_element(:class, 'preview-merge').click
+
+    target_value = @second_agent['agent_identifiers'][0]['entity_identifier']
+    id = "agent_corporate_entity_agent_identifier_accordion"
+
+    @driver.find_element(:css, "##{id} div.panel:nth-child(2) span").click
+    @driver.find_element_with_text("//div[@id='#{id}']//div", /#{target_value}/)
+
+    @driver.find_element(class: 'close').click
+  end
+
+  it "merges names" do
+    @driver.find_element(id: 'agent_names__0__append_').click
+    @driver.find_element(:class, 'preview-merge').click
+
+    target_value = @second_agent['names'][0]['primary_name']
+    id = "agent_name_accordion"
+
+    sleep 4
+    @driver.find_element(:css, "##{id} div.panel:nth-child(2) span").click
+    @driver.find_element_with_text("//div[@id='#{id}']//div", /#{target_value}/)
+
+    @driver.find_element(class: 'close').click
+  end
+
+  it "merges agent places" do
+    @driver.find_element(id: 'agent_agent_places__0__append_').click
+    @driver.find_element(:class, 'preview-merge').click
+
+    target_value = "Place of Birth"
+    id = "agent_corporate_entity_agent_place_accordion"
+
+    @driver.find_element(:css, "##{id} div.panel:nth-child(2) span").click
+    @driver.find_element_with_text("//div[@id='#{id}']//div", /#{target_value}/)
+
+    @driver.find_element(class: 'close').click
+  end
+
+  it "merges agent resources" do
+    @driver.find_element(id: 'agent_agent_resources__0__append_').click
+    @driver.find_element(:class, 'preview-merge').click
+
+    target_value = @second_agent['agent_resources'][0]['linked_resource_description']
+    id = "agent_corporate_entity_agent_resource_accordion"
+
+    @driver.find_element(:css, "##{id} div.panel:nth-child(2) span").click
+    @driver.find_element_with_text("//div[@id='#{id}']//div", /#{target_value}/)
+
+    @driver.find_element(class: 'close').click
+  end
+end
+
+
+describe "agents record CRUD" do
   before(:all) do
     @repo = create(:repo, repo_code: "agents_test_#{Time.now.to_i}")
   

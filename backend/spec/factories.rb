@@ -279,7 +279,6 @@ FactoryBot.define do
     number_type { [nil, 'business', 'home', 'cell', 'fax'].sample }
     number {  generate(:phone_number) }
     ext { [nil, generate(:alphanumstr)].sample }
-
   end
 
   factory :json_agent_contact, class: JSONModel(:agent_contact) do
