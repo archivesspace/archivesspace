@@ -96,6 +96,7 @@ module SortNameProcessor
 
       dates = json['dates'].nil? ? SortNameProcessor::Utils.first_date(extras, 'dates_of_existence') : nil
       result << " (#{dates})" if dates
+      result << " (#{json["location"]})" if json["location"]
 
       result.length > 255 ? result[0..254] : result
     end
