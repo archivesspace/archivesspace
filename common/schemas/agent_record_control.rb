@@ -8,8 +8,7 @@
       "maintenance_status" => {
         "type" => "string",
         "dynamic_enum" => "maintenance_status",
-        "ifmissing" => "error",
-        "required" => true
+        "ifmissing" => "error"
       },
       "publication_status" => {
         "type" => "string",
