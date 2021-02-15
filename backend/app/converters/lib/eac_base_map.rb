@@ -25,7 +25,6 @@ module EACBaseMap
       '//identity/nameEntry' => agent_person_name_map(:name_person, :names),
       '//identity/nameEntryParallel/nameEntry[1]' => agent_person_name_with_parallel_map(:name_person, :names),
       "//localDescription[@localType='gender']" => agent_person_gender_map
-      # "//relations/cpfRelation" => related_agent_map,
     }.merge(base_map_subfields(import_events))
   end
 
@@ -68,6 +67,9 @@ module EACBaseMap
       '//eac-cpf//generalContext' => agent_general_context_note_map,
       '//eac-cpf/cpfDescription/alternativeSet/setComponent' => agent_set_component_map,
       '//languageUsed' => agent_languages_map,
+      "//relations/cpfRelation[contains(@role,'person') or contains(@role, 'Person')]/relationEntry[string-length(text()) > 0]" => related_agent_map('person'),
+      "//relations/cpfRelation[contains(@role,'corporateBody') or contains(@role, 'CorporateBody')]/relationEntry[string-length(text()) > 0]" => related_agent_map('corporate_entity'),
+      "//relations/cpfRelation[contains(@role,'family') or contains(@role, 'Family')]/relationEntry[string-length(text()) > 0]" => related_agent_map('family'),
       '//relations/resourceRelation' => related_resource_map
     }
 
@@ -1064,39 +1066,87 @@ module EACBaseMap
     }
   end
 
-  # CPF allowed values for relType attr:
-  # {}"identity" or "hierarchical" or "hierarchical-parent" or "hierarchical-child" or "temporal" or "temporal-earlier" or "temporal-later" or "family" or "associative"
-  def related_agent_map
+  def related_agent_map(type)
     {
-      :obj => :agent_relationship_associative,
-      :rel => :related_agents,
-      :map => {
-        'self::cpfRelation' => proc { |ra, _node|
-          ra.relator = 'is_associative_with'
-        },
-        'descendant::relationEntry' => related_agent_person_map
+      :obj => :"agent_#{type}",
+      :rel => proc { |agent, rel_agent|
+        rel_agent.publish = true
+        agent[:related_agents] << {
+          :relator => rel_agent['_relator'],
+          :jsonmodel_type => rel_agent['_jsonmodel_type'],
+          :description => rel_agent['_description'],
+          :ref => rel_agent.uri
+        }
       },
-      :defaults => {
+      :map => {
+        'parent::cpfRelation' => proc { |agent, node|
+          relator, relationship_type = find_relationship(node)
+          agent['_relator'] = relator
+          agent['_jsonmodel_type'] = relationship_type
+          agent['_description'] = find_description_note(node)
+        },
+        'self::relationEntry' => {
+          :obj => :"name_#{type}",
+          :rel => :names,
+          :map => name_map(type),
+          :defaults => {
+            :name_order => 'direct',
+            :source => 'ingest'
+          }
+        }
       }
     }
   end
 
-  def related_agent_person_map
+  def name_map(type)
     {
-      :obj => :agent_person,
-      :rel => :ref,
-      :map => {
-        'self::relationEntry' => proc { |ap, node|
-          name_person = ASpaceImport::JSONModel(:name_person).new({
-            :primary_name => node.inner_text,
-            :name_order => 'direct'
-          })
-          ap.names = [name_person]
-        }
-      },
-      :defaults => {
+      'self::relationEntry' => proc { |name, node|
+        val = node.inner_text
+
+        case type
+        when 'person'
+          nom_parts = val.split(',', 2)
+          name['primary_name'] = nom_parts[0]
+          name['rest_of_name'] = nom_parts[1]
+        when 'family'
+          name['family_name'] = val
+        else
+          name['primary_name'] = val
+        end
+
+        name['name_order'] = 'inverted' if name['rest_of_name']
+        name['authorized'] = true
+        name['is_display_name'] = true
       }
     }
+  end
+
+  def find_relationship(node)
+    relationship = node.attr('cpfRelationType')
+    case relationship
+    when 'identity'
+      relator = 'is_identified_with'
+      relationship_type = 'agent_relationship_identity'
+    when 'hierarchical', 'hierarchical-parent', 'hierarchical-child'
+      relator = 'is_hierarchical_with'
+      relationship_type = 'agent_relationship_hierarchical'
+    when 'temporal', 'temporal-earlier', 'temporal-later'
+      relator = 'is_temporal_with'
+      relationship_type = 'agent_relationship_temporal'
+    when 'family'
+      relator = 'is_related_with'
+      relationship_type = 'agent_relationship_family'
+    else
+      relator = 'is_associative_with'
+      relationship_type = 'agent_relationship_associative'
+    end
+
+    [relator, relationship_type]
+  end
+
+  def find_description_note(node)
+    note = node.search('./descriptiveNote')
+    format_content(note.inner_html) if note
   end
 
   # A lot of nodes need tweaking to format the content. Like, people love their p's but they don't
