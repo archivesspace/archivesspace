@@ -70,7 +70,7 @@ module EACBaseMap
       "//relations/cpfRelation[contains(@role,'person') or contains(@role, 'Person')]/relationEntry[string-length(text()) > 0]" => related_agent_map('person'),
       "//relations/cpfRelation[contains(@role,'corporateBody') or contains(@role, 'CorporateBody')]/relationEntry[string-length(text()) > 0]" => related_agent_map('corporate_entity'),
       "//relations/cpfRelation[contains(@role,'family') or contains(@role, 'Family')]/relationEntry[string-length(text()) > 0]" => related_agent_map('family'),
-      '//relations/resourceRelation' => related_resource_map
+      '//relations/resourceRelation/relationEntry[string-length(text()) > 0]' => related_resource_map
     }
 
     if import_events
@@ -816,7 +816,7 @@ module EACBaseMap
       :obj => :agent_resource,
       :rel => :agent_resources,
       :map => {
-        'self::resourceRelation' => proc { |rr, node|
+        'parent::resourceRelation' => proc { |rr, node|
           rr[:file_uri] = node.attr('href')
           rr[:file_version_xlink_actuate_attribute] = node.attr('actuate')
           rr[:file_version_xlink_show_attribute] = node.attr('show')
@@ -825,22 +825,26 @@ module EACBaseMap
           rr[:xlink_arcrole_attribute] = node.attr('arcrole')
           rr[:last_verified_date] = node.attr('lastDateTimeVerified')
 
-          rr[:linked_agent_role] = if node.attr('resourceRelationType') == 'creatorOf'
+          rr[:linked_agent_role] = case node.attr('resourceRelationType')
+                                   when 'creatorOf'
                                      'creator'
-                                   elsif node.attr('resourceRelationType') == 'subjectOf'
+                                   when 'subjectOf'
                                      'subject'
                                    else
                                      'source'
                                    end
         },
-        'descendant::relationEntry' => proc { |rr, node|
+        'self::relationEntry' => proc { |rr, node|
           rr[:linked_resource] = node.inner_text
         },
-        'descendant::descriptiveNote' => proc { |rr, node|
-          rr[:linked_resource_description] = node.inner_text
+        'parent::resourceRelation/descriptiveNote' => proc { |rr, node|
+          rr[:linked_resource_description] = format_content(node.inner_html)
         },
-        'descendant::date' => agent_date_single_map,
-        'descendant::dateRange' => agent_date_range_map
+        'parent::resourceRelation/placeEntry' => subject_map('self::placeEntry',
+                                                             subject_terms_map('geographic'),
+                                                             :places),
+        'parent::resourceRelation/date' => agent_date_single_map,
+        'parent::resourceRelation/dateRange' => agent_date_range_map
       },
       :defaults => {
       }
