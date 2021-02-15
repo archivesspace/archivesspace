@@ -53,6 +53,9 @@ group :development, :test do
   gem 'pry-nav'
   gem 'pry-rails'
   gem 'rubocop', '~> 0.72.0', require: false
+end
+
+group :development do
   gem 'web-console'
 end
 
