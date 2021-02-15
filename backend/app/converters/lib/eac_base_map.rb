@@ -404,14 +404,41 @@ module EACBaseMap
     }
   end
 
+  def cv_maint_status(node)
+    case node.inner_text
+    when 'cancelled'
+      'cancelled_obsolete'
+    when 'deleted', 'deletedMerged'
+      'deleted'
+    when 'deletedReplaced'
+      'deleted_replaced'
+    when 'deletedSplit'
+      'deleted_split'
+    when 'derived'
+      'derived'
+    when 'new'
+      'new'
+    when 'revised'
+      'revised_corrected'
+    end
+  end
+
+  def cv_pub_status(node)
+    case node.inner_text
+    when 'inProcess'
+      'in_process'
+    when 'approved', 'published'
+      'approved'
+    end
+  end
+
   def agent_record_control_map
     {
       :obj => :agent_record_control,
       :rel => :agent_record_controls,
       :map => {
         'descendant::maintenanceStatus' => proc { |arc, node|
-          val = node.inner_text
-          arc[:maintenance_status] = val
+          arc[:maintenance_status] = cv_maint_status(node)
         },
         'descendant::maintenanceAgency/agencyCode' => proc { |arc, node|
           val = node.inner_text
@@ -426,8 +453,7 @@ module EACBaseMap
           arc[:maintenance_agency_note] = val
         },
         'descendant::publicationStatus' => proc { |arc, node|
-          val = node.inner_text
-          arc[:publication_status] = val
+          arc[:publication_status] = cv_pub_status(node)
         },
         'descendant::languageDeclaration/language' => proc { |arc, node|
           arc[:language] = node.attr('languageCode')
