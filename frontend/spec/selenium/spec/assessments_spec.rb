@@ -280,6 +280,9 @@ describe 'Assessments' do
   end
 
   it 'can add an external document to an Assessment' do
+    @driver.find_element(:link, 'Browse').click
+    @driver.click_and_wait_until_gone(:link, 'Assessments')
+    @driver.click_and_wait_until_gone(:link, 'Edit')
     @driver.find_element(css: '#assessment_external_documents_ .subrecord-form-heading .btn:not(.show-all)').click
     @driver.clear_and_send_keys([:id, 'assessment_external_documents__0__title_'], 'My URI document')
     @driver.clear_and_send_keys([:id, 'assessment_external_documents__0__location_'], 'http://archivesspace.org')
