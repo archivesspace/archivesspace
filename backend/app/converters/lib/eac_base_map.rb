@@ -90,8 +90,7 @@ module EACBaseMap
       :defaults => {
         :source => 'local',
         :rules => 'local',
-        :primary_name => 'primary name',
-        :name_order => 'direct'
+        :name_order => 'inverted'
       }
     }
   end
@@ -106,8 +105,7 @@ module EACBaseMap
       :defaults => {
         :source => 'local',
         :rules => 'local',
-        :primary_name => 'primary name',
-        :name_order => 'direct'
+        :name_order => 'inverted'
       }
     }
   end
@@ -119,9 +117,7 @@ module EACBaseMap
       :map => agent_corporate_entity_name_components_map,
       :defaults => {
         :source => 'local',
-        :rules => 'local',
-        :primary_name => 'primary name',
-        :name_order => 'direct'
+        :rules => 'local'
       }
     }
   end
@@ -135,9 +131,7 @@ module EACBaseMap
       }),
       :defaults => {
         :source => 'local',
-        :rules => 'local',
-        :primary_name => 'primary name',
-        :name_order => 'direct'
+        :rules => 'local'
       }
     }
   end
@@ -149,9 +143,7 @@ module EACBaseMap
       :map => agent_family_name_components_map,
       :defaults => {
         :source => 'local',
-        :rules => 'local',
-        :primary_name => 'primary name',
-        :name_order => 'direct'
+        :rules => 'local'
       }
     }
   end
@@ -165,9 +157,7 @@ module EACBaseMap
       }),
       :defaults => {
         :source => 'local',
-        :rules => 'local',
-        :primary_name => 'primary name',
-        :name_order => 'direct'
+        :rules => 'local'
       }
     }
   end
