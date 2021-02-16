@@ -1,48 +1,47 @@
 module MarcXMLAuthAgentBaseMap
 
   # import_events determines whether maintenance events are imported
-  # lcnaf_import sets source = 'naf' for names
-  def BASE_RECORD_MAP(import_events = false, lcnaf_import = false)
+  def BASE_RECORD_MAP(import_events = false)
     {
       # AGENT PERSON
       "//datafield[@tag='100' and (@ind1='1' or @ind1='0')]" => {
         :obj => :agent_person,
-        :map => agent_person_base(import_events, lcnaf_import)
+        :map => agent_person_base(import_events)
       },
       # AGENT CORPORATE ENTITY
       "//datafield[@tag='110' or @tag='111']" => {
         :obj => :agent_corporate_entity,
-        :map => agent_corporate_entity_base(import_events, lcnaf_import)
+        :map => agent_corporate_entity_base(import_events)
       },
       # AGENT FAMILY
       "//datafield[@tag='100' and @ind1='3']" => {
         :obj => :agent_family,
-        :map => agent_family_base(import_events, lcnaf_import)
+        :map => agent_family_base(import_events)
       }
     }
   end
 
-  def agent_person_base(import_events, lcnaf_import)
+  def agent_person_base(import_events)
     {
-      "self::datafield" => agent_person_name_map(:name_person, :names, lcnaf_import),
-      "//datafield[@tag='400' and (@ind1='1' or @ind1='0')]" => agent_person_name_map(:name_person, :names, lcnaf_import),
+      "self::datafield" => agent_person_name_map(:name_person, :names),
+      "//datafield[@tag='400' and (@ind1='1' or @ind1='0')]" => agent_person_name_map(:name_person, :names),
       "//record/datafield[@tag='372']/subfield[@code='a']" => agent_topic_map,
       "//record/datafield[@tag='375']/subfield[@code='a']" => agent_gender_map,
     }.merge(shared_subrecord_map(import_events))
   end
 
-  def agent_corporate_entity_base(import_events, lcnaf_import)
+  def agent_corporate_entity_base(import_events)
     {
-      "self::datafield" => agent_corporate_entity_name_map(:name_corporate_entity, :names, lcnaf_import),
-      "//datafield[@tag='410' or @tag='411']" => agent_corporate_entity_name_map(:name_corporate_entity, :names, lcnaf_import),
+      "self::datafield" => agent_corporate_entity_name_map(:name_corporate_entity, :names),
+      "//datafield[@tag='410' or @tag='411']" => agent_corporate_entity_name_map(:name_corporate_entity, :names),
       "//record/datafield[@tag='372']/subfield[@code='a']" => agent_function_map,
     }.merge(shared_subrecord_map(import_events))
   end
 
-  def agent_family_base(import_events, lcnaf_import)
+  def agent_family_base(import_events)
     {
-      "self::datafield" => agent_family_name_map(:name_family, :names, lcnaf_import),
-      "//datafield[@tag='400' and @ind1='3']" => agent_family_name_map(:name_family, :names, lcnaf_import),
+      "self::datafield" => agent_family_name_map(:name_family, :names),
+      "//datafield[@tag='400' and @ind1='3']" => agent_family_name_map(:name_family, :names),
       "//record/datafield[@tag='372']/subfield[@code='a']" => agent_function_map,
     }.merge(shared_subrecord_map(import_events))
   end
@@ -84,13 +83,13 @@ module MarcXMLAuthAgentBaseMap
     return h
   end
 
-  def agent_person_name_map(obj, rel, lcnaf_import)
+  def agent_person_name_map(obj, rel)
     {
       :obj => obj,
       :rel => rel,
       :map => agent_person_name_components_map,
       :defaults => {
-        :source => lcnaf_import ? 'naf' : 'local',
+        :source => 'local',
         :rules => 'local',
         :primary_name => 'primary name',
         :name_order => 'direct',
@@ -98,13 +97,13 @@ module MarcXMLAuthAgentBaseMap
     }
   end
 
-  def agent_corporate_entity_name_map(obj, rel, lcnaf_import)
+  def agent_corporate_entity_name_map(obj, rel)
     {
       :obj => obj,
       :rel => rel,
       :map => agent_corporate_entity_name_components_map,
       :defaults => {
-        :source => lcnaf_import ? 'naf' : 'local',
+        :source => 'local',
         :rules => 'local',
         :primary_name => 'primary name',
         :name_order => 'direct',
@@ -112,13 +111,13 @@ module MarcXMLAuthAgentBaseMap
     }
   end
 
-  def agent_family_name_map(obj, rel, lcnaf_import)
+  def agent_family_name_map(obj, rel)
     {
       :obj => obj,
       :rel => rel,
       :map => agent_family_name_components_map,
       :defaults => {
-        :source => lcnaf_import ? 'naf' : 'local',
+        :source => 'local',
         :rules => 'local',
         :primary_name => 'primary name',
         :name_order => 'direct',
@@ -530,8 +529,9 @@ module MarcXMLAuthAgentBaseMap
         }
       },
     :defaults => {
-      :source => "local"
-    }
+      :source => "local",
+      :primary_identifier => false
+    }  
   }
   end
 
