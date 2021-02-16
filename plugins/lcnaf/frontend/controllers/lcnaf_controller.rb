@@ -27,7 +27,7 @@ class LcnafController < ApplicationController
       # agents are processed by MarcXMLAuthAgentConverter introduced in ANW-429
       if params[:lcnaf_service] == "lcnaf"
         job = Job.new("import_job", {
-                        "import_type" => "marcxml_lcnaf_agents",
+                        "import_type" => "marcxml_auth_agent",
                         "jsonmodel_type" => "import_job"
                         },
                       {"lcnaf_import_#{SecureRandom.uuid}" => marcxml_file})
@@ -35,7 +35,7 @@ class LcnafController < ApplicationController
       # subjects are processed by MarcXMLBibConverter as before ANW-429
       elsif params[:lcnaf_service] == "lcsh"
        job = Job.new("import_job", {
-                        "import_type" => "marcxml_lcnaf_subjects",
+                        "import_type" => "marcxml_subjects_and_agents",
                         "jsonmodel_type" => "import_job"
                         },
                       {"lcnaf_import_#{SecureRandom.uuid}" => marcxml_file})
