@@ -26,8 +26,6 @@ class ArchivesSpaceService < Sinatra::Base
     with open("do_dc.xml", "wb") as file:  # save the file
         file.write(do_dc.content)  # write the file's content to our file.
         file.close()
-
-    # For error handling, print or log the returned value of client.get with .json() - print(do_dc.json())
     PYTHON
     .params(["id", :id],
             ["repo_id", :repo_id])
@@ -47,7 +45,7 @@ class ArchivesSpaceService < Sinatra::Base
     curl -s -F password="admin" "http://localhost:8089/users/admin/login"
     set SESSION="session_id"
     curl -H "X-ArchivesSpace-Session: $SESSION" //
-    "http://localhost:8089/repositories/2/digital_objects/dublin_core/48.:fmt/metadata" --output do_dc.fmt
+    "http://localhost:8089/repositories/2/digital_objects/dublin_core/48.:fmt/metadata"
     SHELL
     .example("python") do
     <<~PYTHON
@@ -60,10 +58,6 @@ class ArchivesSpaceService < Sinatra::Base
 
     do_dc = client.get("/repositories/2/digital_objects/dublin_core/48.fmt/metadata")
     # replace 2 for your repository ID and 48 with your digital object ID. Find these at the URI on the staff interface
-
-    with open("do_dc.fmt", "wb") as file:  # save the file
-        file.write(dc_dc.content)  # write the file's content to our file.
-        file.close()
 
     # For error handling, print or log the returned value of client.get with .json() - print(do_dc.json())
     PYTHON
@@ -103,8 +97,6 @@ class ArchivesSpaceService < Sinatra::Base
     with open("do_mets.xml", "wb") as file:  # save the file
         file.write(mets_xml.content)  # write the file's content to our file.
         file.close()
-
-    # For error handling, print or log the returned value of client.get with .json() - print(mets_xml.json())
     PYTHON
     .params(["id", :id],
             ["repo_id", :repo_id],
@@ -125,7 +117,7 @@ class ArchivesSpaceService < Sinatra::Base
     curl -s -F password="admin" "http://localhost:8089/users/admin/login"
     set SESSION="session_id"
     curl -H "X-ArchivesSpace-Session: $SESSION" //
-    "http://localhost:8089/repositories/2/digital_objects/mets/48.:fmt/metadata" --output do_mets.fmt
+    "http://localhost:8089/repositories/2/digital_objects/mets/48.:fmt/metadata"
     SHELL
     .example("python") do
     <<~PYTHON
@@ -138,12 +130,6 @@ class ArchivesSpaceService < Sinatra::Base
 
     mets_fmt = client.get('/repositories/2/digital_objects/mets/48.fmt/metadata')
     # replace 2 for your repository ID and 48 with your digital object ID. Find these at the URI on the staff interface
-
-    with open("do_mets.fmt", "wb") as file:  # save the file
-        file.write(mets_fmt.content)  # write the file's content to our file.
-        file.close()
-
-    # For error handling, print or log the returned value of client.get with .json() - print(mets_fmt.json())
     PYTHON
     .params(["id", :id],
             ["repo_id", :repo_id])
@@ -180,8 +166,6 @@ class ArchivesSpaceService < Sinatra::Base
     with open("do_mods.xml", "wb") as file:  # save the file
         file.write(mods_xml.content)  # write the file's content to our file.
         file.close()
-
-    # For error handling, print or log the returned value of client.get with .json() - print(mods_xml.json())
     PYTHON
     .params(["id", :id],
             ["repo_id", :repo_id])
@@ -201,7 +185,7 @@ class ArchivesSpaceService < Sinatra::Base
     curl -s -F password="admin" "http://localhost:8089/users/admin/login"
     set SESSION="session_id"
     curl -H "X-ArchivesSpace-Session: $SESSION" //
-    "http://localhost:8089/repositories/2/digital_objects/mods/48.fmt/metadata" --output do_mods.fmt
+    "http://localhost:8089/repositories/2/digital_objects/mods/48.fmt/metadata"
     SHELL
     .example("python") do
     <<~PYTHON
@@ -214,12 +198,6 @@ class ArchivesSpaceService < Sinatra::Base
 
     mods_fmt = client.get('/repositories/2/digital_objects/mods/48.:fmt/metadata')
     # replace 2 for your repository ID and 48 with your digital object ID. Find these at the URI on the staff interface
-
-    with open("do_mods.fmt", "wb") as file:  # save the file
-        file.write(mods_fmt.content)  # write the file's content to our file.
-        file.close()
-
-    # For error handling, print or log the returned value of client.get with .json() - print(mods_fmt.json())
     PYTHON
     .params(["id", :id],
             ["repo_id", :repo_id])
@@ -260,8 +238,6 @@ class ArchivesSpaceService < Sinatra::Base
     with open("marc21.xml", "wb") as file:  # save the file
         file.write(marc21_xml.content)  # write the file's content to our file.
         file.close()
-
-    # For error handling, print or log the returned value of client.get with .json() - print(marc21_xml.json())
     PYTHON
     .params(["id", :id],
             ["repo_id", :repo_id],
@@ -282,8 +258,7 @@ class ArchivesSpaceService < Sinatra::Base
     curl -s -F password="admin" "http://localhost:8089/users/admin/login"
     set SESSION="session_id"
     curl -H "X-ArchivesSpace-Session: $SESSION" //
-    "http://localhost:8089/repositories/2/resources/marc21/577.:fmt/metadata?include_unpublished_marc=true" //
-    --output marc21.fmt
+    "http://localhost:8089/repositories/2/resources/marc21/577.:fmt/metadata?include_unpublished_marc=true"
     SHELL
     .example("python") do
     <<~PYTHON
@@ -298,12 +273,6 @@ class ArchivesSpaceService < Sinatra::Base
                             params={"include_unpublished_marc": True)
     # replace 2 for your repository ID and 577 with your resource ID. Find these at the URI on the staff interface
     # set include_unpublished_marc to True or False
-
-    with open("marc21.fmt", "wb") as file:  # save the file
-        file.write(marc21_fmt.content)  # write the file's content to our file.
-        file.close()
-
-    # For error handling, print or log the returned value of client.get with .json() - print(marc21_fmt.json())
     PYTHON
     .params(["id", :id],
             ["repo_id", :repo_id],
@@ -454,8 +423,7 @@ class ArchivesSpaceService < Sinatra::Base
     curl -s -F password="admin" "http://localhost:8089/users/admin/login"
     set SESSION="session_id"
     curl -H "X-ArchivesSpace-Session: $SESSION" //
-    "http://localhost:8089/repositories/2/resources/resource_descriptions/577.:fmt/metadata?fmt=864442169P755" //
-    --output resource.fmt
+    "http://localhost:8089/repositories/2/resources/resource_descriptions/577.:fmt/metadata?fmt=864442169P755"
     SHELL
     .example("python") do
     <<~PYTHON
@@ -470,10 +438,6 @@ class ArchivesSpaceService < Sinatra::Base
                          params={"fmt": "864442169P755"})
     # replace 2 for your repository ID and 577 with your resource ID. Find these at the URI on the staff interface
     # set fmt to the format of the request you would like to export
-
-    with open("resource.fmt", "wb") as file:  # save the file
-        file.write(res_fmt.content)  # write the file's content to our file.
-        file.close()
 
     # For error handling, print or log the returned value of client.get with .json() - print(res_fmt.json())
     PYTHON
@@ -551,10 +515,6 @@ class ArchivesSpaceService < Sinatra::Base
     labels_fmt = client.get('/repositories/2/resource_labels/577.:fmt/metadata')
     # replace 2 for your repository ID and 577 with your resource ID. Find these at the URI on the staff interface
 
-    with open("labels_metadata.fmt", "wb") as file:  # save the file
-        file.write(labels_fmt.content)  # write the file's content to our file.
-        file.close()
-
     # For error handling, print or log the returned value of client.get with .json() - print(labels_fmt.json())
     PYTHON
     .params(["id", :id],
@@ -613,7 +573,7 @@ class ArchivesSpaceService < Sinatra::Base
     curl -s -F password="admin" "http://localhost:8089/users/admin/login"
     set SESSION="session_id"
     curl -H "X-ArchivesSpace-Session: $SESSION" //
-    "http://localhost:8089/repositories/2/archival_contexts/people/159.:fmt/metadata" --output eac_cpf.fmt
+    "http://localhost:8089/repositories/2/archival_contexts/people/159.:fmt/metadata"
     SHELL
     .example("python") do
     <<~PYTHON
@@ -626,10 +586,6 @@ class ArchivesSpaceService < Sinatra::Base
 
     eac_cpf_fmt = client.get('/repositories/2/archival_contexts/people/159.:fmt/metadata')
     # replace 2 for your repository ID and 159 with your agent ID. Find these at the URI on the staff interface
-
-    with open("eac_cpf.fmt", "wb") as file:  # save the file
-        file.write(eac_cpf_fmt.content)  # write the file's content to our file.
-        file.close()
 
     # For error handling, print or log the returned value of client.get with .json() - print(eac_cpf_fmt.json())
     PYTHON
@@ -691,8 +647,7 @@ class ArchivesSpaceService < Sinatra::Base
     curl -s -F password="admin" "http://localhost:8089/users/admin/login"
     set SESSION="session_id"
     curl -H "X-ArchivesSpace-Session: $SESSION" //
-    "http://localhost:8089/repositories/2/archival_contexts/corporate_entities/1238.:fmt/metadata" //
-    --output eac_cpf_corp.fmt
+    "http://localhost:8089/repositories/2/archival_contexts/corporate_entities/1238.:fmt/metadata"
     SHELL
     .example("python") do
     <<~PYTHON
@@ -705,10 +660,6 @@ class ArchivesSpaceService < Sinatra::Base
 
     eac_cpf_corp_fmt = client.get('/repositories/2/archival_contexts/corporate_entities/1238.:fmt/metadata')
     # replace 2 for your repository ID and 1238 with your corporate agent ID. Find these at the URI on the staff interface
-
-    with open("eac_cpf_corp.fmt", "wb") as file:  # save the file
-        file.write(eac_cpf_corp_fmt.content)  # write the file's content to our file.
-        file.close()
 
     # For error handling, print or log the returned value of client.get with .json() - print(eac_cpf_corp_fmt.json())
     PYTHON
@@ -783,11 +734,7 @@ class ArchivesSpaceService < Sinatra::Base
 
     eac_cpf_fam_fmt = client.get('/repositories/2/archival_contexts/families/479.:fmt/metadata')
     # replace 2 for your repository ID and 479 with your family agent ID. Find these at the URI on the staff interface
-
-    # print(eac_cpf_fam_fmt, eac_cpf_fam_fmt.content)  # write the file's content to our file.
-    with open("eac_cpf_fam.fmt", "wb") as file:  # save the file
-        file.write(eac_cpf_fam_fmt.content)  # write the file's content to our file.
-        file.close()
+    # print(eac_cpf_fam_fmt, eac_cpf_fam_fmt.content)
 
     # For error handling, print or log the returned value of client.get with .json() - print(eac_cpf_fam_fmt.json())
     PYTHON
@@ -849,7 +796,7 @@ class ArchivesSpaceService < Sinatra::Base
     curl -s -F password="admin" "http://localhost:8089/users/admin/login"
     set SESSION="session_id"
     curl -H "X-ArchivesSpace-Session: $SESSION" //
-    "http://localhost:8089/repositories/2/archival_contexts/softwares/1.:fmt/metadata" --output eac_cpf_soft.fmt
+    "http://localhost:8089/repositories/2/archival_contexts/softwares/1.:fmt/metadata"
     SHELL
     .example("python") do
     <<~PYTHON
@@ -862,10 +809,6 @@ class ArchivesSpaceService < Sinatra::Base
 
     eac_cpf_soft_fmt = client.get('/repositories/2/archival_contexts/softwares/1.:fmt/metadata')
     # replace 2 for your repository ID and 1 with your software agent ID. Find these at the URI on the staff interface
-
-    with open("eac_cpf_soft.fmt", "wb") as file:  # save the file
-        file.write(eac_cpf_soft_fmt.content)  # write the file's content to our file.
-        file.close()
 
     # For error handling, print or log the returned value of client.get with .json() - print(eac_cpf_soft_fmt.json())
     PYTHON
