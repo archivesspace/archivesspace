@@ -6,15 +6,15 @@
 <title>
   Class: SubjectHandler
   
-    &mdash; Documentation by YARD 0.9.20
+    &mdash; Documentation by YARD 0.9.25
   
 </title>
 
-  <link rel="stylesheet" href="css/style.css" type="text/css" charset="utf-8" />
+  <link rel="stylesheet" href="css/style.css" type="text/css" />
 
-  <link rel="stylesheet" href="css/common.css" type="text/css" charset="utf-8" />
+  <link rel="stylesheet" href="css/common.css" type="text/css" />
 
-<script type="text/javascript" charset="utf-8">
+<script type="text/javascript">
   pathId = "SubjectHandler";
   relpath = '';
 </script>
@@ -225,7 +225,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#initialize-instance_method" title="#initialize (instance method)">#<strong>initialize</strong>(current_user)  &#x21d2; SubjectHandler </a>
+      <a href="#initialize-instance_method" title="#initialize (instance method)">#<strong>initialize</strong>(current_user, validate_only = false)  &#x21d2; SubjectHandler </a>
     
 
     
@@ -316,6 +316,29 @@
 </li>
 
       
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#validate_subject-instance_method" title="#validate_subject (instance method)">#<strong>validate_subject</strong>(id, term, type, source, errs)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
     </ul>
   
 
@@ -329,7 +352,7 @@
   
   
   <h3 class="inherited">Methods inherited from <span class='object_link'><a href="Handler.html" title="Handler (class)">Handler</a></span></h3>
-  <p class="inherited"><span class='object_link'><a href="Handler.html#clear-instance_method" title="Handler#clear (method)">#clear</a></span>, <span class='object_link'><a href="Handler.html#save-instance_method" title="Handler#save (method)">#save</a></span>, <span class='object_link'><a href="Handler.html#search-instance_method" title="Handler#search (method)">#search</a></span>, <span class='object_link'><a href="Handler.html#valid-instance_method" title="Handler#valid (method)">#valid</a></span></p>
+  <p class="inherited"><span class='object_link'><a href="Handler.html#clear-instance_method" title="Handler#clear (method)">#clear</a></span>, <span class='object_link'><a href="Handler.html#save-instance_method" title="Handler#save (method)">#save</a></span>, <span class='object_link'><a href="Handler.html#search-instance_method" title="Handler#search (method)">#search</a></span></p>
 
   
   
@@ -340,7 +363,7 @@
   
   
   <h3 class="inherited">Methods included from <span class='object_link'><a href="BulkImportMixins.html" title="BulkImportMixins (module)">BulkImportMixins</a></span></h3>
-  <p class="inherited"><span class='object_link'><a href="BulkImportMixins.html#archival_object_from_ref-instance_method" title="BulkImportMixins#archival_object_from_ref (method)">#archival_object_from_ref</a></span>, <span class='object_link'><a href="BulkImportMixins.html#archival_object_from_ref_or_uri-instance_method" title="BulkImportMixins#archival_object_from_ref_or_uri (method)">#archival_object_from_ref_or_uri</a></span>, <span class='object_link'><a href="BulkImportMixins.html#archival_object_from_uri-instance_method" title="BulkImportMixins#archival_object_from_uri (method)">#archival_object_from_uri</a></span>, <span class='object_link'><a href="BulkImportMixins.html#create_date-instance_method" title="BulkImportMixins#create_date (method)">#create_date</a></span>, <span class='object_link'><a href="BulkImportMixins.html#handle_notes-instance_method" title="BulkImportMixins#handle_notes (method)">#handle_notes</a></span>, <span class='object_link'><a href="BulkImportMixins.html#resolves-instance_method" title="BulkImportMixins#resolves (method)">#resolves</a></span>, <span class='object_link'><a href="BulkImportMixins.html#resource_match-instance_method" title="BulkImportMixins#resource_match (method)">#resource_match</a></span>, <span class='object_link'><a href="BulkImportMixins.html#test_exceptions-instance_method" title="BulkImportMixins#test_exceptions (method)">#test_exceptions</a></span></p>
+  <p class="inherited"><span class='object_link'><a href="BulkImportMixins.html#ao_save-instance_method" title="BulkImportMixins#ao_save (method)">#ao_save</a></span>, <span class='object_link'><a href="BulkImportMixins.html#archival_object_from_ref-instance_method" title="BulkImportMixins#archival_object_from_ref (method)">#archival_object_from_ref</a></span>, <span class='object_link'><a href="BulkImportMixins.html#archival_object_from_ref_or_uri-instance_method" title="BulkImportMixins#archival_object_from_ref_or_uri (method)">#archival_object_from_ref_or_uri</a></span>, <span class='object_link'><a href="BulkImportMixins.html#archival_object_from_uri-instance_method" title="BulkImportMixins#archival_object_from_uri (method)">#archival_object_from_uri</a></span>, <span class='object_link'><a href="BulkImportMixins.html#create_date-instance_method" title="BulkImportMixins#create_date (method)">#create_date</a></span>, <span class='object_link'><a href="BulkImportMixins.html#created-instance_method" title="BulkImportMixins#created (method)">#created</a></span>, <span class='object_link'><a href="BulkImportMixins.html#handle_notes-instance_method" title="BulkImportMixins#handle_notes (method)">#handle_notes</a></span>, <span class='object_link'><a href="BulkImportMixins.html#resolves-instance_method" title="BulkImportMixins#resolves (method)">#resolves</a></span>, <span class='object_link'><a href="BulkImportMixins.html#resource_match-instance_method" title="BulkImportMixins#resource_match (method)">#resource_match</a></span>, <span class='object_link'><a href="BulkImportMixins.html#test_exceptions-instance_method" title="BulkImportMixins#test_exceptions (method)">#test_exceptions</a></span>, <span class='object_link'><a href="BulkImportMixins.html#valid-instance_method" title="BulkImportMixins#valid (method)">#valid</a></span>, <span class='object_link'><a href="BulkImportMixins.html#value_check-instance_method" title="BulkImportMixins#value_check (method)">#value_check</a></span></p>
 
   
   
@@ -369,7 +392,7 @@
     <div class="method_details first">
   <h3 class="signature first" id="initialize-instance_method">
   
-    #<strong>initialize</strong>(current_user)  &#x21d2; <tt><span class='object_link'><a href="" title="SubjectHandler (class)">SubjectHandler</a></span></tt> 
+    #<strong>initialize</strong>(current_user, validate_only = false)  &#x21d2; <tt><span class='object_link'><a href="" title="SubjectHandler (class)">SubjectHandler</a></span></tt> 
   
 
   
@@ -377,7 +400,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    <p>Returns a new instance of SubjectHandler</p>
+    <p>Returns a new instance of SubjectHandler.</p>
 
 
   </div>
@@ -401,7 +424,7 @@
     <td>
       <pre class="code"><span class="info file"># File 'backend/app/lib/bulk_import/subject_handler.rb', line 6</span>
 
-<span class='rubyid_def def kw'>def</span> <span class='rubyid_initialize identifier id'>initialize</span><span class='lparen token'>(</span><span class='rubyid_current_user identifier id'>current_user</span><span class='rparen token'>)</span>
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_initialize identifier id'>initialize</span><span class='lparen token'>(</span><span class='rubyid_current_user identifier id'>current_user</span><span class='comma token'>,</span> <span class='rubyid_validate_only identifier id'>validate_only</span> <span class='assign token'>=</span> <span class='rubyid_false false kw'>false</span><span class='rparen token'>)</span>
   <span class='rubyid_super super kw'>super</span>
   <span class='rubyid_@subject_term_types ivar id'>@subject_term_types</span> <span class='assign token'>=</span> <span class='rubyid_CvList constant id'>CvList</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='string val'>&quot;subject_term_type&quot;</span><span class='comma token'>,</span> <span class='rubyid_@current_user ivar id'>@current_user</span><span class='rparen token'>)</span>
   <span class='rubyid_@subject_sources ivar id'>@subject_sources</span> <span class='assign token'>=</span> <span class='rubyid_CvList constant id'>CvList</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='string val'>&quot;subject_source&quot;</span><span class='comma token'>,</span> <span class='rubyid_@current_user ivar id'>@current_user</span><span class='rparen token'>)</span>
@@ -443,16 +466,12 @@
 36
 37
 38
-39
-40
-41</pre>
+39</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'backend/app/lib/bulk_import/subject_handler.rb', line 31</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_build identifier id'>build</span><span class='lparen token'>(</span><span class='rubyid_id identifier id'>id</span><span class='comma token'>,</span> <span class='rubyid_term identifier id'>term</span><span class='comma token'>,</span> <span class='rubyid_type identifier id'>type</span><span class='comma token'>,</span> <span class='rubyid_source identifier id'>source</span><span class='rparen token'>)</span>
-  <span class='rubyid_type identifier id'>type</span> <span class='assign token'>=</span> <span class='rubyid_type identifier id'>type</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span> <span class='integer val'>? </span><span class='string val'>&quot;topical&quot;</span> <span class='colon op'>:</span> <span class='rubyid_@subject_term_types ivar id'>@subject_term_types</span><span class='dot token'>.</span><span class='rubyid_value identifier id'>value</span><span class='lparen token'>(</span><span class='rubyid_type identifier id'>type</span><span class='rparen token'>)</span>
-  <span class='rubyid_source identifier id'>source</span> <span class='assign token'>=</span> <span class='rubyid_source identifier id'>source</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span> <span class='integer val'>? </span><span class='string val'>&quot;ingest&quot;</span> <span class='colon op'>:</span> <span class='rubyid_@subject_sources ivar id'>@subject_sources</span><span class='dot token'>.</span><span class='rubyid_value identifier id'>value</span><span class='lparen token'>(</span><span class='rubyid_source identifier id'>source</span><span class='rparen token'>)</span>
   <span class='lbrace token'>{</span>
     <span class='symbol val'>:id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_id identifier id'>id</span><span class='comma token'>,</span>
     <span class='symbol val'>:term</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_term identifier id'>term</span> <span class='orop op'>||</span> <span class='lparen token'>(</span><span class='rubyid_id identifier id'>id</span> <span class='integer val'>? </span><span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='string val'>&quot;bulk_import.unfound_id&quot;</span><span class='comma token'>,</span> <span class='symbol val'>:id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_id identifier id'>id</span><span class='comma token'>,</span> <span class='symbol val'>:type</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='dstring node'>&quot;subject [#{type}] [#{source}]&quot;</span><span class='rparen token'>)</span> <span class='colon op'>:</span> <span class='rubyid_nil nil kw'>nil</span><span class='rparen token'>)</span><span class='comma token'>,</span>
@@ -482,9 +501,6 @@
       <pre class="lines">
 
 
-90
-91
-92
 93
 94
 95
@@ -497,10 +513,13 @@
 102
 103
 104
-105</pre>
+105
+106
+107
+108</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/bulk_import/subject_handler.rb', line 90</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/bulk_import/subject_handler.rb', line 93</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_create_subj identifier id'>create_subj</span><span class='lparen token'>(</span><span class='rubyid_subject identifier id'>subject</span><span class='rparen token'>)</span>
   <span class='rubyid_begin begin kw'>begin</span>
@@ -539,15 +558,15 @@
       <pre class="lines">
 
 
-107
-108
-109
 110
 111
-112</pre>
+112
+113
+114
+115</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/bulk_import/subject_handler.rb', line 107</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/bulk_import/subject_handler.rb', line 110</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_get_db_subj identifier id'>get_db_subj</span><span class='lparen token'>(</span><span class='rubyid_subject identifier id'>subject</span><span class='comma token'>,</span> <span class='rubyid_has_source identifier id'>has_source</span><span class='comma token'>,</span> <span class='rubyid_report identifier id'>report</span><span class='rparen token'>)</span>
   <span class='rubyid_s_params identifier id'>s_params</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span>
@@ -576,6 +595,8 @@
       <pre class="lines">
 
 
+41
+42
 43
 44
 45
@@ -621,14 +642,19 @@
 85
 86
 87
-88</pre>
+88
+89
+90
+91</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/bulk_import/subject_handler.rb', line 43</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/bulk_import/subject_handler.rb', line 41</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_get_or_create identifier id'>get_or_create</span><span class='lparen token'>(</span><span class='rubyid_id identifier id'>id</span><span class='comma token'>,</span> <span class='rubyid_term identifier id'>term</span><span class='comma token'>,</span> <span class='rubyid_type identifier id'>type</span><span class='comma token'>,</span> <span class='rubyid_source identifier id'>source</span><span class='comma token'>,</span> <span class='rubyid_repo_id identifier id'>repo_id</span><span class='comma token'>,</span> <span class='rubyid_report identifier id'>report</span><span class='rparen token'>)</span>
   <span class='rubyid_has_source identifier id'>has_source</span> <span class='assign token'>=</span> <span class='notop op'>!</span><span class='rubyid_source identifier id'>source</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span>
-  <span class='rubyid_subject identifier id'>subject</span> <span class='assign token'>=</span> <span class='rubyid_build identifier id'>build</span><span class='lparen token'>(</span><span class='rubyid_id identifier id'>id</span><span class='comma token'>,</span> <span class='rubyid_term identifier id'>term</span><span class='comma token'>,</span> <span class='rubyid_type identifier id'>type</span><span class='comma token'>,</span> <span class='rubyid_source identifier id'>source</span><span class='rparen token'>)</span>
+  <span class='rubyid_errs identifier id'>errs</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
+  <span class='rubyid_subject identifier id'>subject</span> <span class='assign token'>=</span> <span class='rubyid_validate_subject identifier id'>validate_subject</span><span class='lparen token'>(</span><span class='rubyid_id identifier id'>id</span><span class='comma token'>,</span> <span class='rubyid_term identifier id'>term</span><span class='comma token'>,</span> <span class='rubyid_type identifier id'>type</span><span class='comma token'>,</span> <span class='rubyid_source identifier id'>source</span><span class='comma token'>,</span> <span class='rubyid_errs identifier id'>errs</span><span class='rparen token'>)</span>
+
   <span class='rubyid_subject_key identifier id'>subject_key</span> <span class='assign token'>=</span> <span class='rubyid_key_for identifier id'>key_for</span><span class='lparen token'>(</span><span class='rubyid_subject identifier id'>subject</span><span class='rparen token'>)</span>
   <span class='rubyid_if if kw'>if</span> <span class='notop op'>!</span><span class='lparen token'>(</span><span class='rubyid_subj identifier id'>subj</span> <span class='assign token'>=</span> <span class='rubyid_stored identifier id'>stored</span><span class='lparen token'>(</span><span class='rubyid_@subjects ivar id'>@subjects</span><span class='comma token'>,</span> <span class='rubyid_subject identifier id'>subject</span><span class='lbrack token'>[</span><span class='symbol val'>:id</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='rubyid_subject_key identifier id'>subject_key</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
     <span class='rubyid_unless unless kw'>unless</span> <span class='rubyid_subject identifier id'>subject</span><span class='lbrack token'>[</span><span class='symbol val'>:id</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span>
@@ -640,14 +666,17 @@
         <span class='rubyid_end end kw'>end</span>
       <span class='rubyid_end end kw'>end</span>
     <span class='rubyid_end end kw'>end</span>
+
     <span class='rubyid_begin begin kw'>begin</span>
       <span class='rubyid_if if kw'>if</span> <span class='notop op'>!</span><span class='rubyid_subj identifier id'>subj</span>
+        <span class='comment val'># we do this here in case there&#39;s a valid ID, even with bad source &amp; type</span>
+        <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_Exception constant id'>Exception</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='rubyid_errs identifier id'>errs</span><span class='dot token'>.</span><span class='rubyid_join identifier id'>join</span><span class='lparen token'>(</span><span class='string val'>&quot;; &quot;</span><span class='rparen token'>)</span><span class='rparen token'>)</span> <span class='rubyid_if if_mod kw'>if</span> <span class='notop op'>!</span><span class='rubyid_errs identifier id'>errs</span><span class='dot token'>.</span><span class='rubyid_empty? fid id'>empty?</span>
         <span class='rubyid_begin begin kw'>begin</span>
           <span class='rubyid_subj identifier id'>subj</span> <span class='assign token'>=</span> <span class='rubyid_get_db_subj identifier id'>get_db_subj</span><span class='lparen token'>(</span><span class='rubyid_subject identifier id'>subject</span><span class='comma token'>,</span> <span class='rubyid_has_source identifier id'>has_source</span><span class='comma token'>,</span> <span class='rubyid_report identifier id'>report</span><span class='rparen token'>)</span>
         <span class='rubyid_rescue rescue kw'>rescue</span> <span class='rubyid_Exception constant id'>Exception</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_e identifier id'>e</span>
           <span class='rubyid_if if kw'>if</span> <span class='rubyid_e identifier id'>e</span><span class='dot token'>.</span><span class='rubyid_is_a? fid id'>is_a?</span><span class='lparen token'>(</span><span class='rubyid_BulkImportDisambigException constant id'>BulkImportDisambigException</span><span class='rparen token'>)</span>
             <span class='rubyid_disam identifier id'>disam</span> <span class='assign token'>=</span> <span class='rubyid_subject identifier id'>subject</span><span class='lbrack token'>[</span><span class='symbol val'>:term</span><span class='rbrack token'>]</span> <span class='plus op'>+</span> <span class='rubyid_DISAMB_STR constant id'>DISAMB_STR</span>
-            <span class='rubyid_report identifier id'>report</span><span class='dot token'>.</span><span class='rubyid_add_info identifier id'>add_info</span><span class='lparen token'>(</span><span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='string val'>&quot;bulk_import.warn.disam&quot;</span><span class='comma token'>,</span> <span class='symbol val'>:what</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_subject identifier id'>subject</span><span class='lbrack token'>[</span><span class='symbol val'>:term</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='symbol val'>:name</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_disam identifier id'>disam</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
+            <span class='rubyid_report identifier id'>report</span><span class='dot token'>.</span><span class='rubyid_add_info identifier id'>add_info</span><span class='lparen token'>(</span><span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='string val'>&quot;bulk_import.warn.disam&quot;</span><span class='comma token'>,</span> <span class='symbol val'>:which</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_subject identifier id'>subject</span><span class='lbrack token'>[</span><span class='symbol val'>:term</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='symbol val'>:name</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_disam identifier id'>disam</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
             <span class='rubyid_subject identifier id'>subject</span><span class='lbrack token'>[</span><span class='symbol val'>:term</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_disam identifier id'>disam</span>
           <span class='rubyid_else else kw'>else</span>
             <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_e identifier id'>e</span>
@@ -656,7 +685,7 @@
       <span class='rubyid_end end kw'>end</span>
       <span class='rubyid_if if kw'>if</span> <span class='notop op'>!</span><span class='rubyid_subj identifier id'>subj</span>
         <span class='rubyid_subj identifier id'>subj</span> <span class='assign token'>=</span> <span class='rubyid_create_subj identifier id'>create_subj</span><span class='lparen token'>(</span><span class='rubyid_subject identifier id'>subject</span><span class='rparen token'>)</span>
-        <span class='rubyid_report identifier id'>report</span><span class='dot token'>.</span><span class='rubyid_add_info identifier id'>add_info</span><span class='lparen token'>(</span><span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='string val'>&quot;bulk_import.created&quot;</span><span class='comma token'>,</span> <span class='symbol val'>:what</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='dstring node'>&quot;#{I18n.t(&quot;bulk_import.subj&quot;)} [#{subject[:term]}]&quot;</span><span class='comma token'>,</span> <span class='symbol val'>:id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_subj identifier id'>subj</span><span class='dot token'>.</span><span class='rubyid_uri identifier id'>uri</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
+        <span class='rubyid_report identifier id'>report</span><span class='dot token'>.</span><span class='rubyid_add_info identifier id'>add_info</span><span class='lparen token'>(</span><span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='rubyid_@create_key ivar id'>@create_key</span><span class='comma token'>,</span> <span class='symbol val'>:what</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='dstring node'>&quot;#{I18n.t(&quot;bulk_import.subj&quot;)} [#{subject[:term]}]&quot;</span><span class='comma token'>,</span> <span class='symbol val'>:id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_subj identifier id'>subj</span><span class='dot token'>.</span><span class='rubyid_uri identifier id'>uri</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
       <span class='rubyid_end end kw'>end</span>
     <span class='rubyid_rescue rescue kw'>rescue</span> <span class='rubyid_Exception constant id'>Exception</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_e identifier id'>e</span>
       <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_BulkImportException constant id'>BulkImportException</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='string val'>&quot;bulk_import.error.no_create&quot;</span><span class='comma token'>,</span> <span class='symbol val'>:why</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_e identifier id'>e</span><span class='dot token'>.</span><span class='rubyid_message identifier id'>message</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
@@ -790,14 +819,49 @@ disambiguation</p>
 </table>
 </div>
     
+      <div class="method_details ">
+  <h3 class="signature " id="validate_subject-instance_method">
+  
+    #<strong>validate_subject</strong>(id, term, type, source, errs)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+117
+118
+119
+120
+121</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/bulk_import/subject_handler.rb', line 117</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_validate_subject identifier id'>validate_subject</span><span class='lparen token'>(</span><span class='rubyid_id identifier id'>id</span><span class='comma token'>,</span> <span class='rubyid_term identifier id'>term</span><span class='comma token'>,</span> <span class='rubyid_type identifier id'>type</span><span class='comma token'>,</span> <span class='rubyid_source identifier id'>source</span><span class='comma token'>,</span> <span class='rubyid_errs identifier id'>errs</span><span class='rparen token'>)</span>
+  <span class='rubyid_type identifier id'>type</span> <span class='assign token'>=</span> <span class='rubyid_type identifier id'>type</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span> <span class='integer val'>? </span><span class='string val'>&quot;topical&quot;</span> <span class='colon op'>:</span> <span class='rubyid_value_check identifier id'>value_check</span><span class='lparen token'>(</span><span class='rubyid_@subject_term_types ivar id'>@subject_term_types</span><span class='comma token'>,</span> <span class='rubyid_type identifier id'>type</span><span class='comma token'>,</span> <span class='rubyid_errs identifier id'>errs</span><span class='rparen token'>)</span>
+  <span class='rubyid_source identifier id'>source</span> <span class='assign token'>=</span> <span class='rubyid_source identifier id'>source</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span> <span class='integer val'>? </span><span class='string val'>&quot;ingest&quot;</span> <span class='colon op'>:</span> <span class='rubyid_value_check identifier id'>value_check</span><span class='lparen token'>(</span><span class='rubyid_@subject_sources ivar id'>@subject_sources</span><span class='comma token'>,</span> <span class='rubyid_source identifier id'>source</span><span class='comma token'>,</span> <span class='rubyid_errs identifier id'>errs</span><span class='rparen token'>)</span>
+  <span class='rubyid_build identifier id'>build</span><span class='lparen token'>(</span><span class='rubyid_id identifier id'>id</span><span class='comma token'>,</span> <span class='rubyid_term identifier id'>term</span><span class='comma token'>,</span> <span class='rubyid_type identifier id'>type</span><span class='comma token'>,</span> <span class='rubyid_source identifier id'>source</span><span class='rparen token'>)</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
   </div>
 
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.8.0.a Documentation Generated on Thu Jul 16 10:07:14 2020 by
+  ArchivesSpace Version v2.8.1.a Documentation Generated on Wed Nov 11 13:22:07 2020 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.20.
+  0.9.25.
 </div>
 
     </div>

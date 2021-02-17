@@ -6,15 +6,15 @@
 <title>
   Module: AgentManager::Mixin::ClassMethods
   
-    &mdash; Documentation by YARD 0.9.20
+    &mdash; Documentation by YARD 0.9.25
   
 </title>
 
-  <link rel="stylesheet" href="../../css/style.css" type="text/css" charset="utf-8" />
+  <link rel="stylesheet" href="../../css/style.css" type="text/css" />
 
-  <link rel="stylesheet" href="../../css/common.css" type="text/css" charset="utf-8" />
+  <link rel="stylesheet" href="../../css/common.css" type="text/css" />
 
-<script type="text/javascript" charset="utf-8">
+<script type="text/javascript">
   pathId = "AgentManager::Mixin::ClassMethods";
   relpath = '../../';
 </script>
@@ -903,7 +903,7 @@
       <span class='rubyid_agent identifier id'>agent</span> <span class='assign token'>=</span> <span class='rubyid_join identifier id'>join</span><span class='lparen token'>(</span><span class='rubyid_name_type identifier id'>name_type</span><span class='dot token'>.</span><span class='rubyid_intern identifier id'>intern</span><span class='comma token'>,</span> <span class='dstring node'>&quot;#{agent_type}_id&quot;</span><span class='dot token'>.</span><span class='rubyid_intern identifier id'>intern</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='dstring node'>&quot;#{agent_type}__id&quot;</span><span class='dot token'>.</span><span class='rubyid_intern identifier id'>intern</span><span class='rparen token'>)</span>
                 <span class='dot token'>.</span><span class='rubyid_join identifier id'>join</span><span class='lparen token'>(</span><span class='symbol val'>:name_authority_id</span><span class='comma token'>,</span> <span class='dstring node'>&quot;#{name_type}_id&quot;</span><span class='dot token'>.</span><span class='rubyid_intern identifier id'>intern</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='dstring node'>&quot;#{name_type}__id&quot;</span><span class='dot token'>.</span><span class='rubyid_intern identifier id'>intern</span> <span class='rparen token'>)</span>
                 <span class='dot token'>.</span><span class='rubyid_where identifier id'>where</span><span class='lparen token'>(</span> <span class='rubyid_Sequel constant id'>Sequel</span><span class='dot token'>.</span><span class='rubyid_qualify identifier id'>qualify</span><span class='lparen token'>(</span><span class='symbol val'>:name_authority_id</span><span class='comma token'>,</span> <span class='symbol val'>:authority_id</span><span class='rparen token'>)</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_authorized_name identifier id'>authorized_name</span><span class='lbrack token'>[</span><span class='string val'>&quot;authority_id&quot;</span><span class='rbrack token'>]</span> <span class='rparen token'>)</span>
-                <span class='dot token'>.</span><span class='rubyid_and identifier id'>and</span><span class='lparen token'>(</span> <span class='rubyid_Sequel constant id'>Sequel</span><span class='dot token'>.</span><span class='rubyid_qualify identifier id'>qualify</span><span class='lparen token'>(</span> <span class='rubyid_name_type identifier id'>name_type</span><span class='dot token'>.</span><span class='rubyid_intern identifier id'>intern</span><span class='comma token'>,</span> <span class='symbol val'>:authorized</span><span class='rparen token'>)</span>  <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='integer val'>1</span> <span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_select_all identifier id'>select_all</span><span class='lparen token'>(</span><span class='rubyid_agent_type identifier id'>agent_type</span><span class='dot token'>.</span><span class='rubyid_intern identifier id'>intern</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_first identifier id'>first</span>
+                <span class='dot token'>.</span><span class='rubyid_where identifier id'>where</span><span class='lparen token'>(</span> <span class='rubyid_Sequel constant id'>Sequel</span><span class='dot token'>.</span><span class='rubyid_qualify identifier id'>qualify</span><span class='lparen token'>(</span> <span class='rubyid_name_type identifier id'>name_type</span><span class='dot token'>.</span><span class='rubyid_intern identifier id'>intern</span><span class='comma token'>,</span> <span class='symbol val'>:authorized</span><span class='rparen token'>)</span>  <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='integer val'>1</span> <span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_select_all identifier id'>select_all</span><span class='lparen token'>(</span><span class='rubyid_agent_type identifier id'>agent_type</span><span class='dot token'>.</span><span class='rubyid_intern identifier id'>intern</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_first identifier id'>first</span>
                 
 
     <span class='rubyid_elsif elsif kw'>elsif</span> <span class='rubyid_exception identifier id'>exception</span><span class='dot token'>.</span><span class='rubyid_message identifier id'>message</span><span class='dot token'>.</span><span class='rubyid_end_with? fid id'>end_with?</span><span class='lparen token'>(</span><span class='rubyid_AGENT_MUST_BE_UNIQUE constant id'>AGENT_MUST_BE_UNIQUE</span><span class='rparen token'>)</span> <span class='orop op'>||</span> <span class='rubyid_exception identifier id'>exception</span><span class='dot token'>.</span><span class='rubyid_message identifier id'>message</span> <span class='match op'>=~</span> <span class='rubyid_AGENT_MUST_BE_UNIQUE_MYSQL_CONSTRAINT constant id'>AGENT_MUST_BE_UNIQUE_MYSQL_CONSTRAINT</span>
@@ -1292,9 +1292,9 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.8.0.a Documentation Generated on Thu Jul 16 10:06:54 2020 by
+  ArchivesSpace Version v2.8.1.a Documentation Generated on Wed Nov 11 13:21:28 2020 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.20.
+  0.9.25.
 </div>
 
     </div>

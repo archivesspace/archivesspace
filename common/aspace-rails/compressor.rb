@@ -15,9 +15,9 @@ class ASpaceCompressor
     yui = Dir.glob(File.join(File.absolute_path(File.dirname(__FILE__)), "yui-compressor*jar")).first
     begin
       classloader = java.net.URLClassLoader.new([java.net.URL.new("file:#{yui}")].to_java(java.net.URL))
-      @js_compressor = classloader.find_class("com.yahoo.platform.yui.compressor.JavaScriptCompressor")
-      @css_compressor = classloader.find_class("com.yahoo.platform.yui.compressor.CssCompressor")
-      @error_reporter = classloader.find_class("org.mozilla.javascript.ErrorReporter")
+      @js_compressor = classloader.load_class("com.yahoo.platform.yui.compressor.JavaScriptCompressor")
+      @css_compressor = classloader.load_class("com.yahoo.platform.yui.compressor.CssCompressor")
+      @error_reporter = classloader.load_class("org.mozilla.javascript.ErrorReporter")
       @initialized = true
     rescue ClassNotFoundException
       @disabled = true

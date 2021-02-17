@@ -66,7 +66,7 @@ class AgentHandler < Handler
     agent_key = key_for(agent)
     agent_link = validate_link(relator, role, errs)
     report.add_errors(errs) if !errs.empty?
-    if !(agent_obj = stored(@agents, "#{agent[:type]}_#{agent[:id]}", agent_key))
+    if !(agent_obj = stored(@agents, (agent[:id].nil? ? "" : "#{agent[:type]}_#{agent[:id]}"), agent_key))
       unless agent[:id].nil?
         agent_obj = get_by_id(type, agent[:id])
       end

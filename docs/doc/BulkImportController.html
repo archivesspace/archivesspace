@@ -6,15 +6,15 @@
 <title>
   Class: BulkImportController
   
-    &mdash; Documentation by YARD 0.9.20
+    &mdash; Documentation by YARD 0.9.25
   
 </title>
 
-  <link rel="stylesheet" href="css/style.css" type="text/css" charset="utf-8" />
+  <link rel="stylesheet" href="css/style.css" type="text/css" />
 
-  <link rel="stylesheet" href="css/common.css" type="text/css" charset="utf-8" />
+  <link rel="stylesheet" href="css/common.css" type="text/css" />
 
-<script type="text/javascript" charset="utf-8">
+<script type="text/javascript">
   pathId = "BulkImportController";
   relpath = '';
 </script>
@@ -149,29 +149,6 @@
 </li>
 
       
-        <li class="public ">
-  <span class="summary_signature">
-    
-      <a href="#submit_file-instance_method" title="#submit_file (instance method)">#<strong>submit_file</strong>  &#x21d2; Object </a>
-    
-
-    
-  </span>
-  
-  
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'><p>submit the file to the backend.</p>
-</div></span>
-  
-</li>
-
-      
     </ul>
   
 
@@ -283,70 +260,13 @@
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_get_file identifier id'>get_file</span>
   <span class='rubyid_rid identifier id'>rid</span> <span class='assign token'>=</span> <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:rid</span><span class='rbrack token'>]</span>
   <span class='rubyid_type identifier id'>type</span> <span class='assign token'>=</span> <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:type</span><span class='rbrack token'>]</span>
-  <span class='rubyid_aoid identifier id'>aoid</span> <span class='assign token'>=</span> <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:aoid</span><span class='rbrack token'>]</span> <span class='orop op'>||</span> <span class='string val'>&#39;&#39;</span>
-  <span class='rubyid_ref_id identifier id'>ref_id</span> <span class='assign token'>=</span> <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:ref_id</span><span class='rbrack token'>]</span> <span class='orop op'>||</span> <span class='string val'>&#39;&#39;</span>
+  <span class='rubyid_aoid identifier id'>aoid</span> <span class='assign token'>=</span> <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:aoid</span><span class='rbrack token'>]</span> <span class='orop op'>||</span> <span class='string val'>&quot;&quot;</span>
+  <span class='rubyid_ref_id identifier id'>ref_id</span> <span class='assign token'>=</span> <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:ref_id</span><span class='rbrack token'>]</span> <span class='orop op'>||</span> <span class='string val'>&quot;&quot;</span>
   <span class='rubyid_resource identifier id'>resource</span> <span class='assign token'>=</span> <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:resource</span><span class='rbrack token'>]</span>
-  <span class='rubyid_position identifier id'>position</span> <span class='assign token'>=</span> <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:position</span><span class='rbrack token'>]</span> <span class='orop op'>||</span> <span class='string val'>&#39;1&#39;</span>
+  <span class='rubyid_position identifier id'>position</span> <span class='assign token'>=</span> <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:position</span><span class='rbrack token'>]</span> <span class='orop op'>||</span> <span class='string val'>&quot;1&quot;</span>
   <span class='rubyid_@resource ivar id'>@resource</span> <span class='assign token'>=</span> <span class='rubyid_Resource constant id'>Resource</span><span class='dot token'>.</span><span class='rubyid_find identifier id'>find</span><span class='lparen token'>(</span><span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:rid</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
-  <span class='rubyid_repo_id identifier id'>repo_id</span> <span class='assign token'>=</span> <span class='rubyid_@resource ivar id'>@resource</span><span class='lbrack token'>[</span><span class='string val'>&#39;repository&#39;</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>&#39;ref&#39;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_split identifier id'>split</span><span class='lparen token'>(</span><span class='string val'>&#39;/&#39;</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_last identifier id'>last</span>
-  <span class='rubyid_return return kw'>return</span> <span class='rubyid_render_aspace_partial identifier id'>render_aspace_partial</span> <span class='symbol val'>:partial</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;resources/bulk_import_form&quot;</span><span class='comma token'>,</span>  <span class='symbol val'>:locals</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span><span class='symbol val'>:rid</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_rid identifier id'>rid</span><span class='comma token'>,</span> <span class='symbol val'>:aoid</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_aoid identifier id'>aoid</span><span class='comma token'>,</span> <span class='symbol val'>:type</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_type identifier id'>type</span><span class='comma token'>,</span> <span class='symbol val'>:ref_id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_ref_id identifier id'>ref_id</span><span class='comma token'>,</span> <span class='symbol val'>:resource</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_resource identifier id'>resource</span><span class='comma token'>,</span> <span class='symbol val'>:position</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_position identifier id'>position</span><span class='comma token'>,</span> <span class='symbol val'>:repo_id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_repo_id identifier id'>repo_id</span><span class='rbrace token'>}</span> 
-<span class='rubyid_end end kw'>end</span>
-</pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-      <div class="method_details ">
-  <h3 class="signature " id="submit_file-instance_method">
-  
-    #<strong>submit_file</strong>  &#x21d2; <tt>Object</tt> 
-  
-
-  
-
-  
-</h3><div class="docstring">
-  <div class="discussion">
-    <p>submit the file to the backend</p>
-
-
-  </div>
-</div>
-<div class="tags">
-  
-
-</div><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-17
-18
-19
-20
-21
-22
-23
-24
-25
-26
-27</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/controllers/bulk_import_controller.rb', line 17</span>
-
-<span class='rubyid_def def kw'>def</span> <span class='rubyid_submit_file identifier id'>submit_file</span>
-  <span class='rubyid_url identifier id'>url</span> <span class='assign token'>=</span> <span class='string val'>&quot;/bulkimport/ssload&quot;</span>
-  <span class='rubyid_file identifier id'>file</span> <span class='assign token'>=</span> <span class='rubyid_params identifier id'>params</span><span class='dot token'>.</span><span class='rubyid_fetch identifier id'>fetch</span><span class='lparen token'>(</span><span class='string val'>&quot;file&quot;</span><span class='rparen token'>)</span>
-  <span class='rubyid_newfile identifier id'>newfile</span> <span class='assign token'>=</span> <span class='rubyid_UploadIO constant id'>UploadIO</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='rubyid_file identifier id'>file</span><span class='dot token'>.</span><span class='rubyid_tempfile identifier id'>tempfile</span><span class='comma token'>,</span> <span class='string val'>&quot;application/vnd.openxmlformats-officedocument.spreadsheetml.sheet&quot;</span><span class='comma token'>,</span> <span class='rubyid_file identifier id'>file</span><span class='dot token'>.</span><span class='rubyid_original_filename identifier id'>original_filename</span><span class='rparen token'>)</span>
-  <span class='rubyid_params identifier id'>params</span><span class='dot token'>.</span><span class='rubyid_delete identifier id'>delete</span><span class='lparen token'>(</span><span class='string val'>&quot;file&quot;</span><span class='rparen token'>)</span>
-  <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:filename</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_file identifier id'>file</span><span class='dot token'>.</span><span class='rubyid_original_filename identifier id'>original_filename</span>
-  <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:filepath</span><span class='rbrack token'>]</span>  <span class='assign token'>=</span> <span class='rubyid_newfile identifier id'>newfile</span><span class='dot token'>.</span><span class='rubyid_local_path identifier id'>local_path</span>
-  <span class='rubyid_response identifier id'>response</span> <span class='assign token'>=</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='colon2 op'>::</span><span class='rubyid_HTTP constant id'>HTTP</span><span class='dot token'>.</span><span class='rubyid_post_form identifier id'>post_form</span><span class='lparen token'>(</span><span class='rubyid_url identifier id'>url</span><span class='comma token'>,</span> <span class='rubyid_params identifier id'>params</span><span class='comma token'>,</span> <span class='symbol val'>:multipart_form_data</span><span class='rparen token'>)</span>
-  <span class='comment val'># change this when we get to diffing between errors and success?</span>
-  <span class='rubyid_return return kw'>return</span> <span class='rubyid_render_aspace_partial identifier id'>render_aspace_partial</span> <span class='symbol val'>:partial</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;resources/bulk_import_response&quot;</span><span class='comma token'>,</span> <span class='symbol val'>:locals</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span><span class='symbol val'>:data</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_response identifier id'>response</span><span class='dot token'>.</span><span class='rubyid_body identifier id'>body</span> <span class='rbrace token'>}</span>
+  <span class='rubyid_repo_id identifier id'>repo_id</span> <span class='assign token'>=</span> <span class='rubyid_@resource ivar id'>@resource</span><span class='lbrack token'>[</span><span class='string val'>&quot;repository&quot;</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>&quot;ref&quot;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_split identifier id'>split</span><span class='lparen token'>(</span><span class='string val'>&quot;/&quot;</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_last identifier id'>last</span>
+  <span class='rubyid_return return kw'>return</span> <span class='rubyid_render_aspace_partial identifier id'>render_aspace_partial</span> <span class='symbol val'>:partial</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;resources/bulk_import_form&quot;</span><span class='comma token'>,</span> <span class='symbol val'>:locals</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span> <span class='symbol val'>:rid</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_rid identifier id'>rid</span><span class='comma token'>,</span> <span class='symbol val'>:aoid</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_aoid identifier id'>aoid</span><span class='comma token'>,</span> <span class='symbol val'>:type</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_type identifier id'>type</span><span class='comma token'>,</span> <span class='symbol val'>:ref_id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_ref_id identifier id'>ref_id</span><span class='comma token'>,</span> <span class='symbol val'>:resource</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_resource identifier id'>resource</span><span class='comma token'>,</span> <span class='symbol val'>:position</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_position identifier id'>position</span><span class='comma token'>,</span> <span class='symbol val'>:repo_id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_repo_id identifier id'>repo_id</span> <span class='rbrace token'>}</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -359,9 +279,9 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.8.0.a Documentation Generated on Thu Jul 16 10:07:19 2020 by
+  ArchivesSpace Version v2.8.1.a Documentation Generated on Wed Nov 11 13:22:16 2020 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.20.
+  0.9.25.
 </div>
 
     </div>

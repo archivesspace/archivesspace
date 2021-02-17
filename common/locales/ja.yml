@@ -1204,6 +1204,7 @@ ja:
       </p>"
     finding_aid_language: 説明の言語
     finding_aid_language_tooltip: "<p>リソース記述から生成された検索補助に存在するすべての言語を示します。 </p>"
+    finding_aid_langusage_label: "説明は次のように書かれています。 "
     finding_aid_script: 説明のスクリプト
     finding_aid_script_tooltip: |
         <p>リソース記述から生成された検索援助にあるすべてのスクリプトを示します。</p>
@@ -1445,7 +1446,8 @@ ja:
     sort_column_tooltip: 結果をソートするためのデフォルトのフィールド。
     sort_direction: デフォルトのソート方向
     sort_direction_tooltip: 結果をソートするデフォルトの方向。
-    locale: Language Selection
+    locale: 言語選択
+    search_browse_columns: 列設定の検索と参照
     accession_browse_section: アクセス列を参照
     resource_browse_section: リソース参照列
     archival_object_browse_section: アーカイブオブジェクトの参照列
@@ -1463,6 +1465,7 @@ ja:
     location_profile_browse_section: ロケーションプロファイルの参照列
     container_profile_browse_section: コンテナプロファイルの参照列
     multi_browse_section: 検索列
+    job_browse_section: バックグラウンドジョブの列
     note_order_section: 注文書
     accept_default_message: "&gt;デフォルトを受け入れる："
     no_value: "[値なし]"
@@ -1563,6 +1566,7 @@ ja:
       generate_arks_job: バルクでARKを生成
       trim_whitespace_job: 空白をトリム
       unknown_job_type: 不明なジョブタイプ
+      bulk_import_job: スプレッドシートを介してロード
     status: 状態
     status_completed: 完了しました
     status_queued: 待機中
@@ -1612,6 +1616,17 @@ ja:
   print_to_pdf_job:
     include_unpublished: 未公開を含める
     source: ソース
+
+  bulk_import_job:
+    resource_uri: リソースURI
+    content_type: スプレッドシートのタイプ
+    load_type: 荷重タイプ
+    only_validate: 検証のみ
+    type:
+      csv: CSV
+      xlsx: エクセルスプレッドシート
+      ao: アーカイブオブジェクトのロード
+      digital: デジタルオブジェクトのロード
 
   trim_whitespace_job:
     description: リソース、アクセッション、デジタルオブジェクト、アーカイブオブジェクト、デジタルオブジェクトコンポーネントのタイトルから先頭と末尾の空白を削除します。
@@ -1882,10 +1897,8 @@ ja:
     processing_row: "%{row}行の処理"
     dig_assoc: デジタルオブジェクトはアーカイブオブジェクトに追加します
     row_error: "行%{row}エラーのため処理されません。%{errs}"
-    no_ao: ノーアーカイブオブジェクトが作成され
-    ao: アーカイブオブジェクト
     created: "%{what} 作成した： %{id}"
-    would_be: "%{what}作成されるだろう"
+    could_be: "%{what}作成されるだろう"
     updated: "%{what}：%{id}"
     clip_btn: クリップボードにコピー
     clip_created: "\t%{what}作成：\t%{nm}\t%{id}\t%{ref_id}"
@@ -1893,15 +1906,30 @@ ja:
     clip_info: "\t\t\t\t\t%{what} \n"
     clip_err: "\t\t\t\t\tERROR：%{err} \n"
     clip_header: "行\tStatus\tTitle\tゥリ\tRef IDtInfo"
+    log_complete: "のインポートが完了しました %{file}"
+    log_validation: "の検証が完了しました %{file}"
+    log_created: "%{row}: 作成した %{what}"
+    log_created_be: "%{row}: %{what} 作成されます"
+    log_info: "%{row}:\t%{what}"
+    log_error: "%{row}:\tエラー %{what}"
+    log_obj: "%{what} '%{nm}' %{id} %{ref_id}"
+    log_obj_be: "%{what} '%{nm}' "
+    log_results: 結果のCSVファイルのコンパイル
+    ao: アーカイブオブジェクト
     tc: トップコンテナ
     subj: 主題
     agent: エージェント
     dig: デジタルオブジェクト
+    cont_inst: コンテナインスタンス
     unfound_id: "%{type} IDが%{id}見つかりません。これはプレースホルダです"
     ref_id_notfound: 「行%{row}"
     processed: ファイルが処理されています
     file_info: "%{size}K 行の%{rows}"
     max_file_info: "%{size}K と%{rows}行"
+    object_created: "%{what} 作成した"
+    object_created_be: "%{what} 作成されます"
+    object_not_created_be: "%{what} 作成されません"
+    date_type_default: 日付タイプが指定されていません。デフォルトは「包括的」です。
     warn:
       dup: "制御値リストは、 『%{which}』翻訳のための複数のインスタンスを持っている%{trans}マネージド 『%{used}』値として使用されます。"
       disam: "複数の一致（ES）は、 '%{what}' 件見つかりました。disabiguationは '%{name}' を作成します。"
@@ -1934,6 +1962,7 @@ ja:
       hier_zero: 階層は0より大きくなければなりません
       hier_wrong: 階層が深く前の行より複数のレベルではないことはできません
       hier_wrong_resource: 選択したアーカイブオブジェクトに処理を開始することを意味したのですか？
+      hier_wrong_resource_validation:  "警告：この行の下には何も処理されませんでした"
       hier_below_error_level: 親アーカイブオブジェクトが作成されませんでした
       level: 有効な記述レベルがありません
       date: "：日付始まり、日付の終わり、または日付式日付の少なくとも一方で持っている必要があります"
@@ -1942,11 +1971,12 @@ ja:
       extent_validation: "検証の範囲（%{ext}）にできません：%{msg}"
       no_header: いいえヘッダ（フィールドコード）列が見つかりませんでした。あなたは正しいテンプレートを使用していますか？
       no_data: いいえ加工データ行が見つかりませんでした！
-      excel: "Excelファイルを解析エラー（秒）：%{errs}"
+      spreadsheet: "スプレッドシートの解析中にエラーが発生しました： %{errs}"
       no_agent: "%{num}エージェントを作成できません：[%{why}]"
       no_tc: "%{number}トップコンテナを作成できません：[%{why}]"
       missing_instance_type: 不足しているコンテナインスタンスタイプ
       no_ao: ノーアーカイブオブジェクトが作成され
+      no_ao_be: アーカイブオブジェクトは作成されません
       no_container_instance: "コンテナインスタンスを作成できません：[%{why}]"
       no_create: "作成できません：[%{why}]"
       no_move: "（%{code}応答コード）リストの末尾からアーカイブオブジェクトを移動することができません"
@@ -1974,3 +2004,6 @@ ja:
       bad_ao: "%{errs}アーカイブオブジェクトを見つけることができません"
       no_uri_or_ref: アーカイブオブジェクトURIもREF IDのいずれもが提供されていました
       file_too_big: "このファイルは、%{file_info}で、%{limits}の大きさ及び/又は行数の制限を超えました"
+      wrong_file_type: "ファイルはExcelスプレッドシートでもCSVファイルでもありません"
+      dig_obj_unique: "デジタルオブジェクトID '%{id}' もう存在している。"
+      cannot: 以前のエラーのため続行できません

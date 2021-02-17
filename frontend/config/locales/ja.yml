@@ -91,6 +91,9 @@ ja:
     delete_multiple_confirm_title: レコードを削除しますか？
     delete_multiple_confirm_message: "<p> <strong>この操作を元に戻すことはできませんので</strong>ご注意ください。
       </p><p>このアクションは、他のレコードに対する参照を含めて、これらのレコードをデータベースから削除します。 </p>"
+    reset: デフォルトにリセット
+    reset_confirm_title: "％{preftype}をアプリケーションのデフォルトにリセットしますか？"
+    reset_confirm_message: "<p><strong>この操作を元に戻すことはできません</strong>。</p><p>このアクションにより、設定がアプリケーションのデフォルトにリセットされます。</p>"
     edit_multiple: レコードを編集する
     edit_multiple_confirm_title: レコードを編集する？
     edit_multiple_confirm_message: "<p>これにより、複数のレコードを一括更新します。 </p>"
@@ -342,7 +345,8 @@ ja:
       score: 関連性
       title: タイトル
       publish: 発行済み
-      has_classification_terms: Has classification terms?
+      has_classification_terms: 分類用語はありますか？
+      identifier: 識別
       audit_info: 監査データ
       user_mtime: 更新しました
       create_time: 作成した
@@ -450,6 +454,7 @@ ja:
       create_time: 作成した
       dates: 日付
       extents: エクステント
+      langcode: 材料の言語
       asc: 上昇
       desc: 降順
     blank_facet_query_fields:
@@ -1109,6 +1114,10 @@ ja:
     _frontend:
       messages:
         updated: プリファレンスの更新
+        reset: アプリケーションのデフォルトに設定されたプリファレンス
+        reset_error: "エラーのために設定をリセットできません：％{exception}"
+      action:
+        save: 設定を保存
 
   rights_statement:
     _frontend:

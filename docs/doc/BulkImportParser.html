@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>
+  Class: BulkImportParser
+  
+    &mdash; Documentation by YARD 0.9.25
+  
+</title>
+
+  <link rel="stylesheet" href="css/style.css" type="text/css" />
+
+  <link rel="stylesheet" href="css/common.css" type="text/css" />
+
+<script type="text/javascript">
+  pathId = "BulkImportParser";
+  relpath = '';
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div class="nav_wrap">
+      <iframe id="nav" src="class_list.html?1"></iframe>
+      <div id="resizer"></div>
+    </div>
+
+    <div id="main" tabindex="-1">
+      <div id="header">
+        <div id="menu">
+  
+    <a href="alpha_index.html">Index (B)</a> &raquo;
+    
+    
+    <span class="title">BulkImportParser</span>
+  
+</div>
+
+        <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="class_list.html">
+
+        <svg width="24" height="24">
+          <rect x="0" y="4" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="12" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="20" width="24" height="4" rx="1" ry="1"></rect>
+        </svg>
+    </a>
+  
+</div>
+        <div class="clear"></div>
+      </div>
+
+      <div id="content"><h1>Class: BulkImportParser
+  
+  
+  
+</h1>
+<div class="box_info">
+  
+  <dl>
+    <dt>Inherits:</dt>
+    <dd>
+      <span class="inheritName">Object</span>
+      
+        <ul class="fullTree">
+          <li>Object</li>
+          
+            <li class="next">BulkImportParser</li>
+          
+        </ul>
+        <a href="#" class="inheritanceTree">show all</a>
+      
+    </dd>
+  </dl>
+  
+
+  
+  
+  
+  
+  <dl>
+      <dt>Includes:</dt>
+      <dd><span class='object_link'><a href="BulkImportMixins.html" title="BulkImportMixins (module)">BulkImportMixins</a></span>, <span class='object_link'><a href="URIResolver.html" title="URIResolver (module)">URIResolver</a></span></dd>
+  </dl>
+  
+  
+
+  
+
+  
+  <dl>
+    <dt>Defined in:</dt>
+    <dd>backend/app/lib/bulk_import/bulk_import_parser.rb</dd>
+  </dl>
+  
+</div>
+
+<h2>Overview</h2><div class="docstring">
+  <div class="discussion">
+    <p>Base class for bulk import via spreadsheet; handles both CSV’s and excel spreadsheets
+This class is designed for spreadsheets with the following features:
+ 1. There may be multiple rows of headers, each of which have <em>something</em> in the
+    0th column
+ 2. The header row containing the internal (machine-readble) labels will have in
+    its 0th column some defined string;
+    this string shall be used in the sub-class’s START_MARKER constant
+ 3. Only header rows contain strings in their 0th column; data rows will have an
+    empty 0th column.  This means that there can be an arbitrary (including 0)
+    number of header rows <em>after</em> the internal labels row; the code can handle it!
+ 4. The various handler classes are now required in the <em>bulk_import_mixins.rb</em> file.
+ 5. The methods that must be implemented in the sub class are <em>process_row</em>
+     and <em>log_row</em></p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><div id="subclasses">
+  <h2>Direct Known Subclasses</h2>
+  <p class="children"><span class='object_link'><a href="ImportArchivalObjects.html" title="ImportArchivalObjects (class)">ImportArchivalObjects</a></span>, <span class='object_link'><a href="ImportDigitalObjects.html" title="ImportDigitalObjects (class)">ImportDigitalObjects</a></span></p>
+</div>
+
+
+
+
+  <h2>Constant Summary</h2>
+  
+  <h3 class="inherited">Constants included
+     from <span class='object_link'><a href="JSONModel.html" title="JSONModel (module)">JSONModel</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="JSONModel.html#REFERENCE_KEY_REGEX-constant" title="JSONModel::REFERENCE_KEY_REGEX (constant)">JSONModel::REFERENCE_KEY_REGEX</a></span></p>
+
+
+
+
+
+
+  
+    <h2>
+      Instance Method Summary
+      <small><a href="#" class="summary_toggle">collapse</a></small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#initialize-instance_method" title="#initialize (instance method)">#<strong>initialize</strong>(input_file, content_type, current_user, opts, log_method)  &#x21d2; BulkImportParser </a>
+    
+
+    
+  </span>
+  
+  
+    <span class="note title constructor">constructor</span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>MAX_FILE_SIZE = Integer(AppConfig[:bulk_import_size])   MAX_FILE_ROWS = Integer(AppConfig[:bulk_import_rows])   MAX_FILE_INFO = I18n.t(“bulk_import.max_file_info”, :rows =&gt; MAX_FILE_ROWS, :size =&gt; MAX_FILE_SIZE).</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#initialize_handler_enums-instance_method" title="#initialize_handler_enums (instance method)">#<strong>initialize_handler_enums</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#initialize_info-instance_method" title="#initialize_info (instance method)">#<strong>initialize_info</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>set up all the @ variables.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#record_uris-instance_method" title="#record_uris (instance method)">#<strong>record_uris</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#run-instance_method" title="#run (instance method)">#<strong>run</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+  
+  
+  
+  
+  
+  
+  
+  
+  <h3 class="inherited">Methods included from <span class='object_link'><a href="BulkImportMixins.html" title="BulkImportMixins (module)">BulkImportMixins</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="BulkImportMixins.html#ao_save-instance_method" title="BulkImportMixins#ao_save (method)">#ao_save</a></span>, <span class='object_link'><a href="BulkImportMixins.html#archival_object_from_ref-instance_method" title="BulkImportMixins#archival_object_from_ref (method)">#archival_object_from_ref</a></span>, <span class='object_link'><a href="BulkImportMixins.html#archival_object_from_ref_or_uri-instance_method" title="BulkImportMixins#archival_object_from_ref_or_uri (method)">#archival_object_from_ref_or_uri</a></span>, <span class='object_link'><a href="BulkImportMixins.html#archival_object_from_uri-instance_method" title="BulkImportMixins#archival_object_from_uri (method)">#archival_object_from_uri</a></span>, <span class='object_link'><a href="BulkImportMixins.html#create_date-instance_method" title="BulkImportMixins#create_date (method)">#create_date</a></span>, <span class='object_link'><a href="BulkImportMixins.html#created-instance_method" title="BulkImportMixins#created (method)">#created</a></span>, <span class='object_link'><a href="BulkImportMixins.html#handle_notes-instance_method" title="BulkImportMixins#handle_notes (method)">#handle_notes</a></span>, <span class='object_link'><a href="BulkImportMixins.html#resolves-instance_method" title="BulkImportMixins#resolves (method)">#resolves</a></span>, <span class='object_link'><a href="BulkImportMixins.html#resource_match-instance_method" title="BulkImportMixins#resource_match (method)">#resource_match</a></span>, <span class='object_link'><a href="BulkImportMixins.html#test_exceptions-instance_method" title="BulkImportMixins#test_exceptions (method)">#test_exceptions</a></span>, <span class='object_link'><a href="BulkImportMixins.html#valid-instance_method" title="BulkImportMixins#valid (method)">#valid</a></span>, <span class='object_link'><a href="BulkImportMixins.html#value_check-instance_method" title="BulkImportMixins#value_check (method)">#value_check</a></span></p>
+
+  
+  
+  
+  
+  
+  
+  
+  
+  <h3 class="inherited">Methods included from <span class='object_link'><a href="CrudHelpers.html" title="CrudHelpers (module)">CrudHelpers</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="CrudHelpers.html#handle_create-instance_method" title="CrudHelpers#handle_create (method)">#handle_create</a></span>, <span class='object_link'><a href="CrudHelpers.html#handle_delete-instance_method" title="CrudHelpers#handle_delete (method)">#handle_delete</a></span>, <span class='object_link'><a href="CrudHelpers.html#handle_listing-instance_method" title="CrudHelpers#handle_listing (method)">#handle_listing</a></span>, <span class='object_link'><a href="CrudHelpers.html#handle_raw_listing-instance_method" title="CrudHelpers#handle_raw_listing (method)">#handle_raw_listing</a></span>, <span class='object_link'><a href="CrudHelpers.html#handle_unlimited_listing-instance_method" title="CrudHelpers#handle_unlimited_listing (method)">#handle_unlimited_listing</a></span>, <span class='object_link'><a href="CrudHelpers.html#handle_update-instance_method" title="CrudHelpers#handle_update (method)">#handle_update</a></span>, <span class='object_link'><a href="CrudHelpers.html#scoped_dataset-class_method" title="CrudHelpers.scoped_dataset (method)">scoped_dataset</a></span>, <span class='object_link'><a href="CrudHelpers.html#with_record_conflict_reporting-class_method" title="CrudHelpers.with_record_conflict_reporting (method)">with_record_conflict_reporting</a></span>, <span class='object_link'><a href="CrudHelpers.html#with_record_conflict_reporting-instance_method" title="CrudHelpers#with_record_conflict_reporting (method)">#with_record_conflict_reporting</a></span></p>
+
+  
+  
+  
+  
+  
+  
+  
+  
+  <h3 class="inherited">Methods included from <span class='object_link'><a href="URIResolver.html" title="URIResolver (module)">URIResolver</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="URIResolver.html#ensure_reference_is_valid-class_method" title="URIResolver.ensure_reference_is_valid (method)">ensure_reference_is_valid</a></span>, <span class='object_link'><a href="URIResolver.html#register_resolver-class_method" title="URIResolver.register_resolver (method)">register_resolver</a></span>, <span class='object_link'><a href="URIResolver.html#resolve_references-class_method" title="URIResolver.resolve_references (method)">resolve_references</a></span></p>
+
+  
+  
+  
+  
+  
+  
+  
+  
+  <h3 class="inherited">Methods included from <span class='object_link'><a href="JSONModel.html" title="JSONModel (module)">JSONModel</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="JSONModel.html#JSONModel-class_method" title="JSONModel.JSONModel (method)">JSONModel</a></span>, <span class='object_link'><a href="JSONModel.html#JSONModel-instance_method" title="JSONModel#JSONModel (method)">#JSONModel</a></span>, <span class='object_link'><a href="JSONModel.html#add_error_handler-class_method" title="JSONModel.add_error_handler (method)">add_error_handler</a></span>, <span class='object_link'><a href="JSONModel.html#all-class_method" title="JSONModel.all (method)">all</a></span>, <span class='object_link'><a href="JSONModel.html#allow_unmapped_enum_value-class_method" title="JSONModel.allow_unmapped_enum_value (method)">allow_unmapped_enum_value</a></span>, <span class='object_link'><a href="JSONModel.html#backend_url-class_method" title="JSONModel.backend_url (method)">backend_url</a></span>, <span class='object_link'><a href="JSONModel.html#check_valid_refs-class_method" title="JSONModel.check_valid_refs (method)">check_valid_refs</a></span>, <span class='object_link'><a href="JSONModel.html#client_mode%3F-class_method" title="JSONModel.client_mode? (method)">client_mode?</a></span>, <span class='object_link'><a href="JSONModel.html#custom_validations-class_method" title="JSONModel.custom_validations (method)">custom_validations</a></span>, <span class='object_link'><a href="JSONModel.html#destroy_model-class_method" title="JSONModel.destroy_model (method)">destroy_model</a></span>, <span class='object_link'><a href="JSONModel.html#enum_default_value-class_method" title="JSONModel.enum_default_value (method)">enum_default_value</a></span>, <span class='object_link'><a href="JSONModel.html#enum_values-class_method" title="JSONModel.enum_values (method)">enum_values</a></span>, <span class='object_link'><a href="JSONModel.html#handle_error-class_method" title="JSONModel.handle_error (method)">handle_error</a></span>, <span class='object_link'><a href="JSONModel.html#init-class_method" title="JSONModel.init (method)">init</a></span>, <span class='object_link'><a href="JSONModel.html#load_schema-class_method" title="JSONModel.load_schema (method)">load_schema</a></span>, <span class='object_link'><a href="JSONModel.html#models-instance_method" title="JSONModel#models (method)">#models</a></span>, <span class='object_link'><a href="JSONModel.html#models-class_method" title="JSONModel.models (method)">models</a></span>, <span class='object_link'><a href="JSONModel.html#parse_jsonmodel_ref-class_method" title="JSONModel.parse_jsonmodel_ref (method)">parse_jsonmodel_ref</a></span>, <span class='object_link'><a href="JSONModel.html#parse_reference-class_method" title="JSONModel.parse_reference (method)">parse_reference</a></span>, <span class='object_link'><a href="JSONModel.html#repository-class_method" title="JSONModel.repository (method)">repository</a></span>, <span class='object_link'><a href="JSONModel.html#repository_for-class_method" title="JSONModel.repository_for (method)">repository_for</a></span>, <span class='object_link'><a href="JSONModel.html#schema_src-class_method" title="JSONModel.schema_src (method)">schema_src</a></span>, <span class='object_link'><a href="JSONModel.html#set_publish_flags!-class_method" title="JSONModel.set_publish_flags! (method)">set_publish_flags!</a></span>, <span class='object_link'><a href="JSONModel.html#set_repository-class_method" title="JSONModel.set_repository (method)">set_repository</a></span>, <span class='object_link'><a href="JSONModel.html#strict_mode-class_method" title="JSONModel.strict_mode (method)">strict_mode</a></span>, <span class='object_link'><a href="JSONModel.html#strict_mode%3F-class_method" title="JSONModel.strict_mode? (method)">strict_mode?</a></span>, <span class='object_link'><a href="JSONModel.html#validate_schema-class_method" title="JSONModel.validate_schema (method)">validate_schema</a></span>, <span class='object_link'><a href="JSONModel.html#with_repository-class_method" title="JSONModel.with_repository (method)">with_repository</a></span></p>
+<div id="constructor_details" class="method_details_list">
+  <h2>Constructor Details</h2>
+  
+    <div class="method_details first">
+  <h3 class="signature first" id="initialize-instance_method">
+  
+    #<strong>initialize</strong>(input_file, content_type, current_user, opts, log_method)  &#x21d2; <tt><span class='object_link'><a href="" title="BulkImportParser (class)">BulkImportParser</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>MAX_FILE_SIZE = Integer(AppConfig[:bulk_import_size])
+  MAX_FILE_ROWS = Integer(AppConfig[:bulk_import_rows])
+  MAX_FILE_INFO = I18n.t(“bulk_import.max_file_info”, :rows =&gt; MAX_FILE_ROWS, :size =&gt; MAX_FILE_SIZE)</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/bulk_import/bulk_import_parser.rb', line 32</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_initialize identifier id'>initialize</span><span class='lparen token'>(</span><span class='rubyid_input_file identifier id'>input_file</span><span class='comma token'>,</span> <span class='rubyid_content_type identifier id'>content_type</span><span class='comma token'>,</span> <span class='rubyid_current_user identifier id'>current_user</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span><span class='comma token'>,</span> <span class='rubyid_log_method identifier id'>log_method</span><span class='rparen token'>)</span>
+  <span class='rubyid_@created_refs ivar id'>@created_refs</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
+  <span class='rubyid_@input_file ivar id'>@input_file</span> <span class='assign token'>=</span> <span class='rubyid_input_file identifier id'>input_file</span>
+  <span class='rubyid_@file_content_type ivar id'>@file_content_type</span> <span class='assign token'>=</span> <span class='rubyid_content_type identifier id'>content_type</span>
+  <span class='rubyid_@opts ivar id'>@opts</span> <span class='assign token'>=</span> <span class='rubyid_opts identifier id'>opts</span>
+  <span class='rubyid_@current_user ivar id'>@current_user</span> <span class='assign token'>=</span> <span class='rubyid_current_user identifier id'>current_user</span>
+  <span class='rubyid_@report_out ivar id'>@report_out</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
+  <span class='rubyid_@report ivar id'>@report</span> <span class='assign token'>=</span> <span class='rubyid_BulkImportReport constant id'>BulkImportReport</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span>
+  <span class='rubyid_@start_position ivar id'>@start_position</span>
+  <span class='rubyid_@need_to_move ivar id'>@need_to_move</span> <span class='assign token'>=</span> <span class='rubyid_false false kw'>false</span>
+  <span class='rubyid_@log_method ivar id'>@log_method</span> <span class='assign token'>=</span> <span class='rubyid_log_method identifier id'>log_method</span>
+  <span class='rubyid_@is_xslx ivar id'>@is_xslx</span> <span class='assign token'>=</span> <span class='rubyid_@file_content_type ivar id'>@file_content_type</span> <span class='eq op'>==</span> <span class='string val'>&quot;xlsx&quot;</span>
+  <span class='rubyid_@is_csv ivar id'>@is_csv</span> <span class='assign token'>=</span> <span class='rubyid_@file_content_type ivar id'>@file_content_type</span> <span class='eq op'>==</span> <span class='string val'>&quot;csv&quot;</span>
+  <span class='rubyid_@validate_only ivar id'>@validate_only</span> <span class='assign token'>=</span> <span class='rubyid_opts identifier id'>opts</span><span class='lbrack token'>[</span><span class='symbol val'>:validate</span><span class='rbrack token'>]</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+  
+</div>
+
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="initialize_handler_enums-instance_method">
+  
+    #<strong>initialize_handler_enums</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+104
+105
+106</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/bulk_import/bulk_import_parser.rb', line 104</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_initialize_handler_enums identifier id'>initialize_handler_enums</span>
+  <span class='comment val'>#initialize handlers, if needed</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="initialize_info-instance_method">
+  
+    #<strong>initialize_info</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>set up all the @ variables</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="StopBulkImportException.html" title="StopBulkImportException (class)">StopBulkImportException</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/bulk_import/bulk_import_parser.rb', line 109</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_initialize_info identifier id'>initialize_info</span>
+  <span class='rubyid_@orig_filename ivar id'>@orig_filename</span> <span class='assign token'>=</span> <span class='rubyid_@opts ivar id'>@opts</span><span class='lbrack token'>[</span><span class='symbol val'>:filename</span><span class='rbrack token'>]</span>
+  <span class='rubyid_@report_out ivar id'>@report_out</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
+  <span class='rubyid_@report ivar id'>@report</span> <span class='assign token'>=</span> <span class='rubyid_BulkImportReport constant id'>BulkImportReport</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span>
+  <span class='rubyid_@headers ivar id'>@headers</span>
+  <span class='rubyid_@report ivar id'>@report</span><span class='dot token'>.</span><span class='rubyid_set_file_name identifier id'>set_file_name</span><span class='lparen token'>(</span><span class='rubyid_@orig_filename ivar id'>@orig_filename</span><span class='rparen token'>)</span>
+  <span class='rubyid_initialize_handler_enums identifier id'>initialize_handler_enums</span>
+  <span class='rubyid_jsonresource identifier id'>jsonresource</span> <span class='assign token'>=</span> <span class='rubyid_Resource constant id'>Resource</span><span class='dot token'>.</span><span class='rubyid_to_jsonmodel identifier id'>to_jsonmodel</span><span class='lparen token'>(</span><span class='rubyid_Integer constant id'>Integer</span><span class='lparen token'>(</span><span class='rubyid_@opts ivar id'>@opts</span><span class='lbrack token'>[</span><span class='symbol val'>:rid</span><span class='rbrack token'>]</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
+  <span class='rubyid_@resource ivar id'>@resource</span> <span class='assign token'>=</span> <span class='rubyid_resolve_references identifier id'>resolve_references</span><span class='lparen token'>(</span><span class='rubyid_jsonresource identifier id'>jsonresource</span><span class='comma token'>,</span> <span class='lbrack token'>[</span><span class='string val'>&quot;repository&quot;</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
+  <span class='rubyid_@repository ivar id'>@repository</span> <span class='assign token'>=</span> <span class='rubyid_@resource ivar id'>@resource</span><span class='lbrack token'>[</span><span class='string val'>&quot;repository&quot;</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>&quot;ref&quot;</span><span class='rbrack token'>]</span>
+  <span class='rubyid_@hier ivar id'>@hier</span> <span class='assign token'>=</span> <span class='integer val'>1</span>
+  <span class='rubyid_@counter ivar id'>@counter</span> <span class='assign token'>=</span> <span class='integer val'>0</span>
+  <span class='rubyid_@rows_processed ivar id'>@rows_processed</span> <span class='assign token'>=</span> <span class='integer val'>0</span>
+  <span class='rubyid_@error_rows ivar id'>@error_rows</span> <span class='assign token'>=</span> <span class='integer val'>0</span>
+  <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_StopBulkImportException constant id'>StopBulkImportException</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='string val'>&quot;bulk_import.error.wrong_file_type&quot;</span><span class='rparen token'>)</span><span class='rparen token'>)</span> <span class='rubyid_if if_mod kw'>if</span> <span class='notop op'>!</span><span class='rubyid_@is_csv ivar id'>@is_csv</span> <span class='andop op'>&amp;&amp;</span> <span class='notop op'>!</span><span class='rubyid_@is_xslx ivar id'>@is_xslx</span>
+  <span class='comment val'>#XSLX</span>
+  <span class='rubyid_if if kw'>if</span> <span class='rubyid_@is_xslx ivar id'>@is_xslx</span>
+    <span class='rubyid_workbook identifier id'>workbook</span> <span class='assign token'>=</span> <span class='rubyid_RubyXL constant id'>RubyXL</span><span class='colon2 op'>::</span><span class='rubyid_Parser constant id'>Parser</span><span class='dot token'>.</span><span class='rubyid_parse identifier id'>parse</span><span class='lparen token'>(</span><span class='rubyid_@input_file ivar id'>@input_file</span><span class='rparen token'>)</span>
+    <span class='rubyid_sheet identifier id'>sheet</span> <span class='assign token'>=</span> <span class='rubyid_workbook identifier id'>workbook</span><span class='lbrack token'>[</span><span class='integer val'>0</span><span class='rbrack token'>]</span>
+    <span class='rubyid_@rows ivar id'>@rows</span> <span class='assign token'>=</span> <span class='rubyid_sheet identifier id'>sheet</span><span class='dot token'>.</span><span class='rubyid_enum_for identifier id'>enum_for</span><span class='lparen token'>(</span><span class='symbol val'>:each</span><span class='rparen token'>)</span>
+    <span class='comment val'>#CSV</span>
+  <span class='rubyid_elsif elsif kw'>elsif</span> <span class='rubyid_@is_csv ivar id'>@is_csv</span>
+    <span class='rubyid_table identifier id'>table</span> <span class='assign token'>=</span> <span class='rubyid_CSV constant id'>CSV</span><span class='dot token'>.</span><span class='rubyid_read identifier id'>read</span><span class='lparen token'>(</span><span class='rubyid_@input_file ivar id'>@input_file</span><span class='rparen token'>)</span>
+    <span class='rubyid_@rows ivar id'>@rows</span> <span class='assign token'>=</span> <span class='rubyid_table identifier id'>table</span><span class='dot token'>.</span><span class='rubyid_enum_for identifier id'>enum_for</span><span class='lparen token'>(</span><span class='symbol val'>:each</span><span class='rparen token'>)</span>
+  <span class='rubyid_end end kw'>end</span>
+  <span class='rubyid_find_headers identifier id'>find_headers</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="record_uris-instance_method">
+  
+    #<strong>record_uris</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+48
+49
+50</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/bulk_import/bulk_import_parser.rb', line 48</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_record_uris identifier id'>record_uris</span>
+  <span class='rubyid_@created_refs ivar id'>@created_refs</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="run-instance_method">
+  
+    #<strong>run</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/bulk_import/bulk_import_parser.rb', line 52</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_run identifier id'>run</span>
+  <span class='rubyid_begin begin kw'>begin</span>
+    <span class='rubyid_initialize_info identifier id'>initialize_info</span>
+    <span class='rubyid_begin begin kw'>begin</span>
+      <span class='rubyid_while while kw'>while</span> <span class='lparen token'>(</span><span class='rubyid_row identifier id'>row</span> <span class='assign token'>=</span> <span class='rubyid_@rows ivar id'>@rows</span><span class='dot token'>.</span><span class='rubyid_next identifier id'>next</span><span class='rparen token'>)</span>
+        <span class='rubyid_@counter ivar id'>@counter</span> <span class='opasgn op'>+=</span> <span class='integer val'>1</span>
+        <span class='rubyid_values identifier id'>values</span> <span class='assign token'>=</span> <span class='rubyid_row_values identifier id'>row_values</span><span class='lparen token'>(</span><span class='rubyid_row identifier id'>row</span><span class='rparen token'>)</span>
+        <span class='rubyid_next next kw'>next</span> <span class='rubyid_if if_mod kw'>if</span> <span class='notop op'>!</span><span class='rubyid_values identifier id'>values</span><span class='lbrack token'>[</span><span class='integer val'>0</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span>  <span class='comment val'># header rows all have something in the first column</span>
+        <span class='rubyid_next next kw'>next</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_values identifier id'>values</span><span class='dot token'>.</span><span class='rubyid_reject identifier id'>reject</span><span class='lparen token'>(</span><span class='bitand op'>&amp;</span><span class='symbol val'>:nil?</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_empty? fid id'>empty?</span>
+        <span class='rubyid_@row_hash ivar id'>@row_hash</span> <span class='assign token'>=</span> <span class='rubyid_Hash constant id'>Hash</span><span class='lbrack token'>[</span><span class='rubyid_@headers ivar id'>@headers</span><span class='dot token'>.</span><span class='rubyid_zip identifier id'>zip</span><span class='lparen token'>(</span><span class='rubyid_values identifier id'>values</span><span class='rparen token'>)</span><span class='rbrack token'>]</span>
+        <span class='rubyid_begin begin kw'>begin</span>
+          <span class='rubyid_@report ivar id'>@report</span><span class='dot token'>.</span><span class='rubyid_new_row identifier id'>new_row</span><span class='lparen token'>(</span><span class='rubyid_@counter ivar id'>@counter</span><span class='rparen token'>)</span>
+          <span class='rubyid_process_row identifier id'>process_row</span>
+          <span class='rubyid_@rows_processed ivar id'>@rows_processed</span> <span class='opasgn op'>+=</span> <span class='integer val'>1</span>
+          <span class='rubyid_@error_level ivar id'>@error_level</span> <span class='assign token'>=</span> <span class='rubyid_nil nil kw'>nil</span>
+        <span class='rubyid_rescue rescue kw'>rescue</span> <span class='rubyid_StopBulkImportException constant id'>StopBulkImportException</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_se identifier id'>se</span>
+          <span class='rubyid_@report ivar id'>@report</span><span class='dot token'>.</span><span class='rubyid_add_errors identifier id'>add_errors</span><span class='lparen token'>(</span><span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='string val'>&quot;bulk_import.error.stopped&quot;</span><span class='comma token'>,</span> <span class='symbol val'>:row</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_@counter ivar id'>@counter</span><span class='comma token'>,</span> <span class='symbol val'>:msg</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_se identifier id'>se</span><span class='dot token'>.</span><span class='rubyid_message identifier id'>message</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
+          <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_StopIteration constant id'>StopIteration</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span>
+        <span class='rubyid_rescue rescue kw'>rescue</span> <span class='rubyid_BulkImportException constant id'>BulkImportException</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_e identifier id'>e</span>
+          <span class='rubyid_@error_rows ivar id'>@error_rows</span> <span class='opasgn op'>+=</span> <span class='integer val'>1</span>
+          <span class='rubyid_@report ivar id'>@report</span><span class='dot token'>.</span><span class='rubyid_add_errors identifier id'>add_errors</span><span class='lparen token'>(</span><span class='rubyid_e identifier id'>e</span><span class='dot token'>.</span><span class='rubyid_message identifier id'>message</span><span class='rparen token'>)</span>
+          <span class='rubyid_@error_level ivar id'>@error_level</span> <span class='assign token'>=</span> <span class='rubyid_@hier ivar id'>@hier</span>
+        <span class='rubyid_end end kw'>end</span>
+        <span class='rubyid_current identifier id'>current</span> <span class='assign token'>=</span> <span class='rubyid_@report ivar id'>@report</span><span class='dot token'>.</span><span class='rubyid_current_row identifier id'>current_row</span>
+        <span class='rubyid_log_row identifier id'>log_row</span><span class='lparen token'>(</span><span class='rubyid_current identifier id'>current</span><span class='rparen token'>)</span> <span class='rubyid_unless unless_mod kw'>unless</span> <span class='rubyid_@log_method ivar id'>@log_method</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span>
+        <span class='rubyid_@report ivar id'>@report</span><span class='dot token'>.</span><span class='rubyid_end_row identifier id'>end_row</span>
+      <span class='rubyid_end end kw'>end</span>
+    <span class='rubyid_rescue rescue kw'>rescue</span> <span class='rubyid_StopIteration constant id'>StopIteration</span>
+      <span class='comment val'># we just want to catch this without processing further</span>
+    <span class='rubyid_end end kw'>end</span>
+    <span class='rubyid_if if kw'>if</span> <span class='rubyid_@rows_processed ivar id'>@rows_processed</span> <span class='eq op'>==</span> <span class='integer val'>0</span>
+      <span class='rubyid_message identifier id'>message</span> <span class='assign token'>=</span> <span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='string val'>&quot;bulk_import.error.no_data&quot;</span><span class='rparen token'>)</span> <span class='comment val'># default message (no data)</span>
+      <span class='rubyid_if if kw'>if</span> <span class='rubyid_@report ivar id'>@report</span><span class='dot token'>.</span><span class='rubyid_current_row identifier id'>current_row</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_@report ivar id'>@report</span><span class='dot token'>.</span><span class='rubyid_current_row identifier id'>current_row</span><span class='dot token'>.</span><span class='rubyid_errors identifier id'>errors</span><span class='dot token'>.</span><span class='rubyid_any? fid id'>any?</span>
+        <span class='comment val'># if we have a row error message put that into the exception so it more closely matches the csv report</span>
+        <span class='rubyid_message identifier id'>message</span> <span class='assign token'>=</span> <span class='rubyid_@report ivar id'>@report</span><span class='dot token'>.</span><span class='rubyid_current_row identifier id'>current_row</span><span class='dot token'>.</span><span class='rubyid_errors identifier id'>errors</span><span class='dot token'>.</span><span class='rubyid_first identifier id'>first</span><span class='dot token'>.</span><span class='rubyid_match identifier id'>match</span><span class='lparen token'>(</span><span class='regexp val'>/\[(.*)\]/</span><span class='rparen token'>)</span><span class='lbrack token'>[</span><span class='integer val'>1</span><span class='rbrack token'>]</span>
+      <span class='rubyid_end end kw'>end</span>
+      <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_BulkImportException constant id'>BulkImportException</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='rubyid_message identifier id'>message</span><span class='rparen token'>)</span>
+    <span class='rubyid_end end kw'>end</span>
+  <span class='rubyid_rescue rescue kw'>rescue</span> <span class='rubyid_Exception constant id'>Exception</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_e identifier id'>e</span>
+    <span class='rubyid_if if kw'>if</span> <span class='rubyid_e identifier id'>e</span><span class='dot token'>.</span><span class='rubyid_is_a? fid id'>is_a?</span><span class='lparen token'>(</span><span class='rubyid_BulkImportException constant id'>BulkImportException</span><span class='rparen token'>)</span> <span class='orop op'>||</span> <span class='rubyid_e identifier id'>e</span><span class='dot token'>.</span><span class='rubyid_is_a? fid id'>is_a?</span><span class='lparen token'>(</span><span class='rubyid_StopBulkImportException constant id'>StopBulkImportException</span><span class='rparen token'>)</span>
+      <span class='rubyid_@report ivar id'>@report</span><span class='dot token'>.</span><span class='rubyid_add_terminal_error identifier id'>add_terminal_error</span><span class='lparen token'>(</span><span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='string val'>&quot;bulk_import.error.spreadsheet&quot;</span><span class='comma token'>,</span> <span class='symbol val'>:errs</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_e identifier id'>e</span><span class='dot token'>.</span><span class='rubyid_message identifier id'>message</span><span class='rparen token'>)</span><span class='comma token'>,</span> <span class='rubyid_@counter ivar id'>@counter</span><span class='rparen token'>)</span>
+    <span class='rubyid_elsif elsif kw'>elsif</span> <span class='rubyid_e identifier id'>e</span><span class='dot token'>.</span><span class='rubyid_is_a? fid id'>is_a?</span><span class='lparen token'>(</span><span class='rubyid_StopIteration constant id'>StopIteration</span><span class='rparen token'>)</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_@headers ivar id'>@headers</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span>
+      <span class='rubyid_@report ivar id'>@report</span><span class='dot token'>.</span><span class='rubyid_add_terminal_error identifier id'>add_terminal_error</span><span class='lparen token'>(</span><span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='string val'>&quot;bulk_import.error.no_header&quot;</span><span class='rparen token'>)</span><span class='comma token'>,</span> <span class='rubyid_@counter ivar id'>@counter</span><span class='rparen token'>)</span>
+    <span class='rubyid_else else kw'>else</span> <span class='comment val'># something else went wrong</span>
+      <span class='rubyid_@report ivar id'>@report</span><span class='dot token'>.</span><span class='rubyid_add_terminal_error identifier id'>add_terminal_error</span><span class='lparen token'>(</span><span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='string val'>&quot;bulk_import.error.system&quot;</span><span class='comma token'>,</span> <span class='symbol val'>:msg</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_e identifier id'>e</span><span class='dot token'>.</span><span class='rubyid_message identifier id'>message</span><span class='rparen token'>)</span><span class='comma token'>,</span> <span class='rubyid_@counter ivar id'>@counter</span><span class='rparen token'>)</span>
+      <span class='rubyid_Log constant id'>Log</span><span class='dot token'>.</span><span class='rubyid_error identifier id'>error</span><span class='lparen token'>(</span><span class='dstring node'>&quot;UNEXPECTED EXCEPTION on bulkimport load! #{e.message}&quot;</span><span class='rparen token'>)</span>
+      <span class='rubyid_Log constant id'>Log</span><span class='dot token'>.</span><span class='rubyid_error identifier id'>error</span><span class='lparen token'>(</span><span class='rubyid_e identifier id'>e</span><span class='dot token'>.</span><span class='rubyid_backtrace identifier id'>backtrace</span><span class='dot token'>.</span><span class='rubyid_pretty_inspect identifier id'>pretty_inspect</span><span class='rparen token'>)</span>
+    <span class='rubyid_end end kw'>end</span>
+  <span class='rubyid_end end kw'>end</span>
+  <span class='rubyid_return return kw'>return</span> <span class='rubyid_@report ivar id'>@report</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+</div>
+
+      <div id="footer">
+  ArchivesSpace Version v2.8.1.a Documentation Generated on Wed Nov 11 13:22:08 2020 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.9.25.
+</div>
+
+    </div>
+  </body>
+</html>

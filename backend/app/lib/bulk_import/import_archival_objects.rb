@@ -184,6 +184,7 @@ class ImportArchivalObjects < BulkImportParser
       end
     end
     ao.resource = { "ref" => @resource["uri"] }
+    ao.ref_id = @row_hash['ref_id'] if @row_hash['ref_id']
     ao.component_id = @row_hash["unit_id"] if @row_hash["unit_id"]
     ao.repository_processing_note = @row_hash["processing_note"] if @row_hash["processing_note"]
 

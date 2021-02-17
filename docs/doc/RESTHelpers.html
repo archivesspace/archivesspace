@@ -6,15 +6,15 @@
 <title>
   Module: RESTHelpers
   
-    &mdash; Documentation by YARD 0.9.20
+    &mdash; Documentation by YARD 0.9.25
   
 </title>
 
-  <link rel="stylesheet" href="css/style.css" type="text/css" charset="utf-8" />
+  <link rel="stylesheet" href="css/style.css" type="text/css" />
 
-  <link rel="stylesheet" href="css/common.css" type="text/css" charset="utf-8" />
+  <link rel="stylesheet" href="css/common.css" type="text/css" />
 
-<script type="text/javascript" charset="utf-8">
+<script type="text/javascript">
   pathId = "RESTHelpers";
   relpath = '';
 </script>
@@ -186,17 +186,6 @@
       <pre class="lines">
 
 
-436
-437
-438
-439
-440
-441
-442
-443
-444
-445
-446
 447
 448
 449
@@ -377,10 +366,17 @@
 624
 625
 626
-627</pre>
+627
+628
+629
+630
+631
+632
+633
+634</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/rest.rb', line 436</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/rest.rb', line 447</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_included identifier id'>included</span><span class='lparen token'>(</span><span class='rubyid_base identifier id'>base</span><span class='rparen token'>)</span>
 
@@ -402,7 +398,7 @@
         <span class='rubyid_if if kw'>if</span> <span class='rubyid_request identifier id'>request</span><span class='dot token'>.</span><span class='rubyid_content_charset identifier id'>content_charset</span>
           <span class='rubyid_value identifier id'>value</span> <span class='assign token'>=</span> <span class='rubyid_value identifier id'>value</span><span class='dot token'>.</span><span class='rubyid_force_encoding identifier id'>force_encoding</span><span class='lparen token'>(</span><span class='rubyid_request identifier id'>request</span><span class='dot token'>.</span><span class='rubyid_content_charset identifier id'>content_charset</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_encode identifier id'>encode</span><span class='lparen token'>(</span><span class='string val'>&quot;UTF-8&quot;</span><span class='rparen token'>)</span>
         <span class='rubyid_end end kw'>end</span>
-
+        <span class='rubyid_value identifier id'>value</span> <span class='assign token'>=</span> <span class='rubyid_value identifier id'>value</span><span class='dot token'>.</span><span class='rubyid_to_json identifier id'>to_json</span> <span class='rubyid_unless unless_mod kw'>unless</span> <span class='rubyid_value identifier id'>value</span><span class='dot token'>.</span><span class='rubyid_is_a? fid id'>is_a?</span> <span class='rubyid_String constant id'>String</span>
         <span class='rubyid_type identifier id'>type</span><span class='dot token'>.</span><span class='rubyid_from_json identifier id'>from_json</span><span class='lparen token'>(</span><span class='rubyid_value identifier id'>value</span><span class='rparen token'>)</span>
       <span class='rubyid_elsif elsif kw'>elsif</span> <span class='rubyid_type identifier id'>type</span><span class='dot token'>.</span><span class='rubyid_is_a? fid id'>is_a?</span> <span class='rubyid_Array constant id'>Array</span>
         <span class='rubyid_if if kw'>if</span> <span class='rubyid_value identifier id'>value</span><span class='dot token'>.</span><span class='rubyid_is_a? fid id'>is_a?</span> <span class='rubyid_Array constant id'>Array</span>
@@ -477,7 +473,6 @@
 
     <span class='rubyid_def def kw'>def</span> <span class='rubyid_process_declared_params identifier id'>process_declared_params</span><span class='lparen token'>(</span><span class='rubyid_declared_params identifier id'>declared_params</span><span class='comma token'>,</span> <span class='rubyid_params identifier id'>params</span><span class='comma token'>,</span> <span class='rubyid_known_params identifier id'>known_params</span><span class='comma token'>,</span> <span class='rubyid_errors identifier id'>errors</span><span class='rparen token'>)</span>
       <span class='rubyid_declared_params identifier id'>declared_params</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_definition identifier id'>definition</span><span class='bitor op'>|</span>
-
         <span class='lparen token'>(</span><span class='rubyid_name identifier id'>name</span><span class='comma token'>,</span> <span class='rubyid_type identifier id'>type</span><span class='comma token'>,</span> <span class='rubyid_doc identifier id'>doc</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span><span class='rparen token'>)</span> <span class='assign token'>=</span> <span class='rubyid_definition identifier id'>definition</span>
         <span class='rubyid_opts identifier id'>opts</span> <span class='opasgn op'>||=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span>
 
@@ -499,15 +494,12 @@
 
           <span class='rubyid_if if kw'>if</span> <span class='rubyid_type identifier id'>type</span> <span class='rubyid_and and kw'>and</span> <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='rubyid_name identifier id'>name</span><span class='rbrack token'>]</span>
             <span class='rubyid_begin begin kw'>begin</span>
-              <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='rubyid_name identifier id'>name</span><span class='dot token'>.</span><span class='rubyid_intern identifier id'>intern</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_coerce_type identifier id'>coerce_type</span><span class='lparen token'>(</span><span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='rubyid_name identifier id'>name</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='rubyid_type identifier id'>type</span><span class='rparen token'>)</span>
-              <span class='rubyid_params identifier id'>params</span><span class='dot token'>.</span><span class='rubyid_delete identifier id'>delete</span><span class='lparen token'>(</span><span class='rubyid_name identifier id'>name</span><span class='rparen token'>)</span>
-
+              <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='rubyid_name identifier id'>name</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_coerce_type identifier id'>coerce_type</span><span class='lparen token'>(</span><span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='rubyid_name identifier id'>name</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='rubyid_type identifier id'>type</span><span class='rparen token'>)</span>
             <span class='rubyid_rescue rescue kw'>rescue</span> <span class='rubyid_ArgumentError constant id'>ArgumentError</span>
               <span class='rubyid_errors identifier id'>errors</span><span class='lbrack token'>[</span><span class='symbol val'>:bad_type</span><span class='rbrack token'>]</span> <span class='lshft op'>&lt;&lt;</span> <span class='lbrace token'>{</span><span class='symbol val'>:name</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_name identifier id'>name</span><span class='comma token'>,</span> <span class='symbol val'>:doc</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_doc identifier id'>doc</span><span class='comma token'>,</span> <span class='symbol val'>:type</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_type identifier id'>type</span><span class='rbrace token'>}</span>
             <span class='rubyid_end end kw'>end</span>
           <span class='rubyid_elsif elsif kw'>elsif</span> <span class='rubyid_type identifier id'>type</span> <span class='rubyid_and and kw'>and</span> <span class='rubyid_opts identifier id'>opts</span><span class='lbrack token'>[</span><span class='symbol val'>:default</span><span class='rbrack token'>]</span>
-            <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='rubyid_name identifier id'>name</span><span class='dot token'>.</span><span class='rubyid_intern identifier id'>intern</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_opts identifier id'>opts</span><span class='lbrack token'>[</span><span class='symbol val'>:default</span><span class='rbrack token'>]</span>
-            <span class='rubyid_params identifier id'>params</span><span class='dot token'>.</span><span class='rubyid_delete identifier id'>delete</span><span class='lparen token'>(</span><span class='rubyid_name identifier id'>name</span><span class='rparen token'>)</span>
+            <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='rubyid_name identifier id'>name</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_opts identifier id'>opts</span><span class='lbrack token'>[</span><span class='symbol val'>:default</span><span class='rbrack token'>]</span>
           <span class='rubyid_end end kw'>end</span>
 
           <span class='rubyid_if if kw'>if</span> <span class='rubyid_opts identifier id'>opts</span><span class='lbrack token'>[</span><span class='symbol val'>:validation</span><span class='rbrack token'>]</span>
@@ -522,7 +514,7 @@
 
 
     <span class='rubyid_def def kw'>def</span> <span class='rubyid_ensure_params identifier id'>ensure_params</span><span class='lparen token'>(</span><span class='rubyid_declared_params identifier id'>declared_params</span><span class='comma token'>,</span> <span class='rubyid_paginated identifier id'>paginated</span><span class='comma token'>,</span> <span class='rubyid_paged identifier id'>paged</span><span class='rparen token'>)</span>
-
+      <span class='rubyid_params identifier id'>params</span><span class='dot token'>.</span><span class='rubyid_delete identifier id'>delete</span><span class='lparen token'>(</span><span class='string val'>&#39;captures&#39;</span><span class='rparen token'>)</span> <span class='comment val'># Sinatra 2.x</span>
       <span class='rubyid_errors identifier id'>errors</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span>
         <span class='symbol val'>:missing</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
         <span class='symbol val'>:bad_type</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
@@ -585,9 +577,9 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.8.0.a Documentation Generated on Thu Jul 16 10:06:49 2020 by
+  ArchivesSpace Version v2.8.1.a Documentation Generated on Wed Nov 11 13:21:20 2020 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.20.
+  0.9.25.
 </div>
 
     </div>

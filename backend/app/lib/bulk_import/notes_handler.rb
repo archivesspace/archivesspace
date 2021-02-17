@@ -55,7 +55,7 @@ class NotesHandler < Handler
     begin
       wellformed(content)
     rescue Exception => e
-      raise BulkImportException.new(I18n.t("bulk_import.error.bad_note", :type => note_type[:value], :msg => CGI::escapeHTML(e.message)))
+      raise BulkImportException.new(I18n.t("bulk_import.error.bad_note", :type => note_type[:value], :msg => e.message))
     end
     # if the target is multipart, then the data goes in a JSONMODEL(:note_text).content;, which is pushed to the note.subnote array; otherwise it's just pushed to the note.content array
     if note_type[:target] == :note_multipart

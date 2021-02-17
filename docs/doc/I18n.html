@@ -6,15 +6,15 @@
 <title>
   Module: I18n
   
-    &mdash; Documentation by YARD 0.9.20
+    &mdash; Documentation by YARD 0.9.25
   
 </title>
 
-  <link rel="stylesheet" href="css/style.css" type="text/css" charset="utf-8" />
+  <link rel="stylesheet" href="css/style.css" type="text/css" />
 
-  <link rel="stylesheet" href="css/common.css" type="text/css" charset="utf-8" />
+  <link rel="stylesheet" href="css/common.css" type="text/css" />
 
-<script type="text/javascript" charset="utf-8">
+<script type="text/javascript">
   pathId = "I18n";
   relpath = '';
 </script>
@@ -119,6 +119,24 @@ here.</p>
 <span class='rbrace token'>}</span><span class='dot token'>.</span><span class='rubyid_sort_by identifier id'>sort_by</span> <span class='lbrace token'>{</span>
 </pre></dd>
       
+        <dt id="TRANSLATE_CACHE_LIMIT-constant" class="">TRANSLATE_CACHE_LIMIT =
+          
+        </dt>
+        <dd><pre class="code"><span class='integer val'>8192</span>
+</pre></dd>
+      
+        <dt id="TRANSLATE_CACHE-constant" class="">TRANSLATE_CACHE =
+          
+        </dt>
+        <dd><pre class="code"><span class='rubyid_java identifier id'>java</span><span class='dot token'>.</span><span class='rubyid_util identifier id'>util</span><span class='dot token'>.</span><span class='rubyid_concurrent identifier id'>concurrent</span><span class='dot token'>.</span><span class='rubyid_ConcurrentHashMap constant id'>ConcurrentHashMap</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='rubyid_TRANSLATE_CACHE_LIMIT constant id'>TRANSLATE_CACHE_LIMIT</span><span class='rparen token'>)</span>
+</pre></dd>
+      
+        <dt id="ENUM_SEPARATOR-constant" class="">ENUM_SEPARATOR =
+          
+        </dt>
+        <dd><pre class="code"><span class='string val'>&quot;\0&quot;</span>
+</pre></dd>
+      
     </dl>
   
 
@@ -135,6 +153,52 @@ here.</p>
     </h2>
 
     <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#build_cache_key-class_method" title="build_cache_key (class method)">.<strong>build_cache_key</strong>(args)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#build_enumeration_key-class_method" title="build_enumeration_key (class method)">.<strong>build_enumeration_key</strong>(key)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
       
         <li class="public ">
   <span class="summary_signature">
@@ -199,6 +263,29 @@ here.</p>
   
 
   
+    <span class="summary_desc"><div class='inline'><p>Caching layer.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#t_raw_uncached-class_method" title="t_raw_uncached (class method)">.<strong>t_raw_uncached</strong>(*args)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
     <span class="summary_desc"><div class='inline'>
 </div></span>
   
@@ -215,7 +302,101 @@ here.</p>
 
     
       <div class="method_details first">
-  <h3 class="signature first" id="supported_locales-class_method">
+  <h3 class="signature first" id="build_cache_key-class_method">
+  
+    .<strong>build_cache_key</strong>(args)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'common/aspace_i18n_enumeration_support.rb', line 86</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_build_cache_key identifier id'>build_cache_key</span><span class='lparen token'>(</span><span class='rubyid_args identifier id'>args</span><span class='rparen token'>)</span>
+  <span class='rubyid_key identifier id'>key</span> <span class='assign token'>=</span> <span class='rubyid_args identifier id'>args</span><span class='lbrack token'>[</span><span class='integer val'>0</span><span class='rbrack token'>]</span>
+
+  <span class='comment val'># We&#39;ll only cache the trivial case: simple string lookup.  No placeholders.</span>
+  <span class='rubyid_cacheable identifier id'>cacheable</span> <span class='assign token'>=</span> <span class='lparen token'>(</span><span class='rubyid_args identifier id'>args</span><span class='lbrack token'>[</span><span class='integer val'>1</span><span class='rbrack token'>]</span> <span class='andop op'>&amp;&amp;</span>
+               <span class='rubyid_args identifier id'>args</span><span class='lbrack token'>[</span><span class='integer val'>1</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span> <span class='eq op'>==</span> <span class='rubyid_Hash constant id'>Hash</span> <span class='andop op'>&amp;&amp;</span>
+               <span class='rubyid_args identifier id'>args</span><span class='lbrack token'>[</span><span class='integer val'>1</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_keys identifier id'>keys</span><span class='dot token'>.</span><span class='rubyid_sort identifier id'>sort</span> <span class='eq op'>==</span> <span class='lbrack token'>[</span><span class='symbol val'>:default</span><span class='comma token'>,</span> <span class='symbol val'>:raise</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
+
+  <span class='rubyid_if if kw'>if</span> <span class='notop op'>!</span><span class='rubyid_cacheable identifier id'>cacheable</span>
+    <span class='rubyid_return return kw'>return</span> <span class='rubyid_nil nil kw'>nil</span>
+  <span class='rubyid_end end kw'>end</span>
+
+  <span class='rubyid_if if kw'>if</span> <span class='rubyid_key identifier id'>key</span><span class='dot token'>.</span><span class='rubyid_kind_of? fid id'>kind_of?</span><span class='lparen token'>(</span><span class='rubyid_Hash constant id'>Hash</span><span class='rparen token'>)</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_key identifier id'>key</span><span class='dot token'>.</span><span class='rubyid_has_key? fid id'>has_key?</span><span class='lparen token'>(</span><span class='symbol val'>:enumeration</span><span class='rparen token'>)</span>
+    <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_build_enumeration_key identifier id'>build_enumeration_key</span><span class='lparen token'>(</span><span class='rubyid_key identifier id'>key</span><span class='rparen token'>)</span>
+  <span class='rubyid_else else kw'>else</span>
+    <span class='rubyid_key identifier id'>key</span>
+  <span class='rubyid_end end kw'>end</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="build_enumeration_key-class_method">
+  
+    .<strong>build_enumeration_key</strong>(key)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+105
+106
+107
+108</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'common/aspace_i18n_enumeration_support.rb', line 105</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_build_enumeration_key identifier id'>build_enumeration_key</span><span class='lparen token'>(</span><span class='rubyid_key identifier id'>key</span><span class='rparen token'>)</span>
+  <span class='comment val'># Null character to cope with enumeration values containing dots.  Eugh.</span>
+  <span class='lbrack token'>[</span><span class='string val'>&#39;enumerations&#39;</span><span class='comma token'>,</span> <span class='rubyid_key identifier id'>key</span><span class='lbrack token'>[</span><span class='symbol val'>:enumeration</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='rubyid_key identifier id'>key</span><span class='lbrack token'>[</span><span class='symbol val'>:value</span><span class='rbrack token'>]</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_join identifier id'>join</span><span class='lparen token'>(</span><span class='rubyid_ENUM_SEPARATOR constant id'>ENUM_SEPARATOR</span><span class='rparen token'>)</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="supported_locales-class_method">
   
     .<strong>supported_locales</strong>  &#x21d2; <tt>Object</tt> 
   
@@ -229,12 +410,12 @@ here.</p>
       <pre class="lines">
 
 
-28
-29
-30</pre>
+30
+31
+32</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/aspace_i18n.rb', line 28</span>
+      <pre class="code"><span class="info file"># File 'common/aspace_i18n.rb', line 30</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_supported_locales identifier id'>supported_locales</span>
   <span class='rubyid_LOCALES constant id'>LOCALES</span>
@@ -260,12 +441,12 @@ here.</p>
       <pre class="lines">
 
 
-32
-33
-34</pre>
+34
+35
+36</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/aspace_i18n.rb', line 32</span>
+      <pre class="code"><span class="info file"># File 'common/aspace_i18n.rb', line 34</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='mult op'>*</span><span class='rubyid_args identifier id'>args</span><span class='rparen token'>)</span>
   <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_t_raw identifier id'>t_raw</span><span class='lparen token'>(</span><span class='mult op'>*</span><span class='rubyid_args identifier id'>args</span><span class='rparen token'>)</span>
@@ -285,17 +466,22 @@ here.</p>
   
 
   
-</h3><table class="source_code">
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Caching layer.  See #t_raw_uncached for the real action.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
 
 
-9
-10
-11
-12
-13
 14
 15
 16
@@ -318,13 +504,128 @@ here.</p>
 33
 34
 35
-36</pre>
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/aspace_i18n_enumeration_support.rb', line 9</span>
+      <pre class="code"><span class="info file"># File 'common/aspace_i18n_enumeration_support.rb', line 14</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_t_raw identifier id'>t_raw</span><span class='lparen token'>(</span><span class='mult op'>*</span><span class='rubyid_args identifier id'>args</span><span class='rparen token'>)</span>
+  <span class='rubyid_cache_key identifier id'>cache_key</span> <span class='assign token'>=</span> <span class='rubyid_build_cache_key identifier id'>build_cache_key</span><span class='lparen token'>(</span><span class='rubyid_args identifier id'>args</span><span class='rparen token'>)</span>
+
+  <span class='rubyid_if if kw'>if</span> <span class='notop op'>!</span><span class='rubyid_cache_key identifier id'>cache_key</span>
+    <span class='comment val'># This entry is uncacheable.  Perhaps because it contains placeholders to</span>
+    <span class='comment val'># be substituted.</span>
+
+    <span class='rubyid_return return kw'>return</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_t_raw_uncached identifier id'>t_raw_uncached</span><span class='lparen token'>(</span><span class='mult op'>*</span><span class='rubyid_args identifier id'>args</span><span class='rparen token'>)</span>
+  <span class='rubyid_end end kw'>end</span>
+
+  <span class='rubyid_entry identifier id'>entry</span> <span class='assign token'>=</span> <span class='rubyid_nil nil kw'>nil</span>
+  <span class='rubyid_cache_hit identifier id'>cache_hit</span> <span class='assign token'>=</span> <span class='rubyid_false false kw'>false</span>
+
+  <span class='rubyid_if if kw'>if</span> <span class='lparen token'>(</span><span class='rubyid_entry identifier id'>entry</span> <span class='assign token'>=</span> <span class='rubyid_TRANSLATE_CACHE constant id'>TRANSLATE_CACHE</span><span class='lbrack token'>[</span><span class='rubyid_cache_key identifier id'>cache_key</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
+    <span class='rubyid_cache_hit identifier id'>cache_hit</span> <span class='assign token'>=</span> <span class='rubyid_true true kw'>true</span>
+  <span class='rubyid_else else kw'>else</span>
+    <span class='rubyid_begin begin kw'>begin</span>
+      <span class='rubyid_entry identifier id'>entry</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='symbol val'>:result</span><span class='comma token'>,</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_t_raw_uncached identifier id'>t_raw_uncached</span><span class='lparen token'>(</span><span class='mult op'>*</span><span class='rubyid_args identifier id'>args</span><span class='rparen token'>)</span><span class='rbrack token'>]</span>
+    <span class='rubyid_rescue rescue kw'>rescue</span>
+      <span class='rubyid_entry identifier id'>entry</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='symbol val'>:error</span><span class='comma token'>,</span> <span class='rubyid_$! gvar id'>$!</span><span class='rbrack token'>]</span>
+    <span class='rubyid_end end kw'>end</span>
+  <span class='rubyid_end end kw'>end</span>
+
+  <span class='rubyid_if if kw'>if</span> <span class='notop op'>!</span><span class='rubyid_cache_hit identifier id'>cache_hit</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_TRANSLATE_CACHE constant id'>TRANSLATE_CACHE</span><span class='dot token'>.</span><span class='rubyid_size identifier id'>size</span> <span class='lt op'>&lt;</span> <span class='rubyid_TRANSLATE_CACHE_LIMIT constant id'>TRANSLATE_CACHE_LIMIT</span>
+    <span class='comment val'># This won&#39;t strictly prevent the cache growing a bit larger than the</span>
+    <span class='comment val'># limit since the size check isn&#39;t performed under a lock, but should stop</span>
+    <span class='comment val'># unbounded growth due to bugs in code.</span>
+    <span class='rubyid_TRANSLATE_CACHE constant id'>TRANSLATE_CACHE</span><span class='lbrack token'>[</span><span class='rubyid_cache_key identifier id'>cache_key</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_entry identifier id'>entry</span>
+  <span class='rubyid_end end kw'>end</span>
+
+  <span class='comment val'># TEST MODE</span>
+  <span class='comment val'># if cache_hit &amp;&amp; entry[0] == :result</span>
+  <span class='comment val'>#   raise args.inspect unless entry[1] == self.t_raw_uncached(*args)</span>
+  <span class='comment val'># end</span>
+
+  <span class='rubyid_if if kw'>if</span> <span class='rubyid_entry identifier id'>entry</span><span class='lbrack token'>[</span><span class='integer val'>0</span><span class='rbrack token'>]</span> <span class='eq op'>==</span> <span class='symbol val'>:result</span>
+    <span class='rubyid_return return kw'>return</span> <span class='rubyid_entry identifier id'>entry</span><span class='lbrack token'>[</span><span class='integer val'>1</span><span class='rbrack token'>]</span>
+  <span class='rubyid_else else kw'>else</span>
+    <span class='comment val'># Error</span>
+    <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_entry identifier id'>entry</span><span class='lbrack token'>[</span><span class='integer val'>1</span><span class='rbrack token'>]</span>
+  <span class='rubyid_end end kw'>end</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="t_raw_uncached-class_method">
+  
+    .<strong>t_raw_uncached</strong>(*args)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'common/aspace_i18n_enumeration_support.rb', line 57</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_t_raw_uncached identifier id'>t_raw_uncached</span><span class='lparen token'>(</span><span class='mult op'>*</span><span class='rubyid_args identifier id'>args</span><span class='rparen token'>)</span>
   <span class='rubyid_key identifier id'>key</span> <span class='assign token'>=</span> <span class='rubyid_args identifier id'>args</span><span class='lbrack token'>[</span><span class='integer val'>0</span><span class='rbrack token'>]</span>
+
   <span class='rubyid_default identifier id'>default</span> <span class='assign token'>=</span> <span class='rubyid_if if kw'>if</span> <span class='rubyid_args identifier id'>args</span><span class='lbrack token'>[</span><span class='integer val'>1</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_is_a? fid id'>is_a?</span><span class='lparen token'>(</span><span class='rubyid_String constant id'>String</span><span class='rparen token'>)</span>
               <span class='rubyid_args identifier id'>args</span><span class='lbrack token'>[</span><span class='integer val'>1</span><span class='rbrack token'>]</span>
             <span class='rubyid_else else kw'>else</span>
@@ -340,14 +641,13 @@ here.</p>
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_key identifier id'>key</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_key identifier id'>key</span><span class='dot token'>.</span><span class='rubyid_kind_of? fid id'>kind_of?</span><span class='lparen token'>(</span><span class='rubyid_Hash constant id'>Hash</span><span class='rparen token'>)</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_key identifier id'>key</span><span class='dot token'>.</span><span class='rubyid_has_key? fid id'>has_key?</span><span class='lparen token'>(</span><span class='symbol val'>:enumeration</span><span class='rparen token'>)</span>
     <span class='rubyid_backend identifier id'>backend</span>  <span class='assign token'>=</span> <span class='rubyid_config identifier id'>config</span><span class='dot token'>.</span><span class='rubyid_backend identifier id'>backend</span>
     <span class='rubyid_locale identifier id'>locale</span>   <span class='assign token'>=</span> <span class='rubyid_config identifier id'>config</span><span class='dot token'>.</span><span class='rubyid_locale identifier id'>locale</span>
-    <span class='comment val'># Null character to cope with enumeration values containing dots.  Eugh.</span>
-    <span class='rubyid_translation identifier id'>translation</span> <span class='assign token'>=</span> <span class='rubyid_backend identifier id'>backend</span><span class='dot token'>.</span><span class='rubyid_send identifier id'>send</span><span class='lparen token'>(</span><span class='symbol val'>:lookup</span><span class='comma token'>,</span> <span class='rubyid_locale identifier id'>locale</span><span class='comma token'>,</span> <span class='lbrack token'>[</span><span class='string val'>&#39;enumerations&#39;</span><span class='comma token'>,</span> <span class='rubyid_key identifier id'>key</span><span class='lbrack token'>[</span><span class='symbol val'>:enumeration</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='rubyid_key identifier id'>key</span><span class='lbrack token'>[</span><span class='symbol val'>:value</span><span class='rbrack token'>]</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_join identifier id'>join</span><span class='lparen token'>(</span><span class='string val'>&quot;\0&quot;</span><span class='rparen token'>)</span><span class='comma token'>,</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='lbrace token'>{</span><span class='symbol val'>:separator</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;\0&quot;</span><span class='rbrace token'>}</span><span class='rparen token'>)</span> <span class='orop op'>||</span> <span class='rubyid_default identifier id'>default</span>
+
+    <span class='rubyid_translation identifier id'>translation</span> <span class='assign token'>=</span> <span class='rubyid_backend identifier id'>backend</span><span class='dot token'>.</span><span class='rubyid_send identifier id'>send</span><span class='lparen token'>(</span><span class='symbol val'>:lookup</span><span class='comma token'>,</span> <span class='rubyid_locale identifier id'>locale</span><span class='comma token'>,</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_build_enumeration_key identifier id'>build_enumeration_key</span><span class='lparen token'>(</span><span class='rubyid_key identifier id'>key</span><span class='rparen token'>)</span><span class='comma token'>,</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='lbrace token'>{</span><span class='symbol val'>:separator</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_ENUM_SEPARATOR constant id'>ENUM_SEPARATOR</span><span class='rbrace token'>}</span><span class='rparen token'>)</span> <span class='orop op'>||</span> <span class='rubyid_default identifier id'>default</span>
 
     <span class='rubyid_if if kw'>if</span> <span class='rubyid_translation identifier id'>translation</span> <span class='andop op'>&amp;&amp;</span> <span class='notop op'>!</span><span class='rubyid_translation identifier id'>translation</span><span class='dot token'>.</span><span class='rubyid_empty? fid id'>empty?</span>
       <span class='rubyid_return return kw'>return</span> <span class='rubyid_translation identifier id'>translation</span>
     <span class='rubyid_end end kw'>end</span>
   <span class='rubyid_end end kw'>end</span>
-
 
   <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_translate identifier id'>translate</span><span class='lparen token'>(</span><span class='mult op'>*</span><span class='rubyid_args identifier id'>args</span><span class='rparen token'>)</span>
 <span class='rubyid_end end kw'>end</span>
@@ -362,9 +662,9 @@ here.</p>
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.8.0.a Documentation Generated on Thu Jul 16 10:06:57 2020 by
+  ArchivesSpace Version v2.8.1.a Documentation Generated on Wed Nov 11 13:21:35 2020 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.20.
+  0.9.25.
 </div>
 
     </div>

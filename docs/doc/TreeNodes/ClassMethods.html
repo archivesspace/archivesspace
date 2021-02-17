@@ -6,15 +6,15 @@
 <title>
   Module: TreeNodes::ClassMethods
   
-    &mdash; Documentation by YARD 0.9.20
+    &mdash; Documentation by YARD 0.9.25
   
 </title>
 
-  <link rel="stylesheet" href="../css/style.css" type="text/css" charset="utf-8" />
+  <link rel="stylesheet" href="../css/style.css" type="text/css" />
 
-  <link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8" />
+  <link rel="stylesheet" href="../css/common.css" type="text/css" />
 
-<script type="text/javascript" charset="utf-8">
+<script type="text/javascript">
   pathId = "TreeNodes::ClassMethods";
   relpath = '../';
 </script>
@@ -102,6 +102,29 @@
   <span class="summary_signature">
     
       <a href="#calculate_has_unpublished_ancestor-instance_method" title="#calculate_has_unpublished_ancestor (instance method)">#<strong>calculate_has_unpublished_ancestor</strong>(obj, check_root_record = true)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#calculate_logical_ao_positions-instance_method" title="#calculate_logical_ao_positions (instance method)">#<strong>calculate_logical_ao_positions</strong>(objs)  &#x21d2; Object </a>
     
 
     
@@ -467,26 +490,26 @@
       <pre class="lines">
 
 
-442
-443
-444
-445
-446
-447
-448
-449
-450
-451
-452
-453
-454
-455
-456
-457
-458</pre>
+492
+493
+494
+495
+496
+497
+498
+499
+500
+501
+502
+503
+504
+505
+506
+507
+508</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/tree_nodes.rb', line 442</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/tree_nodes.rb', line 492</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_calculate_has_unpublished_ancestor identifier id'>calculate_has_unpublished_ancestor</span><span class='lparen token'>(</span><span class='rubyid_obj identifier id'>obj</span><span class='comma token'>,</span> <span class='rubyid_check_root_record identifier id'>check_root_record</span> <span class='assign token'>=</span> <span class='rubyid_true true kw'>true</span><span class='rparen token'>)</span>
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_check_root_record identifier id'>check_root_record</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_root_record_id identifier id'>root_record_id</span>
@@ -512,6 +535,123 @@
 </div>
     
       <div class="method_details ">
+  <h3 class="signature " id="calculate_logical_ao_positions-instance_method">
+  
+    #<strong>calculate_logical_ao_positions</strong>(objs)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+444
+445
+446
+447
+448
+449
+450
+451
+452
+453
+454
+455
+456
+457
+458
+459
+460
+461
+462
+463
+464
+465
+466
+467
+468
+469
+470
+471
+472
+473
+474
+475
+476
+477
+478
+479
+480
+481
+482
+483
+484
+485
+486
+487
+488
+489</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/tree_nodes.rb', line 444</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_calculate_logical_ao_positions identifier id'>calculate_logical_ao_positions</span><span class='lparen token'>(</span><span class='rubyid_objs identifier id'>objs</span><span class='rparen token'>)</span>
+  <span class='comment val'># For each AO in our set, we want to know how many have the same parent</span>
+  <span class='comment val'># but a smaller position.  Which is another way of saying &quot;how many</span>
+  <span class='comment val'># records are before me in the list?&quot;</span>
+  <span class='comment val'>#</span>
+  <span class='comment val'># Previously we would do each as a query:</span>
+  <span class='comment val'>#</span>
+  <span class='comment val'>#   self.class.dataset.filter(:parent_name =&gt; self.parent_name).where { position &lt; relative_position }.count</span>
+  <span class='comment val'>#</span>
+  <span class='comment val'># but when you&#39;re dealing with trees containing hundreds of thousands of</span>
+  <span class='comment val'># records under a single node, this calculation gets slower (100+ ms) as</span>
+  <span class='comment val'># you get further down the list.</span>
+  <span class='comment val'>#</span>
+  <span class='comment val'># We can speed things up for batches of records by ordering our records by</span>
+  <span class='comment val'># their DB position (say that gives us [A, B, C]), and then using the</span>
+  <span class='comment val'># following method:</span>
+  <span class='comment val'>#</span>
+  <span class='comment val'>#   * A&#39;s logical position is count(&lt; A.position) -- as before</span>
+  <span class='comment val'>#   * B&#39;s position is A.logical_position + count(&lt; B.position &amp;&amp; &gt;= A.position)</span>
+  <span class='comment val'>#   * C&#39;s position is B.logical_position + count(&lt; C.position &amp;&amp; &gt;= B.position)</span>
+  <span class='comment val'>#</span>
+  <span class='comment val'># Calculating the position for A incurs the same cost as before, but B</span>
+  <span class='comment val'># only needs to count the records between itself and A, and C only needs</span>
+  <span class='comment val'># to count the records between itself and B.  These ranges will be much</span>
+  <span class='comment val'># smaller in many cases.</span>
+
+  <span class='rubyid_result identifier id'>result</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span>
+
+  <span class='rubyid_objs identifier id'>objs</span><span class='dot token'>.</span><span class='rubyid_group_by identifier id'>group_by</span><span class='lparen token'>(</span><span class='bitand op'>&amp;</span><span class='symbol val'>:parent_name</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_parent_name identifier id'>parent_name</span><span class='comma token'>,</span> <span class='rubyid_obj_group identifier id'>obj_group</span><span class='bitor op'>|</span>
+    <span class='rubyid_next next kw'>next</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_parent_name identifier id'>parent_name</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span>
+
+    <span class='rubyid_sorted identifier id'>sorted</span> <span class='assign token'>=</span> <span class='rubyid_obj_group identifier id'>obj_group</span><span class='dot token'>.</span><span class='rubyid_sort_by identifier id'>sort_by</span><span class='lparen token'>(</span><span class='bitand op'>&amp;</span><span class='symbol val'>:position</span><span class='rparen token'>)</span>
+
+    <span class='rubyid_last_physical_position identifier id'>last_physical_position</span> <span class='assign token'>=</span> <span class='integer val'>0</span>
+    <span class='rubyid_last_logical_position identifier id'>last_logical_position</span> <span class='assign token'>=</span> <span class='integer val'>0</span>
+
+    <span class='rubyid_sorted identifier id'>sorted</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_ao identifier id'>ao</span><span class='bitor op'>|</span>
+      <span class='rubyid_c identifier id'>c</span> <span class='assign token'>=</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_dataset identifier id'>dataset</span><span class='dot token'>.</span><span class='rubyid_filter identifier id'>filter</span><span class='lparen token'>(</span><span class='symbol val'>:parent_name</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_ao identifier id'>ao</span><span class='dot token'>.</span><span class='rubyid_parent_name identifier id'>parent_name</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_where identifier id'>where</span> <span class='lbrace token'>{</span> <span class='lparen token'>(</span><span class='rubyid_position identifier id'>position</span> <span class='lt op'>&lt;</span> <span class='rubyid_ao identifier id'>ao</span><span class='dot token'>.</span><span class='rubyid_position identifier id'>position</span><span class='rparen token'>)</span> <span class='bitand op'>&amp;</span> <span class='lparen token'>(</span><span class='rubyid_position identifier id'>position</span> <span class='geq op'>&gt;=</span> <span class='rubyid_last_physical_position identifier id'>last_physical_position</span><span class='rparen token'>)</span> <span class='rbrace token'>}</span><span class='dot token'>.</span><span class='rubyid_count identifier id'>count</span>
+
+      <span class='rubyid_last_logical_position identifier id'>last_logical_position</span> <span class='assign token'>=</span> <span class='rubyid_result identifier id'>result</span><span class='lbrack token'>[</span><span class='rubyid_ao identifier id'>ao</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_last_logical_position identifier id'>last_logical_position</span> <span class='plus op'>+</span> <span class='rubyid_c identifier id'>c</span>
+      <span class='rubyid_last_physical_position identifier id'>last_physical_position</span> <span class='assign token'>=</span> <span class='rubyid_ao identifier id'>ao</span><span class='dot token'>.</span><span class='rubyid_position identifier id'>position</span>
+    <span class='rubyid_end end kw'>end</span>
+  <span class='rubyid_end end kw'>end</span>
+
+  <span class='rubyid_result identifier id'>result</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
   <h3 class="signature " id="calculate_object_graph-instance_method">
   
     #<strong>calculate_object_graph</strong>(object_graph, opts = {})  &#x21d2; <tt>Object</tt> 
@@ -526,23 +666,23 @@
       <pre class="lines">
 
 
-461
-462
-463
-464
-465
-466
-467
-468
-469
-470
-471
-472
-473
-474</pre>
+511
+512
+513
+514
+515
+516
+517
+518
+519
+520
+521
+522
+523
+524</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/tree_nodes.rb', line 461</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/tree_nodes.rb', line 511</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_calculate_object_graph identifier id'>calculate_object_graph</span><span class='lparen token'>(</span><span class='rubyid_object_graph identifier id'>object_graph</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
   <span class='rubyid_object_graph identifier id'>object_graph</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_model identifier id'>model</span><span class='comma token'>,</span> <span class='rubyid_id_list identifier id'>id_list</span><span class='bitor op'>|</span>
@@ -790,22 +930,22 @@
       <pre class="lines">
 
 
-477
-478
-479
-480
-481
-482
-483
-484
-485
-486
-487
-488
-489</pre>
+527
+528
+529
+530
+531
+532
+533
+534
+535
+536
+537
+538
+539</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/tree_nodes.rb', line 477</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/tree_nodes.rb', line 527</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_handle_delete identifier id'>handle_delete</span><span class='lparen token'>(</span><span class='rubyid_ids_to_delete identifier id'>ids_to_delete</span><span class='rparen token'>)</span>
   <span class='rubyid_ids identifier id'>ids</span> <span class='assign token'>=</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_filter identifier id'>filter</span><span class='lparen token'>(</span><span class='symbol val'>:id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_ids_to_delete identifier id'>ids_to_delete</span> <span class='rparen token'>)</span>
@@ -960,12 +1100,12 @@
       <pre class="lines">
 
 
-492
-493
-494</pre>
+542
+543
+544</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/tree_nodes.rb', line 492</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/tree_nodes.rb', line 542</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_ordered_record_properties identifier id'>ordered_record_properties</span><span class='lparen token'>(</span><span class='rubyid_record_ids identifier id'>record_ids</span><span class='rparen token'>)</span>
   <span class='lbrace token'>{</span><span class='rbrace token'>}</span>
@@ -1141,13 +1281,17 @@
 436
 437
 438
-439</pre>
+439
+440
+441</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'backend/app/model/mixins/tree_nodes.rb', line 410</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_sequel_to_jsonmodel identifier id'>sequel_to_jsonmodel</span><span class='lparen token'>(</span><span class='rubyid_objs identifier id'>objs</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
   <span class='rubyid_jsons identifier id'>jsons</span> <span class='assign token'>=</span> <span class='rubyid_super super kw'>super</span>
+
+  <span class='rubyid_positions identifier id'>positions</span> <span class='assign token'>=</span> <span class='rubyid_calculate_logical_ao_positions identifier id'>calculate_logical_ao_positions</span><span class='lparen token'>(</span><span class='rubyid_objs identifier id'>objs</span><span class='rparen token'>)</span>
 
   <span class='rubyid_jsons identifier id'>jsons</span><span class='dot token'>.</span><span class='rubyid_zip identifier id'>zip</span><span class='lparen token'>(</span><span class='rubyid_objs identifier id'>objs</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_json identifier id'>json</span><span class='comma token'>,</span> <span class='rubyid_obj identifier id'>obj</span><span class='bitor op'>|</span>
     <span class='rubyid_if if kw'>if</span> <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_root_record_id identifier id'>root_record_id</span>
@@ -1164,7 +1308,7 @@
         <span class='comment val'># which speaks in logical numbering (i.e. the first position is 0,</span>
         <span class='comment val'># the second position is 1, etc.)</span>
 
-        <span class='rubyid_json identifier id'>json</span><span class='dot token'>.</span><span class='rubyid_position identifier id'>position</span> <span class='assign token'>=</span> <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_logical_position identifier id'>logical_position</span>
+        <span class='rubyid_json identifier id'>json</span><span class='dot token'>.</span><span class='rubyid_position identifier id'>position</span> <span class='assign token'>=</span> <span class='rubyid_positions identifier id'>positions</span><span class='dot token'>.</span><span class='rubyid_fetch identifier id'>fetch</span><span class='lparen token'>(</span><span class='rubyid_obj identifier id'>obj</span><span class='rparen token'>)</span>
       <span class='rubyid_end end kw'>end</span>
 
     <span class='rubyid_end end kw'>end</span>
@@ -1220,9 +1364,9 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.8.0.a Documentation Generated on Thu Jul 16 10:06:53 2020 by
+  ArchivesSpace Version v2.8.1.a Documentation Generated on Wed Nov 11 13:21:27 2020 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.20.
+  0.9.25.
 </div>
 
     </div>

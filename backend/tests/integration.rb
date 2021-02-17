@@ -24,12 +24,13 @@ def url(uri)
 end
 
 
-def do_post(s, url, content_type = 'application/x-www-form-urlencoded')
+def do_post(s, url, content_type = 'application/x-www-form-urlencoded', high_priority = false)
   ASHTTP.start_uri(url) do |http|
     req = Net::HTTP::Post.new(url.request_uri)
     req.body = s
     req['Content-Type'] = content_type
     req["X-ARCHIVESSPACE-SESSION"] = @session if @session
+    req['X-ARCHIVESSPACE-PRIORITY'] = high_priority ? "high" : "low"
 
     r = http.request(req)
     {:body => JSON(r.body), :status => r.code}
@@ -340,6 +341,33 @@ def run_tests(opts)
   puts "It refuses to delete a non-empty repository"
   r = do_get(url("/repositories/#{repo_id}/groups"))
   (r[:body].count > 0) or fail("Groups should not be gone", r)
+
+
+  # Added to catch a bug where notes were missing from records indexed via real-time indexing
+  puts "Records from the update-feed are complete"
+  r = do_post({
+                :title => "integration test resource #{$$}",
+                :id_0 => "updatefeedtest",
+                :dates => [ { "date_type" => "single", "label" => "creation", "expression" => "1492"   } ],
+                :subjects => [{"ref" => "/subjects/#{subject_id}"}],
+                :language => "eng",
+                :level => "collection",
+                :notes => [{"jsonmodel_type" => "note_singlepart", "content" => ["hello, world"], "type" => "physdesc"}],
+                :extents => [{"portion" => "whole", "number" => "5 or so", "extent_type" => "reels"}]
+              }.to_json,
+              url("/repositories/#{repo_id}/resources"),
+              'text/json',
+              high_priority = true)
+
+  r = do_get(url("/update-feed"))
+  if r[:body][0].nil?
+    fail("Update feed didn't return any records", r)
+  end
+
+  if r[:body][0]['record']['notes'].empty?
+    fail('Notes should not have been empty', r)
+  end
+
 
   puts "Create an expiring admin session"
   r = do_post(URI.encode_www_form(:password => "admin"),

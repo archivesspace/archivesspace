@@ -6,15 +6,15 @@
 <title>
   Class: ObjectsController
   
-    &mdash; Documentation by YARD 0.9.20
+    &mdash; Documentation by YARD 0.9.25
   
 </title>
 
-  <link rel="stylesheet" href="css/style.css" type="text/css" charset="utf-8" />
+  <link rel="stylesheet" href="css/style.css" type="text/css" />
 
-  <link rel="stylesheet" href="css/common.css" type="text/css" charset="utf-8" />
+  <link rel="stylesheet" href="css/common.css" type="text/css" />
 
-<script type="text/javascript" charset="utf-8">
+<script type="text/javascript">
   pathId = "ObjectsController";
   relpath = '';
 </script>
@@ -524,7 +524,9 @@
 116
 117
 118
-119</pre>
+119
+120
+121</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'public/app/controllers/objects_controller.rb', line 81</span>
@@ -550,7 +552,9 @@
     <span class='rubyid_begin begin kw'>begin</span>
       <span class='rubyid_@repo_info ivar id'>@repo_info</span> <span class='assign token'>=</span>  <span class='rubyid_@result ivar id'>@result</span><span class='dot token'>.</span><span class='rubyid_repository_information identifier id'>repository_information</span>
       <span class='rubyid_@page_title ivar id'>@page_title</span> <span class='assign token'>=</span> <span class='rubyid_@result ivar id'>@result</span><span class='dot token'>.</span><span class='rubyid_display_string identifier id'>display_string</span>
-      <span class='rubyid_@context ivar id'>@context</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='lbrace token'>{</span><span class='symbol val'>:uri</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_@repo_info ivar id'>@repo_info</span><span class='lbrack token'>[</span><span class='string val'>&#39;top&#39;</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>&#39;uri&#39;</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='symbol val'>:crumb</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_@repo_info ivar id'>@repo_info</span><span class='lbrack token'>[</span><span class='string val'>&#39;top&#39;</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>&#39;name&#39;</span><span class='rbrack token'>]</span><span class='rbrace token'>}</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_concat identifier id'>concat</span><span class='lparen token'>(</span><span class='rubyid_@result ivar id'>@result</span><span class='dot token'>.</span><span class='rubyid_breadcrumb identifier id'>breadcrumb</span><span class='rparen token'>)</span>
+      <span class='rubyid_@context ivar id'>@context</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span>
+        <span class='lbrace token'>{</span><span class='symbol val'>:uri</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_@repo_info ivar id'>@repo_info</span><span class='lbrack token'>[</span><span class='string val'>&#39;top&#39;</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>&#39;uri&#39;</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='symbol val'>:crumb</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_@repo_info ivar id'>@repo_info</span><span class='lbrack token'>[</span><span class='string val'>&#39;top&#39;</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>&#39;name&#39;</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='symbol val'>:type</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;repository&#39;</span><span class='rbrace token'>}</span>
+      <span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_concat identifier id'>concat</span><span class='lparen token'>(</span><span class='rubyid_@result ivar id'>@result</span><span class='dot token'>.</span><span class='rubyid_breadcrumb identifier id'>breadcrumb</span><span class='rparen token'>)</span>
       <span class='rubyid_fill_request_info identifier id'>fill_request_info</span>
       <span class='rubyid_if if kw'>if</span> <span class='rubyid_@result ivar id'>@result</span><span class='lbrack token'>[</span><span class='string val'>&#39;primary_type&#39;</span><span class='rbrack token'>]</span> <span class='eq op'>==</span> <span class='string val'>&#39;digital_object&#39;</span> <span class='orop op'>||</span> <span class='rubyid_@result ivar id'>@result</span><span class='lbrack token'>[</span><span class='string val'>&#39;primary_type&#39;</span><span class='rbrack token'>]</span> <span class='eq op'>==</span> <span class='string val'>&#39;digital_object_component&#39;</span>
         <span class='rubyid_@dig ivar id'>@dig</span> <span class='assign token'>=</span> <span class='rubyid_process_digital identifier id'>process_digital</span><span class='lparen token'>(</span><span class='rubyid_@result ivar id'>@result</span><span class='lbrack token'>[</span><span class='string val'>&#39;json&#39;</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
@@ -579,9 +583,9 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.8.0.a Documentation Generated on Thu Jul 16 10:07:26 2020 by
+  ArchivesSpace Version v2.8.1.a Documentation Generated on Wed Nov 11 13:22:28 2020 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.20.
+  0.9.25.
 </div>
 
     </div>

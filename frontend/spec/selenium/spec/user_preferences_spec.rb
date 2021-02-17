@@ -55,6 +55,23 @@ describe 'User Preferences' do
     end.not_to raise_error
   end
 
+  it 'allows you to reset previously set preferences to defaults' do
+    @driver.find_element(:css, '.user-container .btn.dropdown-toggle.last').click
+    @driver.wait_for_dropdown
+    @driver.find_element(:link, 'Repository Preferences').click
+    @driver.find_element(:css, '.reset-prefs.btn').click
+    @driver.click_and_wait_until_gone(:css, '#confirmChangesModal #confirmButton')
+    @driver.find_element(css: '.alert-success')
+
+    @driver.find_element(:css, '.user-container .btn.dropdown-toggle.last').click
+    @driver.wait_for_dropdown
+    @driver.find_element(:link, 'Repository Preferences').click
+
+    # The default changes made above are now gone
+    expect(@driver.find_element(id: 'preference_defaults__accession_browse_column_1_').text).to match(/Accept Default:/)
+    expect(@driver.find_element(id: 'preference_defaults__accession_sort_column_').text).to match(/Accept Default:/)
+  end
+
   it 'has date and extent columns by default' do
     @driver.find_element(link: 'Browse').click
     @driver.click_and_wait_until_gone(link: 'Accessions')

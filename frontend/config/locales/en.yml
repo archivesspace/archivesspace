@@ -84,6 +84,9 @@ en:
     delete_multiple: Delete Records
     delete_multiple_confirm_title: Delete Records?
     delete_multiple_confirm_message: "<p>Please be aware <strong>you cannot undo this action</strong>.</p><p>This action will remove these records from the database, including any references they have to other records.</p>"
+    reset: Reset Defaults
+    reset_confirm_title: "Reset %{preftype} to application defaults?"
+    reset_confirm_message: "<p>Please be aware <strong>you cannot undo this action</strong>.</p><p>This action will reset preferences to application defaults.</p>"
     edit_multiple: Edit Records
     edit_multiple_confirm_title: Edit Records?
     edit_multiple_confirm_message: "<p>This will bulk update multiple records.</p>"
@@ -335,6 +338,7 @@ en:
       title: Title
       publish: Published
       has_classification_terms: Has classification terms?
+      identifier: Identifier
       audit_info: Audit Information
       user_mtime: Modified
       create_time: Created
@@ -442,6 +446,7 @@ en:
       create_time: Created
       dates: Dates
       extents: Extent
+      langcode: Language of Materials
       asc: Ascending
       desc: Descending
     blank_facet_query_fields:
@@ -1097,7 +1102,11 @@ en:
   preference:
     _frontend:
       messages:
-        updated: "Preferences updated"
+        updated: Preferences updated
+        reset: Preferences set to application defaults
+        reset_error: "Unable to reset preferences due to an error: %{exception}"
+      action:
+        save: Save Preferences
 
   rights_statement:
     _frontend:

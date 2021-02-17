@@ -1592,6 +1592,7 @@ en:
     finding_aid_language: Language of Description
     finding_aid_language_tooltip: |
         <p>Indicates all the languages present in the finding aid generated from the resource description.</p>
+    finding_aid_langusage_label: "Description is written in: " 
     finding_aid_script: Script of Description
     finding_aid_script_tooltip: |
         <p>Indicates all the scripts present in the finding aid generated from the resource description.</p>
@@ -1921,6 +1922,7 @@ en:
     sort_direction: Default Sort Direction
     sort_direction_tooltip: Default direction to sort results.
     locale: Language Selection
+    search_browse_columns: Search and Browse Column Preferences
     accession_browse_section: Accession Browse Columns
     resource_browse_section: Resource Browse Columns
     archival_object_browse_section: Archival Object Browse Columns
@@ -1938,6 +1940,7 @@ en:
     location_profile_browse_section: Location Profile Browse Columns
     container_profile_browse_section: Container Profile Browse Columns
     multi_browse_section: Search Columns
+    job_browse_section: Background Jobs Columns
     note_order_section: Note Order
     accept_default_message: '> Accept Default:'
     no_value: '[no value]'
@@ -2024,7 +2027,7 @@ en:
     sponsor_set_desc_required: Sponsor set description is required for creating an OAI sponsor set
     sponsor_set_name_required: Sponsor set name is required for creating an OAI sponsor set
     invalid_characters: Contains invalid characters
-
+    conflicting_record: "<a href='/resolve/readonly?uri=%{record_uri}' target='_blank'>View conflicting record</a>"
 
   job:
     _singular: Background Job
@@ -2358,7 +2361,7 @@ en:
     clip_err: "\t\t\t\t\tERROR: %{err}\n"
     clip_header: "Row\tStatus\tTitle\tURI\tRef ID\tInfo or Error"
     log_complete: "Completed import of %{file}"
-    log_validation: "Completed validate of %{file}"
+    log_validation: "Completed validation of %{file}"
     log_created: "%{row}: Created %{what}"
     log_created_be: "%{row}: %{what} would be created"
     log_info: "%{row}:\t%{what}"
@@ -2380,13 +2383,14 @@ en:
     object_created: "%{what} created"
     object_created_be: "%{what} would be created"
     object_not_created_be: "%{what} would not be created"
+    date_type_default: No date type was specified. Defaulting to 'inclusive'.
     warn:
       dup: "Managed Controlled Value List %{which} has multiple instances for the translation '%{trans}'. '%{used}' will be used as the value."
       disam: "Multiple match(es) found for '%{which}'. Creating '%{name}' for disabiguation."
       disamuse: "Multiple match(es) found for '%{which}'. Using already-created '%{name}' for disabiguation."
       single_date_end: "Single date %{date_str} has end date that will be ignored."
     error:
-      date_type: "Date type [%{what}] invalid for %{date_str}. Defaulting to 'inclusive'"
+      date_type: "Date type [%{what}] invalid for %{date_str}. The date will not be processed."
       date_label: "Date label [%{what}] invalid for %{date_str}. The date will not be processed."
       certainty: "Invalid 'date certainty' ignored for %{date_str}: (%{what})"
       below_bad_ao: Cannot process because it is a child of the bad archival object

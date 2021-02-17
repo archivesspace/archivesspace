@@ -269,6 +269,10 @@
    <!-- Field for searching top container typeahead -->
    <dynamicField name="*_u_typeahead_utext"  type="text_general"  indexed="true"  stored="true" multiValued="false"/>
 
+   <!-- Custom sortable solr fields for dates -->
+   <dynamicField name="*_u_sortdate"  type="date"  indexed="true"  stored="false" multiValued="false"/>
+   <dynamicField name="*_u_ssortdate"  type="date"  indexed="true"  stored="true" multiValued="false"/>
+
    <!-- ASpace Custom Dynamics -->
    <dynamicField name="*_relator_sort"  type="sort_string"  indexed="true"  stored="true" multiValued="false"/>
 

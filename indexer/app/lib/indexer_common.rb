@@ -76,6 +76,9 @@ class IndexerCommon
       end
     end
 
+    # Force load up front
+    self.enum_fields
+
     configure_doc_rules
 
     @@init_hooks.each do |hook|
@@ -118,27 +121,35 @@ class IndexerCommon
   end
 
 
+  EXCLUDED_STRING_VALUE_PROPERTIES = Set.new(%w(created_by last_modified_by system_mtime user_mtime json types create_time date_type jsonmodel_type publish extent_type language script system_generated suppressed source rules name_order))
+
   def self.extract_string_values(doc)
-    text = ""
-    doc.each do |key, val|
-      if %w(created_by last_modified_by system_mtime user_mtime json types create_time date_type jsonmodel_type publish extent_type language script system_generated suppressed source rules name_order).include?(key)
-      elsif key =~ /_enum_s$/
-      elsif val.is_a?(String)
-        text << "#{val} "
-      elsif val.is_a?(Hash)
-        text << self.extract_string_values(val)
-      elsif val.is_a?(Array)
-        val.each do |v|
-          if v.is_a?(String)
-            text << "#{v} "
-          elsif v.is_a?(Hash)
-            text << self.extract_string_values(v)
+    queue = [doc]
+    strings = []
+
+    while !queue.empty?
+      doc = queue.pop
+
+      doc.each do |key, val|
+        if EXCLUDED_STRING_VALUE_PROPERTIES.include?(key) || key =~ /_enum_s$/
+          # ignored
+        elsif val.is_a?(String)
+          strings.push(val)
+        elsif val.is_a?(Hash)
+          queue.push(val)
+        elsif val.is_a?(Array)
+          val.each do |v|
+            if v.is_a?(String)
+              strings.push(v)
+            elsif v.is_a?(Hash)
+              queue.push(v)
+            end
           end
         end
       end
     end
 
-    text
+    strings.join(' ').strip
   end
 
 
@@ -146,16 +157,16 @@ class IndexerCommon
     fullrecord = IndexerCommon.extract_string_values(record)
     %w(finding_aid_subtitle finding_aid_author).each do |field|
       if record['record'].has_key?(field)
-        fullrecord << "#{record['record'][field]} "
+        fullrecord << " #{record['record'][field]}"
       end
     end
 
     if record['record'].has_key?('names')
-      fullrecord << record['record']['names'].map {|name|
+      fullrecord << " " + record['record']['names'].map {|name|
         IndexerCommon.extract_string_values(name)
       }.join(" ")
     end
-    fullrecord
+    fullrecord.strip
   end
 
   # There's a problem with how translation paths get loaded when selenium tests are run
@@ -280,6 +291,7 @@ class IndexerCommon
     end
   end
 
+
   def add_extents(doc, record)
     if record['record']['extents']
       extents = record['record']['extents']
@@ -292,15 +304,39 @@ class IndexerCommon
     end
   end
 
-  # TODO: We should fix this to read from the JSON schemas
-  HARDCODED_ENUM_FIELDS = ["relator", "type", "role", "source", "rules", "acquisition_type", "resource_type", "processing_priority", "processing_status", "era", "calendar", "digital_object_type", "level", "processing_total_extent_type", "extent_type", "language", "script", "event_type", "type_1", "type_2", "type_3", "salutation", "outcome", "finding_aid_description_rules", "finding_aid_status", "instance_type", "use_statement", "checksum_method", "date_type", "label", "certainty", "scope", "portion", "xlink_actuate_attribute", "xlink_show_attribute", "file_format_name", "temporary", "name_order", "country", "jurisdiction", "rights_type", "ip_status", "term_type", "enum_1", "enum_2", "enum_3", "enum_4", "relator_type", "job_type"]
+
+  def enum_fields
+    return @enum_fields if @enum_fields
+
+    enum_fields = []
+    queue = JSONModel.models.map {|_,model| model.schema['properties']}.flatten.uniq
+
+    while !queue.empty?
+      elt = queue.shift
+
+      if elt.is_a?(Hash)
+        elt.each do |k, v|
+          if v.is_a?(Hash)
+            enum_fields.push(k) if v['dynamic_enum'] || v.dig('items', 'dynamic_enum')
+          end
+          queue << v
+        end
+      elsif elt.is_a?(Array)
+        queue.concat(elt)
+      end
+    end
+
+    enum_fields.delete('items') # not an enum, creeps in through dynamic enum lists
+    @enum_fields = enum_fields.uniq
+  end
+
 
   def configure_doc_rules
 
     add_document_prepare_hook {|doc, record|
       found_keys = Set.new
 
-      ASUtils.search_nested(record["record"], HARDCODED_ENUM_FIELDS, ['_resolved']) do |field, field_value|
+      ASUtils.search_nested(record["record"], enum_fields, ['_resolved']) do |field, field_value|
         key = "#{field}_enum_s"
 
         doc[key] ||= Set.new
@@ -772,13 +808,15 @@ class IndexerCommon
       cm = record['record']['collection_management']
       if cm
         parent_type = JSONModel.parse_reference(record['uri'])[:type]
+        title = record['record']['title'] || record['record']['display_string']
         docs << {
           'id' => cm['uri'],
           'uri' => cm['uri'],
           'parent_id' => record['uri'],
-          'parent_title' => record['record']['title'] || record['record']['display_string'],
+          'parent_title' => title,
           'parent_type' => parent_type,
-          'title' => record['record']['title'] || record['record']['display_string'],
+          'title' => title,
+          'title_sort' => clean_for_sort(title),
           'types' => ['collection_management'],
           'primary_type' => 'collection_management',
           'json' => cm.to_json(:max_nesting => false),
@@ -1010,6 +1048,7 @@ class IndexerCommon
 
 
   def clean_for_sort(value)
+    return nil if value.nil?
     out = value.gsub(/<[^>]+>/, '')
     out.gsub!(/-/, ' ')
     out.gsub!(/[^\w\s]/, '')
@@ -1122,11 +1161,9 @@ class IndexerCommon
 
     if !batch.empty?
       # For any record we're updating, delete any child records first (where applicable)
-      records_with_children = batch.map {|e|
-        if self.records_with_children.include?(e['primary_type'].to_s)
-          "\"#{e['id']}\""
-        end
-      }.compact
+      records_with_children = self.records_with_children.map {|record_type|
+        batch.record_info_for_type(record_type).map {|info| '"%s"' % [info[:id]]}
+      }.flatten
 
       if !records_with_children.empty?
         req = Net::HTTP::Post.new("#{solr_url.path}/update")

@@ -6,15 +6,15 @@
 <title>
   Module: ASModel::ModelScoping::ClassMethods
   
-    &mdash; Documentation by YARD 0.9.20
+    &mdash; Documentation by YARD 0.9.25
   
 </title>
 
-  <link rel="stylesheet" href="../../css/style.css" type="text/css" charset="utf-8" />
+  <link rel="stylesheet" href="../../css/style.css" type="text/css" />
 
-  <link rel="stylesheet" href="../../css/common.css" type="text/css" charset="utf-8" />
+  <link rel="stylesheet" href="../../css/common.css" type="text/css" />
 
-<script type="text/javascript" charset="utf-8">
+<script type="text/javascript">
   pathId = "ASModel::ModelScoping::ClassMethods";
   relpath = '../../';
 </script>
@@ -375,18 +375,18 @@
       <pre class="lines">
 
 
+196
+197
+198
 199
 200
 201
 202
 203
-204
-205
-206
-207</pre>
+204</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/ASModel_scoping.rb', line 199</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/ASModel_scoping.rb', line 196</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_active_repository identifier id'>active_repository</span>
   <span class='rubyid_repo identifier id'>repo</span> <span class='assign token'>=</span> <span class='rubyid_RequestContext constant id'>RequestContext</span><span class='dot token'>.</span><span class='rubyid_get identifier id'>get</span><span class='lparen token'>(</span><span class='symbol val'>:repo_id</span><span class='rparen token'>)</span>
@@ -569,17 +569,17 @@
       <pre class="lines">
 
 
+169
+170
+171
 172
 173
 174
 175
-176
-177
-178
-179</pre>
+176</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/ASModel_scoping.rb', line 172</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/ASModel_scoping.rb', line 169</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_model_scope identifier id'>model_scope</span><span class='lparen token'>(</span><span class='rubyid_noerror identifier id'>noerror</span> <span class='assign token'>=</span> <span class='rubyid_false false kw'>false</span><span class='rparen token'>)</span>
   <span class='rubyid_@model_scope ivar id'>@model_scope</span> <span class='rubyid_or or kw'>or</span>
@@ -620,6 +620,9 @@
       <pre class="lines">
 
 
+180
+181
+182
 183
 184
 185
@@ -630,13 +633,10 @@
 190
 191
 192
-193
-194
-195
-196</pre>
+193</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/ASModel_scoping.rb', line 183</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/ASModel_scoping.rb', line 180</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_parse_reference identifier id'>parse_reference</span><span class='lparen token'>(</span><span class='rubyid_uri identifier id'>uri</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span><span class='rparen token'>)</span>
   <span class='rubyid_ref identifier id'>ref</span> <span class='assign token'>=</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='dot token'>.</span><span class='rubyid_parse_reference identifier id'>parse_reference</span><span class='lparen token'>(</span><span class='rubyid_uri identifier id'>uri</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span><span class='rparen token'>)</span>
@@ -785,10 +785,7 @@
 163
 164
 165
-166
-167
-168
-169</pre>
+166</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'backend/app/model/ASModel_scoping.rb', line 108</span>
@@ -801,6 +798,16 @@
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_value identifier id'>value</span> <span class='eq op'>==</span> <span class='symbol val'>:repository</span>
     <span class='rubyid_model identifier id'>model</span> <span class='assign token'>=</span> <span class='rubyid_self self kw'>self</span>
     <span class='rubyid_orig_ds identifier id'>orig_ds</span> <span class='assign token'>=</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_dataset identifier id'>dataset</span><span class='dot token'>.</span><span class='rubyid_clone identifier id'>clone</span>
+
+    <span class='comment val'># Fetch the request row but blow up if the row isn&#39;t from the currently active repository</span>
+    <span class='rubyid_orig_ds identifier id'>orig_ds</span><span class='dot token'>.</span><span class='rubyid_with_row_proc identifier id'>with_row_proc</span><span class='lparen token'>(</span>
+      <span class='rubyid_proc identifier id'>proc</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_row identifier id'>row</span><span class='bitor op'>|</span>
+        <span class='rubyid_if if kw'>if</span> <span class='rubyid_row identifier id'>row</span><span class='dot token'>.</span><span class='rubyid_has_key? fid id'>has_key?</span><span class='lparen token'>(</span><span class='symbol val'>:repo_id</span><span class='rparen token'>)</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_row identifier id'>row</span><span class='lbrack token'>[</span><span class='symbol val'>:repo_id</span><span class='rbrack token'>]</span> <span class='neq op'>!=</span> <span class='rubyid_model identifier id'>model</span><span class='dot token'>.</span><span class='rubyid_active_repository identifier id'>active_repository</span>
+          <span class='rubyid_raise identifier id'>raise</span> <span class='lparen token'>(</span><span class='dstring node'>&quot;ASSERTION FAILED: #{row.inspect} has a repo_id of &quot;</span> <span class='plus op'>+</span>
+                <span class='dstring node'>&quot;#{row[:repo_id]} but the active repository is #{model.active_repository}&quot;</span><span class='rparen token'>)</span>
+        <span class='rubyid_end end kw'>end</span>
+      <span class='rubyid_end end kw'>end</span>
+    <span class='rparen token'>)</span>
 
     <span class='comment val'># Provide a new &#39;.this_repo&#39; method on this model class that only</span>
     <span class='comment val'># returns records that belong to the current repository.</span>
@@ -822,19 +829,6 @@
       <span class='rubyid_else else kw'>else</span>
         <span class='rubyid_orig_ds identifier id'>orig_ds</span>
       <span class='rubyid_end end kw'>end</span>
-    <span class='rubyid_end end kw'>end</span>
-
-
-    <span class='comment val'># Replace the default row_proc with one that fetches the request row,</span>
-    <span class='comment val'># but blows up if that row isn&#39;t from the currently active repository.</span>
-    <span class='rubyid_orig_row_proc identifier id'>orig_row_proc</span> <span class='assign token'>=</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_dataset identifier id'>dataset</span><span class='dot token'>.</span><span class='rubyid_row_proc identifier id'>row_proc</span>
-    <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_dataset identifier id'>dataset</span><span class='dot token'>.</span><span class='rubyid_row_proc identifier id'>row_proc</span> <span class='assign token'>=</span> <span class='rubyid_proc identifier id'>proc</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_row identifier id'>row</span><span class='bitor op'>|</span>
-      <span class='rubyid_if if kw'>if</span> <span class='rubyid_row identifier id'>row</span><span class='dot token'>.</span><span class='rubyid_has_key? fid id'>has_key?</span><span class='lparen token'>(</span><span class='symbol val'>:repo_id</span><span class='rparen token'>)</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_row identifier id'>row</span><span class='lbrack token'>[</span><span class='symbol val'>:repo_id</span><span class='rbrack token'>]</span> <span class='neq op'>!=</span> <span class='rubyid_model identifier id'>model</span><span class='dot token'>.</span><span class='rubyid_active_repository identifier id'>active_repository</span>
-        <span class='rubyid_raise identifier id'>raise</span> <span class='lparen token'>(</span><span class='dstring node'>&quot;ASSERTION FAILED: #{row.inspect} has a repo_id of &quot;</span> <span class='plus op'>+</span>
-               <span class='dstring node'>&quot;#{row[:repo_id]} but the active repository is #{model.active_repository}&quot;</span><span class='rparen token'>)</span>
-      <span class='rubyid_end end kw'>end</span>
-
-      <span class='rubyid_orig_row_proc identifier id'>orig_row_proc</span><span class='dot token'>.</span><span class='rubyid_call identifier id'>call</span><span class='lparen token'>(</span><span class='rubyid_row identifier id'>row</span><span class='rparen token'>)</span>
     <span class='rubyid_end end kw'>end</span>
 
   <span class='rubyid_else else kw'>else</span>
@@ -930,12 +924,12 @@
       <pre class="lines">
 
 
-210
-211
-212</pre>
+207
+208
+209</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/ASModel_scoping.rb', line 210</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/ASModel_scoping.rb', line 207</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_uri_for identifier id'>uri_for</span><span class='lparen token'>(</span><span class='rubyid_jsonmodel identifier id'>jsonmodel</span><span class='comma token'>,</span> <span class='rubyid_id identifier id'>id</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
   <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='rubyid_jsonmodel identifier id'>jsonmodel</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_uri_for identifier id'>uri_for</span><span class='lparen token'>(</span><span class='rubyid_id identifier id'>id</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span><span class='dot token'>.</span><span class='rubyid_merge identifier id'>merge</span><span class='lparen token'>(</span><span class='symbol val'>:repo_id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_active_repository identifier id'>active_repository</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
@@ -951,9 +945,9 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.8.0.a Documentation Generated on Thu Jul 16 10:06:51 2020 by
+  ArchivesSpace Version v2.8.1.a Documentation Generated on Wed Nov 11 13:21:24 2020 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.20.
+  0.9.25.
 </div>
 
     </div>

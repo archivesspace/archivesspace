@@ -84,6 +84,9 @@ fr:
     delete_multiple: Supprimer notices
     delete_multiple_confirm_title: Supprimer notices?
     delete_multiple_confirm_message: "<p>Attention! <strong>Cette opération ne peut être annulée</strong>.</p><p>Cette opération va supprimer les notices de la base de données, avec toutes les références faites aux autres notices.</p>"
+    reset: Réinitialiser par défaut
+    reset_confirm_title: "Réinitialiser %{preftype} aux valeurs par défaut de l'application?"
+    reset_confirm_message: "<p>Veuillez noter que <strong>vous ne pouvez pas annuler cette action</strong>.</p><p>Cette action réinitialisera les préférences aux valeurs par défaut de l'application.</p>"
     edit_multiple: Editer notices
     edit_multiple_confirm_title: Editer notices?
     edit_multiple_confirm_message: "<p>Ceci va mettre à jour en masse de multitples notices.</p>"
@@ -335,6 +338,7 @@ fr:
       title: Intitulé
       publish: Publié
       has_classification_terms: A des termes des classements?
+      identifier: Identifiant
       audit_info: Audit Information
       user_mtime: Modifié
       create_time: Créé
@@ -442,6 +446,7 @@ fr:
       create_time: Créé
       dates: Dates
       extents: Importance matérielle
+      langcode: Langue des matériaux
       asc: Ascendant
       desc: Descendant
     blank_facet_query_fields:
@@ -1097,7 +1102,11 @@ fr:
   preference:
     _frontend:
       messages:
-        updated: "Préférences actualisées"
+        updated: Préférences actualisées
+        reset: Préférences définies sur les valeurs par défaut de l'application
+        reset_error: "Impossible de réinitialiser les préférences en raison d'une erreur: %{exception}"
+      action:
+        save: Enregistrer les préférences
 
   rights_statement:
     _frontend:

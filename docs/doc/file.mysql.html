@@ -6,15 +6,15 @@
 <title>
   File: mysql
   
-    &mdash; Documentation by YARD 0.9.20
+    &mdash; Documentation by YARD 0.9.25
   
 </title>
 
-  <link rel="stylesheet" href="css/style.css" type="text/css" charset="utf-8" />
+  <link rel="stylesheet" href="css/style.css" type="text/css" />
 
-  <link rel="stylesheet" href="css/common.css" type="text/css" charset="utf-8" />
+  <link rel="stylesheet" href="css/common.css" type="text/css" />
 
-<script type="text/javascript" charset="utf-8">
+<script type="text/javascript">
   pathId = "mysql";
   relpath = '';
 </script>
@@ -92,14 +92,28 @@ ENCODING FOR THE DATABASE TO BE <code>utf8</code>.</strong> This is particularly
 if you use a MySQL client to create the database (e.g. Navicat, MySQL
 Workbench, phpMyAdmin, etc.).</p>
 
-<p><strong>NOTE: If using AWS RDS MySQL databases, binary logging is not enabled by default and updates will fail.</strong> To enable binary logging, you must create a custom db parameter group for the database and set the <code>log_bin_trust_function_creators = 1</code>. See <a href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_WorkingWithParamGroups.html">Working with DB Parameter Groups</a> for information about RDS parameter groups.</p>
+<!-- This is also true of MySQL 8 in general... -->
+
+<p><strong>NOTE: If using AWS RDS MySQL databases, binary logging is not enabled by default and updates will fail.</strong> To enable binary logging, you must create a custom db parameter group for the database and set the <code>log_bin_trust_function_creators = 1</code>. See <a href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_WorkingWithParamGroups.html">Working with DB Parameter Groups</a> for information about RDS parameter groups. Within a MySQL session you can also try <code>SET GLOBAL log_bin_trust_function_creators = 1;</code></p>
 
 <pre class="code ruby"><code class="ruby">     $ <span class='rubyid_mysql identifier id'>mysql</span> <span class='minus op'>-</span><span class='rubyid_uroot identifier id'>uroot</span> <span class='minus op'>-</span><span class='rubyid_p identifier id'>p</span>
 
-     <span class='rubyid_mysql identifier id'>mysql</span><span class='gt op'>&gt;</span> <span class='rubyid_create identifier id'>create</span> <span class='rubyid_database identifier id'>database</span> <span class='rubyid_archivesspace identifier id'>archivesspace</span> <span class='rubyid_default identifier id'>default</span> <span class='rubyid_character identifier id'>character</span> <span class='rubyid_set identifier id'>set</span> <span class='rubyid_utf8 identifier id'>utf8</span><span class='semicolon token'>;</span>
+     <span class='rubyid_mysql identifier id'>mysql</span><span class='gt op'>&gt;</span> <span class='rubyid_create identifier id'>create</span> <span class='rubyid_database identifier id'>database</span> <span class='rubyid_archivesspace identifier id'>archivesspace</span> <span class='rubyid_default identifier id'>default</span> <span class='rubyid_character identifier id'>character</span> <span class='rubyid_set identifier id'>set</span> <span class='rubyid_utf8mb4 identifier id'>utf8mb4</span><span class='semicolon token'>;</span>
      <span class='rubyid_Query constant id'>Query</span> <span class='rubyid_OK constant id'>OK</span><span class='comma token'>,</span> <span class='integer val'>1</span> <span class='rubyid_row identifier id'>row</span> <span class='rubyid_affected identifier id'>affected</span> <span class='lparen token'>(</span><span class='integer val'>0</span><span class='integer val'>.08</span> <span class='rubyid_sec identifier id'>sec</span><span class='rparen token'>)</span>
+</code></pre>
 
-     <span class='rubyid_mysql identifier id'>mysql</span><span class='gt op'>&gt;</span> <span class='rubyid_grant identifier id'>grant</span> <span class='rubyid_all identifier id'>all</span> <span class='rubyid_on identifier id'>on</span> <span class='rubyid_archivesspace identifier id'>archivesspace</span><span class='dot token'>.</span><span class='mult op'>*</span> <span class='rubyid_to identifier id'>to</span> <span class='string val'>&#39;as&#39;</span>@<span class='string val'>&#39;localhost&#39;</span> <span class='rubyid_identified identifier id'>identified</span> <span class='rubyid_by identifier id'>by</span> <span class='string val'>&#39;as123&#39;</span><span class='semicolon token'>;</span>
+<p>If using MySQL 5.7 and below:</p>
+
+<pre class="code ruby"><code class="ruby">     <span class='rubyid_mysql identifier id'>mysql</span><span class='gt op'>&gt;</span> <span class='rubyid_grant identifier id'>grant</span> <span class='rubyid_all identifier id'>all</span> <span class='rubyid_on identifier id'>on</span> <span class='rubyid_archivesspace identifier id'>archivesspace</span><span class='dot token'>.</span><span class='mult op'>*</span> <span class='rubyid_to identifier id'>to</span> <span class='string val'>&#39;as&#39;</span>@<span class='string val'>&#39;localhost&#39;</span> <span class='rubyid_identified identifier id'>identified</span> <span class='rubyid_by identifier id'>by</span> <span class='string val'>&#39;as123&#39;</span><span class='semicolon token'>;</span>
+     <span class='rubyid_Query constant id'>Query</span> <span class='rubyid_OK constant id'>OK</span><span class='comma token'>,</span> <span class='integer val'>0</span> <span class='rubyid_rows identifier id'>rows</span> <span class='rubyid_affected identifier id'>affected</span> <span class='lparen token'>(</span><span class='integer val'>0</span><span class='integer val'>.21</span> <span class='rubyid_sec identifier id'>sec</span><span class='rparen token'>)</span>
+</code></pre>
+
+<p>If using MySQL 8+:</p>
+
+<pre class="code ruby"><code class="ruby">     <span class='rubyid_mysql identifier id'>mysql</span><span class='gt op'>&gt;</span> <span class='rubyid_create identifier id'>create</span> <span class='rubyid_user identifier id'>user</span> <span class='string val'>&#39;as&#39;</span>@<span class='string val'>&#39;localhost&#39;</span> <span class='rubyid_identified identifier id'>identified</span> <span class='rubyid_by identifier id'>by</span> <span class='string val'>&#39;as123&#39;</span><span class='semicolon token'>;</span>
+     <span class='rubyid_Query constant id'>Query</span> <span class='rubyid_OK constant id'>OK</span><span class='comma token'>,</span> <span class='integer val'>0</span> <span class='rubyid_rows identifier id'>rows</span> <span class='rubyid_affected identifier id'>affected</span> <span class='lparen token'>(</span><span class='integer val'>0</span><span class='integer val'>.08</span> <span class='rubyid_sec identifier id'>sec</span><span class='rparen token'>)</span>
+
+     <span class='rubyid_mysql identifier id'>mysql</span><span class='gt op'>&gt;</span> <span class='rubyid_grant identifier id'>grant</span> <span class='rubyid_all identifier id'>all</span> <span class='rubyid_privileges identifier id'>privileges</span> <span class='rubyid_on identifier id'>on</span> <span class='rubyid_archivesspace identifier id'>archivesspace</span><span class='dot token'>.</span><span class='mult op'>*</span> <span class='rubyid_to identifier id'>to</span> <span class='string val'>&#39;as&#39;</span>@<span class='string val'>&#39;localhost&#39;</span><span class='semicolon token'>;</span>
      <span class='rubyid_Query constant id'>Query</span> <span class='rubyid_OK constant id'>OK</span><span class='comma token'>,</span> <span class='integer val'>0</span> <span class='rubyid_rows identifier id'>rows</span> <span class='rubyid_affected identifier id'>affected</span> <span class='lparen token'>(</span><span class='integer val'>0</span><span class='integer val'>.21</span> <span class='rubyid_sec identifier id'>sec</span><span class='rparen token'>)</span>
 </code></pre>
 
@@ -120,13 +134,13 @@ ArchivesSpace requires.  Run this with:</p>
 <p>You can now follow the instructions in the “Getting Started” section to start
 your ArchivesSpace application.</p>
 
-<p>**NOTE: For MySQL 8. MySQL 8 uses a new method (caching_sha2_password) as the default authentication plugin instead of the old mysql_native_password that MySQL 5.7 and older used. This may require starting a MySQL 8 server with the <code>--default-authentication-plugin=mysql_native_password</code> option. You may also be able to change the auth mechanism on a per user basis by logging into mysql and running <code>ALTER USER 'archivesspace' IDENTIFIED WITH mysql_native_password BY '123456';</code>. Also be sure to have the LATEST <a href="http://dev.mysql.com/downloads/connector/j/">MySQL Connector for Java</a> from MySQL in your /lib/ directory for ArchivesSpace.</p>
+<p>**NOTE: For MySQL 8. MySQL 8 uses a new method (caching_sha2_password) as the default authentication plugin instead of the old mysql_native_password that MySQL 5.7 and older used. This may require starting a MySQL 8 server with the <code>--default-authentication-plugin=mysql_native_password</code> option. You may also be able to change the auth mechanism on a per user basis by logging into mysql and running <code>ALTER USER 'as'@'localhost' IDENTIFIED WITH mysql_native_password BY 'as123';</code>. Also be sure to have the LATEST <a href="http://dev.mysql.com/downloads/connector/j/">MySQL Connector for Java</a> from MySQL in your /lib/ directory for ArchivesSpace.</p>
 </div></div>
 
       <div id="footer">
-  ArchivesSpace Version v2.8.0.a Documentation Generated on Thu Jul 16 10:06:47 2020 by
+  ArchivesSpace Version v2.8.1-rc1.a Documentation Generated on Mon Nov  2 14:25:12 2020 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.20.
+  0.9.25.
 </div>
 
     </div>

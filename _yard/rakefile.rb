@@ -9,6 +9,7 @@ namespace :doc do
 
   desc "Create the API.md file"
   task :api do
+    puts "Creating the API.md file"
     require 'erb'
     require 'sinatra'
     require 'jsonmodel'
@@ -52,6 +53,7 @@ namespace :doc do
 
   desc 'Rename the YARD index file to avoid problems with Jekyll'
   task :rename_index do
+    puts "Renaming the YARD index file"
     Dir.chdir('../docs') do
       files = Dir.glob('doc/**/*')
       files.each do |f|
@@ -70,10 +72,17 @@ namespace :doc do
 
   desc 'This generates all documentation and publishes it to the doc folder'
   task :gen do
+    require 'fileutils'
+
+    puts "Removing old documentation"
+    FileUtils.rm_rf("./docs/doc")
+
     Rake::Task["doc:api"].invoke
     Rake::Task["doc:yard"].invoke
-    # Rake::Task["doc:yard-txt"].invoke
     Rake::Task["doc:rename_index"].invoke
+
+    puts "Updating API documentation"
+    FileUtils.cp("../API.md", "../docs/slate/source/index.md")
   end
 
 

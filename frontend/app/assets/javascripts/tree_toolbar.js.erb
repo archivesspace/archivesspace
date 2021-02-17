@@ -34,7 +34,7 @@ var SHARED_TOOLBAR_ACTIONS = [
                 $('.cut-selection,.move-node',toolbarRenderer.container).removeClass('disabled');
             } else {
                 $(btn).text('<%= I18n.t('actions.enable_reorder') %>');
-                tree.ajax_tree.show_form();
+                location.reload(true);
                 tree.resizer.reset();
                 $('.btn',toolbarRenderer.container).show();
                 $('.cut-selection,.paste-selection,.move-node', toolbarRenderer.container).hide();

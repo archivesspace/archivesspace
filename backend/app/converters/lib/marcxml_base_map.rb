@@ -717,6 +717,9 @@ module MarcXMLBaseMap
 
               if control[7..10] && control[7..10].match(/^\d{4}$/)
                 date.begin = control[7..10]
+              elsif control[7..10]
+                #somewhat hackish, but lets us cope with e.g. 19uu 
+                date.expression = control[7..10]
               end
 
               if control[11..14] && control[11..14].match(/^\d{4}$/)
@@ -770,16 +773,29 @@ module MarcXMLBaseMap
         "datafield[@tag='245']" => -> resource, node {
           resource.title = subfield_template("{$a : }{$b }{[$h] }{$k , }{$n , }{$p , }{$s }{/ $c}", node)
 
-          expression = concatenate_subfields(%w(f g), node, '-')
-          unless expression.empty?
-            if resource.dates[0]
+          expression = subfield_template("{$f}", node)
+          bulk = subfield_template("{$g}", node)
+          unless expression.empty? && bulk.empty?
+            if resource.dates[0] && resource.dates[0]['date_type'] != 'bulk' && !expression.empty?
               resource.dates[0]['expression'] = expression
-            else
+            elsif !expression.empty?
               make(:date)  do |date|
                 date.label = 'creation'
                 date.date_type = 'inclusive'
                 date.expression = expression
                 resource.dates << date
+             end
+            end
+            unless bulk.empty?
+              if resource.dates[0] && resource.dates[0]['date_type'] == 'bulk'
+                 resource.dates[0]['expression'] = bulk
+              else
+                make(:date)  do |date|
+                  date.label = 'creation'
+                  date.date_type = 'bulk'
+                  date.expression = bulk
+                  resource.dates << date
+                end
               end
             end
           else

@@ -346,8 +346,8 @@ module Searchable
   def repo_context(repo_id, type)
     cont = []
     if repo_id
-      cont.push({:uri => "/repositories/#{repo_id}", :crumb => get_pretty_facet_value('repository', "/repositories/#{repo_id}")})
-      cont.push({:uri => '', :crumb =>  I18n.t("#{type}._plural")})
+      cont.push({:uri => "/repositories/#{repo_id}", :crumb => get_pretty_facet_value('repository', "/repositories/#{repo_id}"), type: 'repository'})
+      cont.push({:uri => '', :crumb =>  I18n.t("#{type}._plural"), type: type})
     end
   end
 
