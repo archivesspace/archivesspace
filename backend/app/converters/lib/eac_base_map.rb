@@ -61,15 +61,15 @@ module EACBaseMap
       '//eac-cpf/cpfDescription/description/existDates//dateRange' => agent_date_range_map('existence', :dates_of_existence),
       '//place' => agent_place_map,
       '//occupation' => agent_occupation_map,
-      '//functions/function' => agent_function_map,
-      "//localDescription[contains(@localType, 'subject') or contains(@localType, 'Subject')]" => agent_topic_map,
+      '//function' => agent_function_map,
+      "//localDescription[contains(translate(@localType,'ABCDEFGHIJKLMNOPQRSTUVWXYZ','abcdefghijklmnopqrstuvwxyz'),'subject')]" => agent_topic_map,
       '//eac-cpf//biogHist' => agent_bioghist_note_map,
       '//eac-cpf//generalContext' => agent_general_context_note_map,
       '//eac-cpf/cpfDescription/alternativeSet/setComponent' => agent_set_component_map,
       '//languageUsed' => agent_languages_map,
-      "//relations/cpfRelation[contains(@role,'person') or contains(@role, 'Person')]/relationEntry[string-length(text()) > 0]" => related_agent_map('person'),
-      "//relations/cpfRelation[contains(@role,'corporateBody') or contains(@role, 'CorporateBody')]/relationEntry[string-length(text()) > 0]" => related_agent_map('corporate_entity'),
-      "//relations/cpfRelation[contains(@role,'family') or contains(@role, 'Family')]/relationEntry[string-length(text()) > 0]" => related_agent_map('family'),
+      "//relations/cpfRelation[contains(translate(@role,'ABCDEFGHIJKLMNOPQRSTUVWXYZ','abcdefghijklmnopqrstuvwxyz'),'person')]/relationEntry[string-length(text()) > 0]" => related_agent_map('person'),
+      "//relations/cpfRelation[contains(translate(@role,'ABCDEFGHIJKLMNOPQRSTUVWXYZ','abcdefghijklmnopqrstuvwxyz'),'corporatebody')]/relationEntry[string-length(text()) > 0]" => related_agent_map('corporate_entity'),
+      "//relations/cpfRelation[contains(translate(@role,'ABCDEFGHIJKLMNOPQRSTUVWXYZ','abcdefghijklmnopqrstuvwxyz'),'family')]/relationEntry[string-length(text()) > 0]" => related_agent_map('family'),
       '//relations/resourceRelation/relationEntry[string-length(text()) > 0]' => related_resource_map
     }
 
@@ -225,7 +225,6 @@ module EACBaseMap
        'descendant::part[not(@localType)]' => proc { |name, node|
          val = node.inner_text
          name[:primary_name] = val
-         name[:dates] = val.scan(/[0-9]{4}-[0-9]{4}/).flatten[0]
        }, # if localType attr is not defined, assume primary_name
        "descendant::part[not(@localType='prefix') and   not(@localType='prefix') and not(@localType='suffix') and   not(@localType='title')  and not(@localType='surname')  and   not(@localType='forename') and not(@localType='numeration') and   not(@localType='fuller_form') and not(@localType='dates') and   not(@localType='qualifier')]" => proc { |name, node|
          val = node.inner_text
@@ -498,8 +497,6 @@ module EACBaseMap
         }
       },
       :defaults => {
-        :citation => 'citation',
-        :name_rule => 'local'
       }
     }
   end
@@ -938,7 +935,6 @@ module EACBaseMap
         }
       },
       :defaults => {
-        :label => 'default label'
       }
     }
   end
@@ -956,7 +952,6 @@ module EACBaseMap
         }
       },
       :defaults => {
-        :label => 'default label'
       }
     }
   end
@@ -980,7 +975,6 @@ module EACBaseMap
         }
       },
       :defaults => {
-        :label => 'default label'
       }
     }
   end
@@ -1004,7 +998,6 @@ module EACBaseMap
         }
       },
       :defaults => {
-        :label => 'default label'
       }
     }
   end

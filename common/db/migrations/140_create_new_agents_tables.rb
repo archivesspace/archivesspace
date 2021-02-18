@@ -21,8 +21,8 @@ Sequel.migration do
 
       String :maintenance_agency, :null => true
       String :agency_name, :null => true
-      String :maintenance_agency_note, :null => true
-      String :language_note, :null => true
+      TextField :maintenance_agency_note, :null => true
+      TextField :language_note, :null => true
 
       Integer :agent_person_id, :null => true
       Integer :agent_family_id, :null => true
@@ -438,7 +438,7 @@ Sequel.migration do
 
       Integer :linked_agent_role_id, :null => false
 
-      String :linked_resource, :null => false
+      HalfLongString :linked_resource, :null => false
       TextField :linked_resource_description, :null => true
       String :file_uri, :null => true
 
