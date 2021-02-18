@@ -59,6 +59,9 @@ class ArchivesSpaceService < Sinatra::Base
     do_dc = client.get("/repositories/2/digital_objects/dublin_core/48.fmt/metadata")
     # replace 2 for your repository ID and 48 with your digital object ID. Find these at the URI on the staff interface
 
+    print(do_dc_fmt.content)
+    # Sample output: {"filename":"identifier_youtube_20210218_182435_UTC__dc.xml","mimetype":"application/xml"}
+
     # For error handling, print or log the returned value of client.get with .json() - print(do_dc.json())
     PYTHON
     .params(["id", :id],
@@ -128,8 +131,13 @@ class ArchivesSpaceService < Sinatra::Base
 
     client.authorize()  # authorizes the client
 
-    mets_fmt = client.get('/repositories/2/digital_objects/mets/48.fmt/metadata')
+    mets_fmt = client.get("/repositories/2/digital_objects/mets/48.fmt/metadata")
     # replace 2 for your repository ID and 48 with your digital object ID. Find these at the URI on the staff interface
+
+    print(mets_fmt.content)
+    # Sample output: {"filename":"identifier_youtube_20210218_182435_UTC__mets.xml","mimetype":"application/xml"}
+
+    # For error handling, print or log the returned value of client.get with .json() - print(mets_fmt.json())
     PYTHON
     .params(["id", :id],
             ["repo_id", :repo_id])
@@ -160,7 +168,7 @@ class ArchivesSpaceService < Sinatra::Base
 
     client.authorize()  # authorizes the client
 
-    mods_xml = client.get('/repositories/2/digital_objects/mods/48.xml')
+    mods_xml = client.get("/repositories/2/digital_objects/mods/48.xml")
     # replace 2 for your repository ID and 48 with your digital object ID. Find these at the URI on the staff interface
 
     with open("do_mods.xml", "wb") as file:  # save the file
@@ -196,8 +204,13 @@ class ArchivesSpaceService < Sinatra::Base
 
     client.authorize()  # authorizes the client
 
-    mods_fmt = client.get('/repositories/2/digital_objects/mods/48.:fmt/metadata')
+    mods_fmt = client.get("/repositories/2/digital_objects/mods/48.:fmt/metadata")
     # replace 2 for your repository ID and 48 with your digital object ID. Find these at the URI on the staff interface
+
+    print(mods_fmt.content)
+    # Sample output: {"filename":"identifier_youtube_20210218_182435_UTC__mods.xml","mimetype":"application/xml"}
+
+    # For error handling, print or log the returned value of client.get with .json() - print(mods_fmt.json())
     PYTHON
     .params(["id", :id],
             ["repo_id", :repo_id])
@@ -229,9 +242,9 @@ class ArchivesSpaceService < Sinatra::Base
 
     client.authorize()  # authorizes the client
 
-    marc21_xml = client.get('/repositories/2/resources/marc21/577.xml',
-               params={'include_unpublished_marc': True,
-                       'include_unpublished_notes': False})
+    marc21_xml = client.get("/repositories/2/resources/marc21/577.xml",
+                            params={"include_unpublished_marc": True,
+                                    "include_unpublished_notes": False})
     # replace 2 for your repository ID and 577 with your resource ID. Find these at the URI on the staff interface
     # set parameters to True or False
 
@@ -269,10 +282,15 @@ class ArchivesSpaceService < Sinatra::Base
 
     client.authorize()  # authorizes the client
 
-    marc21_fmt = client.get('/repositories/2/resources/marc21/577.:fmt/metadata',
-                            params={"include_unpublished_marc": True)
+    marc21_fmt = client.get("/repositories/2/resources/marc21/577.:fmt/metadata",
+                            params={"include_unpublished_marc": True})
     # replace 2 for your repository ID and 577 with your resource ID. Find these at the URI on the staff interface
     # set include_unpublished_marc to True or False
+
+    print(marc21_fmt.content)
+    # Sample output: {"filename":"identifier_20210218_182435_UTC__marc21.xml","mimetype":"application/xml"}
+
+    # For error handling, print or log the returned value of client.get with .json() - print(marc21_fmt.json())
     PYTHON
     .params(["id", :id],
             ["repo_id", :repo_id],
@@ -305,12 +323,12 @@ class ArchivesSpaceService < Sinatra::Base
 
     client.authorize()  # authorizes the client
 
-    ead_xml = client.get('repositories/2/resource_descriptions/577.xml',
-                          params={'include_unpublished': False,
-                                  'include_daos': True,
-                                  'numbered_cs': True,
-                                  'print_pdf': False,
-                                  'ead3': False})
+    ead_xml = client.get("repositories/2/resource_descriptions/577.xml",
+                         params={"include_unpublished": False,
+                                 "include_daos": True,
+                                 "numbered_cs": True,
+                                 "print_pdf": False,
+                                 "ead3": False})
     # replace 2 for your repository ID and 577 with your resource ID. Find these at the URI on the staff interface
     # set parameters to True or False
 
@@ -365,12 +383,12 @@ class ArchivesSpaceService < Sinatra::Base
 
     client.authorize()  # authorizes the client
 
-    ead_pdf = client.get('repositories/2/resource_descriptions/577.pdf',
-                          params={'include_unpublished': False,
-                                  'include_daos': True,
-                                  'numbered_cs': True,
-                                  'print_pdf': True,
-                                  'ead3': False})
+    ead_pdf = client.get("repositories/2/resource_descriptions/577.pdf",
+                          params={"include_unpublished": False,
+                                  "include_daos": True,
+                                  "numbered_cs": True,
+                                  "print_pdf": True,
+                                  "ead3": False})
     # replace 2 for your repository ID and 577 with your resource ID. Find these at the URI on the staff interface
     # set parameters to True or False
 
@@ -434,10 +452,13 @@ class ArchivesSpaceService < Sinatra::Base
 
     client.authorize()  # authorizes the client
 
-    res_fmt = client.get('/repositories/2/resource_descriptions/577.:fmt/metadata',
+    res_fmt = client.get("/repositories/2/resource_descriptions/577.:fmt/metadata",
                          params={"fmt": "864442169P755"})
     # replace 2 for your repository ID and 577 with your resource ID. Find these at the URI on the staff interface
     # set fmt to the format of the request you would like to export
+
+    print(res_fmt.content)
+    # Sample output: {"filename":"identifier_20210218_182435_UTC__ead.fmt","mimetype":"application/:fmt"}
 
     # For error handling, print or log the returned value of client.get with .json() - print(res_fmt.json())
     PYTHON
@@ -474,7 +495,7 @@ class ArchivesSpaceService < Sinatra::Base
 
     client.authorize()  # authorizes the client
 
-    request_labels = client.get('repositories/2/resource_labels/577.tsv')
+    request_labels = client.get("repositories/2/resource_labels/577.tsv")
     # replace 2 for your repository ID and 577 with your resource ID. Find these at the URI on the staff interface
 
     with open("container_labels.tsv", "wb") as local_file:
@@ -512,8 +533,11 @@ class ArchivesSpaceService < Sinatra::Base
 
     client.authorize()  # authorizes the client
 
-    labels_fmt = client.get('/repositories/2/resource_labels/577.:fmt/metadata')
+    labels_fmt = client.get("/repositories/2/resource_labels/577.:fmt/metadata")
     # replace 2 for your repository ID and 577 with your resource ID. Find these at the URI on the staff interface
+
+    print(labels_fmt.content)
+    # Sample output: {"filename":"identifier_20210218_182435_UTC__labels.tsv","mimetype":"text/tab-separated-values"}
 
     # For error handling, print or log the returned value of client.get with .json() - print(labels_fmt.json())
     PYTHON
@@ -546,7 +570,7 @@ class ArchivesSpaceService < Sinatra::Base
 
     client.authorize()  # authorizes the client
 
-    eac_cpf_xml = client.get('/repositories/2/archival_contexts/people/159.xml')
+    eac_cpf_xml = client.get("/repositories/2/archival_contexts/people/159.xml")
     # replace 2 for your repository ID and 159 with your agent ID. Find these at the URI on the staff interface
 
     with open("eac_cpf.xml", "wb") as file:  # save the file
@@ -584,8 +608,11 @@ class ArchivesSpaceService < Sinatra::Base
 
     client.authorize()  # authorizes the client
 
-    eac_cpf_fmt = client.get('/repositories/2/archival_contexts/people/159.:fmt/metadata')
+    eac_cpf_fmt = client.get("/repositories/2/archival_contexts/people/159.:fmt/metadata")
     # replace 2 for your repository ID and 159 with your agent ID. Find these at the URI on the staff interface
+
+    print(eac_cpf_fmt.content)
+    # Sample output: {"filename":"title_20210218_182435_UTC__eac.xml","mimetype":"application/xml"}
 
     # For error handling, print or log the returned value of client.get with .json() - print(eac_cpf_fmt.json())
     PYTHON
@@ -620,7 +647,7 @@ class ArchivesSpaceService < Sinatra::Base
 
     client.authorize()  # authorizes the client
 
-    eac_cpf_corp_xml = client.get('/repositories/2/archival_contexts/corporate_entities/1238.xml')
+    eac_cpf_corp_xml = client.get("/repositories/2/archival_contexts/corporate_entities/1238.xml")
     # replace 2 for your repository ID and 1238 with your corporate agent ID. Find these at the URI on the staff interface
 
     with open("eac_cpf_corp.xml", "wb") as file:  # save the file
@@ -658,8 +685,11 @@ class ArchivesSpaceService < Sinatra::Base
 
     client.authorize()  # authorizes the client
 
-    eac_cpf_corp_fmt = client.get('/repositories/2/archival_contexts/corporate_entities/1238.:fmt/metadata')
+    eac_cpf_corp_fmt = client.get("/repositories/2/archival_contexts/corporate_entities/1238.:fmt/metadata")
     # replace 2 for your repository ID and 1238 with your corporate agent ID. Find these at the URI on the staff interface
+
+    print(eac_cpf_corp_fmt.content)
+    # Sample output: {"filename":"title_20210218_182435_UTC__eac.xml","mimetype":"application/xml"}
 
     # For error handling, print or log the returned value of client.get with .json() - print(eac_cpf_corp_fmt.json())
     PYTHON
@@ -694,7 +724,7 @@ class ArchivesSpaceService < Sinatra::Base
 
     client.authorize()  # authorizes the client
 
-    eac_cpf_fam_xml = client.get('/repositories/2/archival_contexts/families/479.xml')
+    eac_cpf_fam_xml = client.get("/repositories/2/archival_contexts/families/479.xml")
     # replace 2 for your repository ID and 479 with your family agent ID. Find these at the URI on the staff interface
 
     with open("eac_cpf_fam.xml", "wb") as file:  # save the file
@@ -732,9 +762,11 @@ class ArchivesSpaceService < Sinatra::Base
 
     client.authorize()  # authorizes the client
 
-    eac_cpf_fam_fmt = client.get('/repositories/2/archival_contexts/families/479.:fmt/metadata')
+    eac_cpf_fam_fmt = client.get("/repositories/2/archival_contexts/families/479.:fmt/metadata")
     # replace 2 for your repository ID and 479 with your family agent ID. Find these at the URI on the staff interface
-    # print(eac_cpf_fam_fmt, eac_cpf_fam_fmt.content)
+
+    print(eac_cpf_fam_fmt.content)
+    # Sample output: {"filename":"Adams_family_20210218_182435_UTC__eac.xml","mimetype":"application/xml"}
 
     # For error handling, print or log the returned value of client.get with .json() - print(eac_cpf_fam_fmt.json())
     PYTHON
@@ -769,7 +801,7 @@ class ArchivesSpaceService < Sinatra::Base
 
     client.authorize()  # authorizes the client
 
-    eac_cpf_soft_xml = client.get('/repositories/2/archival_contexts/softwares/1.xml')
+    eac_cpf_soft_xml = client.get("/repositories/2/archival_contexts/softwares/1.xml")
     # replace 2 for your repository ID and 1 with your software agent ID. Find these at the URI on the staff interface
 
     with open("eac_cpf_soft.xml", "wb") as file:  # save the file
@@ -807,8 +839,11 @@ class ArchivesSpaceService < Sinatra::Base
 
     client.authorize()  # authorizes the client
 
-    eac_cpf_soft_fmt = client.get('/repositories/2/archival_contexts/softwares/1.:fmt/metadata')
+    eac_cpf_soft_fmt = client.get("/repositories/2/archival_contexts/softwares/1.:fmt/metadata")
     # replace 2 for your repository ID and 1 with your software agent ID. Find these at the URI on the staff interface
+
+    print(eac_cpf_soft_fmt.content)
+    # Sample output: {"filename":"ArchivesSpace_20210218_182253_UTC__eac.xml","mimetype":"application/xml"}
 
     # For error handling, print or log the returned value of client.get with .json() - print(eac_cpf_soft_fmt.json())
     PYTHON
