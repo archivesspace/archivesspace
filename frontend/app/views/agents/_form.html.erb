@@ -92,6 +92,8 @@
 
   <% if user_can?('view_agent_contact_record') %>
     <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "agent_contacts", :section_id => "#{@agent.agent_type}_contact_details", :template_erb => "agents/contact_details", :template => "agent_contact", :help_topic => "#{@agent.agent_type}_contact_details", :invisible => false, :lightmode_toggle => false} %>
+  <% else %>
+    <%= form.hidden_input "restricted_properties[]", 'agent_contacts' %>
   <% end %>
 
   <%= render_aspace_partial :partial => "notes/form", :locals => {:form => form, :all_note_types => note_types_for(form['jsonmodel_type']), :section_id => "#{@agent.agent_type}_notes", :show_apply_note_order_action => false} %>
