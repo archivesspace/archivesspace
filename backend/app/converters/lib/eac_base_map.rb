@@ -229,7 +229,6 @@ module EACBaseMap
        "descendant::part[not(@localType='prefix') and   not(@localType='prefix') and not(@localType='suffix') and   not(@localType='title')  and not(@localType='surname')  and   not(@localType='forename') and not(@localType='numeration') and   not(@localType='fuller_form') and not(@localType='dates') and   not(@localType='qualifier')]" => proc { |name, node|
          val = node.inner_text
          name[:primary_name] = val
-         name[:dates] = val.scan(/[0-9]{4}-[0-9]{4}/).flatten[0]
        }, # if localType attr is something else
        'descendant::useDates//date' => agent_date_single_map('usage', :use_dates),
        'descendant::useDates//dateRange' => agent_date_range_map('usage', :use_dates)
@@ -291,12 +290,10 @@ module EACBaseMap
       'descendant::part[not(@localType)]' => proc { |name, node|
         val = node.inner_text
         name[:primary_name] = val
-        name[:dates] = val.scan(/[0-9]{4}-[0-9]{4}/).flatten[0]
       }, # if localType attr is not defined, assume primary_name
       "descendant::part[not(@localType='primary_name') and not(@localType='subordinate_name_1') and not(@localType='subordinate_name_2') and not(@localType='numeration') and not(@localType='location') and not(@localType='dates') and not(@localType='qualifier')]" => proc { |name, node|
         val = node.inner_text
         name[:primary_name] = val
-        name[:dates] = val.scan(/[0-9]{4}-[0-9]{4}/).flatten[0]
       }, # if localType attr is something else
       'descendant::useDates//date' => agent_date_single_map('usage', :use_dates),
       'descendant::useDates//dateRange' => agent_date_range_map('usage', :use_dates)
@@ -354,12 +351,10 @@ module EACBaseMap
       'descendant::part[not(@localType)]' => proc { |name, node|
         val = node.inner_text
         name[:family_name] = val
-        name[:dates] = val.scan(/[0-9]{4}-[0-9]{4}/).flatten[0]
       }, # if localType attr is not defined, assume primary_name
       "descendant::part[not(@localType='prefix') and not(@localType='surname') and not(@localType='family_type') and not(@localType='location') and not(@localType='dates') and not(@localType='qualifier')]" => proc { |name, node|
         val = node.inner_text
         name[:family_name] = val
-        name[:dates] = val.scan(/[0-9]{4}-[0-9]{4}/).flatten[0]
       }, # if localType attr is something else, assume primary_name
       'descendant::useDates//date' => agent_date_single_map('usage', :use_dates),
       'descendant::useDates//dateRange' => agent_date_range_map('usage', :use_dates)
