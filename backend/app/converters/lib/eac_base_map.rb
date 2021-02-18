@@ -476,8 +476,7 @@ module EACBaseMap
           dec[:name_rule] = val
         },
         'descendant::citation' => proc { |dec, node|
-          val = node.inner_text
-          dec[:citation] = val.nil? || val.length == 0 ? 'citation' : val
+          dec[:citation] = format_content(node.inner_html)
           dec[:file_uri] = node.attr('href')
           dec[:file_version_xlink_actuate_attribute] = node.attr('actuate')
           dec[:file_version_xlink_show_attribute] = node.attr('show')
@@ -487,8 +486,7 @@ module EACBaseMap
           dec[:last_verified_date] = node.attr('lastDateTimeVerified')
         },
         'descendant::descriptiveNote' => proc { |dec, node|
-          val = node.inner_text
-          dec[:descriptive_note] = val
+          dec[:descriptive_note] = format_content(node.inner_html)
         }
       },
       :defaults => {
@@ -511,8 +509,7 @@ module EACBaseMap
           as[:last_verified_date] = node.attr('lastDateTimeVerified')
         },
         'descendant::descriptiveNote' => proc { |as, node|
-          val = node.inner_text
-          as[:descriptive_note] = val
+          as[:descriptive_note] = format_content(node.inner_html)
         },
         'descendant::componentEntry' => proc { |as, node|
           val = node.inner_text
@@ -549,8 +546,7 @@ module EACBaseMap
           me[:event_date] = val2 if val.nil?
         },
         'descendant::eventDescription' => proc { |me, node|
-          val = node.inner_text
-          me[:descriptive_note] = val
+          me[:descriptive_note] = format_content(node.inner_html)
         }
       },
       :defaults => {
@@ -577,8 +573,7 @@ module EACBaseMap
           s[:source_entry] = val
         },
         'descendant::descriptiveNote' => proc { |s, node|
-          val = node.inner_text
-          s[:descriptive_note] = val
+          s[:descriptive_note] = format_content(node.inner_html)
         }
       },
       :defaults => {
@@ -925,7 +920,7 @@ module EACBaseMap
         'self::generalContext' => proc { |note, node|
           note['subnotes'] << {
             'jsonmodel_type' => 'note_text',
-            'content' => node.inner_text
+            'content' => format_content(node.inner_html)
           }
         }
       },
@@ -942,7 +937,7 @@ module EACBaseMap
         'self::structureOrGenealogy' => proc { |note, node|
           note['subnotes'] << {
             'jsonmodel_type' => 'note_text',
-            'content' => node.inner_text
+            'content' => format_content(node.inner_html)
           }
         }
       },
@@ -959,13 +954,13 @@ module EACBaseMap
         'descendant::citation' => proc { |note, node|
           note['subnotes'] << {
             'jsonmodel_type' => 'note_citation',
-            'content' => [node.inner_text]
+            'content' => [format_content(node.inner_html)]
           }
         },
         'descendant::descriptiveNote' => proc { |note, node|
           note['subnotes'] << {
             'jsonmodel_type' => 'note_text',
-            'content' => node.inner_text
+            'content' => format_content(node.inner_html)
           }
         }
       },
@@ -982,13 +977,13 @@ module EACBaseMap
         'descendant::citation' => proc { |note, node|
           note['subnotes'] << {
             'jsonmodel_type' => 'note_citation',
-            'content' => [node.inner_text]
+            'content' => [format_content(node.inner_html)]
           }
         },
         'descendant::descriptiveNote' => proc { |note, node|
           note['subnotes'] << {
             'jsonmodel_type' => 'note_text',
-            'content' => node.inner_text
+            'content' => format_content(node.inner_html)
           }
         }
       },
@@ -1003,7 +998,7 @@ module EACBaseMap
       :rel => rel,
       :map => {
         xpath => proc { |note, node|
-          note.content = node.inner_text
+          note.content = format_content(node.inner_html)
         }
       },
       :defaults => {
@@ -1017,7 +1012,7 @@ module EACBaseMap
       :rel => rel,
       :map => {
         xpath => proc { |note, node|
-          note.content << node.inner_text
+          note.content << format_content(node.inner_html)
         }
       },
       :defaults => {
@@ -1031,7 +1026,7 @@ module EACBaseMap
       :rel => rel,
       :map => {
         xpath => proc { |note, node|
-          note.content << node.inner_text
+          note.content << format_content(node.inner_html)
           note.xlink = {
             'href' => node.attr('href'),
             'actuate' => node.attr('xlink:actuate'),
@@ -1063,7 +1058,7 @@ module EACBaseMap
       :map => {
         xpath => proc { |subject, node|
           subject.publish = true
-          subject.authority_id = node.attr('vocabularySource')
+          subject.source = node.attr('vocabularySource')
           subject.terms = terms.call(node)
           subject.vocabulary = '/vocabularies/1'
         }
