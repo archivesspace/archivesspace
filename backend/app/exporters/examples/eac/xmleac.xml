@@ -16,7 +16,8 @@
          <descriptiveNote>Agency Note</descriptiveNote>
       </maintenanceAgency>
       <languageDeclaration>
-         <language languageCode="ger" scriptCode="Latn">deutsch</language>
+         <language languageCode="ger">deutsch</language>
+         <script scriptCode="Latn">Latin</script>
          <descriptiveNote>Language Note</descriptiveNote>
          
       </languageDeclaration>
