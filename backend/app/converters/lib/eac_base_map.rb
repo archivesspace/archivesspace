@@ -846,8 +846,8 @@ module EACBaseMap
         'parent::resourceRelation/placeEntry' => subject_map('self::placeEntry',
                                                              subject_terms_map('geographic'),
                                                              :places),
-        'parent::resourceRelation/date' => agent_date_single_map,
-        'parent::resourceRelation/dateRange' => agent_date_range_map
+        'parent::resourceRelation/descendant::date' => agent_date_single_map,
+        'parent::resourceRelation/descendant::dateRange' => agent_date_range_map
       },
       :defaults => {
       }
