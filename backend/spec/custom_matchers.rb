@@ -96,7 +96,7 @@ RSpec::Matchers.define :have_inner_markup do |expected|
     else
       markup = node.inner_html.strip.delete(' ').gsub("'", '"')
       expected_markup = expected.strip.delete(' ').gsub("'", '"')
-      markup == expected_markup 
+      markup == expected_markup
     end
   end
 
@@ -115,7 +115,7 @@ RSpec::Matchers.define :have_inner_markup do |expected|
 end
 
 
-RSpec::Matchers.define :have_tag do |expected|
+RSpec::Matchers.define :have_tag do |expected, attributes = {}|
   tag = expected.is_a?(Hash) ? expected.keys[0] : expected
   nodeset = nil
 
@@ -127,7 +127,7 @@ RSpec::Matchers.define :have_tag do |expected|
                 path_root = tag_frags.shift
                 tag = path_root =~ /^[^\[]+:.+/ ? path_root : "xmlns:#{path_root}"
                 selector = false
-                
+
                 tag_frags.each do |frag|
         					join = (selector || frag =~ /^[^\[]+:.+/) ? '/' : '/xmlns:'
         					tag << "#{join}#{frag}"
@@ -139,12 +139,19 @@ RSpec::Matchers.define :have_tag do |expected|
 					      end
                 doc.xpath("//#{tag}", doc.namespaces)
               end
-    
+
     if nodeset.empty?
       false
-    elsif expected.is_a?(Hash)
+    elsif expected.is_a?(Hash) || attributes.any?
       nodeset.any? {|node|
-        node.inner_text == expected.values[0]
+        if attributes.empty?
+          node.inner_text == expected.values[0]
+        else
+          # check that every attribute is present and value matched
+          attributes.select { |k, v|
+            node.attributes.fetch(k)&.value == v
+          }.count == attributes.count
+        end
       }
     else
       true
@@ -155,7 +162,7 @@ RSpec::Matchers.define :have_tag do |expected|
     if nodeset.nil? || nodeset.empty?
       "Could find no #{tag} in #{doc.to_xml}"
     else
-      "Could not find text '#{expected.values[0]}' in #{nodeset.to_xml}"
+      "Could not find text '#{attributes.any? ? attributes.inspect : expected.values[0]}' in #{nodeset.to_xml}"
     end
   end
 
