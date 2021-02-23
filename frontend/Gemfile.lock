@@ -48,6 +48,7 @@ GEM
     benchmark-malloc (0.2.0)
     benchmark-perf (0.6.0)
     benchmark-trend (0.4.0)
+    bindex (0.8.1)
     builder (3.2.4)
     childprocess (3.0.0)
     choice (0.2.0)
@@ -260,6 +261,11 @@ GEM
       execjs (>= 0.3.0, < 3)
     unf (0.1.4-java)
     unicode-display_width (1.6.1)
+    web-console (3.7.0)
+      actionview (>= 5.0)
+      activemodel (>= 5.0)
+      bindex (>= 0.4.0)
+      railties (>= 5.0)
     webrobots (0.1.2)
     websocket-driver (0.7.3-java)
       websocket-extensions (>= 0.1.0)
@@ -309,6 +315,7 @@ DEPENDENCIES
   therubyrhino
   tzinfo-data
   uglifier (= 3.0.4)
+  web-console
   zip-zip (= 0.3)
 
 BUNDLED WITH
