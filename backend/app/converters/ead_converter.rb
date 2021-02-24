@@ -756,7 +756,7 @@ class EADConverter < Converter
         return
       end
 
-      if !att('id') && (instance = context_obj.instances.last)
+      if !att('id') && defined?(context_obj.instances) && (instance = context_obj.instances.last)
         # this container doesn't have an @id
         # and has a container sibling before it
         # so even though it doesn't have a parent attribute
