@@ -22,10 +22,11 @@ class LcnafController < ApplicationController
 
   def import
     marcxml_file = searcher.results_to_marcxml_file(params[:lccn])
+    is_subject = is_subject_record?(marcxml_file)
 
     begin
       # agents are processed by MarcXMLAuthAgentConverter introduced in ANW-429
-      if params[:lcnaf_service] == "lcnaf"
+      if params[:lcnaf_service] == "lcnaf" && !is_subject
         job = Job.new("import_job", {
                         "import_type" => "marcxml_auth_agent",
                         "jsonmodel_type" => "import_job"
@@ -33,7 +34,7 @@ class LcnafController < ApplicationController
                       {"lcnaf_import_#{SecureRandom.uuid}" => marcxml_file})
 
       # subjects are processed by MarcXMLBibConverter as before ANW-429
-      elsif params[:lcnaf_service] == "lcsh"
+      else 
        job = Job.new("import_job", {
                         "import_type" => "marcxml_subjects_and_agents",
                         "jsonmodel_type" => "import_job"
@@ -63,5 +64,23 @@ class LcnafController < ApplicationController
     when 'lcsh'
       OpenSearcher.new('https://id.loc.gov/search/', 'http://id.loc.gov/authorities/subjects')
     end
+  end
+
+  def is_subject_record?(tempfile)
+    doc = Nokogiri::XML::Document.parse(IO.read(tempfile))
+    doc.remove_namespaces!
+    is_subject_record = false
+
+    subject_tags = ["630", "130", "650", "150", "651", "151", "655", "155", "656", "657", "690", "691", "692", "693", "694", "695", "696", "697", "698", "699"]
+
+
+    subject_tags.each do |tag|
+      if doc.search("//datafield[@tag='#{tag}']").length > 0
+        is_subject_record = true
+        break
+      end
+    end
+
+    is_subject_record
   end
 end
