@@ -204,10 +204,15 @@ module SeleniumFactories
         qualifier { generate(:alphanumstr) }
       end
 
+      factory :agent_contact, class: JSONModel(:agent_contact) do
+        name { generate(:generic_name) }
+      end
+
       factory :agent_person, class: JSONModel(:agent_person) do
         agent_type { 'agent_person' }
         names { [build(:name_person)] }
         dates_of_existence { [build(:json_structured_date_label)] }
+        agent_contacts { [build(:json_agent_contact)] }
       end
 
       factory :json_agent_person_full_subrec, class: JSONModel(:agent_person) do
@@ -250,13 +255,13 @@ module SeleniumFactories
         agent_identifiers { [build(:json_agent_identifier)] }
         used_languages { [build(:json_used_language)] }
         agent_resources { [build(:json_agent_resource)] }
-        notes { [build(:json_note_bioghist), 
+        notes { [build(:json_note_bioghist),
                  build(:json_note_legal_status),
                  build(:json_note_mandate),
                  build(:json_note_structure_or_genealogy),
                  build(:json_note_general_context)]}
       end
-      
+
       factory :json_structured_date_label, class: JSONModel(:structured_date_label) do
         date_type_structured { "single" }
         date_label { 'existence' }
@@ -290,7 +295,7 @@ module SeleniumFactories
         suffix { generate(:alphanumstr) }
         rest_of_name { generate(:alphanumstr) }
         authority_id { generate(:url) }
-      end      
+      end
 
       factory :json_name_corporate_entity, class: JSONModel(:name_corporate_entity) do
         rules { generate(:name_rule) }
@@ -427,7 +432,7 @@ module SeleniumFactories
       factory :json_agent_identifier, class: JSONModel(:agent_identifier) do
         entity_identifier { generate(:alphanumstr) }
         identifier_type { "loc"}
-      end  
+      end
 
       factory :json_used_language, class: JSONModel(:used_language) do
         language { generate(:language) }
