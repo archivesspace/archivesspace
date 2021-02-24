@@ -294,29 +294,35 @@ describe 'MARC Auth Export' do
     describe 'subject linked subrecords' do
       it 'exports agent_places' do
         rec = create(:json_agent_person_full_subrec,
-                     agent_places: [build(:json_agent_place), build(:json_agent_place)])
+                     agent_places: [
+                       build(:json_agent_place, place_role: 'assoc_country'),
+                       build(:json_agent_place, place_role: 'residence')
+                     ])
         marc = get_marc_auth(rec)
         # check that we exported both place subjects (this applies for any subject subrecord)
         expect(marc.xpath('//datafield[@tag=370]').count).to eq 2
-        expect(marc.xpath('//datafield[@tag=370]').to_s).to_not be_nil
+        # check we are getting the appropriate subfields for the roles (assoc. country & residence)
+        expect(marc.xpath('//datafield[@tag=370]/subfield[@code="a"]').to_s).to be_empty
+        expect(marc.xpath('//datafield[@tag=370]/subfield[@code="c"]').to_s).to_not be_empty
+        expect(marc.xpath('//datafield[@tag=370]/subfield[@code="e"]').to_s).to_not be_empty
       end
 
       it 'exports agent_occupations' do
         rec = create(:json_agent_person_full_subrec)
         marc = get_marc_auth(rec)
-        expect(marc.xpath('//datafield[@tag=374]').to_s).to_not be_nil
+        expect(marc.xpath('//datafield[@tag=374]').to_s).to_not be_empty
       end
 
       it 'exports agent_functions' do
         rec = create(:json_agent_person_full_subrec)
         marc = get_marc_auth(rec)
-        expect(marc.xpath('//datafield[@tag=372]').to_s).to_not be_nil
+        expect(marc.xpath('//datafield[@tag=372]').to_s).to_not be_empty
       end
 
       it 'exports agent_topics' do
         rec = create(:json_agent_person_full_subrec)
         marc = get_marc_auth(rec)
-        expect(marc.xpath('//datafield[@tag=372]').to_s).to_not be_nil
+        expect(marc.xpath('//datafield[@tag=372]').to_s).to_not be_empty
       end
     end
 
@@ -324,7 +330,7 @@ describe 'MARC Auth Export' do
       it 'exports used_languages' do
         rec = create(:json_agent_person_full_subrec)
         marc = get_marc_auth(rec)
-        expect(marc.xpath('//datafield[@tag=372]').to_s).to_not be_nil
+        expect(marc.xpath('//datafield[@tag=372]').to_s).to_not be_empty
       end
     end
   end
@@ -339,7 +345,7 @@ describe 'MARC Auth Export' do
                    ])
       marc = get_marc_auth(rec)
 
-      expect(marc.xpath('//datafield[@tag=046]').to_s).to_not be_nil
+      expect(marc.xpath('//datafield[@tag=046]').to_s).to_not be_empty
     end
 
     it 'does not create a 046 tag if date of existence does not have a standardized date' do
@@ -351,6 +357,26 @@ describe 'MARC Auth Export' do
       marc = get_marc_auth(rec)
 
       expect(marc.xpath('//datafield[@tag=046]//subfield[@code=f]').to_s).to eq('')
+    end
+  end
+
+  describe 'agent sources' do
+    it 'exports to 670' do
+      marc = get_marc_auth(
+        create(
+          :json_agent_person_full_subrec, agent_sources: [
+            build(
+              :agent_sources,
+              source_entry: 'abc',
+              descriptive_note: 'def',
+              file_uri: 'https://whatevs.com'
+            )
+          ]
+        )
+      )
+      expect(marc.xpath("//datafield[@tag=670]/subfield[@code='a']").to_s).to match(/abc/)
+      expect(marc.xpath("//datafield[@tag=670]/subfield[@code='b']").to_s).to match(/def/)
+      expect(marc.xpath("//datafield[@tag=670]/subfield[@code='u']").to_s).to match(/whatevs.com/)
     end
   end
 
@@ -374,17 +400,17 @@ describe 'MARC Auth Export' do
 
     it 'creates a 678 tag for bioghist note' do
       marc = get_marc_auth(@rec)
-      expect(marc.xpath('//datafield[@tag=678]').to_s).to_not be_nil
+      expect(marc.xpath('//datafield[@tag=678]').to_s).to_not be_empty
     end
 
     it "creates an 'a' subfield tag for abstract subnote" do
       marc = get_marc_auth(@rec)
-      expect(marc.xpath("//datafield[@tag=678]/subnote[@code='a']").to_s).to_not be_nil
+      expect(marc.xpath("//datafield[@tag=678]/subfield[@code='a']").to_s).to_not be_empty
     end
 
     it "creates an 'b' subfield tag for content subnote" do
       marc = get_marc_auth(@rec)
-      expect(marc.xpath("//datafield[@tag=678]/subnote[@code='b']").to_s).to_not be_nil
+      expect(marc.xpath("//datafield[@tag=678]/subfield[@code='b']").to_s).to_not be_empty
     end
   end
 
@@ -397,7 +423,7 @@ describe 'MARC Auth Export' do
       create(:json_agent_person,
              related_agents: [relationship.to_hash])
       marc = get_marc_auth(rec)
-      expect(marc.xpath('//datafield[@tag=500]').to_s).to_not be_nil
+      expect(marc.xpath('//datafield[@tag=500]').to_s).to_not be_empty
     end
   end
 end

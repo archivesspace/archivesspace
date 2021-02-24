@@ -464,9 +464,9 @@ class MARCAuthSerializer < ASpaceExport::Serializer
       when 'place_of_death'
         subfield_code = 'b'
       when 'assoc_country'
-        subfield_code = 'a'
+        subfield_code = 'c'
       when 'residence'
-        subfield_code = 'd'
+        subfield_code = 'e'
       when 'other_assoc'
         subfield_code = 'f'
       end
@@ -522,7 +522,7 @@ class MARCAuthSerializer < ASpaceExport::Serializer
     json['agent_sources'].each do |source|
       xml.datafield(tag: '670', ind1: ' ', ind2: ' ') do
         subf('a', source['source_entry'], xml)
-        subf('a', source['descriptive_note'], xml)
+        subf('b', source['descriptive_note'], xml)
         subf('u', source['file_uri'], xml)
       end
     end
