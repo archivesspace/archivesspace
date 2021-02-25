@@ -1,0 +1,10 @@
+<% if notes.any? %>
+<ul>
+  <% notes.each_with_index do |note, idx| %>
+    <% next unless note['publish'] %>
+    <li>
+      <%= nl2ws("<strong>#{I18n.t("agent_notes.#{note['jsonmodel_type']}")}:</strong> ") << nl2ws(note['content']) %>
+    </li>
+  <% end %>
+</ul>
+<% end %>
