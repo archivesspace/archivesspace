@@ -548,7 +548,7 @@ describe 'Agent model' do
           )
 
           expect(agent_person1[:slug]).to match("foo")
-          expect(agent_person2[:slug]).to match("foo_1")
+          expect(agent_person2[:slug]).to match("foo")
         end
 
 

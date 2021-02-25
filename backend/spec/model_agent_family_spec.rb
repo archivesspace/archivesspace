@@ -161,7 +161,7 @@ describe 'Agent Family model' do
           )
 
           expect(agent_family1[:slug]).to match("foo")
-          expect(agent_family2[:slug]).to match("foo_1")
+          expect(agent_family2[:slug]).to match("foo")
         end
 
 

@@ -204,7 +204,7 @@ describe 'Structured Date model' do
       expect(ar["names"].first["sort_name"] =~ /Not Before 2019/).to be_truthy
     end
 
-    it "does not add a date of existence when the name record has its own date" do
+    it "adds the date of existence to sort_name for person agents" do
       agent = build(:json_agent_person_full_subrec) 
       agent.save
 
@@ -213,8 +213,21 @@ describe 'Structured Date model' do
       ar["dates_of_existence"].first["structured_date_single"]["date_expression"] = "foo"
       ar.save
 
+      expect(ar["names"].first["sort_name"] =~ /foo/).to be_truthy
+    end
+
+    it "does not add a date of existence when the name record has its own date for non-person agents" do
+      agent = build(:json_agent_family_full_subrec) 
+      agent.save
+
+      ar = AgentFamily.to_jsonmodel(agent.id)
+
+      ar["dates_of_existence"].first["structured_date_single"]["date_expression"] = "foo"
+      ar.save
+
       expect(ar["names"].first["sort_name"] =~ /foo/).to be_falsey
     end
+
 
     it "adds a substring of the date to family agents sort name if a date of existence on date update" do
       agent = build(:json_agent_family_full_subrec) 
