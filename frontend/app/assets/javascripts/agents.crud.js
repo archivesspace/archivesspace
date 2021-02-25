@@ -44,6 +44,7 @@ $(function() {
     var $subform = $(subform);
     var $checkbox = $(":checkbox[name$=\"[sort_name_auto_generate]\"]", $subform);
     var $sortNameField = $(":input[name$=\"[sort_name]\"]", $subform);
+    var originalSortNameFieldValue = $sortNameField[0].value;
 
 
     var disableSortName = function() {
@@ -65,7 +66,7 @@ $(function() {
       } else {
         $sortNameField.prop('disabled', false);
         $sortNameField.removeAttr("readonly");
-        $sortNameField[0].value = $userEnteredSortNameValue;
+        $sortNameField[0].value = originalSortNameFieldValue;
       }
     });
 

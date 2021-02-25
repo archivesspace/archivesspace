@@ -127,7 +127,6 @@ module SortNameProcessor
 
       result << " (#{json["qualifier"]})" if json["qualifier"]
 
-
       result.lstrip!
       result.length > 255 ? result[0..254] : result
     end
