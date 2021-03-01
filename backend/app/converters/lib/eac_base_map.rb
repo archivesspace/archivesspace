@@ -1126,21 +1126,23 @@ module EACBaseMap
 
   def find_relationship(node)
     relationship = node.attr('cpfRelationType')
+    relator = node.attr('arcrole')
+
     case relationship
     when 'identity'
-      relator = 'is_identified_with'
+      relator ||= 'is_identified_with'
       relationship_type = 'agent_relationship_identity'
     when 'hierarchical', 'hierarchical-parent', 'hierarchical-child'
-      relator = 'is_hierarchical_with'
+      relator ||= 'is_hierarchical_with'
       relationship_type = 'agent_relationship_hierarchical'
     when 'temporal', 'temporal-earlier', 'temporal-later'
-      relator = 'is_temporal_with'
+      relator ||= 'is_temporal_with'
       relationship_type = 'agent_relationship_temporal'
     when 'family'
-      relator = 'is_related_with'
+      relator ||= 'is_related_with'
       relationship_type = 'agent_relationship_family'
     else
-      relator = 'is_associative_with'
+      relator ||= 'is_associative_with'
       relationship_type = 'agent_relationship_associative'
     end
 

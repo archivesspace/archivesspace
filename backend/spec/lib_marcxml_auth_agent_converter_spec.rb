@@ -185,25 +185,27 @@ describe 'MARCXML Auth Agent converter' do
       expect(record['agent_record_controls'][0]['cataloging_source']).to eq('nat_bib_agency')
     end
 
-    it 'imports agent_record_identifier' do
+    it 'imports agent_record_identifiers' do
+      record = convert(person_agent_1).select { |r| r['jsonmodel_type'] == 'agent_person' }.first
+
+      # From 010
+      expect(record['agent_record_identifiers'][0]['record_identifier']).to eq('n  88218900 ')
+      expect(record['agent_record_identifiers'][0]['identifier_type']).to eq('loc')
+      expect(record['agent_record_identifiers'][0]['source']).to eq('naf')
+      expect(record['agent_record_identifiers'][0]['primary_identifier']).to eq(true)
+
+      # From 035
+      expect(record['agent_record_identifiers'][1]['record_identifier']).to eq('n  88218900')
+      expect(record['agent_record_identifiers'][1]['identifier_type']).to eq('local')
+      expect(record['agent_record_identifiers'][1]['source']).to eq('DLC')
+      expect(record['agent_record_identifiers'][1]['primary_identifier']).to eq(false)
+    end
+
+    it 'does not import record_identifier from 001 when 003 is DLC and 010 is present' do
       record = convert(person_agent_1).select { |r| r['jsonmodel_type'] == 'agent_person' }.first
 
       # From 001
-      expect(record['agent_record_identifiers'][0]['record_identifier']).to eq('n88218900')
-      expect(record['agent_record_identifiers'][0]['source']).to eq('local')
-      expect(record['agent_record_identifiers'][0]['primary_identifier']).to eq(true)
-
-      # From 010
-      expect(record['agent_record_identifiers'][1]['record_identifier']).to eq('n  88218900 ')
-      expect(record['agent_record_identifiers'][1]['identifier_type']).to eq('loc')
-      expect(record['agent_record_identifiers'][1]['source']).to eq('naf')
-      expect(record['agent_record_identifiers'][1]['primary_identifier']).to eq(false)
-
-      # From 035
-      expect(record['agent_record_identifiers'][2]['record_identifier']).to eq('n  88218900')
-      expect(record['agent_record_identifiers'][2]['identifier_type']).to eq('local')
-      expect(record['agent_record_identifiers'][2]['source']).to eq('DLC')
-      expect(record['agent_record_identifiers'][2]['primary_identifier']).to eq(false)
+      expect(record['agent_record_identifiers']).not_to include(:record_identifier => 'n88218900')
     end
 
     it 'imports agent_maintenance_histories' do
@@ -299,6 +301,23 @@ describe 'MARCXML Auth Agent converter' do
       record = raw.select { |r| r['jsonmodel_type'] == 'agent_person' }.first
 
       expect(record['used_languages'][0]['language']).to eq('fre')
+    end
+
+    it 'imports related agents' do
+      raw = convert(corporate_agent_1)
+      agent_corp_records = raw.select { |r| r['jsonmodel_type'] == 'agent_corporate_entity' }
+      agent_person_records = raw.select { |r| r['jsonmodel_type'] == 'agent_person' }
+
+      expect(agent_corp_records.length).to eq(1)
+      expect(agent_person_records.length).to eq(1)
+
+      # relationships are there
+      expect(agent_corp_records.last['related_agents']).not_to be_nil
+      expect(agent_corp_records.last['related_agents'].first['jsonmodel_type']).to eq('agent_relationship_associative')
+      expect(agent_corp_records.last['related_agents'].first['description']).to eq('Founder:')
+      # related agent is there
+      expect(agent_person_records.first['names'][0]['primary_name']).to eq('Flexner')
+      expect(agent_person_records.first['names'][0]['rest_of_name']).to eq('Abraham,')
     end
 
     it 'imports agent_sources subrecords' do
