@@ -44,8 +44,10 @@ $(function() {
     var $subform = $(subform);
     var $checkbox = $(":checkbox[name$=\"[sort_name_auto_generate]\"]", $subform);
     var $sortNameField = $(":input[name$=\"[sort_name]\"]", $subform);
-    var originalSortNameFieldValue = $sortNameField[0].value;
 
+    if(typeof $sortNameField !== 'undefined' &&  typeof $sortNameField[0] !== 'undefined') {
+      var originalSortNameFieldValue = $sortNameField[0].value;
+    }
 
     var disableSortName = function() {
       $sortNameField.attr("readonly","readonly");
@@ -66,7 +68,14 @@ $(function() {
       } else {
         $sortNameField.prop('disabled', false);
         $sortNameField.removeAttr("readonly");
-        $sortNameField[0].value = originalSortNameFieldValue;
+
+        if(typeof originalSortNameFieldValue !== 'undefined') {
+          $sortNameField[0].value = originalSortNameFieldValue;
+        }
+        else {
+          $sortNameField[0].value = $userEnteredSortNameValue;
+        }
+
       }
     });
 

@@ -121,11 +121,11 @@ module SortNameProcessor
       result << ", #{json["title"]}" if json["title"]
       result << ", #{json["number"]}" if json["number"]
       result << " (#{json["fuller_form"]})" if json["fuller_form"]
-
-      dates = SortNameProcessor::Utils.first_date(extras, 'dates_of_existence')
-      result << " (#{dates})" if dates
-
+      result << ", #{json["dates"]}" if json["dates"]
       result << " (#{json["qualifier"]})" if json["qualifier"]
+
+      dates = json['dates'].nil? ? SortNameProcessor::Utils.first_date(extras, 'dates_of_existence') : nil
+      result << " (#{dates})" if dates
 
       result.lstrip!
       result.length > 255 ? result[0..254] : result

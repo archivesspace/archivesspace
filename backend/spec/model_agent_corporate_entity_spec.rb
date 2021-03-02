@@ -163,7 +163,7 @@ describe 'Agent model' do
         )
 
         expect(agent_corporate_entity1[:slug]).to match("foo")
-        expect(agent_corporate_entity2[:slug]).to match("foo")
+        expect(agent_corporate_entity2[:slug]).to match("foo_1")
       end
 
 

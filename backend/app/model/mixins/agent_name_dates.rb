@@ -38,18 +38,9 @@ module AgentNameDates
       processor = SortNameProcessor::Software
     end
 
-    # for person agents only: always use DOE in string sort name if present
-    if sdl.agent_person_id && 
-       name_json && 
-       agent_json['dates_of_existence'].length > 0 && 
-       agent_name.sort_name_auto_generate == 1
-      extras = { 'dates_of_existence' => agent_json["dates_of_existence"] }
-      agent_name.update(sort_name: processor.process(name_json, extras), system_mtime: Time.now)
-
-    # for other agent types:
     # This code runs if we find an agent display name directly attached to this date subrecord with no dates of it's own -- name dates take precedence over dates of existence.
     # We'll then generate the string for the display name from the dates of existence, and update it. 
-    elsif name_json && name_json['dates'].nil? && agent_json['dates_of_existence'].length > 0 && agent_name.sort_name_auto_generate == 1
+    if name_json && name_json['dates'].nil? && agent_json['dates_of_existence'].length > 0 && agent_name.sort_name_auto_generate == 1
       extras = { 'dates_of_existence' => agent_json["dates_of_existence"] }
       agent_name.update(sort_name: processor.process(name_json, extras), system_mtime: Time.now)
     end
