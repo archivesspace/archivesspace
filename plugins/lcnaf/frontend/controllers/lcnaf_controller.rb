@@ -21,29 +21,44 @@ class LcnafController < ApplicationController
 
 
   def import
-    marcxml_file = searcher.results_to_marcxml_file(params[:lccn])
-    is_subject = is_subject_record?(marcxml_file)
+    parse_results = searcher.results_to_marcxml_file(params[:lccn])
 
     begin
       # agents are processed by MarcXMLAuthAgentConverter introduced in ANW-429
-      if params[:lcnaf_service] == "lcnaf" && !is_subject
-        job = Job.new("import_job", {
-                        "import_type" => "marcxml_auth_agent",
-                        "jsonmodel_type" => "import_job"
-                        },
+      if parse_results[:agents][:count] > 0
+        marcxml_file = parse_results[:agents][:file]
+        agents_job = Job.new("import_job", {
+                             "import_type" => "marcxml_auth_agent",
+                             "jsonmodel_type" => "import_job"
+                            },
                       {"lcnaf_import_#{SecureRandom.uuid}" => marcxml_file})
 
-      # subjects are processed by MarcXMLBibConverter as before ANW-429
-      else 
-       job = Job.new("import_job", {
-                        "import_type" => "marcxml_subjects_and_agents",
-                        "jsonmodel_type" => "import_job"
-                        },
-                      {"lcnaf_import_#{SecureRandom.uuid}" => marcxml_file})
+        agents_job_response = agents_job.upload
       end
 
-      response = job.upload
-      render :json => {'job_uri' => url_for(:controller => :jobs, :action => :show, :id => response['id'])}
+      # subjects are processed by MarcXMLBibConverter as before ANW-429
+      if parse_results[:subjects][:count] > 0
+        marcxml_file = parse_results[:subjects][:file]
+        subjects_job = Job.new("import_job", {
+                               "import_type" => "marcxml_subjects_and_agents",
+                               "jsonmodel_type" => "import_job"
+                              },
+                      {"lcnaf_import_#{SecureRandom.uuid}" => marcxml_file})
+
+        subjects_job_response = subjects_job.upload
+      end
+
+      # if only subjects or only agents are processed, forward user directly to the job show page.
+      # if both subjects and agents are processed, then forward user to the jobs index page so they can see both
+      if parse_results[:agents][:count] > 0 && parse_results[:subjects][:count] == 0
+        render :json => {'job_uri' => url_for(:controller => :jobs, :action => :show, :id => agents_job_response['id'])}
+
+      elsif parse_results[:agents][:count] == 0 && parse_results[:subjects][:count] > 0
+        render :json => {'job_uri' => url_for(:controller => :jobs, :action => :show, :id => subjects_job_response['id'])}
+      else
+        render :json => {'job_uri' => url_for(:controller => :jobs, :action => :index)}
+      end
+         
     rescue
       render :json => {'error' => $!.to_s}
     end
@@ -64,23 +79,5 @@ class LcnafController < ApplicationController
     when 'lcsh'
       OpenSearcher.new('https://id.loc.gov/search/', 'http://id.loc.gov/authorities/subjects')
     end
-  end
-
-  def is_subject_record?(tempfile)
-    doc = Nokogiri::XML::Document.parse(IO.read(tempfile))
-    doc.remove_namespaces!
-    is_subject_record = false
-
-    subject_tags = ["630", "130", "650", "150", "651", "151", "655", "155", "656", "657", "690", "691", "692", "693", "694", "695", "696", "697", "698", "699"]
-
-
-    subject_tags.each do |tag|
-      if doc.search("//datafield[@tag='#{tag}']").length > 0
-        is_subject_record = true
-        break
-      end
-    end
-
-    is_subject_record
   end
 end
