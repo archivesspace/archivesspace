@@ -73,12 +73,11 @@ module SortNameProcessor
       result << ". #{json["subordinate_name_1"]}" if json["subordinate_name_1"]
       result << ". #{json["subordinate_name_2"]}" if json["subordinate_name_2"]
 
-      grouped = [json["number"], json["dates"]].reject{|v| v.nil?}
+      grouped = [json["number"]].reject{|v| v.nil?}
       result << ", #{grouped.join(" : ")}" if not grouped.empty?
       result << " (#{json["qualifier"]})" if json["qualifier"]
 
-      dates = json['dates'].nil? ? SortNameProcessor::Utils.first_date(extras, 'dates_of_existence') : nil
-      result << " (#{dates})" if dates
+      result << " (#{json["dates"]})" if json["dates"]
       result << " (#{json["location"]})" if json["location"]
 
       result.length > 255 ? result[0..254] : result
@@ -91,11 +90,9 @@ module SortNameProcessor
 
       result << json["family_name"] if json["family_name"]
       result << ", #{json["prefix"]}" if json["prefix"]
-      result << ", #{json["dates"]}" if json["dates"]
       result << " (#{json["qualifier"]})" if json["qualifier"]
 
-      dates = json['dates'].nil? ? SortNameProcessor::Utils.first_date(extras, 'dates_of_existence') : nil
-      result << " (#{dates})" if dates
+      result << " (#{json["dates"]})" if json["dates"]
       result << " (#{json["location"]})" if json["location"]
 
       result.length > 255 ? result[0..254] : result
