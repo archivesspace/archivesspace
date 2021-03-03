@@ -260,7 +260,12 @@ describe 'MARC Auth Export' do
         @rec = create(:json_agent_family_full_subrec,
                       names: [
                         build(:json_name_family,
-                              prefix: 'abcdefg'),
+                              prefix: 'The Great',
+                              family_name: 'Gibb',
+                              family_type: 'Family',
+                              location: 'Isle of Man',
+                              dates: '1946-present',
+                              qualifier: 'Musicians'),
                         build(:json_name_family, authorized: false)
                       ])
       end
@@ -276,17 +281,95 @@ describe 'MARC Auth Export' do
       marc = get_marc_auth(@rec)
 
       primary = @rec['names'].select { |n| n['authorized'] == true }.first
-      expect(marc.xpath('//datafield[@tag=100]').to_s).to match(/#{primary['family_name']}/)
-      expect(marc.xpath('//datafield[@tag=100]').to_s).to match(/#{primary['dates']}/)
-      expect(marc.xpath('//datafield[@tag=100]').to_s).to match(/#{primary['qualifier']}/)
+      expect(marc.xpath('//datafield[@tag=100]/subfield[@code="a"]').to_s).to match(/#{primary['prefix']}/)
+      expect(marc.xpath('//datafield[@tag=100]/subfield[@code="a"]').to_s).to match(/#{primary['family_name']}/)
+      expect(marc.xpath('//datafield[@tag=100]/subfield[@code="a"]').to_s).to match(/#{primary['family_type']}/)
+      expect(marc.xpath('//datafield[@tag=100]/subfield[@code="c"]').to_s).to match(/#{primary['location']}/)
+      expect(marc.xpath('//datafield[@tag=100]/subfield[@code="d"]').to_s).to match(/#{primary['dates']}/)
+      expect(marc.xpath('//datafield[@tag=100]/subfield[@code="g"]').to_s).to match(/#{primary['qualifier']}/)
+      expect(
+        marc.xpath('//datafield[@tag=100]').text.gsub(/\n/, '').squeeze(' ').strip
+      ).to eq('The Great Gibb (Family : Isle of Man : 1946-present : Musicians)')
+    end
+
+    it 'maps name with family type only correctly' do
+      marc = get_marc_auth(
+        create(:json_agent_family,
+               names: [
+                 build(:json_name_family,
+                       prefix: nil,
+                       family_name: 'Gibb',
+                       family_type: 'Family',
+                       location: nil,
+                       dates: nil,
+                       qualifier: nil)
+               ])
+      )
+      expect(
+        marc.xpath('//datafield[@tag=100]').text.gsub(/\n/, '').squeeze(' ').strip
+      ).to eq('Gibb (Family)')
+    end
+
+    it 'maps name with location only correctly' do
+      marc = get_marc_auth(
+        create(:json_agent_family,
+               names: [
+                 build(:json_name_family,
+                       prefix: nil,
+                       family_name: 'Gibb',
+                       family_type: nil,
+                       location: 'Isle of Man',
+                       dates: nil,
+                       qualifier: nil)
+               ])
+      )
+      expect(
+        marc.xpath('//datafield[@tag=100]').text.gsub(/\n/, '').squeeze(' ').strip
+      ).to eq('Gibb (Isle of Man)')
+    end
+
+    it 'maps name with dates only correctly' do
+      marc = get_marc_auth(
+        create(:json_agent_family,
+               names: [
+                 build(:json_name_family,
+                       prefix: nil,
+                       family_name: 'Gibb',
+                       family_type: nil,
+                       location: nil,
+                       dates: '1946-present',
+                       qualifier: nil)
+               ])
+      )
+      expect(
+        marc.xpath('//datafield[@tag=100]').text.gsub(/\n/, '').squeeze(' ').strip
+      ).to eq('Gibb (1946-present)')
+    end
+
+    it 'maps name with location, dates and qualifier correctly' do
+      marc = get_marc_auth(
+        create(:json_agent_family,
+               names: [
+                 build(:json_name_family,
+                       prefix: nil,
+                       family_name: 'Gibb',
+                       family_type: nil,
+                       location: 'Isle of Man',
+                       dates: '1946-present',
+                       qualifier: 'Musicians')
+               ])
+      )
+      expect(
+        marc.xpath('//datafield[@tag=100]').text.gsub(/\n/, '').squeeze(' ').strip
+      ).to eq('Gibb (Isle of Man : 1946-present : Musicians)')
     end
 
     it 'maps unauthorized name to 400 tag' do
       marc = get_marc_auth(@rec)
-      primary = @rec['names'].select { |n| n['authorized'] == true }.first
-      expect(marc.xpath('//datafield[@tag=100]').to_s).to match(/#{primary['family_name']}/)
-      expect(marc.xpath('//datafield[@tag=100]').to_s).to match(/#{primary['dates']}/)
-      expect(marc.xpath('//datafield[@tag=100]').to_s).to match(/#{primary['qualifier']}/)
+      primary = @rec['names'].select { |n| n['authorized'] == false }.first
+      expect(marc.xpath('//datafield[@tag=400]/subfield[@code="a"]').to_s).to match(/#{primary['family_name']}/)
+      expect(marc.xpath('//datafield[@tag=400]/subfield[@code="d"]').to_s).to match(/#{primary['dates']}/)
+      expect(marc.xpath('//datafield[@tag=400]/subfield[@code="g"]').to_s).to match(/#{primary['qualifier']}/)
     end
   end
 

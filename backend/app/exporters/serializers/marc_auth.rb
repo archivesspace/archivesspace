@@ -324,6 +324,24 @@ class MARCAuthSerializer < ASpaceExport::Serializer
     end
   end
 
+  def name_formatter(parts, xml, omit_first_sub_prefix: false)
+    primary_subfield = parts.shift
+    subf(primary_subfield[:code], primary_subfield[:value], xml)
+
+    return unless parts.any? # jump ship if we don't have more parts
+
+    if parts.count == 1
+      subf(parts.first[:code], "(#{parts.first[:value]})", xml)
+    else
+      prefix = omit_first_sub_prefix ? '' : '('
+      sub_first = parts.shift
+      sub_last  = parts.pop
+      subf(sub_first[:code], "#{prefix}#{sub_first[:value]} : ", xml)
+      parts.each { |p| subf(p[:code], "#{p[:value]} : ", xml) }
+      subf(sub_last[:code], "#{sub_last[:value]})", xml)
+    end
+  end
+
   def names_person(primary, not_primary, parallel, xml)
     # the primary name gets the 100 tag
     if primary
@@ -373,11 +391,28 @@ class MARCAuthSerializer < ASpaceExport::Serializer
   def family_name_subtags(name, xml)
     subf('w', 'r', xml) if name['relator']
     subf('i', name['relator'], xml)
-    subf('a', name['family_name'], xml)
-    subf('b', name['number'], xml)
-    subf('c', name['prefix'], xml)
-    subf('d', name['dates'], xml)
-    subf('g', name['qualifier'], xml)
+
+    name_parts = [
+      { code: 'c', value: name['location'] },
+      { code: 'd', value: name['dates'] },
+      { code: 'g', value: name['qualifier'] }
+    ]
+    name_parts = name_parts.delete_if { |p| p[:value].nil? || p[:value].empty? }
+    # we have to do some futzing with subf 'a' if family type is available
+    if name['family_type'] && name_parts.any?
+      name_parts.unshift(
+        { code: 'a', value: "#{name['prefix']} #{name['family_name']} (#{name['family_type']} : ".lstrip }
+      )
+      name_formatter(name_parts, xml, omit_first_sub_prefix: true)
+    elsif name['family_type']
+      name_parts.unshift(
+        { code: 'a', value: "#{name['prefix']} #{name['family_name']} (#{name['family_type']})".lstrip }
+      )
+      name_formatter(name_parts, xml)
+    else
+      name_parts.unshift({ code: 'a', value: "#{name['prefix']} #{name['family_name']}".lstrip })
+      name_formatter(name_parts, xml)
+    end
   end
 
   def names_corporate_entity(primary, not_primary, parallel, xml)
