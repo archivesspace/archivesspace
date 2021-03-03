@@ -1231,7 +1231,16 @@ module AspaceFormHelper
     prefix = opts[:plugin] ? 'plugins.' : ''
     html = "<div class='form-horizontal'>"
 
-    hash.reject {|k,v| PROPERTIES_TO_EXCLUDE_FROM_READ_ONLY_VIEW.include?(k)}.each do |property, value|
+    # in some cases, we want to not display certain fields for some records, but not for others.
+    # e.g., we don't want to display published for subjects (they are always published), but we do for other records types.
+    if opts[:exclude]
+      props_to_exclude = PROPERTIES_TO_EXCLUDE_FROM_READ_ONLY_VIEW + opts[:exclude]
+    else
+      props_to_exclude = PROPERTIES_TO_EXCLUDE_FROM_READ_ONLY_VIEW
+
+    end
+
+    hash.reject {|k,v| props_to_exclude.include?(k)}.each do |property, value|
 
       if schema and schema["properties"].has_key?(property)
         if (schema["properties"][property].has_key?('dynamic_enum'))

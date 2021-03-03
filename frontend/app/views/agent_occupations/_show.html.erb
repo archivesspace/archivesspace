@@ -20,8 +20,6 @@
           </div>
         </div>
         <div id="<%= section_id %>_agent_occupation_<%= index %>" class="panel-collapse collapse">
-          <%= read_only_view(agent_occupation) %>
-
           <% if agent_occupation["subjects"].length > 0 %>
             <%= render_aspace_partial :partial => "subjects/show_inline", :locals => {:subjects => agent_occupation['subjects'], :section_id => "agent_occupation_subjects_", :section_title => I18n.t("agent_occupation.subjects"), :heading_size => "h4"} %>
           <% end %>
