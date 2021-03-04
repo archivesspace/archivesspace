@@ -1,4 +1,4 @@
-class AgentRelationshipFamily < Sequel::Model(:agent_relationship_family)
+class AgentRelationshipFamily < Sequel::Model(:related_agents_rlshp)
 
   include ASModel
   corresponds_to JSONModel(:agent_relationship_family)

@@ -1904,6 +1904,7 @@ en:
     agent_relationship_parentchild_relator: Agent Relationship Parentchild Relator
     agent_relationship_identity_relator: Agent Relationship Identity Relator
     agent_relationship_hierarchical_relator: Agent Relationship Hierarchical Relator
+    agent_relationship_specific_relator: Agent Relationship Specific Relator
     agent_relationship_temporal_relator: Agent Relationship Temporal Relator
     agent_relationship_family_relator: Agent Relationship Family Relator
     agent_relationship_subordinatesuperior_relator: Agent Relationship Subordinatesuperior Relator

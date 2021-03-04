@@ -975,6 +975,14 @@ en:
 
   related_agent: &related_agent_attributes
     relationship_type: General Relationship Type
+    relator: Directional Relationship Type
+    specific_relator: Specific Relationship Type
+    relationship_uri: Relationship URI
+    relator_tooltip: A specific qualifier that describes the relationship.
+    description: Description
+    date: Date
+    dates: Dates
+    ref: Related Agent
     _singular: Related Agent
     _plural: Related Agents
 
@@ -982,75 +990,35 @@ en:
     <<: *related_agent_attributes
 
   agent_relationship_parentchild:
-    relator: Specific Relationship Type
-    relator_tooltip: A specific qualifier that describes the relationship.
-    description: Description
-    ref: Related Agent
-    date: Date
-    dates: Dates
+    <<: *related_agent_attributes
     _singular: Parent/Child Relationship
 
   agent_relationship_earlierlater:
-    relator: Specific Relationship Type
-    relator_tooltip: A specific qualifier that describes the relationship.
-    description: Description
-    ref: Related Agent
-    date: Date
-    dates: Dates
+    <<: *related_agent_attributes
     _singular: Earlier/Later Relationship
 
   agent_relationship_subordinatesuperior:
-    relator: Specific Relationship Type
-    relator_tooltip: A specific qualifier that describes the relationship.
-    description: Description
-    ref: Related Agent
-    date: Date
-    dates: Dates
+    <<: *related_agent_attributes
     _singular: Subordinate/Superior Relationship
 
   agent_relationship_associative:
-    relator: Specific Relationship Type
-    relator_tooltip: A specific qualifier that describes the relationship.
-    description: Description
-    date: Date
-    dates: Dates
-    ref: Related Agent
+    <<: *related_agent_attributes
     _singular: Associative Relationship
 
   agent_relationship_identity:
-    relator: Specific Relationship Type
-    relator_tooltip: A specific qualifier that describes the relationship.
-    description: Description
-    date: Date
-    dates: Dates
-    ref: Related Agent
+    <<: *related_agent_attributes
     _singular: Agent Relationship Identified With Relator
 
   agent_relationship_hierarchical:
-    relator: Specific Relationship Type
-    relator_tooltip: A specific qualifier that describes the relationship.
-    description: Description
-    date: Date
-    dates: Dates
-    ref: Related Agent
+    <<: *related_agent_attributes
     _singular: Agent Relationship Hierarchical Relator
 
   agent_relationship_temporal:
-    relator: Specific Relationship Type
-    relator_tooltip: A specific qualifier that describes the relationship.
-    description: Description
-    date: Date
-    dates: Dates
-    ref: Related Agent
+    <<: *related_agent_attributes
     _singular: Agent Relationship Temporal Relator
 
   agent_relationship_family:
-    relator: Specific Relationship Type
-    relator_tooltip: A specific qualifier that describes the relationship.
-    description: Description
-    date: Date
-    dates: Dates
-    ref: Related Agent
+    <<: *related_agent_attributes
     _singular: Agent Relationship Related Relator
 
   note:
