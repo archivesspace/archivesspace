@@ -75,6 +75,8 @@
    <field name="notes" type="text_general" indexed="true" stored="true" multiValued="false"/>
    <field name="years" type="int" indexed="true" stored="false" multiValued="true"/>
    <field name="year_sort" type="sort_string" indexed="true" stored="false" multiValued="false"/>
+   <field name="dates" type="text_general" indexed="true" stored="true" multiValued="true"/>
+   <field name="extents" type="text_general" indexed="true" stored="true" multiValued="true"/>
 
    <field name="subjects_text" type="text_general" indexed="true" stored="true" multiValued="true"/>
    <field name="creators_text" type="text_general" indexed="true" stored="true" multiValued="true"/>
@@ -232,6 +234,19 @@
    <field name="slug" type="string" indexed="true" stored="true" multiValued="false"/>
    <field name="is_slug_auto" type="boolean" indexed="true" stored="true" multiValued="false"/>
 
+   <!-- Job fields -->
+   <field name="status" type="string" indexed="true" stored="true" multiValued="false" />
+   <field name="job_type" type="string" indexed="true" stored="true" multiValued="false" />
+   <field name="report_type" type="string" indexed="true" stored="true" multiValued="false" />
+   <field name="job_report_type" type="string" indexed="true" stored="true" multiValued="false" />
+   <field name="owner" type="string" indexed="true" stored="true" multiValued="false" />
+   <field name="time_submitted" type="string" indexed="true" stored="true" multiValued="false" />
+   <field name="time_started" type="string" indexed="true" stored="true" multiValued="false" />
+   <field name="time_finished" type="string" indexed="true" stored="true" multiValued="false" />
+   <field name="files" type="string" indexed="true" stored="true" multiValued="true" />
+   <field name="job_data" type="string" indexed="true" stored="true" multiValued="true" />
+   <field name="queue_position" type="int" indexed="true" stored="true" multiValued="false" />
+
    <!-- Enum Fields -->
    <dynamicField name="*_enum_s"  type="string"  indexed="true"  stored="true" multiValued="true"/>
 
@@ -249,6 +264,14 @@
    <dynamicField name="*_u_sbool"  type="boolean"  indexed="true"  stored="true" multiValued="true"/>
    <dynamicField name="*_u_sort"  type="sort_string"  indexed="true"  stored="false" multiValued="false"/>
    <dynamicField name="*_u_ssort"  type="sort_string"  indexed="true"  stored="true" multiValued="false"/>
+   <dynamicField name="*_u_icusort"  type="sort_icu"  indexed="true"  stored="true" multiValued="false"/>
+
+   <!-- Field for searching top container typeahead -->
+   <dynamicField name="*_u_typeahead_utext"  type="text_general"  indexed="true"  stored="true" multiValued="false"/>
+
+   <!-- Custom sortable solr fields for dates -->
+   <dynamicField name="*_u_sortdate"  type="date"  indexed="true"  stored="false" multiValued="false"/>
+   <dynamicField name="*_u_ssortdate"  type="date"  indexed="true"  stored="true" multiValued="false"/>
 
    <!-- ASpace Custom Dynamics -->
    <dynamicField name="*_relator_sort"  type="sort_string"  indexed="true"  stored="true" multiValued="false"/>
@@ -358,7 +381,7 @@
 	<filter class="solr.ASCIIFoldingFilterFactory"/>
       </analyzer>
     </fieldType>
-    
+
     <fieldType name="sort_icu" class="solr.ICUCollationField" locale="" strength="primary"
       numeric="true"/>
     

@@ -1,4 +1,4 @@
-FROM ubuntu:18.04 as build_release
+FROM ubuntu:20.04 as build_release
 
 # Please note: Docker is not supported as an install method.
 # Docker configuration is being used for internal purposes only.
@@ -25,13 +25,13 @@ RUN cd /source && \
     mv ./*.zip / && \
     cd / && \
     unzip /*.zip -d / && \
-    wget https://repo1.maven.org/maven2/mysql/mysql-connector-java/5.1.39/mysql-connector-java-5.1.39.jar && \
-    cp /mysql-connector-java-5.1.39.jar /archivesspace/lib/
+    wget https://repo1.maven.org/maven2/mysql/mysql-connector-java/8.0.23/mysql-connector-java-8.0.23.jar && \
+    cp /mysql-connector-java-8.0.23.jar /archivesspace/lib/
 
 ADD docker-startup.sh /archivesspace/startup.sh
 RUN chmod u+x /archivesspace/startup.sh
 
-FROM ubuntu:18.04
+FROM ubuntu:20.04
 
 LABEL maintainer="ArchivesSpaceHome@lyrasis.org"
 
@@ -45,6 +45,7 @@ RUN DEBIAN_FRONTEND=noninteractive \
     apt-get -y install --no-install-recommends \
       ca-certificates \
       openjdk-8-jre-headless \
+      netbase \
       wget \
       unzip && \
     rm -rf /var/lib/apt/lists/* && \
