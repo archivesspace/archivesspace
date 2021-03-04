@@ -1,7 +1,7 @@
 class CustomReportTemplatesController < ApplicationController
 
   set_access_control "create_job" => [:new, :edit, :index, :create, :update,
-    :delete, :show]
+    :delete, :show, :copy]
 
   def new
     @custom_report_template = JSONModel(:custom_report_template).new._always_valid!
@@ -18,6 +18,13 @@ class CustomReportTemplatesController < ApplicationController
 
   def index
     @search_data = JSONModel(:custom_report_template).all(:page => selected_page)
+  end
+
+  def copy
+    @current_report = JSONModel(:custom_report_template).find(params[:id])
+    @custom_report_template = JSONModel(:custom_report_template).new(@current_report)
+    @custom_report_template.name = "Copy of " + @custom_report_template.name
+    render :new
   end
 
   def create
