@@ -21,9 +21,9 @@ class CustomReportTemplatesController < ApplicationController
   end
 
   def copy
-    @current_report = JSONModel(:custom_report_template).find(params[:id])
-    @custom_report_template = JSONModel(:custom_report_template).new(@current_report)
+    @custom_report_template = JSONModel(:custom_report_template).find(params[:id]).dup
     @custom_report_template.name = "Copy of " + @custom_report_template.name
+    @custom_report_template.uri = ""
     render :new
   end
 
