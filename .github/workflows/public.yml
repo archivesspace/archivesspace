@@ -13,6 +13,10 @@ jobs:
     runs-on: ubuntu-latest
     if: "!contains(github.event.head_commit.message, '[ci skip]')"
 
+    strategy:
+      matrix:
+        java: [ 8, 11 ]
+
     services:
       mysql:
         image: mysql:5.7
@@ -29,21 +33,21 @@ jobs:
     - uses: actions/checkout@v2
     - uses: actions/setup-java@v1
       with:
-        java-version: 1.8
+        java-version: ${{ matrix.java }}
 
     - name: Bootstrap ArchivesSpace
       run: |
         ./build/run bootstrap
-        wget -P ./common/lib https://repo1.maven.org/maven2/mysql/mysql-connector-java/5.1.39/mysql-connector-java-5.1.39.jar
+        wget -P ./common/lib https://repo1.maven.org/maven2/mysql/mysql-connector-java/8.0.23/mysql-connector-java-8.0.23.jar
 
     - name: Migrate ArchivesSpace DB
       env:
-        APPCONFIG_DB_URL: jdbc:mysql://127.0.0.1:${{ job.services.mysql.ports[3306] }}/archivesspace?useUnicode=true&characterEncoding=UTF-8&user=as&password=as123&useSSL=false
+        APPCONFIG_DB_URL: jdbc:mysql://127.0.0.1:${{ job.services.mysql.ports[3306] }}/archivesspace?useUnicode=true&characterEncoding=UTF-8&user=as&password=as123&useSSL=false&allowPublicKeyRetrieval=true
       run: |
         ./build/run db:migrate
 
     - name: Run Public tests
       env:
-        ASPACE_TEST_DB_URL: jdbc:mysql://127.0.0.1:${{ job.services.mysql.ports[3306] }}/archivesspace?useUnicode=true&characterEncoding=UTF-8&user=as&password=as123&useSSL=false
+        ASPACE_TEST_DB_URL: jdbc:mysql://127.0.0.1:${{ job.services.mysql.ports[3306] }}/archivesspace?useUnicode=true&characterEncoding=UTF-8&user=as&password=as123&useSSL=false&allowPublicKeyRetrieval=true
       run: |
         ./build/run public:test
