@@ -37,15 +37,9 @@ module ViewHelper
     "(" + I18n.t("enumerations.#{type}.#{value}") + ")"
   end
 
-  def nl2br(text)
-    text = text.map{ |t| "<p>#{t}</p>" }.join if text.respond_to? :each
-    sanitize(text).gsub(/\n/, '<br>').html_safe
-  end
-
-  def place_title(title, role)
-    role_label = I18n.t("enumerations.place_role.#{role}") if role
-    title = "#{title} (#{role_label})" if role_label
-    title
+  def nl2ws(text)
+    text = text.join(' ') if text.respond_to? :each
+    sanitize(text).gsub(/\n/, ' ').html_safe
   end
 
   def uri?(uri_candidate)

@@ -16,15 +16,15 @@
   <div class="col-sm-9">
     <%= render partial: 'dates', locals: {:result => @result} %>
     <%= render partial: 'parallel_names', locals: {:result => @result} %>
-    <%= render partial: 'shared/notes', locals: {:result => @result, note_label: I18n.t('agent_notes.bioghist'), note_type: 'note_bioghist'} %>
-    <%= render partial: 'shared/notes', locals: {:result => @result, note_label: I18n.t('agent_notes.general'), note_type: 'note_general_context'} %>
-    <%= render partial: 'shared/notes', locals: {:result => @result, note_label: I18n.t('agent_notes.legal_status'), note_type: 'note_legal_status'} %>
-    <%= render partial: 'shared/notes', locals: {:result => @result, note_label: I18n.t('agent_notes.mandate'), note_type: 'note_mandate'} %>
-    <%= render partial: 'shared/notes', locals: {:result => @result, note_label: I18n.t('agent_notes.structure_or_genealogy'), note_type: 'note_structure_or_genealogy'} %>
+    <%= render partial: 'shared/notes', locals: {:result => @result, note_label: I18n.t('agent_notes.note_bioghist'), note_type: 'note_bioghist'} %>
+    <%= render partial: 'shared/notes', locals: {:result => @result, note_label: I18n.t('agent_notes.note_general_context'), note_type: 'note_general_context'} %>
+    <%= render partial: 'shared/notes', locals: {:result => @result, note_label: I18n.t('agent_notes.note_legal_status'), note_type: 'note_legal_status'} %>
+    <%= render partial: 'shared/notes', locals: {:result => @result, note_label: I18n.t('agent_notes.note_mandate'), note_type: 'note_mandate'} %>
+    <%= render partial: 'shared/notes', locals: {:result => @result, note_label: I18n.t('agent_notes.note_structure_or_genealogy'), note_type: 'note_structure_or_genealogy'} %>
     <%= render partial: 'gender', locals: {:result => @result} %>
     <%= render partial: 'subjects', locals: {:result => @result, subject_label: I18n.t('agent_function._plural'), subject_type: 'agent_functions'} %>
     <%= render partial: 'subjects', locals: {:result => @result, subject_label: I18n.t('agent_occupation._plural'), subject_type: 'agent_occupations'} %>
-    <%= render partial: 'places', locals: {:result => @result} %>
+    <%= render partial: 'subjects', locals: {:result => @result, subject_label: I18n.t('agent_place._plural'), subject_type: 'agent_places'} %>
     <%= render partial: 'subjects', locals: {:result => @result, subject_label: I18n.t('agent_topic._plural'), subject_type: 'agent_topics'} %>
     <%= render partial: 'shared/languages', locals: {:result => @result} %>
     <%= render partial: 'snac', locals: {:result => @result} %>

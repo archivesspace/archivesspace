@@ -617,6 +617,7 @@ en:
     _singular: Language Used
 
   structured_date_label:
+    date: Date
     date_label: Label
     date_type_structured: Date Type
     date_certainty: Certainty
@@ -675,8 +676,10 @@ en:
     persistent_id: Persistent ID
     type: Note Type
     content: Content
-    bioghist: Biography
-    general: General Context
-    legal_status: Legal Status
-    mandate: Mandate
-    structure_or_genealogy: Structure or Genealogy
+    note_citation: Citation
+    note_bioghist: Biography
+    note_general_context: General Context
+    note_legal_status: Legal Status
+    note_mandate: Mandate
+    note_structure_or_genealogy: Structure or Genealogy
+    note_text: Note
