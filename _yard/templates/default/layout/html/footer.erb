@@ -1,5 +1,5 @@
 <div id="footer">
-  ArchivesSpace Version <%= ASConstants.VERSION %> Documentation Generated on <%= Time.now.strftime("%c") %> by
+  ArchivesSpace Version <%= ENV['ARCHIVESSPACE_VERSION'] || ASConstants.VERSION %> Documentation Generated on <%= Time.now.strftime("%c") %> by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   <%= YARD::VERSION %>.
 </div>

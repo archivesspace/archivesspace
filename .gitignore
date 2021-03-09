@@ -30,7 +30,6 @@ build/.cache
 backend/tests/ladle-server*
 webdriver-profile*
 common/ARCHIVESSPACE_VERSION
-common/asconstants.rb
 .yardoc
 API.md
 endpoint_examples*
