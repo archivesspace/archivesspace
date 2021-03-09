@@ -1,13 +1,14 @@
-FROM solr:6.6
+FROM solr:8.8
 LABEL maintainer="ArchivesSpaceHome@lyrasis.org"
 
 COPY * /archivesspace/
 
-ENV ICU4J_VERSION=65_1 \
-    SOLR_VERSION=6.6
+# ASPACE REQUIRES THESE LIBS (WHICH ARE INCL. IN THE 8.8 IMG):
+# /opt/solr/dist/solr-analysis-extras-${VERSION}.jar
+# /opt/solr/contrib/analysis-extras/lucene-libs/lucene-analyzers-icu-${VERSION}.jar
+# /opt/solr/contrib/analysis-extras/lib/icu4j-*.jar
+
 USER root
-RUN mv /archivesspace/schema-$SOLR_VERSION.xml /archivesspace/schema.xml && \
-    mv /archivesspace/solrconfig-$SOLR_VERSION.xml /archivesspace/solrconfig.xml
+RUN mv /archivesspace/schema-8.8.xml /archivesspace/schema.xml && \
+    mv /archivesspace/solrconfig-8.8.xml /archivesspace/solrconfig.xml
 USER solr
-RUN wget -O contrib/analysis-extras/lib/icu4j-$ICU4J_VERSION.jar \
-    https://github.com/unicode-org/icu/releases/download/release-65-1/icu4j-$ICU4J_VERSION.jar

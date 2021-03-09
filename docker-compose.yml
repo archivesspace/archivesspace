@@ -21,14 +21,12 @@ services:
       APPCONFIG_FRONTEND_PROXY_URL: 'http://localhost/staff/'
       APPCONFIG_OAI_PROXY_URL: 'http://localhost/oai'
       APPCONFIG_PUBLIC_PROXY_URL: 'http://localhost/'
-      # testing plugin initialization on startup
-      ASPACE_INITIALIZE_PLUGINS: 'newrelic'
       JAVA_OPTS: "-Djava.awt.headless=true -Dfile.encoding=UTF-8 -server -Xss512k -Djavax.accessibility.assistive_technologies=''"
     volumes:
       - ./plugins/newrelic:/archivesspace/plugins/newrelic
   db:
-    image: mysql:5.7
-    command: --character-set-server=utf8 --innodb_buffer_pool_size=2G --innodb_buffer_pool_instances=2 --log_bin_trust_function_creators=1
+    image: mysql:8.0
+    command: --character-set-server=UTF8MB4 --innodb_buffer_pool_size=2G --innodb_buffer_pool_instances=2 --log_bin_trust_function_creators=1
     ports:
       - "3306:3306"
     environment:
@@ -39,7 +37,7 @@ services:
   solr:
     build:
       context: ./solr
-    image: archivesspace/solr:6.6
+    image: archivesspace/solr:8.8
     command: solr-create -p 8983 -c archivesspace -d /archivesspace
     ports:
       - "8983:8983"
