@@ -9,8 +9,6 @@ module RegisterCustomFields
 	# register_field('global', 'FAKE_BOOLEAN_FIELD', 'Boolean')
 	# register_field('global', 'FAKE_DATE_FIELD', 'Date',
 	# 	:sortable => true)
-	# register_field('global', 'FAKE_ENUM_FIELD', 'Enum',
-	# 	:sortable => true, :enum_name => 'language_iso639_2')
 	# register_field('global', 'FAKE_USER_FIELD', 'User',
 	# 	:sortable => true)
 	# register_field('global', 'FAKE_STRING_FIELD', String,
@@ -52,8 +50,6 @@ module RegisterCustomFields
 
 	register_field('archival_object', 'component_id', String,
 		:sortable => true)
-	register_field('archival_object', 'language', 'Enum', :sortable => true,
-		:enum_name => 'language_iso639_2')
 	register_field('archival_object', 'level', 'Enum', :sortable => true,
 		:enum_name => 'archival_record_level')
 	register_field('archival_object', 'publish', 'Boolean')
@@ -103,8 +99,6 @@ module RegisterCustomFields
 	register_field('digital_object_component', 'component_id', String,
 		:sortable => true)
 	register_field('digital_object_component', 'label', String)
-	register_field('digital_object_component', 'language', 'Enum',
-		:enum_name => 'language_iso639_2', :sortable => true)
 	register_field('digital_object_component', 'publish', 'Boolean')
 	register_field('digital_object_component', 'title', String,
 		:sortable => true)
@@ -113,8 +107,6 @@ module RegisterCustomFields
 		:sortable => true)
 	register_field('digital_object', 'digital_object_type', 'Enum',
 		:sortable => true)
-	register_field('digital_object', 'language', 'Enum', :sortable => true,
-		:enum_name => 'language_iso639_2')
 	register_field('digital_object', 'level', 'Enum', :sortable => true)
 	register_field('digital_object', 'publish', 'Boolean')
 	register_field('digital_object', 'restrictions', 'Boolean')
@@ -148,8 +140,6 @@ module RegisterCustomFields
 	register_field('location', 'temporary', 'Enum', :sortable => true)
 
 	register_field('resource', 'identifier', String, :sortable => true)
-	register_field('resource', 'language', 'Enum', :sortable => true,
-		:enum_name => 'language_iso639_2')
 	register_field('resource', 'level', 'Enum', :sortable => true,
 		:enum_name => 'archival_record_level')
 	register_field('resource', 'publish', 'Boolean')
