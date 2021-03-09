@@ -20,7 +20,7 @@
           </div>
         </div>
         <div id="<%= section_id %>_agent_place_<%= index %>" class="panel-collapse collapse">
-          <%= read_only_view(agent_place) %>
+          <%= read_only_view(agent_place, :exclude => ["publish"]) %>
 
           <%= render_aspace_partial :partial => "subjects/show_inline", :locals => {:subjects => agent_place['subjects'], :role => agent_place['place_role_enum'], :section_id => "agent_place_subjects_", :section_title => I18n.t("agent_place.subjects"), :heading_size => "h4"} %>
 

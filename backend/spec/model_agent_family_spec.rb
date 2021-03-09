@@ -62,7 +62,7 @@ describe 'Agent Family model' do
   it "appends the use date to the end of a agent family display name" do
     name_family = build(:json_name_family)
 
-    name_date = name_family['use_dates'][0]['structured_date_single']['date_expression']
+    name_date = name_family['dates']
 
     expect(name_family['sort_name'] =~ /#{name_date}/)
   end

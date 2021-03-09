@@ -216,36 +216,6 @@ describe 'Structured Date model' do
       expect(ar["names"].first["sort_name"] =~ /foo/).to be_falsey
     end
 
-    it "adds a substring of the date to family agents sort name if a date of existence on date update" do
-      agent = build(:json_agent_family_full_subrec) 
-      agent.save
-
-      ar = AgentFamily.to_jsonmodel(agent.id)
-
-      ar["names"].each { |n| n['dates'] = nil }
-      ar["dates_of_existence"].first["structured_date_single"]["date_standardized"] = nil
-      ar["dates_of_existence"].first["structured_date_single"]["date_expression"] = "Last Year"
-
-      ar.save
-
-      expect(ar["names"].first["sort_name"] =~ /Last Year/).to be_truthy
-    end
-
-    it "adds a substring of the date to corporate entity agents sort name if a date of existence on date update" do
-      agent = build(:json_agent_corporate_entity_full_subrec) 
-      agent.save
-
-      ar = AgentCorporateEntity.to_jsonmodel(agent.id)
-
-      ar["names"].each { |n| n['dates'] = nil }
-      ar["dates_of_existence"].first["structured_date_single"]["date_standardized"] = nil
-      ar["dates_of_existence"].first["structured_date_single"]["date_expression"] = "Last Year"
-
-      ar.save
-
-      expect(ar["names"].first["sort_name"] =~ /Last Year/).to be_truthy
-    end
-
     it "adds a substring of the date to software entity agents sort name if a date of existence on date update" do
       agent = build(:json_agent_software_full_subrec) 
       agent.save
