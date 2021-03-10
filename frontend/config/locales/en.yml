@@ -702,6 +702,8 @@ en:
         preview: Merge Preview
 
   agent_contact:
+    notes_tooltip: |
+        <p>Additional notes or other information about the contact.</p>
     _frontend:
       action:
         add: Add Contact
@@ -2262,3 +2264,10 @@ en:
     format: Download File Format
     filename: Spreadsheet file name
     not_direct: At this time, this job can only be created from the Resource record
+
+  note_contact_note:
+    contact_notes_tooltip: |
+        <p>Details about the interaction with the contact</p>
+
+    date_of_contact_tooltip: |
+        <p>Used to record the specific date or timeframe of an interaction</p>

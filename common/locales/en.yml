@@ -827,7 +827,16 @@ en:
   structured_date_label_existence: 
     <<: *sdl_attributes  
 
+  date_fields: 
+    <<: *sdl_attributes  
+
+  structured_date_label_common_fields: 
+    <<: *sdl_attributes  
+
   structured_date_single: &sds_attributes
+    date_role_tooltip: |
+        <p>For a single date, used to indicate whether the date should be understood as a beginning date or an ending date. The default is Begin.</p>
+
     date_expression_tooltip: |
         <p>A natural language expression specifying the date or date range. Required when a standardized date is not recorded.</p>
 
