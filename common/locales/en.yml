@@ -882,6 +882,10 @@ en:
     address_1: Address 1
     address_1_tooltip: |
         <p>Address for the contact person.</p>
+    address_2_tooltip: |
+        <p>A continuation of the address for the contact person.</p>
+    address_3_tooltip: |
+        <p>A continuation of the address for the contact person.</p>
     address_2: Address 2
     address_3: Address 3
     city: City
@@ -930,6 +934,10 @@ en:
     ext: Telephone Extension
     ext_tooltip: |
         <p>Telephone number extension for the contact person.</p>
+    number_type_tooltip: |
+        <p>Indicates the type of telephone number.</p>
+
+    
 
   telephone_required: &telephone
     _plural: Telephone Numbers
@@ -1753,6 +1761,8 @@ en:
     related_agents_tooltip: Other agents associated with the agent.
     agent_resources_tooltip: Resources and other records associated with the agent.
     related_agent_tooltip: Used to link other agents with a relationship to the agent and indicate the nature of the relationship.
+    publish_tooltip: |
+      <p>Indicates whether or not the agent is included in exports and published to the public interface (if used)</p>
 
 
   agent_person:
