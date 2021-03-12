@@ -13,7 +13,8 @@
       },
 
       "ref" => {
-        "type" => [{"type" => "JSONModel(:agent_person) uri"}],
+        "type" => [{"type" => "JSONModel(:agent_person) uri"},
+                   {"type" => "JSONModel(:agent_family) uri"}],
         "ifmissing" => "error"
       },
 

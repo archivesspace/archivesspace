@@ -1077,15 +1077,21 @@ module EACBaseMap
         agent[:related_agents] << {
           :relator => rel_agent['_relator'],
           :jsonmodel_type => rel_agent['_jsonmodel_type'],
+          :specific_relator => rel_agent['_specific_relator'],
+          :relationship_uri => rel_agent['_relationship_uri'],
           :description => rel_agent['_description'],
           :ref => rel_agent.uri
         }
       },
       :map => {
         'parent::cpfRelation' => proc { |agent, node|
-          relator, relationship_type = find_relationship(node)
+          relator, relationship_type = find_relationship(node, type)
+          specific_relator, relationship_uri = specific_relationship(node)
           agent['_relator'] = relator
           agent['_jsonmodel_type'] = relationship_type
+          agent['_specific_relator'] = specific_relator
+          agent['_relationship_uri'] = relationship_uri
+          agent['_relator'] = relator
           agent['_description'] = find_description_note(node)
         },
         'self::relationEntry' => {
@@ -1124,29 +1130,97 @@ module EACBaseMap
     }
   end
 
-  def find_relationship(node)
+  def find_relationship(node, type)
     relationship = node.attr('cpfRelationType')
-    relator = node.attr('arcrole')
 
     case relationship
     when 'identity'
-      relator ||= 'is_identified_with'
+      relator = 'is_identified_with'
       relationship_type = 'agent_relationship_identity'
-    when 'hierarchical', 'hierarchical-parent', 'hierarchical-child'
-      relator ||= 'is_hierarchical_with'
+    when 'hierarchical'
+      relator = 'is_hierarchical_with'
       relationship_type = 'agent_relationship_hierarchical'
-    when 'temporal', 'temporal-earlier', 'temporal-later'
-      relator ||= 'is_temporal_with'
+    when 'hierarchical-parent'
+      relator, relationship_type = hierarchical_relationship('parent', node, type)
+    when 'hierarchical-child'
+      relator, relationship_type = hierarchical_relationship('child', node, type)
+    when 'temporal'
+      relator = 'is_temporal_with'
       relationship_type = 'agent_relationship_temporal'
+    when 'temporal-earlier'
+      relator = 'is_earlier_form_of'
+      relationship_type = 'agent_relationship_earlierlater'
+    when 'temporal-later'
+      relator = 'is_later_form_of'
+      relationship_type = 'agent_relationship_earlierlater'
     when 'family'
-      relator ||= 'is_related_with'
+      relator = 'is_related_with'
       relationship_type = 'agent_relationship_family'
     else
-      relator ||= 'is_associative_with'
+      relator = 'is_associative_with'
       relationship_type = 'agent_relationship_associative'
     end
 
     [relator, relationship_type]
+  end
+
+  def hierarchical_relationship(hierarchy, node, type)
+    if pers_match?(node, type) || fam_match?(node, type)
+      case hierarchy
+      when 'parent'
+        relator = 'is_parent_of'
+        relationship_type = 'agent_relationship_parentchild'
+      when 'child'
+        relator = 'is_child_of'
+        relationship_type = 'agent_relationship_parentchild'
+      end
+    elsif corp_match?(node, type)
+      case hierarchy
+      when 'parent'
+        relator = 'is_superior_of'
+        relationship_type = 'agent_relationship_subordinatesuperior'
+      when 'child'
+        relator = 'is_subordinate_to'
+        relationship_type = 'agent_relationship_subordinatesuperior'
+      end
+    else
+      relator = 'is_associative_with'
+      relationship_type = 'agent_relationship_associative'
+    end
+
+    [relator, relationship_type]
+  end
+
+  def pers_match?(node, type)
+    parent = node.search("//eac-cpf//cpfDescription[child::identity/child::entityType='person']")
+
+    type == 'person' && !parent.empty?
+  end
+
+  def fam_match?(node, type)
+    parent = node.search("//eac-cpf//cpfDescription[child::identity/child::entityType='family']")
+
+    type == 'family' && !parent.empty?
+  end
+
+  def corp_match?(node, type)
+    parent = node.search("//eac-cpf//cpfDescription[child::identity/child::entityType='corporateBody']")
+
+    type == 'corporate_entity' && !parent.empty?
+  end
+
+  def specific_relationship(node)
+    specific_relationship = node.attr('arcrole')
+    uri = URI.parse(specific_relationship)
+    if uri.scheme
+      relationship_uri = specific_relationship
+      specific_relator = uri.fragment
+    else
+      relationship_uri = nil
+      specific_relator = specific_relationship
+    end
+
+    [specific_relator, relationship_uri]
   end
 
   def find_description_note(node)

@@ -824,15 +824,21 @@ module MarcXMLAuthAgentBaseMap
         agent[:related_agents] << {
           :relator => rel_agent['_relator'] || 'is_associative_with',
           :jsonmodel_type => rel_agent['_jsonmodel_type'] || 'agent_relationship_associative',
+          :specific_relator => rel_agent['_specific_relator'],
+          :relationship_uri => rel_agent['_relationship_uri'],
           :description => rel_agent['_description'],
           :ref => rel_agent.uri
         }
       },
       :map => {
         "descendant::subfield[@code='w']" => proc { |agent, node|
-          relator, relationship_type = find_relationship(node)
+          relator, specific_relator, relationship_type = find_relationship(node, type)
           agent['_relator'] = relator
+          agent['_specific_relator'] = specific_relator
           agent['_jsonmodel_type'] = relationship_type
+        },
+        "descendant::subfield[@code='4']" => proc { |agent, node|
+          agent['_relationship_uri'] = node.inner_text
         },
         "descendant::subfield[@code='i']" => proc { |agent, node|
           agent['_description'] = node.inner_text
@@ -850,7 +856,7 @@ module MarcXMLAuthAgentBaseMap
     }
   end
 
-  def find_relationship(node)
+  def find_relationship(node, type)
     case node.inner_text[0]
     when 'a'
       relator = 'is_earlier_form_of'
@@ -860,13 +866,33 @@ module MarcXMLAuthAgentBaseMap
       relationship_type = 'agent_relationship_earlierlater'
     when 'd'
       relator = 'is_identified_with'
+      specific_relator = 'Acronym'
       relationship_type = 'agent_relationship_identity'
+    when 'f'
+      relator = 'is_associative_with'
+      specific_relator = 'Musical composition'
+      relationship_type = 'agent_relationship_associative'
+    when 'g'
+      relator = 'is_associative_with'
+      specific_relator = 'Broader term'
+      relationship_type = 'agent_relationship_associative'
+    when 'h'
+      relator = 'is_associative_with'
+      specific_relator = 'Narrower term'
+      relationship_type = 'agent_relationship_associative'
+    when 't'
+      # Have to ensure both the base record and related record are corp entities
+      if type == 'corporate_entity' && !node.search("//record/datafield[@tag='110']").empty?
+        relator = 'is_superior_of'
+        specific_relator = 'Immediate parent body'
+        relationship_type = 'agent_relationship_subordinatesuperior'
+      end
     else
       relator = 'is_associative_with'
       relationship_type = 'agent_relationship_associative'
     end
 
-    [relator, relationship_type]
+    [relator, specific_relator, relationship_type]
   end
 
   def subject_terms_map(term_type, _subfield)

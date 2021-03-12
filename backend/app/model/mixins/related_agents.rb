@@ -4,8 +4,6 @@ module RelatedAgents
   extend JSONModel
 
   def self.included(base)
-    callback = proc { |clz| RelatedAgents.set_up_date_record_handling(clz) }
-
     base.include(DirectionalRelationships)
 
     base.define_directional_relationship(:name => :related_agents,
@@ -13,7 +11,27 @@ module RelatedAgents
                                          :contains_references_to_types => proc {
                                            AgentManager.registered_agents.map {|a| a[:model]}
                                          },
-                                         :class_callback => callback)
+                                         :class_callback => proc {|clz|
+                                           clz.instance_eval do
+                                             include DynamicEnums
+                                             uses_enums({
+                                                          :property => 'relator',
+                                                          :uses_enum => %w[agent_relationship_associative_relator
+                                                                           agent_relationship_earlierlater_relator
+                                                                           agent_relationship_parentchild_relator
+                                                                           agent_relationship_subordinatesuperior_relator
+                                                                           agent_relationship_identity_relator
+                                                                           agent_relationship_hierarchical_relator
+                                                                           agent_relationship_temporal_relator
+                                                                           agent_relationship_family_relator]
+                                                        },
+                                                        {
+                                                          :property => 'specific_relator',
+                                                          :uses_enum => 'agent_relationship_specific_relator'
+                                                        })
+                                           end
+                                           RelatedAgents.set_up_date_record_handling(clz)
+                                         })
   end
 
 
