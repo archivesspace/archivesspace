@@ -65,6 +65,7 @@ module MarcXMLAuthAgentBaseMap
       "//record/datafield[@tag='500'][not(@ind1='3')]" => related_agent_map('person'),
       "//record/datafield[@tag='500'][@ind1='3']" => related_agent_map('family'),
       "//record/datafield[@tag='510']" => related_agent_map('corporate_entity'),
+      "//record/datafield[@tag='511']" => related_agent_map('corporate_entity'),
       "//record/datafield[@tag='670']" => agent_sources_map,
       "//record/datafield[@tag='678']" => bioghist_note_map
     }
@@ -182,9 +183,9 @@ module MarcXMLAuthAgentBaseMap
       "descendant::subfield[@code='a']" => proc { |name, node|
                                              val = node.inner_text
 
-                                             if node.parent.attr('tag') == '110' || node.parent.attr('tag') == '410'
+                                             if node.parent.attr('tag') == '110' || node.parent.attr('tag') == '410' || node.parent.attr('tag') == '510'
                                                name[:conference_meeting] = false
-                                             elsif node.parent.attr('tag') == '111' || node.parent.attr('tag') == '411'
+                                             elsif node.parent.attr('tag') == '111' || node.parent.attr('tag') == '411' || node.parent.attr('tag') == '511'
                                                name[:conference_meeting] = true
                                              end
 
@@ -196,7 +197,7 @@ module MarcXMLAuthAgentBaseMap
 
                                              name[:primary_name] = val
                                            },
-      "self::datafield[@tag='110' or @tag='410']" => proc { |name, node|
+      "self::datafield[@tag='110' or @tag='410' or @tag='510']" => proc { |name, node|
                                                        subordinate_names = []
                                                        sf_bs = node.search("./subfield[@code='b']")
                                                        sf_bs.each do |b|
@@ -224,12 +225,12 @@ module MarcXMLAuthAgentBaseMap
       "descendant::subfield[@code='e']" => proc { |name, node|
                                              val = node.inner_text
 
-                                             name[:subordinate_name_1] = val if node.parent.attr('tag') == '111' || node.parent.attr('tag') == '411'
+                                             name[:subordinate_name_1] = val if node.parent.attr('tag') == '111' || node.parent.attr('tag') == '411' || node.parent.attr('tag') == '511'
                                            },
       "descendant::subfield[@code='q']" => proc { |name, node|
                                              val = node.inner_text
 
-                                             name[:subordinate_name_2] = val if node.parent.attr('tag') == '111' || node.parent.attr('tag') == '411'
+                                             name[:subordinate_name_2] = val if node.parent.attr('tag') == '111' || node.parent.attr('tag') == '411' || node.parent.attr('tag') == '511'
                                            }
     }
   end
