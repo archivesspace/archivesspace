@@ -30,20 +30,6 @@ This example API documentation page was created with [Slate](http://github.com/t
 
 # Authentication
 
-<!--
-```ruby
-require 'kittn'
-
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-```
-
-```python
-import kittn
-
-api = kittn.authorize('meowmeowmeow')
-```
--->
-
 > Example Authentication Request:
 
 ```shell
@@ -194,9 +180,20 @@ Most requests to the ArchivesSpace backend require a user to be authenticated. S
 
 The JSON that is returned will have a session key, which can be stored and used for other requests. Sessions will expire after an hour, although you can change this in your config.rb file.
 
-# Common Parameters
+# Common Route Categories and Parameters
 
 As you use the ArchivesSpace API, you may start to notice similarities between different endpoints, and arguments that repeatedly show up in URLs or parameter lists.  Some of the most general bear special description.
+
+## Create/Read/Update/Destroy (CRUD) Endpoints
+
+The simplest types of endpoints conceptually, these are endpoints that allow you to create new resources, fetch and update existing known resources, get all the resources of a particular type, and remove resources from the system.  Almost every kind of object in the system has routes of this type: here are the routes for `agent_corporate_entity` records.
+
+Example routes:
+- **Create:** [POST /agents/corporate_entities](#create-a-corporate-entity-agent)
+- **Read (Index route):** [GET /agents/corporate_entities](#list-all-corporate-entity-agents)
+- **Read (Single Record):** [GET /agents/corporate_entities/42](#get-a-corporate-entity-by-id)
+- **Update:** [POST /agents/corporate_entities/42](#update-a-corporate-entity-agent)
+- **Destroy:** [DELETE /agents/corporate_entities/42](#delete-a-corporate-entity-agent)
 
 ## Paginated Endpoints
 
@@ -217,6 +214,70 @@ These endpoints support some or all of the following:
 - paged access to objects (via :page)
 - listing all matching ids (via :all_ids)
 - fetching specific known objects via their database ids (via :id_set)
+
+
+## Search routes
+
+A number of routes in the ArchivesSpace API are designed to search for content across all or part of the records in the application.  These routes make use of [Solr](https://lucene.apache.org/solr/), a component bundled with ArchivesSpace and used to provide full text search over records.
+
+The search routes present in the application as of this time are:
+
+- [Search this archive](#search-this-archive)
+- [Search across repositories](#search-across-repositories)
+- [Search this repository](#search-this-repository)
+- [Search across subjects](#search-across-subjects)
+- [Search for top containers](#search-for-top-containers)
+- [Search across location profiles](#search-across-location-profiles)
+
+Search routes take quite a few different parameters, most of which correspond directly to Solr query parameters.  The most important parameter to understand is `q`, which is the query sent to Solr. This query is made in Lucene query syntax.  The relevant docs are located [here](https://lucene.apache.org/solr/guide/6_6/the-standard-query-parser.html#the-standard-query-parser).
+
+To limit a search to records of a particular type or set of types, you can use the 'type' parameter.  This is only relevant for search endpoints that aren't limited to specific types.  Note that type is expected to be a *list* of types, even if there is only one type you care about.
+
+```python
+from asnake.client import ASnakeClient
+
+client = ASnakeClient()
+client.authorize()
+
+# Search repository for records of any type with the word "pearlescent" in any field
+client.get('repositories/2/search', params={'q': 'pearlescent', 'page': 1}).json()
+
+# Search repository wth ID 24 for archival objects with "dragon" in their title field
+client.get('repositories/2/search', params={'q': 'title:dragon', 'type': ['archival_object'], 'page': 1}).json()
+
+```
+
+### Notes on search routes and results
+
+ArchivesSpace represents records as JSONModel Objects - this is what you get from and send to the system.
+
+SOLR takes these records, and stores "documents" BASED ON these JSONModel objects in a searchable index.
+
+Search routes query these documents, NOT the records themselves as stored in the database and represented by JSONModel.
+
+JSONModel objects and SOLR documents are similar in some ways:
+
+- both SOLR documents and JSONModel Objects are expressed in JSON
+- in general, documents will always contain some subset of the JSONModel object they represent
+
+But they also differ in quite a few important ways:
+
+- SOLR documents don't necessarily have all fields from a JSONModel object
+- SOLR documents do not automatically contain nested JSONModel Objects
+- SOLR documents can have fields defined that are arbitrary "search representations" of fields in associated records, or combinations of fields in a record
+- SOLR documents don't have a `jsonmodel_type` field - the `jsonmodel_type` of the record is stored as `primary_type` in SOLR
+
+### How do I get the actual JSONModel from a search document?
+
+In ArchivesSpace, SOLR documents all have a field `json`, which contains the JSONModel Object the document represents as a string.  You can use a JSON library to parse this string from the field, for example the json library in Python.
+
+```python
+import json
+search_results = client.get('repositories/2/search', params={'q': 'title:dragon', 'type': ['archival_object']}).json()['results']
+
+# get JSONModel from first search document in results
+my_record = json.loads(search_results[0]['json'])
+```
 
 ## refs and :resolve
 
@@ -311,7 +372,6 @@ In ArchivesSpace's JSONModel schema, a `ref` is a link to another object.  They 
 </code>
 
 The :resolve parameter is a way to tell ArchivesSpace to attach the full object to these refs; it is passed in as an array of keys to "prefetch" in the returned JSON.  The object is included in the ref under a `_resolved` key.
-
 
 # ArchivesSpace REST API
 As of <%= @time.inspect %> the following REST endpoints exist in the master branch of the development repository:
