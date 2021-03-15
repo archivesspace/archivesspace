@@ -15,7 +15,14 @@
 
         <fieldset>
           <div class="alert alert-danger missing-ref-message" style="display: none;"><%= I18n.t "#{singular}._frontend.messages.please_select_a_#{singular}_to_merge" %></div>
-          <%= render_aspace_partial :partial => "#{controller}/linker", :locals => { :form => form,  :exclude_ids => [record.uri], :hide_create => true, :multiplicity => multiplicity, :layout => 'stacked' }%>
+          <%= render_aspace_partial :partial => "#{controller}/linker", 
+                                    :locals => { 
+                                      :form => form,  
+                                      :exclude_ids => [record.uri], 
+                                      :allowed_types => @agent_type,
+                                      :hide_create => true, 
+                                      :multiplicity => multiplicity, 
+                                      :layout => 'stacked' }%>
         </fieldset>
         <div class="form-actions">
           <%=
