@@ -175,7 +175,61 @@ $(function() {
         initNoteType($subform, 'template_note_bioghist_selector', true, '.add-sub-note-btn', callback);
       };
 
+      initialisers.note_general_context = function($subform) {
 
+        var callback = function($subform) {
+          var $topLevelNoteTypeSelector = $("select.general_context-note-type", $subform);
+          $topLevelNoteTypeSelector.change(changeNoteTemplate);
+          initRemoveActionForSubRecord($subform);
+        }
+
+        initNoteType($subform, 'template_note_general_context_selector', true, '.add-sub-note-btn', callback);
+      };
+
+      initialisers.note_mandate = function($subform) {
+
+        var callback = function($subform) {
+          var $topLevelNoteTypeSelector = $("select.mandate-note-type", $subform);
+          $topLevelNoteTypeSelector.change(changeNoteTemplate);
+          initRemoveActionForSubRecord($subform);
+        }
+
+        initNoteType($subform, 'template_note_mandate_selector', true, '.add-sub-note-btn', callback);
+      };
+      
+      initialisers.note_contact_note = function($subform) {
+
+        var callback = function($subform) {
+          var $topLevelNoteTypeSelector = $("select.contact_note-note-type", $subform);
+          $topLevelNoteTypeSelector.change(changeNoteTemplate);
+          initRemoveActionForSubRecord($subform);
+        }
+
+        initNoteType($subform, 'template_note_contact_note_selector', true, '.add-sub-note-btn', callback);
+      };
+
+      initialisers.note_legal_status = function($subform) {
+
+        var callback = function($subform) {
+          var $topLevelNoteTypeSelector = $("select.legal_status-note-type", $subform);
+          $topLevelNoteTypeSelector.change(changeNoteTemplate);
+          initRemoveActionForSubRecord($subform);
+        }
+
+        initNoteType($subform, 'template_note_legal_status_selector', true, '.add-sub-note-btn', callback);
+      };
+ 
+      initialisers.note_structure_or_genealogy = function($subform) {
+
+        var callback = function($subform) {
+          var $topLevelNoteTypeSelector = $("select.structure_or_genealogy-note-type", $subform);
+          $topLevelNoteTypeSelector.change(changeNoteTemplate);
+          initRemoveActionForSubRecord($subform);
+        }
+
+        initNoteType($subform, 'template_note_structure_or_genealogy_selector', true, '.add-sub-note-btn', callback);
+      };
+ 
       var initCollapsible = function($noteform) {
 
         if (!$.contains(document, $noteform[0])) {
@@ -363,9 +417,18 @@ $(function() {
 
         initRemoveActionForSubRecord($subform);
 
-        var $topLevelNoteTypeSelector = $("select.top-level-note-type", $subform);
+        var $topLevelNoteTypeSelector            = $("select.top-level-note-type", $subform);
+        var $topLevelNoteTypeSelectorOptionCount = $("select.top-level-note-type option", $subform).length;
         $topLevelNoteTypeSelector.change(changeNoteTemplate);
         $topLevelNoteTypeSelector.triggerHandler('change');
+
+        // if top level note selector only has one item, then select it automatically.
+        // note: the value in this if statement is 2 because this selector will have a blank first option.
+        if($topLevelNoteTypeSelectorOptionCount == 2) {
+          $topLevelNoteTypeSelector.find('option:nth-child(2)')
+                                   .prop('selected', true)
+                                   .trigger('change');
+        } 
       };
 
       $(".subrecord-form-heading:first .btn.add-note", $this).click(createTopLevelNote);

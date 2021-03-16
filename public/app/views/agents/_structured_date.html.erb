@@ -1,0 +1,37 @@
+<% if date['date_type_structured'] == "single" && date["structured_date_single"] %>
+
+  <% if date["structured_date_single"]["date_expression"] %>
+    <%= date["structured_date_single"]["date_expression"] %>
+  <% elsif date["structured_date_single"]["date_standardized"] %>
+    <%= date["structured_date_single"]["date_standardized"] %>
+
+    <% if display_date_type?(date["structured_date_single"]["date_standardized_type"]) %>
+      <%= display_date_type('date_standardized_type', date["structured_date_single"]["date_standardized_type"]) %>
+    <% end %>
+    &nbsp; &nbsp;
+  <% end %>
+
+<% elsif date['date_type_structured'] == "range" && date["structured_date_range"] %>
+  <% if date["structured_date_range"]["begin_date_expression"] %>
+    <%= date["structured_date_range"]["begin_date_expression"] %>
+  <% elsif date["structured_date_range"]["begin_date_standardized"] %>
+    <%= date["structured_date_range"]["begin_date_standardized"] %>
+
+    <% if display_date_type?(date["structured_date_range"]["begin_date_standardized_type"]) %>
+      <%= display_date_type('begin_date_standardized_type', date["structured_date_range"]["begin_date_standardized_type"]) %>
+    <% end %>
+  <% end %>
+
+  <% if date["structured_date_range"]["end_date_expression"] %>
+    <% if date["structured_date_range"]["begin_date_expression"] %> - <% end %>
+    <%= date["structured_date_range"]["end_date_expression"] %>
+  <% elsif date["structured_date_range"]["end_date_standardized"] %>
+    <% if date["structured_date_range"]["begin_date_standardized"] %> - <% end %>
+    <%= date["structured_date_range"]["end_date_standardized"] %>
+
+    <% if display_date_type?(date["structured_date_range"]["end_date_standardized_type"]) %>
+      <%= display_date_type('end_date_standardized_type', date["structured_date_range"]["end_date_standardized_type"]) %>
+    <% end %>
+  <% end %>
+
+<% end %>

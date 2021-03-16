@@ -11,8 +11,10 @@ class NoteRenderer
 
   def self.for(type)
     result = @renderers.find {|renderer| renderer.handles_type?(type)}
-
-    raise "No note renderer for '#{type}'" unless result
+    unless result
+      $stderr.puts "No note renderer for '#{type}'"
+      result = UnhandledNoteRenderer
+    end
 
     result.new
   end
@@ -43,7 +45,14 @@ end
 
 
 class MultipartNoteRenderer < NoteRenderer
-  handles_notes ['note_multipart', 'note_bioghist']
+  handles_notes [
+    'note_bioghist',
+    'note_general_context',
+    'note_legal_status',
+    'note_mandate',
+    'note_multipart',
+    'note_structure_or_genealogy',
+  ]
 
   def render(type, note, result)
     result['label'] = build_label(type, note)
@@ -70,24 +79,44 @@ end
 
 
 class SinglepartNoteRenderer < NoteRenderer
-  handles_notes ['note_singlepart', 'note_text', 'note_abstract',
-                 'note_digital_object', 'note_langmaterial']
+  handles_notes [
+    'note_abstract',
+    'note_digital_object',
+    'note_langmaterial',
+    'note_singlepart',
+    'note_text',
+  ]
 
   def render(type, note, result)
     result['label'] = build_label(type, note)
-    result['note_text'] = ASUtils.wrap(note['content']).map {|s| process_mixed_content(s)}.join('<br/><br/>')
+    result['note_text'] = ASUtils.wrap(note['content']).map { |s| "<p>#{process_mixed_content(s)}</p>" }.join.html_safe
     result
   end
 end
 
 
 class ERBNoteRenderer < NoteRenderer
-  handles_notes ['note_chronology', 'note_definedlist', 'note_orderedlist',
-                 'note_bibliography', 'note_index', 'note_outline', 'note_citation']
+  handles_notes [
+    'note_bibliography',
+    'note_citation',
+    'note_chronology',
+    'note_definedlist',
+    'note_index',
+    'note_orderedlist',
+    'note_outline',
+  ]
 
   def render(type, note, result)
     result['label'] = build_label(type, note)
     result['note_text'] = render_partial(type, :locals => {:note => note})
     result
+  end
+end
+
+class UnhandledNoteRenderer < NoteRenderer
+  handles_notes []
+
+  def render(type, note, result)
+    {'label' => '', 'note_text' => ''}
   end
 end

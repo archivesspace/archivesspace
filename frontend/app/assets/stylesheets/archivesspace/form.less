@@ -226,6 +226,14 @@ section h3 {
   width: 100%;
 }
 
+.subrecord-form-section {
+  .subrecord-form-heading-label {
+    .has-tooltip {
+      cursor: pointer;
+      border-bottom: 1px dotted #DDD;
+    }
+  }
+}
 
 /* AGENT NAME Form styles */
 .subrecord-form-dummy,
@@ -283,6 +291,7 @@ section h3 {
     }
   }
 
+
   .subrecord-form-container {
     margin: 0 10px;
     padding: 0 0 10px;
@@ -331,7 +340,23 @@ section h3 {
   .subrecord-form-inline {
     margin-bottom: 8px;
   }
+
+  .chronology_item_list {
+    input {
+      width: 80%;
+      margin: 10px;
+    }
+  }
 }
+
+.sdl-subrecord-form {
+  padding-bottom: 10px;
+
+  .subrecord-form-fields {
+    margin-left: 40px;
+  }
+}
+
 
 form .subrecord-form .subrecord-form-container .subrecord-form-fields {
   padding: 0;
@@ -750,6 +775,7 @@ label {
 // Name form styles
 .is-authoritive-label,
 .is-display-name-label,
+.is-primary-label,
 .is-representative-label {
   display: none;
 }
@@ -766,6 +792,14 @@ label {
     display: inline;
   }
   .btn-display-name-toggle {
+    display: none;
+  }
+}
+.primary-id {
+  .is-primary-label {
+    display: inline;
+  }
+  .btn-primary-id-toggle {
     display: none;
   }
 }
@@ -803,4 +837,11 @@ ul.checkbox-list {
   .checkbox label {
     padding-left: 10px;
   }
+}
+
+// hiding form elements for agents light
+
+.subrecord-form-invisible {
+  visibility: hidden !important;
+  position: absolute;
 }

@@ -1,5 +1,102 @@
 ja:
   enumerations:
+    date_type_structured:
+      single: シングル
+      range: 範囲
+    date_role:
+      begin: ベギン
+      end: 終わり
+    begin_date_standardized_type:
+      standard: 標準
+      not_before: 前ではない
+      not_after: 後ではない
+    end_date_standardized_type:
+      standard: 標準
+      not_before: 前ではない
+      not_after: 後ではない
+    maintenance_status:
+      new: 新しい
+      upgraded: アップグレード済み
+      revised_corrected: 修正/修正
+      derived: 派生
+      deleted: 削除済み
+      cancelled_obsolete: キャンセル/廃止
+      deleted_split: 削除済み分割
+      deleted_replaced: 削除 - 置き換え
+    publication_status:
+      in_process: インプロセス
+      approved: 承認済み
+    romanization:
+      int_std: 国際標準
+      nat_std: 国家規格
+      nl_assoc_std: 国立図書館協会基準
+      nl_bib_agency_std: 国立図書館または書誌作成会社の規格
+      local_standard: 地域の基準
+      unknown_standard: 由来不明の規格
+      conv_rom_cat_agency: 目録作成代理店の言語での慣用のローマ字化または慣用名の形式
+      not_applicable: 適用できません
+    government_agency_type: 
+      ngo: 非政府組織
+      sac: 自律型または半自律型コンポーネント
+      multilocal: 多地域
+      fed: 連邦/国家
+      int_gov: 国際政府間
+      local: 地元
+      multistate: 多状態
+      undetermined: 行政機関タイプ未定
+      provincial: 州、地方、領土、扶養家族など
+      unknown: 見出しが政府機関の場合は不明
+      other: その他の
+      natc: コーディングしようとしない
+    reference_evaluation: 
+      tr_consistent: 見出しと一致するトレース
+      tr_inconsistent: 見出しと矛盾する追跡
+      not_applicable: 適用できません
+      natc: コーディングしようとしない
+    name_type: 
+      differentiated: 差別化
+      undifferentiated: 未分化
+      not_applicable: 適用できません
+      natc: コーディングしようとしない
+    level_of_detail: 
+      fully_established: 完全に確立された
+      memorandum: メモ
+      provisional: 仮
+      preliminary: 予備の
+      not_applicable: 適用できません
+      natc: コーディングしようとしない
+    modified_record: 
+      not_modified: 変更なし
+      shortened: 短縮
+      missing_characters: 行方不明の文字
+      natc: コーディングしようとしない
+    cataloging_source:
+      nat_bib_agency: 全国書誌作成機関
+      ccp: 共同目録作成プログラム
+      other: その他の
+      unknown: 道の
+      natc: コーディングしようとしない
+    source: 
+      naf: NAF
+      snac: SNAC
+      local: 地元
+    identifier_type: 
+      loc: 議会図書館
+      lac: 図書館および公文書館カナダ
+      local: 地元
+    agency_code_type: 
+      oclc: OCLC
+      local: 地元
+    maintenance_event_type: 
+      created: 作成した
+      cancelled: キャンセル
+      deleted: 削除済み
+      derived: 派生
+      revised: 改訂
+      updated: 更新しました
+    maintenance_agent_type: 
+      human: 人間
+      machine: 機械
     linked_event_archival_record_roles:
       source: ソース
       outcome: 結果
@@ -1838,3 +1935,17 @@ ja:
     rights_statement_act_restriction: 権利声明法の制限
     rights_statement_act_type: 権利声明法の種類
     rights_statement_other_rights_basis: 権利声明その他の権利の基礎
+    maintenance_status: メンテナンス状況
+    publication_status: 出版ステータス
+    romanization: ローマ字
+    government_agency_type: 政府機関の種類
+    reference_evaluation: 参照評価 
+    name_type: 名前の種類
+    level_of_detail: 詳細度
+    modified_record: 修正レコード 
+    cataloging_source: カタログソース
+    source: ソース
+    identifier_type: 識別子の種類
+    agency_code_type: 代理店コード
+    maintenance_event_type: メンテナンスイベントの種類
+    maintenance_agent_type: メンテナンスエージェントの種類

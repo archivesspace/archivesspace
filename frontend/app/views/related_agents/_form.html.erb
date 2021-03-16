@@ -1,11 +1,13 @@
 <%= render_aspace_partial :partial => "related_agents/template" %>
 
+<%# render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "related_agents", :section_id => "#{@agent.agent_type}_related_agents"} %>
+
 <% @agent_type = form['agent_type'] %>
 <% define_template "related_agents_#{@agent_type}", jsonmodel_definition(@agent_type.intern) do |form|  %>
 
-<section id="<%= @agent_type %>_related_agents" class="subrecord-form related-agents-form">
+<section id="related_agents" class="subrecord-form related-agents-form">
   <h3 class="subrecord-form-heading">
-    <%= I18n.t("related_agent._plural") %>
+    <%= wrap_with_tooltip(I18n.t("related_agent._plural"), "agent.related_agent_tooltip", "subrecord-form-heading-label") %>
     <%= link_to_help :topic => "#{@agent_type}_related_agents" %>
     <button class="btn btn-sm btn-default add-related-agent-for-type-btn pull-right"><%= I18n.t("actions.add") %> <%= I18n.t("related_agent._singular") %></button>
   </h3>

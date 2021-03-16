@@ -1,0 +1,12 @@
+<% if result.json['agent_identifiers'].any? %>
+  
+  <% result.json['agent_identifiers'].each do |r| %>
+    <dl class="dl-horizontal">
+      <dt><%= I18n.t('agent_identifier.entity_identifier') %></dt>
+      <dd><%= r['entity_identifier'] %></dd>
+
+      <dt><%= I18n.t('agent_identifier.identifier_type') %></dt>
+      <dd><%= I18n.t('enumerations.identifier_type.' + r['identifier_type']) %></dd>
+    </dl>
+  <% end %>
+<% end %>

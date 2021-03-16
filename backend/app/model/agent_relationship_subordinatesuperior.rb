@@ -1,4 +1,4 @@
-class AgentRelationshipSubordinatesuperior < Sequel::Model(:agent_relationship_subordinatesuperior)
+class AgentRelationshipSubordinatesuperior < Sequel::Model(:related_agents_rlshp)
 
   include ASModel
   corresponds_to JSONModel(:agent_relationship_subordinatesuperior)

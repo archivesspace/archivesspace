@@ -46,6 +46,7 @@ describe 'Agent Family model' do
 
     test_opts = {:names => [
                    {
+                     "source" => nil,
                      "authority_id" => "wooo",
                      "family_name" => "Magoo Family",
                      "sort_name" => "Family Magoo"
@@ -57,6 +58,15 @@ describe 'Agent Family model' do
       agent = AgentFamily.create_from_json(build(:json_agent_family, test_opts))
      }.to raise_error(JSONModel::ValidationException)
   end
+
+  it "appends the use date to the end of a agent family display name" do
+    name_family = build(:json_name_family)
+
+    name_date = name_family['dates']
+
+    expect(name_family['sort_name'] =~ /#{name_date}/)
+  end
+
 
   it "returns the existing agent if an name authority id is already in place " do
     json =    build( :json_agent_family,
@@ -94,7 +104,7 @@ describe 'Agent Family model' do
 
           expected_slug = clean_slug(get_generated_name_for_agent(agent_family))
 
-          expect(agent_family[:slug]).to eq(expected_slug)
+          expect(agent_family[:slug]).to match(expected_slug)
         end
 
         it "autogenerates a slug via identifier when configured to generate by id" do
@@ -109,7 +119,7 @@ describe 'Agent Family model' do
 
           expected_slug = clean_slug(agent_name_family[:authority_id])
 
-          expect(agent_family[:slug]).to eq(expected_slug)
+          expect(agent_family[:slug]).to match(expected_slug)
         end
 
         it "turns off autogen if slug is blank" do
@@ -131,7 +141,7 @@ describe 'Agent Family model' do
           )
 
           expected_slug = clean_slug(get_generated_name_for_agent(agent_family))
-          expect(agent_family[:slug]).to eq(expected_slug)
+          expect(agent_family[:slug]).to match(expected_slug)
         end
 
         it "dedupes slug when autogenerating by name" do
@@ -150,8 +160,8 @@ describe 'Agent Family model' do
                 :names => [agent_name_family2])
           )
 
-          expect(agent_family1[:slug]).to eq("foo")
-          expect(agent_family2[:slug]).to eq("foo_1")
+          expect(agent_family1[:slug]).to match("foo")
+          expect(agent_family2[:slug]).to match("foo_1")
         end
 
 
@@ -165,7 +175,7 @@ describe 'Agent Family model' do
                 :names => [agent_name_family])
           )
 
-          expect(agent_family[:slug]).to eq("foo_bar_baz")
+          expect(agent_family[:slug]).to match("foo_bar_baz")
         end
 
         it "dedupes slug when autogenerating by id" do
@@ -185,8 +195,8 @@ describe 'Agent Family model' do
                 :names => [agent_name_family2])
           )
 
-          expect(agent_family1[:slug]).to eq("foo")
-          expect(agent_family2[:slug]).to eq("foo_1")
+          expect(agent_family1[:slug]).to match("foo")
+          expect(agent_family2[:slug]).to match("foo_1")
         end
       end
 

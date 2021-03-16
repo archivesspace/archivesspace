@@ -1,0 +1,8 @@
+<% if result.json['used_languages'].any? %>
+  <h3><%= I18n.t('used_language._plural') %></h3>
+  <ul>
+  <% result.json['used_languages'].each do |language| %>
+    <li><%= display_used_language(language) %></li>
+  <% end %>
+  </ul>
+<% end %>

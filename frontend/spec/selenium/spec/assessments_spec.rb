@@ -106,7 +106,7 @@ describe 'Assessments' do
     @driver.find_element(:id, 'assessment_review_required_').click
     token_input = @driver.find_element(:id, 'token-input-assessment_reviewer_')
     token_input.clear
-    token_input.send_keys(@manager_user.username)
+    token_input.send_keys(@archivist_user.username)
     @driver.find_element(:css, 'li.token-input-dropdown-item2').click
 
     # Save!
@@ -122,8 +122,10 @@ describe 'Assessments' do
     expect(@driver.find_element(:css, '.token-input-token .archival_object').text).to match(/Archival Object to assess/)
 
     linked_agents = @driver.find_elements(:css, '.token-input-token .agent_person')
+    sleep 4
+
     expect(linked_agents[0].text).to match(/#{@archivist_user.username}/)
-    expect(linked_agents[1].text).to match(/#{@manager_user.username}/)
+    expect(linked_agents[1].text).to match(/#{@archivist_user.username}/)
   end
 
   it 'shows up in the listing' do
@@ -221,7 +223,7 @@ describe 'Assessments' do
     # linked agents
     linked_agents = @driver.find_elements(:css, '.token.agent_person')
     expect(linked_agents[0].text).to match(/#{@archivist_user.username}/)
-    expect(linked_agents[1].text).to match(/#{@manager_user.username}/)
+    expect(linked_agents[1].text).to match(/#{@archivist_user.username}/)
 
     # ratings
     expect(@driver.execute_script("return $('#rating_attributes_table').find('td:contains(\"Documentation Quality\")').parent().find('td')[1].innerText")).to eq('1')

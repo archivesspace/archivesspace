@@ -1,0 +1,83 @@
+<% r = @required ? @required.values : [] %>
+
+<% define_template "agent_alternate_set", jsonmodel_definition(:agent_alternate_set) do |form| %>
+  <div class="subrecord-form-fields">
+    <div class="agent-record-control-container">
+      <%= form.label_and_textfield "set_component",  
+        {:field_opts => {:size => 30, :class => "form-control"},
+        :required => is_required_by_admin?(r, "agent_alternate_sets", "set_component") }%>
+
+      <%= form.label_and_textarea "descriptive_note",  
+        {:field_opts => {:size => 30, :class => "form-control"},
+        :required => is_required_by_admin?(r, "agent_alternate_sets", "descriptive_note") }%>
+
+      <%= form.label_and_textfield "file_uri",  
+        {:field_opts => {:size => 30, :class => "form-control"},
+        :required => is_required_by_admin?(r, "agent_alternate_sets", "file_uri") }%>
+
+      <%= form.label_and_select "file_version_xlink_actuate_attribute", 
+        [""] + form.possible_options_for("file_version_xlink_actuate_attribute", false),
+        :required => is_required_by_admin?(r, "agent_alternate_sets", "file_version_xlink_actuate_attribute") %>
+
+      <%= form.label_and_select "file_version_xlink_show_attribute", 
+        [""] + form.possible_options_for("file_version_xlink_show_attribute", false),
+        :required => is_required_by_admin?(r, "agent_alternate_sets", "file_version_xlink_show_attribute") %>
+
+      <%= form.label_and_textfield "xlink_title_attribute",  
+        {:field_opts => {:size => 30, :class => "form-control"},
+        :required => is_required_by_admin?(r, "agent_alternate_sets", "xlink_title_attribute") }%>
+
+      <%= form.label_and_textfield "xlink_role_attribute",  
+        {:field_opts => {:size => 30, :class => "form-control"},
+        :required => is_required_by_admin?(r, "agent_alternate_sets", "xlink_role_attribute") }%>
+
+      <%= form.label_and_textfield "xlink_arcrole_attribute",  
+        {:field_opts => {:size => 30, :class => "form-control"},
+        :required => is_required_by_admin?(r, "agent_alternate_sets", "xlink_arcrole_attribute") }%>
+
+      <%= form.label_and_date "last_verified_date",
+      :required => is_required_by_admin?(r, "agent_alternate_sets", "last_verified_date") %>
+    </div>
+  </div>
+<% end %>
+
+<% define_template "agent_alternate_set_required", jsonmodel_definition(:agent_alternate_set) do |form| %>
+  <% field_names = ["set_component", "descriptive_note", "file_uri", "file_version_xlink_actuate_attribute", "file_version_xlink_show_attribute", "xlink_title_attribute", "xlink_role_attribute", "xlink_arcrole_attribute", "last_verified_date"] %>
+  <% field_names.each do |field_name| %>
+    <% if form.required?(field_name) %>
+      <%= form.label_and_readonly field_name %>
+    <% else %>
+      <%= form.label_and_req_boolean field_name %>
+    <% end %>
+  <% end %>
+<% end %>
+
+<% define_template "agent_alternate_set_merge_target", jsonmodel_definition(:agent_alternate_set) do |form| %>
+
+  <%= form.record_level_merge_controls(form, "agent_alternate_set", false) %>
+
+  <% field_names = ["set_component", "descriptive_note", "file_uri", "file_version_xlink_actuate_attribute", "file_version_xlink_show_attribute", "xlink_title_attribute", "xlink_role_attribute", "xlink_arcrole_attribute", "last_verified_date"] %>
+  <% field_names.each do |field_name| %>
+    <%= form.label_and_readonly field_name %>
+  <% end %>
+<% end %>
+
+<% define_template "agent_alternate_set_merge_victim", jsonmodel_definition(:agent_alternate_set) do |form| %>
+
+  <% disable_replace = false %>
+
+  <%= form.record_level_merge_controls(form, "agent_alternate_set", true, !disable_replace) %>
+
+  <%= form.label_and_merge_select("set_component", "", {:disable_replace => disable_replace}) %>
+  <%= form.label_and_merge_select("descriptive_note", "", {:disable_replace => disable_replace}) %>
+  <%= form.label_and_merge_select("file_uri", "", {:disable_replace => disable_replace}) %>
+  <%= form.label_and_merge_select("file_version_xlink_actuate_attribute", "", {:disable_replace => disable_replace}) %>
+  <%= form.label_and_merge_select("file_version_xlink_show_attribute", "", {:disable_replace => disable_replace}) %>
+  <%= form.label_and_merge_select("xlink_title_attribute", "", {:disable_replace => disable_replace}) %>
+  <%= form.label_and_merge_select("xlink_role_attribute", "", {:disable_replace => disable_replace}) %>
+  <%= form.label_and_merge_select("xlink_arcrole_attribute", "", {:disable_replace => disable_replace}) %>
+  <%= form.label_and_merge_select("last_verified_date", "", {:disable_replace => disable_replace}) %>
+
+  <%= form.hidden_input "id", form.obj["id"] %>
+
+<% end %>

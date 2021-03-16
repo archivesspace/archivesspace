@@ -323,8 +323,259 @@
   </div>
 <% end %>
 
+
+<% define_template "note_general_context_selector" do |form, item| %>
+  <% if item %>
+    <% form.emit_template(item["jsonmodel_type"]) %>
+  <% else %>
+    <div class="subrecord-form-fields">
+      <div class="form-group required">
+        <label class="control-label col-sm-2"><%= I18n.t("note.note_type") %></label>
+        <div class="controls col-sm-4">
+          <select class="form-control general_context-note-type">
+            <option></option>
+            <% general_context_subnotes.sort_by {|value, hash| hash[:i18n]}.each do |value, hash| %>
+              <option value="<%= hash[:value] %>"><%= hash[:i18n] %></option>
+            <% end %>
+          </select>
+        </div>
+      </div>
+      <div class="selected-container">
+        <% form.emit_template("note_type_nil") %>
+      </div>
+    </div>
+  <% end %>
+<% end %>
+
+
+<% define_template "note_general_context", jsonmodel_definition(:note_general_context) do |form| %>
+  <div class="subrecord-form-fields" data-type="note_general_context">
+    <h3 class="subrecord-form-heading">
+      <%= I18n.t("note.note_general_context") %>
+    </h3>
+    <div class="subrecord-form-container">
+      <%= form.hidden_input(:jsonmodel_type, "note_general_context") %>
+      <%= form.hidden_input("ingest_problem") %>
+      <%= form.label_and_textfield("persistent_id") %>
+      <%= form.label_and_textfield("label") %>
+      <%= form.label_and_boolean("publish", {}, user_prefs["publish"]) %>
+
+      <section class="subrecord-form" id="<%= form.id_for('subnotes')%>">
+        <h4 class="subrecord-form-heading">
+          <%= I18n.t("note_multipart.sub_notes") %>
+          <% if not form.readonly? %>
+            <div class="btn-group pull-right">
+              <button class="btn btn-sm btn-default add-sub-note-btn"><%= I18n.t("note._frontend.action.add_sub_note") %></button>
+            </div>
+          <% end %>
+        </h4>
+        <div class="subrecord-form-container">
+          <%= form.list_for(form["subnotes"], "subnotes[]") do |subnote| %>
+            <% form.emit_template(subnote["jsonmodel_type"]) %>
+          <% end %>
+        </div>
+      </section>
+    </div>
+  </div>
+<% end %>
+
+<% define_template "note_mandate_selector" do |form, item| %>
+  <% if item %>
+    <% form.emit_template(item["jsonmodel_type"]) %>
+  <% else %>
+    <div class="subrecord-form-fields">
+      <div class="form-group required">
+        <label class="control-label col-sm-2"><%= I18n.t("note.note_type") %></label>
+        <div class="controls col-sm-4">
+          <select class="form-control mandate-note-type">
+            <option></option>
+            <% mandate_subnotes.sort_by {|value, hash| hash[:i18n]}.each do |value, hash| %>
+              <option value="<%= hash[:value] %>"><%= hash[:i18n] %></option>
+            <% end %>
+          </select>
+        </div>
+      </div>
+      <div class="selected-container">
+        <% form.emit_template("note_type_nil") %>
+      </div>
+    </div>
+  <% end %>
+<% end %>
+
+
+<% define_template "note_mandate", jsonmodel_definition(:note_mandate) do |form| %>
+  <div class="subrecord-form-fields" data-type="note_mandate">
+    <h3 class="subrecord-form-heading">
+      <%= I18n.t("note.note_mandate") %>
+    </h3>
+    <div class="subrecord-form-container">
+      <%= form.hidden_input(:jsonmodel_type, "note_mandate") %>
+      <%= form.hidden_input("ingest_problem") %>
+      <%= form.label_and_textfield("persistent_id") %>
+      <%= form.label_and_textfield("label") %>
+      <%= form.label_and_boolean("publish", {}, user_prefs["publish"]) %>
+
+      <section class="subrecord-form" id="<%= form.id_for('subnotes')%>">
+        <h4 class="subrecord-form-heading">
+          <%= I18n.t("note_multipart.sub_notes") %>
+          <% if not form.readonly? %>
+            <div class="btn-group pull-right">
+              <button class="btn btn-sm btn-default add-sub-note-btn"><%= I18n.t("note._frontend.action.add_sub_note") %></button>
+            </div>
+          <% end %>
+        </h4>
+        <div class="subrecord-form-container">
+          <%= form.list_for(form["subnotes"], "subnotes[]") do |subnote| %>
+            <% form.emit_template(subnote["jsonmodel_type"]) %>
+          <% end %>
+        </div>
+      </section>
+    </div>
+  </div>
+<% end %>
+
+<% define_template "note_contact_note", jsonmodel_definition(:note_contact_note) do |form| %>
+  <div class="subrecord-form-fields" data-type="note_contact_note">
+    <h3 class="subrecord-form-heading">
+      <%= I18n.t("note.note_contact_note") %>
+    </h3>
+    <div class="subrecord-form-container">
+      <%= form.hidden_input(:jsonmodel_type, "note_contact_note") %>
+      <%= form.hidden_input("ingest_problem") %>
+      <%= form.label_and_textfield("persistent_id") %>
+      <%= form.label_and_textfield("date_of_contact") %>
+      <%= form.label_and_textarea('contact_notes', :field_opts => {:class => "mixed-content"}) %>
+      <%# form.label_and_boolean("publish", {}, user_prefs["publish"]) %>
+    </div>
+  </div>
+<% end %>
+
+<% define_template "note_legal_status_selector" do |form, item| %>
+  <% if item %>
+    <% form.emit_template(item["jsonmodel_type"]) %>
+  <% else %>
+    <div class="subrecord-form-fields">
+      <div class="form-group required">
+        <label class="control-label col-sm-2"><%= I18n.t("note.note_type") %></label>
+        <div class="controls col-sm-4">
+          <select class="form-control legal_status-note-type">
+            <option></option>
+            <% legal_status_subnotes.sort_by {|value, hash| hash[:i18n]}.each do |value, hash| %>
+              <option value="<%= hash[:value] %>"><%= hash[:i18n] %></option>
+            <% end %>
+          </select>
+        </div>
+      </div>
+      <div class="selected-container">
+        <% form.emit_template("note_type_nil") %>
+      </div>
+    </div>
+  <% end %>
+<% end %>
+
+
+<% define_template "note_legal_status", jsonmodel_definition(:note_legal_status) do |form| %>
+  <div class="subrecord-form-fields" data-type="note_legal_status">
+    <h3 class="subrecord-form-heading">
+      <%= I18n.t("note.note_legal_status") %>
+    </h3>
+    <div class="subrecord-form-container">
+      <%= form.hidden_input(:jsonmodel_type, "note_legal_status") %>
+      <%= form.hidden_input("ingest_problem") %>
+      <%= form.label_and_textfield("persistent_id") %>
+      <%= form.label_and_textfield("label") %>
+      <%= form.label_and_boolean("publish", {}, user_prefs["publish"]) %>
+
+      <section class="subrecord-form" id="<%= form.id_for('subnotes')%>">
+        <h4 class="subrecord-form-heading">
+          <%= I18n.t("note_multipart.sub_notes") %>
+          <% if not form.readonly? %>
+            <div class="btn-group pull-right">
+              <button class="btn btn-sm btn-default add-sub-note-btn"><%= I18n.t("note._frontend.action.add_sub_note") %></button>
+            </div>
+          <% end %>
+        </h4>
+        <div class="subrecord-form-container">
+          <%= form.list_for(form["subnotes"], "subnotes[]") do |subnote| %>
+            <% form.emit_template(subnote["jsonmodel_type"]) %>
+          <% end %>
+        </div>
+      </section>
+    </div>
+  </div>
+<% end %>
+
+<% define_template "note_structure_or_genealogy_selector" do |form, item| %>
+  <% if item %>
+    <% form.emit_template(item["jsonmodel_type"]) %>
+  <% else %>
+    <div class="subrecord-form-fields">
+      <div class="form-group required">
+        <label class="control-label col-sm-2"><%= I18n.t("note.note_type") %></label>
+        <div class="controls col-sm-4">
+          <select class="form-control structure_or_genealogy-note-type">
+            <option></option>
+            <% structure_or_genealogy_subnotes.sort_by {|value, hash| hash[:i18n]}.each do |value, hash| %>
+              <option value="<%= hash[:value] %>"><%= hash[:i18n] %></option>
+            <% end %>
+          </select>
+        </div>
+      </div>
+      <div class="selected-container">
+        <% form.emit_template("note_type_nil") %>
+      </div>
+    </div>
+  <% end %>
+<% end %>
+
+
+<% define_template "note_structure_or_genealogy", jsonmodel_definition(:note_structure_or_genealogy) do |form| %>
+  <div class="subrecord-form-fields" data-type="note_structure_or_genealogy">
+    <h3 class="subrecord-form-heading">
+      <%= I18n.t("note.note_structure_or_genealogy") %>
+    </h3>
+    <div class="subrecord-form-container">
+      <%= form.hidden_input(:jsonmodel_type, "note_structure_or_genealogy") %>
+      <%= form.hidden_input("ingest_problem") %>
+      <%= form.label_and_textfield("persistent_id") %>
+      <%= form.label_and_textfield("label") %>
+      <%= form.label_and_boolean("publish", {}, user_prefs["publish"]) %>
+
+      <section class="subrecord-form" id="<%= form.id_for('subnotes')%>">
+        <h4 class="subrecord-form-heading">
+          <%= I18n.t("note_multipart.sub_notes") %>
+          <% if not form.readonly? %>
+            <div class="btn-group pull-right">
+              <button class="btn btn-sm btn-default add-sub-note-btn"><%= I18n.t("note._frontend.action.add_sub_note") %></button>
+            </div>
+          <% end %>
+        </h4>
+        <div class="subrecord-form-container">
+          <%= form.list_for(form["subnotes"], "subnotes[]") do |subnote| %>
+            <% form.emit_template(subnote["jsonmodel_type"]) %>
+          <% end %>
+        </div>
+      </section>
+    </div>
+  </div>
+<% end %>
+
 <% define_template "note_citation_xlink" do | xlink_form | %>
-  <% xlink_form.push "xlink", xlink_form["xlink"] || {} do | xlink_form | %>
+
+  <%# in view mode, fill in some dummy values so the user doesn't see a blank form container. %>
+  <% if xlink_form.readonly? %>
+    <% empty = {"actuate" => "Not set", 
+                "arcrole" => "Not set", 
+                "href" => "Not set",
+                "role" => "Not set", 
+                "show" => "Not set", 
+                "title" => "Not set",
+                "type" => "Not set" } %>
+  <% else %>            
+    <% empty = {} %>
+  <% end %>            
+
+  <% xlink_form.push "xlink", xlink_form["xlink"] || empty do | xlink_form | %>
     <%= xlink_form.label_and_textfield "actuate" %>
     <%= xlink_form.label_and_textfield "arcrole" %>
     <%= xlink_form.label_and_textfield "href" %>
@@ -347,14 +598,14 @@
 
       <% form.emit_template("content_items", :required => form.required?('content')) %>
 
-      <section class="subrecord-form">
-        <h4 class="subrecord-form-heading"><%= I18n.t("note_citation.xlink") %></h4>
-        <div class="subrecord-form-container">
-          <div class="subrecord-form-fields">
-            <% form.emit_template "note_citation_xlink" %>
+        <section class="subrecord-form">
+          <h4 class="subrecord-form-heading"><%= I18n.t("note_citation.xlink") %></h4>
+          <div class="subrecord-form-container">
+            <div class="subrecord-form-fields">
+              <% form.emit_template "note_citation_xlink" %>
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
 
     </div>
   </div>
@@ -526,22 +777,27 @@
 <% define_template "chronology_item" do |form, item| %>
   <div class="subrecord-form-fields" data-type="chronology_item">
     <%= form.label_and_textfield("event_date") %>
-    <div class="form-group">
-      <label class="control-label"><%= I18n.t("chronology_item.events") %></label>
-      <div class="controls">
+    <%= form.label_and_textfield("place") %>
+    <section class="subrecord-form chronology_item_list">
+      <h5 class="subrecord-form-heading">
+        <%= I18n.t("chronology_item.events") %>
+        <% if not form.readonly? %>
+          <button class="btn btn-xs btn-default pull-right add-event-btn"><%= I18n.t("note._frontend.action.add_event") %></button>
+        <% end %>
+      </h5>
+      <div class="controls chronology_item_list">
         <%= form.list_for(form["events"], "events[]") do |event| %>
           <% form.emit_template("chronology_item_event", event) %>
         <% end %>
-        <% if not form.readonly? %>
-          <button class="btn btn-xs btn-default add-event-btn"><%= I18n.t("note._frontend.action.add_event") %></button>
-        <% end %>
       </div>
-    </div>
+    </section>
   </div>
 <% end %>
 
 <% define_template "chronology_item_event" do |form, event| %>
-  <div class="subrecord-form-inline"><%= form.textfield(nil, event, { :escape => false }) %></div>
+  <div class="subrecord-form-inline">
+      <%= form.textfield(nil, event, { :escape => false }) %>
+  </div>
 <% end %>
 
 <% define_template "bib_item" do |form, item| %>

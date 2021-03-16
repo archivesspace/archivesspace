@@ -224,7 +224,9 @@ module Exceptions
             Log.error('Unhandled exception!')
             Log.exception(request.env['sinatra.error'])
 
-            json_response({:error => ex.message}, 500)
+            message = ex.message + ": " + ex.backtrace.join("\n\t")
+
+            json_response({:error => message}, 500)
           end
         end
       end

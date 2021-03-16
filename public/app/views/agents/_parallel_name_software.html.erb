@@ -1,0 +1,41 @@
+<% result.each do |r| %>
+  <dl class="dl-horizontal">
+    <dt><%= I18n.t('name_software.software_name') %></dt>
+    <dd><%= r['software_name'] %></dd>
+
+    <dt><%= I18n.t('name_software.version') %></dt>
+    <dd><%= r['version'] %></dd>
+
+    <dt><%= I18n.t('name_software.manufacturer') %></dt>
+    <dd><%= r['manufacturer'] %></dd>
+    
+    <dt><%= I18n.t('name_software.dates') %></dt>
+    <dd><%= r['dates'] %></dd>
+
+    <dt><%= I18n.t('name_software.language') %></dt>
+    <dd><%= r['language'] %></dd>
+
+    <dt><%= I18n.t('name_software.script') %></dt>
+    <dd><%= r['script'] %></dd>
+
+    <dt><%= I18n.t('name_software.qualifier') %></dt>
+    <dd><%= r['qualifier'] %></dd>
+
+    <dt><%= I18n.t('name_software.sort_name') %></dt>
+    <dd><%= r['sort_name'] %></dd>
+  </dl>
+
+  <% if r['use_dates'].any? %>
+
+			<% ud = "" %>	  	
+      <% r['use_dates'].each do |u| %>
+		  	<% ud += render partial: 'structured_date', locals: {:result => u} %>
+		  <% end %>
+
+    	<%= render partial: 'shared/accordion_panel', locals: 
+				{:p_title =>  I18n.t('use_date._plural'),
+		 		 :p_id => "parallel_use_dates_#{r['id']}",
+		 		 :p_body => ud.html_safe } %>
+	  <% end %>
+<% end %>
+

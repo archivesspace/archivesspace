@@ -19,6 +19,17 @@ class ArchivesSpaceService < Sinatra::Base
   do
     [200, {}, Log.backlog ]
   end
+
+  Endpoint.post('/system/config')
+  .description("Reload configuration data") 
+  .permissions([:administer_system])
+  .returns([200, "String"],
+           [403, "Access Denied"]) \
+  do
+    AppConfig.reload
+    [200, {}, "OK"]
+  end
+ 
   
   Endpoint.get('/system/events')
   .description("Get the systems events that have been logged for this install") 

@@ -1,0 +1,52 @@
+<% if result.json['agent_contacts'].any? %>
+  <% result.json['agent_contacts'].each do |r| %>
+    <dl class="dl-horizontal">
+      <dt><%= I18n.t('agent_contact.name') %></dt>
+      <dd><%= r['name'] %></dd>
+
+      <dt><%= I18n.t('agent_contact.salutation') %></dt>
+      <dd><%= r['salutation'] %></dd>
+
+      <dt><%= I18n.t('agent_contact.address_1') %></dt>
+      <dd><%= r['address_1'] %></dd>
+
+      <dt><%= I18n.t('agent_contact.address_2') %></dt>
+      <dd><%= r['address_2'] %></dd>
+
+      <dt><%= I18n.t('agent_contact.address_3') %></dt>
+      <dd><%= r['address_3'] %></dd>
+
+      <dt><%= I18n.t('agent_contact.city') %></dt>
+      <dd><%= r['city'] %></dd>
+
+      <dt><%= I18n.t('agent_contact.region') %></dt>
+      <dd><%= r['region'] %></dd>
+
+      <dt><%= I18n.t('agent_contact.country') %></dt>
+      <dd><%= r['country'] %></dd>
+
+      <dt><%= I18n.t('agent_contact.post_code') %></dt>
+      <dd><%= r['post_code'] %></dd>
+
+      <dt><%= I18n.t('agent_contact.fax') %></dt>
+      <dd><%= r['fax'] %></dd>
+
+      <dt><%= I18n.t('agent_contact.email') %></dt>
+      <dd><%= r['email'] %></dd>
+
+     </dl>
+
+		 <% if r['telephones'].any? %>
+		  <% t = "" %>     
+      <% r['telephones'].each do |d| %>
+        <% t += render partial: 'telephones', locals: {:result => d} %>
+      <% end %>
+
+      <%= render partial: 'shared/accordion_panel', locals: 
+        {:p_title =>  I18n.t('telephone._plural'),
+         :p_id => "telephones_contact_#{r['id']}",
+         :p_body => t.html_safe } %>
+ 
+	   <% end %>
+  <% end %>
+<% end %>

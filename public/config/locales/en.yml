@@ -459,8 +459,10 @@ en:
   pui_agent:
     _singular: Name
     _plural:  Names
+    parallel: Parallel Names
     related: Related Names
     creator: Creator
+    also_known_as: Also known by the following names
   record:
     _singular: Record
     _plural: Records
@@ -475,9 +477,10 @@ en:
     _public:
       section:
         summary: Summary
-        other_names: Names Forms
+        other_names: Name Forms
         other_names_preamble: "Also known by the following names:"
         related_agents: Related Names
+        dates: Dates
         dates_of_existence: Dates
         related_agent_description: Description
         related_agent_dates: Dates
@@ -493,6 +496,30 @@ en:
 
   agent_software:
     _singular: Software
+
+  agent_function:
+    _singular: Function
+    _plural: Functions
+
+  agent_gender:
+    _singular: Gender
+    _plural: Gender
+
+  agent_place:
+    _singular: Place
+    _plural: Places
+
+  agent_resource:
+    _singular: Related External Resource
+    _plural: Related External Resources
+
+  agent_occupation:
+    _singular: Occupation
+    _plural: Occupations
+
+  agent_topic:
+    _singular: Topic
+    _plural: Topics
 
   components:
     expand: Expand
@@ -550,3 +577,109 @@ en:
     search_results: Skip to search results
 
   search_tab: Search %{target}
+
+  agent_record_identifier: &agent_record_identifier_attributes
+    _plural: Record IDs
+    _singular: Record ID
+    _frontend:
+      action:
+        add: Add Record ID
+    identifier_type: Identifier Type
+    source: Source
+    primary_identifier: Is Primary Identifier?
+    primary: Primary
+    record_identifier: Record Identifier
+    snac: Social Networks and Archival Context (SNAC) Identifier
+
+  agent_identifier: &agent_identifier_attributes
+    _plural: Entity IDs
+    _singular: Identifier
+    _frontend:
+      action:
+        add: Add Entity ID
+    identifier_type: Identifier Type
+    entity_identifier: Entity ID
+
+  dates_of_existence:
+    _plural: Dates of Existence
+    _singular: Date of Existence
+
+  date_label:
+    existence: Existence
+    usage: Usage
+
+  use_date:
+    _plural: Use Dates
+    _singular: Use Date
+
+  used_language:
+    _plural: Languages Used
+    _singular: Language Used
+
+  structured_date_label:
+    date: Date
+    date_label: Label
+    date_type_structured: Date Type
+    date_certainty: Certainty
+    date_era: Era
+    date_calendar: Calendar
+
+  structured_date_single:
+    date_role: Date Role
+    date_expression: Date Expression
+    date_standardized: Standardized Date
+    date_standardized_type: Standardized Date Type
+
+  structured_date_range:
+    begin_date_expression: Begin Date Expression
+    begin_date_standardized: Begin Standardized Date
+    begin_date_standardized_type: Begin Standardized Date Type
+    end_date_expression: End Date Expression
+    end_date_standardized: End Standardized Date
+    end_date_standardized_type: End Standardized Date Type
+
+  agent_contact:
+    name: Contact Name
+    salutation: Salutation
+    address_1: Address 1
+    address_2: Address 2
+    address_3: Address 3
+    city: City
+    region: State/Region
+    country: Country
+    post_code: Post Code
+    telephone: Telephone
+    telephone_ext: Telephone Extension
+    fax: Fax
+    email: E-mail
+    email_signature: E-mail Signature
+    note: Contact Notes
+    telephones: Telephone Numbers
+    _singular: Contact
+    _plural: Contact Details
+
+  telephone: &telephone
+    _plural: Telephone Numbers
+    number_type: Number Type
+    number: Number
+    ext: Telephone Extension
+
+  telephone_required: &telephone
+    _plural: Telephone Numbers
+    number_type: Number Type
+    number: Number
+    ext: Telephone Extension
+
+  agent_notes:
+    _singular: Note
+    _plural: Notes
+    persistent_id: Persistent ID
+    type: Note Type
+    content: Content
+    note_citation: Citation
+    note_bioghist: Biography
+    note_general_context: General Context
+    note_legal_status: Legal Status
+    note_mandate: Mandate
+    note_structure_or_genealogy: Structure or Genealogy
+    note_text: Note

@@ -77,7 +77,6 @@ FactoryBot.define do
                             #:telephones => [nil, build(:json_telephone)].sample,
                             :email => [nil, generate(:alphanumstr)].sample,
                             :email_signature => [nil, generate(:alphanumstr)].sample,
-                            :note => [nil, generate(:alphanumstr)].sample,
                             :json_schema_version => 1)
       end
     end
@@ -103,6 +102,128 @@ FactoryBot.define do
       content_description { generate(:generic_description) }
       condition_description { generate(:generic_description) }
       accession_date { generate(:yyyy_mm_dd) }
+    end
+
+    factory :agent_record_control, class: JSONModel(:agent_record_control) do
+      maintenance_status { "new" }
+      publication_status { "approved" }
+      maintenance_agency { generate(:alphanumstr) }
+      agency_name { generate(:alphanumstr) }
+      maintenance_agency_note { generate(:alphanumstr) }
+      language { generate(:language) }
+      script { generate(:script) }
+      language_note { generate(:alphanumstr) }
+    end
+
+    factory :agent_alternate_set, class: JSONModel(:agent_alternate_set) do
+      file_version_xlink_actuate_attribute { "other"}
+      file_version_xlink_show_attribute { "other" }
+      set_component { generate(:alphanumstr) }
+      descriptive_note { generate(:alphanumstr) }
+      file_uri { generate(:alphanumstr) }
+      xlink_title_attribute { generate(:alphanumstr) }
+      xlink_role_attribute { generate(:alphanumstr) }
+      xlink_arcrole_attribute { generate(:alphanumstr) }
+      last_verified_date { generate(:yyyy_mm_dd) }
+    end
+
+    factory :agent_conventions_declaration, class: JSONModel(:agent_conventions_declaration) do
+      file_version_xlink_actuate_attribute { "other"}
+      file_version_xlink_show_attribute { "other" }
+      name_rule { "aacr" }
+      citation { generate(:alphanumstr) }
+      descriptive_note { generate(:alphanumstr) }
+      file_uri { generate(:alphanumstr) }
+      xlink_title_attribute { generate(:alphanumstr) }
+      xlink_role_attribute { generate(:alphanumstr) }
+      xlink_arcrole_attribute { generate(:alphanumstr) }
+      last_verified_date { generate(:yyyy_mm_dd) }
+    end
+
+    factory :agent_sources, class: JSONModel(:agent_sources) do
+      file_version_xlink_actuate_attribute { "other"}
+      file_version_xlink_show_attribute { "other" }
+      descriptive_note { generate(:alphanumstr) }
+      source_entry { generate(:alphanumstr) }
+      file_uri { generate(:alphanumstr) }
+      xlink_title_attribute { generate(:alphanumstr) }
+      xlink_role_attribute { generate(:alphanumstr) }
+      xlink_arcrole_attribute { generate(:alphanumstr) }
+      last_verified_date { generate(:yyyy_mm_dd) }
+    end
+
+    factory :agent_other_agency_codes, class: JSONModel(:agent_other_agency_codes) do
+      agency_code_type { "oclc"}
+      maintenance_agency { generate(:alphanumstr) }
+    end
+
+    factory :agent_maintenance_history, class: JSONModel(:agent_maintenance_history) do
+      maintenance_event_type { "created"}
+      maintenance_agent_type { "human"}
+      event_date { generate(:yyyy_mm_dd) }
+      agent { generate(:alphanumstr) }
+      descriptive_note { generate(:alphanumstr) }
+    end
+
+    factory :agent_record_identifier, class: JSONModel(:agent_record_identifier) do
+      primary_identifier { true }
+      record_identifier { generate(:alphanumstr) }
+      source { "naf"}
+      identifier_type { "loc"}
+    end
+
+    factory :json_agent_place, class: JSONModel(:agent_place) do
+      place_role { "place_of_birth" }
+      dates { [build(:json_structured_date_label)] }
+      notes { [build(:json_note_text)] }
+      subjects { [{'ref' => create(:json_subject).uri}] }
+    end
+
+    factory :json_agent_occupation, class: JSONModel(:agent_occupation) do
+      dates { [build(:json_structured_date_label)] }
+      notes { [build(:json_note_text)] }
+      subjects { [{'ref' => create(:json_subject).uri}] }
+      places { [{'ref' => create(:json_subject).uri}] }
+    end
+
+    factory :json_agent_function, class: JSONModel(:agent_function) do
+      dates { [build(:json_structured_date_label)] }
+      notes { [build(:json_note_text)] }
+      subjects { [{'ref' => create(:json_subject).uri}] }
+      places { [{'ref' => create(:json_subject).uri}] }
+    end
+
+    factory :json_agent_topic, class: JSONModel(:agent_topic) do
+      dates { [build(:json_structured_date_label)] }
+      notes { [build(:json_note_text)] }
+      subjects { [{'ref' => create(:json_subject).uri}] }
+      places { [{'ref' => create(:json_subject).uri}] }
+    end
+
+    factory :json_agent_resource, class: JSONModel(:agent_resource) do
+      dates { [build(:json_structured_date_label)] }
+      places { [{'ref' => create(:json_subject).uri}] }
+      file_version_xlink_actuate_attribute { "other"}
+      file_version_xlink_show_attribute { "other" }
+      xlink_title_attribute { generate(:alphanumstr) }
+      xlink_role_attribute { generate(:alphanumstr) }
+      xlink_arcrole_attribute { generate(:alphanumstr) }
+      linked_resource { generate(:alphanumstr) }
+      linked_resource_description { generate(:alphanumstr) }
+      file_uri { generate(:alphanumstr) }
+      linked_agent_role { "creator" }
+    end
+
+    # NOTE: using this factory will fail unless values are added manually to the gender enum list. See agent_spec_helper.rb#add_gender_values
+    factory :json_agent_gender, class: JSONModel(:agent_gender) do
+      dates { [build(:json_structured_date_label)] }
+      gender { "not_specified" }
+      notes { [build(:json_note_text)] }
+    end
+
+    factory :json_agent_identifier, class: JSONModel(:agent_identifier) do
+      entity_identifier { generate(:alphanumstr) }
+      identifier_type { "loc"}
     end
 
     factory :resource do
@@ -158,7 +279,6 @@ FactoryBot.define do
     number_type { [nil, 'business', 'home', 'cell', 'fax'].sample }
     number {  generate(:phone_number) }
     ext { [nil, generate(:alphanumstr)].sample }
-
   end
 
   factory :json_agent_contact, class: JSONModel(:agent_contact) do
@@ -174,32 +294,32 @@ FactoryBot.define do
     fax { [nil, generate(:alphanumstr)].sample }
     email { [nil, generate(:alphanumstr)].sample }
     email_signature { [nil, generate(:alphanumstr)].sample }
-    note { [nil, generate(:alphanumstr)].sample }
+    notes { [build(:json_note_contact_note)] }
   end
 
   factory :json_agent_corporate_entity, class: JSONModel(:agent_corporate_entity) do
     agent_type { 'agent_corporate_entity' }
     names { [build(:json_name_corporate_entity)] }
     agent_contacts { [build(:json_agent_contact)] }
-    dates_of_existence { [build(:json_date, :label => 'existence')] }
+    dates_of_existence { [build(:json_structured_date_label)] }
   end
 
   factory :json_agent_family, class: JSONModel(:agent_family) do
     agent_type { 'agent_family' }
     names { [build(:json_name_family)] }
-    dates_of_existence { [build(:json_date, :label => 'existence')] }
+    dates_of_existence { [build(:json_structured_date_label)] }
   end
 
   factory :json_agent_person, class: JSONModel(:agent_person) do
     agent_type { 'agent_person' }
     names { [build(:json_name_person)] }
-    dates_of_existence { [build(:json_date, :label => 'existence')] }
+    dates_of_existence { [build(:json_structured_date_label)] }
   end
 
   factory :json_agent_software, class: JSONModel(:agent_software) do
     agent_type { 'agent_software' }
     names { [build(:json_name_software)] }
-    dates_of_existence { [build(:json_date, :label => 'existence')] }
+    dates_of_existence { [build(:json_structured_date_label)] }
   end
 
   factory :json_archival_object, class: JSONModel(:archival_object) do
@@ -214,6 +334,104 @@ FactoryBot.define do
     level { generate(:level) }
     title { "Archival Object #{generate(:generic_title)}" }
     resource { {'ref' => create(:json_resource_nohtml).uri} }
+  end
+
+  factory :json_agent_person_full_subrec, class: JSONModel(:agent_person) do
+    agent_type { 'agent_person' }
+    names { [build(:json_name_person)] }
+    dates_of_existence { [build(:json_structured_date_label)] }
+    agent_record_controls { [build(:agent_record_control)] }
+    agent_alternate_sets { [build(:agent_alternate_set)] }
+    agent_conventions_declarations { [build(:agent_conventions_declaration)] }
+    agent_sources { [build(:agent_sources)] }
+    agent_other_agency_codes { [build(:agent_other_agency_codes)] }
+    agent_maintenance_histories { [build(:agent_maintenance_history)] }
+    agent_record_identifiers { [build(:agent_record_identifier)] }
+    agent_places { [build(:json_agent_place)] }
+    agent_occupations { [build(:json_agent_occupation)] }
+    agent_functions { [build(:json_agent_function)] }
+    agent_topics { [build(:json_agent_topic)] }
+    agent_identifiers { [build(:json_agent_identifier)] }
+    agent_resources { [build(:json_agent_resource)] }
+    agent_genders { [build(:json_agent_gender)] }
+    used_languages { [build(:json_used_language)] }
+  end
+
+  factory :json_agent_person_merge_target, class: JSONModel(:agent_person) do
+    agent_type { 'agent_person' }
+    names { [build(:json_name_person)] }
+    dates_of_existence { [build(:json_structured_date_label)] }
+    agent_conventions_declarations { [build(:agent_conventions_declaration), build(:agent_conventions_declaration)] }
+    agent_record_controls { [build(:agent_record_control)] }
+  end
+
+  factory :json_agent_person_merge_victim, class: JSONModel(:agent_person) do
+    agent_type { 'agent_person' }
+    names { [build(:json_name_person)] }
+    dates_of_existence { [build(:json_structured_date_label)] }
+    agent_conventions_declarations { [build(:agent_conventions_declaration), build(:agent_conventions_declaration)] }
+    agent_record_controls { [build(:agent_record_control)] }
+  end
+
+  factory :json_agent_corporate_entity_full_subrec, class: JSONModel(:agent_corporate_entity) do
+    agent_type { 'agent_corporate_entity' }
+    names { [build(:json_name_corporate_entity)] }
+    agent_contacts { [build(:json_agent_contact)] }
+    dates_of_existence { [build(:json_structured_date_label)] }
+    agent_record_controls { [build(:agent_record_control)] }
+    agent_alternate_sets { [build(:agent_alternate_set)] }
+    agent_conventions_declarations { [build(:agent_conventions_declaration)] }
+    agent_sources { [build(:agent_sources)] }
+    agent_other_agency_codes { [build(:agent_other_agency_codes)] }
+    agent_maintenance_histories { [build(:agent_maintenance_history)] }
+    agent_record_identifiers { [build(:agent_record_identifier)] }
+    agent_places { [build(:json_agent_place)] }
+    agent_occupations { [build(:json_agent_occupation)] }
+    agent_functions { [build(:json_agent_function)] }
+    agent_topics { [build(:json_agent_topic)] }
+    agent_identifiers { [build(:json_agent_identifier)] }
+    used_languages { [build(:json_used_language)] }
+    agent_resources { [build(:json_agent_resource)] }
+  end
+
+  factory :json_agent_software_full_subrec, class: JSONModel(:agent_software) do
+    agent_type { 'agent_software' }
+    names { [build(:json_name_software)] }
+    dates_of_existence { [build(:json_structured_date_label)] }
+    agent_record_controls { [build(:agent_record_control)] }
+    agent_alternate_sets { [build(:agent_alternate_set)] }
+    agent_conventions_declarations { [build(:agent_conventions_declaration)] }
+    agent_sources { [build(:agent_sources)] }
+    agent_other_agency_codes { [build(:agent_other_agency_codes)] }
+    agent_maintenance_histories { [build(:agent_maintenance_history)] }
+    agent_record_identifiers { [build(:agent_record_identifier)] }
+    agent_places { [build(:json_agent_place)] }
+    agent_occupations { [build(:json_agent_occupation)] }
+    agent_functions { [build(:json_agent_function)] }
+    agent_topics { [build(:json_agent_topic)] }
+    agent_identifiers { [build(:json_agent_identifier)] }
+    used_languages { [build(:json_used_language)] }
+    agent_resources { [build(:json_agent_resource)] }
+  end
+
+  factory :json_agent_family_full_subrec, class: JSONModel(:agent_family) do
+    agent_type { 'agent_family' }
+    names { [build(:json_name_family)] }
+    dates_of_existence { [build(:json_structured_date_label)] }
+    agent_record_controls { [build(:agent_record_control)] }
+    agent_alternate_sets { [build(:agent_alternate_set)] }
+    agent_conventions_declarations { [build(:agent_conventions_declaration)] }
+    agent_sources { [build(:agent_sources)] }
+    agent_other_agency_codes { [build(:agent_other_agency_codes)] }
+    agent_maintenance_histories { [build(:agent_maintenance_history)] }
+    agent_record_identifiers { [build(:agent_record_identifier)] }
+    agent_places { [build(:json_agent_place)] }
+    agent_occupations { [build(:json_agent_occupation)] }
+    agent_functions { [build(:json_agent_function)] }
+    agent_topics { [build(:json_agent_topic)] }
+    agent_identifiers { [build(:json_agent_identifier)] }
+    used_languages { [build(:json_used_language)] }
+    agent_resources { [build(:json_agent_resource)] }
   end
 
   factory :json_archival_object_normal, class: JSONModel(:archival_object) do
@@ -261,6 +479,31 @@ FactoryBot.define do
   factory :json_note_bioghist, class: JSONModel(:note_bioghist) do
     label { generate(:alphanumstr) }
     subnotes { [ build(:json_note_outline), build(:json_note_text) ] }
+  end
+
+  factory :json_note_general_context, class: JSONModel(:note_general_context) do
+    label { generate(:alphanumstr) }
+    subnotes { [ build(:json_note_outline), build(:json_note_text) ] }
+  end
+
+  factory :json_note_mandate, class: JSONModel(:note_mandate) do
+    label { generate(:alphanumstr) }
+    subnotes { [ build(:json_note_text) ] }
+  end
+
+  factory :json_note_legal_status, class: JSONModel(:note_legal_status) do
+    label { generate(:alphanumstr) }
+    subnotes { [ build(:json_note_text) ] }
+  end
+
+  factory :json_note_structure_or_genealogy, class: JSONModel(:note_structure_or_genealogy) do
+    label { generate(:alphanumstr) }
+    subnotes { [ build(:json_note_text) ] }
+  end
+
+  factory :json_note_contact_note, class: JSONModel(:note_contact_note) do
+    date_of_contact { generate(:alphanumstr) }
+    contact_notes { generate(:alphanumstr) }
   end
 
   factory :json_note_outline, class: JSONModel(:note_outline) do
@@ -341,6 +584,57 @@ FactoryBot.define do
     indicator_2 { generate(:alphanumstr) }
     type_3 { sample(JSONModel(:sub_container).schema['properties']['type_3']) }
     indicator_3 { generate(:alphanumstr) }
+  end
+
+  factory :json_structured_date_label, class: JSONModel(:structured_date_label) do
+    date_type_structured { "single" }
+    date_label { 'existence' }
+    structured_date_single { build(:json_structured_date_single) }
+    date_certainty { "approximate" }
+    date_era { "ce" }
+    date_calendar { "gregorian" }
+  end
+
+  factory :json_structured_date_label_range, class: JSONModel(:structured_date_label) do
+    date_type_structured { "range" }
+    date_label { 'existence' }
+    structured_date_range { build(:json_structured_date_range) }
+    date_certainty { "approximate" }
+    date_era { "ce" }
+    date_calendar { "gregorian" }
+  end
+
+  factory :json_structured_date_label_range_no_expression, class: JSONModel(:structured_date_label) do
+    date_type_structured { "range" }
+    date_label { 'existence' }
+    structured_date_range { build(:json_structured_date_range_no_expression) }
+    date_certainty { "approximate" }
+    date_era { "ce" }
+    date_calendar { "gregorian" }
+  end
+
+
+  factory :json_structured_date_single, class: JSONModel(:structured_date_single) do
+    date_role  { "begin" }
+    date_expression { "Yesterday" }
+    date_standardized { "2019-06-01" }
+    date_standardized_type { "standard" }
+  end
+
+  factory :json_structured_date_range, class: JSONModel(:structured_date_range) do
+    begin_date_expression { "Yesterday" }
+    begin_date_standardized { "2019-06-01" }
+    begin_date_standardized_type { "standard" }
+    end_date_expression { "Tomorrow" }
+    end_date_standardized { "2019-06-02" }
+    end_date_standardized_type { "standard" }
+  end
+
+  factory :json_structured_date_range_no_expression, class: JSONModel(:structured_date_range) do
+    begin_date_standardized { "2019-06-01" }
+    begin_date_standardized_type { "standard" }
+    end_date_standardized { "2019-06-02" }
+    end_date_standardized_type { "not_before" }
   end
 
 
@@ -458,6 +752,12 @@ FactoryBot.define do
     script { generate(:script) }
   end
 
+  factory :json_used_language, class: JSONModel(:used_language) do
+    language { generate(:language) }
+    script { generate(:script) }
+    notes { [build(:json_note_text)] }
+  end
+
   factory :json_file_version, class: JSONModel(:file_version) do
     file_uri { generate(:alphanumstr) }
     use_statement { generate(:use_statement) }
@@ -522,8 +822,9 @@ FactoryBot.define do
     number { generate(:alphanumstr) }
     sort_name { generate(:sort_name) }
     sort_name_auto_generate { true }
-    dates { generate(:alphanumstr) }
     qualifier { generate(:alphanumstr) }
+    use_dates { [build(:json_structured_date_label)] }
+    dates { generate(:alphanumstr) }
     authority_id { generate(:url) }
     source { generate(:name_source) }
   end
@@ -533,6 +834,7 @@ FactoryBot.define do
     family_name { generate(:generic_name) }
     sort_name { generate(:sort_name) }
     sort_name_auto_generate { true }
+    use_dates { [build(:json_structured_date_label)] }
     dates { generate(:alphanumstr) }
     qualifier { generate(:alphanumstr) }
     prefix { generate(:alphanumstr) }
@@ -548,14 +850,46 @@ FactoryBot.define do
     name_order { %w(direct inverted).sample }
     number { generate(:alphanumstr) }
     sort_name_auto_generate { true }
+    use_dates { [build(:json_structured_date_label)] }
     dates { generate(:alphanumstr) }
     qualifier { generate(:alphanumstr) }
+    fuller_form { generate(:alphanumstr) }
+    prefix { generate(:alphanumstr) }
+    title { generate(:alphanumstr) }
+    suffix { generate(:alphanumstr) }
+    rest_of_name { generate(:alphanumstr) }
+    authority_id { generate(:url) }
+  end
+
+  factory :json_name_person_no_date, class: JSONModel(:name_person) do
+    rules { generate(:name_rule) }
+    source { generate(:name_source) }
+    primary_name { generate(:generic_name) }
+    sort_name { generate(:sort_name) }
+    name_order { %w(direct inverted).sample }
+    number { generate(:alphanumstr) }
+    sort_name_auto_generate { true }
+    qualifier { generate(:alphanumstr) }
+    fuller_form { generate(:alphanumstr) }
+    prefix { generate(:alphanumstr) }
+    title { generate(:alphanumstr) }
+    suffix { generate(:alphanumstr) }
+    rest_of_name { generate(:alphanumstr) }
+    authority_id { generate(:url) }
+  end
+
+  factory :json_name_person_parallel, class: JSONModel(:parallel_name_person) do
+    primary_name { generate(:generic_name) }
+    name_order { %w(direct inverted).sample }
+    number { generate(:alphanumstr) }
+    qualifier { generate(:alphanumstr) }
+    use_dates { [build(:json_structured_date_label)] }
+    dates { generate(:alphanumstr) }
     fuller_form { generate(:alphanumstr) }
     prefix { [nil, generate(:alphanumstr)].sample }
     title { [nil, generate(:alphanumstr)].sample }
     suffix { [nil, generate(:alphanumstr)].sample }
     rest_of_name { [nil, generate(:alphanumstr)].sample }
-    authority_id { generate(:url) }
   end
 
   factory :json_name_software, class: JSONModel(:name_software) do
@@ -564,8 +898,9 @@ FactoryBot.define do
     software_name { generate(:generic_name) }
     sort_name { generate(:sort_name) }
     sort_name_auto_generate { true }
-    dates { generate(:alphanumstr) }
     qualifier { generate(:alphanumstr) }
+    use_dates { [build(:json_structured_date_label)] }
+    dates { generate(:alphanumstr) }
     authority_id { generate(:url) }
   end
 

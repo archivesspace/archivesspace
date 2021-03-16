@@ -16,5 +16,7 @@
 <% end %>
 
 <%= javascript_tag do %>
-  activate_slug_checkbox();
+  if(typeof(activate_slug_checkbox) === "function") {
+    activate_slug_checkbox();
+  }
 <% end %>

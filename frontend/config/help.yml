@@ -103,6 +103,15 @@ topics:
   agent_software_notes: '894533774/Agent+Record+Fields'
   agent_software_related_agents: '894664846/Related+Agents+-+Linking+Agent+Record+s+to+an+Agent+Record'
   agent_software_external_documents: '894435542/External+Document+Sub-Record+-+Agent+Records'
+  # Agent Shared
+  agent_sources: -1
+  agent_record_identifiers: -1
+  agent_maintenance_histories: -1
+  agent_other_agency_codes: -1
+  agent_conventions_declarations: -1
+  agent_alternate_sets: -1
+  agent_record_controls: -1
+
   # Location
   location: '889946202/Managing+Locations'
   # Event

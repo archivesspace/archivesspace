@@ -34,7 +34,7 @@
   </div>
 <% end %>
 
-
+<%# ANW-429: used in agents form before we switched to structured dates. remove after confirming this template isn't being used anywhere else. %>
 <% define_template "existence_date", jsonmodel_definition(:date) do |form| %>
   <div class="subrecord-form-fields">
     <div class="date-container">
@@ -46,7 +46,87 @@
   </div>
 <% end %>
 
+<%# ANW-429: structured_date_label template for existence_date, has date_label defined as a hidden tag field with value hardcoded as 'existence' %>
+<% define_template "structured_date_label_existence", jsonmodel_definition(:structured_date_label) do |form| %>
+  <div class="subrecord-form-fields">
+    <div class="structured-date-label-container">
+      <%= form.hidden_input "date_label", 'existence' %>
+      <% form.emit_template("structured_date_label_common_fields") %>
+    </div>
+  </div>
+<% end %>
 
+<%# ANW-429: structured_date_label template for name use date, has date_label defined as a hidden tag field with value hardcoded as 'usage' %>
+<% define_template "structured_date_label_usage", jsonmodel_definition(:structured_date_label) do |form| %>
+  <div class="subrecord-form-fields">
+    <div class="structured-date-label-container">
+      <%= form.hidden_input "date_label", 'usage' %>
+      <% form.emit_template("structured_date_label_common_fields") %>
+    </div>
+  </div>
+<% end %>
+
+<% define_template "structured_date_label_common_fields", jsonmodel_definition(:structured_date_label) do |form| %>
+  <%= form.label_and_select "date_type_structured", [""] + (form.possible_options_for("date_type_structured")) %>
+  <%= form.label_and_select("date_certainty", form.possible_options_for("date_certainty", true)) %>
+  <%= form.label_and_select("date_era", form.possible_options_for("date_era", true)) %>
+  <%= form.label_and_select("date_calendar", form.possible_options_for("date_calendar", true)) %>
+
+  <% ranged_dates = [form["structured_date_range"]].compact %>
+  <% single_dates = [form["structured_date_single"]].compact %>
+
+  <% if single_dates.length > 0 %>
+    <%= form.fields_for(single_dates.first, "structured_date_single") do |item| %>
+      <% form.emit_template("structured_date_single_fields", item) %>
+    <% end %>
+  <% elsif ranged_dates.length > 0 %>
+    <%= form.fields_for(ranged_dates.first, "structured_date_range") do |item| %>
+      <% form.emit_template("structured_date_range_fields", item) %>
+    <% end %>
+  <% else %>
+    <div class="sdl-subrecord-form"></div>
+  <% end %>
+<% end %>
+
+<% define_template "structured_date_single_fields", jsonmodel_definition(:structured_date_single) do |form| %>
+    <section class="subrecord-form sdl-subrecord-form">
+      <h4 class="subrecord-form-heading">
+        <%= I18n.t("agent._frontend.section.structured_date_single_fields") %>
+      </h4>
+      <div class="subrecord-form-fields subrecord-form-container">
+        <div class="structured-date-container">
+          <%= form.label_and_select "date_role", form.possible_options_for("date_role", false, required: true) %>
+          <%= form.label_and_textfield "date_expression",  {:field_opts => {:size => 30, :class => "form-control"} }%>
+          <%= form.label_and_date "date_standardized", {:field_opts => {} } %>
+          <%= form.label_and_select "date_standardized_type", form.possible_options_for("date_standardized_type", false) %>
+
+        </div>
+      </div>
+    </section>
+<% end %>
+
+<% define_template "structured_date_range_fields", jsonmodel_definition(:structured_date_range) do |form| %>
+
+  <section class="subrecord-form sdl-subrecord-form">
+    <h4 class="subrecord-form-heading">
+      <%= I18n.t("agent._frontend.section.structured_date_range_fields") %>
+    </h4>
+    <div class="subrecord-form-fields subrecord-form-container">
+      <div class="structured-date-container">
+        <%= form.label_and_textfield "begin_date_expression",  {:field_opts => {:size => 30, :class => "form-control"} }%>
+        <%= form.label_and_date "begin_date_standardized" %>
+        <%= form.label_and_select "begin_date_standardized_type", form.possible_options_for("begin_date_standardized_type", false) %>
+
+        <%= form.label_and_textfield "end_date_expression",  {:field_opts => {:size => 30, :class => "form-control"} }%>
+        <%= form.label_and_date "end_date_standardized" %>
+        <%= form.label_and_select "end_date_standardized_type", form.possible_options_for("end_date_standardized_type", false) %>
+
+      </div>
+    </div>
+  </section>
+<% end %>
+
+<%# ANW-429: used in agents form before we switched to structured dates. remove after confirming this template isn't being used anywhere else. %>
 <% define_template "usage_date", jsonmodel_definition(:date) do |form| %>
   <div class="subrecord-form-fields">
     <div class="date-container">

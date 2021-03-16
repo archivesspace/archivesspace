@@ -45,7 +45,8 @@ describe 'Events' do
     @driver.find_element(:id, 'event_linked_agents__0__role_').select_option('recipient')
 
     token_input = agent_subform.find_element(:id, 'token-input-event_linked_agents__0__ref_')
-    @driver.typeahead_and_select(token_input, 'test user_')
+
+    @driver.typeahead_and_select(token_input, 'test')
 
     @driver.find_element(:id, 'event_linked_records__0__role_').select_option('source')
 

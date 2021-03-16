@@ -18,7 +18,11 @@
       "import_type" => {
         "type" => "string",
         "ifmissing" => "error"
-      }
+      },
+
+      "import_events" => {
+        "type" => "string"
+      },
 
     }
   }

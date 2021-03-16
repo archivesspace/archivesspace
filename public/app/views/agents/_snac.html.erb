@@ -1,0 +1,15 @@
+<% identifiers = snac_identifiers(result.json['agent_record_identifiers']) %>
+<% if identifiers.any? %>
+  <h3><%= I18n.t('agent_record_identifier.snac') %></h3>
+  <ul>
+    <% identifiers.each do |id| %>
+      <li>
+        <% if uri?(id['record_identifier']) %>
+          <a href="<%= id['record_identifier'] %>" target="_blank" rel="noopener noreferrer"><%= id['record_identifier'] %></a>
+        <% else %>
+          <%= id['record_identifier'] %>
+        <% end %>
+      </li>
+    <% end %>
+  </ul>
+<% end %>
