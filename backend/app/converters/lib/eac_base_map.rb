@@ -1073,7 +1073,6 @@ module EACBaseMap
     {
       :obj => :"agent_#{type}",
       :rel => proc { |agent, rel_agent|
-        rel_agent.publish = true
         agent[:related_agents] << {
           :relator => rel_agent['_relator'],
           :jsonmodel_type => rel_agent['_jsonmodel_type'],
