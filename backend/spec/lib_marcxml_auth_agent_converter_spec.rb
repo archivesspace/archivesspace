@@ -317,7 +317,7 @@ describe 'MARCXML Auth Agent converter' do
       expect(agent_corp_records.last['related_agents'].first['description']).to eq('Founder:')
       # related agent is there
       expect(agent_person_records.first['names'][0]['primary_name']).to eq('Flexner')
-      expect(agent_person_records.first['names'][0]['rest_of_name']).to eq('Abraham,')
+      expect(agent_person_records.first['names'][0]['rest_of_name']).to eq('Abraham')
     end
 
     it 'imports agent_sources subrecords' do
