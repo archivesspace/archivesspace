@@ -181,9 +181,11 @@ ArchivesSpace::Application.routes.draw do
     match 'agents/:agent_type/:id/edit' => 'agents#edit', :via => [:get]
     match 'agents/:agent_type/:id/update' => 'agents#update', :via => [:post]
     match 'agents/:agent_type/:id/download_eac' => 'exports#download_eac', :via => [:get]
+    match 'agents/:agent_type/:id/download_marc_auth' => 'exports#download_marc_auth', :via => [:get]
     match 'agents/:agent_type/:id' => 'agents#show', :via => [:get]
     match 'agents' => 'agents#index', :via => [:get]
     match 'agents/:agent_type/:id/delete' => 'agents#delete', :via => [:post]
+    match 'agents/:agent_type/:id/publish' => 'agents#publish', :via => [:post]
     match 'agents/merge' => 'agents#merge', :via => [:post]
     match 'agents/:agent_type/:id/merge_selector' => 'agents#merge_selector', :via => [:post]
     match 'agents/:agent_type/:id/merge_detail' => 'agents#merge_detail', :via => [:post]
@@ -309,6 +311,7 @@ ArchivesSpace::Application.routes.draw do
 
     match "system_info" => "system_info#show", :via => [ :get ]
     match "system_info/log" => "system_info#stream_log", :via => [:get]
+    match "system_info/config" => "system_info#reload_config", :via => [:post]
 
     root :to => 'welcome#index'
 

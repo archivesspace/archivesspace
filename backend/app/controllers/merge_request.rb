@@ -1,4 +1,9 @@
 class ArchivesSpaceService < Sinatra::Base
+  require_relative '../lib/merge_helpers'
+
+  include MergeHelpers
+
+  RESOLVE_LIST = ["subjects", "related_resources", "linked_agents", "revision_statements", "container_locations", "digital_object", "classifications", "related_agents", "resource", "parent", "creator", "linked_instances", "linked_records", "related_accessions", "linked_events", "linked_events::linked_records", "linked_events::linked_agents", "top_container", "container_profile", "location_profile", "owner_repo", "agent_places", "agent_occupations", "agent_functions", "agent_topics", "agent_resources", "places"]
 
   Endpoint.post('/merge_requests/subject')
     .description("Carry out a merge request against Subject records")
@@ -107,7 +112,6 @@ curl -H 'Content-Type: application/json' \\
     TopContainer.get_or_die(target[:id]).assimilate(victims.map {|v| TopContainer.get_or_die(v[:id])})
 
     merged_response( target, victims )
-
   end
 
 
@@ -133,8 +137,35 @@ curl -H 'Content-Type: application/json' \\
     merged_response( target, victims )
   end
 
+  # Shell example for /merge_requests/agent_detail below illustrates an agent merge where:
+  # - Only the primary name field from the FIRST (position = 0) victim agent record replaces the primary name field in the target. After the merge, the rest of the victim name record is discarded
+  # - The entire FIRST (position = 0) agent_record_identifer record from the victim is added to the set of agent_record_identifier records in the target at the end (position = n + 1)
+  # - The entire SECOND (position = 1) agent_conventions_declaration from the victim replaces the FIRST (because it is at index = 0 in agent_conventions_declaration array in json below)agent_conventions_declaration record in the target
+  # - The entire FIRST (position = 0) agent_conventions_declaration from the victim replaces the SECOND (because it is at index = 1 in agent_conventions_declaration array in json below)agent_conventions_declaration record in the target
   Endpoint.post('/merge_requests/agent_detail')
   .description("Carry out a detailed merge request against Agent records")
+  .example('shell') do
+    <<~SHELL
+    curl -H 'Content-Type: application/json' \\
+        -H "X-ArchivesSpace-Session: $SESSION" \\
+        -d '{"dry_run":true, \\
+             "merge_request_detail":{ \\
+               "jsonmodel_type":"merge_request_detail", \\
+               "victims":[{"ref":"/agents/people/3"}], \\
+               "target":{"ref":"/agents/people/4"}, \\
+               "selections":{
+                 "names":[{"primary_name":"REPLACE", "position":"0"}], \\
+                 "agent_record_identifiers":[{"append":"APPEND", "position":"0"}], \\
+                 "agent_conventions_declarations":[
+                   {"append":"REPLACE", "position":"1"}, \\
+                   {"append":"REPLACE", "position":"0"} \\
+                  ],
+               } \\
+            } \\
+          } \\
+        "http://localhost:8089/merge_requests/agent_detail"
+    SHELL
+    end
   .params(["dry_run", BooleanParam, "If true, don't process the merge, just display the merged record", :optional => true],
           ["merge_request_detail",
              JSONModel(:merge_request_detail), "A detailed merge request",
@@ -144,6 +175,7 @@ curl -H 'Content-Type: application/json' \\
   do
     target, victims = parse_references(params[:merge_request_detail])
     selections = parse_selections(params[:merge_request_detail].selections)
+
     if (victims.map {|r| r[:type]} + [target[:type]]).any? {|type| !AgentManager.known_agent_type?(type)}
       raise BadParamsException.new(:merge_request_detail => ["Agent merge request can only merge agent records"])
     end
@@ -152,20 +184,34 @@ curl -H 'Content-Type: application/json' \\
     victim_obj = agent_model.get_or_die(victims[0][:id])
     target_json = agent_model.to_jsonmodel(target_obj)
     victim_json = agent_model.to_jsonmodel(victim_obj)
-    if params[:dry_run]
-      new_target = merge_details(target_json, victim_json, selections, true)
-      result = new_target
-    else
-      new_target = merge_details(target_json, victim_json, selections, false)
+    new_target = merge_details(target_json, victim_json, selections, params)
+    result = resolve_references(new_target, RESOLVE_LIST)
+
+    # if this is not a dry run, commit the merge.
+    # otherwise, we'll send the response without saving any results.
+    unless params[:dry_run]
       target_obj.assimilate((victims.map {|v|
                                        AgentManager.model_for(v[:type]).get_or_die(v[:id])
                                      }))
+
+      #update lock version which may have happened during call to #assimilate
+      target_json_updated = agent_model.to_jsonmodel(target_obj)
+      new_target['lock_version'] = target_json_updated['lock_version']
+
       if selections != {}
-        target_obj.update_from_json(new_target)
+        begin
+          target_obj.update_from_json(new_target)
+        rescue => e
+          STDERR.puts "EXCEPTION!"
+          STDERR.puts e.message
+          STDERR.puts e.backtrace
+        end
       end
     end
-    merged_response( target, victims, selections )
+
+    merged_response(target, victims, selections, result)
   end
+
 
   Endpoint.post('/merge_requests/resource')
     .description("Carry out a merge request against Resource records")
@@ -204,169 +250,5 @@ curl -H 'Content-Type: application/json' \\
     DigitalObject.get_or_die(target[:id]).assimilate(victims.map {|v| DigitalObject.get_or_die(v[:id])})
 
     merged_response( target, victims )
-  end
-
-
-  private
-
-  def parse_references(request)
-    target = JSONModel.parse_reference(request.target['ref'])
-    victims = request.victims.map {|victim| JSONModel.parse_reference(victim['ref'])}
-
-    [target, victims]
-  end
-
-  def check_repository(target, victims, repo_id)
-    repo_uri = JSONModel(:repository).uri_for(repo_id)
-
-    if ([target] + victims).any? {|r| r[:repository] != repo_uri}
-      raise BadParamsException.new(:merge_request => ["All records to merge must be in the repository specified"])
-    end
-  end
-
-
-  def ensure_type(target, victims, type)
-    if (victims.map {|r| r[:type]} + [target[:type]]).any? {|t| t != type}
-      raise BadParamsException.new(:merge_request => ["This merge request can only merge #{type} records"])
-    end
-  end
-
-  def parse_selections(selections, path=[], all_values={})
-    selections.each_pair do |k, v|
-      path << k
-      case v
-        when String
-          if v === "REPLACE"
-            all_values.merge!({"#{path.join(".")}" => "#{v}"})
-            path.pop
-          else
-            path.pop
-            next
-          end
-        when Hash then parse_selections(v, path, all_values)
-        when Array then v.each_with_index do |v2, index|
-          path << index
-          parse_selections(v2, path, all_values)
-        end
-        path.pop
-        else
-          path.pop
-          next
-      end
-    end
-    path.pop
-    return all_values
-  end
-  def merge_details(target, victim, selections, dry_run)
-    target[:linked_events] = []
-    victim[:linked_events] = []
-    selections.each_key do |key|
-      path = key.split(".")
-      path_fix = []
-      path.each do |part|
-        if part.length === 1
-          part = part.to_i
-        elsif (part.length === 2) and (part.start_with?('1'))
-          part = part.to_i
-        end
-        path_fix.push(part)
-      end
-      path_fix_length = path_fix.length
-      if path_fix[0] != 'related_agents' && path_fix[0] != 'external_documents' && path_fix[0] != 'notes'
-        case path_fix_length
-          when 1
-            target[path_fix[0]] = victim[path_fix[0]]
-          when 2
-            target[path_fix[0]][path_fix[1]] = victim[path_fix[0]][path_fix[1]]
-          when 3
-            begin
-              if target[path_fix[0]].length <= path_fix[1]
-                target[path_fix[0]].push(victim[path_fix[0]][path_fix[1]])
-              end
-              target[path_fix[0]][path_fix[1]][path_fix[2]] = victim[path_fix[0]][path_fix[1]][path_fix[2]]
-            rescue
-              if target[path_fix[0]] === []
-                target[path_fix[0]].push(victim[path_fix[0]][path_fix[1]])
-              end
-            end
-          when 4
-            target[path_fix[0]][path_fix[1]][path_fix[2]][path_fix[3]] = victim[path_fix[0]][path_fix[1]][path_fix[2]][path_fix[3]]
-          when 5
-            begin
-              target[path_fix[0]][path_fix[1]][path_fix[2]][path_fix[3]][path_fix[4]] = victim[path_fix[0]][path_fix[1]][path_fix[2]][path_fix[3]][path_fix[4]]
-            rescue
-              if target[path_fix[0]] === []
-                target[path_fix[0]].push(victim[path_fix[0]][path_fix[1]])
-              elsif target[path_fix[0]][path_fix[1]][path_fix[2]] === []
-                target[path_fix[0]][path_fix[1]][path_fix[2]].push(victim[path_fix[0]][path_fix[1]][path_fix[2]][path_fix[3]])
-              end
-            end
-        end
-      elsif path_fix[0] === 'external_documents'
-        target['external_documents'].push(victim['external_documents'][path_fix[1]])
-      elsif path_fix[0] === 'notes'
-        target['notes'].push(victim['notes'][path_fix[1]])
-      end
-      target['title'] = target['names'][0]['sort_name']
-    end
-    if dry_run == true
-      target['title'] = preview_sort_name(target['names'][0])
-      target['names'][0]['sort_name'] = target['title']
-      target['related_agents'] = (target['related_agents'] + victim['related_agents']).uniq
-    end
-    target
-  end
-
-  # NOTE: this code is a duplicate of the auto_generate code for creating sort name
-  # in the name_person, name_family, name_software, name_corporate_entity models
-  # Consider refactoring when continued work done on the agents model enhancements
-  def preview_sort_name(target)
-    result = ""
-
-    case target['jsonmodel_type']
-    when 'name_person'
-      if target["name_order"] === "inverted"
-        result << target["primary_name"] if target["primary_name"]
-        result << ", #{target["rest_of_name"]}" if target["rest_of_name"]
-      elsif target["name_order"] === "direct"
-        result << target["rest_of_name"] if target["rest_of_name"]
-        result << " #{target["primary_name"]}" if target["primary_name"]
-      else
-        result << target["primary_name"] if target["primary_name"]
-      end
-
-      result << ", #{target["prefix"]}" if target["prefix"]
-      result << ", #{target["suffix"]}" if target["suffix"]
-      result << ", #{target["title"]}" if target["title"]
-      result << ", #{target["number"]}" if target["number"]
-      result << " (#{target["fuller_form"]})" if target["fuller_form"]
-      result << ", #{target["dates"]}" if target["dates"]
-    when 'name_corporate_entity'
-      result << "#{target["primary_name"]}" if target["primary_name"]
-      result << ". #{target["subordinate_name_1"]}" if target["subordinate_name_1"]
-      result << ". #{target["subordinate_name_2"]}" if target["subordinate_name_2"]
-
-      grouped = [target["number"], target["dates"]].reject{|v| v.nil?}
-      result << " (#{grouped.join(" : ")})" if not grouped.empty?
-    when 'name_family'
-      result << target["family_name"] if target["family_name"]
-      result << ", #{target["prefix"]}" if target["prefix"]
-      result << ", #{target["dates"]}" if target["dates"]
-    when 'name_software'
-      result << "#{target["manufacturer"]} " if target["manufacturer"]
-      result << "#{target["software_name"]}" if target["software_name"]
-      result << " #{target["version"]}" if target["version"]
-    end
-
-    result << " (#{target["qualifier"]})" if target["qualifier"]
-
-    result.lstrip!
-
-    if result.length > 255
-      return result[0..254]
-    else
-      return result
-    end
-
   end
 end

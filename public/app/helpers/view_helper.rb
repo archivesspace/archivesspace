@@ -1,4 +1,11 @@
 module ViewHelper
+  def show_agents_sidebar?(agent)
+    agent.json['names'].length > 1 ||
+      (agent.respond_to?(:related_agents) && ASUtils.wrap(agent.related_agents).any?) ||
+      (agent.respond_to?(:external_documents) && ASUtils.wrap(agent.external_documents).any?) ||
+      (agent.json['agent_resources'] && ASUtils.wrap(agent.json['agent_resources']).any?)
+  end
+
   def inherited?(item)
     (item.key?('_inherited') && item['_inherited']) || (item.key?('is_inherited') && item['is_inherited'])
   end
@@ -11,6 +18,44 @@ module ViewHelper
     return nil if record.identifier.blank? || (infinite_item && record.json.key?('component_id_inherited'))
 
     record.identifier
+  end
+
+  def snac_identifiers(identifiers)
+    identifiers.select { |id| id['source'] == 'snac' }
+  end
+
+  def find_dates_for(result)
+    dates = result.json.fetch('dates_of_existence', [])
+    dates + result.json['names'].map{|names| names['use_dates']}.flatten
+  end
+
+  def display_date_type?(type)
+    type && type != 'standard'
+  end
+
+  def display_date_type(type, value)
+    "(" + I18n.t("enumerations.#{type}.#{value}") + ")"
+  end
+
+  def nl2ws(text)
+    text = text.join(' ') if text.respond_to? :each
+    sanitize(text).gsub(/\n/, ' ').html_safe
+  end
+
+  def uri?(uri_candidate)
+    uri_candidate =~ /^#{URI::DEFAULT_PARSER.make_regexp}$/
+  end
+
+  def display_used_language(language)
+    lang = ''
+    lang.concat("<b>#{I18n.t('language_and_script.language')}:</b> ") if language['language'] && language['script']
+    lang.concat("#{I18n.t("enumerations.language_iso639_2.#{language['language']}")}") if language['language']
+    return sanitize(lang) unless language['script']
+
+    lang.concat('. ') if language['language'] # separator
+    lang.concat("<b>#{I18n.t('language_and_script.script')}:</b> ")
+    lang.concat(I18n.t("enumerations.script_iso15924.#{language['script']}"))
+    sanitize(lang)
   end
 
   #TODO: figure out a clever way to DRY these helpers up.

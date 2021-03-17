@@ -112,6 +112,8 @@
 
       "conservation_note" => {"type" => "string"},
 
+      "external_documents" => {"type" => "array", "items" => {"type" => "JSONModel(:external_document) object"}},
+
       "collections" => {
         "readonly" => "true",
         "type" => "array",

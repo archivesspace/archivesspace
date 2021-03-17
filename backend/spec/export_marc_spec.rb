@@ -5,17 +5,20 @@ require_relative 'export_spec_helper'
 describe 'MARC Export' do
 
   before(:all) do
-    $old_repo_id = $repo_id
-    @repo = create(:json_repository)
-    $repo_id = @repo.id
+    as_test_user('admin') do
+      $old_repo_id = $repo_id
+      @repo = create(:json_repository)
+      $repo_id = @repo.id
 
-    JSONModel.set_repository($repo_id)
+      JSONModel.set_repository($repo_id)
+    end
   end
 
-
   after(:all) do
-    $repo_id = $old_repo_id
-    JSONModel.set_repository($repo_id)
+    as_test_user('admin') do
+      $repo_id = $old_repo_id
+      JSONModel.set_repository($repo_id)
+    end
   end
 
 
@@ -61,8 +64,17 @@ describe 'MARC Export' do
 
  describe "root node content" do
     before(:each) do
-      @marc = get_marc(create(:json_resource))
-      @xml = @marc.to_xml
+      as_test_user('admin') do
+        @marc = get_marc(create(:json_resource))
+        @xml = @marc.to_xml
+      end
+    end
+
+    after(:all) do
+      as_test_user('admin') do
+        $repo_id = $old_repo_id
+        JSONModel.set_repository($repo_id)
+      end
     end
 
     it "root node should have xmlns:xsi defined" do
@@ -76,8 +88,17 @@ describe 'MARC Export' do
 
 describe "datafield element order" do
   before(:each) do
-    @marc = get_marc(create(:json_resource))
-    @xml = @marc.to_xml
+    as_test_user('admin') do
+      @marc = get_marc(create(:json_resource))
+      @xml = @marc.to_xml
+    end
+  end
+
+  after(:all) do
+    as_test_user('admin') do
+      $repo_id = $old_repo_id
+      JSONModel.set_repository($repo_id)
+    end
   end
 
   it "should generate XML with the datafield tags in numerical order" do
@@ -95,8 +116,17 @@ end
 
  describe "040 cataloging source field" do
    before(:each) do
-     @marc = get_marc(create(:json_resource))
-     @xml = @marc.to_xml
+     as_test_user('admin') do
+       @marc = get_marc(create(:json_resource))
+       @xml = @marc.to_xml
+     end
+   end
+
+   after(:all) do
+     as_test_user('admin') do
+       $repo_id = $old_repo_id
+       JSONModel.set_repository($repo_id)
+     end
    end
 
    it "MARC record should only have one 040 element in the document" do
@@ -108,19 +138,28 @@ end
   describe "datafield 110 name mapping" do
 
     before(:each) do
-      @name = build(:json_name_corporate_entity)
-      agent = create(:json_agent_corporate_entity,
-                    :names => [@name])
-      @resource = create(:json_resource,
-                         :linked_agents => [
-                                            {
-                                              'role' => 'creator',
-                                              'ref' => agent.uri
-                                            }
-                                           ]
-                         )
+      as_test_user('admin') do
+        @name = build(:json_name_corporate_entity)
+        agent = create(:json_agent_corporate_entity,
+                      :names => [@name])
+        @resource = create(:json_resource,
+                           :linked_agents => [
+                                              {
+                                                'role' => 'creator',
+                                                'ref' => agent.uri
+                                              }
+                                             ]
+                           )
 
-      @marc = get_marc(@resource)
+        @marc = get_marc(@resource)
+      end
+    end
+
+    after(:all) do
+      as_test_user('admin') do
+        $repo_id = $old_repo_id
+        JSONModel.set_repository($repo_id)
+      end
     end
 
     it "maps primary_name to subfield 'a'" do
@@ -131,24 +170,34 @@ end
 
   describe "datafield 245 mapping" do
     before(:each) do
+      as_test_user('admin') do
 
-      @dates = ['inclusive', 'bulk'].map {|type|
-        range = [nil, nil].map { generate(:yyyy_mm_dd) }.sort
-        build(:json_date,
-              :date_type => type,
-              :begin => range[0],
-              :end => range[1],
-              :expression => [true, false].sample ? generate(:string) : nil
-              )
-      }
+        @dates = ['inclusive', 'bulk'].map {|type|
+          range = [nil, nil].map { generate(:yyyy_mm_dd) }.sort
+          build(:json_date,
+                :date_type => type,
+                :begin => range[0],
+                :end => range[1],
+                :expression => [true, false].sample ? generate(:string) : nil
+                )
+        }
 
-      2.times { @dates << build(:json_date) }
+        2.times { @dates << build(:json_date) }
 
 
-      @resource = create(:json_resource,
-                         :dates => @dates)
+        @resource = create(:json_resource,
+                           :dates => @dates)
 
-      @marc = get_marc(@resource)
+        @marc = get_marc(@resource)
+
+      end
+    end
+
+    after(:all) do
+      as_test_user('admin') do
+        $repo_id = $old_repo_id
+        JSONModel.set_repository($repo_id)
+      end
     end
 
     it "maps the first inclusive date to subfield 'f'" do
@@ -190,46 +239,55 @@ end
 
   describe "datafield 245 mapping dates" do
     before(:each) do
+      as_test_user('admin') do
 
-      @range = [nil, nil].map { generate(:yyyy_mm_dd) }.sort
+        @range = [nil, nil].map { generate(:yyyy_mm_dd) }.sort
 
-      @inclusive_single = build(:json_date,
-                                :date_type => 'inclusive',
-                                :begin => @range[0],
-                                :end => nil,
-                                :expression => nil)
+        @inclusive_single = build(:json_date,
+                                  :date_type => 'inclusive',
+                                  :begin => @range[0],
+                                  :end => nil,
+                                  :expression => nil)
 
-      @bulk_single = build(:json_date,
-                           :date_type => 'bulk',
-                           :begin => @range[0],
-                           :end => nil,
-                           :expression => nil)
+        @bulk_single = build(:json_date,
+                             :date_type => 'bulk',
+                             :begin => @range[0],
+                             :end => nil,
+                             :expression => nil)
 
-      @inclusive_range = build(:json_date,
-                               :date_type => 'inclusive',
-                               :begin => @range[0],
-                               :end => @range[1],
-                               :expression => nil)
+        @inclusive_range = build(:json_date,
+                                 :date_type => 'inclusive',
+                                 :begin => @range[0],
+                                 :end => @range[1],
+                                 :expression => nil)
 
 
-      @bulk_range = build(:json_date,
-                          :date_type => 'bulk',
-                          :begin => @range[0],
-                          :end => @range[1],
-                          :expression => nil)
+        @bulk_range = build(:json_date,
+                            :date_type => 'bulk',
+                            :begin => @range[0],
+                            :end => @range[1],
+                            :expression => nil)
 
-      @inclusive_expression = build(:json_date,
-                                    :date_type => 'inclusive',
-                                    :begin => @range[0],
-                                    :end => @range[1],
-                                    :expression => "1981ish")
+        @inclusive_expression = build(:json_date,
+                                      :date_type => 'inclusive',
+                                      :begin => @range[0],
+                                      :end => @range[1],
+                                      :expression => "1981ish")
 
-      @bulk_expression = build(:json_date,
-                               :date_type => 'bulk',
-                               :begin => @range[0],
-                               :end => @range[1],
-                               :expression => "1991ish")
+        @bulk_expression = build(:json_date,
+                                 :date_type => 'bulk',
+                                 :begin => @range[0],
+                                 :end => @range[1],
+                                 :expression => "1991ish")
 
+      end
+    end
+
+    after(:all) do
+      as_test_user('admin') do
+        $repo_id = $old_repo_id
+        JSONModel.set_repository($repo_id)
+      end
     end
 
     it "should use expression in bulk and inclusive dates if provided" do
@@ -266,19 +324,29 @@ end
 
   describe "datafield 3xx mapping" do
     before(:each) do
+      as_test_user('admin') do
 
-      @notes = %w(arrangement fileplan).map { |type|
-        build(:json_note_multipart,
-              :type => type,
-              :publish => true)
-      }
+        @notes = %w(arrangement fileplan).map { |type|
+          build(:json_note_multipart,
+                :type => type,
+                :publish => true)
+        }
 
-      @extents = (0..5).to_a.map{ build(:json_extent) }
-      @resource = create(:json_resource,
-                         :extents => @extents,
-                         :notes => @notes)
+        @extents = (0..5).to_a.map{ build(:json_extent) }
+        @resource = create(:json_resource,
+                           :extents => @extents,
+                           :notes => @notes)
 
-      @marc = get_marc(@resource)
+        @marc = get_marc(@resource)
+
+      end
+    end
+
+    after(:all) do
+      as_test_user('admin') do
+        $repo_id = $old_repo_id
+        JSONModel.set_repository($repo_id)
+      end
     end
 
     it "creates a 300 field for each extent" do
@@ -312,30 +380,34 @@ end
 
   describe "datafield 65x mapping" do
     before(:all) do
+      as_test_user('admin') do
 
-      @subjects = []
-      30.times {
-        subject = create(:json_subject)
-        # only count subjects that map to 65x fields
-        @subjects << subject unless ['uniform_title', 'temporal'].include?(subject.terms[0]['term_type'])
-      }
-     linked_subjects = @subjects.map {|s| {:ref => s.uri} }
+        @subjects = []
+        30.times {
+          subject = create(:json_subject)
+          # only count subjects that map to 65x fields
+          @subjects << subject unless ['uniform_title', 'temporal'].include?(subject.terms[0]['term_type'])
+        }
+       linked_subjects = @subjects.map {|s| {:ref => s.uri} }
 
 
 
 
-      @extents = [ build(:json_extent)]
-      @resource = create(:json_resource,
-                         :extents => @extents,
-                         :subjects => linked_subjects)
+        @extents = [ build(:json_extent)]
+        @resource = create(:json_resource,
+                           :extents => @extents,
+                           :subjects => linked_subjects)
 
-      @marc = get_marc(@resource)
+        @marc = get_marc(@resource)
 
+      end
     end
 
     after(:all) do
-      @subjects.each {|s| s.delete }
-      @resource.delete
+      as_test_user('admin') do
+        @subjects.each {|s| s.delete }
+        @resource.delete
+      end
     end
 
     it "creates a 65x field for each subject" do
@@ -353,26 +425,36 @@ end
 
   describe "strips mixed content" do
     before(:each) do
+      as_test_user('admin') do
 
-      @dates = ['inclusive', 'bulk'].map {|type|
-        range = [nil, nil].map { generate(:yyyy_mm_dd) }.sort
-        build(:json_date,
-              :date_type => type,
-              :begin => range[0],
-              :end => range[1],
-              :expression => [true, false].sample ? generate(:string) : nil
-              )
-      }
+        @dates = ['inclusive', 'bulk'].map {|type|
+          range = [nil, nil].map { generate(:yyyy_mm_dd) }.sort
+          build(:json_date,
+                :date_type => type,
+                :begin => range[0],
+                :end => range[1],
+                :expression => [true, false].sample ? generate(:string) : nil
+                )
+        }
 
-      2.times { @dates << build(:json_date) }
+        2.times { @dates << build(:json_date) }
 
 
-      @resource = create(:json_resource,
-                         :dates => @dates,
-                         :id_0 => "999",
-                         :title => "Foo <emph render='bold'>BAR</emph> Jones")
+        @resource = create(:json_resource,
+                           :dates => @dates,
+                           :id_0 => "999",
+                           :title => "Foo <emph render='bold'>BAR</emph> Jones")
 
-      @marc = get_marc(@resource)
+        @marc = get_marc(@resource)
+
+      end
+    end
+
+    after(:all) do
+      as_test_user('admin') do
+        $repo_id = $old_repo_id
+        JSONModel.set_repository($repo_id)
+      end
     end
 
     it "should strip out the mixed content in title" do
@@ -383,25 +465,29 @@ end
 
   describe "record leader mappings - country not defined in repo" do
     before(:all) do
-      @repo_nc = create(:json_repository_without_country)
+      as_test_user('admin') do
+        @repo_nc = create(:json_repository_without_country)
 
-      $another_repo_id = $repo_id
-      $repo_id = @repo_nc.id
+        $another_repo_id = $repo_id
+        $repo_id = @repo_nc.id
 
-      JSONModel.set_repository($repo_id)
+        JSONModel.set_repository($repo_id)
 
-      @resource1 = create(:json_resource,
-                          :level => 'collection',
-                          :finding_aid_description_rules => 'dacs')
+        @resource1 = create(:json_resource,
+                            :level => 'collection',
+                            :finding_aid_description_rules => 'dacs')
 
-      @marc1 = get_marc(@resource1)
+        @marc1 = get_marc(@resource1)
+      end
     end
 
     after(:all) do
-      @resource1.delete
-      $repo_id = $another_repo_id
+      as_test_user('admin') do
+        @resource1.delete
+        $repo_id = $another_repo_id
 
-      JSONModel.set_repository($repo_id)
+        JSONModel.set_repository($repo_id)
+      end
     end
 
     it "sets record/controlfield[@tag='008']/text()[15..16] (country code) with xx" do
@@ -411,25 +497,29 @@ end
 
   describe "record leader mappings - US is country defined" do
     before(:all) do
-      @repo_us = create(:json_repository_us)
+      as_test_user('admin') do
+        @repo_us = create(:json_repository_us)
 
-      $another_repo_id = $repo_id
-      $repo_id = @repo_us.id
+        $another_repo_id = $repo_id
+        $repo_id = @repo_us.id
 
-      JSONModel.set_repository($repo_id)
+        JSONModel.set_repository($repo_id)
 
-      @resource1 = create(:json_resource,
-                          :level => 'collection',
-                          :finding_aid_description_rules => 'dacs')
+        @resource1 = create(:json_resource,
+                            :level => 'collection',
+                            :finding_aid_description_rules => 'dacs')
 
-      @marc1 = get_marc(@resource1)
+        @marc1 = get_marc(@resource1)
+      end
     end
 
     after(:all) do
-      @resource1.delete
-      $repo_id = $another_repo_id
+      as_test_user('admin') do
+        @resource1.delete
+        $repo_id = $another_repo_id
 
-      JSONModel.set_repository($repo_id)
+        JSONModel.set_repository($repo_id)
+      end
     end
 
     it "sets record/controlfield[@tag='008']/text()[15..16] (country code) with xxu for US special case" do
@@ -439,25 +529,29 @@ end
 
   describe "record leader mappings - country defined - NOT US" do
     before(:all) do
-      @repo_not_us = create(:json_repository_not_us)
+      as_test_user('admin') do
+        @repo_not_us = create(:json_repository_not_us)
 
-      $another_repo_id = $repo_id
-      $repo_id = @repo_not_us.id
+        $another_repo_id = $repo_id
+        $repo_id = @repo_not_us.id
 
-      JSONModel.set_repository($repo_id)
+        JSONModel.set_repository($repo_id)
 
-      @resource1 = create(:json_resource,
-                          :level => 'collection',
-                          :finding_aid_description_rules => 'dacs')
+        @resource1 = create(:json_resource,
+                            :level => 'collection',
+                            :finding_aid_description_rules => 'dacs')
 
-      @marc1 = get_marc(@resource1)
+        @marc1 = get_marc(@resource1)
+      end
     end
 
     after(:all) do
-      @resource1.delete
-      $repo_id = $another_repo_id
+      as_test_user('admin') do
+        @resource1.delete
+        $repo_id = $another_repo_id
 
-      JSONModel.set_repository($repo_id)
+        JSONModel.set_repository($repo_id)
+      end
     end
 
     it "sets record/controlfield[@tag='008']/text()[15..16] (country code) with xxu for US special case" do
@@ -467,28 +561,32 @@ end
 
   describe "record leader mappings - parent_org_defined" do
     before(:all) do
-      @repo_parent = create(:json_repository_parent_org)
+      as_test_user('admin') do
+        @repo_parent = create(:json_repository_parent_org)
 
-      @parent_institution_name = @repo_parent.parent_institution_name
-      @name = @repo_parent.name
+        @parent_institution_name = @repo_parent.parent_institution_name
+        @name = @repo_parent.name
 
-      $another_repo_id = $repo_id
-      $repo_id = @repo_parent.id
+        $another_repo_id = $repo_id
+        $repo_id = @repo_parent.id
 
-      JSONModel.set_repository($repo_id)
+        JSONModel.set_repository($repo_id)
 
-      @resource1 = create(:json_resource,
-                          :level => 'collection',
-                          :finding_aid_description_rules => 'dacs')
+        @resource1 = create(:json_resource,
+                            :level => 'collection',
+                            :finding_aid_description_rules => 'dacs')
 
-      @marc1 = get_marc(@resource1)
+        @marc1 = get_marc(@resource1)
+      end
     end
 
     after(:all) do
-      @resource1.delete
-      $repo_id = $another_repo_id
+      as_test_user('admin') do
+        @resource1.delete
+        $repo_id = $another_repo_id
 
-      JSONModel.set_repository($repo_id)
+        JSONModel.set_repository($repo_id)
+      end
     end
 
     it "df 852: if parent name defined, $a gets parent org, $b gets repo name" do
@@ -500,27 +598,31 @@ end
 
   describe "record leader mappings - NO org_code defined" do
     before(:all) do
-      @repo_no_org_code = create(:json_repository_no_org_code)
+      as_test_user('admin') do
+        @repo_no_org_code = create(:json_repository_no_org_code)
 
-      @name = @repo_no_org_code.name
+        @name = @repo_no_org_code.name
 
-      $another_repo_id = $repo_id
-      $repo_id = @repo_no_org_code.id
+        $another_repo_id = $repo_id
+        $repo_id = @repo_no_org_code.id
 
-      JSONModel.set_repository($repo_id)
+        JSONModel.set_repository($repo_id)
 
-      @resource1 = create(:json_resource,
-                          :level => 'collection',
-                          :finding_aid_description_rules => 'dacs')
+        @resource1 = create(:json_resource,
+                            :level => 'collection',
+                            :finding_aid_description_rules => 'dacs')
 
-      @marc1 = get_marc(@resource1)
+        @marc1 = get_marc(@resource1)
+      end
     end
 
     after(:all) do
-      @resource1.delete
-      $repo_id = $another_repo_id
+      as_test_user('admin') do
+        @resource1.delete
+        $repo_id = $another_repo_id
 
-      JSONModel.set_repository($repo_id)
+        JSONModel.set_repository($repo_id)
+      end
     end
 
     it "df 852: if parent org and repo_code UNdefined, $a repo name" do
@@ -531,54 +633,56 @@ end
 
   describe "record leader mappings" do
     before(:all) do
-      @resource1 = create(:json_resource,
-                          :level => 'collection',
-                          :finding_aid_description_rules => 'dacs')
-      @resource2 = create(:json_resource,
-                          :level => 'item',
-                          :dates => [
-                                     build(:json_date,
-                                           :date_type => 'single',
-                                           :begin => '1900')
-                                    ]
-                          )
-      @resource3 = create(:json_resource,
-                          :level => 'item',
-                          :dates => [
-                                     build(:json_date,
-                                           :date_type => 'bulk',
-                                           :begin => '1800',
-                                           :end => '1850')
-                                    ]
-                          )
-      @resource4 = create(:json_resource,
-                          :level => 'item',
-                          :dates => [
-                                     build(:json_date,
-                                           :date_type => 'bulk',
-                                           :begin => '1800',
-                                           :end => '1850')
-                                    ],
-                          :lang_materials => [
-                                         build(:json_lang_material),
-                                         build(:json_lang_material),
-                                         build(:json_lang_material_with_note)
-                                        ]
-                          )
+      as_test_user('admin') do
+        @resource1 = create(:json_resource,
+                            :level => 'collection',
+                            :finding_aid_description_rules => 'dacs')
+        @resource2 = create(:json_resource,
+                            :level => 'item',
+                            :dates => [
+                                       build(:json_date,
+                                             :date_type => 'single',
+                                             :begin => '1900')
+                                      ]
+                            )
+        @resource3 = create(:json_resource,
+                            :level => 'item',
+                            :dates => [
+                                       build(:json_date,
+                                             :date_type => 'bulk',
+                                             :begin => '1800',
+                                             :end => '1850')
+                                      ]
+                            )
+        @resource4 = create(:json_resource,
+                            :level => 'item',
+                            :dates => [
+                                       build(:json_date,
+                                             :date_type => 'bulk',
+                                             :begin => '1800',
+                                             :end => '1850')
+                                      ],
+                            :lang_materials => [
+                                           build(:json_lang_material),
+                                           build(:json_lang_material),
+                                           build(:json_lang_material_with_note)
+                                          ]
+                            )
 
-      @marc1 = get_marc(@resource1)
-      @marc2 = get_marc(@resource2)
-      @marc3 = get_marc(@resource3)
-      @marc4 = get_marc(@resource4)
-
+        @marc1 = get_marc(@resource1)
+        @marc2 = get_marc(@resource2)
+        @marc3 = get_marc(@resource3)
+        @marc4 = get_marc(@resource4)
+      end
     end
 
-
     after(:all) do
-      @resource1.delete
-      @resource2.delete
-      @resource3.delete
-      @resource4.delete
+      as_test_user('admin') do
+        @resource1.delete
+        @resource2.delete
+        @resource3.delete
+        @resource4.delete
+      end
     end
 
     it "provides default values for record/leader: 00000np$ a2200000 u 4500" do
@@ -675,37 +779,40 @@ end
 
   describe "agents: include unpublished flag" do
     before(:all) do
-      @agents = []
-      [
-        [:json_agent_person,
-          :names => [build(:json_name_person,
-                           :prefix => "MR"),
-          :publish => false]
-        ],
-        [:json_agent_corporate_entity,  {:publish => false} ],
-        [:json_agent_family, {:publish => false} ],
-      ].each do |type_and_opts|
-        @agents << create(type_and_opts[0], type_and_opts[1])
+      as_test_user('admin') do
+        @agents = []
+        [
+          [:json_agent_person,
+            :names => [build(:json_name_person,
+                             :prefix => "MR"),
+            :publish => false]
+          ],
+          [:json_agent_corporate_entity,  {:publish => false} ],
+          [:json_agent_family, {:publish => false} ],
+        ].each do |type_and_opts|
+          @agents << create(type_and_opts[0], type_and_opts[1])
+        end
+
+        @resource = create(:json_resource,
+                               :linked_agents => @agents.map.each_with_index {|a, j|
+                                {
+                                  :ref => a.uri,
+                                  :role => (j == 0) ? 'creator' : 'subject',
+                                  :terms => [build(:json_term), build(:json_term)],
+                                  :relator => generate(:relator)
+                                }}
+          )
+
+        @marc_unpub_incl   = get_marc(@resource, true)
+        @marc_unpub_unincl = get_marc(@resource, false)
       end
-
-      @resource = create(:json_resource,
-                             :linked_agents => @agents.map.each_with_index {|a, j|
-                              {
-                                :ref => a.uri,
-                                :role => (j == 0) ? 'creator' : 'subject',
-                                :terms => [build(:json_term), build(:json_term)],
-                                :relator => generate(:relator)
-                              }}
-        )
-
-      @marc_unpub_incl   = get_marc(@resource, true)
-      @marc_unpub_unincl = get_marc(@resource, false)
     end
 
-
     after(:all) do
-      @resource.delete
-      @agents.each {|a| a.delete}
+      as_test_user('admin') do
+        @resource.delete
+        @agents.each {|a| a.delete}
+      end
     end
 
     it "should not create elements for unpublished agents if include_unpublished is false" do
@@ -724,59 +831,61 @@ end
 
   describe 'linked agent mappings' do
     before(:all) do
-      @agents = []
-      [
-        [:json_agent_person,
-          :names => [build(:json_name_person,
-                           :prefix => "MR")]
-        ],
-        [:json_agent_corporate_entity,  {}],
-        [:json_agent_family, {}],
-        [:json_agent_person,
-          :names => [build(:json_name_person,
-                           :prefix => "MS")]
-        ],
-        [:json_agent_person,
-          :names => [build(:json_name_person,
-                           :prefix => "QR")]
-        ],
-        [:json_agent_person,
-          :names => [build(:json_name_person,
-                           :prefix => "FZ")]
-        ],
-        [:json_agent_family, {}],
-        [:json_agent_person,
-          :names => [build(:json_name_person,
-                           :prefix => "QM",
-                           :authority_id => nil)]
-        ]
-      ].each do |type_and_opts|
-        @agents << create(type_and_opts[0], type_and_opts[1])
+      as_test_user('admin') do
+        @agents = []
+        [
+          [:json_agent_person,
+            :names => [build(:json_name_person,
+                             :prefix => "MR")]
+          ],
+          [:json_agent_corporate_entity,  {}],
+          [:json_agent_family, {}],
+          [:json_agent_person,
+            :names => [build(:json_name_person,
+                             :prefix => "MS")]
+          ],
+          [:json_agent_person,
+            :names => [build(:json_name_person,
+                             :prefix => "QR")]
+          ],
+          [:json_agent_person,
+            :names => [build(:json_name_person,
+                             :prefix => "FZ")]
+          ],
+          [:json_agent_family, {}],
+          [:json_agent_person,
+            :names => [build(:json_name_person,
+                             :prefix => "QM",
+                             :authority_id => nil)]
+          ]
+        ].each do |type_and_opts|
+          @agents << create(type_and_opts[0], type_and_opts[1])
+        end
+
+        # r0 created by a person and a person
+        # r1 created by a corp and a person
+        # r2 created by a family and a person
+        @resources = [0,1,2].map {|i|
+          create(:json_resource,
+                 :linked_agents => @agents.map.each_with_index {|a, j|
+                   {
+                     :ref => a.uri,
+                     :role => (j == i || j > 2) ? 'creator' : 'subject',
+                     :terms => [build(:json_term), build(:json_term)],
+                     :relator => generate(:relator)
+                   }
+                 })
+          }
+
+
+        @marcs = @resources.map {|r| get_marc(r)}
       end
-
-      # r0 created by a person and a person
-      # r1 created by a corp and a person
-      # r2 created by a family and a person
-      @resources = [0,1,2].map {|i|
-        create(:json_resource,
-               :linked_agents => @agents.map.each_with_index {|a, j|
-                 {
-                   :ref => a.uri,
-                   :role => (j == i || j > 2) ? 'creator' : 'subject',
-                   :terms => [build(:json_term), build(:json_term)],
-                   :relator => generate(:relator)
-                 }
-               })
-        }
-
-
-      @marcs = @resources.map {|r| get_marc(r)}
-
     end
 
-
     after(:all) do
-      @resources.each {|r| r.delete}
+      as_test_user('admin') do
+        @resources.each {|r| r.delete}
+      end
     end
 
 
@@ -1047,16 +1156,20 @@ end
     }
 
     before(:all) do
+      as_test_user('admin') do
 
-      @resource = create(:json_resource,
-                         :notes => full_note_set(true),
-                         :publish => true)
+        @resource = create(:json_resource,
+                           :notes => full_note_set(true),
+                           :publish => true)
 
-      @marc = get_marc(@resource)
+        @marc = get_marc(@resource)
+      end
     end
 
     after(:all) do
-      @resource.delete
+      as_test_user('admin') do
+        @resource.delete
+      end
     end
 
 
@@ -1217,15 +1330,19 @@ end
 
   describe "notes: include unpublished flag" do
     before(:all) do
-      @resource = create(:json_resource,
-                         :notes => full_note_set(false))
+      as_test_user('admin') do
+        @resource = create(:json_resource,
+                           :notes => full_note_set(false))
 
-      @marc_unpub_incl   = get_marc(@resource, true)
-      @marc_unpub_unincl = get_marc(@resource, false)
+        @marc_unpub_incl   = get_marc(@resource, true)
+        @marc_unpub_unincl = get_marc(@resource, false)
+      end
     end
 
     after(:all) do
-      @resource.delete
+      as_test_user('admin') do
+        @resource.delete
+      end
     end
 
     it "should not create elements for unpublished notes if include_unpublished is false" do
@@ -1258,15 +1375,19 @@ end
 
   describe "notes: inherit publish from parent" do
     before(:all) do
-      @resource = create(:json_resource,
-                         :notes => full_note_set(true),
-                         :publish => false)
+      as_test_user('admin') do
+        @resource = create(:json_resource,
+                           :notes => full_note_set(true),
+                           :publish => false)
 
-      @marc_unpub_unincl = get_marc(@resource, false)
+        @marc_unpub_unincl = get_marc(@resource, false)
+      end
     end
 
     after(:all) do
-      @resource.delete
+      as_test_user('admin') do
+        @resource.delete
+      end
     end
 
     it "should not create elements for published notes if they have a parent with publish == false" do
@@ -1285,14 +1406,18 @@ end
 
   describe "049 OCLC tag" do
     before(:all) do
-      @resource = create(:json_resource)
-      @org_code = JSONModel(:repository).find($repo_id).org_code
+      as_test_user('admin') do
+        @resource = create(:json_resource)
+        @org_code = JSONModel(:repository).find($repo_id).org_code
 
-      @marc = get_marc(@resource)
+        @marc = get_marc(@resource)
+      end
     end
 
     after(:all) do
-      @resource.delete
+      as_test_user('admin') do
+        @resource.delete
+      end
     end
 
     it "maps org_code to 049 tag" do

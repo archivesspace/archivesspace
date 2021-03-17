@@ -330,7 +330,7 @@ describe 'Resources and archival objects' do
 
 
   # This guy is causing subsequent tests to fail with a missing locales file error.  Pending it until I have more time to investigate.
-  xit 'can have a lot of associated records that do not show in the field but are not lost' do
+  it 'can have a lot of associated records that do not show in the field but are not lost' do
     subjects = []
     accessions = []
     classifications = []
@@ -571,7 +571,7 @@ describe 'Resources and archival objects' do
     @driver.find_element(:link, 'Export').click
     response = @driver.find_element(:link, 'Download EAD').click
     @driver.wait_for_ajax
-    assert(5) { expect(Dir.glob(File.join(Dir.tmpdir, '*_ead.xml')).length).to eq(1) }
+    assert(10) { expect(Dir.glob(File.join(Dir.tmpdir, '*_ead.xml')).length).to eq(1) }
     system("rm -f #{File.join(Dir.tmpdir, '*_ead.xml')}")
   end
 

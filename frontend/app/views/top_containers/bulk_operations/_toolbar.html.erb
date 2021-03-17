@@ -1,8 +1,10 @@
 <div class="record-toolbar bulk-operation-toolbar">
   <div class="btn-toolbar pull-right">
-    <div class="bulk-actions" class="btn-group">
+    <%= link_to I18n.t("actions.export_csv"), request.parameters.merge({ :format => :csv, :fields =>
+        fields }), id: "searchExport", class: "btn btn-sm btn-info pull-right" %>
+    <div class="bulk-actions pull-right" class="btn-group">
       <% if user_can?('manage_container_record') %>
-      <a class="btn btn-sm btn-default dropdown-toggle disabled" data-toggle="dropdown" href="#">
+      <a class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown" href="#">
         <%= I18n.t("top_container._frontend.bulk_operations.title") %>
         <span class="caret"></span>
       </a>

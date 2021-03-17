@@ -1,3 +1,5 @@
+<% r = @required ? @required.values : [] %>
+
 <% define_template "name_software", jsonmodel_definition(:name_software) do |form| %>
   <div class="subrecord-form-fields">
     <h3 class="subrecord-form-heading">
@@ -10,12 +12,52 @@
     <%= render_aspace_partial :partial => "agents/name_forms/authority_fields", :locals => {:form => form} %>
 
     <%= form.label_and_textfield "software_name" %>
+
+    <%= form.label_and_textfield "version",
+      :required => is_required_by_admin?(r, "names", "version")%>
+
+    <%= form.label_and_textfield "manufacturer",
+      :required => is_required_by_admin?(r, "names", "manufacturer") %>
+
+    <%= form.label_and_textfield "dates",
+      :required => is_required_by_admin?(r, "names", "dates")%>
+    <hr/>
+    <%= form.label_and_select "language",
+         [""] + form.possible_options_for("language", false),
+         :required => is_required_by_admin?(r, "names", "language") %>
+
+    <%= form.label_and_select "script", 
+        [""] + form.possible_options_for("script", false),
+        :required => is_required_by_admin?(r, "names", "script") %>
+
+    <%= form.label_and_select "transliteration", 
+        [""] + form.possible_options_for("transliteration", false),
+        :required => is_required_by_admin?(r, "names", "transliteration") %>
+    <hr/>
+ 
+    <%= form.label_and_textfield "qualifier",
+      :required => is_required_by_admin?(r, "names", "qualifier") %>
+
+    <%= form.label_and_textfield "sort_name", {:field_opts => {:automatable => true}, :required => :conditionally}%>
+    <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "use_dates", :template_erb => "dates/template", :template => "structured_date_label_usage", :heading_text => I18n.t("name._frontend.section.use_date"), :heading_size => "h4", :template_overrides => "agents/name_forms/date_labels"} %>
+    
+    <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "parallel_names", :template => "parallel_name_software", :template_erb => "agents/name_forms/agent_software", :heading_text => I18n.t("name._frontend.section.parallel_names"), :heading_size => "h4"} %>
+  </div>
+<% end %>
+
+<% define_template "parallel_name_software", jsonmodel_definition(:parallel_name_software) do |form| %>
+  <div class="subrecord-form-fields">
+    <%= form.label_and_textfield "software_name" %>
     <%= form.label_and_textfield "version" %>
     <%= form.label_and_textfield "manufacturer" %>
     <%= form.label_and_textfield "dates" %>
     <hr/>
+    <%= form.label_and_select "language", [""] + form.possible_options_for("language", false) %>
+    <%= form.label_and_select "script", [""] + form.possible_options_for("script", false) %>
+    <%= form.label_and_select "transliteration", [""] + form.possible_options_for("transliteration", false) %>
+    <hr/>
+ 
     <%= form.label_and_textfield "qualifier" %>
-    <%= form.label_and_textfield "sort_name", {:field_opts => {:automatable => true}, :required => :conditionally}%>
-    <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "use_dates", :template_erb => "dates/template", :template => "usage_date", :heading_text => I18n.t("name._frontend.section.use_date"), :heading_size => "h4", :template_overrides => "agents/name_forms/date_labels"} %>
+    <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "use_dates", :template_erb => "dates/template", :template => "structured_date_label_usage", :heading_text => I18n.t("name._frontend.section.use_date"), :heading_size => "h4", :template_overrides => "agents/name_forms/date_labels"} %>
   </div>
 <% end %>

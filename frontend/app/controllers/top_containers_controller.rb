@@ -4,37 +4,52 @@ require 'advanced_query_builder'
 
 class TopContainersController < ApplicationController
 
-  set_access_control  "view_repository" => [:bulk_operations_browse, :bulk_operation_search, :index, :show, :typeahead],
-                      "update_container_record" => [:new, :create, :edit, :update],
-                      "manage_container_record" => [:delete, :batch_delete, :batch_merge, :bulk_operations, :bulk_operation_update, :update_barcodes, :update_locations]
+  set_access_control  'view_repository' => [:bulk_operations_browse, :bulk_operation_search, :index, :show, :typeahead],
+                      'update_container_record' => [:new, :create, :edit, :update],
+                      'manage_container_record' => [:delete, :batch_delete, :batch_merge, :bulk_operations, :bulk_operation_update, :update_barcodes, :update_locations]
 
+  include ExportHelper
 
   def index
-    # If there was a previous top_container search, we prepopulate the form with the filled-in linkers and a search is executed in top_containers.bulk.js
-    @top_container_previous_search = {}
+    respond_to do |format|
+      format.html {
+        # If there was a previous top_container search, we prepopulate the form with the filled-in linkers and a search is executed in top_containers.bulk.js
+        @top_container_previous_search = {}
 
-    if session[:top_container_previous_search] && session[:top_container_previous_search] != {}
-      if session[:top_container_previous_search]["resource"]
-        @top_container_previous_search["resource"] = session[:top_container_previous_search]["resource"]
-        @top_container_previous_search["resource"]["id"] = @top_container_previous_search["resource"]["uri"]
-      end
+        if session[:top_container_previous_search] && session[:top_container_previous_search] != {}
+          if session[:top_container_previous_search]['resource']
+            @top_container_previous_search['resource'] = session[:top_container_previous_search]['resource']
+            @top_container_previous_search['resource']['id'] = @top_container_previous_search['resource']['uri']
+          end
 
-      if session[:top_container_previous_search]["accession"]
-        @top_container_previous_search["accession"] = session[:top_container_previous_search]["accession"]
-        @top_container_previous_search["accession"]["id"] = @top_container_previous_search["accession"]["uri"]
-      end
+          if session[:top_container_previous_search]['accession']
+            @top_container_previous_search['accession'] = session[:top_container_previous_search]['accession']
+            @top_container_previous_search['accession']['id'] = @top_container_previous_search['accession']['uri']
+          end
 
-      if session[:top_container_previous_search]["container_profile"]
-        @top_container_previous_search["container_profile"] = session[:top_container_previous_search]["container_profile"]
-        @top_container_previous_search["container_profile"]["id"] = @top_container_previous_search["container_profile"]["uri"]
-      end
+          if session[:top_container_previous_search]['container_profile']
+            @top_container_previous_search['container_profile'] = session[:top_container_previous_search]['container_profile']
+            @top_container_previous_search['container_profile']['id'] = @top_container_previous_search['container_profile']['uri']
+          end
 
-      if session[:top_container_previous_search]["location"]
-        @top_container_previous_search["location"] = session[:top_container_previous_search]["location"]
-        @top_container_previous_search["location"]["id"] = @top_container_previous_search["location"]["uri"]
-      end
+          if session[:top_container_previous_search]['location']
+            @top_container_previous_search['location'] = session[:top_container_previous_search]['location']
+            @top_container_previous_search['location']['id'] = @top_container_previous_search['location']['uri']
+          end
+        end
+
+        @search_data = Search.for_type(session[:repo_id], 'top_container',
+                                       params_for_backend_search.merge('facet[]' => SearchResultData.TOP_CONTAINER_FACETS))
+      }
+      format.csv {
+        params[:fields] -= %w[context type indicator barcode]
+        params[:fields] += %w[type_enum_s indicator_u_icusort barcode_u_sstr]
+        search_params = params_for_backend_search.merge('facet[]' => SearchResultData.TOP_CONTAINER_FACETS)
+        search_params['type[]'] = 'top_container'
+        uri = "/repositories/#{session[:repo_id]}/search"
+        csv_response(uri, Search.build_filters(search_params), "#{I18n.t('top_container._plural').downcase}.")
+      }
     end
-
   end
 
 
@@ -42,7 +57,7 @@ class TopContainersController < ApplicationController
     @top_container = JSONModel(:top_container).new._always_valid!
 
     if inline?
-      render_aspace_partial(:partial => "top_containers/new",
+      render_aspace_partial(:partial => 'top_containers/new',
                             :locals => {
                               :small => params[:small],
                               :created_for_collection => params[:created_for_collection]
@@ -55,7 +70,7 @@ class TopContainersController < ApplicationController
     handle_crud(:instance => :top_container,
                 :model => JSONModel(:top_container),
                 :on_invalid => ->(){
-                  return render_aspace_partial :partial => "top_containers/new" if inline?
+                  return render_aspace_partial :partial => 'top_containers/new' if inline?
                   return render :action => :new
                 },
                 :on_valid => ->(id){
@@ -63,7 +78,7 @@ class TopContainersController < ApplicationController
                     @top_container.refetch
                     render :json => @top_container.to_hash if inline?
                   else
-                    flash[:success] = I18n.t("top_container._frontend.messages.created")
+                    flash[:success] = I18n.t('top_container._frontend.messages.created')
                     redirect_to :controller => :top_containers, :action => :show, :id => id
                   end
                 })
@@ -85,10 +100,10 @@ class TopContainersController < ApplicationController
                 :model => JSONModel(:top_container),
                 :obj => JSONModel(:top_container).find(params[:id], find_opts),
                 :on_invalid => ->(){
-                  return render action: "edit"
+                  return render action: 'edit'
                 },
                 :on_valid => ->(id){
-                  flash[:success] = I18n.t("top_container._frontend.messages.updated")
+                  flash[:success] = I18n.t('top_container._frontend.messages.updated')
                   redirect_to :controller => :top_containers, :action => :show, :id => id
                 })
   end
@@ -98,7 +113,7 @@ class TopContainersController < ApplicationController
       merge_list = params[:victims]
       target = params[:target]
       victims = merge_list - target
-      handle_merge( victims,
+      handle_merge(victims,
                     target[0],
                     'top_container')
   end
@@ -112,14 +127,13 @@ class TopContainersController < ApplicationController
   end
 
   def batch_delete
-    response = JSONModel::HTTP.post_form("/batch_delete",
-                                         {
-                                "record_uris[]" => Array(params[:record_uris])
-                                         })
+    response = JSONModel::HTTP.post_form('/batch_delete',
+                                'record_uris[]' => Array(params[:record_uris])
+                                         )
 
-    if response.code === "200"
-      flash[:success] = I18n.t("top_container.batch_delete.success")
-      deleted_uri_param = params[:record_uris].map{|uri| "deleted_uri[]=#{uri}"}.join("&")
+    if response.code === '200'
+      flash[:success] = I18n.t('top_container.batch_delete.success')
+      deleted_uri_param = params[:record_uris].map{|uri| "deleted_uri[]=#{uri}"}.join('&')
       redirect_to "#{request.referrer}?#{deleted_uri_param}"
     else
       flash[:error] = "#{I18n.t("top_container.batch_delete.error")}<br/> #{ASUtils.json_parse(response.body)["error"]["failures"].map{|err| "#{err["response"]} [#{err["uri"]}]"}.join("<br/>")}".html_safe
@@ -130,12 +144,12 @@ class TopContainersController < ApplicationController
 
   def typeahead
     search_params = params_for_backend_search
-    search_params["q"] = "*" + search_params["q"].gsub(/[^0-9A-Za-z]/, '').downcase + "*"
+    search_params['q'] = '*' + search_params['q'].gsub(/[^0-9A-Za-z]/, '').downcase + '*'
 
-    search_params["q"] = "top_container_u_typeahead_utext:#{search_params["q"]}"
+    search_params['q'] = "top_container_u_typeahead_utext:#{search_params["q"]}"
 
     search_params = search_params.merge(search_filter_for(params[:uri]))
-    search_params = search_params.merge("sort" => "top_container_u_icusort asc")
+    search_params = search_params.merge('sort' => 'top_container_u_icusort asc')
 
     render :json => Search.all(session[:repo_id], search_params)
   end
@@ -146,65 +160,65 @@ class TopContainersController < ApplicationController
 
   def bulk_operation_search
     session[:top_container_previous_search] = {}
-    
+
     # Store ONLY needed information from linkers in rails session so it can be repopulated for another search later
     # (The whole record is not saved because they are too big for the rails session and only a few pieces of info are used)
     if params['collection_resource']
-      previous_resource = JSON.parse(params["collection_resource"]["_resolved"])
-      session[:top_container_previous_search]["resource"] = {
-          "uri" => previous_resource["uri"],
-          "title" => previous_resource["title"],
-          "jsonmodel_type" => previous_resource["jsonmodel_type"]
+      previous_resource = JSON.parse(params['collection_resource']['_resolved'])
+      session[:top_container_previous_search]['resource'] = {
+          'uri' => previous_resource['uri'],
+          'title' => previous_resource['title'],
+          'jsonmodel_type' => previous_resource['jsonmodel_type']
         }
     end
 
-    if params["collection_accession"]
+    if params['collection_accession']
       previous_accession  = JSON.parse(params['collection_accession']['_resolved'])
-      session[:top_container_previous_search]["accession"] = {
-        "uri" => previous_accession["uri"],
-        "title" => previous_accession["title"],
-        "jsonmodel_type" => previous_accession["jsonmodel_type"]
+      session[:top_container_previous_search]['accession'] = {
+        'uri' => previous_accession['uri'],
+        'title' => previous_accession['title'],
+        'jsonmodel_type' => previous_accession['jsonmodel_type']
       }
     end
 
-    if params["container_profile"]
+    if params['container_profile']
       previous_container_profile = JSON.parse(params['container_profile']['_resolved'])
-      session[:top_container_previous_search]["container_profile"] = {
-        "uri" => previous_container_profile["uri"],
-        "title" => previous_container_profile["title"],
-        "jsonmodel_type" => previous_container_profile["jsonmodel_type"]
+      session[:top_container_previous_search]['container_profile'] = {
+        'uri' => previous_container_profile['uri'],
+        'title' => previous_container_profile['title'],
+        'jsonmodel_type' => previous_container_profile['jsonmodel_type']
       }
     end
 
-    if params["location"]
+    if params['location']
       previous_location = JSON.parse(params['location']['_resolved'])
       session[:top_container_previous_search]['location'] = {
-        "uri" => previous_location["uri"],
-        "title" => previous_location["title"],
-        "jsonmodel_type" => previous_location["jsonmodel_type"]
+        'uri' => previous_location['uri'],
+        'title' => previous_location['title'],
+        'jsonmodel_type' => previous_location['jsonmodel_type']
       }
     end
 
     begin
       results = perform_search
     rescue MissingFilterException
-      return render :plain => I18n.t("top_container._frontend.messages.filter_required"), :status => 500
+      return render :plain => I18n.t('top_container._frontend.messages.filter_required'), :status => 500
     end
 
-    render_aspace_partial :partial => "top_containers/bulk_operations/results", :locals => {:results => results}
+    render_aspace_partial :partial => 'top_containers/bulk_operations/results', :locals => {:results => results}
   end
 
 
   def bulk_operations_browse
     @top_container_previous_search = {}
-    
+
     begin
-      results = perform_search if params.has_key?("q")
+      results = perform_search if params.has_key?('q')
     rescue MissingFilterException
-      flash[:error] = I18n.t("top_container._frontend.messages.filter_required")
+      flash[:error] = I18n.t('top_container._frontend.messages.filter_required')
     end
 
-    render_aspace_partial :partial => "top_containers/bulk_operations/browse", :locals => {:results => results}
+    render_aspace_partial :partial => 'top_containers/bulk_operations/browse', :locals => {:results => results}
   end
 
 
@@ -216,20 +230,20 @@ class TopContainersController < ApplicationController
       post_params['ils_holding_id'] = params['ils_holding_id']
       post_uri += 'ils_holding_id'
     elsif params['container_profile_uri']
-      post_params['container_profile_uri'] = params['container_profile'] ? params['container_profile']['ref'] : ""
+      post_params['container_profile_uri'] = params['container_profile'] ? params['container_profile']['ref'] : ''
       post_uri += 'container_profile'
     elsif params['location_uri']
-      post_params['location_uri'] = params['location'] ? params['location']['ref'] : ""
+      post_params['location_uri'] = params['location'] ? params['location']['ref'] : ''
       post_uri += 'location'
     else
-      render :plain => "You must provide a field to update.", :status => 500
+      render :plain => 'You must provide a field to update.', :status => 500
     end
 
     response = JSONModel::HTTP::post_form(post_uri, post_params)
     result = ASUtils.json_parse(response.body)
 
     if result.has_key?('records_updated')
-      render_aspace_partial :partial => "top_containers/bulk_operations/bulk_action_success", :locals => {:result => result}
+      render_aspace_partial :partial => 'top_containers/bulk_operations/bulk_action_success', :locals => {:result => result}
     else
       render :plain => "There seems to have been a problem with the update: #{result['error']}", :status => 500
     end
@@ -247,10 +261,10 @@ class TopContainersController < ApplicationController
     result = ASUtils.json_parse(response.body)
 
     if response.code =~ /^4/
-      return render_aspace_partial :partial => 'top_containers/bulk_operations/error_messages', :locals => {:exceptions => result, :jsonmodel => "top_container"}, :status => 500
+      return render_aspace_partial :partial => 'top_containers/bulk_operations/error_messages', :locals => {:exceptions => result, :jsonmodel => 'top_container'}, :status => 500
     end
 
-    render_aspace_partial :partial => "top_containers/bulk_operations/bulk_action_success", :locals => {:result => result}
+    render_aspace_partial :partial => 'top_containers/bulk_operations/bulk_action_success', :locals => {:result => result}
   end
 
 
@@ -267,7 +281,7 @@ class TopContainersController < ApplicationController
     if response.code =~ /^4/
       return render_aspace_partial :partial => 'top_containers/bulk_operations/error_messages',
 				   :locals => {:exceptions => (result || response.message),
-					       :jsonmodel => "top_container"},
+					       :jsonmodel => 'top_container'},
 				   :status => 500
     elsif response.code =~ /^5/
       return render_aspace_partial :partial => 'top_containers/bulk_operations/error_messages',
@@ -275,7 +289,7 @@ class TopContainersController < ApplicationController
 				   :status => 500
     end
 
-    render_aspace_partial :partial => "top_containers/bulk_operations/bulk_action_success", :locals => {:result => result}
+    render_aspace_partial :partial => 'top_containers/bulk_operations/bulk_action_success', :locals => {:result => result}
   end
 
 
@@ -283,7 +297,7 @@ class TopContainersController < ApplicationController
 
   helper_method :can_edit_search_result?
   def can_edit_search_result?(record)
-    return user_can?('update_container_record') if record['primary_type'] === "top_container"
+    return user_can?('update_container_record') if record['primary_type'] === 'top_container'
     SearchHelper.can_edit_search_result?(record)
   end
 
@@ -322,9 +336,9 @@ class TopContainersController < ApplicationController
 
 
   def perform_search
-    search_params = params_for_backend_search.merge({
+    search_params = params_for_backend_search.merge(
                                                       'type[]' => ['top_container']
-                                                    })
+                                                    )
 
     builder = AdvancedQueryBuilder.new
 
@@ -346,22 +360,22 @@ class TopContainersController < ApplicationController
 
     unless params['exported'].blank?
       builder.and('exported_u_sbool',
-                  (params['exported'] == "yes" ? true : false),
+                  (params['exported'] == 'yes' ? true : false),
                   'boolean')
     end
 
     unless params['empty'].blank?
-      builder.and('empty_u_sbool', (params['empty'] == "yes" ? true : false), 'boolean')
+      builder.and('empty_u_sbool', (params['empty'] == 'yes' ? true : false), 'boolean')
     end
 
     unless params['has_location'].blank?
-      builder.and('has_location_u_sbool', (params['has_location'] == "yes" ? true : false), 'boolean')
+      builder.and('has_location_u_sbool', (params['has_location'] == 'yes' ? true : false), 'boolean')
     end
 
     unless params['barcodes'].blank?
       barcode_query = AdvancedQueryBuilder.new
 
-      ASUtils.wrap(params['barcodes'].split(" ")).each do |barcode|
+      ASUtils.wrap(params['barcodes'].split(' ')).each do |barcode|
         barcode_query.or('barcode_u_sstr', barcode)
 
         # Subcontainer string contains barcode
@@ -378,9 +392,9 @@ class TopContainersController < ApplicationController
     end
 
     unless builder.empty?
-      search_params = search_params.merge({
-                                            "filter" => builder.build.to_json,
-                                          })
+      search_params = search_params.merge(
+                                            'filter' => builder.build.to_json,
+                                          )
     end
 
     container_search_url = "#{JSONModel(:top_container).uri_for("")}/search"

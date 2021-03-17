@@ -1,6 +1,7 @@
 <dl>
   <% Array(note['items']).each do |item| %>
     <dt><%= item['event_date'] %></dt>
+    <dt><%= item['place'] %></dt>
     <% item['events'].each do | event | %>
       <dd><%=  process_mixed_content(event).html_safe %></dd>
     <% end %>

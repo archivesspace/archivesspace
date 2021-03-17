@@ -1,0 +1,19 @@
+<% if result.json[subject_type].any? %>
+<h3><%= subject_label %></h3>
+<ul>
+<% result.json[subject_type].each do |n| %>
+  <% n['subjects'].each do |s| %>
+      <li>
+        <% if s['_resolved']['publish'] %>
+          <a href="<%= s['_resolved']['uri']%>"><%= s['_resolved']['title'] %></a>
+        <% else %>
+          <%= s['_resolved']['title'] %>
+        <% end %>
+        <% if n['place_role'] %> (<%= I18n.t("enumerations.place_role.#{n['place_role']}") %>)<% end %>
+        <%= render partial: 'dates_inline', locals: { dates: n['dates'] } %>
+        <%= render partial: 'shared/subnotes', locals: { notes: n['notes'] } %>
+      </li>
+  <% end %>
+<% end %>
+</ul>
+<% end %>

@@ -189,6 +189,22 @@ module Selenium
 
       alias find_element_orig find_element
 
+      def is_visible?(locator, selector)
+        old_retries_number = $retries
+
+        begin
+          # drop the retries number down to 1 to speed things along
+          $retries = 1
+          find_element(locator, selector)
+          val = true
+        rescue => e
+          val = false
+        end
+
+        $retries = old_retries_number
+        return val
+      end
+
       def find_element(*selectors)
         wait_for_ajax
 

@@ -1,0 +1,113 @@
+<% r = @required ? @required.values : [] %>
+
+<% define_template "agent_record_control", jsonmodel_definition(:agent_record_control) do |form| %>
+  <div class="subrecord-form-fields">
+    <div class="agent-record-control-container">
+      <%= form.label_and_select "maintenance_status",
+        form.possible_options_for("maintenance_status", false) %>
+
+      <%= form.label_and_select "publication_status",
+        [""] + form.possible_options_for("publication_status", false),
+        :required => is_required_by_admin?(r, "agent_record_controls", "publication_status")%>
+
+      <%= form.label_and_textfield "maintenance_agency",
+        {:field_opts => {:size => 30, :class => "form-control"}, 
+        :required => is_required_by_admin?(r, "agent_record_controls", "maintenance_agency") } %>
+
+      <%= form.label_and_textfield "agency_name",
+        {:field_opts => {:size => 30, :class => "form-control"},
+        :required => is_required_by_admin?(r, "agent_record_controls", "agency_name") }%>
+
+      <%= form.label_and_textarea "maintenance_agency_note",
+        {:field_opts => {:size => 30, :class => "form-control"},
+        :required => is_required_by_admin?(r, "agent_record_controls", "maintenance_agency_note") }%>
+
+      <%= form.label_and_select "language",
+        [""] + form.possible_options_for("language", false), 
+        :required => is_required_by_admin?(r, "agent_record_controls", "language") %>
+
+      <%= form.label_and_select "script", 
+        [""] + form.possible_options_for("script", false),
+        :required => is_required_by_admin?(r, "agent_record_controls", "script") %>
+
+      <%= form.label_and_textarea "language_note",  
+        {:field_opts => {:size => 30, :class => "form-control"}, 
+        :required => is_required_by_admin?(r, "agent_record_controls", "language_note") }%>
+
+      <%= form.label_and_select "romanization", 
+        [""] + form.possible_options_for("romanization", false),
+        :required => is_required_by_admin?(r, "agent_record_controls", "romanization") %>
+
+      <%= form.label_and_select "government_agency_type", 
+        [""] + form.possible_options_for("government_agency_type", false),
+        :required => is_required_by_admin?(r, "agent_record_controls", "government_agency_type") %>
+
+      <%= form.label_and_select "reference_evaluation", 
+        [""] + form.possible_options_for("reference_evaluation", false),
+        :required => is_required_by_admin?(r, "agent_record_controls", "reference_evaluation") %>
+
+      <%= form.label_and_select "name_type", 
+        [""] + form.possible_options_for("name_type", false),
+        :required => is_required_by_admin?(r, "agent_record_controls", "name_type") %>
+
+      <%= form.label_and_select "level_of_detail", 
+        [""] + form.possible_options_for("level_of_detail", false),
+        :required => is_required_by_admin?(r, "agent_record_controls", "level_of_detail") %>
+
+      <%= form.label_and_select "modified_record", 
+        [""] + form.possible_options_for("modified_record", false),
+        :required => is_required_by_admin?(r, "agent_record_controls", "modified_record") %>
+
+      <%= form.label_and_select "cataloging_source", 
+        [""] + form.possible_options_for("cataloging_source", false),
+        :required => is_required_by_admin?(r, "agent_record_controls", "cataloging_source") %>
+    </div>
+  </div>
+<% end %>
+
+<% define_template "agent_record_control_required", jsonmodel_definition(:agent_record_control) do |form| %>
+  <% field_names = ["maintenance_status", "publication_status", "maintenance_agency", "agency_name", "maintenance_agency_note", "language", "script", "language_note", "romanization", "government_agency_type", "reference_evaluation", "name_type", "level_of_detail", "modified_record", "cataloging_source"] %>
+  <% field_names.each do |field_name| %>
+    <% if form.required?(field_name) %>
+      <%= form.label_and_readonly field_name %>
+    <% else %>
+      <%= form.label_and_req_boolean field_name %>
+    <% end %>
+  <% end %>
+<% end %>
+
+<% define_template "agent_record_control_merge_target", jsonmodel_definition(:agent_record_control) do |form| %>
+
+  <%= form.record_level_merge_controls(form, "agent_record_control", false) %>
+
+  <% field_names = ["maintenance_status", "publication_status", "maintenance_agency", "agency_name", "maintenance_agency_note", "language", "script", "language_note", "romanization", "government_agency_type", "reference_evaluation", "name_type", "level_of_detail", "modified_record", "cataloging_source"] %>
+  <% field_names.each do |field_name| %>
+    <%= form.label_and_readonly field_name %>
+  <% end %>
+<% end %>
+
+<% define_template "agent_record_control_merge_victim", jsonmodel_definition(:agent_record_control) do |form| %>
+
+  <% disable_replace = false %>
+  <% disable_append = !(@agent.agent_record_controls.length > 0) %>
+  
+  <%= form.record_level_merge_controls(form, "agent_record_control", true, !disable_replace, disable_append) %>
+
+  <%= form.label_and_merge_select("maintenance_status", "", {:disable_replace => disable_replace}) %>
+  <%= form.label_and_merge_select("publication_status", "", {:disable_replace => disable_replace}) %>
+  <%= form.label_and_merge_select("maintenance_agency", "", {:disable_replace => disable_replace}) %>
+  <%= form.label_and_merge_select("agency_name", "", {:disable_replace => disable_replace}) %>
+  <%= form.label_and_merge_select("maintenance_agency_note", "", {:disable_replace => disable_replace}) %>
+  <%= form.label_and_merge_select("language", "", {:disable_replace => disable_replace}) %>
+  <%= form.label_and_merge_select("script", "", {:disable_replace => disable_replace}) %>
+  <%= form.label_and_merge_select("language_note", "", {:disable_replace => disable_replace}) %>
+  <%= form.label_and_merge_select("romanization", "", {:disable_replace => disable_replace}) %>
+  <%= form.label_and_merge_select("government_agency_type", "", {:disable_replace => disable_replace}) %>
+  <%= form.label_and_merge_select("reference_evaluation", "", {:disable_replace => disable_replace}) %>
+  <%= form.label_and_merge_select("name_type", "", {:disable_replace => disable_replace}) %>
+  <%= form.label_and_merge_select("level_of_detail", "", {:disable_replace => disable_replace}) %>
+  <%= form.label_and_merge_select("modified_record", "", {:disable_replace => disable_replace}) %>
+  <%= form.label_and_merge_select("cataloging_source", "", {:disable_replace => disable_replace}) %>
+  
+  <%= form.hidden_input "id", form.obj["id"] %>
+<% end %>

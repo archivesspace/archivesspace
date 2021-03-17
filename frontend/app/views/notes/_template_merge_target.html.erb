@@ -285,32 +285,6 @@
 <% end %>
 
 
-<% define_template "note_bioghist", jsonmodel_definition(:note_bioghist) do |form| %>
-  <div class="subrecord-form-fields" data-type="note_bioghist">
-    <h4 class="subrecord-form-heading">
-      <%= I18n.t("note.note_bioghist") %>
-    </h4>
-    <div class="subrecord-form-container">
-      <%= form.hidden_input(:jsonmodel_type, "note_bioghist") %>
-      <%= form.hidden_input("ingest_problem") %>
-      <%= form.label_and_readonly("persistent_id") %>
-      <%= form.label_and_readonly("label") %>
-      <%= form.label_and_readonly("publish") %>
-
-      <section class="subrecord-form" id="<%= form.id_for('subnotes')%>">
-        <h5 class="subrecord-form-heading">
-          <%= I18n.t("note_multipart.sub_notes") %>
-        </h5>
-        <div class="subrecord-form-container">
-          <%= form.list_for(form["subnotes"], "subnotes[]") do |subnote| %>
-            <% form.emit_template(subnote["jsonmodel_type"]) %>
-          <% end %>
-        </div>
-      </section>
-    </div>
-  </div>
-<% end %>
-
 <% define_template "note_citation_xlink" do | xlink_form | %>
   <% xlink_form.push "xlink", xlink_form["xlink"] || {} do | xlink_form | %>
     <%= xlink_form.label_and_readonly "actuate" %>
@@ -668,6 +642,132 @@
       <%= form.label_and_readonly("publish") %>
 
       <% form.emit_template("content_items", :required => form.required?('content')) %>
+    </div>
+  </div>
+<% end %>
+
+<% define_template "note_general_context", jsonmodel_definition(:note_general_context) do |form| %>
+  <div class="subrecord-form-fields" data-type="note_general_context">
+    <h4 class="subrecord-form-heading">
+      <%= I18n.t("note.note_general_context") %>
+    </h4>
+    <div class="subrecord-form-container">
+      <%= form.hidden_input(:jsonmodel_type, "note_general_context") %>
+      <%= form.label_and_readonly("persistent_id") %>
+      <%= form.label_and_readonly("label") %>
+      <%= form.label_and_readonly("publish") %>
+
+      <section class="subrecord-form" id="<%= form.id_for('subnotes')%>">
+        <h5 class="subrecord-form-heading">
+          <%= I18n.t("note_multipart.sub_notes") %>
+        </h5>
+        <div class="subrecord-form-container">
+          <%= form.list_for(form["subnotes"], "subnotes[]") do |subnote| %>
+            <% form.emit_template(subnote["jsonmodel_type"]) %>
+          <% end %>
+        </div>
+      </section>
+    </div>
+  </div>
+<% end %>
+
+<% define_template "note_mandate", jsonmodel_definition(:note_mandate) do |form| %>
+  <div class="subrecord-form-fields" data-type="note_mandate">
+    <h4 class="subrecord-form-heading">
+      <%= I18n.t("note.note_mandate") %>
+    </h4>
+    <div class="subrecord-form-container">
+      <%= form.hidden_input(:jsonmodel_type, "note_mandate") %>
+      <%= form.label_and_readonly("persistent_id") %>
+      <%= form.label_and_readonly("label") %>
+      <%= form.label_and_readonly("publish") %>
+
+      <section class="subrecord-form" id="<%= form.id_for('subnotes')%>">
+        <h5 class="subrecord-form-heading">
+          <%= I18n.t("note_multipart.sub_notes") %>
+        </h5>
+        <div class="subrecord-form-container">
+          <%= form.list_for(form["subnotes"], "subnotes[]") do |subnote| %>
+            <% form.emit_template(subnote["jsonmodel_type"]) %>
+          <% end %>
+        </div>
+      </section>
+    </div>
+  </div>
+<% end %>
+
+<% define_template "note_legal_status", jsonmodel_definition(:note_legal_status) do |form| %>
+  <div class="subrecord-form-fields" data-type="note_legal_status">
+    <h4 class="subrecord-form-heading">
+      <%= I18n.t("note.note_legal_status") %>
+    </h4>
+    <div class="subrecord-form-container">
+      <%= form.hidden_input(:jsonmodel_type, "note_legal_status") %>
+      <%= form.label_and_readonly("persistent_id") %>
+      <%= form.label_and_readonly("label") %>
+      <%= form.label_and_readonly("publish") %>
+
+      <section class="subrecord-form" id="<%= form.id_for('subnotes')%>">
+        <h5 class="subrecord-form-heading">
+          <%= I18n.t("note_multipart.sub_notes") %>
+        </h5>
+        <div class="subrecord-form-container">
+          <%= form.list_for(form["subnotes"], "subnotes[]") do |subnote| %>
+            <% form.emit_template(subnote["jsonmodel_type"]) %>
+          <% end %>
+        </div>
+      </section>
+    </div>
+  </div>
+<% end %>
+
+<% define_template "note_structure_or_genealogy", jsonmodel_definition(:note_structure_or_genealogy) do |form| %>
+  <div class="subrecord-form-fields" data-type="note_structure_or_genealogy">
+    <h4 class="subrecord-form-heading">
+      <%= I18n.t("note.note_structure_or_genealogy") %>
+    </h4>
+    <div class="subrecord-form-container">
+      <%= form.hidden_input(:jsonmodel_type, "note_structure_or_genealogy") %>
+      <%= form.label_and_readonly("persistent_id") %>
+      <%= form.label_and_readonly("label") %>
+      <%= form.label_and_readonly("publish") %>
+
+      <section class="subrecord-form" id="<%= form.id_for('subnotes')%>">
+        <h5 class="subrecord-form-heading">
+          <%= I18n.t("note_multipart.sub_notes") %>
+        </h5>
+        <div class="subrecord-form-container">
+          <%= form.list_for(form["subnotes"], "subnotes[]") do |subnote| %>
+            <% form.emit_template(subnote["jsonmodel_type"]) %>
+          <% end %>
+        </div>
+      </section>
+    </div>
+  </div>
+<% end %>
+
+<% define_template "note_bioghist", jsonmodel_definition(:note_bioghist) do |form| %>
+  <div class="subrecord-form-fields" data-type="note_bioghist">
+    <h4 class="subrecord-form-heading">
+      <%= I18n.t("note.note_bioghist") %>
+    </h4>
+    <div class="subrecord-form-container">
+      <%= form.hidden_input(:jsonmodel_type, "note_bioghist") %>
+      <%= form.hidden_input("ingest_problem") %>
+      <%= form.label_and_readonly("persistent_id") %>
+      <%= form.label_and_readonly("label") %>
+      <%= form.label_and_readonly("publish") %>
+
+      <section class="subrecord-form" id="<%= form.id_for('subnotes')%>">
+        <h5 class="subrecord-form-heading">
+          <%= I18n.t("note_multipart.sub_notes") %>
+        </h5>
+        <div class="subrecord-form-container">
+          <%= form.list_for(form["subnotes"], "subnotes[]") do |subnote| %>
+            <% form.emit_template(subnote["jsonmodel_type"]) %>
+          <% end %>
+        </div>
+      </section>
     </div>
   </div>
 <% end %>

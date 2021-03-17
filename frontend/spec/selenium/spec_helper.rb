@@ -13,6 +13,17 @@ $backend = "http://localhost:#{$backend_port}"
 $frontend = "http://localhost:#{$frontend_port}"
 $expire = 30_000
 
+# create file handle for config file in case it needs to be updated to support a test
+$config_location = File.join(File.dirname(__FILE__), "..", "..", "..", "common", "config", "config.rb")
+if File.exists?($config_location)
+  $existing_config = $config_location + ".old"
+  FileUtils.mv($config_location, $existing_config)
+else
+  $existing_config = nil
+end
+
+$config_file = File.new($config_location, "w")
+
 $backend_start_fn = proc {
   # for the indexers
   AppConfig[:solr_url] = "http://localhost:#{$solr_port}"
@@ -61,6 +72,11 @@ RSpec.configure do |config|
   end
 
   config.after(:suite) do
+    $config_file.close
+
+    if $existing_config
+      FileUtils.mv($existing_config, $config_location)
+    end
     report_sleep
     cleanup
   end

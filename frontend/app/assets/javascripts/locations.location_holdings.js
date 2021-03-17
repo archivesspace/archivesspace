@@ -9,11 +9,6 @@ $(function() {
 
     $this.data("initialised", true);
    
-    var resultsFormatter = function(json) {
-     console.log(json); 
-      return ;
-    }
-   
     $.getJSON($this.data('url'), function(json) {
       var output; 
       itemCount = json["search_data"]["total_hits"];
@@ -32,6 +27,16 @@ $(function() {
   $(".location-holdings").each(init_locationHoldingsSearch);
   $(document).bind("loadedrecordform.aspace", function(event, $container) {
     $(".location-holdings", $container).each(init_locationHoldingsSearch);
+  });
+
+  // GH-1920, listen for Browse Locations modal
+  var $locationBrowseBtn = $('input[data-label="Location"]').siblings().find('.linker-browse-btn');
+
+  $locationBrowseBtn.on("click", function() {
+    setTimeout(function() {
+      // Wait for appended modal DOM
+      $(".location-holdings").each(init_locationHoldingsSearch);
+    }, 300);
   });
 
 });

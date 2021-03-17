@@ -32,6 +32,7 @@ en:
     show_all: Show All
     transfer_record: Transfer
     more: More
+    lightmode_toggle: Light Mode
     link_to: Link To
     add_prefix: Add
     merge_replace: Replace
@@ -91,6 +92,7 @@ en:
     edit_multiple_confirm_title: Edit Records?
     edit_multiple_confirm_message: "<p>This will bulk update multiple records.</p>"
     export_eac: Download EAC-CPF
+    export_marc_auth: Download MARCXML Authority
     export_ead: Download EAD
     export_mods: Download MODS
     export_mets: Download METS
@@ -645,6 +647,8 @@ en:
     merge_conflict: "Merging agent(s) could not complete: %{message}"
     merge_too_many_victims: Only one agent may be selected for this merge.
     merge_different_types: Agents selected for this merge must be of the same type.
+    merge_denied_for_system_user: One or more agents is a system user.
+    merge_restricted_contact_details: The merge cannot be completed because one or more of the agents has contact details you do not have permission to access.
     linked_to_assessment: Record cannot be deleted as it is linked to an assessment
 
   accession:
@@ -672,12 +676,18 @@ en:
         created: Agent Created
         updated: Agent Saved
         deleted: Agent Deleted
+        published: "The Agent <strong>%{agent.title}</strong>, its subrecords and components have been published"
         delete_conflict: "Agent could not be deleted: <pre>%{error}</pre>"
         merge_description: Select the agent to merge into
         merged: Agent(s) Merged
         please_select_a_agent_to_merge: Please select an agent
       section:
         basic_information: Basic Information
+        record_control_information: Record Control Information
+        identity_information: Identity Information
+        description_information: Description Information
+        relation_information: Relation Information
+        date_of_existence: Date of Existence
         dates_of_existence: Dates of Existence
         name: Name Forms
         contacts: Contact Details
@@ -685,11 +695,15 @@ en:
         linked_via_rights_statement: Linked Records via Rights Statement
         target_record: This record will be updated
         victim_record: This record will be deleted
+        structured_date_single_fields: Single Date
+        structured_date_range_fields: Range Date
       action:
         create: Create Agent
         preview: Merge Preview
 
   agent_contact:
+    notes_tooltip: |
+        <p>Additional notes or other information about the contact.</p>
     _frontend:
       action:
         add: Add Contact
@@ -718,6 +732,16 @@ en:
     _frontend:
       action:
         save: Save Software
+
+  structured_date_single:
+    _frontend:
+      action:
+        add: Add Single Date
+
+  structured_date_range:
+    _frontend:
+      action:
+        add: Add Range Date
 
   archival_object:
     external_ark_url: External ARK URL
@@ -805,12 +829,39 @@ en:
   dates_of_existence:
     _frontend:
       action:
-        add: Add Date
+        add: Add Date Set
 
   deaccession:
     _frontend:
       action:
         add: Add Deaccession
+
+  structured_date_label_common_fields: &structured_date_label_attributes
+    date_label: Label
+    date_type_structured: Date Type
+    date_certainty: Certainty
+    date_era: Era
+    date_calendar: Calendar
+
+  structured_date_label_existence:
+    <<: *structured_date_label_attributes
+
+  structured_date_label_usage:
+    <<: *structured_date_label_attributes
+
+  structured_date_single_fields:
+    date_role: Date Role
+    date_expression: Date Expression
+    date_standardized: Standardized Date
+    date_standardized_type: Standardized Date Type
+
+  structured_date_range_fields:
+    begin_date_expression: Begin Date Expression
+    begin_date_standardized: Begin Standardized Date
+    begin_date_standardized_type: Begin Standardized Date Type
+    end_date_expression: End Date Expression
+    end_date_standardized: End Standardized Date
+    end_date_standardized_type: End Standardized Date Type
 
   digital_object:
     _frontend:
@@ -926,6 +977,7 @@ en:
         add: Add Instance
 
   lang_material:
+    _plural: Languages
     _frontend:
       action:
         add: Add Language
@@ -985,10 +1037,13 @@ en:
     _frontend:
       section:
         use_date: Date(s) of Name Use
+        dates: Dates
+        parallel_names: Parallel Names
       action:
         add: Add Name Form
         make_authorized: Make Authoritive Name
         make_display_name: Make Display Name
+        make_primary: Make Primary
 
   note:
     _frontend:
@@ -997,16 +1052,18 @@ en:
         raw_title: The raw note content
         parsed: Formatted
         parsed_title: How the note will be rendered in the Public application
+        content: Content
       messages:
         select_a_note_type: "<em>Please select a Note Type</em>"
       action:
         add: Add Note
+        add_for_contact_note: Add Contact Note
         add_content_item: Add Content Item
         add_note_orderedlist: Add Item
         add_sub_note: Add Sub Note
         add_note_index_item: Add Item
         add_note_chronology_item: Add Event
-        add_event: Add Event
+        add_event: Add Event Item
         add_note_bibliography_item: Add Item
         add_note_outline_level_item: Add Item
         add_note_outline_level_level: Add Level
@@ -1021,6 +1078,7 @@ en:
         add: Add Related Accession
 
   related_agent:
+    dates: Relationship Dates
     _frontend:
       messages:
         select_a_type: "<em>Please select a Relationship Type</em>"
@@ -1751,6 +1809,436 @@ en:
         _plural: Sponsor Sets
       repo_settings:
         _plural: Per Repository OAI-PMH Settings
+
+  agent_record_control: &agent_record_control_attributes
+    _plural: Record Info
+    _singular: Record Info
+    _frontend:
+      action:
+        add: Add Record Info
+    maintenance_status: Record Control Maintenance Status
+    publication_status: Record Control Publication Status
+    romanization: Romanization
+    government_agency_type: Record Control Government Agency Type
+    reference_evaluation: Record Control Reference Evaluation
+    name_type: Record Control Name Type
+    level_of_detail: Record Control Level of Detail
+    modified_record: Record Control Modified Type
+    cataloging_source: Record Control Cataloging Source
+    maintenance_agency: Maintenance Agency
+    agency_name: Agency Name
+    maintenance_agency_note: Maintenance Agency Note
+    language: Language
+    script: Script
+    language_note: Language Note
+
+  agent_record_controls:
+    <<: *agent_record_control_attributes
+
+  agent_record_control_required:
+    <<: *agent_record_control_attributes
+
+  agent_record_control_merge_target:
+    <<: *agent_record_control_attributes
+
+  agent_record_control_merge_victim:
+    <<: *agent_record_control_attributes
+
+  agent_gender: &agent_gender_attributes
+    _plural: Agent Genders
+    _singular: Agent Gender
+    _frontend:
+      action:
+        add: Add Gender Info
+    gender: Gender
+    note: Note
+    dates: Dates
+
+  dates_of_existence:
+    _singular: Date of Existence
+    _plural: Dates of Existence
+
+  agent_genders:
+    <<: *agent_gender_attributes
+
+  agent_gender_required:
+    <<: *agent_gender_attributes
+
+  agent_gender_merge_target:
+    <<: *agent_gender_attributes
+
+  agent_gender_merge_victim:
+    <<: *agent_gender_attributes
+
+  used_language: &used_language_attributes
+    _plural: Languages
+    _singular: Language
+    _frontend:
+      action:
+        add: Add Language
+    language: Language
+    script: Script
+
+  used_language_required:
+    <<: *used_language_attributes
+
+  used_languages:
+    <<: *used_language_attributes
+
+  used_language_merge_victim:
+    <<: *used_language_attributes
+
+  used_language_merge_target:
+    <<: *used_language_attributes
+
+  agent_identifier: &agent_identifier_attributes
+    _plural: Entity IDs
+    _singular: Identifier
+    _frontend:
+      action:
+        add: Add Entity ID
+    identifier_type: Identifier Type
+    entity_identifier: Entity IDs
+
+  agent_identifiers:
+    <<: *agent_identifier_attributes
+
+  agent_identifier_required:
+    <<: *agent_identifier_attributes
+
+  agent_identifier_merge_target:
+    <<: *agent_identifier_attributes
+
+  agent_identifier_merge_victim:
+    <<: *agent_identifier_attributes
+
+  agent_place: &agent_place_attributes
+    _frontend:
+      action:
+        add: Add Place
+    section:
+      dates: Dates
+    _plural: Places
+    _singular: Place
+    place_role: Agent Place Role
+    text_note: Note
+    dates: Dates
+    subjects: Places
+    publish: Published
+
+  agent_place_required:
+    <<: *agent_place_attributes
+
+  agent_places:
+    <<: *agent_place_attributes
+
+  agent_place_merge_target:
+    <<: *agent_place_attributes
+
+  agent_place_merge_victim:
+    <<: *agent_place_attributes
+
+  agent_occupation: &agent_occupation_attributes
+    _frontend:
+      action:
+        add: Add Occupation
+    section:
+      dates: Dates
+    _plural: Occupations
+    _singular: Occupation
+    text_note: Note
+    dates: Dates
+    subjects: Occupations
+    places: Places
+    publish: Published
+
+  agent_occupation_required:
+    <<: *agent_occupation_attributes
+
+  agent_occupations:
+    <<: *agent_occupation_attributes
+
+  agent_occupation_merge_target:
+    <<: *agent_occupation_attributes
+
+  agent_occupation_merge_victim:
+    <<: *agent_occupation_attributes
+
+  agent_function: &agent_function_attributes
+    _frontend:
+      action:
+        add: Add Function
+    section:
+      dates: Dates
+    _plural: Functions
+    _singular: Function
+    text_note: Note
+    dates: Dates
+    subjects: Functions
+    places: Places
+    publish: Published
+
+  agent_function_required:
+    <<: *agent_function_attributes
+
+  agent_functions:
+    <<: *agent_function_attributes
+
+  agent_function_merge_target:
+    <<: *agent_function_attributes
+
+  agent_function_merge_victim:
+    <<: *agent_function_attributes
+
+  agent_topic: &agent_topic_attributes
+    _frontend:
+      action:
+        add: Add Topic
+    section:
+      dates: Dates
+    _plural: Topics
+    _singular: Topic
+    text_note: Note
+    dates: Dates
+    subjects: Topics
+    places: Places
+    publish: Published
+
+  agent_topic_required:
+    <<: *agent_topic_attributes
+
+  agent_topics:
+    <<: *agent_topic_attributes
+
+  agent_topic_merge_target:
+    <<: *agent_topic_attributes
+
+  agent_topic_merge_victim:
+    <<: *agent_topic_attributes
+
+  place:
+    _plural: Places
+    _frontend:
+      action:
+        add: Add Place
+
+  agent_alternate_set: &agent_alternate_set_attributes
+    _plural: Alternate Sets
+    _singular: Alternate Set
+    _frontend:
+      action:
+        add: Add Alternative Set
+    set_component: Set Component
+    descriptive_note: Descriptive Note
+    file_uri: File URI
+    xlink_title_attribute: Xlink Title Attribute
+    xlink_role_attribute: Xlink Role Attribute
+    xlink_arcrole_attribute: Xlink Arcrole Attribute
+    file_version_xlink_actuate_attribute: Xlink Actuate Attribute
+    file_version_xlink_show_attribute: Xlink Show Attribute
+    last_verified_date: Last Verified Date
+
+  agent_alternate_sets:
+    <<: *agent_alternate_set_attributes
+
+  agent_alternate_set_required:
+    <<: *agent_alternate_set_attributes
+
+  agent_alternate_set_merge_target:
+    <<: *agent_alternate_set_attributes
+
+  agent_alternate_set_merge_victim:
+    <<: *agent_alternate_set_attributes
+
+  agent_conventions_declaration: &agent_conventions_declaration_attributes
+    _plural: Convention Declarations
+    _singular: Convention Declaration
+    _frontend:
+      action:
+        add: Add Convention Declaration
+    name_rule: Convention
+    citation: Citation
+    descriptive_note: Descriptive Note
+    file_uri: File URI
+    xlink_title_attribute: Xlink Title Attribute
+    xlink_role_attribute: Xlink Role Attribute
+    xlink_arcrole_attribute: Xlink Arcrole Attribute
+    file_version_xlink_actuate_attribute: Xlink Actuate Attribute
+    file_version_xlink_show_attribute: Xlink Show Attribute
+    last_verified_date: Last Verified Date
+
+  agent_conventions_declarations:
+    <<: *agent_conventions_declaration_attributes
+
+  agent_conventions_declaration_required:
+    <<: *agent_conventions_declaration_attributes
+
+  agent_conventions_declaration_merge_target:
+    <<: *agent_conventions_declaration_attributes
+
+  agent_conventions_declaration_merge_victim:
+    <<: *agent_conventions_declaration_attributes
+
+  agent_other_agency_code: &agent_other_agency_code_attributes
+    _plural: Other Agency Codes
+    _singular: Other Agency Code
+    _frontend:
+      action:
+        add: Add Agency Code
+    agency_code_type: Record Control Agency Code Type
+    maintenance_agency: Maintenance Agency
+
+  agent_other_agency_codes:
+    <<: *agent_other_agency_code_attributes
+
+  agent_other_agency_code_required:
+    <<: *agent_other_agency_code_attributes
+
+  agent_other_agency_code_merge_target:
+    <<: *agent_other_agency_code_attributes
+
+  agent_other_agency_code_merge_victim:
+    <<: *agent_other_agency_code_attributes
+
+  agent_maintenance_history: &agent_maintenance_history_attributes
+    _plural: Maintenance History
+    _singular: Agent Maintenance History
+    _frontend:
+      action:
+        add: Add Event
+    maintenance_event_type: Record Control Maintenance Event Type
+    maintenance_agent_type: Record Control Maintenance Agent Type
+    agent: Agent
+    descriptive_note: Descriptive Note
+    event_date: Event Date
+
+  agent_maintenance_histories:
+    <<: *agent_maintenance_history_attributes
+
+  agent_maintenance_history_required:
+    <<: *agent_maintenance_history_attributes
+
+  agent_maintenance_history_merge_target:
+    <<: *agent_maintenance_history_attributes
+
+  agent_maintenance_history_merge_victim:
+    <<: *agent_maintenance_history_attributes
+
+  agent_record_identifier: &agent_record_identifier_attributes
+    _plural: Record IDs
+    _singular: Record ID
+    _frontend:
+      action:
+        add: Add Record ID
+    identifier_type: Record Control Identifier Type
+    source: Source
+    primary_identifier: Is Primary Identifier?
+    primary: Primary
+    record_identifier: Record Identifier
+
+  agent_record_identifiers:
+    <<: *agent_record_identifier_attributes
+
+  agent_record_identifier_required:
+    <<: *agent_record_identifier_attributes
+
+  agent_record_identifier_merge_target:
+    <<: *agent_record_identifier_attributes
+
+  agent_record_identifier_merge_victim:
+    <<: *agent_record_identifier_attributes
+
+  agent_source: &agent_source_attributes
+    _plural: Sources
+    _singular: Agent Source
+    _frontend:
+      action:
+        add: Add Source
+    source_entry: Source Entry
+    descriptive_note: Descriptive Note
+    file_uri: File URI
+    xlink_title_attribute: Xlink Title Attribute
+    xlink_role_attribute: Xlink Role Attribute
+    xlink_arcrole_attribute: Xlink Arcrole Attribute
+    file_version_xlink_actuate_attribute: Xlink Actuate Attribute
+    file_version_xlink_show_attribute: Xlink Show Attribute
+    last_verified_date: Last Verified Date
+
+  agent_sources:
+    <<: *agent_source_attributes
+
+  agent_source_required:
+    <<: *agent_source_attributes
+
+  agent_source_merge_target:
+    <<: *agent_source_attributes
+
+  agent_source_merge_victim:
+    <<: *agent_source_attributes
+
+  agent_parallel_name:
+    _plural: Parallel Names
+    use_dates: Use Dates
+
+  agent_name:
+    use_dates: Use Dates
+
+  agent_resource: &agent_resource_attributes
+    _frontend:
+      action:
+        add: Add Related External Resource
+    section:
+      dates: Dates
+      places: Places
+    _plural: Related External Resources
+    _singular: Related External Resource
+    dates: Dates
+    places: Places
+    publish: Published
+    linked_agent_role: Resource Relation Type
+    linked_resource: Related External Resource
+    linked_resource_description: Description
+    file_uri: File URI
+    xlink_title_attribute: Xlink Title Attribute
+    xlink_role_attribute: Xlink Role Attribute
+    xlink_arcrole_attribute: Xlink Arcrole Attribute
+    file_version_xlink_actuate_attribute: Xlink Actuate Attribute
+    file_version_xlink_show_attribute: Xlink Show Attribute
+    last_verified_date: Last Verified Date
+
+  agent_resources:
+    <<: *agent_resource_attributes
+
+  agent_resource_required:
+    <<: *agent_resource_attributes
+
+  agent_resource_merge_victim:
+    <<: *agent_resource_attributes
+
+  agent_resource_merge_target:
+    <<: *agent_resource_attributes
+
+  subsections:
+    notes: Notes
+    dates: Dates
+
+  section_headings:
+    basic_information_tooltip: |
+      <p>This section indicates the agent type and whether the agent is published or not.</p>
+
+    record_control_information_tooltip: |
+      <p>This section contains information about the record itself, with the expectation that it originated outside of ArchivesSpace or is going to be shared with a system other than ArchivesSpace.</p>
+
+    identity_information_tooltip: |
+      <p>This section is the core information about the agent him/her/themselves. A Name Form is the only required sub-record in an Agent record.</p>
+
+    description_information_tooltip: |
+      <p>This section is the core information about the agent him/her/themselves. A Name Form is the only required sub-record in an Agent record.</p>
+
+    relation_information_tooltip: |
+      <p>This section is used to indicate relationships to other agents or materials inside or outside ArchivesSpace.</p>
+
+
   bulk_import:
     _frontend:
       actions:
@@ -1764,7 +2252,7 @@ en:
       messages:
         missing_file: You have not added a file
         not_excel: The file you have chosen is not an Excel Spreadsheet
-        not_excel_csv: The file you have chosen is neither an Excel Spreadsheet nor a CSV file
+        not_excel_csv: The fileRecord Control  you have chosen is neither an Excel Spreadsheet nor a CSV file
         processed: The file has been processed
         error: "ERROR: Error(s) detected: "
         copied: Copied!
@@ -1776,3 +2264,10 @@ en:
     format: Download File Format
     filename: Spreadsheet file name
     not_direct: At this time, this job can only be created from the Resource record
+
+  note_contact_note:
+    contact_notes_tooltip: |
+        <p>Details about the interaction with the contact</p>
+
+    date_of_contact_tooltip: |
+        <p>Used to record the specific date or timeframe of an interaction</p>

@@ -1,0 +1,8 @@
+<% Array(note['content']).each_with_index do |content,i| %>
+  <%== process_mixed_content(content).html_safe %>
+  <% if i < Array(note['content']).length - 1%><br/><% end %>
+<% end %>
+
+<% if note['xlink'] && note['xlink']['href'] %>
+  <%= link_to note['xlink']['title'] || note['xlink']['href'], note['xlink']['href'] %>
+<% end %>

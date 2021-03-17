@@ -1,7 +1,7 @@
 class ExportsController < ApplicationController
 
   set_access_control  "view_repository" => [:container_labels, :download_marc, :download_dc, :download_mods,
-                                            :download_mets, :download_ead, :download_eac]
+                                            :download_mets, :download_ead, :download_eac, :download_marc_auth]
   set_access_control "create_job" => [:print_to_pdf]
 
   include ExportHelper
@@ -62,6 +62,11 @@ class ExportsController < ApplicationController
       "/repositories/#{JSONModel::repository}/archival_contexts/#{params[:type].sub(/^agent_/, '').pluralize}/#{params[:id]}.xml")
   end
 
+  def download_marc_auth
+    download_export(
+      "/repositories/#{JSONModel::repository}/agents/#{params[:type].sub(/^agent_/, '').pluralize}/marc21/#{params[:id]}.xml")
+  end
+
   def print_to_pdf
     @resource = JSONModel(:resource).find(params[:id], find_opts)
     render :layout => false
@@ -71,7 +76,6 @@ class ExportsController < ApplicationController
   private
 
   def download_export(request_uri, params = {})
-
     meta = JSONModel::HTTP::get_json("#{request_uri}/metadata")
 
     respond_to do |format|

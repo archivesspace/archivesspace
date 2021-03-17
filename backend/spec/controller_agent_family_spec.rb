@@ -1,4 +1,5 @@
 require 'spec_helper'
+require 'agent_spec_helper'
 
 describe 'Family agent controller' do
 
@@ -55,6 +56,28 @@ describe 'Family agent controller' do
   end
 
 
+  it "auto-generates the sort name for a parallel name" do
+    id = create_family(
+      {
+        :names => [build(:json_name_family, {
+          :family_name => "Canidae",
+          :sort_name_auto_generate => true,
+          :parallel_names => [{:family_name => 'Dogs'}]
+        })]
+      }).id
+
+    agent = JSONModel(:agent_family).find(id)
+
+    expect(agent.names.first['sort_name']).to match(/^Canidae/)
+    expect(agent.names.first['parallel_names'].first['sort_name']).to match(/^Dogs/)
+
+    agent.names.first['parallel_names'].first['qualifier'] = "Pets"
+    agent.save
+
+    expect(JSONModel(:agent_family).find(id).names.first['parallel_names'].first['sort_name']).to match(/^Dogs.*\(Pets\)$/)
+  end
+
+
   it "can give a list of family agents" do
     uris = (1...4).map {|_| create_family.uri}
     results = JSONModel(:agent_family).all(:page => 1)['results'].map {|rec| rec['uri']}
@@ -62,4 +85,142 @@ describe 'Family agent controller' do
     expect((uris - results).length).to eq(0)
   end
 
+
+  it "publishes the family agent and subrecords when /publish is POSTed" do
+    family = create(:json_agent_family, {
+                  :publish => false,
+                  :names => [build(:json_name_family)],
+                  :external_documents => [build(:json_external_document, {:publish => false})],
+                  :agent_places => [build(:json_agent_place)]
+                })
+
+    # Confirm various subrecords are unpublished
+    family = JSONModel(:agent_family).find(family.id)
+    expect(family.publish).to be_falsey
+    expect(family.external_documents[0]['publish']).to be_falsey
+    expect(family.agent_places[0]['publish']).to be_falsey
+    expect(family.agent_places[0]['notes'][0]['publish']).to be_falsey
+
+    url = URI("#{JSONModel::HTTP.backend_url}#{family.uri}/publish")
+
+    request = Net::HTTP::Post.new(url.request_uri)
+    response = JSONModel::HTTP.do_http_request(url, request)
+
+    # Now they're published
+    family = JSONModel(:agent_family).find(family.id)
+    expect(family.publish).to be_truthy
+    expect(family.external_documents[0]['publish']).to be_truthy
+    expect(family.agent_places[0]['publish']).to be_truthy
+    expect(family.agent_places[0]['notes'][0]['publish']).to be_truthy
+  end
+
+
+  it "allows families to have a bioghist notes" do
+
+    n1 = build(:json_note_bioghist)
+
+    id = create_family({:notes => [n1]}).id
+
+    agent = JSONModel(:agent_family).find(id)
+
+    expect(agent.notes.length).to eq(1)
+    expect(agent.notes[0]["label"]).to eq(n1.label)
+  end
+
+  it "allows families to have a general_context notes" do
+
+    n1 = build(:json_note_general_context)
+
+    id = create_family({:notes => [n1]}).id
+
+    agent = JSONModel(:agent_family).find(id)
+
+    expect(agent.notes.length).to eq(1)
+    expect(agent.notes[0]["label"]).to eq(n1.label)
+  end
+
+  it "allows families to have a structure_or_genealogy notes" do
+
+    n1 = build(:json_note_legal_status)
+
+    id = create_family({:notes => [n1]}).id
+
+    agent = JSONModel(:agent_family).find(id)
+
+    expect(agent.notes.length).to eq(1)
+    expect(agent.notes[0]["label"]).to eq(n1.label)
+  end
+
+  describe "subrecord CRUD" do
+    it "creates agent subrecords on POST if appropriate" do
+      agent_id = create_agent_via_api(:family, {:create_subrecords => true})
+      expect(agent_id).to_not eq(-1)
+
+      expect(AgentRecordControl.where(:agent_family_id => agent_id).count).to eq(1)
+      expect(AgentAlternateSet.where(:agent_family_id => agent_id).count).to eq(1)
+      expect(AgentConventionsDeclaration.where(:agent_family_id => agent_id).count).to eq(1)
+      expect(AgentSources.where(:agent_family_id => agent_id).count).to eq(1)
+      expect(AgentOtherAgencyCodes.where(:agent_family_id => agent_id).count).to eq(1)
+      expect(AgentMaintenanceHistory.where(:agent_family_id => agent_id).count).to eq(1)
+      expect(AgentRecordIdentifier.where(:agent_family_id => agent_id).count).to eq(1)
+      expect(StructuredDateLabel.where(:agent_family_id => agent_id).count).to eq(1)
+      expect(AgentPlace.where(:agent_family_id => agent_id).count).to eq(1)
+      expect(AgentOccupation.where(:agent_family_id => agent_id).count).to eq(1)
+      expect(AgentFunction.where(:agent_family_id => agent_id).count).to eq(1)
+      expect(AgentTopic.where(:agent_family_id => agent_id).count).to eq(1)
+      expect(AgentIdentifier.where(:agent_family_id => agent_id).count).to eq(1)
+      expect(UsedLanguage.where(:agent_family_id => agent_id).count).to eq(1)
+      expect(AgentResource.where(:agent_family_id => agent_id).count).to eq(1)
+    end
+
+    it "deletes agent subrecords when parent agent is deleted" do
+      agent_id = create_agent_via_api(:family, {:create_subrecords => true})
+      expect(agent_id).to_not eq(-1)
+
+
+      url = URI("#{JSONModel::HTTP.backend_url}/agents/families/#{agent_id}")
+      response = JSONModel::HTTP.delete_request(url)
+
+      expect(AgentRecordControl.where(:agent_family_id => agent_id).count).to eq(0)
+      expect(AgentAlternateSet.where(:agent_family_id => agent_id).count).to eq(0)
+      expect(AgentConventionsDeclaration.where(:agent_family_id => agent_id).count).to eq(0)
+      expect(AgentSources.where(:agent_family_id => agent_id).count).to eq(0)
+      expect(AgentOtherAgencyCodes.where(:agent_family_id => agent_id).count).to eq(0)
+      expect(AgentMaintenanceHistory.where(:agent_family_id => agent_id).count).to eq(0)
+      expect(AgentRecordIdentifier.where(:agent_family_id => agent_id).count).to eq(0)
+      expect(StructuredDateLabel.where(:agent_family_id => agent_id).count).to eq(0)
+      expect(AgentPlace.where(:agent_family_id => agent_id).count).to eq(0)
+      expect(AgentOccupation.where(:agent_family_id => agent_id).count).to eq(0)
+      expect(AgentFunction.where(:agent_family_id => agent_id).count).to eq(0)
+      expect(AgentTopic.where(:agent_family_id => agent_id).count).to eq(0)
+      expect(AgentIdentifier.where(:agent_family_id => agent_id).count).to eq(0)
+      expect(UsedLanguage.where(:agent_family_id => agent_id).count).to eq(0)
+      expect(AgentResource.where(:agent_family_id => agent_id).count).to eq(0)
+    end
+
+    it "gets subrecords along with agent" do
+      agent_id = create_agent_via_api(:family, {:create_subrecords => true})
+      expect(agent_id).to_not eq(-1)
+
+      url = URI("#{JSONModel::HTTP.backend_url}/agents/families/#{agent_id}")
+      response = JSONModel::HTTP.get_response(url)
+      json_response = ASUtils.json_parse(response.body)
+
+      expect(json_response["agent_record_controls"].length).to eq(1)
+      expect(json_response["agent_alternate_sets"].length).to eq(1)
+      expect(json_response["agent_conventions_declarations"].length).to eq(1)
+      expect(json_response["agent_other_agency_codes"].length).to eq(1)
+      expect(json_response["agent_maintenance_histories"].length).to eq(1)
+      expect(json_response["agent_record_identifiers"].length).to eq(1)
+      expect(json_response["agent_sources"].length).to eq(1)
+      expect(json_response["dates_of_existence"].length).to eq(1)
+      expect(json_response["agent_places"].length).to eq(1)
+      expect(json_response["agent_occupations"].length).to eq(1)
+      expect(json_response["agent_functions"].length).to eq(1)
+      expect(json_response["agent_topics"].length).to eq(1)
+      expect(json_response["agent_identifiers"].length).to eq(1)
+      expect(json_response["used_languages"].length).to eq(1)
+      expect(json_response["agent_resources"].length).to eq(1)
+    end
+  end
 end

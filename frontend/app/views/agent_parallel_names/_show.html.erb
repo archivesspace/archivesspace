@@ -1,0 +1,38 @@
+<%
+   section_id = "agent_parallel_names" if section_id.blank?
+   section_title = "Parallel Name Forms" if section_title.blank?
+   parent_index = 0 if parent_index.nil?
+   names ||= []
+%>
+
+<section id="<%= section_title + rand(1000000).to_s %>">
+  <h4><%= I18n.t("agent_parallel_name._plural") %></h4>
+  <div class="panel-group details" id="agent_parallel_name_accordion_<%= parent_index %>">
+    <% names.each_with_index do | name, index | %>
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <div class="row accordion-toggle collapsed" data-toggle="collapse" data-parent="#agent_parallel_name_accordion_<%= parent_index %>" href="#agent_parallel_name_<%= parent_index %>_<%= index %>">
+            <div class="col-md-1">
+              <span class="glyphicon"></span>
+            </div>
+            <div class="col-md-6">
+              <% if name["primary_name"] %>
+                <%= name['primary_name'] %>
+              <% elsif name["family_name"] %>
+                <%= name['family_name'] %>
+              <% elsif name["software_name"] %>
+                <%= name['software_name'] %>
+              <% end %>
+            </div>
+          </div>
+        </div>
+        <div id="agent_parallel_name_<%= parent_index %>_<%= index %>" class="accordion-body collapse">
+          <%= read_only_view(name.to_hash) %>
+          <% if name['use_dates'].length > 0 %>
+            <%= render_aspace_partial :partial => "structured_dates/show", :locals => { :dates => name['use_dates'], :section_id => "name_use_dates_parallel_#{parent_index}_#{index}", :section_title => I18n.t("agent_parallel_name.use_dates"), :heading_size => "h4"} %>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</section>

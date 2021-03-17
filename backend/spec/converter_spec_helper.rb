@@ -1,8 +1,15 @@
 require 'spec_helper'
 
 
-def convert(path_to_some_xml)
+def convert(path_to_some_xml, import_events = false)
   converter = my_converter.new(path_to_some_xml)
+
+  if import_events
+    converter.set_import_events if converter.respond_to?(:set_import_events)
+  else
+    converter.unset_import_events if converter.respond_to?(:unset_import_events)
+  end
+
   converter.run
   json = JSON(IO.read(converter.get_output_path))
 

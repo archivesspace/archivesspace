@@ -22,8 +22,10 @@ module SidebarHelper
 
       record = @opts[:record]
       property = opts[:property]
+      sidebar_heading = opts[:sidebar_heading]
+      sidebar_children = opts[:sidebar_children] || []
 
-      if @form.controller.action_name != "show" || property == :none || !record[property].blank?
+      if @form.controller.action_name != "show" || property == :none || !record[property].blank? || (sidebar_heading == true && !sidebar_children.map { |c| record[c]}.flatten.compact.blank?)
         render_entry(opts)
       end
     end
@@ -34,8 +36,9 @@ module SidebarHelper
 
       record = @opts[:record]
       property = opts[:property]
+      sidebar_heading = opts[:sidebar_heading]
 
-      if @form.controller.action_name == "show" && (!record[property].blank? || property == :none)
+      if @form.controller.action_name == "show" && (!record[property].blank? || property == :none || sidebar_heading == true)
         render_entry(opts)
       end
     end

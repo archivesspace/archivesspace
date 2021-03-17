@@ -1,0 +1,11 @@
+<% dates = find_dates_for(result) %>
+<% if dates.any? %>
+  <h3><%= I18n.t("agent._public.section.dates") %></h3>
+  <ul>
+    <% dates.each do |d| %>
+      <li>
+        <b><%= I18n.t("date_label.#{d['date_label']}") %>:</b> <%= render partial: 'structured_date', locals: {:date => d} %>
+      </li>
+    <% end %>
+  </ul>
+<% end %>

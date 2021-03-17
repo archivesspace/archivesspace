@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<export>
+<eac-cpf xmlns="urn:isbn:1-931666-33-4" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xlink="http://www.w3.org/1999/xlink" xsi:schemaLocation="urn:isbn:1-931666-33-4 http://eac.staatsbibliothek-berlin.de/schema/cpf.xsd">
+  <control>
+    <recordId>RCR00751</recordId>
+        <maintenanceStatus>new</maintenanceStatus>
+        <maintenanceAgency>
+      <agencyCode>MMeT-C</agencyCode>
+      <agencyName>Tufts University Digital Collections and Archives</agencyName>
+    </maintenanceAgency>
+    <languageDeclaration>
+      <language languageCode="eng">English</language>
+      <script scriptCode="Latn">Latin</script>
+    </languageDeclaration>
+    <conventionDeclaration>
+      <abbreviation>DACS</abbreviation>
+      <citation>Describing Archives: a Content Standard, Society of American Archivists. 2004</citation>
+      <descriptiveNote><p>Locally using rules from chapter 10 and 11.</p></descriptiveNote>
+    </conventionDeclaration>
+    <conventionDeclaration>
+      <abbreviation>AACR2</abbreviation>
+      <citation>Anglo-American Cataloging Rules, Revised.</citation>
+      <descriptiveNote><p>Locally used for their definition of a corporate body.</p></descriptiveNote>
+    </conventionDeclaration>
+    <maintenanceHistory>
+                <maintenanceEvent>
+        	<eventType>created</eventType>
+		<eventDateTime standardDateTime="2011-06-01">2011-06-01</eventDateTime>
+	<agentType>human</agentType>
+	<agent>Brigham, MacKenzie</agent>
+      </maintenanceEvent>
+                      <maintenanceEvent>
+        	<eventType>revised</eventType>
+		<eventDateTime standardDateTime="2011-09-30">2011-09-30</eventDateTime>
+	<agentType>human</agentType>
+	<agent>Rubinstein, Aaron</agent>
+      </maintenanceEvent>
+                      <maintenanceEvent>
+        	<eventType>revised</eventType>
+		<eventDateTime standardDateTime="2012-01-27">2012-01-27</eventDateTime>
+	<agentType>human</agentType>
+	<agent>Rubinstein, Aaron</agent>
+      </maintenanceEvent>
+                        </maintenanceHistory>
+    <sources>
+              <source>
+        <sourceEntry>The Forest Hills Educational Trust, "Historic Forest Hills Cemetary: The Soul of Milton Hill," Forest Hills Cemetery. Boston, MA. October 30, 2009. http://foresthillstrust.blogspot.com/2009/10/soul-of-milton-hill.html (accessed June 8, 2011).</sourceEntry>
+      </source>
+        </sources>
+  </control>
+  
+  <cpfDescription>
+
+    <identity>
+      <entityType>person</entityType>
+      <nameEntry>
+        <part>Lufkin, Richard H.</part>
+	<authorizedForm>local</authorizedForm>
+      </nameEntry>
+          </identity>
+    
+    <description>
+
+      <existDates>
+        <dateRange>
+	  <fromDate>1851</fromDate>
+	  	  <toDate>1922</toDate>
+	          </dateRange>
+      </existDates>
+
+            
+      <biogHist>
+        <abstract><p>Richard H. Lufkin was a shoe machine engineer who has a grantmaking foundation named in his honor. His family's philanthropy helped build the Lufkin Engineering Library at Tufts University's School of Engineering.</p></abstract>
+            <p>Richard H. Lufkin (1851-1922) was an engineer who patented the vamp folding machine, for shoe manufacturers. Lufkin was recognized for this achievement by the Massachusetts Charitable Mechanics Association. Lufkin's sister Elizabeth later started the Elizabeth A. and Richard H. Lufkin Memorial Foundation, as a trust for six engineering schools in the Boston area, including Tufts University. Tufts named its engineering library after the Lufkins after philanthropic donations to Tufts School of Engineering. The Lufkin Engineering Library was later folded into Wessell Library in fall 1996.</p>
+            </biogHist>
+      
+          </description>	  
+      
+    <relations>
+              	  	  	  	  	    	  	    	  	    	  	    	  	    	  	    	  	  	    	  	  	              	              	              	              	              	              	              	  	    	  	    	  	  	  <cpfRelation cpfRelationType="associative" xlink:type="simple" xlink:role="http://dca.lib.tufts.edu/ontology/rcr#corporateBody" xlink:arcrole="http://dca.lib.tufts.edu/ontology/rcr#isAssociatedWith">
+	    <relationEntry xml:id="RCR00750">Lufkin Engineering Library</relationEntry>
+	    <dateRange>
+	      <fromDate standardDate="1928">1928</fromDate>
+	      	      <toDate standardDate="1996">1996</toDate>
+	                  </dateRange>
+	  	 </cpfRelation>
+	            
+            </relations>
+  </cpfDescription>
+</eac-cpf>
+</export>

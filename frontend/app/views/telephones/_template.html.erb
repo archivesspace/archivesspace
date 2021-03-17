@@ -25,9 +25,9 @@
 <% define_template "telephone_merge", jsonmodel_definition(:telephone) do |form| %>
   <div class="subrecord-form-inline subrecord-form-fields">
     <div class="row">
-      <%= form.label_and_merge_select "number_type" %>
-      <%= form.label_and_merge_select "number" %>
-      <%= form.label_and_merge_select "ext" %>
+      <%= form.label_and_readonly "number_type" %>
+      <%= form.label_and_readonly "number" %>
+      <%= form.label_and_readonly "ext" %>
     </div>
   </div>
 <% end %>

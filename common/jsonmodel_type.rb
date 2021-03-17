@@ -226,6 +226,7 @@ class JSONModelType
   def has_key?(key)
     @data.has_key?(key)
   end
+  alias :key? :has_key?
 
 
   # Validate the current JSONModel instance and return a list of exceptions
@@ -472,4 +473,8 @@ class JSONModelType
     @data = hash
   end
 
+
+  def self.properties_by_tag(tag)
+    @schema['properties'].find_all { |p, cfg| cfg.fetch('tags', []).include?(tag) }
+  end
 end

@@ -118,9 +118,18 @@ class Converter
   end
 
 
-  def self.for(type, input_file)
+  def self.for(type, input_file, opts = {})
     Array(@converters).each do |converter|
       converter = converter.instance_for(type, input_file)
+
+      if converter && converter.respond_to?(:set_import_events) 
+        if opts[:import_events] 
+          converter.set_import_events
+        else
+          converter.unset_import_events
+        end
+      end
+
       return converter if converter
     end
 

@@ -85,14 +85,17 @@ $(function() {
       return;
     }
     $(".nav-list-record-count").remove();
-    $("#archivesSpaceSidebar .as-nav-list > li").each(function() {
+    $("#archivesSpaceSidebar .as-nav-list > li:not(.sidebar-heading)").each(function() {
       var $nav = $(this);
       var $link = $("a", $nav);
       var $section = $($link.attr("href"));
       var $items = $(".subrecord-form-list:first > li", $section);
 
-      var $submenu = getSubMenuHTML($items.length);
-      $link.append($submenu);
+      // Do not add a badge count to sidebar heading items (with class .sidebar-heading) -- only to entry items (with class .sidebar-entry-XXX)
+      if(!$nav.hasClass('sidebar-heading')) {
+        var $submenu = getSubMenuHTML($items.length);
+        $link.append($submenu);
+      }
     });
   };
 
@@ -315,7 +318,7 @@ $(function() {
 
 
 
-
+// templates as defined in app/views/_model_/_template.html.erb are added to the DOM as HTML comments wrapped in a div. This method queries for the template we are looking for, uncomments it, and returns it for insertion back into the DOM.
 AS.templateCache = [];
 AS.renderTemplate = function(templateId, data, cb) {
 
@@ -688,6 +691,11 @@ AS.initSubRecordSorting = function($list) {
 
     $list.off("sortupdate").on("sortupdate", function() {
       $("form.aspace-record-form").triggerHandler("formchanged.aspace");
+    });
+
+    // ANW-429: trigger special event for agents merge form
+    $list.off("sortupdate").on("sortupdate", function() {
+      $($list).triggerHandler("mergesubformchanged.aspace");
     });
   }
 }

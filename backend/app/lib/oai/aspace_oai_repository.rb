@@ -38,7 +38,19 @@ class ArchivesSpaceOAIRepository < OAI::Provider::Model
 
   DELETES_PER_PAGE = 100
 
-  RESOLVE = ['repository', 'subjects', 'linked_agents', 'digital_object', 'top_container', 'ancestors', 'linked_agents', 'resource', 'top_container::container_profile']
+  RESOLVE = [
+    'ancestors',
+    'ancestors::linked_agents',
+    'ancestors::subjects',
+    'ancestors::instances::sub_container::top_container',
+    'digital_object',
+    'linked_agents',
+    'repository',
+    'resource',
+    'subjects',
+    'top_container',
+    'top_container::container_profile'
+  ]
 
 
   def earliest
@@ -423,11 +435,8 @@ class ArchivesSpaceOAIRepository < OAI::Provider::Model
         jsons = record_type.sequel_to_jsonmodel(subset)
 
         # Resolve ancestors since the RecordInheritance code expects them to be there
-        jsons = URIResolver.resolve_references(jsons, ['ancestors'])
-
-        # Now merge in the ancestor values according to the configuration and resolve everything else we need.
-        jsons = RecordInheritance.merge(jsons)
-        resolved = URIResolver.resolve_references(jsons, RESOLVE)
+        # and merge in the ancestor values according to the configuration and resolve everything else we need.
+        resolved = RecordInheritance.merge(URIResolver.resolve_references(jsons, RESOLVE))
 
         result.concat(resolved.map {|json| JSONModel::JSONModel(json.fetch('jsonmodel_type').intern).from_hash(json, true, :trusted)})
       end

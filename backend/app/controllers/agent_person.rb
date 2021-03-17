@@ -62,4 +62,18 @@ class ArchivesSpaceService < Sinatra::Base
   end
 
 
+  Endpoint.post('/agents/people/:id/publish')
+    .description("Publish an agent person and all its sub-records")
+    .params(["id", :id])
+    .permissions([:update_agent_record])
+    .returns([200, :updated],
+             [400, :error]) \
+  do
+    agent = AgentPerson.get_or_die(params[:id])
+    agent.publish!
+
+    updated_response(agent)
+  end
+
+
 end

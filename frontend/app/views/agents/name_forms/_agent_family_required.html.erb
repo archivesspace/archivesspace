@@ -16,8 +16,31 @@
       <% end %>
     <% end %>
     <hr/>
+    <% field_names = ["family_type", "location"] %>
+    <% field_names.each do |field_name| %>
+      <% if form.required?(field_name) %>
+        <%= form.label_and_readonly field_name %>
+      <% else %>
+        <%= form.label_and_req_boolean field_name %>
+      <% end %>
+    <% end %>
+    <hr/>
+    <% field_names = ["language", "script", "transliteration"] %>
+    <% field_names.each do |field_name| %>
+      <% if form.required?(field_name) %>
+        <%= form.label_and_readonly field_name %>
+      <% else %>
+        <%= form.label_and_req_boolean field_name %>
+      <% end %>
+    <% end %>
+    <hr/>
     <%= form.label_and_req_boolean "qualifier" %>
-    <%= form.label_and_readonly "sort_name"%>
-    <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "use_dates", :template_erb => "dates/template_required", :template => "date", :heading_text => I18n.t("name._frontend.section.use_date"), :heading_size => "h4", :template_overrides => "agents/name_forms/date_labels"} %>
+    <%= form.label_and_disabled_checkbox "Sort Name" %>
+
+    <hr/>
+    <%= form.label_and_disabled_checkbox "Date(s) of Name Use" %>
+    <hr/>
+    <%= form.label_and_disabled_checkbox "Parallel Names" %>
+    
   </div>
 <% end %>

@@ -1,0 +1,32 @@
+<%
+   section_id = "agent_parallel_names" if section_id.blank?
+   section_title = "Parallel Name Forms" if section_title.blank?
+   parent_index = 0 if parent_index.nil?
+   names ||= []
+%>
+
+<section id="<%= section_title + rand(1000000).to_s %>">
+  <h4><%= I18n.t("agent_parallel_name._plural") %></h4>
+  <div class="panel-group details" id="agent_parallel_name_accordion_<%= parent_index %>">
+    <% names.each_with_index do | name, index | %>
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <div class="row">
+            <div class="col-md-1">
+              &nbsp;
+            </div>
+            <div class="col-md-6">
+              <% if name["primary_name"] %>
+                <%= name['primary_name'] %>
+              <% elsif name["family_name"] %>
+                <%= name['family_name'] %>
+              <% elsif name["software_name"] %>
+                <%= name['software_name'] %>
+              <% end %>
+            </div>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</section>

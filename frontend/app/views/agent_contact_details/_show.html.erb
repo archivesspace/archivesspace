@@ -1,0 +1,33 @@
+<%
+   section_id = "agent_contact_details" if section_id.blank?
+   section_title = "Contact Details" if section_title.blank?
+%>
+
+<section id="<%= section_id %>">
+  <h3><%= I18n.t("agent_contact._plural") %></h3>
+  <div class="accordion details" id="agent_contact_accordion">
+    <%= context.list_for(context["agent_contacts"], "agent_contacts[]") do |contact, index| %>
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <div class="row accordion-toggle collapsed" data-toggle="collapse" data-parent="#agent_contact_accordion" href="#agent_contact_<%= index %>">
+            <div class="col-md-1">
+              <span class="glyphicon"></span>
+            </div>
+            <div class="col-md-7">
+              <%= contact['name'] %>
+            </div>
+          </div>
+        </div>
+        <div id="agent_contact_<%= index %>" class="accordion-body collapse">
+          <%= read_only_view(contact) %>
+          <% if contact["telephones"].length > 0 %>
+            <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => { :form => context, :telephones => contact["telephones"], :template_erb => "telephones/template", :template => "telephone", :name => "telephones", :heading_size => "h4" } %>
+          <% end %>
+          <% if contact["notes"].length > 0 %>
+            <%= render_aspace_partial :partial => "notes/show", :locals => { :notes => contact["notes"], :section_id => "#{@agent.agent_type}_agent_contacts__#{index}__notes_", :context => context, :heading_size => "h4" } %>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</section>

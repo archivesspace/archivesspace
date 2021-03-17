@@ -373,6 +373,20 @@ var init = function() {
 
     };
 
+    var hideImportEventsOption = function() {
+       $("#js-import-events").hide(); 
+
+       $("#job_import_type_").change(function () {
+         if ($("#job_import_type_").val() == "marcxml_auth_agent" ||
+             $("#job_import_type_").val() == "eac_xml") {
+           $("#js-import-events").show(); 
+         }
+         else {
+           $("#js-import-events").hide(); 
+         }
+       });
+    }
+
     var type = $("#job_type").val();
 
     $(".linker:not(.initialised)").linker();
@@ -391,6 +405,8 @@ var init = function() {
     } else if (type == "import_job") {
         initImportJobForm();
     }
+
+    hideImportEventsOption();
 };
 
 $(init);

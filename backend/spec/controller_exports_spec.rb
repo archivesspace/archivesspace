@@ -26,7 +26,7 @@ describe 'Exports controller' do
 
 
   it "lets you export a person in EAC-CPF" do
-    id = create(:json_agent_person).id
+    id = create(:json_agent_person_full_subrec).id
     get "/repositories/#{$repo_id}/archival_contexts/people/#{id}.xml"
     resp = last_response.body
     expect(resp).to include("<eac-cpf")
@@ -36,7 +36,7 @@ describe 'Exports controller' do
 
 
   it "lets you export a family in EAC-CPF" do
-    id = create(:json_agent_family).id
+    id = create(:json_agent_family_full_subrec).id
     get "/repositories/#{$repo_id}/archival_contexts/families/#{id}.xml"
     resp = last_response.body
     expect(resp).to include("<eac-cpf")
@@ -46,7 +46,7 @@ describe 'Exports controller' do
 
 
   it "lets you export a corporate entity in EAC-CPF" do
-    id = create(:json_agent_corporate_entity).id
+    id = create(:json_agent_corporate_entity_full_subrec).id
     get "/repositories/#{$repo_id}/archival_contexts/corporate_entities/#{id}.xml"
     resp = last_response.body
     expect(resp).to include("<eac-cpf")
@@ -56,7 +56,7 @@ describe 'Exports controller' do
 
 
   it "lets you export a software in EAC-CPF" do
-    id = create(:json_agent_software).id
+    id = create(:json_agent_software_full_subrec).id
     get "/repositories/#{$repo_id}/archival_contexts/softwares/#{id}.xml"
     resp = last_response.body
     expect(resp).to include("<eac-cpf")

@@ -1,8 +1,10 @@
 <% define_template "external_document", jsonmodel_definition(:external_document) do |form| %>
-  <h4 class="subrecord-form-heading"><%= I18n.t("external_document._singular") %>
-    <label class="append"><%= form.merge_checkbox('append') %><small><%= I18n.t("actions.merge_add") %></small></label>
-  </h4>
+
+  <% disable_replace = false %>
+
+  <%= form.record_level_merge_controls(form, "external_document", true, !disable_replace) %>
   <div class="subrecord-form-fields">
+    <%= form.hidden_input "id", form.obj["id"] %>
     <%= form.label_and_readonly "title" %>
     <%= form.label_and_readonly "location" %>
     <%= form.label_and_readonly "publish" %>

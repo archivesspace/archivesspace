@@ -11,6 +11,8 @@ class Assessment < Sequel::Model(:assessment)
 
   corresponds_to JSONModel(:assessment)
 
+  include ExternalDocuments
+
   set_model_scope :repository
 
   define_relationship(:name => :assessment,
@@ -129,7 +131,6 @@ class Assessment < Sequel::Model(:assessment)
                               .filter(:repo_id => [Repository.global_repo_id, active_repository])
                               .select(:id)
                               .map {|row| row[:id]}
-
       KEY_TO_TYPE.each do |key, type|
         Array(json[key]).each do |attribute|
           next unless valid_attribute_ids.include?(attribute['definition_id'])

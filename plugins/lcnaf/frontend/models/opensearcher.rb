@@ -30,9 +30,16 @@ class OpenSearcher
   end
 
 
+  # ANW-429: this method writes two tempfiles -- one for agents records and one for subject records so that the correct importer (MARC auth for agents, MARC bib for subjects is used.
   def results_to_marcxml_file(lccns)
-    tempfile = ASUtils.tempfile('lcnaf_import')
-    tempfile.write("<collection>\n")
+    agent_tempfile = ASUtils.tempfile('lcnaf_import_agent')
+    subject_tempfile = ASUtils.tempfile('lcnaf_import_subject')
+
+    agents_count = 0
+    subjects_count = 0
+
+    agent_tempfile.write("<collection>\n")
+    subject_tempfile.write("<collection>\n")
 
     lccns.each do |lccn|
       lccn.sub!( 'info:lc/authorities/subjects/', '')
@@ -48,16 +55,45 @@ class OpenSearcher
         doc.remove_namespaces!
         doc.encoding = 'utf-8'
 
-        tempfile.write(doc.root)
+        if is_subject_record?(doc)
+          subject_tempfile.write(doc.root)
+          subjects_count += 1
+        else
+          agent_tempfile.write(doc.root)
+          agents_count += 1
+        end
       end
     end
 
-    tempfile.write("\n</collection>")
+    agent_tempfile.write("\n</collection>")
+    subject_tempfile.write("\n</collection>")
 
-    tempfile.flush
-    tempfile.rewind
+    agent_tempfile.flush
+    subject_tempfile.flush
 
-    return tempfile
+    agent_tempfile.rewind
+    subject_tempfile.rewind
+
+    return {
+             :agents => {:count => agents_count, :file => agent_tempfile}, 
+             :subjects => {:count => subjects_count, :file => subject_tempfile}
+           }
+  end
+
+  def is_subject_record?(doc)
+    is_subject_record = false
+
+    subject_tags = ["630", "130", "650", "150", "651", "151", "655", "155", "656", "657", "690", "691", "692", "693", "694", "695", "696", "697", "698", "699"]
+
+
+    subject_tags.each do |tag|
+      if doc.search("//datafield[@tag='#{tag}']").length > 0
+        is_subject_record = true
+        break
+      end
+    end
+
+    is_subject_record
   end
 
 

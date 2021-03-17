@@ -1,0 +1,90 @@
+<marcxml:record xmlns:marcxml="http://www.loc.gov/MARC21/slim" xmlns:idx="info:lc/xq-modules/lcindex" xmlns:madsrdf="http://www.loc.gov/mads/rdf/v1#" xmlns:bf="http://id.loc.gov/ontologies/bibframe/" xmlns:ri="http://id.loc.gov/ontologies/RecordInfo#" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:bflc="http://id.loc.gov/ontologies/bflc/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:mets="http://www.loc.gov/METS/" xmlns:semtriples="http://marklogic.com/semantic" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:streams="info:lc/streams#">
+            <marcxml:leader>01845cz  a2200313n  4500</marcxml:leader>
+            <marcxml:controlfield tag="001">n79046262</marcxml:controlfield>
+            <marcxml:controlfield tag="003">DLC</marcxml:controlfield>
+            <marcxml:controlfield tag="005">20181023073741.0</marcxml:controlfield>
+            <marcxml:controlfield tag="008">790613n| azannaabn          |a ana      </marcxml:controlfield>
+            <marcxml:datafield tag="010" ind1=" " ind2=" ">
+              <marcxml:subfield code="a">n  79046262 </marcxml:subfield>
+              <marcxml:subfield code="z">n 2006022501</marcxml:subfield>
+            </marcxml:datafield>
+            <marcxml:datafield tag="035" ind1=" " ind2=" ">
+              <marcxml:subfield code="a">(OCoLC)oca00279636</marcxml:subfield>
+            </marcxml:datafield>
+            <marcxml:datafield tag="040" ind1=" " ind2=" ">
+              <marcxml:subfield code="a">DLC</marcxml:subfield>
+              <marcxml:subfield code="b">eng</marcxml:subfield>
+              <marcxml:subfield code="e">rda</marcxml:subfield>
+              <marcxml:subfield code="c">DLC</marcxml:subfield>
+              <marcxml:subfield code="d">DLC</marcxml:subfield>
+              <marcxml:subfield code="d">CU-S</marcxml:subfield>
+            </marcxml:datafield>
+            <marcxml:datafield tag="046" ind1=" " ind2=" ">
+              <marcxml:subfield code="s">1930-05-20</marcxml:subfield>
+              <marcxml:subfield code="2">edtf</marcxml:subfield>
+            </marcxml:datafield>
+            <marcxml:datafield tag="111" ind1="2" ind2=" ">
+              <marcxml:subfield code="a">Institute for Advanced Study (Princeton, N.J.)</marcxml:subfield>
+              <marcxml:subfield code="e">sub name 1</marcxml:subfield>
+              <marcxml:subfield code="c">Miami</marcxml:subfield>
+              <marcxml:subfield code="d">1999</marcxml:subfield>
+              <marcxml:subfield code="n">3</marcxml:subfield>
+              <marcxml:subfield code="q">sub name 2</marcxml:subfield>
+            </marcxml:datafield>
+            <marcxml:datafield tag="368" ind1=" " ind2=" ">
+              <marcxml:subfield code="a">Research institutes</marcxml:subfield>
+              <marcxml:subfield code="2">lcsh</marcxml:subfield>
+            </marcxml:datafield>
+            <marcxml:datafield tag="370" ind1=" " ind2=" ">
+              <marcxml:subfield code="e">Princeton (N.J.)</marcxml:subfield>
+              <marcxml:subfield code="c">United States</marcxml:subfield>
+              <marcxml:subfield code="2">naf</marcxml:subfield>
+            </marcxml:datafield>
+            <marcxml:datafield tag="371" ind1=" " ind2=" ">
+              <marcxml:subfield code="a">1 Einstein Drive,</marcxml:subfield>
+              <marcxml:subfield code="b">Princeton</marcxml:subfield>
+              <marcxml:subfield code="c">New Jersey</marcxml:subfield>
+              <marcxml:subfield code="d">United States</marcxml:subfield>
+              <marcxml:subfield code="e">08540</marcxml:subfield>
+              <marcxml:subfield code="m">contactus@ias.edu</marcxml:subfield>
+            </marcxml:datafield>
+            <marcxml:datafield tag="372" ind1=" " ind2=" ">
+              <marcxml:subfield code="a">Research</marcxml:subfield>
+              <marcxml:subfield code="2">lcsh</marcxml:subfield>
+            </marcxml:datafield>
+            <marcxml:datafield tag="377" ind1=" " ind2=" ">
+              <marcxml:subfield code="a">eng</marcxml:subfield>
+            </marcxml:datafield>
+            <marcxml:datafield tag="410" ind1="2" ind2=" ">
+              <marcxml:subfield code="a">Louis Bamberger and Mrs. Felix Fuld Foundation</marcxml:subfield>
+            </marcxml:datafield>
+            <marcxml:datafield tag="410" ind1="2" ind2=" ">
+              <marcxml:subfield code="a">Bamberger and Mrs. Felix Fuld Foundation</marcxml:subfield>
+            </marcxml:datafield>
+            <marcxml:datafield tag="410" ind1="2" ind2=" ">
+              <marcxml:subfield code="a">IAS (Research institute)</marcxml:subfield>
+            </marcxml:datafield>
+            <marcxml:datafield tag="500" ind1="1" ind2=" ">
+              <marcxml:subfield code="w">r</marcxml:subfield>
+              <marcxml:subfield code="i">Founder:</marcxml:subfield>
+              <marcxml:subfield code="a">Flexner, Abraham,</marcxml:subfield>
+              <marcxml:subfield code="d">1866-1959</marcxml:subfield>
+            </marcxml:datafield>
+            <marcxml:datafield tag="670" ind1=" " ind2=" ">
+              <marcxml:subfield code="a">Its Bulletin, 1930-</marcxml:subfield>
+            </marcxml:datafield>
+            <marcxml:datafield tag="670" ind1=" " ind2=" ">
+              <marcxml:subfield code="a">Geometry and quantum field theory, 1995:</marcxml:subfield>
+              <marcxml:subfield code="b">CIP t.p. (IAS/Park City mathematics series) pref. (Institute for Advanced Study)</marcxml:subfield>
+            </marcxml:datafield>
+            <marcxml:datafield tag="670" ind1=" " ind2=" ">
+              <marcxml:subfield code="a">Institute for Advanced Study/Park City Mathematical Institute WWW site, Mar. 24 2006</marcxml:subfield>
+              <marcxml:subfield code="b">(Institute for Advanced Study in Princeton, New Jersey ... founded in 1930 as an independent nonprofit institution; Institute is organized in four schools: historical studies, mathematics, natural sciences, and social science)</marcxml:subfield>
+              <marcxml:subfield code="u">https://pcmi.ias.edu/</marcxml:subfield>
+            </marcxml:datafield>
+            <marcxml:datafield tag="670" ind1=" " ind2=" ">
+              <marcxml:subfield code="a">Institute for Advanced Study website, October 22, 2018</marcxml:subfield>
+              <marcxml:subfield code="b">homepage (IAS, Institute for Advanced Study; 1 Einstein Drive, Princeton, New Jersey, 08540 USA, contactus@ias.edu) mission and history (on May 20, 1930, a certificate of incorporation for the "Institute for Advanced Study - Louis Bamberger and Mrs. Felix Fuld Foundation" was filed with the State of New Jersey; founding Director Abraham Flexner)</marcxml:subfield>
+              <marcxml:subfield code="u">https://www.ias.edu/</marcxml:subfield>
+            </marcxml:datafield>
+          </marcxml:record>
