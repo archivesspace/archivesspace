@@ -101,7 +101,7 @@ class AgentsController <  ApplicationController
                               if params[f]
                                 [f, params[f]]
                               end
-                            }].compact.to_query
+                            }.compact].to_query
 
         @pager =  Pager.new("#{uri}?#{extra_params}", @results['this_page'],@results['last_page'])
       else
