@@ -799,7 +799,6 @@ module MarcXMLAuthAgentBaseMap
     {
       :obj => :"agent_#{type}",
       :rel => proc { |agent, rel_agent|
-        rel_agent.publish = true
         agent[:related_agents] << {
           :relator => rel_agent['_relator'] || 'is_associative_with',
           :jsonmodel_type => rel_agent['_jsonmodel_type'] || 'agent_relationship_associative',
