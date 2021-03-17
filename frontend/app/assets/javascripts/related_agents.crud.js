@@ -1,5 +1,7 @@
 //= require dates.crud
 //= require linker
+//= require subrecord.too_many.js
+
 $(function() {
 
   $.fn.init_related_agents_form = function() {
@@ -7,7 +9,7 @@ $(function() {
 
       var $this = $(this);
       $(".linker", $this).linker();
-      if ($this.hasClass("initialised")) {
+      if ($this.hasClass("initialised") || $this.hasClass("too-many")) {
         return;
       }
 
@@ -73,7 +75,7 @@ $(function() {
 
         $subsubform = $("<li>").data("type", $subsubform.data("type")).append($subsubform);
         $subsubform.attr("data-index", index);
-        $subsubform.show(); 
+        $subsubform.show();
         $target_subrecord_list.append($subsubform);
 
         initRemoveActionForSubRecord($subsubform);
@@ -102,20 +104,27 @@ $(function() {
         });
       }
 
-      AS.initAddAsYouGoActions($this, $list);
-      AS.initSubRecordSorting($list);
+      $existingAgents = $(".subrecord-form-list:first > .subrecord-form-wrapper", $this);
+      tooManyAgents = AS.initTooManySubRecords($this, $existingAgents.length, (function (callback) {
+        AS.initSubRecordSorting($list);
+        AS.initAddAsYouGoActions($this, $list);
+
+        if (callback) {
+          callback();
+        }
+      }));
+
+      if (tooManyAgents === false ) {
+        $this.addClass("initialised")
+        AS.initSubRecordSorting($list);
+        AS.initAddAsYouGoActions($this, $list);
+      }
     });
   };
-
 
   $(document).ready(function() {
     $(document).bind("loadedrecordform.aspace", function(event, $container) {
       $("section.related-agents-form.subrecord-form:not(.initialised)", $container).init_related_agents_form();
     });
-
-    $("section.related-agents-form.subrecord-form:not(.initialised)").init_related_agents_form();
-     
   });
-
-
 });

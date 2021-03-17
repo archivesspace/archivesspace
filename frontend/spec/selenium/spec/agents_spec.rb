@@ -6,7 +6,7 @@ require 'net/http'
 describe "agents merge" do
   before(:all) do
     @repo = create(:repo, repo_code: "agents_test_#{Time.now.to_i}")
-  
+
     @driver = Driver.get
     @driver.login_to_repo($admin, @repo)
 
@@ -77,7 +77,7 @@ end
 describe "agents record CRUD" do
   before(:all) do
     @repo = create(:repo, repo_code: "agents_test_#{Time.now.to_i}")
-  
+
     @driver = Driver.get
     @driver.login_to_repo($admin, @repo)
 
@@ -242,7 +242,7 @@ describe "agents record CRUD" do
 
       @driver.find_element(id: 'agent_dates_of_existence__0__date_type_structured_').select_option('single')
       @driver.clear_and_send_keys([:id, 'agent_dates_of_existence__0_[structured_date_single]_date_expression_'], '1973')
-    
+
       @driver.click_and_wait_until_gone(css: "form .record-pane button[type='submit']")
 
       # will fail here if date of existence not added correctly.
@@ -261,7 +261,7 @@ describe "agents record CRUD" do
       @driver.clear_and_send_keys([:id, 'agent_agent_record_identifiers__0__record_identifier_'], rand(10000))
 
       @driver.find_element(id: 'agent_agent_record_identifiers__0__source_').select_option('local')
-    
+
       @driver.click_and_wait_until_gone(css: "form .record-pane button[type='submit']")
 
       # will fail here if subrecord not added correctly.
@@ -280,7 +280,7 @@ describe "agents record CRUD" do
       @driver.clear_and_send_keys([:id, 'agent_agent_record_identifiers__0__record_identifier_'], rand(10000))
 
       @driver.find_element(id: 'agent_agent_record_identifiers__0__source_').select_option('local')
-  
+
       @driver.click_and_wait_until_gone(css: "form .record-pane button[type='submit']")
 
       # will fail here if subrecord not added correctly.
@@ -317,7 +317,7 @@ describe "agents record CRUD" do
 
       # will fail here if subrecord not added correctly.
       @driver.find_element(id: 'agent_agent_other_agency_codes__0_')
-    end  
+    end
 
     it 'can add a conventions declaration to an Agent' do
       @driver.find_element(:link, 'Create').click
@@ -334,7 +334,7 @@ describe "agents record CRUD" do
 
       # will fail here if subrecord not added correctly.
       @driver.find_element(id: 'agent_agent_conventions_declarations__0_')
-    end  
+    end
 
     it 'can add maintenance history to an Agent' do
       @driver.find_element(:link, 'Create').click
@@ -357,7 +357,7 @@ describe "agents record CRUD" do
 
       # will fail here if subrecord not added correctly.
       @driver.find_element(id: 'agent_agent_maintenance_histories__0_')
-    end  
+    end
 
     it 'can add source entry to an Agent' do
       @driver.find_element(:link, 'Create').click
@@ -374,7 +374,7 @@ describe "agents record CRUD" do
 
       # will fail here if subrecord not added correctly.
       @driver.find_element(id: 'agent_agent_sources__0_')
-    end  
+    end
 
     it 'can add alternate set to an Agent' do
       @driver.find_element(:link, 'Create').click
@@ -391,7 +391,7 @@ describe "agents record CRUD" do
 
       # will fail here if subrecord not added correctly.
       @driver.find_element(id: 'agent_agent_alternate_sets__0_')
-    end  
+    end
 
     it 'can add entity ids to an Agent' do
       @driver.find_element(:link, 'Create').click
@@ -408,7 +408,7 @@ describe "agents record CRUD" do
 
       # will fail here if subrecord not added correctly.
       @driver.find_element(id: 'agent_agent_identifiers__0_')
-    end  
+    end
 
     it 'can add a name use date to an Agent' do
       @driver.find_element(:link, 'Create').click
@@ -421,12 +421,12 @@ describe "agents record CRUD" do
 
       @driver.find_element(id: 'agent_names__0__use_dates__0__date_type_structured_').select_option('single')
       @driver.clear_and_send_keys([:id, 'agent_names__0__use_dates__0_[structured_date_single]_date_expression_'], '1973')
- 
+
       @driver.click_and_wait_until_gone(css: "form .record-pane button[type='submit']")
 
       # will fail here if subrecord not added correctly.
       @driver.find_element(id: 'agent_names__0__use_dates__0_')
-    end  
+    end
 
     it 'can add a parallel name to an Agent' do
       @driver.find_element(:link, 'Create').click
@@ -438,12 +438,12 @@ describe "agents record CRUD" do
       @driver.find_element(css: '#agent_names__0__parallel_names_ .btn:not(.show-all)').click
 
       @driver.clear_and_send_keys([:id, 'agent_names__0__parallel_names__0__primary_name_'], rand(10000))
- 
+
       @driver.click_and_wait_until_gone(css: "form .record-pane button[type='submit']")
 
       # will fail here if subrecord not added correctly.
       @driver.find_element(id: 'agent_names__0__parallel_names__0_')
-    end  
+    end
 
     it 'can add a name use date to a parallel name' do
       @driver.find_element(:link, 'Create').click
@@ -460,12 +460,12 @@ describe "agents record CRUD" do
 
        @driver.find_element(id: 'agent_names__0__parallel_names__0__use_dates__0__date_type_structured_').select_option('single')
       @driver.clear_and_send_keys([:id, 'agent_names__0__parallel_names__0__use_dates__0_[structured_date_single]_date_expression_'], '1973')
- 
+
       @driver.click_and_wait_until_gone(css: "form .record-pane button[type='submit']")
 
       # will fail here if subrecord not added correctly.
       @driver.find_element(id: 'agent_names__0__parallel_names__0__use_dates__0_')
-    end  
+    end
 
     it 'can add gender to an Agent' do
       @driver.find_element(:link, 'Create').click
@@ -482,7 +482,7 @@ describe "agents record CRUD" do
 
       # will fail here if subrecord not added correctly.
       @driver.find_element(id: 'agent_agent_genders__0_')
-    end  
+    end
 
     it 'can add date to a gender' do
       @driver.find_element(:link, 'Create').click
@@ -505,7 +505,7 @@ describe "agents record CRUD" do
 
       # will fail here if subrecord not added correctly.
       @driver.find_element(id: 'agent_agent_genders__0__dates__0_')
-    end  
+    end
 
     it 'can add a note to a gender' do
       @driver.find_element(:link, 'Create').click
@@ -528,7 +528,7 @@ describe "agents record CRUD" do
 
       # will fail here if subrecord not added correctly.
       @driver.find_element(id: 'agent_agent_genders__0__notes__0_')
-    end  
+    end
 
     it 'can create an agent_place' do
       # create subject
@@ -599,7 +599,7 @@ describe "agents record CRUD" do
       @driver.find_element(css: '#agent_agent_places__0__subjects_ .btn:not(.show-all)').click
 
       token_input = @driver.find_element(:id, 'token-input-agent_agent_places__0__subjects__0__ref_')
-      
+
       @driver.typeahead_and_select(token_input, term)
 
 
@@ -645,7 +645,7 @@ describe "agents record CRUD" do
       @driver.find_element(css: '#agent_agent_places__0__subjects_ .btn:not(.show-all)').click
 
       token_input = @driver.find_element(:id, 'token-input-agent_agent_places__0__subjects__0__ref_')
-      
+
       @driver.typeahead_and_select(token_input, term)
 
       # note
@@ -653,7 +653,7 @@ describe "agents record CRUD" do
       @driver.find_element(css: '.top-level-note-type').select_option('note_text')
 
       @driver.execute_script("$('#agent_agent_places__0__notes__0__content_').data('CodeMirror').setValue('this is a note')")
-      @driver.execute_script("$('#agent_agent_places__0__notes__0__content_').data('CodeMirror').save()") 
+      @driver.execute_script("$('#agent_agent_places__0__notes__0__content_').data('CodeMirror').save()")
 
       @driver.click_and_wait_until_gone(css: "form .record-pane button[type='submit']")
 
@@ -724,7 +724,7 @@ describe "agents record CRUD" do
       @driver.find_element(css: '#agent_agent_occupations__0__subjects_ .btn:not(.show-all)').click
 
       token_input = @driver.find_element(:id, 'token-input-agent_agent_occupations__0__subjects__0__ref_')
-      
+
       @driver.typeahead_and_select(token_input, term)
 
 
@@ -767,7 +767,7 @@ describe "agents record CRUD" do
       @driver.find_element(css: '#agent_agent_occupations__0__subjects_ .btn:not(.show-all)').click
 
       token_input = @driver.find_element(:id, 'token-input-agent_agent_occupations__0__subjects__0__ref_')
-      
+
       @driver.typeahead_and_select(token_input, term)
 
       # note
@@ -775,7 +775,7 @@ describe "agents record CRUD" do
       @driver.find_element(css: '.top-level-note-type').select_option('note_text')
 
       @driver.execute_script("$('#agent_agent_occupations__0__notes__0__content_').data('CodeMirror').setValue('this is a note')")
-      @driver.execute_script("$('#agent_agent_occupations__0__notes__0__content_').data('CodeMirror').save()") 
+      @driver.execute_script("$('#agent_agent_occupations__0__notes__0__content_').data('CodeMirror').save()")
 
       @driver.click_and_wait_until_gone(css: "form .record-pane button[type='submit']")
 
@@ -846,7 +846,7 @@ describe "agents record CRUD" do
       @driver.find_element(css: '#agent_agent_functions__0__subjects_ .btn:not(.show-all)').click
 
       token_input = @driver.find_element(:id, 'token-input-agent_agent_functions__0__subjects__0__ref_')
-      
+
       @driver.typeahead_and_select(token_input, term)
 
       # date
@@ -888,7 +888,7 @@ describe "agents record CRUD" do
       @driver.find_element(css: '#agent_agent_functions__0__subjects_ .btn:not(.show-all)').click
 
       token_input = @driver.find_element(:id, 'token-input-agent_agent_functions__0__subjects__0__ref_')
-      
+
       @driver.typeahead_and_select(token_input, term)
 
       # note
@@ -896,7 +896,7 @@ describe "agents record CRUD" do
       @driver.find_element(css: '.top-level-note-type').select_option('note_text')
 
       @driver.execute_script("$('#agent_agent_functions__0__notes__0__content_').data('CodeMirror').setValue('this is a note')")
-      @driver.execute_script("$('#agent_agent_functions__0__notes__0__content_').data('CodeMirror').save()") 
+      @driver.execute_script("$('#agent_agent_functions__0__notes__0__content_').data('CodeMirror').save()")
 
       @driver.click_and_wait_until_gone(css: "form .record-pane button[type='submit']")
 
@@ -967,7 +967,7 @@ describe "agents record CRUD" do
       @driver.find_element(css: '#agent_agent_topics__0__subjects_ .btn:not(.show-all)').click
 
       token_input = @driver.find_element(:id, 'token-input-agent_agent_topics__0__subjects__0__ref_')
-      
+
       @driver.typeahead_and_select(token_input, term)
 
       # date
@@ -1009,7 +1009,7 @@ describe "agents record CRUD" do
       @driver.find_element(css: '#agent_agent_topics__0__subjects_ .btn:not(.show-all)').click
 
       token_input = @driver.find_element(:id, 'token-input-agent_agent_topics__0__subjects__0__ref_')
-      
+
       @driver.typeahead_and_select(token_input, term)
 
       # note
@@ -1017,7 +1017,7 @@ describe "agents record CRUD" do
       @driver.find_element(css: '.top-level-note-type').select_option('note_text')
 
       @driver.execute_script("$('#agent_agent_topics__0__notes__0__content_').data('CodeMirror').setValue('this is a note')")
-      @driver.execute_script("$('#agent_agent_topics__0__notes__0__content_').data('CodeMirror').save()") 
+      @driver.execute_script("$('#agent_agent_topics__0__notes__0__content_').data('CodeMirror').save()")
 
       @driver.click_and_wait_until_gone(css: "form .record-pane button[type='submit']")
 
@@ -1095,7 +1095,7 @@ describe "agents record CRUD" do
     it 'displays agent_record_identifiers in form' do
       expect(@driver.is_visible?(:css, "#agent_person_agent_record_identifier")).to eq(true)
     end
-  
+
     it 'hides agent_record_control from form' do
       expect(@driver.is_visible?(:css, "#agent_person_agent_record_control")).to eq(false)
     end
@@ -1179,6 +1179,45 @@ describe "agents record CRUD" do
 
     it 'displays related_agents in form' do
       expect(@driver.is_visible?(:css, "#related_agents")).to eq(true)
+    end
+  end
+end
+
+describe "agents record with too many related agents" do
+  before(:all) do
+    @repo = create(:repo, repo_code: "agents_test_#{Time.now.to_i}")
+
+    @driver = Driver.get
+    @driver.login_to_repo($admin, @repo)
+
+    @big_agent = create(:agent_person, :related_agents => (1..5).map {
+                      JSONModel(:agent_relationship_parentchild).new({ :ref => create(:agent_person).uri, :relator => 'is_child_of' }).to_hash
+                    })
+    @small_agent = create(:agent_person, :related_agents => (1..4).map {
+                             JSONModel(:agent_relationship_parentchild).new({ :ref => create(:agent_person).uri, :relator => 'is_child_of' }).to_hash
+                           })
+  end
+
+  after(:all) do
+    @driver ? @driver.quit : next
+  end
+
+  it "does not lazy load related agents when there are fewer than four" do
+    path = URI.encode("/agents/agent_person/#{@small_agent.id}/edit")
+    puts path
+    @driver.get(URI.join($frontend, path))
+    (0..3).each do |i|
+      expect(@driver.find_element(id: "agent_related_agents__#{i}_")).not_to be_nil
+    end
+  end
+
+  it "lazy loads related agents when there are more than four" do
+    path = URI.encode("/agents/agent_person/#{@big_agent.id}/edit")
+    @driver.get(URI.join($frontend, path))
+    expect(@driver.find_element(css: ".alert-too-many")).not_to be_nil
+    @driver.find_elements(css: '.alert-too-many').each { |c| c.click }
+    (0..4).each do |i|
+      expect(@driver.find_element(id: "agent_related_agents__#{i}_")).not_to be_nil
     end
   end
 end
