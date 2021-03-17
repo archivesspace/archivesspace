@@ -70,7 +70,7 @@ class ArchivesSpaceService < Sinatra::Base
     .params(["id", :id],
             ["repo_id", :repo_id])
     .permissions([:view_repository])
-    .returns([200, "The export metadata"])
+    .returns([200, "The export metadata"]) \
   do
     json_response({ 'filename' => safe_filename(DigitalObject[params[:id]].digital_object_id, '_dc.xml'),
                     'mimetype' => 'application/xml' })
