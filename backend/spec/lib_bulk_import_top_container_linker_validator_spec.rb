@@ -24,15 +24,15 @@ describe "Top Container Linker Validator" do
   end
   
   def valid_tc_linking_data
-    {"ead_id" => "hua15019", "ref_id"=>"hua15019c00007","instance_type"=>"unspecified", "top_container_indicator"=>"Box 1", "top_container_type"=>"abc", "top_container_barcode" => "barcode_1234"}
+    {"ead_id" => "hua15019", "ref_id"=>"hua15019c00007","instance_type"=>"mixed_materials", "top_container_indicator"=>"Box 1", "top_container_type"=>"abc", "top_container_barcode" => "barcode_1234"}
   end
   
   def invalid_tc_linking_data_ead_id_missing
-    {"ref_id"=>"hua15019c00007", "instance_type"=>"unspecified", "top_container_indicator"=>"Box 1"}
+    {"ref_id"=>"hua15019c00007", "instance_type"=>"mixed_materials", "top_container_indicator"=>"Box 1"}
   end
     
   def invalid_tc_linking_data_ref_id_missing
-    {"ead_id" => "hua15019", "instance_type"=>"unspecified", "top_container_indicator"=>"Box 1"}
+    {"ead_id" => "hua15019", "instance_type"=>"mixed_materials", "top_container_indicator"=>"Box 1"}
   end
 
   def invalid_tc_linking_data_instance_type_missing
@@ -40,23 +40,23 @@ describe "Top Container Linker Validator" do
   end
   
   def invalid_tc_linking_data_indicator_rec_no_missing
-    {"ead_id" => "hua15019", "ref_id"=>"hua15019c00007","instance_type"=>"unspecified"}
+    {"ead_id" => "hua15019", "ref_id"=>"hua15019c00007","instance_type"=>"mixed_materials"}
   end
   
   def invalid_tc_linking_data_indicator_rec_no_exist
-    {"ead_id" => "hua15019", "ref_id"=>"hua15019c00007","instance_type"=>"unspecified", "top_container_indicator"=>"Box 1", "top_container_id" => "12345"}
+    {"ead_id" => "hua15019", "ref_id"=>"hua15019c00007","instance_type"=>"mixed_materials", "top_container_indicator"=>"Box 1", "top_container_id" => "12345"}
   end
   
   def invalid_tc_linking_data_barcode_exists
-    {"ead_id" => "hua15019", "ref_id"=>"hua15019c00007","instance_type"=>"unspecified", "top_container_indicator"=>"Box 1", "top_container_barcode" => @tc.barcode}
+    {"ead_id" => "hua15019", "ref_id"=>"hua15019c00007","instance_type"=>"mixed_materials", "top_container_indicator"=>"Box 1", "top_container_barcode" => @tc.barcode}
   end
   
   def invalid_tc_linking_data_type_indicator_exists
-    {"ead_id" => "hua15019", "ref_id"=>"hua15019c00007","instance_type"=>"unspecified", "top_container_indicator"=>@tc.indicator, "top_container_type" => @tc.type}
+    {"ead_id" => "hua15019", "ref_id"=>"hua15019c00007","instance_type"=>"mixed_materials", "top_container_indicator"=>@tc.indicator, "top_container_type" => @tc.type}
   end
   
   def invalid_tc_linking_data_type_indicator_barcode_differ
-    {"ead_id" => "hua15019", "ref_id"=>"hua15019c00007","instance_type"=>"unspecified", "top_container_indicator"=>"Box 1", "top_container_type"=>"abc", "top_container_barcode" => "barcode_5678"}
+    {"ead_id" => "hua15019", "ref_id"=>"hua15019c00007","instance_type"=>"mixed_materials", "top_container_indicator"=>"Box 1", "top_container_type"=>"abc", "top_container_barcode" => "barcode_5678"}
   end
 
   it "Checks the validation method with valid input" do
