@@ -1114,7 +1114,7 @@ module EACBaseMap
 
         case type
         when 'person'
-          nom_parts = val.split(', ', 2)
+          nom_parts = val.split(/,\s*/, 2)
           name['primary_name'] = nom_parts[0]
           name['rest_of_name'] = nom_parts[1]
         when 'family'
