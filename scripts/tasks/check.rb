@@ -10,6 +10,23 @@ module Check
     end
   end
 
+  def self.output_en(path_to_yml, values_file)
+    path_to_yml = File.join(File.dirname(__FILE__), "..", "..", path_to_yml)
+    yaml = YAML.load(File.read(path_to_yml))
+
+    File.readlines(values_file).each do |line|
+      line.strip!
+      key = line.split(".")
+      value = yaml.dig('en', *key)
+
+      if value
+        puts value.gsub(/\n+/, '')
+      else
+        puts ""
+      end
+    end
+  end
+
   class Locales
     attr_reader :directories, :issues, :locales
     def initialize(directories)

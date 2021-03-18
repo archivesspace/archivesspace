@@ -25,6 +25,16 @@ namespace :check do
     Check.run(Check::Locales.new(LOCALES_DIRS))
   end
 
+  # outputs en values for translations to aid in filling out missing values
+  # takes 2 args: path to en.yml file to read from, and path to a list of keys
+  # example: rake check:'en_output[frontend/config/locales/en.yml, values.txt]'
+  desc 'Output EN values'
+  task :en_output, [:arg1, :arg2] do |t, args|
+    Check.output_en(args[:arg1], args[:arg2])
+
+  end
+
+
   # bundle exec rake check:multiple_gem_versions
   desc 'Check for multiple versions of a gem in the build directory'
   task :multiple_gem_versions do
