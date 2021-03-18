@@ -238,6 +238,13 @@ class AgentsController < ApplicationController
       return
     end
 
+    relationship_uris = @victim['related_agents'].map{|ra| ra['ref']}
+    if relationship_uris.include?(@agent['uri'])
+      flash[:error] = I18n.t('errors.merge_denied_relationship')
+      redirect_to({ action: :show, id: params[:id] })
+      return
+    end
+
     if !user_can?('view_agent_contact_record') && (@agent.agent_contacts.any? || @victim.agent_contacts.any?)
       flash[:error] = I18n.t('errors.merge_restricted_contact_details')
       redirect_to({ action: :show, id: params[:id] })
