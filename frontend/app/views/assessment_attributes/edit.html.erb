@@ -56,9 +56,12 @@
                           <span class="glyphicon glyphicon-search"></span>
                         </a>
                       </span>
-                      <%= text_field_tag 'ratings[][label]', rating.fetch('label'), :class => 'form-control' %>
+                      <%= text_field_tag 'ratings[][label]', rating.fetch('label'), :class => 'form-control', :"aria-label" =>  I18n.t('assessment_attribute_definitions._frontend.section.ratings') %>
                       <span class="input-group-btn">
-                        <button class="btn btn-danger remove-repo-attribute"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
+                        <button class="btn btn-danger remove-repo-attribute">
+                          <span class="glyphicon glyphicon-remove"></span>
+                          <span class="sr-only"><%= I18n.t("assessment_attribute_definitions._frontend.action.remove_rating", :rating_type =>rating.fetch('label')) %></span>
+                        </button>
                       </span>
                     </div>
                     <%= hidden_field_tag 'ratings[][id]', rating.fetch('id', nil) %>
@@ -122,9 +125,12 @@
                           <span class="glyphicon glyphicon-search"></span>
                         </a>
                       </span>
-                      <%= text_field_tag 'formats[][label]', format.fetch('label'), :class => 'form-control' %>
+                      <%= text_field_tag 'formats[][label]', format.fetch('label'), :class => 'form-control', :"aria-label" =>  I18n.t('assessment_attribute_definitions._frontend.section.formats') %>
                       <span class="input-group-btn">
-                        <button class="btn btn-danger remove-repo-attribute"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
+                        <button class="btn btn-danger remove-repo-attribute">
+                          <span class="glyphicon glyphicon-remove"></span>
+                          <span class="sr-only"><%= I18n.t("assessment_attribute_definitions._frontend.action.remove_format", :format_type =>format.fetch('label')) %></span>
+                        </button>
                       </span>
                     </div>
                     <%= hidden_field_tag 'formats[][id]', format.fetch('id', nil) %>
@@ -188,9 +194,12 @@
                           <span class="glyphicon glyphicon-search"></span>
                         </a>
                       </span>
-                      <%= text_field_tag 'conservation_issues[][label]', conservation_issue.fetch('label'), :class => 'form-control' %>
+                      <%= text_field_tag 'conservation_issues[][label]', conservation_issue.fetch('label'), :class => 'form-control', :"aria-label" =>  I18n.t('assessment_attribute_definitions._frontend.section.conservation_issues') %>
                       <span class="input-group-btn">
-                        <button class="btn btn-danger remove-repo-attribute"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
+                        <button class="btn btn-danger remove-repo-attribute">
+                          <span class="glyphicon glyphicon-remove"></span>
+                          <span class="sr-only"><%= I18n.t("assessment_attribute_definitions._frontend.action.remove_issue", :issue_type =>conservation_issue.fetch('label')) %></span>
+                        </button>
                       </span>
                     </div>
                     <%= hidden_field_tag 'conservation_issues[][id]', conservation_issue.fetch('id', nil) %>
@@ -230,9 +239,12 @@
         <span class="input-group-addon repo-attribute-drag-handle">
           <span class="glyphicon glyphicon-menu-hamburger"></span>
         </span>
-        <%= text_field_tag 'formats[][label]', '', :class => 'form-control' %>
+        <%= text_field_tag 'formats[][label]', '', :class => 'form-control', :"aria-label" =>  I18n.t('assessment_attribute_definitions._frontend.section.formats') %>
         <span class="input-group-btn">
-          <button class="btn btn-danger remove-repo-attribute"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
+          <button class="btn btn-danger remove-repo-attribute">
+            <span class="glyphicon glyphicon-remove"></span>
+            <span class="sr-only"><%= I18n.t("assessment_attribute_definitions._frontend.action.remove_rating", :rating_type =>'') %></span>
+          </button>
         </span>
       </div>
     </td>
@@ -245,9 +257,12 @@
         <span class="input-group-addon repo-attribute-drag-handle">
           <span class="glyphicon glyphicon-menu-hamburger"></span>
         </span>
-        <%= text_field_tag 'ratings[][label]', '', :class => 'form-control' %>
+        <%= text_field_tag 'ratings[][label]', '', :class => 'form-control', :"aria-label" =>  I18n.t('assessment_attribute_definitions._frontend.section.ratings') %>
         <span class="input-group-btn">
-          <button class="btn btn-danger remove-repo-attribute"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
+          <button class="btn btn-danger remove-repo-attribute">
+            <span class="glyphicon glyphicon-remove"></span>
+            <span class="sr-only"><%= I18n.t("assessment_attribute_definitions._frontend.action.remove_format", :format_type =>'') %></span>
+          </button>
         </span>
       </div>
     </td>
@@ -260,9 +275,12 @@
         <span class="input-group-addon repo-attribute-drag-handle">
           <span class="glyphicon glyphicon-menu-hamburger"></span>
         </span>
-        <%= text_field_tag 'conservation_issues[][label]', '', :class => 'form-control' %>
+        <%= text_field_tag 'conservation_issues[][label]', '', :class => 'form-control', :"aria-label" =>  I18n.t('assessment_attribute_definitions._frontend.section.conservation_issues') %>
         <span class="input-group-btn">
-          <button class="btn btn-danger remove-repo-attribute"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
+          <button class="btn btn-danger remove-repo-attribute">
+            <span class="glyphicon glyphicon-remove"></span>
+            <span class="sr-only"><%= I18n.t("assessment_attribute_definitions._frontend.action.remove_issue", :issue_type =>'') %></span>
+          </button>
         </span>
       </div>
     </td>
