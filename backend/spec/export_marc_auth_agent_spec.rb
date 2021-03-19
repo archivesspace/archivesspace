@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require_relative 'export_spec_helper'
+require_relative 'agent_spec_helper'
 
 describe 'MARC Auth Export' do
   describe 'control tags' do
@@ -498,6 +499,10 @@ describe 'MARC Auth Export' do
   end
 
   describe 'agent relationships' do
+    before(:all) do
+      add_specific_relator_values
+    end
+
     it 'maps related agents' do
       rec = create(:json_agent_person_full_subrec)
       relationship = JSONModel(:agent_relationship_parentchild).new
@@ -507,6 +512,91 @@ describe 'MARC Auth Export' do
              related_agents: [relationship.to_hash])
       marc = get_marc_auth(rec)
       expect(marc.xpath('//datafield[@tag=500]').to_s).to_not be_empty
+    end
+
+    it "uses specific relator for the 'i' subfield for related agents if present" do
+      rec = create(:json_agent_person_full_subrec)
+      relationship = JSONModel(:agent_relationship_parentchild).new
+      relationship.relator = 'is_child_of'
+      relationship.specific_relator = 'daughterOf'
+      relationship.description = 'A description.'
+      relationship.ref = rec.uri
+      create(:json_agent_person,
+             related_agents: [relationship.to_hash])
+      marc = get_marc_auth(rec)
+      expect(marc.xpath("//datafield[@tag=500]/subfield[@code='i']").to_s).to match 'daughterOf'
+    end
+
+    it "uses description for the 'i' subfield for related agents if no specific relator present" do
+      rec = create(:json_agent_person_full_subrec)
+      relationship = JSONModel(:agent_relationship_parentchild).new
+      relationship.relator = 'is_child_of'
+      relationship.description = 'A description.'
+      relationship.ref = rec.uri
+      create(:json_agent_person,
+             related_agents: [relationship.to_hash])
+      marc = get_marc_auth(rec)
+      expect(marc.xpath("//datafield[@tag=500]/subfield[@code='i']").to_s).to match 'A description.'
+    end
+
+    it "uses translated relator for the 'i' subfield for related agents when no specific relator or description present" do
+      rec = create(:json_agent_person_full_subrec)
+      relationship = JSONModel(:agent_relationship_associative).new
+      relationship.relator = 'is_associative_with'
+      relationship.ref = rec.uri
+      create(:json_agent_person,
+             related_agents: [relationship.to_hash])
+      marc = get_marc_auth(rec)
+      expect(marc.xpath("//datafield[@tag=500]/subfield[@code='i']").to_s).to match 'Associative with Related'
+    end
+
+    it "creates a 'w' subfield for related agents that defaults to 'r'" do
+      rec = create(:json_agent_person_full_subrec)
+      relationship = JSONModel(:agent_relationship_associative).new
+      relationship.relator = 'is_associative_with'
+      relationship.ref = rec.uri
+      create(:json_agent_person,
+             related_agents: [relationship.to_hash])
+      marc = get_marc_auth(rec)
+      expect(marc.xpath("//datafield[@tag=500]/subfield[@code='w']").to_s).to_not be_empty
+      expect(marc.xpath("//datafield[@tag=500]/subfield[@code='w']").to_s).to match 'r'
+    end
+
+    it "creates a 'w' subfield for related agents that matches certain specific relators" do
+      rec = create(:json_agent_corporate_entity_full_subrec)
+      relationship = JSONModel(:agent_relationship_identity).new
+      relationship.relator = 'is_identified_with'
+      relationship.specific_relator = 'Acronym'
+      relationship.ref = rec.uri
+      create(:json_agent_corporate_entity,
+             related_agents: [relationship.to_hash])
+      marc = get_marc_auth(rec)
+      expect(marc.xpath("//datafield[@tag=510]/subfield[@code='w']").to_s).to match 'd'
+    end
+
+    it "creates a 'w' subfield for related agents that matches an earlier/later relator" do
+      rec = create(:json_agent_corporate_entity_full_subrec)
+      relationship = JSONModel(:agent_relationship_earlierlater).new
+      relationship.relator = 'is_earlier_form_of'
+      relationship.ref = rec.uri
+      create(:json_agent_corporate_entity,
+             related_agents: [relationship.to_hash])
+      marc = get_marc_auth(rec)
+      # Remember relator is flipped because it's created from the opposite direction!
+      expect(marc.xpath("//datafield[@tag=510]/subfield[@code='w']").to_s).to match 'b'
+    end
+
+    it "does not create 'w' or 'i' subfields for primary names" do
+      rec = create(:json_agent_corporate_entity_full_subrec)
+      relationship = JSONModel(:agent_relationship_earlierlater).new
+      relationship.relator = 'is_earlier_form_of'
+      relationship.ref = rec.uri
+      create(:json_agent_corporate_entity,
+             related_agents: [relationship.to_hash])
+      marc = get_marc_auth(rec)
+      # Remember relator is flipped because it's created from the opposite direction!
+      expect(marc.xpath("//datafield[@tag=110]/subfield[@code='w']").to_s).to be_empty
+      expect(marc.xpath("//datafield[@tag=110]/subfield[@code='i']").to_s).to be_empty
     end
   end
 end
