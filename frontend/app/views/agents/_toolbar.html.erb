@@ -44,14 +44,16 @@
           <%= render_aspace_partial :partial => "shared/view_published_button", :locals => {:record => @agent} %>
         <% end %>
 
-        <div class="btn btn-inline-form">
-          <%= link_to I18n.t("actions.export_eac"), {:controller => :exports, :action => :download_eac, :id => @agent.id, :type => @agent.agent_type}, :class => "btn btn-sm btn-default" %>
-        </div>
 
+        <% unless @agent.agent_type.to_s == "agent_software" %>
+          <div class="btn btn-inline-form">
+            <%= link_to I18n.t("actions.export_eac"), {:controller => :exports, :action => :download_eac, :id => @agent.id, :type => @agent.  agent_type}, :class => "btn btn-sm btn-default" %>
+          </div>
 
-        <div class="btn btn-inline-form">
-          <%= link_to I18n.t("actions.export_marc_auth"), {:controller => :exports, :action => :download_marc_auth, :id => @agent.id, :type => @agent.agent_type}, :class => "btn btn-sm btn-default" %>
-        </div>
+          <div class="btn btn-inline-form">
+            <%= link_to I18n.t("actions.export_marc_auth"), {:controller => :exports, :action => :download_marc_auth, :id => @agent.id, :type => @agent.agent_type}, :class => "btn btn-sm btn-default" %>
+          </div>
+        <% end %>
 
 
         <% if user_can?('merge_agent_record') %>
