@@ -65,7 +65,7 @@
 						<div style="padding-bottom: 10px;">
 							<div class="form-group">
 								<%= form.label 'display', :class => "col-sm-2 control-label" %>
-								<div class="col-sm-9 checkbox">
+								<div class="col-sm-9 display checkbox">
 									<%= check_box_tag "custom_report_template[data][#{record_type}][fields][#{field_name}][include]", '1', field_data['include'] %>
 								</div>
 							</div>
@@ -204,4 +204,3 @@
 		</div>
 	<% end %>
 </fieldset>
-
