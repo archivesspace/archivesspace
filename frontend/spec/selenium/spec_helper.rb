@@ -64,11 +64,9 @@ RSpec.configure do |config|
     selenium_init($backend_start_fn, $frontend_start_fn)
     $admin = BackendClientMethods::ASpaceUser.new('admin', 'admin')
     SeleniumFactories.init
-    # runs indexers in the same thread as the tests if necessary
-    unless ENV['ASPACE_INDEXER_URL']
-      $indexer = RealtimeIndexer.new($backend, nil)
-      $period = PeriodicIndexer.new($backend, nil, 'periodic_indexer', false)
-    end
+    # runs indexers in the same thread as the tests
+    $indexer = RealtimeIndexer.new($backend, nil)
+    $period = PeriodicIndexer.new($backend, nil, 'periodic_indexer', false)
   end
 
   config.after(:suite) do
