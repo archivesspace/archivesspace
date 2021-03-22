@@ -24,11 +24,11 @@ $(function() {
 
 $(document).ready(function(){
   $('#check_all').on("click", function() {
-    var checkboxes = $('input[type="checkbox"]');
-    if(checkboxes.prop("checked")){
-       checkboxes.prop("checked",false);
+    var checkboxes = $('.display input[type="checkbox"]');
+    if (checkboxes.prop("checked")) {
+      checkboxes.prop("checked",false);
     } else {
-       checkboxes.prop("checked",true);
+      checkboxes.prop("checked",true);
     }
   });
 });
