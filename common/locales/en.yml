@@ -2503,17 +2503,9 @@ en:
     filename: File
     content_type: File Type
     resource_id: Resource ID
-
-  bulk_import_job:
-    resource_uri: Resource URI
-    content_type: Spreadsheet type
     load_type: Load Type
-    only_validate: Validate Only
     type:
-      csv: CSV
-      xlsx: Excel Spreadsheet
-      ao: Archival Object Load
-      digital: Digital Object Load
+      top_container_linker_job: Top Container Linker
 
   bulk_import_job:
     resource_uri: Resource URI
