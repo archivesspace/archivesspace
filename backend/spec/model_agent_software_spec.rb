@@ -20,6 +20,40 @@ describe 'Agent model' do
       }.to raise_error(JSONModel::ValidationException)
   end
 
+  it "doesn't allow a software agent record to be created with any record control or relation subrecords" do
+    expect {
+      AgentSoftware.create_from_json(build(:json_agent_software, :agent_record_identifiers => [build(:agent_record_identifier)]))
+    }.to raise_error(JSONModel::ValidationException)
+
+    expect {
+      AgentSoftware.create_from_json(build(:json_agent_software, :agent_record_controls => [build(:agent_record_control)]))
+    }.to raise_error(JSONModel::ValidationException)
+
+    expect {
+      AgentSoftware.create_from_json(build(:json_agent_software, :agent_other_agency_codes => [build(:agent_other_agency_codes)]))
+    }.to raise_error(JSONModel::ValidationException)
+
+    expect {
+      AgentSoftware.create_from_json(build(:json_agent_software, :agent_conventions_declarations => [build(:agent_conventions_declaration)]))
+    }.to raise_error(JSONModel::ValidationException)
+
+    expect {
+      AgentSoftware.create_from_json(build(:json_agent_software, :agent_maintenance_histories => [build(:agent_maintenance_history)]))
+    }.to raise_error(JSONModel::ValidationException)
+
+    expect {
+      AgentSoftware.create_from_json(build(:json_agent_software, :agent_sources => [build(:agent_sources)]))
+    }.to raise_error(JSONModel::ValidationException)
+
+    expect {
+      AgentSoftware.create_from_json(build(:json_agent_software, :agent_alternate_sets => [build(:agent_alternate_set)]))
+    }.to raise_error(JSONModel::ValidationException)
+
+    expect {
+      AgentSoftware.create_from_json(build(:json_agent_software, :agent_resources => [build(:json_agent_resource)]))
+    }.to raise_error(JSONModel::ValidationException)
+  end
+
 
   it "allows a software agent record to be created with linked contact details" do
 

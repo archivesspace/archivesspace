@@ -2427,6 +2427,7 @@ en:
     generic_validation_error: Validation Error
     requires_that_end_dates_are_after_begin_dates: End Dates must be after Begin Dates
     must_specify_a_primary_subject: "Description Information: Record is missing a primary subject"
+    subrecord_not_allowed_for_agent_software: "Software Agents cannot have record control or relation subrecords"
 
   job:
     _singular: Background Job
