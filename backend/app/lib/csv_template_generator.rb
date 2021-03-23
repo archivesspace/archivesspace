@@ -3,9 +3,7 @@ require 'enumerator'
 
 module CsvTemplateGenerator
 
-  class CsvTemplateError < StandardError
-    # pass
-  end
+  class CsvTemplateError < StandardError; end
 
   class TemplateSpec
 

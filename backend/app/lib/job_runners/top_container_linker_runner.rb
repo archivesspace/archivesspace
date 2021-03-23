@@ -43,7 +43,7 @@ class TopContainerLinkerRunner < JobRunner
               if !validation_report.terminal_error.nil?
                 errors_exist = true
               end
-              write_out_validation_errors(validation_report)
+              errors_exist = write_out_validation_errors(validation_report)
 
             rescue Exception => e
               validation_report = tclv.report

@@ -21,8 +21,7 @@ class TopContainerLinker < BulkImportParser
     @counter = 0
     if (init_handlers)
       initialize_handler_enums()
-    end
-        
+    end 
   end
   
   def initialize_handler_enums
@@ -30,7 +29,6 @@ class TopContainerLinker < BulkImportParser
   end
   
   # save (create/update) the archival object, then revive it
-  
   def ao_save(ao)
     revived = nil
     begin

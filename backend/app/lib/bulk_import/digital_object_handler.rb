@@ -34,7 +34,6 @@ class DigitalObjectHandler < Handler
       else
 =end
       raise BulkImportException.new(I18n.t("bulk_import.error.dig_obj_unique", :id => osn))
-      #      end
     end
     unless !thumb && !link
       files = []
