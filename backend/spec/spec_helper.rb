@@ -253,3 +253,4 @@ RSpec.configure do |config|
   end
 
 end
+raise FOOBAR
