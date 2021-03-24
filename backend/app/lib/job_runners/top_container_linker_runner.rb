@@ -69,6 +69,7 @@ class TopContainerLinkerRunner < JobRunner
               self.success! 
             rescue Exception => e
               report = tcl.report
+              errors_exist = true
               write_out_errors(report)
               @job.write_output(e.message)
               @job.write_output(e.backtrace)
