@@ -51,7 +51,6 @@ class TopContainerLinker < BulkImportParser
     revived
   end
 
-
   # look for all the required fields to make sure they are legit
   def process_row(row_hash = nil)
     #This allows the processing of a single row
@@ -96,13 +95,11 @@ class TopContainerLinker < BulkImportParser
           err_arr.push I18n.t("top_container_linker.error.resources_do_not_match", :spreadsheet_resource => resource.uri, :ead_id => ead_id.to_s, :current_resource => @resource_ref, :row_num => @counter.to_s)
         end
       end
-      
       #Check that the instance type exists
       instance_type = @row_hash["instance_type"]
       if instance_type.nil?
         err_arr.push I18n.t("top_container_linker.error.instance_type_miss", :ref_id => ref_id.to_s, :row_num => @counter.to_s)
       end
-      
       #Check that either the Top Container Indicator or Top Container Record No. is present
       tc_indicator = @row_hash["top_container_indicator"]
       tc_record_no = @row_hash["top_container_id"]
@@ -147,7 +144,6 @@ class TopContainerLinker < BulkImportParser
           display_indicator = tc_jsonmodel_obj.indicator
         end
       end
-      
       if (!tc_instance.nil?)
         ao.instances ||= []
         ao.instances << tc_instance
