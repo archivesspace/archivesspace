@@ -5,10 +5,10 @@ class TopContainerLinkerRunner < JobRunner
   register_for_job_type('top_container_linker_job', :hidden => true)
 
   def run
-     
+
     begin
       job_data = @json.job
-     
+
       DB.open(DB.supports_mvcc?,
               :retry_on_optimistic_locking_fail => true) do
 
@@ -52,7 +52,7 @@ class TopContainerLinkerRunner < JobRunner
               @job.write_output(e.message)
               @job.write_output(e.backtrace)
             end
-                            
+
             # Perform the linking if no validation errors happened and if the validate only option is not enabled
             begin
               msg = ""
@@ -64,9 +64,9 @@ class TopContainerLinkerRunner < JobRunner
                 msg = I18n.t("top_container_linker.log_creating_and_linking")
                 report = tcl.run
                 write_out_errors(report)
-              end           
+              end
               @job.write_output(msg)
-              self.success! 
+              self.success!
             rescue Exception => e
               report = tcl.report
               errors_exist = true
