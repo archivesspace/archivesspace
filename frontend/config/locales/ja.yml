@@ -1724,6 +1724,7 @@ ja:
         create: テンプレートを作成する
         save: テンプレートを保存
       messages:
+        copied: コピーされたカスタムレポートテンプレート
         created: 作成されたカスタムレポートテンプレート
         updated: カスタムレポートテンプレートが更新されました
   oai_config:
