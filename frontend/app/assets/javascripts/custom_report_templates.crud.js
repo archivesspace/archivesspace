@@ -24,6 +24,7 @@ $(function() {
 
 $(document).ready(function(){
   $('#check_all').on("click", function() {
+    $(this).toggleClass("btn-check");
     var checkboxes = $('.display input[type="checkbox"]');
     if (checkboxes.prop("checked")) {
       checkboxes.prop("checked",false);
