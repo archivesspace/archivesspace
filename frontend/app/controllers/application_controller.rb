@@ -99,10 +99,11 @@ class ApplicationController < ActionController::Base
 
       instance = cleanup_params_for_schema(params[opts[:instance]], model.schema)
 
-
-
       if opts[:replace] || opts[:replace].nil?
         obj.replace(instance)
+      elsif opts[:copy]
+        obj.name = "Copy of " + obj.name
+        obj.uri = ''
       else
         obj.update(instance)
       end
