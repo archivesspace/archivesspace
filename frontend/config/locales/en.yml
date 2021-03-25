@@ -1779,6 +1779,7 @@ en:
         create: Create Template
         save: Save Template
       messages:
+        copied: Custom Report Template copied
         created: Custom Report Template created
         updated: Custom Report Template updated
 
