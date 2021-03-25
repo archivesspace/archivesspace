@@ -1717,6 +1717,7 @@ fr:
         create: Créer un modèle
         save: Enregistrer le modèle
       messages:
+        copied: Modèle de rapport personnalisé copié
         created: Modèle de rapport personnalisé créé
         updated: Modèle de rapport personnalisé mis à jour
 

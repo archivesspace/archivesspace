@@ -21,10 +21,19 @@ class CustomReportTemplatesController < ApplicationController
   end
 
   def copy
-    @custom_report_template = JSONModel(:custom_report_template).find(params[:id]).dup
-    @custom_report_template.name = "Copy of " + @custom_report_template.name
-    @custom_report_template.uri = ""
-    render :new
+    handle_crud(:instance => :custom_report_template,
+                :model => JSONModel(:custom_report_template),
+                :obj => JSONModel(:custom_report_template).find(params[:id]).dup,
+                :replace => false,
+                :copy => true,
+                :on_invalid => ->(){
+                  render :action => :edit
+                },
+                :on_valid => ->(id){
+                  flash[:success] = I18n.t("custom_report_template._frontend.messages.copied")
+                  return redirect_to :controller => :custom_report_templates, :action => :new if params.has_key?(:plus_one)
+                  redirect_to(:controller => :custom_report_templates, :action => :index)
+                })
   end
 
   def create
