@@ -126,7 +126,6 @@ describe "Top Container Linker" do
       create_top_container(row_3_data, @resource3.uri, @cih3)
       create_top_container(complete_data_with_type_ind, @resource3.uri, @cih3)
     end
-
     
    def row_1_data
     {"ead_id" => "hua12345", 
