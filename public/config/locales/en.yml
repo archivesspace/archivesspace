@@ -360,6 +360,7 @@ en:
   resource:
     _singular: Collection
     _plural: Collections
+    identifier_separator: ":"
     _public:
       identifier: Identifier
       extent: Extent

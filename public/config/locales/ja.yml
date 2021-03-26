@@ -315,6 +315,7 @@ ja:
   resource:
     _singular: コレクション
     _plural: コレクション
+    identifier_separator: ":"
     _public:
       identifier: 識別
       extent: エクステント
