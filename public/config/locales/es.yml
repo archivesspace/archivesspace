@@ -341,6 +341,7 @@ es:
   resource:
     _singular: Colección
     _plural: Colecciones
+    identifier_separator: ":"
     _public:
       identifier: Identificador
       extent: Extensión

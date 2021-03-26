@@ -517,6 +517,9 @@ AppConfig[:pui_hide][:container_inventory] = false
 # Whether to display linked decaccessions
 AppConfig[:pui_display_deaccessions] = true
 
+# Whether to display archival record identifiers in the PUI collection organization tree
+AppConfig[:pui_display_identifiers_in_resource_tree] = false
+
 #The number of characters to truncate before showing the 'Read More' link on notes
 AppConfig[:pui_readmore_max_characters] = 450
 
