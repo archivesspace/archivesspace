@@ -360,6 +360,7 @@ fr:
   resource:
     _singular: Collection
     _plural: Collections
+    identifier_separator: ":"
     _public:
       identifier: Identifiant
       extent: Volume
