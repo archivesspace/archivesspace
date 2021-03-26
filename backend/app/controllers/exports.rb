@@ -271,6 +271,7 @@ class ArchivesSpaceService < Sinatra::Base
 
   Endpoint.get('/repositories/:repo_id/archival_contexts/softwares/:id.xml')
           .description('Get an EAC-CPF representation of a Software agent')
+          .deprecated('Software agents cannot be validly mapped to an EAC record, thus exporting is no longer supported.')
           .params(['id', :id],
                   ['repo_id', :repo_id])
           .permissions([:view_repository])
@@ -282,6 +283,7 @@ class ArchivesSpaceService < Sinatra::Base
 
   Endpoint.get('/repositories/:repo_id/archival_contexts/softwares/:id.:fmt/metadata')
           .description('Get metadata for an EAC-CPF export of a software')
+          .deprecated('Software agents cannot be validly mapped to an EAC record, thus exporting is no longer supported.')
           .params(['id', :id],
                   ['repo_id', :repo_id])
           .permissions([:view_repository])
