@@ -32,7 +32,7 @@ class CustomReportTemplatesController < ApplicationController
                 :on_valid => ->(id){
                   flash[:success] = I18n.t("custom_report_template._frontend.messages.copied")
                   return redirect_to :controller => :custom_report_templates, :action => :new if params.has_key?(:plus_one)
-                  redirect_to(:controller => :custom_report_templates, :action => :index)
+                  redirect_to(:controller => :custom_report_templates, :action => :edit, :id => id)
                 })
   end
 
