@@ -24,7 +24,14 @@ class ContainerInstanceHandler < Handler
       :barcode => barcode,
     }
   end
-
+ 
+  def get_top_container_json_from_hash(type, indicator, barcode, resource)
+    top_container_json = build(type, indicator, barcode)
+    tc_key = key_for(top_container_json, resource)
+    tc = @top_containers.fetch(tc_key, nil)
+    tc
+  end
+    
   # returns a top container JSONModel
   def get_or_create(type, indicator, barcode, resource, report)
     begin
@@ -92,9 +99,27 @@ class ContainerInstanceHandler < Handler
       if subcont["type_#{num}"]
         sc["type_#{num}"] = value_check(@container_types, subcont["type_#{num}"], errs)
         sc["indicator_#{num}"] = subcont["indicator_#{num}"] || "Unknown"
+        sc["barcode_#{num}"] = subcont["barcode_#{num}"] || nil
       end
     end
     sc
+  end
+ 
+  #Formats the container instance without a db retrieval or creation
+  def format_container_instance(instance_type, tc, subcont = {})
+    instance = nil
+    sc = {'top_container' => {'ref' => tc.uri}, 'jsonmodel_type' => 'sub_container'}
+    %w(2 3).each do |num|
+      if subcont["type_#{num}"]
+        sc["type_#{num}"] = @container_types.value(subcont["type_#{num}"])
+        sc["indicator_#{num}"] = subcont["indicator_#{num}"] || 'Unknown'
+        sc["barcode_#{num}"] = subcont["barcode_#{num}"] || nil
+      end
+    end
+    instance = JSONModel(:instance).new._always_valid!
+    instance.instance_type = @instance_types.value(instance_type)
+    instance.sub_container = JSONModel(:sub_container).from_hash(sc)
+    instance
   end
 
   def create_container_instance(instance_type, type, indicator, barcode, resource_uri, report, subcont = {})
@@ -115,6 +140,37 @@ class ContainerInstanceHandler < Handler
     if !errs.empty?
       raise BulkImportException.new(errs.join("; "))
     end
+    %w(2 3).each do |num|
+      if subcont["type_#{num}"]
+        sc["type_#{num}"] = value_check(@container_types, subcont["type_#{num}"], errs)
+        sc["indicator_#{num}"] = subcont["indicator_#{num}"] || "Unknown"
+        sc["barcode_#{num}"] = subcont["barcode_#{num}"] || nil
+      end
+    end
+    instance
+  end
+
+  def get_top_container_json_from_hash(type, indicator, barcode, resource)
+    top_container_json = build(type, indicator, barcode)
+    tc_key = key_for(top_container_json, resource)
+    tc = @top_containers.fetch(tc_key, nil)
+    tc
+  end
+
+  #Formats the container instance without a db retrieval or creation
+  def format_container_instance(instance_type, tc, subcont = {})
+    instance = nil
+    sc = {'top_container' => {'ref' => tc.uri}, 'jsonmodel_type' => 'sub_container'}
+    %w(2 3).each do |num|
+      if subcont["type_#{num}"]
+        sc["type_#{num}"] = @container_types.value(subcont["type_#{num}"])
+        sc["indicator_#{num}"] = subcont["indicator_#{num}"] || 'Unknown'
+        sc["barcode_#{num}"] = subcont["barcode_#{num}"] || nil
+      end
+    end
+    instance = JSONModel(:instance).new._always_valid!
+    instance.instance_type = @instance_types.value(instance_type)
+    instance.sub_container = JSONModel(:sub_container).from_hash(sc)
     instance
   end
 end  # of container handler
