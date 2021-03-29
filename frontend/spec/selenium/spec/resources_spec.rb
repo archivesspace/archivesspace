@@ -612,4 +612,61 @@ describe 'Resources and archival objects' do
     end.to raise_error(Selenium::WebDriver::Error::NoSuchElementError)
   end
 
+  it 'allows for publication and unpublication of all or part of the record tree' do
+    @driver.get_edit_page(@resource)
+
+    # the resource was created without specifying publish, so it should be unpublished
+    expect(@driver.find_element(id: 'resource_publish_').attribute('checked')).to be_nil
+    
+    # click the publish all button       
+    @driver.find_element_with_text('//button', /Publish All/).click
+    sleep(5)
+    @driver.find_element(id: 'confirmButton').click
+    sleep(10)
+    expect(@driver.find_element(id: 'resource_publish_').attribute('checked')).not_to be_nil
+
+    # confirm that the archival object is also published
+    @driver.get_edit_page(@archival_object)
+    expect(@driver.find_element(id: 'archival_object_publish_').attribute('checked')).not_to be_nil
+
+    # unpublish the archival object
+    @driver.find_element_with_text('//button', /Unpublish All/).click
+    sleep(5)
+    @driver.find_element(id: 'confirmButton').click
+    sleep(10)
+    expect(@driver.find_element(id: 'archival_object_publish_').attribute('checked')).to be_nil
+
+    # confirm that this hasn't unpublished the resource
+    @driver.get_edit_page(@resource)
+    expect(@driver.find_element(id: 'resource_publish_').attribute('checked')).not_to be_nil
+
+    # now unpublish all from the resource
+    @driver.find_element_with_text('//button', /Unpublish All/).click
+    sleep(5)
+    @driver.find_element(id: 'confirmButton').click
+    sleep(10)
+    expect(@driver.find_element(id: 'resource_publish_').attribute('checked')).to be_nil
+
+    # confirm that the archival object is still unpublished
+    @driver.get_edit_page(@archival_object)
+    expect(@driver.find_element(id: 'archival_object_publish_').attribute('checked')).to be_nil
+
+    # publish the archival object
+    @driver.find_element_with_text('//button', /Publish All/).click
+    sleep(5)
+    @driver.find_element(id: 'confirmButton').click
+    sleep(10)
+    expect(@driver.find_element(id: 'archival_object_publish_').attribute('checked')).not_to be_nil
+
+    # confirm that this hasn't published the resource
+    @driver.get_edit_page(@resource)
+    expect(@driver.find_element(id: 'resource_publish_').attribute('checked')).to be_nil
+
+    # finally, unpublish all to tidy up
+    @driver.find_element_with_text('//button', /Unpublish All/).click
+    sleep(5)
+    @driver.find_element(id: 'confirmButton').click
+    sleep(10)
+    expect(@driver.find_element(id: 'resource_publish_').attribute('checked')).to be_nil
+  end
 end
