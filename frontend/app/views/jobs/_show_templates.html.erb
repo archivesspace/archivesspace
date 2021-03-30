@@ -132,6 +132,24 @@
 
 <% end %>
 
+<% define_template "top_container_linker_job", jsonmodel_definition(:top_container_linker_job) do |form, job| %>
+
+    <div class="form-group">
+      <label class="col-sm-3 control-label"><%= I18n.t("actions.bulk_import")  %></label>
+      <div class="col-sm-9 controls label-only"><%= job['filename'].html_safe %></div>
+    </div>
+
+    <div class="form-group">
+      <label class="col-sm-3 control-label"><%= I18n.t("top_container_linker_job.load_type")  %></label>
+      <div class="col-sm-9 controls label-only"><%= I18n.t("top_container_linker_job.type.#{job['load_type']}") %></div>
+    </div>
+
+    <div class="form-group">
+      <label class="col-sm-3 control-label"><%= I18n.t("top_container_linker_job.content_type")  %></label>
+      <div class="col-sm-9 controls label-only"><%= I18n.t("bulk_import_job.type.#{job['content_type']}") %></div>
+    </div>
+
+<% end %>
 
 <%# Now create a template for all job types not handled above - eg from plugins %>
 <% job_types.keys.each do |type| %>

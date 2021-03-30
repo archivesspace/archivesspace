@@ -65,6 +65,7 @@ module MarcXMLAuthAgentBaseMap
       "//record/datafield[@tag='500'][not(@ind1='3')]" => related_agent_map('person'),
       "//record/datafield[@tag='500'][@ind1='3']" => related_agent_map('family'),
       "//record/datafield[@tag='510']" => related_agent_map('corporate_entity'),
+      "//record/datafield[@tag='511']" => related_agent_map('corporate_entity'),
       "//record/datafield[@tag='670']" => agent_sources_map,
       "//record/datafield[@tag='678']" => bioghist_note_map
     }
@@ -141,29 +142,17 @@ module MarcXMLAuthAgentBaseMap
 
          nom_parts = val.split(delim, 2)
 
-         name[:primary_name] = nom_parts[0]
-         name[:rest_of_name] = nom_parts[1]
+         name[:primary_name] = nom_parts[0].chomp(',')
+         name[:rest_of_name] = nom_parts[1].chomp(',') if nom_parts[1]
        },
-       "descendant::subfield[@code='b']" => proc { |name, node|
-         val = node.inner_text
-         name[:number] = val
-       },
-       "descendant::subfield[@code='c']" => proc { |name, node|
-         val = node.inner_text
-         name[:title] = val
-       },
-       "descendant::subfield[@code='d']" => proc { |name, node|
-         val = node.inner_text
-         name[:dates] = val
-       },
+       "descendant::subfield[@code='b']" => trim('number'),
+       "descendant::subfield[@code='c']" => trim('title'),
+       "descendant::subfield[@code='d']" => trim('dates'),
        "descendant::subfield[@code='g']" => proc { |name, node|
          val = node.inner_text
          name[:qualifier] = val
        },
-       "descendant::subfield[@code='q']" => proc { |name, node|
-         val = node.inner_text
-         name[:fuller_form] = val
-       },
+       "descendant::subfield[@code='q']" => trim('fuller_form', ',', ['(', ')']),
        "//record/datafield[@tag='378']/subfield[@code='q']" => proc { |name, node|
          if name[:authorized]
            val = node.inner_text
@@ -182,9 +171,9 @@ module MarcXMLAuthAgentBaseMap
       "descendant::subfield[@code='a']" => proc { |name, node|
                                              val = node.inner_text
 
-                                             if node.parent.attr('tag') == '110' || node.parent.attr('tag') == '410'
+                                             if node.parent.attr('tag') == '110' || node.parent.attr('tag') == '410' || node.parent.attr('tag') == '510'
                                                name[:conference_meeting] = false
-                                             elsif node.parent.attr('tag') == '111' || node.parent.attr('tag') == '411'
+                                             elsif node.parent.attr('tag') == '111' || node.parent.attr('tag') == '411' || node.parent.attr('tag') == '511'
                                                name[:conference_meeting] = true
                                              end
 
@@ -194,9 +183,9 @@ module MarcXMLAuthAgentBaseMap
                                                                    false
                                                                  end
 
-                                             name[:primary_name] = val
+                                             name[:primary_name] = val.chomp('.')
                                            },
-      "self::datafield[@tag='110' or @tag='410']" => proc { |name, node|
+      "self::datafield[@tag='110' or @tag='410' or @tag='510']" => proc { |name, node|
                                                        subordinate_names = []
                                                        sf_bs = node.search("./subfield[@code='b']")
                                                        sf_bs.each do |b|
@@ -213,10 +202,7 @@ module MarcXMLAuthAgentBaseMap
                                              val = node.inner_text
                                              name[:dates] = val
                                            },
-      "descendant::subfield[@code='n']" => proc { |name, node|
-                                             val = node.inner_text
-                                             name[:number] = val
-                                           },
+      "descendant::subfield[@code='n']" => trim('number', '.', ['(', ')', ':']),
       "descendant::subfield[@code='g']" => proc { |name, node|
                                              val = node.inner_text
                                              name[:qualifier] = val
@@ -224,12 +210,12 @@ module MarcXMLAuthAgentBaseMap
       "descendant::subfield[@code='e']" => proc { |name, node|
                                              val = node.inner_text
 
-                                             name[:subordinate_name_1] = val if node.parent.attr('tag') == '111' || node.parent.attr('tag') == '411'
+                                             name[:subordinate_name_1] = val if node.parent.attr('tag') == '111' || node.parent.attr('tag') == '411' || node.parent.attr('tag') == '511'
                                            },
       "descendant::subfield[@code='q']" => proc { |name, node|
                                              val = node.inner_text
 
-                                             name[:subordinate_name_2] = val if node.parent.attr('tag') == '111' || node.parent.attr('tag') == '411'
+                                             name[:subordinate_name_2] = val if node.parent.attr('tag') == '111' || node.parent.attr('tag') == '411' || node.parent.attr('tag') == '511'
                                            }
     }
   end
@@ -247,14 +233,8 @@ module MarcXMLAuthAgentBaseMap
                                              val = node.inner_text
                                              name[:qualifier] = val
                                            },
-      "descendant::subfield[@code='c']" => proc { |name, node|
-                                             val = node.inner_text
-                                             name[:qualifier] = val
-                                           },
-      "descendant::subfield[@code='d']" => proc { |name, node|
-                                             val = node.inner_text
-                                             name[:dates] = val
-                                           },
+      "descendant::subfield[@code='c']" => trim('qualifier', ',', ['(', ')']),
+      "descendant::subfield[@code='d']" => trim('dates', ':'),
       "descendant::subfield[@code='g']" => proc { |name, node|
                                              val = node.inner_text
                                              name[:qualifier] = val
@@ -820,7 +800,6 @@ module MarcXMLAuthAgentBaseMap
     {
       :obj => :"agent_#{type}",
       :rel => proc { |agent, rel_agent|
-        rel_agent.publish = true
         agent[:related_agents] << {
           :relator => rel_agent['_relator'] || 'is_associative_with',
           :jsonmodel_type => rel_agent['_jsonmodel_type'] || 'agent_relationship_associative',
@@ -932,6 +911,14 @@ module MarcXMLAuthAgentBaseMap
       :defaults => {
         :source => 'Source not specified'
       }
+    }
+  end
+  
+  def trim(property, trailing_char = ',', remove_chars = [])
+    -> name, node {
+      val = node.inner_text
+      remove_chars.each { |char| val = val.gsub(/#{Regexp.escape(char)}/, '') }
+      name[property] = val.chomp(trailing_char)
     }
   end
 end

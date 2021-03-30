@@ -1073,7 +1073,6 @@ module EACBaseMap
     {
       :obj => :"agent_#{type}",
       :rel => proc { |agent, rel_agent|
-        rel_agent.publish = true
         agent[:related_agents] << {
           :relator => rel_agent['_relator'],
           :jsonmodel_type => rel_agent['_jsonmodel_type'],
@@ -1114,7 +1113,7 @@ module EACBaseMap
 
         case type
         when 'person'
-          nom_parts = val.split(',', 2)
+          nom_parts = val.split(/,\s*/, 2)
           name['primary_name'] = nom_parts[0]
           name['rest_of_name'] = nom_parts[1]
         when 'family'

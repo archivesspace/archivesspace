@@ -1698,6 +1698,9 @@ fr:
         find_rating: Rechercher des enregistrements avec une note %{rating_type}
         find_format: Rechercher des enregistrements avec un type / format de matériau %{format_type}
         find_issue: Rechercher des enregistrements avec un problème de conservation %{issue_type}
+        remove_rating: Supprimer la note %{rating_type}
+        remove_format: Supprimer le type / format de matériau %{format_type}
+        remove_issue: Supprimer le problème de conservation de %{issue_type}
       messages:
         updated: Attribut actualisés
         error: Erreur lors de l'actualisation

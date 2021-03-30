@@ -84,7 +84,7 @@
           <table class="table table-striped table-bordered table-condensed">
             <thead>
               <th>Name</th>
-              <th>&nbsp;</th>
+              <th><span class="sr-only"><%= I18n.t('search_results.actions') %></span></th>
             </thead>
             <tbody>
               <% @repositories.each do |r| %>

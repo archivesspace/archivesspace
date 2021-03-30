@@ -2,6 +2,7 @@ fr:
   plugins:
     lcnaf:
       label: Import LCNAF
+      authority: Source d'autorité
       search:
         family_name: Partie principale
         given_name: Reste du nom
