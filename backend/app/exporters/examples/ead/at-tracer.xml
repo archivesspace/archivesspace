@@ -446,7 +446,7 @@
                                 <unittitle>Resource-C04-AT</unittitle>
                                 <unitid>Resource-C04-ID-AT</unitid>
                                 <langmaterial>
-                                    <language langcode="eng"/>
+                                    Materials in <language langcode="eng">English</language> and <language langcode="ger">German</language>.
                                 </langmaterial>
                                 <container id="cid4" type="Box" label="Text">4</container>
                                 <container parent="cid4" type="Folder">4</container>
