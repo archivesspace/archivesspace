@@ -142,13 +142,6 @@ describe 'Software agent controller' do
       agent_id = create_agent_via_api(:software, {:create_subrecords => true})
       expect(agent_id).to_not eq(-1)
 
-      expect(AgentRecordControl.where(:agent_software_id => agent_id).count).to eq(1)
-      expect(AgentAlternateSet.where(:agent_software_id => agent_id).count).to eq(1)
-      expect(AgentConventionsDeclaration.where(:agent_software_id => agent_id).count).to eq(1)
-      expect(AgentSources.where(:agent_software_id => agent_id).count).to eq(1)
-      expect(AgentOtherAgencyCodes.where(:agent_software_id => agent_id).count).to eq(1)
-      expect(AgentMaintenanceHistory.where(:agent_software_id => agent_id).count).to eq(1)
-      expect(AgentRecordIdentifier.where(:agent_software_id => agent_id).count).to eq(1)
       expect(StructuredDateLabel.where(:agent_software_id => agent_id).count).to eq(1)
       expect(AgentPlace.where(:agent_software_id => agent_id).count).to eq(1)
       expect(AgentOccupation.where(:agent_software_id => agent_id).count).to eq(1)
@@ -156,7 +149,6 @@ describe 'Software agent controller' do
       expect(AgentTopic.where(:agent_software_id => agent_id).count).to eq(1)
       expect(AgentIdentifier.where(:agent_software_id => agent_id).count).to eq(1)
       expect(UsedLanguage.where(:agent_software_id => agent_id).count).to eq(1)
-      expect(AgentResource.where(:agent_software_id => agent_id).count).to eq(1)
     end
 
     it "deletes agent subrecords when parent agent is deleted" do
@@ -167,13 +159,6 @@ describe 'Software agent controller' do
       url = URI("#{JSONModel::HTTP.backend_url}/agents/software/#{agent_id}")
       response = JSONModel::HTTP.delete_request(url)
 
-      expect(AgentRecordControl.where(:agent_software_id => agent_id).count).to eq(0)
-      expect(AgentAlternateSet.where(:agent_software_id => agent_id).count).to eq(0)
-      expect(AgentConventionsDeclaration.where(:agent_software_id => agent_id).count).to eq(0)
-      expect(AgentSources.where(:agent_software_id => agent_id).count).to eq(0)
-      expect(AgentOtherAgencyCodes.where(:agent_software_id => agent_id).count).to eq(0)
-      expect(AgentMaintenanceHistory.where(:agent_software_id => agent_id).count).to eq(0)
-      expect(AgentRecordIdentifier.where(:agent_software_id => agent_id).count).to eq(0)
       expect(StructuredDateLabel.where(:agent_software_id => agent_id).count).to eq(0)
       expect(AgentPlace.where(:agent_software_id => agent_id).count).to eq(0)
       expect(AgentOccupation.where(:agent_software_id => agent_id).count).to eq(0)
@@ -181,7 +166,6 @@ describe 'Software agent controller' do
       expect(AgentTopic.where(:agent_software_id => agent_id).count).to eq(0)
       expect(AgentIdentifier.where(:agent_software_id => agent_id).count).to eq(0)
       expect(UsedLanguage.where(:agent_software_id => agent_id).count).to eq(0)
-      expect(AgentResource.where(:agent_software_id => agent_id).count).to eq(0)
     end
 
     it "gets subrecords along with agent" do
@@ -192,13 +176,6 @@ describe 'Software agent controller' do
       response = JSONModel::HTTP.get_response(url)
       json_response = ASUtils.json_parse(response.body)
 
-      expect(json_response["agent_record_controls"].length).to eq(1)
-      expect(json_response["agent_alternate_sets"].length).to eq(1)
-      expect(json_response["agent_conventions_declarations"].length).to eq(1)
-      expect(json_response["agent_other_agency_codes"].length).to eq(1)
-      expect(json_response["agent_maintenance_histories"].length).to eq(1)
-      expect(json_response["agent_record_identifiers"].length).to eq(1)
-      expect(json_response["agent_sources"].length).to eq(1)
       expect(json_response["dates_of_existence"].length).to eq(1)
       expect(json_response["agent_places"].length).to eq(1)
       expect(json_response["agent_occupations"].length).to eq(1)
@@ -206,7 +183,6 @@ describe 'Software agent controller' do
       expect(json_response["agent_topics"].length).to eq(1)
       expect(json_response["agent_identifiers"].length).to eq(1)
       expect(json_response["used_languages"].length).to eq(1)
-      expect(json_response["agent_resources"].length).to eq(1)
     end
   end
 end
