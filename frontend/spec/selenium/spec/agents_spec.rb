@@ -1065,7 +1065,7 @@ describe "agents record CRUD" do
     end
 
     it "displays the agent in the agent's index page" do
-      run_index_round
+      run_all_indexers
 
       path = URI.encode('/agents?filter_term[]={"primary_type":"agent_person"}&sort=create_time+desc')
       @driver.get(URI.join($frontend, path))
