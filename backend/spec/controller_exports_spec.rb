@@ -10,20 +10,6 @@ describe 'Exports controller' do
     end
   end
 
-  it "lets you export an Agent as EAC, even when it is linked to records from another repo" do
-
-    accession = create(:json_accession)
-
-    create(:json_event,
-           'linked_agents' => [{'ref' => '/agents/software/1', 'role' => 'validator'}],
-           'linked_records' => [{'ref' => accession.uri, 'role' => 'source'}])
-
-
-    get "/repositories/#{$repo_id}/archival_contexts/softwares/1.xml"
-    expect(last_response).to be_ok
-    expect(last_response.body).to include("<eac-cpf")
-  end
-
 
   it "lets you export a person in EAC-CPF" do
     id = create(:json_agent_person_full_subrec).id
@@ -52,16 +38,6 @@ describe 'Exports controller' do
     expect(resp).to include("<eac-cpf")
     expect(resp).to include("<control>")
     expect(resp).to include("<entityType>corporateBody</entityType>")
-  end
-
-
-  it "lets you export a software in EAC-CPF" do
-    id = create(:json_agent_software_full_subrec).id
-    get "/repositories/#{$repo_id}/archival_contexts/softwares/#{id}.xml"
-    resp = last_response.body
-    expect(resp).to include("<eac-cpf")
-    expect(resp).to include("<control>")
-    expect(resp).to include("<entityType>software</entityType>")
   end
 
 
@@ -209,8 +185,6 @@ describe 'Exports controller' do
     check_metadata("archival_contexts/families/#{agent}.xml")
     agent = create(:json_agent_corporate_entity).id
     check_metadata("archival_contexts/corporate_entities/#{agent}.xml")
-    agent = create(:json_agent_software).id
-    check_metadata("archival_contexts/softwares/#{agent}.xml")
 
     # resource exports
     res = create(:json_resource, :publish => true).id
