@@ -502,7 +502,7 @@ AppConfig[:pui_hide][:agents] = false
 AppConfig[:pui_hide][:classifications] = false
 AppConfig[:pui_hide][:search_tab] = false
 # The following determine globally whether the various "badges" appear on the Repository page
-# can be overriden at repository level below (e.g.:  AppConfig[:pui_repos][{repo_code}][:hide][:counts] = true
+# can be overridden at repository level below (e.g.:  AppConfig[:pui_repos][{repo_code}][:hide][:counts] = true
 AppConfig[:pui_hide][:resource_badge] = false
 AppConfig[:pui_hide][:record_badge] = true # hide by default
 AppConfig[:pui_hide][:digital_object_badge] = false
@@ -514,7 +514,7 @@ AppConfig[:pui_hide][:counts] = false
 # The following determines globally whether the 'container inventory' navigation tab/pill is hidden on resource/collection page
 AppConfig[:pui_hide][:container_inventory] = false
 
-# Whether to display linked decaccessions
+# Whether to display linked deaccessions
 AppConfig[:pui_display_deaccessions] = true
 
 # Whether to display archival record identifiers in the PUI collection organization tree
