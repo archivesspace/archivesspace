@@ -619,6 +619,8 @@ describe 'EAC Export' do
 
         @relationship = JSONModel(:agent_relationship_parentchild).new
         @relationship.relator = 'is_child_of'
+        @relationship.description = 'A descriptive note.'
+        @relationship.relationship_uri = 'http://example.com'
         @relationship.ref = @rec.uri
 
         @linked_agent = create(:json_agent_person,
@@ -633,13 +635,26 @@ describe 'EAC Export' do
       expect(@eac).to have_tag(
         'relations/cpfRelation',
         {
-          'cpfRelationType' => I18n.t('enumerations.agent_relationship_parentchild_relator.is_parent_of'),
           'href' => uri
         }
       )
       expect(@eac).to have_tag(
         'relations/cpfRelation/relationEntry' => @linked_agent.names[0]['primary_name']
       )
+    end
+
+    it 'maps related agents relator to cpfRelationType attribute' do
+      expect(@eac).to have_tag("relations/cpfRelation[@cpfRelationType='hierarchical-parent']")
+    end
+
+    it 'maps related agents description to cpfRelation/descriptiveNote' do
+      expect(@eac).to have_tag(
+        'relations/cpfRelation/descriptiveNote/p' => 'A descriptive note.'
+      )
+    end
+
+    it 'maps related agents relationship uri to cpfRelation arcrole attribute' do
+      expect(@eac).to have_tag("relations/cpfRelation[@xlink:arcrole='http://example.com']")
     end
 
     it 'exports agent_resources' do
