@@ -233,7 +233,7 @@ en:
   dates_of_existence:
     _frontend:
       action:
-        add: Add Date Set
+        add: Add Date
 
   container_location:
     status: Status

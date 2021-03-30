@@ -829,7 +829,7 @@ en:
   dates_of_existence:
     _frontend:
       action:
-        add: Add Date Set
+        add: Add Date
 
   deaccession:
     _frontend:
@@ -1848,11 +1848,11 @@ en:
     <<: *agent_record_control_attributes
 
   agent_gender: &agent_gender_attributes
-    _plural: Agent Genders
-    _singular: Agent Gender
+    _plural: Genders
+    _singular: Gender
     _frontend:
       action:
-        add: Add Gender Info
+        add: Add Gender
     gender: Gender
     note: Note
     dates: Dates
@@ -1874,8 +1874,8 @@ en:
     <<: *agent_gender_attributes
 
   used_language: &used_language_attributes
-    _plural: Languages
-    _singular: Language
+    _plural: Languages Used
+    _singular: Language Used
     _frontend:
       action:
         add: Add Language
