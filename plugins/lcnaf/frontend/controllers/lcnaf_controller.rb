@@ -25,45 +25,34 @@ class LcnafController < ApplicationController
 
     begin
       # agents are processed by MarcXMLAuthAgentConverter introduced in ANW-429
-      if parse_results[:agents][:count] > 0
-        marcxml_file = parse_results[:agents][:file]
+      parse_results[:agents].each do |agents_file|
         agents_job = Job.new("import_job", {
                              "import_type" => "marcxml_auth_agent",
                              "jsonmodel_type" => "import_job"
                             },
-                      {"lcnaf_import_#{SecureRandom.uuid}" => marcxml_file})
+                      {"lcnaf_import_#{SecureRandom.uuid}" => agents_file})
 
-        agents_job_response = agents_job.upload
+        job = agents_job.upload
       end
 
       # subjects are processed by MarcXMLBibConverter as before ANW-429
-      if parse_results[:subjects][:count] > 0
-        marcxml_file = parse_results[:subjects][:file]
+      parse_results[:subjects].each do |subjects_file|
         subjects_job = Job.new("import_job", {
                                "import_type" => "marcxml_subjects_and_agents",
                                "jsonmodel_type" => "import_job"
                               },
-                      {"lcnaf_import_#{SecureRandom.uuid}" => marcxml_file})
+                      {"lcnaf_import_#{SecureRandom.uuid}" => subjects_file})
 
-        subjects_job_response = subjects_job.upload
+        subjects_job.upload
       end
 
-      # if only subjects or only agents are processed, forward user directly to the job show page.
-      # if both subjects and agents are processed, then forward user to the jobs index page so they can see both
-      if parse_results[:agents][:count] > 0 && parse_results[:subjects][:count] == 0
-        render :json => {'job_uri' => url_for(:controller => :jobs, :action => :show, :id => agents_job_response['id'])}
-
-      elsif parse_results[:agents][:count] == 0 && parse_results[:subjects][:count] > 0
-        render :json => {'job_uri' => url_for(:controller => :jobs, :action => :show, :id => subjects_job_response['id'])}
-      else
-        render :json => {'job_uri' => url_for(:controller => :jobs, :action => :index)}
-      end
+      # forward user to the jobs index page so they can see all jobs
+      render :json => {'job_uri' => url_for(:controller => :jobs, :action => :index)}
          
     rescue
       render :json => {'error' => $!.to_s}
     end
   end
-
 
   private
 

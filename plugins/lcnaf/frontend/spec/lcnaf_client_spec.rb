@@ -40,11 +40,12 @@ describe "id.loc.gov clientware" do
     end
 
 
-    it "can take a set of IDs and make a marcxml collection of the records" do
-      # TO-DO: This test doesn't do anything but puts a marc file?
-      lccns = %w(no92032176 nr91032543)
-      marcxml_file = loc_searcher.results_to_marcxml_file(lccns)
-      puts IO.read(marcxml_file)
+    it "can take a set of IDs and make an individual marcxml file for each record sorted by type" do
+      lccns = %w(no92032176 nr91032543 n80010207)
+      marcxml_files = loc_searcher.results_to_marcxml_file(lccns)
+
+      expect(marcxml_files[:subjects].length).to eq(1)
+      expect(marcxml_files[:agents].length).to eq(2)
     end
 
   end

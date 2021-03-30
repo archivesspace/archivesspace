@@ -30,16 +30,11 @@ class OpenSearcher
   end
 
 
-  # ANW-429: this method writes two tempfiles -- one for agents records and one for subject records so that the correct importer (MARC auth for agents, MARC bib for subjects is used.
+  # ANW-429: this method writes a tempfile for each record selected in the plugin
   def results_to_marcxml_file(lccns)
-    agent_tempfile = ASUtils.tempfile('lcnaf_import_agent')
-    subject_tempfile = ASUtils.tempfile('lcnaf_import_subject')
 
-    agents_count = 0
-    subjects_count = 0
-
-    agent_tempfile.write("<collection>\n")
-    subject_tempfile.write("<collection>\n")
+    agents = []
+    subjects = []
 
     lccns.each do |lccn|
       lccn.sub!( 'info:lc/authorities/subjects/', '')
@@ -56,28 +51,26 @@ class OpenSearcher
         doc.encoding = 'utf-8'
 
         if is_subject_record?(doc)
+          subject_tempfile = ASUtils.tempfile('lcnaf_import_subject')
+
           subject_tempfile.write(doc.root)
-          subjects_count += 1
+          subject_tempfile.flush
+          subject_tempfile.rewind
+
+          subjects.push subject_tempfile
         else
+          agent_tempfile = ASUtils.tempfile('lcnaf_import_agent')
+
           agent_tempfile.write(doc.root)
-          agents_count += 1
+          agent_tempfile.flush
+          agent_tempfile.rewind
+
+          agents.push agent_tempfile
         end
       end
     end
 
-    agent_tempfile.write("\n</collection>")
-    subject_tempfile.write("\n</collection>")
-
-    agent_tempfile.flush
-    subject_tempfile.flush
-
-    agent_tempfile.rewind
-    subject_tempfile.rewind
-
-    return {
-             :agents => {:count => agents_count, :file => agent_tempfile}, 
-             :subjects => {:count => subjects_count, :file => subject_tempfile}
-           }
+    return {:agents => agents, :subjects => subjects}
   end
 
   def is_subject_record?(doc)
