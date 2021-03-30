@@ -291,7 +291,7 @@ class EACSerializer < ASpaceExport::Serializer
                   xml.text sn['content'].join('--')
                 end
               when 'note_citation'
-                atts = Hash[sn['xlink'].map { |x, v| ["xlink:#{x}", v] }.reject { |a| a[1].nil? }]
+                atts = Hash[sn.fetch('xlink', {}).map { |x, v| ["xlink:#{x}", v] }.reject { |a| a[1].nil? }]
                 xml.citation(atts) do
                   xml.text sn['content'].join('--')
                 end
