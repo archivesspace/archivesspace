@@ -336,7 +336,9 @@ AppConfig[:demo_data_url] = ""
 # Expose external ids in the frontend
 AppConfig[:show_external_ids] = false
 
-#
+# Whether to display archival record identifiers in the frontend largetree container
+AppConfig[:display_identifiers_in_largetree_container] = false
+
 # This sets the allowed size of the request/response header that Jetty will accept (
 # anything bigger gets a 403 error ). Note if you want to jack this size up,
 # you will also have to configure your Nginx/Apache  as well if
