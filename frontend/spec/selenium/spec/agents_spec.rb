@@ -73,6 +73,50 @@ describe "agents merge" do
   end
 end
 
+describe "disallows agents merge with related agents" do
+  before(:all) do
+    @repo = create(:repo, repo_code: "agents_test_#{Time.now.to_i}")
+  
+    @driver = Driver.get
+    @driver.login_to_repo($admin, @repo)
+
+    @first_agent = create(:json_agent_corporate_entity_full_subrec)
+    @second_agent = create(:json_agent_corporate_entity_full_subrec)
+
+    run_all_indexers
+  end
+
+  after(:all) do
+    @driver ? @driver.quit : next
+  end
+
+  it 'tries to merge related agents and gets an error' do
+    @driver.clear_and_send_keys([:id, 'global-search-box'], @first_agent['names'][0]['primary_name'])
+    @driver.find_element(id: 'global-search-button').click
+    @driver.find_element(:link, 'Edit').click
+
+    @driver.find_element(css: '#related_agents button.add-related-agent-for-type-btn').click
+
+    related_type_select = @driver.find_element(class: 'related-agent-type')
+    related_type_select.select_option('agent_relationship_hierarchical')
+
+    related_agent_linker = @driver.find_element(:id, 'token-input-agent_related_agents__1__ref_')
+    @driver.typeahead_and_select(related_agent_linker, @second_agent['names'][0]['primary_name'])
+
+    @driver.click_and_wait_until_gone(css: "form .record-pane button[type='submit']")
+
+    @driver.find_element(:link, 'Merge').click
+    input = @driver.find_element(:id, 'token-input-merge_ref_')
+    @driver.typeahead_and_select(input, @second_agent['names'][0]['primary_name'])
+
+    @driver.find_element(class: 'merge-button').click
+    @driver.find_element(id: 'confirmButton').click
+
+    @driver.find_element_with_text('//div[contains(@class, "alert-danger")]', /have a relationship/)
+  end
+end
+
+
 
 describe "agents record CRUD" do
   before(:all) do
