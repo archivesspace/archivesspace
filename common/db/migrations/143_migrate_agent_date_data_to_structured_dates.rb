@@ -5,7 +5,7 @@ Sequel.migration do
     $stderr.puts("Migrating agent dates from 'date' to 'structured_date' table")
 
     # figure out which FK is defined, so we can create the right relationship later
-    self[:date].all.each do |r|
+    self[:date].order(:id).paged_each do |r|
       if r[:agent_person_id]
         rel = :agent_person_id
       elsif r[:agent_family_id]
