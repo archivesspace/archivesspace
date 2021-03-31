@@ -269,6 +269,33 @@ class ArchivesSpaceService < Sinatra::Base
                     'mimetype' => 'application/xml' })
   end
 
+  Endpoint.get('/repositories/:repo_id/archival_contexts/softwares/:id.xml')
+          .description('Get an EAC-CPF representation of a Software agent')
+          .deprecated('Software agents cannot be validly mapped to an EAC record, thus exporting is no longer supported.')
+          .params(['id', :id],
+                  ['repo_id', :repo_id])
+          .permissions([:view_repository])
+          .returns([200, '(:agent)']) \
+  do
+    eac = generate_eac(params[:id], 'agent_software')
+    xml_response(eac)
+  end
+
+  Endpoint.get('/repositories/:repo_id/archival_contexts/softwares/:id.:fmt/metadata')
+          .description('Get metadata for an EAC-CPF export of a software')
+          .deprecated('Software agents cannot be validly mapped to an EAC record, thus exporting is no longer supported.')
+          .params(['id', :id],
+                  ['repo_id', :repo_id])
+          .permissions([:view_repository])
+          .returns([200, 'The export metadata']) \
+  do
+    agent = AgentSoftware.to_jsonmodel(params[:id])
+    aname = agent['display_name']
+    fn = [aname['authority_id'], aname['software_name']].compact.join('_')
+    json_response({ 'filename' => safe_filename(fn, '_eac.xml'),
+                    'mimetype' => 'application/xml' })
+  end  
+
   Endpoint.get('/repositories/:repo_id/agents/people/marc21/:id.xml')
           .description('Get an MARC Auth representation of an Person')
           .params(['id', :id],
