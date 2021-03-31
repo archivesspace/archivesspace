@@ -360,10 +360,9 @@ class MARCAuthSerializer < ASpaceExport::Serializer
     end
   end
 
-  def person_name_subtags(name, xml)
+  def person_name_subtags(name, xml, related = false)
+    related_sfs(name, xml) if related
     primary = name['rest_of_name'] ? "#{name['primary_name']}, #{name['rest_of_name']}" : name['primary_name']
-    subf('w', 'r', xml) if name['relator']
-    subf('i', name['relator'], xml)
     subf('a', primary, xml)
     subf('b', name['number'], xml)
     subf('c', name['title'], xml)
@@ -388,9 +387,8 @@ class MARCAuthSerializer < ASpaceExport::Serializer
     end
   end
 
-  def family_name_subtags(name, xml)
-    subf('w', 'r', xml) if name['relator']
-    subf('i', name['relator'], xml)
+  def family_name_subtags(name, xml, related = false)
+    related_sfs(name, xml) if related
 
     name_parts = [
       { code: 'c', value: name['location'] },
@@ -442,9 +440,8 @@ class MARCAuthSerializer < ASpaceExport::Serializer
     end
   end
 
-  def corporate_name_subtags(name, xml)
-    subf('w', 'r', xml) if name['relator']
-    subf('i', name['relator'], xml)
+  def corporate_name_subtags(name, xml, related = false)
+    related_sfs(name, xml) if related
     subf('a', name['primary_name'], xml)
     subf('b', name['subordinate_name_1'], xml)
     subf('q', name['subordinate_name_2'], xml)
@@ -452,6 +449,32 @@ class MARCAuthSerializer < ASpaceExport::Serializer
     subf('d', name['dates'], xml)
     subf('c', name['location'], xml)
     subf('g', name['qualifier'], xml)
+  end
+
+  def sub_w(name)
+    case name['specific_relator'] || name['relator']
+    when 'is_earlier_form_of'
+      'a'
+    when 'is_later_form_of'
+      'b'
+    when 'Acronym'
+      'd'
+    when 'Musical composition'
+      'f'
+    when 'Broader term'
+      'g'
+    when 'Narrower term'
+      'h'
+    else
+      'r'
+    end
+  end
+
+  def related_sfs(name, xml)
+    specific = I18n.t("enumerations.specific_relator.#{name['specific_relator']}", :default => name['specific_relator'])
+    relator = I18n.t("enumerations.#{name['rel_type']}_relator.#{name['relator']}", :default => name['relator'])
+    subf('w', sub_w(name), xml)
+    subf('i', specific || name['description'] || relator, xml)
   end
 
   def dates_of_existence(json, xml)
@@ -591,25 +614,28 @@ class MARCAuthSerializer < ASpaceExport::Serializer
       agent = ra['_resolved']
       primary = agent['names'].select { |n| n['authorized'] == true }.first
       # smuggle in the relator info. for this relationship
-      primary['relator'] = I18n.t("enumerations.#{ra['jsonmodel_type']}_relator.#{ra['relator']}")
+      primary['rel_type'] = ra['jsonmodel_type']
+      primary['relator'] = ra['relator']
+      primary['specific_relator'] = ra['specific_relator']
+      primary['description'] = ra['description']
       case agent['jsonmodel_type']
       when 'agent_person'
         ind1 = primary['name_order'] == 'indirect' ? '1' : '0'
         xml.datafield(tag: '500', ind1: ind1, ind2: ' ') do
-          person_name_subtags(primary, xml)
+          person_name_subtags(primary, xml, true)
         end
       when 'agent_family'
         xml.datafield(tag: '500', ind1: '3', ind2: ' ') do
-          family_name_subtags(primary, xml)
+          family_name_subtags(primary, xml, true)
         end
       when 'agent_corporate_entity'
         if primary['conference_meeting'] == true
           xml.datafield(tag: '511', ind1: '2', ind2: ' ') do
-            corporate_name_subtags(primary, xml)
+            corporate_name_subtags(primary, xml, true)
           end
         else
           xml.datafield(tag: '510', ind1: '2', ind2: ' ') do
-            corporate_name_subtags(primary, xml)
+            corporate_name_subtags(primary, xml, true)
           end
         end
       end

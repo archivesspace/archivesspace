@@ -291,7 +291,7 @@ class EACSerializer < ASpaceExport::Serializer
                   xml.text sn['content'].join('--')
                 end
               when 'note_citation'
-                atts = Hash[sn['xlink'].map { |x, v| ["xlink:#{x}", v] }.reject { |a| a[1].nil? }]
+                atts = Hash[sn.fetch('xlink', {}).map { |x, v| ["xlink:#{x}", v] }.reject { |a| a[1].nil? }]
                 xml.citation(atts) do
                   xml.text sn['content'].join('--')
                 end
@@ -393,14 +393,37 @@ class EACSerializer < ASpaceExport::Serializer
 
           next unless filled_out?([name])
 
+          relation_type = case relator
+                          when 'is_identified_with'
+                            'identity'
+                          when 'is_hierarchical_with'
+                            'hierarchical'
+                          when 'is_parent_of', 'is_superior_of'
+                            'hierarchical-parent'
+                          when 'is_child_of', 'is_subordinate_to'
+                            'hierarchical-child'
+                          when 'is_temporal_with'
+                            'temporal'
+                          when 'is_earlier_form_of'
+                            'temporal-earlier'
+                          when 'is_later_form_of'
+                            'temporal-later'
+                          when 'is_related_with'
+                            'family'
+                          else
+                            'associative'
+                          end
+
           attrs = {
-            :cpfRelationType => I18n.t("enumerations.#{ra['jsonmodel_type']}_relator.#{relator}"),
+            :cpfRelationType => relation_type,
+            'xlink:arcrole' => ra['relationship_uri'],
             'xlink:type' => 'simple',
             'xlink:href' => AppConfig[:public_proxy_url] + resolved['uri']
           }
 
           xml.cpfRelation(clean_attrs(attrs)) do
             xml.relationEntry name
+            _descriptive_note(ra['description'], xml) if ra['description']
           end
         end
 

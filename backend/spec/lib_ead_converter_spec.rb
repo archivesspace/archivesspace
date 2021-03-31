@@ -459,8 +459,20 @@ ANEAD
       expect(note_content(get_note_by_type(@resource, 'fileplan'))).to eq("Resource-FilePlan-AT")
     end
 
-    it "maps '<langmaterial>' correctly" do
+    it "maps '<langmaterial>' with single '<language>' correctly" do
       expect(@archival_objects['06']['lang_materials'][0]['language_and_script']['language']).to eq('eng')
+    end
+
+    it "maps '<langmaterial>' with many '<language>'s correctly" do
+      expect(@archival_objects['04']['lang_materials'][0]['language_and_script']['language']).to eq('eng')
+      expect(@archival_objects['04']['lang_materials'][1]['language_and_script']['language']).to eq('ger')
+
+      langmaterial = get_note_by_type(@archival_objects['04']['lang_materials'][2], 'langmaterial')
+      expect(note_content(langmaterial)).to eq('Materials in English and German.')
+    end
+
+    it "doesn't create a language for an ao without a '<langmaterial>'" do
+      expect(@archival_objects['09']['lang_materials']).to be_empty
     end
 
     it "maps '<legalstatus>' correctly" do
@@ -912,7 +924,7 @@ ANEAD
 
 
   describe "Mapping the langmaterial tag" do
-    def test_doc
+    def lang_doc1
       src = <<ANEAD
 <ead>
   <archdesc level="collection" audience="internal">
@@ -934,14 +946,40 @@ ANEAD
 
       get_tempfile_path(src)
     end
+    
+    def lang_doc2
+      src = <<ANEAD
+<ead>
+  <archdesc level="collection" audience="internal">
+    <did>
+      <unittitle>Title</unittitle>
+      <unitid>Resource.ID.AT</unitid>
+      <unitdate normal="1907/1911" era="ce" calendar="gregorian" type="inclusive">1907-1911</unitdate>
+      <physdesc>
+        <extent>5.0 Linear feet</extent>
+        <extent>Resource-ContainerSummary-AT</extent>
+      </physdesc>
+    </did>
+  </archdesc>
+</ead>
+ANEAD
 
-    it "should map the langcode to language, and the language text to a note" do
-      json = convert(test_doc)
+      get_tempfile_path(src)
+    end
+
+    it 'should map the langcode to language, and the language text to a note' do
+      json = convert(lang_doc1)
       resource = json.select {|rec| rec['jsonmodel_type'] == 'resource'}.last
       expect(resource['lang_materials'][0]['language_and_script']['language']).to eq('eng')
 
       langmaterial = get_note_by_type(resource['lang_materials'][1], 'langmaterial')
       expect(note_content(langmaterial)).to eq('English')
+    end
+
+    it "creates a language when no '<langmaterial>' at resource level" do
+      json = convert(lang_doc2)
+      resource = json.select {|rec| rec['jsonmodel_type'] == 'resource'}.last
+      expect(resource['lang_materials'][0]['language_and_script']['language']).to eq('und')
     end
   end
 

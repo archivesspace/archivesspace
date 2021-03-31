@@ -16,37 +16,50 @@ module BulkImportMixins
      "owner_repo"]
   end
 
-  # save (create/update) the archival object, then revive it
-
   def ao_save(ao)
-    revived = nil
-    if @validate_only
-      valid(ao, I18n.t("ao"))
-      ao.uri = ao.uri || "valid"
-      revived = ao
-    else
-      begin
-        archObj = nil
-        if ao.id.nil?
-          archObj = ArchivalObject.create_from_json(ao)
-        else
-          obj = ArchivalObject.get_or_die(ao.id)
-          archObj = obj.update_from_json(ao)
+      revived = nil
+      if @validate_only
+        valid(ao, I18n.t("ao"))
+        ao.uri = ao.uri || "valid"
+        revived = ao
+      else
+        begin
+          archObj = nil
+          if ao.id.nil?
+            archObj = ArchivalObject.create_from_json(ao)
+          else
+            obj = ArchivalObject.get_or_die(ao.id)
+            archObj = obj.update_from_json(ao)
+          end
+          objs = ArchivalObject.sequel_to_jsonmodel([archObj])
+          revived = objs[0] if !objs.empty?
+        rescue JSONModel::ValidationException => ve
+          raise BulkImportException.new(I18n.t("bulk_import.error.ao_validation", :err => ve.errors))
+        rescue Exception => e
+          Log.error("UNEXPECTED ao save error: #{e.message}\n#{e.backtrace}")
+          Log.error(ASUtils.jsonmodels_to_hashes(ao).pretty_inspect) if ao
+          raise e
         end
-        objs = ArchivalObject.sequel_to_jsonmodel([archObj])
-        revived = objs[0] if !objs.empty?
-      rescue JSONModel::ValidationException => ve
-        raise BulkImportException.new(I18n.t("bulk_import.error.ao_validation", :err => ve.errors))
-      rescue Exception => e
-        Log.error("UNEXPECTED ao save error: #{e.message}\n#{e.backtrace}")
-        Log.error(ASUtils.jsonmodels_to_hashes(ao).pretty_inspect) if ao
-        raise e
+      end
+      revived
+    end
+    
+  def resource_from_ref(ead_id)
+    dataset = CrudHelpers.scoped_dataset(Resource, {:ead_id => ead_id})
+    resource = nil
+    if !dataset.empty?
+      objs = dataset.respond_to?(:all) ? dataset.all : dataset
+      jsonms = Resource.sequel_to_jsonmodel(objs)
+      if jsonms.length == 1
+        resource = jsonms[0]
+      else
+        raise BulkImportException.new(I18n.t('bulk_import.error.resource_ref_id', :ref_id => ead_id))
       end
     end
-    revived
+    resource 
   end
 
-  def archival_object_from_ref(ref_id)
+def archival_object_from_ref(ref_id)
     dataset = CrudHelpers.scoped_dataset(ArchivalObject, { :ref_id => ref_id })
     ao = nil
     if !dataset.empty?
@@ -93,6 +106,64 @@ module BulkImportMixins
       raise BulkImportException.new(I18n.t("bulk_import.error.bad_ao_uri", :uri => uri))
     end
     ao
+  end
+
+  #Finds the top container using the hash values (AND clause only)
+  def find_top_container(where_params)
+    dataset = CrudHelpers.scoped_dataset(TopContainer, where_params)
+    tc = nil
+    if !dataset.empty?
+      objs = dataset.respond_to?(:all) ? dataset.all : dataset
+      jsonms = TopContainer.sequel_to_jsonmodel(objs)
+      if jsonms.length > 0
+       tc = jsonms[0]
+      else
+        raise BulkImportException.new(I18n.t('bulk_import.error.find_tc', :where => where_params.pretty_inspect))
+      end
+    end
+    tc
+  end 
+  
+ def indicator_and_type_exist_for_resource?(ead_id, indicator, type_id)
+   
+    return TopContainer
+      .join(:top_container_link_rlshp, :top_container_link_rlshp__top_container_id => :top_container__id)
+      .join(:sub_container, :sub_container__id => :top_container_link_rlshp__sub_container_id)
+      .join(:instance, :instance__id => :sub_container__instance_id)
+      .join(:archival_object, :archival_object__id => :instance__archival_object_id)
+      .join(:resource, :resource__id => :archival_object__root_record_id)
+      .filter(:resource__ead_id => ead_id, :indicator => indicator, :type_id => type_id).count > 0
+  end
+
+  def sub_container_from_barcode(barcode)
+    dataset = CrudHelpers.scoped_dataset(SubContainer, {:barcode_2 => barcode})
+    sc = nil
+    if !dataset.empty?
+      objs = dataset.respond_to?(:all) ? dataset.all : dataset
+      jsonms = SubContainer.sequel_to_jsonmodel(objs)
+      if jsonms.length > 0
+        sc = jsonms[0]
+      else
+        raise BulkImportException.new(I18n.t('bulk_import.error.sc_barcode', :barcode => barcode))
+      end
+    end
+    sc
+  end
+
+  #Finds the top container using the hash values (AND clause only)
+  def find_top_container(where_params)
+    dataset = CrudHelpers.scoped_dataset(TopContainer, where_params)
+    tc = nil
+    if !dataset.empty?
+      objs = dataset.respond_to?(:all) ? dataset.all : dataset
+      jsonms = TopContainer.sequel_to_jsonmodel(objs)
+      if jsonms.length > 0
+       tc = jsonms[0]
+      else
+        raise BulkImportException.new(I18n.t('bulk_import.error.find_tc', :where => where_params.pretty_inspect))
+      end
+    end
+    tc
   end
 
   def created(obj, type, message, report)
@@ -151,11 +222,9 @@ module BulkImportMixins
   def create_date(dates_label, date_begin, date_end, date_type, expression, date_certainty)
     date_str = "(Date: type:#{date_type}, label: #{dates_label}, begin: #{date_begin}, end: #{date_end}, expression: #{expression})"
     begin
-      @report.add_info(I18n.t('bulk_import.date_type_default')) unless date_type
       date_type = @date_types.value(date_type || "inclusive")
     rescue Exception => e
       @report.add_errors(I18n.t("bulk_import.error.date_type", :what => date_type, :date_str => date_str))
-      return nil
     end
     begin
       date = { "date_type" => date_type,

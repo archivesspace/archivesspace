@@ -1,6 +1,7 @@
 class BulkImportController < ApplicationController
   set_access_control "update_resource_record" => [:new, :edit, :create, :update, :rde, :add_children, :publish, :accept_children, :get_file, :load_dos]
 
+  include ApplicationHelper
   # create the file form for the spreadsheet
   def get_file
     rid = params[:rid]

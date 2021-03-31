@@ -1,6 +1,6 @@
 <div class="btn btn-inline-form" data-no-change-tracking="true">
   <%= link_to '#', :class => "btn btn-sm btn-default" do %>
-    <%= content_tag 'span', I18n.t("actions.lightmode_toggle") %>
+    <%= label_tag 'lightmode_toggle', I18n.t("actions.lightmode_toggle"), :style => "margin: 0px;" %>
     <%= check_box_tag 'lightmode_toggle', false, false,
       :style => "margin: 0px; vertical-align: middle", :data => { type: type }
     %>

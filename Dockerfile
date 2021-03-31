@@ -6,12 +6,15 @@ FROM ubuntu:20.04 as build_release
 # Docker related files may be updated at anytime without
 # warning or presence in release notes.
 
-RUN DEBIAN_FRONTEND=noninteractive \
-    apt-get update && \
+ENV DEBIAN_FRONTEND=noninteractive \
+    TZ=UTC
+
+RUN apt-get update && \
     apt-get -y install --no-install-recommends \
       build-essential \
       git \
       openjdk-8-jre-headless \
+      shared-mime-info \
       wget \
       unzip
 
@@ -36,16 +39,18 @@ FROM ubuntu:20.04
 LABEL maintainer="ArchivesSpaceHome@lyrasis.org"
 
 ENV ARCHIVESSPACE_LOGS=/dev/null \
-    LANG=C.UTF-8
+    DEBIAN_FRONTEND=noninteractive \
+    LANG=C.UTF-8 \
+    TZ=UTC
 
 COPY --from=build_release /archivesspace /archivesspace
 
-RUN DEBIAN_FRONTEND=noninteractive \
-    apt-get update && \
+RUN apt-get update && \
     apt-get -y install --no-install-recommends \
       ca-certificates \
       openjdk-8-jre-headless \
       netbase \
+      shared-mime-info \
       wget \
       unzip && \
     rm -rf /var/lib/apt/lists/* && \
