@@ -81,7 +81,7 @@ def setup_test_data
                     :instances => [build(:instance_digital)])
   aos = (0..5).map do
     create(:archival_object,
-           resource: { 'ref' => resource.uri }, publish: true)
+           title: "Published Archival Object", resource: { 'ref' => resource.uri }, publish: true)
   end
 
   unpublished_resource = create(:resource, title: "Unpublished Resource", publish: false)
