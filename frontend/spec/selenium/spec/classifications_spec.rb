@@ -66,7 +66,7 @@ describe 'Classifications' do
     @driver.complete_4part_id('resource_id_%d_')
     @driver.find_element(:id, 'resource_level_').select_option('collection')
 
-    combo = @driver.find_element(xpath: '//*[@id="resource_lang_materials__0_"]/div[1]/div/div/div/div[1]/div/div/div/input[@type="text"]')
+    combo = @driver.find_element(xpath: '//*[@id="resource_lang_materials__0__language_and_script__language_"]')
     combo.clear
     combo.click
     combo.send_keys('eng')
@@ -80,13 +80,13 @@ describe 'Classifications' do
 
     sleep 2
 
-    combo = @driver.find_element(xpath: '//*[@id="finding_aid"]/div/div/fieldset/div[@class="form-group required"]/div[@class="col-sm-9"]/div[@class="combobox-container"][following-sibling::select/@id="resource_finding_aid_language_"]//input[@type="text"]')
+    combo = @driver.find_element(xpath: '//*[@id="resource_finding_aid_language_"]')
     combo.clear
     combo.click
     combo.send_keys('eng')
     combo.send_keys(:tab)
 
-    combo = @driver.find_element(xpath: '//*[@id="finding_aid"]/div/div/fieldset/div[@class="form-group required"]/div[@class="col-sm-9"]/div[@class="combobox-container"][following-sibling::select/@id="resource_finding_aid_script_"]//input[@type="text"]')
+    combo = @driver.find_element(xpath: '//*[@id="resource_finding_aid_script_"]')
     combo.clear
     combo.click
     combo.send_keys('Latn')

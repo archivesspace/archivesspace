@@ -401,7 +401,8 @@ module AspaceFormHelper
     end
 
     def combobox(name, options, opts = {})
-      select(name, options, opts.merge({:"data-combobox" => true}))
+      select(name, options, opts.merge({ :"data-combobox" => true,
+                                         :id => id_for(name) }))
     end
 
 
@@ -410,6 +411,10 @@ module AspaceFormHelper
         opts[:class] << " form-control"
       else
         opts[:class] = "form-control"
+      end
+      if opts.has_key? :"data-combobox"
+        opts[:role] = "listbox"
+        opts[:"aria-label"] = I18n.t(i18n_for(name))
       end
       selection = obj[name]
       selection = selection[0...-4] if selection.is_a? String and selection.end_with?("_REQ")

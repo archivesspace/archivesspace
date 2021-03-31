@@ -54,7 +54,7 @@ describe 'Accessions' do
     @driver.find_element(id: 'accession_rights_statements__0__rights_type_').select_option('copyright')
     @driver.find_element(id: 'accession_rights_statements__0__status_').select_option('copyrighted')
     @driver.clear_and_send_keys([:id, 'accession_rights_statements__0__start_date_'], '2012-01-01')
-    combo = @driver.find_element(xpath: '//div[@class="combobox-container"][following-sibling::select/@id="accession_rights_statements__0__jurisdiction_"]//input[@type="text"]')
+    combo = @driver.find_element(xpath: '//*[@id="accession_rights_statements__0__jurisdiction_"]')
     combo.clear
     combo.click
     combo.send_keys('AU')
@@ -64,7 +64,7 @@ describe 'Accessions' do
     @driver.find_element(css: '#accession_rights_statements__0__external_documents_ .subrecord-form-heading .btn:not(.show-all)').click
     @driver.clear_and_send_keys([:id, 'accession_rights_statements__0__external_documents__0__title_'], 'Agreement')
     @driver.clear_and_send_keys([:id, 'accession_rights_statements__0__external_documents__0__location_'], 'http://locationof.agreement.com')
-    combo = @driver.find_element(xpath: '//div[@class="combobox-container"][following-sibling::select/@id="accession_rights_statements__0__external_documents__0__identifier_type_"]//input[@type="text"]')
+    combo = @driver.find_element(xpath: '//*[@id="accession_rights_statements__0__external_documents__0__identifier_type_"]')
     combo.clear
     combo.click
     combo.send_keys('Trove')
@@ -390,7 +390,7 @@ describe 'Accessions' do
     @driver.find_element(id: 'accession_rights_statements__0__rights_type_').select_option('copyright')
     @driver.find_element(id: 'accession_rights_statements__0__status_').select_option('copyrighted')
     @driver.clear_and_send_keys([:id, 'accession_rights_statements__0__start_date_'], '2012-01-01')
-    combo = @driver.find_element(xpath: '//div[@class="combobox-container"][following-sibling::select/@id="accession_rights_statements__0__jurisdiction_"]//input[@type="text"]')
+    combo = @driver.find_element(xpath: '//*[@id="accession_rights_statements__0__jurisdiction_"]')
     combo.clear
     combo.click
     combo.send_keys('AU')
@@ -400,7 +400,7 @@ describe 'Accessions' do
     @driver.find_element(css: '#accession_rights_statements__0__external_documents_ .subrecord-form-heading .btn:not(.show-all)').click
     @driver.clear_and_send_keys([:id, 'accession_rights_statements__0__external_documents__0__title_'], 'Agreement')
     @driver.clear_and_send_keys([:id, 'accession_rights_statements__0__external_documents__0__location_'], 'http://locationof.agreement.com')
-    combo = @driver.find_element(xpath: '//div[@class="combobox-container"][following-sibling::select/@id="accession_rights_statements__0__external_documents__0__identifier_type_"]//input[@type="text"]')
+    combo = @driver.find_element(xpath: '//*[@id="accession_rights_statements__0__external_documents__0__identifier_type_"]')
     combo.clear
     combo.click
     combo.send_keys('Trove')
