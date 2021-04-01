@@ -6,7 +6,7 @@
 
     "properties" => {
 
-      "source" => { 
+      "source" => {
         "type" => "string",
         "ifmissing" => "error"
       },

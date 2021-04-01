@@ -123,18 +123,18 @@
       "suppressed" => {"type" => "boolean", "readonly" => "true"},
 
       "acquisition_type" => {"type" => "string", "dynamic_enum" => "accession_acquisition_type"},
-      
+
       "resource_type" => {"type" => "string", "dynamic_enum" => "accession_resource_type"},
-      
+
       "restrictions_apply" => {"type" => "boolean", "default" => false},
 
       "retention_rule" => {"type" => "string", "maxLength" => 65000},
-      
+
       "general_note" => {"type" => "string", "maxLength" => 65000},
-      
+
       "access_restrictions" => {"type" => "boolean", "default" => false},
       "access_restrictions_note" => {"type" => "string", "maxLength" => 65000},
-      
+
       "use_restrictions" => {"type" => "boolean", "default" => false},
       "use_restrictions_note" => {"type" => "string", "maxLength" => 65000},
 

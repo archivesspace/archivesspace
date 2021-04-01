@@ -49,10 +49,10 @@ module JSONModel
     end
 
     def to_s
-       msg = { :errors => @errors } 
-       msg[:import_context] = @import_context unless @import_context.nil? 
-       msg[:object_context] = @object_context unless @object_context.nil? 
-       "#<:ValidationException: #{msg.inspect}>"
+      msg = { :errors => @errors }
+      msg[:import_context] = @import_context unless @import_context.nil?
+      msg[:object_context] = @object_context unless @object_context.nil?
+      "#<:ValidationException: #{msg.inspect}>"
     end
   end
 
@@ -130,7 +130,6 @@ module JSONModel
 
 
   def self.schema_src(schema_name)
-
     if schema_name.to_s !~ /\A[0-9A-Za-z_-]+\z/
       raise "Invalid schema name: #{schema_name}"
     end
@@ -156,7 +155,7 @@ module JSONModel
       val.each do |k, v|
         if k == 'enum'
           v << magic_value
-         else
+        else
           allow_unmapped_enum_value(v)
         end
       end
@@ -269,7 +268,6 @@ module JSONModel
   end
 
   def self.init(opts = {})
-
     @@init_args ||= nil
 
     # Skip initialisation if this model has already been loaded.
@@ -374,7 +372,6 @@ module JSONModel
   # Create and return a new JSONModel class called 'type', based on the
   # JSONSchema 'schema'
   def self.create_model_for(type, schema)
-
     cls = Class.new(JSONModelType)
     cls.init(type, schema, Array(@@init_args[:mixins]))
 

@@ -75,7 +75,7 @@ class JSONModelType
 
     # If we're running in client mode, leave 'readonly' properties in place,
     # since they're intended for use by clients.  Otherwise, we drop them.
-                                                drop_system_properties = !JSONModel.client_mode?
+    drop_system_properties = !JSONModel.client_mode?
 
     if trusted
       # We got this data from a trusted source (such as another JSONModel
@@ -179,7 +179,6 @@ class JSONModelType
       Kernel.const_get(type.capitalize)
     end
   end
-
 
 
   def initialize(params = {}, trusted = false)
@@ -377,7 +376,6 @@ class JSONModelType
   # a ValidationException if there are any fatal validation problems, or if
   # strict mode is enabled and warnings were produced.
   def self.validate(hash, raise_errors = true)
-
     properties = JSONSchemaUtils.drop_unknown_properties(hash, self.schema)
     ValidatorCache.with_validator_for(self, properties) do |validator|
 
@@ -391,7 +389,7 @@ class JSONModelType
                                       :attribute_types => exceptions[:attribute_types])
       end
 
-      exceptions.reject{|k, v| v.empty?}
+      exceptions.reject {|k, v| v.empty?}
     end
   end
 

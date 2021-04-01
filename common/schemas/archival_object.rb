@@ -19,7 +19,7 @@
 
       "slug" => {"type" => "string"},
       "is_slug_auto" => {"type" => "boolean", "default" => true},
-      
+
       "display_string" => {"type" => "string", "maxLength" => 8192, "readonly" => true},
 
       "restrictions_apply" => {"type" => "boolean", "default" => false},
@@ -49,7 +49,7 @@
         },
         "ifmissing" => "error"
       },
-      
+
       "ancestors" => {
         "type" => "array",
         "items" => {

@@ -196,7 +196,7 @@ ERRMSG
         next
       end
       if hash2[key].is_a? Array and hash1[key].is_a? Array
-        
+
         if hash1[key] === []
           target[key] = hash2[key]
         elsif hash2[key] === []
@@ -208,7 +208,7 @@ ERRMSG
               target_array << hash2_a
             elsif hash2_a.nil?
               target_array << target_a
-            else  
+            else
               target_array << self.deep_merge_concat(target_a, hash2_a)
             end
           end
@@ -219,12 +219,12 @@ ERRMSG
       if hash1[key] === true and key != "is_display_name" and key != "authorized"
         hash1[key] = "true"
       elsif hash1[key] === false and key != "is_display_name" and key != "authorized"
-        hash1[key] = "false"        
+        hash1[key] = "false"
       end
       if hash2[key] === true and key != "is_display_name" and key != "authorized"
         hash2[key] = "1"
       elsif hash2[key] === false and key != "is_display_name" and key != "authorized"
-        hash2[key] = "0"        
+        hash2[key] = "0"
       end
       if hash1[key].is_a? String
         if hash1[key] == hash2[key]

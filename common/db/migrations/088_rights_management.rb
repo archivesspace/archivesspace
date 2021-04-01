@@ -34,19 +34,18 @@ end
 
 def link_acts_to_notes
   alter_table(:note) do
-    add_column(:rights_statement_act_id, Integer,  :null => true)
+    add_column(:rights_statement_act_id, Integer, :null => true)
     add_foreign_key([:rights_statement_act_id], :rights_statement_act, :key => :id)
   end
 
   create_enum("note_rights_statement_act_type",
               ['permissions', 'restrictions', 'extension', 'expiration', 'additional_information'])
-
 end
 
 
 def link_rights_statements_to_agents
   alter_table(:linked_agents_rlshp) do
-    add_column(:rights_statement_id, Integer,  :null => true)
+    add_column(:rights_statement_id, Integer, :null => true)
     add_foreign_key([:rights_statement_id], :rights_statement, :key => :id)
   end
 end
@@ -54,13 +53,12 @@ end
 
 def link_rights_statements_to_notes
   alter_table(:note) do
-    add_column(:rights_statement_id, Integer,  :null => true)
+    add_column(:rights_statement_id, Integer, :null => true)
     add_foreign_key([:rights_statement_id], :rights_statement, :key => :id)
   end
 
   create_enum("note_rights_statement_type",
               ['materials', 'type_note', 'additional_information'])
-
 end
 
 
@@ -197,7 +195,7 @@ end
 
 def add_new_rights_statement_columns
   alter_table(:rights_statement) do
-    add_column(:status_id, Integer,  :null => true)
+    add_column(:status_id, Integer, :null => true)
     add_column(:start_date, Date, :null => true)
     add_column(:end_date, Date, :null => true)
     add_column(:determination_date, Date, :null => true)
@@ -238,7 +236,7 @@ def migrate_rights_statement_start_date
   end
 
   # For resources or archival objects
-  # take the begin from a 'creation' date and fallback to the 
+  # take the begin from a 'creation' date and fallback to the
   # creation timestamp
   ['resource', 'archival_object'].each do |record_type|
     last_rights_statement_id = nil
@@ -328,7 +326,6 @@ def reorder_rights_statement_types
       .filter(:value => type)
       .update(:position => i)
   end
-
 end
 
 
@@ -478,7 +475,7 @@ end
 
 
 # - Migrate data currently encoded in "Granted Note" to a Rights Statement note
-#   with type 'Additional Information' and label 'Granted Note' 
+#   with type 'Additional Information' and label 'Granted Note'
 def migrate_granted_note_to_note
   self[:rights_statement]
     .filter(Sequel.~(:granted_note => nil))

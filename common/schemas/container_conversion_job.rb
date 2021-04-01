@@ -5,13 +5,13 @@
     "type" => "object",
 
     "properties" => {
-      
-      "format" => { 
+
+      "format" => {
         "type" => "string",
         "ifmissing" => "error"
-      } 
+      }
 
-    
+
     }
   }
 }

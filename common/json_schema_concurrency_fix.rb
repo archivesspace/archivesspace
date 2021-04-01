@@ -9,12 +9,12 @@ module JSON
     def validate()
       begin
         Validator.clear_errors
-        @base_schema.validate(@data,[],@validation_options)
+        @base_schema.validate(@data, [], @validation_options)
         Validator.clear_cache
         if @options[:errors_as_objects]
-          self.class.validation_errors.map{|e| e.to_hash}
+          self.class.validation_errors.map {|e| e.to_hash}
         else
-          self.class.validation_errors.map{|e| e.to_string}
+          self.class.validation_errors.map {|e| e.to_string}
         end
       rescue JSON::Schema::ValidationError
         Validator.clear_cache

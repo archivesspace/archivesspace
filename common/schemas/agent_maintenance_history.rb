@@ -7,12 +7,12 @@
     "properties" => {
       "maintenance_event_type" => {
         "type" => "string",
-        "dynamic_enum" => "maintenance_event_type", 
+        "dynamic_enum" => "maintenance_event_type",
         "ifmissing" => "error"
       },
       "maintenance_agent_type" => {
         "type" => "string",
-        "dynamic_enum" => "maintenance_agent_type", 
+        "dynamic_enum" => "maintenance_agent_type",
         "ifmissing" => "error",
         "default" => "Human"
       },

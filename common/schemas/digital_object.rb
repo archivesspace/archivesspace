@@ -22,7 +22,7 @@
 
       "restrictions" => {"type" => "boolean", "default" => false},
       "tree" => {
-          "type" => "object", 
+          "type" => "object",
           "subtype" => "ref",
           "properties" => {
             "ref" => {

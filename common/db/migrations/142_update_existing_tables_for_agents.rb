@@ -6,7 +6,7 @@ Sequel.migration do
     alter_table(:name_family) do
       add_column(:family_type, String)
       add_column(:location, String)
-      
+
       add_column(:language_id, Integer)
       add_column(:script_id, Integer)
       add_column(:transliteration_id, Integer)
@@ -44,7 +44,7 @@ Sequel.migration do
     end
 
     alter_table(:agent_contact) do
-    	drop_column(:note)
+      drop_column(:note)
     end
 
     alter_table(:note) do

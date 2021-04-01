@@ -19,7 +19,7 @@
         "required" => false
       },
       "file_version_xlink_show_attribute" => {
-        "type" => "string", 
+        "type" => "string",
         "dynamic_enum" => "file_version_xlink_show_attribute",
         "required" => false
       },

@@ -6,16 +6,16 @@
 
     "properties" => {
 
-      "report_type" => { 
+      "report_type" => {
         "type" => "string",
         "ifmissing" => "error"
-      }, 
-      
-      "format" => { 
+      },
+
+      "format" => {
         "type" => "string",
         "ifmissing" => "error"
-      } 
-      
+      }
+
 
     }
   }

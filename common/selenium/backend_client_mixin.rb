@@ -27,7 +27,6 @@ module BackendClientMethods
 
 
   def do_http_request(url, req)
-
     req['X-ArchivesSpace-Session'] = @current_session
 
     ASHTTP.start_uri(url) do |http|

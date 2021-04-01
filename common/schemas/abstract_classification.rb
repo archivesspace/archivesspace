@@ -23,7 +23,7 @@
           }
         }
       },
-      
+
       "linked_records" => {
         "type" => "array",
         "items" => {

@@ -6,8 +6,8 @@
 
     "properties" => {
       "entity_identifier" => {
-        "type" => "string", 
-        "maxLength" => 65000, 
+        "type" => "string",
+        "maxLength" => 65000,
         "ifmissing" => "error"
       },
       "identifier_type" => {

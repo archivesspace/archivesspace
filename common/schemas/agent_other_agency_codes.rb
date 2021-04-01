@@ -11,8 +11,8 @@
           "required" => false
       },
       "maintenance_agency" => {
-          "type" => "string", 
-          "maxLength" => 65000, 
+          "type" => "string",
+          "maxLength" => 65000,
           "ifmissing" => "error",
       },
     }
