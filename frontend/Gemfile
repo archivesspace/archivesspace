@@ -52,7 +52,6 @@ group :development, :test do
   gem 'pry-debugger-jruby', '>= 1.2.2'
   gem 'pry-nav'
   gem 'pry-rails'
-  gem 'rubocop', '~> 0.72.0', require: false
 end
 
 group :development do

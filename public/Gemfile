@@ -55,7 +55,6 @@ group :development, :test do
   gem 'pry', '~> 0.12.2'
   gem 'pry-nav'
   gem 'pry-rails'
-  gem 'rubocop', '~> 0.72.0', require: false
 end
 
 group :test do
