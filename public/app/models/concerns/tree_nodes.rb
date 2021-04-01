@@ -48,7 +48,7 @@ module TreeNodes
 
     return [] if ancestor_uris.blank? || raw['_resolved_ancestors'].nil?
 
-    ASUtils.wrap(ancestor_uris.reverse.map{|uri| 
+    ASUtils.wrap(ancestor_uris.reverse.map {|uri|
       ASUtils.wrap(raw['_resolved_ancestors'].fetch(uri, nil)).first
     }).compact
   end

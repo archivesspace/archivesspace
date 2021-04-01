@@ -18,7 +18,7 @@ class Record
 
   def initialize(solr_result, full = false)
     @raw = solr_result
-    if solr_result['json'].kind_of? Hash
+    if solr_result['json'].is_a? Hash
       @json = solr_result['json']
     else
       @json = ASUtils.json_parse(solr_result['json']) || {}
@@ -40,7 +40,7 @@ class Record
     @container_summary_for_badge = parse_container_summary_for_badge
     @container_titles_and_uris = parse_container_display(:include_uri => true)
     @linked_digital_objects = parse_digital_object_instances
-    @notes =  parse_notes
+    @notes = parse_notes
     @dates = parse_dates
     @lang_materials = parse_lang_materials
     @external_documents = parse_external_documents
@@ -84,7 +84,7 @@ class Record
   end
 
   def parse_full_title(infinite_item = false)
-    ft =  process_mixed_content(json['display_string'] || json['title'], :preserve_newlines => true)
+    ft = process_mixed_content(json['display_string'] || json['title'], :preserve_newlines => true)
     unless infinite_item || json['title_inherited'].blank? || (json['display_string'] || '') == json['title']
       ft = I18n.t('inherited', :title => process_mixed_content(json['title'], :preserve_newlines => true), :display => ft)
     end
@@ -107,7 +107,7 @@ class Record
     include_uri = opts.fetch(:include_uri, false)
     containers = []
 
-    if !json['instances'].blank? && json['instances'].kind_of?(Array)
+    if !json['instances'].blank? && json['instances'].is_a?(Array)
       json['instances'].each do |inst|
         sub_container = inst.fetch('sub_container', nil)
 
@@ -157,12 +157,11 @@ class Record
   end
 
   def parse_notes
-
     if json.has_key?('notes') && json.has_key?('lang_materials')
-      notes_html =  process_json_notes(json['notes'], (!full ? ABSTRACT : nil))
+      notes_html = process_json_notes(json['notes'], (!full ? ABSTRACT : nil))
 
       # We need to do some special manipuation for language of material notes since they are held inside of a lang_material record, not notes
-      lang_material_notes = json['lang_materials'].map {|l| l['notes']}.compact.reject {|e|  e == [] }.flatten
+      lang_material_notes = json['lang_materials'].map {|l| l['notes']}.compact.reject {|e| e == [] }.flatten
       lang_notes = process_json_notes(lang_material_notes.flatten, (!full ? ABSTRACT : nil))
       unless lang_notes.empty?
         lang_notes['langmaterial'].each do |s|
@@ -172,7 +171,7 @@ class Record
 
       notes_html = notes_html.merge(lang_notes)
     elsif json.has_key?('notes')
-      notes_html =  process_json_notes(json['notes'], (!full ? ABSTRACT : nil))
+      notes_html = process_json_notes(json['notes'], (!full ? ABSTRACT : nil))
     else
       {}
     end
@@ -217,7 +216,7 @@ class Record
       if doc['publish']
         extd = {}
         extd['title'] = doc['title']
-        extd['uri'] = doc['location'].start_with?('http') ? doc['location'] :  ''
+        extd['uri'] = doc['location'].start_with?('http') ? doc['location'] : ''
         external_documents.push(extd)
       end
     end
@@ -226,8 +225,7 @@ class Record
   end
 
   def parse_repository
-
-    if raw['_resolved_repository'].kind_of?(Hash)
+    if raw['_resolved_repository'].is_a?(Hash)
       rr = raw['_resolved_repository'].first
 
       if !rr[1][0]['json'].blank?
@@ -239,17 +237,17 @@ class Record
   end
 
   def parse_resource
-    if raw['_resolved_resource'].kind_of?(Hash)
-      keys  = raw['_resolved_resource'].keys
+    if raw['_resolved_resource'].is_a?(Hash)
+      keys = raw['_resolved_resource'].keys
       if keys
         rr = raw['_resolved_resource'][keys[0]]
-        return  rr[0]
+        return rr[0]
       end
     end
   end
 
   def parse_top_container
-    if raw['_resolved_top_container_uri_u_sstr'].kind_of?(Hash)
+    if raw['_resolved_top_container_uri_u_sstr'].is_a?(Hash)
 #Pry::ColorPrinter.pp result['_resolved_top_container_uri_u_sstr']
       rr = raw['_resolved_top_container_uri_u_sstr'].first
       if !rr[1][0]['json'].blank?
@@ -324,8 +322,8 @@ class Record
         summ = ext['container_summary'] || ''
         summ = "(#{summ})" unless summ.blank? || ( summ.start_with?('(') && summ.end_with?(')'))  # yeah, I coulda done this with rexep.
         display << ' ' << summ
-        display << I18n.t('extent_phys_details',:deets => ext['physical_details']) unless  ext['physical_details'].blank?
-        display << I18n.t('extent_dims', :dimensions => ext['dimensions']) unless  ext['dimensions'].blank?
+        display << I18n.t('extent_phys_details', :deets => ext['physical_details']) unless ext['physical_details'].blank?
+        display << I18n.t('extent_dims', :dimensions => ext['dimensions']) unless ext['dimensions'].blank?
 
         inherited = ext.respond_to?(:dig) ? ext.dig('_inherited') : {}
         results.push({'display' => display, '_inherited' => inherited})
@@ -339,7 +337,7 @@ class Record
     info = {}
     info['top'] = {}
     unless resolved_repository.nil?
-      %w(name uri url parent_institution_name image_url repo_code).each do | item |
+      %w(name uri url parent_institution_name image_url repo_code).each do |item|
         info['top'][item] = resolved_repository[item] unless resolved_repository[item].blank?
       end
       unless resolved_repository['agent_representation'].blank? || resolved_repository['agent_representation']['_resolved'].blank? || resolved_repository['agent_representation']['_resolved']['jsonmodel_type'] != 'agent_corporate_entity'
@@ -349,7 +347,7 @@ class Record
         end
         if in_h['address_1'].present?
           info['address'] = []
-          [1,2,3].each do |i|
+          [1, 2, 3].each do |i|
             info['address'].push(in_h["address_#{i}"]) if in_h["address_#{i}"].present?
           end
         end
@@ -382,7 +380,7 @@ class Record
 
     return if container_locations.blank?
 
-    current_location = container_locations.find{|c| c['status'] == 'current'}
+    current_location = container_locations.find {|c| c['status'] == 'current'}
 
     current_location.dig('_resolved')
   end

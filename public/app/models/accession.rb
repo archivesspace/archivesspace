@@ -58,11 +58,11 @@ class Accession < Record
   private
 
   def parse_related_resources
-    ASUtils.wrap(raw['related_resource_uris']).collect{|uri|
+    ASUtils.wrap(raw['related_resource_uris']).collect {|uri|
       if raw['_resolved_related_resource_uris']
         raw['_resolved_related_resource_uris'][uri].first
       end
-    }.compact.select{|resource|
+    }.compact.select {|resource|
       resource['publish']
     }.map {|accession|
       record_from_resolved_json(ASUtils.json_parse(accession['json']))
@@ -74,7 +74,7 @@ class Accession < Record
     container_info = build_request_item_container_info
     container_info.each {|key, value|
       if key == :top_container_url
-        if ASUtils.wrap(value).any?{|v| !v.blank?}
+        if ASUtils.wrap(value).any? {|v| !v.blank?}
           has_top_container = true
           break
         end

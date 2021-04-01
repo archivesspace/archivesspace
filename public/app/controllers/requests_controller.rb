@@ -1,6 +1,6 @@
 class RequestsController < ApplicationController
 
-include PrefixHelper
+  include PrefixHelper
 
   # send a request
   def make_request

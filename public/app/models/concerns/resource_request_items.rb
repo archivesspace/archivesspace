@@ -6,7 +6,7 @@ module ResourceRequestItems
     container_info = build_request_item_container_info
     container_info.each {|key, value|
       if key == :top_container_url
-        if ASUtils.wrap(value).any?{|v| !v.blank?}
+        if ASUtils.wrap(value).any? {|v| !v.blank?}
           has_top_container = true
           break
         end
@@ -32,11 +32,11 @@ module ResourceRequestItems
     end
 
     if primary_type != 'resource'
-      request[:resource_id]  = (0..3).map{|i| resolved_resource.dig("id_#{i}") }.compact.join('-')
+      request[:resource_id] = (0..3).map {|i| resolved_resource.dig("id_#{i}") }.compact.join('-')
       request[:resource_name] = resolved_resource.dig('title') || ['unknown']
     end
 
-    request[:hierarchy] = breadcrumb.reverse.drop(1).reverse.collect{|record| record[:crumb]}
+    request[:hierarchy] = breadcrumb.reverse.drop(1).reverse.collect {|record| record[:crumb]}
 
     request
   end

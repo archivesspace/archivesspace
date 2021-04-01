@@ -20,13 +20,13 @@ class FacetFilter < Struct.new( :default_types, :fields, :values, :facet_types, 
   # returns an AdvancedQueryBuilder with the filters worked in.
   def get_filter_query
     builder = AdvancedQueryBuilder.new
-    self.fields.zip(self.values){|field, value| builder.and(field, value) }
+    self.fields.zip(self.values) {|field, value| builder.and(field, value) }
     builder
-  end 
+  end
 
   def get_filter_url_params
     param = ""
-    self.fields.zip(values){|field, value| param += "&filter_fields[]=#{field}&filter_values[]=#{CGI.escape(value)}" }
+    self.fields.zip(values) {|field, value| param += "&filter_fields[]=#{field}&filter_values[]=#{CGI.escape(value)}" }
     param
   end
 
@@ -37,8 +37,8 @@ class FacetFilter < Struct.new( :default_types, :fields, :values, :facet_types, 
     fh = {}
     self.fields.zip(self.values) do |k, v|
       pt = I18n.t("search_results.filter.#{k}")
-      pv = get_pretty_facet_value(k, v.sub(/"(.*)"/,'\1'))
-      uri = (url)? url.sub("&filter_fields[]=#{k}&filter_values[]=#{CGI.escape(v)}","") : ''
+      pv = get_pretty_facet_value(k, v.sub(/"(.*)"/, '\1'))
+      uri = (url)? url.sub("&filter_fields[]=#{k}&filter_values[]=#{CGI.escape(v)}", "") : ''
       fh[k] ||= []
       fh[k].push({'v' => v, 'pv' => pv, 'pt' => pt, 'uri' => uri })
     end

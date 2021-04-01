@@ -72,7 +72,7 @@ describe DigitalObjectsController, type: :controller do
 
     it 'should get the tree node from the root' do
       get(:tree_node_from_root, params: { rid: @repo.id, id: @do.id,
-                                          node_ids: [@doc1,@doc2, @doc3].map(&:id) })
+                                          node_ids: [@doc1, @doc2, @doc3].map(&:id) })
       expect(response.status).to eq(200)
     end
 

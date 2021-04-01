@@ -81,7 +81,7 @@ describe ResourcesController, type: :controller do
 
     it 'should get the tree node from the root ' do
       get(:tree_node_from_root, params: { rid: @repo.id, id: @resource.id,
-                                          node_ids: [@a1,@a2,@a3].map(&:id) })
+                                          node_ids: [@a1, @a2, @a3].map(&:id) })
       expect(response.status).to eq(200)
     end
 

@@ -26,7 +26,7 @@ module ViewHelper
 
   def find_dates_for(result)
     dates = result.json.fetch('dates_of_existence', [])
-    dates + result.json['names'].map{|names| names['use_dates']}.flatten
+    dates + result.json['names'].map {|names| names['use_dates']}.flatten
   end
 
   def display_date_type?(type)

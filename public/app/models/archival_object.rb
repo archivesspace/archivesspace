@@ -38,18 +38,18 @@ class ArchivalObject < Record
       cite = identifier.blank? ? '' : "#{identifier}, "
       cite += strip_mixed_content(display_string)
       cite += if container_display.blank? || container_display.length > 5
-        '.'
-      else
-        @citation_container_display ||= parse_container_display(:citation => true).join('; ')
-        ", #{@citation_container_display}."
-      end
+                '.'
+              else
+                @citation_container_display ||= parse_container_display(:citation => true).join('; ')
+                ", #{@citation_container_display}."
+              end
 
       if resolved_resource
         ttl = resolved_resource.dig('title')
         cite += " #{strip_mixed_content(ttl)}, #{resource_identifier}."
       end
 
-      cite += " #{ repository_information['top']['name']}." unless !repository_information.dig('top','name')
+      cite += " #{ repository_information['top']['name']}." unless !repository_information.dig('top', 'name')
     end
 
     "#{cite}   #{cite_url_and_timestamp}."
@@ -68,6 +68,7 @@ class ArchivalObject < Record
                 @citation_container_display ||= parse_container_display(:citation => true).join('; ')
                 ", #{@citation_container_display}."
               end
+
       if resolved_resource
         ttl = resolved_resource.dig('title')
         cite += " #{strip_mixed_content(ttl)}, #{resource_identifier}."
@@ -92,10 +93,13 @@ class ArchivalObject < Record
                 @citation_container_display ||= parse_container_display(:citation => true).join('; ')
                 ", #{@citation_container_display}."
               end
+<<<<<<< HEAD
       if resolved_resource
         ttl = resolved_resource.dig('title')
         cite += " #{strip_mixed_content(ttl)}, #{resource_identifier}."
       end
+=======
+>>>>>>> d88013ff5 (public dir layout changes per rubocop)
       unless repository_information['top']['name'].blank?
         cite += " #{ repository_information['top']['name']}."
       end
@@ -142,18 +146,18 @@ class ArchivalObject < Record
       'isPartOf' => AppConfig[:public_proxy_url] + parent_for_md_mapping
     }.compact
 
-    md['description'] = json['notes'].select{|n| n['type'] == 'abstract'}.map{|abstract|
+    md['description'] = json['notes'].select {|n| n['type'] == 'abstract'}.map {|abstract|
                           strip_mixed_content(abstract['content'].join(' '))
                         }
 
     if md['description'].empty?
-      md['description'] = json['notes'].select{|n| n['type'] == 'scopecontent'}.map{|scope|
-                            strip_mixed_content(scope['subnotes'].map{|s| s['content']}.join(' '))
+      md['description'] = json['notes'].select {|n| n['type'] == 'scopecontent'}.map {|scope|
+                            strip_mixed_content(scope['subnotes'].map {|s| s['content']}.join(' '))
                           }
     end
     md['description'] = md['description'][0] if md['description'].length == 1
 
-    md['creator'] = json['linked_agents'].select{|la| la['role'] == 'creator'}.map{|a| a['_resolved']}.map do |ag|
+    md['creator'] = json['linked_agents'].select {|la| la['role'] == 'creator'}.map {|a| a['_resolved']}.map do |ag|
       {
         '@id' => AppConfig[:public_proxy_url] + ag['uri'],
         '@type' => ag['jsonmodel_type'] == 'agent_person' ? 'Person' : 'Organization',
@@ -162,25 +166,25 @@ class ArchivalObject < Record
       }.compact
     end
 
-    md['dateCreated'] = @dates.select{|d| d['label'] == 'creation' && ['inclusive', 'single'].include?(d['date_type'])}
-    .reject{|d| d['_inherited']}
+    md['dateCreated'] = @dates.select {|d| d['label'] == 'creation' && ['inclusive', 'single'].include?(d['date_type'])}
+    .reject {|d| d['_inherited']}
     .map do |date| date['final_expression']
     end
 
     #just mapping the whole (and direct) extents for now.
-    md['materialExtent'] = json['extents'].select{|e| e['portion'] == 'whole'}
-    .reject{|e| e['_inherited']}
+    md['materialExtent'] = json['extents'].select {|e| e['portion'] == 'whole'}
+    .reject {|e| e['_inherited']}
     .map do |extent|
-        {
-          "@type": "QuantitativeValue",
-          "unitText": I18n.t("enumerations.extent_extent_type.#{extent['extent_type']}"),
-          "value": extent['number']
-        }
+      {
+        "@type": "QuantitativeValue",
+        "unitText": I18n.t("enumerations.extent_extent_type.#{extent['extent_type']}"),
+        "value": extent['number']
+      }
     end
 
-    md['isRelatedTo'] = json['notes'].select{|n| n['type'] == 'relatedmaterial'}
-      .reject{|related| related['_inherited']}
-      .map{|related| strip_mixed_content(related['subnotes'].map{|text| text['content']}.join(' '))
+    md['isRelatedTo'] = json['notes'].select {|n| n['type'] == 'relatedmaterial'}
+      .reject {|related| related['_inherited']}
+      .map {|related| strip_mixed_content(related['subnotes'].map {|text| text['content']}.join(' '))
     }
 
     term_type_to_about_type = {
@@ -191,34 +195,34 @@ class ArchivalObject < Record
       'occupation' => 'Intangible'
     }
 
-    md['about'] = json['subjects'].select{|s|
+    md['about'] = json['subjects'].select {|s|
       term_type_to_about_type.keys.include?(s['_resolved']['terms'][0]['term_type'])
-    }.map{|s| s['_resolved']}.map{|subj|
+    }.map {|s| s['_resolved']}.map {|subj|
       hash = {'@type' => term_type_to_about_type[subj['terms'][0]['term_type']]}
       hash['@id'] = subj['authority_id'] if subj['authority_id']
       hash['name'] = subj['title']
       hash
     }
 
-    md['about'].concat(json['linked_agents'].select{|la| la['role'] == 'subject'}.map{|a| a['_resolved']}.map{|ag|
+    md['about'].concat(json['linked_agents'].select {|la| la['role'] == 'subject'}.map {|a| a['_resolved']}.map {|ag|
                          {
                            '@type' => ag['jsonmodel_type'] == 'agent_person' ? 'Person' : 'Organization',
                            'name' => strip_mixed_content(ag['title']),
                          }
                        })
 
-    md['genre'] = json['subjects'].select{|s|
+    md['genre'] = json['subjects'].select {|s|
       s['_resolved']['terms'][0]['term_type'] == 'genre_form'
-    }.map{|s| s['_resolved']}.map{|subj|
+    }.map {|s| s['_resolved']}.map {|subj|
       subj['authority_id'] ? subj['authority_id'] : subj['title']
     }
 
     #will need to update once more than one language code is allowed
     if raw['language']
-         md['inLanguage'] = {
-           '@type' => 'Language',
-           'name' => I18n.t("enumerations.language_iso639_2.#{raw['language']}", :default => raw['language'])
-         }
+      md['inLanguage'] = {
+        '@type' => 'Language',
+        'name' => I18n.t("enumerations.language_iso639_2.#{raw['language']}", :default => raw['language'])
+      }
     end
 
     #will need to update here (and elsewhere) once ASpace allows more than one authority ID.
@@ -245,16 +249,16 @@ class ArchivalObject < Record
     # add repository telephone to holdingArchive
     if repository_information['telephones']
       md['holdingArchive']['faxNumber'] = repository_information['telephones']
-        .select{|t| t['number_type'] == 'fax'}
-        .map{|f| f['number']}
+        .select {|t| t['number_type'] == 'fax'}
+        .map {|f| f['number']}
 
-      md['holdingArchive']['telephone'] =  repository_information['telephones']
-        .select{|t| t['number_type'] == 'business'}
-        .map{|b| b['number']}
+      md['holdingArchive']['telephone'] = repository_information['telephones']
+        .select {|t| t['number_type'] == 'business'}
+        .map {|b| b['number']}
     end
-    md['holdingArchive'].delete_if { |key,value| value.empty? }
+    md['holdingArchive'].delete_if { |key, value| value.empty? }
 
-    md.delete_if { |key,value| value.empty? }
+    md.delete_if { |key, value| value.empty? }
   end
 
 end
