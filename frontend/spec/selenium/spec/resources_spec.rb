@@ -10,7 +10,8 @@ describe 'Resources and archival objects' do
     @accession = create(:accession,
                         collection_management: build(:collection_management))
 
-    @resource = create(:resource)
+    @resource = create(:resource,
+                       id_0: 'resource-id')
 
     @archival_object = create(:archival_object,
                               component_id: 'component-id',
@@ -598,7 +599,7 @@ describe 'Resources and archival objects' do
       @driver.find_element_with_text('//th', /Identifier/)
     end.not_to raise_error
     expect do
-      @driver.find_element_with_text('//th', /Componend ID/, false, true)
+      @driver.find_element_with_text('//th', /Component ID/, false, true)
     end.to raise_error(Selenium::WebDriver::Error::NoSuchElementError)
   end
 
