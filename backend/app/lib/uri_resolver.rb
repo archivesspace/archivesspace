@@ -81,6 +81,7 @@ module URIResolver
       if active_repository_id && \
          parsed[:repository] && \
          JSONModel.parse_reference(parsed[:repository])[:id] != active_repository_id
+
         raise ReferenceError.new("Inter-repository links are not allowed in this operation! (Bad link: '#{uri}'; Active repo: '#/repositories/#{active_repository_id}')")
       end
 

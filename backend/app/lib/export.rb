@@ -12,7 +12,7 @@ module ExportHelpers
 
   def generate_pdf_from_ead(ead, image_for_pdf)
     xml = ""
-    ead.each { |e| xml << e  }
+    ead.each { |e| xml << e }
     ASFop.new(xml, image_for_pdf).to_pdf
   end
 
@@ -116,7 +116,7 @@ module ExportHelpers
     agent = klass.get_or_die(id)
     relationship_defn = klass.find_relationship(:linked_agents)
 
-    related_records = relationship_defn.find_by_participant(agent).map{|relation|
+    related_records = relationship_defn.find_by_participant(agent).map {|relation|
       related_record = relation.other_referent_than(agent)
 
       next unless [Resource, ArchivalObject, DigitalObject, DigitalObjectComponent].include?(related_record.class)
@@ -145,7 +145,7 @@ module ExportHelpers
     agent = klass.get_or_die(id)
     relationship_defn = klass.find_relationship(:linked_agents)
 
-    related_records = relationship_defn.find_by_participant(agent).map{|relation|
+    related_records = relationship_defn.find_by_participant(agent).map {|relation|
       related_record = relation.other_referent_than(agent)
 
       next unless [Resource, ArchivalObject, DigitalObject, DigitalObjectComponent].include?(related_record.class)

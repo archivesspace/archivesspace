@@ -18,7 +18,6 @@ class AuthenticationManager
   # Attempt to authenticate `user' with the provided `password'.
   # Return a User object if successful, nil otherwise
   def self.authenticate(username, password)
-
     authentication_sources.each do |source|
       begin
         user = User.find(:username => username)

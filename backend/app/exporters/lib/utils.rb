@@ -22,16 +22,16 @@ module ASpaceExport
     end
 
     def self.has_html?(text)
-      !!(text =~ /.*\<[^>]+>.*/   )
+      !!(text =~ /.*\<[^>]+>.*/ )
     end
 
     def self.has_xml_node?(node, text)
-      !!(text =~  /\<#{node}*/ )
+      !!(text =~ /\<#{node}*/ )
     end
 
     # some notes don't allow heads....
     def self.headless_notes
-     %w{ legalstatus }
+      %w{ legalstatus }
     end
 
     # ... and some notes don't allow p's.
@@ -48,11 +48,11 @@ module ASpaceExport
     end
 
     def self.headless_note?(note_type, content)
-       if content.strip.start_with?('<head') or self.headless_notes.include?(note_type)
-          true
-       else
-         false
-       end
+      if content.strip.start_with?('<head') or self.headless_notes.include?(note_type)
+        true
+      else
+        false
+      end
     end
 
   end
@@ -63,7 +63,6 @@ module ASpaceMappings
   module MARC21
 
     def self.get_marc_source_code(code)
-
       marc_code = case code
                   when 'naf', 'lcsh', 'lcnaf'; 0
                   when 'lcshac'; 1
@@ -79,4 +78,3 @@ module ASpaceMappings
     end
   end
 end
-

@@ -2,7 +2,7 @@ class AgentFunction < Sequel::Model(:agent_function)
   include ASModel
 
   corresponds_to JSONModel(:agent_function)
-  
+
   include Notes
   include TouchRecords
 
@@ -26,7 +26,6 @@ class AgentFunction < Sequel::Model(:agent_function)
     [{
      type: Subject, ids: (
        AgentManager.linked_subjects(obj.id, :subject_agent_subrecord, :agent_function) +
-
        AgentManager.linked_subjects(obj.id, :subject_agent_subrecord_place, :agent_function)
      ).uniq
     }]

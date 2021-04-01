@@ -94,7 +94,6 @@ module Agents
         end
 
       end
-
     end
 
   end

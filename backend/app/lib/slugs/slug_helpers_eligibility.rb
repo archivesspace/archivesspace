@@ -33,7 +33,6 @@ module SlugHelpers
   # Generally, we'll always want to return true here and run the slug code if the record is brand new (hasn't been persisted)
   # slug will be updated iff this method returns true
   def self.slug_data_updated?(obj)
-
     id_field_changed   = false
     name_field_changed = false
     persisted          = obj.exists?
@@ -87,7 +86,7 @@ module SlugHelpers
       name_field_changed = obj.column_changed?(:title) || !persisted
 
     when "Subject"
-      id_field_changed = obj.column_changed?(:authority_id)   || !persisted
+      id_field_changed = obj.column_changed?(:authority_id) || !persisted
       name_field_changed = obj.column_changed?(:title) || !persisted
     end
 

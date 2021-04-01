@@ -79,15 +79,15 @@ describe 'Subject model' do
                                                      "vocabulary" => JSONModel(:vocabulary).uri_for(@vocab_id)
                                                    }))
     expect {
-      subject_b = Subject.create_from_json(JSONModel(:subject).
-                                           from_hash({
-                                                       "terms" => [
-                                                         JSONModel(:term).uri_for(term_id_0),
-                                                         JSONModel(:term).uri_for(term_id_1),
-                                                       ],
-                                                       "source" => "local",
-                                                       "vocabulary" => JSONModel(:vocabulary).uri_for(@vocab_id)
-                                                     }))
+       subject_b = Subject.create_from_json(JSONModel(:subject).
+                                            from_hash({
+                                                        "terms" => [
+                                                          JSONModel(:term).uri_for(term_id_0),
+                                                          JSONModel(:term).uri_for(term_id_1),
+                                                        ],
+                                                        "source" => "local",
+                                                        "vocabulary" => JSONModel(:vocabulary).uri_for(@vocab_id)
+                                                      }))
      }.to raise_error(Sequel::ValidationFailed)
 
   end

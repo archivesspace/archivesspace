@@ -50,7 +50,7 @@ describe 'Agent model' do
                 }
 
     expect {
-      agent = AgentCorporateEntity.create_from_json(build(:json_agent_corporate_entity, test_opts))
+       agent = AgentCorporateEntity.create_from_json(build(:json_agent_corporate_entity, test_opts))
      }.to raise_error(JSONModel::ValidationException)
   end
 
@@ -78,7 +78,7 @@ describe 'Agent model' do
                      'authority_id' => 'thesame',
                      'source' => 'naf'
                                      )])
-    json2 =    build( :json_agent_corporate_entity,
+    json2 = build( :json_agent_corporate_entity,
                      :names => [build(:json_name_corporate_entity,
                      'authority_id' => 'thesame',
                      'source' => 'naf'
@@ -200,7 +200,7 @@ describe 'Agent model' do
         expect(agent_corporate_entity2[:slug]).to match("foo_1")
       end
     end
-    
+
     describe "slug autogen disabled" do
       it "slug does not change when config set to autogen by title and title updated" do
         AppConfig[:auto_generate_slugs_with_id] = false

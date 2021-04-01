@@ -78,7 +78,6 @@ class ArchivesSpaceService < Sinatra::Base
     model.get_or_die(id).transfer_to_repository(target)
 
     moved_response(id, target)
-
   end
 
 

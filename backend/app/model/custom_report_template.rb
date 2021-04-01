@@ -40,6 +40,7 @@ class CustomReportTemplate < Sequel::Model(:custom_report_template)
         have_value = true unless missing(info['values'])
         have_value = true unless (missing(info['range_start']) ||
           missing(info['range_end']))
+
         unless have_value
           errors.add(:field, 'missing filter values')
         end

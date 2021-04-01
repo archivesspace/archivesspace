@@ -51,7 +51,7 @@ describe 'REST interface' do
     too_many = nice_amount + 1
 
     too_many.times {
-       create(:json_accession)
+      create(:json_accession)
     }
 
     expect {

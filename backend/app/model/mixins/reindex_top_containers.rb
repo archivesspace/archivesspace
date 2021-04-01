@@ -1,7 +1,6 @@
 module ReindexTopContainers
 
   def reindex_top_containers(extra_ids = [])
-
     if !DB.respond_to?(:supports_join_updates?) || !DB.supports_join_updates?
       Log.warn("Invoking slow path for reindexing top containers")
       return reindex_top_containers_by_any_means_necessary(extra_ids)
@@ -27,7 +26,6 @@ module ReindexTopContainers
     elsif root_record.is_a?(Accession)
       accession_instance_root_record_update(root_record.id)
     end
-
   end
 
 

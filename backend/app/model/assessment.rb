@@ -175,7 +175,7 @@ class Assessment < Sequel::Model(:assessment)
 
     jsons.zip(objs).each do |json, obj|
       json['display_string'] = obj.id.to_s
-      json['collections'] = obj.linked_collection_uris.map{|uri| {
+      json['collections'] = obj.linked_collection_uris.map {|uri| {
         'ref' => uri
       }}
     end

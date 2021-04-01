@@ -20,7 +20,7 @@ describe 'Vocabulary model' do
         Vocabulary.create_from_json(JSONModel(:vocabulary).
                                     from_hash({
                                                 "name" => "ABC",
-                                                "ref_id" => "#{(0...4).map{ ('a'..'z').to_a[rand(26)] }.join}"
+                                                "ref_id" => "#{(0...4).map { ('a'..'z').to_a[rand(26)] }.join}"
                                               }))
       end
     }).to raise_error(Sequel::DatabaseError)
@@ -31,7 +31,7 @@ describe 'Vocabulary model' do
       2.times do
         Vocabulary.create_from_json(JSONModel(:vocabulary).
                                     from_hash({
-                                                "name" => "#{(0...8).map{ ('a'..'z').to_a[rand(26)] }.join}",
+                                                "name" => "#{(0...8).map { ('a'..'z').to_a[rand(26)] }.join}",
                                                 "ref_id" => "aabb"
                                               }))
       end

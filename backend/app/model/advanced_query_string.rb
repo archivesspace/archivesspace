@@ -68,7 +68,7 @@ class AdvancedQueryString
     elsif @query["jsonmodel_type"] == "range_query"
       false
     else
-      raise "Unknown field query type: #{@query["jsonmodel_type"]}" 
+      raise "Unknown field query type: #{@query["jsonmodel_type"]}"
     end
   end
 

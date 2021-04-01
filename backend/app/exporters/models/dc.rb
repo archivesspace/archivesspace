@@ -11,8 +11,8 @@ class DCModel < ASpaceExport::ExportModel
   attr_accessor :type
   attr_accessor :lang_materials
 
-  
-  
+
+
   @archival_object_map = {
     :title => :title=,
     :dates => :handle_date,
@@ -20,10 +20,10 @@ class DCModel < ASpaceExport::ExportModel
     :linked_agents => :handle_agents,
     :subjects => :handle_subjects
   }
-  
+
   @digital_object_map = {}
-  
-  
+
+
   def initialize(obj)
     @creators = []
     @subjects = []
@@ -36,19 +36,17 @@ class DCModel < ASpaceExport::ExportModel
 
 
   def self.from_archival_object(obj)
-    
     dc = self.new(obj)
-    
+
     dc.apply_map(obj, @archival_object_map)
-    
+
     dc
   end
-    
-  
+
+
   def self.from_digital_object(obj)
-    
     dc = self.from_archival_object(obj)
-    
+
     dc.apply_map(obj, @digital_object_map)
 
     if obj.respond_to?('uri')
@@ -58,7 +56,7 @@ class DCModel < ASpaceExport::ExportModel
     if obj.respond_to?('digital_object_type')
       dc.type = obj.digital_object_type
     end
-  
+
     dc
   end
 
@@ -151,18 +149,17 @@ class DCModel < ASpaceExport::ExportModel
       agent = link['_resolved']
 
       case role
-      when 'creator'        
+      when 'creator'
         agent['names'].each {|n| self.creators << n['sort_name'] }
       when 'subject'
         agent['names'].each {|n| self.subjects << n['sort_name'] }
       end
     end
   end
-  
-  
-  def handle_langmaterials(lang_materials)
 
-    language_vals = lang_materials.map{|l| l['language_and_script']}.compact
+
+  def handle_langmaterials(lang_materials)
+    language_vals = lang_materials.map {|l| l['language_and_script']}.compact
     if !language_vals.empty?
       language_vals.each do |language|
         self.lang_materials << language['language']
@@ -172,13 +169,12 @@ class DCModel < ASpaceExport::ExportModel
       end
     end
 
-    language_notes = lang_materials.map {|l| l['notes']}.compact.reject {|e|  e == [] }.flatten
+    language_notes = lang_materials.map {|l| l['notes']}.compact.reject {|e| e == [] }.flatten
     if !language_notes.empty?
       language_notes.each do |note|
         self.lang_materials << extract_note_content(note)
       end
     end
-
   end
 
 
@@ -187,31 +183,31 @@ class DCModel < ASpaceExport::ExportModel
       self.dates << extract_date_string(date)
     end
   end
-  
-  
+
+
   def handle_rights(rights_statements)
     rights_statements.each do |rs|
-      
+
       case rs['rights_type']
-      
+
       when 'license'
         self['rights'] << "License: #{rs.license_identifier_terms}"
       end
-      
+
       if rs['permissions']
         self['rights'] << "Permissions: #{rs.permissions}"
       end
-      
+
       if rs['restrictions']
         self['rights'] << "Restriction: #{rs.restrictions}"
       end
-    end  
-  end    
-        
+    end
+  end
+
   def handle_subjects(subjects)
     subjects.map {|s| s['_resolved'] }.each do |subject|
       self.subjects << subject['terms'].map {|t| t['term'] }.join('--')
     end
   end
-  
+
 end

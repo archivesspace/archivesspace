@@ -5,4 +5,3 @@ class AgentConventionsDeclaration < Sequel::Model(:agent_conventions_declaration
 
   set_model_scope :global
 end
-

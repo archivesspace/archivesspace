@@ -1,6 +1,6 @@
 class ArchivesSpaceService < Sinatra::Base
 
-  
+
   Endpoint.post('/repositories/:repo_id/required_fields/:record_type')
     .description("Require fields for a record type")
     .params(["required_fields", JSONModel(:required_fields), "The fields required", :body => true],

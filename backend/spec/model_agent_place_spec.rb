@@ -12,7 +12,7 @@ describe 'AgentPlace model' do
     s = build(:json_subject).uri
 
     expect {
-	    place = AgentPlace.create_from_json(build(:json_agent_place, :subjects => []))
+      place = AgentPlace.create_from_json(build(:json_agent_place, :subjects => []))
     }.to raise_error(JSONModel::ValidationException)
   end
 end

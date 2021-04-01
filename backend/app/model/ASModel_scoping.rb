@@ -13,7 +13,6 @@ module ASModel
   end
 
 
-
   module ModelScoping
 
     def self.included(base)
@@ -63,7 +62,6 @@ module ASModel
       if model == Resource || model == Accession
         reindex_top_containers
       end
-
     end
 
 

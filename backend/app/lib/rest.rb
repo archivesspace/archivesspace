@@ -71,7 +71,7 @@ module RESTHelpers
     @@param_types = {
       :repo_id => [Integer,
                    "The Repository ID",
-                   {:validation => ["The Repository must exist", ->(v){Repository.exists?(v)}]}],
+                   {:validation => ["The Repository must exist", ->(v) {Repository.exists?(v)}]}],
       :resolve => [[String], "A list of references to resolve and embed in the response",
                    :optional => true],
       :id => [Integer, "The ID of the record"]
@@ -131,9 +131,13 @@ module RESTHelpers
 
 
     def self.get(uri); self.method(:get).uri(uri); end
+
     def self.post(uri); self.method(:post).uri(uri); end
+
     def self.delete(uri); self.method(:delete).uri(uri); end
+
     def self.get_or_post(uri); self.method([:get, :post]).uri(uri); end
+
     def self.method(method); Endpoint.new(method); end
 
     # Helpers
@@ -147,7 +151,9 @@ module RESTHelpers
 
 
     def uri(uri); @uri = uri; self; end
+
     def description(description); @description = description; self; end
+
     def preconditions(*preconditions); @preconditions += preconditions; self; end
 
     # For the following methods (documentation, example),  content can be provided via either
@@ -275,7 +281,7 @@ module RESTHelpers
 
 
     def returns(*returns, &block)
-      raise "No .permissions declaration for endpoint #{@methods.map{|m|m.to_s.upcase}.join('|')} #{@uri}" if !@has_permissions
+      raise "No .permissions declaration for endpoint #{@methods.map {|m| m.to_s.upcase}.join('|')} #{@uri}" if !@has_permissions
 
       @returns = returns.map { |r| r[1] = @@return_types[r[1]] || r[1]; r }
 
@@ -449,7 +455,6 @@ module RESTHelpers
 
 
   def self.included(base)
-
     base.extend(JSONModel)
 
     base.helpers do
@@ -619,6 +624,7 @@ module RESTHelpers
             if bad[:type].is_a?(Array) &&
                !provided_value.is_a?(Array) &&
                provided_value.is_a?(bad[:type][0])
+
               # The caller got the right type but didn't wrap it in an array.
               # Provide a more useful error message.
               msg << ".  Perhaps you meant to specify an array like: #{bad[:name]}[]=#{URI.escape(provided_value)}"

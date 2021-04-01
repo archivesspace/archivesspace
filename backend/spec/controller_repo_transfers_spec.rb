@@ -3,7 +3,7 @@ require 'spec_helper'
 describe 'Record transfers' do
 
   before(:each) do
-      @target_repo = create(:unselected_repo, {:repo_code => "TARGET_REPO"})
+    @target_repo = create(:unselected_repo, {:repo_code => "TARGET_REPO"})
   end
 
 

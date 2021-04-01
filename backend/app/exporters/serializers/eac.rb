@@ -98,6 +98,7 @@ class EACSerializer < ASpaceExport::Serializer
                          arc['agency_name'],
                          arc['maintenance_agency_note']
                        ])
+
           xml.maintenanceAgency do
             if AppConfig[:export_eac_agency_code]
               create_node(xml, 'agencyCode', {}, arc['maintenance_agency'])
@@ -149,6 +150,7 @@ class EACSerializer < ASpaceExport::Serializer
                              mh['agent'],
                              mh['descriptive_note']
                            ])
+
           next
         end
 

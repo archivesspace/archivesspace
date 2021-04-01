@@ -1,5 +1,5 @@
 module MergeHelpers
-	def parse_references(request)
+  def parse_references(request)
     target = JSONModel.parse_reference(request.target['ref'])
     victims = request.victims.map {|victim| JSONModel.parse_reference(victim['ref'])}
 
@@ -28,23 +28,23 @@ module MergeHelpers
       position = selections['position']
 
       case v
-        when String
-          if v === "REPLACE"
-            all_values.merge!({"#{path.join(".")}.#{position}" => "#{v}"})
-            path.pop
-          else
-            path.pop
-            next
-          end
-        when Hash then parse_selections(v, path, all_values)
-        when Array then v.each_with_index do |v2, index|
-          path << index
-          parse_selections(v2, path, all_values)
-        end
-        path.pop
+      when String
+        if v === "REPLACE"
+          all_values.merge!({"#{path.join(".")}.#{position}" => "#{v}"})
+          path.pop
         else
           path.pop
           next
+        end
+      when Hash then parse_selections(v, path, all_values)
+      when Array then v.each_with_index do |v2, index|
+          path << index
+          parse_selections(v2, path, all_values)
+        end
+                      path.pop
+      else
+        path.pop
+        next
       end
     end
     path.pop
@@ -69,14 +69,13 @@ module MergeHelpers
     # this section updates related_agents ids
     elsif subrecord['agent_person_id_0']
       subrecord['agent_person_id_0'] = target_id
-      
+
     elsif subrecord['agent_family_id_0']
       subrecord['agent_family_id_0'] = target_id
 
     elsif subrecord['agent_corporate_entity_id_0']
       subrecord['agent_corporate_entity_id_0'] = target_id
     end
-    
   end
 
   def merge_details(target, victim, selections, params)
@@ -92,7 +91,7 @@ module MergeHelpers
     # ["agent_record_identifiers", 1, "append", 2] // add entire subrec, record is in position 2
     # ["agent_record_controls", 0, "replace", 1] // replace entire subrec, record is in position 1
     # ["agent_record_controls", 0, "maintenance_status", 1] // replace field, record is in position 1
-    # ["agent_record_controls", 0, "publication_status", 0] // replace field, record is in position 0 
+    # ["agent_record_controls", 0, "publication_status", 0] // replace field, record is in position 0
     # ["agent_record_controls", 0, "maintenance_agency", 3]
     # and then creates data structures for the subrecords to append, replace entirely, and replace by field. record in in position 3
     selections.each_key do |key|
@@ -110,7 +109,7 @@ module MergeHelpers
       subrec_name = path_fix[0]
       victim_values[subrec_name] = values_from_params[subrec_name]
 
-      # subrec level add/replace 
+      # subrec level add/replace
       if path_fix[2] == "append" || path_fix[2] == "replace"
         subrec_add_replacements.push(path_fix)
 
@@ -155,7 +154,7 @@ module MergeHelpers
     selections.each do |path_fix|
       subrec_name = path_fix[0]
       # this is the index of the order the user arranged the subrecs in the form, not the order of the subrecords in the DB.
-      ind         = path_fix[1] 
+      ind         = path_fix[1]
       mode        = path_fix[2]
       position    = path_fix[3]
 
@@ -200,7 +199,7 @@ module MergeHelpers
       # an agent name can only have one authorized or display name.
       # make sure the name being merged in doesn't conflict with this
 
-      # if appending, always disable fields that validate across a set. If replacing, always keep values from target 
+      # if appending, always disable fields that validate across a set. If replacing, always keep values from target
       if mode == "append"
         subrecord['authorized']      = false
         subrecord['is_display_name'] = false
@@ -255,7 +254,7 @@ module MergeHelpers
       result << ". #{target["subordinate_name_1"]}" if target["subordinate_name_1"]
       result << ". #{target["subordinate_name_2"]}" if target["subordinate_name_2"]
 
-      grouped = [target["number"], target["dates"]].reject{|v| v.nil?}
+      grouped = [target["number"], target["dates"]].reject {|v| v.nil?}
       result << " (#{grouped.join(" : ")})" if not grouped.empty?
     when 'name_family'
       result << target["family_name"] if target["family_name"]
@@ -276,6 +275,5 @@ module MergeHelpers
     else
       return result
     end
-
   end
 end

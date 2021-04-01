@@ -58,7 +58,6 @@ module ASModel
     # subrecord was given, use the existing object), then associate those
     # subrecords with the main record.
     def apply_nested_records(json, new_record = false)
-
       self.remove_nested_records if !new_record
 
       self.class.nested_records.each do |nested_record|
@@ -91,9 +90,9 @@ module ASModel
           begin
             needs_linking = true
 
-            if json_or_uri.kind_of? String
+            if json_or_uri.is_a? String
               # A URI.  Just grab its database ID and look it up.
-                      db_record = model[JSONModel(nested_record[:jsonmodel]).id_for(json_or_uri)]
+              db_record = model[JSONModel(nested_record[:jsonmodel]).id_for(json_or_uri)]
               updated_records << json_or_uri
             else
               # Create a database record for the JSON blob and return its ID
@@ -175,9 +174,7 @@ module ASModel
     end
 
 
-
     def update_from_json(json, extra_values = {}, apply_nested_records = true)
-
       if self.values.has_key?(:suppressed)
         if self[:suppressed] == 1
           raise ReadOnlyException.new("Can't update an object that has been suppressed")
@@ -189,7 +186,7 @@ module ASModel
       end
 
 
-      schema_defined_properties = json.class.schema["properties"].map{|prop, defn|
+      schema_defined_properties = json.class.schema["properties"].map {|prop, defn|
         prop if !defn['readonly']
       }.compact
 

@@ -107,8 +107,6 @@ class ImportException < StandardError
 end
 
 
-
-
 module Exceptions
 
   module ResponseMappings

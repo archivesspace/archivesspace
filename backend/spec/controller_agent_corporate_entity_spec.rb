@@ -97,7 +97,7 @@ describe 'Corporate entity agent controller' do
 
 
   it "auto-generates the sort name if one is not provided" do
-    id = create_corporate_entity({:names => [build(:json_name_corporate_entity,{:primary_name => "ArchivesSpace", :sort_name_auto_generate => true})]}).id
+    id = create_corporate_entity({:names => [build(:json_name_corporate_entity, {:primary_name => "ArchivesSpace", :sort_name_auto_generate => true})]}).id
 
     agent = JSONModel(:agent_corporate_entity).find(id)
 

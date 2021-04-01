@@ -5,7 +5,7 @@ class ArchivesSpaceService < Sinatra::Base
 
 
   # this is a leftover that's here for reports utility stuff
-  # Reports now live as Jobs. 
+  # Reports now live as Jobs.
 
   Endpoint.get('/reports')
   .description('List all reports')

@@ -328,10 +328,10 @@ describe 'ArchivalObject model' do
     parent_in_resource_a = create(:json_archival_object, :resource => {:ref => resource_a.uri})
 
     expect {
-    create(:json_archival_object,
-           :parent => {:ref => parent_in_resource_a.uri},
-           # absurd!
-           :resource => {:ref => resource_b.uri})
+      create(:json_archival_object,
+             :parent => {:ref => parent_in_resource_a.uri},
+             # absurd!
+             :resource => {:ref => resource_b.uri})
     }.to raise_error(RuntimeError, /Consistency check failed/)
   end
 

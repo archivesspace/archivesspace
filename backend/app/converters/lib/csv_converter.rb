@@ -12,7 +12,7 @@ module ASpaceImport
 
 
       def configure_cell_handlers(row)
-        headers = row.map {|s| s ||= ""; s.strip}.reject{|s| s.empty? }
+        headers = row.map {|s| s ||= ""; s.strip}.reject {|s| s.empty? }
         c = configuration
         bad_headers = []
         headers.each {|h| bad_headers << h unless h.match /^[a-z]*_[a-z0-9_]*$/ }
@@ -45,7 +45,6 @@ module ASpaceImport
 
 
     def run
-
       @cell_handlers = []
       @proxies = ASpaceImport::RecordProxyMgr.new
 
@@ -86,7 +85,6 @@ module ASpaceImport
 
 
     def parse_cell(handler, cell_contents)
-
       return nil unless handler
 
       val = handler.extract_value(cell_contents)
@@ -111,7 +109,6 @@ module ASpaceImport
 
 
     def get_new(key)
-
       conf = configuration[key.to_sym] || {}
 
       type = conf[:record_type] ? conf[:record_type] : key
@@ -178,5 +175,3 @@ module ASpaceImport
 
   end
 end
-
-

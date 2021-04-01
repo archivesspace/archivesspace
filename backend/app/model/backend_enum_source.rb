@@ -25,7 +25,7 @@ class BackendEnumSource
             else
               position = 0
             end
-            
+
             db[:enumeration_value].insert(:enumeration_id => enum_id,
                                           :value => value,
                                           :position => position)
@@ -63,7 +63,7 @@ class BackendEnumSource
 
           value_to_id_map = {}
           id_to_value_map = {}
-          editable = true 
+          editable = true
           db[:enumeration].join(:enumeration_value, :enumeration_id => :id).
                            filter(:name => enum_name).
                            order(:position).
@@ -71,14 +71,14 @@ class BackendEnumSource
                            all.each do |row|
             value_to_id_map[row[:value]] = row[:id]
             id_to_value_map[row[:id]] = row[:value]
-            editable = ( row[:editable] === 1 or row[:editable] == true )  
+            editable = ( row[:editable] === 1 or row[:editable] == true )
           end
 
           {
             :values => value_to_id_map.keys,
             :value_to_id_map => value_to_id_map,
             :id_to_value_map => id_to_value_map,
-            :editable => editable 
+            :editable => editable
           }
         end
       }
@@ -93,10 +93,10 @@ class BackendEnumSource
   end
 
   def self.editable?(enum_name)
-    (  self.cache_entry_for(enum_name)[:editable] === 1 or self.cache_entry_for(enum_name)[:editable] == true )
+    ( self.cache_entry_for(enum_name)[:editable] === 1 or self.cache_entry_for(enum_name)[:editable] == true )
   end
 
-  
+
   def self.id_for_value(enum_name, value)
     result = self.cache_entry_for(enum_name)[:value_to_id_map][value]
 

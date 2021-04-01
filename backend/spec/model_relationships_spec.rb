@@ -211,11 +211,11 @@ describe 'Relationships' do
 
   it "blows up if you link to a non-existent URI" do
     expect {
-    Apple.create_from_json(JSONModel(:apple).new(:name => "granny smith",
-                                                 :bananas => [{
-                                                                :ref => "/bananas/12345",
-                                                                :sauce => "rasberry"
-                                                              }]))
+      Apple.create_from_json(JSONModel(:apple).new(:name => "granny smith",
+                                                   :bananas => [{
+                                                                  :ref => "/bananas/12345",
+                                                                  :sauce => "rasberry"
+                                                                }]))
     }.to raise_error(ReferenceError)
   end
 
@@ -323,7 +323,7 @@ describe 'Relationships' do
     # we can tell the db to retry ( it will do 10 times by default )
     attempt =0
     expect {
-      DB.open(true, :retries => 6, :retry_on_optimistic_locking_fail => true, :retry_delay => 0 )  do
+      DB.open(true, :retries => 6, :retry_on_optimistic_locking_fail => true, :retry_delay => 0 ) do
         banana_json = JSONModel(:banana).new(:apples => [{
                                                        :ref => apple.uri,
                                                        :sauce => "black"
@@ -368,9 +368,9 @@ describe 'Relationships' do
   end
 
   it "gives defined relationship classes names" do
-    expect{Relationships::BananaFruitSalad}.to_not raise_error
-    expect{Relationships::BananaFriends}.to_not raise_error
-    expect{Relationships::AppleFruitSalad}.to_not raise_error
-    expect{Relationships::AppleFriends}.to_not raise_error
+    expect {Relationships::BananaFruitSalad}.to_not raise_error
+    expect {Relationships::BananaFriends}.to_not raise_error
+    expect {Relationships::AppleFruitSalad}.to_not raise_error
+    expect {Relationships::AppleFriends}.to_not raise_error
   end
 end

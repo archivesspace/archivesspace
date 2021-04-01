@@ -62,10 +62,10 @@ describe 'Resources controller' do
 
 
   it "doesn't let you create a resource without at least one language" do
-    expect {
-      create(:json_resource,
-             :lang_materials => nil)
-    }.to raise_error(JSONModel::ValidationException)
+     expect {
+       create(:json_resource,
+              :lang_materials => nil)
+     }.to raise_error(JSONModel::ValidationException)
    end
 
 

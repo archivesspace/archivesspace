@@ -3,7 +3,7 @@ class AgentGender < Sequel::Model(:agent_gender)
   include Notes
 
   corresponds_to JSONModel(:agent_gender)
-  
+
   set_model_scope :global
 
   self.one_to_many :structured_date_label, :class => "StructuredDateLabel"

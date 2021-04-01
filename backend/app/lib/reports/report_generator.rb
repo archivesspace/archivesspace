@@ -17,7 +17,7 @@ class ReportGenerator
   end
 
   def generate(file)
-    case(report.format)
+    case (report.format)
     when 'json'
       generate_json(file)
     when 'html'

@@ -125,17 +125,17 @@ class EADModel < ASpaceExport::ExportModel
 
 
     def creators_and_sources
-      self.linked_agents.select{|link| ['creator', 'source'].include?(link['role']) }
+      self.linked_agents.select {|link| ['creator', 'source'].include?(link['role']) }
     end
 
 
     def instances_with_sub_containers
-      self.instances.select{|inst| inst['sub_container']}.compact
+      self.instances.select {|inst| inst['sub_container']}.compact
     end
 
 
     def instances_with_digital_objects
-      self.instances.select{|inst| inst['digital_object']}.compact
+      self.instances.select {|inst| inst['digital_object']}.compact
     end
   end
 
@@ -213,11 +213,11 @@ class EADModel < ASpaceExport::ExportModel
     end
 
     line = ""
-    line += %w(city region).map{|k| contact[k] }.compact.join(', ')
+    line += %w(city region).map {|k| contact[k] }.compact.join(', ')
     line += " #{contact['post_code']}"
     line.strip!
 
-    data <<  line unless line.empty?
+    data << line unless line.empty?
 
     %w(telephone email).each do |property|
       data << contact[property]
@@ -241,7 +241,7 @@ class EADModel < ASpaceExport::ExportModel
     end
 
     line = ""
-    line += %w(city region).map{|k| contact[k] }.compact.join(', ')
+    line += %w(city region).map {|k| contact[k] }.compact.join(', ')
     line += " #{contact['post_code']}"
     line.strip!
     data['city_region_post_code'] = line unless line.empty?
@@ -249,7 +249,7 @@ class EADModel < ASpaceExport::ExportModel
     data['telephone'] = contact['telephone']
     data['email'] = contact['email']
 
-    data.delete_if { |k,v| v.nil? }
+    data.delete_if { |k, v| v.nil? }
 
     data
   end
@@ -263,23 +263,23 @@ class EADModel < ASpaceExport::ExportModel
 
 
   def instances_with_sub_containers
-    self.instances.select{|inst| inst['sub_container']}.compact
+    self.instances.select {|inst| inst['sub_container']}.compact
   end
 
 
   def instances_with_digital_objects
-    self.instances.select{|inst| inst['digital_object']}.compact
+    self.instances.select {|inst| inst['digital_object']}.compact
   end
 
 
   def creators_and_sources
-    self.linked_agents.select{|link| ['creator', 'source'].include?(link['role']) }
+    self.linked_agents.select {|link| ['creator', 'source'].include?(link['role']) }
   end
 
 
   def digital_objects
     if @include_daos
-      self.instances.select{|inst| inst['digital_object']}.compact.map{|inst| inst['digital_object']['_resolved'] }.compact
+      self.instances.select {|inst| inst['digital_object']}.compact.map {|inst| inst['digital_object']['_resolved'] }.compact
     else
       []
     end

@@ -11,15 +11,15 @@ RSpec.describe 'Merge request API' do
 
   def pluralize_type(type)
     type = case type
-    when 'agent_corporate_entity'
-      'corporate_entities'
-    when 'agent_family'
-      'families'
-    when 'agent_person'
-      'people'
-    when 'agent_software'
-      'software'
-    end
+           when 'agent_corporate_entity'
+             'corporate_entities'
+           when 'agent_family'
+             'families'
+           when 'agent_person'
+             'people'
+           when 'agent_software'
+             'software'
+           end
   end
 
   describe 'POST /merge_requests' do

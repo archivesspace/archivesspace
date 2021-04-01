@@ -97,7 +97,7 @@ describe 'Implied publication' do
              :subjects => [{'ref' => subject.uri}],
              :publish => true)
 
-      json =  Subject.sequel_to_jsonmodel([Subject[subject.id]])[0]
+      json = Subject.sequel_to_jsonmodel([Subject[subject.id]])[0]
 
       expect(json['is_linked_to_published_record']).to be_falsey
     end
@@ -146,7 +146,7 @@ describe 'Implied publication' do
              :subjects => [{'ref' => subject.uri}],
              :publish => true)
 
-      json =  Subject.sequel_to_jsonmodel([Subject[subject.id]])[0]
+      json = Subject.sequel_to_jsonmodel([Subject[subject.id]])[0]
 
       expect(json['is_linked_to_published_record']).to be_truthy
     end
@@ -403,7 +403,7 @@ describe 'Implied publication' do
              :subjects => [{'ref' => subject.uri}],
              :publish => true)
 
-      json =  Subject.sequel_to_jsonmodel([Subject[subject.id]])[0]
+      json = Subject.sequel_to_jsonmodel([Subject[subject.id]])[0]
 
       expect(json['is_linked_to_published_record']).to be_falsey
     end
@@ -411,14 +411,14 @@ describe 'Implied publication' do
 
     it "an agent record is unpublished if linked to a published record in an unpublished repository" do
       agent = create_agent_person
-        Accession.create_from_json(build(:json_accession,
-                                         {
-                                           :linked_agents => [{
-                                                               'ref' => agent.uri,
-                                                               'role' => 'source'
-                                                             }],
-                                           :publish => true
-                                         }))
+      Accession.create_from_json(build(:json_accession,
+                                       {
+                                         :linked_agents => [{
+                                                             'ref' => agent.uri,
+                                                             'role' => 'source'
+                                                           }],
+                                         :publish => true
+                                       }))
       json = AgentPerson.sequel_to_jsonmodel([AgentPerson[agent.id]])[0]
 
       expect(json['is_linked_to_published_record']).to be_falsey
@@ -426,30 +426,30 @@ describe 'Implied publication' do
 
 
     it "a top container record is unpublished if in an unpublished repository" do
-        top_container = create(:json_top_container)
-        sub_container = build(:json_sub_container, {
-          "top_container" => {
-            "ref" => top_container.uri
-          }
-        })
+      top_container = create(:json_top_container)
+      sub_container = build(:json_sub_container, {
+        "top_container" => {
+          "ref" => top_container.uri
+        }
+      })
 
-        resource1 = create(:json_resource, :publish => true)
-        series1 = create(:json_archival_object,
-                         :resource => {'ref' => resource1.uri},
-                         :publish => true)
-        item1 = create(:json_archival_object,
+      resource1 = create(:json_resource, :publish => true)
+      series1 = create(:json_archival_object,
                        :resource => {'ref' => resource1.uri},
-                       :parent => {'ref' => series1.uri},
-                       :instances => [
-                         build(:json_instance, {
-                           "instance_type" => "audio",
-                           "sub_container" => sub_container
-                         })],
                        :publish => true)
+      item1 = create(:json_archival_object,
+                     :resource => {'ref' => resource1.uri},
+                     :parent => {'ref' => series1.uri},
+                     :instances => [
+                       build(:json_instance, {
+                         "instance_type" => "audio",
+                         "sub_container" => sub_container
+                       })],
+                     :publish => true)
 
-        json = TopContainer.sequel_to_jsonmodel([TopContainer[top_container.id]])[0]
+      json = TopContainer.sequel_to_jsonmodel([TopContainer[top_container.id]])[0]
 
-        expect(json['is_linked_to_published_record']).to be_falsey
+      expect(json['is_linked_to_published_record']).to be_falsey
     end
   end
 end

@@ -5,7 +5,6 @@ MERGEABLE_TYPES = ['subject', 'top_container', 'agent', 'resource', 'digital_obj
 describe 'Merge request controller' do
 
   def get_merge_request_detail_json(target, victim, selections)
-
     request = JSONModel(:merge_request_detail).new
     request.target = {'ref' => target.uri}
     request.victims = [{'ref' => victim.uri}]
@@ -404,7 +403,7 @@ describe 'Merge request controller' do
 
       expect {
         JSONModel(:agent_person).find(victim.id)
-      }.to raise_error(RecordNotFound)     
+      }.to raise_error(RecordNotFound)
     end
 
     it "can replace field in subrecord on merge" do
@@ -447,7 +446,7 @@ describe 'Merge request controller' do
       victim = create(:json_agent_person_merge_victim)
       subrecord = victim["agent_conventions_declarations"][0]
 
- 
+
       selections = {
         'agent_conventions_declarations' => [
           {
@@ -635,7 +634,7 @@ describe 'Merge request controller' do
     # Merge the containers
     request = JSONModel(:merge_request).new
     request.target = { 'ref' => target.uri }
-    request.victims = [{ 'ref' => victim1.uri },{ 'ref' => victim2.uri }]
+    request.victims = [{ 'ref' => victim1.uri }, { 'ref' => victim2.uri }]
 
     request.save(:record_type => 'top_container')
 
@@ -676,14 +675,14 @@ describe 'Merge request controller' do
                              {'ref' => target.uri, 'role' => 'source'}
                            ]
                          )
-     victim_event = create(:json_event,
-                            'linked_agents' => [
-                              {'ref' => '/agents/people/1', 'role' => 'authorizer'}
-                            ],
-                            'linked_records' => [
-                              {'ref' => victim.uri, 'role' => 'source'}
-                            ]
-                          )
+    victim_event = create(:json_event,
+                           'linked_agents' => [
+                             {'ref' => '/agents/people/1', 'role' => 'authorizer'}
+                           ],
+                           'linked_records' => [
+                             {'ref' => victim.uri, 'role' => 'source'}
+                           ]
+                         )
 
     # Merge the containers
     request = JSONModel(:merge_request).new

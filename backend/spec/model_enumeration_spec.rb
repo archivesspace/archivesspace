@@ -135,7 +135,7 @@ describe 'Enumerations model' do
     enum = Enumeration.create_from_json(JSONModel(:enumeration).from_hash(:name => 'readonly_thingy_enum_delete',
                                                                           :values => ["banana", "cherry"] ))
 
-	  $testdb[:enumeration].filter(:name => 'readonly_thingy_enum_delete').
+    $testdb[:enumeration].filter(:name => 'readonly_thingy_enum_delete').
                                 update(:editable => 0)
 
     expect {

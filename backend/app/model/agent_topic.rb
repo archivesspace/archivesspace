@@ -26,7 +26,6 @@ class AgentTopic < Sequel::Model(:agent_topic)
     [{
       type: Subject, ids: (
         AgentManager.linked_subjects(obj.id, :subject_agent_subrecord, :agent_topic) +
-
         AgentManager.linked_subjects(obj.id, :subject_agent_subrecord_place, :agent_topic)
       ).uniq
     }]

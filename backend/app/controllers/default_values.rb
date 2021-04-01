@@ -1,6 +1,6 @@
 class ArchivesSpaceService < Sinatra::Base
 
-  
+
   Endpoint.post('/repositories/:repo_id/default_values/:record_type')
     .description("Save defaults for a record type")
     .params(["default_values", JSONModel(:default_values), "The default values set", :body => true],

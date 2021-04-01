@@ -17,33 +17,33 @@ module BulkImportMixins
   end
 
   def ao_save(ao)
-      revived = nil
-      if @validate_only
-        valid(ao, I18n.t("ao"))
-        ao.uri = ao.uri || "valid"
-        revived = ao
-      else
-        begin
-          archObj = nil
-          if ao.id.nil?
-            archObj = ArchivalObject.create_from_json(ao)
-          else
-            obj = ArchivalObject.get_or_die(ao.id)
-            archObj = obj.update_from_json(ao)
-          end
-          objs = ArchivalObject.sequel_to_jsonmodel([archObj])
-          revived = objs[0] if !objs.empty?
-        rescue JSONModel::ValidationException => ve
-          raise BulkImportException.new(I18n.t("bulk_import.error.ao_validation", :err => ve.errors))
-        rescue Exception => e
-          Log.error("UNEXPECTED ao save error: #{e.message}\n#{e.backtrace}")
-          Log.error(ASUtils.jsonmodels_to_hashes(ao).pretty_inspect) if ao
-          raise e
+    revived = nil
+    if @validate_only
+      valid(ao, I18n.t("ao"))
+      ao.uri = ao.uri || "valid"
+      revived = ao
+    else
+      begin
+        archObj = nil
+        if ao.id.nil?
+          archObj = ArchivalObject.create_from_json(ao)
+        else
+          obj = ArchivalObject.get_or_die(ao.id)
+          archObj = obj.update_from_json(ao)
         end
+        objs = ArchivalObject.sequel_to_jsonmodel([archObj])
+        revived = objs[0] if !objs.empty?
+      rescue JSONModel::ValidationException => ve
+        raise BulkImportException.new(I18n.t("bulk_import.error.ao_validation", :err => ve.errors))
+      rescue Exception => e
+        Log.error("UNEXPECTED ao save error: #{e.message}\n#{e.backtrace}")
+        Log.error(ASUtils.jsonmodels_to_hashes(ao).pretty_inspect) if ao
+        raise e
       end
-      revived
     end
-    
+    revived
+  end
+
   def resource_from_ref(ead_id)
     dataset = CrudHelpers.scoped_dataset(Resource, {:ead_id => ead_id})
     resource = nil
@@ -56,10 +56,10 @@ module BulkImportMixins
         raise BulkImportException.new(I18n.t('bulk_import.error.resource_ref_id', :ref_id => ead_id))
       end
     end
-    resource 
+    resource
   end
 
-def archival_object_from_ref(ref_id)
+  def archival_object_from_ref(ref_id)
     dataset = CrudHelpers.scoped_dataset(ArchivalObject, { :ref_id => ref_id })
     ao = nil
     if !dataset.empty?
@@ -116,16 +116,15 @@ def archival_object_from_ref(ref_id)
       objs = dataset.respond_to?(:all) ? dataset.all : dataset
       jsonms = TopContainer.sequel_to_jsonmodel(objs)
       if jsonms.length > 0
-       tc = jsonms[0]
+        tc = jsonms[0]
       else
         raise BulkImportException.new(I18n.t('bulk_import.error.find_tc', :where => where_params.pretty_inspect))
       end
     end
     tc
-  end 
-  
- def indicator_and_type_exist_for_resource?(ead_id, indicator, type_id)
-   
+  end
+
+  def indicator_and_type_exist_for_resource?(ead_id, indicator, type_id)
     return TopContainer
       .join(:top_container_link_rlshp, :top_container_link_rlshp__top_container_id => :top_container__id)
       .join(:sub_container, :sub_container__id => :top_container_link_rlshp__sub_container_id)
@@ -158,7 +157,7 @@ def archival_object_from_ref(ref_id)
       objs = dataset.respond_to?(:all) ? dataset.all : dataset
       jsonms = TopContainer.sequel_to_jsonmodel(objs)
       if jsonms.length > 0
-       tc = jsonms[0]
+        tc = jsonms[0]
       else
         raise BulkImportException.new(I18n.t('bulk_import.error.find_tc', :where => where_params.pretty_inspect))
       end

@@ -23,20 +23,20 @@ class Classification < Sequel::Model(:classification)
                       :json_property => 'linked_records',
                       :contains_references_to_types => proc {[Accession, Resource]})
 
- 
+
   auto_generate :property => :slug,
                 :generator => proc { |json|
                   if AppConfig[:use_human_readable_urls]
                     if json["is_slug_auto"]
-                      AppConfig[:auto_generate_slugs_with_id] ? 
-                        SlugHelpers.id_based_slug_for(json, Classification) : 
+                      AppConfig[:auto_generate_slugs_with_id] ?
+                        SlugHelpers.id_based_slug_for(json, Classification) :
                         SlugHelpers.name_based_slug_for(json, Classification)
                     else
                       json["slug"]
                     end
                   end
                 }
-  
+
 
   def self.set_path_from_root(json)
     json['path_from_root'] = [{'title' => json.title, 'identifier' => json.identifier}]

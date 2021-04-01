@@ -24,14 +24,14 @@ class ContainerInstanceHandler < Handler
       :barcode => barcode,
     }
   end
- 
+
   def get_top_container_json_from_hash(type, indicator, barcode, resource)
     top_container_json = build(type, indicator, barcode)
     tc_key = key_for(top_container_json, resource)
     tc = @top_containers.fetch(tc_key, nil)
     tc
   end
-    
+
   # returns a top container JSONModel
   def get_or_create(type, indicator, barcode, resource, report)
     begin
@@ -104,7 +104,7 @@ class ContainerInstanceHandler < Handler
     end
     sc
   end
- 
+
   #Formats the container instance without a db retrieval or creation
   def format_container_instance(instance_type, tc, subcont = {})
     instance = nil

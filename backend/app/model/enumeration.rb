@@ -27,7 +27,7 @@ class Enumeration < Sequel::Model(:enumeration)
   end
 
   def dependants
-    self.class.dependants_of(self.name) || [] 
+    self.class.dependants_of(self.name) || []
   end
 
   # Find all database records that refer to the enumeration value identified by
@@ -62,7 +62,7 @@ class Enumeration < Sequel::Model(:enumeration)
     end
 
     old_enum_value.delete
-    self.reload 
+    self.reload
     self.enumeration_value.each_with_index { |ev, i| ev.position = i; ev.save }
     self.class.broadcast_changes
   end
@@ -71,18 +71,18 @@ class Enumeration < Sequel::Model(:enumeration)
   # Update the allowable values of the current enumeration.
   def self.apply_values(obj, json, opts = {})
     # don't allow update of an non-editable enumeration
-    # make sure the DB mapping has been converted. 
+    # make sure the DB mapping has been converted.
     obj.reload
-    is_editable = ( obj.editable === 1 or obj.editable == true ) 
+    is_editable = ( obj.editable === 1 or obj.editable == true )
 
 
     incoming_values = Array(json['values'])
     existing_values = obj.enumeration_value.map {|val| val[:value]}
 
-    
+
     added_values = incoming_values - existing_values
     removed_values = existing_values - incoming_values
-   
+
     # if it's not editable, we cannot add or remove values, but we can set the
     # default...
     if ( !is_editable and added_values.length > 0 ) or ( !is_editable and removed_values.length > 0 )
@@ -93,6 +93,7 @@ class Enumeration < Sequel::Model(:enumeration)
     if EnumerationValue.filter(:enumeration_id => obj.id,
                                :value => removed_values,
                                :readonly => 1).count > 0
+
       raise AccessDeniedException.new("Can't remove read-only enumeration values")
     end
 
@@ -110,14 +111,14 @@ class Enumeration < Sequel::Model(:enumeration)
       }
     end
 
-    
+
     enum_vals = EnumerationValue.filter( :enumeration_id => obj.id ).order(:position)
     enum_vals.update(:position => Sequel.lit('position + 9999' ))
     enum_vals.each_with_index do |ev, i|
       ev.position = i
       ev.save
     end
-    
+
     broadcast_changes
 
     obj.refresh
@@ -164,10 +165,10 @@ class Enumeration < Sequel::Model(:enumeration)
 
       # we're keeping the values as just the not suppressed values.
       # enumeration_values are only needed in situations where we are
-      # editing/updating the lists. 
-      json['values'] = obj.enumeration_value.map {|v| v[:value] unless v[:suppressed] == 1  }
-      json['readonly_values'] = obj.enumeration_value.map {|v| v[:value] if ( v[:readonly] != 0 && v[:suppressed] != 1  )}.compact
-      json['enumeration_values'] =  EnumerationValue.sequel_to_jsonmodel(obj.enumeration_value) 
+      # editing/updating the lists.
+      json['values'] = obj.enumeration_value.map {|v| v[:value] unless v[:suppressed] == 1 }
+      json['readonly_values'] = obj.enumeration_value.map {|v| v[:value] if ( v[:readonly] != 0 && v[:suppressed] != 1 )}.compact
+      json['enumeration_values'] = EnumerationValue.sequel_to_jsonmodel(obj.enumeration_value)
       # this tells us where the enum is used.
       json["relationships"] = obj.dependants.collect { |d| d.first[:property] }.uniq
 
@@ -180,7 +181,6 @@ class Enumeration < Sequel::Model(:enumeration)
   end
 
 
-
   def self.broadcast_changes
     Notifications.notify("ENUMERATION_CHANGED")
   end
@@ -189,7 +189,7 @@ class Enumeration < Sequel::Model(:enumeration)
   def self.csv
     out = CSV_HEADERS.to_csv
     Enumeration.sequel_to_jsonmodel(Enumeration.all).sort_by { |e| e.name }.each do |enum|
-      enum.enumeration_values.reject{ |v| v.suppressed == 1 }.sort_by{ |v| v.position }.each do |val|
+      enum.enumeration_values.reject { |v| v.suppressed == 1 }.sort_by { |v| v.position }.each do |val|
         out << [
                 enum.name,
                 I18n.t("enumeration_names.#{enum.name}", :default => enum.name),

@@ -21,15 +21,15 @@ class ASFop
   attr_accessor :xslt
 
   def initialize(source, output= nil, pdf_image)
-   @source = source
-   @output = output ? output : ASUtils.tempfile('fop.pdf')
-   if pdf_image.nil?
-     @pdf_image = "file:///" + File.absolute_path(StaticAssetFinder.new(File.join('stylesheets')).find('archivesspace.small.png'))
-   else
-     @pdf_image = pdf_image
-   end
-   @xslt = File.read( StaticAssetFinder.new(File.join('stylesheets')).find('as-ead-pdf.xsl'))
-   @config = java.io.File.new(StaticAssetFinder.new(File.join('stylesheets')).find('fop-config.xml'))
+    @source = source
+    @output = output ? output : ASUtils.tempfile('fop.pdf')
+    if pdf_image.nil?
+      @pdf_image = "file:///" + File.absolute_path(StaticAssetFinder.new(File.join('stylesheets')).find('archivesspace.small.png'))
+    else
+      @pdf_image = pdf_image
+    end
+    @xslt = File.read( StaticAssetFinder.new(File.join('stylesheets')).find('as-ead-pdf.xsl'))
+    @config = java.io.File.new(StaticAssetFinder.new(File.join('stylesheets')).find('fop-config.xml'))
   end
 
   def saxon_processor
@@ -57,7 +57,7 @@ class ASFop
     begin
       to_fo(fop_processor.getDefaultHandler)
     ensure
-     @output.close
+      @output.close
     end
     @output
   end
@@ -68,8 +68,8 @@ class ASFop
       @output.rewind
       @output.read
     ensure
-     @output.close
-     @output.unlink
+      @output.close
+      @output.unlink
     end
   end
 

@@ -27,7 +27,7 @@ class MockHTTP
     http = Object.new
 
     def http.parent=(val)
-        @parent = val
+      @parent = val
     end
 
 
@@ -36,6 +36,7 @@ class MockHTTP
       response = Object.new
 
       def response.body; $dummy_data; end
+
       def response.code; '200'; end
 
       response
@@ -160,26 +161,26 @@ describe 'Solr model' do
 
   describe 'Solr params from AppConfig' do
     let (:advanced_query) {
-        { "query" => {
-            "subqueries" => [
-                {
-                    "field" => "types",
-                    "value" => "resource",
-                    "literal" => true,
-                    "jsonmodel_type" => "field_query",
-                    "negated" => false
-                },
-                {
-                    "field" => "published",
-                    "value" => "true",
-                    "literal" => true,
-                    "jsonmodel_type" => "field_query",
-                    "negated" => false
-                }
-            ],
-            "jsonmodel_type" => "boolean_query"
-        },
-        "jsonmodel_type" => "advanced_query" }
+      { "query" => {
+          "subqueries" => [
+              {
+                  "field" => "types",
+                  "value" => "resource",
+                  "literal" => true,
+                  "jsonmodel_type" => "field_query",
+                  "negated" => false
+              },
+              {
+                  "field" => "published",
+                  "value" => "true",
+                  "literal" => true,
+                  "jsonmodel_type" => "field_query",
+                  "negated" => false
+              }
+          ],
+          "jsonmodel_type" => "boolean_query"
+      },
+      "jsonmodel_type" => "advanced_query" }
     }
 
     let (:query) { Solr::Query.create_advanced_search(advanced_query).
@@ -187,9 +188,9 @@ describe 'Solr model' do
                         set_repo_id(@repo_id) }
 
     it 'does not include q.op parameter in solr url when not configured' do
-        AppConfig[:solr_params] = { }
-        url = query.to_solr_url
-        expect(url.query).not_to include('&q.op=')
+      AppConfig[:solr_params] = { }
+      url = query.to_solr_url
+      expect(url.query).not_to include('&q.op=')
     end
 
     it 'includes q.op parameter in solr url when configured' do
@@ -199,10 +200,10 @@ describe 'Solr model' do
     end
 
     it 'handles params with array values by passing the param multiple times' do
-        AppConfig[:solr_params] = { "bq" => ["one", proc {"two"}]}
-        url = query.to_solr_url
-        expect(url.query).to include('&bq=one')
-        expect(url.query).to include('&bq=two')
+      AppConfig[:solr_params] = { "bq" => ["one", proc {"two"}]}
+      url = query.to_solr_url
+      expect(url.query).to include('&bq=one')
+      expect(url.query).to include('&bq=two')
     end
 
   end

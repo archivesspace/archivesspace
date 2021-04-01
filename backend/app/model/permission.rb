@@ -7,7 +7,7 @@ class Permission < Sequel::Model(:permission)
   @derived_permissions = []
 
   def self.derived?(code)
-    @derived_permissions.any?{|p| p[:permission_code].casecmp(code) == 0}
+    @derived_permissions.any? {|p| p[:permission_code].casecmp(code) == 0}
   end
 
 

@@ -55,7 +55,7 @@ describe 'Agent Family model' do
                 }
 
     expect {
-      agent = AgentFamily.create_from_json(build(:json_agent_family, test_opts))
+       agent = AgentFamily.create_from_json(build(:json_agent_family, test_opts))
      }.to raise_error(JSONModel::ValidationException)
   end
 
@@ -74,7 +74,7 @@ describe 'Agent Family model' do
                      'authority_id' => 'thesame',
                      'source' => 'naf'
                      )])
-    json2 =    build( :json_agent_family,
+    json2 = build( :json_agent_family,
                      :names => [build(:json_name_family,
                      'authority_id' => 'thesame',
                      'source' => 'naf'
@@ -86,159 +86,159 @@ describe 'Agent Family model' do
     expect(a1).to eq(a2) # the names should still be the same as the first authority_id names
   end
 
-    describe "slug tests" do
-      before (:all) do
-        AppConfig[:use_human_readable_urls] = true
+  describe "slug tests" do
+    before (:all) do
+      AppConfig[:use_human_readable_urls] = true
+    end
+
+    describe "slug autogen enabled" do
+      it "autogenerates a slug via title when configured to generate by name" do
+        AppConfig[:auto_generate_slugs_with_id] = false
+
+        agent_name_family = build(:json_name_family)
+        agent_family = AgentFamily.create_from_json(
+          build(:json_agent_family,
+              :is_slug_auto => true,
+              :names => [agent_name_family])
+        )
+
+        expected_slug = clean_slug(get_generated_name_for_agent(agent_family))
+
+        expect(agent_family[:slug]).to match(expected_slug)
       end
 
-      describe "slug autogen enabled" do
-        it "autogenerates a slug via title when configured to generate by name" do
-          AppConfig[:auto_generate_slugs_with_id] = false
+      it "autogenerates a slug via identifier when configured to generate by id" do
+        AppConfig[:auto_generate_slugs_with_id] = true
 
-          agent_name_family = build(:json_name_family)
-          agent_family = AgentFamily.create_from_json(
-            build(:json_agent_family,
-                :is_slug_auto => true,
-                :names => [agent_name_family])
-          )
+        agent_name_family = build(:json_name_family, :authority_id => rand(100000).to_s)
+        agent_family = AgentFamily.create_from_json(
+          build(:json_agent_family,
+              :is_slug_auto => true,
+              :names => [agent_name_family])
+        )
 
-          expected_slug = clean_slug(get_generated_name_for_agent(agent_family))
+        expected_slug = clean_slug(agent_name_family[:authority_id])
 
-          expect(agent_family[:slug]).to match(expected_slug)
-        end
-
-        it "autogenerates a slug via identifier when configured to generate by id" do
-          AppConfig[:auto_generate_slugs_with_id] = true
-
-          agent_name_family = build(:json_name_family, :authority_id => rand(100000).to_s)
-          agent_family = AgentFamily.create_from_json(
-            build(:json_agent_family,
-                :is_slug_auto => true,
-                :names => [agent_name_family])
-          )
-
-          expected_slug = clean_slug(agent_name_family[:authority_id])
-
-          expect(agent_family[:slug]).to match(expected_slug)
-        end
-
-        it "turns off autogen if slug is blank" do
-          AppConfig[:auto_generate_slugs_with_id] = true
-
-          agent_family = AgentFamily.create_from_json(build(:json_agent_family, :is_slug_auto => true))
-          agent_family.update(:slug => "")
-          expect(agent_family[:is_slug_auto]).to eq(0)
-        end
-
-        it "cleans slug when autogenerating by name" do
-          AppConfig[:auto_generate_slugs_with_id] = false
-
-          agent_name_family = build(:json_name_family)
-          agent_family = AgentFamily.create_from_json(
-            build(:json_agent_family,
-                :is_slug_auto => true,
-                :names => [agent_name_family])
-          )
-
-          expected_slug = clean_slug(get_generated_name_for_agent(agent_family))
-          expect(agent_family[:slug]).to match(expected_slug)
-        end
-
-        it "dedupes slug when autogenerating by name" do
-          AppConfig[:auto_generate_slugs_with_id] = false
-          agent_name_family1 = build(:json_name_family, :family_name => "foo")
-          agent_family1 = AgentFamily.create_from_json(
-            build(:json_agent_family,
-                :is_slug_auto => true,
-                :names => [agent_name_family1])
-          )
-
-          agent_name_family2 = build(:json_name_family, :family_name => "foo")
-          agent_family2 = AgentFamily.create_from_json(
-            build(:json_agent_family,
-                :is_slug_auto => true,
-                :names => [agent_name_family2])
-          )
-
-          expect(agent_family1[:slug]).to match("foo")
-          expect(agent_family2[:slug]).to match("foo_1")
-        end
-
-
-        it "cleans slug when autogenerating by id" do
-          AppConfig[:auto_generate_slugs_with_id] = true
-
-          agent_name_family = build(:json_name_family, :authority_id => "Foo Bar Baz&&&&")
-          agent_family = AgentFamily.create_from_json(
-            build(:json_agent_family,
-                :is_slug_auto => true,
-                :names => [agent_name_family])
-          )
-
-          expect(agent_family[:slug]).to match("foo_bar_baz")
-        end
-
-        it "dedupes slug when autogenerating by id" do
-          AppConfig[:auto_generate_slugs_with_id] = true
-
-          agent_name_family1 = build(:json_name_family, :authority_id => "foo")
-          agent_family1 = AgentFamily.create_from_json(
-            build(:json_agent_family,
-                :is_slug_auto => true,
-                :names => [agent_name_family1])
-          )
-
-          agent_name_family2 = build(:json_name_family, :authority_id => "foo#")
-          agent_family2 = AgentFamily.create_from_json(
-            build(:json_agent_family,
-                :is_slug_auto => true,
-                :names => [agent_name_family2])
-          )
-
-          expect(agent_family1[:slug]).to match("foo")
-          expect(agent_family2[:slug]).to match("foo_1")
-        end
+        expect(agent_family[:slug]).to match(expected_slug)
       end
 
-      describe "slug autogen disabled" do
-        it "slug does not change when config set to autogen by title and title updated" do
-          AppConfig[:auto_generate_slugs_with_id] = false
+      it "turns off autogen if slug is blank" do
+        AppConfig[:auto_generate_slugs_with_id] = true
 
-          agent_family = AgentFamily.create_from_json(build(:json_agent_family, :is_slug_auto => false, :slug => "foo"))
-
-          agent_family.update(:title => rand(100000000))
-
-          expect(agent_family[:slug]).to eq("foo")
-        end
-
-        it "slug does not change when config set to autogen by id and id updated" do
-          AppConfig[:auto_generate_slugs_with_id] = false
-          agent_family = AgentFamily.create_from_json(build(:json_agent_family, :is_slug_auto => false, :slug => "foo"))
-
-          agent_family_name = NameFamily.find(:agent_family_id => agent_family.id)
-          agent_family_name.update(:authority_id => rand(100000000))
-
-          expect(agent_family[:slug]).to eq("foo")
-        end
+        agent_family = AgentFamily.create_from_json(build(:json_agent_family, :is_slug_auto => true))
+        agent_family.update(:slug => "")
+        expect(agent_family[:is_slug_auto]).to eq(0)
       end
 
-      describe "manual slugs" do
-        it "cleans manual slugs" do
-          agent_family = AgentFamily.create_from_json(build(:json_agent_family, :is_slug_auto => false))
-          agent_family.update(:slug => "Foo Bar Baz ###")
-          expect(agent_family[:slug]).to eq("foo_bar_baz")
-        end
+      it "cleans slug when autogenerating by name" do
+        AppConfig[:auto_generate_slugs_with_id] = false
 
-        it "dedupes manual slugs" do
-          agent_family1 = AgentFamily.create_from_json(build(:json_agent_family, :is_slug_auto => false, :slug => "foo"))
-          agent_family2 = AgentFamily.create_from_json(build(:json_agent_family, :is_slug_auto => false))
+        agent_name_family = build(:json_name_family)
+        agent_family = AgentFamily.create_from_json(
+          build(:json_agent_family,
+              :is_slug_auto => true,
+              :names => [agent_name_family])
+        )
 
-          agent_family2.update(:slug => "foo")
+        expected_slug = clean_slug(get_generated_name_for_agent(agent_family))
+        expect(agent_family[:slug]).to match(expected_slug)
+      end
 
-          expect(agent_family1[:slug]).to eq("foo")
-          expect(agent_family2[:slug]).to eq("foo_1")
-        end
+      it "dedupes slug when autogenerating by name" do
+        AppConfig[:auto_generate_slugs_with_id] = false
+        agent_name_family1 = build(:json_name_family, :family_name => "foo")
+        agent_family1 = AgentFamily.create_from_json(
+          build(:json_agent_family,
+              :is_slug_auto => true,
+              :names => [agent_name_family1])
+        )
+
+        agent_name_family2 = build(:json_name_family, :family_name => "foo")
+        agent_family2 = AgentFamily.create_from_json(
+          build(:json_agent_family,
+              :is_slug_auto => true,
+              :names => [agent_name_family2])
+        )
+
+        expect(agent_family1[:slug]).to match("foo")
+        expect(agent_family2[:slug]).to match("foo_1")
+      end
+
+
+      it "cleans slug when autogenerating by id" do
+        AppConfig[:auto_generate_slugs_with_id] = true
+
+        agent_name_family = build(:json_name_family, :authority_id => "Foo Bar Baz&&&&")
+        agent_family = AgentFamily.create_from_json(
+          build(:json_agent_family,
+              :is_slug_auto => true,
+              :names => [agent_name_family])
+        )
+
+        expect(agent_family[:slug]).to match("foo_bar_baz")
+      end
+
+      it "dedupes slug when autogenerating by id" do
+        AppConfig[:auto_generate_slugs_with_id] = true
+
+        agent_name_family1 = build(:json_name_family, :authority_id => "foo")
+        agent_family1 = AgentFamily.create_from_json(
+          build(:json_agent_family,
+              :is_slug_auto => true,
+              :names => [agent_name_family1])
+        )
+
+        agent_name_family2 = build(:json_name_family, :authority_id => "foo#")
+        agent_family2 = AgentFamily.create_from_json(
+          build(:json_agent_family,
+              :is_slug_auto => true,
+              :names => [agent_name_family2])
+        )
+
+        expect(agent_family1[:slug]).to match("foo")
+        expect(agent_family2[:slug]).to match("foo_1")
       end
     end
+
+    describe "slug autogen disabled" do
+      it "slug does not change when config set to autogen by title and title updated" do
+        AppConfig[:auto_generate_slugs_with_id] = false
+
+        agent_family = AgentFamily.create_from_json(build(:json_agent_family, :is_slug_auto => false, :slug => "foo"))
+
+        agent_family.update(:title => rand(100000000))
+
+        expect(agent_family[:slug]).to eq("foo")
+      end
+
+      it "slug does not change when config set to autogen by id and id updated" do
+        AppConfig[:auto_generate_slugs_with_id] = false
+        agent_family = AgentFamily.create_from_json(build(:json_agent_family, :is_slug_auto => false, :slug => "foo"))
+
+        agent_family_name = NameFamily.find(:agent_family_id => agent_family.id)
+        agent_family_name.update(:authority_id => rand(100000000))
+
+        expect(agent_family[:slug]).to eq("foo")
+      end
+    end
+
+    describe "manual slugs" do
+      it "cleans manual slugs" do
+        agent_family = AgentFamily.create_from_json(build(:json_agent_family, :is_slug_auto => false))
+        agent_family.update(:slug => "Foo Bar Baz ###")
+        expect(agent_family[:slug]).to eq("foo_bar_baz")
+      end
+
+      it "dedupes manual slugs" do
+        agent_family1 = AgentFamily.create_from_json(build(:json_agent_family, :is_slug_auto => false, :slug => "foo"))
+        agent_family2 = AgentFamily.create_from_json(build(:json_agent_family, :is_slug_auto => false))
+
+        agent_family2.update(:slug => "foo")
+
+        expect(agent_family1[:slug]).to eq("foo")
+        expect(agent_family2[:slug]).to eq("foo_1")
+      end
+    end
+  end
 
 end

@@ -49,12 +49,12 @@ AbstractRelationship = Class.new(Sequel::Model) do
     columns = if obj1.class == obj2.class
       # If our two related objects are of the same type, we'll get back multiple
       # columns here anyway
-      raise ReferenceError.new("Can't relate an object to itself") if obj1.id == obj2.id
+                raise ReferenceError.new("Can't relate an object to itself") if obj1.id == obj2.id
 
-      self.reference_columns_for(obj1.class)
-    else
-      [self.reference_columns_for(obj1.class).first, self.reference_columns_for(obj2.class).first]
-    end
+                self.reference_columns_for(obj1.class)
+              else
+                [self.reference_columns_for(obj1.class).first, self.reference_columns_for(obj2.class).first]
+              end
 
     if columns.include?(nil)
       raise ("One of the relationship columns for #{obj1} and #{obj2} couldn't be found." +
@@ -71,7 +71,7 @@ AbstractRelationship = Class.new(Sequel::Model) do
     # some objects ( like events? ) seem to leak their ids into the mix.
     values.reject! { |key| key == :id or key == "id"  }
     if ( obj1.is_a?(Location) or obj2.is_a?(Location) )
-      values.reject! { |key| key == :jsonmodel_type or key == "jsonmodel_type"  }
+      values.reject! { |key| key == :jsonmodel_type or key == "jsonmodel_type" }
     end
     self.create(values)
   end
@@ -308,14 +308,17 @@ AbstractRelationship = Class.new(Sequel::Model) do
 
   # Methods for defining relationships
   def self.set_json_property(property); @json_property = property; end
+
   def self.json_property; @json_property; end
 
 
   def self.set_participating_models(models); @participating_models = models; end
+
   def self.participating_models; @participating_models or raise "No participating models set"; end
 
 
   def self.set_wants_array(val); @wants_array = val; end
+
   def self.wants_array?; @wants_array; end
 
 
@@ -472,7 +475,6 @@ AbstractRelationship = Class.new(Sequel::Model) do
   end
 
 
-
   # The URI of the record referred to by the current relationship that isn't
   # 'obj'.
   def uri_for_other_referent_than(obj)
@@ -524,6 +526,7 @@ module Relationships
   # Store a list of the relationships that this object participates in.  Saves
   # looking up the DB for each one.
   attr_reader :cached_relationships
+
   def cache_relationships(relationship_defn, relationship_objects)
     @cached_relationships ||= {}
     @cached_relationships[relationship_defn] = relationship_objects
@@ -604,7 +607,7 @@ module Relationships
       # transfer_group)
       (referent.class.model_scope == :repository &&
        referent.repo_id != repository.id &&
-       !transfer_group.any?{|obj| obj.id == referent.id && obj.model == referent.model})
+       !transfer_group.any? {|obj| obj.id == referent.id && obj.model == referent.model})
     }
 
 
@@ -645,9 +648,9 @@ module Relationships
         .filter(:instance__id => instances)
         .select(Sequel.qualify(model.table_name, :id))
         .each do |row|
-        exception.add_conflict(model.my_jsonmodel.uri_for(row[:id], :repo_id => self.class.active_repository),
-                        {:json_property => 'instances',
-                         :message => "DIGITAL_OBJECT_HAS_LINK"})
+          exception.add_conflict(model.my_jsonmodel.uri_for(row[:id], :repo_id => self.class.active_repository),
+                          {:json_property => 'instances',
+                           :message => "DIGITAL_OBJECT_HAS_LINK"})
         end
     end
 
@@ -765,6 +768,7 @@ module Relationships
         if (relationship_defn.json_property &&
             (!self.my_jsonmodel.schema['properties'][relationship_defn.json_property] ||
              self.my_jsonmodel.schema['properties'][relationship_defn.json_property]['readonly'] === 'true'))
+
           # Don't delete instances of relationships that are read-only in this direction.
           next
         end
@@ -958,6 +962,7 @@ module Relationships
             if DB.supports_join_updates? &&
                self.table_name == :agent_software &&
                relationship_defn.table_name == :linked_agents_rlshp
+
               DB.open do |db|
                 id_str = Integer(obj.id).to_s
 

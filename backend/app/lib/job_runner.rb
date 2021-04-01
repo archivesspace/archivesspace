@@ -1,7 +1,9 @@
 class JobRunner
 
   class JobRunnerNotFound < StandardError; end
+
   class JobRunnerError < StandardError; end
+
   class BackgroundJobError < StandardError; end
 
   RegisteredRunner = Struct.new(:type,
@@ -85,7 +87,7 @@ class JobRunner
 
 
   def self.registered_job_types
-    Hash[ @@runners.reject{|k,v| v[:hidden] }.map { |k, v| [k, {:create_permissions => v.create_permissions,
+    Hash[ @@runners.reject {|k, v| v[:hidden] }.map { |k, v| [k, {:create_permissions => v.create_permissions,
                                                                 :cancel_permissions => v.cancel_permissions}] } ]
   end
 
@@ -128,10 +130,10 @@ class JobRunner
   def symbol_keys(hash)
     h = hash.map do |k, v|
       v_sym = if v.instance_of? Hash
-          v = symbol_keys(v)
-        else
-          v
-        end
+                v = symbol_keys(v)
+              else
+                v
+              end
 
       [k.to_sym, v_sym]
     end

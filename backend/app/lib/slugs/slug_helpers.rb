@@ -58,17 +58,17 @@ module SlugHelpers
   # based on the controller/action, query the right table for the slug in any repo
   def self.find_any_repo(slug, controller, action)
     return case controller
-    when "resources"
-      [Resource.any_repo.where(:slug => slug).first, "resource"]
-    when "accessions"
-      [Accession.any_repo.where(:slug => slug).first, "accession"]
-    when "classifications"
-      if action == "term"
-        [ClassificationTerm.any_repo.where(:slug => slug).first, "classification_term"]
-      else
-        [Classification.any_repo.where(:slug => slug).first, "classification"]
-      end
-    end
+           when "resources"
+             [Resource.any_repo.where(:slug => slug).first, "resource"]
+           when "accessions"
+             [Accession.any_repo.where(:slug => slug).first, "accession"]
+           when "classifications"
+             if action == "term"
+               [ClassificationTerm.any_repo.where(:slug => slug).first, "classification_term"]
+             else
+               [Classification.any_repo.where(:slug => slug).first, "classification"]
+             end
+           end
   end
 
   # our slug could be in one of four tables.

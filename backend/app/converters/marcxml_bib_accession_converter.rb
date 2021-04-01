@@ -130,7 +130,7 @@ MarcXMLBibAccessionConverter.configure do |config|
     end
 
     if record.provenance
-      record.provenance = "#{record.provenance} "  + provenance2
+      record.provenance = "#{record.provenance} " + provenance2
     elsif provenance2.length > 0
       record.provenance = provenance2
     end

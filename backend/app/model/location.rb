@@ -77,7 +77,7 @@ class Location < Sequel::Model(:location)
 
   def self.create_for_batch(batch)
     locations = generate_locations_for_batch(batch)
-    locations.map{|location| self.create_from_json(location)}
+    locations.map {|location| self.create_from_json(location)}
   end
 
   def self.batch_update(location)
@@ -94,13 +94,13 @@ class Location < Sequel::Model(:location)
 
   def self.titles_for_batch(batch)
     locations = generate_locations_for_batch(batch)
-    locations.map{|location| self.generate_title(location)}
+    locations.map {|location| self.generate_title(location)}
   end
 
   def self.generate_locations_for_batch(batch)
-    indicators_1, indicators_2, indicators_3  = [batch["coordinate_1_range"], batch["coordinate_2_range"], batch["coordinate_3_range"]].
+    indicators_1, indicators_2, indicators_3 = [batch["coordinate_1_range"], batch["coordinate_2_range"], batch["coordinate_3_range"]].
                                                   compact.
-                                                  map{|data| generate_indicators(data)}
+                                                  map {|data| generate_indicators(data)}
 
     source_location = batch.clone
 
@@ -136,7 +136,7 @@ class Location < Sequel::Model(:location)
 
   def self.generate_indicators(opts)
     range = (opts["start"]..opts["end"]).take(AppConfig[:max_location_range].to_i)
-    range.map{|i| "#{opts["prefix"]}#{i}#{opts["suffix"]}"}
+    range.map {|i| "#{opts["prefix"]}#{i}#{opts["suffix"]}"}
   end
 
 

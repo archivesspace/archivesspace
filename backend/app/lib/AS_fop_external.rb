@@ -12,17 +12,17 @@ class ASFopExternal
   attr_accessor :xslt
 
   def initialize(source, job, pdf_image)
-   @source = source
-   @fo = ASUtils.tempfile('pdf.xml')
-   @output_path = ASUtils.tempfile_name('fop.pdf')
-   if pdf_image.nil?
-     @pdf_image = "file:///" + File.absolute_path(StaticAssetFinder.new(File.join('stylesheets')).find('archivesspace.small.png'))
-   else
-     @pdf_image = pdf_image
-   end
-   @xslt = File.read( StaticAssetFinder.new(File.join('stylesheets')).find('as-ead-pdf.xsl'))
-   @config = StaticAssetFinder.new(File.join('stylesheets')).find('fop-config.xml')
-   @job = job
+    @source = source
+    @fo = ASUtils.tempfile('pdf.xml')
+    @output_path = ASUtils.tempfile_name('fop.pdf')
+    if pdf_image.nil?
+      @pdf_image = "file:///" + File.absolute_path(StaticAssetFinder.new(File.join('stylesheets')).find('archivesspace.small.png'))
+    else
+      @pdf_image = pdf_image
+    end
+    @xslt = File.read( StaticAssetFinder.new(File.join('stylesheets')).find('as-ead-pdf.xsl'))
+    @config = StaticAssetFinder.new(File.join('stylesheets')).find('fop-config.xml')
+    @job = job
   end
 
   def saxon_processor
@@ -65,36 +65,36 @@ class ASFopExternal
   private
 
     # path to fop.jar file could be a few different things, depending on whether server is running in dev or prod mode
-    def path_to_fop_jar
-      # On the Windows system tested, this is the branch (go up 5 levels and then into lib) expected to find the fop.jar file when running in prod mode.
-      # The searching around with the other elsifs are a bit overkill, but added in to try to improve robustness
-      if File.exists?("../../../../../lib/fop.jar")
-        return "../../../../../lib"
-      elsif File.exists?("../common/lib/fop.jar")
-        return "../common/lib"
-      elsif File.exists?("../lib/fop.jar")
-        return "../lib"
-      elsif File.exists?("../../lib/fop.jar")
-        return "../../lib"
-      elsif File.exists?("../../../lib/fop.jar")
-        return "../../../lib"
-      elsif File.exists?("../../../../lib/fop.jar")
-        return "../../../../lib"
-      elsif File.exists?("../../../../../../lib/fop.jar")
-         return "../../../../../../lib"
-      elsif File.exists?("lib/fop.jar")
-        return "lib"
-      else
-        raise "fop.jar not found."
-      end
+  def path_to_fop_jar
+    # On the Windows system tested, this is the branch (go up 5 levels and then into lib) expected to find the fop.jar file when running in prod mode.
+    # The searching around with the other elsifs are a bit overkill, but added in to try to improve robustness
+    if File.exists?("../../../../../lib/fop.jar")
+      return "../../../../../lib"
+    elsif File.exists?("../common/lib/fop.jar")
+      return "../common/lib"
+    elsif File.exists?("../lib/fop.jar")
+      return "../lib"
+    elsif File.exists?("../../lib/fop.jar")
+      return "../../lib"
+    elsif File.exists?("../../../lib/fop.jar")
+      return "../../../lib"
+    elsif File.exists?("../../../../lib/fop.jar")
+      return "../../../../lib"
+    elsif File.exists?("../../../../../../lib/fop.jar")
+      return "../../../../../../lib"
+    elsif File.exists?("lib/fop.jar")
+      return "lib"
+    else
+      raise "fop.jar not found."
     end
+  end
 
     # return shell command delimiter for OS
-    def multiple_command_operator
-      if RbConfig::CONFIG['host_os'] =~ /win32/
-        return "&"
-      else
-        return ";"
-      end
+  def multiple_command_operator
+    if RbConfig::CONFIG['host_os'] =~ /win32/
+      return "&"
+    else
+      return ";"
     end
+  end
 end

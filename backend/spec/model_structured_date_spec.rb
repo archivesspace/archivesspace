@@ -54,98 +54,98 @@ describe 'Structured Date model' do
 
   it "single dates are invalid unless a date is present in the subrecord" do
     sds = build(:json_structured_date_single, :date_expression => nil, :date_standardized => nil)
-  
+
     errs = JSONModel::Validations.check_structured_date_single(sds)
     expect(errs.length > 0).to eq(true)
   end
 
   it "single dates are invalid if standardized dates do not fit format" do
     sds = build(:json_structured_date_single, :date_standardized => "Dec 12, 1928")
-  
+
     errs = JSONModel::Validations.check_structured_date_single(sds)
     expect(errs.length > 0).to eq(true)
   end
 
   it "single dates are invalid if role is missing" do
     sds = build(:json_structured_date_single, :date_role => nil)
-  
+
     errs = JSONModel::Validations.check_structured_date_single(sds)
     expect(errs.length > 0).to eq(true)
   end
 
   it "range dates are invalid if begin standardized dates do not fit format" do
     sdr = build(:json_structured_date_range, :begin_date_standardized => "Dec 12, 1928")
-  
+
     errs = JSONModel::Validations.check_structured_date_range(sdr)
     expect(errs.length > 0).to eq(true)
   end
 
   it "range dates are invalid if end standardized dates do not fit format" do
     sdr = build(:json_structured_date_range, :end_date_standardized => "Dec 12, 1928")
-  
+
     errs = JSONModel::Validations.check_structured_date_range(sdr)
     expect(errs.length > 0).to eq(true)
   end
 
   it "range dates are valid with just a begin date expression" do
-    sdr = build(:json_structured_date_range, 
-        :begin_date_expression => "Dec 12, 1928", 
-        :begin_date_standardized => nil, 
-        :end_date_expression => nil, 
+    sdr = build(:json_structured_date_range,
+        :begin_date_expression => "Dec 12, 1928",
+        :begin_date_standardized => nil,
+        :end_date_expression => nil,
         :end_date_standardized => nil)
-  
+
     errs = JSONModel::Validations.check_structured_date_range(sdr)
     expect(errs.length > 0).to eq(false)
   end
 
   it "range dates are invalid if end expression present with no begin" do
-    sdr = build(:json_structured_date_range, 
-        :begin_date_expression => nil, 
-        :begin_date_standardized => nil, 
-        :end_date_expression => "Foo", 
+    sdr = build(:json_structured_date_range,
+        :begin_date_expression => nil,
+        :begin_date_standardized => nil,
+        :end_date_expression => "Foo",
         :end_date_standardized => nil)
-  
+
     errs = JSONModel::Validations.check_structured_date_range(sdr)
     expect(errs.length > 0).to eq(true)
   end
 
   it "range dates are invalid if end standardized date present with no begin" do
-    sdr = build(:json_structured_date_range, 
-        :begin_date_expression => nil, 
-        :begin_date_standardized => nil, 
-        :end_date_expression => nil, 
+    sdr = build(:json_structured_date_range,
+        :begin_date_expression => nil,
+        :begin_date_standardized => nil,
+        :end_date_expression => nil,
         :end_date_standardized => "2001-01-01")
-  
+
     errs = JSONModel::Validations.check_structured_date_range(sdr)
     expect(errs.length > 0).to eq(true)
   end
 
   it "range dates are invalid end date is after begin" do
-    sdr = build(:json_structured_date_range, 
-        :begin_date_expression => nil, 
-        :begin_date_standardized => "2001-01-02", 
-        :end_date_expression => nil, 
+    sdr = build(:json_structured_date_range,
+        :begin_date_expression => nil,
+        :begin_date_standardized => "2001-01-02",
+        :end_date_expression => nil,
         :end_date_standardized => "2001-01-01")
-  
+
     errs = JSONModel::Validations.check_structured_date_range(sdr)
     expect(errs.length > 0).to eq(true)
   end
 
   it "range dates are invalid end date is after begin for 4 digit dates" do
-    sdr = build(:json_structured_date_range, 
-        :begin_date_expression => nil, 
-        :begin_date_standardized => "2002", 
-        :end_date_expression => nil, 
+    sdr = build(:json_structured_date_range,
+        :begin_date_expression => nil,
+        :begin_date_standardized => "2002",
+        :end_date_expression => nil,
         :end_date_standardized => "2001")
-  
+
     errs = JSONModel::Validations.check_structured_date_range(sdr)
     expect(errs.length > 0).to eq(true)
   end
 
   describe "agent sort name updating from dates_of_existence" do
     before :each do
-      @agent = build(:json_agent_person_full_subrec, 
-                      :names => [ build(:json_name_person_no_date) ]) 
+      @agent = build(:json_agent_person_full_subrec,
+                      :names => [ build(:json_name_person_no_date) ])
       @agent.save
 
     end
@@ -154,7 +154,7 @@ describe 'Structured Date model' do
       ar = AgentPerson.to_jsonmodel(@agent.id)
 
       expression = ar["dates_of_existence"].first["structured_date_single"]["expression"]
- 
+
       expect(ar["names"].first["sort_name"] =~ Regexp.new("#{expression}")).to be_truthy
     end
 
@@ -205,7 +205,7 @@ describe 'Structured Date model' do
     end
 
     it "does not add a date of existence when the name record has its own date" do
-      agent = build(:json_agent_person_full_subrec) 
+      agent = build(:json_agent_person_full_subrec)
       agent.save
 
       ar = AgentPerson.to_jsonmodel(agent.id)
@@ -217,7 +217,7 @@ describe 'Structured Date model' do
     end
 
     it "adds a substring of the date to software entity agents sort name if a date of existence on date update" do
-      agent = build(:json_agent_software_full_subrec) 
+      agent = build(:json_agent_software_full_subrec)
       agent.save
 
       ar = AgentSoftware.to_jsonmodel(agent.id)

@@ -45,7 +45,7 @@ class AssessmentConverter < Converter
     records = 0
     agents = 0
     reviewers = 0
-    @field_headers = @section_headers.zip(row).map{|section, field|
+    @field_headers = @section_headers.zip(row).map {|section, field|
       hdr = "#{section}_#{field}"
       if hdr == 'basic_record'
         records += 1
@@ -150,7 +150,7 @@ class AssessmentConverter < Converter
           :on_row_complete => Proc.new { |cache, attr|
             if attr.value == 'true'
               assessment = cache.find {|obj| obj && obj.class.record_type == 'assessment' }
-              assessment.formats << { :value => 'true', :definition_id => defn[:id]  }
+              assessment.formats << { :value => 'true', :definition_id => defn[:id] }
             end
           }
         }
@@ -189,7 +189,7 @@ class AssessmentConverter < Converter
           :on_row_complete => Proc.new { |cache, attr|
             if attr.value == 'true'
               assessment = cache.find {|obj| obj && obj.class.record_type == 'assessment' }
-              assessment.conservation_issues << { :value => 'true', :definition_id => defn[:id]  }
+              assessment.conservation_issues << { :value => 'true', :definition_id => defn[:id] }
             end
           }
         }
@@ -259,7 +259,7 @@ class AssessmentConverter < Converter
 
   def self.record_to_uri
     @record_types ||=  %w{resource archival_object accession digital_object}
-    @record_to_uri ||= Proc.new{|val|
+    @record_to_uri ||= Proc.new {|val|
       (junk, type, id) = val.downcase.match(/^\s*([a-z_]*?)[_\/\. ]+(\d+)\s*$/).to_a
 
       unless type && id
@@ -280,7 +280,7 @@ class AssessmentConverter < Converter
 
 
   def self.user_to_uri
-    @user_to_uri ||= Proc.new{|val|
+    @user_to_uri ||= Proc.new {|val|
       unless (user = User.find(:username => val))
         raise "User '#{val}' does not exist"
       end
@@ -292,17 +292,17 @@ class AssessmentConverter < Converter
 
   def self.match_definition(type, field)
     @defns ||= AssessmentAttributeDefinitions.get(Thread.current[:request_context][:repo_id]).definitions
-    type_defns = @defns.select{|d| d[:type] == type}
-    matched_defns = type_defns.select{|d| normalize_label(d[:label]) == normalize_label(field)}
+    type_defns = @defns.select {|d| d[:type] == type}
+    matched_defns = type_defns.select {|d| normalize_label(d[:label]) == normalize_label(field)}
 
     if matched_defns.empty?
       raise "Unknown #{type} in column header: #{field}. " +
-        "Allowed #{type}s for this repository: #{type_defns.map{|d| d[:label]}.join(', ')}"
+        "Allowed #{type}s for this repository: #{type_defns.map {|d| d[:label]}.join(', ')}"
     end
 
     if matched_defns.length > 1
       raise "Ambiguous #{type} type in column header: #{field}. " +
-        "Matched #{matched_defns.map{|d| d[:label]}.join(', ')}"
+        "Matched #{matched_defns.map {|d| d[:label]}.join(', ')}"
     end
 
     matched_defns.first

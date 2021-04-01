@@ -38,28 +38,28 @@ class ArchivesSpaceService < Sinatra::Base
   Endpoint.post('/config/enumerations/migration')
     .description("Migrate all records from one value to another")
     .example('shell') do
-    <<~SHELL
-    curl -H 'Content-Type: application/json' \\
-        -H "X-ArchivesSpace-Session: $SESSION" \\
-        -d '{"enum_uri": "/config/enumerations/17", "from": "sir", "to": "mr"}' \\
-        "http://localhost:8089/config/enumerations/migration"
-    SHELL
+      <<~SHELL
+        curl -H 'Content-Type: application/json' \\
+            -H "X-ArchivesSpace-Session: $SESSION" \\
+            -d '{"enum_uri": "/config/enumerations/17", "from": "sir", "to": "mr"}' \\
+            "http://localhost:8089/config/enumerations/migration"
+      SHELL
     end
     .example('python') do
-    <<~PYTHON
-    from asnake.client import ASnakeClient
+      <<~PYTHON
+        from asnake.client import ASnakeClient
 
-    client = ASnakeClient()
-    client.authorize()
+        client = ASnakeClient()
+        client.authorize()
 
-    client.post('/config/enumerations/migration',
-                json={
-                    'enum_uri': '/config/enumerations/17',
-                    'from': 'sir', #value to be deleted
-                    'to': 'mr' #value to merge into
-                    }
-                )
-    PYTHON
+        client.post('/config/enumerations/migration',
+                    json={
+                        'enum_uri': '/config/enumerations/17',
+                        'from': 'sir', #value to be deleted
+                        'to': 'mr' #value to merge into
+                        }
+                    )
+      PYTHON
     end
     .params(["migration", JSONModel(:enumeration_migration), "The migration request", :body => true])
     .permissions([:update_enumeration_record])
@@ -94,7 +94,7 @@ class ArchivesSpaceService < Sinatra::Base
     .permissions([])
     .returns([200, "(:enumeration)"]) \
   do
-     json_response(Enumeration.to_jsonmodel(params[:enum_id]))
+    json_response(Enumeration.to_jsonmodel(params[:enum_id]))
   end
 
   Endpoint.get('/config/enumerations/names/:enum_name')
@@ -103,7 +103,7 @@ class ArchivesSpaceService < Sinatra::Base
     .permissions([])
     .returns([200, "(:enumeration)"]) \
   do
-     json_response(Enumeration.to_jsonmodel(params[:enum_name], query: "name"))
+    json_response(Enumeration.to_jsonmodel(params[:enum_name], query: "name"))
   end
 
   Endpoint.get('/config/enumeration_values/:enum_val_id')
@@ -112,7 +112,7 @@ class ArchivesSpaceService < Sinatra::Base
     .permissions([])
     .returns([200, "(:enumeration_value)"]) \
   do
-     json_response(EnumerationValue.to_jsonmodel(params[:enum_val_id]))
+    json_response(EnumerationValue.to_jsonmodel(params[:enum_val_id]))
   end
 
   Endpoint.post('/config/enumeration_values/:enum_val_id')

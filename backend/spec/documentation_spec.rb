@@ -3,7 +3,7 @@ require 'spec_helper'
 describe "Generate REST Documentation" do
 
   it "gets all the endpoints and makes something can write documentation for" do
-    endpoints = ArchivesSpaceService::Endpoint.all.sort{|a,b| a[:uri] <=> b[:uri]}
+    endpoints = ArchivesSpaceService::Endpoint.all.sort {|a, b| a[:uri] <=> b[:uri]}
     output = {}
     problems = []
 
@@ -48,7 +48,7 @@ describe "Generate REST Documentation" do
             output[e[:uri]][e[:method]][p[0]] = record
           end
         rescue => err
-          problems << { :class => klass, :backtrace => err.backtrace,  :message => err.message }
+          problems << { :class => klass, :backtrace => err.backtrace, :message => err.message }
           next
         end
       end
@@ -57,8 +57,8 @@ describe "Generate REST Documentation" do
 
     file = File.join(File.dirname(__FILE__), '../../', "endpoint_examples.json")
     file_problems = File.join(File.dirname(__FILE__), '../../', "endpoint_examples_problems.json")
-    File.open(file, "w") {  |f| f << output.to_json }
-    File.open(file_problems, "w") {  |f| f << JSON.pretty_generate(problems) }
+    File.open(file, "w") { |f| f << output.to_json }
+    File.open(file_problems, "w") { |f| f << JSON.pretty_generate(problems) }
     $stderr.puts "example file put at #{file}. Problems logged in #{file_problems}"
   end
 end

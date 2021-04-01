@@ -108,7 +108,6 @@ module SlugHelpers
   # Generating a slug for an agent is done through the name record (e.g., NamePerson)
   # This method updates the agent associated with the name record that the slug was generated from.
   def self.update_agent_slug_from_name(entity, slug)
-
     agent = nil
 
     case entity.class.to_s

@@ -8,7 +8,7 @@ class ArchivesSpaceService < Sinatra::Base
              String,
              "The permission level to get (one of: #{ALLOWED_PERMISSION_LEVELS.join(", ")})",
              :validation => ["Must be one of #{ALLOWED_PERMISSION_LEVELS.join(", ")}",
-                             ->(v){ ALLOWED_PERMISSION_LEVELS.include?(v) }]])
+                             ->(v) { ALLOWED_PERMISSION_LEVELS.include?(v) }]])
     .permissions([])
     .returns([200, "[(:permission)]"]) \
   do

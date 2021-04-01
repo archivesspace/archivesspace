@@ -34,7 +34,6 @@ class FindAndReplaceRunner < JobRunner
               :retry_on_optimistic_locking_fail => true) do
 
         begin
-
           target_ids.each do |id|
 
             RequestContext.open(:current_username => @job.owner.username,
@@ -101,6 +100,5 @@ class FindAndReplaceRunner < JobRunner
 
       raise terminal_error
     end
-
   end
 end

@@ -35,7 +35,7 @@ describe 'ArkName model' do
   end
 
   it "must specify at least one of resource or archival object" do
-    expect{ ark = ArkName.create }.to raise_error(Sequel::ValidationFailed)
+    expect { ark = ArkName.create }.to raise_error(Sequel::ValidationFailed)
   end
 
 
@@ -52,7 +52,7 @@ describe 'ArkName model' do
     ArkName.find(:resource_id => resource.id).delete
     ArkName.find(:archival_object_id => ao.id).delete
 
-    expect{ ark = ArkName.create(:resource_id => resource[:id],
+    expect { ark = ArkName.create(:resource_id => resource[:id],
                                        :archival_object_id => ao[:id] )}.to raise_error(Sequel::ValidationFailed)
   end
 
@@ -61,7 +61,7 @@ describe 'ArkName model' do
     resource = create_resource(:title => generate(:generic_title))
 
     # duplicate raises validation exception
-    expect{ ArkName.create(:resource_id => resource[:id]) }.to raise_error(Sequel::ValidationFailed)
+    expect { ArkName.create(:resource_id => resource[:id]) }.to raise_error(Sequel::ValidationFailed)
 
     resource.delete
   end
@@ -77,7 +77,7 @@ describe 'ArkName model' do
 
 
     # duplicate raises validation exception
-    expect{ ArkName.create(:archival_object_id => ao[:id]) }.to raise_error(Sequel::ValidationFailed)
+    expect { ArkName.create(:archival_object_id => ao[:id]) }.to raise_error(Sequel::ValidationFailed)
 
     ao.delete
   end

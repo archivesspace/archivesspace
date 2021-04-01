@@ -11,11 +11,11 @@ describe 'Managed Container Profile model' do
 
 
   it "enforces name uniqueness" do
-      create(:json_container_profile, :name => "1234")
+    create(:json_container_profile, :name => "1234")
 
-      expect {
-        create(:json_container_profile, :name => "1234")
-      }.to raise_error(JSONModel::ValidationException)
+    expect {
+      create(:json_container_profile, :name => "1234")
+    }.to raise_error(JSONModel::ValidationException)
   end
 
 

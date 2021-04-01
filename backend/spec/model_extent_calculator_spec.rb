@@ -27,7 +27,7 @@ describe 'Extent Calculator model' do
     create(:json_archival_object,
            "resource" => {"ref" => resource.uri},
            "parent" => {"ref" => parent.uri},
-           "instances" => containers.map{|con| build_instance(con)})
+           "instances" => containers.map {|con| build_instance(con)})
   end
 
 

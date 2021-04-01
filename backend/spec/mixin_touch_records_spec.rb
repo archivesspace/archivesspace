@@ -79,7 +79,7 @@ describe 'Touch Records mixin' do
       subrecord = type.find(agent_person.id).first
       subj_id = AgentManager.linked_subjects(subrecord.id, :subject_agent_subrecord, type.to_s.underscore).first
       original_mtime = Subject[subj_id].refresh.system_mtime
-      
+
       ArchivesSpaceService.wait(:long)
       agent_person.system_mtime = Time.now + 120
       agent_person.save

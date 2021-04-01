@@ -192,7 +192,7 @@ class BackgroundJobQueue
     rescue => e
       Log.error("Error trying to cancel old jobs: #{e.class} #{$!} #{$@}")
     end
-    
+
 
     queue = BackgroundJobQueue.new
     queue.start_background_threads

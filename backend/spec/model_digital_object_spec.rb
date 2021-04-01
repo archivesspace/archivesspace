@@ -54,7 +54,6 @@ describe 'Digital object model' do
 
     expect {
       DigitalObject.create_from_json(json)
-
     }.to raise_error(Sequel::ValidationFailed)
 
 
@@ -82,7 +81,6 @@ describe 'Digital object model' do
 
     expect {
       DigitalObject.create_from_json(json)
-
     }.not_to raise_error
 
   end
