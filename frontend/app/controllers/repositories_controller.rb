@@ -40,7 +40,7 @@ class RepositoriesController < ApplicationController
     generate_names(params[:repository])
     handle_crud(:instance => :repository,
                 :model => JSONModel(:repository_with_agent),
-                :on_invalid => ->(){
+                :on_invalid => ->() {
                   if @exceptions[:errors]["repo_code"]
                     @exceptions[:errors]["repository/repo_code"] = @exceptions[:errors].delete("repo_code")
                   end
@@ -48,7 +48,7 @@ class RepositoriesController < ApplicationController
                   return render_aspace_partial :partial => "repositories/new" if inline?
                   return render :action => :new
                 },
-                :on_valid => ->(id){
+                :on_valid => ->(id) {
                   MemoryLeak::Resources.refresh(:repository)
 
                   return render :json => @repository.to_hash if inline?
@@ -59,6 +59,7 @@ class RepositoriesController < ApplicationController
                      (params["repository"]["repository"]["slug"].nil? ||
                       params["repository"]["repository"]["slug"].empty?)  &&
                      !params["repository"]["repository"]["is_slug_auto"]
+
                     flash[:success] = I18n.t("slug.autogen_repo_slug")
                   end
 
@@ -80,8 +81,8 @@ class RepositoriesController < ApplicationController
                 :model => JSONModel(:repository_with_agent),
                 :replace => false,
                 :obj => JSONModel(:repository_with_agent).find(params[:id]),
-                :on_invalid => ->(){ return render :action => :edit },
-                :on_valid => ->(id){
+                :on_invalid => ->() { return render :action => :edit },
+                :on_valid => ->(id) {
                   MemoryLeak::Resources.refresh(:repository)
 
                   flash[:success] = I18n.t("repository._frontend.messages.updated", JSONModelI18nWrapper.new(:repository => @repository))
@@ -90,6 +91,7 @@ class RepositoriesController < ApplicationController
                      (params["repository"]["repository"]["slug"].nil? ||
                       params["repository"]["repository"]["slug"].empty?)  &&
                      !params["repository"]["repository"]["is_slug_auto"]
+
                     flash[:warning] = I18n.t("slug.autogen_repo_slug")
                   end
 
@@ -150,7 +152,6 @@ class RepositoriesController < ApplicationController
       @transfer_errors = ASUtils.json_parse(response.body)['error']
       return transfer
     end
-
   end
 
 
@@ -161,13 +162,13 @@ class RepositoriesController < ApplicationController
 
   private
 
-    def refresh_repo_list
-      repo_uri = JSONModel(:repository).uri_for(params[:last_repo_id] || params[:id])
-      if @repositories.none?{|repo| repo["uri"] === repo_uri}
-        MemoryLeak::Resources.refresh(:repository)
-        load_repository_list
-      end
+  def refresh_repo_list
+    repo_uri = JSONModel(:repository).uri_for(params[:last_repo_id] || params[:id])
+    if @repositories.none? {|repo| repo["uri"] === repo_uri}
+      MemoryLeak::Resources.refresh(:repository)
+      load_repository_list
     end
+  end
 
     # Because of the form structure, our params for OAI settings are coming into params in separate hashes.
     # This method updates the params hash to pull the data from the right places and serializes them for the DB update.
@@ -177,23 +178,23 @@ class RepositoriesController < ApplicationController
     # params["repository"]["repository_oai"] ==> contains the result of the 'OAI enabled' checkbox from the form
     # params["sets"] ==> contains the results of the sets checkboxes
 
-    def handle_repository_oai_params(params)
-      repo_params_hash      = params["repository"]["repository"]
-      form_oai_enabled_hash = params["repository"]["repository_oai"]
-      form_oai_sets_hash    = params["sets"]
+  def handle_repository_oai_params(params)
+    repo_params_hash      = params["repository"]["repository"]
+    form_oai_enabled_hash = params["repository"]["repository_oai"]
+    form_oai_sets_hash    = params["sets"]
 
-      # handle set id checkboxes
-      if form_oai_sets_hash
-        repo_params_hash["oai_sets_available"] = form_oai_sets_hash.keys.to_json
-      else
-        repo_params_hash["oai_sets_available"] = "[]"
-      end
-
-      # handle oai toggle flag
-      if form_oai_enabled_hash
-        repo_params_hash["oai_is_disabled"] = form_oai_enabled_hash["oai_is_disabled"]
-      else
-        repo_params_hash["oai_is_disabled"] = 0
-      end
+    # handle set id checkboxes
+    if form_oai_sets_hash
+      repo_params_hash["oai_sets_available"] = form_oai_sets_hash.keys.to_json
+    else
+      repo_params_hash["oai_sets_available"] = "[]"
     end
+
+    # handle oai toggle flag
+    if form_oai_enabled_hash
+      repo_params_hash["oai_is_disabled"] = form_oai_enabled_hash["oai_is_disabled"]
+    else
+      repo_params_hash["oai_is_disabled"] = 0
+    end
+  end
 end

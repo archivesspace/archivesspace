@@ -45,12 +45,12 @@ describe 'Merging and transfering resources' do
     @driver.click_and_wait_until_gone(:link, 'Resources')
 
     begin
-       @driver.find_element_orig(xpath: "//td[contains(text(), '#{@resource.title}')]")
+      @driver.find_element_orig(xpath: "//td[contains(text(), '#{@resource.title}')]")
     rescue Selenium::WebDriver::Error::NoSuchElementError
       run_all_indexers
       sleep(1)
       @driver.find_element(xpath: "//td[contains(text(), '#{@resource.title}')]")
-     end
+    end
   end
 
   it 'can merge a resource into a resource' do

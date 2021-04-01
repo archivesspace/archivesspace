@@ -85,6 +85,7 @@ class AgentsController < ApplicationController
                      @agent['slug'].nil? &&
                      params['agent'] &&
                      params['agent']['is_slug_auto'] == '1'
+
                     flash[:warning] = I18n.t('slug.autogen_disabled')
                   end
 
@@ -114,6 +115,7 @@ class AgentsController < ApplicationController
                      @agent['slug'].nil? &&
                      params['agent'] &&
                      params['agent']['is_slug_auto'] == '1'
+
                     flash[:warning] = I18n.t('slug.autogen_disabled')
                   end
 

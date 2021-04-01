@@ -2,14 +2,14 @@ require 'advanced_query_builder'
 
 class SearchController < ApplicationController
 
-  set_access_control  "view_repository" => [:do_search, :advanced_search]
+  set_access_control "view_repository" => [:do_search, :advanced_search]
 
   include ExportHelper
 
   def advanced_search
     criteria = params_for_backend_search
 
-    queries = advanced_search_queries.reject{|field|
+    queries = advanced_search_queries.reject {|field|
       (field["value"].nil? || field["value"] == "") && !field["empty"]
     }
 

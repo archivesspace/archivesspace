@@ -502,7 +502,7 @@ describe "agents record CRUD" do
 
       @driver.find_element(css: '#agent_names__0__parallel_names__0__use_dates_ .btn:not(.show-all)').click
 
-       @driver.find_element(id: 'agent_names__0__parallel_names__0__use_dates__0__date_type_structured_').select_option('single')
+      @driver.find_element(id: 'agent_names__0__parallel_names__0__use_dates__0__date_type_structured_').select_option('single')
       @driver.clear_and_send_keys([:id, 'agent_names__0__parallel_names__0__use_dates__0_[structured_date_single]_date_expression_'], '1973')
 
       @driver.click_and_wait_until_gone(css: "form .record-pane button[type='submit']")

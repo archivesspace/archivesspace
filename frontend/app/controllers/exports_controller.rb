@@ -1,6 +1,6 @@
 class ExportsController < ApplicationController
 
-  set_access_control  "view_repository" => [:container_labels, :download_marc, :download_dc, :download_mods,
+  set_access_control "view_repository" => [:container_labels, :download_marc, :download_dc, :download_mods,
                                             :download_mets, :download_ead, :download_eac, :download_marc_auth, :container_template]
   set_access_control "create_job" => [:print_to_pdf]
 
@@ -10,7 +10,7 @@ class ExportsController < ApplicationController
   def container_labels
     @resource = JSONModel(:resource).find(params[:id], find_opts)
     render :layout => false
-   end
+  end
 
 
   def download_marc
@@ -33,7 +33,6 @@ class ExportsController < ApplicationController
   end
 
 
-
   def download_mets
     download_export(
       "/repositories/#{JSONModel::repository}/digital_objects/mets/#{params[:id]}.xml", :dmd => params[:dmd_scheme])
@@ -41,7 +40,6 @@ class ExportsController < ApplicationController
 
 
   def download_ead
-
     if params[:print_pdf] == "true"
       url = "/repositories/#{JSONModel::repository}/resource_descriptions/#{params[:id]}.pdf"
     else

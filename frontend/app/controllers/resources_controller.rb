@@ -21,8 +21,8 @@ class ResourcesController < ApplicationController
         search_params["type[]"] = params[:include_components] === "true" ? ["resource", "archival_object"] : [ "resource" ]
         uri = "/repositories/#{session[:repo_id]}/search"
         csv_response( uri, Search.build_filters(search_params), "#{I18n.t('resource._plural').downcase}.")
-      }  
-    end 
+      }
+    end
   end
 
   def show
@@ -79,7 +79,6 @@ class ResourcesController < ApplicationController
 
 
   def update_defaults
-
     begin
       DefaultValues.from_hash({
                                 "record_type" => "resource",
@@ -97,7 +96,6 @@ class ResourcesController < ApplicationController
       flash[:error] = e.message
       redirect_to :controller => :resources, :action => :defaults
     end
-
   end
 
   def tree_root
@@ -136,7 +134,6 @@ class ResourcesController < ApplicationController
     render :json => pass_through_json("#{resource_uri}/tree/waypoint",
                                       :parent_node => node_uri,
                                       :offset => params[:offset])
-
   end
 
   def transfer
@@ -183,16 +180,17 @@ class ResourcesController < ApplicationController
     flash.keep(:spawned_from_accession)
 
     handle_crud(:instance => :resource,
-                :on_invalid => ->(){
+                :on_invalid => ->() {
                   render action: "new"
                 },
-                :on_valid => ->(id){
+                :on_valid => ->(id) {
                   flash[:success] = I18n.t("resource._frontend.messages.created", JSONModelI18nWrapper.new(:resource => @resource).enable_parse_mixed_content!(url_for(:root)))
 
                   if @resource["is_slug_auto"] == false &&
                      @resource["slug"] == nil &&
                      params["resource"] &&
                      params["resource"]["is_slug_auto"] == "1"
+
                     flash[:warning] = I18n.t("slug.autogen_disabled")
                   end
 
@@ -208,10 +206,10 @@ class ResourcesController < ApplicationController
   def update
     handle_crud(:instance => :resource,
                 :obj => fetch_resolved(params[:id]),
-                :on_invalid => ->(){
+                :on_invalid => ->() {
                   render_aspace_partial :partial => "edit_inline"
                 },
-                :on_valid => ->(id){
+                :on_valid => ->(id) {
 
                   flash.now[:success] = I18n.t("resource._frontend.messages.updated", JSONModelI18nWrapper.new(:resource => @resource).enable_parse_mixed_content!(url_for(:root)))
 
@@ -219,6 +217,7 @@ class ResourcesController < ApplicationController
                      @resource["slug"] == nil &&
                      params["resource"] &&
                      params["resource"]["is_slug_auto"] == "1"
+
                     flash.now[:warning] = I18n.t("slug.autogen_disabled")
                   end
 
@@ -271,9 +270,9 @@ class ResourcesController < ApplicationController
         @children = ResourceChildren.from_hash(children_data, false)
 
         if params["validate_only"] == "true"
-          @exceptions = @children.children.collect{|c| JSONModel(:archival_object).from_hash(c, false)._exceptions}
+          @exceptions = @children.children.collect {|c| JSONModel(:archival_object).from_hash(c, false)._exceptions}
 
-          error_count = @exceptions.select{|e| !e.empty?}.length
+          error_count = @exceptions.select {|e| !e.empty?}.length
           if error_count > 0
             flash.now[:error] = I18n.t("rde.messages.rows_with_errors", :count => error_count)
           else
@@ -287,12 +286,12 @@ class ResourcesController < ApplicationController
 
         return render :plain => I18n.t("rde.messages.success")
       rescue JSONModel::ValidationException => e
-        @exceptions = @children.children.collect{|c| JSONModel(:archival_object).from_hash(c, false)._exceptions}
+        @exceptions = @children.children.collect {|c| JSONModel(:archival_object).from_hash(c, false)._exceptions}
 
         if @exceptions.all?(&:blank?)
           e.errors.each { |key, vals| flash.now[:error] = "#{key} : #{vals.join('<br/>')}" }
         else
-          flash.now[:error] = I18n.t("rde.messages.rows_with_errors", :count => @exceptions.select{|e| !e.empty?}.length)
+          flash.now[:error] = I18n.t("rde.messages.rows_with_errors", :count => @exceptions.select {|e| !e.empty?}.length)
         end
       end
 
@@ -375,7 +374,7 @@ class ResourcesController < ApplicationController
     # We add this so that we can get a top container location to display with the instance view
     new_find_opts = find_opts
     new_find_opts["resolve[]"].push("top_container::container_locations")
-    
+
     resource = JSONModel(:resource).find(id, new_find_opts)
 
     if resource['classifications']

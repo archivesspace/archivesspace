@@ -78,28 +78,26 @@ class UsersController < ApplicationController
   end
 
   def update
-
     handle_crud(:instance => :user,
                 :obj => JSONModel(:user).find(params[:id]),
-                :params_check => ->(obj, params){
+                :params_check => ->(obj, params) {
                   if params['user']['password'] || params['user']['confirm_password']
                     if params['user']['password'] != params['user']['confirm_password']
                       obj.add_error('confirm_password', "entered value didn't match password")
                     end
                   end
                 },
-                :on_invalid => ->(){
+                :on_invalid => ->() {
                   flash[:error] = I18n.t("user._frontend.messages.error_update")
                   render :action => "edit"
                 },
-                :on_valid => ->(id){
+                :on_valid => ->(id) {
                   flash[:success] = I18n.t("user._frontend.messages.updated")
                   redirect_to :action => :index
                 })
   end
 
   def update_groups
-
     groups = Array(params[:groups])
 
     uri = "/users/#{params[:id]}/groups"
@@ -118,14 +116,12 @@ class UsersController < ApplicationController
 
       render :action => :edit_groups
     end
-
   end
 
 
   def create
-
     handle_crud(:instance => :user,
-                :params_check => ->(obj, params){
+                :params_check => ->(obj, params) {
                   ['password', 'confirm_password'].each do |field|
                     if params['user'][field].blank?
                       obj.add_error(field, "Can't be empty")
@@ -141,11 +137,11 @@ class UsersController < ApplicationController
                     obj.add_error('username', 'invalid characters')
                   end
                 },
-                :on_invalid => ->(){
+                :on_invalid => ->() {
                   flash[:error] = I18n.t("user._frontend.messages.error_create")
                   render :action => "new"
                 },
-                :on_valid => ->(id){
+                :on_valid => ->(id) {
                   if session[:user]
                     flash[:success] = "#{I18n.t("user._frontend.messages.created")}: #{params['user']['username']}"
                     redirect_to :controller => :users, :action => :index

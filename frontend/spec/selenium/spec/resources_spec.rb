@@ -452,7 +452,7 @@ describe 'Resources and archival objects' do
 
     @driver.click_and_wait_until_gone(id: 'createPlusOne')
 
-    %w[January February December]. each do |month|
+    %w[January February December].each do |month|
       # Wait for the new empty form to be populated.  There's a tricky race
       # condition here that I can't quite track down, so here's my blunt
       # instrument fix.

@@ -16,7 +16,7 @@ class SearchResultData
       facets.each_slice(2).each {|facet_and_count|
         next if facet_and_count[1] === 0
 
-        
+
         if (facet_and_count[0] == "none")
           query = facet_query_string(facet_group, facet_and_count[0])
           if (@search_data[:criteria].has_key?('q'))
@@ -67,7 +67,7 @@ class SearchResultData
   end
 
   def filtered_terms?
-    @search_data[:criteria].has_key?("filter_term[]") and @search_data[:criteria]["filter_term[]"].reject{|f| f.empty?}.length > 0
+    @search_data[:criteria].has_key?("filter_term[]") and @search_data[:criteria]["filter_term[]"].reject {|f| f.empty?}.length > 0
   end
 
   def facet_label_for_filter(filter)
@@ -85,7 +85,7 @@ class SearchResultData
   def facets_for_filter
     facet_data_for_filter = @facet_data.clone
     facet_data_for_filter.each {|facet_group, facets|
-      facets.delete_if{|facet, facet_map|
+      facets.delete_if {|facet, facet_map|
         facet_map[:count] === @search_data['total_hits']
       }
     }
@@ -135,11 +135,11 @@ class SearchResultData
     end
 
     if facet_group === "level"
-        if get_type.include? "digital_object"
-          return I18n.t("enumerations.digital_object_level.#{facet.to_s}", :default => facet)
-        else
-          return I18n.t("enumerations.archival_record_level.#{facet.to_s}", :default => facet)
-        end
+      if get_type.include? "digital_object"
+        return I18n.t("enumerations.digital_object_level.#{facet.to_s}", :default => facet)
+      else
+        return I18n.t("enumerations.archival_record_level.#{facet.to_s}", :default => facet)
+      end
     end
 
     # labels for collection management groups
@@ -299,7 +299,7 @@ class SearchResultData
   end
 
   def self.BASE_FACETS
-    ["primary_type","creators","subjects","langcode"]
+    ["primary_type", "creators", "subjects", "langcode"]
   end
 
   def self.AGENT_FACETS

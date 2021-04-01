@@ -5,22 +5,22 @@ module ApplicationHelper
   def include_controller_js
     scripts = ""
 
-    scripts += javascript_include_tag "#{controller.controller_name}" if File.exist?("#{Rails.root}/app/assets/javascripts/#{controller_name}.js") ||  File.exist?("#{Rails.root}/app/assets/javascripts/#{controller_name}.js.erb")
+    scripts += javascript_include_tag "#{controller.controller_name}" if File.exist?("#{Rails.root}/app/assets/javascripts/#{controller_name}.js") || File.exist?("#{Rails.root}/app/assets/javascripts/#{controller_name}.js.erb")
 
-    scripts += javascript_include_tag "#{controller.controller_name}.#{controller.action_name}" if File.exist?("#{Rails.root}/app/assets/javascripts/#{controller_name}.#{controller.action_name}.js") ||  File.exist?("#{Rails.root}/app/assets/javascripts/#{controller_name}.#{controller.action_name}.js.erb")
+    scripts += javascript_include_tag "#{controller.controller_name}.#{controller.action_name}" if File.exist?("#{Rails.root}/app/assets/javascripts/#{controller_name}.#{controller.action_name}.js") || File.exist?("#{Rails.root}/app/assets/javascripts/#{controller_name}.#{controller.action_name}.js.erb")
 
     if ["new", "create", "edit", "update"].include?(controller.action_name)
-      scripts += javascript_include_tag "#{controller.controller_name}.crud" if File.exist?("#{Rails.root}/app/assets/javascripts/#{controller_name}.crud.js") ||  File.exist?("#{Rails.root}/app/assets/javascripts/#{controller_name}.crud.js.erb")
+      scripts += javascript_include_tag "#{controller.controller_name}.crud" if File.exist?("#{Rails.root}/app/assets/javascripts/#{controller_name}.crud.js") || File.exist?("#{Rails.root}/app/assets/javascripts/#{controller_name}.crud.js.erb")
     end
 
     if ["batch_create"].include?(controller.action_name)
-      scripts += javascript_include_tag "#{controller.controller_name}.batch" if File.exist?("#{Rails.root}/app/assets/javascripts/#{controller_name}.batch.js") ||  File.exist?("#{Rails.root}/app/assets/javascripts/#{controller_name}.batch.js.erb")
+      scripts += javascript_include_tag "#{controller.controller_name}.batch" if File.exist?("#{Rails.root}/app/assets/javascripts/#{controller_name}.batch.js") || File.exist?("#{Rails.root}/app/assets/javascripts/#{controller_name}.batch.js.erb")
     end
 
     if ["defaults", "update_defaults"].include?(controller.action_name)
       ctrl_name = controller.controller_name == 'archival_objects' ? 'resources' : controller.controller_name
 
-      scripts += javascript_include_tag "#{ctrl_name}.crud" if File.exist?("#{Rails.root}/app/assets/javascripts/#{ctrl_name}.crud.js") ||  File.exist?("#{Rails.root}/app/assets/javascripts/#{ctrl_name}.crud.js.erb")
+      scripts += javascript_include_tag "#{ctrl_name}.crud" if File.exist?("#{Rails.root}/app/assets/javascripts/#{ctrl_name}.crud.js") || File.exist?("#{Rails.root}/app/assets/javascripts/#{ctrl_name}.crud.js.erb")
     end
 
 
@@ -51,7 +51,6 @@ module ApplicationHelper
   end
 
   def setup_context(options)
-
     breadcrumb_trail = options[:trail] || []
 
     if options.has_key? :object
@@ -79,8 +78,8 @@ module ApplicationHelper
         set_title("#{I18n.t("#{controller.to_s.singularize}._plural")} | #{options[:title] || I18n.t("actions.new_prefix")}")
       end
     elsif options.has_key? :title
-        set_title(options[:title])
-        breadcrumb_trail.push([options[:title]])
+      set_title(options[:title])
+      breadcrumb_trail.push([options[:title]])
     end
 
     render_aspace_partial(:partial =>"shared/breadcrumb", :layout => false , :locals => { :trail => breadcrumb_trail }).to_s if options[:suppress_breadcrumb] != true
@@ -153,7 +152,7 @@ module ApplicationHelper
     @current_repo = false
 
     MemoryLeak::Resources.get(:repository).each do |repo|
-       @current_repo = repo if repo['uri'] === session[:repo]
+      @current_repo = repo if repo['uri'] === session[:repo]
     end
 
     @current_repo
@@ -359,7 +358,6 @@ module ApplicationHelper
         csv << data
       end
     end
-
   end
 
   # Merge new_params into params and generate a link.
@@ -382,26 +380,26 @@ module ApplicationHelper
         term_type = obj['_resolved']['terms'][0]["term_type"] rescue nil
 
         case term_type
-          when "cultural_context"
-            return "subject_type_cultural_context"
-          when "function"
-            return "subject_type_function"
-          when "genre_form"
-            return "subject_type_genre_form"
-          when "geographic"
-            return "subject_type_geographic"
-          when "occupation"
-            return "subject_type_occupation"
-          when "style_period"
-            return "subject_type_style_period"
-          when "technique"
-            return "subject_type_technique"
-          when "temporal"
-            return "subject_type_temporal"
-          when "topical"
-            return "subject_type_topical"
-          when "uniform_title"
-            return "subject_type_uniform_title"
+        when "cultural_context"
+          return "subject_type_cultural_context"
+        when "function"
+          return "subject_type_function"
+        when "genre_form"
+          return "subject_type_genre_form"
+        when "geographic"
+          return "subject_type_geographic"
+        when "occupation"
+          return "subject_type_occupation"
+        when "style_period"
+          return "subject_type_style_period"
+        when "technique"
+          return "subject_type_technique"
+        when "temporal"
+          return "subject_type_temporal"
+        when "topical"
+          return "subject_type_topical"
+        when "uniform_title"
+          return "subject_type_uniform_title"
         end
       end
     end
@@ -414,7 +412,7 @@ module ApplicationHelper
   end
 
   def supported_locales_options
-    I18n.supported_locales.map{ |k, v| [t("enumerations.language_iso639_2.#{v}"), k] }
+    I18n.supported_locales.map { |k, v| [t("enumerations.language_iso639_2.#{v}"), k] }
   end
 
   def full_mode?

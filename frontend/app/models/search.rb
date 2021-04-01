@@ -30,7 +30,7 @@ class Search
         else
           sub_criteria["q"] = blank_facet_query
         end
-            
+
         search_data_with_blank_facet = JSONModel::HTTP::get_json("/repositories/#{repo_id}/search", sub_criteria)
         if (!search_data["facets"]["facet_fields"].has_key?(query_field))
           search_data["facets"]["facet_fields"][query_field] = ["none", search_data_with_blank_facet["total_hits"]]
@@ -39,9 +39,9 @@ class Search
           search_data["facets"]["facet_fields"][query_field] << search_data_with_blank_facet["total_hits"]
         end
       }
-              
+
     end
-        
+
     search_data[:criteria] = criteria
 
     SearchResultData.new(search_data)
@@ -64,23 +64,23 @@ class Search
   def self.sort(types)
     types ||= []
     type = if types.length > 0 && types.all? { |t| t.include? 'agent' }
-      'agent'
-    elsif types.length == 1
-      types[0]
-    elsif types.length == 2 && types.include?('resource') && types.include?('archival_object')
-      'resource'
-    elsif types.length == 2 && types.include?('digital_object') && types.include?('digital_object_component')
-      'digital_object'
-    else
-      'multi'
-    end
+             'agent'
+           elsif types.length == 1
+             types[0]
+           elsif types.length == 2 && types.include?('resource') && types.include?('archival_object')
+             'resource'
+           elsif types.length == 2 && types.include?('digital_object') && types.include?('digital_object_component')
+             'digital_object'
+           else
+             'multi'
+           end
 
     repo = JSONModel.repository
     prefs = if repo
-      JSONModel::HTTP::get_json("/repositories/#{repo}/current_preferences")['defaults']
-    else
-      JSONModel::HTTP::get_json("/current_global_preferences")['defaults']
-    end
+              JSONModel::HTTP::get_json("/repositories/#{repo}/current_preferences")['defaults']
+            else
+              JSONModel::HTTP::get_json("/current_global_preferences")['defaults']
+            end
 
     sort_col = prefs["#{type}_sort_column"] || 'score'
     derived_sort_col = SearchAndBrowseColumnConfig.columns.dig(type, sort_col, :sort_by)

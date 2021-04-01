@@ -40,11 +40,11 @@ class ContainerProfilesController < ApplicationController
   def create
     handle_crud(:instance => :container_profile,
                 :model => JSONModel(:container_profile),
-                :on_invalid => ->(){
+                :on_invalid => ->() {
                   return render_aspace_partial :partial => "container_profiles/new" if inline?
                   return render :action => :new
                 },
-                :on_valid => ->(id){
+                :on_valid => ->(id) {
                   if inline?
                     @container_profile.refetch
                     render :json => @container_profile.to_hash if inline?
@@ -58,15 +58,14 @@ class ContainerProfilesController < ApplicationController
 
 
   def update
-
     handle_crud(:instance => :container_profile,
                 :model => JSONModel(:container_profile),
                 :obj => JSONModel(:container_profile).find(params[:id]),
                 :replace => true,
-                :on_invalid => ->(){
+                :on_invalid => ->() {
                   return render :action => :edit
                 },
-                :on_valid => ->(id){
+                :on_valid => ->(id) {
                   redirect_to(:controller => :container_profiles, :action => :show, :id => id)
                 })
   end

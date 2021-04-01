@@ -32,7 +32,7 @@ class Resolver
 
 
   private
-  
+
   def default_uri_properties
     uri_properties = {
       :controller => @jsonmodel_type.to_s.pluralize.intern,

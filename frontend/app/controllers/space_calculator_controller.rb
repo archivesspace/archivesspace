@@ -1,6 +1,6 @@
 class SpaceCalculatorController < ApplicationController
 
-  set_access_control  "view_repository" => [:show, :calculate]
+  set_access_control "view_repository" => [:show, :calculate]
 
   def show
     @container_profile_ref = params[:container_profile_ref]
@@ -23,7 +23,7 @@ class SpaceCalculatorController < ApplicationController
 
     if params[:location]
       # by location(s)
-      @location_refs = ASUtils.wrap(params[:location]).map{|loc| loc[:ref]}.flatten.compact
+      @location_refs = ASUtils.wrap(params[:location]).map {|loc| loc[:ref]}.flatten.compact
 
       if @container_profile_ref && @location_refs
         @results = JSONModel::HTTP.get_json("/space_calculator/by_location", {
@@ -53,10 +53,9 @@ class SpaceCalculatorController < ApplicationController
 
     @selectable = params[:selectable] == "true"
 
-    render_aspace_partial :partial =>  "space_calculator/results"
+    render_aspace_partial :partial => "space_calculator/results"
   end
 
 
 
 end
-

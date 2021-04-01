@@ -1,6 +1,6 @@
 class PreferencesController < ApplicationController
 
-  set_access_control  "view_repository" => [:edit, :update, :reset]
+  set_access_control "view_repository" => [:edit, :update, :reset]
 
   def edit
     opts, user_scope = setup_defaults
@@ -37,11 +37,11 @@ class PreferencesController < ApplicationController
                 :find_opts => opts,
                 :save_opts => opts,
                 :replace => false,
-                :on_invalid => ->(){
+                :on_invalid => ->() {
                   setup_defaults
                   return render action: "edit"
                 },
-                :on_valid => ->(id){
+                :on_valid => ->(id) {
                   flash[:success] = I18n.t("preference._frontend.messages.updated",
                                            JSONModelI18nWrapper.new(:preference => @preference))
                   redirect_to(:controller => :preferences,

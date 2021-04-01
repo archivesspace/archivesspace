@@ -24,10 +24,10 @@ class CustomReportTemplatesController < ApplicationController
     fix_params
     handle_crud(:instance => :custom_report_template,
                 :model => JSONModel(:custom_report_template),
-                :on_invalid => ->(){
+                :on_invalid => ->() {
                   render :action => "new"
                 },
-                :on_valid => ->(id){
+                :on_valid => ->(id) {
                   flash[:success] = I18n.t("custom_report_template._frontend.messages.created")
                   return redirect_to :controller => :custom_report_templates, :action => :new if params.has_key?(:plus_one)
                   redirect_to(:controller => :custom_report_templates, :action => :index)
@@ -40,10 +40,10 @@ class CustomReportTemplatesController < ApplicationController
                 :model => JSONModel(:custom_report_template),
                 :obj => JSONModel(:custom_report_template).find(params[:id]),
                 :replace => true,
-                :on_invalid => ->(){
+                :on_invalid => ->() {
                   render :action => :edit
                 },
-                :on_valid => ->(id){
+                :on_valid => ->(id) {
                   flash[:success] = I18n.t("custom_report_template._frontend.messages.updated")
                   return redirect_to :controller => :custom_report_templates, :action => :new if params.has_key?(:plus_one)
                   redirect_to(:controller => :custom_report_templates, :action => :index)
