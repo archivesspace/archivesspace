@@ -94,7 +94,6 @@ class LargeTree
                                                       "uri" => @root_record.uri,
                                                       "slugged_url" => SlugHelpers.get_slugged_url_for_largetree(@root_record.class.to_s, @root_record.repo_id, @root_record.slug),
                                                       "jsonmodel_type" => @root_table.to_s,
-                                                      "identifier" => (0...4).map {|i| @root_record["id_#{i}".to_sym]}.compact.join("-"),
                                                       "parsed_title" => MixedContentParser.parse(@root_record.title, '/'))
       @decorators.each do |decorator|
         response = decorator.root(response, @root_record)
@@ -125,7 +124,6 @@ class LargeTree
 
       response = waypoint_response(child_count).merge("title" => node_record.display_string,
                                                       "uri" => node_record.uri,
-                                                      "identifier" => node_record.component_id,
                                                       "position" => node_position,
                                                       "jsonmodel_type" => @node_table.to_s)
 
@@ -242,7 +240,7 @@ class LargeTree
                 :parent_id => parent_id)
         .filter(published_filter)
         .order(:position)
-        .select(:id, :repo_id, :title, :position, :slug, :component_id)
+        .select(:id, :repo_id, :title, :position, :slug)
         .offset(offset * WAYPOINT_SIZE)
         .limit(WAYPOINT_SIZE)
         .each do |row|
@@ -269,8 +267,7 @@ class LargeTree
                                              "uri" => JSONModel(@node_type).uri_for(row[:id], :repo_id => row[:repo_id]),
                                              "position" => (offset * WAYPOINT_SIZE) + idx,
                                              "parent_id" => parent_id,
-                                             "jsonmodel_type" => @node_type.to_s,
-                                             "identifier" => row[:component_id])
+                                             "jsonmodel_type" => @node_type.to_s)
 
       end
 
