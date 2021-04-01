@@ -9,7 +9,7 @@ class AccessionNamesSubreport < AbstractSubreport
     "select
       ifnull(ifnull(ifnull(name_person.sort_name, name_family.sort_name),
         name_corporate_entity.sort_name), 'Unknown') as name,
-      role_id as 'function',
+      role_id as `function`,
       relator_id as role
     from linked_agents_rlshp
       left outer join name_person
