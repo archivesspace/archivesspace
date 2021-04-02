@@ -172,6 +172,14 @@ class Solr
       self
     end
 
+    def set_filter_queries(queries)
+      ASUtils.wrap(queries).each do |q|
+        add_solr_param(:fq, "{!type=edismax}#{q}")
+      end
+
+      self
+    end
+
 
     def show_suppressed(value)
       @show_suppressed = value
