@@ -228,6 +228,19 @@ describe 'MARCXML Auth Agent converter' do
       expect(record['agent_maintenance_histories'].count.zero?).to eq(true)
     end
 
+    it 'imports unique maintenance orgs into agent_other_agency_codes' do
+      record = convert(corporate_agent_1, true).select { |r| r['jsonmodel_type'] == 'agent_corporate_entity' }.first
+
+      expect(record['agent_other_agency_codes'].count.zero?).to eq(false)
+      expect(record['agent_other_agency_codes'][0]['maintenance_agency']).to eq('CU-S')
+    end
+
+    it 'does not import maintenance orgs into agent_other_agency_codes that duplicate agent_maintenance_histories' do
+      record = convert(person_agent_1, true).select { |r| r['jsonmodel_type'] == 'agent_person' }.first
+
+      expect(record['agent_other_agency_codes'].count.zero?).to eq(true)
+    end
+
     it 'imports agent_conventions_declarations' do
       record = convert(person_agent_1).select { |r| r['jsonmodel_type'] == 'agent_person' }.first
 
@@ -379,7 +392,7 @@ describe 'MARCXML Auth Agent converter' do
       records = convert(agent_collection).select { |r| r['jsonmodel_type'] == 'agent_person' }
 
       expect(records[0]['names'].count).to eq(2)
-      expect(records[0]['names'][1]['primary_name']).to eq('Roosevelt')
+      expect(records[0]['names'][1]['primary_name']).to eq('Alexander')
       expect(records[0]['names'][1]['rest_of_name']).to eq('Eleanor Butler')
 
       expect(records[1]['names'].count).to eq(5)
