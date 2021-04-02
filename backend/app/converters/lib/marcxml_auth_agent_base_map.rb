@@ -23,51 +23,51 @@ module MarcXMLAuthAgentBaseMap
   def agent_person_base(import_events)
     {
       'self::datafield' => agent_person_name_map(:name_person, :names),
-      "//datafield[@tag='400' and (@ind1='1' or @ind1='0')]" => agent_person_name_map(:name_person, :names),
-      "//record/datafield[@tag='372']/subfield[@code='a']" => agent_topic_map,
-      "//record/datafield[@tag='375']/subfield[@code='a']" => agent_gender_map
+      "parent::record/datafield[@tag='400' and (@ind1='1' or @ind1='0')]" => agent_person_name_map(:name_person, :names),
+      "parent::record/datafield[@tag='372']/subfield[@code='a']" => agent_topic_map,
+      "parent::record/datafield[@tag='375']/subfield[@code='a']" => agent_gender_map
     }.merge(shared_subrecord_map(import_events))
   end
 
   def agent_corporate_entity_base(import_events)
     {
       'self::datafield' => agent_corporate_entity_name_map(:name_corporate_entity, :names),
-      "//datafield[@tag='410' or @tag='411']" => agent_corporate_entity_name_map(:name_corporate_entity, :names),
-      "//record/datafield[@tag='372']/subfield[@code='a']" => agent_function_map
+      "parent::record/datafield[@tag='410' or @tag='411']" => agent_corporate_entity_name_map(:name_corporate_entity, :names),
+      "parent::record/datafield[@tag='372']/subfield[@code='a']" => agent_function_map
     }.merge(shared_subrecord_map(import_events))
   end
 
   def agent_family_base(import_events)
     {
       'self::datafield' => agent_family_name_map(:name_family, :names),
-      "//datafield[@tag='400' and @ind1='3']" => agent_family_name_map(:name_family, :names),
-      "//record/datafield[@tag='372']/subfield[@code='a']" => agent_function_map
+      "parent::record/datafield[@tag='400' and @ind1='3']" => agent_family_name_map(:name_family, :names),
+      "parent::record/datafield[@tag='372']/subfield[@code='a']" => agent_function_map
     }.merge(shared_subrecord_map(import_events))
   end
 
   def shared_subrecord_map(import_events)
     h = {
-      '//record/leader' => agent_record_control_map,
-      "//record/controlfield[@tag='001'][not(following-sibling::controlfield[@tag='003']/text()='DLC' and following-sibling::datafield[@tag='010'])]" => agent_record_identifiers_base_map("//record/controlfield[@tag='001']"),
-      "//record/datafield[@tag='010']" => agent_record_identifiers_base_map("//record/datafield[@tag='010']/subfield[@code='a']"),
-      "//record/datafield[@tag='016']" => agent_record_identifiers_base_map("//record/datafield[@tag='016']/subfield[@code='a']"),
-      "//record/datafield[@tag='024']" => agent_record_identifiers_base_map("//record/datafield[@tag='024']/subfield[@code='a']"),
-      "//record/datafield[@tag='035']" => agent_record_identifiers_base_map("//record/datafield[@tag='035']/subfield[@code='a']"),
-      "//record/datafield[@tag='040']/subfield[@code='e']" => convention_declaration_map,
-      "//record/datafield[@tag='046']" => dates_map,
-      "//record/datafield[@tag='370']/subfield[@code='a']" => place_of_birth_map,
-      "//record/datafield[@tag='370']/subfield[@code='b']" => place_of_death_map,
-      "//record/datafield[@tag='370']/subfield[@code='c']" => associated_country_map,
-      "//record/datafield[@tag='370']/subfield[@code='e']" => place_of_residence_map,
-      "//record/datafield[@tag='370']/subfield[@code='f']" => other_associated_place_map,
-      "//record/datafield[@tag='374']/subfield[@code='a']" => agent_occupation_map,
-      "//record/datafield[@tag='377']" => used_language_map,
-      "//record/datafield[@tag='500'][not(@ind1='3')]" => related_agent_map('person'),
-      "//record/datafield[@tag='500'][@ind1='3']" => related_agent_map('family'),
-      "//record/datafield[@tag='510']" => related_agent_map('corporate_entity'),
-      "//record/datafield[@tag='511']" => related_agent_map('corporate_entity'),
-      "//record/datafield[@tag='670']" => agent_sources_map,
-      "//record/datafield[@tag='678']" => bioghist_note_map
+      'parent::record/leader' => agent_record_control_map,
+      "parent::record/controlfield[@tag='001'][not(following-sibling::controlfield[@tag='003']/text()='DLC' and following-sibling::datafield[@tag='010'])]" => agent_record_identifiers_base_map("//record/controlfield[@tag='001']"),
+      "parent::record/datafield[@tag='010']" => agent_record_identifiers_base_map("parent::record/datafield[@tag='010']/subfield[@code='a']"),
+      "parent::record/datafield[@tag='016']" => agent_record_identifiers_base_map("parent::record/datafield[@tag='016']/subfield[@code='a']"),
+      "parent::record/datafield[@tag='024']" => agent_record_identifiers_base_map("parent::record/datafield[@tag='024']/subfield[@code='a']"),
+      "parent::record/datafield[@tag='035']" => agent_record_identifiers_base_map("parent::record/datafield[@tag='035']/subfield[@code='a']"),
+      "parent::record/datafield[@tag='040']/subfield[@code='e']" => convention_declaration_map,
+      "parent::record/datafield[@tag='046']" => dates_map,
+      "parent::record/datafield[@tag='370']/subfield[@code='a']" => place_of_birth_map,
+      "parent::record/datafield[@tag='370']/subfield[@code='b']" => place_of_death_map,
+      "parent::record/datafield[@tag='370']/subfield[@code='c']" => associated_country_map,
+      "parent::record/datafield[@tag='370']/subfield[@code='e']" => place_of_residence_map,
+      "parent::record/datafield[@tag='370']/subfield[@code='f']" => other_associated_place_map,
+      "parent::record/datafield[@tag='374']/subfield[@code='a']" => agent_occupation_map,
+      #"parent::record/datafield[@tag='377']" => used_language_map,
+      "parent::record/datafield[@tag='500'][not(@ind1='3')]" => related_agent_map('person'),
+      "parent::record/datafield[@tag='500'][@ind1='3']" => related_agent_map('family'),
+      "parent::record/datafield[@tag='510']" => related_agent_map('corporate_entity'),
+      "parent::record/datafield[@tag='511']" => related_agent_map('corporate_entity'),
+      "parent::record/datafield[@tag='670']" => agent_sources_map,
+      "parent::record/datafield[@tag='678']" => bioghist_note_map
     }
 
     # We only want to import other_agency codes for maintenance agencies not already in record_info
@@ -286,25 +286,28 @@ module MarcXMLAuthAgentBaseMap
     end
   end
 
-  def set_record_language(node)
-    lang_040 = node.search("//record/datafield[@tag='040']/subfield[@code='b']").inner_text
-    if !lang_040.empty?
-      lang = lang_040
-    else
-      tag8_content = node.search("//record/controlfield[@tag='008']").inner_text
-
-      case tag8_content[8]
-      when 'b'
-        lang = 'mul'
-      when 'e'
-        lang = 'eng'
-      when 'f'
-        lang = 'fre'
-      end
-    end
-
-    lang
+  def set_record_language()
+    -> obj, node {
+      obj['language'] = nil
+      lang_040 = node.at_xpath("subfield[@code='b']")&.inner_text
+      obj['language'] = lang_040 if lang_040
+    }
   end
+
+  def set_record_language_if_missing()
+    -> obj, node {
+      return if obj['language']
+      obj['language'] = case node&.inner_text
+      when 'b'
+        'mul'
+      when 'e'
+        'eng'
+      when 'f'
+        'fre'
+      end
+    }
+  end
+
 
   def agent_record_control_map
     {
@@ -312,14 +315,14 @@ module MarcXMLAuthAgentBaseMap
       :rel => :agent_record_controls,
       :map => {
         'self::leader' => proc { |arc, node|
-                            leader_text = node.inner_text
-
-                            arc['maintenance_status'] = set_maintenance_status(leader_text[5])
-                          },
-        '//record' => proc { |arc, node|
-          arc['maintenance_agency'] = set_maintenance_agency(node)
-          arc['language'] = set_record_language(node)
+          leader_text = node.inner_text
+          arc['maintenance_status'] = set_maintenance_status(leader_text[5])
         },
+        "parent::record/datafield[@tag='040']" => set_record_language(),
+        "parent::record/controlfield[@tag='008']" => set_record_language_if_missing(),
+        # '//record' => proc { |arc, node|
+        #   arc['maintenance_agency'] = set_maintenance_agency(node)
+        # },
         "//record/controlfield[@tag='008']" => proc { |arc, node|
           tag8_content = node.inner_text
 
@@ -448,17 +451,17 @@ module MarcXMLAuthAgentBaseMap
     # Kind of hacky, but we're not bringing in 001s in situations where the
     # 003=DLC and there is an 010 since these would presumably be near duplicates.
     # Therefore, we don't want to falsely set an unimported 001 as the primary id.
-    node003 = node.search("//record/controlfield[@tag='003']")&.inner_text
-    node010 = node.search("//record/datafield[@tag='010']").attr('tag')
-    node001 = node.search("//record/controlfield[@tag='001']").attr('tag') unless node003 == 'DLC' && node010
+    node003 = node.at_xpath("ancestor::record/controlfield[@tag='003']")&.inner_text
+    node010 = node.at_xpath("ancestor::record/datafield[@tag='010']")&.attr('tag')
+    node001 = node.at_xpath("ancestor::record/controlfield[@tag='001']")&.attr('tag') unless node003 == 'DLC' && node010
 
     this_node = node.attr('tag') || node.parent.attr('tag')
     ids = []
     ids << node001 if node001
     ids << node010
-    ids << node.search("//record/datafield[@tag='016']").attr('tag')
-    ids << node.search("//record/datafield[@tag='024']").attr('tag')
-    ids << node.search("//record/datafield[@tag='035']").attr('tag')
+    ids << node.at_xpath("ancestor::record/datafield[@tag='016']")&.attr('tag')
+    ids << node.at_xpath("ancestor::record/datafield[@tag='024']")&.attr('tag')
+    ids << node.at_xpath("ancestor::record/datafield[@tag='035']")&.attr('tag')
     first_node = ids.compact.first.to_s
 
     this_node == first_node
@@ -913,7 +916,7 @@ module MarcXMLAuthAgentBaseMap
       }
     }
   end
-  
+
   def trim(property, trailing_char = ',', remove_chars = [])
     -> name, node {
       val = node.inner_text

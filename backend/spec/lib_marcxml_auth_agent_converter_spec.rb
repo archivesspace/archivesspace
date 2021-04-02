@@ -32,7 +32,7 @@ describe 'MARCXML Auth Agent converter' do
     File.expand_path('../app/exporters/examples/marc/Wood.xml',
                      File.dirname(__FILE__))
   end
-  
+
   let(:agent_collection) do
     File.expand_path('../app/exporters/examples/marc/marcxml_collection_with_multiple_records.xml',
                      File.dirname(__FILE__))
@@ -390,7 +390,6 @@ describe 'MARCXML Auth Agent converter' do
 
     it 'imports each parallel name to the correct agent' do
       records = convert(agent_collection).select { |r| r['jsonmodel_type'] == 'agent_person' }
-
       expect(records[0]['names'].count).to eq(2)
       expect(records[0]['names'][1]['primary_name']).to eq('Alexander')
       expect(records[0]['names'][1]['rest_of_name']).to eq('Eleanor Butler')
