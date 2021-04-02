@@ -113,18 +113,15 @@ module Searchable
     }
     raise I18n.t('navbar.error_no_term') unless have_query  # just in case we missed something
 
-   # any  search within results?
-    @search[:filter_q].each do |v|
-      value = v == '' ? '*' : v
-      advanced_query_builder.and('keyword', value, 'text', false, false)
-    end
+    filter_query_builder = AdvancedQueryBuilder.new
+
      # we have to add filtered dates, if they exist
     unless @search[:dates_searched]
       years = get_filter_years(params)
       unless years['from_year'].blank? && years['to_year'].blank?
         builder = AdvancedQueryBuilder.new
         builder.and('years', AdvancedQueryBuilder::RangeValue.new(years['from_year'], years['to_year']), 'range', false, false)
-        advanced_query_builder.and(builder)
+        filter_query_builder.and(builder)
         @base_search = "#{@base_search}&filter_from_year=#{years['from_year']}&filter_to_year=#{years['to_year']}"
       end
     end
@@ -163,7 +160,13 @@ module Searchable
     }
 
     @criteria['aq'] = advanced_query_builder.build.to_json
-    @criteria['filter'] = @facet_filter.get_filter_query.and(type_query_builder).build.to_json
+    @criteria['filter'] = filter_query_builder.and(@facet_filter.get_filter_query.and(type_query_builder)).build.to_json
+
+   # apply any "search within" clauses
+    @criteria['filter_query[]'] = @search[:filter_q].map {|v|
+      v if !v.to_s.empty?
+    }.compact
+
     @criteria['facet[]'] = @facet_filter.get_facet_types
     @criteria['page_size'] = params.fetch(:page_size, AppConfig[:pui_search_results_page_size])
   end
