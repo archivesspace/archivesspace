@@ -67,7 +67,22 @@ module MarcXMLAuthAgentBaseMap
       "parent::record/datafield[@tag='510']" => related_agent_map('corporate_entity'),
       "parent::record/datafield[@tag='511']" => related_agent_map('corporate_entity'),
       "parent::record/datafield[@tag='670']" => agent_sources_map,
-      "parent::record/datafield[@tag='678']" => bioghist_note_map
+      "parent::record/datafield[@tag='678']" => bioghist_note_map,
+      "parent::record/datafield[@tag='040']/subfield[@code='d']" => {
+        :obj => :agent_other_agency_codes,
+        :rel => :agent_other_agency_codes,
+        :map => {
+          "self::subfield" => proc { |aoac, node|
+            aoac['maintenance_agency'] = node.inner_text
+          }
+        }
+      },
+      "parent::record" => proc { |record, node|
+        # apply the more complicated inter-leaf logic
+        record['agent_other_agency_codes'].reject! { |subrecord|
+          subrecord['maintenance_agency'] == record['agent_record_controls'][0]['maintenance_agency']
+        }
+      }
     }
 
     if import_events
@@ -295,16 +310,6 @@ module MarcXMLAuthAgentBaseMap
         "parent::record/controlfield[@tag='003']" => proc { |arc, node|
           unless arc['maintenance_agency']
             arc['maintenance_agency'] = node.inner_text
-          end
-        },
-        "parent::record/datafield[@tag='040']/subfield[@code='d']" => proc { |arc, node|
-          # We only want to import other_agency codes for maintenance agencies not already in record_info
-          unless arc['maintenance_agency'] == node.inner_text
-            arc['agent_other_agency_codes'] = [
-              {
-                :maintenance_agency => node.inner_text
-              }
-            ]
           end
         },
         "parent::record/datafield[@tag='040']" => set_record_language(),
