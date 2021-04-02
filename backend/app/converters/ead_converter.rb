@@ -253,7 +253,7 @@ class EADConverter < Converter
         end
         content = langmaterial.to_s
 
-        unless content.nil? || content == ''
+        unless content.nil? || content.strip.empty?
           make :lang_material, {
             :jsonmodel_type => 'lang_material',
             :notes => {
