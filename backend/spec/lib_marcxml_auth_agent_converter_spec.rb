@@ -33,6 +33,11 @@ describe 'MARCXML Auth Agent converter' do
                      File.dirname(__FILE__))
   end
 
+  let(:agent_collection) do
+    File.expand_path('../app/exporters/examples/marc/marcxml_collection_with_multiple_records.xml',
+                     File.dirname(__FILE__))
+  end
+
   describe 'agent person' do
     before(:all) do
     end
@@ -223,6 +228,19 @@ describe 'MARCXML Auth Agent converter' do
       expect(record['agent_maintenance_histories'].count.zero?).to eq(true)
     end
 
+    it 'imports unique maintenance orgs into agent_other_agency_codes' do
+      record = convert(corporate_agent_1, true).select { |r| r['jsonmodel_type'] == 'agent_corporate_entity' }.first
+
+      expect(record['agent_other_agency_codes'].count.zero?).to eq(false)
+      expect(record['agent_other_agency_codes'][0]['maintenance_agency']).to eq('CU-S')
+    end
+
+    it 'does not import maintenance orgs into agent_other_agency_codes that duplicate agent_maintenance_histories' do
+      record = convert(person_agent_1, true).select { |r| r['jsonmodel_type'] == 'agent_person' }.first
+
+      expect(record['agent_other_agency_codes'].count.zero?).to eq(true)
+    end
+
     it 'imports agent_conventions_declarations' do
       record = convert(person_agent_1).select { |r| r['jsonmodel_type'] == 'agent_person' }.first
 
@@ -344,6 +362,79 @@ describe 'MARCXML Auth Agent converter' do
       expect(record['notes'][0]['subnotes'][1]['content']).to eq('Expansion ...')
 
       expect(record['notes'][1]['label']).to eq('Administrative history')
+    end
+  end
+
+  describe 'collection of agent records' do
+    it 'imports all agent records in a collection of records' do
+      records = convert(agent_collection).select { |r| r['jsonmodel_type'] == 'agent_person' }
+
+      expect(records.count).to eq(3)
+    end
+
+    it 'imports each authorized name' do
+      records = convert(agent_collection).select { |r| r['jsonmodel_type'] == 'agent_person' }
+
+      expect(records[0]['names'][0]['authorized']).to eq(true)
+      expect(records[0]['names'][0]['primary_name']).to eq('Roosevelt')
+      expect(records[0]['names'][0]['rest_of_name']).to eq('Eleanor Butler')
+
+      expect(records[1]['names'][0]['authorized']).to eq(true)
+      expect(records[1]['names'][0]['primary_name']).to eq('Roosevelt')
+      expect(records[1]['names'][0]['rest_of_name']).to eq('Eleanor')
+
+      expect(records[2]['names'][0]['authorized']).to eq(true)
+      expect(records[2]['names'][0]['primary_name']).to eq('Roosevelt')
+      expect(records[2]['names'][0]['rest_of_name']).to eq('Anna')
+    end
+
+    it 'imports each parallel name to the correct agent' do
+      records = convert(agent_collection).select { |r| r['jsonmodel_type'] == 'agent_person' }
+      expect(records[0]['names'].count).to eq(2)
+      expect(records[0]['names'][1]['primary_name']).to eq('Alexander')
+      expect(records[0]['names'][1]['rest_of_name']).to eq('Eleanor Butler')
+
+      expect(records[1]['names'].count).to eq(5)
+      expect(records[1]['names'][1]['primary_name']).to eq('Roosevelt')
+      expect(records[1]['names'][1]['rest_of_name']).to eq('Eleanor Roosevelt')
+      expect(records[1]['names'][3]['primary_name']).to eq('Roosevelt')
+      expect(records[1]['names'][3]['rest_of_name']).to eq('Franklin D.')
+
+      expect(records[2]['names'].count).to eq(5)
+      expect(records[2]['names'][2]['primary_name']).to eq('Boettiger')
+      expect(records[2]['names'][2]['rest_of_name']).to eq('Anna Roosevelt')
+      expect(records[2]['names'][4]['primary_name']).to eq('Halsted')
+      expect(records[2]['names'][4]['rest_of_name']).to eq('Anna Roosevelt')
+    end
+
+    it 'imports record identifiers to the correct agent' do
+      records = convert(agent_collection).select { |r| r['jsonmodel_type'] == 'agent_person' }
+
+      expect(records[0]['agent_record_identifiers'].count).to eq(2)
+      expect(records[0]['agent_record_identifiers'][0]['record_identifier']).to eq('n  97046493 ')
+      expect(records[0]['agent_record_identifiers'][0]['primary_identifier']).to eq(true)
+      expect(records[0]['agent_record_identifiers'][1]['record_identifier']).to eq('(DLC)n  97046493')
+      expect(records[0]['agent_record_identifiers'][1]['primary_identifier']).to eq(false)
+
+      expect(records[1]['agent_record_identifiers'].count).to eq(2)
+      expect(records[1]['agent_record_identifiers'][0]['record_identifier']).to eq('n  79144645 ')
+      expect(records[1]['agent_record_identifiers'][0]['primary_identifier']).to eq(true)
+      expect(records[1]['agent_record_identifiers'][1]['record_identifier']).to eq('(OCoLC)oca00375794')
+      expect(records[1]['agent_record_identifiers'][1]['primary_identifier']).to eq(false)
+
+      expect(records[2]['agent_record_identifiers'].count).to eq(2)
+      expect(records[2]['agent_record_identifiers'][0]['record_identifier']).to eq('n  81147297 ')
+      expect(records[2]['agent_record_identifiers'][0]['primary_identifier']).to eq(true)
+      expect(records[2]['agent_record_identifiers'][1]['record_identifier']).to eq('(OCoLC)oca00692063')
+      expect(records[2]['agent_record_identifiers'][1]['primary_identifier']).to eq(false)
+    end
+
+    it 'imports record control language to the correct agent' do
+      records = convert(agent_collection).select { |r| r['jsonmodel_type'] == 'agent_person' }
+
+      expect(records[0]['agent_record_controls'][0]['language']).to be_nil
+      expect(records[1]['agent_record_controls'][0]['language']).to eq('eng')
+      expect(records[2]['agent_record_controls'][0]['language']).to eq('eng')
     end
   end
 end
