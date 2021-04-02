@@ -874,12 +874,15 @@ class EAD3Serializer < EADSerializer
     obj.dates.each do |date|
       next if date["publish"] === false && !@include_unpublished
 
+      # add the date expression to altrender, rather than a separate date element, since if one date subrecord in ASpace creates two date subrecords in the EAD, all sorts of indeterminacy is loosed upon the world of archival data aggregation.
+      # another benefit is that we can convert @standardate values to display values, if we want, when that is all that is there.  though we'd still need a language map for IS08601 for months, etc.
       date_atts = {
         certainty: date['certainty'] ? date['certainty'] : nil,
         era: date['era'] ? date['era'] : nil,
         calendar: date['calendar'] ? date['calendar'] : nil,
         audience: date['publish'] === false ? 'internal' : nil,
-        datechar: date['label'] ? date['label'] : nil
+        datechar: date['label'] ? date['label'] : nil,
+        altrender: date['expression'] ? date['expression'] : nil
       }
 
       unless date['date_type'].nil?
@@ -916,14 +919,14 @@ class EAD3Serializer < EADSerializer
           end
         }
 
-        if date['begin'] && date['end'] && date['expression']
-          add_unitdate.call(date['expression'], xml, fragments, date_atts)
-        end
-
       elsif date['expression']
+        # just to keep it clean, we'll delete the date expression from the date_atts when serializing to unitdate (rather than unidatestructured) since there's no need to export that in @altrender and a text node.
+        date_atts.except!(:altrender)
         add_unitdate.call(date['expression'], xml, fragments, date_atts)
       end
+
     end
+
   end
 
 
@@ -1014,18 +1017,19 @@ class EAD3Serializer < EADSerializer
         end
       }
       # Language Text subrecord content should be exported as a <descriptivenote> element
+      # Note:  only one descriptivenote is allowed in EAD3, so, we make a change here.
       language_notes = languages.map {|l| l['notes']}.compact.reject {|e|  e == [] }.flatten
       if !language_notes.empty?
-        language_notes.each do |note|
-          content = ASpaceExport::Utils.extract_note_text(note)
-          xml.descriptivenote {
+        xml.descriptivenote {
+          language_notes.each do |note|
+            content = ASpaceExport::Utils.extract_note_text(note)
             sanitize_mixed_content(content, xml, fragments, true)
-          }
-        end
+          end
+        }
       end
     }
   end
-
+  
 
   def serialize_note_content(note, xml, fragments)
     return if note["publish"] === false && !@include_unpublished
@@ -1345,56 +1349,76 @@ class EAD3Serializer < EADSerializer
 
 
   def serialize_digital_object(digital_object, xml, fragments)
-    return if digital_object["publish"] === false && !@include_unpublished
-    return if digital_object["suppressed"] === true
+   return if digital_object["publish"] === false && !@include_unpublished
+   return if digital_object["suppressed"] === true
 
-    file_versions = digital_object['file_versions']
-    title = digital_object['title']
-    date = digital_object['dates'][0] || {}
+   # ANW-285: Only serialize file versions that are published, unless include_unpublished flag is set
+   # already added to EAD2002 exporter, but not previously added to EAD3 exporter.
+   file_versions_to_display = digital_object['file_versions'].select {|fv| fv['publish'] == true || @include_unpublished }
 
-    atts = {}
+   title = digital_object['title']
+   date = digital_object['dates'][0] || {}
 
-    content = ""
-    content << title if title
-    content << ": " if date['expression'] || date['begin']
-    if date['expression']
-      content << date['expression']
-    elsif date['begin']
-      content << date['begin']
-      if date['end'] != date['begin']
-        content << "-#{date['end']}"
-      end
-    end
+   atts = {}
 
-    atts['linktitle'] = digital_object['title'] if digital_object['title']
+   content = ""
+   content << title if title
+   content << ": " if date['expression'] || date['begin']
+   if date['expression']
+     content << date['expression']
+   elsif date['begin']
+     content << date['begin']
+     if date['end'] != date['begin']
+       content << "-#{date['end']}"
+     end
+   end
 
-    if digital_object['digital_object_type']
-      atts['daotype'] = 'otherdaotype'
-      atts['otherdaotype'] = digital_object['digital_object_type']
-    else
-      atts['daotype'] = 'unknown'
-    end
+   #the title is already added to descriptivenote/p, so no need to repeat here. let's use the new identifier attribute in EAD3
+   atts['identifier'] = digital_object['digital_object_id'] if digital_object['digital_object_id']
+   # and let's keep those URIs in the same place everywhere...
+   atts['altrender'] = digital_object['uri']
 
-    if file_versions.empty?
-      atts['href'] = digital_object['digital_object_id']
-      atts['actuate'] = 'onrequest'
-      atts['show'] = 'new'
-      atts['audience'] = 'internal' unless is_digital_object_published?(digital_object)
-      xml.dao(atts) {
-        xml.descriptivenote { sanitize_mixed_content(content, xml, fragments, true) } if content
-      }
-    else
-      file_versions.each do |file_version|
-        atts['href'] = file_version['file_uri'] || digital_object['digital_object_id']
-        atts['actuate'] = (file_version['xlink_actuate_attribute'].respond_to?(:downcase) && file_version['xlink_actuate_attribute'].downcase) || 'onrequest'
-        atts['show'] = (file_version['xlink_show_attribute'].respond_to?(:downcase) && file_version['xlink_show_attribute'].downcase) || 'new'
-        atts['localtype'] = file_version['use_statement'] if file_version['use_statement']
-        atts['audience'] = 'internal' unless is_digital_object_published?(digital_object, file_version)
-        xml.dao(atts) {
-          xml.descriptivenote { sanitize_mixed_content(content, xml, fragments, true) } if content
-        }
-      end
-    end
+   if digital_object['digital_object_type']
+     atts['daotype'] = 'otherdaotype'
+     atts['otherdaotype'] = digital_object['digital_object_type']
+   else
+     atts['daotype'] = 'unknown'
+   end
+
+   if file_versions_to_display.empty?
+     atts['audience'] = 'internal' unless is_digital_object_published?(digital_object)
+     xml.dao(atts) {
+       xml.descriptivenote{ sanitize_mixed_content(content, xml, fragments, true) } if content
+     }
+   elsif file_versions_to_display.length == 1
+     file_version = file_versions_to_display.first
+     atts['actuate'] = file_version['xlink_actuate_attribute'].nil? ? 'onrequest' : file_version['xlink_actuate_attribute'].downcase
+     atts['show'] = file_version['xlink_show_attribute'] || 'new'
+     atts['role'] = file_version['use_statement'] if file_version['use_statement']
+     atts['linktitle'] = file_version['caption'] if file_version['caption']
+     atts['href'] = file_version['file_uri']
+     atts['audience'] = 'internal' unless is_digital_object_published?(digital_object, file_version)
+     xml.dao(atts) {
+       xml.descriptivenote{ sanitize_mixed_content(content, xml, fragments, true) } if content
+     }
+   else
+     set_atts = {}
+     set_atts['altrender'] = atts['altrender']
+     set_atts['audience'] = 'internal' unless is_digital_object_published?(digital_object)
+     atts.delete('altrender')
+     xml.daoset( set_atts ) {
+       file_versions_to_display.each do |file_version|
+         atts['actuate'] = file_version['xlink_actuate_attribute'].nil? ? 'onrequest' : file_version['xlink_actuate_attribute'].downcase
+         atts['show'] = file_version['xlink_show_attribute'] || 'new'
+         atts['role'] = file_version['use_statement'] if file_version['use_statement']
+         atts['linktitle'] = file_version['caption'] if file_version['caption']
+         atts['href'] = file_version['file_uri']
+         atts['audience'] = 'internal' unless is_digital_object_published?(digital_object, file_version)
+         xml.dao( atts )
+       end
+       xml.descriptivenote{ sanitize_mixed_content(content, xml, fragments, true) } if content
+     }
+   end
   end
 
 
