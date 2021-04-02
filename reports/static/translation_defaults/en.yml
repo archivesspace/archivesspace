@@ -69,6 +69,7 @@ en:
       instance_type: Instance Type
       instances: Instances
       inventory: Inventory
+      language: Language
       level: Level
       linked_records: Linked Records
       linked_resources: Linked Resource(s)
