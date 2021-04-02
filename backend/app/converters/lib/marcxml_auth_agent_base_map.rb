@@ -61,7 +61,7 @@ module MarcXMLAuthAgentBaseMap
       "parent::record/datafield[@tag='370']/subfield[@code='e']" => place_of_residence_map,
       "parent::record/datafield[@tag='370']/subfield[@code='f']" => other_associated_place_map,
       "parent::record/datafield[@tag='374']/subfield[@code='a']" => agent_occupation_map,
-      #"parent::record/datafield[@tag='377']" => used_language_map,
+      "parent::record/datafield[@tag='377']" => used_language_map,
       "parent::record/datafield[@tag='500'][not(@ind1='3')]" => related_agent_map('person'),
       "parent::record/datafield[@tag='500'][@ind1='3']" => related_agent_map('family'),
       "parent::record/datafield[@tag='510']" => related_agent_map('corporate_entity'),
@@ -70,16 +70,9 @@ module MarcXMLAuthAgentBaseMap
       "parent::record/datafield[@tag='678']" => bioghist_note_map
     }
 
-    # We only want to import other_agency codes for maintenance agencies not already in record_info
-    if @ma_040_a
-      h.merge!({
-        "//record/datafield[@tag='040']/subfield[@code='d' and text()!='#{@ma_040_a}']" => other_agency_code_map
-      })
-    end
-
     if import_events
       h.merge!({
-        "//record/controlfield[@tag='005']" => maintenance_history_map
+        "parent::record/controlfield[@tag='005']" => maintenance_history_map
       })
     end
 
@@ -263,29 +256,6 @@ module MarcXMLAuthAgentBaseMap
     status
   end
 
-  def other_agency_code_map
-    {
-      :obj => :agent_other_agency_codes,
-      :rel => :agent_other_agency_codes,
-      :map => {
-        'self::subfield' => proc { |oac, node|
-          oac['maintenance_agency'] = node.inner_text
-        }
-      }
-    }
-  end
-
-  def set_maintenance_agency(node)
-    # We're gonna save this for later because it matters for other_agency_code_map
-    @ma_040_a = node.search("//record/datafield[@tag='040']/subfield[@code='a']").inner_text
-
-    if !@ma_040_a.empty?
-      @ma_040_a
-    else
-      node.search("//record/controlfield[@tag='003']").inner_text
-    end
-  end
-
   def set_record_language()
     -> obj, node {
       obj['language'] = nil
@@ -296,14 +266,15 @@ module MarcXMLAuthAgentBaseMap
 
   def set_record_language_if_missing()
     -> obj, node {
-      return if obj['language']
-      obj['language'] = case node&.inner_text
-      when 'b'
-        'mul'
-      when 'e'
-        'eng'
-      when 'f'
-        'fre'
+      unless obj['language']
+        obj['language'] = case String(node&.inner_text)[8]
+                          when 'b'
+                            'mul'
+                          when 'e'
+                            'eng'
+                          when 'f'
+                            'fre'
+                          end
       end
     }
   end
@@ -317,6 +288,24 @@ module MarcXMLAuthAgentBaseMap
         'self::leader' => proc { |arc, node|
           leader_text = node.inner_text
           arc['maintenance_status'] = set_maintenance_status(leader_text[5])
+        },
+        "parent::record/datafield[@tag='040']/subfield[@code='a']" => proc { |arc, node|
+          arc['maintenance_agency'] = node.inner_text
+        },
+        "parent::record/controlfield[@tag='003']" => proc { |arc, node|
+          unless arc['maintenance_agency']
+            arc['maintenance_agency'] = node.inner_text
+          end
+        },
+        "parent::record/datafield[@tag='040']/subfield[@code='d']" => proc { |arc, node|
+          # We only want to import other_agency codes for maintenance agencies not already in record_info
+          unless arc['maintenance_agency'] == node.inner_text
+            arc['agent_other_agency_codes'] = [
+              {
+                :maintenance_agency => node.inner_text
+              }
+            ]
+          end
         },
         "parent::record/datafield[@tag='040']" => set_record_language(),
         "parent::record/controlfield[@tag='008']" => set_record_language_if_missing(),
@@ -510,14 +499,14 @@ module MarcXMLAuthAgentBaseMap
           amh['maintenance_event_type'] = 'created'
           amh['maintenance_agent_type'] = 'machine'
         },
-        "//record/controlfield[@tag='008']" => proc { |amh, node|
+        "parent::record/controlfield[@tag='008']" => proc { |amh, node|
           tag8_content = node.inner_text
 
           amh['event_date'] = '19' + tag8_content[0..5]
           amh['maintenance_event_type'] = 'created'
           amh['maintenance_agent_type'] = 'machine'
         },
-        "//record/datafield[@tag='040']/subfield[@code='d']" => proc { |amh, node|
+        "parent::record/datafield[@tag='040']/subfield[@code='d']" => proc { |amh, node|
           val = node.inner_text
           val.empty? ? 'Missing in File' : val
           amh['agent'] = val
@@ -740,7 +729,7 @@ module MarcXMLAuthAgentBaseMap
         },
         "descendant::subfield[@code='a']" => proc { |lang, node|
           val = node.inner_text
-          lang['language'] = val
+          lang['language'] = val if val
         }
       }
     }
