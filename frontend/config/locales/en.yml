@@ -648,6 +648,7 @@ en:
     merge_too_many_victims: Only one agent may be selected for this merge.
     merge_different_types: Agents selected for this merge must be of the same type.
     merge_denied_for_system_user: One or more agents is a system user.
+    merge_denied_relationship: These agents have a relationship. Remove relationship before proceeding with merge.
     merge_restricted_contact_details: The merge cannot be completed because one or more of the agents has contact details you do not have permission to access.
     linked_to_assessment: Record cannot be deleted as it is linked to an assessment
 
