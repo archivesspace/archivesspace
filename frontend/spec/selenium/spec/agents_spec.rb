@@ -76,7 +76,7 @@ end
 describe "disallows agents merge with related agents" do
   before(:all) do
     @repo = create(:repo, repo_code: "agents_test_#{Time.now.to_i}")
-  
+
     @driver = Driver.get
     @driver.login_to_repo($admin, @repo)
 
