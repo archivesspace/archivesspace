@@ -50,6 +50,7 @@ var init = function() {
         }
 
         $(".unselect-report").hide();
+        $(".create-report-template").hide();
         $("#format").hide();
         $('.btn-primary:submit').addClass('disabled');
 
@@ -59,6 +60,7 @@ var init = function() {
             initListing(code);
             $(".select-report").hide();
             $(".unselect-report").show();
+            $(".create-report-template").show();
             $(".report-listing:not(#" + code + ")").hide();
             $("#format").show();
             $('.btn-primary:submit').removeClass('disabled');
@@ -72,6 +74,7 @@ var init = function() {
             $("#report-fields").empty();
             $(".select-report").show();
             $(".unselect-report").hide();
+            $(".create-report-template").hide();
             $(".report-listing").show();
             $("#format").hide();
             $('.btn-primary:submit').addClass('disabled');
