@@ -442,6 +442,8 @@ es:
     _plural: Nombres
     related: Nombres relacionados
     creator: Autor
+    parallel: Nombres paralelos
+    also_known_as: También conocido por los siguientes nombres
   record:
     _singular: Registro
     _plural: Registros
@@ -455,6 +457,7 @@ es:
     _plural: Nombres
     _public:
       section:
+        dates: fechas
         summary: Nota de resumen
         other_names: Formas conocidas
         other_names_preamble: "También conocido por los siguientes nombres:"
@@ -534,3 +537,133 @@ es:
     search_results: Saltar a los resultados de la búsqueda
 
   search_tab: Buscar %{target}
+
+  agent_function:
+    _singular: Función
+    _plural: Funciones
+
+  agent_gender:
+    _singular: Género
+    _plural: Género
+
+  agent_place:
+    _singular: Lugar
+    _plural: Lugares
+
+  agent_resource:
+    _singular: Recurso externo relacionado
+    _plural: Recursos externos relacionados
+
+  agent_occupation:
+    _singular: Ocupación
+    _plural: Ocupaciones
+
+  agent_topic:
+    _singular: Tema
+    _plural: Temas
+
+  agent_record_identifier:
+    _plural: ID de registro
+    _singular: ID de registro
+    _frontend:
+      action:
+        add: Agregar ID de registro
+    identifier_type: Tipo de identificador
+    source: Fuente
+    primary_identifier: "¿Es el identificador principal?"
+    primary: Primario
+    record_identifier: Identificador de registro
+    snac: Identificador de redes sociales y contexto de archivos (SNAC)
+
+  agent_identifier:
+    _plural: ID de entidad
+    _singular: Identificador
+    _frontend:
+      action:
+        add: Agregar ID de entidad
+    identifier_type: Tipo de identificador
+    entity_identifier: ID de entidad
+
+  dates_of_existence:
+    _plural: Fechas de existencia
+    _singular: Fecha de existencia
+
+  date_label:
+    existence: Existencia
+    usage: Uso
+
+  use_date:
+    _plural: Usar fechas
+    _singular: Fecha de uso
+
+  used_language:
+    _plural: Idiomas utilizados
+    _singular: Idioma utilizado
+
+  structured_date_label:
+    date: Fecha
+    date_label: Etiqueta
+    date_type_structured: Tipo de fecha
+    date_certainty: Certeza
+    date_era: Era
+    date_calendar: Calendario
+
+  structured_date_single:
+    date_role: Función de fecha
+    date_expression: Expresión de fecha
+    date_standardized: Fecha estandarizada
+    date_standardized_type: Tipo de fecha estandarizada
+
+  structured_date_range:
+    begin_date_expression: Expresión de fecha de inicio
+    begin_date_standardized: Fecha de inicio estandarizada
+    begin_date_standardized_type: Iniciar tipo de fecha estandarizada
+    end_date_expression: Expresión de fecha de finalización
+    end_date_standardized: Fecha estandarizada de finalización
+    end_date_standardized_type: Tipo de fecha estandarizada de finalización
+
+  agent_contact:
+    name: Nombre de contacto
+    salutation: Saludo
+    address_1: Dirección 1
+    address_2: Dirección 2
+    address_3: Direccion 3
+    city: Ciudad
+    region: Estado / Región
+    country: País
+    post_code: Código postal
+    telephone: Teléfono
+    telephone_ext: Extensión telefónica
+    fax: Fax
+    email: Correo electrónico
+    email_signature: Firma de email
+    note: Notas de contacto
+    telephones: Números telefónicos
+    _singular: Contacto
+    _plural: Detalles de contacto
+
+  telephone:
+    _plural: Números telefónicos
+    number_type: Tipo de número
+    number: Número
+    ext: Extensión telefónica
+
+  telephone_required:
+    _plural: Números telefónicos
+    number_type: Tipo de número
+    number: Número
+    ext: Extensión telefónica
+    
+  agent_notes:
+    _singular: Nota
+    _plural: Notas
+    persistent_id: ID persistente
+    type: Tipo de nota
+    content: Contenido
+    note_citation: Citación
+    note_bioghist: Biografía
+    note_general_context: Contexto general
+    note_legal_status: Estatus legal
+    note_mandate: Mandato
+    note_structure_or_genealogy: Estructura o genealogía
+    note_text: Nota

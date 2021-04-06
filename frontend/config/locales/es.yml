@@ -688,6 +688,13 @@ es:
         linked_via_rights_statement: Registros vinculados mediante declaración de derechos
         target_record: Este registro será actualizado
         victim_record: Este registro será eliminado
+        record_control_information: Información de control de registros
+        identity_information: Información de identidad
+        description_information: Descripción Información
+        relation_information: Información de relación
+        date_of_existence: Fecha de existencia
+        structured_date_single_fields: Fecha única
+        structured_date_range_fields: Fecha de rango
       action:
         create: Crear autoridad
         preview: Vista previa de combinación
@@ -696,6 +703,7 @@ es:
     _frontend:
       action:
         add: Agregar contacto
+    notes_tooltip: "<p>Notas adicionales u otra información sobre el contacto.</p>"
 
   telephone:
     _frontend:
@@ -809,6 +817,16 @@ es:
     _frontend:
       action:
         add: Agregar fecha
+    _singular: Fecha de existencia
+    _plural: Fechas de existencia
+  actions:
+    lightmode_toggle: Modo de luz
+    export_marc_auth: Descarga MARCXML Authority
+  errors:
+    merge_denied_for_system_user: Uno o más agentes es un usuario del sistema.
+    merge_restricted_contact_details: La fusión no se puede completar porque uno o
+      más de los agentes tiene detalles de contacto a los que no tiene permiso para
+      acceder.       
 
   deaccession:
     _frontend:
@@ -933,6 +951,7 @@ es:
       action:
         add: Añadir idioma
         add_note: Añadir nota de idioma
+    _plural: Idiomas
 
   linked_agent:
     _frontend:
@@ -988,10 +1007,13 @@ es:
     _frontend:
       section:
         use_date: Fecha (s) del nombre de uso
+        dates: fechas
+        parallel_names: Nombres paralelos
       action:
         add: Agregar un formulario de nombre
         make_authorized: Convertir en nombre autorizado
         make_display_name: Convertir en nombre a presentar en pantalla
+        make_primary: Hacer primaria
 
   note:
     _frontend:
@@ -1000,6 +1022,7 @@ es:
         raw_title: El contenido de la nota
         parsed: Texto formateado
         parsed_title: Cómo se visualizará la nota
+        content: Contenido
       messages:
         select_a_note_type: "<em>Por favor seleccione un tipo de nota</em>"
       action:
@@ -1017,6 +1040,7 @@ es:
         expand: Ampliar
         collapse: Colapsar
         apply_note_order: Aplicar el orden de notas estandar
+        add_for_contact_note: Agregar nota de contacto
 
   related_accession:
     _frontend:
@@ -1029,6 +1053,7 @@ es:
         select_a_type: "<em>Por favor seleccione un tipo de relación</em>"
       action:
         add: Agregue la autoridad relacionada
+    dates: Fechas de relación
 
   related_resource:
     _frontend:
@@ -1779,3 +1804,1141 @@ es:
     format: Descargar formato de archivo
     filename: Nombre del archivo de la hoja de cálculo
     not_direct: En este momento, este trabajo solo se puede crear desde el registro de recursos
+
+  structured_date_single:
+    _frontend:
+      action:
+        add: Agregar fecha única
+
+  structured_date_range:
+    _frontend:
+      action:
+        add: Agregar fecha de rango
+
+  structured_date_label_common_fields:
+    date_label: Etiqueta
+    date_type_structured: Tipo de fecha
+    date_certainty: Certeza
+    date_era: Era
+    date_calendar: Calendario
+
+  structured_date_label_existence:
+    date_label: Etiqueta
+    date_type_structured: Tipo de fecha
+    date_certainty: Certeza
+    date_era: Era
+    date_calendar: Calendario
+
+  structured_date_label_usage:
+    date_label: Etiqueta
+    date_type_structured: Tipo de fecha
+    date_certainty: Certeza
+    date_era: Era
+    date_calendar: Calendario
+
+  structured_date_single_fields:
+    date_role: Función de fecha
+    date_expression: Expresión de fecha
+    date_standardized: Fecha estandarizada
+    date_standardized_type: Tipo de fecha estandarizada
+
+  structured_date_range_fields:
+    begin_date_expression: Expresión de fecha de inicio
+    begin_date_standardized: Fecha de inicio estandarizada
+    begin_date_standardized_type: Iniciar tipo de fecha estandarizada
+    end_date_expression: Expresión de fecha de finalización
+    end_date_standardized: Fecha estandarizada de finalización
+    end_date_standardized_type: Tipo de fecha estandarizada de finalización
+
+  agent_record_control:
+    _plural: Información de registro
+    _singular: Información de registro
+    _frontend:
+      action:
+        add: Agregar información de registro
+    maintenance_status: Estado de mantenimiento de control de registros
+    publication_status: Estado de publicación de control de registros
+    romanization: Romanización
+    government_agency_type: Tipo de agencia gubernamental de control de registros
+    reference_evaluation: Evaluación de referencia de control de registros
+    name_type: Tipo de nombre de control de registro
+    level_of_detail: Nivel de detalle de control de registros
+    modified_record: Tipo de control de registro modificado
+    cataloging_source: Fuente de catalogación de control de registros
+    maintenance_agency: Agencia de mantenimiento
+    agency_name: Nombre de agencia
+    maintenance_agency_note: Nota de la agencia de mantenimiento
+    language: Idioma
+    script: Texto
+    language_note: Nota de idioma
+
+  agent_record_controls:
+    _plural: Información de registro
+    _singular: Información de registro
+    _frontend:
+      action:
+        add: Agregar información de registro
+    maintenance_status: Estado de mantenimiento de control de registros
+    publication_status: Estado de publicación de control de registros
+    romanization: Romanización
+    government_agency_type: Tipo de agencia gubernamental de control de registros
+    reference_evaluation: Evaluación de referencia de control de registros
+    name_type: Tipo de nombre de control de registro
+    level_of_detail: Nivel de detalle de control de registros
+    modified_record: Tipo de control de registro modificado
+    cataloging_source: Fuente de catalogación de control de registros
+    maintenance_agency: Agencia de mantenimiento
+    agency_name: Nombre de agencia
+    maintenance_agency_note: Nota de la agencia de mantenimiento
+    language: Idioma
+    script: Texto
+    language_note: Nota de idioma
+
+  agent_record_control_required:
+    _plural: Información de registro
+    _singular: Información de registro
+    _frontend:
+      action:
+        add: Agregar información de registro
+    maintenance_status: Estado de mantenimiento de control de registros
+    publication_status: Estado de publicación de control de registros
+    romanization: Romanización
+    government_agency_type: Tipo de agencia gubernamental de control de registros
+    reference_evaluation: Evaluación de referencia de control de registros
+    name_type: Tipo de nombre de control de registro
+    level_of_detail: Nivel de detalle de control de registros
+    modified_record: Tipo de control de registro modificado
+    cataloging_source: Fuente de catalogación de control de registros
+    maintenance_agency: Agencia de mantenimiento
+    agency_name: Nombre de agencia
+    maintenance_agency_note: Nota de la agencia de mantenimiento
+    language: Idioma
+    script: Texto
+    language_note: Nota de idioma
+
+  agent_record_control_merge_target:
+    _plural: Información de registro
+    _singular: Información de registro
+    _frontend:
+      action:
+        add: Agregar información de registro
+    maintenance_status: Estado de mantenimiento de control de registros
+    publication_status: Estado de publicación de control de registros
+    romanization: Romanización
+    government_agency_type: Tipo de agencia gubernamental de control de registros
+    reference_evaluation: Evaluación de referencia de control de registros
+    name_type: Tipo de nombre de control de registro
+    level_of_detail: Nivel de detalle de control de registros
+    modified_record: Tipo de control de registro modificado
+    cataloging_source: Fuente de catalogación de control de registros
+    maintenance_agency: Agencia de mantenimiento
+    agency_name: Nombre de agencia
+    maintenance_agency_note: Nota de la agencia de mantenimiento
+    language: Idioma
+    script: Texto
+    language_note: Nota de idioma
+    
+  agent_record_control_merge_victim:
+    _plural: Información de registro
+    _singular: Información de registro
+    _frontend:
+      action:
+        add: Agregar información de registro
+    maintenance_status: Estado de mantenimiento de control de registros
+    publication_status: Estado de publicación de control de registros
+    romanization: Romanización
+    government_agency_type: Tipo de agencia gubernamental de control de registros
+    reference_evaluation: Evaluación de referencia de control de registros
+    name_type: Tipo de nombre de control de registro
+    level_of_detail: Nivel de detalle de control de registros
+    modified_record: Tipo de control de registro modificado
+    cataloging_source: Fuente de catalogación de control de registros
+    maintenance_agency: Agencia de mantenimiento
+    agency_name: Nombre de agencia
+    maintenance_agency_note: Nota de la agencia de mantenimiento
+    language: Idioma
+    script: Texto
+    language_note: Nota de idioma   
+
+  agent_gender:
+    _plural: Géneros de agentes
+    _singular: Género del agente
+    _frontend:
+      action:
+        add: Agregar información de género
+    gender: Género
+    note: Nota
+    dates: fechas
+
+  agent_genders:
+    _plural: Géneros de agentes
+    _singular: Género del agente
+    _frontend:
+      action:
+        add: Agregar información de género
+    gender: Género
+    note: Nota
+    dates: fechas
+
+  agent_gender_required:
+    _plural: Géneros de agentes
+    _singular: Género del agente
+    _frontend:
+      action:
+        add: Agregar información de género
+    gender: Género
+    note: Nota
+    dates: fechas
+
+  agent_gender_merge_target:
+    _plural: Géneros de agentes
+    _singular: Género del agente
+    _frontend:
+      action:
+        add: Agregar información de género
+    gender: Género
+    note: Nota
+    dates: fechas
+
+  used_language:
+    _plural: Idiomas
+    _singular: Idioma
+    _frontend:
+      action:
+        add: Agregar idioma
+    language: Idioma
+    script: Texto
+    
+  used_language_required:
+    _plural: Idiomas
+    _singular: Idioma
+    _frontend:
+      action:
+        add: Agregar idioma
+    language: Idioma
+    script: Texto
+
+  used_languages:
+    _plural: Idiomas
+    _singular: Idioma
+    _frontend:
+      action:
+        add: Agregar idioma
+    language: Idioma
+    script: Texto
+
+  used_language_merge_victim:
+    _plural: Idiomas
+    _singular: Idioma
+    _frontend:
+      action:
+        add: Agregar idioma
+    language: Idioma
+    script: Texto
+
+  used_language_merge_target:
+    _plural: Idiomas
+    _singular: Idioma
+    _frontend:
+      action:
+        add: Agregar idioma
+    language: Idioma
+    script: Texto   
+
+  agent_gender_merge_victim:
+    _plural: Géneros de agentes
+    _singular: Género del agente
+    _frontend:
+      action:
+        add: Agregar información de género
+    gender: Género
+    note: Nota
+    dates: fechas   
+
+  agent_identifier:
+    _plural: ID de entidad
+    _singular: Identificador
+    _frontend:
+      action:
+        add: Agregar ID de entidad
+    identifier_type: Tipo de identificador
+    entity_identifier: ID de entidad
+    
+  agent_identifiers:
+    _plural: ID de entidad
+    _singular: Identificador
+    _frontend:
+      action:
+        add: Agregar ID de entidad
+    identifier_type: Tipo de identificador
+    entity_identifier: ID de entidad
+
+  agent_identifier_required:
+    _plural: ID de entidad
+    _singular: Identificador
+    _frontend:
+      action:
+        add: Agregar ID de entidad
+    identifier_type: Tipo de identificador
+    entity_identifier: ID de entidad
+
+  agent_identifier_merge_target:
+    _plural: ID de entidad
+    _singular: Identificador
+    _frontend:
+      action:
+        add: Agregar ID de entidad
+    identifier_type: Tipo de identificador
+    entity_identifier: ID de entidad
+
+  agent_identifier_merge_victim:
+    _plural: ID de entidad
+    _singular: Identificador
+    _frontend:
+      action:
+        add: Agregar ID de entidad
+    identifier_type: Tipo de identificador
+    entity_identifier: ID de entidad   
+
+  agent_place:
+    _frontend:
+      action:
+        add: Añadir lugar
+    section:
+      dates: fechas
+    _plural: Lugares
+    _singular: Lugar
+    place_role: Función del lugar del agente
+    text_note: Nota
+    dates: fechas
+    subjects: Lugares
+    publish: Publicado
+    
+  agent_place_required:
+    _frontend:
+      action:
+        add: Añadir lugar
+    section:
+      dates: fechas
+    _plural: Lugares
+    _singular: Lugar
+    place_role: Función del lugar del agente
+    text_note: Nota
+    dates: fechas
+    subjects: Lugares
+    publish: Publicado
+
+  agent_places:
+    _frontend:
+      action:
+        add: Añadir lugar
+    section:
+      dates: fechas
+    _plural: Lugares
+    _singular: Lugar
+    place_role: Función del lugar del agente
+    text_note: Nota
+    dates: fechas
+    subjects: Lugares
+    publish: Publicado
+
+  agent_place_merge_target:
+    _frontend:
+      action:
+        add: Añadir lugar
+    section:
+      dates: fechas
+    _plural: Lugares
+    _singular: Lugar
+    place_role: Función del lugar del agente
+    text_note: Nota
+    dates: fechas
+    subjects: Lugares
+    publish: Publicado
+
+  agent_place_merge_victim:
+    _frontend:
+      action:
+        add: Añadir lugar
+    section:
+      dates: fechas
+    _plural: Lugares
+    _singular: Lugar
+    place_role: Función del lugar del agente
+    text_note: Nota
+    dates: fechas
+    subjects: Lugares
+    publish: Publicado
+
+  agent_occupation:
+    _frontend:
+      action:
+        add: Agregar ocupación
+    section:
+      dates: fechas
+    _plural: Ocupaciones
+    _singular: Ocupación
+    text_note: Nota
+    dates: fechas
+    subjects: Ocupaciones
+    places: Lugares
+    publish: Publicado
+
+  agent_occupation_required:
+    _frontend:
+      action:
+        add: Agregar ocupación
+    section:
+      dates: fechas
+    _plural: Ocupaciones
+    _singular: Ocupación
+    text_note: Nota
+    dates: fechas
+    subjects: Ocupaciones
+    places: Lugares
+    publish: Publicado
+
+  agent_occupations:
+    _frontend:
+      action:
+        add: Agregar ocupación
+    section:
+      dates: fechas
+    _plural: Ocupaciones
+    _singular: Ocupación
+    text_note: Nota
+    dates: fechas
+    subjects: Ocupaciones
+    places: Lugares
+    publish: Publicado
+
+  agent_occupation_merge_target:
+    _frontend:
+      action:
+        add: Agregar ocupación
+    section:
+      dates: fechas
+    _plural: Ocupaciones
+    _singular: Ocupación
+    text_note: Nota
+    dates: fechas
+    subjects: Ocupaciones
+    places: Lugares
+    publish: Publicado
+
+  agent_occupation_merge_victim:
+    _frontend:
+      action:
+        add: Agregar ocupación
+    section:
+      dates: fechas
+    _plural: Ocupaciones
+    _singular: Ocupación
+    text_note: Nota
+    dates: fechas
+    subjects: Ocupaciones
+    places: Lugares
+    publish: Publicado
+
+  agent_function:
+    _frontend:
+      action:
+        add: Agregar función
+    section:
+      dates: fechas
+    _plural: Funciones
+    _singular: Función
+    text_note: Nota
+    dates: fechas
+    subjects: Funciones
+    places: Lugares
+    publish: Publicado
+
+  agent_function_required:
+    _frontend:
+      action:
+        add: Agregar función
+    section:
+      dates: fechas
+    _plural: Funciones
+    _singular: Función
+    text_note: Nota
+    dates: fechas
+    subjects: Funciones
+    places: Lugares
+    publish: Publicado
+
+  agent_functions:
+    _frontend:
+      action:
+        add: Agregar función
+    section:
+      dates: fechas
+    _plural: Funciones
+    _singular: Función
+    text_note: Nota
+    dates: fechas
+    subjects: Funciones
+    places: Lugares
+    publish: Publicado
+
+  agent_function_merge_target:
+    _frontend:
+      action:
+        add: Agregar función
+    section:
+      dates: fechas
+    _plural: Funciones
+    _singular: Función
+    text_note: Nota
+    dates: fechas
+    subjects: Funciones
+    places: Lugares
+    publish: Publicado
+
+  agent_function_merge_victim:
+    _frontend:
+      action:
+        add: Agregar función
+    section:
+      dates: fechas
+    _plural: Funciones
+    _singular: Función
+    text_note: Nota
+    dates: fechas
+    subjects: Funciones
+    places: Lugares
+    publish: Publicado
+
+  agent_topic:
+    _frontend:
+      action:
+        add: Agregar tema
+    section:
+      dates: fechas
+    _plural: Temas
+    _singular: Tema
+    text_note: Nota
+    dates: fechas
+    subjects: Temas
+    places: Lugares
+    publish: Publicado
+
+  agent_topic_required:
+    _frontend:
+      action:
+        add: Agregar tema
+    section:
+      dates: fechas
+    _plural: Temas
+    _singular: Tema
+    text_note: Nota
+    dates: fechas
+    subjects: Temas
+    places: Lugares
+    publish: Publicado
+
+  agent_topics:
+    _frontend:
+      action:
+        add: Agregar tema
+    section:
+      dates: fechas
+    _plural: Temas
+    _singular: Tema
+    text_note: Nota
+    dates: fechas
+    subjects: Temas
+    places: Lugares
+    publish: Publicado
+
+  agent_topic_merge_target:
+    _frontend:
+      action:
+        add: Agregar tema
+    section:
+      dates: fechas
+    _plural: Temas
+    _singular: Tema
+    text_note: Nota
+    dates: fechas
+    subjects: Temas
+    places: Lugares
+    publish: Publicado
+
+  agent_topic_merge_victim:
+    _frontend:
+      action:
+        add: Agregar tema
+    section:
+      dates: fechas
+    _plural: Temas
+    _singular: Tema
+    text_note: Nota
+    dates: fechas
+    subjects: Temas
+    places: Lugares
+    publish: Publicado   
+
+  place:
+    _plural: Lugares
+    _frontend:
+      action:
+        add: Añadir lugar   
+
+  agent_alternate_set:
+    _plural: Conjuntos alternativos
+    _singular: Conjunto alternativo
+    _frontend:
+      action:
+        add: Agregar conjunto alternativo
+    set_component: Establecer componente
+    descriptive_note: Nota descriptiva
+    file_uri: URI de archivo
+    xlink_title_attribute: Atributo de título de Xlink
+    xlink_role_attribute: Atributo de rol de Xlink
+    xlink_arcrole_attribute: Atributo Xlink Arcrole
+    file_version_xlink_actuate_attribute: Atributo de activación de Xlink
+    file_version_xlink_show_attribute: Atributo de Xlink Show
+    last_verified_date: Última fecha de verificación
+    
+  agent_alternate_sets:
+    _plural: Conjuntos alternativos
+    _singular: Conjunto alternativo
+    _frontend:
+      action:
+        add: Agregar conjunto alternativo
+    set_component: Establecer componente
+    descriptive_note: Nota descriptiva
+    file_uri: URI de archivo
+    xlink_title_attribute: Atributo de título de Xlink
+    xlink_role_attribute: Atributo de rol de Xlink
+    xlink_arcrole_attribute: Atributo Xlink Arcrole
+    file_version_xlink_actuate_attribute: Atributo de activación de Xlink
+    file_version_xlink_show_attribute: Atributo de Xlink Show
+    last_verified_date: Última fecha de verificación
+
+  agent_alternate_set_required:
+    _plural: Conjuntos alternativos
+    _singular: Conjunto alternativo
+    _frontend:
+      action:
+        add: Agregar conjunto alternativo
+    set_component: Establecer componente
+    descriptive_note: Nota descriptiva
+    file_uri: URI de archivo
+    xlink_title_attribute: Atributo de título de Xlink
+    xlink_role_attribute: Atributo de rol de Xlink
+    xlink_arcrole_attribute: Atributo Xlink Arcrole
+    file_version_xlink_actuate_attribute: Atributo de activación de Xlink
+    file_version_xlink_show_attribute: Atributo de Xlink Show
+    last_verified_date: Última fecha de verificación
+
+  agent_alternate_set_merge_target:
+    _plural: Conjuntos alternativos
+    _singular: Conjunto alternativo
+    _frontend:
+      action:
+        add: Agregar conjunto alternativo
+    set_component: Establecer componente
+    descriptive_note: Nota descriptiva
+    file_uri: URI de archivo
+    xlink_title_attribute: Atributo de título de Xlink
+    xlink_role_attribute: Atributo de rol de Xlink
+    xlink_arcrole_attribute: Atributo Xlink Arcrole
+    file_version_xlink_actuate_attribute: Atributo de activación de Xlink
+    file_version_xlink_show_attribute: Atributo de Xlink Show
+    last_verified_date: Última fecha de verificación
+
+  agent_alternate_set_merge_victim:
+    _plural: Conjuntos alternativos
+    _singular: Conjunto alternativo
+    _frontend:
+      action:
+        add: Agregar conjunto alternativo
+    set_component: Establecer componente
+    descriptive_note: Nota descriptiva
+    file_uri: URI de archivo
+    xlink_title_attribute: Atributo de título de Xlink
+    xlink_role_attribute: Atributo de rol de Xlink
+    xlink_arcrole_attribute: Atributo Xlink Arcrole
+    file_version_xlink_actuate_attribute: Atributo de activación de Xlink
+    file_version_xlink_show_attribute: Atributo de Xlink Show
+    last_verified_date: Última fecha de verificación
+
+  agent_conventions_declaration:
+    _plural: Declaraciones de la Convención
+    _singular: Declaración de la Convención
+    _frontend:
+      action:
+        add: Agregar declaración de la Convención
+    name_rule: Convención
+    citation: Citación
+    descriptive_note: Nota descriptiva
+    file_uri: URI de archivo
+    xlink_title_attribute: Atributo de título de Xlink
+    xlink_role_attribute: Atributo de rol de Xlink
+    xlink_arcrole_attribute: Atributo Xlink Arcrole
+    file_version_xlink_actuate_attribute: Atributo de activación de Xlink
+    file_version_xlink_show_attribute: Atributo de Xlink Show
+    last_verified_date: Última fecha de verificación
+
+  agent_conventions_declarations:
+    _plural: Declaraciones de la Convención
+    _singular: Declaración de la Convención
+    _frontend:
+      action:
+        add: Agregar declaración de la Convención
+    name_rule: Convención
+    citation: Citación
+    descriptive_note: Nota descriptiva
+    file_uri: URI de archivo
+    xlink_title_attribute: Atributo de título de Xlink
+    xlink_role_attribute: Atributo de rol de Xlink
+    xlink_arcrole_attribute: Atributo Xlink Arcrole
+    file_version_xlink_actuate_attribute: Atributo de activación de Xlink
+    file_version_xlink_show_attribute: Atributo de Xlink Show
+    last_verified_date: Última fecha de verificación
+
+  agent_conventions_declaration_required:
+    _plural: Declaraciones de la Convención
+    _singular: Declaración de la Convención
+    _frontend:
+      action:
+        add: Agregar declaración de la Convención
+    name_rule: Convención
+    citation: Citación
+    descriptive_note: Nota descriptiva
+    file_uri: URI de archivo
+    xlink_title_attribute: Atributo de título de Xlink
+    xlink_role_attribute: Atributo de rol de Xlink
+    xlink_arcrole_attribute: Atributo Xlink Arcrole
+    file_version_xlink_actuate_attribute: Atributo de activación de Xlink
+    file_version_xlink_show_attribute: Atributo de Xlink Show
+    last_verified_date: Última fecha de verificación
+
+  agent_conventions_declaration_merge_target:
+    _plural: Declaraciones de la Convención
+    _singular: Declaración de la Convención
+    _frontend:
+      action:
+        add: Agregar declaración de la Convención
+    name_rule: Convención
+    citation: Citación
+    descriptive_note: Nota descriptiva
+    file_uri: URI de archivo
+    xlink_title_attribute: Atributo de título de Xlink
+    xlink_role_attribute: Atributo de rol de Xlink
+    xlink_arcrole_attribute: Atributo Xlink Arcrole
+    file_version_xlink_actuate_attribute: Atributo de activación de Xlink
+    file_version_xlink_show_attribute: Atributo de Xlink Show
+    last_verified_date: Última fecha de verificación
+
+  agent_conventions_declaration_merge_victim:
+    _plural: Declaraciones de la Convención
+    _singular: Declaración de la Convención
+    _frontend:
+      action:
+        add: Agregar declaración de la Convención
+    name_rule: Convención
+    citation: Citación
+    descriptive_note: Nota descriptiva
+    file_uri: URI de archivo
+    xlink_title_attribute: Atributo de título de Xlink
+    xlink_role_attribute: Atributo de rol de Xlink
+    xlink_arcrole_attribute: Atributo Xlink Arcrole
+    file_version_xlink_actuate_attribute: Atributo de activación de Xlink
+    file_version_xlink_show_attribute: Atributo de Xlink Show
+    last_verified_date: Última fecha de verificación
+
+  agent_other_agency_code:
+    _plural: Otros códigos de agencia
+    _singular: Otro código de agencia
+    _frontend:
+      action:
+        add: Agregar código de agencia
+    agency_code_type: Tipo de código de la agencia de control de registros
+    maintenance_agency: Agencia de mantenimiento
+
+  agent_other_agency_codes:
+    _plural: Otros códigos de agencia
+    _singular: Otro código de agencia
+    _frontend:
+      action:
+        add: Agregar código de agencia
+    agency_code_type: Tipo de código de la agencia de control de registros
+    maintenance_agency: Agencia de mantenimiento
+
+  agent_other_agency_code_required:
+    _plural: Otros códigos de agencia
+    _singular: Otro código de agencia
+    _frontend:
+      action:
+        add: Agregar código de agencia
+    agency_code_type: Tipo de código de la agencia de control de registros
+    maintenance_agency: Agencia de mantenimiento
+
+  agent_other_agency_code_merge_target:
+    _plural: Otros códigos de agencia
+    _singular: Otro código de agencia
+    _frontend:
+      action:
+        add: Agregar código de agencia
+    agency_code_type: Tipo de código de la agencia de control de registros
+    maintenance_agency: Agencia de mantenimiento
+
+  agent_other_agency_code_merge_victim:
+    _plural: Otros códigos de agencia
+    _singular: Otro código de agencia
+    _frontend:
+      action:
+        add: Agregar código de agencia
+    agency_code_type: Tipo de código de la agencia de control de registros
+    maintenance_agency: Agencia de mantenimiento
+
+  agent_maintenance_history:
+    _plural: Historial de mantenimiento
+    _singular: Historial de mantenimiento del agente
+    _frontend:
+      action:
+        add: Añadir evento
+    maintenance_event_type: Tipo de evento de mantenimiento de control de registros
+    maintenance_agent_type: Tipo de agente de mantenimiento de control de registros
+    agent: Agente
+    descriptive_note: Nota descriptiva
+    event_date: Fecha del evento
+
+  agent_maintenance_histories:
+    _plural: Historial de mantenimiento
+    _singular: Historial de mantenimiento del agente
+    _frontend:
+      action:
+        add: Añadir evento
+    maintenance_event_type: Tipo de evento de mantenimiento de control de registros
+    maintenance_agent_type: Tipo de agente de mantenimiento de control de registros
+    agent: Agente
+    descriptive_note: Nota descriptiva
+    event_date: Fecha del evento
+
+  agent_maintenance_history_required:
+    _plural: Historial de mantenimiento
+    _singular: Historial de mantenimiento del agente
+    _frontend:
+      action:
+        add: Añadir evento
+    maintenance_event_type: Tipo de evento de mantenimiento de control de registros
+    maintenance_agent_type: Tipo de agente de mantenimiento de control de registros
+    agent: Agente
+    descriptive_note: Nota descriptiva
+    event_date: Fecha del evento
+
+  agent_maintenance_history_merge_target:
+    _plural: Historial de mantenimiento
+    _singular: Historial de mantenimiento del agente
+    _frontend:
+      action:
+        add: Añadir evento
+    maintenance_event_type: Tipo de evento de mantenimiento de control de registros
+    maintenance_agent_type: Tipo de agente de mantenimiento de control de registros
+    agent: Agente
+    descriptive_note: Nota descriptiva
+    event_date: Fecha del evento
+
+  agent_maintenance_history_merge_victim:
+    _plural: Historial de mantenimiento
+    _singular: Historial de mantenimiento del agente
+    _frontend:
+      action:
+        add: Añadir evento
+    maintenance_event_type: Tipo de evento de mantenimiento de control de registros
+    maintenance_agent_type: Tipo de agente de mantenimiento de control de registros
+    agent: Agente
+    descriptive_note: Nota descriptiva
+    event_date: Fecha del evento
+
+  agent_record_identifier:
+    _plural: ID de registro
+    _singular: ID de registro
+    _frontend:
+      action:
+        add: Agregar ID de registro
+    identifier_type: Tipo de identificador de control de registro
+    source: Fuente
+    primary_identifier: "¿Es el identificador principal?"
+    primary: Primario
+    record_identifier: Identificador de registro
+
+  agent_record_identifiers:
+    _plural: ID de registro
+    _singular: ID de registro
+    _frontend:
+      action:
+        add: Agregar ID de registro
+    identifier_type: Tipo de identificador de control de registro
+    source: Fuente
+    primary_identifier: "¿Es el identificador principal?"
+    primary: Primario
+    record_identifier: Identificador de registro
+
+  agent_record_identifier_required:
+    _plural: ID de registro
+    _singular: ID de registro
+    _frontend:
+      action:
+        add: Agregar ID de registro
+    identifier_type: Tipo de identificador de control de registro
+    source: Fuente
+    primary_identifier: "¿Es el identificador principal?"
+    primary: Primario
+    record_identifier: Identificador de registro
+
+  agent_record_identifier_merge_target:
+    _plural: ID de registro
+    _singular: ID de registro
+    _frontend:
+      action:
+        add: Agregar ID de registro
+    identifier_type: Tipo de identificador de control de registro
+    source: Fuente
+    primary_identifier: "¿Es el identificador principal?"
+    primary: Primario
+    record_identifier: Identificador de registro
+
+  agent_record_identifier_merge_victim:
+    _plural: ID de registro
+    _singular: ID de registro
+    _frontend:
+      action:
+        add: Agregar ID de registro
+    identifier_type: Tipo de identificador de control de registro
+    source: Fuente
+    primary_identifier: "¿Es el identificador principal?"
+    primary: Primario
+    record_identifier: Identificador de registro
+
+  agent_source:
+    _plural: Fuentes
+    _singular: Fuente del agente
+    _frontend:
+      action:
+        add: Agregue una fuente
+    source_entry: Entrada de fuente
+    descriptive_note: Nota descriptiva
+    file_uri: URI de archivo
+    xlink_title_attribute: Atributo de título de Xlink
+    xlink_role_attribute: Atributo de rol de Xlink
+    xlink_arcrole_attribute: Atributo Xlink Arcrole
+    file_version_xlink_actuate_attribute: Atributo de activación de Xlink
+    file_version_xlink_show_attribute: Atributo de Xlink Show
+    last_verified_date: Última fecha de verificación
+
+  agent_sources:
+    _plural: Fuentes
+    _singular: Fuente del agente
+    _frontend:
+      action:
+        add: Agregue una fuente
+    source_entry: Entrada de fuente
+    descriptive_note: Nota descriptiva
+    file_uri: URI de archivo
+    xlink_title_attribute: Atributo de título de Xlink
+    xlink_role_attribute: Atributo de rol de Xlink
+    xlink_arcrole_attribute: Atributo Xlink Arcrole
+    file_version_xlink_actuate_attribute: Atributo de activación de Xlink
+    file_version_xlink_show_attribute: Atributo de Xlink Show
+    last_verified_date: Última fecha de verificación
+
+  agent_source_required:
+    _plural: Fuentes
+    _singular: Fuente del agente
+    _frontend:
+      action:
+        add: Agregue una fuente
+    source_entry: Entrada de fuente
+    descriptive_note: Nota descriptiva
+    file_uri: URI de archivo
+    xlink_title_attribute: Atributo de título de Xlink
+    xlink_role_attribute: Atributo de rol de Xlink
+    xlink_arcrole_attribute: Atributo Xlink Arcrole
+    file_version_xlink_actuate_attribute: Atributo de activación de Xlink
+    file_version_xlink_show_attribute: Atributo de Xlink Show
+    last_verified_date: Última fecha de verificación
+
+  agent_source_merge_target:
+    _plural: Fuentes
+    _singular: Fuente del agente
+    _frontend:
+      action:
+        add: Agregue una fuente
+    source_entry: Entrada de fuente
+    descriptive_note: Nota descriptiva
+    file_uri: URI de archivo
+    xlink_title_attribute: Atributo de título de Xlink
+    xlink_role_attribute: Atributo de rol de Xlink
+    xlink_arcrole_attribute: Atributo Xlink Arcrole
+    file_version_xlink_actuate_attribute: Atributo de activación de Xlink
+    file_version_xlink_show_attribute: Atributo de Xlink Show
+    last_verified_date: Última fecha de verificación
+
+  agent_source_merge_victim:
+    _plural: Fuentes
+    _singular: Fuente del agente
+    _frontend:
+      action:
+        add: Agregue una fuente
+    source_entry: Entrada de fuente
+    descriptive_note: Nota descriptiva
+    file_uri: URI de archivo
+    xlink_title_attribute: Atributo de título de Xlink
+    xlink_role_attribute: Atributo de rol de Xlink
+    xlink_arcrole_attribute: Atributo Xlink Arcrole
+    file_version_xlink_actuate_attribute: Atributo de activación de Xlink
+    file_version_xlink_show_attribute: Atributo de Xlink Show
+    last_verified_date: Última fecha de verificación       
+
+  agent_parallel_name:
+    _plural: Nombres paralelos
+    use_dates: Usar fechas
+
+  agent_name:
+    use_dates: Usar fechas
+
+  agent_resource:
+    _frontend:
+      action:
+        add: Agregar recurso externo relacionado
+    section:
+      dates: fechas
+      places: Lugares
+    _plural: Recursos externos relacionados
+    _singular: Recurso externo relacionado
+    dates: fechas
+    places: Lugares
+    publish: Publicado
+    linked_agent_role: Tipo de relación de recursos
+    linked_resource: Recurso externo relacionado
+    linked_resource_description: Descripción
+    file_uri: URI de archivo
+    xlink_title_attribute: Atributo de título de Xlink
+    xlink_role_attribute: Atributo de rol de Xlink
+    xlink_arcrole_attribute: Atributo Xlink Arcrole
+    file_version_xlink_actuate_attribute: Atributo de activación de Xlink
+    file_version_xlink_show_attribute: Atributo de Xlink Show
+    last_verified_date: Última fecha de verificación
+
+  agent_resources:
+    _frontend:
+      action:
+        add: Agregar recurso externo relacionado
+    section:
+      dates: fechas
+      places: Lugares
+    _plural: Recursos externos relacionados
+    _singular: Recurso externo relacionado
+    dates: fechas
+    places: Lugares
+    publish: Publicado
+    linked_agent_role: Tipo de relación de recursos
+    linked_resource: Recurso externo relacionado
+    linked_resource_description: Descripción
+    file_uri: URI de archivo
+    xlink_title_attribute: Atributo de título de Xlink
+    xlink_role_attribute: Atributo de rol de Xlink
+    xlink_arcrole_attribute: Atributo Xlink Arcrole
+    file_version_xlink_actuate_attribute: Atributo de activación de Xlink
+    file_version_xlink_show_attribute: Atributo de Xlink Show
+    last_verified_date: Última fecha de verificación
+
+  agent_resource_required:
+    _frontend:
+      action:
+        add: Agregar recurso externo relacionado
+    section:
+      dates: fechas
+      places: Lugares
+    _plural: Recursos externos relacionados
+    _singular: Recurso externo relacionado
+    dates: fechas
+    places: Lugares
+    publish: Publicado
+    linked_agent_role: Tipo de relación de recursos
+    linked_resource: Recurso externo relacionado
+    linked_resource_description: Descripción
+    file_uri: URI de archivo
+    xlink_title_attribute: Atributo de título de Xlink
+    xlink_role_attribute: Atributo de rol de Xlink
+    xlink_arcrole_attribute: Atributo Xlink Arcrole
+    file_version_xlink_actuate_attribute: Atributo de activación de Xlink
+    file_version_xlink_show_attribute: Atributo de Xlink Show
+    last_verified_date: Última fecha de verificación
+
+  agent_resource_merge_victim:
+    _frontend:
+      action:
+        add: Agregar recurso externo relacionado
+    section:
+      dates: fechas
+      places: Lugares
+    _plural: Recursos externos relacionados
+    _singular: Recurso externo relacionado
+    dates: fechas
+    places: Lugares
+    publish: Publicado
+    linked_agent_role: Tipo de relación de recursos
+    linked_resource: Recurso externo relacionado
+    linked_resource_description: Descripción
+    file_uri: URI de archivo
+    xlink_title_attribute: Atributo de título de Xlink
+    xlink_role_attribute: Atributo de rol de Xlink
+    xlink_arcrole_attribute: Atributo Xlink Arcrole
+    file_version_xlink_actuate_attribute: Atributo de activación de Xlink
+    file_version_xlink_show_attribute: Atributo de Xlink Show
+    last_verified_date: Última fecha de verificación
+
+  agent_resource_merge_target:
+    _frontend:
+      action:
+        add: Agregar recurso externo relacionado
+    section:
+      dates: fechas
+      places: Lugares
+    _plural: Recursos externos relacionados
+    _singular: Recurso externo relacionado
+    dates: fechas
+    places: Lugares
+    publish: Publicado
+    linked_agent_role: Tipo de relación de recursos
+    linked_resource: Recurso externo relacionado
+    linked_resource_description: Descripción
+    file_uri: URI de archivo
+    xlink_title_attribute: Atributo de título de Xlink
+    xlink_role_attribute: Atributo de rol de Xlink
+    xlink_arcrole_attribute: Atributo Xlink Arcrole
+    file_version_xlink_actuate_attribute: Atributo de activación de Xlink
+    file_version_xlink_show_attribute: Atributo de Xlink Show
+    last_verified_date: Última fecha de verificación
+
+  subsections:
+    notes: Notas
+    dates: fechas
+
+  section_headings:
+    basic_information_tooltip: "<p>Esta sección indica el tipo de agente y si el agente
+      está publicado o no.</p>"
+    record_control_information_tooltip: "<p>Esta sección contiene información sobre
+      el registro en sí, con la expectativa de que se originó fuera de ArchivesSpace
+      o se compartirá con un sistema que no sea ArchivesSpace.</p>"
+    identity_information_tooltip: "<p>Esta sección es la información principal sobre
+      el agente en sí. Un formulario de nombre es el único subregistro obligatorio
+      en un registro de agente.</p>"
+    description_information_tooltip: "<p>Esta sección es la información principal
+      sobre el agente en sí. Un formulario de nombre es el único subregistro obligatorio
+      en un registro de agente.</p>"
+    relation_information_tooltip: "<p>Esta sección se utiliza para indicar relaciones
+      con otros agentes o materiales dentro o fuera de ArchivesSpace.</p>"
+
+
+  note_contact_note:
+    contact_notes_tooltip: "<p>Detalles sobre la interacción con el contacto</p>"
+    date_of_contact_tooltip: "<p>Se utiliza para registrar la fecha o el período de
+      tiempo específicos de una interacción.</p>"
