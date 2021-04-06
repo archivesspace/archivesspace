@@ -93,13 +93,10 @@ class ArchivalObject < Record
                 @citation_container_display ||= parse_container_display(:citation => true).join('; ')
                 ", #{@citation_container_display}."
               end
-<<<<<<< HEAD
       if resolved_resource
         ttl = resolved_resource.dig('title')
         cite += " #{strip_mixed_content(ttl)}, #{resource_identifier}."
       end
-=======
->>>>>>> d88013ff5 (public dir layout changes per rubocop)
       unless repository_information['top']['name'].blank?
         cite += " #{ repository_information['top']['name']}."
       end
