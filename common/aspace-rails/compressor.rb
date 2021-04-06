@@ -5,13 +5,13 @@ class ASpaceCompressor
 
   def initialize(flavour)
     @flavour = flavour
-    @initialized = false 
-    @disabled = false 
+    @initialized = false
+    @disabled = false
   end
 
 
   def do_init
-    return if @disabled 
+    return if @disabled
     yui = Dir.glob(File.join(File.absolute_path(File.dirname(__FILE__)), "yui-compressor*jar")).first
     begin
       classloader = java.net.URLClassLoader.new([java.net.URL.new("file:#{yui}")].to_java(java.net.URL))
@@ -37,10 +37,9 @@ class ASpaceCompressor
 
 
   def compress(s, opts = {})
-    
     do_init if !@initialized
-    return s if @disabled # simply return the asset if the compressor is not available 
-    
+    return s if @disabled # simply return the asset if the compressor is not available
+
 
     output = java.io.StringWriter.new
 

@@ -46,7 +46,6 @@ module CrudHelpers
 
 
   def handle_listing(model, pagination_data, where = {}, order = nil)
-
     dataset = CrudHelpers.scoped_dataset(model, where)
 
     modified_since_time = Time.at(pagination_data[:modified_since])
@@ -97,7 +96,6 @@ module CrudHelpers
   private
 
   def listing_response(dataset, model)
-
     objs = dataset.respond_to?(:all) ? dataset.all : dataset
 
     opts = {:calculate_linked_repositories => current_user.can?(:index_system)}

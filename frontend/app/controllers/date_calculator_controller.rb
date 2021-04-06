@@ -30,7 +30,6 @@ class DateCalculatorController < ApplicationController
     else
       render_aspace_partial :partial => "date_calculator/no_object"
     end
-
   end
 
 
@@ -51,4 +50,3 @@ class DateCalculatorController < ApplicationController
   end
 
 end
-

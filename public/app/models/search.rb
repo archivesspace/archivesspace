@@ -1,4 +1,4 @@
-class Search < Struct.new(:q, :op, :field, :limit, :from_year, :to_year, :filter_fields, :filter_values, :filter_q, :filter_from_year, :filter_to_year,:recordtypes, :dates_searched, :sort, :dates_within, :text_within, :search_statement)
+class Search < Struct.new(:q, :op, :field, :limit, :from_year, :to_year, :filter_fields, :filter_values, :filter_q, :filter_from_year, :filter_to_year, :recordtypes, :dates_searched, :sort, :dates_within, :text_within, :search_statement)
 
   @@BooleanOpts = []
 
@@ -32,23 +32,23 @@ class Search < Struct.new(:q, :op, :field, :limit, :from_year, :to_year, :filter
   def initialize(params = {})
 #    Rails.logger.debug("Initializing: #{params}")
     %w(q op field from_year to_year filter_fields filter_values filter_q recordtypes ).each do |f|
-      if params.kind_of?(Hash)
-         self[f.to_sym] = params[f.to_sym] || []
+      if params.is_a?(Hash)
+        self[f.to_sym] = params[f.to_sym] || []
       else
-        self[f.to_sym] = params.fetch(f.to_sym,[])
+        self[f.to_sym] = params.fetch(f.to_sym, [])
       end
     end
     %w(limit filter_from_year filter_to_year).each do |f|
-      if params.kind_of?(Hash)
+      if params.is_a?(Hash)
         self[f.to_sym] = params[f.to_sym] || ''
       else
         self[f.to_sym] = params.fetch(f.to_sym, '')
       end
     end
-    self[:q].each_with_index do | q,i|
+    self[:q].each_with_index do |q, i|
       self[:q][i] = '*' if q.blank?
     end
-    self[:sort] = params.fetch('sort',nil)
+    self[:sort] = params.fetch('sort', nil)
     self[:dates_searched] =  have_contents?(from_year) || have_contents?(to_year)
     self[:dates_within] = self[:text_within] = false
   end
@@ -56,11 +56,11 @@ class Search < Struct.new(:q, :op, :field, :limit, :from_year, :to_year, :filter
   def filters_blank?
     filter_from_year.blank? && filter_to_year.blank? && filter_q.all?(&:blank?)
   end
- 
+
   def has_query?
     have_contents?(q)
   end
-  
+
   def have_contents?(year_array)
     have = false
     year_array.each do |year|
@@ -70,37 +70,37 @@ class Search < Struct.new(:q, :op, :field, :limit, :from_year, :to_year, :filter
     end
     have
   end
- 
- def allow_dates?
-   allow = true
-   limit.split(",").each do |type|
-     allow = false if type == 'subject'
-     allow = false if type.start_with?('agent')
-   end
-   allow
- end
 
- def search_dates_within?
-   dates_within && !dates_searched && filter_from_year.empty? && filter_to_year.empty?
- end
+  def allow_dates?
+    allow = true
+    limit.split(",").each do |type|
+      allow = false if type == 'subject'
+      allow = false if type.start_with?('agent')
+    end
+    allow
+  end
 
- 
- def get_filter_q_params
-   params = ''
-   self[:filter_q].each do |v|
-     params += "&filter_q[]=#{CGI.escape(v)}"
-   end
-   params
- end
+  def search_dates_within?
+    dates_within && !dates_searched && filter_from_year.empty? && filter_to_year.empty?
+  end
 
- def get_filter_q_arr(url = nil)
-   fqa = []
-   self[:filter_q].each do |v|
-     Rails.logger.debug("v: #{v} CGI-escaped: #{CGI.escape(v)}")
-     uri = (url)? url.sub("&filter_q[]=#{CGI.escape(v)}", "") : ''
-     fqa.push({'v' => v, 'uri' => uri})
-   end
-   fqa
- end
+
+  def get_filter_q_params
+    params = ''
+    self[:filter_q].each do |v|
+      params += "&filter_q[]=#{CGI.escape(v)}"
+    end
+    params
+  end
+
+  def get_filter_q_arr(url = nil)
+    fqa = []
+    self[:filter_q].each do |v|
+      Rails.logger.debug("v: #{v} CGI-escaped: #{CGI.escape(v)}")
+      uri = (url)? url.sub("&filter_q[]=#{CGI.escape(v)}", "") : ''
+      fqa.push({'v' => v, 'uri' => uri})
+    end
+    fqa
+  end
 
 end

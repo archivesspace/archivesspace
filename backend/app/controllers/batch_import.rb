@@ -57,7 +57,7 @@ class ArchivesSpaceService < Sinatra::Base
 
           File.open(env['batch_import_file']) do |stream|
             begin
-              batch = StreamingImport.new(stream, job_monitor, false,  migration )
+              batch = StreamingImport.new(stream, job_monitor, false, migration )
               batch.process
               success = true
             rescue JSONModel::ValidationException, ImportException, Sequel::ValidationFailed, ReferenceError => e

@@ -22,7 +22,7 @@ describe AccessionsController, type: :controller do
         AppConfig[:pui_display_deaccessions] = false
         expect(get :index).to have_http_status(200)
         results = assigns(:results)
-        results.records.each do | rec |
+        results.records.each do |rec|
           expect(rec.deaccessions).to be_empty
         end
       end

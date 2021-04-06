@@ -525,55 +525,55 @@ describe 'OAI handler' do
 
     it "returns an object if set included in OAI in repo" do
         # query explicitly for only fonds objects
-        uri = "/oai?verb=ListRecords&set=fonds&metadataPrefix=oai_dc"
-        response = get uri
-        doc = Nokogiri::XML(response.body)
+      uri = "/oai?verb=ListRecords&set=fonds&metadataPrefix=oai_dc"
+      response = get uri
+      doc = Nokogiri::XML(response.body)
 
         # should have at least 1 result in XML
-        expect(doc.xpath("//xmlns:header[not(@status='deleted')]").length > 0).to be true
+      expect(doc.xpath("//xmlns:header[not(@status='deleted')]").length > 0).to be true
     end
 
     it "does not list a set in ListSets if that set is not enabled for at least one repository" do
-        uri = "/oai?verb=ListSets"
-        response = get uri
-        doc = Nokogiri::XML(response.body)
+      uri = "/oai?verb=ListSets"
+      response = get uri
+      doc = Nokogiri::XML(response.body)
 
-        expect(doc.to_s).to match(/<set><setSpec>fonds<\/setSpec>/)
+      expect(doc.to_s).to match(/<set><setSpec>fonds<\/setSpec>/)
 
-        expect(doc.to_s).to_not match(/<set><setSpec>class<\/setSpec>/)
-        expect(doc.to_s).to_not match(/<set><setSpec>collection<\/setSpec>/)
-        expect(doc.to_s).to_not match(/<set><setSpec>file<\/setSpec>/)
-        expect(doc.to_s).to_not match(/<set><setSpec>item<\/setSpec>/)
-        expect(doc.to_s).to_not match(/<set><setSpec>otherlevel<\/setSpec>/)
-        expect(doc.to_s).to_not match(/<set><setSpec>recordgrp<\/setSpec>/)
-        expect(doc.to_s).to_not match(/<set><setSpec>series<\/setSpec>/)
-        expect(doc.to_s).to_not match(/<set><setSpec>subfonds<\/setSpec>/)
-        expect(doc.to_s).to_not match(/<set><setSpec>subgrp<\/setSpec>/)
-        expect(doc.to_s).to_not match(/<set><setSpec>subseries<\/setSpec>/)
+      expect(doc.to_s).to_not match(/<set><setSpec>class<\/setSpec>/)
+      expect(doc.to_s).to_not match(/<set><setSpec>collection<\/setSpec>/)
+      expect(doc.to_s).to_not match(/<set><setSpec>file<\/setSpec>/)
+      expect(doc.to_s).to_not match(/<set><setSpec>item<\/setSpec>/)
+      expect(doc.to_s).to_not match(/<set><setSpec>otherlevel<\/setSpec>/)
+      expect(doc.to_s).to_not match(/<set><setSpec>recordgrp<\/setSpec>/)
+      expect(doc.to_s).to_not match(/<set><setSpec>series<\/setSpec>/)
+      expect(doc.to_s).to_not match(/<set><setSpec>subfonds<\/setSpec>/)
+      expect(doc.to_s).to_not match(/<set><setSpec>subgrp<\/setSpec>/)
+      expect(doc.to_s).to_not match(/<set><setSpec>subseries<\/setSpec>/)
     end
   end
 
   describe "repository without sets disabled" do
     it "does list a set in ListSets if that set is enabled for at least one repository" do
-        Repository.all.each do |r|
-          r.update(:oai_sets_available => "[]")
-        end
+      Repository.all.each do |r|
+        r.update(:oai_sets_available => "[]")
+      end
 
-        uri = "/oai?verb=ListSets"
-        response = get uri
-        doc = Nokogiri::XML(response.body)
+      uri = "/oai?verb=ListSets"
+      response = get uri
+      doc = Nokogiri::XML(response.body)
 
-        expect(doc.to_s).to match(/<set><setSpec>fonds<\/setSpec>/)
-        expect(doc.to_s).to match(/<set><setSpec>class<\/setSpec>/)
-        expect(doc.to_s).to match(/<set><setSpec>collection<\/setSpec>/)
-        expect(doc.to_s).to match(/<set><setSpec>file<\/setSpec>/)
-        expect(doc.to_s).to match(/<set><setSpec>item<\/setSpec>/)
-        expect(doc.to_s).to match(/<set><setSpec>otherlevel<\/setSpec>/)
-        expect(doc.to_s).to match(/<set><setSpec>recordgrp<\/setSpec>/)
-        expect(doc.to_s).to match(/<set><setSpec>series<\/setSpec>/)
-        expect(doc.to_s).to match(/<set><setSpec>subfonds<\/setSpec>/)
-        expect(doc.to_s).to match(/<set><setSpec>subgrp<\/setSpec>/)
-        expect(doc.to_s).to match(/<set><setSpec>subseries<\/setSpec>/)
+      expect(doc.to_s).to match(/<set><setSpec>fonds<\/setSpec>/)
+      expect(doc.to_s).to match(/<set><setSpec>class<\/setSpec>/)
+      expect(doc.to_s).to match(/<set><setSpec>collection<\/setSpec>/)
+      expect(doc.to_s).to match(/<set><setSpec>file<\/setSpec>/)
+      expect(doc.to_s).to match(/<set><setSpec>item<\/setSpec>/)
+      expect(doc.to_s).to match(/<set><setSpec>otherlevel<\/setSpec>/)
+      expect(doc.to_s).to match(/<set><setSpec>recordgrp<\/setSpec>/)
+      expect(doc.to_s).to match(/<set><setSpec>series<\/setSpec>/)
+      expect(doc.to_s).to match(/<set><setSpec>subfonds<\/setSpec>/)
+      expect(doc.to_s).to match(/<set><setSpec>subgrp<\/setSpec>/)
+      expect(doc.to_s).to match(/<set><setSpec>subseries<\/setSpec>/)
     end
   end
 end

@@ -101,7 +101,7 @@ describe 'Notes' do
              .click
     end
 
-    [0, 1]. each do |i|
+    [0, 1].each do |i|
       %w[label value].each do |field|
         @driver.clear_and_send_keys([:id, "resource_notes__0__subnotes__2__items__#{i}__#{field}_"],
                                     'pogo')
@@ -140,7 +140,7 @@ describe 'Notes' do
              .click
     end
 
-    [0, 1, 2, 3]. each do |i|
+    [0, 1, 2, 3].each do |i|
       @driver.clear_and_send_keys([:id, "resource_notes__1__subnotes__1__items__#{i}_"],
                                   "Item #{i+1}")
     end
@@ -150,7 +150,7 @@ describe 'Notes' do
     @driver.find_element(css: '#notes #resource_notes__1_ .collapse-subrecord-toggle').click
     @driver.wait_for_ajax
 
-    [0, 1, 2, 3]. each do |i|
+    [0, 1, 2, 3].each do |i|
       expect(@driver.find_element(css: "input#resource_notes__1__subnotes__1__items__#{i}_").attribute('value')).to eq("Item #{i+1}")
     end
 
@@ -162,7 +162,7 @@ describe 'Notes' do
              .click
     end
 
-    [4, 5]. each do |i|
+    [4, 5].each do |i|
       @driver.clear_and_send_keys([:id, "resource_notes__1__subnotes__1__items__#{i}_"],
                                   "Item #{i+1}")
     end
@@ -172,7 +172,7 @@ describe 'Notes' do
     @driver.find_element(css: '#notes #resource_notes__1_ .collapse-subrecord-toggle').click
     @driver.wait_for_ajax
 
-    [0, 1, 2, 3, 4, 5]. each do |i|
+    [0, 1, 2, 3, 4, 5].each do |i|
       expect(@driver.find_element(css: "input#resource_notes__1__subnotes__1__items__#{i}_").attribute('value')).to eq("Item #{i+1}")
     end
   end

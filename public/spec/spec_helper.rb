@@ -88,7 +88,7 @@ def setup_test_data
     create(:archival_object,
            resource: { 'ref' => resource_with_scope.uri }, publish: true)
   end
-  
+
   run_all_indexers
 end
 

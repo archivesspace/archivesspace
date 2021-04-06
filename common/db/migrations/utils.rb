@@ -78,7 +78,7 @@ def get_enum_value_id(enum_name, enum_value)
   enum_id = self[:enumeration].filter(:name => enum_name).select(:id).first[:id]
 
   if enum_id
-    enum_value_id = self[:enumeration_value].filter(:value => enum_value, 
+    enum_value_id = self[:enumeration_value].filter(:value => enum_value,
                                                     :enumeration_id => enum_id)
                                             .select(:id)
                                             .first[:id]
@@ -115,13 +115,13 @@ def create_enum(name, values, default = nil, editable = false, opts = {})
   # we updated the schema to include ordering for enum values. so, we will need
   # those for future adding enums
   include_position = self.schema(:enumeration_value).flatten.include?(:position)
-  
+
   values.each_with_index do |value, i|
-    props = { :enumeration_id => id, :value => value, :readonly => readonly_values.include?(value) ? 1 : 0 } 
+    props = { :enumeration_id => id, :value => value, :readonly => readonly_values.include?(value) ? 1 : 0 }
     props[:position] = i if include_position
 
-    id_of_value =  self[:enumeration_value].insert(props)
-                                       
+    id_of_value = self[:enumeration_value].insert(props)
+
     id_of_default = id_of_value if value === default
   end
 
@@ -130,7 +130,7 @@ def create_enum(name, values, default = nil, editable = false, opts = {})
   end
 end
 
-# adds a value to an existing enumeration. 
+# adds a value to an existing enumeration.
 # if applicable, the new value is set to last position.
 def add_values_to_enum(name, values)
   enum_id = get_enum_id(name)
@@ -148,9 +148,9 @@ def add_values_to_enum(name, values)
     end
 
     values.each_with_index do |value, ind|
-      props = { :enumeration_id => enum_id, 
-                :value => value, 
-                :readonly => 0 } 
+      props = { :enumeration_id => enum_id,
+                :value => value,
+                :readonly => 0 }
 
       i = ind += 1 # index starts at zero
       props[:position] = i + last_position if include_position

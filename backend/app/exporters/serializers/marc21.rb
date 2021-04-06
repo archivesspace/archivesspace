@@ -2,7 +2,6 @@ class MARCSerializer < ASpaceExport::Serializer
   serializer_for :marc21
 
   def build(marc, opts = {})
-
     builder = Nokogiri::XML::Builder.new(:encoding => "UTF-8") do |xml|
       _root(marc, xml)
     end
@@ -25,7 +24,6 @@ class MARCSerializer < ASpaceExport::Serializer
 
 
   def serialize(marc, opts = {})
-
     builder = build(MARCSerializer.decorate_record(marc), opts)
 
     builder.to_xml
@@ -35,20 +33,19 @@ class MARCSerializer < ASpaceExport::Serializer
   private
 
   def _root(marc, xml)
-
     xml.collection('xmlns'              => 'http://www.loc.gov/MARC21/slim',
                    'xmlns:marc'         => 'http://www.loc.gov/MARC21/slim',
                    'xmlns:xsi'          => 'http://www.w3.org/2001/XMLSchema-instance',
-                   'xsi:schemaLocation' => 'http://www.loc.gov/MARC21/slim http://www.loc.gov/standards/marcxml/schema/MARC21slim.xsd'){
+                   'xsi:schemaLocation' => 'http://www.loc.gov/MARC21/slim http://www.loc.gov/standards/marcxml/schema/MARC21slim.xsd') {
 
       xml.record {
 
         xml.leader {
-         xml.text marc.leader_string
+          xml.text marc.leader_string
         }
 
         xml.controlfield(:tag => '008') {
-         xml.text marc.controlfield_string
+          xml.text marc.controlfield_string
         }
         sorted_datafields = marc.datafields.sort {|a, b| a.tag <=> b.tag}
 
@@ -61,7 +58,7 @@ class MARCSerializer < ASpaceExport::Serializer
 
             df.subfields.each do |sf|
 
-              xml.subfield(:code => sf.code){
+              xml.subfield(:code => sf.code) {
                 xml.text sf.text.gsub(/<[^>]*>/, ' ')
               }
             end

@@ -60,14 +60,14 @@ describe "EAD export mappings" do
                                                            :content => "note_text - The ship set ground on the shore of this uncharted desert isle"} ),
                                                    build(:json_note_text, { :publish => true,
                                                            :content => "<p id='whatisthisfoolishness' >note_text - With:</p>"}),
-                                                   build(:json_note_definedlist,{  :publish => true, :title => "note_definedlist",
+                                                   build(:json_note_definedlist, { :publish => true, :title => "note_definedlist",
                                                            :items => [
                                                                       {:label => "First Mate", :value => "<persname encodinganalog='600$a' source='lcnaf'>Gilligan</persname>" },
-                                                                      {:label => "Captain",:value => "The Skipper"},
+                                                                      {:label => "Captain", :value => "The Skipper"},
                                                                       {:label => "Etc.", :value => "The Professor and Mary Ann" }
                                                                      ]
                                                          }),
-                                                   build(:json_note_text,{   :content => "note_text - Here on Gillgian's Island", :publish => true}) ,
+                                                   build(:json_note_text, { :content => "note_text - Here on Gillgian's Island", :publish => true}) ,
                                                   ]
                                    })
 
@@ -87,7 +87,7 @@ describe "EAD export mappings" do
     resource = create(:json_resource,
                       :linked_agents => build_linked_agents(@agents),
                       :notes => build_archival_object_notes(30) + [@mixed_subnotes_tracer, @another_note_tracer],
-                      :subjects => @subjects.map{|ref, s| {:ref => ref}},
+                      :subjects => @subjects.map {|ref, s| {:ref => ref}},
                       :instances => instances,
                       :finding_aid_status => %w(completed in_progress under_revision unprocessed).sample,
                       :finding_aid_filing_title => "this is a filing title",
@@ -101,7 +101,7 @@ describe "EAD export mappings" do
     ark_resource = create(:json_resource,
                       :linked_agents => build_linked_agents(@agents),
                       :notes => build_archival_object_notes(30) + [@mixed_subnotes_tracer, @another_note_tracer],
-                      :subjects => @subjects.map{|ref, s| {:ref => ref}},
+                      :subjects => @subjects.map {|ref, s| {:ref => ref}},
                       :instances => instances,
                       :finding_aid_status => %w(completed in_progress under_revision unprocessed).sample,
                       :finding_aid_filing_title => "this is a filing title",
@@ -116,7 +116,7 @@ describe "EAD export mappings" do
 
     10.times {
       parent = [true, false].sample ? @archival_objects.keys[rand(@archival_objects.keys.length)] : nil
-      a = create(:json_archival_object_normal,  :resource => {:ref => @resource.uri},
+      a = create(:json_archival_object_normal, :resource => {:ref => @resource.uri},
                  :parent => parent ? {:ref => parent} : nil,
                  :notes => build_archival_object_notes(5),
                  :linked_agents => build_linked_agents(@agents),
@@ -127,7 +127,7 @@ describe "EAD export mappings" do
                                       :sub_container => build(:json_sub_container,
                                                               :top_container => {:ref => @top_container.uri}))
                                ],
-                 :subjects => @subjects.map{|ref, s| {:ref => ref}}.shuffle,
+                 :subjects => @subjects.map {|ref, s| {:ref => ref}}.shuffle,
                  :publish => true,
                  )
 
@@ -146,7 +146,6 @@ describe "EAD export mappings" do
 
 
   def test_mapping_template(doc, data, path, trib=nil)
-
     case path.slice(0)
     when '/'
       path
@@ -192,7 +191,7 @@ describe "EAD export mappings" do
 
 
   def build_linked_agents(agents)
-    agents = agents.map{|ref, a| {
+    agents = agents.map {|ref, a| {
         :ref => ref,
         :role => (ref[-1].to_i % 2 == 0 ? 'creator' : 'subject'),
         :terms => [build(:json_term), build(:json_term)],
@@ -338,7 +337,7 @@ describe "EAD export mappings" do
       }
 
       it "maps note content to {desc_path}/NOTE_TAG" do
-        object.notes.select{|n| archdesc_note_types.include?(n['type'])}.each do |note|
+        object.notes.select {|n| archdesc_note_types.include?(n['type'])}.each do |note|
           head_text = note['label'] ? note['label'] : translate('enumerations._note_types', note['type'])
           id = "aspace_" + note['persistent_id']
           content = Nokogiri::XML::DocumentFragment.parse(note_content(note)).inner_text
@@ -363,7 +362,7 @@ describe "EAD export mappings" do
     describe "bibliography and index notes section: " do
       let(:bibliographies) { object.notes.select {|n| n['type'] == 'bibliography'} }
       let(:indexes) { object.notes.select {|n| n['type'] == 'index'} }
-      let(:index_item_type_map) {  {
+      let(:index_item_type_map) { {
           'corporate_entity'=> 'corpname',
           'genre_form'=> 'genreform',
           'name'=> 'name',
@@ -435,7 +434,7 @@ describe "EAD export mappings" do
       let(:archdesc_note_types) {
         %w(accruals appraisal arrangement bioghist accessrestrict userestrict custodhist altformavail originalsloc fileplan odd acqinfo otherfindaid phystech prefercite processinfo relatedmaterial scopecontent separatedmaterial)
       }
-      let(:multis) { object.notes.select{|n| n['subnotes'] && (archdesc_note_types).include?(n['type']) } }
+      let(:multis) { object.notes.select {|n| n['subnotes'] && (archdesc_note_types).include?(n['type']) } }
 
       let(:build_path) { Proc.new {|note|
           content = note_content(note)
@@ -506,7 +505,7 @@ describe "EAD export mappings" do
             mt(dl['title'], "#{dl_path}/head")
             dl['items'].each_with_index do |item, j|
               mt(item['label'], "#{dl_path}/defitem[#{j+1}]/label")
-              mt(item['value'], "#{dl_path}/defitem[#{j+1}]/item",  :markup)
+              mt(item['value'], "#{dl_path}/defitem[#{j+1}]/item", :markup)
             end
           end
         end
@@ -515,7 +514,7 @@ describe "EAD export mappings" do
       it "ensures subnotes[] order is respected, even if subnotes are of mixed types" do
 
         path = "//bioghist[@id = 'aspace_#{@mixed_subnotes_tracer['persistent_id']}']"
-        head_text = translate('enumerations._note_types',@mixed_subnotes_tracer['type'])
+        head_text = translate('enumerations._note_types', @mixed_subnotes_tracer['type'])
 
         mt(head_text, "#{path}/head")
         i = 2 # start at two since head is the first child
@@ -651,7 +650,7 @@ describe "EAD export mappings" do
       it "maps notes of type 'dimensions' to did/physdesc/dimensions" do
         notes.select {|n| n['type'] == 'dimensions'}.each_with_index do |note, i|
           id = "aspace_" + note['persistent_id']
-          content = note_content(note).gsub("<p>",'').gsub("</p>", "")
+          content = note_content(note).gsub("<p>", '').gsub("</p>", "")
           path = "did/physdesc[not(@altrender)][dimensions][#{i+1}]/dimensions"
           path += id ? "[@id='#{id}']" : "[p[contains(text(), #{content})]]"
           full_path = "#{desc_path}/#{path}"
@@ -736,7 +735,7 @@ describe "EAD export mappings" do
         when 'function'; 'function'
         when 'genre_form', 'style_period';  'genreform'
         when 'geographic', 'cultural_context'; 'geogname'
-        when 'occupation';  'occupation'
+        when 'occupation'; 'occupation'
         when 'topical'; 'subject'
         when 'uniform_title'; 'title'
         else; nil
@@ -773,7 +772,7 @@ describe "EAD export mappings" do
 
           if terms.length > 0
             content << " -- "
-            content << terms.map{|t| t['term']}.join(' -- ')
+            content << terms.map {|t| t['term']}.join(' -- ')
           end
 
           path = "#{desc_path}/controlaccess/#{node_name}[contains(text(), '#{sort_name}')]"
@@ -814,7 +813,7 @@ describe "EAD export mappings" do
           node_name = node_name_for_term_type(subject.terms[0]['term_type'])
           next unless node_name
 
-          term_string = subject.terms.map{|t| t['term']}.join(' -- ')
+          term_string = subject.terms.map {|t| t['term']}.join(' -- ')
           path = "/ead/archdesc/controlaccess/#{node_name}[text() = '#{term_string}']"
 
           mt(term_string, path)
@@ -868,7 +867,7 @@ describe "EAD export mappings" do
     end
 
     it "maps resource.(id_0|id_1|id_2|id_3) to filedesc/titlestmt/titleproper/num" do
-      mt((0..3).map{|i| @resource.send("id_#{i}")}.compact.join('.'), "eadheader/filedesc/titlestmt/titleproper/num")
+      mt((0..3).map {|i| @resource.send("id_#{i}")}.compact.join('.'), "eadheader/filedesc/titlestmt/titleproper/num")
     end
 
     it "maps resource.finding_aid_author to filedesc/titlestmt/author" do
@@ -896,8 +895,8 @@ describe "EAD export mappings" do
     describe "repository.agent.agent_contacts[0] to filedesc/publicationstmt/address/ mappings" do
       let(:path) { "eadheader/filedesc/publicationstmt/address/" }
       let(:contact) { JSONModel(:agent_corporate_entity).find(1).agent_contacts[0] }
-      let(:offset_1) { (1..3).map{|i| contact["address_#{i}"]}.compact.count + 1 }
-      let(:offset_2) { %w(city region post_code).map{|k| contact[k]}.compact.length > 0 ? 1 : 0 }
+      let(:offset_1) { (1..3).map {|i| contact["address_#{i}"]}.compact.count + 1 }
+      let(:offset_2) { %w(city region post_code).map {|k| contact[k]}.compact.length > 0 ? 1 : 0 }
 
       it "maps address_(1|2|3) to addressline" do
         j = 1
@@ -910,7 +909,7 @@ describe "EAD export mappings" do
       end
 
       it "maps city, region, post_code to addressline" do
-        line = %w(city region).map{|k| contact[k] }.compact.join(', ')
+        line = %w(city region).map {|k| contact[k] }.compact.join(', ')
         line += " #{contact['post_code']}"
         line.strip!
 
@@ -928,7 +927,7 @@ describe "EAD export mappings" do
       it "maps 'email' to addressline" do
         offset_3 = contact['telephone'] ? 1 : 0
         if (data = contact['email'])
-          mt(data, "#{path}addressline[#{offset_1 + offset_2 +  offset_3}]")
+          mt(data, "#{path}addressline[#{offset_1 + offset_2 + offset_3}]")
         end
       end
     end
@@ -1057,7 +1056,6 @@ describe "EAD export mappings" do
     let(:digital_objects) { @digital_objects.values }
 
     def description_content(obj)
-
       date = obj.dates[0] || {}
       content = ""
       content << "#{obj.title}" if obj.title
@@ -1090,12 +1088,12 @@ describe "EAD export mappings" do
             mt(content, "#{path}/xmlns:daodesc/xmlns:p")
           end
         else
-          href =  obj.digital_object_id
+          href = obj.digital_object_id
           path = "/xmlns:ead/xmlns:archdesc/xmlns:dao[@xlink:href='#{href}']"
           content = description_content(obj)
-          xlink_actuate_attribute =  'onRequest'
+          xlink_actuate_attribute = 'onRequest'
           mt(xlink_actuate_attribute, path, 'xlink:actuate')
-          xlink_show_attribute =  'new'
+          xlink_show_attribute = 'new'
           mt(xlink_show_attribute, path, 'xlink:show')
           mt(obj.title, path, 'xlink:title')
           mt(content, "#{path}/xmlns:daodesc/xmlns:p")

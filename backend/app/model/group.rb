@@ -107,6 +107,7 @@ class Group < Sequel::Model(:group)
 
     if self.class.db[:group_permission].filter(:group_id => self.id,
                                                :permission_id => permission.id).empty?
+
       add_permission(permission)
     end
   end

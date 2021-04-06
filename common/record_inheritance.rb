@@ -191,7 +191,7 @@ class RecordInheritance
     json
   end
 
-  
+
   def apply_inheritance_properties(json, vals, ancestor, field_config)
     props = {
       'ref' => ancestor['ref'],

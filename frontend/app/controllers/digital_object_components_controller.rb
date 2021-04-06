@@ -25,7 +25,6 @@ class DigitalObjectComponentsController < ApplicationController
     return render_aspace_partial :partial => "digital_object_components/new_inline" if inline?
 
     # render the full DOC form
-
   end
 
   def edit
@@ -42,8 +41,8 @@ class DigitalObjectComponentsController < ApplicationController
   def create
     handle_crud(:instance => :digital_object_component,
                 :find_opts => find_opts,
-                :on_invalid => ->(){ render_aspace_partial :partial => "new_inline" },
-                :on_valid => ->(id){
+                :on_invalid => ->() { render_aspace_partial :partial => "new_inline" },
+                :on_valid => ->(id) {
                   # Refetch the record to ensure all sub records are resolved
                   # (this object isn't marked as stale upon create like Archival Objects,
                   # so need to do it manually)
@@ -57,6 +56,7 @@ class DigitalObjectComponentsController < ApplicationController
                      @digital_object_component["slug"] == nil &&
                      params["digital_object_component"] &&
                      params["digital_object_component"]["is_slug_auto"] == "1"
+
                     flash[:warning] = I18n.t("slug.autogen_disabled")
                   end
 
@@ -74,8 +74,8 @@ class DigitalObjectComponentsController < ApplicationController
 
     handle_crud(:instance => :digital_object_component,
                 :obj => @digital_object_component,
-                :on_invalid => ->(){ return render_aspace_partial :partial => "edit_inline" },
-                :on_valid => ->(id){
+                :on_invalid => ->() { return render_aspace_partial :partial => "edit_inline" },
+                :on_valid => ->(id) {
                   flash.now[:success] = parent ?
                     I18n.t("digital_object_component._frontend.messages.updated_with_parent", JSONModelI18nWrapper.new(:digital_object_component => @digital_object_component, :digital_object => digital_object, :parent => parent).enable_parse_mixed_content!(url_for(:root))) :
                     I18n.t("digital_object_component._frontend.messages.updated", JSONModelI18nWrapper.new(:digital_object_component => @digital_object_component, :digital_object => digital_object).enable_parse_mixed_content!(url_for(:root)))
@@ -84,6 +84,7 @@ class DigitalObjectComponentsController < ApplicationController
                      @digital_object_component["slug"] == nil &&
                      params["digital_object_component"] &&
                      params["digital_object_component"]["is_slug_auto"] == "1"
+
                     flash.now[:warning] = I18n.t("slug.autogen_disabled")
                   end
 
@@ -131,7 +132,6 @@ class DigitalObjectComponentsController < ApplicationController
 
 
   def update_defaults
-
     begin
       DefaultValues.from_hash({
                                 "record_type" => "digital_object_component",
@@ -149,7 +149,6 @@ class DigitalObjectComponentsController < ApplicationController
       flash[:error] = e.message
       redirect_to :controller => :digital_object_components, :action => :defaults
     end
-
   end
 
 
@@ -172,7 +171,7 @@ class DigitalObjectComponentsController < ApplicationController
     do_children = DigitalObjectComponentChildren.from_hash(row_data, false, true)
 
     # validate each row individually (to avoid weird indexes in the error paths)
-    render :json => do_children.children.collect{|c| JSONModel(:digital_object_component).from_hash(c, false)._exceptions}
+    render :json => do_children.children.collect {|c| JSONModel(:digital_object_component).from_hash(c, false)._exceptions}
   end
 
   def add_children
@@ -191,9 +190,9 @@ class DigitalObjectComponentsController < ApplicationController
         @children = DigitalObjectComponentChildren.from_hash(children_data, false)
 
         if params["validate_only"] == "true"
-          @exceptions = @children.children.collect{|c| JSONModel(:digital_object_component).from_hash(c, false)._exceptions}
+          @exceptions = @children.children.collect {|c| JSONModel(:digital_object_component).from_hash(c, false)._exceptions}
 
-          error_count = @exceptions.select{|e| !e.empty?}.length
+          error_count = @exceptions.select {|e| !e.empty?}.length
           if error_count > 0
             flash.now[:error] = I18n.t("rde.messages.rows_with_errors", :count => error_count)
           else
@@ -207,14 +206,13 @@ class DigitalObjectComponentsController < ApplicationController
 
         return render :plain => I18n.t("rde.messages.success")
       rescue JSONModel::ValidationException => e
-        @exceptions = @children.children.collect{|c| JSONModel(:digital_object_component).from_hash(c, false)._exceptions}
-        
+        @exceptions = @children.children.collect {|c| JSONModel(:digital_object_component).from_hash(c, false)._exceptions}
+
         if @exceptions.all?(&:blank?)
           e.errors.each { |key, vals| flash.now[:error] = "#{key} : #{vals.join('<br/>')}" }
         else
-          flash.now[:error] = I18n.t("rde.messages.rows_with_errors", :count => @exceptions.select{|e| !e.empty?}.length)
+          flash.now[:error] = I18n.t("rde.messages.rows_with_errors", :count => @exceptions.select {|e| !e.empty?}.length)
         end
-
       end
 
     end

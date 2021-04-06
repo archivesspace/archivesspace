@@ -16,10 +16,10 @@ describe 'Accession converter' do
 
     @records = convert(test_file)
     @accessions = @records.select {|r| r['jsonmodel_type'] == 'accession' }
-    @agents = @records.select { |a| a['jsonmodel_type'].include?('agent_')  }
-    @subjects = @records.select { |a| a['jsonmodel_type'] == 'subject'  }
+    @agents = @records.select { |a| a['jsonmodel_type'].include?('agent_') }
+    @subjects = @records.select { |a| a['jsonmodel_type'] == 'subject' }
     @dates = []
-    @accessions.each { |a| @dates = @dates +  a['dates'] }
+    @accessions.each { |a| @dates = @dates + a['dates'] }
   end
 
   it "created one Accession record for each row in the CSV file" do

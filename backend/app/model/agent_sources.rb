@@ -5,4 +5,3 @@ class AgentSources < Sequel::Model(:agent_sources)
 
   set_model_scope :global
 end
-

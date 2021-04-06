@@ -19,7 +19,7 @@ class RightsStatement < Sequel::Model(:rights_statement)
   agent_relator_enum("linked_agent_archival_record_relators")
 
   auto_generate :property => :identifier,
-                :generator => proc  { |json|
+                :generator => proc { |json|
                   SecureRandom.hex
                 },
                 :only_on_create => true

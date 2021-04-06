@@ -27,7 +27,7 @@ class ContainersController < ApplicationController
                                          'facet.mincount' => 1
                                        })
     search_opts['fq']=[qry]
-    search_opts['resolve[]']  = ['repository:id', 'resource:id@compact_resource', 'ancestors:id@compact_resource', 'top_container_uri_u_sstr:id']
+    search_opts['resolve[]'] = ['repository:id', 'resource:id@compact_resource', 'ancestors:id@compact_resource', 'top_container_uri_u_sstr:id']
     set_up_search(['pui_collection', 'pui_archival_object', 'pui_accession'], ['primary_type', 'child_container_u_sstr', 'grand_child_container_u_sstr', 'instance_type_enum_s'], search_opts, params, qry)
     @base_search= @base_search.sub("q=#{qry}", '')
     page = Integer(params.fetch(:page, "1"))

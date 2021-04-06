@@ -3,7 +3,7 @@ require 'spec_helper'
 describe 'Repository controller' do
 
   it "gives a list of all repositories" do
-    [0,1].each do |n|
+    [0, 1].each do |n|
       repo_code = create(:repo).repo_code
 
       repos = JSONModel(:repository).all
@@ -49,7 +49,7 @@ describe 'Repository controller' do
 
 
   it "returns a 404 when a repository is not found" do
-    ids = JSONModel(:repository).all.map{|r| r.id }.sort
+    ids = JSONModel(:repository).all.map {|r| r.id }.sort
     ids.unshift 0
 
     non_existing_id = ids.last + 1

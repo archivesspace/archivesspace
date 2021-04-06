@@ -124,6 +124,7 @@ module Selenium
         try = 0
         while (execute_script('return document.readyState') != 'complete') ||
               !execute_script('return window.$ == undefined || $.active == 0')
+
           if try > max_tries
             puts 'Retry limit hit on wait_for_ajax.  Going ahead anyway.'
             break

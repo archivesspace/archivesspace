@@ -11,17 +11,17 @@ class OAIUtils
         if note['jsonmodel_type'] == 'note_chronology'
           [
             strip_mixed_content(note['title']),
-            ASUtils.wrap(note['items']).map{|item|
+            ASUtils.wrap(note['items']).map {|item|
               [
                 item['event_date'],
-                ASUtils.wrap(item['events']).map{|e| strip_mixed_content(e)}.join(', ')
+                ASUtils.wrap(item['events']).map {|e| strip_mixed_content(e)}.join(', ')
               ].compact.join(', ')
             }.join('; ')
           ].compact.join('. ')
         elsif note['jsonmodel_type'] == 'note_definedlist'
           [
             note['title'],
-            ASUtils.wrap(note['items']).map{|item|
+            ASUtils.wrap(note['items']).map {|item|
               [
                 strip_mixed_content(item['label']),
                 strip_mixed_content(item['value'])
@@ -31,7 +31,7 @@ class OAIUtils
         elsif note['jsonmodel_type'] == 'note_orderedlist'
           [
             strip_mixed_content(note['title']),
-            ASUtils.wrap(note['items']).map{|i| strip_mixed_content(i)}.join('; ')
+            ASUtils.wrap(note['items']).map {|i| strip_mixed_content(i)}.join('; ')
           ].compact.join('. ')
         elsif note.has_key?('content')
           Array(note['content']).map {|content|

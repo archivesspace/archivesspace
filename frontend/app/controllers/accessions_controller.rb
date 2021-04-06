@@ -52,9 +52,7 @@ class AccessionsController < ApplicationController
         @accession.update(defaults.values)
       end
     end
-
   end
-
 
 
   def defaults
@@ -69,7 +67,6 @@ class AccessionsController < ApplicationController
 
 
   def update_defaults
-
     begin
       DefaultValues.from_hash({
                                 "record_type" => "accession",
@@ -87,7 +84,6 @@ class AccessionsController < ApplicationController
       flash[:error] = e.message
       redirect_to :controller => :accessions, :action => :defaults
     end
-
   end
 
   def edit
@@ -113,15 +109,16 @@ class AccessionsController < ApplicationController
   def create
     handle_crud(:instance => :accession,
                 :model => Accession,
-                :on_invalid => ->(){ render action: "new" },
-                :on_valid => ->(id){
+                :on_invalid => ->() { render action: "new" },
+                :on_valid => ->(id) {
                     flash[:success] = I18n.t("accession._frontend.messages.created", JSONModelI18nWrapper.new(:accession => @accession))
-                     if @accession["is_slug_auto"] == false &&
-                        @accession["slug"] == nil &&
-                        params["accession"] &&
-                        params["accession"]["is_slug_auto"] == "1"
-                       flash[:warning] = I18n.t("slug.autogen_disabled")
-                     end
+                    if @accession["is_slug_auto"] == false &&
+                       @accession["slug"] == nil &&
+                       params["accession"] &&
+                       params["accession"]["is_slug_auto"] == "1"
+
+                      flash[:warning] = I18n.t("slug.autogen_disabled")
+                    end
                     redirect_to(:controller => :accessions,
                                 :action => :edit,
                                 :id => id) })
@@ -131,15 +128,16 @@ class AccessionsController < ApplicationController
     handle_crud(:instance => :accession,
                 :model => Accession,
                 :obj => fetch_resolved(params[:id]),
-                :on_invalid => ->(){
+                :on_invalid => ->() {
                   return render action: "edit"
                 },
-                :on_valid => ->(id){
+                :on_valid => ->(id) {
                   flash[:success] = I18n.t("accession._frontend.messages.updated", JSONModelI18nWrapper.new(:accession => @accession))
                   if @accession["is_slug_auto"] == false &&
                      @accession["slug"] == nil &&
                      params["accession"] &&
                      params["accession"]["is_slug_auto"] == "1"
+
                     flash[:warning] = I18n.t("slug.autogen_disabled")
                   end
 

@@ -5,7 +5,7 @@ Sequel.migration do
 
   up do
     show_full_agents_permission_id = self[:permission]
-    	.insert(:permission_code => 'show_full_agents',
+      .insert(:permission_code => 'show_full_agents',
               :description => 'The ability to add and edit extended agent attributes',
               :level => 'repository',
               :created_by => 'admin',
@@ -20,20 +20,20 @@ Sequel.migration do
       .filter(:group_code => "repository-managers")
       .select(:id)
       .each do |m|
-        self[:group_permission].insert(
-          :group_id      => m[:id],
-          :permission_id => show_full_agents_permission_id
-        )
+      self[:group_permission].insert(
+        :group_id      => m[:id],
+        :permission_id => show_full_agents_permission_id
+      )
     end
 
     self[:group]
       .filter(:group_code => "repository-archivists")
       .select(:id)
       .each do |m|
-        self[:group_permission].insert(
-          :group_id      => m[:id],
-          :permission_id => show_full_agents_permission_id
-        )
+      self[:group_permission].insert(
+        :group_id      => m[:id],
+        :permission_id => show_full_agents_permission_id
+      )
     end
   end
 
@@ -41,4 +41,3 @@ Sequel.migration do
   end
 
 end
-

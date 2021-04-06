@@ -174,16 +174,16 @@ class AccessionConverter < Converter
 
       :agent => {
         :record_type => Proc.new {|data|
-          @agent_type = data['agent_type']
+            @agent_type = data['agent_type']
           },
         :on_row_complete => Proc.new {|cache, agent|
-          accession = cache.find {|obj| obj.class.record_type == 'accession' }
+            accession = cache.find {|obj| obj.class.record_type == 'accession' }
 
-          if accession
-            accession.linked_agents[0]['ref'] = agent.uri
-          else
-            cache.reject! {|obj| obj.key == agent.key}
-          end
+            if accession
+              accession.linked_agents[0]['ref'] = agent.uri
+            else
+              cache.reject! {|obj| obj.key == agent.key}
+            end
           },
 
       },
@@ -197,7 +197,7 @@ class AccessionConverter < Converter
 
       :agent_name => {
         :record_type => Proc.new {|data|
-            @agent_type.sub(/agent_/, 'name_')
+          @agent_type.sub(/agent_/, 'name_')
         },
         :on_create => Proc.new {|data, obj|
           if @agent_type =~ /family/
@@ -212,13 +212,13 @@ class AccessionConverter < Converter
 
       :accession => {
         :on_create => Proc.new {|data, obj|
-            if data['agent_role']
-              if data['agent_relator']
-                obj.linked_agents << {'role' => data['agent_role'], 'relator' => data['agent_relator']}
-              else
-                obj.linked_agents << {'role' => data['agent_role']}
-              end
+          if data['agent_role']
+            if data['agent_relator']
+              obj.linked_agents << {'role' => data['agent_role'], 'relator' => data['agent_relator']}
+            else
+              obj.linked_agents << {'role' => data['agent_role']}
             end
+          end
         },
         :on_row_complete => Proc.new { |queue, accession|
           queue.select {|obj| obj.class.record_type == 'event'}.each do |event|
@@ -309,7 +309,6 @@ class AccessionConverter < Converter
       :processed_event_date => event_template('processed'),
 
     }
-
   end
 
 
@@ -347,7 +346,6 @@ class AccessionConverter < Converter
 
 
   def self.date_flip
-
     @date_flip ||= Proc.new {|val| val.sub(/^([0-9]{1,2})\/([0-9]{1,2})\/([0-9]{4})$/, '\2/\1/\3')}
 
     @date_flip

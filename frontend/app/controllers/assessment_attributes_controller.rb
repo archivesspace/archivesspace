@@ -1,6 +1,6 @@
 class AssessmentAttributesController < ApplicationController
 
-  set_access_control  "manage_assessment_attributes" => [:edit, :update]
+  set_access_control "manage_assessment_attributes" => [:edit, :update]
 
 
   def edit
@@ -44,7 +44,7 @@ class AssessmentAttributesController < ApplicationController
   # Revert any deleted definitions and restore the original sorting
   def revert_deletions(form_definitions, original_definitions)
     form_definitions += attribute_set_subtract(original_definitions, form_definitions)
-    form_definitions.sort{|a, b| a['position'] <=> b['position']}
+    form_definitions.sort {|a, b| a['position'] <=> b['position']}
   end
 
   # Return only the attributes of `a1` that aren't present in `a2`

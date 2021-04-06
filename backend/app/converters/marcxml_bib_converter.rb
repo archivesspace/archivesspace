@@ -49,11 +49,11 @@ class MarcXMLBibConverter < Converter
   def self.configure
     super do |config|
       config.doc_frag_nodes << 'record'
-      config["/record"] = self.BASE_RECORD_MAP      
+      config["/record"] = self.BASE_RECORD_MAP
       yield config if block_given?
     end
   end
-    
+
 end
 
 MarcXMLBibConverter.configure

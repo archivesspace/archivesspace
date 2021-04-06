@@ -81,7 +81,7 @@ describe 'Person agent controller' do
 
 
   it "auto-generates the sort name if one is not provided" do
-    id = create_person({:names => [build(:json_name_person,{:primary_name => "Hendrix", :rest_of_name => "Jimi", :title => "Mr", :name_order => "direct", :sort_name_auto_generate => true})]}).id
+    id = create_person({:names => [build(:json_name_person, {:primary_name => "Hendrix", :rest_of_name => "Jimi", :title => "Mr", :name_order => "direct", :sort_name_auto_generate => true})]}).id
 
     agent = JSONModel(:agent_person).find(id)
 
@@ -153,7 +153,7 @@ describe 'Person agent controller' do
 
 
   it "offers a readonly 'title' of the first name's sort_name" do
-    id = create_person({:names => [build(:json_name_person,{:primary_name => "Hendrix", :rest_of_name => "Jimi", :title => "Mr", :name_order => "direct", :sort_name_auto_generate => true})]}).id
+    id = create_person({:names => [build(:json_name_person, {:primary_name => "Hendrix", :rest_of_name => "Jimi", :title => "Mr", :name_order => "direct", :sort_name_auto_generate => true})]}).id
 
     agent = JSONModel(:agent_person).find(id)
 

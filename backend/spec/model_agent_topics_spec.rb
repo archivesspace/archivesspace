@@ -10,7 +10,7 @@ describe 'AgentTopic model' do
     topic = AgentTopic.create_from_json(build(:json_agent_topic))
 
     expect {
-	    topic = AgentTopic.create_from_json(build(:json_agent_topic, :subjects => []))
+      topic = AgentTopic.create_from_json(build(:json_agent_topic, :subjects => []))
     }.to raise_error(JSONModel::ValidationException)
   end
 end

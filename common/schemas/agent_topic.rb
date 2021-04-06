@@ -10,7 +10,7 @@
         "type" => "array",
         "items" => {"type" => "JSONModel(:structured_date_label) object"}
       },
-      
+
       "notes" => {
         "type" => "array",
         "items" => {"type" => [{"type" => "JSONModel(:note_text) object"},

@@ -8,13 +8,11 @@ module CsvTemplateGenerator
   class TemplateSpec
 
     attr_accessor :sheet_description, # Description of spreadsheet as a whole
-
                   # The various *_text fields are put into the first column of the spreadsheet and describe rows
                   :group_text,        # groupings of fields, e.g. "Resource Fields", optional
                   :description_text,  # longform description of field, optional
                   :field_name_text,   # The machine-readable name of the field, used as a key in column definitions, required
                   :title_text,        # human readable titles, required
-
                   :columns            # a hash of hashes, keys are field_names, values are hashes describing columns
 
 
@@ -52,7 +50,7 @@ module CsvTemplateGenerator
         errors << ":group_text value: #{group_text} and column values for :group do not agree, either add :group_text value or remove :group from columns as needed."
       end
 
-      unless !!@description_text == columns.values.all? {|col| col.kind_of?(Hash) && col[:description] }
+      unless !!@description_text == columns.values.all? {|col| col.is_a?(Hash) && col[:description] }
         errors << ":description_text value: #{description_text} and column values for :description do not agree, either add :description_text value or remove :description from columns as needed."
       end
 
@@ -207,7 +205,7 @@ module CsvTemplateGenerator
       dataset = DB.open do |ds|
         ds[:resource].
           inner_join(:archival_object, :root_record_id => :id).
-          where(q(:resource, :id)  => resource_id).
+          where(q(:resource, :id) => resource_id).
           select(
             q(:archival_object, :id).as(:archival_object_id),
             q(:archival_object, :ref_id),

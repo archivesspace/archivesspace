@@ -8,7 +8,6 @@ module RecordableCataloging
   module ClassMethods
 
     def create_from_json(json, opts = {})
-
       obj = super
 
       agent_uri = AgentSoftware.archivesspace_record.uri

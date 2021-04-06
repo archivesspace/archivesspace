@@ -23,22 +23,22 @@ class LargeTreeResource
               Sequel.as(:type_3__value, :type_3),
               Sequel.as(:sub_container__indicator_3, :indicator_3))
     .each do |row|
-        response['containers'] ||= []
+      response['containers'] ||= []
 
-        container_data = {}
-        container_data['instance_type'] = row[:instance_type] if row[:instance_type]
-        container_data['top_container_type'] = row[:top_container_type] if row[:top_container_type]
-        container_data['top_container_indicator'] = row[:top_container_indicator] if row[:top_container_indicator]
-        container_data['top_container_barcode'] = row[:top_container_barcode] if row[:top_container_barcode]
-        container_data['type_2'] = row[:type_2] if row[:type_2]
-        container_data['indicator_2'] = row[:indicator_2] if row[:indicator_2]
-        container_data['barcode_2'] = row[:barcode_2] if row[:barcode_2]
-        container_data['type_3'] = row[:type_3] if row[:type_3]
-        container_data['indicator_3'] = row[:indicator_3] if row[:indicator_3]
+      container_data = {}
+      container_data['instance_type'] = row[:instance_type] if row[:instance_type]
+      container_data['top_container_type'] = row[:top_container_type] if row[:top_container_type]
+      container_data['top_container_indicator'] = row[:top_container_indicator] if row[:top_container_indicator]
+      container_data['top_container_barcode'] = row[:top_container_barcode] if row[:top_container_barcode]
+      container_data['type_2'] = row[:type_2] if row[:type_2]
+      container_data['indicator_2'] = row[:indicator_2] if row[:indicator_2]
+      container_data['barcode_2'] = row[:barcode_2] if row[:barcode_2]
+      container_data['type_3'] = row[:type_3] if row[:type_3]
+      container_data['indicator_3'] = row[:indicator_3] if row[:indicator_3]
 
-        response['containers'] << container_data
+      response['containers'] << container_data
     end
-    
+
     response
   end
 

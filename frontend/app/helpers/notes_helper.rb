@@ -3,7 +3,6 @@ require 'mixed_content_parser'
 module NotesHelper
 
   def note_types_for(jsonmodel_type)
-
     note_types = {
       "bibliography" => {
         :target => :note_bibliography,

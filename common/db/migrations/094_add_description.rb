@@ -4,7 +4,7 @@ Sequel.migration do
 
   up do
     alter_table(:repository) do
-     TextField :description
+      TextField :description
     end
   end
 
@@ -15,4 +15,3 @@ Sequel.migration do
   end
 
 end
-

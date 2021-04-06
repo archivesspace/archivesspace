@@ -39,7 +39,7 @@ class NoteRenderer
   end
 
   def build_label(type, note)
-    note.has_key?('label') ? note['label'] :  I18n.t("enumerations._note_types.#{type}", :default => '')
+    note.has_key?('label') ? note['label'] : I18n.t("enumerations._note_types.#{type}", :default => '')
   end
 end
 

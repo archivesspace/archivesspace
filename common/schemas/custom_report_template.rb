@@ -7,7 +7,7 @@
     "uri" => "/repositories/:repo_id/custom_report_templates",
     "properties" => {
       "uri" => {"type" => "string", "required" => false},
-      
+
       "name" => {"type" => "string", "ifmissing" => "error"},
       "description" => {"type" => "string", "maxLength" => 255},
       "data" => {"type" => "string", "ifmissing" => "error", "maxLength" => 65000}

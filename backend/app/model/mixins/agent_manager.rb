@@ -51,9 +51,9 @@ module AgentManager
     .filter("#{table}_rlshp__#{type}_id".to_sym => id)
     .select(:subject__id)
     .distinct
-    .all.map{|row| row[:id]}
+    .all.map {|row| row[:id]}
   end
-  
+
 
   module Mixin
 
@@ -110,7 +110,7 @@ module AgentManager
       map_validation_to_json_property([:agent_sha1], :external_documents)
       map_validation_to_json_property([:agent_sha1], :notes)
     end
- 
+
 
     def linked_agent_roles
       role_ids = self.class.find_relationship(:linked_agents).values_for_property(self, :role_id).uniq
@@ -208,28 +208,28 @@ module AgentManager
       def ensure_exists(json, referrer)
         DB.attempt {
           self.ensure_authorized_name(json)
-          
+
           authorized_name = json['names'].find {|name| name['authorized']}
           if authorized_name["authority_id"]
             authorized_name_id = NameAuthorityId.find(:authority_id => authorized_name["authority_id"])
-            raise AgentManager::AuthorizedNameError, "Agent Authorized Name: Agent cannot have a authorized name with an existing authorized id" if authorized_name_id 
+            raise AgentManager::AuthorizedNameError, "Agent Authorized Name: Agent cannot have a authorized name with an existing authorized id" if authorized_name_id
           end
-         
+
           self.create_from_json(json)
         }.and_if_constraint_fails {|exception|
-         
+
 
           if exception.is_a? AgentManager::AuthorizedNameError
             authorized_name = json['names'].find {|name| name['authorized']}
-            
-            agent_type = json["jsonmodel_type"] 
+
+            agent_type = json["jsonmodel_type"]
             name_type = authorized_name["jsonmodel_type"]
-           
+
             agent = join(name_type.intern, "#{agent_type}_id".intern => "#{agent_type}__id".intern)
                       .join(:name_authority_id, "#{name_type}_id".intern => "#{name_type}__id".intern )
                       .where( Sequel.qualify(:name_authority_id, :authority_id) => authorized_name["authority_id"] )
-                      .where( Sequel.qualify( name_type.intern, :authorized)  => 1 ).select_all(agent_type.intern).first
-                      
+                      .where( Sequel.qualify( name_type.intern, :authorized) => 1 ).select_all(agent_type.intern).first
+
 
           elsif exception.message.end_with?(AGENT_MUST_BE_UNIQUE) || exception.message =~ AGENT_MUST_BE_UNIQUE_MYSQL_CONSTRAINT
             # If the agent already exists, find and reuse them
@@ -249,7 +249,7 @@ module AgentManager
             raise RetryTransaction.new
           end
 
-          
+
           agent
         }
       end
@@ -288,14 +288,14 @@ module AgentManager
 
       def hash_chunk(rec, field_array)
         field_array.map {|property|
-          if !rec[property]
-            ' '
-          elsif rec.class.schema["properties"][property]["dynamic_enum"]
-            enum = rec.class.schema["properties"][property]["dynamic_enum"]
-            BackendEnumSource.id_for_value(enum, rec[property])
-          else
-            rec[property.to_s]
-          end
+            if !rec[property]
+              ' '
+            elsif rec.class.schema["properties"][property]["dynamic_enum"]
+              enum = rec.class.schema["properties"][property]["dynamic_enum"]
+              BackendEnumSource.id_for_value(enum, rec[property])
+            else
+              rec[property.to_s]
+            end
           }.join('_')
       end
 
@@ -342,7 +342,7 @@ module AgentManager
       def calculate_hash(json)
         fields = assemble_hash_fields(json)
         digest = Digest::SHA1.hexdigest(fields.sort.join('-'))
- 
+
         digest
       end
 
@@ -402,7 +402,7 @@ module AgentManager
 
         self.def_nested_record(:the_property => :agent_sources,
                                :contains_records_of_type => :agent_sources,
-                               :corresponding_to_association => :agent_sources)     
+                               :corresponding_to_association => :agent_sources)
 
         self.one_to_many :structured_date_label, :class => "StructuredDateLabel"
 
@@ -427,7 +427,7 @@ module AgentManager
         self.def_nested_record(:the_property => :agent_functions,
                                :contains_records_of_type => :agent_function,
                                :corresponding_to_association => :agent_function)
-        
+
         self.one_to_many :agent_topic, :class => "AgentTopic"
 
         self.def_nested_record(:the_property => :agent_topics,
@@ -451,7 +451,6 @@ module AgentManager
         self.def_nested_record(:the_property => :agent_resources,
                                :contains_records_of_type => :agent_resource,
                                :corresponding_to_association => :agent_resource)
-
       end
 
 
@@ -468,7 +467,7 @@ module AgentManager
 
           jsons.zip(objs).each do |json, obj|
             json.used_within_repositories = agents_to_repositories.fetch(obj, []).map {|repo| repo.uri}
-            json.used_within_published_repositories = agents_to_repositories.fetch(obj, []).select{|repo| repo.publish == 1}.map {|repo| repo.uri}
+            json.used_within_published_repositories = agents_to_repositories.fetch(obj, []).select {|repo| repo.publish == 1}.map {|repo| repo.uri}
           end
         end
 

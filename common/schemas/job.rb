@@ -12,14 +12,14 @@
         "type" => "string",
         "readonly" => true
       },
-   
+
       "job" => {
         "type" => "object"
       },
-   
-      "job_params" => { 
+
+      "job_params" => {
         "type" => "string",
-      }, 
+      },
 
       "time_submitted" => {
         "type" => "date-time",

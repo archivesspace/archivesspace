@@ -171,15 +171,15 @@ class ImpliedPublicationCalculator
             end
 
             published_status = if model.included_modules.include?(TreeNodes)
-                                for_tree_nodes(linked_records
-                                                            .select_append(Sequel.qualify(model.table_name, :parent_id),
-                                                                          Sequel.qualify(model.table_name, :root_record_id))
-                                                            .all)
-                              elsif model.to_s =~ /^Agent/
-                                for_agents_linked_to_subject(linked_records.all)
-                              else
-                                for_top_level_records(linked_records.all)
-                              end
+                                 for_tree_nodes(linked_records
+                                                             .select_append(Sequel.qualify(model.table_name, :parent_id),
+                                                                           Sequel.qualify(model.table_name, :root_record_id))
+                                                             .all)
+                               elsif model.to_s =~ /^Agent/
+                                 for_agents_linked_to_subject(linked_records.all)
+                               else
+                                 for_top_level_records(linked_records.all)
+                               end
 
             published_status.each do |linked_record, published|
               if published

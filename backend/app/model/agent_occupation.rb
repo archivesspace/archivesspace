@@ -26,7 +26,6 @@ class AgentOccupation < Sequel::Model(:agent_occupation)
     [{
       type: Subject, ids: (
         AgentManager.linked_subjects(obj.id, :subject_agent_subrecord, :agent_occupation) +
-
         AgentManager.linked_subjects(obj.id, :subject_agent_subrecord_place, :agent_occupation)
       ).uniq
     }]

@@ -35,11 +35,11 @@ class LocationProfilesController < ApplicationController
   def create
     handle_crud(:instance => :location_profile,
                 :model => JSONModel(:location_profile),
-                :on_invalid => ->(){
+                :on_invalid => ->() {
                   return render_aspace_partial :partial => "location_profiles/new" if inline?
                   return render :action => :new
                 },
-                :on_valid => ->(id){
+                :on_valid => ->(id) {
                   if inline?
                     @location_profile.refetch
                     render :json => @location_profile.to_hash if inline?
@@ -53,15 +53,14 @@ class LocationProfilesController < ApplicationController
 
 
   def update
-
     handle_crud(:instance => :location_profile,
                 :model => JSONModel(:location_profile),
                 :obj => JSONModel(:location_profile).find(params[:id]),
                 :replace => true,
-                :on_invalid => ->(){
+                :on_invalid => ->() {
                   return render :action => :edit
                 },
-                :on_valid => ->(id){
+                :on_valid => ->(id) {
                   redirect_to(:controller => :location_profiles, :action => :show, :id => id)
                 })
   end

@@ -122,7 +122,7 @@ describe "Exported Dublin Core metadata" do
   describe "Dublin Core mappings" do
 
     it "maps lang_materials['language_and_script'] to language" do
-      language_vals = @digital_object.lang_materials.map{|l| l['language_and_script']}.compact
+      language_vals = @digital_object.lang_materials.map {|l| l['language_and_script']}.compact
       language_vals.each do |language|
         lang_val = language['language']
         expect(@dc).to have_tag "dc/language" => lang_val
@@ -133,7 +133,7 @@ describe "Exported Dublin Core metadata" do
 
 
     it "maps lang_materials['notes'] to language" do
-      language_notes = @digital_object.lang_materials.map {|l| l['notes']}.compact.reject {|e|  e == [] }.flatten
+      language_notes = @digital_object.lang_materials.map {|l| l['notes']}.compact.reject {|e| e == [] }.flatten
       language_notes.each do |note|
         expect(@dc).to have_tag "dc/language" => note_content(note)
       end

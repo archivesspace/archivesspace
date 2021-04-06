@@ -42,7 +42,6 @@ class User < Sequel::Model(:user)
 
 
   def self.make_admin_if_requested(obj, json)
-
     return if !RequestContext.get(:apply_admin_access)
 
     # Nothing to do if these already agree
@@ -213,7 +212,6 @@ class User < Sequel::Model(:user)
 
 
   def add_to_groups(groups, delete_all_for_repo_id = false)
-
     if delete_all_for_repo_id
       groups_ids = self.class.db[:group].where(:repo_id => delete_all_for_repo_id).select(:id)
       self.class.db[:group_user].where(:user_id => self.id, :group_id => groups_ids).delete
@@ -231,11 +229,11 @@ class User < Sequel::Model(:user)
     raise AccessDeniedException.new("Can't delete system user") if self.is_system_user == 1
 
     DBAuth.delete_user(self.username)
- 
+
     # transfer all import jobs to the admin user
     admin_user = User.select(:id).where( :username => "admin" ).first
     Job.filter(:owner_id => self.id).update( :owner_id => admin_user.id )
-    
+
     Preference.filter(:user_id => self.id).delete
     self.remove_all_group
 

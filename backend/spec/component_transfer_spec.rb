@@ -114,9 +114,9 @@ describe "Resource Component Transfer Endpoint" do
 
     expect(event.event_type).to eq("component_transfer")
     expect(event.linked_records.length).to eq(3)
-    expect(event.linked_records.select{|link| link["role"] === "source"}.first["ref"]).to eq(@resource_alpha.uri)
-    expect(event.linked_records.select{|link| link["role"] === "outcome"}.first["ref"]).to eq(@resource_beta.uri)
-    expect(event.linked_records.select{|link| link["role"] === "transfer"}.first["ref"]).to eq(archival_object.uri)
+    expect(event.linked_records.select {|link| link["role"] === "source"}.first["ref"]).to eq(@resource_alpha.uri)
+    expect(event.linked_records.select {|link| link["role"] === "outcome"}.first["ref"]).to eq(@resource_beta.uri)
+    expect(event.linked_records.select {|link| link["role"] === "transfer"}.first["ref"]).to eq(archival_object.uri)
   end
 
 

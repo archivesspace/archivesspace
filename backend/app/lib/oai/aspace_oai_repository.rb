@@ -65,7 +65,7 @@ class ArchivesSpaceOAIRepository < OAI::Provider::Model
     available_levels = BackendEnumSource.values_for("archival_record_level")
     get_oai_config_values
 
-    # ANW-674: 
+    # ANW-674:
     # Get set values from OAIConfig table instead of config file
     config_sets = []
 
@@ -174,7 +174,7 @@ class ArchivesSpaceOAIRepository < OAI::Provider::Model
   def add_visibility_restrictions(dataset)
     # ANW-242: restrict excluded sets if enabled per repostiory
     # select repos that
-      # -are published 
+      # -are published
       # -have OAI enabled
     # gather these repo ids and available set ids in a data structure like:
     # [ [1, [889, 886]], [2, []], ...]
@@ -182,8 +182,8 @@ class ArchivesSpaceOAIRepository < OAI::Provider::Model
                              .select(:id, :oai_sets_available)
                              .map {|row| [row[:id], row[:oai_sets_available]]}
 
-    visible_repos.map! do |vr| 
-      osa_parsed = JSON::parse(vr[1]) rescue [] 
+    visible_repos.map! do |vr|
+      osa_parsed = JSON::parse(vr[1]) rescue []
       [vr[0], osa_parsed.map {|s| s.to_i}]
     end
 
@@ -421,7 +421,7 @@ class ArchivesSpaceOAIRepository < OAI::Provider::Model
         dataset = dataset.filter(:finding_aid_sponsor_sha1 => sponsor_hashes)
       else
         dataset = dataset.filter(:root_record_id => Resource.filter(:finding_aid_sponsor_sha1 => sponsor_hashes).select(:id))
-      end     
+      end
     end
 
     dataset

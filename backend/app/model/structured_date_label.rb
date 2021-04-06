@@ -19,4 +19,3 @@ class StructuredDateLabel < Sequel::Model(:structured_date_label)
 
 
 end
-

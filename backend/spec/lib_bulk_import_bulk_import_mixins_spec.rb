@@ -59,7 +59,7 @@ describe "Bulk Import Mixins" do
 
     @tc = create_top_container()
     @sc = create_sub_container()
-    
+
     opts = {:title => 'A new archival object', :resource => {:ref => @resource.uri}, :instances => [build(:json_instance,
       :sub_container => build(:json_sub_container, :top_container => {:ref => @tc.uri}))]}
     @ao = ArchivalObject.create_from_json(
@@ -128,17 +128,17 @@ describe "Bulk Import Mixins" do
     expect(new_ao[:ao]).to eq(nil)
     expect(new_ao[:errs]).to eq("Neither an archival object URI nor a Ref ID was provided")
   end
-  
+
   it "Tests the find_top_container function with a barcode parameter" do
     tc_obj = find_top_container({:barcode => @tc.barcode})
     expect(tc_obj["barcode"]).to eq(@tc.barcode)
   end
-  
+
   it "Tests the sub_container_from_barcode function returns the expected result" do
     sc_obj = sub_container_from_barcode(@sc.barcode_2)
     expect(sc_obj["barcode_2"]).to eq(@sc.barcode_2)
   end
-  
+
   it "That the count of the indicator and container type is > 0" do
     ind_type_exist = indicator_and_type_exist_for_resource?(@resource.ead_id, @tc.indicator, @tc.type_id)
     expect(ind_type_exist).to be true

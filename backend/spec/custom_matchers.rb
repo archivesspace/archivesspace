@@ -11,10 +11,10 @@ RSpec::Matchers.define :have_node do |path|
     while path.slice(0) == '/'
       prefix << path.slice!(0)
     end
-    root_frags = path.split('/').reject{|f| f.empty?}
+    root_frags = path.split('/').reject {|f| f.empty?}
     node_frags = []
     matched_node = nil
-    while(matched_node.nil? && root_frags.length > 1)
+    while (matched_node.nil? && root_frags.length > 1)
       node_frags.unshift(root_frags.pop)
       node_set = actual.xpath(prefix + root_frags.join('/'))
       unless node_set.empty?
@@ -77,12 +77,12 @@ RSpec::Matchers.define :have_inner_text do |expected|
 
   failure_message do |node|
     infinitive = regex_mode ? "match /#{expected}/" : "contain '#{expected}'"
-    name = node.is_a?(Nokogiri::XML::NodeSet) ? node.map{|n| n.name}.uniq.join(' | ') : node.name
+    name = node.is_a?(Nokogiri::XML::NodeSet) ? node.map {|n| n.name}.uniq.join(' | ') : node.name
     "Expected node '#{name}' to #{infinitive}. Found string: '#{node.inner_text}'."
   end
 
   failure_message_when_negated do |node|
-    name = node.is_a?(Nokogiri::XML::NodeSet) ? node.map{|n| n.name}.uniq.join(' | ') : node.name
+    name = node.is_a?(Nokogiri::XML::NodeSet) ? node.map {|n| n.name}.uniq.join(' | ') : node.name
     "Expected node '#{name}' to contain something other than '#{txt}'."
   end
 end
@@ -101,15 +101,15 @@ RSpec::Matchers.define :have_inner_markup do |expected|
   end
 
   failure_message do |node|
-      markup = node.inner_html.strip.delete(' ').gsub("'", '"')
-      expected_markup = expected.strip.delete(' ').gsub("'", '"')
+    markup = node.inner_html.strip.delete(' ').gsub("'", '"')
+    expected_markup = expected.strip.delete(' ').gsub("'", '"')
     infinitive = regex_mode ? "match /#{expected}/" : "contain '#{expected_markup}'"
-    name = node.is_a?(Nokogiri::XML::NodeSet) ? node.map{|n| n.name}.uniq.join(' | ') : node.name
+    name = node.is_a?(Nokogiri::XML::NodeSet) ? node.map {|n| n.name}.uniq.join(' | ') : node.name
     "Expected node '#{name}' to #{infinitive}. Found string: '#{markup}'."
   end
 
   failure_message_when_negated do |node|
-    name = node.is_a?(Nokogiri::XML::NodeSet) ? node.map{|n| n.name}.uniq.join(' | ') : node.name
+    name = node.is_a?(Nokogiri::XML::NodeSet) ? node.map {|n| n.name}.uniq.join(' | ') : node.name
     "Expected node '#{name}' to contain something other than '#{txt}'."
   end
 end
@@ -129,14 +129,14 @@ RSpec::Matchers.define :have_tag do |expected, attributes = {}|
                 selector = false
 
                 tag_frags.each do |frag|
-        					join = (selector || frag =~ /^[^\[]+:.+/) ? '/' : '/xmlns:'
-        					tag << "#{join}#{frag}"
-        					if frag =~ /\[[^\]]*$/
+                  join = (selector || frag =~ /^[^\[]+:.+/) ? '/' : '/xmlns:'
+                  tag << "#{join}#{frag}"
+                  if frag =~ /\[[^\]]*$/
                     selector = true
                   elsif frag =~ /\][^\[]*$/
                     selector = false
                   end
-					      end
+                end
                 doc.xpath("//#{tag}", doc.namespaces)
               end
 
@@ -204,4 +204,3 @@ RSpec::Matchers.define :have_namespaces do |expected|
     "Expected document to have namespaces #{expected.inspect}, not #{doc.namespaces.inspect}"
   end
 end
-

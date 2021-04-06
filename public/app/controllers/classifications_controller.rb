@@ -1,4 +1,4 @@
-class ClassificationsController <  ApplicationController
+class ClassificationsController < ApplicationController
 
   include ResultInfo
 
@@ -25,9 +25,9 @@ class ClassificationsController <  ApplicationController
     :field => ['title']
   }
   def index
-     repo_id = params.fetch(:rid, nil)
+    repo_id = params.fetch(:rid, nil)
     if !params.fetch(:q, nil)
-      DEFAULT_CL_SEARCH_PARAMS.each do |k,v|
+      DEFAULT_CL_SEARCH_PARAMS.each do |k, v|
         params[k] = v
       end
     end
@@ -49,7 +49,7 @@ class ClassificationsController <  ApplicationController
 
     @context = repo_context(repo_id, 'classification')
     if @results['total_hits'] > 1
-      @search[:dates_within] = true if params.fetch(:filter_from_year,'').blank? && params.fetch(:filter_to_year,'').blank?
+      @search[:dates_within] = true if params.fetch(:filter_from_year, '').blank? && params.fetch(:filter_to_year, '').blank?
       @search[:text_within] = true
     end
     @sort_opts = []
@@ -57,21 +57,20 @@ class ClassificationsController <  ApplicationController
       I18n.t('search_sorting.sorting', :type => I18n.t("search_sorting.classification_identifier"), :direction => I18n.t("search_sorting.asc")),
       IDENTIFIER_SORT_ASC
     ]
-     @sort_opts << [
-       I18n.t('search_sorting.sorting', :type => I18n.t("search_sorting.classification_identifier"), :direction => I18n.t("search_sorting.desc")),
-       IDENTIFIER_SORT_DESC
-     ]
+    @sort_opts << [
+      I18n.t('search_sorting.sorting', :type => I18n.t("search_sorting.classification_identifier"), :direction => I18n.t("search_sorting.desc")),
+      IDENTIFIER_SORT_DESC
+    ]
     all_sorts = Search.get_sort_opts
     all_sorts.delete('relevance') unless params[:q].size > 1 || params[:q] != '*'
     all_sorts.keys.each do |type|
-       next if type == 'year_sort'
-       @sort_opts.push(all_sorts[type])
+      next if type == 'year_sort'
+      @sort_opts.push(all_sorts[type])
     end
     @page_title = I18n.t('classification._plural')
     @results_type = @page_title
     @no_statement = true
     render 'search/search_results'
-
   end
 
   def search
@@ -79,7 +78,7 @@ class ClassificationsController <  ApplicationController
     @base_search = '/classifications/search?'
     page = Integer(params.fetch(:page, "1"))
     begin
-      set_up_and_run_search( DEFAULT_CL_TYPES, DEFAULT_CL_FACET_TYPES,  DEFAULT_CL_SEARCH_OPTS, params)
+      set_up_and_run_search( DEFAULT_CL_TYPES, DEFAULT_CL_FACET_TYPES, DEFAULT_CL_SEARCH_OPTS, params)
     rescue NoResultsError
       flash[:error] = I18n.t('search_results.no_results')
       redirect_back(fallback_location: '/') and return
@@ -90,7 +89,7 @@ class ClassificationsController <  ApplicationController
     @page_title = I18n.t('classification._plural')
     @results_type = @page_title
     @search_title = I18n.t('search_results.search_for', {:type => I18n.t('classification._plural'), :term => params.fetch(:q)[0]})
-     render 'search/search_results'
+    render 'search/search_results'
   end
 
 
@@ -125,7 +124,7 @@ class ClassificationsController <  ApplicationController
   # we use this to get and process both classifications and classification terms
   def fetch_and_process(uri)
     @criteria = {}
-    @criteria['resolve[]']  = ['repository:id', 'resource:id@compact_resource', 'agent_uris:id']
+    @criteria['resolve[]'] = ['repository:id', 'resource:id@compact_resource', 'agent_uris:id']
     @result = archivesspace.get_record(uri, @criteria)
     @context = @result.breadcrumb
   end
@@ -141,7 +140,7 @@ class ClassificationsController <  ApplicationController
     @base_search= @base_search.sub("q=#{qry}", '')
     page = Integer(params.fetch(:page, "1"))
 
-    @results =  archivesspace.search(@query, page, @criteria)
+    @results = archivesspace.search(@query, page, @criteria)
 
     if @results['total_hits'] > 0
       process_search_results(@base_search)

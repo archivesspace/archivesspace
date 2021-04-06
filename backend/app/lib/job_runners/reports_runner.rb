@@ -17,7 +17,6 @@ class ReportRunner < JobRunner
     @job.write_output('Generating report')
     file = ASUtils.tempfile('report_job_')
     begin
-
       job_data = @json.job
 
       # we need to massage the json sometimes..
@@ -52,7 +51,6 @@ class ReportRunner < JobRunner
       file.close
       file.unlink
       @job.write_output('Done.')
-
     end
   end
 

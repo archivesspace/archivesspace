@@ -149,7 +149,7 @@ describe 'Resource model' do
                            :description => "A classification")
 
     classification = Classification.create_from_json(classification)
-    resource = create_resource(:classifications =>[   {'ref' => classification.uri} ])
+    resource = create_resource(:classifications =>[ {'ref' => classification.uri} ])
 
     expect(resource.related_records(:classification).first.title).to eq("top-level classification")
   end
@@ -375,7 +375,6 @@ describe 'Resource model' do
 
     expect {
       Resource.create_from_json(json)
-
     }.to raise_error(Sequel::ValidationFailed)
 
 

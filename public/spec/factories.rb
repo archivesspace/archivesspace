@@ -9,8 +9,6 @@ include JSONModel
 module AspaceFactories
 
   def self.init
-
-
     @@inited ||= false
 
     if @@inited
@@ -23,7 +21,7 @@ module AspaceFactories
 
     FactoryBot.define do
 
-      to_create{|instance|
+      to_create {|instance|
         try_again = true
         begin
           instance.save
@@ -76,17 +74,17 @@ module AspaceFactories
       sequence(:use_statement) { ["application", "application-pdf", "audio-clip",
                                   "audio-master", "audio-master-edited",
                                   "audio-service", "image-master",
-                                  "image-master-edited","image-service",
+                                  "image-master-edited", "image-service",
                                   "image-service-edited", "image-thumbnail",
-                                  "text-codebook","test-data",
-                                  "text-data_definition","text-georeference",
-                                  "text-ocr-edited","text-ocr-unedited",
-                                  "text-tei-transcripted","text-tei-translated",
+                                  "text-codebook", "test-data",
+                                  "text-data_definition", "text-georeference",
+                                  "text-ocr-edited", "text-ocr-unedited",
+                                  "text-tei-transcripted", "text-tei-translated",
                                   "video-clip", "video-master",
-                                  "video-master-edited","video-service",
+                                  "video-master-edited", "video-service",
                                   "video-streaming"].sample }
       sequence(:checksum_method) { ["md5", "sha-1", "sha-256", "sha-384", "sha-512"].sample }
-      sequence(:xlink_actuate_attribute) {  ["none", "other", "onLoad", "onRequest"].sample }
+      sequence(:xlink_actuate_attribute) { ["none", "other", "onLoad", "onRequest"].sample }
       sequence(:xlink_show_attribute) {  ["new", "replace", "embed", "other", "none"].sample }
       sequence(:file_format) { %w[aiff avi gif jpeg mp3 pdf tiff txt].sample }
 
@@ -96,7 +94,7 @@ module AspaceFactories
       sequence(:finding_aid_language) { sample(JSONModel(:resource).schema['properties']['finding_aid_language']) }
       sequence(:finding_aid_script) { sample(JSONModel(:resource).schema['properties']['finding_aid_script']) }
 
-      sequence(:name_rule) {  ["local", "aacr", "dacs", "rda"].sample }
+      sequence(:name_rule) { ["local", "aacr", "dacs", "rda"].sample }
       sequence(:name_source) { ["local", "naf", "nad", "ulan"].sample }
       sequence(:generic_name) { SecureRandom.hex }
       sequence(:sort_name) { SecureRandom.hex }
@@ -179,8 +177,8 @@ module AspaceFactories
         dates { [build(:date)] }
         level { "collection" }
         lang_materials { [build(:lang_material)] }
-        finding_aid_language {  [generate(:finding_aid_language)].sample  }
-        finding_aid_script {  [generate(:finding_aid_script)].sample  }
+        finding_aid_language { [generate(:finding_aid_language)].sample }
+        finding_aid_script { [generate(:finding_aid_script)].sample }
         finding_aid_language_note { nil_or_whatever }
       end
 
@@ -191,8 +189,8 @@ module AspaceFactories
         dates { [build(:date)] }
         level { "collection" }
         lang_materials { [build(:lang_material)] }
-        finding_aid_language {  [generate(:finding_aid_language)].sample  }
-        finding_aid_script {  [generate(:finding_aid_script)].sample  }
+        finding_aid_language { [generate(:finding_aid_language)].sample }
+        finding_aid_script { [generate(:finding_aid_script)].sample }
         notes { [build(:json_note_multipart)] }
       end
 
@@ -373,7 +371,7 @@ module AspaceFactories
       end
 
       factory :json_structured_date_single, class: JSONModel(:structured_date_single) do
-        date_role  { "begin" }
+        date_role { "begin" }
         date_expression { "Yesterday" }
         date_standardized { "2019-06-01" }
         date_standardized_type { "standard" }

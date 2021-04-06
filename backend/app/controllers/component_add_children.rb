@@ -194,9 +194,9 @@ class ArchivesSpaceService < Sinatra::Base
       # ok, we are keeping it in the same parent and moving down the list, we
       # need to reverse to make sure the placement happens correctly.
       # If the first_obj doesn't have a parent_id, that means it's at the top
-      # of the food chain, so we can check if the target is a Tree, not a TreeNode. 
+      # of the food chain, so we can check if the target is a Tree, not a TreeNode.
       # Otherwise, we are moving into another parent.
-      if ( target.id == first_obj.parent_id || ( target.class.included_modules.include?(Trees) && first_obj.parent_id.nil? ) )  && first_obj.logical_position < position
+      if ( target.id == first_obj.parent_id || ( target.class.included_modules.include?(Trees) && first_obj.parent_id.nil? ) ) && first_obj.logical_position < position
         ordered = params[:children].each_with_index.to_a.reverse
       else
         ordered = params[:children].each_with_index

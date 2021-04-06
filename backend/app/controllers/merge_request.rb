@@ -25,32 +25,32 @@ class ArchivesSpaceService < Sinatra::Base
   Endpoint.post('/merge_requests/container_profile')
     .description("Carry out a merge request against Container Profile records")
     .example('shell') do
-    <<~SHELL
-    curl -H 'Content-Type: application/json' \\
-        -H "X-ArchivesSpace-Session: $SESSION" \\
-        -d '{"uri": "merge_requests/container_profile", "target": {"ref": "/container_profiles/1" },"victims": [{"ref": "/container_profiles/2"}]}' \\
-        "http://localhost:8089/merge_requests/container_profile"
-    SHELL
+      <<~SHELL
+        curl -H 'Content-Type: application/json' \\
+            -H "X-ArchivesSpace-Session: $SESSION" \\
+            -d '{"uri": "merge_requests/container_profile", "target": {"ref": "/container_profiles/1" },"victims": [{"ref": "/container_profiles/2"}]}' \\
+            "http://localhost:8089/merge_requests/container_profile"
+      SHELL
     end
     .example('python') do
-    <<~PYTHON
-    from asnake.client import ASnakeClient
-    client = ASnakeClient()
-    client.authorize()
-    client.post('/merge_requests/container_profile',
-            json={
-                'uri': 'merge_requests/container_profile',
-                'target': {
-                    'ref': '/container_profiles/1'
-                  },
-                'victims': [
-                    {
-                        'ref': '/container_profiles/2'
+      <<~PYTHON
+        from asnake.client import ASnakeClient
+        client = ASnakeClient()
+        client.authorize()
+        client.post('/merge_requests/container_profile',
+                json={
+                    'uri': 'merge_requests/container_profile',
+                    'target': {
+                        'ref': '/container_profiles/1'
+                      },
+                    'victims': [
+                        {
+                            'ref': '/container_profiles/2'
+                        }
+                      ]
                     }
-                  ]
-                }
-          )
-    PYTHON
+              )
+      PYTHON
     end
     .params(["merge_request",
              JSONModel(:merge_request), "A merge request",
@@ -70,32 +70,32 @@ class ArchivesSpaceService < Sinatra::Base
   Endpoint.post('/merge_requests/top_container')
     .description("Carry out a merge request against Top Container records")
     .example('shell') do
-    <<-SHELL
-curl -H 'Content-Type: application/json' \\
-    -H "X-ArchivesSpace-Session: $SESSION" \\
-    -d '{"uri": "merge_requests/top_container", "target": {"ref": "/repositories/2/top_containers/1" },"victims": [{"ref": "/repositories/2/top_containers/2"}]}' \\
-    "http://localhost:8089/merge_requests/top_container?repo_id=2"
-    SHELL
+      <<~SHELL
+        curl -H 'Content-Type: application/json' \\
+            -H "X-ArchivesSpace-Session: $SESSION" \\
+            -d '{"uri": "merge_requests/top_container", "target": {"ref": "/repositories/2/top_containers/1" },"victims": [{"ref": "/repositories/2/top_containers/2"}]}' \\
+            "http://localhost:8089/merge_requests/top_container?repo_id=2"
+      SHELL
     end
     .example('python') do
-    <<~PYTHON
-    from asnake.client import ASnakeClient
-    client = ASnakeClient()
-    client.authorize()
-    client.post('/merge_requests/top_container?repo_id=2',
-            json={
-                'uri': 'merge_requests/top_container',
-                'target': {
-                    'ref': '/repositories/2/top_containers/80'
-                  },
-                'victims': [
-                    {
-                        'ref': '/repositories/2/top_containers/171'
+      <<~PYTHON
+        from asnake.client import ASnakeClient
+        client = ASnakeClient()
+        client.authorize()
+        client.post('/merge_requests/top_container?repo_id=2',
+                json={
+                    'uri': 'merge_requests/top_container',
+                    'target': {
+                        'ref': '/repositories/2/top_containers/80'
+                      },
+                    'victims': [
+                        {
+                            'ref': '/repositories/2/top_containers/171'
+                        }
+                      ]
                     }
-                  ]
-                }
-          )
-    PYTHON
+              )
+      PYTHON
     end
     .params(["repo_id", :repo_id],
             ["merge_request",
@@ -145,26 +145,26 @@ curl -H 'Content-Type: application/json' \\
   Endpoint.post('/merge_requests/agent_detail')
   .description("Carry out a detailed merge request against Agent records")
   .example('shell') do
-    <<~SHELL
-    curl -H 'Content-Type: application/json' \\
-        -H "X-ArchivesSpace-Session: $SESSION" \\
-        -d '{"dry_run":true, \\
-             "merge_request_detail":{ \\
-               "jsonmodel_type":"merge_request_detail", \\
-               "victims":[{"ref":"/agents/people/3"}], \\
-               "target":{"ref":"/agents/people/4"}, \\
-               "selections":{
-                 "names":[{"primary_name":"REPLACE", "position":"0"}], \\
-                 "agent_record_identifiers":[{"append":"APPEND", "position":"0"}], \\
-                 "agent_conventions_declarations":[
-                   {"append":"REPLACE", "position":"1"}, \\
-                   {"append":"REPLACE", "position":"0"} \\
-                  ],
-               } \\
-            } \\
-          } \\
-        "http://localhost:8089/merge_requests/agent_detail"
-    SHELL
+      <<~SHELL
+        curl -H 'Content-Type: application/json' \\
+            -H "X-ArchivesSpace-Session: $SESSION" \\
+            -d '{"dry_run":true, \\
+                 "merge_request_detail":{ \\
+                   "jsonmodel_type":"merge_request_detail", \\
+                   "victims":[{"ref":"/agents/people/3"}], \\
+                   "target":{"ref":"/agents/people/4"}, \\
+                   "selections":{
+                     "names":[{"primary_name":"REPLACE", "position":"0"}], \\
+                     "agent_record_identifiers":[{"append":"APPEND", "position":"0"}], \\
+                     "agent_conventions_declarations":[
+                       {"append":"REPLACE", "position":"1"}, \\
+                       {"append":"REPLACE", "position":"0"} \\
+                      ],
+                   } \\
+                } \\
+              } \\
+            "http://localhost:8089/merge_requests/agent_detail"
+      SHELL
     end
   .params(["dry_run", BooleanParam, "If true, don't process the merge, just display the merged record", :optional => true],
           ["merge_request_detail",

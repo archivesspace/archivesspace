@@ -7,7 +7,7 @@ FactoryBot.define do
     JSONModel::JSONModel(key)
   end
 
-  to_create{|instance| instance.save}
+  to_create {|instance| instance.save}
 
   sequence(:repo_code) {|n| "ASPACE REPO #{n} -- #{rand(1000000)}"}
   sequence(:username) {|n| "username_#{n}"}
@@ -277,7 +277,7 @@ FactoryBot.define do
 
   factory :json_telephone, class: JSONModel(:telephone) do
     number_type { [nil, 'business', 'home', 'cell', 'fax'].sample }
-    number {  generate(:phone_number) }
+    number { generate(:phone_number) }
     ext { [nil, generate(:alphanumstr)].sample }
   end
 
@@ -535,7 +535,7 @@ FactoryBot.define do
 
   factory :json_note_citation, class: JSONModel(:note_citation) do
     content { (0..rand(3)).map { generate(:good_markup) } }
-    xlink { Hash[%w(actuate arcrole href role show title type).map{|i| [i, i]}] }
+    xlink { Hash[%w(actuate arcrole href role show title type).map {|i| [i, i]}] }
   end
 
   factory :json_note_chronology, class: JSONModel(:note_chronology) do
@@ -616,7 +616,7 @@ FactoryBot.define do
 
 
   factory :json_structured_date_single, class: JSONModel(:structured_date_single) do
-    date_role  { "begin" }
+    date_role { "begin" }
     date_expression { "Yesterday" }
     date_standardized { "2019-06-01" }
     date_standardized_type { "standard" }
@@ -954,13 +954,13 @@ FactoryBot.define do
     ead_id { nil_or_whatever }
     finding_aid_date { generate(:alphanumstr) }
     finding_aid_series_statement { generate(:alphanumstr) }
-    finding_aid_language {  [generate(:finding_aid_language)].sample  }
-    finding_aid_script {  [generate(:finding_aid_script)].sample  }
+    finding_aid_language { [generate(:finding_aid_language)].sample }
+    finding_aid_script { [generate(:finding_aid_script)].sample }
     finding_aid_language_note { nil_or_whatever }
     finding_aid_note { generate(:alphanumstr) }
     ead_location { generate(:alphanumstr) }
     instances { [ build(:json_instance) ] }
-    revision_statements {  [build(:json_revision_statement)]  }
+    revision_statements { [build(:json_revision_statement)] }
   end
 
   factory :json_resource_nohtml, class: JSONModel(:resource) do
@@ -974,13 +974,13 @@ FactoryBot.define do
     ead_id { nil_or_whatever }
     finding_aid_date { generate(:alphanumstr) }
     finding_aid_series_statement { generate(:alphanumstr) }
-    finding_aid_language {  [generate(:finding_aid_language)].sample  }
-    finding_aid_script {  [generate(:finding_aid_script)].sample  }
+    finding_aid_language { [generate(:finding_aid_language)].sample }
+    finding_aid_script { [generate(:finding_aid_script)].sample }
     finding_aid_language_note { nil_or_whatever }
     finding_aid_note { generate(:alphanumstr) }
     ead_location { generate(:alphanumstr) }
     instances { [ build(:json_instance) ] }
-    revision_statements {  [build(:json_revision_statement)]  }
+    revision_statements { [build(:json_revision_statement)] }
   end
 
   factory :json_resource_blank_ead_location, class: JSONModel(:resource) do
@@ -994,13 +994,13 @@ FactoryBot.define do
     ead_id { nil_or_whatever }
     finding_aid_date { generate(:alphanumstr) }
     finding_aid_series_statement { generate(:alphanumstr) }
-    finding_aid_language {  [generate(:finding_aid_language)].sample  }
-    finding_aid_script {  [generate(:finding_aid_script)].sample  }
+    finding_aid_language { [generate(:finding_aid_language)].sample }
+    finding_aid_script { [generate(:finding_aid_script)].sample }
     finding_aid_language_note { nil_or_whatever }
     finding_aid_note { generate(:alphanumstr) }
     ead_location { nil }
     instances { [ build(:json_instance) ] }
-    revision_statements {  [build(:json_revision_statement)]  }
+    revision_statements { [build(:json_revision_statement)] }
   end
 
   factory :json_revision_statement, class: JSONModel(:revision_statement) do
@@ -1127,7 +1127,7 @@ FactoryBot.define do
   factory :json_print_to_pdf_job, class: JSONModel(:print_to_pdf_job) do
     source  { create(:json_resource).uri }
   end
-  
+
   factory :json_top_container_linker_job, class: JSONModel(:top_container_linker_job) do
     filename  { generate(:alphanumstr) }
     content_type { "text/csv" }

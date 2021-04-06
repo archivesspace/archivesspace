@@ -110,12 +110,11 @@ class AppConfig
 
 
   def self.get_preferred_config_path
-
     if java.lang.System.getProperty("aspace.config")
       # Explicit Java property
       java.lang.System.getProperty("aspace.config")
     elsif ENV['ASPACE_CONFIG'] && File.exist?(ENV['ASPACE_CONFIG'])
-      # Setting a system config 
+      # Setting a system config
       ENV['ASPACE_CONFIG']
     elsif ENV['ASPACE_LAUNCHER_BASE'] && File.exist?(File.join(ENV['ASPACE_LAUNCHER_BASE'], "config", "config.rb"))
       File.join(ENV['ASPACE_LAUNCHER_BASE'], "config", "config.rb")
@@ -127,7 +126,6 @@ class AppConfig
     else
       File.join(Dir.home, ".aspace_config.rb")
     end
-
   end
 
   def self.get_devserver_base

@@ -69,11 +69,11 @@ class TopContainersController < ApplicationController
   def create
     handle_crud(:instance => :top_container,
                 :model => JSONModel(:top_container),
-                :on_invalid => ->(){
+                :on_invalid => ->() {
                   return render_aspace_partial :partial => 'top_containers/new' if inline?
                   return render :action => :new
                 },
-                :on_valid => ->(id){
+                :on_valid => ->(id) {
                   if inline?
                     @top_container.refetch
                     render :json => @top_container.to_hash if inline?
@@ -99,10 +99,10 @@ class TopContainersController < ApplicationController
     handle_crud(:instance => :top_container,
                 :model => JSONModel(:top_container),
                 :obj => JSONModel(:top_container).find(params[:id], find_opts),
-                :on_invalid => ->(){
+                :on_invalid => ->() {
                   return render action: 'edit'
                 },
-                :on_valid => ->(id){
+                :on_valid => ->(id) {
                   flash[:success] = I18n.t('top_container._frontend.messages.updated')
                   redirect_to :controller => :top_containers, :action => :show, :id => id
                 })
@@ -110,12 +110,12 @@ class TopContainersController < ApplicationController
 
 
   def batch_merge
-      merge_list = params[:victims]
-      target = params[:target]
-      victims = merge_list - target
-      handle_merge(victims,
-                    target[0],
-                    'top_container')
+    merge_list = params[:victims]
+    target = params[:target]
+    victims = merge_list - target
+    handle_merge(victims,
+                  target[0],
+                  'top_container')
   end
 
 
@@ -133,10 +133,10 @@ class TopContainersController < ApplicationController
 
     if response.code === '200'
       flash[:success] = I18n.t('top_container.batch_delete.success')
-      deleted_uri_param = params[:record_uris].map{|uri| "deleted_uri[]=#{uri}"}.join('&')
+      deleted_uri_param = params[:record_uris].map {|uri| "deleted_uri[]=#{uri}"}.join('&')
       redirect_to "#{request.referrer}?#{deleted_uri_param}"
     else
-      flash[:error] = "#{I18n.t("top_container.batch_delete.error")}<br/> #{ASUtils.json_parse(response.body)["error"]["failures"].map{|err| "#{err["response"]} [#{err["uri"]}]"}.join("<br/>")}".html_safe
+      flash[:error] = "#{I18n.t("top_container.batch_delete.error")}<br/> #{ASUtils.json_parse(response.body)["error"]["failures"].map {|err| "#{err["response"]} [#{err["uri"]}]"}.join("<br/>")}".html_safe
       redirect_to request.referrer
     end
   end
@@ -173,7 +173,7 @@ class TopContainersController < ApplicationController
     end
 
     if params['collection_accession']
-      previous_accession  = JSON.parse(params['collection_accession']['_resolved'])
+      previous_accession = JSON.parse(params['collection_accession']['_resolved'])
       session[:top_container_previous_search]['accession'] = {
         'uri' => previous_accession['uri'],
         'title' => previous_accession['title'],
@@ -253,7 +253,7 @@ class TopContainersController < ApplicationController
   def update_barcodes
     update_uris = params[:update_uris]
     barcode_data = {}
-    update_uris.map{|uri| barcode_data[uri] = params[uri].blank? ? nil : params[uri]}
+    update_uris.map {|uri| barcode_data[uri] = params[uri].blank? ? nil : params[uri]}
 
     post_uri = "#{JSONModel::HTTP.backend_url}/repositories/#{session[:repo_id]}/top_containers/bulk/barcodes"
 
@@ -271,7 +271,7 @@ class TopContainersController < ApplicationController
   def update_locations
     update_uris = params[:update_uris]
     location_data = {}
-    update_uris.map{|uri| location_data[uri] = params[uri].blank? ? nil : params[uri]['ref']}
+    update_uris.map {|uri| location_data[uri] = params[uri].blank? ? nil : params[uri]['ref']}
 
     post_uri = "#{JSONModel::HTTP.backend_url}/repositories/#{session[:repo_id]}/top_containers/bulk/locations"
 
@@ -280,13 +280,13 @@ class TopContainersController < ApplicationController
 
     if response.code =~ /^4/
       return render_aspace_partial :partial => 'top_containers/bulk_operations/error_messages',
-				   :locals => {:exceptions => (result || response.message),
-					       :jsonmodel => 'top_container'},
-				   :status => 500
+           :locals => {:exceptions => (result || response.message),
+                 :jsonmodel => 'top_container'},
+           :status => 500
     elsif response.code =~ /^5/
       return render_aspace_partial :partial => 'top_containers/bulk_operations/error_messages',
-				   :locals => {:exceptions => response.message},
-				   :status => 500
+           :locals => {:exceptions => response.message},
+           :status => 500
     end
 
     render_aspace_partial :partial => 'top_containers/bulk_operations/bulk_action_success', :locals => {:result => result}
@@ -402,4 +402,3 @@ class TopContainersController < ApplicationController
   end
 
 end
-

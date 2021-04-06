@@ -9,12 +9,12 @@ module HandleFaceting
     criteria[:page_size] = 1
     criteria['facet[]'] = facets_array
     criteria['facet.mincount'] = 1 if !include_zero
-    data =  archivesspace.search(query, 1, criteria) || {}
+    data = archivesspace.search(query, 1, criteria) || {}
     faceting = {}
     if !data['facets'].blank? && !data['facets']['facet_fields'].blank?
       faceting = data['facets']['facet_fields']
     end
-   end
+  end
 
 
   # strip out: facets with counts less than input minimum or equal to the total hits, facets of form "ead/ arch*"
@@ -29,7 +29,8 @@ module HandleFaceting
     end
     facets
   end
-   # bury the mess! 
+
+   # bury the mess!
   def get_pretty_facet_value(k, v)
     pv = strip_mixed_content(v)
     if k == 'primary_type'

@@ -5,21 +5,20 @@ class TopContainerLinkerRunner < JobRunner
   register_for_job_type('top_container_linker_job', :hidden => true)
 
   def run
-
     begin
       job_data = @json.job
 
       DB.open(DB.supports_mvcc?,
               :retry_on_optimistic_locking_fail => true) do
 
-        begin
-          RequestContext.open(:current_username => @job.owner.username,
-            :repo_id => @job.repo_id) do
+         begin
+           RequestContext.open(:current_username => @job.owner.username,
+             :repo_id => @job.repo_id) do
             if @job.job_files.empty?
               raise Exception.new(I18n.t("top_container_linker.error.job_file_empty"))
             end
             input_file = @job.job_files[0].full_file_path
-            
+
             current_user = User.find(:username => @job.owner.username)
             @validate_only = @json.job["only_validate"] == "true"
 
@@ -32,12 +31,12 @@ class TopContainerLinkerRunner < JobRunner
             params[:repo_id] = @job.repo_id
 
             @job.write_output(I18n.t("top_container_linker.log_creating_linker", :repo_id => @job.repo_id.to_s))
-            
+
             tclv = TopContainerLinkerValidator.new(input_file, @json.job["content_type"], current_user, params)
             tcl = TopContainerLinker.new(input_file, @json.job["content_type"], current_user, params)
 
-            #First run a validation to make sure that the data is valid
-            begin 
+             #First run a validation to make sure that the data is valid
+            begin
               @job.write_output(I18n.t("top_container_linker.log_validating"))
               validation_report = tclv.run
               if !validation_report.terminal_error.nil?
@@ -53,7 +52,7 @@ class TopContainerLinkerRunner < JobRunner
               @job.write_output(e.backtrace)
             end
 
-            # Perform the linking if no validation errors happened and if the validate only option is not enabled
+             # Perform the linking if no validation errors happened and if the validate only option is not enabled
             begin
               msg = ""
               if (@validate_only)
@@ -75,13 +74,14 @@ class TopContainerLinkerRunner < JobRunner
               @job.write_output(e.backtrace)
               raise Sequel::Rollback
             end
-         end
+          end
          end
        end
     end
   end
-  
+
   private
+
   def write_out_validation_errors(report)
     errors_exist = false
     report.rows.each do |row|
@@ -100,7 +100,7 @@ class TopContainerLinkerRunner < JobRunner
     end
     errors_exist
   end
-    
+
   def write_out_errors(report)
     modified_uris = []
     report.rows.each do |row|

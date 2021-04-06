@@ -1,6 +1,6 @@
 class EnumerationsController < ApplicationController
 
-  set_access_control  "update_enumeration_record" => [:new, :create, :index, :delete, :destroy, :merge, :set_default, :update_value, :csv]
+  set_access_control "update_enumeration_record" => [:new, :create, :index, :delete, :destroy, :merge, :set_default, :update_value, :csv]
 
 
   def new
@@ -39,17 +39,14 @@ class EnumerationsController < ApplicationController
     end
 
     redirect_to(:controller => :enumerations, :action => :index, :id => params[:id])
-
   end
 
 
   # we only update position and suppression here
   def update_value
-
-      @enumeration_value = JSONModel(:enumeration_value).find( params[:enumeration_value_id])
+    @enumeration_value = JSONModel(:enumeration_value).find( params[:enumeration_value_id])
 
     begin
-
       if params[:suppressed]
         suppress = ( params[:suppressed] == "1" )
         @enumeration_value.set_suppressed(suppress)
@@ -65,7 +62,6 @@ class EnumerationsController < ApplicationController
     end
 
     redirect_to(:controller => :enumerations, :action => :index, :id => params[:id])
-
   end
 
 
@@ -136,7 +132,6 @@ class EnumerationsController < ApplicationController
       flash.now[:error] = I18n.t("enumeration._frontend.messages.create_error")
       render_aspace_partial :partial => "new"
     end
-
   end
 
 

@@ -2,7 +2,7 @@ module Assessments
   module LinkedRecord
     def self.included(base)
       base.define_relationship(:name => :assessment,
-                               :contains_references_to_types => proc{[Assessment]})
+                               :contains_references_to_types => proc {[Assessment]})
     end
 
     def delete
@@ -23,9 +23,9 @@ module Assessments
   module LinkedAgent
     def self.included(base)
       base.define_relationship(:name => :surveyed_by,
-                               :contains_references_to_types => proc{[Assessment]})
+                               :contains_references_to_types => proc {[Assessment]})
       base.define_relationship(:name => :assessment_reviewer,
-                               :contains_references_to_types => proc{[Assessment]})
+                               :contains_references_to_types => proc {[Assessment]})
     end
 
     def delete

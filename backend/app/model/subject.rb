@@ -29,10 +29,10 @@ class Subject < Sequel::Model(:subject)
                     :contains_records_of_type => :term,
                     :corresponding_to_association  => :term)
 
-  auto_generate :property => :title, 
-                :generator => proc  { |json|
+  auto_generate :property => :title,
+                :generator => proc { |json|
                                 json["terms"].map do |t|
-                                  if t.kind_of? String
+                                  if t.is_a? String
                                     Term[JSONModel(:term).id_for(t)].term
                                   else
                                     t["term"]
@@ -45,8 +45,8 @@ class Subject < Sequel::Model(:subject)
                 :generator => proc { |json|
                   if AppConfig[:use_human_readable_urls]
                     if json["is_slug_auto"]
-                      AppConfig[:auto_generate_slugs_with_id] ? 
-                        SlugHelpers.id_based_slug_for(json, Subject) : 
+                      AppConfig[:auto_generate_slugs_with_id] ?
+                        SlugHelpers.id_based_slug_for(json, Subject) :
                         SlugHelpers.name_based_slug_for(json, Subject)
                     else
                       json["slug"]
@@ -121,7 +121,7 @@ class Subject < Sequel::Model(:subject)
 
       jsons.zip(objs).each do |json, obj|
         json.used_within_repositories = subjects_to_repositories.fetch(obj, []).map {|repo| repo.uri}
-        json.used_within_published_repositories = subjects_to_repositories.fetch(obj, []).select{|repo| repo.publish == 1}.map {|repo| repo.uri}
+        json.used_within_published_repositories = subjects_to_repositories.fetch(obj, []).select {|repo| repo.publish == 1}.map {|repo| repo.uri}
       end
     end
 

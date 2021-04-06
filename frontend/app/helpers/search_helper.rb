@@ -32,7 +32,6 @@ module SearchHelper
   end
 
   def build_search_params(opts = {})
-
     removing_record_type_filter = false
     Array(opts["remove_filter_term"]).each do |filter_term|
       removing_record_type_filter = true if ASUtils.json_parse(filter_term).keys.include? 'primary_type'
@@ -42,8 +41,8 @@ module SearchHelper
 
     search_params["filter_term"] = Array(opts["filter_term"] || params["filter_term"]).clone
     search_params["filter_term"].concat(Array(opts["add_filter_term"])) if opts["add_filter_term"]
-    search_params["filter_term"] = search_params["filter_term"].reject{|f| Array(opts["remove_filter_term"]).include?(f)} if opts["remove_filter_term"]
-    search_params["filter_term"] = search_params["filter_term"].select{|f| SearchResultData.BASE_FACETS.include?(ASUtils.json_parse(f).keys.first)} if removing_record_type_filter
+    search_params["filter_term"] = search_params["filter_term"].reject {|f| Array(opts["remove_filter_term"]).include?(f)} if opts["remove_filter_term"]
+    search_params["filter_term"] = search_params["filter_term"].select {|f| SearchResultData.BASE_FACETS.include?(ASUtils.json_parse(f).keys.first)} if removing_record_type_filter
 
     sort = (opts["sort"] || params["sort"] || (@search_data ? @search_data.sorted? : nil))
 
@@ -58,7 +57,7 @@ module SearchHelper
     if (opts["format"] || params["format"]).blank?
       search_params.delete("format")
     else
-      search_params["format"] =  opts["format"] || params["format"]
+      search_params["format"] = opts["format"] || params["format"]
     end
 
     search_params["multiplicity"] = params["multiplicity"] if params["multiplicity"]
@@ -83,7 +82,7 @@ module SearchHelper
       end
     end
 
-    search_params.reject{|k,v| k.blank? or v.blank?}
+    search_params.reject {|k, v| k.blank? or v.blank?}
   end
 
   def allow_multiselect?
@@ -155,24 +154,24 @@ module SearchHelper
 
   def add_column(label, opts = {}, block = nil)
     block ||= if opts[:template]
-      proc do |record|
-        render_aspace_partial :partial => opts[:template], :locals => {:record => record}
-      end
-    else
-      proc do |record|
-        v = Array(record[opts[:field]] || ASUtils.json_parse(record['json'])[opts[:field]])
-        if v.length > 1
-          content_tag('ul', :style => 'padding-left: 20px;') {
-            Array(v).collect { |i|
-              content_tag('li',
-                process(i, opts))
-            }.join.html_safe
-          }
-        elsif v.length == 1
-          process(v[0], opts)
-        end
-      end
-    end
+                proc do |record|
+                  render_aspace_partial :partial => opts[:template], :locals => {:record => record}
+                end
+              else
+                proc do |record|
+                  v = Array(record[opts[:field]] || ASUtils.json_parse(record['json'])[opts[:field]])
+                  if v.length > 1
+                    content_tag('ul', :style => 'padding-left: 20px;') {
+                      Array(v).collect { |i|
+                        content_tag('li',
+                          process(i, opts))
+                      }.join.html_safe
+                    }
+                  elsif v.length == 1
+                    process(v[0], opts)
+                  end
+                end
+              end
 
     @columns ||= []
 
@@ -217,7 +216,7 @@ module SearchHelper
   end
 
   def add_pref_columns(models)
-    models = [models] unless models.is_a? Array
+    models = Array(models) unless models.is_a? Array
     added = []
     skipped = []
     if models.length > 1
@@ -360,7 +359,6 @@ module SearchHelper
     add_columns unless @columns
     @columns.collect { |col| col.field }.compact
   end
-
 
 
   class SearchColumn

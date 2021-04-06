@@ -98,6 +98,7 @@ class SpaceCalculator
                                                    tcp.depth,
                                                    tcp.dimension_units),
                                     tcp.stacking_limit)
+
           # this shouldn't happen - we're just packing the containers already at the location
           # we'll have to add it to uncalculatable and get out
           @uncalculatable_locations << {'ref' => loc.uri, 'reason' => :containers_at_location_dont_fit}
@@ -118,6 +119,7 @@ class SpaceCalculator
                                                 @container_profile.depth,
                                                 @container_profile.dimension_units),
                                  @container_profile.stacking_limit)
+
         count += 1
 
         # peace of mind
@@ -205,14 +207,14 @@ class SpaceCalculator
                                           .map {|profile| [profile.id, profile]}]
 
         @locations_to_container_profiles = Hash[location_ids_to_container_profile_ids.map {|location_id, profile_ids|
-                                                  [location_id, profile_ids.map {|profile_id|
-                                                     if profile_id
-                                                       container_profiles_lookup.fetch(profile_id)
-                                                     else
-                                                       # A container without a container profile.  Return a nil.
-                                                       nil
-                                                     end
-                                                   }]
+                                                 [location_id, profile_ids.map {|profile_id|
+                                                    if profile_id
+                                                      container_profiles_lookup.fetch(profile_id)
+                                                    else
+                                                      # A container without a container profile.  Return a nil.
+                                                      nil
+                                                    end
+                                                  }]
                                                }]
       end
     end

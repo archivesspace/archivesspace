@@ -51,8 +51,8 @@ class ArchivalObject < Sequel::Model(:archival_object)
                 :generator => proc { |json|
                   if AppConfig[:use_human_readable_urls]
                     if json["is_slug_auto"]
-                      AppConfig[:auto_generate_slugs_with_id] ? 
-                        SlugHelpers.id_based_slug_for(json, ArchivalObject) : 
+                      AppConfig[:auto_generate_slugs_with_id] ?
+                        SlugHelpers.id_based_slug_for(json, ArchivalObject) :
                         SlugHelpers.name_based_slug_for(json, ArchivalObject)
                     else
                       json["slug"]

@@ -8,7 +8,7 @@ Sequel.migration do
     bulk_date = self[:enumeration_value].filter(:value => 'bulk').get(:id)
 
     ['archival_object', 'digital_object_component'].each do |component_type|
-      component_id = self[:date].group_and_count(:"#{component_type}_id").having{count.function.* > 1}.select(:"#{component_type}_id")
+      component_id = self[:date].group_and_count(:"#{component_type}_id").having {count.function.* > 1}.select(:"#{component_type}_id")
       components_with_dates = self[:date].where(:"#{component_type}_id" => component_id).select(:"#{component_type}_id")
 
       components_with_dates.distinct.each do |component_with_dates|

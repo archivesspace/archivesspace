@@ -39,16 +39,16 @@ class ProgressTicker
   end
 
   def status_update(type, status)
-    @status_updates.update{|val| val + [status.merge(:type => type)] }
+    @status_updates.update {|val| val + [status.merge(:type => type)] }
   end
-  
-  
+
+
   def results=(result_hash)
     raise "bad argument: #{result_hash}" unless result_hash.is_a?(Hash)
     @results.update {|val| result_hash }
   end
-  
-  
+
+
   def results?
     return @results.value.empty? ? false : true
   end
@@ -58,8 +58,8 @@ class ProgressTicker
     @finished.update {|val| true}
     @tick_to_client_thread.join if @tick_to_client_thread
   end
-  
-  
+
+
   def finished?
     @finished.value
   end
@@ -72,16 +72,16 @@ class ProgressTicker
       client.call(ASUtils.to_json(:status => updates) + ",\n")
     end
   end
-  
+
 
   def flush_results(client)
     results = @results.swap({})
-    
+
     unless results.empty?
       client.call(ASUtils.to_json(results) + "\n")
     end
   end
-      
+
 
   def each(&client)
     @tick_to_client_thread = Thread.new do

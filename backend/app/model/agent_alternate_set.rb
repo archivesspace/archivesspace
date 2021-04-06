@@ -5,4 +5,3 @@ class AgentAlternateSet < Sequel::Model(:agent_alternate_set)
 
   set_model_scope :global
 end
-

@@ -122,24 +122,23 @@ module ASpaceImport
           val
         }
 
-       when /^string/
-         lambda {|val|
-           val.split("\n").map {|s| s.strip }.join("\n")
-         }
-       
-       when :integer
-         lambda {|val|
-           val.to_i
-         }
+      when /^string/
+        lambda {|val|
+          val.split("\n").map {|s| s.strip }.join("\n")
+        }
 
-       else
-         raise "Can't handle #{property_type}"
-       end
-     end
+      when :integer
+        lambda {|val|
+          val.to_i
+        }
+
+      else
+        raise "Can't handle #{property_type}"
+      end
+    end
 
 
     def self.ref_type_list(property_ref_type)
-
       if property_ref_type.is_a?(Array) && property_ref_type[0].is_a?(Hash)
         property_ref_type.map { |t| t['type'].scan(/:([a-zA-Z_]*)/)[0][0] }
 
@@ -194,7 +193,6 @@ module ASpaceImport
 end
 
 
-
 module ASpaceMappings
   module MARC21
 
@@ -212,4 +210,3 @@ module ASpaceMappings
     end
   end
 end
-

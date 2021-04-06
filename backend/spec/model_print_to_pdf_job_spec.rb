@@ -1,9 +1,9 @@
 require 'spec_helper'
 
 def print_to_pdf_job( resource_uri )
-     build( :json_job,
-            :job => build(:json_print_to_pdf_job, :source => resource_uri)
-          )
+  build( :json_job,
+         :job => build(:json_print_to_pdf_job, :source => resource_uri)
+       )
 end
 
 describe "Print to PDF job model" do

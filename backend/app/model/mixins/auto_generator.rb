@@ -45,7 +45,7 @@ module AutoGenerator
 
 
     def auto_generate(opts)
-      properties_to_auto_generate.delete_if{|generate_opts| generate_opts[:property] == opts[:property] }
+      properties_to_auto_generate.delete_if {|generate_opts| generate_opts[:property] == opts[:property] }
       properties_to_auto_generate.push(opts)
     end
 

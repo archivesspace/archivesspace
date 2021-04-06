@@ -64,11 +64,10 @@ module RestrictionCalculator
   end
 
 
-
   module Implementation
 
     def self.expand_to_tree(model, id_set)
-      return {model => id_set} unless  model.included_modules.include?(TreeNodes)
+      return {model => id_set} unless model.included_modules.include?(TreeNodes)
 
       rec_ids = id_set
       new_rec_ids = rec_ids

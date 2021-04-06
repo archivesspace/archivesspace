@@ -15,7 +15,6 @@ class METSSerializer < ASpaceExport::Serializer
 
 
   def serialize(data, opts = {})
-
     builder = build(data, opts)
 
     builder.to_xml
@@ -30,7 +29,7 @@ class METSSerializer < ASpaceExport::Serializer
              'xmlns:dc' => 'http://purl.org/dc/elements/1.1/',
              'xmlns:xlink' => 'http://www.w3.org/1999/xlink',
              'xmlns:xsi' => "http://www.w3.org/2001/XMLSchema-instance",
-             'xsi:schemaLocation' => "http://www.loc.gov/METS/ http://www.loc.gov/standards/mets/mets.xsd"){
+             'xsi:schemaLocation' => "http://www.loc.gov/METS/ http://www.loc.gov/standards/mets/mets.xsd") {
       xml.metsHdr(:CREATEDATE => Time.now.iso8601) {
         xml.agent(:ROLE => data.header_agent_role, :TYPE => data.header_agent_type) {
           xml.name data.header_agent_name
@@ -107,7 +106,7 @@ class METSSerializer < ASpaceExport::Serializer
             :LABEL => div.label,
             :TYPE => "item",
             :DMDID => div.dmdid
-            ){
+            ) {
       div.each_file_version do |fv|
         xml.fptr(:FILEID => fv.id)
       end
@@ -124,7 +123,7 @@ class METSSerializer < ASpaceExport::Serializer
               :LABEL => div.label,
               :TYPE => "item",
               :DMDID => div.dmdid
-              ){
+              ) {
         div.each_file_version do |fv|
           xml.fptr(:FILEID => fv.id)
         end

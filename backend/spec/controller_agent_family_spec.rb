@@ -22,7 +22,7 @@ describe 'Family agent controller' do
     id = create_family(:agent_contacts => nil).id
 
     family = JSONModel(:agent_family).find(id)
-    [0,1].each do |n|
+    [0, 1].each do |n|
 
       opts = {:name => generate(:generic_name)}
       family.agent_contacts << build(:json_agent_contact, opts)

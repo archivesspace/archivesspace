@@ -25,17 +25,17 @@ describe 'Container Profile controller' do
   end
 
 
-it "allows container profiles to be deleted" do
-    cp = create(:json_container_profile)
-    cp.name = "cp-01"
-    cp.save
-    expect(JSONModel(:container_profile).find(cp.id).name).to eq("cp-01")
-    cp.delete
+  it "allows container profiles to be deleted" do
+      cp = create(:json_container_profile)
+      cp.name = "cp-01"
+      cp.save
+      expect(JSONModel(:container_profile).find(cp.id).name).to eq("cp-01")
+      cp.delete
 
-    expect {
-      JSONModel(:container_profile).find(cp.id)
-    }.to raise_error(RecordNotFound)
-  end
+      expect {
+        JSONModel(:container_profile).find(cp.id)
+      }.to raise_error(RecordNotFound)
+    end
 
 
   it "fails when you try to update a container_profile that doesn't exist" do

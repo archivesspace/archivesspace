@@ -44,7 +44,6 @@ class Repository < Sequel::Model(:repository)
 
 
   def after_create
-
     if self.repo_code == Repository.GLOBAL
       # No need for standard groups on this one.
       return
@@ -129,7 +128,6 @@ class Repository < Sequel::Model(:repository)
 
 
   def delete
-
     # this is very expensive...probably need to come up with something
     # better...
     [ Classification, Event, Resource, DigitalObject, Accession ].each do |klass|

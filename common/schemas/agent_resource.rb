@@ -20,16 +20,16 @@
         "required" => false
       },
       "file_version_xlink_show_attribute" => {
-        "type" => "string", 
+        "type" => "string",
         "dynamic_enum" => "file_version_xlink_show_attribute",
         "required" => false
-      },      
+      },
 
       "xlink_title_attribute" => {"type" => "string", "maxLength" => 65000},
       "xlink_role_attribute" => {"type" => "string", "maxLength" => 65000},
       "xlink_arcrole_attribute" => {"type" => "string", "maxLength" => 65000},
       "last_verified_date" => {"type" => "date-time"},
-      
+
       "dates" => {
         "type" => "array",
         "items" => {"type" => "JSONModel(:structured_date_label) object"}

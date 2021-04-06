@@ -14,7 +14,7 @@ module OAI::Provider::Response
         # Only select formats where this type is supported
         formats.select! {|f|
           format = ArchivesSpaceOAIRepository.available_record_types.fetch(f.prefix)
-          format.record_types.any?{|jsonmodel_clz|
+          format.record_types.any? {|jsonmodel_clz|
             jsonmodel_clz.my_jsonmodel.record_type == jsonmodel_type
           }
         }

@@ -11,7 +11,7 @@ module JSONModel::Validations
 
     errors = []
 
-    if ids.reverse.drop_while {|elt| elt.to_s.empty?}.any?{|elt| elt.to_s.empty?}
+    if ids.reverse.drop_while {|elt| elt.to_s.empty?}.any? {|elt| elt.to_s.empty?}
       errors << ["identifier", "must not contain blank entries"]
     end
 
@@ -123,7 +123,7 @@ module JSONModel::Validations
   [:name_person, :name_family, :name_corporate_entity, :name_software].each do |type|
     if JSONModel(type)
       # ANW-429: make source and rules completely optional. Is this (check_source) the right validation to change? See:
-      # https://docs.google.com/spreadsheets/d/1fL44mUxo8D9o45NHsjKd21ljbvWJzNBQCIm4_Q_tcTU/edit#gid=0 
+      # https://docs.google.com/spreadsheets/d/1fL44mUxo8D9o45NHsjKd21ljbvWJzNBQCIm4_Q_tcTU/edit#gid=0
       # ^^ Cell 85
       #JSONModel(type).add_validation("#{type}_check_source") do |hash|
         #check_source(hash)
@@ -233,10 +233,10 @@ module JSONModel::Validations
       errors << ["date_role", "is required"]
     end
 
-    has_expr_date = !hash["date_expression"].nil? && 
+    has_expr_date = !hash["date_expression"].nil? &&
                     !hash["date_expression"].empty?
 
-    has_std_date = !hash["date_standardized"].nil? 
+    has_std_date = !hash["date_standardized"].nil?
 
     errors << ["date_standardized", "or date expression is required"] unless has_expr_date || has_std_date
 
@@ -250,10 +250,10 @@ module JSONModel::Validations
   def self.check_structured_date_range(hash)
     errors = []
 
-    has_begin_expr_date = !hash["begin_date_expression"].nil? && 
+    has_begin_expr_date = !hash["begin_date_expression"].nil? &&
                           !hash["begin_date_expression"].empty?
 
-    has_end_expr_date = !hash["end_date_expression"].nil? && 
+    has_end_expr_date = !hash["end_date_expression"].nil? &&
                         !hash["end_date_expression"].empty?
 
     has_begin_std_date = !hash["begin_date_standardized"].nil? &&
@@ -302,8 +302,8 @@ module JSONModel::Validations
   def self.check_agent_sources(hash)
     errors = []
 
-    if (hash["source_entry"].nil?     || hash["source_entry"].empty?) && 
-       (hash["descriptive_note"].nil? || hash["descriptive_note"].empty?) && 
+    if (hash["source_entry"].nil?     || hash["source_entry"].empty?) &&
+       (hash["descriptive_note"].nil? || hash["descriptive_note"].empty?) &&
        (hash["file_uri"].nil?         || hash["file_uri"].empty?)
 
       errors << ["agent_sources", "Must specify one of Source Entry, Descriptive Note or File URI"]
@@ -315,8 +315,8 @@ module JSONModel::Validations
   def self.check_agent_alternate_set(hash)
     errors = []
 
-    if (hash["set_component"].nil?    || hash["set_component"].empty?) && 
-       (hash["descriptive_note"].nil? || hash["descriptive_note"].empty?) && 
+    if (hash["set_component"].nil?    || hash["set_component"].empty?) &&
+       (hash["descriptive_note"].nil? || hash["descriptive_note"].empty?) &&
        (hash["file_uri"].nil?         || hash["file_uri"].empty?)
 
       errors << ["agent_sources", "Must specify one of Set Component, Descriptive Note or File URI"]
@@ -354,7 +354,7 @@ module JSONModel::Validations
 
 
   def self.check_language(hash)
-    langs = hash['lang_materials'].map {|l| l['language_and_script']}.compact.reject {|e|  e == [] }.flatten
+    langs = hash['lang_materials'].map {|l| l['language_and_script']}.compact.reject {|e| e == [] }.flatten
 
     errors = []
 
@@ -471,52 +471,52 @@ module JSONModel::Validations
   end
 
   def self.check_sub_container(hash)
-      errors = []
+    errors = []
 
-      if (!hash["type_2"].nil? && hash["indicator_2"].nil?) || (hash["type_2"].nil? && !hash["indicator_2"].nil?)
-        errors << ["type_2", "container 2 requires both a type and indicator"]
-      end
+    if (!hash["type_2"].nil? && hash["indicator_2"].nil?) || (hash["type_2"].nil? && !hash["indicator_2"].nil?)
+      errors << ["type_2", "container 2 requires both a type and indicator"]
+    end
 
-      if (hash["type_2"].nil? && hash["indicator_2"].nil? && (!hash["type_3"].nil? || !hash["indicator_3"].nil?))
-        errors << ["type_2", "container 2 is required if container 3 is provided"]
-      end
+    if (hash["type_2"].nil? && hash["indicator_2"].nil? && (!hash["type_3"].nil? || !hash["indicator_3"].nil?))
+      errors << ["type_2", "container 2 is required if container 3 is provided"]
+    end
 
-      if (!hash["type_3"].nil? && hash["indicator_3"].nil?) || (hash["type_3"].nil? && !hash["indicator_3"].nil?)
-        errors << ["type_3", "container 3 requires both a type and indicator"]
-      end
+    if (!hash["type_3"].nil? && hash["indicator_3"].nil?) || (hash["type_3"].nil? && !hash["indicator_3"].nil?)
+      errors << ["type_3", "container 3 requires both a type and indicator"]
+    end
 
-      errors
+    errors
   end
 
   if JSONModel(:sub_container)
-      JSONModel(:sub_container).add_validation("check_sub_container") do |hash|
-        check_sub_container(hash)
-      end
+    JSONModel(:sub_container).add_validation("check_sub_container") do |hash|
+      check_sub_container(hash)
+    end
   end
 
 
   def self.check_container_profile(hash)
-      errors = []
+    errors = []
 
       # Ensure depth, width and height have no more than 2 decimal places
-      ["depth", "width", "height"].each do |k|
-        if hash[k] !~  /^\s*(?=.*[0-9])\d*(?:\.\d{1,2})?\s*$/
-          errors << [k, "must be a number with no more than 2 decimal places"]
-        end
+    ["depth", "width", "height"].each do |k|
+      if hash[k] !~ /^\s*(?=.*[0-9])\d*(?:\.\d{1,2})?\s*$/
+        errors << [k, "must be a number with no more than 2 decimal places"]
       end
+    end
 
       # Ensure stacking limit is a positive integer if it has value
-      if !hash['stacking_limit'].nil? and hash['stacking_limit'] !~ /^\d+$/
-        errors << ['stacking_limit', 'must be a positive integer']
-      end
+    if !hash['stacking_limit'].nil? and hash['stacking_limit'] !~ /^\d+$/
+      errors << ['stacking_limit', 'must be a positive integer']
+    end
 
-      errors
+    errors
   end
 
   if JSONModel(:container_profile)
-      JSONModel(:container_profile).add_validation("check_container_profile") do |hash|
-        check_container_profile(hash)
-      end
+    JSONModel(:container_profile).add_validation("check_container_profile") do |hash|
+      check_container_profile(hash)
+    end
   end
 
 
@@ -527,10 +527,10 @@ module JSONModel::Validations
       errors << ["processing_total_extent_type", "is required if total extent is specified"]
     end
 
-    [ "processing_hours_per_foot_estimate", "processing_total_extent", "processing_hours_total"  ].each do |k|
-        if !hash[k].nil? and hash[k] !~ /^\-?\d{0,9}(\.\d{1,5})?$/
-                  errors << [k, "must be a number with no more than nine digits and five decimal places"]
-        end
+    [ "processing_hours_per_foot_estimate", "processing_total_extent", "processing_hours_total" ].each do |k|
+      if !hash[k].nil? and hash[k] !~ /^\-?\d{0,9}(\.\d{1,5})?$/
+        errors << [k, "must be a number with no more than nine digits and five decimal places"]
+      end
     end
 
 
@@ -696,7 +696,7 @@ module JSONModel::Validations
 
     # Ensure depth, width and height have no more than 2 decimal places
     ["depth", "width", "height"].each do |k|
-      if !hash[k].nil? &&  hash[k] !~ /\A\d+(\.\d\d?)?\Z/
+      if !hash[k].nil? && hash[k] !~ /\A\d+(\.\d\d?)?\Z/
         errors << [k, "must be a number with no more than 2 decimal places"]
       end
     end
@@ -826,7 +826,7 @@ module JSONModel::Validations
 
     errors << [field_name, "must be in YYYY[YYY][YY][Y], YYYY[YYY][YY][Y]-MM, or YYYY-MM-DD format"] unless matches_yyyy || matches_yyyy_mm || matches_yyyy_mm_dd || matches_yyy || matches_yy || matches_y || matches_yyy_mm || matches_yy_mm || matches_y_mm || matches_mm_yyyy || matches_mm_dd_yyyy || matches_yyy_mm_dd
 
-    return errors  
+    return errors
   end
 
 

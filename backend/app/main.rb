@@ -113,7 +113,7 @@ class ArchivesSpaceService < Sinatra::Base
       unless AppConfig[:ignore_schema_info_check]
         schema_info = 0
         DB.open do |db|
-          schema_info =  db[:schema_info].get(:version)
+          schema_info = db[:schema_info].get(:version)
           required_schema_info = DBMigrator.latest_migration_number(db)
 
           if schema_info != required_schema_info
@@ -265,6 +265,7 @@ class ArchivesSpaceService < Sinatra::Base
         if session[:expirable] &&
             AppConfig[:session_expire_after_seconds].to_i >= 0 &&
             session.age > AppConfig[:session_expire_after_seconds].to_i
+
           Session.expire(session_token)
           session = nil
           return [412,
@@ -311,14 +312,14 @@ class ArchivesSpaceService < Sinatra::Base
 
 
   get '/' do
-    sys_info =  DB.sysinfo.merge({ "archivesSpaceVersion" =>  ASConstants.VERSION})
+    sys_info = DB.sysinfo.merge({ "archivesSpaceVersion" => ASConstants.VERSION})
 
     request.accept.each do |type|
-        case type
-          when 'application/json'
-            content_type :json
-            halt sys_info.to_json
-        end
+      case type
+      when 'application/json'
+        content_type :json
+        halt sys_info.to_json
+      end
     end
     JSON.pretty_generate(sys_info )
   end

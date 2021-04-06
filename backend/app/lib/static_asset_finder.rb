@@ -14,7 +14,7 @@ class StaticAssetFinder
             end
 
     raise NotFoundException.new("File not found: #{query} in #{@valid_paths}") unless match
-     
+
 
     match
   end
@@ -25,7 +25,7 @@ class StaticAssetFinder
             end
 
     raise NotFoundException.new("File not found: #{query} in #{@valid_paths}") unless match
-     
+
 
     match
   end

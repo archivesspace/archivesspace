@@ -64,12 +64,12 @@ module I18n
               end
 
     # String
-    if key && key.kind_of?(String) && key.end_with?(".")
+    if key && key.is_a?(String) && key.end_with?(".")
       return default
     end
 
     # Hash / Enumeration Value
-    if key && key.kind_of?(Hash) && key.has_key?(:enumeration)
+    if key && key.is_a?(Hash) && key.has_key?(:enumeration)
       backend  = config.backend
       locale   = config.locale
 
@@ -95,7 +95,7 @@ module I18n
       return nil
     end
 
-    if key.kind_of?(Hash) && key.has_key?(:enumeration)
+    if key.is_a?(Hash) && key.has_key?(:enumeration)
       self.build_enumeration_key(key)
     else
       key

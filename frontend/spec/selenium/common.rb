@@ -133,10 +133,11 @@ module SeleniumTest
       if ENV['INTEGRATION_LOGFILE'] &&
          File.exist?(ENV['INTEGRATION_LOGFILE']) &&
          !ENV['INTEGRATION_LOGFILE'].start_with?("/dev")
+
         upload_file(ENV['INTEGRATION_LOGFILE'])
       end
     end
 
-      puts "save_screenshot complete"
+    puts "save_screenshot complete"
   end
 end

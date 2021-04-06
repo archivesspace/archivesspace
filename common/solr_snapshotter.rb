@@ -32,7 +32,6 @@ class SolrSnapshotter
         log(:info, "Too cowardly to delete: #{backup_dir}")
       end
     end
-
   end
 
 

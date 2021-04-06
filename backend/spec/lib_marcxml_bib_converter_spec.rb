@@ -11,61 +11,61 @@ describe 'MARCXML Bib converter' do
 
   describe "Basic MARCXML to ASPACE mappings" do
     def test_doc_1
-      src = <<END
-<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-      <collection xsi:schemaLocation="http://www.loc.gov/MARC21/slim http://www.loc.gov/standards/marcxml/schema/MARC21slim.xsd" xmlns="http://www.loc.gov/MARC21/slim" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-          <record>
-              <leader>00000npc a2200000 u 4500</leader>
-              <controlfield tag="008">130109i19601970xx                  eng d</controlfield>
-              <datafield tag="040" ind2=" " ind1=" ">
-                  <subfield code="a">Repositories.Agency Code-AT</subfield>
-                  <subfield code="b">eng</subfield>
-                  <subfield code="c">Repositories.Agency Code-AT</subfield>
-                  <subfield code="e">dacs</subfield>
-              </datafield>
-              <datafield tag="041" ind2=" " ind1="0">
-                  <subfield code="a">eng</subfield>
-              </datafield>
-              <datafield tag="099" ind2=" " ind1=" ">
-                  <subfield code="a">Resource.ID.AT</subfield>
-              </datafield>
-              <datafield tag="245" ind2=" " ind1="1">
-                  <subfield code="a">SF A</subfield>
-                  <subfield code="c">SF C</subfield>
-                  <subfield code="h">SF H</subfield>
-                  <subfield code="n">SF N</subfield>
-              </datafield>
-              <datafield tag="300" ind2=" " ind1=" ">
-                  <subfield code="a">5.0 Linear feet</subfield>
-                  <subfield code="f">Resource-ContainerSummary-AT</subfield>
-              </datafield>
-              <datafield tag="342" ind2="5" ind1="1">
-                  <subfield code="i">SF I</subfield>
-                  <subfield code="p">SF P</subfield>
-                  <subfield code="q">SF Q</subfield>
-              </datafield>
-              <datafield tag="510" ind2=" " ind1="2">
-                  <subfield code="3">SF 3</subfield>
-                  <subfield code="c">SF C</subfield>
-                  <subfield code="x">SF X</subfield>
-              </datafield>
-              <datafield tag="630" ind2=" " ind1="2">
-                  <subfield code="d">SF D</subfield>
-                  <subfield code="f">SF F</subfield>
-                  <subfield code="x">SF X</subfield>
-                  <subfield code="2">SF 2</subfield>
-              </datafield>
-              <datafield tag="691" ind2=" " ind1="2">
-                  <subfield code="d">SF D</subfield>
-                  <subfield code="a">SF A</subfield>
-                  <subfield code="x">SF X</subfield>
-                  <subfield code="x">SF XII</subfield>
-                  <subfield code="3">SF 3</subfield>
-              </datafield>
-
-          </record>
-     </collection>
-END
+      src = <<~END
+        <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+              <collection xsi:schemaLocation="http://www.loc.gov/MARC21/slim http://www.loc.gov/standards/marcxml/schema/MARC21slim.xsd" xmlns="http://www.loc.gov/MARC21/slim" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                  <record>
+                      <leader>00000npc a2200000 u 4500</leader>
+                      <controlfield tag="008">130109i19601970xx                  eng d</controlfield>
+                      <datafield tag="040" ind2=" " ind1=" ">
+                          <subfield code="a">Repositories.Agency Code-AT</subfield>
+                          <subfield code="b">eng</subfield>
+                          <subfield code="c">Repositories.Agency Code-AT</subfield>
+                          <subfield code="e">dacs</subfield>
+                      </datafield>
+                      <datafield tag="041" ind2=" " ind1="0">
+                          <subfield code="a">eng</subfield>
+                      </datafield>
+                      <datafield tag="099" ind2=" " ind1=" ">
+                          <subfield code="a">Resource.ID.AT</subfield>
+                      </datafield>
+                      <datafield tag="245" ind2=" " ind1="1">
+                          <subfield code="a">SF A</subfield>
+                          <subfield code="c">SF C</subfield>
+                          <subfield code="h">SF H</subfield>
+                          <subfield code="n">SF N</subfield>
+                      </datafield>
+                      <datafield tag="300" ind2=" " ind1=" ">
+                          <subfield code="a">5.0 Linear feet</subfield>
+                          <subfield code="f">Resource-ContainerSummary-AT</subfield>
+                      </datafield>
+                      <datafield tag="342" ind2="5" ind1="1">
+                          <subfield code="i">SF I</subfield>
+                          <subfield code="p">SF P</subfield>
+                          <subfield code="q">SF Q</subfield>
+                      </datafield>
+                      <datafield tag="510" ind2=" " ind1="2">
+                          <subfield code="3">SF 3</subfield>
+                          <subfield code="c">SF C</subfield>
+                          <subfield code="x">SF X</subfield>
+                      </datafield>
+                      <datafield tag="630" ind2=" " ind1="2">
+                          <subfield code="d">SF D</subfield>
+                          <subfield code="f">SF F</subfield>
+                          <subfield code="x">SF X</subfield>
+                          <subfield code="2">SF 2</subfield>
+                      </datafield>
+                      <datafield tag="691" ind2=" " ind1="2">
+                          <subfield code="d">SF D</subfield>
+                          <subfield code="a">SF A</subfield>
+                          <subfield code="x">SF X</subfield>
+                          <subfield code="x">SF XII</subfield>
+                          <subfield code="3">SF 3</subfield>
+                      </datafield>
+        
+                  </record>
+             </collection>
+      END
 
       get_tempfile_path(src)
     end
@@ -74,7 +74,7 @@ END
     before(:all) do
       parsed = convert(test_doc_1)
       @resource = parsed.last
-      @subjects = parsed.select{|r| r['jsonmodel_type'] == 'subject'}
+      @subjects = parsed.select {|r| r['jsonmodel_type'] == 'subject'}
     end
 
 
@@ -83,14 +83,14 @@ END
     end
 
     it "maps field 342 to resource['notes']" do
-      note = @resource['notes'].find{|n| n['type'] == 'odd'}
+      note = @resource['notes'].find {|n| n['type'] == 'odd'}
       expect(note['subnotes'][0]['content']).to eq("False easting--SF I; Zone identifier--SF P; Ellipsoid name--SF Q")
       expect(note['label']).to eq("Geospatial Reference Dimension: Vertical coordinate system--Geodetic model")
     end
 
     # "Indicator 1 {@ind1} --$3: $a : $b : $c ($x)"
     it "maps field 510 to resource['notes']" do
-      note = @resource['notes'].find{|n| n['jsonmodel_type'] == 'note_bibliography'}
+      note = @resource['notes'].find {|n| n['jsonmodel_type'] == 'note_bibliography'}
       expect(note['content'][0]).to eq("Coverage is selective -- SF 3: SF C (SF X)")
     end
 
@@ -156,7 +156,7 @@ END
 
         @resource = parsed.select {|rec| rec['jsonmodel_type'] == 'resource'}.last
         @notes = @resource['notes'].map { |note| note_content(note) }
-        @lang_materials_notes = @resource['lang_materials'].select{|n| n.include?('notes')}.reject {|e|  e['notes'] == [] }[0]['notes'].map { |note| note_content(note) }
+        @lang_materials_notes = @resource['lang_materials'].select {|n| n.include?('notes')}.reject {|e| e['notes'] == [] }[0]['notes'].map { |note| note_content(note) }
       end
 
       before(:all) do
@@ -192,20 +192,20 @@ END
       end
 
       it "maps datafield[@tag='600' or @tag='700']/subfield[@code='b'] to agent_(family|person).names[].number" do
-        expect(@people.select{|p| p['names'][0]['number'] == 'PName-Number-AT'}.count).to eq(3)
+        expect(@people.select {|p| p['names'][0]['number'] == 'PName-Number-AT'}.count).to eq(3)
       end
 
       it "maps datafield[@tag='600' or @tag='700']/subfield[@code='c'] to agent_person.names[].title or agent_family.names[].qualifier" do
-        expect(@people.select{|p| p['names'][0]['title'] == 'PNames-Prefix-AT, PNames-Title-AT, PNames-Suffix-AT'}.count).to eq(3)
-        expect(@families.select{|f| f['names'][0]['qualifier'].match(/^FNames-Prefix-AT/)}.count).to eq(3)
+        expect(@people.select {|p| p['names'][0]['title'] == 'PNames-Prefix-AT, PNames-Title-AT, PNames-Suffix-AT'}.count).to eq(3)
+        expect(@families.select {|f| f['names'][0]['qualifier'].match(/^FNames-Prefix-AT/)}.count).to eq(3)
       end
 
       it "maps datafield[@tag='600' or @tag='700']/subfield[@code='d'] to agent_(family|person).names[].dates" do
-        expect(@people.select{|p| p['names'][0]['dates'] == 'PNames-Dates-AT'}.count).to eq(3)
+        expect(@people.select {|p| p['names'][0]['dates'] == 'PNames-Dates-AT'}.count).to eq(3)
       end
 
       it "prepends and maps datafield[@tag='600']/subfield[@code='g'] to agent_(family|person).names[].qualifier" do
-        expect(@people.select{|p| p['names'][0]['qualifier'].match(/Miscellaneous information: PNames-Qualifier-AT\./)}.count).to eq(3)
+        expect(@people.select {|p| p['names'][0]['qualifier'].match(/Miscellaneous information: PNames-Qualifier-AT\./)}.count).to eq(3)
       end
 
       it "maps datafield[@tag='110' or @tag='610' or @tag='710'] to agent_corporate_entity" do
@@ -221,45 +221,45 @@ END
       end
 
       it "maps datafield[@tag='610'] to agent_corporate_entity linked as 'subject'" do
-        links = @resource['linked_agents'].select {|a| @corps.map{|c| c['uri']}.include?(a['ref'])}
+        links = @resource['linked_agents'].select {|a| @corps.map {|c| c['uri']}.include?(a['ref'])}
         expect(links.select {|l| l['role'] == 'subject'}.count).to eq(1)
       end
 
       it "maps datafield[@tag='110'][subfield[@code='e']='Creator (cre)'] and datafield[@tag='710'][subfield[@code='e']='source'] or no $e/$4 to agent_corporate_entity linked as 'creator'" do
-        links = @resource['linked_agents'].select {|a| @corps.map{|c| c['uri']}.include?(a['ref'])}
+        links = @resource['linked_agents'].select {|a| @corps.map {|c| c['uri']}.include?(a['ref'])}
         expect(links.select {|l| l['role'] == 'creator'}.count).to eq(3)
       end
 
       it "maps datafield[@tag='610' or @tag='110' or @tag='710']/subfield[@tag='a'] to agent_corporate_entity.names[].primary_name" do
-        expect(@corps.select{|c| c['names'][0]['primary_name'] == 'CNames-PrimaryName-AT'}.count).to eq(3)
+        expect(@corps.select {|c| c['names'][0]['primary_name'] == 'CNames-PrimaryName-AT'}.count).to eq(3)
       end
 
       it "maps datafield[@tag='610' or @tag='110' or @tag='710']/subfield[@tag='b'][1] to agent_corporate_entity.names[].subordinate_name_1" do
-        expect(@corps.select{|c| c['names'][0]['subordinate_name_1'] == 'CNames-Subordinate1-AT'}.count).to eq(3)
+        expect(@corps.select {|c| c['names'][0]['subordinate_name_1'] == 'CNames-Subordinate1-AT'}.count).to eq(3)
       end
 
       it "maps datafield[@tag='610' or @tag='110' or @tag='710']/subfield[@tag='b'][2] to agent_corporate_entity.names[].subordinate_name_2" do
         # not a typo, per the tracer DB:
-        expect(@corps.select{|c| c['names'][0]['subordinate_name_2'] == 'CNames-Subordiate2-AT'}.count).to eq(3)
+        expect(@corps.select {|c| c['names'][0]['subordinate_name_2'] == 'CNames-Subordiate2-AT'}.count).to eq(3)
       end
 
       it "maps datafield[@tag='610' or @tag='110' or @tag='710']/subfield[@tag='b'] to linked_agent_corporate_entity.relator" do
-        links = @resource['linked_agents'].select {|a| @corps.map{|c| c['uri']}.include?(a['ref'])}
-        expect(links.map {|l| l['relator']}.compact.sort).to eq(['source','Creator (cre)'].sort)
+        links = @resource['linked_agents'].select {|a| @corps.map {|c| c['uri']}.include?(a['ref'])}
+        expect(links.map {|l| l['relator']}.compact.sort).to eq(['source', 'Creator (cre)'].sort)
       end
 
       it "prepends and maps datafield[@tag='110' or @tag='610' or @tag='710']/subfield[@code='g'] to agent_corporate_entity.names[].qualifier" do
-        expect(@corps.select{|p| p['names'][0]['qualifier'] == "Miscellaneous information: CNames-Qualifier-AT."}.count).to eq(3)
+        expect(@corps.select {|p| p['names'][0]['qualifier'] == "Miscellaneous information: CNames-Qualifier-AT."}.count).to eq(3)
       end
 
       it "maps datafield[@tag='110' or @tag='610' or @tag='710']/subfield[@code='n'] to agent_corporate_entity.names[].number" do
-        expect(@corps.select{|p| p['names'][0]['number'] == 'CNames-Number-AT'}.count).to eq(3)
+        expect(@corps.select {|p| p['names'][0]['number'] == 'CNames-Number-AT'}.count).to eq(3)
       end
 
       it "maps datafield[@tag='110' or @tag='710'] with no $e or $4 to creator agent_corporate_entity" do
-        creator = @corps.select{|c| c['names'][0]['primary_name'] == 'DNames-PrimaryName-AT'}
+        creator = @corps.select {|c| c['names'][0]['primary_name'] == 'DNames-PrimaryName-AT'}
         expect(creator.length).to eq(1)
-        link = @resource['linked_agents'].select{|a| a['ref'] == creator[0]['uri']}
+        link = @resource['linked_agents'].select {|a| a['ref'] == creator[0]['uri']}
         expect(link.length).to eq(1)
         expect(link[0]['role']).to eq('creator')
       end
@@ -336,13 +336,13 @@ END
       end
 
       it "maps datafield[@tag='630'] to subject" do
-        s = @subjects.select{|s| s['terms'][0]['term'] == 'Subjects--Uniform Title--AT'}
+        s = @subjects.select {|s| s['terms'][0]['term'] == 'Subjects--Uniform Title--AT'}
         expect(s.count).to eq(1)
         expect(s.last['source']).to eq('Local sources')
       end
 
       it "maps datafield[@tag='650'] to subject" do
-        s = @subjects.select{|s| s['terms'][0]['term'] == 'Subjects--Topical Term--AT'}
+        s = @subjects.select {|s| s['terms'][0]['term'] == 'Subjects--Topical Term--AT'}
         expect(s.last['terms'][0]['term_type']).to eq('topical')
         expect(s.count).to eq(1)
         expect(s.last['source']).to eq('Local sources')
@@ -435,27 +435,27 @@ END
 
   describe "008 string handling" do
     let (:test_doc) {
-      src = <<marc
-<?xml version="1.0" encoding="UTF-8" ?>
-<marc:collection xmlns:marc="http://www.loc.gov/MARC21/slim" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.loc.gov/MARC21/slim http://www.loc.gov/standards/marcxml/schema/MARC21slim.xsd">
-<marc:record><marc:leader>00943nasaa2200253Ia 4500</marc:leader>
-<marc:controlfield tag="001">32415731</marc:controlfield>
-<marc:controlfield tag="008">950503s1934    fr                  fre d</marc:controlfield>
-
-<marc:datafield tag="245" ind1="1" ind2="0">
-<marc:subfield code="a">Letters :</marc:subfield>
-<marc:subfield code="b">Paris, to Kelver Hartley, Paris,</marc:subfield>
-<marc:subfield code="f">1934 Nov. 1-Dec. 25 </marc:subfield>
-</marc:datafield>
-
-<marc:datafield tag="300" ind1=" " ind2=" ">
-<marc:subfield code="a">2 items (2 leaves) ;</marc:subfield>
-<marc:subfield code="c">20 cm. and smaller </marc:subfield>
-</marc:datafield>
-</marc:record>
-</marc:collection>
-
-marc
+      src = <<~marc
+        <?xml version="1.0" encoding="UTF-8" ?>
+        <marc:collection xmlns:marc="http://www.loc.gov/MARC21/slim" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.loc.gov/MARC21/slim http://www.loc.gov/standards/marcxml/schema/MARC21slim.xsd">
+        <marc:record><marc:leader>00943nasaa2200253Ia 4500</marc:leader>
+        <marc:controlfield tag="001">32415731</marc:controlfield>
+        <marc:controlfield tag="008">950503s1934    fr                  fre d</marc:controlfield>
+        
+        <marc:datafield tag="245" ind1="1" ind2="0">
+        <marc:subfield code="a">Letters :</marc:subfield>
+        <marc:subfield code="b">Paris, to Kelver Hartley, Paris,</marc:subfield>
+        <marc:subfield code="f">1934 Nov. 1-Dec. 25 </marc:subfield>
+        </marc:datafield>
+        
+        <marc:datafield tag="300" ind1=" " ind2=" ">
+        <marc:subfield code="a">2 items (2 leaves) ;</marc:subfield>
+        <marc:subfield code="c">20 cm. and smaller </marc:subfield>
+        </marc:datafield>
+        </marc:record>
+        </marc:collection>
+        
+      marc
       get_tempfile_path(src)
     }
 
@@ -469,64 +469,64 @@ marc
 
   describe "Name Order handling" do
     def name_order_test_doc
-      src = <<ROTFL
-<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<collection xsi:schemaLocation="http://www.loc.gov/MARC21/slim http://www.loc.gov/standards/marcxml/schema/MARC21slim.xsd" xmlns="http://www.loc.gov/MARC21/slim" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-  <record>
-    <leader>00000npc a2200000 u 4500</leader>
-    <controlfield tag="008">130109i19601970xx                  eng d</controlfield>
-
-    <datafield tag="100" ind1="1">
-      <subfield code="a">a1, foo</subfield>
-      <subfield code="b">b1</subfield>
-      <subfield code="c">c1</subfield>
-      <subfield code="d">d1</subfield>
-      <subfield code="e">e1</subfield>
-      <subfield code="f">f1</subfield>
-    </datafield>
-    <datafield tag="100" ind1="0">
-      <subfield code="a">a2</subfield>
-      <subfield code="b">b2</subfield>
-      <subfield code="c">c2</subfield>
-      <subfield code="d">d2</subfield>
-      <subfield code="e">e2</subfield>
-      <subfield code="f">f2</subfield>
-    </datafield>
-    <datafield tag="600" ind1="1">
-      <subfield code="a">a3</subfield>
-      <subfield code="b">b3</subfield>
-      <subfield code="c">c3</subfield>
-      <subfield code="d">d3</subfield>
-      <subfield code="e">e3</subfield>
-      <subfield code="f">f3</subfield>
-    </datafield>
-    <datafield tag="600" ind1="0">
-      <subfield code="a">a4</subfield>
-      <subfield code="b">b4</subfield>
-      <subfield code="c">c4</subfield>
-      <subfield code="d">d4</subfield>
-      <subfield code="e">e4</subfield>
-      <subfield code="f">f4</subfield>
-    </datafield>
-    <datafield tag="700" ind1="1">
-      <subfield code="a">a5</subfield>
-      <subfield code="b">b5</subfield>
-      <subfield code="c">c5</subfield>
-      <subfield code="d">d5</subfield>
-      <subfield code="e">e5</subfield>
-      <subfield code="f">f5</subfield>
-    </datafield>
-    <datafield tag="700" ind1="0">
-      <subfield code="a">a6</subfield>
-      <subfield code="b">b6</subfield>
-      <subfield code="c">c6</subfield>
-      <subfield code="d">d6</subfield>
-      <subfield code="e">e6</subfield>
-      <subfield code="f">f6</subfield>
-    </datafield>
-  </record>
-</collection>
-ROTFL
+      src = <<~ROTFL
+        <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+        <collection xsi:schemaLocation="http://www.loc.gov/MARC21/slim http://www.loc.gov/standards/marcxml/schema/MARC21slim.xsd" xmlns="http://www.loc.gov/MARC21/slim" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+          <record>
+            <leader>00000npc a2200000 u 4500</leader>
+            <controlfield tag="008">130109i19601970xx                  eng d</controlfield>
+        
+            <datafield tag="100" ind1="1">
+              <subfield code="a">a1, foo</subfield>
+              <subfield code="b">b1</subfield>
+              <subfield code="c">c1</subfield>
+              <subfield code="d">d1</subfield>
+              <subfield code="e">e1</subfield>
+              <subfield code="f">f1</subfield>
+            </datafield>
+            <datafield tag="100" ind1="0">
+              <subfield code="a">a2</subfield>
+              <subfield code="b">b2</subfield>
+              <subfield code="c">c2</subfield>
+              <subfield code="d">d2</subfield>
+              <subfield code="e">e2</subfield>
+              <subfield code="f">f2</subfield>
+            </datafield>
+            <datafield tag="600" ind1="1">
+              <subfield code="a">a3</subfield>
+              <subfield code="b">b3</subfield>
+              <subfield code="c">c3</subfield>
+              <subfield code="d">d3</subfield>
+              <subfield code="e">e3</subfield>
+              <subfield code="f">f3</subfield>
+            </datafield>
+            <datafield tag="600" ind1="0">
+              <subfield code="a">a4</subfield>
+              <subfield code="b">b4</subfield>
+              <subfield code="c">c4</subfield>
+              <subfield code="d">d4</subfield>
+              <subfield code="e">e4</subfield>
+              <subfield code="f">f4</subfield>
+            </datafield>
+            <datafield tag="700" ind1="1">
+              <subfield code="a">a5</subfield>
+              <subfield code="b">b5</subfield>
+              <subfield code="c">c5</subfield>
+              <subfield code="d">d5</subfield>
+              <subfield code="e">e5</subfield>
+              <subfield code="f">f5</subfield>
+            </datafield>
+            <datafield tag="700" ind1="0">
+              <subfield code="a">a6</subfield>
+              <subfield code="b">b6</subfield>
+              <subfield code="c">c6</subfield>
+              <subfield code="d">d6</subfield>
+              <subfield code="e">e6</subfield>
+              <subfield code="f">f6</subfield>
+            </datafield>
+          </record>
+        </collection>
+      ROTFL
 
       get_tempfile_path(src)
     end
@@ -535,14 +535,14 @@ ROTFL
       converter = MarcXMLBibConverter.for_subjects_and_agents_only(name_order_test_doc)
       converter.run
       json = JSON(IO.read(converter.get_output_path))
-      @people = json.select{|r| r['jsonmodel_type'] == 'agent_person'}
+      @people = json.select {|r| r['jsonmodel_type'] == 'agent_person'}
 
       names = @people.map {|person| person['names'][0] }
-      @names = names.sort_by{|name| name['primary_name'] }
+      @names = names.sort_by {|name| name['primary_name'] }
     end
 
     it "imports name_person subrecords with the correct name_order" do
-      expect(@names.map{|name| name['name_order']}).to eq(%w(inverted direct inverted direct inverted direct))
+      expect(@names.map {|name| name['name_order']}).to eq(%w(inverted direct inverted direct inverted direct))
     end
 
     it "splits primary_name and rest_of_name" do
@@ -554,35 +554,35 @@ ROTFL
 
   describe "Date de-duplication" do
     let(:date_dupes_test_doc) {
-      src = <<OMFG
-<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<marc:collection xmlns:marc="http://www.loc.gov/MARC21/slim"
-                 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                 xsi:schemaLocation="http://www.loc.gov/MARC21/slim http://www.loc.gov/standards/marcxml/schema/MARC21slim.xsd">
-  <marc:record>
-    <marc:leader>00874cbd a2200253 a 4500</marc:leader>
-    <marc:controlfield tag="001">1161022 </marc:controlfield>
-    <marc:controlfield tag="005">20020626205047.0</marc:controlfield>
-    <marc:controlfield tag="008">920324s19801980kyu                 eng d</marc:controlfield>
-    <marc:datafield tag="040" ind1=" " ind2=" ">
-      <marc:subfield code="a">RC</marc:subfield>
-      <marc:subfield code="e">appm</marc:subfield>
-    </marc:datafield>
-    <marc:datafield tag="110" ind1="2" ind2=" ">
-      <marc:subfield code="a">University of Louisville.</marc:subfield>
-      <marc:subfield code="b">University Personnel Services.</marc:subfield>
-    </marc:datafield>
-    <marc:datafield tag="245" ind1="0" ind2="0">
-      <marc:subfield code="a">Applicant files,</marc:subfield>
-      <marc:subfield code="f">1980.</marc:subfield>
-    </marc:datafield>
-    <marc:datafield tag="300" ind1=" " ind2=" ">
-      <marc:subfield code="a">5.00</marc:subfield>
-      <marc:subfield code="f">linear feet.</marc:subfield>
-    </marc:datafield>
-  </marc:record>
-</marc:collection>
-OMFG
+      src = <<~OMFG
+        <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+        <marc:collection xmlns:marc="http://www.loc.gov/MARC21/slim"
+                         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                         xsi:schemaLocation="http://www.loc.gov/MARC21/slim http://www.loc.gov/standards/marcxml/schema/MARC21slim.xsd">
+          <marc:record>
+            <marc:leader>00874cbd a2200253 a 4500</marc:leader>
+            <marc:controlfield tag="001">1161022 </marc:controlfield>
+            <marc:controlfield tag="005">20020626205047.0</marc:controlfield>
+            <marc:controlfield tag="008">920324s19801980kyu                 eng d</marc:controlfield>
+            <marc:datafield tag="040" ind1=" " ind2=" ">
+              <marc:subfield code="a">RC</marc:subfield>
+              <marc:subfield code="e">appm</marc:subfield>
+            </marc:datafield>
+            <marc:datafield tag="110" ind1="2" ind2=" ">
+              <marc:subfield code="a">University of Louisville.</marc:subfield>
+              <marc:subfield code="b">University Personnel Services.</marc:subfield>
+            </marc:datafield>
+            <marc:datafield tag="245" ind1="0" ind2="0">
+              <marc:subfield code="a">Applicant files,</marc:subfield>
+              <marc:subfield code="f">1980.</marc:subfield>
+            </marc:datafield>
+            <marc:datafield tag="300" ind1=" " ind2=" ">
+              <marc:subfield code="a">5.00</marc:subfield>
+              <marc:subfield code="f">linear feet.</marc:subfield>
+            </marc:datafield>
+          </marc:record>
+        </marc:collection>
+      OMFG
 
       get_tempfile_path(src)
     }
@@ -606,40 +606,40 @@ OMFG
   describe "Namespace handling" do
 
     let (:collection_doc) {
-      src = <<MARC
-<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-  <foo:collection xsi:schemaLocation="http://www.loc.gov/MARC21/slim http://www.loc.gov/standards/marcxml/schema/MARC21slim.xsd" xmlns:foo="http://www.loc.gov/MARC21/slim" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <foo:record>
-    <foo:controlfield tag="008">920324s19801980kyu                 eng d</foo:controlfield>
-      <foo:datafield tag="245" ind2=" " ind1="1">
-        <foo:subfield code="a">SF A</foo:subfield>
-      </foo:datafield>
-      <foo:datafield tag="300" ind2=" " ind1=" ">
-        <foo:subfield code="a">5.0 Linear feet</foo:subfield>
-        <foo:subfield code="f">Resource-ContainerSummary-AT</foo:subfield>
-      </foo:datafield>
-    </foo:record>
-  </foo:collection>
-MARC
+      src = <<~MARC
+        <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+          <foo:collection xsi:schemaLocation="http://www.loc.gov/MARC21/slim http://www.loc.gov/standards/marcxml/schema/MARC21slim.xsd" xmlns:foo="http://www.loc.gov/MARC21/slim" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <foo:record>
+            <foo:controlfield tag="008">920324s19801980kyu                 eng d</foo:controlfield>
+              <foo:datafield tag="245" ind2=" " ind1="1">
+                <foo:subfield code="a">SF A</foo:subfield>
+              </foo:datafield>
+              <foo:datafield tag="300" ind2=" " ind1=" ">
+                <foo:subfield code="a">5.0 Linear feet</foo:subfield>
+                <foo:subfield code="f">Resource-ContainerSummary-AT</foo:subfield>
+              </foo:datafield>
+            </foo:record>
+          </foo:collection>
+      MARC
 
       get_tempfile_path(src)
     }
 
     let (:record_doc) {
-      src = <<MARC
-<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-  <foo:record xsi:schemaLocation="http://www.loc.gov/MARC21/slim http://www.loc.gov/standards/marcxml/schema/MARC21slim.xsd" xmlns:foo="http://www.loc.gov/MARC21/slim" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-      <leader>00000npm a2200000 u 4500</leader>
-    <foo:controlfield tag="008">920324s19801980kyu                 eng d</foo:controlfield>
-    <foo:datafield tag="245" ind2=" " ind1="1">
-      <foo:subfield code="a">SF A</foo:subfield>
-    </foo:datafield>
-    <foo:datafield tag="300" ind2=" " ind1=" ">
-      <foo:subfield code="a">5.0 Linear feet</foo:subfield>
-      <foo:subfield code="f">Resource-ContainerSummary-AT</foo:subfield>
-    </foo:datafield>
-  </foo:record>
-MARC
+      src = <<~MARC
+        <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+          <foo:record xsi:schemaLocation="http://www.loc.gov/MARC21/slim http://www.loc.gov/standards/marcxml/schema/MARC21slim.xsd" xmlns:foo="http://www.loc.gov/MARC21/slim" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+              <leader>00000npm a2200000 u 4500</leader>
+            <foo:controlfield tag="008">920324s19801980kyu                 eng d</foo:controlfield>
+            <foo:datafield tag="245" ind2=" " ind1="1">
+              <foo:subfield code="a">SF A</foo:subfield>
+            </foo:datafield>
+            <foo:datafield tag="300" ind2=" " ind1=" ">
+              <foo:subfield code="a">5.0 Linear feet</foo:subfield>
+              <foo:subfield code="f">Resource-ContainerSummary-AT</foo:subfield>
+            </foo:datafield>
+          </foo:record>
+      MARC
       get_tempfile_path(src)
     }
 
@@ -662,14 +662,14 @@ MARC
   describe "Subclassing and reconfiguring" do
 
     def test_doc
-      src = <<MARC
-<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-  <record xsi:schemaLocation="http://www.loc.gov/MARC21/slim http://www.loc.gov/standards/marcxml/schema/MARC21slim.xsd" xmlns="http://www.loc.gov/MARC21/slim" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <datafield tag="245" ind2=" " ind1="1">
-      <subfield code="a">SF A</subfield>
-    </datafield>
-  </record>
-MARC
+      src = <<~MARC
+        <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+          <record xsi:schemaLocation="http://www.loc.gov/MARC21/slim http://www.loc.gov/standards/marcxml/schema/MARC21slim.xsd" xmlns="http://www.loc.gov/MARC21/slim" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <datafield tag="245" ind2=" " ind1="1">
+              <subfield code="a">SF A</subfield>
+            </datafield>
+          </record>
+      MARC
       get_tempfile_path(src)
     end
 
@@ -739,17 +739,17 @@ MARC
   describe "Handling bad mappings" do
 
     def test_doc
-      src = <<MARC
-<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-  <record xsi:schemaLocation="http://www.loc.gov/MARC21/slim http://www.loc.gov/standards/marcxml/schema/MARC21slim.xsd" xmlns="http://www.loc.gov/MARC21/slim" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <datafield tag="245" ind2=" " ind1="1">
-      <subfield code="a">SF A</subfield>
-    </datafield>
-    <datafield tag="9999" ind2=" " ind1="1">
-      <subfield code="a">SF A</subfield>
-    </datafield>
-  </record>
-MARC
+      src = <<~MARC
+        <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+          <record xsi:schemaLocation="http://www.loc.gov/MARC21/slim http://www.loc.gov/standards/marcxml/schema/MARC21slim.xsd" xmlns="http://www.loc.gov/MARC21/slim" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <datafield tag="245" ind2=" " ind1="1">
+              <subfield code="a">SF A</subfield>
+            </datafield>
+            <datafield tag="9999" ind2=" " ind1="1">
+              <subfield code="a">SF A</subfield>
+            </datafield>
+          </record>
+      MARC
       get_tempfile_path(src)
     end
 
@@ -811,7 +811,6 @@ MARC
         converter.run
         json = JSON(IO.read(converter.get_output_path))
         puts json.inspect
-
       }.to raise_error(Converter::ConverterMappingError, "The converter maps 'datafield[@tag=\"9999\"]' to a bad target (property 'notes' on record_type 'accession')." )
 
     end

@@ -4,7 +4,7 @@ Sequel.migration do
   up do
     $stderr.puts("Add barcode fields to sub_container")
     alter_table(:sub_container) do
-    	add_column(:barcode_2, String)
+      add_column(:barcode_2, String)
     end
   end
 
@@ -13,4 +13,4 @@ Sequel.migration do
       drop_column(:barcode_2)
     end
   end
-end 
+end

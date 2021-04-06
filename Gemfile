@@ -7,3 +7,7 @@ gem 'git'
 gem 'github_api'
 gem 'json'
 gem 'rake'
+
+group :rubocop do
+  gem 'rubocop'
+end

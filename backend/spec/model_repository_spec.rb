@@ -120,7 +120,7 @@ describe 'Repository model' do
                         :extents => [build(:json_extent)],
                         :related_accessions => [{ :ref => accession.uri }]
     })
-    create(:json_archival_object, :resource => {:ref => resource.uri}, :title => "AO1"  )
+    create(:json_archival_object, :resource => {:ref => resource.uri}, :title => "AO1" )
 
     classification = create(:json_classification,
              :title => "top-level classification",
@@ -137,7 +137,7 @@ describe 'Repository model' do
     # ripping off from job spec
     converter = Class.new(Converter) do
       def self.instance_for(type, input_file)
-          self.new(input_file) if type == 'nonce'
+        self.new(input_file) if type == 'nonce'
       end
 
       def run

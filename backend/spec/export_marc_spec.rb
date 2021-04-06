@@ -23,8 +23,7 @@ describe 'MARC Export' do
 
 
   def note_test(resource, marc, note_types, dfcodes, sfcode, filters = {})
-
-    notes = resource.notes.select{|n| note_types.include?(n['type'])}
+    notes = resource.notes.select {|n| note_types.include?(n['type'])}
     filters.each do |k, v|
       notes.reject! {|n| n[k] != v }
     end
@@ -32,17 +31,16 @@ describe 'MARC Export' do
     return unless notes.count > 0
     xml_content = marc.df(*dfcodes).sf_t(sfcode)
     expect(xml_content).not_to be_empty
-    note_string = notes.map{|n| note_content(n)}.join('')
+    note_string = notes.map {|n| note_content(n)}.join('')
     xml_content.gsub!(".", "") # code to append punctuation can interfere with this test.
     expect(xml_content).to match(/#{note_string}/)
   end
 
   def lang_note_test(notes, marc, dfcodes, sfcode)
-
     return unless notes.count > 0
     xml_content = marc.df(*dfcodes).sf_t(sfcode)
     expect(xml_content).not_to be_empty
-    note_string = notes.map{|n| note_content(n)}.join('')
+    note_string = notes.map {|n| note_content(n)}.join('')
     xml_content.gsub!(".", "") # code to append punctuation can interfere with this test.
     expect(xml_content).to match(/#{note_string}/)
   end
@@ -62,7 +60,31 @@ describe 'MARC Export' do
     code.to_s
   end
 
- describe "root node content" do
+  describe "root node content" do
+     before(:each) do
+       as_test_user('admin') do
+         @marc = get_marc(create(:json_resource))
+         @xml = @marc.to_xml
+       end
+     end
+
+     after(:all) do
+       as_test_user('admin') do
+         $repo_id = $old_repo_id
+         JSONModel.set_repository($repo_id)
+       end
+     end
+
+     it "root node should have xmlns:xsi defined" do
+       expect(@xml).to match(/<collection.*xmlns:xsi="http:\/\/www.w3.org\/2001\/XMLSchema-instance"/)
+     end
+
+     it "root node should have xsi:schemaLocation defined" do
+       expect(@xml).to match(/<collection.*xsi:schemaLocation="http:\/\/www.loc.gov\/MARC21\/slim http:\/\/www.loc.gov\/standards\/marcxml\/schema\/MARC21slim.xsd"/)
+     end
+   end
+
+  describe "datafield element order" do
     before(:each) do
       as_test_user('admin') do
         @marc = get_marc(create(:json_resource))
@@ -77,63 +99,39 @@ describe 'MARC Export' do
       end
     end
 
-    it "root node should have xmlns:xsi defined" do
-      expect(@xml).to match(/<collection.*xmlns:xsi="http:\/\/www.w3.org\/2001\/XMLSchema-instance"/)
-    end
+    it "should generate XML with the datafield tags in numerical order" do
+      datafield_element_count = @marc.xpath("//marc:record/marc:datafield").length
+      last_tag = 0
 
-    it "root node should have xsi:schemaLocation defined" do
-      expect(@xml).to match(/<collection.*xsi:schemaLocation="http:\/\/www.loc.gov\/MARC21\/slim http:\/\/www.loc.gov\/standards\/marcxml\/schema\/MARC21slim.xsd"/)
-    end
-  end
-
-describe "datafield element order" do
-  before(:each) do
-    as_test_user('admin') do
-      @marc = get_marc(create(:json_resource))
-      @xml = @marc.to_xml
+      # loop through all tags. make sure that datafield[@tag] is a smaller number than the preceeding one.
+      0.upto(datafield_element_count - 1) do |i|
+        this_tag = @marc.xpath("//marc:record/marc:datafield")[i]["tag"].to_i
+        expect(this_tag >= last_tag).to be_truthy
+        last_tag = this_tag
+      end
     end
   end
 
-  after(:all) do
-    as_test_user('admin') do
-      $repo_id = $old_repo_id
-      JSONModel.set_repository($repo_id)
-    end
-  end
+  describe "040 cataloging source field" do
+     before(:each) do
+       as_test_user('admin') do
+         @marc = get_marc(create(:json_resource))
+         @xml = @marc.to_xml
+       end
+     end
 
-  it "should generate XML with the datafield tags in numerical order" do
-    datafield_element_count = @marc.xpath("//marc:record/marc:datafield").length
-    last_tag = 0
+     after(:all) do
+       as_test_user('admin') do
+         $repo_id = $old_repo_id
+         JSONModel.set_repository($repo_id)
+       end
+     end
 
-    # loop through all tags. make sure that datafield[@tag] is a smaller number than the preceeding one.
-    0.upto(datafield_element_count - 1) do |i|
-      this_tag = @marc.xpath("//marc:record/marc:datafield")[i]["tag"].to_i
-      expect(this_tag >= last_tag).to be_truthy
-      last_tag = this_tag
-    end
-  end
-end
-
- describe "040 cataloging source field" do
-   before(:each) do
-     as_test_user('admin') do
-       @marc = get_marc(create(:json_resource))
-       @xml = @marc.to_xml
+     it "MARC record should only have one 040 element in the document" do
+       forty_count = @xml.scan(/(?=#{'tag="040"'})/).count
+       expect(forty_count).to eql(1)
      end
    end
-
-   after(:all) do
-     as_test_user('admin') do
-       $repo_id = $old_repo_id
-       JSONModel.set_repository($repo_id)
-     end
-   end
-
-   it "MARC record should only have one 040 element in the document" do
-     forty_count = @xml.scan(/(?=#{'tag="040"'})/).count
-     expect(forty_count).to eql(1)
-   end
-  end
 
   describe "datafield 110 name mapping" do
 
@@ -201,7 +199,7 @@ end
     end
 
     it "maps the first inclusive date to subfield 'f'" do
-      date = @dates.find{|d| d.date_type == 'inclusive'}
+      date = @dates.find {|d| d.date_type == 'inclusive'}
 
       if date.expression
         expect(@marc).to have_tag "datafield[@tag='245']/subfield[@code='f']" => "#{date.expression}"
@@ -216,7 +214,7 @@ end
 
 
     it "maps the first bulk date to subfield 'g'" do
-      date = @dates.find{|d| d.date_type == 'bulk'}
+      date = @dates.find {|d| d.date_type == 'bulk'}
 
       if date.expression
         expect(@marc).to have_tag "datafield[@tag='245']/subfield[@code='g']" => "#{date.expression}"
@@ -332,7 +330,7 @@ end
                 :publish => true)
         }
 
-        @extents = (0..5).to_a.map{ build(:json_extent) }
+        @extents = (0..5).to_a.map { build(:json_extent) }
         @resource = create(:json_resource,
                            :extents => @extents,
                            :notes => @notes)
@@ -388,7 +386,7 @@ end
           # only count subjects that map to 65x fields
           @subjects << subject unless ['uniform_title', 'temporal'].include?(subject.terms[0]['term_type'])
         }
-       linked_subjects = @subjects.map {|s| {:ref => s.uri} }
+        linked_subjects = @subjects.map {|s| {:ref => s.uri} }
 
 
 
@@ -414,7 +412,7 @@ end
       xmlnotes = []
       (0..9).each do |i|
         tag = "65#{i.to_s}"
-        @marc.xpath("//xmlns:datafield[@tag = '#{tag}']").each { |x| xmlnotes << x  }
+        @marc.xpath("//xmlns:datafield[@tag = '#{tag}']").each { |x| xmlnotes << x }
       end
       #puts xmlnotes.map{|n| n.inner_text }.inspect
       #puts @subjects.map{|s| s.to_hash }.inspect
@@ -754,18 +752,18 @@ end
     end
 
 
-  it "maps language notes to df 546 (' ', ' '), sf a" do
+    it "maps language notes to df 546 (' ', ' '), sf a" do
 
-    lang_materials = @resource4.lang_materials.select{|n| n.include?('notes')}.reject {|e|  e['notes'] == [] }
-    notes = lang_materials[0]['notes']
+      lang_materials = @resource4.lang_materials.select {|n| n.include?('notes')}.reject {|e| e['notes'] == [] }
+      notes = lang_materials[0]['notes']
 
-    lang_note_test(notes, @marc4, ['546', ' ', ' '], 'a')
+      lang_note_test(notes, @marc4, ['546', ' ', ' '], 'a')
 
-  end
+    end
 
 
     it "maps resource.id_\\d to df[@tag='099' and @ind1=' ' and @ind2=' ']/sf[@code='a']" do
-      ids = (0..3).map {|i|@resource1.send("id_#{i}") }.compact.join('.')
+      ids = (0..3).map {|i| @resource1.send("id_#{i}") }.compact.join('.')
       expect(@marc1.at("datafield[@tag='099'][@ind1=' '][@ind2=' ']/subfield[@code='a']")).to have_inner_text(ids)
     end
 
@@ -787,7 +785,7 @@ end
                              :prefix => "MR"),
             :publish => false]
           ],
-          [:json_agent_corporate_entity,  {:publish => false} ],
+          [:json_agent_corporate_entity, {:publish => false} ],
           [:json_agent_family, {:publish => false} ],
         ].each do |type_and_opts|
           @agents << create(type_and_opts[0], type_and_opts[1])
@@ -838,7 +836,7 @@ end
             :names => [build(:json_name_person,
                              :prefix => "MR")]
           ],
-          [:json_agent_corporate_entity,  {}],
+          [:json_agent_corporate_entity, {}],
           [:json_agent_family, {}],
           [:json_agent_person,
             :names => [build(:json_name_person,
@@ -865,16 +863,16 @@ end
         # r0 created by a person and a person
         # r1 created by a corp and a person
         # r2 created by a family and a person
-        @resources = [0,1,2].map {|i|
-          create(:json_resource,
-                 :linked_agents => @agents.map.each_with_index {|a, j|
-                   {
-                     :ref => a.uri,
-                     :role => (j == i || j > 2) ? 'creator' : 'subject',
-                     :terms => [build(:json_term), build(:json_term)],
-                     :relator => generate(:relator)
-                   }
-                 })
+        @resources = [0, 1, 2].map {|i|
+            create(:json_resource,
+                   :linked_agents => @agents.map.each_with_index {|a, j|
+                     {
+                       :ref => a.uri,
+                       :role => (j == i || j > 2) ? 'creator' : 'subject',
+                       :terms => [build(:json_term), build(:json_term)],
+                       :relator => generate(:relator)
+                     }
+                   })
           }
 
 
@@ -892,12 +890,12 @@ end
     it "maps the first creator to df[@tag='100'] when it's a person" do
       name = @agents[0]['names'][0]
       inverted = name['name_order'] == 'direct' ? '0' : '1'
-      name_string = %w(primary_ rest_of_).map{|p| name["#{p}name"]}.reject{|n| n.nil? || n.empty?}.join(name['name_order'] == 'direct' ? ' ' : ', ')
+      name_string = %w(primary_ rest_of_).map {|p| name["#{p}name"]}.reject {|n| n.nil? || n.empty?}.join(name['name_order'] == 'direct' ? ' ' : ', ')
 
       df = @marcs[0].at("datafield[@tag='100'][@ind1='#{inverted}'][@ind2=' ']")
       expect(df.at("subfield[@code='a']")).to have_inner_text(/#{name_string}/)
       expect(df.at("subfield[@code='b']")).to have_inner_text(/#{name['number']}/)
-      expect(df.at("subfield[@code='c']")).to have_inner_text(/#{%w(prefix title suffix).map{|p| name[p]}.compact.join(', ')}/)
+      expect(df.at("subfield[@code='c']")).to have_inner_text(/#{%w(prefix title suffix).map {|p| name[p]}.compact.join(', ')}/)
       expect(df.at("subfield[@code='d']")).to have_inner_text(/#{name['dates']}/)
       expect(df.at("subfield[@code='q']")).to have_inner_text(/#{name['fuller_form']}/)
       expect(df.at("subfield[@code='0']")).to have_inner_text(/#{name['authority_id']}/)
@@ -905,7 +903,7 @@ end
 
     it "agent has no authority_id, it should not create a subfield $0" do
       name = @agents[7]['names'][0]
-      name_string = %w(primary_ rest_of_).map{|p| name["#{p}name"]}.reject{|n| n.nil? || n.empty?}.join(name['name_order'] == 'direct' ? ' ' : ', ')
+      name_string = %w(primary_ rest_of_).map {|p| name["#{p}name"]}.reject {|n| n.nil? || n.empty?}.join(name['name_order'] == 'direct' ? ' ' : ', ')
       df = @marcs[0].at("datafield[@tag='700']/subfield[@code='a'][text()='#{name_string}']")
       parent_node = df.parent
       expect(parent_node.at("subfield[@code='0']")).to be_nil
@@ -914,7 +912,7 @@ end
     it "should add required punctuation to 100 tag agent-person subfields" do
       name = @agents[0]['names'][0]
       inverted = name['name_order'] == 'direct' ? '0' : '1'
-      name_string = %w(primary_ rest_of_).map{|p| name["#{p}name"]}.reject{|n| n.nil? || n.empty?}.join(name['name_order'] == 'direct' ? ' ' : ', ')
+      name_string = %w(primary_ rest_of_).map {|p| name["#{p}name"]}.reject {|n| n.nil? || n.empty?}.join(name['name_order'] == 'direct' ? ' ' : ', ')
 
       df = @marcs[0].at("datafield[@tag='100'][@ind1='#{inverted}'][@ind2=' ']")
 
@@ -968,15 +966,15 @@ end
     it "maps subject to 600 when it's a person" do
       name = @agents[0]['names'][0]
       inverted = name['name_order'] == 'direct' ? '0' : '1'
-      ind2 =  source_to_code(name['source'])
+      ind2 = source_to_code(name['source'])
 
-      name_string = %w(primary_ rest_of_).map{|p| name["#{p}name"]}.reject{|n| n.nil? || n.empty?}.join(name['name_order'] == 'direct' ? ' ' : ', ')
+      name_string = %w(primary_ rest_of_).map {|p| name["#{p}name"]}.reject {|n| n.nil? || n.empty?}.join(name['name_order'] == 'direct' ? ' ' : ', ')
 
       df = @marcs[1].at("datafield[@tag='600'][@ind1='#{inverted}'][@ind2='#{ind2}']")
 
       expect(df.at("subfield[@code='a']")).to have_inner_text(/#{name_string}/)
       expect(df.at("subfield[@code='b']")).to have_inner_text(/#{name['number']}/)
-      expect(df.at("subfield[@code='c']")).to have_inner_text(/#{%w(prefix title suffix).map{|p| name[p]}.compact.join(', ')}/)
+      expect(df.at("subfield[@code='c']")).to have_inner_text(/#{%w(prefix title suffix).map {|p| name[p]}.compact.join(', ')}/)
       expect(df.at("subfield[@code='d']")).to have_inner_text(/#{name['dates']}/)
       expect(df.at("subfield[@code='4']")).to have_inner_text(/#{name['relator']}/)
       expect(df.at("subfield[@code='0']")).to have_inner_text(/#{name['authority_id']}/)
@@ -989,9 +987,9 @@ end
     it "should add required punctuation to 600 tag agent-person subfields" do
       name = @agents[0]['names'][0]
       inverted = name['name_order'] == 'direct' ? '0' : '1'
-      ind2 =  source_to_code(name['source'])
+      ind2 = source_to_code(name['source'])
 
-      name_string = %w(primary_ rest_of_).map{|p| name["#{p}name"]}.reject{|n| n.nil? || n.empty?}.join(name['name_order'] == 'direct' ? ' ' : ', ')
+      name_string = %w(primary_ rest_of_).map {|p| name["#{p}name"]}.reject {|n| n.nil? || n.empty?}.join(name['name_order'] == 'direct' ? ' ' : ', ')
 
       df = @marcs[1].at("datafield[@tag='600'][@ind1='#{inverted}'][@ind2='#{ind2}']")
 
@@ -1015,29 +1013,29 @@ end
     end
 
 
-   it "maps subject agent to df[@tag='610'] when it's a corp" do
-      name = @agents[1]['names'][0]
-      ind2 =  source_to_code(name['source'])
+    it "maps subject agent to df[@tag='610'] when it's a corp" do
+       name = @agents[1]['names'][0]
+       ind2 = source_to_code(name['source'])
 
-      df = @marcs[0].at("datafield[@tag='610'][@ind1='2'][@ind2='#{ind2}']")
+       df = @marcs[0].at("datafield[@tag='610'][@ind1='2'][@ind2='#{ind2}']")
 
-      expect(df.at("subfield[@code='a']")).to have_inner_text(/#{name['primary_name']}/)
-      subfield_b = df.at("subfield[@code='b']")
-      if !subfield_b.nil?
-        expect(subfield_b).to have_inner_text(/#{name['subordinate_name_1']}/)
-      end
-      expect(df.at("subfield[@code='n']")).to have_inner_text(/#{name['number']}/)
-      expect(df.at("subfield[@code='4']")).to have_inner_text(/#{name['relator']}/)
-      expect(df.at("subfield[@code='0']")).to have_inner_text(/#{name['authority_id']}/)
+       expect(df.at("subfield[@code='a']")).to have_inner_text(/#{name['primary_name']}/)
+       subfield_b = df.at("subfield[@code='b']")
+       if !subfield_b.nil?
+         expect(subfield_b).to have_inner_text(/#{name['subordinate_name_1']}/)
+       end
+       expect(df.at("subfield[@code='n']")).to have_inner_text(/#{name['number']}/)
+       expect(df.at("subfield[@code='4']")).to have_inner_text(/#{name['relator']}/)
+       expect(df.at("subfield[@code='0']")).to have_inner_text(/#{name['authority_id']}/)
 
-      if ind2 == '7'
-        expect(df.at("subfield[@code='2']")).to have_inner_text(/#{name['source']}/)
-      end
-    end
+       if ind2 == '7'
+         expect(df.at("subfield[@code='2']")).to have_inner_text(/#{name['source']}/)
+       end
+     end
 
     it "should add required punctuation to 610 tag agent-corp subfields" do
       name = @agents[1]['names'][0]
-      ind2 =  source_to_code(name['source'])
+      ind2 = source_to_code(name['source'])
 
       df = @marcs[0].at("datafield[@tag='610'][@ind1='2'][@ind2='#{ind2}']")
 
@@ -1058,7 +1056,7 @@ end
 
     it "maps subject agent to df[@tag='600'] when it's a family" do
       name = @agents[2]['names'][0]
-      ind2 =  source_to_code(name['source'])
+      ind2 = source_to_code(name['source'])
 
       df = @marcs[0].at("datafield[@tag='600'][@ind1='3'][@ind2='#{ind2}']")
 
@@ -1075,7 +1073,7 @@ end
 
     it "should add required punctuation to 600 tag agent-family subfields" do
       name = @agents[2]['names'][0]
-      ind2 =  source_to_code(name['source'])
+      ind2 = source_to_code(name['source'])
 
       df = @marcs[0].at("datafield[@tag='600'][@ind1='3'][@ind2='#{ind2}']")
 
@@ -1092,13 +1090,13 @@ end
     it "maps the second creator to df[@tag='700'] when it's a person" do
       name = @agents[3]['names'][0]
       inverted = name['name_order'] == 'direct' ? '0' : '1'
-      name_string = %w(primary_ rest_of_).map{|p| name["#{p}name"]}.reject{|n| n.nil? || n.empty?}.join(name['name_order'] == 'direct' ? ' ' : ', ')
+      name_string = %w(primary_ rest_of_).map {|p| name["#{p}name"]}.reject {|n| n.nil? || n.empty?}.join(name['name_order'] == 'direct' ? ' ' : ', ')
 
       df = @marcs[1].at("datafield[@tag='700'][@ind1='#{inverted}'][@ind2=' ']")
 
       expect(df.at("subfield[@code='a']")).to have_inner_text(/#{name_string}/)
       expect(df.at("subfield[@code='b']")).to have_inner_text(/#{name['number']}/)
-      expect(df.at("subfield[@code='c']")).to have_inner_text(/#{%w(prefix title suffix).map{|p| name[p]}.compact.join(', ')}/)
+      expect(df.at("subfield[@code='c']")).to have_inner_text(/#{%w(prefix title suffix).map {|p| name[p]}.compact.join(', ')}/)
       expect(df.at("subfield[@code='d']")).to have_inner_text(/#{name['dates']}/)
       expect(df.at("subfield[@code='0']")).to have_inner_text(/#{name['authority_id']}/)
     end
@@ -1106,7 +1104,7 @@ end
     it "should add required punctuation to 700 tag agent-person subfields" do
       name = @agents[3]['names'][0]
       inverted = name['name_order'] == 'direct' ? '0' : '1'
-      name_string = %w(primary_ rest_of_).map{|p| name["#{p}name"]}.reject{|n| n.nil? || n.empty?}.join(name['name_order'] == 'direct' ? ' ' : ', ')
+      name_string = %w(primary_ rest_of_).map {|p| name["#{p}name"]}.reject {|n| n.nil? || n.empty?}.join(name['name_order'] == 'direct' ? ' ' : ', ')
 
       df = @marcs[1].at("datafield[@tag='700'][@ind1='#{inverted}'][@ind2=' ']")
 
@@ -1176,19 +1174,19 @@ end
     it "maps notes of type (odd|dimensions|physdesc|materialspec|physloc|phystech|physfacet|processinfo|separatedmaterial) to df 500, sf a" do
       xml_content = @marc.df('500', ' ', ' ').sf_t('a')
       types = %w(odd dimensions physdesc materialspec physloc phystech physfacet processinfo separatedmaterial)
-      notes = @resource.notes.select{|n| types.include?(n['type'])}
+      notes = @resource.notes.select {|n| types.include?(n['type'])}
       notes.each do |note|
         prefix = case note['type']
-        when 'odd'; nil
-        when 'dimensions'; "Dimensions"
-        when 'physdesc'; "Physical Description note"
-        when 'materialspec'; "Material Specific Details"
-        when 'physloc'; "Location of resource"
-        when 'phystech'; "Physical Characteristics / Technical Requirements"
-        when 'physfacet'; "Physical Facet"
-        when 'processinfo'; "Processing Information"
-        when 'separatedmaterial'; "Materials Separated from the Resource"
-        end
+                 when 'odd'; nil
+                 when 'dimensions'; "Dimensions"
+                 when 'physdesc'; "Physical Description note"
+                 when 'materialspec'; "Material Specific Details"
+                 when 'physloc'; "Location of resource"
+                 when 'phystech'; "Physical Characteristics / Technical Requirements"
+                 when 'physfacet'; "Physical Facet"
+                 when 'processinfo'; "Processing Information"
+                 when 'separatedmaterial'; "Materials Separated from the Resource"
+                 end
         string = prefix ? "#{prefix}: " : ""
         string += note_content(note)
         expect(xml_content).to include(string)
@@ -1319,7 +1317,7 @@ end
 
     it "5XX tags should end in punctuation" do
       types = %w(odd dimensions physdesc materialspec physloc phystech physfacet processinfo separatedmaterial arrangement fileplan accessrestrict abstract scopecontent prefercite acqinfo bibliography index altformavail originalsloc userestrict legalstatus relatedmaterial custodhist appraisal accruals bioghist otherfindaid )
-      notes = @resource.notes.select{|n| types.include?(n['type'])}
+      notes = @resource.notes.select {|n| types.include?(n['type'])}
 
       notes.each do |note|
         content = note_content(note)

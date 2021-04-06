@@ -20,7 +20,7 @@ describe 'Software agent controller' do
     id = create_software(:agent_contacts => nil).id
 
     software = JSONModel(:agent_software).find(id)
-    [0,1].each do |n|
+    [0, 1].each do |n|
       opts = {:name => generate(:generic_name)}
 
       software.agent_contacts << build(:json_agent_contact, opts)

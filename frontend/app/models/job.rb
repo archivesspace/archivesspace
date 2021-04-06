@@ -1,7 +1,6 @@
 class Job
 
   def initialize(job_type, job_data, files_to_import, job_params = {})
-
     if job_type == 'import_job'
       job_data[:filenames] = files_to_import.keys
     end
@@ -33,7 +32,6 @@ class Job
 
       {'uri' => @job.uri}
     end
-
   end
 
 

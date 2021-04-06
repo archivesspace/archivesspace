@@ -3,12 +3,12 @@ require_relative "bulk_import_report"
 
 class TopContainerLinker < BulkImportParser
   include BulkImportMixins
-  
+
   #ASpace field headers row indicator
   START_MARKER = /ArchivesSpace field code/.freeze
 
   attr_reader :report
-  
+
   def initialize(input_file, content_type, current_user, opts)
     init_handlers = false
     if (opts[:initialize_enums])
@@ -21,13 +21,13 @@ class TopContainerLinker < BulkImportParser
     @counter = 0
     if (init_handlers)
       initialize_handler_enums()
-    end 
+    end
   end
-  
+
   def initialize_handler_enums
     @cih = ContainerInstanceHandler.new(@current_user, @validate_only)
   end
-  
+
   # save (create/update) the archival object, then revive it
   def ao_save(ao)
     revived = nil
@@ -68,7 +68,7 @@ class TopContainerLinker < BulkImportParser
 
       if ref_id.nil?
         err_arr.push I18n.t("top_container_linker.error.ref_id_miss", :row_num => @counter.to_s)
-      else 
+      else
         #Check that the AO can be found in the db
         ao = archival_object_from_ref(ref_id.strip)
         if (ao.nil?)
@@ -82,11 +82,11 @@ class TopContainerLinker < BulkImportParser
       if ao.nil?
         raise BulkImportException.new("No AO found;" + err_arr)
       end
-      
+
       ead_id = @row_hash["ead_id"]
       if ead_id.nil?
         err_arr.push I18n.t("top_container_linker.error.ead_id_miss", :ref_id => ref_id.to_s, :row_num => @counter.to_s)
-      else 
+      else
         #Check that the AO can be found in the db
         resource = resource_from_ref(ead_id.strip)
         if (resource.nil?)
@@ -103,7 +103,7 @@ class TopContainerLinker < BulkImportParser
       #Check that either the Top Container Indicator or Top Container Record No. is present
       tc_indicator = @row_hash["top_container_indicator"]
       tc_record_no = @row_hash["top_container_id"]
-      #Both missing  
+      #Both missing
       if (tc_indicator.nil? && tc_record_no.nil?)
         err_arr.push I18n.t("top_container_linker.error.tc_indicator_and_record_no_miss", :ref_id => ref_id.to_s, :row_num => @counter.to_s)
       end
@@ -111,7 +111,7 @@ class TopContainerLinker < BulkImportParser
       if (!tc_indicator.nil? && !tc_record_no.nil?)
         err_arr.push I18n.t("top_container_linker.error.tc_indicator_and_record_no_exist", :ref_id => ref_id.to_s, :row_num => @counter.to_s)
       end
-      #Container type/Container indicator combo already exists 
+      #Container type/Container indicator combo already exists
       tc_type = @row_hash["top_container_type"]
       tc_instance = nil
       if (!tc_indicator.nil? && !tc_type.nil?)
@@ -119,7 +119,7 @@ class TopContainerLinker < BulkImportParser
         tc_jsonmodel_obj = @cih.get_top_container_json_from_hash(tc_type, tc_indicator, barcode, @resource_ref)
         display_indicator = tc_indicator;
         if (tc_jsonmodel_obj.nil?)
-          #Create new TC 
+          #Create new TC
           tc_instance = create_top_container_instance(instance_type, tc_indicator, tc_type, err_arr, ref_id, @counter.to_s)
         else
           tc_instance = create_top_container_instance(instance_type, tc_jsonmodel_obj.indicator, tc_jsonmodel_obj.type, err_arr, ref_id, @counter.to_s)
@@ -147,12 +147,12 @@ class TopContainerLinker < BulkImportParser
       if (!tc_instance.nil?)
         ao.instances ||= []
         ao.instances << tc_instance
-        @report.add_info("Adding Top Container Instance " + instance_type.capitalize  + " " + display_indicator + " to Archival Object " + ref_id)
-        ao_save(ao)   
+        @report.add_info("Adding Top Container Instance " + instance_type.capitalize + " " + display_indicator + " to Archival Object " + ref_id)
+        ao_save(ao)
       end
     rescue StopBulkImportException => se
       err_arr.join("; ")
-      raise StopBulkImportException.new(se.message + "; "  + err_arr)
+      raise StopBulkImportException.new(se.message + "; " + err_arr)
     rescue BulkImportException => te
       err_arr.join("; ")
       raise BulkImportException.new(te.message + "; " + err_arr)
@@ -164,7 +164,7 @@ class TopContainerLinker < BulkImportParser
     end
     ao
   end
-  
+
   def create_top_container_instance(instance_type, indicator, type, err_arr, ref_id, row_num)
     #Find the top container with this indicator and type if it exists
     barcode = @row_hash["top_container_barcode"]
@@ -179,22 +179,22 @@ class TopContainerLinker < BulkImportParser
                       "indicator_2" => child_indicator.strip,
                       "barcode_2" => barcode_2}
     end
- 
+
     instance = nil
     begin
       if (!tc_obj.nil?)
-        #We may have created a new TC already during the iteration so only 
+        #We may have created a new TC already during the iteration so only
         #grab the instance data from the container instance handler (@cih) if that is the case
         instance = @cih.format_container_instance(instance_type, tc_obj, subcontainer)
       else
         instance = @cih.create_container_instance(instance_type, type, indicator, barcode, @resource_ref, @report, subcontainer)
-    end
+      end
     rescue Exception => e
       @report.add_errors(I18n.t("top_container_linker.error.no_tc", :ref_id => ref_id.to_s, :row_num => row_num, :why => e.message))
       instance = nil
     end
 
-      
+
     #If we created a new Top Container, then add the location and cp if they exist.
     if (tc_obj.nil? && !instance.nil?)
       #Get the top container that was just created
@@ -204,7 +204,7 @@ class TopContainerLinker < BulkImportParser
         raise BulkImportException.new(I18n.t("top_container_linker.error.no_tc", :ref_id => ref_id.to_s, :row_num => row_num, :why => "Could not find newly created Top Container"))
       end
       now = Time.now
-        
+
       #Check if the location ID can be found in the db
       loc_id = @row_hash["location_id"]
       if (!loc_id.nil?)
@@ -222,13 +222,13 @@ class TopContainerLinker < BulkImportParser
               :user_mtime => now
             })
           rescue Exception => e
-            @report.add_errors(I18n.t("top_container_linker.error.problem_adding_current_location", :ref_id => ref_id.to_s, :row_num => row_num, :why => e.message))            
+            @report.add_errors(I18n.t("top_container_linker.error.problem_adding_current_location", :ref_id => ref_id.to_s, :row_num => row_num, :why => e.message))
             instance = nil
           end
         end
       end
-      
-      #Check if Container Profile Record No. can be found in the db 
+
+      #Check if Container Profile Record No. can be found in the db
       cp_id = @row_hash["container_profile_id"]
       if (!cp_id.nil?)
         cp = ContainerProfile.get_or_die(cp_id.strip.to_i)
@@ -249,7 +249,7 @@ class TopContainerLinker < BulkImportParser
         end
       end
     end
-    
+
     instance
   end
 

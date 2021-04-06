@@ -72,7 +72,7 @@
         "items" => {"type" => "JSONModel(:agent_identifier) object"},
         "tags" => ["agent_subrecord"]
       },
- 
+
       "agent_sources" => {
         "required" => false,
         "type" => "array",
@@ -100,7 +100,7 @@
         "items" => {"type" => "JSONModel(:agent_function) object"},
         "tags" => ["agent_subrecord"]
       },
-      
+
       "agent_topics" => {
         "required" => false,
         "type" => "array",
@@ -144,7 +144,7 @@
         "type" => "array",
         "items" => {"type" => "JSONModel(:structured_date_label) object"}
       },
-      
+
       "used_languages" => {
         "type" => "array",
         "items" => {"type" => "JSONModel(:used_language) object"},

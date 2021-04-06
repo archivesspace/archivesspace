@@ -5,7 +5,7 @@ class GenerateSlugsRunner < JobRunner
                          :cancel_permissions => :administer_system,
                          :allow_reregister => true})
 
-   def generate_slug_for(thing)
+  def generate_slug_for(thing)
     slug = nil
     elapsed = Benchmark.measure do
       json_like_hash = thing.values
@@ -21,7 +21,7 @@ class GenerateSlugsRunner < JobRunner
     end
     puts "#{('Processed ' + slug).strip}: [#{thing.class}, #{thing[:id]}]\n#{elapsed}\n"
     slug.parameterize
-   end
+  end
 
   def run
     begin
@@ -214,7 +214,7 @@ class GenerateSlugsRunner < JobRunner
 
       AgentFamily.order(:id).paged_each do |r|
         r[:slug] = "" if r[:slug].nil?
-       next if !r[:slug].empty? && r[:is_slug_auto] == 0
+        next if !r[:slug].empty? && r[:is_slug_auto] == 0
         begin
           @job.write_output("Generating slug for agent_family id: #{r[:id]}")
           if AppConfig[:auto_generate_slugs_with_id]
@@ -396,6 +396,5 @@ class GenerateSlugsRunner < JobRunner
 
       raise terminal_error
     end
-
   end
 end

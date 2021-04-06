@@ -144,7 +144,7 @@ class Solr
 
     def set_record_types(record_types)
       if record_types
-        query =  Array(record_types).map { |type| "\"#{type}\"" }.join(' OR ')
+        query = Array(record_types).map { |type| "\"#{type}\"" }.join(' OR ')
         add_solr_param(:fq, "types:(#{query})")
       end
 
@@ -311,9 +311,7 @@ class Solr
   end
 
 
-
   def self.search(query)
-
     url = query.to_solr_url
 
     req = Net::HTTP::Post.new(url.path)

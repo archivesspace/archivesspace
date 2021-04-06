@@ -7,7 +7,7 @@ module DigitalObjectTrees
 
 
   def set_file_version(node, properties)
-    properties[:file_versions] = node.file_version.map{|file|
+    properties[:file_versions] = node.file_version.map {|file|
       FileVersion.to_jsonmodel(file, :skip_relationships => true)
     }
   end

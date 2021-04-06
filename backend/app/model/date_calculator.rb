@@ -35,11 +35,11 @@ class DateCalculator
         ao_ids = [@root_object.id]
         parent_ids = [@root_object.id]
 
-        while(true) do
+        while (true) do
           ids = db[:archival_object]
                  .filter(:parent_id => parent_ids)
                  .select(:id)
-                 .map{|row| row[:id]}
+                 .map {|row| row[:id]}
 
           if ids.empty?
             break

@@ -29,9 +29,11 @@ describe JSONModel do
         response = OpenStruct.new(:code => '200')
         block ? yield(self) : self
       end
+
       def code
         "200"
       end
+
       def body
         { 'id' => '999' }.to_json
       end

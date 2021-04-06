@@ -76,7 +76,7 @@ class Job < Sequel::Model(:job)
 
 
   def self.create_from_json(json, opts = {})
-    if json.job_params == "null" 
+    if json.job_params == "null"
       json.job_params = ""
     end
 
@@ -87,7 +87,7 @@ class Job < Sequel::Model(:job)
                            :owner_id => opts.fetch(:user).id,
                            :job_type => json.job['jsonmodel_type'],
                            :job_blob => ASUtils.to_json(json.job),
-                           :job_params => ASUtils.to_json(json.job_params) 
+                           :job_params => ASUtils.to_json(json.job_params)
                           ))
   end
 
@@ -115,7 +115,7 @@ class Job < Sequel::Model(:job)
 
 
   def self.running_jobs_untouched_since(time)
-    self.any_repo.filter(:status => "running").where { system_mtime < time } 
+    self.any_repo.filter(:status => "running").where { system_mtime < time }
   end
 
 

@@ -126,7 +126,7 @@ module MarcXMLBibBaseMap
               if (date.begin and end_date) and (end_date.to_i > date.begin.to_i)
                 date.end = end_date
               end
-              date.date_type  = date.end ? 'range' : 'single'
+              date.date_type = date.end ? 'range' : 'single'
             }
           },
           :defaults => {
@@ -323,9 +323,10 @@ module MarcXMLBibBaseMap
                                  'Former owner (fmo)',
                                  'Funder (fnd)',
                                  'Owner (own)'].include?(node.inner_text)
-                            'source'
+
+                             'source'
                            else
-                            'creator'
+                             'creator'
                            end
         },
         "self::datafield" => {
@@ -525,8 +526,8 @@ module MarcXMLBibBaseMap
       date_begin, date_end = nil
       date_type = 'single'
 
-      if  node.inner_text.strip =~ /^([0-9]{4})-([0-9]{4})$/
-        date_begin,date_end = node.inner_text.strip.split("-")
+      if node.inner_text.strip =~ /^([0-9]{4})-([0-9]{4})$/
+        date_begin, date_end = node.inner_text.strip.split("-")
         date_type = "range"
       end
 
@@ -683,7 +684,7 @@ module MarcXMLBibBaseMap
           set_record_properties values[6]
 
           if resource.respond_to?(:level)
-            resource.level = "item" if  values[7] == 'm'
+            resource.level = "item" if values[7] == 'm'
           end
         },
 
@@ -718,7 +719,7 @@ module MarcXMLBibBaseMap
               if control[7..10] && control[7..10].match(/^\d{4}$/)
                 date.begin = control[7..10]
               elsif control[7..10]
-                #somewhat hackish, but lets us cope with e.g. 19uu 
+                #somewhat hackish, but lets us cope with e.g. 19uu
                 date.expression = control[7..10]
               end
 
@@ -752,7 +753,7 @@ module MarcXMLBibBaseMap
             resource.id_0 = id unless id.empty?
           end
         },
-        
+
         # description rules
         "datafield[@tag='040']/subfield[@code='e']" => :finding_aid_description_rules,
 
@@ -787,16 +788,16 @@ module MarcXMLBibBaseMap
             if resource.dates[0] && resource.dates[0]['date_type'] != 'bulk' && !expression.empty?
               resource.dates[0]['expression'] = expression
             elsif !expression.empty?
-              make(:date)  do |date|
-                date.label = 'creation'
-                date.date_type = 'inclusive'
-                date.expression = expression
-                resource.dates << date
+              make(:date) do |date|
+               date.label = 'creation'
+               date.date_type = 'inclusive'
+               date.expression = expression
+               resource.dates << date
              end
             end
             unless bulk.empty?
               if resource.dates[0] && resource.dates[0]['date_type'] == 'bulk'
-                 resource.dates[0]['expression'] = bulk
+                resource.dates[0]['expression'] = bulk
               else
                 make(:date)  do |date|
                   date.label = 'creation'
@@ -1089,7 +1090,6 @@ module MarcXMLBibBaseMap
                                                     {
                                                       '0'=>'Biographical sketch',
                                                       '1'=>'Administrative history',
-
                                                     }[node.attr('ind1')]
                                                   },
                                                   "{$a }{($u)}.{\n$b.}"),
@@ -1284,11 +1284,11 @@ module MarcXMLBibBaseMap
                                                                    srtd_keys.each do |k|
                                                                      if hsh[k] and !hsh[k].empty?
                                                                        hsh[k].each do |t|
-                                                                        terms << make_term('topical', t)
+                                                                         terms << make_term('topical', t)
                                                                        end
                                                                      end
                                                                    end
-                                                                  terms
+                                                                   terms
                                                                  },
                                                                  -> node {'local'},
                                                                  ),

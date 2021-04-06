@@ -43,7 +43,8 @@ module ASModel
            SlugHelpers.slug_data_updated?(self) &&
            SlugHelpers.is_slug_auto_enabled?(self) &&
            !AppConfig[:auto_generate_slugs_with_id]
-             SlugHelpers.generate_slug_for_agent_name!(self)
+
+          SlugHelpers.generate_slug_for_agent_name!(self)
         end
 
         # For all types
@@ -51,6 +52,7 @@ module ASModel
         if self[:slug] &&
            (self.column_changed?(:slug) || !self.exists?) &&
            !SlugHelpers::is_slug_auto_enabled?(self)
+
           cleaned_slug = SlugHelpers.clean_slug(self[:slug])
           self[:slug] = SlugHelpers.run_dedupe_slug(cleaned_slug)
         end
@@ -63,6 +65,7 @@ module ASModel
            (self[:slug].nil? || self[:slug].empty?) &&
            !SlugHelpers.is_agent_type?(self.class) &&
            SlugHelpers.is_slug_auto_enabled?(self)
+
           self[:is_slug_auto] = 0
         end
 
@@ -70,9 +73,10 @@ module ASModel
         # there is no slug, auto generate a repo slug based on repo_code.
         if self.class == Repository &&
            (self[:slug].nil? || self[:slug].empty?)
-         cleaned_slug = SlugHelpers.clean_slug(self[:repo_code])
-         self[:slug] = SlugHelpers.run_dedupe_slug(cleaned_slug)
-         self[:is_slug_auto] = 1
+
+          cleaned_slug = SlugHelpers.clean_slug(self[:repo_code])
+          self[:slug] = SlugHelpers.run_dedupe_slug(cleaned_slug)
+          self[:is_slug_auto] = 1
         end
 
         # This block is the same as above, but a special case for Agent classes when generating by ID only.
@@ -82,7 +86,8 @@ module ASModel
           AppConfig[:auto_generate_slugs_with_id] == true &&
           (self[:slug].nil? || self[:slug].empty?) &&
           SlugHelpers.is_slug_auto_enabled?(self)
-            self[:is_slug_auto] = 0
+
+          self[:is_slug_auto] = 0
         end
       elsif self.class == Repository
         if (!self.exists? && (self[:slug].nil? || self[:slug].empty?))
@@ -92,6 +97,7 @@ module ASModel
         elsif !SlugHelpers::is_slug_auto_enabled?(self) &&
               !self[:slug].nil? && !self[:slug].empty? &&
               self.column_changed?(:slug)
+
           cleaned_slug = SlugHelpers.clean_slug(self[:slug])
           self[:slug] = SlugHelpers.run_dedupe_slug(cleaned_slug)
         end
@@ -135,19 +141,19 @@ module ASModel
 
     private
 
-      module BlobHack
-        def self.extended(base)
-          blob_columns = base.db_schema.select {|column, defn| defn[:type] == :blob}.keys
+    module BlobHack
+      def self.extended(base)
+        blob_columns = base.db_schema.select {|column, defn| defn[:type] == :blob}.keys
 
-          base.instance_eval do
-            @blob_columns_to_fix = (!blob_columns.empty? && DB.needs_blob_hack?) ? Array(blob_columns) : []
-          end
-        end
-
-        def blob_columns_to_fix
-          @blob_columns_to_fix
+        base.instance_eval do
+          @blob_columns_to_fix = (!blob_columns.empty? && DB.needs_blob_hack?) ? Array(blob_columns) : []
         end
       end
+
+      def blob_columns_to_fix
+        @blob_columns_to_fix
+      end
+    end
 
 
   end

@@ -5,7 +5,6 @@ class GenerateArksRunner < JobRunner
 
   def run
     begin
-
       # RESOURCES
       @job.write_output("Generating ARKs for Resources")
       @job.write_output("================================")
@@ -23,7 +22,7 @@ class GenerateArksRunner < JobRunner
                            :system_mtime       => Time.now,
                            :user_mtime         => Time.now,
                            :lock_version       => 0)
-           count_res += 1
+            count_res += 1
           end
         rescue => e
           @job.write_output(" -> Error generating ARK for id: #{r[:id]} => #{e.message}")
@@ -52,7 +51,7 @@ class GenerateArksRunner < JobRunner
                            :system_mtime       => Time.now,
                            :user_mtime         => Time.now,
                            :lock_version       => 0)
-           count_aos += 1
+            count_aos += 1
           end
         rescue => e
           @job.write_output(" -> Error generating ARK for id: #{r[:id]} => #{e.message}")

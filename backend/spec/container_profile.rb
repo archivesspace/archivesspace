@@ -7,7 +7,7 @@
     "uri" => "/container_profiles",
     "properties" => {
       "uri" => {"type" => "string", "required" => false},
-      
+
       "name" => {"type" => "string", "ifmissing" => "error"},
       "url" => {"type" => "string", "required" => false},
 

@@ -22,7 +22,7 @@ Sequel.migration do
       Integer :owner_id, :null => false
 
       String :status, :null => false
-  
+
       apply_mtime_columns
     end
 
@@ -69,4 +69,3 @@ Sequel.migration do
   end
 
 end
-

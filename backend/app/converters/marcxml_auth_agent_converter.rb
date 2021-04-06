@@ -48,5 +48,3 @@ end
 MarcXMLAuthAgentConverter.configure do |config|
   config.init_map(MarcXMLAuthAgentConverter.BASE_RECORD_MAP)
 end
-
-

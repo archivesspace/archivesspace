@@ -8,7 +8,7 @@ describe 'UsedLanguage model' do
 
   it "expects a used language to have either a language or a note" do
     expect {
-      UsedLanguage.create_from_json(build(:json_used_language, :language => nil, 
+      UsedLanguage.create_from_json(build(:json_used_language, :language => nil,
                                                           :notes => []))
     }.to raise_error(JSONModel::ValidationException)
 
@@ -19,5 +19,5 @@ describe 'UsedLanguage model' do
     expect {
       UsedLanguage.create_from_json(build(:json_used_language, :notes => []))
     }.to_not raise_error(JSONModel::ValidationException)
-	end
+  end
 end

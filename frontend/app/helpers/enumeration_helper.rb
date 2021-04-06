@@ -13,4 +13,3 @@ module EnumerationHelper
   end
 
 end
-

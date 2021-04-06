@@ -91,8 +91,8 @@ describe 'Agent model' do
 
   it "truncates an auto-generated sort name of more than 255 chars" do
     name = build(:json_name_person,
-                 :primary_name => (0..200).map{ rand(3)==1?rand(10):(65 + rand(25)).chr }.join,
-                 :rest_of_name => (0..200).map{ rand(3)==1?rand(10):(65 + rand(25)).chr }.join
+                 :primary_name => (0..200).map { rand(3)==1?rand(10):(65 + rand(25)).chr }.join,
+                 :rest_of_name => (0..200).map { rand(3)==1?rand(10):(65 + rand(25)).chr }.join
                  )
 
     agent = AgentPerson.create_from_json(build(:json_agent_person, :names => [name]))
@@ -246,7 +246,7 @@ describe 'Agent model' do
                      :names => [build(:json_name_person,
                      'authority_id' => 'thesame'
                      )])
-    json2 =    build( :json_agent_person,
+    json2 = build( :json_agent_person,
                      :names => [build(:json_name_person,
                      'authority_id' => 'thesame'
                      )])

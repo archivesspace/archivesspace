@@ -10,7 +10,7 @@ describe 'Export Labels Mappings' do
   # FIXTURES
 
   def load_export_fixtures
-     instances = []
+    instances = []
     #throw in a couple non-digital instances
     rand(3).times { instances << build(:json_instance) }
 
@@ -26,38 +26,37 @@ describe 'Export Labels Mappings' do
     @archival_objects = {}
 
     10.times {
-      parent = [true, false].sample ? @archival_objects.keys[rand(@archival_objects.keys.length)] : nil
-      a = create(:json_archival_object_normal,  :resource => {:ref => @resource.uri},
-                 :parent => parent ? {:ref => parent} : nil,
-                 :instances => [ build(:json_instance)]
-                 )
+       parent = [true, false].sample ? @archival_objects.keys[rand(@archival_objects.keys.length)] : nil
+       a = create(:json_archival_object_normal, :resource => {:ref => @resource.uri},
+                  :parent => parent ? {:ref => parent} : nil,
+                  :instances => [ build(:json_instance)]
+                  )
 
-      a = JSONModel(:archival_object).find(a.id)
+       a = JSONModel(:archival_object).find(a.id)
 
-      @archival_objects[a.uri] = a
+       @archival_objects[a.uri] = a
      }
 
     3.times {
-      parent = [true, false].sample ? @archival_objects.keys[rand(@archival_objects.keys.length)] : nil
-      a = create(:json_archival_object_normal,  :resource => {:ref => @resource.uri},
-                 :parent => parent ? {:ref => parent} : nil,
-                 :instances => [ build(:json_instance) ])
-      a = JSONModel(:archival_object).find(a.id)
-      @archival_objects[a.uri] = a
+       parent = [true, false].sample ? @archival_objects.keys[rand(@archival_objects.keys.length)] : nil
+       a = create(:json_archival_object_normal, :resource => {:ref => @resource.uri},
+                  :parent => parent ? {:ref => parent} : nil,
+                  :instances => [ build(:json_instance) ])
+       a = JSONModel(:archival_object).find(a.id)
+       @archival_objects[a.uri] = a
      }
 
     3.times {
-      parent = [true, false].sample ? @archival_objects.keys[rand(@archival_objects.keys.length)] : nil
-      a = create(:json_archival_object_normal,  :resource => {:ref => @resource.uri},
-                 :parent => parent ? {:ref => parent} : nil,
-                 :instances => [ build(:json_instance) ])
-      a = JSONModel(:archival_object).find(a.id)
-      @archival_objects[a.uri] = a
+       parent = [true, false].sample ? @archival_objects.keys[rand(@archival_objects.keys.length)] : nil
+       a = create(:json_archival_object_normal, :resource => {:ref => @resource.uri},
+                  :parent => parent ? {:ref => parent} : nil,
+                  :instances => [ build(:json_instance) ])
+       a = JSONModel(:archival_object).find(a.id)
+       @archival_objects[a.uri] = a
      }
 
 
     @labels = get_labels(@resource)
-
   end
 
 

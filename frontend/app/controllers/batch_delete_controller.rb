@@ -46,7 +46,7 @@ class BatchDeleteController < ApplicationController
 
     if response.code === "200"
       flash[:success] = I18n.t("batch_delete.#{params[:action]}.success")
-      deleted_uri_param = params[:record_uris].map{|uri| "deleted_uri[]=#{uri}"}.join("&")
+      deleted_uri_param = params[:record_uris].map {|uri| "deleted_uri[]=#{uri}"}.join("&")
       redirect_to request.referrer.include?("?") ? "#{request.referrer}&#{deleted_uri_param}" : "#{request.referrer}?#{deleted_uri_param}"
     else
       error_flash = ''

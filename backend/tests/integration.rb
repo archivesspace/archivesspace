@@ -62,7 +62,6 @@ def do_delete(url)
 end
 
 
-
 def fail(msg, response)
   raise "FAILURE: #{msg} (#{response.inspect})"
 end
@@ -79,9 +78,7 @@ def start_ldap
 end
 
 
-
 def run_tests(opts)
-
   test_user = "testuser_#{Time.now.to_i}_#{$$}"
 
   puts "Create a test user"
@@ -194,7 +191,7 @@ def run_tests(opts)
   r = do_post({
                 :title => "integration test resource #{$$}",
                 :id_0 => "abc123",
-                :dates => [ { "date_type" => "single", "label" => "creation", "expression" => "1492"   } ],
+                :dates => [ { "date_type" => "single", "label" => "creation", "expression" => "1492" } ],
                 :finding_aid_language => "eng",
                 :finding_aid_script => "Latn",
                 :subjects => [{"ref" => "/subjects/#{subject_id}"}],
@@ -295,6 +292,7 @@ def run_tests(opts)
   puts "Check that search indexing works"
   state = Object.new
   def state.set_last_mtime(*args); end
+
   def state.get_last_mtime(*args); 0; end
 
   AppConfig[:backend_url] = $url
@@ -348,7 +346,7 @@ def run_tests(opts)
   r = do_post({
                 :title => "integration test resource #{$$}",
                 :id_0 => "updatefeedtest",
-                :dates => [ { "date_type" => "single", "label" => "creation", "expression" => "1492"   } ],
+                :dates => [ { "date_type" => "single", "label" => "creation", "expression" => "1492" } ],
                 :subjects => [{"ref" => "/subjects/#{subject_id}"}],
                 :language => "eng",
                 :level => "collection",
@@ -389,7 +387,6 @@ end
 
 
 def main
-
   standalone = true
 
   if ENV["ASPACE_BACKEND_URL"]
@@ -406,20 +403,20 @@ def main
 
     # Configure LDAP auth
     config = ASUtils.tempfile('aspace_integration_config')
-    config.write <<EOF
-
-AppConfig[:authentication_sources] = [
-                                      {
-                                        :model => 'LDAPAuth',
-                                        :hostname => 'localhost',
-                                        :port => 3897,
-                                        :base_dn => 'ou=people,dc=archivesspace,dc=org',
-                                        :username_attribute => 'uid',
-                                        :attribute_map => {:cn => :name}
-                                      }
-                                     ]
-
-EOF
+    config.write <<~EOF
+      
+      AppConfig[:authentication_sources] = [
+                                            {
+                                              :model => 'LDAPAuth',
+                                              :hostname => 'localhost',
+                                              :port => 3897,
+                                              :base_dn => 'ou=people,dc=archivesspace,dc=org',
+                                              :username_attribute => 'uid',
+                                              :attribute_map => {:cn => :name}
+                                            }
+                                           ]
+      
+    EOF
     config.close
 
     server = TestUtils::start_backend($port,

@@ -7,13 +7,13 @@
     "properties" => {
       "primary_identifier" => {"type" => "boolean", "ifmissing" => "error"},
       "record_identifier" => {
-        "type" => "string", 
-        "maxLength" => 65000, 
+        "type" => "string",
+        "maxLength" => 65000,
         "ifmissing" => "error"
       },
       "source" => {
         "type" => "string",
-        "dynamic_enum" => "name_source", 
+        "dynamic_enum" => "name_source",
         "ifmissing" => "error"
       },
       "identifier_type" => {

@@ -30,7 +30,7 @@ Sequel.migration do
         add_foreign_key(["#{record}_id".intern], record, :key => :id)
 
         # add that a location is unique for a record
-        constraint_name = "uniq_exdoc_#{record.to_s.split("_").map{|s| s[0,3]}.join("_")}"
+        constraint_name = "uniq_exdoc_#{record.to_s.split("_").map {|s| s[0, 3]}.join("_")}"
         add_unique_constraint(["#{record}_id".intern, :location_sha1], :unique => true, :name => constraint_name)
       end
 
@@ -59,4 +59,3 @@ Sequel.migration do
   end
 
 end
-

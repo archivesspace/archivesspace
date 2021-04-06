@@ -159,7 +159,6 @@ describe 'Assessment model' do
       }))
 
       expect(Assessment.to_jsonmodel(assessment.id).monetary_value).to eq('10.10')
-
     }.not_to raise_error
 
     # perfect!
@@ -424,11 +423,11 @@ describe 'Assessment model' do
     end
 
     let(:interest_definition) {
-      AssessmentAttributeDefinitions.get($repo_id).definitions.detect{|d| d[:type] == 'rating' && d[:label] == 'Interest'}
+      AssessmentAttributeDefinitions.get($repo_id).definitions.detect {|d| d[:type] == 'rating' && d[:label] == 'Interest'}
     }
 
     let(:documentation_quality_definition) {
-      AssessmentAttributeDefinitions.get($repo_id).definitions.detect{|d| d[:type] == 'rating' && d[:label] == 'Documentation Quality'}
+      AssessmentAttributeDefinitions.get($repo_id).definitions.detect {|d| d[:type] == 'rating' && d[:label] == 'Documentation Quality'}
     }
 
     def get_research_value(assessment)

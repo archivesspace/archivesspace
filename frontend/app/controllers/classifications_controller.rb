@@ -61,25 +61,26 @@ class ClassificationsController < ApplicationController
     flash.keep(:spawned_from_accession)
 
     handle_crud(:instance => :classification,
-                :on_invalid => ->(){
+                :on_invalid => ->() {
       render action: "new"
     },
-      :on_valid => ->(id){
+      :on_valid => ->(id) {
 
-        flash[:success] = I18n.t("classification._frontend.messages.created", JSONModelI18nWrapper.new(:classification => @classification))
+      flash[:success] = I18n.t("classification._frontend.messages.created", JSONModelI18nWrapper.new(:classification => @classification))
 
-        if @classification["is_slug_auto"] == false &&
-            @classification["slug"] == nil &&
-            params["classification"] &&
-            params["classification"]["is_slug_auto"] == "1"
-          flash[:warning] = I18n.t("slug.autogen_disabled")
-        end
+      if @classification["is_slug_auto"] == false &&
+          @classification["slug"] == nil &&
+          params["classification"] &&
+          params["classification"]["is_slug_auto"] == "1"
 
-        redirect_to({
-                    :controller => :classifications,
-                    :action => :edit,
-                    :id => id
-                  })
+        flash[:warning] = I18n.t("slug.autogen_disabled")
+      end
+
+      redirect_to({
+                  :controller => :classifications,
+                  :action => :edit,
+                  :id => id
+                })
     })
   end
 
@@ -87,20 +88,21 @@ class ClassificationsController < ApplicationController
   def update
     handle_crud(:instance => :classification,
                 :obj => JSONModel(:classification).find(params[:id], find_opts),
-                :on_invalid => ->(){
+                :on_invalid => ->() {
       render_aspace_partial :partial => "edit_inline"
     },
-      :on_valid => ->(id){
-        flash.now[:success] = I18n.t("classification._frontend.messages.updated", JSONModelI18nWrapper.new(:classification => @classification))
+      :on_valid => ->(id) {
+      flash.now[:success] = I18n.t("classification._frontend.messages.updated", JSONModelI18nWrapper.new(:classification => @classification))
 
-        if @classification["is_slug_auto"] == false &&
-            @classification["slug"] == nil &&
-            params["classification"] &&
-            params["classification"]["is_slug_auto"] == "1"
-          flash.now[:warning] = I18n.t("slug.autogen_disabled")
-        end
+      if @classification["is_slug_auto"] == false &&
+          @classification["slug"] == nil &&
+          params["classification"] &&
+          params["classification"]["is_slug_auto"] == "1"
 
-    render_aspace_partial :partial => "edit_inline"
+        flash.now[:warning] = I18n.t("slug.autogen_disabled")
+      end
+
+      render_aspace_partial :partial => "edit_inline"
     })
   end
 
@@ -126,7 +128,6 @@ class ClassificationsController < ApplicationController
   end
 
   def update_defaults
-
     begin
       DefaultValues.from_hash({
                                 "record_type" => "classification",
@@ -143,7 +144,6 @@ class ClassificationsController < ApplicationController
       redirect_to :controller => :classifications, :action => :defaults
     end
   end
-
 
 
   def accept_children
@@ -202,7 +202,7 @@ class ClassificationsController < ApplicationController
     flash.keep
 
     tree = []
-    limit_to = if  params[:node_uri] && !params[:node_uri].include?("/classifications/")
+    limit_to = if params[:node_uri] && !params[:node_uri].include?("/classifications/")
                  params[:node_uri]
                else
                  "root"

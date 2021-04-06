@@ -85,6 +85,7 @@ class AgentsController < ApplicationController
                      @agent['slug'].nil? &&
                      params['agent'] &&
                      params['agent']['is_slug_auto'] == '1'
+
                     flash[:warning] = I18n.t('slug.autogen_disabled')
                   end
 
@@ -114,6 +115,7 @@ class AgentsController < ApplicationController
                      @agent['slug'].nil? &&
                      params['agent'] &&
                      params['agent']['is_slug_auto'] == '1'
+
                     flash[:warning] = I18n.t('slug.autogen_disabled')
                   end
 
@@ -238,7 +240,7 @@ class AgentsController < ApplicationController
       return
     end
 
-    relationship_uris = @victim['related_agents'].map{|ra| ra['ref']}
+    relationship_uris = @victim['related_agents'].map {|ra| ra['ref']}
     if relationship_uris.include?(@agent['uri'])
       flash[:error] = I18n.t('errors.merge_denied_relationship')
       redirect_to({ action: :show, id: params[:id] })

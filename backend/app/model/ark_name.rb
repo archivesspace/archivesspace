@@ -116,6 +116,5 @@ class ArkName < Sequel::Model(:ark_name)
     else
       return true
     end
-
   end
 end

@@ -6,12 +6,12 @@
 
     "properties" => {
       "language" => {
-        "type" => "string", 
-        "dynamic_enum" => "language_iso639_2", 
+        "type" => "string",
+        "dynamic_enum" => "language_iso639_2",
         "required" => false
       },
       "script" => {
-        "type" => "string", 
+        "type" => "string",
         "dynamic_enum" => "script_iso15924",
         "required" => false
       },

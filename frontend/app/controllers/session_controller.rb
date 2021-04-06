@@ -43,7 +43,7 @@ class SessionController < ApplicationController
   end
 
 
-  # let a trusted app (i.e., public catalog) know if a user 
+  # let a trusted app (i.e., public catalog) know if a user
   # should see links back to this editing interface
   def check_session
     response.headers['Access-Control-Allow-Origin'] = AppConfig[:public_proxy_url]
@@ -64,7 +64,6 @@ class SessionController < ApplicationController
   private
 
   def user_can_edit?(params)
-
     record_info = JSONModel.parse_reference(params[:uri])
 
     case record_info[:type]

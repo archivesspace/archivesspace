@@ -17,7 +17,7 @@ class SequenceGenerator
 
   def generate_range
     range = (@from..@to)
-    values = range.take(@limit).map{|i| "#{@prefix}#{i}#{@suffix}"}
+    values = range.take(@limit).map {|i| "#{@prefix}#{i}#{@suffix}"}
 
     {
       "size" => values.length,

@@ -272,7 +272,7 @@ module SeleniumFactories
       end
 
       factory :json_structured_date_single, class: JSONModel(:structured_date_single) do
-        date_role  { "begin" }
+        date_role { "begin" }
         date_expression { "Yesterday" }
         date_standardized { "2019-06-01" }
         date_standardized_type { "standard" }
@@ -511,7 +511,7 @@ module SeleniumFactories
 
       factory :json_telephone, class: JSONModel(:telephone) do
         number_type { [nil, 'business', 'home', 'cell', 'fax'].sample }
-        number {  generate(:phone_number) }
+        number { generate(:phone_number) }
         ext { [nil, generate(:alphanumstr)].sample }
       end
 
