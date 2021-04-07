@@ -2,6 +2,8 @@
 # Google translate
 es:
   actions:
+    lightmode_toggle: Modo de luz
+    export_marc_auth: Descarga MARCXML Authority
     add: Añadir
     add_event: Agregar evento
     automate: Generar automáticamente
@@ -638,6 +640,10 @@ es:
     unexpected_failure: Ups! Estamos teniendo problemas para ir a buscar este árbol. Por favor, intente actualizar la página.
 
   errors:
+    merge_denied_for_system_user: Uno o más agentes es un usuario del sistema.
+    merge_restricted_contact_details: La fusión no se puede completar porque uno o
+      más de los agentes tiene detalles de contacto a los que no tiene permiso para
+      acceder.
     sidebar_label: Errores y advertencias
     error_403: Incapaz de acceder la página
     error_403_message: "Has intentado acceder a la página ya no existan o que no tenga permiso para verlo."
@@ -819,14 +825,6 @@ es:
         add: Agregar fecha
     _singular: Fecha de existencia
     _plural: Fechas de existencia
-  actions:
-    lightmode_toggle: Modo de luz
-    export_marc_auth: Descarga MARCXML Authority
-  errors:
-    merge_denied_for_system_user: Uno o más agentes es un usuario del sistema.
-    merge_restricted_contact_details: La fusión no se puede completar porque uno o
-      más de los agentes tiene detalles de contacto a los que no tiene permiso para
-      acceder.       
 
   deaccession:
     _frontend:
