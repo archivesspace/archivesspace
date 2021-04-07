@@ -1496,6 +1496,7 @@ ja:
     missing_property: プロパティが見つかりませんでした
     not_a_valid_date: 有効な日付ではありません
     must_not_be_before_begin: 始める前にしてはいけません
+    must_be_in_yyyy-mm-dd_format: 日付はyyyy-mm-dd形式である必要があります
     is_required_unless_a_begin_or_end_date_is_given: 開始日または終了日が指定されていない限り必須です
     is_required_unless_an_expression_or_an_end_date_is_given: 式または終了日が与えられていない限り必須です
     is_required_unless_an_expression_or_a_begin_date_is_given: 式または開始日が与えられていない限り必須です

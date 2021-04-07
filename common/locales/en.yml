@@ -2364,6 +2364,7 @@ en:
     missing_property: Property was missing
     not_a_valid_date: Not a valid date
     must_not_be_before_begin: must not be before begin
+    must_be_in_yyyy-mm-dd_format: Date must be in a yyyy-mm-dd format
     is_required_unless_a_begin_or_end_date_is_given: is required unless a begin or end date is given
     is_required_unless_an_expression_or_an_end_date_is_given: is required unless an expression or an end date is given
     is_required_unless_an_expression_or_a_begin_date_is_given: is required unless an expression or a begin date is given

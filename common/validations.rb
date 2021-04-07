@@ -682,6 +682,35 @@ module JSONModel::Validations
     end
   end
 
+  def self.check_restriction_date(hash)
+    errors = []
+
+    if (rr = hash['rights_restriction'])
+      begin
+        begin_date = Date.strptime(rr['begin'], '%Y-%m-%d') if rr['begin']
+      rescue ArgumentError => e
+        errors << ["rights_restriction__begin", "must be in YYYY-MM-DD format"]
+      end
+
+      begin
+        end_date = Date.strptime(rr['end'], '%Y-%m-%d') if rr['end']
+      rescue ArgumentError => e
+        errors << ["rights_restriction__end", "must be in YYYY-MM-DD format"]
+      end
+
+      if begin_date && end_date && end_date < begin_date
+        errors << ["rights_restriction__end", "must not be before begin"]
+      end
+    end
+
+    errors
+  end
+
+  if JSONModel(:note_multipart)
+    JSONModel(:note_multipart).add_validation("check_restriction_date") do |hash|
+      check_restriction_date(hash)
+    end
+  end
 
   JSONModel(:find_and_replace_job).add_validation("only target properties on the target schemas") do |hash|
     target_model = JSONModel(hash['record_type'].intern)
