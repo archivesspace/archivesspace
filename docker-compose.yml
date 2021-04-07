@@ -13,7 +13,7 @@ services:
       - db
       - solr
     environment:
-      APPCONFIG_DB_URL: 'jdbc:mysql://db:3306/archivesspace?useUnicode=true&characterEncoding=UTF-8&user=as&password=as123'
+      APPCONFIG_DB_URL: 'jdbc:mysql://db:3306/archivesspace?useUnicode=true&characterEncoding=UTF-8&user=as&password=as123&useSSL=false&allowPublicKeyRetrieval=true'
       # solr config
       APPCONFIG_ENABLE_SOLR: 'false'
       APPCONFIG_SOLR_URL: 'http://solr:8983/solr/archivesspace'

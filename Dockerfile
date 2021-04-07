@@ -13,7 +13,7 @@ RUN apt-get update && \
     apt-get -y install --no-install-recommends \
       build-essential \
       git \
-      openjdk-8-jre-headless \
+      openjdk-11-jre-headless \
       shared-mime-info \
       wget \
       unzip
@@ -48,7 +48,7 @@ COPY --from=build_release /archivesspace /archivesspace
 RUN apt-get update && \
     apt-get -y install --no-install-recommends \
       ca-certificates \
-      openjdk-8-jre-headless \
+      openjdk-11-jre-headless \
       netbase \
       shared-mime-info \
       wget \

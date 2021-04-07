@@ -11,11 +11,15 @@ jobs:
     runs-on: ubuntu-latest
     if: "!contains(github.event.head_commit.message, '[ci skip]')"
 
+    strategy:
+      matrix:
+        java: [ 8, 11 ]
+
     steps:
     - uses: actions/checkout@v2
     - uses: actions/setup-java@v1
       with:
-        java-version: 1.8
+        java-version: ${{ matrix.java }}
 
     - name: Bootstrap ArchivesSpace
       run: |

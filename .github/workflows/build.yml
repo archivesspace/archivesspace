@@ -19,7 +19,7 @@ jobs:
     - uses: actions/checkout@v2
     - uses: actions/setup-java@v1
       with:
-        java-version: 1.8
+        java-version: 11
 
     - name: Get the version
       id: get_version
@@ -30,7 +30,7 @@ jobs:
         ./build/run bootstrap
 
     - name: Build ArchivesSpace release package
-      env: 
+      env:
         VERSION: ${{ steps.get_version.outputs.VERSION }}
       run: ./scripts/build_release $VERSION
 
