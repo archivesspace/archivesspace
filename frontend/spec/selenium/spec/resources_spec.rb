@@ -102,6 +102,9 @@ describe 'Resources and archival objects' do
     @driver.find_element_with_text('//div[contains(@class, "error")]', /Language of Description - Property is required but was missing/)
     @driver.find_element_with_text('//div[contains(@class, "error")]', /Script of Description - Property is required but was missing/)
 
+    # checks that form field has error styling (red outline)
+    expect(@driver.find_element(css: '.identifier-fields').attribute('class')).to include('has-error')
+
     @driver.click_and_wait_until_gone(:css, 'a.btn.btn-cancel')
   end
 
