@@ -1,19 +1,97 @@
 ﻿fr:
   enumerations:
+    gender:
+      not_specified: Non précisé
+
+    place_role:
+      assoc_country: Pays associé
+      residence: Résidence
+      other_assoc: Autre
+      place_of_birth: Lieu de naissance
+      place_of_death: Lieu du décès
+
+    date_standardized_type:
+      standard: Standard
+      not_before: Pas avant
+      not_after: Pas après
+
+    transliteration:
+      ala-lc: Tables de romanisation ALA-LC
+
+    name_source:
+      snac: SNAC
+
+    name_rule:
+      ccr: Catalogage des ressources culturelles
+      rad: Règles de description archivistique
+      isaar: Registre international normalisé des autorités archivistiques pour les
+        personnes morales, les personnes et les familles
+
+    _note_types:
+      general_context: Contexte général
+      mandate: Mandat
+      contact_note: Note de contact
+      legal_status: Statut légal
+      structure_or_genealogy: Structure ou généalogie
+
+    note_digital_object_type:
+      general_context: Contexte général
+      mandate: Mandat
+      contact_note: Note de contact
+      legal_status: Statut légal
+      structure_or_genealogy: Structure ou généalogie
+
+    note_langmaterial_type:
+      general_context: Contexte général
+      mandate: Mandat
+      contact_note: Note de contact
+      legal_status: Statut légal
+      structure_or_genealogy: Structure ou généalogie
+
+    note_multipart_type:
+      general_context: Contexte général
+      mandate: Mandat
+      contact_note: Note de contact
+      legal_status: Statut légal
+      structure_or_genealogy: Structure ou généalogie
+
+    note_singlepart_type:
+      general_context: Contexte général
+      mandate: Mandat
+      contact_note: Note de contact
+      legal_status: Statut légal
+      structure_or_genealogy: Structure ou généalogie
+
+    agent_relationship_identity_relator:
+      is_identified_with: Relation d'agent identifiée avec le parent
+
+    agent_relationship_hierarchical_relator:
+      is_hierarchical_with: Relateur hiérarchique de la relation d'agent
+
+    agent_relationship_temporal_relator:
+      is_temporal_with: Relateur temporel de la relation d'agent
+
+    agent_relationship_family_relator:
+      is_related_with: Relateur lié à la relation d'agent
+
     date_type_structured:
       single: Unique
       range: Intervalle
+
     date_role:
       begin: Commencer
       end: Fin
+
     begin_date_standardized_type:
       standard: la norme
       not_before: Pas avant
       not_after: Pas après
+
     end_date_standardized_type:
       standard: la norme
       not_before: Pas avant 
       not_after: Pas après
+
     maintenance_status:
       new: Nouveau
       upgraded: Mis à niveau
@@ -23,9 +101,11 @@
       cancelled_obsolete: Annulé / Obsolète
       deleted_split: Supprimé-Split
       deleted_replaced: Supprimé-Remplacé
+
     publication_status:
       in_process: En cours
       approved: Approuvé
+
     romanization:
       int_std: Standard international
       nat_std: Norme nationale
@@ -35,6 +115,7 @@
       unknown_standard: Standard d'origine inconnue
       conv_rom_cat_agency: Romanisation conventionnelle ou forme conventionnelle du nom dans la langue de l'agence de catalogage
       not_applicable: N'est pas applicable
+
     government_agency_type: 
       ngo: Organisation non gouvernementale
       sac: Composant autonome ou semi-autonome
@@ -48,16 +129,19 @@
       unknown: Inconnu si l'en-tête est un organisme gouvernemental
       other: Autre
       natc: Aucune tentative de codage
+
     reference_evaluation: 
       tr_consistent: Tracés compatibles avec les titres
       tr_inconsistent: Tracés incohérents avec les titres
       not_applicable: N'est pas applicable
       natc: Aucune tentative de codage
+
     name_type: 
       differentiated: Différencié
       undifferentiated: Indifférencié
       not_applicable: N'est pas applicable
       natc: Aucune tentative de codage
+
     level_of_detail: 
       fully_established: Entièrement établi
       memorandum: Mémorandum
@@ -65,28 +149,34 @@
       preliminary: Préliminaire
       not_applicable: N'est pas applicable
       natc: Aucune tentative de codage
+
     modified_record: 
       not_modified: Non modifié
       shortened: Raccourcie
       missing_characters: Caractères manquants
       natc: Aucune tentative de codage
+
     cataloging_source:
       nat_bib_agency: Agence bibliographique nationale
       ccp: Programme de catalogage coopératif
       other: Autre
       unknown: Inconnu
       natc: Aucune tentative de codage
+
     source: 
       naf: NAF
       snac: SNAC
       local: Local
+
     identifier_type: 
       loc: Bibliothèque du Congrès
       lac: Bibliothèque et Archives Canada
       local: Local
+
     agency_code_type: 
       oclc: OCLC
       local: Local
+
     maintenance_event_type: 
       created: Créé
       cancelled: Annulé
@@ -94,15 +184,18 @@
       derived: Dérivé
       revised: modifié
       updated: Mis à jour
+
     maintenance_agent_type: 
       human: Humain
       machine: Machine
+
     linked_event_archival_record_roles:
       source: Source
       outcome: Résultat
       transfer: Transfert
       context: Context
       requested: Requested
+      
     linked_agent_archival_record_relators:
       abr: Agrégateur
       act: Acteur
@@ -1861,6 +1954,20 @@
       wndla: "Web NDL Authorities (Tokyo: National Diet Library (NDL))"
 
   enumeration_names:
+    agent_relationship_identity_relator: Relateur d'identité de relation d'agent
+    agent_relationship_hierarchical_relator: Relateur hiérarchique de la relation
+      d'agent
+    agent_relationship_specific_relator: Relateur spécifique à la relation d'agent
+    agent_relationship_temporal_relator: Relateur temporel de la relation d'agent
+    agent_relationship_family_relator: Agent Relation Famille Relator
+    transliteration: Translitération
+    gender: Sexe de l'agent
+    place_role: Rôle de place d'agent
+    date_type_structured: Type de date
+    date_standardized_type: Type normalisé de date
+    date_role: Rôle de date
+    begin_date_standardized_type: Date de début Type normalisé
+    end_date_standardized_type: Type normalisé de date de fin
     accession_acquisition_type: Type d'acquisition de l'entrée
     accession_parts_relator: Rapport entre les parties de l'entrée
     accession_parts_relator_type: Type de rapport entre les parties de l'entrée

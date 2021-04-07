@@ -1,4 +1,13 @@
 fr:
+  dates_of_existence:
+    _frontend:
+      action:
+        add: Ajouter une date
+
+  parallel_name:
+    _frontend:
+      action:
+        add: Ajouter un nom parallèle       
   states:
     suppressed: Bloqué
     deleted: Supprimé
@@ -406,6 +415,18 @@ fr:
     _singular: Aliénations
 
   agent_name: &agent_name_attributes
+    parallel_names_tooltip: "<p>Peut être utilisé pour enregistrer une forme parallèle
+      du nom dans différentes langues et / ou scripts ou formes translittérées du
+      nom.</p>"
+    language: Langue
+    language_tooltip: "<p>Indique la langue utilisée pour enregistrer la forme du
+      nom. Exemple: russe (pour Каспаров, Г. К. (Гарри Кимович))</p>"
+    script: Scénario
+    script_tooltip: "<p>Indique le script utilisé pour enregistrer la forme du nom.
+      Exemple: cyrillique (pour Каспаров, Г. К. (Гарри Кимович))</p>"
+    transliteration: Translitération
+    transliteration_tooltip: "<p>Indique le schéma de translittération utilisé pour
+      enregistrer la forme du nom.</p>"
     authority_id: Identifiant d'autorité
     authority_id_tooltip: |
         <p>L'identifiant unique de la forme du nom d'un agent dans la source d'où elle a été tirée (par ex., un identifiant de notice MADS ou EAC). L'identifiant peut être exprimé sous forme d'URI.</p>
@@ -514,15 +535,70 @@ fr:
 
   name_person:
     <<: *agent_name_attributes
+    parallel_names_tooltip: "<p>Peut être utilisé pour enregistrer une forme parallèle
+      du nom dans différentes langues et / ou scripts ou formes translittérées du
+      nom.</p>"
+    language: Langue
+    language_tooltip: "<p>Indique la langue utilisée pour enregistrer la forme du
+      nom. Exemple: russe (pour Каспаров, Г. К. (Гарри Кимович))</p>"
+    script: Scénario
+    script_tooltip: "<p>Indique le script utilisé pour enregistrer la forme du nom.
+      Exemple: cyrillique (pour Каспаров, Г. К. (Гарри Кимович))</p>"
+    transliteration: Translitération
+    transliteration_tooltip: "<p>Indique le schéma de translittération utilisé pour
+      enregistrer la forme du nom.</p>"
 
   name_family:
     <<: *agent_name_attributes
     family_name: Nom de famille
     family_name_tooltip: |
         <p>Le nom de famille ou le surnom, pour une famille, donnant lieu à une appellation du type: "famille untel".</p>
+    parallel_names_tooltip: "<p>Peut être utilisé pour enregistrer une forme parallèle
+      du nom dans différentes langues et / ou scripts ou formes translittérées du
+      nom.</p>"
+    language: Langue
+    language_tooltip: "<p>Indique la langue utilisée pour enregistrer la forme du
+      nom. Exemple: russe (pour Каспаров, Г. К. (Гарри Кимович))</p>"
+    script: Scénario
+    script_tooltip: "<p>Indique le script utilisé pour enregistrer la forme du nom.
+      Exemple: cyrillique (pour Каспаров, Г. К. (Гарри Кимович))</p>"
+    transliteration: Translitération
+    transliteration_tooltip: "<p>Indique le schéma de translittération utilisé pour
+      enregistrer la forme du nom.</p>"
+    family_type: Type de famille
+    family_type_tooltip: "<p>Type de famille utilisé comme qualificatif pour distinguer
+      les entrées de nom similaires. Exemples: famille, dynastie, maison royale.</p>"
+    location: Emplacement
+    location_tooltip: "<p>Emplacement utilisé comme qualificatif pour distinguer les
+      entrées de nom similaires. Exemples: Trigg County, Ky. (Pour Cunningham (Family:
+      1795-: Trigg County, Ky.)), Ambassade du Canada, Tokyo (pour la Conférence de
+      jumelage Canada-Japon (1991: Ambassade du Canada, Tokyo))</p>"       
 
   name_corporate_entity:
     <<: *agent_name_attributes
+    parallel_names_tooltip: "<p>Peut être utilisé pour enregistrer une forme parallèle
+      du nom dans différentes langues et / ou scripts ou formes translittérées du
+      nom.</p>"
+    language: Langue
+    language_tooltip: "<p>Indique la langue utilisée pour enregistrer la forme du
+      nom. Exemple: russe (pour Каспаров, Г. К. (Гарри Кимович))</p>"
+    script: Scénario
+    script_tooltip: "<p>Indique le script utilisé pour enregistrer la forme du nom.
+      Exemple: cyrillique (pour Каспаров, Г. К. (Гарри Кимович))</p>"
+    transliteration: Translitération
+    transliteration_tooltip: "<p>Indique le schéma de translittération utilisé pour
+      enregistrer la forme du nom.</p>"
+    jurisdiction: Juridiction?
+    jurisdiction_tooltip: "<p>Indique si l'entité est une entrée de nom de juridiction
+      légale.</p>"
+    conference_meeting: Conférence?
+    conference_meeting_tooltip: "<p>Indique si l'entité est une personne morale standard
+      ou est une conférence, une réunion ou un autre événement nommé.</p>"
+    location: Emplacement
+    location_tooltip: "<p>Emplacement utilisé comme qualificatif pour distinguer les
+      entrées de nom similaires. Exemples: Trigg County, Ky. (Pour Cunningham (Family:
+      1795-: Trigg County, Ky.)), Ambassade du Canada, Tokyo (pour la Conférence de
+      jumelage Canada-Japon (1991: Ambassade du Canada, Tokyo))</p>"
     subordinate_name_1: Nom subordonné 1
     subordinate_name_1_tooltip: |
         <p>Une subdivision d'une entité collective nommée dans le champ "nom principal".</p>
@@ -536,6 +612,18 @@ fr:
 
   name_software:
     <<: *agent_name_attributes
+    parallel_names_tooltip: "<p>Peut être utilisé pour enregistrer une forme parallèle
+      du nom dans différentes langues et / ou scripts ou formes translittérées du
+      nom.</p>"
+    language: Langue
+    language_tooltip: "<p>Indique la langue utilisée pour enregistrer la forme du
+      nom. Exemple: russe (pour Каспаров, Г. К. (Гарри Кимович))</p>"
+    script: Scénario
+    script_tooltip: "<p>Indique le script utilisé pour enregistrer la forme du nom.
+      Exemple: cyrillique (pour Каспаров, Г. К. (Гарри Кимович))</p>"
+    transliteration: Translitération
+    transliteration_tooltip: "<p>Indique le schéma de translittération utilisé pour
+      enregistrer la forme du nom.</p>"
     software_name: Nom de logiciel
     software_name_tooltip: |
         <p>Le nom d'un ensemble logiciel.</p>
@@ -607,6 +695,8 @@ fr:
     telephones: Numéros de téléphone
     _singular: Contact
     _plural: Détails du contact
+    address_2_tooltip: "<p>Une suite de l'adresse de la personne de contact.</p>"
+    address_3_tooltip: "<p>Une suite de l'adresse de la personne de contact.</p>"     
 
   telephone: &telephone
     _plural: Numéros de téléphone
@@ -617,6 +707,7 @@ fr:
     ext: Numéro de poste interne
     ext_tooltip: |
         <p>Numéro de poste interne du contact.</p>
+    number_type_tooltip: "<p>Indique le type de numéro de téléphone.</p>"
 
   telephone_required: &telephone
     _plural: Numéros de téléphone
@@ -673,6 +764,14 @@ fr:
     relationship_type: Type de relation
     _singular: Agent associé
     _plural: Agents associés
+    relator: Type de relation directionnelle
+    specific_relator: Type de relation spécifique
+    relationship_uri: URI de relation
+    relator_tooltip: Un qualificatif spécifique qui décrit la relation.
+    description: La description
+    date: Date
+    dates: Rendez-vous
+    ref: Agent associé
 
   agent_relationship_parentchild:
     relator: Type de relation
@@ -681,6 +780,11 @@ fr:
     date: Date
     dates: Dates
     _singular: Relation parent/enfant
+    relationship_type: Type de relation générale
+    specific_relator: Type de relation spécifique
+    relationship_uri: URI de relation
+    relator_tooltip: Un qualificatif spécifique qui décrit la relation.
+    _plural: Agents associés
 
   agent_relationship_earlierlater:
     relator: Type de relation
@@ -689,6 +793,11 @@ fr:
     date: Date
     dates: Dates
     _singular: Relation avant/après
+    relationship_type: Type de relation générale
+    specific_relator: Type de relation spécifique
+    relationship_uri: URI de relation
+    relator_tooltip: Un qualificatif spécifique qui décrit la relation.
+    _plural: Agents associés
 
   agent_relationship_subordinatesuperior:
     relator: Type de relation
@@ -697,6 +806,11 @@ fr:
     date: Date
     dates: Dates
     _singular: Relation subordonné/supérieur
+    relationship_type: Type de relation générale
+    specific_relator: Type de relation spécifique
+    relationship_uri: URI de relation
+    relator_tooltip: Un qualificatif spécifique qui décrit la relation.
+    _plural: Agents associés
 
   agent_relationship_associative:
     relator: Type de relation
@@ -705,8 +819,70 @@ fr:
     dates: Dates
     ref: Agent associé
     _singular: Relation associatif
+    relationship_type: Type de relation générale
+    specific_relator: Type de relation spécifique
+    relationship_uri: URI de relation
+    relator_tooltip: Un qualificatif spécifique qui décrit la relation.
+    _plural: Agents associés
+
+  agent_relationship_identity:
+    relationship_type: Type de relation générale
+    relator: Type de relation directionnelle
+    specific_relator: Type de relation spécifique
+    relationship_uri: URI de relation
+    relator_tooltip: Un qualificatif spécifique qui décrit la relation.
+    description: La description
+    date: Date
+    dates: Rendez-vous
+    ref: Agent associé
+    _singular: Relation d'agent identifiée avec le parent
+    _plural: Agents associés
+
+  agent_relationship_hierarchical:
+    relationship_type: Type de relation générale
+    relator: Type de relation directionnelle
+    specific_relator: Type de relation spécifique
+    relationship_uri: URI de relation
+    relator_tooltip: Un qualificatif spécifique qui décrit la relation.
+    description: La description
+    date: Date
+    dates: Rendez-vous
+    ref: Agent associé
+    _singular: Relateur hiérarchique de la relation d'agent
+    _plural: Agents associés
+
+  agent_relationship_temporal:
+    relationship_type: Type de relation générale
+    relator: Type de relation directionnelle
+    specific_relator: Type de relation spécifique
+    relationship_uri: URI de relation
+    relator_tooltip: Un qualificatif spécifique qui décrit la relation.
+    description: La description
+    date: Date
+    dates: Rendez-vous
+    ref: Agent associé
+    _singular: Relateur temporel de la relation d'agent
+    _plural: Agents associés
+
+  agent_relationship_family:
+    relationship_type: Type de relation générale
+    relator: Type de relation directionnelle
+    specific_relator: Type de relation spécifique
+    relationship_uri: URI de relation
+    relator_tooltip: Un qualificatif spécifique qui décrit la relation.
+    description: La description
+    date: Date
+    dates: Rendez-vous
+    ref: Agent associé
+    _singular: Relateur lié à la relation d'agent
+    _plural: Agents associés   
 
   note:
+    note_general_context: Contexte général
+    note_mandate: Mandat
+    note_contact_note: Note de contact
+    note_legal_status: Statut légal
+    note_structure_or_genealogy: Structure ou généalogie
     item: Pièce
     content_item: Contenu de la pièce
     note_singlepart: Note simple
@@ -783,6 +959,7 @@ fr:
     items: Evénements
 
   chronology_item:
+    place: Lieu de l'événement
     event_date: Date de l'événement
     event_date_tooltip: |
         <p>La date de l'événement dans une liste chronologique.</p>
@@ -1311,6 +1488,43 @@ fr:
 
   agent: &agent_attributes
     <<: *slug_attributes
+    agent_contact_notes_tooltip: "<p>Notes sur les interactions avec l'agent.</p>"
+    agent_record_controls_tooltip: "<p>Informations sur l'enregistrement décrivant
+      l'agent.</p>"
+    agent_alternate_sets_tooltip: "<p>Utilisé pour pointer vers des notices d'autorité
+      liées lorsque deux ou plusieurs notices pour la même entité ont été dérivées
+      de deux ou plusieurs systèmes d'autorité.</p>"
+    agent_conventions_declarations_tooltip: "<p>Une norme de contenu utilisée dans
+      la formulation du contenu de l'enregistrement de l'agent. Exemple: Décrire les
+      archives: une norme de contenu. Ce sous-enregistrement peut être utilisé à la
+      place des entrées de règles sur les formulaires de nom individuels.</p>"
+    agent_other_agency_codes_tooltip: "<p>Informations sur les codes alternatifs pour
+      l'agence ou l'organisation responsable de la création ou de la maintenance d'un
+      enregistrement d'agent.</p>"
+    agent_maintenance_histories_tooltip: "<p>Événements associés à la création ou
+      à la maintenance de l'enregistrement de l'agent.</p>"
+    agent_record_identifiers_tooltip: "<p>Identifiants associés à l'enregistrement
+      d'agent.</p>"
+    agent_sources_tooltip: "<p>Une source utilisée dans la formulation du contenu
+      de l'enregistrement de l'agent.</p>"
+    agent_identifiers_tooltip: "<p>Identifiants associés à une entité, tels que les
+      identifiants légaux attribués par une agence faisant autorité. Les exemples
+      incluent un identifiant ORCID pour une personne ou un code de référentiel MARC
+      pour une personne morale.</p>"
+    agent_genders_tooltip: Sexe du sujet.
+    agent_places_tooltip: Placez les informations associées à l'agent.
+    agent_occupations_tooltip: Information sur la profession associée à l'agent.
+    agent_functions_tooltip: Termes utilisés pour identifier les fonctions, processus,
+      tâches, activités ou transactions effectuées par l'agent.
+    agent_topics_tooltip: Un sujet associé à l'agent.
+    agent_contacts_tooltip: "<p>Coordonnées de l'agent ou d'un représentant travaillant
+      pour le compte.</p>"
+    used_languages_tooltip: 'La ou les langues associées à l''agent. Exemple: anglais.'
+    agent_resources_tooltip: Ressources et autres enregistrements associés à l'agent.
+    related_agent_tooltip: Utilisé pour lier d'autres agents ayant une relation avec
+      l'agent et indiquer la nature de la relation.
+    publish_tooltip: "<p>Indique si l'agent est inclus ou non dans les exportations
+      et publié sur l'interface publique (le cas échéant)</p>"
     type: Type d'agent
     type_tooltip: |
         <p>Le type d'entité représenté par la notice agent.</p>
@@ -1344,6 +1558,43 @@ fr:
   agent_person:
     <<: *agent_attributes
     <<: *slug_attributes
+    agent_contact_notes_tooltip: "<p>Notes sur les interactions avec l'agent.</p>"
+    agent_record_controls_tooltip: "<p>Informations sur l'enregistrement décrivant
+      l'agent.</p>"
+    agent_alternate_sets_tooltip: "<p>Utilisé pour pointer vers des notices d'autorité
+      liées lorsque deux ou plusieurs notices pour la même entité ont été dérivées
+      de deux ou plusieurs systèmes d'autorité.</p>"
+    agent_conventions_declarations_tooltip: "<p>Une norme de contenu utilisée dans
+      la formulation du contenu de l'enregistrement de l'agent. Exemple: Décrire les
+      archives: une norme de contenu. Ce sous-enregistrement peut être utilisé à la
+      place des entrées de règles sur les formulaires de nom individuels.</p>"
+    agent_other_agency_codes_tooltip: "<p>Informations sur les codes alternatifs pour
+      l'agence ou l'organisation responsable de la création ou de la maintenance d'un
+      enregistrement d'agent.</p>"
+    agent_maintenance_histories_tooltip: "<p>Événements associés à la création ou
+      à la maintenance de l'enregistrement de l'agent.</p>"
+    agent_record_identifiers_tooltip: "<p>Identifiants associés à l'enregistrement
+      d'agent.</p>"
+    agent_sources_tooltip: "<p>Une source utilisée dans la formulation du contenu
+      de l'enregistrement de l'agent.</p>"
+    agent_identifiers_tooltip: "<p>Identifiants associés à une entité, tels que les
+      identifiants légaux attribués par une agence faisant autorité. Les exemples
+      incluent un identifiant ORCID pour une personne ou un code de référentiel MARC
+      pour une personne morale.</p>"
+    agent_genders_tooltip: Sexe du sujet.
+    agent_places_tooltip: Placez les informations associées à l'agent.
+    agent_occupations_tooltip: Information sur la profession associée à l'agent.
+    agent_functions_tooltip: Termes utilisés pour identifier les fonctions, processus,
+      tâches, activités ou transactions effectuées par l'agent.
+    agent_topics_tooltip: Un sujet associé à l'agent.
+    agent_contacts_tooltip: "<p>Coordonnées de l'agent ou d'un représentant travaillant
+      pour le compte.</p>"
+    used_languages_tooltip: 'La ou les langues associées à l''agent. Exemple: anglais.'
+    agent_resources_tooltip: Ressources et autres enregistrements associés à l'agent.
+    related_agent_tooltip: Utilisé pour lier d'autres agents ayant une relation avec
+      l'agent et indiquer la nature de la relation.
+    publish_tooltip: "<p>Indique si l'agent est inclus ou non dans les exportations
+      et publié sur l'interface publique (le cas échéant)</p>"
     _singular: Personne
     _plural: Personnes
 
@@ -1352,16 +1603,127 @@ fr:
     <<: *slug_attributes
     _singular: Famille
     _plural: Familles
+    agent_contact_notes_tooltip: "<p>Notes sur les interactions avec l'agent.</p>"
+    agent_record_controls_tooltip: "<p>Informations sur l'enregistrement décrivant
+      l'agent.</p>"
+    agent_alternate_sets_tooltip: "<p>Utilisé pour pointer vers des notices d'autorité
+      liées lorsque deux ou plusieurs notices pour la même entité ont été dérivées
+      de deux ou plusieurs systèmes d'autorité.</p>"
+    agent_conventions_declarations_tooltip: "<p>Une norme de contenu utilisée dans
+      la formulation du contenu de l'enregistrement de l'agent. Exemple: Décrire les
+      archives: une norme de contenu. Ce sous-enregistrement peut être utilisé à la
+      place des entrées de règles sur les formulaires de nom individuels.</p>"
+    agent_other_agency_codes_tooltip: "<p>Informations sur les codes alternatifs pour
+      l'agence ou l'organisation responsable de la création ou de la maintenance d'un
+      enregistrement d'agent.</p>"
+    agent_maintenance_histories_tooltip: "<p>Événements associés à la création ou
+      à la maintenance de l'enregistrement de l'agent.</p>"
+    agent_record_identifiers_tooltip: "<p>Identifiants associés à l'enregistrement
+      d'agent.</p>"
+    agent_sources_tooltip: "<p>Une source utilisée dans la formulation du contenu
+      de l'enregistrement de l'agent.</p>"
+    agent_identifiers_tooltip: "<p>Identifiants associés à une entité, tels que les
+      identifiants légaux attribués par une agence faisant autorité. Les exemples
+      incluent un identifiant ORCID pour une personne ou un code de référentiel MARC
+      pour une personne morale.</p>"
+    agent_genders_tooltip: Sexe du sujet.
+    agent_places_tooltip: Placez les informations associées à l'agent.
+    agent_occupations_tooltip: Information sur la profession associée à l'agent.
+    agent_functions_tooltip: Termes utilisés pour identifier les fonctions, processus,
+      tâches, activités ou transactions effectuées par l'agent.
+    agent_topics_tooltip: Un sujet associé à l'agent.
+    agent_contacts_tooltip: "<p>Coordonnées de l'agent ou d'un représentant travaillant
+      pour le compte.</p>"
+    used_languages_tooltip: 'La ou les langues associées à l''agent. Exemple: anglais.'
+    agent_resources_tooltip: Ressources et autres enregistrements associés à l'agent.
+    related_agent_tooltip: Utilisé pour lier d'autres agents ayant une relation avec
+      l'agent et indiquer la nature de la relation.
+    publish_tooltip: "<p>Indique si l'agent est inclus ou non dans les exportations
+      et publié sur l'interface publique (le cas échéant)</p>"   
 
   agent_software:
     <<: *agent_attributes
     <<: *slug_attributes
     _singular: Logiciel
     _plural: Logiciels
+    agent_contact_notes_tooltip: "<p>Notes sur les interactions avec l'agent.</p>"
+    agent_record_controls_tooltip: "<p>Informations sur l'enregistrement décrivant
+      l'agent.</p>"
+    agent_alternate_sets_tooltip: "<p>Utilisé pour pointer vers des notices d'autorité
+      liées lorsque deux ou plusieurs notices pour la même entité ont été dérivées
+      de deux ou plusieurs systèmes d'autorité.</p>"
+    agent_conventions_declarations_tooltip: "<p>Une norme de contenu utilisée dans
+      la formulation du contenu de l'enregistrement de l'agent. Exemple: Décrire les
+      archives: une norme de contenu. Ce sous-enregistrement peut être utilisé à la
+      place des entrées de règles sur les formulaires de nom individuels.</p>"
+    agent_other_agency_codes_tooltip: "<p>Informations sur les codes alternatifs pour
+      l'agence ou l'organisation responsable de la création ou de la maintenance d'un
+      enregistrement d'agent.</p>"
+    agent_maintenance_histories_tooltip: "<p>Événements associés à la création ou
+      à la maintenance de l'enregistrement de l'agent.</p>"
+    agent_record_identifiers_tooltip: "<p>Identifiants associés à l'enregistrement
+      d'agent.</p>"
+    agent_sources_tooltip: "<p>Une source utilisée dans la formulation du contenu
+      de l'enregistrement de l'agent.</p>"
+    agent_identifiers_tooltip: "<p>Identifiants associés à une entité, tels que les
+      identifiants légaux attribués par une agence faisant autorité. Les exemples
+      incluent un identifiant ORCID pour une personne ou un code de référentiel MARC
+      pour une personne morale.</p>"
+    agent_genders_tooltip: Sexe du sujet.
+    agent_places_tooltip: Placez les informations associées à l'agent.
+    agent_occupations_tooltip: Information sur la profession associée à l'agent.
+    agent_functions_tooltip: Termes utilisés pour identifier les fonctions, processus,
+      tâches, activités ou transactions effectuées par l'agent.
+    agent_topics_tooltip: Un sujet associé à l'agent.
+    agent_contacts_tooltip: "<p>Coordonnées de l'agent ou d'un représentant travaillant
+      pour le compte.</p>"
+    used_languages_tooltip: 'La ou les langues associées à l''agent. Exemple: anglais.'
+    agent_resources_tooltip: Ressources et autres enregistrements associés à l'agent.
+    related_agent_tooltip: Utilisé pour lier d'autres agents ayant une relation avec
+      l'agent et indiquer la nature de la relation.
+    publish_tooltip: "<p>Indique si l'agent est inclus ou non dans les exportations
+      et publié sur l'interface publique (le cas échéant)</p>"
 
   agent_corporate_entity:
     <<: *agent_attributes
     <<: *slug_attributes
+    agent_contact_notes_tooltip: "<p>Notes sur les interactions avec l'agent.</p>"
+    agent_record_controls_tooltip: "<p>Informations sur l'enregistrement décrivant
+      l'agent.</p>"
+    agent_alternate_sets_tooltip: "<p>Utilisé pour pointer vers des notices d'autorité
+      liées lorsque deux ou plusieurs notices pour la même entité ont été dérivées
+      de deux ou plusieurs systèmes d'autorité.</p>"
+    agent_conventions_declarations_tooltip: "<p>Une norme de contenu utilisée dans
+      la formulation du contenu de l'enregistrement de l'agent. Exemple: Décrire les
+      archives: une norme de contenu. Ce sous-enregistrement peut être utilisé à la
+      place des entrées de règles sur les formulaires de nom individuels.</p>"
+    agent_other_agency_codes_tooltip: "<p>Informations sur les codes alternatifs pour
+      l'agence ou l'organisation responsable de la création ou de la maintenance d'un
+      enregistrement d'agent.</p>"
+    agent_maintenance_histories_tooltip: "<p>Événements associés à la création ou
+      à la maintenance de l'enregistrement de l'agent.</p>"
+    agent_record_identifiers_tooltip: "<p>Identifiants associés à l'enregistrement
+      d'agent.</p>"
+    agent_sources_tooltip: "<p>Une source utilisée dans la formulation du contenu
+      de l'enregistrement de l'agent.</p>"
+    agent_identifiers_tooltip: "<p>Identifiants associés à une entité, tels que les
+      identifiants légaux attribués par une agence faisant autorité. Les exemples
+      incluent un identifiant ORCID pour une personne ou un code de référentiel MARC
+      pour une personne morale.</p>"
+    agent_genders_tooltip: Sexe du sujet.
+    agent_places_tooltip: Placez les informations associées à l'agent.
+    agent_occupations_tooltip: Information sur la profession associée à l'agent.
+    agent_functions_tooltip: Termes utilisés pour identifier les fonctions, processus,
+      tâches, activités ou transactions effectuées par l'agent.
+    agent_topics_tooltip: Un sujet associé à l'agent.
+    agent_contacts_tooltip: "<p>Coordonnées de l'agent ou d'un représentant travaillant
+      pour le compte.</p>"
+    used_languages_tooltip: 'La ou les langues associées à l''agent. Exemple: anglais.'
+    agent_resources_tooltip: Ressources et autres enregistrements associés à l'agent.
+    related_agent_tooltip: Utilisé pour lier d'autres agents ayant une relation avec
+      l'agent et indiquer la nature de la relation.
+    publish_tooltip: "<p>Indique si l'agent est inclus ou non dans les exportations
+      et publié sur l'interface publique (le cas échéant)</p>"
     _singular: Personne morale
     _plural: Personnes morales
 
@@ -1460,6 +1822,7 @@ fr:
         <p>Membres appartenant à ce groupe.</p>
     permissions: "Les membres peuvent:"
     permission_types:
+      show_full_agents: travailler avec des agents en mode complet
       manage_repository: gérer ce service d'archives (modifier groupes et autres préférences)
       update_location_record: créer/modifier/supprimer des notices de localisations dans ce service d'archives
       update_subject_record: créer/actualiser des notices matières
@@ -1963,6 +2326,17 @@ fr:
       rtf: RTF
 
   validation_errors:
+    or_date_expression_is_required: Les dates doivent spécifier au moins une expression
+      de date
+    must_specify_either_a_single_or_ranged_date: Les dates doivent être spécifiées
+      comme simples ou à distance
+    must_be_in_yyyy[yyy][yy][y]__yyyy[yyy][yy][y]-mm__or_yyyy-mm-dd_format: Les dates
+      normalisées doivent être dans un format normalisé
+    generic_validation_error: erreur de validation
+    requires_that_end_dates_are_after_begin_dates: Les dates de fin doivent être postérieures
+      aux dates de début
+    must_specify_a_primary_subject: 'Information sur la description: il manque un
+      sujet principal à l''enregistrement'
     agent_must_be_unique: Il ne peut y avoir deux notices d'agents identiques
     subject_must_be_unique: Il ne peut y avoir deux notices sujets identiques
     subject_heading_identifier_must_be_unique_within_source: L'identifiant de la vedette-matière doit être unique dans la source
@@ -2068,6 +2442,9 @@ fr:
     format: Format
 
   import_job:
+    import_events: Importer des événements de maintenance?
+    import_type_marcxml_auth_agent: Autorité MarcXML (agents)
+    import_type_marcxml_auth_subject: Autorité MarcXML (sujets)
     _singular: Importer une tâche
     filenames: Importer des fichiers
     import_type: Importer type
@@ -2460,3 +2837,849 @@ fr:
       wrong_file_type: "Le fichier n'est ni une feuille de calcul Excel ni un fichier CSV"
       dig_obj_unique: "ID d'objet numérique '%{id}' existe déjà."
       cannot: Impossible de continuer en raison d'erreurs précédentes
+
+  parallel_name_person:
+    authority_id: ID d'autorité
+    authority_id_tooltip: "<p>L'identifiant unique du formulaire de nom d'un agent
+      au sein de la source à partir de laquelle il a été acquis (c'est-à-dire un identifiant
+      d'enregistrement MADS ou un identifiant d'enregistrement EAC). L'identifiant
+      peut être représenté par un URI.</p><p> Voir DACS 13.2</p><p> Exemples:</p><ul><li>
+      nr92045078 <em>pour un en-tête de nom LCNAF</em></li><li> 500115393 <em>pour
+      un en-tête de nom ULAN</em></li><li> http://viaf.org/viaf/134138653 <em>pour
+      un en-tête de nom VIAF</em></ul>"
+    source: La source
+    source_tooltip: "<p>CHAMP CONDITIONNELLEMENT REQUIS, si les règles de nom ne sont
+      pas utilisées. Un indicateur de la source faisant autorité à partir de laquelle
+      le nom a été tiré.</p><p> Les valeurs de cette liste de valeurs contrôlées peuvent
+      être modifiées.</p>"
+    rules: Des règles
+    rules_tooltip: "<p>CHAMP CONDITIONNELLEMENT REQUIS, si la source de nom n'est
+      pas utilisée. Une indication des règles utilisées pour formuler l'entrée de
+      nom.</p><p> Les valeurs de cette liste de valeurs contrôlées peuvent être modifiées.</p>"
+    name_order: Ordre des noms
+    name_order_tooltip: "<p>Indique si la forme du nom doit être affichée dans l'ordre
+      inversé (nom, prénom) ou dans l'ordre direct (prénom nom).</p>"
+    prefix: Préfixe
+    prefix_tooltip: "<p>Tout terme associé à un nom qui, en usage normatif, précéderait
+      le nom entier.</p><p> Exemples:</p><ul><li> Mme.</li></ul>"
+    title: Titre
+    title_tooltip: "<p>Un titre qui fait partie du nom.</p><p> Exemples:</p><ul><li>
+      Sir <em>(pour Churchill, Winston, Sir, 1874-1965)</em></li><li> Chief (pour
+      Black Foot, Chief, décédé en 1877)</li><li> Empereur d'Orient <em>(pour Jean
+      II Comnène. Empereur d'Orient.)</em></li></ul>"
+    primary_name: Partie principale du nom
+    primary_name_tooltip: "<p>La partie principale d'une forme de nom (par exemple
+      un nom de famille ou un nom de famille d'une personne).</p><p> Exemples:</p><ul><li>
+      Churchill <em>(pour Churchill, Winston, Sir, 1874-1965 [personne])</em><li>
+      Black Foot <em>(pour Black Foot, Chief, décédé en 1877 [personne])</em></li><li>
+      Machines de bureau internationales <em>(pour machines de bureau internationales.
+      Division de la microélectronique [entité commerciale])</em></li></ul>"
+    rest_of_name: Reste du nom
+    rest_of_name_tooltip: "<p>L'élément ou le prénom du prénom et les noms supplémentaires,
+      par exemple, les prénoms, pour la personne nommée dans l'enregistrement.</p><p>
+      Exemples:</p><ul><li> Winston <em>(pour Churchill, Winston, Sir, 1874-1965)</em></li><li>
+      Humphrey <em>(pour Ward, Humphrey, Mrs., 1851-1920)</em></li></ul>"
+    suffix: Suffixe
+    suffix_tooltip: "<p>Un terme qui suit un nom qui qualifie le nom mais qui n'est
+      pas un titre.</p><p> Exemples</p><ul><li> Jr.</li><li> fils</li></ul>"
+    fuller_form: Forme plus complète
+    fuller_form_tooltip: "<p>La forme la plus complète des prénoms et des seconds
+      prénoms, lorsqu'ils sont abrégés.</p><p> Exemples</p><ul><li> Hilda Doolittle
+      <em>(pour HD, Hilda Doolittle, 1886-1961)</em></li></ul>"
+    number: Numéro
+    number_tooltip: "<p>Un nombre, parfois avec un terme, qui qualifie le nom. Pour
+      les noms personnels, souvent un chiffre romain ou un chiffre romain et une partie
+      ultérieure d'un prénom. Pour les dénominations sociales, le numéro d'une partie
+      / section ou réunion.</p><p> Exemples:</p><ul><li> II Comnenus <em>(pour Jean
+      II Comnenus, Empereur d'Orient</em> / li><li> II <em>(pour Jean-Paul II)</em></li><li>
+      97e, 2e session <em>(pour le Congrès des États-Unis, 97e, 2e session)</em></li></ul>"
+    dates: Rendez-vous
+    dates_tooltip: "<p>Utilisez ce champ pour l'alignement avec les notices d'autorité
+      MARC. Ces dates, plutôt que les dates d'existence, sont ajoutées à l'entrée
+      de nom dans l'affichage.</p><p> Dates d'existence de l'entité nommée.</p><p>
+      Exemples:<p><ul><li> 1886-1961 <em>(pour HD, Hilda Doolittle, 1886-1961)</em></li></ul>"
+    use_dates: Dates d'utilisation
+    use_dates_tooltip: "<p>Dates auxquelles ce nom a été utilisé pour l'agent.</p>"
+    parallel_names_tooltip: "<p>Peut être utilisé pour enregistrer une forme parallèle
+      du nom dans différentes langues et / ou scripts ou formes translittérées du
+      nom.</p>"
+    qualifier: Qualificatif
+    qualifier_tooltip: "<p>Un terme ou une phrase pour distinguer deux formes de nom
+      identiques à tous les autres égards mais identifiant deux entités différentes.
+      Le terme peut être une date, un lieu ou tout autre descripteur approprié.</p><p>
+      Exemples:</p><ul><li> Fleuristes <em>(pour la famille Smith (fleuristes))</em>
+      )</li><li> Bronx, New York, NY <em>(pour l'église St.James (Bronx, New York,
+      NY))</em></li></ul>"
+    sort_name: Nom du tri
+    sort_name_tooltip: <p>Une version du nom concaténant toutes les parties du nom
+      fournies dans un enregistrement d'agent donné. Utilisé à des fins d'affichage
+      dans l'application et pour certaines exportations.</p><p> Le nom du tri peut
+      être modifié en décochant la case "Générer automatiquement" puis en saisissant
+      la forme du nom de tri souhaité.</p>
+    authorized: Autorisé
+    is_display_name: Afficher un nom
+    language: Langue
+    language_tooltip: "<p>Indique la langue utilisée pour enregistrer la forme du
+      nom. Exemple: russe (pour Каспаров, Г. К. (Гарри Кимович))</p>"
+    script: Scénario
+    script_tooltip: "<p>Indique le script utilisé pour enregistrer la forme du nom.
+      Exemple: cyrillique (pour Каспаров, Г. К. (Гарри Кимович))</p>"
+    transliteration: Translitération
+    transliteration_tooltip: "<p>Indique le schéma de translittération utilisé pour
+      enregistrer la forme du nom.</p>"
+    _singular: Nom parallèle
+    _plural: Noms parallèles
+
+  parallel_name_family:
+    authority_id: ID d'autorité
+    authority_id_tooltip: "<p>L'identifiant unique du formulaire de nom d'un agent
+      au sein de la source à partir de laquelle il a été acquis (c'est-à-dire un identifiant
+      d'enregistrement MADS ou un identifiant d'enregistrement EAC). L'identifiant
+      peut être représenté par un URI.</p><p> Voir DACS 13.2</p><p> Exemples:</p><ul><li>
+      nr92045078 <em>pour un en-tête de nom LCNAF</em></li><li> 500115393 <em>pour
+      un en-tête de nom ULAN</em></li><li> http://viaf.org/viaf/134138653 <em>pour
+      un en-tête de nom VIAF</em></ul>"
+    source: La source
+    source_tooltip: "<p>CHAMP CONDITIONNELLEMENT REQUIS, si les règles de nom ne sont
+      pas utilisées. Un indicateur de la source faisant autorité à partir de laquelle
+      le nom a été tiré.</p><p> Les valeurs de cette liste de valeurs contrôlées peuvent
+      être modifiées.</p>"
+    rules: Des règles
+    rules_tooltip: "<p>CHAMP CONDITIONNELLEMENT REQUIS, si la source de nom n'est
+      pas utilisée. Une indication des règles utilisées pour formuler l'entrée de
+      nom.</p><p> Les valeurs de cette liste de valeurs contrôlées peuvent être modifiées.</p>"
+    name_order: Ordre des noms
+    name_order_tooltip: "<p>Indique si la forme du nom doit être affichée dans l'ordre
+      inversé (nom, prénom) ou dans l'ordre direct (prénom nom).</p>"
+    prefix: Préfixe
+    prefix_tooltip: "<p>Tout terme associé à un nom qui, en usage normatif, précéderait
+      le nom entier.</p><p> Exemples:</p><ul><li> Mme.</li></ul>"
+    title: Titre
+    title_tooltip: "<p>Un titre qui fait partie du nom.</p><p> Exemples:</p><ul><li>
+      Sir <em>(pour Churchill, Winston, Sir, 1874-1965)</em></li><li> Chief (pour
+      Black Foot, Chief, décédé en 1877)</li><li> Empereur d'Orient <em>(pour Jean
+      II Comnène. Empereur d'Orient.)</em></li></ul>"
+    primary_name: Partie principale du nom
+    primary_name_tooltip: "<p>La partie principale d'une forme de nom (par exemple
+      un nom de famille ou un nom de famille d'une personne).</p><p> Exemples:</p><ul><li>
+      Churchill <em>(pour Churchill, Winston, Sir, 1874-1965 [personne])</em><li>
+      Black Foot <em>(pour Black Foot, Chief, décédé en 1877 [personne])</em></li><li>
+      Machines de bureau internationales <em>(pour machines de bureau internationales.
+      Division de la microélectronique [entité commerciale])</em></li></ul>"
+    rest_of_name: Reste du nom
+    rest_of_name_tooltip: "<p>L'élément ou le prénom du prénom et les noms supplémentaires,
+      par exemple, les prénoms, pour la personne nommée dans l'enregistrement.</p><p>
+      Exemples:</p><ul><li> Winston <em>(pour Churchill, Winston, Sir, 1874-1965)</em></li><li>
+      Humphrey <em>(pour Ward, Humphrey, Mrs., 1851-1920)</em></li></ul>"
+    suffix: Suffixe
+    suffix_tooltip: "<p>Un terme qui suit un nom qui qualifie le nom mais qui n'est
+      pas un titre.</p><p> Exemples</p><ul><li> Jr.</li><li> fils</li></ul>"
+    fuller_form: Forme plus complète
+    fuller_form_tooltip: "<p>La forme la plus complète des prénoms et des seconds
+      prénoms, lorsqu'ils sont abrégés.</p><p> Exemples</p><ul><li> Hilda Doolittle
+      <em>(pour HD, Hilda Doolittle, 1886-1961)</em></li></ul>"
+    number: Numéro
+    number_tooltip: "<p>Un nombre, parfois avec un terme, qui qualifie le nom. Pour
+      les noms personnels, souvent un chiffre romain ou un chiffre romain et une partie
+      ultérieure d'un prénom. Pour les dénominations sociales, le numéro d'une partie
+      / section ou réunion.</p><p> Exemples:</p><ul><li> II Comnenus <em>(pour Jean
+      II Comnenus, Empereur d'Orient</em> / li><li> II <em>(pour Jean-Paul II)</em></li><li>
+      97e, 2e session <em>(pour le Congrès des États-Unis, 97e, 2e session)</em></li></ul>"
+    dates: Rendez-vous
+    dates_tooltip: "<p>Utilisez ce champ pour l'alignement avec les notices d'autorité
+      MARC. Ces dates, plutôt que les dates d'existence, sont ajoutées à l'entrée
+      de nom dans l'affichage.</p><p> Dates d'existence de l'entité nommée.</p><p>
+      Exemples:<p><ul><li> 1886-1961 <em>(pour HD, Hilda Doolittle, 1886-1961)</em></li></ul>"
+    use_dates: Dates d'utilisation
+    use_dates_tooltip: "<p>Dates auxquelles ce nom a été utilisé pour l'agent.</p>"
+    parallel_names_tooltip: "<p>Peut être utilisé pour enregistrer une forme parallèle
+      du nom dans différentes langues et / ou scripts ou formes translittérées du
+      nom.</p>"
+    qualifier: Qualificatif
+    qualifier_tooltip: "<p>Un terme ou une phrase pour distinguer deux formes de nom
+      identiques à tous les autres égards mais identifiant deux entités différentes.
+      Le terme peut être une date, un lieu ou tout autre descripteur approprié.</p><p>
+      Exemples:</p><ul><li> Fleuristes <em>(pour la famille Smith (fleuristes))</em>
+      )</li><li> Bronx, New York, NY <em>(pour l'église St.James (Bronx, New York,
+      NY))</em></li></ul>"
+    sort_name: Nom du tri
+    sort_name_tooltip: <p>Une version du nom concaténant toutes les parties du nom
+      fournies dans un enregistrement d'agent donné. Utilisé à des fins d'affichage
+      dans l'application et pour certaines exportations.</p><p> Le nom du tri peut
+      être modifié en décochant la case "Générer automatiquement" puis en saisissant
+      la forme du nom de tri souhaité.</p>
+    authorized: Autorisé
+    is_display_name: Afficher un nom
+    language: Langue
+    language_tooltip: "<p>Indique la langue utilisée pour enregistrer la forme du
+      nom. Exemple: russe (pour Каспаров, Г. К. (Гарри Кимович))</p>"
+    script: Scénario
+    script_tooltip: "<p>Indique le script utilisé pour enregistrer la forme du nom.
+      Exemple: cyrillique (pour Каспаров, Г. К. (Гарри Кимович))</p>"
+    transliteration: Translitération
+    transliteration_tooltip: "<p>Indique le schéma de translittération utilisé pour
+      enregistrer la forme du nom.</p>"
+    _singular: Formulaire de nom
+    _plural: Formulaires de nom
+    family_name: Nom de famille
+    family_name_tooltip: "<p>Le nom de famille, ou nom de famille, d'une famille,
+      généralement complété par le terme «famille».</p>"
+    family_type: Type de famille
+    family_type_tooltip: "<p>Type de famille utilisé comme qualificatif pour distinguer
+      les entrées de nom similaires. Exemples: famille, dynastie, maison royale.</p>"
+    location: Emplacement
+    location_tooltip: "<p>Emplacement utilisé comme qualificatif pour distinguer les
+      entrées de nom similaires. Exemples: Trigg County, Ky. (Pour Cunningham (Family:
+      1795-: Trigg County, Ky.)), Ambassade du Canada, Tokyo (pour la Conférence de
+      jumelage Canada-Japon (1991: Ambassade du Canada, Tokyo))</p>"
+
+  parallel_name_corporate_entity:
+    authority_id: ID d'autorité
+    authority_id_tooltip: "<p>L'identifiant unique du formulaire de nom d'un agent
+      au sein de la source à partir de laquelle il a été acquis (c'est-à-dire un identifiant
+      d'enregistrement MADS ou un identifiant d'enregistrement EAC). L'identifiant
+      peut être représenté par un URI.</p><p> Voir DACS 13.2</p><p> Exemples:</p><ul><li>
+      nr92045078 <em>pour un en-tête de nom LCNAF</em></li><li> 500115393 <em>pour
+      un en-tête de nom ULAN</em></li><li> http://viaf.org/viaf/134138653 <em>pour
+      un en-tête de nom VIAF</em></ul>"
+    source: La source
+    source_tooltip: "<p>CHAMP CONDITIONNELLEMENT REQUIS, si les règles de nom ne sont
+      pas utilisées. Un indicateur de la source faisant autorité à partir de laquelle
+      le nom a été tiré.</p><p> Les valeurs de cette liste de valeurs contrôlées peuvent
+      être modifiées.</p>"
+    rules: Des règles
+    rules_tooltip: "<p>CHAMP CONDITIONNELLEMENT REQUIS, si la source de nom n'est
+      pas utilisée. Une indication des règles utilisées pour formuler l'entrée de
+      nom.</p><p> Les valeurs de cette liste de valeurs contrôlées peuvent être modifiées.</p>"
+    name_order: Ordre des noms
+    name_order_tooltip: "<p>Indique si la forme du nom doit être affichée dans l'ordre
+      inversé (nom, prénom) ou dans l'ordre direct (prénom nom).</p>"
+    prefix: Préfixe
+    prefix_tooltip: "<p>Tout terme associé à un nom qui, en usage normatif, précéderait
+      le nom entier.</p><p> Exemples:</p><ul><li> Mme.</li></ul>"
+    title: Titre
+    title_tooltip: "<p>Un titre qui fait partie du nom.</p><p> Exemples:</p><ul><li>
+      Sir <em>(pour Churchill, Winston, Sir, 1874-1965)</em></li><li> Chief (pour
+      Black Foot, Chief, décédé en 1877)</li><li> Empereur d'Orient <em>(pour Jean
+      II Comnène. Empereur d'Orient.)</em></li></ul>"
+    primary_name: Partie principale du nom
+    primary_name_tooltip: "<p>La partie principale d'une forme de nom (par exemple
+      un nom de famille ou un nom de famille d'une personne).</p><p> Exemples:</p><ul><li>
+      Churchill <em>(pour Churchill, Winston, Sir, 1874-1965 [personne])</em><li>
+      Black Foot <em>(pour Black Foot, Chief, décédé en 1877 [personne])</em></li><li>
+      Machines de bureau internationales <em>(pour machines de bureau internationales.
+      Division de la microélectronique [entité commerciale])</em></li></ul>"
+    rest_of_name: Reste du nom
+    rest_of_name_tooltip: "<p>L'élément ou le prénom du prénom et les noms supplémentaires,
+      par exemple, les prénoms, pour la personne nommée dans l'enregistrement.</p><p>
+      Exemples:</p><ul><li> Winston <em>(pour Churchill, Winston, Sir, 1874-1965)</em></li><li>
+      Humphrey <em>(pour Ward, Humphrey, Mrs., 1851-1920)</em></li></ul>"
+    suffix: Suffixe
+    suffix_tooltip: "<p>Un terme qui suit un nom qui qualifie le nom mais qui n'est
+      pas un titre.</p><p> Exemples</p><ul><li> Jr.</li><li> fils</li></ul>"
+    fuller_form: Forme plus complète
+    fuller_form_tooltip: "<p>La forme la plus complète des prénoms et des seconds
+      prénoms, lorsqu'ils sont abrégés.</p><p> Exemples</p><ul><li> Hilda Doolittle
+      <em>(pour HD, Hilda Doolittle, 1886-1961)</em></li></ul>"
+    number: Numéro
+    number_tooltip: "<p>Un nombre, parfois avec un terme, qui qualifie le nom. Pour
+      les noms personnels, souvent un chiffre romain ou un chiffre romain et une partie
+      ultérieure d'un prénom. Pour les dénominations sociales, le numéro d'une partie
+      / section ou réunion.</p><p> Exemples:</p><ul><li> II Comnenus <em>(pour Jean
+      II Comnenus, Empereur d'Orient</em> / li><li> II <em>(pour Jean-Paul II)</em></li><li>
+      97e, 2e session <em>(pour le Congrès des États-Unis, 97e, 2e session)</em></li></ul>"
+    dates: Rendez-vous
+    dates_tooltip: "<p>Utilisez ce champ pour l'alignement avec les notices d'autorité
+      MARC. Ces dates, plutôt que les dates d'existence, sont ajoutées à l'entrée
+      de nom dans l'affichage.</p><p> Dates d'existence de l'entité nommée.</p><p>
+      Exemples:<p><ul><li> 1886-1961 <em>(pour HD, Hilda Doolittle, 1886-1961)</em></li></ul>"
+    use_dates: Dates d'utilisation
+    use_dates_tooltip: "<p>Dates auxquelles ce nom a été utilisé pour l'agent.</p>"
+    parallel_names_tooltip: "<p>Peut être utilisé pour enregistrer une forme parallèle
+      du nom dans différentes langues et / ou scripts ou formes translittérées du
+      nom.</p>"
+    qualifier: Qualificatif
+    qualifier_tooltip: "<p>Un terme ou une phrase pour distinguer deux formes de nom
+      identiques à tous les autres égards mais identifiant deux entités différentes.
+      Le terme peut être une date, un lieu ou tout autre descripteur approprié.</p><p>
+      Exemples:</p><ul><li> Fleuristes <em>(pour la famille Smith (fleuristes))</em>
+      )</li><li> Bronx, New York, NY <em>(pour l'église St.James (Bronx, New York,
+      NY))</em></li></ul>"
+    sort_name: Nom du tri
+    sort_name_tooltip: <p>Une version du nom concaténant toutes les parties du nom
+      fournies dans un enregistrement d'agent donné. Utilisé à des fins d'affichage
+      dans l'application et pour certaines exportations.</p><p> Le nom du tri peut
+      être modifié en décochant la case "Générer automatiquement" puis en saisissant
+      la forme du nom de tri souhaité.</p>
+    authorized: Autorisé
+    is_display_name: Afficher un nom
+    language: Langue
+    language_tooltip: "<p>Indique la langue utilisée pour enregistrer la forme du
+      nom. Exemple: russe (pour Каспаров, Г. К. (Гарри Кимович))</p>"
+    script: Scénario
+    script_tooltip: "<p>Indique le script utilisé pour enregistrer la forme du nom.
+      Exemple: cyrillique (pour Каспаров, Г. К. (Гарри Кимович))</p>"
+    transliteration: Translitération
+    transliteration_tooltip: "<p>Indique le schéma de translittération utilisé pour
+      enregistrer la forme du nom.</p>"
+    _singular: Formulaire de nom
+    _plural: Formulaires de nom
+    subordinate_name_1: Nom subordonné 1
+    subordinate_name_1_tooltip: "<p>Une unité hiérarchique avec l'entité corporative
+      nommée dans le champ Nom principal.</p><p> Exemples</p><ul><li> Division Microélectronique
+      <em>(pour International Business Machines. Division Microélectronique)</em></li></ul>"
+    subordinate_name_2: Nom subordonné 2
+    subordinate_name_2_tooltip: "<p>Une unité hiérarchique avec l'entité corporative
+      nommée dans le champ Nom principal et inférieure à l'unité nommée dans le champ
+      Nom subordonné 1.</p>"
+    jurisdiction: Juridiction?
+    jurisdiction_tooltip: "<p>Indique si l'entité est une entrée de nom de juridiction
+      légale.</p>"
+    conference_meeting: Conférence?
+    conference_meeting_tooltip: "<p>Indique si l'entité est une personne morale standard
+      ou est une conférence, une réunion ou un autre événement nommé.</p>"
+    location: Emplacement
+    location_tooltip: "<p>Emplacement utilisé comme qualificatif pour distinguer les
+      entrées de nom similaires. Exemples: Trigg County, Ky. (Pour Cunningham (Family:
+      1795-: Trigg County, Ky.)), Ambassade du Canada, Tokyo (pour la Conférence de
+      jumelage Canada-Japon (1991: Ambassade du Canada, Tokyo))</p>"
+      
+  parallel_name_software:
+    authority_id: ID d'autorité
+    authority_id_tooltip: "<p>L'identifiant unique du formulaire de nom d'un agent
+      au sein de la source à partir de laquelle il a été acquis (c'est-à-dire un identifiant
+      d'enregistrement MADS ou un identifiant d'enregistrement EAC). L'identifiant
+      peut être représenté par un URI.</p><p> Voir DACS 13.2</p><p> Exemples:</p><ul><li>
+      nr92045078 <em>pour un en-tête de nom LCNAF</em></li><li> 500115393 <em>pour
+      un en-tête de nom ULAN</em></li><li> http://viaf.org/viaf/134138653 <em>pour
+      un en-tête de nom VIAF</em></ul>"
+    source: La source
+    source_tooltip: "<p>CHAMP CONDITIONNELLEMENT REQUIS, si les règles de nom ne sont
+      pas utilisées. Un indicateur de la source faisant autorité à partir de laquelle
+      le nom a été tiré.</p><p> Les valeurs de cette liste de valeurs contrôlées peuvent
+      être modifiées.</p>"
+    rules: Des règles
+    rules_tooltip: "<p>CHAMP CONDITIONNELLEMENT REQUIS, si la source de nom n'est
+      pas utilisée. Une indication des règles utilisées pour formuler l'entrée de
+      nom.</p><p> Les valeurs de cette liste de valeurs contrôlées peuvent être modifiées.</p>"
+    name_order: Ordre des noms
+    name_order_tooltip: "<p>Indique si la forme du nom doit être affichée dans l'ordre
+      inversé (nom, prénom) ou dans l'ordre direct (prénom nom).</p>"
+    prefix: Préfixe
+    prefix_tooltip: "<p>Tout terme associé à un nom qui, en usage normatif, précéderait
+      le nom entier.</p><p> Exemples:</p><ul><li> Mme.</li></ul>"
+    title: Titre
+    title_tooltip: "<p>Un titre qui fait partie du nom.</p><p> Exemples:</p><ul><li>
+      Sir <em>(pour Churchill, Winston, Sir, 1874-1965)</em></li><li> Chief (pour
+      Black Foot, Chief, décédé en 1877)</li><li> Empereur d'Orient <em>(pour Jean
+      II Comnène. Empereur d'Orient.)</em></li></ul>"
+    primary_name: Partie principale du nom
+    primary_name_tooltip: "<p>La partie principale d'une forme de nom (par exemple
+      un nom de famille ou un nom de famille d'une personne).</p><p> Exemples:</p><ul><li>
+      Churchill <em>(pour Churchill, Winston, Sir, 1874-1965 [personne])</em><li>
+      Black Foot <em>(pour Black Foot, Chief, décédé en 1877 [personne])</em></li><li>
+      Machines de bureau internationales <em>(pour machines de bureau internationales.
+      Division de la microélectronique [entité commerciale])</em></li></ul>"
+    rest_of_name: Reste du nom
+    rest_of_name_tooltip: "<p>L'élément ou le prénom du prénom et les noms supplémentaires,
+      par exemple, les prénoms, pour la personne nommée dans l'enregistrement.</p><p>
+      Exemples:</p><ul><li> Winston <em>(pour Churchill, Winston, Sir, 1874-1965)</em></li><li>
+      Humphrey <em>(pour Ward, Humphrey, Mrs., 1851-1920)</em></li></ul>"
+    suffix: Suffixe
+    suffix_tooltip: "<p>Un terme qui suit un nom qui qualifie le nom mais qui n'est
+      pas un titre.</p><p> Exemples</p><ul><li> Jr.</li><li> fils</li></ul>"
+    fuller_form: Forme plus complète
+    fuller_form_tooltip: "<p>La forme la plus complète des prénoms et des seconds
+      prénoms, lorsqu'ils sont abrégés.</p><p> Exemples</p><ul><li> Hilda Doolittle
+      <em>(pour HD, Hilda Doolittle, 1886-1961)</em></li></ul>"
+    number: Numéro
+    number_tooltip: "<p>Un nombre, parfois avec un terme, qui qualifie le nom. Pour
+      les noms personnels, souvent un chiffre romain ou un chiffre romain et une partie
+      ultérieure d'un prénom. Pour les dénominations sociales, le numéro d'une partie
+      / section ou réunion.</p><p> Exemples:</p><ul><li> II Comnenus <em>(pour Jean
+      II Comnenus, Empereur d'Orient</em> / li><li> II <em>(pour Jean-Paul II)</em></li><li>
+      97e, 2e session <em>(pour le Congrès des États-Unis, 97e, 2e session)</em></li></ul>"
+    dates: Rendez-vous
+    dates_tooltip: "<p>Utilisez ce champ pour l'alignement avec les notices d'autorité
+      MARC. Ces dates, plutôt que les dates d'existence, sont ajoutées à l'entrée
+      de nom dans l'affichage.</p><p> Dates d'existence de l'entité nommée.</p><p>
+      Exemples:<p><ul><li> 1886-1961 <em>(pour HD, Hilda Doolittle, 1886-1961)</em></li></ul>"
+    use_dates: Dates d'utilisation
+    use_dates_tooltip: "<p>Dates auxquelles ce nom a été utilisé pour l'agent.</p>"
+    parallel_names_tooltip: "<p>Peut être utilisé pour enregistrer une forme parallèle
+      du nom dans différentes langues et / ou scripts ou formes translittérées du
+      nom.</p>"
+    qualifier: Qualificatif
+    qualifier_tooltip: "<p>Un terme ou une phrase pour distinguer deux formes de nom
+      identiques à tous les autres égards mais identifiant deux entités différentes.
+      Le terme peut être une date, un lieu ou tout autre descripteur approprié.</p><p>
+      Exemples:</p><ul><li> Fleuristes <em>(pour la famille Smith (fleuristes))</em>
+      )</li><li> Bronx, New York, NY <em>(pour l'église St.James (Bronx, New York,
+      NY))</em></li></ul>"
+    sort_name: Nom du tri
+    sort_name_tooltip: <p>Une version du nom concaténant toutes les parties du nom
+      fournies dans un enregistrement d'agent donné. Utilisé à des fins d'affichage
+      dans l'application et pour certaines exportations.</p><p> Le nom du tri peut
+      être modifié en décochant la case "Générer automatiquement" puis en saisissant
+      la forme du nom de tri souhaité.</p>
+    authorized: Autorisé
+    is_display_name: Afficher un nom
+    language: Langue
+    language_tooltip: "<p>Indique la langue utilisée pour enregistrer la forme du
+      nom. Exemple: russe (pour Каспаров, Г. К. (Гарри Кимович))</p>"
+    script: Scénario
+    script_tooltip: "<p>Indique le script utilisé pour enregistrer la forme du nom.
+      Exemple: cyrillique (pour Каспаров, Г. К. (Гарри Кимович))</p>"
+    transliteration: Translitération
+    transliteration_tooltip: "<p>Indique le schéma de translittération utilisé pour
+      enregistrer la forme du nom.</p>"
+    _singular: Formulaire de nom
+    _plural: Formulaires de nom
+    software_name: Nom du logiciel
+    software_name_tooltip: "<p>Le nom d'un progiciel.</p><p> Exemples:</p><ul><li>
+      Photoshop <em>(pour Adobe Photoshop CS3)</em></li><li> Bagger <em>(pour Library
+      of Congress Bagger 2.1.2)</em></li></ul>"
+    version: Version
+    version_tooltip: "<p>Le numéro de version ou un autre indicateur pour une version
+      spécifique d'un progiciel.</p><p> Exemples</p><ul><li> CS3 <em>(pour Adobe Photoshop
+      CS3)</em></li><li> 2.1.2 <em>(pour Library of Congress Bagger 2.1.2)</em></li></ul>"
+    manufacturer: Fabricant
+    manufacturer_tooltip: "<p>Le fabricant, le créateur ou toute autre partie responsable
+      de la distribution, du développement ou de la maintenance d'un progiciel.</p><p>
+      Exemples</p><ul><li> Adobe <em>(pour Adobe Photoshop CS3)</em></li><li> Library
+      of Congress <em>(pour Library of Congress Bagger 2.1.2)</em></li></ul>"     
+
+  agent_record_identifiers:
+    identifier_type_tooltip: "<p>Indique le type ou le format de l'identifiant de
+      la notice d'autorité. Les valeurs de cette liste de valeurs contrôlées peuvent
+      être modifiées.</p>"
+    source_tooltip: "<p>Indique le fichier d'autorité d'origine d'un identifiant associé.
+      Exemple: NAF (pour nr2003017069). Les valeurs de cette liste de valeurs contrôlées
+      peuvent être modifiées.</p>"
+    record_identifier_tooltip: "<p>Identificateur de l'enregistrement Agent, généralement
+      constitué d'une chaîne alphanumérique unique. L'identifiant peut provenir d'un
+      fichier d'autorité externe ou être généré localement.</p>"
+    is_primary: Primaire
+    
+  agent_record_control:
+    maintenance_status_tooltip: "<p>Indique l'état actuel de l'enregistrement.</p>"
+    publication_status_tooltip: "<p>Indique si un enregistrement d'agent doit être
+      accessible au public.</p>"
+    romanization_tooltip: "<p>Indique si la forme de nom autorisée a été romanisée
+      à partir d'une écriture non latine et le type de schéma de romanisation. Exemple:
+      Bibliothèque nationale ou norme d'agence bibliographique (pour ALA-LC Romanization
+      Table (par exemple, Kasparov, GK (Garri Kimovich) pour Каспаров, Г. К. (Гарри
+      Кимович)).</p>"
+    government_agency_type_tooltip: "<p>Indique le type d'agence ou de juridiction
+      représenté par le formulaire de nom autorisé.</p>"
+    reference_evaluation_tooltip: "<p>Indique le niveau de cohérence entre le formulaire
+      de nom autorisé et les autres formes de nom dans l'enregistrement Agent. Lorsqu'il
+      n'y a pas de formulaires supplémentaires, le champ doit être enregistré comme
+      «Sans objet».</p>"
+    name_type_tooltip: "<p>Indique l'unicité du formulaire de nom autorisé dans le
+      module Agents. Les entrées de nom uniques doivent être enregistrées comme «différenciées»,
+      tandis que les enregistrements d'agents utilisés pour rassembler plusieurs agents
+      avec des noms identiques doivent être marquées comme «indifférenciées».</p>"
+    level_of_detail_tooltip: "<p>Indique l'exhaustivité de l'enregistrement de l'agent
+      conformément aux exigences consortiales ou locales.</p>"
+    modified_record_tooltip: "<p>Indique si un enregistrement d'agent a été modifié
+      et comment il a été modifié.</p>"
+    cataloging_source_tooltip: "<p>Indique l'origine d'un enregistrement d'agent.
+      Les notices produites localement qui ne sont pas soumises à un programme de
+      catalogage coopératif doivent être enregistrées comme «Autre».</p>"
+    maintenance_agency_tooltip: "<p>Valeur de code pour l'agence ou l'organisation
+      responsable de la création ou de la gestion d'un enregistrement d'agent. La
+      valeur du code doit être extraite d'un registre et enregistrée selon les conventions
+      ISO 15511. Exemple: US-UPB (pour l'Université Brigham Young, en utilisant le
+      code d'organisation MARC de la Bibliothèque du Congrès).</p>"
+    agency_name_tooltip: "<p>Le nom de l'agence ou de l'organisation responsable de
+      la création ou de la gestion d'un enregistrement d'agent. Le nom enregistré
+      doit correspondre à la forme de nom associée à la valeur de code dans le registre.
+      Exemple: Université Brigham Young, Bibliothèque Harold B. Lee (pour la valeur
+      de code UPB, en utilisant le code d'organisation MARC de la Bibliothèque du
+      Congrès).</p>"
+    maintenance_agency_note_tooltip: "<p>Le contenu de la note, fournissant des détails
+      sur l'agence de maintenance responsable de la description de l'agent.</p>"
+    language_tooltip: "<p>La langue utilisée dans la préparation de la description
+      de l'agent. Exemple: anglais.</p>"
+    script_tooltip: "<p>Le script de texte utilisé dans la préparation de la description
+      de l'agent. Exemple: latin.</p>"
+    language_note_tooltip: "<p>Le contenu de la note, fournissant des détails sur
+      la langue et les scripts utilisés dans la préparation de la description de l'agent.</p>"
+
+  agent_alternate_set:
+    set_component_tooltip: "<p>Une légende pour fournir l'identification et l'accès
+      à une notice d'autorité liée équivalente.</p>"
+    descriptive_note_tooltip: "<p>Le contenu de la note, fournissant des détails sur
+      la notice d'autorité liée.</p>"
+    file_uri_tooltip: "<p>Un URI pour un enregistrement équivalent dans un fichier
+      d'autorité externe. Exemple: http://id.loc.gov/authorities/names/n80060393 (pour
+      Library of Congress Linked Data Serviceentry pour Robert W. Service).</p>"
+    file_version_xlink_actuate_attribute_tooltip: "<p>Indique si l'URI associé doit
+      être résolu lors du rendu de l'enregistrement de l'agent.</p>"
+    file_version_xlink_show_attribute_tooltip: "<p>Indique où la ressource distante
+      liée dans l'URI associé doit être rendue.</p>"
+    xlink_title_attribute_tooltip: "<p>Titre des ressources distantes liées dans l'URI
+      associé, qui peut être utilisé comme légende.</p>"
+    xlink_role_attribute_tooltip: "<p>Type ou nature de la ressource distante liée
+      dans l'URI associé.</p>"
+    xlink_arcrole_attribute_tooltip: "<p>Type ou nature de la ressource distante liée
+      dans l'URI associé.</p>"
+    last_verified_date_tooltip: "<p>Dernière date ou date et heure auxquelles la ressource
+      liée liée dans l'URI associé a été vérifiée.</p>"
+
+  agent_conventions_declaration:
+    name_rule_tooltip: "<p>Une norme de contenu utilisée dans la formulation du contenu
+      de l'enregistrement de l'agent. Exemple: Décrire les archives: une norme de
+      contenu.</p>"
+    citation_tooltip: "<p>Citation bibliographique d'une convention utilisée dans
+      la formulation du contenu de l'enregistrement de l'agent. Exemple: Society of
+      American Archivists. Décrire les archives: une norme de contenu (Chicago: Society
+      of American Archivists, 2013).</p>"
+    descriptive_note_tooltip: "<p>Le contenu de la note, fournissant des détails sur
+      la convention, a été utilisé dans la préparation de la description de l'agent.
+      Exemple: utilisé pour formuler le contenu de la note d'histoire biographique.
+      (pour la description des archives: une norme de contenu).</p>"
+    file_uri_tooltip: "<p>Un URI pour l'emplacement en ligne de la convention utilisée
+      dans la préparation de la description de l'agent. Exemple: http://www2.archivists.org/standards/DACS/
+      (pour Describing Archives: A Content Standard).</p>"
+    file_version_xlink_actuate_attribute_tooltip: "<p>Indique si l'URI associé doit
+      être résolu lors du rendu de l'enregistrement de l'agent.</p>"
+    file_version_xlink_show_attribute_tooltip: "<p>Indique où la ressource distante
+      liée dans l'URI associé doit être rendue.</p>"
+    xlink_title_attribute_tooltip: "<p>Titre des ressources distantes liées dans l'URI
+      associé, qui peut être utilisé comme légende.</p>"
+    xlink_role_attribute_tooltip: "<p>Type ou nature de la ressource distante liée
+      dans l'URI associé.</p>"
+    xlink_arcrole_attribute_tooltip: "<p>Type ou nature de la ressource distante liée
+      dans l'URI associé.</p>"
+    last_verified_date_tooltip: "<p>Dernière date ou date et heure auxquelles la ressource
+      liée liée dans l'URI associé a été vérifiée.</p>"
+
+  agent_other_agency_codes:
+    agency_code_type_tooltip: "<p>La source du code de l'agence de maintenance. Exemple:
+      OCLC.</p>"
+    maintenance_agency_tooltip: "<p>Valeurs de code alternatives pour l'agence ou
+      l'organisation responsable de la création ou de la gestion d'un enregistrement
+      d'agent. La valeur du code doit être extraite d'un registre et enregistrée selon
+      les conventions ISO 15511. Exemple: OCLC-UBY (pour les États-Unis, Brigham Young
+      University, en utilisant le symbole OCLC).</p>"
+
+  agent_maintenance_histories:
+    maintenance_event_type_tooltip: "<p>Indique le type d'événement de maintenance.</p>"
+    maintenance_agent_type_tooltip: "<p>Indique si l'événement de maintenance a été
+      effectué par une personne ou par un système logiciel.</p>"
+    agent_tooltip: "<p>Nom de la personne, de l'agence ou du logiciel responsable
+      de l'événement de maintenance.</p>"
+    event_date_tooltip: "<p>Horodatage de l'enregistrement de l'événement de maintenance.</p>"
+    descriptive_note_tooltip: "<p>Le contenu de la note, fournissant des détails sur
+      la maintenance effectuée.</p>"
+
+  agent_sources:
+    source_entry_tooltip: "<p>Citation bibliographique d'une source utilisée dans
+      la formulation du contenu de l'enregistrement de l'agent. Exemple: Lockhart,
+      GW Sur les traces de Robert Service (Édimbourg: Luath Press, 1991).</p>"
+    descriptive_note_tooltip: "<p>Le contenu de la note, fournissant des détails sur
+      le contenu des sources utilisées dans la préparation de la description de l'agent.</p>"
+    file_uri_tooltip: "<p>Un URI pour l'emplacement en ligne de la source utilisée
+      dans la préparation de la description de l'agent. Exemple: http://www.findagrave.com/cgi-bin/fg.cgi?page=gr&GRid=8373
+      (pour l'entrée Find-A-Grave pour Robert W. Service).</p>"
+    file_version_xlink_actuate_attribute_tooltip: "<p>Indique si l'URI associé doit
+      être résolu lors du rendu de l'enregistrement de l'agent.</p>"
+    file_version_xlink_show_attribute_tooltip: "<p>Indique où la ressource distante
+      liée dans l'URI associé doit être rendue.</p>"
+    xlink_title_attribute_tooltip: "<p>Titre des ressources distantes liées dans l'URI
+      associé, qui peut être utilisé comme légende.</p>"
+    xlink_role_attribute_tooltip: "<p>Type ou nature de la ressource distante liée
+      dans l'URI associé.</p>"
+    xlink_arcrole_attribute_tooltip: "<p>Type ou nature de la ressource distante liée
+      dans l'URI associé.</p>"
+    last_verified_date_tooltip: "<p>Dernière date ou date et heure auxquelles la ressource
+      liée liée dans l'URI associé a été vérifiée.</p>"
+
+  agent_identifiers:
+    entity_identifier_tooltip: "<p>Enregistre les identifiants associés à une entité,
+      tels que les identifiants légaux attribués par une agence faisant autorité.</p>"
+    identifier_type_tooltip: "<p>Indique le type ou la source de l'identifiant d'entité
+      enregistré.</p>"
+
+  used_language:
+    language_tooltip: "<p>La ou les langues associées à l'agent. Exemple: anglais.</p>"
+    script_tooltip: "<p>Le script de texte associé à l'agent. Exemple: latin.</p>"
+
+  agent_gender:
+    gender_tooltip: "<p>Sexe du sujet.</p></br><p> Les valeurs de cette liste peuvent
+      être ajoutées ou modifiées via le menu Système -> Gérer les listes de valeurs
+      contrôlées.</p>"
+
+  agent_place:
+    place_role_tooltip: "<p>Indique la relation entre l'emplacement géographique et
+      l'agent.</p>"
+
+  agent_resource:
+    linked_agent_role_tooltip: "<p>CHAMP REQUIS: Le type de relation d'entité décrite
+      avec la ressource.</p>"
+    linked_resource_tooltip: "<p>Une ressource liée à l'agent / l'entité.</p>"
+    linked_resource_description_tooltip: "<p>Champ de texte libre pour enregistrer
+      des informations bibliographiques, des informations de collection associées,
+      etc.</p>"
+    file_uri_tooltip: "<p>Un URI pour l'emplacement en ligne de la source utilisée
+      dans la préparation de la description de l'agent. Exemple: http://www.findagrave.com/cgi-bin/fg.cgi?page=gr&GRid=8373
+      (pour l'entrée Find-A-Grave pour Robert W. Service).</p>"
+    file_version_xlink_actuate_attribute_tooltip: "<p>Indique si l'URI associé doit
+      être résolu lors du rendu de l'enregistrement de l'agent.</p>"
+    file_version_xlink_show_attribute_tooltip: "<p>Indique où la ressource distante
+      liée dans l'URI associé doit être rendue.</p>"
+    xlink_title_attribute_tooltip: "<p>Titre des ressources distantes liées dans l'URI
+      associé, qui peut être utilisé comme légende.</p>"
+    xlink_role_attribute_tooltip: "<p>Type ou nature de la ressource distante liée
+      dans l'URI associé.</p>"
+    xlink_arcrole_attribute_tooltip: "<p>Type ou nature de la ressource distante liée
+      dans l'URI associé.</p>"
+    last_verified_date_tooltip: "<p>Dernière date ou date et heure auxquelles la ressource
+      liée liée dans l'URI associé a été vérifiée.</p>"
+
+  subrecord_subject_agent_place:
+    subjects_tooltip: "<p>Un emplacement géographique associé à l'agent.</p>"
+  subrecord_subject_agent_occupation:
+    subjects_tooltip: "<p>L'occupation de l'agent.</p>"
+
+  subrecord_subject_agent_occupation_place:
+    places_tooltip: "<p>Un emplacement géographique associé aux professions.</p>"
+
+  subrecord_subject_agent_function:
+    subjects_tooltip: "<p>Termes utilisés pour identifier les fonctions, processus,
+      tâches, activités ou transactions effectuées par l'agent.</p>"
+
+  subrecord_subject_agent_function_place:
+    places_tooltip: "<p>Un emplacement géographique associé aux fonctions.</p>"
+
+  subrecord_subject_agent_topic:
+    subjects_tooltip: "<p>Un sujet associé à l'agent.</p>"
+
+  subrecord_subject_agent_topic_place:
+    places_tooltip: "<p>Une localisation géographique associée aux sujets.</p>"
+
+  subrecord_subject_agent_resource_place:
+    places_tooltip: "<p>Un emplacement géographique associé à la ressource liée.</p>"
+
+  structured_date_label:
+    date_label_tooltip: "<p>Décrit le type d'activité que signifie la date</p>"
+    date_type_structured_tooltip: "<p>Indique le type des informations de date, une
+      date unique ou une plage de dates.</p>"
+    date_certainty_tooltip: "<p>Le niveau de confiance pour les informations données
+      dans une déclaration de date. Ces informations sont facultatives et ne doivent
+      être ajoutées que lorsque les informations de date sont qualifiées de potentiellement
+      incertaines en fonction de la description ou des règles de catalogage utilisées.</p>"
+    date_era_tooltip: <p>Période pendant laquelle les années sont numérotées et les
+      dates calculées, comme BC ou CE La valeur "ce" est la valeur par défaut.</p>
+    date_calendar_tooltip: <p>Système de calcul du temps, tel que le calendrier grégorien
+      ou le calendrier julien. La valeur "grégorien" est la valeur par défaut.</p>
+
+  structured_date_label_existence:
+    date_label_tooltip: "<p>Décrit le type d'activité que signifie la date</p>"
+    date_type_structured_tooltip: "<p>Indique le type des informations de date, une
+      date unique ou une plage de dates.</p>"
+    date_certainty_tooltip: "<p>Le niveau de confiance pour les informations données
+      dans une déclaration de date. Ces informations sont facultatives et ne doivent
+      être ajoutées que lorsque les informations de date sont qualifiées de potentiellement
+      incertaines en fonction de la description ou des règles de catalogage utilisées.</p>"
+    date_era_tooltip: <p>Période pendant laquelle les années sont numérotées et les
+      dates calculées, comme BC ou CE La valeur "ce" est la valeur par défaut.</p>
+    date_calendar_tooltip: <p>Système de calcul du temps, tel que le calendrier grégorien
+      ou le calendrier julien. La valeur "grégorien" est la valeur par défaut.</p>
+
+  structured_date_label_common_fields:
+    date_label_tooltip: "<p>Décrit le type d'activité que signifie la date</p>"
+    date_type_structured_tooltip: "<p>Indique le type des informations de date, une
+      date unique ou une plage de dates.</p>"
+    date_certainty_tooltip: "<p>Le niveau de confiance pour les informations données
+      dans une déclaration de date. Ces informations sont facultatives et ne doivent
+      être ajoutées que lorsque les informations de date sont qualifiées de potentiellement
+      incertaines en fonction de la description ou des règles de catalogage utilisées.</p>"
+    date_era_tooltip: <p>Période pendant laquelle les années sont numérotées et les
+      dates calculées, comme BC ou CE La valeur "ce" est la valeur par défaut.</p>
+    date_calendar_tooltip: <p>Système de calcul du temps, tel que le calendrier grégorien
+      ou le calendrier julien. La valeur "grégorien" est la valeur par défaut.</p>
+
+  structured_date_single:
+    date_role_tooltip: "<p>Pour une seule date, utilisé pour indiquer si la date doit
+      être comprise comme une date de début ou une date de fin. La valeur par défaut
+      est Begin.</p>"
+    date_expression_tooltip: "<p>Une expression en langage naturel spécifiant la date
+      ou la plage de dates. Requis lorsqu'une date normalisée n'est pas enregistrée.</p>"
+    date_standardized_tooltip: "<p>Une expression en langage naturel spécifiant la
+      date ou la plage de dates. Requis lorsqu'une date normalisée n'est pas enregistrée.</p>"
+    date_standardized_type_tooltip: "<p>Utilisé pour indiquer si la date normalisée
+      reflète la date réelle ou une estimation du premier ou du dernier événement
+      qui aurait pu se produire.</p>"
+
+  structured_date_range:
+    begin_date_expression_tooltip: "<p>Une expression en langage naturel spécifiant
+      le début d'une plage de dates. Requis lorsqu'une date normalisée n'est pas enregistrée.</p>"
+    begin_date_standardized_tooltip: "<p>Une date (au format AAAA, AAAA-MM ou AAAA-MM-JJ)
+      représentant une seule date ou la première date d'une plage de dates.</p>"
+    begin_date_standardized_type_tooltip: "<p>Utilisé pour indiquer si la date normalisée
+      de début reflète la date réelle ou une estimation du premier ou du dernier événement
+      qui aurait pu se produire.</p>"
+    end_date_expression_tooltip: "<p>Une expression en langage naturel spécifiant
+      la fin d'une plage de dates. Requis lorsqu'une date normalisée n'est pas enregistrée.</p>"
+    end_date_standardized_tooltip: "<p>Une date (au format AAAA, AAAA-MM ou AAAA-MM-JJ)
+      représentant la dernière date d'une plage de dates.</p>"
+    end_date_standardized_type_tooltip: "<p>Utilisé pour indiquer si la date normalisée
+      de fin reflète la date réelle ou une estimation du premier ou du dernier événement
+      qui aurait pu se produire.</p>"
+
+  structured_date_single_fields:
+    date_role_tooltip: "<p>Pour une seule date, utilisé pour indiquer si la date doit
+      être comprise comme une date de début ou une date de fin. La valeur par défaut
+      est Begin.</p>"
+    date_expression_tooltip: "<p>Une expression en langage naturel spécifiant la date
+      ou la plage de dates. Requis lorsqu'une date normalisée n'est pas enregistrée.</p>"
+    date_standardized_tooltip: "<p>Une expression en langage naturel spécifiant la
+      date ou la plage de dates. Requis lorsqu'une date normalisée n'est pas enregistrée.</p>"
+    date_standardized_type_tooltip: "<p>Utilisé pour indiquer si la date normalisée
+      reflète la date réelle ou une estimation du premier ou du dernier événement
+      qui aurait pu se produire.</p>"
+
+  structured_date_range_fields:
+    begin_date_expression_tooltip: "<p>Une expression en langage naturel spécifiant
+      le début d'une plage de dates. Requis lorsqu'une date normalisée n'est pas enregistrée.</p>"
+    begin_date_standardized_tooltip: "<p>Une date (au format AAAA, AAAA-MM ou AAAA-MM-JJ)
+      représentant une seule date ou la première date d'une plage de dates.</p>"
+    begin_date_standardized_type_tooltip: "<p>Utilisé pour indiquer si la date normalisée
+      de début reflète la date réelle ou une estimation du premier ou du dernier événement
+      qui aurait pu se produire.</p>"
+    end_date_expression_tooltip: "<p>Une expression en langage naturel spécifiant
+      la fin d'une plage de dates. Requis lorsqu'une date normalisée n'est pas enregistrée.</p>"
+    end_date_standardized_tooltip: "<p>Une date (au format AAAA, AAAA-MM ou AAAA-MM-JJ)
+      représentant la dernière date d'une plage de dates.</p>"
+    end_date_standardized_type_tooltip: "<p>Utilisé pour indiquer si la date normalisée
+      de fin reflète la date réelle ou une estimation du premier ou du dernier événement
+      qui aurait pu se produire.</p>"
+
+  note_contact_note:
+    label: Étiqueter
+    label_tooltip: "<p>Une étiquette ou un titre pour la note spécifique. Si aucune
+      étiquette n'est utilisée, le type de note sera utilisé comme étiquette partout
+      où c'est nécessaire.</p>"
+    persistent_id: ID persistant
+    content: Teneur
+    content_tooltip: "<p>Le contenu de la note.</p>"
+    items: Articles
+    items_singular: Article
+    item_singular: Article
+    publish: Publier?
+    publish_tooltip: "<p>Détermine si cette note aux interfaces publiques (usager).</p>"
+    title: Titre
+    title_tooltip: "<p>Un élément pour enregistrer une étiquette ou un titre spécifique
+      pour la sous-note.</p>"
+    type: Taper
+    type_tooltip: "<p>Le type de note pour le contenu. Les types de note sont utilisés
+      pour guider l'exportation du contenu des notes vers certains éléments dans des
+      formats de données spécifiques.</p>"
+    subnotes: Notes secondaires
+    date_of_contact: Date de contact
+    contact_notes: Notes de contact
+
+  related_agents:
+    relationship_type: Type de relation générale
+    relator: Type de relation directionnelle
+    specific_relator: Type de relation spécifique
+    relationship_uri: URI de relation
+    relator_tooltip: Un qualificatif spécifique qui décrit la relation.
+    description: La description
+    date: Date
+    dates: Rendez-vous
+    ref: Agent associé
+    _singular: Agent associé
+    _plural: Agents associés   
+
+  note_general_context:
+    label: Étiqueter
+    label_tooltip: "<p>Une étiquette ou un titre pour la note spécifique. Si aucune
+      étiquette n'est utilisée, le type de note sera utilisé comme étiquette partout
+      où c'est nécessaire.</p>"
+    persistent_id: ID persistant
+    content: Teneur
+    content_tooltip: "<p>Le contenu de la note.</p>"
+    items: Articles
+    items_singular: Article
+    item_singular: Article
+    publish: Publier?
+    publish_tooltip: "<p>Détermine si cette note aux interfaces publiques (usager).</p>"
+    title: Titre
+    title_tooltip: "<p>Un élément pour enregistrer une étiquette ou un titre spécifique
+      pour la sous-note.</p>"
+    type: Taper
+    type_tooltip: "<p>Le type de note pour le contenu. Les types de note sont utilisés
+      pour guider l'exportation du contenu des notes vers certains éléments dans des
+      formats de données spécifiques.</p>"
+    subnotes: Notes secondaires
+
+  note_mandate:
+    label: Étiqueter
+    label_tooltip: "<p>Une étiquette ou un titre pour la note spécifique. Si aucune
+      étiquette n'est utilisée, le type de note sera utilisé comme étiquette partout
+      où c'est nécessaire.</p>"
+    persistent_id: ID persistant
+    content: Teneur
+    content_tooltip: "<p>Le contenu de la note.</p>"
+    items: Articles
+    items_singular: Article
+    item_singular: Article
+    publish: Publier?
+    publish_tooltip: "<p>Détermine si cette note aux interfaces publiques (usager).</p>"
+    title: Titre
+    title_tooltip: "<p>Un élément pour enregistrer une étiquette ou un titre spécifique
+      pour la sous-note.</p>"
+    type: Taper
+    type_tooltip: "<p>Le type de note pour le contenu. Les types de note sont utilisés
+      pour guider l'exportation du contenu des notes vers certains éléments dans des
+      formats de données spécifiques.</p>"
+    subnotes: Notes secondaires
+
+  note_legal_status:
+    label: Étiqueter
+    label_tooltip: "<p>Une étiquette ou un titre pour la note spécifique. Si aucune
+      étiquette n'est utilisée, le type de note sera utilisé comme étiquette partout
+      où c'est nécessaire.</p>"
+    persistent_id: ID persistant
+    content: Teneur
+    content_tooltip: "<p>Le contenu de la note.</p>"
+    items: Articles
+    items_singular: Article
+    item_singular: Article
+    publish: Publier?
+    publish_tooltip: "<p>Détermine si cette note aux interfaces publiques (usager).</p>"
+    title: Titre
+    title_tooltip: "<p>Un élément pour enregistrer une étiquette ou un titre spécifique
+      pour la sous-note.</p>"
+    type: Taper
+    type_tooltip: "<p>Le type de note pour le contenu. Les types de note sont utilisés
+      pour guider l'exportation du contenu des notes vers certains éléments dans des
+      formats de données spécifiques.</p>"
+    subnotes: Notes secondaires
+
+  note_structure_or_genealogy:
+    label: Étiqueter
+    label_tooltip: "<p>Une étiquette ou un titre pour la note spécifique. Si aucune
+      étiquette n'est utilisée, le type de note sera utilisé comme étiquette partout
+      où c'est nécessaire.</p>"
+    persistent_id: ID persistant
+    content: Teneur
+    content_tooltip: "<p>Le contenu de la note.</p>"
+    items: Articles
+    items_singular: Article
+    item_singular: Article
+    publish: Publier?
+    publish_tooltip: "<p>Détermine si cette note aux interfaces publiques (usager).</p>"
+    title: Titre
+    title_tooltip: "<p>Un élément pour enregistrer une étiquette ou un titre spécifique
+      pour la sous-note.</p>"
+    type: Taper
+    type_tooltip: "<p>Le type de note pour le contenu. Les types de note sont utilisés
+      pour guider l'exportation du contenu des notes vers certains éléments dans des
+      formats de données spécifiques.</p>"
+    subnotes: Notes secondaires
+
