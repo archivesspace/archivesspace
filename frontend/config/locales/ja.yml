@@ -124,6 +124,7 @@ ja:
     rapid_data_entry: 迅速なデータ入力
     enable_reorder: 並べ替えモードを有効にする
     reorder_active: リオーダーモードを無効にする
+    copy: コピー
 
   database_warning:
     message: "<p> <strong>データベース警告：</strong>現在組み込みデータベース（Apache Derby）を使用しています。組込みデータベースは、テスト/デモ目的のみのものです。実稼働環境に移行する予定のテストインスタンス内のデータを含む、実稼働用の任意のデータにMySQLを使用する必要があります。
