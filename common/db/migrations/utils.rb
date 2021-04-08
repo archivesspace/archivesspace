@@ -148,6 +148,8 @@ def add_values_to_enum(name, values)
     end
 
     values.each_with_index do |value, ind|
+      next if self[:enumeration_value].where(enumeration_id: enum_id, value: value).any?
+
       props = { :enumeration_id => enum_id,
                 :value => value,
                 :readonly => 0 }
