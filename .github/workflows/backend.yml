@@ -3,6 +3,7 @@ name: Backend Testing
 on:
   pull_request:
     paths:
+      - '.github/workflows/backend.yml'
       - 'backend/**'
       - 'common/**'
       - 'oai/**'
@@ -18,7 +19,7 @@ jobs:
         java: [ 8, 11 ]
 
     services:
-      mysql:
+      db:
         image: mysql:8
         env:
           MYSQL_ROOT_PASSWORD: root
@@ -35,13 +36,19 @@ jobs:
       with:
         java-version: ${{ matrix.java }}
 
+    - name: Allow ArchivesSpace functions for app db user
+      env:
+        DB_PORT: ${{ job.services.db.ports[3306] }}
+      run: |
+        mysql --host 127.0.0.1 --port $DB_PORT -uroot -proot -e "SET GLOBAL log_bin_trust_function_creators = 1;"
+
     - name: Bootstrap ArchivesSpace
       run: |
         ./build/run bootstrap
 
     - name: Run Backend tests
       env:
-        ASPACE_TEST_DB_URL: jdbc:mysql://127.0.0.1:${{ job.services.mysql.ports[3306] }}/archivesspace?useUnicode=true&characterEncoding=UTF-8&user=as&password=as123&useSSL=false&allowPublicKeyRetrieval=true
+        ASPACE_TEST_DB_URL: jdbc:mysql://127.0.0.1:${{ job.services.db.ports[3306] }}/archivesspace?useUnicode=true&characterEncoding=UTF-8&user=as&password=as123&useSSL=false&allowPublicKeyRetrieval=true
       run: |
         wget -P ./common/lib https://repo1.maven.org/maven2/mysql/mysql-connector-java/8.0.23/mysql-connector-java-8.0.23.jar
         ./build/run backend:test

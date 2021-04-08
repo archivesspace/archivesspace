@@ -3,6 +3,7 @@ name: Indexer Testing
 on:
   pull_request:
     paths:
+      - '.github/workflows/indexer.yml'
       - 'indexer/**'
 
 jobs:

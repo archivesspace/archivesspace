@@ -3,6 +3,7 @@ name: Frontend Testing
 on:
   pull_request:
     paths:
+      - '.github/workflows/frontend.yml'
       - 'frontend/**'
       - 'common/**'
       - 'solr/**'
@@ -18,8 +19,8 @@ jobs:
         java: [ 8, 11 ]
 
     services:
-      mysql:
-        image: mysql:5.7
+      db:
+        image: mysql:8
         env:
           MYSQL_ROOT_PASSWORD: root
           MYSQL_DATABASE: archivesspace
@@ -35,6 +36,12 @@ jobs:
       with:
         java-version: ${{ matrix.java }}
 
+    - name: Allow ArchivesSpace functions for app db user
+      env:
+        DB_PORT: ${{ job.services.db.ports[3306] }}
+      run: |
+        mysql --host 127.0.0.1 --port $DB_PORT -uroot -proot -e "SET GLOBAL log_bin_trust_function_creators = 1;"
+
     - name: Bootstrap ArchivesSpace
       run: |
         ./build/run bootstrap
@@ -42,13 +49,13 @@ jobs:
 
     - name: Migrate ArchivesSpace DB
       env:
-        APPCONFIG_DB_URL: jdbc:mysql://127.0.0.1:${{ job.services.mysql.ports[3306] }}/archivesspace?useUnicode=true&characterEncoding=UTF-8&user=as&password=as123&useSSL=false&allowPublicKeyRetrieval=true
+        APPCONFIG_DB_URL: jdbc:mysql://127.0.0.1:${{ job.services.db.ports[3306] }}/archivesspace?useUnicode=true&characterEncoding=UTF-8&user=as&password=as123&useSSL=false&allowPublicKeyRetrieval=true
       run: |
         ./build/run db:migrate
 
     - name: Run Frontend tests
       env:
-        ASPACE_TEST_DB_URL: jdbc:mysql://127.0.0.1:${{ job.services.mysql.ports[3306] }}/archivesspace?useUnicode=true&characterEncoding=UTF-8&user=as&password=as123&useSSL=false&allowPublicKeyRetrieval=true
+        ASPACE_TEST_DB_URL: jdbc:mysql://127.0.0.1:${{ job.services.db.ports[3306] }}/archivesspace?useUnicode=true&characterEncoding=UTF-8&user=as&password=as123&useSSL=false&allowPublicKeyRetrieval=true
       run: |
         ./build/run frontend:selenium
         ./build/run frontend:test
