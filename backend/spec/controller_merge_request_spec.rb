@@ -802,5 +802,81 @@ describe 'Merge request controller' do
       expect(JSONModel(:"#{type}").find(parent2.id).instances.count).to eq(1)
       expect(JSONModel(:"#{type}").find(parent2.id).instances).not_to include(victim)
     end
+
+    it "can merge one linked, one unlinked top container without destroying victim parent record" do
+      target = create(:json_top_container)
+      victim = create(:json_top_container)
+
+      parent = create(:"json_#{type}",
+                       :instances => [build(:json_instance,
+                                         :sub_container => build(:json_sub_container,
+                                                              :indicator_2 => nil,
+                                                              :type_2 => nil,
+                                                              :indicator_3 => nil,
+                                                              :type_3 => nil,
+                                                              :top_container => { :ref => victim.uri }))])
+
+      request = JSONModel(:merge_request).new
+      request.target = { 'ref' => target.uri }
+      request.victims = [{ 'ref' => victim.uri }]
+
+      request.save(:record_type => 'top_container')
+
+      expect { JSONModel(:"#{type}").find(parent.id) }.not_to raise_error
+    end
+
+    it "can merge one linked, one unlinked top container without destroying target parent record" do
+      target = create(:json_top_container)
+      victim = create(:json_top_container)
+
+      parent = create(:"json_#{type}",
+                       :instances => [build(:json_instance,
+                                         :sub_container => build(:json_sub_container,
+                                                              :indicator_2 => nil,
+                                                              :type_2 => nil,
+                                                              :indicator_3 => nil,
+                                                              :type_3 => nil,
+                                                              :top_container => { :ref => target.uri }))])
+
+      request = JSONModel(:merge_request).new
+      request.target = { 'ref' => target.uri }
+      request.victims = [{ 'ref' => victim.uri }]
+
+      request.save(:record_type => 'top_container')
+
+      expect { JSONModel(:"#{type}").find(parent.id) }.not_to raise_error
+    end
+
+    it "can merge two linked top containers without destroying parent records" do
+      target = create(:json_top_container)
+      victim = create(:json_top_container)
+
+      parent2 = create(:"json_#{type}",
+                       :instances => [build(:json_instance,
+                                         :sub_container => build(:json_sub_container,
+                                                              :indicator_2 => nil,
+                                                              :type_2 => nil,
+                                                              :indicator_3 => nil,
+                                                              :type_3 => nil,
+                                                              :top_container => { :ref => target.uri }))])
+
+      parent1 = create(:"json_#{type}",
+                       :instances => [build(:json_instance,
+                                         :sub_container => build(:json_sub_container,
+                                                              :indicator_2 => nil,
+                                                              :type_2 => nil,
+                                                              :indicator_3 => nil,
+                                                              :type_3 => nil,
+                                                              :top_container => { :ref => victim.uri }))])
+
+      request = JSONModel(:merge_request).new
+      request.target = { 'ref' => target.uri }
+      request.victims = [{ 'ref' => victim.uri }]
+
+      request.save(:record_type => 'top_container')
+
+      expect { JSONModel(:"#{type}").find(parent1.id) }.not_to raise_error
+      expect { JSONModel(:"#{type}").find(parent2.id) }.not_to raise_error
+    end
   end
 end
