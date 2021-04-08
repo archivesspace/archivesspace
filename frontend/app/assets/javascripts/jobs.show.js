@@ -40,8 +40,11 @@ $(function() {
           var dataLength = data.length;
           $(".alert", $logSection).remove();
           $logSpool.slideDown();
-          $logSpool.append($("<div>").text(data));
-          offset +=dataLength;
+
+          if (dataLength > 0) {
+            $logSpool.append($("<div>").text(data));
+            offset +=dataLength;
+          }
 
           if (dataLength === 0) {
             // Hmm... we may have finished... or failed,
