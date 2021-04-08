@@ -404,6 +404,8 @@ ja:
     _plural: 名前
     related: 関連する名前
     creator: クリエイター
+    parallel: 並列名
+    also_known_as: 次の名前でも知られています
   record:
     _singular: 記録
     _plural: 記録
@@ -415,6 +417,7 @@ ja:
     _plural: 名前
     _public:
       section:
+        dates: 日付
         summary: 概要
         other_names: 名前フォーム
         other_names_preamble: 次の名前でも知られています。
@@ -472,3 +475,116 @@ ja:
     search: 検索にスキップする
     search_results: 検索結果にスキップする
   search_tab: 検索%{target}
+  
+  agent_function:
+    _singular: 関数
+    _plural: 機能
+  agent_gender:
+    _singular: 性別
+    _plural: 性別
+  agent_place:
+    _singular: 場所
+    _plural: 場所
+  agent_resource:
+    _singular: 関連する外部リソース
+    _plural: 関連する外部リソース
+  agent_occupation:
+    _singular: 職業
+    _plural: 職業
+  agent_topic:
+    _singular: トピック
+    _plural: トピック
+  agent_record_identifier:
+    _plural: レコードID
+    _singular: レコードID
+    _frontend:
+      action:
+        add: レコードIDを追加
+    identifier_type: 識別子の種類
+    source: ソース
+    primary_identifier: 一次識別子はありますか？
+    primary: プライマリ
+    record_identifier: レコード識別子
+    snac: ソーシャルネットワークとアーカイブコンテキスト（SNAC）識別子
+  agent_identifier:
+    _plural: エンティティID
+    _singular: 識別子
+    _frontend:
+      action:
+        add: エンティティIDを追加します
+    identifier_type: 識別子の種類
+    entity_identifier: エンティティID
+  dates_of_existence:
+    _plural: 存在日
+    _singular: 存在日
+  date_label:
+    existence: 存在
+    usage: 使用法
+  use_date:
+    _plural: 使用日
+    _singular: 使用日
+  used_language:
+    _plural: 使用される言語
+    _singular: 使用言語
+  structured_date_label:
+    date: 日付
+    date_label: ラベル
+    date_type_structured: 日付タイプ
+    date_certainty: 確実
+    date_era: 時代
+    date_calendar: カレンダー
+  structured_date_single:
+    date_role: 日付の役割
+    date_expression: 日付式
+    date_standardized: 標準化された日付
+    date_standardized_type: 標準化された日付タイプ
+  structured_date_range:
+    begin_date_expression: 開始日式
+    begin_date_standardized: 標準化された日付を開始
+    begin_date_standardized_type: 標準化された日付タイプの開始
+    end_date_expression: 終了日の式
+    end_date_standardized: 標準化された日付の終了
+    end_date_standardized_type: 標準化された日付タイプの終了
+  agent_contact:
+    name: 連絡先
+    salutation: あいさつ
+    address_1: 住所（1
+    address_2: アドレス2
+    address_3: 住所3
+    city: 市
+    region: 州/地域
+    country: 国
+    post_code: 郵便番号
+    telephone: 電話
+    telephone_ext: 内線電話
+    fax: ファックス
+    email: Eメール
+    email_signature: 電子メールの署名
+    note: 連絡先
+    telephones: 電話番号
+    _singular: 連絡先
+    _plural: 連絡先の詳細
+  telephone:
+    _plural: 電話番号
+    number_type: 番号タイプ
+    number: 数
+    ext: 内線電話
+  telephone_required:
+    _plural: 電話番号
+    number_type: 番号タイプ
+    number: 数
+    ext: 内線電話
+  agent_notes:
+    _singular: 注意
+    _plural: ノート
+    persistent_id: 永続ID
+    type: ノートタイプ
+    content: コンテンツ
+    note_citation: 引用
+    note_bioghist: バイオグラフィー
+    note_general_context: 一般的なコンテキスト
+    note_legal_status: 法的地位
+    note_mandate: 委任
+    note_structure_or_genealogy: 構造または系図
+    note_text: 注意
+
