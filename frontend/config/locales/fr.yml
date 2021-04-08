@@ -118,6 +118,7 @@ fr:
     rapid_data_entry: Saisie rapide de données
     enable_reorder: Basculer en mode réordonner
     reorder_active: Mode réordonner activé
+    copy: Copie
 
   database_warning:
     message: "<p><strong>Avertissement!</strong> Vous utilisez actuellement la base de données Apache Derby, embarquée uniquement à des fins de tests/démonstrations. Vous devriez utiliser MySQL en production, y compris pour les données en phase de test susceptibles d'être mises en production.</p>"

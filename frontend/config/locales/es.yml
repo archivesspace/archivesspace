@@ -120,6 +120,7 @@ es:
     rapid_data_entry: Entrada rápida de datos
     enable_reorder: Habilitar el modo de reorden
     reorder_active: Deshabilitar el modo de reorden
+    copy: Dupdo
 
   database_warning:
    message: "<p><strong>Advertencia de base de datos:</strong> Estas utilizando la base de datos (Apache Derby) habilitada para pruebas. Le recomendamos utilizar MySQL para sistemas en producción.</p>"
