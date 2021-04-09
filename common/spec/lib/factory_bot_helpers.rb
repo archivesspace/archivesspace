@@ -117,5 +117,5 @@ FactoryBot.define do
   sequence(:term) { |n| "Term #{n}" }
   sequence(:term_type) { sample(JSONModel(:term).schema['properties']['term_type']) }
 
-  sequence(:url) {|n| "http://www.example-#{n}.com"}
+  sequence(:url) {|n| "http://www.example-#{n}-#{Time.now.to_i}.com"}
 end
