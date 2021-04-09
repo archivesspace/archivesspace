@@ -332,7 +332,6 @@ describe 'Resources and archival objects' do
   end
 
 
-  # This guy is causing subsequent tests to fail with a missing locales file error.  Pending it until I have more time to investigate.
   it 'can have a lot of associated records that do not show in the field but are not lost' do
     subjects = []
     accessions = []
@@ -671,5 +670,27 @@ describe 'Resources and archival objects' do
     @driver.find_element(id: 'confirmButton').click
     sleep(10)
     expect(@driver.find_element(id: 'resource_publish_').attribute('checked')).to be_nil
+  end
+
+  it 'can apply and remove filters when browsing for linked agents in the linker modal' do
+    person = create(:agent_person)
+    corp = create(:agent_corporate_entity)
+
+    run_all_indexers
+    @driver.get_edit_page(@resource)
+
+    @driver.find_element(:link, "Agent Links").click
+    @driver.find_element(:css, "#resource_linked_agents_ button").click
+    @driver.find_element(:css, "#resource_linked_agents_ .linker-wrapper .input-group-btn a").click
+    @driver.find_element(:css, "#resource_linked_agents_ .linker-browse-btn").click
+    @driver.wait_for_ajax
+    expect(@driver.find_element(:css, ".linker-container").text).to match(/Filter by/)
+    @driver.find_element(:css, ".linker-container").find_element(:link, "Corporate Entity").click
+    @driver.wait_for_ajax
+    expect(@driver.find_element(:css, ".linker-container").text).to match(/Filtered By/)
+    expect(@driver.is_visible?(:css, ".linker-container .glyphicon-remove")).to be_truthy
+    @driver.find_element(:css, ".linker-container").find_element(:css, ".glyphicon-remove").click
+    @driver.wait_for_ajax
+    expect(@driver.is_visible?(:css, ".linker-container .glyphicon-remove")).to be_falsey
   end
 end

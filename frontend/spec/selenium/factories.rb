@@ -236,6 +236,13 @@ module SeleniumFactories
         used_languages { [build(:json_used_language)] }
       end
 
+      factory :agent_corporate_entity, class: JSONModel(:agent_corporate_entity) do
+        agent_type { 'agent_corporate_entity' }
+        names { [build(:json_name_corporate_entity)] }
+        agent_contacts { [build(:json_agent_contact)] }
+        dates_of_existence { [build(:json_structured_date_label)] }
+      end
+
       factory :json_agent_corporate_entity_full_subrec, class: JSONModel(:agent_corporate_entity) do
         agent_type { 'agent_corporate_entity' }
         names { [build(:json_name_corporate_entity)] }
