@@ -44,6 +44,19 @@ describe 'Date Calculator model' do
     expect(calculator.max_end).to eq('2000-05-02')
   end
 
+  it "can accept dates without leading zeros" do
+    (resource, _, _, _) = create_tree({
+                                        :resource_properties => {
+                                          :dates => [build(:json_date, :label => 'existence', :begin => '1990-1-1', :end => '2000-5-2')]
+                                        }
+                                      })
+
+    calculator = DateCalculator.new(resource)
+    expect(calculator.min_begin).to eq('1990-1-1')
+    expect(calculator.max_end).to eq('2000-5-2')
+  end
+
+
   it "can calculate the date range for a resource, all date types and a bunch of dates" do
     (resource, _, _, _) = create_tree({
                                          :resource_properties => {
