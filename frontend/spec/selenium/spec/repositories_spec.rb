@@ -24,6 +24,8 @@ describe 'Repositories' do
     @driver.click_and_wait_until_gone(css: "form#new_repository button[type='submit']")
 
     assert(5) { expect(@driver.find_element(css: 'div.alert.alert-danger').text).to eq('Repository Short Name - Property is required but was missing') }
+    # make sure we did not lose the OAI settings list
+    expect(@driver.find_elements(:css, "#oai_fields input").length).to eq 12
   end
 
   it 'can create a repository' do
