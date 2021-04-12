@@ -32,6 +32,17 @@ describe 'Managed Container restrictions' do
   let (:box_json) { create(:json_top_container, :indicator => "1", :barcode => "123") }
   let (:box_record) { TopContainer[box_json.id] }
 
+  it "can't create a restriction with an invalid date" do
+    (resource, grandparent, parent, child) = create_tree(box_json)
+
+    expect { add_restriction_to_record(child, '1990', '1995') }.to raise_error(JSONModel::ValidationException)
+  end
+
+  it "can't create a restriction with an end date before a begin date" do
+    (resource, grandparent, parent, child) = create_tree(box_json)
+
+    expect { add_restriction_to_record(child, '2014-06-01', '1983-10-01') }.to raise_error(JSONModel::ValidationException)
+  end
 
   it "can find all restrictions on a record linked directly to a top container" do
     (resource, grandparent, parent, child) = create_tree(box_json)
