@@ -22,7 +22,9 @@
   end
 %>
 <div class="form-group <% if required %> required <% end %>">
-  <label class="control-label col-sm-2"><%= linker_label %></label>
+  <label class="control-label col-sm-2">
+    <%= wrap_with_tooltip(linker_label, "related_agent.related_agent_tooltip", "control-label initialised") %>
+  </label>
   <div class="controls col-sm-8">
     <div class="input-group linker-wrapper">
       <input type="text" class="linker"

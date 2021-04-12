@@ -992,14 +992,19 @@ en:
 
   related_agent: &related_agent_attributes
     relationship_type: General Relationship Type
+    relationship_type_tooltip: A controlled term describing, in broad terms, the nature of the relationship between the primary agent and the related agent.
     relator: Directional Relationship Type
     specific_relator: Specific Relationship Type
+    specific_relator_tooltip: A controlled term more specifically describing the nature of the relationship between the primary agent and the related agent.
     relationship_uri: Relationship URI
-    relator_tooltip: A specific qualifier that describes the relationship.
+    relationship_uri_tooltip: A URI that points to an entry in an ontology or other resource for types of relationships between agents. Primarily used for the purposes of EAC-CPF.
+    relator_tooltip: When a general relationship type is part of a pair with two possibilities for direction (such as Parent-Child), a controlled term indicating the direction of the relationship.
     description: Description
+    description_tooltip: A free text description of the nature of the relationship.
     date: Date
     dates: Dates
     ref: Related Agent
+    related_agent_tooltip: The person, family, or corporate entity related to the primary agent.
     _singular: Related Agent
     _plural: Related Agents
 
