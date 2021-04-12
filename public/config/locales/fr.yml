@@ -457,6 +457,8 @@ fr:
   an_agent: Nom
 
   pui_agent:
+    parallel: Noms parallèles
+    also_known_as: Aussi connu sous les noms suivants
     _singular: Nom
     _plural:  Noms
     related: Nom associé
@@ -474,6 +476,7 @@ fr:
     _plural: Noms
     _public:
       section:
+        dates: Rendez-vous
         summary: Résumé
         other_names: Formes de noms
         other_names_preamble: "Egalement connu sous les noms suivants:"
@@ -550,3 +553,133 @@ fr:
     search_results: Passer aux résultats
 
   search_tab: Chercher %{target}
+
+  agent_function:
+    _singular: Une fonction
+    _plural: Les fonctions
+
+  agent_gender:
+    _singular: Le sexe
+    _plural: Le sexe
+
+  agent_place:
+    _singular: Lieu
+    _plural: Des endroits
+
+  agent_resource:
+    _singular: Ressource externe associée
+    _plural: Ressources externes connexes
+
+  agent_occupation:
+    _singular: Occupation
+    _plural: Professions
+
+  agent_topic:
+    _singular: Sujet
+    _plural: Les sujets
+
+  agent_record_identifier:
+    _plural: ID d'enregistrement
+    _singular: ID d'enregistrement
+    _frontend:
+      action:
+        add: Ajouter un ID d'enregistrement
+    identifier_type: Type d'identifiant
+    source: La source
+    primary_identifier: Est l'identifiant principal?
+    primary: Primaire
+    record_identifier: Identificateur d'enregistrement
+    snac: Identifiant des réseaux sociaux et du contexte d'archivage (SNAC)
+
+  agent_identifier:
+    _plural: ID d'entité
+    _singular: Identifiant
+    _frontend:
+      action:
+        add: Ajouter un ID d'entité
+    identifier_type: Type d'identifiant
+    entity_identifier: ID d'entité
+
+  dates_of_existence:
+    _plural: Dates d'existence
+    _singular: Date d'existence
+
+  date_label:
+    existence: Existence
+    usage: Usage
+
+  use_date:
+    _plural: Utiliser des dates
+    _singular: Utiliser la date
+
+  used_language:
+    _plural: Langues utilisées
+    _singular: Langue utilisée
+
+  structured_date_label:
+    date: Date
+    date_label: Étiqueter
+    date_type_structured: Type de date
+    date_certainty: Certitude
+    date_era: Ère
+    date_calendar: Calendrier
+
+  structured_date_single:
+    date_role: Rôle de date
+    date_expression: Expression de la date
+    date_standardized: Date normalisée
+    date_standardized_type: Type de date normalisé
+
+  structured_date_range:
+    begin_date_expression: Expression de la date de début
+    begin_date_standardized: Date de début normalisée
+    begin_date_standardized_type: Type de date de début standardisé
+    end_date_expression: Expression de la date de fin
+    end_date_standardized: Date normalisée de fin
+    end_date_standardized_type: Type de date standardisée de fin
+
+  agent_contact:
+    name: Nom du contact
+    salutation: Salutation
+    address_1: Adresse 1
+    address_2: Adresse 2
+    address_3: Adresse 3
+    city: Ville
+    region: État / région
+    country: De campagne
+    post_code: Code postal
+    telephone: Téléphone
+    telephone_ext: Extension téléphonique
+    fax: Fax
+    email: E-mail
+    email_signature: Signature e-mail
+    note: Notes de contact
+    telephones: Numéros de téléphone
+    _singular: Contacter
+    _plural: Détails du contact
+
+  telephone:
+    _plural: Numéros de téléphone
+    number_type: Type de numéro
+    number: Numéro
+    ext: Extension téléphonique
+
+  telephone_required:
+    _plural: Numéros de téléphone
+    number_type: Type de numéro
+    number: Numéro
+    ext: Extension téléphonique
+    
+  agent_notes:
+    _singular: Noter
+    _plural: Remarques
+    persistent_id: ID persistant
+    type: Type de note
+    content: Teneur
+    note_citation: Citation
+    note_bioghist: Biographie
+    note_general_context: Contexte général
+    note_legal_status: Statut légal
+    note_mandate: Mandat
+    note_structure_or_genealogy: Structure ou généalogie
+    note_text: Noter

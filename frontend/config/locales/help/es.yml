@@ -149,3 +149,12 @@
       user: Ayudar en la gestión de usuarios
       # Controlled Value Lists
       enumeration: Ayuda sobre listas de valor controlado
+      agent_sources: Ayuda sobre fuentes de agentes
+      agent_record_identifiers: Ayuda sobre identificadores de registros de agentes
+      agent_maintenance_histories: Ayuda sobre los historiales de mantenimiento de
+        los agentes
+      agent_other_agency_codes: Ayuda sobre otros códigos de agencia
+      agent_conventions_declarations: Ayuda sobre declaraciones de convenciones de
+        agentes
+      agent_alternate_sets: Ayuda sobre conjuntos alternativos de agentes
+      agent_record_controls: Ayuda sobre los controles de registros de agentes

@@ -1,5 +1,63 @@
 ja:
   enumerations:
+    gender:
+      not_specified: 指定されていない
+    place_role:
+      assoc_country: 関連国
+      residence: レジデンス
+      other_assoc: その他
+      place_of_birth: 出生地
+      place_of_death: 死の場所
+    date_standardized_type:
+      standard: 標準
+      not_before: 以前ではない
+      not_after: 後ではない
+    transliteration:
+      ala-lc: ALA-LCローマ字表記テーブル
+    name_source:
+      snac: SNAC
+    name_rule:
+      ccr: 文化資源の目録
+      rad: アーカイブの説明に関する規則
+      isaar: 企業、個人、家族のための国際標準アーカイブ機関の記録
+    _note_types:
+      general_context: 一般的なコンテキスト
+      mandate: 委任
+      contact_note: お問い合わせ先
+      legal_status: 法的地位
+      structure_or_genealogy: 構造または系図
+    note_digital_object_type:
+      general_context: 一般的なコンテキスト
+      mandate: 委任
+      contact_note: お問い合わせ先
+      legal_status: 法的地位
+      structure_or_genealogy: 構造または系図
+    note_langmaterial_type:
+      general_context: 一般的なコンテキスト
+      mandate: 委任
+      contact_note: お問い合わせ先
+      legal_status: 法的地位
+      structure_or_genealogy: 構造または系図
+    note_multipart_type:
+      general_context: 一般的なコンテキスト
+      mandate: 委任
+      contact_note: お問い合わせ先
+      legal_status: 法的地位
+      structure_or_genealogy: 構造または系図
+    note_singlepart_type:
+      general_context: 一般的なコンテキスト
+      mandate: 委任
+      contact_note: お問い合わせ先
+      legal_status: 法的地位
+      structure_or_genealogy: 構造または系図
+    agent_relationship_identity_relator:
+      is_identified_with: リレーターで特定されたエージェントの関係
+    agent_relationship_hierarchical_relator:
+      is_hierarchical_with: エージェント関係階層関係
+    agent_relationship_temporal_relator:
+      is_temporal_with: エージェント関係時間的関係者
+    agent_relationship_family_relator:
+      is_related_with: エージェント関係関連の関係者
     date_type_structured:
       single: シングル
       range: 範囲
@@ -1949,3 +2007,16 @@ ja:
     agency_code_type: 代理店コード
     maintenance_event_type: メンテナンスイベントの種類
     maintenance_agent_type: メンテナンスエージェントの種類
+    agent_relationship_identity_relator: エージェント関係アイデンティティリレーター
+    agent_relationship_hierarchical_relator: エージェント関係階層関係
+    agent_relationship_specific_relator: エージェント関係固有の関係者
+    agent_relationship_temporal_relator: エージェント関係時間的関係者
+    agent_relationship_family_relator: エージェント関係家族関係者
+    transliteration: 文字変換
+    gender: エージェントの性別
+    place_role: エージェントプレイスの役割
+    date_type_structured: 日付タイプ
+    date_standardized_type: 日付標準化タイプ
+    date_role: 日付の役割
+    begin_date_standardized_type: 開始日標準化タイプ
+    end_date_standardized_type: 終了日標準化タイプ

@@ -4,6 +4,13 @@ ja:
     help_center: ArchivesSpaceヘルプセンター
     default_tooltip: ArchivesSpaceヘルプセンター
     topics:
+      agent_sources: エージェントソースに関するヘルプ
+      agent_record_identifiers: エージェントレコード識別子に関するヘルプ
+      agent_maintenance_histories: エージェントのメンテナンス履歴に関するヘルプ
+      agent_other_agency_codes: 他のエージェンシーコードに関するヘルプ
+      agent_conventions_declarations: エージェントコンベンション宣言に関するヘルプ
+      agent_alternate_sets: エージェント代替セットに関するヘルプ
+      agent_record_controls: エージェントレコード管理に関するヘルプ
       accession: アクセスのヘルプ
       accession_basic_information: 基本情報のヘルプ
       accession_extents: エクステントのヘルプ
