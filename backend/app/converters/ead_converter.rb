@@ -309,6 +309,7 @@ class EADConverter < Converter
         :label => att('label'),
         :publish => att('audience') != 'internal',
         :subnotes => {
+          :publish => att('audience') != 'internal',
           'jsonmodel_type' => 'note_text',
           'content' => format_content( content )
         }
