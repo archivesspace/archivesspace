@@ -1024,19 +1024,19 @@ en:
 
   agent_relationship_identity:
     <<: *related_agent_attributes
-    _singular: Agent Relationship Identified With Relator
+    _singular: Identity Relationship
 
   agent_relationship_hierarchical:
     <<: *related_agent_attributes
-    _singular: Agent Relationship Hierarchical Relator
+    _singular: Hierarchical Relationship
 
   agent_relationship_temporal:
     <<: *related_agent_attributes
-    _singular: Agent Relationship Temporal Relator
+    _singular: Temporal Relationship
 
   agent_relationship_family:
     <<: *related_agent_attributes
-    _singular: Agent Relationship Related Relator
+    _singular: Family Relationship
 
   note:
     item: Item
