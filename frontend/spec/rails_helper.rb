@@ -1,6 +1,7 @@
 # frozen_string_literal: true
-
-# This file is copied to spec/ when you run 'rails generate rspec:install'
+require 'exceptions'
+require File.expand_path("../../config/environment", __FILE__)
+require 'rspec/rails'
 
 RSpec.configure do |config|
   # RSpec Rails can automatically mix in different behaviours to your tests

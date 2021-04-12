@@ -5,6 +5,7 @@ require_relative 'factories'
 require_relative 'common'
 require_relative '../../../indexer/app/lib/realtime_indexer'
 require_relative '../../../indexer/app/lib/periodic_indexer'
+require_relative '../../../indexer/app/lib/pui_indexer'
 
 $backend_port = TestUtils.free_port_from(3636)
 $frontend_port = TestUtils.free_port_from(4545)
@@ -74,25 +75,9 @@ RSpec.configure do |config|
   config.around(:each) do |example|
     example.run
     if example.exception || example.execution_result.status == :failed
-
       if example.exception
         puts "ERROR: Caught exception in example: #{example.exception}"
         puts Array(example.exception.backtrace).join("\n    ")
-      end
-
-      if ENV['SCREENSHOT_ON_ERROR']
-        SeleniumTest.save_screenshot(Driver.current_instance)
-      end
-    end
-  end
-
-  if ENV['ASPACE_TEST_WITH_PRY']
-    require 'pry'
-    config.around(:each) do |example|
-      example.run
-      if example.exception
-        puts "FAILED: #{example.exception}"
-        binding.pry
       end
     end
   end

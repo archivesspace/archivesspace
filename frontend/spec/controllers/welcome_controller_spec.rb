@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-require 'rails'
 require 'spec_helper'
 require 'rails_helper'
 
