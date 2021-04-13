@@ -83,7 +83,7 @@
        <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "agent_genders", :section_id => "#{@agent.agent_type}_agent_gender", :template => "agent_gender", help_topic: "agent_genders", :invisible => !full_mode?, :lightmode_toggle => true} %>
      <% end %>
 
-    <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "agent_places", :section_id => "#{@agent.agent_type}_agent_place", :template => "agent_place", help_topic: "agent_places", :invisible => !full_mode?, :lightmode_toggle => true} %>
+    <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "agent_places", :section_id => "#{@agent.agent_type}_agent_place", :template => "agent_place", help_topic: "agent_place", :invisible => !full_mode?, :lightmode_toggle => true} %>
 
     <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "agent_occupations", :section_id => "#{@agent.agent_type}_agent_occupation", :template => "agent_occupation", help_topic: "agent_occupation", :invisible => !full_mode?, :lightmode_toggle => true} %>
 
@@ -91,7 +91,7 @@
 
     <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "agent_topics", :section_id => "#{@agent.agent_type}_agent_topic", :template => "agent_topic", help_topic: "agent_topic", :invisible => !full_mode?, :lightmode_toggle => true} %>
 
-    <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "used_languages", :section_id => "#{@agent.agent_type}_used_language", :template => "used_language", :invisible => !full_mode?, :lightmode_toggle => true} %>
+    <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "used_languages", :section_id => "#{@agent.agent_type}_used_language", :template => "used_language", :invisible => !full_mode?, :lightmode_toggle => true, :help_topic => "agent_used_language"} %>
 
   <% if user_can?('view_agent_contact_record') %>
     <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "agent_contacts", :section_id => "#{@agent.agent_type}_contact_details", :template_erb => "agents/contact_details", :template => "agent_contact", :help_topic => "#{@agent.agent_type}_contact_details", :invisible => false, :lightmode_toggle => false} %>
@@ -101,7 +101,7 @@
 
   <%= render_aspace_partial :partial => "notes/form", :locals => {:form => form, :all_note_types => note_types_for(form['jsonmodel_type']), :section_id => "#{@agent.agent_type}_notes", :show_apply_note_order_action => false} %>
 
-  <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "external_documents", :section_id => "#{@agent.agent_type}_external_documents", :help_topic => "#{@agent.agent_type}_external_documents", :invisible => false, :lightmode_toggle => false} %>
+  <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "external_documents", :section_id => "#{@agent.agent_type}_external_documents", :help_topic => "agent_external_documents", :invisible => false, :lightmode_toggle => false} %>
   </section>
 
 
@@ -114,7 +114,7 @@
         </span>
       </h3>
 
-      <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "agent_resources", :section_id => "#{@agent.agent_type}_agent_resource", :template => "agent_resource", help_topic: "agent_resource", :invisible => !full_mode?, :lightmode_toggle => true} %>
+      <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "agent_resources", :section_id => "#{@agent.agent_type}_agent_resource", :template => "agent_resource", help_topic: "agent_related_agents", :invisible => !full_mode?, :lightmode_toggle => true} %>
 
     <%= render_aspace_partial :partial => "related_agents/form", :locals => {:form => form} %>
 
