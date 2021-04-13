@@ -8,6 +8,7 @@ describe 'Notes' do
     set_repo @repo
 
     @resource = create(:resource)
+    @resource2 = create(:resource)
     archivist_user = create_user(@repo => ['repository-archivists'])
 
     @driver = Driver.get
@@ -392,5 +393,14 @@ describe 'Notes' do
     expect(@driver.find_element(id: 'digital_object_notes__0__content__0_').attribute('value')).to eq('Summary content')
 
     @driver.click_and_wait_until_gone(css: "form#new_digital_object button[type='submit']")
+  end
+
+  it 'shows a validation error when note content is empty' do
+    @driver.get_edit_page(@resource2)
+    @driver.find_element(css: '#notes .subrecord-form-heading .btn.add-note').click
+    @driver.find_last_element(css: '#notes select.top-level-note-type:last-of-type').select_option('note_singlepart')
+    # Save the resource
+    @driver.click_and_wait_until_gone(css: "form#resource_form button[type='submit']")
+    assert(5) { expect(@driver.find_element(css: 'div.alert.alert-danger').text).to eq('Content - At least 1 item(s) is required') }
   end
 end
