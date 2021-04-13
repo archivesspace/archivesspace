@@ -868,9 +868,11 @@ module MarcXMLBibBaseMap
               ex = node.xpath('.//subfield[@code="a"]')
               if ex.length > 0
                 ext = ex.first.text
-                if ext =~ /^([0-9\.]+)+\s+(.*)$/
+                if ext =~ /^([0-9\.,]+)+\s+(.*)$/
                   extent.number = $1
                   extent.extent_type = $2
+                elsif ext =~ /^([0-9\.,]+)/
+                  extent.number = $1
                 end
               end
 
