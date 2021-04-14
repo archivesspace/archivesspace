@@ -54,20 +54,25 @@ describe 'Agent model' do
      }.to raise_error(JSONModel::ValidationException)
   end
 
-  it "appends the date field from name form to the end of a agent corporate_entity display name" do
-    name_corporate_entity = build(:json_name_corporate_entity)
+  it "appends the name date to the agent software sort name" do
+    json = build(:json_agent_corporate_entity,
+                 :names => [build(:json_name_corporate_entity,
+                    'dates' => '1981'
+                )])
 
-    name_date = name_corporate_entity['dates']
+    AgentCorporateEntity.create_from_json(json)
 
-    expect(name_corporate_entity['sort_name'] =~ /#{name_date}/)
+    name_corporate_entity = json['names'][0]
+    expect(name_corporate_entity['sort_name']).to match(/1981/)
   end
+
 
   it "appends the location to the end of a agent corporate_entity display name" do
     name_corporate_entity = build(:json_name_corporate_entity)
 
     location = name_corporate_entity['use_dates'][0]['structured_date_single']['location']
 
-    expect(name_corporate_entity['sort_name'] =~ /#{location}/)
+    expect(name_corporate_entity['sort_name']).to match(/#{location}/)
   end
 
 
