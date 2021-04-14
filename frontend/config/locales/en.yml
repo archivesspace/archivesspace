@@ -1072,6 +1072,9 @@ en:
         expand: Expand
         collapse: Collapse
         apply_note_order: Apply Standard Note Order
+      note_outline:
+        placeholder: Add Note Text
+        empty_level: Empty Level -- Use buttons above to add new items or sublevels
 
   related_accession:
     _frontend:

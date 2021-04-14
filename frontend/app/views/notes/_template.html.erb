@@ -625,11 +625,12 @@
 <% end %>
 
 <% define_template "note_outline_string" do |form, item| %>
-  <div class="subrecord-form-inline"><%= form.textfield(nil, item) %></div>
+  <% placeholder = I18n.t("note._frontend.note_outline.placeholder") %>
+  <div class="subrecord-form-inline"><%= form.textfield(nil, item, :placeholder => placeholder) %></div> 
 <% end %>
 
 <% define_template "note_outline_level" do |form, level| %>
-  <div class="subrecord-form-fields" data-type="note_outline_level">
+  <div class="subrecord-form-fields note-outline-level" data-type="note_outline_level">
     <%= form.hidden_input(:jsonmodel_type, "note_outline_level") %>
     <section class="subrecord-form">
       <% if not form.readonly? %>
@@ -641,12 +642,21 @@
         </div>
       <% end %>
       <div class="subrecord-form-container">
+        <% count = 0 %>
+
         <%= form.list_for(form["items"], "items[]") do |item| %>
           <% if item.kind_of? String %>
             <% form.emit_template("note_outline_string", item) %>
+            <% count += 1 %>
           <% else %>
             <% form.emit_template("note_outline_level", item) %>
+            <% count += 1 %>
           <% end %>
+        <% end %>
+
+        <% if count == 0 %>
+          <% empty = I18n.t('note._frontend.note_outline.empty_level') %>
+          <span class='note-outline-empty-level'><%= empty %></span>
         <% end %>
       </div>
     </section>
@@ -662,13 +672,12 @@
       <%= form.label_and_boolean("publish", {}, user_prefs["publish"]) %>
 
       <div class="form-group">
-        <label class="control-label"><%= I18n.t("note_outline.levels") %></label>
         <div class="controls note-outline-levels">
           <%= form.list_for((form["levels"] || []), "levels[]") do |item| %>
             <% form.emit_template("note_outline_level", item) %>
           <% end %>
           <% if not form.readonly? %>
-            <button class="btn btn-xs btn-default add-level-btn"><%= I18n.t("note._frontend.action.add_note_outline_level_item") %></button>
+            <button class="btn btn-xs btn-default add-level-btn"><%= I18n.t("note._frontend.action.add_note_outline_level_level") %></button>
           <% end %>
         </div>
       </div>
