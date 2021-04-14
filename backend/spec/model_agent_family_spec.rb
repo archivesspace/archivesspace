@@ -60,11 +60,15 @@ describe 'Agent Family model' do
   end
 
   it "appends the use date to the end of a agent family display name" do
-    name_family = build(:json_name_family)
+    json = build(:json_agent_family,
+                 :names => [build(:json_name_family,
+                    'dates' => '1981'
+                )])
 
-    name_date = name_family['dates']
+    AgentFamily.create_from_json(json)
 
-    expect(name_family['sort_name'] =~ /#{name_date}/)
+    name_family = json['names'][0]
+    expect(name_family['sort_name']).to match(/1981/)
   end
 
 
