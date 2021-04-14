@@ -1148,7 +1148,7 @@ module MarcXMLBibBaseMap
         "datafield[@tag='611']" => mix(corp_template, agent_as_subject, corp_variation),
 
         #SUBJECTS
-        "datafield[@tag='630' or @tag='130']" => subject_template(
+        "datafield[@tag='630' or @tag='130' or @tag='730']" => subject_template(
                                                                                 -> node {
                                                                                   terms = []
                                                                                   terms << make_term('uniform_title', concatenate_subfields(%w(a d e f g h k l m n o p r s t), node, ' ', true))
