@@ -21,6 +21,7 @@ function BulkContainerSearch($search_form, $results_container, $toolbar) {
         $("#"+key).val(value);
       });
       this.perform_search(parsed_data);
+      this.update_export_button(parsed_data);
     }
   } else {
     sessionStorage.setItem("top_container_search_data", null)
@@ -46,6 +47,7 @@ BulkContainerSearch.prototype.setup_form = function() {
     sessionStorage.setItem("top_container_search_data", JSON.stringify(values));
     sessionStorage.setItem("currentRepository", $(".repo-container > div > a").attr("href"))
     self.perform_search(self.$search_form.serializeArray());
+    self.update_export_button(values);
   });
 };
 
@@ -125,6 +127,22 @@ BulkContainerSearch.prototype.update_button_state = function() {
     delete_btn.data("form-data", {});
     delete_btn.addClass("disabled").attr("disabled", "disabled");
   }
+};
+
+BulkContainerSearch.prototype.update_export_button = function(params) {
+  var export_button = $('.searchExport');
+  var fragments = export_button.attr('href').split('?');
+  var new_params = new URLSearchParams(fragments[1]);
+  $.each(params, function(param, value) {
+    // we don't want the resolved params in our link thx
+    if(!param.match(/_resolved/)) { new_params.set(param, value) };
+  });
+  // delete any params that were added previously but removed from the current search
+  for(var key of new_params.keys()) {
+    if(key == 'fields[]') { continue; }; // always retain fields[]
+    if(!params[key]) { new_params.delete(key); }
+  }
+  export_button.attr('href', [fragments[0], new_params.toString()].join('?'));
 };
 
 BulkContainerSearch.prototype.setup_table_sorter = function() {

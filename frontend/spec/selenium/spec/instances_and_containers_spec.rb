@@ -47,6 +47,9 @@ describe 'Resource instances and containers' do
 
     @driver.wait_for_ajax
 
+    # the search param is added to the download csv button
+    expect(@driver.find_element(class: 'searchExport').attribute('href')).to match(/q=Letter/)
+
     results = @driver.find_element(id: 'bulk_operation_results')
 
     expect(results.find_elements(css: 'tbody tr').length).to eq(5)
@@ -152,6 +155,8 @@ describe 'Resource instances and containers' do
     @driver.navigate.refresh
 
     expect(target = @driver.find_element(css: '#q').attribute('value')).to eq('Letter')
+    # the search param is added to the download csv button
+    expect(@driver.find_element(class: 'searchExport').attribute('href')).to match(/q=Letter/)
 
     resultsAfterRefresh = @driver.find_element(id: 'bulk_operation_results')
     resultsAfterRefreshLength = resultsAfterRefresh.find_elements(css: 'tbody tr').length
