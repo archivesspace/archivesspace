@@ -196,7 +196,7 @@ describe 'Resource instances and containers' do
     # re-find our original modal
     modal = @driver.find_element(css: '#resource_instances__0__sub_container__top_container__ref__modal')
 
-    elt = modal.find_element(css: '#top_container_container_locations_')
+    elt = modal.find_element(css: '#container_locations')
     elt.find_element(css: 'h3 > button').click
 
     assert(5) do
@@ -266,7 +266,7 @@ describe 'Resource instances and containers' do
     modal.clear_and_send_keys([:css, '#top_container_indicator_'], 'oof')
     modal.clear_and_send_keys([:css, '#top_container_barcode_'], '987654321')
 
-    elt = modal.find_element(css: '#top_container_container_locations_')
+    elt = modal.find_element(css: '#container_locations')
     elt.find_element(css: 'h3 > button').click
 
     assert(5) do
@@ -325,7 +325,7 @@ describe 'Resource instances and containers' do
   it 'can add a location with a previous status to a top container' do
     @driver.navigate.to("#{$frontend}#{@container.uri.sub(%r{/repositories/\d+}, '')}/edit")
 
-    section = @driver.find_element(id: 'top_container_container_locations_')
+    section = @driver.find_element(id: 'container_locations')
     section.find_element(css: 'button.btn-sm:nth-child(1)').click
 
     new_loc = @driver.find_element(css: "li.sort-enabled[data-index='1']")
