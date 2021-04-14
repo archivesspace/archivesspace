@@ -14,7 +14,7 @@ Sequel.migration do
         $stderr.puts("==========================================")
         $stderr.puts("\n")
         $stderr.puts("#{bad_rlshp.count} corrupted top container links found due " +
-                     "to a previous failed merge of linked containers into an " + 
+                     "to a previous failed merge of linked containers into an " +
                      "unlinked container.")
         $stderr.puts("\n")
       end
@@ -48,7 +48,7 @@ Sequel.migration do
       end
     end
     $stderr.puts("\n")
-    $stderr.puts("To identify the records that need to be corrected, do a keyword " + 
+    $stderr.puts("To identify the records that need to be corrected, do a keyword " +
                  "search for the 'Lost and Found' top container in the Manage " +
                  "Top Containers area within the application.")
     $stderr.puts("\n")
