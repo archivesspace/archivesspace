@@ -224,7 +224,12 @@
   </div>
   <%# VICTIM SIDE %>
   <div class="col-md-6">
-    <h2><%= I18n.t("agent._frontend.section.victim_record") %></h2>
+    <h2>
+      <%= I18n.t("agent._frontend.section.victim_record") %>
+      <span class='pull-right'>
+        <%= link_to_help :topic => "agent_merge" %>
+      </span>
+    </h2>
     <div class="record-pane">
       <%= form_for @victim, :as => "agent", :url => {:action => :merge_detail}, :html => {:class => 'form-horizontal aspace-record-form', :id => "agent_form"} do |f| %>
         <%= form_context :agent, @victim do |form| %>
