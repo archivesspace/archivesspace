@@ -137,7 +137,7 @@ AbstractRelationship = Class.new(Sequel::Model) do
                     raise "Transfer would create a circular relationship!"
                   end
 
-                elsif relationship.is_a?(Relationships::SubContainerTopContainerLink)
+                elsif relationship.is_a?(Relationships::SubContainerTopContainerLink) && !find_by_participant(target).empty?
                   identify_duplicate_containers(target, relationship, target_col, dups)
 
                 elsif relationship.is_a?(Relationships::ContainerProfileTopContainerProfile)
