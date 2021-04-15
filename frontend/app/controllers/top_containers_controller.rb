@@ -44,10 +44,11 @@ class TopContainersController < ApplicationController
       format.csv {
         params[:fields] -= %w[context type indicator barcode]
         params[:fields] += %w[type_enum_s indicator_u_icusort barcode_u_sstr]
-        search_params = params_for_backend_search.merge('facet[]' => SearchResultData.TOP_CONTAINER_FACETS)
-        search_params['type[]'] = 'top_container'
-        uri = "/repositories/#{session[:repo_id]}/search"
-        csv_response(uri, Search.build_filters(search_params), "#{I18n.t('top_container._plural').downcase}.")
+        csv_response(
+          "/repositories/#{session[:repo_id]}/search",
+          prepare_search.merge('facet[]' => SearchResultData.TOP_CONTAINER_FACETS),
+          "#{I18n.t('top_container._plural').downcase}."
+        )
       }
     end
   end
@@ -336,6 +337,11 @@ class TopContainersController < ApplicationController
 
 
   def perform_search
+    JSONModel::HTTP::get_json("#{JSONModel(:top_container).uri_for("")}/search", prepare_search)
+  end
+
+  # Gather all parameters, used for HTML and CSV responses
+  def prepare_search
     search_params = params_for_backend_search.merge(
                                                       'type[]' => ['top_container']
                                                     )
@@ -397,8 +403,7 @@ class TopContainersController < ApplicationController
                                           )
     end
 
-    container_search_url = "#{JSONModel(:top_container).uri_for("")}/search"
-    JSONModel::HTTP::get_json(container_search_url, search_params)
+    search_params
   end
 
 end
