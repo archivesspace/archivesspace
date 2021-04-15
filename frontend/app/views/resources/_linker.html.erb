@@ -11,11 +11,22 @@
 
 %>
 <div class="form-group required">
-   <label class="control-label <%= layout != 'stacked' ? 'col-sm-2' : '' %>"><%= field_label %></label>
-   <div class="controls <%= layout != 'stacked' ? 'col-sm-8' : ''%>">
+   <label class="control-label <%= layout != 'stacked' ? 'col-sm-2' : '' %>"
+          id="<%= form.id_for("ref") %>_label"
+          for="<%= form.id_for("ref") %>">
+     <%= field_label %>
+   </label>
+   <div class="controls <%= layout != 'stacked' ? 'col-sm-8' : ''%>"
+        role="combobox"
+        aria-owns="<%= form.id_for("ref") %>_listbox"
+        id="<%= form.id_for("ref") %>_combobox">
        <div class="input-group linker-wrapper">
-          <input type="text" class="linker"
+          <input type="text" 
+            class="linker"
             id="<%= form.id_for("ref") %>"
+            aria-autocomplete="both"
+            aria-controls="<%= form.id_for("ref") %>_listbox"
+            aria-labelledby="<%= form.id_for("ref") %>_label"
             data-label="<%= I18n.t("resource._singular") %>"
             data-label_plural="<%= I18n.t("resource._plural") %>"
             data-path="<%= form.path %>"
