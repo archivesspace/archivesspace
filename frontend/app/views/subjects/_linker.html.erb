@@ -42,13 +42,28 @@
 <div class="form-group required">
    <% if !name.blank? %>
      <%= wrap_with_tooltip(linker_label, "#{form.i18n_for(name)}_tooltip", "subrecord-form-heading-label control-label col-sm-2") %>
+     <label class="sr-only"
+            id="<%= form.id_for(data_name) %>_label"
+            for="<%= form.id_for(data_name) %>">
+        <%= linker_label %>
+      </label>
    <% else %>
-     <label class="control-label col-sm-2"><%= linker_label %></label>
+     <label class="control-label col-sm-2"
+            id="<%= form.id_for(data_name) %>_label"
+            for="<%= form.id_for(data_name) %>">
+        <%= linker_label %>
+      </label>
    <% end %>
    <div class="controls col-sm-8">
-       <div class="input-group linker-wrapper">
+       <div class="input-group linker-wrapper"
+            role="combobox"
+            aria-owns="<%= form.id_for(data_name) %>_listbox"
+            id="<%= form.id_for(data_name) %>_combobox">
           <input type="text" class="linker"
             id="<%= form.id_for(data_name) %>"
+            aria-autocomplete="both"
+            aria-controls="<%= form.id_for(data_name) %>_listbox"
+            aria-labelledby="<%= form.id_for(data_name) %>_label"
             data-label="<%= I18n.t("subject._singular") %>"
             data-label_plural="<%= I18n.t("subject._plural") %>"
             data-path="<%= data_path %>"
