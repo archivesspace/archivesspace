@@ -617,8 +617,8 @@ describe 'Resources and archival objects' do
 
     # the resource was created without specifying publish, so it should be unpublished
     expect(@driver.find_element(id: 'resource_publish_').attribute('checked')).to be_nil
-    
-    # click the publish all button       
+
+    # click the publish all button
     @driver.find_element_with_text('//button', /Publish All/).click
     sleep(5)
     @driver.find_element(id: 'confirmButton').click

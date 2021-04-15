@@ -388,7 +388,7 @@ describe 'Archival Object controller' do
     expect(JSONModel(:archival_object).find(archival_object.id).lang_materials[0]['language_and_script']['language'].length).to eq(3)
     expect(JSONModel(:archival_object).find(archival_object.id).lang_materials[0]['note']).to eq(nil)
   end
-  
+
   it "publishes the archival object, subrecords and components when /publish is POSTed" do
     resource = create(:json_resource, {
       :publish => false,
@@ -412,7 +412,7 @@ describe 'Archival Object controller' do
       :notes => [build(:json_note_bibliography, {:publish => false})],
       :subjects => [{:ref => subject.uri}]
     })
-    
+
     lower_level_archival_object = create(:json_archival_object, {
       :publish => false,
       :resource => {:ref => resource.uri},
@@ -437,14 +437,14 @@ describe 'Archival Object controller' do
     expect(top_level_archival_object.publish).to be_truthy
     expect(top_level_archival_object.external_documents[0]["publish"]).to be_truthy
     expect(top_level_archival_object.notes[0]["publish"]).to be_truthy
-    
+
     lower_level_archival_object = JSONModel(:archival_object).find(lower_level_archival_object.id)
     expect(lower_level_archival_object.publish).to be_truthy
     expect(lower_level_archival_object.external_documents[0]["publish"]).to be_truthy
     expect(lower_level_archival_object.notes[0]["publish"]).to be_truthy
   end
-  
-  
+
+
   it "unpublishes the archival object, subrecords and components when /unpublish is POSTed" do
     resource = create(:json_resource, {
       :publish => true,
@@ -468,7 +468,7 @@ describe 'Archival Object controller' do
       :notes => [build(:json_note_bibliography, {:publish => true})],
       :subjects => [{:ref => subject.uri}]
     })
-    
+
     lower_level_archival_object = create(:json_archival_object, {
       :publish => true,
       :resource => {:ref => resource.uri},
@@ -493,7 +493,7 @@ describe 'Archival Object controller' do
     expect(top_level_archival_object.publish).to be_falsey
     expect(top_level_archival_object.external_documents[0]["publish"]).to be_falsey
     expect(top_level_archival_object.notes[0]["publish"]).to be_falsey
-    
+
     lower_level_archival_object = JSONModel(:archival_object).find(lower_level_archival_object.id)
     expect(lower_level_archival_object.publish).to be_falsey
     expect(lower_level_archival_object.external_documents[0]["publish"]).to be_falsey

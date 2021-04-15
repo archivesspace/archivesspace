@@ -173,7 +173,7 @@ class ArchivesSpaceService < Sinatra::Base
     resource.unpublish!
 
     updated_response(resource)
-  end  
+  end
 
 
   Endpoint.get('/repositories/:repo_id/resources/:id/models_in_graph')

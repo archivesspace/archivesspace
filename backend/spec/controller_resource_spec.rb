@@ -477,8 +477,8 @@ describe 'Resources controller' do
     expect(archival_object.external_documents[0]["publish"]).to be_truthy
     expect(archival_object.notes[0]["publish"]).to be_truthy
   end
-  
-  
+
+
   it "unpublishes the resource, subrecords and components when /unpublish is POSTed" do
     resource = create(:json_resource, {
       :publish => true,
