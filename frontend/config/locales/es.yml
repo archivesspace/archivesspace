@@ -110,6 +110,15 @@ es:
     publish: Publicar todos
     publish_confirm_title: ¿Publicar?
     publish_confirm_message: "<p>Realizar esta acción va a publicar este documento, los registros secundarios (documentos externos, notas, etc.) y todos los componentes de la jerarquía.</p>"
+    unpublish: Despublicar todos
+    unpublish_confirm_title: ¿Despublicar?
+    unpublish_confirm_message: "<p>Realizar esta acción va a despublicar este documento, los registros secundarios (documentos externos, notas, etc.) y todos los componentes de la jerarquía.</p>"
+    publish_archival_object: Publicar todos
+    publish_archival_object_confirm_title: ¿Publicar?
+    publish_archival_object_confirm_message: "<p>Realizar esta acción va a publicar este documento de archivo, los registros secundarios (documentos externos, notas, etc.) y todos los componentes más bajos de la jerarquía.</p>"
+    unpublish_archival_object: Despublicar todos
+    unpublish_archival_object_confirm_title: ¿Despublicar?
+    unpublish_archival_object_confirm_message: "<p>Realizar esta acción va a despublicar este documento, los registros secundarios (documentos externos, notas, etc.) y todos los componentes más bajos de la jerarquía.</p>"
     view_search_results: Ir a los resultados de búsqueda
     view_published: Ver publicados
     print_to_pdf: Generar PDF
@@ -749,6 +758,8 @@ es:
         transfer_success: Transferido con éxito el objeto de archivo <strong>%{archival_object.display_string}</strong> al fondo <strong>%{resource.title}</strong>
         transfer_error: "No se puede transferir objeto de archivo debido a un error o conflicto"
         deleted: "Documento de archivo <strong>{archival_object.display_string} %</strong> eliminado"
+        published: "Documento de archivo <strong>{archival_object.title}</strong>, sus subregistros y sus componentes han sido publicados"
+        unpublished: "Documento de archivo <strong>{archival_object.title}</strong>, sus subregistros y sus componentes han sido despublicados"
         unsuppressed: Documento de archivo <strong>%{archival_object.title}</strong> desbloqueado
         suppressed: Documento de archivo <strong>%{archival_object.title}</strong> bloqueado
         suppressed_info: Documento de archivo se bloquea y no se pueden editar
@@ -837,7 +848,7 @@ es:
         created: "Objeto digital <strong>%{digital_object.title}</strong> creado"
         updated: "Objeto digital <strong>%{digital_object.title}</strong> actualizado"
         deleted: "Objeto digital <strong>%{digital_object.title}</strong> borrado"
-        published: "El objeto Digital <strong>%{digital_object.title}</strong>subregistros y sus componentes han sido publicados"
+        published: "El objeto Digital <strong>%{digital_object.title}</strong>, sus subregistros y sus componentes han sido publicados"
         merge_description: Seleccionar objetos digitales más abajo para fusionar en
         please_select_a_digital_object_to_merge: Por favor, seleccione un objeto digital
         merged: Objetos digitales unificados
@@ -1103,7 +1114,8 @@ es:
         updated: "fondo <strong>%{resource.title}</strong> actualizado"
         spawned: "Ha sido generado un nuevo fondo de acta de ingreso <strong>%{accession.display_string}</strong>"
         deleted: "Fondo <strong>%{resource.title}</strong> borrado"
-        published: "El fondo <strong>%{resource.title}</strong>subregistros y sus componentes han sido publicados"
+        published: "El fondo <strong>%{resource.title}</strong>, sus subregistros y sus componentes han sido publicados"
+        unpublished: "El fondo <strong>%{resource.title}</strong>, sus subregistros y sus componentes han sido despublicados"
         merge_description: Seleccione los fondos abajo para fusionar en
         please_select_a_resource_to_merge: Por favor, seleccione un fondo
         merged: Los fondos se fusionaron

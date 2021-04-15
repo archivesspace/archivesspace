@@ -109,6 +109,15 @@ en:
     publish: Publish All
     publish_confirm_title: Publish?
     publish_confirm_message: "<p>Performing this action will publish this record, any sub-records (External Documents, Notes, etc) and all components in the hierarchy.</p>"
+    unpublish: Unpublish All
+    unpublish_confirm_title: Unpublish?
+    unpublish_confirm_message: "<p>Performing this action will unpublish this record, any sub-records (External Documents, Notes, etc) and all components in the hierarchy.</p>"
+    publish_archival_object: Publish All
+    publish_archival_object_confirm_title: Publish?
+    publish_archival_object_confirm_message: "<p>Performing this action will publish this record, any sub-records (External Documents, Notes, etc) and all components below this record in the hierarchy.</p>"
+    unpublish_archival_object: Unpublish All
+    unpublish_archival_object_confirm_title: Unpublish?
+    unpublish_archival_object_confirm_message: "<p>Performing this action will unpublish this record, any sub-records (External Documents, Notes, etc) and all components below this record in the hierarchy.</p>"
     view_search_results: Go to Search Results
     view_published: View Published
     print_to_pdf: Generate PDF
@@ -757,6 +766,8 @@ en:
         transfer_success: Successfully transferred Archival Object <strong>%{archival_object.display_string}</strong> to Resource <strong>%{resource.title}</strong>
         transfer_error: "Unable to transfer Archival Object due to an error or conflict: <pre>%{exception}</pre>"
         deleted: "Archival Object <strong>%{archival_object.display_string}</strong> deleted"
+        published: "The Archival Object <strong>%{archival_object.title}</strong>, its children, subrecords and components have been published"
+        unpublished: "The Archival Object <strong>%{archival_object.title}</strong>, its children, subrecords and components have been unpublished"
         unsuppressed: Archival Object <strong>%{archival_object.title}</strong> unsuppressed
         suppressed: Archival Object <strong>%{archival_object.title}</strong> suppressed
         suppressed_info: Archival Object is suppressed and cannot be edited
@@ -1137,6 +1148,7 @@ en:
         spawned: "A new Resource has been spawned from Accession <strong>%{accession.display_string}</strong>"
         deleted: "Resource <strong>%{resource.title}</strong> deleted"
         published: "The Resource <strong>%{resource.title}</strong>, its subrecords and components have been published"
+        unpublished:  "The Resource <strong>%{resource.title}</strong>, its children, subrecords and components have been unpublished"
         merge_description: Select resources below to merge into
         please_select_a_resource_to_merge: Please select a resource
         merged: Resource(s) Merged

@@ -149,13 +149,28 @@ class ArchivesSpaceService < Sinatra::Base
   Endpoint.post('/repositories/:repo_id/resources/:id/publish')
   .description("Publish a resource and all its sub-records and components")
   .params(["id", :id],
-                     ["repo_id", :repo_id])
+          ["repo_id", :repo_id])
   .permissions([:update_resource_record])
   .returns([200, :updated],
            [400, :error]) \
   do
     resource = Resource.get_or_die(params[:id])
     resource.publish!
+
+    updated_response(resource)
+  end
+
+
+  Endpoint.post('/repositories/:repo_id/resources/:id/unpublish')
+  .description("Unpublish a resource and all its sub-records and components")
+  .params(["id", :id],
+          ["repo_id", :repo_id])
+  .permissions([:update_resource_record])
+  .returns([200, :updated],
+           [400, :error]) \
+  do
+    resource = Resource.get_or_die(params[:id])
+    resource.unpublish!
 
     updated_response(resource)
   end

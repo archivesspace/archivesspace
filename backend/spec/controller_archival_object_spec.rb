@@ -389,4 +389,115 @@ describe 'Archival Object controller' do
     expect(JSONModel(:archival_object).find(archival_object.id).lang_materials[0]['note']).to eq(nil)
   end
 
+  it "publishes the archival object, subrecords and components when /publish is POSTed" do
+    resource = create(:json_resource, {
+      :publish => false,
+      :external_documents => [build(:json_external_document, {:publish => false})],
+      :notes => [build(:json_note_bibliography, {:publish => false})]
+    })
+
+
+    vocab = create(:json_vocabulary)
+    vocab_uri = JSONModel(:vocabulary).uri_for(vocab.id)
+
+    subject = create(:json_subject,
+                     :terms => [build(:json_term, :vocabulary => vocab_uri)],
+                     :vocabulary => vocab_uri)
+
+
+    top_level_archival_object = create(:json_archival_object, {
+      :publish => false,
+      :resource => {:ref => resource.uri},
+      :external_documents => [build(:json_external_document, {:publish => false})],
+      :notes => [build(:json_note_bibliography, {:publish => false})],
+      :subjects => [{:ref => subject.uri}]
+    })
+
+    lower_level_archival_object = create(:json_archival_object, {
+      :publish => false,
+      :resource => {:ref => resource.uri},
+      :parent => {:ref => top_level_archival_object.uri},
+      :external_documents => [build(:json_external_document, {:publish => false})],
+      :notes => [build(:json_note_bibliography, {:publish => false})],
+      :subjects => [{:ref => subject.uri}]
+    })
+
+    url = URI("#{JSONModel::HTTP.backend_url}#{top_level_archival_object.uri}/publish")
+
+    request = Net::HTTP::Post.new(url.request_uri)
+    response = JSONModel::HTTP.do_http_request(url, request)
+
+
+    resource = JSONModel(:resource).find(resource.id)
+    expect(resource.publish).to be_falsey
+    expect(resource.external_documents[0]["publish"]).to be_falsey
+    expect(resource.notes[0]["publish"]).to be_falsey
+
+    top_level_archival_object = JSONModel(:archival_object).find(top_level_archival_object.id)
+    expect(top_level_archival_object.publish).to be_truthy
+    expect(top_level_archival_object.external_documents[0]["publish"]).to be_truthy
+    expect(top_level_archival_object.notes[0]["publish"]).to be_truthy
+
+    lower_level_archival_object = JSONModel(:archival_object).find(lower_level_archival_object.id)
+    expect(lower_level_archival_object.publish).to be_truthy
+    expect(lower_level_archival_object.external_documents[0]["publish"]).to be_truthy
+    expect(lower_level_archival_object.notes[0]["publish"]).to be_truthy
+  end
+
+
+  it "unpublishes the archival object, subrecords and components when /unpublish is POSTed" do
+    resource = create(:json_resource, {
+      :publish => true,
+      :external_documents => [build(:json_external_document, {:publish => true})],
+      :notes => [build(:json_note_bibliography, {:publish => true})]
+    })
+
+
+    vocab = create(:json_vocabulary)
+    vocab_uri = JSONModel(:vocabulary).uri_for(vocab.id)
+
+    subject = create(:json_subject,
+                     :terms => [build(:json_term, :vocabulary => vocab_uri)],
+                     :vocabulary => vocab_uri)
+
+
+    top_level_archival_object = create(:json_archival_object, {
+      :publish => true,
+      :resource => {:ref => resource.uri},
+      :external_documents => [build(:json_external_document, {:publish => true})],
+      :notes => [build(:json_note_bibliography, {:publish => true})],
+      :subjects => [{:ref => subject.uri}]
+    })
+
+    lower_level_archival_object = create(:json_archival_object, {
+      :publish => true,
+      :resource => {:ref => resource.uri},
+      :parent => {:ref => top_level_archival_object.uri},
+      :external_documents => [build(:json_external_document, {:publish => true})],
+      :notes => [build(:json_note_bibliography, {:publish => true})],
+      :subjects => [{:ref => subject.uri}]
+    })
+
+    url = URI("#{JSONModel::HTTP.backend_url}#{top_level_archival_object.uri}/unpublish")
+
+    request = Net::HTTP::Post.new(url.request_uri)
+    response = JSONModel::HTTP.do_http_request(url, request)
+
+
+    resource = JSONModel(:resource).find(resource.id)
+    expect(resource.publish).to be_truthy
+    expect(resource.external_documents[0]["publish"]).to be_truthy
+    expect(resource.notes[0]["publish"]).to be_truthy
+
+    top_level_archival_object = JSONModel(:archival_object).find(top_level_archival_object.id)
+    expect(top_level_archival_object.publish).to be_falsey
+    expect(top_level_archival_object.external_documents[0]["publish"]).to be_falsey
+    expect(top_level_archival_object.notes[0]["publish"]).to be_falsey
+
+    lower_level_archival_object = JSONModel(:archival_object).find(lower_level_archival_object.id)
+    expect(lower_level_archival_object.publish).to be_falsey
+    expect(lower_level_archival_object.external_documents[0]["publish"]).to be_falsey
+    expect(lower_level_archival_object.notes[0]["publish"]).to be_falsey
+  end
+
 end

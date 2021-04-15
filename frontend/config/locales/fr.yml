@@ -108,6 +108,15 @@ fr:
     publish: Publier tout
     publish_confirm_title: Publier?
     publish_confirm_message: "<p>Effectuer cette opération publiera cette notice, toutes les éventuelles sous-notices (Documents externes, notes, etc.) et tous les composants de la hiérarchie.</p>"
+    unpublish: Dépublier tout
+    unpublish_confirm_title: Dépublier?
+    unpublish_confirm_message: "<p>Effectuer cette opération dépubliera cette notice, toutes les éventuelles sous-notices (Documents externes, notes, etc.) et tous les composants de la hiérarchie.</p>"
+    publish_archival_object: Publier tout
+    publish_archival_object_confirm_title: Publier?
+    publish_archival_object_confirm_message: "<p>Effectuer cette opération publiera cette notice, toutes les éventuelles sous-notices (Documents externes, notes, etc.) et tous les composants situés à un niveau inférieur de la hiérarchie.</p>"
+    unpublish_archival_object: Dépublier tout
+    unpublish_archival_object_confirm_title: Dépublier?
+    unpublish_archival_object_confirm_message: "<p>Effectuer cette opération dépubliera cette notice, toutes les éventuelles sous-notices (Documents externes, notes, etc.) et tous les composants situés à un niveau inférieur de la hiérarchie.</p>"
     view_search_results: Aller aux résultats de la recherche
     view_published: Voir publiés
     print_to_pdf: Générer un PDF
@@ -747,6 +756,8 @@ fr:
         transfer_success: Document d'archives <strong>%{archival_object.display_string}</strong> transféré avec succès vers la ressource <strong>%{resource.title}</strong>
         transfer_error: "Le transfert du document d'archives n'a pas pu se faire, en raison d'une erreur ou d'un conflit: <pre>%{exception}</pre>"
         deleted: "Document d'archives <strong>%{archival_object.display_string}</strong> supprimé"
+        published: "Document d'archives <strong>%{archival_object.title}</strong>, ses sous-notices et composants situés à un niveau inférieur de la hiérarchie ont été publiés"
+        unpublished: "Document d'archives <strong>%{archival_object.title}</strong>, ses sous-notices et composants situés à un niveau inférieur de la hiérarchie ont été dépubliés"
         unsuppressed: Document d'archives <strong>%{archival_object.title}</strong> débloqué
         suppressed: Document d'archives <strong>%{archival_object.title}</strong> bloqué
         suppressed_info: Document d'archives bloqué, ne peut être édité
@@ -1103,6 +1114,7 @@ fr:
         spawned: "Une nouvelle ressource a été générée depuis Entrée <strong>%{accession.display_string}</strong>"
         deleted: "Ressource <strong>%{resource.title}</strong> supprimée"
         published: "La ressource <strong>%{resource.title}</strong>, ses sous-notices et composants ont été publiés"
+        unpublished: "La ressource <strong>%{resource.title}</strong>, ses sous-notices et composants ont été dépubliés"
         merge_description: Sélectionner ci-dessous les ressources à fusionner dans
         please_select_a_resource_to_merge: Veuillez sélectionner une ressource
         merged: Ressource(s) fusionnée(s)
