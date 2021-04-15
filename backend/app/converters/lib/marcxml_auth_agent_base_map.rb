@@ -100,8 +100,6 @@ module MarcXMLAuthAgentBaseMap
       :rel => rel,
       :map => agent_person_name_components_map,
       :defaults => {
-        :source => 'local',
-        :rules => 'local',
         :name_order => 'direct'
       }
     }
@@ -113,8 +111,6 @@ module MarcXMLAuthAgentBaseMap
       :rel => rel,
       :map => agent_corporate_entity_name_components_map,
       :defaults => {
-        :source => 'local',
-        :rules => 'local',
         :name_order => 'direct'
       }
     }
@@ -126,8 +122,6 @@ module MarcXMLAuthAgentBaseMap
       :rel => rel,
       :map => agent_family_name_components_map,
       :defaults => {
-        :source => 'local',
-        :rules => 'local',
         :name_order => 'direct'
       }
     }
