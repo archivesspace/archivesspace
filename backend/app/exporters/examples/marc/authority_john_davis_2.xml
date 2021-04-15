@@ -8,9 +8,8 @@
 	    <marcxml:datafield tag="010" ind1=" " ind2=" ">
     <marcxml:subfield code="a">n  88218900 </marcxml:subfield>
   </marcxml:datafield>
-	    <marcxml:datafield tag="035" ind1="7" ind2=" ">
-    <marcxml:subfield code="a">n  88218900</marcxml:subfield>
-    <marcxml:subfield code="2">DLC</marcxml:subfield>
+	  <marcxml:datafield tag="035" ind2=" ">
+    <marcxml:subfield code="a">(DLC)n  88218900</marcxml:subfield>
   </marcxml:datafield>
 	    <marcxml:datafield tag="040" ind1=" " ind2=" ">
     <marcxml:subfield code="a">DLC</marcxml:subfield>
