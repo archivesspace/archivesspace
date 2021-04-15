@@ -206,6 +206,14 @@ describe 'MARCXML Auth Agent converter' do
       expect(record['agent_record_identifiers'][1]['primary_identifier']).to eq(false)
     end
 
+    it 'imports agent_record_identifier from 035 prepended with (DLC) with proper source and type' do
+      record = convert(person_agent_2).select { |r| r['jsonmodel_type'] == 'agent_person' }.first
+
+      expect(record['agent_record_identifiers'][1]['record_identifier']).to eq('(DLC)n  88218900')
+      expect(record['agent_record_identifiers'][1]['identifier_type']).to eq('loc')
+      expect(record['agent_record_identifiers'][1]['source']).to eq('naf')
+    end
+
     it 'does not import record_identifier from 001 when 003 is DLC and 010 is present' do
       record = convert(person_agent_1).select { |r| r['jsonmodel_type'] == 'agent_person' }.first
 

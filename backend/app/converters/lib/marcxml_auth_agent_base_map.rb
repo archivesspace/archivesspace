@@ -478,6 +478,11 @@ module MarcXMLAuthAgentBaseMap
             ari['source'] = 'lac' if node.parent.attr('ind1') == '#'
           end
 
+          if node.parent.attr('tag') == '035' && val.start_with?('(DLC)')
+            ari['source'] = 'naf'
+            ari['identifier_type'] = 'loc'
+          end
+
           if node.parent.attr('ind1') == '7'
             sf_2 = (node.parent).at_xpath("subfield[@code='2']")
             ari['source'] = sf_2.inner_text if sf_2
