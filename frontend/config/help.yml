@@ -112,6 +112,7 @@ topics:
   agent_topic: '1942945864/Agent+Record+Fields+from+3.0'
   agent_used_language: '1942945864/Agent+Record+Fields+from+3.0'
   agent_external_documents: '894435542/External+Document+Sub-Record+-+Agent+Records'
+  agent_external_resources: '1976631381/Relation+Information+-+Linking+Agent+Record+s+and+Related+External+Resources+to+an+Agent+Record+v.3.0.0'
   agent_related_agents: '1976631381/Relation+Information+-+Linking+Agent+Record+s+and+Related+External+Resources+to+an+Agent+Record+v.3.0.0'
   agent_required: '2209677336/Editing+Required+Fields+in+Agent+Records'
   agent_merge: '1961197569/Merging+Agent+Records+from+v3.0'
