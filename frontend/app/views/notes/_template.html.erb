@@ -106,9 +106,9 @@
     <div class="tabbable tabs-below">
       <div class="tab-content">
         <div class="tab-pane active" id="<%= form.id_for("item") %>_raw">
-          <%= form.textarea(nil, item, { :escape => false, :class => "mixed-content" }) %>
+          <span class="note-content-raw"><%= form.textarea(nil, item, { :escape => false, :class => "mixed-content" }) %></span>
         </div>
-        <div class="tab-pane" id="<%= form.id_for("item") %>_parsed">
+        <div class="tab-pane note-content-formatted" id="<%= form.id_for("item") %>_parsed">
           <%= clean_note(item).html_safe %>
         </div>
       </div>
@@ -893,9 +893,9 @@
           <div class="tabbable tabs-below">
             <div class="tab-content">
               <div class="tab-pane active" id="<%= form.id_for("content") %>_raw">
-                <%= form.textarea(nil, form["content"], :class => "mixed-content") %>
+                <span class="note-content-raw"><%= form.textarea(nil, form["content"], :class => "mixed-content") %></span>
               </div>
-              <div class="tab-pane" id="<%= form.id_for("content") %>_parsed">
+              <div class="tab-pane note-content-formatted" id="<%= form.id_for("content") %>_parsed">
                 <%= clean_note(form["content"]).html_safe %>
               </div>
             </div>
