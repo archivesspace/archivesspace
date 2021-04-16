@@ -26,6 +26,14 @@ $(function() {
 
       var initNoteType = function($subform, template_name, is_subrecord, button_class, init_callback) {
 
+        // ANW-1199: Prevent enter key from submitting entire form.
+        // Added to address UI issues with the outline notes subform.
+        $this.keydown(function (e) { 
+          if(e.which == 13) {
+            e.preventDefault(); 
+          }; 
+        });
+
         $((button_class || ".add-item-btn"), $subform).click(function(event) {
           event.preventDefault();
           event.stopPropagation();
@@ -78,10 +86,16 @@ $(function() {
       };
 
       initialisers.note_outline_level = function($subform) {
-        initNoteType($subform, "template_note_outline_string", true, '.add-sub-item-btn');
-        initNoteType($subform, "template_note_outline_level", true, '.add-sub-level-btn');
-      };
+        initNoteType($subform, "template_note_outline_string", true, '.add-sub-item-btn', function(new_form) {
+          new_form.parent().parent().children('.note-outline-empty-level').hide();
+          initNoteForm(new_form, false);
+        });
 
+        initNoteType($subform, "template_note_outline_level", true, '.add-sub-level-btn', function(new_form) {
+          new_form.parent().parent().children('.note-outline-empty-level').hide();
+          initNoteForm(new_form, false);
+        });
+      }
 
       var dropdownFocusFix = function(form) {
         $('.dropdown-menu.subrecord-selector li', form).click(function(e) {
