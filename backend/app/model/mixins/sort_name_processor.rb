@@ -137,6 +137,7 @@ module SortNameProcessor
       result << "#{json["software_name"]}" if json["software_name"]
       result << " #{json["version"]}" if json["version"]
       result << " (#{json["qualifier"]})" if json["qualifier"]
+      result << ", #{json["dates"]}" if json["dates"]
 
       dates = json['dates'].nil? ? SortNameProcessor::Utils.first_date(extras, 'dates_of_existence') : nil
       result << " (#{dates})" if dates
