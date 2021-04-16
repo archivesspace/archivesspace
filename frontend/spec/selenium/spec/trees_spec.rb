@@ -49,4 +49,11 @@ describe 'Tree UI' do
     expect(@driver.find_elements(css: '.root-row').length).to eq(1)
     expect(@driver.find_elements(css: '.largetree-node').length).to eq(4)
   end
+
+  it 'can retain location hash when sidebar items are clicked' do
+    tree_click(tree_node(@a1))
+    expect(@driver.current_url).to match(/::archival_object/)
+    @driver.find_element(css: ".sidebar-entry-notes a").click
+    assert(5) { expect(@driver.current_url).to match(/::archival_object/) }
+  end
 end

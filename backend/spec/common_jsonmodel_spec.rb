@@ -518,4 +518,18 @@ describe 'JSON model' do
     expect(hash['linked_agents'].first['role']).to eq("Creator");
   end
 
+  it "requires an :external_id and :source on the :external_id schema" do
+    expect {
+      JSONModel(:external_id).from_hash({"external_id" => "123",
+                                         "source" => "ABCD"})
+    }.not_to raise_error
+
+    expect {
+      JSONModel(:external_id).from_hash({"external_id" => "123"})
+    }.to raise_error
+
+    expect {
+      JSONModel(:external_id).from_hash({"source" => "ABCD"})
+    }.to raise_error
+  end
 end

@@ -22,6 +22,10 @@ class SubjectsController < ApplicationController
     end
   end
 
+  def current_record
+    @subject
+  end
+
   def show
     @subject = JSONModel(:subject).find(params[:id])
   end

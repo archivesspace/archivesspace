@@ -21,6 +21,11 @@ class AssessmentsController < ApplicationController
   end
 
 
+  def current_record
+    @assessment
+  end
+
+
   def show
     @assessment = JSONModel(:assessment).find(params[:id], 'resolve[]' => ['surveyed_by', 'records', 'reviewer'])
     @assessment_attribute_definitions = AssessmentAttributeDefinitions.find(nil)

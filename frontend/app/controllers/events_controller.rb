@@ -22,6 +22,10 @@ class EventsController < ApplicationController
     end
   end
 
+  def current_record
+    @event
+  end
+
   def show
     @event = JSONModel(:event).find(params[:id], find_opts)
 

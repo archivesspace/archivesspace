@@ -67,6 +67,7 @@ class ArchivesSpaceService < Sinatra::Base
     config.dont_reload File.join("app", "lib", "rest.rb")
     config.dont_reload File.join("**", "exporters", "*.rb")
     config.dont_reload File.join("**", "spec", "*.rb")
+    config.dont_reload File.join("..", "plugins", "**", "spec", "*.rb")
 
     set :server, :mizuno
     set :server_settings, {:reuse_address => true}
@@ -201,6 +202,13 @@ class ArchivesSpaceService < Sinatra::Base
         end
         @archivesspace_loaded = true
 
+
+        # Warn if any referenced plugins aren't present
+        ASUtils.find_local_directories.each do |plugin_dir|
+          unless Dir.exist?(plugin_dir)
+            Log.warn("Plugin referenced in AppConfig[:plugins] could not be found: #{File.absolute_path(plugin_dir)}")
+          end
+        end
 
         # Load plugin init.rb files (if present)
         ASUtils.find_local_directories('backend').each do |dir|

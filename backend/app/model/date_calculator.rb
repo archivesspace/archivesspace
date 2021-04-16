@@ -100,9 +100,9 @@ class DateCalculator
   def coerce_begin_date(raw_date)
     return if raw_date.nil?
 
-    if raw_date =~ /^[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]$/
+    if raw_date =~ /^[0-9][0-9][0-9][0-9]-[0-9][0-9]?-[0-9][0-9]?$/
       Date.strptime(raw_date, '%Y-%m-%d')
-    elsif raw_date =~ /^[0-9][0-9][0-9][0-9]-[0-9][0-9]$/
+    elsif raw_date =~ /^[0-9][0-9][0-9][0-9]-[0-9][0-9]?$/
       Date.strptime("#{raw_date}-01", '%Y-%m-%d')
     elsif raw_date =~ /^[0-9][0-9][0-9][0-9]$/
       Date.strptime("#{raw_date}-01-01", '%Y-%m-%d')
@@ -114,10 +114,10 @@ class DateCalculator
   def coerce_end_date(raw_date)
     return if raw_date.nil?
 
-    if raw_date =~ /^[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]$/
+    if raw_date =~ /^[0-9][0-9][0-9][0-9]-[0-9][0-9]?-[0-9][0-9]?$/
       Date.strptime(raw_date, '%Y-%m-%d')
-    elsif raw_date =~ /^[0-9][0-9][0-9][0-9]-[0-9][0-9]$/
-      year, month = raw_date.match(/([0-9][0-9][0-9][0-9])-([0-9][0-9])/).captures
+    elsif raw_date =~ /^[0-9][0-9][0-9][0-9]-[0-9][0-9]?$/
+      year, month = raw_date.match(/([0-9][0-9][0-9][0-9])-([0-9][0-9]?)/).captures
       Date.civil(year.to_i, month.to_i, -1)
     elsif raw_date =~ /^[0-9][0-9][0-9][0-9]$/
       Date.civil(raw_date.to_i, -1, -1)

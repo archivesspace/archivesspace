@@ -72,8 +72,8 @@ describe 'Space Calculator' do
     @driver.logout.login_to_repo($admin, @repo)
 
     @driver.navigate.to("#{$frontend}/top_containers/#{@top_container.id}/edit")
-    @driver.find_element(css: '#top_container_container_locations_ .subrecord-form-heading .btn').click
-    @driver.find_element(css: '#top_container_container_locations_ .linker-wrapper .btn.locations').click
+    @driver.find_element(css: '#container_locations .subrecord-form-heading .btn').click
+    @driver.find_element(css: '#container_locations .linker-wrapper .btn.locations').click
     @driver.wait_for_dropdown
     @driver.find_element(link: 'Find with Space Calculator').click
 
@@ -110,7 +110,7 @@ describe 'Space Calculator' do
 
     # the add button will now be enabled
     @driver.find_element(css: '#spaceCalculatorModal .modal-footer #addSelectedButton:not([disabled])').click
-    expect(@driver.find_element(:css, '#top_container_container_locations_ ul.token-input-list').text).to match(/#{Regexp.quote(@location.title)}/)
+    expect(@driver.find_element(:css, '#container_locations ul.token-input-list').text).to match(/#{Regexp.quote(@location.title)}/)
     @driver.find_element(css: '.record-pane .form-actions .btn.btn-primary').click
   end
 end

@@ -45,6 +45,8 @@ class RepositoriesController < ApplicationController
                     @exceptions[:errors]["repository/repo_code"] = @exceptions[:errors].delete("repo_code")
                   end
 
+                  @enum = JSONModel(:enumeration).find("/names/archival_record_level")
+
                   return render_aspace_partial :partial => "repositories/new" if inline?
                   return render :action => :new
                 },
@@ -97,6 +99,10 @@ class RepositoriesController < ApplicationController
 
                   redirect_to :controller => :repositories, :action => :show, :id => id
                 })
+  end
+
+  def current_record
+    @repository
   end
 
   def show

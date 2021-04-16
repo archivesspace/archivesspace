@@ -13,6 +13,11 @@ class GroupsController < ApplicationController
   end
 
 
+  def current_record
+    @group
+  end
+
+
   def show
     redirect_to :action => :index
   end
