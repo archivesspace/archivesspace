@@ -2,7 +2,7 @@
 
 source 'https://rubygems.org'
 
-gem 'activesupport', '5.2.4.4'
+gem 'activesupport', '5.2.5'
 gem 'atomic', '= 1.0.1'
 gem 'excon', '>= 0.76.0'
 gem 'fog-aws', '2.0.0', require: false
