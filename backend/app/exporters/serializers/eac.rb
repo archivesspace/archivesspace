@@ -86,7 +86,7 @@ class EACSerializer < ASpaceExport::Serializer
         if arc['maintenance_status']
           value = I18n.t("enumerations.maintenance_status.#{arc['maintenance_status']}")
 
-          value = value == "Revised/Corrected" ? "Revised" : value
+          value = value == "Revised/Corrected" ? "revised" : value
 
           create_node(
             xml,
