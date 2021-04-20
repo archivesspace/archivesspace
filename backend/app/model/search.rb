@@ -169,6 +169,42 @@ class Search
   end
 
   def self.search_csv( params, repo_id )
+    if AppConfig[:extended_csv_export_enabled]
+      extended_csv_export(params, repo_id)
+    else
+      search_csv_solr(params, repo_id)
+    end
+  end
+
+  def self.extended_csv_export(params, repo_id)
+    csv_clz = Kernel.const_get(AppConfig[:extended_csv_export_class].intern)
+
+    Enumerator.new do |y|
+      csv = csv_clz.new
+      begin
+        page = 1
+        loop do
+          hits = search(params.merge(:fields => ['json'], :dt => 'json',
+                                     :page => page, :page_size => 200),
+                        repo_id)
+          break if hits.fetch('results', []).empty?
+
+          hits.fetch('results').each do |result|
+            csv << ASUtils.json_parse(result.fetch('json'))
+          end
+          page += 1
+        end
+
+        csv.to_csv do |chunk|
+          y << chunk
+        end
+      ensure
+        csv.close
+      end
+    end
+  end
+
+  def self.search_csv_solr( params, repo_id )
     # first let's get a json response with the number of pages
     p = params.dup
     p[:dt] = "json"
