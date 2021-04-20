@@ -34,8 +34,8 @@ describe 'EAC Export' do
 
     it 'exports maintenanceStatus tag value as Revised instead of Revised/Corrected' do
 
-      r = create(:json_agent_person_full_subrec, 
-        :agent_record_controls => [ build(:agent_record_control, 
+      r = create(:json_agent_person_full_subrec,
+        :agent_record_controls => [ build(:agent_record_control,
           :maintenance_status => "revised_corrected")
         ])
 
@@ -43,7 +43,7 @@ describe 'EAC Export' do
       AppConfig[:export_eac_agency_code] = true
       eac = get_eac(r)
 
-      expect(eac).to have_tag 'control/maintenanceStatus' => "Revised"
+      expect(eac).to have_tag 'control/maintenanceStatus' => "revised"
     end
 
     it 'does not export agency_code in agent_record_controls if config option not set' do
