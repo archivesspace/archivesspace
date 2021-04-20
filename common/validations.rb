@@ -27,11 +27,11 @@ module JSONModel::Validations
     end
   end
 
-  # ANW-1232: add validations to prevent software agents from having/saving record control or agent relation subrecords. 
+  # ANW-1232: add validations to prevent software agents from having/saving record control or agent relation subrecords.
   # These records are hidden from the forms but allowed through the schema (as agent_software inherits from abstract_agent) so these validations serve to prevent these subrecords from being added via API calls.
   if JSONModel(:agent_software)
     JSONModel(:agent_software).add_validation("check_agent_software_subrecords") do |hash|
-        check_agent_software_subrecords(hash)
+      check_agent_software_subrecords(hash)
     end
 
   end
