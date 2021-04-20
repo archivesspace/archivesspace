@@ -30,6 +30,15 @@ describe 'Accession converter' do
     expect(@agents.count).to eq(5)
   end
 
+  it "creates an Agent contact subrecord with telephone and fax if in the row" do
+    telephones = @agents.first['agent_contacts'].map { |c| c['telephones'] }.flatten
+    expect(telephones.count).to eq(2)
+    expect(telephones[0]['number_type']).to eq('fax')
+    expect(telephones[0]['number']).to eq('999-444-4444')
+    expect(telephones[1]['number_type']).to eq('home')
+    expect(telephones[1]['ext']).to eq('247')
+  end
+
   it "created a Subject record if one is in the row" do
     expect(@subjects.count).to eq(8)
   end
