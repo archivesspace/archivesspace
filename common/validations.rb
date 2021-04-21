@@ -27,6 +27,15 @@ module JSONModel::Validations
     end
   end
 
+  # ANW-1232: add validations to prevent software agents from having/saving record control or agent relation subrecords.
+  # These records are hidden from the forms but allowed through the schema (as agent_software inherits from abstract_agent) so these validations serve to prevent these subrecords from being added via API calls.
+  if JSONModel(:agent_software)
+    JSONModel(:agent_software).add_validation("check_agent_software_subrecords") do |hash|
+      check_agent_software_subrecords(hash)
+    end
+
+  end
+
   [:agent_function, :agent_place, :agent_occupation, :agent_topic].each do |type|
     if JSONModel(type)
       JSONModel(type).add_validation("check_#{type}_subject_subrecord") do |hash|
@@ -330,6 +339,19 @@ module JSONModel::Validations
 
     if hash["subjects"].empty?
       errors << ["subjects", "Must specify a primary subject"]
+    end
+
+    return errors
+  end
+
+  def self.check_agent_software_subrecords(hash)
+    errors = []
+    subrecords_disallowed = ["agent_record_identifiers", "agent_record_controls", "agent_other_agency_codes", "agent_conventions_declarations", "agent_maintenance_histories", "agent_sources", "agent_alternate_sets", "agent_resources"]
+
+    subrecords_disallowed.each do |sd|
+      unless hash[sd] == [] || hash[sd].nil?
+        errors << [sd, "subrecord not allowed for agent software"]
+      end
     end
 
     return errors

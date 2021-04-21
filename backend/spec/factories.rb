@@ -398,20 +398,12 @@ FactoryBot.define do
     agent_type { 'agent_software' }
     names { [build(:json_name_software)] }
     dates_of_existence { [build(:json_structured_date_label)] }
-    agent_record_controls { [build(:agent_record_control)] }
-    agent_alternate_sets { [build(:agent_alternate_set)] }
-    agent_conventions_declarations { [build(:agent_conventions_declaration)] }
-    agent_sources { [build(:agent_sources)] }
-    agent_other_agency_codes { [build(:agent_other_agency_codes)] }
-    agent_maintenance_histories { [build(:agent_maintenance_history)] }
-    agent_record_identifiers { [build(:agent_record_identifier)] }
     agent_places { [build(:json_agent_place)] }
     agent_occupations { [build(:json_agent_occupation)] }
     agent_functions { [build(:json_agent_function)] }
     agent_topics { [build(:json_agent_topic)] }
     agent_identifiers { [build(:json_agent_identifier)] }
     used_languages { [build(:json_used_language)] }
-    agent_resources { [build(:json_agent_resource)] }
   end
 
   factory :json_agent_family_full_subrec, class: JSONModel(:agent_family) do
