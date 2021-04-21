@@ -261,21 +261,20 @@ describe 'EAD converter' do
 
     # NAMES
     it "maps '<corpname>' correctly" do
-      #   IF nested in <origination> OR <controlaccess>
       #   IF nested in <origination>
       c1 = @corps.find {|corp| corp['names'][0]['primary_name'] == "CNames-PrimaryName-AT. CNames-Subordinate1-AT. CNames-Subordiate2-AT. (CNames-Number-AT) (CNames-Qualifier-AT)"}
       expect(c1).not_to be_nil
 
-      linked = @resource['linked_agents'].find {|a| a['ref'] == c1['uri']}
-      expect(linked['role']).to eq('creator')
+      linked1 = @resource['linked_agents'].find {|a| a['ref'] == c1['uri']}
+      expect(linked1['role']).to eq('creator')
+
       #   IF nested in <controlaccess>
       c2 = @corps.find {|corp| corp['names'][0]['primary_name'] == "CNames-PrimaryName-AT. CNames-Subordinate1-AT. CNames-Subordiate2-AT. (CNames-Number-AT) (CNames-Qualifier-AT) -- Archives"}
       expect(c2).not_to be_nil
 
-      linked = @resource['linked_agents'].find {|a| a['ref'] == c2['uri']}
-      expect(linked['role']).to eq('subject')
+      linked2 = @resource['linked_agents'].find {|a| a['ref'] == c2['uri']}
+      expect(linked2['role']).to eq('subject')
 
-      #   ELSE
       #   Respect audience attribute as set in at-tracer.xml
       expect(c1['publish']).to be_falsey
       expect(c2['publish']).to be_truthy
@@ -284,6 +283,8 @@ describe 'EAD converter' do
       #   IF @source != NULL ==> name_corporate_entity.source
       expect([c1, c2].map {|c| c['names'][0]['source']}.uniq).to eq(['naf'])
       #   IF @authfilenumber != NULL
+      #   IF @role != NULL ==> name_corporate_entity.relator
+      expect(linked1['relator']).to eq('Creator (cre)')
     end
 
     it "maps '<famname>' correctly" do
@@ -298,7 +299,7 @@ describe 'EAD converter' do
       #   IF nested in <controlaccess>
       n2 = fams.find {|f| f['uri'] == links.find {|l| l['role'] == 'subject' }['ref'] }['names'][0]['family_name']
       expect(n2).to eq("FNames-FamilyName-AT, FNames-Prefix-AT, FNames-Qualifier-AT -- Pictorial works")
-      #   ELSE
+
       #   Respect audience attribute as set in at-tracer.xml
       expect(fams.find {|f| f['uri'] == links.find {|l| l['role'] == 'creator' }['ref'] }['publish']).to be_falsey
       expect(fams.find {|f| f['uri'] == links.find {|l| l['role'] == 'subject' }['ref'] }['publish']).to be_truthy
@@ -307,15 +308,16 @@ describe 'EAD converter' do
       #   IF @source != NULL
       expect(fams.map {|f| f['names'][0]['source']}.uniq).to eq(['naf'])
       #   IF @authfilenumber != NULL
+      #   IF @role != NULL ==> name_family.relator
+      expect(links[0]['relator']).to eq('Creator (cre)')
     end
 
     it "maps '<persname>' correctly" do
-      #   IF nested in <origination> OR <controlaccess>
       #   IF nested in <origination>
       expect(@archival_objects['01']['linked_agents'].find {|l| @people.map {|p| p['uri'] }.include?(l['ref'])}['role']).to eq('creator')
       #   IF nested in <controlaccess>
       expect(@archival_objects['06']['linked_agents'].reverse.find {|l| @people.map {|p| p['uri'] }.include?(l['ref'])}['role']).to eq('subject')
-      #   ELSE
+
       #   If audience attribute is not present in at-tracer.xml, default to unpublished
       expect(@people.map {|p| p['publish']}.uniq).to eq([false])
       #   IF @rules != NULL
@@ -323,6 +325,8 @@ describe 'EAD converter' do
       #   IF @source != NULL
       expect(@people.map {|p| p['names'][0]['source']}.uniq).to eq(['local'])
       #   IF @authfilenumber != NULL
+      #   IF @role != NULL ==> name_person.relator
+      expect(@archival_objects['06']['linked_agents'].reverse.find {|l| @people.map {|p| p['uri'] }.include?(l['ref'])}['relator']).to eq('Donor (dnr)')
     end
 
       # SUBJECTS
