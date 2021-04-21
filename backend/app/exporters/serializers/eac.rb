@@ -479,18 +479,18 @@ class EACSerializer < ASpaceExport::Serializer
   # if there is an expression, it will be used for the inner text. Otherwise, the standardized date will be used.
   def _build_date_single_std(date, xml)
     expression = date['structured_date_single']['date_expression']
-    standardized = date['structured_date_single']['date_standardized'] 
+    standardized = date['structured_date_single']['date_standardized']
 
     inner_text = expression ? expression : standardized
 
     std_attr = case date['structured_date_single']['date_standardized_type']
-    when 'standard'
-      :standardDate
-    when 'not_before'
-      :notBefore
-    when 'not_after'
-      :notAfter
-    end
+               when 'standard'
+                 :standardDate
+               when 'not_before'
+                 :notBefore
+               when 'not_after'
+                 :notAfter
+               end
 
     attrs = { localType: date['date_label'] }
     attrs[std_attr] = standardized
@@ -509,31 +509,31 @@ class EACSerializer < ASpaceExport::Serializer
 
   def _build_date_range_std(date, xml)
     begin_expression = date['structured_date_range']['begin_date_expression']
-    begin_standardized = date['structured_date_range']['begin_date_standardized'] 
+    begin_standardized = date['structured_date_range']['begin_date_standardized']
 
     end_expression = date['structured_date_range']['end_date_expression']
-    end_standardized = date['structured_date_range']['end_date_standardized'] 
+    end_standardized = date['structured_date_range']['end_date_standardized']
 
     begin_inner_text = begin_expression ? begin_expression : begin_standardized
     end_inner_text = end_expression ? end_expression : end_standardized
 
     begin_std_attr = case date['structured_date_range']['begin_date_standardized_type']
-    when 'standard'
-      :standardDate
-    when 'not_before'
-      :notBefore
-    when 'not_after'
-      :notAfter
-    end
+                     when 'standard'
+                       :standardDate
+                     when 'not_before'
+                       :notBefore
+                     when 'not_after'
+                       :notAfter
+                     end
 
     end_std_attr = case date['structured_date_range']['end_date_standardized_type']
-    when 'standard'
-      :standardDate
-    when 'not_before'
-      :notBefore
-    when 'not_after'
-      :notAfter
-    end
+                   when 'standard'
+                     :standardDate
+                   when 'not_before'
+                     :notBefore
+                   when 'not_after'
+                     :notAfter
+                   end
 
     begin_attrs = {}
     begin_attrs[begin_std_attr] = begin_standardized
