@@ -469,9 +469,33 @@ class EACSerializer < ASpaceExport::Serializer
     end # end of xml.cpfDescription
   end
 
+  # builds a date node when there is an expression but no standard dates
   def _build_date_single(date, xml)
-    attrs = { standardDate: date['structured_date_single']['date_standardized'], localType: date['date_label'] }
+    attrs = { localType: date['date_label'] }
     create_node(xml, 'date', attrs, date['structured_date_single']['date_expression'])
+  end
+
+  # builds a date node when standardized dates are defined.
+  # if there is an expression, it will be used for the inner text. Otherwise, the standardized date will be used.
+  def _build_date_single_std(date, xml)
+    expression = date['structured_date_single']['date_expression']
+    standardized = date['structured_date_single']['date_standardized'] 
+
+    inner_text = expression ? expression : standardized
+
+    std_attr = case date['structured_date_single']['date_standardized_type']
+    when 'standard'
+      :standardDate
+    when 'not_before'
+      :notBefore
+    when 'not_after'
+      :notAfter
+    end
+
+    attrs = { localType: date['date_label'] }
+    attrs[std_attr] = standardized
+
+    create_node(xml, 'date', attrs, inner_text)
   end
 
   def _build_date_range(date, xml)
@@ -480,6 +504,46 @@ class EACSerializer < ASpaceExport::Serializer
       end_attrs = { standardDate: date['structured_date_range']['end_date_standardized'] }
       create_node(xml, 'fromDate', begin_attrs, date['structured_date_range']['begin_date_expression'])
       create_node(xml, 'toDate', end_attrs, date['structured_date_range']['end_date_expression'])
+    end
+  end
+
+  def _build_date_range_std(date, xml)
+    begin_expression = date['structured_date_range']['begin_date_expression']
+    begin_standardized = date['structured_date_range']['begin_date_standardized'] 
+
+    end_expression = date['structured_date_range']['end_date_expression']
+    end_standardized = date['structured_date_range']['end_date_standardized'] 
+
+    begin_inner_text = begin_expression ? begin_expression : begin_standardized
+    end_inner_text = end_expression ? end_expression : end_standardized
+
+    begin_std_attr = case date['structured_date_range']['begin_date_standardized_type']
+    when 'standard'
+      :standardDate
+    when 'not_before'
+      :notBefore
+    when 'not_after'
+      :notAfter
+    end
+
+    end_std_attr = case date['structured_date_range']['end_date_standardized_type']
+    when 'standard'
+      :standardDate
+    when 'not_before'
+      :notBefore
+    when 'not_after'
+      :notAfter
+    end
+
+    begin_attrs = {}
+    begin_attrs[begin_std_attr] = begin_standardized
+
+    end_attrs = {}
+    end_attrs[end_std_attr] = end_standardized
+
+    xml.dateRange(localType: date['date_label']) do
+      create_node(xml, 'fromDate', begin_attrs, begin_inner_text)
+      create_node(xml, 'toDate', end_attrs, end_inner_text)
     end
   end
 
@@ -520,9 +584,10 @@ class EACSerializer < ASpaceExport::Serializer
     return [] unless dates
 
     dates.map do |date|
-      date_method, expression = _date_processor(date)
-      # an expression is required
-      next unless expression
+      date_method = _date_processor(date)
+
+      # date_method will be nil if both expression and standardized_dates are missing
+      next unless date_method
 
       { date_method: date_method, date: date }
     end.compact
@@ -530,13 +595,32 @@ class EACSerializer < ASpaceExport::Serializer
 
   def _date_processor(date)
     if date['date_type_structured'] == 'single'
-      date_method = :_build_date_single
-      expression  = date['structured_date_single']['date_expression']
+      expression   = date['structured_date_single']['date_expression']
+      standardized = date['structured_date_single']['date_standardized']
+
+      if expression && !standardized
+        date_method  = :_build_date_single
+      elsif standardized || expression
+        date_method  = :_build_date_single_std
+      else
+        date_method  = nil
+      end
+
     else
-      date_method = :_build_date_range
-      expression  = date['structured_date_range']['begin_date_expression'] || date['structured_date_range']['end_date_expression']
+      expression   = date['structured_date_range']['begin_date_expression'] || date['structured_date_range']['end_date_expression']
+
+      standardized = date['structured_date_range']['begin_date_standardized'] || date['structured_date_range']['end_date_standardized']
+
+      if expression && !standardized
+        date_method  = :_build_date_range
+      elsif standardized || expression
+        date_method  = :_build_date_range_std
+      else
+        date_method  = nil
+      end
     end
-    [date_method, expression]
+
+    date_method
   end
 
   def _descriptive_note(note, xml)
