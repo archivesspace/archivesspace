@@ -16,6 +16,7 @@ describe 'EAC Export' do
       expect(eac).to have_tag('control/otherRecordId')
     end
 
+    #ANW-1266: for this test, the factory value for agent_record_control['maintenance_status'] is expected not to be 'revised_corrected', as that is a special case handled in the next test.
     it 'agent_record_control to control tags' do
       r = create(:json_agent_person_full_subrec)
       arc = r['agent_record_controls'].first
@@ -29,6 +30,20 @@ describe 'EAC Export' do
       expect(eac).to have_tag 'control/maintenanceAgency/descriptiveNote/p' => arc['maintenance_agency_note']
       expect(eac).to have_tag 'control/languageDeclaration/language' => I18n.t("enumerations.language_iso639_2.#{arc['language']}")
       expect(eac).to have_tag 'control/languageDeclaration/descriptiveNote/p' => arc['language_note']
+    end
+
+    it 'exports maintenanceStatus tag value as Revised instead of Revised/Corrected' do
+
+      r = create(:json_agent_person_full_subrec,
+        :agent_record_controls => [ build(:agent_record_control,
+          :maintenance_status => "revised_corrected")
+        ])
+
+      arc = r['agent_record_controls'].first
+      AppConfig[:export_eac_agency_code] = true
+      eac = get_eac(r)
+
+      expect(eac).to have_tag 'control/maintenanceStatus' => "revised"
     end
 
     it 'does not export agency_code in agent_record_controls if config option not set' do

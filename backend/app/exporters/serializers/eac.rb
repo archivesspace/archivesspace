@@ -84,11 +84,15 @@ class EACSerializer < ASpaceExport::Serializer
       # AGENT_RECORD_CONTROLS
       with(xml, json['agent_record_controls']) do |arc|
         if arc['maintenance_status']
+          value = I18n.t("enumerations.maintenance_status.#{arc['maintenance_status']}")
+
+          value = value == "Revised/Corrected" ? "revised" : value
+
           create_node(
             xml,
             'maintenanceStatus',
             {},
-            I18n.t("enumerations.maintenance_status.#{arc['maintenance_status']}")
+            value
           )
         end
         create_node(xml, 'publicationStatus', {}, arc['publication_status'])
