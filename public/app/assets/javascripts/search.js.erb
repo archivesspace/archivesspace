@@ -28,6 +28,13 @@ var fn_plusminus = function(e){
     }
     return false;
 }
+var submit_on_enter = function(e) {
+    var key = e.which;
+    if (key == 13) {
+        $("#submit_search").click();
+        return false;
+    }
+}
 
 function initialize_search() {
     $as = $("#advanced_search");
@@ -50,13 +57,7 @@ function initialize_search() {
     $template.find("#op0").removeProp("disabled"); /* the disabled boolean operator */
     $template.find("#op0").val('AND');
     $template.find("#op_").remove();
-    $first.find("#q0").keypress(function (e) {
-	    var key = e.which;
-	    if (key == 13) {
-		$("#submit_search").click();
-		return false;
-	    }
-	});
+    $(".js-search-box").keypress(submit_on_enter);
 
     // squash whitespace in rows
     $first.find('> .col-sm-1:first').hide();
@@ -86,6 +87,9 @@ function new_row_from_template() {
     replace_id_ref($row, 'select', 'id', num);
     $row.attr("id", "search_row_" + num);
     new_button($row, true);
+
+    $row.keypress(submit_on_enter);
+
     return $row;
 }
 

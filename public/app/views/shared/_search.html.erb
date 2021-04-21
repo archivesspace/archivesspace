@@ -19,7 +19,7 @@
     <div class="<%= i == 0 ? "col-sm-3" : "col-sm-6" %> form-group form-inline">
       <%= label_tag(:"q#{i}", t('navbar.search_placeholder'),:class => 'sr-only repeats') %>
       <%= text_field_tag('q[]', @search[:q][i], :placeholder =>  t('navbar.search_placeholder'), :id => "q#{i}",
-            :class=> 'form-control repeats fill-column') %>
+            :class=> 'form-control repeats fill-column js-search-box') %>
     </div>
     <% if i == 0 %>
       <div class="col-sm-3 form-group form-inline norepeat">
