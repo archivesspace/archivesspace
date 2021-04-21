@@ -370,7 +370,7 @@ class IndexerCommon
 
       # Turn our sets back into regular arrays so they serialize out to JSON correctly
       found_keys.each do |key|
-        doc[key] = doc[key].to_a
+        doc[key] = doc[key].to_a.flatten
       end
     }
 
