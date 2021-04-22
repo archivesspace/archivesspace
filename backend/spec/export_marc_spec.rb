@@ -909,6 +909,23 @@ describe 'MARC Export' do
       expect(parent_node.at("subfield[@code='0']")).to be_nil
     end
 
+    it "look to $v, $x, $y, and $z subdivisions when determining whether to export $0" do
+      df = @marcs[0].at("datafield[@tag='600']")
+
+      sfs = []
+      ['v', 'x', 'y', 'z'].each do |sf|
+        sfs << df.at("subfield[@code='#{sf}']")
+      end
+
+      # If these subfields are present, don't export $0
+      if sfs.compact.count > 0
+        expect(df.at("subfield[@code='0']")).to be_nil
+      # If not present, do export $0
+      else
+        expect(df.at("subfield[@code='0']")).not_to be_nil
+      end
+    end
+
     it "should add required punctuation to 100 tag agent-person subfields" do
       name = @agents[0]['names'][0]
       inverted = name['name_order'] == 'direct' ? '0' : '1'
@@ -972,12 +989,19 @@ describe 'MARC Export' do
 
       df = @marcs[1].at("datafield[@tag='600'][@ind1='#{inverted}'][@ind2='#{ind2}']")
 
+      sf_v = df.at("subfield[@code='v']")
+      sf_x = df.at("subfield[@code='x']")
+      sf_y = df.at("subfield[@code='y']")
+      sf_z = df.at("subfield[@code='z']")
+
       expect(df.at("subfield[@code='a']")).to have_inner_text(/#{name_string}/)
       expect(df.at("subfield[@code='b']")).to have_inner_text(/#{name['number']}/)
       expect(df.at("subfield[@code='c']")).to have_inner_text(/#{%w(prefix title suffix).map {|p| name[p]}.compact.join(', ')}/)
       expect(df.at("subfield[@code='d']")).to have_inner_text(/#{name['dates']}/)
       expect(df.at("subfield[@code='4']")).to have_inner_text(/#{name['relator']}/)
-      expect(df.at("subfield[@code='0']")).to have_inner_text(/#{name['authority_id']}/)
+      if [sf_v, sf_x, sf_y, sf_z].all? { |sf| sf.nil? }
+        expect(df.at("subfield[@code='0']")).to have_inner_text(/#{name['authority_id']}/)
+      end
 
       if ind2 == '7'
         expect(df.at("subfield[@code='2']")).to have_inner_text(/#{name['source']}/)
@@ -1019,6 +1043,11 @@ describe 'MARC Export' do
 
        df = @marcs[0].at("datafield[@tag='610'][@ind1='2'][@ind2='#{ind2}']")
 
+       sf_v = df.at("subfield[@code='v']")
+       sf_x = df.at("subfield[@code='x']")
+       sf_y = df.at("subfield[@code='y']")
+       sf_z = df.at("subfield[@code='z']")
+
        expect(df.at("subfield[@code='a']")).to have_inner_text(/#{name['primary_name']}/)
        subfield_b = df.at("subfield[@code='b']")
        if !subfield_b.nil?
@@ -1026,7 +1055,9 @@ describe 'MARC Export' do
        end
        expect(df.at("subfield[@code='n']")).to have_inner_text(/#{name['number']}/)
        expect(df.at("subfield[@code='4']")).to have_inner_text(/#{name['relator']}/)
-       expect(df.at("subfield[@code='0']")).to have_inner_text(/#{name['authority_id']}/)
+       if [sf_v, sf_x, sf_y, sf_z].all? { |sf| sf.nil? }
+         expect(df.at("subfield[@code='0']")).to have_inner_text(/#{name['authority_id']}/)
+       end
 
        if ind2 == '7'
          expect(df.at("subfield[@code='2']")).to have_inner_text(/#{name['source']}/)
@@ -1060,11 +1091,18 @@ describe 'MARC Export' do
 
       df = @marcs[0].at("datafield[@tag='600'][@ind1='3'][@ind2='#{ind2}']")
 
+      sf_v = df.at("subfield[@code='v']")
+      sf_x = df.at("subfield[@code='x']")
+      sf_y = df.at("subfield[@code='y']")
+      sf_z = df.at("subfield[@code='z']")
+
       expect(df.at("subfield[@code='a']")).to have_inner_text(/#{name['family_name']}/)
       expect(df.at("subfield[@code='c']")).to have_inner_text(/#{name['qualifier']}/)
       expect(df.at("subfield[@code='d']")).to have_inner_text(/#{name['dates']}/)
       expect(df.at("subfield[@code='4']")).to have_inner_text(/#{name['relator']}/)
-      expect(df.at("subfield[@code='0']")).to have_inner_text(/#{name['authority_id']}/)
+      if [sf_v, sf_x, sf_y, sf_z].all? { |sf| sf.nil? }
+        expect(df.at("subfield[@code='0']")).to have_inner_text(/#{name['authority_id']}/)
+      end
 
       if ind2 == '7'
         expect(df.at("subfield[@code='2']")).to have_inner_text(/#{name['source']}/)
