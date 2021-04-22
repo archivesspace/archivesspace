@@ -43,6 +43,7 @@ $expire = 30000
 
 AppConfig[:backend_url] = $backend
 AppConfig[:solr_url] = "http://localhost:#{$solr_port}"
+AppConfig[:pui_hide][:record_badge] = false # we want this for testing
 
 $backend_start_fn = proc {
 
@@ -70,11 +71,13 @@ def setup_test_data
   create(:accession_with_deaccession, title: "Published Accession with Deaccession")
   create(:accession, title: "Accession for Phrase Search")
 
-  resource = create(:resource, title: "Published Resource", publish: true)
+  resource = create(:resource, title: "Published Resource", publish: true,
+                    :instances => [build(:instance_digital)])
   aos = (0..5).map do
     create(:archival_object,
            resource: { 'ref' => resource.uri }, publish: true)
   end
+
   unpublished_resource = create(:resource, title: "Unpublished Resource", publish: false)
   unp_aos = (0..5).map do
     create(:archival_object,
