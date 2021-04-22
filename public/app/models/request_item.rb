@@ -1,11 +1,11 @@
 require 'active_model'
 
 class RequestItem < Struct.new(:user_name, :user_email, :date, :note,
-                               :request_uri, :title, :resource_name, :identifier, :cite, :restrict,
-                               :hierarchy, :repo_name, :resource_id, :linked_record_uris,
-                               :machine,
-                               :top_container_url, :container, :barcode, :location_title,
-                               :location_url, :repo_uri, :repo_code, :repo_email)
+                               :request_uri, :title, :resource_name,
+                               :identifier, :cite, :restrict, :hierarchy,
+                               :repo_name, :resource_id, :linked_record_uris,
+                               :machine, :top_container_url, :container,
+                               :barcode, :repo_uri, :repo_code, :repo_email)
 
   def RequestItem.allow_for_type(repository_code, record_type)
     fallback = AppConfig[:pui_requests_permitted_for_types].include?(record_type)
@@ -58,12 +58,12 @@ class RequestItem < Struct.new(:user_name, :user_email, :date, :note,
     if !self[:container].blank? && !self[:container].empty?
       self[:container].each_with_index do |v, i|
 #        arr.push("#{:container.to_s}: #{v}")
-       %i(container top_container_url barcode location_title location_url).each do |sym|
+       %i(container top_container_url barcode).each do |sym|
          arr.push("#{sym.to_s}: #{defined?(self[sym][i]) ? self[sym][i] : ''}")
        end
      end
     elsif !skip_empty
-      %i(container top_container_url barcode location_title location_url).each {|sym| arr.push("#{sym.to_s}:") }
+      %i(container top_container_url barcode).each {|sym| arr.push("#{sym.to_s}:") }
     end
 
     arr
