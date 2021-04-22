@@ -471,6 +471,9 @@ class MARCModel < ASpaceExport::ExportModel
         sfs << [(tag), t['term']]
       end
 
+      # ANW-825: Don't export $0 if $v, $x, $y, or $z are present
+      sfs.reject! {|k| k[0] == 0 } if (['v', 'x', 'y', 'z'] - sfs.map { |k| k[0] }).length < 4
+
       if ind2 == '7'
         sfs << ['2', subject['names'].first['source']]
       end
