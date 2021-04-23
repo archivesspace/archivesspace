@@ -1034,7 +1034,7 @@ class EADConverter < Converter
       :agent_type => 'agent_corporate_entity',
       :publish => att('audience') == 'external' ? true : false
     } do |corp|
-      set ancestor(:resource, :archival_object), :linked_agents, {'ref' => corp.uri, 'role' => opts[:role]}
+      set ancestor(:resource, :archival_object), :linked_agents, {'ref' => corp.uri, 'role' => opts[:role], 'relator' => att('role')}
     end
 
     make :name_corporate_entity, {
@@ -1054,7 +1054,7 @@ class EADConverter < Converter
       :agent_type => 'agent_family',
       :publish => att('audience') == 'external' ? true : false
     } do |family|
-      set ancestor(:resource, :archival_object), :linked_agents, {'ref' => family.uri, 'role' => opts[:role]}
+      set ancestor(:resource, :archival_object), :linked_agents, {'ref' => family.uri, 'role' => opts[:role], 'relator' => att('role')}
     end
 
     make :name_family, {
@@ -1074,7 +1074,7 @@ class EADConverter < Converter
       :agent_type => 'agent_person',
       :publish => att('audience') == 'external' ? true : false
     } do |person|
-      set ancestor(:resource, :archival_object), :linked_agents, {'ref' => person.uri, 'role' => opts[:role]}
+      set ancestor(:resource, :archival_object), :linked_agents, {'ref' => person.uri, 'role' => opts[:role], 'relator' => att('role')}
     end
 
     make :name_person, {

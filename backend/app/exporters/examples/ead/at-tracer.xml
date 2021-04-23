@@ -560,7 +560,7 @@
                                     <controlaccess>
                                         <corpname rules="dacs" source="naf">CNames-PrimaryName-AT. CNames-Subordinate1-AT. CNames-Subordiate2-AT. (CNames-Number-AT) (CNames-Qualifier-AT) -- Pictorial works</corpname>
                                         <famname rules="aacr" source="naf" audience="external">FNames-FamilyName-AT, FNames-Prefix-AT, FNames-Qualifier-AT -- Pictorial works</famname>
-                                        <persname rules="local" source="local">PNames-Primary-AT, PNames-RestOfName-AT, PNames-Prefix-AT, PName-Number-AT, PNames-Suffix-AT, PNames-Title-AT,  (PNames-FullerForm-AT), PNames-Dates-AT, PNames-Qualifier-AT -- Pictorial works</persname>
+                                        <persname rules="local" source="local" role="Donor (dnr)">PNames-Primary-AT, PNames-RestOfName-AT, PNames-Prefix-AT, PName-Number-AT, PNames-Suffix-AT, PNames-Title-AT,  (PNames-FullerForm-AT), PNames-Dates-AT, PNames-Qualifier-AT -- Pictorial works</persname>
                                         <function source="local">Subjects--Function-AT</function>
                                         <genreform source="local">Subjects--GenreForm--AT</genreform>
                                         <geogname source="local">Subjects--Geographic Name--AT</geogname>
