@@ -18,6 +18,7 @@ describe 'Accession converter' do
     @accessions = @records.select {|r| r['jsonmodel_type'] == 'accession' }
     @agents = @records.select { |a| a['jsonmodel_type'].include?('agent_') }
     @subjects = @records.select { |a| a['jsonmodel_type'] == 'subject' }
+    @events = @records.select { |a| a['jsonmodel_type'] == 'event' }
     @dates = []
     @accessions.each { |a| @dates = @dates + a['dates'] }
   end
@@ -45,5 +46,25 @@ describe 'Accession converter' do
     expect(@accessions[3]['publish']).to be_nil
   end
 
+  it "creates Event records if boolean is true" do
+    expect(@events.count).to eq(26)
+  end
+
+  it "creates Event record dates if boolean is true" do
+    dates = @events.map { |e| e['date'] }.compact
+    expect(dates.count).to eq(26)
+    expect(dates.first['expression']).to eq('2001-01-22')
+  end
+
+  it "creates Event outcome note if one is in the row and accession_cataloged boolean is true" do
+    notes = @events.map { |e| e['outcome_note'] }.compact
+    expect(notes.count).to eq(6)
+    expect(notes.last).to eq('TFY7B')
+  end
+
+  it "does not create Event outcome note if one is in the row but boolean is false" do
+    notes = @events.map { |e| e['outcome_note'] }.compact
+    expect(notes).not_to include('7YNN5')
+  end
 
 end
