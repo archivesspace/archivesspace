@@ -114,6 +114,7 @@ en:
       room: Room
       scope: Scope of Assessment
       scoped_by_rating: Scoped by Rating
+      script: Script
       sensitive_material: Sensitive Material?
       scoped_by_date_range: Showing records created between
       showing_values: Showing records with rating values
