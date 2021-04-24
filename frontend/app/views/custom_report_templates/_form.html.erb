@@ -10,8 +10,9 @@
 	<% record_types.delete('global') %>
 
 	<div id="template_information">
-		<h3><%= I18n.t "custom_report_template._frontend.section.template_information" %></h3>
-	
+		<h3><%= I18n.t "custom_report_template._frontend.section.template_information" %>
+		<%= link_to_help :topic => "accession_basic_information" %></h3>
+
 		<%= form.label_and_textfield "name", :required => true %>
 		<%= form.label_and_textarea "description" %>
 		<%= form.label_and_select "limit", custom_report_template_limit_options %>
