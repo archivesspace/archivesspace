@@ -1323,6 +1323,10 @@ en:
     _plural: Languages
     _singular: Language
 
+  language:
+    _plural: Languages
+    _singular: Language
+
   language_and_script:
     <<: *lang_material_attributes
     language: Language
