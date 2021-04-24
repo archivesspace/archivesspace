@@ -112,6 +112,7 @@ es:
       rights_transferred: ¿Derechos transferidos?
       role: Role
       room: Sala
+      script: Texto
       scope: Alcance de la evaluación
       scoped_by_rating: Alcance por Calificación
       sensitive_material: ¿Material sensible?
