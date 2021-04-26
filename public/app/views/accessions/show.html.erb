@@ -20,6 +20,10 @@
     <p><%= @result.content_description %></p>
   <% end %>
 
+  <%= @result.json['related_accessions'].inspect %>
+  <br />
+  <%= @result.json['related_resources'].inspect %>
+
   <% if @result.acquisition_type %>
     <h2><%= t('accession._public.section.acquisition_type') %></h2>
     <p><%= @result.acquisition_type %></p>
