@@ -30,8 +30,24 @@
 
       "related_accessions" => {
         "type" => "array",
-        "items" => {"type" => [{"type" => "JSONModel(:accession_parts_relationship) object"},
-                               {"type" => "JSONModel(:accession_sibling_relationship) object"}]},
+        "items" => {
+          "type" => [
+            {"type" => "JSONModel(:accession_parts_relationship) object"},
+            {"type" => "JSONModel(:accession_sibling_relationship) object"}
+          ]
+        },
+        "properties" => {
+          "ref" => {
+            "type" => [
+              {"type" => "JSONModel(:accession_parts_relationship) uri"},
+              {"type" => "JSONModel(:accession_sibling_relationship) uri"}
+            ]
+          },
+          "_resolved" => {
+            "type" => "object",
+            "readonly" => "true"
+          }    
+        }
       },
 
 

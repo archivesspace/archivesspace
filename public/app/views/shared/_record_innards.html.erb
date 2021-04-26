@@ -119,7 +119,9 @@
         <% end %>
         <% if @result.kind_of?(Accession) && !@result.related_resources.blank? %>
           <% x = render partial: 'accessions/related_resources', locals: {:resources => @result.related_resources} %>
+          <% y = render partial: 'accessions/related_accessions', locals: {:accessions => @result.related_accessions} %>
           <%= render partial: 'shared/accordion_panel', locals: {:p_title => t('related_resources'), :p_id => 'related_resources_list', :p_body => x} %>
+          <%= render partial: 'shared/accordion_panel', locals: {:p_title => t('related_accessions'), :p_id => 'related_accessions_list', :p_body => y} %>
         <% end %>
       </div>
       <% ASUtils.find_local_directories('public/views/_lower_record_innards.html.erb').each do |template| %>

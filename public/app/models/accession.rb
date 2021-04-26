@@ -1,12 +1,13 @@
 class Accession < Record
 
-  attr_reader :related_resources, :provenance,
+  attr_reader :related_resources, :related_accessions, :provenance,
               :use_restrictions_note, :access_restrictions_note
 
   def initialize(*args)
     super
 
     @related_resources = parse_related_resources
+    @related_accessions = parse_related_accessions
     @use_restrictions_note = json['use_restrictions_note']
     @access_restrictions_note = json['access_restrictions_note']
   end
@@ -68,6 +69,34 @@ class Accession < Record
       record_from_resolved_json(ASUtils.json_parse(accession['json']))
     }
   end
+
+  def parse_related_accessions
+
+    #STDERR.puts "++++++++++++++++++++++++++++++"
+    #STDERR.puts ASUtils.wrap(raw['related_accession_uris']).inspect
+    #STDERR.puts "++++++++++++++++++++++++++++++"
+    #STDERR.puts raw.inspect
+
+
+    #uris = json['related_accessions'].map do |ra|
+       #STDERR.puts "++++++++++++++++++++++++++++++"
+       #STDERR.puts ra.inspect
+        #ra['ref']
+    #end 
+
+   # uris.map do |uri|
+
+   # end
+
+   # STDERR.puts uris.inspect
+
+      #accession['publish']
+      #}.map {|accession|
+        #record_from_resolved_json(ASUtils.json_parse(accession['json']))
+      #}
+    []
+  end
+
 
   def build_request_item
     has_top_container = false
