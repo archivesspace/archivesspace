@@ -45,7 +45,7 @@ class DigitalObject < Record
       for instance in json['linked_instances']
         uri = instance.dig('ref')
         record = linked_instance_for_uri(uri)
-        next if record.nil?
+        next if record.nil? || record['publish'].blank?
 
         results[uri] = record_for_type(record)
       end
