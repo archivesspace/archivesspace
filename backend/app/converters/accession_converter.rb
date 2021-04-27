@@ -129,14 +129,16 @@ class AccessionConverter < Converter
       'agent_contact_city' => 'agent_contact.city',
       'agent_contact_country' => 'agent_contact.country',
       'agent_contact_email' => 'agent_contact.email',
-      'agent_contact_fax' => 'agent_contact.fax',
       'agent_contact_name' => 'agent_contact.name',
 
       'agent_contact_post_code' => 'agent_contact.post_code',
       'agent_contact_region' => 'agent_contact.region',
       'agent_contact_salutation' => 'agent_contact.salutation',
-      'agent_contact_telephone' => 'agent_contact.telephone',
-      'agent_contact_telephone_ext' => 'agent_contact.telephone_ext',
+
+      'agent_contact_fax' => 'agent_fax.number',
+
+      'agent_contact_telephone' => 'agent_telephone.number',
+      'agent_contact_telephone_ext' => 'agent_telephone.ext',
 
       'agent_name_authority_id' => 'agent_name.authority_id',
       'agent_name_dates' => 'agent_name.dates',
@@ -191,6 +193,10 @@ class AccessionConverter < Converter
           agent.agent_contacts << this
         }
       },
+
+      :agent_fax => telephone_template('fax'),
+
+      :agent_telephone => telephone_template('home'),
 
       :agent_name => {
         :record_type => Proc.new {|data|
@@ -327,6 +333,20 @@ class AccessionConverter < Converter
                     }.merge(date_defaults)
         obj.event_type = event_type
         obj.linked_agents = [{'role' => 'executing_program', 'ref' => '/agents/software/1'}]
+      }
+    }
+  end
+
+
+  def self.telephone_template(type)
+    {
+      :record_type => :telephone,
+      :on_create => Proc.new {|data, obj|
+        obj.number_type = type
+      },
+      :on_row_complete => Proc.new {|cache, this|
+        agent = cache.find {|obj| obj.class.record_type =~ /^agent_(perso|corpo|famil)/}
+        agent.agent_contacts.first['telephones'] << this
       }
     }
   end
