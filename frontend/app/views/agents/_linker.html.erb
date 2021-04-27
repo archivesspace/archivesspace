@@ -22,13 +22,22 @@
   end
 %>
 <div class="form-group <% if required %> required <% end %>">
-  <label class="control-label col-sm-2">
+  <label class="control-label col-sm-2"
+         id="<%= form.id_for("ref") %>_label"
+         for="<%= form.id_for("ref") %>">
     <%= wrap_with_tooltip(linker_label, "related_agent.related_agent_tooltip", "control-label initialised") %>
   </label>
   <div class="controls col-sm-8">
-    <div class="input-group linker-wrapper">
-      <input type="text" class="linker"
+    <div class="input-group linker-wrapper"
+         role="combobox"
+         aria-owns="<%= form.id_for("ref") %>_listbox"
+         id="<%= form.id_for("ref") %>_combobox">
+      <input type="text" 
+             class="linker"
              id="<%= form.id_for("ref") %>"
+             aria-autocomplete="both"
+             aria-controls="<%= form.id_for("ref") %>_listbox"
+             aria-labelledby="<%= form.id_for("ref") %>_label"
              data-label="<%= I18n.t("agent._singular") %>"
              data-label_plural="<%= I18n.t("agent._plural") %>"
              data-name="ref"
