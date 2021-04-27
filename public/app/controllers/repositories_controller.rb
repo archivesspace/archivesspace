@@ -175,8 +175,11 @@ class RepositoriesController < ApplicationController
 
   # get counts of various records belonging to a repository
   def get_counts(repo_uri)
-    types = %w(pui_collection pui_record pui_record_group pui_accession pui_digital_object pui_agent pui_subject)
+    types = %w(pui_collection pui_archival_object pui_record_group pui_accession pui_digital_object pui_agent pui_subject)
     counts = archivesspace.get_types_counts(types, repo_uri)
+    # 'pui_record' as defined in AppConfig ('record_badge') is intended for archival objects only,
+    # which in solr is 'pui_archival_object' not 'pui_record' so we need to flip it here
+    counts['pui_record'] = counts.delete 'pui_archival_object'
     final_counts = {}
     counts.each do |k, v|
       final_counts[k.sub("pui_", '')] = v
