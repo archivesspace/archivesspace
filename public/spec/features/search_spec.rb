@@ -11,9 +11,17 @@ describe 'Search', js: true do
       expect(page).to have_content('Search The Archives')
     end
   end
+
   it 'should use an asterisk for a keyword search when no inputs and search button pressed' do
     visit('/search')
     click_on('submit_search')
     expect(page).to have_selector("div[class='searchstatement']", text: "keyword(s): *")
+  end
+
+  it "should submit form, not delete row when search row is added and enter pressed in search field" do
+    visit('/search')
+    click_on('Add a search row')
+    find('#q1').native.send_keys(:return)
+    expect(page).to have_content('Showing Results')
   end
 end
