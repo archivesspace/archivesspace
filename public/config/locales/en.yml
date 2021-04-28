@@ -319,6 +319,8 @@ en:
       related_accessions:
        accessions: Related Unprocessed Material
        deaccessions: Deaccessioned Material
+       part_relationship: Part Relationship
+       sibling_relationship: Sibling Relationship
 
   archival_object:
     _singular: Archival Record

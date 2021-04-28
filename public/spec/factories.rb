@@ -133,6 +133,12 @@ module AspaceFactories
         accession_date { "1990-01-01" }
       end
 
+      factory :accession_parts_relationship, class: JSONModel(:accession_parts_relationship) do
+        ref { create(:accession).uri }
+        relator_type { "part" }
+        relator { "has_part" }
+      end
+
       factory :json_date_single, class: JSONModel(:date) do
         date_type { 'single' }
         label { 'creation' }
