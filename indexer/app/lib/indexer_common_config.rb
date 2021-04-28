@@ -67,8 +67,10 @@ class IndexerCommonConfig
       'collections',
       'surveyed_by',
       'reviewer',
+      'creator',
 
-      'creator'
+      #Accessions module depends on these
+      'related_accessions',
     ]
   end
 

@@ -36,18 +36,6 @@
             {"type" => "JSONModel(:accession_sibling_relationship) object"}
           ]
         },
-        "properties" => {
-          "ref" => {
-            "type" => [
-              {"type" => "JSONModel(:accession_parts_relationship) uri"},
-              {"type" => "JSONModel(:accession_sibling_relationship) uri"}
-            ]
-          },
-          "_resolved" => {
-            "type" => "object",
-            "readonly" => "true"
-          }    
-        }
       },
 
 

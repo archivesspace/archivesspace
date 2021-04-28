@@ -31,8 +31,17 @@ describe 'Accessions', js: true do
     it 'displays an accession when the record exists' do
       visit '/accessions'
       click_link 'Published Accession'
-      expect(current_path).to match(/repositories\/\d\/accessions\/\d/)
+      expect(current_path).to match(/repositories\/\d+\/accessions\/\d+/)
       expect(page).to have_content('Published Accession')
+    end
+
+    it 'displays an related accessions on the show page' do
+      pending 'test failing because indexer wont pick up test data created in spec_helper.rb:73'
+      # Indexer error displayed: E, [2021-04-28T15:40:15.180815 #85739] ERROR -- : Thread-2046: SolrIndexerError when indexing records: {"responseHeader":{"status":400,"QTime":68},"error":{"msg":"Error parsing JSON field value. Unexpected OBJECT_START","code":400}}
+      visit '/accessions'
+      click_link 'Accession with Relationship'
+      expect(page).to have_content('Published Accession')
+      expect(page).to_not have_content('Unpublished Accession')
     end
   end
 end

@@ -61,19 +61,22 @@ include FactoryBot::Syntax::Methods
 def setup_test_data
   repo = create(:repo, :repo_code => "test_#{Time.now.to_i}", publish: true)
   set_repo repo
-  digi_obj = create(:digital_object, title: 'Born digital', publish: true)
-
-  create(:accession, title: "Published Accession", publish: true, instances: [
-    build(:instance_digital, digital_object: { 'ref' => digi_obj.uri })
-  ])
-  create(:accession, title: "Unpublished Accession", publish: false, instances: [
-    build(:instance_digital, digital_object: { 'ref' => digi_obj.uri })
-  ])
+  pa = create(:accession, title: "Published Accession")
+  ua = create(:accession, title: "Unpublished Accession", publish: false )
   create(:accession_with_deaccession, title: "Published Accession with Deaccession")
   create(:accession, title: "Accession for Phrase Search")
 
-  resource = create(:resource, title: "Published Resource", publish: true,
-                    :instances => [build(:instance_digital)])
+  # for some reason, the indexer won't process this record as it's defined. The error displayed in the log is:
+  # E, [2021-04-28T15:40:15.180815 #85739] ERROR -- : Thread-2046: SolrIndexerError when indexing records: {"responseHeader":{"status":400,"QTime":68},"error":{"msg":"Error parsing JSON field value. Unexpected OBJECT_START","code":400}}
+  # 
+  create(:accession, title: "Accession with Relationship", 
+                     publish: true,
+                     related_accessions: [
+                        build(:accession_parts_relationship, ref: pa.uri),
+                        build(:accession_parts_relationship, ref: ua.uri)
+                     ])
+
+  resource = create(:resource, title: "Published Resource", publish: true)
   aos = (0..5).map do
     create(:archival_object,
            title: "Published Archival Object", resource: { 'ref' => resource.uri }, publish: true)

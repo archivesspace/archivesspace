@@ -1,23 +1,10 @@
-<h3><%= t('accession._public.related_accessions.accessions') %></h3>
 <ul>
-  <%= accessions.inspect %>
   <% accessions.each do |accession| %>
+    <% next unless accession[:publish] == true %>
     <li>
-      <% if accession.acquisition_type %>
-        <strong><%= accession.acquisition_type %></strong>:
-      <% end %>
-      <%= link_to accession.display_string, app_prefix(accession.uri) %>
-
-      <% unless accession.deaccessions.empty? %>
-        <div>
-          <h3><%= t('accession._public.related_accessions.deaccessions') %></h3>
-          <ul>
-            <% accession.deaccessions.each do |deaccession| %>
-              <li><%= deaccession['description'] %></li>
-            <% end %>
-          </ul>
-        </div>
-      <% end %>
+      <% type = accession[:type] == 'accession_parts_relationship' ? 'part_relationship' : 'sibling_relationship' %>
+      <%= link_to accession[:title],  accession[:uri] %> 
+      <%= '(' + (I18n.t("accession._public.related_accessions.#{type}")) + ')' %>)
     </li>
   <% end %>
 </ul>

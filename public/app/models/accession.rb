@@ -72,29 +72,17 @@ class Accession < Record
 
   def parse_related_accessions
 
-    #STDERR.puts "++++++++++++++++++++++++++++++"
-    #STDERR.puts ASUtils.wrap(raw['related_accession_uris']).inspect
-    #STDERR.puts "++++++++++++++++++++++++++++++"
-    #STDERR.puts raw.inspect
+    accession_json = ASUtils.json_parse(raw['json'])
+    related_accession_json = accession_json['related_accessions'].map do |r|
+      {
+        title:   r['_resolved']['title'],
+        type:    r['jsonmodel_type'],
+        uri:     r['ref'],
+        publish: r['_resolved']['publish']
+      }
+    end
 
-
-    #uris = json['related_accessions'].map do |ra|
-       #STDERR.puts "++++++++++++++++++++++++++++++"
-       #STDERR.puts ra.inspect
-        #ra['ref']
-    #end 
-
-   # uris.map do |uri|
-
-   # end
-
-   # STDERR.puts uris.inspect
-
-      #accession['publish']
-      #}.map {|accession|
-        #record_from_resolved_json(ASUtils.json_parse(accession['json']))
-      #}
-    []
+    related_accession_json
   end
 
 
