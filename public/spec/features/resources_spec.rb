@@ -40,4 +40,12 @@ describe 'Resources', js: true do
     )
     expect(page).to have_content(first_title)
   end
+
+  it 'should show date certainty next to dates if defined' do
+    visit('/')
+    click_link 'Collections'
+    click_link 'Published Resource'
+    expect(page).to have_content("Approximate")
+    sleep 20
+  end
 end
