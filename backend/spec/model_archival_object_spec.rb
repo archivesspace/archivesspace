@@ -171,7 +171,7 @@ describe 'ArchivalObject model' do
       }),
       :repo_id => $repo_id)
 
-    expect(ArchivalObject[ao[:id]].display_string).to eq("#{date['begin']} - #{date['end']}")
+    expect(ArchivalObject[ao[:id]].display_string).to eq("#{date['begin']} - #{date['end']} (Inferred)")
 
     date = build(:json_date, :date_type => 'bulk')
     ao = ArchivalObject.create_from_json(
@@ -181,6 +181,7 @@ describe 'ArchivalObject model' do
       }),
       :repo_id => $repo_id)
 
+    # if expression is defined, then certainty is not included
     expect(ArchivalObject[ao[:id]].display_string).to eq("bulk: #{date['expression']}")
 
     # try with begin and end
@@ -192,8 +193,27 @@ describe 'ArchivalObject model' do
       }),
       :repo_id => $repo_id)
 
-    expect(ArchivalObject[ao[:id]].display_string).to eq("bulk: #{date['begin']} - #{date['end']}")
+    expect(ArchivalObject[ao[:id]].display_string).to eq("bulk: #{date['begin']} - #{date['end']} (Inferred)")
   end
+
+
+  it "includes date certainty in the generated display string" do
+    opts = {
+      :title => "",
+      :dates => [{
+                   "date_type" => "single",
+                   "label" => "creation",
+                   "certainty" => "approximate",
+                   "begin" => generate(:yyyy_mm_dd),
+                 }]
+    }
+
+    ao = ArchivalObject.create_from_json(build(:json_archival_object, opts),
+                                         :repo_id => $repo_id)
+
+    expect(ArchivalObject[ao[:id]].display_string).to match(/Approximate/)
+  end
+
 
   it "auto generates a 'label' based on the date and title when both are present" do
     title = "Just a title"
