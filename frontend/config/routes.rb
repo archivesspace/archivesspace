@@ -294,6 +294,7 @@ ArchivesSpace::Application.routes.draw do
       match('custom_report_templates/:id/delete' => 'custom_report_templates#delete', :via => [:post])
       match('custom_report_templates/:id' => 'custom_report_templates#update', :via => [:post])
       match('custom_report_templates/:id/copy' => 'custom_report_templates#copy', :via => [:get])
+      match('custom_report_templates/:id' => 'custom_report_templates#show', :via => [:get])
     end
 
 
