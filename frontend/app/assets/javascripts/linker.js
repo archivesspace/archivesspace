@@ -435,11 +435,11 @@ $(function() {
           },
           resultsFormatter: function(item) {
             var string = item.name;
-            var $resultSpan = $("<span class='"+ item.json.jsonmodel_type + "'>");
+            var $resultSpan = $("<span class='"+ item.json.jsonmodel_type + "' aria-label='"+ string + "'>");
             var extra_class = tag_subjects_by_term_type(item);
             $resultSpan.text(string);
             $resultSpan.prepend("<span class='icon-token " + extra_class + "'></span>");
-            var $resultLi = $("<li>");
+            var $resultLi = $("<li role='option'>");
             $resultLi.append($resultSpan);
             return $resultLi[0].outerHTML;
           },

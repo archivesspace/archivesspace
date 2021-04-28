@@ -6,11 +6,21 @@
    end
 %>
 <div class="form-group required">
-  <label class="control-label col-sm-2"><%= I18n.t("linked_record.ref") %></label>
+  <label class="control-label col-sm-2"
+         id="<%= form.id_for("ref") %>_label"
+         for="<%= form.id_for("ref") %>">
+    <%= I18n.t("linked_record.ref") %>
+  </label>
   <div class="controls col-sm-8">
-    <div class="input-group linker-wrapper">
+    <div class="input-group linker-wrapper"
+         role="combobox"
+         aria-owns="<%= form.id_for("ref") %>_listbox"
+         id="<%= form.id_for("ref") %>_combobox">
       <input type="text" class="linker"
              id="<%= form.id_for("ref") %>"
+             aria-autocomplete="both"
+             aria-controls="<%= form.id_for("ref") %>_listbox"
+             aria-labelledby="<%= form.id_for("ref") %>_label"
              data-label="<%= I18n.t("linked_record.ref") %>"
              data-label_plural="<%= I18n.t("linked_record.ref_plural") %>"
              data-name="ref"
@@ -21,7 +31,6 @@
              data-multiplicity="one"
              data-format_template="title"
              data-types='["accession", "resource"]'
-             aria-label="Link to record"
              />
 
       <% if form.obj.has_key?('_resolved') %>

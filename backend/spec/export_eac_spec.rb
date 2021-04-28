@@ -457,6 +457,123 @@ describe 'EAC Export' do
       expect(@eac).to have_tag("existDates/dateRange/toDate[@standardDate=\"#{@rec.dates_of_existence[2]['structured_date_range']['end_date_standardized']}\"]" =>
                            @rec.dates_of_existence[2]['structured_date_range']['end_date_expression'])
     end
+
+    it 'maps date.standardized_date_type to correct attribute when a standardized_date is present for single dates' do
+      sds1 = build(:json_structured_date_single, {
+        :date_standardized_type => 'not_before'
+      })
+
+      sds2 = build(:json_structured_date_single, {
+        :date_standardized_type => 'not_after'
+      })
+
+      sds3 = build(:json_structured_date_single, {
+        :date_standardized_type => 'standard'
+      })
+
+
+      rec = create(:json_agent_person_full_subrec,
+                    dates_of_existence: [
+                      build(:json_structured_date_label, {
+                        :structured_date_single => sds1
+                      }),
+
+                      build(:json_structured_date_label, {
+                        :structured_date_single => sds2
+                      }),
+
+                      build(:json_structured_date_label, {
+                        :structured_date_single => sds3
+                      })
+                    ])
+
+      eac = get_eac(rec)
+
+      std_date1 = rec.dates_of_existence[0]['structured_date_single']['date_standardized']
+      std_date2 = rec.dates_of_existence[1]['structured_date_single']['date_standardized']
+      std_date3 = rec.dates_of_existence[2]['structured_date_single']['date_standardized']
+
+      expect(eac).to have_tag("description/existDates/date[@notBefore=\"#{std_date1}\"]" => rec.dates_of_existence[0]['structured_date_single']['date_expression'])
+      expect(eac).to have_tag("description/existDates/date[@notAfter=\"#{std_date2}\"]" => rec.dates_of_existence[0]['structured_date_single']['date_expression'])
+      expect(eac).to have_tag("description/existDates/date[@standardDate=\"#{std_date3}\"]" => rec.dates_of_existence[0]['structured_date_single']['date_expression'])
+    end
+
+    it "maps date.standardized_date to inner text when date expression is not defined" do
+
+      sds = build(:json_structured_date_single, {
+        :date_standardized_type => "not_before",
+        :date_expression        => nil
+      })
+
+      rec = create(:json_agent_person_full_subrec,
+                    dates_of_existence: [
+                      build(:json_structured_date_label, {
+                        :structured_date_single => sds
+                      }
+                    )])
+
+      eac = get_eac(rec)
+      std_date = rec.dates_of_existence[0]['structured_date_single']['date_standardized']
+
+      expect(eac).to have_tag("description/existDates/date[@notBefore=\"#{std_date}\"]" => rec.dates_of_existence[0]['structured_date_single']['date_standardized'])
+    end
+
+    it 'maps date.standardized_date_type to correct attribute when a standardized_date is present for ranged dates' do
+
+      sds1 = build(:json_structured_date_range, {
+        :begin_date_standardized_type => 'not_before',
+        :end_date_standardized_type => 'not_after'
+      })
+
+      sds2 = build(:json_structured_date_range, {
+        :begin_date_standardized_type => 'not_before',
+        :end_date_standardized_type => 'standard'
+      })
+
+      rec = create(:json_agent_person_full_subrec,
+                    dates_of_existence: [
+                      build(:json_structured_date_label_range, {
+                        :structured_date_range => sds1,
+                      }),
+                      build(:json_structured_date_label_range, {
+                        :structured_date_range => sds2,
+                      })
+                    ])
+
+      eac = get_eac(rec)
+      std_date1 = rec.dates_of_existence[0]['structured_date_range']['begin_date_standardized']
+      std_date2 = rec.dates_of_existence[0]['structured_date_range']['end_date_standardized']
+      std_date3 = rec.dates_of_existence[1]['structured_date_range']['end_date_standardized']
+
+      expect(eac).to have_tag("description/existDates/dateRange/fromDate[@notBefore=\"#{std_date1}\"]" => rec.dates_of_existence[0]['structured_date_range']['begin_date_expression'])
+      expect(eac).to have_tag("description/existDates/dateRange/toDate[@notAfter=\"#{std_date2}\"]" => rec.dates_of_existence[0]['structured_date_range']['end_date_expression'])
+      expect(eac).to have_tag("description/existDates/dateRange/toDate[@standardDate=\"#{std_date3}\"]" => rec.dates_of_existence[0]['structured_date_range']['end_date_expression'])
+    end
+
+    it "maps date.standardized_date to inner text when date expression is not defined for ranged dates" do
+
+      sds = build(:json_structured_date_range, {
+        :begin_date_expression => nil,
+        :end_date_expression   => nil
+      })
+
+      rec = create(:json_agent_person_full_subrec,
+                    dates_of_existence: [
+                      build(:json_structured_date_label_range, {
+                        :structured_date_range => sds
+                      }
+                    )])
+
+      eac = get_eac(rec)
+
+      std_date_begin = rec.dates_of_existence[0]['structured_date_range']['begin_date_standardized']
+      std_date_end = rec.dates_of_existence[0]['structured_date_range']['end_date_standardized']
+
+      expect(eac).to have_tag("description/existDates/dateRange/fromDate" => std_date_begin)
+      expect(eac).to have_tag("description/existDates/dateRange/toDate" => std_date_end)
+    end
+
+
   end
 
   describe 'biographical / historical notes' do
