@@ -80,7 +80,7 @@ def setup_test_data
   create(:accession_with_deaccession, title: "Published Accession with Deaccession")
   create(:accession, title: "Accession for Phrase Search")
 
-  create(:accession, title: "Accession with Relationship", 
+  create(:accession, title: "Accession with Relationship",
                      publish: true,
                      related_accessions: [
                         build(:accession_parts_relationship, ref: pa.uri),
