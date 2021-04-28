@@ -71,7 +71,6 @@ class Accession < Record
   end
 
   def parse_related_accessions
-
     accession_json = ASUtils.json_parse(raw['json'])
     related_accession_json = accession_json['related_accessions'].map do |r|
       {
