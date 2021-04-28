@@ -17,7 +17,6 @@ class CustomReportTemplatesController < ApplicationController
 
   def show
     @custom_report_template = JSONModel(:custom_report_template).find(params[:id])
-    render :edit
   end
 
   def index

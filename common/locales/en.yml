@@ -1326,6 +1326,10 @@ en:
     _plural: Languages
     _singular: Language
 
+  language:
+    _plural: Languages
+    _singular: Language
+
   language_and_script:
     <<: *lang_material_attributes
     language: Language
@@ -1654,6 +1658,10 @@ en:
         <p>Used for linking associated Resources with this Accession.</p>
     relator: Relator
     relator_type: Relator Type
+    created_by: Created by
+    last_modified_by: Last Modified By
+    create_time: Created
+    user_mtime: Modified
     _singular: Accession
     _plural: Accessions
 
@@ -2015,6 +2023,10 @@ en:
     finding_aid_note: Finding Aid Note
     finding_aid_note_tooltip: |
         <p>For recording any additional information about the finding aid (not the described Resource) not covered by the other finding aid data elements.</p>
+    created_by: Created by
+    last_modified_by: Last Modified By
+    create_time: Created
+    user_mtime: Modified
     _singular: Resource
     _plural: Resources
 
@@ -2754,6 +2766,7 @@ en:
     start_date: Start Date
     end_date: End Date
     field: Field
+    include: Include
     _singular: Custom Report Template
     _plural: Custom Report Templates
 
@@ -2918,25 +2931,3 @@ en:
     log_skipping_due_to_errors: "Skipping creation and linking of top containers due to errors."
     log_validating: "Validating spreadsheet data..."
     log_creating_and_linking: "Creating and linking top containers..."
-
-  metadata_rights_declaration:
-    rights_statement_tooltip: |
-        <p>A content standard used in the formulation of the Agent record content. Example: Describing Archives: A Content Standard.</p>
-    citation_tooltip: |
-        <p>Bibliographic citation for a convention used in the formulation of the Agent record content. Example: Society of American Archivists. Describing Archives: A Content Standard (Chicago: Society of American Archivists, 2013).</p>
-    descriptive_note_tooltip: |
-        <p>The content of the note, providing details about the convention was used in the preparation of the Agent description. Example: Used for formulating biographical history note content. (for Describing Archives: A Content Standard).</p>
-    file_uri_tooltip: |
-        <p>A URI for the online location of the convention used in the preparation of the Agent description. Example: http://www2.archivists.org/standards/DACS/ (for Describing Archives: A Content Standard).</p>
-    file_version_xlink_actuate_attribute_tooltip: |
-        <p>Indicates whether associated URI should be resolved when the Agent record is rendered.</p>
-    file_version_xlink_show_attribute_tooltip: |
-        <p>Indicates where the remote resource linked in the associated URI should be rendered.</p>
-    xlink_title_attribute_tooltip: |
-        <p>Title of the remote resources linked in the associated URI, which may be used as a caption.</p>
-    xlink_role_attribute_tooltip: |
-        <p>Type or nature of the remote resource linked in the associated URI.</p>
-    xlink_arcrole_attribute_tooltip: |
-        <p>Type or nature of the remote resource linked in the associated URI.</p>
-    last_verified_date_tooltip: |
-        <p>Last date or date and time the linked resource linked in the associated URI was verified.</p>
