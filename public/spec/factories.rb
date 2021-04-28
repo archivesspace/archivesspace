@@ -186,6 +186,7 @@ module AspaceFactories
         finding_aid_language { [generate(:finding_aid_language)].sample }
         finding_aid_script { [generate(:finding_aid_script)].sample }
         finding_aid_language_note { nil_or_whatever }
+        instances { [] }
       end
 
       factory :resource_with_scope, class: JSONModel(:resource) do
@@ -214,6 +215,7 @@ module AspaceFactories
         extents { [build(:extent)] }
         file_versions { [build(:file_version)] }
         dates { few_or_none(:date) }
+        publish { true }
       end
 
       factory :digital_object_component, class: JSONModel(:digital_object_component) do

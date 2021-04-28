@@ -253,6 +253,7 @@ $.TokenList = function (input, url_or_data, settings) {
                 show_dropdown_hint();
             }
             token_list.addClass($(input).data("settings").classes.focused);
+            token_list.closest("div").attr("aria-expanded", true)
         })
         .blur(function () {
             hide_dropdown();
@@ -265,6 +266,7 @@ $.TokenList = function (input, url_or_data, settings) {
               $(this).val("");
             }
             token_list.removeClass($(input).data("settings").classes.focused);
+            token_list.closest("div").attr("aria-expanded", false)
         })
         .bind("keyup keydown blur update", resize_input)
         .keydown(function (event) {
@@ -836,7 +838,9 @@ $.TokenList = function (input, url_or_data, settings) {
     function populate_dropdown (query, results) {
         if(results && results.length) {
             dropdown.empty();
-            var dropdown_ul = $("<ul>")
+            var dropdown_label = dropdown_parent[0].nextSibling.id + "_label";
+            var ul_id = dropdown_parent[0].nextSibling.id + "_listbox";
+            var dropdown_ul = $("<ul  aria-labelledby=" + dropdown_label + " role='listbox' id=" + ul_id + ">")
                 .appendTo(dropdown)
                 .mouseover(function (event) {
                     select_dropdown_item($(event.target).closest("li"));
@@ -894,14 +898,14 @@ $.TokenList = function (input, url_or_data, settings) {
                 deselect_dropdown_item($(selected_dropdown_item));
             }
 
-            item.addClass($(input).data("settings").classes.selectedDropdownItem);
+            item.addClass($(input).data("settings").classes.selectedDropdownItem).attr("aria-selected", true);
             selected_dropdown_item = item.get(0);
         }
     }
 
     // Remove highlighting from an item in the results dropdown
     function deselect_dropdown_item (item) {
-        item.removeClass($(input).data("settings").classes.selectedDropdownItem);
+        item.removeClass($(input).data("settings").classes.selectedDropdownItem).removeAttr("aria-selected");
         selected_dropdown_item = null;
     }
 

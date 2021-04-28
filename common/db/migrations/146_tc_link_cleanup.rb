@@ -46,14 +46,18 @@ Sequel.migration do
           $stderr.puts("     Linking #{type} #{record} to top container #{new_tc} in repository #{repo}")
         end
       end
+
+      unless bad_rlshp.count.zero?
+        $stderr.puts("\n")
+        $stderr.puts("To identify the records that need to be corrected, do a keyword " +
+                     "search for the 'Lost and Found' top container in the Manage " +
+                     "Top Containers area within the application.")
+        $stderr.puts("\n")
+        $stderr.puts("==========================================")
+        $stderr.puts("\n")
+      end
+
     end
-    $stderr.puts("\n")
-    $stderr.puts("To identify the records that need to be corrected, do a keyword " +
-                 "search for the 'Lost and Found' top container in the Manage " +
-                 "Top Containers area within the application.")
-    $stderr.puts("\n")
-    $stderr.puts("==========================================")
-    $stderr.puts("\n")
   end
 
 

@@ -893,12 +893,16 @@ describe 'MARC Export' do
       name_string = %w(primary_ rest_of_).map {|p| name["#{p}name"]}.reject {|n| n.nil? || n.empty?}.join(name['name_order'] == 'direct' ? ' ' : ', ')
 
       df = @marcs[0].at("datafield[@tag='100'][@ind1='#{inverted}'][@ind2=' ']")
+      resource = @resources[0]['linked_agents'].select { |r| r['role'] == 'creator' }.first
+
       expect(df.at("subfield[@code='a']")).to have_inner_text(/#{name_string}/)
       expect(df.at("subfield[@code='b']")).to have_inner_text(/#{name['number']}/)
       expect(df.at("subfield[@code='c']")).to have_inner_text(/#{%w(prefix title suffix).map {|p| name[p]}.compact.join(', ')}/)
       expect(df.at("subfield[@code='d']")).to have_inner_text(/#{name['dates']}/)
       expect(df.at("subfield[@code='q']")).to have_inner_text(/#{name['fuller_form']}/)
       expect(df.at("subfield[@code='0']")).to have_inner_text(/#{name['authority_id']}/)
+      expect(df.at("subfield[@code='4']")).to have_inner_text(/#{resource['relator']}/)
+      expect(df.at("subfield[@code='e']")).to have_inner_text(/#{(I18n.t("enumerations.linked_agent_archival_record_relators.#{resource['relator']}"))}/)
     end
 
     it "agent has no authority_id, it should not create a subfield $0" do
@@ -907,6 +911,23 @@ describe 'MARC Export' do
       df = @marcs[0].at("datafield[@tag='700']/subfield[@code='a'][text()='#{name_string}']")
       parent_node = df.parent
       expect(parent_node.at("subfield[@code='0']")).to be_nil
+    end
+
+    it "look to $v, $x, $y, and $z subdivisions when determining whether to export $0" do
+      df = @marcs[0].at("datafield[@tag='600']")
+
+      sfs = []
+      ['v', 'x', 'y', 'z'].each do |sf|
+        sfs << df.at("subfield[@code='#{sf}']")
+      end
+
+      # If these subfields are present, don't export $0
+      if sfs.compact.count > 0
+        expect(df.at("subfield[@code='0']")).to be_nil
+      # If not present, do export $0
+      else
+        expect(df.at("subfield[@code='0']")).not_to be_nil
+      end
     end
 
     it "should add required punctuation to 100 tag agent-person subfields" do
@@ -940,6 +961,7 @@ describe 'MARC Export' do
       name = @agents[1]['names'][0]
 
       df = @marcs[1].at("datafield[@tag='110'][@ind1='2'][@ind2=' ']")
+      resource = @resources[1]['linked_agents'].select { |r| r['role'] == 'creator' }.first
 
       expect(df.at("subfield[@code='a']")).to have_inner_text(/#{name['primary_name']}/)
       subfield_b = df.at("subfield[@code='b']")
@@ -948,6 +970,8 @@ describe 'MARC Export' do
       end
       expect(df.at("subfield[@code='n']")).to have_inner_text(/#{name['number']}/)
       expect(df.at("subfield[@code='0']")).to have_inner_text(/#{name['authority_id']}/)
+      expect(df.at("subfield[@code='4']")).to have_inner_text(/#{resource['relator']}/)
+      expect(df.at("subfield[@code='e']")).to have_inner_text(/#{(I18n.t("enumerations.linked_agent_archival_record_relators.#{resource['relator']}"))}/)
     end
 
 
@@ -955,11 +979,14 @@ describe 'MARC Export' do
       name = @agents[2]['names'][0]
 
       df = @marcs[2].at("datafield[@tag='100'][@ind1='3'][@ind2=' ']")
+      resource = @resources[2]['linked_agents'].select { |r| r['role'] == 'creator' && r['ref'].include?('families')}.first
 
       expect(df.at("subfield[@code='a']")).to have_inner_text(/#{name['family_name']}/)
       expect(df.at("subfield[@code='c']")).to have_inner_text(/#{name['qualifier']}/)
       expect(df.at("subfield[@code='d']")).to have_inner_text(/#{name['dates']}/)
       expect(df.at("subfield[@code='0']")).to have_inner_text(/#{name['authority_id']}/)
+      expect(df.at("subfield[@code='4']")).to have_inner_text(/#{resource['relator']}/)
+      expect(df.at("subfield[@code='e']")).to have_inner_text(/#{(I18n.t("enumerations.linked_agent_archival_record_relators.#{resource['relator']}"))}/)
     end
 
 
@@ -971,13 +998,24 @@ describe 'MARC Export' do
       name_string = %w(primary_ rest_of_).map {|p| name["#{p}name"]}.reject {|n| n.nil? || n.empty?}.join(name['name_order'] == 'direct' ? ' ' : ', ')
 
       df = @marcs[1].at("datafield[@tag='600'][@ind1='#{inverted}'][@ind2='#{ind2}']")
+      resource = @resources[1]['linked_agents'].select { |r| r['role'] == 'subject' }.first
+
+      sf_v = df.at("subfield[@code='v']")
+      sf_x = df.at("subfield[@code='x']")
+      sf_y = df.at("subfield[@code='y']")
+      sf_z = df.at("subfield[@code='z']")
 
       expect(df.at("subfield[@code='a']")).to have_inner_text(/#{name_string}/)
       expect(df.at("subfield[@code='b']")).to have_inner_text(/#{name['number']}/)
       expect(df.at("subfield[@code='c']")).to have_inner_text(/#{%w(prefix title suffix).map {|p| name[p]}.compact.join(', ')}/)
       expect(df.at("subfield[@code='d']")).to have_inner_text(/#{name['dates']}/)
-      expect(df.at("subfield[@code='4']")).to have_inner_text(/#{name['relator']}/)
-      expect(df.at("subfield[@code='0']")).to have_inner_text(/#{name['authority_id']}/)
+
+      if [sf_v, sf_x, sf_y, sf_z].all? { |sf| sf.nil? }
+        expect(df.at("subfield[@code='0']")).to have_inner_text(/#{name['authority_id']}/)
+      end
+
+      expect(df.at("subfield[@code='4']")).to have_inner_text(/#{resource['relator']}/)
+      expect(df.at("subfield[@code='e']")).to have_inner_text(/#{(I18n.t("enumerations.linked_agent_archival_record_relators.#{resource['relator']}"))}/)
 
       if ind2 == '7'
         expect(df.at("subfield[@code='2']")).to have_inner_text(/#{name['source']}/)
@@ -1018,6 +1056,12 @@ describe 'MARC Export' do
        ind2 = source_to_code(name['source'])
 
        df = @marcs[0].at("datafield[@tag='610'][@ind1='2'][@ind2='#{ind2}']")
+       resource = @resources[0]['linked_agents'].select { |r| r['role'] == 'subject' }.first
+
+       sf_v = df.at("subfield[@code='v']")
+       sf_x = df.at("subfield[@code='x']")
+       sf_y = df.at("subfield[@code='y']")
+       sf_z = df.at("subfield[@code='z']")
 
        expect(df.at("subfield[@code='a']")).to have_inner_text(/#{name['primary_name']}/)
        subfield_b = df.at("subfield[@code='b']")
@@ -1025,8 +1069,13 @@ describe 'MARC Export' do
          expect(subfield_b).to have_inner_text(/#{name['subordinate_name_1']}/)
        end
        expect(df.at("subfield[@code='n']")).to have_inner_text(/#{name['number']}/)
-       expect(df.at("subfield[@code='4']")).to have_inner_text(/#{name['relator']}/)
-       expect(df.at("subfield[@code='0']")).to have_inner_text(/#{name['authority_id']}/)
+
+       if [sf_v, sf_x, sf_y, sf_z].all? { |sf| sf.nil? }
+         expect(df.at("subfield[@code='0']")).to have_inner_text(/#{name['authority_id']}/)
+       end
+
+       expect(df.at("subfield[@code='4']")).to have_inner_text(/#{resource['relator']}/)
+       expect(df.at("subfield[@code='e']")).to have_inner_text(/#{(I18n.t("enumerations.linked_agent_archival_record_relators.#{resource['relator']}"))}/)
 
        if ind2 == '7'
          expect(df.at("subfield[@code='2']")).to have_inner_text(/#{name['source']}/)
@@ -1041,6 +1090,7 @@ describe 'MARC Export' do
 
       a_text = df.at("subfield[@code='a']").text
       b_text = df.at("subfield[@code='b']").text
+      e_text = df.at("subfield[@code='e']").text
       n_text = df.at("subfield[@code='n']").text
 
       if b_text.nil?
@@ -1049,6 +1099,7 @@ describe 'MARC Export' do
         expect(a_text[-1]).to eq(".")
       end
 
+      expect(e_text[-1]).to eq(",")
       expect(n_text[-1]).to eq(".")
       expect(n_text =~ /\(.*\)/).not_to be_nil
     end
@@ -1059,12 +1110,23 @@ describe 'MARC Export' do
       ind2 = source_to_code(name['source'])
 
       df = @marcs[0].at("datafield[@tag='600'][@ind1='3'][@ind2='#{ind2}']")
+      resource = @resources[0]['linked_agents'].select { |r| r['role'] == 'subject' && r['ref'].include?('families')}.first
+
+      sf_v = df.at("subfield[@code='v']")
+      sf_x = df.at("subfield[@code='x']")
+      sf_y = df.at("subfield[@code='y']")
+      sf_z = df.at("subfield[@code='z']")
 
       expect(df.at("subfield[@code='a']")).to have_inner_text(/#{name['family_name']}/)
       expect(df.at("subfield[@code='c']")).to have_inner_text(/#{name['qualifier']}/)
       expect(df.at("subfield[@code='d']")).to have_inner_text(/#{name['dates']}/)
-      expect(df.at("subfield[@code='4']")).to have_inner_text(/#{name['relator']}/)
-      expect(df.at("subfield[@code='0']")).to have_inner_text(/#{name['authority_id']}/)
+
+      if [sf_v, sf_x, sf_y, sf_z].all? { |sf| sf.nil? }
+        expect(df.at("subfield[@code='0']")).to have_inner_text(/#{name['authority_id']}/)
+      end
+
+      expect(df.at("subfield[@code='4']")).to have_inner_text(/#{resource['relator']}/)
+      expect(df.at("subfield[@code='e']")).to have_inner_text(/#{(I18n.t("enumerations.linked_agent_archival_record_relators.#{resource['relator']}"))}/)
 
       if ind2 == '7'
         expect(df.at("subfield[@code='2']")).to have_inner_text(/#{name['source']}/)
@@ -1080,10 +1142,12 @@ describe 'MARC Export' do
       a_text = df.at("subfield[@code='a']").text
       d_text = df.at("subfield[@code='d']").text
       c_text = df.at("subfield[@code='c']").text
+      e_text = df.at("subfield[@code='e']").text
 
       expect(a_text[-1]).to eq(",")
       expect(d_text[-1]).to eq(",")
-      expect(c_text[-1]).to eq(".")
+      expect(c_text[-1]).to eq(",")
+      expect(e_text[-1]).to eq(".")
     end
 
 
@@ -1093,12 +1157,15 @@ describe 'MARC Export' do
       name_string = %w(primary_ rest_of_).map {|p| name["#{p}name"]}.reject {|n| n.nil? || n.empty?}.join(name['name_order'] == 'direct' ? ' ' : ', ')
 
       df = @marcs[1].at("datafield[@tag='700'][@ind1='#{inverted}'][@ind2=' ']")
+      resource = @resources[1]['linked_agents'].select { |r| r['role'] == 'creator' }[1]
 
       expect(df.at("subfield[@code='a']")).to have_inner_text(/#{name_string}/)
       expect(df.at("subfield[@code='b']")).to have_inner_text(/#{name['number']}/)
       expect(df.at("subfield[@code='c']")).to have_inner_text(/#{%w(prefix title suffix).map {|p| name[p]}.compact.join(', ')}/)
       expect(df.at("subfield[@code='d']")).to have_inner_text(/#{name['dates']}/)
       expect(df.at("subfield[@code='0']")).to have_inner_text(/#{name['authority_id']}/)
+      expect(df.at("subfield[@code='4']")).to have_inner_text(/#{resource['relator']}/)
+      expect(df.at("subfield[@code='e']")).to have_inner_text(/#{(I18n.t("enumerations.linked_agent_archival_record_relators.#{resource['relator']}"))}/)
     end
 
     it "should add required punctuation to 700 tag agent-person subfields" do
