@@ -1323,6 +1323,10 @@ en:
     _plural: Languages
     _singular: Language
 
+  language:
+    _plural: Languages
+    _singular: Language
+
   language_and_script:
     <<: *lang_material_attributes
     language: Language
@@ -1651,6 +1655,10 @@ en:
         <p>Used for linking associated Resources with this Accession.</p>
     relator: Relator
     relator_type: Relator Type
+    created_by: Created by
+    last_modified_by: Last Modified By
+    create_time: Created
+    user_mtime: Modified
     _singular: Accession
     _plural: Accessions
 
@@ -2012,6 +2020,10 @@ en:
     finding_aid_note: Finding Aid Note
     finding_aid_note_tooltip: |
         <p>For recording any additional information about the finding aid (not the described Resource) not covered by the other finding aid data elements.</p>
+    created_by: Created by
+    last_modified_by: Last Modified By
+    create_time: Created
+    user_mtime: Modified
     _singular: Resource
     _plural: Resources
 
@@ -2747,6 +2759,7 @@ en:
     start_date: Start Date
     end_date: End Date
     field: Field
+    include: Include
     _singular: Custom Report Template
     _plural: Custom Report Templates
 
