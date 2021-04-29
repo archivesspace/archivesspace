@@ -66,8 +66,14 @@ include FactoryBot::Syntax::Methods
 def setup_test_data
   repo = create(:repo, :repo_code => "test_#{Time.now.to_i}", publish: true)
   set_repo repo
-  create(:accession, title: "Published Accession")
-  create(:accession, title: "Unpublished Accession", publish: false )
+  digi_obj = create(:digital_object, title: 'Born digital', publish: true)
+
+  create(:accession, title: "Published Accession", publish: true, instances: [
+    build(:instance_digital, digital_object: { 'ref' => digi_obj.uri })
+  ])
+  create(:accession, title: "Unpublished Accession", publish: false, instances: [
+    build(:instance_digital, digital_object: { 'ref' => digi_obj.uri })
+  ])
   create(:accession_with_deaccession, title: "Published Accession with Deaccession")
   create(:accession, title: "Accession for Phrase Search")
 
