@@ -134,7 +134,6 @@ module AspaceFactories
       end
 
       factory :accession_parts_relationship, class: JSONModel(:accession_parts_relationship) do
-        ref { create(:accession).uri }
         relator_type { "part" }
         relator { "has_part" }
       end
