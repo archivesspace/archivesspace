@@ -114,6 +114,7 @@ fr:
       room: Salle
       scope: Portée de l'évaluation
       scoped_by_rating: Portée par note
+      script: Scénario
       sensitive_material: Matériau sensible?
       scoped_by_date_range: Affichage des enregistrements créés entre
       showing_values: Affichage des enregistrements avec des valeurs d'évaluation
