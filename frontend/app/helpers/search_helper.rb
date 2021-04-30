@@ -103,6 +103,7 @@ module SearchHelper
     return user_can?('update_digital_object_record') if ["digital_object", "digital_object_component"].include?(record['primary_type'])
     return user_can?('update_assessment_record') if record['primary_type'] === "assessment"
     return user_can?('update_event_record') if record['primary_type'] === "event"
+    return user_can?('update_location_profile_record') if record['primary_type'] === "location_profile"
   end
 
   def can_delete_search_results?(record_type)
