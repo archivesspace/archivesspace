@@ -666,11 +666,20 @@ describe 'MARC Export' do
                                            build(:json_lang_material_with_note)
                                           ]
                             )
+        @resource5 = create(:json_resource,
+                            :level => 'collection',
+                            :dates => [
+                                       build(:json_date,
+                                             :date_type => 'single',
+                                             :begin => '1900')
+                                      ]
+                            )
 
         @marc1 = get_marc(@resource1)
         @marc2 = get_marc(@resource2)
         @marc3 = get_marc(@resource3)
         @marc4 = get_marc(@resource4)
+        @marc5 = get_marc(@resource5)
       end
     end
 
@@ -698,10 +707,11 @@ describe 'MARC Export' do
       expect(@marc1.at("record/controlfield[@tag='008']")).to have_inner_text(/^\d{6}/)
     end
 
-    it "sets record/controlfield[@tag='008']/text()[6] according to resource.level" do
+    it "sets record/controlfield[@tag='008']/text()[6] according date type" do
       expect(@marc1.at("record/controlfield[@tag='008']")).to have_inner_text(/^.{6}i/)
       expect(@marc2.at("record/controlfield[@tag='008']")).to have_inner_text(/^.{6}s/)
       expect(@marc3.at("record/controlfield[@tag='008']")).to have_inner_text(/^.{6}i/)
+      expect(@marc5.at("record/controlfield[@tag='008']")).to have_inner_text(/^.{6}s/)
     end
 
 
