@@ -78,9 +78,15 @@
             <subfield code="a">Resource-ConditionsGoverningAccess-AT</subfield>
         </datafield>
         <datafield tag="520" ind2=" " ind1=" ">
+            <subfield code="a">Resource-Odd-AT</subfield>
+        </datafield>
+        <datafield tag="520" ind2=" " ind1="8">
+            <subfield code="a">Resource-NoDisplay-AT</subfield>
+        </datafield>
+        <datafield tag="520" ind2=" " ind1="3">
             <subfield code="a">Resource-Abstract-AT</subfield>
         </datafield>
-        <datafield tag="520" ind2=" " ind1=" ">
+        <datafield tag="520" ind2=" " ind1="2">
             <subfield code="a">Resource-ScopeContents-AT
 
 Here is an example of wrap-in tag blockquotes:
