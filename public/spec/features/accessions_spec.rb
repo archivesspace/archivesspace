@@ -38,6 +38,7 @@ describe 'Accessions', js: true do
     it 'displays an related accessions on the show page' do
       visit '/accessions'
       click_link 'Accession with Relationship'
+      
       expect(page).to have_content('Published Accession')
       expect(page).to_not have_content('Unpublished Accession')
     end
