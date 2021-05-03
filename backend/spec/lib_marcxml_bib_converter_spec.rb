@@ -300,7 +300,25 @@ describe 'MARCXML Bib converter' do
       end
 
       it "maps datafield[@tag='520'] to resource.notes[] using template '$3:  $a. ($u) [line break] $b.'" do
+        oddnotes = @resource['notes'].select { |note| note['type'] == 'odd' }
+        expect(oddnotes).not_to be_nil
+        expect(@notes).to include('Resource-Odd-AT.')
+      end
+
+      it "maps datafield[@tag='520'][@ind1='2'] to scopecontent note using template '$3:  $a. ($u) [line break] $b.'" do
+        scopenotes = @resource['notes'].select { |note| note['type'] == 'scopecontent' }
+        expect(scopenotes).not_to be_nil
+        expect(@notes).to include(/Resource-ScopeContents-AT.+/)
+      end
+
+      it "maps datafield[@tag='520'][@ind1='3'] to abstract note using template '$3:  $a. ($u) [line break] $b.'" do
+        abstractnotes = @resource['notes'].select { |note| note['type'] == 'abstract' }
+        expect(abstractnotes).not_to be_nil
         expect(@notes).to include('Resource-Abstract-AT.')
+      end
+
+      it "does not import datafield[@tag='520'][@ind1='8']" do
+        expect(@notes).not_to include('Resource-NoDisplay-AT')
       end
 
       it "maps datafield[@tag='524'] to resource.notes[] using template '$3: $a. $2.'" do
