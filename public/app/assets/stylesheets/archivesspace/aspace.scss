@@ -928,3 +928,17 @@ span.head {
   position: absolute;
   left: -9999px;
 }
+
+@media (max-width: 480px) {
+  div {
+     overflow: scroll;
+     overflow-wrap: anywhere;
+     word-break: break-word;
+  }
+
+  .panel-heading {
+     overflow-wrap: anywhere;
+     word-break: break-all;
+     white-space: normal;
+  }
+}
