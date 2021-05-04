@@ -273,6 +273,10 @@ class Resource < Record
         cite += " #{ repository_information['top']['name']}."
       end
     end
+
+    # escape any quotes/tags that may break the HTML on the page
+    cite = CGI::escapeHTML(cite)
+
     if cite_type == "description"
       HTMLEntities.new.decode("#{cite} #{cite_url_and_timestamp}.")
     else
