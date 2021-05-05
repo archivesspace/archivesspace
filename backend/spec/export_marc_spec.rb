@@ -666,11 +666,20 @@ describe 'MARC Export' do
                                            build(:json_lang_material_with_note)
                                           ]
                             )
+        @resource5 = create(:json_resource,
+                            :level => 'collection',
+                            :dates => [
+                                       build(:json_date,
+                                             :date_type => 'single',
+                                             :begin => '1900')
+                                      ]
+                            )
 
         @marc1 = get_marc(@resource1)
         @marc2 = get_marc(@resource2)
         @marc3 = get_marc(@resource3)
         @marc4 = get_marc(@resource4)
+        @marc5 = get_marc(@resource5)
       end
     end
 
@@ -698,10 +707,11 @@ describe 'MARC Export' do
       expect(@marc1.at("record/controlfield[@tag='008']")).to have_inner_text(/^\d{6}/)
     end
 
-    it "sets record/controlfield[@tag='008']/text()[6] according to resource.level" do
+    it "sets record/controlfield[@tag='008']/text()[6] according date type" do
       expect(@marc1.at("record/controlfield[@tag='008']")).to have_inner_text(/^.{6}i/)
       expect(@marc2.at("record/controlfield[@tag='008']")).to have_inner_text(/^.{6}s/)
       expect(@marc3.at("record/controlfield[@tag='008']")).to have_inner_text(/^.{6}i/)
+      expect(@marc5.at("record/controlfield[@tag='008']")).to have_inner_text(/^.{6}s/)
     end
 
 
@@ -855,22 +865,38 @@ describe 'MARC Export' do
             :names => [build(:json_name_person,
                              :prefix => "QM",
                              :authority_id => nil)]
+          ],
+          [:json_agent_corporate_entity,
+            :names => [build(:json_name_corporate_entity,
+                             :subordinate_name_1 => nil,
+                             :subordinate_name_2 => nil,
+                             :qualifier => nil,
+                             :number => nil)]
           ]
         ].each do |type_and_opts|
           @agents << create(type_and_opts[0], type_and_opts[1])
         end
 
-        # r0 created by a person and a person
-        # r1 created by a corp and a person
-        # r2 created by a family and a person
+        # r0 100 => @agent[0],
+        #    600 => @agent[2],
+        #    610 => @agent[1], @agent[8]
+        #    700 => @agent[3], @agent[4], @agent[5], @agent[6], @agent[7]
+        # r1 110 => @agent[1],
+        #    600 => @agent[0], @agent[2],
+        #    610 => @agent[8]
+        #    700 => @agent[3], @agent[4], @agent[5], @agent[6], @agent[7]
+        # r2 110 => @agent[2],
+        #    600 => @agent[0],
+        #    610 => @agent[1], @agent[8]
+        #    700 => @agent[3], @agent[4], @agent[5], @agent[6], @agent[7]
         @resources = [0, 1, 2].map {|i|
             create(:json_resource,
                    :linked_agents => @agents.map.each_with_index {|a, j|
                      {
                        :ref => a.uri,
-                       :role => (j == i || j > 2) ? 'creator' : 'subject',
+                       :role => (j == i || j.between?(3, 7)) ? 'creator' : 'subject',
                        :terms => [build(:json_term), build(:json_term)],
-                       :relator => generate(:relator)
+                       :relator => (j != 8) ? generate(:relator) : nil
                      }
                    })
           }
@@ -938,21 +964,20 @@ describe 'MARC Export' do
       df = @marcs[0].at("datafield[@tag='100'][@ind1='#{inverted}'][@ind2=' ']")
 
       b_text = df.at("subfield[@code='b']").text
-      q_text = df.at("subfield[@code='q']").text
       c_text = df.at("subfield[@code='c']").text
       d_text = df.at("subfield[@code='d']").text
       g_text = df.at("subfield[@code='g']").text
+      q_text = df.at("subfield[@code='q']").text
 
       unless c_text.nil? || c_text.empty?
-        expect(q_text[-1]).to eq(",")
+        expect(b_text[-1]).to eq(",")
       end
 
       unless d_text.nil? || d_text.empty?
         expect(c_text[-1]).to eq(",")
       end
 
-      expect(g_text[-1]).to eq(".")
-
+      expect(g_text =~ /\(.*\)/).not_to be_nil
       expect(q_text =~ /\(.*\)/).not_to be_nil
     end
 
@@ -1032,21 +1057,20 @@ describe 'MARC Export' do
       df = @marcs[1].at("datafield[@tag='600'][@ind1='#{inverted}'][@ind2='#{ind2}']")
 
       b_text = df.at("subfield[@code='b']").text
-      q_text = df.at("subfield[@code='q']").text
       c_text = df.at("subfield[@code='c']").text
       d_text = df.at("subfield[@code='d']").text
       g_text = df.at("subfield[@code='g']").text
+      q_text = df.at("subfield[@code='q']").text
 
       unless c_text.nil? || c_text.empty?
-        expect(q_text[-1]).to eq(",")
+        expect(b_text[-1]).to eq(",")
       end
 
       unless d_text.nil? || d_text.empty?
         expect(c_text[-1]).to eq(",")
       end
 
-      expect(g_text[-1]).to eq(".")
-
+      expect(g_text =~ /\(.*\)/).not_to be_nil
       expect(q_text =~ /\(.*\)/).not_to be_nil
     end
 
@@ -1100,8 +1124,27 @@ describe 'MARC Export' do
       end
 
       expect(e_text[-1]).to eq(",")
-      expect(n_text[-1]).to eq(".")
       expect(n_text =~ /\(.*\)/).not_to be_nil
+    end
+
+    it "does not add punctuation to 610 a when followed by any subject subfield" do
+      name = @agents[8]['names'][0]['primary_name']
+
+      df = @marcs[1].at("datafield[@tag='610']")
+
+      sf_a = df.at("subfield[@code='a']")
+      sf_t = df.at("subfield[@code='t']")
+      sf_v = df.at("subfield[@code='v']")
+      sf_x = df.at("subfield[@code='x']")
+      sf_y = df.at("subfield[@code='y']")
+      sf_z = df.at("subfield[@code='z']")
+
+      if ![sf_v, sf_x, sf_y, sf_z].all? { |sf| sf.nil? } && sf_t.nil?
+        expect(sf_a).to have_inner_text(/#{name}/)
+        expect(sf_a.text[-1]).not_to eq('.')
+      else
+        expect(sf_a.text[-1]).to eq('.')
+      end
     end
 
 
@@ -1147,7 +1190,6 @@ describe 'MARC Export' do
       expect(a_text[-1]).to eq(",")
       expect(d_text[-1]).to eq(",")
       expect(c_text[-1]).to eq(",")
-      expect(e_text[-1]).to eq(".")
     end
 
 
@@ -1183,15 +1225,14 @@ describe 'MARC Export' do
 
 
       unless c_text.nil? || c_text.empty?
-        expect(q_text[-1]).to eq(",")
+        expect(b_text[-1]).to eq(",")
       end
 
       unless d_text.nil? || d_text.empty?
         expect(c_text[-1]).to eq(",")
       end
 
-      expect(g_text[-1]).to eq(".")
-
+      expect(g_text =~ /\(.*\)/).not_to be_nil
       expect(q_text =~ /\(.*\)/).not_to be_nil
     end
 

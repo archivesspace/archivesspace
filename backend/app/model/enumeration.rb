@@ -57,8 +57,17 @@ class Enumeration < Sequel::Model(:enumeration)
     dependants = self.class.dependants_of(self.name) ? self.class.dependants_of(self.name) : []
     dependants.each do |definition, model|
       property_id = "#{definition[:property]}_id".intern
-      model.filter(property_id => old_enum_value.id).update(property_id => new_enum_value.id,
-                                                            :system_mtime => Time.now)
+      records = model.filter(property_id => old_enum_value.id)
+      if model.included_modules.include?(ActiveAssociation)
+        # update and check each record for a related record to reindex
+        records.each do |rec|
+          rec.update(property_id => new_enum_value.id, :system_mtime => Time.now)
+          rec.broadcast_reindex
+        end
+      else
+        # update in one go
+        records.update(property_id => new_enum_value.id, :system_mtime => Time.now)
+      end
     end
 
     old_enum_value.delete

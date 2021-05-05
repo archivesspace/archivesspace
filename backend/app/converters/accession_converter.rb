@@ -340,7 +340,9 @@ class AccessionConverter < Converter
 
   def self.telephone_template(type)
     {
-      :record_type => :telephone,
+      :record_type => Proc.new {|data|
+        data['number'] ? :telephone : nil
+      },
       :on_create => Proc.new {|data, obj|
         obj.number_type = type
       },

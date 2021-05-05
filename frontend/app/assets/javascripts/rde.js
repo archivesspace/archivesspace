@@ -24,11 +24,13 @@ $(function() {
       var COOKIE_NAME_COLUMN_ORDER = "rde."+$rde_form.data("cookie-prefix")+".order";
 
       // Config from Cookies
-      var VISIBLE_COLUMN_IDS =  AS.prefixed_cookie(COOKIE_NAME_VISIBLE_COLUMN) ? JSON.parse(AS.prefixed_cookie(COOKIE_NAME_VISIBLE_COLUMN)) : null;
       var STICKY_COLUMN_IDS =  AS.prefixed_cookie(COOKIE_NAME_STICKY_COLUMN) ? JSON.parse(AS.prefixed_cookie(COOKIE_NAME_STICKY_COLUMN)) : null;
       var COLUMN_WIDTHS =  AS.prefixed_cookie(COOKIE_NAME_COLUMN_WIDTHS) ? JSON.parse(AS.prefixed_cookie(COOKIE_NAME_COLUMN_WIDTHS)) : null;
       var COLUMN_ORDER =  AS.prefixed_cookie(COOKIE_NAME_COLUMN_ORDER) ? JSON.parse(AS.prefixed_cookie(COOKIE_NAME_COLUMN_ORDER)) : null;
       var DEFAULT_VALUES = {};
+      // jquery.columnmanager gets wonky if the first pass through column
+      // order needs to unhide anything, so don't load visibility yet
+      var VISIBLE_COLUMN_IDS;
 
       // store section data
       var SECTION_DATA = {};
@@ -67,6 +69,7 @@ $(function() {
         AS.prefixed_cookie(COOKIE_NAME_COLUMN_WIDTHS, null);
         AS.prefixed_cookie(COOKIE_NAME_STICKY_COLUMN, null);
         AS.prefixed_cookie(COOKIE_NAME_COLUMN_ORDER, null);
+
         VISIBLE_COLUMN_IDS = null;
         STICKY_COLUMN_IDS = null;
         COLUMN_WIDTHS = null;
@@ -320,7 +323,10 @@ $(function() {
         });
 
         initAutoValidateFeature();
-        applyColumnOrder();
+        applyColumnOrder(function() {
+          VISIBLE_COLUMN_IDS =  AS.prefixed_cookie(COOKIE_NAME_VISIBLE_COLUMN) ? JSON.parse(AS.prefixed_cookie(COOKIE_NAME_VISIBLE_COLUMN)) : null;
+          applyPersistentVisibleColumns();
+        });
         initColumnReorderFeature();
         initRdeTemplates();
         applyPersistentStickyColumns();
@@ -595,7 +601,7 @@ $(function() {
         AS.prefixed_cookie(COOKIE_NAME_COLUMN_ORDER, JSON.stringify(COLUMN_ORDER));
       };
 
-      var applyColumnOrder = function() {
+      var applyColumnOrder = function(callback) {
         if (COLUMN_ORDER === null) {
           persistColumnOrder();
         } else {
@@ -636,7 +642,9 @@ $(function() {
             }
           });
 
-          applyPersistentVisibleColumns()
+          if (callback) {
+            callback();
+          }
         }
       };
 
@@ -843,22 +851,38 @@ $(function() {
 
 
       var applyTemplate = function(template) {
+        // we are relying on template.order to always
+        // contain all colIds
         COLUMN_ORDER = template.order;
-        VISIBLE_COLUMN_IDS = template.visible;
         DEFAULT_VALUES = template.defaults;
 
-        applyColumnOrder();
+        // sets the order, then
+        // calls applyPersistentVisibleColumns,
+        // which iterates over colums in DOM,
+        // and hides or shows
+        applyColumnOrder(function() {
+          VISIBLE_COLUMN_IDS = template.visible;
+          AS.prefixed_cookie(COOKIE_NAME_VISIBLE_COLUMN, JSON.stringify(VISIBLE_COLUMN_IDS));
+          applyPersistentVisibleColumns(function() {
+            var $firstRow = $("tbody tr:first", $rde_form);
 
-        var $firstRow = $("tbody tr:first", $rde_form);
+            _.each($("td", $firstRow), function(td) {
+              var $td = $( td );
+              var colId = $td.data('col');
+              var $$input = $(":input:first", $td)
+              if (DEFAULT_VALUES[colId] && ($$input.data('value-from-template') || $$input.val().length < 1)) {
+                $$input.val(DEFAULT_VALUES[colId]);
+                $$input.data('value-from-template', true);
+              }
+            });
 
-        _.each($("td", $firstRow), function(td) {
-          var $td = $( td );
-          var colId = $td.data('col');
-          var $$input = $(":input:first", $td)
-          if (DEFAULT_VALUES[colId] && ($$input.data('value-from-template') || $$input.val().length < 1)) {
-            $$input.val(DEFAULT_VALUES[colId]);
-            $$input.data('value-from-template', true);
-          }
+            // zap the multiselect widget
+            var $select = $("#rde_hidden_columns");
+            $select.data("multiselect").destroy();
+            $select.removeData("multiselect");
+            $select.empty();
+            initColumnShowHideWidget();
+          });
         });
       };
 
@@ -1007,7 +1031,7 @@ $(function() {
           buttonClass: 'btn btn-small btn-default',
           buttonWidth: 'auto',
           maxHeight: 300,
-          buttonContainer: '<div class="btn-group" />',
+          buttonContainer: '<div class="btn-group" id="multiselect_btn"/>',
           buttonText: function(options) {
             if (options.length == 0) {
               return $select.data("i18n-none") + ' <b class="caret"></b>';
@@ -1041,7 +1065,7 @@ $(function() {
             AS.prefixed_cookie(COOKIE_NAME_VISIBLE_COLUMN, JSON.stringify(VISIBLE_COLUMN_IDS));
           }
         });
-        
+
         function disableRequiredColumns() {
           // Don't allow omitting required fields in RDE templates
           // by disabling the bootstratp-multiselect.js generated
@@ -1059,7 +1083,6 @@ $(function() {
         }
 
         disableRequiredColumns();
-        applyPersistentVisibleColumns();
       };
 
       var persistColumnWidths = function() {
@@ -1135,7 +1158,7 @@ $(function() {
         }
       };
 
-      var applyPersistentVisibleColumns = function() {
+      var applyPersistentVisibleColumns = function(callback) {
         if ( VISIBLE_COLUMN_IDS ) {
           var total_width = 0;
 
@@ -1154,6 +1177,10 @@ $(function() {
             }
           });
           $table.width(total_width);
+
+          if (callback) {
+            callback();
+          }
         } else {
           applyPersistentColumnWidths();
         }
