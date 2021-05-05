@@ -333,14 +333,22 @@ describe "EAD3 export mappings" do
         end
       end
 
-      it "maps 'telephone' to addressline" do
-        if (data = contact['telephone'])
-          mt(data, "#{path}addressline[#{offset_1 + offset_2}]")
+      it "maps each telephone in 'telephones' to addressline" do
+        if (data = contact['telephones'][0])
+          if data['ext']
+            mt(/#{data['number']}/, "#{path}addressline[#{offset_1 + offset_2}]")
+            mt(/#{data['ext']}/, "#{path}addressline[#{offset_1 + offset_2}]")
+          else
+            mt(data['number'], "#{path}addressline[#{offset_1 + offset_2}]")
+          end
+          if data['number_type']
+            mt(data['number_type'], "#{path}addressline[#{offset_1 + offset_2}]", 'localtype')
+          end
         end
       end
 
       it "maps 'email' to addressline" do
-        offset_3 = contact['telephone'] ? 1 : 0
+        offset_3 = contact['telephones'] ? 1 : 0
         if (data = contact['email'])
           mt(data, "#{path}addressline[#{offset_1 + offset_2 + offset_3}]")
         end

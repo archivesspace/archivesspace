@@ -648,7 +648,12 @@ class EAD3Serializer < EADSerializer
             xml.address {
 
               repo_addresslines.each do |key, line|
-                if ['telephone', 'email'].include?(key)
+                if key.start_with?('telephone')
+                  addressline_atts = { localtype: line[0] }
+                  xml.addressline(addressline_atts) {
+                    sanitize_mixed_content(line[1], xml, fragments)
+                  }
+                elsif key == 'email'
                   addressline_atts = { localtype: key }
                   xml.addressline(addressline_atts) {
                     sanitize_mixed_content(line, xml, fragments)

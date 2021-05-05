@@ -204,6 +204,7 @@ RSpec.configure do |config|
       SpecHelperMethods.as_test_user("admin") do
         RequestContext.open do
           FactoryBot.create(:agent_corporate_entity)
+          FactoryBot.create(:repo_telephone)
           FactoryBot.create(:repo)
           $default_repo = $repo_id
           $repo_record = JSONModel.JSONModel(:repository).find($repo_id)
