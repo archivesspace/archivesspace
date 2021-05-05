@@ -74,11 +74,17 @@ FactoryBot.define do
                             :region => [nil, generate(:alphanumstr)].sample,
                             :country => [nil, generate(:alphanumstr)].sample,
                             :post_code => [nil, generate(:alphanumstr)].sample,
-                            #:telephones => [nil, build(:json_telephone)].sample,
                             :email => [nil, generate(:alphanumstr)].sample,
                             :email_signature => [nil, generate(:alphanumstr)].sample,
                             :json_schema_version => 1)
       end
+    end
+
+    factory :repo_telephone, class: Telephone do
+      agent_contact_id { 1 }
+      number_type { [nil, 'business', 'home', 'cell', 'fax'].sample }
+      number { generate(:phone_number) }
+      ext { [nil, generate(:alphanumstr)].sample }
     end
 
     factory :user, class: User do

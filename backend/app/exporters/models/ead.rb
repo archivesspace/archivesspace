@@ -201,6 +201,7 @@ class EADModel < ASpaceExport::ExportModel
   end
 
 
+  # EAD2002 address lines
   def addresslines
     agent = self.agent_representation
     return [] unless agent && agent.agent_contacts[0]
@@ -219,9 +220,22 @@ class EADModel < ASpaceExport::ExportModel
 
     data << line unless line.empty?
 
-    %w(telephone email).each do |property|
-      data << contact[property]
+    if (telephones = contact['telephones'])
+      telephones.each do |t|
+        phone = ''
+        if t['number_type'].nil?
+          phone += "#{I18n.t('repository.telephone')}: "
+        else
+          phone += "#{t['number_type'].capitalize} #{I18n.t('telephone.number')}: "
+        end
+        phone += "#{t['number']}"
+        phone += " (#{I18n.t('repository.telephone_ext')}: #{t['ext']})" if t['ext']
+
+        data << phone unless phone.empty?
+      end
     end
+
+    data << contact['email'] if contact['email']
 
     data.compact!
 
@@ -229,6 +243,7 @@ class EADModel < ASpaceExport::ExportModel
   end
 
 
+  # EAD3 address lines
   def addresslines_keyed
     agent = self.agent_representation
     return [] unless agent && agent.agent_contacts[0]
@@ -246,7 +261,20 @@ class EADModel < ASpaceExport::ExportModel
     line.strip!
     data['city_region_post_code'] = line unless line.empty?
 
-    data['telephone'] = contact['telephone']
+    if (telephones = contact['telephones'])
+      telephones.each_with_index do |t, i|
+        data["telephone_#{i}"] = []
+        if t['number_type'].nil?
+          data["telephone_#{i}"] << "#{I18n.t('repository.telephone').downcase}"
+        else
+          data["telephone_#{i}"] << t['number_type']
+        end
+
+        data["telephone_#{i}"] << t['number']
+        data["telephone_#{i}"][1] += " (#{I18n.t('repository.telephone_ext')}: #{t['ext']})" if t['ext']
+      end
+    end
+
     data['email'] = contact['email']
 
     data.delete_if { |k, v| v.nil? }
