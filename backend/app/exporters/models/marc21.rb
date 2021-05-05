@@ -115,7 +115,7 @@ class MARCModel < ASpaceExport::ExportModel
   def self.assemble_controlfield_string(obj)
     date = obj.dates[0] || {}
     string = obj['system_mtime'].scan(/\d{2}/)[1..3].join('')
-    string += obj.level == 'item' && date['date_type'] == 'single' ? 's' : 'i'
+    string += date['date_type'] == 'single' ? 's' : 'i'
     string += date['begin'] ? date['begin'][0..3] : "    "
     string += date['end'] ? date['end'][0..3] : "    "
 
