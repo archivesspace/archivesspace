@@ -159,8 +159,10 @@ module RegisterCustomFields
     :sortable => true)
   register_field('resource', 'finding_aid_description_rules', 'Enum',
     :sortable => true)
-  register_field('resource', 'finding_aid_language', String,
-    :sortable => true)
+  register_field('resource', 'finding_aid_language', 'Enum',
+    :sortable => true, :enum_name => 'language_iso639_2')
+  register_field('resource', 'finding_aid_script', 'Enum',
+    :sortable => true, :enum_name => 'script_iso15924')
   register_field('resource', 'finding_aid_sponsor', String,
     :sortable => true)
   register_field('resource', 'finding_aid_edition_statement', String)
