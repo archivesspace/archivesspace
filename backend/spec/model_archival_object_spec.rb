@@ -204,7 +204,7 @@ describe 'ArchivalObject model' do
     expect(ArchivalObject[ao[:id]].display_string).to eq("bulk: #{date['begin']} - #{date['end']} (Inferred)")
   end
 
-  
+
   it "includes date certainty in the generated display string" do
     opts = {
       :title => "",
