@@ -109,7 +109,7 @@
 													</div>
 												</div>
 											<% else %>
-												<% if record_type == 'resource' && field[0] == 'level' %>
+												<% if (record_type == 'resource' || record_type == 'archival_object') && field[0] == 'level' %>
 													<% enum_name = "archival_record_level" %>
 												<% else %>
 													<% enum_name = "#{record_type}_#{field[0]}" %>
