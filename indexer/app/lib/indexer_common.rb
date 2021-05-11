@@ -421,7 +421,9 @@ class IndexerCommon
                                           collect{|resource| resource["ref"]}.
                                           compact.uniq
 
-        doc['related_accessions'] = record['record']['related_accessions']
+        doc['related_accession_uris'] = record['record']['related_accessions'].
+                                           collect{|accession| accession["ref"]}.
+                                           compact.uniq
 
         doc['slug'] = record['record']['slug']
         doc['is_slug_auto'] = record['record']['is_slug_auto']
