@@ -2943,6 +2943,10 @@ en:
     _plural: Formats
   creator:
     _plural: Creators
+  owner_repo:
+    _plural: Reserved For
+  groups:
+    _plural: Groups
   created_by: Created by
   last_modified_by: Last modified by
   create_time: Created

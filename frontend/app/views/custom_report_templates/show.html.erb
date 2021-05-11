@@ -87,7 +87,7 @@
                           </div>
                         </div>
                       <% end %>
-                    <% elsif field[1].has_key? 'range_start' %>
+                    <% elsif field[1].has_key? 'range_start' && !field[1]['range_start'].nil? %>
                       <div class="form-group">
                         <%= readonly.label "narrow_by", :class => "col-sm-2 control-label" %>
                         <div class="col-sm-9 label-only">
@@ -166,7 +166,12 @@
               <div id="<%= record_type %>_sort_by">
                 <h3><%= I18n.t "custom_report_template._frontend.section.sort_by" %></h3>
                 <div style="padding-bottom: 10px;" class="col-sm-2 control-label">
-                  <%= I18n.t("#{record_type}.#{data['sort_by']}", :default => "#{data['sort_by']}") %>
+                  <% if data['sort_by'] == 'created_by' || data['sort_by'] == 'last_modified_by' ||
+                        data['sort_by'] == 'create_time' || data['sort_by'] == 'user_mtime' %>
+                    <%= I18n.t("#{data['sort_by']}") %>
+                  <% else %>
+                    <%= I18n.t("#{record_type}.#{data['sort_by']}", :default => "#{data['sort_by']}") %>
+                  <% end %>
                 </div>
               </div>
             </div>
