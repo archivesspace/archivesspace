@@ -1656,7 +1656,7 @@ en:
     relator: Relator
     relator_type: Relator Type
     created_by: Created by
-    last_modified_by: Last Modified By
+    last_modified_by: Last modified by
     create_time: Created
     user_mtime: Modified
     _singular: Accession
@@ -1744,7 +1744,6 @@ en:
     related_agent_tooltip: Used to link other agents with a relationship to the agent and indicate the nature of the relationship.
     publish_tooltip: |
       <p>Indicates whether or not the agent is included in exports and published to the public interface (if used)</p>
-
 
   agent_person:
     <<: *agent_attributes
@@ -2021,7 +2020,7 @@ en:
     finding_aid_note_tooltip: |
         <p>For recording any additional information about the finding aid (not the described Resource) not covered by the other finding aid data elements.</p>
     created_by: Created by
-    last_modified_by: Last Modified By
+    last_modified_by: Last modified by
     create_time: Created
     user_mtime: Modified
     _singular: Resource
@@ -2925,3 +2924,20 @@ en:
     log_skipping_due_to_errors: "Skipping creation and linking of top containers due to errors."
     log_validating: "Validating spreadsheet data..."
     log_creating_and_linking: "Creating and linking top containers..."
+
+  ratings:
+    _plural: Ratings
+  conservation_issues:
+    _plural: Conservation Issues
+  surveyed_by:
+    _plural: Surveyed By
+  reviewer:
+    _plural: Reviewers
+  formats:
+    _plural: Formats
+  creator:
+    _plural: Creators
+  created_by: Created by
+  last_modified_by: Last modified by
+  create_time: Created
+  user_mtime: Modified
