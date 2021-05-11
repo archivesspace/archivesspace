@@ -9,7 +9,7 @@ describe 'Accessions', js: true do
       expect(current_path).to eq ('/accessions')
       finished_all_ajax_requests?
       within all('.col-sm-12')[0] do
-        expect(page).to have_content("Showing Unprocessed Materials: 1 - 4 of 4")
+        expect(page).to have_content("Showing Unprocessed Materials: 1 - 5 of 5")
       end
       within all('.col-sm-12')[1] do
         expect(page.all("a[class='record-title']", text: 'Published Accession').length).to eq 2
