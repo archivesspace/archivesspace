@@ -10,8 +10,7 @@ describe 'Resources and archival objects' do
     @accession = create(:accession,
                         collection_management: build(:collection_management))
 
-    @resource = create(:resource,
-                       id_0: 'resource-id')
+    @resource = create(:resource)
 
     @archival_object = create(:archival_object,
                               component_id: 'component-id',
