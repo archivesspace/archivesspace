@@ -1,0 +1,38 @@
+# docker-compose -f docker-compose-dev.yml build
+# docker-compose -f docker-compose-dev.yml up --detach
+# TO CFG THE ENVIRONMENT: source .env.dev
+
+version: '3.8'
+services:
+  db1:
+    container_name: as_dev_db
+    image: mysql:8.0
+    command: --character-set-server=UTF8MB4 --innodb_buffer_pool_size=2G --innodb_buffer_pool_instances=2 --log_bin_trust_function_creators=1
+    ports:
+      - "3306:3306"
+    env_file:
+      - .env.docker.db
+  db2:
+    container_name: as_test_db
+    image: mysql:8.0
+    command: --character-set-server=UTF8MB4 --innodb_buffer_pool_size=2G --innodb_buffer_pool_instances=2 --log_bin_trust_function_creators=1
+    ports:
+      - "3307:3306"
+    env_file:
+      - .env.docker.db
+  solr1:
+    container_name: as_dev_solr
+    build:
+      context: ./solr
+    image: archivesspace/solr:8.8
+    command: solr-create -p 8983 -c archivesspace -d /archivesspace
+    ports:
+      - "8983:8983"
+  solr2:
+    container_name: as_test_solr
+    build:
+      context: ./solr
+    image: archivesspace/solr:8.8
+    command: solr-create -p 8983 -c archivesspace -d /archivesspace
+    ports:
+      - "8984:8983"

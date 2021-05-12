@@ -42,7 +42,7 @@ $frontend = "http://localhost:#{$frontend_port}"
 $expire = 30000
 
 AppConfig[:backend_url] = $backend
-AppConfig[:solr_url] = "http://localhost:#{$solr_port}"
+AppConfig[:solr_url] = ENV.fetch('ASPACE_TEST_SOLR_URL', "http://localhost:#{$solr_port}")
 AppConfig[:pui_hide][:record_badge] = false # we want this for testing
 
 $backend_start_fn = proc {
