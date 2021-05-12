@@ -598,7 +598,7 @@ describe 'Resources and archival objects' do
       @driver.find_element_with_text('//th', /Identifier/)
     end.not_to raise_error
     expect do
-      @driver.find_element_with_text('//th', /Componend ID/, false, true)
+      @driver.find_element_with_text('//th', /Component ID/, false, true)
     end.to raise_error(Selenium::WebDriver::Error::NoSuchElementError)
   end
 

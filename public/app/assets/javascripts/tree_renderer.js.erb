@@ -49,6 +49,8 @@
 
         if (rootNode.jsonmodel_type == 'classification') {
             $link.prepend(rootNode.identifier + '<%= I18n.t('classification.identifier_separator') %> ');
+        } else if (rootNode.jsonmodel_type == 'resource' && <%= AppConfig[:pui_display_identifiers_in_resource_tree] %> && rootNode.identifier) {
+            $link.prepend(rootNode.identifier + '<%= I18n.t('resource.identifier_separator') %> ');
         }
     }
 
@@ -62,6 +64,9 @@
         } else {
             var title = this.build_node_title(node);
             $link.html(title);
+            if (node.jsonmodel_type == 'archival_object' && <%= AppConfig[:pui_display_identifiers_in_resource_tree] %> && node.identifier) {
+                $link.prepend(node.identifier + '<%= I18n.t('resource.identifier_separator') %> ');
+            }
         }
 
         if (this.should_link_to_record) {
