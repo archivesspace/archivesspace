@@ -158,10 +158,10 @@ describe 'Classifications' do
     run_all_indexers
 
     @driver.get_view_page(a_classification)
-    expect(@driver.find_element(:css, '#search_embedded').text).to match(/#{a_resource.title}/)
+    expect(@driver.find_element(:css, '#classifications').text).to match(/#{a_resource.title}/)
     sleep 30
     tree_click(tree_node(a_term))
     @driver.wait_for_ajax
-    expect(@driver.find_element(:css, '#search_embedded').text).to match(/#{an_accession.title}/)
+    expect(@driver.find_element(:css, '#classifications').text).to match(/#{an_accession.title}/)
   end
 end
