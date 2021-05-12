@@ -20,6 +20,7 @@ GEM
       hashie (~> 3.5, >= 3.5.2)
       oauth2 (~> 1.0)
     hashie (3.6.0)
+    json (2.5.1)
     json (2.5.1-java)
     jwt (2.2.2)
     multi_json (1.15.0)
@@ -54,11 +55,13 @@ GEM
       parser (>= 2.7.1.5)
     ruby-progressbar (1.11.0)
     ruby2_keywords (0.0.4)
+    thread_safe (0.3.6)
     thread_safe (0.3.6-java)
     unicode-display_width (2.0.0)
 
 PLATFORMS
   java
+  ruby
 
 DEPENDENCIES
   git
