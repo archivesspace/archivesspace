@@ -55,6 +55,7 @@ class Permission < Sequel::Model(:permission)
       db[:permission].filter(:permission_code => code).update(:system => 1)
     end
   end
+
   def self.show(code)
     DB.open do |db|
       db[:permission].filter(:permission_code => code).update(:system => 0)

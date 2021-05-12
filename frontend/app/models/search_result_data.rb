@@ -116,7 +116,7 @@ class SearchResultData
     if plugin_key = Plugins.facet_i18n_key(facet_group, facet)
       return I18n.t(plugin_key, :default => facet)
     end
-    
+
     return I18n.t("search.location.none") if facet == "none"
     return facet.upcase if facet_group == "owner_repo_display_string_u_ssort"
     return I18n.t("#{facet}._singular", :default => I18n.t("plugins.#{facet}._singular", :default => facet)) if facet_group === "primary_type"
