@@ -22,7 +22,7 @@ AppConfig[:frontend_cookie_secret] = "shhhhh"
 backend_port = TestUtils.free_port_from(3636)
 AppConfig[:backend_url] = "http://localhost:#{backend_port}"
 solr_port = TestUtils.free_port_from(2989)
-AppConfig[:solr_url] = "http://localhost:#{$solr_port}"
+AppConfig[:solr_url] = ENV.fetch('ASPACE_TEST_SOLR_URL', "http://localhost:#{$solr_port}")
 
 RSpec.configure do |config|
   # rspec-expectations config goes here. You can use an alternate
