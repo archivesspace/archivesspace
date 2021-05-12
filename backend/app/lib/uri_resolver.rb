@@ -50,10 +50,10 @@ module URIResolver
     end
 
     result = if properties_to_resolve
-      URIResolverImplementation.new(properties_to_resolve).resolve_references(records)
-    else
-      records
-    end
+               URIResolverImplementation.new(properties_to_resolve).resolve_references(records)
+             else
+               records
+             end
 
     URIResolver.resolve_wrappers.each do |resolve_wrapper|
       result = resolve_wrapper.resolve(result, records, properties_to_resolve)

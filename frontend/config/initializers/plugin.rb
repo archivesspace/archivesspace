@@ -138,7 +138,7 @@ module Plugins
   end
 
   def self.sections_for(record, mode)
-    @sections.select{|plugin_section| plugin_section.supports?(record, mode)}
+    @sections.select {|plugin_section| plugin_section.supports?(record, mode)}
   end
 
 

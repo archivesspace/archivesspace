@@ -49,7 +49,6 @@ class Sequence
       Log.error("Gave up trying to generate a sequence number for: '#{sequence}'")
       request[:result].completeExceptionally(java.lang.RuntimeException.new("Gave up trying to generate a sequence number for: '#{sequence}'"))
     end
-
   end
 
   Thread.new do
