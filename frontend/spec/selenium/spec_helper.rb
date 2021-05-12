@@ -16,7 +16,7 @@ $expire = 30_000
 
 $backend_start_fn = proc {
   # for the indexers
-  AppConfig[:solr_url] = "http://localhost:#{$solr_port}"
+  AppConfig[:solr_url] = ENV.fetch('ASPACE_TEST_SOLR_URL', "http://localhost:#{$solr_port}")
 
   pid = TestUtils.start_backend($backend_port,
                                 frontend_url: $frontend,
