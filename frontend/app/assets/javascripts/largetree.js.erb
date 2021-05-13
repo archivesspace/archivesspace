@@ -729,6 +729,9 @@
             var current = undefined;
 
             $(nodes).each(function (idx, node) {
+
+                console.log("-------------------");
+                console.log(node);
                 var row = self.renderer.get_node_template();
 
                 row.addClass('largetree-node indent-level-' + level);
@@ -845,6 +848,8 @@
     };
 
     TreeDataSource.prototype.fetchWaypoint = function (uri, offset) {
+        console.log("==============");
+        console.log(uri);
         var cached = this.getPrecomputedWaypoint(uri, offset);
 
         if (cached) {

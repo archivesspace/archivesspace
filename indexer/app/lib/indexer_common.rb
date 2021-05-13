@@ -279,7 +279,14 @@ class IndexerCommon
         elsif date['date_type']
           doc['dates'] << "#{date['begin']} - #{date['end']}"
         end
+
+        if date['certainty']
+          doc['dates'] << " (#{date['certainty']})"
+        end
       end
+
+      STDERR.puts "++++++++++++++++++++++++++++++"
+      STDERR.puts doc['dates'].inspect
     end
   end
 
