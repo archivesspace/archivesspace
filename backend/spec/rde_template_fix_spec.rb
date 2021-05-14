@@ -1,4 +1,5 @@
 require 'spec_helper'
+require_relative '../../common/db/migrations/utils'
 
 describe 'RDETemplateFix' do
   let(:order) {[ 'a', 'b', 'c', 'colLang', 'd', 'e' ]}
