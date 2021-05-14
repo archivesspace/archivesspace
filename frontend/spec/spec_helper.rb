@@ -21,8 +21,6 @@ AppConfig[:frontend_cookie_secret] = "shhhhh"
 
 backend_port = TestUtils.free_port_from(3636)
 AppConfig[:backend_url] = "http://localhost:#{backend_port}"
-solr_port = TestUtils.free_port_from(2989)
-AppConfig[:solr_url] = ENV.fetch('ASPACE_TEST_SOLR_URL', "http://localhost:#{$solr_port}")
 
 RSpec.configure do |config|
   # rspec-expectations config goes here. You can use an alternate
@@ -60,10 +58,9 @@ RSpec.configure do |config|
   config.before(:suite) do
     $server_pids = []
     $server_pids << TestUtils.start_backend(backend_port,
-                                            solr_port: solr_port,
                                             session_expire_after_seconds: 6000000000,
                                             realtime_index_backlog_ms: 600000,
-                                            db_url: ENV.fetch('ASPACE_TEST_DB_URL', AppConfig.demo_db_url)
+                                            db_url: AppConfig[:db_url]
                                            )
   end
 

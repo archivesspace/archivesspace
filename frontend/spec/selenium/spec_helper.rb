@@ -9,21 +9,16 @@ require_relative '../../../indexer/app/lib/pui_indexer'
 
 $backend_port = TestUtils.free_port_from(3636)
 $frontend_port = TestUtils.free_port_from(4545)
-$solr_port = TestUtils.free_port_from(2989)
 $backend = "http://localhost:#{$backend_port}"
 $frontend = "http://localhost:#{$frontend_port}"
 $expire = 30_000
 
 $backend_start_fn = proc {
-  # for the indexers
-  AppConfig[:solr_url] = ENV.fetch('ASPACE_TEST_SOLR_URL', "http://localhost:#{$solr_port}")
-
   pid = TestUtils.start_backend($backend_port,
                                 frontend_url: $frontend,
-                                solr_port: $solr_port,
                                 session_expire_after_seconds: $expire,
                                 realtime_index_backlog_ms: 600_000,
-                                db_url: ENV.fetch('ASPACE_TEST_DB_URL', AppConfig.demo_db_url))
+                                db_url: AppConfig[:db_url])
 
   AppConfig[:backend_url] = $backend
 
@@ -31,7 +26,7 @@ $backend_start_fn = proc {
 }
 
 $frontend_start_fn = proc {
-  pid = TestUtils.start_frontend($frontend_port, $backend, solr_port: $solr_port)
+  pid = TestUtils.start_frontend($frontend_port, $backend)
 
   pid
 }
