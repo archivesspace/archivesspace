@@ -40,11 +40,34 @@ describe "id.loc.gov clientware" do
     end
 
 
-    it "can take a set of IDs and make a marcxml collection of the records" do
-      # TO-DO: This test doesn't do anything but puts a marc file?
+    it "can take a set of agent IDs and prepare them for the auth importer" do
       lccns = %w(no92032176 nr91032543)
       marcxml_file = loc_searcher.results_to_marcxml_file(lccns)
-      puts IO.read(marcxml_file)
+      expect(marcxml_file[:agents][:count]).to eq(2)
+      expect(marcxml_file[:subjects][:count]).to eq(0)
+    end
+
+
+    it "can take a set of subject IDs and prepare them for the bib importer" do
+      lccns = %w(n79053099 n81038610)
+      marcxml_file = loc_searcher.results_to_marcxml_file(lccns)
+      expect(marcxml_file[:agents][:count]).to eq(0)
+      expect(marcxml_file[:subjects][:count]).to eq(2)
+    end
+
+
+    it "can take a mixed set of agent and subject IDs and prepare them for the both importers" do
+      lccns = %w(no92032176 n81038610)
+      marcxml_file = loc_searcher.results_to_marcxml_file(lccns)
+      expect(marcxml_file[:agents][:count]).to eq(1)
+      expect(marcxml_file[:subjects][:count]).to eq(1)
+    end
+
+
+    it "can take a set of IDs and make a marcxml collection of the records" do
+      lccns = %w(no92032176 nr91032543)
+      marcxml_file = loc_searcher.results_to_marcxml_file(lccns)
+      expect(IO.read(marcxml_file[:agents][:file])).to include("<record>")
     end
 
   end
