@@ -634,7 +634,14 @@ describe 'MARC Export' do
       as_test_user('admin') do
         @resource1 = create(:json_resource,
                             :level => 'collection',
-                            :finding_aid_description_rules => 'dacs')
+                            :finding_aid_description_rules => 'dacs',
+                            :dates => [
+                                       build(:json_date,
+                                             :date_type => 'inclusive',
+                                             :begin => '1900',
+                                             :end => '2000')
+                                      ]
+                            )
         @resource2 = create(:json_resource,
                             :level => 'item',
                             :dates => [
