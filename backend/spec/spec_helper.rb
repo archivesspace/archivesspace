@@ -33,7 +33,7 @@ class DB
     def connect
       if DB.get_default_pool == :not_connected
         require "db/db_migrator"
-        @pool = Sequel.connect(ENV.fetch('ASPACE_TEST_DB_URL', AppConfig.demo_db_url),
+        @pool = Sequel.connect(AppConfig[:db_url],
                                :max_connections => 10,
                                #:loggers => [Logger.new($stderr)]
                               )
