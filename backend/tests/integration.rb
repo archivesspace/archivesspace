@@ -12,7 +12,6 @@ require 'simplecov'
 require 'active_support/inflector'
 
 
-$solr_port = 2999
 $ldap_port = 3897
 $port = 3434
 $url = "http://localhost:#{$port}"
@@ -404,7 +403,7 @@ def main
     # Configure LDAP auth
     config = ASUtils.tempfile('aspace_integration_config')
     config.write <<~EOF
-      
+
       AppConfig[:authentication_sources] = [
                                             {
                                               :model => 'LDAPAuth',
@@ -415,7 +414,7 @@ def main
                                               :attribute_map => {:cn => :name}
                                             }
                                            ]
-      
+
     EOF
     config.close
 
@@ -423,7 +422,7 @@ def main
                                       {:session_expire_after_seconds => $expire},
                                       config.path)
 
-    TestUtils::wait_for_url("http://localhost:#{$solr_port}/")
+    TestUtils::wait_for_url(AppConfig[:solr_url])
   end
 
   status = 0
