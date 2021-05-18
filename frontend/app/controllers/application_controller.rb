@@ -172,8 +172,12 @@ class ApplicationController < ActionController::Base
 
       flash[:success] = I18n.t("#{merge_type}._frontend.messages.merged")
 
-      resolver = Resolver.new(target_uri)
-      redirect_to(resolver.view_uri)
+      if merge_type == 'top_container'
+        redirect_to(:controller => :top_containers, :action => :index)
+      else
+        resolver = Resolver.new(target_uri)
+        redirect_to(resolver.view_uri)
+      end
     rescue ValidationException => e
       flash[:error] = e.errors.to_s
       redirect_to({:action => :show, :id => id}.merge(extra_params))
