@@ -122,6 +122,7 @@ describe 'Resource instances and containers' do
 
     # Should be redirected to surviving top container with success message
     expect do
+      @driver.find_element_with_text('//h3', /Top Containers/)
       @driver.find_element_with_text('//div[contains(@class, "alert-success")]', /Top .+ Merged/)
     end.not_to raise_error
 
