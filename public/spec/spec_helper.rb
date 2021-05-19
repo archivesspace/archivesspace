@@ -80,9 +80,6 @@ def setup_test_data
   create(:accession, title: "Accession for Phrase Search")
 
 
-  # for some reason, the indexer won't process this record as it's defined. The error displayed in the log is:
-  # E, [2021-04-28T15:40:15.180815 #85739] ERROR -- : Thread-2046: SolrIndexerError when indexing records: {"responseHeader":{"status":400,"QTime":68},"error":{"msg":"Error parsing JSON field value. Unexpected OBJECT_START","code":400}}
-  #
   create(:accession, title: "Accession with Relationship",
                      publish: true,
                      related_accessions: [
