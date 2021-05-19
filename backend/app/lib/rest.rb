@@ -498,15 +498,24 @@ module RESTHelpers
 
       def process_pagination_params(params, known_params, errors, paged)
         known_params['resolve'] = known_params['modified_since'] = true
-
         params['modified_since'] = coerce_type((params[:modified_since] || '0'),
                                               NonNegativeInteger)
+
+        known_params['sort_field'] = true
+        known_params['sort_direction'] = true
+        params['sort_field'] = params.fetch('sort_field', 'id').to_sym
+        params['sort_direction'] = params.fetch('sort_direction', 'asc').to_sym
+
+        unless [:asc, :desc].include? params['sort_direction']
+          errors[:failed_validation] << {
+            name: 'sort_direction', validation: "must be either 'asc' or 'desc' but given: #{params['sort_direction']}"
+          }
+        end
 
         if params[:page]
           known_params['page_size'] = known_params['page'] = true
           params['page_size'] = coerce_type((params[:page_size] || AppConfig[:default_page_size]), PageSize)
           params['page'] = coerce_type(params[:page], NonNegativeInteger)
-
         elsif params[:id_set]
           known_params['id_set'] = true
           params['id_set'] = coerce_type(params[:id_set], IdSet)
