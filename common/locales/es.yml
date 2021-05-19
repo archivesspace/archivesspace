@@ -2123,6 +2123,9 @@ es:
     is_admin: Concesión de permisos de administrador de sistema
     is_admin_tooltip: |
         <p>Utiliza para indicar si el usuario debe tener privilegios de administrador completo para la aplicación.</p>
+    create_time: Creado
+    user_mtime: Actualizado
+    admin: Administrador
     _singular: Usuario
     _plural: Usuarios
 
