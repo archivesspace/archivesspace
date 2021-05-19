@@ -2151,6 +2151,9 @@ fr:
     is_admin: Concéder des permissions d'administrateur système
     is_admin_tooltip: |
         <p>Sert à indiquer si l'utilisateur doit avoir des privilèges d'administration relativement à l'application.</p>
+    create_time: Créé
+    user_mtime: Mise à jour
+    admin: Administrateur
     _singular: Utilisateur
     _plural: Utilisateurs
 

@@ -2187,6 +2187,9 @@ en:
     is_admin: Grant system administrator permissions
     is_admin_tooltip: |
         <p>Used to indicate whether the user should have full administrative privileges to the application.</p>
+    create_time: Created
+    user_mtime: Updated
+    admin: Administrator
     _singular: User
     _plural: Users
 
