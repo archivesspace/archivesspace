@@ -420,6 +420,11 @@ class IndexerCommon
         doc['related_resource_uris'] = record['record']['related_resources'].
                                           collect{|resource| resource["ref"]}.
                                           compact.uniq
+
+        doc['related_accession_uris'] = record['record']['related_accessions'].
+                                           collect{|accession| accession["ref"]}.
+                                           compact.uniq
+
         doc['slug'] = record['record']['slug']
         doc['is_slug_auto'] = record['record']['is_slug_auto']
         if cm = record['record']['collection_management']
