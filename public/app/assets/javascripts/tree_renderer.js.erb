@@ -92,6 +92,8 @@
 
         if (node.dates && node.dates.length > 0) {
           node.dates.forEach(function(date) {
+            console.log("++++++++");
+            console.log(date);
             if (date.expression) {
               if (date.type === 'bulk') {
                 title_bits.push('<%= I18n.t("date_type_bulk.bulk") %>: ' + date.expression);
