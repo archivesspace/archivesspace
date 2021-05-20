@@ -54,6 +54,12 @@ class OAIUtils
   def self.strip_mixed_content(s)
     return s if s.nil?
 
+    # ANW-1082: For some reason, Nokogiri is grabbing stuff in <title> tags -- like <title>Groundhog Day</title> and moving it to the front of the string.
+    # To fix this, manually strip out that tag and then carry on.
+
+    s.gsub!(/<title.*?>/, "")
+    s.gsub!('</title>', "")
+
     Nokogiri::HTML(s).text
   end
 
