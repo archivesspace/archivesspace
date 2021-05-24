@@ -39,7 +39,8 @@
   <property name="aspace.public.port" value="3001" />
   <property name="aspace.solr.port" value="2999" />
   <property name="aspace.solr.url" value="http://localhost:${aspace.solr.port}" />
-  <property name="aspace.data_directory" value="${basedir}/../build" />
+  <property name="aspace.data_directory.dev" value="${basedir}/../build/dev" />
+  <property name="aspace.data_directory.test" value="${basedir}/../build/test" />
 
   <property environment="env"/>
   <!--
@@ -47,12 +48,12 @@
   -->
   <property name="env.JAVA_OPTS" value="" />
   <!-- Setup defaults for MySQL and Solr dev / test environment -->
-  <property name="env.APPCONFIG_DB_URL" value="jdbc:derby:${aspace.data_directory}/archivesspace_demo_db;create=true;aspacedemo=true" />
+  <property name="env.APPCONFIG_DB_URL" value="jdbc:derby:${aspace.data_directory.dev}/archivesspace_demo_db;create=true;aspacedemo=true" />
   <property name="env.APPCONFIG_SOLR_URL" value="${aspace.solr.url}" />
-  <property name="env.ASPACE_TEST_DB_URL" value="jdbc:derby:${aspace.data_directory}/archivesspace_demo_db;create=true;aspacedemo=true" />
+  <property name="env.ASPACE_TEST_DB_URL" value="jdbc:derby:${aspace.data_directory.test}/archivesspace_demo_db;create=true;aspacedemo=true" />
   <property name="env.ASPACE_TEST_SOLR_URL" value="${aspace.solr.url}" />
 
-  <property name="default_java_options" value="-Djava.security.egd=file:/dev/./urandom -Xmx2048m -Xss2m -Daspace.config.data_directory=${aspace.data_directory} -Dfile.encoding=UTF-8 -Djavax.accessibility.assistive_technologies='' -Daspace.config.search_user_secret=devserver -Daspace.config.public_user_secret=devserver -Daspace.config.staff_user_secret=devserver -Daspace.devserver=true -Daspace.config.frontend_cookie_secret=devserver -Daspace.config.public_cookie_secret=devserver" />
+  <property name="default_java_options" value="-Djava.security.egd=file:/dev/./urandom -Xmx2048m -Xss2m -Dfile.encoding=UTF-8 -Djavax.accessibility.assistive_technologies='' -Daspace.config.search_user_secret=devserver -Daspace.config.public_user_secret=devserver -Daspace.config.staff_user_secret=devserver -Daspace.devserver=true -Daspace.config.frontend_cookie_secret=devserver -Daspace.config.public_cookie_secret=devserver" />
 
   <!-- TASKS -->
   <!-- Build tasks invoked using `./build/run [$task]` from the aspace directory -->
@@ -87,12 +88,14 @@
   <target name="backend:devserver" depends="set-classpath, setup-solr" description="Start an instance of the ArchivesSpace backend development server">
     <delete dir="${java.io.tmpdir}/jettyrunner.${user.name}" />
     <mkdir dir="${java.io.tmpdir}/jettyrunner.${user.name}" />
-    <mkdir dir="../build/solr_home/collection1/conf" />
-    <mkdir dir="../build/solr_home/collection1/lib" />
-    <copy todir="../build/solr_home/collection1/lib">
+    <!-- TODO: when embedded solr removed delete these actions, see also: setup-integration -->
+    <mkdir dir="${aspace.data_directory.dev}/solr_home/collection1/conf" />
+    <mkdir dir="${aspace.data_directory.dev}/solr_home/collection1/lib" />
+    <copy todir="${aspace.data_directory.dev}/solr_home/collection1/lib">
       <fileset dir="../solr/lib" />
     </copy>
     <parallel>
+      <!-- TODO: when embedded solr removed delete this (and other embedded solr pieces) -->
       <daemons>
         <java classpath="${jettyrunner_file}:../solr:../common/lib/*" classname="org.eclipse.jetty.runner.Runner" fork="true">
           <jvmarg line="${default_java_options} ${solr.properties} -Djava.io.tmpdir=${java.io.tmpdir}/jettyrunner.${user.name}" />
@@ -108,6 +111,7 @@
         <env key="BUNDLE_GEMFILE" value="" />
         <env key="ASPACE_INTEGRATION" value="${aspace.integration}" />
         <env key="JRUBY_OPTS" value="--debug" />
+        <env key="APPCONFIG_DATA_DIRECTORY" value="${aspace.data_directory.dev}" />
         <env key="APPCONFIG_DB_URL" value="${env.APPCONFIG_DB_URL}" />
         <env key="APPCONFIG_SOLR_URL" value="${env.APPCONFIG_SOLR_URL}" />
         <arg line="app/main.rb ${aspace.backend.port}" />
@@ -135,6 +139,7 @@
       <env key="GEM_PATH" value="" />
       <env key="BUNDLE_PATH" value="${gem_home}" />
       <env key="COVERAGE_REPORTS" value="${COVERAGE_REPORTS}" />
+      <env key="APPCONFIG_DATA_DIRECTORY" value="${aspace.data_directory.test}" />
       <env key="APPCONFIG_DB_URL" value="${env.ASPACE_TEST_DB_URL}" />
       <env key="APPCONFIG_SOLR_URL" value="${env.ASPACE_TEST_SOLR_URL}" />
       <arg line="tests/integration.rb" />
@@ -160,6 +165,7 @@
       <env key="GEM_PATH" value="" />
       <env key="BUNDLE_PATH" value="${gem_home}" />
       <env key="COVERAGE_REPORTS" value="${COVERAGE_REPORTS}" />
+      <env key="APPCONFIG_DATA_DIRECTORY" value="${aspace.data_directory.test}" />
       <env key="APPCONFIG_DB_URL" value="${env.ASPACE_TEST_DB_URL}" />
       <env key="APPCONFIG_SOLR_URL" value="${env.ASPACE_TEST_SOLR_URL}" />
       <arg line="../build/${jruby_build_bin_path}/rspec -b --format d -P '*_spec.rb' --order rand:1 ${example-arg} spec/${spec} ${plugin-spec-dirs}" />
@@ -184,6 +190,7 @@
       <env key="GEM_PATH" value="" />
       <env key="BUNDLE_PATH" value="${gem_home}" />
       <env key="COVERAGE_REPORTS" value="${COVERAGE_REPORTS}" />
+      <env key="APPCONFIG_DATA_DIRECTORY" value="${aspace.data_directory.test}" />
       <env key="APPCONFIG_DB_URL" value="${env.ASPACE_TEST_DB_URL}" />
       <env key="APPCONFIG_SOLR_URL" value="${env.ASPACE_TEST_SOLR_URL}" />
       <arg line="-X-C ../build/${jruby_build_bin_path}/rspec -b --format d -P '*_spec.rb' --order rand:1 ${example-arg} ${plugin-spec-dirs}" />
@@ -510,7 +517,7 @@
   </target>
 
   <target name="db:nuke" depends="set-classpath" description="Delete database and Solr index">
-    <delete dir="${aspace.data_directory}/shared" />
+    <delete dir="${aspace.data_directory.dev}/shared" />
     <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true" failonerror="true">
       <jvmarg line="${default_java_options} ${env.JAVA_OPTS}"/>
       <env key="GEM_HOME" value="${gem_home}" />
@@ -522,7 +529,7 @@
   </target>
 
   <target name="db:nuke:test" depends="set-classpath" description="Delete the test database and Solr index">
-    <delete dir="${aspace.data_directory}/shared" />
+    <delete dir="${aspace.data_directory.test}/shared" />
     <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true" failonerror="true">
       <jvmarg line="${default_java_options} ${env.JAVA_OPTS}"/>
       <env key="GEM_HOME" value="${gem_home}" />
@@ -577,6 +584,7 @@
       <env key="GEM_HOME" value="${gem_home}" />
       <env key="GEM_PATH" value="" />
       <env key="BUNDLE_PATH" value="${gem_home}" />
+      <env key="APPCONFIG_DATA_DIRECTORY" value="${aspace.data_directory.dev}" />
       <env key="APPCONFIG_DB_URL" value="${env.APPCONFIG_DB_URL}" />
       <env key="APPCONFIG_SOLR_URL" value="${env.APPCONFIG_SOLR_URL}" />
       <arg line="app/main.rb" />
@@ -598,6 +606,7 @@
       <env key="GEM_PATH" value="" />
       <env key="BUNDLE_PATH" value="${gem_home}" />
       <env key="COVERAGE_REPORTS" value="${COVERAGE_REPORTS}" />
+      <env key="APPCONFIG_DATA_DIRECTORY" value="${aspace.data_directory.test}" />
       <env key="APPCONFIG_DB_URL" value="${env.ASPACE_TEST_DB_URL}" />
       <env key="APPCONFIG_SOLR_URL" value="${env.ASPACE_TEST_SOLR_URL}" />
       <arg line="../build/${jruby_build_bin_path}/rspec -b --format d -P '*_spec.rb' --order rand:1 ${example-arg} spec/${spec}" />
@@ -673,6 +682,7 @@
       <env key="BUNDLE_PATH" value="${gem_home}" />
       <env key="JRUBY_OPTS" value="--debug" />
       <env key="ASPACE_INTEGRATION" value="${aspace.integration}" />
+      <env key="APPCONFIG_DATA_DIRECTORY" value="${aspace.data_directory.dev}" />
       <env key="APPCONFIG_DB_URL" value="${env.APPCONFIG_DB_URL}" />
       <env key="APPCONFIG_SOLR_URL" value="${env.APPCONFIG_SOLR_URL}" />
       <arg line="script/rails s mizuno -b 0.0.0.0 --port=${aspace.frontend.port}" />
@@ -696,6 +706,7 @@
       <env key="GEM_PATH" value="" />
       <env key="BUNDLE_PATH" value="${gem_home}" />
       <env key="COVERAGE_REPORTS" value="${COVERAGE_REPORTS}" />
+      <env key="APPCONFIG_DATA_DIRECTORY" value="${aspace.data_directory.test}" />
       <env key="APPCONFIG_DB_URL" value="${env.ASPACE_TEST_DB_URL}" />
       <env key="APPCONFIG_SOLR_URL" value="${env.ASPACE_TEST_SOLR_URL}" />
       <arg line="../../../build/${jruby_build_bin_path}/rspec -b -f d -P '*_spec.rb' --order default ${example-arg} spec/${spec} ${plugin-selenium-dirs}" />
@@ -717,6 +728,7 @@
       <env key="GEM_HOME" value="${gem_home}" />
       <env key="GEM_PATH" value="" />
       <env key="BUNDLE_PATH" value="${gem_home}" />
+      <env key="APPCONFIG_DATA_DIRECTORY" value="${aspace.data_directory.test}" />
       <env key="APPCONFIG_DB_URL" value="${env.ASPACE_TEST_DB_URL}" />
       <env key="APPCONFIG_SOLR_URL" value="${env.ASPACE_TEST_SOLR_URL}" />
       <arg line="../build/${jruby_build_bin_path}/rspec -b --format d -P '*/*_spec.rb' --order rand:1 ${example-arg} spec/${spec-arg}" />
@@ -739,6 +751,7 @@
       <env key="GEM_HOME" value="${gem_home}" />
       <env key="GEM_PATH" value="" />
       <env key="BUNDLE_PATH" value="${gem_home}" />
+      <env key="APPCONFIG_DATA_DIRECTORY" value="${aspace.data_directory.test}" />
       <env key="APPCONFIG_DB_URL" value="${env.ASPACE_TEST_DB_URL}" />
       <env key="APPCONFIG_SOLR_URL" value="${env.ASPACE_TEST_SOLR_URL}" />
       <arg line="../build/${jruby_build_bin_path}/rspec -b --format d -P '*_spec.rb' --order rand:1 ${example-arg} ${plugin-spec-dirs}" />
@@ -806,6 +819,7 @@
       <env key="GEM_PATH" value="" />
       <env key="BUNDLE_PATH" value="${gem_home}" />
       <env key="ASPACE_INTEGRATION" value="${aspace.integration}" />
+      <env key="APPCONFIG_DATA_DIRECTORY" value="${aspace.data_directory.dev}" />
       <env key="APPCONFIG_DB_URL" value="${env.APPCONFIG_DB_URL}" />
       <env key="APPCONFIG_SOLR_URL" value="${env.APPCONFIG_SOLR_URL}" />
       <arg line="bin/rails s mizuno -b 0.0.0.0 --port=${aspace.public.port}" />
@@ -827,6 +841,7 @@
       <env key="GEM_HOME" value="${gem_home}" />
       <env key="GEM_PATH" value="" />
       <env key="BUNDLE_PATH" value="${gem_home}" />
+      <env key="APPCONFIG_DATA_DIRECTORY" value="${aspace.data_directory.test}" />
       <env key="APPCONFIG_DB_URL" value="${env.ASPACE_TEST_DB_URL}" />
       <env key="APPCONFIG_SOLR_URL" value="${env.ASPACE_TEST_SOLR_URL}" />
       <arg line="../build/${jruby_build_bin_path}/rspec -b --format d --order rand:1 ${example-arg} spec/${spec-arg}" />
@@ -854,27 +869,6 @@
     </java>
   </target>
 
-  <!-- RESET -->
-  <target name="reset" description="Reset the build directory">
-    <delete dir=".bundle" />
-    <delete dir=".gem" />
-    <delete dir="archivesspace_demo_db" />
-    <delete dir="gems" />
-    <delete dir="indexer_pui_state" />
-    <delete dir="indexer_state" />
-    <delete dir="integration.tmp" />
-    <delete dir="shared" />
-    <delete dir="solr_index" />
-    <delete dir="target" />
-    <delete>
-      <fileset dir=".">
-        <include name="*log*"/>
-        <include name="*.jar"/>
-        <include name="*.war"/>
-      </fileset>
-    </delete>
-  </target>
-
   <!-- SETUP / SUPPORT TASKS -->
   <target name="set-classpath" description="Set JRuby classpath">
     <condition property="COVERAGE_REPORTS" value="true">
@@ -886,37 +880,42 @@
 
   <!-- Prepares all tests to be run -->
   <target name="setup-integration" depends="db:nuke:test, db:migrate:test, solr:reset:test" description="Prepare to run integration tests">
-    <delete dir="integration.tmp" />
-    <mkdir dir="integration.tmp/collection1/lib" />
-    <copy todir="integration.tmp/collection1/lib">
+    <!-- TODO: when embedded solr is removed these actions can be deleted, see also: backend:devserver -->
+    <delete dir="${aspace.data_directory.test}/solr_home" />
+    <delete dir="${aspace.data_directory.test}/solr_index" />
+    <mkdir dir="${aspace.data_directory.test}/solr_home/collection1/conf" />
+    <mkdir dir="${aspace.data_directory.test}/solr_home/collection1/lib" />
+    <copy todir="${aspace.data_directory.test}/solr_home/collection1/lib">
       <fileset dir="../solr/lib" />
     </copy>
   </target>
 
+  <!-- TODO: when embedded solr is removed this (whole) task can be deleted -->
   <target name="setup-solr" description="Set Solr system properties">
-    <condition property="solr.properties" value="-Dsolr.data.dir=integration.tmp -Dsolr.solr.home=integration.tmp">
+    <!-- EMBEDDED TEST SOLR -->
+    <condition property="solr.properties" value="-Dsolr.solr.home=${aspace.data_directory.test}/solr_home -Dsolr.data.dir=${aspace.data_directory.test}/solr_index">
       <matches pattern="true" string="${aspace.integration}" />
     </condition>
-    <property name="solr.properties" value="-Dsolr.solr.home=${aspace.data_directory}/solr_home -Dsolr.data.dir=${aspace.data_directory}/solr_index" />
+    <!-- EMBEDDED DEV SOLR -->
+    <property name="solr.properties" value="-Dsolr.solr.home=${aspace.data_directory.dev}/solr_home -Dsolr.data.dir=${aspace.data_directory.dev}/solr_index" />
   </target>
 
-  <!-- SOLR -->
-  <target name="solr:nuke" description="Delete Solr index and state files">
-    <delete dir="${aspace.data_directory}/indexer_state" />
-    <delete dir="${aspace.data_directory}/indexer_pui_state" />
-    <delete dir="${aspace.data_directory}/solr_index" />
-  </target>
-
-  <target name="solr:reset" depends="solr:nuke" description="Delete all documents from Solr">
+  <target name="solr:reset" description="Delete all documents from Solr">
     <exec dir="${basedir}" executable="bash" newenvironment="false" failonerror="true">
       <arg line="../solr/delete.sh ${env.APPCONFIG_SOLR_URL}"/>
     </exec>
+    <delete dir="${aspace.data_directory.dev}/indexer_state" />
+    <delete dir="${aspace.data_directory.dev}/indexer_pui_state" />
+    <delete dir="${aspace.data_directory.dev}/solr_index" />
   </target>
 
-  <target name="solr:reset:test" depends="solr:nuke" description="Delete all documents from Solr">
+  <target name="solr:reset:test" description="Delete all documents from Solr">
     <exec dir="${basedir}" executable="bash" newenvironment="false" failonerror="true">
       <arg line="../solr/delete.sh ${env.ASPACE_TEST_SOLR_URL}"/>
     </exec>
+    <delete dir="${aspace.data_directory.test}/indexer_state" />
+    <delete dir="${aspace.data_directory.test}/indexer_pui_state" />
+    <delete dir="${aspace.data_directory.test}/solr_index" />
   </target>
 
   <target name="solr:war" depends="set-classpath, bootstrap-downloads" description="Repack the Solr .war file with our configs">
