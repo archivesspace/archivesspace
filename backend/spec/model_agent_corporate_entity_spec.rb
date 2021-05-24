@@ -24,6 +24,23 @@ describe 'Agent model' do
   end
 
 
+  it "sets and removes repo agent flag from corporate entity agent when repo is created and deleted" do
+    repo = create(:json_repository_with_agent)
+    agent_id = JSONModel(:agent_corporate_entity).id_for(repo['agent_representation']['uri'])
+
+    # Corporate entity flagged as repo agent
+    expect(AgentCorporateEntity.to_jsonmodel(agent_id)['is_repo_agent']).not_to be_nil
+    expect(AgentCorporateEntity.to_jsonmodel(agent_id)['is_repo_agent']).to eq(repo['repository']['name'])
+
+    # Delete repo and ensure it's gone
+    Repository.find(:id => repo.id).delete
+    expect(Repository[:id => repo.id]).to be_nil
+
+    # Corporate entity no longer flagged as a repo agent
+    expect(AgentCorporateEntity.to_jsonmodel(agent_id)['is_repo_agent']).to be_nil
+  end
+
+
   it "allows agents to have a linked contact details" do
 
     contact_name = 'Business hours contact'

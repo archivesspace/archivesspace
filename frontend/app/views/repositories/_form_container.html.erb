@@ -40,24 +40,6 @@
     </section>
   <% end %>
 
-  <% define_template("agent_contact", jsonmodel_definition(:agent_contact)) do |item| %>
-    <section id="agent_contact" class="subrecord-form">
-      <h3><%= I18n.t("agent_contact._plural") %></h3>
-      <%= form.label_and_textfield "name", :required => false %>
-      <%= form.label_and_textfield "address_1" %>
-      <%= form.label_and_textfield "address_2" %>
-      <%= form.label_and_textfield "address_3" %>
-      <%= form.label_and_textfield "city" %>
-      <%= form.label_and_textfield "region" %>
-      <%= form.label_and_textfield "country" %>
-      <%= form.label_and_textfield "post_code" %>
-      <%= form.label_and_textfield "email" %>
-      <%= form.label_and_textfield "email_signature" %>
-      <%= form.label_and_textarea "note" %>
-      <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => { :form => form,  :name => "telephones", :heading_size => "h4" } %>
-    </section>
-  <% end %>
-
   <% form.push("repository", form['repository']) do |form| %>
     <% form.emit_template("repository") %>
   <% end %>
@@ -67,8 +49,6 @@
   <% end %>
 
   <% form.push("agent_representation", form['agent_representation'] || {}) do |form| %>
-    <%= form.list_for(form['agent_contacts'], "agent_contacts[]") do |item| %>
-      <% form.emit_template("agent_contact", item) %>
-    <% end %>
+    <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "agent_contacts", :section_id => "agent_contact", :template_erb => "agents/contact_details", :template => "agent_contact", :cardinality => :zero_to_one, :list_limited_to_one => true, :remove_disabled => true} %>
   <% end %>
 </fieldset>
