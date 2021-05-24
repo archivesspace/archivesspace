@@ -1126,6 +1126,20 @@ describe "agents record CRUD" do
       @driver.find_element_with_text('//td', /General Patton/)
       @driver.find_element_with_text('//td', /Person/)
     end
+
+    it 'will not delete a corp entity agent linked to a repo' do
+      @driver.clear_and_send_keys([:id, 'global-search-box'], @repo.repo_code)
+      @driver.click_and_wait_until_gone(id: 'global-search-button')
+
+      @driver.click_and_wait_until_gone(:link, 'Edit')
+
+      @driver.find_element(:css, '.delete-record.btn').click
+      @driver.click_and_wait_until_gone(:css, '#confirmChangesModal #confirmButton')
+
+      assert (5) do
+        @driver.find_element_with_text('//div[contains(@class, "alert-danger")]', /This agent is linked to a repository and can't be removed./)
+      end
+    end
   end
 
   describe 'Light Agent Record' do
