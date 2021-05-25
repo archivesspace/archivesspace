@@ -37,14 +37,14 @@ Sequel.migration do
 
 
             if date_rec[:certainty_id]
-            	dct = translated_list[date_rec[:certainty_id]]
+              dct = translated_list[date_rec[:certainty_id]]
 
               certainty_str = " (#{dct})"
             else
               certainty_str = ""
             end
 
-          	$stderr.puts date_rec['certainty_str']
+            $stderr.puts date_rec['certainty_str']
 
             if date_rec[:expression] != nil
               date_parts << (date_rec[:date_type_id] == bulk_date ? "bulk: #{date_rec[:expression] + certainty_str}" : date_rec[:expression] + certainty_str)

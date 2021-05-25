@@ -92,10 +92,6 @@ class LargeTreeResource
       date_data['begin'] = row[:begin] if row[:begin]
       date_data['end'] = row[:end] if row[:end]
 
-      STDERR.puts "+++++++++++++++++++++++"
-      STDERR.puts "DATE ROW"
-      STDERR.puts row.inspect
-
       result_for_record['dates'] << date_data
     end
 
