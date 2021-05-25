@@ -84,15 +84,11 @@ class ArchivesSpaceClient
 
     raise RecordNotFound.new if results.fetch('results', []).empty?
 
-    STDERR.puts "+++++++++++++++"
-    STDERR.puts results.inspect
-
     ASUtils.json_parse(results.fetch('results').fetch(0).fetch('json'))
   end
 
   def get_record(uri, search_opts = {})
     results = search_records(ASUtils.wrap(uri), search_opts, full_notes = true)
-
 
     raise RecordNotFound.new if results.empty?
 

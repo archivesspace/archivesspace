@@ -50,6 +50,12 @@ describe 'Tree UI' do
     expect(@driver.find_elements(css: '.largetree-node').length).to eq(4)
   end
 
+  it 'displays date certainty in parens next to title if present' do
+    ao_tree_row = @driver.find_element(css: ".indent-level-1 .record-title")
+
+    expect(ao_tree_row.text).to match(/(Approximate)/)
+  end
+
   it 'can retain location hash when sidebar items are clicked' do
     tree_click(tree_node(@a1))
     expect(@driver.current_url).to match(/::archival_object/)

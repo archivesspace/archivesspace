@@ -46,6 +46,8 @@ describe 'Resources', js: true do
     click_link 'Collections'
     click_link 'Published Resource'
     expect(page).to have_content("Approximate")
-    sleep 20
+
+    ao_title = first(".indent-level-1 .record-title").text
+    expect(ao_title).to match(/Approximate/)
   end
 end

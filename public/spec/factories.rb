@@ -202,6 +202,7 @@ module AspaceFactories
 
       factory :archival_object, class: JSONModel(:archival_object) do
         title { generate(:archival_object_title) }
+        dates { [build(:date)] }
         ref_id { generate(:ref_id) }
         level { "item" }
       end
