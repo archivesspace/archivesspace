@@ -101,7 +101,7 @@ module SpecHelperMethods
   end
 
 
-  def as_test_user(username)
+  def as_test_user(username, transaction=false)
     old_user = Thread.current[:active_test_user]
     Thread.current[:active_test_user] = User.find(:username => username)
     orig = RequestContext.get(:enforce_suppression)
@@ -113,8 +113,13 @@ module SpecHelperMethods
                            !Thread.current[:active_test_user].can?(:manage_repository))
         RequestContext.put(:current_username, username)
       end
-
-      yield
+      if transaction
+        DB.open do |db|
+          yield
+        end
+      else
+        yield
+      end
     ensure
       RequestContext.put(:enforce_suppression, orig) if RequestContext.active?
       RequestContext.put(:current_username, old_username) if RequestContext.active?

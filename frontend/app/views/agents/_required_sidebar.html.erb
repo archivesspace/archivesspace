@@ -14,6 +14,8 @@
 
      <%= sidebar.render_for_view_and_edit(:subrecord_type => 'agent_conventions_declaration', :property => 'agent_conventions_declarations', :anchor => "#{@agent.agent_type}_agent_conventions_declaration") %>
 
+    <%= sidebar.render_for_view_and_edit(:subrecord_type => 'metadata_rights_declaration', :property => 'metadata_rights_declarations', :anchor => "#{@agent.agent_type}_metadata_rights_declaration") %>
+
      <%= sidebar.render_for_view_and_edit(:subrecord_type => 'agent_maintenance_history', :property => 'agent_maintenance_histories', :anchor => "#{@agent.agent_type}_agent_maintenance_history") %>
 
      <%= sidebar.render_for_view_and_edit(:subrecord_type => 'agent_source', :property => 'agent_sources', :anchor => "#{@agent.agent_type}_agent_sources") %>

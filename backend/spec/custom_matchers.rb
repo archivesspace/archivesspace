@@ -114,8 +114,10 @@ RSpec::Matchers.define :have_inner_markup do |expected|
   end
 end
 
-
 RSpec::Matchers.define :have_tag do |expected, attributes = {}|
+  raise "spec argument error" if expected.is_a?(Hash) && attributes.has_key?(:_text)
+  attributes[:_text] = expected.values[0] if expected.is_a?(Hash)
+  attributes_orig = attributes.dup
   tag = expected.is_a?(Hash) ? expected.keys[0] : expected
   nodeset = nil
 
@@ -142,33 +144,46 @@ RSpec::Matchers.define :have_tag do |expected, attributes = {}|
 
     if nodeset.empty?
       false
-    elsif expected.is_a?(Hash) || attributes.any?
-      nodeset.any? {|node|
-        if attributes.empty?
-          node.inner_text == expected.values[0]
-        else
-          # check that every attribute is present and value matched
-          attributes.select { |k, v|
-            node.attributes.fetch(k)&.value == v
-          }.count == attributes.count
-        end
-      }
     else
-      true
+      nodeset.any? {|node| check_node(node, attributes) }
     end
   end
 
   failure_message do |doc|
     if nodeset.nil? || nodeset.empty?
-      "Could find no #{tag} in #{doc.to_xml}"
+      outermost_missing_tag_message(doc, tag)
     else
-      "Could not find text '#{attributes.any? ? attributes.inspect : expected.values[0]}' in #{nodeset.to_xml}"
+      "Could not find text/attributes '#{attributes_orig.inspect}' in #{nodeset.to_xml}"
     end
   end
 
   failure_message_when_negated do |doc|
-    "Did not expect to find #{tag} in #{doc.to_xml}"
+    "Did not expect to find #{tag} in #{nodeset.to_xml}"
   end
+end
+
+def outermost_missing_tag_message(doc, tag, orig_tag=nil)
+  return outermost_missing_tag_message(doc, tag.split("/"), tag) unless tag.is_a? Array
+  return "Could not find any part of #{orig_tag} in document" if tag.empty?
+  search_path = (tag.length > 1) ? "//#{tag[0..-2].join('/')}" : "//#{tag[0]}"
+  nodeset_of_interest = doc.xpath(search_path)
+  if (nodeset_of_interest).empty? && tag.length > 1
+    outermost_missing_tag_message(doc, tag[0..-2], orig_tag)
+  else
+    xml_snippet = nodeset_of_interest.to_xml(:indent => 2)
+    return "Searching for #{orig_tag}\nCould not find #{tag[0..-1].join('/')} in\n#{xml_snippet}"
+  end
+end
+
+def check_node(node, attributes)
+  return node.inner_text == attributes if attributes.is_a?(String)
+
+  return false if attributes.has_key?(:_text) && node.inner_text != attributes[:_text]
+  attributes.reject! { |k, _| k == :_text }
+
+  return attributes.select { |k, v|
+    node.attributes.fetch(k.to_s)&.value == v
+  }.count == attributes.count
 end
 
 

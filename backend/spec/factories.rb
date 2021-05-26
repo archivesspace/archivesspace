@@ -1245,4 +1245,18 @@ FactoryBot.define do
     oai_admin_email { 'oairecord@example.org' }
     oai_repository_name { 'ArchivesSpace OAI Repo' }
   end
+
+  factory :json_metadata_rights_declaration, class: JSONModel(:metadata_rights_declaration) do
+    rights_statement { "public_domain" }
+    citation { "speeding" }
+    descriptive_note { "too fast" }
+    file_uri { "http://example.com" }
+    file_version_xlink_actuate_attribute { "other"}
+    file_version_xlink_show_attribute { "other" }
+    xlink_title_attribute { generate(:alphanumstr) }
+    xlink_role_attribute { generate(:alphanumstr) }
+    xlink_arcrole_attribute { generate(:alphanumstr) }
+    last_verified_date { "2021-05-19" }
+  end
+
 end

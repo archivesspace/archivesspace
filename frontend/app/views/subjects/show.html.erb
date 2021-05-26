@@ -39,6 +39,10 @@
         <%= render_aspace_partial :partial => "external_ids/show", :locals => { :external_ids => @subject.external_ids, :section_id => "subject_external_ids_" } %>
       <% end %>
 
+      <% if @subject.metadata_rights_declarations.length > 0 %>
+          <%= render_aspace_partial :partial => "metadata_rights_declarations/show", :locals => { :metadata_rights_declarations => @subject.metadata_rights_declarations, :section_id => "subject_metadata_rights_declarations_" } %>
+      <% end %>
+
       <%= show_plugins_for(@subject, readonly) %>
     <% end %>
    </div>
