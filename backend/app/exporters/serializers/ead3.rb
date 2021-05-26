@@ -581,6 +581,37 @@ class EAD3Serializer < EADSerializer
     }.reject {|k, v| v.nil? || v.empty? || v == "null"}
 
     xml.control(control_atts) {
+      data.metadata_rights_declaration_in_rightsdeclaration do |mrd|
+        xml.rightsdeclaration {
+          if mrd["citation"]
+            xml.citation (mrd["citation"])
+          end
+          if mrd["rights_statement"]
+            xml.abbr (mrd["rights_statement"])
+          end
+          if mrd["rights_statement"] || mrd["descriptive_note"] || mrd["file_uri"]
+            xml.descriptivenote {
+              if mrd["rights_statement"]
+                rights_statement_translation = I18n.t("enumerations.metadata_rights_statement.#{mrd['rights_statement']}")
+                xml.p (rights_statement_translation)
+              end
+              if mrd["descriptive_note"]
+                xml.p (mrd["descriptive_note"])
+              end
+              if mrd["file_uri"]
+                xml.p {
+                  xml.ref ({ href: mrd["file_uri"],
+                             linkrole: mrd['xlink_role_attribute'],
+                             arcrole: mrd['xlink_arcrole_attribute'] }) {
+                    xml.text (mrd["file_uri"])
+                  }
+
+                }
+              end
+            }
+          end
+        }
+      end
 
       ark_url = AppConfig[:arks_enabled] ? ArkName::get_ark_url(data.id, :resource) : nil
 
@@ -687,6 +718,10 @@ class EAD3Serializer < EADSerializer
                 show: "embed"
               })
             }
+          end
+
+          data.metadata_rights_declaration_in_publicationstmt do |mrd|
+            xml.p (mrd["descriptive_note"])
           end
         }
 

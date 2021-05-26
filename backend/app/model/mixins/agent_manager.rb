@@ -64,6 +64,7 @@ module AgentManager
       base.include(Relationships)
       base.include(RelatedAgents)
       base.include(Events)
+      base.include(MetadataRights)
 
       ArchivesSpaceService.loaded_hook do
         base.define_relationship(:name => :linked_agents,

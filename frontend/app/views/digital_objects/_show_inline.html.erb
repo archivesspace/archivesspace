@@ -88,6 +88,11 @@
           <%= render_aspace_partial :partial => "rights_statements/show", :locals => { :rights_statements => digital_object.rights_statements, :section_id => "digital_object_rights_statements_"  } %>
         <% end %>
 
+        <% if digital_object.metadata_rights_declarations.length > 0 %>
+            <%= render_aspace_partial :partial => "metadata_rights_declarations/show", :locals => { :metadata_rights_declarations => digital_object.metadata_rights_declarations, :section_id => "digital_object_metadata_rights_declarations_"  } %>
+        <% end %>
+
+
         <% if digital_object.collection_management %>
           <%= render_aspace_partial :partial => "collection_management/show", :locals => { :collection_management => digital_object.collection_management, :section_id => "digital_object_collection_management_"  } %>
         <% end %>
