@@ -5,9 +5,15 @@
 
 <% define_template "agent_contact", jsonmodel_definition(:agent_contact) do |form| %>
   <div class="subrecord-form-fields">
+    <h3 class="subrecord-form-heading">
+      <span class="badge badge-info is-representative-label"><%= I18n.t("agent_contact.is_representative") %></span>
+      <button class="btn btn-small is-representative-toggle"><%= I18n.t("agent_contact._frontend.action.make_representative") %></button>
+    </h3>
+    <%= form.hidden_input "is_representative", form["is_representative"] ? 1 : 0 %>
+
     <%= form.label_and_textfield "name", :required => @repository ? :conditionally : true %>
 
-    <%= form.label_and_select "salutation", 
+    <%= form.label_and_select "salutation",
          form.possible_options_for('salutation', true),
          :required => is_required_by_admin?(r, "agent_contacts", "salutation") %>
 
@@ -34,11 +40,11 @@
 
     <%= form.label_and_textfield "email",
         :required => is_required_by_admin?(r, "agent_contacts", "email") %>
-    
+
     <% if @repository %>
       <%= form.label_and_textfield "email_signature" %>
     <% end %>
-    
+
     <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => { :form => form,  :name => "telephones", :heading_size => "h4" } %>
 
     <% unless @repository %>
