@@ -27,6 +27,7 @@
         "items" => {"type" => [{"type" => "JSONModel(:note_contact_note) object"},
                                {"type" => "JSONModel(:note_chronology) object"}]},
       },
+      "is_representative" => {"type" => "boolean", "default" => false},
     },
   },
 }

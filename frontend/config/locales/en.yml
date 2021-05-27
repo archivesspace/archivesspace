@@ -713,11 +713,13 @@ en:
         preview: Merge Preview
 
   agent_contact:
+    is_representative: Preferred
     notes_tooltip: |
         <p>Additional notes or other information about the contact.</p>
     _frontend:
       action:
         add: Add Contact
+        make_representative: Make preferred contact
 
   telephone:
     _frontend:
