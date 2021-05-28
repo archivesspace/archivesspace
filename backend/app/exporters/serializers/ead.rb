@@ -895,7 +895,7 @@ class EADSerializer < ASpaceExport::Serializer
 
           data.metadata_rights_declarations.each do |mrd|
             if mrd["rights_statement"]
-              rights_statement_translation = I18n.t("enumerations.metadata_rights_statement.#{mrd['rights_statement']}")
+              rights_statement_translation = I18n.t("enumerations.metadata_rights_statement.#{mrd['rights_statement']}", :default => mrd['rights_statement'])
               xml.p (rights_statement_translation)
             end
           end
