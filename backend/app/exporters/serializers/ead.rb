@@ -898,7 +898,7 @@ class EADSerializer < ASpaceExport::Serializer
               xml.p (mrd["citation"])
             end
             if mrd["rights_statement"]
-              rights_statement_translation = I18n.t("enumerations.metadata_rights_statement.#{mrd['rights_statement']}")
+              rights_statement_translation = I18n.t("enumerations.metadata_rights_statement.#{mrd['rights_statement']}", :default => mrd['rights_statement'])
               xml.p (rights_statement_translation)
             end
             if mrd["descriptive_note"]
