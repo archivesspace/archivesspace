@@ -8,7 +8,7 @@ class FileVersion < Sequel::Model(:file_version)
   corresponds_to JSONModel(:file_version)
 
   def representative_for_types
-    [:digital_object]
+    { is_representative: [:digital_object] }
   end
 
   def self.handle_publish_flag(ids, val)

@@ -1,11 +1,13 @@
 module Representative
 
-  # Handle the `is_representative` property for records
+  # Handle the representative property for subrecords i.e. `is_representative`, `is_display_name`, `authorized`
 
   def before_validation
     super
 
-    self.is_representative = nil if self.is_representative != 1
+    representative_for_types.keys.each do |property|
+      self.send("#{property}=", nil) if self.send(property) != 1
+    end
   end
 
   # Append _id to 'type' i.e. :resource -> :resource_id
@@ -13,21 +15,28 @@ module Representative
     type.to_s.concat('_id').to_sym
   end
 
-  # An array of record types (as symbols) used for uniqueness validation i.e. [:resource]
-  # this needs to be implemented by the including class
+  # Example: { is_representative: [:digital_object] }
   def representative_for_types
     raise 'Not implemented'
   end
 
   def validate
-    return unless is_representative
+    # property is the representative field i.e. `:is_representative`, `:is_display_name`, `:authorized`
+    # records are symbols referring to (parent) record types the property applies to (i.e. :resource)
+    representative_for_types.each do |property, records|
+      next unless self.send(property) # bail if this property is not truthy
 
-    representative_for_types.each do |type|
-      id_field = representative_id_for_type(type)
-      validates_unique([:is_representative, id_field],
-        :message => "A #{type} can only have one representative instance")
-      map_validation_to_json_property([:is_representative, id_field], :is_representative)
+      records.each do |type|
+        id_field = representative_id_for_type(type)
+        validates_unique(
+          [property, id_field],
+          :message => "A #{type} can have only one #{self.class.name} defined as: #{property}"
+        )
+        map_validation_to_json_property([property, id_field], property)
+      end
     end
+
+    super
   end
 
 end

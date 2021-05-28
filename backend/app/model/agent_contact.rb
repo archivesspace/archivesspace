@@ -10,6 +10,6 @@ class AgentContact < Sequel::Model(:agent_contact)
   set_model_scope :global
 
   def representative_for_types
-    [:agent_person, :agent_family, :agent_corporate_entity, :agent_software]
+    { is_representative: [:agent_person, :agent_family, :agent_corporate_entity, :agent_software] }
   end
 end
