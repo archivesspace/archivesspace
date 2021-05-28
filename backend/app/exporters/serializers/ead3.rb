@@ -592,7 +592,7 @@ class EAD3Serializer < EADSerializer
           if mrd["rights_statement"] || mrd["descriptive_note"] || mrd["file_uri"]
             xml.descriptivenote {
               if mrd["rights_statement"]
-                rights_statement_translation = I18n.t("enumerations.metadata_rights_statement.#{mrd['rights_statement']}")
+                rights_statement_translation = I18n.t("enumerations.metadata_rights_statement.#{mrd['rights_statement']}", :default => mrd['rights_statement'])
                 xml.p (rights_statement_translation)
               end
               if mrd["descriptive_note"]
