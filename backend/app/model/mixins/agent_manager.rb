@@ -478,6 +478,9 @@ module AgentManager
                                 .filter(:agent_record_id => objs.map(&:id),
                                         :agent_record_type => jsonmodel_type)
                                 .map {|row| [row[:agent_record_id], row[:username]]}]
+        repo_users = Hash[Repository
+                                .filter(:agent_representation_id => objs.map(&:id))
+                                .map {|row| [row[:agent_representation_id], row[:name]]}]
 
         jsons.zip(objs).each do |json, obj|
           json.agent_type = jsonmodel_type
@@ -488,6 +491,9 @@ module AgentManager
           json.title = json['display_name']['sort_name']
 
           json.is_user = matching_users.fetch(obj.id, nil)
+          if jsonmodel_type == 'agent_corporate_entity'
+            json.is_repo_agent = repo_users.fetch(obj.id, nil)
+          end
         end
 
         jsons

@@ -660,6 +660,7 @@ en:
     merge_denied_relationship: These agents have a relationship. Remove relationship before proceeding with merge.
     merge_restricted_contact_details: The merge cannot be completed because one or more of the agents has contact details you do not have permission to access.
     linked_to_assessment: Record cannot be deleted as it is linked to an assessment
+    cannot_delete_repository_agent: This agent is linked to a repository and can't be removed.
 
   accession:
     _frontend:
