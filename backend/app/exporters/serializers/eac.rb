@@ -195,7 +195,7 @@ class EACSerializer < ASpaceExport::Serializer
         xml.rightsDeclaration {
           if mrd['rights_statement'] || mrd['descriptive_note']
             xml.descriptiveNote {
-              xml.p (I18n.t("enumerations.metadata_rights_statement.#{mrd['rights_statement']}")) if mrd['rights_statement']
+              xml.p (I18n.t("enumerations.metadata_rights_statement.#{mrd['rights_statement']}", :default => mrd['rights_statement'])) if mrd['rights_statement']
               xml.p (mrd["descriptive_note"]) if mrd["descriptive_note"]
             }
           end
