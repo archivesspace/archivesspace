@@ -17,7 +17,6 @@ I18n.load_path += Dir[File.join(ASUtils.find_base_directory, 'reports', '**', '*
 
 I18n.default_locale = AppConfig[:locale]
 
-
 module I18n
 
   LOCALES = {
@@ -33,6 +32,10 @@ module I18n
 
   def self.t(*args)
     self.t_raw(*args)
+  end
+
+  def self.prioritize_plugins!
+    self.load_path = self.load_path.reject { |p| p.match /plugins\// } + self.load_path.reject { |p| !p.match /plugins\// }
   end
 
 end
