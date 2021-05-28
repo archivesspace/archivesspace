@@ -18,6 +18,6 @@ class Instance < Sequel::Model(:instance)
                       :is_array => false)
 
   def representative_for_types
-    [:resource, :archival_object]
+    { is_representative: [:resource, :archival_object] }
   end
 end
