@@ -894,23 +894,9 @@ class EADSerializer < ASpaceExport::Serializer
           end
 
           data.metadata_rights_declarations.each do |mrd|
-            if mrd["citation"]
-              xml.p (mrd["citation"])
-            end
             if mrd["rights_statement"]
               rights_statement_translation = I18n.t("enumerations.metadata_rights_statement.#{mrd['rights_statement']}")
               xml.p (rights_statement_translation)
-            end
-            if mrd["descriptive_note"]
-              xml.p (mrd["descriptive_note"])
-            end
-            if mrd["file_uri"]
-              xml.p {
-                xml.extref ({ href: mrd["file_uri"],
-                              arcrole: mrd['xlink_arcrole_attribute'] }) {
-                  xml.text (mrd["file_uri"])
-                }
-              }
             end
           end
         }
