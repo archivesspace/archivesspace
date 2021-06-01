@@ -130,6 +130,12 @@ class AgentsController < ApplicationController
   def delete
     agent = JSONModel(@agent_type).find(params[:id])
 
+    if agent.key?('is_repo_agent')
+      flash[:error] = I18n.t('errors.cannot_delete_repository_agent')
+      redirect_to(controller: :agents, action: :show, id: params[:id])
+      return
+    end
+
     begin
       agent.delete
     rescue ConflictException => e

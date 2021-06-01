@@ -31,7 +31,9 @@
                      {"type" => "JSONModel(:agent_relationship_family) object"},
                      {"type" => "JSONModel(:agent_relationship_associative) object"}],
         }
-      }
+      },
+
+      "is_repo_agent" => {"readonly" => true, "type" => "string"},
     },
 
   },

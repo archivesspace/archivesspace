@@ -907,14 +907,20 @@ describe "EAD export mappings" do
         end
       end
 
-      it "maps 'telephone' to addressline" do
-        if (data = contact['telephone'])
-          mt(data, "#{path}addressline[#{offset_1 + offset_2}]")
+      it "maps each telephone in 'telephones' to addressline" do
+        if (data = contact['telephones'][0])
+          mt(/#{data['number']}/, "#{path}addressline[#{offset_1 + offset_2}]")
+          if data['number_type']
+            mt(/#{data['number_type'].capitalize}/, "#{path}addressline[#{offset_1 + offset_2}]")
+          end
+          if data['ext']
+            mt(/#{data['ext']}/, "#{path}addressline[#{offset_1 + offset_2}]")
+          end
         end
       end
 
       it "maps 'email' to addressline" do
-        offset_3 = contact['telephone'] ? 1 : 0
+        offset_3 = contact['telephones'] ? 1 : 0
         if (data = contact['email'])
           mt(data, "#{path}addressline[#{offset_1 + offset_2 + offset_3}]")
         end
