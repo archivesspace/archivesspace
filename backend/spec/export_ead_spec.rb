@@ -1515,15 +1515,7 @@ describe "EAD export mappings" do
     it "maps all subrecords to ead/control/filedesc/publicationstmt" do
       subrecord = @resource.metadata_rights_declarations[0]
       rights_statement_translation = I18n.t("enumerations.metadata_rights_statement.#{subrecord['rights_statement']}")
-      desc_note = subrecord['descriptive_note']
-      citation = subrecord["citation"]
-      expect(@doc).to have_tag("eadheader/filedesc/publicationstmt/p[text() = '#{citation}']")
       expect(@doc).to have_tag("eadheader/filedesc/publicationstmt/p[text() = '#{rights_statement_translation}']")
-      expect(@doc).to have_tag("eadheader/filedesc/publicationstmt/p[text() = '#{desc_note}']")
-      expect(@doc).to have_tag("eadheader/filedesc/publicationstmt/p[text() = '#{citation}']")
-      expect(@doc).to have_tag("eadheader/filedesc/publicationstmt/p/extref[text() = '#{subrecord['file_uri']}']",
-                               href: subrecord['file_uri'],
-                               arcrole: subrecord['xlink_arcrole_attribute'])
     end
   end
 end
