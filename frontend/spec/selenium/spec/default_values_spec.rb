@@ -28,7 +28,8 @@ describe 'Default Form Values' do
     @driver ? @driver.quit : next
   end
 
-  it 'will let an admin create default accession values' do
+  # unpend when frequent random failures are resolved
+  xit 'will let an admin create default accession values' do
     @driver.get("#{$frontend}/accessions")
 
     button = @driver.find_element_with_text('//a', /Edit Default Values/)
