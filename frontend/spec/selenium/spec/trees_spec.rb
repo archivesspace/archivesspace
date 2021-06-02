@@ -16,7 +16,7 @@ describe 'Tree UI' do
   before(:each) do
     @r = create(:resource)
     @a1 = create(:archival_object, resource: { ref: @r.uri })
-    @a2 = create(:archival_object, resource: { ref: @r.uri })
+    @a2 = create(:archival_object, resource: { ref: @r.uri }, dates: [build(:date_no_expression)])
     @a3 = create(:archival_object, resource: { ref: @r.uri })
 
     @driver.get_edit_page(@r)
@@ -50,10 +50,12 @@ describe 'Tree UI' do
     expect(@driver.find_elements(css: '.largetree-node').length).to eq(4)
   end
 
-  it 'displays date certainty in parens next to title if present' do
-    ao_tree_row = @driver.find_element(css: ".indent-level-1 .record-title")
+  it 'displays date certainty in parens next to title if present and date expression is not' do
+    ao_tree_row1 = @driver.find_element(css: "#archival_object_5 .record-title")
+    ao_tree_row2 = @driver.find_element(css: "#archival_object_6 .record-title")
 
-    expect(ao_tree_row.text).to match(/(Approximate)/)
+    expect(ao_tree_row1.text).to_not match(/(Approximate)/)
+    expect(ao_tree_row2.text).to match(/(Approximate)/)
   end
 
   it 'can retain location hash when sidebar items are clicked' do

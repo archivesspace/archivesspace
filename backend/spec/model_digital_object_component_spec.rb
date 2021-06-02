@@ -14,6 +14,27 @@ describe 'DigitalObjectComponent model' do
 
   it "auto generates a 'label' based on the date, title and certainty when both are present" do
     title = "Just a title"
+    date1 = build(:json_date, :date_type => 'inclusive', :expression => nil)
+    date2 = build(:json_date, :date_type => 'bulk', :expression => nil)
+
+    doc = DigitalObjectComponent.create_from_json(
+      build(:json_digital_object_component, {
+        :title => title,
+        :dates => [date1, date2]
+      }),
+      :repo_id => $repo_id)
+
+    expect(DigitalObjectComponent[doc[:id]].display_string).to match(/#{title}/)
+    expect(DigitalObjectComponent[doc[:id]].display_string).to match(/#{date1['begin']}/)
+    expect(DigitalObjectComponent[doc[:id]].display_string).to match(/#{date1['end']}/)
+    expect(DigitalObjectComponent[doc[:id]].display_string).to match(/#{date1['certainty']}/i)
+    expect(DigitalObjectComponent[doc[:id]].display_string).to match(/#{date2['begin']}/)
+    expect(DigitalObjectComponent[doc[:id]].display_string).to match(/#{date2['end']}/)
+    expect(DigitalObjectComponent[doc[:id]].display_string).to match(/#{date2['certainty']}/i)
+  end
+
+  it "does not include certainty in label if date has expression" do
+    title = "Just a title"
     date1 = build(:json_date, :date_type => 'inclusive')
     date2 = build(:json_date, :date_type => 'bulk')
 
@@ -24,7 +45,7 @@ describe 'DigitalObjectComponent model' do
       }),
       :repo_id => $repo_id)
 
-    expect(DigitalObjectComponent[doc[:id]].display_string).to eq("#{title}, #{date1['expression']} (Inferred), #{I18n.t("date_type_bulk.bulk")}: #{date2['expression']} (Inferred)")
+    expect(DigitalObjectComponent[doc[:id]].display_string).to eq("#{title}, #{date1['expression']}, #{I18n.t("date_type_bulk.bulk")}: #{date2['expression']}")
   end
 
   describe "slug tests" do
