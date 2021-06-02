@@ -90,16 +90,23 @@ class ClassificationTerm < Sequel::Model(:classification_term)
 
 
   def validate
-    validates_unique([:parent_name, :title_sha1],
-                     :message => "must be unique to its level in the tree")
+    if parent_id
+      validates_unique([:root_record_id, :parent_id, :title_sha1],
+                      :message => "must be unique to its level in the tree")
+      validates_unique([:root_record_id, :parent_id, :identifier],
+                       :message => "must be unique to its level in the tree")
 
-    validates_unique([:parent_name, :identifier],
-                     :message => "must be unique to its level in the tree")
+      map_validation_to_json_property([:root_record_id, :parent_id, :title_sha1], :title)
+      map_validation_to_json_property([:root_record_id, :parent_id, :identifier], :identifier)
+    else
+      validates_unique([:root_record_id, :title_sha1],
+                      :message => "must be unique to its level in the tree")
+      validates_unique([:root_record_id, :identifier],
+                       :message => "must be unique to its level in the tree")
 
-    map_validation_to_json_property([:parent_name, :title_sha1], :title)
-    map_validation_to_json_property([:parent_name, :identifier], :identifier)
-
-    super
+      map_validation_to_json_property([:root_record_id, :title_sha1], :title)
+      map_validation_to_json_property([:root_record_id, :identifier], :identifier)
+    end
   end
 
 end
