@@ -80,6 +80,10 @@
            <%= render_aspace_partial :partial => "rights_statements/show", :locals => { :rights_statements => @accession.rights_statements, :section_id => "accession_rights_statements_" } %>
          <% end %>
 
+         <% if @accession.metadata_rights_declarations.length > 0 %>
+             <%= render_aspace_partial :partial => "metadata_rights_declarations/show", :locals => { :metadata_rights_declarations => @accession.metadata_rights_declarations, :section_id => "accession_metadata_rights_declarations_" } %>
+         <% end %>
+
         <% if @accession.instances.length > 0 %>
           <%= render_aspace_partial :partial => "instances/show", :locals => { :instances => @accession.instances, :section_id => "accession_instances_"  } %>
         <% end %>

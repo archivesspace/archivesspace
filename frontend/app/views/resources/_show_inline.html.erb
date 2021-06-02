@@ -95,6 +95,10 @@
           <%= render_aspace_partial :partial => "rights_statements/show", :locals => { :rights_statements => @resource.rights_statements, :section_id => "resource_rights_statements_"  } %>
         <% end %>
 
+        <% if @resource.metadata_rights_declarations.length > 0 %>
+            <%= render_aspace_partial :partial => "metadata_rights_declarations/show", :locals => { :metadata_rights_declarations => @resource.metadata_rights_declarations, :section_id => "resource_metadata_rights_declarations_"  } %>
+        <% end %>
+
         <% if @resource.instances.length > 0 %>
           <%= render_aspace_partial :partial => "instances/show", :locals => { :instances => @resource.instances, :section_id => "resource_instances_"  } %>
         <% end %>

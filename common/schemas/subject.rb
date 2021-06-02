@@ -31,6 +31,8 @@
       "authority_id" => {"type" => "string", "maxLength" => 255},
 
       "external_documents" => {"type" => "array", "items" => {"type" => "JSONModel(:external_document) object"}},
+
+      "metadata_rights_declarations" => {"type" => "array", "items" => {"type" => "JSONModel(:metadata_rights_declaration) object"}},
     },
   },
 }

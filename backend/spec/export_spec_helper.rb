@@ -8,51 +8,19 @@ require_relative 'custom_matchers'
 require 'jsonmodel'
 require 'factory_bot'
 
-if ENV['ASPACE_BACKEND_URL']
+require_relative 'spec_helper'
 
-  include FactoryBot::Syntax::Methods
-  I18n.enforce_available_locales = false # do not require locale to be in available_locales for export
-  I18n.load_path += ASUtils.find_locales_directories(File.join('enums', "#{AppConfig[:locale]}.yml"))
-
-  JSONModel.init(client_mode: true, strict_mode: true,
-                 url: ENV['ASPACE_BACKEND_URL'],
-                 priority: :high)
-
-  require_relative 'factories.rb'
-
-  auth = JSONModel::HTTP.post_form('/users/admin/login', { password: 'admin' })
-  JSONModel::HTTP.current_backend_session = JSON.parse(auth.body)['session']
-
-  def get_xml(uri)
-    uri = URI("#{ENV['ASPACE_BACKEND_URL']}#{uri}")
-    response = JSONModel::HTTP.get_response(uri)
-
-    if response.is_a?(Net::HTTPSuccess) || response.status == 200
+def get_xml(uri, raw = false)
+  response = get(uri)
+  if response.status == 200
+    if raw
+      response.body
+    else
       Nokogiri::XML::Document.parse(response.body)
     end
+  else
+    raise "Invalid response from backend for URI #{uri}: #{response.body}"
   end
-
-  $repo_record = create(:json_repository)
-  $repo_id = $repo_record.id
-
-  JSONModel.set_repository($repo_id)
-
-else
-  require_relative 'spec_helper'
-
-  def get_xml(uri, raw = false)
-    response = get(uri)
-    if response.status == 200
-      if raw
-        response.body
-      else
-        Nokogiri::XML::Document.parse(response.body)
-      end
-    else
-      raise "Invalid response from backend for URI #{uri}: #{response.body}"
-    end
-  end
-
 end
 
 def get_mets(rec, dmd = 'mods')

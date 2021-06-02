@@ -16,6 +16,7 @@ class DigitalObject < Sequel::Model(:digital_object)
   include ExternalIDs
   include FileVersions
   include CollectionManagements
+  include MetadataRights
   include UserDefineds
   include ComponentsAddChildren
   include Events
