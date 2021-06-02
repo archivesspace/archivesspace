@@ -169,7 +169,7 @@ describe 'ArchivalObject model' do
       }),
       :repo_id => $repo_id)
 
-    expect(ArchivalObject[ao[:id]].display_string).to eq(date['expression'] + " (Inferred)")
+    expect(ArchivalObject[ao[:id]].display_string).to eq(date['expression'])
 
     # try with begin and end
     date = build(:json_date, :date_type => 'inclusive', :expression => nil)
@@ -190,7 +190,8 @@ describe 'ArchivalObject model' do
       }),
       :repo_id => $repo_id)
 
-    expect(ArchivalObject[ao[:id]].display_string).to eq("bulk: #{date['expression']} (Inferred)")
+    # if expression is defined, then certainty is not included
+    expect(ArchivalObject[ao[:id]].display_string).to eq("bulk: #{date['expression']}")
 
     # try with begin and end
     date = build(:json_date, :date_type => 'bulk', :expression => nil)
@@ -235,7 +236,7 @@ describe 'ArchivalObject model' do
       }),
       :repo_id => $repo_id)
 
-    expect(ArchivalObject[ao[:id]].display_string).to eq("#{title}, #{date1['expression']} (Inferred), #{I18n.t("date_type_bulk.bulk")}: #{date2['expression']} (Inferred)")
+    expect(ArchivalObject[ao[:id]].display_string).to eq("#{title}, #{date1['expression']}, #{I18n.t("date_type_bulk.bulk")}: #{date2['expression']}")
   end
 
 

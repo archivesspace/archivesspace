@@ -171,6 +171,14 @@ module SeleniumFactories
         expression { '1900s' }
       end
 
+      factory :date_no_expression, class: JSONModel(:date) do
+        date_type { 'inclusive' }
+        label { 'creation' }
+        certainty { 'approximate' }
+        self.begin { '1900-01-01' }
+        self.end { '1999-12-31' }
+      end
+
       factory :json_lang_material, class: JSONModel(:lang_material) do
         language_and_script { build(:json_language_and_script) }
       end

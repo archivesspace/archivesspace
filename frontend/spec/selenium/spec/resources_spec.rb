@@ -564,7 +564,7 @@ describe 'Resources and archival objects' do
 
     @driver.find_element(:link, 'Close Record').click
 
-    assert(5) { expect(@driver.find_element(:css, '.record-pane h2').text).to match(/save this please/) }
+    assert(5) { expect(@driver.find_element(:css, '.record-pane h2').text).to match(/Archival Object/) }
   end
 
   xit 'exports and downloads the resource to xml' do
