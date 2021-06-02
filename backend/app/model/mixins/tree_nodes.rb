@@ -29,7 +29,6 @@ module TreeNodes
     if self.parent_id.nil?
       # This top-level node has been moved to a new tree.  Append it to the end of the list.
       root_uri = self.class.uri_for(self.class.root_record_type.intern, self.root_record_id)
-      self.parent_name = "root@#{root_uri}"
 
       self.position = self.class.next_position_for_parent(self.root_record_id, self.parent_id)
     end
@@ -135,16 +134,10 @@ module TreeNodes
                .filter(:parent_id => self.parent_id)
                .filter { position >= start_physical_position }
 
-    # Sigh.  Work around:
-    # http://stackoverflow.com/questions/5403437/atomic-multi-row-update-with-a-unique-constraint
-    siblings.update(:parent_name => Sequel.lit(DB.concat('CAST(id as CHAR(10))', "'_temp'")))
 
     # Do the real update
     siblings.update(:position => Sequel.lit('position + ' + TreeNodes::POSITION_STEP.to_s),
                     :system_mtime => Time.now)
-
-    # Puts it back again
-    siblings.update(:parent_name => self.parent_name)
 
     start_physical_position + TreeNodes::POSITION_STEP
   end
@@ -209,25 +202,12 @@ module TreeNodes
       raise "Can't make a record into its own parent"
     end
 
-    parent_name = if parent_id
-                    "#{parent_id}@#{self.class.node_record_type}"
-                  else
-                    "root@#{root_uri}"
-                  end
-
     new_values = {
       :parent_id => parent_id,
-      :parent_name => parent_name,
       :system_mtime => Time.now
     }
 
-    if parent_name == self.parent_name
-      # Position is unchanged initially
-      new_values[:position] = self.position
-    else
-      # Append this node to the new parent initially
-      new_values[:position] = self.class.next_position_for_parent(root_record_id, parent_id)
-    end
+    new_values[:position] = self.class.next_position_for_parent(root_record_id, parent_id)
 
     # Run through the standard validation without actually saving
     self.set(new_values)
@@ -420,15 +400,12 @@ module TreeNodes
             json.parent = {'ref' => uri_for(node_record_type, obj.parent_id)}
           end
 
-          if obj.parent_name
-            # Calculate the logical (gapless) position of this node.  This
-            # bridges the gap between the DB's view of position, which only
-            # cares that the positions order correctly, with the API's view,
-            # which speaks in logical numbering (i.e. the first position is 0,
-            # the second position is 1, etc.)
-
-            json.position = positions.fetch(obj)
-          end
+          # Calculate the logical (gapless) position of this node.  This
+          # bridges the gap between the DB's view of position, which only
+          # cares that the positions order correctly, with the API's view,
+          # which speaks in logical numbering (i.e. the first position is 0,
+          # the second position is 1, etc.)
+          json.position = positions.fetch(obj)
 
         end
 
@@ -469,8 +446,7 @@ module TreeNodes
 
       result = {}
 
-      objs.group_by(&:parent_name).each do |parent_name, obj_group|
-        next if parent_name.nil?
+      objs.group_by(&:parent_id).each do |parent_id, obj_group|
 
         sorted = obj_group.sort_by(&:position)
 
@@ -478,7 +454,7 @@ module TreeNodes
         last_logical_position = 0
 
         sorted.each do |ao|
-          c = self.dataset.filter(:parent_name => ao.parent_name).where { (position < ao.position) & (position >= last_physical_position) }.count
+          c = self.dataset.filter(:parent_id => ao.parent_id, :root_record_id => ao.root_record_id).where { (position < ao.position) & (position >= last_physical_position) }.count
 
           last_logical_position = result[ao] = last_logical_position + c
           last_physical_position = ao.position
@@ -532,8 +508,6 @@ module TreeNodes
 
       # lets get a group of records that have unique parents or root_records
       parents = ids.select_group(:parent_id, :root_record_id).all
-      # we then nil out the parent id so deletes can do its thing
-      ids.update(:parent_id => nil)
       # trigger the deletes...
       super
     end
