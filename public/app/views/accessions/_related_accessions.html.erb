@@ -4,7 +4,7 @@
     <li>
       <% type = accession[:type] == 'accession_parts_relationship' ? 'part_relationship' : 'sibling_relationship' %>
       <%= link_to accession[:title],  accession[:uri] %> 
-      <%= '(' + (I18n.t("accession._public.related_accessions.#{type}")) + ')' %>)
+      <%= '(' + (I18n.t("accession._public.related_accessions.#{type}")) + ')' %>
     </li>
   <% end %>
 </ul>
