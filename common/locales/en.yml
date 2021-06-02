@@ -79,6 +79,8 @@ en:
         <p>Links to information in other description or management systems, such as donor files, processing plans, etc.</p>
     rights_statements_tooltip: |
         <p>Information about the rights status of the materials described and whether there are specific restrictions or permissions that have been indicated.</p>
+    metadata_rights_declarations_tooltip: |
+        <p>Based on DACS 8.2 and 13.11</p>
     instances_tooltip: |
         <p>Links description to information about physical or digital instantiations of material.</p>
     deaccessions_tooltip: |
@@ -229,7 +231,7 @@ en:
     _frontend:
       action:
         add: Add Function
-        
+
   dates_of_existence:
     _frontend:
       action:
@@ -525,7 +527,7 @@ en:
         <p>Indicates the language used in recording the name form. Example: Russian (for Каспаров, Г. К. (Гарри Кимович))</p>
     script: Script
     script_tooltip: |
-        <p>Indicates the script used in recording the name form. Example: Cyrillic (for Каспаров, Г. К. (Гарри Кимович))</p> 
+        <p>Indicates the script used in recording the name form. Example: Cyrillic (for Каспаров, Г. К. (Гарри Кимович))</p>
     transliteration: Transliteration
     transliteration_tooltip: |
         <p>Indicates the transliteration scheme used in recording the name form.</p>
@@ -607,17 +609,17 @@ en:
         <li>Adobe <em>(for Adobe Photoshop CS3)</em></li>
         <li>Library of Congress <em>(for Library of Congress Bagger 2.1.2)</em></li>
         </ul>
-        
+
   parallel_name_software:
     <<: *agent_software_attributes
 
   agent_record_identifiers:
     identifier_type_tooltip: |
         <p>Indicates the type or format of the authority record identifier. Values in this Controlled Value List may be modified.</p>
-    source_tooltip: | 
+    source_tooltip: |
         <p>Indicates the originating authority file of an associated identifier. Example: NAF (for nr2003017069). Values in this Controlled Value List may be modified.</p>
     record_identifier_tooltip: |
-        <p>The identifier for the Agent record, usually consisting of a unique alpha-numeric string. Identifier may originate in an external authority file, or be generated locally.</p> 
+        <p>The identifier for the Agent record, usually consisting of a unique alpha-numeric string. Identifier may originate in an external authority file, or be generated locally.</p>
     is_primary: Primary
 
   agent_record_control:
@@ -653,7 +655,7 @@ en:
         <p>The content of the note, providing details about the language and scripts used in the preparation of the Agent description.</p>
 
   agent_alternate_set:
-    set_component_tooltip: | 
+    set_component_tooltip: |
         <p>A caption to provide identification and access to an equivalent linked authority record.</p>
     descriptive_note_tooltip: |
         <p>The content of the note, providing details about the linked authority record.</p>
@@ -744,7 +746,7 @@ en:
     language_tooltip: |
         <p>The language(s) associated with the agent. Example: English.</p>
     script_tooltip: |
-        <p>The text script associated with the agent. Example: Latin.</p>    
+        <p>The text script associated with the agent. Example: Latin.</p>
 
   agent_gender:
     gender_tooltip: |
@@ -752,7 +754,7 @@ en:
 
   agent_place:
     place_role_tooltip: |
-        <p>Indicates the relationship of the geographic location to the agent.</p> 
+        <p>Indicates the relationship of the geographic location to the agent.</p>
 
   agent_resource:
     linked_agent_role_tooltip: |
@@ -772,7 +774,7 @@ en:
     xlink_role_attribute_tooltip: |
         <p>Type or nature of the remote resource linked in the associated URI.</p>
     xlink_arcrole_attribute_tooltip: |
-        <p>Type or nature of the remote resource linked in the associated URI.</p>   
+        <p>Type or nature of the remote resource linked in the associated URI.</p>
     last_verified_date_tooltip: |
         <p>Last date or date and time the linked resource linked in the associated URI was verified.</p>
 
@@ -824,14 +826,14 @@ en:
     date_calendar_tooltip: |
         <p>System of reckoning time, such as the Gregorian calendar or Julian calendar. The value "gregorian" is the default.</p>
 
-  structured_date_label_existence: 
-    <<: *sdl_attributes  
+  structured_date_label_existence:
+    <<: *sdl_attributes
 
-  date_fields: 
-    <<: *sdl_attributes  
+  date_fields:
+    <<: *sdl_attributes
 
-  structured_date_label_common_fields: 
-    <<: *sdl_attributes  
+  structured_date_label_common_fields:
+    <<: *sdl_attributes
 
   structured_date_single: &sds_attributes
     date_role_tooltip: |
@@ -866,15 +868,16 @@ en:
         <p>Used to indicate whether the ending standardized date reflects the actual date or an estimate of the earliest or latest something could have occurred.</p>
 
   structured_date_single_fields:
-    <<: *sds_attributes  
+    <<: *sds_attributes
 
   structured_date_range_fields:
-    <<: *sdr_attributes  
+    <<: *sdr_attributes
 
   agent_contact: &agent_contact
     name: Contact Name
     name_tooltip: |
         <p>Name of the person serving as contact for the entity in the main record.</p>
+        <p>For repository corporate entity agents, a name will be auto-generated by the application when blank.</p>
     salutation: Salutation
     salutation_tooltip: |
         <p>Salutation for the contact person.</p>
@@ -937,7 +940,7 @@ en:
     number_type_tooltip: |
         <p>Indicates the type of telephone number.</p>
 
-    
+
 
   telephone_required: &telephone
     _plural: Telephone Numbers
@@ -1008,7 +1011,7 @@ en:
     _singular: Related Agent
     _plural: Related Agents
 
-  related_agents: 
+  related_agents:
     <<: *related_agent_attributes
 
   agent_relationship_parentchild:
@@ -1068,7 +1071,7 @@ en:
     note_mandate: Mandate
     note_contact_note: Contact Note
     note_legal_status: Legal Status
-    note_structure_or_genealogy: Structure Or Genealogy 
+    note_structure_or_genealogy: Structure Or Genealogy
     _singular: Note
     _plural: Notes
 
@@ -1990,7 +1993,7 @@ en:
     finding_aid_language: Language of Description
     finding_aid_language_tooltip: |
         <p>Indicates all the languages present in the finding aid generated from the resource description.</p>
-    finding_aid_langusage_label: "Description is written in: " 
+    finding_aid_langusage_label: "Description is written in: "
     finding_aid_script: Script of Description
     finding_aid_script_tooltip: |
         <p>Indicates all the scripts present in the finding aid generated from the resource description.</p>
@@ -2186,6 +2189,9 @@ en:
     is_admin: Grant system administrator permissions
     is_admin_tooltip: |
         <p>Used to indicate whether the user should have full administrative privileges to the application.</p>
+    create_time: Created
+    user_mtime: Updated
+    admin: Administrator
     _singular: User
     _plural: Users
 
@@ -2504,7 +2510,7 @@ en:
   print_to_pdf_job:
     include_unpublished: Include Unpublished
     source: Source
-  
+
   top_container_linker_job:
     _singular: Top Container Linker Job
     filename: File
@@ -2911,3 +2917,25 @@ en:
     log_skipping_due_to_errors: "Skipping creation and linking of top containers due to errors."
     log_validating: "Validating spreadsheet data..."
     log_creating_and_linking: "Creating and linking top containers..."
+
+  metadata_rights_declaration:
+    rights_statement_tooltip: |
+        <p>A content standard used in the formulation of the Agent record content. Example: Describing Archives: A Content Standard.</p>
+    citation_tooltip: |
+        <p>Bibliographic citation for a convention used in the formulation of the Agent record content. Example: Society of American Archivists. Describing Archives: A Content Standard (Chicago: Society of American Archivists, 2013).</p>
+    descriptive_note_tooltip: |
+        <p>The content of the note, providing details about the convention was used in the preparation of the Agent description. Example: Used for formulating biographical history note content. (for Describing Archives: A Content Standard).</p>
+    file_uri_tooltip: |
+        <p>A URI for the online location of the convention used in the preparation of the Agent description. Example: http://www2.archivists.org/standards/DACS/ (for Describing Archives: A Content Standard).</p>
+    file_version_xlink_actuate_attribute_tooltip: |
+        <p>Indicates whether associated URI should be resolved when the Agent record is rendered.</p>
+    file_version_xlink_show_attribute_tooltip: |
+        <p>Indicates where the remote resource linked in the associated URI should be rendered.</p>
+    xlink_title_attribute_tooltip: |
+        <p>Title of the remote resources linked in the associated URI, which may be used as a caption.</p>
+    xlink_role_attribute_tooltip: |
+        <p>Type or nature of the remote resource linked in the associated URI.</p>
+    xlink_arcrole_attribute_tooltip: |
+        <p>Type or nature of the remote resource linked in the associated URI.</p>
+    last_verified_date_tooltip: |
+        <p>Last date or date and time the linked resource linked in the associated URI was verified.</p>

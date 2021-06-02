@@ -162,6 +162,7 @@ Rails.application.config.after_initialize do
   JSONModel(:top_container)
   JSONModel(:sub_container)
   JSONModel(:container_profile)
+  I18n.prioritize_plugins!
 end
 
 # Load plugin init.rb files (if present)

@@ -892,6 +892,13 @@ class EADSerializer < ASpaceExport::Serializer
               end
             }
           end
+
+          data.metadata_rights_declarations.each do |mrd|
+            if mrd["rights_statement"]
+              rights_statement_translation = I18n.t("enumerations.metadata_rights_statement.#{mrd['rights_statement']}", :default => mrd['rights_statement'])
+              xml.p (rights_statement_translation)
+            end
+          end
         }
 
         if (data.finding_aid_series_statement)

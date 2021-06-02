@@ -93,6 +93,7 @@ describe "EAD export mappings" do
                       :finding_aid_filing_title => "this is a filing title",
                       :finding_aid_series_statement => "here is the series statement",
                       :publish => true,
+                      :metadata_rights_declarations => [build(:json_metadata_rights_declaration)]
                       )
 
     @resource = JSONModel(:resource).find(resource.id, 'resolve[]' => 'top_container')
@@ -228,26 +229,23 @@ describe "EAD export mappings" do
           {'results' => []}
         end
 
-        as_test_user("admin") do
-          DB.open(true) do
-            load_export_fixtures
-            AppConfig[:arks_enabled] = true
-            @doc = get_xml("/repositories/#{$repo_id}/resource_descriptions/#{@resource.id}.xml?include_unpublished=true&include_daos=true")
-            @doc_with_ark = get_xml("/repositories/#{$repo_id}/resource_descriptions/#{@resource_with_ark.id}.xml?include_unpublished=true&include_daos=true")
+        as_test_user("admin", true) do
+          load_export_fixtures
+          AppConfig[:arks_enabled] = true
+          @doc = get_xml("/repositories/#{$repo_id}/resource_descriptions/#{@resource.id}.xml?include_unpublished=true&include_daos=true")
+          @doc_with_ark = get_xml("/repositories/#{$repo_id}/resource_descriptions/#{@resource_with_ark.id}.xml?include_unpublished=true&include_daos=true")
 
-            @doc_unpub = get_xml("/repositories/#{$repo_id}/resource_descriptions/#{@resource.id}.xml?include_daos=true")
+          @doc_unpub = get_xml("/repositories/#{$repo_id}/resource_descriptions/#{@resource.id}.xml?include_daos=true")
 
-            AppConfig[:arks_enabled] = false
-            @doc_ark_disabled = get_xml("/repositories/#{$repo_id}/resource_descriptions/#{@resource.id}.xml?include_unpublished=true&include_daos=true")
-            AppConfig[:arks_enabled] = true
+          AppConfig[:arks_enabled] = false
+          @doc_ark_disabled = get_xml("/repositories/#{$repo_id}/resource_descriptions/#{@resource.id}.xml?include_unpublished=true&include_daos=true")
+          AppConfig[:arks_enabled] = true
 
-            @doc_nsless = Nokogiri::XML::Document.parse(@doc.to_xml)
-            @doc_nsless.remove_namespaces!
-            raise Sequel::Rollback
-          end
+          @doc_nsless = Nokogiri::XML::Document.parse(@doc.to_xml)
+          @doc_nsless.remove_namespaces!
+          raise Sequel::Rollback
         end
       end
-
       expect(@doc.errors.length).to eq(0)
 
       # if the word Nokogiri appears in the XML file, we'll assume something
@@ -258,16 +256,7 @@ describe "EAD export mappings" do
     end
   end
 
-  after(:all) do
-    as_test_user('admin') do
-      $repo_id = $old_repo_id
-      JSONModel.set_repository($repo_id)
-    end
-  end
-
-
   let(:repo) { JSONModel(:repository).find($repo_id) }
-
 
   describe "indexing prerequisites" do
     it "resolves all required fields for the EAD model" do
@@ -1345,7 +1334,7 @@ describe "EAD export mappings" do
     end
 
     before(:all) {
-      as_test_user('admin') do
+      as_test_user('admin', true) do
         RSpec::Mocks.with_temporary_scope do
           # EAD export normally tries the search index first, but for the tests we'll
           # skip that since Solr isn't running.
@@ -1386,16 +1375,10 @@ describe "EAD export mappings" do
 
           @xml_including_unpublished = get_xml_doc(include_unpublished = true)
           @xml_not_including_unpublished = get_xml_doc(include_unpublished = false)
+          raise Sequel::Rollback
         end
       end
     }
-
-    after(:all) do
-      as_test_user('admin') do
-        $repo_id = $old_repo_id
-        JSONModel.set_repository($repo_id)
-      end
-    end
 
     it "does not set <ead> attribute audience 'internal' when resource is published" do
       expect(@doc_nsless.at_xpath('//ead')).not_to have_attribute('audience', 'internal')
@@ -1479,7 +1462,7 @@ describe "EAD export mappings" do
 
 
     before(:all) {
-      as_test_user('admin') do
+      as_test_user('admin', true) do
         RSpec::Mocks.with_temporary_scope do
           # EAD export normally tries the search index first, but for the tests we'll
           # skip that since Solr isn't running.
@@ -1521,21 +1504,24 @@ describe "EAD export mappings" do
                                                          :suppressed => true)
 
           @xml = get_xml_doc
+          raise Sequel::Rollback
         end
       end
     }
-
-    after(:all) do
-      as_test_user('admin') do
-        $repo_id = $old_repo_id
-        JSONModel.set_repository($repo_id)
-      end
-    end
 
     it "excludes suppressed items" do
       expect(@xml.xpath('//c').length).to eq(2)
       expect(@xml.xpath("//c[@id='aspace_#{@unsuppressed_series.ref_id}']").length).to eq(1)
       expect(@xml.xpath("//c[@id='aspace_#{@unsuppressed_series_unsuppressed_child.ref_id}']").length).to eq(1)
+    end
+  end
+
+  # See ANW-1282
+  describe "Metadata Rights Declaration mappings " do
+    it "maps all subrecords to ead/control/filedesc/publicationstmt" do
+      subrecord = @resource.metadata_rights_declarations[0]
+      rights_statement_translation = I18n.t("enumerations.metadata_rights_statement.#{subrecord['rights_statement']}")
+      expect(@doc).to have_tag("eadheader/filedesc/publicationstmt/p[text() = '#{rights_statement_translation}']")
     end
   end
 end

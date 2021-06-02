@@ -27,7 +27,7 @@
           <%= display_audit_info(@agent) %>
         </section>
 
-        <% if ![:agent_record_identifiers, :agent_record_controls, :agent_other_agency_codes, :agent_conventions_declarations, :agent_maintenance_histories, :agent_sources, :agent_alternate_sets].map {|k| @agent[k]}.flatten.compact.blank? %>
+        <% if ![:agent_record_identifiers, :agent_record_controls, :agent_other_agency_codes, :agent_conventions_declarations, :agent_maintenance_histories, :agent_sources, :agent_alternate_sets, :metadata_rights_declarations].map {|k| @agent[k]}.flatten.compact.blank? %>
           <section id="record_control_information" class="agents-subsection">
             <h3>
               <%= I18n.t("agent._frontend.section.record_control_information") %>
@@ -47,6 +47,10 @@
 
             <% if @agent.agent_conventions_declarations.length > 0 %>
               <%= render_aspace_partial :partial => "agent_conventions_declarations/show", :locals => { :agent_conventions_declarations => @agent.agent_conventions_declarations, :section_id => "#{@agent.agent_type}_agent_conventions_declaration" } %>
+            <% end %>
+
+            <% if @agent.metadata_rights_declarations.length > 0 %>
+                <%= render_aspace_partial :partial => "metadata_rights_declarations/show", :locals => { :metadata_rights_declarations => @agent.metadata_rights_declarations, :section_id => "#{@agent.agent_type}_metadata_rights_declaration" } %>
             <% end %>
 
             <% if @agent.agent_maintenance_histories.length > 0 %>

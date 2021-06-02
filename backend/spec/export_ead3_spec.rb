@@ -1,6 +1,4 @@
 # encoding: utf-8
-# require 'nokogiri'
-require 'spec_helper'
 require_relative 'export_spec_helper'
 
 describe "EAD3 export mappings" do
@@ -84,7 +82,10 @@ describe "EAD3 export mappings" do
                       :finding_aid_filing_title => "this is a filing title",
                       :finding_aid_series_statement => "here is the series statement",
                       :publish => true,
-                      )
+                      :metadata_rights_declarations => [
+                        build(:json_metadata_rights_declaration),
+                        { "descriptive_note" => "nothing here but a descriptive note"}
+                      ])
 
     @resource = JSONModel(:resource).find(resource.id, 'resolve[]' => 'top_container')
 
@@ -206,18 +207,16 @@ describe "EAD3 export mappings" do
         {'results' => []}
       end
 
-      as_test_user("admin") do
-        DB.open(true) do
-          load_export_fixtures
-          AppConfig[:arks_enabled] = true
-          @doc = get_xml("/repositories/#{$repo_id}/resource_descriptions/#{@resource.id}.xml?include_unpublished=true&include_daos=true&ead3=true")
-          AppConfig[:arks_enabled] = false
-          @doc_ark_disabled = get_xml("/repositories/#{$repo_id}/resource_descriptions/#{@resource.id}.xml?include_unpublished=true&include_daos=true")
-          AppConfig[:arks_enabled] = true
-          @doc_nsless = Nokogiri::XML::Document.parse(@doc.to_xml)
-          @doc_nsless.remove_namespaces!
-          raise Sequel::Rollback
-        end
+      as_test_user("admin", true) do
+        load_export_fixtures
+        AppConfig[:arks_enabled] = true
+        @doc = get_xml("/repositories/#{$repo_id}/resource_descriptions/#{@resource.id}.xml?include_unpublished=true&include_daos=true&ead3=true")
+        AppConfig[:arks_enabled] = false
+        @doc_ark_disabled = get_xml("/repositories/#{$repo_id}/resource_descriptions/#{@resource.id}.xml?include_unpublished=true&include_daos=true")
+        AppConfig[:arks_enabled] = true
+        @doc_nsless = Nokogiri::XML::Document.parse(@doc.to_xml)
+        @doc_nsless.remove_namespaces!
+        raise Sequel::Rollback
       end
     end
 
@@ -226,13 +225,6 @@ describe "EAD3 export mappings" do
     expect(@doc.to_xml).not_to include("Nokogiri")
     expect(@doc.to_xml).not_to include("#&amp;")
     expect(@doc.to_xml).not_to include("ASPACE EXPORT ERROR")
-  end
-
-  after(:all) do
-    as_test_user('admin') do
-      $repo_id = $old_repo_id
-      JSONModel.set_repository($repo_id)
-    end
   end
 
   let(:repo) { JSONModel(:repository).find($repo_id) }
@@ -1392,20 +1384,16 @@ describe "EAD3 export mappings" do
   describe "Test unpublished record EAD exports" do
 
     def get_xml_doc(include_unpublished = false)
-      as_test_user("admin") do
-        DB.open(true) do
-          doc_for_unpublished_resource = get_xml("/repositories/#{$repo_id}/resource_descriptions/#{@unpublished_resource_jsonmodel.id}.xml?include_unpublished=#{include_unpublished}&include_daos=true&ead3=true", true)
+      doc_for_unpublished_resource = get_xml("/repositories/#{$repo_id}/resource_descriptions/#{@unpublished_resource_jsonmodel.id}.xml?include_unpublished=#{include_unpublished}&include_daos=true&ead3=true", true)
 
-          doc_nsless_for_unpublished_resource = Nokogiri::XML::Document.parse(doc_for_unpublished_resource)
-          doc_nsless_for_unpublished_resource.remove_namespaces!
+      doc_nsless_for_unpublished_resource = Nokogiri::XML::Document.parse(doc_for_unpublished_resource)
+      doc_nsless_for_unpublished_resource.remove_namespaces!
 
-          return doc_nsless_for_unpublished_resource
-        end
-      end
+      return doc_nsless_for_unpublished_resource
     end
 
     before(:all) {
-      as_test_user('admin') do
+      as_test_user('admin', true) do
         RSpec::Mocks.with_temporary_scope do
           # EAD export normally tries the search index first, but for the tests we'll
           # skip that since Solr isn't running.
@@ -1440,16 +1428,10 @@ describe "EAD3 export mappings" do
 
           @xml_including_unpublished = get_xml_doc(include_unpublished = true)
           @xml_not_including_unpublished = get_xml_doc(include_unpublished = false)
+          raise Sequel::Rollback
         end
       end
     }
-
-    after(:all) do
-      as_test_user('admin') do
-        $repo_id = $old_repo_id
-        JSONModel.set_repository($repo_id)
-      end
-    end
 
     it "does not set <ead> attribute audience 'internal' when resource is published" do
       expect(@doc_nsless.at_xpath('//ead')).not_to have_attribute('audience', 'internal')
@@ -1503,8 +1485,6 @@ describe "EAD3 export mappings" do
     end
   end
 
-
-
   describe "Test suppressed record EAD exports" do
 
     def get_xml_doc
@@ -1522,7 +1502,7 @@ describe "EAD3 export mappings" do
 
 
     before(:all) {
-      as_test_user('admin') do
+      as_test_user('admin', true) do
         RSpec::Mocks.with_temporary_scope do
           # EAD export normally tries the search index first, but for the tests we'll
           # skip that since Solr isn't running.
@@ -1531,6 +1511,7 @@ describe "EAD3 export mappings" do
           end
 
           resource = create(:json_resource,
+                            :instances => [],
                             :publish => false)
 
           @resource_jsonmodel = JSONModel(:resource).find(resource.id)
@@ -1564,16 +1545,10 @@ describe "EAD3 export mappings" do
                                                          :suppressed => true)
 
           @xml = get_xml_doc
+          raise Sequel::Rollback
         end
       end
     }
-
-    after(:all) do
-      as_test_user('admin') do
-        $repo_id = $old_repo_id
-        JSONModel.set_repository($repo_id)
-      end
-    end
 
     it "excludes suppressed items" do
       expect(@xml.xpath('//c').length).to eq(2)
@@ -1582,6 +1557,28 @@ describe "EAD3 export mappings" do
     end
   end
 
+  # See ANW-1282
+  describe "Metadata Rights Declaration mappings " do
+    it "maps complete subrecords to ead/control/rightsdeclaration" do
+      subrecord = @resource.metadata_rights_declarations[0]
+      rights_statement_translation = I18n.t("enumerations.metadata_rights_statement.#{subrecord['rights_statement']}")
+      desc_note = subrecord['descriptive_note']
+      citation = subrecord["citation"]
+      expect(@doc).to have_tag("control/rightsdeclaration/descriptivenote/p[1]" => rights_statement_translation)
+      expect(@doc).to have_tag("control/rightsdeclaration/descriptivenote/p[2]" => desc_note)
+      expect(@doc).to have_tag("control/rightsdeclaration/citation" => citation)
+      expect(@doc).to have_tag("control/rightsdeclaration/abbr" => subrecord["rights_statement"])
+      expect(@doc).to have_tag("control/rightsdeclaration/descriptivenote/p[3]/ref",
+                               _text: subrecord['file_uri'],
+                               href: subrecord['file_uri'],
+                               arcrole: subrecord['xlink_arcrole_attribute'],
+                               linkrole: subrecord['xlink_role_attribute'])
+    end
 
-
+    # note: publicationstmt is not repeatable
+    it "maps sparse subrecords to ead/control/filedesc/publicationstmt" do
+      subrecord = @resource.metadata_rights_declarations[1]
+      expect(@doc).to have_tag("control/filedesc/publicationstmt/p[2]", subrecord["descriptive_note"])
+    end
+  end
 end

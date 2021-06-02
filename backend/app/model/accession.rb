@@ -13,6 +13,7 @@ class Accession < Sequel::Model(:accession)
   include DirectionalRelationships
   include ExternalIDs
   include CollectionManagements
+  include MetadataRights
   include Instances
   include UserDefineds
   include Classifications
