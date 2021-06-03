@@ -35,7 +35,7 @@ describe 'Digital object model' do
   it "can link a digital object to a classification" do
     digital_object = create(:json_digital_object)
     classification = create(:json_classification,
-                            :linked_records => [{'ref' => digital_object.uri}] 
+                            :linked_records => [{'ref' => digital_object.uri}]
     )
 
     digital_object = JSONModel(:digital_object).find(digital_object.id)
