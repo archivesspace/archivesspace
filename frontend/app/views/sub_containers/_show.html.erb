@@ -23,7 +23,9 @@
 
 <%= readonly_context :sub_container, sub_container do |readonly| %>
   <%= readonly.emit_template ("sub_container") %>
-<% end %>
+  
+  <%= show_plugins_for(JSONModel(:sub_container).from_hash(readonly.obj, :trusted), readonly) %>
+<% end %>  
 
 <% container_locations = sub_container.dig("top_container", "_resolved", "container_locations") %>
 <% if container_locations && container_locations.length > 0 %>

@@ -33,6 +33,10 @@
   <section id="basic_information">
     <h3><%= I18n.t("job._frontend.section.basic_information") %></h3>
 
+    <%= render_plugin_partials("top_of_basic_information_job",
+                               :form => form,
+                               :record => @job) %>
+
     <%= form.label_with_field "import_type", job['import_type'] %>
 
     <% if job["job_type"] != 'generate_slugs_job' && job["job_type"] != 'generate_arks_job' %>
@@ -48,6 +52,11 @@
     </div>
 
     <% form.emit_template job.job['jsonmodel_type'], job.job %>
+
+    <%= render_plugin_partials("basic_information_job",
+                               :form => form,
+                               :record => @job) %>
+
 
     <%= display_audit_info(@job) %>
   </section>
