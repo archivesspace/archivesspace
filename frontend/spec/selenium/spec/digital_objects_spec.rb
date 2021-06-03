@@ -12,9 +12,6 @@ describe 'Digital Objects' do
 
     run_all_indexers
 
-    STDERR.puts "classification"
-    STDERR.puts @cl.inspect
-
     @do_child1 = create(:digital_object_component, digital_object: { ref: @do.uri })
     @do_child2 = create(:digital_object_component, digital_object: { ref: @do.uri })
 
