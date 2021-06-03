@@ -48,6 +48,7 @@ COPY --from=build_release /archivesspace /archivesspace
 RUN apt-get update && \
     apt-get -y install --no-install-recommends \
       ca-certificates \
+      git \
       openjdk-11-jre-headless \
       netbase \
       shared-mime-info \
