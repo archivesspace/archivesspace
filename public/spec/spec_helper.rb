@@ -85,6 +85,10 @@ def setup_test_data
   resource = create(:resource, title: "Published Resource", publish: true,
                     :instances => [build(:instance_digital)])
 
+  classification = create(:classification)
+  create(:digital_object, title: "Digital Object With Classification",
+                          classifications: [{'ref' => classification.uri}])
+
   aos = (0..5).map do
     create(:archival_object,
            title: "Published Archival Object", resource: { 'ref' => resource.uri }, publish: true)

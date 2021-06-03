@@ -8,6 +8,13 @@ describe 'Digital Objects' do
     set_repo @repo
 
     @do = create(:digital_object)
+    @cl = create(:classification)
+
+    run_all_indexers
+
+    STDERR.puts "classification"
+    STDERR.puts @cl.inspect
+
     @do_child1 = create(:digital_object_component, digital_object: { ref: @do.uri })
     @do_child2 = create(:digital_object_component, digital_object: { ref: @do.uri })
 
@@ -177,6 +184,12 @@ describe 'Digital Objects' do
     expect(grand_child.attribute('class')).to include('indent-level-1')
   end
 
-  it 'can change default values' do
+  it 'can link a classification to digital object' do
+    @driver.get_edit_page(@do2)
+    @driver.find_element(css: '#digital_object_classifications_ button').click
+    token_input = @driver.find_element(:id, 'token-input-digital_object_classifications__0__ref_')
+    @driver.typeahead_and_select(token_input, @cl.title)
+    @driver.click_and_wait_until_gone(css: "form .record-pane button[type='submit']")
+    @driver.find_element(css: '#digital_object_classifications__0_')
   end
 end
