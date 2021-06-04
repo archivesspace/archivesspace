@@ -86,11 +86,13 @@ class ApplicationController < ActionController::Base
 
       # We need to retain any restricted properties from the existing object. i.e.
       # properties that exist for the record but the user was not allowed to edit
-      if params[opts[:instance]].key?(:restricted_properties)
-        params[opts[:instance]][:restricted_properties].each do |restricted|
-          next unless obj.has_key? restricted
+      unless params[:action] == 'copy'
+        if params[opts[:instance]].key?(:restricted_properties)
+          params[opts[:instance]][:restricted_properties].each do |restricted|
+            next unless obj.has_key? restricted
 
-          params[opts[:instance]][restricted] = obj[restricted].dup
+            params[opts[:instance]][restricted] = obj[restricted].dup
+          end
         end
       end
 
@@ -99,10 +101,11 @@ class ApplicationController < ActionController::Base
 
       instance = cleanup_params_for_schema(params[opts[:instance]], model.schema)
 
-
-
       if opts[:replace] || opts[:replace].nil?
         obj.replace(instance)
+      elsif opts[:copy]
+        obj.name = "Copy of " + obj.name
+        obj.uri = ''
       else
         obj.update(instance)
       end

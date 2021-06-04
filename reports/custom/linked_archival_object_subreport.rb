@@ -2,7 +2,8 @@ class LinkedArchivalObjectSubreport < AbstractSubreport
 
 	@@link_tables ||= {'assessment' => 'assessment_rlshp',
 		'subject' => 'subject_rlshp', 'rights_statement' => 'rights_statement',
-		'agent' => 'linked_agents_rlshp', 'event' => 'event_link_rlshp'
+		'agent' => 'linked_agents_rlshp', 'event' => 'event_link_rlshp',
+		'resource' => 'resource'
 	}
 
 	@@extra_fields ||= {'agent' => [{:field => 'role_id as role',
@@ -28,20 +29,29 @@ class LinkedArchivalObjectSubreport < AbstractSubreport
 	end
 
 	def query_string
-		fields = ['archival_object.component_id', 'archival_object.title',
-			'resource.identifier as root_record']
+
+		from_string = "archival_object, #{@link_table}"
+		where_string = "#{@link_table}.#{@id_field} = #{db.literal(@id)} and archival_object.root_record_id = resource.id and archival_object.repo_id = #{db.literal(@repo_id)}"
+		unless @link_table == 'resource'
+			from_string += ", resource"
+			where_string += " and #{@link_table}.archival_object_id = archival_object.id"
+		end
+
+		fields = ['archival_object.component_id',
+							'archival_object.title',
+							'archival_object.ref_id',
+							'archival_object.level_id as level',
+							'resource.identifier as root_record']
 		fields += @link_fields.collect {|f| "#{@link_table}.#{f[:field]}"}
 		"select
 			#{fields.join(', ')}
-		from archival_object, #{@link_table}, resource
-		where #{@link_table}.#{@id_field} = #{db.literal(@id)}
-			and #{@link_table}.archival_object_id = archival_object.id
-			and archival_object.root_record_id = resource.id
-			and archival_object.repo_id = #{db.literal(@repo_id)}"
+		from #{from_string}
+		where #{where_string}"
 	end
 
 	def fix_row(row)
 		ReportUtils.fix_identifier_format(row, :root_record)
+		ReportUtils.get_enum_values(row, [:level])
 		@link_fields.each do |field|
 			field_name = field[:field].split(' ')[-1].to_sym
 			case field[:type]
