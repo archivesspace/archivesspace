@@ -1,4 +1,4 @@
-<%= setup_context :type => :custom_report_template, :title => I18n.t('custom_report_template._frontend.new_title') %>
+<%= setup_context(:object => @custom_report_template) %>
 
 <%= form_for @custom_report_template, :as => "custom_report_template", :url => {:action => :create}, :html => {:class => 'form-horizontal aspace-record-form public-form'} do |f| %>
 
