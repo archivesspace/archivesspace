@@ -61,7 +61,7 @@ include FactoryBot::Syntax::Methods
 def setup_test_data
   repo = create(:repo, :repo_code => "test_#{Time.now.to_i}", publish: true)
   set_repo repo
-  
+
   digi_obj = create(:digital_object, title: 'Born digital', publish: true)
 
   pa = create(:accession, title: "Published Accession", publish: true, instances: [
