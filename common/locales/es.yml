@@ -1392,6 +1392,12 @@ es:
     resource_type_tooltip: |
         <p>Una lista de términos utilizados por un repositorio para categorizar sus recursos en tipos básicos.</p>
         <p>Los valores en esta lista de valores controlados pueden ser modificados.</p>
+    language: Idioma de descripción
+    language_tooltip: |
+        <p>Indica todos los idiomas presentes en el registro generado a partir de la descripción de la accesión.</p>
+    script: Guión de descripción
+    script_tooltip: |
+        <p>Indica todos los scripts presentes en el registro generado a partir de la descripción de la accesión.</p>
     access_restrictions: ¿Restricciones de acceso?
     access_restrictions_tooltip: |
         <p>Una casilla de verificación para indicar el acceso a los materiales está restringido.</p>

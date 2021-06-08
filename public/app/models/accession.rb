@@ -1,7 +1,8 @@
 class Accession < Record
 
   attr_reader :related_resources, :related_accessions, :provenance,
-              :use_restrictions_note, :access_restrictions_note
+              :language, :script, :use_restrictions_note,
+              :access_restrictions_note
 
   def initialize(*args)
     super
@@ -33,6 +34,18 @@ class Accession < Record
 
   def provenance
     json['provenance']
+  end
+
+  def language
+    if json['language']
+      I18n.t("enumerations.language_iso639_2.#{json['language']}", :default => json['language'])
+    end
+  end
+
+  def script
+    if json['script']
+      I18n.t("enumerations.script_iso15924.#{json['script']}", :default => json['script'])
+    end
   end
 
   def restrictions_apply?

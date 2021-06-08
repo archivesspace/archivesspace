@@ -1414,6 +1414,12 @@ fr:
     resource_type_tooltip: |
         <p>Une liste de termes utilisés par un service d'archives pour catégoriser ses ressources en types de base.</p>
         <p>Les valeurs dans cette liste de valeurs contrôlées peuvent être modifiées.</p>
+    language: Langue de description
+    language_tooltip: |
+        <p>Indique toutes les langues présentes dans la notice générée à partir de la description d'accession.</p>
+    script: Script de description
+    script_tooltip: |
+        <p>Indique tous les scripts présents dans la notice générée à partir de la description d'accession.</p>
     access_restrictions: Restrictions de consultation?
     access_restrictions_tooltip: |
         <p>Une case à cocher pour indiquer que l'accès aux documents est soumis à des restrictions.</p>

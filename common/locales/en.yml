@@ -1609,6 +1609,12 @@ en:
     resource_type_tooltip: |
         <p>A list of terms used by a repository for categorizing its resources into basic types.</p>
         <p>Values in this Controlled Value List may be modified.</p>
+    language: Language of Description
+    language_tooltip: |
+        <p>Indicates all the languages present in the record generated from the accession description.</p>
+    script: Script of Description
+    script_tooltip: |
+        <p>Indicates all the scripts present in the record generated from the accession description.</p>
     access_restrictions: Access Restrictions?
     access_restrictions_tooltip: |
         <p>A checkbox for indicating access to the materials is restricted.</p>
