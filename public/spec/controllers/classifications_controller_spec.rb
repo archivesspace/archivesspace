@@ -39,7 +39,7 @@ describe ClassificationsController, type: :controller do
   it 'should show the published classification' do
     expect(get(:index)).to have_http_status(200)
     results = assigns(:results)
-    expect(results['total_hits']).to eq(1)
+    expect(results['total_hits']).to eq(2)
     expect(results.records.first['title']).to eq(@classification['title'])
   end
 
