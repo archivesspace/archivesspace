@@ -262,26 +262,7 @@ var SHARED_TOOLBAR_ACTIONS = [
             return !tree.large_tree.read_only && tree.dragdrop;
         },
     },
-    // RDE
-    {
-        label: '<%= I18n.t("actions.rapid_data_entry") %>',
-        cssClasses: 'btn-default add-children',
-        onClick: function(event, btn, node, tree, toolbarRenderer) {
-            $(document).triggerHandler("rdeshow.aspace", [node, btn]);
-        },
-        isEnabled: function(node, tree, toolbarRenderer) {
-            return true;
-        },
-        isVisible: function(node, tree, toolbarRenderer) {
-            return !tree.large_tree.read_only;
-        },
-        onFormLoaded: function(btn, form, tree, toolbarRenderer) {
-            $(btn).removeClass('disabled');
-        },
-        onToolbarRendered: function(btn, toolbarRenderer) {
-            $(btn).addClass('disabled');
-        },
-    },
+
     // go back to the read only page
     {
         label: '<%= I18n.t("actions.finish_editing") %>',
@@ -327,6 +308,26 @@ var TreeToolbarConfiguration = {
             onClick: function(event, btn, node, tree, toolbarRenderer) {
                 file_modal_html = '';
 			    bulkFileSelection();
+            },
+            isEnabled: function(node, tree, toolbarRenderer) {
+                return true;
+            },
+            isVisible: function(node, tree, toolbarRenderer) {
+                return !tree.large_tree.read_only;
+            },
+            onFormLoaded: function(btn, form, tree, toolbarRenderer) {
+                $(btn).removeClass('disabled');
+            },
+            onToolbarRendered: function(btn, toolbarRenderer) {
+                $(btn).addClass('disabled');
+            },
+        },
+        // RDE
+        {
+            label: '<%= I18n.t("actions.rapid_data_entry") %>',
+            cssClasses: 'btn-default add-children',
+            onClick: function(event, btn, node, tree, toolbarRenderer) {
+                $(document).triggerHandler("rdeshow.aspace", [node, btn]);
             },
             isEnabled: function(node, tree, toolbarRenderer) {
                 return true;
@@ -445,6 +446,26 @@ var TreeToolbarConfiguration = {
             isVisible: function(node, tree, toolbarRenderer) {
                 return !tree.large_tree.read_only;
             },
+        },
+        // RDE
+        {
+            label: '<%= I18n.t("actions.rapid_data_entry") %>',
+            cssClasses: 'btn-default add-children',
+            onClick: function(event, btn, node, tree, toolbarRenderer) {
+                $(document).triggerHandler("rdeshow.aspace", [node, btn]);
+            },
+            isEnabled: function(node, tree, toolbarRenderer) {
+                return true;
+            },
+            isVisible: function(node, tree, toolbarRenderer) {
+                return !tree.large_tree.read_only;
+            },
+            onFormLoaded: function(btn, form, tree, toolbarRenderer) {
+                $(btn).removeClass('disabled');
+            },
+            onToolbarRendered: function(btn, toolbarRenderer) {
+                $(btn).addClass('disabled');
+            },
         }
     ]),
 
@@ -454,6 +475,26 @@ var TreeToolbarConfiguration = {
             cssClasses: 'btn-default',
             onClick: function(event, btn, node, tree, toolbarRenderer) {
                 tree.ajax_tree.add_new_after(node, node.data('level') + 1);
+            },
+            isEnabled: function(node, tree, toolbarRenderer) {
+                return true;
+            },
+            isVisible: function(node, tree, toolbarRenderer) {
+                return !tree.large_tree.read_only;
+            },
+            onFormLoaded: function(btn, form, tree, toolbarRenderer) {
+                $(btn).removeClass('disabled');
+            },
+            onToolbarRendered: function(btn, toolbarRenderer) {
+                $(btn).addClass('disabled');
+            },
+        },
+        // RDE
+        {
+            label: '<%= I18n.t("actions.rapid_data_entry") %>',
+            cssClasses: 'btn-default add-children',
+            onClick: function(event, btn, node, tree, toolbarRenderer) {
+                $(document).triggerHandler("rdeshow.aspace", [node, btn]);
             },
             isEnabled: function(node, tree, toolbarRenderer) {
                 return true;
@@ -496,6 +537,26 @@ var TreeToolbarConfiguration = {
                 cssClasses: 'btn-default',
                 onClick: function(event, btn, node, tree, toolbarRenderer) {
                     tree.ajax_tree.add_new_after(node, node.data('level'));
+                },
+                isEnabled: function(node, tree, toolbarRenderer) {
+                    return true;
+                },
+                isVisible: function(node, tree, toolbarRenderer) {
+                    return !tree.large_tree.read_only;
+                },
+                onFormLoaded: function(btn, form, tree, toolbarRenderer) {
+                    $(btn).removeClass('disabled');
+                },
+                onToolbarRendered: function(btn, toolbarRenderer) {
+                    $(btn).addClass('disabled');
+                },
+            },
+            // RDE
+            {
+                label: '<%= I18n.t("actions.rapid_data_entry") %>',
+                cssClasses: 'btn-default',
+                onClick: function(event, btn, node, tree, toolbarRenderer) {
+                    $(document).triggerHandler("rdeshow.aspace", [node, btn]);
                 },
                 isEnabled: function(node, tree, toolbarRenderer) {
                     return true;
