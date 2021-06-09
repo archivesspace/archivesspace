@@ -47,7 +47,7 @@ Sequel.migration do
             $stderr.puts date_rec['certainty_str']
 
             if date_rec[:expression] != nil
-              date_parts << (date_rec[:date_type_id] == bulk_date ? "bulk: #{date_rec[:expression] + certainty_str}" : date_rec[:expression] + certainty_str)
+              date_parts << (date_rec[:date_type_id] == bulk_date ? "bulk: #{date_rec[:expression]}" : date_rec[:expression])
             elsif date_rec[:begin] && date_rec[:end]
               date_parts << (date_rec[:date_type_id] == bulk_date ? "bulk: #{date_rec[:begin]} - #{date_rec[:end]} + certainty_str" : "#{date_rec[:begin]} - #{date_rec[:end] + certainty_str}")
             else
