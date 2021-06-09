@@ -201,6 +201,7 @@ class EADModel < ASpaceExport::ExportModel
   end
 
 
+  # EAD2002 address lines
   def addresslines
     agent = self.agent_representation
     return [] unless agent && agent.agent_contacts[0]
@@ -219,9 +220,22 @@ class EADModel < ASpaceExport::ExportModel
 
     data << line unless line.empty?
 
-    %w(telephone email).each do |property|
-      data << contact[property]
+    if (telephones = contact['telephones'])
+      telephones.each do |t|
+        phone = ''
+        if t['number_type'].nil?
+          phone += "#{I18n.t('repository.telephone')}: "
+        else
+          phone += "#{t['number_type'].capitalize} #{I18n.t('telephone.number')}: "
+        end
+        phone += "#{t['number']}"
+        phone += " (#{I18n.t('repository.telephone_ext')}: #{t['ext']})" if t['ext']
+
+        data << phone unless phone.empty?
+      end
     end
+
+    data << contact['email'] if contact['email']
 
     data.compact!
 
@@ -229,6 +243,7 @@ class EADModel < ASpaceExport::ExportModel
   end
 
 
+  # EAD3 address lines
   def addresslines_keyed
     agent = self.agent_representation
     return [] unless agent && agent.agent_contacts[0]
@@ -246,7 +261,20 @@ class EADModel < ASpaceExport::ExportModel
     line.strip!
     data['city_region_post_code'] = line unless line.empty?
 
-    data['telephone'] = contact['telephone']
+    if (telephones = contact['telephones'])
+      telephones.each_with_index do |t, i|
+        data["telephone_#{i}"] = []
+        if t['number_type'].nil?
+          data["telephone_#{i}"] << "#{I18n.t('repository.telephone').downcase}"
+        else
+          data["telephone_#{i}"] << t['number_type']
+        end
+
+        data["telephone_#{i}"] << t['number']
+        data["telephone_#{i}"][1] += " (#{I18n.t('repository.telephone_ext')}: #{t['ext']})" if t['ext']
+      end
+    end
+
     data['email'] = contact['email']
 
     data.delete_if { |k, v| v.nil? }
@@ -282,6 +310,27 @@ class EADModel < ASpaceExport::ExportModel
       self.instances.select {|inst| inst['digital_object']}.compact.map {|inst| inst['digital_object']['_resolved'] }.compact
     else
       []
+    end
+  end
+
+  def metadata_rights_declaration_in_publicationstmt
+    must_all_be_empty = %w(citation rights_statement file_uri
+    file_version_xlink_actuate_attribute file_version_xlink_show_attribute
+    xlink_title_attribute xlink_role_attribute xlink_arcrole_attribute last_verified_date)
+    @json.metadata_rights_declarations.each do |mrd|
+      next if (mrd["descriptive_note"] || "").empty?
+      next if must_all_be_empty.find { |property| !mrd[property].to_s.empty? }
+      yield mrd
+    end
+  end
+
+  def metadata_rights_declaration_in_rightsdeclaration
+    must_not_all_be_empty = %w(citation rights_statement file_uri
+    file_version_xlink_actuate_attribute file_version_xlink_show_attribute
+    xlink_title_attribute xlink_role_attribute xlink_arcrole_attribute last_verified_date)
+    @json.metadata_rights_declarations.each do |mrd|
+      next unless must_not_all_be_empty.find { |property| !mrd[property].to_s.empty? }
+      yield mrd
     end
   end
 end

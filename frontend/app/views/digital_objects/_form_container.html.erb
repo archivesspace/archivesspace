@@ -10,6 +10,11 @@
         <%= I18n.t("digital_object._frontend.section.basic_information") %>
         <%= link_to_help :topic => "digital_object_basic_information" %>
       </h3>
+
+      <%= render_plugin_partials("top_of_basic_information_digital_object",
+                                 :form => form,
+                                 :record => @digital_object) %>
+
       <%= form.label_and_textarea "title" %>
 
       <%= render_aspace_partial :partial => "shared/slug", :locals => {:form => form, :record_type => @digital_object} if AppConfig[:use_human_readable_urls] %>
@@ -19,6 +24,11 @@
       <%= form.label_and_select "level", form.possible_options_for("level", true) %>
       <%= form.label_and_select "digital_object_type", form.possible_options_for("digital_object_type", true) %>
       <%= form.label_and_boolean "restrictions", {}, form.default_for("restrictions") %>
+
+      <%= render_plugin_partials("basic_information_digital_object",
+                                 :form => form,
+                                 :record => @digital_object) %>
+
     </section>
   <% end %>
 
@@ -37,6 +47,7 @@
 
   <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "external_documents"} %>
   <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "rights_statements"} %>
+  <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "metadata_rights_declarations"} %>
   <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "collection_management", :cardinality => :zero_to_one} %>
   <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "user_defined", :cardinality => :zero_to_one} %>
 

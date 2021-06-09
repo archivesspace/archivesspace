@@ -1470,6 +1470,9 @@ ja:
     additional_contact_tooltip: "<p>ユーザーの追加連絡先情報、またはユーザーの作業スケジュールなどの情報</p>"
     is_admin: システム管理者のアクセス許可を与える
     is_admin_tooltip: "<p>ユーザーがアプリケーションに対して完全な管理権限を持つ必要があるかどうかを示すために使用されます。 </p>"
+    create_time: 作成した
+    user_mtime: 更新しました
+    admin: 管理者
     _singular: ユーザー
     _plural: ユーザー
 

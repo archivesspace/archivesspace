@@ -7,6 +7,10 @@
       <%= link_to_help :topic => "accession_basic_information" %>
     </h3>
     <fieldset>
+      <%= render_plugin_partials("top_of_basic_information_accession",
+                                 :form => form,
+                                 :record => @accession) %>
+
        <%= form.label_and_textarea "title" %>
        <%= form.label_and_fourpartid %>
 
@@ -28,6 +32,10 @@
        <%= form.label_and_textarea "access_restrictions_note" %>
        <%= form.label_and_boolean "use_restrictions", {}, form.default_for("use_restrictions") %>
        <%= form.label_and_textarea "use_restrictions_note" %>
+
+       <%= render_plugin_partials("basic_information_accession",
+                                  :form => form,
+                                  :record => @accession) %>
     </fieldset>
   </section>
 <% end %>
@@ -44,6 +52,7 @@
 
 <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "external_documents"} %>
 <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "rights_statements"} %>
+<%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "metadata_rights_declarations"} %>
 <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "instances", :custom_action_template => "instances/subrecord_form_action"} %>
 <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "deaccessions"} %>
 <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "collection_management", :cardinality => :zero_to_one} %>

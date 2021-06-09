@@ -178,6 +178,7 @@
 
       "instances" => {"type" => "array", "items" => {"type" => "JSONModel(:instance) object"}},
 
+      "metadata_rights_declarations" => {"type" => "array", "items" => {"type" => "JSONModel(:metadata_rights_declaration) object"}},
     },
   },
 }

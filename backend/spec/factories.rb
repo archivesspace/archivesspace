@@ -74,11 +74,17 @@ FactoryBot.define do
                             :region => [nil, generate(:alphanumstr)].sample,
                             :country => [nil, generate(:alphanumstr)].sample,
                             :post_code => [nil, generate(:alphanumstr)].sample,
-                            #:telephones => [nil, build(:json_telephone)].sample,
                             :email => [nil, generate(:alphanumstr)].sample,
                             :email_signature => [nil, generate(:alphanumstr)].sample,
                             :json_schema_version => 1)
       end
+    end
+
+    factory :repo_telephone, class: Telephone do
+      agent_contact_id { 1 }
+      number_type { [nil, 'business', 'home', 'cell', 'fax'].sample }
+      number { generate(:phone_number) }
+      ext { [nil, generate(:alphanumstr)].sample }
     end
 
     factory :user, class: User do
@@ -1239,4 +1245,18 @@ FactoryBot.define do
     oai_admin_email { 'oairecord@example.org' }
     oai_repository_name { 'ArchivesSpace OAI Repo' }
   end
+
+  factory :json_metadata_rights_declaration, class: JSONModel(:metadata_rights_declaration) do
+    rights_statement { "public_domain" }
+    citation { "speeding" }
+    descriptive_note { "too fast" }
+    file_uri { "http://example.com" }
+    file_version_xlink_actuate_attribute { "other"}
+    file_version_xlink_show_attribute { "other" }
+    xlink_title_attribute { generate(:alphanumstr) }
+    xlink_role_attribute { generate(:alphanumstr) }
+    xlink_arcrole_attribute { generate(:alphanumstr) }
+    last_verified_date { "2021-05-19" }
+  end
+
 end

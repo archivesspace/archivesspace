@@ -253,7 +253,7 @@ AjaxTree.prototype.title_for_new_node = function() {
     }
 };
 
-AjaxTree.prototype.add_new_after = function(node, level) {
+AjaxTree.prototype.add_new_after = function(node, level, extra_params) {
     var self = this;
 
     // update the hash
@@ -328,9 +328,7 @@ AjaxTree.prototype.add_new_after = function(node, level) {
         position = node.data('position') + 1;
     }
 
-    var params = {
-        inline: true
-    };
+    var params = $.extend({}, { inline: true }, extra_params || {});
 
     params[root_uri_parts.type + '_id'] = root_uri_parts.id;
 

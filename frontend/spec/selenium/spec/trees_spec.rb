@@ -58,7 +58,7 @@ describe 'Tree UI' do
     expect(ao_tree_row2.text).to match(/(Approximate)/)
   end
 
-  it 'can retain location hash when sidebar items are clicked' do
+  xit 'can retain location hash when sidebar items are clicked' do
     tree_click(tree_node(@a1))
     expect(@driver.current_url).to match(/::archival_object/)
     @driver.find_element(css: ".sidebar-entry-notes a").click

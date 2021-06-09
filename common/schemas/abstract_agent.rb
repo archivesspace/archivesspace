@@ -155,6 +155,7 @@
 
       "is_user" => {"readonly" => true, "type" => "string"},
 
+      "metadata_rights_declarations" => {"type" => "array", "items" => {"type" => "JSONModel(:metadata_rights_declaration) object"}},
     },
   },
 }
