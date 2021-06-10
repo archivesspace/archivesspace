@@ -48,4 +48,11 @@ describe 'Resources', js: true do
     expect(page).to have_content("Approximate")
     sleep 20
   end
+
+  it 'displays deaccessions on show page' do
+    visit('/')
+    click_link 'Collections'
+    click_link 'Resource with Deaccession'
+    expect(page).to have_content('Deaccessions')
+  end
 end

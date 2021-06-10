@@ -42,5 +42,11 @@ describe 'Accessions', js: true do
       expect(page).to have_content('Published Accession')
       expect(page).to_not have_content('Unpublished Accession')
     end
+
+    it 'displays deaccessions on show page' do
+      visit '/accessions'
+      click_link 'Accession with Deaccession'
+      expect(page).to have_content('Deaccessions')
+    end
   end
 end

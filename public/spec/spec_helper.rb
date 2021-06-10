@@ -82,8 +82,15 @@ def setup_test_data
                         build(:accession_parts_relationship, ref: ua.uri)
                      ])
 
+  create(:accession, title: "Accession with Deaccession", publish: true,
+    deaccessions: [build(:json_deaccession)])
+
   resource = create(:resource, title: "Published Resource", publish: true,
                     :instances => [build(:instance_digital)])
+
+  create(:resource, title: "Resource with Deaccession", publish: true,
+    deaccessions: [build(:json_deaccession)])
+
 
   aos = (0..5).map do
     create(:archival_object,
