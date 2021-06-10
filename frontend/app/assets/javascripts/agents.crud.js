@@ -8,6 +8,7 @@
 //= require add_event_dropdown
 //= require slug
 //= require lightmode
+//= require representativemembers.js
 
 $(function() {
 
