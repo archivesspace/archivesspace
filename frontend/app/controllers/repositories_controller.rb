@@ -31,6 +31,7 @@ class RepositoriesController < ApplicationController
     repository_with_agent['agent_representation']['names'] = [name]
     if repository_with_agent['agent_representation']['agent_contacts']['0']['name'].blank?
       repository_with_agent['agent_representation']['agent_contacts']['0']['name'] = name['primary_name']
+      repository_with_agent['agent_representation']['agent_contacts']['0']['is_representative'] = 1
     end
   end
 

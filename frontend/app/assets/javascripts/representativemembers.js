@@ -13,7 +13,8 @@ $(function() {
   };
 
   $(document).bind("subrecordcreated.aspace", function(event, object_name, subform) {
-    if (object_name === "file_version" || object_name === 'instance') {
+    // TODO: generalize?
+    if (object_name === "file_version" || object_name === 'instance' || object_name == 'agent_contact') {
       var $subform = $(subform);
       var $section = $subform.closest("section.subrecord-form");
       var isRepresentative = $(":input[name$=\"[is_representative]\"]", $subform).val() === '1';

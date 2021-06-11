@@ -722,9 +722,11 @@ ja:
         preview: マージプレビュー
 
   agent_contact:
+    is_representative: 優先
     _frontend:
       action:
         add: 連絡先を追加
+        make_representative: 優先連絡先を作る
     notes_tooltip: "<p>連絡先に関する追加のメモまたはその他の情報。</p>"
 
   telephone:
@@ -2828,7 +2830,7 @@ ja:
     xlink_arcrole_attribute: XlinkArcrole属性
     file_version_xlink_actuate_attribute: XlinkActuate属性
     file_version_xlink_show_attribute: Xlinkの属性を表示
-    last_verified_date: 最終確認日   
+    last_verified_date: 最終確認日
   subsections:
     notes: ノート
     dates: 日付

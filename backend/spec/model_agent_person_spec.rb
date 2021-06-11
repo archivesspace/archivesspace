@@ -35,6 +35,28 @@ describe 'Agent model' do
   end
 
 
+  it "will allow one contact to be flagged 'is_representative'" do
+    c1 = build(:json_agent_contact, is_representative: false)
+    c2 = build(:json_agent_contact, is_representative: true)
+    c3 = build(:json_agent_contact, is_representative: false)
+
+    expect {
+      AgentPerson.create_from_json(build(:json_agent_person, :agent_contacts => [c1, c2, c3]))
+    }.to_not raise_error(Sequel::ValidationFailed)
+  end
+
+
+  it "won't allow more than one contact to be flagged 'is_representative'" do
+    c1 = build(:json_agent_contact, is_representative: false)
+    c2 = build(:json_agent_contact, is_representative: true)
+    c3 = build(:json_agent_contact, is_representative: true)
+
+    expect {
+      AgentPerson.create_from_json(build(:json_agent_person, :agent_contacts => [c1, c2, c3]))
+    }.to raise_error(Sequel::ValidationFailed)
+  end
+
+
   it "for authorized names, requires rules to be set if source is not provided" do
     expect { n1 = build(:json_name_person, :rules => nil, :source => nil, :authorized => true).to_hash }.to raise_error(JSONModel::ValidationException)
   end
