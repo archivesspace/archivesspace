@@ -2,6 +2,8 @@
 
 module TreeHelperMethods
   class Node
+    attr_reader :obj
+
     def initialize(obj)
       @obj = obj
     end
