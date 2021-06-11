@@ -21,3 +21,15 @@ $(function() {
 
   initCustomReportTemplateForm();
 });
+
+$(document).ready(function(){
+  $('#check_all').on("click", function() {
+    $(this).toggleClass("btn-success");
+    var checkboxes = $('.display input[type="checkbox"]');
+    if (checkboxes.prop("checked")) {
+      checkboxes.prop("checked",false);
+    } else {
+      checkboxes.prop("checked",true);
+    }
+  });
+});

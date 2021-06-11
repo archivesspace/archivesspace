@@ -138,6 +138,7 @@ ja:
     rapid_data_entry: 迅速なデータ入力
     enable_reorder: 並べ替えモードを有効にする
     reorder_active: リオーダーモードを無効にする
+    copy: コピー
 
   database_warning:
     message: "<p> <strong>データベース警告：</strong>現在組み込みデータベース（Apache Derby）を使用しています。組込みデータベースは、テスト/デモ目的のみのものです。実稼働環境に移行する予定のテストインスタンス内のデータを含む、実稼働用の任意のデータにMySQLを使用する必要があります。
@@ -721,9 +722,11 @@ ja:
         preview: マージプレビュー
 
   agent_contact:
+    is_representative: 優先
     _frontend:
       action:
         add: 連絡先を追加
+        make_representative: 優先連絡先を作る
     notes_tooltip: "<p>連絡先に関する追加のメモまたはその他の情報。</p>"
 
   telephone:
@@ -1739,6 +1742,7 @@ ja:
         create: テンプレートを作成する
         save: テンプレートを保存
       messages:
+        copied: コピーされたカスタムレポートテンプレート
         created: 作成されたカスタムレポートテンプレート
         updated: カスタムレポートテンプレートが更新されました
   oai_config:
@@ -2826,7 +2830,7 @@ ja:
     xlink_arcrole_attribute: XlinkArcrole属性
     file_version_xlink_actuate_attribute: XlinkActuate属性
     file_version_xlink_show_attribute: Xlinkの属性を表示
-    last_verified_date: 最終確認日   
+    last_verified_date: 最終確認日
   subsections:
     notes: ノート
     dates: 日付

@@ -947,6 +947,7 @@ module AspaceFormHelper
       opts[:base_url] ||= "/"
       value = clean_mixed_content(value, opts[:base_url]) if opts[:clean] == true
       value = @parent.preserve_newlines(value) if opts[:clean] == true
+      value = value.to_s if value.is_a? Integer
       value = CGI::escapeHTML(value) if opts[:escape]
       value.html_safe
     end
@@ -1256,6 +1257,8 @@ module AspaceFormHelper
           value = value === true ? "True" : "False"
         elsif schema["properties"][property]["type"] === "date"
           value = value.blank? ? "" : Date.strptime(value, "%Y-%m-%d")
+        elsif schema["properties"][property]["type"] === "integer"
+          value = value.blank? ? "" : value.to_s
         elsif schema["properties"][property]["type"] === "array"
           # this view doesn't support arrays
           next
@@ -1313,6 +1316,10 @@ module AspaceFormHelper
     else
       false
     end
+  end
+
+  def custom_report_template_limit_options
+    [100, 500, 1000, 5000, 10000, 50000]
   end
 
 end

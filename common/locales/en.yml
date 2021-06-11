@@ -1326,6 +1326,10 @@ en:
     _plural: Languages
     _singular: Language
 
+  language:
+    _plural: Languages
+    _singular: Language
+
   language_and_script:
     <<: *lang_material_attributes
     language: Language
@@ -1654,6 +1658,10 @@ en:
         <p>Used for linking associated Resources with this Accession.</p>
     relator: Relator
     relator_type: Relator Type
+    created_by: Created by
+    last_modified_by: Last modified by
+    create_time: Created
+    user_mtime: Modified
     _singular: Accession
     _plural: Accessions
 
@@ -1739,7 +1747,6 @@ en:
     related_agent_tooltip: Used to link other agents with a relationship to the agent and indicate the nature of the relationship.
     publish_tooltip: |
       <p>Indicates whether or not the agent is included in exports and published to the public interface (if used)</p>
-
 
   agent_person:
     <<: *agent_attributes
@@ -2015,6 +2022,10 @@ en:
     finding_aid_note: Finding Aid Note
     finding_aid_note_tooltip: |
         <p>For recording any additional information about the finding aid (not the described Resource) not covered by the other finding aid data elements.</p>
+    created_by: Created by
+    last_modified_by: Last modified by
+    create_time: Created
+    user_mtime: Modified
     _singular: Resource
     _plural: Resources
 
@@ -2380,7 +2391,7 @@ en:
     is_required_unless_an_expression_or_an_end_date_is_given: is required unless an expression or an end date is given
     is_required_unless_an_expression_or_a_begin_date_is_given: is required unless an expression or a begin date is given
     must_specify_either_a_date_or_a_timestamp: must specify either a date or a timestamp
-    did_not_match_regular_expression: Did not match regular expression %{regexp}
+    did_not_match_regular_expression: Did not match expected pattern %{regexp}
     too_few_characters: Must be at least %{min_length} characters
     too_many_characters: Must be %{max_length} characters or fewer
     max_length_is_50_characters: Must not exceed 50 characters
@@ -2745,6 +2756,7 @@ en:
     description: Description
     record_type: Record Type
     display: Display?
+    limit: Limit
     narrow_by: Narrow By?
     values: Values
     value: Value
@@ -2753,6 +2765,7 @@ en:
     start_date: Start Date
     end_date: End Date
     field: Field
+    include: Include
     _singular: Custom Report Template
     _plural: Custom Report Templates
 
@@ -2939,3 +2952,24 @@ en:
         <p>Type or nature of the remote resource linked in the associated URI.</p>
     last_verified_date_tooltip: |
         <p>Last date or date and time the linked resource linked in the associated URI was verified.</p>
+
+  ratings:
+    _plural: Ratings
+  conservation_issues:
+    _plural: Conservation Issues
+  surveyed_by:
+    _plural: Surveyed By
+  reviewer:
+    _plural: Reviewers
+  formats:
+    _plural: Formats
+  creator:
+    _plural: Creators
+  owner_repo:
+    _plural: Reserved For
+  groups:
+    _plural: Groups
+  created_by: Created by
+  last_modified_by: Last modified by
+  create_time: Created
+  user_mtime: Modified
