@@ -4,6 +4,7 @@ class NameFamily < Sequel::Model(:name_family)
 
   include AgentNames
   include AutoGenerator
+  include Representative
 
   self.one_to_many :parallel_name_family, :class => "ParallelNameFamily"
 
@@ -11,23 +12,9 @@ class NameFamily < Sequel::Model(:name_family)
                          :contains_records_of_type => :parallel_name_family,
                          :corresponding_to_association => :parallel_name_family)
 
-  def validate
-    if authorized
-      validates_unique([:authorized, :agent_family_id],
-                       :message => "An agent can only have one authorized name")
-      map_validation_to_json_property([:authorized, :agent_family_id], :authorized)
-    end
-
-    if is_display_name
-      validates_unique([:is_display_name, :agent_family_id],
-                       :message => "An agent can only have one display name")
-      map_validation_to_json_property([:is_display_name, :agent_family_id], :is_display_name)
-    end
-
-
-    super
+  def representative_for_types
+    { authorized: [:agent_family], is_display_name: [:agent_family] }
   end
-
 
   def self.type_specific_hash_fields
     %w(family_name prefix qualifier)

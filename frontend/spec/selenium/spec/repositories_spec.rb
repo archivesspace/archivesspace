@@ -93,6 +93,45 @@ describe 'Repositories' do
     expect(@driver.find_elements(:xpath, '//*[@id="repository_agent_representation__agent_contacts__0_"]/div/div[1]/div')[0].text).to eq @test_repo_name_1
   end
 
+  it 'will only display the first contact record if there are multiple' do
+    # Add an additional contact record to the agent for this repository
+    run_all_indexers
+    @driver.navigate.to("#{$frontend}/agents")
+    @driver.find_element(:link, 'Corporate Entity').click
+
+    @driver.click_and_wait_until_element_gone(
+      @driver.
+        find_paginated_element(xpath: "//tr[./td[contains(., '#{@test_repo_name_1}')]]").
+        find_element(:link, 'Edit')
+    )
+
+    @driver.find_element(css: '#agent_corporate_entity_contact_details .subrecord-form-heading .btn:not(.show-all)').click
+    @driver.clear_and_send_keys(
+      [:css, '#agent_corporate_entity_contact_details li:last-child input[id$="__name_"]'],
+      'This is not the contact you are looking for'
+    )
+
+    @driver.click_and_wait_until_gone(css: "form .record-pane button[type='submit']")
+    @driver.find_element_with_text('//div[contains(@class, "alert-success")]', /Agent Saved/)
+
+    expect(@driver.find_element(id: 'agent_agent_contacts__0__name_').attribute('value')).to eq @test_repo_name_1
+    expect(@driver.find_element(id: 'agent_agent_contacts__1__name_').attribute('value')).to match(/This is not the contact/)
+
+    # Return to the repository record
+    @driver.get("#{$frontend}/repositories")
+    @driver.click_and_wait_until_element_gone(
+      @driver.
+        find_paginated_element(xpath: "//tr[./td[contains(., '#{@test_repo_code_1}')]]").
+        find_element(:link, 'Edit')
+    )
+
+    expect(@driver.is_visible?(:css, "#repository_agent_representation__agent_contacts__0__name_")).to eq(true)
+    expect(@driver.is_visible?(:css, "#repository_agent_representation__agent_contacts__1__name_")).to eq(false)
+
+    # Kick back to the repositories page (tests are not isolated, required by next test)
+    @driver.click_and_wait_until_gone(css: "form .record-pane button[type='submit']")
+  end
+
   it 'does not display embedded note subrecord on repo page' do
     @driver.click_and_wait_until_gone(:link, 'Edit')
 
