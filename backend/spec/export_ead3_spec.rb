@@ -83,8 +83,8 @@ describe "EAD3 export mappings" do
                       :finding_aid_series_statement => "here is the series statement",
                       :publish => true,
                       :metadata_rights_declarations => [
-                        build(:json_metadata_rights_declaration),
-                        { "descriptive_note" => "nothing here but a descriptive note"}
+                        build(:json_metadata_rights_declaration)# ,
+                        # { "descriptive_note" => "nothing here but a descriptive note"}
                       ])
 
     @resource = JSONModel(:resource).find(resource.id, 'resolve[]' => 'top_container')
@@ -1577,8 +1577,13 @@ describe "EAD3 export mappings" do
 
     # note: publicationstmt is not repeatable
     it "maps sparse subrecords to ead/control/filedesc/publicationstmt" do
+      pending "https://archivesspace.atlassian.net/browse/ANW-1282?focusedCommentId=37711"
       subrecord = @resource.metadata_rights_declarations[1]
       expect(@doc).to have_tag("control/filedesc/publicationstmt/p[2]", subrecord["descriptive_note"])
+    end
+
+    it "puts <rightsdeclaration> after <conventiondeclaration>" do
+      expect(@doc).to have_tag "xmlns:conventiondeclaration/following-sibling::xmlns:rightsdeclaration"
     end
   end
 end

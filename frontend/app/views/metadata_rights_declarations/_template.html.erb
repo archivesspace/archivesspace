@@ -6,8 +6,7 @@
       <%= form.label_and_select "rights_statement", [""] + form.possible_options_for("rights_statement", false) %>
 
       <%= form.label_and_textfield "citation",
-        {:field_opts => {:size => 30, :class => "form-control"},
-        :required => is_required_by_admin?(r, "metadata_rights_declarations", "citation") }%>
+        {:field_opts => {:size => 30, :class => "form-control"} }%>
 
       <%= form.label_and_textarea "descriptive_note",
         {:field_opts => {:size => 30, :class => "form-control"},
