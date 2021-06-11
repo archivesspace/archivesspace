@@ -25,6 +25,8 @@
 
    <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "agent_conventions_declarations", :section_id => "#{@agent.agent_type}_agent_conventions_declaration_required", :template => "agent_conventions_declaration_required", help_topic: "agent_conventions_declarations", :action_button_override => "agent_conventions_declaration_required" } %>
 
+  <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "metadata_rights_declarations", :section_id => "#{@agent.agent_type}_metadata_rights_declaration_required", :template => "metadata_rights_declaration_required", help_topic: "metadata_rights_declarations", :action_button_override => "metadata_rights_declaration_required" } %>
+
    <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "agent_maintenance_histories", :section_id => "#{@agent.agent_type}_agent_maintenance_history_required", :template => "agent_maintenance_history_required", help_topic: "agent_maintenance_histories", :action_button_override => "agent_maintenance_history_required" } %>
 
    <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "agent_sources", :section_id => "#{@agent.agent_type}_agent_source_required", :template => "agent_source_required", help_topic: "agent_sources", :action_button_override => "agent_source_required" } %>

@@ -10,7 +10,7 @@
         "dynamic_enum" => "metadata_rights_statement",
         "required" => false
       },
-      "citation" => {"type" => "string", "maxLength" => 65000, "required" => false},
+      "citation" => {"type" => "string", "maxLength" => 65000, "ifmissing" => "error"},
       "descriptive_note" => {"type" => "string", "maxLength" => 65000, "default" => ""},
       "file_uri" => {"type" => "string", "maxLength" => 65000},
       "file_version_xlink_actuate_attribute" => {

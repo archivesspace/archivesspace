@@ -844,5 +844,10 @@ describe 'EAC Export' do
       expect(@eac).to have_tag("control/rightsDeclaration/citation" => @agent.metadata_rights_declarations[0]["citation"])
       expect(@eac).to have_tag("control/rightsDeclaration/abbreviation" => @agent.metadata_rights_declarations[0]["rights_statement"])
     end
+
+    it "puts abbreviation before citation before descriptivenote" do
+      expect(@eac).to have_tag("xmlns:rightsDeclaration/xmlns:abbreviation/following-sibling::xmlns:citation")
+      expect(@eac).to have_tag("xmlns:rightsDeclaration/xmlns:citation/following-sibling::xmlns:descriptiveNote")
+    end
   end
 end
