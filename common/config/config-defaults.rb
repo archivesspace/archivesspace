@@ -88,7 +88,7 @@ AppConfig[:solr_backup_directory] = proc { File.join(AppConfig[:data_directory],
 # For more information about solr parameters, please consult the solr documentation
 # here: https://lucene.apache.org/solr/
 # Configuring search operator to be AND by default - ANW-427
-AppConfig[:solr_params] = { 'mm' => '100%' }
+AppConfig[:solr_params] = { 'q.op' => 'AND' }
 
 # Set the application's language (see the .yml files in
 # https://github.com/archivesspace/archivesspace/tree/master/common/locales for
