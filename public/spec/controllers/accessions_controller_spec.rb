@@ -5,7 +5,7 @@ describe AccessionsController, type: :controller do
     it "returns results that include all published accessions" do
       expect(get :index).to have_http_status(200)
       results = assigns(:results)
-      expect( results['total_hits'] ).to eq(5)
+      expect( results['total_hits'] ).to eq(6)
       expect( results.records.first["title"] ).to eq("Accession for Phrase Search")
     end
 
