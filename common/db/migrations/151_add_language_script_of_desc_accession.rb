@@ -1,5 +1,4 @@
 require_relative 'utils'
-require 'nokogiri'
 
 Sequel.migration do
   up do
