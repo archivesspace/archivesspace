@@ -310,6 +310,8 @@ fr:
         summary: Résumé
         acquisition_type: Type d'acquisition
         provenance: Provenance
+        language: Langue de description
+        script: Script de description
         access_restrictions: Restrictions de communicabilité
         access_restrictions_apply: Des restrictions s'appliquent
         use_restrictions: Restrictions d'utilisation

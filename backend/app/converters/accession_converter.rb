@@ -47,6 +47,8 @@ class AccessionConverter < Converter
       'accession_provenance' => 'accession.provenance',
       'accession_publish' => [normalize_boolean, 'accession.publish'],
       'accession_resource_type' => 'accession.resource_type',
+      'accession_language' => 'accession.language',
+      'accession_script' => 'accession.script',
       'accession_restrictions_apply' => 'accession.restrictions_apply',
       'accession_retention_rule' => 'accession.retention_rule',
       'accession_use_restrictions' => 'accession.use_restrictions',

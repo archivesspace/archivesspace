@@ -310,6 +310,8 @@ en:
         summary: Summary
         acquisition_type: Acquisition Type
         provenance: Provenance
+        language: Language of Description
+        script: Script of Description
         access_restrictions: Access Restrictions
         access_restrictions_apply: Access Restrictions Apply
         use_restrictions: Use Restrictions

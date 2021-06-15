@@ -11,6 +11,15 @@ describe 'Default Values' do
     }
   }
 
+  let(:accession_defaults) {
+    {
+      "record_type" => "accession",
+      "defaults" => {
+        "id_0" => "0123"
+      }
+    }
+  }
+
 
   it "can create a default value set for a record type and get it back" do
     uri = "/repositories/#{JSONModel.repository}/default_values/resource"
@@ -88,5 +97,25 @@ describe 'Default Values' do
     expect(defaults['defaults']['finding_aid_script']).to eq("Latn")
   end
 
+
+  it "can set a default accession language and script of description and retrieve them" do
+    uri = "/repositories/#{JSONModel.repository}/default_values/accession"
+    url = URI("#{JSONModel::HTTP.backend_url}#{uri}")
+
+    response = JSONModel::HTTP.post_json(url, ASUtils.to_json(accession_defaults))
+    defaults = JSONModel::HTTP.get_json(uri)
+
+    defaults['defaults']['language'] = "eng"
+    defaults['defaults']['script'] = "Latn"
+
+    response = JSONModel::HTTP.post_json(url, ASUtils.to_json(defaults))
+
+    expect(response.status).to eq(200)
+
+    defaults = JSONModel::HTTP.get_json(uri)
+
+    expect(defaults['defaults']['language']).to eq("eng")
+    expect(defaults['defaults']['script']).to eq("Latn")
+  end
 
 end

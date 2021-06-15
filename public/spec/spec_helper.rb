@@ -82,6 +82,11 @@ def setup_test_data
                         build(:accession_parts_relationship, ref: ua.uri)
                      ])
 
+  create(:accession, title: "Accession with Lang/Script",
+                     publish: true,
+                     language: 'eng',
+                     script: 'Latn')
+
   resource = create(:resource, title: "Published Resource", publish: true,
                     :instances => [build(:instance_digital)])
 

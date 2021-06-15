@@ -130,6 +130,10 @@
 
       "resource_type" => {"type" => "string", "dynamic_enum" => "accession_resource_type"},
 
+      "language" => {"type" => "string", "dynamic_enum" => "language_iso639_2"},
+
+      "script" => {"type" => "string", "dynamic_enum" => "script_iso15924"},
+
       "restrictions_apply" => {"type" => "boolean", "default" => false},
 
       "retention_rule" => {"type" => "string", "maxLength" => 65000},
