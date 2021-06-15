@@ -51,9 +51,7 @@
 
     <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => { :form => form,  :name => "telephones", :heading_size => "h4" } %>
 
-    <% unless @repository %>
-      <%= render_aspace_partial :partial => "notes/form", :locals => {:form => form, :all_note_types => note_types_for("agent_contact"), :section_id => "agent_contact_notes", :nested_note_jsonmodel => "agent_contact", :header_size => "h4", :add_button_text => "note._frontend.action.add_for_contact_note", :show_apply_note_order_action => false} %>
-    <% end %>
+    <%= render_aspace_partial :partial => "notes/form", :locals => {:form => form, :all_note_types => note_types_for("agent_contact"), :section_id => "agent_contact_notes", :nested_note_jsonmodel => "agent_contact_notes", :header_size => "h4", :add_button_text => "note._frontend.action.add_for_contact_note", :show_apply_note_order_action => false} %>
 
   </div>
 <% end %>

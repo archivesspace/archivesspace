@@ -8,19 +8,31 @@ describe 'Digital Objects', js: true do
     click_link title
   end
 
-  before(:each) do
-    visit_digital_object_page('Born digital')
+  describe "Born Digital" do
+    before(:each) do
+      visit_digital_object_page('Born digital')
+    end
+
+    it 'should be accessible from the browse page' do
+      expect(current_path).to match(/repositories.*digital_objects\/\d+/)
+    end
+
+    it 'should display a link to a related published accession' do
+      expect(page).to have_content('Published Accession')
+    end
+
+    it 'should not display a link to a related but unpublished accession' do
+      expect(page).to_not have_content('Unpublished Accession')
+    end
   end
 
-  it 'should be accessible from the browse page' do
-    expect(current_path).to match(/repositories.*digital_objects\/\d+/)
-  end
+  describe "Digital Object With Classification" do
+    before(:each) do
+      visit_digital_object_page('Digital Object With Classification')
+    end
 
-  it 'should display a link to a related published accession' do
-    expect(page).to have_content('Published Accession')
-  end
-
-  it 'should not display a link to a related but unpublished accession' do
-    expect(page).to_not have_content('Unpublished Accession')
+    it 'should show linked classification details for digital objects' do
+      expect(page).to have_content('Record Groups')
+    end
   end
 end

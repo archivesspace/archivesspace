@@ -14,7 +14,7 @@
 <%= render_aspace_partial :partial => "notes/template", :locals =>  { :all_note_types => all_note_types, :form_note_type => section_id, :nested_in_jsonmodel => nested_in_jsonmodel } %>
 
 <section id="<%= section_id %>"
-         class="subrecord-form notes-form  <%= "note-inline" if inline? %>"
+         class="subrecord-form notes-form <%= "note-inline" if inline? %>"
          <%= "data-template=template_#{nested_note_jsonmodel}_note_type_selector_inline" if nested_note_jsonmodel %>>
   <<%= header_size%> class="subrecord-form-heading">
     <%= wrap_with_tooltip(I18n.t("note._plural"), "#{form.i18n_for('notes')}_tooltip", "subrecord-form-heading-label") %>

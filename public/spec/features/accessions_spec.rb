@@ -35,6 +35,14 @@ describe 'Accessions', js: true do
       expect(page).to have_content('Published Accession')
     end
 
+    it 'displays language and script of description on an accession show page' do
+      visit '/accessions'
+      click_link 'Accession with Lang/Script'
+
+      expect(page).to have_content('Language of Description')
+      expect(page).to have_content('Script of Description')
+    end
+
     it 'displays an related accessions on the show page' do
       visit '/accessions'
       click_link 'Accession with Relationship'
