@@ -35,7 +35,24 @@
             }
           }
       },
-
+      "classifications" => {
+              "type" => "array",
+              "items" => {
+                "type" => "object",
+                "subtype" => "ref",
+                "properties" => {
+                  "ref" => {
+                    "type" => [ { "type" => "JSONModel(:classification) uri"},
+                                { "type" => "JSONModel(:classification_term) uri" }],
+                    "ifmissing" => "error"
+                  },
+                  "_resolved" => {
+                                "type" => "object",
+                                "readonly" => "true"
+                              }
+                }
+              }
+      },
 
       "notes" => {
             "type" => "array",
