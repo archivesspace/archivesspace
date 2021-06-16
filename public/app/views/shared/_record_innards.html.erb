@@ -50,6 +50,8 @@
       <% end %>
     <% end %>
 
+    <%= render partial: 'shared/metadata_rights_declarations', locals: {:result => @result} %>
+
     <% if @result.is_a?(Accession) && @result.inventory %>
       <h3><%= t('accession._public.section.inventory') %></h3>
       <p><%= @result.inventory %></p>

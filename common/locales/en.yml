@@ -2931,6 +2931,30 @@ en:
     log_validating: "Validating spreadsheet data..."
     log_creating_and_linking: "Creating and linking top containers..."
 
+  metadata_rights_declaration:
+    license_tooltip: |
+        <p>Name of the license (if any) that governs the conditions under which the metadata is available for use and reuse.  Examples: [take from pre-populated controlled values].</p>
+    descriptive_note_tooltip: |
+        <p>Unstructured information about the conditions under which the metadata is available for use and reuse.  Examples:</p>
+        <p>i. Copyright Smith College, 1985</p>
+        <p>ii. This finding aid may be reproduced for any purpose.</p>
+        <p>iii. This work has been dedicated to the public domain, meaning that you can copy, modify, distribute and perform the work, even for commercial purposes, all without asking permission.</p>
+        <p>iv. The biographical note is copyright Ted Smith, 2015.  All other metadata is licensed under CC BY 4.0.</p>
+    file_uri_tooltip: |
+        <p>A URI for the online location of the license or other published infomation about the conditions under which the metadata is available for use and reuse. Example: https://creativecommons.org/licenses/by/4.0/</p>
+    file_version_xlink_actuate_attribute_tooltip: |
+        <p>Indicates whether associated URI should be resolved when the Agent record is rendered.</p>
+    file_version_xlink_show_attribute_tooltip: |
+        <p>Indicates where the remote resource linked in the associated URI should be rendered.</p>
+    xlink_title_attribute_tooltip: |
+        <p>Title of the remote resources linked in the associated URI, which may be used as a caption.</p>
+    xlink_role_attribute_tooltip: |
+        <p>Type or nature of the remote resource linked in the associated URI.</p>
+    xlink_arcrole_attribute_tooltip: |
+        <p>Type or nature of the remote resource linked in the associated URI.</p>
+    last_verified_date_tooltip: |
+        <p>Last date or date and time the linked resource linked in the associated URI was verified.</p>
+
   ratings:
     _plural: Ratings
   conservation_issues:
