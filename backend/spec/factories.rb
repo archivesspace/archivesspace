@@ -949,12 +949,12 @@ FactoryBot.define do
     level { generate(:archival_record_level) }
     lang_materials { [build(:json_lang_material)] }
     dates { [build(:json_date), build(:json_date_single)] }
-    finding_aid_description_rules { [nil, generate(:finding_aid_description_rules)].sample }
+    finding_aid_description_rules { generate(:finding_aid_description_rules) }
     ead_id { nil_or_whatever }
     finding_aid_date { generate(:alphanumstr) }
     finding_aid_series_statement { generate(:alphanumstr) }
-    finding_aid_language { [generate(:finding_aid_language)].sample }
-    finding_aid_script { [generate(:finding_aid_script)].sample }
+    finding_aid_language { generate(:finding_aid_language) }
+    finding_aid_script { generate(:finding_aid_script) }
     finding_aid_language_note { nil_or_whatever }
     finding_aid_note { generate(:alphanumstr) }
     ead_location { generate(:alphanumstr) }
@@ -969,12 +969,12 @@ FactoryBot.define do
     level { generate(:archival_record_level) }
     lang_materials { [build(:json_lang_material)] }
     dates { [build(:json_date), build(:json_date_single)] }
-    finding_aid_description_rules { [nil, generate(:finding_aid_description_rules)].sample }
+    finding_aid_description_rules { generate(:finding_aid_description_rules) }
     ead_id { nil_or_whatever }
     finding_aid_date { generate(:alphanumstr) }
     finding_aid_series_statement { generate(:alphanumstr) }
-    finding_aid_language { [generate(:finding_aid_language)].sample }
-    finding_aid_script { [generate(:finding_aid_script)].sample }
+    finding_aid_language { generate(:finding_aid_language) }
+    finding_aid_script { generate(:finding_aid_script) }
     finding_aid_language_note { nil_or_whatever }
     finding_aid_note { generate(:alphanumstr) }
     ead_location { generate(:alphanumstr) }
@@ -989,12 +989,12 @@ FactoryBot.define do
     level { generate(:archival_record_level) }
     lang_materials { [build(:json_lang_material)] }
     dates { [build(:json_date), build(:json_date_single)] }
-    finding_aid_description_rules { [nil, generate(:finding_aid_description_rules)].sample }
+    finding_aid_description_rules { generate(:finding_aid_description_rules) }
     ead_id { nil_or_whatever }
     finding_aid_date { generate(:alphanumstr) }
     finding_aid_series_statement { generate(:alphanumstr) }
-    finding_aid_language { [generate(:finding_aid_language)].sample }
-    finding_aid_script { [generate(:finding_aid_script)].sample }
+    finding_aid_language { generate(:finding_aid_language) }
+    finding_aid_script { generate(:finding_aid_script) }
     finding_aid_language_note { nil_or_whatever }
     finding_aid_note { generate(:alphanumstr) }
     ead_location { nil }
