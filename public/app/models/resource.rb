@@ -26,6 +26,11 @@ class Resource < Record
     ]
   end
 
+  def deaccessions
+    return '' unless AppConfig[:pui_display_deaccessions]
+    ASUtils.wrap(json['deaccessions'])
+  end
+
   def ead_id
     @json['ead_id']
   end

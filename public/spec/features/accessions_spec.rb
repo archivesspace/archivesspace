@@ -9,7 +9,7 @@ describe 'Accessions', js: true do
       expect(current_path).to eq ('/accessions')
       finished_all_ajax_requests?
       within all('.col-sm-12')[0] do
-        expect(page).to have_content("Showing Unprocessed Materials: 1 - 6 of 6")
+        expect(page).to have_content("Showing Unprocessed Materials: 1 - 7 of 7")
       end
       within all('.col-sm-12')[1] do
         expect(page.all("a[class='record-title']", text: 'Published Accession').length).to eq 2
@@ -49,6 +49,12 @@ describe 'Accessions', js: true do
 
       expect(page).to have_content('Published Accession')
       expect(page).to_not have_content('Unpublished Accession')
+    end
+
+    it 'displays deaccessions on show page' do
+      visit '/accessions'
+      click_link 'Accession with Deaccession'
+      expect(page).to have_content('Deaccessions')
     end
   end
 end

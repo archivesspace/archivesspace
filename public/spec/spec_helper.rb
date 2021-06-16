@@ -82,6 +82,9 @@ def setup_test_data
                         build(:accession_parts_relationship, ref: ua.uri)
                      ])
 
+  create(:accession, title: "Accession with Deaccession", publish: true,
+    deaccessions: [build(:json_deaccession)])
+
   create(:accession, title: "Accession with Lang/Script",
                      publish: true,
                      language: 'eng',
@@ -89,6 +92,9 @@ def setup_test_data
 
   resource = create(:resource, title: "Published Resource", publish: true,
                     :instances => [build(:instance_digital)])
+
+  create(:resource, title: "Resource with Deaccession", publish: true,
+    deaccessions: [build(:json_deaccession)])
 
   classification = create(:classification)
   create(:digital_object, title: "Digital Object With Classification",
