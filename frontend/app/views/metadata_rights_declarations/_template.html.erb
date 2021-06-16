@@ -3,10 +3,7 @@
 <% define_template "metadata_rights_declaration", jsonmodel_definition(:metadata_rights_declaration) do |form| %>
   <div class="subrecord-form-fields">
     <div class="agent-record-control-container">
-      <%= form.label_and_select "rights_statement", [""] + form.possible_options_for("rights_statement", false) %>
-
-      <%= form.label_and_textfield "citation",
-        {:field_opts => {:size => 30, :class => "form-control"} }%>
+      <%= form.label_and_select "license", [""] + form.possible_options_for("license", false) %>
 
       <%= form.label_and_textarea "descriptive_note",
         {:field_opts => {:size => 30, :class => "form-control"},
@@ -43,7 +40,7 @@
 <% end %>
 
 <% define_template "metadata_rights_declaration_required", jsonmodel_definition(:metadata_rights_declaration) do |form| %>
-  <% field_names = ["rights_statement", "citation", "descriptive_note", "file_uri", "file_version_xlink_actuate_attribute", "file_version_xlink_show_attribute", "xlink_title_attribute", "xlink_role_attribute", "xlink_arcrole_attribute", "last_verified_date"] %>
+  <% field_names = ["license", "descriptive_note", "file_uri", "file_version_xlink_actuate_attribute", "file_version_xlink_show_attribute", "xlink_title_attribute", "xlink_role_attribute", "xlink_arcrole_attribute", "last_verified_date"] %>
   <% field_names.each do |field_name| %>
     <% if form.required?(field_name) %>
       <%= form.label_and_readonly field_name %>
@@ -57,7 +54,7 @@
 
   <%= form.record_level_merge_controls(form, "metadata_rights_declaration", false) %>
 
-  <% field_names = ["rights_statement", "citation", "descriptive_note", "file_uri", "file_version_xlink_actuate_attribute", "file_version_xlink_show_attribute", "xlink_title_attribute", "xlink_role_attribute", "xlink_arcrole_attribute", "last_verified_date"] %>
+  <% field_names = ["license", "citation", "descriptive_note", "file_uri", "file_version_xlink_actuate_attribute", "file_version_xlink_show_attribute", "xlink_title_attribute", "xlink_role_attribute", "xlink_arcrole_attribute", "last_verified_date"] %>
   <% field_names.each do |field_name| %>
     <%= form.label_and_readonly field_name %>
   <% end %>
@@ -69,8 +66,7 @@
 
   <%= form.record_level_merge_controls(form, "metadata_rights_declaration", true, !disable_replace) %>
 
-  <%= form.label_and_merge_select("rights_statement", "", {:disable_replace => disable_replace})%>
-  <%= form.label_and_merge_select("citation", "", {:disable_replace => disable_replace}) %>
+  <%= form.label_and_merge_select("license", "", {:disable_replace => disable_replace})%>
   <%= form.label_and_merge_select("descriptive_note", "", {:disable_replace => disable_replace}) %>
   <%= form.label_and_merge_select("file_uri", "", {:disable_replace => disable_replace}) %>
   <%= form.label_and_merge_select("file_version_xlink_actuate_attribute", "", {:disable_replace => disable_replace}) %>

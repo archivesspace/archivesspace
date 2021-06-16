@@ -1248,8 +1248,7 @@ FactoryBot.define do
   end
 
   factory :json_metadata_rights_declaration, class: JSONModel(:metadata_rights_declaration) do
-    rights_statement { "public_domain" }
-    citation { "speeding" }
+    license { "public_domain" }
     descriptive_note { "too fast" }
     file_uri { "http://example.com" }
     file_version_xlink_actuate_attribute { "other"}

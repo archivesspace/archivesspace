@@ -767,30 +767,22 @@ class EAD3Serializer < EADSerializer
 
       data.metadata_rights_declaration_in_rightsdeclaration do |mrd|
         xml.rightsdeclaration {
-          if mrd["citation"]
-            xml.citation (mrd["citation"])
+          attributes = { href: mrd["file_uri"] }
+          attributes[:arcrole] = mrd["xlink_arcrole_attribute"] if mrd["xlink_arcrole_attribute"]
+          attributes[:linkrole] = mrd["xlink_role_attribute"] if mrd["xlink_role_attribute"]
+          xml.citation (attributes) {
+            if mrd["license"]
+              xml.text (I18n.t("enumerations.metadata_license.#{mrd['license']}", :default => mrd['license']))
+            end
+          }
+          if mrd["license"]
+            xml.abbr (mrd["license"])
           end
-          if mrd["rights_statement"]
-            xml.abbr (mrd["rights_statement"])
-          end
-          if mrd["rights_statement"] || mrd["descriptive_note"] || mrd["file_uri"]
+          if mrd["descriptive_note"]
             xml.descriptivenote {
-              if mrd["rights_statement"]
-                rights_statement_translation = I18n.t("enumerations.metadata_rights_statement.#{mrd['rights_statement']}", :default => mrd['rights_statement'])
-                xml.p (rights_statement_translation)
-              end
+
               if mrd["descriptive_note"]
                 xml.p (mrd["descriptive_note"])
-              end
-              if mrd["file_uri"]
-                xml.p {
-                  xml.ref ({ href: mrd["file_uri"],
-                             linkrole: mrd['xlink_role_attribute'],
-                             arcrole: mrd['xlink_arcrole_attribute'] }) {
-                    xml.text (mrd["file_uri"])
-                  }
-
-                }
               end
             }
           end

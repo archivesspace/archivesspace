@@ -169,16 +169,7 @@ module ASpaceExport
     def method_missing(m, *args, &block)
       @sticky_ns ||= nil
       @ns = @sticky_ns if @sticky_ns
-      begin
-        old_method_missing(m, *args, &block)
-      rescue => e
-        # this is a bit odd, but i would be better if the end-user gets the
-        # error information in their export, rather than in their output.
-        node = @doc.create_element( "aspace_export_error" )
-        node.content = "ASPACE EXPORT ERROR : YOU HAVE A PROBLEM WITH YOUR EXPORT OF YOUR RESOURCE. THE FOLLOWING INFORMATION MAY HELP:
-        \n #{e.message} \n #{e.backtrace.inspect}"
-        @parent.add_child(node)
-      end
+      old_method_missing(m, *args, &block)
     end
   end
 end

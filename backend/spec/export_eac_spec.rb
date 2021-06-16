@@ -837,16 +837,18 @@ describe 'EAC Export' do
     end
 
     it 'maps metadata rights declaration to control/rightsDeclaration' do
-      rights_statement_translation = I18n.t("enumerations.metadata_rights_statement.#{@agent.metadata_rights_declarations[0]['rights_statement']}")
-      expect(@eac).to have_tag("control/rightsDeclaration/descriptiveNote/p[1]" => rights_statement_translation)
-      expect(@eac).to have_tag("control/rightsDeclaration/descriptiveNote/p[2]" => @agent.metadata_rights_declarations[0]["descriptive_note"])
-      expect(@eac).to have_tag("control/rightsDeclaration/descriptiveNote/p[2]" => @agent.metadata_rights_declarations[0]["descriptive_note"])
-      expect(@eac).to have_tag("control/rightsDeclaration/citation" => @agent.metadata_rights_declarations[0]["citation"])
-      expect(@eac).to have_tag("control/rightsDeclaration/abbreviation" => @agent.metadata_rights_declarations[0]["rights_statement"])
+      license_translation = I18n.t("enumerations.metadata_license.#{@agent.metadata_rights_declarations[0]['license']}")
+      expect(@eac).to have_tag("control/rightsDeclaration/citation",
+                               _text: license_translation,
+                               href: @agent.metadata_rights_declarations[0]['file_uri'],
+                               arcrole: @agent.metadata_rights_declarations[0]['xlink_arcrole_attribute'],
+                               role: @agent.metadata_rights_declarations[0]['xlink_role_attribute'])
+      expect(@eac).to have_tag("control/rightsDeclaration/descriptiveNote/p" => @agent.metadata_rights_declarations[0]["descriptive_note"])
+      expect(@eac).to have_tag("control/rightsDeclaration/abbr" => @agent.metadata_rights_declarations[0]["license"])
     end
 
     it "puts abbreviation before citation before descriptivenote" do
-      expect(@eac).to have_tag("xmlns:rightsDeclaration/xmlns:abbreviation/following-sibling::xmlns:citation")
+      expect(@eac).to have_tag("xmlns:rightsDeclaration/xmlns:abbr/following-sibling::xmlns:citation")
       expect(@eac).to have_tag("xmlns:rightsDeclaration/xmlns:citation/following-sibling::xmlns:descriptiveNote")
     end
   end

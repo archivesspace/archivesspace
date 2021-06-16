@@ -2303,8 +2303,7 @@ en:
     _frontend:
       action:
         add: Add Metadata Rights Declaration
-    rights_statement: Rights Statement
-    citation: Citation
+    license: License
     descriptive_note: Descriptive Note
     file_uri: File URI
     xlink_title_attribute: Xlink Title Attribute

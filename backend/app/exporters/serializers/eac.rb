@@ -193,15 +193,19 @@ class EACSerializer < ASpaceExport::Serializer
 
       json['metadata_rights_declarations'].each do |mrd|
         xml.rightsDeclaration {
-          if mrd['rights_statement']
-            xml.abbreviation (mrd['rights_statement'])
+          if mrd["license"]
+            xml.abbr (mrd["license"])
           end
-          if mrd['citation']
-            xml.citation (mrd['citation'])
-          end
-          if mrd['rights_statement'] || mrd['descriptive_note']
+          attributes = { href: mrd["file_uri"] }
+          attributes[:arcrole] = mrd["xlink_arcrole_attribute"] if mrd["xlink_arcrole_attribute"]
+          attributes[:role] = mrd["xlink_role_attribute"] if mrd["xlink_role_attribute"]
+          xml.citation (attributes) {
+            if mrd["license"]
+              xml.text (I18n.t("enumerations.metadata_license.#{mrd['license']}", :default => mrd['license']))
+            end
+          }
+          if mrd['descriptive_note']
             xml.descriptiveNote {
-              xml.p (I18n.t("enumerations.metadata_rights_statement.#{mrd['rights_statement']}", :default => mrd['rights_statement'])) if mrd['rights_statement']
               xml.p (mrd["descriptive_note"]) if mrd["descriptive_note"]
             }
           end
