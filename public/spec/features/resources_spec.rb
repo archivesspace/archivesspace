@@ -7,7 +7,7 @@ describe 'Resources', js: true do
     click_link 'Collections'
     expect(current_path).to eq ('/repositories/resources')
     within all('.col-sm-12')[0] do
-      expect(page).to have_content("Showing Collections: 1 - 4 of 4")
+      expect(page).to have_content("Showing Collections: 1 - 5 of 5")
     end
     within all('.col-sm-12')[1] do
       expect(page.all("a[class='record-title']", text: 'Published Resource').length).to eq 1
@@ -46,8 +46,14 @@ describe 'Resources', js: true do
     click_link 'Collections'
     click_link 'Published Resource'
     expect(page).to have_content("Approximate")
-
     ao_title = first(".indent-level-1 .record-title").text
     expect(ao_title).to match(/Approximate/)
+  end
+
+  it 'displays deaccessions on show page' do
+    visit('/')
+    click_link 'Collections'
+    click_link 'Resource with Deaccession'
+    expect(page).to have_content('Deaccessions')
   end
 end
