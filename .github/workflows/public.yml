@@ -29,6 +29,10 @@ jobs:
         ports:
           - 3306/tcp
         options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+      solr:
+        image: archivesspace/solr:8.8
+        ports:
+          - 8983/tcp
 
     steps:
     - uses: actions/checkout@v2
@@ -49,12 +53,19 @@ jobs:
 
     - name: Migrate ArchivesSpace DB
       env:
-        APPCONFIG_DB_URL: jdbc:mysql://127.0.0.1:${{ job.services.db.ports[3306] }}/archivesspace?useUnicode=true&characterEncoding=UTF-8&user=as&password=as123&useSSL=false&allowPublicKeyRetrieval=true
+        ASPACE_TEST_DB_URL: jdbc:mysql://127.0.0.1:${{ job.services.db.ports[3306] }}/archivesspace?useUnicode=true&characterEncoding=UTF-8&user=as&password=as123&useSSL=false&allowPublicKeyRetrieval=true
       run: |
-        ./build/run db:migrate
+        ./build/run db:migrate:test
+
+    - name: Create ArchivesSpace Solr core
+      env:
+        SOLR_ID: ${{ job.services.solr.id }}
+      run: |
+        docker exec --tty $SOLR_ID solr create_core -p 8983 -c archivesspace -d /archivesspace
 
     - name: Run Public tests
       env:
         ASPACE_TEST_DB_URL: jdbc:mysql://127.0.0.1:${{ job.services.db.ports[3306] }}/archivesspace?useUnicode=true&characterEncoding=UTF-8&user=as&password=as123&useSSL=false&allowPublicKeyRetrieval=true
+        ASPACE_TEST_SOLR_URL: http://127.0.0.1:${{ job.services.solr.ports[8983] }}/solr/archivesspace
       run: |
         ./build/run public:test
