@@ -162,6 +162,27 @@ describe 'Accession controller' do
   end
 
 
+  it "lets you create an accession with a language of materials" do
+
+    opts = {:language_and_script => {:language => generate(:language)}}
+
+    lang_materials = [build(:json_lang_material, opts)]
+
+    accession = create(:json_accession, :lang_materials => lang_materials)
+
+    expect(JSONModel(:accession).find(accession.id).lang_materials[0]['language_and_script']['language'].length).to eq(3)
+    expect(JSONModel(:accession).find(accession.id).lang_materials[0]['notes']).to eq([])
+  end
+
+
+  it "lets you create an accession with a language of materials note" do
+    lang_materials = [build(:json_lang_material_with_note)]
+    accession = create(:json_accession, :lang_materials => lang_materials)
+
+    expect(JSONModel(:accession).find(accession.id).lang_materials[0]['notes'][0]['content']).not_to be_nil
+  end
+
+
   it "allows accessions to be created with an agent link" do
 
     agent1 = create(:json_agent_person)

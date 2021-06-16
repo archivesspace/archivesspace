@@ -4,6 +4,7 @@
              :record => @accession
            }) do |sidebar| %>
 
+    <%= sidebar.render_for_view_and_edit(:subrecord_type => 'lang_material', :property => 'lang_materials') %>
     <%= sidebar.render_for_view_and_edit(:subrecord_type => 'date', :property => 'dates') %>
     <%= sidebar.render_for_view_and_edit(:subrecord_type => 'extent', :property => 'extents') %>
     <%= sidebar.render_for_view_and_edit(:subrecord_type => 'linked_agent', :property => 'linked_agents') %>

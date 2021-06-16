@@ -9,7 +9,7 @@ describe 'Accessions', js: true do
       expect(current_path).to eq ('/accessions')
       finished_all_ajax_requests?
       within all('.col-sm-12')[0] do
-        expect(page).to have_content("Showing Unprocessed Materials: 1 - 7 of 7")
+        expect(page).to have_content("Showing Unprocessed Materials: 1 - 9 of 9")
       end
       within all('.col-sm-12')[1] do
         expect(page.all("a[class='record-title']", text: 'Published Accession').length).to eq 2
@@ -56,5 +56,28 @@ describe 'Accessions', js: true do
       click_link 'Accession with Deaccession'
       expect(page).to have_content('Deaccessions')
     end
+
+    it 'displays language of material note on accession show page' do
+      visit '/accessions'
+      click_link 'Accession with Lang Material Note'
+
+      expect(page).to have_content('Language of Materials')
+      within '.upper-record-details' do
+        expect(page).to have_css(".langmaterial")
+        expect(page).not_to have_css(".language")
+      end
+    end
+
+    it 'displays language of material language on accession show page if no language note' do
+      visit '/accessions'
+      click_link 'Accession without Lang Material Note'
+
+      expect(page).to have_content('Language of Materials')
+      within '.upper-record-details' do
+        expect(page).not_to have_css(".langmaterial")
+        expect(page).to have_css(".language")
+      end
+    end
+
   end
 end

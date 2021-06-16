@@ -66,7 +66,7 @@ class Record
   end
 
   def note(type)
-    if notes[type]
+    if notes && notes[type]
       note = notes[type][0].clone
       for i in 1...notes[type].length
         note = merge_notes(note, notes[type][i])
@@ -157,9 +157,13 @@ class Record
   end
 
   def parse_notes
-    if json.has_key?('notes') && json.has_key?('lang_materials')
-      notes_html = process_json_notes(json['notes'], (!full ? ABSTRACT : nil))
+    notes_html = if json.has_key?('notes')
+                   process_json_notes(json['notes'], (!full ? ABSTRACT : nil))
+                 else
+                   {}
+                 end
 
+    if json.has_key?('lang_materials')
       # We need to do some special manipuation for language of material notes since they are held inside of a lang_material record, not notes
       lang_material_notes = json['lang_materials'].map {|l| l['notes']}.compact.reject {|e| e == [] }.flatten
       lang_notes = process_json_notes(lang_material_notes.flatten, (!full ? ABSTRACT : nil))
@@ -170,10 +174,6 @@ class Record
       end
 
       notes_html = notes_html.merge(lang_notes)
-    elsif json.has_key?('notes')
-      notes_html = process_json_notes(json['notes'], (!full ? ABSTRACT : nil))
-    else
-      {}
     end
   end
 
