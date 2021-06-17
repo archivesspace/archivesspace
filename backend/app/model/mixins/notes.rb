@@ -101,22 +101,23 @@ module Notes
 
 
     def handle_delete(ids_to_delete)
-      association = self.association_reflection(:note)
-      SubnoteMetadata.filter(:note_id => Note.filter(association[:key] => ids_to_delete).select(:id)).delete
-
+      delete_subnote_metadata(ids_to_delete)
       super
+    end
+
+    def delete_subnote_metadata(ids_to_delete)
+      association = self.association_reflection(:note)
+      begin
+        SubnoteMetadata.join(:note, Sequel.qualify(:note, :id) => Sequel.qualify(:subnote_metadata, :note_id))
+          .filter( association[:key] => ids_to_delete ).delete
+      rescue Sequel::InvalidOperation # for derby
+        SubnoteMetadata.filter(:note_id => Note.filter(association[:key] => ids_to_delete).select(:id)).delete
+      end
     end
 
     def apply_notes(obj, json)
       if obj.note_dataset.first
-        association = self.association_reflection(:note)
-        # MySQL supports modifying joins, derby does not...
-        begin
-          SubnoteMetadata.join(:note, Sequel.qualify(:note, :id) => Sequel.qualify(:subnote_metadata, :note_id))
-             .filter( association[:key] => obj.id ).delete
-        rescue Sequel::InvalidOperation # for derby
-          SubnoteMetadata.filter(:note_id => obj.note_dataset.select(:id)).delete
-        end
+        delete_subnote_metadata([obj.id])
         obj.note_dataset.delete
       end
       populate_persistent_ids(json)
