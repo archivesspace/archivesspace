@@ -14,6 +14,11 @@
       </span>
       <%= link_to_help :topic => "#{@agent.agent_type}_basic_information" %>
     </h3>
+
+    <%= render_plugin_partials("top_of_basic_information_#{@agent.agent_type}",
+                               :form => form,
+                               :record => @agent) %>
+
     <div class="form-group">
       <label class="col-sm-2 control-label"><%= I18n.t("agent.type") %></label>
       <div class="col-sm-9 label-only">
@@ -24,7 +29,11 @@
 
     <%= render_aspace_partial :partial => "shared/slug", :locals => {:form => form, :record_type => @agent} if AppConfig[:use_human_readable_urls] %>
 
-    <%= form.label_and_boolean "publish" %>
+    <%= form.label_and_boolean "publish", {}, user_prefs["publish"] %>
+
+    <%= render_plugin_partials("basic_information_#{@agent.agent_type}",
+                               :form => form,
+                               :record => @agent) %>
 
   </section>
 
@@ -45,6 +54,8 @@
      <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "agent_other_agency_codes", :section_id => "#{@agent.agent_type}_agent_other_agency_codes", :template => "agent_other_agency_codes", help_topic: "agent_other_agency_codes", :invisible => !full_mode?, :lightmode_toggle => true} %>
 
      <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "agent_conventions_declarations", :section_id => "#{@agent.agent_type}_agent_conventions_declaration", :template => "agent_conventions_declaration", help_topic: "agent_conventions_declarations", :invisible => !full_mode?, :lightmode_toggle => true} %>
+
+     <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "metadata_rights_declarations", :section_id => "#{@agent.agent_type}_metadata_rights_declaration", help_topic: "metadata_rights_declaration", :invisible => !full_mode?, :lightmode_toggle => true} %>
 
      <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "agent_maintenance_histories", :section_id => "#{@agent.agent_type}_agent_maintenance_history", :template => "agent_maintenance_histories", help_topic: "agent_maintenance_histories", :invisible => !full_mode?, :lightmode_toggle => true} %>
 
@@ -122,6 +133,6 @@
     </section>
   <% end %>
 
-<%= form_plugins_for("agent", form) %>
+  <%= form_plugins_for("agent", form) %>
 
 </fieldset>

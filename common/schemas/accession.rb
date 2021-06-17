@@ -30,8 +30,12 @@
 
       "related_accessions" => {
         "type" => "array",
-        "items" => {"type" => [{"type" => "JSONModel(:accession_parts_relationship) object"},
-                               {"type" => "JSONModel(:accession_sibling_relationship) object"}]},
+        "items" => {
+          "type" => [
+            {"type" => "JSONModel(:accession_parts_relationship) object"},
+            {"type" => "JSONModel(:accession_sibling_relationship) object"}
+          ]
+        },
       },
 
 
@@ -126,6 +130,10 @@
 
       "resource_type" => {"type" => "string", "dynamic_enum" => "accession_resource_type"},
 
+      "language" => {"type" => "string", "dynamic_enum" => "language_iso639_2"},
+
+      "script" => {"type" => "string", "dynamic_enum" => "script_iso15924"},
+
       "restrictions_apply" => {"type" => "boolean", "default" => false},
 
       "retention_rule" => {"type" => "string", "maxLength" => 65000},
@@ -174,6 +182,7 @@
 
       "instances" => {"type" => "array", "items" => {"type" => "JSONModel(:instance) object"}},
 
+      "metadata_rights_declarations" => {"type" => "array", "items" => {"type" => "JSONModel(:metadata_rights_declaration) object"}},
     },
   },
 }

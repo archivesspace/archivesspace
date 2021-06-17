@@ -121,7 +121,7 @@ describe 'EAC Export' do
 
   describe 'agent_person' do
     before(:all) do
-      as_test_user('admin') do
+      as_test_user('admin', true) do
         @rec = create(:json_agent_person_full_subrec,
                       names: [
                         build(:json_name_person,
@@ -130,6 +130,7 @@ describe 'EAC Export' do
                       ])
 
         @eac = get_eac(@rec)
+        raise Sequel::Rollback
       end
     end
 
@@ -222,7 +223,7 @@ describe 'EAC Export' do
 
   describe 'agent_corporate_entity' do
     before(:all) do
-      as_test_user('admin') do
+      as_test_user('admin', true) do
         date1 = build(:json_structured_date_label_range)
         date2 = build(:json_structured_date_label_range)
         date3 = build(:json_structured_date_label)
@@ -249,6 +250,7 @@ describe 'EAC Export' do
                       ])
 
         @eac = get_eac(@rec)
+        raise Sequel::Rollback
       end
     end
 
@@ -320,7 +322,7 @@ describe 'EAC Export' do
 
   describe 'agent_family' do
     before(:all) do
-      as_test_user('admin') do
+      as_test_user('admin', true) do
         @rec = create(:json_agent_family,
                       names: [
                         build(:json_name_family),
@@ -328,6 +330,7 @@ describe 'EAC Export' do
                       ])
 
         @eac = get_eac(@rec)
+        raise Sequel::Rollback
       end
     end
 
@@ -354,9 +357,10 @@ describe 'EAC Export' do
 
   describe 'alternative set subrecords' do
     before(:all) do
-      as_test_user('admin') do
+      as_test_user('admin', true) do
         @rec = create(:json_agent_person_full_subrec)
         @eac = get_eac(@rec)
+        raise Sequel::Rollback
       end
     end
 
@@ -374,9 +378,10 @@ describe 'EAC Export' do
 
   describe 'subject linked subrecords' do
     before(:all) do
-      as_test_user('admin') do
+      as_test_user('admin', true) do
         @rec = create(:json_agent_person_full_subrec)
         @eac = get_eac(@rec)
+        raise Sequel::Rollback
       end
     end
 
@@ -411,9 +416,10 @@ describe 'EAC Export' do
 
   describe 'used_languages' do
     before(:all) do
-      as_test_user('admin') do
+      as_test_user('admin', true) do
         @rec = create(:json_agent_person_full_subrec)
         @eac = get_eac(@rec)
+        raise Sequel::Rollback
       end
     end
 
@@ -426,7 +432,7 @@ describe 'EAC Export' do
 
   describe 'dates of existence' do
     before(:all) do
-      as_test_user('admin') do
+      as_test_user('admin', true) do
         @rec = create(:json_agent_person_full_subrec,
                       dates_of_existence: [
                         build(:json_structured_date_label),
@@ -434,6 +440,7 @@ describe 'EAC Export' do
                         build(:json_structured_date_label_range)
                       ])
         @eac = get_eac(@rec)
+        raise Sequel::Rollback
       end
     end
 
@@ -578,7 +585,7 @@ describe 'EAC Export' do
 
   describe 'biographical / historical notes' do
     before(:all) do
-      as_test_user('admin') do
+      as_test_user('admin', true) do
         subnotes = [
           :note_abstract,
           :note_chronology,
@@ -599,6 +606,7 @@ describe 'EAC Export' do
         @eac = get_eac(@rec)
 
         @subnotes = Hash[subnotes.map { |type| [type, get_subnotes_by_type(@rec.notes[0], type.to_s)[0]] }]
+        raise Sequel::Rollback
       end
     end
 
@@ -611,7 +619,7 @@ describe 'EAC Export' do
     end
 
     it 'ignores un-published notes' do
-      pending 'descision'
+      pending 'decision'
       rec = create(:json_agent_person,
                    notes: [build(:json_note_bioghist,
                                  publish: false)])
@@ -815,6 +823,26 @@ describe 'EAC Export' do
       role = @digital_object.linked_agents[0]['role'] + 'Of'
       expect(@eac).to have_tag("relations/resourceRelation[@resourceRelationType='#{role}']/relationEntry" => @digital_object.title)
       expect(@eac).to have_tag('relations/resourceRelation/relationEntry' => @digital_object_component.title)
+    end
+  end
+
+  describe "Metadata Rights Declaration" do
+    before(:all) do
+      as_test_user('admin', true) do
+        @agent = create(:json_agent_person,
+                        :metadata_rights_declarations => [build(:json_metadata_rights_declaration)])
+        @eac = get_eac(@agent)
+        raise Sequel::Rollback
+      end
+    end
+
+    it 'maps metadata rights declaration to control/rightsDeclaration' do
+      rights_statement_translation = I18n.t("enumerations.metadata_rights_statement.#{@agent.metadata_rights_declarations[0]['rights_statement']}")
+      expect(@eac).to have_tag("control/rightsDeclaration/descriptiveNote/p[1]" => rights_statement_translation)
+      expect(@eac).to have_tag("control/rightsDeclaration/descriptiveNote/p[2]" => @agent.metadata_rights_declarations[0]["descriptive_note"])
+      expect(@eac).to have_tag("control/rightsDeclaration/descriptiveNote/p[2]" => @agent.metadata_rights_declarations[0]["descriptive_note"])
+      expect(@eac).to have_tag("control/rightsDeclaration/citation" => @agent.metadata_rights_declarations[0]["citation"])
+      expect(@eac).to have_tag("control/rightsDeclaration/abbreviation" => @agent.metadata_rights_declarations[0]["rights_statement"])
     end
   end
 end

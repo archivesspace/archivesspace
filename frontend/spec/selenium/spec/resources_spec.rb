@@ -64,7 +64,7 @@ describe 'Resources and archival objects' do
     expect(@driver.find_elements(:id, 'resource_collection_management__cataloged_note_').length).to eq(0)
 
     # condition and content descriptions have come across as notes fields
-    notes_toggle = @driver.blocking_find_elements(css: '#notes .collapse-subrecord-toggle')
+    notes_toggle = @driver.blocking_find_elements(css: '#resource_notes_ .collapse-subrecord-toggle')
     notes_toggle[0].click
     @driver.wait_for_ajax
 
@@ -598,7 +598,7 @@ describe 'Resources and archival objects' do
       @driver.find_element_with_text('//th', /Identifier/)
     end.not_to raise_error
     expect do
-      @driver.find_element_with_text('//th', /Componend ID/, false, true)
+      @driver.find_element_with_text('//th', /Component ID/, false, true)
     end.to raise_error(Selenium::WebDriver::Error::NoSuchElementError)
   end
 

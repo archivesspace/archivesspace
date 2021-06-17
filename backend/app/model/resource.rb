@@ -17,6 +17,7 @@ class Resource < Sequel::Model(:resource)
   include Notes
   include ExternalIDs
   include CollectionManagements
+  include MetadataRights
   include UserDefineds
   include ComponentsAddChildren
   include Classifications

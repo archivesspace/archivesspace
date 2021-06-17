@@ -86,11 +86,13 @@ class ApplicationController < ActionController::Base
 
       # We need to retain any restricted properties from the existing object. i.e.
       # properties that exist for the record but the user was not allowed to edit
-      if params[opts[:instance]].key?(:restricted_properties)
-        params[opts[:instance]][:restricted_properties].each do |restricted|
-          next unless obj.has_key? restricted
+      unless params[:action] == 'copy'
+        if params[opts[:instance]].key?(:restricted_properties)
+          params[opts[:instance]][:restricted_properties].each do |restricted|
+            next unless obj.has_key? restricted
 
-          params[opts[:instance]][restricted] = obj[restricted].dup
+            params[opts[:instance]][restricted] = obj[restricted].dup
+          end
         end
       end
 
@@ -99,10 +101,11 @@ class ApplicationController < ActionController::Base
 
       instance = cleanup_params_for_schema(params[opts[:instance]], model.schema)
 
-
-
       if opts[:replace] || opts[:replace].nil?
         obj.replace(instance)
+      elsif opts[:copy]
+        obj.name = "Copy of " + obj.name
+        obj.uri = ''
       else
         obj.update(instance)
       end
@@ -172,8 +175,12 @@ class ApplicationController < ActionController::Base
 
       flash[:success] = I18n.t("#{merge_type}._frontend.messages.merged")
 
-      resolver = Resolver.new(target_uri)
-      redirect_to(resolver.view_uri)
+      if merge_type == 'top_container'
+        redirect_to(:controller => :top_containers, :action => :index)
+      else
+        resolver = Resolver.new(target_uri)
+        redirect_to(resolver.view_uri)
+      end
     rescue ValidationException => e
       flash[:error] = e.errors.to_s
       redirect_to({:action => :show, :id => id}.merge(extra_params))
@@ -222,7 +229,7 @@ class ApplicationController < ActionController::Base
                       "linked_events", "linked_events::linked_records",
                       "linked_events::linked_agents",
                       "top_container", "container_profile", "location_profile",
-                      "owner_repo", "places"]
+                      "owner_repo", "places"] + Plugins.fields_to_resolve
     }
   end
 

@@ -33,13 +33,12 @@ describe 'Person agent controller' do
 
 
   it "can give a list of person agents" do
-    page = AgentPerson.all.length / 10 + 1
-
-    count = JSONModel(:agent_person).all(:page => page)['results'].count
-
+    count = JSONModel(:agent_person).all(:page => 1)['results'].count
+    if count > 8
+      raise "too many agents in the test db for pagination testing"
+    end
     2.times { create_person }
-
-    expect(JSONModel(:agent_person).all(:page => page)['results'].count).to eq(count + 2)
+    expect(JSONModel(:agent_person).all(:page => 1)['results'].count).to eq(count + 2)
   end
 
 

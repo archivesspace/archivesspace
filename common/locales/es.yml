@@ -1392,6 +1392,12 @@ es:
     resource_type_tooltip: |
         <p>Una lista de términos utilizados por un repositorio para categorizar sus recursos en tipos básicos.</p>
         <p>Los valores en esta lista de valores controlados pueden ser modificados.</p>
+    language: Idioma de descripción
+    language_tooltip: |
+        <p>Indica todos los idiomas presentes en el registro generado a partir de la descripción de la accesión.</p>
+    script: Guión de descripción
+    script_tooltip: |
+        <p>Indica todos los scripts presentes en el registro generado a partir de la descripción de la accesión.</p>
     access_restrictions: ¿Restricciones de acceso?
     access_restrictions_tooltip: |
         <p>Una casilla de verificación para indicar el acceso a los materiales está restringido.</p>
@@ -2123,6 +2129,9 @@ es:
     is_admin: Concesión de permisos de administrador de sistema
     is_admin_tooltip: |
         <p>Utiliza para indicar si el usuario debe tener privilegios de administrador completo para la aplicación.</p>
+    create_time: Creado
+    user_mtime: Actualizado
+    admin: Administrador
     _singular: Usuario
     _plural: Usuarios
 
@@ -2321,7 +2330,7 @@ es:
     is_required_unless_an_expression_or_an_end_date_is_given: se requiere al menos que se da una expresión o una fecha de finalización
     is_required_unless_an_expression_or_a_begin_date_is_given: se requiere al menos que se da una expresión o una fecha de inicio
     must_specify_either_a_date_or_a_timestamp: debe especificar una fecha o una marca de tiempo
-    did_not_match_regular_expression: "No coincide con la expresión regular %{regexp}"
+    did_not_match_regular_expression: "No coincidió con el patrón esperado %{regexp}"
     too_few_characters: "Debe ser por lo menos caracteres %{min_length}"
     too_many_characters: "Debe ser %{max_length} caracteres o menos"
     max_length_is_50_characters: No debe superar los 50 caracteres.

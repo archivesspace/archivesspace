@@ -40,24 +40,41 @@
         <% if @search[:text_within] %>
           <div class="form-group">
             <%= hidden_field_tag('sort', "", :id => nil) %>
-            <%= label_tag('filter_q[]', t('actions.search_within'), :class => 'sr-only') %>
-            <%= text_field_tag('filter_q[]', nil, :id => nil, :placeholder =>  t('actions.search_within'),
-            :class=> "form-control", 'aria-label' => t('actions.search_within')) %>
+            <%= label_tag('filter_q',
+                          t('actions.search_within'),
+                          :class => 'sr-only') %>
+            <%= text_field_tag('filter_q[]',
+                               nil,
+                               :id => 'filter_q',
+                               :placeholder => t('actions.search_within'),
+                               :class=> "form-control") %>
           </div>
         <% end %>
         <% if @search.search_dates_within? %>
           <div class="form-group">
             <div class="col-md-6 year_from">
-              <%= label_tag(:filter_from_year, t('search_results.filter.from_year'), :class => 'sr-only') %>
-              <%= text_field_tag(:filter_from_year, nil, :size => 4,:maxlength => 4,
-              :placeholder => t('search_results.filter.from_year'), :class=>"form-control",
-              :id => nil, 'aria-label' => t('search_results.filter.from_year')) %>
+              <%= label_tag('filter_from_year',
+                            t('search_results.filter.from_year'),
+                            :class => 'sr-only') %>
+              <%= text_field_tag(:filter_from_year,
+                                 nil,
+                                 :size => 4,
+                                 :maxlength => 4,
+                                 :class=>"form-control",
+                                 :placeholder => t('search_results.filter.from_year'),
+                                 :id => 'filter_from_year') %>
             </div>
             <div class="col-md-6 year_to">
-              <%= label_tag(:filter_to_year, t('search_results.filter.to_year'), :class=> 'sr-only') %>
-              <%= text_field_tag(:filter_to_year, nil, :size => 4, :maxlength => 4,
-              :class=> "form-control", :placeholder => t('search_results.filter.to_year'),
-              :id => nil, 'aria-label' => t('search_results.filter.to_year')) %>
+              <%= label_tag('filter_to_year',
+                            t('search_results.filter.to_year'),
+                            :class=> 'sr-only') %>
+              <%= text_field_tag(:filter_to_year,
+                                 nil,
+                                 :size => 4,
+                                 :maxlength => 4,
+                                 :class=> "form-control",
+                                 :placeholder => t('search_results.filter.to_year'),
+                                 :id => 'filter_to_year') %>
             </div>
           </div>
         <% else %>

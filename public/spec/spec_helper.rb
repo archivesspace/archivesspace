@@ -36,24 +36,19 @@ require 'aspace_gems'
 $server_pids = []
 $backend_port = TestUtils::free_port_from(3636)
 $frontend_port = TestUtils::free_port_from(4545)
-$solr_port = TestUtils::free_port_from(2989)
 $backend = "http://localhost:#{$backend_port}"
 $frontend = "http://localhost:#{$frontend_port}"
 $expire = 30000
 
 AppConfig[:backend_url] = $backend
-AppConfig[:solr_url] = "http://localhost:#{$solr_port}"
 AppConfig[:pui_hide][:record_badge] = false # we want this for testing
 
 $backend_start_fn = proc {
-
-  # for the indexers
   TestUtils::start_backend($backend_port,
                            {
-                             :solr_port => $solr_port,
                              :session_expire_after_seconds => $expire,
                              :realtime_index_backlog_ms => 600000,
-                             :db_url => ENV.fetch('ASPACE_TEST_DB_URL', AppConfig.demo_db_url)
+                             :db_url => AppConfig[:db_url]
                            })
 }
 
@@ -66,16 +61,48 @@ include FactoryBot::Syntax::Methods
 def setup_test_data
   repo = create(:repo, :repo_code => "test_#{Time.now.to_i}", publish: true)
   set_repo repo
-  create(:accession, title: "Published Accession")
-  create(:accession, title: "Unpublished Accession", publish: false )
+
+  digi_obj = create(:digital_object, title: 'Born digital', publish: true)
+
+  pa = create(:accession, title: "Published Accession", publish: true, instances: [
+    build(:instance_digital, digital_object: { 'ref' => digi_obj.uri })
+  ])
+  ua = create(:accession, title: "Unpublished Accession", publish: false, instances: [
+    build(:instance_digital, digital_object: { 'ref' => digi_obj.uri })
+  ])
+
   create(:accession_with_deaccession, title: "Published Accession with Deaccession")
   create(:accession, title: "Accession for Phrase Search")
 
+
+  create(:accession, title: "Accession with Relationship",
+                     publish: true,
+                     related_accessions: [
+                        build(:accession_parts_relationship, ref: pa.uri),
+                        build(:accession_parts_relationship, ref: ua.uri)
+                     ])
+
+  create(:accession, title: "Accession with Deaccession", publish: true,
+    deaccessions: [build(:json_deaccession)])
+
+  create(:accession, title: "Accession with Lang/Script",
+                     publish: true,
+                     language: 'eng',
+                     script: 'Latn')
+
   resource = create(:resource, title: "Published Resource", publish: true,
                     :instances => [build(:instance_digital)])
+
+  create(:resource, title: "Resource with Deaccession", publish: true,
+    deaccessions: [build(:json_deaccession)])
+
+  classification = create(:classification)
+  create(:digital_object, title: "Digital Object With Classification",
+                          classifications: [{'ref' => classification.uri}])
+
   aos = (0..5).map do
     create(:archival_object,
-           resource: { 'ref' => resource.uri }, publish: true)
+           title: "Published Archival Object", resource: { 'ref' => resource.uri }, publish: true)
   end
 
   unpublished_resource = create(:resource, title: "Unpublished Resource", publish: false)

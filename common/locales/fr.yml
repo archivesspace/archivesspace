@@ -1414,6 +1414,12 @@ fr:
     resource_type_tooltip: |
         <p>Une liste de termes utilisés par un service d'archives pour catégoriser ses ressources en types de base.</p>
         <p>Les valeurs dans cette liste de valeurs contrôlées peuvent être modifiées.</p>
+    language: Langue de description
+    language_tooltip: |
+        <p>Indique toutes les langues présentes dans la notice générée à partir de la description d'accession.</p>
+    script: Script de description
+    script_tooltip: |
+        <p>Indique tous les scripts présents dans la notice générée à partir de la description d'accession.</p>
     access_restrictions: Restrictions de consultation?
     access_restrictions_tooltip: |
         <p>Une case à cocher pour indiquer que l'accès aux documents est soumis à des restrictions.</p>
@@ -2151,6 +2157,9 @@ fr:
     is_admin: Concéder des permissions d'administrateur système
     is_admin_tooltip: |
         <p>Sert à indiquer si l'utilisateur doit avoir des privilèges d'administration relativement à l'application.</p>
+    create_time: Créé
+    user_mtime: Mise à jour
+    admin: Administrateur
     _singular: Utilisateur
     _plural: Utilisateurs
 
@@ -2350,7 +2359,7 @@ fr:
     is_required_unless_an_expression_or_an_end_date_is_given: est requis à moins qu'une expression ou date de fin ne soit donnée
     is_required_unless_an_expression_or_a_begin_date_is_given: est requis à moins qu'une expression ou date de début ne soit donnée
     must_specify_either_a_date_or_a_timestamp: Il faut spécifier soit une date, soit un horodatage
-    did_not_match_regular_expression: Ne correspond pas à l'expression régulière %{regexp}
+    did_not_match_regular_expression: Ne correspond pas au modèle attendu %{regexp}
     too_few_characters: Doit comporter au moins %{min_length} caractères
     too_many_characters: Doit comporter au plus %{max_length} caractères
     max_length_is_50_characters: Ne doit pas excéder 50 caractères

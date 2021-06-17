@@ -2,6 +2,7 @@ class LargeTreeResource
 
   def root(response, root_record)
     response['level'] = root_record.other_level || root_record.level
+    response['identifier'] = (0...4).map {|i| root_record["id_#{i}".to_sym]}.compact.join("-")
 
     # Collect all container data
     Instance
@@ -43,6 +44,7 @@ class LargeTreeResource
   end
 
   def node(response, node_record)
+    response['identifier'] = node_record.component_id
     response
   end
 
@@ -52,12 +54,14 @@ class LargeTreeResource
       .left_join(Sequel.as(:enumeration_value, :level_enum), :id => :archival_object__level_id)
       .filter(:archival_object__id => record_ids)
       .select(Sequel.as(:archival_object__id, :id),
+              Sequel.as(:archival_object__component_id, :component_id),
               Sequel.as(:level_enum__value, :level),
               Sequel.as(:archival_object__other_level, :other_level))
       .each do |row|
       id = row[:id]
       result_for_record = response.fetch(record_ids.index(id))
 
+      result_for_record['identifier'] = row[:component_id]
       result_for_record['level'] = row[:other_level] || row[:level]
     end
 

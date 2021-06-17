@@ -127,8 +127,8 @@
         "type" => "JSONModel(:ark_name) object",
         "readonly" => true,
         "required" => false
-      }
-
+      },
+      "metadata_rights_declarations" => {"type" => "array", "items" => {"type" => "JSONModel(:metadata_rights_declaration) object"}},
     },
   },
 }

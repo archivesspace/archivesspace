@@ -310,6 +310,8 @@ en:
         summary: Summary
         acquisition_type: Acquisition Type
         provenance: Provenance
+        language: Language of Description
+        script: Script of Description
         access_restrictions: Access Restrictions
         access_restrictions_apply: Access Restrictions Apply
         use_restrictions: Use Restrictions
@@ -319,6 +321,8 @@ en:
       related_accessions:
        accessions: Related Unprocessed Material
        deaccessions: Deaccessioned Material
+       part_relationship: Part Relationship
+       sibling_relationship: Sibling Relationship
 
   archival_object:
     _singular: Archival Record
@@ -360,6 +364,7 @@ en:
   resource:
     _singular: Collection
     _plural: Collections
+    identifier_separator: ":"
     _public:
       identifier: Identifier
       extent: Extent

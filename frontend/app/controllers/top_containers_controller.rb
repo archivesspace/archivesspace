@@ -42,8 +42,9 @@ class TopContainersController < ApplicationController
                                        params_for_backend_search.merge('facet[]' => SearchResultData.TOP_CONTAINER_FACETS))
       }
       format.csv {
-        params[:fields] -= %w[context type indicator barcode]
+        params[:fields] -= %w[title context type indicator barcode]
         params[:fields] += %w[type_enum_s indicator_u_icusort barcode_u_sstr]
+        params[:fields].prepend('collection_display_string_u_sstr', 'series_title_u_sstr')
         csv_response(
           "/repositories/#{session[:repo_id]}/search",
           prepare_search.merge('facet[]' => SearchResultData.TOP_CONTAINER_FACETS),

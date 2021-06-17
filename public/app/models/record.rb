@@ -184,7 +184,15 @@ class Record
     #adding the date label & type below so that it'll be easy to figure out which dates to include in other mappings, such as the schema.org mappings
     (json['dates'] || json['dates_of_existence']).each do |date|
       label, exp = parse_date(date)
-      dates.push({'final_expression' => label + exp, '_inherited' => date.dig('_inherited'), 'label' => date['label'], 'date_type' => date['date_type']})
+
+      if date['certainty']
+        translated = I18n.t("enumerations.date_certainty.#{date['certainty']}")
+        certainty = " (#{translated})"
+      else
+        certainty = ""
+      end
+
+      dates.push({'final_expression' => label + exp + certainty, '_inherited' => date.dig('_inherited'), 'label' => date['label'], 'date_type' => date['date_type']})
     end
 
     dates
@@ -340,7 +348,7 @@ class Record
       %w(name uri url parent_institution_name image_url repo_code).each do |item|
         info['top'][item] = resolved_repository[item] unless resolved_repository[item].blank?
       end
-      unless resolved_repository['agent_representation'].blank? || resolved_repository['agent_representation']['_resolved'].blank? || resolved_repository['agent_representation']['_resolved']['jsonmodel_type'] != 'agent_corporate_entity'
+      unless resolved_repository['agent_representation'].blank? || resolved_repository['agent_representation']['_resolved'].blank? || resolved_repository['agent_representation']['_resolved']['agent_contacts'].blank? || resolved_repository['agent_representation']['_resolved']['jsonmodel_type'] != 'agent_corporate_entity'
         in_h = resolved_repository['agent_representation']['_resolved']['agent_contacts'][0]
         %w{city region post_code country email }.each do |k|
           info[k] = in_h[k] if in_h[k].present?
@@ -373,16 +381,6 @@ class Record
         resolved.first
       end
     end
-  end
-
-  def parse_top_container_location(top_container)
-    container_locations = top_container.dig('container_locations')
-
-    return if container_locations.blank?
-
-    current_location = container_locations.find {|c| c['status'] == 'current'}
-
-    current_location.dig('_resolved')
   end
 
   def parse_sub_container_display_string(sub_container, inst, opts = {})
@@ -462,7 +460,7 @@ class Record
   def build_request_item_container_info
     container_info = {}
 
-    %i(top_container_url container location_title location_url machine barcode).each {|sym| container_info[sym] = [] }
+    %i(top_container_url container machine barcode).each {|sym| container_info[sym] = [] }
 
     unless json['instances'].blank?
       json['instances'].each do |instance|
@@ -484,16 +482,6 @@ class Record
           top_container_json = ASUtils.json_parse(top_container.fetch('json'))
           hsh[:barcode] = top_container_json.dig('barcode')
 
-          location = parse_top_container_location(top_container_json)
-
-          if (location)
-            hsh[:location_title] = location.dig('title')
-            hsh[:location_url] = location.dig('uri')
-          else
-            hsh[:location_title] = ''
-            hsh[:location_url] = ''
-          end
-
           restricts = top_container_json.dig('active_restrictions')
           if restricts
             restricts.each do |r|
@@ -503,8 +491,6 @@ class Record
           end
         else
           hsh[:barcode] = ''
-          hsh[:location_title] = ''
-          hsh[:location_url] = ''
         end
 
         hsh.keys.each {|sym| container_info[sym].push(hsh[sym] || '')}

@@ -90,6 +90,10 @@ module SearchHelper
   end
 
   def can_edit_search_result?(record)
+    Plugins.edit_roles.each do |edit_role|
+      return user_can?(edit_role.role, record['id']) if record['primary_type'] === edit_role.jsonmodel_type
+    end
+
     return user_can?('update_container_record', record['id']) if record['primary_type'] === "top_container"
     return user_can?('update_container_profile_record') if record['primary_type'] === "container_profile"
     return user_can?('manage_repository', record['id']) if record['primary_type'] === "repository"
@@ -102,6 +106,8 @@ module SearchHelper
     return user_can?('update_resource_record') if ["resource", "archival_object"].include?(record['primary_type'])
     return user_can?('update_digital_object_record') if ["digital_object", "digital_object_component"].include?(record['primary_type'])
     return user_can?('update_assessment_record') if record['primary_type'] === "assessment"
+    return user_can?('update_event_record') if record['primary_type'] === "event"
+    return user_can?('update_location_profile_record') if record['primary_type'] === "location_profile"
   end
 
   def can_delete_search_results?(record_type)

@@ -8,6 +8,7 @@
 //= require add_event_dropdown
 //= require slug
 //= require lightmode
+//= require representativemembers.js
 
 $(function() {
 
@@ -147,7 +148,7 @@ $(function() {
       }
 
       var creator_title = $subform.find('.agent-creator-title').show();
-      if ($(this).val() == 'creator') {
+      if ($(this).val() == 'creator' || $(this).val() == 'subject') {
         creator_title.show().find(':input').removeAttr('disabled');
       } else {
         creator_title.hide().find(':input').attr('disabled', 'disabled');

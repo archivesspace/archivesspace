@@ -12,6 +12,12 @@ module PluginHelper
         result << '<span class="glyphicon glyphicon-chevron-right"></span></a></li>'
       end
     end
+
+    mode = controller.action_name === 'show' ? :readonly : :edit
+    Plugins.sections_for(record, mode).each do |plugin_section|
+      result << plugin_section.render_sidebar(self, record, mode)
+    end
+
     result.html_safe
   end
 
@@ -27,11 +33,16 @@ module PluginHelper
                            :context => context, :section_id => "#{jsonmodel_type}_#{name}_" })
       end
     end
+
+    Plugins.sections_for(record, :readonly).each do |sub_record|
+      result << sub_record.render_readonly(self, record, context)
+    end
+
     result.html_safe
   end
 
 
-  def form_plugins_for(jsonmodel_type, context)
+  def form_plugins_for(jsonmodel_type, context, object = nil)
     result = ''
     Plugins.plugins_for(jsonmodel_type).each do |plugin|
       parent = Plugins.parent_for(plugin, jsonmodel_type)
@@ -41,6 +52,11 @@ module PluginHelper
                          :cardinality => parent['cardinality'].intern, :plugin => true})
 
     end
+
+    Plugins.sections_for(object || context.obj, :edit).each do |sub_record|
+      result << sub_record.render_edit(self, context.obj, context)
+    end
+
     result.html_safe
   end
 

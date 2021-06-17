@@ -58,6 +58,18 @@ class ArchivesSpaceService < Sinatra::Base
     end
   end
 
+  @plugins_loaded_hooks = []
+  @archivesspace_plugins_loaded = false
+
+  def self.plugins_loaded_hook(&block)
+    if @archivesspace_plugins_loaded
+      block.call
+    else
+      @plugins_loaded_hooks << block
+    end
+  end
+
+
 
   configure :development do |config|
     require 'sinatra/reloader'
@@ -130,7 +142,8 @@ class ArchivesSpaceService < Sinatra::Base
 
       end
 
-      [File.dirname(__FILE__), *ASUtils.find_local_directories('backend')].each do |prefix|
+      ordered_plugin_backend_dirs = ASUtils.order_plugins(ASUtils.find_local_directories('backend'))
+      [File.dirname(__FILE__), *ordered_plugin_backend_dirs].each do |prefix|
         ['model/mixins', 'model', 'model/reports', 'lib/bulk_import', 'controllers'].each do |path|
           Dir.glob(File.join(prefix, path, "*.rb")).sort.each do |file|
             require File.absolute_path(file)
@@ -211,7 +224,7 @@ class ArchivesSpaceService < Sinatra::Base
         end
 
         # Load plugin init.rb files (if present)
-        ASUtils.find_local_directories('backend').each do |dir|
+        ASUtils.order_plugins(ASUtils.find_local_directories('backend')).each do |dir|
           init_file = File.join(dir, "plugin_init.rb")
           if File.exist?(init_file)
             load init_file
@@ -219,6 +232,11 @@ class ArchivesSpaceService < Sinatra::Base
         end
 
         BackgroundJobQueue.init if ASpaceEnvironment.environment != :unit_test
+
+        @plugins_loaded_hooks.each do |hook|
+          hook.call
+        end
+        @archivesspace_plugins_loaded = true
 
         Notifications.notify("BACKEND_STARTED")
         Log.noisiness "Logger::#{AppConfig[:backend_log_level].upcase}".constantize

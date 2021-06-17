@@ -129,6 +129,7 @@ es:
     rapid_data_entry: Entrada rápida de datos
     enable_reorder: Habilitar el modo de reorden
     reorder_active: Deshabilitar el modo de reorden
+    copy: Dupdo
 
   database_warning:
    message: "<p><strong>Advertencia de base de datos:</strong> Estas utilizando la base de datos (Apache Derby) habilitada para pruebas. Le recomendamos utilizar MySQL para sistemas en producción.</p>"
@@ -715,9 +716,11 @@ es:
         preview: Vista previa de combinación
 
   agent_contact:
+    is_representative: Privilegiado
     _frontend:
       action:
         add: Agregar contacto
+        make_representative: Hacer contacto preferido
     notes_tooltip: "<p>Notas adicionales u otra información sobre el contacto.</p>"
 
   telephone:
@@ -1947,7 +1950,7 @@ es:
     language: Idioma
     script: Texto
     language_note: Nota de idioma
-    
+
   agent_record_control_merge_victim:
     _plural: Información de registro
     _singular: Información de registro
@@ -1968,7 +1971,7 @@ es:
     maintenance_agency_note: Nota de la agencia de mantenimiento
     language: Idioma
     script: Texto
-    language_note: Nota de idioma   
+    language_note: Nota de idioma
 
   agent_gender:
     _plural: Géneros de agentes
@@ -2018,7 +2021,7 @@ es:
         add: Agregar idioma
     language: Idioma
     script: Texto
-    
+
   used_language_required:
     _plural: Idiomas
     _singular: Idioma
@@ -2053,7 +2056,7 @@ es:
       action:
         add: Agregar idioma
     language: Idioma
-    script: Texto   
+    script: Texto
 
   agent_gender_merge_victim:
     _plural: Géneros de agentes
@@ -2063,7 +2066,7 @@ es:
         add: Agregar información de género
     gender: Género
     note: Nota
-    dates: fechas   
+    dates: fechas
 
   agent_identifier:
     _plural: ID de entidad
@@ -2073,7 +2076,7 @@ es:
         add: Agregar ID de entidad
     identifier_type: Tipo de identificador
     entity_identifier: ID de entidad
-    
+
   agent_identifiers:
     _plural: ID de entidad
     _singular: Identificador
@@ -2108,7 +2111,7 @@ es:
       action:
         add: Agregar ID de entidad
     identifier_type: Tipo de identificador
-    entity_identifier: ID de entidad   
+    entity_identifier: ID de entidad
 
   agent_place:
     _frontend:
@@ -2123,7 +2126,7 @@ es:
     dates: fechas
     subjects: Lugares
     publish: Publicado
-    
+
   agent_place_required:
     _frontend:
       action:
@@ -2388,13 +2391,13 @@ es:
     dates: fechas
     subjects: Temas
     places: Lugares
-    publish: Publicado   
+    publish: Publicado
 
   place:
     _plural: Lugares
     _frontend:
       action:
-        add: Añadir lugar   
+        add: Añadir lugar
 
   agent_alternate_set:
     _plural: Conjuntos alternativos
@@ -2411,7 +2414,7 @@ es:
     file_version_xlink_actuate_attribute: Atributo de activación de Xlink
     file_version_xlink_show_attribute: Atributo de Xlink Show
     last_verified_date: Última fecha de verificación
-    
+
   agent_alternate_sets:
     _plural: Conjuntos alternativos
     _singular: Conjunto alternativo
@@ -2804,7 +2807,7 @@ es:
     xlink_arcrole_attribute: Atributo Xlink Arcrole
     file_version_xlink_actuate_attribute: Atributo de activación de Xlink
     file_version_xlink_show_attribute: Atributo de Xlink Show
-    last_verified_date: Última fecha de verificación       
+    last_verified_date: Última fecha de verificación
 
   agent_parallel_name:
     _plural: Nombres paralelos

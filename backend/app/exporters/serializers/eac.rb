@@ -190,6 +190,24 @@ class EACSerializer < ASpaceExport::Serializer
           _descriptive_note(as['descriptive_note'], xml)
         end
       end
+
+      json['metadata_rights_declarations'].each do |mrd|
+        xml.rightsDeclaration {
+          if mrd['rights_statement'] || mrd['descriptive_note']
+            xml.descriptiveNote {
+              xml.p (I18n.t("enumerations.metadata_rights_statement.#{mrd['rights_statement']}", :default => mrd['rights_statement'])) if mrd['rights_statement']
+              xml.p (mrd["descriptive_note"]) if mrd["descriptive_note"]
+            }
+          end
+          if mrd['citation']
+            xml.citation (mrd['citation'])
+          end
+          if mrd['rights_statement']
+            xml.abbreviation (mrd['rights_statement'])
+          end
+
+        }
+      end
     end # of xml.control
   end # of #_control
 

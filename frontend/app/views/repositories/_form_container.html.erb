@@ -3,6 +3,7 @@
 <fieldset>
   <% define_template("repository", jsonmodel_definition(:repository)) do |form| %>
     <section id="all_fields">
+      <h3><%= I18n.t("repository._frontend.section.all_fields") %></h3>
       <%= form.label_and_textfield "repo_code", :field_opts => {:size => 10} %>
       <%= form.label_and_textarea "name" %>
 
@@ -21,16 +22,17 @@
   <% end %>
 
   <% define_template("repository_oai", jsonmodel_definition(:repository)) do |form| %>
-    <% if params[:action] == "edit" %>
-      <a name="oai_settings"></a>
-      <div class='form-actions'>
-        <br />
-        <p><%= I18n.t("oai_config.oai_leave_repo_form") %></p>
-        <a class="btn btn-warning" href="<%= url_for(:controller => :oai_config, :action => :edit) %>"><%= I18n.t("actions.edit_global_oai") %></a>
-      </div>
-      <hr />
-    <% end %>
-    <section id="oai_fields">
+    <section id="oai_fields" class="subrecord-form">
+      <h3><%= I18n.t("repository._frontend.section.oai_fields") %></h3>
+      <% if params[:action] == "edit" %>
+        <a name="oai_settings"></a>
+        <div class='form-actions'>
+          <br />
+          <p><%= I18n.t("oai_config.oai_leave_repo_form") %></p>
+          <a class="btn btn-warning" href="<%= url_for(:controller => :oai_config, :action => :edit) %>"><%= I18n.t("actions.edit_global_oai") %></a>
+        </div>
+        <hr />
+      <% end %>
       <%= form.label_and_boolean "oai_is_disabled", {} %>
       <% if @repository && @repository['repository'] %>
         <%= form.checkboxes_for_oai_sets(@repository['repository']['oai_sets_available'], @enum) %>
@@ -38,37 +40,21 @@
     </section>
   <% end %>
 
-  <% define_template("agent_contact", jsonmodel_definition(:agent_contact)) do |item| %>
-    <section id="agent_contact">
-      <%= form.label_and_textfield "name", :required => false %>
-      <%= form.label_and_textfield "address_1" %>
-      <%= form.label_and_textfield "address_2" %>
-      <%= form.label_and_textfield "address_3" %>
-      <%= form.label_and_textfield "city" %>
-      <%= form.label_and_textfield "region" %>
-      <%= form.label_and_textfield "country" %>
-      <%= form.label_and_textfield "post_code" %>
-      <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => { :form => form,  :name => "telephones", :heading_size => "h5" } %>
-      <%= form.label_and_textfield "email" %>
-      <%= form.label_and_textfield "email_signature" %>
-      <%= form.label_and_textarea "note" %>
-    </section>
-  <% end %>
-
-  <h3><%= I18n.t("repository._frontend.section.all_fields") %></h3>
   <% form.push("repository", form['repository']) do |form| %>
     <% form.emit_template("repository") %>
   <% end %>
 
-  <h3><%= I18n.t("repository._frontend.section.oai_fields") %></h3>
   <% form.push("repository_oai", form['repository']) do |form| %>
     <% form.emit_template("repository_oai") %>
   <% end %>
 
-  <h3><%= I18n.t("agent_contact._plural") %></h3>
   <% form.push("agent_representation", form['agent_representation'] || {}) do |form| %>
-    <%= form.list_for(form['agent_contacts'], "agent_contacts[]") do |item| %>
-      <% form.emit_template("agent_contact", item) %>
-    <% end %>
+    <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "agent_contacts", :section_id => "agent_contact", :template_erb => "agents/contact_details", :template => "agent_contact", :cardinality => :zero_to_one, :list_limited_to_one => true, :remove_disabled => true} %>
+  <% end %>
+
+  <% if form.readonly? %>
+    <%= show_plugins_for("repository", form) %>
+  <% else %>
+    <%= form_plugins_for("repository", form) %>
   <% end %>
 </fieldset>

@@ -88,7 +88,7 @@ AppConfig[:solr_backup_directory] = proc { File.join(AppConfig[:data_directory],
 # For more information about solr parameters, please consult the solr documentation
 # here: https://lucene.apache.org/solr/
 # Configuring search operator to be AND by default - ANW-427
-AppConfig[:solr_params] = { 'mm' => '100%' }
+AppConfig[:solr_params] = { 'q.op' => 'AND' }
 
 # Set the application's language (see the .yml files in
 # https://github.com/archivesspace/archivesspace/tree/master/common/locales for
@@ -284,6 +284,10 @@ AppConfig[:report_page_layout] = "letter"
 AppConfig[:report_pdf_font_paths] = proc { ["#{AppConfig[:backend_url]}/reports/static/fonts/dejavu/DejaVuSans.ttf"] }
 AppConfig[:report_pdf_font_family] = "\"DejaVu Sans\", sans-serif"
 
+# option to enable custom reports
+# USE WITH CAUTION - running custom reports that are too complex may cause ASpace to crash
+AppConfig[:enable_custom_reports] = false
+
 # Path to system Java -- required when creating PDFs on Windows
 AppConfig[:path_to_java] = "java"
 
@@ -336,7 +340,9 @@ AppConfig[:demo_data_url] = ""
 # Expose external ids in the frontend
 AppConfig[:show_external_ids] = false
 
-#
+# Whether to display archival record identifiers in the frontend largetree container
+AppConfig[:display_identifiers_in_largetree_container] = false
+
 # This sets the allowed size of the request/response header that Jetty will accept (
 # anything bigger gets a 403 error ). Note if you want to jack this size up,
 # you will also have to configure your Nginx/Apache  as well if
@@ -502,7 +508,7 @@ AppConfig[:pui_hide][:agents] = false
 AppConfig[:pui_hide][:classifications] = false
 AppConfig[:pui_hide][:search_tab] = false
 # The following determine globally whether the various "badges" appear on the Repository page
-# can be overriden at repository level below (e.g.:  AppConfig[:pui_repos][{repo_code}][:hide][:counts] = true
+# can be overridden at repository level below (e.g.:  AppConfig[:pui_repos][{repo_code}][:hide][:counts] = true
 AppConfig[:pui_hide][:resource_badge] = false
 AppConfig[:pui_hide][:record_badge] = true # hide by default
 AppConfig[:pui_hide][:digital_object_badge] = false
@@ -514,8 +520,11 @@ AppConfig[:pui_hide][:counts] = false
 # The following determines globally whether the 'container inventory' navigation tab/pill is hidden on resource/collection page
 AppConfig[:pui_hide][:container_inventory] = false
 
-# Whether to display linked decaccessions
+# Whether to display linked deaccessions
 AppConfig[:pui_display_deaccessions] = true
+
+# Whether to display archival record identifiers in the PUI collection organization tree
+AppConfig[:pui_display_identifiers_in_resource_tree] = false
 
 #The number of characters to truncate before showing the 'Read More' link on notes
 AppConfig[:pui_readmore_max_characters] = 450

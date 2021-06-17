@@ -1020,12 +1020,14 @@ module MarcXMLBibBaseMap
 
         "datafield[@tag='518']" => multipart_note('odd', 'Date and Time of Event', "{$3: }{$a.}"),
 
-        "datafield[@tag='520'][@ind1!='3' and @ind1!='8']" => multipart_note(
+        "datafield[@tag='520'][@ind1!='3' and @ind1!='2' and @ind1!='8']" => multipart_note(
                                                                              'odd',
                                                                              -> node {
-                                                                               {'0'=>'Subject', '1'=>'Review', '2'=>'Scope and content'}[node.attr('ind1')] || "Summary"
+                                                                               {'0'=>'Subject', '1'=>'Review'}[node.attr('ind1')] || "Summary"
                                                                              },
                                                                              "{$3: }{$a. }{($u) }{\n$b}"),
+
+        "datafield[@tag='520'][@ind1='2']" => multipart_note('scopecontent', 'Scope and content', "{$3: }{$a. }{($u) }{\n$b}"),
 
         "datafield[@tag='520'][@ind1='3']" => singlepart_note('abstract', 'Abstract', "{$3: }{$a. }{($u) }{\n$b}"),
 

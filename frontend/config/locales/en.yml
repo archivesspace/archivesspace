@@ -128,6 +128,7 @@ en:
     rapid_data_entry: Rapid Data Entry
     enable_reorder: Enable Reorder Mode
     reorder_active: Disable Reorder Mode
+    copy: Copy
 
   database_warning:
     message: "<p><strong>Database Warning:</strong> You are currently using the embedded database (Apache Derby). The embedded database is for testing/demo purposes only. You should use MySQL for any data intended for production, including data in a test instance that you intend to move over to a production instance.</p>"
@@ -660,6 +661,7 @@ en:
     merge_denied_relationship: These agents have a relationship. Remove relationship before proceeding with merge.
     merge_restricted_contact_details: The merge cannot be completed because one or more of the agents has contact details you do not have permission to access.
     linked_to_assessment: Record cannot be deleted as it is linked to an assessment
+    cannot_delete_repository_agent: This agent is linked to a repository and can't be removed.
 
   accession:
     _frontend:
@@ -712,11 +714,13 @@ en:
         preview: Merge Preview
 
   agent_contact:
+    is_representative: Preferred
     notes_tooltip: |
         <p>Additional notes or other information about the contact.</p>
     _frontend:
       action:
         add: Add Contact
+        make_representative: Make preferred contact
 
   telephone:
     _frontend:
@@ -1794,6 +1798,7 @@ en:
         create: Create Template
         save: Save Template
       messages:
+        copied: Custom Report Template copied
         created: Custom Report Template created
         updated: Custom Report Template updated
 
@@ -2291,3 +2296,20 @@ en:
 
     date_of_contact_tooltip: |
         <p>Used to record the specific date or timeframe of an interaction</p>
+
+  metadata_rights_declaration:
+    _plural: Metadata Rights Declarations
+    _singular: Metadata Rights Declaration
+    _frontend:
+      action:
+        add: Add Metadata Rights Declaration
+    rights_statement: Rights Statement
+    citation: Citation
+    descriptive_note: Descriptive Note
+    file_uri: File URI
+    xlink_title_attribute: Xlink Title Attribute
+    xlink_role_attribute: Xlink Role Attribute
+    xlink_arcrole_attribute: Xlink Arcrole Attribute
+    file_version_xlink_actuate_attribute: Xlink Actuate Attribute
+    file_version_xlink_show_attribute: Xlink Show Attribute
+    last_verified_date: Last Verified Date

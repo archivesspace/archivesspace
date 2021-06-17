@@ -9,7 +9,7 @@ require_relative 'export_spec_helper'
 describe "Exported MODS metadata" do
 
   before(:all) do
-    as_test_user('admin') do
+    as_test_user('admin', true) do
       @repo_contact = build(:json_agent_contact)
       @repo_agent = build(:json_agent_corporate_entity,
                            :agent_contacts => [@repo_contact])
@@ -105,18 +105,13 @@ describe "Exported MODS metadata" do
 
 
       @mods = get_mods(@digital_object)
-
+      raise Sequel::Rollback
     end
   end
 
 
   after(:all) do
     as_test_user('admin') do
-      [@agent_person, @subject_person, @subjects, @components, @digital_object, @digital_object_unpub].flatten.each do |rec|
-        next if rec.nil?
-        rec.delete
-      end
-
       $repo_id = $old_repo_id
       JSONModel.set_repository($repo_id)
     end

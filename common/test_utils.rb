@@ -75,15 +75,6 @@ module TestUtils
     fullpath
   end
 
-  def self.add_solr(java_opts, build_args, config)
-    if config[:solr_port]
-      java_opts +=
-        " -Daspace.config.solr_url=http://localhost:#{config[:solr_port]}"
-      build_args.push("-Daspace.solr.port=#{config[:solr_port]}")
-    end
-    [java_opts, build_args]
-  end
-
   def self.start_backend(port, config = {}, config_file = nil)
     db_url = config.delete(:db_url)
     java_opts = build_config_string(config)
@@ -93,8 +84,6 @@ module TestUtils
                                   "-Daspace.backend.port=#{port}",
                                   '-Daspace_integration_test=1',
                                   "-Daspace.config.db_url=#{db_url}"])
-
-    java_opts, build_args = add_solr(java_opts, build_args, config)
     java_opts += ' -Xmx1024m'
 
     puts "Spawning backend with opts: #{java_opts}"
@@ -114,8 +103,6 @@ module TestUtils
 
     build_args = java_build_args(['frontend:devserver:integration',
                                   "-Daspace.frontend.port=#{port}"])
-
-    java_opts, build_args = add_solr(java_opts, build_args, config)
     java_opts += ' -Xmx1512m'
 
     puts "Spawning frontend with opts: #{java_opts}"

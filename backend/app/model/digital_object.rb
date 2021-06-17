@@ -7,6 +7,7 @@ class DigitalObject < Sequel::Model(:digital_object)
   include Extents
   include LangMaterials
   include Dates
+  include Classifications
   include ExternalDocuments
   include Agents
   include Trees
@@ -16,6 +17,7 @@ class DigitalObject < Sequel::Model(:digital_object)
   include ExternalIDs
   include FileVersions
   include CollectionManagements
+  include MetadataRights
   include UserDefineds
   include ComponentsAddChildren
   include Events

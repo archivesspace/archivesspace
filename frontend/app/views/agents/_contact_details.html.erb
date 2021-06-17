@@ -4,10 +4,20 @@
 
 
 <% define_template "agent_contact", jsonmodel_definition(:agent_contact) do |form| %>
-  <div class="subrecord-form-fields">
-    <%= form.label_and_textfield "name" %>
+  <%# We need non-representative contacts in the form at all times (or will be lost on update) but not displayed in a repository context %>
+  <div class="subrecord-form-fields" <%= 'style="display: none;"'.html_safe if @repository && !form['is_representative'] %>>
+    <% unless @repository %>
+    <h3 class="subrecord-form-heading">
+      <span class="badge badge-info is-representative-label"><%= I18n.t("agent_contact.is_representative") %></span>
+      <button class="btn btn-small is-representative-toggle"><%= I18n.t("agent_contact._frontend.action.make_representative") %></button>
+    </h3>
+    <% end %>
 
-    <%= form.label_and_select "salutation", 
+    <%= form.hidden_input "is_representative", form["is_representative"] ? 1 : 0 %>
+
+    <%= form.label_and_textfield "name", :required => @repository ? :conditionally : true %>
+
+    <%= form.label_and_select "salutation",
          form.possible_options_for('salutation', true),
          :required => is_required_by_admin?(r, "agent_contacts", "salutation") %>
 
@@ -35,11 +45,13 @@
     <%= form.label_and_textfield "email",
         :required => is_required_by_admin?(r, "agent_contacts", "email") %>
 
-    <%# form.label_and_textarea "note" %>
-    
+    <% if @repository %>
+      <%= form.label_and_textfield "email_signature" %>
+    <% end %>
+
     <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => { :form => form,  :name => "telephones", :heading_size => "h4" } %>
 
-    <%= render_aspace_partial :partial => "notes/form", :locals => {:form => form, :all_note_types => note_types_for("agent_contact"), :section_id => "agent_contact_notes", :nested_note_jsonmodel => "agent_contact", :header_size => "h4", :add_button_text => "note._frontend.action.add_for_contact_note", :show_apply_note_order_action => false} %>
+    <%= render_aspace_partial :partial => "notes/form", :locals => {:form => form, :all_note_types => note_types_for("agent_contact"), :section_id => "agent_contact_notes", :nested_note_jsonmodel => "agent_contact_notes", :header_size => "h4", :add_button_text => "note._frontend.action.add_for_contact_note", :show_apply_note_order_action => false} %>
 
   </div>
 <% end %>

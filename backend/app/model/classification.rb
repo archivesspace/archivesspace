@@ -21,7 +21,7 @@ class Classification < Sequel::Model(:classification)
 
   define_relationship(:name => :classification,
                       :json_property => 'linked_records',
-                      :contains_references_to_types => proc {[Accession, Resource]})
+                      :contains_references_to_types => proc {[Accession, Resource, DigitalObject]})
 
 
   auto_generate :property => :slug,

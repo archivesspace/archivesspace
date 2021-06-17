@@ -1,12 +1,14 @@
 class Accession < Record
 
-  attr_reader :related_resources, :provenance,
-              :use_restrictions_note, :access_restrictions_note
+  attr_reader :related_resources, :related_accessions, :provenance,
+              :language, :script, :use_restrictions_note,
+              :access_restrictions_note
 
   def initialize(*args)
     super
 
     @related_resources = parse_related_resources
+    @related_accessions = parse_related_accessions
     @use_restrictions_note = json['use_restrictions_note']
     @access_restrictions_note = json['access_restrictions_note']
   end
@@ -32,6 +34,18 @@ class Accession < Record
 
   def provenance
     json['provenance']
+  end
+
+  def language
+    if json['language']
+      I18n.t("enumerations.language_iso639_2.#{json['language']}", :default => json['language'])
+    end
+  end
+
+  def script
+    if json['script']
+      I18n.t("enumerations.script_iso15924.#{json['script']}", :default => json['script'])
+    end
   end
 
   def restrictions_apply?
@@ -68,6 +82,21 @@ class Accession < Record
       record_from_resolved_json(ASUtils.json_parse(accession['json']))
     }
   end
+
+  def parse_related_accessions
+    accession_json = ASUtils.json_parse(raw['json'])
+    related_accession_json = accession_json['related_accessions'].map do |r|
+      {
+        title:   r['_resolved']['title'],
+        type:    r['jsonmodel_type'],
+        uri:     r['ref'],
+        publish: r['_resolved']['publish']
+      }
+    end
+
+    related_accession_json
+  end
+
 
   def build_request_item
     has_top_container = false

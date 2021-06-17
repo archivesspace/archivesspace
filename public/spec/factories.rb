@@ -133,6 +133,11 @@ module AspaceFactories
         accession_date { "1990-01-01" }
       end
 
+      factory :accession_parts_relationship, class: JSONModel(:accession_parts_relationship) do
+        relator_type { "part" }
+        relator { "has_part" }
+      end
+
       factory :json_date_single, class: JSONModel(:date) do
         date_type { 'single' }
         label { 'creation' }
@@ -265,6 +270,7 @@ module AspaceFactories
         self.begin { "1900-01-01" }
         self.end { "1999-12-31" }
         expression { "1900s" }
+        certainty { "approximate" }
       end
 
       factory :rde_template, class: JSONModel(:rde_template) do

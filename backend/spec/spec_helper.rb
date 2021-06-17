@@ -31,34 +31,12 @@ class DB
   class DBPool
 
     def connect
-      # If we're not connected, we're in the process of setting up the primary
-      # DB pool, so go ahead and connect to an in-memory Derby instance.
       if DB.get_default_pool == :not_connected
         require "db/db_migrator"
-
-        if ENV['ASPACE_TEST_DB_URL']
-          test_db_url = ENV['ASPACE_TEST_DB_URL']
-        else
-          test_db_url = "jdbc:derby:memory:fakedb;create=true"
-
-          begin
-            java.lang.Class.for_name("org.h2.Driver")
-            test_db_url = "jdbc:h2:mem:test;DB_CLOSE_DELAY=-1"
-          rescue java.lang.ClassNotFoundException
-            # Oh well.  Derby it is!
-          end
-        end
-
-        @pool = Sequel.connect(test_db_url,
+        @pool = Sequel.connect(AppConfig[:db_url],
                                :max_connections => 10,
                                #:loggers => [Logger.new($stderr)]
                               )
-
-        unless ENV['ASPACE_TEST_DB_PERSIST']
-          DBMigrator.nuke_database(@pool)
-        end
-
-        DBMigrator.setup_database(@pool)
         self
       else
         # For the sake of our tests, have all pools share the same Derby.
@@ -204,6 +182,7 @@ RSpec.configure do |config|
       SpecHelperMethods.as_test_user("admin") do
         RequestContext.open do
           FactoryBot.create(:agent_corporate_entity)
+          FactoryBot.create(:repo_telephone)
           FactoryBot.create(:repo)
           $default_repo = $repo_id
           $repo_record = JSONModel.JSONModel(:repository).find($repo_id)

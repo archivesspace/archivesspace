@@ -43,6 +43,7 @@ module JSONModel
     def initialize(opts)
       @invalid_object = opts[:invalid_object]
       @errors = opts[:errors]
+      @warnings = opts[:warnings]
       @import_context = opts[:import_context]
       @object_context = opts[:object_context]
       @attribute_types = opts[:attribute_types]

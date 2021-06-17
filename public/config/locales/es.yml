@@ -291,6 +291,8 @@ es:
         summary: Nota de resumen
         acquisition_type: Tipo de entrada
         provenance: Procedencia
+        language: Idioma de descripción
+        script: Guión de descripción
         access_restrictions: Restricciones de acceso
         access_restrictions_apply: Se aplican restricciones de acceso
         use_restrictions: Restricciones de uso
@@ -341,6 +343,7 @@ es:
   resource:
     _singular: Colección
     _plural: Colecciones
+    identifier_separator: ":"
     _public:
       identifier: Identificador
       extent: Extensión

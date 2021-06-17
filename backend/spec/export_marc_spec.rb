@@ -378,7 +378,7 @@ describe 'MARC Export' do
 
   describe "datafield 65x mapping" do
     before(:all) do
-      as_test_user('admin') do
+      as_test_user('admin', true) do
 
         @subjects = []
         30.times {
@@ -398,13 +398,7 @@ describe 'MARC Export' do
 
         @marc = get_marc(@resource)
 
-      end
-    end
-
-    after(:all) do
-      as_test_user('admin') do
-        @subjects.each {|s| s.delete }
-        @resource.delete
+        raise Sequel::Rollback
       end
     end
 
@@ -495,7 +489,7 @@ describe 'MARC Export' do
 
   describe "record leader mappings - US is country defined" do
     before(:all) do
-      as_test_user('admin') do
+      as_test_user('admin', true) do
         @repo_us = create(:json_repository_us)
 
         $another_repo_id = $repo_id
@@ -508,17 +502,11 @@ describe 'MARC Export' do
                             :finding_aid_description_rules => 'dacs')
 
         @marc1 = get_marc(@resource1)
+
+        raise Sequel::Rollback
       end
     end
 
-    after(:all) do
-      as_test_user('admin') do
-        @resource1.delete
-        $repo_id = $another_repo_id
-
-        JSONModel.set_repository($repo_id)
-      end
-    end
 
     it "sets record/controlfield[@tag='008']/text()[15..16] (country code) with xxu for US special case" do
       expect(@marc1.at("record/controlfield")).to have_inner_text(/^.{15}xxu/)
@@ -527,7 +515,7 @@ describe 'MARC Export' do
 
   describe "record leader mappings - country defined - NOT US" do
     before(:all) do
-      as_test_user('admin') do
+      as_test_user('admin', true) do
         @repo_not_us = create(:json_repository_not_us)
 
         $another_repo_id = $repo_id
@@ -540,15 +528,8 @@ describe 'MARC Export' do
                             :finding_aid_description_rules => 'dacs')
 
         @marc1 = get_marc(@resource1)
-      end
-    end
 
-    after(:all) do
-      as_test_user('admin') do
-        @resource1.delete
-        $repo_id = $another_repo_id
-
-        JSONModel.set_repository($repo_id)
+        raise Sequel::Rollback
       end
     end
 
@@ -559,7 +540,7 @@ describe 'MARC Export' do
 
   describe "record leader mappings - parent_org_defined" do
     before(:all) do
-      as_test_user('admin') do
+      as_test_user('admin', true) do
         @repo_parent = create(:json_repository_parent_org)
 
         @parent_institution_name = @repo_parent.parent_institution_name
@@ -575,15 +556,8 @@ describe 'MARC Export' do
                             :finding_aid_description_rules => 'dacs')
 
         @marc1 = get_marc(@resource1)
-      end
-    end
 
-    after(:all) do
-      as_test_user('admin') do
-        @resource1.delete
-        $repo_id = $another_repo_id
-
-        JSONModel.set_repository($repo_id)
+        raise Sequel::Rollback
       end
     end
 
@@ -596,7 +570,7 @@ describe 'MARC Export' do
 
   describe "record leader mappings - NO org_code defined" do
     before(:all) do
-      as_test_user('admin') do
+      as_test_user('admin', true) do
         @repo_no_org_code = create(:json_repository_no_org_code)
 
         @name = @repo_no_org_code.name
@@ -611,15 +585,8 @@ describe 'MARC Export' do
                             :finding_aid_description_rules => 'dacs')
 
         @marc1 = get_marc(@resource1)
-      end
-    end
 
-    after(:all) do
-      as_test_user('admin') do
-        @resource1.delete
-        $repo_id = $another_repo_id
-
-        JSONModel.set_repository($repo_id)
+        raise Sequel::Rollback
       end
     end
 
@@ -631,10 +598,17 @@ describe 'MARC Export' do
 
   describe "record leader mappings" do
     before(:all) do
-      as_test_user('admin') do
+      as_test_user('admin', true) do
         @resource1 = create(:json_resource,
                             :level => 'collection',
-                            :finding_aid_description_rules => 'dacs')
+                            :finding_aid_description_rules => 'dacs',
+                            :dates => [
+                                       build(:json_date,
+                                             :date_type => 'inclusive',
+                                             :begin => '1900',
+                                             :end => '2000')
+                                      ]
+                            )
         @resource2 = create(:json_resource,
                             :level => 'item',
                             :dates => [
@@ -666,20 +640,22 @@ describe 'MARC Export' do
                                            build(:json_lang_material_with_note)
                                           ]
                             )
+        @resource5 = create(:json_resource,
+                            :level => 'collection',
+                            :dates => [
+                                       build(:json_date,
+                                             :date_type => 'single',
+                                             :begin => '1900')
+                                      ]
+                            )
 
         @marc1 = get_marc(@resource1)
         @marc2 = get_marc(@resource2)
         @marc3 = get_marc(@resource3)
         @marc4 = get_marc(@resource4)
-      end
-    end
+        @marc5 = get_marc(@resource5)
 
-    after(:all) do
-      as_test_user('admin') do
-        @resource1.delete
-        @resource2.delete
-        @resource3.delete
-        @resource4.delete
+        raise Sequel::Rollback
       end
     end
 
@@ -698,10 +674,11 @@ describe 'MARC Export' do
       expect(@marc1.at("record/controlfield[@tag='008']")).to have_inner_text(/^\d{6}/)
     end
 
-    it "sets record/controlfield[@tag='008']/text()[6] according to resource.level" do
+    it "sets record/controlfield[@tag='008']/text()[6] according date type" do
       expect(@marc1.at("record/controlfield[@tag='008']")).to have_inner_text(/^.{6}i/)
       expect(@marc2.at("record/controlfield[@tag='008']")).to have_inner_text(/^.{6}s/)
       expect(@marc3.at("record/controlfield[@tag='008']")).to have_inner_text(/^.{6}i/)
+      expect(@marc5.at("record/controlfield[@tag='008']")).to have_inner_text(/^.{6}s/)
     end
 
 
@@ -777,7 +754,7 @@ describe 'MARC Export' do
 
   describe "agents: include unpublished flag" do
     before(:all) do
-      as_test_user('admin') do
+      as_test_user('admin', true) do
         @agents = []
         [
           [:json_agent_person,
@@ -803,13 +780,8 @@ describe 'MARC Export' do
 
         @marc_unpub_incl   = get_marc(@resource, true)
         @marc_unpub_unincl = get_marc(@resource, false)
-      end
-    end
 
-    after(:all) do
-      as_test_user('admin') do
-        @resource.delete
-        @agents.each {|a| a.delete}
+        raise Sequel::Rollback
       end
     end
 
@@ -829,63 +801,72 @@ describe 'MARC Export' do
 
   describe 'linked agent mappings' do
     before(:all) do
-      as_test_user('admin') do
+      as_test_user('admin', true) do
         @agents = []
         [
           [:json_agent_person,
-            :names => [build(:json_name_person,
-                             :prefix => "MR")]
+           :names => [build(:json_name_person,
+                            :prefix => "MR")]
           ],
           [:json_agent_corporate_entity, {}],
           [:json_agent_family, {}],
           [:json_agent_person,
-            :names => [build(:json_name_person,
-                             :prefix => "MS")]
+           :names => [build(:json_name_person,
+                            :prefix => "MS")]
           ],
           [:json_agent_person,
-            :names => [build(:json_name_person,
-                             :prefix => "QR")]
+           :names => [build(:json_name_person,
+                            :prefix => "QR")]
           ],
           [:json_agent_person,
-            :names => [build(:json_name_person,
-                             :prefix => "FZ")]
+           :names => [build(:json_name_person,
+                            :prefix => "FZ")]
           ],
           [:json_agent_family, {}],
           [:json_agent_person,
-            :names => [build(:json_name_person,
-                             :prefix => "QM",
-                             :authority_id => nil)]
+           :names => [build(:json_name_person,
+                            :prefix => "QM",
+                            :authority_id => nil)]
+          ],
+          [:json_agent_corporate_entity,
+           :names => [build(:json_name_corporate_entity,
+                            :subordinate_name_1 => nil,
+                            :subordinate_name_2 => nil,
+                            :qualifier => nil,
+                            :number => nil)]
           ]
         ].each do |type_and_opts|
           @agents << create(type_and_opts[0], type_and_opts[1])
         end
 
-        # r0 created by a person and a person
-        # r1 created by a corp and a person
-        # r2 created by a family and a person
+        # r0 100 => @agent[0],
+        #    600 => @agent[2],
+        #    610 => @agent[1], @agent[8]
+        #    700 => @agent[3], @agent[4], @agent[5], @agent[6], @agent[7]
+        # r1 110 => @agent[1],
+        #    600 => @agent[0], @agent[2],
+        #    610 => @agent[8]
+        #    700 => @agent[3], @agent[4], @agent[5], @agent[6], @agent[7]
+        # r2 110 => @agent[2],
+        #    600 => @agent[0],
+        #    610 => @agent[1], @agent[8]
+        #    700 => @agent[3], @agent[4], @agent[5], @agent[6], @agent[7]
         @resources = [0, 1, 2].map {|i|
-            create(:json_resource,
-                   :linked_agents => @agents.map.each_with_index {|a, j|
-                     {
-                       :ref => a.uri,
-                       :role => (j == i || j > 2) ? 'creator' : 'subject',
-                       :terms => [build(:json_term), build(:json_term)],
-                       :relator => generate(:relator)
-                     }
-                   })
-          }
-
+          create(:json_resource,
+                 :linked_agents => @agents.map.each_with_index {|a, j|
+                   {
+                     :ref => a.uri,
+                     :role => (j == i || j.between?(3, 7)) ? 'creator' : 'subject',
+                     :terms => [build(:json_term), build(:json_term)],
+                     :relator => (j != 8) ? generate(:relator) : nil
+                   }
+                 })
+        }
 
         @marcs = @resources.map {|r| get_marc(r)}
+        raise Sequel::Rollback
       end
     end
-
-    after(:all) do
-      as_test_user('admin') do
-        @resources.each {|r| r.delete}
-      end
-    end
-
 
     it "maps the first creator to df[@tag='100'] when it's a person" do
       name = @agents[0]['names'][0]
@@ -938,21 +919,20 @@ describe 'MARC Export' do
       df = @marcs[0].at("datafield[@tag='100'][@ind1='#{inverted}'][@ind2=' ']")
 
       b_text = df.at("subfield[@code='b']").text
-      q_text = df.at("subfield[@code='q']").text
       c_text = df.at("subfield[@code='c']").text
       d_text = df.at("subfield[@code='d']").text
       g_text = df.at("subfield[@code='g']").text
+      q_text = df.at("subfield[@code='q']").text
 
       unless c_text.nil? || c_text.empty?
-        expect(q_text[-1]).to eq(",")
+        expect(b_text[-1]).to eq(",")
       end
 
       unless d_text.nil? || d_text.empty?
         expect(c_text[-1]).to eq(",")
       end
 
-      expect(g_text[-1]).to eq(".")
-
+      expect(g_text =~ /\(.*\)/).not_to be_nil
       expect(q_text =~ /\(.*\)/).not_to be_nil
     end
 
@@ -1032,21 +1012,20 @@ describe 'MARC Export' do
       df = @marcs[1].at("datafield[@tag='600'][@ind1='#{inverted}'][@ind2='#{ind2}']")
 
       b_text = df.at("subfield[@code='b']").text
-      q_text = df.at("subfield[@code='q']").text
       c_text = df.at("subfield[@code='c']").text
       d_text = df.at("subfield[@code='d']").text
       g_text = df.at("subfield[@code='g']").text
+      q_text = df.at("subfield[@code='q']").text
 
       unless c_text.nil? || c_text.empty?
-        expect(q_text[-1]).to eq(",")
+        expect(b_text[-1]).to eq(",")
       end
 
       unless d_text.nil? || d_text.empty?
         expect(c_text[-1]).to eq(",")
       end
 
-      expect(g_text[-1]).to eq(".")
-
+      expect(g_text =~ /\(.*\)/).not_to be_nil
       expect(q_text =~ /\(.*\)/).not_to be_nil
     end
 
@@ -1100,8 +1079,27 @@ describe 'MARC Export' do
       end
 
       expect(e_text[-1]).to eq(",")
-      expect(n_text[-1]).to eq(".")
       expect(n_text =~ /\(.*\)/).not_to be_nil
+    end
+
+    it "does not add punctuation to 610 a when followed by any subject subfield" do
+      name = @agents[8]['names'][0]['primary_name']
+
+      df = @marcs[1].at("datafield[@tag='610']")
+
+      sf_a = df.at("subfield[@code='a']")
+      sf_t = df.at("subfield[@code='t']")
+      sf_v = df.at("subfield[@code='v']")
+      sf_x = df.at("subfield[@code='x']")
+      sf_y = df.at("subfield[@code='y']")
+      sf_z = df.at("subfield[@code='z']")
+
+      if ![sf_v, sf_x, sf_y, sf_z].all? { |sf| sf.nil? } && sf_t.nil?
+        expect(sf_a).to have_inner_text(/#{name}/)
+        expect(sf_a.text[-1]).not_to eq('.')
+      else
+        expect(sf_a.text[-1]).to eq('.')
+      end
     end
 
 
@@ -1147,7 +1145,6 @@ describe 'MARC Export' do
       expect(a_text[-1]).to eq(",")
       expect(d_text[-1]).to eq(",")
       expect(c_text[-1]).to eq(",")
-      expect(e_text[-1]).to eq(".")
     end
 
 
@@ -1183,15 +1180,14 @@ describe 'MARC Export' do
 
 
       unless c_text.nil? || c_text.empty?
-        expect(q_text[-1]).to eq(",")
+        expect(b_text[-1]).to eq(",")
       end
 
       unless d_text.nil? || d_text.empty?
         expect(c_text[-1]).to eq(",")
       end
 
-      expect(g_text[-1]).to eq(".")
-
+      expect(g_text =~ /\(.*\)/).not_to be_nil
       expect(q_text =~ /\(.*\)/).not_to be_nil
     end
 
@@ -1221,22 +1217,17 @@ describe 'MARC Export' do
     }
 
     before(:all) do
-      as_test_user('admin') do
+      as_test_user('admin', true) do
 
         @resource = create(:json_resource,
                            :notes => full_note_set(true),
                            :publish => true)
 
         @marc = get_marc(@resource)
+
+        raise Sequel::Rollback
       end
     end
-
-    after(:all) do
-      as_test_user('admin') do
-        @resource.delete
-      end
-    end
-
 
     it "maps notes of type (odd|dimensions|physdesc|materialspec|physloc|phystech|physfacet|processinfo|separatedmaterial) to df 500, sf a" do
       xml_content = @marc.df('500', ' ', ' ').sf_t('a')
@@ -1395,18 +1386,14 @@ describe 'MARC Export' do
 
   describe "notes: include unpublished flag" do
     before(:all) do
-      as_test_user('admin') do
+      as_test_user('admin', true) do
         @resource = create(:json_resource,
                            :notes => full_note_set(false))
 
         @marc_unpub_incl   = get_marc(@resource, true)
         @marc_unpub_unincl = get_marc(@resource, false)
-      end
-    end
 
-    after(:all) do
-      as_test_user('admin') do
-        @resource.delete
+        raise Sequel::Rollback
       end
     end
 
@@ -1440,18 +1427,14 @@ describe 'MARC Export' do
 
   describe "notes: inherit publish from parent" do
     before(:all) do
-      as_test_user('admin') do
+      as_test_user('admin', true) do
         @resource = create(:json_resource,
                            :notes => full_note_set(true),
                            :publish => false)
 
         @marc_unpub_unincl = get_marc(@resource, false)
-      end
-    end
 
-    after(:all) do
-      as_test_user('admin') do
-        @resource.delete
+        raise Sequel::Rollback
       end
     end
 
@@ -1471,17 +1454,13 @@ describe 'MARC Export' do
 
   describe "049 OCLC tag" do
     before(:all) do
-      as_test_user('admin') do
+      as_test_user('admin', true) do
         @resource = create(:json_resource)
         @org_code = JSONModel(:repository).find($repo_id).org_code
 
         @marc = get_marc(@resource)
-      end
-    end
 
-    after(:all) do
-      as_test_user('admin') do
-        @resource.delete
+        raise Sequel::Rollback
       end
     end
 
@@ -1489,6 +1468,4 @@ describe 'MARC Export' do
       expect(@marc.at("datafield[@tag='049'][@ind1=' '][@ind2=' ']/subfield[@code='a']")).to have_inner_text(@org_code)
     end
   end
-
-
 end

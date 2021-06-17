@@ -9,6 +9,7 @@ class Subject < Sequel::Model(:subject)
   include ExternalIDs
   include AutoGenerator
   include Publishable
+  include MetadataRights
 
   set_model_scope :global
 

@@ -12,3 +12,7 @@
     &.render-singlequote:before, &.render-boldsinglequote:before {content: "'"}
     &.render-singlequote:after, &.render-boldsinglequote:after {content: "'"}
 }
+
+.emph.bold {
+    font-weight: bold;
+}

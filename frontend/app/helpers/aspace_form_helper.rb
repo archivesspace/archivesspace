@@ -527,15 +527,8 @@ module AspaceFormHelper
 
       options = {:class => classes.join(' '), :for => id_for(name)}
 
-      tooltip = I18n.t_raw("#{prefix}#{i18n_for(name)}_tooltip", :default => '')
-      if not tooltip.empty?
-        options[:title] = tooltip
-        options["data-placement"] = "bottom"
-        options["data-html"] = true
-        options["data-delay"] = 500
-        options["data-trigger"] = "manual"
-        options["data-template"] = '<div class="tooltip archivesspace-help"><div class="tooltip-arrow"></div><div class="tooltip-inner"></div></div>'
-        options[:class] += " has-tooltip"
+      unless (tooltip = tooltip(name, prefix)).empty?
+        add_tooltip_options(tooltip, options)
       end
 
       attr_string = options.merge(opts || {})
@@ -544,6 +537,22 @@ module AspaceFormHelper
                       .join(' ')
       content = CGI::escapeHTML(I18n.t(prefix + i18n_for(name)))
       "<label #{attr_string}>#{content}</label>".html_safe
+    end
+
+    def add_tooltip_options(tooltip, options)
+      options[:title] = tooltip
+      options['data-placement'] = 'bottom'
+      options['data-html'] = true
+      options['data-delay'] = 500
+      options['data-trigger'] = 'manual'
+      options['data-template'] = '<div class="tooltip archivesspace-help"><div class="tooltip-arrow"></div><div class="tooltip-inner"></div></div>'
+      options[:class] ||= ''
+      options[:class] += ' has-tooltip'
+      options
+    end
+
+    def tooltip(name, prefix = '')
+      I18n.t_raw("#{prefix}#{i18n_for(name)}_tooltip", :default => '')
     end
 
     def checkbox(name, opts = {}, default = true, force_checked = false)
@@ -938,6 +947,7 @@ module AspaceFormHelper
       opts[:base_url] ||= "/"
       value = clean_mixed_content(value, opts[:base_url]) if opts[:clean] == true
       value = @parent.preserve_newlines(value) if opts[:clean] == true
+      value = value.to_s if value.is_a? Integer
       value = CGI::escapeHTML(value) if opts[:escape]
       value.html_safe
     end
@@ -1247,6 +1257,8 @@ module AspaceFormHelper
           value = value === true ? "True" : "False"
         elsif schema["properties"][property]["type"] === "date"
           value = value.blank? ? "" : Date.strptime(value, "%Y-%m-%d")
+        elsif schema["properties"][property]["type"] === "integer"
+          value = value.blank? ? "" : value.to_s
         elsif schema["properties"][property]["type"] === "array"
           # this view doesn't support arrays
           next
@@ -1304,6 +1316,10 @@ module AspaceFormHelper
     else
       false
     end
+  end
+
+  def custom_report_template_limit_options
+    [100, 500, 1000, 5000, 10000, 50000]
   end
 
 end

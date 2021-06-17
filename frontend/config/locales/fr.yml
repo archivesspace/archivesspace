@@ -127,6 +127,7 @@ fr:
     rapid_data_entry: Saisie rapide de données
     enable_reorder: Basculer en mode réordonner
     reorder_active: Mode réordonner activé
+    copy: Copie
 
   database_warning:
     message: "<p><strong>Avertissement!</strong> Vous utilisez actuellement la base de données Apache Derby, embarquée uniquement à des fins de tests/démonstrations. Vous devriez utiliser MySQL en production, y compris pour les données en phase de test susceptibles d'être mises en production.</p>"
@@ -713,9 +714,11 @@ fr:
         preview: Fusionner l'aperçu
 
   agent_contact:
+    is_representative: Préféré
     _frontend:
       action:
         add: Ajouter agent
+        make_representative: Établir un contact privilégié
     notes_tooltip: "<p>Notes supplémentaires ou autres informations sur le contact.</p>"
 
   telephone:
@@ -1756,6 +1759,7 @@ fr:
         create: Créer un modèle
         save: Enregistrer le modèle
       messages:
+        copied: Modèle de rapport personnalisé copié
         created: Modèle de rapport personnalisé créé
         updated: Modèle de rapport personnalisé mis à jour
 
@@ -2931,7 +2935,7 @@ fr:
 
   subsections:
     notes: Remarques
-    dates: Rendez-vous   
+    dates: Rendez-vous
 
   section_headings:
     basic_information_tooltip: "<p>Cette section indique le type d'agent et si l'agent
@@ -2947,7 +2951,7 @@ fr:
       requis dans un enregistrement d'agent.</p>"
     relation_information_tooltip: "<p>Cette section est utilisée pour indiquer les
       relations avec d'autres agents ou matériaux à l'intérieur ou à l'extérieur d'ArchivesSpace.</p>"
-      
+
   note_contact_note:
     contact_notes_tooltip: "<p>Détails sur l'interaction avec le contact</p>"
     date_of_contact_tooltip: "<p>Utilisé pour enregistrer la date ou la période spécifique

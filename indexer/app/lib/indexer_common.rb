@@ -420,6 +420,11 @@ class IndexerCommon
         doc['related_resource_uris'] = record['record']['related_resources'].
                                           collect{|resource| resource["ref"]}.
                                           compact.uniq
+
+        doc['related_accession_uris'] = record['record']['related_accessions'].
+                                           collect{|accession| accession["ref"]}.
+                                           compact.uniq
+
         doc['slug'] = record['record']['slug']
         doc['is_slug_auto'] = record['record']['is_slug_auto']
         if cm = record['record']['collection_management']
@@ -642,7 +647,7 @@ class IndexerCommon
 
 
     add_document_prepare_hook {|doc, record|
-      records_with_classifications = ['resource', 'accession']
+      records_with_classifications = ['resource', 'accession', 'digital_object']
 
       if records_with_classifications.include?(doc['primary_type']) && record['record']['classifications'].length > 0
         doc['classification_paths'] = record['record']['classifications'].map { |c| ASUtils.to_json(c['_resolved']['path_from_root']) }

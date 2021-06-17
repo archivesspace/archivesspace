@@ -270,6 +270,8 @@ ja:
         summary: 概要
         acquisition_type: 獲得タイプ
         provenance: 出所
+        language: 説明の言語
+        script: 説明のスクリプト
         access_restrictions: アクセス制限
         access_restrictions_apply: アクセス制限の適用
         use_restrictions: 使用制限
@@ -315,6 +317,7 @@ ja:
   resource:
     _singular: コレクション
     _plural: コレクション
+    identifier_separator: ":"
     _public:
       identifier: 識別
       extent: エクステント
