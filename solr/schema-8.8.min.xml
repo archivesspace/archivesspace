@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<schema name="example" version="1.5">
+<schema name="archivesspace" version="1.5">
   <fields>
     <field name="id" type="string" indexed="true" stored="true" required="true" multiValued="false" />
     <field name="uri" type="string" indexed="true" stored="true" required="false" multiValued="false" />
@@ -159,16 +159,17 @@
   <types>
     <fieldType name="string" class="solr.StrField" sortMissingLast="true" />
     <fieldType name="boolean" class="solr.BoolField" sortMissingLast="true" />
-    <fieldType name="int" class="solr.TrieIntField" precisionStep="0" positionIncrementGap="0" />
-    <fieldType name="float" class="solr.TrieFloatField" precisionStep="0" positionIncrementGap="0" />
-    <fieldType name="long" class="solr.TrieLongField" precisionStep="0" positionIncrementGap="0" />
-    <fieldType name="double" class="solr.TrieDoubleField" precisionStep="0" positionIncrementGap="0" />
-    <fieldType name="tint" class="solr.TrieIntField" precisionStep="8" positionIncrementGap="0" />
-    <fieldType name="tfloat" class="solr.TrieFloatField" precisionStep="8" positionIncrementGap="0" />
-    <fieldType name="tlong" class="solr.TrieLongField" precisionStep="8" positionIncrementGap="0" />
-    <fieldType name="tdouble" class="solr.TrieDoubleField" precisionStep="8" positionIncrementGap="0" />
-    <fieldType name="date" class="solr.TrieDateField" precisionStep="0" positionIncrementGap="0" />
-    <fieldType name="tdate" class="solr.TrieDateField" precisionStep="6" positionIncrementGap="0" />
+    <fieldType name="int" class="solr.IntPointField" docValues="true" />
+    <fieldType name="float" class="solr.FloatPointField" docValues="true" />
+    <fieldType name="long" class="solr.LongPointField" docValues="true" />
+    <fieldType name="double" class="solr.DoublePointField" docValues="true" />
+    <fieldType name="pints" class="solr.IntPointField" docValues="true" multiValued="true" />
+    <fieldType name="pfloats" class="solr.FloatPointField" docValues="true" multiValued="true" />
+    <fieldType name="plongs" class="solr.LongPointField" docValues="true" multiValued="true" />
+    <fieldType name="pdoubles" class="solr.DoublePointField" docValues="true" multiValued="true" />
+    <fieldType name="random" class="solr.RandomSortField" indexed="true" />
+    <fieldType name="date" class="solr.DatePointField" docValues="true" />
+    <fieldType name="pdates" class="solr.DatePointField" docValues="true" multiValued="true" />
     <fieldtype name="binary" class="solr.BinaryField" />
     <fieldType name="text_ws" class="solr.TextField" positionIncrementGap="100">
       <analyzer>
@@ -185,7 +186,7 @@
       <analyzer type="query">
         <tokenizer class="solr.StandardTokenizerFactory" />
         <filter class="solr.StopFilterFactory" ignoreCase="true" words="stopwords.txt" />
-        <filter class="solr.SynonymFilterFactory" synonyms="synonyms.txt" ignoreCase="true" expand="true" />
+        <filter class="solr.SynonymGraphFilterFactory" synonyms="synonyms.txt" ignoreCase="true" expand="true" />
         <filter class="solr.LowerCaseFilterFactory" />
         <filter class="solr.ASCIIFoldingFilterFactory" />
       </analyzer>

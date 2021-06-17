@@ -3,7 +3,7 @@
   <lib dir="/opt/solr/dist/" regex="solr-analysis-extras.*\.jar" />
   <lib dir="/opt/solr/contrib/analysis-extras/lucene-libs" regex="lucene-analyzers-icu-.*\.jar" />
   <lib dir="/opt/solr/contrib/analysis-extras/lib/" regex="icu4j-*.*\.jar" />
-  <luceneMatchVersion>4.10.4</luceneMatchVersion>
+  <luceneMatchVersion>8.8.2</luceneMatchVersion>
   <dataDir>${solr.data.dir:}</dataDir>
   <directoryFactory name="DirectoryFactory" class="${solr.directoryFactory:solr.NRTCachingDirectoryFactory}" />
   <updateHandler class="solr.DirectUpdateHandler2">
