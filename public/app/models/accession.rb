@@ -98,6 +98,13 @@ class Accession < Record
   end
 
 
+  def parse_notes
+    rewrite_refs(json['notes'], uri)
+
+    super
+  end
+
+
   def build_request_item
     has_top_container = false
     container_info = build_request_item_container_info

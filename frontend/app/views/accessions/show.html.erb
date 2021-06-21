@@ -57,6 +57,10 @@
           <% end %>
 
           <% readonly.emit_template("accession") %>
+          
+          <% if @accession.lang_materials.length > 0 %>
+            <%= render_aspace_partial :partial => "lang_materials/show", :locals => { :lang_materials => @accession.lang_materials, :section_id => "accession_lang_materials_" } %>
+          <% end %>
 
           <% if @accession.dates.length > 0 %>
             <%= render_aspace_partial :partial => "dates/show", :locals => { :dates => @accession.dates, :section_id => "accession_dates_" } %>

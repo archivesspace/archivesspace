@@ -134,6 +134,7 @@ module AspaceFactories
       end
 
       factory :accession_parts_relationship, class: JSONModel(:accession_parts_relationship) do
+        ref { create(:accession).uri }
         relator_type { "part" }
         relator { "has_part" }
       end
@@ -244,7 +245,6 @@ module AspaceFactories
       end
 
       factory :lang_material_with_note, class: JSONModel(:lang_material) do
-        language_and_script { build(:language_and_script) }
         notes { [build(:note_langmaterial)] }
       end
 
@@ -254,8 +254,9 @@ module AspaceFactories
       end
 
       factory :note_langmaterial, class: JSONModel(:note_langmaterial) do
-        type { generate(:langmaterial_note_type)}
-        content { [ generate(:string), generate(:string) ] }
+        type { "langmaterial" }
+        content { [ generate(:alphanumstr), generate(:alphanumstr) ] }
+        publish { true }
       end
 
       factory :extent, class: JSONModel(:extent) do
