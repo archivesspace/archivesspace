@@ -1,8 +1,8 @@
 class UsersController < ApplicationController
 
-    set_access_control "manage_users" => [:index, :edit, :update, :delete, :activate, :deactivate],
-                      "manage_repository" => [:manage_access, :edit_groups, :update_groups, :complete],
-                      :public => [:new, :create]
+  set_access_control "manage_users" => [:index, :edit, :update, :delete, :activate, :deactivate],
+                    "manage_repository" => [:manage_access, :edit_groups, :update_groups, :complete],
+                    :public => [:new, :create]
 
   before_action :account_self_service, :only => [:new, :create]
   before_action :user_needs_to_be_a_user_manager_or_new_user, :only => [:new, :create]

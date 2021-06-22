@@ -45,7 +45,7 @@ class ArchivesSpaceService < Sinatra::Base
     .permissions([])
     .returns([200, "[(:resource)]"]) \
   do
-    if  params[:show_inactive]
+    if params[:show_inactive]
       handle_listing(User, params, "is_hidden_user = 0 OR is_system_user = 0" )
     else
       handle_listing(User, params, "(is_hidden_user = 0 OR is_system_user = 0) AND is_active_user = 1" )
@@ -284,23 +284,23 @@ class ArchivesSpaceService < Sinatra::Base
       end
     end
 
-   Endpoint.get('/users/:id/deactivate')
-      .description("Set a user to be deactivated")
-      .params(["id", Integer, "The username id to fetch"])
-      .permissions([:manage_users])
-      .returns([200, "(:user)"]) \
-    do
-      user = User[params[:id]]
+  Endpoint.get('/users/:id/deactivate')
+     .description("Set a user to be deactivated")
+     .params(["id", Integer, "The username id to fetch"])
+     .permissions([:manage_users])
+     .returns([200, "(:user)"]) \
+   do
+     user = User[params[:id]]
 
-      if user && user.is_system_user == 0
-        user.update( :is_active_user => 0 )
-        json = User.to_jsonmodel(user)
-        json.permissions = user.permissions
-        json_response(json)
-      else
-        raise NotFoundException.new("User wasn't found")
-      end
-    end
+     if user && user.is_system_user == 0
+       user.update( :is_active_user => 0 )
+       json = User.to_jsonmodel(user)
+       json.permissions = user.permissions
+       json_response(json)
+     else
+       raise NotFoundException.new("User wasn't found")
+     end
+   end
 
   private
 
