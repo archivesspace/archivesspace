@@ -179,3 +179,9 @@ table.table-spreadsheet {
 .table > thead > tr > th {
     vertical-align: top;
 }
+
+/* Fields with linked records should not display markers if there's only one linked record */
+.linked-records-listing.count-1 {
+    list-style: none;
+    padding: 0;
+}

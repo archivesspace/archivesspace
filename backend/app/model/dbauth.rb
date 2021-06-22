@@ -30,26 +30,26 @@ class DBAuth
     username = username.downcase
 
     DB.open do |db|
-      pwhash = db[:auth_db].filter(:username => username).get(:pwhash)
+    pwhash = db[:auth_db].filter(:username => username).get(:pwhash)
 
-      if pwhash and (Password.new(pwhash) == password)
-       user = User.find(:username => username)
-       JSONModel(:user).from_hash(
-        :username => username,
-        :name => user.name,
-        :email => user.email,
-        :first_name => user.first_name,
-        :last_name => user.last_name,
-        :telephone => user.telephone,
-        :title => user.title,
-        :department => user.department,
-        :additional_contact => user.additional_contact
-       )
+    if pwhash and (Password.new(pwhash) == password)
+      user = User.find(:username => username)
+      JSONModel(:user).from_hash(
+       :username => username,
+       :name => user.name,
+       :email => user.email,
+       :first_name => user.first_name,
+       :last_name => user.last_name,
+       :telephone => user.telephone,
+       :title => user.title,
+       :department => user.department,
+       :additional_contact => user.additional_contact
+      )
     else
       nil
     end
   end
-end
+  end
 
 
   def self.matching_usernames(query)

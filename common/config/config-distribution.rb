@@ -31,16 +31,21 @@ class AppConfig
 
 
   def self.resolve_alias(parameter)
+    check_deprecated(parameter)
     if aliases[parameter]
-
-      if deprecated_parameters[parameter]
-        $stderr.puts("WARNING: The parameter '#{parameter}' is now deprecated.  Please use '#{aliases[parameter]}' instead.")
-      end
-
       aliases[parameter]
     else
       parameter
     end
+  end
+
+  def self.check_deprecated(parameter)
+    return unless deprecated_parameters[parameter]
+
+    message = "WARNING: The parameter '#{parameter}' is now deprecated."
+    message += " Please use '#{aliases[parameter]}' instead." if aliases[parameter]
+    deprecated_parameters.delete(parameter) # we don't need to repeat this message
+    $stderr.puts(message)
   end
 
 
@@ -75,7 +80,7 @@ class AppConfig
       if envvar =~ /^APPCONFIG_/
         # Convert envvar to property: i.e. turn APPCONFIG_DB_URL into :db_url
         property = envvar.partition('_').last.downcase.to_sym
-        @@parameters[resolve_alias(property)] = parse_environment_value(value)
+        @@parameters[resolve_alias(property)] = parse_value(value)
       end
     end
   end
@@ -105,12 +110,11 @@ class AppConfig
 
 
   def self.get_preferred_config_path
-
     if java.lang.System.getProperty("aspace.config")
       # Explicit Java property
       java.lang.System.getProperty("aspace.config")
     elsif ENV['ASPACE_CONFIG'] && File.exist?(ENV['ASPACE_CONFIG'])
-      # Setting a system config 
+      # Setting a system config
       ENV['ASPACE_CONFIG']
     elsif ENV['ASPACE_LAUNCHER_BASE'] && File.exist?(File.join(ENV['ASPACE_LAUNCHER_BASE'], "config", "config.rb"))
       File.join(ENV['ASPACE_LAUNCHER_BASE'], "config", "config.rb")
@@ -122,7 +126,6 @@ class AppConfig
     else
       File.join(Dir.home, ".aspace_config.rb")
     end
-
   end
 
   def self.get_devserver_base
@@ -180,6 +183,8 @@ class AppConfig
     @@changed_from_default = {}
 
     require_relative 'config-aliases'
+    require_relative 'preference_defaults'
+    require_relative 'search_browse_column_config'
 
     AppConfig.load_defaults
 
@@ -199,11 +204,26 @@ class AppConfig
     deprecated_parameters[alias_parameter] = options.fetch(:deprecated, false)
   end
 
-  def self.parse_environment_value(value)
-    value = true  if value.to_s =~ /^(T|true)$/
-    value = false if value.to_s =~ /^(F|false)$/
-    value = value.to_i if value =~ /^\d+$/
-    value
+  def self.add_deprecated(parameter)
+    deprecated_parameters[parameter] = true
+  end
+
+  def self.parse_value(value)
+    case value
+    when /^true$/i
+      true
+    when /^false$/i
+      false
+    when /^\d+$/
+      value.to_i
+    when /^:/
+      value.gsub(/\W/, '').to_sym
+    when /^[\[\{].*[\}\]]$/
+      require 'json' unless defined?(JSON)
+      JSON.parse(value) # if this doesn't work let it blow
+    else
+      value
+    end
   end
 
 end

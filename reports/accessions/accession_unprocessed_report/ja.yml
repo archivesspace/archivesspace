@@ -1,0 +1,8 @@
+ja:
+  reports:
+    accession_unprocessed_report:
+      title: 未処理のアクセッション
+      description: 処理されていないアクセッションのみを表示します。 レポートには、アクセッション番号、リンクされたリソース、タイトル、エクステント、カタログ、処理日、処理日で選択されたレコード数のカウント、および完了日処理フィールドがないレコードのエクステント総数が含まれます。
+      total_count: アクセッション数
+      identifier_prefix: アクセッション
+      total_extent: 未処理の合計範囲

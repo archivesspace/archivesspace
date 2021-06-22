@@ -10,20 +10,20 @@ module PublicNewDefaults
   AppConfig[:pui_hide].keys.each do |k|
     unless AppConfig[:pui_hide][k]
       case k
-        when :repositories
-          $MAIN_MENU.push(['/repositories', 'repository._plural'])
-        when :resources
-          $MAIN_MENU.push(['/repositories/resources', 'resource._plural'])
-        when :digital_objects
-          $MAIN_MENU.push(['/objects?limit=digital_object', 'digital_object._plural' ])
-        when :accessions
-          $MAIN_MENU.push(['/accessions', 'unprocessed'])
-        when :subjects
-          $MAIN_MENU.push(['/subjects', 'subject._plural'])
-        when :agents
-          $MAIN_MENU.push(['/agents', 'pui_agent._plural'])
-        when :classifications
-          $MAIN_MENU.push(['/classifications', 'classification._plural'])
+      when :repositories
+        $MAIN_MENU.push(['/repositories', 'repository._plural'])
+      when :resources
+        $MAIN_MENU.push(['/repositories/resources', 'resource._plural'])
+      when :digital_objects
+        $MAIN_MENU.push(['/objects?limit=digital_object', 'digital_object._plural' ])
+      when :accessions
+        $MAIN_MENU.push(['/accessions', 'unprocessed'])
+      when :subjects
+        $MAIN_MENU.push(['/subjects', 'subject._plural'])
+      when :agents
+        $MAIN_MENU.push(['/agents', 'pui_agent._plural'])
+      when :classifications
+        $MAIN_MENU.push(['/classifications', 'classification._plural'])
       end
     end
   end
@@ -116,15 +116,6 @@ module PublicNewDefaults
                                'shared/cite_page_action')
   end
 
-  ## Bookmark
-  # TODO disabled for now; to be implemented with the bookbag feature
-  # if AppConfig[:pui_page_actions_bookmark]
-  #   add_record_page_action_js(['resource', 'archival_object', 'digital_object', 'digital_object_component'],
-  #                             'actions.bookmark',
-  #                             'fa-bookmark',
-  #                             'bookmark_page()')
-  # end
-
   # Request
   if AppConfig[:pui_page_actions_request]
     add_record_page_action_erb(['resource', 'archival_object', 'digital_object', 'digital_object_component', 'accession'],
@@ -161,8 +152,8 @@ end
 if Rails.root.basename.to_s == 'WEB-INF'  # only need to do this when running out of unpacked .war
   robtxt = ((Pathname.new AppConfig.find_user_config).dirname + 'robots.txt' )
   dest = Rails.root.dirname
-  if robtxt.exist? && robtxt.file?  && dest.directory? && dest.writable?
+  if robtxt.exist? && robtxt.file? && dest.directory? && dest.writable?
     p "*********    #{robtxt} exists: copying to #{dest} ****** "
-    FileUtils.cp( robtxt, dest, :verbose => true  )
+    FileUtils.cp( robtxt, dest, :verbose => true )
   end
 end

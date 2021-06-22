@@ -15,7 +15,7 @@ class ApplicationController < ActionController::Base
 
   # Allow overriding of templates via the local folder(s)
   if not ASUtils.find_local_directories.blank?
-    ASUtils.find_local_directories.map{|local_dir| File.join(local_dir, 'frontend', 'views')}.reject { |dir| !Dir.exist?(dir) }.each do |template_override_directory|
+    ASUtils.find_local_directories.map {|local_dir| File.join(local_dir, 'frontend', 'views')}.reject { |dir| !Dir.exist?(dir) }.each do |template_override_directory|
       prepend_view_path(template_override_directory)
     end
   end
@@ -30,6 +30,8 @@ class ApplicationController < ActionController::Base
   before_action :load_repository_list
 
   before_action :unauthorised_access
+
+  before_action :set_locale
 
   def self.permission_mappings
     Array(@permission_mappings)
@@ -82,15 +84,28 @@ class ApplicationController < ActionController::Base
 
       obj.instance_data[:find_opts] = opts[:find_opts] if opts.has_key? :find_opts
 
+      # We need to retain any restricted properties from the existing object. i.e.
+      # properties that exist for the record but the user was not allowed to edit
+      unless params[:action] == 'copy'
+        if params[opts[:instance]].key?(:restricted_properties)
+          params[opts[:instance]][:restricted_properties].each do |restricted|
+            next unless obj.has_key? restricted
+
+            params[opts[:instance]][restricted] = obj[restricted].dup
+          end
+        end
+      end
+
       # Param validations that don't have to do with the JSON validator
       opts[:params_check].call(obj, params) if opts[:params_check]
 
       instance = cleanup_params_for_schema(params[opts[:instance]], model.schema)
 
-
-
       if opts[:replace] || opts[:replace].nil?
         obj.replace(instance)
+      elsif opts[:copy]
+        obj.name = "Copy of " + obj.name
+        obj.uri = ''
       else
         obj.update(instance)
       end
@@ -98,7 +113,7 @@ class ApplicationController < ActionController::Base
       if opts[:required]
         required = opts[:required]
         missing, min_items = compare(required, obj)
-        #render :text => missing
+        #render :plain => missing
         if !missing.nil?
           missing.each do |field_name|
             obj.add_error(field_name, "Property is required but was missing")
@@ -122,7 +137,7 @@ class ApplicationController < ActionController::Base
       end
 
       if obj._exceptions[:errors]
-        instance_variable_set("@exceptions".intern, obj._exceptions)
+        instance_variable_set("@exceptions".intern, clean_exceptions(obj._exceptions))
         return opts[:on_invalid].call
       end
 
@@ -149,7 +164,7 @@ class ApplicationController < ActionController::Base
   def handle_merge(victims, target_uri, merge_type, extra_params = {})
     request = JSONModel(:merge_request).new
     request.target = {'ref' => target_uri}
-    request.victims = Array.wrap(victims).map { |victim| { 'ref' => victim  } }
+    request.victims = Array.wrap(victims).map { |victim| { 'ref' => victim } }
     if params[:id]
       id = params[:id]
     else
@@ -157,10 +172,15 @@ class ApplicationController < ActionController::Base
     end
     begin
       request.save(:record_type => merge_type)
+
       flash[:success] = I18n.t("#{merge_type}._frontend.messages.merged")
 
-      resolver = Resolver.new(target_uri)
-      redirect_to(resolver.view_uri)
+      if merge_type == 'top_container'
+        redirect_to(:controller => :top_containers, :action => :index)
+      else
+        resolver = Resolver.new(target_uri)
+        redirect_to(resolver.view_uri)
+      end
     rescue ValidationException => e
       flash[:error] = e.errors.to_s
       redirect_to({:action => :show, :id => id}.merge(extra_params))
@@ -209,7 +229,7 @@ class ApplicationController < ActionController::Base
                       "linked_events", "linked_events::linked_records",
                       "linked_events::linked_agents",
                       "top_container", "container_profile", "location_profile",
-                      "owner_repo"]
+                      "owner_repo", "places"] + Plugins.fields_to_resolve
     }
   end
 
@@ -275,8 +295,8 @@ class ApplicationController < ActionController::Base
         end
       end
       if required[key].is_a? String
-         if required[key] === "REQ" and obj[key] === ""
-            missing << key
+        if required[key] === "REQ" and obj[key] === ""
+          missing << key
         end
       end
     end
@@ -319,6 +339,15 @@ class ApplicationController < ActionController::Base
     session[:preferences] || self.class.user_preferences(session)
   end
 
+  helper_method :browse_columns
+  def browse_columns
+    @browse_columns ||= if session[:repo_id]
+                          JSONModel::HTTP::get_json("/repositories/#{session[:repo_id]}/current_preferences")['defaults']
+                        else
+                          JSONModel::HTTP::get_json("/current_global_preferences")['defaults']
+                        end
+  end
+
   def user_repository_cookie
     cookies[user_repository_cookie_key]
   end
@@ -329,6 +358,33 @@ class ApplicationController < ActionController::Base
 
   def set_user_repository_cookie(repository_uri)
     cookies[user_repository_cookie_key] = repository_uri
+  end
+
+  # sometimes we get exceptions that look like this: "translation missing: validation_errors.protected_read-only_list_#/dates_of_existence/0/date_type_structured._invalid_value__add_or_update_either_a_single_or_ranged_date_subrecord_to_set_.__must_be_one_of__single__range
+  # replace the untranslatable text with a generic message
+  # untranslatable messages have a reference to an array index, like record/0/subrecord. We'll look for anything that has an error that matches to /d+/ and replace it with something generic that we can translate.
+  def clean_exceptions(ex)
+    generic_error = I18n.t("validation_errors.generic_validation_error")
+    regex = /\/\d+\//
+
+    ex.each do |key, exception|
+      exception.each do |key, value|
+        # value might be a string or an array of strings
+        if value.is_a?(String)
+          if value =~ regex
+            value = generic_error
+          end
+        elsif value.respond_to?(:each_with_index)
+          value.each_with_index do |subvalue, i|
+            if subvalue =~ regex
+              value[i] = generic_error
+            end
+          end
+        end
+      end
+    end
+
+    return ex
   end
 
 
@@ -353,11 +409,13 @@ class ApplicationController < ActionController::Base
 
   def self.user_preferences(session)
     session[:last_preference_refresh] = Time.now.to_i
-    if session[:repo_id]
-      session[:preferences] = JSONModel::HTTP::get_json("/repositories/#{session[:repo_id]}/current_preferences")['defaults']
-    else
-      session[:preferences] = JSONModel::HTTP::get_json("/current_global_preferences")['defaults']
-    end
+    prefs = if session[:repo_id]
+              JSONModel::HTTP::get_json("/repositories/#{session[:repo_id]}/current_preferences")['defaults']
+            else
+              JSONModel::HTTP::get_json("/current_global_preferences")['defaults']
+            end
+    session[:preferences] = prefs.reject { |k, _v|
+      k.include? 'browse_column' or k.include? 'sort_column' or k.include? 'sort_direction'} if prefs
   end
 
 
@@ -428,14 +486,14 @@ class ApplicationController < ActionController::Base
     end
 
     # Make sure the user's selected repository still exists.
-    if session[:repo] && !@repositories.any?{|repo| repo.uri == session[:repo]}
+    if session[:repo] && !@repositories.any? {|repo| repo.uri == session[:repo]}
       session.delete(:repo)
       session.delete(:repo_id)
     end
 
     if not session[:repo] and not @repositories.empty?
       if user_repository_cookie
-        if @repositories.any?{|repo| repo.uri == user_repository_cookie}
+        if @repositories.any? {|repo| repo.uri == user_repository_cookie}
           self.class.session_repo(session, user_repository_cookie)
         else
           # delete the cookie as the stored repository uri is no longer valid
@@ -452,6 +510,7 @@ class ApplicationController < ActionController::Base
   def refresh_permissions
     if session[:last_permission_refresh] &&
         session[:last_permission_refresh] < MemoryLeak::Resources.get(:acl_system_mtime)
+
       User.refresh_permissions(self)
     end
   end
@@ -460,6 +519,7 @@ class ApplicationController < ActionController::Base
   def refresh_preferences
     if session[:last_preference_refresh] &&
         session[:last_preference_refresh] < MemoryLeak::Resources.get(:preferences_system_mtime)
+
       session[:preferences] = nil
     end
   end
@@ -531,7 +591,7 @@ class ApplicationController < ActionController::Base
           if not result.has_key?(property)
             result[property] = false
           else
-            result[property] = (result[property].to_i === 1)
+            result[property] = (result[property].respond_to?(:to_i) && result[property].to_i === 1)
           end
         end
       end
@@ -545,8 +605,12 @@ class ApplicationController < ActionController::Base
       schema['properties'].each do |property, definition|
         if definition['type'] == 'integer'
           if hash.has_key?(property) && hash[property].is_a?(String)
-            if (i = hash[property].to_i) && i > 0
-              hash[property] = i
+            begin
+              value = Integer(hash[property])
+              if value >= 0 # exclude negative numbers for legacy reasons
+                hash[property] = value
+              end
+            rescue ArgumentError
             end
           end
         end
@@ -611,17 +675,17 @@ class ApplicationController < ActionController::Base
   end
 
   def params_for_backend_search
-    params_for_search = params.select{|k,v| ["page", "q", "aq", "type", "sort", "exclude", "filter_term", "fields"].include?(k) and not v.blank?}
+    params_for_search = params.select {|k, v| ["page", "q", "aq", "type", "sort", "exclude", "filter_term", "fields"].include?(k) and not v.blank?}
 
     params_for_search["page"] ||= 1
 
     if params_for_search["type"]
-      params_for_search["type[]"] = Array(params_for_search["type"]).reject{|v| v.blank?}
+      params_for_search["type[]"] = Array(params_for_search["type"]).reject {|v| v.blank?}
       params_for_search.delete("type")
     end
 
     if params_for_search["filter_term"]
-      params_for_search["filter_term[]"] = Array(params_for_search["filter_term"]).reject{|v| v.blank?}
+      params_for_search["filter_term[]"] = Array(params_for_search["filter_term"]).reject {|v| v.blank?}
       params_for_search.delete("filter_term")
     end
 
@@ -631,12 +695,12 @@ class ApplicationController < ActionController::Base
     end
 
     if params_for_search["exclude"]
-      params_for_search["exclude[]"] = Array(params_for_search["exclude"]).reject{|v| v.blank?}
+      params_for_search["exclude[]"] = Array(params_for_search["exclude"]).reject {|v| v.blank?}
       params_for_search.delete("exclude")
     end
 
     if params_for_search["fields"]
-      params_for_search["fields[]"] = Array(params_for_search["fields"]).reject{|v| v.blank?}
+      params_for_search["fields[]"] = Array(params_for_search["fields"]).reject {|v| v.blank?}
       params_for_search.delete("fields")
     end
 
@@ -644,13 +708,13 @@ class ApplicationController < ActionController::Base
   end
 
   def parse_tree(node, parent, &block)
-    node['children'].map{|child_node| parse_tree(child_node, node, &block)} if node['children']
+    node['children'].map {|child_node| parse_tree(child_node, node, &block)} if node['children']
     block.call(node, parent)
   end
 
 
   def prepare_tree_nodes(node, &block)
-    node['children'].map{|child_node| prepare_tree_nodes(child_node, &block) }
+    node['children'].map {|child_node| prepare_tree_nodes(child_node, &block) }
     block.call(node)
   end
 
@@ -683,7 +747,7 @@ class ApplicationController < ActionController::Base
   def advanced_search_queries
     return default_advanced_search_queries if !params["advanced"]
 
-    indexes = params.keys.collect{|k| k[/^f(?<index>[\d]+)/, "index"]}.compact.sort{|a,b| a.to_i <=> b.to_i}
+    indexes = params.keys.collect {|k| k[/^f(?<index>[\d]+)/, "index"]}.compact.sort {|a, b| a.to_i <=> b.to_i}
 
     return default_advanced_search_queries if indexes.empty?
 
@@ -724,6 +788,23 @@ class ApplicationController < ActionController::Base
     }
   end
 
+  def set_locale
+    if session['user']
+      I18n.locale = user_prefs.key?('locale') ? user_prefs['locale'].to_sym : I18n.default_locale
+    else
+      I18n.locale = I18n.default_locale
+    end
+  end
 
+  def current_record
+    raise "method 'current_record' not implemented for controller: #{self}"
+  end
+
+  def controller_supports_current_record?
+    self.method(:current_record).owner != ApplicationController
+  end
+
+  helper_method :current_record
+  helper_method :'controller_supports_current_record?'
 
 end

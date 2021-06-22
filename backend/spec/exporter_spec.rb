@@ -10,12 +10,12 @@ describe "ASpaceExport" do
       obj.repository = { 'ref' => '/repositories/1' }
       tree = {'children' => []}
       opts = { ead3: true }
-      EADModel.new(obj,tree,opts)
+      EADModel.new(obj, tree, opts)
     end
 
     it "does not raise error" do
       opts = {}
-      expect{ ASpaceExport.get_serializer_for(ead_model, opts) }.not_to raise_error
+      expect { ASpaceExport.get_serializer_for(ead_model, opts) }.not_to raise_error
     end
 
     it "returns EAD3Serializer when specified in opts" do

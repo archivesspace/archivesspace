@@ -2,12 +2,12 @@
 # out of json objects or hashes
 
 def get_note(obj, id)
-  obj['notes'].find{|n| n['persistent_id'] == id}
+  obj['notes'].find {|n| n['persistent_id'] == id}
 end
 
 
 def get_notes_by_type(obj, note_type)
-  obj['notes'].select{|n| n['type'] == note_type}
+  obj['notes'].select {|n| n['type'] == note_type}
 end
 
 

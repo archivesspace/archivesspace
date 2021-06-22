@@ -95,7 +95,7 @@ module JSONSchemaUtils
          msgs[:errors][fragment_join(path)] = ["Invalid value '#{invalid}'.  Must be one of: #{valid_set}"]
        }
      },
-     
+
      {
        :failed_attribute => ['ArchivesSpaceDynamicEnum'],
        :pattern => /The property '#\/.*?' value "(.*?)" .*values: (.*) in schema/,
@@ -126,9 +126,9 @@ module JSONSchemaUtils
 
            if msgs[:state][fragment_join(path)].length == 1
              msgs[:errors][fragment_join(path)] = ["Must be a #{desired_type} (you provided a #{actual_type})"]
-             # a little better messages for malformed uri 
+             # a little better messages for malformed uri
              if desired_type =~ /uri$/
-              msgs[:errors][fragment_join(path)].first << " (malformed or invalid uri? check if referenced object exists.)"
+               msgs[:errors][fragment_join(path)].first << " (malformed or invalid uri? check if referenced object exists.)"
              end
            else
              msgs[:errors][fragment_join(path)] = ["Must be one of: #{msgs[:state][fragment_join(path)].join (", ")} (you provided a #{actual_type})"]
@@ -191,7 +191,6 @@ module JSONSchemaUtils
   end
 
 
-
   # Given a list of error messages produced by JSON schema validation, parse
   # them into a structured format like:
   #
@@ -200,7 +199,6 @@ module JSONSchemaUtils
   #   :warnings => {:attr2 => "(attr2 not quite right either)"}
   # }
   def self.parse_schema_messages(messages, validator)
-
     messages = self.extract_suberrors(messages)
 
     msgs = {
@@ -216,6 +214,7 @@ module JSONSchemaUtils
       SCHEMA_PARSE_RULES.each do |rule|
         if (rule[:failed_attribute].nil? || rule[:failed_attribute].include?(message[:failed_attribute])) and
             message[:message] =~ rule[:pattern]
+
           rule[:do].call(msgs, message, message[:fragment],
                          *message[:message].scan(rule[:pattern]).flatten)
 
@@ -316,17 +315,42 @@ module JSONSchemaUtils
     obj.nil? || obj == '' || obj == {}
   end
 
+  # Recursively walk a map and remove any empty strings, empty maps and nils.
+  # Recursively collapses elements so that if, for example, an map becomes
+  # empty after having its own empty elements removed, it gets removed as well.
   def self.drop_empty_elements(obj)
-    if obj.is_a?(Hash)
-      Hash[obj.map do |k, v|
-             v = drop_empty_elements(v)
-             [k, v] unless blank?(v)
-           end.compact]
-    elsif obj.is_a?(Array)
-      obj.map { |elt| drop_empty_elements(elt) }.reject { |elt| blank?(elt) }
-    else
-      obj
+    queue = [obj]
+    to_visit = []
+
+    while !queue.empty?
+      obj = queue.shift
+
+      if obj.is_a?(Hash) || obj.is_a?(Array)
+        (obj.is_a?(Hash) ? obj.values : obj).each do |v|
+          if v.is_a?(Hash) || v.is_a?(Array)
+            queue.push(v)
+          end
+        end
+      end
+
+      to_visit.unshift(obj)
     end
+
+    while !to_visit.empty?
+      obj = to_visit.shift
+
+      if obj.is_a?(Array)
+        obj.reject! {|elt| blank?(elt)}
+      elsif obj.is_a?(Hash)
+        obj.keys.each do |k|
+          if blank?(obj[k])
+            obj.delete(k)
+          end
+        end
+      end
+    end
+
+    obj
   end
 
   # Drop any keys from 'hash' that aren't defined in the JSON schema.

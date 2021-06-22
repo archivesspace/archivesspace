@@ -26,11 +26,14 @@ build/archivesspace_demo_db
 build/*.tmp
 build/.gem
 build/shared
+build/dev
+build/test
 build/.cache
+build/dev/
+build/test/
 backend/tests/ladle-server*
 webdriver-profile*
 common/ARCHIVESSPACE_VERSION
-common/asconstants.rb
 .yardoc
 API.md
 endpoint_examples*
@@ -49,3 +52,7 @@ frontend/default
 indexer/default
 public/default
 tech_docs
+solr/lib/*.jar
+plugins/*/Gemfile.lock
+plugins/*/gems/*
+docker-compose.override.yml

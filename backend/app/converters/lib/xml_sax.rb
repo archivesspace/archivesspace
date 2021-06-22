@@ -9,11 +9,11 @@ module ASpaceImport
     module SAX
 
       module ClassMethods
-       
+
         def handler_name(path, prefix = '' )
           @sticky_nodes ||= {}
           parts = path.split("/").reverse
-          handler_name = prefix 
+          handler_name = prefix
           while parts.length > 1
             @sticky_nodes[parts.last] = true
             handler_name << "_#{parts.pop}"
@@ -21,11 +21,11 @@ module ASpaceImport
 
           handler_name << "_#{parts.pop}"
         end
-        
+
         def with(path, &block)
           define_method(handler_name(path), block)
         end
-        
+
         def and_in_closing(path, &block)
           define_method(handler_name(path, "_closing"), block)
         end
@@ -34,7 +34,7 @@ module ASpaceImport
           with(path) {|*| @ignore = true }
           and_in_closing(path) {|*| @ignore = false }
         end
-        
+
 
         def ensure_configuration
           @configured ||= false
@@ -81,7 +81,7 @@ module ASpaceImport
         @stickies = []
         # another hack for noko:
         @node_shadow = nil
-        @empty_node = false 
+        @empty_node = false
 
         self.class.ensure_configuration
 
@@ -90,25 +90,25 @@ module ASpaceImport
           case node.node_type
 
           when 1
-            
+
             next if @ignore
 
             # Nokogiri Reader won't create events for closing tags on empty nodes
             # https://github.com/sparklemotion/nokogiri/issues/928
             # handle_closer(node) if node.self_closing? #<--- don't do this it's horribly slow
-            if @node_shadow && @empty_node 
+            if @node_shadow && @empty_node
               handle_closer(@node_shadow)
             end
-            
+
             #we do not bother with empty and attributesless nodes. however, a
-            #node can be empty as long as it has attributes 
+            #node can be empty as long as it has attributes
             empty_node = is_node_empty?(node)
-            handle_opener(node, empty_node) unless ( empty_node && !node.attributes? ) 
+            handle_opener(node, empty_node) unless ( empty_node && !node.attributes? )
 
           when 3
             handle_text(node)
           when 15
-            if @node_shadow && node.local_name != @node_shadow[0] 
+            if @node_shadow && node.local_name != @node_shadow[0]
               handle_closer(@node_shadow)
             end
             handle_closer(node)
@@ -121,17 +121,17 @@ module ASpaceImport
       end
 
 
-      # this is used to check if a node is empty before processing. 
+      # this is used to check if a node is empty before processing.
       # this is a bit of a processing hit on this, especially for nodes
-      # that have any children. For this reason we skip the root node.  
+      # that have any children. For this reason we skip the root node.
       # You should override this in order to not check nodes that are
       # expected to be very deep.
       def is_node_empty?(node)
         # calling inner_xml on the root note slows things down a lot...
-        if node.depth == 0 
+        if node.depth == 0
           return false
-        else   
-          return  node.inner_xml.strip.empty? # using empty_element? returns true if there's just whitespace... 
+        else
+          return node.inner_xml.strip.empty? # using empty_element? returns true if there's just whitespace...
         end
       end
 
@@ -140,9 +140,9 @@ module ASpaceImport
         @node_name = node.local_name
         @node_depth = node.depth
         @node_shadow = [node.local_name, node.depth]
-        
+
         @node = node
-        @empty_node = empty_node 
+        @empty_node = empty_node
 
 
         # constrained handlers, e.g. publication/date
@@ -194,7 +194,7 @@ module ASpaceImport
         @context_nodes[@node_name] ||= []
         @context_nodes[@node_name][@node_depth] ||= []
         @context_nodes[@node_name][@node_depth] << type
-        properties.each do |k,v|
+        properties.each do |k, v|
           set obj, k, v
         end
 
@@ -218,7 +218,7 @@ module ASpaceImport
 
 
       def inner_xml
-        @node.inner_xml.gsub("&","&amp;").strip
+        @node.inner_xml.gsub("&", "&amp;").strip
       end
 
       def outer_xml

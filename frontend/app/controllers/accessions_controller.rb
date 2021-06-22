@@ -19,14 +19,18 @@ class AccessionsController < ApplicationController
         search_params = params_for_backend_search.merge({"facet[]" => SearchResultData.ACCESSION_FACETS})
         search_params["type[]"] = "accession"
         uri = "/repositories/#{session[:repo_id]}/search"
-        csv_response( uri, search_params )
+        csv_response( uri, Search.build_filters(search_params), "#{I18n.t('accession._plural').downcase}." )
       }
     end
   end
 
+  def current_record
+    @accession
+  end
 
   def show
     @accession = fetch_resolved(params[:id])
+
     @accession['accession_date'] = I18n.t('accession.accession_date_unknown') if @accession['accession_date'] == "9999-12-31"
 
     flash[:info] = I18n.t("accession._frontend.messages.suppressed_info", JSONModelI18nWrapper.new(:accession => @accession)) if @accession.suppressed
@@ -51,9 +55,7 @@ class AccessionsController < ApplicationController
         @accession.update(defaults.values)
       end
     end
-
   end
-
 
 
   def defaults
@@ -68,7 +70,6 @@ class AccessionsController < ApplicationController
 
 
   def update_defaults
-
     begin
       DefaultValues.from_hash({
                                 "record_type" => "accession",
@@ -86,7 +87,6 @@ class AccessionsController < ApplicationController
       flash[:error] = e.message
       redirect_to :controller => :accessions, :action => :defaults
     end
-
   end
 
   def edit
@@ -112,15 +112,16 @@ class AccessionsController < ApplicationController
   def create
     handle_crud(:instance => :accession,
                 :model => Accession,
-                :on_invalid => ->(){ render action: "new" },
-                :on_valid => ->(id){
+                :on_invalid => ->() { render action: "new" },
+                :on_valid => ->(id) {
                     flash[:success] = I18n.t("accession._frontend.messages.created", JSONModelI18nWrapper.new(:accession => @accession))
-                     if @accession["is_slug_auto"] == false &&
-                        @accession["slug"] == nil &&
-                        params["accession"] &&
-                        params["accession"]["is_slug_auto"] == "1"
-                       flash[:warning] = I18n.t("slug.autogen_disabled")
-                     end
+                    if @accession["is_slug_auto"] == false &&
+                       @accession["slug"] == nil &&
+                       params["accession"] &&
+                       params["accession"]["is_slug_auto"] == "1"
+
+                      flash[:warning] = I18n.t("slug.autogen_disabled")
+                    end
                     redirect_to(:controller => :accessions,
                                 :action => :edit,
                                 :id => id) })
@@ -130,15 +131,16 @@ class AccessionsController < ApplicationController
     handle_crud(:instance => :accession,
                 :model => Accession,
                 :obj => fetch_resolved(params[:id]),
-                :on_invalid => ->(){
+                :on_invalid => ->() {
                   return render action: "edit"
                 },
-                :on_valid => ->(id){
+                :on_valid => ->(id) {
                   flash[:success] = I18n.t("accession._frontend.messages.updated", JSONModelI18nWrapper.new(:accession => @accession))
                   if @accession["is_slug_auto"] == false &&
                      @accession["slug"] == nil &&
                      params["accession"] &&
                      params["accession"]["is_slug_auto"] == "1"
+
                     flash[:warning] = I18n.t("slug.autogen_disabled")
                   end
 
@@ -182,7 +184,11 @@ class AccessionsController < ApplicationController
 
   # refactoring note: suspiciously similar to resources_controller.rb
   def fetch_resolved(id)
-    accession = Accession.find(id, find_opts)
+    # We add this so that we can get a top container location to display with the instance view
+    new_find_opts = find_opts
+    new_find_opts["resolve[]"].push("top_container::container_locations")
+
+    accession = Accession.find(id, new_find_opts)
 
     if accession['classifications']
       accession['classifications'].each do |classification|

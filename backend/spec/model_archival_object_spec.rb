@@ -161,7 +161,7 @@ describe 'ArchivalObject model' do
 
   it "auto generates a 'label' based on the date (when no title)" do
     # if an expression that will display
-    date = build(:json_date)
+    date = build(:json_date, :date_type => 'inclusive')
     ao = ArchivalObject.create_from_json(
       build(:json_archival_object, {
         :title => nil,
@@ -169,10 +169,10 @@ describe 'ArchivalObject model' do
       }),
       :repo_id => $repo_id)
 
-    expect(ArchivalObject[ao[:id]].display_string).to eq(date['expression'])
+    expect(ArchivalObject[ao[:id]].display_string).to eq(date['expression'] + " (Inferred)")
 
     # try with begin and end
-    date = build(:json_date, :expression => nil)
+    date = build(:json_date, :date_type => 'inclusive', :expression => nil)
     ao = ArchivalObject.create_from_json(
       build(:json_archival_object, {
         :title => nil,
@@ -180,21 +180,62 @@ describe 'ArchivalObject model' do
       }),
       :repo_id => $repo_id)
 
-    expect(ArchivalObject[ao[:id]].display_string).to eq("#{date['begin']} - #{date['end']}")
+    expect(ArchivalObject[ao[:id]].display_string).to eq("#{date['begin']} - #{date['end']} (Inferred)")
+
+    date = build(:json_date, :date_type => 'bulk')
+    ao = ArchivalObject.create_from_json(
+      build(:json_archival_object, {
+        :title => nil,
+        :dates => [date]
+      }),
+      :repo_id => $repo_id)
+
+    expect(ArchivalObject[ao[:id]].display_string).to eq("bulk: #{date['expression']} (Inferred)")
+
+    # try with begin and end
+    date = build(:json_date, :date_type => 'bulk', :expression => nil)
+    ao = ArchivalObject.create_from_json(
+      build(:json_archival_object, {
+        :title => nil,
+        :dates => [date]
+      }),
+      :repo_id => $repo_id)
+
+    expect(ArchivalObject[ao[:id]].display_string).to eq("bulk: #{date['begin']} - #{date['end']} (Inferred)")
   end
+
+
+  it "includes date certainty in the generated display string" do
+    opts = {
+      :title => "",
+      :dates => [{
+                   "date_type" => "single",
+                   "label" => "creation",
+                   "certainty" => "approximate",
+                   "begin" => generate(:yyyy_mm_dd),
+                 }]
+    }
+
+    ao = ArchivalObject.create_from_json(build(:json_archival_object, opts),
+                                         :repo_id => $repo_id)
+
+    expect(ArchivalObject[ao[:id]].display_string).to match(/Approximate/)
+  end
+
 
   it "auto generates a 'label' based on the date and title when both are present" do
     title = "Just a title"
-    date = build(:json_date)
+    date1 = build(:json_date, :date_type => 'inclusive')
+    date2 = build(:json_date, :date_type => 'bulk')
 
     ao = ArchivalObject.create_from_json(
       build(:json_archival_object, {
         :title => title,
-        :dates => [date]
+        :dates => [date1, date2]
       }),
       :repo_id => $repo_id)
 
-    expect(ArchivalObject[ao[:id]].display_string).to eq("#{title}, #{date['expression']}")
+    expect(ArchivalObject[ao[:id]].display_string).to eq("#{title}, #{date1['expression']} (Inferred), #{I18n.t("date_type_bulk.bulk")}: #{date2['expression']} (Inferred)")
   end
 
 
@@ -306,10 +347,10 @@ describe 'ArchivalObject model' do
     parent_in_resource_a = create(:json_archival_object, :resource => {:ref => resource_a.uri})
 
     expect {
-    create(:json_archival_object,
-           :parent => {:ref => parent_in_resource_a.uri},
-           # absurd!
-           :resource => {:ref => resource_b.uri})
+      create(:json_archival_object,
+             :parent => {:ref => parent_in_resource_a.uri},
+             # absurd!
+             :resource => {:ref => resource_b.uri})
     }.to raise_error(RuntimeError, /Consistency check failed/)
   end
 
@@ -421,6 +462,7 @@ describe 'ArchivalObject model' do
   end
 
   it "creates an ARK name with archival object" do
+    AppConfig[:arks_enabled] = true
     ao = ArchivalObject.create_from_json(
                                           build(
                                                 :json_archival_object,
@@ -429,9 +471,11 @@ describe 'ArchivalObject model' do
                                           :repo_id => $repo_id)
     expect(ArkName.first(:archival_object_id => ao.id)).to_not be_nil
     ao.delete
+    AppConfig[:arks_enabled] = false
   end
 
   it "deletes ARK Name when resource is deleted" do
+    AppConfig[:arks_enabled] = true
     ao = ArchivalObject.create_from_json(
                                           build(
                                                 :json_archival_object,
@@ -441,5 +485,6 @@ describe 'ArchivalObject model' do
     expect(ArkName.first(:archival_object_id => ao[:id])).to_not be_nil
     ao.delete
     expect(ArkName.first(:archival_object_id => ao[:id])).to be_nil
+    AppConfig[:arks_enabled] = false
   end
 end

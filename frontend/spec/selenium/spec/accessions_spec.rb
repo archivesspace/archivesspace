@@ -54,7 +54,7 @@ describe 'Accessions' do
     @driver.find_element(id: 'accession_rights_statements__0__rights_type_').select_option('copyright')
     @driver.find_element(id: 'accession_rights_statements__0__status_').select_option('copyrighted')
     @driver.clear_and_send_keys([:id, 'accession_rights_statements__0__start_date_'], '2012-01-01')
-    combo = @driver.find_element(xpath: '//div[@class="combobox-container"][following-sibling::select/@id="accession_rights_statements__0__jurisdiction_"]//input[@type="text"]')
+    combo = @driver.find_element(xpath: '//*[@id="accession_rights_statements__0__jurisdiction_"]')
     combo.clear
     combo.click
     combo.send_keys('AU')
@@ -64,7 +64,7 @@ describe 'Accessions' do
     @driver.find_element(css: '#accession_rights_statements__0__external_documents_ .subrecord-form-heading .btn:not(.show-all)').click
     @driver.clear_and_send_keys([:id, 'accession_rights_statements__0__external_documents__0__title_'], 'Agreement')
     @driver.clear_and_send_keys([:id, 'accession_rights_statements__0__external_documents__0__location_'], 'http://locationof.agreement.com')
-    combo = @driver.find_element(xpath: '//div[@class="combobox-container"][following-sibling::select/@id="accession_rights_statements__0__external_documents__0__identifier_type_"]//input[@type="text"]')
+    combo = @driver.find_element(xpath: '//*[@id="accession_rights_statements__0__external_documents__0__identifier_type_"]')
     combo.clear
     combo.click
     combo.send_keys('Trove')
@@ -204,7 +204,9 @@ describe 'Accessions' do
     @driver.find_element(:css, '#accession_linked_agents__0__terms_ .subrecord-form-heading .btn:not(.show-all)').click
 
     @driver.clear_and_send_keys([id: 'accession_linked_agents__0__terms__0__term_'], "#{@me}LinkedAgentTerm1")
+    @driver.find_element(id: 'accession_linked_agents__0__terms__0__term_type_').select_option('function')
     @driver.clear_and_send_keys([id: 'accession_linked_agents__0__terms__1__term_'], "#{@me}LinkedAgentTerm2")
+    @driver.find_element(id: 'accession_linked_agents__0__terms__1__term_type_').select_option('function')
 
     @driver.click_and_wait_until_gone(css: "form#accession_form button[type='submit']")
 
@@ -358,7 +360,9 @@ describe 'Accessions' do
     @driver.find_element(:css, '.modal #subject_terms_ .subrecord-form-heading .btn:not(.show-all)').click
 
     @driver.clear_and_send_keys([id: 'subject_terms__0__term_'], "#{@me}AccessionTermABC")
+    @driver.find_element(id: 'subject_terms__0__term_type_').select_option('function')
     @driver.clear_and_send_keys([id: 'subject_terms__1__term_'], "#{@me}AccessionTermDEF")
+    @driver.find_element(id: 'subject_terms__1__term_type_').select_option('function')
     @driver.find_element(id: 'subject_source_').select_option('local')
 
     @driver.find_element(:id, 'createAndLinkButton').click
@@ -386,7 +390,7 @@ describe 'Accessions' do
     @driver.find_element(id: 'accession_rights_statements__0__rights_type_').select_option('copyright')
     @driver.find_element(id: 'accession_rights_statements__0__status_').select_option('copyrighted')
     @driver.clear_and_send_keys([:id, 'accession_rights_statements__0__start_date_'], '2012-01-01')
-    combo = @driver.find_element(xpath: '//div[@class="combobox-container"][following-sibling::select/@id="accession_rights_statements__0__jurisdiction_"]//input[@type="text"]')
+    combo = @driver.find_element(xpath: '//*[@id="accession_rights_statements__0__jurisdiction_"]')
     combo.clear
     combo.click
     combo.send_keys('AU')
@@ -396,7 +400,7 @@ describe 'Accessions' do
     @driver.find_element(css: '#accession_rights_statements__0__external_documents_ .subrecord-form-heading .btn:not(.show-all)').click
     @driver.clear_and_send_keys([:id, 'accession_rights_statements__0__external_documents__0__title_'], 'Agreement')
     @driver.clear_and_send_keys([:id, 'accession_rights_statements__0__external_documents__0__location_'], 'http://locationof.agreement.com')
-    combo = @driver.find_element(xpath: '//div[@class="combobox-container"][following-sibling::select/@id="accession_rights_statements__0__external_documents__0__identifier_type_"]//input[@type="text"]')
+    combo = @driver.find_element(xpath: '//*[@id="accession_rights_statements__0__external_documents__0__identifier_type_"]')
     combo.clear
     combo.click
     combo.send_keys('Trove')
@@ -494,6 +498,18 @@ describe 'Accessions' do
     end.not_to raise_error
   end
 
+  it 'can define a second level sort for a browse list of Accessions' do
+    @driver.go_home
+    @driver.find_element(:link, 'Browse').click
+    @driver.click_and_wait_until_gone(:link, 'Accessions')
+
+    @driver.find_element(:xpath, "//div/span[contains(text(),'Select')]").click
+    @driver.wait_for_dropdown
+    @driver.click_and_wait_until_gone(:link, 'Identifier')
+
+    assert(5) { expect(@driver.find_element(:xpath, "(//div/span[@class='btn btn-xs btn-default'])[last()]").text).to eq('Identifier Descending') }
+  end
+
   it 'can delete multiple Accessions from the listing' do
     # first login as someone with access to delete
     @driver.login_to_repo(@manager_user, @repo)
@@ -505,9 +521,7 @@ describe 'Accessions' do
     @driver.find_element(:link, 'Browse').click
     @driver.click_and_wait_until_gone(:link, 'Accessions')
 
-    @driver.blocking_find_elements(:css, '.multiselect-column input').each do |checkbox|
-      checkbox.click
-    end
+    @driver.blocking_find_elements(:css, 'th.multiselect-column input')[0].click
 
     @driver.find_element(:css, '.record-toolbar .btn.multiselect-enabled').click
     @driver.find_element(:css, '#confirmChangesModal #confirmButton').click

@@ -1,11 +1,5 @@
 <%= setup_context(:title => I18n.t("agent._plural")) %>
-<%
-   @show_multiselect_column = user_can?("delete_agent_record")
-   title_column_header(I18n.t("agent.name"))
-   add_column(I18n.t("agent_name.authority_id"), proc {|record| record['authority_id']}, :sortable => true, :sort_by => "authority_id")
-   add_column(I18n.t("agent_name.source"), proc {|record| I18n.t("enumerations.name_source.#{record['source']}", :default => record['source']) if record['source']}, :sortable => true, :sort_by => "source")
-   add_column(I18n.t("agent_name.rules"), proc {|record| I18n.t("enumerations.name_rule.#{record['rules']}", :default => record['rules']) if record['rules']}, :sortable => true, :sort_by => "rules")
-%>
+
 <div class="row">
   <div class="col-md-3">
     <div class="sidebar">
@@ -46,9 +40,7 @@
           <% end %>
 
           <div class="btn-group">
-            <%= link_to I18n.t("actions.export_csv"), request.parameters.merge({ :format => :csv, :fields =>
-              ['primary_type', 'title', 'authority_id', 'source', 'rules']
-              }), id: "searchExport",  class:  "btn btn-sm btn-info" %>
+            <%= link_to I18n.t("actions.export_csv"), request.parameters.merge({ :format => :csv, :fields => fields}), id: "searchExport",  class:  "btn btn-sm btn-info" %>
             <a class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown" href="#">
               <%= I18n.t("agent._frontend.action.create") %>
               <span class="caret"></span>

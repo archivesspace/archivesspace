@@ -3,7 +3,7 @@
 <dl id="facets">
 
   <%
-    preferred_facet_order = %w(repository primary_type agents subjects)
+    preferred_facet_order = %w(repository primary_type agents subjects langcode)
     ordered_facet_types = @facets.keys.sort{|a,b|
       if preferred_facet_order.include?(a) && preferred_facet_order.include?(b)
         preferred_facet_order.index(a) <=> preferred_facet_order.index(b)
@@ -31,6 +31,7 @@
       <% facet_count += 1 %>
       <dd>
         <a href="<%= app_prefix("#{@page_search}&filter_fields[]=#{type}&filter_values[]=#{CGI.escape(v)}") %>"
+           rel="nofollow"
            title="<%= t('search_results.filter_by')%> '<%= get_pretty_facet_value(type,v) %>'">
           <%= get_pretty_facet_value(type,v) %>
         </a>

@@ -111,12 +111,14 @@ class ArchivesSpaceService < Sinatra::Base
     if user_id.nil? &&
         repo_id == Repository.global_repo_id &&
         !current_user.can?(:administer_system)
+
       raise AccessDeniedException.new('Error editing Global preferences')
     end
 
     # trying to edit repo prefs
     if user_id.nil? &&
         !current_user.can?(:manage_repository)
+
       raise AccessDeniedException.new('Error editing Repository preferences')
     end
 

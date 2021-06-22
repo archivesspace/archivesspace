@@ -61,6 +61,8 @@ ArchivesSpace::Application.routes.draw do
     match 'archival_objects/:id/delete' => 'archival_objects#delete', :via => [:post]
     match 'archival_objects/:id/rde' => 'archival_objects#rde', :via => [:get]
     match 'archival_objects/:id/add_children' => 'archival_objects#add_children', :via => [:post]
+    match 'archival_objects/:id/publish' => 'archival_objects#publish', :via => [:post]
+    match 'archival_objects/:id/unpublish' => 'archival_objects#unpublish', :via => [:post]
     match 'archival_objects/:id/accept_children' => 'archival_objects#accept_children', :via => [:post]
     match 'archival_objects/:id/suppress' => 'archival_objects#suppress', :via => [:post]
     match 'archival_objects/:id/unsuppress' => 'archival_objects#unsuppress', :via => [:post]
@@ -104,6 +106,7 @@ ArchivesSpace::Application.routes.draw do
     match 'resources/defaults' => 'resources#update_defaults', :via => [:post]
     resources :resources
     match 'resources/:id/container_labels' => 'exports#container_labels', :via => [:get]
+    match 'resources/:id/container_tempate' => 'exports#container_template', :via => [:get]
     match 'resources/:id/download_marc' => 'exports#download_marc', :via => [:get]
     match 'resources/:id/download_ead' => 'exports#download_ead', :via => [:get]
     match 'resources/:id/print_to_pdf' => 'exports#print_to_pdf', :via => [:get]
@@ -112,9 +115,13 @@ ArchivesSpace::Application.routes.draw do
     match 'resources/:id/rde' => 'resources#rde', :via => [:get]
     match 'resources/:id/add_children' => 'resources#add_children', :via => [:post]
     match 'resources/:id/publish' => 'resources#publish', :via => [:post]
+    match 'resources/:id/unpublish' => 'resources#unpublish', :via => [:post]
     match 'resources/:id/accept_children' => 'resources#accept_children', :via => [:post]
     match 'resources/:id/merge' => 'resources#merge', :via => [:post]
     match 'resources/:id/transfer' => 'resources#transfer', :via => [:post]
+    match 'resources/:rid/getbulkfile' => 'bulk_import#get_file', :via => [:post]
+    match 'resources/:rid/getbulkfile' => 'bulk_import#get_file', :via => [:get]
+    match 'resources/:id/link_top_containers' => 'bulk_import#link_top_containers_to_archival_objects', :via => [:post]
 
     match 'resources/:id/tree/root' => 'resources#tree_root', :via => [:get]
     match 'resources/:id/tree/node' => 'resources#tree_node', :via => [:get]
@@ -182,9 +189,11 @@ ArchivesSpace::Application.routes.draw do
     match 'agents/:agent_type/:id/edit' => 'agents#edit', :via => [:get]
     match 'agents/:agent_type/:id/update' => 'agents#update', :via => [:post]
     match 'agents/:agent_type/:id/download_eac' => 'exports#download_eac', :via => [:get]
+    match 'agents/:agent_type/:id/download_marc_auth' => 'exports#download_marc_auth', :via => [:get]
     match 'agents/:agent_type/:id' => 'agents#show', :via => [:get]
     match 'agents' => 'agents#index', :via => [:get]
     match 'agents/:agent_type/:id/delete' => 'agents#delete', :via => [:post]
+    match 'agents/:agent_type/:id/publish' => 'agents#publish', :via => [:post]
     match 'agents/merge' => 'agents#merge', :via => [:post]
     match 'agents/:agent_type/:id/merge_selector' => 'agents#merge_selector', :via => [:post]
     match 'agents/:agent_type/:id/merge_detail' => 'agents#merge_detail', :via => [:post]
@@ -201,6 +210,7 @@ ArchivesSpace::Application.routes.draw do
     match 'resolve/readonly' => 'resolver#resolve_readonly', :via => [:get]
 
     match 'enumerations/list' => 'enumerations#list', :via => [:get]
+    match 'enumerations/csv' => 'enumerations#csv', :via => [:get]
     match 'enumerations/delete' => 'enumerations#delete', :via => [:get]
     match 'enumerations/set_default/:id' => 'enumerations#set_default', :via => [:post]
     match 'enumerations/destroy/:id' => 'enumerations#destroy', :via => [:post]
@@ -235,6 +245,7 @@ ArchivesSpace::Application.routes.draw do
 
     resources :preferences
     match 'preferences/:id' => 'preferences#update', :via => [:post]
+    match 'preferences/:id/reset' => 'preferences#reset', :via => [:post]
 
     resources :rde_templates
     match 'rde_templates/batch_delete' => 'rde_templates#batch_delete', :via => [:post]
@@ -254,6 +265,7 @@ ArchivesSpace::Application.routes.draw do
     match('top_containers/bulk_operations/browse' => 'top_containers#bulk_operations_browse', :via => [:get, :post])
     match('top_containers/bulk_operations/update' => 'top_containers#bulk_operation_update', :via => [:post])
     match('top_containers/batch_delete' => 'top_containers#batch_delete', :via => [:post])
+    match('top_containers/merge' => 'top_containers#batch_merge', :via => [:post])
     match('top_containers/:id' => 'top_containers#update', :via => [:post])
     match('top_containers/:id/delete' => 'top_containers#delete', :via => [:post])
 
@@ -265,12 +277,22 @@ ArchivesSpace::Application.routes.draw do
       # match('custom_report_templates/:id/delete' => 'custom_report_templates#delete', :via => [:post])
       # match('custom_report_templates/:id' => 'custom_report_templates#update', :via => [:post])
 
-      if Plugins.system_menu_items?
-        scope '/plugins' do
-          Plugins.system_menu_items.each do |plugin|
-            unless Plugins.config_for(plugin)['no_automatic_routes']
-              resources plugin.intern
-            end
+
+    if AppConfig[:enable_custom_reports]
+      resources :custom_report_templates
+      match('custom_report_templates/:id/delete' => 'custom_report_templates#delete', :via => [:post])
+      match('custom_report_templates/:id' => 'custom_report_templates#update', :via => [:post])
+      match('custom_report_templates/:id/copy' => 'custom_report_templates#copy', :via => [:get])
+      match('custom_report_templates/:id' => 'custom_report_templates#show', :via => [:get])
+    end
+
+
+
+    if Plugins.system_menu_items?
+      scope '/plugins' do
+        Plugins.system_menu_items.each do |plugin|
+          unless Plugins.config_for(plugin)['no_automatic_routes']
+            resources plugin.intern
           end
         end
       end
@@ -283,10 +305,12 @@ ArchivesSpace::Application.routes.draw do
           end
         end
       end
+    end
 
-      match "system_info" => "system_info#show", :via => [ :get ]
-      match "system_info/log" => "system_info#stream_log", :via => [:get]
+    match "system_info" => "system_info#show", :via => [ :get ]
+    match "system_info/log" => "system_info#stream_log", :via => [:get]
+    match "system_info/config" => "system_info#reload_config", :via => [:post]
 
-      root :to => 'welcome#index'
+   root :to => 'welcome#index'
   end
 end

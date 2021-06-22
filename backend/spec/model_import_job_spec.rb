@@ -9,7 +9,7 @@ describe 'Import job model' do
   before(:all) do
     converter = Class.new(Converter) do
       def self.instance_for(type, input_file)
-       self.new(input_file) if type == 'nonce'
+        self.new(input_file) if type == 'nonce'
       end
 
       def run

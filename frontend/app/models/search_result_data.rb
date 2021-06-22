@@ -16,12 +16,26 @@ class SearchResultData
       facets.each_slice(2).each {|facet_and_count|
         next if facet_and_count[1] === 0
 
-        @facet_data[facet_group][facet_and_count[0]] = {
-          :label => facet_label_string(facet_group, facet_and_count[0]),
-          :count => facet_and_count[1],
-          :filter_term => facet_query_string(facet_group, facet_and_count[0]),
-          :display_string => facet_display_string(facet_group, facet_and_count[0])
-        }
+
+        if (facet_and_count[0] == "none")
+          query = facet_query_string(facet_group, facet_and_count[0])
+          if (@search_data[:criteria].has_key?('q'))
+            query = @search_data[:criteria]['q'] + ' AND ' + query
+          end
+          @facet_data[facet_group][facet_and_count[0]] = {
+              :label => facet_label_string(facet_group, facet_and_count[0]),
+              :count => facet_and_count[1],
+              :q => query,
+              :display_string => facet_display_string(facet_group, facet_and_count[0])
+            }
+        else
+          @facet_data[facet_group][facet_and_count[0]] = {
+              :label => facet_label_string(facet_group, facet_and_count[0]),
+              :count => facet_and_count[1],
+              :filter_term => facet_query_string(facet_group, facet_and_count[0]),
+              :display_string => facet_display_string(facet_group, facet_and_count[0])
+            }
+        end
       }
     }
   end
@@ -38,6 +52,9 @@ class SearchResultData
 
 
   def facet_query_string(facet_group, facet)
+    if (facet == "none")
+      return "-" + facet_group + ":*"
+    end
     {facet_group => facet}.to_json
   end
 
@@ -50,7 +67,7 @@ class SearchResultData
   end
 
   def filtered_terms?
-    @search_data[:criteria].has_key?("filter_term[]") and @search_data[:criteria]["filter_term[]"].reject{|f| f.empty?}.length > 0
+    @search_data[:criteria].has_key?("filter_term[]") and @search_data[:criteria]["filter_term[]"].reject {|f| f.empty?}.length > 0
   end
 
   def facet_label_for_filter(filter)
@@ -68,7 +85,7 @@ class SearchResultData
   def facets_for_filter
     facet_data_for_filter = @facet_data.clone
     facet_data_for_filter.each {|facet_group, facets|
-      facets.delete_if{|facet, facet_map|
+      facets.delete_if {|facet, facet_map|
         facet_map[:count] === @search_data['total_hits']
       }
     }
@@ -91,10 +108,17 @@ class SearchResultData
   end
 
   def facet_display_string(facet_group, facet)
-    "#{I18n.t("search_results.filter.#{facet_group}", :default => facet_group)}: #{facet_label_string(facet_group, facet)}"
+    "#{I18n.t("search.#{get_type}.#{facet_group}", :default => I18n.t("search.multi.#{facet_group}", :default => facet_group))}: #{facet_label_string(facet_group, facet)}"
   end
 
   def facet_label_string(facet_group, facet)
+    # Plugins can opt to tell us how facet values should be translated.
+    if plugin_key = Plugins.facet_i18n_key(facet_group, facet)
+      return I18n.t(plugin_key, :default => facet)
+    end
+
+    return I18n.t("search.location.none") if facet == "none"
+    return facet.upcase if facet_group == "owner_repo_display_string_u_ssort"
     return I18n.t("#{facet}._singular", :default => I18n.t("plugins.#{facet}._singular", :default => facet)) if facet_group === "primary_type"
     return I18n.t("enumerations.name_source.#{facet}", :default => I18n.t("enumerations.subject_source.#{facet}", :default => facet)) if facet_group === "source"
     return I18n.t("enumerations.name_rule.#{facet}", :default => facet) if facet_group === "rules"
@@ -105,8 +129,10 @@ class SearchResultData
     return I18n.t("enumerations.event_outcome.#{facet.to_s}", :default => facet) if facet_group === "outcome"
     return I18n.t("enumerations.subject_term_type.#{facet.to_s}", :default => facet) if facet_group === "first_term_type"
 
+    return I18n.t("enumerations.language_iso639_2.#{facet}", :default => facet) if facet_group === "langcode"
+
     if facet_group === "source"
-      if single_type? and types[0] === "subject"
+      if get_type.include? "subject"
         return I18n.t("enumerations.subject_source.#{facet}", :default => facet)
       else
         return I18n.t("enumerations.name_source.#{facet}", :default => facet)
@@ -114,11 +140,11 @@ class SearchResultData
     end
 
     if facet_group === "level"
-        if single_type? and types[0] === "digital_object"
-          return I18n.t("enumerations.digital_object_level.#{facet.to_s}", :default => facet)
-        else
-          return I18n.t("enumerations.archival_record_level.#{facet.to_s}", :default => facet)
-        end
+      if get_type.include? "digital_object"
+        return I18n.t("enumerations.digital_object_level.#{facet.to_s}", :default => facet)
+      else
+        return I18n.t("enumerations.archival_record_level.#{facet.to_s}", :default => facet)
+      end
     end
 
     # labels for collection management groups
@@ -150,6 +176,18 @@ class SearchResultData
       return I18n.t("assessment._frontend.assessment_completed.#{facet}_value")
     end
 
+    if facet_group === "status"
+      return I18n.t("job.status_#{facet}", :default => facet)
+    end
+
+    if facet_group === "job_type"
+      return I18n.t("job.types.#{facet}", :default => facet)
+    end
+
+    if facet_group === "report_type"
+      return I18n.t("reports.#{facet}.title", :default => facet)
+    end
+
     facet
   end
 
@@ -165,32 +203,33 @@ class SearchResultData
     end
   end
 
-  def single_type?
-    if @search_data[:criteria].has_key?("type[]")
-      @search_data[:criteria]["type[]"].length === 1
-    elsif @search_data[:type]
-      true
-    else
-      false
+  def get_type
+    type = 'multi'
+    if @search_data[:type]
+      type = @search_data[:type]
+    elsif (@search_data[:criteria]["type[]"] || []).length == 1
+      type = @search_data[:criteria]["type[]"][0]
+    elsif (types = @search_data[:criteria]["type[]"] || []).length == 2
+      if types.include?('resource') && types.include?('archival_object')
+        type = 'resource'
+      elsif types.include?('digital_object') && types.include?('digital_object_component')
+        type = 'digital_object'
+      end
+    elsif terms = @search_data[:criteria]['filter_term[]']
+      types = terms.collect { |term| ASUtils.json_parse(term)['primary_type'] }.compact
+      type = types[0] if types.length == 1
     end
+    type = 'agent' if type.include? 'agent'
+    type = 'repositories' if type == 'repository'
+    type
   end
 
   def types
     @search_data[:criteria]["type[]"]
   end
 
-  def sort_fields
-    @sort_fields ||= [].concat(self.class.BASE_SORT_FIELDS)
-
-    single_type? ? @sort_fields : @sort_fields + ['primary_type']
-  end
-
   def sorted?
-    @search_data[:criteria].has_key?("sort")
-  end
-
-  def weightable?
-    @search_data[:criteria].has_key?("q")
+    @search_data[:criteria]["sort"]
   end
 
   def sorted_by(index = 0)
@@ -226,24 +265,38 @@ class SearchResultData
     return "#{field} #{default === "asc" ? "desc" : "asc"}"
   end
 
-  def sorted_by_label(title_label, index = 0)
+  def sorted_by_label(index = 0)
     _sorted_by = sorted_by(index)
 
-    if _sorted_by.nil?
-      return weightable? ? I18n.t("search_sorting.relevance") : I18n.t("search_sorting.select")
-    end
+    return I18n.t("search_sorting.select") if _sorted_by.nil?
 
-    label = _sorted_by == 'title_sort' ? title_label : I18n.t("search_sorting.#{_sorted_by}")
-    direction = I18n.t("search_sorting.#{current_sort_direction(index)}")
-    "#{label} #{direction}"
+    _sorted_by = 'title_sort' if sorted_by == 'title'
+
+    label = sort_fields[_sorted_by] || I18n.t("search.multi.#{_sorted_by}")
+    direction = sorted_by == 'score' ? '' : I18n.t("search_sorting.#{current_sort_direction(index)}")
+    "#{label} #{direction}".strip
+  end
+
+  def sort_fields
+    @sort_fields ||= self.class.BASE_SORT_FIELDS.collect {|f| [f, I18n.t("search.multi.#{f}")]}.to_h
+  end
+
+  def add_sort_field(field, label =nil)
+    @sort_fields ||= self.class.BASE_SORT_FIELDS.collect {|f| [f, I18n.t("search.multi.#{f}")]}.to_h
+    @sort_fields[field] = label || I18n.t("search.multi.#{field}")
   end
 
   def query?
     not @search_data[:criteria]["q"].blank?
   end
 
-  def facet_label_for_query
-    "#{I18n.t("search_results.filter.query")}: #{@search_data[:criteria]["q"]}"
+  def facet_label_for_query(query)
+    if (query.match(/\-.+\:\*/))
+      value = query.tr("-:*", "")
+      "#{I18n.t("search.blank_facet_query_fields."+value)+": None"}"
+    else
+      "#{I18n.t("search.multi.query")}: #{query}"
+    end
   end
 
   def self.BASE_SORT_FIELDS
@@ -251,39 +304,45 @@ class SearchResultData
   end
 
   def self.BASE_FACETS
-    ["primary_type","creators","subjects"]
+    ["primary_type", "creators", "subjects", "langcode"] + Plugins.search_facets_for_base
   end
 
   def self.AGENT_FACETS
-    ["primary_type", "source", "rules"]
+    extras = [:agent_person, :agent_family, :agent_corporate_entity, :agent_software]
+               .flat_map {|agent_type| Plugins.search_facets_for_type(agent_type)}
+    ["primary_type", "source", "rules"] + extras
   end
 
   def self.ACCESSION_FACETS
-    ["subjects", "accession_date_year", "creators"]
+    ["subjects", "accession_date_year", "creators"] + Plugins.search_facets_for_type(:accession)
   end
 
   def self.RESOURCE_FACETS
-    ["subjects", "publish", "level", "classification_path", "primary_type"]
+    ["subjects", "publish", "level", "classification_path", "primary_type", "langcode"] + Plugins.search_facets_for_type(:resource)
+  end
+
+  def self.ARCHIVAL_OBJECT_FACETS
+    ["subjects", "publish", "level", "classification_path", "primary_type"] + Plugins.search_facets_for_type(:archival_object)
   end
 
   def self.DIGITAL_OBJECT_FACETS
-    ["subjects", "publish", "digital_object_type", "level", "primary_type"]
+    ["subjects", "publish", "digital_object_type", "level", "primary_type", "langcode"] + Plugins.search_facets_for_type(:digital_object)
   end
 
   def self.CONTAINER_PROFILE_FACETS
-    ["container_profile_width_u_sstr", "container_profile_height_u_sstr", "container_profile_depth_u_sstr", "container_profile_dimension_units_u_sstr"]
+    ["container_profile_width_u_sstr", "container_profile_height_u_sstr", "container_profile_depth_u_sstr", "container_profile_dimension_units_u_sstr"] + Plugins.search_facets_for_type(:container_profile)
   end
 
   def self.LOCATION_FACETS
-    ["temporary", "building", "floor", "room", "area", "location_profile_display_string_u_ssort"]
+    ["temporary", "owner_repo_display_string_u_ssort", "building", "floor", "room", "area", "location_profile_display_string_u_ssort"] + Plugins.search_facets_for_type(:location)
   end
 
   def self.SUBJECT_FACETS
-    ["source", "first_term_type"]
+    ["source", "first_term_type"] + Plugins.search_facets_for_type(:subject)
   end
 
   def self.EVENT_FACETS
-    ["event_type", "outcome"]
+    ["event_type", "outcome"] + Plugins.search_facets_for_type(:event)
   end
 
   def self.UNTITLED_TYPES
@@ -291,13 +350,35 @@ class SearchResultData
   end
 
   def self.CLASSIFICATION_FACETS
+    [] + Plugins.search_facets_for_type(:classification)
+  end
+
+  def self.TOP_CONTAINER_FACETS
     []
   end
 
   def self.ASSESSMENT_FACETS
-    ['assessment_record_types', 'assessment_surveyors', 'assessment_review_required', 'assessment_reviewers', 'assessment_completed', 'assessment_inactive', 'assessment_survey_year', 'assessment_sensitive_material']
+    ['assessment_record_types', 'assessment_surveyors', 'assessment_review_required', 'assessment_reviewers', 'assessment_completed', 'assessment_inactive', 'assessment_survey_year', 'assessment_sensitive_material'] + Plugins.search_facets_for_type(:assessment)
   end
 
+  def self.JOB_FACETS
+    ["status", "job_type", "report_type", "owner"]
+  end
+
+  def self.facets_for(record_type)
+    if record_type.include? 'agent'
+      record_type = 'agent'
+    elsif record_type == 'archival_object'
+      record_type = 'resource'
+    elsif record_type == 'digital_object_component'
+      record_type = 'digital_object'
+    end
+    begin
+      self.send("#{record_type.upcase}_FACETS")
+    rescue
+      self.BASE_FACETS
+    end
+  end
 
   def self.add_result_hook(&block)
     @result_hooks ||= []

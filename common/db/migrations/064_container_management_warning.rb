@@ -2,8 +2,8 @@ require_relative 'utils'
 
 Sequel.migration do
 
-	up do
-    
+  up do
+
     create_table(:system_event) do
       primary_key :id
 
@@ -20,7 +20,7 @@ Sequel.migration do
 
 
     #{ "*" * 100 }
-    #{ "v" *  42} VERY IMPORTANT #{"v" * 42 } 
+    #{ "v" * 42} VERY IMPORTANT #{"v" * 42 } 
     #{ "*" * 100 }
    
 
@@ -32,14 +32,14 @@ Sequel.migration do
     
 
     #{ "*" * 100 }
-    #{ "^" *  42} VERY IMPORTANT #{"^" * 42 } 
+    #{ "^" * 42} VERY IMPORTANT #{"^" * 42 } 
     #{ "*" * 100 }
 
 
 
 
 EOF
-      
+
       $stderr.puts(warning)
     end
   end

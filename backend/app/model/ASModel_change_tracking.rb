@@ -58,7 +58,7 @@ module ASModel
     #
     #   initial_value(:name) # => 'Initial'
     def initial_value(column)
-      initial_values.fetch(column){get_column_value(column)}
+      initial_values.fetch(column) {get_column_value(column)}
     end
 
     # A hash with column symbol keys and initial values.
@@ -93,20 +93,20 @@ module ASModel
       check_missing_initial_value(column)
 
       value = if initial_values.has_key?(column)
-        initial_values[column]
-      else
-        get_column_value(column)
-      end
+                initial_values[column]
+              else
+                get_column_value(column)
+              end
 
       initial_values[column] = if value && value != true && value.respond_to?(:clone)
-        begin
-          value.clone
-        rescue TypeError
-          value
-        end
-      else
-        value
-      end
+                                 begin
+                                   value.clone
+                                 rescue TypeError
+                                   value
+                                 end
+                               else
+                                 value
+                               end
     end
 
     private

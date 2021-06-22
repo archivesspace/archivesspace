@@ -14,13 +14,11 @@ module AspaceFormHelper
   class FormContext
 
     def initialize(name, values_from, parent)
-
       values = values_from.is_a?(JSONModelType) ? values_from.to_hash(:raw) : values_from
 
       @forms = FormHelpers.new
       @parent = parent
       @context = [[name, values]]
-      @path_to_i18n_map = {}
     end
 
 
@@ -42,11 +40,6 @@ module AspaceFormHelper
     end
 
 
-    def path_to_i18n_map
-      @path_to_i18n_map
-    end
-
-
     def set_index(template, idx)
       template.gsub(/\[\]$/, "[#{idx}]")
     end
@@ -59,7 +52,7 @@ module AspaceFormHelper
       url = ""
       html = ""
 
-      case  obj['jsonmodel_type']
+      case obj['jsonmodel_type']
       when 'resource'
         scope = :repo
         route = "resources"
@@ -121,19 +114,19 @@ module AspaceFormHelper
       end
 
       url.to_s
-
     end
 
+    # renders a list of form element sets from a template. Each item will be re-orderable.
+    # Objects should be an array.
     def list_for(objects, context_name, &block)
-
       objects ||= []
       result = ""
 
       objects.each_with_index do |object, idx|
         push(set_index(context_name, idx), object) do
-          result << "<li id=\"#{current_id}\" class=\"subrecord-form-wrapper\" data-index=\"#{idx}\" data-object-name=\"#{context_name.gsub(/\[\]/,"").singularize}\">"
+          result << "<li id=\"#{current_id}\" class=\"subrecord-form-wrapper\" data-index=\"#{idx}\" data-object-name=\"#{context_name.gsub(/\[\]/, "").singularize}\">"
           result << hidden_input("lock_version") if obj.respond_to?(:has_key?) && obj.has_key?("lock_version")
-          result << @parent.capture(object, idx,  &block)
+          result << @parent.capture(object, idx, &block)
           result << "</li>"
         end
       end
@@ -141,12 +134,11 @@ module AspaceFormHelper
       ("<ul data-name-path=\"#{set_index(self.path(context_name), '${index}')}\" " +
        " data-id-path=\"#{id_for(set_index(self.path(context_name), '${index}'), false)}\" " +
        " class=\"subrecord-form-list\">#{result}</ul>").html_safe
-
     end
 
 
+    # renders a single template containing form elements.
     def fields_for(object, context_name, &block)
-
       result = ""
 
       push(context_name, object) do
@@ -154,10 +146,16 @@ module AspaceFormHelper
         result << @parent.capture(object, &block)
       end
 
+      extra_classes = ""
+
+      # ANW-429: Add class to top level div so element can be switched out by JS based on user form input
+      # TODO: refactor
+      extra_classes += "sdl-subrecord-form" if context_name == "structured_date_range" || context_name == "structured_date_single"
+
+
       ("<div data-name-path=\"#{set_index(self.path(context_name), '${index}')}\" " +
         " data-id-path=\"#{id_for(set_index(self.path(context_name), '${index}'), false)}\" " +
-        " class=\"subrecord-form-fields-for\">#{result}</div>").html_safe
-
+        " class=\"subrecord-form-fields-for #{extra_classes}\">#{result}</div>").html_safe
     end
 
 
@@ -190,10 +188,6 @@ module AspaceFormHelper
           "[#{e}]"
         end
       }.join("")
-
-      if name
-        @path_to_i18n_map[name_to_json_path(path)] = i18n_for(name)
-      end
 
       "#{names.first}#{path}"
     end
@@ -239,11 +233,6 @@ module AspaceFormHelper
     end
 
 
-    def path_to_i18n_key(path)
-      path_to_i18n_map[path]
-    end
-
-
     def exceptions_for_js(exceptions)
       result = {}
       [:errors, :warnings].each do |condition|
@@ -259,7 +248,7 @@ module AspaceFormHelper
 
 
     def id_for_javascript(name)
-      "#{form_top}#{name.split("/").collect{|a| "[#{a}]"}.join}".gsub(/[\[\]\/]/, "_")
+      "#{form_top}#{name.split("/").collect {|a| "[#{a}]"}.join}".gsub(/[\[\]\/]/, "_")
     end
 
 
@@ -297,6 +286,20 @@ module AspaceFormHelper
       date_input = textfield(name, value, field_opts)
 
       label_with_field(name, date_input, opts)
+    end
+
+    def label_and_disabled_checkbox(name)
+      html = ""
+
+      html << "<div class='form-group'>"
+
+      html << "<label class='col-sm-2 control-label'>#{name}</label>"
+      html << "<div class='col-sm-1'>"
+      html << "<input type='checkbox' name='disabled' disabled>"
+      html << "</div>"
+      html << "</div>"
+
+      return html.html_safe
     end
 
     def label_and_textarea(name, opts = {})
@@ -378,20 +381,28 @@ module AspaceFormHelper
       if value.blank?
         label_with_field(name, value.blank? ? default : value , opts)
       else
-        label_with_field(name, merge_select(name, value, opts[:field_opts] || {}), opts)
+        label_with_field(name, merge_select(name, value, opts), opts)
       end
     end
-    def merge_select(name, value, opts = {})
-      value += "<label>".html_safe
-      value += merge_checkbox("#{name}", {
-        :class => "merge-toggle"}, false, false)
-      value += "&#160;<small>".html_safe
-      value += I18n.t("actions.merge_replace")
-      value += "</small></label>".html_safe
+
+    # ANW-429: Modified this method so that a disable_replace can be passed in, which will skip the creation of the "replace" checkboxes.
+    # This can be used to not render them in case a replace in inappropriate, e.g., the target record has nothing to replace with.
+    def merge_select(name, value, opts)
+      unless opts[:disable_replace] == true
+        value += "<label class='subreplace-control'>".html_safe
+        value += merge_checkbox("#{name}", {
+          :class => "merge-toggle"}, false, false)
+        value += "&#160;<small>".html_safe
+        value += I18n.t("actions.merge_replace")
+        value += "</small></label>".html_safe
+      else
+        value += ""
+      end
     end
 
     def combobox(name, options, opts = {})
-      select(name, options, opts.merge({:"data-combobox" => true}))
+      select(name, options, opts.merge({ :"data-combobox" => true,
+                                         :id => id_for(name) }))
     end
 
 
@@ -401,12 +412,16 @@ module AspaceFormHelper
       else
         opts[:class] = "form-control"
       end
+      if opts.has_key? :"data-combobox"
+        opts[:role] = "listbox"
+        opts[:"aria-label"] = I18n.t(i18n_for(name))
+      end
       selection = obj[name]
       selection = selection[0...-4] if selection.is_a? String and selection.end_with?("_REQ")
       @forms.select_tag(path(name), @forms.options_for_select(options, selection || default_for(name) || opts[:default]), {:id => id_for(name)}.merge!(opts))
     end
 
-    def textarea(name = nil, value = "", opts =  {})
+    def textarea(name = nil, value = "", opts = {})
       value = value[0...-4] if value.is_a? String and value.end_with?("_REQ")
       value = nil if value === "REQ"
       options = {:id => id_for(name), :rows => 3}
@@ -415,20 +430,20 @@ module AspaceFormHelper
       options[:placeholder] = placeholder if not placeholder.empty?
       options[:class] = "form-control"
 
-      @forms.text_area_tag(path(name), h(value),  options.merge(opts))
+      @forms.text_area_tag(path(name), h(value), options.merge(opts))
     end
 
-    def textarea_ro(name = nil, value = "", opts =  {})
+    def textarea_ro(name = nil, value = "", opts = {})
       return "" if value.blank?
       opts[:escape] = true unless opts[:escape] == false
       opts[:base_url] ||= "/"
       value = clean_mixed_content(value, opts[:base_url]) if opts[:clean] == true
-      value =  @parent.preserve_newlines(value) if opts[:clean] == true
+      value = @parent.preserve_newlines(value) if opts[:clean] == true
       value = CGI::escapeHTML(value) if opts[:escape]
       value.html_safe
     end
 
-    def textfield(name = nil, value = nil, opts =  {})
+    def textfield(name = nil, value = nil, opts = {})
       value ||= obj[name] if !name.nil?
 
       value = value[0...-4] if value.is_a? String and value.end_with?("_REQ")
@@ -463,7 +478,7 @@ module AspaceFormHelper
     end
 
 
-    def password(name = nil, value = "", opts =  {})
+    def password(name = nil, value = "", opts = {})
       @forms.tag("input", {:id => id_for(name), :type => "password", :value => h(value), :name => path(name)}.merge(opts),
                  false, false)
     end
@@ -491,7 +506,6 @@ module AspaceFormHelper
       @active_template = name
       @parent.templates[name][:block].call(self, *args)
       @active_template = old
-
     end
 
     def label_and_fourpartid
@@ -513,18 +527,32 @@ module AspaceFormHelper
 
       options = {:class => classes.join(' '), :for => id_for(name)}
 
-      tooltip = I18n.t_raw("#{prefix}#{i18n_for(name)}_tooltip", :default => '')
-      if not tooltip.empty?
-        options[:title] = tooltip
-        options["data-placement"] = "bottom"
-        options["data-html"] = true
-        options["data-delay"] = 500
-        options["data-trigger"] = "manual"
-        options["data-template"] = '<div class="tooltip archivesspace-help"><div class="tooltip-arrow"></div><div class="tooltip-inner"></div></div>'
-        options[:class] += " has-tooltip"
+      unless (tooltip = tooltip(name, prefix)).empty?
+        add_tooltip_options(tooltip, options)
       end
 
-      @forms.content_tag(:label, I18n.t(prefix + i18n_for(name)), options.merge(opts || {}))
+      attr_string = options.merge(opts || {})
+                      .map {|k, v| '%s="%s"' % [CGI::escapeHTML(k.to_s),
+                                                CGI::escapeHTML(v.to_s)]}
+                      .join(' ')
+      content = CGI::escapeHTML(I18n.t(prefix + i18n_for(name)))
+      "<label #{attr_string}>#{content}</label>".html_safe
+    end
+
+    def add_tooltip_options(tooltip, options)
+      options[:title] = tooltip
+      options['data-placement'] = 'bottom'
+      options['data-html'] = true
+      options['data-delay'] = 500
+      options['data-trigger'] = 'manual'
+      options['data-template'] = '<div class="tooltip archivesspace-help"><div class="tooltip-arrow"></div><div class="tooltip-inner"></div></div>'
+      options[:class] ||= ''
+      options[:class] += ' has-tooltip'
+      options
+    end
+
+    def tooltip(name, prefix = '')
+      I18n.t_raw("#{prefix}#{i18n_for(name)}_tooltip", :default => '')
     end
 
     def checkbox(name, opts = {}, default = true, force_checked = false)
@@ -548,35 +576,35 @@ module AspaceFormHelper
       html = ""
 
       html << "<div class='form-group'>"
-        html << label("oai_sets_available", {}, ["control-label", "col-sm-2"])
-        html << "<div class='col-sm-9'>"
-          html << "<ul class='checkbox-list'>"
-            value_list['enumeration_values'].each do |v|
-              # if we have an empty list of checkboxes, assume all sets are enabled.
-              # otherwise, a checkbox is on if it's the in the list we get from the backend.
-              checked = set_arry.include?(v['id'].to_s) || set_arry.length == 0
+      html << label("oai_sets_available", {}, ["control-label", "col-sm-2"])
+      html << "<div class='col-sm-9'>"
+      html << "<ul class='checkbox-list'>"
+      value_list['enumeration_values'].each do |v|
+        # if we have an empty list of checkboxes, assume all sets are enabled.
+        # otherwise, a checkbox is on if it's the in the list we get from the backend.
+        checked = set_arry.include?(v['id'].to_s) || set_arry.length == 0
 
-              html << "<li class='list-group-item'>"
-                html << "<div class='checkbox'>"
-                  html << "<label>"
-                    html << "<input id=\"#{v['id']}\" name=\"sets[#{v['id']}]\" type=\"checkbox\" "
-                    if checked
-                      html << "checked=\"checked\" "
-                    end
+        html << "<li class='list-group-item'>"
+        html << "<div class='checkbox'>"
+        html << "<label>"
+        html << "<input id=\"#{v['id']}\" name=\"sets[#{v['id']}]\" type=\"checkbox\" "
+        if checked
+          html << "checked=\"checked\" "
+        end
 
-                    if readonly?
-                      html << "disabled />"
-                    else
-                      html << "/>"
-                    end # of checkbox tag
+        if readonly?
+          html << "disabled />"
+        else
+          html << "/>"
+        end # of checkbox tag
 
-                    html << "#{v['value']}"
-                  html << "</label>"
-                html << "</div>"
-              html << "</li>"
-            end
-          html << "</ul>"
-        html << "</div>" #col-sm-9
+        html << "#{v['value']}"
+        html << "</label>"
+        html << "</div>"
+        html << "</li>"
+      end
+      html << "</ul>"
+      html << "</div>" #col-sm-9
       html << "</div>" #form-group
 
       return html.html_safe
@@ -589,30 +617,30 @@ module AspaceFormHelper
       html = ""
 
       html << "<div class='form-group'>"
-          html << label("repo_set_section", {}, ["control-label", "col-sm-2"])
-        html << "<div class='col-sm-9'>"
-          html << "<ul class='checkbox-list'>"
-            repositories.each do |r|
-              # a checkbox is on if it's the in the list we get from the backend.
-              checked = set_arry.include?(r['repo_code'].to_s)
+      html << label("repo_set_section", {}, ["control-label", "col-sm-2"])
+      html << "<div class='col-sm-9'>"
+      html << "<ul class='checkbox-list'>"
+      repositories.each do |r|
+        # a checkbox is on if it's the in the list we get from the backend.
+        checked = set_arry.include?(r['repo_code'].to_s)
 
-              html << "<li class='list-group-item'>"
-                html << "<div class='checkbox'>"
-                  html << "<label>"
-                    html << "<input id=\"#{r['repo_code']}\" name=\"repo_set_codes[#{r['repo_code']}]\" type=\"checkbox\" "
-                    if checked
-                      html << "checked=\"checked\" "
-                    end
+        html << "<li class='list-group-item'>"
+        html << "<div class='checkbox'>"
+        html << "<label>"
+        html << "<input id=\"#{r['repo_code']}\" name=\"repo_set_codes[#{r['repo_code']}]\" type=\"checkbox\" "
+        if checked
+          html << "checked=\"checked\" "
+        end
 
-                    html << "/>"
+        html << "/>"
 
-                    html << "#{r['repo_code']}"
-                  html << "</label>"
-                html << "</div>"
-              html << "</li>"
-            end
-          html << "</ul>"
-        html << "</div>" #col-sm-9
+        html << "#{r['repo_code']}"
+        html << "</label>"
+        html << "</div>"
+        html << "</li>"
+      end
+      html << "</ul>"
+      html << "</div>" #col-sm-9
       html << "</div>" #form-group
 
       return html.html_safe
@@ -626,10 +654,10 @@ module AspaceFormHelper
       html = ""
 
       html << "<div class='form-group'>"
-        html << label("sponsor_set_names", {}, ["control-label", "col-sm-2"])
-        html << "<div class='col-sm-9'>"
-          html << "<input id='oai_config_sponsor_set_names_' type='text' value='#{value}' name='oai_config[sponsor_set_names]' class='form-control js-taggable' datarole='tagsinput'>"
-        html << "</div>"
+      html << label("sponsor_set_names", {}, ["control-label", "col-sm-2"])
+      html << "<div class='col-sm-9'>"
+      html << "<input id='oai_config_sponsor_set_names_' type='text' value='#{value}' name='oai_config[sponsor_set_names]' class='form-control js-taggable' datarole='tagsinput'>"
+      html << "</div>"
       html << "</div>"
 
       return html.html_safe
@@ -648,6 +676,7 @@ module AspaceFormHelper
 
       @forms.tag("input", options.merge(opts), false, false)
     end
+
     def radio(name, value, opts = {})
       options = {:id => "#{id_for(name)}", :type => "radio", :name => path(name), :value => value}
       options[:checked] = "checked" if obj[name] == value
@@ -719,9 +748,14 @@ module AspaceFormHelper
 
       control_group_classes << "#{opts[:control_class]}" if opts.has_key? :control_class
 
+      #TODO: refactor this. We don't need a separate method for each extra special class to be added below. Probably the thing to is to use the opts param.
       # ANW-617: add JS classes to slug fields
       control_group_classes << "js-slug_textfield" if name == "slug"
       control_group_classes << "js-slug_auto_checkbox" if name == "is_slug_auto"
+
+      # ANW-429: add JS classes to structured date fields
+      control_group_classes << "js-structured_date_select" if name == "date_type_structured"
+
 
       controls_classes << "#{opts[:controls_class]}" if opts.has_key? :controls_class
 
@@ -731,9 +765,119 @@ module AspaceFormHelper
       control_group << field_html
       control_group << "</div>"
       control_group << "</div>"
+
+      # ANW-429
+      # TODO: Refactor to the JS files, ideally so this is run when the "Add Date" button is clicked. This is a tricky one since the select field this JS needs to be run on doesn't exist until the callbacks that run after the button is clicked run. Putting it here means that it runs as part of the html, and is always included in the right context.
+      control_group << "<script>selectStructuredDateSubform();</script>" if name == "date_type_structured"
+
       control_group.html_safe
     end
-  end
+
+    # ANW-429
+    # Generates HTML for a very stripped down summary of a note for use in the agents merge preview.
+    # TODO: Eventually we'll want to use the notes partials in place of this code. This code was created because the current notes show takes up a lot of space, and work needs to be done to figure out the exact setup/context needed to get those views to render properly.
+    # T
+    def notes_preview(notes_index = "notes", content_index = "content")
+      content_label = I18n.t("note._frontend.preview.content")
+      html = ""
+
+      if obj[notes_index] && obj[notes_index].length > 0
+
+        html << "<div class='subrecord-form-container'>"
+        html << "<h4 class='subrecord-form-heading'>#{I18n.t("subsections.notes")}</h4>"
+
+        obj[notes_index].each_with_index do |o, i|
+          notes_heading = I18n.t("note.#{o['jsonmodel_type'].to_s}")
+
+          if o[content_index].is_a?(Array)
+            notes_content = o[content_index].join(" : ")
+          else
+            notes_content = o[content_index]
+          end
+
+          html << "<section>"
+          html << "<h5>#{notes_heading}</h5>"
+          html << "<div class='panel panel-default'>"
+          html << "<div class=\"form-group\">"
+          html << "<label class='control-label col-sm-2'>#{content_label}</label>"
+          html << "<div class='col-sm-9 label-only'>"
+          html << "#{notes_content}"
+          html << "</div>"
+          html << "</div>"
+          html << "</div>"
+          html << "</section>"
+        end
+
+        html << "</div>"
+
+        html.html_safe
+
+      end
+    end
+
+    # Same as above, but intended for use with an agents top level notes record instead of a subrecord, in the merge selector form.
+    # Needed because emitting templates as usual breaks the merge selector interface
+    def notes_preview_single(obj)
+      content_label = I18n.t("note._frontend.preview.content")
+      html = ""
+
+      notes_content = ""
+
+      obj['subnotes'].each do |subnote|
+        if subnote['jsonmodel_type'] == "note_text"
+          notes_content << subnote["content"] if subnote["content"]
+        end
+      end
+
+      html << "<br />"
+      html << "<section>"
+      html << "<div class='panel panel-default'>"
+      html << "<div class=\"form-group\">"
+      html << "<label class='control-label col-sm-2'>#{content_label}</label>"
+      html << "<div class='col-sm-9 label-only'>"
+      html << "#{notes_content}"
+      html << "</div>"
+      html << "</div>"
+      html << "</div>"
+      html << "</section>"
+
+      html.html_safe
+    end
+
+    # ANW-429
+    # outputs HTML for checkboxes for record-level add and replace for agents merge
+    def record_level_merge_controls(form, name = "undefined", controls = true, replace = true, append = true)
+      html = ""
+
+      html << '<h4 class="subrecord-form-heading">'
+      html << I18n.t("#{name}._singular").to_s
+
+      if controls
+        if replace
+          html << '<label class="replace-control">'
+          html << form.merge_checkbox('replace')
+          html << '<small>'
+          html << I18n.t("actions.merge_replace").to_s
+          html << '</small>'
+          html << '</label>'
+        end
+
+        if append
+          html << '<label class="append-control">'
+          html << form.merge_checkbox('append')
+          html << '<small>'
+          html << I18n.t("actions.merge_add").to_s
+          html << '</small>'
+          html << '</label>'
+        end
+      end
+
+      html << '</h4>'
+
+      return html.html_safe
+    end
+
+  end #of FormContext
 
   def merge_victim_view(hash, opts = {})
     jsonmodel_type = hash["jsonmodel_type"]
@@ -741,7 +885,7 @@ module AspaceFormHelper
     prefix = opts[:plugin] ? 'plugins.' : ''
     html = "<div class='form-horizontal'>"
 
-    hash.reject {|k,v| PROPERTIES_TO_EXCLUDE_FROM_READ_ONLY_VIEW.include?(k)}.each do |property, value|
+    hash.reject {|k, v| PROPERTIES_TO_EXCLUDE_FROM_READ_ONLY_VIEW.include?(k)}.each do |property, value|
       if schema and schema["properties"].has_key?(property)
         if (schema["properties"][property].has_key?('dynamic_enum'))
           value = I18n.t({:enumeration => schema["properties"][property]["dynamic_enum"], :value => value}, :default => value)
@@ -754,7 +898,7 @@ module AspaceFormHelper
         elsif schema["properties"][property]["type"] === "array"
           # this view doesn't support arrays
           next
-        elsif value.kind_of? Hash
+        elsif value.is_a? Hash
           # can't display an object either
           next
         end
@@ -787,7 +931,7 @@ module AspaceFormHelper
       end
     end
 
-    def textfield(name = nil, value = "", opts =  {})
+    def textfield(name = nil, value = "", opts = {})
       return "" if value.blank?
       opts[:escape] = true unless opts[:escape] == false
       opts[:base_url] ||= "/"
@@ -797,12 +941,13 @@ module AspaceFormHelper
       value.html_safe
     end
 
-    def textarea(name = nil, value = "", opts =  {})
+    def textarea(name = nil, value = "", opts = {})
       return "" if value.blank?
       opts[:escape] = true unless opts[:escape] == false
       opts[:base_url] ||= "/"
       value = clean_mixed_content(value, opts[:base_url]) if opts[:clean] == true
-      value =  @parent.preserve_newlines(value) if opts[:clean] == true
+      value = @parent.preserve_newlines(value) if opts[:clean] == true
+      value = value.to_s if value.is_a? Integer
       value = CGI::escapeHTML(value) if opts[:escape]
       value.html_safe
     end
@@ -841,13 +986,6 @@ module AspaceFormHelper
     env = self.request.env
     env['form_context_depth'] ||= 0
 
-    # Not feeling great about this, but we render the form twice: the first pass
-    # sets up the mapping from form input names to i18n keys, while the second
-    # actually uses that map to set the labels correctly.
-    env['form_context_depth'] += 1
-    capture(context, &body)
-    env['form_context_depth'] -= 1
-
     s = "<div class=\"form-context\" id=\"form_#{name}\">".html_safe
     s << context.hidden_input("lock_version", values_from["lock_version"])
 
@@ -862,6 +1000,11 @@ module AspaceFormHelper
     s << "</div>".html_safe
 
     s
+  rescue
+    Rails.logger.error("Failure generating templates for JS: #{$!}")
+    Rails.logger.error("Stacktrace:\n%s" % [$@.join("\n")])
+
+    raise $!
   end
 
 
@@ -928,7 +1071,7 @@ module AspaceFormHelper
 
     def options_for(context, property, add_empty_options = false, opts = {})
       options = []
-      options.push([(opts[:empty_label] || ""),""]) if add_empty_options
+      options.push([(opts[:empty_label] || ""), ""]) if add_empty_options
 
       defn = jsonmodel_schema_definition(property)
 
@@ -942,7 +1085,7 @@ module AspaceFormHelper
         if opts.has_key?(:i18n_path_for) && opts[:i18n_path_for].has_key?(v)
           i18n_path = opts[:i18n_path_for][v]
         elsif opts.has_key?(:i18n_prefix)
-          i18n_path =  "#{opts[:i18n_prefix]}.#{v}"
+          i18n_path = "#{opts[:i18n_prefix]}.#{v}"
         elsif defn.has_key?('dynamic_enum')
           i18n_path = {
             :enumeration =>  defn['dynamic_enum'],
@@ -956,6 +1099,7 @@ module AspaceFormHelper
       options
       #options.sort {|a,b| a[0] <=> b[0]}
     end
+
 
     private
 
@@ -1015,7 +1159,6 @@ module AspaceFormHelper
     @delivering_js_templates = true
 
     result = ""
-
     return result if @templates.blank?
 
     obj = {}
@@ -1031,7 +1174,7 @@ module AspaceFormHelper
     # Because infinite loops are terrifying and a pain to debug, let us reign
     # in the fear with a 100-loop-count-get-out-of-here-alive limit.
     i = 0
-    while(true)
+    while (true)
       templates_to_process.each do |name, template|
         context = FormContext.new("${path}", obj, self)
 
@@ -1054,7 +1197,7 @@ module AspaceFormHelper
 
       if templates_processed.length < @templates.length
         # some new templates were defined while outputing the js templates
-        templates_to_process = @templates.reject{|name, _| templates_processed.include?(name)}
+        templates_to_process = @templates.reject {|name, _| templates_processed.include?(name)}
       else
         # we've got them all
         break
@@ -1086,7 +1229,7 @@ module AspaceFormHelper
     s
   end
 
-  PROPERTIES_TO_EXCLUDE_FROM_READ_ONLY_VIEW = ["jsonmodel_type", "lock_version", "_resolved", "uri", "ref", "create_time", "system_mtime", "user_mtime", "created_by", "last_modified_by", "sort_name_auto_generate", "suppressed", "display_string", "file_uri"]
+  PROPERTIES_TO_EXCLUDE_FROM_READ_ONLY_VIEW = ["jsonmodel_type", "lock_version", "_resolved", "uri", "ref", "create_time", "system_mtime", "user_mtime", "created_by", "last_modified_by", "sort_name_auto_generate", "suppressed", "display_string", "file_uri", "agent_person_id", "agent_software_id", "agent_family_id", "agent_corporate_entity_id", "id"]
 
   def read_only_view(hash, opts = {})
     jsonmodel_type = hash["jsonmodel_type"]
@@ -1094,7 +1237,16 @@ module AspaceFormHelper
     prefix = opts[:plugin] ? 'plugins.' : ''
     html = "<div class='form-horizontal'>"
 
-    hash.reject {|k,v| PROPERTIES_TO_EXCLUDE_FROM_READ_ONLY_VIEW.include?(k)}.each do |property, value|
+    # in some cases, we want to not display certain fields for some records, but not for others.
+    # e.g., we don't want to display published for subjects (they are always published), but we do for other records types.
+    if opts[:exclude]
+      props_to_exclude = PROPERTIES_TO_EXCLUDE_FROM_READ_ONLY_VIEW + opts[:exclude]
+    else
+      props_to_exclude = PROPERTIES_TO_EXCLUDE_FROM_READ_ONLY_VIEW
+
+    end
+
+    hash.reject {|k, v| props_to_exclude.include?(k)}.each do |property, value|
 
       if schema and schema["properties"].has_key?(property)
         if (schema["properties"][property].has_key?('dynamic_enum'))
@@ -1105,10 +1257,12 @@ module AspaceFormHelper
           value = value === true ? "True" : "False"
         elsif schema["properties"][property]["type"] === "date"
           value = value.blank? ? "" : Date.strptime(value, "%Y-%m-%d")
+        elsif schema["properties"][property]["type"] === "integer"
+          value = value.blank? ? "" : value.to_s
         elsif schema["properties"][property]["type"] === "array"
           # this view doesn't support arrays
           next
-        elsif value.kind_of? Hash
+        elsif value.is_a? Hash
           # can't display an object either
           next
         end
@@ -1148,5 +1302,24 @@ module AspaceFormHelper
     }
   end
 
+  # ANW-429: returns true if an admin has specified field_name as a custom require in record_name.
+  # This code is run inside the templates to ensure that these fields are required no matter how many copies of record_name are added to a form.
+  # required_values is generally queried from the DB once in the controller, and then passed in here from the view preventing multiple queries.
+  def is_required_by_admin?(required_values, record_name, field_name)
+    return false if required_values == [] || required_values.nil? || required_values[record_name].nil?
+
+    # need to call #first because it's possible to specify requires for multiple subrecords, so required_values[record_name] contains an array of hashes.
+    required_list_for_record = required_values[record_name].first
+
+    if required_list_for_record
+      required_list_for_record[field_name] == "REQ"
+    else
+      false
+    end
+  end
+
+  def custom_report_template_limit_options
+    [100, 500, 1000, 5000, 10000, 50000]
+  end
 
 end

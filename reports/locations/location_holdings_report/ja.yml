@@ -1,0 +1,12 @@
+ja:
+  reports:
+    location_holdings_report:
+      title: ロケーションホールディングス
+      identifier_prefix: ロケーション
+      description: 1つ以上の場所で棚上げされたコンテナに関するレポート
+      repository_report_type: リポジトリ
+      building_report_type: 建物
+      single_location_report_type: 単一の場所
+      location_range_report_type: 場所の範囲
+      start_range: 最初の場所
+      end_range: 最後の場所

@@ -124,6 +124,27 @@ en:
       agent_software_notes: Help on Notes
       agent_software_related_agents: Help on Related Agents
       agent_software_external_documents: Help on External Documents
+      # Agent Shared
+      agent_sources: Help on Agent Sources
+      agent_record_identifiers: Help on Agent Record Identifiers
+      agent_maintenance_histories: Help on Agent Maintenance Histories
+      agent_other_agency_codes: Help on Other Agency Codes
+      agent_conventions_declarations: Help on Agent Conventions Declarations
+      agent_alternate_sets: Help on Agent Alternate Sets
+      agent_record_controls: Help on Agent Record Controls
+      agent_identifiers: Help on Entity IDs
+      agent_genders: Help on Genders
+      agent_place: Help on Places
+      agent_occupation: Help on Occupations 
+      agent_function: Help on Functions
+      agent_topic: Help on Topics
+      agent_used_language: Help on Used Language
+      agent_external_documents: Help on External Documents
+      agent_external_resources: Help on Related External Resources
+      agent_related_agents: Help on Related Agents
+      agent_required: Help on Edit Required Fields
+      agent_merge: Help on Agent Merging
+
       # Location
       location: Help on Locations
       # Event

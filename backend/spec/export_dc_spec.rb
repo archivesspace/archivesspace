@@ -9,95 +9,97 @@ require_relative 'export_spec_helper'
 describe "Exported Dublin Core metadata" do
 
   before(:all) do
-    @repo_contact = build(:json_agent_contact)
-    @repo_agent = build(:json_agent_corporate_entity,
-                         :agent_contacts => [@repo_contact])
+    as_test_user('admin') do
+      @repo_contact = build(:json_agent_contact)
+      @repo_agent = build(:json_agent_corporate_entity,
+                           :agent_contacts => [@repo_contact])
 
-    @repo = build(:json_repository)
+      @repo = build(:json_repository)
 
-    @repo_with_agent = create(:json_repository_with_agent,
-                              :repository => @repo,
-                              :agent_representation => @repo_agent)
+      @repo_with_agent = create(:json_repository_with_agent,
+                                :repository => @repo,
+                                :agent_representation => @repo_agent)
 
-    $old_repo_id = $repo_id
-    $repo_id = @repo_with_agent.id
-    JSONModel.set_repository(@repo_with_agent.id)
+      $old_repo_id = $repo_id
+      $repo_id = @repo_with_agent.id
+      JSONModel.set_repository(@repo_with_agent.id)
 
-    names = (0..5).map { build(:json_name_person) }
-    @agent_person = create(:json_agent_person,
-                           :names => names)
+      names = (0..5).map { build(:json_name_person) }
+      @agent_person = create(:json_agent_person,
+                             :names => names)
 
-    @subject_person = create(:json_agent_person)
+      @subject_person = create(:json_agent_person)
 
-    @subjects = (0..5).map { create(:json_subject) }
+      @subjects = (0..5).map { create(:json_subject) }
 
-    linked_agents = [{
-                       :role => 'creator',
-                       :ref => @agent_person.uri
-                     },
-                     {
-                       :role => 'subject',
-                       :ref => @subject_person.uri
-                     }]
+      linked_agents = [{
+                         :role => 'creator',
+                         :ref => @agent_person.uri
+                       },
+                       {
+                         :role => 'subject',
+                         :ref => @subject_person.uri
+                       }]
 
-    linked_subjects = @subjects.map {|s| {:ref => s.uri} }
+      linked_subjects = @subjects.map {|s| {:ref => s.uri} }
 
-    notes = digital_object_note_set + [build(:json_note_bibliography)]
+      notes = digital_object_note_set + [build(:json_note_bibliography)]
 
-    dates = (0..5).map { build(:json_date) }
+      dates = (0..5).map { build(:json_date) }
 
-    @digital_object = create(:json_digital_object,
-                             :linked_agents => linked_agents,
-                             :subjects => linked_subjects,
-                             :dates => dates,
-                             :lang_materials => [build(:json_lang_material),
-                                                 build(:json_lang_material),
-                                                 build(:json_lang_material_with_note)],
-                             :notes => notes)
+      @digital_object = create(:json_digital_object,
+                               :linked_agents => linked_agents,
+                               :subjects => linked_subjects,
+                               :dates => dates,
+                               :lang_materials => [build(:json_lang_material),
+                                                   build(:json_lang_material),
+                                                   build(:json_lang_material_with_note)],
+                               :notes => notes)
 
-    use_statements = []
+      use_statements = []
 
-    10.times {
-      use_statements << generate(:use_statement)
-    }
+      10.times {
+        use_statements << generate(:use_statement)
+      }
 
-    # ensure one duplicate value
-    use_statements << use_statements.last.clone
+      # ensure one duplicate value
+      use_statements << use_statements.last.clone
 
-    @file_versions = use_statements.map {|us| build(:json_file_version, :use_statement => us)}
+      @file_versions = use_statements.map {|us| build(:json_file_version, :use_statement => us)}
 
-    @components = []
-    # a child with a file version
-    @components << create(:json_digital_object_component,
-                          :digital_object => {:ref => @digital_object.uri},
-                          :file_versions => @file_versions[6..7])
+      @components = []
+      # a child with a file version
+      @components << create(:json_digital_object_component,
+                            :digital_object => {:ref => @digital_object.uri},
+                            :file_versions => @file_versions[6..7])
 
-    # a grandchild with no file version
-    @components << create(:json_digital_object_component,
-                          :digital_object => {:ref => @digital_object.uri},
-                          :parent => {:ref => @components[0].uri},
-                          :file_versions => @file_versions[8..-1])
+      # a grandchild with no file version
+      @components << create(:json_digital_object_component,
+                            :digital_object => {:ref => @digital_object.uri},
+                            :parent => {:ref => @components[0].uri},
+                            :file_versions => @file_versions[8..-1])
 
 
-    @dc = get_dc(@digital_object)
+      @dc = get_dc(@digital_object)
 
-    # puts "SOURCE: #{@digital_object.inspect}\n"
-    # puts "RESULT: #{@dc.to_xml}\n"
+    end
   end
 
 
   after(:all) do
-    @digital_object.delete
-    @components.each do |c|
-      c.delete
-    end
+    as_test_user('admin') do
+      @digital_object.delete
+      @components.each do |c|
+        c.delete
+      end
 
-    [@agent_person, @subject_person, @subjects].flatten.each do |rec|
-      rec.delete
-    end
+      [@agent_person, @subject_person, @subjects].flatten.each do |rec|
+        rec.delete
+      end
 
-    $repo_id = $old_repo_id
-    JSONModel.set_repository($repo_id)
+      $repo_id = $old_repo_id
+      JSONModel.set_repository($repo_id)
+    end
   end
 
 
@@ -120,7 +122,7 @@ describe "Exported Dublin Core metadata" do
   describe "Dublin Core mappings" do
 
     it "maps lang_materials['language_and_script'] to language" do
-      language_vals = @digital_object.lang_materials.map{|l| l['language_and_script']}.compact
+      language_vals = @digital_object.lang_materials.map {|l| l['language_and_script']}.compact
       language_vals.each do |language|
         lang_val = language['language']
         expect(@dc).to have_tag "dc/language" => lang_val
@@ -131,7 +133,7 @@ describe "Exported Dublin Core metadata" do
 
 
     it "maps lang_materials['notes'] to language" do
-      language_notes = @digital_object.lang_materials.map {|l| l['notes']}.compact.reject {|e|  e == [] }.flatten
+      language_notes = @digital_object.lang_materials.map {|l| l['notes']}.compact.reject {|e| e == [] }.flatten
       language_notes.each do |note|
         expect(@dc).to have_tag "dc/language" => note_content(note)
       end

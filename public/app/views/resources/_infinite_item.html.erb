@@ -3,25 +3,30 @@
 %>
 <div class="infinite-item infinite-item-indent-<%= indent_level %>">
   <div class="information" style="overflow: hidden;">
-      <%= render partial: 'shared/idbadge', locals: {:result => @result, :props => { :full => false} } %>
+      <%=
+        render partial: 'shared/idbadge', locals: {
+          :props => { :full => false, :infinite_item => true },
+          :result => @result,
+        }
+      %>
   </div>
 
   <% scopecontent_note = @result.note('scopecontent') %>
-  <% if scopecontent_note %>
+  <% if scopecontent_note && !inherited?(scopecontent_note) %>
     <%= render partial: 'shared/single_note', locals: {:type => 'abstract', :note_struct => scopecontent_note, :notitle => true} %>
   <% end %>
 
   <dl class="dl-horizontal">
 
     <% accessrestrict_note = @result.note('accessrestrict') %>
-    <% if accessrestrict_note && !accessrestrict_note['note_text'].blank? %>
+    <% if accessrestrict_note && !accessrestrict_note['note_text'].blank? && !inherited?(accessrestrict_note) %>
       <dt><%= accessrestrict_note['label'] %></dt>
       <dd>
         <%= render partial: 'shared/single_note', locals: {:type => 'accessrestrict', :note_struct => accessrestrict_note, :notitle => true} %>
       </dd>
     <% end %>
 
-    <% unless @result.dates.blank? %>
+    <% unless @result.dates.blank? || all_inherited?(@result.dates) %>
         <dt><%= t('resource._public.dates') %></dt>
         <% @result.dates.each do |date| %>
         <dd>
@@ -31,7 +36,7 @@
         <% end %>
     <% end %>
 
-    <% unless @result.extents.blank? %>
+    <% unless @result.extents.blank? || all_inherited?(@result.extents) %>
         <dt><%= t('resource._public.extent') %></dt>
         <% @result.extents.each do |extent| %>
           <dd>
@@ -41,7 +46,7 @@
         <% end %>
     <% end %>
 
-    <% unless @result.agents.blank? %>
+    <% unless @result.agents.blank? || all_inherited?(@result.agents.collect(&:last).flatten) %>
       <dt><%= t('pui_agent.related') %></dt>
         <% @result.agents.collect(&:last).flatten.each do |relationship| %>
           <dd>
@@ -51,7 +56,7 @@
     <% end %>
 
     <% if @result.lang_materials %>
-      <% @result.lang_materials.each do |lang_material| %>
+      <% @result.lang_materials.reject { |lm| inherited?(lm) }.each do |lang_material| %>
         <dt><%= t('resource._public.lang')%></dt>
         <dd><%= t('enumerations.language_iso639_2.' + lang_material['language']) %></dd>
         <% unless lang_material['script'].blank? %>
@@ -61,7 +66,7 @@
       <% end %>
     <% else %>
       <% langmaterial_note = @result.note('langmaterial') %>
-      <% if langmaterial_note && !langmaterial_note['note_text'].blank? %>
+      <% if langmaterial_note && !langmaterial_note['note_text'].blank? && !inherited?(langmaterial_note) %>
         <dt><%= t('resource._public.lang')%></dt>
         <dd>
           <%= render partial: 'shared/single_note', locals: {:type => 'langmaterial', :note_struct => langmaterial_note, :notitle => false} %>

@@ -18,7 +18,7 @@ class ArkQueryResponseMock
   end
 end
 
-describe  ArkNameController, type: :controller do
+describe ArkNameController, type: :controller do
   it "should redirect to the correct URL for a resource" do
     HTTP.stub(:get_response) { ArkQueryResponseMock.new("Resource", "4", "5") }
 

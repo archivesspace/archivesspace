@@ -1,5 +1,5 @@
 <% if user_can?('cancel_job') && ["queued", "running"].include?(@job.status) && "true" == AppConfig[:jobs_cancelable].to_s %>
-  <% if job_types[@job.job_type]['cancel_permissions'].reject{|perm| user_can?(perm)}.empty? %>
+  <% if job_types[@job.job_type] && job_types[@job.job_type]['cancel_permissions'].reject{|perm| user_can?(perm)}.empty? %>
     <div class="record-toolbar">
       <div class="btn-group btn-toolbar pull-right">
         <div class="btn btn-inline-form">

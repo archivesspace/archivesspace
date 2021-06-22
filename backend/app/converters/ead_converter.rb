@@ -30,20 +30,20 @@ class EADConverter < Converter
   # which greatly helps the performance.
   def is_node_empty?(node)
     parent_nodes = %w{ ead e archdesc dsc } + (1..12).collect { |n| "c#{ sprintf('%02d', n)}" }
-    if  parent_nodes.include?( node.local_name )
+    if parent_nodes.include?( node.local_name )
       return false
     else
-      return  node.inner_xml.strip.empty?
+      return node.inner_xml.strip.empty?
     end
   end
 
   # A lot of nodes need tweaking to format the content. Like, people love their p's but they don't
   # actually want to ever see them.
   def format_content(content)
-  	return content if content.nil?
+    return content if content.nil?
     content.tr!("\n", ' ') # literal linebreaks are assumed to not be part of data
-    content.gsub(%r{<p(?: [^>/]*)?>},"").gsub(%r{</p>|<p(?:\s+[^>]*)?/>}, "\n\n")
-      .gsub("<lb/>", "\n\n").gsub("<lb>","\n\n").gsub("</lb>","")
+    content.gsub(%r{<p(?: [^>/]*)?>}, "").gsub(%r{</p>|<p(?:\s+[^>]*)?/>}, "\n\n")
+      .gsub("<lb/>", "\n\n").gsub("<lb>", "\n\n").gsub("</lb>", "")
       .strip
   end
 
@@ -52,45 +52,42 @@ class EADConverter < Converter
   # sometimes notes can have things like  lists jammed in them. we need to break those
   # out, but keep the narrative order of the notes.
   def insert_into_subnotes(split_tag = 'list')
-      subnotes =  ancestor(:note_multipart).subnotes
-      theleftovers = nil
+    subnotes = ancestor(:note_multipart).subnotes
+    theleftovers = nil
 
-      unless subnotes.nil?
-        if subnotes.is_a?(Array)
-          sn = subnotes.pop
-        else
-          sn = subnotes
-        end
-
-        if sn["content"]
-          # clone the object...
-          theleftovers = sn.dup
-          # rip out the list, and put the left overs back in the content
-          content = sn["content"].gsub("ead:#{split_tag}", split_tag) # just in case..
-          sn["content"], trash,  theleftovers["content"] = content.partition(/<#{split_tag}[^>]*>.*?<\/#{split_tag}>/m)
-          # what a hack. ripping out the list might leave some dangling <p>s
-          [sn, theleftovers].each do |s|
-            next if s["content"].nil?
-            s["content"] = Nokogiri::XML::DocumentFragment.parse(s["content"].strip.gsub(/^<\/p[^>]*>/,'')).to_xml(:encoding => 'utf-8')
-          end
-        end
-
-        # put everything before the list back...
-        unless ( sn["content"].nil? or  sn["content"].length < 1 )
-          set ancestor(:note_multipart), :subnotes, sn
-        end
-
+    unless subnotes.nil?
+      if subnotes.is_a?(Array)
+        sn = subnotes.pop
+      else
+        sn = subnotes
       end
+
+      if sn["content"]
+        # clone the object...
+        theleftovers = sn.dup
+        # rip out the list, and put the left overs back in the content
+        content = sn["content"].gsub("ead:#{split_tag}", split_tag) # just in case..
+        sn["content"], trash, theleftovers["content"] = content.partition(/<#{split_tag}[^>]*>.*?<\/#{split_tag}>/m)
+        # what a hack. ripping out the list might leave some dangling <p>s
+        [sn, theleftovers].each do |s|
+          next if s["content"].nil?
+          s["content"] = Nokogiri::XML::DocumentFragment.parse(s["content"].strip.gsub(/^<\/p[^>]*>/, '')).to_xml(:encoding => 'utf-8')
+        end
+      end
+
+      # put everything before the list back...
+      unless ( sn["content"].nil? or sn["content"].length < 1 )
+        set ancestor(:note_multipart), :subnotes, sn
+      end
+
+    end
         # now return the leftovers to be delt with after the list subnote has
         # been created
-        theleftovers
+    theleftovers
   end
 
 
-
-
   def self.configure
-
     with 'ead' do |*|
       make :resource, {
         :publish => att('audience') != 'internal',
@@ -140,25 +137,25 @@ class EADConverter < Converter
           # inner_xml.split(/[\/_\-\.\s]/).each_with_index do |id, i|
           #   set receiver, "id_#{i}".to_sym, id
           # end
-          set obj, :id_0, inner_xml if  obj.id_0.nil? || obj.id_0.empty?
-            if node.attribute( "type")
-              make :external_id, {
-                  :source => node.attribute( "type"),
-                  :external_id => inner_xml
-              } do |ext_id|
-                set ancestor(:resource ), :external_ids, ext_id
-              end
+          set obj, :id_0, inner_xml if obj.id_0.nil? || obj.id_0.empty?
+          if node.attribute( "type")
+            make :external_id, {
+                :source => node.attribute( "type"),
+                :external_id => inner_xml
+            } do |ext_id|
+              set ancestor(:resource ), :external_ids, ext_id
             end
-          when 'archival_object'
+          end
+        when 'archival_object'
           set obj, :component_id, inner_xml if obj.component_id.nil? || obj.component_id.empty?
-            if node.attribute( "type" )
+          if node.attribute( "type" )
             make :external_id, {
                 :source => node.attribute( "type" ),
                 :external_id => inner_xml
             } do |ext_id|
-              set ancestor(:resource, :archival_object), :external_ids, ext_id
+                set ancestor(:resource, :archival_object), :external_ids, ext_id
               end
-            end
+          end
         end
       end
     end
@@ -214,60 +211,65 @@ class EADConverter < Converter
     end
 
 
-    with "langmaterial" do |*|
-      # if <langmaterial> contains encoded <language> tags create a matching language_and_script record
+    with 'langmaterial' do |*|
       langmaterial = Nokogiri::XML::DocumentFragment.parse(inner_xml)
-      if (language = langmaterial.xpath('.//language')).size != 0 && (langcode = langmaterial.xpath('.//language').attr('langcode'))
-        script = language.attr('scriptcode')
-        make :lang_material, {
-          :jsonmodel_type => 'lang_material',
-          :language_and_script => {
-            'jsonmodel_type' => 'language_and_script',
-            'language' => langcode.to_s,
-            'script' => script ? script.to_s : nil
-          }
-        } do |lang|
-        set ancestor(:resource, :archival_object), :lang_materials, lang
+      ancestor(:resource, :archival_object) do |obj|
+        # if <langmaterial> contains encoded <language> tags create a matching language_and_script record
+        if !(languages = langmaterial.xpath('.//language')).empty? && langmaterial.xpath('.//language').any? { |l| l.attr('langcode') }
+          languages.each do |language|
+            next unless (langcode = language.attr('langcode'))
+
+            script = language.attr('scriptcode')
+            make :lang_material, {
+              :jsonmodel_type => 'lang_material',
+              :language_and_script => {
+                'jsonmodel_type' => 'language_and_script',
+                'language' => langcode.to_s,
+                'script' => script ? script.to_s : nil
+              }
+            } do |lang|
+              set obj, :lang_materials, lang
+            end
+          end
+        # if a resource and no <language> set to undetermined
+        elsif obj.class.record_type == 'resource'
+          make :lang_material, {
+            :jsonmodel_type => 'lang_material',
+            :language_and_script => {
+              'jsonmodel_type' => 'language_and_script',
+              'language' => 'und'
+            }
+          } do |lang|
+            set obj, :lang_materials, lang
+          end
         end
-      # if we don't have an encoded language inside the <langmaterial> set it to undetermined.
-      else
-        make :lang_material, {
-          :jsonmodel_type => 'lang_material',
-          :language_and_script => {
-            'jsonmodel_type' => 'language_and_script',
-            'language' => 'und'
-          }
-        } do |lang|
-        set ancestor(:resource, :archival_object), :lang_materials, lang
+
+        # write full <langmaterial> content to a note, subbing out the language tags (if present)
+        langmaterial.search('.//language').each do |node|
+          node.replace Nokogiri::XML::Text.new(node.inner_html, node.document)
+        end
+        content = langmaterial.to_s
+
+        unless content.nil? || content.strip.empty?
+          make :lang_material, {
+            :jsonmodel_type => 'lang_material',
+            :notes => {
+              'jsonmodel_type' => 'note_langmaterial',
+              'type' => 'langmaterial',
+              'persistent_id' => att('id'),
+              'publish' => att('audience') != 'internal',
+              'content' => [format_content( content.sub(/<head>.*?<\/head>/, '') )]
+            }
+          } do |note|
+            set obj, :lang_materials, note
+          end
         end
       end
-
-      # write full <langmaterial> content to a note, subbing out the language tags (if present)
-      content = inner_xml
-      if inner_xml.match(/(<language langcode="[a-z]+" scriptcode="[A-z]+">(.*)<\/language>)|(<language langcode="[a-z]+">(.*)<\/language>)|(<language langcode="[a-z]+"\/>)/)
-        content = inner_xml.sub(/(<language langcode="[a-z]+" scriptcode="[A-z]+">(.*)<\/language>)|(<language langcode="[a-z]+">(.*)<\/language>)|(<language langcode="[a-z]+"\/>)/, '\\2\\4')
-      end
-
-      unless content.nil? || content == ''
-        make :lang_material, {
-          :jsonmodel_type => 'lang_material',
-          :notes => {
-            'jsonmodel_type' => 'note_langmaterial',
-            'type' => 'langmaterial',
-            'persistent_id' => att('id'),
-            'publish' => att('audience') != 'internal',
-            'content' => [format_content( content.sub(/<head>.*?<\/head>/, '') )]
-          }
-        } do |note|
-          set ancestor(:resource, :archival_object), :lang_materials, note
-        end
-      end
-
     end
 
     # If we've gotten this far and still haven't hit a <langmaterial><language> we must assign an undetermined language value
     with "archdesc/did" do |e|
-      if context_obj['jsonmodel_type'] == 'resource' && inner_xml.include?('<langmaterial>') == false
+      if context_obj['jsonmodel_type'] == 'resource' && inner_xml.include?('<langmaterial') == false
         make :lang_material, {
           :jsonmodel_type => 'lang_material',
           :language_and_script => {
@@ -275,8 +277,8 @@ class EADConverter < Converter
             'language' => 'und'
           }
         } do |lang|
-        set ancestor(:resource, :archival_object), :lang_materials, lang
-        break
+          set ancestor(:resource), :lang_materials, lang
+          break
         end
       end
     end
@@ -307,6 +309,7 @@ class EADConverter < Converter
         :label => att('label'),
         :publish => att('audience') != 'internal',
         :subnotes => {
+          :publish => att('audience') != 'internal',
           'jsonmodel_type' => 'note_text',
           'content' => format_content( content )
         }
@@ -419,7 +422,7 @@ class EADConverter < Converter
 
     %w(bibliography index).each do |x|
       with "#{x}/head" do |node|
-        set :label,  format_content( inner_xml )
+        set :label, format_content( inner_xml )
       end
 
       with "#{x}/p" do |*|
@@ -536,7 +539,7 @@ class EADConverter < Converter
 
 
     with 'chronlist' do |*|
-      if  ancestor(:note_multipart)
+      if ancestor(:note_multipart)
         left_overs = insert_into_subnotes('chronlist')
       else
         left_overs = nil
@@ -577,7 +580,7 @@ class EADConverter < Converter
 
     with 'list' do |*|
 
-      if  ancestor(:note_multipart)
+      if ancestor(:note_multipart)
         left_overs = insert_into_subnotes
       else
         left_overs = nil
@@ -756,7 +759,7 @@ class EADConverter < Converter
         return
       end
 
-      if !att('id') && (instance = context_obj.instances.last)
+      if !att('id') && defined?(context_obj.instances) && (instance = context_obj.instances.last)
         # this container doesn't have an @id
         # and has a container sibling before it
         # so even though it doesn't have a parent attribute
@@ -774,7 +777,7 @@ class EADConverter < Converter
 
       instance_type = att('label') || 'mixed_materials'
 
-      if instance_type =~ /(.*)\s+?[\(\[] *(.*) *[\)\]]$/
+      if instance_type =~ /(.*)\s+?[\(\[]\s*(.*?)\s*[\)\]]$/
         instance_type = $1
         barcode = $2
       end
@@ -914,17 +917,18 @@ class EADConverter < Converter
       'genreform' => 'genre_form',
       'geogname' => 'geographic',
       'occupation' => 'occupation',
-      'subject' => 'topical'
+      'subject' => 'topical',
+      'title' => 'uniform_title'
       }.each do |tag, type|
-        with "controlaccess/#{tag}" do |*|
-          make :subject, {
-            :terms => {'term' => inner_xml, 'term_type' => type, 'vocabulary' => '/vocabularies/1'},
-            :vocabulary => '/vocabularies/1',
-            :source => att('source') || 'ingest'
-          } do |subject|
-            set ancestor(:resource, :archival_object), :subjects, {'ref' => subject.uri}
-          end
-        end
+       with "controlaccess/#{tag}" do |*|
+         make :subject, {
+           :terms => {'term' => inner_xml, 'term_type' => type, 'vocabulary' => '/vocabularies/1'},
+           :vocabulary => '/vocabularies/1',
+           :source => att('source') || 'ingest'
+         } do |subject|
+           set ancestor(:resource, :archival_object), :subjects, {'ref' => subject.uri}
+         end
+       end
      end
 
 
@@ -932,7 +936,7 @@ class EADConverter < Converter
       make :instance, {
           :instance_type => 'digital_object'
         } do |instance|
-          set ancestor(:resource, :archival_object), :instances, instance
+        set ancestor(:resource, :archival_object), :instances, instance
       end
 
 
@@ -941,13 +945,12 @@ class EADConverter < Converter
              :publish => att('audience') != 'internal',
              :title => att('title')
            } do |obj|
-        obj.file_versions <<  {
+        obj.file_versions << {
           :use_statement => att('role'),
           :file_uri => att('href'),
           :xlink_actuate_attribute => att('actuate'),
           :xlink_show_attribute => att('show'),
           :publish => att('audience') != 'internal',
-          :caption => att( 'title' )
         }
         set ancestor(:instance), :digital_object, obj
       end
@@ -982,42 +985,41 @@ class EADConverter < Converter
         :title => title,
         :publish => att('audience') != 'internal'
        } do |obj|
-         ancestor(:resource, :archival_object) do |ao|
+        ancestor(:resource, :archival_object) do |ao|
           ao.instances.push({'instance_type' => 'digital_object', 'digital_object' => {'ref' => obj.uri}})
-         end
+        end
 
          # Actuate and Show values applicable to <daoloc>s can come from <arc> elements,
          # so daogrp contents need to be handled together
-         dg_contents = Nokogiri::XML::DocumentFragment.parse(inner_xml)
+        dg_contents = Nokogiri::XML::DocumentFragment.parse(inner_xml)
 
          # Hashify arc attrs keyed by xlink:to
-         arc_by_to_val = dg_contents.xpath('arc').map {|arc|
-           if arc['xlink:to']
-             [arc['xlink:to'], arc]
-           else
-             nil
-           end
-         }.reject(&:nil?).reduce({}) {|hsh, (k, v)| hsh[k] = v;hsh}
+        arc_by_to_val = dg_contents.xpath('arc').map {|arc|
+          if arc['xlink:to']
+            [arc['xlink:to'], arc]
+          else
+            nil
+          end
+        }.reject(&:nil?).reduce({}) {|hsh, (k, v)| hsh[k] = v; hsh}
 
 
-         dg_contents.xpath('daoloc').each do |daoloc|
-           arc = arc_by_to_val[daoloc['xlink:label']] || {}
+        dg_contents.xpath('daoloc').each do |daoloc|
+          arc = arc_by_to_val[daoloc['xlink:label']] || {}
 
-           fv_attrs = {}
+          fv_attrs = {}
 
-           # attrs on <arc>
-           fv_attrs[:xlink_show_attribute] = arc['xlink:show'] if arc['xlink:show']
-           fv_attrs[:xlink_actuate_attribute] = arc['xlink:actuate'] if arc['xlink:actuate']
+          # attrs on <arc>
+          fv_attrs[:xlink_show_attribute] = arc['xlink:show'] if arc['xlink:show']
+          fv_attrs[:xlink_actuate_attribute] = arc['xlink:actuate'] if arc['xlink:actuate']
 
-           # attrs on <daoloc>
-           fv_attrs[:file_uri] = daoloc['xlink:href'] if daoloc['xlink:href']
-           fv_attrs[:use_statement] = daoloc['xlink:role'] if daoloc['xlink:role']
-           fv_attrs[:publish] = daoloc['audience'] != 'internal'
-           fv_attrs[:caption] = daoloc['xlink:title'] if daoloc['xlink:title']
+          # attrs on <daoloc>
+          fv_attrs[:file_uri] = daoloc['xlink:href'] if daoloc['xlink:href']
+          fv_attrs[:use_statement] = daoloc['xlink:role'] if daoloc['xlink:role']
+          fv_attrs[:publish] = daoloc['audience'] != 'internal'
 
-           obj.file_versions << fv_attrs
-         end
-         obj
+          obj.file_versions << fv_attrs
+        end
+        obj
       end
     end
   end
@@ -1030,9 +1032,9 @@ class EADConverter < Converter
     return nil if inner_xml.strip.empty?
     make :agent_corporate_entity, {
       :agent_type => 'agent_corporate_entity',
-      :publish => att('audience') == 'external' ?  true : false
+      :publish => att('audience') == 'external' ? true : false
     } do |corp|
-      set ancestor(:resource, :archival_object), :linked_agents, {'ref' => corp.uri, 'role' => opts[:role]}
+      set ancestor(:resource, :archival_object), :linked_agents, {'ref' => corp.uri, 'role' => opts[:role], 'relator' => att('role')}
     end
 
     make :name_corporate_entity, {
@@ -1050,9 +1052,9 @@ class EADConverter < Converter
     return nil if inner_xml.strip.empty?
     make :agent_family, {
       :agent_type => 'agent_family',
-      :publish => att('audience') == 'external' ?  true : false
+      :publish => att('audience') == 'external' ? true : false
     } do |family|
-      set ancestor(:resource, :archival_object), :linked_agents, {'ref' => family.uri, 'role' => opts[:role]}
+      set ancestor(:resource, :archival_object), :linked_agents, {'ref' => family.uri, 'role' => opts[:role], 'relator' => att('role')}
     end
 
     make :name_family, {
@@ -1070,9 +1072,9 @@ class EADConverter < Converter
     return nil if inner_xml.strip.empty?
     make :agent_person, {
       :agent_type => 'agent_person',
-      :publish => att('audience') == 'external' ?  true : false
+      :publish => att('audience') == 'external' ? true : false
     } do |person|
-      set ancestor(:resource, :archival_object), :linked_agents, {'ref' => person.uri, 'role' => opts[:role]}
+      set ancestor(:resource, :archival_object), :linked_agents, {'ref' => person.uri, 'role' => opts[:role], 'relator' => att('role')}
     end
 
     make :name_person, {

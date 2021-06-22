@@ -12,7 +12,9 @@ describe 'Resources and archival objects' do
 
     @resource = create(:resource)
 
-    @archival_object = create(:archival_object, resource: { 'ref' => @resource.uri })
+    @archival_object = create(:archival_object,
+                              component_id: 'component-id',
+                              resource: { 'ref' => @resource.uri })
 
     @user = create_user(@repo => ['repository-managers'])
     @driver = Driver.get.login_to_repo(@user, @repo)
@@ -40,19 +42,19 @@ describe 'Resources and archival objects' do
 
     @driver.find_element(:id, 'resource_level_').select_option('collection')
 
-    res_lang_combo = @driver.find_element(xpath: '//*[@id="resource_lang_materials__0_"]/div[1]/div/div/div/div[1]/div/div/div/input[@type="text"]')
+    res_lang_combo = @driver.find_element(xpath: '//*[@id="resource_lang_materials__0__language_and_script__language_"]')
     res_lang_combo.clear
     res_lang_combo.click
     res_lang_combo.send_keys('eng')
     res_lang_combo.send_keys(:tab)
 
-    fa_lang_combo = @driver.find_element(xpath: '//*[@id="finding_aid"]/div/div/fieldset/div[@class="form-group required"]/div[@class="col-sm-9"]/div[@class="combobox-container"][following-sibling::select/@id="resource_finding_aid_language_"]//input[@type="text"]')
+    fa_lang_combo = @driver.find_element(xpath: '//*[@id="resource_finding_aid_language_"]')
     fa_lang_combo.clear
     fa_lang_combo.click
     fa_lang_combo.send_keys('eng')
     fa_lang_combo.send_keys(:tab)
 
-    fa_script_combo = @driver.find_element(xpath: '//*[@id="finding_aid"]/div/div/fieldset/div[@class="form-group required"]/div[@class="col-sm-9"]/div[@class="combobox-container"][following-sibling::select/@id="resource_finding_aid_script_"]//input[@type="text"]')
+    fa_script_combo = @driver.find_element(xpath: '//*[@id="resource_finding_aid_script_"]')
     fa_script_combo.clear
     fa_script_combo.click
     fa_script_combo.send_keys('Latn')
@@ -62,7 +64,7 @@ describe 'Resources and archival objects' do
     expect(@driver.find_elements(:id, 'resource_collection_management__cataloged_note_').length).to eq(0)
 
     # condition and content descriptions have come across as notes fields
-    notes_toggle = @driver.blocking_find_elements(css: '#notes .collapse-subrecord-toggle')
+    notes_toggle = @driver.blocking_find_elements(css: '#resource_notes_ .collapse-subrecord-toggle')
     notes_toggle[0].click
     @driver.wait_for_ajax
 
@@ -100,7 +102,90 @@ describe 'Resources and archival objects' do
     @driver.find_element_with_text('//div[contains(@class, "error")]', /Language of Description - Property is required but was missing/)
     @driver.find_element_with_text('//div[contains(@class, "error")]', /Script of Description - Property is required but was missing/)
 
+    # checks that form field has error styling (red outline)
+    expect(@driver.find_element(css: '.identifier-fields').attribute('class')).to include('has-error')
+
     @driver.click_and_wait_until_gone(:css, 'a.btn.btn-cancel')
+  end
+
+  it 'prepopulates the top container modal with search for current resource when linking on the resource edit page' do
+    # Create some top containers
+    location = create(:location)
+    container_location = build(:container_location,
+                               ref: location.uri)
+    container = create(:top_container,
+                        container_locations: [container_location])
+    ('A'..'E').each do |l|
+      create(:top_container,
+             indicator: "Letter #{l}",
+             container_locations: [container_location])
+    end
+
+    run_index_round
+
+    @driver.find_element(:link, 'Browse').click
+    @driver.wait_for_dropdown
+    @driver.click_and_wait_until_gone(:link, 'Resources')
+
+    table_rows = @driver.find_elements(css: "tr")
+    table_rows.each do |row|
+      if (row.text.include? "Resource 1")
+        table_rows[2].click_and_wait_until_gone(:link, 'Edit')
+        break
+      end
+    end
+
+    @driver.find_element(:link, 'Browse').click
+    @driver.find_element_with_text('//button', /Add Container Instance/).click
+
+    resource_title = @driver.find_element(css: 'h2').text[0...-9]
+
+    @driver.find_element(css: '#resource_instances__0__instance_type_').select_option('text')
+
+    add_instance_fields_area = @driver.find_element(css: '#resource_instances__0__container_')
+    add_instance_fields_area.find_element(css: '.btn.btn-default.dropdown-toggle.last').click
+    @driver.wait_for_dropdown
+    @driver.find_elements(:link, 'Browse')[1].click
+
+    sleep 1
+
+    @driver.find_element(css: '.token-input-delete-token').click
+    @driver.clear_and_send_keys([:css, '#q'], '*')
+
+    inputs = @driver.find_element(css: '.modal-content').find_elements(css: 'input')
+    inputs.each do |input|
+      if input.attribute('value') == "Search"
+        input.click
+        break
+      end
+    end
+
+    sleep 2
+
+    @driver.find_element(css: '.modal-content').find_elements(css: 'tr')[1].find_element(css: 'input').click
+
+    @driver.find_element(css: "#addSelectedButton").click
+    @driver.find_element(css: "form#resource_form button[type='submit']").click
+
+    run_periodic_index
+
+    add_instance_fields_area = @driver.find_element(css: '#resource_instances__0__container_')
+    add_instance_fields_area.find_element(css: '.btn.btn-default.dropdown-toggle.last').click
+    @driver.wait_for_dropdown
+    @driver.find_elements(:link, 'Browse')[1].click
+
+    expect(@driver.find_element(css: '.modal-content').find_elements(css: 'tr').length).to eq(2)
+
+    # Clean up after ourselves so the other tests run ok
+    @driver.find_element(css: '.modal-content').find_element(css: '.btn.btn-cancel.btn-default').click
+    sleep 1
+    @driver.find_element(css: '#resource_instances__0_').find_element(css: '.subrecord-form-remove').click
+    sleep 1
+    @driver.find_element(css: '.confirm-removal').click
+
+    @driver.find_element(css: "form#resource_form button[type='submit']").click
+
+    run_periodic_index
   end
 
   it 'can create a resource' do
@@ -114,13 +199,13 @@ describe 'Resources and archival objects' do
     @driver.clear_and_send_keys([:id, 'resource_title_'], resource_title)
     @driver.complete_4part_id('resource_id_%d_')
 
-    fa_lang_combo = @driver.find_element(xpath: '//*[@id="finding_aid"]/div/div/fieldset/div[@class="form-group required"]/div[@class="col-sm-9"]/div[@class="combobox-container"][following-sibling::select/@id="resource_finding_aid_language_"]//input[@type="text"]')
+    fa_lang_combo = @driver.find_element(xpath: '//*[@id="resource_finding_aid_language_"]')
     fa_lang_combo.clear
     fa_lang_combo.click
     fa_lang_combo.send_keys('eng')
     fa_lang_combo.send_keys(:tab)
 
-    fa_script_combo = @driver.find_element(xpath: '//*[@id="finding_aid"]/div/div/fieldset/div[@class="form-group required"]/div[@class="col-sm-9"]/div[@class="combobox-container"][following-sibling::select/@id="resource_finding_aid_script_"]//input[@type="text"]')
+    fa_script_combo = @driver.find_element(xpath: '//*[@id="resource_finding_aid_script_"]')
     fa_script_combo.clear
     fa_script_combo.click
     fa_script_combo.send_keys('Latn')
@@ -130,7 +215,7 @@ describe 'Resources and archival objects' do
     @driver.clear_and_send_keys([:id, 'resource_dates__0__begin_'], '1978')
     @driver.find_element(:id, 'resource_level_').select_option('collection')
 
-    combo = @driver.find_element(xpath: '//*[@id="resource_lang_materials__0_"]/div[1]/div/div/div/div[1]/div/div/div/input[@type="text"]')
+    combo = @driver.find_element(xpath: '//*[@id="resource_lang_materials__0__language_and_script__language_"]')
     combo.clear
     combo.click
     combo.send_keys('eng')
@@ -247,8 +332,7 @@ describe 'Resources and archival objects' do
   end
 
 
-  # This guy is causing subsequent tests to fail with a missing locales file error.  Pending it until I have more time to investigate.
-  xit 'can have a lot of associated records that do not show in the field but are not lost' do
+  it 'can have a lot of associated records that do not show in the field but are not lost' do
     subjects = []
     accessions = []
     classifications = []
@@ -370,7 +454,7 @@ describe 'Resources and archival objects' do
 
     @driver.click_and_wait_until_gone(id: 'createPlusOne')
 
-    %w[January February December]. each do |month|
+    %w[January February December].each do |month|
       # Wait for the new empty form to be populated.  There's a tricky race
       # condition here that I can't quite track down, so here's my blunt
       # instrument fix.
@@ -436,7 +520,7 @@ describe 'Resources and archival objects' do
     assert(5) { expect(@driver.find_element(:css, 'h2').text).to eq('save this please Archival Object') }
     assert(5) { expect(@driver.find_element(css: 'div.alert.alert-success').text).to eq('Archival Object save this please updated') }
     @driver.clear_and_send_keys([:id, 'archival_object_title_'], @archival_object.title)
-    @driver.click_and_wait_until_gone(css: "form .record-pane button[type='submit']")
+    @driver.click_and_wait_until_gone(css: "form .save-changes button[type='submit']")
   end
 
   it 'can add a assign, remove, and reassign a Subject to an archival object' do
@@ -452,7 +536,9 @@ describe 'Resources and archival objects' do
     @driver.find_element(:css, '.modal #subject_terms_ .btn:not(.show-all)').click
 
     @driver.clear_and_send_keys([id: 'subject_terms__0__term_'], "#{$$}TestTerm123")
+    @driver.find_element(id: 'subject_terms__0__term_type_').select_option('cultural_context')
     @driver.clear_and_send_keys([id: 'subject_terms__1__term_'], "#{$$}FooTerm456")
+    @driver.find_element(id: 'subject_terms__1__term_type_').select_option('cultural_context')
     @driver.find_element(id: 'subject_source_').select_option('local')
 
     @driver.find_element(:id, 'createAndLinkButton').click
@@ -487,7 +573,7 @@ describe 'Resources and archival objects' do
     @driver.find_element(:link, 'Export').click
     response = @driver.find_element(:link, 'Download EAD').click
     @driver.wait_for_ajax
-    assert(5) { expect(Dir.glob(File.join(Dir.tmpdir, '*_ead.xml')).length).to eq(1) }
+    assert(10) { expect(Dir.glob(File.join(Dir.tmpdir, '*_ead.xml')).length).to eq(1) }
     system("rm -f #{File.join(Dir.tmpdir, '*_ead.xml')}")
   end
 
@@ -502,4 +588,109 @@ describe 'Resources and archival objects' do
     end
   end
 
+  it 'shows component id in browse view for archival objects' do
+    @driver.find_element(:link, 'Browse').click
+    @driver.wait_for_dropdown
+    @driver.click_and_wait_until_gone(:link, 'Resources')
+    @driver.find_element(:link, 'Show Components').click
+    expect do
+      @driver.find_element_with_text('//td', /#{@archival_object.component_id}/)
+      @driver.find_element_with_text('//th', /Identifier/)
+    end.not_to raise_error
+    expect do
+      @driver.find_element_with_text('//th', /Component ID/, false, true)
+    end.to raise_error(Selenium::WebDriver::Error::NoSuchElementError)
+  end
+
+  it 'shows component id for search and filter to archival objects' do
+    @driver.find_element(:id, 'global-search-button').click
+    @driver.find_element(:link, 'Archival Object').click
+    expect do
+      @driver.find_element_with_text('//td', /#{@archival_object.component_id}/)
+      @driver.find_element_with_text('//th', /Component ID/)
+    end.not_to raise_error
+    expect do
+      @driver.find_element_with_text('//th', /Identifier/, false, true)
+    end.to raise_error(Selenium::WebDriver::Error::NoSuchElementError)
+  end
+
+  it 'allows for publication and unpublication of all or part of the record tree' do
+    @driver.get_edit_page(@resource)
+
+    # the resource was created without specifying publish, so it should be unpublished
+    expect(@driver.find_element(id: 'resource_publish_').attribute('checked')).to be_nil
+
+    # click the publish all button
+    @driver.find_element_with_text('//button', /Publish All/).click
+    sleep(5)
+    @driver.find_element(id: 'confirmButton').click
+    sleep(10)
+    expect(@driver.find_element(id: 'resource_publish_').attribute('checked')).not_to be_nil
+
+    # confirm that the archival object is also published
+    @driver.get_edit_page(@archival_object)
+    expect(@driver.find_element(id: 'archival_object_publish_').attribute('checked')).not_to be_nil
+
+    # unpublish the archival object
+    @driver.find_element_with_text('//button', /Unpublish All/).click
+    sleep(5)
+    @driver.find_element(id: 'confirmButton').click
+    sleep(10)
+    expect(@driver.find_element(id: 'archival_object_publish_').attribute('checked')).to be_nil
+
+    # confirm that this hasn't unpublished the resource
+    @driver.get_edit_page(@resource)
+    expect(@driver.find_element(id: 'resource_publish_').attribute('checked')).not_to be_nil
+
+    # now unpublish all from the resource
+    @driver.find_element_with_text('//button', /Unpublish All/).click
+    sleep(5)
+    @driver.find_element(id: 'confirmButton').click
+    sleep(10)
+    expect(@driver.find_element(id: 'resource_publish_').attribute('checked')).to be_nil
+
+    # confirm that the archival object is still unpublished
+    @driver.get_edit_page(@archival_object)
+    expect(@driver.find_element(id: 'archival_object_publish_').attribute('checked')).to be_nil
+
+    # publish the archival object
+    @driver.find_element_with_text('//button', /Publish All/).click
+    sleep(5)
+    @driver.find_element(id: 'confirmButton').click
+    sleep(10)
+    expect(@driver.find_element(id: 'archival_object_publish_').attribute('checked')).not_to be_nil
+
+    # confirm that this hasn't published the resource
+    @driver.get_edit_page(@resource)
+    expect(@driver.find_element(id: 'resource_publish_').attribute('checked')).to be_nil
+
+    # finally, unpublish all to tidy up
+    @driver.find_element_with_text('//button', /Unpublish All/).click
+    sleep(5)
+    @driver.find_element(id: 'confirmButton').click
+    sleep(10)
+    expect(@driver.find_element(id: 'resource_publish_').attribute('checked')).to be_nil
+  end
+
+  it 'can apply and remove filters when browsing for linked agents in the linker modal' do
+    person = create(:agent_person)
+    corp = create(:agent_corporate_entity)
+
+    run_all_indexers
+    @driver.get_edit_page(@resource)
+
+    @driver.find_element(:link, "Agent Links").click
+    @driver.find_element(:css, "#resource_linked_agents_ button").click
+    @driver.find_element(:css, "#resource_linked_agents_ .linker-wrapper .input-group-btn a").click
+    @driver.find_element(:css, "#resource_linked_agents_ .linker-browse-btn").click
+    @driver.wait_for_ajax
+    expect(@driver.find_element(:css, ".linker-container").text).to match(/Filter by/)
+    @driver.find_element(:css, ".linker-container").find_element(:link, "Corporate Entity").click
+    @driver.wait_for_ajax
+    expect(@driver.find_element(:css, ".linker-container").text).to match(/Filtered By/)
+    expect(@driver.is_visible?(:css, ".linker-container .glyphicon-remove")).to be_truthy
+    @driver.find_element(:css, ".linker-container").find_element(:css, ".glyphicon-remove").click
+    @driver.wait_for_ajax
+    expect(@driver.is_visible?(:css, ".linker-container .glyphicon-remove")).to be_falsey
+  end
 end

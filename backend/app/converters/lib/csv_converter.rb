@@ -12,7 +12,7 @@ module ASpaceImport
 
 
       def configure_cell_handlers(row)
-        headers = row.map {|s| s ||= ""; s.strip}.reject{|s| s.empty? }
+        headers = row.map {|s| s ||= ""; s.strip}.reject {|s| s.empty? }
         c = configuration
         bad_headers = []
         headers.each {|h| bad_headers << h unless h.match /^[a-z]*_[a-z0-9_]*$/ }
@@ -45,21 +45,22 @@ module ASpaceImport
 
 
     def run
-
       @cell_handlers = []
       @proxies = ASpaceImport::RecordProxyMgr.new
 
-      CSV.foreach(@input_file, 'r:bom|utf-8') do |row|
-        # Entirely blank rows can be safely ignored
-        next if row.all? {|cell| cell.to_s.strip.empty? }
+      CSV.open(@input_file, 'r:bom|utf-8') do |csv|
+        csv.each do |row|
+          # Entirely blank rows can be safely ignored
+          next if row.all? {|cell| cell.to_s.strip.empty? }
 
-        if @cell_handlers.empty?
-          @cell_handlers, bad_headers = self.class.configure_cell_handlers(row)
-          unless bad_headers.empty?
-            Log.warn("Data source has headers that aren't defined: #{bad_headers.join(', ')}")
+          if @cell_handlers.empty?
+            @cell_handlers, bad_headers = self.class.configure_cell_handlers(row)
+            unless bad_headers.empty?
+              Log.warn("Data source has headers that aren't defined: #{bad_headers.join(', ')}")
+            end
+          else
+            parse_row(row)
           end
-        else
-          parse_row(row)
         end
       end
 
@@ -84,7 +85,6 @@ module ASpaceImport
 
 
     def parse_cell(handler, cell_contents)
-
       return nil unless handler
 
       val = handler.extract_value(cell_contents)
@@ -109,7 +109,6 @@ module ASpaceImport
 
 
     def get_new(key)
-
       conf = configuration[key.to_sym] || {}
 
       type = conf[:record_type] ? conf[:record_type] : key
@@ -176,5 +175,3 @@ module ASpaceImport
 
   end
 end
-
-

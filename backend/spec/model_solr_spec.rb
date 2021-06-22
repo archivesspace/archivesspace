@@ -27,7 +27,7 @@ class MockHTTP
     http = Object.new
 
     def http.parent=(val)
-        @parent = val
+      @parent = val
     end
 
 
@@ -36,6 +36,7 @@ class MockHTTP
       response = Object.new
 
       def response.body; $dummy_data; end
+
       def response.code; '200'; end
 
       response
@@ -65,6 +66,7 @@ describe 'Solr model' do
                         set_repo_id(@repo_id).
                         set_excluded_ids(%w(alpha omega)).
                         set_record_types(['optional_record_type']).
+                        show_published_only(true).
                         highlighting
 
     response = Solr.search(query)
@@ -78,6 +80,8 @@ describe 'Solr model' do
     expect(http.request.body).to match(/bq=title%3A%22hello\+world%22\*/)
     expect(http.request.body).to match(/pf=title%5E10/)
     expect(http.request.body).to match(/ps=0/)
+    expect(http.request.body).to match(/fq=publish%3Atrue/)
+    expect(http.request.body).to_not match(/fq=-types%3Apui_only/)
 
 
     expect(response['offset_first']).to eq(1)
@@ -88,6 +92,21 @@ describe 'Solr model' do
     expect(response['this_page']).to eq(1)
     expect(response['last_page']).to eq(1)
     expect(response['results'][0]['title']).to eq("A Resource")
+
+    # repeat with show_published_only false i.e. a sui search
+    query = Solr::Query.create_keyword_search("hello world").
+                        pagination(1, 10).
+                        set_repo_id(@repo_id).
+                        set_excluded_ids(%w(alpha omega)).
+                        set_record_types(['optional_record_type']).
+                        show_published_only(false).
+                        highlighting
+
+    Solr.search(query)
+
+    expect(http.request.body).to match(/hello\+world/)
+    expect(http.request.body).to_not match(/fq=publish%3Atrue/)
+    expect(http.request.body).to match(/fq=-types%3Apui_only/)
   end
 
   it "adjusts date searches for the local timezone" do
@@ -117,7 +136,7 @@ describe 'Solr model' do
        "subqueries"=>[{"jsonmodel_type"=>"boolean_query",
                        "op"=>"AND",
                        "subqueries"=>[{"field"=>"title",
-                                       "value"=>"Hornstein",
+                                       "value"=>"tennis",
                                        "negated"=>true,
                                        "jsonmodel_type"=>"field_query",
                                        "literal"=>false}]},
@@ -126,42 +145,42 @@ describe 'Solr model' do
                        "subqueries"=>[{"jsonmodel_type"=>"boolean_query",
                                        "op"=>"AND",
                                        "subqueries"=>[{"field"=>"keyword",
-                                                       "value"=>"*",
+                                                       "value"=>"golf",
                                                        "negated"=>false,
                                                        "jsonmodel_type"=>"field_query",
                                                        "literal"=>false}]}]}]}
     }
 
-    it "compensates for purely negative expressions by adding a match-all clause" do
+    it "constructs advanced query containing Boolean NOT without adding a match-all clause" do
       query_string = Solr::Query.construct_advanced_query_string(canned_query)
 
-      expect(query_string).to eq("((-title:(Hornstein) AND *:*) AND ((fullrecord:(*))))")
+      expect(query_string).to eq("((-title:(tennis)) AND ((fullrecord:(golf))))")
     end
 
   end
 
   describe 'Solr params from AppConfig' do
     let (:advanced_query) {
-        { "query" => {
-            "subqueries" => [
-                {
-                    "field" => "types",
-                    "value" => "resource",
-                    "literal" => true,
-                    "jsonmodel_type" => "field_query",
-                    "negated" => false
-                },
-                {
-                    "field" => "published",
-                    "value" => "true",
-                    "literal" => true,
-                    "jsonmodel_type" => "field_query",
-                    "negated" => false
-                }
-            ],
-            "jsonmodel_type" => "boolean_query"
-        },
-        "jsonmodel_type" => "advanced_query" }
+      { "query" => {
+          "subqueries" => [
+              {
+                  "field" => "types",
+                  "value" => "resource",
+                  "literal" => true,
+                  "jsonmodel_type" => "field_query",
+                  "negated" => false
+              },
+              {
+                  "field" => "published",
+                  "value" => "true",
+                  "literal" => true,
+                  "jsonmodel_type" => "field_query",
+                  "negated" => false
+              }
+          ],
+          "jsonmodel_type" => "boolean_query"
+      },
+      "jsonmodel_type" => "advanced_query" }
     }
 
     let (:query) { Solr::Query.create_advanced_search(advanced_query).
@@ -169,9 +188,9 @@ describe 'Solr model' do
                         set_repo_id(@repo_id) }
 
     it 'does not include q.op parameter in solr url when not configured' do
-        AppConfig[:solr_params] = { }
-        url = query.to_solr_url
-        expect(url.query).not_to include('&q.op=')
+      AppConfig[:solr_params] = { }
+      url = query.to_solr_url
+      expect(url.query).not_to include('&q.op=')
     end
 
     it 'includes q.op parameter in solr url when configured' do
@@ -181,10 +200,10 @@ describe 'Solr model' do
     end
 
     it 'handles params with array values by passing the param multiple times' do
-        AppConfig[:solr_params] = { "bq" => ["one", proc {"two"}]}
-        url = query.to_solr_url
-        expect(url.query).to include('&bq=one')
-        expect(url.query).to include('&bq=two')
+      AppConfig[:solr_params] = { "bq" => ["one", proc {"two"}]}
+      url = query.to_solr_url
+      expect(url.query).to include('&bq=one')
+      expect(url.query).to include('&bq=two')
     end
 
   end

@@ -1,4 +1,3 @@
-
 require 'java'
 require 'tmpdir'
 require 'tempfile'
@@ -106,17 +105,21 @@ module ASUtils
     res
   end
 
-  def self.find_local_directories(base = nil, *plugins)
-    plugins = AppConfig[:plugins] if plugins.empty?
+  def self.plugin_base_directory
     # if a specific plugins directory is set in config.rb,
     # we use that. Otherwise, find the 'plugins' dir in the
     # aspace base.
-    base_directory =
-      if AppConfig.changed?(:plugins_directory)
-        AppConfig[:plugins_directory]
-      else
-        File.join( *[ self.find_base_directory, 'plugins'])
-      end
+    if AppConfig.changed?(:plugins_directory)
+      AppConfig[:plugins_directory]
+    else
+      File.join( *[ self.find_base_directory, 'plugins'])
+    end
+  end
+
+  def self.find_local_directories(base = nil, *plugins)
+    plugins = AppConfig[:plugins] if plugins.empty?
+    base_directory = self.plugin_base_directory
+
     Array(plugins).map do |plugin|
       File.join(*[base_directory, plugin, base].compact)
     end
@@ -196,7 +199,7 @@ ERRMSG
         next
       end
       if hash2[key].is_a? Array and hash1[key].is_a? Array
-        
+
         if hash1[key] === []
           target[key] = hash2[key]
         elsif hash2[key] === []
@@ -208,7 +211,7 @@ ERRMSG
               target_array << hash2_a
             elsif hash2_a.nil?
               target_array << target_a
-            else  
+            else
               target_array << self.deep_merge_concat(target_a, hash2_a)
             end
           end
@@ -219,12 +222,12 @@ ERRMSG
       if hash1[key] === true and key != "is_display_name" and key != "authorized"
         hash1[key] = "true"
       elsif hash1[key] === false and key != "is_display_name" and key != "authorized"
-        hash1[key] = "false"        
+        hash1[key] = "false"
       end
       if hash2[key] === true and key != "is_display_name" and key != "authorized"
         hash2[key] = "1"
       elsif hash2[key] === false and key != "is_display_name" and key != "authorized"
-        hash2[key] = "0"        
+        hash2[key] = "0"
       end
       if hash1[key].is_a? String
         if hash1[key] == hash2[key]
@@ -250,7 +253,7 @@ ERRMSG
       gemfile = File.join(plugin, 'Gemfile')
       if File.exist?(gemfile)
         # only load Gemfiles we find
-        context.instance_eval(File.read(gemfile))
+        context.instance_eval(File.read(gemfile), gemfile, 1)
       end
     end
   end
@@ -326,5 +329,100 @@ ERRMSG
 
   def self.present?(obj)
     !blank?(obj)
+  end
+
+
+  PluginDependency = Struct.new(:depends_on, :recommends)
+
+  def self.load_plugin_dependencies
+    # YAML will generally have already been loaded at this point so this is
+    # usually a no-op.  This is here for DB migrations, which now rely on this
+    # code to run in the correct order and won't otherwise have loaded YAML.
+    require 'yaml'
+
+    result = {}
+
+    ASUtils.find_local_directories('config.yml').each do |f|
+      next unless File.exist?(f)
+
+      config = YAML.load_file(f)
+      plugin_name = File.basename(File.dirname(f))
+
+      result[plugin_name] = PluginDependency.new(config.fetch('depends_on_plugins', []),
+                                                 config.fetch('recommends_plugins', []))
+    end
+
+    # All other plugins have no dependencies
+    all_plugins = ASUtils.wrap(AppConfig[:plugins])
+
+    all_plugins.each do |plugin|
+      result[plugin] ||= PluginDependency.new([], [])
+    end
+
+    # Check that hard dependencies are satisfied and warn about missing recommended plugins.
+    all_plugins.each do |plugin|
+      plugin_deps = result.fetch(plugin)
+
+      unless (plugin_deps.depends_on - all_plugins).empty?
+        raise "Plugin #{plugin} is missing dependency plugin(s): #{(plugin_deps.depends_on - all_plugins).join(', ')}"
+      end
+
+      unless (plugin_deps.recommends - all_plugins).empty?
+        # No standard logging mechanism between public/backend/frontend/indexer.
+        # Sorry for the puts!
+        $stderr.puts("INFO: Plugin #{plugin} recommends additional plugin(s): #{(plugin_deps.recommends - all_plugins).join(', ')}")
+      end
+    end
+
+    result
+  end
+
+
+  def self.order_plugins(plugin_dirs)
+    all_plugins = ASUtils.wrap(AppConfig[:plugins])
+    all_deps = self.load_plugin_dependencies
+
+    # Order our list of plugins by walking the dependency graph
+    to_process = all_plugins.clone
+    ordered_plugins = []
+    while !to_process.empty?
+      # Select plugins whose prerequisites are all satisfied.
+      next_plugins = to_process.select {|plugin|
+        plugin_deps = all_deps.fetch(plugin)
+        ((plugin_deps.depends_on + plugin_deps.recommends) - ordered_plugins).empty?
+      }
+
+      # If we didn't match, try selecting a plugin whose hard dependencies are
+      # satisfied (ignoring recommended plugins).
+      if next_plugins.empty?
+        next_plugins = to_process.select {|plugin|
+          plugin_deps = all_deps.fetch(plugin)
+          (plugin_deps.depends_on - ordered_plugins).empty?
+        }
+      end
+
+      # If we're still deadlocked then there must be a dependency cycle...
+      if next_plugins.empty?
+        raise "Plugin dependency cycle detected among the following plugins: #{to_process.join(', ')}"
+      end
+
+      ordered_plugins.concat(next_plugins)
+      to_process -= next_plugins
+    end
+
+    # Our plugin base dir complete with trailing path separator
+    plugin_base_dir = File.join(File.absolute_path(self.plugin_base_directory),
+                                "")
+
+    # Sort our input according to its position in our plugin ordering.  Entries
+    # that aren't explicitly ordered can load in any order.
+    plugin_dirs.map {|f| File.absolute_path(f)}.sort_by {|plugin_dir|
+      unless plugin_dir.start_with?(plugin_base_dir)
+        raise "Assertion failure: Unexpected plugin dir: '#{plugin_dir}' was expected to begin with '#{plugin_base_dir}'"
+      end
+
+      plugin_name = (plugin_dir.gsub(plugin_base_dir, "")).split(File::SEPARATOR).find {|segment| segment != '.'}
+      ordered_plugins.index(plugin_name) or raise "Expected to find #{plugin_name} but didn't!"
+    }
   end
 end

@@ -1,4 +1,5 @@
 require 'asutils'
+require 'json'
 
 class OpenSearchResultSet
   attr_reader :total_results

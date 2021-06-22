@@ -6,15 +6,15 @@
 <title>
   Class: PdfController
   
-    &mdash; Documentation by YARD 0.9.20
+    &mdash; Documentation by YARD 0.9.25
   
 </title>
 
-  <link rel="stylesheet" href="css/style.css" type="text/css" charset="utf-8" />
+  <link rel="stylesheet" href="css/style.css" type="text/css" />
 
-  <link rel="stylesheet" href="css/common.css" type="text/css" charset="utf-8" />
+  <link rel="stylesheet" href="css/common.css" type="text/css" />
 
-<script type="text/javascript" charset="utf-8">
+<script type="text/javascript">
   pathId = "PdfController";
   relpath = '';
 </script>
@@ -201,7 +201,7 @@
   
   
   <h3 class="inherited">Methods included from <span class='object_link'><a href="Searchable.html" title="Searchable (module)">Searchable</a></span></h3>
-  <p class="inherited"><span class='object_link'><a href="Searchable.html#default_search_opts-instance_method" title="Searchable#default_search_opts (method)">#default_search_opts</a></span>, <span class='object_link'><a href="Searchable.html#get_years-instance_method" title="Searchable#get_years (method)">#get_years</a></span>, <span class='object_link'><a href="Searchable.html#handle_results-instance_method" title="Searchable#handle_results (method)">#handle_results</a></span>, <span class='object_link'><a href="Searchable.html#html_notes-instance_method" title="Searchable#html_notes (method)">#html_notes</a></span>, <span class='object_link'><a href="Searchable.html#process_results-instance_method" title="Searchable#process_results (method)">#process_results</a></span>, <span class='object_link'><a href="Searchable.html#process_search_results-instance_method" title="Searchable#process_search_results (method)">#process_search_results</a></span>, <span class='object_link'><a href="Searchable.html#repo_context-instance_method" title="Searchable#repo_context (method)">#repo_context</a></span>, <span class='object_link'><a href="Searchable.html#search_terms-instance_method" title="Searchable#search_terms (method)">#search_terms</a></span>, <span class='object_link'><a href="Searchable.html#set_up_advanced_search-instance_method" title="Searchable#set_up_advanced_search (method)">#set_up_advanced_search</a></span>, <span class='object_link'><a href="Searchable.html#set_up_and_run_search-instance_method" title="Searchable#set_up_and_run_search (method)">#set_up_and_run_search</a></span>, <span class='object_link'><a href="Searchable.html#set_up_search-instance_method" title="Searchable#set_up_search (method)">#set_up_search</a></span>, <span class='object_link'><a href="Searchable.html#strip_facet_fields-instance_method" title="Searchable#strip_facet_fields (method)">#strip_facet_fields</a></span></p>
+  <p class="inherited"><span class='object_link'><a href="Searchable.html#default_search_opts-instance_method" title="Searchable#default_search_opts (method)">#default_search_opts</a></span>, <span class='object_link'><a href="Searchable.html#get_filter_years-instance_method" title="Searchable#get_filter_years (method)">#get_filter_years</a></span>, <span class='object_link'><a href="Searchable.html#handle_results-instance_method" title="Searchable#handle_results (method)">#handle_results</a></span>, <span class='object_link'><a href="Searchable.html#html_notes-instance_method" title="Searchable#html_notes (method)">#html_notes</a></span>, <span class='object_link'><a href="Searchable.html#process_results-instance_method" title="Searchable#process_results (method)">#process_results</a></span>, <span class='object_link'><a href="Searchable.html#process_search_results-instance_method" title="Searchable#process_search_results (method)">#process_search_results</a></span>, <span class='object_link'><a href="Searchable.html#repo_context-instance_method" title="Searchable#repo_context (method)">#repo_context</a></span>, <span class='object_link'><a href="Searchable.html#search_terms-instance_method" title="Searchable#search_terms (method)">#search_terms</a></span>, <span class='object_link'><a href="Searchable.html#set_up_advanced_search-instance_method" title="Searchable#set_up_advanced_search (method)">#set_up_advanced_search</a></span>, <span class='object_link'><a href="Searchable.html#set_up_and_run_search-instance_method" title="Searchable#set_up_and_run_search (method)">#set_up_and_run_search</a></span>, <span class='object_link'><a href="Searchable.html#set_up_search-instance_method" title="Searchable#set_up_search (method)">#set_up_search</a></span>, <span class='object_link'><a href="Searchable.html#strip_facet_fields-instance_method" title="Searchable#strip_facet_fields (method)">#strip_facet_fields</a></span></p>
 
   
   
@@ -285,8 +285,7 @@
 40
 41
 42
-43
-44</pre>
+43</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'public/app/controllers/pdf_controller.rb', line 7</span>
@@ -303,7 +302,6 @@
 
     <span class='rubyid_if if kw'>if</span> <span class='rubyid_token identifier id'>token</span>
       <span class='rubyid_token identifier id'>token</span><span class='dot token'>.</span><span class='rubyid_gsub! fid id'>gsub!</span><span class='lparen token'>(</span><span class='regexp val'>/[^a-f0-9]/</span><span class='comma token'>,</span> <span class='string val'>&#39;&#39;</span><span class='rparen token'>)</span>
-      <span class='rubyid_cookies identifier id'>cookies</span><span class='lbrack token'>[</span><span class='dstring node'>&quot;pdf_generated_#{token}&quot;</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span> <span class='label val'>value:</span> <span class='rubyid_token identifier id'>token</span><span class='comma token'>,</span> <span class='label val'>expires:</span> <span class='float val'>5</span><span class='dot token'>.</span><span class='rubyid_minutes identifier id'>minutes</span><span class='dot token'>.</span><span class='rubyid_from_now identifier id'>from_now</span><span class='comma token'>,</span> <span class='label val'>httponly:</span> <span class='rubyid_true true kw'>true</span> <span class='rbrace token'>}</span>
     <span class='rubyid_end end kw'>end</span>
 
     <span class='rubyid_respond_to identifier id'>respond_to</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_format identifier id'>format</span><span class='bitor op'>|</span>
@@ -340,9 +338,9 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.7.1-RC1.a Documentation Generated on Thu Feb  6 10:08:05 2020 by
+  ArchivesSpace Version v2.8.1.a Documentation Generated on Wed Nov 11 13:22:28 2020 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.20.
+  0.9.25.
 </div>
 
     </div>

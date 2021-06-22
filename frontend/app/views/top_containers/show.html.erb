@@ -15,6 +15,10 @@
 
         <% define_template "top_container", jsonmodel_definition(:top_container) do |form| %>
 
+          <%= render_plugin_partials("top_of_basic_information_top_container",
+                                     :form => form,
+                                     :record => @top_container) %>
+
           <% if @top_container.container_profile %>
             <div class="form-group token-list">
                 <label class="control-label col-sm-2"><%= I18n.t("container_profile._singular") %></label>
@@ -27,21 +31,24 @@
             </div>
           <% end %>
 
+          <%= readonly.label_and_textarea "type" %>
           <%= readonly.label_and_textarea "indicator" %>
 
           <%= readonly.label_and_textarea "barcode" %>
-          <%= readonly.label_and_textarea "type" %>
 
           <%= readonly.label_and_textarea "ils_holding_id" %>
           <%= readonly.label_and_textarea "ils_item_id" %>
           <%= readonly.label_and_textarea "exported_to_ils", :default => I18n.t("top_container.not_exported") %>
 
+          <%= render_plugin_partials("basic_information_top_container",
+                                     :form => readonly,
+                                     :record => @top_container) %>
 
 
           <% if @top_container["container_locations"].length > 0 %>
             <hr>
-            <section>
-              <%= render_aspace_partial :partial => "container_locations/show", :locals => { :container_locations => @top_container["container_locations"] } %>
+            <section id="container_locations">
+              <%= render_aspace_partial :partial => "container_locations/show", :locals => { :container_locations => @top_container["container_locations"]} %>
             </section>
           <% end %>
 
@@ -90,7 +97,9 @@
             <% end %>
           </section>
 
-          <%= render_aspace_partial :partial => "search/embedded", :locals => {:record => @top_container, :filter_term => {"top_container_uri_u_sstr" => @top_container.uri}.to_json, :heading_text => I18n.t("location._frontend.section.search_embedded")} %>
+          <%= render_aspace_partial :partial => "search/embedded", :locals => {:record => @top_container, :section_id => "container_contents", :filter_term => {"top_container_uri_u_sstr" => @top_container.uri}.to_json, :heading_text => I18n.t("location._frontend.section.search_embedded")} %>
+
+          <%= show_plugins_for(@top_container, readonly) %>
 
           <hr>
           <%= display_audit_info(@top_container) %>

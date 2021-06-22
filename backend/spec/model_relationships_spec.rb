@@ -1,71 +1,16 @@
 require 'spec_helper'
+require 'relationships_spec_helper'
 require_relative '../app/model/ASModel'
 require_relative '../app/model/mixins/relationships'
 
 describe 'Relationships' do
 
-  before(:each) do
-    ## Database setup
-    [:apple, :banana, :cherry].each do |table|
-      $testdb.create_table table do
-        primary_key :id
-        String :name
-        Integer :lock_version, :default => 0
-
-        Integer :suppressed, :default => 0
-
-        String :created_by
-        String :last_modified_by
-        DateTime :create_time
-        DateTime :system_mtime
-        DateTime :user_mtime
-      end
-    end
-
-    $testdb.create_table :fruit_salad_rlshp do
-      primary_key :id
-      String :sauce
-      Integer :banana_id
-      Integer :apple_id
-      Integer :suppressed, :null => false, :default => 0
-      Integer :aspace_relationship_position
-      DateTime :system_mtime, :null => false
-      DateTime :user_mtime, :null => false
-      String :created_by
-      String :last_modified_by
-    end
-
-    $testdb.create_table :friends_rlshp do
-      primary_key :id
-      Integer :banana_id_0
-      Integer :apple_id_0
-      Integer :banana_id_1
-      Integer :apple_id_1
-      Integer :cherry_id
-      Integer :suppressed, :null => false, :default => 0
-
-      Integer :aspace_relationship_position
-      DateTime :system_mtime, :null => false
-      DateTime :user_mtime, :null => false
-      String :created_by
-      String :last_modified_by
-    end
-  end
-
-
   after(:each) do
-    $testdb.drop_table(:apple)
-    $testdb.drop_table(:banana)
-    $testdb.drop_table(:cherry)
-    $testdb.drop_table(:fruit_salad_rlshp)
-    $testdb.drop_table(:friends_rlshp)
-
     Relationships.send(:remove_const, :BananaFruitSalad)
     Relationships.send(:remove_const, :BananaFriends)
     Relationships.send(:remove_const, :AppleFruitSalad)
     Relationships.send(:remove_const, :AppleFriends)
   end
-
 
   before(:each) do
     ## Some minimal JSONModel instances
@@ -114,8 +59,8 @@ describe 'Relationships' do
               "subtype" => "ref",
               "properties" => {
                 "ref" => {"type" => [{"type" => "JSONModel(:apple) uri"},
-                                     {"type" => "JSONModel(:banana) uri"},
-                                     {"type" => "JSONModel(:cherry) uri"}]}
+                                    {"type" => "JSONModel(:banana) uri"},
+                                    {"type" => "JSONModel(:cherry) uri"}]}
               }
             }
           }
@@ -135,7 +80,6 @@ describe 'Relationships' do
       },
     }')
 
-
     class Cherry < Sequel::Model(:cherry)
       include ASModel
       set_model_scope :global
@@ -143,7 +87,6 @@ describe 'Relationships' do
 
       enable_suppression
     end
-
 
     class Apple < Sequel::Model(:apple)
       include ASModel
@@ -153,7 +96,6 @@ describe 'Relationships' do
 
       enable_suppression
     end
-
 
     class Banana < Sequel::Model(:banana)
       include ASModel
@@ -174,7 +116,6 @@ describe 'Relationships' do
                           :contains_references_to_types => proc {[Apple, Banana, Cherry]})
     end
 
-
     # Need to do this in two steps because of the mutual relationship between
     # the two classes...
     class Apple < Sequel::Model(:apple)
@@ -187,9 +128,7 @@ describe 'Relationships' do
                           :contains_references_to_types => proc {[Apple, Banana]})
 
     end
-
   end
-
 
   it "can represent relationships with properties" do
 
@@ -209,7 +148,6 @@ describe 'Relationships' do
     expect(Apple.to_jsonmodel(apple).bananas[0]['ref']).to eq(banana.uri)
     expect(Apple.to_jsonmodel(apple).bananas[0]['sauce']).to eq('yogurt')
   end
-
 
   it "doesn't differentiate between updates made from opposing sides of the relationship" do
 
@@ -238,7 +176,6 @@ describe 'Relationships' do
     expect(Banana.to_jsonmodel(banana).apples).to eq([])
   end
 
-
   it "deletes relationships if one side of the relationship is deleted" do
     apple = Apple.create_from_json(JSONModel(:apple).new(:name => "granny smith"))
     banana_json = JSONModel(:banana).new(:apples => [{
@@ -258,7 +195,6 @@ describe 'Relationships' do
     expect(banana.my_relationships(:fruit_salad).count).to eq(0)
   end
 
-
   it "stores a last modified time on each relationship" do
     apple = Apple.create_from_json(JSONModel(:apple).new(:name => "granny smith"))
     banana_json = JSONModel(:banana).new(:apples => [{
@@ -266,19 +202,20 @@ describe 'Relationships' do
                                                        :sauce => "yogurt"
                                                      }])
     time = Time.now.to_f
+
+    ArchivesSpaceService.wait(:long)
     banana = Banana.create_from_json(banana_json)
 
     expect(banana.my_relationships(:fruit_salad)[0][:system_mtime].to_f).to be >= time
   end
 
-
   it "blows up if you link to a non-existent URI" do
     expect {
-    Apple.create_from_json(JSONModel(:apple).new(:name => "granny smith",
-                                                 :bananas => [{
-                                                                :ref => "/bananas/12345",
-                                                                :sauce => "rasberry"
-                                                              }]))
+      Apple.create_from_json(JSONModel(:apple).new(:name => "granny smith",
+                                                   :bananas => [{
+                                                                  :ref => "/bananas/12345",
+                                                                  :sauce => "rasberry"
+                                                                }]))
     }.to raise_error(ReferenceError)
   end
 
@@ -292,7 +229,6 @@ describe 'Relationships' do
     expect(banana.related_records(:friends).count).to eq(0)
   end
 
-
   it "obviously bananas can be friends with other bananas" do
     banana1 = Banana.create_from_json(JSONModel(:banana).new(:name => "b1"))
     banana2 = Banana.create_from_json(JSONModel(:banana).new(:friends => [{:ref => banana1.uri}]))
@@ -300,7 +236,6 @@ describe 'Relationships' do
 
     expect(banana2.related_records(:friends)[0]).to eq(banana1)
   end
-
 
   it "stops two updates from inadvertently overwriting each other's relationship changes" do
     apple = Apple.create_from_json(JSONModel(:apple).new(:name => "granny smith"))
@@ -317,7 +252,6 @@ describe 'Relationships' do
     }.to raise_error(Sequel::Plugins::OptimisticLocking::Error)
   end
 
-
   it "doesn't worry about relationship changes conflicting unless the involved classes have a reciprocal relationships" do
     cherry = Cherry.create_from_json(JSONModel(:cherry).new)
 
@@ -332,7 +266,6 @@ describe 'Relationships' do
     }.not_to raise_error
   end
 
-
   it "updates the mtime of all related records when one who participates in a relationship is updated" do
     # Cherry doesn't know about banana
     cherry = Cherry.create_from_json(JSONModel(:cherry).new)
@@ -343,14 +276,13 @@ describe 'Relationships' do
                                                             }]))
 
     time = (banana.system_mtime.to_f * 1000).to_i
-    sleep 0.1
+    ArchivesSpaceService.wait(:long)
 
     cherry.update_from_json(JSONModel(:cherry).from_hash(:lock_version => 0))
     banana.refresh
 
     expect((banana.system_mtime.to_f * 1000).to_i).not_to eq(time)
   end
-
 
   it "creates relationships as suppressed if they relate to suppressed records" do
     cherry = Cherry.create_from_json(JSONModel(:cherry).new)
@@ -391,7 +323,7 @@ describe 'Relationships' do
     # we can tell the db to retry ( it will do 10 times by default )
     attempt =0
     expect {
-      DB.open(true, :retries => 6, :retry_on_optimistic_locking_fail => true, :retry_delay => 0 )  do
+      DB.open(true, :retries => 6, :retry_on_optimistic_locking_fail => true, :retry_delay => 0 ) do
         banana_json = JSONModel(:banana).new(:apples => [{
                                                        :ref => apple.uri,
                                                        :sauce => "black"
@@ -402,7 +334,6 @@ describe 'Relationships' do
     }.to raise_error(Sequel::NoExistingObject)
     expect(attempt).to eq(6)
   end
-
 
   it "updates the mtime of all related records, following nested records back to top-level records as required" do
     # Ditching our fruit salad metaphor for the moment, since this actually
@@ -423,7 +354,7 @@ describe 'Relationships' do
     archival_object = ArchivalObject[archival_object_json.id]
 
     start_time = (archival_object[:system_mtime].to_f * 1000).to_i
-    sleep 0.1
+    ArchivesSpaceService.wait(:long)
 
     # Touch the digital object
     digital_object.refetch
@@ -436,12 +367,10 @@ describe 'Relationships' do
     expect((archival_object.system_mtime.to_f * 1000).to_i).not_to eq(start_time)
   end
 
-
   it "gives defined relationship classes names" do
-    expect{Relationships::BananaFruitSalad}.to_not raise_error
-    expect{Relationships::BananaFriends}.to_not raise_error
-    expect{Relationships::AppleFruitSalad}.to_not raise_error
-    expect{Relationships::AppleFriends}.to_not raise_error
+    expect {Relationships::BananaFruitSalad}.to_not raise_error
+    expect {Relationships::BananaFriends}.to_not raise_error
+    expect {Relationships::AppleFruitSalad}.to_not raise_error
+    expect {Relationships::AppleFriends}.to_not raise_error
   end
-
 end

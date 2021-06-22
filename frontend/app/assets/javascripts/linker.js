@@ -1,6 +1,9 @@
 //= require jquery.tokeninput
 
 $(function() {
+  let resource_edit_path_regex = /^\/resources\/\d+\/edit$/
+  let on_resource_edit_path = window.location.pathname.match(resource_edit_path_regex)
+
   $.fn.linker = function() {
     $(this).each(function() {
       var $this = $(this);
@@ -64,7 +67,7 @@ $(function() {
 
                 $this.tokenInput("add", {
                   id: response.uri,
-                  name: response.display_string || response.title,
+                  name: tokenName(response),
                   json: response
                 });
                 $this.triggerHandler("change");
@@ -93,6 +96,9 @@ $(function() {
 
 
       var showLinkerCreateModal = function() {
+        // Ensure all typeahead dropdowns are hidden (sometimes blur leaves them visible)
+        $('.token-input-dropdown').hide();
+
         AS.openCustomModal(config.modal_id, "Create "+ config.label, AS.renderTemplate("linker_createmodal_template", config), 'large', {}, this);
         if ($(this).hasClass("linker-create-btn")) {
           renderCreateFormForObject($(this).data("target"));
@@ -170,10 +176,10 @@ $(function() {
               };
 
               $linkerBrowseContainer.html(html);
-              $($linkerBrowseContainer).on("click", "a", function(event) {
+              $($linkerBrowseContainer).on("click", "a:not(.dropdown-toggle):not(.record-toolbar .btn)", function(event) {
                 event.preventDefault();
 
-                $linkerBrowseContainer.load(event.target.href, initBrowseFormInputs);
+                $linkerBrowseContainer.load(event.currentTarget.href, initBrowseFormInputs);
               });
 
               $($linkerBrowseContainer).on("submit", "form", function(event) {
@@ -209,13 +215,16 @@ $(function() {
           $.each(currentlySelected, function(uri, object) {
             $this.tokenInput("add", {
               id: uri,
-              name: object.display_string || object.title,
+              name: tokenName(object),
               json: object
             });
           });
           $("#"+config.modal_id).modal('hide');
           $this.triggerHandler("change");
         };
+
+        // Ensure all typeahead dropdowns are hidden (sometimes blur leaves them visible)
+        $('.token-input-dropdown').hide();
 
         AS.openCustomModal(config.modal_id, "Browse "+ config.label_plural, AS.renderTemplate("linker_browsemodal_template",config), 'large', {}, this);
         renderItemsInModal();
@@ -234,10 +243,9 @@ $(function() {
 
         $.each(searchData.search_data.results, function(index, obj) {
           // only allow selection of unselected items
-
           if ($.inArray(obj.uri, currentlySelectedIds) === -1) {
             formattedResults.push({
-              name: obj.display_string || obj.title,
+              name: tokenName(obj),
               id: obj.id,
               json: obj
             });
@@ -284,12 +292,48 @@ $(function() {
 
       var tokensForPrepopulation = function() {
         if ($this.data("multiplicity") === "one") {
+
+          // If we are on a resource or archival object edit page, and open a top_container modal with a
+          // collection_resource linker then we prepopulate the collection_resource field with resource
+          // data necessary to perform the search
+          let onResource = $(".label.label-info").text() === "Resource"
+          let onArchivalObject = $(".label.label-info").text() === "Archival Object"
+          let modalHasResource = $(".modal-dialog").find("#collection_resource").length > 0
+          let idMatches = $this[0].id === "collection_resource"
+
+          if (on_resource_edit_path && modalHasResource && idMatches && (onResource || onArchivalObject)) {
+            let currentForm = $("#object_container").find("form").first()
+            if (onResource) {
+              return [{
+                id: currentForm.attr("data-update-monitor-record-uri"),
+                name: $("#resource_title_").text(),
+                json: {
+                  id: currentForm.attr("data-update-monitor-record-uri"),
+                  uri: currentForm.attr("data-update-monitor-record-uri"),
+                  title: $("#resource_title_").text(),
+                  jsonmodel_type: "resource"
+                }
+              }]
+            } else if (onArchivalObject) {
+              return [{
+                id: $("#archival_object_resource_").attr("value"),
+                name: $(".record-title").first().text(),
+                json: {
+                  id: $("#archival_object_resource_").attr("value"),
+                  uri: $("#archival_object_resource_").attr("value"),
+                  title: $(".record-title").first().text(),
+                  jsonmodel_type: "resource"
+                }
+              }]
+            }
+          }
+
           if ($.isEmptyObject($this.data("selected"))) {
             return [];
           }
           return [{
               id: $this.data("selected").uri,
-              name: $this.data("selected").display_string || $this.data("selected").title,
+              name: tokenName($this.data("selected")),
               json: $this.data("selected")
           }];
         } else {
@@ -303,7 +347,7 @@ $(function() {
             }
             return {
               id: item.uri,
-              name: item.display_string || item.title,
+              name: tokenName(item),
               json: item
             };
           });
@@ -343,6 +387,36 @@ $(function() {
         }
       };
 
+      // ANW-631, ANW-700: Add four_part_id to token name via data source
+      function tokenName(object) {
+        var title = object.display_string || object.title;
+
+        function output(id) {
+          return id + ': ' + title;
+        }
+
+        if (object.four_part_id !== undefined) {
+          // Data comes from Solr index
+          return output(object.four_part_id.split(' ').join('-'));
+        } else if (object.digital_object_id !== undefined) {
+          // Data comes from Solr index
+          return output(object.digital_object_id);
+        } else {
+          // Data comes from JSON property on data from Solr index
+          var idProperties = ['id_0', 'id_1', 'id_2', 'id_3'];
+          var fourPartIdArr = idProperties.reduce(function (acc, id) {
+            if (object[id] !== undefined) {
+              acc.push(object[id]);
+            }
+            return acc;
+          }, []);
+
+          return fourPartIdArr.length > 0
+            ? output(fourPartIdArr.join('-'))
+            : title;
+        }
+      }
+
       var init = function() {
         var tokenInputConfig = $.extend({}, AS.linker_locales, {
           animateDropdown: false,
@@ -361,11 +435,11 @@ $(function() {
           },
           resultsFormatter: function(item) {
             var string = item.name;
-            var $resultSpan = $("<span class='"+ item.json.jsonmodel_type + "'>");
+            var $resultSpan = $("<span class='"+ item.json.jsonmodel_type + "' aria-label='"+ string + "'>");
             var extra_class = tag_subjects_by_term_type(item);
             $resultSpan.text(string);
             $resultSpan.prepend("<span class='icon-token " + extra_class + "'></span>");
-            var $resultLi = $("<li>");
+            var $resultLi = $("<li role='option'>");
             $resultLi.append($resultSpan);
             return $resultLi[0].outerHTML;
           },
@@ -415,6 +489,20 @@ $(function() {
           if (config.sortable && config.allow_multiple) {
             enableSorting();
             $linkerWrapper.addClass("sortable");
+          }
+
+          // This is part of automatically executing a search for the current resource on the browse top
+          // containers modal when opened from the edit resource or archival object pages.
+          // If this setTimeout is for the last linker in the modal, only then is it safe to execute the search
+          let lastLinker = $(".modal-dialog").find(".linker").last()
+          let isLastLinker = lastLinker.attr("id") === $this.context.id
+          let onResource = $(".label.label-info").text() === "Resource"
+          let onArchivalObject = $(".label.label-info").text() === "Archival Object"
+          let modalHasResource = $(".modal-dialog").find("#collection_resource").length > 0
+          let resultsEmpty = $(".modal-dialog").find(".table-search-results").length < 1
+
+          if (on_resource_edit_path && modalHasResource && resultsEmpty && isLastLinker && (onResource || onArchivalObject)) {
+            $(".modal-dialog").find("input[type='submit']").click()
           }
         });
 

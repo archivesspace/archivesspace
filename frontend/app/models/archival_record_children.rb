@@ -23,7 +23,7 @@ class ArchivalRecordChildren < JSONModel(:archival_record_children)
 
     child["instances"] = [child["instances"].first]
 
-    if child["instances"][0]["sub_container"].reject{|k,v| v.blank?}.empty?
+    if child["instances"][0]["sub_container"].reject {|k, v| v.blank?}.empty?
       child["instances"][0].delete("sub_container")
     end
 

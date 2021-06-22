@@ -814,7 +814,7 @@ span.head {
 }
 
 #sidebar .present_list {
-  padding-left: 10px
+  padding-left: 20px
 }
 
 #sidebar form {
@@ -927,4 +927,18 @@ span.head {
 .honeypot {
   position: absolute;
   left: -9999px;
+}
+
+@media (max-width: 768px) {
+  div {
+     overflow: scroll;
+     overflow-wrap: anywhere;
+     word-break: break-word;
+  }
+
+  .panel-heading {
+     overflow-wrap: anywhere;
+     word-break: break-all;
+     white-space: normal;
+  }
 }

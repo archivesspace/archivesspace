@@ -55,7 +55,6 @@ module ASpaceImport
 
 
       def run
-
         if config.doc_frag_nodes.empty?
           @doc = Nokogiri::XML::Document.parse(IO.read(@input_file))
           @doc.remove_namespaces!

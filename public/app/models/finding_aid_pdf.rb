@@ -72,7 +72,7 @@ class FindingAidPDF
         raise TimeoutError.new("PDF generation timed out.  Sorry!")
       end
 
-      uri_set = entry_set.map(&:uri).map {|s| s + "#pui"}
+      uri_set = entry_set.map(&:uri)
       record_set = archivesspace.search_records(uri_set, {}, true).records
 
       record_set.zip(entry_set).each do |record, entry|
@@ -82,7 +82,7 @@ class FindingAidPDF
       end
     end
 
-    out_html.write(renderer.render_to_string partial: 'footer', layout: false)
+    out_html.write(renderer.render_to_string partial: 'footer', layout: false, :locals => {:record => @resource})
     out_html.close
 
     out_html

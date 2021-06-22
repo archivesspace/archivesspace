@@ -1,4 +1,4 @@
-FROM ubuntu:18.04 as build_release
+FROM ubuntu:20.04 as build_release
 
 # Please note: Docker is not supported as an install method.
 # Docker configuration is being used for internal purposes only.
@@ -6,12 +6,15 @@ FROM ubuntu:18.04 as build_release
 # Docker related files may be updated at anytime without
 # warning or presence in release notes.
 
-RUN DEBIAN_FRONTEND=noninteractive \
-    apt-get update && \
+ENV DEBIAN_FRONTEND=noninteractive \
+    TZ=UTC
+
+RUN apt-get update && \
     apt-get -y install --no-install-recommends \
       build-essential \
       git \
-      openjdk-8-jre-headless \
+      openjdk-11-jre-headless \
+      shared-mime-info \
       wget \
       unzip
 
@@ -25,26 +28,30 @@ RUN cd /source && \
     mv ./*.zip / && \
     cd / && \
     unzip /*.zip -d / && \
-    wget https://repo1.maven.org/maven2/mysql/mysql-connector-java/5.1.39/mysql-connector-java-5.1.39.jar && \
-    cp /mysql-connector-java-5.1.39.jar /archivesspace/lib/
+    wget https://repo1.maven.org/maven2/mysql/mysql-connector-java/8.0.23/mysql-connector-java-8.0.23.jar && \
+    cp /mysql-connector-java-8.0.23.jar /archivesspace/lib/
 
 ADD docker-startup.sh /archivesspace/startup.sh
 RUN chmod u+x /archivesspace/startup.sh
 
-FROM ubuntu:18.04
+FROM ubuntu:20.04
 
 LABEL maintainer="ArchivesSpaceHome@lyrasis.org"
 
 ENV ARCHIVESSPACE_LOGS=/dev/null \
-    LANG=C.UTF-8
+    DEBIAN_FRONTEND=noninteractive \
+    LANG=C.UTF-8 \
+    TZ=UTC
 
 COPY --from=build_release /archivesspace /archivesspace
 
-RUN DEBIAN_FRONTEND=noninteractive \
-    apt-get update && \
+RUN apt-get update && \
     apt-get -y install --no-install-recommends \
       ca-certificates \
-      openjdk-8-jre-headless \
+      git \
+      openjdk-11-jre-headless \
+      netbase \
+      shared-mime-info \
       wget \
       unzip && \
     rm -rf /var/lib/apt/lists/* && \

@@ -13,4 +13,3 @@ Sequel.migration do
   end
 
 end
-

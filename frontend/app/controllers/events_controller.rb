@@ -9,17 +9,21 @@ class EventsController < ApplicationController
   include ExportHelper
 
   def index
-    respond_to do |format| 
-      format.html {   
+    respond_to do |format|
+      format.html {
         @search_data = Search.for_type(session[:repo_id], "event", params_for_backend_search.merge({"facet[]" => SearchResultData.EVENT_FACETS}))
       }
-      format.csv { 
+      format.csv {
         search_params = params_for_backend_search.merge({"facet[]" => SearchResultData.EVENT_FACETS})
-        search_params["type[]"] = "event" 
+        search_params["type[]"] = "event"
         uri = "/repositories/#{session[:repo_id]}/search"
-        csv_response( uri, search_params )
-      }  
-    end 
+        csv_response( uri, Search.build_filters(search_params), "#{I18n.t('event._plural').downcase}." )
+      }
+    end
+  end
+
+  def current_record
+    @event
   end
 
   def show
@@ -53,7 +57,6 @@ class EventsController < ApplicationController
         @redirect_action = 'edit'
       end
     end
-
   end
 
   def edit
@@ -67,13 +70,13 @@ class EventsController < ApplicationController
   def create
     handle_crud(:instance => :event,
                 :model => JSONModel(:event),
-                :on_invalid => ->(){
+                :on_invalid => ->() {
                   if params.has_key?(:redirect_action)
                     @redirect_action = params[:redirect_action]
                   end
                   render :action => :new
                 },
-                :on_valid => ->(id){
+                :on_valid => ->(id) {
                   flash[:success] = I18n.t("event._frontend.messages.created")
                   return redirect_to :controller => :events, :action => :new if params.has_key?(:plus_one)
 
@@ -98,8 +101,8 @@ class EventsController < ApplicationController
     handle_crud(:instance => :event,
                 :model => JSONModel(:event),
                 :obj => JSONModel(:event).find(params[:id]),
-                :on_invalid => ->(){ render :action => :edit },
-                :on_valid => ->(id){
+                :on_invalid => ->() { render :action => :edit },
+                :on_valid => ->(id) {
                   flash[:success] = I18n.t("event._frontend.messages.updated")
                   redirect_to :controller => :events, :action => :edit, :id => id
                 })
@@ -126,7 +129,6 @@ class EventsController < ApplicationController
   end
 
   def update_defaults
-
     begin
       DefaultValues.from_hash({
                                 "record_type" => "event",

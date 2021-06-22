@@ -6,15 +6,15 @@
 <title>
   Module: ASpaceExport::ArchivalObjectDescriptionHelpers
   
-    &mdash; Documentation by YARD 0.9.20
+    &mdash; Documentation by YARD 0.9.25
   
 </title>
 
-  <link rel="stylesheet" href="../css/style.css" type="text/css" charset="utf-8" />
+  <link rel="stylesheet" href="../css/style.css" type="text/css" />
 
-  <link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8" />
+  <link rel="stylesheet" href="../css/common.css" type="text/css" />
 
-<script type="text/javascript" charset="utf-8">
+<script type="text/javascript">
   pathId = "ASpaceExport::ArchivalObjectDescriptionHelpers";
   relpath = '../';
 </script>
@@ -356,7 +356,8 @@ or archival_object models during serialization</p>
 151
 152
 153
-154</pre>
+154
+155</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'backend/app/exporters/lib/export_helpers.rb', line 120</span>
@@ -387,6 +388,7 @@ or archival_object models during serialization</p>
       <span class='rubyid_atts identifier id'>atts</span><span class='lbrack token'>[</span><span class='symbol val'>:normal</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_normal identifier id'>normal</span> <span class='rubyid_unless unless_mod kw'>unless</span> <span class='rubyid_normal identifier id'>normal</span><span class='dot token'>.</span><span class='rubyid_empty? fid id'>empty?</span>
       <span class='rubyid_atts identifier id'>atts</span><span class='lbrack token'>[</span><span class='symbol val'>:era</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_date identifier id'>date</span><span class='lbrack token'>[</span><span class='string val'>&#39;era&#39;</span><span class='rbrack token'>]</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_date identifier id'>date</span><span class='lbrack token'>[</span><span class='string val'>&#39;era&#39;</span><span class='rbrack token'>]</span>
       <span class='rubyid_atts identifier id'>atts</span><span class='lbrack token'>[</span><span class='symbol val'>:calendar</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_date identifier id'>date</span><span class='lbrack token'>[</span><span class='string val'>&#39;calendar&#39;</span><span class='rbrack token'>]</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_date identifier id'>date</span><span class='lbrack token'>[</span><span class='string val'>&#39;calendar&#39;</span><span class='rbrack token'>]</span>
+      <span class='rubyid_atts identifier id'>atts</span><span class='lbrack token'>[</span><span class='symbol val'>:datechar</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_date identifier id'>date</span><span class='lbrack token'>[</span><span class='string val'>&#39;label&#39;</span><span class='rbrack token'>]</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_date identifier id'>date</span><span class='lbrack token'>[</span><span class='string val'>&#39;label&#39;</span><span class='rbrack token'>]</span>
 
       <span class='rubyid_results identifier id'>results</span> <span class='lshft op'>&lt;&lt;</span> <span class='lbrace token'>{</span><span class='symbol val'>:content</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_content identifier id'>content</span><span class='comma token'>,</span> <span class='symbol val'>:atts</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_atts identifier id'>atts</span><span class='rbrace token'>}</span>
     <span class='rubyid_end end kw'>end</span>
@@ -784,9 +786,9 @@ or archival_object models during serialization</p>
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.7.1-RC1.a Documentation Generated on Thu Feb  6 10:07:34 2020 by
+  ArchivesSpace Version v2.8.1.a Documentation Generated on Wed Nov 11 13:21:30 2020 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.20.
+  0.9.25.
 </div>
 
     </div>

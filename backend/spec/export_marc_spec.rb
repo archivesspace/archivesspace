@@ -5,23 +5,25 @@ require_relative 'export_spec_helper'
 describe 'MARC Export' do
 
   before(:all) do
-    $old_repo_id = $repo_id
-    @repo = create(:json_repository)
-    $repo_id = @repo.id
+    as_test_user('admin') do
+      $old_repo_id = $repo_id
+      @repo = create(:json_repository)
+      $repo_id = @repo.id
 
-    JSONModel.set_repository($repo_id)
+      JSONModel.set_repository($repo_id)
+    end
   end
 
-
   after(:all) do
-    $repo_id = $old_repo_id
-    JSONModel.set_repository($repo_id)
+    as_test_user('admin') do
+      $repo_id = $old_repo_id
+      JSONModel.set_repository($repo_id)
+    end
   end
 
 
   def note_test(resource, marc, note_types, dfcodes, sfcode, filters = {})
-
-    notes = resource.notes.select{|n| note_types.include?(n['type'])}
+    notes = resource.notes.select {|n| note_types.include?(n['type'])}
     filters.each do |k, v|
       notes.reject! {|n| n[k] != v }
     end
@@ -29,17 +31,16 @@ describe 'MARC Export' do
     return unless notes.count > 0
     xml_content = marc.df(*dfcodes).sf_t(sfcode)
     expect(xml_content).not_to be_empty
-    note_string = notes.map{|n| note_content(n)}.join('')
+    note_string = notes.map {|n| note_content(n)}.join('')
     xml_content.gsub!(".", "") # code to append punctuation can interfere with this test.
     expect(xml_content).to match(/#{note_string}/)
   end
 
   def lang_note_test(notes, marc, dfcodes, sfcode)
-
     return unless notes.count > 0
     xml_content = marc.df(*dfcodes).sf_t(sfcode)
     expect(xml_content).not_to be_empty
-    note_string = notes.map{|n| note_content(n)}.join('')
+    note_string = notes.map {|n| note_content(n)}.join('')
     xml_content.gsub!(".", "") # code to append punctuation can interfere with this test.
     expect(xml_content).to match(/#{note_string}/)
   end
@@ -59,68 +60,104 @@ describe 'MARC Export' do
     code.to_s
   end
 
- describe "root node content" do
+  describe "root node content" do
+     before(:each) do
+       as_test_user('admin') do
+         @marc = get_marc(create(:json_resource))
+         @xml = @marc.to_xml
+       end
+     end
+
+     after(:all) do
+       as_test_user('admin') do
+         $repo_id = $old_repo_id
+         JSONModel.set_repository($repo_id)
+       end
+     end
+
+     it "root node should have xmlns:xsi defined" do
+       expect(@xml).to match(/<collection.*xmlns:xsi="http:\/\/www.w3.org\/2001\/XMLSchema-instance"/)
+     end
+
+     it "root node should have xsi:schemaLocation defined" do
+       expect(@xml).to match(/<collection.*xsi:schemaLocation="http:\/\/www.loc.gov\/MARC21\/slim http:\/\/www.loc.gov\/standards\/marcxml\/schema\/MARC21slim.xsd"/)
+     end
+   end
+
+  describe "datafield element order" do
     before(:each) do
-      @marc = get_marc(create(:json_resource))
-      @xml = @marc.to_xml
+      as_test_user('admin') do
+        @marc = get_marc(create(:json_resource))
+        @xml = @marc.to_xml
+      end
     end
 
-    it "root node should have xmlns:xsi defined" do
-      expect(@xml).to match(/<collection.*xmlns:xsi="http:\/\/www.w3.org\/2001\/XMLSchema-instance"/)
+    after(:all) do
+      as_test_user('admin') do
+        $repo_id = $old_repo_id
+        JSONModel.set_repository($repo_id)
+      end
     end
 
-    it "root node should have xsi:schemaLocation defined" do
-      expect(@xml).to match(/<collection.*xsi:schemaLocation="http:\/\/www.loc.gov\/MARC21\/slim http:\/\/www.loc.gov\/standards\/marcxml\/schema\/MARC21slim.xsd"/)
-    end
-  end
+    it "should generate XML with the datafield tags in numerical order" do
+      datafield_element_count = @marc.xpath("//marc:record/marc:datafield").length
+      last_tag = 0
 
-describe "datafield element order" do
-  before(:each) do
-    @marc = get_marc(create(:json_resource))
-    @xml = @marc.to_xml
-  end
-
-  it "should generate XML with the datafield tags in numerical order" do
-    datafield_element_count = @marc.xpath("//marc:record/marc:datafield").length
-    last_tag = 0
-
-    # loop through all tags. make sure that datafield[@tag] is a smaller number than the preceeding one.
-    0.upto(datafield_element_count - 1) do |i|
-      this_tag = @marc.xpath("//marc:record/marc:datafield")[i]["tag"].to_i
-      expect(this_tag >= last_tag).to be_truthy
-      last_tag = this_tag
+      # loop through all tags. make sure that datafield[@tag] is a smaller number than the preceeding one.
+      0.upto(datafield_element_count - 1) do |i|
+        this_tag = @marc.xpath("//marc:record/marc:datafield")[i]["tag"].to_i
+        expect(this_tag >= last_tag).to be_truthy
+        last_tag = this_tag
+      end
     end
   end
-end
 
- describe "040 cataloging source field" do
-   before(:each) do
-     @marc = get_marc(create(:json_resource))
-     @xml = @marc.to_xml
+  describe "040 cataloging source field" do
+     before(:each) do
+       as_test_user('admin') do
+         @marc = get_marc(create(:json_resource))
+         @xml = @marc.to_xml
+       end
+     end
+
+     after(:all) do
+       as_test_user('admin') do
+         $repo_id = $old_repo_id
+         JSONModel.set_repository($repo_id)
+       end
+     end
+
+     it "MARC record should only have one 040 element in the document" do
+       forty_count = @xml.scan(/(?=#{'tag="040"'})/).count
+       expect(forty_count).to eql(1)
+     end
    end
-
-   it "MARC record should only have one 040 element in the document" do
-     forty_count = @xml.scan(/(?=#{'tag="040"'})/).count
-     expect(forty_count).to eql(1)
-   end
-  end
 
   describe "datafield 110 name mapping" do
 
     before(:each) do
-      @name = build(:json_name_corporate_entity)
-      agent = create(:json_agent_corporate_entity,
-                    :names => [@name])
-      @resource = create(:json_resource,
-                         :linked_agents => [
-                                            {
-                                              'role' => 'creator',
-                                              'ref' => agent.uri
-                                            }
-                                           ]
-                         )
+      as_test_user('admin') do
+        @name = build(:json_name_corporate_entity)
+        agent = create(:json_agent_corporate_entity,
+                      :names => [@name])
+        @resource = create(:json_resource,
+                           :linked_agents => [
+                                              {
+                                                'role' => 'creator',
+                                                'ref' => agent.uri
+                                              }
+                                             ]
+                           )
 
-      @marc = get_marc(@resource)
+        @marc = get_marc(@resource)
+      end
+    end
+
+    after(:all) do
+      as_test_user('admin') do
+        $repo_id = $old_repo_id
+        JSONModel.set_repository($repo_id)
+      end
     end
 
     it "maps primary_name to subfield 'a'" do
@@ -131,28 +168,38 @@ end
 
   describe "datafield 245 mapping" do
     before(:each) do
+      as_test_user('admin') do
 
-      @dates = ['inclusive', 'bulk'].map {|type|
-        range = [nil, nil].map { generate(:yyyy_mm_dd) }.sort
-        build(:json_date,
-              :date_type => type,
-              :begin => range[0],
-              :end => range[1],
-              :expression => [true, false].sample ? generate(:string) : nil
-              )
-      }
+        @dates = ['inclusive', 'bulk'].map {|type|
+          range = [nil, nil].map { generate(:yyyy_mm_dd) }.sort
+          build(:json_date,
+                :date_type => type,
+                :begin => range[0],
+                :end => range[1],
+                :expression => [true, false].sample ? generate(:string) : nil
+                )
+        }
 
-      2.times { @dates << build(:json_date) }
+        2.times { @dates << build(:json_date) }
 
 
-      @resource = create(:json_resource,
-                         :dates => @dates)
+        @resource = create(:json_resource,
+                           :dates => @dates)
 
-      @marc = get_marc(@resource)
+        @marc = get_marc(@resource)
+
+      end
+    end
+
+    after(:all) do
+      as_test_user('admin') do
+        $repo_id = $old_repo_id
+        JSONModel.set_repository($repo_id)
+      end
     end
 
     it "maps the first inclusive date to subfield 'f'" do
-      date = @dates.find{|d| d.date_type == 'inclusive'}
+      date = @dates.find {|d| d.date_type == 'inclusive'}
 
       if date.expression
         expect(@marc).to have_tag "datafield[@tag='245']/subfield[@code='f']" => "#{date.expression}"
@@ -167,7 +214,7 @@ end
 
 
     it "maps the first bulk date to subfield 'g'" do
-      date = @dates.find{|d| d.date_type == 'bulk'}
+      date = @dates.find {|d| d.date_type == 'bulk'}
 
       if date.expression
         expect(@marc).to have_tag "datafield[@tag='245']/subfield[@code='g']" => "#{date.expression}"
@@ -190,46 +237,55 @@ end
 
   describe "datafield 245 mapping dates" do
     before(:each) do
+      as_test_user('admin') do
 
-      @range = [nil, nil].map { generate(:yyyy_mm_dd) }.sort
+        @range = [nil, nil].map { generate(:yyyy_mm_dd) }.sort
 
-      @inclusive_single = build(:json_date,
-                                :date_type => 'inclusive',
-                                :begin => @range[0],
-                                :end => nil,
-                                :expression => nil)
+        @inclusive_single = build(:json_date,
+                                  :date_type => 'inclusive',
+                                  :begin => @range[0],
+                                  :end => nil,
+                                  :expression => nil)
 
-      @bulk_single = build(:json_date,
-                           :date_type => 'bulk',
-                           :begin => @range[0],
-                           :end => nil,
-                           :expression => nil)
+        @bulk_single = build(:json_date,
+                             :date_type => 'bulk',
+                             :begin => @range[0],
+                             :end => nil,
+                             :expression => nil)
 
-      @inclusive_range = build(:json_date,
-                               :date_type => 'inclusive',
-                               :begin => @range[0],
-                               :end => @range[1],
-                               :expression => nil)
+        @inclusive_range = build(:json_date,
+                                 :date_type => 'inclusive',
+                                 :begin => @range[0],
+                                 :end => @range[1],
+                                 :expression => nil)
 
 
-      @bulk_range = build(:json_date,
-                          :date_type => 'bulk',
-                          :begin => @range[0],
-                          :end => @range[1],
-                          :expression => nil)
+        @bulk_range = build(:json_date,
+                            :date_type => 'bulk',
+                            :begin => @range[0],
+                            :end => @range[1],
+                            :expression => nil)
 
-      @inclusive_expression = build(:json_date,
-                                    :date_type => 'inclusive',
-                                    :begin => @range[0],
-                                    :end => @range[1],
-                                    :expression => "1981ish")
+        @inclusive_expression = build(:json_date,
+                                      :date_type => 'inclusive',
+                                      :begin => @range[0],
+                                      :end => @range[1],
+                                      :expression => "1981ish")
 
-      @bulk_expression = build(:json_date,
-                               :date_type => 'bulk',
-                               :begin => @range[0],
-                               :end => @range[1],
-                               :expression => "1991ish")
+        @bulk_expression = build(:json_date,
+                                 :date_type => 'bulk',
+                                 :begin => @range[0],
+                                 :end => @range[1],
+                                 :expression => "1991ish")
 
+      end
+    end
+
+    after(:all) do
+      as_test_user('admin') do
+        $repo_id = $old_repo_id
+        JSONModel.set_repository($repo_id)
+      end
     end
 
     it "should use expression in bulk and inclusive dates if provided" do
@@ -266,19 +322,29 @@ end
 
   describe "datafield 3xx mapping" do
     before(:each) do
+      as_test_user('admin') do
 
-      @notes = %w(arrangement fileplan).map { |type|
-        build(:json_note_multipart,
-              :type => type,
-              :publish => true)
-      }
+        @notes = %w(arrangement fileplan).map { |type|
+          build(:json_note_multipart,
+                :type => type,
+                :publish => true)
+        }
 
-      @extents = (0..5).to_a.map{ build(:json_extent) }
-      @resource = create(:json_resource,
-                         :extents => @extents,
-                         :notes => @notes)
+        @extents = (0..5).to_a.map { build(:json_extent) }
+        @resource = create(:json_resource,
+                           :extents => @extents,
+                           :notes => @notes)
 
-      @marc = get_marc(@resource)
+        @marc = get_marc(@resource)
+
+      end
+    end
+
+    after(:all) do
+      as_test_user('admin') do
+        $repo_id = $old_repo_id
+        JSONModel.set_repository($repo_id)
+      end
     end
 
     it "creates a 300 field for each extent" do
@@ -312,37 +378,35 @@ end
 
   describe "datafield 65x mapping" do
     before(:all) do
+      as_test_user('admin', true) do
 
-      @subjects = []
-      30.times {
-        subject = create(:json_subject)
-        # only count subjects that map to 65x fields
-        @subjects << subject unless ['uniform_title', 'temporal'].include?(subject.terms[0]['term_type'])
-      }
-     linked_subjects = @subjects.map {|s| {:ref => s.uri} }
+        @subjects = []
+        30.times {
+          subject = create(:json_subject)
+          # only count subjects that map to 65x fields
+          @subjects << subject unless ['uniform_title', 'temporal'].include?(subject.terms[0]['term_type'])
+        }
+        linked_subjects = @subjects.map {|s| {:ref => s.uri} }
 
 
 
 
-      @extents = [ build(:json_extent)]
-      @resource = create(:json_resource,
-                         :extents => @extents,
-                         :subjects => linked_subjects)
+        @extents = [ build(:json_extent)]
+        @resource = create(:json_resource,
+                           :extents => @extents,
+                           :subjects => linked_subjects)
 
-      @marc = get_marc(@resource)
+        @marc = get_marc(@resource)
 
-    end
-
-    after(:all) do
-      @subjects.each {|s| s.delete }
-      @resource.delete
+        raise Sequel::Rollback
+      end
     end
 
     it "creates a 65x field for each subject" do
       xmlnotes = []
       (0..9).each do |i|
         tag = "65#{i.to_s}"
-        @marc.xpath("//xmlns:datafield[@tag = '#{tag}']").each { |x| xmlnotes << x  }
+        @marc.xpath("//xmlns:datafield[@tag = '#{tag}']").each { |x| xmlnotes << x }
       end
       #puts xmlnotes.map{|n| n.inner_text }.inspect
       #puts @subjects.map{|s| s.to_hash }.inspect
@@ -353,26 +417,36 @@ end
 
   describe "strips mixed content" do
     before(:each) do
+      as_test_user('admin') do
 
-      @dates = ['inclusive', 'bulk'].map {|type|
-        range = [nil, nil].map { generate(:yyyy_mm_dd) }.sort
-        build(:json_date,
-              :date_type => type,
-              :begin => range[0],
-              :end => range[1],
-              :expression => [true, false].sample ? generate(:string) : nil
-              )
-      }
+        @dates = ['inclusive', 'bulk'].map {|type|
+          range = [nil, nil].map { generate(:yyyy_mm_dd) }.sort
+          build(:json_date,
+                :date_type => type,
+                :begin => range[0],
+                :end => range[1],
+                :expression => [true, false].sample ? generate(:string) : nil
+                )
+        }
 
-      2.times { @dates << build(:json_date) }
+        2.times { @dates << build(:json_date) }
 
 
-      @resource = create(:json_resource,
-                         :dates => @dates,
-                         :id_0 => "999",
-                         :title => "Foo <emph render='bold'>BAR</emph> Jones")
+        @resource = create(:json_resource,
+                           :dates => @dates,
+                           :id_0 => "999",
+                           :title => "Foo <emph render='bold'>BAR</emph> Jones")
 
-      @marc = get_marc(@resource)
+        @marc = get_marc(@resource)
+
+      end
+    end
+
+    after(:all) do
+      as_test_user('admin') do
+        $repo_id = $old_repo_id
+        JSONModel.set_repository($repo_id)
+      end
     end
 
     it "should strip out the mixed content in title" do
@@ -383,124 +457,108 @@ end
 
   describe "record leader mappings - country not defined in repo" do
     before(:all) do
-      @repo_nc = create(:json_repository_without_country)
+      as_test_user('admin') do
+        @repo_nc = create(:json_repository_without_country)
 
-      $another_repo_id = $repo_id
-      $repo_id = @repo_nc.id
+        $another_repo_id = $repo_id
+        $repo_id = @repo_nc.id
 
-      JSONModel.set_repository($repo_id)
+        JSONModel.set_repository($repo_id)
 
-      @resource1 = create(:json_resource,
-                          :level => 'collection',
-                          :finding_aid_description_rules => 'dacs')
+        @resource1 = create(:json_resource,
+                            :level => 'collection',
+                            :finding_aid_description_rules => 'dacs')
 
-      @marc1 = get_marc(@resource1)
+        @marc1 = get_marc(@resource1)
+      end
     end
 
     after(:all) do
-      @resource1.delete
-      $repo_id = $another_repo_id
+      as_test_user('admin') do
+        @resource1.delete
+        $repo_id = $another_repo_id
 
-      JSONModel.set_repository($repo_id)
+        JSONModel.set_repository($repo_id)
+      end
     end
 
     it "sets record/controlfield[@tag='008']/text()[15..16] (country code) with xx" do
       expect(@marc1.at("record/controlfield")).to have_inner_text(/^.{15}xx/)
     end
-
-    it "datafield[@tag='044'] not present if repo has no country code" do
-      expect(@marc1).not_to have_tag("datafield[@tag='044']")
-    end
   end
 
   describe "record leader mappings - US is country defined" do
     before(:all) do
-      @repo_us = create(:json_repository_us)
+      as_test_user('admin', true) do
+        @repo_us = create(:json_repository_us)
 
-      $another_repo_id = $repo_id
-      $repo_id = @repo_us.id
+        $another_repo_id = $repo_id
+        $repo_id = @repo_us.id
 
-      JSONModel.set_repository($repo_id)
+        JSONModel.set_repository($repo_id)
 
-      @resource1 = create(:json_resource,
-                          :level => 'collection',
-                          :finding_aid_description_rules => 'dacs')
+        @resource1 = create(:json_resource,
+                            :level => 'collection',
+                            :finding_aid_description_rules => 'dacs')
 
-      @marc1 = get_marc(@resource1)
+        @marc1 = get_marc(@resource1)
+
+        raise Sequel::Rollback
+      end
     end
 
-    after(:all) do
-      @resource1.delete
-      $repo_id = $another_repo_id
-
-      JSONModel.set_repository($repo_id)
-    end
 
     it "sets record/controlfield[@tag='008']/text()[15..16] (country code) with xxu for US special case" do
       expect(@marc1.at("record/controlfield")).to have_inner_text(/^.{15}xxu/)
-    end
-
-    it "maps country code to datafield[@tag='044' and @ind1=' ' and @ind2=' '] subfield a for US special case" do
-      expect(@marc1.at("datafield[@tag='044'][@ind1=' '][@ind2=' ']/subfield[@code='a']")).to have_inner_text("xxu")
     end
   end
 
   describe "record leader mappings - country defined - NOT US" do
     before(:all) do
-      @repo_not_us = create(:json_repository_not_us)
+      as_test_user('admin', true) do
+        @repo_not_us = create(:json_repository_not_us)
 
-      $another_repo_id = $repo_id
-      $repo_id = @repo_not_us.id
+        $another_repo_id = $repo_id
+        $repo_id = @repo_not_us.id
 
-      JSONModel.set_repository($repo_id)
+        JSONModel.set_repository($repo_id)
 
-      @resource1 = create(:json_resource,
-                          :level => 'collection',
-                          :finding_aid_description_rules => 'dacs')
+        @resource1 = create(:json_resource,
+                            :level => 'collection',
+                            :finding_aid_description_rules => 'dacs')
 
-      @marc1 = get_marc(@resource1)
-    end
+        @marc1 = get_marc(@resource1)
 
-    after(:all) do
-      @resource1.delete
-      $repo_id = $another_repo_id
-
-      JSONModel.set_repository($repo_id)
+        raise Sequel::Rollback
+      end
     end
 
     it "sets record/controlfield[@tag='008']/text()[15..16] (country code) with xxu for US special case" do
       expect(@marc1.at("record/controlfield")).to have_inner_text(/^.{15}th/)
     end
-
-    it "maps country code to datafield[@tag='044' and @ind1=' ' and @ind2=' '] subfield a for US special case" do
-      expect(@marc1.at("datafield[@tag='044'][@ind1=' '][@ind2=' ']/subfield[@code='a']")).to have_inner_text("th")
-    end
   end
 
   describe "record leader mappings - parent_org_defined" do
     before(:all) do
-      @repo_parent = create(:json_repository_parent_org)
+      as_test_user('admin', true) do
+        @repo_parent = create(:json_repository_parent_org)
 
-      @parent_institution_name = @repo_parent.parent_institution_name
-      @name = @repo_parent.name
+        @parent_institution_name = @repo_parent.parent_institution_name
+        @name = @repo_parent.name
 
-      $another_repo_id = $repo_id
-      $repo_id = @repo_parent.id
+        $another_repo_id = $repo_id
+        $repo_id = @repo_parent.id
 
-      JSONModel.set_repository($repo_id)
+        JSONModel.set_repository($repo_id)
 
-      @resource1 = create(:json_resource,
-                          :level => 'collection',
-                          :finding_aid_description_rules => 'dacs')
+        @resource1 = create(:json_resource,
+                            :level => 'collection',
+                            :finding_aid_description_rules => 'dacs')
 
-      @marc1 = get_marc(@resource1)
-    end
+        @marc1 = get_marc(@resource1)
 
-    after(:all) do
-      @resource1.delete
-      $repo_id = $another_repo_id
-
-      JSONModel.set_repository($repo_id)
+        raise Sequel::Rollback
+      end
     end
 
     it "df 852: if parent name defined, $a gets parent org, $b gets repo name" do
@@ -512,27 +570,24 @@ end
 
   describe "record leader mappings - NO org_code defined" do
     before(:all) do
-      @repo_no_org_code = create(:json_repository_no_org_code)
+      as_test_user('admin', true) do
+        @repo_no_org_code = create(:json_repository_no_org_code)
 
-      @name = @repo_no_org_code.name
+        @name = @repo_no_org_code.name
 
-      $another_repo_id = $repo_id
-      $repo_id = @repo_no_org_code.id
+        $another_repo_id = $repo_id
+        $repo_id = @repo_no_org_code.id
 
-      JSONModel.set_repository($repo_id)
+        JSONModel.set_repository($repo_id)
 
-      @resource1 = create(:json_resource,
-                          :level => 'collection',
-                          :finding_aid_description_rules => 'dacs')
+        @resource1 = create(:json_resource,
+                            :level => 'collection',
+                            :finding_aid_description_rules => 'dacs')
 
-      @marc1 = get_marc(@resource1)
-    end
+        @marc1 = get_marc(@resource1)
 
-    after(:all) do
-      @resource1.delete
-      $repo_id = $another_repo_id
-
-      JSONModel.set_repository($repo_id)
+        raise Sequel::Rollback
+      end
     end
 
     it "df 852: if parent org and repo_code UNdefined, $a repo name" do
@@ -543,54 +598,65 @@ end
 
   describe "record leader mappings" do
     before(:all) do
-      @resource1 = create(:json_resource,
-                          :level => 'collection',
-                          :finding_aid_description_rules => 'dacs')
-      @resource2 = create(:json_resource,
-                          :level => 'item',
-                          :dates => [
-                                     build(:json_date,
-                                           :date_type => 'single',
-                                           :begin => '1900')
-                                    ]
-                          )
-      @resource3 = create(:json_resource,
-                          :level => 'item',
-                          :dates => [
-                                     build(:json_date,
-                                           :date_type => 'bulk',
-                                           :begin => '1800',
-                                           :end => '1850')
-                                    ]
-                          )
-      @resource4 = create(:json_resource,
-                          :level => 'item',
-                          :dates => [
-                                     build(:json_date,
-                                           :date_type => 'bulk',
-                                           :begin => '1800',
-                                           :end => '1850')
-                                    ],
-                          :lang_materials => [
-                                         build(:json_lang_material),
-                                         build(:json_lang_material),
-                                         build(:json_lang_material_with_note)
-                                        ]
-                          )
+      as_test_user('admin', true) do
+        @resource1 = create(:json_resource,
+                            :level => 'collection',
+                            :finding_aid_description_rules => 'dacs',
+                            :dates => [
+                                       build(:json_date,
+                                             :date_type => 'inclusive',
+                                             :begin => '1900',
+                                             :end => '2000')
+                                      ]
+                            )
+        @resource2 = create(:json_resource,
+                            :level => 'item',
+                            :dates => [
+                                       build(:json_date,
+                                             :date_type => 'single',
+                                             :begin => '1900')
+                                      ]
+                            )
+        @resource3 = create(:json_resource,
+                            :level => 'item',
+                            :dates => [
+                                       build(:json_date,
+                                             :date_type => 'bulk',
+                                             :begin => '1800',
+                                             :end => '1850')
+                                      ]
+                            )
+        @resource4 = create(:json_resource,
+                            :level => 'item',
+                            :dates => [
+                                       build(:json_date,
+                                             :date_type => 'bulk',
+                                             :begin => '1800',
+                                             :end => '1850')
+                                      ],
+                            :lang_materials => [
+                                           build(:json_lang_material),
+                                           build(:json_lang_material),
+                                           build(:json_lang_material_with_note)
+                                          ]
+                            )
+        @resource5 = create(:json_resource,
+                            :level => 'collection',
+                            :dates => [
+                                       build(:json_date,
+                                             :date_type => 'single',
+                                             :begin => '1900')
+                                      ]
+                            )
 
-      @marc1 = get_marc(@resource1)
-      @marc2 = get_marc(@resource2)
-      @marc3 = get_marc(@resource3)
-      @marc4 = get_marc(@resource4)
+        @marc1 = get_marc(@resource1)
+        @marc2 = get_marc(@resource2)
+        @marc3 = get_marc(@resource3)
+        @marc4 = get_marc(@resource4)
+        @marc5 = get_marc(@resource5)
 
-    end
-
-
-    after(:all) do
-      @resource1.delete
-      @resource2.delete
-      @resource3.delete
-      @resource4.delete
+        raise Sequel::Rollback
+      end
     end
 
     it "provides default values for record/leader: 00000np$ a2200000 u 4500" do
@@ -608,10 +674,11 @@ end
       expect(@marc1.at("record/controlfield[@tag='008']")).to have_inner_text(/^\d{6}/)
     end
 
-    it "sets record/controlfield[@tag='008']/text()[6] according to resource.level" do
+    it "sets record/controlfield[@tag='008']/text()[6] according date type" do
       expect(@marc1.at("record/controlfield[@tag='008']")).to have_inner_text(/^.{6}i/)
       expect(@marc2.at("record/controlfield[@tag='008']")).to have_inner_text(/^.{6}s/)
       expect(@marc3.at("record/controlfield[@tag='008']")).to have_inner_text(/^.{6}i/)
+      expect(@marc5.at("record/controlfield[@tag='008']")).to have_inner_text(/^.{6}s/)
     end
 
 
@@ -662,18 +729,18 @@ end
     end
 
 
-  it "maps language notes to df 546 (' ', ' '), sf a" do
+    it "maps language notes to df 546 (' ', ' '), sf a" do
 
-    lang_materials = @resource4.lang_materials.select{|n| n.include?('notes')}.reject {|e|  e['notes'] == [] }
-    notes = lang_materials[0]['notes']
+      lang_materials = @resource4.lang_materials.select {|n| n.include?('notes')}.reject {|e| e['notes'] == [] }
+      notes = lang_materials[0]['notes']
 
-    lang_note_test(notes, @marc4, ['546', ' ', ' '], 'a')
+      lang_note_test(notes, @marc4, ['546', ' ', ' '], 'a')
 
-  end
+    end
 
 
     it "maps resource.id_\\d to df[@tag='099' and @ind1=' ' and @ind2=' ']/sf[@code='a']" do
-      ids = (0..3).map {|i|@resource1.send("id_#{i}") }.compact.join('.')
+      ids = (0..3).map {|i| @resource1.send("id_#{i}") }.compact.join('.')
       expect(@marc1.at("datafield[@tag='099'][@ind1=' '][@ind2=' ']/subfield[@code='a']")).to have_inner_text(ids)
     end
 
@@ -687,37 +754,35 @@ end
 
   describe "agents: include unpublished flag" do
     before(:all) do
-      @agents = []
-      [
-        [:json_agent_person,
-          :names => [build(:json_name_person,
-                           :prefix => "MR"),
-          :publish => false]
-        ],
-        [:json_agent_corporate_entity,  {:publish => false} ],
-        [:json_agent_family, {:publish => false} ],
-      ].each do |type_and_opts|
-        @agents << create(type_and_opts[0], type_and_opts[1])
+      as_test_user('admin', true) do
+        @agents = []
+        [
+          [:json_agent_person,
+            :names => [build(:json_name_person,
+                             :prefix => "MR"),
+            :publish => false]
+          ],
+          [:json_agent_corporate_entity, {:publish => false} ],
+          [:json_agent_family, {:publish => false} ],
+        ].each do |type_and_opts|
+          @agents << create(type_and_opts[0], type_and_opts[1])
+        end
+
+        @resource = create(:json_resource,
+                               :linked_agents => @agents.map.each_with_index {|a, j|
+                                {
+                                  :ref => a.uri,
+                                  :role => (j == 0) ? 'creator' : 'subject',
+                                  :terms => [build(:json_term), build(:json_term)],
+                                  :relator => generate(:relator)
+                                }}
+          )
+
+        @marc_unpub_incl   = get_marc(@resource, true)
+        @marc_unpub_unincl = get_marc(@resource, false)
+
+        raise Sequel::Rollback
       end
-
-      @resource = create(:json_resource,
-                             :linked_agents => @agents.map.each_with_index {|a, j|
-                              {
-                                :ref => a.uri,
-                                :role => (j == 0) ? 'creator' : 'subject',
-                                :terms => [build(:json_term), build(:json_term)],
-                                :relator => generate(:relator)
-                              }}
-        )
-
-      @marc_unpub_incl   = get_marc(@resource, true)
-      @marc_unpub_unincl = get_marc(@resource, false)
-    end
-
-
-    after(:all) do
-      @resource.delete
-      @agents.each {|a| a.delete}
     end
 
     it "should not create elements for unpublished agents if include_unpublished is false" do
@@ -736,107 +801,138 @@ end
 
   describe 'linked agent mappings' do
     before(:all) do
-      @agents = []
-      [
-        [:json_agent_person,
-          :names => [build(:json_name_person,
-                           :prefix => "MR")]
-        ],
-        [:json_agent_corporate_entity,  {}],
-        [:json_agent_family, {}],
-        [:json_agent_person,
-          :names => [build(:json_name_person,
-                           :prefix => "MS")]
-        ],
-        [:json_agent_person,
-          :names => [build(:json_name_person,
-                           :prefix => "QR")]
-        ],
-        [:json_agent_person,
-          :names => [build(:json_name_person,
-                           :prefix => "FZ")]
-        ],
-        [:json_agent_family, {}],
-        [:json_agent_person,
-          :names => [build(:json_name_person,
-                           :prefix => "QM",
-                           :authority_id => nil)]
-        ]
-      ].each do |type_and_opts|
-        @agents << create(type_and_opts[0], type_and_opts[1])
-      end
+      as_test_user('admin', true) do
+        @agents = []
+        [
+          [:json_agent_person,
+           :names => [build(:json_name_person,
+                            :prefix => "MR")]
+          ],
+          [:json_agent_corporate_entity, {}],
+          [:json_agent_family, {}],
+          [:json_agent_person,
+           :names => [build(:json_name_person,
+                            :prefix => "MS")]
+          ],
+          [:json_agent_person,
+           :names => [build(:json_name_person,
+                            :prefix => "QR")]
+          ],
+          [:json_agent_person,
+           :names => [build(:json_name_person,
+                            :prefix => "FZ")]
+          ],
+          [:json_agent_family, {}],
+          [:json_agent_person,
+           :names => [build(:json_name_person,
+                            :prefix => "QM",
+                            :authority_id => nil)]
+          ],
+          [:json_agent_corporate_entity,
+           :names => [build(:json_name_corporate_entity,
+                            :subordinate_name_1 => nil,
+                            :subordinate_name_2 => nil,
+                            :qualifier => nil,
+                            :number => nil)]
+          ]
+        ].each do |type_and_opts|
+          @agents << create(type_and_opts[0], type_and_opts[1])
+        end
 
-      # r0 created by a person and a person
-      # r1 created by a corp and a person
-      # r2 created by a family and a person
-      @resources = [0,1,2].map {|i|
-        create(:json_resource,
-               :linked_agents => @agents.map.each_with_index {|a, j|
-                 {
-                   :ref => a.uri,
-                   :role => (j == i || j > 2) ? 'creator' : 'subject',
-                   :terms => [build(:json_term), build(:json_term)],
-                   :relator => generate(:relator)
-                 }
-               })
+        # r0 100 => @agent[0],
+        #    600 => @agent[2],
+        #    610 => @agent[1], @agent[8]
+        #    700 => @agent[3], @agent[4], @agent[5], @agent[6], @agent[7]
+        # r1 110 => @agent[1],
+        #    600 => @agent[0], @agent[2],
+        #    610 => @agent[8]
+        #    700 => @agent[3], @agent[4], @agent[5], @agent[6], @agent[7]
+        # r2 110 => @agent[2],
+        #    600 => @agent[0],
+        #    610 => @agent[1], @agent[8]
+        #    700 => @agent[3], @agent[4], @agent[5], @agent[6], @agent[7]
+        @resources = [0, 1, 2].map {|i|
+          create(:json_resource,
+                 :linked_agents => @agents.map.each_with_index {|a, j|
+                   {
+                     :ref => a.uri,
+                     :role => (j == i || j.between?(3, 7)) ? 'creator' : 'subject',
+                     :terms => [build(:json_term), build(:json_term)],
+                     :relator => (j != 8) ? generate(:relator) : nil
+                   }
+                 })
         }
 
-
-      @marcs = @resources.map {|r| get_marc(r)}
-
+        @marcs = @resources.map {|r| get_marc(r)}
+        raise Sequel::Rollback
+      end
     end
-
-
-    after(:all) do
-      @resources.each {|r| r.delete}
-    end
-
 
     it "maps the first creator to df[@tag='100'] when it's a person" do
       name = @agents[0]['names'][0]
       inverted = name['name_order'] == 'direct' ? '0' : '1'
-      name_string = %w(primary_ rest_of_).map{|p| name["#{p}name"]}.reject{|n| n.nil? || n.empty?}.join(name['name_order'] == 'direct' ? ' ' : ', ')
+      name_string = %w(primary_ rest_of_).map {|p| name["#{p}name"]}.reject {|n| n.nil? || n.empty?}.join(name['name_order'] == 'direct' ? ' ' : ', ')
 
       df = @marcs[0].at("datafield[@tag='100'][@ind1='#{inverted}'][@ind2=' ']")
+      resource = @resources[0]['linked_agents'].select { |r| r['role'] == 'creator' }.first
+
       expect(df.at("subfield[@code='a']")).to have_inner_text(/#{name_string}/)
       expect(df.at("subfield[@code='b']")).to have_inner_text(/#{name['number']}/)
-      expect(df.at("subfield[@code='c']")).to have_inner_text(/#{%w(prefix title suffix).map{|p| name[p]}.compact.join(', ')}/)
+      expect(df.at("subfield[@code='c']")).to have_inner_text(/#{%w(prefix title suffix).map {|p| name[p]}.compact.join(', ')}/)
       expect(df.at("subfield[@code='d']")).to have_inner_text(/#{name['dates']}/)
       expect(df.at("subfield[@code='q']")).to have_inner_text(/#{name['fuller_form']}/)
       expect(df.at("subfield[@code='0']")).to have_inner_text(/#{name['authority_id']}/)
+      expect(df.at("subfield[@code='4']")).to have_inner_text(/#{resource['relator']}/)
+      expect(df.at("subfield[@code='e']")).to have_inner_text(/#{(I18n.t("enumerations.linked_agent_archival_record_relators.#{resource['relator']}"))}/)
     end
 
     it "agent has no authority_id, it should not create a subfield $0" do
       name = @agents[7]['names'][0]
-      name_string = %w(primary_ rest_of_).map{|p| name["#{p}name"]}.reject{|n| n.nil? || n.empty?}.join(name['name_order'] == 'direct' ? ' ' : ', ')
+      name_string = %w(primary_ rest_of_).map {|p| name["#{p}name"]}.reject {|n| n.nil? || n.empty?}.join(name['name_order'] == 'direct' ? ' ' : ', ')
       df = @marcs[0].at("datafield[@tag='700']/subfield[@code='a'][text()='#{name_string}']")
       parent_node = df.parent
       expect(parent_node.at("subfield[@code='0']")).to be_nil
     end
 
+    it "look to $v, $x, $y, and $z subdivisions when determining whether to export $0" do
+      df = @marcs[0].at("datafield[@tag='600']")
+
+      sfs = []
+      ['v', 'x', 'y', 'z'].each do |sf|
+        sfs << df.at("subfield[@code='#{sf}']")
+      end
+
+      # If these subfields are present, don't export $0
+      if sfs.compact.count > 0
+        expect(df.at("subfield[@code='0']")).to be_nil
+      # If not present, do export $0
+      else
+        expect(df.at("subfield[@code='0']")).not_to be_nil
+      end
+    end
+
     it "should add required punctuation to 100 tag agent-person subfields" do
       name = @agents[0]['names'][0]
       inverted = name['name_order'] == 'direct' ? '0' : '1'
-      name_string = %w(primary_ rest_of_).map{|p| name["#{p}name"]}.reject{|n| n.nil? || n.empty?}.join(name['name_order'] == 'direct' ? ' ' : ', ')
+      name_string = %w(primary_ rest_of_).map {|p| name["#{p}name"]}.reject {|n| n.nil? || n.empty?}.join(name['name_order'] == 'direct' ? ' ' : ', ')
 
       df = @marcs[0].at("datafield[@tag='100'][@ind1='#{inverted}'][@ind2=' ']")
 
       b_text = df.at("subfield[@code='b']").text
-      q_text = df.at("subfield[@code='q']").text
       c_text = df.at("subfield[@code='c']").text
       d_text = df.at("subfield[@code='d']").text
       g_text = df.at("subfield[@code='g']").text
+      q_text = df.at("subfield[@code='q']").text
 
       unless c_text.nil? || c_text.empty?
-        expect(q_text[-1]).to eq(",")
+        expect(b_text[-1]).to eq(",")
       end
 
       unless d_text.nil? || d_text.empty?
         expect(c_text[-1]).to eq(",")
       end
 
-      expect(g_text[-1]).to eq(".")
-
+      expect(g_text =~ /\(.*\)/).not_to be_nil
       expect(q_text =~ /\(.*\)/).not_to be_nil
     end
 
@@ -845,6 +941,7 @@ end
       name = @agents[1]['names'][0]
 
       df = @marcs[1].at("datafield[@tag='110'][@ind1='2'][@ind2=' ']")
+      resource = @resources[1]['linked_agents'].select { |r| r['role'] == 'creator' }.first
 
       expect(df.at("subfield[@code='a']")).to have_inner_text(/#{name['primary_name']}/)
       subfield_b = df.at("subfield[@code='b']")
@@ -853,6 +950,8 @@ end
       end
       expect(df.at("subfield[@code='n']")).to have_inner_text(/#{name['number']}/)
       expect(df.at("subfield[@code='0']")).to have_inner_text(/#{name['authority_id']}/)
+      expect(df.at("subfield[@code='4']")).to have_inner_text(/#{resource['relator']}/)
+      expect(df.at("subfield[@code='e']")).to have_inner_text(/#{(I18n.t("enumerations.linked_agent_archival_record_relators.#{resource['relator']}"))}/)
     end
 
 
@@ -860,29 +959,43 @@ end
       name = @agents[2]['names'][0]
 
       df = @marcs[2].at("datafield[@tag='100'][@ind1='3'][@ind2=' ']")
+      resource = @resources[2]['linked_agents'].select { |r| r['role'] == 'creator' && r['ref'].include?('families')}.first
 
       expect(df.at("subfield[@code='a']")).to have_inner_text(/#{name['family_name']}/)
       expect(df.at("subfield[@code='c']")).to have_inner_text(/#{name['qualifier']}/)
       expect(df.at("subfield[@code='d']")).to have_inner_text(/#{name['dates']}/)
       expect(df.at("subfield[@code='0']")).to have_inner_text(/#{name['authority_id']}/)
+      expect(df.at("subfield[@code='4']")).to have_inner_text(/#{resource['relator']}/)
+      expect(df.at("subfield[@code='e']")).to have_inner_text(/#{(I18n.t("enumerations.linked_agent_archival_record_relators.#{resource['relator']}"))}/)
     end
 
 
     it "maps subject to 600 when it's a person" do
       name = @agents[0]['names'][0]
       inverted = name['name_order'] == 'direct' ? '0' : '1'
-      ind2 =  source_to_code(name['source'])
+      ind2 = source_to_code(name['source'])
 
-      name_string = %w(primary_ rest_of_).map{|p| name["#{p}name"]}.reject{|n| n.nil? || n.empty?}.join(name['name_order'] == 'direct' ? ' ' : ', ')
+      name_string = %w(primary_ rest_of_).map {|p| name["#{p}name"]}.reject {|n| n.nil? || n.empty?}.join(name['name_order'] == 'direct' ? ' ' : ', ')
 
       df = @marcs[1].at("datafield[@tag='600'][@ind1='#{inverted}'][@ind2='#{ind2}']")
+      resource = @resources[1]['linked_agents'].select { |r| r['role'] == 'subject' }.first
+
+      sf_v = df.at("subfield[@code='v']")
+      sf_x = df.at("subfield[@code='x']")
+      sf_y = df.at("subfield[@code='y']")
+      sf_z = df.at("subfield[@code='z']")
 
       expect(df.at("subfield[@code='a']")).to have_inner_text(/#{name_string}/)
       expect(df.at("subfield[@code='b']")).to have_inner_text(/#{name['number']}/)
-      expect(df.at("subfield[@code='c']")).to have_inner_text(/#{%w(prefix title suffix).map{|p| name[p]}.compact.join(', ')}/)
+      expect(df.at("subfield[@code='c']")).to have_inner_text(/#{%w(prefix title suffix).map {|p| name[p]}.compact.join(', ')}/)
       expect(df.at("subfield[@code='d']")).to have_inner_text(/#{name['dates']}/)
-      expect(df.at("subfield[@code='4']")).to have_inner_text(/#{name['relator']}/)
-      expect(df.at("subfield[@code='0']")).to have_inner_text(/#{name['authority_id']}/)
+
+      if [sf_v, sf_x, sf_y, sf_z].all? { |sf| sf.nil? }
+        expect(df.at("subfield[@code='0']")).to have_inner_text(/#{name['authority_id']}/)
+      end
+
+      expect(df.at("subfield[@code='4']")).to have_inner_text(/#{resource['relator']}/)
+      expect(df.at("subfield[@code='e']")).to have_inner_text(/#{(I18n.t("enumerations.linked_agent_archival_record_relators.#{resource['relator']}"))}/)
 
       if ind2 == '7'
         expect(df.at("subfield[@code='2']")).to have_inner_text(/#{name['source']}/)
@@ -892,60 +1005,71 @@ end
     it "should add required punctuation to 600 tag agent-person subfields" do
       name = @agents[0]['names'][0]
       inverted = name['name_order'] == 'direct' ? '0' : '1'
-      ind2 =  source_to_code(name['source'])
+      ind2 = source_to_code(name['source'])
 
-      name_string = %w(primary_ rest_of_).map{|p| name["#{p}name"]}.reject{|n| n.nil? || n.empty?}.join(name['name_order'] == 'direct' ? ' ' : ', ')
+      name_string = %w(primary_ rest_of_).map {|p| name["#{p}name"]}.reject {|n| n.nil? || n.empty?}.join(name['name_order'] == 'direct' ? ' ' : ', ')
 
       df = @marcs[1].at("datafield[@tag='600'][@ind1='#{inverted}'][@ind2='#{ind2}']")
 
       b_text = df.at("subfield[@code='b']").text
-      q_text = df.at("subfield[@code='q']").text
       c_text = df.at("subfield[@code='c']").text
       d_text = df.at("subfield[@code='d']").text
       g_text = df.at("subfield[@code='g']").text
+      q_text = df.at("subfield[@code='q']").text
 
       unless c_text.nil? || c_text.empty?
-        expect(q_text[-1]).to eq(",")
+        expect(b_text[-1]).to eq(",")
       end
 
       unless d_text.nil? || d_text.empty?
         expect(c_text[-1]).to eq(",")
       end
 
-      expect(g_text[-1]).to eq(".")
-
+      expect(g_text =~ /\(.*\)/).not_to be_nil
       expect(q_text =~ /\(.*\)/).not_to be_nil
     end
 
 
-   it "maps subject agent to df[@tag='610'] when it's a corp" do
-      name = @agents[1]['names'][0]
-      ind2 =  source_to_code(name['source'])
+    it "maps subject agent to df[@tag='610'] when it's a corp" do
+       name = @agents[1]['names'][0]
+       ind2 = source_to_code(name['source'])
 
-      df = @marcs[0].at("datafield[@tag='610'][@ind1='2'][@ind2='#{ind2}']")
+       df = @marcs[0].at("datafield[@tag='610'][@ind1='2'][@ind2='#{ind2}']")
+       resource = @resources[0]['linked_agents'].select { |r| r['role'] == 'subject' }.first
 
-      expect(df.at("subfield[@code='a']")).to have_inner_text(/#{name['primary_name']}/)
-      subfield_b = df.at("subfield[@code='b']")
-      if !subfield_b.nil?
-        expect(subfield_b).to have_inner_text(/#{name['subordinate_name_1']}/)
-      end
-      expect(df.at("subfield[@code='n']")).to have_inner_text(/#{name['number']}/)
-      expect(df.at("subfield[@code='4']")).to have_inner_text(/#{name['relator']}/)
-      expect(df.at("subfield[@code='0']")).to have_inner_text(/#{name['authority_id']}/)
+       sf_v = df.at("subfield[@code='v']")
+       sf_x = df.at("subfield[@code='x']")
+       sf_y = df.at("subfield[@code='y']")
+       sf_z = df.at("subfield[@code='z']")
 
-      if ind2 == '7'
-        expect(df.at("subfield[@code='2']")).to have_inner_text(/#{name['source']}/)
-      end
-    end
+       expect(df.at("subfield[@code='a']")).to have_inner_text(/#{name['primary_name']}/)
+       subfield_b = df.at("subfield[@code='b']")
+       if !subfield_b.nil?
+         expect(subfield_b).to have_inner_text(/#{name['subordinate_name_1']}/)
+       end
+       expect(df.at("subfield[@code='n']")).to have_inner_text(/#{name['number']}/)
+
+       if [sf_v, sf_x, sf_y, sf_z].all? { |sf| sf.nil? }
+         expect(df.at("subfield[@code='0']")).to have_inner_text(/#{name['authority_id']}/)
+       end
+
+       expect(df.at("subfield[@code='4']")).to have_inner_text(/#{resource['relator']}/)
+       expect(df.at("subfield[@code='e']")).to have_inner_text(/#{(I18n.t("enumerations.linked_agent_archival_record_relators.#{resource['relator']}"))}/)
+
+       if ind2 == '7'
+         expect(df.at("subfield[@code='2']")).to have_inner_text(/#{name['source']}/)
+       end
+     end
 
     it "should add required punctuation to 610 tag agent-corp subfields" do
       name = @agents[1]['names'][0]
-      ind2 =  source_to_code(name['source'])
+      ind2 = source_to_code(name['source'])
 
       df = @marcs[0].at("datafield[@tag='610'][@ind1='2'][@ind2='#{ind2}']")
 
       a_text = df.at("subfield[@code='a']").text
       b_text = df.at("subfield[@code='b']").text
+      e_text = df.at("subfield[@code='e']").text
       n_text = df.at("subfield[@code='n']").text
 
       if b_text.nil?
@@ -954,22 +1078,53 @@ end
         expect(a_text[-1]).to eq(".")
       end
 
-      expect(n_text[-1]).to eq(".")
+      expect(e_text[-1]).to eq(",")
       expect(n_text =~ /\(.*\)/).not_to be_nil
+    end
+
+    it "does not add punctuation to 610 a when followed by any subject subfield" do
+      name = @agents[8]['names'][0]['primary_name']
+
+      df = @marcs[1].at("datafield[@tag='610']")
+
+      sf_a = df.at("subfield[@code='a']")
+      sf_t = df.at("subfield[@code='t']")
+      sf_v = df.at("subfield[@code='v']")
+      sf_x = df.at("subfield[@code='x']")
+      sf_y = df.at("subfield[@code='y']")
+      sf_z = df.at("subfield[@code='z']")
+
+      if ![sf_v, sf_x, sf_y, sf_z].all? { |sf| sf.nil? } && sf_t.nil?
+        expect(sf_a).to have_inner_text(/#{name}/)
+        expect(sf_a.text[-1]).not_to eq('.')
+      else
+        expect(sf_a.text[-1]).to eq('.')
+      end
     end
 
 
     it "maps subject agent to df[@tag='600'] when it's a family" do
       name = @agents[2]['names'][0]
-      ind2 =  source_to_code(name['source'])
+      ind2 = source_to_code(name['source'])
 
       df = @marcs[0].at("datafield[@tag='600'][@ind1='3'][@ind2='#{ind2}']")
+      resource = @resources[0]['linked_agents'].select { |r| r['role'] == 'subject' && r['ref'].include?('families')}.first
+
+      sf_v = df.at("subfield[@code='v']")
+      sf_x = df.at("subfield[@code='x']")
+      sf_y = df.at("subfield[@code='y']")
+      sf_z = df.at("subfield[@code='z']")
 
       expect(df.at("subfield[@code='a']")).to have_inner_text(/#{name['family_name']}/)
       expect(df.at("subfield[@code='c']")).to have_inner_text(/#{name['qualifier']}/)
       expect(df.at("subfield[@code='d']")).to have_inner_text(/#{name['dates']}/)
-      expect(df.at("subfield[@code='4']")).to have_inner_text(/#{name['relator']}/)
-      expect(df.at("subfield[@code='0']")).to have_inner_text(/#{name['authority_id']}/)
+
+      if [sf_v, sf_x, sf_y, sf_z].all? { |sf| sf.nil? }
+        expect(df.at("subfield[@code='0']")).to have_inner_text(/#{name['authority_id']}/)
+      end
+
+      expect(df.at("subfield[@code='4']")).to have_inner_text(/#{resource['relator']}/)
+      expect(df.at("subfield[@code='e']")).to have_inner_text(/#{(I18n.t("enumerations.linked_agent_archival_record_relators.#{resource['relator']}"))}/)
 
       if ind2 == '7'
         expect(df.at("subfield[@code='2']")).to have_inner_text(/#{name['source']}/)
@@ -978,38 +1133,42 @@ end
 
     it "should add required punctuation to 600 tag agent-family subfields" do
       name = @agents[2]['names'][0]
-      ind2 =  source_to_code(name['source'])
+      ind2 = source_to_code(name['source'])
 
       df = @marcs[0].at("datafield[@tag='600'][@ind1='3'][@ind2='#{ind2}']")
 
       a_text = df.at("subfield[@code='a']").text
       d_text = df.at("subfield[@code='d']").text
       c_text = df.at("subfield[@code='c']").text
+      e_text = df.at("subfield[@code='e']").text
 
       expect(a_text[-1]).to eq(",")
       expect(d_text[-1]).to eq(",")
-      expect(c_text[-1]).to eq(".")
+      expect(c_text[-1]).to eq(",")
     end
 
 
     it "maps the second creator to df[@tag='700'] when it's a person" do
       name = @agents[3]['names'][0]
       inverted = name['name_order'] == 'direct' ? '0' : '1'
-      name_string = %w(primary_ rest_of_).map{|p| name["#{p}name"]}.reject{|n| n.nil? || n.empty?}.join(name['name_order'] == 'direct' ? ' ' : ', ')
+      name_string = %w(primary_ rest_of_).map {|p| name["#{p}name"]}.reject {|n| n.nil? || n.empty?}.join(name['name_order'] == 'direct' ? ' ' : ', ')
 
       df = @marcs[1].at("datafield[@tag='700'][@ind1='#{inverted}'][@ind2=' ']")
+      resource = @resources[1]['linked_agents'].select { |r| r['role'] == 'creator' }[1]
 
       expect(df.at("subfield[@code='a']")).to have_inner_text(/#{name_string}/)
       expect(df.at("subfield[@code='b']")).to have_inner_text(/#{name['number']}/)
-      expect(df.at("subfield[@code='c']")).to have_inner_text(/#{%w(prefix title suffix).map{|p| name[p]}.compact.join(', ')}/)
+      expect(df.at("subfield[@code='c']")).to have_inner_text(/#{%w(prefix title suffix).map {|p| name[p]}.compact.join(', ')}/)
       expect(df.at("subfield[@code='d']")).to have_inner_text(/#{name['dates']}/)
       expect(df.at("subfield[@code='0']")).to have_inner_text(/#{name['authority_id']}/)
+      expect(df.at("subfield[@code='4']")).to have_inner_text(/#{resource['relator']}/)
+      expect(df.at("subfield[@code='e']")).to have_inner_text(/#{(I18n.t("enumerations.linked_agent_archival_record_relators.#{resource['relator']}"))}/)
     end
 
     it "should add required punctuation to 700 tag agent-person subfields" do
       name = @agents[3]['names'][0]
       inverted = name['name_order'] == 'direct' ? '0' : '1'
-      name_string = %w(primary_ rest_of_).map{|p| name["#{p}name"]}.reject{|n| n.nil? || n.empty?}.join(name['name_order'] == 'direct' ? ' ' : ', ')
+      name_string = %w(primary_ rest_of_).map {|p| name["#{p}name"]}.reject {|n| n.nil? || n.empty?}.join(name['name_order'] == 'direct' ? ' ' : ', ')
 
       df = @marcs[1].at("datafield[@tag='700'][@ind1='#{inverted}'][@ind2=' ']")
 
@@ -1021,15 +1180,14 @@ end
 
 
       unless c_text.nil? || c_text.empty?
-        expect(q_text[-1]).to eq(",")
+        expect(b_text[-1]).to eq(",")
       end
 
       unless d_text.nil? || d_text.empty?
         expect(c_text[-1]).to eq(",")
       end
 
-      expect(g_text[-1]).to eq(".")
-
+      expect(g_text =~ /\(.*\)/).not_to be_nil
       expect(q_text =~ /\(.*\)/).not_to be_nil
     end
 
@@ -1059,35 +1217,34 @@ end
     }
 
     before(:all) do
+      as_test_user('admin', true) do
 
-      @resource = create(:json_resource,
-                         :notes => full_note_set(true),
-                         :publish => true)
+        @resource = create(:json_resource,
+                           :notes => full_note_set(true),
+                           :publish => true)
 
-      @marc = get_marc(@resource)
+        @marc = get_marc(@resource)
+
+        raise Sequel::Rollback
+      end
     end
-
-    after(:all) do
-      @resource.delete
-    end
-
 
     it "maps notes of type (odd|dimensions|physdesc|materialspec|physloc|phystech|physfacet|processinfo|separatedmaterial) to df 500, sf a" do
       xml_content = @marc.df('500', ' ', ' ').sf_t('a')
       types = %w(odd dimensions physdesc materialspec physloc phystech physfacet processinfo separatedmaterial)
-      notes = @resource.notes.select{|n| types.include?(n['type'])}
+      notes = @resource.notes.select {|n| types.include?(n['type'])}
       notes.each do |note|
         prefix = case note['type']
-        when 'odd'; nil
-        when 'dimensions'; "Dimensions"
-        when 'physdesc'; "Physical Description note"
-        when 'materialspec'; "Material Specific Details"
-        when 'physloc'; "Location of resource"
-        when 'phystech'; "Physical Characteristics / Technical Requirements"
-        when 'physfacet'; "Physical Facet"
-        when 'processinfo'; "Processing Information"
-        when 'separatedmaterial'; "Materials Separated from the Resource"
-        end
+                 when 'odd'; nil
+                 when 'dimensions'; "Dimensions"
+                 when 'physdesc'; "Physical Description note"
+                 when 'materialspec'; "Material Specific Details"
+                 when 'physloc'; "Location of resource"
+                 when 'phystech'; "Physical Characteristics / Technical Requirements"
+                 when 'physfacet'; "Physical Facet"
+                 when 'processinfo'; "Processing Information"
+                 when 'separatedmaterial'; "Materials Separated from the Resource"
+                 end
         string = prefix ? "#{prefix}: " : ""
         string += note_content(note)
         expect(xml_content).to include(string)
@@ -1218,7 +1375,7 @@ end
 
     it "5XX tags should end in punctuation" do
       types = %w(odd dimensions physdesc materialspec physloc phystech physfacet processinfo separatedmaterial arrangement fileplan accessrestrict abstract scopecontent prefercite acqinfo bibliography index altformavail originalsloc userestrict legalstatus relatedmaterial custodhist appraisal accruals bioghist otherfindaid )
-      notes = @resource.notes.select{|n| types.include?(n['type'])}
+      notes = @resource.notes.select {|n| types.include?(n['type'])}
 
       notes.each do |note|
         content = note_content(note)
@@ -1229,15 +1386,15 @@ end
 
   describe "notes: include unpublished flag" do
     before(:all) do
-      @resource = create(:json_resource,
-                         :notes => full_note_set(false))
+      as_test_user('admin', true) do
+        @resource = create(:json_resource,
+                           :notes => full_note_set(false))
 
-      @marc_unpub_incl   = get_marc(@resource, true)
-      @marc_unpub_unincl = get_marc(@resource, false)
-    end
+        @marc_unpub_incl   = get_marc(@resource, true)
+        @marc_unpub_unincl = get_marc(@resource, false)
 
-    after(:all) do
-      @resource.delete
+        raise Sequel::Rollback
+      end
     end
 
     it "should not create elements for unpublished notes if include_unpublished is false" do
@@ -1270,15 +1427,15 @@ end
 
   describe "notes: inherit publish from parent" do
     before(:all) do
-      @resource = create(:json_resource,
-                         :notes => full_note_set(true),
-                         :publish => false)
+      as_test_user('admin', true) do
+        @resource = create(:json_resource,
+                           :notes => full_note_set(true),
+                           :publish => false)
 
-      @marc_unpub_unincl = get_marc(@resource, false)
-    end
+        @marc_unpub_unincl = get_marc(@resource, false)
 
-    after(:all) do
-      @resource.delete
+        raise Sequel::Rollback
+      end
     end
 
     it "should not create elements for published notes if they have a parent with publish == false" do
@@ -1297,20 +1454,18 @@ end
 
   describe "049 OCLC tag" do
     before(:all) do
-      @resource = create(:json_resource)
-      @org_code = JSONModel(:repository).find($repo_id).org_code
+      as_test_user('admin', true) do
+        @resource = create(:json_resource)
+        @org_code = JSONModel(:repository).find($repo_id).org_code
 
-      @marc = get_marc(@resource)
-    end
+        @marc = get_marc(@resource)
 
-    after(:all) do
-      @resource.delete
+        raise Sequel::Rollback
+      end
     end
 
     it "maps org_code to 049 tag" do
       expect(@marc.at("datafield[@tag='049'][@ind1=' '][@ind2=' ']/subfield[@code='a']")).to have_inner_text(@org_code)
     end
   end
-
-
 end

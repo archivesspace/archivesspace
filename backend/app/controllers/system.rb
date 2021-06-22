@@ -6,27 +6,38 @@ class ArchivesSpaceService < Sinatra::Base
   .returns([200, "(:repository)"],
            [403, "Access Denied"]) \
   do
-    sys_info = ASUtils.get_diagnostics.reject { |k,v| k == :exception } 
-    sys_info[:db_info]=  DB.sysinfo.merge({ "archivesSpaceVersion" =>  ASConstants.VERSION}) 
-    json_response(sys_info) 
+    sys_info = ASUtils.get_diagnostics.reject { |k, v| k == :exception }
+    sys_info[:db_info]= DB.sysinfo.merge({ "archivesSpaceVersion" => ASConstants.VERSION})
+    json_response(sys_info)
   end
 
   Endpoint.get('/system/log')
-  .description("Get the log information and start the 15 second log recorder") 
+  .description("Get the log information and start the 15 second log recorder")
   .permissions([:administer_system])
   .returns([200, "String"],
            [403, "Access Denied"]) \
   do
     [200, {}, Log.backlog ]
   end
-  
-  Endpoint.get('/system/events')
-  .description("Get the systems events that have been logged for this install") 
+
+  Endpoint.post('/system/config')
+  .description("Reload configuration data")
   .permissions([:administer_system])
   .returns([200, "String"],
            [403, "Access Denied"]) \
   do
-    [200, {}, SystemEvent.all.collect { |a| a.values }.to_json  ]
+    AppConfig.reload
+    [200, {}, "OK"]
+  end
+
+
+  Endpoint.get('/system/events')
+  .description("Get the systems events that have been logged for this install")
+  .permissions([:administer_system])
+  .returns([200, "String"],
+           [403, "Access Denied"]) \
+  do
+    [200, {}, SystemEvent.all.collect { |a| a.values }.to_json ]
   end
 
   Endpoint.post('/system/demo_db_snapshot')

@@ -11,11 +11,10 @@ class StreamingImport
 
   include JSONModel
 
-  def initialize(stream, ticker, import_canceled = false,  migration = false)
-    
-    @import_canceled = import_canceled ? import_canceled :  Atomic.new(false)
+  def initialize(stream, ticker, import_canceled = false, migration = false)
+    @import_canceled = import_canceled ? import_canceled : Atomic.new(false)
     @migration = migration ? Atomic.new(true) : Atomic.new(false)
-   
+
     raise StandardError.new("Nothing to stream") unless stream
 
     @ticker = ticker
@@ -69,7 +68,6 @@ class StreamingImport
 
 
   def process
-
     round = 0
     finished = true
 
@@ -308,7 +306,9 @@ class StreamingImport
       json = model.to_jsonmodel(obj)
 
       limbs.each do |k, v|
-        if json[k.to_s].is_a?(Array)
+        if json[k.to_s].is_a?(Array) || json[k.to_s].respond_to?(:to_array)
+          json[k.to_s] = json[k.to_s].to_a
+
           # It's possible that the record we're reattaching relationships to
           # actually had some relationships added between when we lopped them
           # off and now.

@@ -6,15 +6,15 @@
 <title>
   File: locales
   
-    &mdash; Documentation by YARD 0.9.20
+    &mdash; Documentation by YARD 0.9.25
   
 </title>
 
-  <link rel="stylesheet" href="css/style.css" type="text/css" charset="utf-8" />
+  <link rel="stylesheet" href="css/style.css" type="text/css" />
 
-  <link rel="stylesheet" href="css/common.css" type="text/css" charset="utf-8" />
+  <link rel="stylesheet" href="css/common.css" type="text/css" />
 
-<script type="text/javascript" charset="utf-8">
+<script type="text/javascript">
   pathId = "locales";
   relpath = '';
 </script>
@@ -93,6 +93,8 @@ application may then add to or override these values with their own locales file
 
 <p>If you restart ArchivesSpace, these values will take effect.</p>
 
+<p>If you are adding a new value you will also need to add the value into the Staff Frontend Application by clicking on the System dropdown menu and choosing Manage Controlled Value Lists. Select the list and add the value. If you restart ArchivesSpace the translation value that you set in the yml file should appear.</p>
+
 <p>If you’re using a different language, simply swap out the en.yml for something else ( like fr.yml ) and update locale setting in the config.rb file ( i.e.,  AppConfig[:locale] = :fr )</p>
 
 <h2 id="tooltips">Tooltips</h2>
@@ -133,9 +135,9 @@ en:
 </div></div>
 
       <div id="footer">
-  ArchivesSpace Version v2.7.1-RC1.a Documentation Generated on Thu Feb  6 10:07:26 2020 by
+  ArchivesSpace Version v2.8.1-rc1.a Documentation Generated on Mon Nov  2 14:25:11 2020 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.20.
+  0.9.25.
 </div>
 
     </div>

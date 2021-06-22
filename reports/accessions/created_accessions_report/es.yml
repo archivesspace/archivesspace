@@ -1,0 +1,6 @@
+es:
+  reports:
+    created_accessions_report:
+      title: Adhesión creadas
+      description: Informe sobre adhesiónes creadas dentro de un rango de fechas
+      identifier_prefix: Adhesión

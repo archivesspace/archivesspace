@@ -149,3 +149,10 @@ fr:
       user: Aide sur Gérer utilisateurs
       # Controlled Value Lists
       enumeration: Aide sur Listes contrôlées
+      agent_sources: Aide sur les sources d'agent
+      agent_record_identifiers: Aide sur les identificateurs d'enregistrement d'agent
+      agent_maintenance_histories: Aide sur les historiques de maintenance des agents
+      agent_other_agency_codes: Aide sur d'autres codes d'agence
+      agent_conventions_declarations: Aide sur les déclarations de conventions d'agent
+      agent_alternate_sets: Aide sur les ensembles alternatifs d'agent
+      agent_record_controls: Aide sur les contrôles d'enregistrement des agents

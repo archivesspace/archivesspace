@@ -65,7 +65,6 @@ class MODSModel < ASpaceExport::ExportModel
 
   # meaning, 'archival object' in the abstract
   def self.from_archival_object(obj, tree)
-
     mods = self.new(tree)
     mods.apply_map(obj, @archival_object_map)
 
@@ -164,16 +163,15 @@ class MODSModel < ASpaceExport::ExportModel
                                   note['label'],
                                   content)
                   end
-     self.notes << mods_note
+      self.notes << mods_note
     end
   end
 
 
   def handle_langmaterials(lang_materials)
+    self.lang_materials = lang_materials.map {|l| l['language_and_script']}.compact
 
-    self.lang_materials = lang_materials.map{|l| l['language_and_script']}.compact
-
-    language_notes = lang_materials.map {|l| l['notes']}.compact.reject {|e|  e == [] }.flatten
+    language_notes = lang_materials.map {|l| l['notes']}.compact.reject {|e| e == [] }.flatten
     if !language_notes.empty?
       language_notes.each do |note|
         content = ASpaceExport::Utils.extract_note_text(note)
@@ -184,7 +182,6 @@ class MODSModel < ASpaceExport::ExportModel
         self.lang_notes << mods_note
       end
     end
-
   end
 
 
@@ -225,7 +222,7 @@ class MODSModel < ASpaceExport::ExportModel
       if ext.has_key?('physical_details') && !ext['physical_details'].nil?
         extent_notes << new_mods_note('note', 'physical_description', "Physical Details", ext['physical_details'])
       end
-        
+
       if ext.has_key?('dimensions') && !ext['dimensions'].nil?
         extent_notes << new_mods_note('note', 'dimensions', "Dimensions", ext['dimensions'])
       end

@@ -50,7 +50,7 @@ class OAIDCMapper
         Array(jsonmodel['linked_agents']).each do |link|
           next unless link['_resolved']['publish']
 
-          if link['role'] == 'creator' && !['ctb' ,'pbl'].include?(link['relator'])
+          if link['role'] == 'creator' && !['ctb' , 'pbl'].include?(link['relator'])
             xml['dc'].creator(link['_resolved']['title'])
           end
         end
@@ -103,7 +103,7 @@ class OAIDCMapper
 
         # Languages
         if (lang_materials = Array(jsonmodel['lang_materials']))
-          language_vals = lang_materials.map{|l| l['language_and_script']}.compact
+          language_vals = lang_materials.map {|l| l['language_and_script']}.compact
           if !language_vals.empty?
             language_vals.each do |l|
               xml['dc'].language(l['language'])
@@ -112,7 +112,7 @@ class OAIDCMapper
               end
             end
           end
-          language_notes = lang_materials.map {|l| l['notes']}.compact.reject {|e|  e == [] }.flatten
+          language_notes = lang_materials.map {|l| l['notes']}.compact.reject {|e| e == [] }.flatten
           if !language_notes.empty?
             language_notes.each do |note|
               OAIUtils.extract_published_note_content(note).each do |content|

@@ -1,23 +1,13 @@
 class JobsController < ApplicationController
 
   set_access_control "view_repository" => [:index, :show, :log, :status, :records, :download_file ]
-  set_access_control "create_job" => [:new, :create, :create_import_job]
+  set_access_control "create_job" => [:new, :create]
   set_access_control "cancel_job" => [:cancel]
-  
+
   include ExportHelper
 
   def index
-    @active_jobs = Job.active
-    @search_data = Job.archived(selected_page)
-    @files = {}
-    (@active_jobs + @search_data['results']).each do |job|
-      @files[job['uri']] = []
-      files = JSONModel::HTTP::get_json("#{job['uri']}/output_files")
-      files.each do |file|
-        job_id = job['uri'].split('/').last
-        @files[job['uri']].push("/jobs/#{job_id}/file/#{file}")
-      end
-    end
+    @search_data = Search.for_type(session[:repo_id], "job", params_for_backend_search.merge({"facet[]" => SearchResultData.JOB_FACETS}))
   end
 
   def new
@@ -30,7 +20,6 @@ class JobsController < ApplicationController
   end
 
   def create
-
     @job_type = params['job']['job_type']
 
     job_data = params['job']
@@ -39,7 +28,7 @@ class JobsController < ApplicationController
     # and clean up the job data to match the schema types.
     job_data = ASUtils.recursive_reject_key(job_data) { |k| k === '_resolved' }
     job_data = cleanup_params_for_schema(job_data, JSONModel(@job_type.intern).schema)
-    
+
     files = Hash[Array(params['files']).reject(&:blank?).map {|file|
                                   [file.original_filename, file.tempfile]}]
 
@@ -54,7 +43,7 @@ class JobsController < ApplicationController
 
       if (params['ajax'])
         if params[:iframePOST] # IE saviour. Render the form in a textarea for the AjaxPost plugin to pick out.
-          render :text => "<textarea data-type='json'>#{uploaded.to_json}</textarea>"
+          render :plain => "<textarea data-type='json'>#{uploaded.to_json}</textarea>"
         else
           render :json => uploaded
         end
@@ -72,13 +61,17 @@ class JobsController < ApplicationController
 
       render :new, :status => 500
     end
+  end
 
+
+  def current_record
+    @job
   end
 
 
   def show
     @job = JSONModel(:job).find(params[:id], "resolve[]" => "repository")
-    @files = JSONModel::HTTP::get_json("#{@job['uri']}/output_files") 
+    @files = JSONModel::HTTP::get_json("#{@job['uri']}/output_files")
   end
 
 
@@ -116,12 +109,6 @@ class JobsController < ApplicationController
 
   def download_file
     @job = JSONModel(:job).find(params[:job_id], "resolve[]" => "repository")
-    
-    if @job.job.has_key?("format") && !@job.job["format"].blank? 
-        format = @job.job["format"]
-    else
-        format = "pdf"
-    end
 
     # this is a hacky solution
     # there should be a better way for jobs to specify file names
@@ -132,16 +119,26 @@ class JobsController < ApplicationController
     end
 
     url = "/repositories/#{JSONModel::repository}/jobs/#{params[:job_id]}/output_files/#{params[:id]}"
-    stream_file(url, {:format => format, :filename => "job_#{params[:job_id].to_s}_#{filename_end}" } ) 
+    stream_file(url, {:format => download_file_format(@job), :filename => "job_#{params[:job_id].to_s}_#{filename_end}" } )
   end
-  
-  
+
+
   def records
     @search_data = Job.records(params[:id], params[:page] || 1)
     render_aspace_partial :partial => "jobs/job_records"
   end
 
   private
+
+  def download_file_format(job)
+    if params[:ext]
+      format = params[:ext].delete_prefix('.')
+    elsif @job.job.has_key?("format") && !@job.job["format"].blank?
+      format = @job.job["format"]
+    else
+      format = "pdf"
+    end
+  end
 
   def selected_page
     [Integer(params[:page] || 1), 1].max
@@ -154,7 +151,6 @@ class JobsController < ApplicationController
 
 
   def stream_file(request_uri, params = {})
-
     filename = params[:filename] ? "#{params[:filename]}.#{params[:format]}" : "ead.pdf"
 
 

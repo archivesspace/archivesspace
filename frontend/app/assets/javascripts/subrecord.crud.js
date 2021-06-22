@@ -88,7 +88,7 @@ $(function() {
           $(".subrecord-form.notes-form:not(.initialised)", formEl).init_notes_form();
           $(".subrecord-form:not(.initialised)", formEl).init_subrecord_form();
 
-          $(":input:first", formEl).focus();
+          $(":input:visible:first", formEl).focus();
 
           $this.data("form_index", $this.data("form_index")+1);
         };

@@ -26,6 +26,7 @@ require_relative 'lib/export'
 require_relative 'lib/request_context'
 require_relative 'lib/component_transfer'
 require_relative 'lib/progress_ticker'
+require_relative 'lib/csv_template_generator'
 require 'solr_snapshotter'
 
 require 'barcode_check'
@@ -57,6 +58,18 @@ class ArchivesSpaceService < Sinatra::Base
     end
   end
 
+  @plugins_loaded_hooks = []
+  @archivesspace_plugins_loaded = false
+
+  def self.plugins_loaded_hook(&block)
+    if @archivesspace_plugins_loaded
+      block.call
+    else
+      @plugins_loaded_hooks << block
+    end
+  end
+
+
 
   configure :development do |config|
     require 'sinatra/reloader'
@@ -66,6 +79,7 @@ class ArchivesSpaceService < Sinatra::Base
     config.dont_reload File.join("app", "lib", "rest.rb")
     config.dont_reload File.join("**", "exporters", "*.rb")
     config.dont_reload File.join("**", "spec", "*.rb")
+    config.dont_reload File.join("..", "plugins", "**", "spec", "*.rb")
 
     set :server, :mizuno
     set :server_settings, {:reuse_address => true}
@@ -112,7 +126,7 @@ class ArchivesSpaceService < Sinatra::Base
       unless AppConfig[:ignore_schema_info_check]
         schema_info = 0
         DB.open do |db|
-          schema_info =  db[:schema_info].get(:version)
+          schema_info = db[:schema_info].get(:version)
           required_schema_info = DBMigrator.latest_migration_number(db)
 
           if schema_info != required_schema_info
@@ -128,8 +142,9 @@ class ArchivesSpaceService < Sinatra::Base
 
       end
 
-      [File.dirname(__FILE__), *ASUtils.find_local_directories('backend')].each do |prefix|
-        ['model/mixins', 'model', 'model/reports', 'controllers'].each do |path|
+      ordered_plugin_backend_dirs = ASUtils.order_plugins(ASUtils.find_local_directories('backend'))
+      [File.dirname(__FILE__), *ordered_plugin_backend_dirs].each do |prefix|
+        ['model/mixins', 'model', 'model/reports', 'lib/bulk_import', 'controllers'].each do |path|
           Dir.glob(File.join(prefix, path, "*.rb")).sort.each do |file|
             require File.absolute_path(file)
           end
@@ -201,8 +216,15 @@ class ArchivesSpaceService < Sinatra::Base
         @archivesspace_loaded = true
 
 
+        # Warn if any referenced plugins aren't present
+        ASUtils.find_local_directories.each do |plugin_dir|
+          unless Dir.exist?(plugin_dir)
+            Log.warn("Plugin referenced in AppConfig[:plugins] could not be found: #{File.absolute_path(plugin_dir)}")
+          end
+        end
+
         # Load plugin init.rb files (if present)
-        ASUtils.find_local_directories('backend').each do |dir|
+        ASUtils.order_plugins(ASUtils.find_local_directories('backend')).each do |dir|
           init_file = File.join(dir, "plugin_init.rb")
           if File.exist?(init_file)
             load init_file
@@ -210,6 +232,11 @@ class ArchivesSpaceService < Sinatra::Base
         end
 
         BackgroundJobQueue.init if ASpaceEnvironment.environment != :unit_test
+
+        @plugins_loaded_hooks.each do |hook|
+          hook.call
+        end
+        @archivesspace_plugins_loaded = true
 
         Notifications.notify("BACKEND_STARTED")
         Log.noisiness "Logger::#{AppConfig[:backend_log_level].upcase}".constantize
@@ -264,6 +291,7 @@ class ArchivesSpaceService < Sinatra::Base
         if session[:expirable] &&
             AppConfig[:session_expire_after_seconds].to_i >= 0 &&
             session.age > AppConfig[:session_expire_after_seconds].to_i
+
           Session.expire(session_token)
           session = nil
           return [412,
@@ -310,14 +338,14 @@ class ArchivesSpaceService < Sinatra::Base
 
 
   get '/' do
-    sys_info =  DB.sysinfo.merge({ "archivesSpaceVersion" =>  ASConstants.VERSION})
+    sys_info = DB.sysinfo.merge({ "archivesSpaceVersion" => ASConstants.VERSION})
 
     request.accept.each do |type|
-        case type
-          when 'application/json'
-            content_type :json
-            halt sys_info.to_json
-        end
+      case type
+      when 'application/json'
+        content_type :json
+        halt sys_info.to_json
+      end
     end
     JSON.pretty_generate(sys_info )
   end

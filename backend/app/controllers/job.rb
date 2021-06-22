@@ -132,7 +132,7 @@ class ArchivesSpaceService < Sinatra::Base
 
     # Sort the running jobs newest to oldest, then show queued jobs oldest to
     # newest (since the oldest jobs run next)
-    active = running.all.sort{|a,b| b.system_mtime <=> a.system_mtime} + queued.all.sort{|a,b| a.system_mtime <=> b.system_mtime}
+    active = running.all.sort {|a, b| b.system_mtime <=> a.system_mtime} + queued.all.sort {|a, b| a.system_mtime <=> b.system_mtime}
 
     listing_response(active, Job)
   end
@@ -200,24 +200,24 @@ class ArchivesSpaceService < Sinatra::Base
     .returns([200, "An array of output files"]) \
   do
     job = Job.get_or_die(params[:id])
-    files = JobFile.filter( :job_id => job.id ).select(:id).map {|f| f[:id] } 
-    json_response(files) 
-  
+    files = JobFile.filter( :job_id => job.id ).select(:id).map {|f| f[:id] }
+    json_response(files)
+
   end
-  
-    Endpoint.get('/repositories/:repo_id/jobs/:id/output_files/:file_id')
-    .description("Get a Job's output file by ID")
-    .params(["id", :id],
-            ["file_id", :id], 
-            ["repo_id", :repo_id] )
-    .permissions([:view_repository])
-    .returns([200, "Returns the file"]) \
-  do
-    file = JobFile.filter(  :id => params[:file_id], :job_id => params[:id] ).select(:file_path).first
-    # ANW-267: Windows will corrupt PDFs with DOS line endings unless we return the file as a binary.
-    content_type 'application/octect-stream'
-    IO.binread(file.full_file_path)
-  end
+
+  Endpoint.get('/repositories/:repo_id/jobs/:id/output_files/:file_id')
+  .description("Get a Job's output file by ID")
+  .params(["id", :id],
+          ["file_id", :id],
+          ["repo_id", :repo_id] )
+  .permissions([:view_repository])
+  .returns([200, "Returns the file"]) \
+do
+  file = JobFile.filter(  :id => params[:file_id], :job_id => params[:id] ).select(:file_path).first
+  # ANW-267: Windows will corrupt PDFs with DOS line endings unless we return the file as a binary.
+  content_type 'application/octect-stream'
+  IO.binread(file.full_file_path)
+end
 
   Endpoint.get('/repositories/:repo_id/jobs/:id/records')
     .description("Get a Job's list of created URIs")

@@ -1,17 +1,5 @@
 <%= setup_context(:title => I18n.t("location._plural")) %>
-<%
-   @show_multiselect_column = user_can?("update_location_record")
 
-   title_column_header(I18n.t("location.title"))
-   %w(building floor room area).each do |place|
-     add_column(I18n.t("location.#{place}"), proc {|record| record[place]}, :sortable => true, :sort_by => place)
-   end
-   add_column(I18n.t("location_profile._singular"), proc {|record| record["location_profile_display_string_u_ssort"]}, :sortable => true, :sort_by => "location_profile_display_string_u_ssort" )
-   add_column(current_repo['repo_code'] + " " + I18n.t("location.holdings"), proc {|record|
-    filter_term = {"location_uris" => record['uri']}.to_json
-    ajax_search_url = url_for({:controller => :search, :action => :do_search, :format => :json, :listing_only => true}.merge({"filter_term" => filter_term, "type" => "top_container"}))
-    "<div class='location-holdings' data-url='#{ajax_search_url}'><i class='spinner'></i></div>".html_safe }, :sortable => false)
-%>
 <div class="row">
   <div class="col-md-3">
     <div class="sidebar">
@@ -25,9 +13,7 @@
           <% if user_can?('manage_repository') %>
               <%= link_to I18n.t("actions.edit_default_values"), {:controller => :locations, :action => :defaults}, :class => "btn btn-sm btn-default" %>
           <% end %>
-          <%= link_to I18n.t("actions.export_csv"), request.parameters.merge({ :format => :csv, :fields =>
-            ['title', 'building', 'floor', 'room', 'area', 'location_profile_display_string_u_ssort']
-            }), id: "searchExport",  class:  "btn btn-sm btn-info" %>
+          <%= link_to I18n.t("actions.export_csv"), request.parameters.merge({ :format => :csv, :fields => fields}), id: "searchExport",  class:  "btn btn-sm btn-info" %>
           <%= link_to I18n.t("location._frontend.action.create"), {:controller => :locations, :action => :new}, :class => "btn btn-sm btn-default" %>
           <%= link_to I18n.t("location._frontend.action.batch"), {:controller => :locations, :action => :batch}, :class => "btn btn-sm btn-default" %>
           <%= button_edit_multiple_action(:locations) %>
@@ -47,6 +33,8 @@
       <%= render_aspace_partial :partial => "shared/flash_messages" %>
 
       <%= render_aspace_partial :partial => "search/listing" %>
+
+      <%= javascript_include_tag("locations.location_holdings") %>
     </div>
   </div>
 </div>

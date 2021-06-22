@@ -26,6 +26,15 @@ module URIResolver
 
   include JSONModel
 
+  def self.add_resolve_wrapper(wrapper)
+    @resolve_wrappers ||= []
+    @resolve_wrappers << wrapper
+  end
+
+  def self.resolve_wrappers
+    @resolve_wrappers ||= []
+  end
+
   # Additional `ignored` argugment to account for callers using the old API
   # which required an `env`.  In the long-run, we can get rid of this.
   def resolve_references(records, properties_to_resolve, ignored = nil)
@@ -40,11 +49,17 @@ module URIResolver
       end
     end
 
-    if properties_to_resolve
-      URIResolverImplementation.new(properties_to_resolve).resolve_references(records)
-    else
-      records
+    result = if properties_to_resolve
+               URIResolverImplementation.new(properties_to_resolve).resolve_references(records)
+             else
+               records
+             end
+
+    URIResolver.resolve_wrappers.each do |resolve_wrapper|
+      result = resolve_wrapper.resolve(result, records, properties_to_resolve)
     end
+
+    result
   end
 
   module_function :resolve_references
@@ -81,6 +96,7 @@ module URIResolver
       if active_repository_id && \
          parsed[:repository] && \
          JSONModel.parse_reference(parsed[:repository])[:id] != active_repository_id
+
         raise ReferenceError.new("Inter-repository links are not allowed in this operation! (Bad link: '#{uri}'; Active repo: '#/repositories/#{active_repository_id}')")
       end
 

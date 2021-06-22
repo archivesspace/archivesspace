@@ -30,9 +30,6 @@ end
 
 def start_server(port, *webapps)
   server = org.eclipse.jetty.server.Server.new
-  
-  
-  server = org.eclipse.jetty.server.Server.new
   server.send_date_header = true
 
   connector = org.eclipse.jetty.server.nio.SelectChannelConnector.new

@@ -4,6 +4,7 @@ class Accession < Sequel::Model(:accession)
 
   include Identifiers
   include Extents
+  include LangMaterials
   include Subjects
   include Dates
   include ExternalDocuments
@@ -13,6 +14,7 @@ class Accession < Sequel::Model(:accession)
   include DirectionalRelationships
   include ExternalIDs
   include CollectionManagements
+  include MetadataRights
   include Instances
   include UserDefineds
   include Classifications
@@ -57,21 +59,21 @@ class Accession < Sequel::Model(:accession)
                 :generator => lambda { |json|
                   return json["title"] if json["title"]
 
-                  %w(id_0 id_1 id_2 id_3).map{|p| json[p]}.compact.join("-")
+                  %w(id_0 id_1 id_2 id_3).map {|p| json[p]}.compact.join("-")
                 }
 
   auto_generate :property => :slug,
                 :generator => proc { |json|
                   if AppConfig[:use_human_readable_urls]
                     if json["is_slug_auto"]
-                      AppConfig[:auto_generate_slugs_with_id] ? 
-                        SlugHelpers.id_based_slug_for(json, Accession) : 
+                      AppConfig[:auto_generate_slugs_with_id] ?
+                        SlugHelpers.id_based_slug_for(json, Accession) :
                         SlugHelpers.name_based_slug_for(json, Accession)
                     else
                       json["slug"]
                     end
                   end
-                }               
+                }
 
 
 end

@@ -9,8 +9,8 @@
       <%= read_only_view(container_location, :label_css => "col-md-4") %>
       <% if container_location['_resolved'] %>
         <div class="form-group">
-          <div class="control-label"><%= I18n.t("container_location.location") %></div>
-          <div class="controls token-list">
+          <div class="control-label col-sm-2"><%= I18n.t("container_location.location") %></div>
+          <div class="controls token-list col-sm-8">
             <%= render_token :object => container_location['_resolved'],
                              :label => container_location['_resolved']['title'],
                              :type => "location",

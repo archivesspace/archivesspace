@@ -105,6 +105,33 @@ describe 'Search Listing' do
         @driver.find_element_with_text('//tr/td[3]', / /, false, true).text
       end.to raise_error(Selenium::WebDriver::Error::NoSuchElementError)
     end
+
+    it 'displays the same columns for search then filter by record type as for browse' do
+      @driver.login_to_repo(@viewer_user, @repo)
+      @driver.find_element(:link, 'Browse').click
+      @driver.wait_for_dropdown
+      @driver.click_and_wait_until_gone(:link, 'Resources')
+      browse_columns = @driver.find_elements(:css, "th")
+      browse_col_headers = browse_columns.collect { |col| col.text }.reject { |header| header.empty? }
+      @driver.find_element(:id, 'global-search-button').click
+      @driver.find_element(:link, 'Resource').click
+      search_columns = @driver.find_elements(:css, "th")
+      search_col_headers = search_columns.collect { |col| col.text }.reject { |header| header.empty? }
+      expect(browse_col_headers).to eq(search_col_headers)
+    end
+
+    it 'shows all sortable columns in sort dropdown' do
+      @driver.find_element(:id, 'global-search-button').click
+      sortable_columns = @driver.find_elements(:css, "th.sortable")
+      @driver.find_element_with_text('//span', /Relevance/).click
+      @driver.wait_for_dropdown
+      sort_opts = @driver.find_element(:css, "ul.sort-opts")
+      expect do
+        sortable_columns.each do |col|
+          sort_opts.find_element(:link, col.text)
+        end
+      end.not_to raise_error
+    end
   end
 end
 

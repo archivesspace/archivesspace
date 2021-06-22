@@ -24,12 +24,10 @@ class DefaultValues < Sequel::Model(:default_values)
     end
 
     self.sequel_to_jsonmodel([obj], opts)[0]
-
   end
 
 
   def self.sequel_to_jsonmodel(objs, opts = {})
-
     jsons = objs.map {|obj|
       json = JSONModel(:default_values).new(ASUtils.json_parse(obj[:blob]))
       json.uri = obj.uri

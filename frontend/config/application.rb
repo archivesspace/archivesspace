@@ -8,6 +8,7 @@ require 'sprockets/railtie'
 require 'java'
 require 'config/config-distribution'
 require 'asutils'
+require 'aspace_i18n'
 
 require 'aspace_logger'
 
@@ -57,19 +58,19 @@ module ArchivesSpace
 
 
     config.log_formatter = ::Logger::Formatter.new
-    logger = if AppConfig.changed?(:frontend_log) 
-                      ASpaceLogger.new(AppConfig[:frontend_log]) 
-                    else 
-                      ASpaceLogger.new($stderr)
-                    end
+    logger = if AppConfig.changed?(:frontend_log)
+               ASpaceLogger.new(AppConfig[:frontend_log])
+             else
+               ASpaceLogger.new($stderr)
+             end
     logger.formatter = config.log_formatter
     config.logger = ActiveSupport::TaggedLogging.new(logger)
 
 
     config.log_level = AppConfig[:frontend_log_level].intern
-    
+
     # Load the shared 'locales'
-    ASUtils.find_locales_directories.map{|locales_directory| File.join(locales_directory)}.reject { |dir| !Dir.exist?(dir) }.each do |locales_directory|
+    ASUtils.find_locales_directories.map {|locales_directory| File.join(locales_directory)}.reject { |dir| !Dir.exist?(dir) }.each do |locales_directory|
       config.i18n.load_path += Dir[File.join(locales_directory, '**' , '*.{rb,yml}')].reject {|path| path =~ /public/}
     end
 
@@ -79,7 +80,7 @@ module ArchivesSpace
 
     # Allow overriding of the i18n locales via the 'local' folder(s)
     if not ASUtils.find_local_directories.blank?
-      ASUtils.find_local_directories.map{|local_dir| File.join(local_dir, 'frontend', 'locales')}.reject { |dir| !Dir.exist?(dir) }.each do |locales_override_directory|
+      ASUtils.find_local_directories.map {|local_dir| File.join(local_dir, 'frontend', 'locales')}.reject { |dir| !Dir.exist?(dir) }.each do |locales_override_directory|
         config.i18n.load_path += Dir[File.join(locales_override_directory, '**' , '*.{rb,yml}')].reject {|path| path =~ /public/}
       end
     end
@@ -126,7 +127,7 @@ module ArchivesSpace
                                  end]
 
     if not ASUtils.find_local_directories.blank?
-      ASUtils.find_local_directories.map{|local_dir| File.join(local_dir, 'frontend', 'assets')}.reject { |dir| !Dir.exist?(dir) }.each do |static_directory|
+      ASUtils.find_local_directories.map {|local_dir| File.join(local_dir, 'frontend', 'assets')}.reject { |dir| !Dir.exist?(dir) }.each do |static_directory|
         config.assets.paths.unshift(static_directory)
       end
     end
@@ -161,10 +162,11 @@ Rails.application.config.after_initialize do
   JSONModel(:top_container)
   JSONModel(:sub_container)
   JSONModel(:container_profile)
+  I18n.prioritize_plugins!
 end
 
 # Load plugin init.rb files (if present)
-ASUtils.find_local_directories('frontend').each do |dir|
+ASUtils.order_plugins(ASUtils.find_local_directories('frontend')).each do |dir|
   init_file = File.join(dir, "plugin_init.rb")
   if File.exist?(init_file)
     load init_file

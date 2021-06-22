@@ -37,7 +37,7 @@ class AssessmentAttributeDefinitions < JSONModel(:assessment_attribute_definitio
   end
 
   def label_for_id(id)
-    attribute = definitions.find{|d| d['id'] == id}
+    attribute = definitions.find {|d| d['id'] == id}
     return "UKNOWN" if attribute.nil?
 
     attribute.fetch('label')
@@ -46,7 +46,7 @@ class AssessmentAttributeDefinitions < JSONModel(:assessment_attribute_definitio
   private
 
   def attributes_for_type(type, global)
-    definitions.select{|d| d['type'] == type && d['global'] == global}
+    definitions.select {|d| d['type'] == type && d['global'] == global}
   end
 
   def set_repo_attributes_for_type(type, attributes)

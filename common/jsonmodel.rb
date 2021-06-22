@@ -6,13 +6,15 @@ require_relative 'json_schema_concurrency_fix'
 require_relative 'json_schema_utils'
 require_relative 'jsonmodel_utils'
 require_relative 'asutils'
+require_relative 'aspace_i18n'
 require_relative 'validator_cache'
 
 
 module JSONModel
 
-  @@models = {}
-  @@custom_validations = {}
+  @@models = java.util.concurrent.ConcurrentHashMap.new
+  @@custom_validations = java.util.concurrent.ConcurrentHashMap.new
+
   @@strict_mode = false
 
 
@@ -41,16 +43,17 @@ module JSONModel
     def initialize(opts)
       @invalid_object = opts[:invalid_object]
       @errors = opts[:errors]
+      @warnings = opts[:warnings]
       @import_context = opts[:import_context]
       @object_context = opts[:object_context]
       @attribute_types = opts[:attribute_types]
     end
 
     def to_s
-       msg = { :errors => @errors } 
-       msg[:import_context] = @import_context unless @import_context.nil? 
-       msg[:object_context] = @object_context unless @object_context.nil? 
-       "#<:ValidationException: #{msg.inspect}>"
+      msg = { :errors => @errors }
+      msg[:import_context] = @import_context unless @import_context.nil?
+      msg[:object_context] = @object_context unless @object_context.nil?
+      "#<:ValidationException: #{msg.inspect}>"
     end
   end
 
@@ -128,7 +131,6 @@ module JSONModel
 
 
   def self.schema_src(schema_name)
-
     if schema_name.to_s !~ /\A[0-9A-Za-z_-]+\z/
       raise "Invalid schema name: #{schema_name}"
     end
@@ -154,7 +156,7 @@ module JSONModel
       val.each do |k, v|
         if k == 'enum'
           v << magic_value
-         else
+        else
           allow_unmapped_enum_value(v)
         end
       end
@@ -267,7 +269,6 @@ module JSONModel
   end
 
   def self.init(opts = {})
-
     @@init_args ||= nil
 
     # Skip initialisation if this model has already been loaded.
@@ -372,7 +373,6 @@ module JSONModel
   # Create and return a new JSONModel class called 'type', based on the
   # JSONSchema 'schema'
   def self.create_model_for(type, schema)
-
     cls = Class.new(JSONModelType)
     cls.init(type, schema, Array(@@init_args[:mixins]))
 

@@ -5,6 +5,9 @@ en:
     automate: Automatically generate
     batch: Batch
     browse: Browse
+    bulk_import: Load via Spreadsheet
+    bulk_import_job: Load via Spreadsheet
+    download_bulk_import_report: Download report
     cancel: Cancel
     close: Close
     continue: Continue
@@ -29,6 +32,7 @@ en:
     show_all: Show All
     transfer_record: Transfer
     more: More
+    lightmode_toggle: Light Mode
     link_to: Link To
     add_prefix: Add
     merge_replace: Replace
@@ -81,16 +85,21 @@ en:
     delete_multiple: Delete Records
     delete_multiple_confirm_title: Delete Records?
     delete_multiple_confirm_message: "<p>Please be aware <strong>you cannot undo this action</strong>.</p><p>This action will remove these records from the database, including any references they have to other records.</p>"
+    reset: Reset Defaults
+    reset_confirm_title: "Reset %{preftype} to application defaults?"
+    reset_confirm_message: "<p>Please be aware <strong>you cannot undo this action</strong>.</p><p>This action will reset preferences to application defaults.</p>"
     edit_multiple: Edit Records
     edit_multiple_confirm_title: Edit Records?
     edit_multiple_confirm_message: "<p>This will bulk update multiple records.</p>"
     export_eac: Download EAC-CPF
+    export_marc_auth: Download MARCXML Authority
     export_ead: Download EAD
     export_mods: Download MODS
     export_mets: Download METS
     export_marc: Download MARCXML
     export_dc: Download DC
     export_csv: Download CSV
+    container_template: Download Container Template
     loading: Loading...
     revert: Revert Changes
     finish_editing: Close Record
@@ -100,6 +109,15 @@ en:
     publish: Publish All
     publish_confirm_title: Publish?
     publish_confirm_message: "<p>Performing this action will publish this record, any sub-records (External Documents, Notes, etc) and all components in the hierarchy.</p>"
+    unpublish: Unpublish All
+    unpublish_confirm_title: Unpublish?
+    unpublish_confirm_message: "<p>Performing this action will unpublish this record, any sub-records (External Documents, Notes, etc) and all components in the hierarchy.</p>"
+    publish_archival_object: Publish All
+    publish_archival_object_confirm_title: Publish?
+    publish_archival_object_confirm_message: "<p>Performing this action will publish this record, any sub-records (External Documents, Notes, etc) and all components below this record in the hierarchy.</p>"
+    unpublish_archival_object: Unpublish All
+    unpublish_archival_object_confirm_title: Unpublish?
+    unpublish_archival_object_confirm_message: "<p>Performing this action will unpublish this record, any sub-records (External Documents, Notes, etc) and all components below this record in the hierarchy.</p>"
     view_search_results: Go to Search Results
     view_published: View Published
     print_to_pdf: Generate PDF
@@ -110,6 +128,7 @@ en:
     rapid_data_entry: Rapid Data Entry
     enable_reorder: Enable Reorder Mode
     reorder_active: Disable Reorder Mode
+    copy: Copy
 
   database_warning:
     message: "<p><strong>Database Warning:</strong> You are currently using the embedded database (Apache Derby). The embedded database is for testing/demo purposes only. You should use MySQL for any data intended for production, including data in a test instance that you intend to move over to a production instance.</p>"
@@ -156,57 +175,6 @@ en:
     text_placeholder: Filter by text
     clear_all: Clear All
     component_switch: Show Components
-    filter:
-      query: Text
-      subjects: Subject
-      primary_type: Record Type
-      digital_object_type: Type
-      level: Level
-      classification_path: Classification
-      accession_date_year: Accession Date
-      source: Source
-      rules: Rules
-      parent_type: Record Type
-      processing_priority: Processing Priority
-      processing_status: Status
-      publish: Published
-      temporary: Temporary
-      outcome: Outcome
-      event_type: Type
-      first_term_type: Term Type (First)
-      classification_uri: Classification
-      location_uris: Location
-      agents: Agent
-      creators: Creator
-      fullrecord: Keyword
-      subjects_text: Subject
-      title: Title
-      creators_text: Creator
-      notes: Notes
-      container_profile_width_u_sstr: Width
-      container_profile_height_u_sstr: Height
-      container_profile_depth_u_sstr: Depth
-      container_profile_dimension_units_u_sstr: Dimension Units
-      building: Building
-      floor: Floor
-      room: Room
-      area: Area
-      location_profile_display_string_u_ssort: Location Profile
-      location_profile_width_u_sstr: Width
-      location_profile_height_u_sstr: Height
-      location_profile_depth_u_sstr: Depth
-      location_profile_dimension_units_u_sstr: Dimension Units
-      rights_statement_agent_uris: Rights Statement Agent
-      assessment_surveyors: Surveyed By
-      assessment_review_required: Review Required
-      assessment_sensitive_material: Sensitive Material
-      assessment_reviewer_uris: Reviewer
-      assessment_surveyed_by_uris: Surveyed By
-      assessment_reviewers: Reviewer
-      assessment_inactive: Inactive
-      assessment_survey_year: Survey Year
-      assessment_record_types: Record Type
-      assessment_completed: Completed
     help:
       row_selection: Click a row to select it for bulk operations. Hold alt while clicking a checkbox to select, or unselect, multiple previous rows.
 
@@ -216,44 +184,286 @@ en:
     and: "and:"
     asc: Ascending
     desc: Descending
-    relevance: Relevance
-    title_sort: Title
-    user_mtime: Modified
-    primary_type: Record Type
-    processing_priority: Processing Priority
-    processing_status: Processing Status
-    processing_hours_total: Total Hours
-    parent_id: Record Type
-    create_time: Created
-    authority_id: Authority ID
-    source: Source
-    rules: Rules
-    outcome: Outcome
-    event_type: Type
-    identifier: Identifier
     select: Select
-    building: Building
-    floor: Floor
-    room: Room
-    area: Area
-    resource_type: Resource Type
-    acquisition_type: Acquisition Type
-    accession_date: Accession Date
-    restrictions_apply: Restrictions Apply
-    access_restrictions: Access Restrictions
-    use_restrictions: Use Restrictions
-    level: Level of Description
-    language: Language
-    restrictions: Restrictions
-    ead_id: EAD ID
-    finding_aid_status: Finding Aid Status
-    digital_object_id: Digital Object ID
-    digital_object_type: Digital Object Type
-    publish: Publish
-    location_profile_display_string_u_ssort: Location Profile
-    assessment_survey_begin: Survey Begin Date
-    assessment_survey_end: Survey Completed Date
-    assessment_id: ID
+
+  search:
+    accession:
+      score: Relevance
+      title: Title
+      publish: Published
+      subjects: Subject
+      identifier: Identifier
+      acquisition_type: Acquisition Type
+      accession_date: Accession Date
+      resource_type: Resource Type
+      restrictions_apply: Restrictions Apply
+      access_restrictions: Access Restrictions
+      use_restrictions: Use Restrictions
+      audit_info: Audit Information
+      creators: Creator
+      accession_date_year: Accession Date
+      dates: Dates
+      extents: Extent
+      processing_priority: Processing Priority
+      processors: Processors
+      user_mtime: Modified
+      create_time: Created
+      asc: Ascending
+      desc: Descending
+    resource:
+      score: Relevance
+      title: Title
+      publish: Published
+      level: Level
+      identifier: Identifier
+      resource_type: Resource Type
+      langcode: Language of Materials
+      restrictions: Restrictions
+      ead_id: EAD ID
+      finding_aid_status: Finding Aid Status
+      audit_info: Audit Information
+      classification_path: Classification Path
+      subjects: Subject
+      dates: Dates
+      extents: Extent
+      processing_priority: Processing Priority
+      processors: Processors
+      user_mtime: Modified
+      create_time: Created
+      asc: Ascending
+      desc: Descending
+    archival_object:
+      score: Relevance
+      title: Title
+      publish: Published
+      context: Parent Resource
+      identifier: Component ID
+      ref_id: Ref ID
+      level: Level
+      audit_info: Audit Information
+      langcode: Language of Materials
+      dates: Dates
+      extents: Extent
+      user_mtime: Modified
+      create_time: Created
+      asc: Ascending
+      desc: Descending
+    subject:
+      score: Relevance
+      source: Source
+      first_term_type: Term Type (First)
+      title: Terms
+      publish: Published
+      audit_info: Audit Information
+      user_mtime: Modified
+      create_time: Created
+      asc: Ascending
+      desc: Descending
+    digital_object:
+      score: Relevance
+      title: Title
+      publish: Published
+      subjects: Subject
+      level: Level
+      digital_object_type: Digital Object Type
+      digital_object_id: Digital Object ID
+      restrictions: Restrictions
+      audit_info: Audit Information
+      langcode: Language of Materials
+      dates: Dates
+      extents: Extent
+      user_mtime: Modified
+      create_time: Created
+      asc: Ascending
+      desc: Descending
+    digital_object_component:
+      score: Relevance
+      title: Title
+      publish: Published
+      context: Found in
+      audit_info: Audit Information
+      langcode: Language of Materials
+      dates: Dates
+      extents: Extent
+      user_mtime: Modified
+      create_time: Created
+      asc: Ascending
+      desc: Descending
+    agent:
+      score: Relevance
+      title: Name
+      primary_type: Agent Type
+      publish: Published
+      authority_id: Authority ID
+      source: Source
+      rules: Rules
+      is_user: Is User?
+      audit_info: Audit Information
+      user_mtime: Modified
+      create_time: Created
+      asc: Ascending
+      desc: Descending
+    location:
+      score: Relevance
+      title: Location
+      publish: Published
+      building: Building
+      floor: Floor
+      room: Room
+      area: Area
+      location_holdings: Holdings for Current Repository
+      location_profile_display_string_u_ssort: Location Profile
+      owner_repo_display_string_u_ssort: Repository
+      none: None
+      audit_info: Audit Information
+      temporary: Temporary
+      user_mtime: Modified
+      create_time: Created
+      asc: Ascending
+      desc: Descending
+    event:
+      score: Relevance
+      agents: Agent
+      event_type: Type
+      outcome: Outcome
+      linked_records: Record Links
+      audit_info: Audit Information
+      user_mtime: Modified
+      create_time: Created
+      asc: Ascending
+      desc: Descending
+    collection_management:
+      score: Relevance
+      parent_title: Title
+      parent_type: Record Type
+      processing_priority: Processing Priority
+      processing_status: Processing Status
+      processing_hours_total: Total Hours
+      processing_funding_source: Processing Funding Source
+      processors: Processors
+      audit_info: Audit Information
+      user_mtime: Modified
+      create_time: Created
+      asc: Ascending
+      desc: Descending
+    classification:
+      score: Relevance
+      title: Title
+      publish: Published
+      has_classification_terms: Has classification terms?
+      identifier: Identifier
+      audit_info: Audit Information
+      user_mtime: Modified
+      create_time: Created
+      asc: Ascending
+      desc: Descending
+    assessment:
+      score: Relevance
+      assessment_id: Assessment ID
+      assessment_records: Record
+      assessment_record_types: Record Type
+      assessment_surveyors: Surveyor
+      assessment_survey_begin: Survey Begin
+      assessment_review_required: Review Required
+      assessment_sensitive_material: Sensitive Material
+      assessment_inactive: Inactive
+      assessment_survey_year: Survey Year
+      assessment_collections: Collection
+      assessment_completed: Assessment Completed
+      assessment_formats: Formats
+      assessment_ratings: Ratings
+      assessment_conservation_issues: Conservation Issues
+      audit_info: Audit Information
+      assessment_reviewers: Reviewer
+      user_mtime: Modified
+      create_time: Created
+      asc: Ascending
+      desc: Descending
+    repositories:
+      score: Relevance
+      title: Title
+      publish: Published
+      audit_info: Audit Information
+      user_mtime: Modified
+      create_time: Created
+      asc: Ascending
+      desc: Descending
+    top_container:
+      score: Relevance
+      title: Title
+      publish: Published
+      container_profile_display_string_u_sstr: Container Profile
+      location_display_string_u_sstr: Location
+      type: Type
+      indicator: Indicator
+      barcode: Barcode
+      context: Resource/Accession
+      audit_info: Audit Information
+      user_mtime: Modified
+      create_time: Created
+      asc: Ascending
+      desc: Descending
+    container_profile:
+      score: Relevance
+      title: Title
+      publish: Published
+      container_profile_width_u_sstr: Width
+      container_profile_height_u_sstr: Height
+      container_profile_depth_u_sstr: Depth
+      container_profile_dimension_units_u_sstr: Dimension Units
+      audit_info: Audit Information
+      user_mtime: Modified
+      create_time: Created
+      asc: Ascending
+      desc: Descending
+    location_profile:
+      score: Relevance
+      title: Title
+      publish: Published
+      location_profile_width_u_sstr: Width
+      location_profile_height_u_sstr: Height
+      location_profile_depth_u_sstr: Depth
+      location_profile_dimension_units_u_sstr: Dimension Units
+      audit_info: Audit Information
+      user_mtime: Modified
+      create_time: Created
+      asc: Ascending
+      desc: Descending
+    job:
+      score: Relevance
+      status: Status
+      job_type: Job Type
+      report_type: Report Type
+      job_report_type: Job Type
+      time_started: Time Started
+      time_finished: Time Completed
+      time_submitted: Time Submitted
+      job_data: Job Information
+      audit_info: Audit Information
+      user_mtime: Modified
+      create_time: Created
+      asc: Ascending
+      desc: Descending
+    multi:
+      score: Relevance
+      primary_type: Record Type
+      creators: Creator
+      subjects: Subject
+      title: Title
+      context: Found in
+      identifier: Identifier
+      audit_info: Audit Information
+      query: Text
+      relevance: Relevance
+      user_mtime: Modified
+      create_time: Created
+      dates: Dates
+      extents: Extent
+      langcode: Language of Materials
+      asc: Ascending
+      desc: Descending
+    blank_facet_query_fields:
+      owner_repo_display_string_u_ssort: Repository
 
   advanced_search:
     operator:
@@ -317,10 +527,6 @@ en:
     repo_preferences: Repository Preferences
     manage_user_access: Manage User Access
     logout: Logout
-    login: Sign In
-    login_expired_link: Please %{link} again.
-    login_fail: Login attempt failed
-    login_success: Login Successful. Redirecting...
     register: Register now
     register_prefix: Need an account?
     list_reports: Reports
@@ -359,6 +565,13 @@ en:
     heading: Welcome to ArchivesSpace
     message: Your friendly archives management tool.
     message_logged_in: Your friendly archives management tool.
+
+  login:
+    login: Sign In
+    login_please: Please Sign In
+    login_expired_link: Please %{link} again.
+    login_fail: Login attempt failed
+    login_success: Login Successful. Redirecting...
 
   breadcrumb:
     home: Home
@@ -444,7 +657,11 @@ en:
     merge_conflict: "Merging agent(s) could not complete: %{message}"
     merge_too_many_victims: Only one agent may be selected for this merge.
     merge_different_types: Agents selected for this merge must be of the same type.
+    merge_denied_for_system_user: One or more agents is a system user.
+    merge_denied_relationship: These agents have a relationship. Remove relationship before proceeding with merge.
+    merge_restricted_contact_details: The merge cannot be completed because one or more of the agents has contact details you do not have permission to access.
     linked_to_assessment: Record cannot be deleted as it is linked to an assessment
+    cannot_delete_repository_agent: This agent is linked to a repository and can't be removed.
 
   accession:
     _frontend:
@@ -471,12 +688,18 @@ en:
         created: Agent Created
         updated: Agent Saved
         deleted: Agent Deleted
+        published: "The Agent <strong>%{agent.title}</strong>, its subrecords and components have been published"
         delete_conflict: "Agent could not be deleted: <pre>%{error}</pre>"
         merge_description: Select the agent to merge into
         merged: Agent(s) Merged
         please_select_a_agent_to_merge: Please select an agent
       section:
         basic_information: Basic Information
+        record_control_information: Record Control Information
+        identity_information: Identity Information
+        description_information: Description Information
+        relation_information: Relation Information
+        date_of_existence: Date of Existence
         dates_of_existence: Dates of Existence
         name: Name Forms
         contacts: Contact Details
@@ -484,14 +707,20 @@ en:
         linked_via_rights_statement: Linked Records via Rights Statement
         target_record: This record will be updated
         victim_record: This record will be deleted
+        structured_date_single_fields: Single Date
+        structured_date_range_fields: Range Date
       action:
         create: Create Agent
         preview: Merge Preview
 
   agent_contact:
+    is_representative: Preferred
+    notes_tooltip: |
+        <p>Additional notes or other information about the contact.</p>
     _frontend:
       action:
         add: Add Contact
+        make_representative: Make preferred contact
 
   telephone:
     _frontend:
@@ -518,6 +747,16 @@ en:
       action:
         save: Save Software
 
+  structured_date_single:
+    _frontend:
+      action:
+        add: Add Single Date
+
+  structured_date_range:
+    _frontend:
+      action:
+        add: Add Range Date
+
   archival_object:
     external_ark_url: External ARK URL
     external_ark_url_tooltip: External ARK URL Tooltip
@@ -531,6 +770,8 @@ en:
         transfer_success: Successfully transferred Archival Object <strong>%{archival_object.display_string}</strong> to Resource <strong>%{resource.title}</strong>
         transfer_error: "Unable to transfer Archival Object due to an error or conflict: <pre>%{exception}</pre>"
         deleted: "Archival Object <strong>%{archival_object.display_string}</strong> deleted"
+        published: "The Archival Object <strong>%{archival_object.title}</strong>, its children, subrecords and components have been published"
+        unpublished: "The Archival Object <strong>%{archival_object.title}</strong>, its children, subrecords and components have been unpublished"
         unsuppressed: Archival Object <strong>%{archival_object.title}</strong> unsuppressed
         suppressed: Archival Object <strong>%{archival_object.title}</strong> suppressed
         suppressed_info: Archival Object is suppressed and cannot be edited
@@ -542,6 +783,7 @@ en:
         add_child: Add Child
         add_sibling: Add Sibling
         save: Save Archival Object
+        bulk_import: Load via Spreadsheet
       tree:
         new_record_title: New Archival Object
 
@@ -596,6 +838,7 @@ en:
 
   date:
     _frontend:
+      expression_placeholder: Describe the date or date range
       action:
         add: Add Date
 
@@ -608,6 +851,33 @@ en:
     _frontend:
       action:
         add: Add Deaccession
+
+  structured_date_label_common_fields: &structured_date_label_attributes
+    date_label: Label
+    date_type_structured: Date Type
+    date_certainty: Certainty
+    date_era: Era
+    date_calendar: Calendar
+
+  structured_date_label_existence:
+    <<: *structured_date_label_attributes
+
+  structured_date_label_usage:
+    <<: *structured_date_label_attributes
+
+  structured_date_single_fields:
+    date_role: Date Role
+    date_expression: Date Expression
+    date_standardized: Standardized Date
+    date_standardized_type: Standardized Date Type
+
+  structured_date_range_fields:
+    begin_date_expression: Begin Date Expression
+    begin_date_standardized: Begin Standardized Date
+    begin_date_standardized_type: Begin Standardized Date Type
+    end_date_expression: End Date Expression
+    end_date_standardized: End Standardized Date
+    end_date_standardized_type: End Standardized Date Type
 
   digital_object:
     _frontend:
@@ -675,6 +945,7 @@ en:
         create_value: Create Value
         delete_value: Delete Value
         merge_value: Merge Value
+        download_csv: Download CSV
 
   event:
     _frontend:
@@ -722,6 +993,7 @@ en:
         add: Add Instance
 
   lang_material:
+    _plural: Languages
     _frontend:
       action:
         add: Add Language
@@ -781,10 +1053,13 @@ en:
     _frontend:
       section:
         use_date: Date(s) of Name Use
+        dates: Dates
+        parallel_names: Parallel Names
       action:
         add: Add Name Form
         make_authorized: Make Authoritive Name
         make_display_name: Make Display Name
+        make_primary: Make Primary
 
   note:
     _frontend:
@@ -793,16 +1068,18 @@ en:
         raw_title: The raw note content
         parsed: Formatted
         parsed_title: How the note will be rendered in the Public application
+        content: Content
       messages:
         select_a_note_type: "<em>Please select a Note Type</em>"
       action:
         add: Add Note
+        add_for_contact_note: Add Contact Note
         add_content_item: Add Content Item
         add_note_orderedlist: Add Item
         add_sub_note: Add Sub Note
         add_note_index_item: Add Item
         add_note_chronology_item: Add Event
-        add_event: Add Event
+        add_event: Add Event Item
         add_note_bibliography_item: Add Item
         add_note_outline_level_item: Add Item
         add_note_outline_level_level: Add Level
@@ -810,6 +1087,9 @@ en:
         expand: Expand
         collapse: Collapse
         apply_note_order: Apply Standard Note Order
+      note_outline:
+        placeholder: Add Note Text
+        empty_level: Empty Level -- Use buttons above to add new items or sublevels
 
   related_accession:
     _frontend:
@@ -817,6 +1097,7 @@ en:
         add: Add Related Accession
 
   related_agent:
+    dates: Relationship Dates
     _frontend:
       messages:
         select_a_type: "<em>Please select a Relationship Type</em>"
@@ -874,6 +1155,7 @@ en:
         spawned: "A new Resource has been spawned from Accession <strong>%{accession.display_string}</strong>"
         deleted: "Resource <strong>%{resource.title}</strong> deleted"
         published: "The Resource <strong>%{resource.title}</strong>, its subrecords and components have been published"
+        unpublished:  "The Resource <strong>%{resource.title}</strong>, its children, subrecords and components have been unpublished"
         merge_description: Select resources below to merge into
         please_select_a_resource_to_merge: Please select a resource
         merged: Resource(s) Merged
@@ -889,6 +1171,7 @@ en:
       action:
         add_child: Add Child
         create: Create Resource
+        load_bulk: Load via Spreadsheet
         save: Save Resource
         delete_multiple: Delete Resources
     external_ark_url: External ARK URL
@@ -897,7 +1180,11 @@ en:
   preference:
     _frontend:
       messages:
-        updated: "Preferences updated"
+        updated: Preferences updated
+        reset: Preferences set to application defaults
+        reset_error: "Unable to reset preferences due to an error: %{exception}"
+      action:
+        save: Save Preferences
 
   rights_statement:
     _frontend:
@@ -1126,6 +1413,9 @@ en:
     indicator_2: Child Indicator
     indicator_2_tooltip: |
         <p>An alphanumeric expression for indicating the ID of the second-level container, which may also indicate the second-level container's position within a sequence of such containers. Bulk ranges of second-level containers are also permissible, e.g. Folders 1-16.</p>
+    barcode_2: Child Container Barcode
+    barcode_2_tooltip: |
+        <p>A barcode to identify the second-level container in which the described material is housed.</p>
     type_3: Grandchild Type
     type_3_tooltip: |
         <p>The type of the third-level container in which the described material is housed.</p>
@@ -1163,6 +1453,7 @@ en:
     not_exported: Not exported
     restricted: Restricted?
     parent: Parent Container
+    has_location: Has Location
 
     managed_container_2_type: Child Container Type
     managed_container_2_type_tooltip: |
@@ -1205,6 +1496,7 @@ en:
         max_results_limit_details: "Showing <strong>%{visible}</strong> of <strong>%{num_found}</strong> matching results"
         results_summary: "Matching results: <strong>%{num_found}</strong>"
         bulk_selection_sort_help: Click a column to set the sort ordering.  Hold shift to sort by multiple columns.
+        merged: Top Container(s) Merged
         bulk_action_success: Top Containers successfully updated
         bulk_action_success_info: Please be aware it may take a moment before changes are reflected in the search results.
         no_active_restrictions: No Active Restrictions
@@ -1238,12 +1530,24 @@ en:
         rapid_barcode_entry_existing_barcode: Existing Barcode
         rapid_barcode_entry_new_barcode: New Barcode
         rapid_barcode_entry_help: Enter a barcode for each selected container.  Leave the New Barcode field blank to remove the current barcode without replacing it with a new value.
+        batch_merge: Merge Top Containers
+        batch_merge_instructions: Select the top container into which all of the other listed top container(s) will merge. Linked accessions, resources, resource components, and events will be re-linked to this container. Container profiles will be moved to this container only when it does not already have one. Locations and all other information for the other top container(s) will be deleted.
+        batch_merge_confirm: Confirm Merge Top Containers
+        batch_merge_confirm_question: Are you sure you want to merge the top containers as listed below? This action is irreversible.
+        batch_merge_container_profile_too_many_warning: These top containers have different container profiles. None of these container profiles will merge into the target container.
+        batch_merge_container_profile_mismatch_warning: These top containers have a different container profile than the target top container. The container profile will not merge into the target container.
+        batch_merge_confirm_victims: "Merge the following top container(s):"
+        batch_merge_confirm_target: "Into this top container:"
         batch_delete: Delete Top Containers
         batch_delete_help: Delete all selected containers.
         update_n_records: "Update %{n} records"
+        select_merge_target: Select merge target
+        merge_n_records: "Merge %{n} records"
         delete_n_records: "Delete %{n} records"
         update_locations_current_location: Current Location
         update_locations_new_location: New Location
+        has_location_true: "Yes"
+        has_location_false: "No"
 
   container_profile:
     _singular: Container Profile
@@ -1260,6 +1564,14 @@ en:
         merged: Container Profiles(s) Merged
       section:
         basic_information: Basic Information
+      bulk_operations:
+        merge: Merge Container Profiles
+        merge_instructions: Select the container profile into which all of the other listed container profile(s) will merge. Any linked records will be re-linked to this profile and all information for the other container profile(s) will be deleted.
+        merge_select_target: Select merge target
+        confirm_merge: Confirm Merge Container Profiles
+        confirm_merge_question: Are you sure you want to merge the container profiles as listed below? This action is irreversible.
+        confirm_merge_victims: "Merge the following container profile(s):"
+        confirm_merge_target: "Into this container profile:"
     name: Name
     name_tooltip: |
         <p>REQUIRED FIELD. The name of the container profile. May be generic or specific.</p>
@@ -1470,6 +1782,13 @@ en:
       repository: Repository %{type}
       action:
         save: Save Assessment Attributes
+        add_type: Add %{type}
+        find_rating: Find records with a %{rating_type} rating
+        find_format: Find records with a %{format_type} material type/format
+        find_issue: Find records with a %{issue_type} conservation issue
+        remove_rating: Remove %{rating_type} rating
+        remove_format: Remove %{format_type} material type/format
+        remove_issue: Remove %{issue_type} conservation issue
       messages:
         updated: Assessment Attributes updated
         error: Error updating Assessment Attributes
@@ -1490,6 +1809,7 @@ en:
         create: Create Template
         save: Save Template
       messages:
+        copied: Custom Report Template copied
         created: Custom Report Template created
         updated: Custom Report Template updated
 
@@ -1524,3 +1844,483 @@ en:
         _plural: Sponsor Sets
       repo_settings:
         _plural: Per Repository OAI-PMH Settings
+
+  agent_record_control: &agent_record_control_attributes
+    _plural: Record Info
+    _singular: Record Info
+    _frontend:
+      action:
+        add: Add Record Info
+    maintenance_status: Record Control Maintenance Status
+    publication_status: Record Control Publication Status
+    romanization: Romanization
+    government_agency_type: Record Control Government Agency Type
+    reference_evaluation: Record Control Reference Evaluation
+    name_type: Record Control Name Type
+    level_of_detail: Record Control Level of Detail
+    modified_record: Record Control Modified Type
+    cataloging_source: Record Control Cataloging Source
+    maintenance_agency: Maintenance Agency
+    agency_name: Agency Name
+    maintenance_agency_note: Maintenance Agency Note
+    language: Language
+    script: Script
+    language_note: Language Note
+
+  agent_record_controls:
+    <<: *agent_record_control_attributes
+
+  agent_record_control_required:
+    <<: *agent_record_control_attributes
+
+  agent_record_control_merge_target:
+    <<: *agent_record_control_attributes
+
+  agent_record_control_merge_victim:
+    <<: *agent_record_control_attributes
+
+  agent_gender: &agent_gender_attributes
+    _plural: Genders
+    _singular: Gender
+    _frontend:
+      action:
+        add: Add Gender
+    gender: Gender
+    note: Note
+    dates: Dates
+
+  dates_of_existence:
+    _singular: Date of Existence
+    _plural: Dates of Existence
+
+  agent_genders:
+    <<: *agent_gender_attributes
+
+  agent_gender_required:
+    <<: *agent_gender_attributes
+
+  agent_gender_merge_target:
+    <<: *agent_gender_attributes
+
+  agent_gender_merge_victim:
+    <<: *agent_gender_attributes
+
+  used_language: &used_language_attributes
+    _plural: Languages Used
+    _singular: Language Used
+    _frontend:
+      action:
+        add: Add Language
+    language: Language
+    script: Script
+
+  used_language_required:
+    <<: *used_language_attributes
+
+  used_languages:
+    <<: *used_language_attributes
+
+  used_language_merge_victim:
+    <<: *used_language_attributes
+
+  used_language_merge_target:
+    <<: *used_language_attributes
+
+  agent_identifier: &agent_identifier_attributes
+    _plural: Entity IDs
+    _singular: Identifier
+    _frontend:
+      action:
+        add: Add Entity ID
+    identifier_type: Identifier Type
+    entity_identifier: Entity IDs
+
+  agent_identifiers:
+    <<: *agent_identifier_attributes
+
+  agent_identifier_required:
+    <<: *agent_identifier_attributes
+
+  agent_identifier_merge_target:
+    <<: *agent_identifier_attributes
+
+  agent_identifier_merge_victim:
+    <<: *agent_identifier_attributes
+
+  agent_place: &agent_place_attributes
+    _frontend:
+      action:
+        add: Add Place
+    section:
+      dates: Dates
+    _plural: Places
+    _singular: Place
+    place_role: Agent Place Role
+    text_note: Note
+    dates: Dates
+    subjects: Places
+    publish: Published
+
+  agent_place_required:
+    <<: *agent_place_attributes
+
+  agent_places:
+    <<: *agent_place_attributes
+
+  agent_place_merge_target:
+    <<: *agent_place_attributes
+
+  agent_place_merge_victim:
+    <<: *agent_place_attributes
+
+  agent_occupation: &agent_occupation_attributes
+    _frontend:
+      action:
+        add: Add Occupation
+    section:
+      dates: Dates
+    _plural: Occupations
+    _singular: Occupation
+    text_note: Note
+    dates: Dates
+    subjects: Occupations
+    places: Places
+    publish: Published
+
+  agent_occupation_required:
+    <<: *agent_occupation_attributes
+
+  agent_occupations:
+    <<: *agent_occupation_attributes
+
+  agent_occupation_merge_target:
+    <<: *agent_occupation_attributes
+
+  agent_occupation_merge_victim:
+    <<: *agent_occupation_attributes
+
+  agent_function: &agent_function_attributes
+    _frontend:
+      action:
+        add: Add Function
+    section:
+      dates: Dates
+    _plural: Functions
+    _singular: Function
+    text_note: Note
+    dates: Dates
+    subjects: Functions
+    places: Places
+    publish: Published
+
+  agent_function_required:
+    <<: *agent_function_attributes
+
+  agent_functions:
+    <<: *agent_function_attributes
+
+  agent_function_merge_target:
+    <<: *agent_function_attributes
+
+  agent_function_merge_victim:
+    <<: *agent_function_attributes
+
+  agent_topic: &agent_topic_attributes
+    _frontend:
+      action:
+        add: Add Topic
+    section:
+      dates: Dates
+    _plural: Topics
+    _singular: Topic
+    text_note: Note
+    dates: Dates
+    subjects: Topics
+    places: Places
+    publish: Published
+
+  agent_topic_required:
+    <<: *agent_topic_attributes
+
+  agent_topics:
+    <<: *agent_topic_attributes
+
+  agent_topic_merge_target:
+    <<: *agent_topic_attributes
+
+  agent_topic_merge_victim:
+    <<: *agent_topic_attributes
+
+  place:
+    _plural: Places
+    _frontend:
+      action:
+        add: Add Place
+
+  agent_alternate_set: &agent_alternate_set_attributes
+    _plural: Alternate Sets
+    _singular: Alternate Set
+    _frontend:
+      action:
+        add: Add Alternative Set
+    set_component: Set Component
+    descriptive_note: Descriptive Note
+    file_uri: File URI
+    xlink_title_attribute: Xlink Title Attribute
+    xlink_role_attribute: Xlink Role Attribute
+    xlink_arcrole_attribute: Xlink Arcrole Attribute
+    file_version_xlink_actuate_attribute: Xlink Actuate Attribute
+    file_version_xlink_show_attribute: Xlink Show Attribute
+    last_verified_date: Last Verified Date
+
+  agent_alternate_sets:
+    <<: *agent_alternate_set_attributes
+
+  agent_alternate_set_required:
+    <<: *agent_alternate_set_attributes
+
+  agent_alternate_set_merge_target:
+    <<: *agent_alternate_set_attributes
+
+  agent_alternate_set_merge_victim:
+    <<: *agent_alternate_set_attributes
+
+  agent_conventions_declaration: &agent_conventions_declaration_attributes
+    _plural: Convention Declarations
+    _singular: Convention Declaration
+    _frontend:
+      action:
+        add: Add Convention Declaration
+    name_rule: Convention
+    citation: Citation
+    descriptive_note: Descriptive Note
+    file_uri: File URI
+    xlink_title_attribute: Xlink Title Attribute
+    xlink_role_attribute: Xlink Role Attribute
+    xlink_arcrole_attribute: Xlink Arcrole Attribute
+    file_version_xlink_actuate_attribute: Xlink Actuate Attribute
+    file_version_xlink_show_attribute: Xlink Show Attribute
+    last_verified_date: Last Verified Date
+
+  agent_conventions_declarations:
+    <<: *agent_conventions_declaration_attributes
+
+  agent_conventions_declaration_required:
+    <<: *agent_conventions_declaration_attributes
+
+  agent_conventions_declaration_merge_target:
+    <<: *agent_conventions_declaration_attributes
+
+  agent_conventions_declaration_merge_victim:
+    <<: *agent_conventions_declaration_attributes
+
+  agent_other_agency_code: &agent_other_agency_code_attributes
+    _plural: Other Agency Codes
+    _singular: Other Agency Code
+    _frontend:
+      action:
+        add: Add Agency Code
+    agency_code_type: Record Control Agency Code Type
+    maintenance_agency: Maintenance Agency
+
+  agent_other_agency_codes:
+    <<: *agent_other_agency_code_attributes
+
+  agent_other_agency_code_required:
+    <<: *agent_other_agency_code_attributes
+
+  agent_other_agency_code_merge_target:
+    <<: *agent_other_agency_code_attributes
+
+  agent_other_agency_code_merge_victim:
+    <<: *agent_other_agency_code_attributes
+
+  agent_maintenance_history: &agent_maintenance_history_attributes
+    _plural: Maintenance History
+    _singular: Agent Maintenance History
+    _frontend:
+      action:
+        add: Add Event
+    maintenance_event_type: Record Control Maintenance Event Type
+    maintenance_agent_type: Record Control Maintenance Agent Type
+    agent: Agent
+    descriptive_note: Descriptive Note
+    event_date: Event Date
+
+  agent_maintenance_histories:
+    <<: *agent_maintenance_history_attributes
+
+  agent_maintenance_history_required:
+    <<: *agent_maintenance_history_attributes
+
+  agent_maintenance_history_merge_target:
+    <<: *agent_maintenance_history_attributes
+
+  agent_maintenance_history_merge_victim:
+    <<: *agent_maintenance_history_attributes
+
+  agent_record_identifier: &agent_record_identifier_attributes
+    _plural: Record IDs
+    _singular: Record ID
+    _frontend:
+      action:
+        add: Add Record ID
+    identifier_type: Record Control Identifier Type
+    source: Source
+    primary_identifier: Is Primary Identifier?
+    primary: Primary
+    record_identifier: Record Identifier
+
+  agent_record_identifiers:
+    <<: *agent_record_identifier_attributes
+
+  agent_record_identifier_required:
+    <<: *agent_record_identifier_attributes
+
+  agent_record_identifier_merge_target:
+    <<: *agent_record_identifier_attributes
+
+  agent_record_identifier_merge_victim:
+    <<: *agent_record_identifier_attributes
+
+  agent_source: &agent_source_attributes
+    _plural: Sources
+    _singular: Agent Source
+    _frontend:
+      action:
+        add: Add Source
+    source_entry: Source Entry
+    descriptive_note: Descriptive Note
+    file_uri: File URI
+    xlink_title_attribute: Xlink Title Attribute
+    xlink_role_attribute: Xlink Role Attribute
+    xlink_arcrole_attribute: Xlink Arcrole Attribute
+    file_version_xlink_actuate_attribute: Xlink Actuate Attribute
+    file_version_xlink_show_attribute: Xlink Show Attribute
+    last_verified_date: Last Verified Date
+
+  agent_sources:
+    <<: *agent_source_attributes
+
+  agent_source_required:
+    <<: *agent_source_attributes
+
+  agent_source_merge_target:
+    <<: *agent_source_attributes
+
+  agent_source_merge_victim:
+    <<: *agent_source_attributes
+
+  agent_parallel_name:
+    _plural: Parallel Names
+    use_dates: Use Dates
+
+  agent_name:
+    use_dates: Use Dates
+
+  agent_resource: &agent_resource_attributes
+    _frontend:
+      action:
+        add: Add Related External Resource
+    section:
+      dates: Dates
+      places: Places
+    _plural: Related External Resources
+    _singular: Related External Resource
+    dates: Dates
+    places: Places
+    publish: Published
+    linked_agent_role: Resource Relation Type
+    linked_resource: Related External Resource
+    linked_resource_description: Description
+    file_uri: File URI
+    xlink_title_attribute: Xlink Title Attribute
+    xlink_role_attribute: Xlink Role Attribute
+    xlink_arcrole_attribute: Xlink Arcrole Attribute
+    file_version_xlink_actuate_attribute: Xlink Actuate Attribute
+    file_version_xlink_show_attribute: Xlink Show Attribute
+    last_verified_date: Last Verified Date
+
+  agent_resources:
+    <<: *agent_resource_attributes
+
+  agent_resource_required:
+    <<: *agent_resource_attributes
+
+  agent_resource_merge_victim:
+    <<: *agent_resource_attributes
+
+  agent_resource_merge_target:
+    <<: *agent_resource_attributes
+
+  subsections:
+    notes: Notes
+    dates: Dates
+
+  section_headings:
+    basic_information_tooltip: |
+      <p>This section indicates the agent type and whether the agent is published or not.</p>
+
+    record_control_information_tooltip: |
+      <p>This section contains information about the record itself, with the expectation that it originated outside of ArchivesSpace or is going to be shared with a system other than ArchivesSpace.</p>
+
+    identity_information_tooltip: |
+      <p>This section is the core information about the agent him/her/themselves. A Name Form is the only required sub-record in an Agent record.</p>
+
+    description_information_tooltip: |
+      <p>This section is the core information about the agent him/her/themselves. A Name Form is the only required sub-record in an Agent record.</p>
+
+    relation_information_tooltip: |
+      <p>This section is used to indicate relationships to other agents or materials inside or outside ArchivesSpace.</p>
+
+
+  bulk_import:
+    _frontend:
+      actions:
+        add_file: Select File
+        add_archival_objects: Import Archival Objects
+        add_digital_objects: Add Digital Objects to Archival Objects
+        import: Import from SpreadSheet
+        drag_drop: Drag and drop file here
+        clip_btn: Copy to Clipboard
+        only_validate: Only validate
+        link_top_containers: Link Top Containers
+      messages:
+        missing_file: You have not added a file
+        not_excel: The file you have chosen is not an Excel Spreadsheet
+        not_excel_csv: The fileRecord Control  you have chosen is neither an Excel Spreadsheet nor a CSV file
+        processed: The file has been processed
+        error: "ERROR: Error(s) detected: "
+        copied: Copied!
+        uncopied: Unable to copy
+        submitted: "<p>Job had been submitted to Background Jobs. <br/> Click 'Close' to refresh this screen.</p>"
+  bulk_import_job:
+    active: "There is a bulk import job active for this record, try editing later: <a href ='%{url}'>%{uri}</a>"
+    resource_id: Resource ID
+    format: Download File Format
+    filename: Spreadsheet file name
+    not_direct: At this time, this job can only be created from the Resource record
+
+  note_contact_note:
+    contact_notes_tooltip: |
+        <p>Details about the interaction with the contact</p>
+
+    date_of_contact_tooltip: |
+        <p>Used to record the specific date or timeframe of an interaction</p>
+
+  metadata_rights_declaration:
+    _plural: Metadata Rights Declarations
+    _singular: Metadata Rights Declaration
+    _frontend:
+      action:
+        add: Add Metadata Rights Declaration
+    rights_statement: Rights Statement
+    citation: Citation
+    descriptive_note: Descriptive Note
+    file_uri: File URI
+    xlink_title_attribute: Xlink Title Attribute
+    xlink_role_attribute: Xlink Role Attribute
+    xlink_arcrole_attribute: Xlink Arcrole Attribute
+    file_version_xlink_actuate_attribute: Xlink Actuate Attribute
+    file_version_xlink_show_attribute: Xlink Show Attribute
+    last_verified_date: Last Verified Date

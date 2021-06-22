@@ -1,8 +1,8 @@
-class AccessionsController <  ApplicationController
+class AccessionsController < ApplicationController
   include ResultInfo
 
   skip_before_action  :verify_authenticity_token
-  
+
   before_action(:only => [:show]) {
     process_slug_or_id(params)
   }
@@ -28,7 +28,7 @@ class AccessionsController <  ApplicationController
     end
     @repo_id = params.fetch(:rid, nil)
     if @repo_id
-      @base_search =  "/repositories/#{@repo_id}/accessions?"
+      @base_search = "/repositories/#{@repo_id}/accessions?"
       repo = archivesspace.get_record("/repositories/#{@repo_id}")
       @repo_name = repo.display_string
     else
@@ -38,7 +38,7 @@ class AccessionsController <  ApplicationController
     search_opts = default_search_opts( DEFAULT_AC_SEARCH_OPTS)
     search_opts['fq'] = ["repository:\"/repositories/#{@repo_id}\""] if @repo_id
     begin
-      set_up_and_run_search( DEFAULT_AC_TYPES, DEFAULT_AC_FACET_TYPES,  search_opts, params)
+      set_up_and_run_search( DEFAULT_AC_TYPES, DEFAULT_AC_FACET_TYPES, search_opts, params)
     rescue NoResultsError
       flash[:error] = I18n.t('search_results.no_results')
       redirect_back(fallback_location: '/') and return
@@ -47,22 +47,22 @@ class AccessionsController <  ApplicationController
       redirect_back(fallback_location: '/') and return
     end
 
+    @context = repo_context(@repo_id, 'accession')
     if @results['total_hits'] > 1
-      @search[:dates_within] = true if params.fetch(:filter_from_year,'').blank? && params.fetch(:filter_to_year,'').blank?
+      @search[:dates_within] = true if params.fetch(:filter_from_year, '').blank? && params.fetch(:filter_to_year, '').blank?
       @search[:text_within] = true
     end
     @sort_opts = []
     all_sorts = Search.get_sort_opts
     all_sorts.delete('relevance') unless params[:q].size > 1 || params[:q] != '*'
     all_sorts.keys.each do |type|
-       @sort_opts.push(all_sorts[type])
+      @sort_opts.push(all_sorts[type])
     end
 
     @page_title = I18n.t('accession._plural')
     @results_type = @page_title
     @no_statement = true
     render 'search/search_results'
-
   end
 
   def search
@@ -70,7 +70,7 @@ class AccessionsController <  ApplicationController
     @base_search = '/accessions/search?'
     page = Integer(params.fetch(:page, "1"))
     begin
-      set_up_and_run_search( DEFAULT_AC_TYPES, DEFAULT_AC_FACET_TYPES,  DEFAULT_AC_SEARCH_OPTS, params)
+      set_up_and_run_search( DEFAULT_AC_TYPES, DEFAULT_AC_FACET_TYPES, DEFAULT_AC_SEARCH_OPTS, params)
     rescue NoResultsError
       flash[:error] = I18n.t('search_results.no_results')
       redirect_back(fallback_location: '/') and return
@@ -81,19 +81,27 @@ class AccessionsController <  ApplicationController
     @page_title = I18n.t('accession._plural')
     @results_type = @page_title
     @search_title = I18n.t('search_results.search_for', {:type => I18n.t('accession._plural'), :term => params.fetch(:q)[0]})
-     render 'search/search_results'
+    render 'search/search_results'
   end
 
   def show
     uri = "/repositories/#{params[:rid]}/accessions/#{params[:id]}"
     @criteria = {}
-    @criteria['resolve[]']  = ['repository:id', 'resource:id@compact_resource', 'related_resource_uris:id', 'top_container_uri_u_sstr:id', 'digital_object_uris:id']
+    @criteria['resolve[]'] = ['repository:id', 'resource:id@compact_resource', 'related_resource_uris:id', 'top_container_uri_u_sstr:id', 'digital_object_uris:id']
     begin
-      @result =  archivesspace.get_record(uri, @criteria)
+      @result = archivesspace.get_record(uri, @criteria)
       @page_title = @result.display_string
       @context = []
-      @context.unshift({:uri => @result.resolved_repository['uri'], :crumb =>  @result.resolved_repository['name']})
-      @context.push({:uri => '', :crumb => @result.display_string })
+      @context.unshift({
+        :uri => @result.resolved_repository['uri'],
+        :crumb => @result.resolved_repository['name'],
+        :type => 'repository'
+      })
+      @context.push({
+        :uri => '',
+        :crumb => @result.display_string,
+        :type => 'accession'
+      })
       fill_request_info
     rescue RecordNotFound
       record_not_found(uri, 'accession')

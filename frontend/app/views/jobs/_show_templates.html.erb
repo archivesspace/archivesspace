@@ -33,6 +33,10 @@
   <section id="basic_information">
     <h3><%= I18n.t("job._frontend.section.basic_information") %></h3>
 
+    <%= render_plugin_partials("top_of_basic_information_job",
+                               :form => form,
+                               :record => @job) %>
+
     <%= form.label_with_field "import_type", job['import_type'] %>
 
     <% if job["job_type"] != 'generate_slugs_job' && job["job_type"] != 'generate_arks_job' %>
@@ -48,6 +52,11 @@
     </div>
 
     <% form.emit_template job.job['jsonmodel_type'], job.job %>
+
+    <%= render_plugin_partials("basic_information_job",
+                               :form => form,
+                               :record => @job) %>
+
 
     <%= display_audit_info(@job) %>
   </section>
@@ -102,6 +111,25 @@
 
 <% end %>
 
+<% define_template "bulk_import_job", jsonmodel_definition(:bulk_import_job) do |form, job| %>
+
+    <div class="form-group">
+      <label class="col-sm-3 control-label"><%= I18n.t("actions.bulk_import")  %></label>
+      <div class="col-sm-9 controls label-only"><%= job['filename'].html_safe %></div>
+    </div>
+
+    <div class="form-group">
+      <label class="col-sm-3 control-label"><%= I18n.t("bulk_import_job.load_type")  %></label>
+      <div class="col-sm-9 controls label-only"><%= I18n.t("bulk_import_job.type.#{job['load_type']}") %></div>
+    </div>
+
+    <div class="form-group">
+      <label class="col-sm-3 control-label"><%= I18n.t("bulk_import_job.content_type")  %></label>
+      <div class="col-sm-9 controls label-only"><%= I18n.t("bulk_import_job.type.#{job['content_type']}") %></div>
+    </div>
+
+<% end %>
+
 <% define_template "report_job", jsonmodel_definition(:report_job) do |form, job| %>
 
     <div class="form-group">
@@ -113,10 +141,28 @@
 
 <% end %>
 
+<% define_template "top_container_linker_job", jsonmodel_definition(:top_container_linker_job) do |form, job| %>
+
+    <div class="form-group">
+      <label class="col-sm-3 control-label"><%= I18n.t("actions.bulk_import")  %></label>
+      <div class="col-sm-9 controls label-only"><%= job['filename'].html_safe %></div>
+    </div>
+
+    <div class="form-group">
+      <label class="col-sm-3 control-label"><%= I18n.t("top_container_linker_job.load_type")  %></label>
+      <div class="col-sm-9 controls label-only"><%= I18n.t("top_container_linker_job.type.#{job['load_type']}") %></div>
+    </div>
+
+    <div class="form-group">
+      <label class="col-sm-3 control-label"><%= I18n.t("top_container_linker_job.content_type")  %></label>
+      <div class="col-sm-9 controls label-only"><%= I18n.t("bulk_import_job.type.#{job['content_type']}") %></div>
+    </div>
+
+<% end %>
 
 <%# Now create a template for all job types not handled above - eg from plugins %>
 <% job_types.keys.each do |type| %>
-  <% next if ['container_labels_job', 'find_and_replace_job', 'print_to_pdf_job', 'import_job', 'report_job'].include?(type) %>
+  <% next if ['container_labels_job', 'find_and_replace_job', 'print_to_pdf_job', 'import_job', 'bulk_import_job', 'report_job'].include?(type) %>
   <% define_template(type, jsonmodel_definition(type.intern)) do |form, job| %>
 
     <% begin %>

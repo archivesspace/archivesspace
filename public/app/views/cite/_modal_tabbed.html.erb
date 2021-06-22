@@ -1,0 +1,32 @@
+<%# handles modals.  Requires: modal_id, title, button_text, cite_item, cite_item_description %>
+<div class="modal fade" id="<%=modal_id %>" tabindex="-1" role="dialog" aria-labelledby="<%= modal_id%>Label" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h3 class="modal-title" id="<%= modal_id%>Label"><%= title %></h3>
+      </div>
+      <div class="modal-body">
+        <!-- Nav tabs via https://getbootstrap.com/docs/3.4/javascript/#markup -->
+        <ul class="nav nav-tabs" role="tablist">
+          <li role="presentation" class="<%='active' if AppConfig[:pui_active_citation_tab_item]%>">
+            <a href="#item" aria-controls="item" role="tab" data-toggle="tab" ><%= I18n.t("actions.cite_item") %></a>
+          </li>
+          <li role="presentation" class="<%='active' if !AppConfig[:pui_active_citation_tab_item]%>">
+            <a href="#description" aria-controls="description" role="tab" data-toggle="tab"><%= I18n.t("actions.cite_item_description") %></a>
+          </li>
+        </ul>
+
+        <!-- Tab panes -->
+        <section class="tab-content" style="margin-top: 15px;">
+          <p role="tabpanel" class="tab-pane <%='active' if AppConfig[:pui_active_citation_tab_item]%>" data-js="citation" id="item"><%= item %></p>
+          <p role="tabpanel" class="tab-pane <%='active' if !AppConfig[:pui_active_citation_tab_item]%>" data-js="citation" id="description"><%= description %></p>
+        </section>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal"><%= I18n.t("actions.close") %></button>
+        <button type="button" class="btn btn-primary action-btn"></button>
+      </div>
+    </div>
+  </div>
+</div>

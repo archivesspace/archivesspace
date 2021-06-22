@@ -39,6 +39,8 @@ end
 class MergeRequestFailed < StandardError
 end
 
+class EnumerationMigrationFailed < StandardError
+end
 
 class BatchDeleteFailed < StandardError
   attr_accessor :errors
@@ -105,8 +107,6 @@ class ImportException < StandardError
 end
 
 
-
-
 module Exceptions
 
   module ResponseMappings
@@ -132,6 +132,10 @@ module Exceptions
 
         error BadParamsException do
           json_response({:error => request.env['sinatra.error'].params}, 400)
+        end
+
+        error ReadOnlyException do
+          json_response({:error => request.env['sinatra.error']}, 409)
         end
 
         error UserNotFoundException do
@@ -182,6 +186,11 @@ module Exceptions
           json_response({:error => request.env['sinatra.error']}, 400)
         end
 
+        error EnumerationMigrationFailed do
+          Log.exception(request.env['sinatra.error'])
+          json_response({:error => request.env['sinatra.error']}, 400)
+        end
+
         error Sequel::DatabaseError do
           Log.exception(request.env['sinatra.error'])
           json_response({:error => {:db_error => ["Database integrity constraint conflict: #{request.env['sinatra.error']}"]}}, 400)
@@ -217,7 +226,9 @@ module Exceptions
             Log.error('Unhandled exception!')
             Log.exception(request.env['sinatra.error'])
 
-            json_response({:error => ex.message}, 500)
+            message = ex.message + ": " + ex.backtrace.join("\n\t")
+
+            json_response({:error => message}, 500)
           end
         end
       end

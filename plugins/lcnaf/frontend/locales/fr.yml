@@ -2,6 +2,7 @@ fr:
   plugins:
     lcnaf:
       label: Import LCNAF
+      authority: Source d'autorité
       search:
         family_name: Partie principale
         given_name: Reste du nom
@@ -18,6 +19,7 @@ fr:
         import_success_message: Redirection vers la page de statut de tâche...
         import_error: Erreur lors de l'import à partir de LCNAF
         search_error: Erreur de recherche
+        search_error_message: Un problème a été rencontré tout en complétant cette recherche. S'il vous plaît assurer le service tiers est toujours disponible.
         service_locked: Items déjà sélectionnés
         service_locked_message: Veuillez importer ou enlever les items sélectionnés avant de changer de service d'enregistrement
         service_warning: Ce plugin dépend de services tiers qui peuvent être ou non disponibles ou maintenus.

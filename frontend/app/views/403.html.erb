@@ -6,6 +6,6 @@
   <h2><%= I18n.t("errors.error_403") %></h2>
   <p><%= I18n.t("errors.error_403_message") %></p>
   <% if session[:user].nil? %>
-    <p><%= I18n.t("navbar.login_expired_link", :link => link_to(I18n.t("navbar.login"), :controller => :welcome, :action => :index, :login => true)).html_safe %></p>
+    <p><%= I18n.t("login.login_expired_link", :link => link_to(I18n.t("login.login"), :controller => :welcome, :action => :index, :login => true)).html_safe %></p>
   <% end %>
 </div>

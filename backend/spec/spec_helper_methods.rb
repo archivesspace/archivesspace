@@ -41,6 +41,31 @@ module SpecHelperMethods
     )
   end
 
+  def create_top_container(opts = {})
+    TopContainer.create_from_json(
+      build(:json_top_container, opts),
+      :repo_id => $repo_id
+    )
+  end
+
+  def create_sub_container(opts = {})
+    SubContainer.create_from_json(
+      build(:json_sub_container, opts),
+      :repo_id => $repo_id
+    )
+  end
+
+  def create_location(opts = {})
+    Location.create_from_json(
+      build(:json_location, opts)
+    )
+  end
+
+  def create_container_profile(opts = {})
+    ContainerProfile.create_from_json(
+      build(:json_container_profile, opts)
+    )
+  end
 
   def create_event(opts = {})
     Event.create_from_json(build(:json_event, opts),
@@ -76,7 +101,7 @@ module SpecHelperMethods
   end
 
 
-  def as_test_user(username)
+  def as_test_user(username, transaction=false)
     old_user = Thread.current[:active_test_user]
     Thread.current[:active_test_user] = User.find(:username => username)
     orig = RequestContext.get(:enforce_suppression)
@@ -88,8 +113,13 @@ module SpecHelperMethods
                            !Thread.current[:active_test_user].can?(:manage_repository))
         RequestContext.put(:current_username, username)
       end
-
-      yield
+      if transaction
+        DB.open do |db|
+          yield
+        end
+      else
+        yield
+      end
     ensure
       RequestContext.put(:enforce_suppression, orig) if RequestContext.active?
       RequestContext.put(:current_username, old_username) if RequestContext.active?

@@ -1,6 +1,6 @@
 class CollectionManagementController < ApplicationController
 
-  set_access_control  "view_repository" => [:index]
+  set_access_control "view_repository" => [:index]
 
 
   def index

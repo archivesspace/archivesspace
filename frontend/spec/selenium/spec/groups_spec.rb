@@ -102,7 +102,6 @@ describe 'Groups' do
   end
 
   it 'can log in with the user just created' do
-    @driver.find_element(:link, 'Sign In').click
     @driver.clear_and_send_keys([:id, 'user_username'], @user.username)
     @driver.clear_and_send_keys([:id, 'user_password'], @user.password)
     @driver.click_and_wait_until_gone(:id, 'login')

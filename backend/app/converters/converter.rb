@@ -66,15 +66,15 @@ class Converter
   # forcibly remove files in the event of an interruption
   def remove_files
     @batch.each_open_file_path do |path|
-      3.times do |i| 
-        begin 
+      3.times do |i|
+        begin
           File.unlink(path)
-          break 
+          break
         rescue Errno::EACCES # sometimes windows does not like this. let's wait and retry.
           sleep(1) # just in case it's open by something else..
-          next unless i == 2 
+          next unless i == 2
           $stderr.puts "Cannot remove #{path}...giving up."
-        end 
+        end
       end
     end
   end
@@ -118,9 +118,18 @@ class Converter
   end
 
 
-  def self.for(type, input_file)
+  def self.for(type, input_file, opts = {})
     Array(@converters).each do |converter|
       converter = converter.instance_for(type, input_file)
+
+      if converter && converter.respond_to?(:set_import_events)
+        if opts[:import_events]
+          converter.set_import_events
+        else
+          converter.unset_import_events
+        end
+      end
+
       return converter if converter
     end
 

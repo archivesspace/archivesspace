@@ -47,7 +47,6 @@ class ArchivesSpaceService
 
 
   def self.set_up_base_permissions
-
     if not Repository[:repo_code => Repository.GLOBAL]
       Repository.create(:repo_code => Repository.GLOBAL,
                         :name => "Global repository",

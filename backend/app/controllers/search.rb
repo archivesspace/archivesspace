@@ -25,6 +25,8 @@ class ArchivesSpaceService < Sinatra::Base
       :optional => true],
      ["filter", JSONModel(:advanced_query), "A json string containing the advanced query to filter by",
       :optional => true],
+     ["filter_query", [String], "Search queries to be applied as a filter to the results.",
+      :optional => true],
      ["exclude",
       [String],
       "A list of document IDs that should be excluded from results",
@@ -52,7 +54,7 @@ class ArchivesSpaceService < Sinatra::Base
     .description("Search this repository")
     .params(["repo_id", :repo_id],
             *BASE_SEARCH_PARAMS)
-    .paginated(true)
+    .paged(true)
     .permissions([:view_repository])
     .returns([200, ""]) \
   do
@@ -68,7 +70,7 @@ class ArchivesSpaceService < Sinatra::Base
     .description("Search this archive")
     .params(*BASE_SEARCH_PARAMS)
     .permissions([:view_all_records])
-    .paginated(true)
+    .paged(true)
     .returns([200, ""]) \
   do
     json_response(Search.search(params, nil))
@@ -79,7 +81,7 @@ class ArchivesSpaceService < Sinatra::Base
     .description("Search across repositories")
     .params(*BASE_SEARCH_PARAMS)
     .permissions([])
-    .paginated(true)
+    .paged(true)
     .returns([200, ""]) \
   do
     json_response(Search.search(params.merge(:type => ['repository']), nil))
@@ -122,9 +124,11 @@ class ArchivesSpaceService < Sinatra::Base
 
   Endpoint.get_or_post('/search/subjects')
     .description("Search across subjects")
+    .deprecated("Deprecated in favor of calling the general search endpoint with an " +
+                " optional type parameter. For example: /repositories/:repo_id/search?type[]=subject")
     .params(*BASE_SEARCH_PARAMS)
     .permissions([])
-    .paginated(true)
+    .paged(true)
     .returns([200, ""]) \
   do
     json_response(Search.search(params.merge(:type => ['subject']), nil))

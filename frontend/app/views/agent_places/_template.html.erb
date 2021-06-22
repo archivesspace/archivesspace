@@ -1,0 +1,69 @@
+<% r = @required ? @required.values : [] %>
+
+<% define_template "agent_place", jsonmodel_definition(:agent_place) do |form| %>
+  <div class="subrecord-form-fields">
+    <div class="agent-record-control-container">
+
+      <%= form.label_and_select "place_role",
+        [""] + form.possible_options_for("place_role", false),
+        :required => is_required_by_admin?(r, "agent_places", "place_role") %>
+
+  		<%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "subjects", :template_erb => "subjects/template", :template => "subrecord_subject_agent_place", :heading_text => "Place Subject", :heading_size => "h4"} %>
+
+	    <%= render_aspace_partial :partial => "notes/form", :locals => {:form => form, :all_note_types => note_types_for("agent_place"), :section_id => "agent_place_notes", :nested_note_jsonmodel => "agent_place", :header_size => "h4", :show_apply_note_order_action => false} %>
+
+      <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "dates", :template_erb => "dates/template", :template => "structured_date_label_usage", :heading_text => I18n.t("name._frontend.section.dates"), :heading_size => "h4"} %>
+
+    </div>
+  </div>
+<% end %>
+
+<% define_template "agent_place_required", jsonmodel_definition(:agent_place) do |form| %>
+  <% field_names = ["place_role"] %>
+  <% field_names.each do |field_name| %>
+    <% if form.required?(field_name) %>
+      <%= form.label_and_readonly field_name %>
+    <% else %>
+      <%= form.label_and_req_boolean field_name %>
+    <% end %>
+
+    <%= form.label_and_disabled_checkbox "Notes" %>
+    <%= form.label_and_disabled_checkbox "Dates" %>
+  <% end %>
+<% end %>
+
+<% define_template "agent_place_merge_target", jsonmodel_definition(:agent_place) do |form| %>
+
+  <%= form.record_level_merge_controls(form, "agent_places", false) %>
+
+  <% field_names = ["place_role"] %>
+  <% field_names.each do |field_name| %>
+    <%= form.label_and_readonly field_name %>
+  <% end %>
+
+  <%= render_aspace_partial :partial => "subjects/show_inline", :locals => {:subjects => form.obj['subjects'], :section_id => "target_place_subjects_", :section_title => I18n.t("agent_place.subjects"), :heading_size => "h4"} %>
+
+  <%= form.notes_preview %>
+
+  <%= render_aspace_partial :partial => "structured_dates/show_inline", :locals => { :dates => form.obj["dates"], :section_title => I18n.t("agent_place.dates"), :section_id => "target_place_dates", :heading_size => "h4"} %>
+<% end %>
+
+<% define_template "agent_place_merge_victim", jsonmodel_definition(:agent_place) do |form| %>
+
+  <% disable_replace = false %>
+
+  <%= form.record_level_merge_controls(form, "agent_places", true, !disable_replace) %>
+
+  <% field_names = ["place_role"] %>
+  <% field_names.each do |field_name| %>
+    <%= form.label_and_readonly field_name %>
+  <% end %>
+  <%= form.hidden_input "id", form.obj["id"] %>
+
+  <%= render_aspace_partial :partial => "subjects/show_inline", :locals => {:subjects => form.obj['subjects'], :section_id => "victim_place_subjects_", :section_title => I18n.t("agent_place.subjects"), :heading_size => "h4"} %>
+
+  <%= form.notes_preview %>
+
+  <%= render_aspace_partial :partial => "structured_dates/show_inline", :locals => { :dates => form.obj["dates"], :section_title => I18n.t("agent_place.dates"), :section_id => "victim_place_dates", :heading_size => "h4"} %>
+
+<% end %>

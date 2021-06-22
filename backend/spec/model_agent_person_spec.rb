@@ -35,6 +35,28 @@ describe 'Agent model' do
   end
 
 
+  it "will allow one contact to be flagged 'is_representative'" do
+    c1 = build(:json_agent_contact, is_representative: false)
+    c2 = build(:json_agent_contact, is_representative: true)
+    c3 = build(:json_agent_contact, is_representative: false)
+
+    expect {
+      AgentPerson.create_from_json(build(:json_agent_person, :agent_contacts => [c1, c2, c3]))
+    }.to_not raise_error(Sequel::ValidationFailed)
+  end
+
+
+  it "won't allow more than one contact to be flagged 'is_representative'" do
+    c1 = build(:json_agent_contact, is_representative: false)
+    c2 = build(:json_agent_contact, is_representative: true)
+    c3 = build(:json_agent_contact, is_representative: true)
+
+    expect {
+      AgentPerson.create_from_json(build(:json_agent_person, :agent_contacts => [c1, c2, c3]))
+    }.to raise_error(Sequel::ValidationFailed)
+  end
+
+
   it "for authorized names, requires rules to be set if source is not provided" do
     expect { n1 = build(:json_name_person, :rules => nil, :source => nil, :authorized => true).to_hash }.to raise_error(JSONModel::ValidationException)
   end
@@ -91,8 +113,8 @@ describe 'Agent model' do
 
   it "truncates an auto-generated sort name of more than 255 chars" do
     name = build(:json_name_person,
-                 :primary_name => (0..200).map{ rand(3)==1?rand(10):(65 + rand(25)).chr }.join,
-                 :rest_of_name => (0..200).map{ rand(3)==1?rand(10):(65 + rand(25)).chr }.join
+                 :primary_name => (0..200).map { rand(3)==1?rand(10):(65 + rand(25)).chr }.join,
+                 :rest_of_name => (0..200).map { rand(3)==1?rand(10):(65 + rand(25)).chr }.join
                  )
 
     agent = AgentPerson.create_from_json(build(:json_agent_person, :names => [name]))
@@ -103,8 +125,8 @@ describe 'Agent model' do
   it "allows dates_of_existence for an agent, and filters out other labels" do
     n = build(:json_name_person)
 
-    d1 = build(:json_date, :label => 'existence')
-    d2 = build(:json_date, :label => 'creation')
+    d1 = build(:json_structured_date_label, :date_label => 'existence')
+    d2 = build(:json_structured_date_label, :date_label => 'creation')
 
     agent = AgentPerson.create_from_json(build(:json_agent_person, {:names => [n], :dates_of_existence => [d1]}))
 
@@ -246,7 +268,7 @@ describe 'Agent model' do
                      :names => [build(:json_name_person,
                      'authority_id' => 'thesame'
                      )])
-    json2 =    build( :json_agent_person,
+    json2 = build( :json_agent_person,
                      :names => [build(:json_name_person,
                      'authority_id' => 'thesame'
                      )])
@@ -309,6 +331,52 @@ describe 'Agent model' do
                                                :names => [unique_name, duplicated_name, another_duplicated_name]))
 
     expect(AgentPerson.to_jsonmodel(agent.id).names.length).to eq(2)
+  end
+
+
+  it "preserves the display name when combining two unauthorized names" do
+    unique_name = build(:json_name_person, 'authorized' => true)
+
+    name_template = build(:json_name_person, 'authorized' => false)
+    values = name_template.to_hash.reject {|name, val| val.nil?}
+
+    duplicated_name = JSONModel(:name_person).from_hash(values)
+
+    another_duplicated_name = JSONModel(:name_person).from_hash(values)
+    another_duplicated_name.is_display_name = true
+
+    agent = AgentPerson.create_from_json(build(:json_agent_person,
+                                               :names => [unique_name, duplicated_name, another_duplicated_name]))
+
+    expect(AgentPerson.to_jsonmodel(agent.id).names.length).to eq(2)
+    expect(AgentPerson.to_jsonmodel(agent.id).names[1]['is_display_name']).to be_truthy
+  end
+
+  it "appends the name date to the agent software sort name" do
+    json = build(:json_agent_person,
+                 :names => [build(:json_name_person,
+                    'dates' => '1981'
+                )])
+
+    AgentPerson.create_from_json(json)
+
+    name_person = json['names'][0]
+    expect(name_person['sort_name']).to match(/1981/)
+  end
+
+  it "preserves the display name when combining the authorized name with an unauthorized name" do
+    authorized_name = build(:json_name_person, 'authorized' => true)
+
+    values = authorized_name.to_hash.reject {|name, val| val.nil?}
+    duplicated_name = JSONModel(:name_person).from_hash(values)
+    duplicated_name.authorized = false
+    duplicated_name.is_display_name = true
+
+    agent = AgentPerson.create_from_json(build(:json_agent_person,
+                                               :names => [authorized_name, duplicated_name]))
+
+    expect(AgentPerson.to_jsonmodel(agent.id).names.length).to eq(1)
+    expect(AgentPerson.to_jsonmodel(agent.id).names[0]['is_display_name']).to be_truthy
   end
 
 
@@ -440,7 +508,7 @@ describe 'Agent model' do
 
           expected_slug = clean_slug(get_generated_name_for_agent(agent_person))
 
-          expect(agent_person[:slug]).to eq(expected_slug)
+          expect(agent_person[:slug]).to match(expected_slug)
         end
 
         it "autogenerates a slug via identifier when configured to generate by id" do
@@ -455,11 +523,20 @@ describe 'Agent model' do
 
           expected_slug = clean_slug(agent_name_person[:authority_id])
 
-          expect(agent_person[:slug]).to eq(expected_slug)
+          expect(agent_person[:slug]).to match(expected_slug)
         end
 
         it "turns off autogen if slug is blank" do
-          agent_person = AgentPerson.create_from_json(build(:json_agent_person, :is_slug_auto => true))
+          AppConfig[:auto_generate_slugs_with_id] = true
+
+          agent_name_person = build(:json_name_person, :authority_id => rand(100000).to_s)
+          agent_person = AgentPerson.create_from_json(
+            build(:json_agent_person,
+                  :is_slug_auto => true,
+                  :names => [agent_name_person])
+          )
+          expect(agent_person[:is_slug_auto]).to eq(1)
+
           agent_person.update(:slug => "")
           expect(agent_person[:is_slug_auto]).to eq(0)
         end
@@ -476,7 +553,7 @@ describe 'Agent model' do
 
           expected_slug = clean_slug(get_generated_name_for_agent(agent_person))
 
-          expect(agent_person[:slug]).to eq(expected_slug)
+          expect(agent_person[:slug]).to match(expected_slug)
         end
 
         it "dedupes slug when autogenerating by name" do
@@ -496,8 +573,8 @@ describe 'Agent model' do
                 :names => [agent_name_person2])
           )
 
-          expect(agent_person1[:slug]).to eq("foo")
-          expect(agent_person2[:slug]).to eq("foo_1")
+          expect(agent_person1[:slug]).to match("foo")
+          expect(agent_person2[:slug]).to match("foo_1")
         end
 
 

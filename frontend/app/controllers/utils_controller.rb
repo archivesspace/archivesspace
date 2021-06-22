@@ -1,4 +1,4 @@
-class UtilsController  < ApplicationController
+class UtilsController < ApplicationController
 
   set_access_control  :public => [:generate_sequence, :shortcuts, :note_order],
                       "view_repository" => [:list_properties]

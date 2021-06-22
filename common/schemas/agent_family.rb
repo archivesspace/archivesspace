@@ -22,7 +22,12 @@
 
       "related_agents" => {
         "type" => "array",
-        "items" => {"type" => [{"type" => "JSONModel(:agent_relationship_earlierlater) object"},
+        "items" => {"type" => [{"type" => "JSONModel(:agent_relationship_parentchild) object"},
+                               {"type" => "JSONModel(:agent_relationship_earlierlater) object"},
+                               {"type" => "JSONModel(:agent_relationship_identity) object"},
+                               {"type" => "JSONModel(:agent_relationship_hierarchical) object"},
+                               {"type" => "JSONModel(:agent_relationship_temporal) object"},
+                               {"type" => "JSONModel(:agent_relationship_family) object"},
                                {"type" => "JSONModel(:agent_relationship_associative) object"}]},
       }
 

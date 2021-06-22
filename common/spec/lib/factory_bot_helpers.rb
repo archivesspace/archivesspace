@@ -11,9 +11,9 @@ module FactoryBotSyntaxHelpers
                raise "Not sure how to sample this: #{enum.inspect}"
              end
 
-    exclude += ['other_unmapped']
+    exclude += ['other_unmapped', 'cubits'] # cubits are smuggled in, don't allow them in sample
 
-    values.reject{|i| exclude.include?(i) }.sample
+    values.reject {|i| exclude.include?(i) }.sample
   end
 
 
@@ -49,7 +49,7 @@ FactoryBot::Syntax::Default::DSL.send(:include, FactoryBotSyntaxHelpers)
 
 FactoryBot.define do
 
-  sequence(:alphanumstr) { (0..4).map{ rand(3)==1?rand(1000):(65 + rand(25)).chr }.join }
+  sequence(:alphanumstr) { (0..4).map { rand(3)==1?rand(1000):(65 + rand(25)).chr }.join }
   sequence(:ark_name) { sample(JSONModel(:ark_name).schema['properties']) }
   sequence(:number) { rand(100).to_s }
 
@@ -117,5 +117,5 @@ FactoryBot.define do
   sequence(:term) { |n| "Term #{n}" }
   sequence(:term_type) { sample(JSONModel(:term).schema['properties']['term_type']) }
 
-  sequence(:url) {|n| "http://www.example-#{n}.com"}
+  sequence(:url) {|n| "http://www.example-#{n}-#{Time.now.to_i}.com"}
 end

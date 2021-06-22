@@ -10,7 +10,6 @@ class PrintToPDFRunner < JobRunner
 
   def run
     begin
-
       RequestContext.open( :repo_id => @job.repo_id) do
         parsed = JSONModel.parse_reference(@json.job["source"])
         resource = Resource.get_or_die(parsed[:id])

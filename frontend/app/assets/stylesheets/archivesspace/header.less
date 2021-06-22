@@ -61,54 +61,14 @@
   margin-right: -1px;
 }
 
-// Login Form
-.login .btn.btn-primary {
-  width: 100%;
-  margin-left: 0;
-}
-
-.login-message {
-  display: none !important;
-}
-
-.error .login-message {
-  display: block !important;
-}
-
-.login [class*="alert-"] {
-  display: none;
-}
-
 // Fix for login on mobile
 .collapsing, .collapse.in {
   display: block;
   width:100%;
-  .navbar-login {
-    width: 100%;
-    margin: auto;
-    padding-top: 10px;
-    .login-dropdown .dropdown-menu {
-      width:100%;
-      position: inherit;
-      float: none;
-    }
-  }
 }
 
 .navbar-login > li {
   float: left;
-}
-
-.inline-login-modal {
-  width: 300px;
-  margin-left: -150px;
-
-  input {
-    width: 250px;
-  }
-  .btn {
-    width: 265px;
-  }
 }
 
 .user-container .popover {
@@ -215,10 +175,6 @@ header .inset-label {
   .global-header,
   .repository-header {
     padding:  0;
-    .navbar {
-      position: relative;
-      margin: 0 -20px;
-    }
   }
 }
 @media (max-width: 767px) {
@@ -227,7 +183,7 @@ header .inset-label {
     padding: 0;
     .navbar {
       position: relative;
-      margin: 0;
+      float: right;
     }
   }
 }

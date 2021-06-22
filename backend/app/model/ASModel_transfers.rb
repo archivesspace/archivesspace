@@ -8,7 +8,6 @@ module ASModel
 
 
     def transfer_to_repository(target_repository, transfer_group = [])
-
       if self.class.columns.include?(:repo_id)
         old_uri = self.uri
 

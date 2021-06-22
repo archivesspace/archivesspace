@@ -1,0 +1,60 @@
+<% r = @required ? @required.values : [] %>
+
+<% define_template "agent_record_identifiers", jsonmodel_definition(:agent_record_identifier) do |form| %>
+  <div class="subrecord-form-fields agent_record_identifier_form">
+    <h3 class="subrecord-form-heading">
+      <span class="badge badge-info is-primary-label"><%= I18n.t("agent_record_identifiers.is_primary") %></span>
+
+      <button class="btn btn-small btn-primary-id-toggle"><%= I18n.t("name._frontend.action.make_primary") %></button>
+
+      <%= form.hidden_input "primary_identifier", form["primary_identifier"] ? 1 : 0 %>
+    </h3>
+ 
+    <div class="agent-record-control-container">
+      <%= form.label_and_textfield "record_identifier",  {:field_opts => {:size => 30, :class => "form-control"} }%>
+      <%= form.label_and_select "source", [""] + form.possible_options_for("source", false) %>
+      <%= form.label_and_select "identifier_type", 
+          [""] + form.possible_options_for("identifier_type", false),
+          :required => is_required_by_admin?(r, "agent_record_identifiers", "identifier_type") %>
+    </div>
+  </div>
+<% end %>
+
+<% define_template "agent_record_identifier_required", jsonmodel_definition(:agent_record_identifier) do |form| %>
+  <% field_names = ["record_identifier", "source", "identifier_type"] %>
+  <% field_names.each do |field_name| %>
+    <% if form.required?(field_name) %>
+      <%= form.label_and_readonly field_name %>
+    <% else %>
+      <%= form.label_and_req_boolean field_name %>
+    <% end %>
+  <% end %>
+<% end %>
+
+<% define_template "agent_record_identifier_merge_target", jsonmodel_definition(:agent_record_identifier) do |form| %>
+
+  <%= form.record_level_merge_controls(form, "agent_record_identifier", false) %>
+  
+  <% if form.obj['primary_identifier'] %><span class="badge"><%= I18n.t("agent_record_identifier.primary") %></span><% end %>
+
+  <% field_names = ["record_identifier", "source", "identifier_type"] %>
+  <% field_names.each do |field_name| %>
+    <%= form.label_and_readonly field_name %>
+  <% end %>
+<% end %>
+
+<% define_template "agent_record_identifier_merge_victim", jsonmodel_definition(:agent_record_identifier) do |form| %>
+
+  <% disable_replace = false %>
+
+  <%= form.record_level_merge_controls(form, "agent_record_identifier", true, !disable_replace) %>
+
+  <% if form.obj['primary_identifier'] %><span class="badge"><%= I18n.t("agent_record_identifier.primary") %></span><% end %>
+
+  <%= form.label_and_readonly "record_identifier" %>
+  <%= form.label_and_readonly "source" %>
+  <%= form.label_and_readonly "identifier_type" %>
+
+  <%= form.hidden_input "id", form.obj["id"] %>
+
+<% end %>

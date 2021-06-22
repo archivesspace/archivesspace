@@ -95,7 +95,7 @@ class ArchivesSpaceIndexer < Sinatra::Base
   configure do
     begin
       # Load plugin init.rb files (if present)
-      ASUtils.find_local_directories('indexer').each do |dir|
+      ASUtils.order_plugins(ASUtils.find_local_directories('indexer')).each do |dir|
         init_file = File.join(dir, "plugin_init.rb")
         if File.exists?(init_file)
           load init_file
@@ -106,7 +106,7 @@ class ArchivesSpaceIndexer < Sinatra::Base
     end
 
     set :logging, false 
-    Log.noisiness "Logger::#{AppConfig[:backend_log_level].upcase}".constantize
+    Log.noisiness "Logger::#{AppConfig[:indexer_log_level].upcase}".constantize
 
     main
   end

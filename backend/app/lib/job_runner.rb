@@ -1,7 +1,9 @@
 class JobRunner
 
   class JobRunnerNotFound < StandardError; end
+
   class JobRunnerError < StandardError; end
+
   class BackgroundJobError < StandardError; end
 
   RegisteredRunner = Struct.new(:type,
@@ -85,10 +87,9 @@ class JobRunner
 
 
   def self.registered_job_types
-    Hash[ @@runners.reject{|k,v| v[:hidden] }.map { |k, v| [k, {:create_permissions => v.create_permissions,
+    Hash[ @@runners.reject {|k, v| v[:hidden] }.map { |k, v| [k, {:create_permissions => v.create_permissions,
                                                                 :cancel_permissions => v.cancel_permissions}] } ]
   end
-
 
   def initialize(job)
     @job = job
@@ -115,9 +116,28 @@ class JobRunner
     @job_canceled.value
   end
 
-
   def cancelation_signaler(canceled)
     @job_canceled = canceled
+  end
+
+  def parse_job_params_string(job_params)
+    param_string = job_params[1..-2].delete('\\\\')
+    params = ASUtils.json_parse(param_string)
+    params = symbol_keys(params)
+    params
+  end
+
+  def symbol_keys(hash)
+    h = hash.map do |k, v|
+      v_sym = if v.instance_of? Hash
+                v = symbol_keys(v)
+              else
+                v
+              end
+
+      [k.to_sym, v_sym]
+    end
+    Hash[h]
   end
 
 end

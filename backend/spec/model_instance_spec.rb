@@ -86,10 +86,10 @@ describe 'Instance model' do
 
   it "throws an error if you supply a digital object URI for a non-digital object type" do
     expect {
-    JSONModel(:instance)
-      .from_hash(:digital_object => {:ref => '/repositories/#{$repo_id}/digital_objects/123'},
-                 :instance_type => 'text')
-      .validate
+      JSONModel(:instance)
+        .from_hash(:digital_object => {:ref => '/repositories/#{$repo_id}/digital_objects/123'},
+                   :instance_type => 'text')
+        .validate
     }.to raise_error(JSONModel::ValidationException)
   end
 

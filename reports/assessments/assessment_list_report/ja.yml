@@ -1,0 +1,6 @@
+ja:
+  reports:
+    assessment_list_report:
+      description: 作成されたすべての評価レコード
+      title: 評価記録リスト
+      identifier_prefix: 評価

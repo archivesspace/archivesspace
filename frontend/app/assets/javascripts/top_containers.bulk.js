@@ -11,6 +11,22 @@ function BulkContainerSearch($search_form, $results_container, $toolbar) {
 
   this.setup_form();
   this.setup_results_list();
+  // If there is any stored search parameters and we're still looking at the same repository, reload them
+  // when navigating or refreshing. Else wipe the stored search params.
+  if ($(".repo-container > div > a").attr("href") === sessionStorage.getItem("currentRepository")) {
+    var data = sessionStorage.getItem("top_container_search_data");
+    if (data != null && data != undefined) {
+      var parsed_data = JSON.parse(data);
+      $.each( parsed_data, function( key, value ) {
+        $("#"+key).val(value);
+      });
+      this.perform_search(parsed_data);
+      this.update_export_button(parsed_data);
+    }
+  } else {
+    sessionStorage.setItem("top_container_search_data", null)
+    sessionStorage.setItem("currentRepository", null)
+  }
 }
 
 BulkContainerSearch.prototype.setup_form = function() {
@@ -20,7 +36,18 @@ BulkContainerSearch.prototype.setup_form = function() {
 
   this.$search_form.on("submit", function(event) {
     event.preventDefault();
+    //Store the search parameters so they can be reloaded when
+    //navigating or refreshing
+    var values = {};
+    $.each(self.$search_form.serializeArray(), function(i, field) {
+    	if (field.name != 'authenticity_token' && field.name != 'utf8' && field.value != ''){
+    		values[field.name] = field.value;
+        }
+    });
+    sessionStorage.setItem("top_container_search_data", JSON.stringify(values));
+    sessionStorage.setItem("currentRepository", $(".repo-container > div > a").attr("href"))
     self.perform_search(self.$search_form.serializeArray());
+    self.update_export_button(values);
   });
 };
 
@@ -88,7 +115,7 @@ BulkContainerSearch.prototype.setup_results_list = function(docs) {
 BulkContainerSearch.prototype.update_button_state = function() {
   var self = this;
   var checked_boxes = $("tbody :checkbox:checked", self.$results_container);
-  var delete_btn = self.$toolbar.find(".btn");
+  var delete_btn = self.$toolbar.find(".btn-default");
 
   if (checked_boxes.length > 0) {
     var selected_records = $.makeArray(checked_boxes.map(function() {return $(this).val();}));
@@ -102,10 +129,82 @@ BulkContainerSearch.prototype.update_button_state = function() {
   }
 };
 
+BulkContainerSearch.prototype.update_export_button = function(params) {
+  var export_button = $('.searchExport');
+  var fragments = export_button.attr('href').split('?');
+  var new_params = new URLSearchParams(fragments[1]);
+  $.each(params, function(param, value) {
+    // we don't want the resolved params in our link thx
+    if(!param.match(/_resolved/)) { new_params.set(param, value) };
+  });
+  // delete any params that were added previously but removed from the current search
+  for(var key of new_params.keys()) {
+    if(key == 'fields[]') { continue; }; // always retain fields[]
+    if(!params[key]) { new_params.delete(key); }
+  }
+  export_button.attr('href', [fragments[0], new_params.toString()].join('?'));
+};
+
 BulkContainerSearch.prototype.setup_table_sorter = function() {
-  function padValue(value) {
-    return (new Array(255).join("#") + value).slice(-255)
+  function padNumber(number) {
+    // Get rid of preceding zeros from numbers (so 003 will sort with 3 instead of in the hundreds)
+    // Then pad it (so 10 doesn't sort between 1 and 2)
+    number = parseInt(number).toString()
+    return  (new Array(255).join("#") + number).slice(-255)
+  }
+
+  function parseIndicator(value) {
+    // Creates a string of alternating number/non-number values separated by commas for indicator sort
+    if (!value || value.length === 0) {
+      return value
+    }
+
+    let isNumber = !isNaN(parseInt(value[0]))
+
+    let valueArray = [value[0]]
+    let valueArrayCurrentIndex = 0;
+    for (i = 1; i < value.length; i++) {
+      if (!isNumber) {
+        if (isNaN(parseInt(value[i]))) {
+          valueArray[valueArrayCurrentIndex] += value[i]
+        } else {
+          valueArray[valueArrayCurrentIndex] = valueArray[valueArrayCurrentIndex].trim()
+          valueArrayCurrentIndex += 1
+          valueArray[valueArrayCurrentIndex] = value[i]
+          isNumber = true
+        }
+      } else {
+        if (isNaN(parseInt(value[i]))) {
+          valueArray[valueArrayCurrentIndex] = padNumber(valueArray[valueArrayCurrentIndex])
+          valueArrayCurrentIndex += 1
+          valueArray[valueArrayCurrentIndex] = value[i]
+          isNumber = false
+        } else {
+          valueArray[valueArrayCurrentIndex] += value[i]
+        }
+      }
+    }
+
+    if (!isNaN(parseInt(valueArray[valueArray.length - 1]))) {
+      valueArray[valueArray.length - 1] = padNumber(valueArray[valueArray.length - 1])
+    }
+
+    return valueArray.toString()
   };
+
+  let currentSort = []
+  // only load a sort if we've hit some results
+  if ($(".table-search-results tr").length > 1) {
+    // Get the most recent sort, if it exists
+    currentSort = sessionStorage.getItem("top_container_sort");
+    if (currentSort == null || currentSort == undefined) {
+      // default sort: Collection, Series, Indicator
+      currentSort = [[1,0],[2,0],[4,0]];
+    }
+    else {
+      currentSort = JSON.parse(currentSort);
+    }
+  }
 
   var tablesorter_opts = {
     // only sort on the second row of header columns
@@ -114,8 +213,7 @@ BulkContainerSearch.prototype.setup_table_sorter = function() {
     headers: {
         0: { sorter: false}
     },
-    // default sort: Collection, Series, Indicator
-    sortList: [[1,0],[2,0],[4,0]],
+    sortList: currentSort,
     // customise text extraction to pull only the first collection/series
     textExtraction: function(node) {
       var $node = $(node);
@@ -133,17 +231,22 @@ BulkContainerSearch.prototype.setup_table_sorter = function() {
         }
       } else if ($node.hasClass("top-container-indicator")) {
         var value = $node.text().trim();
-        // check for non-decimal and take the first
-        var first_number = value.split(/[^0-9]/)[0];
 
-        // pad the indicator values so they sort correctly with digit and alpha values
-        return padValue(first_number) + padValue(value);
+        // turn the indicator into a string of alternating non-number/padded-number values separated by commas for sorting
+        // eg "box,#############11,folder,#############4"
+        return parseIndicator(value);
       }
 
       return $node.text().trim();
     }
   };
-  this.$results_container.find("table").tablesorter(tablesorter_opts);
+  this.$results_container.find("table").tablesorter(tablesorter_opts)
+  	.bind("sortEnd", function(e) {
+  	  //Store the sort in the session storage so it resorts the same way
+  		//when navigating and refreshing.
+  	  currentSort = e.target.config.sortList;
+  	  sessionStorage.setItem("top_container_sort", JSON.stringify(currentSort));
+  	});
 };
 
 BulkContainerSearch.prototype.get_selection = function() {
@@ -154,6 +257,7 @@ BulkContainerSearch.prototype.get_selection = function() {
     results.push({
       uri: checkbox.value,
       display_string: $(checkbox).data("display-string"),
+      container_profile_uri: $(checkbox).data("container-profile-uri"),
       row: $(checkbox).closest("tr")
     });
   });
@@ -515,6 +619,92 @@ BulkActionBarcodeRapidEntry.prototype.setup_form_submission = function($modal) {
 
 
 /***************************************************************************
+ * BulkActionMerge - bulk action for merge
+ *
+ */
+
+function activateBtn(event) {
+  var merge_btn = document.getElementsByClassName("merge-button")[0];
+  if ($('input:checked').length > 0) {
+    merge_btn.removeAttribute("disabled");
+  } else {
+    merge_btn.attr("disabled", "disabled");
+  };
+ };
+
+function BulkActionMerge(bulkContainerSearch) {
+  var self = this;
+
+  self.bulkContainerSearch = bulkContainerSearch;
+
+  var $link = $("#bulkActionMerge", self.bulkContainerSearch.$toolbar);
+
+  $link.on("click", function() {
+    AS.openCustomModal("bulkMergeModal", "Merge Top Containers", AS.renderTemplate("bulk_action_merge", {
+      selection: self.bulkContainerSearch.get_selection()
+    }), 'full');
+
+    // Access modal1 DOM
+    const $mergeBtn = $("[data-js='merge']");
+
+    $mergeBtn.on("click", function(e) {
+      e.preventDefault();
+
+      // Set up data for form submission
+      const victims = self.bulkContainerSearch
+                          .get_selection()
+                          .map(function(container) {
+                            return {
+                              uri: container.uri,
+                              display_string: container.display_string,
+                              container_profile_uri: container.container_profile_uri
+                            };
+                          });
+
+      const targetEl = document.querySelector('input[name="target[]"]:checked');
+
+      const target = {
+        display_string: targetEl.getAttribute('aria-label'),
+        uri: targetEl.getAttribute('value'),
+        container_profile_uri: targetEl.getAttribute('container_profile_uri')
+      };
+
+      var victimsWithCPs = victims.filter(victim => victim.container_profile_uri && (victim.container_profile_uri != target.container_profile_uri));
+      var victimContainerProfiles = victimsWithCPs.map(function (cp) {
+        return cp.container_profile_uri;
+        }).filter((v, i, a) => a.indexOf(v) === i);
+      var mergeWarn = (victimContainerProfiles.length === 0 || (victimContainerProfiles.length === 1 && !target.container_profile_uri)) ? false : true;
+      var warning_type = (mergeWarn == true ? (victimContainerProfiles.length > 1 ? 'too_many' : 'mismatch' ) : null);
+
+      const mergeWarning = {
+        tooManyVisibility: (warning_type == 'too_many' ? 'display:block' : 'display:none'),
+        tooManyHidden: (warning_type == 'too_many' ? 'false' : 'true'),
+        mismatchVisibility: (warning_type == 'mismatch' ? 'display:block' : 'display:none'),
+        mismatchHidden: (warning_type == 'mismatch' ? 'false' : 'true')
+      };
+
+      // compute victims list for template rendering
+      const victimsNoTarget = victims.reduce(function(acc, victim) {
+        if (victim.display_string !== target.display_string) {
+          acc.push(victim.display_string);
+        }
+        return acc;
+      }, []);
+
+      // Init modal2
+      AS.openCustomModal("bulkMergeConfirmModal", "Confirm Merge Top Containers", AS.renderTemplate("bulk_action_merge_confirm", {
+        victims,
+        victimsNoTarget,
+        mergeWarning,
+        target
+      }), false);
+    })
+
+  });
+};
+
+
+/***************************************************************************
  * BulkActionDelete - bulk action for delete
  *
  */
@@ -549,5 +739,6 @@ $(function() {
   new BulkActionContainerProfileUpdate(bulkContainerSearch);
   new BulkActionLocationUpdate(bulkContainerSearch);
   new BulkActionMultipleLocationUpdate(bulkContainerSearch);
+  new BulkActionMerge(bulkContainerSearch);
   new BulkActionDelete(bulkContainerSearch);
 });

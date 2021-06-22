@@ -1,11 +1,11 @@
 <%= form_tag({:controller => "session",:action => "login"}, :method => "post", :class => "login") do %>
-    <p class="alert alert-danger"><%= I18n.t "navbar.login_fail" %></p>
-    <p class="alert alert-success"><%= I18n.t "navbar.login_success" %>.</p>
+    <p class="alert alert-danger"><%= I18n.t "login.login_fail" %></p>
+    <p class="alert alert-success"><%= I18n.t "login.login_success" %>.</p>
     <div class="form-group">
       <input id="user_username" type="text" name="username" size="30" placeholder="Username" class="form-control" aria-label="User Name"/>
     </div>
     <div class="form-group">
       <input id="user_password" type="password" name="password" size="30" placeholder="Password" class="form-control" aria-label="User Password"/>
     </div>
-  <input class="btn btn-primary navbar-btn btn-default" type="submit" name="commit" value="<%= I18n.t("navbar.login") %>" id="login" />
+  <input class="btn btn-primary navbar-btn btn-default" type="submit" name="commit" value="<%= I18n.t("login.login") %>" id="login" />
 <% end %>

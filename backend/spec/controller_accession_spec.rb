@@ -65,6 +65,23 @@ describe 'Accession controller' do
   end
 
 
+  it "creates an accession with a language and script of description" do
+    opts = {:language => 'eng', :script => 'Latn'}
+
+    id = create(:json_accession, opts).id
+    expect(JSONModel(:accession).find(id).language).to eq(opts[:language])
+    expect(JSONModel(:accession).find(id).script).to eq(opts[:script])
+  end
+
+
+  it "doesn't let you create an accession with an invalid language" do
+    expect {
+      create(:json_accession,
+             :language => "klingon")
+    }.to raise_error(JSONModel::ValidationException)
+  end
+
+
   it "creates an accession with a rights statement" do
     acc = JSONModel(:accession).from_hash("id_0" => "1234",
                                           "title" => "The accession title",
@@ -142,6 +159,27 @@ describe 'Accession controller' do
     test_accession.save
 
     expect(JSONModel(:accession).all(:page => 1, :modified_since => ts)['results'].count).to eq(1)
+  end
+
+
+  it "lets you create an accession with a language of materials" do
+
+    opts = {:language_and_script => {:language => generate(:language)}}
+
+    lang_materials = [build(:json_lang_material, opts)]
+
+    accession = create(:json_accession, :lang_materials => lang_materials)
+
+    expect(JSONModel(:accession).find(accession.id).lang_materials[0]['language_and_script']['language'].length).to eq(3)
+    expect(JSONModel(:accession).find(accession.id).lang_materials[0]['notes']).to eq([])
+  end
+
+
+  it "lets you create an accession with a language of materials note" do
+    lang_materials = [build(:json_lang_material_with_note)]
+    accession = create(:json_accession, :lang_materials => lang_materials)
+
+    expect(JSONModel(:accession).find(accession.id).lang_materials[0]['notes'][0]['content']).not_to be_nil
   end
 
 

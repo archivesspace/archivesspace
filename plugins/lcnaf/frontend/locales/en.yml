@@ -2,6 +2,7 @@ en:
   plugins:
     lcnaf:
       label: LCNAF Import
+      authority: Authority Source
       search:
         family_name: Primary Name 
         given_name: Rest of Name
@@ -18,6 +19,7 @@ en:
         import_success_message: Redirecting to the job status page...
         import_error: Error while importing from LCNAF
         search_error: Search Error
+        search_error_message: A problem was encountered while completing this search.  Please ensure the third-party service is still available.
         service_locked: Items already selected
         service_locked_message: Please import or remove your selected items before switching record service
         service_warning: This plugin depends on 3rd party services that may or may not be available or supported.

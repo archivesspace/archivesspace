@@ -62,10 +62,10 @@ describe 'Resources controller' do
 
 
   it "doesn't let you create a resource without at least one language" do
-    expect {
-      create(:json_resource,
-             :lang_materials => nil)
-    }.to raise_error(JSONModel::ValidationException)
+     expect {
+       create(:json_resource,
+              :lang_materials => nil)
+     }.to raise_error(JSONModel::ValidationException)
    end
 
 
@@ -476,6 +476,48 @@ describe 'Resources controller' do
     expect(archival_object.publish).to be_truthy
     expect(archival_object.external_documents[0]["publish"]).to be_truthy
     expect(archival_object.notes[0]["publish"]).to be_truthy
+  end
+
+
+  it "unpublishes the resource, subrecords and components when /unpublish is POSTed" do
+    resource = create(:json_resource, {
+      :publish => true,
+      :external_documents => [build(:json_external_document, {:publish => true})],
+      :notes => [build(:json_note_bibliography, {:publish => true})]
+    })
+
+
+    vocab = create(:json_vocabulary)
+    vocab_uri = JSONModel(:vocabulary).uri_for(vocab.id)
+
+    subject = create(:json_subject,
+                     :terms => [build(:json_term, :vocabulary => vocab_uri)],
+                     :vocabulary => vocab_uri)
+
+
+    archival_object = create(:json_archival_object, {
+      :publish => true,
+      :resource => {:ref => resource.uri},
+      :external_documents => [build(:json_external_document, {:publish => true})],
+      :notes => [build(:json_note_bibliography, {:publish => true})],
+      :subjects => [{:ref => subject.uri}]
+    })
+
+    url = URI("#{JSONModel::HTTP.backend_url}#{resource.uri}/unpublish")
+
+    request = Net::HTTP::Post.new(url.request_uri)
+    response = JSONModel::HTTP.do_http_request(url, request)
+
+
+    resource = JSONModel(:resource).find(resource.id)
+    expect(resource.publish).to be_falsey
+    expect(resource.external_documents[0]["publish"]).to be_falsey
+    expect(resource.notes[0]["publish"]).to be_falsey
+
+    archival_object = JSONModel(:archival_object).find(archival_object.id)
+    expect(archival_object.publish).to be_falsey
+    expect(archival_object.external_documents[0]["publish"]).to be_falsey
+    expect(archival_object.notes[0]["publish"]).to be_falsey
   end
 
 

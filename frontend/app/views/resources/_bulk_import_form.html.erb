@@ -1,0 +1,66 @@
+<div id="bulk_import_file_template">
+  <div class="bulk_import_wrapper">
+<!-- <%= "/resources/#{rid}/ssload" %> -->
+    <%= form_tag url_for(:controller => :jobs, :action => :create ),
+     :method => "post", multipart: true, :id => 'bulk_import_form',
+     :target => '_blank' do %>
+<!-- <%= "#{rid}  #{ref_id}" %> -->
+    <div class="modal-body">
+      <input type='hidden' name='job[job_params][repo_id]' id='repo_id' value='<%= repo_id %>'/>
+      <input type='hidden' name='job[job_params][ref_id]' id='ref_id' value='<%= ref_id %>'/>
+      <input type='hidden' name='job[job_params][position]' id='position' value='<%= position %>'/>
+      <input type='hidden' name='job[job_params][type]' id='type' value='<%= type %>'/>
+      <input type='hidden' name='job[job_type]' id='job_type' value='bulk_import_job' />
+      <input type='hidden' name='job[jsonmodel_type]' id="jsonmodel_type" value='bulk_import_job'/>
+      <input type='hidden' name='job[job_params][rid]' id='rid' value='<%= rid %>' />
+      <input type='hidden' name='job[resource_id]' value='/repositories/<%=repo_id%>/resources/<%= rid %>' />
+      <input type='hidden' name='job[job_params][aoid]' id='aoid' value='<%= aoid %>' />
+      <input name="job[format]" value="csv" type="hidden"/>
+      <section id="bulk_import_filename_">
+        <label class="btn btn-success btn-sm fileinput-button bulkbtn">
+          <span class="glyphicon glyphicon-plus icon-white"></span>
+          <%= I18n.t("bulk_import._frontend.actions.add_file")%>
+          <input name="files[]" type="file" id="excel_file"/>
+          <input name="job[content_type]" id="file_type" type="hidden"/>
+          <input name="job[filename]" id="job_filename" type="hidden"/>
+        </label>
+	      <span id="excel_filename"></span>
+      </section>
+      <div class="form-group">
+        <% if AppConfig[:hide_do_load] || type != 'resource' %>
+          <input type='hidden' value="ao" name="job[load_type]" />
+        <% else %>
+          <div id="jobLoadTypeToggleButtons" class="btn-group" data-toggle="buttons">
+            <label class="btn btn-default bulktypebtn active" style="border-radius:4px;">
+              <input type="radio" value="ao" name="job[load_type]" checked="true"/>
+              <%= I18n.t('bulk_import._frontend.actions.add_archival_objects') %>
+            </label>
+            <label class="btn btn-default bulktypebtn">
+              <input type="radio" value="digital" name="job[load_type]"/>
+              <%= I18n.t('bulk_import._frontend.actions.add_digital_objects') %>
+            </label>
+            <% if type == 'resource' %>
+              <label class="btn btn-default bulktypebtn">
+                <input type="radio" value="top_container_linker_job" name="job[load_type]"/>
+                <%= I18n.t('bulk_import._frontend.actions.link_top_containers') %>
+              </label>
+            <% end %>
+          </div>
+        <% end %>
+        <div>
+          <label>
+            <input class="checkbox-inline" type="checkbox" name="job[only_validate]" id="only_validate" value="true"/>
+            <%= I18n.t('bulk_import._frontend.actions.only_validate') %>
+          </label>
+        </div>
+      </div>
+      <div id="bulk_messages">
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button id="bulkFileButton" class="btn btn-primary bulkbtn"><%= I18n.t('bulk_import._frontend.actions.import') %></button>
+      <button class="btn btn-cancel btn-default bulkbtn" data-dismiss="modal"><%= I18n.t "actions.cancel" %></button>
+    </div>
+   <% end %>
+  </div>
+</div>

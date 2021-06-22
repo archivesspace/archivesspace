@@ -99,4 +99,17 @@ describe 'Jobs' do
       @driver.find_element_with_text('//h2', /report_job/)
     end.not_to raise_error
   end
+
+  it 'can show a list of background jobs' do
+    run_index_round
+
+    @driver.find_element(:css, '.repo-container .btn.dropdown-toggle').click
+    @driver.wait_for_dropdown
+    @driver.click_and_wait_until_gone(:link, 'Background Jobs')
+    expect do
+      @driver.find_element_with_text('//td', /Accession Report/)
+      @driver.find_element_with_text('//td', /Generate PDF/)
+      @driver.find_element_with_text('//td', /Batch Find and Replace/)
+    end.not_to raise_error
+  end
 end

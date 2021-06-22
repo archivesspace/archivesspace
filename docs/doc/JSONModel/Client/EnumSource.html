@@ -6,15 +6,15 @@
 <title>
   Class: JSONModel::Client::EnumSource
   
-    &mdash; Documentation by YARD 0.9.20
+    &mdash; Documentation by YARD 0.9.25
   
 </title>
 
-  <link rel="stylesheet" href="../../css/style.css" type="text/css" charset="utf-8" />
+  <link rel="stylesheet" href="../../css/style.css" type="text/css" />
 
-  <link rel="stylesheet" href="../../css/common.css" type="text/css" charset="utf-8" />
+  <link rel="stylesheet" href="../../css/common.css" type="text/css" />
 
-<script type="text/javascript" charset="utf-8">
+<script type="text/javascript">
   pathId = "JSONModel::Client::EnumSource";
   relpath = '../../';
 </script>
@@ -259,7 +259,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    <p>Returns a new instance of EnumSource</p>
+    <p>Returns a new instance of EnumSource.</p>
 
 
   </div>
@@ -273,12 +273,12 @@
       <pre class="lines">
 
 
-510
-511
-512</pre>
+514
+515
+516</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/jsonmodel_client.rb', line 510</span>
+      <pre class="code"><span class="info file"># File 'common/jsonmodel_client.rb', line 514</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_initialize identifier id'>initialize</span>
   <span class='rubyid_@enumerations ivar id'>@enumerations</span> <span class='assign token'>=</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_fetch_enumerations identifier id'>fetch_enumerations</span>
@@ -311,19 +311,19 @@
       <pre class="lines">
 
 
-498
-499
-500
-501
 502
 503
 504
 505
 506
-507</pre>
+507
+508
+509
+510
+511</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/jsonmodel_client.rb', line 498</span>
+      <pre class="code"><span class="info file"># File 'common/jsonmodel_client.rb', line 502</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_fetch_enumerations identifier id'>fetch_enumerations</span>
   <span class='rubyid_enumerations identifier id'>enumerations</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span>
@@ -362,12 +362,12 @@
       <pre class="lines">
 
 
-524
-525
-526</pre>
+528
+529
+530</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/jsonmodel_client.rb', line 524</span>
+      <pre class="code"><span class="info file"># File 'common/jsonmodel_client.rb', line 528</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_default_value_for identifier id'>default_value_for</span>
   <span class='rubyid_@enumerations ivar id'>@enumerations</span><span class='lbrack token'>[</span><span class='symbol val'>:defaults</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_fetch identifier id'>fetch</span><span class='lparen token'>(</span><span class='rubyid_name identifier id'>name</span><span class='rparen token'>)</span>
@@ -416,12 +416,12 @@
       <pre class="lines">
 
 
-515
-516
-517</pre>
+519
+520
+521</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/jsonmodel_client.rb', line 515</span>
+      <pre class="code"><span class="info file"># File 'common/jsonmodel_client.rb', line 519</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_valid? fid id'>valid?</span><span class='lparen token'>(</span><span class='rubyid_name identifier id'>name</span><span class='comma token'>,</span> <span class='rubyid_value identifier id'>value</span><span class='rparen token'>)</span>
   <span class='rubyid_values_for identifier id'>values_for</span><span class='lparen token'>(</span><span class='rubyid_name identifier id'>name</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_include? fid id'>include?</span><span class='lparen token'>(</span><span class='rubyid_value identifier id'>value</span><span class='rparen token'>)</span>
@@ -447,12 +447,12 @@
       <pre class="lines">
 
 
-520
-521
-522</pre>
+524
+525
+526</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/jsonmodel_client.rb', line 520</span>
+      <pre class="code"><span class="info file"># File 'common/jsonmodel_client.rb', line 524</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_values_for identifier id'>values_for</span><span class='lparen token'>(</span><span class='rubyid_name identifier id'>name</span><span class='rparen token'>)</span>
   <span class='rubyid_@enumerations ivar id'>@enumerations</span><span class='dot token'>.</span><span class='rubyid_fetch identifier id'>fetch</span><span class='lparen token'>(</span><span class='rubyid_name identifier id'>name</span><span class='rparen token'>)</span>
@@ -468,9 +468,9 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.7.1-RC1.a Documentation Generated on Thu Feb  6 10:08:01 2020 by
+  ArchivesSpace Version v2.8.1.a Documentation Generated on Wed Nov 11 13:22:22 2020 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.20.
+  0.9.25.
 </div>
 
     </div>

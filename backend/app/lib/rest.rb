@@ -31,6 +31,22 @@ module RESTHelpers
       modified_response('Updated', *opts)
     end
 
+
+    def merged_response(target, victims, selections = [], result = nil)
+      type = target[:type].to_sym
+      response = {:status => 'Merged', :id => target[:id], :selections => selections }
+
+      response[:target_uri] = JSONModel(type).uri_for(target[:id], :repo_id => params[:repo_id])
+      response[:deleted_uris] = victims.map { |v| JSONModel(type).uri_for(v[:id], :repo_id => params[:repo_id]) }
+
+      unless result.nil?
+        response[:result] = result
+      end
+
+      json_response(response)
+    end
+
+
     def deleted_response(id)
       json_response({:status => 'Deleted', :id => id})
     end
@@ -55,7 +71,7 @@ module RESTHelpers
     @@param_types = {
       :repo_id => [Integer,
                    "The Repository ID",
-                   {:validation => ["The Repository must exist", ->(v){Repository.exists?(v)}]}],
+                   {:validation => ["The Repository must exist", ->(v) {Repository.exists?(v)}]}],
       :resolve => [[String], "A list of references to resolve and embed in the response",
                    :optional => true],
       :id => [Integer, "The ID of the record"]
@@ -79,6 +95,7 @@ module RESTHelpers
       @preconditions = []
       @required_params = []
       @paginated = false
+      @paged = false
       @use_transaction = :unspecified
       @returns = []
       @request_context_keyvals = {}
@@ -98,11 +115,14 @@ module RESTHelpers
             :uri => @uri,
             :description => @description,
             :documentation => @documentation,
+            :deprecated => @deprecated,
+            :deprecated_description => @deprecated_description,
             :prepend_docs => @prepend_to_autodoc,
             :examples => @examples,
             :method => @methods,
             :params => @required_params,
             :paginated => @paginated,
+            :paged => @paged,
             :returns => @returns
           }
         end
@@ -111,9 +131,13 @@ module RESTHelpers
 
 
     def self.get(uri); self.method(:get).uri(uri); end
+
     def self.post(uri); self.method(:post).uri(uri); end
+
     def self.delete(uri); self.method(:delete).uri(uri); end
+
     def self.get_or_post(uri); self.method([:get, :post]).uri(uri); end
+
     def self.method(method); Endpoint.new(method); end
 
     # Helpers
@@ -127,7 +151,9 @@ module RESTHelpers
 
 
     def uri(uri); @uri = uri; self; end
+
     def description(description); @description = description; self; end
+
     def preconditions(*preconditions); @preconditions += preconditions; self; end
 
     # For the following methods (documentation, example),  content can be provided via either
@@ -159,7 +185,7 @@ module RESTHelpers
         @documentation = docs
         @prepend_to_autodoc = prepend
       end
-      
+
       self
     end
 
@@ -240,6 +266,12 @@ module RESTHelpers
       self
     end
 
+    def paged(val)
+      @paged = val
+
+      self
+    end
+
 
     def use_transaction(val)
       @use_transaction = val
@@ -249,7 +281,7 @@ module RESTHelpers
 
 
     def returns(*returns, &block)
-      raise "No .permissions declaration for endpoint #{@methods.map{|m|m.to_s.upcase}.join('|')} #{@uri}" if !@has_permissions
+      raise "No .permissions declaration for endpoint #{@methods.map {|m| m.to_s.upcase}.join('|')} #{@uri}" if !@has_permissions
 
       @returns = returns.map { |r| r[1] = @@return_types[r[1]] || r[1]; r }
 
@@ -258,6 +290,7 @@ module RESTHelpers
       preconditions = @preconditions
       rp = @required_params
       paginated = @paginated
+      paged = @paged
       deprecated = @deprecated
       deprecated_description = @deprecated_description
       use_transaction = @use_transaction
@@ -282,7 +315,7 @@ module RESTHelpers
       end
 
       methods.each do |method|
-        ArchivesSpaceService.send(method, @uri, {}) do
+        ArchivesSpaceService.send(method, uri, {}) do
           if deprecated
             Log.warn("\n" +
                      ("*" * 80) +
@@ -295,7 +328,7 @@ module RESTHelpers
 
           RequestContext.open(request_context) do
             DB.open do |db|
-              ensure_params(rp, paginated)
+              ensure_params(rp, paginated, paged)
             end
 
             Log.debug("Post-processed params: #{Log.filter_passwords(params).inspect}")
@@ -327,7 +360,6 @@ module RESTHelpers
 
             DB.open(use_transaction, db_opts) do
               RequestContext.put(:current_username, current_user.username)
-
               # If the current user is a manager, show them suppressed records
               # too.
               if RequestContext.get(:repo_id)
@@ -404,9 +436,9 @@ module RESTHelpers
     def self.value(s)
       if s.nil?
         nil
-      elsif s.downcase == 'true'
+      elsif s.to_s.downcase == 'true'
         true
-      elsif s.downcase == 'false'
+      elsif s.to_s.downcase == 'false'
         false
       else
         raise ArgumentError.new("Invalid boolean value: #{s}")
@@ -423,7 +455,6 @@ module RESTHelpers
 
 
   def self.included(base)
-
     base.extend(JSONModel)
 
     base.helpers do
@@ -442,7 +473,7 @@ module RESTHelpers
           if request.content_charset
             value = value.force_encoding(request.content_charset).encode("UTF-8")
           end
-
+          value = value.to_json unless value.is_a? String
           type.from_json(value)
         elsif type.is_a? Array
           if value.is_a? Array
@@ -465,17 +496,26 @@ module RESTHelpers
       end
 
 
-      def process_pagination_params(params, known_params, errors)
+      def process_pagination_params(params, known_params, errors, paged)
         known_params['resolve'] = known_params['modified_since'] = true
-
         params['modified_since'] = coerce_type((params[:modified_since] || '0'),
                                               NonNegativeInteger)
+
+        known_params['sort_field'] = true
+        known_params['sort_direction'] = true
+        params['sort_field'] = params.fetch('sort_field', 'id').to_sym
+        params['sort_direction'] = params.fetch('sort_direction', 'asc').to_sym
+
+        unless [:asc, :desc].include? params['sort_direction']
+          errors[:failed_validation] << {
+            name: 'sort_direction', validation: "must be either 'asc' or 'desc' but given: #{params['sort_direction']}"
+          }
+        end
 
         if params[:page]
           known_params['page_size'] = known_params['page'] = true
           params['page_size'] = coerce_type((params[:page_size] || AppConfig[:default_page_size]), PageSize)
           params['page'] = coerce_type(params[:page], NonNegativeInteger)
-
         elsif params[:id_set]
           known_params['id_set'] = true
           params['id_set'] = coerce_type(params[:id_set], IdSet)
@@ -484,12 +524,25 @@ module RESTHelpers
           params['all_ids'] = known_params['all_ids'] = true
 
         else
-          # Must provide either page, id_set or all_ids
-          ['page', 'id_set', 'all_ids'].each do |name|
+          # paged and paginated routes both support accessing results a page at a time,
+          #   via the page and page_size arguments
+          # paginated routes additionally support:
+          #   - fetching all database ids as an array via all_ids
+          #   - fetching a set of specific known ids via id_set
+          if paged
+            # Must provide page
             errors[:missing] << {
-              :name => name,
-              :doc => "Must provide either 'page' (a number), 'id_set' (an array of record IDs), or 'all_ids' (a boolean)"
+              :name => 'page',
+              :doc => "Must provide 'page' (a number)"
             }
+          else
+            # Must provide either page, id_set or all_ids
+            ['page', 'id_set', 'all_ids'].each do |name|
+              errors[:missing] << {
+                :name => name,
+                :doc => "Must provide either 'page' (a number), 'id_set' (an array of record IDs), or 'all_ids' (a boolean)"
+              }
+            end
           end
         end
       end
@@ -504,7 +557,6 @@ module RESTHelpers
 
       def process_declared_params(declared_params, params, known_params, errors)
         declared_params.each do |definition|
-
           (name, type, doc, opts) = definition
           opts ||= {}
 
@@ -526,15 +578,12 @@ module RESTHelpers
 
             if type and params[name]
               begin
-                params[name.intern] = coerce_type(params[name], type)
-                params.delete(name)
-
+                params[name] = coerce_type(params[name], type)
               rescue ArgumentError
                 errors[:bad_type] << {:name => name, :doc => doc, :type => type}
               end
             elsif type and opts[:default]
-              params[name.intern] = opts[:default]
-              params.delete(name)
+              params[name] = opts[:default]
             end
 
             if opts[:validation]
@@ -548,8 +597,8 @@ module RESTHelpers
       end
 
 
-      def ensure_params(declared_params, paginated)
-
+      def ensure_params(declared_params, paginated, paged)
+        params.delete('captures') # Sinatra 2.x
         errors = {
           :missing => [],
           :bad_type => [],
@@ -559,7 +608,7 @@ module RESTHelpers
         known_params = {}
 
         process_declared_params(declared_params, params, known_params, errors)
-        process_pagination_params(params, known_params, errors) if paginated
+        process_pagination_params(params, known_params, errors, paged) if paginated || paged
 
         # Any params that were passed in that aren't declared by our endpoint get dropped here.
         unknown_params = params.keys.reject {|p| known_params[p.to_s] }
@@ -584,6 +633,7 @@ module RESTHelpers
             if bad[:type].is_a?(Array) &&
                !provided_value.is_a?(Array) &&
                provided_value.is_a?(bad[:type][0])
+
               # The caller got the right type but didn't wrap it in an array.
               # Provide a more useful error message.
               msg << ".  Perhaps you meant to specify an array like: #{bad[:name]}[]=#{URI.escape(provided_value)}"

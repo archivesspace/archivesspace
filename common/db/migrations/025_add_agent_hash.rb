@@ -13,7 +13,6 @@ def get_unique_note
 end
 
 def calculate_hash(db, table, row)
-
   foreign_key = :"#{table}_id"
   hash_fields = []
 
@@ -24,13 +23,13 @@ def calculate_hash(db, table, row)
   end
 
   db[:agent_contact].filter(foreign_key => row[:id]).each do |contact|
-    hash_fields <<  %w(name salutation_id telephone address_1 address_2 address_3 city region country post_code telephone_ext fax email email_signature note).map {|field|
+    hash_fields << %w(name salutation_id telephone address_1 address_2 address_3 city region country post_code telephone_ext fax email email_signature note).map {|field|
       contact[field.intern] || ' '
     }.join('_')
   end
 
   db[:external_document].filter(foreign_key => row[:id]).each do |doc|
-    hash_fields <<  %w(title location).map {|field|
+    hash_fields << %w(title location).map {|field|
       doc[field.intern] || ' '
     }.join('_')
   end

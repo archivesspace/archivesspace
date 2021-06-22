@@ -45,11 +45,12 @@ class Solr
           construct_advanced_query_string(subq, use_literal)
         }
 
-        # Solr doesn't allow purely negative expression groups, so we add a
-        # match all query to compensate when we hit one of these.
-        if advanced_query['subqueries'].all? {|subquery| subquery['negated']}
-          clauses << '*:*'
-        end
+# This causes incorrect results for X NOT Y queries via the PUI, see https://github.com/archivesspace/archivesspace/issues/1699
+#        # Solr doesn't allow purely negative expression groups, so we add a
+#        # match all query to compensate when we hit one of these.
+#        if advanced_query['subqueries'].all? {|subquery| subquery['negated']}
+#          clauses << '*:*'
+#        end
 
         subqueries = clauses.join(" #{advanced_query['op']} ")
 
@@ -143,7 +144,7 @@ class Solr
 
     def set_record_types(record_types)
       if record_types
-        query =  Array(record_types).map { |type| "\"#{type}\"" }.join(' OR ')
+        query = Array(record_types).map { |type| "\"#{type}\"" }.join(' OR ')
         add_solr_param(:fq, "types:(#{query})")
       end
 
@@ -166,6 +167,14 @@ class Solr
         query_string = self.class.construct_advanced_query_string(advanced_query['query'],
                                                                   use_literal = true)
         add_solr_param(:fq, query_string)
+      end
+
+      self
+    end
+
+    def set_filter_queries(queries)
+      ASUtils.wrap(queries).each do |q|
+        add_solr_param(:fq, "{!type=edismax}#{q}")
       end
 
       self
@@ -236,7 +245,12 @@ class Solr
       end
 
       if @show_published_only
+        # public ui
         add_solr_param(:fq, "publish:true")
+        add_solr_param(:fq, "types:pui")
+      else
+        # staff ui
+        add_solr_param(:fq, "-types:pui_only")
       end
 
 
@@ -297,9 +311,7 @@ class Solr
   end
 
 
-
   def self.search(query)
-
     url = query.to_solr_url
 
     req = Net::HTTP::Post.new(url.path)

@@ -3,7 +3,11 @@
 <% define_template "related_agents_selector" do |form| %>
   <div class="subrecord-form-fields">
     <div class="form-group">
-      <label class="control-label col-sm-2"><%= I18n.t("related_agent.relationship_type") %></label>
+      <label class="control-label col-sm-2">
+        <% label_value = I18n.t("related_agent.relationship_type") %>
+        <%= wrap_with_tooltip(label_value, "related_agent.relationship_type_tooltip", "control-label initialised") %>
+      </label>
+
       <div class="col-sm-4">
         <select class="related-agent-type form-control">
           <option value="related_agents_type_nil"></option>
@@ -34,7 +38,22 @@
       <h3 class="subrecord-form-heading"><%= I18n.t("#{relationship_type}._singular") %></h3>
       <div class="subrecord-form-container">
         <%= form.hidden_input(:jsonmodel_type, "#{relationship_type}") %>
-        <%= form.label_and_select("relator", form.possible_options_for("relator")) %>
+
+        <%# ANW-429: Only show a select box here if there is more than one option. Otherwise, use a hidden form field to simplify the UI. %>
+        <%# Entries in possible_options_for look like this: %>
+        <%# ["Family Related with Related", "is_related_with"] %>
+
+        <% if form.possible_options_for("relator").length == 1 %>
+          <% sole_option = form.possible_options_for("relator").first %>
+          <%= form.hidden_input("relator", sole_option[1]) %>
+        <% else %>
+          <%= form.label_and_select("relator", form.possible_options_for("relator")) %>
+        <% end %>
+        
+        <%= form.label_and_select("specific_relator", form.possible_options_for("specific_relator", true)) %>
+
+        <%= form.label_and_textfield("relationship_uri") %>
+
         <% if opts[:readonly] %>
           <div class="token-list <%= form['_resolved']['agent_type'] %>">
             <%= form.label_with_field(:ref, render_token(:object => form,
@@ -56,8 +75,11 @@
 
         <%= form.label_and_textarea("description") %>
 
-        <% if !form.readonly? || !form['dates'].blank? %>
-          <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "dates", :cardinality => :zero_to_one} %>
+        <% if !form.readonly? %>
+          <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "dates", :template_erb => "dates/template", :template => "structured_date_label_usage", :cardinality => :zero_to_one, :heading_size => "h4"} %>
+
+        <% elsif form.readonly? && !form['date'].blank? %>
+          <%= render_aspace_partial :partial => "structured_dates/show", :locals => { :dates => [form['date']], :section_id => "rel_dates", :section_title => I18n.t("related_agent.dates") } %>
         <% end %>
       </div>
     </div>

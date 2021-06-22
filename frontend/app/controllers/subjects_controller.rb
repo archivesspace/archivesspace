@@ -11,15 +11,19 @@ class SubjectsController < ApplicationController
   def index
     respond_to do |format|
       format.html {
-        @search_data = Search.global({"sort" => "title_sort asc"}.merge(params_for_backend_search.merge({"facet[]" => SearchResultData.SUBJECT_FACETS})),
-                                 "subjects")
+        @search_data = Search.for_type(session[:repo_id], "subject", params_for_backend_search.merge({"facet[]" => SearchResultData.SUBJECT_FACETS}))
       }
       format.csv {
-        search_params = params_for_backend_search.merge({ "sort" => "title_sort asc",  "facet[]" => SearchResultData.SUBJECT_FACETS})
-        uri = "/search/subjects"
-        csv_response( uri, search_params )
+        search_params = params_for_backend_search.merge({ "facet[]" => SearchResultData.SUBJECT_FACETS})
+        search_params["type[]"] = "subject"
+        uri = "/repositories/#{session[:repo_id]}/search"
+        csv_response( uri, Search.build_filters(search_params), "#{I18n.t('subject._plural').downcase}." )
       }
     end
+  end
+
+  def current_record
+    @subject
   end
 
   def show
@@ -28,6 +32,10 @@ class SubjectsController < ApplicationController
 
   def new
     @subject = JSONModel(:subject).new({:vocab_id => JSONModel(:vocabulary).id_for(current_vocabulary["uri"]), :terms => [{}]})._always_valid!
+
+    if params[:term_type]
+      @subject["terms"]= [JSONModel(:term).new({:term_type => params[:term_type]})]
+    end
 
     if user_prefs['default_values']
       defaults = DefaultValues.get 'subject'
@@ -45,11 +53,11 @@ class SubjectsController < ApplicationController
   def create
     handle_crud(:instance => :subject,
                 :model => JSONModel(:subject),
-                :on_invalid => ->(){
+                :on_invalid => ->() {
                   return render_aspace_partial :partial => "subjects/new" if inline?
                   return render :action => :new
                 },
-                :on_valid => ->(id){
+                :on_valid => ->(id) {
                   if inline?
                     render :json => @subject.to_hash if inline?
                   else
@@ -59,6 +67,7 @@ class SubjectsController < ApplicationController
                        @subject["slug"] == nil &&
                        params["subject"] &&
                        params["subject"]["is_slug_auto"] == "1"
+
                       flash[:warning] = I18n.t("slug.autogen_disabled")
                     end
 
@@ -72,14 +81,15 @@ class SubjectsController < ApplicationController
     handle_crud(:instance => :subject,
                 :model => JSONModel(:subject),
                 :obj => JSONModel(:subject).find(params[:id]),
-                :on_invalid => ->(){ return render :action => :edit },
-                :on_valid => ->(id){
+                :on_invalid => ->() { return render :action => :edit },
+                :on_valid => ->(id) {
                   flash[:success] = I18n.t("subject._frontend.messages.updated")
 
                   if @subject["is_slug_auto"] == false &&
                      @subject["slug"] == nil &&
                      params["subject"] &&
                      params["subject"]["is_slug_auto"] == "1"
+
                     flash[:warning] = I18n.t("slug.autogen_disabled")
                   end
 
@@ -98,7 +108,6 @@ class SubjectsController < ApplicationController
   end
 
   def update_defaults
-
     begin
       DefaultValues.from_hash({
                                 "record_type" => "subject",
@@ -124,7 +133,7 @@ class SubjectsController < ApplicationController
       begin
         results = JSONModel::HTTP::get_json("/terms", :q => params[:query])['results']
 
-        return render :json => results.map{|term|
+        return render :json => results.map {|term|
           term["_translated"] = {}
           term["_translated"]["term_type"] = I18n.t("enumerations.subject_term_type.#{term["term_type"]}")
           term

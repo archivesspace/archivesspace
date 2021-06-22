@@ -1,38 +1,13 @@
 <% if @search_data.results? %>
-  <% add_identifier_column if show_identifier_column? %>
+
+  <% add_columns %>
+
   <%= render_aspace_partial :partial => "shared/pagination_summary" %>
 
-  <table id="tabledSearchResults" class="table table-striped table-bordered table-condensed table-hover table-sortable table-search-results" <% if allow_multi_select? %>data-multiselect="true"<% end %>>
+  <table id="tabledSearchResults" class="table table-striped table-bordered table-condensed table-hover table-sortable table-search-results" <%= 'data-multiselect="true"' if allow_multiselect? %>>
     <thead>
-    <tr>
-      <% if allow_multi_select? %>
-        <th><label for="select_all" class="sr-only"><%= I18n.t("search_results.selected") %></label><%= check_box_tag "select_all", 1, false, "autocomplete" => "off" %></th>
-      <% end %>
-      <% if params[:linker]==='true' %>
-        <th></th>
-      <% end %>
-      <% if show_record_type? %>
-        <th class="col record-type sortable <% if @search_data.sorted_by === "primary_type"%>sort-<%= @search_data.current_sort_direction %><% end %>">
-          <%= link_to I18n.t("search_results.result_type"), build_search_params("sort" => @search_data.sort_filter_for("primary_type")) %>
-        </th>
-      <% end %>
-      <% if show_title_column? %>
-        <th class="col title sortable <% if @search_data.sorted_by === "title_sort"%>sort-<%= @search_data.current_sort_direction %><% end %>">
-          <%= link_to title_column_header_label, build_search_params("sort" => @search_data.sort_filter_for("title_sort")) %>
-        </th>
-      <% end %>
-      <% if show_context_column? %>
-        <th>
-          <%= context_column_header_label %>
-        </th>
-      <% end %>
-      <% if request.path =~ /\/(advanced_)*search/ %>
-        <th class="col identifier sortable <% if @search_data.sorted_by === "identifier"%>sort-<%= @search_data.current_sort_direction %><% end %>">
-          <%= link_to I18n.t("search_results.result_identifier"), build_search_params("sort" => @search_data.sort_filter_for("identifier")) %>
-        </th>
-      <% end %>
-      <% if extra_columns? %>
-        <% extra_columns.each do |col| %>
+      <tr>
+        <% @columns.each do |col| %>
           <th class="<%= col.class %>">
             <% if col.sortable? %>
               <%= link_to col.label, build_search_params("sort" => @search_data.sort_filter_for(col.sort_by)) %>
@@ -41,92 +16,21 @@
             <% end %>
           </th>
         <% end %>
-      <% end %>
-      <th class="col audit-info"><span class="sr-only">Audit information</span></th>
-      <% if !params[:linker] || params[:linker] === 'false' %>
-        <th class="col actions"><span class="sr-only"><%= I18n.t("search_results.actions") %></span><!-- actions --></th>
-      <% end %>
-    </tr>
+      </tr>
     </thead>
     <tbody>
-    <% @search_data['results'].each do |result|
-      deleted = (params.has_key?("deleted_uri") and Array(params["deleted_uri"]).include?(result["id"])) || false
-    %>
-      <tr class="<%= "deleted" if deleted %>">
-        <% if allow_multi_select? %>
-          <td class="multiselect-column">
-            <label>
-              <span class="sr-only"><%= I18n.t("search_results.selected") %>?</span>
-              <%= check_box_tag "multiselect-item", result["id"], false, "autocomplete" => "off", "data-display-string" => "#{clean_mixed_content(result["title"]).html_safe || clean_mixed_content(result['display_string']).html_safe}" %>
-            </label>
-          </td>
-        <% end %>
-        <% if params[:linker] === 'true' %>
-          <% if params[:multiplicity] === 'many' %>
-            <td>
-              <%= check_box_tag "linker-item", result["id"], false, :"data-object" => result.to_json %>
-            </td>
-          <% else %>
-            <td>
-              <%= radio_button_tag "linker-item", result["id"], false, :"data-object" => result.to_json %>
+      <% @search_data['results'].each do |result| %>
+        <tr>
+          <% @columns.each do |col| %>
+            <td class="<%= col.class %>">
+              <%= col.value_for(result) %>
             </td>
           <% end %>
-        <% end %>
-        <% if show_record_type? %>
-          <td>
-             <%=  I18n.t("#{result["primary_type"]}._singular", :default => I18n.t("plugins.#{result["primary_type"]}._singular")) %>
-          </td>
-        <% end %>
-        <% if show_title_column? %>
-          <td>
-            <% if result['primary_type'] === "repository" and session[:repo] === result['id'] %><span class="label label-success"><%= I18n.t("repository._frontend.messages.selected_short") %></span><% end %>
-            <% if result["suppressed"] %><span class="label label-info"><%= I18n.t("states.suppressed") %></span><% end %>
-            <% if deleted %><span class="label label-important"><%= I18n.t("states.deleted") %></span><% end %>
-          <%=  clean_mixed_content(result["title"]).html_safe || clean_mixed_content(result['display_string']).html_safe %>
-          </td>
-        <% end %>
-        <% if show_context_column? %>
-          <td>
-            <%= render_aspace_partial :partial => "search/context", :locals => {:result => result} %>
-          </td>
-        <% end %>
-        <% if request.path =~ /\/(advanced_)*search/ %>
-          <td>
-            <%= identifier_for_search_result(result) %>
-          </td>
-        <% end %>
-        <% if extra_columns? %>
-          <% extra_columns.each do |col| %>
-            <td><%= col.value_for(result) %></td>
-          <% end %>
-        <% end %>
-        <td>
-          <%= display_audit_info(result, :format => 'compact') %>
-        </td>
-        <% if !params[:linker] || params[:linker] === 'false' %>
-          <td class="table-record-actions">
-            <% if not deleted %>
-              <div class="btn-group">
-                <%= link_to I18n.t("actions.view"), {:controller => :resolver, :action => :resolve_readonly, :uri => result["id"]}, :class => "btn btn-xs btn-default" %>
-                <% if can_edit_search_result?(result) %>
-                  <%= link_to I18n.t("actions.edit"), {:controller => :resolver, :action => :resolve_edit, :uri => result["id"]}, :class => "btn btn-xs btn-primary" %>
-                <% end %>
-              </div>
-              <% if result['primary_type'] === "repository" and @repositories.any?{|r| r['uri'] === result['id']} %>
-
-                <% if current_repo['uri'] != result['id'] %>
-                  <%= form_tag({:action => :select, :id => JSONModel(:repository).id_for(result['id'])}, {:style => "display: inline;"}) do |f| %>
-                    <button type="submit" class="btn btn-xs btn-success"><%= I18n.t("repository._frontend.action.select") %></button>
-                  <% end %>
-                <% end %>
-              <% end %>
-            <% end %>
-          </td>
-        <% end %>
-      </tr>
-    <% end %>
+        </tr>
+      <% end %>
     </tbody>
   </table>
+
   <%= render_aspace_partial :partial => "shared/pagination" %>
 <% else %>
   <p class="alert alert-info">

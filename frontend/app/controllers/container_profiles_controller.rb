@@ -21,11 +21,14 @@ class ContainerProfilesController < ApplicationController
         search_params = params_for_backend_search.merge({"facet[]" => SearchResultData.CONTAINER_PROFILE_FACETS})
         search_params["type[]"] = "container_profile"
         uri = "/repositories/#{session[:repo_id]}/search"
-        csv_response( uri, search_params )
+        csv_response( uri, Search.build_filters(search_params), "#{I18n.t('container_profile._plural').downcase}." )
       }
     end
   end
 
+  def current_record
+    @container_profile
+  end
 
   def show
     @container_profile = JSONModel(:container_profile).find(params[:id])
@@ -40,11 +43,11 @@ class ContainerProfilesController < ApplicationController
   def create
     handle_crud(:instance => :container_profile,
                 :model => JSONModel(:container_profile),
-                :on_invalid => ->(){
+                :on_invalid => ->() {
                   return render_aspace_partial :partial => "container_profiles/new" if inline?
                   return render :action => :new
                 },
-                :on_valid => ->(id){
+                :on_valid => ->(id) {
                   if inline?
                     @container_profile.refetch
                     render :json => @container_profile.to_hash if inline?
@@ -58,15 +61,14 @@ class ContainerProfilesController < ApplicationController
 
 
   def update
-
     handle_crud(:instance => :container_profile,
                 :model => JSONModel(:container_profile),
                 :obj => JSONModel(:container_profile).find(params[:id]),
                 :replace => true,
-                :on_invalid => ->(){
+                :on_invalid => ->() {
                   return render :action => :edit
                 },
-                :on_valid => ->(id){
+                :on_valid => ->(id) {
                   redirect_to(:controller => :container_profiles, :action => :show, :id => id)
                 })
   end

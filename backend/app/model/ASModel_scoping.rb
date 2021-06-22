@@ -13,7 +13,6 @@ module ASModel
   end
 
 
-
   module ModelScoping
 
     def self.included(base)
@@ -63,7 +62,6 @@ module ASModel
       if model == Resource || model == Accession
         reindex_top_containers
       end
-
     end
 
 
@@ -114,6 +112,16 @@ module ASModel
           model = self
           orig_ds = self.dataset.clone
 
+          # Fetch the request row but blow up if the row isn't from the currently active repository
+          orig_ds.with_row_proc(
+            proc do |row|
+              if row.has_key?(:repo_id) && row[:repo_id] != model.active_repository
+                raise ("ASSERTION FAILED: #{row.inspect} has a repo_id of " +
+                      "#{row[:repo_id]} but the active repository is #{model.active_repository}")
+              end
+            end
+          )
+
           # Provide a new '.this_repo' method on this model class that only
           # returns records that belong to the current repository.
           def_dataset_method(:this_repo) do
@@ -134,19 +142,6 @@ module ASModel
             else
               orig_ds
             end
-          end
-
-
-          # Replace the default row_proc with one that fetches the request row,
-          # but blows up if that row isn't from the currently active repository.
-          orig_row_proc = self.dataset.row_proc
-          self.dataset.row_proc = proc do |row|
-            if row.has_key?(:repo_id) && row[:repo_id] != model.active_repository
-              raise ("ASSERTION FAILED: #{row.inspect} has a repo_id of " +
-                     "#{row[:repo_id]} but the active repository is #{model.active_repository}")
-            end
-
-            orig_row_proc.call(row)
           end
 
         else

@@ -6,15 +6,15 @@
 <title>
   Module: SequelColumnTypes
   
-    &mdash; Documentation by YARD 0.9.20
+    &mdash; Documentation by YARD 0.9.25
   
 </title>
 
-  <link rel="stylesheet" href="css/style.css" type="text/css" charset="utf-8" />
+  <link rel="stylesheet" href="css/style.css" type="text/css" />
 
-  <link rel="stylesheet" href="css/common.css" type="text/css" charset="utf-8" />
+  <link rel="stylesheet" href="css/common.css" type="text/css" />
 
-<script type="text/javascript" charset="utf-8">
+<script type="text/javascript">
   pathId = "SequelColumnTypes";
   relpath = '';
 </script>
@@ -375,6 +375,9 @@ Creation is the normal:</p>
       <pre class="lines">
 
 
+136
+137
+138
 139
 140
 141
@@ -382,13 +385,10 @@ Creation is the normal:</p>
 143
 144
 145
-146
-147
-148
-149</pre>
+146</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/db/db_migrator.rb', line 139</span>
+      <pre class="code"><span class="info file"># File 'common/db/db_migrator.rb', line 136</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_apply_mtime_columns identifier id'>apply_mtime_columns</span><span class='lparen token'>(</span><span class='rubyid_create_time identifier id'>create_time</span> <span class='assign token'>=</span> <span class='rubyid_true true kw'>true</span><span class='rparen token'>)</span>
   <span class='rubyid_String constant id'>String</span> <span class='symbol val'>:created_by</span>
@@ -422,18 +422,18 @@ Creation is the normal:</p>
       <pre class="lines">
 
 
+125
+126
+127
 128
 129
 130
 131
 132
-133
-134
-135
-136</pre>
+133</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/db/db_migrator.rb', line 128</span>
+      <pre class="code"><span class="info file"># File 'common/db/db_migrator.rb', line 125</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_apply_name_columns identifier id'>apply_name_columns</span>
   <span class='rubyid_String constant id'>String</span> <span class='symbol val'>:authority_id</span><span class='comma token'>,</span> <span class='symbol val'>:null</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_true true kw'>true</span>
@@ -465,12 +465,12 @@ Creation is the normal:</p>
       <pre class="lines">
 
 
-112
-113
-114</pre>
+109
+110
+111</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/db/db_migrator.rb', line 112</span>
+      <pre class="code"><span class="info file"># File 'common/db/db_migrator.rb', line 109</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_BlobField constant id'>BlobField</span><span class='lparen token'>(</span><span class='rubyid_field identifier id'>field</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
   <span class='rubyid_create_column identifier id'>create_column</span><span class='lparen token'>(</span><span class='mult op'>*</span><span class='rubyid_ColumnDefs constant id'>ColumnDefs</span><span class='dot token'>.</span><span class='rubyid_blobField identifier id'>blobField</span><span class='lparen token'>(</span><span class='rubyid_field identifier id'>field</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
@@ -496,16 +496,16 @@ Creation is the normal:</p>
       <pre class="lines">
 
 
+81
+82
+83
 84
 85
 86
-87
-88
-89
-90</pre>
+87</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/db/db_migrator.rb', line 84</span>
+      <pre class="code"><span class="info file"># File 'common/db/db_migrator.rb', line 81</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_create_column identifier id'>create_column</span><span class='lparen token'>(</span><span class='mult op'>*</span><span class='rubyid_column_def identifier id'>column_def</span><span class='rparen token'>)</span>
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_respond_to? fid id'>respond_to?</span><span class='lparen token'>(</span><span class='symbol val'>:column</span><span class='rparen token'>)</span>
@@ -535,13 +535,13 @@ Creation is the normal:</p>
       <pre class="lines">
 
 
-122
-123
-124
-125</pre>
+119
+120
+121
+122</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/db/db_migrator.rb', line 122</span>
+      <pre class="code"><span class="info file"># File 'common/db/db_migrator.rb', line 119</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_DynamicEnum constant id'>DynamicEnum</span><span class='lparen token'>(</span><span class='rubyid_field identifier id'>field</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
   <span class='rubyid_Integer constant id'>Integer</span> <span class='rubyid_field identifier id'>field</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span>
@@ -568,12 +568,12 @@ Creation is the normal:</p>
       <pre class="lines">
 
 
-102
-103
-104</pre>
+99
+100
+101</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/db/db_migrator.rb', line 102</span>
+      <pre class="code"><span class="info file"># File 'common/db/db_migrator.rb', line 99</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_HalfLongString constant id'>HalfLongString</span><span class='lparen token'>(</span><span class='rubyid_field identifier id'>field</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
   <span class='rubyid_create_column identifier id'>create_column</span><span class='lparen token'>(</span><span class='mult op'>*</span><span class='rubyid_ColumnDefs constant id'>ColumnDefs</span><span class='dot token'>.</span><span class='rubyid_halfLongString identifier id'>halfLongString</span><span class='lparen token'>(</span><span class='rubyid_field identifier id'>field</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
@@ -599,12 +599,12 @@ Creation is the normal:</p>
       <pre class="lines">
 
 
-98
-99
-100</pre>
+95
+96
+97</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/db/db_migrator.rb', line 98</span>
+      <pre class="code"><span class="info file"># File 'common/db/db_migrator.rb', line 95</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_LongString constant id'>LongString</span><span class='lparen token'>(</span><span class='rubyid_field identifier id'>field</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
   <span class='rubyid_create_column identifier id'>create_column</span><span class='lparen token'>(</span><span class='mult op'>*</span><span class='rubyid_ColumnDefs constant id'>ColumnDefs</span><span class='dot token'>.</span><span class='rubyid_longString identifier id'>longString</span><span class='lparen token'>(</span><span class='rubyid_field identifier id'>field</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
@@ -630,12 +630,12 @@ Creation is the normal:</p>
       <pre class="lines">
 
 
-117
-118
-119</pre>
+114
+115
+116</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/db/db_migrator.rb', line 117</span>
+      <pre class="code"><span class="info file"># File 'common/db/db_migrator.rb', line 114</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_MediumBlobField constant id'>MediumBlobField</span><span class='lparen token'>(</span><span class='rubyid_field identifier id'>field</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
   <span class='rubyid_create_column identifier id'>create_column</span><span class='lparen token'>(</span><span class='mult op'>*</span><span class='rubyid_ColumnDefs constant id'>ColumnDefs</span><span class='dot token'>.</span><span class='rubyid_mediumBlobField identifier id'>mediumBlobField</span><span class='lparen token'>(</span><span class='rubyid_field identifier id'>field</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
@@ -661,12 +661,12 @@ Creation is the normal:</p>
       <pre class="lines">
 
 
-107
-108
-109</pre>
+104
+105
+106</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/db/db_migrator.rb', line 107</span>
+      <pre class="code"><span class="info file"># File 'common/db/db_migrator.rb', line 104</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_TextBlobField constant id'>TextBlobField</span><span class='lparen token'>(</span><span class='rubyid_field identifier id'>field</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
   <span class='rubyid_create_column identifier id'>create_column</span><span class='lparen token'>(</span><span class='mult op'>*</span><span class='rubyid_ColumnDefs constant id'>ColumnDefs</span><span class='dot token'>.</span><span class='rubyid_textBlobField identifier id'>textBlobField</span><span class='lparen token'>(</span><span class='rubyid_field identifier id'>field</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
@@ -692,12 +692,12 @@ Creation is the normal:</p>
       <pre class="lines">
 
 
-93
-94
-95</pre>
+90
+91
+92</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/db/db_migrator.rb', line 93</span>
+      <pre class="code"><span class="info file"># File 'common/db/db_migrator.rb', line 90</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_TextField constant id'>TextField</span><span class='lparen token'>(</span><span class='rubyid_field identifier id'>field</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
   <span class='rubyid_create_column identifier id'>create_column</span><span class='lparen token'>(</span><span class='mult op'>*</span><span class='rubyid_ColumnDefs constant id'>ColumnDefs</span><span class='dot token'>.</span><span class='rubyid_textField identifier id'>textField</span><span class='lparen token'>(</span><span class='rubyid_field identifier id'>field</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
@@ -713,9 +713,9 @@ Creation is the normal:</p>
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.7.1-RC1.a Documentation Generated on Thu Feb  6 10:07:38 2020 by
+  ArchivesSpace Version v2.8.1.a Documentation Generated on Wed Nov 11 13:21:37 2020 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.20.
+  0.9.25.
 </div>
 
     </div>

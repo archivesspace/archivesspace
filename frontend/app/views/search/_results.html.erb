@@ -1,6 +1,5 @@
 <%
   title = I18n.t("search_results.title") if title.nil?
-  @display_context = true
 %>
 
 <div class="row">
@@ -10,7 +9,7 @@
   <div class="col-md-9">
     <div class="record-toolbar">
       <div class="btn-group pull-right">
-        <%= link_to I18n.t("actions.export_csv"), request.parameters.merge({ :format => :csv, :fields => ['primary_type', 'title', 'identifier']}), id: "searchExport",  class:  "btn btn-sm btn-info" %>
+        <%= link_to I18n.t("actions.export_csv"), request.parameters.merge({ :format => :csv, :fields => fields}), id: "searchExport",  class:  "btn btn-sm btn-info" %>
       </div>
       <br style="clear:both" />
     </div>

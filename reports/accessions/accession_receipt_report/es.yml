@@ -1,0 +1,6 @@
+es:
+  reports:
+    accession_receipt_report:
+      title: Informe de recepción de adhesión
+      description: Muestra un recibo que indica la adhesión de materiales. El informe contiene el número de acceso, el título, el alcance, la fecha de acceso y el depósito.
+      identifier_prefix: Adhesión

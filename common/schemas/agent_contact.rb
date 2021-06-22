@@ -21,7 +21,13 @@
       "fax" => {"type" => "string", "maxLength" => 65000},
       "email" => {"type" => "string", "maxLength" => 65000},
       "email_signature" => {"type" => "string", "maxLength" => 65000},
-      "note" => {"type" => "string", "maxLength" => 65000},
+
+      "notes" => {
+        "type" => "array",
+        "items" => {"type" => [{"type" => "JSONModel(:note_contact_note) object"},
+                               {"type" => "JSONModel(:note_chronology) object"}]},
+      },
+      "is_representative" => {"type" => "boolean", "default" => false},
     },
   },
 }

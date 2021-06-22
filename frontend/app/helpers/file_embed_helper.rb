@@ -28,6 +28,7 @@ module FileEmbedHelper
       if %w(jpeg gif).include?(file_version['file_format_name']) &&
         uri.scheme =~ /http/ &&
         file_version['file_size_bytes'].to_i < 512001
+
         true
       else
         false

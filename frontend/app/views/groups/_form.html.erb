@@ -5,7 +5,8 @@
     <div class="member-toolbar col-xs-10">
       <div class="form-group">
         <div class="input-group col-xs-6">
-          <input id="new-member" class="form-control" type="text" autocomplete="off" placeholder="Username" />
+          <label for="new-member" class="sr-only"><%= I18n.t("user.username") %> </label>
+          <input id="new-member" class="form-control" type="text" autocomplete="off" placeholder="<%= I18n.t("user.username") %>" />
           <span class="input-group-btn">
             <button id="add-new-member" class="btn btn-default"><%= I18n.t("actions.add") %></button>
 
@@ -25,7 +26,8 @@
 </div>
 
 <div class="form-group">
-    <label for="permissionlist" class="control-label col-xs-2"><%= I18n.t("group.permissions") %></label>
+  <fieldset>
+    <legend class="control-label col-xs-2"><%= I18n.t("group.permissions") %></legend>
     <div class="col-xs-10">
       <% JSONModel(:permission).all(:level => "repository").each do |permission| %>
         <div class="input-group">
@@ -38,11 +40,13 @@
             <% end %>
                    value="<%= permission.permission_code %>" />
           </span>
-          <input type="text" disabled class="form-control" value="<%= I18n.t("group.permission_types.#{permission.permission_code}", :default => permission.permission_code) %>" />
-
+          <label class="form-control" for="<%= permission.permission_code %>" disabled>
+            <%= I18n.t("group.permission_types.#{permission.permission_code}", :default => permission.permission_code) %>
+          </label>
         </div>
       <% end %>
     </div>
+  </fieldset>
 </div>
 
 <div class="form-actions">
@@ -53,5 +57,5 @@
       <%= I18n.t("group._frontend.action.save") %>
     <% end %>
   </button>
-  <%= link_to I18n.t("actions.cancel"), {:controller => :groups, :action => :index}, :class => "btn btn-secondary btn-cancel" %>
+  <%= link_to I18n.t("actions.cancel"), {:controller => :groups, :action => :index}, :class => "btn btn-secondary btn-cancel btn-default" %>
 </div>

@@ -11,11 +11,11 @@ describe 'Location Profile model' do
 
 
   it "enforces name uniqueness" do
-      create(:json_location_profile, :name => "1234")
+    create(:json_location_profile, :name => "1234")
 
-      expect {
-        create(:json_location_profile, :name => "1234")
-      }.to raise_error(JSONModel::ValidationException)
+    expect {
+      create(:json_location_profile, :name => "1234")
+    }.to raise_error(JSONModel::ValidationException)
   end
 
 

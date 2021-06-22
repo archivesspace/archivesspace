@@ -47,7 +47,7 @@ class AbstractSubreport
   end
 
   def self.code
-    self.name.gsub(/(.)([A-Z])/,'\1_\2').downcase
+    self.name.gsub(/(.)([A-Z])/, '\1_\2').downcase
   end
 
   def self.field_name

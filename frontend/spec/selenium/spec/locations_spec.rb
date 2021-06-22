@@ -29,7 +29,7 @@ describe 'Locations' do
 
     @driver.find_element_with_text('//div[contains(@class, "error")]', /Building - Property is required but was missing/)
 
-    @driver.clear_and_send_keys([:id, 'location_building_'], '129 W. 81st St')
+    @driver.clear_and_send_keys([:id, 'location_building_'], '329 W. 81st St')
     @driver.click_and_wait_until_gone(css: 'form#new_location .btn-primary')
 
     @driver.find_element_with_text('//div[contains(@class, "error")]', /You must either specify a barcode, a classification, or both a coordinate 1 label and coordinate 1 indicator/)
@@ -49,9 +49,18 @@ describe 'Locations' do
 
   it 'allows locations to be edited' do
     @driver.clear_and_send_keys([:id, 'location_room_'], '5A')
+    @driver.find_element(id: 'location_temporary_question_').click
+    @driver.find_element(id: 'location_temporary_').select_option('conservation')
     @driver.click_and_wait_until_gone(css: 'form#new_location .btn-primary')
-
     @driver.find_element_with_text('//div[contains(@class, "alert-success")]', /Location Saved/)
+    expect(@driver.find_element(id: "location_temporary_").get_select_value).to eq('conservation')
+  end
+
+  it 'persists the temporary location' do
+    @driver.click_and_wait_until_gone(css: 'a.hide-alert')
+    @driver.click_and_wait_until_gone(css: 'form#new_location .btn-primary')
+    @driver.find_element_with_text('//div[contains(@class, "alert-success")]', /Location Saved/)
+    expect(@driver.find_element(id: "location_temporary_").get_select_value).to eq('conservation')
   end
 
   it 'lists the new location in the browse list' do
@@ -63,7 +72,25 @@ describe 'Locations' do
     @driver.wait_for_dropdown
     @driver.click_and_wait_until_gone(:link, 'Locations')
 
-    @driver.find_paginated_element(xpath: "//tr[.//*[contains(text(), '129 W. 81st St, 5, 5A [Box XYZ: XYZ0001]')]]")
+    @driver.find_paginated_element(xpath: "//tr[.//*[contains(text(), '329 W. 81st St, 5, 5A [Box XYZ: XYZ0001]')]]")
+  end
+
+  it 'saves a valid repository-owned location' do
+    @driver.find_element(:link, 'Create').click
+    @driver.find_element(:link, 'Location').click
+    @driver.click_and_wait_until_gone(:link, 'Single Location')
+    expect(@driver.find_element(:css, 'h2').text).to eq('New Location Location')
+
+    @driver.clear_and_send_keys([:id, 'location_building_'], 'Repo Building')
+    @driver.clear_and_send_keys([:id, 'location_coordinate_1_label_'], 'Section')
+    @driver.clear_and_send_keys([:id, 'location_coordinate_1_indicator_'], '0001')
+
+    token_input = @driver.find_element(:id, 'token-input-location_owner_repo__ref_')
+    @driver.typeahead_and_select(token_input, "locations_test_")
+
+    @driver.click_and_wait_until_gone(css: 'form#new_location .btn-primary')
+
+    @driver.find_element_with_text('//div[contains(@class, "alert-success")]', /Location Created/)
   end
 
   it 'allows the new location to be viewed in non-edit mode' do
@@ -72,10 +99,10 @@ describe 'Locations' do
     @driver.find_element(:link, 'Browse').click
     @driver.wait_for_dropdown
     @driver.click_and_wait_until_gone(:link, 'Locations')
-    @driver.clear_and_send_keys([:css, '.sidebar input.text-filter-field'], '129*')
+    @driver.clear_and_send_keys([:css, '.sidebar input.text-filter-field'], '329*')
     @driver.click_and_wait_until_gone(:css, '.sidebar input.text-filter-field + div button')
     @driver.click_and_wait_until_gone(:link, 'Edit')
-    assert(5) { expect(@driver.find_element(:css, '.record-pane h2').text).to match(/129 W\. 81st St/) }
+    assert(5) { expect(@driver.find_element(:css, '.record-pane h2').text).to match(/329 W\. 81st St/) }
   end
 
   it 'allows creation of a location with plus one stickies' do
@@ -86,7 +113,7 @@ describe 'Locations' do
     @driver.find_element(:link, 'Location').click
 
     @driver.click_and_wait_until_gone(:link, 'Single Location')
-    @driver.clear_and_send_keys([:id, 'location_building_'], '123 Fake St')
+    @driver.clear_and_send_keys([:id, 'location_building_'], '523 Fake St')
     @driver.clear_and_send_keys([:id, 'location_floor_'], '13')
     @driver.clear_and_send_keys([:id, 'location_room_'], '237')
     @driver.clear_and_send_keys([:id, 'location_area_'], '37')
@@ -105,7 +132,7 @@ describe 'Locations' do
     end.not_to raise_error
 
     # these are sticky
-    assert(5) { expect(@driver.find_element(:id, 'location_building_').attribute('value')).to eq('123 Fake St') }
+    assert(5) { expect(@driver.find_element(:id, 'location_building_').attribute('value')).to eq('523 Fake St') }
     assert(5) { expect(@driver.find_element(:id, 'location_floor_').attribute('value')).to eq('13') }
     assert(5) { expect(@driver.find_element(:id, 'location_room_').attribute('value')).to eq('237') }
     assert(5) { expect(@driver.find_element(:id, 'location_area_').attribute('value')).to eq('37') }
@@ -122,7 +149,7 @@ describe 'Locations' do
     @driver.wait_for_dropdown
     @driver.click_and_wait_until_gone(:link, 'Locations')
 
-    @driver.find_paginated_element(xpath: "//tr[.//*[contains(text(), '129 W. 81st St, 5, 5A [Box XYZ: XYZ0001]')]]")
+    @driver.find_paginated_element(xpath: "//tr[.//*[contains(text(), '329 W. 81st St, 5, 5A [Box XYZ: XYZ0001]')]]")
   end
 
   it "doesn't offer location edit actions to an archivist" do
@@ -154,8 +181,21 @@ describe 'Locations' do
     @driver.click_and_wait_until_gone(:link, 'Locations')
 
     expect do
-      @driver.find_paginated_element(xpath: "//tr[.//*[contains(text(), '129 W. 81st St, 5, 5A [Box XYZ: XYZ0001]')]]")
+      @driver.find_paginated_element(xpath: "//tr[.//*[contains(text(), '329 W. 81st St, 5, 5A [Box XYZ: XYZ0001]')]]")
     end.not_to raise_error
+  end
+
+  it 'lists then filters locations by repository' do
+    run_all_indexers
+
+    @driver.find_element(:link, 'Browse').click
+    @driver.wait_for_dropdown
+    @driver.click_and_wait_until_gone(:link, 'Locations')
+
+    assert(5) { @driver.find_element_with_text('//h3', /Repository/) }
+    assert(5) { @driver.find_element_with_text('//a', /LOCATIONS_TEST_/) }
+    @driver.find_element_with_text('//a', /LOCATIONS_TEST_/).click
+    assert(5) { @driver.find_element_with_text('//div', /Showing .*1.* of.*Results/) }
   end
 
   describe 'Location batch' do
@@ -244,7 +284,7 @@ describe 'Locations' do
       @driver.click_and_wait_until_gone(:css, '.sidebar input.text-filter-field + div button')
 
       (0..7).each do |i|
-        @driver.execute_script("$($('.multiselect-column input').get(#{i})).click()")
+        @driver.execute_script("$($('td.multiselect-column input').get(#{i})).click()")
       end
 
       @driver.find_element(:css, '.record-toolbar .btn.multiselect-enabled.edit-batch').click
@@ -295,6 +335,35 @@ describe 'Locations' do
       assert(5) { expect(@driver.find_element(:id,  'location_batch_floor_').attribute('value')).to eq('2nd') }
       assert(5) { expect(@driver.find_element(:id,  'location_batch_room_').attribute('value')).to eq('201') }
       assert(5) { expect(@driver.find_element(:id, 'location_batch_area_').attribute('value')).to eq('Corner') }
+    end
+
+    it 'correctly sorts locations in the browse list' do
+      @driver.get($frontend)
+
+      @driver.find_element(:link, 'Browse').click
+      @driver.wait_for_dropdown
+      @driver.click_and_wait_until_gone(:link, 'Locations')
+
+      # should be sorted by column 1 (location) by default
+
+      table_rows = @driver.find_elements(:css, "tr")
+      table_rows.shift
+
+      table_rows_location_text = []
+      table_rows.each do |row|
+        table_rows_location_text << row.find_elements(:css, "td")[1].text
+      end
+
+      table_rows_location_text_sorted = table_rows_location_text.sort
+
+      ns_idx1 = table_rows_location_text.index { |i| i =~ /329 W\. 81st St/ }
+      ns_idx2 = table_rows_location_text.index { |i| i =~ /1978 Awesome Street/ }
+      ss_idx1 = table_rows_location_text_sorted.index { |i| i =~ /329 W\. 81st St/ }
+      ss_idx2 = table_rows_location_text_sorted.index { |i| i =~ /1978 Awesome Street/ }
+
+      expect(ns_idx1).to be < ns_idx2
+      expect(ss_idx1).to be > ss_idx2
+      expect(table_rows_location_text).not_to eq(table_rows_location_text_sorted)
     end
   end
 end

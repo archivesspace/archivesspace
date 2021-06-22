@@ -1,6 +1,6 @@
 class EnumerationsController < ApplicationController
 
-  set_access_control  "update_enumeration_record" => [:new, :create, :index, :delete, :destroy, :merge, :set_default, :update_value]
+  set_access_control "update_enumeration_record" => [:new, :create, :index, :delete, :destroy, :merge, :set_default, :update_value, :csv]
 
 
   def new
@@ -13,6 +13,11 @@ class EnumerationsController < ApplicationController
     # @enumerations = JSONModel(:enumeration).all.select{|enum| enum['editable']}
     @enumerations = JSONModel(:enumeration).all
     @enumeration = JSONModel(:enumeration).find(params[:id]) if params[:id] and not params[:id].blank?
+  end
+
+
+  def current_record
+    @enumeration
   end
 
 
@@ -39,17 +44,14 @@ class EnumerationsController < ApplicationController
     end
 
     redirect_to(:controller => :enumerations, :action => :index, :id => params[:id])
-
   end
 
 
   # we only update position and suppression here
   def update_value
-
-      @enumeration_value = JSONModel(:enumeration_value).find( params[:enumeration_value_id])
+    @enumeration_value = JSONModel(:enumeration_value).find( params[:enumeration_value_id])
 
     begin
-
       if params[:suppressed]
         suppress = ( params[:suppressed] == "1" )
         @enumeration_value.set_suppressed(suppress)
@@ -65,7 +67,6 @@ class EnumerationsController < ApplicationController
     end
 
     redirect_to(:controller => :enumerations, :action => :index, :id => params[:id])
-
   end
 
 
@@ -78,7 +79,7 @@ class EnumerationsController < ApplicationController
       @enumeration.save
 
       flash[:success] = I18n.t("enumeration._frontend.messages.deleted")
-      render :text => "Success"
+      render :plain => "Success"
     rescue ConflictException
       flash.now[:error] = I18n.t("enumeration._frontend.messages.delete_conflict")
       flash.now[:info] = I18n.t("enumeration._frontend.messages.merge_tip")
@@ -111,7 +112,7 @@ class EnumerationsController < ApplicationController
       request.save
 
       flash[:success] = I18n.t("enumeration._frontend.messages.merged")
-      render :text => "Success"
+      render :plain => "Success"
     rescue
       flash.now[:error] = I18n.t("enumeration._frontend.messages.merge_error")
       render_aspace_partial :partial => "merge"
@@ -131,13 +132,27 @@ class EnumerationsController < ApplicationController
       @enumeration.save
 
       flash[:success] = I18n.t("enumeration._frontend.messages.created")
-      render :text => "Success"
+      render :plain => "Success"
     rescue
       flash.now[:error] = I18n.t("enumeration._frontend.messages.create_error")
       render_aspace_partial :partial => "new"
     end
-
   end
 
 
+  def csv
+    @enumerations = JSONModel(:enumeration).all
+
+    self.response.headers['Content-Type'] = 'text/csv'
+    self.response.headers['Content-Disposition'] = "attachment; filename=enumerations_#{Time.now.strftime('%Y%m%dT%H%M%S')}.csv"
+    self.response.headers['Last-Modified'] = Time.now.ctime
+
+    self.response_body = Enumerator.new do |stream|
+      JSONModel::HTTP.stream("/config/enumerations/csv") do |response|
+        response.read_body do |chunk|
+          stream << chunk
+        end
+      end
+    end
+  end
 end

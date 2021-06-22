@@ -49,12 +49,12 @@ AbstractRelationship = Class.new(Sequel::Model) do
     columns = if obj1.class == obj2.class
       # If our two related objects are of the same type, we'll get back multiple
       # columns here anyway
-      raise ReferenceError.new("Can't relate an object to itself") if obj1.id == obj2.id
+                raise ReferenceError.new("Can't relate an object to itself") if obj1.id == obj2.id
 
-      self.reference_columns_for(obj1.class)
-    else
-      [self.reference_columns_for(obj1.class).first, self.reference_columns_for(obj2.class).first]
-    end
+                self.reference_columns_for(obj1.class)
+              else
+                [self.reference_columns_for(obj1.class).first, self.reference_columns_for(obj2.class).first]
+              end
 
     if columns.include?(nil)
       raise ("One of the relationship columns for #{obj1} and #{obj2} couldn't be found." +
@@ -71,7 +71,7 @@ AbstractRelationship = Class.new(Sequel::Model) do
     # some objects ( like events? ) seem to leak their ids into the mix.
     values.reject! { |key| key == :id or key == "id"  }
     if ( obj1.is_a?(Location) or obj2.is_a?(Location) )
-      values.reject! { |key| key == :jsonmodel_type or key == "jsonmodel_type"  }
+      values.reject! { |key| key == :jsonmodel_type or key == "jsonmodel_type" }
     end
     self.create(values)
   end
@@ -92,62 +92,201 @@ AbstractRelationship = Class.new(Sequel::Model) do
 
     victims_by_model = victims.reject {|v| (v.class == target.class) && (v.id == target.id)}.group_by(&:class)
 
-    victims_by_model.each do |victim_model, victims|
+    # We're going to have to handle container profiles separately since victim
+    # cp relationships have to be compared against one another prior to merging.
+    # We'll just use this method to store container profile relationships then
+    # actually handle container profile relationships in the separate
+    # `cleanup_container_profile_relationships` method below
+    victim_container_profiles = []
 
-      # If we're merging a record of type A with relationship R into a record of
-      # type B, type B must also support that relationship type.  If it doesn't,
-      # we risk losing data through the merge and should abort.
-      #
-      unless participating_models.include?(victim_model)
-        found = self.find_by_participant_ids(victim_model, victims.map(&:id))
+    victims_by_model.each do |victim_model, vics|
 
-        unless found.empty?
-          raise ReferenceError.new("#{victim_model} to be merged has data for relationship #{self}, but target record doesn't support it.")
-        end
-      end
-
+      confirm_accepts_target(victim_model, vics)
       victim_columns = self.reference_columns_for(victim_model)
 
       victim_columns.each do |victim_col|
 
-        # Find any relationship where the current column contains a reference to
-        # our victim
-        self.filter(victim_col => victims.map(&:id)).each do |relationship|
+        vics.each do |victim|
 
-          # Remove this relationship's reference to the victim
-          relationship[victim_col] = nil
+          who_participates_with(victim).each do |parent|
+            parent_col = reference_columns_for(parent.class).first
+            # Find any relationship where the current column contains a reference to
+            # our victim
+            self.exclude(parent_col => nil).filter(victim_col => vics.map(&:id)).each do |relationship|
+              target_pre = find_by_participant(target)
 
-          # Now add a new reference to the target (which, if the victim and
-          # target are of different types, might require updating a different
-          # column to the one we just set to NULL)
-          target_columns.each do |target_col|
+              # Remove this relationship's reference to the victim
+              relationship[victim_col] = nil
 
-            if relationship[target_col]
-              # This column is already used to reference the other record in our
-              # relationship so we'll skip over it.  But while we're here, make
-              # sure we're not about to create a circular relationship.
+              # When merging top containers, you also have to deal with the fact
+              # that subcontainers and instances may also need to be deleted.  This
+              # array stores records that will be deleted in cleanup_duplicates.
+              dups = []
 
-              if relationship[target_col] == target.id
-                raise "Transfer would create a circular relationship!"
+              # Now add a new reference to the target (which, if the victim and
+              # target are of different types, might require updating a different
+              # column to the one we just set to NULL)
+              target_columns.each do |target_col|
+
+                if relationship[target_col]
+                  # This column is already used to reference the other record in our
+                  # relationship so we'll skip over it.  But while we're here, make
+                  # sure we're not about to create a circular relationship.
+
+                  if relationship[target_col] == target.id
+                    raise "Transfer would create a circular relationship!"
+                  end
+
+                elsif relationship.is_a?(Relationships::SubContainerTopContainerLink) && !find_by_participant(target).empty?
+                  identify_duplicate_containers(target, relationship, target_col, dups)
+
+                elsif relationship.is_a?(Relationships::ContainerProfileTopContainerProfile)
+                  victim_container_profiles << relationship
+
+                else
+                  target_pre.each do |pre|
+                    if pre[parent_col] == relationship[parent_col]
+                      dups << relationship
+                    end
+                  end
+                  transfer_relationship_to_target(relationship, target_col, target, true)
+                  break
+                end
+
               end
 
-            else
-              # Found a free column.  Store our updated reference here.
-              relationship[target_col] = target.id
-              break
+              relationship[:system_mtime] = Time.now
+              relationship[:user_mtime] = Time.now
+
+              relationship.save
+
+              cleanup_duplicates(dups)
             end
-
           end
-
-          relationship[:system_mtime] = Time.now
-          relationship[:user_mtime] = Time.now
-
-          relationship.save
         end
+      end
+    end
+
+    cleanup_container_profile_relationships(victim_container_profiles, target)
+
+    # Finally, reindex the target record for good measure (and, in the case of
+    # top containers, to update the associated collections)
+    target[:system_mtime] = Time.now
+    target[:user_mtime] = Time.now
+
+    target.save
+  end
+
+
+  # If we're merging a record of type A with relationship R into a record of
+  # type B, type B must also support that relationship type.  If it doesn't,
+  # we risk losing data through the merge and should abort.
+  def self.confirm_accepts_target(victim_model, vics)
+    unless participating_models.include?(victim_model)
+      found = self.find_by_participant_ids(victim_model, vics.map(&:id))
+
+      unless found.empty?
+        raise ReferenceError.new("#{victim_model} to be merged has data for relationship #{self}, but target record doesn't support it.")
       end
     end
   end
 
+
+  def self.transfer_relationship_to_target(relationship, target_col, target, skip_refresh=false)
+    relationship[target_col] = target.id
+    unless skip_refresh
+      relationship[:system_mtime] = Time.now
+      relationship[:user_mtime] = Time.now
+
+      relationship.save
+    end
+  end
+
+
+  # ANW-952: After merging objects together you may be left with two
+  # relationships that link to the same post-merge record.  This deletes
+  # those duplicated relationships after the merge process is complete.
+  def self.cleanup_duplicates(dups)
+    if !dups.empty?
+      dups.each {|d| d.delete}
+    end
+  end
+
+
+  def self.identify_duplicate_containers(target, relationship, target_col, dups)
+    find_by_participant(target).each do |target_relationship|
+      subcontainer = SubContainer[relationship[:sub_container_id]]
+      target_subcontainer = SubContainer[target_relationship[:sub_container_id]]
+      # Only proceed if the subcontainer record is empty
+      if [:type_2_id, :indicator_2, :type_3_id, :indicator_3].map {|k| subcontainer[k]}.compact.empty?
+        instance = Instance[subcontainer[:instance_id]]
+        target_instance = Instance[target_subcontainer[:instance_id]]
+        [:accession_id, :archival_object_id, :resource_id].each do |p|
+          next if instance[p].nil?
+          # If subcontainer is empty and if the subcontainer's instance
+          # record links to the same parent record (ao, accession, or
+          # resource), delete the subcontainer and the instance.
+          if instance[p] == target_instance[p]
+            dups << subcontainer
+            dups << instance
+            break
+          else
+            transfer_relationship_to_target(relationship, target_col, target, true)
+            break
+          end
+        end
+      else
+        transfer_relationship_to_target(relationship, target_col, target, true)
+        break
+      end
+    end
+  end
+
+
+  # When merging top containers there is the possibility that multiple container
+  # profiles might be relinked to the surviving top container, despite the fact
+  # that top containers should only ever have on linked container profile.
+  # While future work should actually make db-level/schema-level changes to
+  # prohibit linking multiple container profiles to a single top container, in the
+  # interim, this method ensures that container profile relationships are handled
+  # separately from other linked record transfers and ensures only one container
+  # profile (or, conditionally, no container profiles) survives the merge process.
+  def self.cleanup_container_profile_relationships(victim_container_profiles, target)
+    target_relationship = nil
+    find_by_participant(target).each do |target_rlshp|
+      if !target_rlshp.nil? && target_rlshp.is_a?(Relationships::ContainerProfileTopContainerProfile)
+        target_relationship = target_rlshp
+      end
+    end
+    victim_container_profiles_unique = victim_container_profiles.map {|v| v[:container_profile_id]}
+    # If the target has a linked container profile already, delete all victim
+    # container profile relationships
+    if !target_relationship.nil?
+      cleanup_duplicates(victim_container_profiles)
+    else
+      # If the array of victims only has one container profile relationship
+      # transfer that relationship over to the merge target
+      if victim_container_profiles.count == 1
+        victim_container_profile = victim_container_profiles.first
+        transfer_relationship_to_target(victim_container_profile, :top_container_id, target)
+      elsif victim_container_profiles.count > 1
+        # If the array of victims has multiple container profile relationships
+        # but they all link to the same container profile, transfer the first
+        # relationship to the merge target and delete the rest
+        if victim_container_profiles_unique.uniq.count == 1
+          victim_container_profile = victim_container_profiles.first
+          transfer_relationship_to_target(victim_container_profile, :top_container_id, target)
+          victim_container_profiles.shift
+          cleanup_duplicates(victim_container_profiles)
+        # If the array of victims has multiple container profile relationships
+        # and they link to different container profiles, delete all victim
+        # container profile relationships
+        else
+          cleanup_duplicates(victim_container_profiles)
+        end
+      end
+    end
+  end
 
   # Return the value of 'property' for any relationship involving 'obj'.
   def self.values_for_property(obj, property)
@@ -169,14 +308,17 @@ AbstractRelationship = Class.new(Sequel::Model) do
 
   # Methods for defining relationships
   def self.set_json_property(property); @json_property = property; end
+
   def self.json_property; @json_property; end
 
 
   def self.set_participating_models(models); @participating_models = models; end
+
   def self.participating_models; @participating_models or raise "No participating models set"; end
 
 
   def self.set_wants_array(val); @wants_array = val; end
+
   def self.wants_array?; @wants_array; end
 
 
@@ -185,7 +327,11 @@ AbstractRelationship = Class.new(Sequel::Model) do
     # Find all columns in our relationship's table that are named after obj's table
     # These will contain references to instances of obj's class
     reference_columns = self.reference_columns_for(obj.class)
-    matching_relationships = reference_columns.map {|col| self.filter(col => obj.id).all}.flatten(1)
+    filters = reference_columns.map {|col| { col => obj.id }}
+
+    return [] if filters.empty?
+
+    matching_relationships = self.filter(Sequel.|(*filters)).all
     our_columns = participating_models.map {|m| reference_columns_for(m)}.flatten(1)
 
     # Reject any relationship that links to obj.id but not another model we're interested in.
@@ -207,10 +353,12 @@ AbstractRelationship = Class.new(Sequel::Model) do
     return result if participant_ids.empty?
     reference_columns = self.reference_columns_for(participant_model)
 
-    reference_columns.each do |col|
-      self.filter(col => participant_ids).each do |relationship|
-        result << relationship
-      end
+    filters = reference_columns.map {|col| { col => participant_ids }}
+
+    return [] if filters.empty?
+
+    self.filter(Sequel.|(*filters)).each do |relationship|
+      result << relationship
     end
 
     result
@@ -267,10 +415,25 @@ AbstractRelationship = Class.new(Sequel::Model) do
 
   # A list of all DB columns that might contain a foreign key reference to a
   # record of type 'model'.
+  MODEL_COLUMNS_CACHE = java.util.concurrent.ConcurrentHashMap.new(128)
+
   def self.reference_columns_for(model)
-    self.db_schema.keys.select { |column_name|
-      column_name.to_s.downcase =~ /\A#{model.table_name.downcase}_id(_[0-9]+)?\z/
-    }
+    key = [self, model]
+
+    if columns = MODEL_COLUMNS_CACHE.get(key)
+      columns
+    else
+      MODEL_COLUMNS_CACHE.put(key,
+                              self.db_schema.keys.select { |column_name|
+                                [
+                                  model.table_name.downcase.to_s + "_id",
+                                  model.table_name.downcase.to_s + "_id_0",
+                                  model.table_name.downcase.to_s + "_id_1",
+                                ].include?(column_name.to_s.downcase)
+                              })
+
+      MODEL_COLUMNS_CACHE.get(key)
+    end
   end
 
 
@@ -312,7 +475,6 @@ AbstractRelationship = Class.new(Sequel::Model) do
   end
 
 
-
   # The URI of the record referred to by the current relationship that isn't
   # 'obj'.
   def uri_for_other_referent_than(obj)
@@ -324,6 +486,8 @@ AbstractRelationship = Class.new(Sequel::Model) do
         end
       }
     }
+
+    raise "Failed to find a URI for other referent in #{self}: #{obj.id}"
   end
 
 
@@ -362,6 +526,7 @@ module Relationships
   # Store a list of the relationships that this object participates in.  Saves
   # looking up the DB for each one.
   attr_reader :cached_relationships
+
   def cache_relationships(relationship_defn, relationship_objects)
     @cached_relationships ||= {}
     @cached_relationships[relationship_defn] = relationship_objects
@@ -442,7 +607,7 @@ module Relationships
       # transfer_group)
       (referent.class.model_scope == :repository &&
        referent.repo_id != repository.id &&
-       !transfer_group.any?{|obj| obj.id == referent.id && obj.model == referent.model})
+       !transfer_group.any? {|obj| obj.id == referent.id && obj.model == referent.model})
     }
 
 
@@ -483,9 +648,9 @@ module Relationships
         .filter(:instance__id => instances)
         .select(Sequel.qualify(model.table_name, :id))
         .each do |row|
-        exception.add_conflict(model.my_jsonmodel.uri_for(row[:id], :repo_id => self.class.active_repository),
-                        {:json_property => 'instances',
-                         :message => "DIGITAL_OBJECT_HAS_LINK"})
+          exception.add_conflict(model.my_jsonmodel.uri_for(row[:id], :repo_id => self.class.active_repository),
+                          {:json_property => 'instances',
+                           :message => "DIGITAL_OBJECT_HAS_LINK"})
         end
     end
 
@@ -603,6 +768,7 @@ module Relationships
         if (relationship_defn.json_property &&
             (!self.my_jsonmodel.schema['properties'][relationship_defn.json_property] ||
              self.my_jsonmodel.schema['properties'][relationship_defn.json_property]['readonly'] === 'true'))
+
           # Don't delete instances of relationships that are read-only in this direction.
           next
         end
@@ -796,6 +962,7 @@ module Relationships
             if DB.supports_join_updates? &&
                self.table_name == :agent_software &&
                relationship_defn.table_name == :linked_agents_rlshp
+
               DB.open do |db|
                 id_str = Integer(obj.id).to_s
 
@@ -823,7 +990,7 @@ module Relationships
             #
             # For example: join ArchivalObject to subject_rlshp
             #              join Instance to instance_do_link_rlshp
-            base_ds = self.join(relationship_defn,
+            base_ds = self.join(relationship_defn.table_name,
                                 Sequel.qualify(relationship_defn.table_name, my_col) =>
                                        Sequel.qualify(self.table_name, :id))
 
@@ -872,7 +1039,7 @@ module Relationships
           parent_model = association[:model]
 
           # Link the parent into the current dataset
-          parent_ds = dataset.join(parent_model,
+          parent_ds = dataset.join(parent_model.table_name,
                                    Sequel.qualify(self.table_name, association[:key]) =>
                                           Sequel.qualify(parent_model.table_name, :id))
 

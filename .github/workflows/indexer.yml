@@ -1,0 +1,33 @@
+name: Indexer Testing
+
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/indexer.yml'
+      - 'indexer/**'
+
+jobs:
+  indexer:
+    name: indexer
+    runs-on: ubuntu-latest
+    if: "!contains(github.event.head_commit.message, '[ci skip]')"
+
+    strategy:
+      matrix:
+        java: [ 8, 11 ]
+
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions/setup-java@v1
+      with:
+        java-version: ${{ matrix.java }}
+
+    - name: Bootstrap ArchivesSpace
+      run: |
+        ./build/run bootstrap
+
+    # also run pui tests because it's particularly dependent on the index
+    - name: Run Indexer tests
+      run: |
+        ./build/run indexer:test
+        ./build/run public:test

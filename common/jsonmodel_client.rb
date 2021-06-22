@@ -100,7 +100,6 @@ module JSONModel
   end
 
 
-
   module HTTP
 
     def self.backend_url
@@ -145,7 +144,13 @@ module JSONModel
     end
 
 
+    def self.process_params(params)
+      params.respond_to?(:to_unsafe_hash) ? params.to_unsafe_hash : params
+    end
+
+
     def self.stream(uri, params = {}, &block)
+      params = process_params(params)
       uri = URI("#{backend_url}#{uri}")
       uri.query = URI.encode_www_form(params)
 
@@ -171,9 +176,7 @@ module JSONModel
 
 
     def self.get_json(uri, params = {})
-      if params.respond_to?(:to_unsafe_hash)
-        params = params.to_unsafe_hash
-      end
+      params = process_params(params)
 
       uri = URI("#{backend_url}#{uri}")
       uri.query = URI.encode_www_form(params)
@@ -229,7 +232,7 @@ module JSONModel
       if response.code =~ /^4/
         JSONModel::handle_error(ASUtils.json_parse(response.body))
       end
-      
+
       response
     end
 
@@ -282,7 +285,6 @@ module JSONModel
   end
 
 
-
   module Client
 
     def self.included(base)
@@ -293,7 +295,6 @@ module JSONModel
     # Validate this JSONModel instance, produce a JSON string, and send an
     # update to the backend.
     def save(opts = {}, whole_body = false)
-
       clear_errors
 
       type = self.class.record_type

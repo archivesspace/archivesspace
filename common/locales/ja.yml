@@ -347,6 +347,13 @@ ja:
     _singular: デアクセス
 
   agent_name: &agent_name_attributes
+    parallel_names_tooltip: "<p>異なる言語やスクリプトで名前の並列形式、または名前の音訳形式を記録するために使用できます。</p>"
+    language: 言語
+    language_tooltip: "<p>名前フォームの記録に使用される言語を示します。例：ロシア語（Каспаров、Г.К。（ГарриКимович）の場合）</p>"
+    script: 脚本
+    script_tooltip: "<p>名前フォームの記録に使用されるスクリプトを示します。例：キリル文字（Каспаров、Г.К。（ГарриКимович）の場合）</p>"
+    transliteration: 文字変換
+    transliteration_tooltip: "<p>名前フォームの記録に使用される音訳スキームを示します。</p>"
     authority_id: オーソリティID
     authority_id_tooltip: "<p>取得元のエージェントの名前フォーム（つまり、MADSレコード識別子またはEACレコード識別子）の名前フォームの一意の識別子。識別子はURIとして表すことができる。
       </p><p>DACS 13.2を参照</p><p>例： </p><ul><li> nr92045078 <em>LCNAF名見出しの場合</em>
@@ -403,14 +410,46 @@ ja:
 
   name_person:
     <<: *agent_name_attributes
+    parallel_names_tooltip: "<p>異なる言語やスクリプトで名前の並列形式、または名前の音訳形式を記録するために使用できます。</p>"
+    language: 言語
+    language_tooltip: "<p>名前フォームの記録に使用される言語を示します。例：ロシア語（Каспаров、Г.К。（ГарриКимович）の場合）</p>"
+    script: 脚本
+    script_tooltip: "<p>名前フォームの記録に使用されるスクリプトを示します。例：キリル文字（Каспаров、Г.К。（ГарриКимович）の場合）</p>"
+    transliteration: 文字変換
+    transliteration_tooltip: "<p>名前フォームの記録に使用される音訳スキームを示します。</p>"
 
   name_family:
     <<: *agent_name_attributes
     family_name: 苗字
     family_name_tooltip: "<p>家族の姓または姓。通常、「家族」という用語が追加されています。 </p>"
+    parallel_names_tooltip: "<p>異なる言語やスクリプトで名前の並列形式、または名前の音訳形式を記録するために使用できます。</p>"
+    language: 言語
+    language_tooltip: "<p>名前フォームの記録に使用される言語を示します。例：ロシア語（Каспаров、Г.К。（ГарриКимович）の場合）</p>"
+    script: 脚本
+    script_tooltip: "<p>名前フォームの記録に使用されるスクリプトを示します。例：キリル文字（Каспаров、Г.К。（ГарриКимович）の場合）</p>"
+    transliteration: 文字変換
+    transliteration_tooltip: "<p>名前フォームの記録に使用される音訳スキームを示します。</p>"
+    family_type: 家族の種類
+    family_type_tooltip: "<p>類似の名前エントリを区別するための修飾子として使用されるファミリのタイプ。例：家族、王朝、王家。</p>"
+    location: ロケーション
+    location_tooltip: "<p>類似の名前エントリを区別するための修飾子として使用される場所。例：ケンタッキー州トリッグ郡（カニンガム（家族：1795-：ケンタッキー州トリッグ郡））、在日カナダ大使館（日カナダ双子会議（1991年：在日カナダ大使館））</p>"
+
 
   name_corporate_entity:
     <<: *agent_name_attributes
+    parallel_names_tooltip: "<p>異なる言語やスクリプトで名前の並列形式、または名前の音訳形式を記録するために使用できます。</p>"
+    language: 言語
+    language_tooltip: "<p>名前フォームの記録に使用される言語を示します。例：ロシア語（Каспаров、Г.К。（ГарриКимович）の場合）</p>"
+    script: 脚本
+    script_tooltip: "<p>名前フォームの記録に使用されるスクリプトを示します。例：キリル文字（Каспаров、Г.К。（ГарриКимович）の場合）</p>"
+    transliteration: 文字変換
+    transliteration_tooltip: "<p>名前フォームの記録に使用される音訳スキームを示します。</p>"
+    jurisdiction: 管轄？
+    jurisdiction_tooltip: "<p>エンティティが法域名エントリであるかどうかを示します。</p>"
+    conference_meeting: 会議会議？
+    conference_meeting_tooltip: "<p>エンティティが標準の企業体であるか、会議、会議、またはその他の名前付きイベントであるかを示します。</p>"
+    location: ロケーション
+    location_tooltip: "<p>類似の名前エントリを区別するための修飾子として使用される場所。例：ケンタッキー州トリッグ郡（カニンガム（家族：1795-：ケンタッキー州トリッグ郡））、在日カナダ大使館（日カナダ双子会議（1991年：在日カナダ大使館））</p>"
     subordinate_name_1: 従属名1
     subordinate_name_1_tooltip: "<p>「プライマリ名」フィールドに指定された企業エンティティの階層単位。 </p><p>例</p><ul><li>マイクロエレクトロニクス事業部<em>（国際ビジネス機械マイクロエレクトロニクス事業部）</em>
       </li></ul>"
@@ -420,6 +459,13 @@ ja:
 
   name_software:
     <<: *agent_name_attributes
+    parallel_names_tooltip: "<p>異なる言語やスクリプトで名前の並列形式、または名前の音訳形式を記録するために使用できます。</p>"
+    language: 言語
+    language_tooltip: "<p>名前フォームの記録に使用される言語を示します。例：ロシア語（Каспаров、Г.К。（ГарриКимович）の場合）</p>"
+    script: 脚本
+    script_tooltip: "<p>名前フォームの記録に使用されるスクリプトを示します。例：キリル文字（Каспаров、Г.К。（ГарриКимович）の場合）</p>"
+    transliteration: 文字変換
+    transliteration_tooltip: "<p>名前フォームの記録に使用される音訳スキームを示します。</p>"   
     software_name: ソフトウェア名
     software_name_tooltip: "<p>ソフトウェアパッケージの名前。 </p><p>例： </p><ul><li> Photoshop <em>（Adobe
       Photoshop CS3用）</em> </li><li>バガー<em>（議会図書館バガー2.1.2用）</em> </li></ul>"
@@ -437,6 +483,8 @@ ja:
     _plural: 名前フォーム
 
   agent_contact: &agent_contact
+    address_2_tooltip: "<p>担当者の住所の続き。</p>"
+    address_3_tooltip: "<p>担当者の住所の続き。</p>"
     name: 連絡先
     name_tooltip: "<p>メインレコードのエンティティの連絡先担当者の名前。 </p>"
     salutation: 挨拶
@@ -469,6 +517,7 @@ ja:
 
   telephone: &telephone
     _plural: 電話番号
+    number_type_tooltip: "<p>電話番号の種類を示します。</p>"
     number_type: 番号タイプ
     number: 数
     number_tooltip: "<p>連絡先の電話番号。 </p>"
@@ -521,6 +570,14 @@ ja:
     relationship_type: 関係タイプ
     _singular: 関連エージェント
     _plural: 関連エージェント
+    relator: 方向関係タイプ
+    specific_relator: 特定の関係タイプ
+    relationship_uri: 関係URI
+    relator_tooltip: 関係を説明する特定の修飾子。
+    description: 説明
+    date: 日付
+    dates: 日付
+    ref: 関連エージェント
 
   agent_relationship_parentchild:
     relator: 関係タイプ
@@ -529,6 +586,11 @@ ja:
     date: 日付
     dates: 日付
     _singular: 親子関係
+    relationship_type: 一般的な関係タイプ
+    specific_relator: 特定の関係タイプ
+    relationship_uri: 関係URI
+    relator_tooltip: 関係を説明する特定の修飾子。
+    _plural: 関連エージェント
 
   agent_relationship_earlierlater:
     relator: 関係タイプ
@@ -537,6 +599,11 @@ ja:
     date: 日付
     dates: 日付
     _singular: 以前/後の関係
+    relationship_type: 一般的な関係タイプ
+    specific_relator: 特定の関係タイプ
+    relationship_uri: 関係URI
+    relator_tooltip: 関係を説明する特定の修飾子。
+    _plural: 関連エージェント
 
   agent_relationship_subordinatesuperior:
     relator: 関係タイプ
@@ -545,6 +612,11 @@ ja:
     date: 日付
     dates: 日付
     _singular: 下位/上位関係
+    relationship_type: 一般的な関係タイプ
+    specific_relator: 特定の関係タイプ
+    relationship_uri: 関係URI
+    relator_tooltip: 関係を説明する特定の修飾子。
+    _plural: 関連エージェント
 
   agent_relationship_associative:
     relator: 関係タイプ
@@ -553,6 +625,59 @@ ja:
     dates: 日付
     ref: 関連エージェント
     _singular: 連想関係
+    relationship_type: 一般的な関係タイプ
+    specific_relator: 特定の関係タイプ
+    relationship_uri: 関係URI
+    relator_tooltip: 関係を説明する特定の修飾子。
+    _plural: 関連エージェント
+  agent_relationship_identity:
+    relationship_type: 一般的な関係タイプ
+    relator: 方向関係タイプ
+    specific_relator: 特定の関係タイプ
+    relationship_uri: 関係URI
+    relator_tooltip: 関係を説明する特定の修飾子。
+    description: 説明
+    date: 日付
+    dates: 日付
+    ref: 関連エージェント
+    _singular: リレーターで特定されたエージェントの関係
+    _plural: 関連エージェント
+  agent_relationship_hierarchical:
+    relationship_type: 一般的な関係タイプ
+    relator: 方向関係タイプ
+    specific_relator: 特定の関係タイプ
+    relationship_uri: 関係URI
+    relator_tooltip: 関係を説明する特定の修飾子。
+    description: 説明
+    date: 日付
+    dates: 日付
+    ref: 関連エージェント
+    _singular: エージェント関係階層関係
+    _plural: 関連エージェント
+  agent_relationship_temporal:
+    relationship_type: 一般的な関係タイプ
+    relator: 方向関係タイプ
+    specific_relator: 特定の関係タイプ
+    relationship_uri: 関係URI
+    relator_tooltip: 関係を説明する特定の修飾子。
+    description: 説明
+    date: 日付
+    dates: 日付
+    ref: 関連エージェント
+    _singular: エージェント関係時間的関係者
+    _plural: 関連エージェント
+  agent_relationship_family:
+    relationship_type: 一般的な関係タイプ
+    relator: 方向関係タイプ
+    specific_relator: 特定の関係タイプ
+    relationship_uri: 関係URI
+    relator_tooltip: 関係を説明する特定の修飾子。
+    description: 説明
+    date: 日付
+    dates: 日付
+    ref: 関連エージェント
+    _singular: エージェント関係関連の関係者
+    _plural: 関連エージェント
 
   note:
     item: 項目
@@ -577,6 +702,11 @@ ja:
     note_agent_rights_statement: 権利ステートメントノート（使用しないでください）
     _singular: 注意
     _plural: ノート
+    note_general_context: 一般的なコンテキスト
+    note_mandate: 委任
+    note_contact_note: お問い合わせ先
+    note_legal_status: 法的地位
+    note_structure_or_genealogy: 構造または系図
 
   note_text:
     <<: *note_attributes
@@ -636,6 +766,7 @@ ja:
     events: イベント
     events_tooltip: "<p>年表の日付項目に対応するイベントの説明。 </p>"
     events_singular: イベント
+    place: イベント会場
 
   note_definedlist:
     <<: *note_attributes
@@ -691,6 +822,7 @@ ja:
 
   instance_container:
     <<: *instance_attributes
+    barcode: バーコード
 
   instance_digital_object:
     <<: *instance_attributes
@@ -881,6 +1013,7 @@ ja:
 
   date_type_bulk:
     <<: *date_attributes
+    bulk: バルク
 
   date_type_inclusive:
     <<: *date_attributes
@@ -951,6 +1084,12 @@ ja:
     resource_type: リソースタイプ
     resource_type_tooltip: "<p>リポジトリがリソースを基本タイプに分類するために使用する用語のリスト。 </p><p>この管理された値リストの値は変更することができます。
       </p>"
+    language: 説明の言語
+    language_tooltip: |
+        <p>アクセッション記述から生成されたレコードに存在するすべての言語を示します。</p>
+    script: 説明のスクリプト
+    script_tooltip: |
+        <p>アクセッションの説明から生成されたレコードに存在するすべてのスクリプトを示します。</p>
     access_restrictions: アクセスの制限？
     access_restrictions_tooltip: "<p>資料へのアクセスを示すチェックボックスは制限されています。 </p><p>DACS 4.1.5-4.1.6を参照してください。
       4.2.5-4.2.7,4.3.5-4.3.6 </p>"
@@ -1001,6 +1140,25 @@ ja:
 
   agent: &agent_attributes
     <<: *slug_attributes
+    agent_contact_notes_tooltip: "<p>エージェントとのやり取りに関するメモ。</p>"
+    agent_record_controls_tooltip: "<p>エージェントを説明するレコードに関する情報。</p>"
+    agent_alternate_sets_tooltip: "<p>同じエンティティの2つ以上のレコードが2つ以上の権限システムから派生した場合に、リンクされた権限レコードを指すために使用されます。</p>"
+    agent_conventions_declarations_tooltip: "<p>エージェントレコードコンテンツの作成に使用されるコンテンツ標準。例：アーカイブの説明：コンテンツ標準。このサブレコードは、個々の名前フォームのルールエントリの代わりに使用できます。</p>"
+    agent_other_agency_codes_tooltip: "<p>エージェントレコードの作成または維持を担当する機関または組織の代替コードに関する情報。</p>"
+    agent_maintenance_histories_tooltip: "<p>エージェントレコードの作成または保守に関連するイベント。</p>"
+    agent_record_identifiers_tooltip: "<p>エージェントレコードに関連付けられている識別子。</p>"
+    agent_sources_tooltip: "<p>エージェントレコードコンテンツの作成に使用されるソース。</p>"
+    agent_identifiers_tooltip: "<p>権限のある機関によって割り当てられた法的識別子など、エンティティに関連付けられた識別子。例には、個人のORCID識別子または企業エンティティのMARCリポジトリコードが含まれます。</p>"
+    agent_genders_tooltip: 主題の性別。
+    agent_places_tooltip: エージェントに関連付けられた情報を配置します。
+    agent_occupations_tooltip: エージェントに関連付けられている職業情報。
+    agent_functions_tooltip: エージェントによって実行される機能、プロセス、タスク、アクティビティ、またはトランザクションを識別するために使用される用語。
+    agent_topics_tooltip: エージェントに関連付けられているサブジェクト。
+    agent_contacts_tooltip: "<p>エージェントまたは代理で働く代表者の連絡先情報。</p>"
+    used_languages_tooltip: エージェントに関連付けられている言語。例：英語。
+    agent_resources_tooltip: エージェントに関連するリソースおよびその他のレコード。
+    related_agent_tooltip: エージェントとの関係を持つ他のエージェントをリンクし、関係の性質を示すために使用されます。
+    publish_tooltip: "<p>エージェントがエクスポートに含まれ、パブリックインターフェイスに公開されているかどうかを示します（使用されている場合）</p>"   
     type: エージェントの種類
     type_tooltip: "<p>エージェントレコードによって表されるエンティティのタイプ。 </p><p>DACS 10.2およびPREMISエージェントエンティティを参照</p>"
     agent_type:
@@ -1025,30 +1183,6 @@ ja:
     publish: 公開する
     _singular: エージェント
     _plural: エージェント
-
-  agent_person:
-    <<: *agent_attributes
-    <<: *slug_attributes
-    _singular: 人
-    _plural: 人
-
-  agent_family:
-    <<: *agent_attributes
-    <<: *slug_attributes
-    _singular: 家族
-    _plural: 家族
-
-  agent_software:
-    <<: *agent_attributes
-    <<: *slug_attributes
-    _singular: ソフトウェア
-    _plural: ソフトウェア
-
-  agent_corporate_entity:
-    <<: *agent_attributes
-    <<: *slug_attributes
-    _singular: コーポレートエンティティ
-    _plural: 法人
 
   related_agents_agent_person:
     related_agents: 関連エージェント
@@ -1108,6 +1242,7 @@ ja:
     member_usernames_tooltip: "<p>このグループのメンバーであるメンバー。 </p>"
     permissions: メンバーは：
     permission_types:
+      show_full_agents: フルモードでエージェントを操作する
       manage_repository: このリポジトリを管理する（グループやその他の設定を変更する）
       update_location_record: このリポジトリ内のロケーションレコードの作成/変更/削除
       update_subject_record: 件名レコードの作成/更新
@@ -1202,6 +1337,7 @@ ja:
       </p>"
     finding_aid_language: 説明の言語
     finding_aid_language_tooltip: "<p>リソース記述から生成された検索補助に存在するすべての言語を示します。 </p>"
+    finding_aid_langusage_label: "説明は次のように書かれています。 "
     finding_aid_script: 説明のスクリプト
     finding_aid_script_tooltip: |
         <p>リソース記述から生成された検索援助にあるすべてのスクリプトを示します。</p>
@@ -1279,8 +1415,7 @@ ja:
     url_tooltip: "<p>リポジトリのWebページのURL。 </p>"
     contact_persons: 連絡先
     image_url: ブランドイメージURL
-    image_url_tooltip: "<p>リポジトリのオンライン検索支援ツールで使用されるブランディングデバイスを含むファイルを参照するURLまたはその他のファイルの場所識別子。典型的なブランディングデバイスは、大学のシールまたはロゴである。
-      </p>"
+    image_url_tooltip: "<p>リポジトリのオンライン検索支援で使用されるブランド画像（ロゴやシールなど）を含むローカルファイルへのリモートURLまたはパス。 この画像は、パブリック側のPDF、スタッフ側のPDF、およびリポジトリページに表示されます。</p>"
     _singular: リポジトリ
     _plural: リポジトリ
     publish: 公開しますか？
@@ -1341,6 +1476,9 @@ ja:
     additional_contact_tooltip: "<p>ユーザーの追加連絡先情報、またはユーザーの作業スケジュールなどの情報</p>"
     is_admin: システム管理者のアクセス許可を与える
     is_admin_tooltip: "<p>ユーザーがアプリケーションに対して完全な管理権限を持つ必要があるかどうかを示すために使用されます。 </p>"
+    create_time: 作成した
+    user_mtime: 更新しました
+    admin: 管理者
     _singular: ユーザー
     _plural: ユーザー
 
@@ -1438,39 +1576,32 @@ ja:
     publish_tooltip: 既定で新しいレコードを発行するかどうか。
     default_values: レコードの事前入力？
     default_values_tooltip: 新しいAccessionレコードとResourceレコードに既定値をあらかじめ設定するかどうか。
+    browse_column: 列%{num}
+    browse_column_tooltip: 列%{num}に表示するフィールド。
+    sort_column: デフォルトのソート列
+    sort_column_tooltip: 結果をソートするためのデフォルトのフィールド。
+    sort_direction: デフォルトのソート方向
+    sort_direction_tooltip: 結果をソートするデフォルトの方向。
+    locale: 言語選択
+    search_browse_columns: 列設定の検索と参照
     accession_browse_section: アクセス列を参照
-    accession_browse_column_1: 列1
-    accession_browse_column_1_tooltip: 列1に表示するフィールド。
-    accession_browse_column_2: 列2
-    accession_browse_column_2_tooltip: 列2に表示するフィールド。
-    accession_browse_column_3: 列3
-    accession_browse_column_3_tooltip: 列3に表示されるフィールド。
-    accession_browse_column_4: 列4
-    accession_browse_column_4_tooltip: 列4に表示するフィールド。
-    accession_browse_column_5: 列5
-    accession_browse_column_5_tooltip: 列5に表示するフィールド。
     resource_browse_section: リソース参照列
-    resource_browse_column_1: 列1
-    resource_browse_column_1_tooltip: 列1に表示するフィールド。
-    resource_browse_column_2: 列2
-    resource_browse_column_2_tooltip: 列2に表示するフィールド。
-    resource_browse_column_3: 列3
-    resource_browse_column_3_tooltip: 列3に表示されるフィールド。
-    resource_browse_column_4: 列4
-    resource_browse_column_4_tooltip: 列4に表示するフィールド。
-    resource_browse_column_5: 列5
-    resource_browse_column_5_tooltip: 列5に表示するフィールド。
+    archival_object_browse_section: アーカイブオブジェクトの参照列
     digital_object_browse_section: Digital_Object列を参照
-    digital_object_browse_column_1: 列1
-    digital_object_browse_column_1_tooltip: 列1に表示するフィールド。
-    digital_object_browse_column_2: 列2
-    digital_object_browse_column_2_tooltip: 列2に表示するフィールド。
-    digital_object_browse_column_3: 列3
-    digital_object_browse_column_3_tooltip: 列3に表示されるフィールド。
-    digital_object_browse_column_4: 列4
-    digital_object_browse_column_4_tooltip: 列4に表示するフィールド。
-    digital_object_browse_column_5: 列5
-    digital_object_browse_column_5_tooltip: 列5に表示するフィールド。
+    digital_object_component_browse_section: デジタルオブジェクトコンポーネントの参照列
+    subject_browse_section: 件名ブラウズコラム
+    agent_browse_section: エージェント参照列
+    location_browse_section: 場所の参照列
+    event_browse_section: イベント参照列
+    collection_management_browse_section: コレクション管理の参照列
+    top_container_browse_section: 上位コンテナ参照列
+    classification_browse_section: 分類参照列
+    assessment_browse_section: 評価の参照列
+    repositories_browse_section: リポジトリ参照列
+    location_profile_browse_section: ロケーションプロファイルの参照列
+    container_profile_browse_section: コンテナプロファイルの参照列
+    multi_browse_section: 検索列
+    job_browse_section: バックグラウンドジョブの列
     note_order_section: 注文書
     accept_default_message: "&gt;デフォルトを受け入れる："
     no_value: "[値なし]"
@@ -1493,18 +1624,26 @@ ja:
       rtf: RTF
 
   validation_errors:
+    or_date_expression_is_required: 日付には、少なくとも1つの日付式を指定する必要があります
+    must_specify_either_a_single_or_ranged_date: 日付は、単一または範囲のいずれかとして指定する必要があります
+    must_be_in_yyyy[yyy][yy][y]__yyyy[yyy][yy][y]-mm__or_yyyy-mm-dd_format: 標準化された日付は標準化された形式である必要があります
+    generic_validation_error: 検証エラー
+    requires_that_end_dates_are_after_begin_dates: 終了日は開始日より後でなければなりません
+    must_specify_a_primary_subject: 説明情報：レコードに主要な件名がありません
     agent_must_be_unique: エージェントレコードは同一ではありません
     subject_must_be_unique: 件名のレコードは同一ではありません
+    subject_heading_identifier_must_be_unique_within_source: 件名の見出し識別子はソース内で一意である必要があります
     conflicting_record: 競合するレコード
     missing_required_property: プロパティは必須ですが行方不明です
     missing_property: プロパティが見つかりませんでした
     not_a_valid_date: 有効な日付ではありません
     must_not_be_before_begin: 始める前にしてはいけません
+    must_be_in_yyyy-mm-dd_format: 日付はyyyy-mm-dd形式である必要があります
     is_required_unless_a_begin_or_end_date_is_given: 開始日または終了日が指定されていない限り必須です
     is_required_unless_an_expression_or_an_end_date_is_given: 式または終了日が与えられていない限り必須です
     is_required_unless_an_expression_or_a_begin_date_is_given: 式または開始日が与えられていない限り必須です
     must_specify_either_a_date_or_a_timestamp: 日付またはタイムスタンプのいずれかを指定する必要があります
-    did_not_match_regular_expression: 正規表現%{regexp}一致しませんでした
+    did_not_match_regular_expression: 予想されるパターンと一致しませんでした %{regexp}
     too_few_characters: 少なくとも%{min_length}文字である必要があります
     too_many_characters: "%{max_length}文字以下である必要があります"
     max_length_is_50_characters: 50文字を超えてはいけません
@@ -1570,6 +1709,7 @@ ja:
       generate_arks_job: バルクでARKを生成
       trim_whitespace_job: 空白をトリム
       unknown_job_type: 不明なジョブタイプ
+      bulk_import_job: スプレッドシートを介してロード
     status: 状態
     status_completed: 完了しました
     status_queued: 待機中
@@ -1579,14 +1719,24 @@ ja:
     time_submitted: 提出された時間
     time_started: 時間の開始
     time_finished: 完了した時間
+    time_submitted: 提出された時間
     owner: オーナー
     show_description: 説明を表示する
+    input_file: 入力ファイル
+    output_file: 出力ファイル
+
+  container_labels_job:
+    source: ソース
+    format: フォーマット
 
   report_job:
     report_type: レポートタイプ
     format: フォーマット
 
   import_job:
+    import_events: メンテナンスイベントをインポートしますか？
+    import_type_marcxml_auth_agent: MarcXML機関（エージェント）
+    import_type_marcxml_auth_subject: MarcXML Authority（件名）
     _singular: インポートジョブ
     filenames: ファイル
     import_type: インポートタイプ
@@ -1595,7 +1745,7 @@ ja:
     import_type_accession_csv: 加盟CSV
     import_type_digital_object_csv: デジタルオブジェクトCSV
     import_type_eac_xml: EAC
-    import_type_location_csv: Location CSV
+    import_type_location_csv: ロケーションCSV
     import_type_marcxml: MarcXML（リソース）
     import_type_marcxml_accession: MarcXML（アクセッション）
     import_type_marcxml_subjects_and_agents: MarcXML（主題と代理人のみ）
@@ -1612,6 +1762,17 @@ ja:
   print_to_pdf_job:
     include_unpublished: 未公開を含める
     source: ソース
+
+  bulk_import_job:
+    resource_uri: リソースURI
+    content_type: スプレッドシートのタイプ
+    load_type: 荷重タイプ
+    only_validate: 検証のみ
+    type:
+      csv: CSV
+      xlsx: エクセルスプレッドシート
+      ao: アーカイブオブジェクトのロード
+      digital: デジタルオブジェクトのロード
 
   trim_whitespace_job:
     description: リソース、アクセッション、デジタルオブジェクト、アーカイブオブジェクト、デジタルオブジェクトコンポーネントのタイトルから先頭と末尾の空白を削除します。
@@ -1876,3 +2037,702 @@ ja:
     sponsor_set_name_tooltip: スポンサーセット名ツールチップ
     sponsor_set_names_tooltip: スポンサーセット名のツールチップ
     sponsor_set_description_tooltip: スポンサーセットの説明のツールチップ
+
+  bulk_import:
+    row: "行%{row}"
+    processing_row: "%{row}行の処理"
+    dig_assoc: デジタルオブジェクトはアーカイブオブジェクトに追加します
+    row_error: "行%{row}エラーのため処理されません。%{errs}"
+    created: "%{what} 作成した： %{id}"
+    could_be: "%{what}作成されるだろう"
+    updated: "%{what}：%{id}"
+    clip_btn: クリップボードにコピー
+    clip_created: "\t%{what}作成：\t%{nm}\t%{id}\t%{ref_id}"
+    clip_what: "\t%{what} ：\t%{nm}\t%{id}\t%{ref_id}"
+    clip_info: "\t\t\t\t\t%{what} \n"
+    clip_err: "\t\t\t\t\tERROR：%{err} \n"
+    clip_header: "行\tStatus\tTitle\tゥリ\tRef IDtInfo"
+    log_complete: "のインポートが完了しました %{file}"
+    log_validation: "の検証が完了しました %{file}"
+    log_created: "%{row}: 作成した %{what}"
+    log_created_be: "%{row}: %{what} 作成されます"
+    log_info: "%{row}:\t%{what}"
+    log_error: "%{row}:\tエラー %{what}"
+    log_obj: "%{what} '%{nm}' %{id} %{ref_id}"
+    log_obj_be: "%{what} '%{nm}' "
+    log_results: 結果のCSVファイルのコンパイル
+    ao: アーカイブオブジェクト
+    tc: トップコンテナ
+    subj: 主題
+    agent: エージェント
+    dig: デジタルオブジェクト
+    cont_inst: コンテナインスタンス
+    unfound_id: "%{type} IDが%{id}見つかりません。これはプレースホルダです"
+    ref_id_notfound: 「行%{row}"
+    processed: ファイルが処理されています
+    file_info: "%{size}K 行の%{rows}"
+    max_file_info: "%{size}K と%{rows}行"
+    object_created: "%{what} 作成した"
+    object_created_be: "%{what} 作成されます"
+    object_not_created_be: "%{what} 作成されません"
+    date_type_default: 日付タイプが指定されていません。デフォルトは「包括的」です。
+    warn:
+      dup: "制御値リストは、 『%{which}』翻訳のための複数のインスタンスを持っている%{trans}マネージド 『%{used}』値として使用されます。"
+      disam: "複数の一致（ES）は、 '%{what}' 件見つかりました。disabiguationは '%{name}' を作成します。"
+      disamuse: "複数の一致（ES）は、 『%{what}』件見つかりました。disabiguationは 『%{name}』は既に作成されたを使用しました。"
+      single_date_end: "シングル日付%{date_str}は無視されます終了日を持っています。"
+    error:
+      date_type: "日付型[%{what}]のための無効を%{date_str}。 『包括的』にデフォルト設定"
+      date_label: "日付ラベル[%{what}]は%{date_str}には無効。日付が処理されません。"
+      certainty: "%{date_str}については無視無効な 『日付確信』：（%{what}）"
+      below_bad_ao: それが悪いアーカイブオブジェクトの子なので処理できません
+      enum: "が見つかりません。 『%{label}』 %{which}リストにありません"
+      error: "ERROR：エラー（複数可）検出：%{term}"
+      invalid_date: "%{what}のための無効な日付の定義（%{date_str}）。日付は処理されません。"
+      invalid_date_label: "最初の日に無効な日付ラベルの定義（%{what}）"
+      too_many: 複数の一致がデータベースで見つかりました
+      type_undef: タイプを決定することができません。
+      file_name: ファイル名を決定することができません
+      system: "いくつかのシステムエラーは、[%{msg}]が発生しました。"
+      initialize: "処理が終了し、[%{msg}]は"
+      stopped: "処理は、[%{row}] %{msg}行で停止しました"
+      duplicates: "：%{codes}このスプレッドシートは、アーカイブ領域フィールドコードを重複しています"
+      res_ead: この形式のリソースは、EAD IDが欠落しています
+      row_ead: この行は、EAD IDが欠落しています
+      row_missing_ead_uri: この行は、EAD IDとURIの両方が欠落しています
+      ead_mismatch: "フォームのEAD ID [%{res_ead}]は[%{row_ead}]行のEAD IDと一致していません"
+      uri_mismatch: "入力リソースのURI [%{res_uri}]は、行のURI [%{row_uri}]を一致しません"
+      title: 行方不明のタイトル
+      title_and_date: 欠落しているタイトルと有効な日付の定義
+      hier_miss: hierachyがありませんすることは -  0よりも数も大きくなければなりません
+      hier_zero: 階層は0より大きくなければなりません
+      hier_wrong: 階層が深く前の行より複数のレベルではないことはできません
+      hier_wrong_resource: 選択したアーカイブオブジェクトに処理を開始することを意味したのですか？
+      hier_wrong_resource_validation:  "警告：この行の下には何も処理されませんでした"
+      hier_below_error_level: 親アーカイブオブジェクトが作成されませんでした
+      level: 有効な記述レベルがありません
+      date: "：日付始まり、日付の終わり、または日付式日付の少なくとも一方で持っている必要があります"
+      number: 不足しているエクステント数
+      extent_type: 不足しているエクステントタイプ
+      extent_validation: "検証の範囲（%{ext}）にできません：%{msg}"
+      no_header: いいえヘッダ（フィールドコード）列が見つかりませんでした。あなたは正しいテンプレートを使用していますか？
+      no_data: いいえ加工データ行が見つかりませんでした！
+      spreadsheet: "スプレッドシートの解析中にエラーが発生しました： %{errs}"
+      no_agent: "%{num}エージェントを作成できません：[%{why}]"
+      no_tc: "%{number}トップコンテナを作成できません：[%{why}]"
+      missing_instance_type: 不足しているコンテナインスタンスタイプ
+      no_ao: ノーアーカイブオブジェクトが作成され
+      no_ao_be: アーカイブオブジェクトは作成されません
+      no_container_instance: "コンテナインスタンスを作成できません：[%{why}]"
+      no_create: "作成できません：[%{why}]"
+      no_move: "（%{code}応答コード）リストの末尾からアーカイブオブジェクトを移動することができません"
+      bad_note: "%{type}ノートはWELLFORMEDされていません。%{msg}"
+      bad_note_type: "ノートタイプ 『%{type}』をサポートしていません"
+      bad_relator: "エージェントのリンクを作成することができません。 『%{label}』は有効な関係付けではありません"
+      relator_invalid: "『%{label}』による関係付けに問題があるため、エージェントのリンクを作成できません：%{why}"
+      bad_role: "エージェントのリンクを作成することができません。 『%{label}』は有効な役割ではありません"
+      role_invalid: "『%{label}』による役割に問題があるため、エージェントのリンクを作成できません：%{why}"
+      has_dig_obj: "アーカイブ・オブジェクトが既に関連するデジタルオブジェクトを持ちます"
+      dig_unassoc: "関連するデジタルオブジェクトとアーカイブオブジェクトを保存することができません：%{msg}"
+      ref_id_miss: ノー参考id指定します
+      dig_info_miss: どちらもデジタルオブジェクトURNまたはサムネイルURNが指定されていません
+      dig_validation: "%{err}デジタルオブジェクトを作成できません"
+      initial_save_error: "の保存最初の通報%{title}  -  %{msg}"
+      second_save_error: "エラーが 『インスタンス』と再保存アーカイブオブジェクトへの試みで%{title}位置：。%{pos}この手段アーカイブオブジェクトが作成されていることが、可能性など、その関連インスタンス（デジタルオブジェクト、トップコンテナ、対象にリンクされていません）[%{what}]"
+      ao_validation: "アーカイブオブジェクトを保存しようとする検証エラー：%{err}"
+      validation_error: "：%{what}検証できません"
+      validated: "%{what}検証"
+      lang_code: "言語（%{lang}）を検証できません"
+      script_code: "（%{script}）言語のスクリプトを検証できません"
+      process_error: "エラー処理%{type} %{num}：%{why}"
+      bad_ao_uri: "URIを持つ%{uri}"
+      bad_ao_ref_id: "REF IDを持つ%{ref_id}"
+      bad_ao: "%{errs}アーカイブオブジェクトを見つけることができません"
+      no_uri_or_ref: アーカイブオブジェクトURIもREF IDのいずれもが提供されていました
+      file_too_big: "このファイルは、%{file_info}で、%{limits}の大きさ及び/又は行数の制限を超えました"
+      wrong_file_type: "ファイルはExcelスプレッドシートでもCSVファイルでもありません"
+      dig_obj_unique: "デジタルオブジェクトID '%{id}' もう存在している。"
+      cannot: 以前のエラーのため続行できません
+
+  dates_of_existence:
+    _frontend:
+      action:
+        add: 日付を追加
+
+  parallel_name:
+    _frontend:
+      action:
+        add: 並列名を追加
+
+  parallel_name_person:
+    authority_id: 機関ID
+    authority_id_tooltip: "<p>取得元のソース内のエージェントの名前フォームの一意の識別子（つまり、MADSレコード識別子またはEACレコード識別子）。識別子はURIとして表すことができます。</p><p>
+      DACS13.2を参照してください</p><p>例：</p><ul><li> LCNAF<em>名の見出しの場合はnr92045078</em></li><li>
+      ULAN<em>名の見出しの場合は500115393</em></li><li> <em>VIAF名の見出しについては</em>http://viaf.org/viaf/134138653</ul>"
+    source: ソース
+    source_tooltip: "<p>名前ルールが使用されていない場合は、条件付きで必要なフィールド。名前の由来となった信頼できる情報源の指標。</p><p>この管理値リストの値は変更される可能性があります。</p>"
+    rules: ルール
+    rules_tooltip: "<p>名前ソースが使用されていない場合は、条件付きで必要なフィールド。名前エントリの作成に使用されるルールの表示。</p><p>この管理値リストの値は変更される可能性があります。</p>"
+    name_order: 名前の順序
+    name_order_tooltip: "<p>名前の形式を逆順（姓、名）で表示するか、直接（名、名）で表示するかを示します。</p>"
+    prefix: プレフィックス
+    prefix_tooltip: "<p>規範的に使用される名前に関連付けられた用語は、名前全体の前に置かれます。</p><p>例：</p><ul><li>夫人。</li></ul>"
+    title: 題名
+    title_tooltip: "<p>名前の一部であるタイトル。</p><p>例：</p><ul><li>サー<em>（チャーチル、ウィンストン、サー、1874-1965）</em></li><li>チーフ（ブラックフット、チーフ、1877年）</li><li>東の皇帝<em>（ヨハネス2世コムネヌスのために。東の皇帝。）</em></li></ul>"
+    primary_name: 名前の主要部分
+    primary_name_tooltip: "<p>名前フォームの主要部分（たとえば、人の姓または名前）。</p><p>例：</p><ul><li>チャーチル<em>（チャーチル、ウィンストン、サー、1874-1965
+      [人]）</em><li>ブラックフット<em>（ブラックフット、チーフ、1877年[人]）</em></li><li> International Business
+      Machines <em>（International BusinessMachinesの場合。マイクロエレクトロニクス部門[企業体]）</em></li></ul>"
+    rest_of_name: 名前の残りの部分
+    rest_of_name_tooltip: "<p>レコードで指定された人物の名要素またはフォアネームと追加の名前（ミドルネームなど）。</p><p>例：</p><ul><li>ウィンストン<em>（チャーチル、ウィンストン、サー、1874-1965）</em></li><li>ハンフリー<em>（ワード、ハンフリー、夫人、1851年から1920年）</em></li></ul>"
+    suffix: サフィックス
+    suffix_tooltip: "<p>名前を修飾するがタイトルではない名前に続く用語。</p><p>例</p><ul><li>ジュニア</li><li>フィルス</li></ul>"
+    fuller_form: より完全な形式
+    fuller_form_tooltip: "<p>省略された場合の、より完全な形式のファーストネームとミドルネーム。</p><p>例</p><ul><li>Hilda
+      Doolittle <em>（HDの場合、Hilda Doolittle、1886-1961）</em></li></ul>"
+    number: 数
+    number_tooltip: "<p>名前を修飾する、場合によっては用語を含む番号。個人名の場合、多くの場合、ローマ数字またはローマ数字とそれに続くフォアネームの部分。会社名の場合、部品/セクションまたは会議の番号。</p><p>例：</p><ul><li>
+      IIコムネノス<em>（ヨハネス2世コムネノス、東の皇帝</em>/ li><li> II <em>（ヨハネパウロ2世の場合）</em></li><li>第97回、第2回セッション<em>（米国議会の場合、第97回、第2回セッション）</em></li></ul>"
+    dates: 日付
+    dates_tooltip: "<p>このフィールドは、MARC権限レコードとの整合に使用します。存在日ではなく、これらの日付が表示の名前エントリに追加されます。</p><p>指定されたエンティティの存在日。</p><p>例：<p><ul><li>
+      1886-1961 <em>（HDの場合、Hilda Doolittle、1886-1961）</em></li></ul>"
+    use_dates: 使用日
+    use_dates_tooltip: "<p>この名前がエージェントに使用された日付。</p>"
+    parallel_names_tooltip: "<p>異なる言語やスクリプトで名前の並列形式、または名前の音訳形式を記録するために使用できます。</p>"
+    qualifier: 修飾子
+    qualifier_tooltip: "<p>他のすべての点で同一であるが、2つの異なるエンティティを識別する2つの名前形式を区別するための用語または句。用語は、日付、場所、またはその他の適切な記述子にすることができます。</p><p>例：</p><ul><li>花屋<em>（スミス家（花屋）の場合）</em>
+      ）</li><li>ブロンクス、ニューヨーク、ニューヨーク<em>（セントジェームス教会（ブロンクス、ニューヨーク、ニューヨーク）の場合）</em></li></ul>"
+    sort_name: ソート名
+    sort_name_tooltip: "<p>特定のエージェントレコードで提供される名前のすべての部分を連結した名前のバージョン。アプリケーションでの表示目的および一部のエクスポートに使用されます。</p><p>ソート名は、「自動生成」チェックボックスをオフにしてから、目的のソート名の形式を入力することで編集できます。</p>"
+    authorized: 承認済み
+    is_display_name: 表示名
+    language: 言語
+    language_tooltip: "<p>名前フォームの記録に使用される言語を示します。例：ロシア語（Каспаров、Г.К。（ГарриКимович）の場合）</p>"
+    script: 脚本
+    script_tooltip: "<p>名前フォームの記録に使用されるスクリプトを示します。例：キリル文字（Каспаров、Г.К。（ГарриКимович）の場合）</p>"
+    transliteration: 文字変換
+    transliteration_tooltip: "<p>名前フォームの記録に使用される音訳スキームを示します。</p>"
+    _singular: パラレルネーム
+    _plural: 並列名       
+
+  parallel_name_family:
+    authority_id: 機関ID
+    authority_id_tooltip: "<p>取得元のソース内のエージェントの名前フォームの一意の識別子（つまり、MADSレコード識別子またはEACレコード識別子）。識別子はURIとして表すことができます。</p><p>
+      DACS13.2を参照してください</p><p>例：</p><ul><li> LCNAF<em>名の見出しの場合はnr92045078</em></li><li>
+      ULAN<em>名の見出しの場合は500115393</em></li><li> <em>VIAF名の見出しについては</em>http://viaf.org/viaf/134138653</ul>"
+    source: ソース
+    source_tooltip: "<p>名前ルールが使用されていない場合は、条件付きで必要なフィールド。名前の由来となった信頼できる情報源の指標。</p><p>この管理値リストの値は変更される可能性があります。</p>"
+    rules: ルール
+    rules_tooltip: "<p>名前ソースが使用されていない場合は、条件付きで必要なフィールド。名前エントリの作成に使用されるルールの表示。</p><p>この管理値リストの値は変更される可能性があります。</p>"
+    name_order: 名前の順序
+    name_order_tooltip: "<p>名前の形式を逆順（姓、名）で表示するか、直接（名、名）で表示するかを示します。</p>"
+    prefix: プレフィックス
+    prefix_tooltip: "<p>規範的に使用される名前に関連付けられた用語は、名前全体の前に置かれます。</p><p>例：</p><ul><li>夫人。</li></ul>"
+    title: 題名
+    title_tooltip: "<p>名前の一部であるタイトル。</p><p>例：</p><ul><li>サー<em>（チャーチル、ウィンストン、サー、1874-1965）</em></li><li>チーフ（ブラックフット、チーフ、1877年）</li><li>東の皇帝<em>（ヨハネス2世コムネヌスのために。東の皇帝。）</em></li></ul>"
+    primary_name: 名前の主要部分
+    primary_name_tooltip: "<p>名前フォームの主要部分（たとえば、人の姓または名前）。</p><p>例：</p><ul><li>チャーチル<em>（チャーチル、ウィンストン、サー、1874-1965
+      [人]）</em><li>ブラックフット<em>（ブラックフット、チーフ、1877年[人]）</em></li><li> International Business
+      Machines <em>（International BusinessMachinesの場合。マイクロエレクトロニクス部門[企業体]）</em></li></ul>"
+    rest_of_name: 名前の残りの部分
+    rest_of_name_tooltip: "<p>レコードで指定された人物の名要素またはフォアネームと追加の名前（ミドルネームなど）。</p><p>例：</p><ul><li>ウィンストン<em>（チャーチル、ウィンストン、サー、1874-1965）</em></li><li>ハンフリー<em>（ワード、ハンフリー、夫人、1851年から1920年）</em></li></ul>"
+    suffix: サフィックス
+    suffix_tooltip: "<p>名前を修飾するがタイトルではない名前に続く用語。</p><p>例</p><ul><li>ジュニア</li><li>フィルス</li></ul>"
+    fuller_form: より完全な形式
+    fuller_form_tooltip: "<p>省略された場合の、より完全な形式のファーストネームとミドルネーム。</p><p>例</p><ul><li>Hilda
+      Doolittle <em>（HDの場合、Hilda Doolittle、1886-1961）</em></li></ul>"
+    number: 数
+    number_tooltip: "<p>名前を修飾する、場合によっては用語を含む番号。個人名の場合、多くの場合、ローマ数字またはローマ数字とそれに続くフォアネームの部分。会社名の場合、部品/セクションまたは会議の番号。</p><p>例：</p><ul><li>
+      IIコムネノス<em>（ヨハネス2世コムネノス、東の皇帝</em>/ li><li> II <em>（ヨハネパウロ2世の場合）</em></li><li>第97回、第2回セッション<em>（米国議会の場合、第97回、第2回セッション）</em></li></ul>"
+    dates: 日付
+    dates_tooltip: "<p>このフィールドは、MARC権限レコードとの整合に使用します。存在日ではなく、これらの日付が表示の名前エントリに追加されます。</p><p>指定されたエンティティの存在日。</p><p>例：<p><ul><li>
+      1886-1961 <em>（HDの場合、Hilda Doolittle、1886-1961）</em></li></ul>"
+    use_dates: 使用日
+    use_dates_tooltip: "<p>この名前がエージェントに使用された日付。</p>"
+    parallel_names_tooltip: "<p>異なる言語やスクリプトで名前の並列形式、または名前の音訳形式を記録するために使用できます。</p>"
+    qualifier: 修飾子
+    qualifier_tooltip: "<p>他のすべての点で同一であるが、2つの異なるエンティティを識別する2つの名前形式を区別するための用語または句。用語は、日付、場所、またはその他の適切な記述子にすることができます。</p><p>例：</p><ul><li>花屋<em>（スミス家（花屋）の場合）</em>
+      ）</li><li>ブロンクス、ニューヨーク、ニューヨーク<em>（セントジェームス教会（ブロンクス、ニューヨーク、ニューヨーク）の場合）</em></li></ul>"
+    sort_name: ソート名
+    sort_name_tooltip: "<p>特定のエージェントレコードで提供される名前のすべての部分を連結した名前のバージョン。アプリケーションでの表示目的および一部のエクスポートに使用されます。</p><p>ソート名は、「自動生成」チェックボックスをオフにしてから、目的のソート名の形式を入力することで編集できます。</p>"
+    authorized: 承認済み
+    is_display_name: 表示名
+    language: 言語
+    language_tooltip: "<p>名前フォームの記録に使用される言語を示します。例：ロシア語（Каспаров、Г.К。（ГарриКимович）の場合）</p>"
+    script: 脚本
+    script_tooltip: "<p>名前フォームの記録に使用されるスクリプトを示します。例：キリル文字（Каспаров、Г.К。（ГарриКимович）の場合）</p>"
+    transliteration: 文字変換
+    transliteration_tooltip: "<p>名前フォームの記録に使用される音訳スキームを示します。</p>"
+    _singular: ネームフォーム
+    _plural: 名前フォーム
+    family_name: 苗字
+    family_name_tooltip: "<p>家族の姓または名前。通常、「家族」という用語が追加されます。</p>"
+    family_type: 家族の種類
+    family_type_tooltip: "<p>類似の名前エントリを区別するための修飾子として使用されるファミリのタイプ。例：家族、王朝、王家。</p>"
+    location: ロケーション
+    location_tooltip: "<p>類似の名前エントリを区別するための修飾子として使用される場所。例：ケンタッキー州トリッグ郡（カニンガム（家族：1795-：ケンタッキー州トリッグ郡））、在日カナダ大使館（日カナダ双子会議（1991年：在日カナダ大使館））</p>"
+
+  parallel_name_corporate_entity:
+    authority_id: 機関ID
+    authority_id_tooltip: "<p>取得元のソース内のエージェントの名前フォームの一意の識別子（つまり、MADSレコード識別子またはEACレコード識別子）。識別子はURIとして表すことができます。</p><p>
+      DACS13.2を参照してください</p><p>例：</p><ul><li> LCNAF<em>名の見出しの場合はnr92045078</em></li><li>
+      ULAN<em>名の見出しの場合は500115393</em></li><li> <em>VIAF名の見出しについては</em>http://viaf.org/viaf/134138653</ul>"
+    source: ソース
+    source_tooltip: "<p>名前ルールが使用されていない場合は、条件付きで必要なフィールド。名前の由来となった信頼できる情報源の指標。</p><p>この管理値リストの値は変更される可能性があります。</p>"
+    rules: ルール
+    rules_tooltip: "<p>名前ソースが使用されていない場合は、条件付きで必要なフィールド。名前エントリの作成に使用されるルールの表示。</p><p>この管理値リストの値は変更される可能性があります。</p>"
+    name_order: 名前の順序
+    name_order_tooltip: "<p>名前の形式を逆順（姓、名）で表示するか、直接（名、名）で表示するかを示します。</p>"
+    prefix: プレフィックス
+    prefix_tooltip: "<p>規範的に使用される名前に関連付けられた用語は、名前全体の前に置かれます。</p><p>例：</p><ul><li>夫人。</li></ul>"
+    title: 題名
+    title_tooltip: "<p>名前の一部であるタイトル。</p><p>例：</p><ul><li>サー<em>（チャーチル、ウィンストン、サー、1874-1965）</em></li><li>チーフ（ブラックフット、チーフ、1877年）</li><li>東の皇帝<em>（ヨハネス2世コムネヌスのために。東の皇帝。）</em></li></ul>"
+    primary_name: 名前の主要部分
+    primary_name_tooltip: "<p>名前フォームの主要部分（たとえば、人の姓または名前）。</p><p>例：</p><ul><li>チャーチル<em>（チャーチル、ウィンストン、サー、1874-1965
+      [人]）</em><li>ブラックフット<em>（ブラックフット、チーフ、1877年[人]）</em></li><li> International Business
+      Machines <em>（International BusinessMachinesの場合。マイクロエレクトロニクス部門[企業体]）</em></li></ul>"
+    rest_of_name: 名前の残りの部分
+    rest_of_name_tooltip: "<p>レコードで指定された人物の名要素またはフォアネームと追加の名前（ミドルネームなど）。</p><p>例：</p><ul><li>ウィンストン<em>（チャーチル、ウィンストン、サー、1874-1965）</em></li><li>ハンフリー<em>（ワード、ハンフリー、夫人、1851年から1920年）</em></li></ul>"
+    suffix: サフィックス
+    suffix_tooltip: "<p>名前を修飾するがタイトルではない名前に続く用語。</p><p>例</p><ul><li>ジュニア</li><li>フィルス</li></ul>"
+    fuller_form: より完全な形式
+    fuller_form_tooltip: "<p>省略された場合の、より完全な形式のファーストネームとミドルネーム。</p><p>例</p><ul><li>Hilda
+      Doolittle <em>（HDの場合、Hilda Doolittle、1886-1961）</em></li></ul>"
+    number: 数
+    number_tooltip: "<p>名前を修飾する、場合によっては用語を含む番号。個人名の場合、多くの場合、ローマ数字またはローマ数字とそれに続くフォアネームの部分。会社名の場合、部品/セクションまたは会議の番号。</p><p>例：</p><ul><li>
+      IIコムネノス<em>（ヨハネス2世コムネノス、東の皇帝</em>/ li><li> II <em>（ヨハネパウロ2世の場合）</em></li><li>第97回、第2回セッション<em>（米国議会の場合、第97回、第2回セッション）</em></li></ul>"
+    dates: 日付
+    dates_tooltip: "<p>このフィールドは、MARC権限レコードとの整合に使用します。存在日ではなく、これらの日付が表示の名前エントリに追加されます。</p><p>指定されたエンティティの存在日。</p><p>例：<p><ul><li>
+      1886-1961 <em>（HDの場合、Hilda Doolittle、1886-1961）</em></li></ul>"
+    use_dates: 使用日
+    use_dates_tooltip: "<p>この名前がエージェントに使用された日付。</p>"
+    parallel_names_tooltip: "<p>異なる言語やスクリプトで名前の並列形式、または名前の音訳形式を記録するために使用できます。</p>"
+    qualifier: 修飾子
+    qualifier_tooltip: "<p>他のすべての点で同一であるが、2つの異なるエンティティを識別する2つの名前形式を区別するための用語または句。用語は、日付、場所、またはその他の適切な記述子にすることができます。</p><p>例：</p><ul><li>花屋<em>（スミス家（花屋）の場合）</em>
+      ）</li><li>ブロンクス、ニューヨーク、ニューヨーク<em>（セントジェームス教会（ブロンクス、ニューヨーク、ニューヨーク）の場合）</em></li></ul>"
+    sort_name: ソート名
+    sort_name_tooltip: "<p>特定のエージェントレコードで提供される名前のすべての部分を連結した名前のバージョン。アプリケーションでの表示目的および一部のエクスポートに使用されます。</p><p>ソート名は、「自動生成」チェックボックスをオフにしてから、目的のソート名の形式を入力することで編集できます。</p>"
+    authorized: 承認済み
+    is_display_name: 表示名
+    language: 言語
+    language_tooltip: "<p>名前フォームの記録に使用される言語を示します。例：ロシア語（Каспаров、Г.К。（ГарриКимович）の場合）</p>"
+    script: 脚本
+    script_tooltip: "<p>名前フォームの記録に使用されるスクリプトを示します。例：キリル文字（Каспаров、Г.К。（ГарриКимович）の場合）</p>"
+    transliteration: 文字変換
+    transliteration_tooltip: "<p>名前フォームの記録に使用される音訳スキームを示します。</p>"
+    _singular: ネームフォーム
+    _plural: 名前フォーム
+    subordinate_name_1: 部下名1
+    subordinate_name_1_tooltip: "<p>[プライマリ名]フィールドで指定された企業エンティティを持つ階層ユニット。</p><p>例</p><ul><li>マイクロエレクトロニクス部門<em>（国際ビジネスマシン用。マイクロエレクトロニクス部門）</em></li></ul>"
+    subordinate_name_2: 部下名2
+    subordinate_name_2_tooltip: "<p>[プライマリ名]フィールドで指定された企業エンティティを持ち、[従属名1]フィールドで指定されたユニットよりも下位の階層ユニット。</p>"
+    jurisdiction: 管轄？
+    jurisdiction_tooltip: "<p>エンティティが法域名エントリであるかどうかを示します。</p>"
+    conference_meeting: 会議会議？
+    conference_meeting_tooltip: "<p>エンティティが標準の企業体であるか、会議、会議、またはその他の名前付きイベントであるかを示します。</p>"
+    location: ロケーション
+    location_tooltip: "<p>類似の名前エントリを区別するための修飾子として使用される場所。例：ケンタッキー州トリッグ郡（カニンガム（家族：1795-：ケンタッキー州トリッグ郡））、在日カナダ大使館（日カナダ双子会議（1991年：在日カナダ大使館））</p>"
+
+  parallel_name_software:
+    authority_id: 機関ID
+    authority_id_tooltip: "<p>取得元のソース内のエージェントの名前フォームの一意の識別子（つまり、MADSレコード識別子またはEACレコード識別子）。識別子はURIとして表すことができます。</p><p>
+      DACS13.2を参照してください</p><p>例：</p><ul><li> LCNAF<em>名の見出しの場合はnr92045078</em></li><li>
+      ULAN<em>名の見出しの場合は500115393</em></li><li> <em>VIAF名の見出しについては</em>http://viaf.org/viaf/134138653</ul>"
+    source: ソース
+    source_tooltip: "<p>名前ルールが使用されていない場合は、条件付きで必要なフィールド。名前の由来となった信頼できる情報源の指標。</p><p>この管理値リストの値は変更される可能性があります。</p>"
+    rules: ルール
+    rules_tooltip: "<p>名前ソースが使用されていない場合は、条件付きで必要なフィールド。名前エントリの作成に使用されるルールの表示。</p><p>この管理値リストの値は変更される可能性があります。</p>"
+    name_order: 名前の順序
+    name_order_tooltip: "<p>名前の形式を逆順（姓、名）で表示するか、直接（名、名）で表示するかを示します。</p>"
+    prefix: プレフィックス
+    prefix_tooltip: "<p>規範的に使用される名前に関連付けられた用語は、名前全体の前に置かれます。</p><p>例：</p><ul><li>夫人。</li></ul>"
+    title: 題名
+    title_tooltip: "<p>名前の一部であるタイトル。</p><p>例：</p><ul><li>サー<em>（チャーチル、ウィンストン、サー、1874-1965）</em></li><li>チーフ（ブラックフット、チーフ、1877年）</li><li>東の皇帝<em>（ヨハネス2世コムネヌスのために。東の皇帝。）</em></li></ul>"
+    primary_name: 名前の主要部分
+    primary_name_tooltip: "<p>名前フォームの主要部分（たとえば、人の姓または名前）。</p><p>例：</p><ul><li>チャーチル<em>（チャーチル、ウィンストン、サー、1874-1965
+      [人]）</em><li>ブラックフット<em>（ブラックフット、チーフ、1877年[人]）</em></li><li> International Business
+      Machines <em>（International BusinessMachinesの場合。マイクロエレクトロニクス部門[企業体]）</em></li></ul>"
+    rest_of_name: 名前の残りの部分
+    rest_of_name_tooltip: "<p>レコードで指定された人物の名要素またはフォアネームと追加の名前（ミドルネームなど）。</p><p>例：</p><ul><li>ウィンストン<em>（チャーチル、ウィンストン、サー、1874-1965）</em></li><li>ハンフリー<em>（ワード、ハンフリー、夫人、1851年から1920年）</em></li></ul>"
+    suffix: サフィックス
+    suffix_tooltip: "<p>名前を修飾するがタイトルではない名前に続く用語。</p><p>例</p><ul><li>ジュニア</li><li>フィルス</li></ul>"
+    fuller_form: より完全な形式
+    fuller_form_tooltip: "<p>省略された場合の、より完全な形式のファーストネームとミドルネーム。</p><p>例</p><ul><li>Hilda
+      Doolittle <em>（HDの場合、Hilda Doolittle、1886-1961）</em></li></ul>"
+    number: 数
+    number_tooltip: "<p>名前を修飾する、場合によっては用語を含む番号。個人名の場合、多くの場合、ローマ数字またはローマ数字とそれに続くフォアネームの部分。会社名の場合、部品/セクションまたは会議の番号。</p><p>例：</p><ul><li>
+      IIコムネノス<em>（ヨハネス2世コムネノス、東の皇帝</em>/ li><li> II <em>（ヨハネパウロ2世の場合）</em></li><li>第97回、第2回セッション<em>（米国議会の場合、第97回、第2回セッション）</em></li></ul>"
+    dates: 日付
+    dates_tooltip: "<p>このフィールドは、MARC権限レコードとの整合に使用します。存在日ではなく、これらの日付が表示の名前エントリに追加されます。</p><p>指定されたエンティティの存在日。</p><p>例：<p><ul><li>
+      1886-1961 <em>（HDの場合、Hilda Doolittle、1886-1961）</em></li></ul>"
+    use_dates: 使用日
+    use_dates_tooltip: "<p>この名前がエージェントに使用された日付。</p>"
+    parallel_names_tooltip: "<p>異なる言語やスクリプトで名前の並列形式、または名前の音訳形式を記録するために使用できます。</p>"
+    qualifier: 修飾子
+    qualifier_tooltip: "<p>他のすべての点で同一であるが、2つの異なるエンティティを識別する2つの名前形式を区別するための用語または句。用語は、日付、場所、またはその他の適切な記述子にすることができます。</p><p>例：</p><ul><li>花屋<em>（スミス家（花屋）の場合）</em>
+      ）</li><li>ブロンクス、ニューヨーク、ニューヨーク<em>（セントジェームス教会（ブロンクス、ニューヨーク、ニューヨーク）の場合）</em></li></ul>"
+    sort_name: ソート名
+    sort_name_tooltip: "<p>特定のエージェントレコードで提供される名前のすべての部分を連結した名前のバージョン。アプリケーションでの表示目的および一部のエクスポートに使用されます。</p><p>ソート名は、「自動生成」チェックボックスをオフにしてから、目的のソート名の形式を入力することで編集できます。</p>"
+    authorized: 承認済み
+    is_display_name: 表示名
+    language: 言語
+    language_tooltip: "<p>名前フォームの記録に使用される言語を示します。例：ロシア語（Каспаров、Г.К。（ГарриКимович）の場合）</p>"
+    script: 脚本
+    script_tooltip: "<p>名前フォームの記録に使用されるスクリプトを示します。例：キリル文字（Каспаров、Г.К。（ГарриКимович）の場合）</p>"
+    transliteration: 文字変換
+    transliteration_tooltip: "<p>名前フォームの記録に使用される音訳スキームを示します。</p>"
+    _singular: ネームフォーム
+    _plural: 名前フォーム
+    software_name: ソフトウェア名
+    software_name_tooltip: "<p>ソフトウェアパッケージの名前。</p><p>例：</p><ul><li> Photoshop <em>（Adobe
+      Photoshop CS3用）</em></li><li>バガー<em>（米国議会図書館バガー2.1.2用）</em></li></ul>"
+    version: バージョン
+    version_tooltip: "<p>ソフトウェアパッケージの特定のバージョンのバージョン番号またはその他のインジケータ。</p><p>例</p><ul><li>CS3
+      <em>（Adobe Photoshop CS3用）</em></li><li> 2.1.2 <em>（米国議会図書館バガー2.1.2の場合）</em></li></ul>"
+    manufacturer: メーカー
+    manufacturer_tooltip: "<p>ソフトウェアパッケージの配布、開発、または保守の製造者、作成者、またはその他の責任者。</p><p>例</p><ul><li>Adobe
+      <em>（Adobe Photoshop CS3用）</em></li><li>米国議会図書館（米国議会<em>図書館バガー2.1.2用）</em></li></ul>"
+  agent_record_identifiers:
+    identifier_type_tooltip: "<p>権限レコードIDのタイプまたはフォーマットを示します。この管理値リストの値は変更される可能性があります。</p>"
+    source_tooltip: "<p>関連する識別子の発信元の典拠ファイルを示します。例：NAF（nr2003017069の場合）。この管理値リストの値は変更される可能性があります。</p>"
+    record_identifier_tooltip: "<p>エージェントレコードの識別子。通常、一意の英数字の文字列で構成されます。識別子は、外部の典拠ファイルに由来する場合もあれば、ローカルで生成される場合もあります。</p>"
+    is_primary: プライマリ
+  agent_record_control:
+    maintenance_status_tooltip: "<p>レコードの現在の状態を示します。</p>"
+    publication_status_tooltip: "<p>エージェントレコードを公開する必要があるかどうかを示します。</p>"
+    romanization_tooltip: "<p>許可された名前の形式が非ラテン文字からローマ字化されたかどうか、およびローマ化スキームのタイプを示します。例：国立図書館または書誌機関の標準（ALA-LCローマ字表記表（例：カスパロフ、GK（Garri
+      Kimovich）forКаспаров、Г.К。（ГарриКимович））。</p>"
+    government_agency_type_tooltip: "<p>承認された名前フォームで表される機関または管轄のタイプを示します。</p>"
+    reference_evaluation_tooltip: "<p>許可された名前フォームとエージェントレコード内の他の名前フォームの間の整合性のレベルを示します。追加のフォームがない場合、フィールドは「該当なし」として記録する必要があります。</p>"
+    name_type_tooltip: "<p>エージェントモジュール内の承認された名前フォームの一意性を示します。一意の名前のエントリは「Differentiated」として記録する必要がありますが、同じ名前の複数のエージェントを収集するために使用されるAgentレコードは、「Undifferentiated」としてマークする必要があります。</p>"
+    level_of_detail_tooltip: "<p>コンソーシアムまたはローカルの要件に従って、エージェントレコードの完全性を示します。</p>"
+    modified_record_tooltip: "<p>エージェントレコードが変更されたかどうか、およびどのように変更されたかを示します。</p>"
+    cataloging_source_tooltip: "<p>エージェントレコードの発信元を示します。共同目録プログラムに提出されていない現地で作成された記録は、「その他」として記録する必要があります。</p>"
+    maintenance_agency_tooltip: "<p>エージェントレコードの作成または維持を担当する機関または組織のコード値。コード値はレジストリから取得し、ISO15511規則を使用して記録する必要があります。例：US-UPB（ブリガムヤング大学の場合、米国議会図書館のMARC組織コードを使用）。</p>"
+    agency_name_tooltip: "<p>エージェントレコードの作成または維持を担当する機関または組織の名前。記録される名前は、レジストリのコード値に関連付けられている名前の形式に対応している必要があります。例：ブリガムヤング大学、ハロルドB.リー図書館（コード値UPBの場合、米国議会図書館のMARC組織コードを使用）。</p>"
+    maintenance_agency_note_tooltip: "<p>メモの内容。エージェントの説明を担当する保守機関に関する詳細を提供します。</p>"
+    language_tooltip: "<p>エージェントの説明の準備に使用される言語。例：英語。</p>"
+    script_tooltip: "<p>エージェントの説明の準備に使用されるテキストスクリプト。例：ラテン語。</p>"
+    language_note_tooltip: "<p>メモの内容。エージェントの説明の準備に使用された言語とスクリプトに関する詳細を提供します。</p>"
+  agent_alternate_set:
+    set_component_tooltip: "<p>同等のリンクされた機関レコードへの識別とアクセスを提供するキャプション。</p>"
+    descriptive_note_tooltip: "<p>リンクされた権限レコードに関する詳細を提供するメモの内容。</p>"
+    file_uri_tooltip: "<p>外部典拠ファイル内の同等のレコードのURI。例：http：//id.loc.gov/authorities/names/n80060393（米国議会図書館のRobert
+      W. Serviceのリンクトデータサービスエントリ用）。</p>"
+    file_version_xlink_actuate_attribute_tooltip: "<p>エージェントレコードがレンダリングされるときに、関連付けられたURIを解決する必要があるかどうかを示します。</p>"
+    file_version_xlink_show_attribute_tooltip: "<p>関連するURIでリンクされているリモートリソースをどこにレンダリングするかを示します。</p>"
+    xlink_title_attribute_tooltip: "<p>関連付けられたURIにリンクされているリモートリソースのタイトル。キャプションとして使用できます。</p>"
+    xlink_role_attribute_tooltip: "<p>関連するURIにリンクされているリモートリソースのタイプまたは性質。</p>"
+    xlink_arcrole_attribute_tooltip: "<p>関連するURIにリンクされているリモートリソースのタイプまたは性質。</p>"
+    last_verified_date_tooltip: "<p>関連付けられたURIでリンクされたリンクされたリソースが検証された最後の日付または日時。</p>"
+  agent_conventions_declaration:
+    name_rule_tooltip: "<p>エージェントレコードコンテンツの作成に使用されるコンテンツ標準。例：アーカイブの説明：コンテンツ標準。</p>"
+    citation_tooltip: "<p>エージェントレコードコンテンツの作成に使用される規則の書誌引用。例：Society of AmericanArchivists。アーカイブの説明：コンテンツ標準（シカゴ：Society
+      of American Archivists、2013年）。</p>"
+    descriptive_note_tooltip: "<p>規約の詳細を提供するメモの内容は、エージェントの説明の作成に使用されました。例：伝記の履歴メモの内容を作成するために使用されます。
+      （アーカイブの記述用：コンテンツ標準）。</p>"
+    file_uri_tooltip: "<p>エージェント記述の準備に使用される規則のオンラインロケーションのURI。例：http：//www2.archivists.org/standards/DACS/（アーカイブの説明：コンテンツ標準）。</p>"
+    file_version_xlink_actuate_attribute_tooltip: "<p>エージェントレコードがレンダリングされるときに、関連付けられたURIを解決する必要があるかどうかを示します。</p>"
+    file_version_xlink_show_attribute_tooltip: "<p>関連するURIでリンクされているリモートリソースをどこにレンダリングするかを示します。</p>"
+    xlink_title_attribute_tooltip: "<p>関連付けられたURIにリンクされているリモートリソースのタイトル。キャプションとして使用できます。</p>"
+    xlink_role_attribute_tooltip: "<p>関連するURIにリンクされているリモートリソースのタイプまたは性質。</p>"
+    xlink_arcrole_attribute_tooltip: "<p>関連するURIにリンクされているリモートリソースのタイプまたは性質。</p>"
+    last_verified_date_tooltip: "<p>関連付けられたURIでリンクされたリンクされたリソースが検証された最後の日付または日時。</p>"
+  agent_other_agency_codes:
+    agency_code_type_tooltip: "<p>保守機関コードのソース。例：OCLC。</p>"
+    maintenance_agency_tooltip: "<p>エージェントレコードの作成または維持を担当する機関または組織の代替コード値。コード値はレジストリから取得し、ISO15511規則を使用して記録する必要があります。例：OCLC-UBY（米国の場合、ブリガムヤング大学、OCLCシンボルを使用）。</p>"
+  agent_maintenance_histories:
+    maintenance_event_type_tooltip: "<p>メンテナンスイベントの種類を示します。</p>"
+    maintenance_agent_type_tooltip: "<p>メンテナンスイベントが人によって実行されたのか、ソフトウェアシステムによって実行されたのかを示します。</p>"
+    agent_tooltip: "<p>メンテナンスイベントの責任者、代理店、またはソフトウェアの名前。</p>"
+    event_date_tooltip: "<p>メンテナンスイベントの記録のタイムスタンプ。</p>"
+    descriptive_note_tooltip: "<p>実行されたメンテナンスに関する詳細を提供するメモの内容。</p>"
+  agent_sources:
+    source_entry_tooltip: "<p>エージェントレコードコンテンツの作成に使用されたソースの書誌引用。例：ロックハート、GWロバートサービスの軌跡上（エジンバラ：Luath
+      Press、1991年）。</p>"
+    descriptive_note_tooltip: "<p>メモの内容。エージェントの説明の準備に使用されたソースの内容に関する詳細を提供します。</p>"
+    file_uri_tooltip: "<p>エージェント記述の準備に使用されたソースのオンラインロケーションのURI。例：http：//www.findagrave.com/cgi-bin/fg.cgi？page
+      = gr＆GRid = 8373（Robert W. ServiceのFind-A-Graveエントリの場合）。</p>"
+    file_version_xlink_actuate_attribute_tooltip: "<p>エージェントレコードがレンダリングされるときに、関連付けられたURIを解決する必要があるかどうかを示します。</p>"
+    file_version_xlink_show_attribute_tooltip: "<p>関連するURIでリンクされているリモートリソースをどこにレンダリングするかを示します。</p>"
+    xlink_title_attribute_tooltip: "<p>関連付けられたURIにリンクされているリモートリソースのタイトル。キャプションとして使用できます。</p>"
+    xlink_role_attribute_tooltip: "<p>関連するURIにリンクされているリモートリソースのタイプまたは性質。</p>"
+    xlink_arcrole_attribute_tooltip: "<p>関連するURIにリンクされているリモートリソースのタイプまたは性質。</p>"
+    last_verified_date_tooltip: "<p>関連付けられたURIでリンクされたリンクされたリソースが検証された最後の日付または日時。</p>"
+  agent_identifiers:
+    entity_identifier_tooltip: "<p>権限のある機関によって割り当てられた法的識別子など、エンティティに関連付けられた識別子を記録します。</p>"
+    identifier_type_tooltip: "<p>記録されたエンティティ識別子のタイプまたはソースを示します。</p>"
+  used_language:
+    language_tooltip: "<p>エージェントに関連付けられている言語。例：英語。</p>"
+    script_tooltip: "<p>エージェントに関連付けられているテキストスクリプト。例：ラテン語。</p>"
+  agent_gender:
+    gender_tooltip: "<p>主題の性別。</p></br><p>このリストの値は、[システム]-> [制御値リストの管理]メニューから追加または変更できます。</p>"
+  agent_place:
+    place_role_tooltip: "<p>地理的な場所とエージェントの関係を示します。</p>"
+  agent_resource:
+    linked_agent_role_tooltip: "<p>必須フィールド：リソースに記述されているエンティティの関係のタイプ。</p>"
+    linked_resource_tooltip: "<p>エージェント/エンティティに関連するリソース。</p>"
+    linked_resource_description_tooltip: "<p>書誌情報、関連するコレクション情報などを記録するためのフリーテキストフィールド。</p>"
+    file_uri_tooltip: "<p>エージェント記述の準備に使用されたソースのオンラインロケーションのURI。例：http：//www.findagrave.com/cgi-bin/fg.cgi？page
+      = gr＆GRid = 8373（Robert W. ServiceのFind-A-Graveエントリの場合）。</p>"
+    file_version_xlink_actuate_attribute_tooltip: "<p>エージェントレコードがレンダリングされるときに、関連付けられたURIを解決する必要があるかどうかを示します。</p>"
+    file_version_xlink_show_attribute_tooltip: "<p>関連するURIでリンクされているリモートリソースをどこにレンダリングするかを示します。</p>"
+    xlink_title_attribute_tooltip: "<p>関連付けられたURIにリンクされているリモートリソースのタイトル。キャプションとして使用できます。</p>"
+    xlink_role_attribute_tooltip: "<p>関連するURIにリンクされているリモートリソースのタイプまたは性質。</p>"
+    xlink_arcrole_attribute_tooltip: "<p>関連するURIにリンクされているリモートリソースのタイプまたは性質。</p>"
+    last_verified_date_tooltip: "<p>関連付けられたURIでリンクされたリンクされたリソースが検証された最後の日付または日時。</p>"
+  subrecord_subject_agent_place:
+    subjects_tooltip: "<p>エージェントに関連付けられた地理的な場所。</p>"
+  subrecord_subject_agent_occupation:
+    subjects_tooltip: "<p>エージェントの職業。</p>"
+  subrecord_subject_agent_occupation_place:
+    places_tooltip: "<p>職業に関連する地理的位置。</p>"
+  subrecord_subject_agent_function:
+    subjects_tooltip: "<p>エージェントによって実行される機能、プロセス、タスク、アクティビティ、またはトランザクションを識別するために使用される用語。</p>"
+  subrecord_subject_agent_function_place:
+    places_tooltip: "<p>機能に関連付けられた地理的な場所。</p>"
+  subrecord_subject_agent_topic:
+    subjects_tooltip: "<p>エージェントに関連付けられているサブジェクト。</p>"
+  subrecord_subject_agent_topic_place:
+    places_tooltip: "<p>対象に関連付けられた地理的位置。</p>"
+  subrecord_subject_agent_resource_place:
+    places_tooltip: "<p>リンクされたリソースに関連付けられた地理的な場所。</p>"
+  structured_date_label:
+    date_label_tooltip: "<p>日付が意味するアクティビティの種類を説明します</p>"
+    date_type_structured_tooltip: "<p>単一の日付または日付範囲のいずれかの日付情報のタイプを示します。</p>"
+    date_certainty_tooltip: "<p>日付ステートメントで提供される情報の信頼度。この情報はオプションであり、使用中の説明または目録規則に基づいて日付情報を潜在的に不確実であると認定する場合にのみ追加する必要があります。</p>"
+    date_era_tooltip: "<p>BCやCEなど、年に番号が付けられ、日付が計算される期間値「ce」がデフォルトです。</p>"
+    date_calendar_tooltip: "<p>グレゴリオ暦やユリウス暦などの時間の計算システム。値「グレゴリオ暦」がデフォルトです。</p>"
+  structured_date_label_existence:
+    date_label_tooltip: "<p>日付が意味するアクティビティの種類を説明します</p>"
+    date_type_structured_tooltip: "<p>単一の日付または日付範囲のいずれかの日付情報のタイプを示します。</p>"
+    date_certainty_tooltip: "<p>日付ステートメントで提供される情報の信頼度。この情報はオプションであり、使用中の説明または目録規則に基づいて日付情報を潜在的に不確実であると認定する場合にのみ追加する必要があります。</p>"
+    date_era_tooltip: "<p>BCやCEなど、年に番号が付けられ、日付が計算される期間値「ce」がデフォルトです。</p>"
+    date_calendar_tooltip: "<p>グレゴリオ暦やユリウス暦などの時間の計算システム。値「グレゴリオ暦」がデフォルトです。</p>"
+  structured_date_label_common_fields:
+    date_label_tooltip: "<p>日付が意味するアクティビティの種類を説明します</p>"
+    date_type_structured_tooltip: "<p>単一の日付または日付範囲のいずれかの日付情報のタイプを示します。</p>"
+    date_certainty_tooltip: "<p>日付ステートメントで提供される情報の信頼度。この情報はオプションであり、使用中の説明または目録規則に基づいて日付情報を潜在的に不確実であると認定する場合にのみ追加する必要があります。</p>"
+    date_era_tooltip: "<p>BCやCEなど、年に番号が付けられ、日付が計算される期間値「ce」がデフォルトです。</p>"
+    date_calendar_tooltip: "<p>グレゴリオ暦やユリウス暦などの時間の計算システム。値「グレゴリオ暦」がデフォルトです。</p>"
+  structured_date_single:
+    date_role_tooltip: "<p>単一の日付の場合、日付を開始日または終了日として理解する必要があるかどうかを示すために使用されます。デフォルトはBeginです。</p>"
+    date_expression_tooltip: "<p>日付または日付範囲を指定する自然言語表現。標準化された日付が記録されていない場合に必要です。</p>"
+    date_standardized_tooltip: "<p>日付または日付範囲を指定する自然言語表現。標準化された日付が記録されていない場合に必要です。</p>"
+    date_standardized_type_tooltip: "<p>標準化された日付が実際の日付を反映しているか、または発生した可能性のある最も早いまたは最も遅いものの見積もりを反映しているかどうかを示すために使用されます。</p>"
+  structured_date_range:
+    begin_date_expression_tooltip: "<p>日付範囲の開始を指定する自然言語式。標準化された日付が記録されていない場合に必要です。</p>"
+    begin_date_standardized_tooltip: "<p>単一の日付または日付範囲の最初の日付を表す日付（YYYY、YYYY-MM、またはYYYY-MM-DDの形式）。</p>"
+    begin_date_standardized_type_tooltip: "<p>標準化された開始日が実際の日付を反映しているか、または発生した可能性のある最も早いまたは最も遅いものの見積もりを反映しているかどうかを示すために使用されます。</p>"
+    end_date_expression_tooltip: "<p>日付範囲の終わりを指定する自然言語式。標準化された日付が記録されていない場合に必要です。</p>"
+    end_date_standardized_tooltip: "<p>日付範囲の最後の日付を表す日付（YYYY、YYYY-MM、またはYYYY-MM-DDの形式）。</p>"
+    end_date_standardized_type_tooltip: "<p>標準化された終了日が実際の日付を反映しているか、または発生した可能性のある最も早いまたは最も遅いものの見積もりを反映しているかどうかを示すために使用されます。</p>"
+  structured_date_single_fields:
+    date_role_tooltip: "<p>単一の日付の場合、日付を開始日または終了日として理解する必要があるかどうかを示すために使用されます。デフォルトはBeginです。</p>"
+    date_expression_tooltip: "<p>日付または日付範囲を指定する自然言語表現。標準化された日付が記録されていない場合に必要です。</p>"
+    date_standardized_tooltip: "<p>日付または日付範囲を指定する自然言語表現。標準化された日付が記録されていない場合に必要です。</p>"
+    date_standardized_type_tooltip: "<p>標準化された日付が実際の日付を反映しているか、または発生した可能性のある最も早いまたは最も遅いものの見積もりを反映しているかどうかを示すために使用されます。</p>"
+  structured_date_range_fields:
+    begin_date_expression_tooltip: "<p>日付範囲の開始を指定する自然言語式。標準化された日付が記録されていない場合に必要です。</p>"
+    begin_date_standardized_tooltip: "<p>単一の日付または日付範囲の最初の日付を表す日付（YYYY、YYYY-MM、またはYYYY-MM-DDの形式）。</p>"
+    begin_date_standardized_type_tooltip: "<p>標準化された開始日が実際の日付を反映しているか、または発生した可能性のある最も早いまたは最も遅いものの見積もりを反映しているかどうかを示すために使用されます。</p>"
+    end_date_expression_tooltip: "<p>日付範囲の終わりを指定する自然言語式。標準化された日付が記録されていない場合に必要です。</p>"
+    end_date_standardized_tooltip: "<p>日付範囲の最後の日付を表す日付（YYYY、YYYY-MM、またはYYYY-MM-DDの形式）。</p>"
+    end_date_standardized_type_tooltip: "<p>標準化された終了日が実際の日付を反映しているか、または発生した可能性のある最も早いまたは最も遅いものの見積もりを反映しているかどうかを示すために使用されます。</p>"   
+
+  note_contact_note:
+    label: ラベル
+    label_tooltip: "<p>特定のメモのラベルまたは見出し。ラベルを使用しない場合は、必要に応じてノートタイプがラベルとして使用されます。</p>"
+    persistent_id: 永続ID
+    content: コンテンツ
+    content_tooltip: "<p>メモの内容。</p>"
+    items: アイテム
+    items_singular: 項目
+    item_singular: 項目
+    publish: 公開しますか？
+    publish_tooltip: "<p>このメモをパブリック（パトロン）インターフェイスにするかどうかを決定します。</p>"
+    title: 題名
+    title_tooltip: "<p>サブノートの特定のラベルまたはタイトルを記録するための要素。</p>"
+    type: タイプ
+    type_tooltip: "<p>コンテンツのメモの種類。ノートタイプは、特定のデータ形式の特定の要素へのノートコンテンツのエクスポートをガイドするために使用されます。</p>"
+    subnotes: サブノート
+    date_of_contact: 連絡日
+    contact_notes: 連絡先
+
+  related_agents:
+    relationship_type: 一般的な関係タイプ
+    relator: 方向関係タイプ
+    specific_relator: 特定の関係タイプ
+    relationship_uri: 関係URI
+    relator_tooltip: 関係を説明する特定の修飾子。
+    description: 説明
+    date: 日付
+    dates: 日付
+    ref: 関連エージェント
+    _singular: 関連エージェント
+    _plural: 関連エージェント
+
+  note_general_context:
+    label: ラベル
+    label_tooltip: "<p>特定のメモのラベルまたは見出し。ラベルを使用しない場合は、必要に応じてノートタイプがラベルとして使用されます。</p>"
+    persistent_id: 永続ID
+    content: コンテンツ
+    content_tooltip: "<p>メモの内容。</p>"
+    items: アイテム
+    items_singular: 項目
+    item_singular: 項目
+    publish: 公開しますか？
+    publish_tooltip: "<p>このメモをパブリック（パトロン）インターフェイスにするかどうかを決定します。</p>"
+    title: 題名
+    title_tooltip: "<p>サブノートの特定のラベルまたはタイトルを記録するための要素。</p>"
+    type: タイプ
+    type_tooltip: "<p>コンテンツのメモの種類。ノートタイプは、特定のデータ形式の特定の要素へのノートコンテンツのエクスポートをガイドするために使用されます。</p>"
+    subnotes: サブノート
+  note_mandate:
+    label: ラベル
+    label_tooltip: "<p>特定のメモのラベルまたは見出し。ラベルを使用しない場合は、必要に応じてノートタイプがラベルとして使用されます。</p>"
+    persistent_id: 永続ID
+    content: コンテンツ
+    content_tooltip: "<p>メモの内容。</p>"
+    items: アイテム
+    items_singular: 項目
+    item_singular: 項目
+    publish: 公開しますか？
+    publish_tooltip: "<p>このメモをパブリック（パトロン）インターフェイスにするかどうかを決定します。</p>"
+    title: 題名
+    title_tooltip: "<p>サブノートの特定のラベルまたはタイトルを記録するための要素。</p>"
+    type: タイプ
+    type_tooltip: "<p>コンテンツのメモの種類。ノートタイプは、特定のデータ形式の特定の要素へのノートコンテンツのエクスポートをガイドするために使用されます。</p>"
+    subnotes: サブノート
+  note_legal_status:
+    label: ラベル
+    label_tooltip: "<p>特定のメモのラベルまたは見出し。ラベルを使用しない場合は、必要に応じてノートタイプがラベルとして使用されます。</p>"
+    persistent_id: 永続ID
+    content: コンテンツ
+    content_tooltip: "<p>メモの内容。</p>"
+    items: アイテム
+    items_singular: 項目
+    item_singular: 項目
+    publish: 公開しますか？
+    publish_tooltip: "<p>このメモをパブリック（パトロン）インターフェイスにするかどうかを決定します。</p>"
+    title: 題名
+    title_tooltip: "<p>サブノートの特定のラベルまたはタイトルを記録するための要素。</p>"
+    type: タイプ
+    type_tooltip: "<p>コンテンツのメモの種類。ノートタイプは、特定のデータ形式の特定の要素へのノートコンテンツのエクスポートをガイドするために使用されます。</p>"
+    subnotes: サブノート
+  note_structure_or_genealogy:
+    label: ラベル
+    label_tooltip: "<p>特定のメモのラベルまたは見出し。ラベルを使用しない場合は、必要に応じてノートタイプがラベルとして使用されます。</p>"
+    persistent_id: 永続ID
+    content: コンテンツ
+    content_tooltip: "<p>メモの内容。</p>"
+    items: アイテム
+    items_singular: 項目
+    item_singular: 項目
+    publish: 公開しますか？
+    publish_tooltip: "<p>このメモをパブリック（パトロン）インターフェイスにするかどうかを決定します。</p>"
+    title: 題名
+    title_tooltip: "<p>サブノートの特定のラベルまたはタイトルを記録するための要素。</p>"
+    type: タイプ
+    type_tooltip: "<p>コンテンツのメモの種類。ノートタイプは、特定のデータ形式の特定の要素へのノートコンテンツのエクスポートをガイドするために使用されます。</p>"
+    subnotes: サブノート
+
+
+  agent_person:
+    <<: *agent_attributes
+    <<: *slug_attributes
+    _singular: 人
+    _plural: 人
+    agent_contact_notes_tooltip: "<p>エージェントとのやり取りに関するメモ。</p>"
+    agent_record_controls_tooltip: "<p>エージェントを説明するレコードに関する情報。</p>"
+    agent_alternate_sets_tooltip: "<p>同じエンティティの2つ以上のレコードが2つ以上の権限システムから派生した場合に、リンクされた権限レコードを指すために使用されます。</p>"
+    agent_conventions_declarations_tooltip: "<p>エージェントレコードコンテンツの作成に使用されるコンテンツ標準。例：アーカイブの説明：コンテンツ標準。このサブレコードは、個々の名前フォームのルールエントリの代わりに使用できます。</p>"
+    agent_other_agency_codes_tooltip: "<p>エージェントレコードの作成または維持を担当する機関または組織の代替コードに関する情報。</p>"
+    agent_maintenance_histories_tooltip: "<p>エージェントレコードの作成または保守に関連するイベント。</p>"
+    agent_record_identifiers_tooltip: "<p>エージェントレコードに関連付けられている識別子。</p>"
+    agent_sources_tooltip: "<p>エージェントレコードコンテンツの作成に使用されるソース。</p>"
+    agent_identifiers_tooltip: "<p>権限のある機関によって割り当てられた法的識別子など、エンティティに関連付けられた識別子。例には、個人のORCID識別子または企業エンティティのMARCリポジトリコードが含まれます。</p>"
+    agent_genders_tooltip: 主題の性別。
+    agent_places_tooltip: エージェントに関連付けられた情報を配置します。
+    agent_occupations_tooltip: エージェントに関連付けられている職業情報。
+    agent_functions_tooltip: エージェントによって実行される機能、プロセス、タスク、アクティビティ、またはトランザクションを識別するために使用される用語。
+    agent_topics_tooltip: エージェントに関連付けられているサブジェクト。
+    agent_contacts_tooltip: "<p>エージェントまたは代理で働く代表者の連絡先情報。</p>"
+    used_languages_tooltip: エージェントに関連付けられている言語。例：英語。
+    agent_resources_tooltip: エージェントに関連するリソースおよびその他のレコード。
+    related_agent_tooltip: エージェントとの関係を持つ他のエージェントをリンクし、関係の性質を示すために使用されます。
+    publish_tooltip: "<p>エージェントがエクスポートに含まれ、パブリックインターフェイスに公開されているかどうかを示します（使用されている場合）</p>"
+  agent_family:
+    <<: *agent_attributes
+    <<: *slug_attributes
+    _singular: 家族
+    _plural: 家族
+    agent_contact_notes_tooltip: "<p>エージェントとのやり取りに関するメモ。</p>"
+    agent_record_controls_tooltip: "<p>エージェントを説明するレコードに関する情報。</p>"
+    agent_alternate_sets_tooltip: "<p>同じエンティティの2つ以上のレコードが2つ以上の権限システムから派生した場合に、リンクされた権限レコードを指すために使用されます。</p>"
+    agent_conventions_declarations_tooltip: "<p>エージェントレコードコンテンツの作成に使用されるコンテンツ標準。例：アーカイブの説明：コンテンツ標準。このサブレコードは、個々の名前フォームのルールエントリの代わりに使用できます。</p>"
+    agent_other_agency_codes_tooltip: "<p>エージェントレコードの作成または維持を担当する機関または組織の代替コードに関する情報。</p>"
+    agent_maintenance_histories_tooltip: "<p>エージェントレコードの作成または保守に関連するイベント。</p>"
+    agent_record_identifiers_tooltip: "<p>エージェントレコードに関連付けられている識別子。</p>"
+    agent_sources_tooltip: "<p>エージェントレコードコンテンツの作成に使用されるソース。</p>"
+    agent_identifiers_tooltip: "<p>権限のある機関によって割り当てられた法的識別子など、エンティティに関連付けられた識別子。例には、個人のORCID識別子または企業エンティティのMARCリポジトリコードが含まれます。</p>"
+    agent_genders_tooltip: 主題の性別。
+    agent_places_tooltip: エージェントに関連付けられた情報を配置します。
+    agent_occupations_tooltip: エージェントに関連付けられている職業情報。
+    agent_functions_tooltip: エージェントによって実行される機能、プロセス、タスク、アクティビティ、またはトランザクションを識別するために使用される用語。
+    agent_topics_tooltip: エージェントに関連付けられているサブジェクト。
+    agent_contacts_tooltip: "<p>エージェントまたは代理で働く代表者の連絡先情報。</p>"
+    used_languages_tooltip: エージェントに関連付けられている言語。例：英語。
+    agent_resources_tooltip: エージェントに関連するリソースおよびその他のレコード。
+    related_agent_tooltip: エージェントとの関係を持つ他のエージェントをリンクし、関係の性質を示すために使用されます。
+    publish_tooltip: "<p>エージェントがエクスポートに含まれ、パブリックインターフェイスに公開されているかどうかを示します（使用されている場合）</p>"
+  agent_software:
+    <<: *agent_attributes
+    <<: *slug_attributes
+    _singular: ソフトウェア
+    _plural: ソフトウェア
+    agent_contact_notes_tooltip: "<p>エージェントとのやり取りに関するメモ。</p>"
+    agent_record_controls_tooltip: "<p>エージェントを説明するレコードに関する情報。</p>"
+    agent_alternate_sets_tooltip: "<p>同じエンティティの2つ以上のレコードが2つ以上の権限システムから派生した場合に、リンクされた権限レコードを指すために使用されます。</p>"
+    agent_conventions_declarations_tooltip: "<p>エージェントレコードコンテンツの作成に使用されるコンテンツ標準。例：アーカイブの説明：コンテンツ標準。このサブレコードは、個々の名前フォームのルールエントリの代わりに使用できます。</p>"
+    agent_other_agency_codes_tooltip: "<p>エージェントレコードの作成または維持を担当する機関または組織の代替コードに関する情報。</p>"
+    agent_maintenance_histories_tooltip: "<p>エージェントレコードの作成または保守に関連するイベント。</p>"
+    agent_record_identifiers_tooltip: "<p>エージェントレコードに関連付けられている識別子。</p>"
+    agent_sources_tooltip: "<p>エージェントレコードコンテンツの作成に使用されるソース。</p>"
+    agent_identifiers_tooltip: "<p>権限のある機関によって割り当てられた法的識別子など、エンティティに関連付けられた識別子。例には、個人のORCID識別子または企業エンティティのMARCリポジトリコードが含まれます。</p>"
+    agent_genders_tooltip: 主題の性別。
+    agent_places_tooltip: エージェントに関連付けられた情報を配置します。
+    agent_occupations_tooltip: エージェントに関連付けられている職業情報。
+    agent_functions_tooltip: エージェントによって実行される機能、プロセス、タスク、アクティビティ、またはトランザクションを識別するために使用される用語。
+    agent_topics_tooltip: エージェントに関連付けられているサブジェクト。
+    agent_contacts_tooltip: "<p>エージェントまたは代理で働く代表者の連絡先情報。</p>"
+    used_languages_tooltip: エージェントに関連付けられている言語。例：英語。
+    agent_resources_tooltip: エージェントに関連するリソースおよびその他のレコード。
+    related_agent_tooltip: エージェントとの関係を持つ他のエージェントをリンクし、関係の性質を示すために使用されます。
+    publish_tooltip: "<p>エージェントがエクスポートに含まれ、パブリックインターフェイスに公開されているかどうかを示します（使用されている場合）</p>"
+  agent_corporate_entity:
+    <<: *agent_attributes
+    <<: *slug_attributes
+    _singular: コーポレートエンティティ
+    _plural: 法人
+    agent_contact_notes_tooltip: "<p>エージェントとのやり取りに関するメモ。</p>"
+    agent_record_controls_tooltip: "<p>エージェントを説明するレコードに関する情報。</p>"
+    agent_alternate_sets_tooltip: "<p>同じエンティティの2つ以上のレコードが2つ以上の権限システムから派生した場合に、リンクされた権限レコードを指すために使用されます。</p>"
+    agent_conventions_declarations_tooltip: "<p>エージェントレコードコンテンツの作成に使用されるコンテンツ標準。例：アーカイブの説明：コンテンツ標準。このサブレコードは、個々の名前フォームのルールエントリの代わりに使用できます。</p>"
+    agent_other_agency_codes_tooltip: "<p>エージェントレコードの作成または維持を担当する機関または組織の代替コードに関する情報。</p>"
+    agent_maintenance_histories_tooltip: "<p>エージェントレコードの作成または保守に関連するイベント。</p>"
+    agent_record_identifiers_tooltip: "<p>エージェントレコードに関連付けられている識別子。</p>"
+    agent_sources_tooltip: "<p>エージェントレコードコンテンツの作成に使用されるソース。</p>"
+    agent_identifiers_tooltip: "<p>権限のある機関によって割り当てられた法的識別子など、エンティティに関連付けられた識別子。例には、個人のORCID識別子または企業エンティティのMARCリポジトリコードが含まれます。</p>"
+    agent_genders_tooltip: 主題の性別。
+    agent_places_tooltip: エージェントに関連付けられた情報を配置します。
+    agent_occupations_tooltip: エージェントに関連付けられている職業情報。
+    agent_functions_tooltip: エージェントによって実行される機能、プロセス、タスク、アクティビティ、またはトランザクションを識別するために使用される用語。
+    agent_topics_tooltip: エージェントに関連付けられているサブジェクト。
+    agent_contacts_tooltip: "<p>エージェントまたは代理で働く代表者の連絡先情報。</p>"
+    used_languages_tooltip: エージェントに関連付けられている言語。例：英語。
+    agent_resources_tooltip: エージェントに関連するリソースおよびその他のレコード。
+    related_agent_tooltip: エージェントとの関係を持つ他のエージェントをリンクし、関係の性質を示すために使用されます。
+    publish_tooltip: "<p>エージェントがエクスポートに含まれ、パブリックインターフェイスに公開されているかどうかを示します（使用されている場合）</p>"   
+
+

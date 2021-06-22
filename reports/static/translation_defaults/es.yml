@@ -69,6 +69,7 @@ es:
       instance_type: Tipo de representación
       instances: Representaciones
       inventory: Inventario
+      language: Idioma
       level: Nivel
       linked_records: Registros vinculados
       linked_resources: Recursos vinculados
@@ -91,6 +92,7 @@ es:
       total_count: Número de registros
       number_with_inventories: Número con inventarios
       object_type: Tipo de objeto
+      provenance: Procedencia
       purpose: Propósito de la evaluación
       rating: Clasificación
       ratings: Calificaciones
@@ -110,6 +112,7 @@ es:
       rights_transferred: ¿Derechos transferidos?
       role: Role
       room: Sala
+      script: Texto
       scope: Alcance de la evaluación
       scoped_by_rating: Alcance por Calificación
       sensitive_material: ¿Material sensible?

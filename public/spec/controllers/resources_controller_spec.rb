@@ -40,7 +40,7 @@ describe ResourcesController, type: :controller do
   it 'should show the published resources' do
     expect(get(:index)).to have_http_status(200)
     results = assigns(:results)
-    expect(results['total_hits']).to eq(5)
+    expect(results['total_hits']).to eq(6)
     expect(results.records.first['title']).to eq("Published Resource")
   end
 
@@ -81,7 +81,7 @@ describe ResourcesController, type: :controller do
 
     it 'should get the tree node from the root ' do
       get(:tree_node_from_root, params: { rid: @repo.id, id: @resource.id,
-                                          node_ids: [@a1,@a2,@a3].map(&:id) })
+                                          node_ids: [@a1, @a2, @a3].map(&:id) })
       expect(response.status).to eq(200)
     end
 

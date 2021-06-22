@@ -30,7 +30,6 @@ class DateCalculatorController < ApplicationController
     else
       render_aspace_partial :partial => "date_calculator/no_object"
     end
-
   end
 
 
@@ -44,11 +43,10 @@ class DateCalculatorController < ApplicationController
       record.dates << date
       record.save
 
-      render :text => 'success'
+      render :plain => 'success'
     rescue ValidationException => e
       render :json => e.errors, :status => 400
     end
   end
 
 end
-

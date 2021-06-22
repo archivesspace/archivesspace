@@ -37,6 +37,7 @@ $(function() {
                 $wrapWithActionSelect.append("<option>" + tag + "</option>");                 
             }); 
         }, 
+        onChange: function(){$editor.save()},
         mode: 'text/html',
         smartIndent: false,
         extraKeys: {

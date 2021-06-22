@@ -38,7 +38,19 @@ class ArchivesSpaceOAIRepository < OAI::Provider::Model
 
   DELETES_PER_PAGE = 100
 
-  RESOLVE = ['repository', 'subjects', 'linked_agents', 'digital_object', 'top_container', 'ancestors', 'linked_agents', 'resource', 'top_container::container_profile']
+  RESOLVE = [
+    'ancestors',
+    'ancestors::linked_agents',
+    'ancestors::subjects',
+    'ancestors::instances::sub_container::top_container',
+    'digital_object',
+    'linked_agents',
+    'repository',
+    'resource',
+    'subjects',
+    'top_container',
+    'top_container::container_profile'
+  ]
 
 
   def earliest
@@ -53,7 +65,7 @@ class ArchivesSpaceOAIRepository < OAI::Provider::Model
     available_levels = BackendEnumSource.values_for("archival_record_level")
     get_oai_config_values
 
-    # ANW-674: 
+    # ANW-674:
     # Get set values from OAIConfig table instead of config file
     config_sets = []
 
@@ -162,7 +174,7 @@ class ArchivesSpaceOAIRepository < OAI::Provider::Model
   def add_visibility_restrictions(dataset)
     # ANW-242: restrict excluded sets if enabled per repostiory
     # select repos that
-      # -are published 
+      # -are published
       # -have OAI enabled
     # gather these repo ids and available set ids in a data structure like:
     # [ [1, [889, 886]], [2, []], ...]
@@ -170,8 +182,8 @@ class ArchivesSpaceOAIRepository < OAI::Provider::Model
                              .select(:id, :oai_sets_available)
                              .map {|row| [row[:id], row[:oai_sets_available]]}
 
-    visible_repos.map! do |vr| 
-      osa_parsed = JSON::parse(vr[1]) rescue [] 
+    visible_repos.map! do |vr|
+      osa_parsed = JSON::parse(vr[1]) rescue []
       [vr[0], osa_parsed.map {|s| s.to_i}]
     end
 
@@ -188,7 +200,7 @@ class ArchivesSpaceOAIRepository < OAI::Provider::Model
       end
     end
 
-    dataset.filter(query_strings.join(" OR ")).filter(:publish => 1, :suppressed => 0)
+    dataset.filter(Sequel.lit(query_strings.join(" OR "))).filter(:publish => 1, :suppressed => 0)
   end
 
   # Don't show deletes for repositories that aren't published.
@@ -345,11 +357,11 @@ class ArchivesSpaceOAIRepository < OAI::Provider::Model
     until_time = parse_time(until_timestamp)
 
     if from_time
-      dataset = dataset.filter("#{time_column} >= ?", from_time)
+      dataset = dataset.filter(Sequel.lit("#{time_column} >= ?", from_time))
     end
 
     if until_time
-      dataset = dataset.filter("#{time_column} <= ?", until_time)
+      dataset = dataset.filter(Sequel.lit("#{time_column} <= ?", until_time))
     end
 
     dataset
@@ -409,7 +421,7 @@ class ArchivesSpaceOAIRepository < OAI::Provider::Model
         dataset = dataset.filter(:finding_aid_sponsor_sha1 => sponsor_hashes)
       else
         dataset = dataset.filter(:root_record_id => Resource.filter(:finding_aid_sponsor_sha1 => sponsor_hashes).select(:id))
-      end     
+      end
     end
 
     dataset
@@ -423,11 +435,8 @@ class ArchivesSpaceOAIRepository < OAI::Provider::Model
         jsons = record_type.sequel_to_jsonmodel(subset)
 
         # Resolve ancestors since the RecordInheritance code expects them to be there
-        jsons = URIResolver.resolve_references(jsons, ['ancestors'])
-
-        # Now merge in the ancestor values according to the configuration and resolve everything else we need.
-        jsons = RecordInheritance.merge(jsons)
-        resolved = URIResolver.resolve_references(jsons, RESOLVE)
+        # and merge in the ancestor values according to the configuration and resolve everything else we need.
+        resolved = RecordInheritance.merge(URIResolver.resolve_references(jsons, RESOLVE))
 
         result.concat(resolved.map {|json| JSONModel::JSONModel(json.fetch('jsonmodel_type').intern).from_hash(json, true, :trusted)})
       end

@@ -3,7 +3,7 @@ require 'spec_helper'
 
 describe 'Component Add Children controllers' do
 
-  let(:resource) {   create(:json_resource) }
+  let(:resource) { create(:json_resource) }
   let(:ao) { create(:json_archival_object, :resource => {:ref => resource.uri}) }
 
 
@@ -22,7 +22,7 @@ describe 'Component Add Children controllers' do
 
   it "allows you to post multiple children and not mix up the order" do
     children = []
-    3.times { children << create(:json_archival_object, :resource => {:ref => resource.uri}, :parent => {:ref => ao.uri}).uri  }
+    3.times { children << create(:json_archival_object, :resource => {:ref => resource.uri}, :parent => {:ref => ao.uri}).uri }
     response = JSONModel::HTTP::post_form("#{resource.uri}/accept_children", {"children[]" => children, "position" => 0})
     json_response = ASUtils.json_parse(response.body)
     expect(json_response["status"]).to eq("Updated")
@@ -41,7 +41,7 @@ describe 'Component Add Children controllers' do
 
   it "can keep the order even if the tree has been reworked" do
     children = []
-    100.times { children << create(:json_archival_object, :resource => {:ref => resource.uri}, :parent => {:ref => ao.uri}).uri  }
+    100.times { children << create(:json_archival_object, :resource => {:ref => resource.uri}, :parent => {:ref => ao.uri}).uri }
 
     tree = get_ao_tree(ao.id)
     expect(tree.length).to eq(100)

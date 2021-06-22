@@ -56,12 +56,16 @@ class NestedRecordResolver
           nested_objs = Array(obj.send(nested_record[:association][:name]))
 
           unless nested_record[:association][:order]
-            nested_objs.sort_by!{ |rec| rec[:id] }
+            nested_objs.sort_by! { |rec| rec[:id] }
           end
 
-          records = model.sequel_to_jsonmodel(nested_objs).map {|rec|
-            rec.to_hash(:trusted)
-          }
+          records = if nested_objs.empty?
+                      []
+                    else
+                      model.sequel_to_jsonmodel(nested_objs).map {|rec|
+                        rec.to_hash(:trusted)
+                      }
+                    end
 
           is_array = nested_record[:is_array] && ![:many_to_one, :one_to_one].include?(nested_record[:association][:type])
 

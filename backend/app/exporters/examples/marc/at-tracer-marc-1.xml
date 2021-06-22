@@ -25,8 +25,8 @@
         </datafield>
         <datafield tag="245" ind2=" " ind1="1">
             <subfield code="a">Resource--Title-AT</subfield>
-            <subfield code="f">Resource-Date-Expression-AT</subfield>
-            <subfield code="g">1960 - 1970</subfield>
+            <subfield code="f">Resource-Date-Expression-AT-1960 - 1970</subfield>
+            <subfield code="g">Resource-Date-Expression-AT-1965 - 1968</subfield>
         </datafield>
         <datafield tag="260" ind1=" " ind2=" ">
           <subfield code="a">[S.l. :</subfield>
@@ -78,9 +78,15 @@
             <subfield code="a">Resource-ConditionsGoverningAccess-AT</subfield>
         </datafield>
         <datafield tag="520" ind2=" " ind1=" ">
+            <subfield code="a">Resource-Odd-AT</subfield>
+        </datafield>
+        <datafield tag="520" ind2=" " ind1="8">
+            <subfield code="a">Resource-NoDisplay-AT</subfield>
+        </datafield>
+        <datafield tag="520" ind2=" " ind1="3">
             <subfield code="a">Resource-Abstract-AT</subfield>
         </datafield>
-        <datafield tag="520" ind2=" " ind1=" ">
+        <datafield tag="520" ind2=" " ind1="2">
             <subfield code="a">Resource-ScopeContents-AT
 
 Here is an example of wrap-in tag blockquotes:

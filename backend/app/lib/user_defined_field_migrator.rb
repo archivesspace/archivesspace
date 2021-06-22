@@ -98,7 +98,6 @@ class UserDefinedFieldMigrator
 
 
   def migrate
-
     raise "No target ArchivesSpace repository was specified.  You will need to set AppConfig[:at_target_aspace_repo]" unless AppConfig.has_key?(:at_target_aspace_repo)
 
     repo = Repository[:repo_code => AppConfig[:at_target_aspace_repo]]
@@ -172,6 +171,7 @@ class UserDefinedFieldMigrator
                     filter(:top_container_id => top_container.id).
                     where { Sequel.~(:accession_id => nil) }.
                     count > 0
+
                   # That's OK.  The top container is linked to an accession, so
                   # not a huge problem that we didn't find a match.
                   true
@@ -284,7 +284,6 @@ end
 class InstanceKey < Struct.new(:resource_id, :resource_component_id, :barcode, :indicator)
 
   def self.from_row(row)
-
     if row[:barcode].nil? && row[:container1AlphaNumIndicator].nil? && row[:container1NumericIndicator].nil?
       # This cannot be matched to a TopContainer
       return nil
@@ -382,7 +381,6 @@ class InstanceData < Struct.new(:voyager_info, :box_type, :restricted, :exported
 end
 
 
-
 class ArchivistsToolkit
 
   def initialize(db)
@@ -475,7 +473,6 @@ class ArchivistsToolkit
         end
       end
     end
-
   end
 
 

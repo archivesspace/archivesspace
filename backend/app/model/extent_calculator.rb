@@ -89,7 +89,7 @@ class ExtentCalculator
 
     DB.open do |db|
       db[:top_container_link_rlshp].filter(:id => rel_ids).select(:top_container_id).
-        distinct().map{|hash| hash[:top_container_id]}.each do |tc_id|
+        distinct().map {|hash| hash[:top_container_id]}.each do |tc_id|
 
         @container_count += 1
 

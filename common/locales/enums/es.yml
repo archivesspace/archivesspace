@@ -1,5 +1,161 @@
 ﻿es:
   enumerations:
+    gender:
+      not_specified: No especificado
+    place_role:
+      assoc_country: País asociado
+      residence: Residencia
+      other_assoc: Otro
+      place_of_birth: Lugar de nacimiento
+      place_of_death: Lugar de la muerte
+    date_standardized_type:
+      standard: Estándar
+      not_before: No antes
+      not_after: No después de
+    transliteration:
+      ala-lc: Tablas de romanización ALA-LC
+    name_source:
+      snac: SNAC
+    name_rule:
+      ccr: Catalogación de recursos culturales
+      rad: Reglas para la descripción de archivos
+      isaar: Registro de autoridad de archivo estándar internacional para entidades
+        corporativas, personas y familias
+    _note_types:
+      general_context: Contexto general
+      mandate: Mandato
+      contact_note: Nota de contacto
+      legal_status: Estatus legal
+      structure_or_genealogy: Estructura o genealogía
+    note_digital_object_type:
+      general_context: Contexto general
+      mandate: Mandato
+      contact_note: Nota de contacto
+      legal_status: Estatus legal
+      structure_or_genealogy: Estructura o genealogía
+    note_langmaterial_type:
+      general_context: Contexto general
+      mandate: Mandato
+      contact_note: Nota de contacto
+      legal_status: Estatus legal
+      structure_or_genealogy: Estructura o genealogía
+    note_multipart_type:
+      general_context: Contexto general
+      mandate: Mandato
+      contact_note: Nota de contacto
+      legal_status: Estatus legal
+      structure_or_genealogy: Estructura o genealogía
+    note_singlepart_type:
+      general_context: Contexto general
+      mandate: Mandato
+      contact_note: Nota de contacto
+      legal_status: Estatus legal
+      structure_or_genealogy: Estructura o genealogía
+    agent_relationship_identity_relator:
+      is_identified_with: Relación del agente identificada con el relator
+    agent_relationship_hierarchical_relator:
+      is_hierarchical_with: Relator jerárquico de la relación del agente
+    agent_relationship_temporal_relator:
+      is_temporal_with: Relator temporal de la relación del agente
+    agent_relationship_family_relator:
+      is_related_with: Relator relacionado con la relación del agente     
+    date_type_structured:
+      single: Soltero
+      range: Distancia
+    date_role:
+      begin: Empezar
+      end: Fin
+    begin_date_standardized_type:
+      standard: Estándar
+      not_before: No antes
+      not_after: No después de
+    end_date_standardized_type:
+      standard: Estándar
+      not_before: No antes
+      not_after: No después de 
+    maintenance_status:
+      new: Nuevo
+      upgraded: Actualizado
+      revised_corrected: Revisado / Corregido
+      derived: Derivado
+      deleted: Eliminado
+      cancelled_obsolete: Cancelado / Obsoleto
+      deleted_split: Eliminado-Split
+      deleted_replaced: Eliminado-reemplazado
+    publication_status:
+      in_process: En proceso
+      approved: Aprobado
+    romanization:
+      int_std: Estándar internacional
+      nat_std: Norma nacional
+      nl_assoc_std: Asociación nacional de bibliotecas estándar
+      nl_bib_agency_std: Biblioteca nacional o agencia bibliográfica estándar.
+      local_standard: Norma local
+      unknown_standard: Estándar de origen desconocido
+      conv_rom_cat_agency: Romanización convencional o forma convencional de nombre en el idioma de la agencia de catalogación
+      not_applicable: No aplica
+    government_agency_type: 
+      ngo: Organización no gubernamental
+      sac: Componente autónomo o semiautónomo.
+      multilocal: Multilocal
+      fed: Federal / nacional
+      int_gov: Internacional intergubernamental
+      local: Local
+      multistate: Multiestado
+      undetermined: Tipo de agencia gubernamental indeterminada
+      provincial: Estado, provincial, territorial, dependiente, etc.
+      unknown: Desconocido si el rumbo es agencia gubernamental
+      other: Otro
+      natc: Ningún intento de codificar
+    reference_evaluation: 
+      tr_consistent: Trazados consistentes con encabezados
+      tr_inconsistent: Trazados inconsistentes con los encabezados
+      not_applicable: No aplica
+      natc: Ningún intento de codificar
+    name_type: 
+      differentiated: Diferenciado
+      undifferentiated: Indiferenciado
+      not_applicable: No aplica
+      natc: Ningún intento de codificar
+    level_of_detail: 
+      fully_established: Plenamente establecido
+      memorandum: Memorándum
+      provisional: Provisional
+      preliminary: Preliminar
+      not_applicable: No aplica
+      natc: Ningún intento de codificar
+    modified_record: 
+      not_modified: No modificado
+      shortened: Acortado
+      missing_characters: Personajes desaparecidos
+      natc: Ningún intento de codificar
+    cataloging_source:
+      nat_bib_agency: Agencia bibliográfica nacional
+      ccp: Programa cooperativo de catalogación
+      other: Otro
+      unknown: Desconocido
+      natc: Ningún intento de codificar
+    source: 
+      naf: NAF
+      snac: SNAC
+      local: Local
+    identifier_type: 
+      loc: Biblioteca del Congreso
+      lac: Biblioteca y Archivos de Canadá
+      local: Local
+    agency_code_type: 
+      oclc: OCLC
+      local: Local
+    maintenance_event_type: 
+      created: Creado
+      cancelled: Cancelado
+      deleted: Eliminado
+      derived: Derivado
+      revised: Revisado
+      updated: Actualizado
+    maintenance_agent_type: 
+      human: Humano
+      machine: Máquina
     linked_event_archival_record_roles:
       source: Fuente
       outcome: Resultado
@@ -1764,6 +1920,21 @@
       wndla: "Web NDL Authorities (Tokyo: National Diet Library (NDL))"
 
   enumeration_names:
+    source: Source
+    agent_relationship_identity_relator: Relator de identidad de relación de agente
+    agent_relationship_hierarchical_relator: Relator jerárquico de la relación del
+      agente
+    agent_relationship_specific_relator: Relator específico de la relación del agente
+    agent_relationship_temporal_relator: Relator temporal de la relación del agente
+    agent_relationship_family_relator: Relación con el agente Relator familiar
+    transliteration: Transcripción
+    gender: Género del agente
+    place_role: Función del lugar del agente
+    date_type_structured: Tipo de fecha
+    date_standardized_type: Fecha Tipo estandarizado
+    date_role: Función de fecha
+    begin_date_standardized_type: Fecha de inicio Tipo estandarizado
+    end_date_standardized_type: Fecha de finalización Tipo estandarizado    
     accession_acquisition_type: Tipo de acta de ingreso
     accession_parts_relator: Partes de acta de ingreso relacionadas
     accession_parts_relator_type: Tipos de partes de acta de ingreso relacionadas
@@ -1839,3 +2010,17 @@
     rights_statement_act_restriction: Ley de declaración de derechos de restricción
     rights_statement_act_type: Declaración de Derechos Tipo de Ley
     rights_statement_other_rights_basis: Declaración de derechos Otros derechos de base
+    maintenance_status: Estado de mantenimiento
+    publication_status: Estado de publicación
+    romanization: Romanización
+    government_agency_type: Tipo de agencia gubernamental
+    reference_evaluation: Evaluación de referencia 
+    name_type: Nombre Tipo
+    level_of_detail: Nivel de detalle
+    modified_record:  Registro modificado
+    cataloging_source: Fuente de catalogación
+    source: Fuente
+    identifier_type:  Tipo de identificador
+    agency_code_type: Código de agencia
+    maintenance_event_type: Tipo de evento de mantenimiento
+    maintenance_agent_type: Tipo de agente de mantenimiento

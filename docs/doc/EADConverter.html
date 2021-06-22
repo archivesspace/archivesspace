@@ -6,15 +6,15 @@
 <title>
   Class: EADConverter
   
-    &mdash; Documentation by YARD 0.9.20
+    &mdash; Documentation by YARD 0.9.25
   
 </title>
 
-  <link rel="stylesheet" href="css/style.css" type="text/css" charset="utf-8" />
+  <link rel="stylesheet" href="css/style.css" type="text/css" />
 
-  <link rel="stylesheet" href="css/common.css" type="text/css" charset="utf-8" />
+  <link rel="stylesheet" href="css/common.css" type="text/css" />
 
-<script type="text/javascript" charset="utf-8">
+<script type="text/javascript">
   pathId = "EADConverter";
   relpath = '';
 </script>
@@ -1469,8 +1469,7 @@
 1019
 1020
 1021
-1022
-1023</pre>
+1022</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'backend/app/converters/ead_converter.rb', line 92</span>
@@ -2160,7 +2159,7 @@
 
     <span class='rubyid_instance_type identifier id'>instance_type</span> <span class='assign token'>=</span> <span class='rubyid_att identifier id'>att</span><span class='lparen token'>(</span><span class='string val'>&#39;label&#39;</span><span class='rparen token'>)</span> <span class='orop op'>||</span> <span class='string val'>&#39;mixed_materials&#39;</span>
 
-    <span class='rubyid_if if kw'>if</span> <span class='rubyid_instance_type identifier id'>instance_type</span> <span class='match op'>=~</span> <span class='regexp val'>/(.*)\s+?[\(\[] *(.*) *[\)\]]$/</span>
+    <span class='rubyid_if if kw'>if</span> <span class='rubyid_instance_type identifier id'>instance_type</span> <span class='match op'>=~</span> <span class='regexp val'>/(.*)\s+?[\(\[]\s*(.*?)\s*[\)\]]$/</span>
       <span class='rubyid_instance_type identifier id'>instance_type</span> <span class='assign token'>=</span> <span class='rubyid_$1 nth_ref id'>$1</span>
       <span class='rubyid_barcode identifier id'>barcode</span> <span class='assign token'>=</span> <span class='rubyid_$2 nth_ref id'>$2</span>
     <span class='rubyid_end end kw'>end</span>
@@ -2300,7 +2299,8 @@
     <span class='string val'>&#39;genreform&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;genre_form&#39;</span><span class='comma token'>,</span>
     <span class='string val'>&#39;geogname&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;geographic&#39;</span><span class='comma token'>,</span>
     <span class='string val'>&#39;occupation&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;occupation&#39;</span><span class='comma token'>,</span>
-    <span class='string val'>&#39;subject&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;topical&#39;</span>
+    <span class='string val'>&#39;subject&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;topical&#39;</span><span class='comma token'>,</span>
+    <span class='string val'>&#39;title&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;uniform_title&#39;</span>
     <span class='rbrace token'>}</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_tag identifier id'>tag</span><span class='comma token'>,</span> <span class='rubyid_type identifier id'>type</span><span class='bitor op'>|</span>
       <span class='rubyid_with identifier id'>with</span> <span class='dstring node'>&quot;controlaccess/#{tag}&quot;</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='mult op'>*</span><span class='bitor op'>|</span>
         <span class='rubyid_make identifier id'>make</span> <span class='symbol val'>:subject</span><span class='comma token'>,</span> <span class='lbrace token'>{</span>
@@ -2333,7 +2333,6 @@
         <span class='symbol val'>:xlink_actuate_attribute</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_att identifier id'>att</span><span class='lparen token'>(</span><span class='string val'>&#39;actuate&#39;</span><span class='rparen token'>)</span><span class='comma token'>,</span>
         <span class='symbol val'>:xlink_show_attribute</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_att identifier id'>att</span><span class='lparen token'>(</span><span class='string val'>&#39;show&#39;</span><span class='rparen token'>)</span><span class='comma token'>,</span>
         <span class='symbol val'>:publish</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_att identifier id'>att</span><span class='lparen token'>(</span><span class='string val'>&#39;audience&#39;</span><span class='rparen token'>)</span> <span class='neq op'>!=</span> <span class='string val'>&#39;internal&#39;</span><span class='comma token'>,</span>
-        <span class='symbol val'>:caption</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_att identifier id'>att</span><span class='lparen token'>(</span> <span class='string val'>&#39;title&#39;</span> <span class='rparen token'>)</span>
       <span class='rbrace token'>}</span>
       <span class='rubyid_set identifier id'>set</span> <span class='rubyid_ancestor identifier id'>ancestor</span><span class='lparen token'>(</span><span class='symbol val'>:instance</span><span class='rparen token'>)</span><span class='comma token'>,</span> <span class='symbol val'>:digital_object</span><span class='comma token'>,</span> <span class='rubyid_obj identifier id'>obj</span>
     <span class='rubyid_end end kw'>end</span>
@@ -2399,7 +2398,6 @@
          <span class='rubyid_fv_attrs identifier id'>fv_attrs</span><span class='lbrack token'>[</span><span class='symbol val'>:file_uri</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_daoloc identifier id'>daoloc</span><span class='lbrack token'>[</span><span class='string val'>&#39;xlink:href&#39;</span><span class='rbrack token'>]</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_daoloc identifier id'>daoloc</span><span class='lbrack token'>[</span><span class='string val'>&#39;xlink:href&#39;</span><span class='rbrack token'>]</span>
          <span class='rubyid_fv_attrs identifier id'>fv_attrs</span><span class='lbrack token'>[</span><span class='symbol val'>:use_statement</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_daoloc identifier id'>daoloc</span><span class='lbrack token'>[</span><span class='string val'>&#39;xlink:role&#39;</span><span class='rbrack token'>]</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_daoloc identifier id'>daoloc</span><span class='lbrack token'>[</span><span class='string val'>&#39;xlink:role&#39;</span><span class='rbrack token'>]</span>
          <span class='rubyid_fv_attrs identifier id'>fv_attrs</span><span class='lbrack token'>[</span><span class='symbol val'>:publish</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_daoloc identifier id'>daoloc</span><span class='lbrack token'>[</span><span class='string val'>&#39;audience&#39;</span><span class='rbrack token'>]</span> <span class='neq op'>!=</span> <span class='string val'>&#39;internal&#39;</span>
-         <span class='rubyid_fv_attrs identifier id'>fv_attrs</span><span class='lbrack token'>[</span><span class='symbol val'>:caption</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_daoloc identifier id'>daoloc</span><span class='lbrack token'>[</span><span class='string val'>&#39;xlink:title&#39;</span><span class='rbrack token'>]</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_daoloc identifier id'>daoloc</span><span class='lbrack token'>[</span><span class='string val'>&#39;xlink:title&#39;</span><span class='rbrack token'>]</span>
 
          <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_file_versions identifier id'>file_versions</span> <span class='lshft op'>&lt;&lt;</span> <span class='rubyid_fv_attrs identifier id'>fv_attrs</span>
        <span class='rubyid_end end kw'>end</span>
@@ -2915,6 +2913,7 @@ which greatly helps the performance.</p>
       <pre class="lines">
 
 
+1028
 1029
 1030
 1031
@@ -2931,11 +2930,10 @@ which greatly helps the performance.</p>
 1042
 1043
 1044
-1045
-1046</pre>
+1045</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/converters/ead_converter.rb', line 1029</span>
+      <pre class="code"><span class="info file"># File 'backend/app/converters/ead_converter.rb', line 1028</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_make_corp_template identifier id'>make_corp_template</span><span class='lparen token'>(</span><span class='rubyid_opts identifier id'>opts</span><span class='rparen token'>)</span>
   <span class='rubyid_return return kw'>return</span> <span class='rubyid_nil nil kw'>nil</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_inner_xml identifier id'>inner_xml</span><span class='dot token'>.</span><span class='rubyid_strip identifier id'>strip</span><span class='dot token'>.</span><span class='rubyid_empty? fid id'>empty?</span>
@@ -2976,6 +2974,7 @@ which greatly helps the performance.</p>
       <pre class="lines">
 
 
+1048
 1049
 1050
 1051
@@ -2992,11 +2991,10 @@ which greatly helps the performance.</p>
 1062
 1063
 1064
-1065
-1066</pre>
+1065</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/converters/ead_converter.rb', line 1049</span>
+      <pre class="code"><span class="info file"># File 'backend/app/converters/ead_converter.rb', line 1048</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_make_family_template identifier id'>make_family_template</span><span class='lparen token'>(</span><span class='rubyid_opts identifier id'>opts</span><span class='rparen token'>)</span>
   <span class='rubyid_return return kw'>return</span> <span class='rubyid_nil nil kw'>nil</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_inner_xml identifier id'>inner_xml</span><span class='dot token'>.</span><span class='rubyid_strip identifier id'>strip</span><span class='dot token'>.</span><span class='rubyid_empty? fid id'>empty?</span>
@@ -3094,6 +3092,7 @@ which greatly helps the performance.</p>
       <pre class="lines">
 
 
+1068
 1069
 1070
 1071
@@ -3111,11 +3110,10 @@ which greatly helps the performance.</p>
 1083
 1084
 1085
-1086
-1087</pre>
+1086</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/converters/ead_converter.rb', line 1069</span>
+      <pre class="code"><span class="info file"># File 'backend/app/converters/ead_converter.rb', line 1068</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_make_person_template identifier id'>make_person_template</span><span class='lparen token'>(</span><span class='rubyid_opts identifier id'>opts</span><span class='rparen token'>)</span>
   <span class='rubyid_return return kw'>return</span> <span class='rubyid_nil nil kw'>nil</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_inner_xml identifier id'>inner_xml</span><span class='dot token'>.</span><span class='rubyid_strip identifier id'>strip</span><span class='dot token'>.</span><span class='rubyid_empty? fid id'>empty?</span>
@@ -3268,9 +3266,9 @@ which greatly helps the performance.</p>
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.7.1-RC1.a Documentation Generated on Thu Feb  6 10:07:50 2020 by
+  ArchivesSpace Version v2.8.1.a Documentation Generated on Wed Nov 11 13:21:59 2020 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.20.
+  0.9.25.
 </div>
 
     </div>

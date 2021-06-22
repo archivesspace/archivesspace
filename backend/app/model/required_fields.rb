@@ -24,12 +24,10 @@ class RequiredFields < Sequel::Model(:required_fields)
     end
 
     self.sequel_to_jsonmodel([obj], opts)[0]
-
   end
 
 
   def self.sequel_to_jsonmodel(objs, opts = {})
-
     jsons = objs.map {|obj|
       json = JSONModel(:required_fields).new(ASUtils.json_parse(obj[:blob]))
       json.uri = obj.uri

@@ -57,24 +57,23 @@ class AdvancedQueryBuilder
   end
 
   def self.build_query_from_form(queries)
-
     query = if queries.length > 1
-      stack = queries.reverse.clone
+              stack = queries.reverse.clone
 
-      while stack.length > 1
-        a = stack.pop
-        b = stack.pop
+              while stack.length > 1
+                a = stack.pop
+                b = stack.pop
 
-        stack.push(JSONModel::JSONModel(:boolean_query).from_hash({
-                                                         :op => b["op"],
-                                                         :subqueries => [as_field_query(a), as_field_query(b)]
-                                                       }))
-      end
+                stack.push(JSONModel::JSONModel(:boolean_query).from_hash({
+                                                                 :op => b["op"],
+                                                                 :subqueries => [as_field_query(a), as_field_query(b)]
+                                                               }))
+              end
 
-      stack.pop
-    else
-      as_field_query(queries[0])
-    end
+              stack.pop
+            else
+              as_field_query(queries[0])
+            end
 
     JSONModel::JSONModel(:advanced_query).from_hash({"query" => query})
   end
@@ -145,8 +144,8 @@ class AdvancedQueryBuilder
   end
 
   def self.as_field_query(query_data)
-    raise "keys should be strings only" if query_data.kind_of?(Hash) && query_data.any?{ |k,_| k.is_a? Symbol }
-    if query_data.kind_of?(JSONModelType)
+    raise "keys should be strings only" if query_data.is_a?(Hash) && query_data.any? { |k, _| k.is_a? Symbol }
+    if query_data.is_a?(JSONModelType)
       query_data
     elsif query_data['type'] == "date"
       JSONModel::JSONModel(:date_field_query).from_hash(query_data)

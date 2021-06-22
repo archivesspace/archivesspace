@@ -21,21 +21,27 @@
         <%= readonly.emit_template "job_status", @job %>
         <%= readonly.emit_template "job", @job %>
 
-        <% unless @files.empty? %>
-          <section id="files" class="subrecord-form-dummy" >
-            <h3 class="subrecord-form-heading">
-              <%= I18n.t("job._frontend.section.files") %>
-            </h3>
-            <div class="subrecord-form-container">
-              <ul>
-                 <% @files.each do |file| %>
-                   <li><%= link_to file_label(@job["job_type"]), :controller =>  :jobs, :action => :download_file, :id => file, :job_id => @job.id %></li>
-                <% end %>
-              </ul>
-            </div>
-          </section>
-
+        <% if !["queued", "running"].include?(@job.status) %>
+          <% unless @files.empty? %>
+            <section id="job_files" class="subrecord-form-dummy" >
+              <h3 class="subrecord-form-heading">
+                <%= I18n.t("job._frontend.section.files") %>
+              </h3>
+              <div class="subrecord-form-container">
+                <ul>
+                <% if @job["job_type"] == "bulk_import_job"
+                     @files.shift if @files.length == 2
+                  end
+                %>
+                   <% @files.each do |file| %>
+                     <li><%= link_to file_label(@job["job_type"]), :controller =>  :jobs, :action => :download_file, :id => file, :job_id => @job.id %></li>
+                  <% end %>
+                </ul>
+              </div>
+            </section>
+          <% end %>
         <% end %>
+
         <% if !["queued"].include?(@job.status) %>
           <section id="logs" class="subrecord-form-dummy" data-poll-url="<%= url_for(:controller => :jobs, :action => :log, :id => @job.id) %>">
             <h3 class="subrecord-form-heading">

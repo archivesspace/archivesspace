@@ -1,0 +1,10 @@
+<ul>
+  <% accessions.each do |accession| %>
+    <% next unless accession[:publish] == true %>
+    <li>
+      <% type = accession[:type] == 'accession_parts_relationship' ? 'part_relationship' : 'sibling_relationship' %>
+      <%= link_to accession[:title],  accession[:uri] %> 
+      <%= '(' + (I18n.t("accession._public.related_accessions.#{type}")) + ')' %>)
+    </li>
+  <% end %>
+</ul>

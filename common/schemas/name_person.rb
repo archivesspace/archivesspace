@@ -14,6 +14,8 @@
       "suffix" => {"type" => "string", "maxLength" => 65000},
       "fuller_form" => {"type" => "string", "maxLength" => 65000},
       "number" => {"type" => "string", "maxLength" => 255},
+
+      "parallel_names" => {"type" => "array", "items" => {"type" => "JSONModel(:parallel_name_person) object"}},
     },
   },
 }

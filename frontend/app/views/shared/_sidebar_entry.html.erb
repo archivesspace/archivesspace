@@ -6,6 +6,16 @@
       title = I18n.t("#{record_type}._frontend.section.#{subrecord_type}",
                      :default => I18n.t("#{subrecord_type}._plural"))
    end
+   subentry = nil if !defined?(subentry)
+   sidebar_heading = nil if !defined?(sidebar_heading)
+   lightmode_toggle = local_assigns.fetch(:lightmode_toggle, false)
 %>
 
-<li class="sidebar-entry-<%= anchor %>"><a href="#<%= anchor %>"><%= title %> <span class="glyphicon glyphicon-chevron-right"></span></a></li>
+<li class="sidebar-entry-<%= anchor %> <%= "sidebar-heading" if sidebar_heading %> <%= "lightmode_toggle" if lightmode_toggle %>">
+  <a href="#<%= anchor %>" style="<%= "padding-left: 25px !important;" if !subentry.nil? %>">
+    <%= title %>
+    <% if !sidebar_heading %>
+      <span class="glyphicon glyphicon-chevron-right"></span>
+    <% end %>
+  </a>
+</li>

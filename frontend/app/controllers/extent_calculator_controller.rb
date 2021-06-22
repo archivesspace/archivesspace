@@ -1,6 +1,6 @@
 class ExtentCalculatorController < ApplicationController
 
-  set_access_control  "view_repository" => [:report]
+  set_access_control "view_repository" => [:report]
 
   def report
     if params['record_uri']
@@ -25,8 +25,6 @@ class ExtentCalculatorController < ApplicationController
     else
       render_aspace_partial :partial => "extent_calculator/no_object"
     end
-
   end
 
 end
-

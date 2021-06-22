@@ -5,25 +5,12 @@
     </h1>
   </span>
   <nav class="navbar">
-    <div class="container-fluid">
-      <div class="navbar-header">
-        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".nav-global-collapse" aria-expanded="false">
-          <span class="sr-only"><%= I18n.t("navbar.toggle_navigation") %></span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-        </button>
-      </div>
-      <% if !session[:user] %>
-        <button type="button" class="btn btn-default pull-right btn-collapse-login navbar-btn" data-toggle="collapse" data-target=".nav-global-collapse">
-          <%= I18n.t("navbar.login") %>
-        </button>
-      <% end %>
-      <div class="navbar-collapse nav-global-collapse <%= session[:user] ? '' : 'collapse' %> navbar-right navbar-default">
+    <div class="container-fluid sm-mxn15px">
+      <div class="navbar-collapse nav-global-collapse navbar-right navbar-default">
         <ul class="nav pull-right navbar-nav navbar-login">
           <%= render "shared/header_user" %>
           <% if ArchivesSpaceHelp.enabled? %>
-            <li><%= link_to_help :link_opts => {"data-placement" => (session[:user] ? "left" : "bottom")} %></li>
+            <li class="xs-py15px"><%= link_to_help :link_opts => {"data-placement" => (session[:user] ? "left" : "bottom")} %></li>
           <% end %>
         </ul>
       </div><!-- nav-collapse -->

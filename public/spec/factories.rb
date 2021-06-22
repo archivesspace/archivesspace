@@ -9,8 +9,6 @@ include JSONModel
 module AspaceFactories
 
   def self.init
-
-
     @@inited ||= false
 
     if @@inited
@@ -23,7 +21,7 @@ module AspaceFactories
 
     FactoryBot.define do
 
-      to_create{|instance|
+      to_create {|instance|
         try_again = true
         begin
           instance.save
@@ -76,17 +74,17 @@ module AspaceFactories
       sequence(:use_statement) { ["application", "application-pdf", "audio-clip",
                                   "audio-master", "audio-master-edited",
                                   "audio-service", "image-master",
-                                  "image-master-edited","image-service",
+                                  "image-master-edited", "image-service",
                                   "image-service-edited", "image-thumbnail",
-                                  "text-codebook","test-data",
-                                  "text-data_definition","text-georeference",
-                                  "text-ocr-edited","text-ocr-unedited",
-                                  "text-tei-transcripted","text-tei-translated",
+                                  "text-codebook", "test-data",
+                                  "text-data_definition", "text-georeference",
+                                  "text-ocr-edited", "text-ocr-unedited",
+                                  "text-tei-transcripted", "text-tei-translated",
                                   "video-clip", "video-master",
-                                  "video-master-edited","video-service",
+                                  "video-master-edited", "video-service",
                                   "video-streaming"].sample }
       sequence(:checksum_method) { ["md5", "sha-1", "sha-256", "sha-384", "sha-512"].sample }
-      sequence(:xlink_actuate_attribute) {  ["none", "other", "onLoad", "onRequest"].sample }
+      sequence(:xlink_actuate_attribute) { ["none", "other", "onLoad", "onRequest"].sample }
       sequence(:xlink_show_attribute) {  ["new", "replace", "embed", "other", "none"].sample }
       sequence(:file_format) { %w[aiff avi gif jpeg mp3 pdf tiff txt].sample }
 
@@ -96,7 +94,7 @@ module AspaceFactories
       sequence(:finding_aid_language) { sample(JSONModel(:resource).schema['properties']['finding_aid_language']) }
       sequence(:finding_aid_script) { sample(JSONModel(:resource).schema['properties']['finding_aid_script']) }
 
-      sequence(:name_rule) {  ["local", "aacr", "dacs", "rda"].sample }
+      sequence(:name_rule) { ["local", "aacr", "dacs", "rda"].sample }
       sequence(:name_source) { ["local", "naf", "nad", "ulan"].sample }
       sequence(:generic_name) { SecureRandom.hex }
       sequence(:sort_name) { SecureRandom.hex }
@@ -133,6 +131,12 @@ module AspaceFactories
         content_description { "9 guinea pigs" }
         condition_description { "furious" }
         accession_date { "1990-01-01" }
+      end
+
+      factory :accession_parts_relationship, class: JSONModel(:accession_parts_relationship) do
+        ref { create(:accession).uri }
+        relator_type { "part" }
+        relator { "has_part" }
       end
 
       factory :json_date_single, class: JSONModel(:date) do
@@ -179,9 +183,10 @@ module AspaceFactories
         dates { [build(:date)] }
         level { "collection" }
         lang_materials { [build(:lang_material)] }
-        finding_aid_language {  [generate(:finding_aid_language)].sample  }
-        finding_aid_script {  [generate(:finding_aid_script)].sample  }
+        finding_aid_language { [generate(:finding_aid_language)].sample }
+        finding_aid_script { [generate(:finding_aid_script)].sample }
         finding_aid_language_note { nil_or_whatever }
+        instances { [] }
       end
 
       factory :resource_with_scope, class: JSONModel(:resource) do
@@ -191,8 +196,8 @@ module AspaceFactories
         dates { [build(:date)] }
         level { "collection" }
         lang_materials { [build(:lang_material)] }
-        finding_aid_language {  [generate(:finding_aid_language)].sample  }
-        finding_aid_script {  [generate(:finding_aid_script)].sample  }
+        finding_aid_language { [generate(:finding_aid_language)].sample }
+        finding_aid_script { [generate(:finding_aid_script)].sample }
         notes { [build(:json_note_multipart)] }
       end
 
@@ -210,6 +215,7 @@ module AspaceFactories
         extents { [build(:extent)] }
         file_versions { [build(:file_version)] }
         dates { few_or_none(:date) }
+        publish { true }
       end
 
       factory :digital_object_component, class: JSONModel(:digital_object_component) do
@@ -239,7 +245,6 @@ module AspaceFactories
       end
 
       factory :lang_material_with_note, class: JSONModel(:lang_material) do
-        language_and_script { build(:language_and_script) }
         notes { [build(:note_langmaterial)] }
       end
 
@@ -249,8 +254,9 @@ module AspaceFactories
       end
 
       factory :note_langmaterial, class: JSONModel(:note_langmaterial) do
-        type { generate(:langmaterial_note_type)}
-        content { [ generate(:string), generate(:string) ] }
+        type { "langmaterial" }
+        content { [ generate(:alphanumstr), generate(:alphanumstr) ] }
+        publish { true }
       end
 
       factory :extent, class: JSONModel(:extent) do
@@ -265,6 +271,7 @@ module AspaceFactories
         self.begin { "1900-01-01" }
         self.end { "1999-12-31" }
         expression { "1900s" }
+        certainty { "approximate" }
       end
 
       factory :rde_template, class: JSONModel(:rde_template) do
@@ -309,25 +316,25 @@ module AspaceFactories
       factory :agent_person, class: JSONModel(:agent_person) do
         agent_type { 'agent_person' }
         names { [build(:name_person)] }
-        dates_of_existence { [build(:date, :label => 'existence')] }
+        dates_of_existence { [build(:json_structured_date_label)] }
       end
 
       factory :agent_family, class: JSONModel(:agent_family) do
         agent_type { 'agent_family' }
         names { [build(:name_family)] }
-        dates_of_existence { [build(:json_date, :label => 'existence')] }
+        dates_of_existence { [build(:json_structured_date_label)] }
       end
 
       factory :agent_software, class: JSONModel(:agent_software) do
         agent_type { 'agent_software' }
         names { [build(:name_software)] }
-        dates_of_existence { [build(:json_date, :label => 'existence')] }
+        dates_of_existence { [build(:json_structured_date_label)] }
       end
 
       factory :agent_corporate_entity, class: JSONModel(:agent_corporate_entity) do
         agent_type { 'agent_corporate_entity' }
         names { [build(:name_corporate_entity)] }
-        dates_of_existence { [build(:json_date, :label => 'existence')] }
+        dates_of_existence { [build(:json_structured_date_label)] }
       end
 
       factory :name_corporate_entity, class: JSONModel(:name_corporate_entity) do
@@ -361,6 +368,22 @@ module AspaceFactories
         software_name { generate(:generic_name) }
         sort_name { generate(:sort_name) }
         sort_name_auto_generate { true }
+      end
+
+      factory :json_structured_date_label, class: JSONModel(:structured_date_label) do
+        date_type_structured { "single" }
+        date_label { 'existence' }
+        structured_date_single { build(:json_structured_date_single) }
+        date_certainty { "approximate" }
+        date_era { "ce" }
+        date_calendar { "gregorian" }
+      end
+
+      factory :json_structured_date_single, class: JSONModel(:structured_date_single) do
+        date_role { "begin" }
+        date_expression { "Yesterday" }
+        date_standardized { "2019-06-01" }
+        date_standardized_type { "standard" }
       end
 
       factory :subject, class: JSONModel(:subject) do

@@ -51,7 +51,7 @@ class LabelModel < ASpaceExport::ExportModel
 
   def headers
     %w(
-      Repository\ Name Resource\ Title  Resource\ Identifier Series\ Archival\ Object\ Title
+      Repository\ Name Resource\ Title Resource\ Identifier Series\ Archival\ Object\ Title
       Archival\ Object\ Title Container\ Profile Top\ Container Top\ Container\ Barcode
       SubContainer\ 1 SubContainer\ 2 Current\ Location
     )
@@ -158,7 +158,7 @@ class LabelModel < ASpaceExport::ExportModel
           .reject { |v| v.empty? }.join(":")
 
 
-        current_location = top["container_locations"].find { |loc| loc["status"] === 'current'  } || {}
+        current_location = top["container_locations"].find { |loc| loc["status"] === 'current' } || {}
         container_row << value_or_blank( current_location, %w( _resolved title  ) )
 
         append(full_row(container_row))

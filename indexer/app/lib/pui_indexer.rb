@@ -106,9 +106,11 @@ class PUIIndexer < PeriodicIndexer
 
       batch << {
         'id' => "#{resource_uri}/ordered_records",
+        'uri' => "#{resource_uri}/ordered_records",
         'pui_parent_id' => resource_uri,
         'publish' => "true",
         'primary_type' => "resource_ordered_records",
+        'types' => ['pui'],
         'json' => ASUtils.to_json(json)
       }
     end

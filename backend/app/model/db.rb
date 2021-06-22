@@ -6,12 +6,6 @@ class DB
   Sequel.database_timezone = :utc
   Sequel.typecast_timezone = :utc
 
-  # When performing a query like ds.filter(:col => []), don't turn it into
-  # SELECT ... WHERE col != col.  MySQL doesn't optimize this at all and
-  # performs a full table scan.
-  Sequel.extension :empty_array_ignore_nulls
-
-
   SUPPORTED_DATABASES = [
                          {
                            :pattern => /jdbc:mysql/,
@@ -24,12 +18,15 @@ class DB
                         ]
 
   class DBPool
+    DATABASE_READ_ONLY_REGEX = /is read only|server is running with the --read-only option/
 
     attr_reader :pool_size
 
     def initialize(pool_size = AppConfig[:db_max_connections], opts = {})
       @pool_size = pool_size
       @opts = opts
+
+      @lock = Mutex.new
     end
 
     def connect
@@ -57,6 +54,7 @@ class DB
           @pool = pool
         rescue
           Log.error("DB connection failed: #{$!}")
+          raise
         end
       end
 
@@ -64,15 +62,71 @@ class DB
     end
 
 
-
     def connected?
       not @pool.nil?
     end
 
-
     def transaction(*args)
-      @pool.transaction(*args) do
-        yield
+      retry_count = 0
+
+      begin
+        # @pool might be nil if we're in the middle of a reconnect.  Spin for a
+        # bit before giving up.
+        pool = nil
+
+        60.times do
+          pool = @pool
+          break if pool
+          sleep 1
+        end
+
+        if pool.nil?
+          Log.info("DB connection failed: unable to get a connection")
+          raise
+        end
+
+        pool.transaction(*args) do
+          yield(pool)
+        end
+      rescue Sequel::DatabaseError, java.sql.SQLException => e
+        if retry_count > 0
+          Log.warn("DB connection failure: #{e}.  Retry count is #{retry_count}")
+        end
+
+        if retry_count > 6
+          # We give up
+          raise e
+        end
+
+        if e.to_s =~ DATABASE_READ_ONLY_REGEX
+          sleep rand * 10
+
+          # Reset the pool...
+          old_pool = @pool
+
+          @lock.synchronize do
+            if @pool == old_pool
+              # If we got the lock and nobody has reset the pool yet, it's time to do our thing.
+              @pool = nil
+
+              # We retry the connection indefinitely here.  The system isn't
+              # going to function until the pool is restored, so either return
+              # successful or don't return at all.
+              begin
+                connect
+              rescue
+                Log.warn("DB connection failure on reconnect: #{$!}.  Retrying indefinitely...")
+                sleep 1
+                retry
+              end
+            end
+          end
+
+          retry_count += 1
+          retry
+        else
+          raise e
+        end
       end
     end
 
@@ -93,14 +147,45 @@ class DB
     end
 
     def open(transaction = true, opts = {})
-
       # Give us a place to hang storage that relates to the current database
       # session.
       Thread.current[:db_session_storage] ||= {}
       Thread.current[:nesting_level] ||= 0
       Thread.current[:nesting_level] += 1
 
+      Thread.current[:in_transaction] ||= false
+
       begin
+        if Thread.current[:in_transaction] && ASpaceEnvironment.environment != :unit_test
+          # We are already inside another DB.open that will handle all
+          # exceptions and retries for us.  We want to avoid a situation like
+          # this:
+          #
+          # transaction scope / DB.open do |db|
+          #                   |   db[:sometable].insert(foo)
+          #                   |
+          #                   |   DB.open do |db|                                         \
+          #                   |     db[:sometable].insert(something_that_depends_on_foo)  | retry scope
+          #                   |   end                                                     /
+          #                   \ end
+          #
+          # Despite the nested DB.open calls, Sequel's default behavior is to
+          # merge the inner call to DB.transaction with the already active
+          # transaction.
+          #
+          # If the inner "retry scope" hits an exception, the whole transaction
+          # is rolled back (all of "transaction scope", including the insert of
+          # `foo`), but only the inner "retry scope" is retried.  If that
+          # succeeds on the retry, we end up losing first insert and keeping the
+          # second.
+          #
+          # So the fix here is to let the outermost DB.open take responsibility
+          # for everything: make the retry scope and the transaction scope line
+          # up with each other.
+
+          return yield @pool
+        end
+
         last_err = false
         retries = opts[:retries] || 10
 
@@ -108,7 +193,12 @@ class DB
           begin
             if transaction
               self.transaction(:isolation => opts.fetch(:isolation_level, :repeatable)) do
-                return yield @pool
+                Thread.current[:in_transaction] = true
+                begin
+                  return yield @pool
+                ensure
+                  Thread.current[:in_transaction] = false
+                end
               end
 
               # Sometimes we'll make it to here.  That means we threw a
@@ -167,7 +257,7 @@ class DB
 
 
     def jdbc_metadata
-      md =  open { |p|  p.synchronize { |c| c.getMetaData }}
+      md = open { |p| p.synchronize { |c| c.getMetaData }}
       { "databaseProductName" => md.getDatabaseProductName,
         "databaseProductVersion" => md.getDatabaseProductVersion }
     end
@@ -239,40 +329,40 @@ class DB
     def check_supported(url)
       if !SUPPORTED_DATABASES.any? {|db| url =~ db[:pattern]}
 
-        msg = <<eof
-
-=======================================================================
-UNSUPPORTED DATABASE
-=======================================================================
-
-The database listed in your configuration:
-
-  #{url}
-
-is not officially supported by ArchivesSpace.  Although the system may
-still work, there's no guarantee that future versions will continue to
-work, or that it will be possible to upgrade without losing your data.
-
-It is strongly recommended that you run ArchivesSpace against one of
-these supported databases:
-
-eof
+        msg = <<~eof
+          
+          =======================================================================
+          UNSUPPORTED DATABASE
+          =======================================================================
+          
+          The database listed in your configuration:
+          
+            #{url}
+          
+          is not officially supported by ArchivesSpace.  Although the system may
+          still work, there's no guarantee that future versions will continue to
+          work, or that it will be possible to upgrade without losing your data.
+          
+          It is strongly recommended that you run ArchivesSpace against one of
+          these supported databases:
+          
+        eof
 
         SUPPORTED_DATABASES.each do |db|
           msg += "  * #{db[:name]}\n"
         end
 
         msg += "\n"
-        msg += <<eof
-
-To ignore this (very good) advice, you can set the configuration option:
-
-  AppConfig[:allow_unsupported_database] = true
-
-
-=======================================================================
-
-eof
+        msg += <<~eof
+          
+          To ignore this (very good) advice, you can set the configuration option:
+          
+            AppConfig[:allow_unsupported_database] = true
+          
+          
+          =======================================================================
+          
+        eof
 
         Log.error(msg)
 
@@ -287,7 +377,6 @@ eof
 
 
     def expire_backups
-
       backups = []
       Dir.foreach(backups_dir) do |filename|
         if filename =~ /^demo_db_backup_[0-9]+_[0-9]+$/
@@ -366,32 +455,31 @@ eof
 
 
     def ensure_tables_are_utf8(db)
-
       non_utf8_tables = db[:information_schema__tables].
                         join(:information_schema__collation_character_set_applicability, :collation_name => :table_collation).
                         filter(:table_schema => Sequel.function(:database)).
                         filter(~Sequel.like(:character_set_name, 'utf8%')).all
 
       unless (non_utf8_tables.empty?)
-        msg = <<EOF
-
-The following MySQL database tables are not set to use UTF-8 for their character
-encoding:
-
-#{non_utf8_tables.map {|t| "  * " + t[:TABLE_NAME]}.join("\n")}
-
-Please refer to README.md for instructions on configuring your database to use
-UTF-8.
-
-If you want to override this restriction (not recommended!) you can set the
-following option in your config.rb file:
-
-  AppConfig[:allow_non_utf8_mysql_database] = true
-
-But note that ArchivesSpace largely assumes that your data will be UTF-8
-encoded.  Running in a non-UTF-8 configuration is not supported.
-
-EOF
+        msg = <<~EOF
+          
+          The following MySQL database tables are not set to use UTF-8 for their character
+          encoding:
+          
+          #{non_utf8_tables.map {|t| "  * " + t[:TABLE_NAME]}.join("\n")}
+          
+          Please refer to README.md for instructions on configuring your database to use
+          UTF-8.
+          
+          If you want to override this restriction (not recommended!) you can set the
+          following option in your config.rb file:
+          
+            AppConfig[:allow_non_utf8_mysql_database] = true
+          
+          But note that ArchivesSpace largely assumes that your data will be UTF-8
+          encoded.  Running in a non-UTF-8 configuration is not supported.
+          
+        EOF
 
         Log.warn(msg)
         raise msg

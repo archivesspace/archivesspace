@@ -23,7 +23,7 @@ module RecordChildren
 
     def clean_dates(child)
       if child["dates"]
-        if child["dates"][0].reject{|k,v| v.blank?}.empty?
+        if child["dates"][0].reject {|k, v| v.blank?}.empty?
           child.delete("dates")
         elsif child["dates"][0]["label"].empty?
           child["dates"][0]["label"] = "other"

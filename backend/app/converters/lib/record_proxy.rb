@@ -8,7 +8,6 @@ module ASpaceImport
 
 
     def get_proxy_for(proxy_key, record_type = nil)
-
       unless @proxies.has_key?(proxy_key)
         @proxies[proxy_key] = RecordProxy.new(proxy_key, record_type)
       end
@@ -79,15 +78,14 @@ module ASpaceImport
 
 
     def spawn
-
       raise "Can't spawn an object because record type is unknown" unless @record_type
       type = @record_type.respond_to?(:call) ? @record_type.call(@data) : @record_type
-      
+
       return nil unless type
 
       obj = ASpaceImport::JSONModel(type).new
       obj.key = @key
-      @data.each do |k,v|
+      @data.each do |k, v|
 
         next unless obj.class.schema['properties'].has_key?(k)
 

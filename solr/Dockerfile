@@ -1,5 +1,14 @@
-FROM solr:7.1
+FROM solr:8.8
 LABEL maintainer="ArchivesSpaceHome@lyrasis.org"
 
-# EMBED THE SOLR CONFIG, THAT'S ALL FOLKS
 COPY * /archivesspace/
+
+# ASPACE REQUIRES THESE LIBS (WHICH ARE INCL. IN THE 8.8 IMG):
+# /opt/solr/dist/solr-analysis-extras-${VERSION}.jar
+# /opt/solr/contrib/analysis-extras/lucene-libs/lucene-analyzers-icu-${VERSION}.jar
+# /opt/solr/contrib/analysis-extras/lib/icu4j-*.jar
+
+USER root
+RUN mv /archivesspace/schema-8.8.xml /archivesspace/schema.xml && \
+    mv /archivesspace/solrconfig-8.8.xml /archivesspace/solrconfig.xml
+USER solr

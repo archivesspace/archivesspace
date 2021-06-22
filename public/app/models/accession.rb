@@ -1,12 +1,14 @@
 class Accession < Record
 
-  attr_reader :related_resources, :provenance,
-              :use_restrictions_note, :access_restrictions_note
+  attr_reader :related_resources, :related_accessions, :provenance,
+              :language, :script, :use_restrictions_note,
+              :access_restrictions_note
 
   def initialize(*args)
     super
 
     @related_resources = parse_related_resources
+    @related_accessions = parse_related_accessions
     @use_restrictions_note = json['use_restrictions_note']
     @access_restrictions_note = json['access_restrictions_note']
   end
@@ -34,6 +36,18 @@ class Accession < Record
     json['provenance']
   end
 
+  def language
+    if json['language']
+      I18n.t("enumerations.language_iso639_2.#{json['language']}", :default => json['language'])
+    end
+  end
+
+  def script
+    if json['script']
+      I18n.t("enumerations.script_iso15924.#{json['script']}", :default => json['script'])
+    end
+  end
+
   def restrictions_apply?
     json['restrictions_apply']
   end
@@ -58,23 +72,45 @@ class Accession < Record
   private
 
   def parse_related_resources
-    ASUtils.wrap(raw['related_resource_uris']).collect{|uri|
+    ASUtils.wrap(raw['related_resource_uris']).collect {|uri|
       if raw['_resolved_related_resource_uris']
         raw['_resolved_related_resource_uris'][uri].first
       end
-    }.compact.select{|resource|
+    }.compact.select {|resource|
       resource['publish']
     }.map {|accession|
       record_from_resolved_json(ASUtils.json_parse(accession['json']))
     }
   end
 
+  def parse_related_accessions
+    accession_json = ASUtils.json_parse(raw['json'])
+    related_accession_json = accession_json['related_accessions'].map do |r|
+      {
+        title:   r['_resolved']['title'],
+        type:    r['jsonmodel_type'],
+        uri:     r['ref'],
+        publish: r['_resolved']['publish']
+      }
+    end
+
+    related_accession_json
+  end
+
+
+  def parse_notes
+    rewrite_refs(json['notes'], uri)
+
+    super
+  end
+
+
   def build_request_item
     has_top_container = false
     container_info = build_request_item_container_info
     container_info.each {|key, value|
       if key == :top_container_url
-        if ASUtils.wrap(value).any?{|v| !v.blank?}
+        if ASUtils.wrap(value).any? {|v| !v.blank?}
           has_top_container = true
           break
         end

@@ -23,7 +23,7 @@
           }
         }
       },
-      
+
       "linked_records" => {
         "type" => "array",
         "items" => {
@@ -34,6 +34,7 @@
               "type" => [
                          {"type" => "JSONModel(:accession) uri"},
                          {"type" => "JSONModel(:resource) uri"},
+                         {"type" => "JSONModel(:digital_object) uri"},
                         ],
             },
             "_resolved" => {

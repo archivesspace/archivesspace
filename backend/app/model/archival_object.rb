@@ -51,8 +51,8 @@ class ArchivalObject < Sequel::Model(:archival_object)
                 :generator => proc { |json|
                   if AppConfig[:use_human_readable_urls]
                     if json["is_slug_auto"]
-                      AppConfig[:auto_generate_slugs_with_id] ? 
-                        SlugHelpers.id_based_slug_for(json, ArchivalObject) : 
+                      AppConfig[:auto_generate_slugs_with_id] ?
+                        SlugHelpers.id_based_slug_for(json, ArchivalObject) :
                         SlugHelpers.name_based_slug_for(json, ArchivalObject)
                     else
                       json["slug"]
@@ -65,15 +65,23 @@ class ArchivalObject < Sequel::Model(:archival_object)
     display_string = json['title'] || ""
 
     date_label = json.has_key?('dates') && json['dates'].length > 0 ?
-                   lambda {|date|
-                     if date['expression']
-                       date['expression']
-                     elsif date['begin'] and date['end']
-                       "#{date['begin']} - #{date['end']}"
+                   json['dates'].map do |date|
+
+                     if date['certainty']
+                       translated = I18n.t("enumerations.date_certainty.#{date['certainty']}")
+                       certainty = " (#{translated})"
                      else
-                       date['begin']
+                       certainty = ""
                      end
-                   }.call(json['dates'].first) : false
+
+                     if date['expression']
+                       date['date_type'] == 'bulk' ? "#{I18n.t("date_type_bulk.bulk")}: #{date['expression'] + certainty}" : date['expression'] + certainty
+                     elsif date['begin'] and date['end']
+                       date['date_type'] == 'bulk' ? "#{I18n.t("date_type_bulk.bulk")}: #{date['begin']} - #{date['end'] + certainty}" : "#{date['begin']} - #{date['end'] + certainty}"
+                     else
+                       date['date_type'] == 'bulk' ? "#{I18n.t("date_type_bulk.bulk")}: #{date['begin'] + certainty}" : date['begin'] + certainty
+                     end
+                   end.join(', ') : false
 
     display_string += ", " if json['title'] && date_label
     display_string += date_label if date_label

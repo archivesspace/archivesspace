@@ -1,10 +1,5 @@
 <%= setup_context(:title => I18n.t("collection_management._plural")) %>
-<%
-add_column(I18n.t("search_results.result_type"), proc {|record| I18n.t("#{JSONModel.parse_reference(record['parent_id'])[:type]}._singular")}, :sortable => true, :sort_by => "parent_id")
-add_column(I18n.t("collection_management.processing_priority"), proc {|record| I18n.t("enumerations.collection_management_processing_priority.#{record['processing_priority'] || 'none'}", :default => (record['processing_priority'] || '--'  ))}, :sortable => true, :sort_by => "processing_priority")
-add_column(I18n.t("collection_management.processing_status"), proc {|record| I18n.t("enumerations.collection_management_processing_status.#{record['processing_status'] || 'none'}", :default => (record['processing_status'] || '--'))}, :sortable => true, :sort_by => "processing_status")
-add_column(I18n.t("collection_management.processing_hours_total_short"), proc {|record| record['processing_hours_total']}, :sortable => true, :sort_by => "processing_hours_total")
-%>
+
 <div class="row">
   <div class="col-md-3">
     <%= render_aspace_partial :partial => "search/filter" %>

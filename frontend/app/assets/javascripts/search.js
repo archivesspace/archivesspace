@@ -3,8 +3,11 @@ $(function() {
   var init_multiselect_listing = function() {
     var $table = $(this);
 
+    $table.on("click", "tbody td a", function(event) {
+      event.stopPropagation();
+    });
 
-    $table.on("click", "tbody td:not(.table-record-actions)", function(event) {
+    $table.on("click", "tbody td", function(event) {
       event.stopPropagation();
       event.preventDefault();
 
@@ -40,7 +43,7 @@ $(function() {
       if ($table.is($multiselectEffectedWidget.data("multiselect"))) {
         $table.on("multiselectselected.aspace", function() {
           $multiselectEffectedWidget.removeAttr("disabled");
-          var selected_records = $.makeArray($(".multiselect-column :input:checked", $table).map(function() {return $(this).val();}));
+          var selected_records = $.makeArray($("td.multiselect-column :input:checked", $table).map(function() {return $(this).val();}));
           $multiselectEffectedWidget.data("form-data", {
             record_uris: selected_records
           });

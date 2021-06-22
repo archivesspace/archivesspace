@@ -19,7 +19,8 @@ class IndexerCommonConfig
       :archival_object,
       :digital_object_component,
       :classification_term,
-      :assessment
+      :assessment,
+      :job
     ]
   end
 
@@ -40,6 +41,7 @@ class IndexerCommonConfig
       'container_profile',
       'container_locations',
       'subjects',
+      'places',
 
       # EAD export depends on this
       'linked_agents',
@@ -65,9 +67,25 @@ class IndexerCommonConfig
       'collections',
       'surveyed_by',
       'reviewer',
+      'creator',
 
-      'creator'
+      #Accessions module depends on these
+      'related_accessions',
     ]
   end
 
+  def self.do_not_index
+    # ANW-1065
+    # #sanitize_json uses this hash to clean up sensitive data, preventing it from being indexed in the json field in the indexer doc.
+    {
+        "agent_person"           => {:location => [],
+                                     :to_clean => "agent_contacts"},
+        "agent_family"           => {:location => [],
+                                     :to_clean => "agent_contacts"},
+        "agent_corporate_entity" => {:location => [],
+                                     :to_clean => "agent_contacts"},
+        "agent_software"         => {:location => [],
+                                     :to_clean => "agent_contacts"},
+    }
+  end
 end

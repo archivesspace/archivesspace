@@ -26,7 +26,7 @@ module JSONModelPublishing
 
   def self._drop_unpublished(obj)
     if obj.is_a?(Array)
-      obj.reject!{|item| self._drop_unpublished(item) }
+      obj.reject! {|item| self._drop_unpublished(item) }
       obj.each do |value|
         self._drop_unpublished(value)
       end

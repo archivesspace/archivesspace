@@ -34,7 +34,7 @@ var SHARED_TOOLBAR_ACTIONS = [
                 $('.cut-selection,.move-node',toolbarRenderer.container).removeClass('disabled');
             } else {
                 $(btn).text('<%= I18n.t('actions.enable_reorder') %>');
-                tree.ajax_tree.show_form();
+                location.reload(true);
                 tree.resizer.reset();
                 $('.btn',toolbarRenderer.container).show();
                 $('.cut-selection,.paste-selection,.move-node', toolbarRenderer.container).hide();
@@ -262,26 +262,7 @@ var SHARED_TOOLBAR_ACTIONS = [
             return !tree.large_tree.read_only && tree.dragdrop;
         },
     },
-    // RDE
-    {
-        label: '<%= I18n.t("actions.rapid_data_entry") %>',
-        cssClasses: 'btn-default add-children',
-        onClick: function(event, btn, node, tree, toolbarRenderer) {
-            $(document).triggerHandler("rdeshow.aspace", [node, btn]);
-        },
-        isEnabled: function(node, tree, toolbarRenderer) {
-            return true;
-        },
-        isVisible: function(node, tree, toolbarRenderer) {
-            return !tree.large_tree.read_only;
-        },
-        onFormLoaded: function(btn, form, tree, toolbarRenderer) {
-            $(btn).removeClass('disabled');
-        },
-        onToolbarRendered: function(btn, toolbarRenderer) {
-            $(btn).addClass('disabled');
-        },
-    },
+
     // go back to the read only page
     {
         label: '<%= I18n.t("actions.finish_editing") %>',
@@ -307,6 +288,47 @@ var TreeToolbarConfiguration = {
             cssClasses: 'btn-default',
             onClick: function(event, btn, node, tree, toolbarRenderer) {
                 tree.ajax_tree.add_new_after(node, node.data('level') + 1);
+            },
+            isEnabled: function(node, tree, toolbarRenderer) {
+                return true;
+            },
+            isVisible: function(node, tree, toolbarRenderer) {
+                return !tree.large_tree.read_only;
+            },
+            onFormLoaded: function(btn, form, tree, toolbarRenderer) {
+                $(btn).removeClass('disabled');
+            },
+            onToolbarRendered: function(btn, toolbarRenderer) {
+                $(btn).addClass('disabled');
+            },
+        },
+        {
+            label: '<%= I18n.t("resource._frontend.action.load_bulk") %>',
+            cssClasses: 'btn-default',
+            onClick: function(event, btn, node, tree, toolbarRenderer) {
+                file_modal_html = '';
+			    bulkFileSelection();
+            },
+            isEnabled: function(node, tree, toolbarRenderer) {
+                return true;
+            },
+            isVisible: function(node, tree, toolbarRenderer) {
+                return !tree.large_tree.read_only;
+            },
+            onFormLoaded: function(btn, form, tree, toolbarRenderer) {
+                $(btn).removeClass('disabled');
+            },
+            onToolbarRendered: function(btn, toolbarRenderer) {
+                $(btn).addClass('disabled');
+                $(btn).after("&nbsp;<a target='_blank' href='https://archivesspace.atlassian.net/wiki/spaces/ArchivesSpaceUserManual/pages/1173913646/Import+Archival+Objects+from+Excel+or+CSV+File+from+v2.8.1)'><span class='context-help-icon glyphicon glyphicon-question-sign'></span></a>");
+            },
+        },
+        // RDE
+        {
+            label: '<%= I18n.t("actions.rapid_data_entry") %>',
+            cssClasses: 'btn-default add-children',
+            onClick: function(event, btn, node, tree, toolbarRenderer) {
+                $(document).triggerHandler("rdeshow.aspace", [node, btn]);
             },
             isEnabled: function(node, tree, toolbarRenderer) {
                 return true;
@@ -362,7 +384,29 @@ var TreeToolbarConfiguration = {
                 onToolbarRendered: function(btn, toolbarRenderer) {
                     $(btn).addClass('disabled');
                 },
-            }
+            },
+
+        {
+            label: '<%= I18n.t("resource._frontend.action.load_bulk") %>',
+            cssClasses: 'btn-default',
+            onClick: function(event, btn, node, tree, toolbarRenderer) {
+                file_modal_html = '';
+			    bulkFileSelection();
+            },
+            isEnabled: function(node, tree, toolbarRenderer) {
+                return true;
+            },
+            isVisible: function(node, tree, toolbarRenderer) {
+                return !tree.large_tree.read_only;
+            },
+            onFormLoaded: function(btn, form, tree, toolbarRenderer) {
+                $(btn).removeClass('disabled');
+            },
+            onToolbarRendered: function(btn, toolbarRenderer) {
+                $(btn).addClass('disabled');
+                $(btn).after("&nbsp;<a target='_blank' href='https://archivesspace.atlassian.net/wiki/spaces/ArchivesSpaceUserManual/pages/1173913646/Import+Archival+Objects+from+Excel+or+CSV+File+from+v2.8.1)'><span class='context-help-icon glyphicon glyphicon-question-sign'></span></a>");
+            },
+        }
         ],
         {
             label: '<%= I18n.t("actions.transfer") %>',
@@ -404,6 +448,26 @@ var TreeToolbarConfiguration = {
             isVisible: function(node, tree, toolbarRenderer) {
                 return !tree.large_tree.read_only;
             },
+        },
+        // RDE
+        {
+            label: '<%= I18n.t("actions.rapid_data_entry") %>',
+            cssClasses: 'btn-default add-children',
+            onClick: function(event, btn, node, tree, toolbarRenderer) {
+                $(document).triggerHandler("rdeshow.aspace", [node, btn]);
+            },
+            isEnabled: function(node, tree, toolbarRenderer) {
+                return true;
+            },
+            isVisible: function(node, tree, toolbarRenderer) {
+                return !tree.large_tree.read_only;
+            },
+            onFormLoaded: function(btn, form, tree, toolbarRenderer) {
+                $(btn).removeClass('disabled');
+            },
+            onToolbarRendered: function(btn, toolbarRenderer) {
+                $(btn).addClass('disabled');
+            },
         }
     ]),
 
@@ -413,6 +477,26 @@ var TreeToolbarConfiguration = {
             cssClasses: 'btn-default',
             onClick: function(event, btn, node, tree, toolbarRenderer) {
                 tree.ajax_tree.add_new_after(node, node.data('level') + 1);
+            },
+            isEnabled: function(node, tree, toolbarRenderer) {
+                return true;
+            },
+            isVisible: function(node, tree, toolbarRenderer) {
+                return !tree.large_tree.read_only;
+            },
+            onFormLoaded: function(btn, form, tree, toolbarRenderer) {
+                $(btn).removeClass('disabled');
+            },
+            onToolbarRendered: function(btn, toolbarRenderer) {
+                $(btn).addClass('disabled');
+            },
+        },
+        // RDE
+        {
+            label: '<%= I18n.t("actions.rapid_data_entry") %>',
+            cssClasses: 'btn-default add-children',
+            onClick: function(event, btn, node, tree, toolbarRenderer) {
+                $(document).triggerHandler("rdeshow.aspace", [node, btn]);
             },
             isEnabled: function(node, tree, toolbarRenderer) {
                 return true;
@@ -455,6 +539,26 @@ var TreeToolbarConfiguration = {
                 cssClasses: 'btn-default',
                 onClick: function(event, btn, node, tree, toolbarRenderer) {
                     tree.ajax_tree.add_new_after(node, node.data('level'));
+                },
+                isEnabled: function(node, tree, toolbarRenderer) {
+                    return true;
+                },
+                isVisible: function(node, tree, toolbarRenderer) {
+                    return !tree.large_tree.read_only;
+                },
+                onFormLoaded: function(btn, form, tree, toolbarRenderer) {
+                    $(btn).removeClass('disabled');
+                },
+                onToolbarRendered: function(btn, toolbarRenderer) {
+                    $(btn).addClass('disabled');
+                },
+            },
+            // RDE
+            {
+                label: '<%= I18n.t("actions.rapid_data_entry") %>',
+                cssClasses: 'btn-default',
+                onClick: function(event, btn, node, tree, toolbarRenderer) {
+                    $(document).triggerHandler("rdeshow.aspace", [node, btn]);
                 },
                 isEnabled: function(node, tree, toolbarRenderer) {
                     return true;

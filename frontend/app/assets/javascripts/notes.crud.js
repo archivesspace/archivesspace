@@ -5,6 +5,13 @@
 
 $(function() {
 
+  function nextDataIndex($list) {
+    var data_indexes = $list.children().map(function(){
+      return parseInt($(this).attr('data-index'));
+    }).get();
+    return data_indexes.length > 0 ? Math.max.apply(Math, data_indexes) + 1 : 0;
+  }
+
   $.fn.init_notes_form = function() {
 
     $(this).each(function() {
@@ -14,13 +21,18 @@ $(function() {
       if ($this.hasClass("initialised") || $this.hasClass("too-many") ) {
         return;
       }
-        
-
-      var index = $(".subrecord-form-fields", $this).length;
 
       var initialisers = {}
 
       var initNoteType = function($subform, template_name, is_subrecord, button_class, init_callback) {
+
+        // ANW-1199: Prevent enter key from submitting entire form.
+        // Added to address UI issues with the outline notes subform.
+        $this.keydown(function (e) { 
+          if(e.which == 13) {
+            e.preventDefault(); 
+          }; 
+        });
 
         $((button_class || ".add-item-btn"), $subform).click(function(event) {
           event.preventDefault();
@@ -34,15 +46,16 @@ $(function() {
 
           var context = $(this).parent().hasClass("controls") ? $(this).parent() : $(this).closest(".subrecord-form");
           var $target_subrecord_list = $(".subrecord-form-list:first", context);
+          var add_data_index = nextDataIndex($target_subrecord_list);
 
           var $subsubform = $(AS.renderTemplate(template, {
-            path: AS.quickTemplate($target_subrecord_list.data("name-path"), {index: index}),
-            id_path: AS.quickTemplate($target_subrecord_list.data("id-path"), {index: index}),
+            path: AS.quickTemplate($target_subrecord_list.data("name-path"), {index: add_data_index}),
+            id_path: AS.quickTemplate($target_subrecord_list.data("id-path"), {index: add_data_index}),
             index: "${index}"
           }));
 
           $subsubform = $("<li>").data("type", $subsubform.data("type")).append($subsubform);
-          $subsubform.attr("data-index", index);
+          $subsubform.attr("data-index", add_data_index);
           $target_subrecord_list.append($subsubform);
 
           AS.initSubRecordSorting($target_subrecord_list);
@@ -60,8 +73,6 @@ $(function() {
           $this.parents("form:first").triggerHandler("formchanged.aspace");
 
           $(":input:visible:first", $subsubform).focus();
-
-          index++;
         });
       };
 
@@ -75,10 +86,16 @@ $(function() {
       };
 
       initialisers.note_outline_level = function($subform) {
-        initNoteType($subform, "template_note_outline_string", true, '.add-sub-item-btn');
-        initNoteType($subform, "template_note_outline_level", true, '.add-sub-level-btn');
-      };
+        initNoteType($subform, "template_note_outline_string", true, '.add-sub-item-btn', function(new_form) {
+          new_form.parent().parent().children('.note-outline-empty-level').hide();
+          initNoteForm(new_form, false);
+        });
 
+        initNoteType($subform, "template_note_outline_level", true, '.add-sub-level-btn', function(new_form) {
+          new_form.parent().parent().children('.note-outline-empty-level').hide();
+          initNoteForm(new_form, false);
+        });
+      }
 
       var dropdownFocusFix = function(form) {
         $('.dropdown-menu.subrecord-selector li', form).click(function(e) {
@@ -172,7 +189,61 @@ $(function() {
         initNoteType($subform, 'template_note_bioghist_selector', true, '.add-sub-note-btn', callback);
       };
 
+      initialisers.note_general_context = function($subform) {
 
+        var callback = function($subform) {
+          var $topLevelNoteTypeSelector = $("select.general_context-note-type", $subform);
+          $topLevelNoteTypeSelector.change(changeNoteTemplate);
+          initRemoveActionForSubRecord($subform);
+        }
+
+        initNoteType($subform, 'template_note_general_context_selector', true, '.add-sub-note-btn', callback);
+      };
+
+      initialisers.note_mandate = function($subform) {
+
+        var callback = function($subform) {
+          var $topLevelNoteTypeSelector = $("select.mandate-note-type", $subform);
+          $topLevelNoteTypeSelector.change(changeNoteTemplate);
+          initRemoveActionForSubRecord($subform);
+        }
+
+        initNoteType($subform, 'template_note_mandate_selector', true, '.add-sub-note-btn', callback);
+      };
+      
+      initialisers.note_contact_note = function($subform) {
+
+        var callback = function($subform) {
+          var $topLevelNoteTypeSelector = $("select.contact_note-note-type", $subform);
+          $topLevelNoteTypeSelector.change(changeNoteTemplate);
+          initRemoveActionForSubRecord($subform);
+        }
+
+        initNoteType($subform, 'template_note_contact_note_selector', true, '.add-sub-note-btn', callback);
+      };
+
+      initialisers.note_legal_status = function($subform) {
+
+        var callback = function($subform) {
+          var $topLevelNoteTypeSelector = $("select.legal_status-note-type", $subform);
+          $topLevelNoteTypeSelector.change(changeNoteTemplate);
+          initRemoveActionForSubRecord($subform);
+        }
+
+        initNoteType($subform, 'template_note_legal_status_selector', true, '.add-sub-note-btn', callback);
+      };
+ 
+      initialisers.note_structure_or_genealogy = function($subform) {
+
+        var callback = function($subform) {
+          var $topLevelNoteTypeSelector = $("select.structure_or_genealogy-note-type", $subform);
+          $topLevelNoteTypeSelector.change(changeNoteTemplate);
+          initRemoveActionForSubRecord($subform);
+        }
+
+        initNoteType($subform, 'template_note_structure_or_genealogy_selector', true, '.add-sub-note-btn', callback);
+      };
+ 
       var initCollapsible = function($noteform) {
 
         if (!$.contains(document, $noteform[0])) {
@@ -255,7 +326,7 @@ $(function() {
         $note_form.data("type");
         $note_form.attr("data-index", $subform.data("index"));
 
-        var matchingNoteType = $(".note-type option:contains('"+$(":selected", this).text()+"')", $note_form);
+        var matchingNoteType = $(".note-type option:contains('"+$(":selected", this).text().replace(/'/g, "\\'")+"')", $note_form);
         $(".note-type", $note_form).val(matchingNoteType.val());
 
         initNoteForm($note_form, true);
@@ -324,6 +395,7 @@ $(function() {
         event.stopPropagation();
 
         var $target_subrecord_list = $(".subrecord-form-list:first", $this);
+        var add_data_index = nextDataIndex($target_subrecord_list);
 
         var selector_template = "template_note_type_selector";
         var is_inline = $this.hasClass('note-inline');
@@ -340,7 +412,7 @@ $(function() {
         var $subform = $(AS.renderTemplate(selector_template));
 
         $subform = $("<li>").data("type", $subform.data("type")).append($subform);
-        $subform.attr("data-index", index);
+        $subform.attr("data-index", add_data_index);
 
         $target_subrecord_list.append($subform);
 
@@ -359,13 +431,26 @@ $(function() {
 
         initRemoveActionForSubRecord($subform);
 
-        var $topLevelNoteTypeSelector = $("select.top-level-note-type", $subform);
+        var $topLevelNoteTypeSelector            = $("select.top-level-note-type", $subform);
+        var $topLevelNoteTypeSelectorOptionCount = $("select.top-level-note-type option", $subform).length;
         $topLevelNoteTypeSelector.change(changeNoteTemplate);
+        $topLevelNoteTypeSelector.triggerHandler('change');
 
-        index++;
+        // if top level note selector only has one item, then select it automatically.
+        // note: the value in this if statement is 2 because this selector will have a blank first option.
+        if($topLevelNoteTypeSelectorOptionCount == 2) {
+          $topLevelNoteTypeSelector.find('option:nth-child(2)')
+                                   .prop('selected', true)
+                                   .trigger('change');
+        } 
       };
 
       $(".subrecord-form-heading:first .btn.add-note", $this).click(createTopLevelNote);
+      $this.filter("#lang_material_notes").each(function() {
+        if ($("li", $this).length == 0) {
+          $(".subrecord-form-heading:first .btn.add-note", $this).triggerHandler("click");
+        }
+      });
 
       $(".subrecord-form-heading:first .btn.apply-note-order", $this).click(applyNoteOrder);
 
@@ -374,14 +459,14 @@ $(function() {
       if ($target_subrecord_list.children("li").length > 1) {
         $(".subrecord-form-heading:first .btn.apply-note-order", $this).removeAttr("disabled");
       }
-     
+
       var initRemoveActions = function() {
         $(".subrecord-form-inline", $this).each(function() {
           initRemoveActionForSubRecord($(this));
         });
-      } 
+      }
 
-      var initNoteForms = function($noteForm ) { 
+      var initNoteForms = function($noteForm ) {
         // initialising forms
         var $list = $("ul.subrecord-form-list:first", $this)
         AS.initSubRecordSorting($list);

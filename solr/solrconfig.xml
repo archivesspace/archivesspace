@@ -417,4 +417,8 @@
     <defaultQuery>*:*</defaultQuery>
   </admin>
 
+  <!-- Turn on Luke request handler so features in the Solr web interface like analysis
+       and term info in the schema browser will work. -->
+  <requestHandler name="/admin/luke" class="org.apache.solr.handler.admin.LukeRequestHandler" />
+
 </config>

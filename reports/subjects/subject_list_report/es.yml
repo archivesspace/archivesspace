@@ -1,0 +1,5 @@
+es:
+  reports:
+    subject_list_report:
+      title: Lista de registros de sujetos
+      description: Muestra los registros del sujeto seleccionado. El informe enumera el término del tema, el tipo de término del tema y la fuente del tema.

@@ -14,7 +14,7 @@ class ArchivesSpaceClient
 
   DEFAULT_SEARCH_OPTS = {
     'publish' => true,
-    'page_size' => AppConfig[:pui_search_results_page_size]  }
+    'page_size' => AppConfig[:pui_search_results_page_size] }
 
   def self.init
     @instance = self.new
@@ -58,11 +58,12 @@ class ArchivesSpaceClient
   # handles multi-line searching
   def advanced_search(base, page = 1, search_opts = {})
     search_opts = DEFAULT_SEARCH_OPTS.merge(search_opts)
-    url = build_url(base,  search_opts.merge(:page => page))
+    url = build_url(base, search_opts.merge(:page => page))
     results = do_search(url)
 
     SolrResults.new(results)
   end
+
   # calls the '/search/records' endpoint
   def search_records(record_list, search_opts = {}, full_notes = false)
     search_opts = DEFAULT_SEARCH_OPTS.merge(search_opts)
@@ -71,7 +72,7 @@ class ArchivesSpaceClient
     results = do_search(url)
 
     # Ensure that the order of our results matches the order of `record_list`
-    results['results'] = results['results'].sort_by {|result| record_list.index(result.fetch('id'))}
+    results['results'] = results['results'].sort_by {|result| record_list.index(result.fetch('uri'))}
 
     SolrResults.new(results, search_opts, full_notes)
   end
@@ -97,11 +98,12 @@ class ArchivesSpaceClient
   def search_repository( base, repo_id, page = 1, search_opts = {})
     search_opts = DEFAULT_SEARCH_OPTS.merge(search_opts)
 
-    url = build_url(base,search_opts.merge(:page => page))
+    url = build_url(base, search_opts.merge(:page => page))
     results = do_search(url)
 
     SolrResults.new(results, search_opts)
   end
+
   # calls the '/search/published_tree' endpoint
   def get_tree(node_uri)
     tree = {}
@@ -109,7 +111,7 @@ class ArchivesSpaceClient
     begin
       results = do_search(url, true)
       tree = ASUtils.json_parse(results['tree_json'])
-    rescue  RequestFailedException => error
+    rescue RequestFailedException => error
       Rails.logger.error("Tree search failed on #{node_uri} : #{error}")
     end
     tree
@@ -117,8 +119,8 @@ class ArchivesSpaceClient
 
   def get_types_counts(record_type_list, repo_uri = nil)
     opts = {"record_types[]" => record_type_list}
-    opts["repo_uri"] = "\"#{repo_uri}\"" if repo_uri
-    url = build_url('/search/record_types_by_repository',  opts)
+    opts["repo_uri"] = repo_uri if repo_uri
+    url = build_url('/search/record_types_by_repository', opts)
     results = do_search(url)
   end
 

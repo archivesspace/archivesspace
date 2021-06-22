@@ -1,4 +1,4 @@
-module RevisionStatements 
+module RevisionStatements
 
   def self.included(base)
     base.one_to_many(:revision_statement)

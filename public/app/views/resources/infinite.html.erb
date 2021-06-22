@@ -33,7 +33,10 @@
   </div>
 
   <div id="sidebar" class="sidebar sidebar-container col-sm-3 resizable-sidebar infinite-tree-sidebar">
-    <div class="infinite-tree-view largetree-container" id='tree-container'></div>
+  <% if AppConfig[:pui_search_collection_from_collection_organization] %>
+    <%= render partial: 'shared/search_collection_form', :locals => {:resource_uri => @result['uri'], :action_text => t('actions.search_in', :type => t('resource._singular'))} %>
+  <% end %>
+  <div class="infinite-tree-view largetree-container" id='tree-container'></div>
   </div>
 </div>
 

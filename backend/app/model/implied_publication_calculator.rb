@@ -135,49 +135,56 @@ class ImpliedPublicationCalculator
     result
   end
 
-  # An subject is published if it's linked to at least one archival record that's
-  # published.
+  # An subject is published if it's linked to at least one archival record
+  # or agent record that's published.
   def for_subjects(subjects)
     result = Hash[subjects.map {|node| [node, false]}]
     subjects_by_id = Hash[subjects.map {|subject| [subject.id, subject]}]
+    subject_rlshp_sources = Hash.new { |h, k| h[k] = [] }
+    [:subject, :subject_agent_subrecord, :subject_agent_subrecord_place].each do |t|
+      Subject.relationship_dependencies[t].each { |d| subject_rlshp_sources[d] << t }
+    end
 
-    Subject.relationship_dependencies[:subject].each do |model|
-      link_relationship = model.find_relationship(:subject)
+    subject_rlshp_sources.each do |model, sources|
+      sources.each do |source|
+        # i.e. one or more: subject_rlshp, subject_agent_subrecord_rlshp, subject_agent_subrecord_place_rlshp
+        link_relationship = model.find_relationship(source)
+        link_table = link_relationship.table_name
 
-      # subject_rlshp
-      link_table = link_relationship.table_name
+        link_relationship.reference_columns_for(model).each do |model_link_column|
+          link_relationship.reference_columns_for(Subject).each do |subject_link_column|
+            # Join subject_rlshp to (e.g.) accession
+            linked_records = model
+                              .join(link_table,
+                                    Sequel.qualify(link_table, model_link_column) => Sequel.qualify(model.table_name, :id))
+                              .filter(Sequel.qualify(link_table, subject_link_column) => subjects_by_id.keys)
+                              .select(Sequel.qualify(model.table_name, :id),
+                                      Sequel.qualify(model.table_name, :publish),
+                                      Sequel.qualify(model.table_name, :suppressed),
+                                      Sequel.as(Sequel.qualify(link_table, subject_link_column),
+                                                :subject_id))
 
-      link_relationship.reference_columns_for(model).each do |model_link_column|
-        link_relationship.reference_columns_for(Subject).each do |subject_link_column|
-          # Join subject_rlshp to (e.g.) accession
-          linked_records = model
-                             .join(link_table,
-                                   Sequel.qualify(link_table, model_link_column) => Sequel.qualify(model.table_name, :id))
-                             .filter(Sequel.qualify(link_table, subject_link_column) => subjects_by_id.keys)
-                             .select(Sequel.qualify(model.table_name, :id),
-                                     Sequel.qualify(model.table_name, :publish),
-                                     Sequel.qualify(model.table_name, :suppressed),
-                                     Sequel.as(Sequel.qualify(link_table, subject_link_column),
-                                               :subject_id))
+            if model.columns.include?(:repo_id)
+              linked_records = linked_records
+                                .select_append(Sequel.as(Sequel.qualify(model.table_name, :repo_id),
+                                                          :repository_id))
+            end
 
-          if model.columns.include?(:repo_id)
-            linked_records = linked_records
-                               .select_append(Sequel.as(Sequel.qualify(model.table_name, :repo_id),
-                                                        :repository_id))
-          end
+            published_status = if model.included_modules.include?(TreeNodes)
+                                 for_tree_nodes(linked_records
+                                                             .select_append(Sequel.qualify(model.table_name, :parent_id),
+                                                                           Sequel.qualify(model.table_name, :root_record_id))
+                                                             .all)
+                               elsif model.to_s =~ /^Agent/
+                                 for_agents_linked_to_subject(linked_records.all)
+                               else
+                                 for_top_level_records(linked_records.all)
+                               end
 
-          published_status = if model.included_modules.include?(TreeNodes)
-                               for_tree_nodes(linked_records
-                                                          .select_append(Sequel.qualify(model.table_name, :parent_id),
-                                                                         Sequel.qualify(model.table_name, :root_record_id))
-                                                          .all)
-                             else
-                               for_top_level_records(linked_records.all)
-                             end
-
-          published_status.each do |linked_record, published|
-            if published
-              result[subjects_by_id.fetch(linked_record[:subject_id])] = true
+            published_status.each do |linked_record, published|
+              if published
+                result[subjects_by_id.fetch(linked_record[:subject_id])] = true
+              end
             end
           end
         end
@@ -260,6 +267,16 @@ class ImpliedPublicationCalculator
           result[node] &&= published
         end
       end
+    end
+
+    result
+  end
+
+  def for_agents_linked_to_subject(records)
+    result = {}
+
+    records.each do |record|
+      result[record] = record.publish == 1
     end
 
     result

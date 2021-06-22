@@ -40,7 +40,7 @@ class XMLCleaner
         infile.each_with_index do |line, index|
           line = HTMLEntities.new.decode(line)
           # decode turns &amp; into & so need to undo that here for PDF to work
-          if line.match(/&\s+/) || line.match(/&[a-z]+[^;]/)
+          if line.match(/&\s+/) || line.match(/&[A-Za-z]+[^;]/)
             line.gsub!('&', '&amp;')
           end
           outfile.puts(line)
@@ -65,6 +65,7 @@ class XMLCleaner
       if exception.getMessage =~ /The prefix "(.*)" for .*? "(\1:.*?)".* is not bound./ &&
          exception.line_number &&
          exception.column_number
+
         # Caused by an undefined namespace such as `ns2:href`.  We can correct these
         element_to_fix = $2
         remove_namespace_prefix!(element_to_fix, exception.line_number, exception.column_number)

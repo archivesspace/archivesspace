@@ -32,6 +32,16 @@ describe 'Digital object model' do
     expect(digital_object.linked_instances.count).to eq(1)
   end
 
+  it "can link a digital object to a classification" do
+    digital_object = create(:json_digital_object)
+    classification = create(:json_classification,
+                            :linked_records => [{'ref' => digital_object.uri}]
+    )
+
+    digital_object = JSONModel(:digital_object).find(digital_object.id)
+    expect(digital_object.classifications.count).to eq(1)
+  end
+
 
   it "won't allow more than one file_version flagged 'is_representative'" do
     json = build(:json_digital_object, {
@@ -54,7 +64,6 @@ describe 'Digital object model' do
 
     expect {
       DigitalObject.create_from_json(json)
-
     }.to raise_error(Sequel::ValidationFailed)
 
 
@@ -82,7 +91,6 @@ describe 'Digital object model' do
 
     expect {
       DigitalObject.create_from_json(json)
-
     }.not_to raise_error
 
   end

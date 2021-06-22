@@ -122,5 +122,90 @@ describe 'Tree positioning' do
   end
 
 
+  it 'handles logical and physical positions without a database constraint violation' do
+    # The following test verifies a fix to the handling of archival object
+    # physical and logical positions, such that a database constraint violation
+    # does not occur.
+    #
+    # The 'UNIQ_AO_POS' index defined on 'ARCHIVAL_OBJECT' requires that the
+    # "parent name" and "position" fields be unique. Prior to the fix, this
+    # constraint could be violated when updating a record. The violation
+    # occurred because the archival object was updated with the
+    # logical position set for the "position" field, instead of the physical
+    # position. In a situation where there are a large number of records,
+    # the logical position of a record may overlap with the physical position
+    # of an earlier record, leading to the constraint violation.
+    #
+    # In the following test, the TreeNodes::POSITION_STEP is reduced to 10,
+    # so only 10 child objects needs to be created to demonstrate the problem,
+    # instead of 1000 child objects.
+
+    # Reset the TreeNodes::POSITION_STEP, storing the old value.
+    original_position_step = TreeNodes::POSITION_STEP
+
+    TreeNodes::POSITION_STEP = 10
+
+    # Create a "TreeNodes::POSITION_STEP" number of child archival objects.
+    # The first child should have a "physical position" equal to
+    # "TreeNodes::POSITION_STEP", while the last child should have a
+    # "logical position" equal to "TreeNodes::POSITION_STEP"
+    resource = create(:json_resource)
+
+    parent = create(:json_archival_object,
+                    resource: { 'ref' => resource.uri },
+                    title: 'Parent')
+
+    num_children = TreeNodes::POSITION_STEP
+    children = []
+    (0..num_children).each do |i|
+      child = create(:json_archival_object,
+                     resource: { 'ref' => resource.uri },
+                     parent: { 'ref' => parent.uri },
+                     title: "Child #{i}")
+      children << child
+    end
+
+    # Verify that the "physical position" of the first child is equal
+    # to the "logical position" of the last child. This is necessary in
+    # order for the constraint to be violated.
+    first_child = children.first
+    last_child = children.last
+
+    first_ao = ArchivalObject[first_child.id]
+    last_ao = ArchivalObject[last_child.id]
+    expect(first_ao.position).to eq(last_ao.logical_position)
+
+    # Store physical position of last archival object, so we can check it later
+    # to make sure it hasn't changed.
+    last_ao_position = last_ao.position
+
+    begin
+      # Attempt to update the last child. This will throw a constraint violation
+      # exception if the logical position is used when updating the archival
+      # object in the database.
+      ArchivalObject[last_child.id].update_from_json(last_child)
+    ensure
+      # Reset the TreeNodes::POSITION_STEP for any other tests
+      TreeNodes::POSITION_STEP = original_position_step
+    end
+
+    # Physical position of last archival object should not have changed.
+    last_ao.refresh
+    expect(last_ao.position).to eq(last_ao_position)
+  end
+
+  it 'updating an element should not change its physical position' do
+    # Store physical position of child1 object, so we can check it later
+    # to make sure it hasn't changed.
+    child1_ao = ArchivalObject[@child1.id]
+    child1_physical_position = child1_ao.position
+
+    # Update the child.
+    child1_ao.update_from_json(@child1)
+
+    # Physical position of the child should not have changed.
+    child1_ao.refresh
+    expect(child1_ao.position).to eq(child1_physical_position)
+  end
 
 end

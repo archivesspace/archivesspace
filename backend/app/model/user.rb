@@ -42,7 +42,6 @@ class User < Sequel::Model(:user)
 
 
   def self.make_admin_if_requested(obj, json)
-
     return if !RequestContext.get(:apply_admin_access)
 
     # Nothing to do if these already agree
@@ -213,7 +212,6 @@ class User < Sequel::Model(:user)
 
 
   def add_to_groups(groups, delete_all_for_repo_id = false)
-
     if delete_all_for_repo_id
       groups_ids = self.class.db[:group].where(:repo_id => delete_all_for_repo_id).select(:id)
       self.class.db[:group_user].where(:user_id => self.id, :group_id => groups_ids).delete

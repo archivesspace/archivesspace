@@ -13,82 +13,100 @@
         <section id="basic_information">
           <h3><%= I18n.t("agent._frontend.section.basic_information") %></h3>
 
+          <%= render_plugin_partials("top_of_basic_information_#{@agent.agent_type}",
+                                     :form => readonly,
+                                     :record => @agent) %>
+
           <div class="form-group">
             <label class="col-sm-2 control-label"><%= I18n.t("agent.type") %></label>
             <div class="col-sm-9 label-only"><%= I18n.t("agent.agent_type.#{@agent.agent_type}") %></div>
           </div>
           <%= readonly.label_and_boolean "publish" %>
+
+          <%= render_plugin_partials("basic_information_#{@agent.agent_type}",
+                                     :form => readonly,
+                                     :record => @agent) %>
+
           <%= display_audit_info(@agent) %>
         </section>
 
-
-        <% if @agent.dates_of_existence.length > 0 %>
-          <%= render_aspace_partial :partial => "dates/show", :locals => { :dates => @agent.dates_of_existence, :section_title => I18n.t("agent.dates_of_existence"), :section_id => "dates_of_existence", :context => readonly } %>
+        <% if @agent.agent_record_identifiers.length > 0 %>
+          <%= render_aspace_partial :partial => "agent_record_identifiers/show", :locals => { :agent_record_identifiers => @agent.agent_record_identifiers, :section_id => "#{@agent.agent_type}_agent_record_identifier" } %>
         <% end %>
 
-        <section id="<%= @agent.agent_type %>_names">
-          <h3><%= I18n.t("agent_name._plural") %></h3>
-          <% @agent.names.each_with_index do | name, index | %>
-            <div class="panel panel-default">
-              <div class="panel-heading">
-                <div class="row">
-                  <div class="col-md-1">
-                    <span class="glyphicon"></span>
-                  </div>
-                  <div class="col-md-6">
-                    <%= name['sort_name'] %>
-                  </div>
-                  <div class="col-md-4">
-                    <% if name['authorized'] %><span class="badge"><%= I18n.t("name_person.authorized") %></span><% end %>
-                    <% if name['is_display_name'] %><span class="badge badge-info"><%= I18n.t("name_person.is_display_name") %></span><% end %>
-                  </div>
-                </div>
-              </div>
-              <div id="agent_name_<%= index %>">
-                <%= read_only_view(name.to_hash) %>
-                <% if name['use_dates'].length > 0 %>
-                  <%= render_aspace_partial :partial => "dates/show", :locals => { :dates => name['use_dates'], :section_id => "name_use_dates", :section_title => I18n.t("agent_name.use_dates"), :context => readonly } %>
-                <% end %>
-              </div>
-            </div>
-          <% end %>
-        </section>
+        <% if @agent.agent_record_controls.length > 0 %>
+          <%= render_aspace_partial :partial => "agent_record_controls/show", :locals => { :agent_record_controls => @agent.agent_record_controls, :section_id => "#{@agent.agent_type}_agent_record_control" } %>
+        <% end %>
 
+        <% if @agent.agent_other_agency_codes.length > 0 %>
+          <%= render_aspace_partial :partial => "agent_other_agency_codes/show", :locals => { :agent_other_agency_codes => @agent.agent_other_agency_codes, :section_id => "#{@agent.agent_type}_agent_other_agency_codes" } %>
+        <% end %>
 
-        <% if @agent.agent_contacts.length > 0 %>
-          <%= render_aspace_partial :partial => "agents/contact_details" %>
+        <% if @agent.agent_conventions_declarations.length > 0 %>
+          <%= render_aspace_partial :partial => "agent_conventions_declarations/show", :locals => { :agent_conventions_declarations => @agent.agent_conventions_declarations, :section_id => "#{@agent.agent_type}_agent_conventions_declaration" } %>
+        <% end %>
 
-          <section id="<%= @agent.agent_type %>_contact_details">
-            <h3><%= I18n.t("agent_contact._plural") %></h3>
-            <% @agent.agent_contacts.each_with_index do | contact, index | %>
-              <div class="panel panel-default">
-                <div class="panel-heading">
-                  <div class="row">
-                    <div class="col-md-1">
-                      <span class="glyphicon"></span>
-                    </div>
-                    <div class="col-md-7">
-                      <%= contact['name'] %>
-                    </div>
-                  </div>
-                </div>
-                <div id="agent_contact_<%= index %>">
-                  <%= readonly_context :agent_contact, contact do |readonly_contact| %>
-                    <%= readonly_contact.emit_template("agent_contact") %>
-                  <% end %>
-                </div>
-              </div>
-            <% end %>
-          </section>
+        <% if @agent.agent_maintenance_histories.length > 0 %>
+          <%= render_aspace_partial :partial => "agent_maintenance_histories/show", :locals => { :agent_maintenance_histories => @agent.agent_maintenance_histories, :section_id => "#{@agent.agent_type}_agent_maintenance_history" } %>
+        <% end %>
 
+        <% if @agent.agent_sources.length > 0 %>
+          <%= render_aspace_partial :partial => "agent_sources/show", :locals => { :agent_sources => @agent.agent_sources, :section_id => "#{@agent.agent_type}_agent_sources" } %>
+        <% end %>
+
+        <% if @agent.agent_alternate_sets.length > 0 %>
+          <%= render_aspace_partial :partial => "agent_alternate_sets/show", :locals => { :agent_alternate_sets => @agent.agent_alternate_sets, :section_id => "#{@agent.agent_type}_agent_alternate_set" } %>
+        <% end %>
+
+        <% if @agent.agent_identifiers.length > 0 %>
+          <%= render_aspace_partial :partial => "agent_identifiers/show", :locals => { :agent_identifiers => @agent.agent_identifiers, :section_id => "#{@agent.agent_type}_agent_identifier" } %>
+        <% end %>
+
+        <%= render_aspace_partial :partial => "agent_names/show", :locals => { :agent => @agent} %>
+
+        <% if @agent.dates_of_existence.length > 0 %>
+          <%= render_aspace_partial :partial => "structured_dates/show", :locals => { :dates => @agent.dates_of_existence, :section_title => I18n.t("agent.dates_of_existence"), :section_id => "#{@agent.agent_type}_dates_of_existence"} %>
+        <% end %>
+
+        <% if @agent_type == :agent_person && @agent.agent_genders.length > 0 %>
+          <%= render_aspace_partial :partial => "agent_genders/show", :locals => { :agent_genders => @agent.agent_genders, :section_id => "#{@agent.agent_type}_agent_gender", :context => readonly } %>
+        <% end %>
+
+        <% if @agent.agent_places.length > 0 %>
+          <%= render_aspace_partial :partial => "agent_places/show", :locals => { :agent_places => @agent.agent_places, :section_id => "#{@agent.agent_type}_agent_place", :context => readonly } %>
+        <% end %>
+
+        <% if @agent.agent_occupations.length > 0 %>
+          <%= render_aspace_partial :partial => "agent_occupations/show", :locals => { :agent_occupations => @agent.agent_occupations, :section_id => "#{@agent.agent_type}_agent_occupation", :context => readonly } %>
+        <% end %>
+
+        <% if @agent.agent_functions.length > 0 %>
+          <%= render_aspace_partial :partial => "agent_functions/show", :locals => { :agent_functions => @agent.agent_functions, :section_id => "#{@agent.agent_type}_agent_function", :context => readonly } %>
+        <% end %>
+
+        <% if @agent.agent_topics.length > 0 %>
+          <%= render_aspace_partial :partial => "agent_topics/show", :locals => { :agent_topics => @agent.agent_topics, :section_id => "#{@agent.agent_type}_agent_topic", :context => readonly } %>
+        <% end %>        
+ 
+        <% if @agent.used_languages.length > 0 %>
+          <%= render_aspace_partial :partial => "used_languages/show", :locals => { :used_languages => @agent.used_languages, :section_id => "#{@agent.agent_type}_used_language", :context => readonly } %>
+        <% end %>
+
+        <% if @agent.agent_contacts.length > 0 && user_can?('view_agent_contact_record') %>
+          <%= render_aspace_partial :partial => "agent_contact_details/show", :locals => { :agent_contacts => @agent.agent_contacts, :section_id => "#{@agent.agent_type}_contact_details", :context => readonly } %>
         <% end %>
 
         <% if @agent.notes.length > 0 %>
           <%= render_aspace_partial :partial => "notes/show", :locals => { :notes => @agent.notes, :context => readonly, :section_id => "#{@agent.agent_type}_notes" } %>
         <% end %>
+        
+        <% if @agent.agent_resources.length > 0 %>
+          <%= render_aspace_partial :partial => "agent_resources/show", :locals => { :agent_resources => @agent.agent_resources, :section_id => "#{@agent.agent_type}_agent_resource", :context => readonly } %>
+        <% end %>        
+ 
 
         <% if !@agent['related_agents'].blank? %>
-          <%= render_aspace_partial :partial => "related_agents/show", :locals => { :related_agents => @agent.related_agents, :context => readonly } %>
+          <%= render_aspace_partial :partial => "related_agents/show", :locals => { :related_agents => @agent.related_agents, :context => readonly, :section_id => "related_agents" } %>
         <% end %>
 
         <% if @agent.external_documents.length > 0 %>

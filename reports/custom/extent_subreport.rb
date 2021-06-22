@@ -12,9 +12,9 @@ class ExtentSubreport < AbstractSubreport
 	end
 
 
-	def query_string
+	def query_string  # keep portion keyword from blowing up on mariadb
 		"select
-			portion_id as portion,
+			portion_id as `portion`,
 			number as extent_number,
 			extent_type_id as extent_type,
 			container_summary,

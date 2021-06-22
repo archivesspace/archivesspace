@@ -85,23 +85,26 @@ $(function() {
       return;
     }
     $(".nav-list-record-count").remove();
-    $("#archivesSpaceSidebar .as-nav-list > li").each(function() {
+    $("#archivesSpaceSidebar .as-nav-list > li:not(.sidebar-heading)").each(function() {
       var $nav = $(this);
       var $link = $("a", $nav);
       var $section = $($link.attr("href"));
       var $items = $(".subrecord-form-list:first > li", $section);
 
-      var $submenu = getSubMenuHTML($items.length);
-      $link.append($submenu);
+      // Do not add a badge count to sidebar heading items (with class .sidebar-heading) -- only to entry items (with class .sidebar-entry-XXX)
+      if(!$nav.hasClass('sidebar-heading')) {
+        var $submenu = getSubMenuHTML($items.length);
+        $link.append($submenu);
+      }
     });
   };
 
    var initSidebar = function() {
-    $("#archivesSpaceSidebar .as-nav-list:not(.initialised)").each(function() {
+    $("#archivesSpaceSidebar:not(.initialised)").each(function() {
       $(this).affix({
         offset: {
           top: function() {
-            return $("#archivesSpaceSidebar").offset().top;
+            return $("#archivesSpaceSidebar").parent().offset().top;
           },
           bottom: 100
         }
@@ -315,7 +318,7 @@ $(function() {
 
 
 
-
+// templates as defined in app/views/_model_/_template.html.erb are added to the DOM as HTML comments wrapped in a div. This method queries for the template we are looking for, uncomments it, and returns it for insertion back into the DOM.
 AS.templateCache = [];
 AS.renderTemplate = function(templateId, data, cb) {
 
@@ -689,6 +692,11 @@ AS.initSubRecordSorting = function($list) {
     $list.off("sortupdate").on("sortupdate", function() {
       $("form.aspace-record-form").triggerHandler("formchanged.aspace");
     });
+
+    // ANW-429: trigger special event for agents merge form
+    $list.off("sortupdate").on("sortupdate", function() {
+      $($list).triggerHandler("mergesubformchanged.aspace");
+    });
   }
 }
 
@@ -806,7 +814,7 @@ $(function() {
 
       // add a close icon to the alert
       var $close = $("<a>").attr("href", "javascript:void(0);").addClass("hide-alert");
-      $close.text("Close Alert").addClass("sr-only");
+      $close.attr("aria-label", "Close Alert");
       $close.append($("<span>").addClass("glyphicon glyphicon-remove"));
       $close.click(handleCloseAlert);
 

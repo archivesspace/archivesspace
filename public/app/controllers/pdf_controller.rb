@@ -1,6 +1,6 @@
 require 'java'
 
-class PdfController <  ApplicationController
+class PdfController < ApplicationController
 
   PDF_MUTEX = java.util.concurrent.Semaphore.new(AppConfig[:pui_max_concurrent_pdfs])
 
@@ -16,7 +16,6 @@ class PdfController <  ApplicationController
 
       if token
         token.gsub!(/[^a-f0-9]/, '')
-        cookies["pdf_generated_#{token}"] = { value: token, expires: 5.minutes.from_now, httponly: true }
       end
 
       respond_to do |format|

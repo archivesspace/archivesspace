@@ -39,6 +39,7 @@ module ResourceTrees
         properties["type_2"] = BackendEnumSource.value_for_id("container_type",
                                                               sub_container.type_2_id)
         properties["indicator_2"] = sub_container.indicator_2
+        properties["barcode_2"] = sub_container.barcode_2
         properties["type_3"] = BackendEnumSource.value_for_id("container_type",
                                                               sub_container.type_3_id)
         properties["indicator_3"] = sub_container.indicator_3

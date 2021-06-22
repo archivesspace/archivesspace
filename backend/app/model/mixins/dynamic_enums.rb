@@ -38,7 +38,7 @@ module DynamicEnums
                 break
               end
 
-              raise "Invalid value: #{value}" if !self[property_id]
+              raise "Invalid value for #{property_id}: #{value}" if !self[property_id]
             else
               self[property_id] = nil
             end
@@ -47,10 +47,7 @@ module DynamicEnums
 
           define_method("#{property}".intern) do
             if self[property_id]
-              result = Array(definition[:uses_enum]).map {|enum_name|
-                BackendEnumSource.value_for_id(enum_name, self[property_id])
-              }.compact.first
-
+              result = BackendEnumSource.value_for_id(Array(definition[:uses_enum]), self[property_id])
               raise "Couldn't find enum in #{property} for #{self.class} with id #{self[property_id]}" unless result
               result
             else

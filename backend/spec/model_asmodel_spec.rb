@@ -34,23 +34,18 @@ describe 'ASModel' do
   end
 
 
-  it "reindexes top_containers when publish all is triggered" do
+  it "reindexes top_containers when publish all is triggered through resource instance" do
     top = create(:json_top_container)
     opts = {:instances => [build(:json_instance,
                                  :sub_container => build(:json_sub_container,
                                                          :top_container => {:ref => top.uri}))],
             :publish => false}
     resource = create_resource(opts)
-
     res =
     URIResolver.resolve_references(Resource.to_jsonmodel(resource[:id]), ['top_container'])['instances'][0]["sub_container"]['top_container']['_resolved']
     pretime = res['system_mtime']
 
-    sleep(1)
-
-    # json = Resource.to_jsonmodel(resource)
-    # json.publish = false
-    # resource.update_from_json(json)
+    ArchivesSpaceService.wait(:long)
     resource.publish!
 
     res =
@@ -60,6 +55,22 @@ describe 'ASModel' do
     expect(pretime).not_to match(posttime)
   end
 
+  it "reindexes top_containers when publish all is triggered through archival object instance" do
+    top = create(:json_top_container)
+    (resource, _, _, child) = create_tree(top, { grandparent_properties: { publish: false } })
+    res =
+    URIResolver.resolve_references(child, ['top_container'])['instances'][0]["sub_container"]['top_container']['_resolved']
+    pretime = res['system_mtime']
+
+    ArchivesSpaceService.wait(:long)
+    resource.publish!
+
+    res =
+    URIResolver.resolve_references(child, ['top_container'])['instances'][0]["sub_container"]['top_container']['_resolved']
+    posttime = res['system_mtime']
+
+    expect(pretime).not_to match(posttime)
+  end
 
   it "enforces suppression across repositories" do
     rep1 = make_test_repo("arepo")

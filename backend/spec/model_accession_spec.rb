@@ -134,26 +134,25 @@ describe 'Accession model' do
                                         ]
                                        ),
                                 :repo_id => $repo_id)
-
     }.to raise_error(Sequel::ValidationFailed)
   end
 
   it "allows an accession created with external documents with same title duplicate locations" do
 
-     accession =  Accession.create_from_json(build(:json_accession,
-                                       :external_documents => [
-                                          {
-                                            "title" => "My external document",
-                                            "location" => "http://www.foobar.com",
-                                          },
-                                          {
-                                            "title" => "My duplicate external document",
-                                            "location" => "http://www.foobar.com",
-                                          },
-                                        ]
-                                       ),
-                                :repo_id => $repo_id)
-       expect(Accession[accession[:id]].external_document.length).to eq(2)
+    accession = Accession.create_from_json(build(:json_accession,
+                                      :external_documents => [
+                                         {
+                                           "title" => "My external document",
+                                           "location" => "http://www.foobar.com",
+                                         },
+                                         {
+                                           "title" => "My duplicate external document",
+                                           "location" => "http://www.foobar.com",
+                                         },
+                                       ]
+                                      ),
+                               :repo_id => $repo_id)
+    expect(Accession[accession[:id]].external_document.length).to eq(2)
   end
 
 

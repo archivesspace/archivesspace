@@ -69,6 +69,7 @@ fr:
       instance_type: Type d'instance
       instances: Instances
       inventory: Inventaire
+      language: Langue
       level: Niveau
       linked_records: Enregistrements liés
       linked_resources: Ressource(s) liée(s)
@@ -91,6 +92,7 @@ fr:
       total_count: Nombre de notices passées en revue
       number_with_inventories: Entrées avec inventaires
       object_type: Type d'objet
+      provenance: Provenance
       purpose: But de l'évaluation
       rating: Évaluation
       ratings: Évaluations
@@ -112,6 +114,7 @@ fr:
       room: Salle
       scope: Portée de l'évaluation
       scoped_by_rating: Portée par note
+      script: Scénario
       sensitive_material: Matériau sensible?
       scoped_by_date_range: Affichage des enregistrements créés entre
       showing_values: Affichage des enregistrements avec des valeurs d'évaluation

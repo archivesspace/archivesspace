@@ -46,12 +46,10 @@ module CrudHelpers
 
 
   def handle_listing(model, pagination_data, where = {}, order = nil)
-
     dataset = CrudHelpers.scoped_dataset(model, where)
-
+    order = Sequel.send(pagination_data['sort_direction'], pagination_data['sort_field']) unless order
     modified_since_time = Time.at(pagination_data[:modified_since])
-    dataset = dataset.where { system_mtime >= modified_since_time }
-    dataset = order ? dataset.order(*order) : dataset.order(:id)
+    dataset = dataset.where { system_mtime >= modified_since_time }.order(*order)
 
     if pagination_data[:page]
       # Classic pagination mode
@@ -75,7 +73,7 @@ module CrudHelpers
       yield
     rescue Sequel::ValidationFailed => e
       if e.errors && e.errors.any? {|key, errors| errors[0].end_with?("must be unique")}
-        existing_record = model.find_matching(json)
+        existing_record = e.errors.any? {|key, errors| errors[0].include?("Authority ID")} ? model.find_matching_id(json) : model.find_matching(json)
 
         if existing_record
           e.errors[:conflicting_record] = [existing_record.uri]
@@ -97,7 +95,6 @@ module CrudHelpers
   private
 
   def listing_response(dataset, model)
-
     objs = dataset.respond_to?(:all) ? dataset.all : dataset
 
     opts = {:calculate_linked_repositories => current_user.can?(:index_system)}

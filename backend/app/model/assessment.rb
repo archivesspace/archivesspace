@@ -11,6 +11,8 @@ class Assessment < Sequel::Model(:assessment)
 
   corresponds_to JSONModel(:assessment)
 
+  include ExternalDocuments
+
   set_model_scope :repository
 
   define_relationship(:name => :assessment,
@@ -129,7 +131,6 @@ class Assessment < Sequel::Model(:assessment)
                               .filter(:repo_id => [Repository.global_repo_id, active_repository])
                               .select(:id)
                               .map {|row| row[:id]}
-
       KEY_TO_TYPE.each do |key, type|
         Array(json[key]).each do |attribute|
           next unless valid_attribute_ids.include?(attribute['definition_id'])
@@ -174,7 +175,7 @@ class Assessment < Sequel::Model(:assessment)
 
     jsons.zip(objs).each do |json, obj|
       json['display_string'] = obj.id.to_s
-      json['collections'] = obj.linked_collection_uris.map{|uri| {
+      json['collections'] = obj.linked_collection_uris.map {|uri| {
         'ref' => uri
       }}
     end
@@ -295,7 +296,8 @@ class Assessment < Sequel::Model(:assessment)
 
   def self.prepare_monetary_value_for_save(json, opts)
     if json['monetary_value']
-      opts['monetary_value'] = BigDecimal.new(json['monetary_value'])
+      mv = BigDecimal.new(json['monetary_value']) rescue ''
+      opts['monetary_value'] = mv
     end
   end
 

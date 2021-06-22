@@ -85,4 +85,3 @@ class OAIHelper
     return [@oai_repo_id, @test_record_count, @test_resource_record, @test_archival_object_record]
   end
 end
-

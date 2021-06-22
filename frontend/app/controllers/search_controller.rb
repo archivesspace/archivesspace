@@ -2,19 +2,31 @@ require 'advanced_query_builder'
 
 class SearchController < ApplicationController
 
-  set_access_control  "view_repository" => [:do_search, :advanced_search]
-  
+  set_access_control "view_repository" => [:do_search, :advanced_search]
+
   include ExportHelper
 
   def advanced_search
     criteria = params_for_backend_search
 
-    queries = advanced_search_queries.reject{|field|
+    queries = advanced_search_queries.reject {|field|
       (field["value"].nil? || field["value"] == "") && !field["empty"]
     }
 
     if not queries.empty?
-      criteria["aq"] = AdvancedQueryBuilder.build_query_from_form(queries).to_json
+      if criteria['aq']
+        existing_filter = ASUtils.json_parse(criteria['aq'])
+        criteria['aq'] =  JSONModel::JSONModel(:advanced_query).from_hash({
+                              query: JSONModel(:boolean_query)
+                                       .from_hash({
+                                                    :jsonmodel_type => 'boolean_query',
+                                                    :op => 'AND',
+                                                    :subqueries => [existing_filter['query'], AdvancedQueryBuilder.build_query_from_form(queries)['query']]
+                                                  })
+                            }).to_json
+      else
+        criteria["aq"] = AdvancedQueryBuilder.build_query_from_form(queries).to_json
+      end
       criteria['facet[]'] = SearchResultData.BASE_FACETS
     end
 
@@ -37,24 +49,21 @@ class SearchController < ApplicationController
         @search_data = Search.all(session[:repo_id], criteria)
         render "search/do_search"
       }
-      format.csv { 
+      format.csv {
         uri = "/repositories/#{session[:repo_id]}/search"
-        csv_response( uri, criteria )
-      }  
+        csv_response( uri, Search.build_filters(criteria), "#{I18n.t('search_results.title').downcase}." )
+      }
     end
   end
 
   def do_search
+    @search_data = Search.all(session[:repo_id], params_for_backend_search.merge({"facet[]" => SearchResultData.BASE_FACETS.concat(params[:facets]||[]).uniq}))
 
     respond_to do |format|
       format.json {
-        @search_data = Search.all(session[:repo_id], params_for_backend_search.merge({"facet[]" => SearchResultData.BASE_FACETS.concat(params[:facets]||[]).uniq}))
-        @display_identifier = params[:display_identifier] ? params[:display_identifier] : false
         render :json => @search_data
       }
       format.js {
-        @search_data = Search.all(session[:repo_id], params_for_backend_search.merge({"facet[]" => SearchResultData.BASE_FACETS.concat(params[:facets]||[]).uniq}))
-        @display_identifier = params[:display_identifier] ? params[:display_identifier] : false
         if params[:listing_only]
           render_aspace_partial :partial => "search/listing"
         else
@@ -62,14 +71,13 @@ class SearchController < ApplicationController
         end
       }
       format.html {
-        @search_data = Search.all(session[:repo_id], params_for_backend_search.merge({"facet[]" => SearchResultData.BASE_FACETS.concat(params[:facets]||[]).uniq}))
-        @display_identifier = params[:display_identifier] ? params[:display_identifier] : false
+        # default render
       }
-      format.csv { 
+      format.csv {
         criteria = params_for_backend_search.merge({"facet[]" => SearchResultData.BASE_FACETS})
         uri = "/repositories/#{session[:repo_id]}/search"
-        csv_response( uri, criteria )
-      }  
+        csv_response( uri, Search.build_filters(criteria), "#{I18n.t('search_results.title').downcase}." )
+      }
     end
   end
 

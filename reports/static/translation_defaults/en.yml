@@ -69,6 +69,7 @@ en:
       instance_type: Instance Type
       instances: Instances
       inventory: Inventory
+      language: Language
       level: Level
       linked_records: Linked Records
       linked_resources: Linked Resource(s)
@@ -91,6 +92,7 @@ en:
       total_count: Number of Records
       number_with_inventories: Number with Inventories
       object_type: Object Type
+      provenance: Provenance
       purpose: Purpose of Assessment
       rating: Rating
       ratings: Ratings
@@ -112,6 +114,7 @@ en:
       room: Room
       scope: Scope of Assessment
       scoped_by_rating: Scoped by Rating
+      script: Script
       sensitive_material: Sensitive Material?
       scoped_by_date_range: Showing records created between
       showing_values: Showing records with rating values
