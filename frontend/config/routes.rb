@@ -273,9 +273,23 @@ ArchivesSpace::Application.routes.draw do
     match('date_calculator/calculate' => 'date_calculator#calculate', :via => [:post])
     match('date_calculator/create_date' => 'date_calculator#create_date', :via => [:post])
 
-      # resources :custom_report_templates
-      # match('custom_report_templates/:id/delete' => 'custom_report_templates#delete', :via => [:post])
-      # match('custom_report_templates/:id' => 'custom_report_templates#update', :via => [:post])
+    resources :location_profiles
+    match('location_profiles/search/typeahead' => 'location_profiles#typeahead', :via => [:get])
+    match('location_profiles/:id' => 'location_profiles#update', :via => [:post])
+    match('location_profiles/:id/delete' => 'location_profiles#delete', :via => [:post])
+
+    match('space_calculator' => 'space_calculator#show', :via => [:get])
+    match('space_calculator' => 'space_calculator#calculate', :via => [:post])
+
+    match 'assessments/embedded_search' => 'assessments#embedded_search', :via => [:get]
+    resources :assessments
+    match 'assessments/:id' => 'assessments#update', :via => [:post]
+    match 'assessments/:id/delete' => 'assessments#delete', :via => [:post]
+    match 'assessment_attributes' => 'assessment_attributes#edit', :via => [:get]
+    match 'assessment_attributes' => 'assessment_attributes#update', :via => [:post]
+
+    match 'oai_config/edit'   => 'oai_config#edit',   :via => [:get]
+    match 'oai_config/update' => 'oai_config#update', :via => [:post]
 
 
     if AppConfig[:enable_custom_reports]

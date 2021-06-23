@@ -46,9 +46,9 @@ class ArchivesSpaceService < Sinatra::Base
     .returns([200, "[(:resource)]"]) \
   do
     if params[:show_inactive]
-      handle_listing(User, params, "is_hidden_user = 0 OR is_system_user = 0" )
+      handle_listing(User, params, {:exclude => {:id => User.unlisted_user_ids}})
     else
-      handle_listing(User, params, "(is_hidden_user = 0 OR is_system_user = 0) AND is_active_user = 1" )
+      handle_listing(User, params, {:exclude => {:id => User.unlisted_user_ids, :is_active_user => 0}})
     end
   end
 

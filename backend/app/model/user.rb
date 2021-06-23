@@ -6,9 +6,9 @@ class User < Sequel::Model(:user)
 
   set_model_scope :global
 
-  # @@unlisted_user_ids = nil
-  #
-  #
+  @@unlisted_user_ids = nil
+
+  
   def self.create_from_json(json, opts = {})
     if !opts[:is_hidden_user]
       agent = JSONModel(:agent_person).from_hash(
@@ -109,10 +109,9 @@ class User < Sequel::Model(:user)
   end
 
 
-  # def self.unlisted_user_ids
-  #   @@unlisted_user_ids ||= User.filter(:is_hidden_user => 1).collect {|user| user.id}
-  # end
-  #
+  def self.unlisted_user_ids
+    @@unlisted_user_ids ||= User.filter(:is_hidden_user => 1).collect {|user| user.id}
+  end
 
   def before_save
     super
@@ -235,7 +234,7 @@ class User < Sequel::Model(:user)
     Job.filter(:owner_id => self.id).update( :owner_id => admin_user.id )
 
     Preference.filter(:user_id => self.id).delete
-    # self.remove_all_group
+    self.remove_all_group
 
     super
 
