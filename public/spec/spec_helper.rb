@@ -36,7 +36,7 @@ require 'aspace_gems'
 $server_pids = []
 $backend_port = TestUtils::free_port_from(3636)
 $frontend_port = TestUtils::free_port_from(4545)
-$backend = "http://localhost:#{$backend_port}"
+$backend = ENV['ASPACE_TEST_BACKEND_URL'] || "http://localhost:#{$backend_port}"
 $frontend = "http://localhost:#{$frontend_port}"
 $expire = 30000
 
@@ -144,7 +144,6 @@ RSpec.configure do |config|
   # Try thrice (retry twice)
   config.default_retry_count = 3
 
-
   [:controller, :view, :request].each do |type|
     config.include ::Rails::Controller::Testing::TestProcess, :type => type
     config.include ::Rails::Controller::Testing::TemplateAssertions, :type => type
@@ -152,8 +151,12 @@ RSpec.configure do |config|
   end
 
   config.before(:suite) do
-    puts "Starting backend using #{$backend}"
-    $server_pids << $backend_start_fn.call
+    if ENV['ASPACE_TEST_BACKEND_URL']
+      puts "Running tests against #{$backend}"
+    else
+      puts "Starting backend using #{$backend}"
+      $server_pids << $backend_start_fn.call
+    end
     ArchivesSpaceClient.init
     $admin = BackendClientMethods::ASpaceUser.new('admin', 'admin')
     if !ENV['ASPACE_INDEXER_URL']

@@ -44,7 +44,7 @@ module TreeHelperMethods
 
   def tree_node_for_title(title)
     tree_node_link_for_title(title)
-      .find_element_orig(xpath: 'ancestor::tr')
+      .find_element_orig(xpath: 'ancestor::div[@role="listitem"]')
   end
 
   def tree_node_link_for_title(title)
