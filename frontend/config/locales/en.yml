@@ -1221,6 +1221,8 @@ en:
 
   user:
     is_active_user: Active User
+    active: Active
+    inactive: Inactive
     _frontend:
       messages:
         access_denied: Access denied. Login as the admin user to perform this action.
@@ -1244,7 +1246,7 @@ en:
         update_account: Update Account
         create: Create User
         edit: Edit User
-        hide_inactive: Hide Inactive Users
+        show_active: Show Active Users
         show_inactive: Show Inactive Users
         deactivate_user: Deactivate
         activate_user: Activate

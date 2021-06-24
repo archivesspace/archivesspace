@@ -25,9 +25,6 @@ class AuthenticationManager
         # System users are only authenticated locally.
         next if (user && user.is_system_user == 1 && source != DBAuth)
 
-        # skip if user is inactive.
-        next if (user && !user.is_active_user)
-
         jsonmodel_user = source.authenticate(username, password)
 
         if !jsonmodel_user

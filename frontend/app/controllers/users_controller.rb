@@ -19,9 +19,7 @@ class UsersController < ApplicationController
   end
 
   def manage_access
-    @search_data = JSONModel(:user).all(:page => selected_page)
-    @manage_access = true
-    render :action => "index"
+    redirect_to(:controller => :users, :action => :index)
   end
 
   def current_record
@@ -71,7 +69,7 @@ class UsersController < ApplicationController
 
     if @user.is_system_user or @user.is_admin
       flash[:error] = I18n.t("user._frontend.messages.group_not_required", JSONModelI18nWrapper.new(:user => @user))
-      redirect_to(:controller => :users, :action => :manage_access) and return
+      redirect_to(:controller => :users, :action => :index) and return
     end
 
     @groups = JSONModel(:group).all
@@ -118,7 +116,7 @@ class UsersController < ApplicationController
 
     if response.code === '200'
       flash[:success] = I18n.t("user._frontend.messages.updated")
-      redirect_to :action => :manage_access
+      redirect_to :action => :index
     else
       flash[:error] = I18n.t("user._frontend.messages.error_update")
       @groups = JSONModel(:group).all if user_can?('manage_repository')

@@ -184,8 +184,15 @@ class ArchivesSpaceService < Sinatra::Base
              [403, "Login failed"]) \
   do
     username = params[:username]
+ 
+    #ANW-97: check if user is inactive before attempting to authenticate
+    user = User.first(:username => username)
 
-    user = AuthenticationManager.authenticate(username, params[:password])
+    if user.values[:is_active_user] == 1
+      user = AuthenticationManager.authenticate(username, params[:password]) 
+    else
+      user = false
+    end
 
     if user
       session = create_session_for(username, params[:expiring])
