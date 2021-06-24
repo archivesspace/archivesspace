@@ -71,18 +71,7 @@ module AspaceFactories
       sequence(:classification_title) {|n| "Classification #{n}"}
       sequence(:classification_term_title) {|n| "Classification Term #{n}"}
 
-      sequence(:use_statement) { ["application", "application-pdf", "audio-clip",
-                                  "audio-master", "audio-master-edited",
-                                  "audio-service", "image-master",
-                                  "image-master-edited", "image-service",
-                                  "image-service-edited", "image-thumbnail",
-                                  "text-codebook", "test-data",
-                                  "text-data_definition", "text-georeference",
-                                  "text-ocr-edited", "text-ocr-unedited",
-                                  "text-tei-transcripted", "text-tei-translated",
-                                  "video-clip", "video-master",
-                                  "video-master-edited", "video-service",
-                                  "video-streaming"].sample }
+      sequence(:use_statement) { ["application", "application-pdf", "audio-clip"].sample }
       sequence(:checksum_method) { ["md5", "sha-1", "sha-256", "sha-384", "sha-512"].sample }
       sequence(:xlink_actuate_attribute) { ["none", "other", "onLoad", "onRequest"].sample }
       sequence(:xlink_show_attribute) {  ["new", "replace", "embed", "other", "none"].sample }
