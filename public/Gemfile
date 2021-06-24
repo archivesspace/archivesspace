@@ -58,7 +58,7 @@ group :development, :test do
 end
 
 group :test do
-  gem 'axe-matchers', '~> 2.6'
+  gem 'axe-core-rspec'
   gem 'capybara', '3.15.1'
   gem 'dumb_delegator', '~> 0.8'
   gem 'factory_bot_rails', '~> 4.11', '>= 4.11.1'

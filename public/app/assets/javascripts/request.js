@@ -14,7 +14,7 @@ function setupRequest(modalId, text) {
     else {
         btn = x;
     }
-    $(btn).attr('id', "request_btn");
+    $(btn.not('.noscript')).attr('id', "request_btn");
     $(btn).html(text);
     $(btn).click(function(e) {
         $("#request_form").submit();
