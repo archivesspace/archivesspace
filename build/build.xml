@@ -151,7 +151,6 @@
 
   <target name="backend:test" depends="set-classpath, setup-integration" description="Run the unit test suite">
     <property name="spec" value=""/>
-    <property name="example" value=""/>
     <condition property="example-arg" value="-e &quot;${example}&quot;" else="">
       <isset property="example"/>
     </condition>
@@ -175,7 +174,6 @@
   <!-- Run the tests from a plugin directory -->
   <target name="backend:test:plugin" depends="set-classpath, setup-integration" description="Run the unit test suite">
     <property name="spec" value=""/>
-    <property name="example" value=""/>
     <condition property="example-arg" value="-e &quot;${example}&quot;" else="">
       <isset property="example"/>
     </condition>
@@ -596,7 +594,6 @@
 
   <target name="indexer:test" depends="set-classpath" description="Run the unit test suite for the indexer">
     <property name="spec" value=""/>
-    <property name="example" value=""/>
     <condition property="example-arg" value="-e &quot;${example}&quot;" else="">
       <isset property="example"/>
     </condition>
@@ -692,7 +689,6 @@
 
   <target name="frontend:selenium" depends="set-classpath, frontend:clean, setup-integration" description="Run the Selenium tests">
     <property name="spec" value=""/>
-    <property name="example" value=""/>
     <condition property="example-arg" value="-e &quot;${example}&quot;" else="">
       <isset property="example"/>
     </condition>
@@ -718,7 +714,6 @@
     <condition property="spec-arg" value="${spec}" else="">
       <isset property="spec"/>
     </condition>
-    <property name="example" value=""/>
     <condition property="example-arg" value="-e &quot;${example}&quot;" else="">
       <isset property="example"/>
     </condition>
@@ -737,7 +732,6 @@
 
   <target name="frontend:test:plugin" depends="set-classpath, setup-integration" description="Run the unit test suite">
     <property name="spec" value=""/>
-    <property name="example" value=""/>
     <condition property="example-arg" value="-e &quot;${example}&quot;" else="">
       <isset property="example"/>
     </condition>
@@ -831,7 +825,6 @@
     <condition property="spec-arg" value="${spec}" else="">
       <isset property="spec"/>
     </condition>
-    <property name="example" value=""/>
     <condition property="example-arg" value="-e &quot;${example}&quot;" else="">
       <isset property="example"/>
     </condition>
@@ -844,7 +837,36 @@
       <env key="APPCONFIG_DATA_DIRECTORY" value="${aspace.data_directory.test}" />
       <env key="APPCONFIG_DB_URL" value="${env.ASPACE_TEST_DB_URL}" />
       <env key="APPCONFIG_SOLR_URL" value="${env.ASPACE_TEST_SOLR_URL}" />
-      <arg line="../build/${jruby_build_bin_path}/rspec -b --format d --order rand:1 ${example-arg} spec/${spec-arg}" />
+      <arg line="../build/${jruby_build_bin_path}/rspec -b --format d --tag ~db --order rand:1 ${example-arg} spec/${spec-arg}" />
+    </java>
+  </target>
+
+  <target name="public:test:accessibility" depends="set-classpath, public:copy-shared-resources, db:migrate:test, solr:reset:test" description="Run the unit test suite">
+     <!-- TODO: when embedded solr is removed these actions can be deleted, see also: backend:devserver -->
+    <delete dir="${aspace.data_directory.test}/solr_home" />
+    <delete dir="${aspace.data_directory.test}/solr_index" />
+    <mkdir dir="${aspace.data_directory.test}/solr_home/collection1/conf" />
+    <mkdir dir="${aspace.data_directory.test}/solr_home/collection1/lib" />
+    <copy todir="${aspace.data_directory.test}/solr_home/collection1/lib">
+      <fileset dir="../solr/lib" />
+    </copy>
+    <property name="spec" value=""/>
+    <condition property="spec-arg" value="${spec}" else="">
+      <isset property="spec"/>
+    </condition>
+    <condition property="example-arg" value="-e &quot;${example}&quot;" else="">
+      <isset property="example"/>
+    </condition>
+    <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true" failonerror="true" dir="../public">
+      <jvmarg line="${default_java_options} ${env.JAVA_OPTS}"/>
+      <env key="COVERAGE_REPORTS" value="${COVERAGE_REPORTS}" />
+      <env key="GEM_HOME" value="${gem_home}" />
+      <env key="GEM_PATH" value="" />
+      <env key="BUNDLE_PATH" value="${gem_home}" />
+      <env key="APPCONFIG_DATA_DIRECTORY" value="${aspace.data_directory.test}" />
+      <env key="APPCONFIG_DB_URL" value="${env.ASPACE_TEST_DB_URL}" />
+      <env key="APPCONFIG_SOLR_URL" value="${env.ASPACE_TEST_SOLR_URL}" />
+      <arg line="../build/${jruby_build_bin_path}/rspec -b --format d --tag db:accessibility --order rand:1 ${example-arg} spec/${spec-arg}" />
     </java>
   </target>
 

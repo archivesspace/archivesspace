@@ -199,3 +199,19 @@ describe 'Accessibility' do
     # end
   end
 end
+
+describe "Accessibility 2.0", js: true do
+
+  it "marks visual lists as such", :db => 'accessibility' do
+    visit "/repositories/5/resources/22"
+    while !finished_all_ajax_requests?
+      sleep 0.5
+    end
+    within "div#tree-container" do
+      expect(page).to have_xpath("table[@role='list']")
+      expect(page).to have_xpath("//tr[@id='resource_22'][@role='listitem']")
+      first(".expandme-icon").click
+      expect(page).to have_xpath("//tr[@id='archival_object_1856'][@role='listitem']")
+    end
+  end
+end
