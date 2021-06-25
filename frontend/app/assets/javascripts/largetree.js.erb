@@ -448,8 +448,9 @@
             return;
         }
 
-        button.find('.expandme-icon').addClass('expanded');
         $(button).data('expanded', true);
+        button.attr('aria-expanded', 'true');
+        button.find('.expandme-icon').addClass('expanded');
 
         if (!row.data('uri')) {
             debugger;
@@ -478,6 +479,7 @@
         var button = row.find('.expandme');
 
         $(button).data('expanded', false);
+        button.attr('aria-expanded', 'false');
         button.find('.expandme-icon').removeClass('expanded');
 
         /* Removing elements might have scrolled something else into view */
@@ -735,13 +737,14 @@
                 row.data('level', level);
                 row.data('child_count', node.child_count);
 
+                var button = row.find('.expandme');
                 var title = row.find('.title');
                 var strippedTitle = $("<div>").html(node.title).text();
                 title.append($('<a class="record-title" />').prop('href', TreeIds.link_url(node.uri)).text(node.title));
+                button.append($('<span class="sr-only" />').text(strippedTitle));
                 title.attr('title', strippedTitle);
 
                 var ex = row.find('.expandme');
-                ex.attr('aria-label', 'expand element');
                 if (node.child_count === 0) {
                     ex.css('visibility', 'hidden');
                     ex.attr('aria-hidden', 'true');
