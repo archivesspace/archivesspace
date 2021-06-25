@@ -7,7 +7,7 @@ require 'rspec/retry'
 require 'test_utils'
 require 'config/config-distribution'
 require 'securerandom'
-require 'axe/rspec'
+require 'axe-rspec'
 require 'nokogiri'
 
 require_relative '../../indexer/app/lib/realtime_indexer'
