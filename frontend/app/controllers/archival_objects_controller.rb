@@ -1,6 +1,6 @@
 class ArchivalObjectsController < ApplicationController
 
-  set_access_control  "view_repository" => [:index, :show],
+  set_access_control  "view_repository" => [:index, :show, :models_in_graph],
                       "update_resource_record" => [:new, :edit, :create, :update, :transfer, :rde, :add_children, :publish, :unpublish, :accept_children, :validate_rows],
                       "suppress_archival_record" => [:suppress, :unsuppress],
                       "delete_archival_record" => [:delete],
@@ -322,4 +322,13 @@ class ArchivalObjectsController < ApplicationController
     redirect_to(:controller => :resources, :action => :show, :id => JSONModel(:resource).id_for(archival_object['resource']['ref']), :anchor => "tree::archival_object_#{params[:id]}")
   end
 
+
+  def models_in_graph
+    list_uri = JSONModel(:archival_object).uri_for(params[:id]) + "/models_in_graph"
+    list = JSONModel::HTTP.get_json(list_uri)
+
+    render :json => list.filter{ |type| type != "lang_material" }.map {|type|
+      [type, I18n.t("#{type == 'archival_object' ? 'resource_component' : type}._singular")]
+    }
+  end
 end

@@ -105,8 +105,9 @@ var init = function() {
             var resourceUri = $(this).val();
             if (resourceUri.length) {
                 var id = /\d+$/.exec(resourceUri)[0]
-                $.ajax({
-                    url: AS.app_prefix("/resources/" + id + "/models_in_graph"),
+                var archivalLevel = recordUri.includes("resource") ? "resources" : "archival_objects"
+	        $.ajax({
+                    url: AS.app_prefix("/" + archivalLevel + "/" + id + "/models_in_graph"),
                     success: function(typeList) {
                         var oldVal = $selectRecordType.val();
                         $selectRecordType.empty();
