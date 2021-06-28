@@ -327,7 +327,7 @@ class ArchivalObjectsController < ApplicationController
     list_uri = JSONModel(:archival_object).uri_for(params[:id]) + "/models_in_graph"
     list = JSONModel::HTTP.get_json(list_uri)
 
-    render :json => list.filter{ |type| type != "lang_material" }.map {|type|
+    render :json => list.select { |type| type != "lang_material" }.map {|type|
       [type, I18n.t("#{type == 'archival_object' ? 'resource_component' : type}._singular")]
     }
   end

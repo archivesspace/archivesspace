@@ -102,9 +102,9 @@ var init = function() {
         $("#job_ref_").attr("name", "job[base_record_uri]");
 
         $("#job_ref_").change(function() {
-            var resourceUri = $(this).val();
-            if (resourceUri.length) {
-                var id = /\d+$/.exec(resourceUri)[0]
+            var recordUri = $(this).val();
+            if (recordUri.length) {
+                var id = /\d+$/.exec(recordUri)[0]
                 var archivalLevel = recordUri.includes("resource") ? "resources" : "archival_objects"
 	        $.ajax({
                     url: AS.app_prefix("/" + archivalLevel + "/" + id + "/models_in_graph"),
