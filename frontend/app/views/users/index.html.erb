@@ -5,11 +5,6 @@
    <div class="col-md-9">
      <div class="record-toolbar">
        <div class="btn-group pull-right">
-         <% if params[:show_inactive] %>
-           <%= link_to I18n.t('user._frontend.action.show_active'), {  :controller => :users }, :class => "btn btn-sm btn-default"   %>
-         <% else %>
-           <%= link_to I18n.t('user._frontend.action.show_inactive'), {  :controller => :users, :show_inactive => true }, :class => "btn btn-sm btn-default"   %>
-         <% end %>
          <%= link_to I18n.t("user._frontend.action.create"), {:controller => :users, :action => :new}, :class => "btn btn-sm btn-default" %>
        </div>
        <br style="clear:both" /> <!-- So dirty! -->
@@ -51,18 +46,16 @@
          </thead>
          <tbody>
            <% @search_data['results'].each do |user| %>
-             <% if params['show_inactive'] %>
-              <% next if user.is_active_user %>
+             <% if user.is_active_user %>
+               <% active = I18n.t("user.active") %>
+               <% display_class = '' %>
              <% else %>
-              <% next unless user.is_active_user %>
+               <% active = I18n.t("user.inactive") %>
+               <% display_class = 'inactive' %>
              <% end %>
-             <tr>
+             <tr class='<%= display_class %>'>
                <td>
-                 <% if user.is_active_user %>
-                   <%= I18n.t("user.active") %>
-                 <% else %>
-                   <%= I18n.t("user.inactive") %>
-                 <% end %>
+                 <%= active %>
                </td>
                <td><%= user.username %></td>
                <td><%= user.name %></td>
