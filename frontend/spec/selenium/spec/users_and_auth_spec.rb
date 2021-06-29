@@ -6,6 +6,9 @@ require 'ostruct'
 describe 'Users and authentication' do
   before(:all) do
     @user = build(:user)
+    @inactive_user = create_user({}, false)
+    @active_user = create_user({})
+
     @driver = Driver.get
   end
 
@@ -20,6 +23,13 @@ describe 'Users and authentication' do
 
     expect(@driver.find_element(css: 'p.alert-danger').text).to eq('Login attempt failed')
 
+  end
+
+  it 'fails login when user is inactive' do
+    @driver.login(@inactive_user,
+                  expect_fail = true)
+
+    expect(@driver.find_element(css: 'p.alert-danger').text).to eq('Login attempt failed')
   end
 
   it 'can register a new user' do
@@ -64,5 +74,18 @@ describe 'Users and authentication' do
     @driver.find_element_with_text('//div[contains(@class, "alert-danger")]', /Failed to switch/)
 
     @driver.logout
+  end
+
+  it 'can activate and deactive users' do
+    @driver.login($admin)
+
+    @driver.navigate.to("#{$frontend}/users")
+    @driver.find_element_with_text('//a', /Activate/).click
+
+    expect(@driver.find_element(css: 'div.alert-success').text).to eq('User activated')
+
+    @driver.find_element_with_text('//a', /Deactivate/).click
+
+    expect(@driver.find_element(css: 'div.alert-success').text).to eq('User deactivated')
   end
 end

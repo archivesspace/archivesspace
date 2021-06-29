@@ -19,7 +19,9 @@ class UsersController < ApplicationController
   end
 
   def manage_access
-    redirect_to(:controller => :users, :action => :index)
+    @search_data = JSONModel(:user).all(:page => selected_page)
+    @manage_access = true
+    render :action => "index"
   end
 
   def current_record

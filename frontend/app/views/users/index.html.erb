@@ -67,7 +67,9 @@
                 <div class="btn-group" style="float: right">
                    <% disabled = (user.is_admin || user.is_system_user) ? " disabled" : "" %> 
 
-                   <%= link_to I18n.t("actions.edit_groups"), {:controller => :users, :action => :edit_groups, :id => user.id}, :class => "btn btn-xs btn-default".concat(disabled) %>
+                   <% if @manage_access %>
+                     <%= link_to I18n.t("actions.edit_groups"), {:controller => :users, :action => :edit_groups, :id => user.id}, :class => "btn btn-xs btn-default".concat(disabled) %>
+                   <% end %>
 
                    <%= link_to I18n.t("actions.edit"), {:controller => :users, :action => :edit, :id => user.id}, :class => "btn btn-xs btn-primary" %>
 

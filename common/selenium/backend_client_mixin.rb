@@ -71,13 +71,13 @@ module BackendClientMethods
   end
 
 
-  def create_user(roles = {})
+  def create_user(roles = {}, active = true)
     user = "test user_#{SecureRandom.hex}"
     pass = "pass_#{SecureRandom.hex}"
 
     req = Net::HTTP::Post.new("/users?password=#{pass}")
     req['Content-Type'] = 'text/json'
-    req.body = "{\"username\": \"#{user}\", \"name\": \"#{user}\"}"
+    req.body = "{\"username\": \"#{user}\", \"name\": \"#{user}\", \"is_active_user\": #{active}}"
 
     admin_backend_request(req)
 
