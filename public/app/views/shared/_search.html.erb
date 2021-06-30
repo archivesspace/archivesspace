@@ -23,7 +23,7 @@
     </div>
     <% if i == 0 %>
       <div class="col-sm-3 form-group form-inline norepeat">
-        <%= label_tag(:limit, t('search-limit'),:class => 'sr-only') %>
+        <%= label_tag(:limit, t('search-limit-label'),:class => 'sr-only') %>
         <%= select_tag(:limit, options_for_select(limit_options, @search[:limit]), :class=> 'form-control fill-column') %>
       </div>
     <% end %>

@@ -81,6 +81,7 @@ en:
   search-button:
     label: Search
   search-limit: "Limit to %{limit}"
+  search-limit-label: Limit search to...
   search-limiting: "limited to %{limit}"
   search-limits:
     all: all record types
