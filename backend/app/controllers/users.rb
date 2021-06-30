@@ -188,7 +188,7 @@ class ArchivesSpaceService < Sinatra::Base
     #ANW-97: check if user is inactive before attempting to authenticate
     user = User.first(:username => username)
 
-    if user.values[:is_active_user] == 1
+    if user && user.values[:is_active_user] == 1
       user = AuthenticationManager.authenticate(username, params[:password]) 
     else
       user = false
