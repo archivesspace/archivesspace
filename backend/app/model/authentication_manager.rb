@@ -27,7 +27,11 @@ class AuthenticationManager
 
 
         #ANW-97: check if user is inactive
-        next unless user.is_active_user == 1
+        unless user.is_active_user == 1
+          next
+        else
+          STDERR.puts "NEXTED!"
+        end
 
         jsonmodel_user = source.authenticate(username, password)
 
