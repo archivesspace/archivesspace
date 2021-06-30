@@ -84,7 +84,7 @@ describe "EAD3 export mappings" do
                       :publish => true,
                       :metadata_rights_declarations => [
                         build(:json_metadata_rights_declaration),
-                        { "descriptive_note" => "nothing here but a descriptive note"}
+                        build(:json_metadata_rights_declaration, :file_uri => nil)
                       ])
 
     @resource = JSONModel(:resource).find(resource.id, 'resolve[]' => 'top_container')
@@ -1561,24 +1561,24 @@ describe "EAD3 export mappings" do
   describe "Metadata Rights Declaration mappings " do
     it "maps complete subrecords to ead/control/rightsdeclaration" do
       subrecord = @resource.metadata_rights_declarations[0]
-      rights_statement_translation = I18n.t("enumerations.metadata_rights_statement.#{subrecord['rights_statement']}")
+      license_translation = I18n.t("enumerations.metadata_license.#{subrecord['license']}")
       desc_note = subrecord['descriptive_note']
-      citation = subrecord["citation"]
-      expect(@doc).to have_tag("control/rightsdeclaration/descriptivenote/p[1]" => rights_statement_translation)
-      expect(@doc).to have_tag("control/rightsdeclaration/descriptivenote/p[2]" => desc_note)
-      expect(@doc).to have_tag("control/rightsdeclaration/citation" => citation)
-      expect(@doc).to have_tag("control/rightsdeclaration/abbr" => subrecord["rights_statement"])
-      expect(@doc).to have_tag("control/rightsdeclaration/descriptivenote/p[3]/ref",
-                               _text: subrecord['file_uri'],
+      expect(@doc).to have_tag("control/rightsdeclaration/descriptivenote/p[1]" => desc_note)
+      expect(@doc).to have_tag("control/rightsdeclaration/citation",
+                               _text: license_translation,
                                href: subrecord['file_uri'],
                                arcrole: subrecord['xlink_arcrole_attribute'],
                                linkrole: subrecord['xlink_role_attribute'])
+      expect(@doc).to have_tag("control/rightsdeclaration/abbr" => subrecord["license"])
     end
 
-    # note: publicationstmt is not repeatable
-    it "maps sparse subrecords to ead/control/filedesc/publicationstmt" do
+    it "maps subrecords with no file_uri to ead/control/filedesc/publicationstmt" do
       subrecord = @resource.metadata_rights_declarations[1]
       expect(@doc).to have_tag("control/filedesc/publicationstmt/p[2]", subrecord["descriptive_note"])
+    end
+
+    it "puts <rightsdeclaration> after <conventiondeclaration>" do
+      expect(@doc).to have_tag "xmlns:conventiondeclaration/following-sibling::xmlns:rightsdeclaration"
     end
   end
 end

@@ -2297,14 +2297,13 @@ en:
     date_of_contact_tooltip: |
         <p>Used to record the specific date or timeframe of an interaction</p>
 
-  metadata_rights_declaration:
+  metadata_rights_declaration: &metadata_rights_declaration_attributes
     _plural: Metadata Rights Declarations
     _singular: Metadata Rights Declaration
     _frontend:
       action:
         add: Add Metadata Rights Declaration
-    rights_statement: Rights Statement
-    citation: Citation
+    license: License
     descriptive_note: Descriptive Note
     file_uri: File URI
     xlink_title_attribute: Xlink Title Attribute
@@ -2313,3 +2312,15 @@ en:
     file_version_xlink_actuate_attribute: Xlink Actuate Attribute
     file_version_xlink_show_attribute: Xlink Show Attribute
     last_verified_date: Last Verified Date
+
+  metadata_rights_declarations:
+    <<: *metadata_rights_declaration_attributes
+
+  metadata_rights_declaration_required:
+    <<: *metadata_rights_declaration_attributes
+
+  metadata_rights_declaration_merge_target:
+    <<: *metadata_rights_declaration_attributes
+
+  metadata_rights_declaration_merge_victim:
+    <<: *metadata_rights_declaration_attributes

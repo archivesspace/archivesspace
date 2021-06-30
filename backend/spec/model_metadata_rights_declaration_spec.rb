@@ -12,7 +12,7 @@ describe 'Metadata Rights Declaration' do
                          :metadata_rights_declarations => [build(:json_metadata_rights_declaration)])
       klass = Kernel.const_get(record_type.camelize)
       record_out = klass.sequel_to_jsonmodel([klass[record_in.id]]).first
-      expect(record_out.metadata_rights_declarations[0]["rights_statement"]).to eq "public_domain"
+      expect(record_out.metadata_rights_declarations[0]["license"]).to eq "public_domain"
       expect(record_out.metadata_rights_declarations[0]["file_version_xlink_show_attribute"]).to eq "other"
     end
   end

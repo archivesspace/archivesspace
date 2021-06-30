@@ -3,7 +3,7 @@ require_relative 'utils'
 
 Sequel.migration do
   up do
-    create_editable_enum('metadata_rights_statement', %w(public_domain non_commercial non_commercial_no_derivatives no_derivatives share_a_like non_commercial_share_a_like specific_terms copyright))
+    create_editable_enum('metadata_license', %w(public_domain non_commercial non_commercial_no_derivatives no_derivatives share_a_like non_commercial_share_a_like))
     create_table(:metadata_rights_declaration) do
       primary_key :id
 
@@ -16,8 +16,7 @@ Sequel.migration do
       Integer :agent_software_id, :null => true
       Integer :subject_id, :null => true
 
-
-      Integer :rights_statement_id, :null => true
+      Integer :license_id, :null => true
       Integer :file_version_xlink_actuate_attribute_id, :null => true
       Integer :file_version_xlink_show_attribute_id, :null => true
 
