@@ -8,7 +8,7 @@ class User < Sequel::Model(:user)
 
   @@unlisted_user_ids = nil
 
-  
+
   def self.create_from_json(json, opts = {})
     if !opts[:is_hidden_user]
       agent = JSONModel(:agent_person).from_hash(
