@@ -7,7 +7,6 @@ describe 'Users and authentication' do
   before(:all) do
     @user = build(:user)
     @inactive_user = create_user({}, false)
-    @active_user = create_user({})
 
     @driver = Driver.get
   end
@@ -22,7 +21,6 @@ describe 'Users and authentication' do
                   expect_fail = true)
 
     expect(@driver.find_element(css: 'p.alert-danger').text).to eq('Login attempt failed')
-
   end
 
   it 'fails login when user is inactive' do
@@ -76,15 +74,16 @@ describe 'Users and authentication' do
     @driver.logout
   end
 
-  it 'can activate and deactive users' do
+  it 'can activate users' do
     @driver.login($admin)
 
     @driver.navigate.to("#{$frontend}/users")
-    @driver.find_element_with_text('//a', /Activate/).click
+
+    @driver.find_element(:id, "activate_#{@inactive_user.username}").click
 
     expect(@driver.find_element(css: 'div.alert-success').text).to eq('User activated')
 
-    @driver.find_element_with_text('//a', /Deactivate/).click
+    @driver.find_element(:id, "deactivate_#{@inactive_user.username}").click
 
     expect(@driver.find_element(css: 'div.alert-success').text).to eq('User deactivated')
   end

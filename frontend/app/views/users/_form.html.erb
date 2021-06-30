@@ -23,6 +23,8 @@
 
    <% if user_can?('manage_users') %>
      <%= form.label_and_boolean "is_active_user" %>
+   <% else %>
+     <%= form.hidden_input "is_active_user", 1 %>
    <% end %>
 
 </fieldset>

@@ -72,7 +72,7 @@ module BackendClientMethods
 
 
   def create_user(roles = {}, active = true)
-    user = "test user_#{SecureRandom.hex}"
+    user = "test_user_#{SecureRandom.hex}"
     pass = "pass_#{SecureRandom.hex}"
 
     req = Net::HTTP::Post.new("/users?password=#{pass}")
