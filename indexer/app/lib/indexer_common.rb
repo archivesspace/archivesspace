@@ -418,11 +418,11 @@ class IndexerCommon
         doc['access_restrictions'] = record['record']['access_restrictions']
         doc['use_restrictions'] = record['record']['use_restrictions']
         doc['related_resource_uris'] = record['record']['related_resources'].
-                                          collect{|resource| resource["ref"]}.
+                                          collect { |resource| resource["ref"] }.
                                           compact.uniq
 
         doc['related_accession_uris'] = record['record']['related_accessions'].
-                                           collect{|accession| accession["ref"]}.
+                                           collect { |accession| accession["ref"] }.
                                            compact.uniq
 
         doc['slug'] = record['record']['slug']

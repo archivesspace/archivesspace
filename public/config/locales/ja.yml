@@ -282,6 +282,8 @@ ja:
       related_accessions:
         accessions: 関連する未加工材料
         deaccessions: Deaccessionedマテリアル
+        forms_part_of: 部品の関係
+        sibling_of: 兄弟関係
   archival_object:
     _singular: アーカイブ記録
     _plural: アーカイブの記録
@@ -591,4 +593,3 @@ ja:
     note_mandate: 委任
     note_structure_or_genealogy: 構造または系図
     note_text: 注意
-
