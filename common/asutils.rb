@@ -110,7 +110,9 @@ module ASUtils
     # we use that. Otherwise, find the 'plugins' dir in the
     # aspace base.
     if AppConfig.changed?(:plugins_directory)
-      AppConfig[:plugins_directory]
+      # Yields something relative to our base directory if a relative path is used.
+      # Absolute paths will pass through unchanged.
+      File.absolute_path(AppConfig[:plugins_directory], self.find_base_directory)
     else
       File.join( *[ self.find_base_directory, 'plugins'])
     end
