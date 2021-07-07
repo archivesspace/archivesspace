@@ -112,7 +112,7 @@ def setup_test_data
     related_accessions: [{'ref' => pa.uri}])
 
 
-  classification = create(:classification, :title => "Classification")
+  classification = create(:classification, :title => "My Special Classification")
   create(:digital_object, title: "Digital Object With Classification",
                           classifications: [{'ref' => classification.uri}])
 
