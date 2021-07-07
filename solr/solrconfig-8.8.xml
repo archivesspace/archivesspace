@@ -12,7 +12,7 @@
        that you fully re-index after changing this setting as it can
        affect both how text is indexed and queried.
   -->
-  <luceneMatchVersion>4.10.4</luceneMatchVersion>
+  <luceneMatchVersion>8.8.2</luceneMatchVersion>
 
   
   <!-- Data Directory
