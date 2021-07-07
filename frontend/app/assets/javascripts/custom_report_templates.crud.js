@@ -7,8 +7,6 @@ $(function() {
       $('.record_type').hide();
       $('.record_type.' + selected_record_type).show();
 
-      console.log('Info: ' + $('li.sidebar-entry-basic_information_fields a').length)
-
       $('li.sidebar-entry-basic_information_fields a')[0].href=('#'
       	+ selected_record_type + '_basic_information_fields')
       $('li.sidebar-entry-linked_records a')[0].href=('#'

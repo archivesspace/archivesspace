@@ -20,7 +20,8 @@ end
 AppConfig[:frontend_cookie_secret] = "shhhhh"
 
 backend_port = TestUtils.free_port_from(3636)
-AppConfig[:backend_url] = "http://localhost:#{backend_port}"
+backend = ENV['ASPACE_TEST_BACKEND_URL'] || "http://localhost:#{$backend_port}"
+AppConfig[:backend_url] = backend
 
 RSpec.configure do |config|
   # rspec-expectations config goes here. You can use an alternate
@@ -57,11 +58,16 @@ RSpec.configure do |config|
 
   config.before(:suite) do
     $server_pids = []
-    $server_pids << TestUtils.start_backend(backend_port,
-                                            session_expire_after_seconds: 6000000000,
-                                            realtime_index_backlog_ms: 600000,
-                                            db_url: AppConfig[:db_url]
-                                           )
+    if ENV['ASPACE_TEST_BACKEND_URL']
+      puts "Running tests against ${AppConfig[:backend_url]}"
+    else
+      puts "Starting backend ${AppConfig[:backend_url]}"
+      $server_pids << TestUtils.start_backend(backend_port,
+                                              session_expire_after_seconds: 6000000000,
+                                              realtime_index_backlog_ms: 600000,
+                                              db_url: AppConfig[:db_url]
+                                             )
+    end
   end
 
   config.after(:suite) do
