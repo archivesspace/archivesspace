@@ -1220,9 +1220,9 @@ en:
         add: Add Subject
 
   user:
-    is_active_user: Active?
-    active: Active
-    inactive: Inactive
+    is_active_user: Active
+    active: "true"
+    inactive: "false"
     _frontend:
       messages:
         access_denied: Access denied. Login as the admin user to perform this action.

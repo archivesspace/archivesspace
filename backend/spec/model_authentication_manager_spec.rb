@@ -13,7 +13,7 @@ class MockAuthenticationSource
     user = @opts[:users][username]
 
     if (user && user[:password] == pass)
-      JSONModel(:user).from_hash(:username => username, :name => "Mark", :is_active_user => 1)
+      JSONModel(:user).from_hash(:username => username, :name => "Mark")
     end
   end
 
@@ -26,7 +26,6 @@ class MockAuthenticationSource
   def name
     "MockAuthenticationSource"
   end
-
 end
 
 
@@ -36,7 +35,7 @@ describe 'Authentication manager' do
     {
       :model => 'MockAuthenticationSource',
       :users => {
-        'hello' => {:password => 'world', :is_active_user => 1}
+        'hello' => {:password => 'world'}
       }
     }
   end
