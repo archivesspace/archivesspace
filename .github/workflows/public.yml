@@ -30,17 +30,6 @@ jobs:
           - 3306/tcp
         options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
 
-      db-accessibility:
-        image: mysql:8
-        env:
-          MYSQL_ROOT_PASSWORD: root
-          MYSQL_DATABASE: accessibility
-          MYSQL_USER: as
-          MYSQL_PASSWORD: as123
-        ports:
-          - 3306/tcp
-        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
-
     steps:
     - uses: actions/checkout@v2
     - uses: actions/setup-java@v1
@@ -50,10 +39,8 @@ jobs:
     - name: Allow ArchivesSpace functions for app db user
       env:
         DB_PORT: ${{ job.services.db.ports[3306] }}
-        DB_ACCESSIBILITY_PORT: ${{ job.services.db-accessibility.ports[3306] }}
       run: |
         mysql --host 127.0.0.1 --port $DB_PORT -uroot -proot -e "SET GLOBAL log_bin_trust_function_creators = 1;"
-        mysql --host 127.0.0.1 --port $DB_ACCESSIBILITY_PORT -uroot -proot accessibility < build/mysql_db_fixtures/accessibility.sql
 
     - name: Bootstrap ArchivesSpace
       run: |
@@ -64,13 +51,4 @@ jobs:
       env:
         ASPACE_TEST_DB_URL: jdbc:mysql://127.0.0.1:${{ job.services.db.ports[3306] }}/archivesspace?useUnicode=true&characterEncoding=UTF-8&user=as&password=as123&useSSL=false&allowPublicKeyRetrieval=true
       run: |
-        ./build/run setup-integration
         ./build/run public:test
-
-    - name: Run Public accessibility tests
-      env:
-        ASPACE_TEST_DB_URL: jdbc:mysql://127.0.0.1:${{ job.services.db-accessibility.ports[3306] }}/accessibility?useUnicode=true&characterEncoding=UTF-8&user=as&password=as123&useSSL=false&allowPublicKeyRetrieval=true
-      run: |
-        ./build/run db:migrate:test
-        ./build/run solr:reset:test
-        ./build/run public:test -Dtag=accessibility
