@@ -191,6 +191,7 @@ describe "Accessibility 2.0", js: true do
 
   it "marks visual lists as such", :db => 'accessibility' do
     visit "/repositories/5/resources/22"
+    page.has_css? "div#tree-container"
     within "div#tree-container" do
       expect(page).to have_xpath("div[@role='list']")
       expect(page).to have_xpath("div[@role='list']/div[@role='listitem'][@id='resource_22']")

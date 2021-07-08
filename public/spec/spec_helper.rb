@@ -37,6 +37,7 @@ $server_pids = []
 $backend_port = TestUtils::free_port_from(3636)
 $frontend_port = TestUtils::free_port_from(4545)
 $backend = ENV['ASPACE_TEST_BACKEND_URL'] || "http://localhost:#{$backend_port}"
+$test_db_url = ENV['ASPACE_TEST_DB_URL'] || AppConfig[:db_url]
 $frontend = "http://localhost:#{$frontend_port}"
 $expire = 30000
 
@@ -48,7 +49,7 @@ $backend_start_fn = proc {
                            {
                              :session_expire_after_seconds => $expire,
                              :realtime_index_backlog_ms => 600000,
-                             :db_url => AppConfig[:db_url]
+                             :db_url => $test_db_url
                            })
 }
 

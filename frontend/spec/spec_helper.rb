@@ -20,7 +20,8 @@ end
 AppConfig[:frontend_cookie_secret] = "shhhhh"
 
 backend_port = TestUtils.free_port_from(3636)
-backend = ENV['ASPACE_TEST_BACKEND_URL'] || "http://localhost:#{$backend_port}"
+backend = ENV['ASPACE_TEST_BACKEND_URL'] || "http://localhost:#{backend_port}"
+test_db_url = ENV['ASPACE_TEST_DB_URL'] || AppConfig[:db_url]
 AppConfig[:backend_url] = backend
 
 RSpec.configure do |config|
@@ -59,13 +60,13 @@ RSpec.configure do |config|
   config.before(:suite) do
     $server_pids = []
     if ENV['ASPACE_TEST_BACKEND_URL']
-      puts "Running tests against ${AppConfig[:backend_url]}"
+      puts "Running tests against #{AppConfig[:backend_url]}"
     else
-      puts "Starting backend ${AppConfig[:backend_url]}"
+      puts "Starting backend #{AppConfig[:backend_url]}"
       $server_pids << TestUtils.start_backend(backend_port,
                                               session_expire_after_seconds: 6000000000,
                                               realtime_index_backlog_ms: 600000,
-                                              db_url: AppConfig[:db_url]
+                                              db_url: test_db_url
                                              )
     end
   end

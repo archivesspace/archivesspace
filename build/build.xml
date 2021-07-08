@@ -150,25 +150,14 @@
   </target>
 
   <target name="backend:test" depends="set-classpath, setup-integration" description="Run the unit test suite">
-    <property name="spec" value=""/>
-    <condition property="example-arg" value="-e &quot;${example}&quot;" else="">
-      <isset property="example"/>
-    </condition>
     <dirset id="plugins" dir="../plugins">
       <include name="**/backend/spec"/>
     </dirset>
     <pathconvert pathsep=" " property="plugin-spec-dirs" refid="plugins"/>
-    <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true" failonerror="true" dir="../backend">
-      <jvmarg line="${default_java_options} ${env.JAVA_OPTS}"/>
-      <env key="GEM_HOME" value="${gem_home}" />
-      <env key="GEM_PATH" value="" />
-      <env key="BUNDLE_PATH" value="${gem_home}" />
-      <env key="COVERAGE_REPORTS" value="${COVERAGE_REPORTS}" />
-      <env key="APPCONFIG_DATA_DIRECTORY" value="${aspace.data_directory.test}" />
-      <env key="APPCONFIG_DB_URL" value="${env.ASPACE_TEST_DB_URL}" />
-      <env key="APPCONFIG_SOLR_URL" value="${env.ASPACE_TEST_SOLR_URL}" />
-      <arg line="../build/${jruby_build_bin_path}/rspec -b --format d -P '*_spec.rb' --order rand:1 ${example-arg} spec/${spec} ${plugin-spec-dirs}" />
-    </java>
+    <antcall target="rspec">
+      <param name="dir" value="../backend" />
+      <param name="extra-spec-paths" value="${plugin-spec-dirs}"/>
+    </antcall>
   </target>
 
   <!-- Run the tests from a plugin directory -->
@@ -461,6 +450,41 @@
     </java>
   </target>
 
+  <!-- RSPEC -->
+  <target name="rspec" depends="set-classpath" description="Run rspec">
+    <property name="dir" value="../build/null"/><!--must be set by calling task or command -->
+    <property name="extra-spec-paths" value="" />
+    <condition property="spec-arg" value="spec/${spec}" else="spec">
+        <isset property="spec"/>
+    </condition>
+    <condition property="example-arg" value="-e &quot;${example}&quot;" else="">
+      <isset property="example"/>
+    </condition>
+    <condition property="tag-arg" value="--tag &quot;${tag}&quot;" else="">
+      <isset property="tag"/>
+    </condition>
+    <condition property="order-arg" value="--order &quot;${tag}&quot;" else="--order rand:1">
+      <isset property="order"/>
+    </condition>
+    <condition property="pattern-arg" value="-P &quot;${pattern}&quot;" else="">
+      <isset property="pattern"/>
+    </condition>
+
+
+    <echo message="Running rspec" />
+    <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true" failonerror="true" dir="${dir}">
+      <jvmarg line="${default_java_options} ${env.JAVA_OPTS}"/>
+      <env key="COVERAGE_REPORTS" value="${COVERAGE_REPORTS}" />
+      <env key="GEM_HOME" value="${gem_home}" />
+      <env key="GEM_PATH" value="" />
+      <env key="BUNDLE_PATH" value="${gem_home}" />
+      <env key="APPCONFIG_DATA_DIRECTORY" value="${aspace.data_directory.test}" />
+      <env key="APPCONFIG_DB_URL" value="${env.ASPACE_TEST_DB_URL}" />
+      <env key="APPCONFIG_SOLR_URL" value="${env.ASPACE_TEST_SOLR_URL}" />
+      <arg line="../build/${jruby_build_bin_path}/rspec -b --format d ${pattern-arg} ${tag-arg} ${order-arg} ${example-arg} ${spec-arg} ${extra-spec-paths}" />
+    </java>
+  </target>
+
   <!-- COMMON -->
   <target name="common:test" depends="set-classpath" description="Run the unit test suite for common">
     <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true" failonerror="true" dir="../common">
@@ -597,6 +621,10 @@
     <condition property="example-arg" value="-e &quot;${example}&quot;" else="">
       <isset property="example"/>
     </condition>
+        <antcall target="rspec">
+      <param name="dir" value="../backend" />
+      <param name="extra-spec-paths" value="${plugin-spec-dirs}"/>
+    </antcall>
     <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true" failonerror="true" dir="../indexer">
       <jvmarg line="${default_java_options} ${env.JAVA_OPTS}"/>
       <env key="GEM_HOME" value="${gem_home}" />
@@ -688,46 +716,25 @@
   </target>
 
   <target name="frontend:selenium" depends="set-classpath, frontend:clean, setup-integration" description="Run the Selenium tests">
-    <property name="spec" value=""/>
-    <condition property="example-arg" value="-e &quot;${example}&quot;" else="">
-      <isset property="example"/>
-    </condition>
     <dirset id="plugins" dir="../plugins">
       <include name="**/selenium"/>
     </dirset>
     <pathconvert pathsep=" " property="plugin-selenium-dirs" refid="plugins"/>
-    <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true" failonerror="true" dir="../frontend/spec/selenium">
-      <jvmarg line="${default_java_options} ${env.JAVA_OPTS}"/>
-      <env key="GEM_HOME" value="${gem_home}" />
-      <env key="GEM_PATH" value="" />
-      <env key="BUNDLE_PATH" value="${gem_home}" />
-      <env key="COVERAGE_REPORTS" value="${COVERAGE_REPORTS}" />
-      <env key="APPCONFIG_DATA_DIRECTORY" value="${aspace.data_directory.test}" />
-      <env key="APPCONFIG_DB_URL" value="${env.ASPACE_TEST_DB_URL}" />
-      <env key="APPCONFIG_SOLR_URL" value="${env.ASPACE_TEST_SOLR_URL}" />
-      <arg line="../../../build/${jruby_build_bin_path}/rspec -b -f d -P '*_spec.rb' --order default ${example-arg} spec/${spec} ${plugin-selenium-dirs}" />
-    </java>
+    <antcall target="rspec">
+      <param name="dir" value="../frontend" />
+      <param name="spec" value="selenium/spec" />
+      <param name="order" value="default" />
+      <param name="extra-spec-paths" value="${plugin-selenium-dirs}"/>
+    </antcall>
   </target>
 
   <target name="frontend:test" depends="set-classpath, frontend:clean, setup-integration" description="Run the non-Selenium unit test suite">
-    <property name="spec" value=""/>
-    <condition property="spec-arg" value="${spec}" else="">
-      <isset property="spec"/>
-    </condition>
-    <condition property="example-arg" value="-e &quot;${example}&quot;" else="">
-      <isset property="example"/>
-    </condition>
-    <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true" failonerror="true" dir="../frontend">
-      <jvmarg line="${default_java_options} ${env.JAVA_OPTS}"/>
-      <env key="COVERAGE_REPORTS" value="${COVERAGE_REPORTS}" />
-      <env key="GEM_HOME" value="${gem_home}" />
-      <env key="GEM_PATH" value="" />
-      <env key="BUNDLE_PATH" value="${gem_home}" />
-      <env key="APPCONFIG_DATA_DIRECTORY" value="${aspace.data_directory.test}" />
-      <env key="APPCONFIG_DB_URL" value="${env.ASPACE_TEST_DB_URL}" />
-      <env key="APPCONFIG_SOLR_URL" value="${env.ASPACE_TEST_SOLR_URL}" />
-      <arg line="../build/${jruby_build_bin_path}/rspec -b --format d -P '*/*_spec.rb' --order rand:1 ${example-arg} spec/${spec-arg}" />
-    </java>
+    <property name="tag" value="~db"/>
+    <antcall target="rspec">
+      <param name="dir" value="../frontend" />
+      <param name="pattern" value="spec/*/*_spec.rb" />
+      <param name="tag" value="${tag}" />
+    </antcall>
   </target>
 
   <target name="frontend:test:plugin" depends="set-classpath, setup-integration" description="Run the unit test suite">
@@ -820,27 +827,12 @@
     </java>
   </target>
 
-  <target name="public:test" depends="set-classpath, public:copy-shared-resources" description="Run the unit test suite">
-    <property name="spec" value=""/>
+  <target name="public:test" depends="set-classpath, setup-integration, public:copy-shared-resources" description="Run the unit test suite">
     <property name="tag" value="~db"/>
-
-    <condition property="spec-arg" value="${spec}" else="">
-      <isset property="spec"/>
-    </condition>
-    <condition property="example-arg" value="-e &quot;${example}&quot;" else="">
-      <isset property="example"/>
-    </condition>
-    <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true" failonerror="true" dir="../public">
-      <jvmarg line="${default_java_options} ${env.JAVA_OPTS}"/>
-      <env key="COVERAGE_REPORTS" value="${COVERAGE_REPORTS}" />
-      <env key="GEM_HOME" value="${gem_home}" />
-      <env key="GEM_PATH" value="" />
-      <env key="BUNDLE_PATH" value="${gem_home}" />
-      <env key="APPCONFIG_DATA_DIRECTORY" value="${aspace.data_directory.test}" />
-      <env key="APPCONFIG_DB_URL" value="${env.ASPACE_TEST_DB_URL}" />
-      <env key="APPCONFIG_SOLR_URL" value="${env.ASPACE_TEST_SOLR_URL}" />
-      <arg line="../build/${jruby_build_bin_path}/rspec -b --format d --tag ${tag} --order rand:1 ${example-arg} spec/${spec-arg}" />
-    </java>
+    <antcall target="rspec">
+      <param name="dir" value="../public" />
+      <param name="tag" value="${tag}" />
+    </antcall>
   </target>
 
   <target name="public:war" depends="set-classpath, public:clean, public:copy-shared-resources" description="Deploy the public application as a .war file">
@@ -876,6 +868,10 @@
   <!-- Prepares all tests to be run -->
   <target name="setup-integration" depends="db:nuke:test, db:migrate:test, solr:reset:test" description="Prepare to run integration tests">
     <!-- TODO: when embedded solr is removed these actions can be deleted, see also: backend:devserver -->
+    <antcall target="solr:setup:test" />
+  </target>
+
+  <target name="solr:setup:test" description="Make solr directories and copy in config">
     <delete dir="${aspace.data_directory.test}/solr_home" />
     <delete dir="${aspace.data_directory.test}/solr_index" />
     <mkdir dir="${aspace.data_directory.test}/solr_home/collection1/conf" />
