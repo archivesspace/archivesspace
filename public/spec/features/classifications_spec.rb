@@ -13,7 +13,6 @@ describe 'Classifications', js: true do
   it 'displays show page' do
     visit('/')
     click_link 'Record Groups'
-    click_link 'Classification'
-    expect(page).to have_content('My Special Classification')
+    click_link 'My Special Classification'
   end
 end
