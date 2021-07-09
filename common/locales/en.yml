@@ -2035,6 +2035,10 @@ en:
     _singular: Resource
     _plural: Resources
 
+  resource_and_archival_object:
+    _singular: Resource and/or Archival Object
+    _plural: Resources and/or Archival Objects
+
   related_accession:
     _singular: Related Accession
     _plural: Related Accessions

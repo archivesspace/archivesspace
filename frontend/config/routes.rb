@@ -63,6 +63,7 @@ ArchivesSpace::Application.routes.draw do
     match 'archival_objects/:id/accept_children' => 'archival_objects#accept_children', :via => [:post]
     match 'archival_objects/:id/suppress' => 'archival_objects#suppress', :via => [:post]
     match 'archival_objects/:id/unsuppress' => 'archival_objects#unsuppress', :via => [:post]
+    match 'archival_objects/:id/models_in_graph' => 'archival_objects#models_in_graph', :via => [:get]
 
     match 'digital_objects/defaults' => 'digital_objects#defaults', :via => [:get]
     match 'digital_objects/defaults' => 'digital_objects#update_defaults', :via => [:post]

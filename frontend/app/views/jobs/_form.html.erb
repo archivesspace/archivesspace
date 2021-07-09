@@ -10,7 +10,7 @@
 
   <%= form.hidden_input :base_record_uri, :class => 'translation-placeholder' %>
 
-  <%= render_aspace_partial :partial => "resources/linker", :locals => { :form => form, :field_label => 'Base Resource Record' }%>
+  <%= render_aspace_partial :partial => "resources/linker", :locals => { :form => form, :record_types => "resource_and_archival_object" }%>
 
   <%= form.label_and_select "record_type", [] %>
   <%= form.label_and_select "property", [] %>
