@@ -594,20 +594,20 @@ module JSONModel::Validations
 
 
   if JSONModel(:resource)
-    JSONModel(:resource).add_validation("check_resource_otherlevel", :warning) do |hash|
+    JSONModel(:resource).add_validation("check_resource_otherlevel") do |hash|
       check_otherlevel(hash)
     end
   end
 
 
   def self.check_otherlevel(hash)
-    warnings = []
+    errors = []
 
     if hash["level"] == "otherlevel"
-      warnings << ["other_level", "is required"] if hash["other_level"].nil?
+      errors << ["other_level", "missing required property"] if hash["other_level"].nil?
     end
 
-    warnings
+    errors
   end
 
   def self.check_archival_object(hash)
@@ -627,7 +627,7 @@ module JSONModel::Validations
       check_archival_object(hash)
     end
 
-    JSONModel(:archival_object).add_validation("check_archival_object_otherlevel", :warning) do |hash|
+    JSONModel(:archival_object).add_validation("check_archival_object_otherlevel") do |hash|
       check_otherlevel(hash);
     end
 
