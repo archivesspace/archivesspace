@@ -646,6 +646,7 @@ en:
       after: Add Items After
       as_child: Add Items as Children
     unexpected_failure: Oops! We're having trouble fetching this tree. Please try refreshing the page.
+    resize: Expand/Collapse Tree Area
 
   errors:
     sidebar_label: Errors and Warnings
