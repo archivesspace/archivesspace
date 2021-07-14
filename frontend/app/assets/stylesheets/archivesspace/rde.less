@@ -8,6 +8,58 @@
       border-bottom-color: darken(@navbarBackgroundHighlight, 6%);
     }
   }
+
+  // Overwrite Bootstrap for sticky table header, ANW-919
+  table {
+    border-collapse: separate;
+    border-spacing: 0;
+  }
+
+  thead tr:first-child th {
+    position: sticky;
+    top: -16px; // 0 leaves visible space above row
+    border-top-width: 0;
+    border-right-width: 1px;
+    border-bottom-width: 1px;
+    border-left-width: 0;
+    background: #FAFAFA;
+  }
+  thead tr:first-child th:last-of-type {
+    border-right-width: 0;
+  }
+
+  thead tr:nth-child(2) th {
+    position: sticky;
+    top: 15px; // height of thead tr:first-child + thead tr:first-child th top
+    border-top-width: 1px;
+    border-right-width: 1px;
+    border-bottom-width: 1px;
+    border-left-width: 0;
+  }
+  thead tr:nth-child(2) th:last-of-type {
+    border-right-width: 0;
+  }
+  thead tr:nth-child(2) th.fieldset-label.kiketable-th:not(.sticky),
+  thead tr:nth-child(2) th[data-section="empty"] {
+    background: #fafafa;
+  }
+
+  thead tr:first-child th:first-of-type,
+  thead tr:first-child th:last-of-type,
+  thead tr:nth-child(2) th[data-section="empty"] {
+    z-index: 3;
+  }
+
+  tbody tr td {
+    border-top-width: 1px;
+    border-right-width: 1px;
+    border-bottom-width: 0;
+    border-left-width: 0;
+  }
+  tbody tr td:last-of-type {
+    border-right-width: 0;
+  }
+
   .fieldset-labels {
     #gradient > .vertical(darken(@navbarBackgroundHighlight, 3%), darken(@navbarBackgroundHighlight, 6%));
 
