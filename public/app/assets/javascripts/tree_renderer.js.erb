@@ -1,20 +1,21 @@
 (function(exports) {
 
     function SimpleRenderer(should_link_to_record) {
-        this.endpointMarkerTemplate = $('<tr class="end-marker" />');
+        this.endpointMarkerTemplate = $('<div class="table-row end-marker" />');
 
         this.should_link_to_record = should_link_to_record || false;
 
-        this.rootTemplate = $('<tr> ' +
-            '  <td class="no-drag-handle"></td>' +
-            '  <td class="title"></td>' +
-            '</tr>');
+        this.rootTemplate = $('<div class="table-row"> ' +
+                              '  <div class="table-cell no-drag-handle"></div>' +
+                              '  <div class="table-cell title"></div>' +
+                              '</div>');
 
 
-        this.nodeTemplate = $('<tr> ' +
-            '  <td class="drag-handle"></td>' +
-            '  <td class="title"><span class="indentor"><button class="expandme" aria-expanded="false"><i class="expandme-icon glyphicon glyphicon-chevron-right"/></button></span> </td>' +
-            '</tr>');
+        this.nodeTemplate = $('<div class="table-row"> ' +
+                              '  <div class="table-cell drag-handle"></div>' +
+                              '  <div class="table-cell title"><span class="indentor"><button class="expandme" aria-expanded="false"><i class="expandme-icon glyphicon glyphicon-chevron-right" /></button></span> </div>' +
+                              '</div>');
+
     }
 
 

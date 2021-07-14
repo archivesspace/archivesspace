@@ -7,8 +7,8 @@ describe 'Bulk Import' do
     @repo = create(:repo, repo_code: "bulk_import_test_#{Time.now.to_i}")
     set_repo(@repo)
     @ead_id = 'VFIRST01'
-    @valid_file = File.join(Dir.pwd, '..', '..', '..', 'backend', 'spec', 'fixtures', 'bulk_import', 'bulk_import_VFIRST01_test01.csv')
-    @invalid_file = File.join(Dir.pwd, '..', '..', '..', 'backend', 'spec', 'fixtures', 'ead_with_extents.xml')
+    @valid_file = File.join(File.dirname(__FILE__), '..', '..', '..', '..', 'backend', 'spec', 'fixtures', 'bulk_import', 'bulk_import_VFIRST01_test01.csv')
+    @invalid_file = File.join(File.dirname(__FILE__), '..', '..', '..', '..', 'backend', 'spec', 'fixtures', 'ead_with_extents.xml')
     @resource = create(:resource, ead_id: @ead_id)
     @driver = Driver.get.login_to_repo($admin, @repo)
   end

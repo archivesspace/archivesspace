@@ -59,7 +59,7 @@ describe 'Digital Objects' do
     @driver.click_and_wait_until_gone(css: "form#new_digital_object button[type='submit']")
 
     # The new Digital Object shows up on the tree
-    expect(@driver.find_element(css: 'tr.root-row .title').text.strip).to match(/#{digital_object_title}/)
+    expect(@driver.find_element(css: '.table-row.root-row .title').text.strip).to match(/#{digital_object_title}/)
   end
 
   it 'can handle multiple file versions and file system and network path types' do

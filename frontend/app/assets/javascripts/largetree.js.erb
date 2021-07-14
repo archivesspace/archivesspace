@@ -353,17 +353,13 @@
 
         var next_fn = function () {
             if (!self.waypoints[waypoint_description.node]) {
-                /* An error occurred while expanding. */
-                debugger;
-                return;
+                throw "An error occurred while expanding.";
             }
 
             var waypoint = self.waypoints[waypoint_description.node][waypoint_description.offset];
 
             if (!waypoint) {
-                /* An error occurred while expanding. */
-                debugger;
-                return;
+                throw "An error occurred while expanding.";
             }
 
             self.populateWaypoint(waypoint, function () {
@@ -386,7 +382,7 @@
     };
 
     LargeTree.prototype.deleteWaypoints = function (parent) {
-        var waypoint = parent.next();
+        var waypoint = parent.next().find('.waypoint').first();
 
         if (!waypoint.hasClass('waypoint')) {
             /* Nothing left to burn */
@@ -428,7 +424,7 @@
 
     LargeTree.prototype.toggleNode = function (button, done_callback) {
         var self = this;
-        var parent = button.closest('tr');
+        var parent = button.closest('.table-row');
 
         if (button.data('expanded')) {
             self.collapseNode(parent, done_callback);
@@ -453,7 +449,7 @@
         button.find('.expandme-icon').addClass('expanded');
 
         if (!row.data('uri')) {
-            debugger;
+            throw "Can't expand node because uri is unknown";
         }
 
         self.source.fetchNode(row.data('uri'))
@@ -471,7 +467,6 @@
 
     LargeTree.prototype.collapseNode = function (row, done_callback) {
         var self = this;
-
         while (self.deleteWaypoints(row)) {
             /* Remove the elements from one or more waypoints */
         }
@@ -527,7 +522,7 @@
     };
 
     LargeTree.prototype.makeWaypoint = function (uri, offset, indentLevel) {
-        var result = $('<tr class="waypoint" />');
+        var result = $('<div class="table-row waypoint" />');
         result.addClass('indent-level-' + indentLevel);
 
         result.data('level', indentLevel);
@@ -555,7 +550,9 @@
                guess how tall to make waypoints.  See largetree.less for where we
                set this on table.td elements. */
             waypoint.css('height', (waypointSize * 2) + 'em');
-            elt.after(waypoint);
+            var group_wrapper = $('<div role="list" class="table-row-group"></div>');
+            elt.after(group_wrapper);
+            group_wrapper.wrapInner(waypoint);
         }
 
         var self = this;
@@ -566,7 +563,7 @@
         var self = this;
         self.waypoints = {};
 
-        var rootList = $('<table class="root" />');
+        var rootList = $('<div class="table root" role="list"/>');
 
         this.source.fetchRootNode().done(function (rootNode) {
             var row = self.renderer.get_root_template();
@@ -574,6 +571,7 @@
             row.data('uri', rootNode.uri);
             row.attr('id', TreeIds.uri_to_tree_id(rootNode.uri));
             row.addClass('root-row');
+            row.attr('role', 'listitem');
             row.data('level', 0);
             row.data('child_count', rootNode.child_count);
             row.data('jsonmodel_type', rootNode.jsonmodel_type);
@@ -585,7 +583,7 @@
             self.appendWaypoints(row, null, rootNode.waypoints, rootNode.waypoint_size, 1);
 
             /* Remove any existing table */
-            self.elt.find('table.root').remove();
+            self.elt.find('div.root').remove();
 
             self.elt.prepend(rootList);
             self.renderer.add_root_columns(row, rootNode);
@@ -616,7 +614,7 @@
             return;
         }
 
-        var scrollPercent = self.elt.scrollTop() / self.elt.find('table.root').height();
+        var scrollPercent = self.elt.scrollTop() / self.elt.find('div.root').height();
         var startIdx = Math.floor(scrollPercent * allWaypoints.length);
 
         var waypointToPopulate;
@@ -724,7 +722,6 @@
             endMarker.data('level', level);
             endMarker.data('child_count_at_this_level', elt.data('child_count_at_this_level'));
             endMarker.addClass('indent-level-' + level);
-
             elt.after(endMarker);
 
             var newRows = [];
@@ -736,8 +733,8 @@
                 row.addClass('largetree-node indent-level-' + level);
                 row.data('level', level);
                 row.data('child_count', node.child_count);
-
                 var button = row.find('.expandme');
+                row.attr('role', 'listitem');
                 var title = row.find('.title');
                 var strippedTitle = $("<div>").html(node.title).text();
                 title.append($('<a class="record-title" />').prop('href', TreeIds.link_url(node.uri)).text(node.title));
@@ -825,7 +822,6 @@
                           method: "GET",
                           dataType: 'json',
                           data: {
-                              /* THINKME: Should rename node to node_uri?  S */
                               node: uri,
                           }
                       })

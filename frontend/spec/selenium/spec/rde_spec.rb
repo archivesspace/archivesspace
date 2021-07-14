@@ -73,12 +73,12 @@ describe 'RDE' do
     sleep(2)
     expect do
       node = tree_node_for_title('My AO, 2013')
-      node.find_element(xpath: ".//td[contains(text(), 'Item')]")
+      node.find_element(xpath: "//div[@role='listitem']/div[contains(text(), 'Item')]")
     end.not_to raise_error
   end
 
   it 'can access the RDE form when editing an archival object' do
-    @driver.find_element(:css, 'tr.largetree-node.indent-level-1 a.record-title').click
+    @driver.find_element(:css, '.table-row.largetree-node.indent-level-1 a.record-title').click
     @driver.wait_for_ajax
 
     expect do
@@ -316,7 +316,7 @@ describe 'Digital Object RDE' do
   end
 
   it 'can access the RDE form when editing an digital object' do
-    @driver.find_element(:css, 'tr.largetree-node.indent-level-1 a.record-title').click
+    @driver.find_element(:css, '.table-row.largetree-node.indent-level-1 a.record-title').click
     @driver.wait_for_ajax
 
     @driver.find_element(:id, 'digital_object_component_title_')
