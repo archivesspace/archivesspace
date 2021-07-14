@@ -9,7 +9,6 @@ class UsersController < ApplicationController
   before_action :user_needs_to_be_a_user, :only => [:show]
 
   def index
-    show_inactive = params[:show_inactive] || false
     @search_data = JSONModel(:user).all(
       page: selected_page,
       page_size: 50,

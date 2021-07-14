@@ -42,16 +42,12 @@ class ArchivesSpaceService < Sinatra::Base
 
   Endpoint.get('/users')
     .description("Get a list of users")
-    .params([ "show_inactive", BooleanParam, "Flag to show inactive users", :optional => true ])
+    .params()
     .paginated(true)
     .permissions([])
     .returns([200, "[(:resource)]"]) \
   do
-    if params[:show_inactive]
-      handle_listing(User, params, {:exclude => {:id => User.unlisted_user_ids}})
-    else
-      handle_listing(User, params, {:exclude => {:id => User.unlisted_user_ids, :is_active_user => 0}})
-    end
+    handle_listing(User, params, {:exclude => {:id => User.unlisted_user_ids}})
   end
 
 
