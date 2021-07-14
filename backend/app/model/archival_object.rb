@@ -75,7 +75,7 @@ class ArchivalObject < Sequel::Model(:archival_object)
                      end
 
                      if date['expression']
-                       date['date_type'] == 'bulk' ? "#{I18n.t("date_type_bulk.bulk")}: #{date['expression'] + certainty}" : date['expression'] + certainty
+                       date['date_type'] == 'bulk' ? "#{I18n.t("date_type_bulk.bulk")}: #{date['expression']}" : date['expression']
                      elsif date['begin'] and date['end']
                        date['date_type'] == 'bulk' ? "#{I18n.t("date_type_bulk.bulk")}: #{date['begin']} - #{date['end'] + certainty}" : "#{date['begin']} - #{date['end'] + certainty}"
                      else

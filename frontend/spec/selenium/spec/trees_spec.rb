@@ -16,7 +16,7 @@ describe 'Tree UI' do
   before(:each) do
     @r = create(:resource)
     @a1 = create(:archival_object, resource: { ref: @r.uri })
-    @a2 = create(:archival_object, resource: { ref: @r.uri })
+    @a2 = create(:archival_object, resource: { ref: @r.uri }, dates: [build(:date_no_expression)])
     @a3 = create(:archival_object, resource: { ref: @r.uri })
 
     @driver.get_edit_page(@r)
@@ -50,7 +50,11 @@ describe 'Tree UI' do
     expect(@driver.find_elements(css: '.largetree-node').length).to eq(4)
   end
 
-  # unpend when frequent random failures are resolved
+  it 'displays date certainty in parens next to title if present and date expression is not' do
+    expect(tree_node(@a2).obj['display_string']).to match(/(Approximate)/)
+    expect(tree_node(@a3).obj['display_string']).to_not match(/(Approximate)/)
+  end
+
   xit 'can retain location hash when sidebar items are clicked' do
     tree_click(tree_node(@a1))
     expect(@driver.current_url).to match(/::archival_object/)

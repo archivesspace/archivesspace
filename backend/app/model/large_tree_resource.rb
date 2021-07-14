@@ -68,10 +68,12 @@ class LargeTreeResource
     ASDate
       .left_join(Sequel.as(:enumeration_value, :date_type), :id => :date__date_type_id)
       .left_join(Sequel.as(:enumeration_value, :date_label), :id => :date__label_id)
+      .left_join(Sequel.as(:enumeration_value, :date_certainty), :id => :date__certainty_id)
       .filter(:archival_object_id => record_ids)
       .select(:archival_object_id,
               Sequel.as(:date_type__value, :type),
               Sequel.as(:date_label__value, :label),
+              Sequel.as(:date_certainty__value, :certainty),
               :expression,
               :begin,
               :end)
@@ -85,6 +87,7 @@ class LargeTreeResource
       date_data = {}
       date_data['type'] = row[:type] if row[:type]
       date_data['label'] = row[:label] if row[:label]
+      date_data['certainty'] = row[:certainty] if row[:certainty]
       date_data['expression'] = row[:expression] if row[:expression]
       date_data['begin'] = row[:begin] if row[:begin]
       date_data['end'] = row[:end] if row[:end]

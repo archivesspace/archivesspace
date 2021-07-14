@@ -542,12 +542,12 @@ describe 'Resources and archival objects' do
     # Wait for the form to load in
     @driver.find_element(css: "form#archival_object_form button[type='submit']")
 
-    @driver.find_element(:id, 'archival_object_level_').select_option('item')
+    @driver.find_element(:id, 'archival_object_level_').select_option('')
     @driver.clear_and_send_keys([:id, 'archival_object_title_'], '')
     @driver.click_and_wait_until_gone(css: "form .record-pane button[type='submit']")
 
     expect do
-      @driver.find_element_with_text('//div[contains(@class, "error")]', /Title - must not be an empty string/)
+      @driver.find_element_with_text('//div[contains(@class, "error")]', /Level of Description - Property is required but was missing/)
     end.not_to raise_error
     tree_click(tree_node(@resource))
     @driver.click_and_wait_until_gone(:id, 'dismissChangesButton')
@@ -562,8 +562,8 @@ describe 'Resources and archival objects' do
     @driver.clear_and_send_keys([:id, 'archival_object_title_'], 'save this please')
     @driver.find_element(css: "form .record-pane button[type='submit']").click
     @driver.wait_for_ajax
-    assert(5) { expect(@driver.find_element(:css, 'h2').text).to eq('save this please Archival Object') }
-    assert(5) { expect(@driver.find_element(css: 'div.alert.alert-success').text).to eq('Archival Object save this please updated') }
+    assert(5) { expect(@driver.find_element(:css, 'h2').text).to match(/save this please.*Archival Object/) }
+    assert(5) { expect(@driver.find_element(css: 'div.alert.alert-success').text).to match(/updated/) }
     @driver.clear_and_send_keys([:id, 'archival_object_title_'], @archival_object.title)
     @driver.click_and_wait_until_gone(css: "form .save-changes button[type='submit']")
   end
@@ -609,7 +609,7 @@ describe 'Resources and archival objects' do
 
     @driver.find_element(:link, 'Close Record').click
 
-    assert(5) { expect(@driver.find_element(:css, '.record-pane h2').text).to eq("#{@archival_object.title} Archival Object") }
+    assert(5) { expect(@driver.find_element(:css, '.record-pane h2').text).to match(/Archival Object/) }
   end
 
   xit 'exports and downloads the resource to xml' do

@@ -122,6 +122,7 @@ module SeleniumFactories
         title { generate(:archival_object_title) }
         ref_id { generate(:ref_id) }
         level { 'item' }
+        dates { [build('date')] }
       end
 
       factory :digital_object, class: JSONModel(:digital_object) do
@@ -164,9 +165,18 @@ module SeleniumFactories
       factory :date, class: JSONModel(:date) do
         date_type { 'inclusive' }
         label { 'creation' }
+        certainty { 'approximate' }
         self.begin { '1900-01-01' }
         self.end { '1999-12-31' }
         expression { '1900s' }
+      end
+
+      factory :date_no_expression, class: JSONModel(:date) do
+        date_type { 'inclusive' }
+        label { 'creation' }
+        certainty { 'approximate' }
+        self.begin { '1900-01-01' }
+        self.end { '1999-12-31' }
       end
 
       factory :json_lang_material, class: JSONModel(:lang_material) do
