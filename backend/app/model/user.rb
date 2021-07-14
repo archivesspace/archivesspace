@@ -113,7 +113,6 @@ class User < Sequel::Model(:user)
     @@unlisted_user_ids ||= User.filter(:is_hidden_user => 1).collect {|user| user.id}
   end
 
-
   def before_save
     super
 

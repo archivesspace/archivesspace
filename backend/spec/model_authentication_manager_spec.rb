@@ -26,7 +26,6 @@ class MockAuthenticationSource
   def name
     "MockAuthenticationSource"
   end
-
 end
 
 

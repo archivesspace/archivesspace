@@ -1182,6 +1182,7 @@ fr:
         add: Ajouter mot-matière
 
   user:
+    is_active_user: Utilisateur actif
     _frontend:
       messages:
         access_denied: Accès refusé. Passer administrateur pour accomplir cette opération.
@@ -1191,6 +1192,10 @@ fr:
         error_update: Utilisateur non sauvegardé
         error_create: Utilisateur non créé
         group_not_required: L'utilisateur est un administrateur ou un utilisateur système, il n'est pas nécessaire de sélectionner un groupe.
+        activated: Activé par l'utilisateur
+        deactivated: Utilisateur désactivé
+        error_activate: Utilisateur non activé
+        error_deactivate: Utilisateur non désactivé
       section:
         manage_access: Gérer accès utilisateur
         account: Compte
@@ -1200,6 +1205,10 @@ fr:
         create_account: Créer compte
         update_account: Actualiser compte
         create: Créer utilisateur
+        hide_inactive: Masquer les utilisateurs inactifs
+        show_inactive: Afficher les utilisateurs inactifs
+        deactivate_user: Désactiver
+        activate_user: Activer
 
   user_defined:
     _frontend:

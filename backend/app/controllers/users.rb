@@ -4,7 +4,6 @@ class ArchivesSpaceService < Sinatra::Base
 
   include AuthHelpers
 
-
   Endpoint.post('/users')
     .description("Create a local user")
     .params(["password", String, "The user's password"],
@@ -16,6 +15,8 @@ class ArchivesSpaceService < Sinatra::Base
   do
     check_admin_access
     params[:user].username = Username.value(params[:user].username)
+
+    params[:user].is_active_user = true if params[:user]["is_active_user"].nil?
 
     user = User.create_from_json(params[:user], :source => "local")
     DBAuth.set_password(params[:user].username, params[:password])
@@ -182,6 +183,8 @@ class ArchivesSpaceService < Sinatra::Base
   do
     username = params[:username]
 
+    user = User.first(:username => username)
+
     user = AuthenticationManager.authenticate(username, params[:password])
 
     if user
@@ -263,6 +266,41 @@ class ArchivesSpaceService < Sinatra::Base
     end
   end
 
+  Endpoint.get('/users/:id/activate')
+      .description("Set a user to be activated")
+      .params(["id", Integer, "The username id to fetch"])
+      .permissions([:manage_users])
+      .returns([200, "(:user)"]) \
+    do
+      user = User[params[:id]]
+
+      if user && user.is_system_user == 0
+        user.update( :is_active_user => 1 )
+        json = User.to_jsonmodel(user)
+        json.permissions = user.permissions
+        json_response(json)
+      else
+        raise NotFoundException.new("User wasn't found")
+      end
+    end
+
+  Endpoint.get('/users/:id/deactivate')
+     .description("Set a user to be deactivated")
+     .params(["id", Integer, "The username id to fetch"])
+     .permissions([:manage_users])
+     .returns([200, "(:user)"]) \
+   do
+     user = User[params[:id]]
+
+     if user && user.is_system_user == 0
+       user.update( :is_active_user => 0 )
+       json = User.to_jsonmodel(user)
+       json.permissions = user.permissions
+       json_response(json)
+     else
+       raise NotFoundException.new("User wasn't found")
+     end
+   end
 
   private
 
