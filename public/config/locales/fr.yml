@@ -322,6 +322,8 @@ fr:
       related_accessions:
        accessions: Notices entrées
        deaccessions: Notices aliénations
+       forms_part_of: Relation entre les pièces
+       sibling_of: Relation fraternelle
 
   archival_object:
     _singular: Notice document

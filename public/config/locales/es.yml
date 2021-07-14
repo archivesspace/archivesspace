@@ -303,6 +303,8 @@ es:
       related_accessions:
         accessions: Material sin procesar relacionado
         deaccessions: Material retirado
+        forms_part_of: Relación de parte
+        sibling_of: Relación de hermanos
 
   archival_object:
     _singular: Registro de archivo
