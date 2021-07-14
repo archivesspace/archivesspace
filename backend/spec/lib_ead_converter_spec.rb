@@ -1172,7 +1172,7 @@ describe 'EAD converter' do
             </did>
           </archdesc>
         <dsc>
-        <c>
+        <c level="file">
          <did>
          <unittitle>DIMENSIONS test </unittitle>
          <physdesc>

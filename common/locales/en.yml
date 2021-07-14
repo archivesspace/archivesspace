@@ -2035,6 +2035,10 @@ en:
     _singular: Resource
     _plural: Resources
 
+  resource_and_archival_object:
+    _singular: Resource and/or Archival Object
+    _plural: Resources and/or Archival Objects
+
   related_accession:
     _singular: Related Accession
     _plural: Related Accessions
@@ -2938,14 +2942,21 @@ en:
     log_creating_and_linking: "Creating and linking top containers..."
 
   metadata_rights_declaration:
-    rights_statement_tooltip: |
-        <p>A content standard used in the formulation of the Agent record content. Example: Describing Archives: A Content Standard.</p>
-    citation_tooltip: |
-        <p>Bibliographic citation for a convention used in the formulation of the Agent record content. Example: Society of American Archivists. Describing Archives: A Content Standard (Chicago: Society of American Archivists, 2013).</p>
+    license_tooltip: |
+        <p>Name of the license (if any) that governs the conditions under which the metadata is available for use and reuse.  Examples:</p>
+        <p>This record is made available under an Universal 1.0 Public Domain Dedication Creative Commons license.</p>
+        <p>This record is made available under an Attribution-NonCommercial 4.0 International Creative Commons license.</p>
+        <p>This record is made available under an Attribution-NonCommercial-NoDerivatives 4.0 International Creative Commons license.</p>
+        <p>This record is made available under an Attribution-NoDerivatives 4.0 International Creative Commons license.</p>
+        <p>This record is made available under an Attribution-NonCommercial-ShareAlike 4.0 International Creative Commons license.</p>
     descriptive_note_tooltip: |
-        <p>The content of the note, providing details about the convention was used in the preparation of the Agent description. Example: Used for formulating biographical history note content. (for Describing Archives: A Content Standard).</p>
+        <p>Unstructured information about the conditions under which the metadata is available for use and reuse.  Examples:</p>
+        <p>i. Copyright Smith College, 1985</p>
+        <p>ii. This finding aid may be reproduced for any purpose.</p>
+        <p>iii. This work has been dedicated to the public domain, meaning that you can copy, modify, distribute and perform the work, even for commercial purposes, all without asking permission.</p>
+        <p>iv. The biographical note is copyright Ted Smith, 2015.  All other metadata is licensed under CC BY 4.0.</p>
     file_uri_tooltip: |
-        <p>A URI for the online location of the convention used in the preparation of the Agent description. Example: http://www2.archivists.org/standards/DACS/ (for Describing Archives: A Content Standard).</p>
+        <p>A URI for the online location of the license or other published infomation about the conditions under which the metadata is available for use and reuse. Example: https://creativecommons.org/licenses/by/4.0/</p>
     file_version_xlink_actuate_attribute_tooltip: |
         <p>Indicates whether associated URI should be resolved when the Agent record is rendered.</p>
     file_version_xlink_show_attribute_tooltip: |

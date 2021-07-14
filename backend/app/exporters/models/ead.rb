@@ -314,22 +314,17 @@ class EADModel < ASpaceExport::ExportModel
   end
 
   def metadata_rights_declaration_in_publicationstmt
-    must_all_be_empty = %w(citation rights_statement file_uri
-    file_version_xlink_actuate_attribute file_version_xlink_show_attribute
-    xlink_title_attribute xlink_role_attribute xlink_arcrole_attribute last_verified_date)
+    must_be_empty = %w(file_uri)
     @json.metadata_rights_declarations.each do |mrd|
-      next if (mrd["descriptive_note"] || "").empty?
-      next if must_all_be_empty.find { |property| !mrd[property].to_s.empty? }
+      next if must_be_empty.find { |property| !mrd[property].to_s.empty? }
       yield mrd
     end
   end
 
   def metadata_rights_declaration_in_rightsdeclaration
-    must_not_all_be_empty = %w(citation rights_statement file_uri
-    file_version_xlink_actuate_attribute file_version_xlink_show_attribute
-    xlink_title_attribute xlink_role_attribute xlink_arcrole_attribute last_verified_date)
+    must_not_be_empty = %w(file_uri)
     @json.metadata_rights_declarations.each do |mrd|
-      next unless must_not_all_be_empty.find { |property| !mrd[property].to_s.empty? }
+      next unless must_not_be_empty.find { |property| !mrd[property].to_s.empty? }
       yield mrd
     end
   end

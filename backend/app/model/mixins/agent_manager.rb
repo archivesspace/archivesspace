@@ -114,7 +114,7 @@ module AgentManager
 
 
     def linked_agent_roles
-      role_ids = self.class.find_relationship(:linked_agents).values_for_property(self, :role_id).uniq
+      role_ids = self.class.find_relationship(:linked_agents).values_for_property(self, :role_id).uniq.compact
 
       # Hackish: we only want to return roles corresponding to linked archival
       # records (not events), so we filter it at this level.

@@ -17,6 +17,7 @@
 
     function Tree(datasource_url, tree_container, form_container, toolbar_container, root_uri, read_only, root_record_type) {
         var self = this;
+        var label = '<%= I18n.t("tree.resize") %>';
 
         self.datasource = new TreeDataSource(datasource_url);
 
@@ -33,7 +34,7 @@
                                         tree_renderer, 
                                         function() {
                                             self.ajax_tree = new AjaxTree(self, form_container);
-                                            self.resizer = new TreeResizer(self, tree_container);
+                                            self.resizer = new TreeResizer(self, tree_container, label);
                                         },
                                         function(node, tree) {
                                             self.toolbar_renderer.render(node);

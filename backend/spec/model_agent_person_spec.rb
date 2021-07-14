@@ -217,6 +217,21 @@ describe 'Agent model' do
   end
 
 
+  it "can link an agent without a role to a rights statement" do
+    agent = create(:json_agent_person)
+    resource = create(:json_resource,
+                      'rights_statements' => [build(:json_rights_statement,
+                                                    'linked_agents' => [{
+                                                        'ref' => agent.uri
+                                                      }])
+                                              ])
+
+    expect {
+      AgentPerson.sequel_to_jsonmodel([AgentPerson[agent.id]])
+    }.not_to raise_error
+  end
+
+
   it "can mark an agent's name as authorized" do
     person_agent = AgentPerson.create_from_json(build(:json_agent_person,
                                                       :names => [build(:json_name_person, 'authorized' => false),

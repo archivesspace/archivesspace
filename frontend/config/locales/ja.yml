@@ -656,6 +656,7 @@ ja:
       after: 後に項目を追加
       as_child: 子供としてアイテムを追加する
     unexpected_failure: おっとっと！このツリーを取得する際に問題が発生しています。ページをリフレッシュしてみてください。
+    resize: ツリー領域の展開/折りたたみ
 
   errors:
     merge_denied_for_system_user: 1人以上のエージェントがシステムユーザーです。

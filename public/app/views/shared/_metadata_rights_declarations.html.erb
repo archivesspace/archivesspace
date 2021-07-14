@@ -1,0 +1,20 @@
+<% declarations = result.json['metadata_rights_declarations'] %>
+<% if declarations && declarations.any? %>
+  <h3><%= I18n.t('metadata_rights_declaration._plural') %></h3>
+  <ul>
+  <% declarations.each_with_index do |declaration, idx| %>
+    <li>
+      <% if declaration['file_uri'] && declaration['license'] %>
+        <%= I18n.t('metadata_rights_declaration.license') %>: <a href="<%= declaration['file_uri'] %>"><%= I18n.t("enumerations.metadata_license.#{declaration['license']}") %></a>
+      <% elsif declaration['file_uri'] %>
+        <%= I18n.t('metadata_rights_declaration.license') %>: <a href="<%= declaration['file_uri'] %>"><%= declaration['file_uri'] %></a>
+      <% elsif declaration['license'] %>
+        <%= I18n.t('metadata_rights_declaration.license') %>: <%= I18n.t("enumerations.metadata_license.#{declaration['license']}") %>
+      <% end %>
+      <% if declaration['descriptive_note'] %>
+        <%= declaration['descriptive_note'] %>
+      <% end %>
+    </li>
+  <% end %>
+  </ul>
+<% end %>

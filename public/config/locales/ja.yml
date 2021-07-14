@@ -56,6 +56,7 @@ ja:
   search-button:
     label: サーチ
   search-limit: "%{limit}"
+  search-limit-label: 検索を...に制限する
   search-limiting: "%{limit}"
   search-limits:
     all: すべてのレコードタイプ

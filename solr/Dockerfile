@@ -9,6 +9,6 @@ COPY * /archivesspace/
 # /opt/solr/contrib/analysis-extras/lib/icu4j-*.jar
 
 USER root
-RUN mv /archivesspace/schema-8.8.xml /archivesspace/schema.xml && \
-    mv /archivesspace/solrconfig-8.8.xml /archivesspace/solrconfig.xml
+RUN mv /archivesspace/schema-8.8.min.xml /archivesspace/schema.xml && \
+    mv /archivesspace/solrconfig-8.8.min.xml /archivesspace/solrconfig.xml
 USER solr

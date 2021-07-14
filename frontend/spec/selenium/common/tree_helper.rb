@@ -102,11 +102,11 @@ module TreeHelperMethods
   def expand_tree_pane
     # if we're already maximized, we unmaximize first ( since it's possible
     # there been children added since last maximization, so we need to resize )
-    @driver.find_element_orig(css: '.ui-resizable-handle.ui-resizable-s.maximized').find_element('a.tree-resize-toggle')
+    @driver.find_element_orig(css: '.ui-resizable-handle.ui-resizable-s.maximized').find_element('button.tree-resize-toggle')
   rescue Selenium::WebDriver::Error::NoSuchElementError, Selenium::WebDriver::Error::StaleElementReferenceError => e
     # we aren't currently maximized, so please continue..
   ensure
     # now we maximize!
-    @driver.find_element(css: 'a.tree-resize-toggle').click
+    @driver.find_element(css: 'button.tree-resize-toggle').click
   end
 end

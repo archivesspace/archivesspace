@@ -234,7 +234,6 @@ describe "EAD export mappings" do
           AppConfig[:arks_enabled] = true
           @doc = get_xml("/repositories/#{$repo_id}/resource_descriptions/#{@resource.id}.xml?include_unpublished=true&include_daos=true")
           @doc_with_ark = get_xml("/repositories/#{$repo_id}/resource_descriptions/#{@resource_with_ark.id}.xml?include_unpublished=true&include_daos=true")
-
           @doc_unpub = get_xml("/repositories/#{$repo_id}/resource_descriptions/#{@resource.id}.xml?include_daos=true")
 
           AppConfig[:arks_enabled] = false
@@ -252,7 +251,6 @@ describe "EAD export mappings" do
       # has gone wrong
       expect(@doc.to_xml).not_to include("Nokogiri")
       expect(@doc.to_xml).not_to include("#&amp;")
-      expect(@doc.to_xml).not_to include("ASPACE EXPORT ERROR")
     end
   end
 
@@ -1520,8 +1518,8 @@ describe "EAD export mappings" do
   describe "Metadata Rights Declaration mappings " do
     it "maps all subrecords to ead/control/filedesc/publicationstmt" do
       subrecord = @resource.metadata_rights_declarations[0]
-      rights_statement_translation = I18n.t("enumerations.metadata_rights_statement.#{subrecord['rights_statement']}")
-      expect(@doc).to have_tag("eadheader/filedesc/publicationstmt/p[text() = '#{rights_statement_translation}']")
+      license_translation = I18n.t("enumerations.metadata_license.#{subrecord['license']}")
+      expect(@doc).to have_tag("eadheader/filedesc/publicationstmt/p[text() = '#{license_translation}']")
     end
   end
 end

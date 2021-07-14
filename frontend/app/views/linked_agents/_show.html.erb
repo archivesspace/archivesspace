@@ -20,11 +20,13 @@
           <% linked_agents.each_with_index do | link, index | %>
             <tr>
               <td>
-                <%= I18n.t("enumerations.linked_agent_role.#{link["role"]}", :default => link["role"]) %>
+                <% if link["role"] %>
+                  <%= I18n.t("enumerations.linked_agent_role.#{link["role"]}", :default => link["role"])%>
+                <% end %>
               </td>
               <td>
                 <% if link["relator"] %>
-                <%= I18n.t("enumerations.#{relator_enumeration}.#{link["relator"]}", :default => link["relator"]) %>
+                  <%= I18n.t("enumerations.#{relator_enumeration}.#{link["relator"]}", :default => link["relator"])%>
                 <% end %>
               </td>
               <td class="token-list">

@@ -3,12 +3,13 @@
 var DEFAULT_TREE_PANE_HEIGHT = 100;
 var DEFAULT_TREE_MIN_HEIGHT = 60;
 
-function TreeResizer(tree, container) {
+function TreeResizer(tree, container, label) {
     this.tree = tree;
     this.container = container;
+    this.label = label;
 
     this.setup();
-};
+}
 
 TreeResizer.prototype.setup = function() {
     var self = this;
@@ -27,7 +28,10 @@ TreeResizer.prototype.setup = function() {
         }
     });
 
-    self.$toggle = $('<a>').addClass('tree-resize-toggle');
+    self.$toggle = $('<button>').addClass('tree-resize-toggle');
+    self.$toggle.attr('aria-expanded', 'false')
+                .attr('title', self.label)
+                .attr('aria-label', self.label);
     self.resize_handle.append(self.$toggle);
 
     self.$toggle.on('click', function() {
@@ -35,7 +39,7 @@ TreeResizer.prototype.setup = function() {
     });
 
     self.reset();
-}
+};
 
 TreeResizer.prototype.get_height = function() {
     if (AS.prefixed_cookie("archives-tree-container::height")) {
@@ -70,15 +74,16 @@ TreeResizer.prototype.minimize = function() {
 
 TreeResizer.prototype.maximized = function() {
     return this.resize_handle.is('.maximized');
-}
+};
 
 TreeResizer.prototype.toggle_height = function() {
     var self = this;
 
     if (self.maximized()) {
         self.minimize();
+        self.$toggle.attr('aria-expanded', 'false');
     } else {
         self.maximize();
+        self.$toggle.attr('aria-expanded', 'true');
     }
 };
-
