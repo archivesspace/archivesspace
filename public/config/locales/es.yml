@@ -63,6 +63,7 @@ es:
   search-button:
     label: Buscar
   search-limit: "Límite a %{limit}"
+  search-limit-label: Limitar la búsqueda a...
   search-limiting: "limitado a %{limit}"
   search-limits:
     all: todos los tipos de registro

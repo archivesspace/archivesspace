@@ -63,6 +63,9 @@ class AccessionConverter < Converter
       'accession_processors' => 'collection_management.processors',
       'accession_rights_determined' => 'collection_management.rights_determined',
 
+      'lang_material_language' => 'lang_material.language',
+      'lang_material_script' => 'lang_material.script',
+
       'date_1_label' => 'date_1.label',
       'date_1_expression' => 'date_1.expression',
       'date_1_begin' => 'date_1.begin',
@@ -255,8 +258,18 @@ class AccessionConverter < Converter
           obj.vocabulary = '/vocabularies/1'
         },
         :on_row_complete => Proc.new {|cache, this|
-          digital_object = cache.find {|obj| obj.class.record_type == 'accession'}
-          digital_object.subjects << {'ref' => this.uri}
+          accession = cache.find {|obj| obj.class.record_type == 'accession'}
+          accession.subjects << {'ref' => this.uri}
+        }
+      },
+
+      :lang_material => {
+        :on_create => Proc.new {|data, obj|
+          obj.language_and_script = {'jsonmodel_type' => 'language_and_script', 'language' => data['language'], 'script' => data['script']}
+        },
+        :on_row_complete => Proc.new {|cache, this|
+          accession = cache.find {|obj| obj.class.record_type =~ /^accession/ }
+          accession.lang_materials << this
         }
       },
 

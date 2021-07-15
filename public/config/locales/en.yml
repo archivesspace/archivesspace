@@ -81,6 +81,7 @@ en:
   search-button:
     label: Search
   search-limit: "Limit to %{limit}"
+  search-limit-label: Limit search to...
   search-limiting: "limited to %{limit}"
   search-limits:
     all: all record types
@@ -688,3 +689,16 @@ en:
     note_mandate: Mandate
     note_structure_or_genealogy: Structure or Genealogy
     note_text: Note
+
+  metadata_rights_declaration:
+    _plural: Metadata Rights Declarations
+    _singular: Metadata Rights Declaration
+    license: License
+    descriptive_note: Descriptive Note
+    file_uri: File URI
+    xlink_title_attribute: Xlink Title Attribute
+    xlink_role_attribute: Xlink Role Attribute
+    xlink_arcrole_attribute: Xlink Arcrole Attribute
+    file_version_xlink_actuate_attribute: Xlink Actuate Attribute
+    file_version_xlink_show_attribute: Xlink Show Attribute
+    last_verified_date: Last Verified Date

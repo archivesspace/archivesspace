@@ -92,7 +92,7 @@ describe 'ArchivalObject model' do
   end
 
 
-  it "throws an error if 'level' is 'otherlevel' and 'other level' isn't provided, but only in strict mode" do
+  it "throws an error if 'level' is 'otherlevel' and 'other level' isn't provided" do
 
     opts = {:level => "otherlevel", :other_level => nil}
 
@@ -100,15 +100,6 @@ describe 'ArchivalObject model' do
                                 build(:json_archival_object, opts),
                                 :repo_id => $repo_id)
     }.to raise_error(JSONModel::ValidationException)
-
-    JSONModel::strict_mode(false)
-
-    expect { ArchivalObject.create_from_json(
-                                build(:json_archival_object, opts),
-                                :repo_id => $repo_id)
-    }.not_to raise_error
-
-    JSONModel::strict_mode(true)
 
   end
 

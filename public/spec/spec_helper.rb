@@ -7,7 +7,7 @@ require 'rspec/retry'
 require 'test_utils'
 require 'config/config-distribution'
 require 'securerandom'
-require 'axe/rspec'
+require 'axe-rspec'
 require 'nokogiri'
 
 require_relative '../../indexer/app/lib/realtime_indexer'
@@ -89,6 +89,18 @@ def setup_test_data
                      publish: true,
                      language: 'eng',
                      script: 'Latn')
+
+  create(:accession, title: "Accession with Lang Material Note",
+                     publish: true,
+                     lang_materials: [
+                        build(:lang_material_with_note)
+                     ])
+
+  create(:accession, title: "Accession without Lang Material Note",
+                     publish: true,
+                     lang_materials: [
+                        build(:lang_material)
+                     ])
 
   resource = create(:resource, title: "Published Resource", publish: true,
                     :instances => [build(:instance_digital)])

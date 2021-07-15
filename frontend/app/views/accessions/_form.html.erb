@@ -44,6 +44,7 @@
 
 <% form.emit_template("accession") %>
 
+<%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "lang_materials", :custom_action_template => "lang_materials/subrecord_form_action"} %>
 <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "dates", :template => "archival_record_date"} %>
 <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "extents"} %>
 

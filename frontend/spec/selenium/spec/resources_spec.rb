@@ -87,6 +87,8 @@ describe 'Resources and archival objects' do
     # Success!
     expect(@driver.find_element_with_text('//div', /Resource .* created/)).not_to be_nil
     expect(@driver.find_element(:id, 'resource_dates__0__begin_').attribute('value')).to eq('1978')
+
+    run_periodic_index
   end
 
   it 'reports errors and warnings when creating an invalid Resource' do
@@ -186,6 +188,49 @@ describe 'Resources and archival objects' do
     @driver.find_element(css: "form#resource_form button[type='submit']").click
 
     run_periodic_index
+  end
+
+  it 'can add a rights statement with linked agent to a Resource' do
+    @driver.find_element(:link, 'Browse').click
+    @driver.wait_for_dropdown
+    @driver.click_and_wait_until_gone(:link, 'Resources')
+    row = @driver.find_paginated_element(xpath: "//tr[.//*[contains(text(), '#{@resource.title}')]]")
+    @driver.click_and_wait_until_element_gone(row.find_element(:link, 'Edit'))
+
+    # add a rights sub record
+    @driver.find_element(css: '#resource_rights_statements_ .subrecord-form-heading .btn:not(.show-all)').click
+
+    @driver.find_element(id: 'resource_rights_statements__0__rights_type_').select_option('copyright')
+    @driver.find_element(id: 'resource_rights_statements__0__status_').select_option('copyrighted')
+    @driver.clear_and_send_keys([:id, 'resource_rights_statements__0__start_date_'], '2012-01-01')
+    combo = @driver.find_element(xpath: '//*[@id="resource_rights_statements__0__jurisdiction_"]')
+    combo.clear
+    combo.click
+    combo.send_keys('AU')
+    combo.send_keys(:tab)
+
+    # add linked agent
+    @driver.find_element(css: '#resource_rights_statements__0__linked_agents_ .subrecord-form-heading .btn:not(.show-all)').click
+    combo2 = @driver.find_element(xpath: '//*[@id="token-input-resource_rights_statements__0__linked_agents__0__ref_"]')
+    combo2.clear
+    combo2.click
+    combo2.send_keys('resources')
+    @driver.find_element(:css, 'li.token-input-dropdown-item2').click
+
+    # save changes
+    @driver.click_and_wait_until_gone(css: "form#resource_form button[type='submit']")
+    run_index_round
+
+    expect(@driver.find_element_with_text('//div[contains(@class, "alert-success")]', /\bResource\b.*\bupdated\b/)).not_to be_nil
+
+    # check the show page
+    @driver.click_and_wait_until_gone(link: @resource.title)
+    expect do
+      @driver.find_element(:id, 'resource_rights_statements_')
+      @driver.find_element(:css, '#resource_rights_statements_ .accordion-toggle').click
+      @driver.find_element(:id, 'rights_statement_0')
+      @driver.find_element(:id, 'rights_statement_0_linked_agents')
+    end.not_to raise_error
   end
 
   it 'can create a resource' do

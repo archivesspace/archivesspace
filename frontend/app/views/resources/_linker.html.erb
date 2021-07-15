@@ -6,7 +6,9 @@
    end
 
    exclude_ids = [] if exclude_ids.blank?
-   field_label ||= I18n.t("resource._singular")
+   record_types ||= "resource"
+   data_types = record_types == "resource" ? ["resource"] : ["resource", "archival_object"]
+   field_label ||= I18n.t("#{record_types}._singular")
    layout ||= "horizontal"
 
 %>
@@ -27,8 +29,8 @@
             aria-autocomplete="both"
             aria-controls="<%= form.id_for("ref") %>_listbox"
             aria-labelledby="<%= form.id_for("ref") %>_label"
-            data-label="<%= I18n.t("resource._singular") %>"
-            data-label_plural="<%= I18n.t("resource._plural") %>"
+            data-label="<%= I18n.t("#{record_types}._singular") %>"
+            data-label_plural="<%= I18n.t("#{record_types}._plural") %>"
             data-path="<%= form.path %>"
             data-name="ref"
             data-url="<%= url_for :controller => :search, :action => :do_search, :format => :json %>"
@@ -36,7 +38,7 @@
             data-selected="<%= selected_json %>"
             data-format_property="title"
             data-multiplicity="one"
-            data-types='["resource"]'
+            data-types='<%= data_types %>'
             data-exclude='<%= exclude_ids.to_json %>'
           />
           
@@ -54,7 +56,7 @@
 
          <% end %>
          <div class="input-group-btn">
-           <a class="btn btn-default dropdown-toggle last" data-toggle="dropdown" href="javascript:void(0);" title="Link to resource" aria-label="Link to resource"><span class="caret"></span></a>
+           <a class="btn btn-default dropdown-toggle last" data-toggle="dropdown" href="javascript:void(0);" title="Link to <%= I18n.t("#{record_types}._singular").downcase %>" aria-label="Link to <%= I18n.t("#{record_types}._singular").downcase %>"><span class="caret"></span></a>
            <ul class="dropdown-menu">
              <li><a href="javascript:void(0);" class="linker-browse-btn"><%= I18n.t("actions.browse") %></a></li>
            </ul>

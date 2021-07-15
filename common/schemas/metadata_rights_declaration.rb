@@ -5,12 +5,11 @@
     "type" => "object",
 
     "properties" => {
-      "rights_statement" => {
+      "license" => {
         "type" => "string",
-        "dynamic_enum" => "metadata_rights_statement",
+        "dynamic_enum" => "metadata_license",
         "required" => false
       },
-      "citation" => {"type" => "string", "maxLength" => 65000, "required" => false},
       "descriptive_note" => {"type" => "string", "maxLength" => 65000, "default" => ""},
       "file_uri" => {"type" => "string", "maxLength" => 65000},
       "file_version_xlink_actuate_attribute" => {

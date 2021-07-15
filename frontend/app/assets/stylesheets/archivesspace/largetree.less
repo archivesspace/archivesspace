@@ -104,11 +104,6 @@
         line-height: 2em;
     }
 
-    .expandme:focus {
-        border: 0;
-        outline-style: none;
-    }
-
     .expandme-icon.expanded {
         transform: rotate(90deg);
         transition:transform 100ms ease-out;
@@ -215,6 +210,7 @@
     .tree-resize-toggle {
         font-family: 'Glyphicons Halflings';
         position: absolute;
+        border: none;
         font-size: 8px;
         right: 0;
         top: 0px;
@@ -222,7 +218,7 @@
         cursor: pointer;
         background: rgba(0,0,0,0.1);
         line-height: 8px;
-        color: #888;
+        color: #787878;
 
         &:before {
             content: '\e114';

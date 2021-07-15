@@ -57,7 +57,7 @@ describe 'Default Values' do
   end
 
 
-  it "can set a default language and script and retrieve them" do
+  it "can set a default language and script for a resource and retrieve them" do
     uri = "/repositories/#{JSONModel.repository}/default_values/resource"
     url = URI("#{JSONModel::HTTP.backend_url}#{uri}")
 
@@ -75,6 +75,26 @@ describe 'Default Values' do
     expect(defaults['defaults']['languages']['language']).to eq("eng")
     expect(defaults['defaults']['languages']['script']).to eq("Latn")
   end
+
+
+  it "can set a default language and script for an accession and retrieve them" do
+  uri = "/repositories/#{JSONModel.repository}/default_values/accession"
+  url = URI("#{JSONModel::HTTP.backend_url}#{uri}")
+
+  response = JSONModel::HTTP.post_json(url, ASUtils.to_json(accession_defaults))
+  defaults = JSONModel::HTTP.get_json(uri)
+
+  defaults['defaults']['languages'] = {:language => "eng", :script => "Latn"}
+
+  response = JSONModel::HTTP.post_json(url, ASUtils.to_json(defaults))
+
+  expect(response.status).to eq(200)
+
+  defaults = JSONModel::HTTP.get_json(uri)
+
+  expect(defaults['defaults']['languages']['language']).to eq("eng")
+  expect(defaults['defaults']['languages']['script']).to eq("Latn")
+end
 
 
   it "can set a default finding aid language and script and retrieve them" do

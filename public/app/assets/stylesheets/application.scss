@@ -13,13 +13,17 @@
  * NO = require_tree .
  * NO = require_self
  */
+
+// Adding these first so they can override bootstrap variables.
+// See: https://stackoverflow.com/questions/11773583/can-i-override-sass-variables-after-they-have-been-imported
+@import "archivesspace/fonts";
+@import "archivesspace/colors";
+@import "archivesspace/variables";
+
 // "bootstrap-sprockets" must be imported before "bootstrap" and "bootstrap/variables"
 @import "bootstrap-sprockets";
 @import "bootstrap";
 
-@import  "archivesspace/fonts";
-@import "archivesspace/colors";
-@import "archivesspace/variables";
 //font-awesome
 @import "font-awesome-sprockets";
 @import "font-awesome";
