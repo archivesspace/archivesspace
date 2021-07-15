@@ -586,6 +586,7 @@ en:
       page: Page
       reel: Reel
       volume: Volume
+      container: Container
     file_version_use_statement:
       audio-clip: Audio-Clip
       audio-master: Audio-Master
