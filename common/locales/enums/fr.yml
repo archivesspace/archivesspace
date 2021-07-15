@@ -654,6 +654,7 @@
       page: Page
       reel: Bobine
       volume: Volume
+      container: Récipient
     file_version_use_statement:
       audio-clip: Clip audio
       audio-master: Audio-Master

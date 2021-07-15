@@ -619,6 +619,7 @@ ja:
       page: ページ
       reel: リール
       volume: ボリューム
+      container: コンテナ
     file_version_use_statement:
       audio-clip: オーディオクリップ
       audio-master: オーディオマスター
