@@ -214,18 +214,18 @@ var selectStructuredDateSubform = function() {
 
     if(date_type == "range") {
       var $date_subform = AS.renderTemplate("template_structured_date_range_fields", {
-          path: AS.quickTemplate($parent_subrecord_list.data("name-path"), {index: $subform.data("index")}) + "[structured_date_range]",
-          id_path: AS.quickTemplate($parent_subrecord_list.data("id-path"), {index: $subform.data("index")})  + "[structured_date_range]",
-          index: "${index}"
-        });
+        path: AS.quickTemplate($parent_subrecord_list.data("name-path"), {index: $subform.data("index")}) + "[structured_date_range]",
+        id_path: AS.quickTemplate($parent_subrecord_list.data("id-path"), {index: $subform.data("index")})  + "_structured_date_range_",
+        index: "${index}"
+      });
     }
 
     else if(date_type == "single") {
       var $date_subform = AS.renderTemplate("template_structured_date_single_fields", {
-          path: AS.quickTemplate($parent_subrecord_list.data("name-path"), {index: $subform.data("index")}) + "[structured_date_single]",
-          id_path: AS.quickTemplate($parent_subrecord_list.data("id-path"), {index: $subform.data("index")})  + "[structured_date_single]",
-          index: "${index}"
-        });
+        path: AS.quickTemplate($parent_subrecord_list.data("name-path"), {index: $subform.data("index")}) + "[structured_date_single]",
+        id_path: AS.quickTemplate($parent_subrecord_list.data("id-path"), {index: $subform.data("index")})  + "_structured_date_single_",
+        index: "${index}"
+      });
     }
 
     else {

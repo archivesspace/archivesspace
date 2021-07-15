@@ -1837,6 +1837,11 @@ ja:
     end_date_expression: 終了日の式
     end_date_standardized: 標準化された日付の終了
     end_date_standardized_type: 標準化された日付タイプの終了
+
+  date_type_structured:
+    single: シングル
+    range: 範囲
+
   agent_record_control:
     _plural: 記録情報
     _singular: 記録情報

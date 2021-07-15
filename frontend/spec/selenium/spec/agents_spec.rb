@@ -283,9 +283,8 @@ describe "agents record CRUD" do
     it 'can add a date of existence to an Agent' do
       @driver.click_and_wait_until_gone(:link, 'Edit')
       @driver.find_element(css: '#agent_person_dates_of_existence .subrecord-form-heading .btn:not(.show-all)').click
-
       @driver.find_element(id: 'agent_dates_of_existence__0__date_type_structured_').select_option('single')
-      @driver.clear_and_send_keys([:id, 'agent_dates_of_existence__0_[structured_date_single]_date_expression_'], '1973')
+      @driver.clear_and_send_keys([:id, 'agent_dates_of_existence__0__structured_date_single__date_expression_'], '1973')
 
       @driver.click_and_wait_until_gone(css: "form .record-pane button[type='submit']")
 
@@ -464,7 +463,7 @@ describe "agents record CRUD" do
       @driver.find_element(css: '#agent_names__0__use_dates_ .btn:not(.show-all)').click
 
       @driver.find_element(id: 'agent_names__0__use_dates__0__date_type_structured_').select_option('single')
-      @driver.clear_and_send_keys([:id, 'agent_names__0__use_dates__0_[structured_date_single]_date_expression_'], '1973')
+      @driver.clear_and_send_keys([:id, 'agent_names__0__use_dates__0__structured_date_single__date_expression_'], '1973')
 
       @driver.click_and_wait_until_gone(css: "form .record-pane button[type='submit']")
 
@@ -503,7 +502,7 @@ describe "agents record CRUD" do
       @driver.find_element(css: '#agent_names__0__parallel_names__0__use_dates_ .btn:not(.show-all)').click
 
       @driver.find_element(id: 'agent_names__0__parallel_names__0__use_dates__0__date_type_structured_').select_option('single')
-      @driver.clear_and_send_keys([:id, 'agent_names__0__parallel_names__0__use_dates__0_[structured_date_single]_date_expression_'], '1973')
+      @driver.clear_and_send_keys([:id, 'agent_names__0__parallel_names__0__use_dates__0__structured_date_single__date_expression_'], '1973')
 
       @driver.click_and_wait_until_gone(css: "form .record-pane button[type='submit']")
 
@@ -543,7 +542,7 @@ describe "agents record CRUD" do
       @driver.find_element(css: '#agent_agent_genders__0__dates_ .btn:not(.show-all)').click
 
       @driver.find_element(id: 'agent_agent_genders__0__dates__0__date_type_structured_').select_option('single')
-      @driver.clear_and_send_keys([:id, 'agent_agent_genders__0__dates__0_[structured_date_single]_date_expression_'], '1973')
+      @driver.clear_and_send_keys([:id, 'agent_agent_genders__0__dates__0__structured_date_single__date_expression_'], '1973')
 
       @driver.click_and_wait_until_gone(css: "form .record-pane button[type='submit']")
 
@@ -651,7 +650,7 @@ describe "agents record CRUD" do
       @driver.find_element(css: '#agent_agent_places__0__dates_ .btn:not(.show-all)').click
 
       @driver.find_element(id: 'agent_agent_places__0__dates__0__date_type_structured_').select_option('single')
-      @driver.clear_and_send_keys([:id, 'agent_agent_places__0__dates__0_[structured_date_single]_date_expression_'], '1973')
+      @driver.clear_and_send_keys([:id, 'agent_agent_places__0__dates__0__structured_date_single__date_expression_'], '1973')
 
       @driver.click_and_wait_until_gone(css: "form .record-pane button[type='submit']")
 
@@ -776,7 +775,7 @@ describe "agents record CRUD" do
       @driver.find_element(css: '#agent_agent_occupations__0__dates_ .btn:not(.show-all)').click
 
       @driver.find_element(id: 'agent_agent_occupations__0__dates__0__date_type_structured_').select_option('single')
-      @driver.clear_and_send_keys([:id, 'agent_agent_occupations__0__dates__0_[structured_date_single]_date_expression_'], '1973')
+      @driver.clear_and_send_keys([:id, 'agent_agent_occupations__0__dates__0__structured_date_single__date_expression_'], '1973')
 
       @driver.click_and_wait_until_gone(css: "form .record-pane button[type='submit']")
 
@@ -897,7 +896,7 @@ describe "agents record CRUD" do
       @driver.find_element(css: '#agent_agent_functions__0__dates_ .btn:not(.show-all)').click
 
       @driver.find_element(id: 'agent_agent_functions__0__dates__0__date_type_structured_').select_option('single')
-      @driver.clear_and_send_keys([:id, 'agent_agent_functions__0__dates__0_[structured_date_single]_date_expression_'], '1973')
+      @driver.clear_and_send_keys([:id, 'agent_agent_functions__0__dates__0__structured_date_single__date_expression_'], '1973')
 
       @driver.click_and_wait_until_gone(css: "form .record-pane button[type='submit']")
 
@@ -1018,7 +1017,7 @@ describe "agents record CRUD" do
       @driver.find_element(css: '#agent_agent_topics__0__dates_ .btn:not(.show-all)').click
 
       @driver.find_element(id: 'agent_agent_topics__0__dates__0__date_type_structured_').select_option('single')
-      @driver.clear_and_send_keys([:id, 'agent_agent_topics__0__dates__0_[structured_date_single]_date_expression_'], '1973')
+      @driver.clear_and_send_keys([:id, 'agent_agent_topics__0__dates__0__structured_date_single__date_expression_'], '1973')
 
       @driver.click_and_wait_until_gone(css: "form .record-pane button[type='submit']")
 
