@@ -6,7 +6,7 @@
 
     "properties" => {
       "date_label" => {"type" => "string", "dynamic_enum" => "date_label", "ifmissing" => "error"},
-      "date_type_structured" => {"type" => "string", "dynamic_enum" => "date_type_structured", "ifmissing" => "error"},
+      "date_type_structured" => {"type" => "string", "enum" => ["single", "range"], "ifmissing" => "error"},
       "structured_date_single" => {"required" => false, "type" => "JSONModel(:structured_date_single) object"},
       "structured_date_range" => {"required" => false, "type" => "JSONModel(:structured_date_range) object"},
       "date_certainty" => {"type" => "string", "dynamic_enum" => "date_certainty"},
