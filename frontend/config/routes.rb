@@ -34,6 +34,9 @@ ArchivesSpace::Application.routes.draw do
     match 'users/:id' => 'users#show', :via => [:get]
     match 'users/:id' => 'users#update', :via => [:post]
     match 'users/:id/delete' => 'users#delete', :via => [:post]
+    match('/users/:id/activate' => 'users#activate', :via => [:get], :as => :user_activate)
+    match('/users/:id/deactivate' => 'users#deactivate', :via => [:get], :as => :user_deactivate)
+
     resources :users
 
     resources :groups
@@ -279,7 +282,6 @@ ArchivesSpace::Application.routes.draw do
     match('space_calculator' => 'space_calculator#show', :via => [:get])
     match('space_calculator' => 'space_calculator#calculate', :via => [:post])
 
-
     match 'assessments/embedded_search' => 'assessments#embedded_search', :via => [:get]
     resources :assessments
     match 'assessments/:id' => 'assessments#update', :via => [:post]
@@ -289,6 +291,7 @@ ArchivesSpace::Application.routes.draw do
 
     match 'oai_config/edit'   => 'oai_config#edit',   :via => [:get]
     match 'oai_config/update' => 'oai_config#update', :via => [:post]
+
 
     if AppConfig[:enable_custom_reports]
       resources :custom_report_templates
@@ -308,12 +311,12 @@ ArchivesSpace::Application.routes.draw do
           end
         end
       end
-    end
-    if Plugins.repository_menu_items?
-      scope '/plugins' do
-        Plugins.repository_menu_items.each do |plugin|
-          unless Plugins.config_for(plugin)['no_automatic_routes']
-            resources plugin.intern
+      if Plugins.repository_menu_items?
+        scope '/plugins' do
+          Plugins.repository_menu_items.each do |plugin|
+            unless Plugins.config_for(plugin)['no_automatic_routes']
+              resources plugin.intern
+            end
           end
         end
       end
@@ -324,6 +327,5 @@ ArchivesSpace::Application.routes.draw do
     match "system_info/config" => "system_info#reload_config", :via => [:post]
 
     root :to => 'welcome#index'
-
   end
 end

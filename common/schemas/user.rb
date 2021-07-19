@@ -47,6 +47,8 @@
           }
       },
 
+      "is_active_user" => {"type" => "boolean", "default" => true},
+
       "is_admin" => {
         "type" => "boolean",
         "default" => false

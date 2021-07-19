@@ -1183,6 +1183,7 @@ es:
         add: Agregar materia
 
   user:
+    is_active_user: Usuario activo
     _frontend:
       messages:
         access_denied: Acceso denegado. Inicie sesión como el usuario administrador para realizar esta acción.
@@ -1192,6 +1193,10 @@ es:
         error_update: Usuario no guardado
         error_create: Usuario no creado
         group_not_required: El usuario es un administrador o un usuario del sistema, no se requiere la selección de grupos.
+        activated: Usuario activado
+        deactivated: Usuario desactivado
+        error_activate: Usuario no activado
+        error_deactivate: Usuario no desactivado
       section:
         manage_access: Administrar el acceso de usuario
         account: Cuenta
@@ -1201,6 +1206,10 @@ es:
         create_account: Crear cuenta
         update_account: Actualizar la cuenta
         create: Crear usuario
+        hide_inactive: Ocultar usuarios inactivos
+        show_inactive: Mostrar usuarios inactivos
+        deactivate_user: Desactivar
+        activate_user: Activar
 
   user_defined:
     _frontend:

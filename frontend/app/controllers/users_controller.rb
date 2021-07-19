@@ -1,13 +1,12 @@
 class UsersController < ApplicationController
 
-  set_access_control  "manage_users" => [:index, :edit, :update, :delete],
-                      "manage_repository" => [:manage_access, :edit_groups, :update_groups, :complete],
-                      :public => [:new, :create]
+  set_access_control "manage_users" => [:index, :edit, :update, :delete, :activate, :deactivate],
+                    "manage_repository" => [:manage_access, :edit_groups, :update_groups, :complete],
+                    :public => [:new, :create]
 
   before_action :account_self_service, :only => [:new, :create]
   before_action :user_needs_to_be_a_user_manager_or_new_user, :only => [:new, :create]
   before_action :user_needs_to_be_a_user, :only => [:show]
-
 
   def index
     @search_data = JSONModel(:user).all(
@@ -71,7 +70,7 @@ class UsersController < ApplicationController
 
     if @user.is_system_user or @user.is_admin
       flash[:error] = I18n.t("user._frontend.messages.group_not_required", JSONModelI18nWrapper.new(:user => @user))
-      redirect_to(:controller => :users, :action => :manage_access) and return
+      redirect_to(:controller => :users, :action => :index) and return
     end
 
     @groups = JSONModel(:group).all
@@ -118,7 +117,7 @@ class UsersController < ApplicationController
 
     if response.code === '200'
       flash[:success] = I18n.t("user._frontend.messages.updated")
-      redirect_to :action => :manage_access
+      redirect_to :action => :index
     else
       flash[:error] = I18n.t("user._frontend.messages.error_update")
       @groups = JSONModel(:group).all if user_can?('manage_repository')
@@ -166,6 +165,23 @@ class UsersController < ApplicationController
                 })
   end
 
+  def activate
+    if JSONModel::HTTP::get_json("/users/#{params[:id]}/activate")
+      flash[:success] = I18n.t("user._frontend.messages.activated")
+    else
+      flash[:error] = I18n.t("user._frontend.messages.error_activate")
+    end
+    redirect_to :action => :index
+  end
+
+  def deactivate
+    if JSONModel::HTTP::get_json("/users/#{params[:id]}/deactivate")
+      flash[:success] = I18n.t("user._frontend.messages.deactivated")
+    else
+      flash[:error] = I18n.t("user._frontend.messages.error_deactivate")
+    end
+    redirect_to :action => :index
+  end
 
   private
 

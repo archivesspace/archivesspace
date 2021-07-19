@@ -1221,6 +1221,9 @@ en:
         add: Add Subject
 
   user:
+    is_active_user: Active
+    active: "true"
+    inactive: "false"
     _frontend:
       messages:
         access_denied: Access denied. Login as the admin user to perform this action.
@@ -1230,6 +1233,10 @@ en:
         error_update: User not saved
         error_create: User not created
         group_not_required: User is an administrator or system user, group selection is not required.
+        activated: User activated
+        deactivated: User deactivated
+        error_activate: User not activated
+        error_deactivate: User not deactivated
       section:
         manage_access: Manage User Access
         account: Account
@@ -1239,6 +1246,12 @@ en:
         create_account: Create Account
         update_account: Update Account
         create: Create User
+        edit: Edit User
+        show_active: Show Active Users
+        show_inactive: Show Inactive Users
+        deactivate_user: Deactivate
+        activate_user: Activate
+
 
   user_defined:
     _frontend:

@@ -63,7 +63,7 @@ describe 'User management' do
     @driver.find_element(:link, 'System').click
     @driver.click_and_wait_until_gone(:link, 'Manage Users')
 
-    @driver.find_paginated_element(xpath: "//td[contains(text(), '#{@test_user.username}')]/following-sibling::td/div/a").click
+    @driver.find_element(:id, "edit_#{@test_user.username}").click
 
     @user_props.each do |k, val|
       assert(5) { expect(@driver.find_element(css: "#user_#{k}_").attribute('value')).to match(val) }

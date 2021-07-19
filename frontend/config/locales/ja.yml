@@ -1194,6 +1194,7 @@ ja:
         add: 件名を追加
 
   user:
+    is_active_user: アクティブユーザー
     _frontend:
       messages:
         access_denied: アクセスが拒否されました。この操作を実行するには、管理ユーザーとしてログインします。
@@ -1203,6 +1204,10 @@ ja:
         error_update: ユーザーは保存されません
         error_create: ユーザーは作成されません
         group_not_required: ユーザーは管理者またはシステムユーザーです。グループの選択は不要です。
+        activated: アクティベートされたユーザー
+        deactivated: ユーザーが非アクティブ化されました
+        error_activate: アクティブ化されていないユーザー
+        error_deactivate: ユーザーは非アクティブ化されていません
       section:
         manage_access: ユーザーアクセスを管理する
         account: アカウント
@@ -1212,6 +1217,10 @@ ja:
         create_account: アカウントを作成する
         update_account: アカウントを更新する
         create: ユーザーを作成
+        hide_inactive: 非アクティブなユーザーを非表示
+        show_inactive: 非アクティブなユーザーを表示
+        deactivate_user: 無効化
+        activate_user: アクティベート
 
   user_defined:
     _frontend:

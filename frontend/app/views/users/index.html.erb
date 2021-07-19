@@ -3,16 +3,13 @@
 <div class="row">
    <div class="col-md-3"></div>
    <div class="col-md-9">
-     <% if not @manage_access %>
-
-       <div class="record-toolbar">
-         <div class="btn-group pull-right">
-           <%= link_to I18n.t("user._frontend.action.create"), {:controller => :users, :action => :new}, :class => "btn btn-sm btn-default" %>
-         </div>
-         <br style="clear:both" /> <!-- So dirty! -->
+     <div class="record-toolbar">
+       <div class="btn-group pull-right">
+         <%= link_to I18n.t("user._frontend.action.create"), {:controller => :users, :action => :new}, :class => "btn btn-sm btn-default" %>
        </div>
+       <br style="clear:both" /> <!-- So dirty! -->
+     </div>
 
-     <% end %>
 
     <div class="record-pane">
       <% if @manage_access %>
@@ -43,36 +40,60 @@
               <%= sort_pointer(:user_mtime, params, '').html_safe %>
              </th>
              <th><%= I18n.t("user.admin") %></th>
+             <th><%= I18n.t("user.is_active_user") %></th>
              <th width="70px"><span class="sr-only"><%= I18n.t('search_results.actions') %></span></th>
            </tr>
          </thead>
          <tbody>
-          <% @search_data['results'].each do |user| %>
-             <tr>
-              <td><%= user.username %></td>
-              <td><%= user.name %></td>
-              <td><%= Time.parse(user.create_time).getlocal %></td>
-              <td><%= Time.parse(user.user_mtime).getlocal %></td>
-              <td><%= user.is_admin %></td>
-              <td>
+           <% @search_data['results'].each do |user| %>
+             <% if user.is_active_user %>
+               <% active = I18n.t("user.active") %>
+               <% display_class = '' %>
+             <% else %>
+               <% active = I18n.t("user.inactive") %>
+               <% display_class = 'inactive' %>
+             <% end %>
+             <tr class='<%= display_class %>'>
+
+               <td><%= user.username %></td>
+               <td><%= user.name %></td>
+               <td><%= Time.parse(user.create_time).getlocal %></td>
+               <td><%= Time.parse(user.user_mtime).getlocal %></td>
+               <td><%= user.is_admin %></td>
+               <td>
+                 <%= active %>
+               </td>
+               <td>
                  <div class="btn-group" style="float: right">
-                   <% if @manage_access; disabled = user.is_admin ? " disabled" : "" %>
-                      <%= link_to I18n.t("actions.edit_groups"), {:controller => :users, :action => :edit_groups, :id => user.id}, :class => "btn btn-xs btn-default".concat(disabled) %>
-                   <% else %>
-                    <%= link_to I18n.t("actions.edit"), {:controller => :users, :action => :edit, :id => user.id}, :class => "btn btn-xs btn-primary" %>
+                <div class="btn-group" style="float: right">
+                   <% disabled = (user.is_admin || user.is_system_user) ? " disabled" : "" %> 
+
+                   <% if @manage_access %>
+                     <%= link_to I18n.t("actions.edit_groups"), {:controller => :users, :action => :edit_groups, :id => user.id}, :class => "btn btn-xs btn-default".concat(disabled) %>
                    <% end %>
+
+                   <%= link_to I18n.t("actions.edit"), {:controller => :users, :action => :edit, :id => user.id}, :class => "btn btn-xs btn-primary", :id => "edit_#{user.username}" %>
+
+                     <% if !user.is_active_user %>
+                        <%= link_to I18n.t("user._frontend.action.activate_user"), user_activate_path(user.id), :confirm => "Are you sure?", :class => "btn btn-xs btn-success", :id => "activate_#{user.username}" %>
+                     <% else %>
+                       <%= link_to I18n.t("user._frontend.action.deactivate_user"), user_deactivate_path(user.id), :confirm => "Are you sure?", :class => "btn btn-xs btn-danger".concat(disabled), :id => "deactivate_#{user.username}" %>
+                     <% end %>
+
+      
+                  
                  </div>
-              </td>
-            </tr>
-          <% end %>
+               </td>
+             </tr>           
+           <% end %>
          </tbody>
        </table>
        <%= render_aspace_partial :partial => "shared/pagination" %>
-      <% else %>
-         <p class="alert alert-info">
-            No Users.
-         </p>
-      <% end %>
+     <% else %>
+       <p class="alert alert-info">
+         No Users.
+       </p>
+     <% end %>
      </div>
    </div>
 </div>
