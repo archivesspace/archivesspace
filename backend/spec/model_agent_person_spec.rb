@@ -505,6 +505,32 @@ describe 'Agent model' do
       }.not_to raise_error
     end
 
+    it "will allow updates to duplicate user-linked agents" do
+      users = []
+      (0..1).each do |i|
+        user = build(:json_user, {:name => 'John Smith',
+                                  :username => "jsmith#{i}"})
+        users << User.create_from_json(user)
+      end
+
+      agent_1 = JSONModel(:agent_person).find(users[0].agent_record_id)
+      sha_before = AgentPerson.to_jsonmodel(agent_1.id).agent_sha1
+      agent_2 = JSONModel(:agent_person).find(users[1].agent_record_id)
+
+      # No validation error is raised when both are updated
+      expect {
+        RequestContext.in_global_repo do
+          AgentPerson[agent_1.id].update_from_json(AgentPerson.to_jsonmodel(agent_1.id))
+          AgentPerson[agent_2.id].update_from_json(AgentPerson.to_jsonmodel(agent_2.id))
+        end
+      }.not_to raise_error
+
+      # The agent_sha was not changed with the update
+      expect(AgentPerson.to_jsonmodel(agent_1.id).agent_sha1).to eq(sha_before)
+      # But the record has definitely been updated
+      expect(AgentPerson.to_jsonmodel(agent_1.id).lock_version).to eq(1)
+    end
+
     describe "slug tests" do
       before (:all) do
         AppConfig[:use_human_readable_urls] = true
