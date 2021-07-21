@@ -1,4 +1,83 @@
+# coding: utf-8
 require_relative 'utils'
+require 'date'
+
+POSSIBLE_DATE_RANGE_A = /^\d{2}(\d{2})\s?-\s?(\d{2})\s*$/
+POSSIBLE_DATE_RANGE_B = /^(\d{3}[\d\?-]{1,2})\s?-\s?(\d{3}[\d\?-]{1,2})\s*$/
+NUMBERS_AND_SLASHES = /^\s*[\d\\]+\s*$/
+PROBABLE_DATE = /^\s*\d{4}([-\s]\d{2})?([-\s][0123]?\d{1})?\s*$/
+CONTAINS_PROBABLE_DATE = /\d{4}(-\d{2})?(-\d{2})?/
+PROBABLE_DATE_INLINE = /\d{4}/
+
+def process(dx)
+  if dx.match?(/undated/i) || dx.match?(/bulk/i)
+    return [dx, nil]
+  end
+  dx_orig = dx.dup
+  _dx = dx.dup
+
+  Date::MONTHNAMES.each_with_index do |name, i|
+    next if name.nil?
+    _dx.sub!(name, i.to_s.rjust(2, "0"))
+  end
+
+  Date::ABBR_MONTHNAMES.each_with_index do |name, i|
+    next if name.nil?
+    _dx.sub!("#{name}.", i.to_s.rjust(2, "0"))
+    _dx.sub!(name, i.to_s.rjust(2, "0"))
+  end
+
+  dx.sub!('–', '-') if dx.split('–').size == 2
+  dx.sub!('—', '-') if dx.split('—').size == 2
+
+  if dx.match(POSSIBLE_DATE_RANGE_A) && ($1.to_i < $2.to_i)
+    return [dx[0..3], (dx[0..1] + dx[-2..-1])]
+  end
+
+  if dx.match(POSSIBLE_DATE_RANGE_B)
+    return [$1, $2]
+  end
+
+  if dx.split('-').size > 2 && (dx.split('-').size.modulo(2) == 0)
+    a = dx.split('-')
+    index = a.size / 2
+    if a[0...index].join('-').match?(PROBABLE_DATE) && a[index..-1].join('-').match?(PROBABLE_DATE)
+      return [a[0...index].join('-'), a[index..-1].join('-')]
+    end
+  end
+
+  if _dx.split('-').size == 2 && _dx.split('-').select { |x| x.match?(PROBABLE_DATE) }.size == 2
+    return dx.split('-')
+  end
+
+  if _dx.split('/').size == 2 && _dx.split('/').select { |x| x.match?(PROBABLE_DATE) }.size == 2
+    return dx.split('/')
+  end
+
+  # assume anything following a comma after a date is an end date
+  if dx.split(',').size == 2 && dx.split(',')[0].match?(PROBABLE_DATE) && dx.split(',')[1].match?(CONTAINS_PROBABLE_DATE) && dx.index('-').nil?
+    return dx.split(',')
+  end
+
+  #assume a single dash is a range separator if between phrases each ending with a date
+  if dx.split('-').size == 2
+    if dx.index(',').nil? && dx.split('-').select { |x| x.match?(/\d{4}\s*$/) }.size == 2 #.size == 2 && dx.index(',').nil?
+      return dx.split('-')
+    elsif dx.split('-') && (dx.split('-').select { |x|
+                              x.match?(/^\s?([[:alpha:]]+)(\s[0123]?\d,?)?\s\d{4}\s?$/) && (Date::MONTHNAMES.include?($1))
+                            }.size == 2)
+
+      return dx.split('-')
+    elsif dx.split('-') && (dx.split('-').select { |x|
+                              x.match?(/^\s?([[:alpha:]]+)\.?(\s[0123]?\d,?)?\s\d{4}\s?$/) && (Date::ABBR_MONTHNAMES.include?($1))
+                            }.size == 2)
+
+      return dx.split('-')
+    end
+  end
+
+  return [dx_orig, nil]
+end
 
 def create_structured_date(r, rel)
   type_id = (r[:date_type_id] == DATE_TYPE_SINGLE_ID_ORIG ? TYPE_ID_SINGLE : TYPE_ID_RANGE)
@@ -13,18 +92,22 @@ def create_structured_date(r, rel)
                                           :user_mtime => Time.now,
                                           rel => r[rel])
 
-  # create ranged date if end date present
   if type_id == TYPE_ID_RANGE
+    dates = begin
+      process_date_expression(r[:expression])
+    rescue
+      [r[:expression], nil]
+    end
 
     self[:structured_date_range].insert(:begin_date_standardized => r[:begin],
                                         :end_date_standardized => r[:end],
-                                        :begin_date_expression => r[:expression],
+                                        :begin_date_expression => dates[0],
+                                        :end_date_expression => dates[1],
                                         :structured_date_label_id => l,
                                         :create_time => Time.now,
                                         :system_mtime => Time.now,
                                         :user_mtime => Time.now)
 
-  # otherwise, create a single, begin date if we have a begin
   else
     self[:structured_date_single].insert(:date_role_id => ROLE_ID_BEGIN,
                                          :date_standardized => r[:begin],
