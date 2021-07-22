@@ -11,6 +11,35 @@ describe 'Repository model' do
     expect(repo.name).to eq("My new test repository")
   end
 
+  it "creates permissions groups for repository" do
+    repo = Repository.create_from_json(JSONModel(:repository).from_hash(:repo_code => "TESTREPO",
+                                                                       :name => "My new test repository"))
+    repo_groups = Group.where(:repo_id => repo.id).all
+
+    adv_data_entry_found = 0
+    basic_data_entry_found = 0
+    manager_found = 0
+    project_manager_found = 0
+    archivist_found = 0
+    viewers_found = 0
+
+    repo_groups.each do |g|
+      manager_found          += 1 if g.group_code_norm == "repository-managers"
+      archivist_found        += 1 if g.group_code_norm == "repository-archivists"
+      project_manager_found  += 1 if g.group_code_norm == "repository-project-managers"
+      adv_data_entry_found   += 1 if g.group_code_norm == "repository-advanced-data-entry"
+      basic_data_entry_found += 1 if g.group_code_norm == "repository-basic-data-entry"
+      viewers_found          += 1 if g.group_code_norm == "repository-viewers"
+    end
+
+    expect(manager_found).to eq(1)
+    expect(archivist_found).to eq(1)
+    expect(project_manager_found).to eq(1)
+    expect(adv_data_entry_found).to eq(1)
+    expect(basic_data_entry_found).to eq(1)
+    expect(viewers_found).to eq(1)
+  end
+
 
   it "can set OAI off or on" do
     repo = Repository.create_from_json(JSONModel(:repository).from_hash(:repo_code => "TESTREPO",
