@@ -38,7 +38,19 @@ describe 'User model' do
 
     agent = AgentPerson.to_jsonmodel(user.agent_record_id)
     expect(agent.names[0]['primary_name']).to eq (user.name)
+  end
 
+
+  it "allows users to have the same name, but different usernames" do
+    json_1 = build(:json_user, {:name => 'John Smith',
+                                :username => 'jsmith1'})
+
+    json_2 = build(:json_user, {:name => 'John Smith',
+                                :username => 'jsmith2'})
+
+    User.create_from_json(json_1)
+
+    expect { User.create_from_json(json_2) }.not_to raise_error
   end
 
 

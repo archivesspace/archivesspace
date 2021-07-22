@@ -12,17 +12,18 @@ class User < Sequel::Model(:user)
   def self.create_from_json(json, opts = {})
     if !opts[:is_hidden_user]
       agent = JSONModel(:agent_person).from_hash(
-                :publish => false,
+                {:publish => false,
+                :agent_sha1 => SecureRandom.hex,
                 :names => [{
                   :primary_name => json.name,
                   :source => 'local',
                   :rules => 'local',
                   :name_order => 'direct',
                   :sort_name_auto_generate => true
-              }])
+              }]}, raise_errors = true, trusted = true)
 
       CrudHelpers.with_record_conflict_reporting(AgentPerson, agent) do
-        agent_obj = AgentPerson.create_from_json(agent, :system_generated => true)
+        agent_obj = AgentPerson.create_from_json(agent, :system_generated => true, :skip_sha => true)
 
         opts['agent_record_type'] = :agent_person
         opts['agent_record_id'] = agent_obj.id

@@ -26,6 +26,10 @@
           </div>
 
           <%= render_aspace_partial :partial => "shared/public_url", :locals => {:form_object => readonly} if AppConfig[:use_human_readable_urls] %>
+          
+          <% if @agent.has_key?("is_user") %>
+            <%= readonly.label_and_textfield "is_user", { :field_opts => { :readonly => true } } %>
+          <% end %>
 
           <%= readonly.label_and_boolean "publish" %>
 

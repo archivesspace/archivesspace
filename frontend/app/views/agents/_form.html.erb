@@ -28,6 +28,10 @@
     </div>
 
     <%= render_aspace_partial :partial => "shared/slug", :locals => {:form => form, :record_type => @agent} if AppConfig[:use_human_readable_urls] %>
+    
+    <% if @agent.has_key?("is_user") %>
+      <%= form.label_and_textfield "is_user", { :field_opts => { :readonly => true } } %>
+    <% end %>
 
     <%= form.label_and_boolean "publish", {}, user_prefs["publish"] %>
 
