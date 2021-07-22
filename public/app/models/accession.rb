@@ -84,17 +84,15 @@ class Accession < Record
   end
 
   def parse_related_accessions
-    accession_json = ASUtils.json_parse(raw['json'])
-    related_accession_json = accession_json['related_accessions'].map do |r|
-      {
-        title:   r['_resolved']['title'],
-        type:    r['jsonmodel_type'],
-        uri:     r['ref'],
-        publish: r['_resolved']['publish']
-      }
-    end
-
-    related_accession_json
+    ASUtils.wrap(raw['related_accession_uris']).collect {|uri|
+      if raw['_resolved_related_accession_uris'] && !raw['_resolved_related_accession_uris'][uri].nil?
+        raw['_resolved_related_accession_uris'][uri].first
+      end
+    }.compact.select {|accession|
+      accession['publish']
+    }.map {|accession|
+      record_from_resolved_json(ASUtils.json_parse(accession['json']))
+    }
   end
 
 

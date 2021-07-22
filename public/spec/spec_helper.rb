@@ -108,7 +108,11 @@ def setup_test_data
   create(:resource, title: "Resource with Deaccession", publish: true,
     deaccessions: [build(:json_deaccession)])
 
-  classification = create(:classification)
+  create(:resource, title: "Resource with Accession", publish: true,
+    related_accessions: [{'ref' => pa.uri}])
+
+
+  classification = create(:classification, :title => "My Special Classification")
   create(:digital_object, title: "Digital Object With Classification",
                           classifications: [{'ref' => classification.uri}])
 
