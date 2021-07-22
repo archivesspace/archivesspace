@@ -9,6 +9,7 @@ describe 'Events' do
 
     @accession = create(:accession, title: 'Events link to this accession')
     @archivist_user = create_user(@repo => ['repository-archivists'])
+    @data_entry_user = create_user(@repo => ['repository-basic-data-entry'])
 
     name_string = "Geddy Lee #{Time.now.to_i}"
 
@@ -122,10 +123,25 @@ describe 'Events' do
     external_document_sections[0].find_element(link: 'http://archivesspace.org')
   end
 
+  it 'can be deleted by user with delete_event permission' do
+    expect(@driver.find_element_with_text('//button', /Delete/)).not_to be_nil
+  end
+
   it 'should be searchable' do
     run_index_round
     @driver.find_element(:id, 'global-search-button').click
     @driver.find_element(:link, 'Event').click
     assert(5) { @driver.find_element_with_text('//h3', /Search Results/) }
   end
+
+  it 'cannot be deleted by a user without delete_event permission' do
+    @driver = Driver.get.login_to_repo(@data_entry_user, @repo)
+
+    @driver.get($frontend)
+
+    @driver.find_element(:link, 'Browse').click
+    @driver.wait_for_dropdown
+    @driver.click_and_wait_until_gone(:link, 'Events')
+  end
+
 end
