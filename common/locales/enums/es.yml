@@ -620,6 +620,7 @@
       page: Página
       reel: Carrete
       volume: Volumen
+      container: Envase
     file_version_use_statement:
       audio-clip: Clip de audio
       audio-master: Audio-Master
