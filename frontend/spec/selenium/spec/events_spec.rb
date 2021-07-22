@@ -8,7 +8,7 @@ describe 'Events' do
     set_repo(@repo)
 
     @accession = create(:accession, title: 'Events link to this accession')
-    @archivist_user = create_user(@repo => ['repository-archivists'])
+    @manager_user = create_user(@repo => ['repository-managers'])
     @data_entry_user = create_user(@repo => ['repository-basic-data-entry'])
 
     name_string = "Geddy Lee #{Time.now.to_i}"
@@ -23,7 +23,7 @@ describe 'Events' do
 
     run_index_round
 
-    @driver = Driver.get.login_to_repo(@archivist_user, @repo)
+    @driver = Driver.get.login_to_repo(@manager_user, @repo)
   end
 
   after(:all) do
