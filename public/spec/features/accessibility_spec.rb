@@ -50,10 +50,35 @@ describe 'Accessibility', js: true do
     end
 
     context 'individual resource page' do
+      before (:each) do
+        within all('.col-sm-12')[1] do
+          first("a[class='record-title']").click
+        end
+      end
+
       it 'should not skip a heading level' do
         expect(page).to have_css('h3') if page.has_css? 'h4'
         expect(page).to have_css('h2') if page.has_css? 'h3'
         expect(page).to have_css('h1') if page.has_css? 'h2'
+      end
+
+      it 'should support resizing sidebar with keyboard' do
+        sidebar_width = find('div.sidebar').evaluate_script("window.getComputedStyle(this)['width']")
+        handle = find('input.resizable-sidebar-handle')
+
+        5.times do
+          handle.native.send_keys :arrow_left
+        end
+
+        new_sidebar_width = find('div.sidebar').evaluate_script("window.getComputedStyle(this)['width']")
+        expect(new_sidebar_width).to be > sidebar_width
+
+        10.times do
+          handle.native.send_keys :arrow_right
+        end
+
+        newest_sidebar_width = find('div.sidebar').evaluate_script("window.getComputedStyle(this)['width']")
+        expect(newest_sidebar_width).to be < sidebar_width
       end
 
       it 'should not duplicate ids' do
@@ -61,9 +86,6 @@ describe 'Accessibility', js: true do
         expect(page).to be_axe_clean.checking_only :'duplicate-id'
 
         # Collection Organization
-        within all('.col-sm-12')[1] do
-          first("a[class='record-title']").click
-        end
         click_link 'Collection Organization'
         expect(page).to be_axe_clean.checking_only :'duplicate-id'
 
