@@ -287,22 +287,18 @@ module JSONModel::Validations
 
     if errors.length == 0 && hash["begin_date_standardized"] && hash["end_date_standardized"]
       begin
-        if hash["begin_date_standardized"].length == 4
-          bt = Time.parse(hash["begin_date_standardized"] + "0101") # for a 4-digit date (year) assume Jan 1 of that year for comparison check
-        else
-          bt = Time.parse(hash["begin_date_standardized"])
+        if hash["begin_date_standardized"]
+          bt = parse_sloppy_date(hash["begin_date_standardized"])
         end
 
-        if hash["end_date_standardized"].length == 4
-          et = Time.parse(hash["end_date_standardized"] + "0101")
-        else
-          et = Time.parse(hash["end_date_standardized"])
+        if hash["end_date_standardized"]
+          et = parse_sloppy_date(hash["end_date_standardized"])
         end
       rescue => e
         errors << ["begin_date_standardized", "Error attempting to parsing dates"]
       end
 
-      errors << ["begin_date_standardized", "requires that end dates are after begin dates"] if bt > et
+      errors << ["begin_date_standardized", "requires that end dates are after begin dates"] if bt && et && bt > et
     end
 
     return errors

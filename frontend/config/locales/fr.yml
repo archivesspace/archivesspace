@@ -1875,6 +1875,10 @@ fr:
     end_date_standardized: Date normalisée de fin
     end_date_standardized_type: Type de date standardisée de fin
 
+  date_type_structured:
+    single: Unique
+    range: Fourchette
+
   agent_record_control:
     _plural: Enregistrer les informations
     _singular: Enregistrer les informations
