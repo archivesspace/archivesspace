@@ -9,7 +9,7 @@ PROBABLE_DATE = /^\s*\d{4}([-\s]\d{2})?([-\s][0123]?\d{1})?\s*$/
 CONTAINS_PROBABLE_DATE = /\d{4}(-\d{2})?(-\d{2})?/
 PROBABLE_DATE_INLINE = /\d{4}/
 
-def process(dx)
+def process_date_expression(dx)
   if dx.match?(/undated/i) || dx.match?(/bulk/i)
     return [dx, nil]
   end
