@@ -18,7 +18,7 @@ class SearchController < ApplicationController
     fallback_location = @repo_id ? app_prefix(repo_url) : app_prefix('/search?reset=true');
     @new_search = fallback_location
 
-    if params[:reset] == 'true'
+    if params[:reset] == 'true' || !params.has_key?(:q)
       @reset = true
       params[:rid] = nil
       @search = Search.new(params)

@@ -12,36 +12,38 @@
   <% (0...[1, @search.q.length].max).each do |i| %>
   <div class="row search_row" id="search_row_<%= i %>">
     <div class="col-sm-1 bool form-group form-inline">
-      <%= label_tag("op#{i}", t('advanced_search.operator_label'), :class => 'sr-only') %>
+      <%= label_tag("op#{i}", t('advanced_search.operator_label')) %>
       <%= select_tag('op[]', options_for_select(Search.get_boolean_opts, @search[:op][i]), disabled: (i == 0), :id => "op#{i}",:class=> 'form-control' + (i == 0 ? ' hidden' : '')) %>
       <%= hidden_field_tag('op[]','', :id => 'op_') if i == 0 %>
     </div>
-    <div class="<%= i == 0 ? "col-sm-3" : "col-sm-6" %> form-group form-inline">
-      <%= label_tag(:"q#{i}", t('navbar.search_placeholder'),:class => 'sr-only repeats') %>
+    <div class="<%= i == 0 ? "col-sm-3" : "col-sm-5" %> form-group form-inline">
+      <%= label_tag(:"q#{i}", t('navbar.search_placeholder'),:class => 'repeats') %>
       <%= text_field_tag('q[]', @search[:q][i], :placeholder =>  t('navbar.search_placeholder'), :id => "q#{i}",
-            :class=> 'form-control repeats fill-column js-search-box') %>
+                         :class=> 'form-control repeats fill-column js-search-box') %>
     </div>
     <% if i == 0 %>
       <div class="col-sm-3 form-group form-inline norepeat">
-        <%= label_tag(:limit, t('search-limit-label'),:class => 'sr-only') %>
+        <%= label_tag(:limit, t('advanced_search.limit_label')) %>
         <%= select_tag(:limit, options_for_select(limit_options, @search[:limit]), :class=> 'form-control fill-column') %>
       </div>
     <% end %>
-    <div class="col-sm-5 form-group form-inline">
-      <%= label_tag(:"field#{i}", t('search-field'),:class => 'sr-only repeats') %>
+    <div class="col-sm-2 form-group">
+      <%= label_tag(:"field#{i}", t('search-field'),:class => 'repeats') %>
       <%= select_tag('field[]', options_for_select(field_options, @search[:field][i]), :id=> "field#{i}", :class=> 'form-control repeats') %>
-
-      <span class="inline-label repeats"><%= t('search_results.filter.years') %>:</span>
-      <%= label_tag(:"from_year#{i}", "#{t('search_results.filter.from_year')}", :class => 'sr-only repeats') %>
+    </div>
+    <div class="col-sm-1 form-group">
+      <%= label_tag(:"from_year#{i}", "#{t('search_results.filter.from_year')}", :class => 'repeats') %>
       <%= text_field_tag('from_year[]', @search[:from_year][i], :size => 4,:maxlength => 4, :id=>"from_year#{i}",
-           :placeholder => t('search_results.filter.from'),:class=>'form-control repeats') %>
-
-      <span class="inline-label repeats"><%= t('search_results.filter.to') %></span>
-      <%= label_tag(:"to_year#{i}", "#{t('search_results.filter.to_year')}", :class=> 'sr-only repeats') %>
+                         :placeholder => t('search_results.filter.from'),:class=>'form-control repeats') %>
+    </div>
+    <div class="col-sm-1 form-group">
+      <%= label_tag(:"to_year#{i}", "#{t('search_results.filter.to_year')}", :class=> 'repeats') %>
       <%= text_field_tag('to_year[]', @search[:to_year][i], :size => 4, :maxlength => 4, :id => "to_year#{i}",
-               :class=> 'form-control repeats', :placeholder => t('search_results.filter.to')) %>
-    <span class="plusminus"></span>
-
+                         :class=> 'form-control repeats', :placeholder => t('search_results.filter.to')) %>
+    </div>
+    <div class="col-sm-1">
+        <label for="plusminus<%= i %>" class="repeats plusminus_label"><%= t('advanced_search.add_row') %></label><br />
+        <span class="plusminus" id="plusminus<%= i %>"></span>
     </div>
   </div>
   <% end %>
