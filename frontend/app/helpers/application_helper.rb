@@ -131,7 +131,6 @@ module ApplicationHelper
               :title => title,
               :class => "context-help has-tooltip",
               "data-placement" => "left",
-              "data-container" => "body",
             }.merge(opts[:link_opts] || {})
            )
   end

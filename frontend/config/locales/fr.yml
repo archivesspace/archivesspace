@@ -18,6 +18,7 @@ fr:
     container_labels: Télécharger labels de conditionnements
     create: Créer
     cut: Couper
+    date_picker: Sélecteur de date d'ouverture
     defaults: Valeurs par défaut
     edit: Editer
     edit_oai: Modifier les paramètres OAI
@@ -467,15 +468,18 @@ fr:
 
   advanced_search:
     operator:
+      operator: Opératrice
       AND: Et
       OR: Ou
       NOT: Pas
     date_operator:
+      comparator: Comparateur
       equal: égal à
       greater_than: plus grand que
       lesser_than: moins que
       empty: non assigné
     boolean_field:
+      boolean: Booléenne
       true_value: "Vrai"
       false_value: "Faux"
     button_text: Recherche
@@ -487,10 +491,16 @@ fr:
       show: Afficher Recherche avancée
       hide: Masquer Recherche avancée
     text_operator:
+      comparator: Comparateur
       contains: contient
       empty: est vide
     enum_field:
       empty: non attribué
+    search_field: Champ de recherche
+    search_text: Texte de recherche
+    search_date: Date
+    search_terms: Champs de recherche avancée %{number}
+    remove_row: Supprimer les champs de recherche avancée %{number}
 
   become-user:
     become-user: Passer utilisateur

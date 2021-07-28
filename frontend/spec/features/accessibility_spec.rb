@@ -37,30 +37,98 @@ describe 'Accessibility', js: true , db: 'accessibility' do
     end
   end
 
+  context 'Datepicker' do
 
-  it 'should have aria attributes on datepicker advance buttons' do
-    visit "/resources/1/edit#tree::resource_1"
+    it 'should have aria attributes on datepicker advance buttons' do
+      visit '/'
 
-    page.has_no_css? ".datepicker"
-    2.times {
-      sleep 1 unless page.has_css? "input#resource_dates__0__begin_.date-field.initialised"
-    }
+      visit "/resources/1/edit#tree::resource_1"
 
-    date_field = find "input#resource_dates__0__begin_.date-field.initialised"
-    date_field.click
+      page.has_no_css? ".datepicker"
 
-    page.has_css? ".datepicker"
+      date_field = find "input#resource_dates__0__begin_.date-field.initialised"
+      date_field.click
 
-    within ".datepicker" do
-      prev_th = find ".datepicker-days thead > tr > th.prev"
-      next_th = find ".datepicker-days thead > tr > th.next"
+      page.has_css? ".datepicker"
 
-      expect(prev_th).to have_xpath "self::th[@role='button'][@aria-label='Previous']"
-      expect(next_th).to have_xpath "self::th[@role='button'][@aria-label='Next']"
+      within ".datepicker" do
+        prev_th = find ".datepicker-days thead > tr > th.prev"
+        next_th = find ".datepicker-days thead > tr > th.next"
+
+        expect(prev_th).to have_xpath "self::th[@role='button'][@aria-label='Previous']"
+        expect(next_th).to have_xpath "self::th[@role='button'][@aria-label='Next']"
+      end
+    end
+
+  end
+
+  context 'Advanced search' do
+
+    it 'sets the expanded state on advanced search dropdown' do
+      visit '/'
+      page.has_css? "div.repository-header"
+
+      within "div.repository-header" do
+        switcher = find "button.search-switcher"
+
+        expect(switcher).to have_xpath "self::button[@aria-expanded='false']"
+        expect(switcher).not_to have_xpath "self::button[@aria-expanded='true']"
+
+        switcher.click
+        expect(switcher).to have_xpath "self::button[@aria-expanded='true']"
+        expect(switcher).not_to have_xpath "self::button[@aria-expanded='false']"
+      end
+    end
+
+    it 'advanced search form fields are in logical order in DOM' do
+      visit '/'
+      page.has_css? "div.repository-header"
+
+      within "div.repository-header" do
+        switcher = find "button.search-switcher"
+        switcher.send_keys :tab
+
+        # Doesn't tab down into hidden advanced search form
+        expect(page.evaluate_script("document.activeElement.innerHTML")).to include("repository-label")
+
+        # Expand advanced search and tab into it
+        switcher.click
+        switcher.send_keys :tab
+
+        expect(page.evaluate_script("document.activeElement.classList[0]")).to include("advanced-search-row-op-input")
+      end
+    end
+
+    it 'advanced search form fields all have visible labels' do
+      visit '/'
+      page.has_css? "div.repository-header"
+
+      within "div.repository-header" do
+        switcher = find "button.search-switcher"
+        switcher.click
+
+        expect(page).to be_axe_clean.checking_only :'label-title-only'
+      end
+    end
+
+    it 'expands and dismisses repository popover with keyboard alone' do
+      visit '/'
+      page.has_css? "div.repository-header"
+
+      within "div.repository-header" do
+        expect(page).not_to have_xpath("*//div[starts-with(@id,'popover')]")
+        repo = find "span.repository-label"
+        repo.send_keys ''
+
+        expect(page).to have_xpath("*//div[starts-with(@id,'popover')]")
+
+        repo.send_keys :escape
+        expect(page).not_to have_xpath("*//div[starts-with(@id,'popover')]")
+      end
     end
   end
 
-  describe "resource toolbar" do
+  context "resource toolbar" do
 
     # 519098
     it "does not have any <a> tags without a @href attributes" do
@@ -134,4 +202,5 @@ describe 'Accessibility', js: true , db: 'accessibility' do
       end
     end
   end
+
 end

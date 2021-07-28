@@ -31,6 +31,8 @@ gem 'atomic', '= 1.0.1'
 gem 'jruby-jars', '= 9.2.12.0'
 
 group :test do
+  gem 'axe-core-rspec'
+  gem 'dumb_delegator', '~> 0.8'
   gem 'rspec', '~> 3.6.0'
   # For performance testing
   gem 'rspec-benchmark'

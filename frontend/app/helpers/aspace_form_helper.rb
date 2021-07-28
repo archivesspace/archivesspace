@@ -272,7 +272,8 @@ module AspaceFormHelper
           :"data-format" => "yyyy-mm-dd",
           :"data-date" => Date.today.strftime('%Y-%m-%d'),
           :"data-autoclose" => true,
-          :"data-force-parse" => false
+          :"data-force-parse" => false,
+          :"data-label" => I18n.t("actions.date_picker")
       })
 
       if obj[name].blank? && opts[:default]
