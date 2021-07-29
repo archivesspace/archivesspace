@@ -255,7 +255,7 @@ class ResourcesController < ApplicationController
     if !@results.blank?
       params[:q] = '*'
 
-      # ANW-733: Add facet filter query params. 
+      # ANW-733: Add facet filter query params.
       # This is automatically done in other places where pagination objects are created, but was missing here.
 
       search_uri = @base_search
