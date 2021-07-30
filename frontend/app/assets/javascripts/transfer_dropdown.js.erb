@@ -18,10 +18,12 @@ $(function () {
 
       if ($(".transfer-form")[0].style.display === "block") {
         // Hide it
+        $(this).attr('aria-expanded', 'false');
         $(".transfer-form").css("display", "");
       } else {
         // Show it
         $(".transfer-form").css("display", "block");
+        $(this).attr('aria-expanded', 'true');
       }
     });
 

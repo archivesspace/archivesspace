@@ -14,10 +14,10 @@ $(function() {
       }
 
       $this.addClass("initialised");
-      
+
       // this is a bit hacky, but we need to have some input fields present in
       // the form so we don't have to rely on the linker to make sure data
-      // presists. we can remove those after the linker does its thing.
+      // persists. we can remove those after the linker does its thing.
       $(".prelinker", $linkerWrapper).remove();
 
       var config = {
@@ -78,7 +78,7 @@ $(function() {
               $("#createAndLinkButton", $modal).removeAttr("disabled");
             }
           });
-          
+
           $modal.scrollTo(".alert");
 
           $modal.trigger("resize");
@@ -378,7 +378,7 @@ $(function() {
               return "subject_type_topical";
             case "uniform_title":
               return "subject_type_uniform_title";
-            default: 
+            default:
               return "";
           }
         }
@@ -429,7 +429,7 @@ $(function() {
           zindex: 1100,
           tokenFormatter: function(item) {
             var tokenEl = $(AS.renderTemplate("linker_selectedtoken_template", {item: item, config: config}));
-            tokenEl.children("div").children(".icon-token").addClass(config.span_class); 
+            tokenEl.children("div").children(".icon-token").addClass(config.span_class);
             $("input[name*=resolved]", tokenEl).val(JSON.stringify(item.json));
             return tokenEl;
           },
@@ -453,7 +453,7 @@ $(function() {
             var added_node_id = "#" + item.id.replace(/\//g, "_");
 
             added_node = $(added_node_id);
-            added_node.children("div").children(".icon-token").addClass(extra_class); 
+            added_node.children("div").children(".icon-token").addClass(extra_class);
 
             if (config.sortable && config.allow_multiple) {
               enableSorting();
@@ -480,8 +480,7 @@ $(function() {
 
         setTimeout(function() {
           $this.tokenInput(config.url, tokenInputConfig);
-
-          $("> :input[type=text]", $(".token-input-input-token", $this.parent())).attr("placeholder", AS.linker_locales.hintText).attr("aria-label", config.label);
+          $("> :input[type=text]", $(".token-input-input-token", $this.parent())).attr("placeholder", AS.linker_locales.hintText).attr("aria-label", config.label).attr("role", "searchbox").attr("aria-multiline", "false");
           $("> :input[type=text]", $(".token-input-input-token", $this.parent())).addClass('form-control');
 
           $this.parent().addClass("multiplicity-"+config.multiplicity);
@@ -517,7 +516,7 @@ $(function() {
 $(document).ready(function() {
   $(document).bind("loadedrecordsubforms.aspace", function(event, $container) {
     $(".linker-wrapper:visible > .linker:not(.initialised)", $container).linker();
-    // we can go ahead and init dropdowns ( such as those in the toolbars ) 
+    // we can go ahead and init dropdowns ( such as those in the toolbars )
     $("#archives_tree_toolbar .linker:not(.initialised)").linker();
   });
 

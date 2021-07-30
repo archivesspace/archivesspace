@@ -2,6 +2,7 @@ en:
   actions:
     add: Add
     add_event: Add Event
+    add_event_event_type: Type
     automate: Automatically generate
     batch: Batch
     browse: Browse

@@ -15,20 +15,19 @@
 <div class="form-group required">
    <label class="control-label <%= layout != 'stacked' ? 'col-sm-2' : '' %>"
           id="<%= form.id_for("ref") %>_label"
-          for="<%= form.id_for("ref") %>">
+          for="<%= form.id_for("ref") %>_combobox">
      <%= field_label %>
    </label>
    <div class="controls <%= layout != 'stacked' ? 'col-sm-8' : ''%>"
         role="combobox"
         aria-owns="<%= form.id_for("ref") %>_listbox"
+        aria-expanded="false"
         id="<%= form.id_for("ref") %>_combobox">
        <div class="input-group linker-wrapper">
-          <input type="text" 
+          <input type="text"
             class="linker"
             id="<%= form.id_for("ref") %>"
             aria-autocomplete="both"
-            aria-controls="<%= form.id_for("ref") %>_listbox"
-            aria-labelledby="<%= form.id_for("ref") %>_label"
             data-label="<%= I18n.t("#{record_types}._singular") %>"
             data-label_plural="<%= I18n.t("#{record_types}._plural") %>"
             data-path="<%= form.path %>"
@@ -41,16 +40,16 @@
             data-types='<%= data_types %>'
             data-exclude='<%= exclude_ids.to_json %>'
           />
-          
+
           <% if form.obj.has_key?('_resolved') %>
-          
-            <input type="text" 
-              class='prelinker' 
+
+            <input type="text"
+              class='prelinker'
               name="<%= form.path %>[_resolved]"
               value="<%= selected_json %>" />
-              
-            <input type="text" 
-              class='prelinker' 
+
+            <input type="text"
+              class='prelinker'
               name="<%= form.path %>[ref]"
               value="<%= form.obj["ref"] %>" />
 

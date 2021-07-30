@@ -246,17 +246,20 @@ $.TokenList = function (input, url_or_data, settings) {
         })
         .attr("id", $(input).data("settings").idPrefix + input.id)
         .focus(function () {
-            if ($(input).data("settings").disabled) {
-                return false;
-            } else
+          if ($(input).data("settings").disabled) {
+            return false;
+          } else
             if ($(input).data("settings").tokenLimit === null || $(input).data("settings").tokenLimit !== token_count) {
-                show_dropdown_hint();
+              show_dropdown_hint();
             }
             token_list.addClass($(input).data("settings").classes.focused);
-            token_list.closest("div").attr("aria-expanded", true)
+
+            var $combobox = token_list.closest("div.controls");
+            $combobox.attr("aria-expanded", true);
         })
         .blur(function () {
             hide_dropdown();
+            token_list.closest("div.controls").find("input[role='searchbox']").removeAttr('aria-controls');
             $(this).val("");
             token_list.removeClass($(input).data("settings").classes.focused);
 
@@ -266,7 +269,7 @@ $.TokenList = function (input, url_or_data, settings) {
               $(this).val("");
             }
             token_list.removeClass($(input).data("settings").classes.focused);
-            token_list.closest("div").attr("aria-expanded", false)
+            token_list.closest("div.controls").attr("aria-expanded", false)
         })
         .bind("keyup keydown blur update", resize_input)
         .keydown(function (event) {
@@ -429,8 +432,8 @@ $.TokenList = function (input, url_or_data, settings) {
     /**
      * ANW-897: The plugin appends dropdown to <body>, preventing
      * scrolling when at the bottom of the viewport.
-     * Let's override this unmaintained plugin by 
-     * appending the dropdown to a relative parent. 
+     * Let's override this unmaintained plugin by
+     * appending the dropdown to a relative parent.
      * Let's also adjust dropdown styles (see show_dropdown() below).
      */
     var dropdown_parent = $("<section>")
@@ -783,9 +786,9 @@ $.TokenList = function (input, url_or_data, settings) {
       /**
        * ANW-897: The plugin appends dropdown to <body>, preventing
        * scrolling when at the bottom of the viewport.
-       * Let's override this unmaintained plugin by 
+       * Let's override this unmaintained plugin by
        * appending the dropdown to a relative parent
-       * (see dropdown_parent above). Let's also adjust dropdown 
+       * (see dropdown_parent above). Let's also adjust dropdown
        * styles.
        */
         dropdown
@@ -851,7 +854,7 @@ $.TokenList = function (input, url_or_data, settings) {
                     return false;
                 })
                 .hide();
-
+            dropdown_ul.closest("div.controls").find("input[role='searchbox']").attr('aria-controls', dropdown_ul.attr('id'));
             if ($(input).data("settings").resultsLimit && results.length > $(input).data("settings").resultsLimit) {
                 results = results.slice(0, $(input).data("settings").resultsLimit);
             }
