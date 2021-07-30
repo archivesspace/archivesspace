@@ -486,7 +486,7 @@ AppConfig[:record_inheritance] = {
 
 AppConfig[:pui_search_results_page_size] = 10
 AppConfig[:pui_branding_img] = 'archivesspace.small.png'
-AppConfig[:pui_branding_img_alt_text] = 'ArchivesSpace logo'
+AppConfig[:pui_branding_img_alt_text] = 'ArchivesSpace - a community served by Lyrasis.'
 AppConfig[:pui_block_referrer] = true # patron privacy; blocks full 'referrer' when going outside the domain
 
 # The number of PDFs that can be generated (in the background) at the same time.

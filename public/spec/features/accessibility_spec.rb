@@ -236,4 +236,9 @@ describe "Accessibility 2.0", js: true do
 
     end
   end
+
+  it "sets alt text correctly for main logo", :db => 'accessibility' do
+    visit "/"
+    expect(page).to have_xpath("//img[@class='logo' and @alt='ArchivesSpace - a community served by Lyrasis.']")
+  end
 end
