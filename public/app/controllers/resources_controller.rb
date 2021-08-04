@@ -254,7 +254,16 @@ class ResourcesController < ApplicationController
 
     if !@results.blank?
       params[:q] = '*'
-      @pager = Pager.new(@base_search, @results['this_page'], @results['last_page'])
+
+      # ANW-733: Add facet filter query params.
+      # This is automatically done in other places where pagination objects are created, but was missing here.
+
+      search_uri = @base_search
+      if @facet_filter
+        search_uri += @facet_filter.get_filter_url_params
+      end
+
+      @pager = Pager.new(search_uri, @results['this_page'], @results['last_page'])
     else
       @pager = nil
     end
