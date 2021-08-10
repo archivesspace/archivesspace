@@ -109,7 +109,7 @@ def create_structured_date(r, rel)
                                         :user_mtime => Time.now)
 
   else
-    self[:structured_date_single].insert(:date_role_id => ROLE_ID_BEGIN,
+    self[:structured_date_single].insert(:date_role_id => r[:expression]&.match?(/^\s?-\s?\d{4}$/) ? ROLE_ID_END : ROLE_ID_BEGIN,
                                          :date_standardized => r[:begin],
                                          :date_expression => r[:expression],
                                          :structured_date_label_id => l,
