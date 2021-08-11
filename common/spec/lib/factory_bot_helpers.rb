@@ -57,7 +57,7 @@ FactoryBot.define do
   sequence(:record_role) { sample(JSONModel(:event).schema['properties']['linked_records']['items']['properties']['role']) }
 
   sequence(:date_type) { sample(JSONModel(:date).schema['properties']['date_type']) }
-  sequence(:date_lable) { sample(JSONModel(:date).schema['properties']['label']) }
+  sequence(:date_label) { sample(JSONModel(:date).schema['properties']['label']) }
 
   sequence(:multipart_note_type) { sample(JSONModel(:note_multipart).schema['properties']['type'])}
   sequence(:digital_object_note_type) { sample(JSONModel(:note_digital_object).schema['properties']['type'])}

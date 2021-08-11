@@ -1,3 +1,7 @@
+# frozen_string_literal: true
+
+require_relative 'factories'
+
 require 'ashttp'
 require "uri"
 require "json"
@@ -14,7 +18,6 @@ require_relative '../../indexer/app/lib/realtime_indexer'
 require_relative '../../indexer/app/lib/periodic_indexer'
 require_relative '../../indexer/app/lib/pui_indexer'
 
-require_relative '../../common/selenium/backend_client_mixin'
 module BackendClientMethods
   alias :run_all_indexers_orig :run_all_indexers
   # patch this to also run our PUI indexer.
@@ -65,6 +68,24 @@ def setup_test_data
 
   digi_obj = create(:digital_object, title: 'Born digital', publish: true)
 
+  subject = create(:subject, title: 'Subject')
+
+  create(:agent_person,
+         names: [build(:name_person,
+                       name_order: 'direct',
+                       primary_name: "Agent",
+                       rest_of_name: "Published",
+                       sort_name: "Published Agent",
+                       number: nil,
+                       dates: nil,
+                       qualifier: nil,
+                       fuller_form: nil,
+                       prefix: nil,
+                       title: nil,
+                       suffix: nil)],
+         dates_of_existence: nil,
+         publish: true)
+
   pa = create(:accession, title: "Published Accession", publish: true, instances: [
     build(:instance_digital, digital_object: { 'ref' => digi_obj.uri })
   ])
@@ -103,8 +124,10 @@ def setup_test_data
                         build(:lang_material)
                      ])
 
-  resource = create(:resource, title: "Published Resource", publish: true,
-                    :instances => [build(:instance_digital)])
+  resource = create(:resource, title: "Published Resource",
+                    publish: true,
+                    instances: [build(:instance_digital)],
+                    subjects: [{'ref' => subject.uri}])
 
   create(:resource, title: "Resource with Deaccession", publish: true,
     deaccessions: [build(:json_deaccession)])
@@ -169,7 +192,6 @@ RSpec.configure do |config|
       $period = PeriodicIndexer.new($backend, nil, "periodic_indexer", false)
       $pui = PUIIndexer.new($backend, nil, "pui_periodic_indexer")
     end
-    FactoryBot.reload
     AspaceFactories.init
     setup_test_data
   end
