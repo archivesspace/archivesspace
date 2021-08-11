@@ -6,8 +6,13 @@
 
 module I18n
 
+  # can be used to reset the cache
+  def self.initialize_cache
+    @@translate_cache = java.util.concurrent.ConcurrentHashMap.new(TRANSLATE_CACHE_LIMIT)
+  end
+
   TRANSLATE_CACHE_LIMIT = 8192
-  TRANSLATE_CACHE = java.util.concurrent.ConcurrentHashMap.new(TRANSLATE_CACHE_LIMIT)
+  @@translate_cache = initialize_cache
   ENUM_SEPARATOR = "\0"
 
   # Caching layer.  See #t_raw_uncached for the real action.
@@ -21,10 +26,12 @@ module I18n
       return self.t_raw_uncached(*args)
     end
 
+    # prefix the generated cache key with the locale set per request cycle
+    cache_key = "#{config.locale}.#{cache_key}"
     entry = nil
     cache_hit = false
 
-    if (entry = TRANSLATE_CACHE[cache_key])
+    if (entry = @@translate_cache[cache_key])
       cache_hit = true
     else
       begin
@@ -34,11 +41,11 @@ module I18n
       end
     end
 
-    if !cache_hit && TRANSLATE_CACHE.size < TRANSLATE_CACHE_LIMIT
+    if !cache_hit && @@translate_cache.size < TRANSLATE_CACHE_LIMIT
       # This won't strictly prevent the cache growing a bit larger than the
       # limit since the size check isn't performed under a lock, but should stop
       # unbounded growth due to bugs in code.
-      TRANSLATE_CACHE[cache_key] = entry
+      @@translate_cache[cache_key] = entry
     end
 
     # TEST MODE
