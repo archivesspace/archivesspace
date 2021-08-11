@@ -2,6 +2,7 @@ require 'jsonmodel'
 require 'factory_bot'
 require 'spec/lib/factory_bot_helpers'
 
+require_relative '../../common/selenium/backend_client_mixin'
 
 include BackendClientMethods
 include JSONModel
@@ -50,7 +51,6 @@ module AspaceFactories
 
       sequence(:generic_description) {|n| "Description: #{n}"}
       sequence(:yyyy_mm_dd) { Time.at(rand * Time.now.to_i).to_s.sub(/\s.*/, '') }
-      sequence(:alphanumstr) { SecureRandom.hex }
 
       sequence(:username) {|n| "testuser_#{n}_#{Time.now.to_i}"}
       sequence(:user_name) {|n| "Test User #{n}_#{Time.now.to_i}"}
@@ -62,7 +62,6 @@ module AspaceFactories
       sequence(:ref_id) {|n| "aspace_#{n}"}
       sequence(:id_0) {|n| "#{Time.now.to_i}_#{n}"}
 
-      sequence(:number) { rand(1_000) }
       sequence(:accession_title) { |n| "Accession #{n}" }
       sequence(:resource_title) { |n| "Resource #{n}" }
       sequence(:archival_object_title) {|n| "Archival Object #{n}"}
@@ -71,30 +70,8 @@ module AspaceFactories
       sequence(:classification_title) {|n| "Classification #{n}"}
       sequence(:classification_term_title) {|n| "Classification Term #{n}"}
 
-      sequence(:use_statement) { ["application", "application-pdf", "audio-clip"].sample }
-      sequence(:checksum_method) { ["md5", "sha-1", "sha-256", "sha-384", "sha-512"].sample }
-      sequence(:xlink_actuate_attribute) { ["none", "other", "onLoad", "onRequest"].sample }
-      sequence(:xlink_show_attribute) {  ["new", "replace", "embed", "other", "none"].sample }
-      sequence(:file_format) { %w[aiff avi gif jpeg mp3 pdf tiff txt].sample }
-
-      sequence(:language) { sample(JSONModel(:language_and_script).schema['properties']['language']) }
-      sequence(:script) { sample(JSONModel(:language_and_script).schema['properties']['script']) }
-
-      sequence(:finding_aid_language) { sample(JSONModel(:resource).schema['properties']['finding_aid_language']) }
-      sequence(:finding_aid_script) { sample(JSONModel(:resource).schema['properties']['finding_aid_script']) }
-
-      sequence(:name_rule) { ["local", "aacr", "dacs", "rda"].sample }
-      sequence(:name_source) { ["local", "naf", "nad", "ulan"].sample }
-      sequence(:generic_name) { SecureRandom.hex }
-      sequence(:sort_name) { SecureRandom.hex }
-
-
-      sequence(:rde_template_name) {|n| "RDE Template #{n}_#{Time.now.to_i}"}
-      sequence(:four_part_id) { Digest::MD5.hexdigest("#{Time.now}#{SecureRandom.uuid}#{$$}").scan(/.{6}/)[0...1] }
-
       sequence(:top_container_indicator) {|n| "Container #{n}"}
       sequence(:building) {|n| "Maggie's #{n}th Farm_#{Time.now.to_i}" }
-      sequence(:url) { |n| "http://example#{n}.com" }
 
       factory :repo, class: JSONModel(:repository) do
         repo_code { generate :repo_code }
@@ -222,7 +199,7 @@ module AspaceFactories
         use_statement { generate(:use_statement) }
         xlink_actuate_attribute { generate(:xlink_actuate_attribute) }
         xlink_show_attribute { generate(:xlink_show_attribute) }
-        file_format_name { generate(:file_format) }
+        file_format_name { generate(:file_format_name) }
         file_format_version { generate(:alphanumstr) }
         file_size_bytes { generate(:number).to_i }
         checksum { generate(:alphanumstr) }
@@ -255,7 +232,7 @@ module AspaceFactories
       end
 
       factory :date, class: JSONModel(:date) do
-        date_type { "inclusive" }
+        date_type { generate(:date_type) }
         label { 'creation' }
         self.begin { "1900-01-01" }
         self.end { "1999-12-31" }
