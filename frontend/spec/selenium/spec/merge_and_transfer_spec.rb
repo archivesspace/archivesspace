@@ -29,7 +29,7 @@ describe 'Merging and transfering resources' do
 
   it 'can transfer a resource to another repository and open it for editing' do
     @driver.get_edit_page(@resource)
-    @driver.find_element(:link, 'Transfer').click
+    @driver.find_element(:css, "#transfer-dropdown button").click
     @driver.find_element(:id, 'transfer_ref_').select_option_with_text(@target_repo.repo_code)
     @driver.find_element(css: '.transfer-button').click
     @driver.find_element(:css, '#confirmButton').click
@@ -58,7 +58,7 @@ describe 'Merging and transfering resources' do
 
     @driver.get_edit_page(@resource2)
 
-    @driver.find_element(:link, 'Merge').click
+    @driver.find_element(:css, '#merge-dropdown button').click
     @driver.wait_for_ajax
 
     # spaces in the search string seem to through off the token search, so:
@@ -114,7 +114,7 @@ describe 'Merging and transfering resources' do
 
     @driver.get_edit_page(merger)
 
-    @driver.find_element(:link, 'Merge').click
+    @driver.find_element(:css, '#merge-dropdown button').click
 
     # spaces in the search string seem to through off the token search, so:
     search_string = target.title.sub(/-\s.*/, '').strip

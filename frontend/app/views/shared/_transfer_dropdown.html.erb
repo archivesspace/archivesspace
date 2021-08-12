@@ -1,5 +1,5 @@
 <%
-   singular = "#{controller}".singularize 
+   singular = "#{controller}".singularize
    extra_params = {} if extra_params.blank?
 
    other_repositories = @repositories.reject {|r| r['uri'] == session[:repo]}.map {|r| [r['repo_code'], r['uri']]}
@@ -7,9 +7,9 @@
 
 <% if !other_repositories.empty? %>
   <div id="transfer-dropdown" class="btn-group dropdown" data-no-change-tracking="true">
-    <a class="btn btn-sm btn-default dropdown-toggle transfer-action" data-toggle="dropdown" href="#" title="<%= I18n.t("actions.transfer") %>">
+    <button class="btn btn-sm btn-default dropdown-toggle transfer-action" data-toggle="dropdown" role="button" aria-expanded="false" title="<%= I18n.t("actions.transfer") %>">
       <%= I18n.t("actions.transfer") %> <span class="caret"></span>
-    </a>
+    </button>
     <ul class="dropdown-menu open-aligned-right transfer-form">
       <li>
         <p><%= I18n.t("#{singular}._frontend.messages.transfer_description") %></p>

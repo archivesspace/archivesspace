@@ -21,9 +21,11 @@ $(function () {
       if ($(".add-event-form")[0].style.display === "block") {
         // Hide it
         $(".add-event-form").css("display", "");
+        $(this).attr('aria-expanded', 'false');
       } else {
         // Show it
         $(".add-event-form").css("display", "block");
+        $(this).attr('aria-expanded', 'true');
       }
     });
 
