@@ -170,3 +170,7 @@ en:
       user: Help on Managing Users
       # Controlled Value Lists
       enumeration: Help on Controlled Value Lists
+
+      # Preference
+      preference: Help on Preferences
+      
