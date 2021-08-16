@@ -15,7 +15,7 @@
 
 <div class="request">
   <h2>Record Requested</h2>
-  <%= @request.to_text_array(false).each do |info| %>
+  <% @request.to_text_array(false).each do |info| %>
     <%= info%><br>
   <% end %>
 </div>
