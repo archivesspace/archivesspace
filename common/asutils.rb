@@ -69,14 +69,6 @@ module ASUtils
     Tempfile.new("#{base}_#{java.lang.System.currentTimeMillis}")
   end
 
-  # same as above, but only generates a tmpfile name instead of an actual file
-  def self.tempfile_name(base)
-    dir = Dir.tmpdir
-    file = Dir::Tmpname.make_tmpname("#{base}_#{java.lang.System.currentTimeMillis}", nil)
-
-    return File.join(dir, file)
-  end
-
   def self.to_json(obj, opts = {})
     if obj.respond_to?(:jsonize)
       obj.jsonize(opts.merge(max_nesting: false))
