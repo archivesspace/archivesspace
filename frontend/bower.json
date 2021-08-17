@@ -19,7 +19,6 @@
   ],
   "dependencies": {
     "jquery.hotkeys": "git@github.com:jeresig/jquery.hotkeys.git#~0.2.0",
-    "lodash": "~3.6.0",
     "jquery.scrollTo": "~2.1.0",
     "bootstrap-select": "git@github.com:silviomoreto/bootstrap-select.git#v1.6.5",
     "bootstrap3-typeahead": "git@github.com:bassjobsen/Bootstrap-3-Typeahead.git#v3.1.1",
@@ -38,13 +37,6 @@
         "mapping": [
           {
             "bower_components/jquery.hotkeys/jquery.hotkeys.js": "../jquery.hotkeys.js"
-          }
-        ]
-      },
-      "lodash": {
-        "mapping": [
-          {
-            "bower_components/lodash/lodash.js": "../lodash.js"
           }
         ]
       },
@@ -94,9 +86,9 @@
       },
       "matchHeight": {
         "mapping": [
-        {
-          "bower_components/matchHeight/jquery.matchHeight.js": "../jquery.matchHeight.js"
-      }
+          {
+            "bower_components/matchHeight/jquery.matchHeight.js": "../jquery.matchHeight.js"
+          }
         ]
       }
     },
