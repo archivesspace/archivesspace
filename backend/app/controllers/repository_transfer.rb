@@ -75,30 +75,8 @@ class ArchivesSpaceService < Sinatra::Base
       end
     end
 
-    #ANW-979: see if this record has any top containers that are shared with another record
-    check_top_containers(model, id)
-
     model.get_or_die(id).transfer_to_repository(target)
 
     moved_response(id, target)
-  end
-
-  def check_top_containers(model, id)
-    case model.to_s
-    when "Resource"
-      model_json = Resource.to_jsonmodel(id)
-    when "Accession"
-      model_json = Accession.to_jsonmodel(id)
-    end
-
-    model_json["instances"].each do |instance|
-      sc = instance['sub_container'] 
-      tc = sc["top_container"] if sc
-
-      # we need the ID. URI looks like /repositories/2/top_containers/364, so split it up to isolate ID.
-      tc_id   = tc['ref'].split('/')[4]
-
-      tc_json = TopContainer.to_jsonmodel(tc_id)
-    end
   end
 end

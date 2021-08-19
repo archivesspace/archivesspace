@@ -190,7 +190,7 @@ describe 'Record transfers' do
     end
   end
 
-  it "clones top containers as needed to preserve the instances of transferred records" do
+  it "raises error if transfering a record that shares a top container with another record" do
     box1 = create(:json_top_container, :barcode => "box1_barcode")
     box2 = create(:json_top_container, :barcode => "box2_barcode")
 
@@ -214,28 +214,7 @@ describe 'Record transfers' do
                  :resource => {'ref' => resource.uri},
                  :parent => {'ref' => ao1.uri})
 
-    Resource[resource.id].transfer_to_repository(@target_repo)
-
-    # The unrelated accession and resource should not have changed...
-    expect(Accession.to_jsonmodel(acc.id)["instances"].length).to eq(2)
-    expect(Resource.to_jsonmodel(unrelated_resource.id)["instances"].length).to eq(2)
-
-    # and the original top containers are still intact
-    expect(TopContainer[box1.id]).not_to be_nil
-    expect(TopContainer[box2.id]).not_to be_nil
-
-    # In the target repository, the instances have been moved over and point to
-    # cloned versions of the top containers
-    RequestContext.open(:repo_id => @target_repo.id) do
-      instances = ArchivalObject.to_jsonmodel(ao1.id)["instances"]
-      box1_clone = TopContainer.this_repo[:barcode => 'box1_barcode'].uri
-      box2_clone = TopContainer.this_repo[:barcode => 'box2_barcode'].uri
-
-      expect(instances.length).to eq(2)
-
-      expect(instances.map {|instance| instance['sub_container']['top_container']['ref']}).to include(box1_clone)
-      expect(instances.map {|instance| instance['sub_container']['top_container']['ref']}).to include(box2_clone)
-    end
+    expect { Resource[resource.id].transfer_to_repository(@target_repo) }.to raise_error(TransferConstraintError)
   end
 
   it "moves linked digital objects as a part of a transfer" do
