@@ -666,7 +666,7 @@ $(function() {
           type: 'GET',
           dataType: 'json',
           success: function(_templateList_) {
-            templateList = _.filter(_templateList_, function(t) {
+            templateList = _templateList_.filter(function (t) {
               return t.record_type === recordType;
             });
             cb();
@@ -739,9 +739,12 @@ $(function() {
 
           });
 
-          template.defaults = _.pick(template.defaults, function(n) {
-            return n.length > 0;
-          });
+          template.defaults = Object.keys(template.defaults).reduce(function (acc, key) {
+            if (template.defaults[key].length > 0) {
+              acc[key] = template.defaults[key];
+            }
+            return acc;
+          }, {});
 
           $.ajax({
             url: $rde_form.data("save-template-uri"),
@@ -833,8 +836,10 @@ $(function() {
             $(".btn-primary", $manageContainer).show();
           }
 
-          _.each(templateList, function(item) {
-            $templatesTable.append(AS.renderTemplate("rde_template_table_row", {item: item}));
+          templateList.forEach(function (item) {
+            $templatesTable.append(
+              AS.renderTemplate('rde_template_table_row', { item: item })
+            );
           });
         };
 
@@ -866,11 +871,14 @@ $(function() {
           applyPersistentVisibleColumns(function() {
             var $firstRow = $("tbody tr:first", $rde_form);
 
-            _.each($("td", $firstRow), function(td) {
-              var $td = $( td );
+            $('td', $firstRow).each(function (index, td) {
+              var $td = $(td);
               var colId = $td.data('col');
-              var $$input = $(":input:first", $td)
-              if (DEFAULT_VALUES[colId] && ($$input.data('value-from-template') || $$input.val().length < 1)) {
+              var $$input = $(':input:first', $td);
+              if (
+                DEFAULT_VALUES[colId] &&
+                ($$input.data('value-from-template') || $$input.val().length < 1)
+              ) {
                 $$input.val(DEFAULT_VALUES[colId]);
                 $$input.data('value-from-template', true);
               }
@@ -904,7 +912,6 @@ $(function() {
             }
           });
 
-
         });
 
         var renderOptions = function() {
@@ -913,11 +920,8 @@ $(function() {
           $select.append($("<option>", {disabled : "disabled" , selected: 'selected'})
                          .text($select.data('prompt-text')));
 
-          _.each(templateList, function(item) {
-
-            $select.append($("<option>", {value : item.id })
-                           .text(item.name));
-
+          templateList.forEach(function (item) {
+            $select.append($('<option>', { value: item.id }).text(item.name));
           });
 
           $select.selectpicker('refresh');
