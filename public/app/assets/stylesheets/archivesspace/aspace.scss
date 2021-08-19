@@ -868,9 +868,25 @@ span.head {
       background-repeat: no-repeat;
       background-position: 1px center;
       border-right: 1px solid #CCC;
+      appearance: none;
+      -webkit-appearance: none;
+      -moz-appearance: none;
+    }
+    
+    .resizable-sidebar-handle::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        appearance: none;
+    }
+
+    .resizable-sidebar-handle::-moz-range-thumb {
+        -moz-appearance: none;
+        appearance: none;
+        background: none;
+        border: none;
     }
   }
 }
+
 @media (max-width: 991px) {
   .row.has-resizable-content {
     > .col-sm-9, > .resizable-sidebar {

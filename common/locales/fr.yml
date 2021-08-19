@@ -1540,6 +1540,9 @@ fr:
       agent_person: Personne physique
       agent_corporate_entity: Personne morale
       agent_software: Logiciel
+    is_user: Nom d'utilisateur
+    is_user_tooltip: |
+        <p>S'il est présent, cet enregistrement d'agent est lié à un utilisateur de l'application avec le nom d'utilisateur donné.</p>
     name: Nom agent
     names: Formes de nom
     names_tooltip: |
@@ -3692,4 +3695,3 @@ fr:
       pour guider l'exportation du contenu des notes vers certains éléments dans des
       formats de données spécifiques.</p>"
     subnotes: Notes secondaires
-

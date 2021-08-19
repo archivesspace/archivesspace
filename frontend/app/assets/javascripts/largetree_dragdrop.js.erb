@@ -90,7 +90,7 @@
         });
 
         /* Highlight selected rows */
-        $('.multiselected', self.largetree.elt).closest('tr').addClass('multiselected-row');
+        $('.multiselected', self.largetree.elt).closest('.table-row').addClass('multiselected-row');
 
         self.refreshAnnotations();
     };
@@ -107,13 +107,13 @@
                 $annotation.text(idx + 1);
             }
 
-            $annotation.appendTo($(elt).find('td:first'));
+            $annotation.appendTo($(elt).find('.table-cell:first'));
         });
     };
 
     LargeTreeDragDrop.prototype.handleMultiSelect = function (selection) {
         var self = this;
-        var row = selection.closest('tr');
+        var row = selection.closest('.table-row');
 
         if (selection.hasClass('multiselected')) {
             /* deselect a selected item */
@@ -136,7 +136,7 @@
     LargeTreeDragDrop.prototype.handleShiftSelect = function (selection) {
         var self = this;
 
-        var row = selection.closest('tr');
+        var row = selection.closest('.table-row');
         var lastSelection = self.rowsToMove[self.rowsToMove.length - 1];
 
         if (lastSelection) {
@@ -194,7 +194,7 @@
                 self.dragDelayTimer = undefined;
 
                 /* Start a drag of one or more items */
-                var row = selection.closest('tr');
+                var row = selection.closest('.table-row');
 
                 if ($('.multiselected', largetree.elt).length > 0) {
                     if (!row.find('.drag-handle').hasClass('multiselected')) {
@@ -289,7 +289,7 @@
             }
         });
 
-        $(largetree.elt).on('mouseenter', 'tr.root-row, tr.largetree-node', function (event) {
+        $(largetree.elt).on('mouseenter', '.table-row.root-row, .table-row.largetree-node', function (event) {
             if (self.dragActive) {
                 if (self.isDropAllowed($(this))) {
                     $(this).addClass('drag-drop-over');
@@ -299,7 +299,7 @@
             }
         });
 
-        $(largetree.elt).on('mouseleave', 'tr.root-row, tr.largetree-node', function (event) {
+        $(largetree.elt).on('mouseleave', '.table-row.root-row, .table-row.largetree-node', function (event) {
             if (self.dragActive) {
                 $(this).removeClass('drag-drop-over').
                         removeClass('drag-drop-over-disallowed');
@@ -363,7 +363,7 @@
 
                 $(document).find('.tree-scroll-hotspot').remove();
 
-                var dropTarget = $(event.target).closest('tr.largetree-node,tr.root-row');
+                var dropTarget = $(event.target).closest('.table-row.largetree-node,.table-row.root-row');
 
                 /* If they didn't drop on a row, that's a cancel. */
                 if (dropTarget.length > 0 && self.isDropAllowed(dropTarget)) {

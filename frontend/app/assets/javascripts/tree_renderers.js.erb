@@ -1,16 +1,16 @@
 function BaseRenderer() {
-    this.endpointMarkerTemplate = $('<tr class="end-marker" />');
+    this.endpointMarkerTemplate = $('<div class="table-row end-marker" />');
 
-    this.rootTemplate = $('<tr> ' +
-                          '  <td class="no-drag-handle"></td>' +
-                          '  <td class="title"></td>' +
-                          '</tr>');
+    this.rootTemplate = $('<div class="table-row"> ' +
+                          '  <div class="table-cell no-drag-handle"></div>' +
+                          '  <div class="table-cell title"></div>' +
+                          '</div>');
 
 
-    this.nodeTemplate = $('<tr> ' +
-                          '  <td class="drag-handle"></td>' +
-                          '  <td class="title"><span class="indentor"><button class="expandme" aria-expanded="false"><i class="expandme-icon glyphicon glyphicon-chevron-right"/></button></span> </td>' +
-                          '</tr>');
+    this.nodeTemplate = $('<div class="table-row"> ' +
+                          '  <div class="table-cell drag-handle"></div>' +
+                          '  <div class="table-cell title"><span class="indentor"><button class="expandme" aria-expanded="false"><i class="expandme-icon glyphicon glyphicon-chevron-right" /></button></span> </div>' +
+                          '</div>');
 }
 
 BaseRenderer.prototype.endpoint_marker = function () {
@@ -33,23 +33,24 @@ BaseRenderer.prototype.i18n = function (enumeration, enumeration_value) {
 
 function ResourceRenderer() {
     BaseRenderer.call(this);
-    this.rootTemplate = $('<tr> ' +
-                          '  <td class="no-drag-handle"></td>' +
-                          '  <td class="title"></td>' +
-                          '  <td class="resource-level"></td>' +
-                          '  <td class="resource-type"></td>' +
-                          '  <td class="resource-container"></td>' +
-                          '  <td class="resource-identifier"></td>' +
-                          '</tr>');
 
-    this.nodeTemplate = $('<tr> ' +
-                          '  <td class="drag-handle"></td>' +
-                          '  <td class="title"><span class="indentor"><button class="expandme" aria-expanded="false"><i class="expandme-icon glyphicon glyphicon-chevron-right"/></button></span> </td>' +
-                          '  <td class="resource-level"></td>' +
-                          '  <td class="resource-type"></td>' +
-                          '  <td class="resource-container"></td>' +
-                          '  <td class="resource-identifier"></td>' +
-                          '</tr>');
+    this.rootTemplate = $('<div class="table-row"> ' +
+                          '  <div class="table-cell no-drag-handle"></div>' +
+                          '  <div class="table-cell title"></div>' +
+                          '  <div class="table-cell resource-level"></div>' +
+                          '  <div class="table-cell resource-type"></div>' +
+                          '  <div class="table-cell resource-container"></div>' +
+                          '  <div class="table-cell resource-identifier"></div>' +
+                          '</div>');
+
+    this.nodeTemplate = $('<div class="table-row"> ' +
+                          '  <div class="table-cell drag-handle"></div>' +
+                          '  <div class="table-cell title"><span class="indentor"><button class="expandme" aria-expanded="false"><i class="expandme-icon glyphicon glyphicon-chevron-right" /></button></span> </div>' +
+                          '  <div class="table-cell resource-level"></div>' +
+                          '  <div class="table-cell resource-type"></div>' +
+                          '  <div class="table-cell resource-container"></div>' +
+                          '  <div class="table-cell resource-identifier"></div>' +
+                          '</div>');
 }
 
 ResourceRenderer.prototype = Object.create(BaseRenderer.prototype);
@@ -62,7 +63,7 @@ ResourceRenderer.prototype.add_root_columns = function (row, rootNode) {
     if (rootNode.parsed_title) {
         row.find('.title .record-title').html(rootNode.parsed_title);
     }
-    
+
     if (<%= AppConfig[:display_identifiers_in_largetree_container] %> && rootNode.identifier) {
       row.find('.resource-identifier').text(rootNode.identifier).attr('title', rootNode.identifier);
     }
@@ -108,7 +109,7 @@ ResourceRenderer.prototype.build_type_summary = function(node) {
         });
 
         type_summary = types.join(', ');
-    } 
+    }
 
     return type_summary;
 };
@@ -160,20 +161,20 @@ function DigitalObjectRenderer() {
     BaseRenderer.call(this);
 
 
-    this.rootTemplate = $('<tr> ' +
-                          '  <td class="no-drag-handle"></td>' +
-                          '  <td class="title"></td>' +
-                          '  <td class="digital-object-type"></td>' +
-                          '  <td class="file-uri-summary"></td>' +
-                          '</tr>');
+    this.rootTemplate = $('<div class="table-row"> ' +
+                          '  <div class="table-cell no-drag-handle"></div>' +
+                          '  <div class="table-cell title"></div>' +
+                          '  <div class="table-cell digital-object-type"></div>' +
+                          '  <div class="table-cell file-uri-summary"></div>' +
+                          '</div>');
 
 
-    this.nodeTemplate = $('<tr> ' +
-                          '  <td class="drag-handle"></td>' +
-                          '  <td class="title"><span class="indentor"><button class="expandme" aria-expanded="false"><i class="expandme-icon glyphicon glyphicon-chevron-right"/></button></span> </td>' +
-                          '  <td class="digital-object-type"></td>' +
-                          '  <td class="file-uri-summary"></td>' +
-                          '</tr>');
+    this.nodeTemplate = $('<div class="table-row"> ' +
+                          '  <div class="table-cell drag-handle"></div>' +
+                          '  <div class="table-cell title"><span class="indentor"><button class="expandme" aria-expanded="false"><i class="expandme-icon glyphicon glyphicon-chevron-right" /></button></span> </div>' +
+                          '  <div class="table-cell digital-object-type"></div>' +
+                          '  <div class="table-cell file-uri-summary"></div>' +
+                          '</div>');
 }
 
 DigitalObjectRenderer.prototype = new BaseRenderer();

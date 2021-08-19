@@ -2,6 +2,7 @@ en:
   actions:
     add: Add
     add_event: Add Event
+    add_event_event_type: Type
     automate: Automatically generate
     batch: Batch
     browse: Browse
@@ -879,6 +880,10 @@ en:
     end_date_expression: End Date Expression
     end_date_standardized: End Standardized Date
     end_date_standardized_type: End Standardized Date Type
+
+  date_type_structured:
+    single: Single
+    range: Range
 
   digital_object:
     _frontend:

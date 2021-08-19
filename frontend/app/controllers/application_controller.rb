@@ -31,7 +31,7 @@ class ApplicationController < ActionController::Base
 
   before_action :unauthorised_access
 
-  before_action :set_locale
+  around_action :set_locale
 
   def self.permission_mappings
     Array(@permission_mappings)
@@ -788,12 +788,13 @@ class ApplicationController < ActionController::Base
     }
   end
 
-  def set_locale
+  def set_locale(&action)
     if session['user']
-      I18n.locale = user_prefs.key?('locale') ? user_prefs['locale'].to_sym : I18n.default_locale
+      locale = user_prefs.key?('locale') ? user_prefs['locale'].to_sym : I18n.default_locale
     else
-      I18n.locale = I18n.default_locale
+      locale = I18n.default_locale
     end
+    I18n.with_locale(locale, &action)
   end
 
   def current_record

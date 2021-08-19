@@ -1702,6 +1702,9 @@ en:
       agent_person: Person
       agent_corporate_entity: Corporate Entity
       agent_software: Software
+    is_user: Username
+    is_user_tooltip: |
+        <p>If present, this agent record is linked to an application user with the given username.</p>
     name: Agent Name
     names: Name Forms
     names_tooltip: |

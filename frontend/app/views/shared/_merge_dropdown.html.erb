@@ -1,13 +1,13 @@
 <%
-   multiplicity ||= "many" 
-   singular = "#{controller}".singularize 
+   multiplicity ||= "many"
+   singular = "#{controller}".singularize
    extra_params = {} if extra_params.blank?
 %>
 
   <div id="merge-dropdown" class="btn-group dropdown" data-no-change-tracking="true">
-    <a class="btn btn-sm btn-default dropdown-toggle merge-action" data-toggle="dropdown" href="#" title="<%= I18n.t("actions.merge") %>">
+    <button class="btn btn-sm btn-default dropdown-toggle merge-action" data-toggle="dropdown" role="button" aria-expanded="false" title="<%= I18n.t("actions.merge") %>">
       <%= I18n.t("actions.merge") %> <span class="caret"></span>
-    </a>
+    </button>
     <ul class="dropdown-menu merge-form open-aligned-right">
       <li>
       <p><%= I18n.t("#{singular}._frontend.messages.merge_description") %>   <%= record.title %></p>
@@ -35,4 +35,3 @@
       </li>
     </ul>
   </div>
-

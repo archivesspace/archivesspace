@@ -1,5 +1,4 @@
 <div id="main-content">
-
   <div class="row" id="info_row">
     <div class="information col-sm-7">
       <%= render partial: 'shared/idbadge', locals: {:result => @result, :props => { :full => true} } %>
@@ -8,55 +7,37 @@
       <%= render partial: 'shared/page_actions', locals: {:record => @result, :title => @result.display_string, :url => request.fullpath } %>
     </div>
   </div>
-
-<div class="row">
-  <div class="information col-sm-9">
-    <div class="clear">
-    <span class="inline-label clear"><%= t('enumeration_names.subject_source') %>: </span><%= t("enumerations.subject_source.#{@result['json']['source']}" ) %>
-    </div>
-
-
-    <% if !@result.dates.blank? %>
-      <% render partial: 'shared/dates', locals: {:dates => @result.dates} %>
-    <% end %>
-
-  <% if !@result['json']['component_id'].blank? %>
-     <span class='component'><%= t(component._singular) %>: <%= @result['json']['component_id'] %></span>
-    <% end %>
-    <% if !@result['json']['ref_id'].blank? %>
-      <span class='ref_id'>[Ref. ID: <%= @result['json']['ref_id'] %>]</span>
-    <% end %>
-    <% if @result['json']['scope_note'].present? %>
-      <span class="inline-label"><%= t('scope_note') %>:</span> <%= process_mixed_content( @result['json']['scope_note']).html_safe %>
-    <% end %>
-    <%= render partial: 'shared/display_notes' %>
-
-    <%# FOUND IN SECTION %>
-    <%= render partial: 'shared/results', locals: {:results => @results, :pager => @pager} %>
-   </div>
-
-  <div id="sidebar" class="col-sm-3 sidebar sidebar-container">
-   <h3><%= t('more_about') %> '<%= @result.display_string %>'</h3>
-
-    <div class="acc_holder clear" >
-      <div class="panel-group" id="res_accordion">
-        <% if !(terms = ASUtils.wrap(@result['json']['terms'])).empty? %>
-          <% x = render partial: 'subjects/terms', locals: {:terms =>  terms, :list_clss => 'terms'} %>
-          <%= render partial: 'shared/accordion_panel', locals: {:p_title => t('subject_term_type'), :p_id => 'subject_terms', :p_body => x} %>
-        <% end %>
-        <% unless @result.external_documents.blank? %>
-          <% x = render partial: 'shared/present_list_external_docs', locals: {:list =>  @result.external_documents, :list_clss => 'external_docs'} %>
-          <%= render partial: 'shared/accordion_panel', locals: {:p_title => t('external_docs'), :p_id => 'ext_doc_list', :p_body => x} %>
-        <% end %>
+  <div class="row">
+    <div class="information col-sm-9">
+      <div class="clear">
+        <span class="inline-label clear"><%= t('enumeration_names.subject_source') %>: </span><%= t("enumerations.subject_source.#{@result['json']['source']}" ) %>
       </div>
+      <% if @result['json']['scope_note'].present? %>
+        <span class="inline-label"><%= t('scope_note') %>:</span> <%= process_mixed_content( @result['json']['scope_note']).html_safe %>
+      <% end %>
+      <%# FOUND IN SECTION %>
+      <%= render partial: 'shared/results', locals: {:results => @results, :pager => @pager} %>
     </div>
-    <script type="text/javascript" >
+    <div id="sidebar" class="col-sm-3 sidebar sidebar-container">
+      <h3><%= t('more_about') %> '<%= @result.display_string %>'</h3>
+      <div class="acc_holder clear" >
+        <div class="panel-group" id="res_accordion">
+          <% if !(terms = ASUtils.wrap(@result['json']['terms'])).empty? %>
+            <% x = render partial: 'subjects/terms', locals: {:terms =>  terms, :list_clss => 'terms'} %>
+            <%= render partial: 'shared/accordion_panel', locals: {:p_title => t('subject_term_type'), :p_id => 'subject_terms', :p_body => x} %>
+          <% end %>
+          <% unless @result.external_documents.blank? %>
+            <% x = render partial: 'shared/present_list_external_docs', locals: {:list =>  @result.external_documents, :list_clss => 'external_docs'} %>
+            <%= render partial: 'shared/accordion_panel', locals: {:p_title => t('external_docs'), :p_id => 'ext_doc_list', :p_body => x} %>
+          <% end %>
+        </div>
+      </div>
+      <script type="text/javascript" >
         initialize_accordion(".note_panel", "<%= t('accordion.expand') %>" , "<%= t('accordion.collapse') %>");
-    </script>
-
-    <% unless @results.blank? || @results['total_hits'] == 0 %>
-     <%= render partial: 'shared/facets' %>
-    <% end %>
+      </script>
+      <% unless @results.blank? || @results['total_hits'] == 0 %>
+        <%= render partial: 'shared/facets' %>
+      <% end %>
+    </div>
   </div>
-</div>
 </div>

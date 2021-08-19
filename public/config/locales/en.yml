@@ -260,7 +260,7 @@ en:
     collapse: Collapse All
 
   advanced_search:
-    operator_label: Search operator
+    operator_label: Operator
     operator:
       AND: And
       OR: Or
@@ -273,6 +273,9 @@ en:
     index_switcher:
       show: Show Advanced Search
       hide: Hide Advanced Search
+    limit_label: Limit by record type
+    add_row: Add row
+    remove_row: Remove row
 
   contains: "Contains %{count} %{type}"
   found: "Found in %{count} %{type}"
@@ -322,8 +325,8 @@ en:
       related_accessions:
        accessions: Related Unprocessed Material
        deaccessions: Deaccessioned Material
-       part_relationship: Part Relationship
-       sibling_relationship: Sibling Relationship
+       forms_part_of: Part Relationship
+       sibling_of: Sibling Relationship
 
   archival_object:
     _singular: Archival Record

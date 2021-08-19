@@ -1,3 +1,7 @@
+# frozen_string_literal: true
+
+require_relative 'factories'
+
 require 'ashttp'
 require "uri"
 require "json"
@@ -14,7 +18,6 @@ require_relative '../../indexer/app/lib/realtime_indexer'
 require_relative '../../indexer/app/lib/periodic_indexer'
 require_relative '../../indexer/app/lib/pui_indexer'
 
-require_relative '../../common/selenium/backend_client_mixin'
 module BackendClientMethods
   alias :run_all_indexers_orig :run_all_indexers
   # patch this to also run our PUI indexer.
@@ -36,7 +39,8 @@ require 'aspace_gems'
 $server_pids = []
 $backend_port = TestUtils::free_port_from(3636)
 $frontend_port = TestUtils::free_port_from(4545)
-$backend = "http://localhost:#{$backend_port}"
+$backend = ENV['ASPACE_TEST_BACKEND_URL'] || "http://localhost:#{$backend_port}"
+$test_db_url = ENV['ASPACE_TEST_DB_URL'] || AppConfig[:db_url]
 $frontend = "http://localhost:#{$frontend_port}"
 $expire = 30000
 
@@ -48,7 +52,7 @@ $backend_start_fn = proc {
                            {
                              :session_expire_after_seconds => $expire,
                              :realtime_index_backlog_ms => 600000,
-                             :db_url => AppConfig[:db_url]
+                             :db_url => $test_db_url
                            })
 }
 
@@ -63,6 +67,24 @@ def setup_test_data
   set_repo repo
 
   digi_obj = create(:digital_object, title: 'Born digital', publish: true)
+
+  subject = create(:subject, title: 'Subject')
+
+  create(:agent_person,
+         names: [build(:name_person,
+                       name_order: 'direct',
+                       primary_name: "Agent",
+                       rest_of_name: "Published",
+                       sort_name: "Published Agent",
+                       number: nil,
+                       dates: nil,
+                       qualifier: nil,
+                       fuller_form: nil,
+                       prefix: nil,
+                       title: nil,
+                       suffix: nil)],
+         dates_of_existence: nil,
+         publish: true)
 
   pa = create(:accession, title: "Published Accession", publish: true, instances: [
     build(:instance_digital, digital_object: { 'ref' => digi_obj.uri })
@@ -102,13 +124,19 @@ def setup_test_data
                         build(:lang_material)
                      ])
 
-  resource = create(:resource, title: "Published Resource", publish: true,
-                    :instances => [build(:instance_digital)])
+  resource = create(:resource, title: "Published Resource",
+                    publish: true,
+                    instances: [build(:instance_digital)],
+                    subjects: [{'ref' => subject.uri}])
 
   create(:resource, title: "Resource with Deaccession", publish: true,
     deaccessions: [build(:json_deaccession)])
 
-  classification = create(:classification)
+  create(:resource, title: "Resource with Accession", publish: true,
+    related_accessions: [{'ref' => pa.uri}])
+
+
+  classification = create(:classification, :title => "My Special Classification")
   create(:digital_object, title: "Digital Object With Classification",
                           classifications: [{'ref' => classification.uri}])
 
@@ -144,7 +172,6 @@ RSpec.configure do |config|
   # Try thrice (retry twice)
   config.default_retry_count = 3
 
-
   [:controller, :view, :request].each do |type|
     config.include ::Rails::Controller::Testing::TestProcess, :type => type
     config.include ::Rails::Controller::Testing::TemplateAssertions, :type => type
@@ -152,8 +179,12 @@ RSpec.configure do |config|
   end
 
   config.before(:suite) do
-    puts "Starting backend using #{$backend}"
-    $server_pids << $backend_start_fn.call
+    if ENV['ASPACE_TEST_BACKEND_URL']
+      puts "Running tests against #{$backend}"
+    else
+      puts "Starting backend using #{$backend}"
+      $server_pids << $backend_start_fn.call
+    end
     ArchivesSpaceClient.init
     $admin = BackendClientMethods::ASpaceUser.new('admin', 'admin')
     if !ENV['ASPACE_INDEXER_URL']
@@ -161,7 +192,6 @@ RSpec.configure do |config|
       $period = PeriodicIndexer.new($backend, nil, "periodic_indexer", false)
       $pui = PUIIndexer.new($backend, nil, "pui_periodic_indexer")
     end
-    FactoryBot.reload
     AspaceFactories.init
     setup_test_data
   end

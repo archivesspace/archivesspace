@@ -76,10 +76,11 @@ module AgentManager
 
 
     def update_from_json(json, opts = {}, apply_nested_records = true)
-      self.class.ensure_authorized_name(json)
-      self.class.ensure_display_name(json)
-      self.class.combine_unauthorized_names(json)
-      self.class.set_publish_for_subrecords_with_subjects(json)
+      klass = self.class
+      klass.ensure_authorized_name(json)
+      klass.ensure_display_name(json)
+      klass.combine_unauthorized_names(json)
+      klass.set_publish_for_subrecords_with_subjects(json)
 
       # Force validation to make sure we're left with a valid record after our
       # changes
@@ -88,7 +89,15 @@ module AgentManager
       # Called for the sake of updating the JSON blob sent to the realtime indexer
       self.class.populate_display_name(json)
 
-      super(json, opts.merge(:agent_sha1 => self.class.calculate_hash(json)))
+      # ANW-951 Any agent person created from a user record can be safely
+      # deemed unique, so a sha calculation can be skipped.
+      opts[:skip_sha] = klass == AgentPerson && !klass.to_jsonmodel(self[:id])['is_user'].nil?
+
+      if opts[:skip_sha]
+        super(json, opts)
+      else
+        super(json, opts.merge(:agent_sha1 => self.class.calculate_hash(json)))
+      end
     end
 
 
@@ -283,7 +292,11 @@ module AgentManager
         # Called for the sake of updating the JSON blob sent to the realtime indexer
         self.populate_display_name(json)
 
-        super(json, opts.merge(:agent_sha1 => calculate_hash(json)))
+        if opts[:skip_sha]
+          super(json, opts)
+        else
+          super(json, opts.merge(:agent_sha1 => calculate_hash(json)))
+        end
       end
 
 

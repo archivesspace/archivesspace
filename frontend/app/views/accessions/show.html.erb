@@ -28,6 +28,7 @@
             <%= render_aspace_partial :partial => "shared/public_url", :locals => {:form_object => readonly} if AppConfig[:use_human_readable_urls] %>
 
             <%= readonly.label_and_date "accession_date" %>
+            <%= readonly.label_and_boolean "publish" %>
             <%= readonly.label_and_textarea "content_description" %>
             <%= readonly.label_and_textarea "condition_description" %>
             <%= readonly.label_and_textarea "disposition" %>
@@ -42,7 +43,6 @@
             <%= readonly.label_and_select("language", readonly.possible_options_for("language", true)) %>
             <%= readonly.label_and_select("script", readonly.possible_options_for("script", true)) %>
             <%= readonly.label_and_boolean "restrictions_apply" %>
-            <%= readonly.label_and_boolean "publish" %>
             <%= readonly.label_and_boolean "access_restrictions" %>
             <%= readonly.label_and_textarea "access_restrictions_note" %>
             <%= readonly.label_and_boolean "use_restrictions" %>

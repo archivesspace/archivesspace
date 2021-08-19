@@ -50,10 +50,35 @@ describe 'Accessibility', js: true do
     end
 
     context 'individual resource page' do
+      before (:each) do
+        within all('.col-sm-12')[1] do
+          first("a[class='record-title']").click
+        end
+      end
+
       it 'should not skip a heading level' do
         expect(page).to have_css('h3') if page.has_css? 'h4'
         expect(page).to have_css('h2') if page.has_css? 'h3'
         expect(page).to have_css('h1') if page.has_css? 'h2'
+      end
+
+      it 'should support resizing sidebar with keyboard' do
+        sidebar_width = find('div.sidebar').evaluate_script("window.getComputedStyle(this)['width']")
+        handle = find('input.resizable-sidebar-handle')
+
+        5.times do
+          handle.native.send_keys :arrow_left
+        end
+
+        new_sidebar_width = find('div.sidebar').evaluate_script("window.getComputedStyle(this)['width']")
+        expect(new_sidebar_width).to be > sidebar_width
+
+        10.times do
+          handle.native.send_keys :arrow_right
+        end
+
+        newest_sidebar_width = find('div.sidebar').evaluate_script("window.getComputedStyle(this)['width']")
+        expect(newest_sidebar_width).to be < sidebar_width
       end
 
       it 'should not duplicate ids' do
@@ -61,9 +86,6 @@ describe 'Accessibility', js: true do
         expect(page).to be_axe_clean.checking_only :'duplicate-id'
 
         # Collection Organization
-        within all('.col-sm-12')[1] do
-          first("a[class='record-title']").click
-        end
         click_link 'Collection Organization'
         expect(page).to be_axe_clean.checking_only :'duplicate-id'
 
@@ -184,5 +206,61 @@ describe 'Accessibility', js: true do
       expect(page).to have_css('h2') if page.has_css? 'h3'
       expect(page).to have_css('h1') if page.has_css? 'h2'
     end
+  end
+end
+
+describe "Accessibility 2.0", js: true do
+
+  it "marks visual lists as such", :db => 'accessibility' do
+    visit "/repositories/5/resources/22"
+    page.has_css? "div#tree-container"
+    within "div#tree-container" do
+      expect(page).to have_xpath("div[@role='list']")
+      expect(page).to have_xpath("div[@role='list']/div[@role='listitem'][@id='resource_22']")
+      first(".expandme-icon").click
+      expect(page).to have_xpath("div[@role='list']/div[@role='list']/div[@role='list']/div[@role='listitem'][@id='archival_object_1856']")
+    end
+  end
+
+  it "has visible labels in the main search form", :db => 'accessibility' do
+    visit "/"
+    within "form#advanced_search" do
+      expect(page).not_to have_css("label.sr-only")
+
+      expect(page).to have_xpath("//label[@for='q0']")
+      expect(page).to have_xpath("//input[@type='text'][@id='q0']")
+
+      expect(page).to have_xpath("//label[@for='limit']")
+      expect(page).to have_xpath("//select[@id='limit']")
+
+      expect(page).to have_xpath("//label[@for='field0']")
+      expect(page).to have_xpath("//select[@id='field0']")
+
+      expect(page).to have_xpath("//label[@for='from_year0']")
+      expect(page).to have_xpath("//input[@id='from_year0']")
+
+      expect(page).to have_xpath("//label[@for='to_year0']")
+      expect(page).to have_xpath("//input[@id='to_year0']")
+
+      first('.btn-default').click
+
+      expect(page).to have_xpath("//label[@for='op1']")
+      expect(page).to have_xpath("//select[@id='op1']")
+
+      expect(page).to have_xpath("//label[@for='field1']")
+      expect(page).to have_xpath("//select[@id='field1']")
+
+      expect(page).to have_xpath("//label[@for='from_year1']")
+      expect(page).to have_xpath("//input[@id='from_year1']")
+
+      expect(page).to have_xpath("//label[@for='to_year1']")
+      expect(page).to have_xpath("//input[@id='to_year1']")
+
+    end
+  end
+
+  it "sets alt text correctly for main logo", :db => 'accessibility' do
+    visit "/"
+    expect(page).to have_xpath("//img[@class='logo' and @alt='ArchivesSpace - a community served by Lyrasis.']")
   end
 end

@@ -351,31 +351,46 @@ $(function() {
           url: AS.app_prefix("notes/note_order"),
           type: "GET",
           success: function(note_order) {
-            var $listed = $target_subrecord_list.children().detach()
-            var sorted = _.sortBy($listed, function(li) {
+            var $listed = $target_subrecord_list.children().detach();
 
-              var type = $('select.note-type', $(li)).val();
-              //Some note types don't have a select, so try to work it out another way
-              if (_.isUndefined(type)) {
-                if ($('select.top-level-note-type', $(li)).length) {
-                  type = $('select.top-level-note-type', $(li)).val().replace(/^note_/, '')
-                } else {
-                  type = $('.subrecord-form-fields', $(li)).data('type').replace(/^note_/, '')
+            var sorted = $listed.toArray().sort(function (li0, li1) {
+              var type0 = getType(li0);
+              var type1 = getType(li1);
+              var noteOrder0 = note_order.indexOf(type0);
+              var noteOrder1 = note_order.indexOf(type1);
+
+              return noteOrder0 - noteOrder1;
+
+              function getType(li) {
+                var type = $("select.note-type", $(li)).val();
+
+                if (type === undefined) {
+                  if ($("select.top-level-note-type", $(li)).length) {
+                    type = $("select.top-level-note-type", $(li))
+                      .val()
+                      .replace(/^note_/, "");
+                  } else {
+                    type = $(".subrecord-form-fields", $(li))
+                      .data("type")
+                      .replace(/^note_/, "");
+                  }
                 }
+
+                return type;
               }
-
-              return _.indexOf(note_order, type);
             });
 
-            var oldOrder = _.map($listed, function(li) {
+            var oldOrder = $listed.toArray().map(function (li) {
               return $(li).data("index");
             });
 
-            var newOrder = _.map(sorted, function(li) {
+            var newOrder = sorted.map(function (li) {
               return $(li).data("index");
             });
 
-            if (!_.isEqual(oldOrder, newOrder)) {
+            var ordersAreEqual = oldOrder.join() === newOrder.join();
+
+            if (!ordersAreEqual) {
               $("form.aspace-record-form").triggerHandler("formchanged.aspace");
             }
 

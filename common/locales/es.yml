@@ -1514,6 +1514,9 @@ es:
       agent_person: Persona
       agent_corporate_entity: Entidad corporativa
       agent_software: Software
+    is_user: Nombre de usuario
+    is_user_tooltip: |
+        <p>Si está presente, este registro de agente está vinculado a un usuario de la aplicación con el nombre de usuario proporcionado.</p>
     name: Nombre de autoridad
     names:
     names_tooltip: |
