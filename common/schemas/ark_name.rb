@@ -4,7 +4,13 @@
     "version" => 1,
     "type" => "object",
     "properties" => {
-      "current_ark" => {"type" => "string", "required" => false},
+      "current" => {"type" => "string", "required" => false},
+      "previous" => {
+        "type" => "array",
+        "items" => {
+          "type" => "string"
+        }
+      }
     }
   }
 }

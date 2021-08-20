@@ -259,7 +259,7 @@ module ApplicationHelper
     fmt = opts[:format] || 'wide'
     ark_url = nil
     if AppConfig[:arks_enabled] && hash['ark_name']
-      ark_url = hash["ark_name"]["current_ark"]
+      ark_url = hash["ark_name"]["current"]
     end
     html = "<div class='audit-display-#{fmt}'><small>"
     if hash['create_time'] and hash['user_mtime']

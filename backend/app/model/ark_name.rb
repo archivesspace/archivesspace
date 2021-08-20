@@ -28,9 +28,9 @@ class ArkName < Sequel::Model(:ark_name)
     end
   end
 
-  def self.ensure_ark_for_record(obj)
+  def self.ensure_ark_for_record(obj, json)
     return unless AppConfig[:arks_enabled]
-    return if ArkName.ark_name_exists?(obj)
+    return unless ArkName.require_update?(obj, json)
 
     fk_col = fk_for_class(obj.class)
 
@@ -38,13 +38,29 @@ class ArkName < Sequel::Model(:ark_name)
 
     now = Time.now
 
-    self.insert(fk_col              => obj.id,
-                :created_by         => 'admin',
-                :last_modified_by   => 'admin',
-                :create_time        => now,
-                :system_mtime       => now,
-                :user_mtime         => now,
-                :lock_version       => 0)
+    self
+      .filter(fk_col => obj.id, :is_current => 1)
+      .update(:is_current => 0,
+              :retired_at_epoch_ms => (now.to_f * 1000).to_i)
+
+    ark_id = self.insert(fk_col => obj.id,
+                         :created_by => 'admin',
+                         :last_modified_by => 'admin',
+                         :create_time => now,
+                         :system_mtime => now,
+                         :user_mtime => now,
+                         :is_current => 1,
+                         :user_value => json['external_ark_url'],
+                         :retired_at_epoch_ms => 0,
+                         :lock_version => 0)
+
+    self
+      .filter(:id => ark_id)
+      .update(:generated_value => build_generated_ark(ark_id))
+  end
+
+  def self.build_generated_ark(ark_id)
+    "ark:/#{AppConfig[:ark_naan]}/#{ark_id}"
   end
 
   # NOTE: exporter calls this, but sequel_to_jsonmodel doesn't
@@ -115,11 +131,21 @@ class ArkName < Sequel::Model(:ark_name)
     "#{clz.table_name}_id".intern
   end
 
-  def self.ark_name_exists?(obj)
+  def self.require_update?(obj, json)
     id_field = fk_for_class(obj.class)
 
+    # record doesn't support arks
     return false unless id_field
 
-    return !ArkName.first(id_field => obj.id).nil?
+    current = ArkName.filter(id_field => obj.id, :is_current => 1).first
+
+    # record needs a current ark
+    return true if current.nil?
+
+    # the user value has changed, mint a new ark
+    return true if current.user_value.to_s != json['external_ark_url'].to_s
+
+    # no changes required
+    false
   end
 end
