@@ -47,6 +47,7 @@ class ArkName < Sequel::Model(:ark_name)
                 :lock_version       => 0)
   end
 
+  # NOTE: exporter calls this, but sequel_to_jsonmodel doesn't
   def self.get_ark_url(id, type)
     case type
     when :resource
@@ -78,10 +79,16 @@ class ArkName < Sequel::Model(:ark_name)
     ArkName.filter(fk_for_class(model_clz) => ids).delete
   end
 
+  def self.prefix(value)
+    "#{AppConfig[:ark_url_prefix]}/#{value}"
+  end
+
   private
 
   # archival object or resource may have an external_ark_url defined.
   # query object to see. if found, find it and return it
+  #
+  # NOTE: exporter calls this, but sequel_to_jsonmodel doesn't
   def self.get_external_ark_url(id, type)
     case type
     when :resource

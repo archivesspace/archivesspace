@@ -31,7 +31,9 @@ module Arks
         ark_obj = rec_ids_to_ark_obj.fetch(obj.id, nil)
 
         if ark_obj
-          json['ark_name'] = ArkName.to_jsonmodel(ark_obj)
+          json['ark_name'] = {
+            'current_ark' => (ark_obj.user_value || ArkName.prefix(ark_obj.generated_value))
+          }
         end
       end
 
