@@ -28,25 +28,22 @@ class ArkName < Sequel::Model(:ark_name)
     end
   end
 
-  def self.create_from_resource(resource)
-    self.insert(:archival_object_id => nil,
-                :resource_id        => resource.id,
-                :created_by         => 'admin',
-                :last_modified_by   => 'admin',
-                :create_time        => Time.now,
-                :system_mtime       => Time.now,
-                :user_mtime         => Time.now,
-                :lock_version       => 0)
-  end
+  def self.ensure_ark_for_record(obj)
+    return unless AppConfig[:arks_enabled]
+    return if ArkName.ark_name_exists?(obj)
 
-  def self.create_from_archival_object(archival_object)
-    self.insert(:archival_object_id => archival_object.id,
-                :resource_id        => nil,
+    fk_col = fk_for_class(obj.class)
+
+    return unless fk_col
+
+    now = Time.now
+
+    self.insert(fk_col              => obj.id,
                 :created_by         => 'admin',
                 :last_modified_by   => 'admin',
-                :create_time        => Time.now,
-                :system_mtime       => Time.now,
-                :user_mtime         => Time.now,
+                :create_time        => now,
+                :system_mtime       => now,
+                :user_mtime         => now,
                 :lock_version       => 0)
   end
 
@@ -77,6 +74,10 @@ class ArkName < Sequel::Model(:ark_name)
     end
   end
 
+  def self.handle_delete(model_clz, ids)
+    ArkName.filter(fk_for_class(model_clz) => ids).delete
+  end
+
   private
 
   # archival object or resource may have an external_ark_url defined.
@@ -101,19 +102,17 @@ class ArkName < Sequel::Model(:ark_name)
     end
   end
 
-  def self.ark_name_exists?(id, type)
-    if type == Resource
-      id_field = :resource_id
-    elsif type == ArchivalObject
-      id_field = :archival_object_id
-    else
-      return false
-    end
+  def self.fk_for_class(clz)
+    return nil unless clz.included_modules.include?(Arks)
 
-    if ArkName.first(id_field => id).nil?
-      return false
-    else
-      return true
-    end
+    "#{clz.table_name}_id".intern
+  end
+
+  def self.ark_name_exists?(obj)
+    id_field = fk_for_class(obj.class)
+
+    return false unless id_field
+
+    return !ArkName.first(id_field => obj.id).nil?
   end
 end

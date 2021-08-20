@@ -52,8 +52,6 @@ class ArchivesSpaceService < Sinatra::Base
              [404, "Not found"]) \
   do
     json = ArchivalObject.to_jsonmodel(params[:id])
-    ark = ArkName.first(:archival_object_id => params[:id])
-    json["ark_name"] = ArkName.to_jsonmodel(ark[:id]) unless ark.nil?
     json_response(resolve_references(json, params[:resolve]))
   end
 

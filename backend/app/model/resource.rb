@@ -30,6 +30,7 @@ class Resource < Sequel::Model(:resource)
   include RightsRestrictionNotes
   include RepresentativeImages
   include Assessments::LinkedRecord
+  include Arks
 
   enable_suppression
 
