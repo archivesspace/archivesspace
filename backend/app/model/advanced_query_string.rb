@@ -2,7 +2,7 @@ require 'time'
 
 class AdvancedQueryString
   def initialize(query, use_literal)
-    @query = query
+    @query = query.transform_keys { |k| k.to_s }
     @use_literal = use_literal
   end
 
@@ -40,7 +40,8 @@ class AdvancedQueryString
 
   def value
     if date?
-      base_time = Time.parse(@query["value"]).utc.iso8601
+      date_string = JSONModel::Validations.normalise_date(@query["value"])
+      base_time = Time.parse(date_string).utc.iso8601
 
       if @query["comparator"] == "lesser_than"
         "[* TO #{base_time}-1MILLISECOND]"
