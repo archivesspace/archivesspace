@@ -179,15 +179,49 @@ $(function() {
         }
 
         function isValidDate(dateString) {
-          var dateRegex = /^\d\d\d\d\-\d\d-\d\d$/;
-          var isValidDateString = dateRegex.test(dateString);
+          var dateRegex =
+            /^((0(?!\d)|[1-9])[0-9]{0,3})(?!-1[3-9]|-[2-9][2-9])(-0[1-9]|-1[012])?(-0[1-9]|-[12][0-9]|-3[01])?$/;
+          /**
+           * ^((0(?!\d)|[1-9])[0-9]{0,3})
+           * years 0 - 9999
+           * 
+           * (0(?!\d)|[1-9])
+           * if year starts with 0 it can't be followed by other digits, ie: 0, !01
+           * 
+           * ^((0(?!\d)|[1-9])[0-9]{0,3})(?!-1[3-9]|-[2-9][2-9])
+           * year can't be followed by any number > 12
+           * negative lookahead (for year value) since lookbehind (for day value)
+           * not available in all browsers
+           * 
+           * (-0[1-9]|-1[012])?
+           * 0 or 1 month
+           * 
+           * (-0[1-9]|-[12][0-9]|-3[01])?$
+           * 0 or 1 day
+           */
 
-          if (!isValidDateString) {
+          if (!dateRegex.test(dateString)) {
             return false;
           }
 
+          var dateArray = dateString.split('-');
+          var year = Number(dateArray[0]);
+          var month = dateArray[1] ? Number(dateArray[1]) : undefined;
+          var day = dateArray[2] ? Number(dateArray[2]) : undefined;
+
+          var daysInMonths = [31,28,31,30,31,30,31,31,30,31,30,31];
+          var isLeapYear = new Date(year,1,29).getDate() == 29; // via proleptic Gregorian calendar
+
+          if(isLeapYear) {
+            daysInMonths[1] = 29;
+          }
+
+          if (day) {
+            return day <= daysInMonths[--month];
+          }
+
           return true;
-        };
+        }
 
         if (isValidDate($(this).val())) {
           enableAdvancedSearch();
