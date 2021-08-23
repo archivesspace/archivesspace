@@ -7,10 +7,13 @@ describe 'Accessibility', js: true , db: 'accessibility' do
     visit '/'
     page.has_xpath? "//input[@id='login']"
 
-    fill_in "username", with: "admin"
-    fill_in "password", with: "admin"
+    within "form.login" do
+      fill_in "username", with: "admin"
+      fill_in "password", with: "admin"
 
-    click_button "Sign In"
+      click_button "Sign In"
+    end
+
     page.has_no_xpath? "//input[@id='login']"
   end
 
@@ -39,6 +42,9 @@ describe 'Accessibility', js: true , db: 'accessibility' do
     visit "/resources/1/edit#tree::resource_1"
 
     page.has_no_css? ".datepicker"
+    2.times {
+      sleep 1 unless page.has_css? "input#resource_dates__0__begin_.date-field.initialised"
+    }
 
     date_field = find "input#resource_dates__0__begin_.date-field.initialised"
     date_field.click
