@@ -191,6 +191,8 @@ class EADSerializer < ASpaceExport::Serializer
               end
             end
 
+            handle_arks(data, xml)
+
             serialize_extents(data, xml, @fragments)
 
             serialize_dates(data, xml, @fragments)
@@ -243,6 +245,31 @@ class EADSerializer < ASpaceExport::Serializer
     end
   end
 
+  def handle_arks(data, xml)
+    return unless AppConfig[:arks_enabled]
+    return unless data.ark_name
+
+    xml.unitid  {
+      xml.extref ({
+        "xlink:href" => data.ark_name.fetch('current'),
+        "xlink:actuate" => "onload",
+        "xlink:show" => "new",
+        "xlink:type" => "ark"
+      }) { xml.text 'Archival Resource Key' }
+    }
+
+    data.ark_name.fetch('previous', []).each do |old_ark_url|
+      xml.unitid {
+        xml.extref ({
+          "xlink:href" => old_ark_url,
+          "xlink:actuate" => "onload",
+          "xlink:show" => "new",
+          "xlink:localtype" => "arkprevious"
+        }) { xml.text 'Previous Archival Resource Key' }
+      }
+    end
+  end
+
   # this extracts <head> content and returns it. optionally, you can provide a
   # backup text node that will be returned if there is no <head> nodes in the
   # content
@@ -276,18 +303,7 @@ class EADSerializer < ASpaceExport::Serializer
           xml.unittitle { sanitize_mixed_content( val, xml, fragments) }
         end
 
-        if AppConfig[:arks_enabled]
-          ark_url = ArkName::get_ark_url(data.id, :archival_object)
-          if ark_url
-            xml.unitid {
-              xml.extref ({"xlink:href" => ark_url,
-                           "xlink:actuate" => "onLoad",
-                           "xlink:show" => "new",
-                           "xlink:type" => "simple"
-                          }) { xml.text 'Archival Resource Key' }
-            }
-          end
-        end
+        handle_arks(data, xml)
 
         if !data.component_id.nil? && !data.component_id.empty?
           xml.unitid data.component_id
@@ -791,9 +807,11 @@ class EADSerializer < ASpaceExport::Serializer
 
 
   def serialize_eadheader(data, xml, fragments)
-    ark_url = AppConfig[:arks_enabled] ? ArkName::get_ark_url(data.id, :resource) : nil
+    eadid_url = data.ead_location
 
-    eadid_url = ark_url.nil? ? data.ead_location : ark_url
+    if AppConfig[:arks_enabled] && data.ark_name
+      eadid_url = data.ark_name.fetch('current')
+    end
 
     eadheader_atts = {:findaidstatus => data.finding_aid_status,
                       :repositoryencoding => "iso15511",

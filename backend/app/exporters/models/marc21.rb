@@ -1,3 +1,4 @@
+# coding: utf-8
 class MARCModel < ASpaceExport::ExportModel
   model_for :marc21
 
@@ -22,7 +23,7 @@ class MARCModel < ASpaceExport::ExportModel
   @resource_map = {
     [:id_0, :id_1, :id_2, :id_3] => :handle_id,
     [:ead_location] => :handle_ead_loc,
-    [:id, :jsonmodel_type] => :handle_ark,
+    [:ark_name] => :handle_ark,
     :notes => :handle_notes,
     :finding_aid_description_rules => df_handler('fadr', '040', ' ', ' ', 'e')
   }
@@ -602,18 +603,21 @@ class MARCModel < ASpaceExport::ExportModel
     end
   end
 
-  def handle_ark(id, type='resource')
+  def handle_ark(ark_name)
+    return if ark_name.nil?
+    return unless [:arks_enabled]
+
     # If ARKs are enabled, add an 856
     #<datafield tag="856" ind1="4" ind2="2">
     #  <subfield code="z">Archival Resource Key:</subfield>
     #  <subfield code="u">ARK URL</subfield>
     #</datafield>
-    if AppConfig[:arks_enabled]
-      ark_url = ArkName::get_ark_url(id, type.to_sym)
-      df('856', '4', '2').with_sfs(
-                                   ['z', "Archival Resource Key:"],
-                                   ['u', ark_url]
-                                 ) unless ark_url.nil? || ark_url.empty?
+
+    if ark_url = ark_name['current']
+       df('856', '4', '2').with_sfs(
+                                    ['z', "Archival Resource Key:"],
+                                    ['u', ark_url]
+                                  ) unless ark_url.nil? || ark_url.empty?
 
     end
   end
