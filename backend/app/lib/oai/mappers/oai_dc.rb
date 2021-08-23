@@ -30,12 +30,8 @@ class OAIDCMapper
         end
 
         if AppConfig[:arks_enabled]
-          ark_url = ""
-          if jsonmodel['jsonmodel_type'] == 'resource'
-            ark_url = ArkName::get_ark_url(jsonmodel.id, :resource)
-          elsif jsonmodel['jsonmodel_type'] == 'archival_object'
-            ark_url = ArkName::get_ark_url(jsonmodel.id, :archival_object)
-          end
+          ark_url = jsonmodel.dig('ark_name', 'current')
+
           unless ark_url.nil? || ark_url.empty?
             xml['dc'].identifier(ark_url)
           end
