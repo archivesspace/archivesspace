@@ -1,4 +1,6 @@
 require_relative 'converter'
+require 'set'
+
 class EADConverter < Converter
 
   require 'securerandom'
@@ -21,19 +23,6 @@ class EADConverter < Converter
       self.new(input_file)
     else
       nil
-    end
-  end
-
-
-  # We override this to skip nodes that are often very deep
-  # We can safely assume ead, c, and archdesc will have children,
-  # which greatly helps the performance.
-  def is_node_empty?(node)
-    parent_nodes = %w{ ead e archdesc dsc } + (1..12).collect { |n| "c#{ sprintf('%02d', n)}" }
-    if parent_nodes.include?( node.local_name )
-      return false
-    else
-      return node.inner_xml.strip.empty?
     end
   end
 

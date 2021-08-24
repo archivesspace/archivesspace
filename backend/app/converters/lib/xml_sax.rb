@@ -4,6 +4,8 @@ require_relative 'parse_queue'
 require_relative 'record_proxy'
 require_relative 'utils'
 
+require_relative 'sax_xml_reader'
+
 module ASpaceImport
   module XML
     module SAX
@@ -60,21 +62,9 @@ module ASpaceImport
       end
 
 
-      # Get a hold of Nokogiri's internal nodeQueue for the sake of being able
-      # to clear it.  This might not be necessary in new versions of Nokogiri.
-      def node_queue_for(reader)
-        obj = reader.to_java
-        nodeQueueField = obj.get_class.get_declared_field("nodeQueue")
-        nodeQueueField.setAccessible(true)
-        nodeQueueField.get(obj)
-      end
-
-
       def run
-        @reader = Nokogiri::XML::Reader( IO.read(@input_file).gsub(/\s\s+/, " ")) do |config|
-          config.noblanks.strict
-        end
-        node_queue = node_queue_for(@reader)
+        reader = SAXXMLReader.new(IO.read(@input_file).gsub(/\s\s+/, " "))
+
         @contexts = []
         @context_nodes = {}
         @proxies = ASpaceImport::RecordProxyMgr.new
@@ -85,8 +75,7 @@ module ASpaceImport
 
         self.class.ensure_configuration
 
-        @reader.each_with_index do |node, i|
-
+        reader.each_with_index do |(node, is_node_empty), i|
           case node.node_type
 
           when 1
@@ -102,8 +91,7 @@ module ASpaceImport
 
             #we do not bother with empty and attributesless nodes. however, a
             #node can be empty as long as it has attributes
-            empty_node = is_node_empty?(node)
-            handle_opener(node, empty_node) unless ( empty_node && !node.attributes? )
+            handle_opener(node, is_node_empty) unless ( is_node_empty && !node.attributes? )
 
           when 3
             handle_text(node)
@@ -113,25 +101,6 @@ module ASpaceImport
             end
             handle_closer(node)
           end
-
-          # A gross hack.  Use Java Reflection to clear Nokogiri's node queue,
-          # since otherwise we end up accumulating all nodes in memory.
-          node_queue.set(i, nil)
-        end
-      end
-
-
-      # this is used to check if a node is empty before processing.
-      # this is a bit of a processing hit on this, especially for nodes
-      # that have any children. For this reason we skip the root node.
-      # You should override this in order to not check nodes that are
-      # expected to be very deep.
-      def is_node_empty?(node)
-        # calling inner_xml on the root note slows things down a lot...
-        if node.depth == 0
-          return false
-        else
-          return node.inner_xml.strip.empty? # using empty_element? returns true if there's just whitespace...
         end
       end
 
@@ -336,6 +305,7 @@ module ASpaceImport
       def make_sticky(node_name)
         @stickies << node_name
       end
+
     end
   end
 end
