@@ -28,14 +28,14 @@ class ArkName < Sequel::Model(:ark_name)
     end
   end
 
+  @minters ||= {}
+
   def self.register_minter(minter_id, clz)
-    @minters ||= {}
     @minters[minter_id] = clz
     nil
   end
 
   def self.load_minter(minter_id)
-    @minters ||= {}
     clz = @minters.fetch(minter_id) do
       raise "Couldn't find a minter matching: #{minter_id}"
     end
