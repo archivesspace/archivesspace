@@ -34,14 +34,14 @@ module Arks
         arks = rec_ids_to_arks.fetch(obj.id, [])
 
         unless arks.empty?
-          current = arks.select{|ark| ark.is_current == 1}
+          (current, *), previous = arks.partition {|ark| ark.is_current == 1}
 
           json['ark_name'] = {
-            'current' => current.map{|ark| ark.user_value || ArkName.prefix(ark.generated_value)}.first,
-            'previous' => arks.select{|ark| ark.is_current == 0}.map{|ark| ark.user_value || ArkName.prefix(ark.generated_value)},
+            'current' => current.value,
+            'previous' => previous.map(&:value),
           }
 
-          json['external_ark_url'] = current.map{|ark| ark.user_value}.first
+          json['external_ark_url'] = current.user_value
         end
       end
 
