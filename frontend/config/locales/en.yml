@@ -1216,6 +1216,7 @@ en:
         merged: Subject(s) Merged
         merge_description: Select subjects below to merge into
         please_select_a_subject_to_merge: Please select a subject
+        delete_conflict: "Subject could not be deleted: <pre>%{error}</pre>"
       section:
         basic_information: Basic Information
         terms: Terms and Subdivisions

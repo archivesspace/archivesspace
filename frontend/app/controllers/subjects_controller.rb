@@ -155,7 +155,12 @@ class SubjectsController < ApplicationController
 
   def delete
     subject = JSONModel(:subject).find(params[:id])
-    subject.delete
+    begin
+      subject.delete
+    rescue ConflictException => e
+      flash[:error] = I18n.t("subject._frontend.messages.delete_conflict", :error => I18n.t("errors.#{e.conflicts}", :default => e.message))
+      return redirect_to(:controller => :subjects, :action => :show, :id => subject.id)
+    end
 
     flash[:success] = I18n.t("subject._frontend.messages.deleted", JSONModelI18nWrapper.new(:subject => subject))
     redirect_to(:controller => :subjects, :action => :index, :deleted_uri => subject.uri)
