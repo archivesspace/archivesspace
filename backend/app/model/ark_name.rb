@@ -28,6 +28,25 @@ class ArkName < Sequel::Model(:ark_name)
     end
   end
 
+  def self.register_minter(minter_id, clz)
+    @minters ||= {}
+    @minters[minter_id] = clz
+    nil
+  end
+
+  def self.load_minter(minter_id)
+    @minters ||= {}
+    clz = @minters.fetch(minter_id) do
+      raise "Couldn't find a minter matching: #{minter_id}"
+    end
+
+    clz.new
+  end
+
+  def self.ark_minter
+    load_minter(AppConfig[:ark_minter])
+  end
+
   def self.ensure_ark_for_record(obj, json)
     return unless AppConfig[:arks_enabled]
     return unless ArkName.require_update?(obj, json)
@@ -43,52 +62,17 @@ class ArkName < Sequel::Model(:ark_name)
       .update(:is_current => 0,
               :retired_at_epoch_ms => (now.to_f * 1000).to_i)
 
-    ark_id = self.insert(fk_col => obj.id,
-                         :created_by => 'admin',
-                         :last_modified_by => 'admin',
-                         :create_time => now,
-                         :system_mtime => now,
-                         :user_mtime => now,
-                         :is_current => 1,
-                         :user_value => json['external_ark_url'],
-                         :retired_at_epoch_ms => 0,
-                         :lock_version => 0)
-
-    self
-      .filter(:id => ark_id)
-      .update(:generated_value => build_generated_ark(ark_id))
-  end
-
-  def self.build_generated_ark(ark_id)
-    "ark:/#{AppConfig[:ark_naan]}/#{ark_id}"
-  end
-
-  # NOTE: exporter calls this, but sequel_to_jsonmodel doesn't
-  def self.get_ark_url(id, type)
-    case type
-    when :resource
-      id_field = :resource_id
-      klass_sym = :resource
-    when :archival_object
-      id_field = :archival_object_id
-      klass_sym = :archival_object
-    else
-      return nil
-    end
-
-    external_url = get_external_ark_url(id, klass_sym)
-
-    if !external_url.nil?
-      return external_url
-    else
-      ark = ArkName.first(id_field => id)
-
-      if !ark.nil?
-        return "#{AppConfig[:ark_url_prefix]}/ark:/#{AppConfig[:ark_naan]}/#{ark.id}"
-      else
-        return nil
-      end
-    end
+    ark_minter.mint!(obj, json,
+                     fk_col => obj.id,
+                     :created_by => 'admin',
+                     :last_modified_by => 'admin',
+                     :create_time => now,
+                     :system_mtime => now,
+                     :user_mtime => now,
+                     :is_current => 1,
+                     :retired_at_epoch_ms => 0,
+                     :lock_version => 0
+                    )
   end
 
   def self.handle_delete(model_clz, ids)
@@ -99,31 +83,11 @@ class ArkName < Sequel::Model(:ark_name)
     "#{AppConfig[:ark_url_prefix]}/#{value}"
   end
 
-  private
-
-  # archival object or resource may have an external_ark_url defined.
-  # query object to see. if found, find it and return it
-  #
-  # NOTE: exporter calls this, but sequel_to_jsonmodel doesn't
-  def self.get_external_ark_url(id, type)
-    case type
-    when :resource
-      klass = Resource
-      table = "resource"
-    when :archival_object
-      klass = ArchivalObject
-      table = "archival_object"
-    else
-      return nil
-    end
-
-    entity = klass.any_repo.filter(:id => id).first
-    if entity.nil? || entity.external_ark_url.nil?
-      return nil
-    else
-      return entity.external_ark_url
-    end
+  def value
+    self.user_value || self.class.prefix(self.generated_value)
   end
+
+  private
 
   def self.fk_for_class(clz)
     return nil unless clz.included_modules.include?(Arks)
@@ -142,6 +106,7 @@ class ArkName < Sequel::Model(:ark_name)
     # record needs a current ark
     return true if current.nil?
 
+    # FIXME: only if we're running in a mode that allows user values
     # the user value has changed, mint a new ark
     return true if current.user_value.to_s != json['external_ark_url'].to_s
 

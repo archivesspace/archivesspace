@@ -676,6 +676,8 @@ AppConfig[:ark_naan] = "99999"
 # In most cases this will be the same as the PUI URL.
 AppConfig[:ark_url_prefix] = proc { AppConfig[:public_proxy_url] }
 
+AppConfig[:ark_minter] = :archivesspace_ark_minter
+
 # Specifies if the fields that show up in csv should be limited to those in search results
 AppConfig[:limit_csv_fields] = true
 
