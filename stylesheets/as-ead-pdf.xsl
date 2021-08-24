@@ -1104,7 +1104,7 @@
 
    <!-- Linking elmenets -->
     <xsl:template match="ead:ref">
-        <fo:basic-link internal-destination="{@target}" xsl:use-attribute-sets="ref">
+        <fo:basic-link internal-destination="{@*:target}" xsl:use-attribute-sets="ref">
             <xsl:choose>
                 <xsl:when test="text()">
                     <xsl:value-of select="."/>
@@ -1113,13 +1113,13 @@
                     <xsl:value-of select="@*:title"/>
                 </xsl:when>
                 <xsl:otherwise>
-                    <xsl:value-of select="@target"/>
+                    <xsl:value-of select="@*:target"/>
                 </xsl:otherwise>
             </xsl:choose>
         </fo:basic-link>
     </xsl:template>
     <xsl:template match="ead:ptr">
-        <fo:basic-link external-destination="url('{@target}')" xsl:use-attribute-sets="ref">
+        <fo:basic-link external-destination="url('{@*:target}')" xsl:use-attribute-sets="ref">
             <xsl:choose>
                 <xsl:when test="child::*">
                     <xsl:value-of select="."/>
@@ -1128,7 +1128,7 @@
                     <xsl:value-of select="@*:title"/>
                 </xsl:when>
                 <xsl:otherwise>
-                    <xsl:value-of select="@target"/>
+                    <xsl:value-of select="@*:target"/>
                 </xsl:otherwise>
             </xsl:choose>
         </fo:basic-link>

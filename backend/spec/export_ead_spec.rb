@@ -1262,18 +1262,18 @@ describe "EAD export mappings" do
     end
 
     it "adds xlink prefix to attributes in mixed content" do
-      expect(serializer.add_xlink_prefix(note_with_extref)).to eq("<extref xlink:linktype='simple' xlink:entityref='site' xlink:title='title' xlink:actuate='onrequest' xlink:show='new' xlink:href='http://duckduckgo.com'>A Good Search Engine</p>")
+      expect(serializer.add_xlink_prefix(note_with_extref)).to eq("<extref linktype='simple' entityref='site' xlink:title='title' xlink:actuate='onrequest' xlink:show='new' xlink:href='http://duckduckgo.com'>A Good Search Engine</p>")
       expect(serializer.add_xlink_prefix(note_with_archref)).to eq("<archref audience='external'/>")
       expect(serializer.add_xlink_prefix(note_with_bibref)).to eq("<bibref audience='internal'/>")
-      expect(serializer.add_xlink_prefix(note_with_extptr)).to eq("<extptr xlink:linktype='simple' xlink:entityref='entref' xlink:title='title' xlink:show='embed'/>")
+      expect(serializer.add_xlink_prefix(note_with_extptr)).to eq("<extptr linktype='simple' entityref='entref' xlink:title='title' xlink:show='embed'/>")
       expect(serializer.add_xlink_prefix(note_with_extptrloc)).to eq("<extptrloc xlink:href='http://www.example.com'/>")
       expect(serializer.add_xlink_prefix(note_with_extrefloc)).to eq("<extrefloc xlink:href='http://www.example.com'/>")
-      expect(serializer.add_xlink_prefix(note_with_linkgrp)).to eq("<linkgrp xlink:linktype='extended'><extrefloc xlink:href='http://www.someserver.edu/findaids/3270.xml'><archref>archref</archref></extrefloc><extrefloc xlink:href='http://www.someserver.edu/findaids/9248.xml'><archref>archref</archref></extrefloc></linkgrp>")
-      expect(serializer.add_xlink_prefix(note_with_ptr)).to eq("<ptr xlink:linktype='simple' xlink:actuate='onrequest' xlink:show='replace' xlink:target='mss1982-062_add2'/>")
+      expect(serializer.add_xlink_prefix(note_with_linkgrp)).to eq("<linkgrp linktype='extended'><extrefloc xlink:href='http://www.someserver.edu/findaids/3270.xml'><archref>archref</archref></extrefloc><extrefloc xlink:href='http://www.someserver.edu/findaids/9248.xml'><archref>archref</archref></extrefloc></linkgrp>")
+      expect(serializer.add_xlink_prefix(note_with_ptr)).to eq("<ptr linktype='simple' xlink:actuate='onrequest' xlink:show='replace' target='mss1982-062_add2'/>")
       expect(serializer.add_xlink_prefix(note_with_ptrloc)).to eq("<ptrloc audience='external'/>")
-      expect(serializer.add_xlink_prefix(note_with_ref)).to eq("<ref xlink:linktype='simple' xlink:target='NonC:21-2' xlink:show='replace' xlink:actuate='onrequest'>")
-      expect(serializer.add_xlink_prefix(note_with_refloc)).to eq("<refloc xlink:target='a9'></refloc>")
-      expect(serializer.add_xlink_prefix(note_with_resource)).to eq("<resource xlink:linktype='resource' label='start'/>")
+      expect(serializer.add_xlink_prefix(note_with_ref)).to eq("<ref linktype='simple' target='NonC:21-2' xlink:show='replace' xlink:actuate='onrequest'>")
+      expect(serializer.add_xlink_prefix(note_with_refloc)).to eq("<refloc target='a9'></refloc>")
+      expect(serializer.add_xlink_prefix(note_with_resource)).to eq("<resource linktype='resource' label='start'/>")
       expect(serializer.add_xlink_prefix(note_with_title)).to eq("<title render='italic'/>")
     end
 

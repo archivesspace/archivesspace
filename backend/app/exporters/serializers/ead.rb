@@ -99,13 +99,8 @@ class EADSerializer < ASpaceExport::Serializer
 
   # If content looks like it contains a valid XML element with an attribute from the expected list,
   # then replace the attribute like " foo=" with " xlink:foo=".
-
-  # References used for valid element and attribute names:
-  # https://www.xml.com/pub/a/2001/07/25/namingparts.html
-  # https://razzed.com/2009/01/30/valid-characters-in-attribute-names-in-htmlxml/
-
   def add_xlink_prefix(content)
-    %w{ actuate arcrole entityref from href id linktype parent role show target title to xpointer }.each do |xa|
+    %w{ actuate arcrole from href role show title to}.each do |xa|
       content.gsub!(/ #{xa}=/) {|match| " xlink:#{match.strip}"} if content =~ / #{xa}=/
     end
     content
