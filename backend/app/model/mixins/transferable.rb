@@ -140,10 +140,10 @@ module Transferable
             # Already transferred
           end
         else
-          # something outside the graph is linked to it, add it to the list and we'll clone after transfer
-          tc_id = tc_rel[:top_container_id]
-          containers_to_clone[tc_id] ||= []
-          containers_to_clone[tc_id] <<  tc_rel[:sub_container_id]
+          # ANW-979
+          # Cancel transfer and let user know that they must unlink other top container
+
+          raise TransferConstraintError.new({'values' => 'Top Container is linked to other records, unlink them to continue'})
         end
       end
     end

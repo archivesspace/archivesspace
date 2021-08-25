@@ -79,6 +79,4 @@ class ArchivesSpaceService < Sinatra::Base
 
     moved_response(id, target)
   end
-
-
 end
