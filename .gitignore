@@ -34,6 +34,7 @@ build/test/
 backend/tests/ladle-server*
 webdriver-profile*
 common/ARCHIVESSPACE_VERSION
+.devcontainer/secrets
 .yardoc
 API.md
 endpoint_examples*
