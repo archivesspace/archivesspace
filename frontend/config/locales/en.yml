@@ -71,6 +71,8 @@ en:
     transfer_failed: Transfer Failed
     transfer_failed_records_using_digital_objects: "The following records link to digital objects that would be transferred, but doing so would break their instance links"
     transfer_failed_digital_objects_linked_to_records: "This digital object links to other records held in this repository. To proceed with this transfer, remove the links in the following records"
+    transfer_failed_top_containers_in_use: "The following top containers are linked to other top-level records in this repository, and cannot be transferred until those links are severed"
+    transfer_failed_barcodes_in_use: "The following top containers use barcodes that are used in the target repository, and cannot be transferred until those conflicts are fixed"
     unset_default: Unset Default
     unsuppress: Unsuppress
     unsuppress_confirm_title: Unsuppress this Record?
