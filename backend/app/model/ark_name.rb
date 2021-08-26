@@ -33,22 +33,37 @@ class ArkName < Sequel::Model(:ark_name)
 
     now = Time.now
 
-    self
-      .filter(fk_col => obj.id, :is_current => 1)
-      .update(:is_current => 0,
-              :retired_at_epoch_ms => (now.to_f * 1000).to_i)
+    DB.open do |db|
+      self
+        .filter(fk_col => obj.id, :is_current => 1)
+        .update(:is_current => 0,
+                :user_value => nil,
+                :retired_at_epoch_ms => (now.to_f * 1000).to_i)
 
-    ark_minter.mint!(obj, json,
-                     fk_col => obj.id,
-                     :created_by => 'admin',
-                     :last_modified_by => 'admin',
-                     :create_time => now,
-                     :system_mtime => now,
-                     :user_mtime => now,
-                     :is_current => 1,
-                     :retired_at_epoch_ms => 0,
-                     :lock_version => 0
-                    )
+      ark_minter.mint!(obj, json,
+                       fk_col => obj.id,
+                       :created_by => 'admin',
+                       :last_modified_by => 'admin',
+                       :create_time => now,
+                       :system_mtime => now,
+                       :user_mtime => now,
+                       :is_current => 1,
+                       :retired_at_epoch_ms => 0,
+                       :lock_version => 0
+                      )
+
+      # Make sure the value we've generated hasn't been used elsewhere.
+      db[:ark_uniq_check].filter(:record_uri => obj.uri).delete
+      generated_values = self.filter(fk_col => obj.id).select(:generated_value).distinct.map {|row| row[:generated_value]}
+
+      begin
+        generated_values.each do |value|
+          db[:ark_uniq_check].insert(:record_uri => obj.uri, :generated_value => value)
+        end
+      rescue Sequel::UniqueConstraintViolation
+        raise JSONModel::ValidationException.new(:errors => {"ark" => ["ark_collision"]})
+      end
+    end
   end
 
   def self.handle_delete(model_clz, ids)
