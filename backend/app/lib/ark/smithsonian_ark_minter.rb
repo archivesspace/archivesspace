@@ -1,15 +1,14 @@
-class ArchivesSpaceArkMinter < ArkMinter
+require 'securerandom'
+
+class SmithsonianArkMinter < ArkMinter
 
   def mint!(obj, json, row_defaults)
     DB.open do |db|
-      ark_id = db[:ark_name].insert(row_defaults.merge(:user_value => json['external_ark_url'],
-                                                       :version_key => generate_version_key(obj.repo_id)))
-
       ark_prefix = prefix_for_repo(obj.repo_id)
 
-      db[:ark_name]
-        .filter(:id => ark_id)
-        .update(:generated_value => build_generated_ark(ark_id, ark_prefix))
+      db[:ark_name].insert(row_defaults.merge(:generated_value => build_generated_ark(ark_prefix),
+                                              :user_value => json['external_ark_url'],
+                                              :version_key => generate_version_key(obj.repo_id)))
     end
   end
 
@@ -23,7 +22,9 @@ class ArchivesSpaceArkMinter < ArkMinter
     ArkMinter.generate_version_key(AppConfig[:ark_naan], prefix_for_repo(repo_id), AppConfig[:ark_prefix_delimiter])
   end
 
-  def build_generated_ark(ark_id, ark_prefix)
+  def build_generated_ark(ark_prefix)
+    ark_id = SecureRandom.uuid
+
     ark_prefix_with_delimiter = ''
 
     if ark_prefix
@@ -34,6 +35,6 @@ class ArchivesSpaceArkMinter < ArkMinter
   end
 
 
-  ArkName.register_minter(:archivesspace_ark_minter, self)
+  ArkName.register_minter(:smithsonian_ark_minter, self)
 
 end

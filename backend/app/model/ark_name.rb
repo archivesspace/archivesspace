@@ -4,30 +4,6 @@ class ArkName < Sequel::Model(:ark_name)
 
   set_model_scope :global
 
-  one_to_one :resource
-
-  # validations:
-  # must be linked to a resource or archival object
-  # cannot link to more than one type of resource
-  # can't have more than one ark_id point to the same resource or archival object
-
-  def validate
-    validate_resources_defined
-    validates_unique(:resource_id, :message => "ARK must point to a unique Resource")
-    validates_unique(:archival_object_id, :message => "ARK must point to a unique Archival Object")
-    super
-  end
-
-  def validate_resources_defined
-    resources_defined = 0
-    resources_defined += 1 unless self.resource_id.nil?
-    resources_defined += 1 unless self.archival_object_id.nil?
-
-    unless resources_defined == 1
-      errors.add(:base, 'Exactly one of [resource_id, archival_object_id] must be defined.')
-    end
-  end
-
   @minters ||= {}
 
   def self.register_minter(minter_id, clz)
@@ -84,7 +60,11 @@ class ArkName < Sequel::Model(:ark_name)
   end
 
   def value
-    self.user_value || self.class.prefix(self.generated_value)
+    if AppConfig[:arks_allow_external_arks] && self.user_value
+      self.user_value
+    else
+      self.class.prefix(self.generated_value)
+    end
   end
 
   private
@@ -106,11 +86,10 @@ class ArkName < Sequel::Model(:ark_name)
     # record needs a current ark
     return true if current.nil?
 
-    # FIXME: only if we're running in a mode that allows user values
-    # the user value has changed, mint a new ark
-    return true if current.user_value.to_s != json['external_ark_url'].to_s
+    return true if AppConfig[:arks_allow_external_arks] && current.user_value.to_s != json['external_ark_url'].to_s
 
-    # no changes required
-    false
+    minter = self.ark_minter
+
+    !minter.is_still_current?(current, obj.repo_id)
   end
 end

@@ -678,6 +678,10 @@ AppConfig[:ark_url_prefix] = proc { AppConfig[:public_proxy_url] }
 
 AppConfig[:ark_minter] = :archivesspace_ark_minter
 
+AppConfig[:ark_enable_repository_prefix] = false
+AppConfig[:ark_prefix_delimiter] = ''
+AppConfig[:arks_allow_external_arks] = true
+
 # Specifies if the fields that show up in csv should be limited to those in search results
 AppConfig[:limit_csv_fields] = true
 

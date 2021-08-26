@@ -3,6 +3,7 @@ class GenerateArksRunner < JobRunner
                         {:create_permissions => :administer_system,
                          :cancel_permissions => :administer_system})
 
+  # FIXME: only generate ARKs whose minter says they're no longer current.
   def run
     begin
       # RESOURCES
