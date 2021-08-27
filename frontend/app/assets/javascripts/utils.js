@@ -162,7 +162,7 @@ $(function() {
 
       $dateInput.addClass("initialised");
 
-      var $addon = $("<span class='input-group-addon'><i class='glyphicon glyphicon-calendar'></i></span>");
+      var $addon = $("<span class='input-group-addon' role='button' aria-label='"+$(this).data('label')+"'><i class='glyphicon glyphicon-calendar'></i></span>");
       $dateInput.after($addon);
 
       $dateInput.datepicker($dateInput.data());
@@ -211,15 +211,28 @@ $(function() {
 
 // any element with a popover!
 $(function() {
-  var popoverOptions = {
-    delay: {show: 0, hide: 200} // if the popover contains a link, allow a few moments for that click to count
-  };
-
   var initPopovers = function(scope) {
     scope = scope || $(document.body);
-    $(".has-popover:not(.initialised)", scope)
-      .popover(popoverOptions)
-      .addClass("initialised");
+    $(".has-popover:not(.initialised)", scope).each(function() {
+      var $this = $(this);
+
+      // ANW-1325: Ensure tooltip content is focusable/hoverable by inserting in the DOM 
+      // right after the triggering element.  
+      var popoverOptions = {
+        delay: {show: 0, hide: 200}, // if the popover contains a link, allow a few moments for that click to count
+        container: $this
+      };
+      $this.popover(popoverOptions).addClass("initialised");
+
+      // ANW-1325: hide popovers if escape key pressed
+      $('.has-popover.initialised').on('show.bs.popover', function () {
+        $(document).keydown(function(e){
+           if (e.keyCode === 27)
+              $this.popover("hide");
+        });
+      });
+      
+    });
   };
   initPopovers();
   $(document).bind("loadedrecordform.aspace init.popovers", function(event, $container) {
@@ -237,10 +250,27 @@ $(function() {
     scope = scope || $(document.body);
     $(".has-tooltip:not(.initialised)", scope).each(function() {
       var $this = $(this);
-      $this.tooltip().addClass("initialised");
 
+      var helpTooltips = ($this.data("trigger") === "manual" && ($this.is("label.control-label") || $this.is(".subrecord-form-heading-label")));
+
+      // ANW-1325: Ensure tooltip content is focusable/hoverable by inserting in the DOM 
+      // right after the triggering element.  Skipping `helpTooltips`, since those are
+      // made sticky in the block below.
+      var tooltipOptions = {
+        container: (!helpTooltips ? $this : 'body')
+      };
+      $this.tooltip(tooltipOptions).addClass("initialised");
+      
+      // ANW-1325: hide popovers if escape key pressed
+      $('.has-tooltip.initialised').on('show.bs.tooltip', function () {
+        $(document).keydown(function(e){
+           if (e.keyCode === 27)
+              $this.tooltip("hide");
+        });
+      });
+      
       // for manual ArchiveSpace help tooltips
-      if ($this.data("trigger") === "manual" && ($this.is("label.control-label") || $this.is(".subrecord-form-heading-label"))) {
+      if (helpTooltips) {
         var openedViaClick = false;
         var showTimeout, hideTimeout;
 

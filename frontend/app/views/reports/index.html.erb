@@ -40,7 +40,7 @@
                           <div class="col-sm-9">
                             <%= @report_params[param[0]].inspect %> 
                             <% if param[1] === "Date" %>
-                              <%= form.textfield param[0].intern, @report_params[param[0]], :class => 'date-field form-control', :'data-format' => 'yyyy-mm-dd', :placeholder => 'yyyy-mm-dd' %>
+                              <%= form.textfield param[0].intern, @report_params[param[0]], :class => 'date-field form-control', :'data-format' => 'yyyy-mm-dd', :placeholder => 'yyyy-mm-dd', :"data-label" => I18n.t("actions.date_picker") %>
                             <% elsif param[1] === "String" && param.length > 3 && param[3].has_key?("enumeration") %>
                               <%= form.select(param[0].intern,
                                               options_for_select(

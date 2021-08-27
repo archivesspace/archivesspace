@@ -17,6 +17,7 @@ en:
     container_labels: Download Container Labels
     create: Create
     cut: Cut
+    date_picker: Open Date Picker
     defaults: Default Values
     edit: Edit
     edit_oai: Edit OAI Settings
@@ -470,15 +471,18 @@ en:
 
   advanced_search:
     operator:
+      operator: Operator
       AND: And
       OR: Or
       NOT: Not
     date_operator:
+      comparator: Comparator
       equal: equals
       greater_than: greater than
       lesser_than: less than
       empty: unassigned
     boolean_field:
+      boolean: Boolean
       true_value: "True"
       false_value: "False"
     button_text: Search
@@ -490,10 +494,16 @@ en:
       show: Show Advanced Search
       hide: Hide Advanced Search
     text_operator:
+      comparator: Comparator
       contains: contains
       empty: is empty
     enum_field:
       empty: unassigned
+    search_field: Search Field
+    search_text: Search Text
+    search_date: Date
+    search_terms: Advanced Search Fields %{number}
+    remove_row: Remove Advanced Search Fields %{number}
 
   become-user:
     become-user: Become User

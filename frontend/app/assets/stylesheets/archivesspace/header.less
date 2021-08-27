@@ -23,6 +23,18 @@
   margin-bottom: 0;
 }
 
+.navbar-nav {
+  > li:last-child {
+    position: static; // Ensures toolbar tooltips are aligned properly on display
+  }
+}
+
+.navbar-nav-right {
+  position: absolute !important;
+  right: 0;
+  padding-right: 15px;
+}
+
 .navbar-branding {
   padding-left: 15px;
 }
@@ -74,31 +86,6 @@
 .user-container .popover {
   min-width: 120px;
 }
-
-
-// user logged in container
-/* .repo-container { */
-/* /\* .user-container { *\/ */
-/*   margin-left: 5px; */
-
-/*   .dropdown-toggle, .btn { */
-/*     margin-top: 5px !important; */
-/*   } */
-/*   .dropdown-menu { */
-/*     min-width: 80px; */
-/*   } */
-/*   .empty, .selected { */
-/*     color: #999; */
-/*   } */
-
-/*   .dropdown-submenu.pull-left { */
-/*     > .dropdown-menu { */
-/*       left: -140%; */
-/*       right: auto; */
-/*       min-width: 140%; */
-/*     } */
-/*   } */
-/* } */
 
 .repo-container {
   .inset-label-append {

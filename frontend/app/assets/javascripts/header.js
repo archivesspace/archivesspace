@@ -90,6 +90,11 @@ $(function() {
 
     $(".nav .search-switcher span").toggleClass('glyphicon-chevron-down');
     $(".nav .search-switcher span").toggleClass('glyphicon-chevron-up');
+    if ($(".nav .search-switcher span").hasClass('glyphicon-chevron-down')) {
+      $(".nav .search-switcher").attr('aria-expanded', false);
+    } else if ($(".nav .search-switcher span").hasClass('glyphicon-chevron-up')) {
+      $(".nav .search-switcher").attr('aria-expanded', true);
+    }
     $advancedSearchContainer.slideToggle();
   });
 
@@ -111,7 +116,7 @@ $(function() {
     // Ensure first row operator select only offers "NOT" value
     var $firstOpSelect = $(".advanced-search-row-container >.row:first-child .advanced-search-row-op-input");
     if ($firstOpSelect.length > 0) {
-      var $newOpSelect = AS.renderTemplate("template_advanced_search_op_select", {first: true, index: $firstOpSelect.attr("name").replace("op", ""), query: {op: $firstOpSelect.val()}});
+      var $newOpSelect = AS.renderTemplate("template_advanced_search_op_select", {first: true, index: $firstOpSelect.attr("name").replace("op", ""), query: {op: $firstOpSelect.val()}, label: false});
       $firstOpSelect.replaceWith($newOpSelect);
     }
 
@@ -125,6 +130,8 @@ $(function() {
     event.preventDefault();
 
     var index = $(":input[id^='v']", $advancedSearchRowContainer).length;
+    
+    var label = true;
 
     var adding_as_first_row = false;
     if (index == 0) {
@@ -135,7 +142,7 @@ $(function() {
       index += 1;
     }
 
-    addAdvancedSearchRow(index, $(this).data("type"), adding_as_first_row, {});
+    addAdvancedSearchRow(index, $(this).data("type"), adding_as_first_row, {}, label);
 
     // hide the drop down menu after clicking an option
     $(this).closest(".dropdown-menu").siblings(".advanced-search-add-row-dropdown").trigger("click");
@@ -156,13 +163,14 @@ $(function() {
   };
 
 
-  var addAdvancedSearchRow = function(index, type, first, query) {
+  var addAdvancedSearchRow = function(index, type, first, query, label) {
     var field_data = {
       index: index,
       type: type,
       first: first,
-      query: query
-    }
+      query: query,
+      label: true
+    };
 
     var $row = $(AS.renderTemplate("template_advanced_search_row", {field_data: field_data}));
 
@@ -170,7 +178,7 @@ $(function() {
 
     if (type == "date") {
       $("#v"+index, $row).on("change", function(event) {
-        $(this).closest(".input-group").removeClass("has-error");
+        $(this).parents(".input-group").removeClass("has-error");
 
         var dop = $("#dop"+index, $row);
         if (dop.val() == 'empty') {
