@@ -1,8 +1,8 @@
 class ArchivesSpaceArkMinter < ArkMinter
 
-  def mint!(obj, json, row_defaults)
+  def mint!(obj, external_ark_url, row_defaults)
     DB.open do |db|
-      ark_id = db[:ark_name].insert(row_defaults.merge(:user_value => json['external_ark_url'],
+      ark_id = db[:ark_name].insert(row_defaults.merge(:user_value => external_ark_url,
                                                        :version_key => generate_version_key(obj.repo_id)))
 
       ark_prefix = prefix_for_repo(obj.repo_id)

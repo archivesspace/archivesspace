@@ -3,7 +3,7 @@ require 'digest'
 class ArkMinter
 
   # FIXME: doc
-  def mint!(obj, json, row_defaults)
+  def mint!(obj, external_ark_url, row_defaults)
     raise NotImplementedError.new
   end
 

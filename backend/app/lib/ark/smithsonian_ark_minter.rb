@@ -2,12 +2,12 @@ require 'securerandom'
 
 class SmithsonianArkMinter < ArkMinter
 
-  def mint!(obj, json, row_defaults)
+  def mint!(obj, external_ark_url, row_defaults)
     DB.open do |db|
       ark_prefix = prefix_for_repo(obj.repo_id)
 
       db[:ark_name].insert(row_defaults.merge(:generated_value => build_generated_ark(ark_prefix),
-                                              :user_value => json['external_ark_url'],
+                                              :user_value => external_ark_url,
                                               :version_key => generate_version_key(obj.repo_id)))
     end
   end

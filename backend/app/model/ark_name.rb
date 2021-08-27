@@ -23,13 +23,13 @@ class ArkName < Sequel::Model(:ark_name)
     load_minter(AppConfig[:ark_minter])
   end
 
-  def self.ensure_ark_for_record(obj, json)
-    return unless AppConfig[:arks_enabled]
-    return unless ArkName.require_update?(obj, json)
+  def self.ensure_ark_for_record(obj, external_ark_url)
+    return false unless AppConfig[:arks_enabled]
+    return false unless ArkName.require_update?(obj, external_ark_url)
 
     fk_col = fk_for_class(obj.class)
 
-    return unless fk_col
+    return false unless fk_col
 
     now = Time.now
 
@@ -40,7 +40,7 @@ class ArkName < Sequel::Model(:ark_name)
                 :user_value => nil,
                 :retired_at_epoch_ms => (now.to_f * 1000).to_i)
 
-      ark_minter.mint!(obj, json,
+      ark_minter.mint!(obj, external_ark_url,
                        fk_col => obj.id,
                        :created_by => 'admin',
                        :last_modified_by => 'admin',
@@ -64,6 +64,8 @@ class ArkName < Sequel::Model(:ark_name)
         raise JSONModel::ValidationException.new(:errors => {"ark" => ["ark_collision"]})
       end
     end
+
+    true
   end
 
   def self.handle_delete(model_clz, ids)
@@ -90,7 +92,7 @@ class ArkName < Sequel::Model(:ark_name)
     "#{clz.table_name}_id".intern
   end
 
-  def self.require_update?(obj, json)
+  def self.require_update?(obj, external_ark_url)
     id_field = fk_for_class(obj.class)
 
     # record doesn't support arks
@@ -101,7 +103,7 @@ class ArkName < Sequel::Model(:ark_name)
     # record needs a current ark
     return true if current.nil?
 
-    return true if AppConfig[:arks_allow_external_arks] && current.user_value.to_s != json['external_ark_url'].to_s
+    return true if AppConfig[:arks_allow_external_arks] && current.user_value.to_s != external_ark_url.to_s
 
     minter = self.ark_minter
 
