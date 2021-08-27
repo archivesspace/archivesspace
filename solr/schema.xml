@@ -118,6 +118,7 @@
     <field name="assessment_formats" type="string" indexed="true" stored="true" multiValued="true" />
     <field name="assessment_ratings" type="string" indexed="true" stored="true" multiValued="true" />
     <field name="assessment_conservation_issues" type="string" indexed="true" stored="true" multiValued="true" />
+    <field name="ark_name" type="string" indexed="true" stored="true" multiValued="true" />
     <field name="created_by" type="string" indexed="true" stored="true" multiValued="false" />
     <field name="last_modified_by" type="string" indexed="true" stored="true" multiValued="false" />
     <field name="create_time" type="date" indexed="true" stored="true" multiValued="false" />

@@ -27,15 +27,19 @@ class GenerateArksRunner < JobRunner
                                     .map {|row| [row[fk], row[:user_value]] }
                                     .to_h
 
-                  objs.each do |obj|
+              records_to_reindex = []
+              objs.each do |obj|
                 begin
                   if ArkName.ensure_ark_for_record(obj, user_value_lookup.fetch(obj.id, nil))
                     created_arks += 1
+                    records_to_reindex << obj.id
                   end
                 rescue => e
                   @job.write_output(" -> Error generating ARK for #{model} #{obj.id} => #{e.message}")
                 end
               end
+
+              model.update_mtime_for_ids(records_to_reindex)
             end
           end
 

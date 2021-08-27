@@ -5,7 +5,7 @@ Rails.application.routes.draw do
 
     get '/welcome', to: 'welcome#show'
 
-    get '/*ark_tag/:naan/:id' => 'ark_name#show', constraints: { ark_tag: 'ark:' }
+    get '/ark:/*ark_id' => 'ark_name#show'
 
     # I don't think this is used anywhere...
     post '/cite', to: 'cite#show'
