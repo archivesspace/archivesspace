@@ -3,6 +3,10 @@ require 'rails_helper.rb'
 
 describe 'Accessibility', js: true , db: 'accessibility' do
 
+  before(:all) do
+    PeriodicIndexer.new.run_index_round
+  end
+
   before(:each) do
     visit '/'
     page.has_xpath? "//input[@id='login']"
