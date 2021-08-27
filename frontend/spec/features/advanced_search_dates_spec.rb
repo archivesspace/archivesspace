@@ -16,26 +16,26 @@ describe 'AdvancedSearchDates', js: true do
     end
 
     page.has_no_xpath? '//input[@id="login"]'
-
     page.has_css? 'button[title="Show Advanced Search"]'
-    click_button('button[title="Show Advanced Search"]')
-    click_link('.advanced-search-add-row-dropdown')
-    click_link('.advanced-search-add-date-row')
+    first('button[title="Show Advanced Search"]').click
+    first('.advanced-search-add-row-dropdown').click
+    first('.advanced-search-add-date-row').click
     page.has_css? 'input#v1.date-field'
 
-    date_field = find 'input#v1.date-field'
-    submit_btn = find 'form.advanced-search .btn.btn-primary'
+    @date_field = find 'input#v1.date-field'
+    @submit_btn = find 'form.advanced-search .btn.btn-primary'
 
     now = DateTime.now
-    year = now.strftime('%Y')
-    month = now.strftime('%Y-%m')
-    day = now.strftime('%Y-%m-%d')
+    @year = now.strftime('%Y')
+    @month = now.strftime('%Y-%m')
+    @day = now.strftime('%Y-%m-%d')
   end
 
   it 'accepts a year date in yyyy format' do
     within "form.advanced-search" do
-      date_field.fill_in(with: year)
-      submit_btn.click
+      @date_field.fill_in(with: @year)
+      @date_field.send_keys :escape
+      @submit_btn.click
     end
 
     expect(page).to have_text 'Search Results'
@@ -43,8 +43,9 @@ describe 'AdvancedSearchDates', js: true do
 
   it 'accepts a month date in yyyy-mm format' do
     within "form.advanced-search" do
-      date_field.fill_in(with: month)
-      submit_btn.click
+      @date_field.fill_in(with: @month)
+      @date_field.send_keys :escape
+      @submit_btn.click
     end
 
     expect(page).to have_text 'Search Results'
@@ -52,8 +53,9 @@ describe 'AdvancedSearchDates', js: true do
 
   it 'accepts a day date in yyyy-mm-dd format' do
     within "form.advanced-search" do
-      date_field.fill_in(with: day)
-      submit_btn.click
+      @date_field.fill_in(with: @day)
+      @date_field.send_keys :escape
+      @submit_btn.click
     end
 
     expect(page).to have_text 'Search Results'
