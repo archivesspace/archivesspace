@@ -1,0 +1,18 @@
+{
+  "name": "archivesspace-frontends",
+  "version": "0.0.0",
+  "description": "Partial management of frontend/ and public/ assets",
+  "scripts": {
+    "pretty-quick-staged": "pretty-quick --staged"
+  },
+  "devDependencies": {
+    "husky": "^7.0.2",
+    "prettier": "^2.3.2",
+    "pretty-quick": "^3.1.1"
+  },
+  "license": "ECL-2.0",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:archivesspace/archivesspace.git"
+  }
+}
