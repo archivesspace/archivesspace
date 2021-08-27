@@ -5,7 +5,7 @@ module Arks
   end
 
   def update_from_json(json, extra_values = {}, apply_nested_records = true)
-    ArkName.ensure_ark_for_record(self, json)
+    ArkName.ensure_ark_for_record(self, json['external_ark_url'])
 
     super
   end
@@ -14,7 +14,7 @@ module Arks
 
     def create_from_json(json, extra_values = {})
       obj = super
-      ArkName.ensure_ark_for_record(obj, json)
+      ArkName.ensure_ark_for_record(obj, json['external_ark_url'])
       obj
     end
 
