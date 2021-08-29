@@ -4,7 +4,8 @@
   "description": "Partial management of frontend/ and public/ assets",
   "scripts": {
     "pretty-quick-staged": "pretty-quick --staged",
-    "prettier-check": "prettier --check ."
+    "prettier-check": "prettier --check .",
+    "prettier-debug-check": "prettier --debug-check ."
   },
   "devDependencies": {
     "husky": "^7.0.2",
