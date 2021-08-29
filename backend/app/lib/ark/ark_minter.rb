@@ -9,6 +9,14 @@ class ArkMinter
 
   # Return true if the provided ark name still looks right.  Reasons it might not
   # look right include: changed NAAN, changed repository prefix.  Stuff like that.
+  #
+  # The `version_key` column in the ark_name table can be used to hold a
+  # minter-specific value to record the conditions under which each Ark was
+  # generated.  For example, the default minter (archivesspace_ark_minter.rb)
+  # stores a hash containing the Ark NAAN & repository prefix that were in use at
+  # the point each Ark was generated.  Its `is_still_current?` can then
+  # recalculate that hash (using `generate_version_key` below) to determine if the
+  # Ark needs to be recomputed.
   def is_still_current?(ark_name_obj, repo_id)
     raise NotImplementedError
   end
