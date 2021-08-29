@@ -3,7 +3,8 @@
   "version": "0.0.0",
   "description": "Partial management of frontend/ and public/ assets",
   "scripts": {
-    "pretty-quick-staged": "pretty-quick --staged"
+    "pretty-quick-staged": "pretty-quick --staged",
+    "prettier-check": "prettier --check ."
   },
   "devDependencies": {
     "husky": "^7.0.2",
