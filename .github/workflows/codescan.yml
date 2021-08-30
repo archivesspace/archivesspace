@@ -33,5 +33,5 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Check frontend file formatting
-        run: npm run prettier-debug-check
+      - name: Run Prettier on frontend and public
+        run: npm run prettier-check
