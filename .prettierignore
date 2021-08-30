@@ -1,0 +1,7 @@
+*.md
+*.yml
+*.json
+frontend/app/javascripts/twitter/
+frontend/vendor/
+public/app/assets/javascripts/bootstrap-accessibility/
+public/vendor/assets/javascripts/
