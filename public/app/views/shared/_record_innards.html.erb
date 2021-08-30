@@ -13,14 +13,14 @@
     <% end %>
 
     <% unless @result.dates.blank? %>
-      <h3><%= t('resource._public.dates') %></h3>
+      <h2><%= t('resource._public.dates') %></h2>
       <%= render partial: 'shared/dates', locals: {:dates => @result.dates} %>
     <% end %>
 
     <% if @result.agents && Array(@result.agents['creator']).length > 0 %>
       <% a_direct_creator = @result.agents['creator'].reject{|r| r['_inherited']}.take(1) %>
       <% unless a_direct_creator.empty? %>
-        <%= render partial: 'shared/agents_list', locals: {:list => {'creator' => a_direct_creator}} %>
+        <%= render partial: 'shared/agents_list', locals: {:list => {'creator' => a_direct_creator}, :heading_size => 'h2'} %>
       <% end %>
     <% end %>
 
@@ -33,7 +33,7 @@
     <% end %>
 
     <% unless @result.extents.blank? %>
-      <h3><%= t('resource._public.extent') %></h3>
+      <h2><%= t('resource._public.extent') %></h2>
        <% @result.extents.each do |ext| %>
         <p class="extent"><%= inheritance(ext['_inherited']).html_safe %>
 	  <%= ext['display']%>
@@ -42,7 +42,7 @@
     <% end %>
 
     <% unless @result.notes.include?('langmaterial') || @result.lang_materials.blank? %>
-      <h3><%= t('resource._public.lang') %></h3>
+      <h2><%= t('resource._public.lang') %></h2>
        <% @result.lang_materials.each do |lang_material| %>
         <p class="language"><%= inheritance(lang_material['_inherited']).html_safe %>
 	  <%= t('enumerations.language_iso639_2.' + lang_material['language'])%>
@@ -53,7 +53,7 @@
     <%= render partial: 'shared/metadata_rights_declarations', locals: {:result => @result} %>
 
     <% if @result.is_a?(Accession) && @result.inventory %>
-      <h3><%= t('accession._public.section.inventory') %></h3>
+      <h2><%= t('accession._public.section.inventory') %></h2>
       <p><%= @result.inventory %></p>
     <% end %>
 
