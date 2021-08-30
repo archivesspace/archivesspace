@@ -120,8 +120,6 @@ describe "disallows agents merge with related agents" do
   end
 end
 
-
-
 describe "agents record CRUD" do
   before(:all) do
     @repo = create(:repo, repo_code: "agents_test_#{Time.now.to_i}")
@@ -1147,6 +1145,10 @@ describe "agents record CRUD" do
 
   describe 'Light Agent Record' do
     before(:all) do
+      @corp_agent_full = create(:json_agent_corporate_entity_full_subrec)
+      @corp_agent_basic = create(:agent_corporate_entity)
+      run_all_indexers
+
       # user w/o full mode permissions
       @data_entry_user = create_user(@repo => ['repository-advanced-data-entry'])
       @driver.login_to_repo(@data_entry_user, @repo)
@@ -1240,6 +1242,25 @@ describe "agents record CRUD" do
 
     it 'displays related_agents in form' do
       expect(@driver.is_visible?(:css, "#related_agents")).to eq(true)
+    end
+
+    it 'alerts light mode users that there is hidden record content' do
+      @driver.navigate.to($frontend + "/agents/agent_corporate_entity/#{@corp_agent_full.id}/edit")
+
+      expect do
+        @driver.find_element_with_text('//div[contains(@class, "alert-warning")]', /This agent has data that is only editable in Full mode. To enable it, ask your administrator to enable Full Mode on this instance and grant you Full Mode permission./)
+      end.not_to raise_error
+    end
+
+    it 'does not alert light mode users of hidden content when there is none' do
+      @driver.navigate.to($frontend + "/agents/agent_corporate_entity/#{@corp_agent_basic.id}/edit")
+
+      expect do
+        @driver.find_element(xpath: "//h2[contains(text(), '#{@corp_agent_basic.display_name['primary_name']}')]")
+      end.not_to raise_error
+
+      expect(@driver.find_element_with_text('//div[contains(@class, "alert-warning")]', /This agent has data that is only editable in Full mode. To enable it, ask your administrator to enable Full Mode on this instance and grant you Full Mode permission./, true, true)
+      ).to be_nil
     end
   end
 end
