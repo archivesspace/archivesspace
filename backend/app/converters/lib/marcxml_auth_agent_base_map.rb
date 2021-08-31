@@ -155,7 +155,7 @@ module MarcXMLAuthAgentBaseMap
          name[:qualifier] = val
        },
        "descendant::subfield[@code='q']" => trim('fuller_form', ',', ['(', ')']),
-       "//record/datafield[@tag='378']/subfield[@code='q']" => proc { |name, node|
+       "parent::record/datafield[@tag='378']/subfield[@code='q']" => proc { |name, node|
          if name[:authorized]
            val = node.inner_text
 
@@ -273,22 +273,6 @@ module MarcXMLAuthAgentBaseMap
     }
   end
 
-  def set_record_language_if_missing()
-    -> obj, node {
-      unless obj['language']
-        obj['language'] = case String(node&.inner_text)[8]
-                          when 'b'
-                            'mul'
-                          when 'e'
-                            'eng'
-                          when 'f'
-                            'fre'
-                          end
-      end
-    }
-  end
-
-
   def agent_record_control_map
     {
       :obj => :agent_record_control,
@@ -307,12 +291,19 @@ module MarcXMLAuthAgentBaseMap
           end
         },
         "parent::record/datafield[@tag='040']" => set_record_language(),
-        "parent::record/controlfield[@tag='008']" => set_record_language_if_missing(),
-        # '//record' => proc { |arc, node|
-        #   arc['maintenance_agency'] = set_maintenance_agency(node)
-        # },
-        "//record/controlfield[@tag='008']" => proc { |arc, node|
+        "parent::record/controlfield[@tag='008']" => proc { |arc, node|
           tag8_content = node.inner_text
+
+          unless arc['language']
+            arc['language'] = case String(node&.inner_text)[8]
+                              when 'b'
+                                'mul'
+                              when 'e'
+                                'eng'
+                              when 'f'
+                                'fre'
+                              end
+          end
 
           case tag8_content[7]
           when 'a'
@@ -857,7 +848,7 @@ module MarcXMLAuthAgentBaseMap
       relationship_type = 'agent_relationship_associative'
     when 't'
       # Have to ensure both the base record and related record are corp entities
-      if type == 'corporate_entity' && !node.search("//record/datafield[@tag='110']").empty?
+      if type == 'corporate_entity' && !node.search("parent::record/datafield[@tag='110']").empty?
         relator = 'is_superior_of'
         specific_relator = 'Immediate parent body'
         relationship_type = 'agent_relationship_subordinatesuperior'
