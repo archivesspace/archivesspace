@@ -304,7 +304,11 @@ class ImpliedPublicationCalculator
     return true if repo_id.nil?
 
     @repository_published_status ||= {}
-    @repository_published_status[repo_id] ||= (Repository[repo_id].publish == 1)
+
+    unless @repository_published_status.include?(repo_id)
+      @repository_published_status[repo_id] = (Repository[repo_id].publish == 1)
+    end
+
     @repository_published_status[repo_id]
   end
 end
