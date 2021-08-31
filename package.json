@@ -5,9 +5,13 @@
   "scripts": {
     "pretty-quick-staged": "pretty-quick --staged",
     "prettier-check": "prettier --check frontend public",
-    "prettier-debug-check": "prettier --debug-check frontend public"
+    "prettier-debug-check": "prettier --debug-check frontend public",
+    "prettier-list-different": "prettier --list-different frontend public",
+    "lint": "eslint frontend/ public/"
   },
   "devDependencies": {
+    "eslint": "^7.32.0",
+    "eslint-config-prettier": "^8.3.0",
     "husky": "^7.0.2",
     "prettier": "^2.3.2",
     "pretty-quick": "^3.1.1"
