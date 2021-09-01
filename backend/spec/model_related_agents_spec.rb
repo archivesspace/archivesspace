@@ -23,8 +23,8 @@ describe 'Related agents' do
   it 'updates agent relationship specific relators when enumerations are merged' do
     # Add some custom relators
     enum = Enumeration.find(:name => 'agent_relationship_specific_relator')
-    enum.add_enumeration_value(:value => 'first')
-    enum.add_enumeration_value(:value => 'second')
+    enum.add_enumeration_value(:value => 'first', :position => 9001)
+    enum.add_enumeration_value(:value => 'second', :position => 9002)
 
     person1 = create(:json_agent_person)
     relationship = JSONModel(:agent_relationship_associative).new
