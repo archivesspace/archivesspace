@@ -93,6 +93,22 @@
 
         if (node.dates && node.dates.length > 0) {
           node.dates.forEach(function(date) {
+
+            var certaintyStr = ""
+            if(date.certainty) {
+              switch(date.certainty) {
+                case "approximate":
+                    certaintyStr = " (Approximate)";
+                    break;
+                case "inferred": 
+                    certaintyStr = " (Inferred)";
+                    break;
+                case "questionable": 
+                    certaintyStr = " (Questionable)";
+                    break;
+              }
+            }
+            
             if (date.expression) {
               if (date.type === 'bulk') {
                 title_bits.push('<%= I18n.t("date_type_bulk.bulk") %>: ' + date.expression);
@@ -101,15 +117,15 @@
               }
             } else if (date.begin && date.end) {
               if (date.type === 'bulk') {
-                title_bits.push('<%= I18n.t("date_type_bulk.bulk") %>: ' + date.begin + '-' + date.end);
+                title_bits.push('<%= I18n.t("date_type_bulk.bulk") %>: ' + date.begin + '-' + date.end + certaintyStr);
               } else {
-                title_bits.push(date.begin + '-' + date.end);
+                title_bits.push(date.begin + '-' + date.end + certaintyStr);
               };
             } else if (date.begin) {
               if (date.type === 'bulk') {
-                title_bits.push('<%= I18n.t("date_type_bulk.bulk") %>: ' + date.begin);
+                title_bits.push('<%= I18n.t("date_type_bulk.bulk") %>: ' + date.begin + certaintyStr);
               } else {
-                title_bits.push(date.begin);
+                title_bits.push(date.begin + certaintyStr);
               };
             }
           })

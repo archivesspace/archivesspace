@@ -112,7 +112,6 @@ module AspaceFactories
         self.certainty { 'inferred' }
         self.era { 'ce' }
         self.calendar { 'gregorian' }
-        expression { generate(:alphanumstr) }
       end
 
       factory :json_deaccession, class: JSONModel(:deaccession) do
@@ -169,6 +168,7 @@ module AspaceFactories
 
       factory :archival_object, class: JSONModel(:archival_object) do
         title { generate(:archival_object_title) }
+        dates { [build(:date)] }
         ref_id { generate(:ref_id) }
         level { "item" }
       end
@@ -237,7 +237,6 @@ module AspaceFactories
         self.begin { "1900-01-01" }
         self.end { "1999-12-31" }
         expression { "1900s" }
-        certainty { "approximate" }
       end
 
       factory :rde_template, class: JSONModel(:rde_template) do
