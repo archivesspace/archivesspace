@@ -66,20 +66,12 @@ class ArchivalObject < Sequel::Model(:archival_object)
 
     date_label = json.has_key?('dates') && json['dates'].length > 0 ?
                    json['dates'].map do |date|
-
-                     if date['certainty']
-                       translated = I18n.t("enumerations.date_certainty.#{date['certainty']}")
-                       certainty = " (#{translated})"
-                     else
-                       certainty = ""
-                     end
-
                      if date['expression']
-                       date['date_type'] == 'bulk' ? "#{I18n.t("date_type_bulk.bulk")}: #{date['expression'] + certainty}" : date['expression'] + certainty
+                       date['date_type'] == 'bulk' ? "#{I18n.t("date_type_bulk.bulk")}: #{date['expression']}" : date['expression']
                      elsif date['begin'] and date['end']
-                       date['date_type'] == 'bulk' ? "#{I18n.t("date_type_bulk.bulk")}: #{date['begin']} - #{date['end'] + certainty}" : "#{date['begin']} - #{date['end'] + certainty}"
+                       date['date_type'] == 'bulk' ? "#{I18n.t("date_type_bulk.bulk")}: #{date['begin']} - #{date['end']}" : "#{date['begin']} - #{date['end']}"
                      else
-                       date['date_type'] == 'bulk' ? "#{I18n.t("date_type_bulk.bulk")}: #{date['begin'] + certainty}" : date['begin'] + certainty
+                       date['date_type'] == 'bulk' ? "#{I18n.t("date_type_bulk.bulk")}: #{date['begin']}" : date['begin']
                      end
                    end.join(', ') : false
 
