@@ -205,6 +205,30 @@ describe 'Accessibility', js: true , db: 'accessibility' do
         searchbox.assert_matches_selector("input[aria-controls='merge_ref__listbox']")
       end
     end
+
+    # 519396
+    it "sets role as none for ul element in merge dropdown" do
+      visit "/resources/1"
+
+      find("#merge-dropdown button.merge-action").click
+
+      within "div#merge-dropdown" do
+        list = find("ul[role='none']")
+        expect(list).to_not be_nil
+      end
+    end
+
+    # 519396
+    it "sets role as none for ul element in transfer dropdown" do
+      visit "/resources/1"
+
+      find("#transfer-dropdown button.transfer-action").click
+
+      within "div#transfer-dropdown" do
+        list = find("ul[role='none']")
+        expect(list).to_not be_nil
+      end
+    end
   end
 
 end

@@ -8,7 +8,7 @@
     <button class="btn btn-sm btn-default dropdown-toggle merge-action" data-toggle="dropdown" role="button" aria-expanded="false" title="<%= I18n.t("actions.merge") %>">
       <%= I18n.t("actions.merge") %> <span class="caret"></span>
     </button>
-    <ul class="dropdown-menu merge-form open-aligned-right">
+    <ul class="dropdown-menu merge-form open-aligned-right" role="none">
       <li>
       <p><%= I18n.t("#{singular}._frontend.messages.merge_description") %>   <%= record.title %></p>
         <%= form_context :merge, {} do |form| %>
