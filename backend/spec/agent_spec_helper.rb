@@ -48,14 +48,14 @@ end
 
 def add_gender_values
   ge = Enumeration.find(:name => 'gender')
-  ge.add_enumeration_value(:value => 'female')
-  ge.add_enumeration_value(:value => 'male')
-  ge.add_enumeration_value(:value => 'non-binary')
+  ge.add_enumeration_value(:value => 'female', :position => 1001)
+  ge.add_enumeration_value(:value => 'male', :position => 1002)
+  ge.add_enumeration_value(:value => 'non-binary', :position => 1003)
 end
 
 def add_specific_relator_values
   spec_rel = Enumeration.find(:name => 'agent_relationship_specific_relator')
-  spec_rel.add_enumeration_value(:value => 'daughterOf')
-  spec_rel.add_enumeration_value(:value => 'correspondentOf')
-  spec_rel.add_enumeration_value(:value => 'Acronym')
+  spec_rel.add_enumeration_value(:value => 'daughterOf', :position => 1001)
+  spec_rel.add_enumeration_value(:value => 'correspondentOf', :position => 1002)
+  spec_rel.add_enumeration_value(:value => 'Acronym', :position => 1003)
 end
