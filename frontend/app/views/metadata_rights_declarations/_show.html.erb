@@ -7,6 +7,7 @@
   <h3><%= section_title %></h3>
   <div class="panel-group details" id="<%= section_id %>_accordion">
     <% metadata_rights_declarations.each_with_index do | metadata_rights_declaration, index | %>
+      <% license = metadata_rights_declaration['license'] || "other" %>
       <div class="panel panel-default">
         <div class="panel-heading">
           <div class="row accordion-toggle collapsed" data-toggle="collapse" data-parent="#<%= section_id %>_accordion" href="#<%= section_id %>_metadata_rights_declaration_<%= index %>">
@@ -14,7 +15,7 @@
               <span class="glyphicon"></span>
             </div>
             <div class="col-md-6">
-              <%= I18n.t("enumerations.metadata_rights_statement.#{metadata_rights_declaration['rights_statement']}", :default => metadata_rights_declaration['rights_statement']) %>
+              <%= I18n.t("enumerations.metadata_license.#{license}", :default => metadata_rights_declaration['rights_statement']) %>
             </div>
           </div>
         </div>
