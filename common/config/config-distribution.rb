@@ -25,6 +25,11 @@ class AppConfig
       $stderr.puts("WARNING: The parameter '#{parameter}' was already set")
     end
 
+    if forced_off_parameters.include?(parameter) && value
+      $stderr.puts("WARNING: The parameter '#{parameter}' cannot be enabled in this version of ArchivesSpace")
+      return
+    end
+
     @@changed_from_default[parameter] = true
     @@parameters[parameter] = value
   end
@@ -58,6 +63,9 @@ class AppConfig
     @@deprecated_parameters ||= {}
   end
 
+  def self.forced_off_parameters
+    @@forced_off_parameters ||= []
+  end
 
   def self.has_key?(parameter)
     @@parameters.has_key?(resolve_alias(parameter))
@@ -206,6 +214,10 @@ class AppConfig
 
   def self.add_deprecated(parameter)
     deprecated_parameters[parameter] = true
+  end
+
+  def self.ensure_false(parameter)
+    forced_off_parameters << parameter
   end
 
   def self.parse_value(value)
