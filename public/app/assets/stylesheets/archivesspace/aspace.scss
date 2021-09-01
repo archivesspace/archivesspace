@@ -851,6 +851,21 @@ span.head {
 	margin-top: 20px;
 }
 
+.panel-heading {
+  word-break: break-word;
+  white-space: normal;
+  overflow-wrap: break-word;
+}
+
+.tab-pane, .page-actions {
+   word-break: break-word;
+   overflow-wrap: anywhere;
+}
+
+.badge-and-identifier {
+  overflow: scroll;
+}
+
 @media (min-width: 992px) {
   #sidebar.resizable-sidebar {
     position: relative;
@@ -943,18 +958,4 @@ span.head {
 .honeypot {
   position: absolute;
   left: -9999px;
-}
-
-@media (max-width: 768px) {
-  div {
-     overflow: scroll;
-     overflow-wrap: anywhere;
-     word-break: break-word;
-  }
-
-  .panel-heading {
-     overflow-wrap: anywhere;
-     word-break: break-all;
-     white-space: normal;
-  }
 }
