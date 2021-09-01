@@ -237,7 +237,6 @@ module AspaceFactories
         self.begin { "1900-01-01" }
         self.end { "1999-12-31" }
         expression { "1900s" }
-        certainty { "approximate" }
       end
 
       factory :rde_template, class: JSONModel(:rde_template) do
