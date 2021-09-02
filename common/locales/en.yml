@@ -2065,8 +2065,8 @@ en:
         <li>Mandeville Special Collections Library</li>
         <li>Tamiment Library and Robert F. Wagner Labor Archives</li>
         </ul>
-    ark_prefix: ARK Prefix
-    ark_prefix_tooltip: Per-repository string to be included in generated ARKs
+    ark_shoulder: ARK Shoulder (local namespace)
+    ark_shoulder_tooltip: Per-repository string to be included in generated ARKs
     org_code: Organization / Agency Code
     org_code_tooltip: |
         <p>A code compliant with ISO/DIS 15511 Information and Documentation International Standard Identifier for Libraries and Related Organizations (ISIL). For United States institutions, this includes codes from the MARC Organization Code list.</p>

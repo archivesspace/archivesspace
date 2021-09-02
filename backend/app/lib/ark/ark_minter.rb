@@ -8,12 +8,12 @@ class ArkMinter
   end
 
   # Return true if the provided ark name still looks right.  Reasons it might not
-  # look right include: changed NAAN, changed repository prefix.  Stuff like that.
+  # look right include: changed NAAN, changed repository shoulder.  Stuff like that.
   #
   # The `version_key` column in the ark_name table can be used to hold a
   # minter-specific value to record the conditions under which each Ark was
   # generated.  For example, the default minter (archivesspace_ark_minter.rb)
-  # stores a hash containing the Ark NAAN & repository prefix that were in use at
+  # stores a hash containing the Ark NAAN & repository shoulder that were in use at
   # the point each Ark was generated.  Its `is_still_current?` can then
   # recalculate that hash (using `generate_version_key` below) to determine if the
   # Ark needs to be recomputed.
@@ -25,21 +25,21 @@ class ArkMinter
     Digest::SHA256.hexdigest(version_grist.map(&:to_s).to_json)
   end
 
-  # Caching prefix lookup for bulk record creation (like imports)
-  def prefix_for_repo(repo_id)
-    if RequestContext.get(:repo_ark_prefixes).nil?
-      RequestContext.put(:repo_ark_prefixes, {})
+  # Caching shoulder lookup for bulk record creation (like imports)
+  def shoulder_for_repo(repo_id)
+    if RequestContext.get(:repo_ark_shoulders).nil?
+      RequestContext.put(:repo_ark_shoulders, {})
     end
 
-    prefixes = RequestContext.get(:repo_ark_prefixes)
+    shoulders = RequestContext.get(:repo_ark_shoulders)
 
-    if !prefixes.include?(repo_id)
+    if !shoulders.include?(repo_id)
       DB.open do |db|
-        prefixes[repo_id] = db[:repository].filter(:id => repo_id).get(:ark_prefix)
+        shoulders[repo_id] = db[:repository].filter(:id => repo_id).get(:ark_shoulder)
       end
     end
 
-    prefixes[repo_id]
+    shoulders[repo_id]
   end
 
 end

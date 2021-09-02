@@ -7,10 +7,10 @@
       <%= form.label_and_textfield "repo_code", :field_opts => {:size => 10} %>
       <%= form.label_and_textarea "name" %>
 
-      <% if AppConfig[:arks_enabled] && AppConfig[:ark_enable_repository_prefix] %>
-        <%= form.label_and_textfield "ark_prefix", :field_opts => {:size => 10} %>
+      <% if AppConfig[:arks_enabled] && AppConfig[:ark_enable_repository_shoulder] %>
+        <%= form.label_and_textfield "ark_shoulder", :field_opts => {:size => 10} %>
       <% else %>
-        <%= form.hidden_input "ark_prefix" %>
+        <%= form.hidden_input "ark_shoulder" %>
       <% end %>
 
       <%= render_aspace_partial :partial => "shared/slug", :locals => {:form => form, :record_type => @repository} if AppConfig[:use_human_readable_urls] %>

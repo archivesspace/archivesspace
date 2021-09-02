@@ -26,7 +26,7 @@
       "slug" => {"type" => "string"},
       "is_slug_auto" => {"type" => "boolean", "default" => true},
 
-      "ark_prefix" => {"type" => "string"},
+      "ark_shoulder" => {"type" => "string"},
 
       "agent_representation" => {
         "type" => "object",
