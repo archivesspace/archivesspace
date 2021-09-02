@@ -9,16 +9,21 @@ describe 'Accessibility', js: true , db: 'accessibility' do
 
   before(:each) do
     visit '/'
-    page.has_xpath? "//input[@id='login']"
+    if page.has_xpath? "//input[@id='login']"
 
-    within "form.login" do
-      fill_in "username", with: "admin"
-      fill_in "password", with: "admin"
+      within "form.login" do
+        fill_in "username", with: "admin"
+        fill_in "password", with: "admin"
 
-      click_button "Sign In"
+        click_button "Sign In"
+      end
     end
 
     page.has_no_xpath? "//input[@id='login']"
+  end
+
+  after(:each) do
+    page.instance_variable_set(:@touched, false)
   end
 
   it 'sets the selected state on sidebar elements' do
