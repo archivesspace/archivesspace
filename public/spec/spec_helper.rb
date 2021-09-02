@@ -158,8 +158,6 @@ def setup_test_data
     create(:archival_object,
            resource: { 'ref' => resource_with_scope.uri }, publish: true)
   end
-
-  run_all_indexers
 end
 
 RSpec.configure do |config|
@@ -192,8 +190,11 @@ RSpec.configure do |config|
       $period = PeriodicIndexer.new($backend, nil, "periodic_indexer", false)
       $pui = PUIIndexer.new($backend, nil, "pui_periodic_indexer")
     end
-    AspaceFactories.init
-    setup_test_data
+    unless ENV['ASPACE_TEST_SKIP_FIXTURES']
+      AspaceFactories.init
+      setup_test_data
+    end
+    run_all_indexers
   end
 
   config.after(:suite) do
