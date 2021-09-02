@@ -5,11 +5,11 @@ class ArchivesSpaceArkMinter < ArkMinter
       ark_id = db[:ark_name].insert(row_defaults.merge(:user_value => external_ark_url,
                                                        :version_key => generate_version_key(obj.repo_id)))
 
-      ark_prefix = prefix_for_repo(obj.repo_id)
+      ark_shoulder = shoulder_for_repo(obj.repo_id)
 
       db[:ark_name]
         .filter(:id => ark_id)
-        .update(:generated_value => build_generated_ark(ark_id, ark_prefix))
+        .update(:generated_value => build_generated_ark(ark_id, ark_shoulder))
     end
   end
 
@@ -20,17 +20,17 @@ class ArchivesSpaceArkMinter < ArkMinter
   private
 
   def generate_version_key(repo_id)
-    ArkMinter.generate_version_key(AppConfig[:ark_naan], prefix_for_repo(repo_id), AppConfig[:ark_prefix_delimiter])
+    ArkMinter.generate_version_key(AppConfig[:ark_naan], shoulder_for_repo(repo_id), AppConfig[:ark_shoulder_delimiter])
   end
 
-  def build_generated_ark(ark_id, ark_prefix)
-    ark_prefix_with_delimiter = ''
+  def build_generated_ark(ark_id, ark_shoulder)
+    ark_shoulder_with_delimiter = ''
 
-    if ark_prefix
-      ark_prefix_with_delimiter = "#{ark_prefix}#{AppConfig[:ark_prefix_delimiter]}"
+    if ark_shoulder
+      ark_shoulder_with_delimiter = "#{ark_shoulder}#{AppConfig[:ark_shoulder_delimiter]}"
     end
 
-    "ark:/#{AppConfig[:ark_naan]}/#{ark_prefix_with_delimiter}#{ark_id}"
+    "ark:/#{AppConfig[:ark_naan]}/#{ark_shoulder_with_delimiter}#{ark_id}"
   end
 
 
