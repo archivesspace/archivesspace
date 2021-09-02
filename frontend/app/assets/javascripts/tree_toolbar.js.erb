@@ -40,6 +40,8 @@ var SHARED_TOOLBAR_ACTIONS = [
                 $('.cut-selection,.paste-selection,.move-node', toolbarRenderer.container).hide();
                 $(btn).blur();
             }
+
+            $('#load_via_spreadsheet_help_icon').toggle();
         },
         isEnabled: function(node, tree, toolbarRenderer) {
             return true;
@@ -320,7 +322,7 @@ var TreeToolbarConfiguration = {
             },
             onToolbarRendered: function(btn, toolbarRenderer) {
                 $(btn).addClass('disabled');
-                $(btn).after("&nbsp;<a target='_blank' href='https://archivesspace.atlassian.net/wiki/spaces/ArchivesSpaceUserManual/pages/1173913646/Import+Archival+Objects+from+Excel+or+CSV+File+from+v2.8.1)'><span class='context-help-icon glyphicon glyphicon-question-sign'></span></a>");
+                $(btn).after("&nbsp;<a target='_blank' id='load_via_spreadsheet_help_icon' href='https://archivesspace.atlassian.net/wiki/spaces/ArchivesSpaceUserManual/pages/1173913646/Import+Archival+Objects+from+Excel+or+CSV+File+from+v2.8.1)'><span class='context-help-icon glyphicon glyphicon-question-sign'></span></a>");
             },
         },
         // RDE
@@ -404,7 +406,7 @@ var TreeToolbarConfiguration = {
             },
             onToolbarRendered: function(btn, toolbarRenderer) {
                 $(btn).addClass('disabled');
-                $(btn).after("&nbsp;<a target='_blank' href='https://archivesspace.atlassian.net/wiki/spaces/ArchivesSpaceUserManual/pages/1173913646/Import+Archival+Objects+from+Excel+or+CSV+File+from+v2.8.1)'><span class='context-help-icon glyphicon glyphicon-question-sign'></span></a>");
+                $(btn).after("&nbsp;<a target='_blank' id='load_via_spreadsheet_help_icon' href='https://archivesspace.atlassian.net/wiki/spaces/ArchivesSpaceUserManual/pages/1173913646/Import+Archival+Objects+from+Excel+or+CSV+File+from+v2.8.1)'><span class='context-help-icon glyphicon glyphicon-question-sign'></span></a>");
             },
         }
         ],
