@@ -3,14 +3,14 @@
 $black: #000000;
 $darkest: #00171f;
 $white: #ffffff;
-$darkblue: #041C2F;
-$midblue: #006E99;
-$lightblue: #007CAD;
+$darkblue: #041c2f;
+$midblue: #006e99;
+$lightblue: #007cad;
 $darkshade: #888888;
 $shade: #cccccc;
 $lightshade: #eeeeee;
 $highlight: #f7d309;
-$dark_against_shade: #004f6f;  /* for contrast against lightshade */
+$dark_against_shade: #004f6f; /* for contrast against lightshade */
 /* this is where you can change colors for your institution */
 
 $primary-color: $lightblue;
@@ -27,12 +27,10 @@ $light-neutral: $lightshade;
 $breadcrumb-link: $darkblue;
 
 /* this is for the top horizontal nav bar */
-$nvBgDefault      : $light-neutral;
-$nvBgHighlight    : $light-neutral;
-$nvColDefault     : $dark_against_shade;
-$nvColHighlight   : $border-accent;
-
-
+$nvBgDefault: $light-neutral;
+$nvBgHighlight: $light-neutral;
+$nvColDefault: $dark_against_shade;
+$nvColHighlight: $border-accent;
 
 $collection-color: #e01919;
 $subject-color: #941c9a;

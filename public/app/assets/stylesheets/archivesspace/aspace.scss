@@ -7,13 +7,15 @@ a {
   color: $primary-color;
   text-decoration: none;
   line-height: inherit;
-  cursor: pointer; }
-  a:hover, a:focus {
-    color: $dark_against_shade; }
-  a img {
-    border: 0; }
-
-
+  cursor: pointer;
+}
+a:hover,
+a:focus {
+  color: $dark_against_shade;
+}
+a img {
+  border: 0;
+}
 
 #header {
   > .row {
@@ -48,8 +50,8 @@ a {
 }
 
 .no-pad {
-	padding-left: 0;
-	padding-right: 0;
+  padding-left: 0;
+  padding-right: 0;
 }
 
 .top-bar {
@@ -57,29 +59,32 @@ a {
   border-top: 1px solid $border-accent;
   border-bottom: rem-calc(1) solid $border-accent;
   float: none !important;
-  }
+}
 
 .italic {
-	font-style: italic;
+  font-style: italic;
 }
 
 .inherit {
-	  font-style: italic;
+  font-style: italic;
 }
-
 
 /* handling of more/less */
 .readmore .more {
   visibility: hidden;
-  display: none; }
+  display: none;
+}
 .readmore.expanded .more {
   visibility: visible;
-  display: inline; }
+  display: inline;
+}
 .readmore.expanded .elipses {
   visibility: hidden;
-  width: 0; }
+  width: 0;
+}
 .readmore .expander .fa {
-  font-size: 0.8em; }
+  font-size: 0.8em;
+}
 
 /* for the "tabbing" effect */
 .tabbing.navbar-default {
@@ -97,14 +102,13 @@ a {
   }
 }
 
-
-.tabbing.nav-pills > li > a  {
-   margin-bottom: 0;
-   margin-left: -10px;
-   margin-right: 0;
-   background-color: $secondary-color;
-   color: $white;
-   border-radius: 0;
+.tabbing.nav-pills > li > a {
+  margin-bottom: 0;
+  margin-left: -10px;
+  margin-right: 0;
+  background-color: $secondary-color;
+  color: $white;
+  border-radius: 0;
 }
 .tabbing.nav-pills > li:first-child a {
   border-top-left-radius: 40px;
@@ -119,11 +123,11 @@ a {
   background-color: $accent-color;
   color: $white;
 }
-.tabbing-item li:first-child a{
-   border-bottom-right-radius: 0;
-   border-top-right-radius: 0;
-   border-bottom-left-radius: 30px;
-   border-top-left-radius: 30px;
+.tabbing-item li:first-child a {
+  border-bottom-right-radius: 0;
+  border-top-right-radius: 0;
+  border-bottom-left-radius: 30px;
+  border-top-left-radius: 30px;
 }
 .tabbing-item li:last-child a {
   border-top-right-radius: 30px;
@@ -133,11 +137,10 @@ a {
 }
 
 .tabbing.nav-pills > li > a.disabled-nav-pill:hover {
-    color: #333;
-    background-color: transparent;
-    cursor: default;
+  color: #333;
+  background-color: transparent;
+  cursor: default;
 }
-
 
 /* this enables customization of the nav bar. h/t to zessx (http://stackoverflow.com/users/1238019/zessx)
   for the answer at http://stackoverflow.com/questions/18529274/change-navbar-color-in-twitter-bootstrap-3
@@ -148,58 +151,89 @@ a {
   border-color: $nvBgHighlight;
   .navbar-brand {
     color: $nvColDefault;
-    &:hover, &:focus {
-      color: $nvColHighlight; }}
+    &:hover,
+    &:focus {
+      color: $nvColHighlight;
+    }
+  }
   .navbar-text {
-    color: $nvColDefault; }
+    color: $nvColDefault;
+  }
   .navbar-nav {
     > li {
       > a {
         color: $nvColDefault;
-	font-size: 1.0rem !important;
-        &:hover,  &:focus {
+        font-size: 1rem !important;
+        &:hover,
+        &:focus {
           color: $nvColHighlight;
-	  text-decoration: underline; }}}
+          text-decoration: underline;
+        }
+      }
+    }
     > .active {
-      > a, > a:hover, > a:focus {
+      > a,
+      > a:hover,
+      > a:focus {
         color: $nvColHighlight;
         background-color: $nvBgHighlight;
-	text-decoration: underline; }}
+        text-decoration: underline;
+      }
+    }
     > .open {
-      > a, > a:hover, > a:focus {
+      > a,
+      > a:hover,
+      > a:focus {
         color: $nvColHighlight;
         background-color: $nvBgHighlight;
-	text-decoration: underline; }}}
+        text-decoration: underline;
+      }
+    }
+  }
   .navbar-toggle {
     border-color: $nvBgHighlight;
-    &:hover, &:focus {
-      background-color: $nvBgHighlight; }
+    &:hover,
+    &:focus {
+      background-color: $nvBgHighlight;
+    }
     .icon-bar {
-      background-color: $nvColDefault; }}
+      background-color: $nvColDefault;
+    }
+  }
   .navbar-collapse,
   .navbar-form {
-    border-color: $nvColDefault; }
+    border-color: $nvColDefault;
+  }
   .navbar-link {
     color: $nvColDefault;
-    font-size: 1.0rem !important;
+    font-size: 1rem !important;
     &:hover {
       color: $nvColHighlight;
-      text-decoration: underline; }}}
+      text-decoration: underline;
+    }
+  }
+}
 @media (max-width: 767px) {
   .navbar-default .navbar-nav .open .dropdown-menu {
     > li > a {
       color: $nvColDefault;
-      &:hover, &:focus {
+      &:hover,
+      &:focus {
         color: $nvColHighlight;
- 	text-decoration: underline; }}
+        text-decoration: underline;
+      }
+    }
     > .active {
-      > a, > a:hover, > a:focus, {
+      > a,
+      > a:hover,
+      > a:focus {
         color: $nvColHighlight;
         background-color: $nvBgHighlight;
-	text-decoration: underline; }}}
+        text-decoration: underline;
+      }
+    }
+  }
 }
-
-
 
 #welcome {
   padding-left: rem-calc(60);
@@ -215,7 +249,6 @@ a {
   }
 }
 
-
 #container {
   padding-left: rem-calc(60);
   padding-right: rem-calc(60);
@@ -225,14 +258,14 @@ a {
   }
 }
 
-
 #main-content {
   &.small-8 {
     padding-right: rem-calc(20);
   }
 }
 
-#main-content.accessions, #main-content.objects {
+#main-content.accessions,
+#main-content.objects {
   padding: 0 1em;
 }
 
@@ -267,27 +300,24 @@ a {
 }
 
 #lead_graph {
-   padding: rem-calc(20);
-   font-size: 1.0rem;
+  padding: rem-calc(20);
+  font-size: 1rem;
 }
 
 .record-container {
   margin-top: rem-calc(20);
 
   &.concepts-layout {
-
     > .row {
       margin-left: 0;
     }
   }
-
 }
 
 .record-container.with-border {
   padding: rem-calc(20);
   border: 1px solid $border;
 }
-
 
 .record-header {
   word-wrap: break-word;
@@ -310,11 +340,9 @@ a {
   }
 
   i {
-    font-size: 2.0rem;
+    font-size: 2rem;
   }
 }
-
-
 
 .identifier {
   float: left;
@@ -327,8 +355,8 @@ a {
 }
 
 .dates-is-single-date {
-    list-style-type: none;
-    padding: 0;
+  list-style-type: none;
+  padding: 0;
 }
 
 .record-image {
@@ -353,7 +381,6 @@ a {
   }
 }
 
-
 .row.context-row {
   margin-top: rem-calc(10);
   background-color: $row-background;
@@ -369,7 +396,6 @@ a {
   &.featured {
     background-color: $row-background;
   }
-
 
   h3 {
     color: $darkest;
@@ -388,7 +414,6 @@ a {
   }
 }
 
-
 a {
   color: $secondary-color;
 }
@@ -397,8 +422,8 @@ a:hover {
   text-decoration: underline;
 }
 
-
-h1, .h1 {
+h1,
+.h1 {
   font-family: $sans-font;
   font-size: rem-calc(30);
   font-weight: bold;
@@ -406,21 +431,20 @@ h1, .h1 {
 }
 
 h1 {
-   font-size: rem-calc(24);
+  font-size: rem-calc(24);
 }
 
 /* we want to shrink the font size of h1 in smaller sizes */
 
 @media (max-width: $screen-xs-max) {
-       h1 {
-      	  font-size: rem-calc(22);
-       }
+  h1 {
+    font-size: rem-calc(22);
+  }
 }
-
 
 h2 {
   font-family: $sans-font;
-  font-size: rem-calc(24 );
+  font-size: rem-calc(24);
   font-weight: bold;
   color: $accent-color;
 }
@@ -430,7 +454,6 @@ h3 {
   font-size: rem-calc(20);
   font-weight: bold;
   color: $secondary-color;
-
 }
 
 h4 {
@@ -439,7 +462,7 @@ h4 {
 }
 
 h5 {
-   font-weight: bold;
+  font-weight: bold;
 }
 
 .valign-middle {
@@ -450,11 +473,11 @@ h5 {
     vertical-align: middle;
   }
 
-  > .columns, > [class*="column"] + [class*="column"]:last-child {
+  > .columns,
+  > [class*="column"] + [class*="column"]:last-child {
     float: none;
   }
 }
-
 
 .spacer {
   padding-top: 3em;
@@ -464,13 +487,14 @@ h5 {
 }
 
 .search_row * .form-control {
-   margin-right: .3rem;
+  margin-right: 0.3rem;
 }
 .search_row .fill-column {
-    width: 100%;
+  width: 100%;
 }
-.searchterm, .keywordscontext li em {
-  font-weight:bold;
+.searchterm,
+.keywordscontext li em {
+  font-weight: bold;
   padding: 0 0.2em;
   background-color: #d5f7e9;
 }
@@ -519,7 +543,6 @@ ul.no-bullets {
     border-bottom: 1px solid $border;
   }
 
-
   li > a {
     margin-left: rem-calc(10);
   }
@@ -530,7 +553,6 @@ ul.no-bullets {
     /* position: absolute; */
     /* right: 20px; */
   }
-
 }
 
 .recordnumber {
@@ -559,7 +581,6 @@ ul.no-bullets {
 }
 
 .recordrow {
-
 }
 
 .recordtype {
@@ -568,14 +589,16 @@ ul.no-bullets {
 .object {
   color: $collection-color;
 }
-.collection, .resource {
+.collection,
+.resource {
   color: $collection-color;
 }
-button.subject {          /* class subject also turns up in finding aid transforms */
-  color:$subject-color;
+button.subject {
+  /* class subject also turns up in finding aid transforms */
+  color: $subject-color;
 }
 .agent {
-  color:$agent-color;
+  color: $agent-color;
 }
 
 .person {
@@ -590,21 +613,22 @@ button.subject {          /* class subject also turns up in finding aid transfor
 
 .page_action {
   color: $darkest;
-   text-decoration: none;
+  text-decoration: none;
   line-height: inherit;
   cursor: pointer;
   border: 1px solid $light-neutral;
 }
-.page_action:hover, .page_action:focus {
-     color: $accent_color;
-     background-color: $light-neutral;
+.page_action:hover,
+.page_action:focus {
+  color: $accent_color;
+  background-color: $light-neutral;
 }
 
 .top_container {
   color: $container-color;
 }
 .folder {
-  color:$folder-color;
+  color: $folder-color;
 }
 .recordtype.repository {
   color: $repository-color;
@@ -685,11 +709,12 @@ button.subject {          /* class subject also turns up in finding aid transfor
 
 /* hierarchy tree */
 
-ul.tree {}
+ul.tree {
+}
 .tree li {
-      margin-left: -2rem;
-      padding-bottom: .5rem;
-      display:block;
+  margin-left: -2rem;
+  padding-bottom: 0.5rem;
+  display: block;
 }
 
 /*  THIS CAME FROM BRIAN */
@@ -740,15 +765,14 @@ i.giant {
 
 /* record details */
 .objectimage {
-    width: 50%;
-    float:right;
-    margin: 0 0 1em 1em;
-
+  width: 50%;
+  float: right;
+  margin: 0 0 1em 1em;
 }
 .objectimage img {
-   margin: 0 auto;
-   display:block;
-   max-width: 100%;
+  margin: 0 auto;
+  display: block;
+  max-width: 100%;
 }
 
 .objectimage button[type="submit"] {
@@ -757,7 +781,7 @@ i.giant {
 }
 
 span.component {
-   font-weight: bold;
+  font-weight: bold;
 }
 
 span.title {
@@ -782,19 +806,25 @@ span.required {
 }
 
 .clear {
-       clear: both;
+  clear: both;
 }
 
 span.head {
-	  display: block;
-	  font-weight: bold;
-	  font-family: $serif-font;
+  display: block;
+  font-weight: bold;
+  font-family: $serif-font;
 }
 
-
-.breadcrumb>li+li:before {color: $darkest; content: "\007C\00a0";}
-.breadcrumb * a {color: $breadcrumb-link;}
-.breadcrumb li br {display: none;}
+.breadcrumb > li + li:before {
+  color: $darkest;
+  content: "\007C\00a0";
+}
+.breadcrumb * a {
+  color: $breadcrumb-link;
+}
+.breadcrumb li br {
+  display: none;
+}
 .panel .breadcrumb {
   background: none;
   padding: 0;
@@ -802,7 +832,7 @@ span.head {
 }
 
 .acc_holder {
-	    margin-top: rem-calc(20);
+  margin-top: rem-calc(20);
 }
 
 #main .acc_button {
@@ -814,7 +844,7 @@ span.head {
 }
 
 #sidebar .present_list {
-  padding-left: 20px
+  padding-left: 20px;
 }
 
 #sidebar form {
@@ -848,7 +878,7 @@ span.head {
 }
 
 .sorter {
-	margin-top: 20px;
+  margin-top: 20px;
 }
 
 @media (min-width: 992px) {
@@ -857,39 +887,40 @@ span.head {
     padding-left: 12px;
 
     .resizable-sidebar-handle {
-      background-color: #EEE;
+      background-color: #eee;
       position: absolute;
       height: 100%;
       width: 8px;
       top: 0;
       left: 0;
       cursor: ew-resize;
-      background-image: asset-url('sidebar_drag_handle.png');
+      background-image: asset-url("sidebar_drag_handle.png");
       background-repeat: no-repeat;
       background-position: 1px center;
-      border-right: 1px solid #CCC;
+      border-right: 1px solid #ccc;
       appearance: none;
       -webkit-appearance: none;
       -moz-appearance: none;
     }
-    
+
     .resizable-sidebar-handle::-webkit-slider-thumb {
-        -webkit-appearance: none;
-        appearance: none;
+      -webkit-appearance: none;
+      appearance: none;
     }
 
     .resizable-sidebar-handle::-moz-range-thumb {
-        -moz-appearance: none;
-        appearance: none;
-        background: none;
-        border: none;
+      -moz-appearance: none;
+      appearance: none;
+      background: none;
+      border: none;
     }
   }
 }
 
 @media (max-width: 991px) {
   .row.has-resizable-content {
-    > .col-sm-9, > .resizable-sidebar {
+    > .col-sm-9,
+    > .resizable-sidebar {
       width: inherit !important;
     }
   }
@@ -900,17 +931,17 @@ span.head {
 }
 
 @media print {
-   a[href]:after {
+  a[href]:after {
+    display: none;
+  }
+  div {
+    #paging_bottom {
       display: none;
-   }
-   div {
-     #paging_bottom {
-       display: none;
-     }
-     #paging {
-       display: none;
-     }
-   }
+    }
+    #paging {
+      display: none;
+    }
+  }
 }
 
 // Specific styling for Finding Aid Information to override label truncation.
@@ -930,7 +961,7 @@ span.head {
       overflow: hidden;
     }
     dd {
-      flex:0 0 75%;
+      flex: 0 0 75%;
       margin-left: auto;
       text-align: left;
       text-overflow: ellipsis;
@@ -947,14 +978,14 @@ span.head {
 
 @media (max-width: 768px) {
   div {
-     overflow: scroll;
-     overflow-wrap: anywhere;
-     word-break: break-word;
+    overflow: scroll;
+    overflow-wrap: anywhere;
+    word-break: break-word;
   }
 
   .panel-heading {
-     overflow-wrap: anywhere;
-     word-break: break-all;
-     white-space: normal;
+    overflow-wrap: anywhere;
+    word-break: break-all;
+    white-space: normal;
   }
 }
