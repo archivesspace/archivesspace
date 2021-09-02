@@ -3,8 +3,9 @@
         <%= I18n.t("metadata_rights_declaration.license") %>
   </div>
   <div class='label-only col-sm-8'>
-        <%= I18n.t("enumerations.metadata_license.#{metadata_rights_declaration['license']}", :default => metadata_rights_declaration['license']) %>
-        </div>
+      <% license = metadata_rights_declaration['license'] || "other" %>
+      <%= I18n.t("enumerations.metadata_license.#{license}", :default => metadata_rights_declaration['license']) %>
+  </div>
 </div>
 
 <div class='form-group'>

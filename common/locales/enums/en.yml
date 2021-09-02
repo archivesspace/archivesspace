@@ -1,6 +1,7 @@
 en:
   enumerations:
     metadata_license:
+      other: Unspecified or custom license.
       public_domain: This record is made available under an Universal 1.0 Public Domain Dedication Creative Commons license.
       non_commercial: This record is made available under an Attribution-NonCommercial 4.0 International Creative Commons license.
       non_commercial_no_derivatives: This record is made available under an Attribution-NonCommercial-NoDerivatives 4.0 International Creative Commons license.
