@@ -93,7 +93,7 @@ describe 'Accessibility', js: true , db: 'accessibility' do
         switcher.send_keys :tab
 
         # Doesn't tab down into hidden advanced search form
-        expect(page.evaluate_script("document.activeElement.innerHTML")).to include("repository-label")
+        expect(page.evaluate_script("document.activeElement.outerHTML")).to include("repository-label")
 
         # Expand advanced search and tab into it
         switcher.click
