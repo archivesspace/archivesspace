@@ -1297,7 +1297,8 @@ ja:
       Xpeo: Old Persian
       Xsux: Cuneiform, Sumero-Akkadian
       Yiii: Yi
-      Zanb: Zanabazar Square (Zanabazarin Dörböljin Useg, Xewtee Dörböljin Bicig, Horizontal Square Script)
+      Zanb: Zanabazar Square (Zanabazarin Dörböljin Useg, Xewtee Dörböljin Bicig,
+        Horizontal Square Script)
       Zinh: Code for inherited script
       Zmth: Mathematical notation
       Zsye: Symbols (Emoji variant)
@@ -1976,7 +1977,6 @@ ja:
     level_of_detail: 詳細度
     modified_record: 修正レコード
     cataloging_source: カタログソース
-    source: ソース
     identifier_type: 識別子の種類
     agency_code_type: 代理店コード
     maintenance_event_type: メンテナンスイベントの種類
