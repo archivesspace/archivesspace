@@ -14,42 +14,6 @@ ja:
       not_after: 後ではない
     transliteration:
       ala-lc: ALA-LCローマ字表記テーブル
-    name_source:
-      snac: SNAC
-    name_rule:
-      ccr: 文化資源の目録
-      rad: アーカイブの説明に関する規則
-      isaar: 企業、個人、家族のための国際標準アーカイブ機関の記録
-    _note_types:
-      general_context: 一般的なコンテキスト
-      mandate: 委任
-      contact_note: お問い合わせ先
-      legal_status: 法的地位
-      structure_or_genealogy: 構造または系図
-    note_digital_object_type:
-      general_context: 一般的なコンテキスト
-      mandate: 委任
-      contact_note: お問い合わせ先
-      legal_status: 法的地位
-      structure_or_genealogy: 構造または系図
-    note_langmaterial_type:
-      general_context: 一般的なコンテキスト
-      mandate: 委任
-      contact_note: お問い合わせ先
-      legal_status: 法的地位
-      structure_or_genealogy: 構造または系図
-    note_multipart_type:
-      general_context: 一般的なコンテキスト
-      mandate: 委任
-      contact_note: お問い合わせ先
-      legal_status: 法的地位
-      structure_or_genealogy: 構造または系図
-    note_singlepart_type:
-      general_context: 一般的なコンテキスト
-      mandate: 委任
-      contact_note: お問い合わせ先
-      legal_status: 法的地位
-      structure_or_genealogy: 構造または系図
     agent_relationship_identity_relator:
       is_identified_with: リレーターで特定されたエージェントの関係
     agent_relationship_hierarchical_relator:
@@ -93,7 +57,7 @@ ja:
       unknown_standard: 由来不明の規格
       conv_rom_cat_agency: 目録作成代理店の言語での慣用のローマ字化または慣用名の形式
       not_applicable: 適用できません
-    government_agency_type: 
+    government_agency_type:
       ngo: 非政府組織
       sac: 自律型または半自律型コンポーネント
       multilocal: 多地域
@@ -106,24 +70,24 @@ ja:
       unknown: 見出しが政府機関の場合は不明
       other: その他の
       natc: コーディングしようとしない
-    reference_evaluation: 
+    reference_evaluation:
       tr_consistent: 見出しと一致するトレース
       tr_inconsistent: 見出しと矛盾する追跡
       not_applicable: 適用できません
       natc: コーディングしようとしない
-    name_type: 
+    name_type:
       differentiated: 差別化
       undifferentiated: 未分化
       not_applicable: 適用できません
       natc: コーディングしようとしない
-    level_of_detail: 
+    level_of_detail:
       fully_established: 完全に確立された
       memorandum: メモ
       provisional: 仮
       preliminary: 予備の
       not_applicable: 適用できません
       natc: コーディングしようとしない
-    modified_record: 
+    modified_record:
       not_modified: 変更なし
       shortened: 短縮
       missing_characters: 行方不明の文字
@@ -134,25 +98,25 @@ ja:
       other: その他の
       unknown: 道の
       natc: コーディングしようとしない
-    source: 
+    source:
       naf: NAF
       snac: SNAC
       local: 地元
-    identifier_type: 
+    identifier_type:
       loc: 議会図書館
       lac: 図書館および公文書館カナダ
       local: 地元
-    agency_code_type: 
+    agency_code_type:
       oclc: OCLC
       local: 地元
-    maintenance_event_type: 
+    maintenance_event_type:
       created: 作成した
       cancelled: キャンセル
       deleted: 削除済み
       derived: 派生
       revised: 改訂
       updated: 更新しました
-    maintenance_agent_type: 
+    maintenance_agent_type:
       human: 人間
       machine: 機械
     linked_event_archival_record_roles:
@@ -444,19 +408,23 @@ ja:
     name_source:
       cash: カナダの科目見出し
       ingest: 指定されていないソース
+      lcnaf: 議会図書館の権限ファイル
       lcshac: 議会図書館の子供の主題見出し
       local: ローカルソース
-      lcnaf: 議会図書館の権限ファイル
-      naf: NACO権限ファイル
       nad: NAD / ARK II名前権限データベース
+      naf: NACO権限ファイル
       nal: 国立農業図書館の見出し見出し
-      rvm: 件名見出しディレクトリ
       ram: RAMEAU機関ディレクトリ
+      rvm: 件名見出しディレクトリ
+      snac: SNAC
       ulan: アーティスト名の連合リスト
     name_rule:
-      local: ローカルルール
       aacr: 英米の目録規則
+      ccr: 文化資源の目録
       dacs: アーカイブの記述：コンテンツ標準
+      isaar: 企業、個人、家族のための国際標準アーカイブ機関の記録
+      local: ローカルルール
+      rad: アーカイブの説明に関する規則
       rda: リソースの説明とアクセス
     extent_extent_type:
       cassettes: カセット
@@ -1696,6 +1664,7 @@ ja:
       topical: 話題の
       uniform_title: 統一タイトル
     _note_types: &note_type_definitions
+      abstract: 抽象
       accessrestrict: アクセスを管理する条件
       accruals: 見越額
       acqinfo: 買収の即時出典
@@ -1703,35 +1672,39 @@ ja:
       appraisal: 審査
       arrangement: 配置
       bibliography: 参考文献
-      note_bibliography: 参考文献
       bioghist: 伝記/歴史
+      contact_note: お問い合わせ先
       custodhist: 親権史
+      dimensions: 寸法
+      edition: 版
+      extent: エクステント
       fileplan: ファイルプラン
+      general_context: 一般的なコンテキスト
       index: インデックス
+      inscription: 登録
+      langmaterial: 材料の言語
+      legal_status: 法的地位
+      legalstatus: 法的地位
+      mandate: 委任
+      materialspec: 材料固有の詳細
+      note: 一般的な注意
+      note_bibliography: 参考文献
       odd: 一般
-      otherfindaid: その他の助成金
       originalsloc: オリジナルの存在と場所
+      otherfindaid: その他の助成金
+      physdesc: 身体的特徴
+      physfacet: 物理ファセット
+      physloc: 物理的な位置
       phystech: 物理的特性と技術的要件
       prefercite: 好ましい引用
       processinfo: 処理情報
+      relatedmaterial: 関連資料
+      rights_statement: 権利
       scopecontent: 範囲と内容
       separatedmaterial: 分離された材料
-      userestrict: 使用を管理する条件
-      dimensions: 寸法
-      legalstatus: 法的地位
+      structure_or_genealogy: 構造または系図
       summary: 概要
-      edition: 版
-      extent: エクステント
-      note: 一般的な注意
-      inscription: 登録
-      langmaterial: 材料の言語
-      physdesc: 身体的特徴
-      relatedmaterial: 関連資料
-      abstract: 抽象
-      physloc: 物理的な位置
-      materialspec: 材料固有の詳細
-      physfacet: 物理ファセット
-      rights_statement: 権利
+      userestrict: 使用を管理する条件
     note_digital_object_type:
       <<: *note_type_definitions
     note_langmaterial_type:
@@ -1998,10 +1971,10 @@ ja:
     publication_status: 出版ステータス
     romanization: ローマ字
     government_agency_type: 政府機関の種類
-    reference_evaluation: 参照評価 
+    reference_evaluation: 参照評価
     name_type: 名前の種類
     level_of_detail: 詳細度
-    modified_record: 修正レコード 
+    modified_record: 修正レコード
     cataloging_source: カタログソース
     source: ソース
     identifier_type: 識別子の種類

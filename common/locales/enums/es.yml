@@ -14,43 +14,6 @@
       not_after: No después de
     transliteration:
       ala-lc: Tablas de romanización ALA-LC
-    name_source:
-      snac: SNAC
-    name_rule:
-      ccr: Catalogación de recursos culturales
-      rad: Reglas para la descripción de archivos
-      isaar: Registro de autoridad de archivo estándar internacional para entidades
-        corporativas, personas y familias
-    _note_types:
-      general_context: Contexto general
-      mandate: Mandato
-      contact_note: Nota de contacto
-      legal_status: Estatus legal
-      structure_or_genealogy: Estructura o genealogía
-    note_digital_object_type:
-      general_context: Contexto general
-      mandate: Mandato
-      contact_note: Nota de contacto
-      legal_status: Estatus legal
-      structure_or_genealogy: Estructura o genealogía
-    note_langmaterial_type:
-      general_context: Contexto general
-      mandate: Mandato
-      contact_note: Nota de contacto
-      legal_status: Estatus legal
-      structure_or_genealogy: Estructura o genealogía
-    note_multipart_type:
-      general_context: Contexto general
-      mandate: Mandato
-      contact_note: Nota de contacto
-      legal_status: Estatus legal
-      structure_or_genealogy: Estructura o genealogía
-    note_singlepart_type:
-      general_context: Contexto general
-      mandate: Mandato
-      contact_note: Nota de contacto
-      legal_status: Estatus legal
-      structure_or_genealogy: Estructura o genealogía
     agent_relationship_identity_relator:
       is_identified_with: Relación del agente identificada con el relator
     agent_relationship_hierarchical_relator:
@@ -58,7 +21,7 @@
     agent_relationship_temporal_relator:
       is_temporal_with: Relator temporal de la relación del agente
     agent_relationship_family_relator:
-      is_related_with: Relator relacionado con la relación del agente     
+      is_related_with: Relator relacionado con la relación del agente
     date_type_structured:
       single: Soltero
       range: Distancia
@@ -72,7 +35,7 @@
     end_date_standardized_type:
       standard: Estándar
       not_before: No antes
-      not_after: No después de 
+      not_after: No después de
     maintenance_status:
       new: Nuevo
       upgraded: Actualizado
@@ -94,7 +57,7 @@
       unknown_standard: Estándar de origen desconocido
       conv_rom_cat_agency: Romanización convencional o forma convencional de nombre en el idioma de la agencia de catalogación
       not_applicable: No aplica
-    government_agency_type: 
+    government_agency_type:
       ngo: Organización no gubernamental
       sac: Componente autónomo o semiautónomo.
       multilocal: Multilocal
@@ -107,24 +70,24 @@
       unknown: Desconocido si el rumbo es agencia gubernamental
       other: Otro
       natc: Ningún intento de codificar
-    reference_evaluation: 
+    reference_evaluation:
       tr_consistent: Trazados consistentes con encabezados
       tr_inconsistent: Trazados inconsistentes con los encabezados
       not_applicable: No aplica
       natc: Ningún intento de codificar
-    name_type: 
+    name_type:
       differentiated: Diferenciado
       undifferentiated: Indiferenciado
       not_applicable: No aplica
       natc: Ningún intento de codificar
-    level_of_detail: 
+    level_of_detail:
       fully_established: Plenamente establecido
       memorandum: Memorándum
       provisional: Provisional
       preliminary: Preliminar
       not_applicable: No aplica
       natc: Ningún intento de codificar
-    modified_record: 
+    modified_record:
       not_modified: No modificado
       shortened: Acortado
       missing_characters: Personajes desaparecidos
@@ -135,25 +98,25 @@
       other: Otro
       unknown: Desconocido
       natc: Ningún intento de codificar
-    source: 
+    source:
       naf: NAF
       snac: SNAC
       local: Local
-    identifier_type: 
+    identifier_type:
       loc: Biblioteca del Congreso
       lac: Biblioteca y Archivos de Canadá
       local: Local
-    agency_code_type: 
+    agency_code_type:
       oclc: OCLC
       local: Local
-    maintenance_event_type: 
+    maintenance_event_type:
       created: Creado
       cancelled: Cancelado
       deleted: Eliminado
       derived: Derivado
       revised: Revisado
       updated: Actualizado
-    maintenance_agent_type: 
+    maintenance_agent_type:
       human: Humano
       machine: Máquina
     linked_event_archival_record_roles:
@@ -445,19 +408,23 @@
     name_source:
       cash: Encabezamientos de materias canadienses
       ingest: Sin especificar
+      lcnaf: Library of Congress Name Authority File
       lcshac: Biblioteca del encabezamientos Congreso infantil
       local: Fuentes locales
-      lcnaf: Library of Congress Name Authority File
-      naf: Archivo de autoridad de NACO
       nad: NAD / ARK II Name Authority Database
+      naf: Archivo de autoridad de NACO
       nal: Encabezamientos biblioteca agrícola nacionales
-      rvm: Répertoire de vedettes-matière
       ram: Répertoire d'autorités RAMEAU
+      rvm: Répertoire de vedettes-matière
+      snac: SNAC
       ulan: Union List of Artist Names
     name_rule:
-      local: Reglas locales
       aacr: Reglas de catalogación angloamericanas
+      ccr: Catalogación de recursos culturales
       dacs: "Describing Archives: A Content Standard"
+      isaar: Registro de autoridad de archivo estándar internacional para entidades corporativas, personas y familias
+      local: Reglas locales
+      rad: Reglas para la descripción de archivos
       rda: Resource Description and Access
     extent_extent_type:
       cassettes: Casetes
@@ -1697,6 +1664,7 @@
       topical: Tópico
       uniform_title: Título uniforme
     _note_types: &note_type_definitions
+      abstract: Resumen introductorio
       accessrestrict: Nota de condiciones de acceso
       accruals: Nota de nuevos ingresos
       acqinfo: Nota de información de adquisiciones
@@ -1704,35 +1672,39 @@
       appraisal: Nota de valoración
       arrangement: Nota de organización
       bibliography: Nota de bibliografía
-      note_bibliography: Nota de bibliografía
       bioghist: Nota biográfica/histórica
+      contact_note: Nota de contacto
       custodhist: Nota de historia archivística
+      dimensions: Nota de tamaño
+      edition: Nota de edición
+      extent: Nota de extensión
       fileplan: Nota de proyecto de expediente
+      general_context: Contexto general
       index: Índice
+      inscription: Nota de inscripción
+      langmaterial: Nota de idioma de materiales
+      legal_status: Estatus legal
+      legalstatus: Nota de situación jurídica
+      mandate: Mandato
+      materialspec: Nota de detalles específicos de los materiales
+      note: Nota general
+      note_bibliography: Nota de bibliografía
       odd: Nota de otros datos descriptivos
-      otherfindaid: Nota de otros instrumentos de descripción
       originalsloc: Nota de existencia y la localización de los originales
+      otherfindaid: Nota de otros instrumentos de descripción
+      physdesc: Nota de descripción física
+      physfacet: Nota de apariencia del material
+      physloc: Nota de ubicación física
       phystech: Nota de características físicas y requisitos técnicos
       prefercite: Nota de cita preferida
       processinfo: Nota de información del proceso
+      relatedmaterial: Nota de materiales relacionados
+      rights_statement: Derechos
       scopecontent: Nota de alcance y contenido
       separatedmaterial: Nota de documentos separados
-      userestrict: Nota de restricciones de uso
-      dimensions: Nota de tamaño
-      legalstatus: Nota de situación jurídica
+      structure_or_genealogy: Estructura o genealogía
       summary: Nota de resumen
-      edition: Nota de edición
-      extent: Nota de extensión
-      note: Nota general
-      inscription: Nota de inscripción
-      langmaterial: Nota de idioma de materiales
-      physdesc: Nota de descripción física
-      relatedmaterial: Nota de materiales relacionados
-      abstract: Resumen introductorio
-      physloc: Nota de ubicación física
-      materialspec: Nota de detalles específicos de los materiales
-      physfacet: Nota de apariencia del material
-      rights_statement: Derechos
+      userestrict: Nota de restricciones de uso
     note_digital_object_type:
       <<: *note_type_definitions
     note_langmaterial_type:
@@ -1921,33 +1893,26 @@
       wndla: "Web NDL Authorities (Tokyo: National Diet Library (NDL))"
 
   enumeration_names:
-    source: Source
-    agent_relationship_identity_relator: Relator de identidad de relación de agente
-    agent_relationship_hierarchical_relator: Relator jerárquico de la relación del
-      agente
-    agent_relationship_specific_relator: Relator específico de la relación del agente
-    agent_relationship_temporal_relator: Relator temporal de la relación del agente
-    agent_relationship_family_relator: Relación con el agente Relator familiar
-    transliteration: Transcripción
-    gender: Género del agente
-    place_role: Función del lugar del agente
-    date_type_structured: Tipo de fecha
-    date_standardized_type: Fecha Tipo estandarizado
-    date_role: Función de fecha
-    begin_date_standardized_type: Fecha de inicio Tipo estandarizado
-    end_date_standardized_type: Fecha de finalización Tipo estandarizado    
     accession_acquisition_type: Tipo de acta de ingreso
     accession_parts_relator: Partes de acta de ingreso relacionadas
     accession_parts_relator_type: Tipos de partes de acta de ingreso relacionadas
+    accession_resource_type: Tipo de fondos de acta de ingreso
     accession_sibling_relator: "Tipo de relación de acta de ingreso de hermano"
     accession_sibling_relator_type: Tipo de relacioón de acta de ingreso de hermano
-    accession_resource_type: Tipo de fondos de acta de ingreso
+    agency_code_type: Código de agencia
     agent_contact_salutation: Saludo autoridad
     agent_relationship_associative_relator: Agent Relationship Associative Relator
     agent_relationship_earlierlater_relator: Agent Relationship Earlierlater Relator
+    agent_relationship_family_relator: Relación con el agente Relator familiar
+    agent_relationship_hierarchical_relator: Relator jerárquico de la relación del agente
+    agent_relationship_identity_relator: Relator de identidad de relación de agente
     agent_relationship_parentchild_relator: Agent Relationship Parentchild Relator
+    agent_relationship_specific_relator: Relator específico de la relación del agente
     agent_relationship_subordinatesuperior_relator: Agent Relationship Subordinatesuperior Relator
+    agent_relationship_temporal_relator: Relator temporal de la relación del agente
     archival_record_level: Nivel de registro de archivo
+    begin_date_standardized_type: Fecha de inicio Tipo estandarizado
+    cataloging_source: Fuente de catalogación
     collection_management_processing_priority: Prioridad de la tramitación de la gestión de la colección
     collection_management_processing_status: Estado de tramitación de la gestión de la colección
     container_location_status: Estado de ubicación de contenedores
@@ -1957,10 +1922,15 @@
     date_certainty: Fecha probable
     date_era: Fecha Era
     date_label: Etiqueta de fecha
+    date_role: Función de fecha
+    date_standardized_type: Fecha Tipo estandarizado
     date_type: Tipo de fecha
+    date_type_structured: Tipo de fecha
     deaccession_scope: Obrar alcance
     digital_object_digital_object_type: Tipo de objeto digital
     digital_object_level: Nivel de objeto digital
+    dimension_units: Unidades de dimensión
+    end_date_standardized_type: Fecha de finalización Tipo estandarizado
     event_event_type: Tipo de evento evento
     event_outcome: Resultados de evento
     extent_extent_type: Tipo de medida de grado
@@ -1970,58 +1940,58 @@
     file_version_use_statement: Archivo versión uso declaración
     file_version_xlink_actuate_attribute: Archivo versión Xlink accionar atributo
     file_version_xlink_show_attribute: Atributo de archivo versión Xlink Mostrar
+    gender: Género del agente
+    government_agency_type: Tipo de agencia gubernamental
+    identifier_type: Tipo de identificador
     instance_instance_type: Tipo de representación
+    job_type: Job Type
     language_iso639_2: Idioma ISO 639-2
-    script_iso15924: Lenguaje Script ISO 15924
+    level_of_detail: Nivel de detalle
     linked_agent_archival_record_relators: Linked Agent Archival Record Relators
     linked_agent_event_roles: Linked Agent Event Roles
     linked_agent_role: Papel de autoridad vinculada
     linked_event_archival_record_roles: Linked Event Archival Record Roles
+    location_function_type: Tipos de funciones de localización
     location_temporary: Ubicación temporal
+    maintenance_agent_type: Tipo de agente de mantenimiento
+    maintenance_event_type: Tipo de evento de mantenimiento
+    maintenance_status: Estado de mantenimiento
+    modified_record: Registro modificado
     name_person_name_order: Pedido de nombre de la persona
     name_rule: Regla de nombre
     name_source: Origen del nombre
+    name_type: Nombre Tipo
     note_bibliography_type: Nota bibliografía tipo
     note_digital_object_type: Tipo de nota objeto digital
-    note_langmaterial_type: Idioma de la nota del tipo de materiales
     note_index_item_type: Tipo de elemento de índice Nota
     note_index_type: Tipo de índice Nota
+    note_langmaterial_type: Idioma de la nota del tipo de materiales
     note_multipart_type: Nota tipo multiparte
     note_orderedlist_enumeration: Nota ordenada (enumeración)
     note_rights_statement_act_type: Nota de Derechos de Declaración Tipo de Ley
     note_rights_statement_type: Nota tipo de declaración de derechos
     note_singlepart_type: Nota Singlepart tipo
-    telephone_number_type: Tipo de número de teléfono
+    place_role: Función del lugar del agente
+    publication_status: Estado de publicación
+    reference_evaluation: Evaluación de referencia
     resource_finding_aid_description_rules: Normas sobre instrumentos de descripción
     resource_finding_aid_status: Estado del instrumento de descripción del fondo
     resource_resource_type: Tipo de fondos
+    restriction_type: Tipos de restricciones de acceso loceles
+    rights_statement_act_restriction: Ley de declaración de derechos de restricción
+    rights_statement_act_type: Declaración de Derechos Tipo de Ley
+    rights_statement_external_document_identifier_type: Declaración de derechos Tipo de identificador de documento externo
     rights_statement_ip_status: Declaración de derechos IP Status
+    rights_statement_other_rights_basis: Declaración de derechos Otros derechos de base
     rights_statement_rights_type: Declaración de los derechos derechos tipo
+    romanization: Romanización
+    script_iso15924: Lenguaje Script ISO 15924
+    source: Fuente
     subject_source: Materia fuente
     subject_term_type: Tipo de término de materia
+    telephone_number_type: Tipo de número de teléfono
+    transliteration: Transcripción
     user_defined_enum_1: Enum 1 definida por el usuario
     user_defined_enum_2: Enum 2 definido por el usuario
     user_defined_enum_3: Enum 3 definido por el usuario
     user_defined_enum_4: Enum 4 definido por el usuario
-    job_type: Job Type
-    dimension_units: Unidades de dimensión
-    restriction_type: Tipos de restricciones de acceso loceles
-    location_function_type: Tipos de funciones de localización
-    rights_statement_external_document_identifier_type: Declaración de derechos Tipo de identificador de documento externo
-    rights_statement_act_restriction: Ley de declaración de derechos de restricción
-    rights_statement_act_type: Declaración de Derechos Tipo de Ley
-    rights_statement_other_rights_basis: Declaración de derechos Otros derechos de base
-    maintenance_status: Estado de mantenimiento
-    publication_status: Estado de publicación
-    romanization: Romanización
-    government_agency_type: Tipo de agencia gubernamental
-    reference_evaluation: Evaluación de referencia 
-    name_type: Nombre Tipo
-    level_of_detail: Nivel de detalle
-    modified_record:  Registro modificado
-    cataloging_source: Fuente de catalogación
-    source: Fuente
-    identifier_type:  Tipo de identificador
-    agency_code_type: Código de agencia
-    maintenance_event_type: Tipo de evento de mantenimiento
-    maintenance_agent_type: Tipo de agente de mantenimiento

@@ -18,50 +18,6 @@
     transliteration:
       ala-lc: Tables de romanisation ALA-LC
 
-    name_source:
-      snac: SNAC
-
-    name_rule:
-      ccr: Catalogage des ressources culturelles
-      rad: Règles de description archivistique
-      isaar: Registre international normalisé des autorités archivistiques pour les
-        personnes morales, les personnes et les familles
-
-    _note_types:
-      general_context: Contexte général
-      mandate: Mandat
-      contact_note: Note de contact
-      legal_status: Statut légal
-      structure_or_genealogy: Structure ou généalogie
-
-    note_digital_object_type:
-      general_context: Contexte général
-      mandate: Mandat
-      contact_note: Note de contact
-      legal_status: Statut légal
-      structure_or_genealogy: Structure ou généalogie
-
-    note_langmaterial_type:
-      general_context: Contexte général
-      mandate: Mandat
-      contact_note: Note de contact
-      legal_status: Statut légal
-      structure_or_genealogy: Structure ou généalogie
-
-    note_multipart_type:
-      general_context: Contexte général
-      mandate: Mandat
-      contact_note: Note de contact
-      legal_status: Statut légal
-      structure_or_genealogy: Structure ou généalogie
-
-    note_singlepart_type:
-      general_context: Contexte général
-      mandate: Mandat
-      contact_note: Note de contact
-      legal_status: Statut légal
-      structure_or_genealogy: Structure ou généalogie
-
     agent_relationship_identity_relator:
       is_identified_with: Relation d'agent identifiée avec le parent
 
@@ -89,7 +45,7 @@
 
     end_date_standardized_type:
       standard: la norme
-      not_before: Pas avant 
+      not_before: Pas avant
       not_after: Pas après
 
     maintenance_status:
@@ -116,7 +72,7 @@
       conv_rom_cat_agency: Romanisation conventionnelle ou forme conventionnelle du nom dans la langue de l'agence de catalogage
       not_applicable: N'est pas applicable
 
-    government_agency_type: 
+    government_agency_type:
       ngo: Organisation non gouvernementale
       sac: Composant autonome ou semi-autonome
       multilocal: Multilocal
@@ -130,19 +86,19 @@
       other: Autre
       natc: Aucune tentative de codage
 
-    reference_evaluation: 
+    reference_evaluation:
       tr_consistent: Tracés compatibles avec les titres
       tr_inconsistent: Tracés incohérents avec les titres
       not_applicable: N'est pas applicable
       natc: Aucune tentative de codage
 
-    name_type: 
+    name_type:
       differentiated: Différencié
       undifferentiated: Indifférencié
       not_applicable: N'est pas applicable
       natc: Aucune tentative de codage
 
-    level_of_detail: 
+    level_of_detail:
       fully_established: Entièrement établi
       memorandum: Mémorandum
       provisional: Provisoire
@@ -150,7 +106,7 @@
       not_applicable: N'est pas applicable
       natc: Aucune tentative de codage
 
-    modified_record: 
+    modified_record:
       not_modified: Non modifié
       shortened: Raccourcie
       missing_characters: Caractères manquants
@@ -163,21 +119,21 @@
       unknown: Inconnu
       natc: Aucune tentative de codage
 
-    source: 
+    source:
       naf: NAF
       snac: SNAC
       local: Local
 
-    identifier_type: 
+    identifier_type:
       loc: Bibliothèque du Congrès
       lac: Bibliothèque et Archives Canada
       local: Local
 
-    agency_code_type: 
+    agency_code_type:
       oclc: OCLC
       local: Local
 
-    maintenance_event_type: 
+    maintenance_event_type:
       created: Créé
       cancelled: Annulé
       deleted: Supprimé
@@ -185,7 +141,7 @@
       revised: modifié
       updated: Mis à jour
 
-    maintenance_agent_type: 
+    maintenance_agent_type:
       human: Humain
       machine: Machine
 
@@ -195,7 +151,7 @@
       transfer: Transfert
       context: Context
       requested: Requested
-      
+
     linked_agent_archival_record_relators:
       abr: Agrégateur
       act: Acteur
@@ -476,22 +432,27 @@
       requester: Requester
       transmitter: Transmitter
       validator: Validator
+
     name_source:
       cash: Canadian Subject Headings
       ingest: Unspecified ingested source
+      lcnaf: Library of Congress Name Authority File
       lcshac: Library of Congress Children's Subject Headings
       local: Local sources
-      lcnaf: Library of Congress Name Authority File
-      naf: NACO Authority File
       nad: NAD / ARK II Name Authority Database
+      naf: NACO Authority File
       nal: National Agricultural Library subject headings
       ram: Répertoire d'autorités RAMEAU
       rvm: Répertoire de vedettes-matière
+      snac: SNAC
       ulan: Union List of Artist Names
     name_rule:
-      local: Règles locales
       aacr: Anglo-American Cataloging Rules
+      ccr: Catalogage des ressources culturelles
       dacs: "Describing Archives: A Content Standard"
+      isaar: Registre international normalisé des autorités archivistiques pour les personnes morales, les personnes et les familles
+      local: Règles locales
+      rad: Règles de description archivistique
       rda: Resource Description and Access
     extent_extent_type:
       cassettes: Cassettes
@@ -1731,6 +1692,7 @@
       topical: Sujet
       uniform_title: Titre uniforme
     _note_types: &note_type_definitions
+      abstract: Résumé
       accessrestrict: Conditions d'accès
       accruals: Accroissements
       acqinfo: Informations sur les modalités d'entrée
@@ -1738,35 +1700,39 @@
       appraisal: Evaluation
       arrangement: Classement
       bibliography: Bibliographie
-      note_bibliography: Bibliographie
       bioghist: Biographique / Historique
+      contact_note: Note de contact
       custodhist: Historique de la conservation
+      dimensions: Dimensions
+      edition: Edition
+      extent: Importance matérielle
       fileplan: Plan de classement
+      general_context: Contexte général
       index: Index
+      inscription: Inscription
+      langmaterial: Langue des documents
+      legal_status: Statut légal
+      legalstatus: Statut juridique
+      mandate: Mandat
+      materialspec: Détails matériels spécifiques
+      note: Note générale
+      note_bibliography: Bibliographie
       odd: Autres données descriptives
-      otherfindaid: Autre instrument de recherche
       originalsloc: Existence et lieux de conservation d'originaux
+      otherfindaid: Autre instrument de recherche
+      physdesc: Description physique
+      physfacet: Particularité physique
+      physloc: Localisation physique
       phystech: Caractéristiques matérielles et contraintes techniques
       prefercite: Référence privilégiée
       processinfo: Information sur le traitement
+      relatedmaterial: Documents en relation
+      rights_statement: Droits
       scopecontent: Présentation du contenu
       separatedmaterial: Documents séparés
-      userestrict: Conditions d'utilisation
-      dimensions: Dimensions
-      legalstatus: Statut juridique
+      structure_or_genealogy: Structure ou généalogie
       summary: Résumé
-      edition: Edition
-      extent: Importance matérielle
-      note: Note générale
-      inscription: Inscription
-      langmaterial: Langue des documents
-      physdesc: Description physique
-      relatedmaterial: Documents en relation
-      abstract: Résumé
-      physloc: Localisation physique
-      materialspec: Détails matériels spécifiques
-      physfacet: Particularité physique
-      rights_statement: Droits
+      userestrict: Conditions d'utilisation
     note_digital_object_type:
       <<: *note_type_definitions
     note_langmaterial_type:
@@ -2051,10 +2017,10 @@
     reference_evaluation: Évaluation de référence
     name_type: Type de nom
     level_of_detail: Niveau de détail
-    modified_record: Enregistrement modifié 
+    modified_record: Enregistrement modifié
     cataloging_source: Catalogage Source
     source: La source
-    identifier_type: Type d'identifiant 
+    identifier_type: Type d'identifiant
     agency_code_type: Code d'agence
     maintenance_event_type: Type d'événement de maintenance
     maintenance_agent_type: Type d'agent de maintenance

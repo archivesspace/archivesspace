@@ -1,431 +1,567 @@
 en:
+  enumeration_names:
+    accession_acquisition_type: Accession Acquisition Type
+    accession_parts_relator: Accession Parts Relator
+    accession_parts_relator_type: Accession Parts Relator Type
+    accession_resource_type: Accession Resource Type
+    accession_sibling_relator: "Accession Sibling Relator"
+    accession_sibling_relator_type: Accession Sibling Relator Type
+    agency_code_type: Record Control Agency Code Type
+    agent_contact_salutation: Agent Contact Salutation
+    agent_relationship_associative_relator: Agent Relationship Associative Relator
+    agent_relationship_earlierlater_relator: Agent Relationship Earlierlater Relator
+    agent_relationship_family_relator: Agent Relationship Family Relator
+    agent_relationship_hierarchical_relator: Agent Relationship Hierarchical Relator
+    agent_relationship_identity_relator: Agent Relationship Identity Relator
+    agent_relationship_parentchild_relator: Agent Relationship Parentchild Relator
+    agent_relationship_specific_relator: Agent Relationship Specific Relator
+    agent_relationship_subordinatesuperior_relator: Agent Relationship Subordinatesuperior Relator
+    agent_relationship_temporal_relator: Agent Relationship Temporal Relator
+    archival_record_level: Archival Record Level
+    begin_date_standardized_type: Begin Date Standardized Type
+    cataloging_source: Record Control Cataloging Source
+    collection_management_processing_priority: Collection Management Processing Priority
+    collection_management_processing_status: Collection Management Processing Status
+    container_location_status: Container Location Status
+    container_type: Container Type
+    country_iso_3166: Country ISO 3166
+    date_calendar: Date Calendar
+    date_certainty: Date Certainty
+    date_era: Date Era
+    date_label: Date Label
+    date_role: Date Role
+    date_standardized_type: Date Standardized Type
+    date_type: Date Type
+    date_type_structured: Date Type
+    deaccession_scope: Deaccession Scope
+    digital_object_digital_object_type: Digital Object Digital Object Type
+    digital_object_level: Digital Object Level
+    dimension_units: Dimension Units
+    end_date_standardized_type: End Date Standardized Type
+    event_event_type: Event Event Type
+    event_outcome: Event Outcome
+    extent_extent_type: Extent Extent Type
+    extent_portion: Extent Portion
+    file_version_checksum_methods: File Version Checksum Methods
+    file_version_file_format_name: File Version File Format Name
+    file_version_use_statement: File Version Use Statement
+    file_version_xlink_actuate_attribute: File Version Xlink Actuate Attribute
+    file_version_xlink_show_attribute: File Version Xlink Show Attribute
+    gender: Agent Gender
+    government_agency_type: Record Control Government Agency Type
+    identifier_type: Record Control Identifier Type
+    instance_instance_type: Instance Instance Type
+    job_type: Job Type
+    language_iso639_2: Language ISO 639-2
+    level_of_detail: Record Control Level of Detail
+    linked_agent_archival_record_relators: Linked Agent Archival Record Relators
+    linked_agent_event_roles: Linked Agent Event Roles
+    linked_agent_role: Linked Agent Role
+    linked_event_archival_record_roles: Linked Event Archival Record Roles
+    location_function_type: Location Function Type
+    location_temporary: Location Temporary
+    maintenance_agent_type: Record Control Maintenence Agent Type
+    maintenance_event_type: Record Control Maintenence Event Type
+    maintenance_status: Record Control Maintenence Status
+    metadata_license: Metadata License
+    modified_record: Record Control Modified Type
+    name_person_name_order: Name Person Name Order
+    name_rule: Name Rule
+    name_source: Name Source
+    name_type: Record Control Name Type
+    note_bibliography_type: Note Bibliography Type
+    note_digital_object_type: Note Digital Object Type
+    note_index_item_type: Note Index Item Type
+    note_index_type: Note Index Type
+    note_langmaterial_type: Note Language of Materials Type
+    note_multipart_type: Note Multipart Type
+    note_orderedlist_enumeration: Note Orderedlist Enumeration
+    note_rights_statement_act_type: Note Rights Statement Act Type
+    note_rights_statement_type: Note Rights Statement Type
+    note_singlepart_type: Note Singlepart Type
+    place_role: Agent Place Role
+    publication_status: Record Control Publication Status
+    reference_evaluation: Record Control Reference Evaluation
+    resource_finding_aid_description_rules: Resource Finding Aid Description Rules
+    resource_finding_aid_status: Resource Finding Aid Status
+    resource_resource_type: Resource Resource Type
+    restriction_type: Local Access Restriction Type
+    rights_statement_act_restriction: Rights Statement Act Restriction
+    rights_statement_act_type: Rights Statement Act Type
+    rights_statement_external_document_identifier_type: Rights Statement External Document Identifier Type
+    rights_statement_ip_status: Rights Statement IP Status
+    rights_statement_other_rights_basis: Rights Statement Other Rights Basis
+    rights_statement_rights_type: Rights Statement Rights Type
+    romanization: Romanization
+    script_iso15924: Language Script ISO 15924
+    subject_source: Subject Source
+    subject_term_type: Subject Term Type
+    telephone_number_type: Telephone Number Type
+    transliteration: Transliteration
+    user_defined_enum_1: User Defined Enum 1
+    user_defined_enum_2: User Defined Enum 2
+    user_defined_enum_3: User Defined Enum 3
+    user_defined_enum_4: User Defined Enum 4
+
   enumerations:
-    metadata_license:
-      other: Unspecified or custom license.
-      public_domain: This record is made available under an Universal 1.0 Public Domain Dedication Creative Commons license.
-      non_commercial: This record is made available under an Attribution-NonCommercial 4.0 International Creative Commons license.
-      non_commercial_no_derivatives: This record is made available under an Attribution-NonCommercial-NoDerivatives 4.0 International Creative Commons license.
-      no_derivatives: This record is made available under an Attribution-NoDerivatives 4.0 International Creative Commons license.
-      share_a_like: This record is made available under an Attribution-ShareAlike 4.0 International Creative Commons license.
-      non_commercial_share_a_like: This record is made available under an Attribution-NonCommercial-ShareAlike 4.0 International Creative Commons license.
-    gender:
-      not_specified: Not Specified
-    place_role:
-      assoc_country: Associated Country
-      residence: Residence
-      other_assoc: Other
-      place_of_birth: Place of Birth
-      place_of_death: Place of Death
-    date_type_structured:
-      single: Single
-      range: Range
+    accession_acquisition_type:
+      deposit: Deposit
+      gift: Gift
+      purchase: Purchase
+      transfer: Transfer
+    accession_parts_relator:
+      forms_part_of: Forms Part of
+      has_part: Has Part
+    accession_parts_relator_type:
+      part: "\"Part\" relationship"
+    accession_resource_type:
+      collection: Collection
+      papers: Papers
+      publications: Publications
+      records: Records
+    accession_sibling_relator:
+      sibling_of: Is Sibling of
+    accession_sibling_relator_type:
+      bound_with: "\"Bound With\" relationship"
+    agency_code_type:
+      local: Local
+      oclc: OCLC
+    agent_contact_salutation:
+      madame: Madame
+      mr: Mr.
+      mrs: Mrs.
+      ms: Ms.
+      sir: Sir
+    agent_relationship_associative_relator:
+      is_associative_with: Associative with Related
+    agent_relationship_earlierlater_relator:
+      is_earlier_form_of: Earlier Form of Related
+      is_later_form_of: Later Form of Related
+    agent_relationship_family_relator:
+      is_related_with: Agent Relationship Related Relator
+    agent_relationship_hierarchical_relator:
+      is_hierarchical_with: Agent Relationship Hierarchical Relator
+    agent_relationship_identity_relator:
+      is_identified_with: Agent Relationship Identified With Relator
+    agent_relationship_parentchild_relator:
+      is_child_of: Child of Related
+      is_parent_of: Parent of Related
+    agent_relationship_subordinatesuperior_relator:
+      is_subordinate_to: Is Subordinate to Related
+      is_superior_of: Is Superior of Related
+    agent_relationship_temporal_relator:
+      is_temporal_with: Agent Relationship Temporal Relator
+    archival_record_level:
+      class: Class
+      collection: Collection
+      file: File
+      fonds: Fonds
+      item: Item
+      otherlevel: Other Level
+      recordgrp: Record Group
+      series: Series
+      subfonds: Sub-Fonds
+      subgrp: Sub-Group
+      subseries: Sub-Series
+    begin_date_standardized_type:
+      not_after: Not After
+      not_before: Not Before
+      standard: Standard
+    cataloging_source:
+      ccp: Cooperative cataloging program
+      nat_bib_agency: National bibliographic agency
+      natc: No attempt to code
+      other: Other
+      unknown: Unknown
+    collection_management_processing_priority:
+      high: High
+      low: Low
+      medium: Medium
+      none: Not specified
+    collection_management_processing_status:
+      completed: Completed
+      in_progress: In Progress
+      new: New
+      none: Not specified
+    container_location_status:
+      current: Current
+      previous: Previous
+    container_type:
+      box: Box
+      carton: Carton
+      case: Case
+      container: Container
+      folder: Folder
+      frame: Frame
+      object: Object
+      page: Page
+      reel: Reel
+      volume: Volume
+    country_iso_3166:
+      AD: Andorra
+      AE: United Arab Emirates
+      AF: Afghanistan
+      AG: Antigua and Barbuda
+      AI: Anguilla
+      AL: Albania
+      AM: Armenia
+      AO: Angola
+      AQ: Antarctica
+      AR: Argentina
+      AS: American Samoa
+      AT: Austria
+      AU: Australia
+      AW: Aruba
+      AX: Åland Islands
+      AZ: Azerbaijan
+      BA: Bosnia and Herzegovina
+      BB: Barbados
+      BD: Bangladesh
+      BE: Belgium
+      BF: Burkina Faso
+      BG: Bulgaria
+      BH: Bahrain
+      BI: Burundi
+      BJ: Benin
+      BL: Saint Barthélemy
+      BM: Bermuda
+      BN: Brunei Darussalam
+      BO: Bolivia
+      BQ: "Bonaire, Sint Eustatius and Saba"
+      BR: Brazil
+      BS: Bahamas
+      BT: Bhutan
+      BV: Bouvet Island
+      BW: Botswana
+      BY: Belarus
+      BZ: Belize
+      CA: Canada
+      CC: Cocos (Keeling) Islands
+      CD: Democratic Republic of the Congo
+      CF: Central African Republic
+      CG: Congo
+      CH: Switzerland
+      CI: Côte d'Ivoire
+      CK: Cook Islands
+      CL: Chile
+      CM: Cameroon
+      CN: China
+      CO: Colombia
+      CR: Costa Rica
+      CU: Cuba
+      CV: Cape Verde
+      CW: Curaçao
+      CX: Christmas island
+      CY: Cyprus
+      CZ: Czech Republic
+      DE: Germany
+      DJ: Djibouti
+      DK: Denmark
+      DM: Dominica
+      DO: Dominican Republic
+      DZ: Algeria
+      EC: Ecuador
+      EE: Estonia
+      EG: Egypt
+      EH: Western Sahara
+      ER: Eritrea
+      ES: Spain
+      ET: Ethiopia
+      FI: Finland
+      FJ: Fiji
+      FK: Falkland Islands (Malvinas)
+      FM: "Micronesia, Federated States of"
+      FO: Faroe Islands
+      FR: France
+      GA: Gabon
+      GB: United Kingdom
+      GD: Grenada
+      GE: Georgia
+      GF: French Guiana
+      GG: Guernsey
+      GH: Ghana
+      GI: Gibraltar
+      GL: Greenland
+      GM: Gambia
+      GN: Guinea
+      GP: Guadeloupe
+      GQ: Equatorial Guinea
+      GR: Greece
+      GS: South Georgia and the South Sandwich Islands
+      GT: Guatemala
+      GU: Guam
+      GW: Guinea-Bissau
+      GY: Guyana
+      HK: Hong Kong
+      HM: Heard Island and Mcdonald Islands
+      HN: Honduras
+      HR: Croatia
+      HT: Haiti
+      HU: Hungary
+      ID: Indonesia
+      IE: Ireland
+      IL: Israel
+      IM: Isle of Man
+      IN: India
+      IO: British Indian Ocean Territory
+      IQ: Iraq
+      IR: "Iran, Islamic Republic of"
+      IS: Iceland
+      IT: Italy
+      JE: Jersey
+      JM: Jamaica
+      JO: Jordan
+      JP: Japan
+      KE: Kenya
+      KG: Kyrgyzstan
+      KH: Cambodia
+      KI: Kiribati
+      KM: Comoros
+      KN: Saint Kitts and Nevis
+      KP: "Korea, Democratic People's Republic of"
+      KR: "Korea, Republic of"
+      KW: Kuwait
+      KY: Cayman Islands
+      KZ: Kazakhstan
+      LA: "Lao People's Democratic Republic"
+      LB: Lebanon
+      LC: Saint Lucia
+      LI: Liechtenstein
+      LK: Sri Lanka
+      LR: Liberia
+      LS: Lesotho
+      LT: Lithuania
+      LU: Luxembourg
+      LV: Latvia
+      LY: Libya
+      MA: Morocco
+      MC: Monaco
+      MD: "Moldova, Republic of"
+      ME: Montenegro
+      MF: Saint Martin (French Part)
+      MG: Madagascar
+      MH: Marshall Islands
+      MK: "Macedonia, Former Yugoslav Republic of"
+      ML: Mali
+      MM: Myanmar
+      MN: Mongolia
+      MO: Macao
+      MP: Northern Mariana Islands
+      MQ: Martinique
+      MR: Mauritania
+      MS: Montserrat
+      MT: Malta
+      MU: Mauritius
+      MV: Maldives
+      MW: Malawi
+      MX: Mexico
+      MY: Malaysia
+      MZ: Mozambique
+      NA: Namibia
+      NC: New Caledonia
+      NE: Niger
+      NF: Norfolk Island
+      NG: Nigeria
+      NI: Nicaragua
+      NL: Netherlands
+      "NO": Norway
+      NP: Nepal
+      NR: Nauru
+      NU: Niue
+      NZ: New Zealand
+      OM: Oman
+      PA: Panama
+      PE: Peru
+      PF: French Polynesia
+      PG: Papua New Guinea
+      PH: Philippines
+      PK: Pakistan
+      PL: Poland
+      PM: Saint Pierre and Miquelon
+      PN: Pitcairn
+      PR: Puerto rico
+      PS: "Palestinian Territory, Occupied"
+      PT: Portugal
+      PW: Palau
+      PY: Paraguay
+      QA: Qatar
+      RE: Réunion
+      RO: Romania
+      RS: Serbia
+      RU: Russian Federation
+      RW: Rwanda
+      SA: Saudi Arabia
+      SB: Solomon Islands
+      SC: Seychelles
+      SD: Sudan
+      SE: Sweden
+      SG: Singapore
+      SH: "Saint Helena, Ascension and Tristan da Cunha"
+      SI: Slovenia
+      SJ: Svalbard and Jan Mayen
+      SK: Slovakia
+      SL: Sierra Leone
+      SM: San Marino
+      SN: Senegal
+      SO: Somalia
+      SR: Suriname
+      SS: South Sudan
+      ST: Sao Tome and Principe
+      SV: El Salvador
+      SX: Sint Maarten (Dutch Part)
+      SY: Syrian Arab Republic
+      SZ: Swaziland
+      TC: Turks and Caicos Islands
+      TD: Chad
+      TF: French Southern Territories
+      TG: Togo
+      TH: Thailand
+      TJ: Tajikistan
+      TK: Tokelau
+      TL: Timor-Leste
+      TM: Turkmenistan
+      TN: Tunisia
+      TO: Tonga
+      TR: Turkey
+      TT: Trinidad and Tobago
+      TV: Tuvalu
+      TW: "Taiwan, Province of China"
+      TZ: "Tanzania, United Republic of"
+      UA: Ukraine
+      UG: Uganda
+      UM: United States Minor Outlying Islands
+      US: United States
+      UY: Uruguay
+      UZ: Uzbekistan
+      VA: Holy See (Vatican City State)
+      VC: Saint Vincent and the Grenadines
+      VE: Venezuela
+      VG: "Virgin Islands, British"
+      VI: "Virgin Islands, U.S."
+      VN: Viet Nam
+      VU: Vanuatu
+      WF: Wallis and Futuna
+      WS: Samoa
+      YE: Yemen
+      YT: Mayotte
+      ZA: South Africa
+      ZM: Zambia
+      ZW: Zimbabwe
+    date_calendar:
+      gregorian: Gregorian
+    date_certainty:
+      approximate: Approximate
+      inferred: Inferred
+      questionable: Questionable
+    date_era:
+      ce: ce
+    date_label:
+      agent_relation: Agent Relation
+      broadcast: Broadcast
+      copyright: Copyright
+      creation: Creation
+      deaccession: Deaccession
+      digitized: Digitized
+      event: Event
+      existence: Existence
+      issued: Issued
+      modified: Modified
+      other: Other
+      publication: Publication
+      record_keeping: Record Keeping
+      usage: Usage
     date_role:
       begin: Begin
       end: End
     date_standardized_type:
-      standard: Standard
-      not_before: Not Before
       not_after: Not After
-    begin_date_standardized_type:
-      standard: Standard
       not_before: Not Before
-      not_after: Not After
+      standard: Standard
+    date_type:
+      bulk: Bulk Dates
+      expression: Expression
+      inclusive: Inclusive Dates
+      range: Range
+      single: Single
+    date_type_structured:
+      range: Range
+      single: Single
+    deaccession_scope:
+      part: Part
+      whole: Whole
+    digital_object_digital_object_type:
+      cartographic: Cartographic
+      mixed_materials: Mixed Materials
+      moving_image: Moving Image
+      notated_music: Notated Music
+      software_multimedia: Software, Multimedia
+      sound_recording: Sound Recording
+      sound_recording_musical: Sound Recording (Musical)
+      sound_recording_nonmusical: Sound Recording (Non-musical)
+      still_image: Still Image
+      text: Text
+    digital_object_level:
+      collection: Collection
+      image: Image
+      work: Work
+    dimension_units:
+      centimeters: Centimeters
+      feet: Feet
+      inches: Inches
+      meters: Meters
+      millimeters: Millimeters
+      yards: Yards
     end_date_standardized_type:
-      standard: Standard
-      not_before: Not Before
       not_after: Not After
-    maintenance_status:
-      new: New
-      upgraded: Upgraded
-      revised_corrected: Revised/Corrected
-      derived: Derived
-      deleted: Deleted
-      cancelled_obsolete: Cancelled/Obsolete
-      deleted_split: Deleted-Split
-      deleted_replaced: Deleted-Replaced
-    publication_status:
-      in_process: In-process
-      approved: Approved
-    romanization:
-      int_std: International standard
-      nat_std: National standard
-      nl_assoc_std: National library association standard
-      nl_bib_agency_std: National library or bibliographic agency standard
-      local_standard: Local standard
-      unknown_standard: Standard of unknown origin
-      conv_rom_cat_agency: Conventional romanization or conventional form of name in language of cataloging agency
-      not_applicable: Not applicable
-    transliteration:
-      ala-lc: ALA-LC Romanization Tables
-    government_agency_type:
-      ngo: Non-governmental organization
-      sac: Autonomous or semi-autonomous component
-      multilocal: Multilocal
-      fed: Federal/national
-      int_gov: International intergovernmental
-      local: Local
-      multistate: Multistate
-      undetermined: Government agency-type undetermined
-      provincial: State, provincial, territorial, dependent, etc.
-      unknown: Unknown if heading is government agency
-      other: Other
-      natc: No attempt to code
-    reference_evaluation:
-      tr_consistent: Tracings consistent with headings
-      tr_inconsistent: Tracings inconsistent with headings
-      not_applicable: Not applicable
-      natc: No attempt to code
-    name_type:
-      differentiated: Differentiated
-      undifferentiated: Undifferentiated
-      not_applicable: Not applicable
-      natc: No attempt to code
-    level_of_detail:
-      fully_established: Fully established
-      memorandum: Memorandum
-      provisional: Provisional
-      preliminary: Preliminary
-      not_applicable: Not applicable
-      natc: No attempt to code
-    modified_record:
-      not_modified: Not modified
-      shortened: Shortened
-      missing_characters: Missing characters
-      natc: No attempt to code
-    cataloging_source:
-      nat_bib_agency: National bibliographic agency
-      ccp: Cooperative cataloging program
-      other: Other
-      unknown: Unknown
-      natc: No attempt to code
-    source:
-      naf: NAF
-      snac: SNAC
-      local: Local
-    identifier_type:
-      loc: Library of Congress
-      lac: Library and Archives Canada
-      local: Local
-    agency_code_type:
-      oclc: OCLC
-      local: Local
-    maintenance_event_type:
-      created: Created
+      not_before: Not Before
+      standard: Standard
+    event_event_type:
+      accession: Accession
+      accumulation: Accumulation
+      acknowledgement: Acknowledgement
+      acknowledgement_received: Acknowledgement Received
+      acknowledgement_sent: Acknowledgement Sent
+      agreement_received: Agreement Received
+      agreement_sent: Agreement Sent
+      agreement_signed: Agreement Signed
+      appraisal: Appraisal
+      assessment: Assessment
+      capture: Capture
+      cataloged: Cataloged
+      collection: Collection
+      component_transfer: Component Transfer
+      compression: Compression
+      contribution: Contribution
+      copyright_transfer: Copyright Transfer
+      custody_transfer: Custody Transfer
+      deaccession: Deaccession
+      decompression: Decompression
+      decryption: Decryption
+      deletion: Deletion
+      digital_signature_validation: Digital Signature Validation
+      fixity_check: Fixity Check
+      ingestion: Ingestion
+      message_digest_calculation: Message Digest Calculation
+      migration: Migration
+      normalization: Normalization
+      processed: Processed
+      processing_completed: Processing Completed
+      processing_in_progress: Processing in Progress
+      processing_new: Processing New
+      processing_started: Processing Started
+      publication: Publication
+      replication: Replication
+      request: Request
+      rights_transferred: Rights Transferred
+      validation: Validation
+      virus_check: Virus Check
+    event_outcome:
       cancelled: Cancelled
-      deleted: Deleted
-      derived: Derived
-      revised: Revised
-      updated: Updated
-    maintenance_agent_type:
-      human: Human
-      machine: Machine
-    linked_event_archival_record_roles:
-      source: Source
-      outcome: Outcome
-      transfer: Transfer
-      context: Context
-      requested: Requested
-    linked_agent_archival_record_relators:
-      abr: Abridger
-      act: Actor
-      adi: Art director
-      adp: Adapter
-      anl: Analyst
-      anm: Animator
-      ann: Annotator
-      ape: Appellee
-      apl: Appellant
-      app: Applicant
-      arc: Architect
-      arr: Arranger
-      acp: Art copyist
-      art: Artist
-      ard: Artistic director
-      asg: Assignee
-      asn: Associated name
-      att: Attributed name
-      auc: Auctioneer
-      aut: Author
-      aqt: Author in quotations or text abstracts
-      aft: Author of afterword, colophon, etc.
-      aud: Author of dialog
-      aui: Author of introduction, etc.
-      aus: Author of screenplay, etc.
-      ato: Autographer
-      ant: Bibliographic antecedent
-      bnd: Binder
-      bdd: Binding designer
-      blw: Blurb writer
-      bkd: Book designer
-      bkp: Book producer
-      bjd: Bookjacket designer
-      bpd: Bookplate designer
-      bsl: Bookseller
-      brl: Braille embosser
-      brd: Broadcaster
-      cll: Calligrapher
-      ctg: Cartographer
-      cas: Caster
-      cns: Censor
-      chr: Choreographer
-      cng: Cinematographer
-      cli: Client
-      cor: Collection registrar
-      clb: Collaborator
-      col: Collector
-      clt: Collotyper
-      clr: Colorist
-      cmm: Commentator
-      cwt: Commentator for written text
-      com: Compiler
-      cpl: Complainant
-      cpt: Complainant-appellant
-      cpe: Complainant-appellee
-      cmp: Composer
-      cmt: Compositor
-      ccp: Conceptor
-      cnd: Conductor
-      con: Conservator
-      csl: Consultant
-      csp: Consultant to a project
-      cos: Contestant
-      cot: Contestant-appellant
-      coe: Contestant-appellee
-      cts: Contestee
-      ctt: Contestee-appellant
-      cte: Contestee-appellee
-      ctr: Contractor
-      ctb: Contributor
-      cpc: Copyright claimant
-      cph: Copyright holder
-      crr: Corrector
-      crp: Correspondent
-      cst: Costume designer
-      cou: Court governed
-      crt: Court reporter
-      cov: Cover designer
-      cre: Creator
-      cur: Curator of an exhibition
-      dnc: Dancer
-      dtc: Data contributor
-      dtm: Data manager
-      dte: Dedicatee
-      dto: Dedicator
-      dfd: Defendant
-      dft: Defendant-appellant
-      dfe: Defendant-appellee
-      dgg: Degree grantor
-      dgs: Degree supervisor
-      dln: Delineator
-      dpc: Depicted
-      dpt: Depositor
-      dsr: Designer
-      drt: Director
-      dis: Dissertant
-      dbp: Distribution place
-      dst: Distributor
-      dnr: Donor
-      drm: Draftsman
-      dub: Dubious author
-      edt: Editor
-      edc: Editor of compilation
-      edm: Editor of moving image work
-      elg: Electrician
-      elt: Electrotyper
-      enj: Enacting jurisdiction
-      eng: Engineer
-      egr: Engraver
-      etr: Etcher
-      evp: Event place
-      exp: Appraiser
-      fac: Facsimilist
-      fld: Field director
-      fmd: Film director
-      fds: Film distributor
-      flm: Film editor
-      fmp: Film producer
-      fmk: Filmmaker
-      fpy: First party
-      frg: Forger
-      fmo: Former owner
-      fnd: Funder
-      gis: Geographic information specialist
-      grt: Graphic technician
-      hnr: Honoree
-      hst: Host
-      his: Host institution
-      ilu: Illuminator
-      ill: Illustrator
-      ins: Inscriber
-      itr: Instrumentalist
-      ive: Interviewee
-      ivr: Interviewer
-      inv: Inventor
-      isb: Issuing body
-      jud: Judge
-      jug: Jurisdiction governed
-      lbr: Laboratory
-      ldr: Laboratory director
-      lsa: Landscape architect
-      led: Lead
-      len: Lender
-      lil: Libelant
-      lit: Libelant-appellant
-      lie: Libelant-appellee
-      lel: Libelee
-      let: Libelee-appellant
-      lee: Libelee-appellee
-      lbt: Librettist
-      lse: Licensee
-      lso: Licensor
-      lgd: Lighting designer
-      ltg: Lithographer
-      lyr: Lyricist
-      mfp: Manufacture place
-      mfr: Manufacturer
-      mrb: Marbler
-      mrk: Markup editor
-      med: Medium
-      mdc: Metadata contact
-      mte: Metal-engraver
-      mtk: Minute taker
-      mod: Moderator
-      mon: Monitor
-      mcp: Music copyist
-      msd: Musical director
-      mus: Musician
-      nrt: Narrator
-      osp: Onscreen presenter
-      opn: Opponent
-      orm: Organizer of meeting
-      org: Originator
-      oth: Other
-      own: Owner
-      pan: Panelist
-      ppm: Papermaker
-      pta: Patent applicant
-      pth: Patentee
-      pat: Patron
-      prf: Performer
-      pma: Permitting agency
-      pht: Photographer
-      ptf: Plaintiff
-      ptt: Plaintiff-appellant
-      pte: Plaintiff-appellee
-      plt: Platemaker
-      pra: Praeses
-      pre: Presenter
-      prt: Printer
-      pop: Printer of plates
-      prm: Printmaker
-      prc: Process contact
-      pro: Producer
-      prn: Production company
-      pmn: Production manager
-      prs: Production designer
-      prd: Production personnel
-      prp: Production place
-      prg: Programmer
-      pdr: Project director
-      pfr: Proofreader
-      prv: Provider
-      pup: Publication place
-      pbl: Publisher
-      pbd: Publishing director
-      ppt: Puppeteer
-      rdd: Radio director
-      rpc: Radio producer
-      rcp: Recipient
-      rce: Recording engineer
-      rcd: Recordist
-      red: Redaktor
-      ren: Renderer
-      rpt: Reporter
-      rps: Repository
-      rth: Research team head
-      rtm: Research team member
-      res: Researcher
-      rsp: Respondent
-      rst: Respondent-appellant
-      rse: Respondent-appellee
-      rpy: Responsible party
-      rsg: Restager
-      rsr: Restorationist
-      rev: Reviewer
-      rbr: Rubricator
-      sce: Scenarist
-      sad: Scientific advisor
-      scr: Scribe
-      scl: Sculptor
-      spy: Second party
-      sec: Secretary
-      sll: Seller
-      std: Set designer
-      stg: Setting
-      sgn: Signer
-      sng: Singer
-      sds: Sound designer
-      spk: Speaker
-      spn: Sponsor
-      sgd: Stage director
-      stm: Stage manager
-      stn: Standards body
-      str: Stereotyper
-      stl: Storyteller
-      sht: Supporting host
-      srv: Surveyor
-      tch: Teacher
-      tcd: Technical director
-      tld: Television director
-      tlp: Television producer
-      ths: Thesis advisor
-      trc: Transcriber
-      trl: Translator
-      tyd: Type designer
-      tyg: Typographer
-      uvp: University place
-      vdg: Videographer
-      vac: Voice actor
-      voc: Vocalist
-      wit: Witness
-      wde: Wood engraver
-      wdc: Woodcutter
-      wam: Writer of accompanying material
-      wac: Writer of added commentary
-      wal: Writer of added lyrics
-      wat: Writer of added text
-      win: Writer of introduction
-      wpr: Writer of preface
-      wst: Writer of supplementary textual content
-    linked_agent_event_roles:
-      authorizer: Authorizer
-      executing_program: Executing Program
-      implementer: Implementer
-      recipient: Recipient
-      requester: Requester
-      transmitter: Transmitter
-      validator: Validator
-    name_source:
-      cash: Canadian Subject Headings
-      ingest: Unspecified ingested source
-      lcshac: Library of Congress Children's Subject Headings
-      local: Local sources
-      lcnaf: Library of Congress Name Authority File
-      snac: SNAC
-      naf: NACO Authority File
-      nad: NAD / ARK II Name Authority Database
-      nal: National Agricultural Library subject headings
-      rvm: Répertoire de vedettes-matière
-      ram: Répertoire d'autorités RAMEAU
-      ulan: Union List of Artist Names
-    name_rule:
-      local: Local rules
-      aacr: Anglo-American Cataloging Rules
-      dacs: "Describing Archives: A Content Standard"
-      rda: Resource Description and Access
-      ccr: Cataloging Cultural Resources
-      rad: Rules for Archival Description
-      isaar: International Standard Archival Authority Record for Corporate Bodies, Persons, and Families
+      fail: Fail
+      fulfilled: Fulfilled
+      partial pass: Partial Pass
+      pass: Pass
+      pending: Pending
     extent_extent_type:
       cassettes: Cassettes
       cubic_feet: Cubic Feet
@@ -440,154 +576,24 @@ en:
       sheets: Sheets
       terabytes: Terabytes
       volumes: Volumes
-    collection_management_processing_priority:
-      none: Not specified
-      high: High
-      medium: Medium
-      low: Low
-    collection_management_processing_status:
-      none: Not specified
-      new: New
-      in_progress: In Progress
-      completed: Completed
-    date_era:
-      ce: ce
-    date_calendar:
-      gregorian: Gregorian
-    digital_object_digital_object_type:
-      cartographic: Cartographic
-      mixed_materials: Mixed Materials
-      moving_image: Moving Image
-      notated_music: Notated Music
-      software_multimedia: Software, Multimedia
-      sound_recording: Sound Recording
-      sound_recording_musical: Sound Recording (Musical)
-      sound_recording_nonmusical: Sound Recording (Non-musical)
-      still_image: Still Image
-      text: Text
-    digital_object_level:
-      collection: Collection
-      work: Work
-      image: Image
-    event_event_type:
-      accession: Accession
-      accumulation: Accumulation
-      acknowledgement: Acknowledgement
-      acknowledgement_sent: Acknowledgement Sent
-      acknowledgement_received: Acknowledgement Received
-      agreement_received: Agreement Received
-      agreement_sent: Agreement Sent
-      agreement_signed: Agreement Signed
-      appraisal: Appraisal
-      assessment: Assessment
-      capture: Capture
-      cataloged: Cataloged
-      collection: Collection
-      compression: Compression
-      contribution: Contribution
-      component_transfer: Component Transfer
-      copyright_transfer: Copyright Transfer
-      custody_transfer: Custody Transfer
-      deaccession: Deaccession
-      decompression: Decompression
-      decryption: Decryption
-      deletion: Deletion
-      digital_signature_validation: Digital Signature Validation
-      fixity_check: Fixity Check
-      ingestion: Ingestion
-      message_digest_calculation: Message Digest Calculation
-      migration: Migration
-      normalization: Normalization
-      processed: Processed
-      processing_new: Processing New
-      processing_started: Processing Started
-      processing_in_progress: Processing in Progress
-      processing_completed: Processing Completed
-      publication: Publication
-      replication: Replication
-      request: Request
-      rights_transferred: Rights Transferred
-      validation: Validation
-      virus_check: Virus Check
-    resource_resource_type:
-      collection: Collection
-      publications: Publications
-      papers: Papers
-      records: Records
-    resource_finding_aid_description_rules:
-      aacr: Anglo-American Cataloguing Rules
-      cco: Cataloging Cultural Objects
-      dacs: "Describing Archives: A Content Standard"
-      rad: Rules for Archival Description
-      isadg: International Standard for Archival Description - General
-    resource_finding_aid_status:
-      completed: Completed
-      in_progress: In Progress
-      under_revision: Under Revision
-      unprocessed: Unprocessed
-    instance_instance_type:
-      accession: Accession
-      audio: Audio
-      books: Books
-      computer_disks: Computer Disks
-      digital_object: Digital Object
-      digital_object_link: Digital Object Link
-      graphic_materials: Graphic Materials
-      maps: Maps
-      microform: Microform
-      mixed_materials: Mixed Materials
-      moving_images: Moving Images
-      realia: Realia
-      text: Text
-    accession_acquisition_type:
-      deposit: Deposit
-      gift: Gift
-      purchase: Purchase
-      transfer: Transfer
-    accession_resource_type:
-      collection: Collection
-      publications: Publications
-      papers: Papers
-      records: Records
-    subject_source:
-      aat: "Art & Architecture Thesaurus"
-      cash: Canadian Subject Headings
-      gmgpc: "TGM II, Genre and physical characteristic terms"
-      ingest: Unspecified ingested source
-      lcsh: Library of Congress Subject Headings
-      lcshac: Library of Congress Children's Subject Headings
-      local: Local sources
-      mesh: Medical Subject Headings
-      nal: National Agricultural Library subject headings
-      rbgenr: "Genre Terms: A Thesaurus for Use in Rare Book and Special Collections Cataloguing"
-      rvm: Répertoire de vedettes-matière
-      ram: Répertoire d'autorités RAMEAU
-      tgn: Getty Thesaurus of Geographic Names
-      lcgft: Library of Congress Genre/Form Terms
-    event_outcome:
-      pass: Pass
-      partial pass: Partial Pass
-      fail: Fail
-      cancelled: Cancelled
-      fulfilled: Fulfilled
-      pending: Pending
-    agent_contact_salutation:
-      mr: Mr.
-      mrs: Mrs.
-      ms: Ms.
-      madame: Madame
-      sir: Sir
-    container_type:
-      box: Box
-      carton: Carton
-      case: Case
-      folder: Folder
-      frame: Frame
-      object: Object
-      page: Page
-      reel: Reel
-      volume: Volume
-      container: Container
+    extent_portion:
+      part: Part
+      whole: Whole
+    file_version_checksum_methods:
+      md5: MD5
+      sha-1: SHA-1
+      sha-256: SHA-256
+      sha-384: SHA-384
+      sha-512: SHA-512
+    file_version_file_format_name:
+      aiff: Audio Interchange File Format
+      avi: Audio/Video Interleaved Format
+      gif: Graphics Interchange Format
+      jpeg: JPEG File Interchange Format
+      mp3: MPEG Audio Layer 3
+      pdf: Portable Document Format
+      tiff: Tagged Image File Format
+      txt: Plain Text File
     file_version_use_statement:
       audio-clip: Audio-Clip
       audio-master: Audio-Master
@@ -612,12 +618,50 @@ en:
       video-master-edited: Video-Master-Edited
       video-service: Video-Service
       video-streaming: Video-Streaming
-    file_version_checksum_methods:
-      md5: MD5
-      sha-1: SHA-1
-      sha-256: SHA-256
-      sha-384: SHA-384
-      sha-512: SHA-512
+    file_version_xlink_actuate_attribute:
+      none: none
+      onLoad: onLoad
+      onRequest: onRequest
+      other: other
+    file_version_xlink_show_attribute:
+      embed: embed
+      new: new
+      none: none
+      other: other
+      replace: replace
+    gender:
+      not_specified: Not Specified
+    government_agency_type:
+      fed: Federal/national
+      int_gov: International intergovernmental
+      local: Local
+      multilocal: Multilocal
+      multistate: Multistate
+      natc: No attempt to code
+      ngo: Non-governmental organization
+      other: Other
+      provincial: State, provincial, territorial, dependent, etc.
+      sac: Autonomous or semi-autonomous component
+      undetermined: Government agency-type undetermined
+      unknown: Unknown if heading is government agency
+    identifier_type:
+      lac: Library and Archives Canada
+      loc: Library of Congress
+      local: Local
+    instance_instance_type:
+      accession: Accession
+      audio: Audio
+      books: Books
+      computer_disks: Computer Disks
+      digital_object: Digital Object
+      digital_object_link: Digital Object Link
+      graphic_materials: Graphic Materials
+      maps: Maps
+      microform: Microform
+      mixed_materials: Mixed Materials
+      moving_images: Moving Images
+      realia: Realia
+      text: Text
     language_iso639_2:
       aar: Afar
       abk: Abkhazian
@@ -1105,6 +1149,620 @@ en:
       zun: Zuni
       zxx: No linguistic content; Not applicable
       zza: Zaza; Dimili; Dimli; Kirdki; Kirmanjki; Zazaki
+    level_of_detail:
+      fully_established: Fully established
+      memorandum: Memorandum
+      natc: No attempt to code
+      not_applicable: Not applicable
+      preliminary: Preliminary
+      provisional: Provisional
+    linked_agent_archival_record_relators:
+      abr: Abridger
+      acp: Art copyist
+      act: Actor
+      adi: Art director
+      adp: Adapter
+      aft: Author of afterword, colophon, etc.
+      anl: Analyst
+      anm: Animator
+      ann: Annotator
+      ant: Bibliographic antecedent
+      ape: Appellee
+      apl: Appellant
+      app: Applicant
+      aqt: Author in quotations or text abstracts
+      arc: Architect
+      ard: Artistic director
+      arr: Arranger
+      art: Artist
+      asg: Assignee
+      asn: Associated name
+      ato: Autographer
+      att: Attributed name
+      auc: Auctioneer
+      aud: Author of dialog
+      aui: Author of introduction, etc.
+      aus: Author of screenplay, etc.
+      aut: Author
+      bdd: Binding designer
+      bjd: Bookjacket designer
+      bkd: Book designer
+      bkp: Book producer
+      blw: Blurb writer
+      bnd: Binder
+      bpd: Bookplate designer
+      brd: Broadcaster
+      brl: Braille embosser
+      bsl: Bookseller
+      cas: Caster
+      ccp: Conceptor
+      chr: Choreographer
+      clb: Collaborator
+      cli: Client
+      cll: Calligrapher
+      clr: Colorist
+      clt: Collotyper
+      cmm: Commentator
+      cmp: Composer
+      cmt: Compositor
+      cnd: Conductor
+      cng: Cinematographer
+      cns: Censor
+      coe: Contestant-appellee
+      col: Collector
+      com: Compiler
+      con: Conservator
+      cor: Collection registrar
+      cos: Contestant
+      cot: Contestant-appellant
+      cou: Court governed
+      cov: Cover designer
+      cpc: Copyright claimant
+      cpe: Complainant-appellee
+      cph: Copyright holder
+      cpl: Complainant
+      cpt: Complainant-appellant
+      cre: Creator
+      crp: Correspondent
+      crr: Corrector
+      crt: Court reporter
+      csl: Consultant
+      csp: Consultant to a project
+      cst: Costume designer
+      ctb: Contributor
+      cte: Contestee-appellee
+      ctg: Cartographer
+      ctr: Contractor
+      cts: Contestee
+      ctt: Contestee-appellant
+      cur: Curator of an exhibition
+      cwt: Commentator for written text
+      dbp: Distribution place
+      dfd: Defendant
+      dfe: Defendant-appellee
+      dft: Defendant-appellant
+      dgg: Degree grantor
+      dgs: Degree supervisor
+      dis: Dissertant
+      dln: Delineator
+      dnc: Dancer
+      dnr: Donor
+      dpc: Depicted
+      dpt: Depositor
+      drm: Draftsman
+      drt: Director
+      dsr: Designer
+      dst: Distributor
+      dtc: Data contributor
+      dte: Dedicatee
+      dtm: Data manager
+      dto: Dedicator
+      dub: Dubious author
+      edc: Editor of compilation
+      edm: Editor of moving image work
+      edt: Editor
+      egr: Engraver
+      elg: Electrician
+      elt: Electrotyper
+      eng: Engineer
+      enj: Enacting jurisdiction
+      etr: Etcher
+      evp: Event place
+      exp: Appraiser
+      fac: Facsimilist
+      fds: Film distributor
+      fld: Field director
+      flm: Film editor
+      fmd: Film director
+      fmk: Filmmaker
+      fmo: Former owner
+      fmp: Film producer
+      fnd: Funder
+      fpy: First party
+      frg: Forger
+      gis: Geographic information specialist
+      grt: Graphic technician
+      his: Host institution
+      hnr: Honoree
+      hst: Host
+      ill: Illustrator
+      ilu: Illuminator
+      ins: Inscriber
+      inv: Inventor
+      isb: Issuing body
+      itr: Instrumentalist
+      ive: Interviewee
+      ivr: Interviewer
+      jud: Judge
+      jug: Jurisdiction governed
+      lbr: Laboratory
+      lbt: Librettist
+      ldr: Laboratory director
+      led: Lead
+      lee: Libelee-appellee
+      lel: Libelee
+      len: Lender
+      let: Libelee-appellant
+      lgd: Lighting designer
+      lie: Libelant-appellee
+      lil: Libelant
+      lit: Libelant-appellant
+      lsa: Landscape architect
+      lse: Licensee
+      lso: Licensor
+      ltg: Lithographer
+      lyr: Lyricist
+      mcp: Music copyist
+      mdc: Metadata contact
+      med: Medium
+      mfp: Manufacture place
+      mfr: Manufacturer
+      mod: Moderator
+      mon: Monitor
+      mrb: Marbler
+      mrk: Markup editor
+      msd: Musical director
+      mte: Metal-engraver
+      mtk: Minute taker
+      mus: Musician
+      nrt: Narrator
+      opn: Opponent
+      org: Originator
+      orm: Organizer of meeting
+      osp: Onscreen presenter
+      oth: Other
+      own: Owner
+      pan: Panelist
+      pat: Patron
+      pbd: Publishing director
+      pbl: Publisher
+      pdr: Project director
+      pfr: Proofreader
+      pht: Photographer
+      plt: Platemaker
+      pma: Permitting agency
+      pmn: Production manager
+      pop: Printer of plates
+      ppm: Papermaker
+      ppt: Puppeteer
+      pra: Praeses
+      prc: Process contact
+      prd: Production personnel
+      pre: Presenter
+      prf: Performer
+      prg: Programmer
+      prm: Printmaker
+      prn: Production company
+      pro: Producer
+      prp: Production place
+      prs: Production designer
+      prt: Printer
+      prv: Provider
+      pta: Patent applicant
+      pte: Plaintiff-appellee
+      ptf: Plaintiff
+      pth: Patentee
+      ptt: Plaintiff-appellant
+      pup: Publication place
+      rbr: Rubricator
+      rcd: Recordist
+      rce: Recording engineer
+      rcp: Recipient
+      rdd: Radio director
+      red: Redaktor
+      ren: Renderer
+      res: Researcher
+      rev: Reviewer
+      rpc: Radio producer
+      rps: Repository
+      rpt: Reporter
+      rpy: Responsible party
+      rse: Respondent-appellee
+      rsg: Restager
+      rsp: Respondent
+      rsr: Restorationist
+      rst: Respondent-appellant
+      rth: Research team head
+      rtm: Research team member
+      sad: Scientific advisor
+      sce: Scenarist
+      scl: Sculptor
+      scr: Scribe
+      sds: Sound designer
+      sec: Secretary
+      sgd: Stage director
+      sgn: Signer
+      sht: Supporting host
+      sll: Seller
+      sng: Singer
+      spk: Speaker
+      spn: Sponsor
+      spy: Second party
+      srv: Surveyor
+      std: Set designer
+      stg: Setting
+      stl: Storyteller
+      stm: Stage manager
+      stn: Standards body
+      str: Stereotyper
+      tcd: Technical director
+      tch: Teacher
+      ths: Thesis advisor
+      tld: Television director
+      tlp: Television producer
+      trc: Transcriber
+      trl: Translator
+      tyd: Type designer
+      tyg: Typographer
+      uvp: University place
+      vac: Voice actor
+      vdg: Videographer
+      voc: Vocalist
+      wac: Writer of added commentary
+      wal: Writer of added lyrics
+      wam: Writer of accompanying material
+      wat: Writer of added text
+      wdc: Woodcutter
+      wde: Wood engraver
+      win: Writer of introduction
+      wit: Witness
+      wpr: Writer of preface
+      wst: Writer of supplementary textual content
+    linked_agent_event_roles:
+      authorizer: Authorizer
+      executing_program: Executing Program
+      implementer: Implementer
+      recipient: Recipient
+      requester: Requester
+      transmitter: Transmitter
+      validator: Validator
+    linked_agent_role:
+      creator: Creator
+      source: Source
+      subject: Subject
+    linked_event_archival_record_roles:
+      context: Context
+      outcome: Outcome
+      requested: Requested
+      source: Source
+      transfer: Transfer
+    location_function_type:
+      arrivals: Arrivals
+      av_materials: Audiovisual Materials
+      shared: Shared
+    location_temporary:
+      conservation: Conservation
+      exhibit: Exhibit
+      loan: Loan
+      reading_room: Reading Room
+    maintenance_agent_type:
+      human: Human
+      machine: Machine
+    maintenance_event_type:
+      cancelled: Cancelled
+      created: Created
+      deleted: Deleted
+      derived: Derived
+      revised: Revised
+      updated: Updated
+    maintenance_status:
+      cancelled_obsolete: Cancelled/Obsolete
+      deleted: Deleted
+      deleted_replaced: Deleted-Replaced
+      deleted_split: Deleted-Split
+      derived: Derived
+      new: New
+      revised_corrected: Revised/Corrected
+      upgraded: Upgraded
+    metadata_license:
+      no_derivatives: This record is made available under an Attribution-NoDerivatives 4.0 International Creative Commons license.
+      non_commercial: This record is made available under an Attribution-NonCommercial 4.0 International Creative Commons license.
+      non_commercial_no_derivatives: This record is made available under an Attribution-NonCommercial-NoDerivatives 4.0 International Creative Commons license.
+      non_commercial_share_a_like: This record is made available under an Attribution-NonCommercial-ShareAlike 4.0 International Creative Commons license.
+      other: Unspecified or custom license.
+      public_domain: This record is made available under an Universal 1.0 Public Domain Dedication Creative Commons license.
+      share_a_like: This record is made available under an Attribution-ShareAlike 4.0 International Creative Commons license.
+    modified_record:
+      missing_characters: Missing characters
+      natc: No attempt to code
+      not_modified: Not modified
+      shortened: Shortened
+    name_person_name_order:
+      direct: Direct
+      inverted: Indirect
+    name_rule:
+      aacr: Anglo-American Cataloging Rules
+      ccr: Cataloging Cultural Resources
+      dacs: "Describing Archives: A Content Standard"
+      isaar: International Standard Archival Authority Record for Corporate Bodies, Persons, and Families
+      local: Local rules
+      rad: Rules for Archival Description
+      rda: Resource Description and Access
+    name_source:
+      cash: Canadian Subject Headings
+      ingest: Unspecified ingested source
+      lcnaf: Library of Congress Name Authority File
+      lcshac: Library of Congress Children's Subject Headings
+      local: Local sources
+      nad: NAD / ARK II Name Authority Database
+      naf: NACO Authority File
+      nal: National Agricultural Library subject headings
+      ram: Répertoire d'autorités RAMEAU
+      rvm: Répertoire de vedettes-matière
+      snac: SNAC
+      ulan: Union List of Artist Names
+    name_type:
+      differentiated: Differentiated
+      natc: No attempt to code
+      not_applicable: Not applicable
+      undifferentiated: Undifferentiated
+    _note_types: &note_type_definitions  # yamllint disable-line rule:key-ordering
+      abstract: Abstract
+      accessrestrict: Conditions Governing Access
+      accruals: Accruals
+      acqinfo: Immediate Source of Acquisition
+      altformavail: Existence and Location of Copies
+      appraisal: Appraisal
+      arrangement: Arrangement
+      bibliography: Bibliography
+      bioghist: Biographical / Historical
+      contact_note: Contact Note
+      custodhist: Custodial History
+      dimensions: Dimensions
+      edition: Edition
+      extent: Extent
+      fileplan: File Plan
+      general_context: General Context
+      index: Index
+      inscription: Inscription
+      langmaterial: Language of Materials
+      legal_status: Legal Status
+      legalstatus: Legal Status
+      mandate: Mandate
+      materialspec: Materials Specific Details
+      note: General Note
+      note_bibliography: Bibliography
+      odd: General
+      originalsloc: Existence and Location of Originals
+      otherfindaid: Other Finding Aids
+      physdesc: Physical Description
+      physfacet: Physical Facet
+      physloc: Physical Location
+      phystech: Physical Characteristics and Technical Requirements
+      prefercite: Preferred Citation
+      processinfo: Processing Information
+      relatedmaterial: Related Materials
+      rights_statement: Rights
+      scopecontent: Scope and Contents
+      separatedmaterial: Separated Materials
+      structure_or_genealogy: Structure Or Genealogy
+      summary: Summary
+      userestrict: Conditions Governing Use
+    note_digital_object_type:  # yamllint disable-line rule:key-ordering
+      <<: *note_type_definitions
+    note_langmaterial_type:  # yamllint disable-line rule:key-ordering
+      <<: *note_type_definitions
+    note_multipart_type:  # yamllint disable-line rule:key-ordering
+      <<: *note_type_definitions
+    note_singlepart_type:  # yamllint disable-line rule:key-ordering
+      <<: *note_type_definitions
+    note_index_item_type:
+      corporate_entity: Corporate Entity
+      family: Family
+      function: Function
+      genre_form: Genre / Form
+      geographic_name: Geographic Name
+      name: Name
+      occupation: Occupation
+      person: Person
+      subject: Subject
+      title: Title
+    note_rights_statement_act_type:
+      additional_information: Additional Information
+      expiration: Expiration
+      extension: Extension
+      permissions: Permissions
+      restrictions: Restrictions
+    note_rights_statement_type:
+      additional_information: Additional Information
+      materials: Materials
+      type_note: Type Note
+    place_role:
+      assoc_country: Associated Country
+      other_assoc: Other
+      place_of_birth: Place of Birth
+      place_of_death: Place of Death
+      residence: Residence
+    publication_status:
+      approved: Approved
+      in_process: In-process
+    reference_evaluation:
+      natc: No attempt to code
+      not_applicable: Not applicable
+      tr_consistent: Tracings consistent with headings
+      tr_inconsistent: Tracings inconsistent with headings
+    resource_finding_aid_description_rules:
+      aacr: Anglo-American Cataloguing Rules
+      cco: Cataloging Cultural Objects
+      dacs: "Describing Archives: A Content Standard"
+      isadg: International Standard for Archival Description - General
+      rad: Rules for Archival Description
+    resource_finding_aid_status:
+      completed: Completed
+      in_progress: In Progress
+      under_revision: Under Revision
+      unprocessed: Unprocessed
+    resource_resource_type:
+      collection: Collection
+      papers: Papers
+      publications: Publications
+      records: Records
+    restriction_type:
+      ColdStorageBrbl: 5 - Other
+      InProcessSpecColl: 4 - Restricted in-process
+      RestrictedCurApprSpecColl: 2 - Repository imposed access restriction
+      RestrictedFragileSpecColl: 3 - Restricted fragile
+      RestrictedSpecColl: 1 - Donor/university imposed access restriction
+    rights_statement_act_restriction:
+      allow: Allow
+      conditional: Conditional
+      disallow: Disallow
+    rights_statement_act_type:
+      delete: Delete
+      disseminate: Disseminate
+      migrate: Migrate
+      modify: Modify
+      replicate: Replicate
+      use: Use
+    rights_statement_external_document_identifier_type:
+      agrovoc: "AGROVOC multilingual agricultural thesaurus. (Rome: APIMONDIA)"
+      allmovie: "AllMovie"
+      allmusic: "AllMusic"
+      allocine: "AlloCiné"
+      amnbo: "American National Biography Online"
+      ansi: "American National Standards Institute and National Information Standards Organisation number for an ANSI or ANSI/NISO standard"
+      artsy: "Artsy"
+      bdusc: "Biographical Directory of the United States Congress (United States Congress)"
+      bfi: "BFI - British Film Institute"
+      bnfcg: "BnF catalogue général (Paris: Bibliothèque nationale de France)"
+      cantic: "CANTIC (Catàleg d'autoritats de noms i títols de Catalunya) (Biblioteca de Catalunya)"
+      cgndb: "Canadian Geographical Names Database (Natural Resources Canada)"
+      danacode: "Danacode (Bnei Brak, Israel: D.A.N.A. Systems)"
+      datoses: "datos.bne.es (Biblioteca Nacional de España)"
+      discogs: "Discogs"
+      dkfilm: "Det Danske Filminstitut Filmdatabasen"
+      doi: "Digital Object Identifier"
+      ean: "International Article Number"
+      eidr: "EIDR: Entertainment Identifier Registry"
+      fast: "Faceted Application of Subject Terminology (Dublin, Ohio: OCLC)"
+      filmport: "filmportal.de"
+      findagr: "Find a Grave"
+      freebase: "Freebase"
+      gec: "Gran enciclopèdia catalana"
+      geogndb: "Geographic Names Database"
+      geonames: "GeoNames"
+      gettytgn: "Getty Thesaurus of Geographic Names Online (J. Paul Getty Trust)"
+      gettyulan: "Union List of Artist Names Online (J. Paul Getty Trust)"
+      gnd: "Gemeinsame Normdatei (Leipzig, Frankfurt: Deutsche Nationalbibliothek)"
+      gnis: "Geographic Names Information System (GNIS) (United States Geological Survey, Board on Geographic Names)"
+      gtin-14: "Global Trade Identification Number 14 (EAN/UCC-128 or ITF-14)"
+      hdl: "Handle"
+      ibdb: "IBDB - Internet Broadway Database"
+      idref: "IdRef: le referentiel des autorites Sudoc (L'agence bibliographique de l'enseignement superieur (ABES))"
+      imdb: "IMDb - Internet Movie Database"
+      isan: "International Standard Audiovisual Number"
+      isbn: "International Standard Book Number"
+      isbn-a: "International Standard Book Number (the actionable ISBN) (International DOI Foundation (IDF))"
+      isbnre: "ISBN (International Standard Book Number) registrant element"
+      isil: "ISIL (International Standard Identifier for Libraries and Related Organizations)"
+      ismn: "International Standard Music Number"
+      isni: "International Standard Name Identifier"
+      iso: "International Organization for Standardization number for an ISO standard"
+      isrc: "International Standard Recording Code"
+      issn: "International Standard Serial Number"
+      issn-l: "Linking International Standard Serial Number"
+      issue-number: "Sound recording issue number"
+      istc: "International Standard Text Code"
+      iswc: "International Standard Musical Work Code"
+      itar: "ITAR (Importtjeneste og autoritetsregistre)"
+      kinopo: "КиноПоиск = KinoPoisk"
+      lccn: "Library of Congress Control Number"
+      lcmd: "Library of Congress Manuscript Division (Washington, DC: Library of Congress)"
+      lcmpt: "Library of Congress Medium of Performance Thesaurus for Music (LCMPT) (Washington, DC: Library of Congress)"
+      libaus: "Libraries Australia (National Library of Australia)"
+      local: "Locally defined identifier"
+      matrix-number: "Sound recording matrix number"
+      moma: "Museum of Modern Art (New York: Museum of Modern Art)"
+      munzing: "Munzinger (Munzinger Archiv)"
+      music-plate: "Publisher's music plate number"
+      music-publisher: "Publisher-assigned music number"
+      musicb: "MusicBrainz"
+      natgazfid: "U.S. National Gazetteer Feature Name Identifier"
+      nga: "National Gallery of Art (Washington DC: National Gallery of Art)"
+      nipo: "Número de Identificación de las Publicaciones Oficiales"
+      nndb: "NNDB (Notable Names Database)"
+      npg: "National Portrait Gallery (London: National Portrait Gallery)"
+      odnb: "Oxford Dictionary of National Biography (Oxford University Press)"
+      opensm: "OpenStreetMap"
+      orcid: "Open Researcher and Contributor IDentifier"
+      oxforddnb: "Oxford Biography Index"
+      porthu: "PORT.hu"
+      rbmsbt: "RBMS Controlled Vocabularies: Binding Terms (Rare Books and Manuscripts Section, Association of College & Research Libraries)"
+      rbmsgt: "RBMS Controlled Vocabularies: Genre Terms (Rare Books and Manuscripts Section, Association of College & Research Libraries)"
+      rbmspe: "RBMS Controlled Vocabularies: Provenance Evidence (Rare Books and Manuscripts Section, Association of College & Research Libraries)"
+      rbmsppe: "RBMS Controlled Vocabularies: Printing and Publishing Evidence (Rare Books and Manuscripts Section, Association of College & Research Libraries)"
+      rbmspt: "RBMS Controlled Vocabularies: Paper Terms (Rare Books and Manuscripts Section Association of College & Research Libraries)"
+      rbmsrd: "RBMS Controlled Vocabularies: Relationship Designators (Rare Books and Manuscripts Section, Association of College & Research Libraries)"
+      rbmste: "RBMS Controlled Vocabularies: Type Evidence (Rare Books and Manuscripts Section, Association of College & Research Libraries)"
+      rid: "ResearcherID (Thomson Reuters)"
+      rkda: "RKDartists& (Den Haag: Rijksbureau voor Kunsthistorische Documentatie)"
+      saam: "Smithsonian American Art Museum (Washington DC: Smithsonian Institution)"
+      scholaru: "Scholar Universe"
+      scope: "Scope"
+      scopus: "Scopus Author Identifier"
+      sici: "Serial Item and Contribution Identifier"
+      spotify: "Spotify"
+      sprfbsb: "Sports Reference: Baseball"
+      sprfbsk: "Sports Reference: Basketball"
+      sprfcbb: "Sports Reference: College Basketball"
+      sprfcfb: "Sports Reference: College Football"
+      sprfhoc: "Sports Reference: Hockey"
+      sprfoly: "Sports Reference: Olympic Sports"
+      sprfpfb: "Sports Reference: Pro Football"
+      stock-number: "Publisher, distributor, or vendor stock number"
+      strn: "Standard Technical Report Number"
+      svfilm: "Svensk Filmdatabas"
+      tatearid: "Tate Artist Identifier"
+      theatr: "Theatricalia"
+      trove: "Trove (National Library of Australia)"
+      upc: "Universal Product Code"
+      uri: "Uniform Resource Identifier"
+      urn: "Uniform Resource Name"
+      viaf: "Virtual International Authority File number"
+      videorecording-identifier: "Publisher-assigned videorecording number"
+      wikidata: "Wikidata (Wikimedia Foundation)"
+      wndla: "Web NDL Authorities (Tokyo: National Diet Library (NDL))"
+    rights_statement_ip_status:
+      copyrighted: Copyrighted
+      public_domain: Public Domain
+      unknown: Unknown
+    rights_statement_other_rights_basis:
+      donor: Donor
+      policy: Policy
+    rights_statement_rights_type:
+      copyright: Copyright
+      license: License
+      other: Other
+      statute: Statute
+    romanization:
+      conv_rom_cat_agency: Conventional romanization or conventional form of name in language of cataloging agency
+      int_std: International standard
+      local_standard: Local standard
+      nat_std: National standard
+      nl_assoc_std: National library association standard
+      nl_bib_agency_std: National library or bibliographic agency standard
+      not_applicable: Not applicable
+      unknown_standard: Standard of unknown origin
     script_iso15924:
       Adlm: Adlam
       Afak: Afaka
@@ -1243,8 +1901,8 @@ en:
       Phlp: Psalter Pahlavi
       Phlv: Book Pahlavi
       Phnx: Phoenician
-      Plrd: Miao (Pollard)
       Piqd: Klingon (KLI pIqaD)
+      Plrd: Miao (Pollard)
       Prti: Inscriptional Parthian
       Qaaa: Reserved for private use (start)
       Qabx: Reserved for private use (end)
@@ -1305,467 +1963,38 @@ en:
       Zxxx: Code for unwritten documents
       Zyyy: Code for undetermined script
       Zzzz: Code for uncoded script
-    archival_record_level:
-      class: Class
-      collection: Collection
-      file: File
-      fonds: Fonds
-      item: Item
-      otherlevel: Other Level
-      recordgrp: Record Group
-      series: Series
-      subfonds: Sub-Fonds
-      subgrp: Sub-Group
-      subseries: Sub-Series
-    container_location_status:
-      current: Current
-      previous: Previous
-    date_type:
-      expression: Expression
-      single: Single
-      bulk: Bulk Dates
-      inclusive: Inclusive Dates
-      range: Range
-    date_label:
-      record_keeping: Record Keeping
-      broadcast: Broadcast
-      copyright: Copyright
-      creation: Creation
-      deaccession: Deaccession
-      agent_relation: Agent Relation
-      digitized: Digitized
-      existence: Existence
-      event: Event
-      issued: Issued
-      modified: Modified
-      publication: Publication
-      usage: Usage
-      other: Other
-    date_certainty:
-      approximate: Approximate
-      inferred: Inferred
-      questionable: Questionable
-    extent_portion:
-      whole: Whole
-      part: Part
-    deaccession_scope:
-      whole: Whole
-      part: Part
-    file_version_xlink_actuate_attribute:
-      none: none
-      other: other
-      onLoad: onLoad
-      onRequest: onRequest
-    file_version_xlink_show_attribute:
-      new: new
-      replace: replace
-      embed: embed
-      other: other
-      none: none
-    file_version_file_format_name:
-      aiff: Audio Interchange File Format
-      avi: Audio/Video Interleaved Format
-      gif: Graphics Interchange Format
-      jpeg: JPEG File Interchange Format
-      mp3: MPEG Audio Layer 3
-      pdf: Portable Document Format
-      tiff: Tagged Image File Format
-      txt: Plain Text File
-    location_temporary:
-      conservation: Conservation
-      exhibit: Exhibit
-      loan: Loan
-      reading_room: Reading Room
-    name_person_name_order:
-      direct: Direct
-      inverted: Indirect
-    country_iso_3166:
-      AF: Afghanistan
-      AX: Åland Islands
-      AL: Albania
-      DZ: Algeria
-      AS: American Samoa
-      AD: Andorra
-      AO: Angola
-      AI: Anguilla
-      AQ: Antarctica
-      AG: Antigua and Barbuda
-      AR: Argentina
-      AM: Armenia
-      AW: Aruba
-      AU: Australia
-      AT: Austria
-      AZ: Azerbaijan
-      BS: Bahamas
-      BH: Bahrain
-      BD: Bangladesh
-      BB: Barbados
-      BY: Belarus
-      BE: Belgium
-      BZ: Belize
-      BJ: Benin
-      BM: Bermuda
-      BT: Bhutan
-      BO: Bolivia
-      BQ: "Bonaire, Sint Eustatius and Saba"
-      BA: Bosnia and Herzegovina
-      BW: Botswana
-      BV: Bouvet Island
-      BR: Brazil
-      IO: British Indian Ocean Territory
-      BN: Brunei Darussalam
-      BG: Bulgaria
-      BF: Burkina Faso
-      BI: Burundi
-      KH: Cambodia
-      CM: Cameroon
-      CA: Canada
-      CV: Cape Verde
-      KY: Cayman Islands
-      CF: Central African Republic
-      TD: Chad
-      CL: Chile
-      CN: China
-      CX: Christmas island
-      CC: Cocos (Keeling) Islands
-      CO: Colombia
-      KM: Comoros
-      CG: Congo
-      CD: Democratic Republic of the Congo
-      CK: Cook Islands
-      CR: Costa Rica
-      CI: Côte d'Ivoire
-      HR: Croatia
-      CU: Cuba
-      CW: Curaçao
-      CY: Cyprus
-      CZ: Czech Republic
-      DK: Denmark
-      DJ: Djibouti
-      DM: Dominica
-      DO: Dominican Republic
-      EC: Ecuador
-      EG: Egypt
-      SV: El Salvador
-      GQ: Equatorial Guinea
-      ER: Eritrea
-      EE: Estonia
-      ET: Ethiopia
-      FK: Falkland Islands (Malvinas)
-      FO: Faroe Islands
-      FJ: Fiji
-      FI: Finland
-      FR: France
-      GF: French Guiana
-      PF: French Polynesia
-      TF: French Southern Territories
-      GA: Gabon
-      GM: Gambia
-      GE: Georgia
-      DE: Germany
-      GH: Ghana
-      GI: Gibraltar
-      GR: Greece
-      GL: Greenland
-      GD: Grenada
-      GP: Guadeloupe
-      GU: Guam
-      GT: Guatemala
-      GG: Guernsey
-      GN: Guinea
-      GW: Guinea-Bissau
-      GY: Guyana
-      HT: Haiti
-      HM: Heard Island and Mcdonald Islands
-      VA: Holy See (Vatican City State)
-      HN: Honduras
-      HK: Hong Kong
-      HU: Hungary
-      IS: Iceland
-      IN: India
-      ID: Indonesia
-      IR: "Iran, Islamic Republic of"
-      IQ: Iraq
-      IE: Ireland
-      IM: Isle of Man
-      IL: Israel
-      IT: Italy
-      JM: Jamaica
-      JP: Japan
-      JE: Jersey
-      JO: Jordan
-      KZ: Kazakhstan
-      KE: Kenya
-      KI: Kiribati
-      KP: "Korea, Democratic People's Republic of"
-      KR: "Korea, Republic of"
-      KW: Kuwait
-      KG: Kyrgyzstan
-      LA: "Lao People's Democratic Republic"
-      LV: Latvia
-      LB: Lebanon
-      LS: Lesotho
-      LR: Liberia
-      LY: Libya
-      LI: Liechtenstein
-      LT: Lithuania
-      LU: Luxembourg
-      MO: Macao
-      MK: "Macedonia, Former Yugoslav Republic of"
-      MG: Madagascar
-      MW: Malawi
-      MY: Malaysia
-      MV: Maldives
-      ML: Mali
-      MT: Malta
-      MH: Marshall Islands
-      MQ: Martinique
-      MR: Mauritania
-      MU: Mauritius
-      YT: Mayotte
-      MX: Mexico
-      FM: "Micronesia, Federated States of"
-      MD: "Moldova, Republic of"
-      MC: Monaco
-      MN: Mongolia
-      ME: Montenegro
-      MS: Montserrat
-      MA: Morocco
-      MZ: Mozambique
-      MM: Myanmar
-      NA: Namibia
-      NR: Nauru
-      NP: Nepal
-      NL: Netherlands
-      NC: New Caledonia
-      NZ: New Zealand
-      NI: Nicaragua
-      NE: Niger
-      NG: Nigeria
-      NU: Niue
-      NF: Norfolk Island
-      MP: Northern Mariana Islands
-      "NO": Norway
-      OM: Oman
-      PK: Pakistan
-      PW: Palau
-      PS: "Palestinian Territory, Occupied"
-      PA: Panama
-      PG: Papua New Guinea
-      PY: Paraguay
-      PE: Peru
-      PH: Philippines
-      PN: Pitcairn
-      PL: Poland
-      PT: Portugal
-      PR: Puerto rico
-      QA: Qatar
-      RE: Réunion
-      RO: Romania
-      RU: Russian Federation
-      RW: Rwanda
-      BL: Saint Barthélemy
-      SH: "Saint Helena, Ascension and Tristan da Cunha"
-      KN: Saint Kitts and Nevis
-      LC: Saint Lucia
-      MF: Saint Martin (French Part)
-      PM: Saint Pierre and Miquelon
-      VC: Saint Vincent and the Grenadines
-      WS: Samoa
-      SM: San Marino
-      ST: Sao Tome and Principe
-      SA: Saudi Arabia
-      SN: Senegal
-      RS: Serbia
-      SC: Seychelles
-      SL: Sierra Leone
-      SG: Singapore
-      SX: Sint Maarten (Dutch Part)
-      SK: Slovakia
-      SI: Slovenia
-      SB: Solomon Islands
-      SO: Somalia
-      ZA: South Africa
-      GS: South Georgia and the South Sandwich Islands
-      SS: South Sudan
-      ES: Spain
-      LK: Sri Lanka
-      SD: Sudan
-      SR: Suriname
-      SJ: Svalbard and Jan Mayen
-      SZ: Swaziland
-      SE: Sweden
-      CH: Switzerland
-      SY: Syrian Arab Republic
-      TW: "Taiwan, Province of China"
-      TJ: Tajikistan
-      TZ: "Tanzania, United Republic of"
-      TH: Thailand
-      TL: Timor-Leste
-      TG: Togo
-      TK: Tokelau
-      TO: Tonga
-      TT: Trinidad and Tobago
-      TN: Tunisia
-      TR: Turkey
-      TM: Turkmenistan
-      TC: Turks and Caicos Islands
-      TV: Tuvalu
-      UG: Uganda
-      UA: Ukraine
-      AE: United Arab Emirates
-      GB: United Kingdom
-      US: United States
-      UM: United States Minor Outlying Islands
-      UY: Uruguay
-      UZ: Uzbekistan
-      VU: Vanuatu
-      VE: Venezuela
-      VN: Viet Nam
-      VG: "Virgin Islands, British"
-      VI: "Virgin Islands, U.S."
-      WF: Wallis and Futuna
-      EH: Western Sahara
-      YE: Yemen
-      ZM: Zambia
-      ZW: Zimbabwe
-    rights_statement_act_type:
-      delete: Delete
-      disseminate: Disseminate
-      migrate: Migrate
-      modify: Modify
-      replicate: Replicate
-      use: Use
-    rights_statement_act_restriction:
-      allow: Allow
-      disallow: Disallow
-      conditional: Conditional
-    rights_statement_rights_type:
-      copyright: Copyright
-      license: License
-      statute: Statute
-      other: Other
-    rights_statement_ip_status:
-      copyrighted: Copyrighted
-      public_domain: Public Domain
-      unknown: Unknown
-    rights_statement_other_rights_basis:
-      donor: Donor
-      policy: Policy
+    source:
+      local: Local
+      naf: NAF
+      snac: SNAC
+    subject_source:
+      aat: "Art & Architecture Thesaurus"
+      cash: Canadian Subject Headings
+      gmgpc: "TGM II, Genre and physical characteristic terms"
+      ingest: Unspecified ingested source
+      lcgft: Library of Congress Genre/Form Terms
+      lcsh: Library of Congress Subject Headings
+      lcshac: Library of Congress Children's Subject Headings
+      local: Local sources
+      mesh: Medical Subject Headings
+      nal: National Agricultural Library subject headings
+      ram: Répertoire d'autorités RAMEAU
+      rbgenr: "Genre Terms: A Thesaurus for Use in Rare Book and Special Collections Cataloguing"
+      rvm: Répertoire de vedettes-matière
+      tgn: Getty Thesaurus of Geographic Names
     subject_term_type:
       cultural_context: Cultural context
       function: Function
-      geographic: Geographic
       genre_form: "Genre / Form"
+      geographic: Geographic
       occupation: Occupation
       style_period: "Style / Period"
       technique: Technique
       temporal: Temporal
       topical: Topical
       uniform_title: Uniform Title
-    _note_types: &note_type_definitions
-      accessrestrict: Conditions Governing Access
-      accruals: Accruals
-      acqinfo: Immediate Source of Acquisition
-      altformavail: Existence and Location of Copies
-      appraisal: Appraisal
-      arrangement: Arrangement
-      bibliography: Bibliography
-      note_bibliography: Bibliography
-      bioghist: Biographical / Historical
-      custodhist: Custodial History
-      fileplan: File Plan
-      index: Index
-      odd: General
-      otherfindaid: Other Finding Aids
-      originalsloc: Existence and Location of Originals
-      phystech: Physical Characteristics and Technical Requirements
-      prefercite: Preferred Citation
-      processinfo: Processing Information
-      scopecontent: Scope and Contents
-      separatedmaterial: Separated Materials
-      userestrict: Conditions Governing Use
-      dimensions: Dimensions
-      legalstatus: Legal Status
-      summary: Summary
-      edition: Edition
-      extent: Extent
-      note: General Note
-      inscription: Inscription
-      langmaterial: Language of Materials
-      physdesc: Physical Description
-      relatedmaterial: Related Materials
-      abstract: Abstract
-      physloc: Physical Location
-      materialspec: Materials Specific Details
-      physfacet: Physical Facet
-      rights_statement: Rights
-      general_context: General Context
-      mandate: Mandate
-      contact_note: Contact Note
-      legal_status: Legal Status
-      structure_or_genealogy: Structure Or Genealogy
-    note_digital_object_type:
-      <<: *note_type_definitions
-    note_langmaterial_type:
-      <<: *note_type_definitions
-    note_multipart_type:
-      <<: *note_type_definitions
-    note_singlepart_type:
-      <<: *note_type_definitions
-    note_rights_statement_type:
-      materials: Materials
-      type_note: Type Note
-      additional_information: Additional Information
-    note_rights_statement_act_type:
-      expiration: Expiration
-      extension: Extension
-      permissions: Permissions
-      restrictions: Restrictions
-      additional_information: Additional Information
-    linked_agent_role:
-      creator: Creator
-      source: Source
-      subject: Subject
-    agent_relationship_associative_relator:
-      is_associative_with: Associative with Related
-    agent_relationship_earlierlater_relator:
-      is_earlier_form_of: Earlier Form of Related
-      is_later_form_of: Later Form of Related
-    agent_relationship_parentchild_relator:
-      is_child_of: Child of Related
-      is_parent_of: Parent of Related
-    agent_relationship_identity_relator:
-      is_identified_with: Agent Relationship Identified With Relator
-    agent_relationship_hierarchical_relator:
-      is_hierarchical_with: Agent Relationship Hierarchical Relator
-    agent_relationship_temporal_relator:
-      is_temporal_with: Agent Relationship Temporal Relator
-    agent_relationship_family_relator:
-      is_related_with: Agent Relationship Related Relator
-    accession_sibling_relator:
-      sibling_of: Is Sibling of
-    accession_parts_relator:
-      forms_part_of: Forms Part of
-      has_part: Has Part
-    accession_parts_relator_type:
-      part: "\"Part\" relationship"
-    accession_sibling_relator_type:
-      bound_with: "\"Bound With\" relationship"
-    agent_relationship_subordinatesuperior_relator:
-      is_subordinate_to: Is Subordinate to Related
-      is_superior_of: Is Superior of Related
-    note_index_item_type:
-      name: Name
-      person: Person
-      family: Family
-      corporate_entity: Corporate Entity
-      subject: Subject
-      function: Function
-      occupation: Occupation
-      title: Title
-      genre_form: Genre / Form
-      geographic_name: Geographic Name
+    transliteration:
+      ala-lc: ALA-LC Romanization Tables
     user_defined_enum_1:
       novalue: No value defined
     user_defined_enum_2:
@@ -1774,232 +2003,3 @@ en:
       novalue: No value defined
     user_defined_enum_4:
       novalue: No value defined
-    dimension_units:
-      inches: Inches
-      feet: Feet
-      yards: Yards
-      millimeters: Millimeters
-      centimeters: Centimeters
-      meters: Meters
-    restriction_type:
-      RestrictedSpecColl: 1 - Donor/university imposed access restriction
-      RestrictedCurApprSpecColl: 2 - Repository imposed access restriction
-      RestrictedFragileSpecColl: 3 - Restricted fragile
-      InProcessSpecColl: 4 - Restricted in-process
-      ColdStorageBrbl: 5 - Other
-    location_function_type:
-      av_materials: Audiovisual Materials
-      arrivals: Arrivals
-      shared: Shared
-    rights_statement_external_document_identifier_type:
-      agrovoc: "AGROVOC multilingual agricultural thesaurus. (Rome: APIMONDIA)"
-      allmovie: "AllMovie"
-      allmusic: "AllMusic"
-      allocine: "AlloCiné"
-      amnbo: "American National Biography Online"
-      ansi: "American National Standards Institute and National Information Standards Organisation number for an ANSI or ANSI/NISO standard"
-      artsy: "Artsy"
-      bdusc: "Biographical Directory of the United States Congress (United States Congress)"
-      bfi: "BFI - British Film Institute"
-      bnfcg: "BnF catalogue général (Paris: Bibliothèque nationale de France)"
-      cantic: "CANTIC (Catàleg d'autoritats de noms i títols de Catalunya) (Biblioteca de Catalunya)"
-      cgndb: "Canadian Geographical Names Database (Natural Resources Canada)"
-      danacode: "Danacode (Bnei Brak, Israel: D.A.N.A. Systems)"
-      datoses: "datos.bne.es (Biblioteca Nacional de España)"
-      discogs: "Discogs"
-      dkfilm: "Det Danske Filminstitut Filmdatabasen"
-      doi: "Digital Object Identifier"
-      ean: "International Article Number"
-      eidr: "EIDR: Entertainment Identifier Registry"
-      fast: "Faceted Application of Subject Terminology (Dublin, Ohio: OCLC)"
-      filmport: "filmportal.de"
-      findagr: "Find a Grave"
-      freebase: "Freebase"
-      gec: "Gran enciclopèdia catalana"
-      geogndb: "Geographic Names Database"
-      geonames: "GeoNames"
-      gettytgn: "Getty Thesaurus of Geographic Names Online (J. Paul Getty Trust)"
-      gettyulan: "Union List of Artist Names Online (J. Paul Getty Trust)"
-      gnd: "Gemeinsame Normdatei (Leipzig, Frankfurt: Deutsche Nationalbibliothek)"
-      gnis: "Geographic Names Information System (GNIS) (United States Geological Survey, Board on Geographic Names)"
-      gtin-14: "Global Trade Identification Number 14 (EAN/UCC-128 or ITF-14)"
-      hdl: "Handle"
-      ibdb: "IBDB - Internet Broadway Database"
-      idref: "IdRef: le referentiel des autorites Sudoc (L'agence bibliographique de l'enseignement superieur (ABES))"
-      imdb: "IMDb - Internet Movie Database"
-      isan: "International Standard Audiovisual Number"
-      isbn: "International Standard Book Number"
-      isbn-a: "International Standard Book Number (the actionable ISBN) (International DOI Foundation (IDF))"
-      isbnre: "ISBN (International Standard Book Number) registrant element"
-      isil: "ISIL (International Standard Identifier for Libraries and Related Organizations)"
-      ismn: "International Standard Music Number"
-      isni: "International Standard Name Identifier"
-      iso: "International Organization for Standardization number for an ISO standard"
-      isrc: "International Standard Recording Code"
-      issn: "International Standard Serial Number"
-      issn-l: "Linking International Standard Serial Number"
-      issue-number: "Sound recording issue number"
-      istc: "International Standard Text Code"
-      iswc: "International Standard Musical Work Code"
-      itar: "ITAR (Importtjeneste og autoritetsregistre)"
-      kinopo: "КиноПоиск = KinoPoisk"
-      lccn: "Library of Congress Control Number"
-      lcmd: "Library of Congress Manuscript Division (Washington, DC: Library of Congress)"
-      lcmpt: "Library of Congress Medium of Performance Thesaurus for Music (LCMPT) (Washington, DC: Library of Congress)"
-      libaus: "Libraries Australia (National Library of Australia)"
-      local: "Locally defined identifier"
-      matrix-number: "Sound recording matrix number"
-      moma: "Museum of Modern Art (New York: Museum of Modern Art)"
-      munzing: "Munzinger (Munzinger Archiv)"
-      music-plate: "Publisher's music plate number"
-      music-publisher: "Publisher-assigned music number"
-      musicb: "MusicBrainz"
-      natgazfid: "U.S. National Gazetteer Feature Name Identifier"
-      nga: "National Gallery of Art (Washington DC: National Gallery of Art)"
-      nipo: "Número de Identificación de las Publicaciones Oficiales"
-      nndb: "NNDB (Notable Names Database)"
-      npg: "National Portrait Gallery (London: National Portrait Gallery)"
-      odnb: "Oxford Dictionary of National Biography (Oxford University Press)"
-      opensm: "OpenStreetMap"
-      orcid: "Open Researcher and Contributor IDentifier"
-      oxforddnb: "Oxford Biography Index"
-      porthu: "PORT.hu"
-      rbmsbt: "RBMS Controlled Vocabularies: Binding Terms (Rare Books and Manuscripts Section, Association of College & Research Libraries)"
-      rbmsgt: "RBMS Controlled Vocabularies: Genre Terms (Rare Books and Manuscripts Section, Association of College & Research Libraries)"
-      rbmspe: "RBMS Controlled Vocabularies: Provenance Evidence (Rare Books and Manuscripts Section, Association of College & Research Libraries)"
-      rbmsppe: "RBMS Controlled Vocabularies: Printing and Publishing Evidence (Rare Books and Manuscripts Section, Association of College & Research Libraries)"
-      rbmspt: "RBMS Controlled Vocabularies: Paper Terms (Rare Books and Manuscripts Section Association of College & Research Libraries)"
-      rbmsrd: "RBMS Controlled Vocabularies: Relationship Designators (Rare Books and Manuscripts Section, Association of College & Research Libraries)"
-      rbmste: "RBMS Controlled Vocabularies: Type Evidence (Rare Books and Manuscripts Section, Association of College & Research Libraries)"
-      rid: "ResearcherID (Thomson Reuters)"
-      rkda: "RKDartists& (Den Haag: Rijksbureau voor Kunsthistorische Documentatie)"
-      saam: "Smithsonian American Art Museum (Washington DC: Smithsonian Institution)"
-      scholaru: "Scholar Universe"
-      scope: "Scope"
-      scopus: "Scopus Author Identifier"
-      sici: "Serial Item and Contribution Identifier"
-      spotify: "Spotify"
-      sprfbsb: "Sports Reference: Baseball"
-      sprfbsk: "Sports Reference: Basketball"
-      sprfcbb: "Sports Reference: College Basketball"
-      sprfcfb: "Sports Reference: College Football"
-      sprfhoc: "Sports Reference: Hockey"
-      sprfoly: "Sports Reference: Olympic Sports"
-      sprfpfb: "Sports Reference: Pro Football"
-      stock-number: "Publisher, distributor, or vendor stock number"
-      strn: "Standard Technical Report Number"
-      svfilm: "Svensk Filmdatabas"
-      tatearid: "Tate Artist Identifier"
-      theatr: "Theatricalia"
-      trove: "Trove (National Library of Australia)"
-      upc: "Universal Product Code"
-      uri: "Uniform Resource Identifier"
-      urn: "Uniform Resource Name"
-      viaf: "Virtual International Authority File number"
-      videorecording-identifier: "Publisher-assigned videorecording number"
-      wikidata: "Wikidata (Wikimedia Foundation)"
-      wndla: "Web NDL Authorities (Tokyo: National Diet Library (NDL))"
-
-  enumeration_names:
-    accession_acquisition_type: Accession Acquisition Type
-    accession_parts_relator: Accession Parts Relator
-    accession_parts_relator_type: Accession Parts Relator Type
-    accession_sibling_relator: "Accession Sibling Relator"
-    accession_sibling_relator_type: Accession Sibling Relator Type
-    accession_resource_type: Accession Resource Type
-    agent_contact_salutation: Agent Contact Salutation
-    agent_relationship_associative_relator: Agent Relationship Associative Relator
-    agent_relationship_earlierlater_relator: Agent Relationship Earlierlater Relator
-    agent_relationship_parentchild_relator: Agent Relationship Parentchild Relator
-    agent_relationship_identity_relator: Agent Relationship Identity Relator
-    agent_relationship_hierarchical_relator: Agent Relationship Hierarchical Relator
-    agent_relationship_specific_relator: Agent Relationship Specific Relator
-    agent_relationship_temporal_relator: Agent Relationship Temporal Relator
-    agent_relationship_family_relator: Agent Relationship Family Relator
-    agent_relationship_subordinatesuperior_relator: Agent Relationship Subordinatesuperior Relator
-    archival_record_level: Archival Record Level
-    collection_management_processing_priority: Collection Management Processing Priority
-    collection_management_processing_status: Collection Management Processing Status
-    container_location_status: Container Location Status
-    container_type: Container Type
-    country_iso_3166: Country ISO 3166
-    date_calendar: Date Calendar
-    date_certainty: Date Certainty
-    date_era: Date Era
-    date_label: Date Label
-    date_type: Date Type
-    deaccession_scope: Deaccession Scope
-    digital_object_digital_object_type: Digital Object Digital Object Type
-    digital_object_level: Digital Object Level
-    event_event_type: Event Event Type
-    event_outcome: Event Outcome
-    extent_extent_type: Extent Extent Type
-    extent_portion: Extent Portion
-    file_version_checksum_methods: File Version Checksum Methods
-    file_version_file_format_name: File Version File Format Name
-    file_version_use_statement: File Version Use Statement
-    file_version_xlink_actuate_attribute: File Version Xlink Actuate Attribute
-    file_version_xlink_show_attribute: File Version Xlink Show Attribute
-    instance_instance_type: Instance Instance Type
-    language_iso639_2: Language ISO 639-2
-    script_iso15924: Language Script ISO 15924
-    linked_agent_archival_record_relators: Linked Agent Archival Record Relators
-    linked_agent_event_roles: Linked Agent Event Roles
-    linked_agent_role: Linked Agent Role
-    linked_event_archival_record_roles: Linked Event Archival Record Roles
-    location_temporary: Location Temporary
-    metadata_license: Metadata License
-    name_person_name_order: Name Person Name Order
-    name_rule: Name Rule
-    name_source: Name Source
-    note_bibliography_type: Note Bibliography Type
-    note_digital_object_type: Note Digital Object Type
-    note_langmaterial_type: Note Language of Materials Type
-    note_index_item_type: Note Index Item Type
-    note_index_type: Note Index Type
-    note_multipart_type: Note Multipart Type
-    note_orderedlist_enumeration: Note Orderedlist Enumeration
-    note_rights_statement_act_type: Note Rights Statement Act Type
-    note_rights_statement_type: Note Rights Statement Type
-    note_singlepart_type: Note Singlepart Type
-    telephone_number_type: Telephone Number Type
-    resource_finding_aid_description_rules: Resource Finding Aid Description Rules
-    resource_finding_aid_status: Resource Finding Aid Status
-    resource_resource_type: Resource Resource Type
-    rights_statement_ip_status: Rights Statement IP Status
-    rights_statement_rights_type: Rights Statement Rights Type
-    subject_source: Subject Source
-    subject_term_type: Subject Term Type
-    user_defined_enum_1: User Defined Enum 1
-    user_defined_enum_2: User Defined Enum 2
-    user_defined_enum_3: User Defined Enum 3
-    user_defined_enum_4: User Defined Enum 4
-    job_type: Job Type
-    dimension_units: Dimension Units
-    restriction_type: Local Access Restriction Type
-    location_function_type: Location Function Type
-    rights_statement_external_document_identifier_type: Rights Statement External Document Identifier Type
-    rights_statement_act_restriction: Rights Statement Act Restriction
-    rights_statement_act_type: Rights Statement Act Type
-    rights_statement_other_rights_basis: Rights Statement Other Rights Basis
-    maintenance_status: Record Control Maintenence Status
-    publication_status: Record Control Publication Status
-    romanization: Romanization
-    transliteration: Transliteration
-    government_agency_type: Record Control Government Agency Type
-    reference_evaluation:  Record Control Reference Evaluation
-    name_type: Record Control Name Type
-    level_of_detail: Record Control Level of Detail
-    modified_record: Record Control Modified Type
-    cataloging_source: Record Control Cataloging Source
-    identifier_type:  Record Control Identifier Type
-    agency_code_type: Record Control Agency Code Type
-    maintenance_event_type: Record Control Maintenence Event Type
-    maintenance_agent_type: Record Control Maintenence Agent Type
-    gender: Agent Gender
-    place_role: Agent Place Role
-    date_type_structured: Date Type
-    date_standardized_type: Date Standardized Type
-    date_role: Date Role
-    begin_date_standardized_type: Begin Date Standardized Type
-    end_date_standardized_type: End Date Standardized Type
