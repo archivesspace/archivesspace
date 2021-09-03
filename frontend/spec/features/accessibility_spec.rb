@@ -1,7 +1,7 @@
-require 'spec_helper.rb'
-require 'rails_helper.rb'
+require 'spec_helper'
+require 'rails_helper'
 
-describe 'Accessibility', js: true , db: 'accessibility' do
+describe 'Accessibility', js: true, db: 'accessibility' do
 
   before(:all) do
     PeriodicIndexer.new.run_index_round
@@ -9,16 +9,21 @@ describe 'Accessibility', js: true , db: 'accessibility' do
 
   before(:each) do
     visit '/'
-    page.has_xpath? "//input[@id='login']"
+    if page.has_xpath? "//input[@id='login']"
 
-    within "form.login" do
-      fill_in "username", with: "admin"
-      fill_in "password", with: "admin"
+      within "form.login" do
+        fill_in "username", with: "admin"
+        fill_in "password", with: "admin"
 
-      click_button "Sign In"
+        click_button "Sign In"
+      end
     end
 
     page.has_no_xpath? "//input[@id='login']"
+  end
+
+  after(:each) do
+    page.instance_variable_set(:@touched, false)
   end
 
   it 'sets the selected state on sidebar elements' do
@@ -44,8 +49,6 @@ describe 'Accessibility', js: true , db: 'accessibility' do
   context 'Datepicker' do
 
     it 'should have aria attributes on datepicker advance buttons' do
-      visit '/'
-
       visit "/resources/1/edit#tree::resource_1"
 
       page.has_no_css? ".datepicker"
@@ -93,7 +96,7 @@ describe 'Accessibility', js: true , db: 'accessibility' do
         switcher.send_keys :tab
 
         # Doesn't tab down into hidden advanced search form
-        expect(page.evaluate_script("document.activeElement.innerHTML")).to include("repository-label")
+        expect(page.evaluate_script("document.activeElement.outerHTML")).to include("repository-label")
 
         # Expand advanced search and tab into it
         switcher.click

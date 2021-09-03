@@ -31,7 +31,7 @@ describe DigitalObjectsController, type: :controller do
       end
     end.flatten
 
-    run_all_indexers
+    run_indexers
   end
 
 

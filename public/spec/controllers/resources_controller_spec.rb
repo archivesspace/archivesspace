@@ -34,7 +34,7 @@ describe ResourcesController, type: :controller do
       end
     end.flatten
 
-    run_all_indexers
+    run_indexers
   end
 
   it 'should show the published resources' do
