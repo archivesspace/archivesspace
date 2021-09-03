@@ -7,7 +7,7 @@
     "prettier-check": "prettier --check frontend public",
     "prettier-debug-check": "prettier --debug-check frontend public",
     "prettier-list-different": "prettier --list-different frontend public",
-    "lint": "eslint frontend/ public/"
+    "lint": "eslint frontend/ public/ -f compact"
   },
   "devDependencies": {
     "eslint": "^7.32.0",

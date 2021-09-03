@@ -1,6 +1,10 @@
 env:
   browser: true
   es2021: true
+  jquery: true
+globals:
+  AS: writable
+  CodeMirror: readonly
 extends: ["eslint:recommended", "prettier"]
 parserOptions:
   ecmaVersion: 12
