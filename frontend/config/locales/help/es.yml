@@ -1,4 +1,4 @@
-﻿es:
+es:
   help:
     icon: "<span class='context-help-icon icon-question-sign'></span>"
     help_center: Centro de ayuda ArchivesSpace
@@ -16,7 +16,8 @@
       accession_rights_statements: Ayuda sobre las declaraciones de derechos
       accession_deaccessions: Ayuda en expurgos
       accession_instances: Ayuda en las representaciones de
-      accession_collection_management: Ayuda en la gestión de la colección de acta de ingreso
+      accession_collection_management: Ayuda en la gestión de la colección de acta
+        de ingreso
       accession_classification: Ayuda sobre clasificaciones
       accession_user_defined: Ayuda sobre definidos por el usuario
       # Resource help tooltips
@@ -50,7 +51,8 @@
       archival_object_rights_statements: Ayuda sobre las declaraciones de derechos
       archival_object_instances: Ayuda en las instancias de
       archival_object_deaccessions: Ayuda en expurgo de objetos de archivo
-      archival_object_collection_management: Ayuda en la gestión de la colección de objetos de archivo
+      archival_object_collection_management: Ayuda en la gestión de la colección de
+        objetos de archivo
       archival_object_classification: Ayuda sobre clasificaciones
       archival_object_user_defined: Ayuda sobre definidos por el usuario
       # Digital Object help tooltips
@@ -67,24 +69,29 @@
       digital_object_rights_statements: Ayuda sobre las declaraciones de derechos
       digital_object_instances: Ayuda en las representaciones de
       digital_object_deaccessions: Ayuda en expurgo de objetos digitales
-      digital_object_collection_management: Ayuda en la gestión de la colección de objetos digitales
+      digital_object_collection_management: Ayuda en la gestión de la colección de
+        objetos digitales
       digital_object_classification: Ayuda sobre clasificaciones
       digital_object_user_defined: Ayuda sobre definidos por el usuario
       # Digital Object Component help tooltips
       digital_object_component: Ayuda sobre los componentes del objeto Digital
       digital_object_component_basic_information: Ayuda sobre información básica
       digital_object_component_dates: Ayuda en las fechas
-      digital_object_component_extents: Ayuda en cantidad de componentes de objetos digitales
+      digital_object_component_extents: Ayuda en cantidad de componentes de objetos
+        digitales
       digital_object_component_finding_aid: Ayudar en la búsqueda de ayuda
       digital_object_component_related_accessions: Ayuda sobre acta de ingreso relacionadas
       digital_object_component_linked_agents: Ayuda sobre autoridad enlaces
       digital_object_component_subjects: Ayuda sobre materias
       digital_object_component_notes: Ayuda sobre notas
       digital_object_component_external_documents: Ayuda sobre documentos externos
-      digital_object_component_rights_statements: Ayuda sobre las declaraciones de derechos
+      digital_object_component_rights_statements: Ayuda sobre las declaraciones de
+        derechos
       digital_object_component_instances: Ayuda en las instancias de
-      digital_object_component_deaccessions: Ayuda en expurgo de componentes de objetos digitales
-      digital_object_component_collection_management: Ayuda en la gestión de la colección de componentes de objetos digitales
+      digital_object_component_deaccessions: Ayuda en expurgo de componentes de objetos
+        digitales
+      digital_object_component_collection_management: Ayuda en la gestión de la colección
+        de componentes de objetos digitales
       digital_object_component_classification: Ayuda sobre clasificaciones
       digital_object_component_user_defined: Ayuda sobre definidos por el usuario
       # Subjects
@@ -159,3 +166,15 @@
       agent_alternate_sets: Ayuda sobre conjuntos alternativos de agentes
       agent_record_controls: Ayuda sobre los controles de registros de agentes
       preference: Ayuda sobre preferencias
+      agent_merge: Ayuda sobre la fusión de agentes
+      agent_required: Ayuda para editar campos obligatorios
+      agent_related_agents: Ayuda sobre autoridades relacionadas
+      agent_external_resources: Ayuda sobre recursos externos relacionados
+      agent_external_documents: Ayuda sobre documentos externos
+      agent_used_language: Ayuda sobre el idioma utilizado
+      agent_topic: Ayuda sobre temas
+      agent_function: Ayuda sobre funciones
+      agent_occupation: Ayuda en ocupaciones
+      agent_place: Ayuda sobre lugares
+      agent_genders: Ayuda sobre géneros
+      agent_identifiers: Ayuda sobre los ID de entidad
