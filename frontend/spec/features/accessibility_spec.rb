@@ -1,7 +1,7 @@
-require 'spec_helper.rb'
-require 'rails_helper.rb'
+require 'spec_helper'
+require 'rails_helper'
 
-describe 'Accessibility', js: true , db: 'accessibility' do
+describe 'Accessibility', js: true, db: 'accessibility' do
 
   before(:all) do
     PeriodicIndexer.new.run_index_round
@@ -49,8 +49,6 @@ describe 'Accessibility', js: true , db: 'accessibility' do
   context 'Datepicker' do
 
     it 'should have aria attributes on datepicker advance buttons' do
-      visit '/'
-
       visit "/resources/1/edit#tree::resource_1"
 
       page.has_no_css? ".datepicker"

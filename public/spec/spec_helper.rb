@@ -14,18 +14,7 @@ require 'securerandom'
 require 'axe-rspec'
 require 'nokogiri'
 
-require_relative '../../indexer/app/lib/realtime_indexer'
-require_relative '../../indexer/app/lib/periodic_indexer'
 require_relative '../../indexer/app/lib/pui_indexer'
-
-module BackendClientMethods
-  alias :run_all_indexers_orig :run_all_indexers
-  # patch this to also run our PUI indexer.
-  def run_all_indexers
-    run_all_indexers_orig
-    $pui.run_index_round
-  end
-end
 
 if ENV['COVERAGE_REPORTS'] == 'true'
   require 'aspace_coverage'
@@ -34,8 +23,6 @@ end
 
 require 'aspace_gems'
 
-# This defines how we startup the Backend and Solr. It's called by rspec in the
-# before(:suite) block
 $server_pids = []
 $backend_port = TestUtils::free_port_from(3636)
 $frontend_port = TestUtils::free_port_from(4545)
@@ -56,6 +43,14 @@ $backend_start_fn = proc {
                            })
 }
 
+module IndexTestRunner
+  def run_indexers
+    @@period ||= PeriodicIndexer.new($backend)
+    @@pui ||= PUIIndexer.new($backend)
+    @@period.run_index_round
+    @@pui.run_index_round
+  end
+end
 
 ENV['RAILS_ENV'] ||= 'test'
 require File.expand_path('../../config/environment', __FILE__)
@@ -164,6 +159,7 @@ RSpec.configure do |config|
 
   config.include FactoryBot::Syntax::Methods
   config.include BackendClientMethods
+  config.include IndexTestRunner
 
   # show retry status in spec process
   config.verbose_retry = true
@@ -185,16 +181,10 @@ RSpec.configure do |config|
     end
     ArchivesSpaceClient.init
     $admin = BackendClientMethods::ASpaceUser.new('admin', 'admin')
-    if !ENV['ASPACE_INDEXER_URL']
-      $indexer = RealtimeIndexer.new($backend, nil)
-      $period = PeriodicIndexer.new($backend, nil, "periodic_indexer", false)
-      $pui = PUIIndexer.new($backend, nil, "pui_periodic_indexer")
-    end
-    unless ENV['ASPACE_TEST_SKIP_FIXTURES']
-      AspaceFactories.init
-      setup_test_data
-    end
-    run_all_indexers
+    AspaceFactories.init
+    setup_test_data unless ENV['ASPACE_TEST_SKIP_FIXTURES']
+    PeriodicIndexer.new($backend).run_index_round
+    PUIIndexer.new($backend).run_index_round
   end
 
   config.after(:suite) do
@@ -205,5 +195,4 @@ RSpec.configure do |config|
     # quit.
     Rack::Handler.get('mizuno').instance_variable_get(:@server) ? Rack::Handler.get('mizuno').instance_variable_get(:@server).stop : next
   end
-
 end
