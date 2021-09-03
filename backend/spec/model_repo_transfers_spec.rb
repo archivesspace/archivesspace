@@ -5,7 +5,7 @@ require_relative 'factories'
 describe 'Record transfers' do
 
   before(:each) do
-    @target_repo = create(:unselected_repo, {:repo_code => "TARGET_REPO"})
+    @target_repo = create(:unselected_repo, {:repo_code => "TARGET_REPO_#{Time.now.to_i}"})
   end
 
 
@@ -190,11 +190,11 @@ describe 'Record transfers' do
     end
   end
 
-  it "clones top containers as needed to preserve the instances of transferred records" do
+  it "raises error if transfering a record that shares a top container with another record" do
     box1 = create(:json_top_container, :barcode => "box1_barcode")
     box2 = create(:json_top_container, :barcode => "box2_barcode")
 
-    acc = create(:json_accession, {
+    accession = create(:json_accession, {
                    "instances" => [build_instance(box1), build_instance(box2)]
                  })
 
@@ -214,28 +214,29 @@ describe 'Record transfers' do
                  :resource => {'ref' => resource.uri},
                  :parent => {'ref' => ao1.uri})
 
-    Resource[resource.id].transfer_to_repository(@target_repo)
+    expect { Resource[resource.id].transfer_to_repository(@target_repo) }.to raise_error { |e|
+      expect(e).to be_a(TransferConstraintError)
+      expect(e.conflicts.length).to eq(2)
+      expect(e.conflicts[box1.uri][0][:message]).to eq('TOP_CONTAINER_IN_USE')
+      expect(e.conflicts[box2.uri][0][:message]).to eq('TOP_CONTAINER_IN_USE')
+    }
+  end
 
-    # The unrelated accession and resource should not have changed...
-    expect(Accession.to_jsonmodel(acc.id)["instances"].length).to eq(2)
-    expect(Resource.to_jsonmodel(unrelated_resource.id)["instances"].length).to eq(2)
+  it "won't transfer any top containers if one if in use by another record" do
+    box1 = create(:json_top_container)
+    box2 = create(:json_top_container)
+    box1_repo_id = TopContainer[box1.id][:repo_id]
+    box2_repo_id = TopContainer[box2.id][:repo_id]
+    accession1 = create(:json_accession, {
+                          "instances" => [build_instance(box1), build_instance(box2)]
+                        })
+    accession2 = create(:json_accession, {
+                          "instances" => [build_instance(box2)]
+                        })
 
-    # and the original top containers are still intact
-    expect(TopContainer[box1.id]).not_to be_nil
-    expect(TopContainer[box2.id]).not_to be_nil
-
-    # In the target repository, the instances have been moved over and point to
-    # cloned versions of the top containers
-    RequestContext.open(:repo_id => @target_repo.id) do
-      instances = ArchivalObject.to_jsonmodel(ao1.id)["instances"]
-      box1_clone = TopContainer.this_repo[:barcode => 'box1_barcode'].uri
-      box2_clone = TopContainer.this_repo[:barcode => 'box2_barcode'].uri
-
-      expect(instances.length).to eq(2)
-
-      expect(instances.map {|instance| instance['sub_container']['top_container']['ref']}).to include(box1_clone)
-      expect(instances.map {|instance| instance['sub_container']['top_container']['ref']}).to include(box2_clone)
-    end
+    expect { Accession[accession1.id].transfer_to_repository(@target_repo) }.to raise_error TransferConstraintError
+    expect(TopContainer[box1.id][:repo_id]).to eq box1_repo_id
+    expect(TopContainer[box2.id][:repo_id]).to eq box2_repo_id
   end
 
   it "moves linked digital objects as a part of a transfer" do
@@ -288,7 +289,7 @@ describe 'Record transfers' do
     end
 
     expect(error).not_to be_nil
-    expect(error.conflicts[ao.uri][:message]).to eq('DIGITAL_OBJECT_HAS_LINK')
+    expect(error.conflicts[ao.uri][0][:message]).to eq('DIGITAL_OBJECT_HAS_LINK')
 
   end
 
@@ -319,7 +320,7 @@ describe 'Record transfers' do
     end
 
     expect(error).not_to be_nil
-    expect(error.conflicts[unrelated_accession.uri][:message]).to eq('DIGITAL_OBJECT_IN_USE')
+    expect(error.conflicts[unrelated_accession.uri][0][:message]).to eq('DIGITAL_OBJECT_IN_USE')
   end
 
   it "allows a digital object to be transferred from one repository to another" do
@@ -388,7 +389,7 @@ describe 'Record transfers' do
 
     expect {
       Resource[resource.id].transfer_to_repository(@target_repo)
-    }.to raise_error(TransferConstraintError)
+    }.to raise_error (TransferConstraintError)
   end
 
   describe 'Assessment transfers' do

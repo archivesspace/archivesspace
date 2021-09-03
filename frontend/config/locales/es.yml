@@ -20,6 +20,7 @@ es:
     container_labels: Descargar etiquetas del contenedor
     create: Crear
     cut: Cortar
+    date_picker: Selector de fecha abierto
     defaults: Valores por defecto
     edit: Editar
     edit_oai: Editar la configuración de OAI
@@ -469,15 +470,18 @@ es:
 
   advanced_search:
     operator:
+      operator: Operadora
       AND: "Y"
       OR: "O"
       NOT: "No"
     date_operator:
+      comparator: Comparador
       equal: es igual a
       greater_than: mayor que
       lesser_than: menos de
       empty: sin asignar
     boolean_field:
+      boolean: Booleano
       true_value: "Verdadero"
       false_value: "Falso"
     button_text: Búsqueda
@@ -489,10 +493,16 @@ es:
       show: Mostrar búsqueda avanzada
       hide: Ocultar búsqueda avanzada
     text_operator:
+      comparator: Comparador
       contains: contiene
       empty: esta vacio
     enum_field:
       empty: sin asignar
+    search_field: Campo de búsqueda
+    search_text: Buscar texto
+    search_date: Fecha
+    search_terms: Campos de búsqueda avanzada %{number}
+    remove_row: Eliminar campos de búsqueda avanzada %{number}
 
   become-user:
     become-user: Convertirse en usuario

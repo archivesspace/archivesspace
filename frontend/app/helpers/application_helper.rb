@@ -131,7 +131,6 @@ module ApplicationHelper
               :title => title,
               :class => "context-help has-tooltip",
               "data-placement" => "left",
-              "data-container" => "body",
             }.merge(opts[:link_opts] || {})
            )
   end
@@ -422,6 +421,7 @@ module ApplicationHelper
   def has_agent_subrecords?(agent)
     # agent_person has all agent subrecord types so is ideal for finding any potential subrecord
     JSONModel(:agent_person).properties_by_tag('agent_subrecord').map(&:first).map(&:to_sym).find do |subrecord|
+      return unless agent.methods.include?(subrecord)
       agent.send(subrecord).length.positive?
     end
   end

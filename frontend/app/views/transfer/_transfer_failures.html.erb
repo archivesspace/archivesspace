@@ -1,29 +1,21 @@
 <% if @transfer_errors %>
     <%# Pull in the relevant javascript for the 'show' view to make sure trees are loaded %>
     <%= javascript_include_tag "#{controller.controller_name}.show" if File.exist?("#{Rails.root}/app/assets/javascripts/#{controller_name}.show.js") ||  File.exist?("#{Rails.root}/app/assets/javascripts/#{controller_name}.show.js.erb") %>
-
+    <% errors_by_message = transfer_errors_by_message(@transfer_errors) %>
     <div class="alert alert-danger">
         <h3><%= I18n.t('actions.transfer_failed') %></h3>
-
-        <% if @transfer_errors.values.all? {|e| e['message'] == 'DIGITAL_OBJECT_IN_USE'} %>
+        <% errors_by_message.each do |message, errors| %>
+            <% inspect_error = false %>
             <p>
-                <%= I18n.t('actions.transfer_failed_records_using_digital_objects') %>:
+                <%= message %>:
                 <ul>
-                    <% @transfer_errors.keys.each do |uri| %>
+                    <% errors.keys.each do |uri| %>
                         <li><%= link_to uri, {:controller => :resolver, :action => :resolve_readonly, :uri => uri} %></li>
                     <% end %>
                 </ul>
             </p>
-        <% elsif @transfer_errors.values.all? {|e| e['message'] == 'DIGITAL_OBJECT_HAS_LINK'} %>
-            <p>
-                <%= I18n.t('actions.transfer_failed_digital_objects_linked_to_records') %>:
-                <ul>
-                    <% @transfer_errors.keys.each do |uri| %>
-                        <li><%= link_to uri, {:controller => :resolver, :action => :resolve_readonly, :uri => uri} %></li>
-                    <% end %>
-                </ul>
-            </p>
-        <% else %>
+        <% end %>
+        <% if errors_by_message.empty? %>
             <%# Shouldn't happen, but give something to report... %>
             <%= @transfer_errors.inspect %>
         <% end %>

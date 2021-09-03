@@ -1,6 +1,8 @@
 class Sequence
   # DEPRECATED: this is dead code since ArchivesSpace v2
 
+  QUEUE = java.util.concurrent.ArrayBlockingQueue.new(1024)
+
   def self.init(sequence, value)
     result = java.util.concurrent.CompletableFuture.new
     QUEUE.add({action: :init, sequence: sequence, value: value, result: result})
@@ -76,9 +78,8 @@ class Sequence
         Log.exception($!)
         request[:result].completeExceptionally(java.lang.RuntimeException.new("Unexpected error"))
       end
-
-      raise SequenceError.new("Gave up trying to generate a sequence number for: '#{sequence}'")
     end
+
   end
 
 end

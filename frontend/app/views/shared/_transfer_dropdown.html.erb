@@ -10,7 +10,7 @@
     <button class="btn btn-sm btn-default dropdown-toggle transfer-action" data-toggle="dropdown" role="button" aria-expanded="false" title="<%= I18n.t("actions.transfer") %>">
       <%= I18n.t("actions.transfer") %> <span class="caret"></span>
     </button>
-    <ul class="dropdown-menu open-aligned-right transfer-form">
+    <ul class="dropdown-menu open-aligned-right transfer-form" role="none">
       <li>
         <p><%= I18n.t("#{singular}._frontend.messages.transfer_description") %></p>
         <%= form_context :transfer, {} do |form| %>

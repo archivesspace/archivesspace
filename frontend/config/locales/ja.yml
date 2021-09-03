@@ -20,6 +20,7 @@ ja:
     container_labels: コンテナラベルをダウンロード
     create: 作成する
     cut: カット
+    date_picker: オープン日付ピッカー
     defaults: デフォルト値
     edit: 編集
     edit_oai: OAI設定を編集する
@@ -477,15 +478,18 @@ ja:
 
   advanced_search:
     operator:
+      operator: オペレーター
       AND: AND
       OR: OR
       NOT: NOT
     date_operator:
+      comparator: コンパレータ
       equal: 等しい
       greater_than: より大きい
       lesser_than: 未満
       empty: 割り当てられていない
     boolean_field:
+      boolean: ブール値
       true_value: 真
       false_value: 偽
     button_text: サーチ
@@ -497,10 +501,16 @@ ja:
       show: 高度な検索を表示する
       hide: 高度な検索を隠す
     text_operator:
+      comparator: コンパレータ
       contains: 含まれる
       empty: 空です
     enum_field:
       empty: 割り当てられていない
+    search_field: 検索フィールド
+    search_text: テキストを検索
+    search_date: 日にち
+    search_terms: 高度な検索フィールド %{number}
+    remove_row: 高度な検索フィールドを削除する %{number}
 
   become-user:
     become-user: ユーザーになる

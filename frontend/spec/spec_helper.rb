@@ -11,7 +11,9 @@ require 'test_utils'
 require 'config/config-distribution'
 require 'securerandom'
 require 'nokogiri'
+require 'axe-rspec'
 
+require_relative '../../indexer/app/lib/periodic_indexer'
 
 if ENV['COVERAGE_REPORTS'] == 'true'
   require 'aspace_coverage'

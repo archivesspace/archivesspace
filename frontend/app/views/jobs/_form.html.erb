@@ -116,7 +116,7 @@
         <label class="col-sm-2 control-label"><%= I18n.t("reports.parameters.#{param[0]}", :default => param[0]) %></label>
         <div class="col-sm-9">
           <% if param[1] === "Date" %>
-            <%= form.textfield param[0], nil,  :class => 'date-field form-control', :'data-format' => 'yyyy-mm-dd', :placeholder => 'yyyy-mm-dd'  %>
+            <%= form.textfield param[0], nil,  :class => 'date-field form-control', :'data-format' => 'yyyy-mm-dd', :placeholder => 'yyyy-mm-dd', :"data-label" => I18n.t("actions.date_picker") %>
           <% elsif param[1] === "Boolean" %>
             <%= form.checkbox param[0] %>
           <% else %>

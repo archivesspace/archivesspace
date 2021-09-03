@@ -59,7 +59,12 @@ class TransferConstraintError < StandardError
   end
 
   def add_conflict(uri, property)
-    @conflicts[uri] = property
+    if property.is_a? Hash
+      @conflicts[uri] ||= []
+      @conflicts[uri] << property
+    else
+      @conflicts[uri] = property
+    end
   end
 
   def to_s

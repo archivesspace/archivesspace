@@ -13,8 +13,13 @@
             <div class="col-md-1">
               <span class="glyphicon"></span>
             </div>
-            <div class="col-md-7">
+            <div class="col-md-6">
               <%= contact['name'] %>
+            </div>
+            <div class="col-md-4">
+              <% if contact['is_representative'] %>
+                <span class="badge badge-info"><%= I18n.t("agent_contact.is_representative") %></span>
+              <% end %>
             </div>
           </div>
         </div>

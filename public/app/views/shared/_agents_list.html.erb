@@ -1,5 +1,9 @@
+<%
+   heading_size = 'h3' if heading_size.blank?
+%>
+
 <% list.each do |role, relationships| %>
-  <h3><%= I18n.t("enumerations.linked_agent_role.#{role}", :default => role) %></h3>
+  <<%= heading_size %>><%= I18n.t("enumerations.linked_agent_role.#{role}", :default => role) %></<%= heading_size %>>
   <ul class="present_list agents_list">
     <% relationships.each do |relationship| %>
       <% agent = relationship.fetch('_resolved') %>
