@@ -1,463 +1,567 @@
 ja:
+  enumeration_names:
+    accession_acquisition_type: アクセッション取得タイプ
+    accession_parts_relator: アクセッションパーツリレー
+    accession_parts_relator_type: アクセルパーツリレータイプ
+    accession_resource_type: アクセッションリソースタイプ
+    accession_sibling_relator: 受託兄弟リレー
+    accession_sibling_relator_type: 受け入れ兄弟リレータイプ
+    agency_code_type: 代理店コード
+    agent_contact_salutation: エージェントコンタクト挨拶
+    agent_relationship_associative_relator: エージェント関係連想リレー
+    agent_relationship_earlierlater_relator: エージェントの関係
+    agent_relationship_family_relator: エージェント関係家族関係者
+    agent_relationship_hierarchical_relator: エージェント関係階層関係
+    agent_relationship_identity_relator: エージェント関係アイデンティティリレーター
+    agent_relationship_parentchild_relator: エージェントの関係親子リレー
+    agent_relationship_specific_relator: エージェント関係固有の関係者
+    agent_relationship_subordinatesuperior_relator: エージェントの関係下位関係者
+    agent_relationship_temporal_relator: エージェント関係時間的関係者
+    archival_record_level: アーカイブの記録レベル
+    begin_date_standardized_type: 開始日標準化タイプ
+    cataloging_source: カタログソース
+    collection_management_processing_priority: コレクション管理処理優先度
+    collection_management_processing_status: コレクション管理処理ステータス
+    container_location_status: コンテナの場所のステータス
+    container_type: コンテナタイプ
+    country_iso_3166: 国ISO 3166
+    date_calendar: 日付カレンダー
+    date_certainty: 日付確信度
+    date_era: 時代
+    date_label: 日付ラベル
+    date_role: 日付の役割
+    date_standardized_type: 日付標準化タイプ
+    date_type: 日付の種類
+    date_type_structured: 日付タイプ
+    deaccession_scope: デアクセススコープ
+    digital_object_digital_object_type: デジタルオブジェクトデジタルオブジェクトタイプ
+    digital_object_level: デジタルオブジェクトレベル
+    dimension_units: 寸法単位
+    end_date_standardized_type: 終了日標準化タイプ
+    event_event_type: イベントイベントの種類
+    event_outcome: イベントの結果
+    extent_extent_type: エクステントエクステントタイプ
+    extent_portion: 範囲
+    file_version_checksum_methods: ファイルバージョンチェックサムメソッド
+    file_version_file_format_name: ファイルバージョンファイルフォーマット名
+    file_version_use_statement: ファイルバージョン使用ステートメント
+    file_version_xlink_actuate_attribute: ファイルバージョンXlink Actuate属性
+    file_version_xlink_show_attribute: ファイルのバージョンXlinkの表示属性
+    gender: エージェントの性別
+    government_agency_type: 政府機関の種類
+    identifier_type: 識別子の種類
+    instance_instance_type: インスタンスインスタンスタイプ
+    job_type: ジョブの種類
+    language_iso639_2: 言語ISO 639-2
+    level_of_detail: 詳細度
+    linked_agent_archival_record_relators: リンクされたエージェントのアーカイブレコードリレー
+    linked_agent_event_roles: リンクされたエージェントイベントの役割
+    linked_agent_role: リンクされたエージェントの役割
+    linked_event_archival_record_roles: リンクされたイベントアーカイブのレコードの役割
+    location_function_type: ロケーション機能タイプ
+    location_temporary: 場所の一時的な
+    maintenance_agent_type: メンテナンスエージェントの種類
+    maintenance_event_type: メンテナンスイベントの種類
+    maintenance_status: メンテナンス状況
+    modified_record: 修正レコード
+    name_person_name_order: 名前人名順
+    name_rule: 名前ルール
+    name_source: 名前ソース
+    name_type: 名前の種類
+    note_bibliography_type: 注参考文献タイプ
+    note_digital_object_type: メモデジタルオブジェクトタイプ
+    note_index_item_type: 索引項目タイプ
+    note_index_type: インデックスタイプ
+    note_langmaterial_type: 品目タイプの注記言語
+    note_multipart_type: マルチパートタイプ
+    note_orderedlist_enumeration: メモオーダーリストの列挙
+    note_rights_statement_act_type: 注釈ステートメント法タイプ
+    note_rights_statement_type: メモの権利ステートメントの種類
+    note_singlepart_type: シングルパートタイプ
+    place_role: エージェントプレイスの役割
+    publication_status: 出版ステータス
+    reference_evaluation: 参照評価
+    resource_finding_aid_description_rules: リソース検索援助記述規則
+    resource_finding_aid_status: 資源援助の状況
+    resource_resource_type: リソースリソースタイプ
+    restriction_type: ローカルアクセス制限タイプ
+    rights_statement_act_restriction: 権利声明法の制限
+    rights_statement_act_type: 権利声明法の種類
+    rights_statement_external_document_identifier_type: 権利文書外部文書識別子タイプ
+    rights_statement_ip_status: 権利ステートメントIPステータス
+    rights_statement_other_rights_basis: 権利声明その他の権利の基礎
+    rights_statement_rights_type: 権利ステートメント権利タイプ
+    romanization: ローマ字
+    script_iso15924: 言語スクリプトISO 15924
+    source: ソース
+    subject_source: 件名ソース
+    subject_term_type: 件名の種類
+    telephone_number_type: 電話番号の種類
+    transliteration: 文字変換
+    user_defined_enum_1: ユーザー定義列挙型1
+    user_defined_enum_2: ユーザー定義列挙型2
+    user_defined_enum_3: ユーザー定義列挙型3
+    user_defined_enum_4: ユーザー定義列挙型4
+
   enumerations:
-    gender:
-      not_specified: 指定されていない
-    place_role:
-      assoc_country: 関連国
-      residence: レジデンス
-      other_assoc: その他
-      place_of_birth: 出生地
-      place_of_death: 死の場所
-    date_standardized_type:
-      standard: 標準
-      not_before: 以前ではない
-      not_after: 後ではない
-    transliteration:
-      ala-lc: ALA-LCローマ字表記テーブル
-    name_source:
-      snac: SNAC
-    name_rule:
-      ccr: 文化資源の目録
-      rad: アーカイブの説明に関する規則
-      isaar: 企業、個人、家族のための国際標準アーカイブ機関の記録
-    _note_types:
-      general_context: 一般的なコンテキスト
-      mandate: 委任
-      contact_note: お問い合わせ先
-      legal_status: 法的地位
-      structure_or_genealogy: 構造または系図
-    note_digital_object_type:
-      general_context: 一般的なコンテキスト
-      mandate: 委任
-      contact_note: お問い合わせ先
-      legal_status: 法的地位
-      structure_or_genealogy: 構造または系図
-    note_langmaterial_type:
-      general_context: 一般的なコンテキスト
-      mandate: 委任
-      contact_note: お問い合わせ先
-      legal_status: 法的地位
-      structure_or_genealogy: 構造または系図
-    note_multipart_type:
-      general_context: 一般的なコンテキスト
-      mandate: 委任
-      contact_note: お問い合わせ先
-      legal_status: 法的地位
-      structure_or_genealogy: 構造または系図
-    note_singlepart_type:
-      general_context: 一般的なコンテキスト
-      mandate: 委任
-      contact_note: お問い合わせ先
-      legal_status: 法的地位
-      structure_or_genealogy: 構造または系図
-    agent_relationship_identity_relator:
-      is_identified_with: リレーターで特定されたエージェントの関係
-    agent_relationship_hierarchical_relator:
-      is_hierarchical_with: エージェント関係階層関係
-    agent_relationship_temporal_relator:
-      is_temporal_with: エージェント関係時間的関係者
+    accession_acquisition_type:
+      deposit: 保証金
+      gift: 贈り物
+      purchase: 購入
+      transfer: 転送
+    accession_parts_relator:
+      forms_part_of: フォームの一部
+      has_part: パートがある
+    accession_parts_relator_type:
+      part: "&quot;パート&quot;関係"
+    accession_resource_type:
+      collection: コレクション
+      papers: 論文
+      publications: 出版物
+      records: 記録
+    accession_sibling_relator:
+      sibling_of: 兄弟は
+    accession_sibling_relator_type:
+      bound_with: "&quot;結びついた&quot;関係"
+    agency_code_type:
+      local: 地元
+      oclc: OCLC
+    agent_contact_salutation:
+      madame: 夫人
+      mr: 氏
+      mrs: 夫人
+      ms: ミズ
+      sir: サー
+    agent_relationship_associative_relator:
+      is_associative_with: 関連する連想
+    agent_relationship_earlierlater_relator:
+      is_earlier_form_of: 以前の形式の関連
+      is_later_form_of: 後の形の関連
     agent_relationship_family_relator:
       is_related_with: エージェント関係関連の関係者
-    date_type_structured:
-      single: シングル
-      range: 範囲
+    agent_relationship_hierarchical_relator:
+      is_hierarchical_with: エージェント関係階層関係
+    agent_relationship_identity_relator:
+      is_identified_with: リレーターで特定されたエージェントの関係
+    agent_relationship_parentchild_relator:
+      is_child_of: 関連する子供
+      is_parent_of: 関連の親
+    agent_relationship_subordinatesuperior_relator:
+      is_subordinate_to: 関連する従属者
+      is_superior_of: 関連の優れている
+    agent_relationship_temporal_relator:
+      is_temporal_with: エージェント関係時間的関係者
+    archival_record_level:
+      class: クラス
+      collection: コレクション
+      file: ファイル
+      fonds: 資金
+      item: 項目
+      otherlevel: その他のレベル
+      recordgrp: レコードグループ
+      series: シリーズ
+      subfonds: サブフォンズ
+      subgrp: サブグループ
+      subseries: サブシリーズ
+    begin_date_standardized_type:
+      not_after: 後ではない
+      not_before: 前ではない
+      standard: 標準
+    cataloging_source:
+      ccp: 共同目録作成プログラム
+      nat_bib_agency: 全国書誌作成機関
+      natc: コーディングしようとしない
+      other: その他の
+      unknown: 道の
+    collection_management_processing_priority:
+      high: 高い
+      low: 低い
+      medium: 中
+      none: 指定されていない
+    collection_management_processing_status:
+      completed: 完了しました
+      in_progress: 進行中
+      new: 新しい
+      none: 指定されていない
+    container_location_status:
+      current: 現在
+      previous: 前
+    container_type:
+      box: ボックス
+      carton: カートン
+      case: 場合
+      container: コンテナ
+      folder: フォルダ
+      frame: フレーム
+      object: オブジェクト
+      page: ページ
+      reel: リール
+      volume: ボリューム
+    country_iso_3166:
+      AD: アンドラ
+      AE: アラブ首長国連邦
+      AF: アフガニスタン
+      AG: アンティグア・バーブーダ
+      AI: アンギラ
+      AL: アルバニア
+      AM: アルメニア
+      AO: アンゴラ
+      AQ: 南極
+      AR: アルゼンチン
+      AS: アメリカ領サモア
+      AT: オーストリア
+      AU: オーストラリア
+      AW: アルバ
+      AX: オーランド諸島
+      AZ: アゼルバイジャン
+      BA: ボスニア・ヘルツェゴビナ
+      BB: バルバドス
+      BD: バングラデシュ
+      BE: ベルギー
+      BF: ブルキナファソ
+      BG: ブルガリア
+      BH: バーレーン
+      BI: ブルンジ
+      BJ: ベナン
+      BL: サン・バルテルミー
+      BM: バミューダ
+      BN: ブルネイ・ダルサラーム
+      BO: ボリビア多民族国
+      BQ: ボネール、シント・ユースタティウスおよびサバ
+      BR: ブラジル
+      BS: バハマ
+      BT: ブータン
+      BV: ブーベ島
+      BW: ボツワナ
+      BY: ベラルーシ
+      BZ: ベリーズ
+      CA: カナダ
+      CC: ココス（キーリング）諸島
+      CD: コンゴ民主共和国
+      CF: 中央アフリカ共和国
+      CG: コンゴ共和国
+      CH: スイス
+      CI: コートジボワール
+      CK: クック諸島
+      CL: チリ
+      CM: カメルーン
+      CN: 中華人民共和国
+      CO: コロンビア
+      CR: コスタリカ
+      CU: キューバ
+      CV: カーボベルデ
+      CW: キュラソー
+      CX: クリスマス島
+      CY: キプロス
+      CZ: チェコ
+      DE: ドイツ
+      DJ: ジブチ
+      DK: デンマーク
+      DM: ドミニカ国
+      DO: ドミニカ共和国
+      DZ: アルジェリア
+      EC: エクアドル
+      EE: エストニア
+      EG: エジプト
+      EH: 西サハラ
+      ER: エリトリア
+      ES: スペイン
+      ET: エチオピア
+      FI: フィンランド
+      FJ: フィジー
+      FK: フォークランド（マルビナス）諸島
+      FM: ミクロネシア連邦
+      FO: フェロー諸島
+      FR: フランス
+      GA: ガボン
+      GB: イギリス
+      GD: グレナダ
+      GE: ジョージア
+      GF: フランス領ギアナ
+      GG: ガーンジー
+      GH: ガーナ
+      GI: ジブラルタル
+      GL: グリーンランド
+      GM: ガンビア
+      GN: ギニア
+      GP: グアドループ
+      GQ: 赤道ギニア
+      GR: ギリシャ
+      GS: サウスジョージア・サウスサンドウィッチ諸島
+      GT: グアテマラ
+      GU: グアム
+      GW: ギニアビサウ
+      GY: ガイアナ
+      HK: 香港
+      HM: ハード島とマクドナルド諸島
+      HN: ホンジュラス
+      HR: クロアチア
+      HT: ハイチ
+      HU: ハンガリー
+      ID: インドネシア
+      IE: アイルランド
+      IL: イスラエル
+      IM: マン島
+      IN: インド
+      IO: イギリス領インド洋地域
+      IQ: イラク
+      IR: イラン・イスラム共和国
+      IS: アイスランド
+      IT: イタリア
+      JE: ジャージー
+      JM: ジャマイカ
+      JO: ヨルダン
+      JP: 日本
+      KE: ケニア
+      KG: キルギス
+      KH: カンボジア
+      KI: キリバス
+      KM: コモロ
+      KN: セントクリストファー・ネイビス
+      KP: 朝鮮民主主義人民共和国
+      KR: 大韓民国
+      KW: クウェート
+      KY: ケイマン諸島
+      KZ: カザフスタン
+      LA: ラオス人民民主共和国
+      LB: レバノン
+      LC: セントルシア
+      LI: リヒテンシュタイン
+      LK: スリランカ
+      LR: リベリア
+      LS: レソト
+      LT: リトアニア
+      LU: ルクセンブルク
+      LV: ラトビア
+      LY: リビア
+      MA: モロッコ
+      MC: モナコ
+      MD: モルドバ共和国
+      ME: モンテネグロ
+      MF: サン・マルタン（フランス領）
+      MG: マダガスカル
+      MH: マーシャル諸島
+      MK: マケドニア旧ユーゴスラビア共和国
+      ML: マリ
+      MM: ミャンマー
+      MN: モンゴル
+      MO: マカオ
+      MP: 北マリアナ諸島
+      MQ: マルティニーク
+      MR: モーリタニア
+      MS: モントセラト
+      MT: マルタ
+      MU: モーリシャス
+      MV: モルディブ
+      MW: マラウイ
+      MX: メキシコ
+      MY: マレーシア
+      MZ: モザンビーク
+      NA: ナミビア
+      NC: ニューカレドニア
+      NE: ニジェール
+      NF: ノーフォーク島
+      NG: ナイジェリア
+      NI: ニカラグア
+      NL: オランダ
+      "NO": ノルウェー
+      NP: ネパール
+      NR: ナウル
+      NU: ニウエ
+      NZ: ニュージーランド
+      OM: オマーン
+      PA: パナマ
+      PE: ペルー
+      PF: フランス領ポリネシア
+      PG: パプアニューギニア
+      PH: フィリピン
+      PK: パキスタン
+      PL: ポーランド
+      PM: サンピエール島・ミクロン島
+      PN: ピトケアン
+      PR: プエルトリコ
+      PS: パレスチナ
+      PT: ポルトガル
+      PW: パラオ
+      PY: パラグアイ
+      QA: カタール
+      RE: レユニオン
+      RO: ルーマニア
+      RS: セルビア
+      RU: ロシア連邦
+      RW: ルワンダ
+      SA: サウジアラビア
+      SB: ソロモン諸島
+      SC: セーシェル
+      SD: スーダン
+      SE: スウェーデン
+      SG: シンガポール
+      SH: セントヘレナ・アセンションおよびトリスタンダクーニャ
+      SI: スロベニア
+      SJ: スヴァールバル諸島およびヤンマイエン島
+      SK: スロバキア
+      SL: シエラレオネ
+      SM: サンマリノ
+      SN: セネガル
+      SO: ソマリア
+      SR: スリナム
+      SS: 南スーダン
+      ST: サントメ・プリンシペ
+      SV: エルサルバドル
+      SX: シント・マールテン（オランダ領）
+      SY: シリア・アラブ共和国
+      SZ: スワジランド
+      TC: タークス・カイコス諸島
+      TD: チャド
+      TF: フランス領南方・南極地域
+      TG: トーゴ
+      TH: タイ
+      TJ: タジキスタン
+      TK: トケラウ
+      TL: 東ティモール
+      TM: トルクメニスタン
+      TN: チュニジア
+      TO: トンガ
+      TR: トルコ
+      TT: トリニダード・トバゴ
+      TV: ツバル
+      TW: 台湾
+      TZ: タンザニア
+      UA: ウクライナ
+      UG: ウガンダ
+      UM: 合衆国領有小離島
+      US: アメリカ合衆国
+      UY: ウルグアイ
+      UZ: ウズベキスタン
+      VA: バチカン市国
+      VC: セントビンセントおよびグレナディーン諸島
+      VE: ベネズエラ・ボリバル共和国
+      VG: イギリス領ヴァージン諸島
+      VI: アメリカ領ヴァージン諸島
+      VN: ベトナム
+      VU: バヌアツ
+      WF: ウォリス・フツナ
+      WS: サモア
+      YE: イエメン
+      YT: マヨット
+      ZA: 南アフリカ
+      ZM: ザンビア
+      ZW: ジンバブエ
+    date_calendar:
+      gregorian: グレゴリアン
+    date_certainty:
+      approximate: 近似
+      inferred: 推測された
+      questionable: 疑わしい
+    date_era:
+      ce: 本
+    date_label:
+      agent_relation: エージェント関係
+      broadcast: 放送
+      copyright: 著作権
+      creation: 創造
+      deaccession: デアクセス
+      digitized: デジタル化された
+      event: イベント
+      existence: 存在
+      issued: 発行済み
+      modified: 変更された
+      other: その他
+      publication: 出版物
+      record_keeping: 記録の保存
+      usage: 使用法
     date_role:
       begin: ベギン
       end: 終わり
-    begin_date_standardized_type:
-      standard: 標準
-      not_before: 前ではない
+    date_standardized_type:
       not_after: 後ではない
+      not_before: 以前ではない
+      standard: 標準
+    date_type:
+      bulk: バルク日付
+      expression: 式
+      inclusive: 包括日付
+      range: 範囲
+      single: シングル
+    date_type_structured:
+      range: 範囲
+      single: シングル
+    deaccession_scope:
+      part: 部
+      whole: 全体
+    digital_object_digital_object_type:
+      cartographic: 地図製作
+      mixed_materials: 混合材料
+      moving_image: 動画
+      notated_music: ノミネート音楽
+      software_multimedia: ソフトウェア、マルチメディア
+      sound_recording: 録音
+      sound_recording_musical: サウンドレコーディング（ミュージカル）
+      sound_recording_nonmusical: サウンドレコーディング（非音楽的）
+      still_image: 静止画
+      text: テキスト
+    digital_object_level:
+      collection: コレクション
+      image: 画像
+      work: 作業
+    dimension_units:
+      centimeters: センチメートル
+      feet: 足
+      inches: インチ
+      meters: メートル
+      millimeters: ミリメートル
+      yards: ヤード
     end_date_standardized_type:
-      standard: 標準
-      not_before: 前ではない
       not_after: 後ではない
-    maintenance_status:
-      new: 新しい
-      upgraded: アップグレード済み
-      revised_corrected: 修正/修正
-      derived: 派生
-      deleted: 削除済み
-      cancelled_obsolete: キャンセル/廃止
-      deleted_split: 削除済み分割
-      deleted_replaced: 削除 - 置き換え
-    publication_status:
-      in_process: インプロセス
-      approved: 承認済み
-    romanization:
-      int_std: 国際標準
-      nat_std: 国家規格
-      nl_assoc_std: 国立図書館協会基準
-      nl_bib_agency_std: 国立図書館または書誌作成会社の規格
-      local_standard: 地域の基準
-      unknown_standard: 由来不明の規格
-      conv_rom_cat_agency: 目録作成代理店の言語での慣用のローマ字化または慣用名の形式
-      not_applicable: 適用できません
-    government_agency_type: 
-      ngo: 非政府組織
-      sac: 自律型または半自律型コンポーネント
-      multilocal: 多地域
-      fed: 連邦/国家
-      int_gov: 国際政府間
-      local: 地元
-      multistate: 多状態
-      undetermined: 行政機関タイプ未定
-      provincial: 州、地方、領土、扶養家族など
-      unknown: 見出しが政府機関の場合は不明
-      other: その他の
-      natc: コーディングしようとしない
-    reference_evaluation: 
-      tr_consistent: 見出しと一致するトレース
-      tr_inconsistent: 見出しと矛盾する追跡
-      not_applicable: 適用できません
-      natc: コーディングしようとしない
-    name_type: 
-      differentiated: 差別化
-      undifferentiated: 未分化
-      not_applicable: 適用できません
-      natc: コーディングしようとしない
-    level_of_detail: 
-      fully_established: 完全に確立された
-      memorandum: メモ
-      provisional: 仮
-      preliminary: 予備の
-      not_applicable: 適用できません
-      natc: コーディングしようとしない
-    modified_record: 
-      not_modified: 変更なし
-      shortened: 短縮
-      missing_characters: 行方不明の文字
-      natc: コーディングしようとしない
-    cataloging_source:
-      nat_bib_agency: 全国書誌作成機関
-      ccp: 共同目録作成プログラム
-      other: その他の
-      unknown: 道の
-      natc: コーディングしようとしない
-    source: 
-      naf: NAF
-      snac: SNAC
-      local: 地元
-    identifier_type: 
-      loc: 議会図書館
-      lac: 図書館および公文書館カナダ
-      local: 地元
-    agency_code_type: 
-      oclc: OCLC
-      local: 地元
-    maintenance_event_type: 
-      created: 作成した
+      not_before: 前ではない
+      standard: 標準
+    event_event_type:
+      accession: 受託
+      accumulation: 累積
+      acknowledgement: 了承
+      acknowledgement_received: 受け取った謝辞
+      acknowledgement_sent: 送信された確認応答
+      agreement_received: 受領した契約
+      agreement_sent: 契約書が送信されました
+      agreement_signed: 契約書締結
+      appraisal: 審査
+      assessment: 評価
+      capture: キャプチャー
+      cataloged: カタログ化された
+      collection: コレクション
+      component_transfer: コンポーネント転送
+      compression: 圧縮
+      contribution: 貢献
+      copyright_transfer: 著作権移転
+      custody_transfer: 保管転送
+      deaccession: デアクセス
+      decompression: 減圧
+      decryption: 復号化
+      deletion: 削除
+      digital_signature_validation: デジタル署名検証
+      fixity_check: 適合性チェック
+      ingestion: 摂取
+      message_digest_calculation: メッセージダイジェスト計算
+      migration: 移行
+      normalization: 正規化
+      processed: 処理された
+      processing_completed: 処理が完了しました
+      processing_in_progress: 処理中の処理
+      processing_new: 新しい処理
+      processing_started: 処理開始
+      publication: 出版物
+      replication: 複製
+      request: 要求
+      rights_transferred: 移転権
+      validation: 検証
+      virus_check: ウィルスチェック
+    event_outcome:
       cancelled: キャンセル
-      deleted: 削除済み
-      derived: 派生
-      revised: 改訂
-      updated: 更新しました
-    maintenance_agent_type: 
-      human: 人間
-      machine: 機械
-    linked_event_archival_record_roles:
-      source: ソース
-      outcome: 結果
-      transfer: 転送
-      context: コンテキスト
-      requested: 要求された
-    linked_agent_archival_record_relators:
-      abr: Abridger
-      act: 俳優
-      adi: アートディレクター
-      adp: アダプタ
-      anl: アナリスト
-      anm: アニメーター
-      ann: 注釈者
-      ape: Appellee
-      apl: 上訴人
-      app: 応募者
-      arc: 建築家
-      arr: アレンジャー
-      acp: アートコピーライター
-      art: アーティスト
-      ard: アートディレクター
-      asg: 譲受人
-      asn: 関連する名前
-      att: 帰属名
-      auc: 競売人
-      aut: 著者
-      aqt: 引用やテキスト抄録の著者
-      aft: アフターワード、コロフォンなどの作者
-      aud: ダイアログの作成者
-      aui: 紹介者など
-      aus: 脚本などの作者
-      ato: 車グラファ
-      ant: 書誌的先例
-      bnd: バインダー
-      bdd: バインディングデザイナー
-      blw: Blurbライター
-      bkd: ブックデザイナー
-      bkp: ブックプロデューサー
-      bjd: ブックジャケットデザイナー
-      bpd: ブックプレートデザイナー
-      bsl: 書店
-      brl: 点字エンボスサー
-      brd: 放送者
-      cll: カリグラフィー
-      ctg: カートグラファー
-      cas: キャスター
-      cns: 検閲
-      chr: 振付師
-      cng: 撮影監督
-      cli: クライアント
-      cor: コレクションレジストラ
-      clb: コラボレーター
-      col: コレクタ
-      clt: Collotyper
-      clr: カラリスト
-      cmm: コメンテーター
-      cwt: 文章の解説者
-      com: コンパイラ
-      cpl: 申立人
-      cpt: 申立人 - 上訴人
-      cpe: 申立人 - 被告人
-      cmp: 作曲家
-      cmt: 作曲家
-      ccp: conceptor
-      cnd: 導体
-      con: 保守党
-      csl: コンサルタント
-      csp: プロジェクトのコンサルタント
-      cos: コンテスト
-      cot: コンテスト控訴人
-      coe: コンテスト参加者
-      cts: Contestee
-      ctt: コンテスト控訴人
-      cte: コンテスト被告人
-      ctr: 請負業者
-      ctb: 貢献者
-      cpc: 著作権者
-      cph: 著作権者
-      crr: コレクター
-      crp: 特派員
-      cst: 衣装デザイナー
-      cou: 裁判所が管轄する
-      crt: 裁判所の記者
-      cov: カバーデザイナー
-      cre: クリエイター
-      cur: 展覧会のキュレーター
-      dnc: ダンサー
-      dtc: データ寄稿者
-      dtm: データ管理者
-      dte: Dedicatee
-      dto: 捧げます
-      dfd: 被告
-      dft: 被告 - 上訴人
-      dfe: 被告人 - 被告人
-      dgg: 学位取得者
-      dgs: 学位監督
-      dln: 描写者
-      dpc: 描かれた
-      dpt: 預金者
-      dsr: デザイナー
-      drt: ディレクター
-      dis: ディザータン
-      dbp: 配布場所
-      dst: ディストリビューター
-      dnr: ドナー
-      drm: 下書き
-      dub: 嫌な著者
-      edt: 編集者
-      edc: 編集の編集者
-      edm: 動画作品の編集者
-      elg: 電気工事
-      elt: Electroperper
-      enj: 管轄裁判所
-      eng: エンジニア
-      egr: 彫版
-      etr: エッチャー
-      evp: イベント会場
-      exp: 鑑定人
-      fac: ファクシミリスト
-      fld: フィールドディレクター
-      fmd: 映画監督
-      fds: フィルムディストリビューター
-      flm: フィルムエディタ
-      fmp: 映画制作者
-      fmk: 映画監督
-      fpy: 最初のパーティ
-      frg: 偽造します
-      fmo: 元オーナー
-      fnd: ファインダー
-      gis: 地理情報スペシャリスト
-      grt: グラフィック技術者
-      hnr: オノレー
-      hst: ホスト
-      his: ホスト機関
-      ilu: イルミネータ
-      ill: イラストレーター
-      ins: 看護師
-      itr: インストゥルメント
-      ive: 面接者
-      ivr: インタビュアー
-      inv: 発明者
-      isb: 発行機関
-      jud: 裁判官
-      jug: 管轄は管轄
-      lbr: 研究室
-      ldr: 研究所所長
-      lsa: 風景建築家
-      led: 鉛
-      len: 貸し手
-      lil: リブラント
-      lit: ライバル訴状
-      lie: ライバル・アプピーリー
-      lel: リヴァーゼ
-      let: リベリ - 上訴人
-      lee: リベリ - アプスレー
-      lbt: リブレスト
-      lse: ライセンシー
-      lso: ライセンサー
-      lgd: 照明デザイナー
-      ltg: リソグラフィー
-      lyr: 作詞家
-      mfp: 製造場所
-      mfr: メーカー
-      mrb: マーブル
-      mrk: マークアップエディタ
-      med: 中
-      mdc: メタデータ連絡先
-      mte: 金属彫刻家
-      mtk: 議事録
-      mod: モデレータ
-      mon: モニター
-      mcp: 音楽のコピーライター
-      msd: ミュージカルディレクター
-      mus: ミュージシャン
-      nrt: ナレーター
-      osp: オンスクリーンプレゼンター
-      opn: 相手
-      orm: 会議の主催者
-      org: 創始者
-      oth: その他
-      own: オーナー
-      pan: パネリスト
-      ppm: 製紙会社
-      pta: 特許出願人
-      pth: 特許権者
-      pat: パトロン
-      prf: 出演者
-      pma: 代理店を許可する
-      pht: 写真家
-      ptf: 原告
-      ptt: 原告 - 上訴人
-      pte: 原告 - 被告人
-      plt: 製版メーカー
-      pra: 社長
-      pre: プレゼンター
-      prt: プリンタ
-      pop: プレートのプリンタ
-      prm: プリントメーカー
-      prc: プロセス連絡先
-      pro: プロデューサー
-      prn: 芸能事務所
-      pmn: プロダクションマネージャー
-      prs: 生産デザイナー
-      prd: 個人生産
-      prp: 生産場所
-      prg: プログラマー
-      pdr: プロジェクトディレクター
-      pfr: 校正者
-      prv: プロバイダ
-      pup: 出版場所
-      pbl: 出版社
-      pbd: 出版社取締役
-      ppt: 人形
-      rdd: ラジオディレクター
-      rpc: ラジオプロデューサー
-      rcp: 受信者
-      rce: 録音エンジニア
-      rcd: 記録主義者
-      red: エディタ
-      ren: レンダラー
-      rpt: レポーター
-      rps: リポジトリ
-      rth: 研究チーム長
-      rtm: 研究チームメンバー
-      res: 研究者
-      rsp: 被告
-      rst: 被告人 - 上訴人
-      rse: 被告人 - 被告人
-      rpy: 責任者
-      rsg: レスタージャー
-      rsr: リストラ主義者
-      rev: レビューア
-      rbr: Rubricator
-      sce: Scenarist
-      sad: 科学顧問
-      scr: スクライブ
-      scl: 彫刻家
-      spy: 第二者
-      sec: 秘書
-      sll: 売り手
-      std: 舞台美術家
-      stg: 設定
-      sgn: 看板
-      sng: 歌手
-      sds: サウンドデザイナー
-      spk: スピーカー
-      spn: スポンサー
-      sgd: 舞台監督
-      stm: 舞台主任
-      stn: 標準団体
-      str: ステレオタイプ
-      stl: ストーリーテラー
-      sht: サポートホスト
-      srv: サーベイ
-      tch: 先生
-      tcd: 技術指導者
-      tld: テレビディレクター
-      tlp: テレビプロデューサー
-      ths: 論文アシスタント
-      trc: 転写器
-      trl: 翻訳者
-      tyd: タイプデザイナー
-      tyg: Typographer
-      uvp: 大学の場所
-      vdg: ビデオ作家
-      vac: 声優
-      voc: ボーカリスト
-      wit: 証人
-      wde: 木彫機
-      wdc: 木こり
-      wam: 添付資料の作家
-      wac: 追加された解説者の作家
-      wal: 追加された歌詞の作家
-      wat: 追加されたテキストの作者
-      win: 紹介者
-      wpr: 序文の著者
-      wst: 補足的なテキストコンテンツの作家
-    linked_agent_event_roles:
-      authorizer: 承認者
-      executing_program: プログラムの実行
-      implementer: 実装者
-      recipient: 受信者
-      requester: リクエスタ
-      transmitter: トランスミッタ
-      validator: バリデーター
-    name_source:
-      cash: カナダの科目見出し
-      ingest: 指定されていないソース
-      lcshac: 議会図書館の子供の主題見出し
-      local: ローカルソース
-      lcnaf: 議会図書館の権限ファイル
-      naf: NACO権限ファイル
-      nad: NAD / ARK II名前権限データベース
-      nal: 国立農業図書館の見出し見出し
-      rvm: 件名見出しディレクトリ
-      ram: RAMEAU機関ディレクトリ
-      ulan: アーティスト名の連合リスト
-    name_rule:
-      local: ローカルルール
-      aacr: 英米の目録規則
-      dacs: アーカイブの記述：コンテンツ標準
-      rda: リソースの説明とアクセス
+      fail: 失敗します
+      fulfilled: 完成品
+      partial pass: パーシャルパス
+      pass: パス
+      pending: 保留中
     extent_extent_type:
       cassettes: カセット
       cubic_feet: 立方フィート
@@ -472,154 +576,24 @@ ja:
       sheets: シート
       terabytes: テラバイト
       volumes: ボリューム
-    collection_management_processing_priority:
-      none: 指定されていない
-      high: 高い
-      medium: 中
-      low: 低い
-    collection_management_processing_status:
-      none: 指定されていない
-      new: 新しい
-      in_progress: 進行中
-      completed: 完了しました
-    date_era:
-      ce: 本
-    date_calendar:
-      gregorian: グレゴリアン
-    digital_object_digital_object_type:
-      cartographic: 地図製作
-      mixed_materials: 混合材料
-      moving_image: 動画
-      notated_music: ノミネート音楽
-      software_multimedia: ソフトウェア、マルチメディア
-      sound_recording: 録音
-      sound_recording_musical: サウンドレコーディング（ミュージカル）
-      sound_recording_nonmusical: サウンドレコーディング（非音楽的）
-      still_image: 静止画
-      text: テキスト
-    digital_object_level:
-      collection: コレクション
-      work: 作業
-      image: 画像
-    event_event_type:
-      accession: 受託
-      accumulation: 累積
-      acknowledgement: 了承
-      acknowledgement_sent: 送信された確認応答
-      acknowledgement_received: 受け取った謝辞
-      agreement_received: 受領した契約
-      agreement_sent: 契約書が送信されました
-      agreement_signed: 契約書締結
-      appraisal: 審査
-      assessment: 評価
-      capture: キャプチャー
-      cataloged: カタログ化された
-      collection: コレクション
-      compression: 圧縮
-      contribution: 貢献
-      component_transfer: コンポーネント転送
-      copyright_transfer: 著作権移転
-      custody_transfer: 保管転送
-      deaccession: デアクセス
-      decompression: 減圧
-      decryption: 復号化
-      deletion: 削除
-      digital_signature_validation: デジタル署名検証
-      fixity_check: 適合性チェック
-      ingestion: 摂取
-      message_digest_calculation: メッセージダイジェスト計算
-      migration: 移行
-      normalization: 正規化
-      processed: 処理された
-      processing_new: 新しい処理
-      processing_started: 処理開始
-      processing_in_progress: 処理中の処理
-      processing_completed: 処理が完了しました
-      publication: 出版物
-      replication: 複製
-      request: 要求
-      rights_transferred: 移転権
-      validation: 検証
-      virus_check: ウィルスチェック
-    resource_resource_type:
-      collection: コレクション
-      publications: 出版物
-      papers: 論文
-      records: 記録
-    resource_finding_aid_description_rules:
-      aacr: 英米の目録規則
-      cco: 文化オブジェクトの目録
-      dacs: アーカイブの記述：コンテンツ標準
-      rad: アーカイブのルール
-      isadg: アーカイブのための国際標準記述 - 一般
-    resource_finding_aid_status:
-      completed: 完了しました
-      in_progress: 進行中
-      under_revision: 改訂中
-      unprocessed: 未処理
-    instance_instance_type:
-      accession: 受託
-      audio: オーディオ
-      books: 書籍
-      computer_disks: コンピュータディスク
-      digital_object: デジタルオブジェクト
-      digital_object_link: デジタルオブジェクトリンク
-      graphic_materials: グラフィックス資料
-      maps: 地図
-      microform: マイクロフォーム
-      mixed_materials: 混合材料
-      moving_images: 動画を見る
-      realia: Realia
-      text: テキスト
-    accession_acquisition_type:
-      deposit: 保証金
-      gift: 贈り物
-      purchase: 購入
-      transfer: 転送
-    accession_resource_type:
-      collection: コレクション
-      publications: 出版物
-      papers: 論文
-      records: 記録
-    subject_source:
-      aat: アート＆アーキテクチャシソーラス
-      cash: カナダの科目見出し
-      gmgpc: TGM II、ジャンルおよび物理的特性用語
-      ingest: 指定されていないソース
-      lcsh: 議会図書館の見出し見出し
-      lcshac: 議会図書館の子供の主題見出し
-      local: ローカルソース
-      mesh: 医療対象見出し
-      nal: 国立農業図書館の見出し見出し
-      rbgenr: ジャンル用語：レアブックや特別コレクションのカタログ化に使用するシソーラス
-      rvm: 件名見出しディレクトリ
-      ram: RAMEAU機関ディレクトリ
-      tgn: Geographic Namesのゲットシソーラス
-      lcgft: 議会図書館のジャンル/フォーム利用規約
-    event_outcome:
-      pass: パス
-      partial pass: パーシャルパス
-      fail: 失敗します
-      cancelled: キャンセル
-      fulfilled: 完成品
-      pending: 保留中
-    agent_contact_salutation:
-      mr: 氏
-      mrs: 夫人
-      ms: ミズ
-      madame: 夫人
-      sir: サー
-    container_type:
-      box: ボックス
-      carton: カートン
-      case: 場合
-      folder: フォルダ
-      frame: フレーム
-      object: オブジェクト
-      page: ページ
-      reel: リール
-      volume: ボリューム
-      container: コンテナ
+    extent_portion:
+      part: 部
+      whole: 全体
+    file_version_checksum_methods:
+      md5: MD5
+      sha-1: SHA-1
+      sha-256: SHA-256
+      sha-384: SHA-384
+      sha-512: SHA-512
+    file_version_file_format_name:
+      aiff: オーディオインターチェンジファイル形式
+      avi: オーディオ/ビデオインターリーブ形式
+      gif: グラフィックスインターチェンジフォーマット
+      jpeg: JPEGファイル交換形式
+      mp3: MPEGオーディオレイヤー3
+      pdf: ポータブルドキュメントフォーマット
+      tiff: タグ付きイメージファイルの形式
+      txt: プレーンテキストファイル
     file_version_use_statement:
       audio-clip: オーディオクリップ
       audio-master: オーディオマスター
@@ -644,12 +618,50 @@ ja:
       video-master-edited: ビデオマスター編集
       video-service: ビデオサービス
       video-streaming: ビデオストリーミング
-    file_version_checksum_methods:
-      md5: MD5
-      sha-1: SHA-1
-      sha-256: SHA-256
-      sha-384: SHA-384
-      sha-512: SHA-512
+    file_version_xlink_actuate_attribute:
+      none: なし
+      onLoad: オンロード
+      onRequest: 要求に応じて
+      other: その他
+    file_version_xlink_show_attribute:
+      embed: 埋め込み
+      new: 新しい
+      none: なし
+      other: その他
+      replace: 置き換える
+    gender:
+      not_specified: 指定されていない
+    government_agency_type:
+      fed: 連邦/国家
+      int_gov: 国際政府間
+      local: 地元
+      multilocal: 多地域
+      multistate: 多状態
+      natc: コーディングしようとしない
+      ngo: 非政府組織
+      other: その他の
+      provincial: 州、地方、領土、扶養家族など
+      sac: 自律型または半自律型コンポーネント
+      undetermined: 行政機関タイプ未定
+      unknown: 見出しが政府機関の場合は不明
+    identifier_type:
+      lac: 図書館および公文書館カナダ
+      loc: 議会図書館
+      local: 地元
+    instance_instance_type:
+      accession: 受託
+      audio: オーディオ
+      books: 書籍
+      computer_disks: コンピュータディスク
+      digital_object: デジタルオブジェクト
+      digital_object_link: デジタルオブジェクトリンク
+      graphic_materials: グラフィックス資料
+      maps: 地図
+      microform: マイクロフォーム
+      mixed_materials: 混合材料
+      moving_images: 動画を見る
+      realia: Realia
+      text: テキスト
     language_iso639_2:
       aar: アファル語
       abk: アブハズ語
@@ -1137,6 +1149,612 @@ ja:
       zun: ズニ語
       zxx: 言語的でない内容
       zza: ザザキ語
+    level_of_detail:
+      fully_established: 完全に確立された
+      memorandum: メモ
+      natc: コーディングしようとしない
+      not_applicable: 適用できません
+      preliminary: 予備の
+      provisional: 仮
+    linked_agent_archival_record_relators:
+      abr: Abridger
+      acp: アートコピーライター
+      act: 俳優
+      adi: アートディレクター
+      adp: アダプタ
+      aft: アフターワード、コロフォンなどの作者
+      anl: アナリスト
+      anm: アニメーター
+      ann: 注釈者
+      ant: 書誌的先例
+      ape: Appellee
+      apl: 上訴人
+      app: 応募者
+      aqt: 引用やテキスト抄録の著者
+      arc: 建築家
+      ard: アートディレクター
+      arr: アレンジャー
+      art: アーティスト
+      asg: 譲受人
+      asn: 関連する名前
+      ato: 車グラファ
+      att: 帰属名
+      auc: 競売人
+      aud: ダイアログの作成者
+      aui: 紹介者など
+      aus: 脚本などの作者
+      aut: 著者
+      bdd: バインディングデザイナー
+      bjd: ブックジャケットデザイナー
+      bkd: ブックデザイナー
+      bkp: ブックプロデューサー
+      blw: Blurbライター
+      bnd: バインダー
+      bpd: ブックプレートデザイナー
+      brd: 放送者
+      brl: 点字エンボスサー
+      bsl: 書店
+      cas: キャスター
+      ccp: conceptor
+      chr: 振付師
+      clb: コラボレーター
+      cli: クライアント
+      cll: カリグラフィー
+      clr: カラリスト
+      clt: Collotyper
+      cmm: コメンテーター
+      cmp: 作曲家
+      cmt: 作曲家
+      cnd: 導体
+      cng: 撮影監督
+      cns: 検閲
+      coe: コンテスト参加者
+      col: コレクタ
+      com: コンパイラ
+      con: 保守党
+      cor: コレクションレジストラ
+      cos: コンテスト
+      cot: コンテスト控訴人
+      cou: 裁判所が管轄する
+      cov: カバーデザイナー
+      cpc: 著作権者
+      cpe: 申立人 - 被告人
+      cph: 著作権者
+      cpl: 申立人
+      cpt: 申立人 - 上訴人
+      cre: クリエイター
+      crp: 特派員
+      crr: コレクター
+      crt: 裁判所の記者
+      csl: コンサルタント
+      csp: プロジェクトのコンサルタント
+      cst: 衣装デザイナー
+      ctb: 貢献者
+      cte: コンテスト被告人
+      ctg: カートグラファー
+      ctr: 請負業者
+      cts: Contestee
+      ctt: コンテスト控訴人
+      cur: 展覧会のキュレーター
+      cwt: 文章の解説者
+      dbp: 配布場所
+      dfd: 被告
+      dfe: 被告人 - 被告人
+      dft: 被告 - 上訴人
+      dgg: 学位取得者
+      dgs: 学位監督
+      dis: ディザータン
+      dln: 描写者
+      dnc: ダンサー
+      dnr: ドナー
+      dpc: 描かれた
+      dpt: 預金者
+      drm: 下書き
+      drt: ディレクター
+      dsr: デザイナー
+      dst: ディストリビューター
+      dtc: データ寄稿者
+      dte: Dedicatee
+      dtm: データ管理者
+      dto: 捧げます
+      dub: 嫌な著者
+      edc: 編集の編集者
+      edm: 動画作品の編集者
+      edt: 編集者
+      egr: 彫版
+      elg: 電気工事
+      elt: Electroperper
+      eng: エンジニア
+      enj: 管轄裁判所
+      etr: エッチャー
+      evp: イベント会場
+      exp: 鑑定人
+      fac: ファクシミリスト
+      fds: フィルムディストリビューター
+      fld: フィールドディレクター
+      flm: フィルムエディタ
+      fmd: 映画監督
+      fmk: 映画監督
+      fmo: 元オーナー
+      fmp: 映画制作者
+      fnd: ファインダー
+      fpy: 最初のパーティ
+      frg: 偽造します
+      gis: 地理情報スペシャリスト
+      grt: グラフィック技術者
+      his: ホスト機関
+      hnr: オノレー
+      hst: ホスト
+      ill: イラストレーター
+      ilu: イルミネータ
+      ins: 看護師
+      inv: 発明者
+      isb: 発行機関
+      itr: インストゥルメント
+      ive: 面接者
+      ivr: インタビュアー
+      jud: 裁判官
+      jug: 管轄は管轄
+      lbr: 研究室
+      lbt: リブレスト
+      ldr: 研究所所長
+      led: 鉛
+      lee: リベリ - アプスレー
+      lel: リヴァーゼ
+      len: 貸し手
+      let: リベリ - 上訴人
+      lgd: 照明デザイナー
+      lie: ライバル・アプピーリー
+      lil: リブラント
+      lit: ライバル訴状
+      lsa: 風景建築家
+      lse: ライセンシー
+      lso: ライセンサー
+      ltg: リソグラフィー
+      lyr: 作詞家
+      mcp: 音楽のコピーライター
+      mdc: メタデータ連絡先
+      med: 中
+      mfp: 製造場所
+      mfr: メーカー
+      mod: モデレータ
+      mon: モニター
+      mrb: マーブル
+      mrk: マークアップエディタ
+      msd: ミュージカルディレクター
+      mte: 金属彫刻家
+      mtk: 議事録
+      mus: ミュージシャン
+      nrt: ナレーター
+      opn: 相手
+      org: 創始者
+      orm: 会議の主催者
+      osp: オンスクリーンプレゼンター
+      oth: その他
+      own: オーナー
+      pan: パネリスト
+      pat: パトロン
+      pbd: 出版社取締役
+      pbl: 出版社
+      pdr: プロジェクトディレクター
+      pfr: 校正者
+      pht: 写真家
+      plt: 製版メーカー
+      pma: 代理店を許可する
+      pmn: プロダクションマネージャー
+      pop: プレートのプリンタ
+      ppm: 製紙会社
+      ppt: 人形
+      pra: 社長
+      prc: プロセス連絡先
+      prd: 個人生産
+      pre: プレゼンター
+      prf: 出演者
+      prg: プログラマー
+      prm: プリントメーカー
+      prn: 芸能事務所
+      pro: プロデューサー
+      prp: 生産場所
+      prs: 生産デザイナー
+      prt: プリンタ
+      prv: プロバイダ
+      pta: 特許出願人
+      pte: 原告 - 被告人
+      ptf: 原告
+      pth: 特許権者
+      ptt: 原告 - 上訴人
+      pup: 出版場所
+      rbr: Rubricator
+      rcd: 記録主義者
+      rce: 録音エンジニア
+      rcp: 受信者
+      rdd: ラジオディレクター
+      red: エディタ
+      ren: レンダラー
+      res: 研究者
+      rev: レビューア
+      rpc: ラジオプロデューサー
+      rps: リポジトリ
+      rpt: レポーター
+      rpy: 責任者
+      rse: 被告人 - 被告人
+      rsg: レスタージャー
+      rsp: 被告
+      rsr: リストラ主義者
+      rst: 被告人 - 上訴人
+      rth: 研究チーム長
+      rtm: 研究チームメンバー
+      sad: 科学顧問
+      sce: Scenarist
+      scl: 彫刻家
+      scr: スクライブ
+      sds: サウンドデザイナー
+      sec: 秘書
+      sgd: 舞台監督
+      sgn: 看板
+      sht: サポートホスト
+      sll: 売り手
+      sng: 歌手
+      spk: スピーカー
+      spn: スポンサー
+      spy: 第二者
+      srv: サーベイ
+      std: 舞台美術家
+      stg: 設定
+      stl: ストーリーテラー
+      stm: 舞台主任
+      stn: 標準団体
+      str: ステレオタイプ
+      tcd: 技術指導者
+      tch: 先生
+      ths: 論文アシスタント
+      tld: テレビディレクター
+      tlp: テレビプロデューサー
+      trc: 転写器
+      trl: 翻訳者
+      tyd: タイプデザイナー
+      tyg: Typographer
+      uvp: 大学の場所
+      vac: 声優
+      vdg: ビデオ作家
+      voc: ボーカリスト
+      wac: 追加された解説者の作家
+      wal: 追加された歌詞の作家
+      wam: 添付資料の作家
+      wat: 追加されたテキストの作者
+      wdc: 木こり
+      wde: 木彫機
+      win: 紹介者
+      wit: 証人
+      wpr: 序文の著者
+      wst: 補足的なテキストコンテンツの作家
+    linked_agent_event_roles:
+      authorizer: 承認者
+      executing_program: プログラムの実行
+      implementer: 実装者
+      recipient: 受信者
+      requester: リクエスタ
+      transmitter: トランスミッタ
+      validator: バリデーター
+    linked_agent_role:
+      creator: クリエイター
+      source: ソース
+      subject: 件名
+    linked_event_archival_record_roles:
+      context: コンテキスト
+      outcome: 結果
+      requested: 要求された
+      source: ソース
+      transfer: 転送
+    location_function_type:
+      arrivals: 到着
+      av_materials: 視聴覚資料
+      shared: 共有
+    location_temporary:
+      conservation: 保全
+      exhibit: 示す
+      loan: ローン
+      reading_room: 読書室
+    maintenance_agent_type:
+      human: 人間
+      machine: 機械
+    maintenance_event_type:
+      cancelled: キャンセル
+      created: 作成した
+      deleted: 削除済み
+      derived: 派生
+      revised: 改訂
+      updated: 更新しました
+    maintenance_status:
+      cancelled_obsolete: キャンセル/廃止
+      deleted: 削除済み
+      deleted_replaced: 削除 - 置き換え
+      deleted_split: 削除済み分割
+      derived: 派生
+      new: 新しい
+      revised_corrected: 修正/修正
+      upgraded: アップグレード済み
+    modified_record:
+      missing_characters: 行方不明の文字
+      natc: コーディングしようとしない
+      not_modified: 変更なし
+      shortened: 短縮
+    name_person_name_order:
+      direct: 直接
+      inverted: 間接
+    name_rule:
+      aacr: 英米の目録規則
+      ccr: 文化資源の目録
+      dacs: アーカイブの記述：コンテンツ標準
+      isaar: 企業、個人、家族のための国際標準アーカイブ機関の記録
+      local: ローカルルール
+      rad: アーカイブの説明に関する規則
+      rda: リソースの説明とアクセス
+    name_source:
+      cash: カナダの科目見出し
+      ingest: 指定されていないソース
+      lcnaf: 議会図書館の権限ファイル
+      lcshac: 議会図書館の子供の主題見出し
+      local: ローカルソース
+      nad: NAD / ARK II名前権限データベース
+      naf: NACO権限ファイル
+      nal: 国立農業図書館の見出し見出し
+      ram: RAMEAU機関ディレクトリ
+      rvm: 件名見出しディレクトリ
+      snac: SNAC
+      ulan: アーティスト名の連合リスト
+    name_type:
+      differentiated: 差別化
+      natc: コーディングしようとしない
+      not_applicable: 適用できません
+      undifferentiated: 未分化
+    note_index_item_type:
+      corporate_entity: コーポレートエンティティ
+      family: 家族
+      function: 関数
+      genre_form: ジャンル/フォーム
+      geographic_name: 地理的名称
+      name: 名
+      occupation: 職業
+      person: 人
+      subject: 件名
+      title: タイトル
+    note_rights_statement_act_type:
+      additional_information: 追加情報
+      expiration: 有効期限
+      extension: 拡張
+      permissions: アクセス許可
+      restrictions: 制限事項
+    note_rights_statement_type:
+      additional_information: 追加情報
+      materials: 材料
+      type_note: タイプノート
+    _note_types: &note_type_definitions  # yamllint disable-line rule:key-ordering
+      abstract: 抽象
+      accessrestrict: アクセスを管理する条件
+      accruals: 見越額
+      acqinfo: 買収の即時出典
+      altformavail: コピーの存在と場所
+      appraisal: 審査
+      arrangement: 配置
+      bibliography: 参考文献
+      bioghist: 伝記/歴史
+      contact_note: お問い合わせ先
+      custodhist: 親権史
+      dimensions: 寸法
+      edition: 版
+      extent: エクステント
+      fileplan: ファイルプラン
+      general_context: 一般的なコンテキスト
+      index: インデックス
+      inscription: 登録
+      langmaterial: 材料の言語
+      legal_status: 法的地位
+      legalstatus: 法的地位
+      mandate: 委任
+      materialspec: 材料固有の詳細
+      note: 一般的な注意
+      note_bibliography: 参考文献
+      odd: 一般
+      originalsloc: オリジナルの存在と場所
+      otherfindaid: その他の助成金
+      physdesc: 身体的特徴
+      physfacet: 物理ファセット
+      physloc: 物理的な位置
+      phystech: 物理的特性と技術的要件
+      prefercite: 好ましい引用
+      processinfo: 処理情報
+      relatedmaterial: 関連資料
+      rights_statement: 権利
+      scopecontent: 範囲と内容
+      separatedmaterial: 分離された材料
+      structure_or_genealogy: 構造または系図
+      summary: 概要
+      userestrict: 使用を管理する条件
+    note_digital_object_type:  # yamllint disable-line rule:key-ordering
+      <<: *note_type_definitions
+    note_langmaterial_type:  # yamllint disable-line rule:key-ordering
+      <<: *note_type_definitions
+    note_multipart_type:  # yamllint disable-line rule:key-ordering
+      <<: *note_type_definitions
+    note_singlepart_type:  # yamllint disable-line rule:key-ordering
+      <<: *note_type_definitions
+    place_role:
+      assoc_country: 関連国
+      other_assoc: その他
+      place_of_birth: 出生地
+      place_of_death: 死の場所
+      residence: レジデンス
+    publication_status:
+      approved: 承認済み
+      in_process: インプロセス
+    reference_evaluation:
+      natc: コーディングしようとしない
+      not_applicable: 適用できません
+      tr_consistent: 見出しと一致するトレース
+      tr_inconsistent: 見出しと矛盾する追跡
+    resource_finding_aid_description_rules:
+      aacr: 英米の目録規則
+      cco: 文化オブジェクトの目録
+      dacs: アーカイブの記述：コンテンツ標準
+      isadg: アーカイブのための国際標準記述 - 一般
+      rad: アーカイブのルール
+    resource_finding_aid_status:
+      completed: 完了しました
+      in_progress: 進行中
+      under_revision: 改訂中
+      unprocessed: 未処理
+    resource_resource_type:
+      collection: コレクション
+      papers: 論文
+      publications: 出版物
+      records: 記録
+    restriction_type:
+      ColdStorageBrbl: 5  - その他
+      InProcessSpecColl: 4  - 制限付きインプロセス
+      RestrictedCurApprSpecColl: 2  - リポジトリによるアクセス制限の適用
+      RestrictedFragileSpecColl: 3  - 脆弱な制限
+      RestrictedSpecColl: 1  - ドナー/大学がアクセス制限を課す
+    rights_statement_act_restriction:
+      allow: 許可する
+      conditional: 条件付き
+      disallow: 禁止
+    rights_statement_act_type:
+      delete: 削除
+      disseminate: 普及
+      migrate: 移行する
+      modify: 変更
+      replicate: 複製する
+      use: つかいます
+    rights_statement_external_document_identifier_type:
+      agrovoc: AGROVOC多言語農業シソーラス。 （ローマ：APIMONDIA）
+      allmovie: AllMovie
+      allmusic: すべての音楽
+      allocine: Screenrush
+      amnbo: アメリカ国立バイオグラフィーオンライン
+      ansi: ANSIまたはANSI / NISO標準の米国規格協会および国家標準規格機関番号
+      artsy: 芸術
+      bdusc: 米国議会の経歴書（米国議会）
+      bfi: BFI  - イギリス映​​画協会
+      bnfcg: BnF総合カタログ（パリ：国立図書館）
+      cantic: CANTIC（カタルーニャの名前とタイトルの当局のカタログ）（Biblioteca de Catalunya）
+      cgndb: カナダの地理名データベース（カナダ天然資源省）
+      danacode: ダナコード（Bnei Brak、イスラエル：DANA Systems）
+      datoses: datos.bne.es（スペイン国立図書館）
+      discogs: ディスコ
+      dkfilm: デンマーク映画研究所映画データベース
+      doi: デジタルオブジェクト識別子
+      ean: 国際品番
+      eidr: EIDR：エンターテインメント識別子レジストリ
+      fast: テーマ用語のファセットアプリケーション（オハイオ州ダブリン：OCLC）
+      filmport: filmportal.de
+      findagr: 墓を見つける
+      freebase: Freebase
+      gec: グレート・カタロニア語百科事典
+      geogndb: 地理名データベース
+      geonames: ジオネームズ
+      gettytgn: Geographic Names OnlineのGetty Thesaurus（J. Paul Getty Trust）
+      gettyulan: ユニオン・リストのアーティスト名オンライン（J.ポール・ゲッティ・トラスト）
+      gnd: 共通標準ファイル（ライプチヒ、フランクフルト：ドイツ国立図書館）
+      gnis: 地理情報システム（GNIS）（米国地質調査所、地理的名称に関する委員会）
+      gtin-14: 世界貿易識別番号14（EAN / UCC-128またはITF-14）
+      hdl: ハンドル
+      ibdb: IBDB  - インターネットブロードウェイデータベース
+      idref: IdRef：Sudoc当局のリポジトリ（高等教育機関（ABES）の書誌情報機関）
+      imdb: IMDb  - インターネット映画データベース
+      isan: 国際標準オーディオビジュアルナンバー
+      isbn: 国際標準ブック番号
+      isbn-a: 国際標準書番号（実行可能なISBN）（国際DOI財団（IDF））
+      isbnre: ISBN（国際標準書番号）登録者エレメント
+      isil: ISIL（図書館および関連機関の国際標準識別子）
+      ismn: 国際標準曲番号
+      isni: 国際標準名称識別子
+      iso: 国際標準化機構ISO規格の番号
+      isrc: 国際標準録音コード
+      issn: 国際標準シリアル番号
+      issn-l: 国際標準シリアル番号のリンク
+      issue-number: 録音の問題番号
+      istc: 国際標準テキストコード
+      iswc: 国際標準演奏コード
+      itar: ITAR（インポートサービスとオーソリティレジストリ）
+      kinopo: 映画検索= KinoPoisk
+      lccn: 議会管理番号ライブラリ
+      lcmd: 議会図書館部図書館（ワシントンDC：議会図書館）
+      lcmpt: 議会図書館音楽のための演奏シソーラス（LCMPT）（ワシントンDC：議会図書館）
+      libaus: 図書館オーストラリア（オーストラリア国立図書館）
+      local: ローカルに定義された識別子
+      matrix-number: サウンドレコーディングマトリックス番号
+      moma: 現代美術館（ニューヨーク：近代美術館）
+      munzing: ムンジンジャー（Munzinger Archiv）
+      music-plate: 出版社の音楽プレート番号
+      music-publisher: 出版社が割り当てた音楽番号
+      musicb: MusicBrainz
+      natgazfid: 米国の全米地名告知機能名識別子
+      nga: ナショナル・ギャラリー・オブ・アート（ワシントンDC：ナショナル・ギャラリー・オブ・アート）
+      nipo: 公式出版物の識別番号
+      nndb: NNDB（有名人データベース）
+      npg: ナショナル・ポートレート・ギャラリー（ロンドン：国立ポートレート・ギャラリー）
+      odnb: オックスフォード国立バイオグラフィー辞書（オックスフォード大学出版）
+      opensm: OpenStreetMap
+      orcid: 公開研究者と寄稿者ID
+      oxforddnb: Oxford Biography Index
+      porthu: PORT.hu
+      rbmsbt: RBMS制御語彙：バインディング用語（レアブックと原稿セクション、大学図書館協会）
+      rbmsgt: RBMS制御語彙：ジャンル用語（レアブックと原稿部門、大学図書館協会）
+      rbmspe: RBMS制御語彙：出生率の証拠（レアブックと原稿部、大学図書館協会）
+      rbmsppe: RBMS制御語彙：印刷と出版の証拠（レアブックと原稿部、大学図書館協会）
+      rbmspt: RBMS制御語彙：論文用語（貴重書と学術図書館協会）
+      rbmsrd: RBMS制御語彙：関係設計者（レアブックと原稿部、大学図書館協会）
+      rbmste: RBMS制御語彙：タイプエビデンス（レアブックと写本セクション、大学図書館協会）
+      rid: ResearcherID（トムソン・ロイター）
+      rkda: RKDartists＆（ハーグ：オランダ美術史研究所）
+      saam: スミソニアンアメリカ美術館（ワシントンDC：スミソニアン協会）
+      scholaru: 学者の宇宙
+      scope: 範囲
+      scopus: Scopus著者識別子
+      sici: シリアルアイテムとコントリビュータ識別子
+      spotify: Spotifyは
+      sprfbsb: スポーツリファレンス：野球
+      sprfbsk: スポーツリファレンス：バスケットボール
+      sprfcbb: スポーツ参照：カレッジバスケットボール
+      sprfcfb: スポーツ参照：カレッジフットボール
+      sprfhoc: スポーツリファレンス：ホッケー
+      sprfoly: スポーツリファレンス：オリンピック
+      sprfpfb: スポーツリファレンス：プロフットボール
+      stock-number: パブリッシャー、ディストリビューター、またはベンダーの在庫番号
+      strn: 標準テクニカルレポート番号
+      svfilm: スウェーデン映画データベース
+      tatearid: Tate Artist Identifier
+      theatr: 演劇
+      trove: Trove（オーストラリア国立図書館）
+      upc: ユニバーサル商品コード
+      uri: ユニフォームリソース識別子
+      urn: 統一リソース名
+      viaf: 仮想国際機関ファイル番号
+      videorecording-identifier: パブリッシャー割り当ての録画番号
+      wikidata: ウィキダータ（ウィキメディア財団）
+      wndla: Web NDL Authorities（東京：国会図書館（NDL））
+    rights_statement_ip_status:
+      copyrighted: 著作権
+      public_domain: パブリックドメイン
+      unknown: 未知の
+    rights_statement_other_rights_basis:
+      donor: ドナー
+      policy: ポリシー
+    rights_statement_rights_type:
+      copyright: 著作権
+      license: ライセンス
+      other: その他
+      statute: 法律
+    romanization:
+      conv_rom_cat_agency: 目録作成代理店の言語での慣用のローマ字化または慣用名の形式
+      int_std: 国際標準
+      local_standard: 地域の基準
+      nat_std: 国家規格
+      nl_assoc_std: 国立図書館協会基準
+      nl_bib_agency_std: 国立図書館または書誌作成会社の規格
+      not_applicable: 適用できません
+      unknown_standard: 由来不明の規格
     script_iso15924:
       Adlm: Adlam
       Afak: Afaka
@@ -1275,8 +1893,8 @@ ja:
       Phlp: Psalter Pahlavi
       Phlv: Book Pahlavi
       Phnx: Phoenician
-      Plrd: Miao (Pollard)
       Piqd: Klingon (KLI pIqaD)
+      Plrd: Miao (Pollard)
       Prti: Inscriptional Parthian
       Qaaa: Reserved for private use (start)
       Qabx: Reserved for private use (end)
@@ -1337,454 +1955,38 @@ ja:
       Zxxx: Code for unwritten documents
       Zyyy: Code for undetermined script
       Zzzz: Code for uncoded script
-    archival_record_level:
-      class: クラス
-      collection: コレクション
-      file: ファイル
-      fonds: 資金
-      item: 項目
-      otherlevel: その他のレベル
-      recordgrp: レコードグループ
-      series: シリーズ
-      subfonds: サブフォンズ
-      subgrp: サブグループ
-      subseries: サブシリーズ
-    container_location_status:
-      current: 現在
-      previous: 前
-    date_type:
-      expression: 式
-      single: シングル
-      bulk: バルク日付
-      inclusive: 包括日付
-      range: 範囲
-    date_label:
-      record_keeping: 記録の保存
-      broadcast: 放送
-      copyright: 著作権
-      creation: 創造
-      deaccession: デアクセス
-      agent_relation: エージェント関係
-      digitized: デジタル化された
-      existence: 存在
-      event: イベント
-      issued: 発行済み
-      modified: 変更された
-      publication: 出版物
-      usage: 使用法
-      other: その他
-    date_certainty:
-      approximate: 近似
-      inferred: 推測された
-      questionable: 疑わしい
-    extent_portion:
-      whole: 全体
-      part: 部
-    deaccession_scope:
-      whole: 全体
-      part: 部
-    file_version_xlink_actuate_attribute:
-      none: なし
-      other: その他
-      onLoad: オンロード
-      onRequest: 要求に応じて
-    file_version_xlink_show_attribute:
-      new: 新しい
-      replace: 置き換える
-      embed: 埋め込み
-      other: その他
-      none: なし
-    file_version_file_format_name:
-      aiff: オーディオインターチェンジファイル形式
-      avi: オーディオ/ビデオインターリーブ形式
-      gif: グラフィックスインターチェンジフォーマット
-      jpeg: JPEGファイル交換形式
-      mp3: MPEGオーディオレイヤー3
-      pdf: ポータブルドキュメントフォーマット
-      tiff: タグ付きイメージファイルの形式
-      txt: プレーンテキストファイル
-    location_temporary:
-      conservation: 保全
-      exhibit: 示す
-      loan: ローン
-      reading_room: 読書室
-    name_person_name_order:
-      direct: 直接
-      inverted: 間接
-    country_iso_3166:
-      AF: アフガニスタン
-      AX: オーランド諸島
-      AL: アルバニア
-      DZ: アルジェリア
-      AS: アメリカ領サモア
-      AD: アンドラ
-      AO: アンゴラ
-      AI: アンギラ
-      AQ: 南極
-      AG: アンティグア・バーブーダ
-      AR: アルゼンチン
-      AM: アルメニア
-      AW: アルバ
-      AU: オーストラリア
-      AT: オーストリア
-      AZ: アゼルバイジャン
-      BS: バハマ
-      BH: バーレーン
-      BD: バングラデシュ
-      BB: バルバドス
-      BY: ベラルーシ
-      BE: ベルギー
-      BZ: ベリーズ
-      BJ: ベナン
-      BM: バミューダ
-      BT: ブータン
-      BO: ボリビア多民族国
-      BQ: ボネール、シント・ユースタティウスおよびサバ
-      BA: ボスニア・ヘルツェゴビナ
-      BW: ボツワナ
-      BV: ブーベ島
-      BR: ブラジル
-      IO: イギリス領インド洋地域
-      BN: ブルネイ・ダルサラーム
-      BG: ブルガリア
-      BF: ブルキナファソ
-      BI: ブルンジ
-      KH: カンボジア
-      CM: カメルーン
-      CA: カナダ
-      CV: カーボベルデ
-      KY: ケイマン諸島
-      CF: 中央アフリカ共和国
-      TD: チャド
-      CL: チリ
-      CN: 中華人民共和国
-      CX: クリスマス島
-      CC: ココス（キーリング）諸島
-      CO: コロンビア
-      KM: コモロ
-      CG: コンゴ共和国
-      CD: コンゴ民主共和国
-      CK: クック諸島
-      CR: コスタリカ
-      CI: コートジボワール
-      HR: クロアチア
-      CU: キューバ
-      CW: キュラソー
-      CY: キプロス
-      CZ: チェコ
-      DK: デンマーク
-      DJ: ジブチ
-      DM: ドミニカ国
-      DO: ドミニカ共和国
-      EC: エクアドル
-      EG: エジプト
-      SV: エルサルバドル
-      GQ: 赤道ギニア
-      ER: エリトリア
-      EE: エストニア
-      ET: エチオピア
-      FK: フォークランド（マルビナス）諸島
-      FO: フェロー諸島
-      FJ: フィジー
-      FI: フィンランド
-      FR: フランス
-      GF: フランス領ギアナ
-      PF: フランス領ポリネシア
-      TF: フランス領南方・南極地域
-      GA: ガボン
-      GM: ガンビア
-      GE: ジョージア
-      DE: ドイツ
-      GH: ガーナ
-      GI: ジブラルタル
-      GR: ギリシャ
-      GL: グリーンランド
-      GD: グレナダ
-      GP: グアドループ
-      GU: グアム
-      GT: グアテマラ
-      GG: ガーンジー
-      GN: ギニア
-      GW: ギニアビサウ
-      GY: ガイアナ
-      HT: ハイチ
-      HM: ハード島とマクドナルド諸島
-      VA: バチカン市国
-      HN: ホンジュラス
-      HK: 香港
-      HU: ハンガリー
-      IS: アイスランド
-      IN: インド
-      ID: インドネシア
-      IR: イラン・イスラム共和国
-      IQ: イラク
-      IE: アイルランド
-      IM: マン島
-      IL: イスラエル
-      IT: イタリア
-      JM: ジャマイカ
-      JP: 日本
-      JE: ジャージー
-      JO: ヨルダン
-      KZ: カザフスタン
-      KE: ケニア
-      KI: キリバス
-      KP: 朝鮮民主主義人民共和国
-      KR: 大韓民国
-      KW: クウェート
-      KG: キルギス
-      LA: ラオス人民民主共和国
-      LV: ラトビア
-      LB: レバノン
-      LS: レソト
-      LR: リベリア
-      LY: リビア
-      LI: リヒテンシュタイン
-      LT: リトアニア
-      LU: ルクセンブルク
-      MO: マカオ
-      MK: マケドニア旧ユーゴスラビア共和国
-      MG: マダガスカル
-      MW: マラウイ
-      MY: マレーシア
-      MV: モルディブ
-      ML: マリ
-      MT: マルタ
-      MH: マーシャル諸島
-      MQ: マルティニーク
-      MR: モーリタニア
-      MU: モーリシャス
-      YT: マヨット
-      MX: メキシコ
-      FM: ミクロネシア連邦
-      MD: モルドバ共和国
-      MC: モナコ
-      MN: モンゴル
-      ME: モンテネグロ
-      MS: モントセラト
-      MA: モロッコ
-      MZ: モザンビーク
-      MM: ミャンマー
-      NA: ナミビア
-      NR: ナウル
-      NP: ネパール
-      NL: オランダ
-      NC: ニューカレドニア
-      NZ: ニュージーランド
-      NI: ニカラグア
-      NE: ニジェール
-      NG: ナイジェリア
-      NU: ニウエ
-      NF: ノーフォーク島
-      MP: 北マリアナ諸島
-      "NO": ノルウェー
-      OM: オマーン
-      PK: パキスタン
-      PW: パラオ
-      PS: パレスチナ
-      PA: パナマ
-      PG: パプアニューギニア
-      PY: パラグアイ
-      PE: ペルー
-      PH: フィリピン
-      PN: ピトケアン
-      PL: ポーランド
-      PT: ポルトガル
-      PR: プエルトリコ
-      QA: カタール
-      RE: レユニオン
-      RO: ルーマニア
-      RU: ロシア連邦
-      RW: ルワンダ
-      BL: サン・バルテルミー
-      SH: セントヘレナ・アセンションおよびトリスタンダクーニャ
-      KN: セントクリストファー・ネイビス
-      LC: セントルシア
-      MF: サン・マルタン（フランス領）
-      PM: サンピエール島・ミクロン島
-      VC: セントビンセントおよびグレナディーン諸島
-      WS: サモア
-      SM: サンマリノ
-      ST: サントメ・プリンシペ
-      SA: サウジアラビア
-      SN: セネガル
-      RS: セルビア
-      SC: セーシェル
-      SL: シエラレオネ
-      SG: シンガポール
-      SX: シント・マールテン（オランダ領）
-      SK: スロバキア
-      SI: スロベニア
-      SB: ソロモン諸島
-      SO: ソマリア
-      ZA: 南アフリカ
-      GS: サウスジョージア・サウスサンドウィッチ諸島
-      SS: 南スーダン
-      ES: スペイン
-      LK: スリランカ
-      SD: スーダン
-      SR: スリナム
-      SJ: スヴァールバル諸島およびヤンマイエン島
-      SZ: スワジランド
-      SE: スウェーデン
-      CH: スイス
-      SY: シリア・アラブ共和国
-      TW: 台湾
-      TJ: タジキスタン
-      TZ: タンザニア
-      TH: タイ
-      TL: 東ティモール
-      TG: トーゴ
-      TK: トケラウ
-      TO: トンガ
-      TT: トリニダード・トバゴ
-      TN: チュニジア
-      TR: トルコ
-      TM: トルクメニスタン
-      TC: タークス・カイコス諸島
-      TV: ツバル
-      UG: ウガンダ
-      UA: ウクライナ
-      AE: アラブ首長国連邦
-      GB: イギリス
-      US: アメリカ合衆国
-      UM: 合衆国領有小離島
-      UY: ウルグアイ
-      UZ: ウズベキスタン
-      VU: バヌアツ
-      VE: ベネズエラ・ボリバル共和国
-      VN: ベトナム
-      VG: イギリス領ヴァージン諸島
-      VI: アメリカ領ヴァージン諸島
-      WF: ウォリス・フツナ
-      EH: 西サハラ
-      YE: イエメン
-      ZM: ザンビア
-      ZW: ジンバブエ
-    rights_statement_act_type:
-      delete: 削除
-      disseminate: 普及
-      migrate: 移行する
-      modify: 変更
-      replicate: 複製する
-      use: つかいます
-    rights_statement_act_restriction:
-      allow: 許可する
-      disallow: 禁止
-      conditional: 条件付き
-    rights_statement_rights_type:
-      copyright: 著作権
-      license: ライセンス
-      statute: 法律
-      other: その他
-    rights_statement_ip_status:
-      copyrighted: 著作権
-      public_domain: パブリックドメイン
-      unknown: 未知の
-    rights_statement_other_rights_basis:
-      donor: ドナー
-      policy: ポリシー
+    source:
+      local: 地元
+      naf: NAF
+      snac: SNAC
+    subject_source:
+      aat: アート＆アーキテクチャシソーラス
+      cash: カナダの科目見出し
+      gmgpc: TGM II、ジャンルおよび物理的特性用語
+      ingest: 指定されていないソース
+      lcgft: 議会図書館のジャンル/フォーム利用規約
+      lcsh: 議会図書館の見出し見出し
+      lcshac: 議会図書館の子供の主題見出し
+      local: ローカルソース
+      mesh: 医療対象見出し
+      nal: 国立農業図書館の見出し見出し
+      ram: RAMEAU機関ディレクトリ
+      rbgenr: ジャンル用語：レアブックや特別コレクションのカタログ化に使用するシソーラス
+      rvm: 件名見出しディレクトリ
+      tgn: Geographic Namesのゲットシソーラス
     subject_term_type:
       cultural_context: 文化的背景
       function: 関数
-      geographic: 地理学
       genre_form: ジャンル/フォーム
+      geographic: 地理学
       occupation: 職業
       style_period: スタイル/期間
       technique: 技術
       temporal: 時間的
       topical: 話題の
       uniform_title: 統一タイトル
-    _note_types: &note_type_definitions
-      accessrestrict: アクセスを管理する条件
-      accruals: 見越額
-      acqinfo: 買収の即時出典
-      altformavail: コピーの存在と場所
-      appraisal: 審査
-      arrangement: 配置
-      bibliography: 参考文献
-      note_bibliography: 参考文献
-      bioghist: 伝記/歴史
-      custodhist: 親権史
-      fileplan: ファイルプラン
-      index: インデックス
-      odd: 一般
-      otherfindaid: その他の助成金
-      originalsloc: オリジナルの存在と場所
-      phystech: 物理的特性と技術的要件
-      prefercite: 好ましい引用
-      processinfo: 処理情報
-      scopecontent: 範囲と内容
-      separatedmaterial: 分離された材料
-      userestrict: 使用を管理する条件
-      dimensions: 寸法
-      legalstatus: 法的地位
-      summary: 概要
-      edition: 版
-      extent: エクステント
-      note: 一般的な注意
-      inscription: 登録
-      langmaterial: 材料の言語
-      physdesc: 身体的特徴
-      relatedmaterial: 関連資料
-      abstract: 抽象
-      physloc: 物理的な位置
-      materialspec: 材料固有の詳細
-      physfacet: 物理ファセット
-      rights_statement: 権利
-    note_digital_object_type:
-      <<: *note_type_definitions
-    note_langmaterial_type:
-      <<: *note_type_definitions
-    note_multipart_type:
-      <<: *note_type_definitions
-    note_singlepart_type:
-      <<: *note_type_definitions
-    note_rights_statement_type:
-      materials: 材料
-      type_note: タイプノート
-      additional_information: 追加情報
-    note_rights_statement_act_type:
-      expiration: 有効期限
-      extension: 拡張
-      permissions: アクセス許可
-      restrictions: 制限事項
-      additional_information: 追加情報
-    linked_agent_role:
-      creator: クリエイター
-      source: ソース
-      subject: 件名
-    agent_relationship_associative_relator:
-      is_associative_with: 関連する連想
-    agent_relationship_earlierlater_relator:
-      is_earlier_form_of: 以前の形式の関連
-      is_later_form_of: 後の形の関連
-    agent_relationship_parentchild_relator:
-      is_child_of: 関連する子供
-      is_parent_of: 関連の親
-    accession_sibling_relator:
-      sibling_of: 兄弟は
-    accession_parts_relator:
-      forms_part_of: フォームの一部
-      has_part: パートがある
-    accession_parts_relator_type:
-      part: "&quot;パート&quot;関係"
-    accession_sibling_relator_type:
-      bound_with: "&quot;結びついた&quot;関係"
-    agent_relationship_subordinatesuperior_relator:
-      is_subordinate_to: 関連する従属者
-      is_superior_of: 関連の優れている
-    note_index_item_type:
-      name: 名
-      person: 人
-      family: 家族
-      corporate_entity: コーポレートエンティティ
-      subject: 件名
-      function: 関数
-      occupation: 職業
-      title: タイトル
-      genre_form: ジャンル/フォーム
-      geographic_name: 地理的名称
+    transliteration:
+      ala-lc: ALA-LCローマ字表記テーブル
     user_defined_enum_1:
       novalue: 値が定義されていない
     user_defined_enum_2:
@@ -1793,231 +1995,3 @@ ja:
       novalue: 値が定義されていない
     user_defined_enum_4:
       novalue: 値が定義されていない
-    dimension_units:
-      inches: インチ
-      feet: 足
-      yards: ヤード
-      millimeters: ミリメートル
-      centimeters: センチメートル
-      meters: メートル
-    restriction_type:
-      RestrictedSpecColl: 1  - ドナー/大学がアクセス制限を課す
-      RestrictedCurApprSpecColl: 2  - リポジトリによるアクセス制限の適用
-      RestrictedFragileSpecColl: 3  - 脆弱な制限
-      InProcessSpecColl: 4  - 制限付きインプロセス
-      ColdStorageBrbl: 5  - その他
-    location_function_type:
-      av_materials: 視聴覚資料
-      arrivals: 到着
-      shared: 共有
-    rights_statement_external_document_identifier_type:
-      agrovoc: AGROVOC多言語農業シソーラス。 （ローマ：APIMONDIA）
-      allmovie: AllMovie
-      allmusic: すべての音楽
-      allocine: Screenrush
-      amnbo: アメリカ国立バイオグラフィーオンライン
-      ansi: ANSIまたはANSI / NISO標準の米国規格協会および国家標準規格機関番号
-      artsy: 芸術
-      bdusc: 米国議会の経歴書（米国議会）
-      bfi: BFI  - イギリス映​​画協会
-      bnfcg: BnF総合カタログ（パリ：国立図書館）
-      cantic: CANTIC（カタルーニャの名前とタイトルの当局のカタログ）（Biblioteca de Catalunya）
-      cgndb: カナダの地理名データベース（カナダ天然資源省）
-      danacode: ダナコード（Bnei Brak、イスラエル：DANA Systems）
-      datoses: datos.bne.es（スペイン国立図書館）
-      discogs: ディスコ
-      dkfilm: デンマーク映画研究所映画データベース
-      doi: デジタルオブジェクト識別子
-      ean: 国際品番
-      eidr: EIDR：エンターテインメント識別子レジストリ
-      fast: テーマ用語のファセットアプリケーション（オハイオ州ダブリン：OCLC）
-      filmport: filmportal.de
-      findagr: 墓を見つける
-      freebase: Freebase
-      gec: グレート・カタロニア語百科事典
-      geogndb: 地理名データベース
-      geonames: ジオネームズ
-      gettytgn: Geographic Names OnlineのGetty Thesaurus（J. Paul Getty Trust）
-      gettyulan: ユニオン・リストのアーティスト名オンライン（J.ポール・ゲッティ・トラスト）
-      gnd: 共通標準ファイル（ライプチヒ、フランクフルト：ドイツ国立図書館）
-      gnis: 地理情報システム（GNIS）（米国地質調査所、地理的名称に関する委員会）
-      gtin-14: 世界貿易識別番号14（EAN / UCC-128またはITF-14）
-      hdl: ハンドル
-      ibdb: IBDB  - インターネットブロードウェイデータベース
-      idref: IdRef：Sudoc当局のリポジトリ（高等教育機関（ABES）の書誌情報機関）
-      imdb: IMDb  - インターネット映画データベース
-      isan: 国際標準オーディオビジュアルナンバー
-      isbn: 国際標準ブック番号
-      isbn-a: 国際標準書番号（実行可能なISBN）（国際DOI財団（IDF））
-      isbnre: ISBN（国際標準書番号）登録者エレメント
-      isil: ISIL（図書館および関連機関の国際標準識別子）
-      ismn: 国際標準曲番号
-      isni: 国際標準名称識別子
-      iso: 国際標準化機構ISO規格の番号
-      isrc: 国際標準録音コード
-      issn: 国際標準シリアル番号
-      issn-l: 国際標準シリアル番号のリンク
-      issue-number: 録音の問題番号
-      istc: 国際標準テキストコード
-      iswc: 国際標準演奏コード
-      itar: ITAR（インポートサービスとオーソリティレジストリ）
-      kinopo: 映画検索= KinoPoisk
-      lccn: 議会管理番号ライブラリ
-      lcmd: 議会図書館部図書館（ワシントンDC：議会図書館）
-      lcmpt: 議会図書館音楽のための演奏シソーラス（LCMPT）（ワシントンDC：議会図書館）
-      libaus: 図書館オーストラリア（オーストラリア国立図書館）
-      local: ローカルに定義された識別子
-      matrix-number: サウンドレコーディングマトリックス番号
-      moma: 現代美術館（ニューヨーク：近代美術館）
-      munzing: ムンジンジャー（Munzinger Archiv）
-      music-plate: 出版社の音楽プレート番号
-      music-publisher: 出版社が割り当てた音楽番号
-      musicb: MusicBrainz
-      natgazfid: 米国の全米地名告知機能名識別子
-      nga: ナショナル・ギャラリー・オブ・アート（ワシントンDC：ナショナル・ギャラリー・オブ・アート）
-      nipo: 公式出版物の識別番号
-      nndb: NNDB（有名人データベース）
-      npg: ナショナル・ポートレート・ギャラリー（ロンドン：国立ポートレート・ギャラリー）
-      odnb: オックスフォード国立バイオグラフィー辞書（オックスフォード大学出版）
-      opensm: OpenStreetMap
-      orcid: 公開研究者と寄稿者ID
-      oxforddnb: Oxford Biography Index
-      porthu: PORT.hu
-      rbmsbt: RBMS制御語彙：バインディング用語（レアブックと原稿セクション、大学図書館協会）
-      rbmsgt: RBMS制御語彙：ジャンル用語（レアブックと原稿部門、大学図書館協会）
-      rbmspe: RBMS制御語彙：出生率の証拠（レアブックと原稿部、大学図書館協会）
-      rbmsppe: RBMS制御語彙：印刷と出版の証拠（レアブックと原稿部、大学図書館協会）
-      rbmspt: RBMS制御語彙：論文用語（貴重書と学術図書館協会）
-      rbmsrd: RBMS制御語彙：関係設計者（レアブックと原稿部、大学図書館協会）
-      rbmste: RBMS制御語彙：タイプエビデンス（レアブックと写本セクション、大学図書館協会）
-      rid: ResearcherID（トムソン・ロイター）
-      rkda: RKDartists＆（ハーグ：オランダ美術史研究所）
-      saam: スミソニアンアメリカ美術館（ワシントンDC：スミソニアン協会）
-      scholaru: 学者の宇宙
-      scope: 範囲
-      scopus: Scopus著者識別子
-      sici: シリアルアイテムとコントリビュータ識別子
-      spotify: Spotifyは
-      sprfbsb: スポーツリファレンス：野球
-      sprfbsk: スポーツリファレンス：バスケットボール
-      sprfcbb: スポーツ参照：カレッジバスケットボール
-      sprfcfb: スポーツ参照：カレッジフットボール
-      sprfhoc: スポーツリファレンス：ホッケー
-      sprfoly: スポーツリファレンス：オリンピック
-      sprfpfb: スポーツリファレンス：プロフットボール
-      stock-number: パブリッシャー、ディストリビューター、またはベンダーの在庫番号
-      strn: 標準テクニカルレポート番号
-      svfilm: スウェーデン映画データベース
-      tatearid: Tate Artist Identifier
-      theatr: 演劇
-      trove: Trove（オーストラリア国立図書館）
-      upc: ユニバーサル商品コード
-      uri: ユニフォームリソース識別子
-      urn: 統一リソース名
-      viaf: 仮想国際機関ファイル番号
-      videorecording-identifier: パブリッシャー割り当ての録画番号
-      wikidata: ウィキダータ（ウィキメディア財団）
-      wndla: Web NDL Authorities（東京：国会図書館（NDL））
-  enumeration_names:
-    accession_acquisition_type: アクセッション取得タイプ
-    accession_parts_relator: アクセッションパーツリレー
-    accession_parts_relator_type: アクセルパーツリレータイプ
-    accession_sibling_relator: 受託兄弟リレー
-    accession_sibling_relator_type: 受け入れ兄弟リレータイプ
-    accession_resource_type: アクセッションリソースタイプ
-    agent_contact_salutation: エージェントコンタクト挨拶
-    agent_relationship_associative_relator: エージェント関係連想リレー
-    agent_relationship_earlierlater_relator: エージェントの関係
-    agent_relationship_parentchild_relator: エージェントの関係親子リレー
-    agent_relationship_subordinatesuperior_relator: エージェントの関係下位関係者
-    archival_record_level: アーカイブの記録レベル
-    collection_management_processing_priority: コレクション管理処理優先度
-    collection_management_processing_status: コレクション管理処理ステータス
-    container_location_status: コンテナの場所のステータス
-    container_type: コンテナタイプ
-    country_iso_3166: 国ISO 3166
-    date_calendar: 日付カレンダー
-    date_certainty: 日付確信度
-    date_era: 時代
-    date_label: 日付ラベル
-    date_type: 日付の種類
-    deaccession_scope: デアクセススコープ
-    digital_object_digital_object_type: デジタルオブジェクトデジタルオブジェクトタイプ
-    digital_object_level: デジタルオブジェクトレベル
-    event_event_type: イベントイベントの種類
-    event_outcome: イベントの結果
-    extent_extent_type: エクステントエクステントタイプ
-    extent_portion: 範囲
-    file_version_checksum_methods: ファイルバージョンチェックサムメソッド
-    file_version_file_format_name: ファイルバージョンファイルフォーマット名
-    file_version_use_statement: ファイルバージョン使用ステートメント
-    file_version_xlink_actuate_attribute: ファイルバージョンXlink Actuate属性
-    file_version_xlink_show_attribute: ファイルのバージョンXlinkの表示属性
-    instance_instance_type: インスタンスインスタンスタイプ
-    language_iso639_2: 言語ISO 639-2
-    script_iso15924: 言語スクリプトISO 15924
-    linked_agent_archival_record_relators: リンクされたエージェントのアーカイブレコードリレー
-    linked_agent_event_roles: リンクされたエージェントイベントの役割
-    linked_agent_role: リンクされたエージェントの役割
-    linked_event_archival_record_roles: リンクされたイベントアーカイブのレコードの役割
-    location_temporary: 場所の一時的な
-    name_person_name_order: 名前人名順
-    name_rule: 名前ルール
-    name_source: 名前ソース
-    note_bibliography_type: 注参考文献タイプ
-    note_digital_object_type: メモデジタルオブジェクトタイプ
-    note_langmaterial_type: 品目タイプの注記言語
-    note_index_item_type: 索引項目タイプ
-    note_index_type: インデックスタイプ
-    note_multipart_type: マルチパートタイプ
-    note_orderedlist_enumeration: メモオーダーリストの列挙
-    note_rights_statement_act_type: 注釈ステートメント法タイプ
-    note_rights_statement_type: メモの権利ステートメントの種類
-    note_singlepart_type: シングルパートタイプ
-    telephone_number_type: 電話番号の種類
-    resource_finding_aid_description_rules: リソース検索援助記述規則
-    resource_finding_aid_status: 資源援助の状況
-    resource_resource_type: リソースリソースタイプ
-    rights_statement_ip_status: 権利ステートメントIPステータス
-    rights_statement_rights_type: 権利ステートメント権利タイプ
-    subject_source: 件名ソース
-    subject_term_type: 件名の種類
-    user_defined_enum_1: ユーザー定義列挙型1
-    user_defined_enum_2: ユーザー定義列挙型2
-    user_defined_enum_3: ユーザー定義列挙型3
-    user_defined_enum_4: ユーザー定義列挙型4
-    job_type: ジョブの種類
-    dimension_units: 寸法単位
-    restriction_type: ローカルアクセス制限タイプ
-    location_function_type: ロケーション機能タイプ
-    rights_statement_external_document_identifier_type: 権利文書外部文書識別子タイプ
-    rights_statement_act_restriction: 権利声明法の制限
-    rights_statement_act_type: 権利声明法の種類
-    rights_statement_other_rights_basis: 権利声明その他の権利の基礎
-    maintenance_status: メンテナンス状況
-    publication_status: 出版ステータス
-    romanization: ローマ字
-    government_agency_type: 政府機関の種類
-    reference_evaluation: 参照評価 
-    name_type: 名前の種類
-    level_of_detail: 詳細度
-    modified_record: 修正レコード 
-    cataloging_source: カタログソース
-    source: ソース
-    identifier_type: 識別子の種類
-    agency_code_type: 代理店コード
-    maintenance_event_type: メンテナンスイベントの種類
-    maintenance_agent_type: メンテナンスエージェントの種類
-    agent_relationship_identity_relator: エージェント関係アイデンティティリレーター
-    agent_relationship_hierarchical_relator: エージェント関係階層関係
-    agent_relationship_specific_relator: エージェント関係固有の関係者
-    agent_relationship_temporal_relator: エージェント関係時間的関係者
-    agent_relationship_family_relator: エージェント関係家族関係者
-    transliteration: 文字変換
-    gender: エージェントの性別
-    place_role: エージェントプレイスの役割
-    date_type_structured: 日付タイプ
-    date_standardized_type: 日付標準化タイプ
-    date_role: 日付の役割
-    begin_date_standardized_type: 開始日標準化タイプ
-    end_date_standardized_type: 終了日標準化タイプ

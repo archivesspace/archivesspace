@@ -1,0 +1,28 @@
+extends: default
+
+ignore: |
+  /build/
+  /common/locales/*.yml
+  docker*
+  /docs/
+  /frontend/
+  /.github/
+  /plugins/
+  /public/
+  /reports/
+  .rubocop.yml
+  .travis.yml
+
+locale: en_US.UTF-8
+
+rules:
+  document-start:
+    present: false
+  key-duplicates: enable
+  key-ordering: {}
+  line-length: disable
+  octal-values: enable
+
+yaml-files:
+  - '*.yml'
+  - '.yamllint'
