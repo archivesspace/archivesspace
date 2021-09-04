@@ -142,12 +142,14 @@ $(function () {
         $(".fieldset-labels th", $rde_form).each(function (i, th) {
           var $th = $(th);
 
+          var $target;
+
           // Apply any sticky columns
           if ($currentRow.length > 0) {
             if ($th.hasClass("fieldset-label") && $th.hasClass("sticky")) {
               // populate the input from the current or bottom row
               var $source = $(":input:first", $("td", $currentRow).get(i));
-              var $target = $(":input:first", $("td", $row).get(i));
+              $target = $(":input:first", $("td", $row).get(i));
 
               if ($source.is(":checkbox")) {
                 if ($source.is(":checked")) {
@@ -168,7 +170,7 @@ $(function () {
                 $target.val($source.val());
               }
             } else if (DEFAULT_VALUES[$th.attr("id")]) {
-              var $target = $(":input:first", $("td", $row).get(i));
+              $target = $(":input:first", $("td", $row).get(i));
               $target.val(DEFAULT_VALUES[$th.attr("id")]);
             }
           }
@@ -415,8 +417,7 @@ $(function () {
         }
       };
 
-      var initOtherLevelHandler = function (index) {
-        var index = index || 0;
+      var initOtherLevelHandler = function (index = 0) {
         var $select = $("td[data-col='colLevel']:eq(" + index + ") select");
 
         if ($select.val() === "otherlevel") {
@@ -553,15 +554,17 @@ $(function () {
               $rde_form
             );
 
+            var fillValue;
+
             if ($("#basicFillValue", $form).is(":checkbox")) {
-              var fillValue = $("#basicFillValue", $form).is(":checked");
+              fillValue = $("#basicFillValue", $form).is(":checked");
               if (fillValue) {
                 $(":input:first", $targetCells).attr("checked", "checked");
               } else {
                 $(":input:first", $targetCells).removeAttr("checked");
               }
             } else {
-              var fillValue = $("#basicFillValue", $form).val();
+              fillValue = $("#basicFillValue", $form).val();
               $(":input:first", $targetCells).val(fillValue);
             }
 

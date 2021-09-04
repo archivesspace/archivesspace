@@ -235,8 +235,10 @@ var selectStructuredDateSubform = function () {
     var $parent_subrecord_list = $subform.parents(".subrecord-form-list:first");
     var index = $(".subrecord-form-fields", $this).length + 1;
 
+    var $date_subform;
+
     if (date_type == "range") {
-      var $date_subform = AS.renderTemplate(
+      $date_subform = AS.renderTemplate(
         "template_structured_date_range_fields",
         {
           path:
@@ -251,7 +253,7 @@ var selectStructuredDateSubform = function () {
         }
       );
     } else if (date_type == "single") {
-      var $date_subform = AS.renderTemplate(
+      $date_subform = AS.renderTemplate(
         "template_structured_date_single_fields",
         {
           path:
@@ -266,7 +268,7 @@ var selectStructuredDateSubform = function () {
         }
       );
     } else {
-      var $date_subform = "<div class='sdl-subrecord-form'></div>";
+      $date_subform = "<div class='sdl-subrecord-form'></div>";
     }
 
     $target_subrecord_list.replaceWith($date_subform);

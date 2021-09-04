@@ -2,7 +2,7 @@
 //= require bootstrap-datepicker
 //= require bootstrap-combobox
 
-var AS = {};
+var AS = {}; // eslint-disable-line
 
 // initialise ajax modal
 $(function () {
