@@ -9,84 +9,97 @@ function SpaceCalculatorForContainerLocation($container) {
   this.setupEvents();
 }
 
-SpaceCalculatorForContainerLocation.prototype.setupEvents = function() {
+SpaceCalculatorForContainerLocation.prototype.setupEvents = function () {
   var self = this;
 
-  self.$btn.on("click", function(event) {
+  self.$btn.on("click", function (event) {
     new SpaceCalculatorModal({
       modalInitialContent: self.$btn.data("modal-content"),
       url: self.$btn.data("calculator-url"),
       selectable: true,
       containerProfile: self.getContainerProfileURI(),
-      onSelect: function($results) {
-        $(".token-input-delete-token", self.$linkerWrapper).each(function() {
+      onSelect: function ($results) {
+        $(".token-input-delete-token", self.$linkerWrapper).each(function () {
           $(this).triggerHandler("click");
         });
 
-        var $selected = $results.find("#tabledSearchResults :input:checked:first");
+        var $selected = $results.find(
+          "#tabledSearchResults :input:checked:first"
+        );
         var locationJSON = $selected.data("object")._resolved;
 
         self.$linker.tokenInput("add", {
           id: $selected.val(),
           name: locationJSON.title,
-          json: locationJSON
+          json: locationJSON,
         });
 
         self.$linker.triggerHandler("change");
-      }
+      },
     });
   });
 };
 
-SpaceCalculatorForContainerLocation.prototype.getContainerProfileURI = function() {
-  return $(document).find("[name='top_container[container_profile][ref]']").val();
-};
-
+SpaceCalculatorForContainerLocation.prototype.getContainerProfileURI =
+  function () {
+    return $(document)
+      .find("[name='top_container[container_profile][ref]']")
+      .val();
+  };
 
 function SpaceCalculatorForButton($btn) {
-  $btn.on("click", function(event) {
+  $btn.on("click", function (event) {
     event.preventDefault();
 
     new SpaceCalculatorModal({
       modalInitialContent: $btn.data("modal-content"),
       url: $btn.data("calculator-url"),
       selectable: $btn.data("selectable"),
-      containerProfile: $btn.data("container-profile-uri")
+      containerProfile: $btn.data("container-profile-uri"),
     });
   });
-};
-
+}
 
 function SpaceCalculatorModal(options) {
   var self = this;
 
   self.options = options;
 
-  self.$modal = AS.openCustomModal("spaceCalculatorModal",
-                                   null,
-                                   "<div class='alert alert-info'>"+self.options.modalInitialContent+"</div>",
-                                   "large", {}, this);
+  self.$modal = AS.openCustomModal(
+    "spaceCalculatorModal",
+    null,
+    "<div class='alert alert-info'>" +
+      self.options.modalInitialContent +
+      "</div>",
+    "large",
+    {},
+    this
+  );
 
   $.ajax({
     url: self.options.url,
     type: "GET",
     data: {
       container_profile_ref: self.options.containerProfile,
-      selectable: self.options.selectable
+      selectable: self.options.selectable,
     },
     success: function (html) {
       $(".alert", self.$modal).replaceWith(html);
       self.setupForm(self.$modal.find("form"));
       $(window).trigger("resize");
     },
-    error: function(jqXHR, textStatus, errorThrown) {
-      $(".alert", self.$modal).replaceWith(AS.renderTemplate("modal_quick_template", {message: jqXHR.responseText}));
+    error: function (jqXHR, textStatus, errorThrown) {
+      $(".alert", self.$modal).replaceWith(
+        AS.renderTemplate("modal_quick_template", {
+          message: jqXHR.responseText,
+        })
+      );
       $(window).trigger("resize");
-    }
+    },
   });
 }
 
-SpaceCalculatorModal.prototype.setupForm = function($form) {
+SpaceCalculatorModal.prototype.setupForm = function ($form) {
   var self = this;
 
   self.$results = self.$modal.find("#spaceCalculatorResults");
@@ -95,35 +108,41 @@ SpaceCalculatorModal.prototype.setupForm = function($form) {
 
   self.setupByBuildingSearch();
 
-  self.$modal.find("#addSelectedButton").attr("disabled","disabled");
+  self.$modal.find("#addSelectedButton").attr("disabled", "disabled");
 
   $form.ajaxForm({
-    beforeSubmit: function() {
-      self.$modal.find("#addSelectedButton").attr("disabled","disabled");
+    beforeSubmit: function () {
+      self.$modal.find("#addSelectedButton").attr("disabled", "disabled");
       self.$results.html(AS.renderTemplate("spaceCalculatorLoadingTemplate"));
     },
-    success: function(html) {
+    success: function (html) {
       self.$modal.find("#spaceCalculatorResults").html(html);
       self.setupResults();
       self.setupResultsFilter();
       self.setupResultsToggles();
-    }
+    },
   });
 
-  self.$modal.find("#byBuilding").on("hide.bs.collapse", function() {
-    self.$modal.find("#byBuilding :input").prop("disabled", true);
-  }).on("show.bs.collapse", function() {
-    self.$modal.find("#byBuilding :input").prop("disabled", false);
-  });
+  self.$modal
+    .find("#byBuilding")
+    .on("hide.bs.collapse", function () {
+      self.$modal.find("#byBuilding :input").prop("disabled", true);
+    })
+    .on("show.bs.collapse", function () {
+      self.$modal.find("#byBuilding :input").prop("disabled", false);
+    });
 
-  self.$modal.find("#byLocation").on("hide.bs.collapse", function() {
-    self.$modal.find("#byLocation :input").prop("disabled", true);
-    }).on("show.bs.collapse", function() {
-    self.$modal.find("#byLocation :input").prop("disabled", false);
+  self.$modal
+    .find("#byLocation")
+    .on("hide.bs.collapse", function () {
+      self.$modal.find("#byLocation :input").prop("disabled", true);
+    })
+    .on("show.bs.collapse", function () {
+      self.$modal.find("#byLocation :input").prop("disabled", false);
     });
 };
 
-SpaceCalculatorModal.prototype.setupByBuildingSearch = function() {
+SpaceCalculatorModal.prototype.setupByBuildingSearch = function () {
   var self = this;
 
   var $building = self.$modal.find("#building");
@@ -131,7 +150,7 @@ SpaceCalculatorModal.prototype.setupByBuildingSearch = function() {
   var $room = self.$modal.find("#room");
   var $area = self.$modal.find("#area");
 
-  $building.on("change", function() {
+  $building.on("change", function () {
     $floor.val("").closest(".form-group").hide();
     $room.val("").closest(".form-group").hide();
     $area.val("").closest(".form-group").hide();
@@ -148,7 +167,7 @@ SpaceCalculatorModal.prototype.setupByBuildingSearch = function() {
     }
   });
 
-  $floor.on("change", function() {
+  $floor.on("change", function () {
     $room.val("").closest(".form-group").hide();
     $area.val("").closest(".form-group").hide();
     if ($floor.val() != "") {
@@ -164,30 +183,29 @@ SpaceCalculatorModal.prototype.setupByBuildingSearch = function() {
     }
   });
 
-  $room.on("change", function() {
+  $room.on("change", function () {
     $area.val("").closest(".form-group").hide();
     if ($room.val() != "") {
       var areas = AS.building_data[$building.val()][$floor.val()][$room.val()];
       if (areas != null && areas.length > 0) {
         $area.empty();
         $area.append($("<option>"));
-        for (var i=0; i<areas.length; i++) {
+        for (var i = 0; i < areas.length; i++) {
           $area.append($("<option>").html(areas[i]));
         }
         $area.closest(".form-group").show();
       }
     }
   });
-
 };
 
-SpaceCalculatorModal.prototype.setupResults = function() {
+SpaceCalculatorModal.prototype.setupResults = function () {
   var self = this;
 
-  $(":input[name=linker-item]", self.$results).each(function() {
+  $(":input[name=linker-item]", self.$results).each(function () {
     var $input = $(this);
 
-    $input.click(function(event) {
+    $input.click(function (event) {
       event.stopPropagation();
 
       $("tr.selected", $input.closest("table")).removeClass("selected");
@@ -195,16 +213,16 @@ SpaceCalculatorModal.prototype.setupResults = function() {
       self.$modal.find("#addSelectedButton").removeAttr("disabled");
     });
 
-    $("td", $input.closest("tr")).click(function(event) {
+    $("td", $input.closest("tr")).click(function (event) {
       event.preventDefault();
 
       $input.trigger("click");
     });
   });
 
-  self.$modal.on("click","#addSelectedButton", function(event) {
+  self.$modal.on("click", "#addSelectedButton", function (event) {
     self.options.onSelect && self.options.onSelect(self.$results);
-    self.$modal.modal('hide');
+    self.$modal.modal("hide");
   });
 
   var $table = self.$results.find("#tabledSearchResults");
@@ -214,11 +232,11 @@ SpaceCalculatorModal.prototype.setupResults = function() {
   var TABLE_SORTER_OPTS = {
     // default sort: Space?, Location, Count
     sortList: [
-      [$headers.find(".space").index(),0],
-      [$headers.find(".count").index(),1]
+      [$headers.find(".space").index(), 0],
+      [$headers.find(".count").index(), 1],
     ],
     // customise text extraction for the icon and count column
-    textExtraction: function(cell) {
+    textExtraction: function (cell) {
       var $cell = $(cell);
 
       if ($cell.hasClass("space")) {
@@ -228,20 +246,20 @@ SpaceCalculatorModal.prototype.setupResults = function() {
       }
 
       return $cell.text().trim();
-    }
+    },
   };
 
   if (self.$results.find(".col.selectable:first")) {
     // disable sorting of checkbox column
     TABLE_SORTER_OPTS["header"] = {
-      "0": false
-    }
+      0: false,
+    };
   }
 
   $table.tablesorter(TABLE_SORTER_OPTS);
 };
 
-SpaceCalculatorModal.prototype.setupResultsFilter = function() {
+SpaceCalculatorModal.prototype.setupResultsFilter = function () {
   var self = this;
   var $input = self.$results.find("#searchResultsFilter");
   var searchTimeout;
@@ -250,20 +268,19 @@ SpaceCalculatorModal.prototype.setupResultsFilter = function() {
     // split on words and retain quoted groups of terms
     var keywords = $input.val().match(/\w+|"[^"]+"/g) || [];
 
-    self.$results.find("#tabledSearchResults tbody tr").each(function() {
-
+    self.$results.find("#tabledSearchResults tbody tr").each(function () {
       var $tr = $(this);
 
       var text = $tr.text();
 
       var match = true;
-      for (var i=0; i<keywords.length; i++) {
+      for (var i = 0; i < keywords.length; i++) {
         // remove extra quotes from the filter term
         var keyword = keywords[i].replace(/\"/g, "");
         if (keyword === "") {
           continue;
         }
-        if (!(new RegExp(keyword, "i")).test(text)) {
+        if (!new RegExp(keyword, "i").test(text)) {
           match = false;
           break;
         }
@@ -275,19 +292,19 @@ SpaceCalculatorModal.prototype.setupResultsFilter = function() {
         $tr.addClass("filtered-by-search");
       }
     });
-  };
+  }
 
-  $input.on("keyup", function() {
+  $input.on("keyup", function () {
     clearTimeout(searchTimeout);
     searchTimeout = setTimeout(performSearch, 200);
   });
 };
 
-SpaceCalculatorModal.prototype.setupResultsToggles = function() {
+SpaceCalculatorModal.prototype.setupResultsToggles = function () {
   var self = this;
   var $toggles = self.$results.find(".space-calculator-results-toggle");
 
-  $toggles.each(function() {
+  $toggles.each(function () {
     var $toggle = $(this);
 
     if ($toggle.is(":disabled")) {
@@ -295,8 +312,7 @@ SpaceCalculatorModal.prototype.setupResultsToggles = function() {
     }
   });
 
-
-  $toggles.on("click", function() {
+  $toggles.on("click", function () {
     var $toggle = $(this);
     var $targetResults = self.$results.find($toggle.data("target-selector"));
 
@@ -308,8 +324,11 @@ SpaceCalculatorModal.prototype.setupResultsToggles = function() {
   });
 };
 
-$(document).bind("subrecordcreated.aspace", function(event, object_name, subform) {
-  if (object_name == "container_location") {
-    new SpaceCalculatorForContainerLocation(subform);
+$(document).bind(
+  "subrecordcreated.aspace",
+  function (event, object_name, subform) {
+    if (object_name == "container_location") {
+      new SpaceCalculatorForContainerLocation(subform);
+    }
   }
-});
+);

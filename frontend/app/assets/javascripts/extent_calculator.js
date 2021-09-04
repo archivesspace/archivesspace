@@ -1,58 +1,80 @@
 $(function () {
-
   function ExtentCalculatorForm() {}
 
-  ExtentCalculatorForm.prototype.init_form = function() {
-    $('.create-extent-btn').on('click', function (event) {
-      $('[id$=_extents_] .subrecord-form-heading .btn').click();
+  ExtentCalculatorForm.prototype.init_form = function () {
+    $(".create-extent-btn").on("click", function (event) {
+      $("[id$=_extents_] .subrecord-form-heading .btn").click();
 
-      var extent_form = $('[id$=_extents_]').find(".subrecord-form-fields").last();
+      var extent_form = $("[id$=_extents_]")
+        .find(".subrecord-form-fields")
+        .last();
 
-      extent_form.find("[id$=__portion_]").val($('#extent_portion_').val());
-      extent_form.find("[id$=__number_]").val($('#extent_number_').val());
+      extent_form.find("[id$=__portion_]").val($("#extent_portion_").val());
+      extent_form.find("[id$=__number_]").val($("#extent_number_").val());
       var extent_form_type_select = extent_form.find("[id$=__extent_type_]");
       if (extent_form_type_select.data("combobox")) {
-        extent_form_type_select.data("combobox").$element.val($('#extent_extent_type_').val());
-        extent_form_type_select.data("combobox").$target.val($('#extent_extent_type_').val());
+        extent_form_type_select
+          .data("combobox")
+          .$element.val($("#extent_extent_type_").val());
+        extent_form_type_select
+          .data("combobox")
+          .$target.val($("#extent_extent_type_").val());
       } else {
-        extent_form_type_select.val($('#extent_extent_type_').val());
+        extent_form_type_select.val($("#extent_extent_type_").val());
       }
-      extent_form.find("[id$=__container_summary_]").val($('#extent_container_summary_').val());
-      extent_form.find("[id$=__physical_details_]").val($('#extent_physical_details_').val());
-      extent_form.find("[id$=__dimensions_]").val($('#extent_dimensions_').val());
+      extent_form
+        .find("[id$=__container_summary_]")
+        .val($("#extent_container_summary_").val());
+      extent_form
+        .find("[id$=__physical_details_]")
+        .val($("#extent_physical_details_").val());
+      extent_form
+        .find("[id$=__dimensions_]")
+        .val($("#extent_dimensions_").val());
 
       $modal.modal("hide");
     });
-  }
+  };
 
   var init = function () {
-    $('.extent-calculator-btn').on('click', function (event) {
-      var dialog_content = AS.renderTemplate("extent_calculator_show_calculation_template");
+    $(".extent-calculator-btn").on("click", function (event) {
+      var dialog_content = AS.renderTemplate(
+        "extent_calculator_show_calculation_template"
+      );
 
-      $modal = AS.openCustomModal("extentCalculationModal", "Extent Calculation", dialog_content, 'large');
+      $modal = AS.openCustomModal(
+        "extentCalculationModal",
+        "Extent Calculation",
+        dialog_content,
+        "large"
+      );
 
       $.ajax({
         url: AS.app_prefix("/extent_calculator"),
-        data: {record_uri: $("#extent_calculator_show_calculation_template").attr("record_uri"),
-	       referrer: document.location.href},
+        data: {
+          record_uri: $("#extent_calculator_show_calculation_template").attr(
+            "record_uri"
+          ),
+          referrer: document.location.href,
+        },
         type: "get",
-        success: function(html) {
+        success: function (html) {
           $("#show_calculation_results").html(html);
           var extentCalculatorForm = new ExtentCalculatorForm();
           extentCalculatorForm.init_form();
         },
-        error: function(jqXHR, textStatus, errorThrown) {
-	  var html = AS.renderTemplate("template_extent_calculator_error_message", {message: jqXHR.responseText})
+        error: function (jqXHR, textStatus, errorThrown) {
+          var html = AS.renderTemplate(
+            "template_extent_calculator_error_message",
+            { message: jqXHR.responseText }
+          );
           $("#show_calculation_results").html(html);
-        }
+        },
       });
     });
+  };
 
-  }
-
-  
-  $(document).bind("loadedrecordform.aspace", function(event, $container) {
+  $(document).bind("loadedrecordform.aspace", function (event, $container) {
     init();
   });
-
 });

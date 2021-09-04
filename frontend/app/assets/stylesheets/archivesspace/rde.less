@@ -3,7 +3,7 @@
 
 #rde_form {
   .sections {
-    #gradient > .vertical(@navbarBackgroundHighlight, darken(@navbarBackgroundHighlight, 3%));
+    #gradient > .vertical(@navbarBackgroundHighlight, darken(@navbarBackgroundHighlight, 3%));;
     th {
       border-bottom-color: darken(@navbarBackgroundHighlight, 6%);
     }
@@ -22,7 +22,7 @@
     border-right-width: 1px;
     border-bottom-width: 1px;
     border-left-width: 0;
-    background: #FAFAFA;
+    background: #fafafa;
   }
   thead tr:first-child th:last-of-type {
     border-right-width: 0;
@@ -61,7 +61,7 @@
   }
 
   .fieldset-labels {
-    #gradient > .vertical(darken(@navbarBackgroundHighlight, 3%), darken(@navbarBackgroundHighlight, 6%));
+    #gradient > .vertical(darken(@navbarBackgroundHighlight, 3%), darken(@navbarBackgroundHighlight, 6%));;
 
     th {
       border-top-color: darken(@navbarBackgroundHighlight, 6%);
@@ -72,7 +72,8 @@
     background-color: transparent;
   }
 
-  .sections, .fieldset-labels {
+  .sections,
+  .fieldset-labels {
     th {
       &.required {
         &:before {
@@ -80,7 +81,7 @@
           display: none;
         }
         .kiketable-th-text {
-          background-image: asset-url('archivesspace/required_loud.png');
+          background-image: asset-url("archivesspace/required_loud.png");
           background-repeat: no-repeat;
           background-position: 2px center;
           padding-left: 16px;
@@ -93,7 +94,9 @@
           display: none;
         }
         .kiketable-th-text {
-          background-image: asset-url('archivesspace/conditionally_required.png');
+          background-image: asset-url(
+            "archivesspace/conditionally_required.png"
+          );
           background-repeat: no-repeat;
           background-position: 2px center;
           padding-left: 16px;
@@ -103,7 +106,6 @@
   }
 
   th {
-
     &.fieldset-label {
       cursor: pointer;
     }
@@ -118,7 +120,7 @@
     }
 
     .kiketable-colsizable-handler {
-      background-image: asset-url('archivesspace/drag_handle.png');
+      background-image: asset-url("archivesspace/drag_handle.png");
       border: none;
       width: 4px;
     }
@@ -144,7 +146,8 @@
   }
   tr {
     td.status {
-      .valid, .invalid {
+      .valid,
+      .invalid {
         display: none;
         margin-top: 0.5em;
       }
@@ -169,7 +172,7 @@
     }
   }
   .add-rows-form {
-    padding:8px;
+    padding: 8px;
 
     button {
       margin-top: 4px;
@@ -178,7 +181,7 @@
   .rde-inline-form {
     border-bottom: 1px solid #ddd;
     border-top: 1px solid #ddd;
-    background-color: #FAFAFA;
+    background-color: #fafafa;
     margin-bottom: 10px;
     padding: 10px;
     position: relative;
@@ -246,7 +249,8 @@
       }
     }
 
-    .hide-error-summary, .error {
+    .hide-error-summary,
+    .error {
       display: none;
     }
 
@@ -304,14 +308,15 @@
         .border-bottom-radius(4px);
         .border-left-radius(4px);
 
-        .hide-error-summary, .error {
+        .hide-error-summary,
+        .error {
           display: block;
         }
         .show-error-summary {
           display: none;
         }
         .error-summary-header {
-          border-bottom: 1px dotted #AAA;
+          border-bottom: 1px dotted #aaa;
           margin-bottom: 10px;
           padding-bottom: 5px;
 

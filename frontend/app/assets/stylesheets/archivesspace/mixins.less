@@ -1,5 +1,4 @@
-
-.icon(@fontFamily: 'Glyphicons Halflings') {
+.icon(@fontFamily: "Glyphicons Halflings") {
   font-family: @fontFamily;
   float: left;
   .opacity(75);
@@ -7,34 +6,37 @@
 }
 
 .alt-icomoon() {
-  font-family: 'icomoon';
+  font-family: "icomoon";
   margin: 0px 4px 0 0;
 }
 
-
- /* Below just catches TBS 2.x definitions  cruft that */
- /* break ASpace if they are removed. Goal is to clear these  */
- /* out at some point */
+/* Below just catches TBS 2.x definitions  cruft that */
+/* break ASpace if they are removed. Goal is to clear these  */
+/* out at some point */
 
 .border-radius(@radius) {
-    -webkit-border-radius: @radius;
-    -moz-border-radius: @radius;
-    border-radius: @radius;
+  -webkit-border-radius: @radius;
+  -moz-border-radius: @radius;
+  border-radius: @radius;
 }
-
 
 .ie7-restore-right-whitespace() {
-  *margin-right: .3em;
+  *margin-right: 0.3em;
 }
 
-.buttonBackground(@startColor, @endColor, @textColor: #fff, @textShadow: 0 -1px 0 rgba(0,0,0,.25)) {
+.buttonBackground(@startColor, @endColor, @textColor: #fff, @textShadow: 0 -1px 0 rgba(0,0,0,0.25)) {
   // gradientBar will set the background to a pleasing blend of these, to support IE<=9
   .gradientBar(@startColor, @endColor, @textColor, @textShadow);
   *background-color: @endColor; /* Darken IE7 buttons by default so they stand out more given they won\'t have borders */
   .reset-filter();
 
   // in these cases the gradient won\'t cover the background, so we override
-  &:hover, &:focus, &:active, &.active, &.disabled, &[disabled] {
+  &:hover,
+  &:focus,
+  &:active,
+  &.active,
+  &.disabled,
+  &[disabled] {
     color: @textColor;
     background-color: @endColor;
     *background-color: darken(@endColor, 5%);
@@ -48,11 +50,11 @@
 }
 
 // Gradient Bar Colors for buttons and alerts
-.gradientBar(@primaryColor, @secondaryColor, @textColor: #fff, @textShadow: 0 -1px 0 rgba(0,0,0,.25)) {
+.gradientBar(@primaryColor, @secondaryColor, @textColor: #fff, @textShadow: 0 -1px 0 rgba(0,0,0,0.25)) {
   color: @textColor;
   text-shadow: @textShadow;
   #gradient > .vertical(@primaryColor, @secondaryColor);
   border-color: @secondaryColor @secondaryColor darken(@secondaryColor, 15%);
-  border-color: rgba(0,0,0,.1) rgba(0,0,0,.1) fadein(rgba(0,0,0,.1), 15%);
+  border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1)
+    fadein(rgba(0, 0, 0, 0.1), 15%);
 }
-

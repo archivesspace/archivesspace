@@ -1,6 +1,6 @@
 ul.token-input-list {
   overflow: visible;
-  height: auto !important; 
+  height: auto !important;
   height: 1%;
   width: 80%;
   cursor: text;
@@ -10,17 +10,17 @@ ul.token-input-list {
   margin: 0;
   padding: 0;
   list-style-type: none;
-  
+
   background-color: @inputBackground;
   border: 1px solid @input-border;
   .border-radius(4px);
-  .box-shadow(inset 0 1px 1px rgba(0,0,0,.075));
-  @transition: border linear .2s, box-shadow linear .2s;
+  .box-shadow(inset 0 1px 1px rgba(0,0,0,0.075));
+  @transition: border linear 0.2s, box-shadow linear 0.2s;
   .transition(@transition);
 
   // Focus state
   &:focus {
-    border-color: rgba(82,168,236,.8);
+    border-color: rgba(82, 168, 236, 0.8);
     outline: 0;
     outline: thin dotted \9; /* IE6-9 */
     .box-shadow(~"inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(82,168,236,.6)");
@@ -31,7 +31,7 @@ ul.token-input-list {
   border-color: #ee5f5b;
 }
 
-.input-group ul.token-input-list  {
+.input-group ul.token-input-list {
   .border-radius(4px 0 0 4px);
   height: 100%;
 }
@@ -53,27 +53,27 @@ ul.token-input-list li input {
 
 ul.token-input-disabled,
 ul.token-input-disabled li input {
-  background-color: #E8E8E8;
+  background-color: #e8e8e8;
 }
 
 ul.token-input-disabled li.token-input-token {
-  background-color: #D9E3CA;
-  color: #7D7D7D;
+  background-color: #d9e3ca;
+  color: #7d7d7d;
 }
 
 ul.token-input-disabled li.token-input-token span {
-  color: #CFCFCF;
+  color: #cfcfcf;
   cursor: default;
 }
 
 .token,
 li.token-input-token {
-  overflow: hidden; 
-  height: auto !important; 
+  overflow: hidden;
+  height: auto !important;
   height: 1%;
   margin: 0 4px 4px 0;
   #gradient > .vertical(#BEEBFF, #92ddff);
-  border: 1px solid #99DEFD;
+  border: 1px solid #99defd;
   padding: 2px;
   color: #555;
   display: block;
@@ -179,7 +179,7 @@ div.token-input-dropdown ul li em {
 }
 
 div.token-input-dropdown ul li.token-input-selected-dropdown-item {
-  background: #BEEBFF;
+  background: #beebff;
 }
 
 .linker-wrapper.multiplicity-many li.token-input-input-token {
@@ -209,9 +209,9 @@ div.token-input-dropdown ul li.token-input-selected-dropdown-item {
 
   .pagination {
     color: #666;
-    background-color: #FAFAFA;
+    background-color: #fafafa;
     padding: 4px 6px;
-    border-bottom: 1px solid #EEE;
+    border-bottom: 1px solid #eee;
 
     .navigation {
       float: right;
@@ -224,13 +224,13 @@ div.token-input-dropdown ul li.token-input-selected-dropdown-item {
   list-style: none;
 }
 .linker-list li {
-  padding:0;
+  padding: 0;
 }
 .linker-list label {
   padding: 4px 10px 0;
 }
 .linker-list label:hover {
-  background-color: #F1f1f1;
+  background-color: #f1f1f1;
 }
 .linker-wrapper {
   width: 100%;
@@ -253,7 +253,9 @@ div.token-input-dropdown ul li.token-input-selected-dropdown-item {
   }
 }
 
-.token-input-dropdown, .token-input-list, .token-list {
+.token-input-dropdown,
+.token-input-list,
+.token-list {
   .icon-token {
     .icon;
   }
@@ -263,7 +265,7 @@ div.token-input-dropdown ul li.token-input-selected-dropdown-item {
   }
 
   .agent_person .icon-token:before {
-    content: "\e008";    
+    content: "\e008";
   }
 
   .agent_software .icon-token:before {
@@ -285,15 +287,15 @@ div.token-input-dropdown ul li.token-input-selected-dropdown-item {
   }
 
   .archival_object .icon-token:before {
-    content:"\e022";
+    content: "\e022";
   }
 
   .digital_object .icon-token:before {
-    content:"\e117";
+    content: "\e117";
   }
 
   .digital_object_component .icon-token:before {
-    content:"\e040";
+    content: "\e040";
   }
 
   .accession .icon-token:before {
@@ -302,61 +304,61 @@ div.token-input-dropdown ul li.token-input-selected-dropdown-item {
   }
 
   .subject .icon-token:before {
-    content:"\e041";
+    content: "\e041";
   }
 
   // ANW-521
-  // Definitions for icons for subjects, based on the term type 
+  // Definitions for icons for subjects, based on the term type
   .subject .subject_type_cultural_context:before {
-    content:"\e060";
+    content: "\e060";
   }
 
   .subject .subject_type_function:before {
-    content:"\e019";
+    content: "\e019";
   }
 
   .subject .subject_type_genre_form:before {
-    content:"\e172";
+    content: "\e172";
   }
 
   .subject .subject_type_geographic:before {
-    content:"\e062";
+    content: "\e062";
   }
 
   .subject .subject_type_occupation:before {
-    content:"\e139";
+    content: "\e139";
   }
 
   .subject .subject_type_style_period:before {
-    content:"\e184";
+    content: "\e184";
   }
 
   .subject .subject_type_technique:before {
-    content:"\e233";
+    content: "\e233";
   }
 
   .subject .subject_type_temporal:before {
-    content:"\231b";
+    content: "\231b";
   }
 
   .subject .subject_type_topical:before {
-    content:"\e041";
+    content: "\e041";
   }
 
   .subject .subject_type_uniform_title:before {
-    content:"\e043";
+    content: "\e043";
   }
 
   .classification .icon-token:before {
-    content:"\e042";
+    content: "\e042";
   }
 
   .classification_term .icon-token:before {
-    content:"\e041";
+    content: "\e041";
   }
 
   .location .icon-token:before {
-    content:"\e165";
+    content: "\e165";
   }
 }
 
@@ -367,14 +369,14 @@ div.token-input-dropdown ul li.token-input-selected-dropdown-item {
 
   .sortable-placeholder {
     height: @baseLineHeight;
-    border: 1px dashed #CCC;
+    border: 1px dashed #ccc;
     padding: 2px;
     margin: 4px;
     .border-radius(4px);
   }
 }
 .token-list {
-  margin:0;
+  margin: 0;
   > li {
     list-style: none;
     margin-bottom: 4px;
@@ -389,7 +391,7 @@ div.token-input-dropdown ul li.token-input-selected-dropdown-item {
 }
 
 .prelinker {
-  display: none;  
+  display: none;
 }
 
 .top_container_location .token {

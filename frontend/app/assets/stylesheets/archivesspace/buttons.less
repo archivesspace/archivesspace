@@ -1,5 +1,6 @@
 .btn.btn-xs {
-  [class^="icon-"], [class*=" icon-"] {
+  [class^="icon-"],
+  [class*=" icon-"] {
     margin-top: -1px;
   }
 }
@@ -28,8 +29,7 @@
 }
 
 .input-group .dropdown-menu,
-.btn-group .dropdown-menu
-.input-prepend .dropdown-menu {
+.btn-group .dropdown-menu .input-prepend .dropdown-menu {
   font-size: @baseFontSize;
 }
 
@@ -39,7 +39,8 @@
     right: 0;
   }
 
-  a.disabled, a[disabled="disabled"] {
+  a.disabled,
+  a[disabled="disabled"] {
     .opacity(50);
     &:hover {
       background: transparent !important;
