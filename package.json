@@ -8,7 +8,7 @@
     "prettier-debug-check": "prettier --debug-check frontend/ public/",
     "prettier-list-different": "prettier --list-different frontend/ public/",
     "lint-check": "eslint frontend/ public/ -f compact",
-    "lint-output": "eslint frontend/ public/ -o eslint-output.json -f json",
+    "lint-output": "eslint --quiet frontend/ public/ -o eslint-output.json -f json",
     "lint-output-analysis": "node temp-lint-analysis.js",
     "lint-dry-run": "eslint --fix-dry-run frontend/ public/",
     "lint-fix": "eslint --fix frontend/ public/"
