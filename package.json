@@ -1,0 +1,26 @@
+{
+  "name": "archivesspace-frontends",
+  "version": "0.1.0",
+  "description": "Lint and format js, css, and html in frontend/ and public/",
+  "scripts": {
+    "pretty-quick-staged": "pretty-quick --staged",
+    "prettier-check": "prettier --check frontend/ public/",
+    "prettier-debug-check": "prettier --debug-check frontend/ public/",
+    "prettier-list-different": "prettier --list-different frontend/ public/",
+    "lint-check": "eslint frontend/ public/ -f compact",
+    "lint-dry-run": "eslint --fix-dry-run frontend/ public/",
+    "lint-fix": "eslint --fix frontend/ public/"
+  },
+  "devDependencies": {
+    "eslint": "^7.32.0",
+    "eslint-config-prettier": "^8.3.0",
+    "husky": "^7.0.2",
+    "prettier": "^2.3.2",
+    "pretty-quick": "^3.1.1"
+  },
+  "license": "ECL-2.0",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:archivesspace/archivesspace.git"
+  }
+}
