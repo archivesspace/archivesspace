@@ -31,7 +31,10 @@ jobs:
         run: npm ci
 
       - name: Run ESLint on front ends
-        run: npm run lint-check
+        run: |
+          npm run lint-check
+          npm run lint-output
+          npm run lint-output-analysis
 
   prettier:
     name: Prettier
