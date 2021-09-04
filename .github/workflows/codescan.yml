@@ -31,8 +31,20 @@ jobs:
         run: npm ci
 
       - name: Run ESLint on front ends
+        run: npm run lint-check
+
+  eslint-report:
+    name: ESLint errors report
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run ESLint on front ends
         run: |
-          npm run lint-check
           npm run lint-output
           npm run lint-output-analysis
 
