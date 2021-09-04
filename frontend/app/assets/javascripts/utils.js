@@ -502,7 +502,7 @@ AS.openCustomModal = function (
 
   var resizeModal = function () {
     var height;
-    if (modalSize === "full" || "large") {
+    if (modalSize === "full" || modalSize === "large") {
       height = $(window).height() - $(window).height() * 0.03;
     } else {
       height = $(window).height() - $(window).height() * 0.2;

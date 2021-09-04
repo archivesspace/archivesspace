@@ -292,7 +292,7 @@ $(function () {
           $errorSummaryList.empty();
 
           if (
-            row_result.hasOwnProperty("errors") &&
+            Object.prototype.hasOwnProperty.call(row_result, "errors") &&
             !$.isEmptyObject(row_result.errors)
           ) {
             $row.removeClass("valid").addClass("invalid");

@@ -220,7 +220,7 @@ $(function () {
         }
 
         function isValidDate(dateString) {
-          var dateRegex = /^\d\d\d\d\-\d\d-\d\d$/;
+          var dateRegex = /^\d\d\d\d-\d\d-\d\d$/;
           var isValidDateString = dateRegex.test(dateString);
 
           if (!isValidDateString) {

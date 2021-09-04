@@ -276,7 +276,7 @@ SpaceCalculatorModal.prototype.setupResultsFilter = function () {
       var match = true;
       for (var i = 0; i < keywords.length; i++) {
         // remove extra quotes from the filter term
-        var keyword = keywords[i].replace(/\"/g, "");
+        var keyword = keywords[i].replace(/"/g, "");
         if (keyword === "") {
           continue;
         }
