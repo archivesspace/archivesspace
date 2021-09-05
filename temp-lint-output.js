@@ -8,7 +8,6 @@ const { ESLint } = require("eslint");
   const formatter = await eslint.loadFormatter("json");
   const resultText = formatter.format(results);
 
-  console.log(resultText);
   fs.writeFileSync("eslint-output.json", resultText);
 })().catch((error) => {
   process.exitCode = 1;
