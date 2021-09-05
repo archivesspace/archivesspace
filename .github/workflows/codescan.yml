@@ -43,7 +43,7 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Run ESLint on front ends
+      - name: Log ESLint errors analysis
         run: |
           npm run lint-output
           npm run lint-output-analysis
