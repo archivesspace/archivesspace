@@ -259,7 +259,13 @@ module ApplicationHelper
     fmt = opts[:format] || 'wide'
     ark_url = nil
     if AppConfig[:arks_enabled] && hash['ark_name']
-      ark_url = hash["ark_name"]["current"]
+      # watch out! hash might be from a jsonmodel or from a solr result
+      # don't blame me, i'm just trying to fit in around here
+      ark_url = if hash["ark_name"].is_a?(Array)
+                  hash["ark_name"].first
+                else
+                  hash["ark_name"]["current"]
+                end
     end
     html = "<div class='audit-display-#{fmt}'><small>"
     if hash['create_time'] and hash['user_mtime']
