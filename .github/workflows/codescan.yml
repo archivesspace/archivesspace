@@ -31,7 +31,7 @@ jobs:
         run: npm ci
 
       - name: Run ESLint on front ends
-        run: npm run lint-check
+        run: npm run ci-lint
 
   eslint-report:
     name: ESLint errors report
@@ -59,4 +59,4 @@ jobs:
         run: npm ci
 
       - name: Run Prettier on front ends
-        run: npm run prettier-check
+        run: npm run ci-format
