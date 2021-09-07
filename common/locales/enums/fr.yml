@@ -1,4 +1,4 @@
-﻿fr:
+fr:
   enumeration_names:
     accession_acquisition_type: Type d'acquisition de l'entrée
     accession_parts_relator: Rapport entre les parties de l'entrée
@@ -9,9 +9,11 @@
     agency_code_type: Code d'agence
     agent_contact_salutation: Formule de salutation de l'agent contact
     agent_relationship_associative_relator: Relation agents Rapport associatif
-    agent_relationship_earlierlater_relator: Relation agents Rapport de succession dans le temps
+    agent_relationship_earlierlater_relator: Relation agents Rapport de succession
+      dans le temps
     agent_relationship_family_relator: Agent Relation Famille Relator
-    agent_relationship_hierarchical_relator: Relateur hiérarchique de la relation d'agent
+    agent_relationship_hierarchical_relator: Relateur hiérarchique de la relation
+      d'agent
     agent_relationship_identity_relator: Relateur d'identité de relation d'agent
     agent_relationship_parentchild_relator: Relation agents Rapport de génération
     agent_relationship_specific_relator: Relateur spécifique à la relation d'agent
@@ -20,7 +22,8 @@
     archival_record_level: Niveau de notice archivistique
     begin_date_standardized_type: Date de début Type normalisé
     cataloging_source: Catalogage Source
-    collection_management_processing_priority: Gestion des collections Priorité de traitement
+    collection_management_processing_priority: Gestion des collections Priorité de
+      traitement
     collection_management_processing_status: Gestion des collections Etat de traitement
     container_location_status: Localisation des conditionnements Statut
     container_type: Type de conditionnement
@@ -81,19 +84,20 @@
     place_role: Rôle de place d'agent
     publication_status: Statut de publication
     reference_evaluation: Évaluation de référence
-    resource_finding_aid_description_rules: Instrument de recherche de la ressource Règles de description
+    resource_finding_aid_description_rules: Instrument de recherche de la ressource
+      Règles de description
     resource_finding_aid_status: Instrument de recherche de la ressource Statut
     resource_resource_type: Ressource Type de ressource
     restriction_type: Consultation locale Type de restriction
     rights_statement_act_restriction: Déclaration de droits Convention de restrictions
     rights_statement_act_type: Déclaration de droits Type de convention
-    rights_statement_external_document_identifier_type: Déclaration de droits Type d'identifiant externe
+    rights_statement_external_document_identifier_type: Déclaration de droits Type
+      d'identifiant externe
     rights_statement_ip_status: Mention de droits Statut de la propriété intellectuelle
     rights_statement_other_rights_basis: Déclaration de droits Autres fondements
     rights_statement_rights_type: Mention de droits Type de droits
     romanization: Romanisation
     script_iso15924: Langage ISO 15924
-    source: La source
     subject_source: Source mot-matière
     subject_term_type: Type de mot-matière
     telephone_number_type: Type de numéro de téléphone
@@ -1486,7 +1490,8 @@
       aacr: Anglo-American Cataloging Rules
       ccr: Catalogage des ressources culturelles
       dacs: "Describing Archives: A Content Standard"
-      isaar: Registre international normalisé des autorités archivistiques pour les personnes morales, les personnes et les familles
+      isaar: Registre international normalisé des autorités archivistiques pour les
+        personnes morales, les personnes et les familles
       local: Règles locales
       rad: Règles de description archivistique
       rda: Resource Description and Access
@@ -1529,7 +1534,8 @@
       additional_information: Info supplémentaire
       materials: Documents
       type_note: Type de note
-    _note_types: &note_type_definitions  # yamllint disable-line rule:key-ordering
+    _note_types: &note_type_definitions
+                                         # yamllint disable-line rule:key-ordering
       abstract: Résumé
       accessrestrict: Conditions d'accès
       accruals: Accroissements
@@ -1612,7 +1618,8 @@
     restriction_type:
       ColdStorageBrbl: 5 - Autre
       InProcessSpecColl: 4 - Non consultable en cours de traitement
-      RestrictedCurApprSpecColl: 2 - Restriction de consultation imposée par le service d'archives
+      RestrictedCurApprSpecColl: 2 - Restriction de consultation imposée par le service
+        d'archives
       RestrictedFragileSpecColl: 3 - Non consultable fragile
       RestrictedSpecColl: 1 - Restriction de consultation imposée par le donateur/l'université
     rights_statement_act_restriction:
@@ -1632,12 +1639,15 @@
       allmusic: "AllMusic"
       allocine: "AlloCiné"
       amnbo: "American National Biography Online"
-      ansi: "American National Standards Institute and National Information Standards Organisation number for an ANSI or ANSI/NISO standard"
+      ansi: "American National Standards Institute and National Information Standards\
+        \ Organisation number for an ANSI or ANSI/NISO standard"
       artsy: "Artsy"
-      bdusc: "Biographical Directory of the United States Congress (United States Congress)"
+      bdusc: "Biographical Directory of the United States Congress (United States\
+        \ Congress)"
       bfi: "BFI - British Film Institute"
       bnfcg: "BnF catalogue général (Paris: Bibliothèque nationale de France)"
-      cantic: "CANTIC (Catàleg d'autoritats de noms i títols de Catalunya) (Biblioteca de Catalunya)"
+      cantic: "CANTIC (Catàleg d'autoritats de noms i títols de Catalunya) (Biblioteca\
+        \ de Catalunya)"
       cgndb: "Canadian Geographical Names Database (Natural Resources Canada)"
       danacode: "Danacode (Bnei Brak, Israel: D.A.N.A. Systems)"
       datoses: "datos.bne.es (Biblioteca Nacional de España)"
@@ -1656,15 +1666,18 @@
       gettytgn: "Getty Thesaurus of Geographic Names Online (J. Paul Getty Trust)"
       gettyulan: "Union List of Artist Names Online (J. Paul Getty Trust)"
       gnd: "Gemeinsame Normdatei (Leipzig, Frankfurt: Deutsche Nationalbibliothek)"
-      gnis: "Geographic Names Information System (GNIS) (United States Geological Survey, Board on Geographic Names)"
+      gnis: "Geographic Names Information System (GNIS) (United States Geological\
+        \ Survey, Board on Geographic Names)"
       gtin-14: "Global Trade Identification Number 14 (EAN/UCC-128 or ITF-14)"
       hdl: "Handle"
       ibdb: "IBDB - Internet Broadway Database"
-      idref: "IdRef: le referentiel des autorites Sudoc (L'agence bibliographique de l'enseignement superieur (ABES))"
+      idref: "IdRef: le referentiel des autorites Sudoc (L'agence bibliographique\
+        \ de l'enseignement superieur (ABES))"
       imdb: "IMDb - Internet Movie Database"
       isan: "International Standard Audiovisual Number"
       isbn: "International Standard Book Number"
-      isbn-a: "International Standard Book Number (the actionable ISBN) (International DOI Foundation (IDF))"
+      isbn-a: "International Standard Book Number (the actionable ISBN) (International\
+        \ DOI Foundation (IDF))"
       isbnre: "ISBN (International Standard Book Number) registrant element"
       isil: "ISIL (International Standard Identifier for Libraries and Related Organizations)"
       ismn: "International Standard Music Number"
@@ -1680,7 +1693,8 @@
       kinopo: "КиноПоиск = KinoPoisk"
       lccn: "Library of Congress Control Number"
       lcmd: "Library of Congress Manuscript Division (Washington, DC: Library of Congress)"
-      lcmpt: "Library of Congress Medium of Performance Thesaurus for Music (LCMPT) (Washington, DC: Library of Congress)"
+      lcmpt: "Library of Congress Medium of Performance Thesaurus for Music (LCMPT)\
+        \ (Washington, DC: Library of Congress)"
       libaus: "Libraries Australia (National Library of Australia)"
       local: "Locally defined identifier"
       matrix-number: "Sound recording matrix number"
@@ -1699,13 +1713,20 @@
       orcid: "Open Researcher and Contributor IDentifier"
       oxforddnb: "Oxford Biography Index"
       porthu: "PORT.hu"
-      rbmsbt: "RBMS Controlled Vocabularies: Binding Terms (Rare Books and Manuscripts Section, Association of College & Research Libraries)"
-      rbmsgt: "RBMS Controlled Vocabularies: Genre Terms (Rare Books and Manuscripts Section, Association of College & Research Libraries)"
-      rbmspe: "RBMS Controlled Vocabularies: Provenance Evidence (Rare Books and Manuscripts Section, Association of College & Research Libraries)"
-      rbmsppe: "RBMS Controlled Vocabularies: Printing and Publishing Evidence (Rare Books and Manuscripts Section, Association of College & Research Libraries)"
-      rbmspt: "RBMS Controlled Vocabularies: Paper Terms (Rare Books and Manuscripts Section Association of College & Research Libraries)"
-      rbmsrd: "RBMS Controlled Vocabularies: Relationship Designators (Rare Books and Manuscripts Section, Association of College & Research Libraries)"
-      rbmste: "RBMS Controlled Vocabularies: Type Evidence (Rare Books and Manuscripts Section, Association of College & Research Libraries)"
+      rbmsbt: "RBMS Controlled Vocabularies: Binding Terms (Rare Books and Manuscripts\
+        \ Section, Association of College & Research Libraries)"
+      rbmsgt: "RBMS Controlled Vocabularies: Genre Terms (Rare Books and Manuscripts\
+        \ Section, Association of College & Research Libraries)"
+      rbmspe: "RBMS Controlled Vocabularies: Provenance Evidence (Rare Books and Manuscripts\
+        \ Section, Association of College & Research Libraries)"
+      rbmsppe: "RBMS Controlled Vocabularies: Printing and Publishing Evidence (Rare\
+        \ Books and Manuscripts Section, Association of College & Research Libraries)"
+      rbmspt: "RBMS Controlled Vocabularies: Paper Terms (Rare Books and Manuscripts\
+        \ Section Association of College & Research Libraries)"
+      rbmsrd: "RBMS Controlled Vocabularies: Relationship Designators (Rare Books\
+        \ and Manuscripts Section, Association of College & Research Libraries)"
+      rbmste: "RBMS Controlled Vocabularies: Type Evidence (Rare Books and Manuscripts\
+        \ Section, Association of College & Research Libraries)"
       rid: "ResearcherID (Thomson Reuters)"
       rkda: "RKDartists& (Den Haag: Rijksbureau voor Kunsthistorische Documentatie)"
       saam: "Smithsonian American Art Museum (Washington DC: Smithsonian Institution)"
@@ -1747,7 +1768,8 @@
       other: Autre
       statute: Statut
     romanization:
-      conv_rom_cat_agency: Romanisation conventionnelle ou forme conventionnelle du nom dans la langue de l'agence de catalogage
+      conv_rom_cat_agency: Romanisation conventionnelle ou forme conventionnelle du
+        nom dans la langue de l'agence de catalogage
       int_std: Standard international
       local_standard: Norme locale
       nat_std: Norme nationale
@@ -1947,7 +1969,8 @@
       Xpeo: Old Persian
       Xsux: Cuneiform, Sumero-Akkadian
       Yiii: Yi
-      Zanb: Zanabazar Square (Zanabazarin Dörböljin Useg, Xewtee Dörböljin Bicig, Horizontal Square Script)
+      Zanb: Zanabazar Square (Zanabazarin Dörböljin Useg, Xewtee Dörböljin Bicig,
+        Horizontal Square Script)
       Zinh: Code for inherited script
       Zmth: Mathematical notation
       Zsye: Symbols (Emoji variant)
@@ -1971,7 +1994,8 @@
       mesh: Medical Subject Headings
       nal: National Agricultural Library subject headings
       ram: Répertoire d'autorités RAMEAU
-      rbgenr: "Genre Terms: A Thesaurus for Use in Rare Book and Special Collections Cataloguing"
+      rbgenr: "Genre Terms: A Thesaurus for Use in Rare Book and Special Collections\
+        \ Cataloguing"
       rvm: Répertoire de vedettes-matière
       tgn: Getty Thesaurus of Geographic Names
     subject_term_type:

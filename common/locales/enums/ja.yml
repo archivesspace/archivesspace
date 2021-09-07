@@ -93,7 +93,6 @@ ja:
     rights_statement_rights_type: 権利ステートメント権利タイプ
     romanization: ローマ字
     script_iso15924: 言語スクリプトISO 15924
-    source: ソース
     subject_source: 件名ソース
     subject_term_type: 件名の種類
     telephone_number_type: 電話番号の種類
@@ -1529,7 +1528,8 @@ ja:
       additional_information: 追加情報
       materials: 材料
       type_note: タイプノート
-    _note_types: &note_type_definitions  # yamllint disable-line rule:key-ordering
+    _note_types: &note_type_definitions
+                                         # yamllint disable-line rule:key-ordering
       abstract: 抽象
       accessrestrict: アクセスを管理する条件
       accruals: 見越額
@@ -1947,7 +1947,8 @@ ja:
       Xpeo: Old Persian
       Xsux: Cuneiform, Sumero-Akkadian
       Yiii: Yi
-      Zanb: Zanabazar Square (Zanabazarin Dörböljin Useg, Xewtee Dörböljin Bicig, Horizontal Square Script)
+      Zanb: Zanabazar Square (Zanabazarin Dörböljin Useg, Xewtee Dörböljin Bicig,
+        Horizontal Square Script)
       Zinh: Code for inherited script
       Zmth: Mathematical notation
       Zsye: Symbols (Emoji variant)
