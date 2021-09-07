@@ -24,7 +24,7 @@ if [ "$?" != "0" ]; then
 fi
 
 export JRUBY=
-for dir in "$ASPACE_LAUNCHER_BASE"/gems/gems/jruby-*; do # UNC override to change path
+for dir in "$ASPACE_LAUNCHER_BASE"/gems/gems/jruby-*; do
     JRUBY="$JRUBY:$dir/lib/*"
 done
 
