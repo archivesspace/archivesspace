@@ -24,13 +24,13 @@ if [ "$?" != "0" ]; then
 fi
 
 export JRUBY=
-for dir in ../../gems/gems/jruby-*; do
+for dir in "$ASPACE_LAUNCHER_BASE"/gems/gems/jruby-*; do # UNC override to change path
     JRUBY="$JRUBY:$dir/lib/*"
 done
 
 export GEM_HOME=gems
 
 java $JAVA_OPTS -cp "../../lib/*$JRUBY" org.jruby.Main -S gem install bundler -v "$BUNDLER_VERSION"
-java $JAVA_OPTS -cp "../../lib/*$JRUBY" org.jruby.Main ../../gems/bin/bundle install --gemfile=Gemfile
+java $JAVA_OPTS -cp "../../lib/*$JRUBY" org.jruby.Main "$ASPACE_LAUNCHER_BASE"/gems/bin/bundle install --gemfile=Gemfile
 
 
