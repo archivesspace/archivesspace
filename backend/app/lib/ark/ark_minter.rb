@@ -18,7 +18,7 @@ class ArkMinter
   # recalculate that hash (using `generate_version_key` below) to determine if the
   # Ark needs to be recomputed.
   def is_still_current?(ark_name_obj, repo_id)
-    raise NotImplementedError
+    raise NotImplementedError.new
   end
 
   def self.generate_version_key(*version_grist)
