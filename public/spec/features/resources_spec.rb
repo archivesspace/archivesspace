@@ -54,4 +54,14 @@ describe 'Resources', js: true do
     click_link 'Resource with Accession'
     expect(page).to have_content('Related Unprocessed Material')
   end
+
+  it 'should show date certainty next to dates if defined' do
+    visit('/')
+    click_link 'Collections'
+    click_link 'Published Resource'
+    expect(page).to have_content("Approximate")
+
+    ao_title = first(".indent-level-1 .record-title").text
+    expect(ao_title).to match(/Approximate/)
+  end
 end
