@@ -148,6 +148,7 @@ class AdvancedQueryBuilder
     if query_data.is_a?(JSONModelType)
       query_data
     elsif query_data['type'] == "date"
+      query_data['value'] = JSONModel::Validations.normalise_date(query_data['value'])
       JSONModel::JSONModel(:date_field_query).from_hash(query_data)
     elsif query_data['type'] == "boolean"
       JSONModel::JSONModel(:boolean_field_query).from_hash(query_data)

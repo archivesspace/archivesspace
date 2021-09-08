@@ -12,7 +12,9 @@ require 'config/config-distribution'
 require 'securerandom'
 require 'nokogiri'
 require 'axe-rspec'
+require 'jsonmodel'
 
+require_relative '../../indexer/app/lib/realtime_indexer'
 require_relative '../../indexer/app/lib/periodic_indexer'
 
 if ENV['COVERAGE_REPORTS'] == 'true'
@@ -25,6 +27,18 @@ backend_port = TestUtils.free_port_from(3636)
 backend = ENV['ASPACE_TEST_BACKEND_URL'] || "http://localhost:#{backend_port}"
 test_db_url = ENV['ASPACE_TEST_DB_URL'] || AppConfig[:db_url]
 AppConfig[:backend_url] = backend
+
+require_relative 'factories'
+
+include FactoryBot::Syntax::Methods
+
+def setup_test_data
+  repo = create(:repo, :repo_code => "test_#{Time.now.to_i}", publish: true)
+  set_repo repo
+  create(:accession)
+  create(:resource)
+  run_index_round
+end
 
 RSpec.configure do |config|
   # rspec-expectations config goes here. You can use an alternate
@@ -71,6 +85,13 @@ RSpec.configure do |config|
                                               db_url: test_db_url
                                              )
     end
+    $indexer = RealtimeIndexer.new(AppConfig[:backend_url], nil)
+
+    JSONModel::init(:client_mode => true,
+                    :url => AppConfig[:backend_url],
+                    :priority => :high)
+    Factories.init
+    setup_test_data
   end
 
   config.after(:suite) do
