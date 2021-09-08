@@ -71,8 +71,8 @@ fr:
     note: Avis au personnel
     visit: "Soumettre une demande de visite à %{repo_name} pour consulter <strong>%{archival_object}</strong>"
     submit: Soumettre une demande
-    submitted: Merci, votre demande a été transmise.  Vous recevrez bientôt un courriel
-      avec la copie de votre demande.
+    submitted: Merci, votre demande a été transmise.  Vous recevrez bientôt un courriel avec la copie
+      de votre demande.
     errors:
       name: Veuillez entrer votre nom
       email: Veuillez saisir une adresse email valide
@@ -234,13 +234,12 @@ fr:
 
   errors:
     error_404: "%{type} Enregistrement non trouvé"
-    error_404_message: "La notice %{type} à laquelle vous avez tenté d'accéder n'existe\
-      \ plus ou peut avoir été enlevée."
+    error_404_message: "La notice %{type} à laquelle vous avez tenté d'accéder n'existe plus ou peut avoir\
+      \ été enlevée."
     backend_down: Impossible de se connecter à la base de données
-    backend_down_message: ArchivesSpace rencontre actuellement des difficultés techniques.
-      Nous nous excusons pour le dérangement. Veuillez réessayer plus tard.
-    unexpected_error: Votre recherche n'a pu être effectuée en raison d'une erreur
-      inattendue
+    backend_down_message: ArchivesSpace rencontre actuellement des difficultés techniques. Nous nous excusons
+      pour le dérangement. Veuillez réessayer plus tard.
+    unexpected_error: Votre recherche n'a pu être effectuée en raison d'une erreur inattendue
 
   boolean:
     "true": "Oui"
@@ -250,8 +249,7 @@ fr:
     search_placeholder: Saisissez les termes de votre recherche
     search_all: Toutes les notices
     error_no_term: Aucun terme saisi.
-    search_terms_results: "Votre recherche de {{search_terms}} a donné {{number}}\
-      \ résultats"
+    search_terms_results: "Votre recherche de {{search_terms}} a donné {{number}} résultats"
     toggle_navigation: Basculer la navigation
 
   internal_links:
@@ -280,6 +278,8 @@ fr:
       hide: Masquer Recherche avancée
 
     limit_label: Limite par type d'enregistrement
+    remove_row: Supprimer la ligne
+    add_row: Ajouter rangée
   contains: "Contient %{count} %{type}"
   found: "Trouvé dans %{count} %{type}"
   coll_obj:
@@ -544,16 +544,14 @@ fr:
     table_of_contents: Table des matières
     publication_statement: Mention de publication
     controlled_access_headings: En-têtes de confidentialité
-    finding_aid_date_prefix: Instrument de recherche élaboré à l'aide d'ArchivesSpace
-      sur
+    finding_aid_date_prefix: Instrument de recherche élaboré à l'aide d'ArchivesSpace sur
     finding_aid_written_in: Instrument de recherche écrit en
     your_finding_aid_pdf: Votre instrument de recherche PDF pour "%{title}"
     your_finding_aid_is_attached: L'instrument de recherche demandé est en pièce jointe.
     submit: Envoyez-moi un PDF
-    description: Pour recevoir une version PDF de cette collection, veuillez entrer
-      ci-dessous votre adresse email.
-    coming_soon: La génération de votre PDF est en cours. Il vous sera envoyé dès
-      qu'il sera prêt.
+    description: Pour recevoir une version PDF de cette collection, veuillez entrer ci-dessous votre adresse
+      email.
+    coming_soon: La génération de votre PDF est en cours. Il vous sera envoyé dès qu'il sera prêt.
     required: Requis
     user_email: Votre adresse email
 
@@ -698,3 +696,15 @@ fr:
     note_mandate: Mandat
     note_structure_or_genealogy: Structure ou généalogie
     note_text: Noter
+  metadata_rights_declaration:
+    last_verified_date: Dernière date de vérification
+    file_version_xlink_show_attribute: Attribut XLink Show
+    file_version_xlink_actuate_attribute: Attribut XLink Actuate
+    xlink_arcrole_attribute: Attribut Arcrole Xlink
+    xlink_role_attribute: Attribut de rôle Xlink
+    xlink_title_attribute: Attribut de titre Xlink
+    file_uri: URI du fichier
+    descriptive_note: Note descriptive
+    license: Licence
+    _singular: Déclaration des droits sur les métadonnées
+    _plural: Déclarations de droits sur les métadonnées
