@@ -5,6 +5,7 @@ require 'rspec/rails'
 require 'capybara/rails'
 require 'selenium-webdriver'
 require_relative 'selenium/common/webdriver'
+require 'aspace_helper'
 
 CHROME_OPTS  = ENV.fetch('CHROME_OPTS', '--headless,--disable-gpu,--window-size=1920x1080').split(',')
 FIREFOX_OPTS = ENV.fetch('FIREFOX_OPTS', '-headless').split(',')
@@ -60,6 +61,7 @@ RSpec.configure do |config|
   # Filter lines from Rails gems in backtraces.
   config.filter_rails_from_backtrace!
   config.include Capybara::DSL
+  config.include ASpaceHelpers
 end
 
 # We use the Mizuno server.
