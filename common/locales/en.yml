@@ -2974,3 +2974,13 @@ en:
   last_modified_by: Last modified by
   create_time: Created
   user_mtime: Modified
+
+  arks:
+    ark: ARK
+    edit: Edit ARKs
+    current: current
+    remove_ark: Remove
+    add_new: Add new ARK
+    set_current: Set to current
+    save: Save ARKs
+    modal_title: Edit ARKs for current record
