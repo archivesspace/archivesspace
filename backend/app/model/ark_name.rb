@@ -128,6 +128,7 @@ class ArkName < Sequel::Model(:ark_name)
   def self.calculate_values(value)
     raise "Not an ARK: #{value}" unless value.match(/^(.*?\/)?ark:\//)
 
+    # [generated_value, user_value]
     if AppConfig[:arks_allow_external_arks]
       [value.sub(/^(.*?\/)?ark:\//, 'ark:/'), value]
     else
