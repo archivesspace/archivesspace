@@ -51,21 +51,88 @@ class ArkName < Sequel::Model(:ark_name)
                        :retired_at_epoch_ms => 0,
                        :lock_version => 0
                       )
+    end
 
-      # Make sure the value we've generated hasn't been used elsewhere.
-      db[:ark_uniq_check].filter(:record_uri => obj.uri).delete
-      generated_values = self.filter(fk_col => obj.id).select(:generated_value).distinct.map {|row| row[:generated_value]}
+    check_unique(db, obj)
 
-      begin
-        generated_values.each do |value|
-          db[:ark_uniq_check].insert(:record_uri => obj.uri, :generated_value => value)
-        end
-      rescue Sequel::UniqueConstraintViolation
-        raise JSONModel::ValidationException.new(:errors => {"ark" => ["ark_collision"]})
+    true
+  end
+
+  def self.check_unique(db, obj)
+    fk_col = fk_for_class(obj.class)
+    return unless fk_col
+
+    # Make sure the value we've generated hasn't been used elsewhere.
+    db[:ark_uniq_check].filter(:record_uri => obj.uri).delete
+    generated_values = self.filter(fk_col => obj.id).select(:generated_value).distinct.map {|row| row[:generated_value]}
+
+    begin
+      generated_values.each do |value|
+        db[:ark_uniq_check].insert(:record_uri => obj.uri, :generated_value => value)
+      end
+    rescue Sequel::UniqueConstraintViolation => e
+      raise JSONModel::ValidationException.new(:errors => {"ark" => ["ARK collision: #{e.message.match(/'(ark:\/.+?)'/)[1]}"]})
+    end
+  end
+
+  # Bypass the minting process and assert values for current and previous ARKs
+  # Accepts an ASModel object for the record to apply the ARKs to and a
+  # JSONModel(:ark_name) containing the asserted ARK values.
+  # This supports the exceptional case where an admin is fixing spurious previous
+  # ARKs, or is reconstructing a record and needs to assert its current ARK.
+  def self.update_for_record(obj, ark_name)
+    fk_col = fk_for_class(obj.class)
+    raise "Record type does not support ARKs: #{obj.class}" unless fk_col
+    now = Time.now
+
+    ark = {
+      fk_col => obj.id,
+      :created_by => 'admin',
+      :last_modified_by => 'admin',
+      :create_time => now,
+      :system_mtime => now,
+      :user_mtime => now,
+      :lock_version => 0,
+      :version_key => ark_minter.version_key_for(obj)
+    }
+
+    DB.open do |db|
+      ArkName.filter(fk_col => obj.id).delete
+
+      if ark_name['current']
+        generated_value, user_value = calculate_values(ark_name['current'])
+
+        ArkName.insert(ark.merge(:generated_value => generated_value,
+                                 :user_value => user_value,
+                                 :is_current => 1,
+                                 :retired_at_epoch_ms => 0))
+      end
+
+      now_i = (now.to_f * 1000).to_i
+
+      ark_name['previous'].each_with_index do |prev, ix|
+        generated_value, user_value = calculate_values(prev)
+
+        ArkName.insert(ark.merge(:generated_value => generated_value,
+                                 :user_value => user_value,
+                                 :is_current => 0,
+                                 :retired_at_epoch_ms => (now_i - ix)))
       end
     end
 
+    check_unique(db, obj)
+
     true
+  end
+
+  def self.calculate_values(value)
+    raise "Not an ARK: #{value}" unless value.match(/^(.*?\/)?ark:\//)
+
+    if AppConfig[:arks_allow_external_arks]
+      [nil, value]
+    else
+      [value.sub(/^(.*?\/)?ark:\//, 'ark:/'), nil]
+    end
   end
 
   def self.handle_delete(model_clz, ids)
@@ -107,6 +174,6 @@ class ArkName < Sequel::Model(:ark_name)
 
     minter = self.ark_minter
 
-    !minter.is_still_current?(current, obj.repo_id)
+    !minter.is_still_current?(current, obj)
   end
 end

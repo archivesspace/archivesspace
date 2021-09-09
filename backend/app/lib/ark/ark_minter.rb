@@ -17,8 +17,12 @@ class ArkMinter
   # the point each Ark was generated.  Its `is_still_current?` can then
   # recalculate that hash (using `generate_version_key` below) to determine if the
   # Ark needs to be recomputed.
-  def is_still_current?(ark_name_obj, repo_id)
-    raise NotImplementedError.new
+  def is_still_current?(ark_name_obj, obj)
+    ark_name_obj.version_key == version_key_for(obj)
+  end
+
+  def version_key_for(obj)
+    ArkMinter.generate_version_key(AppConfig[:ark_naan], shoulder_for_repo(obj.repo_id), AppConfig[:ark_shoulder_delimiter])
   end
 
   def self.generate_version_key(*version_grist)
