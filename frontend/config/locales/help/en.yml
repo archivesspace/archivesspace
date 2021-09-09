@@ -36,6 +36,7 @@ en:
       resource_collection_management: Help on Collection Management
       resource_classification: Help on Classifications
       resource_user_defined: Help on User Defined
+      resource_load_via_spreadsheet: Help on Load Via Spreadsheet
       # Archival Object help tooltips
       archival_object: Help on Archival Objects
       archival_object_basic_information: Help on Basic Information

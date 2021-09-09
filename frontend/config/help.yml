@@ -30,6 +30,7 @@ topics:
   resource_deaccessions: '895812081/Deaccessions+Sub-Record+-+Resources'
   resource_collection_management: '896172244/Collection+Management+Sub-Record+-+Resources'
   resource_classification: '895910283/Classifications+Sub-Record+-+Resources'
+  resource_load_via_spreadsheet: '1173913646/Import+Archival+Objects+from+Excel+or+CSV+File+from+v2.8.1)'
   resource_user_defined: '895812108/User+Defined+Fields+-+Resources'
   # Archival Objects
   archival_object: '894107902/Resource+Records+Components'
