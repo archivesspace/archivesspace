@@ -1,0 +1,185 @@
+<a class="edit-arks-btn" href=""><%= I18n.t('arks.edit') %></a>
+
+<div id="edit_arks_modal_template" style="display: none">
+    <div class="modal-body edit-arks-form">
+        <div class="alert alert-danger ark-errors" style="display: none"></div>
+
+        <table class="table ark-table">
+            <tr><th><%= I18n.t('arks.ark') %></th><th><!-- actions --></th></tr>
+
+            <tr class="current-ark-value">
+                <td class="ark-value"></td>
+                <td class="ark-actions"><span class="badge"><%= I18n.t('arks.current') %></span></td>
+            </tr>
+
+            <tr class="previous-ark-value-template" style="display: none">
+                <td class="ark-value"></td>
+                <td class="ark-actions">
+                    <button class="btn btn-sm set-ark-current"><%= I18n.t('arks.set_current') %></button>
+                    <button class="btn btn-sm btn-danger remove-ark"><%= I18n.t('arks.remove_ark') %></button>
+                </td>
+            </tr>
+        </table>
+
+        <div class="form-group">
+            <label for="new-ark-value"><%= I18n.t('arks.add_new') %></label>
+            <div class="row">
+                <div class="col-md-8">
+                    <input type="text" class="new-ark-value form-control" name="new_ark_value">
+                </div>
+                <div class="col-md-4">
+                    <button class="add-new-ark btn btn-primary"><%= I18n.t('arks.add_new') %></button>
+                </div>
+            </div>
+        </div>
+
+        <hr>
+
+        <div class="form-actions">
+            <button class="btn btn-primary btn-save-arks"><%= I18n.t('arks.save') %></button>
+            <button class="btn btn-default btn-cancel pull-right"><%= I18n.t('actions.cancel') %></button>
+        </div>
+    </div>
+</div>
+
+<script>
+ function EditArksForm(rootElt, saveCallback, cancelCallback) {
+     this.rootElt = rootElt;
+
+     this.saveCallback = saveCallback;
+     this.cancelCallback = cancelCallback;
+
+     this.currentArk = <%= record['ark_name']['current'].to_json.html_safe %>;
+     this.previousArks = <%= record['ark_name']['previous'].to_json.html_safe %>;
+
+     this.error = '';
+
+     this.table = this.rootElt.find('.ark-table');
+
+     this.currentArkRow = this.rootElt.find('.current-ark-value');
+     this.previousArkTemplate = this.rootElt.find('.previous-ark-value-template');
+
+     this.newArkInput = this.rootElt.find('.new-ark-value');
+
+     this.addHandlers();
+     this.refreshTable();
+ }
+
+ EditArksForm.prototype.refreshTable = function() {
+     var self = this;
+
+     this.currentArkRow.find('.ark-value').text(this.currentArk);
+
+     this.table.find('.previous_ark_row').remove();
+
+     $(this.previousArks).each(function (idx, ark) {
+         var row = self.previousArkTemplate.clone();
+         row.find('.ark-value').text(ark);
+
+         row.removeClass('previous-ark-value-template');
+         row.addClass('previous_ark_row');
+         row.show();
+
+         self.table.append(row);
+     });
+
+     if (self.error) {
+         this.rootElt.find('.ark-errors').text(self.error).show();
+     } else {
+         this.rootElt.find('.ark-errors').hide();
+     }
+ };
+
+ EditArksForm.prototype.addNewArk = function(arkValue) {
+     this.previousArks.push(arkValue);
+     this.refreshTable();
+ };
+
+ EditArksForm.prototype.showError = function(msg) {
+     this.error = msg;
+     this.refreshTable();
+ };
+
+
+ EditArksForm.prototype.saveArks = function() {
+     var self = this;
+
+     $.ajax({
+         url: AS.app_prefix("/ark_update"),
+         data: {
+             uri: "<%= record['uri'] %>",
+             ark_name: JSON.stringify({
+                 current: self.currentArk,
+                 previous: self.previousArks,
+             })
+         },
+         type: "post",
+         success: function(html) {
+             self.saveCallback();
+         },
+         error: function(jqXHR, textStatus, errorThrown) {
+             self.showError(jqXHR.responseText);
+         }
+     });
+ };
+
+ EditArksForm.prototype.addHandlers = function () {
+     var self = this;
+
+     var addArk = function() {
+         if (self.newArkInput.val().trim().length > 0) {
+             self.addNewArk(self.newArkInput.val().trim());
+             self.newArkInput.val('');
+         }
+     };
+
+     this.rootElt.find('button.add-new-ark').on('click', addArk);
+
+     self.newArkInput.on('keypress', function (e) {
+         if (e.keyCode == 13) {
+             addArk();
+         }
+     });
+
+     this.rootElt.on('click', 'button.remove-ark', function () {
+         var victim = $(this).closest('tr').find('.ark-value').text();
+
+         self.previousArks = self.previousArks.filter((v) => v !== victim);
+
+         self.refreshTable();
+     });
+
+     this.rootElt.on('click', 'button.set-ark-current', function () {
+         var promoted = $(this).closest('tr').find('.ark-value').text();
+
+         self.previousArks.push(self.currentArk);
+         self.previousArks = self.previousArks.filter((v) => v !== promoted);
+         self.currentArk = promoted;
+
+         self.refreshTable();
+     });
+
+     this.rootElt.on('click', 'button.btn-save-arks', function () {
+         self.saveArks();
+     });
+
+     this.rootElt.on('click', 'button.btn-cancel', function () {
+         self.cancelCallback();
+     });
+
+ };
+
+
+ $('.edit-arks-btn').on('click', function (event) {
+     event.preventDefault();
+     var dialog_content = AS.renderTemplate("edit_arks_modal_template");
+
+     $modal = AS.openCustomModal("editArksModal", "<%= I18n.t('arks.modal_title') %>", dialog_content, 'large');
+
+     new EditArksForm($modal.find('.edit-arks-form'),
+                      () => { window.location.reload(); },
+                      () => { $modal.modal('hide'); });
+
+     return false;
+ });
+</script>

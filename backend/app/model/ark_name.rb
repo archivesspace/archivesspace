@@ -129,7 +129,7 @@ class ArkName < Sequel::Model(:ark_name)
     raise "Not an ARK: #{value}" unless value.match(/^(.*?\/)?ark:\//)
 
     if AppConfig[:arks_allow_external_arks]
-      [nil, value]
+      ["override_#{SecureRandom.hex}", value]
     else
       [value.sub(/^(.*?\/)?ark:\//, 'ark:/'), nil]
     end
