@@ -249,22 +249,24 @@ class EADSerializer < ASpaceExport::Serializer
     return unless AppConfig[:arks_enabled]
     return unless data.ark_name
 
-    xml.unitid  {
+    xml.unitid ({
+      "type" => "ark",
+    }) {
       xml.extref ({
         "xlink:href" => data.ark_name.fetch('current'),
-        "xlink:actuate" => "onload",
+        "xlink:actuate" => "onLoad",
         "xlink:show" => "new",
-        "xlink:type" => "ark"
       }) { xml.text 'Archival Resource Key' }
     }
 
     data.ark_name.fetch('previous', []).each do |old_ark_url|
-      xml.unitid {
+      xml.unitid ({
+        "type" => "ark-superseded",
+      }) {
         xml.extref ({
           "xlink:href" => old_ark_url,
-          "xlink:actuate" => "onload",
+          "xlink:actuate" => "onLoad",
           "xlink:show" => "new",
-          "xlink:localtype" => "arkprevious"
         }) { xml.text 'Previous Archival Resource Key' }
       }
     end
@@ -303,11 +305,11 @@ class EADSerializer < ASpaceExport::Serializer
           xml.unittitle { sanitize_mixed_content( val, xml, fragments) }
         end
 
-        handle_arks(data, xml)
-
         if !data.component_id.nil? && !data.component_id.empty?
           xml.unitid data.component_id
         end
+
+        handle_arks(data, xml)
 
         if @include_unpublished
           data.external_ids.each do |exid|

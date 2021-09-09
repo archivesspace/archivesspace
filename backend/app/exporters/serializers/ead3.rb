@@ -1219,25 +1219,26 @@ class EAD3Serializer < EADSerializer
   end
 
 
-  # <unitid><ref href=”ARK” show="new" actuate="onload">ARK</ref></unitid>
   def handle_arks(data, xml)
     return unless AppConfig[:arks_enabled]
     return unless data.ark_name
 
-    xml.unitid {
+    xml.unitid ({
+      "type" => "ark",
+    }) {
       xml.ref ({"href" => data.ark_name.fetch('current'),
-                "actuate" => "onload",
+                "actuate" => "onLoad",
                 "show" => "new",
-                "localtype" => "ark"
       }) { xml.text 'Archival Resource Key' }
     }
 
     data.ark_name.fetch('previous', []).each do |old_ark_url|
-      xml.unitid {
+      xml.unitid ({
+        "type" => "ark-superseded",
+      }) {
         xml.ref ({"href" => old_ark_url,
-                  "actuate" => "onload",
+                  "actuate" => "onLoad",
                   "show" => "new",
-                  "localtype" => "arkprevious"
         }) { xml.text 'Previous Archival Resource Key' }
       }
     end
