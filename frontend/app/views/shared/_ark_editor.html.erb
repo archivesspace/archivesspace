@@ -36,8 +36,13 @@
         <hr>
 
         <div class="form-actions">
-            <button class="btn btn-primary btn-save-arks"><%= I18n.t('arks.save') %></button>
-            <button class="btn btn-default btn-cancel pull-right"><%= I18n.t('actions.cancel') %></button>
+            <div>
+                <button class="btn btn-primary btn-save-arks"><%= I18n.t('arks.save') %></button>
+                <button class="btn btn-default btn-cancel pull-right"><%= I18n.t('actions.cancel') %></button>
+            </div>
+            <div>
+                <small style="display: none" class="unsubmitted-input-msg text-muted"><%= I18n.t('arks.unsubmitted_input') %></small>
+            </div>
         </div>
     </div>
 </div>
@@ -51,6 +56,8 @@
 
      this.currentArk = <%= record['ark_name']['current'].to_json.html_safe %>;
      this.previousArks = <%= record['ark_name']['previous'].to_json.html_safe %>;
+
+     this.saveButton = this.rootElt.find('button.btn-save-arks');
 
      this.error = '';
 
@@ -123,6 +130,20 @@
      });
  };
 
+ EditArksForm.prototype.maybeDisableSave = function() {
+     var self = this;
+
+     if (self.newArkInput.val().trim()) {
+         // Block save
+         self.saveButton.attr('disabled', true);
+         self.rootElt.find('.unsubmitted-input-msg').show();
+     } else {
+         // Save OK
+         self.saveButton.attr('disabled', null);
+         self.rootElt.find('.unsubmitted-input-msg').hide();
+     }
+ }
+
  EditArksForm.prototype.addHandlers = function () {
      var self = this;
 
@@ -130,6 +151,7 @@
          if (self.newArkInput.val().trim().length > 0) {
              self.addNewArk(self.newArkInput.val().trim());
              self.newArkInput.val('');
+             self.maybeDisableSave();
          }
      };
 
@@ -139,6 +161,10 @@
          if (e.keyCode == 13) {
              addArk();
          }
+     });
+
+     self.newArkInput.on('keyup', function (e) {
+         self.maybeDisableSave();
      });
 
      this.rootElt.on('click', 'button.remove-ark', function () {
