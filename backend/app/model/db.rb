@@ -314,12 +314,22 @@ class DB
 
     def is_retriable_exception(exception, opts = {})
       # Transaction was rolled back, but we can retry
-      (exception.instance_of?(RetryTransaction) ||
-       (opts[:retry_on_optimistic_locking_fail] &&
-        exception.instance_of?(Sequel::Plugins::OptimisticLocking::Error)) ||
-       (exception.wrapped_exception && ( exception.wrapped_exception.cause or exception.wrapped_exception).getSQLState() =~ /^(40|41)/) )
-    end
+      return true if exception.instance_of?(RetryTransaction)
 
+      return true if (opts[:retry_on_optimistic_locking_fail] && exception.instance_of?(Sequel::Plugins::OptimisticLocking::Error))
+
+      if (inner_exception = exception.wrapped_exception)
+        if inner_exception.cause
+          inner_exception = inner_exception.cause
+        end
+
+        if inner_exception.is_a?(java.sql.SQLException)
+          return inner_exception.getSQLState =~ /^(40|41)/
+        end
+      end
+
+      false
+    end
 
     def disconnect
       @pool.disconnect
