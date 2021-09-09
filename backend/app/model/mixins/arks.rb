@@ -4,19 +4,17 @@ module Arks
     base.extend(ClassMethods)
   end
 
-  def update_from_json(json, extra_values = {}, apply_nested_records = true)
-    ArkName.ensure_ark_for_record(self, json['external_ark_url'])
-
+  # You'd think we'd put this in either create_from_json or update_from_json
+  # but if we did we'd miss out on having our new ARK being indexed by the
+  # realtime indexer via fire_update.  So instead, we "hook" ourselves into
+  # apply_nested_records which conveniently happens before the fire_update.
+  def apply_nested_records(json, new_record = false)
     super
+
+    ArkName.ensure_ark_for_record(self, json['external_ark_url'])
   end
 
   module ClassMethods
-
-    def create_from_json(json, extra_values = {})
-      obj = super
-      ArkName.ensure_ark_for_record(obj, json['external_ark_url'])
-      obj
-    end
 
     def sequel_to_jsonmodel(objs, opts = {})
       jsons = super
