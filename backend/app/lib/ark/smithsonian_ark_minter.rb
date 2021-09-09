@@ -8,19 +8,11 @@ class SmithsonianArkMinter < ArkMinter
 
       db[:ark_name].insert(row_defaults.merge(:generated_value => build_generated_ark(ark_shoulder),
                                               :user_value => external_ark_url,
-                                              :version_key => generate_version_key(obj.repo_id)))
+                                              :version_key => version_key_for(obj)))
     end
   end
 
-  def is_still_current?(ark_name_obj, repo_id)
-    ark_name_obj.version_key == generate_version_key(repo_id)
-  end
-
   private
-
-  def generate_version_key(repo_id)
-    ArkMinter.generate_version_key(AppConfig[:ark_naan], shoulder_for_repo(repo_id), AppConfig[:ark_shoulder_delimiter])
-  end
 
   def build_generated_ark(ark_shoulder)
     ark_id = SecureRandom.uuid
@@ -33,7 +25,6 @@ class SmithsonianArkMinter < ArkMinter
 
     "ark:/#{AppConfig[:ark_naan]}/#{ark_shoulder_with_delimiter}#{ark_id}"
   end
-
 
   ArkName.register_minter(:smithsonian_ark_minter, self)
 
