@@ -8,7 +8,6 @@ ignore: |
   /frontend/
   /.github/
   /plugins/
-  /public/
   /reports/
   .rubocop.yml
   .travis.yml
