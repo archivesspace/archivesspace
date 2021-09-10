@@ -30,12 +30,10 @@ class OAIDCTermsMapper
           xml['dcterms'].identifier(merged_identifier)
         end
 
-        if AppConfig[:arks_enabled]
-          ark_url = jsonmodel.dig('ark_name', 'current')
+        if AppConfig[:arks_enabled] && jsonmodel['ark_name']
+          ark_url = jsonmodel['ark_name']['current']
 
-          unless ark_url.nil? || ark_url.empty?
-            xml['dcterms'].identifier(ark_url)
-          end
+          xml['dcterms'].identifier(ark_url) if ark_url
         end
 
         # And a second identifier containing the public url - if public is running

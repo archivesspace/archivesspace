@@ -24,12 +24,10 @@ class OAIMODSMapper
                               (0..3).map {|id| jsonmodel["id_#{id}"]}.compact.join('.')
                             end
 
-        if AppConfig[:arks_enabled]
-          ark_url = jsonmodel.dig('ark_name', 'current')
+        if AppConfig[:arks_enabled] && jsonmodel['ark_name']
+          ark_url = jsonmodel['ark_name']['current']
 
-          unless ark_url.nil? || ark_url.empty?
-            xml.identifier(ark_url)
-          end
+          xml.identifier(ark_url) if ark_url
         end
 
         # Creator -> name/namePart
