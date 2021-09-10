@@ -1,0 +1,29 @@
+extends: default
+
+ignore: |
+  /build/
+  /common/locales/*.yml
+  docker*
+  /docs/
+  /frontend/
+  /.github/
+  /plugins/
+  /public/
+  /reports/
+  .rubocop.yml
+  .travis.yml
+
+locale: en_US.UTF-8
+
+rules:
+  document-start:
+    present: false
+  line-length:
+    max: 100
+    allow-non-breakable-words: true
+    allow-non-breakable-inline-mappings: false
+  octal-values: enable
+
+yaml-files:
+  - '*.yml'
+  - '.yamllint'

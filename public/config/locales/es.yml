@@ -214,9 +214,11 @@ es:
     sub-series: Subserie
   errors:
     error_404: "% {type} registro no encontrado"
-    error_404_message: "El registro% {type} al que ha intentado acceder no existe o puede que se haya eliminado."
+    error_404_message: "El registro% {type} al que ha intentado acceder no existe\
+      \ o puede que se haya eliminado."
     backend_down: No se puede conectar a la base de datos
-    backend_down_message: ArchivesSpace está experimentando dificultades técnicas. Pedimos disculpas por las molestias. Por favor, inténtelo de nuevo más tarde.
+    backend_down_message: ArchivesSpace está experimentando dificultades técnicas.
+      Pedimos disculpas por las molestias. Por favor, inténtelo de nuevo más tarde.
     unexpected_error: Su solicitud no se pudo completar debido a un error inesperado
 
   boolean:
@@ -255,6 +257,9 @@ es:
       show: Mostrar búsqueda avanzada
       hide: Ocultar búsqueda avanzada
 
+    remove_row: Quitar fila
+    add_row: Agregar fila
+    limit_label: Límite por tipo de registro
   contains: "Contiene %{count} %{type}"
   found: "Encontrado en %{count} %{type}"
   coll_obj:
@@ -659,7 +664,7 @@ es:
     number_type: Tipo de número
     number: Número
     ext: Extensión telefónica
-    
+
   agent_notes:
     _singular: Nota
     _plural: Notas
@@ -673,3 +678,15 @@ es:
     note_mandate: Mandato
     note_structure_or_genealogy: Estructura o genealogía
     note_text: Nota
+  metadata_rights_declaration:
+    last_verified_date: Última fecha de verificación
+    file_version_xlink_show_attribute: Mostrar atributo XLink
+    file_version_xlink_actuate_attribute: Accionar atributo XLink
+    xlink_arcrole_attribute: Atributo de Xlink Arcrole
+    xlink_role_attribute: Atributo de título de Xlink
+    xlink_title_attribute: Atributo de título de Xlink
+    file_uri: URI Archivo
+    descriptive_note: Nota descriptiva
+    license: Licencia
+    _singular: Declaraciones de derechos de metadatos
+    _plural: Declaraciones de derechos de metadatos

@@ -15,6 +15,17 @@ describe 'Accessibility', js: true, db: 'accessibility' do
     it "sets alt text correctly for main logo" do
       expect(page).to have_xpath("//img[@class='logo' and @alt='ArchivesSpace - a community served by Lyrasis.']")
     end
+
+    it "has skip links that pass color contrast", :db => 'accessibility' do
+      visit "/"
+      page.has_css? 'div.skipnav'
+
+      # Show the skiplink by giving it focus
+      body = find "body"
+      body.send_keys :tab
+
+      expect(page).to be_axe_clean.checking_only :'color-contrast'
+    end
   end
 
   context 'Repositories pages' do
