@@ -7,7 +7,7 @@
     "ci:eslint-output": "node temp-eslint-output.js",
     "ci:eslint-output-analysis": "node temp-eslint-analysis.js",
     "ci:stylelint": "stylelint '{frontend,public}/**/*.{less,css,scss}' -f compact",
-    "ci:stylelint-output": "stylelint '{frontend,public}/**/*.{less,css,scss}' -f json -o stylelint-output.json",
+    "ci:stylelint-output": "node temp-stylelint-output.js",
     "ci:stylelint-output-analysis": "node temp-stylelint-analysis.js",
     "ci:prettier": "prettier --check frontend/ public/"
   },
