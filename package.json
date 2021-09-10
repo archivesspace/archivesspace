@@ -1,26 +1,23 @@
 {
   "name": "archivesspace-frontends",
   "version": "0.1.0",
-  "description": "Lint and format js, css, and html in frontend/ and public/",
+  "description": "Check front end files for lint errors during CI",
   "scripts": {
-    "pre-commit-lint": "eslint",
-    "pre-commit-format": "pretty-quick --staged",
-    "ci-lint": "eslint frontend/ public/ -f compact",
-    "ci-format": "prettier --check frontend/ public/",
-    "lint-output": "node temp-lint-output.js",
-    "lint-output-analysis": "node temp-lint-analysis.js"
-  },
-  "lint-staged": {
-    "*.js": "eslint",
-    "*.{js,html,less,css,scss}": "pretty-quick --staged"
+    "ci:eslint": "eslint frontend/ public/ -f compact",
+    "ci:eslint-output": "node temp-eslint-output.js",
+    "ci:eslint-output-analysis": "node temp-eslint-analysis.js",
+    "ci:stylelint": "stylelint '{frontend,public}/**/*.{less,css,scss}' -f compact",
+    "ci:stylelint-output": "stylelint '{frontend,public}/**/*.{less,css,scss}' -f json -o stylelint-output.json",
+    "ci:stylelint-output-analysis": "node temp-stylelint-analysis.js",
+    "ci:prettier": "prettier --check frontend/ public/"
   },
   "devDependencies": {
     "eslint": "^7.32.0",
     "eslint-config-prettier": "^8.3.0",
-    "husky": "^7.0.2",
-    "lint-staged": "^11.1.2",
     "prettier": "^2.3.2",
-    "pretty-quick": "^3.1.1"
+    "stylelint": "^13.13.1",
+    "stylelint-config-prettier": "^8.0.2",
+    "stylelint-config-standard": "^22.0.0"
   },
   "license": "ECL-2.0",
   "repository": {
