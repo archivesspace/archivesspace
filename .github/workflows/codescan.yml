@@ -33,21 +33,6 @@ jobs:
       - name: Run ESLint on front ends
         run: npm run ci:eslint
 
-  eslint-report:
-    name: ESLint errors report
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@v2
-
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Log ESLint errors analysis
-        run: |
-          npm run ci:eslint-output
-          npm run ci:eslint-output-analysis
-
   stylelint:
     name: Stylelint
     runs-on: ubuntu-latest
