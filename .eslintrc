@@ -16,5 +16,8 @@
     "AS": "writable",
     "CodeMirror": "readonly"
   },
-  "rules": {}
+  "rules": {
+    "no-undef": "warn",
+    "no-unused-vars": "warn"
+  }
 }

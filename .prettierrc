@@ -7,7 +7,7 @@
   "quoteProps": "as-needed",
   "trailingComma": "es5",
   "bracketSpacing": true,
-  "arrowParens": "always",
+  "arrowParens": "avoid",
   "htmlWhitespaceSensitivity": "css",
   "endOfLine": "lf",
   "embeddedLanguageFormatting": "auto"
