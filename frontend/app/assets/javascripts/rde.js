@@ -123,12 +123,14 @@ $(function() {
         $(".fieldset-labels th", $rde_form).each(function(i, th) {
           var $th = $(th);
 
+          var $target;
+
           // Apply any sticky columns
           if ($currentRow.length > 0) {
             if ($th.hasClass("fieldset-label") && $th.hasClass("sticky")) {
               // populate the input from the current or bottom row
               var $source = $(":input:first", $("td", $currentRow).get(i));
-              var $target = $(":input:first", $("td", $row).get(i));
+              $target = $(":input:first", $("td", $row).get(i));
 
               if ($source.is(":checkbox")) {
                 if ($source.is(":checked")) {
@@ -146,7 +148,7 @@ $(function() {
                 $target.val($source.val());
               }
             } else if (DEFAULT_VALUES[$th.attr('id')]) {
-              var $target = $(":input:first", $("td", $row).get(i));
+              $target = $(":input:first", $("td", $row).get(i));
               $target.val(DEFAULT_VALUES[$th.attr('id')]);
             }
           }
@@ -250,7 +252,7 @@ $(function() {
 
           $errorSummaryList.empty();
 
-          if (row_result.hasOwnProperty("errors") && !$.isEmptyObject(row_result.errors)) {
+          if (Object.prototype.hasOwnProperty.call(row_result, "errors") && !$.isEmptyObject(row_result.errors)) {
             $row.removeClass("valid").addClass("invalid");
 
             $.each(row_result.errors, function(name, error) {
@@ -346,8 +348,7 @@ $(function() {
       };
 
 
-      var initOtherLevelHandler = function(index) {
-        var index = index || 0;
+      var initOtherLevelHandler = function(index = 0) {
         var $select = $("td[data-col='colLevel']:eq("+index+") select");
 
         if($select.val() === 'otherlevel') {
@@ -466,15 +467,17 @@ $(function() {
 
             var $targetCells = $("table tbody tr td:nth-child("+colIndex+")", $rde_form);
 
+            var fillValue;
+
             if ($("#basicFillValue",$form).is(":checkbox")) {
-              var fillValue = $("#basicFillValue",$form).is(":checked");
+              fillValue = $("#basicFillValue",$form).is(":checked");
               if (fillValue) {
                 $(":input:first", $targetCells).attr("checked", "checked");
               } else {
                 $(":input:first", $targetCells).removeAttr("checked");
               }
             } else {
-              var fillValue = $("#basicFillValue",$form).val();
+              fillValue = $("#basicFillValue",$form).val();
               $(":input:first", $targetCells).val(fillValue);
             }
 

@@ -213,8 +213,10 @@ var selectStructuredDateSubform = function() {
     var $parent_subrecord_list = $subform.parents(".subrecord-form-list:first");
     var index = $(".subrecord-form-fields", $this).length + 1;
 
+    var $date_subform;
+
     if(date_type == "range") {
-      var $date_subform = AS.renderTemplate("template_structured_date_range_fields", {
+      $date_subform = AS.renderTemplate("template_structured_date_range_fields", {
         path: AS.quickTemplate($parent_subrecord_list.data("name-path"), {index: $subform.data("index")}) + "[structured_date_range]",
         id_path: AS.quickTemplate($parent_subrecord_list.data("id-path"), {index: $subform.data("index")})  + "_structured_date_range_",
         index: "${index}"
@@ -222,7 +224,7 @@ var selectStructuredDateSubform = function() {
     }
 
     else if(date_type == "single") {
-      var $date_subform = AS.renderTemplate("template_structured_date_single_fields", {
+      $date_subform = AS.renderTemplate("template_structured_date_single_fields", {
         path: AS.quickTemplate($parent_subrecord_list.data("name-path"), {index: $subform.data("index")}) + "[structured_date_single]",
         id_path: AS.quickTemplate($parent_subrecord_list.data("id-path"), {index: $subform.data("index")})  + "_structured_date_single_",
         index: "${index}"
@@ -230,7 +232,7 @@ var selectStructuredDateSubform = function() {
     }
 
     else {
-      var $date_subform = "<div class='sdl-subrecord-form'></div>"
+      $date_subform = "<div class='sdl-subrecord-form'></div>"
     }
 
     $target_subrecord_list.replaceWith($date_subform);
