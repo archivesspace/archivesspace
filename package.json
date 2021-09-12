@@ -4,9 +4,7 @@
   "description": "Check front end files for lint errors during CI",
   "scripts": {
     "ci:eslint": "eslint frontend/ public/ -f compact",
-    "ci:stylelint": "stylelint --fix '{frontend,public}/**/*.{less,css,scss}' -f compact",
-    "ci:stylelint-output": "node temp-stylelint-output.js",
-    "ci:stylelint-output-analysis": "node temp-stylelint-analysis.js",
+    "ci:stylelint": "stylelint '{frontend,public}/**/*.{less,css,scss}' -f compact",
     "ci:prettier": "prettier --check frontend/ public/"
   },
   "devDependencies": {

@@ -1,13 +1,12 @@
 //= require Sortable
 
-var sortable;
+var sortable
 
-$(function() {
-  
-  var el = document.getElementById('note-order-preference-list');
-  sortable = Sortable.create(el, {});
+$(function () {
+  var el = document.getElementById('note-order-preference-list')
+  sortable = Sortable.create(el, {})
 
-  $('form#new_preference').submit(function(event) {
+  $('form#new_preference').submit(function (event) {
     // .toArray() via Sortable
     sortable.toArray().forEach(function (noteType, i) {
       $('<input>')
@@ -15,10 +14,9 @@ $(function() {
           type: 'hidden',
           id: 'preference_defaults__note_order',
           name: 'preference[defaults][note_order][' + i + ']',
-          value: noteType
+          value: noteType,
         })
-        .appendTo(event.target);
-    });
-  });
-
-});
+        .appendTo(event.target)
+    })
+  })
+})
