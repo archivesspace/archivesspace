@@ -7,31 +7,22 @@ body {
 .content-pane {
   background-color: #f9f9f9;
   .border-radius(4px);
-  box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.15);
-}
 
-.content-pane > .row {
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
 }
 
 .breadcrumb {
   #gradient > .vertical(#e9e9e9, #f1f1f1);
 }
 
-
-.breadcrumb-row {
-}
-
-
 .record-pane {
   /* box-shadow: 1px 0px 2px rgba(0, 0, 0, 0.2) inset; */
-  box-shadow: -1px 0px 2px rgba(0, 0, 0, 0.2);
-
+  box-shadow: -1px 0 2px rgba(0, 0, 0, 0.2);
   background-color: white;
-  /* *margin-left: (@fluidGridGutterWidth - (.5 / @gridRowWidth * 100 * 1%)) / 2; */
-  /* *padding-left: 0 (@fluidGridGutterWidth - (.5 / @gridRowWidth * 100 * 1%)) / 2; */
-}
 
-.branding {
+  /* *margin-left: (@fluidGridGutterWidth - (.5 / @gridRowWidth * 100 * 1%)) / 2; */
+
+  /* *padding-left: 0 (@fluidGridGutterWidth - (.5 / @gridRowWidth * 100 * 1%)) / 2; */
 }
 
 .navbar {
@@ -55,10 +46,10 @@ body {
 }
 
 @media print {
-   a[href]:after {
-      display: none;
-   }
-   .pagination {
-     display: none;
-   }
+  a[href]::after {
+    display: none;
+  }
+  .pagination {
+    display: none;
+  }
 }

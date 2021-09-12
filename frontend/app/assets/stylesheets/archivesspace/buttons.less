@@ -1,5 +1,6 @@
 .btn.btn-xs {
-  [class^="icon-"], [class*=" icon-"] {
+  [class^='icon-'],
+  [class*=' icon-'] {
     margin-top: -1px;
   }
 }
@@ -9,7 +10,7 @@
 }
 
 .btn-default.bulktypebtn.active {
-  color: #ffffff;
+  color: #fff;
   background-color: #337ab7;
   border-color: #2e6da4;
 }
@@ -28,8 +29,7 @@
 }
 
 .input-group .dropdown-menu,
-.btn-group .dropdown-menu
-.input-prepend .dropdown-menu {
+.btn-group .dropdown-menu .input-prepend .dropdown-menu {
   font-size: @baseFontSize;
 }
 
@@ -39,11 +39,12 @@
     right: 0;
   }
 
-  a.disabled, a[disabled="disabled"] {
+  a.disabled,
+  a[disabled='disabled'] {
     .opacity(50);
     &:hover {
       background: transparent !important;
-      color: #333333 !important;
+      color: #333 !important;
     }
   }
 }

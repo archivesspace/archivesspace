@@ -1,26 +1,28 @@
 @font-face {
   font-family: 'icomoon';
-  src:asset-url('icomoon/icomoon.eot?-z7cehr');
-  src:asset-url('icomoon/icomoon.eot?#iefix-z7cehr') format('embedded-opentype'),
-  asset-url('icomoon/icomoon.woff?-z7cehr') format('woff'),
-  asset-url('icomoon/icomoon.ttf?-z7cehr') format('truetype'),
-  asset-url('icomoon/icomoon.svg?-z7cehr#icomoon') format('svg');
+  src: asset-url('icomoon/icomoon.eot?-z7cehr');
+  src: asset-url('icomoon/icomoon.eot?#iefix-z7cehr')
+      format('embedded-opentype'),
+    asset-url('icomoon/icomoon.woff?-z7cehr') format('woff'),
+    asset-url('icomoon/icomoon.ttf?-z7cehr') format('truetype'),
+    asset-url('icomoon/icomoon.svg?-z7cehr#icomoon') format('svg');
 }
 
 .icomoon {
   .icon('icomoon');
-  margin: 0px 2px 0 0;
 
-  &.icon-resource:before {
-    content: "\ea71";
+  margin: 0 2px 0 0;
+
+  &.icon-resource::before {
+    content: '\ea71';
   }
 
-  &.icon-accession:before {
-    content: "\e99f";
+  &.icon-accession::before {
+    content: '\e99f';
   }
 
-  &.icon-repository:before {
-    content: "\e921";
+  &.icon-repository::before {
+    content: '\e921';
   }
 }
 
@@ -36,70 +38,71 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 
-  &.icon-resource:before {
+  &.icon-resource::before {
     .alt-icomoon;
-    content: "\ea71";
+
+    content: '\ea71';
   }
 
-  &.icon-accession:before {
+  &.icon-accession::before {
     .alt-icomoon;
-    content: "\e99f";
+
+    content: '\e99f';
   }
 
-  &.icon-repository:before {
+  &.icon-repository::before {
     .alt-icomoon;
-    content: "\e921";
+
+    content: '\e921';
   }
 
-  &.icon-archival_object:before {
-    content:"\e022";
+  &.icon-archival_object::before {
+    content: '\e022';
   }
 
-  &.icon-subject:before {
-    content:"\e041";
+  &.icon-subject::before {
+    content: '\e041';
   }
 
-  &.icon-agent_person:before {
-    content:"\e008";
+  &.icon-agent_person::before {
+    content: '\e008';
   }
 
-  &.icon-agent_corporate_entity:before {
-    content:"\e139";
+  &.icon-agent_corporate_entity::before {
+    content: '\e139';
   }
 
-  &.icon-agent_family:before {
+  &.icon-agent_family::before {
     .alt-icomoon;
-    content: "\e972";
+
+    content: '\e972';
   }
 
-  &.icon-digital_object:before {
-    content:"\e117";
+  &.icon-digital_object::before {
+    content: '\e117';
   }
 
-  &.icon-digital_object_component:before {
-    content:"\e040";
+  &.icon-digital_object_component::before {
+    content: '\e040';
   }
 
-  &.icon-classification:before {
-    content:"\e042";
+  &.icon-classification::before {
+    content: '\e042';
   }
 
-  &.icon-classification_term:before {
-    content:"\e041";
+  &.icon-classification_term::before {
+    content: '\e041';
   }
 
   &.icon-location {
-    content:"\e165";
+    content: '\e165';
   }
 
   &.icon-event {
-    content:"\e109";
+    content: '\e109';
   }
 
   &.icon-collection_management {
-    content:"\e110";
+    content: '\e110';
   }
 }
-
-
-
