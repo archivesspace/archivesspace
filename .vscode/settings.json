@@ -1,3 +1,4 @@
 {
-  "prettier.configPath": ".prettierrc"
+  "prettier.configPath": ".prettierrc",
+  "stylelint.configFile": ".stylelintrc"
 }
