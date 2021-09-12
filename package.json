@@ -4,7 +4,7 @@
   "description": "Check front end files for lint errors during CI",
   "scripts": {
     "ci:eslint": "eslint frontend/ public/ -f compact",
-    "ci:stylelint": "stylelint '{frontend,public}/**/*.{less,css,scss}' -f compact",
+    "ci:stylelint": "stylelint --fix '{frontend,public}/**/*.{less,css,scss}' -f compact",
     "ci:stylelint-output": "node temp-stylelint-output.js",
     "ci:stylelint-output-analysis": "node temp-stylelint-analysis.js",
     "ci:prettier": "prettier --check frontend/ public/"
@@ -15,7 +15,8 @@
     "prettier": "^2.3.2",
     "stylelint": "^13.13.1",
     "stylelint-config-prettier": "^8.0.2",
-    "stylelint-config-standard": "^22.0.0"
+    "stylelint-config-standard": "^22.0.0",
+    "stylelint-scss": "^3.20.1"
   },
   "license": "ECL-2.0",
   "repository": {
