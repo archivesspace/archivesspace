@@ -159,6 +159,12 @@ class ResourcesController < ApplicationController
       ]
 #      @rep_image = get_rep_image(@result['json']['instances'])
       fill_request_info
+      if @result['primary_type'] == 'digital_object' || @result['primary_type'] == 'digital_object_component'
+        @dig = process_digital(@result['json'])
+      else
+        @dig = process_digital_instance(@result['json']['instances'])
+        process_extents(@result['json'])
+      end
     rescue RecordNotFound
       record_not_found(uri, 'resource')
     end
