@@ -5,7 +5,6 @@ ignore: |
   /common/locales/*.yml
   docker*
   /docs/
-  /frontend/
   /.github/
   /plugins/
   /public/
@@ -19,6 +18,8 @@ rules:
   document-start:
     present: false
   line-length:
+    ignore: |
+      /frontend/
     max: 100
     allow-non-breakable-words: true
     allow-non-breakable-inline-mappings: false

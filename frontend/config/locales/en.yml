@@ -857,6 +857,8 @@ en:
         add: Add Date
 
   dates_of_existence:
+    _singular: Date of Existence
+    _plural: Dates of Existence
     _frontend:
       action:
         add: Add Date
@@ -1173,7 +1175,7 @@ en:
         spawned: "A new Resource has been spawned from Accession <strong>%{accession.display_string}</strong>"
         deleted: "Resource <strong>%{resource.title}</strong> deleted"
         published: "The Resource <strong>%{resource.title}</strong>, its subrecords and components have been published"
-        unpublished:  "The Resource <strong>%{resource.title}</strong>, its children, subrecords and components have been unpublished"
+        unpublished: "The Resource <strong>%{resource.title}</strong>, its children, subrecords and components have been unpublished"
         merge_description: Select resources below to merge into
         please_select_a_resource_to_merge: Please select a resource
         merged: Resource(s) Merged
@@ -1909,10 +1911,6 @@ en:
     gender: Gender
     note: Note
     dates: Dates
-
-  dates_of_existence:
-    _singular: Date of Existence
-    _plural: Dates of Existence
 
   agent_genders:
     <<: *agent_gender_attributes
