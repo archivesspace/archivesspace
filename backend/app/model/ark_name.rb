@@ -136,6 +136,31 @@ class ArkName < Sequel::Model(:ark_name)
     end
   end
 
+  # Invoked when the ARKs runner job kicks off.
+  def self.run_housekeeping!
+    DB.open do |db|
+      # Delete any entries from our uniq check table whose records have since been
+      # deleted/transferred.
+      if DB.supports_mvcc?
+        db[:ark_uniq_check]
+          .join(:deleted_records, Sequel.qualify(:ark_uniq_check, :record_uri) => Sequel.qualify(:deleted_records, :uri))
+          .delete
+      else
+        loop do
+          to_delete = db[:ark_uniq_check]
+                        .join(:deleted_records, Sequel.qualify(:ark_uniq_check, :record_uri) => Sequel.qualify(:deleted_records, :uri))
+                        .select(Sequel.qualify(:ark_uniq_check, :record_uri))
+                        .limit(256)
+                        .map {|row| row[:record_uri]}
+
+          break if to_delete.empty?
+
+          db[:ark_uniq_check].filter(:record_uri => to_delete).delete
+        end
+      end
+    end
+  end
+
   def self.handle_delete(model_clz, ids)
     ArkName.filter(fk_for_class(model_clz) => ids).delete
   end
