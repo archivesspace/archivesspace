@@ -7,7 +7,7 @@ gem 'bcrypt', '3.1.7'
 gem 'childprocess', '~> 3.0', '< 4.0'
 gem 'i18n', '0.9.1'
 gem 'jdbc-derby', '10.12.1.1'
-gem 'jdbc-mysql', '>=8.0', group: :development
+gem 'jdbc-mysql', '5.1.13', group: :development
 gem 'jruby-jars', '= 9.2.12.0'
 gem 'json', '2.3.0'
 gem 'json-schema', '1.0.10'
