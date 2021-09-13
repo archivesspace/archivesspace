@@ -9,6 +9,10 @@ class GenerateArksRunner < JobRunner
 
 
   def run
+    DB.open do
+      ArkName.run_housekeeping!
+    end
+
     Repository.each do |repo|
       RequestContext.open(:repo_id => repo.id) do
         ASModel.all_models.select {|model| model.included_modules.include?(Arks)}.each do |model|
