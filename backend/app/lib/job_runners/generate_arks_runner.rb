@@ -13,7 +13,7 @@ class GenerateArksRunner < JobRunner
       RequestContext.open(:repo_id => repo.id) do
         ASModel.all_models.select {|model| model.included_modules.include?(Arks)}.each do |model|
 
-          underlined_msg("Generating ARKs for #{model} records")
+          underlined_msg("Repository #{repo.repo_code}: Generating ARKs for #{model} records")
 
           created_arks = 0
           model.this_repo.each_slice(512) do |objs|
@@ -44,9 +44,9 @@ class GenerateArksRunner < JobRunner
           end
 
           if created_arks == 0
-            underlined_msg("ARKs for #{model} records were already up-to-date")
+            underlined_msg("Repository #{repo.repo_code}: ARKs for #{model} records were already up-to-date")
           else
-            underlined_msg("Generated #{created_arks} ARKs for #{model} records")
+            underlined_msg("Repository #{repo.repo_code}: Generated #{created_arks} ARKs for #{model} records")
           end
         end
       end
