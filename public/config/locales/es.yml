@@ -4,12 +4,10 @@ es:
   brand:
     title: Interfaz pública de ArchivesSpace
     title_link_text: Vuelve a la página inicial de ArchivesSpace
-    home: Página principal
     welcome_head: Bienvenido a ArchivesSpace
     welcome_message: |
       <p>Busque en nuestras colecciones, materiales digitales y más.</p>
 
-    welcome_search_label: "Encuentre lo que busca:"
     welcome_page_title: interfaz pública de ArchivesSpace
 
   actions:
@@ -19,10 +17,7 @@ es:
     search_in: "Buscar %{type}"
     new_search: Nueva búsqueda
     refine_search: Refinar busqueda
-    browse: Vistazo
     close: Cerca
-    show_advanced_search: Mostrar búsqueda avanzada
-    hide_advanced_search: Ocultar búsqueda avanzada
     backup: Regresar a la página anterior
     backup_abbr: Regresa
     cite: Mención
@@ -34,8 +29,6 @@ es:
     collection_overview: Resumen de la colección
     hierarch: Organización de la colección
     numeric: Inventario de contenedores
-    detailed: Contenidos detallados
-    record_details: Detalles del registro
     clipboard: Copiar al portapapeles
     search_add_row: Agregar una fila de búsqueda
     search_remove_row: Eliminar la fila de abajo
@@ -52,8 +45,8 @@ es:
     note: Nota para el personal
     visit: "Envíe una solicitud para visitar%{repo_name} para ver <strong>%{archival_object}</strong>"
     submit: Enviar solicitud
-    submitted: Gracias, su solicitud ha sido enviada.  Pronto recibirá un correo electrónico
-      con una copia de su solicitud.
+    submitted: Gracias, su solicitud ha sido enviada.  Pronto recibirá un correo electrónico con una copia
+      de su solicitud.
     errors:
       name: por favor, escriba su nombre
       email: Por favor, introduce una dirección de correo electrónico válida
@@ -63,7 +56,6 @@ es:
   search-button:
     label: Buscar
   search-limit: "Límite a %{limit}"
-  search-limit-label: Limitar la búsqueda a...
   search-limiting: "limitado a %{limit}"
   search-limits:
     all: todos los tipos de registro
@@ -81,25 +73,12 @@ es:
   searched-field: "buscando %{field}"
 
   pagination:
-    first: Primero
-    last: Último
-    previous: "&#171;"
-    next: "&#187;"
-    summary_prefix: Mostrando
-    summary_offset_connector: "-"
-    summary_total_connector: de
     summary_suffix: Resultados
-    page_prefix: Página
-    page_connector: de
-
   search_results:
     page_title: "Encontrado %{count} resultados"
     results_head: "Mostrando %{type}: %{start} - %{end} of %{total}"
     result: Resultado
     results: Resultados
-    head_prefix: Encontró
-    head_suffix: Resultados
-    searching: Buscando
     search_for: "Buscar  %{type} donde %{conditions}"
     keyword_contain: "<strong>palabra(s)</strong>: <span class='searchterm'>%{kw}</span>"
     title_contain: "the <strong>título</strong> contiene  <span class='searchterm'>%{kw}</span>"
@@ -109,23 +88,13 @@ es:
     identifier_contain: "the <strong>identificador</strong> contiene <span class='searchterm'>%{kw}</span>"
     four_part_id_contain: "the <strong>identificador</strong> contiene <span class='searchterm'>%{kw}</span>"
     in_repository: " in <strong>%{name}</strong>"
-    year_range: " del <strong>%{from_year}</strong> al <strong>%{to_year}</strong>"
     anything: "*"
     search_term: Término de búsqueda
-    title: Todos los registros
     error: Su búsqueda no se pudo completar debido a un error inesperado
     no_results: Registros no encontrados
-    no_results_prefix: No hay resultados de la búsqueda
-    result_type: Tipo de recuerdo
-    result_title: Título
     filter_by: Filter By
     filtered_by: Filtrado por
     remove_filter: Quitar este filtro
-    modified: Ultima modificacion
-    created: Creado
-    text_placeholder: Filtrar por texto
-    clear_all: Borrar todo
-    component_switch: Incluir los componentes
     more_facets: Más
     fewer_facets: Menos
     op:
@@ -177,24 +146,12 @@ es:
   search_sorting:
     sort_by: "Ordenar por:"
     sort: Ordenar
-    and: "y:"
     asc: (ascendente)
     desc: (descendente)
     relevance: Relevancia
     title_sort: Título
-    user_mtime: Modificado
-    primary_type: Tipo de registro
-    processing_priority: Prioridad
-    processing_status: Estado
-    parent_id: Tipo de registro
-    create_time: Creado
-    authority_id: Identificador de autoridad
     source: Fuente
-    rules: Reglas
-    outcome: Resultado
-    event_type: Tipo
     identifier: Identificador
-    select: Seleccione
     year_sort: Año
     sorting: "%{type} %{direction}"
     classification_identifier: Identificador
@@ -214,11 +171,11 @@ es:
     sub-series: Subserie
   errors:
     error_404: "% {type} registro no encontrado"
-    error_404_message: "El registro% {type} al que ha intentado acceder no existe\
-      \ o puede que se haya eliminado."
+    error_404_message: "El registro% {type} al que ha intentado acceder no existe o puede que se haya\
+      \ eliminado."
     backend_down: No se puede conectar a la base de datos
-    backend_down_message: ArchivesSpace está experimentando dificultades técnicas.
-      Pedimos disculpas por las molestias. Por favor, inténtelo de nuevo más tarde.
+    backend_down_message: ArchivesSpace está experimentando dificultades técnicas. Pedimos disculpas por
+      las molestias. Por favor, inténtelo de nuevo más tarde.
     unexpected_error: Su solicitud no se pudo completar debido a un error inesperado
 
   boolean:
@@ -227,15 +184,12 @@ es:
 
   navbar:
     search_placeholder: Introduzca sus términos de búsqueda
-    search_all: Todos los registros
     error_no_term: No se han introducido términos de búsqueda.
-    search_terms_results: "Su búsqueda de {{search_terms}} arrojó {{number}} resultados"
     toggle_navigation: Alternar navegación
 
   internal_links:
     main: Principales elementos
     filter: Filtra resultados
-    collection: Organización de la colección
     search_collection: Buscar dentro de la colección
 
   accordion:
@@ -248,15 +202,8 @@ es:
       AND: Y
       OR: O
       NOT: No
-    button_text: Buscar
-    reset: Limpiar
-    nav_switcher:
-      show: Mostrar avanzadas
-      hide: Ocultar avanzadas
-    index_switcher:
-      show: Mostrar búsqueda avanzada
-      hide: Ocultar búsqueda avanzada
-
+    nav_switcher: {}
+    index_switcher: {}
     remove_row: Quitar fila
     add_row: Agregar fila
     limit_label: Límite por tipo de registro
@@ -270,14 +217,12 @@ es:
   scope_note: Nota alcance
   multiple_containers: Múltiples contenedores
   # adding the inherited title to the display string
-  inherited: "%{title}, %{display}"
   extent_number_type: "%{number} %{type}"
   extent_phys_details: " : %{deets}"
   extent_dims: " ; %{dimensions}"
 
   external_docs: Documentos externos
   more_about: Más sobre
-  listing: Listado
   list: "%{type} Lista"
   cont_arr: Organización de la colección
   dig_cont_arr: Organización de objeto digital
@@ -294,7 +239,6 @@ es:
     _plural: Materiales sin procesar
     _public:
       section:
-        summary: Nota de resumen
         acquisition_type: Tipo de entrada
         provenance: Procedencia
         language: Idioma de descripción
@@ -312,23 +256,11 @@ es:
         sibling_of: Relación de hermanos
 
   archival_object:
-    _singular: Registro de archivo
-    _plural: Registros de archivo
     _public:
-      section:
-        components: Componentes
-        summary: Nota de resumen
-      messages:
-        no_components: El registro de archivo no tiene componentes
+      section: {}
+      messages: {}
       header:
-        dates: Fechas
-        lang: Idioma
         script: Escritura
-        physdesc: Nota de descripción física
-        storage: Información de contenedor
-        access: Nota de condiciones de acceso
-        use: Nota de restricciones de uso
-        component: Component
         ref_id: Identificador de referencia
 
   archive:
@@ -361,14 +293,9 @@ es:
       digital_object: Objeto digital
       physdesc: Nota de descripción física
       storage: Información de contenedor
-      access: Nota de condiciones de acceso
-      use: Nota de restricciones de uso
       additional: Descripción adicional
-      section:
-        components: Componentes
-        summary: Nota de resumen
-      messages:
-        no_components: El fondo no tiene componentes
+      section: {}
+      messages: {}
       finding_aid:
         head: Búsqueda de ayudas e información administrativa
         title: Título
@@ -394,10 +321,7 @@ es:
     _singular: contenedor
     _plural: contenedores
 
-  related_resource:
-    _singular: Colección relacionada
-    _plural: Colecciones relacionadas
-
+  related_resource: {}
   digital_object:
     _singular: Registro digital
     _plural: materiales digitales
@@ -405,31 +329,16 @@ es:
       thumbnail: Miniatura
       link: Enlace al objeto digital
       badge_label: Digital %{level}
-      section:
-        components: Componentes
-        summary: Nota de resumen
-      messages:
-        no_components: El objeto digital no tiene componentes
-
+      section: {}
+      messages: {}
   digital_object_component:
     _public:
-      section:
-        components: Componentes
-        summary: Nota de resumen
-      messages:
-        no_components: El componente de objeto digital no tiene componentes
-
+      section: {}
+      messages: {}
   subject:
     _singular: Materia
     _plural: Materias
-    used_within: Utilizado dentro de
-
-  component:
-    _singular: Componente
-    _plural: Componentes
-
-  unprocessed: Materiales sin procesar
-
+  component: {}
   classification:
     _singular: Grupo de registro
     _plural: Grupo de registro
@@ -444,15 +353,12 @@ es:
     _plural: Términos del grupo de registros
     identifier_separator: "/"
 
-  all_agents: Nombres
-
   an_agent: Nombre
 
   pui_agent:
     _singular: Nombre
     _plural: Nombres
     related: Nombres relacionados
-    creator: Autor
     parallel: Nombres paralelos
     also_known_as: También conocido por los siguientes nombres
   record:
@@ -469,11 +375,8 @@ es:
     _public:
       section:
         dates: fechas
-        summary: Nota de resumen
         other_names: Formas conocidas
-        other_names_preamble: "También conocido por los siguientes nombres:"
         related_agents: Nombres relacionados
-        dates_of_existence: Fechas
         related_agent_description: Descripción
         related_agent_dates: Fechas
 
@@ -489,25 +392,13 @@ es:
   agent_software:
     _singular: Software
 
-  components:
-    expand: Ampliar
-    collapse: Colapsar
-
+  components: {}
   instance:
-    _public:
-      link_to_digital_object: Enlace al registro
-
-  record_tree:
-    record_tree_tab: Tipo de registro
-    search_tab: Buscar componentes
-
-  location: Ubicación
-
+    _public: {}
+  record_tree: {}
   description: Acerca de
 
   contact: Contacto
-
-  hours: Horas
 
   number_of: "Número de %{type}:"
 
@@ -524,26 +415,17 @@ es:
     table_of_contents: Tabla de contenidos
     publication_statement: Declaración de publicación
     controlled_access_headings: Encabezados de acceso controlado
-    finding_aid_date_prefix: Esta ayuda de búsqueda se elaboró utilizando ArchivesSpace
-      en
+    finding_aid_date_prefix: Esta ayuda de búsqueda se elaboró utilizando ArchivesSpace en
     #didn't translate because these are unused due to change in PDF generation function
     finding_aid_written_in: Encontrar la ayuda escrita en
     your_finding_aid_pdf: Your finding aid PDF for "%{title}"
     your_finding_aid_is_attached: The finding aid you requested is attached.
-    submit: Send me a PDF
-    description: To receive a PDF version of this collection, please enter your email
-      address below.
-    coming_soon: Your PDF is being generated and will be emailed to you when ready.
-    required: necesario
-    user_email: Tu correo electrónico
-
   readmore:
     see_more: Ver más
     see_less: Ver menos
 
   skipnav:
     main_content: Saltar al contenido principal
-    sidebar: Saltar a la barra lateral
     search: Saltar para buscar
     search_results: Saltar a los resultados de la búsqueda
 
@@ -574,31 +456,21 @@ es:
     _plural: Temas
 
   agent_record_identifier:
-    _plural: ID de registro
-    _singular: ID de registro
     _frontend:
-      action:
-        add: Agregar ID de registro
+      action: {}
     identifier_type: Tipo de identificador
     source: Fuente
     primary_identifier: "¿Es el identificador principal?"
-    primary: Primario
     record_identifier: Identificador de registro
     snac: Identificador de redes sociales y contexto de archivos (SNAC)
 
   agent_identifier:
-    _plural: ID de entidad
-    _singular: Identificador
     _frontend:
-      action:
-        add: Agregar ID de entidad
+      action: {}
     identifier_type: Tipo de identificador
     entity_identifier: ID de entidad
 
-  dates_of_existence:
-    _plural: Fechas de existencia
-    _singular: Fecha de existencia
-
+  dates_of_existence: {}
   date_label:
     existence: Existencia
     usage: Uso
@@ -613,26 +485,9 @@ es:
 
   structured_date_label:
     date: Fecha
-    date_label: Etiqueta
-    date_type_structured: Tipo de fecha
-    date_certainty: Certeza
-    date_era: Era
-    date_calendar: Calendario
-
   structured_date_single:
-    date_role: Función de fecha
-    date_expression: Expresión de fecha
     date_standardized: Fecha estandarizada
-    date_standardized_type: Tipo de fecha estandarizada
-
-  structured_date_range:
-    begin_date_expression: Expresión de fecha de inicio
-    begin_date_standardized: Fecha de inicio estandarizada
-    begin_date_standardized_type: Iniciar tipo de fecha estandarizada
-    end_date_expression: Expresión de fecha de finalización
-    end_date_standardized: Fecha estandarizada de finalización
-    end_date_standardized_type: Tipo de fecha estandarizada de finalización
-
+  structured_date_range: {}
   agent_contact:
     name: Nombre de contacto
     salutation: Saludo
@@ -643,28 +498,15 @@ es:
     region: Estado / Región
     country: País
     post_code: Código postal
-    telephone: Teléfono
-    telephone_ext: Extensión telefónica
     fax: Fax
     email: Correo electrónico
-    email_signature: Firma de email
-    note: Notas de contacto
-    telephones: Números telefónicos
-    _singular: Contacto
-    _plural: Detalles de contacto
-
   telephone:
     _plural: Números telefónicos
     number_type: Tipo de número
     number: Número
     ext: Extensión telefónica
 
-  telephone_required:
-    _plural: Números telefónicos
-    number_type: Tipo de número
-    number: Número
-    ext: Extensión telefónica
-
+  telephone_required: {}
   agent_notes:
     _singular: Nota
     _plural: Notas
