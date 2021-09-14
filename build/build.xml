@@ -723,7 +723,7 @@
     <antcall target="rspec">
       <param name="dir" value="../frontend" />
       <param name="spec" value="selenium/spec" />
-      <param name="order" value="default" />
+      <param name="order" value="defined" />
       <param name="extra-spec-paths" value="${plugin-selenium-dirs}"/>
     </antcall>
   </target>
