@@ -23,12 +23,10 @@ fr:
   brand:
     title: ASpace Interface publique
     title_link_text: Retourner à la page d'accueil ArchivesSpace
-    home: Page d'accueil
     welcome_head: Bienvenue dans la nouvelle interface publique d'ArchivesSpace
     welcome_message: |
       <p>Faites des recherches croisées dans nos collections, objets numériques et autres.</p>
 
-    welcome_search_label: "Trouvez ce que vous cherchez:"
     welcome_page_title: Interface publique d'ArchivesSpace
 
   actions:
@@ -38,9 +36,7 @@ fr:
     search_in: "Rechercher %{type}"
     new_search: Nouvelle recherche
     refine_search: Affiner la recherche
-    browse: Parcourir
     close: Fermer
-    show_advanced_search: Afficher Recherche avancée
     hide_advanced_search: Masquer Recherche avancée
     backup: Revenir à la page précédente
     backup_abbr: Retour
@@ -53,7 +49,6 @@ fr:
     collection_overview: Survol des collections
     hierarch: Organisation des collections
     numeric: Description du conditionnement
-    detailed: Contenu détaillé
     record_details: Détails de la notice
     clipboard: Copier dans le presse-papier
     search_add_row: Ajouter une ligne
@@ -82,7 +77,6 @@ fr:
   search-button:
     label: Chercher
   search-limit: "Limité à %{limit}"
-  search-limit-label: Limiter la recherche à...
   search-limiting: "Limité à %{limit}"
   search-limits:
     all: tous types de notices
@@ -100,15 +94,10 @@ fr:
   searched-field: "En cherchant %{field}"
 
   pagination:
-    first: Première
     last: Dernière
-    previous: "&#171;"
     next: "&#187;"
-    summary_prefix: Affichage
     summary_offset_connector: "-"
-    summary_total_connector: de
     summary_suffix: des résultats
-    page_prefix: Page
     page_connector: de
 
   search_results:
@@ -116,9 +105,7 @@ fr:
     results_head: "%{type} affichés: %{start} - %{end} de %{total}"
     result: Résultats
     results: Résultats
-    head_prefix: Ont été trouvés
     head_suffix: résultats
-    searching: En cherchant
     search_for: "Chercher  %{type} où %{conditions}"
     keyword_contain: "<strong>mot(s)-clé(s)</strong>: <span class='searchterm'>%{kw}</span>"
     title_contain: "l'<strong>intitulé</strong> contient  <span class='searchterm'>%{kw}</span>"
@@ -128,23 +115,16 @@ fr:
     identifier_contain: "L'<strong>identifiant</strong> contient <span class='searchterm'>%{kw}</span>"
     four_part_id_contain: "L'<strong>identifiant</strong> contient <span class='searchterm'>%{kw}</span>"
     in_repository: " dans <strong>%{name}</strong>"
-    year_range: " entre <strong>%{from_year}</strong> et <strong>%{to_year}</strong>"
     anything: "*"
     search_term: Terme à chercher
-    title: Toutes les notices
     error: Votre recherche n'a pas pu être effectuée en raison d'une erreur inattendue
     no_results: Aucune notice trouvée
-    no_results_prefix: La recherche n'a rien donné pour
     result_type: Type de notice
-    result_title: Intitulé
     filter_by: Filtrer par
     filtered_by: Filtré par
     remove_filter: Ôter ce filtre
-    modified: Modifié en dernier
     created: Créé
-    text_placeholder: Filtrer par texte
     clear_all: Tout effacer
-    component_switch: Inclure composants
     more_facets: plus
     fewer_facets: moins
     op:
@@ -196,24 +176,16 @@ fr:
   search_sorting:
     sort_by: "Trier par:"
     sort: Trier
-    and: "et:"
     asc: ascendant
     desc: descendant
     relevance: Pertinence
     title_sort: Intitulé
-    user_mtime: Modifié
     primary_type: Type de notice
-    processing_priority: Priorité
     processing_status: Statut
-    parent_id: Type de notice
     create_time: Créée
-    authority_id: Identifiant d'autorité
     source: Source
-    rules: Règles
     outcome: Résultat
-    event_type: Type
     identifier: Identifiant
-    select: Sélectionner
     year_sort: Année
     sorting: "%{type} %{direction}"
     classification_identifier: Identifiant
@@ -247,15 +219,12 @@ fr:
 
   navbar:
     search_placeholder: Saisissez les termes de votre recherche
-    search_all: Toutes les notices
     error_no_term: Aucun terme saisi.
-    search_terms_results: "Votre recherche de {{search_terms}} a donné {{number}} résultats"
     toggle_navigation: Basculer la navigation
 
   internal_links:
     main: Contenu principal
     filter: Résultats filtrés
-    collection: Organisation des collections
     search_collection: Chercher dans la collection
 
   accordion:
@@ -268,13 +237,10 @@ fr:
       AND: Et
       OR: Ou
       NOT: Pas
-    button_text: Chercher
     reset: Effacer
     nav_switcher:
-      show: Afficher avancée
       hide: Masquer avancée
     index_switcher:
-      show: Afficher Recherche avancée
       hide: Masquer Recherche avancée
 
     limit_label: Limite par type d'enregistrement
@@ -290,14 +256,12 @@ fr:
   scope_note: Note de portée
   multiple_containers: Conditionnements divers
   # adding the inherited title to the display string
-  inherited: "%{title}, %{display}"
   extent_number_type: "%{number} %{type}"
   extent_phys_details: ": %{deets}"
   extent_dims: " ; %{dimensions}"
 
   external_docs: Documents externes
   more_about: Plus sur
-  listing: Référencement
   list: "Liste %{type}"
   cont_arr: Organisation des collections
   dig_cont_arr: Organisation des objets numériques
@@ -314,7 +278,6 @@ fr:
     _plural: Instances de matériel non traité
     _public:
       section:
-        summary: Résumé
         acquisition_type: Type d'acquisition
         provenance: Provenance
         language: Langue de description
@@ -332,23 +295,16 @@ fr:
         sibling_of: Relation fraternelle
 
   archival_object:
-    _singular: Notice document
     _plural: Notices documents
     _public:
       section:
-        components: Composants
         summary: Résumé
-      messages:
-        no_components: Le document n'a pas de composants
+      messages: {}
       header:
         dates: Dates
-        lang: Langue
         script: Scénario
-        physdesc: Description physique
         storage: Information de conditionnement
-        access: Conditions d'accès
         use: Restrictions d'utilisation
-        component: Composant
         ref_id: Ref. ID
 
   archive:
@@ -381,14 +337,11 @@ fr:
       digital_object: Objet numérique
       physdesc: Description physique
       storage: Info conditionnement
-      access: Conditions d'accès
       use: Restrictions d'utilisation
       additional: Compléments descriptifs
       section:
-        components: Composants
         summary: Résumé
-      messages:
-        no_components: La ressource n'a pas de composants
+      messages: {}
       finding_aid:
         head: Instrument de recherche & information administrative
         title: Titre
@@ -415,7 +368,6 @@ fr:
     _plural: Conditionnements
 
   related_resource:
-    _singular: Collection associée
     _plural: Collections associées
 
   digital_object:
@@ -426,28 +378,20 @@ fr:
       link: Lien vers objet numérique
       badge_label: Numérique %{level}
       section:
-        components: Composants
         summary: Résumé
-      messages:
-        no_components: L'objet numérique n'a pas de composants
-
+      messages: {}
   digital_object_component:
     _public:
       section:
         components: Composants
-        summary: Résumé
       messages:
         no_components: L'objet numérique composant n'a pas de composants
 
   subject:
     _singular: Sujet
     _plural: Sujets
-    used_within: Utilisé dans
-
   component:
     _singular: Composant
-    _plural: Composants
-
   unprocessed: Documents non traités
 
   classification:
@@ -464,8 +408,6 @@ fr:
     _plural: Termes de regroupement
     identifier_separator: "/"
 
-  all_agents: Noms
-
   an_agent: Nom
 
   pui_agent:
@@ -474,7 +416,6 @@ fr:
     _singular: Nom
     _plural: Noms
     related: Nom associé
-    creator: Producteur
   record:
     _singular: Document
     _plural: Documents
@@ -489,11 +430,8 @@ fr:
     _public:
       section:
         dates: Rendez-vous
-        summary: Résumé
         other_names: Formes de noms
-        other_names_preamble: "Egalement connu sous les noms suivants:"
         related_agents: Agents associés
-        dates_of_existence: Dates
         related_agent_description: Description
         related_agent_dates: Dates
 
@@ -510,24 +448,17 @@ fr:
     _singular: Logiciel
 
   components:
-    expand: Développer
     collapse: Réduire
 
   instance:
-    _public:
-      link_to_digital_object: Lien vers notice
-
+    _public: {}
   record_tree:
     record_tree_tab: Arborescence des notices
-    search_tab: Chercher des composants
-
   location: Localisation
 
   description: A propos
 
   contact: Contact
-
-  hours: Heures
 
   number_of: "Nombre de %{type}:"
 
@@ -548,20 +479,15 @@ fr:
     finding_aid_written_in: Instrument de recherche écrit en
     your_finding_aid_pdf: Votre instrument de recherche PDF pour "%{title}"
     your_finding_aid_is_attached: L'instrument de recherche demandé est en pièce jointe.
-    submit: Envoyez-moi un PDF
     description: Pour recevoir une version PDF de cette collection, veuillez entrer ci-dessous votre adresse
       email.
-    coming_soon: La génération de votre PDF est en cours. Il vous sera envoyé dès qu'il sera prêt.
     required: Requis
-    user_email: Votre adresse email
-
   readmore:
     see_more: Voir plus
     see_less: Voir moins
 
   skipnav:
     main_content: Passer au contenu principal
-    sidebar: Passer à la barre latérale
     search: Passer à la recherche
     search_results: Passer aux résultats
 
@@ -592,29 +518,23 @@ fr:
     _plural: Les sujets
 
   agent_record_identifier:
-    _plural: ID d'enregistrement
     _singular: ID d'enregistrement
     _frontend:
-      action:
-        add: Ajouter un ID d'enregistrement
+      action: {}
     identifier_type: Type d'identifiant
     source: La source
     primary_identifier: Est l'identifiant principal?
-    primary: Primaire
     record_identifier: Identificateur d'enregistrement
     snac: Identifiant des réseaux sociaux et du contexte d'archivage (SNAC)
 
   agent_identifier:
-    _plural: ID d'entité
     _singular: Identifiant
     _frontend:
-      action:
-        add: Ajouter un ID d'entité
+      action: {}
     identifier_type: Type d'identifiant
     entity_identifier: ID d'entité
 
   dates_of_existence:
-    _plural: Dates d'existence
     _singular: Date d'existence
 
   date_label:
@@ -631,26 +551,15 @@ fr:
 
   structured_date_label:
     date: Date
-    date_label: Étiqueter
     date_type_structured: Type de date
-    date_certainty: Certitude
     date_era: Ère
-    date_calendar: Calendrier
-
   structured_date_single:
     date_role: Rôle de date
-    date_expression: Expression de la date
     date_standardized: Date normalisée
-    date_standardized_type: Type de date normalisé
-
   structured_date_range:
     begin_date_expression: Expression de la date de début
-    begin_date_standardized: Date de début normalisée
     begin_date_standardized_type: Type de date de début standardisé
-    end_date_expression: Expression de la date de fin
     end_date_standardized: Date normalisée de fin
-    end_date_standardized_type: Type de date standardisée de fin
-
   agent_contact:
     name: Nom du contact
     salutation: Salutation
@@ -661,16 +570,11 @@ fr:
     region: État / région
     country: De campagne
     post_code: Code postal
-    telephone: Téléphone
     telephone_ext: Extension téléphonique
     fax: Fax
     email: E-mail
-    email_signature: Signature e-mail
     note: Notes de contact
-    telephones: Numéros de téléphone
     _singular: Contacter
-    _plural: Détails du contact
-
   telephone:
     _plural: Numéros de téléphone
     number_type: Type de numéro
@@ -678,9 +582,7 @@ fr:
     ext: Extension téléphonique
 
   telephone_required:
-    _plural: Numéros de téléphone
     number_type: Type de numéro
-    number: Numéro
     ext: Extension téléphonique
 
   agent_notes:
