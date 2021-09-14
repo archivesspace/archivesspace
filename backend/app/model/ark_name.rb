@@ -102,10 +102,9 @@ class ArkName < Sequel::Model(:ark_name)
   end
 
   def self.ark_name_exists?(id, type)
-    case type
-    when Resource
+    if type == Resource
       id_field = :resource_id
-    when ArchivalObject
+    elsif type == ArchivalObject
       id_field = :archival_object_id
     else
       return false
