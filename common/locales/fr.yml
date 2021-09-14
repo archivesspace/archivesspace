@@ -100,8 +100,7 @@ fr:
         <p>Champs définis par l'utilisateur pour noter toute information utile n'entrant pas dans une autre rubrique de l'application.</p>
 
   digital_object: &digital_object_attributes
-    <<: *section_tooltips
-    <<: *slug_attributes
+    <<: [*section_tooltips, *slug_attributes]
     user_defined:
       <<: *user_defined_attributes
     title: Intitulé
@@ -140,7 +139,6 @@ fr:
 
   digital_object_component:
     <<: *digital_object_attributes
-    <<: *slug_attributes
     label: Label
     label_tooltip: |
         <p>Terme utilisé pour décrire la partie et sa position dans l'objet numérique en cours de décription. Plus souvent utilisé pour les composants de l'objet numérique que pour la notice de premier niveau de l'objet numérique.</p>
@@ -1332,8 +1330,7 @@ fr:
     <<: *date_attributes
 
   accession:
-    <<: *section_tooltips
-    <<: *slug_attributes
+    <<: [*section_tooltips, *slug_attributes]
     user_defined:
       <<: *user_defined_attributes
     accession_date: Date d'entrée
@@ -1566,7 +1563,6 @@ fr:
 
   agent_person:
     <<: *agent_attributes
-    <<: *slug_attributes
     agent_contact_notes_tooltip: "<p>Notes sur les interactions avec l'agent.</p>"
     agent_record_controls_tooltip: "<p>Informations sur l'enregistrement décrivant
       l'agent.</p>"
@@ -1609,7 +1605,6 @@ fr:
 
   agent_family:
     <<: *agent_attributes
-    <<: *slug_attributes
     _singular: Famille
     _plural: Familles
     agent_contact_notes_tooltip: "<p>Notes sur les interactions avec l'agent.</p>"
@@ -1652,7 +1647,6 @@ fr:
 
   agent_software:
     <<: *agent_attributes
-    <<: *slug_attributes
     _singular: Logiciel
     _plural: Logiciels
     agent_contact_notes_tooltip: "<p>Notes sur les interactions avec l'agent.</p>"
@@ -1695,7 +1689,6 @@ fr:
 
   agent_corporate_entity:
     <<: *agent_attributes
-    <<: *slug_attributes
     agent_contact_notes_tooltip: "<p>Notes sur les interactions avec l'agent.</p>"
     agent_record_controls_tooltip: "<p>Informations sur l'enregistrement décrivant
       l'agent.</p>"
@@ -1746,8 +1739,7 @@ fr:
     related_agents: Agents reliés
 
   archival_object: &archival_object_attributes
-    <<: *section_tooltips
-    <<: *slug_attributes
+    <<: [*section_tooltips, *slug_attributes]
     title: Intitulé
     title_tooltip: |
         <p>CHAMP OBLIGATOIRE CONDITIONNEL. L'intitulé assigné aux documents décrits. Un objet archivistique doit avoir soit un intitulé soit une sous-notice date.</p>
@@ -1873,9 +1865,7 @@ fr:
     _plural: Groupes
 
   resource:
-    <<: *archival_object_attributes
-    <<: *section_tooltips
-    <<: *slug_attributes
+    <<: [*archival_object_attributes, *section_tooltips]
     user_defined:
       <<: *user_defined_attributes
     id_0: Identifiant
@@ -2410,7 +2400,6 @@ fr:
     repo_set_desc_required: La description d'un ensemble de référentiels est requise pour créer un ensemble de référentiels OAI
     repo_set_name_required: Le nom de l'ensemble de référentiel est requis pour créer un ensemble de référentiels OAI
     is_not_present: Champ obligatoire manquant
-    must_be_a_valid_email_address: Doit contenir une adresse valide
     sponsor_set_desc_required: La description du jeu de sponsors est requise pour créer un jeu de sponsors OAI
     sponsor_set_name_required: Le nom du sponsor est requis pour créer un sponsor OAI
     invalid_characters: Contient des caractères non valides
@@ -2440,7 +2429,6 @@ fr:
     time_submitted: Heure de soumission
     time_started: Heure de commencement
     time_finished: Heure d'achèvement
-    time_submitted: Heure de soumission
     owner: Owner
     show_description: Montrer description
     input_file: Fichier d'entrée
