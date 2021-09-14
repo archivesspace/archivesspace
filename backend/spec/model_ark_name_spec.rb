@@ -11,130 +11,63 @@ describe 'ArkName model' do
   end
 
   it "creates a ArkName to a resource when a resource is created" do
-    resource = create_resource(:title => generate(:generic_title))
-    ark = ArkName.first(:resource_id => resource[:id])
+    obj = create_resource(:title => generate(:generic_title))
+    json = Resource.to_jsonmodel(obj)
+    ark = ArkName.first(:resource_id => obj.id).value
 
-    expect(ArkName[ark[:id]].resource_id).to eq(resource[:id])
-
-    resource.delete
+    expect(ark).to eq(json['ark_name']['current'])
   end
 
   it "creates an ArkName to an archival object" do
-    ao = ArchivalObject.create_from_json(
+    obj = ArchivalObject.create_from_json(
       build(
         :json_archival_object,
         :title => 'A new archival object'
       ),
       :repo_id => $repo_id)
+    json = ArchivalObject.to_jsonmodel(obj)
 
-    ark = ArkName.first(:archival_object_id => ao[:id])
+    ark = ArkName.first(:archival_object_id => obj.id).value
 
-    expect(ArkName[ark[:id]].archival_object_id).to eq(ao[:id])
-
-    ao.delete
+    expect(ark).to eq(json['ark_name']['current'])
   end
 
-  it "must specify at least one of resource or archival object" do
-    expect { ark = ArkName.create }.to raise_error(Sequel::ValidationFailed)
-  end
+  describe('with external ARKs enabled') do
+    before(:all) do
+      AppConfig[:arks_allow_external_arks] = true
+    end
 
+    after(:all) do
+      AppConfig[:arks_allow_external_arks] = false
+    end
 
-  it "cannot link to more than one type of resource" do
-    resource = create_resource(:title => generate(:generic_title))
-    ao = ArchivalObject.create_from_json(
-      build(
-           :json_archival_object,
-           :title => 'A new archival object'
-           ),
-     :repo_id => $repo_id)
+    it "external_ark_url applies if defined on the resource" do
+      external_ark_url = "http://foo.bar/ark:/123/123"
 
-    # delete the auto created ArkNames for test
-    ArkName.find(:resource_id => resource.id).delete
-    ArkName.find(:archival_object_id => ao.id).delete
+      opts = {:title => generate(:generic_title),
+              external_ark_url: external_ark_url}
+      resource = create_resource(opts)
 
-    expect { ark = ArkName.create(:resource_id => resource[:id],
-                                       :archival_object_id => ao[:id] )}.to raise_error(Sequel::ValidationFailed)
-  end
+      ark = ArkName.first(:resource_id => resource.id).value
 
-  it "must link to a unique resource" do
-    # ARK is created with resource
-    resource = create_resource(:title => generate(:generic_title))
+      expect(ark).to eq(external_ark_url)
+    end
 
-    # duplicate raises validation exception
-    expect { ArkName.create(:resource_id => resource[:id]) }.to raise_error(Sequel::ValidationFailed)
+    it "external_ark_url applies if defined on the archival object" do
+      external_ark_url = "http://foo.bar/ark:/123/123"
 
-    resource.delete
-  end
+      ao = ArchivalObject.create_from_json(
+        build(
+          :json_archival_object,
+          :title => 'A new archival object',
+          :external_ark_url => external_ark_url
+        ),
+        :repo_id => $repo_id)
 
-  it "must link to a unique archival_object" do
-    # ARK is created with archival_object
-    ao = ArchivalObject.create_from_json(
-      build(
-           :json_archival_object,
-           :title => 'A new archival object'
-           ),
-     :repo_id => $repo_id)
+      ark = ArkName.first(:archival_object_id => ao.id).value
 
-
-    # duplicate raises validation exception
-    expect { ArkName.create(:archival_object_id => ao[:id]) }.to raise_error(Sequel::ValidationFailed)
-
-    ao.delete
-  end
-
-  it "creates an ARK url for resource" do
-    opts = {:title => generate(:generic_title)}
-    resource = create_resource(opts)
-    ark = ArkName.first(:resource_id => resource.id)
-
-    expect(ArkName::get_ark_url(resource.id, :resource)).to eq("#{AppConfig[:ark_url_prefix]}/ark:/#{AppConfig[:ark_naan]}/#{ark.id}")
-
-    resource.delete
-  end
-
-  it "creates an ARK url for archival_object" do
-    ao = ArchivalObject.create_from_json(
-      build(
-        :json_archival_object,
-        :title => 'A new archival object'
-      ),
-      :repo_id => $repo_id)
-
-    ark = ArkName.first(:archival_object_id => ao.id)
-
-    expect(ArkName::get_ark_url(ao.id, :archival_object)).to eq("#{AppConfig[:ark_url_prefix]}/ark:/#{AppConfig[:ark_naan]}/#{ark.id}")
-
-    ao.delete
-  end
-
-  it "get_ark_url returns external_ark_url if defined on the resource" do
-    external_ark_url = "http://foo.bar/ark:/123/123"
-    opts = {:title => generate(:generic_title),
-                      external_ark_url: external_ark_url}
-    resource = create_resource(opts)
-    ark = ArkName.first(:resource_id => resource.id)
-
-    expect(ArkName::get_ark_url(resource.id, :resource)).to eq("http://foo.bar/ark:/123/123")
-
-    resource.delete
-  end
-
-  it "get_ark_url returns external_ark_url if defined on the archival object" do
-    external_ark_url = "http://foo.bar/ark:/123/123"
-
-    ao = ArchivalObject.create_from_json(
-      build(
-        :json_archival_object,
-        :title => 'A new archival object',
-        :external_ark_url => external_ark_url
-      ),
-      :repo_id => $repo_id)
-
-    ark = ArkName.first(:archival_object_id => ao.id)
-
-    expect(ArkName::get_ark_url(ao.id, :archival_object)).to eq("http://foo.bar/ark:/123/123")
-
-    ao.delete
+      expect(ark).to eq(external_ark_url)
+    end
   end
 
   it "does not create extra ArkNames when a resource is edited" do

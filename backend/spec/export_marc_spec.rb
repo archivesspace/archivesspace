@@ -1318,28 +1318,43 @@ describe 'MARC Export' do
       expect(df.sf_t('z')).to include("Finding aid online:")
     end
 
-    it "maps ARK url to df 856 ('4', '2'), sf u if ead_location is blank and ARKs are enabled" do
-      AppConfig[:arks_enabled] = true
-      resource = create(:json_resource_blank_ead_location)
-      marc = get_marc(resource)
-      ark_url = ArkName.get_ark_url(resource.id, :resource)
-      df = marc.df('856', '4', '2')
-      df.sf_t('u').should eq(ark_url)
-      df.sf_t('z').should eq("Archival Resource Key:")
-      resource.delete
+    describe 'ARKs enabled' do
+
+      before(:all) do
+        AppConfig[:arks_enabled] = true
+      end
+
+      it "maps ARK url to df 856 ('4', '2'), sf u if ead_location is blank and ARKs are enabled" do
+        resource = create(:json_resource_blank_ead_location)
+        marc = get_marc(resource)
+
+        ark_url = resource['ark_name']['current']
+
+        df = marc.df('856', '4', '2')
+        df.sf_t('u').should eq(ark_url)
+        df.sf_t('z').should eq("Archival Resource Key:")
+        resource.delete
+      end
+
     end
 
-    it "does not map ARK url to df 856 ('4', '2'), sf u if ead_location is blank and ARKs are disabled" do
-      # Make sure the resource has an ARK
-      AppConfig[:arks_enabled] = true
-      resource = create(:json_resource_blank_ead_location)
-      # Disable ARKs to check the ARK does not get exported as an 856
-      AppConfig[:arks_enabled] = false
-      marc = get_marc(resource)
-      ark_url = ArkName.get_ark_url(resource.id, :resource)
-      df = marc.df('856', '4', '2')
-      expect(df.sf_t('u')).to_not eq(ark_url)
-      resource.delete
+    describe 'ARKs disabled' do
+
+      before(:all) do
+        AppConfig[:arks_enabled] = false
+      end
+
+      it "does not map ARK url to df 856 ('4', '2'), sf u if ead_location is blank and ARKs are disabled" do
+        resource = create(:json_resource_blank_ead_location)
+        marc = get_marc(resource)
+
+        expect(resource['ark_name']).to be_nil
+
+        df = marc.df('856', '4', '2')
+        expect(df.sf_t('u')).to_not include("ark:/")
+        resource.delete
+      end
+
     end
 
     it "maps resource.finding_aid_note to df 555 ('0', ' '), sf u" do
