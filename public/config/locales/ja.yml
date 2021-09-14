@@ -15,7 +15,6 @@ ja:
     new_search: 新しい検索
     refine_search: 絞り込み検索
     close: 閉じる
-    hide_advanced_search: 高度な検索を隠す
     backup: 前のページに戻る
     backup_abbr: 戻る
     cite: 引用
@@ -27,7 +26,6 @@ ja:
     collection_overview: コレクションの概要
     hierarch: 収集組織
     numeric: コンテナインベントリ
-    record_details: レコードの詳細
     clipboard: クリップボードにコピー
     search_add_row: 検索行を追加する
     search_remove_row: 下の行を削除
@@ -67,17 +65,13 @@ ja:
   search-field: 検索フィールド
   searched-field: 検索%{field}
   pagination:
-    last: 最終
     next: "»"
-    summary_offset_connector: "-"
     summary_suffix: 結果
-    page_connector: の
   search_results:
     page_title: 見つかった%{count}結果
     results_head: "%{type} ： %{start} - %{end}の%{total}"
     result: 結果
     results: 結果
-    head_suffix: 結果
     search_for: 検索%{type}ここで%{conditions}
     keyword_contain: "<strong>キーワード</strong> ： <span class='searchterm'>%{kw}</span>"
     title_contain: "<strong>タイトルに</strong>は<span class='searchterm'>%{kw}</span>"
@@ -91,11 +85,9 @@ ja:
     search_term: 検索語
     error: 予期しないエラーのために検索を完了できませんでした
     no_results: レコードが見つかりません
-    result_type: レコードタイプ
     filter_by: フィルタリングする
     filtered_by: フィルタリングされた
     remove_filter: このフィルタを削除
-    created: 作成した
     clear_all: すべてクリア
     more_facets: もっと
     fewer_facets: もっと少なく
@@ -152,11 +144,8 @@ ja:
     desc: "（降順）"
     relevance: 関連性
     title_sort: タイトル
-    primary_type: レコードタイプ
     processing_status: 状態
-    create_time: 作成した
     source: ソース
-    outcome: 結果
     identifier: 識別
     year_sort: 年
     sorting: "%{type} %{direction}"
@@ -200,11 +189,9 @@ ja:
       AND: AND
       OR: OR
       NOT: NOT
-    reset: クリア
     nav_switcher:
       hide: 上級者を隠す
-    index_switcher:
-      hide: 高度な検索を隠す
+    index_switcher: {}
   contains: "%{count} %{type}含みます%{type}"
   found: "%{count} %{type}見つかりました"
   coll_obj:
@@ -248,15 +235,12 @@ ja:
         forms_part_of: 部品の関係
         sibling_of: 兄弟関係
   archival_object:
-    _plural: アーカイブの記録
     _public:
       section:
         summary: 概要
       messages: {}
       header:
-        dates: 日付
         script: スクリプト
-        storage: コンテナ情報
         use: 使用を管理する条件
         ref_id: 参照識別子
   archive:
@@ -286,10 +270,8 @@ ja:
       digital_object: デジタルオブジェクト
       physdesc: 身体的特徴
       storage: コンテナ情報
-      use: 使用を管理する条件
       additional: 追加の説明
-      section:
-        summary: 概要
+      section: {}
       messages: {}
       finding_aid:
         head: 援助と行政情報の検索
@@ -314,8 +296,7 @@ ja:
   top_container:
     _singular: コンテナ
     _plural: コンテナ
-  related_resource:
-    _plural: 関連コレクション
+  related_resource: {}
   digital_object:
     _singular: デジタルレコード
     _plural: デジタル素材
@@ -323,20 +304,17 @@ ja:
       thumbnail: サムネイル
       link: デジタルオブジェクトへのリンク
       badge_label: デジタル%{level}
-      section:
-        summary: 概要
+      section: {}
       messages: {}
   digital_object_component:
     _public:
       section:
         components: コンポーネント
-      messages:
-        no_components: デジタルオブジェクトコンポーネントにはコンポーネントがありません
+      messages: {}
   subject:
     _singular: 件名
     _plural: 科目
-  component:
-    _singular: 成分
+  component: {}
   unprocessed: 未処理の素材
   classification:
     _singular: レコードグループ
@@ -381,13 +359,11 @@ ja:
     _singular: 組織
   agent_software:
     _singular: ソフトウェア
-  components:
-    collapse: 崩壊
+  components: {}
   instance:
     _public: {}
   record_tree:
     record_tree_tab: レコードツリー
-  location: ロケーション
   description: 約
   contact: 接触
   number_of: "%{type}数："
@@ -405,7 +381,6 @@ ja:
     finding_aid_written_in: 書かれた援助を見つける
     your_finding_aid_pdf: "&quot; %{title} &quot;の検索援助PDF"
     your_finding_aid_is_attached: あなたが求めた援助が添付されています。
-    description: このコレクションのPDF版を受け取るには、下にメールアドレスを入力してください。
     required: 必須
   readmore:
     see_more: 続きを見る
@@ -435,7 +410,6 @@ ja:
     _singular: トピック
     _plural: トピック
   agent_record_identifier:
-    _singular: レコードID
     _frontend:
       action: {}
     identifier_type: 識別子の種類
@@ -444,13 +418,11 @@ ja:
     record_identifier: レコード識別子
     snac: ソーシャルネットワークとアーカイブコンテキスト（SNAC）識別子
   agent_identifier:
-    _singular: 識別子
     _frontend:
       action: {}
     identifier_type: 識別子の種類
     entity_identifier: エンティティID
-  dates_of_existence:
-    _singular: 存在日
+  dates_of_existence: {}
   date_label:
     existence: 存在
     usage: 使用法
@@ -462,15 +434,11 @@ ja:
     _singular: 使用言語
   structured_date_label:
     date: 日付
-    date_type_structured: 日付タイプ
     date_era: 時代
   structured_date_single:
-    date_role: 日付の役割
     date_standardized: 標準化された日付
   structured_date_range:
-    begin_date_expression: 開始日式
     begin_date_standardized_type: 標準化された日付タイプの開始
-    end_date_standardized: 標準化された日付の終了
   agent_contact:
     name: 連絡先
     salutation: あいさつ
@@ -481,10 +449,8 @@ ja:
     region: 州/地域
     country: 国
     post_code: 郵便番号
-    telephone_ext: 内線電話
     fax: ファックス
     email: Eメール
-    note: 連絡先
     _singular: 連絡先
   telephone:
     _plural: 電話番号
@@ -492,7 +458,6 @@ ja:
     number: 数
     ext: 内線電話
   telephone_required:
-    number_type: 番号タイプ
     ext: 内線電話
   agent_notes:
     _singular: 注意

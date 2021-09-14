@@ -18,7 +18,6 @@ es:
     new_search: Nueva búsqueda
     refine_search: Refinar busqueda
     close: Cerca
-    hide_advanced_search: Ocultar búsqueda avanzada
     backup: Regresar a la página anterior
     backup_abbr: Regresa
     cite: Mención
@@ -30,7 +29,6 @@ es:
     collection_overview: Resumen de la colección
     hierarch: Organización de la colección
     numeric: Inventario de contenedores
-    record_details: Detalles del registro
     clipboard: Copiar al portapapeles
     search_add_row: Agregar una fila de búsqueda
     search_remove_row: Eliminar la fila de abajo
@@ -75,18 +73,13 @@ es:
   searched-field: "buscando %{field}"
 
   pagination:
-    last: Último
     next: "&#187;"
-    summary_offset_connector: "-"
     summary_suffix: Resultados
-    page_connector: de
-
   search_results:
     page_title: "Encontrado %{count} resultados"
     results_head: "Mostrando %{type}: %{start} - %{end} of %{total}"
     result: Resultado
     results: Resultados
-    head_suffix: Resultados
     search_for: "Buscar  %{type} donde %{conditions}"
     keyword_contain: "<strong>palabra(s)</strong>: <span class='searchterm'>%{kw}</span>"
     title_contain: "the <strong>título</strong> contiene  <span class='searchterm'>%{kw}</span>"
@@ -100,11 +93,9 @@ es:
     search_term: Término de búsqueda
     error: Su búsqueda no se pudo completar debido a un error inesperado
     no_results: Registros no encontrados
-    result_type: Tipo de recuerdo
     filter_by: Filter By
     filtered_by: Filtrado por
     remove_filter: Quitar este filtro
-    created: Creado
     clear_all: Borrar todo
     more_facets: Más
     fewer_facets: Menos
@@ -161,11 +152,8 @@ es:
     desc: (descendente)
     relevance: Relevancia
     title_sort: Título
-    primary_type: Tipo de registro
     processing_status: Estado
-    create_time: Creado
     source: Fuente
-    outcome: Resultado
     identifier: Identificador
     year_sort: Año
     sorting: "%{type} %{direction}"
@@ -217,12 +205,9 @@ es:
       AND: Y
       OR: O
       NOT: No
-    reset: Limpiar
     nav_switcher:
       hide: Ocultar avanzadas
-    index_switcher:
-      hide: Ocultar búsqueda avanzada
-
+    index_switcher: {}
     remove_row: Quitar fila
     add_row: Agregar fila
     limit_label: Límite por tipo de registro
@@ -275,15 +260,12 @@ es:
         sibling_of: Relación de hermanos
 
   archival_object:
-    _plural: Registros de archivo
     _public:
       section:
         summary: Nota de resumen
       messages: {}
       header:
-        dates: Fechas
         script: Escritura
-        storage: Información de contenedor
         use: Nota de restricciones de uso
         ref_id: Identificador de referencia
 
@@ -317,10 +299,8 @@ es:
       digital_object: Objeto digital
       physdesc: Nota de descripción física
       storage: Información de contenedor
-      use: Nota de restricciones de uso
       additional: Descripción adicional
-      section:
-        summary: Nota de resumen
+      section: {}
       messages: {}
       finding_aid:
         head: Búsqueda de ayudas e información administrativa
@@ -347,9 +327,7 @@ es:
     _singular: contenedor
     _plural: contenedores
 
-  related_resource:
-    _plural: Colecciones relacionadas
-
+  related_resource: {}
   digital_object:
     _singular: Registro digital
     _plural: materiales digitales
@@ -357,21 +335,17 @@ es:
       thumbnail: Miniatura
       link: Enlace al objeto digital
       badge_label: Digital %{level}
-      section:
-        summary: Nota de resumen
+      section: {}
       messages: {}
   digital_object_component:
     _public:
       section:
         components: Componentes
-      messages:
-        no_components: El componente de objeto digital no tiene componentes
-
+      messages: {}
   subject:
     _singular: Materia
     _plural: Materias
-  component:
-    _singular: Componente
+  component: {}
   unprocessed: Materiales sin procesar
 
   classification:
@@ -427,15 +401,11 @@ es:
   agent_software:
     _singular: Software
 
-  components:
-    collapse: Colapsar
-
+  components: {}
   instance:
     _public: {}
   record_tree:
     record_tree_tab: Tipo de registro
-  location: Ubicación
-
   description: Acerca de
 
   contact: Contacto
@@ -460,7 +430,6 @@ es:
     finding_aid_written_in: Encontrar la ayuda escrita en
     your_finding_aid_pdf: Your finding aid PDF for "%{title}"
     your_finding_aid_is_attached: The finding aid you requested is attached.
-    description: To receive a PDF version of this collection, please enter your email address below.
     required: necesario
   readmore:
     see_more: Ver más
@@ -498,7 +467,6 @@ es:
     _plural: Temas
 
   agent_record_identifier:
-    _singular: ID de registro
     _frontend:
       action: {}
     identifier_type: Tipo de identificador
@@ -508,15 +476,12 @@ es:
     snac: Identificador de redes sociales y contexto de archivos (SNAC)
 
   agent_identifier:
-    _singular: Identificador
     _frontend:
       action: {}
     identifier_type: Tipo de identificador
     entity_identifier: ID de entidad
 
-  dates_of_existence:
-    _singular: Fecha de existencia
-
+  dates_of_existence: {}
   date_label:
     existence: Existencia
     usage: Uso
@@ -531,15 +496,11 @@ es:
 
   structured_date_label:
     date: Fecha
-    date_type_structured: Tipo de fecha
     date_era: Era
   structured_date_single:
-    date_role: Función de fecha
     date_standardized: Fecha estandarizada
   structured_date_range:
-    begin_date_expression: Expresión de fecha de inicio
     begin_date_standardized_type: Iniciar tipo de fecha estandarizada
-    end_date_standardized: Fecha estandarizada de finalización
   agent_contact:
     name: Nombre de contacto
     salutation: Saludo
@@ -550,10 +511,8 @@ es:
     region: Estado / Región
     country: País
     post_code: Código postal
-    telephone_ext: Extensión telefónica
     fax: Fax
     email: Correo electrónico
-    note: Notas de contacto
     _singular: Contacto
   telephone:
     _plural: Números telefónicos
@@ -562,7 +521,6 @@ es:
     ext: Extensión telefónica
 
   telephone_required:
-    number_type: Tipo de número
     ext: Extensión telefónica
 
   agent_notes:

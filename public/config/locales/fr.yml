@@ -37,7 +37,6 @@ fr:
     new_search: Nouvelle recherche
     refine_search: Affiner la recherche
     close: Fermer
-    hide_advanced_search: Masquer Recherche avancée
     backup: Revenir à la page précédente
     backup_abbr: Retour
     cite: Citation
@@ -49,7 +48,6 @@ fr:
     collection_overview: Survol des collections
     hierarch: Organisation des collections
     numeric: Description du conditionnement
-    record_details: Détails de la notice
     clipboard: Copier dans le presse-papier
     search_add_row: Ajouter une ligne
     search_remove_row: Supprimer une ligne dessous
@@ -94,18 +92,13 @@ fr:
   searched-field: "En cherchant %{field}"
 
   pagination:
-    last: Dernière
     next: "&#187;"
-    summary_offset_connector: "-"
     summary_suffix: des résultats
-    page_connector: de
-
   search_results:
     page_title: "%{count} résultats trouvés"
     results_head: "%{type} affichés: %{start} - %{end} de %{total}"
     result: Résultats
     results: Résultats
-    head_suffix: résultats
     search_for: "Chercher  %{type} où %{conditions}"
     keyword_contain: "<strong>mot(s)-clé(s)</strong>: <span class='searchterm'>%{kw}</span>"
     title_contain: "l'<strong>intitulé</strong> contient  <span class='searchterm'>%{kw}</span>"
@@ -119,11 +112,9 @@ fr:
     search_term: Terme à chercher
     error: Votre recherche n'a pas pu être effectuée en raison d'une erreur inattendue
     no_results: Aucune notice trouvée
-    result_type: Type de notice
     filter_by: Filtrer par
     filtered_by: Filtré par
     remove_filter: Ôter ce filtre
-    created: Créé
     clear_all: Tout effacer
     more_facets: plus
     fewer_facets: moins
@@ -180,11 +171,8 @@ fr:
     desc: descendant
     relevance: Pertinence
     title_sort: Intitulé
-    primary_type: Type de notice
     processing_status: Statut
-    create_time: Créée
     source: Source
-    outcome: Résultat
     identifier: Identifiant
     year_sort: Année
     sorting: "%{type} %{direction}"
@@ -237,12 +225,9 @@ fr:
       AND: Et
       OR: Ou
       NOT: Pas
-    reset: Effacer
     nav_switcher:
       hide: Masquer avancée
-    index_switcher:
-      hide: Masquer Recherche avancée
-
+    index_switcher: {}
     limit_label: Limite par type d'enregistrement
     remove_row: Supprimer la ligne
     add_row: Ajouter rangée
@@ -295,15 +280,12 @@ fr:
         sibling_of: Relation fraternelle
 
   archival_object:
-    _plural: Notices documents
     _public:
       section:
         summary: Résumé
       messages: {}
       header:
-        dates: Dates
         script: Scénario
-        storage: Information de conditionnement
         use: Restrictions d'utilisation
         ref_id: Ref. ID
 
@@ -337,10 +319,8 @@ fr:
       digital_object: Objet numérique
       physdesc: Description physique
       storage: Info conditionnement
-      use: Restrictions d'utilisation
       additional: Compléments descriptifs
-      section:
-        summary: Résumé
+      section: {}
       messages: {}
       finding_aid:
         head: Instrument de recherche & information administrative
@@ -367,9 +347,7 @@ fr:
     _singular: Conditionnement
     _plural: Conditionnements
 
-  related_resource:
-    _plural: Collections associées
-
+  related_resource: {}
   digital_object:
     _singular: Document numérique
     _plural: Documents numériques
@@ -377,21 +355,17 @@ fr:
       thumbnail: miniature
       link: Lien vers objet numérique
       badge_label: Numérique %{level}
-      section:
-        summary: Résumé
+      section: {}
       messages: {}
   digital_object_component:
     _public:
       section:
         components: Composants
-      messages:
-        no_components: L'objet numérique composant n'a pas de composants
-
+      messages: {}
   subject:
     _singular: Sujet
     _plural: Sujets
-  component:
-    _singular: Composant
+  component: {}
   unprocessed: Documents non traités
 
   classification:
@@ -447,15 +421,11 @@ fr:
   agent_software:
     _singular: Logiciel
 
-  components:
-    collapse: Réduire
-
+  components: {}
   instance:
     _public: {}
   record_tree:
     record_tree_tab: Arborescence des notices
-  location: Localisation
-
   description: A propos
 
   contact: Contact
@@ -479,8 +449,6 @@ fr:
     finding_aid_written_in: Instrument de recherche écrit en
     your_finding_aid_pdf: Votre instrument de recherche PDF pour "%{title}"
     your_finding_aid_is_attached: L'instrument de recherche demandé est en pièce jointe.
-    description: Pour recevoir une version PDF de cette collection, veuillez entrer ci-dessous votre adresse
-      email.
     required: Requis
   readmore:
     see_more: Voir plus
@@ -518,7 +486,6 @@ fr:
     _plural: Les sujets
 
   agent_record_identifier:
-    _singular: ID d'enregistrement
     _frontend:
       action: {}
     identifier_type: Type d'identifiant
@@ -528,15 +495,12 @@ fr:
     snac: Identifiant des réseaux sociaux et du contexte d'archivage (SNAC)
 
   agent_identifier:
-    _singular: Identifiant
     _frontend:
       action: {}
     identifier_type: Type d'identifiant
     entity_identifier: ID d'entité
 
-  dates_of_existence:
-    _singular: Date d'existence
-
+  dates_of_existence: {}
   date_label:
     existence: Existence
     usage: Usage
@@ -551,15 +515,11 @@ fr:
 
   structured_date_label:
     date: Date
-    date_type_structured: Type de date
     date_era: Ère
   structured_date_single:
-    date_role: Rôle de date
     date_standardized: Date normalisée
   structured_date_range:
-    begin_date_expression: Expression de la date de début
     begin_date_standardized_type: Type de date de début standardisé
-    end_date_standardized: Date normalisée de fin
   agent_contact:
     name: Nom du contact
     salutation: Salutation
@@ -570,10 +530,8 @@ fr:
     region: État / région
     country: De campagne
     post_code: Code postal
-    telephone_ext: Extension téléphonique
     fax: Fax
     email: E-mail
-    note: Notes de contact
     _singular: Contacter
   telephone:
     _plural: Numéros de téléphone
@@ -582,7 +540,6 @@ fr:
     ext: Extension téléphonique
 
   telephone_required:
-    number_type: Type de numéro
     ext: Extension téléphonique
 
   agent_notes:
