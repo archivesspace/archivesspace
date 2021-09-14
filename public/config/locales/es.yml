@@ -72,8 +72,7 @@ es:
   search-field: Campo de búsqueda
   searched-field: "buscando %{field}"
 
-  pagination:
-    summary_suffix: Resultados
+  pagination: {}
   search_results:
     page_title: "Encontrado %{count} resultados"
     results_head: "Mostrando %{type}: %{start} - %{end} of %{total}"
@@ -150,7 +149,6 @@ es:
     desc: (descendente)
     relevance: Relevancia
     title_sort: Título
-    source: Fuente
     identifier: Identificador
     year_sort: Año
     sorting: "%{type} %{direction}"
@@ -260,7 +258,6 @@ es:
       section: {}
       messages: {}
       header:
-        script: Escritura
         ref_id: Identificador de referencia
 
   archive:
@@ -485,8 +482,7 @@ es:
 
   structured_date_label:
     date: Fecha
-  structured_date_single:
-    date_standardized: Fecha estandarizada
+  structured_date_single: {}
   structured_date_range: {}
   agent_contact:
     name: Nombre de contacto
