@@ -73,7 +73,6 @@ es:
   searched-field: "buscando %{field}"
 
   pagination:
-    next: "&#187;"
     summary_suffix: Resultados
   search_results:
     page_title: "Encontrado %{count} resultados"
@@ -96,7 +95,6 @@ es:
     filter_by: Filter By
     filtered_by: Filtrado por
     remove_filter: Quitar este filtro
-    clear_all: Borrar todo
     more_facets: Más
     fewer_facets: Menos
     op:
@@ -152,7 +150,6 @@ es:
     desc: (descendente)
     relevance: Relevancia
     title_sort: Título
-    processing_status: Estado
     source: Fuente
     identifier: Identificador
     year_sort: Año
@@ -205,8 +202,7 @@ es:
       AND: Y
       OR: O
       NOT: No
-    nav_switcher:
-      hide: Ocultar avanzadas
+    nav_switcher: {}
     index_switcher: {}
     remove_row: Quitar fila
     add_row: Agregar fila
@@ -261,12 +257,10 @@ es:
 
   archival_object:
     _public:
-      section:
-        summary: Nota de resumen
+      section: {}
       messages: {}
       header:
         script: Escritura
-        use: Nota de restricciones de uso
         ref_id: Identificador de referencia
 
   archive:
@@ -339,15 +333,12 @@ es:
       messages: {}
   digital_object_component:
     _public:
-      section:
-        components: Componentes
+      section: {}
       messages: {}
   subject:
     _singular: Materia
     _plural: Materias
   component: {}
-  unprocessed: Materiales sin procesar
-
   classification:
     _singular: Grupo de registro
     _plural: Grupo de registro
@@ -404,8 +395,7 @@ es:
   components: {}
   instance:
     _public: {}
-  record_tree:
-    record_tree_tab: Tipo de registro
+  record_tree: {}
   description: Acerca de
 
   contact: Contacto
@@ -430,7 +420,6 @@ es:
     finding_aid_written_in: Encontrar la ayuda escrita en
     your_finding_aid_pdf: Your finding aid PDF for "%{title}"
     your_finding_aid_is_attached: The finding aid you requested is attached.
-    required: necesario
   readmore:
     see_more: Ver más
     see_less: Ver menos
@@ -496,11 +485,9 @@ es:
 
   structured_date_label:
     date: Fecha
-    date_era: Era
   structured_date_single:
     date_standardized: Fecha estandarizada
-  structured_date_range:
-    begin_date_standardized_type: Iniciar tipo de fecha estandarizada
+  structured_date_range: {}
   agent_contact:
     name: Nombre de contacto
     salutation: Saludo
@@ -513,16 +500,13 @@ es:
     post_code: Código postal
     fax: Fax
     email: Correo electrónico
-    _singular: Contacto
   telephone:
     _plural: Números telefónicos
     number_type: Tipo de número
     number: Número
     ext: Extensión telefónica
 
-  telephone_required:
-    ext: Extensión telefónica
-
+  telephone_required: {}
   agent_notes:
     _singular: Nota
     _plural: Notas

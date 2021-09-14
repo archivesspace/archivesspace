@@ -65,7 +65,6 @@ ja:
   search-field: 検索フィールド
   searched-field: 検索%{field}
   pagination:
-    next: "»"
     summary_suffix: 結果
   search_results:
     page_title: 見つかった%{count}結果
@@ -88,7 +87,6 @@ ja:
     filter_by: フィルタリングする
     filtered_by: フィルタリングされた
     remove_filter: このフィルタを削除
-    clear_all: すべてクリア
     more_facets: もっと
     fewer_facets: もっと少なく
     op:
@@ -144,7 +142,6 @@ ja:
     desc: "（降順）"
     relevance: 関連性
     title_sort: タイトル
-    processing_status: 状態
     source: ソース
     identifier: 識別
     year_sort: 年
@@ -189,8 +186,7 @@ ja:
       AND: AND
       OR: OR
       NOT: NOT
-    nav_switcher:
-      hide: 上級者を隠す
+    nav_switcher: {}
     index_switcher: {}
   contains: "%{count} %{type}含みます%{type}"
   found: "%{count} %{type}見つかりました"
@@ -236,12 +232,10 @@ ja:
         sibling_of: 兄弟関係
   archival_object:
     _public:
-      section:
-        summary: 概要
+      section: {}
       messages: {}
       header:
         script: スクリプト
-        use: 使用を管理する条件
         ref_id: 参照識別子
   archive:
     _singular: アーカイブ
@@ -308,14 +302,12 @@ ja:
       messages: {}
   digital_object_component:
     _public:
-      section:
-        components: コンポーネント
+      section: {}
       messages: {}
   subject:
     _singular: 件名
     _plural: 科目
   component: {}
-  unprocessed: 未処理の素材
   classification:
     _singular: レコードグループ
     _plural: レコードグループ
@@ -362,8 +354,7 @@ ja:
   components: {}
   instance:
     _public: {}
-  record_tree:
-    record_tree_tab: レコードツリー
+  record_tree: {}
   description: 約
   contact: 接触
   number_of: "%{type}数："
@@ -381,7 +372,6 @@ ja:
     finding_aid_written_in: 書かれた援助を見つける
     your_finding_aid_pdf: "&quot; %{title} &quot;の検索援助PDF"
     your_finding_aid_is_attached: あなたが求めた援助が添付されています。
-    required: 必須
   readmore:
     see_more: 続きを見る
     see_less: もっと見る
@@ -434,11 +424,9 @@ ja:
     _singular: 使用言語
   structured_date_label:
     date: 日付
-    date_era: 時代
   structured_date_single:
     date_standardized: 標準化された日付
-  structured_date_range:
-    begin_date_standardized_type: 標準化された日付タイプの開始
+  structured_date_range: {}
   agent_contact:
     name: 連絡先
     salutation: あいさつ
@@ -451,14 +439,12 @@ ja:
     post_code: 郵便番号
     fax: ファックス
     email: Eメール
-    _singular: 連絡先
   telephone:
     _plural: 電話番号
     number_type: 番号タイプ
     number: 数
     ext: 内線電話
-  telephone_required:
-    ext: 内線電話
+  telephone_required: {}
   agent_notes:
     _singular: 注意
     _plural: ノート

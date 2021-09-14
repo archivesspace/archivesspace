@@ -92,7 +92,6 @@ fr:
   searched-field: "En cherchant %{field}"
 
   pagination:
-    next: "&#187;"
     summary_suffix: des résultats
   search_results:
     page_title: "%{count} résultats trouvés"
@@ -115,7 +114,6 @@ fr:
     filter_by: Filtrer par
     filtered_by: Filtré par
     remove_filter: Ôter ce filtre
-    clear_all: Tout effacer
     more_facets: plus
     fewer_facets: moins
     op:
@@ -171,7 +169,6 @@ fr:
     desc: descendant
     relevance: Pertinence
     title_sort: Intitulé
-    processing_status: Statut
     source: Source
     identifier: Identifiant
     year_sort: Année
@@ -225,8 +222,7 @@ fr:
       AND: Et
       OR: Ou
       NOT: Pas
-    nav_switcher:
-      hide: Masquer avancée
+    nav_switcher: {}
     index_switcher: {}
     limit_label: Limite par type d'enregistrement
     remove_row: Supprimer la ligne
@@ -281,12 +277,10 @@ fr:
 
   archival_object:
     _public:
-      section:
-        summary: Résumé
+      section: {}
       messages: {}
       header:
         script: Scénario
-        use: Restrictions d'utilisation
         ref_id: Ref. ID
 
   archive:
@@ -359,15 +353,12 @@ fr:
       messages: {}
   digital_object_component:
     _public:
-      section:
-        components: Composants
+      section: {}
       messages: {}
   subject:
     _singular: Sujet
     _plural: Sujets
   component: {}
-  unprocessed: Documents non traités
-
   classification:
     _singular: Groupe d'archives
     _plural: Groupes d'archives
@@ -424,8 +415,7 @@ fr:
   components: {}
   instance:
     _public: {}
-  record_tree:
-    record_tree_tab: Arborescence des notices
+  record_tree: {}
   description: A propos
 
   contact: Contact
@@ -449,7 +439,6 @@ fr:
     finding_aid_written_in: Instrument de recherche écrit en
     your_finding_aid_pdf: Votre instrument de recherche PDF pour "%{title}"
     your_finding_aid_is_attached: L'instrument de recherche demandé est en pièce jointe.
-    required: Requis
   readmore:
     see_more: Voir plus
     see_less: Voir moins
@@ -515,11 +504,9 @@ fr:
 
   structured_date_label:
     date: Date
-    date_era: Ère
   structured_date_single:
     date_standardized: Date normalisée
-  structured_date_range:
-    begin_date_standardized_type: Type de date de début standardisé
+  structured_date_range: {}
   agent_contact:
     name: Nom du contact
     salutation: Salutation
@@ -532,16 +519,13 @@ fr:
     post_code: Code postal
     fax: Fax
     email: E-mail
-    _singular: Contacter
   telephone:
     _plural: Numéros de téléphone
     number_type: Type de numéro
     number: Numéro
     ext: Extension téléphonique
 
-  telephone_required:
-    ext: Extension téléphonique
-
+  telephone_required: {}
   agent_notes:
     _singular: Noter
     _plural: Remarques
