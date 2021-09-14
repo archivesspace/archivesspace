@@ -17,7 +17,7 @@ module PublicNewDefaults
       when :digital_objects
         $MAIN_MENU.push(['/objects?limit=digital_object', 'digital_object._plural' ])
       when :accessions
-        $MAIN_MENU.push(['/accessions', 'unprocessed'])
+        $MAIN_MENU.push(['/accessions', 'accession._plural'])
       when :subjects
         $MAIN_MENU.push(['/subjects', 'subject._plural'])
       when :agents
