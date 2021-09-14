@@ -64,8 +64,7 @@ ja:
     agents: コンテンツ制作者
   search-field: 検索フィールド
   searched-field: 検索%{field}
-  pagination:
-    summary_suffix: 結果
+  pagination: {}
   search_results:
     page_title: 見つかった%{count}結果
     results_head: "%{type} ： %{start} - %{end}の%{total}"
@@ -142,7 +141,6 @@ ja:
     desc: "（降順）"
     relevance: 関連性
     title_sort: タイトル
-    source: ソース
     identifier: 識別
     year_sort: 年
     sorting: "%{type} %{direction}"
@@ -235,7 +233,6 @@ ja:
       section: {}
       messages: {}
       header:
-        script: スクリプト
         ref_id: 参照識別子
   archive:
     _singular: アーカイブ
@@ -424,8 +421,7 @@ ja:
     _singular: 使用言語
   structured_date_label:
     date: 日付
-  structured_date_single:
-    date_standardized: 標準化された日付
+  structured_date_single: {}
   structured_date_range: {}
   agent_contact:
     name: 連絡先

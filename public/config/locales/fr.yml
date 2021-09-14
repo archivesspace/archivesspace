@@ -91,8 +91,7 @@ fr:
   search-field: Champ chercher
   searched-field: "En cherchant %{field}"
 
-  pagination:
-    summary_suffix: des résultats
+  pagination: {}
   search_results:
     page_title: "%{count} résultats trouvés"
     results_head: "%{type} affichés: %{start} - %{end} de %{total}"
@@ -169,7 +168,6 @@ fr:
     desc: descendant
     relevance: Pertinence
     title_sort: Intitulé
-    source: Source
     identifier: Identifiant
     year_sort: Année
     sorting: "%{type} %{direction}"
@@ -280,7 +278,6 @@ fr:
       section: {}
       messages: {}
       header:
-        script: Scénario
         ref_id: Ref. ID
 
   archive:
@@ -504,8 +501,7 @@ fr:
 
   structured_date_label:
     date: Date
-  structured_date_single:
-    date_standardized: Date normalisée
+  structured_date_single: {}
   structured_date_range: {}
   agent_contact:
     name: Nom du contact
