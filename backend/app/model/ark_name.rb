@@ -71,7 +71,7 @@ class ArkName < Sequel::Model(:ark_name)
         db[:ark_uniq_check].insert(:record_uri => obj.uri, :generated_value => value)
       end
     rescue Sequel::UniqueConstraintViolation => e
-      raise JSONModel::ValidationException.new(:errors => {"ark" => ["ARK collision: #{e.message.match(/'(ark:\/.+?)'/)[1]}"]})
+      raise JSONModel::ValidationException.new(:errors => {"ark" => ["ark_collision"]})
     end
   end
 
