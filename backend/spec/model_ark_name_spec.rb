@@ -137,4 +137,30 @@ describe 'ArkName model' do
     ao.delete
   end
 
+  it "does not create extra ArkNames when a resource is edited" do
+    json = build(:json_resource, {:title => 'Initial title'})
+    resource = Resource.create_from_json(json, :repo_id => $repo_id)
+
+    json[:title] = 'Modified title'
+    json[:lock_version] = 0
+    resource.update_from_json(json)
+
+    expect(ArkName.where(:resource_id => resource.id).count).to eq(1)
+
+    resource.delete
+  end
+
+  it "does not create extra ArkNames when an archival object is edited" do
+    json = build(:json_archival_object, :title => 'Initial title')
+    ao = ArchivalObject.create_from_json(json, :repo_id => $repo_id)
+
+    json[:title] = 'Modified title'
+    json[:lock_version] = 0
+    ao.update_from_json(json)
+
+    expect(ArkName.where(:archival_object_id => ao.id).count).to eq(1)
+
+    ao.delete
+  end
+
 end
