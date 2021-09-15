@@ -126,7 +126,9 @@ class ArkName < Sequel::Model(:ark_name)
   end
 
   def self.calculate_values(value)
-    raise "Not an ARK: #{value}" unless value.match(/^(.*?\/)?ark:\//)
+    unless value.match(/^(.*?\/)?ark:\//)
+      raise JSONModel::ValidationException.new(:errors => {"ark" => ["ark_format_error"]})
+    end
 
     # [generated_value, user_value]
     if AppConfig[:arks_allow_external_arks]

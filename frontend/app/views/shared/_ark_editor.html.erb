@@ -2,6 +2,10 @@
 
 <div id="edit_arks_modal_template" style="display: none">
     <div class="modal-body edit-arks-form">
+        <div style="display: none" class="ark-error-ark_collision"><%= I18n.t("arks.ark_editor_errors.ark_collision") %></div>
+        <div style="display: none" class="ark-error-ark_format_error"><%= I18n.t("arks.ark_editor_errors.ark_format_error") %></div>
+
+
         <div class="alert alert-danger ark-errors" style="display: none"></div>
 
         <table class="table ark-table">
@@ -125,7 +129,23 @@
              self.saveCallback();
          },
          error: function(jqXHR, textStatus, errorThrown) {
-             self.showError(jqXHR.responseText);
+             var errorShown = false;
+
+             if (jqXHR.responseText.startsWith("{")) {
+                 var jsonError = JSON.parse(jqXHR.responseText);
+
+                 var errorCode = jsonError['ark'][0];
+                 var message = errorCode ? self.rootElt.find('.ark-error-' + errorCode).text() : null;
+
+                 if (message) {
+                     self.showError(message);
+                     errorShown = true;
+                 }
+             }
+
+             if (!errorShown) {
+                 self.showError(jqXHR.responseText);
+             }
          }
      });
  };

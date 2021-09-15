@@ -11,7 +11,7 @@ class ArkUpdateController < ApplicationController
       render :plain => "OK"
     else
       err = ASUtils.json_parse(response.body)
-      render :plain => err.fetch('error'), :status => response.code
+      render :plain => ASUtils.to_json(err.fetch('error')), :status => response.code
     end
   end
 
