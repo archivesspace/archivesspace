@@ -535,17 +535,13 @@ fr:
 
   name_person:
     <<: *agent_name_attributes
-    language: Langue
     script: Scénario
-    transliteration: Translitération
   name_family:
     <<: *agent_name_attributes
     family_name: Nom de famille
     family_name_tooltip: |
       <p>Le nom de famille ou le surnom, pour une famille, donnant lieu à une appellation du type: "famille untel".</p>
-    language: Langue
     script: Scénario
-    transliteration: Translitération
     family_type: Type de famille
     family_type_tooltip: "<p>Type de famille utilisé comme qualificatif pour distinguer\
       \ les entrées de nom similaires. Exemples: famille, dynastie, maison royale.</p>"
@@ -557,9 +553,7 @@ fr:
 
   name_corporate_entity:
     <<: *agent_name_attributes
-    language: Langue
     script: Scénario
-    transliteration: Translitération
     jurisdiction: Juridiction?
     jurisdiction_tooltip: "<p>Indique si l'entité est une entrée de nom de juridiction\
       \ légale.</p>"
@@ -584,9 +578,7 @@ fr:
 
   name_software:
     <<: *agent_name_attributes
-    language: Langue
     script: Scénario
-    transliteration: Translitération
     software_name: Nom de logiciel
     software_name_tooltip: |
       <p>Le nom d'un ensemble logiciel.</p>
@@ -737,59 +729,36 @@ fr:
     ref: Agent associé
 
   agent_relationship_parentchild:
-    description: Description
     date: Date
     _singular: Relation parent/enfant
-    specific_relator: Type de relation spécifique
     relator_tooltip: Un qualificatif spécifique qui décrit la relation.
   agent_relationship_earlierlater:
-    relator: Type de relation
     ref: Agent associé
-    dates: Dates
     _singular: Relation avant/après
-    specific_relator: Type de relation spécifique
     relator_tooltip: Un qualificatif spécifique qui décrit la relation.
   agent_relationship_subordinatesuperior:
-    relator: Type de relation
     ref: Agent associé
-    dates: Dates
     _singular: Relation subordonné/supérieur
-    specific_relator: Type de relation spécifique
     relator_tooltip: Un qualificatif spécifique qui décrit la relation.
   agent_relationship_associative:
-    relator: Type de relation
     date: Date
-    ref: Agent associé
     _singular: Relation associatif
-    specific_relator: Type de relation spécifique
     relator_tooltip: Un qualificatif spécifique qui décrit la relation.
   agent_relationship_identity:
-    relationship_type: Type de relation générale
     specific_relator: Type de relation spécifique
-    relator_tooltip: Un qualificatif spécifique qui décrit la relation.
     date: Date
-    ref: Agent associé
     _singular: Relation d'agent identifiée avec le parent
   agent_relationship_hierarchical:
-    relationship_type: Type de relation générale
     specific_relator: Type de relation spécifique
-    relator_tooltip: Un qualificatif spécifique qui décrit la relation.
     date: Date
-    ref: Agent associé
     _singular: Relateur hiérarchique de la relation d'agent
   agent_relationship_temporal:
-    relationship_type: Type de relation générale
     specific_relator: Type de relation spécifique
-    relator_tooltip: Un qualificatif spécifique qui décrit la relation.
     date: Date
-    ref: Agent associé
     _singular: Relateur temporel de la relation d'agent
   agent_relationship_family:
-    relationship_type: Type de relation générale
     specific_relator: Type de relation spécifique
-    relator_tooltip: Un qualificatif spécifique qui décrit la relation.
     date: Date
-    ref: Agent associé
     _singular: Relateur lié à la relation d'agent
   note:
     note_general_context: Contexte général
@@ -1482,22 +1451,14 @@ fr:
 
   agent_person:
     <<: *agent_attributes
-    agent_record_controls_tooltip: "<p>Informations sur l'enregistrement décrivant\
-      \ l'agent.</p>"
     agent_conventions_declarations_tooltip: "<p>Une norme de contenu utilisée dans\
       \ la formulation du contenu de l'enregistrement de l'agent. Exemple: Décrire\
       \ les archives: une norme de contenu. Ce sous-enregistrement peut être utilisé\
       \ à la place des entrées de règles sur les formulaires de nom individuels.</p>"
-    agent_maintenance_histories_tooltip: "<p>Événements associés à la création ou\
-      \ à la maintenance de l'enregistrement de l'agent.</p>"
     agent_sources_tooltip: "<p>Une source utilisée dans la formulation du contenu\
       \ de l'enregistrement de l'agent.</p>"
-    agent_genders_tooltip: Sexe du sujet.
     agent_occupations_tooltip: Information sur la profession associée à l'agent.
-    agent_topics_tooltip: Un sujet associé à l'agent.
     used_languages_tooltip: 'La ou les langues associées à l''agent. Exemple: anglais.'
-    related_agent_tooltip: Utilisé pour lier d'autres agents ayant une relation avec
-      l'agent et indiquer la nature de la relation.
     _singular: Personne
     _plural: Personnes
 
@@ -1505,65 +1466,39 @@ fr:
     <<: *agent_attributes
     _singular: Famille
     _plural: Familles
-    agent_record_controls_tooltip: "<p>Informations sur l'enregistrement décrivant\
-      \ l'agent.</p>"
     agent_conventions_declarations_tooltip: "<p>Une norme de contenu utilisée dans\
       \ la formulation du contenu de l'enregistrement de l'agent. Exemple: Décrire\
       \ les archives: une norme de contenu. Ce sous-enregistrement peut être utilisé\
       \ à la place des entrées de règles sur les formulaires de nom individuels.</p>"
-    agent_maintenance_histories_tooltip: "<p>Événements associés à la création ou\
-      \ à la maintenance de l'enregistrement de l'agent.</p>"
     agent_sources_tooltip: "<p>Une source utilisée dans la formulation du contenu\
       \ de l'enregistrement de l'agent.</p>"
-    agent_genders_tooltip: Sexe du sujet.
     agent_occupations_tooltip: Information sur la profession associée à l'agent.
-    agent_topics_tooltip: Un sujet associé à l'agent.
     used_languages_tooltip: 'La ou les langues associées à l''agent. Exemple: anglais.'
-    related_agent_tooltip: Utilisé pour lier d'autres agents ayant une relation avec
-      l'agent et indiquer la nature de la relation.
   agent_software:
     <<: *agent_attributes
     _singular: Logiciel
     _plural: Logiciels
-    agent_record_controls_tooltip: "<p>Informations sur l'enregistrement décrivant\
-      \ l'agent.</p>"
     agent_conventions_declarations_tooltip: "<p>Une norme de contenu utilisée dans\
       \ la formulation du contenu de l'enregistrement de l'agent. Exemple: Décrire\
       \ les archives: une norme de contenu. Ce sous-enregistrement peut être utilisé\
       \ à la place des entrées de règles sur les formulaires de nom individuels.</p>"
-    agent_maintenance_histories_tooltip: "<p>Événements associés à la création ou\
-      \ à la maintenance de l'enregistrement de l'agent.</p>"
     agent_sources_tooltip: "<p>Une source utilisée dans la formulation du contenu\
       \ de l'enregistrement de l'agent.</p>"
-    agent_genders_tooltip: Sexe du sujet.
     agent_occupations_tooltip: Information sur la profession associée à l'agent.
-    agent_topics_tooltip: Un sujet associé à l'agent.
     used_languages_tooltip: 'La ou les langues associées à l''agent. Exemple: anglais.'
-    related_agent_tooltip: Utilisé pour lier d'autres agents ayant une relation avec
-      l'agent et indiquer la nature de la relation.
   agent_corporate_entity:
     <<: *agent_attributes
     agent_contact_notes_tooltip: "<p>Notes sur les interactions avec l'agent.</p>"
-    agent_alternate_sets_tooltip: "<p>Utilisé pour pointer vers des notices d'autorité\
-      \ liées lorsque deux ou plusieurs notices pour la même entité ont été dérivées\
-      \ de deux ou plusieurs systèmes d'autorité.</p>"
     agent_other_agency_codes_tooltip: "<p>Informations sur les codes alternatifs pour\
       \ l'agence ou l'organisation responsable de la création ou de la maintenance\
       \ d'un enregistrement d'agent.</p>"
-    agent_record_identifiers_tooltip: "<p>Identifiants associés à l'enregistrement\
-      \ d'agent.</p>"
     agent_identifiers_tooltip: "<p>Identifiants associés à une entité, tels que les\
       \ identifiants légaux attribués par une agence faisant autorité. Les exemples\
       \ incluent un identifiant ORCID pour une personne ou un code de référentiel\
       \ MARC pour une personne morale.</p>"
-    agent_places_tooltip: Placez les informations associées à l'agent.
     agent_functions_tooltip: Termes utilisés pour identifier les fonctions, processus,
       tâches, activités ou transactions effectuées par l'agent.
-    agent_contacts_tooltip: "<p>Coordonnées de l'agent ou d'un représentant travaillant\
-      \ pour le compte.</p>"
     agent_resources_tooltip: Ressources et autres enregistrements associés à l'agent.
-    publish_tooltip: "<p>Indique si l'agent est inclus ou non dans les exportations\
-      \ et publié sur l'interface publique (le cas échéant)</p>"
     _singular: Personne morale
     _plural: Personnes morales
 
@@ -2903,176 +2838,83 @@ fr:
       cannot: Impossible de continuer en raison d'erreurs précédentes
 
   parallel_name_person:
-    authority_id_tooltip: "<p>L'identifiant unique du formulaire de nom d'un agent\
-      \ au sein de la source à partir de laquelle il a été acquis (c'est-à-dire un\
-      \ identifiant d'enregistrement MADS ou un identifiant d'enregistrement EAC).\
-      \ L'identifiant peut être représenté par un URI.</p><p> Voir DACS 13.2</p><p>\
-      \ Exemples:</p><ul><li> nr92045078 <em>pour un en-tête de nom LCNAF</em></li><li>\
-      \ 500115393 <em>pour un en-tête de nom ULAN</em></li><li> http://viaf.org/viaf/134138653\
-      \ <em>pour un en-tête de nom VIAF</em></ul>"
     source_tooltip: "<p>CHAMP CONDITIONNELLEMENT REQUIS, si les règles de nom ne sont\
       \ pas utilisées. Un indicateur de la source faisant autorité à partir de laquelle\
       \ le nom a été tiré.</p><p> Les valeurs de cette liste de valeurs contrôlées\
       \ peuvent être modifiées.</p>"
-    rules_tooltip: "<p>CHAMP CONDITIONNELLEMENT REQUIS, si la source de nom n'est\
-      \ pas utilisée. Une indication des règles utilisées pour formuler l'entrée de\
-      \ nom.</p><p> Les valeurs de cette liste de valeurs contrôlées peuvent être\
-      \ modifiées.</p>"
     name_order_tooltip: "<p>Indique si la forme du nom doit être affichée dans l'ordre\
       \ inversé (nom, prénom) ou dans l'ordre direct (prénom nom).</p>"
-    prefix_tooltip: "<p>Tout terme associé à un nom qui, en usage normatif, précéderait\
-      \ le nom entier.</p><p> Exemples:</p><ul><li> Mme.</li></ul>"
     title_tooltip: "<p>Un titre qui fait partie du nom.</p><p> Exemples:</p><ul><li>\
       \ Sir <em>(pour Churchill, Winston, Sir, 1874-1965)</em></li><li> Chief (pour\
       \ Black Foot, Chief, décédé en 1877)</li><li> Empereur d'Orient <em>(pour Jean\
       \ II Comnène. Empereur d'Orient.)</em></li></ul>"
-    primary_name_tooltip: "<p>La partie principale d'une forme de nom (par exemple\
-      \ un nom de famille ou un nom de famille d'une personne).</p><p> Exemples:</p><ul><li>\
-      \ Churchill <em>(pour Churchill, Winston, Sir, 1874-1965 [personne])</em><li>\
-      \ Black Foot <em>(pour Black Foot, Chief, décédé en 1877 [personne])</em></li><li>\
-      \ Machines de bureau internationales <em>(pour machines de bureau internationales.\
-      \ Division de la microélectronique [entité commerciale])</em></li></ul>"
     rest_of_name_tooltip: "<p>L'élément ou le prénom du prénom et les noms supplémentaires,\
       \ par exemple, les prénoms, pour la personne nommée dans l'enregistrement.</p><p>\
       \ Exemples:</p><ul><li> Winston <em>(pour Churchill, Winston, Sir, 1874-1965)</em></li><li>\
       \ Humphrey <em>(pour Ward, Humphrey, Mrs., 1851-1920)</em></li></ul>"
-    suffix_tooltip: "<p>Un terme qui suit un nom qui qualifie le nom mais qui n'est\
-      \ pas un titre.</p><p> Exemples</p><ul><li> Jr.</li><li> fils</li></ul>"
     fuller_form_tooltip: "<p>La forme la plus complète des prénoms et des seconds\
       \ prénoms, lorsqu'ils sont abrégés.</p><p> Exemples</p><ul><li> Hilda Doolittle\
       \ <em>(pour HD, Hilda Doolittle, 1886-1961)</em></li></ul>"
-    number_tooltip: "<p>Un nombre, parfois avec un terme, qui qualifie le nom. Pour\
-      \ les noms personnels, souvent un chiffre romain ou un chiffre romain et une\
-      \ partie ultérieure d'un prénom. Pour les dénominations sociales, le numéro\
-      \ d'une partie / section ou réunion.</p><p> Exemples:</p><ul><li> II Comnenus\
-      \ <em>(pour Jean II Comnenus, Empereur d'Orient</em> / li><li> II <em>(pour\
-      \ Jean-Paul II)</em></li><li> 97e, 2e session <em>(pour le Congrès des États-Unis,\
-      \ 97e, 2e session)</em></li></ul>"
     dates_tooltip: "<p>Utilisez ce champ pour l'alignement avec les notices d'autorité\
       \ MARC. Ces dates, plutôt que les dates d'existence, sont ajoutées à l'entrée\
       \ de nom dans l'affichage.</p><p> Dates d'existence de l'entité nommée.</p><p>\
       \ Exemples:<p><ul><li> 1886-1961 <em>(pour HD, Hilda Doolittle, 1886-1961)</em></li></ul>"
-    use_dates_tooltip: "<p>Dates auxquelles ce nom a été utilisé pour l'agent.</p>"
     qualifier: Qualificatif
-    sort_name: Nom du tri
     authorized: Autorisé
-    language: Langue
     script: Scénario
-    transliteration: Translitération
     _singular: Nom parallèle
     _plural: Noms parallèles
 
   parallel_name_family:
-    authority_id_tooltip: "<p>L'identifiant unique du formulaire de nom d'un agent\
-      \ au sein de la source à partir de laquelle il a été acquis (c'est-à-dire un\
-      \ identifiant d'enregistrement MADS ou un identifiant d'enregistrement EAC).\
-      \ L'identifiant peut être représenté par un URI.</p><p> Voir DACS 13.2</p><p>\
-      \ Exemples:</p><ul><li> nr92045078 <em>pour un en-tête de nom LCNAF</em></li><li>\
-      \ 500115393 <em>pour un en-tête de nom ULAN</em></li><li> http://viaf.org/viaf/134138653\
-      \ <em>pour un en-tête de nom VIAF</em></ul>"
     source_tooltip: "<p>CHAMP CONDITIONNELLEMENT REQUIS, si les règles de nom ne sont\
       \ pas utilisées. Un indicateur de la source faisant autorité à partir de laquelle\
       \ le nom a été tiré.</p><p> Les valeurs de cette liste de valeurs contrôlées\
       \ peuvent être modifiées.</p>"
-    rules_tooltip: "<p>CHAMP CONDITIONNELLEMENT REQUIS, si la source de nom n'est\
-      \ pas utilisée. Une indication des règles utilisées pour formuler l'entrée de\
-      \ nom.</p><p> Les valeurs de cette liste de valeurs contrôlées peuvent être\
-      \ modifiées.</p>"
     name_order_tooltip: "<p>Indique si la forme du nom doit être affichée dans l'ordre\
       \ inversé (nom, prénom) ou dans l'ordre direct (prénom nom).</p>"
-    prefix_tooltip: "<p>Tout terme associé à un nom qui, en usage normatif, précéderait\
-      \ le nom entier.</p><p> Exemples:</p><ul><li> Mme.</li></ul>"
     title_tooltip: "<p>Un titre qui fait partie du nom.</p><p> Exemples:</p><ul><li>\
       \ Sir <em>(pour Churchill, Winston, Sir, 1874-1965)</em></li><li> Chief (pour\
       \ Black Foot, Chief, décédé en 1877)</li><li> Empereur d'Orient <em>(pour Jean\
       \ II Comnène. Empereur d'Orient.)</em></li></ul>"
-    primary_name_tooltip: "<p>La partie principale d'une forme de nom (par exemple\
-      \ un nom de famille ou un nom de famille d'une personne).</p><p> Exemples:</p><ul><li>\
-      \ Churchill <em>(pour Churchill, Winston, Sir, 1874-1965 [personne])</em><li>\
-      \ Black Foot <em>(pour Black Foot, Chief, décédé en 1877 [personne])</em></li><li>\
-      \ Machines de bureau internationales <em>(pour machines de bureau internationales.\
-      \ Division de la microélectronique [entité commerciale])</em></li></ul>"
     rest_of_name_tooltip: "<p>L'élément ou le prénom du prénom et les noms supplémentaires,\
       \ par exemple, les prénoms, pour la personne nommée dans l'enregistrement.</p><p>\
       \ Exemples:</p><ul><li> Winston <em>(pour Churchill, Winston, Sir, 1874-1965)</em></li><li>\
       \ Humphrey <em>(pour Ward, Humphrey, Mrs., 1851-1920)</em></li></ul>"
-    suffix_tooltip: "<p>Un terme qui suit un nom qui qualifie le nom mais qui n'est\
-      \ pas un titre.</p><p> Exemples</p><ul><li> Jr.</li><li> fils</li></ul>"
     fuller_form_tooltip: "<p>La forme la plus complète des prénoms et des seconds\
       \ prénoms, lorsqu'ils sont abrégés.</p><p> Exemples</p><ul><li> Hilda Doolittle\
       \ <em>(pour HD, Hilda Doolittle, 1886-1961)</em></li></ul>"
-    number_tooltip: "<p>Un nombre, parfois avec un terme, qui qualifie le nom. Pour\
-      \ les noms personnels, souvent un chiffre romain ou un chiffre romain et une\
-      \ partie ultérieure d'un prénom. Pour les dénominations sociales, le numéro\
-      \ d'une partie / section ou réunion.</p><p> Exemples:</p><ul><li> II Comnenus\
-      \ <em>(pour Jean II Comnenus, Empereur d'Orient</em> / li><li> II <em>(pour\
-      \ Jean-Paul II)</em></li><li> 97e, 2e session <em>(pour le Congrès des États-Unis,\
-      \ 97e, 2e session)</em></li></ul>"
     dates_tooltip: "<p>Utilisez ce champ pour l'alignement avec les notices d'autorité\
       \ MARC. Ces dates, plutôt que les dates d'existence, sont ajoutées à l'entrée\
       \ de nom dans l'affichage.</p><p> Dates d'existence de l'entité nommée.</p><p>\
       \ Exemples:<p><ul><li> 1886-1961 <em>(pour HD, Hilda Doolittle, 1886-1961)</em></li></ul>"
-    use_dates_tooltip: "<p>Dates auxquelles ce nom a été utilisé pour l'agent.</p>"
     qualifier: Qualificatif
-    sort_name: Nom du tri
     authorized: Autorisé
-    language: Langue
     script: Scénario
-    transliteration: Translitération
     _singular: Formulaire de nom
-    family_name: Nom de famille
     family_type: Type de famille
-    location: Emplacement
   parallel_name_corporate_entity:
     authority_id: ID d'autorité
-    source: La source
     rules: Des règles
-    name_order: Ordre des noms
     prefix: Préfixe
-    title: Titre
     primary_name: Partie principale du nom
-    rest_of_name: Reste du nom
     suffix: Suffixe
-    fuller_form: Forme plus complète
     number: Numéro
-    dates: Rendez-vous
     use_dates: Dates d'utilisation
-    parallel_names_tooltip: "<p>Peut être utilisé pour enregistrer une forme parallèle\
-      \ du nom dans différentes langues et / ou scripts ou formes translittérées du\
-      \ nom.</p>"
     qualifier_tooltip: "<p>Un terme ou une phrase pour distinguer deux formes de nom\
       \ identiques à tous les autres égards mais identifiant deux entités différentes.\
       \ Le terme peut être une date, un lieu ou tout autre descripteur approprié.</p><p>\
       \ Exemples:</p><ul><li> Fleuristes <em>(pour la famille Smith (fleuristes))</em>\
       \ )</li><li> Bronx, New York, NY <em>(pour l'église St.James (Bronx, New York,\
       \ NY))</em></li></ul>"
-    sort_name_tooltip: <p>Une version du nom concaténant toutes les parties du nom
-      fournies dans un enregistrement d'agent donné. Utilisé à des fins d'affichage
-      dans l'application et pour certaines exportations.</p><p> Le nom du tri peut
-      être modifié en décochant la case "Générer automatiquement" puis en saisissant
-      la forme du nom de tri souhaité.</p>
     is_display_name: Afficher un nom
-    language_tooltip: "<p>Indique la langue utilisée pour enregistrer la forme du\
-      \ nom. Exemple: russe (pour Каспаров, Г. К. (Гарри Кимович))</p>"
     script_tooltip: "<p>Indique le script utilisé pour enregistrer la forme du nom.\
       \ Exemple: cyrillique (pour Каспаров, Г. К. (Гарри Кимович))</p>"
-    transliteration_tooltip: "<p>Indique le schéma de translittération utilisé pour\
-      \ enregistrer la forme du nom.</p>"
     _plural: Formulaires de nom
-    subordinate_name_1_tooltip: "<p>Une unité hiérarchique avec l'entité corporative\
-      \ nommée dans le champ Nom principal.</p><p> Exemples</p><ul><li> Division Microélectronique\
-      \ <em>(pour International Business Machines. Division Microélectronique)</em></li></ul>"
     subordinate_name_2_tooltip: "<p>Une unité hiérarchique avec l'entité corporative\
       \ nommée dans le champ Nom principal et inférieure à l'unité nommée dans le\
       \ champ Nom subordonné 1.</p>"
-    jurisdiction_tooltip: "<p>Indique si l'entité est une entrée de nom de juridiction\
-      \ légale.</p>"
     conference_meeting_tooltip: "<p>Indique si l'entité est une personne morale standard\
       \ ou est une conférence, une réunion ou un autre événement nommé.</p>"
-    location_tooltip: "<p>Emplacement utilisé comme qualificatif pour distinguer les\
-      \ entrées de nom similaires. Exemples: Trigg County, Ky. (Pour Cunningham (Family:\
-      \ 1795-: Trigg County, Ky.)), Ambassade du Canada, Tokyo (pour la Conférence\
-      \ de jumelage Canada-Japon (1991: Ambassade du Canada, Tokyo))</p>"
   parallel_name_software:
     authority_id_tooltip: "<p>L'identifiant unique du formulaire de nom d'un agent\
       \ au sein de la source à partir de laquelle il a été acquis (c'est-à-dire un\
@@ -3081,37 +2923,20 @@ fr:
       \ Exemples:</p><ul><li> nr92045078 <em>pour un en-tête de nom LCNAF</em></li><li>\
       \ 500115393 <em>pour un en-tête de nom ULAN</em></li><li> http://viaf.org/viaf/134138653\
       \ <em>pour un en-tête de nom VIAF</em></ul>"
-    source_tooltip: "<p>CHAMP CONDITIONNELLEMENT REQUIS, si les règles de nom ne sont\
-      \ pas utilisées. Un indicateur de la source faisant autorité à partir de laquelle\
-      \ le nom a été tiré.</p><p> Les valeurs de cette liste de valeurs contrôlées\
-      \ peuvent être modifiées.</p>"
     rules_tooltip: "<p>CHAMP CONDITIONNELLEMENT REQUIS, si la source de nom n'est\
       \ pas utilisée. Une indication des règles utilisées pour formuler l'entrée de\
       \ nom.</p><p> Les valeurs de cette liste de valeurs contrôlées peuvent être\
       \ modifiées.</p>"
-    name_order_tooltip: "<p>Indique si la forme du nom doit être affichée dans l'ordre\
-      \ inversé (nom, prénom) ou dans l'ordre direct (prénom nom).</p>"
     prefix_tooltip: "<p>Tout terme associé à un nom qui, en usage normatif, précéderait\
       \ le nom entier.</p><p> Exemples:</p><ul><li> Mme.</li></ul>"
-    title_tooltip: "<p>Un titre qui fait partie du nom.</p><p> Exemples:</p><ul><li>\
-      \ Sir <em>(pour Churchill, Winston, Sir, 1874-1965)</em></li><li> Chief (pour\
-      \ Black Foot, Chief, décédé en 1877)</li><li> Empereur d'Orient <em>(pour Jean\
-      \ II Comnène. Empereur d'Orient.)</em></li></ul>"
     primary_name_tooltip: "<p>La partie principale d'une forme de nom (par exemple\
       \ un nom de famille ou un nom de famille d'une personne).</p><p> Exemples:</p><ul><li>\
       \ Churchill <em>(pour Churchill, Winston, Sir, 1874-1965 [personne])</em><li>\
       \ Black Foot <em>(pour Black Foot, Chief, décédé en 1877 [personne])</em></li><li>\
       \ Machines de bureau internationales <em>(pour machines de bureau internationales.\
       \ Division de la microélectronique [entité commerciale])</em></li></ul>"
-    rest_of_name_tooltip: "<p>L'élément ou le prénom du prénom et les noms supplémentaires,\
-      \ par exemple, les prénoms, pour la personne nommée dans l'enregistrement.</p><p>\
-      \ Exemples:</p><ul><li> Winston <em>(pour Churchill, Winston, Sir, 1874-1965)</em></li><li>\
-      \ Humphrey <em>(pour Ward, Humphrey, Mrs., 1851-1920)</em></li></ul>"
     suffix_tooltip: "<p>Un terme qui suit un nom qui qualifie le nom mais qui n'est\
       \ pas un titre.</p><p> Exemples</p><ul><li> Jr.</li><li> fils</li></ul>"
-    fuller_form_tooltip: "<p>La forme la plus complète des prénoms et des seconds\
-      \ prénoms, lorsqu'ils sont abrégés.</p><p> Exemples</p><ul><li> Hilda Doolittle\
-      \ <em>(pour HD, Hilda Doolittle, 1886-1961)</em></li></ul>"
     number_tooltip: "<p>Un nombre, parfois avec un terme, qui qualifie le nom. Pour\
       \ les noms personnels, souvent un chiffre romain ou un chiffre romain et une\
       \ partie ultérieure d'un prénom. Pour les dénominations sociales, le numéro\
@@ -3119,20 +2944,11 @@ fr:
       \ <em>(pour Jean II Comnenus, Empereur d'Orient</em> / li><li> II <em>(pour\
       \ Jean-Paul II)</em></li><li> 97e, 2e session <em>(pour le Congrès des États-Unis,\
       \ 97e, 2e session)</em></li></ul>"
-    dates_tooltip: "<p>Utilisez ce champ pour l'alignement avec les notices d'autorité\
-      \ MARC. Ces dates, plutôt que les dates d'existence, sont ajoutées à l'entrée\
-      \ de nom dans l'affichage.</p><p> Dates d'existence de l'entité nommée.</p><p>\
-      \ Exemples:<p><ul><li> 1886-1961 <em>(pour HD, Hilda Doolittle, 1886-1961)</em></li></ul>"
     use_dates_tooltip: "<p>Dates auxquelles ce nom a été utilisé pour l'agent.</p>"
-    qualifier: Qualificatif
     sort_name: Nom du tri
-    authorized: Autorisé
     language: Langue
-    script: Scénario
     transliteration: Translitération
-    _singular: Formulaire de nom
     software_name: Nom du logiciel
-    version: Version
     manufacturer: Fabricant
   agent_record_identifiers:
     identifier_type_tooltip: "<p>Indique le type ou le format de l'identifiant de\
@@ -3364,19 +3180,13 @@ fr:
       ou le calendrier julien. La valeur "grégorien" est la valeur par défaut.</p>
 
   structured_date_label_existence:
-    date_type_structured_tooltip: "<p>Indique le type des informations de date, une\
-      \ date unique ou une plage de dates.</p>"
     date_era_tooltip: <p>Période pendant laquelle les années sont numérotées et les
       dates calculées, comme BC ou CE La valeur "ce" est la valeur par défaut.</p>
   structured_date_label_common_fields:
-    date_label_tooltip: "<p>Décrit le type d'activité que signifie la date</p>"
     date_certainty_tooltip: "<p>Le niveau de confiance pour les informations données\
       \ dans une déclaration de date. Ces informations sont facultatives et ne doivent\
       \ être ajoutées que lorsque les informations de date sont qualifiées de potentiellement\
       \ incertaines en fonction de la description ou des règles de catalogage utilisées.</p>"
-    date_calendar_tooltip: <p>Système de calcul du temps, tel que le calendrier grégorien
-      ou le calendrier julien. La valeur "grégorien" est la valeur par défaut.</p>
-
   structured_date_single:
     date_role_tooltip: "<p>Pour une seule date, utilisé pour indiquer si la date doit\
       \ être comprise comme une date de début ou une date de fin. La valeur par défaut\
@@ -3407,31 +3217,19 @@ fr:
       \ qui aurait pu se produire.</p>"
 
   structured_date_single_fields:
-    date_expression_tooltip: "<p>Une expression en langage naturel spécifiant la date\
-      \ ou la plage de dates. Requis lorsqu'une date normalisée n'est pas enregistrée.</p>"
     date_standardized_type_tooltip: "<p>Utilisé pour indiquer si la date normalisée\
       \ reflète la date réelle ou une estimation du premier ou du dernier événement\
       \ qui aurait pu se produire.</p>"
 
   structured_date_range_fields:
-    begin_date_standardized_tooltip: "<p>Une date (au format AAAA, AAAA-MM ou AAAA-MM-JJ)\
-      \ représentant une seule date ou la première date d'une plage de dates.</p>"
     end_date_expression_tooltip: "<p>Une expression en langage naturel spécifiant\
       \ la fin d'une plage de dates. Requis lorsqu'une date normalisée n'est pas enregistrée.</p>"
-    end_date_standardized_type_tooltip: "<p>Utilisé pour indiquer si la date normalisée\
-      \ de fin reflète la date réelle ou une estimation du premier ou du dernier événement\
-      \ qui aurait pu se produire.</p>"
-
   note_contact_note:
     label_tooltip: "<p>Une étiquette ou un titre pour la note spécifique. Si aucune\
       \ étiquette n'est utilisée, le type de note sera utilisé comme étiquette partout\
       \ où c'est nécessaire.</p>"
-    content: Teneur
     items: Articles
-    item_singular: Article
     publish_tooltip: "<p>Détermine si cette note aux interfaces publiques (usager).</p>"
-    title_tooltip: "<p>Un élément pour enregistrer une étiquette ou un titre spécifique\
-      \ pour la sous-note.</p>"
     type_tooltip: "<p>Le type de note pour le contenu. Les types de note sont utilisés\
       \ pour guider l'exportation du contenu des notes vers certains éléments dans\
       \ des formats de données spécifiques.</p>"
@@ -3440,62 +3238,32 @@ fr:
     contact_notes: Notes de contact
 
   related_agents:
-    relator: Type de relation directionnelle
     relationship_uri: URI de relation
-    description: La description
     dates: Rendez-vous
-    _singular: Agent associé
   note_general_context:
     label: Étiqueter
-    persistent_id: ID persistant
     content_tooltip: "<p>Le contenu de la note.</p>"
-    items_singular: Article
     publish: Publier?
-    title: Titre
     type: Taper
     subnotes: Notes secondaires
 
   note_mandate:
-    label_tooltip: "<p>Une étiquette ou un titre pour la note spécifique. Si aucune\
-      \ étiquette n'est utilisée, le type de note sera utilisé comme étiquette partout\
-      \ où c'est nécessaire.</p>"
     content: Teneur
-    items: Articles
     item_singular: Article
-    publish_tooltip: "<p>Détermine si cette note aux interfaces publiques (usager).</p>"
     title_tooltip: "<p>Un élément pour enregistrer une étiquette ou un titre spécifique\
       \ pour la sous-note.</p>"
-    type_tooltip: "<p>Le type de note pour le contenu. Les types de note sont utilisés\
-      \ pour guider l'exportation du contenu des notes vers certains éléments dans\
-      \ des formats de données spécifiques.</p>"
     subnotes: Notes secondaires
 
   note_legal_status:
-    label_tooltip: "<p>Une étiquette ou un titre pour la note spécifique. Si aucune\
-      \ étiquette n'est utilisée, le type de note sera utilisé comme étiquette partout\
-      \ où c'est nécessaire.</p>"
     content: Teneur
-    items: Articles
     item_singular: Article
-    publish_tooltip: "<p>Détermine si cette note aux interfaces publiques (usager).</p>"
     title_tooltip: "<p>Un élément pour enregistrer une étiquette ou un titre spécifique\
       \ pour la sous-note.</p>"
-    type_tooltip: "<p>Le type de note pour le contenu. Les types de note sont utilisés\
-      \ pour guider l'exportation du contenu des notes vers certains éléments dans\
-      \ des formats de données spécifiques.</p>"
     subnotes: Notes secondaires
 
   note_structure_or_genealogy:
-    label_tooltip: "<p>Une étiquette ou un titre pour la note spécifique. Si aucune\
-      \ étiquette n'est utilisée, le type de note sera utilisé comme étiquette partout\
-      \ où c'est nécessaire.</p>"
     content: Teneur
-    items: Articles
     item_singular: Article
-    publish_tooltip: "<p>Détermine si cette note aux interfaces publiques (usager).</p>"
     title_tooltip: "<p>Un élément pour enregistrer une étiquette ou un titre spécifique\
       \ pour la sous-note.</p>"
-    type_tooltip: "<p>Le type de note pour le contenu. Les types de note sont utilisés\
-      \ pour guider l'exportation du contenu des notes vers certains éléments dans\
-      \ des formats de données spécifiques.</p>"
     subnotes: Notes secondaires
