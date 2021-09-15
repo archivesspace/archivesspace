@@ -2445,7 +2445,8 @@ en:
     requires_that_end_dates_are_after_begin_dates: End Dates must be after Begin Dates
     must_specify_a_primary_subject: "Description Information: Record is missing a primary subject"
     subrecord_not_allowed_for_agent_software: "Software Agents cannot have record control or relation subrecords"
-    ark_collision: There was a problem while generating an Ark for this record. Please contact your system administrator.
+    ark_collision: There was a problem while generating an ARK for this record. Please contact your system administrator.
+    ark_format_error: One of the ARKs provided was not a valid ARK.
 
   job:
     _singular: Background Job
@@ -2985,3 +2986,6 @@ en:
     save: Save ARKs
     modal_title: Edit ARKs for current record
     unsubmitted_input: You have unsubmitted input
+    ark_editor_errors:
+      ark_collision: One of the ARKs provided is already in use.
+      ark_format_error: One of the ARKs provided was not a valid ARK.
