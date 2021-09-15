@@ -93,8 +93,7 @@ en:
         <p>User defined fields for recording additional information not captured in other sections of the application.</p>
 
   digital_object: &digital_object_attributes
-    <<: *section_tooltips
-    <<: *slug_attributes
+    <<: [*section_tooltips, *slug_attributes]
     user_defined:
       <<: *user_defined_attributes
     title: Title
@@ -133,7 +132,6 @@ en:
 
   digital_object_component:
     <<: *digital_object_attributes
-    <<: *slug_attributes
     label: Label
     label_tooltip: |
         <p>A term used to describe the part and its position within the Digital Object being described. More often used for the component parts of the Digital Object than the top-level Digital Object record.</p>
@@ -829,9 +827,6 @@ en:
   structured_date_label_existence:
     <<: *sdl_attributes
 
-  date_fields:
-    <<: *sdl_attributes
-
   structured_date_label_common_fields:
     <<: *sdl_attributes
 
@@ -921,13 +916,6 @@ en:
     _singular: Contact
     _plural: Contact Details
 
-  note_contact_note:
-    contact_notes_tooltip: |
-        <p>Details about the interaction with the contact</p>
-
-    date_of_contact_tooltip: |
-        <p>Used to record the specific date or timeframe of an interaction</p>
-
   telephone: &telephone
     _plural: Telephone Numbers
     number_type: Number Type
@@ -939,8 +927,6 @@ en:
         <p>Telephone number extension for the contact person.</p>
     number_type_tooltip: |
         <p>Indicates the type of telephone number.</p>
-
-
 
   telephone_required: &telephone
     _plural: Telephone Numbers
@@ -1173,6 +1159,10 @@ en:
     subnotes: Sub Notes
     date_of_contact: Date of Contact
     contact_notes: Contact Notes
+    contact_notes_tooltip: |
+      <p>Details about the interaction with the contact</p>
+    date_of_contact_tooltip: |
+      <p>Used to record the specific date or timeframe of an interaction</p>
 
   note_legal_status:
     <<: *note_attributes
@@ -1524,11 +1514,10 @@ en:
     <<: *date_attributes
 
   date_fields:
-    <<: *date_attributes
+    <<: [*date_attributes, *sdl_attributes]
 
   accession:
-    <<: *section_tooltips
-    <<: *slug_attributes
+    <<: [*section_tooltips, *slug_attributes]
     user_defined:
       <<: *user_defined_attributes
     accession_date: Accession Date
@@ -1751,7 +1740,6 @@ en:
     agent_contacts_tooltip: |
         <p>Contact information for the agent or a representative working on the behalf.</p>
     used_languages_tooltip: "The language(s) associated with the agent. Example: English."
-    related_agents_tooltip: Other agents associated with the agent.
     agent_resources_tooltip: Resources and other records associated with the agent.
     related_agent_tooltip: Used to link other agents with a relationship to the agent and indicate the nature of the relationship.
     publish_tooltip: |
@@ -1759,25 +1747,21 @@ en:
 
   agent_person:
     <<: *agent_attributes
-    <<: *slug_attributes
     _singular: Person
     _plural: People
 
   agent_family:
     <<: *agent_attributes
-    <<: *slug_attributes
     _singular: Family
     _plural: Families
 
   agent_software:
     <<: *agent_attributes
-    <<: *slug_attributes
     _singular: Software
     _plural: Software
 
   agent_corporate_entity:
     <<: *agent_attributes
-    <<: *slug_attributes
     _singular: Corporate Entity
     _plural: Corporate Entities
 
@@ -1791,8 +1775,7 @@ en:
     related_agents: Related Agents
 
   archival_object: &archival_object_attributes
-    <<: *section_tooltips
-    <<: *slug_attributes
+    <<: [*section_tooltips, *slug_attributes]
     title: Title
     title_tooltip: |
         <p>CONDITIONALLY REQUIRED FIELD: The title assigned to the materials described. An Archival Object must have either a Title or a Date subrecord.</p>
@@ -1918,9 +1901,7 @@ en:
     _plural: Groups
 
   resource:
-    <<: *archival_object_attributes
-    <<: *section_tooltips
-    <<: *slug_attributes
+    <<: [*archival_object_attributes, *section_tooltips]
     user_defined:
       <<: *user_defined_attributes
     id_0: Identifier
@@ -2394,7 +2375,6 @@ en:
     agent_must_be_unique: Agent records cannot be identical
     subject_must_be_unique: Subject records cannot be identical
     subject_heading_identifier_must_be_unique_within_source: Subject heading identifier must be unique within source
-    conflicting_record: Conflicting record
     missing_required_property: Property is required but was missing
     missing_property: Property was missing
     not_a_valid_date: Not a valid date
@@ -2452,14 +2432,13 @@ en:
     repo_set_desc_required: Repository set description is required for creating an OAI repository set
     repo_set_name_required: Repository set name is required for creating an OAI repository set
     is_not_present: Required field missing
-    must_be_a_valid_email_address: Must contain a valid address
     sponsor_set_desc_required: Sponsor set description is required for creating an OAI sponsor set
     sponsor_set_name_required: Sponsor set name is required for creating an OAI sponsor set
     invalid_characters: Contains invalid characters
     conflicting_record: "<a href='/resolve/readonly?uri=%{record_uri}' target='_blank'>View conflicting record</a>"
     or_date_expression_is_required: Dates must specify at least one date expression
     must_specify_either_a_single_or_ranged_date: Dates must be specified as either Single or Ranged
-    must_be_in_yyyy[yyy][yy][y]__yyyy[yyy][yy][y]-mm__or_yyyy-mm-dd_format : Standardized dates must be in a standardized format
+    must_be_in_yyyy[yyy][yy][y]__yyyy[yyy][yy][y]-mm__or_yyyy-mm-dd_format: Standardized dates must be in a standardized format
     generic_validation_error: Validation Error
     requires_that_end_dates_are_after_begin_dates: End Dates must be after Begin Dates
     must_specify_a_primary_subject: "Description Information: Record is missing a primary subject"
@@ -2491,7 +2470,6 @@ en:
     time_submitted: Time Submitted
     time_started: Time Started
     time_finished: Time Completed
-    time_submitted: Time Submitted
     owner: Owner
     show_description: Show Description
     input_file: Input File
@@ -2806,7 +2784,7 @@ en:
     could_be: "%{what} would be created"
     updated: "%{what}: %{id}"
     clip_btn: Copy to Clipboard
-    clip_created:  "\t%{what} created: \t%{nm}\t%{id}\t%{ref_id}"
+    clip_created: "\t%{what} created: \t%{nm}\t%{id}\t%{ref_id}"
     clip_what: "\t%{what} : \t%{nm}\t%{id}\t%{ref_id}"
     clip_info: "\t\t\t\t\t%{what}\n"
     clip_err: "\t\t\t\t\tERROR: %{err}\n"
@@ -2859,20 +2837,20 @@ en:
       res_ead: This form's resource is missing an EAD ID
       row_ead: This row is missing an EAD ID
       row_missing_ead_uri: This row is missing BOTH an EAD ID and URI
-      ead_mismatch:  "Form's EAD ID [%{res_ead}] does not match row's EAD ID [%{row_ead}]"
+      ead_mismatch: "Form's EAD ID [%{res_ead}] does not match row's EAD ID [%{row_ead}]"
       uri_mismatch: "Input resource's URI [%{res_uri}] does not match row's URI [%{row_uri}]"
       title: Missing title
       title_and_date: Missing Title AND Valid Date definition
       hier_miss: Missing hierachy -- must be a number greater than 0
       hier_zero: Hierarchy must be greater than 0
       hier_wrong: Hierarchy cannot not be more than one level deeper than the previous row
-      hier_wrong_resource:  Did you mean to start processing with an archival object selected?
-      hier_wrong_resource_validation:  "WARNING: nothing below this row would have been processed"
+      hier_wrong_resource: Did you mean to start processing with an archival object selected?
+      hier_wrong_resource_validation: "WARNING: nothing below this row would have been processed"
       hier_below_error_level: The parent archival object was not created
       level: Missing valid Description Level
       date: "Date must have at least one of: Date Begin; Date End; or Date Expression"
       number: Missing Extent Number
-      extent_type:  Missing Extent Type
+      extent_type: Missing Extent Type
       extent_validation: "Unable to validate Extent (%{ext}): %{msg}"
       no_header: No header (field codes) row found; are you using the correct template?
       no_data: No processible data rows found!
