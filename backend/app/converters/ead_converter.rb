@@ -121,21 +121,23 @@ class EADConverter < Converter
 
     with 'unitid' do |node|
       if 'ark' == node.attribute('type')
-        ark = if inner_xml.strip.start_with?('<extref')
-                Nokogiri::XML::DocumentFragment.parse(inner_xml.strip)
-                  .children[0]
-                  .attribute('xlink:href')
-                  .value
-              elsif inner_xml.strip.start_with?('<ref')
-                Nokogiri::XML::DocumentFragment.parse(inner_xml.strip)
-                  .children[0]
-                  .attribute('href')
-                  .value
-              else
-                inner_xml.strip
-              end
+        ancestor(:resource, :archival_object) do |obj|
+          ark = if inner_xml.strip.start_with?('<extref')
+                  Nokogiri::XML::DocumentFragment.parse(inner_xml.strip)
+                    .children[0]
+                    .attribute('xlink:href')
+                    .value
+                elsif inner_xml.strip.start_with?('<ref')
+                  Nokogiri::XML::DocumentFragment.parse(inner_xml.strip)
+                    .children[0]
+                    .attribute('href')
+                    .value
+                else
+                  inner_xml.strip
+                end
 
-        set :external_ark_url, ark
+          set obj, :external_ark_url, ark
+        end
       elsif 'ark-subsequent' == node.attribute('type')
         # do nothing
       else
