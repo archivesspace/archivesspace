@@ -621,21 +621,9 @@
     <condition property="example-arg" value="-e &quot;${example}&quot;" else="">
       <isset property="example"/>
     </condition>
-        <antcall target="rspec">
-      <param name="dir" value="../backend" />
-      <param name="extra-spec-paths" value="${plugin-spec-dirs}"/>
+    <antcall target="rspec">
+      <param name="dir" value="../indexer" />
     </antcall>
-    <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true" failonerror="true" dir="../indexer">
-      <jvmarg line="${default_java_options} ${env.JAVA_OPTS}"/>
-      <env key="GEM_HOME" value="${gem_home}" />
-      <env key="GEM_PATH" value="" />
-      <env key="BUNDLE_PATH" value="${gem_home}" />
-      <env key="COVERAGE_REPORTS" value="${COVERAGE_REPORTS}" />
-      <env key="APPCONFIG_DATA_DIRECTORY" value="${aspace.data_directory.test}" />
-      <env key="APPCONFIG_DB_URL" value="${env.ASPACE_TEST_DB_URL}" />
-      <env key="APPCONFIG_SOLR_URL" value="${env.ASPACE_TEST_SOLR_URL}" />
-      <arg line="../build/${jruby_build_bin_path}/rspec -b --format d -P '*_spec.rb' --order rand:1 ${example-arg} spec/${spec}" />
-    </java>
   </target>
 
   <target name="indexer:war" depends="set-classpath" description="Deploy the indexer application as a .war file">
