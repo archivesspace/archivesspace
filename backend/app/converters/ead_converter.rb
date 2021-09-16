@@ -120,7 +120,7 @@ class EADConverter < Converter
 
 
     with 'unitid' do |node|
-      if 'ark' == node.attribute('type')
+      if 'ark' == node.attribute('type') || 'ark' == node.attribute('localtype')
         ancestor(:resource, :archival_object) do |obj|
           ark = if inner_xml.strip.start_with?('<extref')
                   Nokogiri::XML::DocumentFragment.parse(inner_xml.strip)
@@ -138,7 +138,7 @@ class EADConverter < Converter
 
           set obj, :external_ark_url, ark
         end
-      elsif 'ark-subsequent' == node.attribute('type')
+      elsif 'ark-subsequent' == node.attribute('type') || 'ark-subsequent' == node.attribute('localtype')
         # do nothing
       else
         ancestor(:note_multipart, :resource, :archival_object) do |obj|
