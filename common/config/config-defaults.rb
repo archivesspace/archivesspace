@@ -694,3 +694,7 @@ AppConfig[:hide_do_load] = false
 
 # For Agents Export
 AppConfig[:export_eac_agency_code] = false
+
+# Disable logged warnings when changing config settings that have already been set
+# This might be useful when running tests that need to fiddle with config
+AppConfig[:disable_config_changed_warning] = false

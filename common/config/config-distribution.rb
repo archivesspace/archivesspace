@@ -21,7 +21,7 @@ class AppConfig
   def self.[]=(parameter, value)
     parameter = resolve_alias(parameter)
 
-    if changed?(parameter)
+    if changed?(parameter) && !self[:disable_config_changed_warning]
       $stderr.puts("WARNING: The parameter '#{parameter}' was already set")
     end
 
