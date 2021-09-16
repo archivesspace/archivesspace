@@ -2,6 +2,20 @@ require 'spec_helper'
 
 describe 'ArkName model' do
 
+  # turn off those pesky warnings
+  # interstingly `around` doesn't work nicely here
+  # because it does the around around each enclosed describe block separately
+  # and so we get warnings about setting the disable warnings config
+  # ... computers!
+  before(:all) do
+    AppConfig[:disable_config_changed_warning] = true
+  end
+
+  after(:all) do
+    AppConfig[:disable_config_changed_warning] = false
+  end
+
+
   describe "with ARKs disabled" do
     around(:all) do |all|
       arks_enabled = AppConfig[:arks_enabled]
@@ -19,8 +33,8 @@ describe 'ArkName model' do
     end
   end
 
-  describe "with ARKs enabled" do
 
+  describe "with ARKs enabled" do
     around(:all) do |all|
       arks_enabled = AppConfig[:arks_enabled]
       AppConfig[:arks_enabled] = true
