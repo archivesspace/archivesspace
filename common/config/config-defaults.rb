@@ -284,10 +284,6 @@ AppConfig[:report_page_layout] = "letter"
 AppConfig[:report_pdf_font_paths] = proc { ["#{AppConfig[:backend_url]}/reports/static/fonts/dejavu/DejaVuSans.ttf"] }
 AppConfig[:report_pdf_font_family] = "\"DejaVu Sans\", sans-serif"
 
-# option to enable custom reports
-# USE WITH CAUTION - running custom reports that are too complex may cause ASpace to crash
-AppConfig[:enable_custom_reports] = false
-
 # Path to system Java -- required when creating PDFs on Windows
 AppConfig[:path_to_java] = "java"
 
