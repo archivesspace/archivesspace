@@ -2,98 +2,96 @@ require 'spec_helper'
 
 describe 'ArkName model' do
 
-  before (:all) do
-    AppConfig[:arks_enabled] = true
-  end
-
-  after (:all) do
-    AppConfig[:arks_enabled] = false
-  end
-
-  it "creates a ArkName to a resource when a resource is created" do
-    obj = create_resource(:title => generate(:generic_title))
-    json = Resource.to_jsonmodel(obj)
-    ark = ArkName.first(:resource_id => obj.id).value
-
-    expect(ark).to eq(json['ark_name']['current'])
-  end
-
-  it "creates an ArkName to an archival object" do
-    obj = ArchivalObject.create_from_json(
-      build(
-        :json_archival_object,
-        :title => 'A new archival object'
-      ),
-      :repo_id => $repo_id)
-    json = ArchivalObject.to_jsonmodel(obj)
-
-    ark = ArkName.first(:archival_object_id => obj.id).value
-
-    expect(ark).to eq(json['ark_name']['current'])
-  end
-
-  describe('with external ARKs enabled') do
-    before(:all) do
-      AppConfig[:arks_allow_external_arks] = true
+  describe "with ARKs disabled" do
+    around(:all) do |all|
+      arks_enabled = AppConfig[:arks_enabled]
+      AppConfig[:arks_enabled] = false
+      all.run
+      AppConfig[:arks_enabled] = arks_enabled
     end
 
-    after(:all) do
-      AppConfig[:arks_allow_external_arks] = false
-    end
+    it "does not create ARKs" do
+      resource = create_resource
+      expect(ArkName.where(:resource_id => resource.id).count).to eq(0)
 
-    it "external_ark_url applies if defined on the resource" do
-      external_ark_url = "http://foo.bar/ark:/123/123"
-
-      opts = {:title => generate(:generic_title),
-              external_ark_url: external_ark_url}
-      resource = create_resource(opts)
-
-      ark = ArkName.first(:resource_id => resource.id).value
-
-      expect(ark).to eq(external_ark_url)
-    end
-
-    it "external_ark_url applies if defined on the archival object" do
-      external_ark_url = "http://foo.bar/ark:/123/123"
-
-      ao = ArchivalObject.create_from_json(
-        build(
-          :json_archival_object,
-          :title => 'A new archival object',
-          :external_ark_url => external_ark_url
-        ),
-        :repo_id => $repo_id)
-
-      ark = ArkName.first(:archival_object_id => ao.id).value
-
-      expect(ark).to eq(external_ark_url)
+      archival_object = create_archival_object
+      expect(ArkName.where(:archival_object_id => archival_object.id).count).to eq(0)
     end
   end
 
-  it "does not create extra ArkNames when a resource is edited" do
-    json = build(:json_resource, {:title => 'Initial title'})
-    resource = Resource.create_from_json(json, :repo_id => $repo_id)
+  describe "with ARKs enabled" do
 
-    json[:title] = 'Modified title'
-    json[:lock_version] = 0
-    resource.update_from_json(json)
+    around(:all) do |all|
+      arks_enabled = AppConfig[:arks_enabled]
+      AppConfig[:arks_enabled] = true
+      all.run
+      AppConfig[:arks_enabled] = arks_enabled
+    end
 
-    expect(ArkName.where(:resource_id => resource.id).count).to eq(1)
+    it "mints an ARK when a resource is created" do
+      obj = create_resource
+      json = Resource.to_jsonmodel(obj)
+      ark = ArkName.first(:resource_id => obj.id).value
 
-    resource.delete
+      expect(ark).to eq(json['ark_name']['current'])
+    end
+
+    it "mints an ARK when an archival object is created" do
+      obj = create_archival_object
+      json = ArchivalObject.to_jsonmodel(obj)
+      ark = ArkName.first(:archival_object_id => obj.id).value
+
+      expect(ark).to eq(json['ark_name']['current'])
+    end
+
+
+    describe('with external ARKs disabled') do
+      around(:all) do |all|
+        arks_allow_external_arks = AppConfig[:arks_allow_external_arks]
+        AppConfig[:arks_allow_external_arks] = false
+        all.run
+        AppConfig[:arks_allow_external_arks] = arks_allow_external_arks
+      end
+
+      it "ignores external_ark_url if given" do
+        external_ark_url = "http://foo.bar/ark:/123/123"
+        obj = create_resource(external_ark_url: external_ark_url)
+
+        obj = create_resource()
+        json = Resource.to_jsonmodel(obj)
+        ark = ArkName.first(:resource_id => obj.id).value
+
+        expect(ark).to eq(json['ark_name']['current'])
+        expect(ark).to_not eq(external_ark_url)
+      end
+    end
+
+
+    describe('with external ARKs enabled') do
+      around(:all) do |all|
+        arks_allow_external_arks = AppConfig[:arks_allow_external_arks]
+        AppConfig[:arks_allow_external_arks] = true
+        all.run
+        AppConfig[:arks_allow_external_arks] = arks_allow_external_arks
+      end
+
+      it "external_ark_url applies if defined" do
+        external_ark_url = "http://foo.bar/ark:/123/123"
+
+        resource = create_resource(external_ark_url: external_ark_url)
+
+        ark = ArkName.first(:resource_id => resource.id).value
+
+        expect(ark).to eq(external_ark_url)
+      end
+
+      it "but an ARK is still generated if external_ark_url is not given" do
+        obj = create_resource
+        json = Resource.to_jsonmodel(obj)
+        ark = ArkName.first(:resource_id => obj.id).value
+
+        expect(ark).to eq(json['ark_name']['current'])
+      end
+    end
   end
-
-  it "does not create extra ArkNames when an archival object is edited" do
-    json = build(:json_archival_object, :title => 'Initial title')
-    ao = ArchivalObject.create_from_json(json, :repo_id => $repo_id)
-
-    json[:title] = 'Modified title'
-    json[:lock_version] = 0
-    ao.update_from_json(json)
-
-    expect(ArkName.where(:archival_object_id => ao.id).count).to eq(1)
-
-    ao.delete
-  end
-
 end
