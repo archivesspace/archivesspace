@@ -67,6 +67,33 @@ describe 'Accessibility', js: true, db: 'accessibility' do
       end
     end
 
+    it 'should have role=button on datepicker day, month and year selectors' do
+      visit "/resources/1/edit#tree::resource_1"
+
+      page.has_no_css? ".datepicker"
+
+      date_field = find "input#resource_dates__0__begin_.date-field.initialised"
+      date_field.click
+
+      page.has_css? ".datepicker"
+
+      within ".datepicker" do
+        current_day = find "td.day.active"
+        expect(current_day).to have_xpath "self::td[@role='button']"
+
+        selection_bar = find ".datepicker-switch"
+        selection_bar.click
+
+        current_month = find "span.month.active"
+        expect(current_month).to have_xpath "self::span[@role='button']"
+
+        selection_bar = find ".datepicker-switch"
+        selection_bar.click
+
+        current_year = find "span.year.active"
+        expect(current_year).to have_xpath "self::span[@role='button']"
+      end
+    end
   end
 
   context 'Advanced search' do
