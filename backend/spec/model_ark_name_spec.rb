@@ -58,6 +58,202 @@ describe 'ArkName model' do
       expect(ark).to eq(json['ark_name']['current'])
     end
 
+    it "does not mint an ARK when a resource with a valid ARK is updated" do
+      obj = create_resource
+      original_ark = ArkName.find(:resource_id => obj.id, :is_current => 1).value
+
+      obj.update_from_json(Resource.to_jsonmodel(obj))
+
+      after_update_ark = ArkName.find(:resource_id => obj.id, :is_current => 1).value
+
+      expect(after_update_ark).to eq(original_ark)
+    end
+
+    it "mints an ARK when a resource with an invalid ARK is updated" do
+      obj = create_resource
+      original_ark = ArkName.find(:resource_id => obj.id, :is_current => 1).value
+
+      ark_naan = AppConfig[:ark_naan]
+      AppConfig[:ark_naan] = ark_naan + 'DIFFERENT'
+
+      obj.update_from_json(Resource.to_jsonmodel(obj))
+
+      after_update_ark = ArkName.find(:resource_id => obj.id, :is_current => 1).value
+
+      expect(after_update_ark).to_not eq(original_ark)
+      old_arks = ArkName.where(:resource_id => obj.id, :is_current => 0)
+
+      expect(old_arks.count).to eq(1)
+      expect(old_arks.first.value).to eq(original_ark)
+
+      AppConfig[:ark_naan] = ark_naan
+    end
+
+    it "provides the current ARK and a list of previous ARKs in the json for a record" do
+      obj = create_resource
+      original_ark = ArkName.find(:resource_id => obj.id, :is_current => 1).value
+
+      ark_naan = AppConfig[:ark_naan]
+      AppConfig[:ark_naan] = ark_naan + 'DIFFERENT'
+      obj.update_from_json(Resource.to_jsonmodel(obj))
+
+      AppConfig[:ark_naan] = ark_naan + 'VERYDIFFERENT'
+      obj = Resource[obj.id]
+      obj.update_from_json(Resource.to_jsonmodel(obj))
+
+      json = Resource.to_jsonmodel(obj)
+
+      expect(json.ark_name['current'].class).to eq(String)
+      expect(json.ark_name['previous'].length).to eq(2)
+
+      AppConfig[:ark_naan] = ark_naan
+    end
+
+
+    describe('using the ArchivesSpace minter') do
+      around(:all) do |all|
+        minter = AppConfig[:ark_minter]
+        AppConfig[:ark_minter] = :archivesspace_ark_minter
+        all.run
+        AppConfig[:ark_minter] = minter
+      end
+
+      describe('with ARK shoulders disabled') do
+        around(:all) do |all|
+          shoulder = AppConfig[:ark_enable_repository_shoulder]
+          AppConfig[:ark_enable_repository_shoulder] = false
+          all.run
+          AppConfig[:ark_enable_repository_shoulder] = shoulder
+        end
+
+        it "mints an ARK using the ark_name id and honoring url prefix and naan" do
+          obj = create_resource
+          ark_obj = ArkName.first(:resource_id => obj.id)
+
+          expect(ark_obj.value).to match(/^#{AppConfig[:ark_url_prefix]}\/ark:\/#{AppConfig[:ark_naan]}\/#{ark_obj.id.to_s}$/)
+        end
+
+      end
+
+      describe('with ARK shoulders enabled') do
+        around(:all) do |all|
+          shoulder = AppConfig[:ark_enable_repository_shoulder]
+          AppConfig[:ark_enable_repository_shoulder] = true
+          all.run
+          AppConfig[:ark_enable_repository_shoulder] = shoulder
+        end
+
+        it "mints an ARK including a shoulder set on the repo" do
+          shoulder = 'PADS'
+          repo_id = make_test_repo
+
+          Repository[repo_id].update(:ark_shoulder => shoulder)
+
+          RequestContext.open(:repo_id => repo_id) do
+            obj = create_resource
+            ark = ArkName.first(:resource_id => obj.id).value
+
+            expect(ark).to match(/^#{AppConfig[:ark_url_prefix]}\/ark:\/#{AppConfig[:ark_naan]}\/#{shoulder}/)
+          end
+        end
+
+        describe('with a shoulder delimiter specified') do
+          around(:all) do |all|
+            delimiter = AppConfig[:ark_shoulder_delimiter]
+            AppConfig[:ark_shoulder_delimiter] = '---'
+            all.run
+            AppConfig[:ark_shoulder_delimiter] = delimiter
+          end
+
+          it "mints an ARK including a shoulder set on the repo" do
+            shoulder = 'PADS'
+            repo_id = make_test_repo
+
+            Repository[repo_id].update(:ark_shoulder => shoulder)
+
+            RequestContext.open(:repo_id => repo_id) do
+              obj = create_resource
+              ark = ArkName.first(:resource_id => obj.id).value
+
+              expect(ark).to match(/^#{AppConfig[:ark_url_prefix]}\/ark:\/#{AppConfig[:ark_naan]}\/#{shoulder}#{AppConfig[:ark_shoulder_delimiter]}/)
+            end
+          end
+        end
+      end
+    end
+
+
+    describe('using the Smithsonian minter') do
+      around(:all) do |all|
+        minter = AppConfig[:ark_minter]
+        AppConfig[:ark_minter] = :smithsonian_ark_minter
+        all.run
+        AppConfig[:ark_minter] = minter
+      end
+
+      describe('with ARK shoulders disabled') do
+        around(:all) do |all|
+          shoulder = AppConfig[:ark_enable_repository_shoulder]
+          AppConfig[:ark_enable_repository_shoulder] = false
+          all.run
+          AppConfig[:ark_enable_repository_shoulder] = shoulder
+        end
+
+        it "mints an ARK using a UUID and honoring url prefix and naan" do
+          obj = create_resource
+          ark = ArkName.first(:resource_id => obj.id).value
+
+          expect(ark).to match(/^#{AppConfig[:ark_url_prefix]}\/ark:\/#{AppConfig[:ark_naan]}\/\h{8}-\h{4}-\h{4}-\h{4}-\h{12}$/)
+        end
+      end
+
+      describe('with ARK shoulders enabled') do
+        around(:all) do |all|
+          shoulder = AppConfig[:ark_enable_repository_shoulder]
+          AppConfig[:ark_enable_repository_shoulder] = true
+          all.run
+          AppConfig[:ark_enable_repository_shoulder] = shoulder
+        end
+
+        it "mints an ARK including a shoulder set on the repo" do
+          shoulder = 'PADS'
+          repo_id = make_test_repo
+
+          Repository[repo_id].update(:ark_shoulder => shoulder)
+
+          RequestContext.open(:repo_id => repo_id) do
+            obj = create_resource
+            ark = ArkName.first(:resource_id => obj.id).value
+
+            expect(ark).to match(/^#{AppConfig[:ark_url_prefix]}\/ark:\/#{AppConfig[:ark_naan]}\/#{shoulder}/)
+          end
+        end
+
+        describe('with a shoulder delimiter specified') do
+          around(:all) do |all|
+            delimiter = AppConfig[:ark_shoulder_delimiter]
+            AppConfig[:ark_shoulder_delimiter] = '---'
+            all.run
+            AppConfig[:ark_shoulder_delimiter] = delimiter
+          end
+
+          it "mints an ARK including a shoulder set on the repo" do
+            shoulder = 'PADS'
+            repo_id = make_test_repo
+
+            Repository[repo_id].update(:ark_shoulder => shoulder)
+
+            RequestContext.open(:repo_id => repo_id) do
+              obj = create_resource
+              ark = ArkName.first(:resource_id => obj.id).value
+
+              expect(ark).to match(/^#{AppConfig[:ark_url_prefix]}\/ark:\/#{AppConfig[:ark_naan]}\/#{shoulder}#{AppConfig[:ark_shoulder_delimiter]}/)
+            end
+          end
+        end
+      end
+    end
+
 
     describe('with external ARKs disabled') do
       around(:all) do |all|
@@ -69,7 +265,7 @@ describe 'ArkName model' do
 
       it "ignores external_ark_url if given" do
         external_ark_url = "http://foo.bar/ark:/123/123"
-        obj = create_resource(external_ark_url: external_ark_url)
+        obj = create_resource(:external_ark_url => external_ark_url)
 
         obj = create_resource()
         json = Resource.to_jsonmodel(obj)
@@ -92,7 +288,7 @@ describe 'ArkName model' do
       it "external_ark_url applies if defined" do
         external_ark_url = "http://foo.bar/ark:/123/123"
 
-        resource = create_resource(external_ark_url: external_ark_url)
+        resource = create_resource(:external_ark_url => external_ark_url)
 
         ark = ArkName.first(:resource_id => resource.id).value
 
