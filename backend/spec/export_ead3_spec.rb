@@ -209,11 +209,7 @@ describe "EAD3 export mappings" do
 
       as_test_user("admin", true) do
         load_export_fixtures
-        AppConfig[:arks_enabled] = true
         @doc = get_xml("/repositories/#{$repo_id}/resource_descriptions/#{@resource.id}.xml?include_unpublished=true&include_daos=true&ead3=true")
-        AppConfig[:arks_enabled] = false
-        @doc_ark_disabled = get_xml("/repositories/#{$repo_id}/resource_descriptions/#{@resource.id}.xml?include_unpublished=true&include_daos=true")
-        AppConfig[:arks_enabled] = true
         @doc_nsless = Nokogiri::XML::Document.parse(@doc.to_xml)
         @doc_nsless.remove_namespaces!
         raise Sequel::Rollback
@@ -247,12 +243,6 @@ describe "EAD3 export mappings" do
 
     it "maps resource.ead_id to recordid" do
       mt(@resource.ead_id, "control/recordid")
-    end
-
-    it "maps resource.ead_location to recordid/@instanceurl" do
-      if !AppConfig[:arks_enabled]
-        mt(@resource.ead_location, "control/recordid", 'instanceurl')
-      end
     end
 
     it "maps resource.finding_aid_title to filedesc/titlestmt/titleproper" do
@@ -1579,6 +1569,102 @@ describe "EAD3 export mappings" do
 
     it "puts <rightsdeclaration> after <conventiondeclaration>" do
       expect(@doc).to have_tag "xmlns:conventiondeclaration/following-sibling::xmlns:rightsdeclaration"
+    end
+  end
+
+  describe "ARKs" do
+    def get_xml_doc
+      as_test_user("admin") do
+        DB.open(true) do
+          doc_for_resource = get_xml("/repositories/#{$repo_id}/resource_descriptions/#{@resource.id}.xml?include_unpublished=true&include_daos=true&ead3=true", true)
+
+          doc_nsless_for_resource = Nokogiri::XML::Document.parse(doc_for_resource)
+          doc_nsless_for_resource.remove_namespaces!
+
+          return doc_nsless_for_resource
+        end
+      end
+    end
+
+    before(:all) do
+      @pre_arks_enabled = AppConfig[:arks_enabled]
+
+      AppConfig[:arks_enabled] = true
+      RequestContext.open(:repo_id => $repo_id) do
+        as_test_user('admin', true) do
+          RSpec::Mocks.with_temporary_scope do
+            # EAD export normally tries the search index first, but for the tests we'll
+            # skip that since Solr isn't running.
+            allow(Search).to receive(:records_for_uris) do |*|
+              {'results' => []}
+            end
+
+            @resource = create(:json_resource)
+            @child = create(:json_archival_object_normal, :resource => {:ref => @resource.uri})
+
+            # Change the ARK-naan to populate a second ARK for the records
+            # and create a "historic" ARK
+            pre_ark_naan = AppConfig[:ark_naan]
+            AppConfig[:ark_naan] = SecureRandom.hex
+            ArkName.ensure_ark_for_record(Resource[@resource.id], nil)
+            ArkName.ensure_ark_for_record(ArchivalObject[@child.id], nil)
+            AppConfig[:ark_naan] = pre_ark_naan
+
+            @xml_with_arks_enabled = get_xml_doc
+
+            @resource_json = Resource.to_jsonmodel(@resource.id)
+            @child_json = ArchivalObject.to_jsonmodel(@child.id)
+
+            AppConfig[:arks_enabled] = false
+            @xml_with_arks_disabled = get_xml_doc
+
+            raise Sequel::Rollback
+          end
+        end
+      end
+    end
+
+    after(:all) do
+      AppConfig[:arks_enabled] = @pre_arks_enabled
+    end
+
+    describe("when enabled") do
+      it "maps ARK URL to eadid/@url" do
+        expect(@xml_with_arks_enabled.xpath('//control/recordid').first.get_attribute('instanceurl')).to eq(@resource_json.ark_name['current'])
+      end
+
+      it "includes current ARK as unitid for resource" do
+        expect(@xml_with_arks_enabled.xpath('//archdesc/did/unitid[@localtype="ark"]').length).to eq(1)
+        expect(@xml_with_arks_enabled.xpath('//archdesc/did/unitid[@localtype="ark"]/ref').first.get_attribute('href')).to eq(@resource_json.ark_name['current'])
+      end
+
+      it "includes previous ARK as unitid for resource" do
+        expect(@xml_with_arks_enabled.xpath('//archdesc/did/unitid[@localtype="ark-superseded"]').length).to eq(1)
+        expect(@xml_with_arks_enabled.xpath('//archdesc/did/unitid[@localtype="ark-superseded"]/ref').first.get_attribute('href')).to eq(@resource_json.ark_name['previous'].first)
+      end
+
+      it "includes current ARK as unitid for archival object" do
+        expect(@xml_with_arks_enabled.xpath('//archdesc/dsc/c/did/unitid[@localtype="ark"]').length).to eq(1)
+        expect(@xml_with_arks_enabled.xpath('//archdesc/dsc/c/did/unitid[@localtype="ark"]/ref').first.get_attribute('href')).to eq(@child_json.ark_name['current'])
+      end
+
+      it "includes previous ARK as unitid for archival object" do
+        expect(@xml_with_arks_enabled.xpath('//archdesc/dsc/c/did/unitid[@localtype="ark-superseded"]').length).to eq(1)
+        expect(@xml_with_arks_enabled.xpath('//archdesc/dsc/c/did/unitid[@localtype="ark-superseded"]/ref').first.get_attribute('href')).to eq(@child_json.ark_name['previous'].first)
+      end
+    end
+
+    describe("when disabled") do
+      it "maps resource.ead_location to eadid/@url" do
+        expect(@xml_with_arks_disabled.xpath('//control/recordid').first.get_attribute('instanceurl')).to eq(@resource_json.ead_location)
+      end
+
+      it "doesn't include any unitid/@localtype of 'ark' or 'ark-superseded'" do
+        expect(@xml_with_arks_disabled.xpath('//archdesc/did/unitid[@localtype="ark"]').length).to eq(0)
+        expect(@xml_with_arks_disabled.xpath('//archdesc/did/unitid[@localtype="ark-superseded"]').length).to eq(0)
+        expect(@xml_with_arks_disabled.xpath('//archdesc/dsc/c/did/unitid[@localtype="ark"]').length).to eq(0)
+        expect(@xml_with_arks_disabled.xpath('//archdesc/dsc/c/did/unitid[@localtype="ark-superseded"]').length).to eq(0)
+      end
     end
   end
 end
