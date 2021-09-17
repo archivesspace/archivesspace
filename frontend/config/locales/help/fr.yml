@@ -156,4 +156,17 @@ fr:
       agent_conventions_declarations: Aide sur les déclarations de conventions d'agent
       agent_alternate_sets: Aide sur les ensembles alternatifs d'agent
       agent_record_controls: Aide sur les contrôles d'enregistrement des agents
+      agent_identifiers: Help on Entity IDs
+      agent_genders: Help on Genders
+      agent_place: Help on Places
+      agent_occupation: Help on Occupations
+      agent_function: Help on Functions
+      agent_topic: Help on Topics
+      agent_used_language: Help on Used Language
+      agent_external_documents: Help on External Documents
+      agent_external_resources: Help on Related External Resources
+      agent_related_agents: Help on Related Agents
+      agent_required: Help on Edit Required Fields
+      agent_merge: Help on Agent Merging
+
       preference: Aide sur les préférences

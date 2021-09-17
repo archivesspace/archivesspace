@@ -399,15 +399,19 @@ fr:
 
   agent_person:
     _singular: Personne
+    _plural: People
 
   agent_family:
     _singular: Famille
+    _plural: Families
 
   agent_corporate_entity:
     _singular: Personne morale
+    _plural: Organizations
 
   agent_software:
     _singular: Logiciel
+    _plural: Software
 
   components: {}
   instance:

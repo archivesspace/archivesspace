@@ -6,6 +6,7 @@ ja:
     export_marc_auth: MARCXMLAuthorityをダウンロードする
     add: 追加
     add_event: イベントを追加
+    add_event_event_type: Type
     automate: 自動的に生成する
     batch: バッチ
     browse: ブラウズ
@@ -75,6 +76,8 @@ ja:
     transfer_failed: 転送に失敗しました
     transfer_failed_records_using_digital_objects: 次のレコードは、転送されるデジタルオブジェクトにリンクしますが、そのようにすると、インスタンスリンクが破損します
     transfer_failed_digital_objects_linked_to_records: 「このデジタルオブジェクトは、このリポジトリに保持されている他のレコードにリンクしています。この転送を続行するには、次のレコードのリンクを削除してください」
+    transfer_failed_top_containers_in_use: "The following top containers are linked to other top-level records in this repository, and cannot be transferred until those links are severed"
+    transfer_failed_barcodes_in_use: "The following top containers use barcodes that are used in the target repository, and cannot be transferred until those conflicts are fixed"
     unset_default: 既定の設定を解除する
     unsuppress: 抑止力
     unsuppress_confirm_title: この記録を抑止しますか？
@@ -107,6 +110,7 @@ ja:
     export_marc: MARCXMLをダウンロード
     export_dc: DCをダウンロード
     export_csv: CSVをダウンロード
+    container_template: Download Container Template
     loading: 読み込んでいます...
     revert: 変更を元に戻す
     finish_editing: レコードを閉じる
@@ -670,6 +674,7 @@ ja:
 
   errors:
     merge_denied_for_system_user: 1人以上のエージェントがシステムユーザーです。
+    merge_denied_relationship: These agents have a relationship. Remove relationship before proceeding with merge.
     merge_restricted_contact_details: 1つ以上のエージェントに、アクセスする権限がない連絡先の詳細があるため、マージを完了できません。
     sidebar_label: エラーと警告
     error_403: ページにアクセスできない
@@ -681,6 +686,7 @@ ja:
     merge_too_many_victims: 詳細なマージのために選択できるエージェントは1つだけです.
     merge_different_types: 詳細なマージのために選択されたエージェントは、同じタイプでなければなりません.
     linked_to_assessment: レコードは評価にリンクされているため削除できません
+    cannot_delete_repository_agent: This agent is linked to a repository and can't be removed.
 
   accession:
     _frontend:
@@ -1072,6 +1078,9 @@ ja:
         expand: 展開する
         collapse: 崩壊
         apply_note_order: スタンダードノートオーダーを適用する
+      note_outline:
+        placeholder: Add Note Text
+        empty_level: Empty Level -- Use buttons above to add new items or sublevels
 
   related_accession:
     _frontend:
@@ -1194,6 +1203,7 @@ ja:
         merged: 結合された主題
         merge_description: 次のサブジェクトを選択してマージする
         please_select_a_subject_to_merge: 件名を選択してください
+        delete_conflict: "Subject could not be deleted: <pre>%{error}</pre>"
       section:
         basic_information: 基本情報
         terms: 用語と細分
@@ -1205,6 +1215,8 @@ ja:
 
   user:
     is_active_user: アクティブユーザー
+    active: "true"
+    inactive: "false"
     _frontend:
       messages:
         access_denied: アクセスが拒否されました。この操作を実行するには、管理ユーザーとしてログインします。
@@ -1227,10 +1239,11 @@ ja:
         create_account: アカウントを作成する
         update_account: アカウントを更新する
         create: ユーザーを作成
-        hide_inactive: 非アクティブなユーザーを非表示
+        edit: Edit User
         show_inactive: 非アクティブなユーザーを表示
         deactivate_user: 無効化
         activate_user: アクティベート
+        show_active: Show Active Users
 
   user_defined:
     _frontend:
@@ -1806,6 +1819,7 @@ ja:
         drag_drop: ここにドラッグ＆ドロップファイル
         clip_btn: クリップボードにコピー
         only_validate: 検証のみ
+        link_top_containers: Link Top Containers
       messages:
         missing_file: あなたは、ファイルを追加していません
         not_excel: 選択したファイルは、Excelスプレッドシートではありません
@@ -2868,3 +2882,31 @@ ja:
   note_contact_note:
     contact_notes_tooltip: "<p>連絡先とのやり取りに関する詳細</p>"
     date_of_contact_tooltip: "<p>インタラクションの特定の日付または時間枠を記録するために使用されます</p>"
+
+  metadata_rights_declaration: &metadata_rights_declaration_attributes
+    _plural: Metadata Rights Declarations
+    _singular: Metadata Rights Declaration
+    _frontend:
+      action:
+        add: Add Metadata Rights Declaration
+    license: License
+    descriptive_note: Descriptive Note
+    file_uri: File URI
+    xlink_title_attribute: Xlink Title Attribute
+    xlink_role_attribute: Xlink Role Attribute
+    xlink_arcrole_attribute: Xlink Arcrole Attribute
+    file_version_xlink_actuate_attribute: Xlink Actuate Attribute
+    file_version_xlink_show_attribute: Xlink Show Attribute
+    last_verified_date: Last Verified Date
+
+  metadata_rights_declarations:
+    <<: *metadata_rights_declaration_attributes
+
+  metadata_rights_declaration_required:
+    <<: *metadata_rights_declaration_attributes
+
+  metadata_rights_declaration_merge_target:
+    <<: *metadata_rights_declaration_attributes
+
+  metadata_rights_declaration_merge_victim:
+    <<: *metadata_rights_declaration_attributes

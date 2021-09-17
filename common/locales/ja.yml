@@ -74,6 +74,8 @@ ja:
     external_documents_tooltip: "<p>ドナーファイル、処理計画など、他の説明または管理システムの情報へのリンク</p>"
     rights_statements_tooltip: "<p>記載されている資料の権利状態に関する情報、および表示されている特定の制限または許可があるかどうか。
       </p>"
+    metadata_rights_declarations_tooltip: |
+        <p>Based on DACS 8.2 and 13.11</p>
     instances_tooltip: "<p>説明を素材の物理的またはデジタル的なインスタンス化に関する情報にリンクします。 </p>"
     deaccessions_tooltip: "<p>分別され廃棄された可能性のある資料、ドナーに返却された資料、または別の機関に移管された資料に関する情報を記録する。
       </p>"
@@ -463,7 +465,7 @@ ja:
     script: 脚本
     script_tooltip: "<p>名前フォームの記録に使用されるスクリプトを示します。例：キリル文字（Каспаров、Г.К。（ГарриКимович）の場合）</p>"
     transliteration: 文字変換
-    transliteration_tooltip: "<p>名前フォームの記録に使用される音訳スキームを示します。</p>"   
+    transliteration_tooltip: "<p>名前フォームの記録に使用される音訳スキームを示します。</p>"
     software_name: ソフトウェア名
     software_name_tooltip: "<p>ソフトウェアパッケージの名前。 </p><p>例： </p><ul><li> Photoshop <em>（Adobe
       Photoshop CS3用）</em> </li><li>バガー<em>（議会図書館バガー2.1.2用）</em> </li></ul>"
@@ -576,6 +578,11 @@ ja:
     date: 日付
     dates: 日付
     ref: 関連エージェント
+    relationship_type_tooltip: A controlled term describing, in broad terms, the nature of the relationship between the primary agent and the related agent.
+    specific_relator_tooltip: A controlled term more specifically describing the nature of the relationship between the primary agent and the related agent.
+    relationship_uri_tooltip: A URI that points to an entry in an ontology or other resource for types of relationships between agents. Primarily used for the purposes of EAC-CPF.
+    description_tooltip: A free text description of the nature of the relationship.
+    related_agent_tooltip: The person, family, or corporate entity related to the primary agent.
 
   agent_relationship_parentchild:
     relator: 関係タイプ
@@ -589,6 +596,11 @@ ja:
     relationship_uri: 関係URI
     relator_tooltip: 関係を説明する特定の修飾子。
     _plural: 関連エージェント
+    related_agent_tooltip: The person, family, or corporate entity related to the primary agent.
+    description_tooltip: A free text description of the nature of the relationship.
+    relationship_uri_tooltip: A URI that points to an entry in an ontology or other resource for types of relationships between agents. Primarily used for the purposes of EAC-CPF.
+    specific_relator_tooltip: A controlled term more specifically describing the nature of the relationship between the primary agent and the related agent.
+    relationship_type_tooltip: A controlled term describing, in broad terms, the nature of the relationship between the primary agent and the related agent.
 
   agent_relationship_earlierlater:
     relator: 関係タイプ
@@ -602,6 +614,11 @@ ja:
     relationship_uri: 関係URI
     relator_tooltip: 関係を説明する特定の修飾子。
     _plural: 関連エージェント
+    related_agent_tooltip: The person, family, or corporate entity related to the primary agent.
+    description_tooltip: A free text description of the nature of the relationship.
+    relationship_uri_tooltip: A URI that points to an entry in an ontology or other resource for types of relationships between agents. Primarily used for the purposes of EAC-CPF.
+    specific_relator_tooltip: A controlled term more specifically describing the nature of the relationship between the primary agent and the related agent.
+    relationship_type_tooltip: A controlled term describing, in broad terms, the nature of the relationship between the primary agent and the related agent.
 
   agent_relationship_subordinatesuperior:
     relator: 関係タイプ
@@ -615,6 +632,11 @@ ja:
     relationship_uri: 関係URI
     relator_tooltip: 関係を説明する特定の修飾子。
     _plural: 関連エージェント
+    related_agent_tooltip: The person, family, or corporate entity related to the primary agent.
+    description_tooltip: A free text description of the nature of the relationship.
+    relationship_uri_tooltip: A URI that points to an entry in an ontology or other resource for types of relationships between agents. Primarily used for the purposes of EAC-CPF.
+    specific_relator_tooltip: A controlled term more specifically describing the nature of the relationship between the primary agent and the related agent.
+    relationship_type_tooltip: A controlled term describing, in broad terms, the nature of the relationship between the primary agent and the related agent.
 
   agent_relationship_associative:
     relator: 関係タイプ
@@ -628,6 +650,12 @@ ja:
     relationship_uri: 関係URI
     relator_tooltip: 関係を説明する特定の修飾子。
     _plural: 関連エージェント
+    related_agent_tooltip: The person, family, or corporate entity related to the primary agent.
+    description_tooltip: A free text description of the nature of the relationship.
+    relationship_uri_tooltip: A URI that points to an entry in an ontology or other resource for types of relationships between agents. Primarily used for the purposes of EAC-CPF.
+    specific_relator_tooltip: A controlled term more specifically describing the nature of the relationship between the primary agent and the related agent.
+    relationship_type_tooltip: A controlled term describing, in broad terms, the nature of the relationship between the primary agent and the related agent.
+
   agent_relationship_identity:
     relationship_type: 一般的な関係タイプ
     relator: 方向関係タイプ
@@ -640,6 +668,12 @@ ja:
     ref: 関連エージェント
     _singular: リレーターで特定されたエージェントの関係
     _plural: 関連エージェント
+    related_agent_tooltip: The person, family, or corporate entity related to the primary agent.
+    description_tooltip: A free text description of the nature of the relationship.
+    relationship_uri_tooltip: A URI that points to an entry in an ontology or other resource for types of relationships between agents. Primarily used for the purposes of EAC-CPF.
+    specific_relator_tooltip: A controlled term more specifically describing the nature of the relationship between the primary agent and the related agent.
+    relationship_type_tooltip: A controlled term describing, in broad terms, the nature of the relationship between the primary agent and the related agent.
+
   agent_relationship_hierarchical:
     relationship_type: 一般的な関係タイプ
     relator: 方向関係タイプ
@@ -652,6 +686,12 @@ ja:
     ref: 関連エージェント
     _singular: エージェント関係階層関係
     _plural: 関連エージェント
+    related_agent_tooltip: The person, family, or corporate entity related to the primary agent.
+    description_tooltip: A free text description of the nature of the relationship.
+    relationship_uri_tooltip: A URI that points to an entry in an ontology or other resource for types of relationships between agents. Primarily used for the purposes of EAC-CPF.
+    specific_relator_tooltip: A controlled term more specifically describing the nature of the relationship between the primary agent and the related agent.
+    relationship_type_tooltip: A controlled term describing, in broad terms, the nature of the relationship between the primary agent and the related agent.
+
   agent_relationship_temporal:
     relationship_type: 一般的な関係タイプ
     relator: 方向関係タイプ
@@ -664,6 +704,12 @@ ja:
     ref: 関連エージェント
     _singular: エージェント関係時間的関係者
     _plural: 関連エージェント
+    related_agent_tooltip: The person, family, or corporate entity related to the primary agent.
+    description_tooltip: A free text description of the nature of the relationship.
+    relationship_uri_tooltip: A URI that points to an entry in an ontology or other resource for types of relationships between agents. Primarily used for the purposes of EAC-CPF.
+    specific_relator_tooltip: A controlled term more specifically describing the nature of the relationship between the primary agent and the related agent.
+    relationship_type_tooltip: A controlled term describing, in broad terms, the nature of the relationship between the primary agent and the related agent.
+
   agent_relationship_family:
     relationship_type: 一般的な関係タイプ
     relator: 方向関係タイプ
@@ -676,6 +722,12 @@ ja:
     ref: 関連エージェント
     _singular: エージェント関係関連の関係者
     _plural: 関連エージェント
+    related_agent_tooltip: The person, family, or corporate entity related to the primary agent.
+    description_tooltip: A free text description of the nature of the relationship.
+    relationship_uri_tooltip: A URI that points to an entry in an ontology or other resource for types of relationships between agents. Primarily used for the purposes of EAC-CPF.
+    specific_relator_tooltip: A controlled term more specifically describing the nature of the relationship between the primary agent and the related agent.
+    relationship_type_tooltip: A controlled term describing, in broad terms, the nature of the relationship between the primary agent and the related agent.
+
 
   note:
     item: 項目
@@ -889,6 +941,10 @@ ja:
     _plural: 言語
     _singular: 言語
 
+  language:
+    _plural: Languages
+    _singular: Language
+
   language_and_script:
     <<: *lang_material_attributes
     language: 言語
@@ -1036,6 +1092,16 @@ ja:
 
   date_fields:
     <<: *date_attributes
+    date_calendar_tooltip: |
+        <p>System of reckoning time, such as the Gregorian calendar or Julian calendar. The value "gregorian" is the default.</p>
+    date_era_tooltip: |
+        <p>Period during which years are numbered and dates reckoned, such as B.C. or C.E. The value "ce" is the default.</p>
+    date_certainty_tooltip: |
+        <p>The level of confidence for the information given in a date statement. This information is optional and should only be added when qualifying date information as potentially uncertain based upon the description or cataloging rules in use.</p>
+    date_type_structured_tooltip: |
+        <p>Indicates the type for date information, either a single date or a date range.</p>
+    date_label_tooltip: |
+        <p>Describes what type of activity the date signifies</p>
 
   accession:
     <<: [*section_tooltips, *slug_attributes]
@@ -1070,6 +1136,8 @@ ja:
     inventory: 目録
     inventory_tooltip: "<p>アクセス権を構成するコンテナとその内容のリスト。ボックスリストは、フィールドで構成したり、フィールドにコピーして貼り付けたり、外部文書として参照したりすることができます。外部文書への参照は、ここまたは外部文書サブレコードに記録することができます。
       </p><p>例： </p><ul><li>ボックス1：日記</li><li>ボックス2：スミス氏の家族への手紙</li><li>ボックス3：牧場従業員の個人記録</li><li>ボックス4：牧場地図の下書き</li></ul>"
+    metadata_rights_declarations_tooltip: |
+        <p>Based on DACS 8.2 and 13.11</p>
     provenance: 出所
     provenance_tooltip: "<p>保管に関する履歴、詳細な取得情報など、アクセスに関する情報を提供する注記</p><p>DACS 5.1-5.2を参照</p>"
     retention_rule: 保存ルール
@@ -1113,6 +1181,10 @@ ja:
     related_resources_tooltip: "<p>関連付けられたリソースをこのアクセッションにリンクするために使用されます。 </p>"
     relator: 報告者
     relator_type: リレータイプ
+    created_by: Created by
+    last_modified_by: Last modified by
+    create_time: Created
+    user_mtime: Modified
     _singular: 受託
     _plural: 受託
 
@@ -1155,7 +1227,7 @@ ja:
     used_languages_tooltip: エージェントに関連付けられている言語。例：英語。
     agent_resources_tooltip: エージェントに関連するリソースおよびその他のレコード。
     related_agent_tooltip: エージェントとの関係を持つ他のエージェントをリンクし、関係の性質を示すために使用されます。
-    publish_tooltip: "<p>エージェントがエクスポートに含まれ、パブリックインターフェイスに公開されているかどうかを示します（使用されている場合）</p>"   
+    publish_tooltip: "<p>エージェントがエクスポートに含まれ、パブリックインターフェイスに公開されているかどうかを示します（使用されている場合）</p>"
     type: エージェントの種類
     type_tooltip: "<p>エージェントレコードによって表されるエンティティのタイプ。 </p><p>DACS 10.2およびPREMISエージェントエンティティを参照</p>"
     agent_type:
@@ -1212,6 +1284,8 @@ ja:
     level: 説明のレベル
     level_tooltip: "<p>必要なフィールド。を示します。説明されている材料の階層レベル。 </p><p>DACS第1章を参照してください</p><p>値はEADスキーマによって規定されます。
       </p>"
+    metadata_rights_declarations_tooltip: |
+        <p>Based on DACS 8.2 and 13.11</p>
     other_level: その他のレベル
     other_level_tooltip: "<p>「その他のレベル」が「レベル」で選択された値であれば、必要なフィールド。 EADスキーマで指定された値の範囲外のレベルのタイプを表現します。
       </p>"
@@ -1352,8 +1426,18 @@ ja:
     finding_aid_note: 援助ノートを探す
     finding_aid_note_tooltip: "<p>他の救済援助データ要素によってカバーされていない救済援助に関する追加情報（記述された資源ではない）を記録するため。
       </p>"
+    metadata_rights_declarations_tooltip: |
+        <p>Based on DACS 8.2 and 13.11</p>
+    created_by: Created by
+    last_modified_by: Last modified by
+    create_time: Created
+    user_mtime: Modified
     _singular: リソース
     _plural: リソース
+
+  resource_and_archival_object:
+    _singular: Resource and/or Archival Object
+    _plural: Resources and/or Archival Objects
 
   related_accession:
     _singular: 関連するアクセス権
@@ -1690,6 +1774,8 @@ ja:
     sponsor_set_desc_required: OAIスポンサーセットを作成するにはスポンサーセットの説明が必要です
     sponsor_set_name_required: OAIスポンサーセットを作成するにはスポンサーセット名が必要です
     invalid_characters: 無効な文字が含まれています
+    subrecord_not_allowed_for_agent_software: "Software Agents cannot have record control or relation subrecords"
+
 
   job:
     _singular: バックグラウンドジョブ
@@ -1707,6 +1793,7 @@ ja:
       trim_whitespace_job: 空白をトリム
       unknown_job_type: 不明なジョブタイプ
       bulk_import_job: スプレッドシートを介してロード
+      top_container_linker_job: Top Container Linker
     status: 状態
     status_completed: 完了しました
     status_queued: 待機中
@@ -1758,6 +1845,15 @@ ja:
   print_to_pdf_job:
     include_unpublished: 未公開を含める
     source: ソース
+
+  top_container_linker_job:
+    _singular: Top Container Linker Job
+    filename: File
+    content_type: File Type
+    resource_id: Resource ID
+    load_type: Load Type
+    type:
+      top_container_linker_job: Top Container Linker
 
   bulk_import_job:
     resource_uri: リソースURI
@@ -2008,6 +2104,7 @@ ja:
     description: 説明
     record_type: レコードタイプ
     display: 表示？
+    limit: Limit
     narrow_by: 狭い？
     values: 値
     value: 値
@@ -2016,6 +2113,7 @@ ja:
     start_date: 開始日
     end_date: 終了日
     field: フィールド
+    include: Include
     _singular: カスタムレポートテンプレート
     _plural: カスタムレポートテンプレート
 
@@ -2115,6 +2213,7 @@ ja:
       no_data: いいえ加工データ行が見つかりませんでした！
       spreadsheet: "スプレッドシートの解析中にエラーが発生しました： %{errs}"
       no_agent: "%{num}エージェントを作成できません：[%{why}]"
+      find_tc: "Unable to find the Top Container with params: %{where}."
       no_tc: "%{number}トップコンテナを作成できません：[%{why}]"
       missing_instance_type: 不足しているコンテナインスタンスタイプ
       no_ao: ノーアーカイブオブジェクトが作成され
@@ -2149,6 +2248,7 @@ ja:
       wrong_file_type: "ファイルはExcelスプレッドシートでもCSVファイルでもありません"
       dig_obj_unique: "デジタルオブジェクトID '%{id}' もう存在している。"
       cannot: 以前のエラーのため続行できません
+      sc_barcode: "Can not find a Sub Container with this Child Barcode %{barcode}"
 
   dates_of_existence:
     _frontend:
@@ -2209,7 +2309,7 @@ ja:
     transliteration: 文字変換
     transliteration_tooltip: "<p>名前フォームの記録に使用される音訳スキームを示します。</p>"
     _singular: パラレルネーム
-    _plural: 並列名       
+    _plural: 並列名
 
   parallel_name_family:
     authority_id: 機関ID
@@ -2534,7 +2634,7 @@ ja:
     begin_date_standardized_type_tooltip: "<p>標準化された開始日が実際の日付を反映しているか、または発生した可能性のある最も早いまたは最も遅いものの見積もりを反映しているかどうかを示すために使用されます。</p>"
     end_date_expression_tooltip: "<p>日付範囲の終わりを指定する自然言語式。標準化された日付が記録されていない場合に必要です。</p>"
     end_date_standardized_tooltip: "<p>日付範囲の最後の日付を表す日付（YYYY、YYYY-MM、またはYYYY-MM-DDの形式）。</p>"
-    end_date_standardized_type_tooltip: "<p>標準化された終了日が実際の日付を反映しているか、または発生した可能性のある最も早いまたは最も遅いものの見積もりを反映しているかどうかを示すために使用されます。</p>"   
+    end_date_standardized_type_tooltip: "<p>標準化された終了日が実際の日付を反映しているか、または発生した可能性のある最も早いまたは最も遅いものの見積もりを反映しているかどうかを示すために使用されます。</p>"
 
   note_contact_note:
     label: ラベル
@@ -2554,6 +2654,10 @@ ja:
     subnotes: サブノート
     date_of_contact: 連絡日
     contact_notes: 連絡先
+    contact_notes_tooltip: |
+      <p>Details about the interaction with the contact</p>
+    date_of_contact_tooltip: |
+      <p>Used to record the specific date or timeframe of an interaction</p>
 
   related_agents:
     relationship_type: 一般的な関係タイプ
@@ -2567,6 +2671,11 @@ ja:
     ref: 関連エージェント
     _singular: 関連エージェント
     _plural: 関連エージェント
+    relationship_type_tooltip: A controlled term describing, in broad terms, the nature of the relationship between the primary agent and the related agent.
+    specific_relator_tooltip: A controlled term more specifically describing the nature of the relationship between the primary agent and the related agent.
+    relationship_uri_tooltip: A URI that points to an entry in an ontology or other resource for types of relationships between agents. Primarily used for the purposes of EAC-CPF.
+    description_tooltip: A free text description of the nature of the relationship.
+    related_agent_tooltip: The person, family, or corporate entity related to the primary agent.
 
   note_general_context:
     label: ラベル
@@ -2725,4 +2834,85 @@ ja:
     used_languages_tooltip: エージェントに関連付けられている言語。例：英語。
     agent_resources_tooltip: エージェントに関連するリソースおよびその他のレコード。
     related_agent_tooltip: エージェントとの関係を持つ他のエージェントをリンクし、関係の性質を示すために使用されます。
-    publish_tooltip: "<p>エージェントがエクスポートに含まれ、パブリックインターフェイスに公開されているかどうかを示します（使用されている場合）</p>"   
+    publish_tooltip: "<p>エージェントがエクスポートに含まれ、パブリックインターフェイスに公開されているかどうかを示します（使用されている場合）</p>"
+
+
+  top_container_linker:
+    error:
+      ref_id_miss: "Ref ID missing from spreadsheet in row %{row_num} ."
+      ao_not_in_db: "Can not find Archival Object %{ref_id} in the database in row %{row_num}."
+      instance_type_miss: "Instance Type missing from spreadsheet for row %{row_num} Archival Object %{ref_id}. "
+      instance_type_does_not_exist: "Instance Type %{instance_type} does not exist in the database (see row %{row_num} Archival Object %{ref_id}). "
+      tc_indicator_and_record_no_miss: "Either a Top Container Indicator or TC Record Number must be present for %{ref_id} in row %{row_num}."
+      tc_indicator_and_record_no_exist: "Only a Top Container Indicator OR TC Record Number can be present for %{ref_id} in row %{row_num}."
+      tc_barcode_exists: "The Top Container Barcode, %{barcode} already exists in the database (see  %{ref_id} in row %{row_num})."
+      tc_barcode_differs: "The Top Container Barcode, %{barcode} is different than another entry in your spreadsheet for %{type} %{indicator} (see  %{ref_id} in row %{row_num})."
+      tc_ind_ct_exists: "The Top Container Indicator and Container Type combo %{tc_type} %{indicator} already exists in the database for an AO in resource %{ead_id} (see  %{ref_id} in row %{row_num})."
+      sc_barcode_exists: "The Child Barcode, %{barcode} already exists in the database (see %{ref_id} in row %{row_num})."
+      sc_barcode_differs: "The Child Barcode, %{barcode} is different than another entry in your spreadsheet for %{type} %{indicator} (see  %{ref_id} in row %{row_num})."
+      loc_not_in_db: "The given Location ID, %{loc_id} cannot be found in the database (see %{ref_id} in row %{row_num})."
+      cp_not_in_db: "The given Container Profile ID, %{cp_id} cannot be found in the database (see %{ref_id} in row %{row_num})."
+      no_tc: "Unable to create Top Container (see %{ref_id} in row %{row_num}): [%{why}]"
+      problem_adding_current_location: "Problem adding the current location (see %{ref_id} in row %{row_num}): [%{why}]"
+      problem_setting_container_profile: "Problem setting the container profile (see %{ref_id} in row %{row_num}): [%{why}]"
+      error_linking_tc_to_ao: "There was a problem linking the Archival Object with the Top Container: %{why}"
+      ead_id_miss: "This row is missing an EAD ID: (see %{ref_id} in row %{row_num})"
+      tc_record_no_missing: "The Top Container ID cannot be found: %{tc_id} (see %{ref_id} in row %{row_num})"
+      resource_not_in_db: "Can not find Resource %{ead_id} in the database in row %{row_num}"
+      resources_do_not_match: "The resource in the spreadsheet %{spreadsheet_resource} (EAD ID: %{ead_id}) does not match the current resource %{current_resource} in row %{row_num}"
+      job_file_empty: "No file to process for top container linking"
+    log_creating_linker: "Creating new top container linker for repository: %{repo_id}"
+    log_validate_only: "Skipping creation and linking of top containers since validate only option is enabled."
+    log_skipping_due_to_errors: "Skipping creation and linking of top containers due to errors."
+    log_validating: "Validating spreadsheet data..."
+    log_creating_and_linking: "Creating and linking top containers..."
+
+  metadata_rights_declaration:
+    license_tooltip: |
+        <p>Name of the license (if any) that governs the conditions under which the metadata is available for use and reuse.  Examples:</p>
+        <p>This record is made available under an Universal 1.0 Public Domain Dedication Creative Commons license.</p>
+        <p>This record is made available under an Attribution-NonCommercial 4.0 International Creative Commons license.</p>
+        <p>This record is made available under an Attribution-NonCommercial-NoDerivatives 4.0 International Creative Commons license.</p>
+        <p>This record is made available under an Attribution-NoDerivatives 4.0 International Creative Commons license.</p>
+        <p>This record is made available under an Attribution-NonCommercial-ShareAlike 4.0 International Creative Commons license.</p>
+    descriptive_note_tooltip: |
+        <p>Unstructured information about the conditions under which the metadata is available for use and reuse.  Examples:</p>
+        <p>i. Copyright Smith College, 1985</p>
+        <p>ii. This finding aid may be reproduced for any purpose.</p>
+        <p>iii. This work has been dedicated to the public domain, meaning that you can copy, modify, distribute and perform the work, even for commercial purposes, all without asking permission.</p>
+        <p>iv. The biographical note is copyright Ted Smith, 2015.  All other metadata is licensed under CC BY 4.0.</p>
+    file_uri_tooltip: |
+        <p>A URI for the online location of the license or other published infomation about the conditions under which the metadata is available for use and reuse. Example: https://creativecommons.org/licenses/by/4.0/</p>
+    file_version_xlink_actuate_attribute_tooltip: |
+        <p>Indicates whether associated URI should be resolved when the Agent record is rendered.</p>
+    file_version_xlink_show_attribute_tooltip: |
+        <p>Indicates where the remote resource linked in the associated URI should be rendered.</p>
+    xlink_title_attribute_tooltip: |
+        <p>Title of the remote resources linked in the associated URI, which may be used as a caption.</p>
+    xlink_role_attribute_tooltip: |
+        <p>Type or nature of the remote resource linked in the associated URI.</p>
+    xlink_arcrole_attribute_tooltip: |
+        <p>Type or nature of the remote resource linked in the associated URI.</p>
+    last_verified_date_tooltip: |
+        <p>Last date or date and time the linked resource linked in the associated URI was verified.</p>
+
+  ratings:
+    _plural: Ratings
+  conservation_issues:
+    _plural: Conservation Issues
+  surveyed_by:
+    _plural: Surveyed By
+  reviewer:
+    _plural: Reviewers
+  formats:
+    _plural: Formats
+  creator:
+    _plural: Creators
+  owner_repo:
+    _plural: Reserved For
+  groups:
+    _plural: Groups
+  created_by: Created by
+  last_modified_by: Last modified by
+  create_time: Created
+  user_mtime: Modified
