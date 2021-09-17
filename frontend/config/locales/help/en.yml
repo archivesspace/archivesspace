@@ -135,7 +135,7 @@ en:
       agent_identifiers: Help on Entity IDs
       agent_genders: Help on Genders
       agent_place: Help on Places
-      agent_occupation: Help on Occupations 
+      agent_occupation: Help on Occupations
       agent_function: Help on Functions
       agent_topic: Help on Topics
       agent_used_language: Help on Used Language
@@ -173,4 +173,3 @@ en:
 
       # Preference
       preference: Help on Preferences
-      

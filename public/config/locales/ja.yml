@@ -4,10 +4,8 @@ ja:
   brand:
     title: ArchivesSpaceパブリックインターフェイス
     title_link_text: ArchivesSpaceのホームページに戻る
-    home: ホーム
     welcome_head: ArchivesSpaceへようこそ
     welcome_message: "<p>コレクション、デジタル資料などを検索します。 </p>"
-    welcome_search_label: あなたが探しているものを見つける：
     welcome_page_title: ArchivesSpaceパブリックインターフェイス
   actions:
     search: サーチ
@@ -16,10 +14,7 @@ ja:
     search_in: 検索%{type}
     new_search: 新しい検索
     refine_search: 絞り込み検索
-    browse: ブラウズ
     close: 閉じる
-    show_advanced_search: 高度な検索を表示する
-    hide_advanced_search: 高度な検索を隠す
     backup: 前のページに戻る
     backup_abbr: 戻る
     cite: 引用
@@ -31,8 +26,6 @@ ja:
     collection_overview: コレクションの概要
     hierarch: 収集組織
     numeric: コンテナインベントリ
-    detailed: 詳細な内容
-    record_details: レコードの詳細
     clipboard: クリップボードにコピー
     search_add_row: 検索行を追加する
     search_remove_row: 下の行を削除
@@ -56,7 +49,6 @@ ja:
   search-button:
     label: サーチ
   search-limit: "%{limit}"
-  search-limit-label: 検索を...に制限する
   search-limiting: "%{limit}"
   search-limits:
     all: すべてのレコードタイプ
@@ -72,25 +64,12 @@ ja:
     agents: コンテンツ制作者
   search-field: 検索フィールド
   searched-field: 検索%{field}
-  pagination:
-    first: 最初
-    last: 最終
-    previous: "«"
-    next: "»"
-    summary_prefix: 見せる
-    summary_offset_connector: "-"
-    summary_total_connector: の
-    summary_suffix: 結果
-    page_prefix: ページ
-    page_connector: の
+  pagination: {}
   search_results:
     page_title: 見つかった%{count}結果
     results_head: "%{type} ： %{start} - %{end}の%{total}"
     result: 結果
     results: 結果
-    head_prefix: 見つかった
-    head_suffix: 結果
-    searching: 検索
     search_for: 検索%{type}ここで%{conditions}
     keyword_contain: "<strong>キーワード</strong> ： <span class='searchterm'>%{kw}</span>"
     title_contain: "<strong>タイトルに</strong>は<span class='searchterm'>%{kw}</span>"
@@ -100,23 +79,13 @@ ja:
     identifier_contain: "<strong>識別子に</strong>は<span class='searchterm'>%{kw}</span>"
     four_part_id_contain: "<strong>識別子に</strong>は<span class='searchterm'>%{kw}</span>"
     in_repository: "<strong>%{name}</strong>"
-    year_range: "<strong>%{from_year}</strong>から<strong>%{to_year}</strong>"
     anything: "*"
     search_term: 検索語
-    title: すべてのレコード
     error: 予期しないエラーのために検索を完了できませんでした
     no_results: レコードが見つかりません
-    no_results_prefix: の検索結果はありませんでした
-    result_type: レコードタイプ
-    result_title: タイトル
     filter_by: フィルタリングする
     filtered_by: フィルタリングされた
     remove_filter: このフィルタを削除
-    modified: 変更された
-    created: 作成した
-    text_placeholder: テキストで絞り込む
-    clear_all: すべてクリア
-    component_switch: コンポーネントを含める
     more_facets: もっと
     fewer_facets: もっと少なく
     op:
@@ -168,24 +137,11 @@ ja:
   search_sorting:
     sort_by: 並び替え：
     sort: ソート
-    and: そして：
     asc: "（上昇）"
     desc: "（降順）"
     relevance: 関連性
     title_sort: タイトル
-    user_mtime: 変更された
-    primary_type: レコードタイプ
-    processing_priority: 優先
-    processing_status: 状態
-    parent_id: レコードタイプ
-    create_time: 作成した
-    authority_id: オーソリティID
-    source: ソース
-    rules: ルール
-    outcome: 結果
-    event_type: タイプ
     identifier: 識別
-    select: 選択
     year_sort: 年
     sorting: "%{type} %{direction}"
     classification_identifier: 識別
@@ -213,14 +169,11 @@ ja:
     'false': いいえ
   navbar:
     search_placeholder: 検索用語を入力してください
-    search_all: すべてのレコード
     error_no_term: 検索語が入力されていません。
-    search_terms_results: "{{search_terms}}の検索結果から{{number}}件の検索結果が見つかりました"
     toggle_navigation: Toggle Navigation
   internal_links:
     main: メインコンテンツ
     filter: 結果をフィルタリングする
-    collection: 収集組織
     search_collection: コレクション内で検索する
   accordion:
     expand: すべて展開
@@ -231,14 +184,8 @@ ja:
       AND: AND
       OR: OR
       NOT: NOT
-    button_text: サーチ
-    reset: クリア
-    nav_switcher:
-      show: 高度な表示
-      hide: 上級者を隠す
-    index_switcher:
-      show: 高度な検索を表示する
-      hide: 高度な検索を隠す
+    nav_switcher: {}
+    index_switcher: {}
   contains: "%{count} %{type}含みます%{type}"
   found: "%{count} %{type}見つかりました"
   coll_obj:
@@ -246,13 +193,11 @@ ja:
     _plural: コレクションおよび/またはレコード
   scope_note: スコープノート
   multiple_containers: 複数のコンテナ
-  inherited: "%{title} 、 %{display}"
   extent_number_type: "%{number} %{type}"
   extent_phys_details: "： %{deets}"
   extent_dims: "; %{dimensions}"
   external_docs: 外部ドキュメント
   more_about: もっと詳しく
-  listing: リスト
   list: "%{type}リスト"
   cont_arr: 収集組織
   dig_cont_arr: デジタルオブジェクトの組織
@@ -268,7 +213,6 @@ ja:
     _plural: 未加工材料
     _public:
       section:
-        summary: 概要
         acquisition_type: 獲得タイプ
         provenance: 出所
         language: 説明の言語
@@ -285,23 +229,10 @@ ja:
         forms_part_of: 部品の関係
         sibling_of: 兄弟関係
   archival_object:
-    _singular: アーカイブ記録
-    _plural: アーカイブの記録
     _public:
-      section:
-        components: コンポーネント
-        summary: 概要
-      messages:
-        no_components: アーカイブレコードにはコンポーネントがありません
+      section: {}
+      messages: {}
       header:
-        dates: 日付
-        lang: 言語
-        script: スクリプト
-        physdesc: 身体的特徴
-        storage: コンテナ情報
-        access: アクセスを管理する条件
-        use: 使用を管理する条件
-        component: 成分
         ref_id: 参照識別子
   archive:
     _singular: アーカイブ
@@ -330,14 +261,9 @@ ja:
       digital_object: デジタルオブジェクト
       physdesc: 身体的特徴
       storage: コンテナ情報
-      access: アクセスを管理する条件
-      use: 使用を管理する条件
       additional: 追加の説明
-      section:
-        components: コンポーネント
-        summary: 概要
-      messages:
-        no_components: リソースにはコンポーネントがありません
+      section: {}
+      messages: {}
       finding_aid:
         head: 援助と行政情報の検索
         title: タイトル
@@ -361,36 +287,24 @@ ja:
   top_container:
     _singular: コンテナ
     _plural: コンテナ
-  related_resource:
-    _singular: 関連コレクション
-    _plural: 関連コレクション
-  digital_object: &digital_object_attributes
+  related_resource: {}
+  digital_object:
     _singular: デジタルレコード
     _plural: デジタル素材
     _public:
       thumbnail: サムネイル
       link: デジタルオブジェクトへのリンク
       badge_label: デジタル%{level}
-      section:
-        components: コンポーネント
-        summary: 概要
-      messages:
-        no_components: デジタルオブジェクトにはコンポーネントがありません
+      section: {}
+      messages: {}
   digital_object_component:
     _public:
-      section:
-        components: コンポーネント
-        summary: 概要
-      messages:
-        no_components: デジタルオブジェクトコンポーネントにはコンポーネントがありません
+      section: {}
+      messages: {}
   subject:
     _singular: 件名
     _plural: 科目
-    used_within: 以内に使用
-  component:
-    _singular: 成分
-    _plural: コンポーネント
-  unprocessed: 未処理の素材
+  component: {}
   classification:
     _singular: レコードグループ
     _plural: レコードグループ
@@ -403,13 +317,11 @@ ja:
     _singular: レコードグループ期間
     _plural: レコードグループ規約
     identifier_separator: "/"
-  all_agents: 名前
   an_agent: 名
   pui_agent:
     _singular: 名
     _plural: 名前
     related: 関連する名前
-    creator: クリエイター
     parallel: 並列名
     also_known_as: 次の名前でも知られています
   record:
@@ -424,11 +336,8 @@ ja:
     _public:
       section:
         dates: 日付
-        summary: 概要
         other_names: 名前フォーム
-        other_names_preamble: 次の名前でも知られています。
         related_agents: 関連する名前
-        dates_of_existence: 日付
         related_agent_description: 説明
         related_agent_dates: 日付
   agent_person:
@@ -439,19 +348,12 @@ ja:
     _singular: 組織
   agent_software:
     _singular: ソフトウェア
-  components:
-    expand: 展開する
-    collapse: 崩壊
+  components: {}
   instance:
-    _public:
-      link_to_digital_object: レコードへのリンク
-  record_tree:
-    record_tree_tab: レコードツリー
-    search_tab: 検索コンポーネント
-  location: ロケーション
+    _public: {}
+  record_tree: {}
   description: 約
   contact: 接触
-  hours: 時間
   number_of: "%{type}数："
   parent_inst: 親機関
   email: メールを送る
@@ -467,21 +369,15 @@ ja:
     finding_aid_written_in: 書かれた援助を見つける
     your_finding_aid_pdf: "&quot; %{title} &quot;の検索援助PDF"
     your_finding_aid_is_attached: あなたが求めた援助が添付されています。
-    submit: 私にPDFを送ってください
-    description: このコレクションのPDF版を受け取るには、下にメールアドレスを入力してください。
-    coming_soon: PDFが生成され、準備ができたら電子メールで送信されます。
-    required: 必須
-    user_email: メールアドレス
   readmore:
     see_more: 続きを見る
     see_less: もっと見る
   skipnav:
     main_content: メインコンテンツへスキップ
-    sidebar: サイドバーにスキップ
     search: 検索にスキップする
     search_results: 検索結果にスキップする
   search_tab: 検索%{target}
-  
+
   agent_function:
     _singular: 関数
     _plural: 機能
@@ -501,28 +397,19 @@ ja:
     _singular: トピック
     _plural: トピック
   agent_record_identifier:
-    _plural: レコードID
-    _singular: レコードID
     _frontend:
-      action:
-        add: レコードIDを追加
+      action: {}
     identifier_type: 識別子の種類
     source: ソース
     primary_identifier: 一次識別子はありますか？
-    primary: プライマリ
     record_identifier: レコード識別子
     snac: ソーシャルネットワークとアーカイブコンテキスト（SNAC）識別子
   agent_identifier:
-    _plural: エンティティID
-    _singular: 識別子
     _frontend:
-      action:
-        add: エンティティIDを追加します
+      action: {}
     identifier_type: 識別子の種類
     entity_identifier: エンティティID
-  dates_of_existence:
-    _plural: 存在日
-    _singular: 存在日
+  dates_of_existence: {}
   date_label:
     existence: 存在
     usage: 使用法
@@ -534,23 +421,8 @@ ja:
     _singular: 使用言語
   structured_date_label:
     date: 日付
-    date_label: ラベル
-    date_type_structured: 日付タイプ
-    date_certainty: 確実
-    date_era: 時代
-    date_calendar: カレンダー
-  structured_date_single:
-    date_role: 日付の役割
-    date_expression: 日付式
-    date_standardized: 標準化された日付
-    date_standardized_type: 標準化された日付タイプ
-  structured_date_range:
-    begin_date_expression: 開始日式
-    begin_date_standardized: 標準化された日付を開始
-    begin_date_standardized_type: 標準化された日付タイプの開始
-    end_date_expression: 終了日の式
-    end_date_standardized: 標準化された日付の終了
-    end_date_standardized_type: 標準化された日付タイプの終了
+  structured_date_single: {}
+  structured_date_range: {}
   agent_contact:
     name: 連絡先
     salutation: あいさつ
@@ -561,25 +433,14 @@ ja:
     region: 州/地域
     country: 国
     post_code: 郵便番号
-    telephone: 電話
-    telephone_ext: 内線電話
     fax: ファックス
     email: Eメール
-    email_signature: 電子メールの署名
-    note: 連絡先
-    telephones: 電話番号
-    _singular: 連絡先
-    _plural: 連絡先の詳細
   telephone:
     _plural: 電話番号
     number_type: 番号タイプ
     number: 数
     ext: 内線電話
-  telephone_required:
-    _plural: 電話番号
-    number_type: 番号タイプ
-    number: 数
-    ext: 内線電話
+  telephone_required: {}
   agent_notes:
     _singular: 注意
     _plural: ノート

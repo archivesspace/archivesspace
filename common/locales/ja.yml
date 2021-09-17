@@ -85,8 +85,7 @@ ja:
       </p>"
 
   digital_object: &digital_object_attributes
-    <<: *section_tooltips
-    <<: *slug_attributes
+    <<: [*section_tooltips, *slug_attributes]
     user_defined:
       <<: *user_defined_attributes
     title: タイトル
@@ -118,7 +117,6 @@ ja:
 
   digital_object_component:
     <<: *digital_object_attributes
-    <<: *slug_attributes
     label: ラベル
     label_tooltip: "<p>説明されているデジタルオブジェクト内のパーツとその位置を記述するために使用される用語。デジタルオブジェクトのコンポーネントの部分では、トップレベルのデジタルオブジェクトレコードより頻繁に使用されます。
       </p><p>例： </p><ul><li>オーディオ：テープ1、トラック1、セクション1など</li><li>画像：画像1、画像1など</li><li>テキスト：第1ページ、第1葉、第1章、第1章など</li><li>ビデオ：テープ1、パート1、セクション1など</li></ul>"
@@ -1040,8 +1038,7 @@ ja:
     <<: *date_attributes
 
   accession:
-    <<: *section_tooltips
-    <<: *slug_attributes
+    <<: [*section_tooltips, *slug_attributes]
     user_defined:
       <<: *user_defined_attributes
     accession_date: 受付日
@@ -1197,8 +1194,7 @@ ja:
     related_agents: 関連エージェント
 
   archival_object: &archival_object_attributes
-    <<: *section_tooltips
-    <<: *slug_attributes
+    <<: [*section_tooltips, *slug_attributes]
     title: タイトル
     title_tooltip: "<p>条件付き必須フィールド：説明されたマテリアルに割り当てられたタイトル。アーカイブオブジェクトには、TitleまたはDateのいずれかのサブレコードが必要です。
       </p><p>DACS 2.3を参照</p><p>例： </p><ul><li> Graciany Miranda Archillaの論文</li><li>愛は家族の記録を作る</li><li>キャメロンファミリーアカウントブック</li><li>キャロラインとアーウィンスワンの漫画と漫画のコレクション</li><li>国立科学アカデミーの対応</li><li>オーディオとビデオの録音</li></ul>"
@@ -1287,9 +1283,7 @@ ja:
     _plural: グループ
 
   resource:
-    <<: *archival_object_attributes
-    <<: *section_tooltips
-    <<: *slug_attributes
+    <<: [*archival_object_attributes, *section_tooltips]
     user_defined:
       <<: *user_defined_attributes
     id_0: 識別
@@ -1722,7 +1716,6 @@ ja:
     time_submitted: 提出された時間
     time_started: 時間の開始
     time_finished: 完了した時間
-    time_submitted: 提出された時間
     owner: オーナー
     show_description: 説明を表示する
     input_file: 入力ファイル
@@ -2643,7 +2636,6 @@ ja:
 
   agent_person:
     <<: *agent_attributes
-    <<: *slug_attributes
     _singular: 人
     _plural: 人
     agent_contact_notes_tooltip: "<p>エージェントとのやり取りに関するメモ。</p>"
@@ -2667,7 +2659,6 @@ ja:
     publish_tooltip: "<p>エージェントがエクスポートに含まれ、パブリックインターフェイスに公開されているかどうかを示します（使用されている場合）</p>"
   agent_family:
     <<: *agent_attributes
-    <<: *slug_attributes
     _singular: 家族
     _plural: 家族
     agent_contact_notes_tooltip: "<p>エージェントとのやり取りに関するメモ。</p>"
@@ -2691,7 +2682,6 @@ ja:
     publish_tooltip: "<p>エージェントがエクスポートに含まれ、パブリックインターフェイスに公開されているかどうかを示します（使用されている場合）</p>"
   agent_software:
     <<: *agent_attributes
-    <<: *slug_attributes
     _singular: ソフトウェア
     _plural: ソフトウェア
     agent_contact_notes_tooltip: "<p>エージェントとのやり取りに関するメモ。</p>"
@@ -2715,7 +2705,6 @@ ja:
     publish_tooltip: "<p>エージェントがエクスポートに含まれ、パブリックインターフェイスに公開されているかどうかを示します（使用されている場合）</p>"
   agent_corporate_entity:
     <<: *agent_attributes
-    <<: *slug_attributes
     _singular: コーポレートエンティティ
     _plural: 法人
     agent_contact_notes_tooltip: "<p>エージェントとのやり取りに関するメモ。</p>"
