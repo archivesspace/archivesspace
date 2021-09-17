@@ -1,8 +1,62 @@
+# By providing an implementation of ArkMinter, you can add support for your
+# preferred way of generating ARKs.
+#
+# At a minimum, there are three things to do:
+#
+#  * Provide a `mint!` method.  This is responsible for inserting a new ARK into
+#    the `ark_name` table, and should accept the following arguments:
+#
+#      - obj :: a Sequel::Model instance of the record we're minting an ARK for.
+#          At the time of writing, that's either an Archival Object or a Resource.
+#
+#      - external_ark_url :: if AppConfig[:arks_allow_external_arks] is `true`,
+#          this will contain the user-inputted value from the "External ARK URL"
+#          field on the record form.
+#
+#      - row_defaults :: the recommended default values for several `ark_name`
+#          columns.  You can merge any customized values you like into this set.
+#
+#  * Give your minter a name, and register it with ArkName like this:
+#
+#         ArkName.register_minter(:my_new_minter, self)
+#
+#  * Enable your new minter in your `config.rb` file:
+#
+#         AppConfig[:ark_minter] = :my_new_minter
+#
+# You can use the provided minter implementations as examples.  The
+# `archivesspace_ark_minter.rb` implements the default ArchivesSpace ARK scheme,
+# which generates ARKs using a monotonic counter, while the
+# `smithsonian_ark_minter.rb` uses UUIDs.
+#
+# Minters are free to build ARKs however they like, pulling in data from
+# whichever sources make sense.  For example, both provided minters make use of
+# a system-wide ARK NAAN value, an (optional) repository-specific value (called
+# a "shoulder" in ARK parlance), and a system-wide delimiter.  Custom minters
+# might work differently, incorporating data from other records and/or external
+# sources.
+#
+# If any of the values incorporated into ARKs happens to change over time, it
+# might be desirable to regenerate all affected ARKs.  The "Generate ARKs in
+# Bulk" background job handles this regeneration process, but it needs to know
+# which ARKs need regenerating.
+#
+# To make this possible, ARK minters should include a `version_key` value when
+# inserting into `ark_name`.  By default, this value is supplied in the
+# `row_defaults` handed to `mint!`, and is computed by hashing together the
+# three values mentioned previously (NAAN, shoulder, delimiter).  When the
+# "Generate ARKs in Bulk" job runs, it recomputes the version key and only
+# regenerates ARKs when it has changed.
+#
+# If your ARKs incorporate data from other sources, you can provide your own
+# implementation of `version_key_for` to make sure ARKs are regenerated at the
+# right times.
+#
+
 require 'digest'
 
 class ArkMinter
 
-  # FIXME: doc
   def mint!(obj, external_ark_url, row_defaults)
     raise NotImplementedError.new
   end
@@ -21,10 +75,14 @@ class ArkMinter
     ark_name_obj.version_key == version_key_for(obj)
   end
 
+  # Return an opaque value that captures any values that will be used to generate
+  # an ARK for `obj`.  Default implementation just hashes together the bits of
+  # data the provided minters use for generating ARKs.
   def version_key_for(obj)
     ArkMinter.generate_version_key(AppConfig[:ark_naan], shoulder_for_repo(obj.repo_id), AppConfig[:ark_shoulder_delimiter])
   end
 
+  # Hash some values together and return a string.
   def self.generate_version_key(*version_grist)
     Digest::SHA256.hexdigest(version_grist.map(&:to_s).to_json)
   end

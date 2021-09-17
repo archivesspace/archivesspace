@@ -7,8 +7,7 @@ class SmithsonianArkMinter < ArkMinter
       ark_shoulder = shoulder_for_repo(obj.repo_id)
 
       db[:ark_name].insert(row_defaults.merge(:generated_value => build_generated_ark(ark_shoulder),
-                                              :user_value => external_ark_url,
-                                              :version_key => version_key_for(obj)))
+                                              :user_value => external_ark_url))
     end
   end
 

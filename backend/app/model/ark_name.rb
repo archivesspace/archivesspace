@@ -49,7 +49,8 @@ class ArkName < Sequel::Model(:ark_name)
                        :user_mtime => now,
                        :is_current => 1,
                        :retired_at_epoch_ms => 0,
-                       :lock_version => 0
+                       :lock_version => 0,
+                       :version_key => ark_minter.version_key_for(obj),
                       )
     end
 
