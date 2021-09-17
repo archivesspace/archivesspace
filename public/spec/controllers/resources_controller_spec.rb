@@ -7,8 +7,9 @@ describe ResourcesController, type: :controller do
     set_repo @repo
     @accession = create(:accession,
                         collection_management: build(:collection_management))
-
-    @resource = create(:resource, publish: true)
+    @digital_object = create(:digital_object)
+    @resource = create(:resource, publish: true,
+                       instances: [build(:instance_digital, digital_object: { ref: @digital_object.uri })])
     @unpublished_resource = create(:resource)
 
     @a1 = create(:archival_object,
@@ -89,6 +90,14 @@ describe ResourcesController, type: :controller do
       get(:tree_node_from_root, params: { rid: @repo.id, id: @resource.id,
                                           node_ids: ['notaId'] })
       expect(response.status).to eq(404)
+    end
+  end
+
+  describe "show action" do
+    it "passes digital object instance data to the view" do
+      get(:show, params: { rid: @repo.id, id: @resource.id })
+      instance_data = controller.instance_variable_get(:@dig)
+      expect(instance_data[0]['caption']).to eq(@digital_object.title)
     end
   end
 end
