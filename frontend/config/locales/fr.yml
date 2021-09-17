@@ -4,6 +4,7 @@ fr:
     export_marc_auth: Télécharger l'autorité MARCXML
     add: Ajouter
     add_event: Ajouter événement
+    add_event_event_type: Type
     automate: Générer automatiquement
     batch: Lot
     browse: Parcourir
@@ -73,6 +74,8 @@ fr:
     transfer_failed: Echec du transfert
     transfer_failed_records_using_digital_objects: "Les notices suivantes pointent vers des objets numériques qui pourraient être transférés, mais le faire briserait leurs liens d'instances"
     transfer_failed_digital_objects_linked_to_records: "Cet objet numérique est lié à d'autres enregistrements de ce référentiel. Pour procéder à ce transfert, supprimez les liens des enregistrements suivants"
+    transfer_failed_top_containers_in_use: "The following top containers are linked to other top-level records in this repository, and cannot be transferred until those links are severed"
+    transfer_failed_barcodes_in_use: "The following top containers use barcodes that are used in the target repository, and cannot be transferred until those conflicts are fixed"
     unset_default: Désactiver défaut
     unsuppress: Débloquer
     unsuppress_confirm_title: Débloquer cette notice?
@@ -100,6 +103,7 @@ fr:
     export_marc: Télécharger MARCXML
     export_dc: Télécharger DC
     export_csv: Télécharger CSV
+    container_template: Download Container Template
     loading: Chargement en cours...
     revert: Défaire les changements
     finish_editing: Fermer notice
@@ -660,6 +664,7 @@ fr:
 
   errors:
     merge_denied_for_system_user: Un ou plusieurs agents est un utilisateur système.
+    merge_denied_relationship: These agents have a relationship. Remove relationship before proceeding with merge.
     merge_restricted_contact_details: La fusion ne peut pas être effectuée car un
       ou plusieurs agents ont des coordonnées auxquelles vous n'êtes pas autorisé
       à accéder.
@@ -673,6 +678,7 @@ fr:
     merge_too_many_victims: Un seul agent peut être sélectionné pour une fusion détaillée.
     merge_different_types: Les agents sélectionnés pour la fusion détaillée doivent être du même type.
     linked_to_assessment: Notice impossible à supprimer, car liée à une évaluation
+    cannot_delete_repository_agent: This agent is linked to a repository and can't be removed.
 
   accession:
     _frontend:
@@ -1063,6 +1069,9 @@ fr:
         expand: Développer
         collapse: Réduire
         apply_note_order: Appliquer l'ordre de notes standard
+      note_outline:
+        placeholder: Add Note Text
+        empty_level: Empty Level -- Use buttons above to add new items or sublevels
 
   related_accession:
     _frontend:
@@ -1182,6 +1191,7 @@ fr:
         merged: Mot(s)-matière(s) fusionné(s)
         merge_description: Sélectionner ci-dessous mots-matières à fusionner dans
         please_select_a_subject_to_merge: Veuillez sélectionner un mot-matière
+        delete_conflict: "Subject could not be deleted: <pre>%{error}</pre>"
       section:
         basic_information: Information de base
         terms: Termes et subdivisions
@@ -1193,6 +1203,8 @@ fr:
 
   user:
     is_active_user: Utilisateur actif
+    active: "true"
+    inactive: "false"
     _frontend:
       messages:
         access_denied: Accès refusé. Passer administrateur pour accomplir cette opération.
@@ -1215,7 +1227,8 @@ fr:
         create_account: Créer compte
         update_account: Actualiser compte
         create: Créer utilisateur
-        hide_inactive: Masquer les utilisateurs inactifs
+        edit: Edit User
+        show_active: Show Active Users
         show_inactive: Afficher les utilisateurs inactifs
         deactivate_user: Désactiver
         activate_user: Activer
@@ -1824,6 +1837,7 @@ fr:
         drag_drop: Faites glisser et déposer le fichier ici
         clip_btn: Copier dans le presse-papier
         only_validate: Valider uniquement
+        link_top_containers: Link Top Containers
       messages:
         missing_file: Vous n'avez pas ajouté un fichier
         not_excel: Le fichier que vous avez choisi n'est pas une feuille de calcul Excel
@@ -2980,3 +2994,31 @@ fr:
     contact_notes_tooltip: "<p>Détails sur l'interaction avec le contact</p>"
     date_of_contact_tooltip: "<p>Utilisé pour enregistrer la date ou la période spécifique
       d'une interaction</p>"
+
+  metadata_rights_declaration: &metadata_rights_declaration_attributes
+    _plural: Metadata Rights Declarations
+    _singular: Metadata Rights Declaration
+    _frontend:
+      action:
+        add: Add Metadata Rights Declaration
+    license: License
+    descriptive_note: Descriptive Note
+    file_uri: File URI
+    xlink_title_attribute: Xlink Title Attribute
+    xlink_role_attribute: Xlink Role Attribute
+    xlink_arcrole_attribute: Xlink Arcrole Attribute
+    file_version_xlink_actuate_attribute: Xlink Actuate Attribute
+    file_version_xlink_show_attribute: Xlink Show Attribute
+    last_verified_date: Last Verified Date
+
+  metadata_rights_declarations:
+    <<: *metadata_rights_declaration_attributes
+
+  metadata_rights_declaration_required:
+    <<: *metadata_rights_declaration_attributes
+
+  metadata_rights_declaration_merge_target:
+    <<: *metadata_rights_declaration_attributes
+
+  metadata_rights_declaration_merge_victim:
+    <<: *metadata_rights_declaration_attributes

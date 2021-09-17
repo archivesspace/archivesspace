@@ -6,6 +6,7 @@ es:
     export_marc_auth: Descarga MARCXML Authority
     add: Añadir
     add_event: Agregar evento
+    add_event_event_type: Type
     automate: Generar automáticamente
     batch: Lote
     browse: Navegar
@@ -75,6 +76,8 @@ es:
     transfer_failed: Transferencia fallida
     transfer_failed_records_using_digital_objects: "Los siguientes registros se vinculan a objetos digitales que se transferirían, pero hacerlo rompería sus enlaces de instancia"
     transfer_failed_digital_objects_linked_to_records: "Este objeto digital se vincula a otros registros contenidos en este repositorio. Para continuar con esta transferencia, elimine los enlaces en los siguientes registros"
+    transfer_failed_top_containers_in_use: "The following top containers are linked to other top-level records in this repository, and cannot be transferred until those links are severed"
+    transfer_failed_barcodes_in_use: "The following top containers use barcodes that are used in the target repository, and cannot be transferred until those conflicts are fixed"
     unset_default: Desactivada por defecto
     unsuppress: Desactivar
     unsuppress_confirm_title: ¿Bloquear este registro?
@@ -102,6 +105,7 @@ es:
     export_marc: Descargar MARCXML
     export_dc: Descargar DC
     export_csv: Descargar CSV
+    container_template: Download Container Template
     loading: Cargando...
     revert: Revertir los cambios
     finish_editing: Finalizar edición
@@ -662,6 +666,7 @@ es:
 
   errors:
     merge_denied_for_system_user: Uno o más agentes es un usuario del sistema.
+    merge_denied_relationship: These agents have a relationship. Remove relationship before proceeding with merge.
     merge_restricted_contact_details: La fusión no se puede completar porque uno o
       más de los agentes tiene detalles de contacto a los que no tiene permiso para
       acceder.
@@ -675,6 +680,7 @@ es:
     merge_too_many_victims: Solo se puede seleccionar un agente para una fusión detallada.
     merge_different_types: Los agentes seleccionados para la fusión detallada deben ser del mismo tipo.
     linked_to_assessment: El registro no se puede eliminar ya que está vinculado a una evaluación
+    cannot_delete_repository_agent: This agent is linked to a repository and can't be removed.
 
   accession:
     _frontend:
@@ -1064,6 +1070,10 @@ es:
         collapse: Colapsar
         apply_note_order: Aplicar el orden de notas estandar
         add_for_contact_note: Agregar nota de contacto
+      note_outline:
+        placeholder: Add Note Text
+        empty_level: Empty Level -- Use buttons above to add new items or sublevels
+
 
   related_accession:
     _frontend:
@@ -1183,6 +1193,7 @@ es:
         merged: La(s) materia(s) se fusionaron
         merge_description: Seleccione materias abajo para fusionar en
         please_select_a_subject_to_merge: Por favor, seleccione un materia
+        delete_conflict: "Subject could not be deleted: <pre>%{error}</pre>"
       section:
         basic_information: Información básica
         terms: Descriptores
@@ -1194,6 +1205,8 @@ es:
 
   user:
     is_active_user: Usuario activo
+    active: "true"
+    inactive: "false"
     _frontend:
       messages:
         access_denied: Acceso denegado. Inicie sesión como el usuario administrador para realizar esta acción.
@@ -1216,7 +1229,8 @@ es:
         create_account: Crear cuenta
         update_account: Actualizar la cuenta
         create: Crear usuario
-        hide_inactive: Ocultar usuarios inactivos
+        edit: Edit User
+        show_active: Show Active Users
         show_inactive: Mostrar usuarios inactivos
         deactivate_user: Desactivar
         activate_user: Activar
@@ -1779,6 +1793,7 @@ es:
         create: Crear plantilla
         save: Guardar plantilla
       messages:
+        copied: Custom Report Template copied
         created: Plantilla de informe personalizado creado
         updated: Plantilla de informe personalizado actualizada
   oai_config:
@@ -1822,6 +1837,7 @@ es:
         drag_drop: Arrastrar y archivo de la gota aquí
         clip_btn: Copiar al portapapeles
         only_validate: Validar solo
+        link_top_containers: Link Top Containers
       messages:
         missing_file: No ha añadido un archivo
         not_excel: El archivo que ha elegido no es una hoja de cálculo de Excel
@@ -2979,3 +2995,31 @@ es:
     contact_notes_tooltip: "<p>Detalles sobre la interacción con el contacto</p>"
     date_of_contact_tooltip: "<p>Se utiliza para registrar la fecha o el período de
       tiempo específicos de una interacción.</p>"
+
+  metadata_rights_declaration: &metadata_rights_declaration_attributes
+    _plural: Metadata Rights Declarations
+    _singular: Metadata Rights Declaration
+    _frontend:
+      action:
+        add: Add Metadata Rights Declaration
+    license: License
+    descriptive_note: Descriptive Note
+    file_uri: File URI
+    xlink_title_attribute: Xlink Title Attribute
+    xlink_role_attribute: Xlink Role Attribute
+    xlink_arcrole_attribute: Xlink Arcrole Attribute
+    file_version_xlink_actuate_attribute: Xlink Actuate Attribute
+    file_version_xlink_show_attribute: Xlink Show Attribute
+    last_verified_date: Last Verified Date
+
+  metadata_rights_declarations:
+    <<: *metadata_rights_declaration_attributes
+
+  metadata_rights_declaration_required:
+    <<: *metadata_rights_declaration_attributes
+
+  metadata_rights_declaration_merge_target:
+    <<: *metadata_rights_declaration_attributes
+
+  metadata_rights_declaration_merge_victim:
+    <<: *metadata_rights_declaration_attributes

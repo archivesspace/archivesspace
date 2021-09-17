@@ -379,15 +379,19 @@ es:
 
   agent_person:
     _singular: Persona
+    _plural: People
 
   agent_family:
     _singular: Familia
+    _plural: Families
 
   agent_corporate_entity:
     _singular: Entidad corporativa
+    _plural: Organizations
 
   agent_software:
     _singular: Software
+    _plural: Software
 
   components: {}
   instance:

@@ -184,6 +184,9 @@ ja:
       AND: AND
       OR: OR
       NOT: NOT
+    limit_label: Limit by record type
+    add_row: Add row
+    remove_row: Remove row
     nav_switcher: {}
     index_switcher: {}
   contains: "%{count} %{type}含みます%{type}"
@@ -342,12 +345,16 @@ ja:
         related_agent_dates: 日付
   agent_person:
     _singular: 人
+    _plural: People
   agent_family:
     _singular: 家族
+    _plural: Families
   agent_corporate_entity:
     _singular: 組織
+    _plural: Organizations
   agent_software:
     _singular: ソフトウェア
+    _plural: Software
   components: {}
   instance:
     _public: {}
@@ -454,3 +461,16 @@ ja:
     note_mandate: 委任
     note_structure_or_genealogy: 構造または系図
     note_text: 注意
+
+  metadata_rights_declaration:
+    _plural: Metadata Rights Declarations
+    _singular: Metadata Rights Declaration
+    license: License
+    descriptive_note: Descriptive Note
+    file_uri: File URI
+    xlink_title_attribute: Xlink Title Attribute
+    xlink_role_attribute: Xlink Role Attribute
+    xlink_arcrole_attribute: Xlink Arcrole Attribute
+    file_version_xlink_actuate_attribute: Xlink Actuate Attribute
+    file_version_xlink_show_attribute: Xlink Show Attribute
+    last_verified_date: Last Verified Date

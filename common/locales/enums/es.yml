@@ -1481,6 +1481,20 @@ es:
       new: Nuevo
       revised_corrected: Revisado / Corregido
       upgraded: Actualizado
+    metadata_license:
+      no_derivatives: This record is made available under an Attribution-NoDerivatives 4.0
+        International Creative Commons license.
+      non_commercial: This record is made available under an Attribution-NonCommercial 4.0
+        International Creative Commons license.
+      non_commercial_no_derivatives: This record is made available under an
+        Attribution-NonCommercial-NoDerivatives 4.0 International Creative Commons license.
+      non_commercial_share_a_like: This record is made available under an
+        Attribution-NonCommercial-ShareAlike 4.0 International Creative Commons license.
+      other: Unspecified or custom license.
+      public_domain: This record is made available under an Universal 1.0 Public Domain Dedication
+        Creative Commons license.
+      share_a_like: This record is made available under an Attribution-ShareAlike 4.0 International
+        Creative Commons license.
     modified_record:
       missing_characters: Personajes desaparecidos
       natc: Ningún intento de codificar

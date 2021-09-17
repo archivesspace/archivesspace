@@ -11,6 +11,19 @@ ja:
       agent_conventions_declarations: エージェントコンベンション宣言に関するヘルプ
       agent_alternate_sets: エージェント代替セットに関するヘルプ
       agent_record_controls: エージェントレコード管理に関するヘルプ
+      agent_identifiers: Help on Entity IDs
+      agent_genders: Help on Genders
+      agent_place: Help on Places
+      agent_occupation: Help on Occupations
+      agent_function: Help on Functions
+      agent_topic: Help on Topics
+      agent_used_language: Help on Used Language
+      agent_external_documents: Help on External Documents
+      agent_external_resources: Help on Related External Resources
+      agent_related_agents: Help on Related Agents
+      agent_required: Help on Edit Required Fields
+      agent_merge: Help on Agent Merging
+
       accession: アクセスのヘルプ
       accession_basic_information: 基本情報のヘルプ
       accession_extents: エクステントのヘルプ
