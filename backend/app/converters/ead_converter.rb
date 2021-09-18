@@ -138,7 +138,7 @@ class EADConverter < Converter
 
           set obj, :external_ark_url, ark
         end
-      elsif 'ark-subsequent' == node.attribute('type') || 'ark-subsequent' == node.attribute('localtype')
+      elsif 'ark-superseded' == node.attribute('type') || 'ark-superseded' == node.attribute('localtype')
         # do nothing
       else
         ancestor(:note_multipart, :resource, :archival_object) do |obj|
