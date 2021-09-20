@@ -96,6 +96,12 @@ class ArchivesSpaceService < Sinatra::Base
     .params(["id", :id],
             ["repo_id", :repo_id],
             ["published_only", BooleanParam, "Whether to restrict to published/unsuppressed items", :default => false])
+    .example("shell") do
+      <<~SHELL
+        curl -H "X-ArchivesSpace-Session: $SESSION" \\
+          "http://localhost:8089/repositories/2/digital_objects/1/tree/root"
+      SHELL
+    end
     .permissions([:view_repository])
     .returns([200, TreeDocs::ROOT_DOCS]) \
   do
@@ -109,6 +115,12 @@ class ArchivesSpaceService < Sinatra::Base
             ["offset", Integer, "The page of records to return"],
             ["parent_node", String, "The URI of the parent of this waypoint (none for the root record)", :optional => true],
             ["published_only", BooleanParam, "Whether to restrict to published/unsuppressed items", :default => false])
+    .example("shell") do
+      <<~SHELL
+        curl -H "X-ArchivesSpace-Session: $SESSION" \\
+          "http://localhost:8089/repositories/2/digital_objects/1/tree/waypoint?offset=0&parent_node=/repositories/2/digital_object_components/1"
+      SHELL
+    end
     .permissions([:view_repository])
     .returns([200, TreeDocs::WAYPOINT_DOCS]) \
   do
@@ -130,6 +142,12 @@ class ArchivesSpaceService < Sinatra::Base
             ["repo_id", :repo_id],
             ["node_uri", String, "The URI of the Digital Object Component record of interest"],
             ["published_only", BooleanParam, "Whether to restrict to published/unsuppressed items", :default => false])
+    .example("shell") do
+      <<~SHELL
+        curl -H "X-ArchivesSpace-Session: $SESSION" \\
+          "http://localhost:8089/repositories/2/digital_objects/1/tree/node?node_uri=/repositories/2/digital_object_components/1"
+      SHELL
+    end
     .permissions([:view_repository])
     .returns([200, TreeDocs::NODE_DOCS]) \
   do
@@ -144,6 +162,12 @@ class ArchivesSpaceService < Sinatra::Base
             ["repo_id", :repo_id],
             ["node_ids", [Integer], "The IDs of the Digital Object Component records of interest"],
             ["published_only", BooleanParam, "Whether to restrict to published/unsuppressed items", :default => false])
+    .example("shell") do
+      <<~SHELL
+        curl -H "X-ArchivesSpace-Session: $SESSION" \\
+          "http://localhost:8089/repositories/2/digital_objects/1/tree/node_from_root?node_ids[]=1"
+      SHELL
+    end
     .permissions([:view_repository])
     .returns([200, TreeDocs::NODE_FROM_ROOT_DOCS]) \
   do
