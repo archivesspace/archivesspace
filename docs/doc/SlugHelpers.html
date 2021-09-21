@@ -6,7 +6,7 @@
 <title>
   Module: SlugHelpers
   
-    &mdash; Documentation by YARD 0.9.25
+    &mdash; Documentation by YARD 0.9.26
   
 </title>
 
@@ -716,6 +716,8 @@ slug = “foo_123”, previous_slug = “foo_124_1” =&gt; true</p>
       <pre class="lines">
 
 
+112
+113
 114
 115
 116
@@ -751,7 +753,7 @@ slug = “foo_123”, previous_slug = “foo_124_1” =&gt; true</p>
 146</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/slugs/slug_helpers_generate.rb', line 114</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/slugs/slug_helpers_generate.rb', line 112</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_base_slug_changed? fid id'>base_slug_changed?</span><span class='lparen token'>(</span><span class='rubyid_slug identifier id'>slug</span><span class='comma token'>,</span> <span class='rubyid_previous_slug identifier id'>previous_slug</span><span class='rparen token'>)</span>
   <span class='comment val'># first, compare the two slugs from left to right to see what they have in common. Remove anything in common.</span>
@@ -761,12 +763,14 @@ slug = “foo_123”, previous_slug = “foo_124_1” =&gt; true</p>
   <span class='comment val'># the base slug has changed if previous_slug is nil/empty but slug is not</span>
   <span class='rubyid_if if kw'>if</span> <span class='lparen token'>(</span><span class='rubyid_previous_slug identifier id'>previous_slug</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span> <span class='orop op'>||</span> <span class='rubyid_previous_slug identifier id'>previous_slug</span><span class='dot token'>.</span><span class='rubyid_empty? fid id'>empty?</span><span class='rparen token'>)</span> <span class='andop op'>&amp;&amp;</span>
      <span class='lparen token'>(</span><span class='notop op'>!</span><span class='rubyid_slug identifier id'>slug</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span> <span class='andop op'>&amp;&amp;</span> <span class='notop op'>!</span><span class='rubyid_slug identifier id'>slug</span><span class='dot token'>.</span><span class='rubyid_empty? fid id'>empty?</span><span class='rparen token'>)</span>
+
     <span class='rubyid_return return kw'>return</span> <span class='rubyid_true true kw'>true</span>
   <span class='rubyid_end end kw'>end</span>
 
   <span class='comment val'># the base slug has changed if slug is nil/empty but previous_slug is not</span>
   <span class='rubyid_if if kw'>if</span> <span class='lparen token'>(</span><span class='rubyid_slug identifier id'>slug</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span> <span class='orop op'>||</span> <span class='rubyid_slug identifier id'>slug</span><span class='dot token'>.</span><span class='rubyid_empty? fid id'>empty?</span><span class='rparen token'>)</span> <span class='andop op'>&amp;&amp;</span>
      <span class='lparen token'>(</span><span class='notop op'>!</span><span class='rubyid_previous_slug identifier id'>previous_slug</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span> <span class='andop op'>&amp;&amp;</span> <span class='notop op'>!</span><span class='rubyid_previous_slug identifier id'>previous_slug</span><span class='dot token'>.</span><span class='rubyid_empty? fid id'>empty?</span><span class='rparen token'>)</span>
+
     <span class='rubyid_return return kw'>return</span> <span class='rubyid_true true kw'>true</span>
   <span class='rubyid_end end kw'>end</span>
 
@@ -830,12 +834,12 @@ slug = “foo_123”, previous_slug = “foo_124_1” =&gt; true</p>
       <pre class="lines">
 
 
+157
 158
-159
-160</pre>
+159</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/slugs/slug_helpers_eligibility.rb', line 158</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/slugs/slug_helpers_eligibility.rb', line 157</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_base_sluggable_class? fid id'>base_sluggable_class?</span><span class='lparen token'>(</span><span class='rubyid_klass identifier id'>klass</span><span class='rparen token'>)</span>
   <span class='rubyid_BASE_RECORD_TYPES constant id'>BASE_RECORD_TYPES</span><span class='dot token'>.</span><span class='rubyid_include? fid id'>include?</span><span class='lparen token'>(</span><span class='rubyid_klass identifier id'>klass</span><span class='dot token'>.</span><span class='rubyid_to_s identifier id'>to_s</span><span class='rparen token'>)</span>
@@ -1033,14 +1037,12 @@ eg. migration 129</p>
 88
 89
 90
-91
-92</pre>
+91</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'backend/app/lib/slugs/slug_helpers_generate.rb', line 44</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_clean_slug identifier id'>clean_slug</span><span class='lparen token'>(</span><span class='rubyid_slug identifier id'>slug</span><span class='rparen token'>)</span>
-
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_slug identifier id'>slug</span>
     <span class='comment val'># if the slug contains two slashes (forward or backward) next to each other, completely zero it out.</span>
     <span class='comment val'># this is intended to revert an entity to use the URI if the ID or name the slug was generated from is a URI.</span>
@@ -1119,6 +1121,7 @@ eg. migration 129</p>
       <pre class="lines">
 
 
+159
 160
 161
 162
@@ -1126,15 +1129,12 @@ eg. migration 129</p>
 164
 165
 166
-167
-168
-169</pre>
+167</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/slugs/slug_helpers_generate.rb', line 160</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/slugs/slug_helpers_generate.rb', line 159</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_dedupe_slug identifier id'>dedupe_slug</span><span class='lparen token'>(</span><span class='rubyid_dupe_slug identifier id'>dupe_slug</span><span class='comma token'>,</span> <span class='rubyid_count identifier id'>count</span><span class='rparen token'>)</span>
-
   <span class='rubyid_new_slug identifier id'>new_slug</span> <span class='assign token'>=</span> <span class='dstring node'>&quot;#{dupe_slug}_#{count}&quot;</span>
   <span class='rubyid_loop identifier id'>loop</span> <span class='rubyid_do do kw'>do</span>
     <span class='rubyid_break break kw'>break</span> <span class='rubyid_unless unless_mod kw'>unless</span> <span class='rubyid_slug_in_use? fid id'>slug_in_use?</span><span class='lparen token'>(</span><span class='rubyid_new_slug identifier id'>new_slug</span><span class='rparen token'>)</span>
@@ -1432,14 +1432,12 @@ controller is asking, and whether we’re scoping by repo slug or not.</p>
 61
 62
 63
-64
-65</pre>
+64</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'backend/app/lib/slugs/slug_helpers_generate_by_id.rb', line 3</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_id_based_slug_for identifier id'>id_based_slug_for</span><span class='lparen token'>(</span><span class='rubyid_entity identifier id'>entity</span><span class='comma token'>,</span> <span class='rubyid_klass identifier id'>klass</span><span class='rparen token'>)</span>
-
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_klass identifier id'>klass</span> <span class='eq op'>==</span> <span class='rubyid_Resource constant id'>Resource</span> <span class='orop op'>||</span> <span class='rubyid_klass identifier id'>klass</span> <span class='eq op'>==</span> <span class='rubyid_Accession constant id'>Accession</span>
     <span class='rubyid_if if kw'>if</span> <span class='rubyid_AppConfig constant id'>AppConfig</span><span class='lbrack token'>[</span><span class='symbol val'>:generate_resource_slugs_with_eadid</span><span class='rbrack token'>]</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_entity identifier id'>entity</span><span class='lbrack token'>[</span><span class='symbol val'>:ead_id</span><span class='rbrack token'>]</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_klass identifier id'>klass</span> <span class='eq op'>==</span> <span class='rubyid_Resource constant id'>Resource</span>
       <span class='comment val'># use EADID if configured. Otherwise, use identifier.</span>
@@ -1545,12 +1543,12 @@ controller is asking, and whether we’re scoping by repo slug or not.</p>
       <pre class="lines">
 
 
+149
 150
-151
-152</pre>
+151</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/slugs/slug_helpers_eligibility.rb', line 150</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/slugs/slug_helpers_eligibility.rb', line 149</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_is_agent_name_type? fid id'>is_agent_name_type?</span><span class='lparen token'>(</span><span class='rubyid_klass identifier id'>klass</span><span class='rparen token'>)</span>
   <span class='rubyid_NAME_RECORD_TYPES constant id'>NAME_RECORD_TYPES</span><span class='dot token'>.</span><span class='rubyid_include? fid id'>include?</span><span class='lparen token'>(</span><span class='rubyid_klass identifier id'>klass</span><span class='dot token'>.</span><span class='rubyid_to_s identifier id'>to_s</span><span class='rparen token'>)</span>
@@ -1599,12 +1597,12 @@ controller is asking, and whether we’re scoping by repo slug or not.</p>
       <pre class="lines">
 
 
+153
 154
-155
-156</pre>
+155</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/slugs/slug_helpers_eligibility.rb', line 154</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/slugs/slug_helpers_eligibility.rb', line 153</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_is_agent_type? fid id'>is_agent_type?</span><span class='lparen token'>(</span><span class='rubyid_klass identifier id'>klass</span><span class='rparen token'>)</span>
   <span class='rubyid_AGENT_RECORD_TYPES constant id'>AGENT_RECORD_TYPES</span><span class='dot token'>.</span><span class='rubyid_include? fid id'>include?</span><span class='lparen token'>(</span><span class='rubyid_klass identifier id'>klass</span><span class='dot token'>.</span><span class='rubyid_to_s identifier id'>to_s</span><span class='rparen token'>)</span>
@@ -1653,6 +1651,7 @@ controller is asking, and whether we’re scoping by repo slug or not.</p>
       <pre class="lines">
 
 
+135
 136
 137
 138
@@ -1664,11 +1663,10 @@ controller is asking, and whether we’re scoping by repo slug or not.</p>
 144
 145
 146
-147
-148</pre>
+147</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/slugs/slug_helpers_eligibility.rb', line 136</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/slugs/slug_helpers_eligibility.rb', line 135</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_is_slug_auto_enabled? fid id'>is_slug_auto_enabled?</span><span class='lparen token'>(</span><span class='rubyid_entity identifier id'>entity</span><span class='rparen token'>)</span>
   <span class='rubyid_enabled identifier id'>enabled</span> <span class='assign token'>=</span> <span class='rubyid_false false kw'>false</span>
@@ -1957,6 +1955,7 @@ generated slugs are in use from before this job was run
       <pre class="lines">
 
 
+94
 95
 96
 97
@@ -1966,15 +1965,12 @@ generated slugs are in use from before this job was run
 101
 102
 103
-104
-105
-106</pre>
+104</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/slugs/slug_helpers_generate.rb', line 95</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/slugs/slug_helpers_generate.rb', line 94</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_run_dedupe_slug identifier id'>run_dedupe_slug</span><span class='lparen token'>(</span><span class='rubyid_slug identifier id'>slug</span><span class='rparen token'>)</span>
-
   <span class='comment val'># search for dupes</span>
   <span class='rubyid_if if kw'>if</span> <span class='notop op'>!</span><span class='rubyid_slug identifier id'>slug</span><span class='dot token'>.</span><span class='rubyid_empty? fid id'>empty?</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_slug_in_use? fid id'>slug_in_use?</span><span class='lparen token'>(</span><span class='rubyid_slug identifier id'>slug</span><span class='rparen token'>)</span>
     <span class='rubyid_slug identifier id'>slug</span> <span class='assign token'>=</span> <span class='rubyid_dedupe_slug identifier id'>dedupe_slug</span><span class='lparen token'>(</span><span class='rubyid_slug identifier id'>slug</span><span class='comma token'>,</span> <span class='integer val'>1</span><span class='rparen token'>)</span>
@@ -2128,14 +2124,12 @@ slug will be updated iff this method returns true</p>
 129
 130
 131
-132
-133</pre>
+132</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'backend/app/lib/slugs/slug_helpers_eligibility.rb', line 35</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_slug_data_updated? fid id'>slug_data_updated?</span><span class='lparen token'>(</span><span class='rubyid_obj identifier id'>obj</span><span class='rparen token'>)</span>
-
   <span class='rubyid_id_field_changed identifier id'>id_field_changed</span>   <span class='assign token'>=</span> <span class='rubyid_false false kw'>false</span>
   <span class='rubyid_name_field_changed identifier id'>name_field_changed</span> <span class='assign token'>=</span> <span class='rubyid_false false kw'>false</span>
   <span class='rubyid_persisted identifier id'>persisted</span>          <span class='assign token'>=</span> <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_exists? fid id'>exists?</span>
@@ -2189,7 +2183,7 @@ slug will be updated iff this method returns true</p>
     <span class='rubyid_name_field_changed identifier id'>name_field_changed</span> <span class='assign token'>=</span> <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_column_changed? fid id'>column_changed?</span><span class='lparen token'>(</span><span class='symbol val'>:title</span><span class='rparen token'>)</span> <span class='orop op'>||</span> <span class='notop op'>!</span><span class='rubyid_persisted identifier id'>persisted</span>
 
   <span class='rubyid_when when kw'>when</span> <span class='string val'>&quot;Subject&quot;</span>
-    <span class='rubyid_id_field_changed identifier id'>id_field_changed</span> <span class='assign token'>=</span> <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_column_changed? fid id'>column_changed?</span><span class='lparen token'>(</span><span class='symbol val'>:authority_id</span><span class='rparen token'>)</span>   <span class='orop op'>||</span> <span class='notop op'>!</span><span class='rubyid_persisted identifier id'>persisted</span>
+    <span class='rubyid_id_field_changed identifier id'>id_field_changed</span> <span class='assign token'>=</span> <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_column_changed? fid id'>column_changed?</span><span class='lparen token'>(</span><span class='symbol val'>:authority_id</span><span class='rparen token'>)</span> <span class='orop op'>||</span> <span class='notop op'>!</span><span class='rubyid_persisted identifier id'>persisted</span>
     <span class='rubyid_name_field_changed identifier id'>name_field_changed</span> <span class='assign token'>=</span> <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_column_changed? fid id'>column_changed?</span><span class='lparen token'>(</span><span class='symbol val'>:title</span><span class='rparen token'>)</span> <span class='orop op'>||</span> <span class='notop op'>!</span><span class='rubyid_persisted identifier id'>persisted</span>
   <span class='rubyid_end end kw'>end</span>
 
@@ -2284,14 +2278,12 @@ return false otherwise.</p>
 153
 154
 155
-156
-157</pre>
+156</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'backend/app/lib/slugs/slug_helpers_generate.rb', line 150</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_slug_in_use? fid id'>slug_in_use?</span><span class='lparen token'>(</span><span class='rubyid_slug identifier id'>slug</span><span class='rparen token'>)</span>
-
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_job_running? fid id'>job_running?</span>
     <span class='rubyid_cache identifier id'>cache</span><span class='dot token'>.</span><span class='rubyid_include? fid id'>include?</span> <span class='rubyid_slug identifier id'>slug</span>
   <span class='rubyid_else else kw'>else</span>
@@ -2340,9 +2332,9 @@ return false otherwise.</p>
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.8.1.a Documentation Generated on Wed Nov 11 13:21:26 2020 by
+  ArchivesSpace Version X.Y.Z Documentation Generated on Tue Sep 21 14:09:29 2021 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.25.
+  0.9.26.
 </div>
 
     </div>

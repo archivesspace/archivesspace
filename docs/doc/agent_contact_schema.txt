@@ -28,7 +28,9 @@ string (max length: 65000)	email
 
 string (max length: 65000)	email_signature
 
-string (max length: 65000)	note
+array ([{"type"=>"JSONModel(:note_contact_note) object"}, {"type"=>"JSONModel(:note_chronology) object"}])	notes
+
+boolean	is_representative
 
 
 

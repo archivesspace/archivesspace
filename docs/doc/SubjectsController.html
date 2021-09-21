@@ -6,7 +6,7 @@
 <title>
   Class: SubjectsController
   
-    &mdash; Documentation by YARD 0.9.25
+    &mdash; Documentation by YARD 0.9.26
   
 </title>
 
@@ -123,7 +123,7 @@
         <dt id="DEFAULT_SUBJ_TYPES-constant" class="">DEFAULT_SUBJ_TYPES =
           
         </dt>
-        <dd><pre class="code"><span class='dstring node'>%w{repository resource accession archival_object digital_object}</span>
+        <dd><pre class="code"><span class='dstring node'>%w{repository resource accession archival_object digital_object agent}</span>
 </pre></dd>
       
         <dt id="DEFAULT_SUBJ_FACET_TYPES-constant" class="">DEFAULT_SUBJ_FACET_TYPES =
@@ -181,6 +181,29 @@
   <span class="summary_signature">
     
       <a href="#create-instance_method" title="#create (instance method)">#<strong>create</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#current_record-instance_method" title="#current_record (instance method)">#<strong>current_record</strong>  &#x21d2; Object </a>
     
 
     
@@ -559,14 +582,6 @@
       <pre class="lines">
 
 
-45
-46
-47
-48
-49
-50
-51
-52
 53
 54
 55
@@ -583,19 +598,28 @@
 66
 67
 68
-69</pre>
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/controllers/subjects_controller.rb', line 45</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/controllers/subjects_controller.rb', line 53</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_create identifier id'>create</span>
   <span class='rubyid_handle_crud identifier id'>handle_crud</span><span class='lparen token'>(</span><span class='symbol val'>:instance</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:subject</span><span class='comma token'>,</span>
               <span class='symbol val'>:model</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:subject</span><span class='rparen token'>)</span><span class='comma token'>,</span>
-              <span class='symbol val'>:on_invalid</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='minus op'>-</span><span class='gt op'>&gt;</span><span class='lparen token'>(</span><span class='rparen token'>)</span><span class='lbrace token'>{</span>
+              <span class='symbol val'>:on_invalid</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='minus op'>-</span><span class='gt op'>&gt;</span><span class='lparen token'>(</span><span class='rparen token'>)</span> <span class='lbrace token'>{</span>
                 <span class='rubyid_return return kw'>return</span> <span class='rubyid_render_aspace_partial identifier id'>render_aspace_partial</span> <span class='symbol val'>:partial</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;subjects/new&quot;</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_inline? fid id'>inline?</span>
                 <span class='rubyid_return return kw'>return</span> <span class='rubyid_render identifier id'>render</span> <span class='symbol val'>:action</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:new</span>
               <span class='rbrace token'>}</span><span class='comma token'>,</span>
-              <span class='symbol val'>:on_valid</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='minus op'>-</span><span class='gt op'>&gt;</span><span class='lparen token'>(</span><span class='rubyid_id identifier id'>id</span><span class='rparen token'>)</span><span class='lbrace token'>{</span>
+              <span class='symbol val'>:on_valid</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='minus op'>-</span><span class='gt op'>&gt;</span><span class='lparen token'>(</span><span class='rubyid_id identifier id'>id</span><span class='rparen token'>)</span> <span class='lbrace token'>{</span>
                 <span class='rubyid_if if kw'>if</span> <span class='rubyid_inline? fid id'>inline?</span>
                   <span class='rubyid_render identifier id'>render</span> <span class='symbol val'>:json</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_@subject ivar id'>@subject</span><span class='dot token'>.</span><span class='rubyid_to_hash identifier id'>to_hash</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_inline? fid id'>inline?</span>
                 <span class='rubyid_else else kw'>else</span>
@@ -605,6 +629,7 @@
                      <span class='rubyid_@subject ivar id'>@subject</span><span class='lbrack token'>[</span><span class='string val'>&quot;slug&quot;</span><span class='rbrack token'>]</span> <span class='eq op'>==</span> <span class='rubyid_nil nil kw'>nil</span> <span class='andop op'>&amp;&amp;</span>
                      <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='string val'>&quot;subject&quot;</span><span class='rbrack token'>]</span> <span class='andop op'>&amp;&amp;</span>
                      <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='string val'>&quot;subject&quot;</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>&quot;is_slug_auto&quot;</span><span class='rbrack token'>]</span> <span class='eq op'>==</span> <span class='string val'>&quot;1&quot;</span>
+
                     <span class='rubyid_flash identifier id'>flash</span><span class='lbrack token'>[</span><span class='symbol val'>:warning</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='string val'>&quot;slug.autogen_disabled&quot;</span><span class='rparen token'>)</span>
                   <span class='rubyid_end end kw'>end</span>
 
@@ -612,6 +637,37 @@
                   <span class='rubyid_redirect_to identifier id'>redirect_to</span> <span class='symbol val'>:controller</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:subjects</span><span class='comma token'>,</span> <span class='symbol val'>:action</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:edit</span><span class='comma token'>,</span> <span class='symbol val'>:id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_id identifier id'>id</span>
                 <span class='rubyid_end end kw'>end</span>
               <span class='rbrace token'>}</span><span class='rparen token'>)</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="current_record-instance_method">
+  
+    #<strong>current_record</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+25
+26
+27</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'frontend/app/controllers/subjects_controller.rb', line 25</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_current_record identifier id'>current_record</span>
+  <span class='rubyid_@subject ivar id'>@subject</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -634,18 +690,18 @@
       <pre class="lines">
 
 
-90
-91
-92
-93
-94
-95
-96
-97
-98</pre>
+100
+101
+102
+103
+104
+105
+106
+107
+108</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/controllers/subjects_controller.rb', line 90</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/controllers/subjects_controller.rb', line 100</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_defaults identifier id'>defaults</span>
   <span class='rubyid_defaults identifier id'>defaults</span> <span class='assign token'>=</span> <span class='rubyid_DefaultValues constant id'>DefaultValues</span><span class='dot token'>.</span><span class='rubyid_get identifier id'>get</span> <span class='string val'>&#39;subject&#39;</span>
@@ -677,20 +733,30 @@
       <pre class="lines">
 
 
-147
-148
-149
-150
-151
-152
-153</pre>
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/controllers/subjects_controller.rb', line 147</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/controllers/subjects_controller.rb', line 156</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_delete identifier id'>delete</span>
   <span class='rubyid_subject identifier id'>subject</span> <span class='assign token'>=</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:subject</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_find identifier id'>find</span><span class='lparen token'>(</span><span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:id</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
-  <span class='rubyid_subject identifier id'>subject</span><span class='dot token'>.</span><span class='rubyid_delete identifier id'>delete</span>
+  <span class='rubyid_begin begin kw'>begin</span>
+    <span class='rubyid_subject identifier id'>subject</span><span class='dot token'>.</span><span class='rubyid_delete identifier id'>delete</span>
+  <span class='rubyid_rescue rescue kw'>rescue</span> <span class='rubyid_ConflictException constant id'>ConflictException</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_e identifier id'>e</span>
+    <span class='rubyid_flash identifier id'>flash</span><span class='lbrack token'>[</span><span class='symbol val'>:error</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='string val'>&quot;subject._frontend.messages.delete_conflict&quot;</span><span class='comma token'>,</span> <span class='symbol val'>:error</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='dstring node'>&quot;errors.#{e.conflicts}&quot;</span><span class='comma token'>,</span> <span class='symbol val'>:default</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_e identifier id'>e</span><span class='dot token'>.</span><span class='rubyid_message identifier id'>message</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
+    <span class='rubyid_return return kw'>return</span> <span class='rubyid_redirect_to identifier id'>redirect_to</span><span class='lparen token'>(</span><span class='symbol val'>:controller</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:subjects</span><span class='comma token'>,</span> <span class='symbol val'>:action</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:show</span><span class='comma token'>,</span> <span class='symbol val'>:id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_subject identifier id'>subject</span><span class='dot token'>.</span><span class='rubyid_id identifier id'>id</span><span class='rparen token'>)</span>
+  <span class='rubyid_end end kw'>end</span>
 
   <span class='rubyid_flash identifier id'>flash</span><span class='lbrack token'>[</span><span class='symbol val'>:success</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='string val'>&quot;subject._frontend.messages.deleted&quot;</span><span class='comma token'>,</span> <span class='rubyid_JSONModelI18nWrapper constant id'>JSONModelI18nWrapper</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='symbol val'>:subject</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_subject identifier id'>subject</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
   <span class='rubyid_redirect_to identifier id'>redirect_to</span><span class='lparen token'>(</span><span class='symbol val'>:controller</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:subjects</span><span class='comma token'>,</span> <span class='symbol val'>:action</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:index</span><span class='comma token'>,</span> <span class='symbol val'>:deleted_uri</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_subject identifier id'>subject</span><span class='dot token'>.</span><span class='rubyid_uri identifier id'>uri</span><span class='rparen token'>)</span>
@@ -716,12 +782,12 @@
       <pre class="lines">
 
 
-41
-42
-43</pre>
+49
+50
+51</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/controllers/subjects_controller.rb', line 41</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/controllers/subjects_controller.rb', line 49</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_edit identifier id'>edit</span>
   <span class='rubyid_@subject ivar id'>@subject</span> <span class='assign token'>=</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:subject</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_find identifier id'>find</span><span class='lparen token'>(</span><span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:id</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
@@ -798,14 +864,14 @@
       <pre class="lines">
 
 
-140
-141
-142
-143
-144</pre>
+149
+150
+151
+152
+153</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/controllers/subjects_controller.rb', line 140</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/controllers/subjects_controller.rb', line 149</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_merge identifier id'>merge</span>
   <span class='rubyid_handle_merge identifier id'>handle_merge</span><span class='lparen token'>(</span> <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:refs</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
@@ -833,23 +899,31 @@
       <pre class="lines">
 
 
-29
-30
-31
-32
 33
 34
 35
 36
 37
 38
-39</pre>
+39
+40
+41
+42
+43
+44
+45
+46
+47</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/controllers/subjects_controller.rb', line 29</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/controllers/subjects_controller.rb', line 33</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_new identifier id'>new</span>
   <span class='rubyid_@subject ivar id'>@subject</span> <span class='assign token'>=</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:subject</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='lbrace token'>{</span><span class='symbol val'>:vocab_id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:vocabulary</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_id_for identifier id'>id_for</span><span class='lparen token'>(</span><span class='rubyid_current_vocabulary identifier id'>current_vocabulary</span><span class='lbrack token'>[</span><span class='string val'>&quot;uri&quot;</span><span class='rbrack token'>]</span><span class='rparen token'>)</span><span class='comma token'>,</span> <span class='symbol val'>:terms</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrack token'>[</span><span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rbrack token'>]</span><span class='rbrace token'>}</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid__always_valid! fid id'>_always_valid!</span>
+
+  <span class='rubyid_if if kw'>if</span> <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:term_type</span><span class='rbrack token'>]</span>
+    <span class='rubyid_@subject ivar id'>@subject</span><span class='lbrack token'>[</span><span class='string val'>&quot;terms&quot;</span><span class='rbrack token'>]</span><span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:term</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='lbrace token'>{</span><span class='symbol val'>:term_type</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:term_type</span><span class='rbrack token'>]</span><span class='rbrace token'>}</span><span class='rparen token'>)</span><span class='rbrack token'>]</span>
+  <span class='rubyid_end end kw'>end</span>
 
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_user_prefs identifier id'>user_prefs</span><span class='lbrack token'>[</span><span class='string val'>&#39;default_values&#39;</span><span class='rbrack token'>]</span>
     <span class='rubyid_defaults identifier id'>defaults</span> <span class='assign token'>=</span> <span class='rubyid_DefaultValues constant id'>DefaultValues</span><span class='dot token'>.</span><span class='rubyid_get identifier id'>get</span> <span class='string val'>&#39;subject&#39;</span>
@@ -909,12 +983,12 @@
       <pre class="code"><span class="info file"># File 'public/app/controllers/subjects_controller.rb', line 67</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_search identifier id'>search</span>
-<span class='rubyid_Rails constant id'>Rails</span><span class='dot token'>.</span><span class='rubyid_logger identifier id'>logger</span><span class='dot token'>.</span><span class='rubyid_debug identifier id'>debug</span><span class='lparen token'>(</span><span class='string val'>&quot;we hit search!&quot;</span><span class='rparen token'>)</span>
+  <span class='rubyid_Rails constant id'>Rails</span><span class='dot token'>.</span><span class='rubyid_logger identifier id'>logger</span><span class='dot token'>.</span><span class='rubyid_debug identifier id'>debug</span><span class='lparen token'>(</span><span class='string val'>&quot;we hit search!&quot;</span><span class='rparen token'>)</span>
 <span class='comment val'># need at least q[]=WHATEVER&amp;op[]=OR&amp;field[]=title&amp;from_year[]=&amp;to_year[]=&amp;limit=subject</span>
-   <span class='rubyid_@base_search ivar id'>@base_search</span>  <span class='assign token'>=</span>  <span class='string val'>&quot;/subjects/search?&quot;</span>
+  <span class='rubyid_@base_search ivar id'>@base_search</span> <span class='assign token'>=</span> <span class='string val'>&quot;/subjects/search?&quot;</span>
   <span class='rubyid_page identifier id'>page</span> <span class='assign token'>=</span> <span class='rubyid_Integer constant id'>Integer</span><span class='lparen token'>(</span><span class='rubyid_params identifier id'>params</span><span class='dot token'>.</span><span class='rubyid_fetch identifier id'>fetch</span><span class='lparen token'>(</span><span class='symbol val'>:page</span><span class='comma token'>,</span> <span class='string val'>&quot;1&quot;</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
   <span class='rubyid_begin begin kw'>begin</span>
-    <span class='rubyid_set_up_and_run_search identifier id'>set_up_and_run_search</span><span class='lparen token'>(</span><span class='lbrack token'>[</span><span class='string val'>&#39;subject&#39;</span><span class='rbrack token'>]</span><span class='comma token'>,</span><span class='rubyid_DEFAULT_SUBJ_FACET_TYPES constant id'>DEFAULT_SUBJ_FACET_TYPES</span><span class='comma token'>,</span><span class='rubyid_DEFAULT_SUBJ_SEARCH_OPTS constant id'>DEFAULT_SUBJ_SEARCH_OPTS</span><span class='comma token'>,</span> <span class='rubyid_params identifier id'>params</span><span class='rparen token'>)</span>
+    <span class='rubyid_set_up_and_run_search identifier id'>set_up_and_run_search</span><span class='lparen token'>(</span><span class='lbrack token'>[</span><span class='string val'>&#39;subject&#39;</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='rubyid_DEFAULT_SUBJ_FACET_TYPES constant id'>DEFAULT_SUBJ_FACET_TYPES</span><span class='comma token'>,</span> <span class='rubyid_DEFAULT_SUBJ_SEARCH_OPTS constant id'>DEFAULT_SUBJ_SEARCH_OPTS</span><span class='comma token'>,</span> <span class='rubyid_params identifier id'>params</span><span class='rparen token'>)</span>
   <span class='rubyid_rescue rescue kw'>rescue</span> <span class='rubyid_NoResultsError constant id'>NoResultsError</span>
     <span class='rubyid_flash identifier id'>flash</span><span class='lbrack token'>[</span><span class='symbol val'>:error</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='string val'>&#39;search_results.no_results&#39;</span><span class='rparen token'>)</span>
     <span class='rubyid_redirect_back identifier id'>redirect_back</span><span class='lparen token'>(</span><span class='label val'>fallback_location:</span> <span class='string val'>&#39;/&#39;</span><span class='rparen token'>)</span> <span class='rubyid_and and kw'>and</span> <span class='rubyid_return return kw'>return</span>
@@ -953,12 +1027,12 @@
       <pre class="lines">
 
 
-25
-26
-27</pre>
+29
+30
+31</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/controllers/subjects_controller.rb', line 25</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/controllers/subjects_controller.rb', line 29</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_show identifier id'>show</span>
   <span class='rubyid_@subject ivar id'>@subject</span> <span class='assign token'>=</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:subject</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_find identifier id'>find</span><span class='lparen token'>(</span><span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:id</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
@@ -984,15 +1058,6 @@
       <pre class="lines">
 
 
-120
-121
-122
-123
-124
-125
-126
-127
-128
 129
 130
 131
@@ -1001,10 +1066,19 @@
 134
 135
 136
-137</pre>
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/controllers/subjects_controller.rb', line 120</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/controllers/subjects_controller.rb', line 129</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_terms_complete identifier id'>terms_complete</span>
   <span class='rubyid_query identifier id'>query</span> <span class='assign token'>=</span> <span class='dstring node'>&quot;#{params[:query]}&quot;</span><span class='dot token'>.</span><span class='rubyid_strip identifier id'>strip</span>
@@ -1013,7 +1087,7 @@
     <span class='rubyid_begin begin kw'>begin</span>
       <span class='rubyid_results identifier id'>results</span> <span class='assign token'>=</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='colon2 op'>::</span><span class='rubyid_HTTP constant id'>HTTP</span><span class='colon2 op'>::</span><span class='rubyid_get_json identifier id'>get_json</span><span class='lparen token'>(</span><span class='string val'>&quot;/terms&quot;</span><span class='comma token'>,</span> <span class='symbol val'>:q</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:query</span><span class='rbrack token'>]</span><span class='rparen token'>)</span><span class='lbrack token'>[</span><span class='string val'>&#39;results&#39;</span><span class='rbrack token'>]</span>
 
-      <span class='rubyid_return return kw'>return</span> <span class='rubyid_render identifier id'>render</span> <span class='symbol val'>:json</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_results identifier id'>results</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span><span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_term identifier id'>term</span><span class='bitor op'>|</span>
+      <span class='rubyid_return return kw'>return</span> <span class='rubyid_render identifier id'>render</span> <span class='symbol val'>:json</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_results identifier id'>results</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_term identifier id'>term</span><span class='bitor op'>|</span>
         <span class='rubyid_term identifier id'>term</span><span class='lbrack token'>[</span><span class='string val'>&quot;_translated&quot;</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span>
         <span class='rubyid_term identifier id'>term</span><span class='lbrack token'>[</span><span class='string val'>&quot;_translated&quot;</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>&quot;term_type&quot;</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='dstring node'>&quot;enumerations.subject_term_type.#{term[&quot;term_type&quot;]}&quot;</span><span class='rparen token'>)</span>
         <span class='rubyid_term identifier id'>term</span>
@@ -1045,15 +1119,6 @@
       <pre class="lines">
 
 
-71
-72
-73
-74
-75
-76
-77
-78
-79
 80
 81
 82
@@ -1062,23 +1127,34 @@
 85
 86
 87
-88</pre>
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/controllers/subjects_controller.rb', line 71</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/controllers/subjects_controller.rb', line 80</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_update identifier id'>update</span>
   <span class='rubyid_handle_crud identifier id'>handle_crud</span><span class='lparen token'>(</span><span class='symbol val'>:instance</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:subject</span><span class='comma token'>,</span>
               <span class='symbol val'>:model</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:subject</span><span class='rparen token'>)</span><span class='comma token'>,</span>
               <span class='symbol val'>:obj</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:subject</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_find identifier id'>find</span><span class='lparen token'>(</span><span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:id</span><span class='rbrack token'>]</span><span class='rparen token'>)</span><span class='comma token'>,</span>
-              <span class='symbol val'>:on_invalid</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='minus op'>-</span><span class='gt op'>&gt;</span><span class='lparen token'>(</span><span class='rparen token'>)</span><span class='lbrace token'>{</span> <span class='rubyid_return return kw'>return</span> <span class='rubyid_render identifier id'>render</span> <span class='symbol val'>:action</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:edit</span> <span class='rbrace token'>}</span><span class='comma token'>,</span>
-              <span class='symbol val'>:on_valid</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='minus op'>-</span><span class='gt op'>&gt;</span><span class='lparen token'>(</span><span class='rubyid_id identifier id'>id</span><span class='rparen token'>)</span><span class='lbrace token'>{</span>
+              <span class='symbol val'>:on_invalid</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='minus op'>-</span><span class='gt op'>&gt;</span><span class='lparen token'>(</span><span class='rparen token'>)</span> <span class='lbrace token'>{</span> <span class='rubyid_return return kw'>return</span> <span class='rubyid_render identifier id'>render</span> <span class='symbol val'>:action</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:edit</span> <span class='rbrace token'>}</span><span class='comma token'>,</span>
+              <span class='symbol val'>:on_valid</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='minus op'>-</span><span class='gt op'>&gt;</span><span class='lparen token'>(</span><span class='rubyid_id identifier id'>id</span><span class='rparen token'>)</span> <span class='lbrace token'>{</span>
                 <span class='rubyid_flash identifier id'>flash</span><span class='lbrack token'>[</span><span class='symbol val'>:success</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='string val'>&quot;subject._frontend.messages.updated&quot;</span><span class='rparen token'>)</span>
 
                 <span class='rubyid_if if kw'>if</span> <span class='rubyid_@subject ivar id'>@subject</span><span class='lbrack token'>[</span><span class='string val'>&quot;is_slug_auto&quot;</span><span class='rbrack token'>]</span> <span class='eq op'>==</span> <span class='rubyid_false false kw'>false</span> <span class='andop op'>&amp;&amp;</span>
                    <span class='rubyid_@subject ivar id'>@subject</span><span class='lbrack token'>[</span><span class='string val'>&quot;slug&quot;</span><span class='rbrack token'>]</span> <span class='eq op'>==</span> <span class='rubyid_nil nil kw'>nil</span> <span class='andop op'>&amp;&amp;</span>
                    <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='string val'>&quot;subject&quot;</span><span class='rbrack token'>]</span> <span class='andop op'>&amp;&amp;</span>
                    <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='string val'>&quot;subject&quot;</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>&quot;is_slug_auto&quot;</span><span class='rbrack token'>]</span> <span class='eq op'>==</span> <span class='string val'>&quot;1&quot;</span>
+
                   <span class='rubyid_flash identifier id'>flash</span><span class='lbrack token'>[</span><span class='symbol val'>:warning</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='string val'>&quot;slug.autogen_disabled&quot;</span><span class='rparen token'>)</span>
                 <span class='rubyid_end end kw'>end</span>
 
@@ -1106,16 +1182,6 @@
       <pre class="lines">
 
 
-100
-101
-102
-103
-104
-105
-106
-107
-108
-109
 110
 111
 112
@@ -1123,13 +1189,21 @@
 114
 115
 116
-117</pre>
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/controllers/subjects_controller.rb', line 100</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/controllers/subjects_controller.rb', line 110</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_update_defaults identifier id'>update_defaults</span>
-
   <span class='rubyid_begin begin kw'>begin</span>
     <span class='rubyid_DefaultValues constant id'>DefaultValues</span><span class='dot token'>.</span><span class='rubyid_from_hash identifier id'>from_hash</span><span class='lparen token'>(</span><span class='lbrace token'>{</span>
                               <span class='string val'>&quot;record_type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;subject&quot;</span><span class='comma token'>,</span>
@@ -1157,9 +1231,9 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.8.1.a Documentation Generated on Wed Nov 11 13:22:15 2020 by
+  ArchivesSpace Version X.Y.Z Documentation Generated on Tue Sep 21 14:10:06 2021 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.25.
+  0.9.26.
 </div>
 
     </div>

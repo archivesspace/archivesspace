@@ -6,7 +6,7 @@
 <title>
   Module: WelcomeHelper
   
-    &mdash; Documentation by YARD 0.9.25
+    &mdash; Documentation by YARD 0.9.26
   
 </title>
 
@@ -203,11 +203,11 @@
       <pre class="code"><span class="info file"># File 'frontend/app/helpers/welcome_helper.rb', line 3</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_database_warning identifier id'>database_warning</span><span class='lparen token'>(</span><span class='rubyid_info identifier id'>info</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
-  <span class='rubyid_if if kw'>if</span> <span class='rubyid_session identifier id'>session</span><span class='lbrack token'>[</span><span class='string val'>&quot;user&quot;</span><span class='rbrack token'>]</span> 
-    <span class='rubyid_if if kw'>if</span> <span class='rubyid_info identifier id'>info</span><span class='dot token'>.</span><span class='rubyid_has_key? fid id'>has_key?</span><span class='lparen token'>(</span><span class='string val'>&quot;databaseProductName&quot;</span><span class='rparen token'>)</span>  <span class='andop op'>&amp;&amp;</span> <span class='rubyid_info identifier id'>info</span><span class='lbrack token'>[</span><span class='string val'>&quot;databaseProductName&quot;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_include? fid id'>include?</span><span class='lparen token'>(</span><span class='string val'>&quot;Derby&quot;</span><span class='rparen token'>)</span>
+  <span class='rubyid_if if kw'>if</span> <span class='rubyid_session identifier id'>session</span><span class='lbrack token'>[</span><span class='string val'>&quot;user&quot;</span><span class='rbrack token'>]</span>
+    <span class='rubyid_if if kw'>if</span> <span class='rubyid_info identifier id'>info</span><span class='dot token'>.</span><span class='rubyid_has_key? fid id'>has_key?</span><span class='lparen token'>(</span><span class='string val'>&quot;databaseProductName&quot;</span><span class='rparen token'>)</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_info identifier id'>info</span><span class='lbrack token'>[</span><span class='string val'>&quot;databaseProductName&quot;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_include? fid id'>include?</span><span class='lparen token'>(</span><span class='string val'>&quot;Derby&quot;</span><span class='rparen token'>)</span>
       <span class='rubyid_flash identifier id'>flash</span><span class='lbrack token'>[</span><span class='symbol val'>:warning</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='string val'>&quot;database_warning.message&quot;</span><span class='rparen token'>)</span>
     <span class='rubyid_end end kw'>end</span>
-  <span class='rubyid_end end kw'>end</span> 
+  <span class='rubyid_end end kw'>end</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -243,7 +243,7 @@
     <td>
       <pre class="code"><span class="info file"># File 'frontend/app/helpers/welcome_helper.rb', line 11</span>
 
-<span class='rubyid_def def kw'>def</span> <span class='rubyid_no_repo_message identifier id'>no_repo_message</span> 
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_no_repo_message identifier id'>no_repo_message</span>
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_session identifier id'>session</span><span class='lbrack token'>[</span><span class='symbol val'>:user</span><span class='rbrack token'>]</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_@repositories ivar id'>@repositories</span><span class='dot token'>.</span><span class='rubyid_length identifier id'>length</span> <span class='eqq op'>===</span> <span class='integer val'>0</span>
     <span class='rubyid_if if kw'>if</span> <span class='rubyid_user_can? fid id'>user_can?</span><span class='lparen token'>(</span><span class='string val'>&#39;create_repository&#39;</span><span class='rparen token'>)</span>
       <span class='rubyid_flash identifier id'>flash</span><span class='dot token'>.</span><span class='rubyid_now identifier id'>now</span><span class='lbrack token'>[</span><span class='symbol val'>:info</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='string val'>&quot;repository._frontend.messages.create_first_repository&quot;</span><span class='rparen token'>)</span>
@@ -285,11 +285,11 @@
       <pre class="code"><span class="info file"># File 'frontend/app/helpers/welcome_helper.rb', line 21</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_welcome_message identifier id'>welcome_message</span>
-  <span class='rubyid_if if kw'>if</span> <span class='rubyid_session identifier id'>session</span><span class='lbrack token'>[</span><span class='string val'>&quot;user&quot;</span><span class='rbrack token'>]</span> 
-      <span class='rubyid_return return kw'>return</span> <span class='dstring node'>&quot;&lt;p&gt;#{ I18n.t &#39;welcome.message_logged_in&#39; }&lt;/p&gt;&quot;</span><span class='dot token'>.</span><span class='rubyid_html_safe identifier id'>html_safe</span>
-  <span class='rubyid_else else kw'>else</span> 
-      <span class='rubyid_return return kw'>return</span> <span class='dstring node'>&quot;&lt;p&gt;#{ I18n.t &#39;welcome.message&#39; }&lt;/p&gt;&quot;</span><span class='dot token'>.</span><span class='rubyid_html_safe identifier id'>html_safe</span>
-  <span class='rubyid_end end kw'>end</span> 
+  <span class='rubyid_if if kw'>if</span> <span class='rubyid_session identifier id'>session</span><span class='lbrack token'>[</span><span class='string val'>&quot;user&quot;</span><span class='rbrack token'>]</span>
+    <span class='rubyid_return return kw'>return</span> <span class='dstring node'>&quot;&lt;p&gt;#{ I18n.t &#39;welcome.message_logged_in&#39; }&lt;/p&gt;&quot;</span><span class='dot token'>.</span><span class='rubyid_html_safe identifier id'>html_safe</span>
+  <span class='rubyid_else else kw'>else</span>
+    <span class='rubyid_return return kw'>return</span> <span class='dstring node'>&quot;&lt;p&gt;#{ I18n.t &#39;welcome.message&#39; }&lt;/p&gt;&quot;</span><span class='dot token'>.</span><span class='rubyid_html_safe identifier id'>html_safe</span>
+  <span class='rubyid_end end kw'>end</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -302,9 +302,9 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.8.1.a Documentation Generated on Wed Nov 11 13:21:33 2020 by
+  ArchivesSpace Version X.Y.Z Documentation Generated on Tue Sep 21 14:09:36 2021 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.25.
+  0.9.26.
 </div>
 
     </div>

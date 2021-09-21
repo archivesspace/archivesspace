@@ -30,6 +30,8 @@ string (max length: 65000)	additional_contact
 
 object	agent_record
 
+boolean	is_active_user
+
 boolean	is_admin
 
 

@@ -6,7 +6,7 @@
 <title>
   Module: ASModel::ModelScoping
   
-    &mdash; Documentation by YARD 0.9.25
+    &mdash; Documentation by YARD 0.9.26
   
 </title>
 
@@ -263,12 +263,12 @@
       <pre class="lines">
 
 
+18
 19
-20
-21</pre>
+20</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/ASModel_scoping.rb', line 19</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/ASModel_scoping.rb', line 18</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_included identifier id'>included</span><span class='lparen token'>(</span><span class='rubyid_base identifier id'>base</span><span class='rparen token'>)</span>
   <span class='rubyid_base identifier id'>base</span><span class='dot token'>.</span><span class='rubyid_extend identifier id'>extend</span><span class='lparen token'>(</span><span class='rubyid_ClassMethods constant id'>ClassMethods</span><span class='rparen token'>)</span>
@@ -310,6 +310,7 @@
       <pre class="lines">
 
 
+53
 54
 55
 56
@@ -321,12 +322,10 @@
 62
 63
 64
-65
-66
-67</pre>
+65</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/ASModel_scoping.rb', line 54</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/ASModel_scoping.rb', line 53</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_publish! fid id'>publish!</span><span class='lparen token'>(</span><span class='rubyid_setting identifier id'>setting</span> <span class='assign token'>=</span> <span class='rubyid_true true kw'>true</span><span class='rparen token'>)</span>
   <span class='rubyid_object_graph identifier id'>object_graph</span> <span class='assign token'>=</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_object_graph identifier id'>object_graph</span>
@@ -340,7 +339,6 @@
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_model identifier id'>model</span> <span class='eq op'>==</span> <span class='rubyid_Resource constant id'>Resource</span> <span class='orop op'>||</span> <span class='rubyid_model identifier id'>model</span> <span class='eq op'>==</span> <span class='rubyid_Accession constant id'>Accession</span>
     <span class='rubyid_reindex_top_containers identifier id'>reindex_top_containers</span>
   <span class='rubyid_end end kw'>end</span>
-
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -363,6 +361,7 @@
       <pre class="lines">
 
 
+29
 30
 31
 32
@@ -382,11 +381,10 @@
 46
 47
 48
-49
-50</pre>
+49</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/ASModel_scoping.rb', line 30</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/ASModel_scoping.rb', line 29</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_set_suppressed identifier id'>set_suppressed</span><span class='lparen token'>(</span><span class='rubyid_val identifier id'>val</span><span class='rparen token'>)</span>
   <span class='rubyid_unless unless kw'>unless</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_suppressible? fid id'>suppressible?</span>
@@ -430,12 +428,12 @@
       <pre class="lines">
 
 
-70
-71
-72</pre>
+68
+69
+70</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/ASModel_scoping.rb', line 70</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/ASModel_scoping.rb', line 68</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_unpublish! fid id'>unpublish!</span>
   <span class='rubyid_publish! fid id'>publish!</span><span class='lparen token'>(</span><span class='rubyid_false false kw'>false</span><span class='rparen token'>)</span>
@@ -461,13 +459,13 @@
       <pre class="lines">
 
 
+23
 24
 25
-26
-27</pre>
+26</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/ASModel_scoping.rb', line 24</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/ASModel_scoping.rb', line 23</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_uri identifier id'>uri</span>
   <span class='comment val'># Bleh!</span>
@@ -484,9 +482,9 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.8.1.a Documentation Generated on Wed Nov 11 13:21:24 2020 by
+  ArchivesSpace Version X.Y.Z Documentation Generated on Tue Sep 21 14:09:28 2021 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.25.
+  0.9.26.
 </div>
 
     </div>

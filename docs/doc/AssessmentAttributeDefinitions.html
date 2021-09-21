@@ -6,7 +6,7 @@
 <title>
   Class: AssessmentAttributeDefinitions
   
-    &mdash; Documentation by YARD 0.9.25
+    &mdash; Documentation by YARD 0.9.26
   
 </title>
 
@@ -533,7 +533,7 @@
         <span class='dot token'>.</span><span class='rubyid_where identifier id'>where</span> <span class='lbrace token'>{</span> <span class='rubyid_Sequel constant id'>Sequel</span><span class='dot token'>.</span><span class='bitnot op'>~</span><span class='lparen token'>(</span><span class='symbol val'>:id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_definitions identifier id'>definitions</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_d identifier id'>d</span><span class='bitor op'>|</span> <span class='rubyid_d identifier id'>d</span><span class='lbrack token'>[</span><span class='string val'>&#39;id&#39;</span><span class='rbrack token'>]</span><span class='rbrace token'>}</span><span class='dot token'>.</span><span class='rubyid_compact identifier id'>compact</span><span class='rparen token'>)</span> <span class='rbrace token'>}</span>
         <span class='dot token'>.</span><span class='rubyid_delete identifier id'>delete</span>
     <span class='rubyid_rescue rescue kw'>rescue</span> <span class='rubyid_Sequel constant id'>Sequel</span><span class='colon2 op'>::</span><span class='rubyid_ForeignKeyConstraintViolation constant id'>ForeignKeyConstraintViolation</span>
-        <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_ConflictException constant id'>ConflictException</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='string val'>&quot;RECORD_IN_USE&quot;</span><span class='rparen token'>)</span>
+      <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_ConflictException constant id'>ConflictException</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='string val'>&quot;RECORD_IN_USE&quot;</span><span class='rparen token'>)</span>
     <span class='rubyid_end end kw'>end</span>
 
 
@@ -796,7 +796,7 @@
       <pre class="code"><span class="info file"># File 'frontend/app/models/assessment_attribute_definitions.rb', line 39</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_label_for_id identifier id'>label_for_id</span><span class='lparen token'>(</span><span class='rubyid_id identifier id'>id</span><span class='rparen token'>)</span>
-  <span class='rubyid_attribute identifier id'>attribute</span> <span class='assign token'>=</span> <span class='rubyid_definitions identifier id'>definitions</span><span class='dot token'>.</span><span class='rubyid_find identifier id'>find</span><span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_d identifier id'>d</span><span class='bitor op'>|</span> <span class='rubyid_d identifier id'>d</span><span class='lbrack token'>[</span><span class='string val'>&#39;id&#39;</span><span class='rbrack token'>]</span> <span class='eq op'>==</span> <span class='rubyid_id identifier id'>id</span><span class='rbrace token'>}</span>
+  <span class='rubyid_attribute identifier id'>attribute</span> <span class='assign token'>=</span> <span class='rubyid_definitions identifier id'>definitions</span><span class='dot token'>.</span><span class='rubyid_find identifier id'>find</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_d identifier id'>d</span><span class='bitor op'>|</span> <span class='rubyid_d identifier id'>d</span><span class='lbrack token'>[</span><span class='string val'>&#39;id&#39;</span><span class='rbrack token'>]</span> <span class='eq op'>==</span> <span class='rubyid_id identifier id'>id</span><span class='rbrace token'>}</span>
   <span class='rubyid_return return kw'>return</span> <span class='string val'>&quot;UKNOWN&quot;</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_attribute identifier id'>attribute</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span>
 
   <span class='rubyid_attribute identifier id'>attribute</span><span class='dot token'>.</span><span class='rubyid_fetch identifier id'>fetch</span><span class='lparen token'>(</span><span class='string val'>&#39;label&#39;</span><span class='rparen token'>)</span>
@@ -998,9 +998,9 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.8.1.a Documentation Generated on Wed Nov 11 13:22:10 2020 by
+  ArchivesSpace Version X.Y.Z Documentation Generated on Tue Sep 21 14:10:02 2021 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.25.
+  0.9.26.
 </div>
 
     </div>

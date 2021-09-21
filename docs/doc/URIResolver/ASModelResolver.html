@@ -6,7 +6,7 @@
 <title>
   Class: URIResolver::ASModelResolver
   
-    &mdash; Documentation by YARD 0.9.25
+    &mdash; Documentation by YARD 0.9.26
   
 </title>
 
@@ -269,12 +269,12 @@ archival_object, digital_object, etc.)</p>
       <pre class="lines">
 
 
-317
-318
-319</pre>
+333
+334
+335</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/uri_resolver.rb', line 317</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/uri_resolver.rb', line 333</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_initialize identifier id'>initialize</span><span class='lparen token'>(</span><span class='rubyid_model identifier id'>model</span><span class='rparen token'>)</span>
   <span class='rubyid_@model ivar id'>@model</span> <span class='assign token'>=</span> <span class='rubyid_model identifier id'>model</span>
@@ -307,13 +307,13 @@ archival_object, digital_object, etc.)</p>
       <pre class="lines">
 
 
-312
-313
-314
-315</pre>
+328
+329
+330
+331</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/uri_resolver.rb', line 312</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/uri_resolver.rb', line 328</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_handler_for identifier id'>handler_for</span><span class='lparen token'>(</span><span class='rubyid_jsonmodel_type identifier id'>jsonmodel_type</span><span class='rparen token'>)</span>
   <span class='rubyid_model identifier id'>model</span> <span class='assign token'>=</span> <span class='rubyid_find_model_by_jsonmodel_type identifier id'>find_model_by_jsonmodel_type</span><span class='lparen token'>(</span><span class='rubyid_jsonmodel_type identifier id'>jsonmodel_type</span><span class='rparen token'>)</span>
@@ -369,14 +369,14 @@ archival_object, digital_object, etc.)</p>
       <pre class="lines">
 
 
-321
-322
-323
-324
-325</pre>
+337
+338
+339
+340
+341</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/uri_resolver.rb', line 321</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/uri_resolver.rb', line 337</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_record_exists? fid id'>record_exists?</span><span class='lparen token'>(</span><span class='rubyid_uri identifier id'>uri</span><span class='rparen token'>)</span>
   <span class='rubyid_id identifier id'>id</span> <span class='assign token'>=</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='dot token'>.</span><span class='rubyid_parse_reference identifier id'>parse_reference</span><span class='lparen token'>(</span><span class='rubyid_uri identifier id'>uri</span><span class='rparen token'>)</span><span class='lbrack token'>[</span><span class='symbol val'>:id</span><span class='rbrack token'>]</span>
@@ -404,25 +404,25 @@ archival_object, digital_object, etc.)</p>
       <pre class="lines">
 
 
-327
-328
-329
-330
-331
-332
-333
-334
-335
-336
-337
-338
-339
-340
-341
-342</pre>
+343
+344
+345
+346
+347
+348
+349
+350
+351
+352
+353
+354
+355
+356
+357
+358</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/uri_resolver.rb', line 327</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/uri_resolver.rb', line 343</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_resolve identifier id'>resolve</span><span class='lparen token'>(</span><span class='rubyid_uris identifier id'>uris</span><span class='rparen token'>)</span>
   <span class='rubyid_ids_by_repo identifier id'>ids_by_repo</span> <span class='assign token'>=</span> <span class='rubyid_group_by_repo_id identifier id'>group_by_repo_id</span><span class='lparen token'>(</span><span class='rubyid_uris identifier id'>uris</span><span class='rparen token'>)</span>
@@ -451,9 +451,9 @@ archival_object, digital_object, etc.)</p>
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.8.1.a Documentation Generated on Wed Nov 11 13:21:47 2020 by
+  ArchivesSpace Version X.Y.Z Documentation Generated on Tue Sep 21 14:09:45 2021 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.25.
+  0.9.26.
 </div>
 
     </div>

@@ -6,7 +6,7 @@
 <title>
   Module: ExportHelper
   
-    &mdash; Documentation by YARD 0.9.25
+    &mdash; Documentation by YARD 0.9.26
   
 </title>
 
@@ -76,7 +76,7 @@
   
   <dl>
     <dt>Included in:</dt>
-    <dd><span class='object_link'><a href="AccessionsController.html" title="AccessionsController (class)">AccessionsController</a></span>, <span class='object_link'><a href="AgentsController.html" title="AgentsController (class)">AgentsController</a></span>, <span class='object_link'><a href="AssessmentsController.html" title="AssessmentsController (class)">AssessmentsController</a></span>, <span class='object_link'><a href="ClassificationsController.html" title="ClassificationsController (class)">ClassificationsController</a></span>, <span class='object_link'><a href="ContainerProfilesController.html" title="ContainerProfilesController (class)">ContainerProfilesController</a></span>, <span class='object_link'><a href="DigitalObjectsController.html" title="DigitalObjectsController (class)">DigitalObjectsController</a></span>, <span class='object_link'><a href="EventsController.html" title="EventsController (class)">EventsController</a></span>, <span class='object_link'><a href="ExportsController.html" title="ExportsController (class)">ExportsController</a></span>, <span class='object_link'><a href="JobsController.html" title="JobsController (class)">JobsController</a></span>, <span class='object_link'><a href="LocationsController.html" title="LocationsController (class)">LocationsController</a></span>, <span class='object_link'><a href="ResourcesController.html" title="ResourcesController (class)">ResourcesController</a></span>, <span class='object_link'><a href="SearchController.html" title="SearchController (class)">SearchController</a></span>, <span class='object_link'><a href="SubjectsController.html" title="SubjectsController (class)">SubjectsController</a></span></dd>
+    <dd><span class='object_link'><a href="AccessionsController.html" title="AccessionsController (class)">AccessionsController</a></span>, <span class='object_link'><a href="AgentsController.html" title="AgentsController (class)">AgentsController</a></span>, <span class='object_link'><a href="AssessmentsController.html" title="AssessmentsController (class)">AssessmentsController</a></span>, <span class='object_link'><a href="ClassificationsController.html" title="ClassificationsController (class)">ClassificationsController</a></span>, <span class='object_link'><a href="ContainerProfilesController.html" title="ContainerProfilesController (class)">ContainerProfilesController</a></span>, <span class='object_link'><a href="DigitalObjectsController.html" title="DigitalObjectsController (class)">DigitalObjectsController</a></span>, <span class='object_link'><a href="EventsController.html" title="EventsController (class)">EventsController</a></span>, <span class='object_link'><a href="ExportsController.html" title="ExportsController (class)">ExportsController</a></span>, <span class='object_link'><a href="JobsController.html" title="JobsController (class)">JobsController</a></span>, <span class='object_link'><a href="LocationsController.html" title="LocationsController (class)">LocationsController</a></span>, <span class='object_link'><a href="ResourcesController.html" title="ResourcesController (class)">ResourcesController</a></span>, <span class='object_link'><a href="SearchController.html" title="SearchController (class)">SearchController</a></span>, <span class='object_link'><a href="SubjectsController.html" title="SubjectsController (class)">SubjectsController</a></span>, <span class='object_link'><a href="TopContainersController.html" title="TopContainersController (class)">TopContainersController</a></span></dd>
   </dl>
   
 
@@ -189,15 +189,15 @@
       <pre class="code"><span class="info file"># File 'frontend/app/helpers/export_helper.rb', line 3</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_csv_response identifier id'>csv_response</span><span class='lparen token'>(</span><span class='rubyid_request_uri identifier id'>request_uri</span><span class='comma token'>,</span> <span class='rubyid_params identifier id'>params</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='comma token'>,</span> <span class='rubyid_filename_prefix identifier id'>filename_prefix</span> <span class='assign token'>=</span> <span class='string val'>&#39;&#39;</span><span class='rparen token'>)</span>
-      <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_response identifier id'>response</span><span class='dot token'>.</span><span class='rubyid_headers identifier id'>headers</span><span class='lbrack token'>[</span><span class='string val'>&quot;Content-Type&quot;</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='string val'>&quot;text/csv&quot;</span> 
-      <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_response identifier id'>response</span><span class='dot token'>.</span><span class='rubyid_headers identifier id'>headers</span><span class='lbrack token'>[</span><span class='string val'>&quot;Content-Disposition&quot;</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='dstring node'>&quot;attachment; filename=#{filename_prefix}#{Time.now.to_i}.csv&quot;</span>
-      <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_response identifier id'>response</span><span class='dot token'>.</span><span class='rubyid_headers identifier id'>headers</span><span class='lbrack token'>[</span><span class='string val'>&#39;Last-Modified&#39;</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_Time constant id'>Time</span><span class='dot token'>.</span><span class='rubyid_now identifier id'>now</span><span class='dot token'>.</span><span class='rubyid_ctime identifier id'>ctime</span><span class='dot token'>.</span><span class='rubyid_to_s identifier id'>to_s</span> 
-      <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='string val'>&quot;dt&quot;</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='string val'>&quot;csv&quot;</span> 
-      <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_response_body identifier id'>response_body</span> <span class='assign token'>=</span> <span class='rubyid_Enumerator constant id'>Enumerator</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_y identifier id'>y</span><span class='bitor op'>|</span>
-        <span class='rubyid_xml_response identifier id'>xml_response</span><span class='lparen token'>(</span><span class='rubyid_request_uri identifier id'>request_uri</span><span class='comma token'>,</span> <span class='rubyid_params identifier id'>params</span><span class='rparen token'>)</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_chunk identifier id'>chunk</span><span class='comma token'>,</span> <span class='rubyid_percent identifier id'>percent</span><span class='bitor op'>|</span>
-          <span class='rubyid_y identifier id'>y</span> <span class='lshft op'>&lt;&lt;</span> <span class='rubyid_chunk identifier id'>chunk</span> <span class='rubyid_if if_mod kw'>if</span> <span class='notop op'>!</span><span class='rubyid_chunk identifier id'>chunk</span><span class='dot token'>.</span><span class='rubyid_blank? fid id'>blank?</span>
-        <span class='rubyid_end end kw'>end</span>
-      <span class='rubyid_end end kw'>end</span> 
+  <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_response identifier id'>response</span><span class='dot token'>.</span><span class='rubyid_headers identifier id'>headers</span><span class='lbrack token'>[</span><span class='string val'>&quot;Content-Type&quot;</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='string val'>&quot;text/csv&quot;</span>
+  <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_response identifier id'>response</span><span class='dot token'>.</span><span class='rubyid_headers identifier id'>headers</span><span class='lbrack token'>[</span><span class='string val'>&quot;Content-Disposition&quot;</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='dstring node'>&quot;attachment; filename=#{filename_prefix}#{Time.now.to_i}.csv&quot;</span>
+  <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_response identifier id'>response</span><span class='dot token'>.</span><span class='rubyid_headers identifier id'>headers</span><span class='lbrack token'>[</span><span class='string val'>&#39;Last-Modified&#39;</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_Time constant id'>Time</span><span class='dot token'>.</span><span class='rubyid_now identifier id'>now</span><span class='dot token'>.</span><span class='rubyid_ctime identifier id'>ctime</span><span class='dot token'>.</span><span class='rubyid_to_s identifier id'>to_s</span>
+  <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='string val'>&quot;dt&quot;</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='string val'>&quot;csv&quot;</span>
+  <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_response_body identifier id'>response_body</span> <span class='assign token'>=</span> <span class='rubyid_Enumerator constant id'>Enumerator</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_y identifier id'>y</span><span class='bitor op'>|</span>
+    <span class='rubyid_xml_response identifier id'>xml_response</span><span class='lparen token'>(</span><span class='rubyid_request_uri identifier id'>request_uri</span><span class='comma token'>,</span> <span class='rubyid_params identifier id'>params</span><span class='rparen token'>)</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_chunk identifier id'>chunk</span><span class='comma token'>,</span> <span class='rubyid_percent identifier id'>percent</span><span class='bitor op'>|</span>
+      <span class='rubyid_y identifier id'>y</span> <span class='lshft op'>&lt;&lt;</span> <span class='rubyid_chunk identifier id'>chunk</span> <span class='rubyid_if if_mod kw'>if</span> <span class='notop op'>!</span><span class='rubyid_chunk identifier id'>chunk</span><span class='dot token'>.</span><span class='rubyid_blank? fid id'>blank?</span>
+    <span class='rubyid_end end kw'>end</span>
+  <span class='rubyid_end end kw'>end</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -229,8 +229,7 @@
 21
 22
 23
-24
-25</pre>
+24</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'frontend/app/helpers/export_helper.rb', line 15</span>
@@ -244,7 +243,6 @@
       <span class='rubyid_yield yield kw'>yield</span> <span class='rubyid_chunk identifier id'>chunk</span><span class='comma token'>,</span> <span class='rubyid_percent identifier id'>percent</span>
     <span class='rubyid_end end kw'>end</span>
   <span class='rubyid_end end kw'>end</span>
-
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -257,9 +255,9 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.8.1.a Documentation Generated on Wed Nov 11 13:21:33 2020 by
+  ArchivesSpace Version X.Y.Z Documentation Generated on Tue Sep 21 14:09:35 2021 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.25.
+  0.9.26.
 </div>
 
     </div>

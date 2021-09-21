@@ -6,7 +6,7 @@
 <title>
   Schema: agent_contact_schema
   
-    &mdash; Documentation by YARD 0.9.25
+    &mdash; Documentation by YARD 0.9.26
   
 </title>
 
@@ -94,7 +94,9 @@
 			
 				<h3 class="signature"> - (string (max length: 65000)) <strong>email_signature</strong></h3>
 			
-				<h3 class="signature"> - (string (max length: 65000)) <strong>note</strong></h3>
+				<h3 class="signature"> - (array ([{"type"=>"JSONModel(:note_contact_note) object"}, {"type"=>"JSONModel(:note_chronology) object"}])) <strong>notes</strong></h3>
+			
+				<h3 class="signature"> - (boolean) <strong>is_representative</strong></h3>
 			
 		<span class="showSource"><a href="#" class="toggleSource">View Source</a></span>
 
@@ -130,7 +132,13 @@
 24
 25
 26
-27</pre>
+27
+28
+29
+30
+31
+32
+33</pre>
           </td>
           <td>
             <pre class="code"><span class="info file"># File 'common/schemas/agent_contact.rb', line 1</span>
@@ -158,7 +166,13 @@
       <span class='string val'>&quot;fax&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span><span class='string val'>&quot;type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;string&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;maxLength&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='integer val'>65000</span><span class='rbrace token'>}</span><span class='comma token'>,</span>
       <span class='string val'>&quot;email&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span><span class='string val'>&quot;type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;string&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;maxLength&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='integer val'>65000</span><span class='rbrace token'>}</span><span class='comma token'>,</span>
       <span class='string val'>&quot;email_signature&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span><span class='string val'>&quot;type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;string&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;maxLength&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='integer val'>65000</span><span class='rbrace token'>}</span><span class='comma token'>,</span>
-      <span class='string val'>&quot;note&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span><span class='string val'>&quot;type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;string&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;maxLength&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='integer val'>65000</span><span class='rbrace token'>}</span><span class='comma token'>,</span>
+
+      <span class='string val'>&quot;notes&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span>
+        <span class='string val'>&quot;type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;array&quot;</span><span class='comma token'>,</span>
+        <span class='string val'>&quot;items&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span><span class='string val'>&quot;type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrack token'>[</span><span class='lbrace token'>{</span><span class='string val'>&quot;type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;JSONModel(:note_contact_note) object&quot;</span><span class='rbrace token'>}</span><span class='comma token'>,</span>
+                               <span class='lbrace token'>{</span><span class='string val'>&quot;type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;JSONModel(:note_chronology) object&quot;</span><span class='rbrace token'>}</span><span class='rbrack token'>]</span><span class='rbrace token'>}</span><span class='comma token'>,</span>
+      <span class='rbrace token'>}</span><span class='comma token'>,</span>
+      <span class='string val'>&quot;is_representative&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span><span class='string val'>&quot;type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;boolean&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;default&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_false false kw'>false</span><span class='rbrace token'>}</span><span class='comma token'>,</span>
     <span class='rbrace token'>}</span><span class='comma token'>,</span>
   <span class='rbrace token'>}</span><span class='comma token'>,</span>
 <span class='rbrace token'>}</span>
@@ -175,9 +189,9 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.8.1.a Documentation Generated on Wed Nov 11 13:22:30 2020 by
+  ArchivesSpace Version X.Y.Z Documentation Generated on Tue Sep 21 14:10:17 2021 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.25.
+  0.9.26.
 </div>
 
     </div>

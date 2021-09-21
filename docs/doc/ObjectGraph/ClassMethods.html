@@ -6,7 +6,7 @@
 <title>
   Module: ObjectGraph::ClassMethods
   
-    &mdash; Documentation by YARD 0.9.25
+    &mdash; Documentation by YARD 0.9.26
   
 </title>
 
@@ -165,18 +165,16 @@
 152
 153
 154
-155
-156</pre>
+155</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'backend/app/model/ASModel_object_graph.rb', line 135</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_calculate_object_graph identifier id'>calculate_object_graph</span><span class='lparen token'>(</span><span class='rubyid_object_graph identifier id'>object_graph</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
-
   <span class='rubyid_object_graph identifier id'>object_graph</span><span class='dot token'>.</span><span class='rubyid_models identifier id'>models</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_model identifier id'>model</span><span class='bitor op'>|</span>
     <span class='rubyid_next next kw'>next</span> <span class='rubyid_unless unless_mod kw'>unless</span> <span class='rubyid_model identifier id'>model</span><span class='dot token'>.</span><span class='rubyid_respond_to? fid id'>respond_to?</span><span class='lparen token'>(</span><span class='symbol val'>:nested_records</span><span class='rparen token'>)</span>
     <span class='rubyid_model identifier id'>model</span><span class='dot token'>.</span><span class='rubyid_nested_records identifier id'>nested_records</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_nr identifier id'>nr</span><span class='bitor op'>|</span>
-      <span class='rubyid_association identifier id'>association</span> <span class='assign token'>=</span>  <span class='rubyid_nr identifier id'>nr</span><span class='lbrack token'>[</span><span class='symbol val'>:association</span><span class='rbrack token'>]</span>
+      <span class='rubyid_association identifier id'>association</span> <span class='assign token'>=</span> <span class='rubyid_nr identifier id'>nr</span><span class='lbrack token'>[</span><span class='symbol val'>:association</span><span class='rbrack token'>]</span>
 
       <span class='rubyid_if if kw'>if</span> <span class='rubyid_association identifier id'>association</span><span class='lbrack token'>[</span><span class='symbol val'>:type</span><span class='rbrack token'>]</span> <span class='neq op'>!=</span> <span class='symbol val'>:many_to_many</span>
         <span class='rubyid_nested_model identifier id'>nested_model</span> <span class='assign token'>=</span> <span class='rubyid_Kernel constant id'>Kernel</span><span class='dot token'>.</span><span class='rubyid_const_get identifier id'>const_get</span><span class='lparen token'>(</span><span class='rubyid_association identifier id'>association</span><span class='lbrack token'>[</span><span class='symbol val'>:class_name</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
@@ -204,9 +202,9 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.8.1.a Documentation Generated on Wed Nov 11 13:21:28 2020 by
+  ArchivesSpace Version X.Y.Z Documentation Generated on Tue Sep 21 14:09:30 2021 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.25.
+  0.9.26.
 </div>
 
     </div>

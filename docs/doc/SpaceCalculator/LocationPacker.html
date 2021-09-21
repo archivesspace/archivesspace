@@ -6,7 +6,7 @@
 <title>
   Class: SpaceCalculator::LocationPacker
   
-    &mdash; Documentation by YARD 0.9.25
+    &mdash; Documentation by YARD 0.9.26
   
 </title>
 
@@ -253,13 +253,13 @@
       <pre class="lines">
 
 
-224
-225
 226
-227</pre>
+227
+228
+229</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/space_calculator.rb', line 224</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/space_calculator.rb', line 226</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_initialize identifier id'>initialize</span><span class='lparen token'>(</span><span class='rubyid_dimensions identifier id'>dimensions</span><span class='rparen token'>)</span>
   <span class='rubyid_@dimensions ivar id'>@dimensions</span> <span class='assign token'>=</span> <span class='rubyid_dimensions identifier id'>dimensions</span>
@@ -305,8 +305,6 @@ a container can be stacked on top of each other.</p>
       <pre class="lines">
 
 
-233
-234
 235
 236
 237
@@ -323,10 +321,12 @@ a container can be stacked on top of each other.</p>
 248
 249
 250
-251</pre>
+251
+252
+253</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/space_calculator.rb', line 233</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/space_calculator.rb', line 235</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_add_container identifier id'>add_container</span><span class='lparen token'>(</span><span class='rubyid_name identifier id'>name</span><span class='comma token'>,</span> <span class='rubyid_dimensions identifier id'>dimensions</span><span class='comma token'>,</span> <span class='rubyid_max_tower_count identifier id'>max_tower_count</span><span class='rparen token'>)</span>
   <span class='rubyid_container identifier id'>container</span> <span class='assign token'>=</span> <span class='rubyid_Container constant id'>Container</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='rubyid_name identifier id'>name</span><span class='comma token'>,</span> <span class='rubyid_dimensions identifier id'>dimensions</span><span class='comma token'>,</span> <span class='lparen token'>(</span><span class='rubyid_max_tower_count identifier id'>max_tower_count</span> <span class='orop op'>||</span> <span class='symbol val'>:unlimited</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
@@ -368,18 +368,18 @@ a container can be stacked on top of each other.</p>
       <pre class="lines">
 
 
-254
-255
 256
 257
 258
 259
 260
 261
-262</pre>
+262
+263
+264</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/space_calculator.rb', line 254</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/space_calculator.rb', line 256</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_find_pile_for identifier id'>find_pile_for</span><span class='lparen token'>(</span><span class='rubyid_container identifier id'>container</span><span class='rparen token'>)</span>
   <span class='rubyid_@piles ivar id'>@piles</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_pile identifier id'>pile</span><span class='bitor op'>|</span>
@@ -434,18 +434,18 @@ a container can be stacked on top of each other.</p>
       <pre class="lines">
 
 
-265
-266
 267
 268
 269
 270
 271
 272
-273</pre>
+273
+274
+275</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/space_calculator.rb', line 265</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/space_calculator.rb', line 267</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_pile_fits? fid id'>pile_fits?</span><span class='lparen token'>(</span><span class='rubyid_pile identifier id'>pile</span><span class='rparen token'>)</span>
   <span class='rubyid_return return kw'>return</span> <span class='rubyid_false false kw'>false</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_pile identifier id'>pile</span><span class='dot token'>.</span><span class='rubyid_height identifier id'>height</span> <span class='gt op'>&gt;</span> <span class='rubyid_@dimensions ivar id'>@dimensions</span><span class='dot token'>.</span><span class='rubyid_height identifier id'>height</span> <span class='orop op'>||</span> <span class='rubyid_pile identifier id'>pile</span><span class='dot token'>.</span><span class='rubyid_depth identifier id'>depth</span> <span class='gt op'>&gt;</span> <span class='rubyid_@dimensions ivar id'>@dimensions</span><span class='dot token'>.</span><span class='rubyid_depth identifier id'>depth</span>
@@ -467,9 +467,9 @@ a container can be stacked on top of each other.</p>
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.8.1.a Documentation Generated on Wed Nov 11 13:21:57 2020 by
+  ArchivesSpace Version X.Y.Z Documentation Generated on Tue Sep 21 14:09:52 2021 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.25.
+  0.9.26.
 </div>
 
     </div>

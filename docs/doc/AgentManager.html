@@ -6,7 +6,7 @@
 <title>
   Module: AgentManager
   
-    &mdash; Documentation by YARD 0.9.25
+    &mdash; Documentation by YARD 0.9.26
   
 </title>
 
@@ -118,6 +118,14 @@
         <dd><pre class="code"><span class='regexp val'>/Duplicate entry .* for key &#39;sha1_agent_person&#39;/</span><span class='dot token'>.</span><span class='rubyid_freeze identifier id'>freeze</span>
 </pre></dd>
       
+        <dt id="AGENT_SUBRECORDS_WITH_SUBJECTS-constant" class="">AGENT_SUBRECORDS_WITH_SUBJECTS =
+          
+        </dt>
+        <dd><pre class="code"><span class='lbrack token'>[</span>
+  <span class='string val'>&#39;agent_functions&#39;</span><span class='comma token'>,</span> <span class='string val'>&#39;agent_occupations&#39;</span><span class='comma token'>,</span> <span class='string val'>&#39;agent_places&#39;</span><span class='comma token'>,</span> <span class='string val'>&#39;agent_resources&#39;</span><span class='comma token'>,</span> <span class='string val'>&#39;agent_topics&#39;</span>
+<span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_freeze identifier id'>freeze</span>
+</pre></dd>
+      
     </dl>
   
 
@@ -162,6 +170,29 @@
   <span class="summary_signature">
     
       <a href="#known_agent_type%3F-class_method" title="known_agent_type? (class method)">.<strong>known_agent_type?</strong>(type)  &#x21d2; Boolean </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#linked_subjects-class_method" title="linked_subjects (class method)">.<strong>linked_subjects</strong>(id, table, type)  &#x21d2; Object </a>
     
 
     
@@ -274,12 +305,12 @@
       <pre class="lines">
 
 
-35
-36
-37</pre>
+38
+39
+40</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/agent_manager.rb', line 35</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/agent_manager.rb', line 38</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_agent_type_of identifier id'>agent_type_of</span><span class='lparen token'>(</span><span class='rubyid_agent_class identifier id'>agent_class</span><span class='rparen token'>)</span>
   <span class='rubyid_@@registered_agents ivar id'>@@registered_agents</span><span class='lbrack token'>[</span><span class='rubyid_agent_class identifier id'>agent_class</span><span class='rbrack token'>]</span>
@@ -328,15 +359,56 @@
       <pre class="lines">
 
 
-40
-41
-42</pre>
+43
+44
+45</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/agent_manager.rb', line 40</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/agent_manager.rb', line 43</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_known_agent_type? fid id'>known_agent_type?</span><span class='lparen token'>(</span><span class='rubyid_type identifier id'>type</span><span class='rparen token'>)</span>
   <span class='rubyid_registered_agents identifier id'>registered_agents</span><span class='dot token'>.</span><span class='rubyid_any? fid id'>any?</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_a identifier id'>a</span><span class='bitor op'>|</span> <span class='rubyid_a identifier id'>a</span><span class='lbrack token'>[</span><span class='symbol val'>:jsonmodel</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_to_s identifier id'>to_s</span> <span class='eq op'>==</span> <span class='rubyid_type identifier id'>type</span><span class='rbrace token'>}</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="linked_subjects-class_method">
+  
+    .<strong>linked_subjects</strong>(id, table, type)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+48
+49
+50
+51
+52
+53
+54
+55</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/agent_manager.rb', line 48</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_linked_subjects identifier id'>linked_subjects</span><span class='lparen token'>(</span><span class='rubyid_id identifier id'>id</span><span class='comma token'>,</span> <span class='rubyid_table identifier id'>table</span><span class='comma token'>,</span> <span class='rubyid_type identifier id'>type</span><span class='rparen token'>)</span>
+  <span class='rubyid_Subject constant id'>Subject</span>
+  <span class='dot token'>.</span><span class='rubyid_join identifier id'>join</span><span class='lparen token'>(</span><span class='dstring node'>&quot;#{table}_rlshp&quot;</span><span class='comma token'>,</span> <span class='symbol val'>:subject_id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:subject__id</span><span class='rparen token'>)</span>
+  <span class='dot token'>.</span><span class='rubyid_filter identifier id'>filter</span><span class='lparen token'>(</span><span class='dstring node'>&quot;#{table}_rlshp__#{type}_id&quot;</span><span class='dot token'>.</span><span class='rubyid_to_sym identifier id'>to_sym</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_id identifier id'>id</span><span class='rparen token'>)</span>
+  <span class='dot token'>.</span><span class='rubyid_select identifier id'>select</span><span class='lparen token'>(</span><span class='symbol val'>:subject__id</span><span class='rparen token'>)</span>
+  <span class='dot token'>.</span><span class='rubyid_distinct identifier id'>distinct</span>
+  <span class='dot token'>.</span><span class='rubyid_all identifier id'>all</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_row identifier id'>row</span><span class='bitor op'>|</span> <span class='rubyid_row identifier id'>row</span><span class='lbrack token'>[</span><span class='symbol val'>:id</span><span class='rbrack token'>]</span><span class='rbrace token'>}</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -359,16 +431,16 @@
       <pre class="lines">
 
 
-21
-22
-23
 24
 25
 26
-27</pre>
+27
+28
+29
+30</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/agent_manager.rb', line 21</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/agent_manager.rb', line 24</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_model_for identifier id'>model_for</span><span class='lparen token'>(</span><span class='rubyid_type identifier id'>type</span><span class='rparen token'>)</span>
   <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_registered_agents identifier id'>registered_agents</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_agent_type identifier id'>agent_type</span><span class='bitor op'>|</span>
@@ -398,13 +470,13 @@
       <pre class="lines">
 
 
-15
-16
-17
-18</pre>
+18
+19
+20
+21</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/agent_manager.rb', line 15</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/agent_manager.rb', line 18</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_register_agent_type identifier id'>register_agent_type</span><span class='lparen token'>(</span><span class='rubyid_agent_class identifier id'>agent_class</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span><span class='rparen token'>)</span>
   <span class='rubyid_opts identifier id'>opts</span><span class='lbrack token'>[</span><span class='symbol val'>:model</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_agent_class identifier id'>agent_class</span>
@@ -431,12 +503,12 @@
       <pre class="lines">
 
 
-30
-31
-32</pre>
+33
+34
+35</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/agent_manager.rb', line 30</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/agent_manager.rb', line 33</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_registered_agents identifier id'>registered_agents</span>
   <span class='rubyid_@@registered_agents ivar id'>@@registered_agents</span><span class='dot token'>.</span><span class='rubyid_values identifier id'>values</span>
@@ -452,9 +524,9 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.8.1.a Documentation Generated on Wed Nov 11 13:21:28 2020 by
+  ArchivesSpace Version X.Y.Z Documentation Generated on Tue Sep 21 14:09:31 2021 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.25.
+  0.9.26.
 </div>
 
     </div>

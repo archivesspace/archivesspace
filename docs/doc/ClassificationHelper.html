@@ -6,7 +6,7 @@
 <title>
   Module: ClassificationHelper
   
-    &mdash; Documentation by YARD 0.9.25
+    &mdash; Documentation by YARD 0.9.26
   
 </title>
 
@@ -154,7 +154,7 @@
       <pre class="code"><span class="info file"># File 'frontend/app/helpers/classification_helper.rb', line 3</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_format_classification identifier id'>format_classification</span><span class='lparen token'>(</span><span class='rubyid_path_to_root identifier id'>path_to_root</span><span class='rparen token'>)</span>
-  <span class='rubyid_id_string identifier id'>id_string</span> <span class='assign token'>=</span>  <span class='rubyid_path_to_root identifier id'>path_to_root</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_node identifier id'>node</span><span class='bitor op'>|</span> <span class='rubyid_node identifier id'>node</span><span class='lbrack token'>[</span><span class='string val'>&#39;identifier&#39;</span><span class='rbrack token'>]</span><span class='rbrace token'>}</span><span class='dot token'>.</span><span class='rubyid_join identifier id'>join</span><span class='lparen token'>(</span><span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='string val'>&quot;classification.id_separator&quot;</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
+  <span class='rubyid_id_string identifier id'>id_string</span> <span class='assign token'>=</span> <span class='rubyid_path_to_root identifier id'>path_to_root</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_node identifier id'>node</span><span class='bitor op'>|</span> <span class='rubyid_node identifier id'>node</span><span class='lbrack token'>[</span><span class='string val'>&#39;identifier&#39;</span><span class='rbrack token'>]</span><span class='rbrace token'>}</span><span class='dot token'>.</span><span class='rubyid_join identifier id'>join</span><span class='lparen token'>(</span><span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='string val'>&quot;classification.id_separator&quot;</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
   <span class='dstring node'>&quot;#{id_string} #{path_to_root.last[&#39;title&#39;]}&quot;</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
@@ -168,9 +168,9 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.8.1.a Documentation Generated on Wed Nov 11 13:21:34 2020 by
+  ArchivesSpace Version X.Y.Z Documentation Generated on Tue Sep 21 14:09:36 2021 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.25.
+  0.9.26.
 </div>
 
     </div>

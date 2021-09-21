@@ -6,7 +6,7 @@
 <title>
   Schema: agent_family_schema
   
-    &mdash; Documentation by YARD 0.9.25
+    &mdash; Documentation by YARD 0.9.26
   
 </title>
 
@@ -76,7 +76,7 @@
 			
 				<h3 class="signature"> - (JSONModel(:name_family) object) <strong>display_name</strong></h3>
 			
-				<h3 class="signature"> - (array ([{"type"=>"JSONModel(:agent_relationship_earlierlater) object"}, {"type"=>"JSONModel(:agent_relationship_associative) object"}])) <strong>related_agents</strong></h3>
+				<h3 class="signature"> - (array ([{"type"=>"JSONModel(:agent_relationship_parentchild) object"}, {"type"=>"JSONModel(:agent_relationship_earlierlater) object"}, {"type"=>"JSONModel(:agent_relationship_identity) object"}, {"type"=>"JSONModel(:agent_relationship_hierarchical) object"}, {"type"=>"JSONModel(:agent_relationship_temporal) object"}, {"type"=>"JSONModel(:agent_relationship_family) object"}, {"type"=>"JSONModel(:agent_relationship_associative) object"}])) <strong>related_agents</strong></h3>
 			
 		<span class="showSource"><a href="#" class="toggleSource">View Source</a></span>
 
@@ -116,7 +116,12 @@
 28
 29
 30
-31</pre>
+31
+32
+33
+34
+35
+36</pre>
           </td>
           <td>
             <pre class="code"><span class="info file"># File 'common/schemas/agent_family.rb', line 1</span>
@@ -145,7 +150,12 @@
 
       <span class='string val'>&quot;related_agents&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span>
         <span class='string val'>&quot;type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;array&quot;</span><span class='comma token'>,</span>
-        <span class='string val'>&quot;items&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span><span class='string val'>&quot;type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrack token'>[</span><span class='lbrace token'>{</span><span class='string val'>&quot;type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;JSONModel(:agent_relationship_earlierlater) object&quot;</span><span class='rbrace token'>}</span><span class='comma token'>,</span>
+        <span class='string val'>&quot;items&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span><span class='string val'>&quot;type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrack token'>[</span><span class='lbrace token'>{</span><span class='string val'>&quot;type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;JSONModel(:agent_relationship_parentchild) object&quot;</span><span class='rbrace token'>}</span><span class='comma token'>,</span>
+                               <span class='lbrace token'>{</span><span class='string val'>&quot;type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;JSONModel(:agent_relationship_earlierlater) object&quot;</span><span class='rbrace token'>}</span><span class='comma token'>,</span>
+                               <span class='lbrace token'>{</span><span class='string val'>&quot;type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;JSONModel(:agent_relationship_identity) object&quot;</span><span class='rbrace token'>}</span><span class='comma token'>,</span>
+                               <span class='lbrace token'>{</span><span class='string val'>&quot;type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;JSONModel(:agent_relationship_hierarchical) object&quot;</span><span class='rbrace token'>}</span><span class='comma token'>,</span>
+                               <span class='lbrace token'>{</span><span class='string val'>&quot;type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;JSONModel(:agent_relationship_temporal) object&quot;</span><span class='rbrace token'>}</span><span class='comma token'>,</span>
+                               <span class='lbrace token'>{</span><span class='string val'>&quot;type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;JSONModel(:agent_relationship_family) object&quot;</span><span class='rbrace token'>}</span><span class='comma token'>,</span>
                                <span class='lbrace token'>{</span><span class='string val'>&quot;type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;JSONModel(:agent_relationship_associative) object&quot;</span><span class='rbrace token'>}</span><span class='rbrack token'>]</span><span class='rbrace token'>}</span><span class='comma token'>,</span>
       <span class='rbrace token'>}</span>
 
@@ -165,9 +175,9 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.8.1.a Documentation Generated on Wed Nov 11 13:22:30 2020 by
+  ArchivesSpace Version X.Y.Z Documentation Generated on Tue Sep 21 14:10:17 2021 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.25.
+  0.9.26.
 </div>
 
     </div>

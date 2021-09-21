@@ -6,7 +6,7 @@
 <title>
   Class: ArchivesSpaceService::RequestWrappingMiddleware
   
-    &mdash; Documentation by YARD 0.9.25
+    &mdash; Documentation by YARD 0.9.26
   
 </title>
 
@@ -195,12 +195,12 @@
       <pre class="lines">
 
 
-242
-243
-244</pre>
+269
+270
+271</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/main.rb', line 242</span>
+      <pre class="code"><span class="info file"># File 'backend/app/main.rb', line 269</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_initialize identifier id'>initialize</span><span class='lparen token'>(</span><span class='rubyid_app identifier id'>app</span><span class='rparen token'>)</span>
   <span class='rubyid_@app ivar id'>@app</span> <span class='assign token'>=</span> <span class='rubyid_app identifier id'>app</span>
@@ -233,33 +233,6 @@
       <pre class="lines">
 
 
-246
-247
-248
-249
-250
-251
-252
-253
-254
-255
-256
-257
-258
-259
-260
-261
-262
-263
-264
-265
-266
-267
-268
-269
-270
-271
-272
 273
 274
 275
@@ -286,10 +259,38 @@
 296
 297
 298
-299</pre>
+299
+300
+301
+302
+303
+304
+305
+306
+307
+308
+309
+310
+311
+312
+313
+314
+315
+316
+317
+318
+319
+320
+321
+322
+323
+324
+325
+326
+327</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/main.rb', line 246</span>
+      <pre class="code"><span class="info file"># File 'backend/app/main.rb', line 273</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_call identifier id'>call</span><span class='lparen token'>(</span><span class='rubyid_env identifier id'>env</span><span class='rparen token'>)</span>
   <span class='rubyid_start_time identifier id'>start_time</span> <span class='assign token'>=</span> <span class='rubyid_Time constant id'>Time</span><span class='dot token'>.</span><span class='rubyid_now identifier id'>now</span>
@@ -312,6 +313,7 @@
     <span class='rubyid_if if kw'>if</span> <span class='rubyid_session identifier id'>session</span><span class='lbrack token'>[</span><span class='symbol val'>:expirable</span><span class='rbrack token'>]</span> <span class='andop op'>&amp;&amp;</span>
         <span class='rubyid_AppConfig constant id'>AppConfig</span><span class='lbrack token'>[</span><span class='symbol val'>:session_expire_after_seconds</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_to_i identifier id'>to_i</span> <span class='geq op'>&gt;=</span> <span class='integer val'>0</span> <span class='andop op'>&amp;&amp;</span>
         <span class='rubyid_session identifier id'>session</span><span class='dot token'>.</span><span class='rubyid_age identifier id'>age</span> <span class='gt op'>&gt;</span> <span class='rubyid_AppConfig constant id'>AppConfig</span><span class='lbrack token'>[</span><span class='symbol val'>:session_expire_after_seconds</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_to_i identifier id'>to_i</span>
+
       <span class='rubyid_Session constant id'>Session</span><span class='dot token'>.</span><span class='rubyid_expire identifier id'>expire</span><span class='lparen token'>(</span><span class='rubyid_session_token identifier id'>session_token</span><span class='rparen token'>)</span>
       <span class='rubyid_session identifier id'>session</span> <span class='assign token'>=</span> <span class='rubyid_nil nil kw'>nil</span>
       <span class='rubyid_return return kw'>return</span> <span class='lbrack token'>[</span><span class='integer val'>412</span><span class='comma token'>,</span>
@@ -356,9 +358,9 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.8.1.a Documentation Generated on Wed Nov 11 13:21:39 2020 by
+  ArchivesSpace Version X.Y.Z Documentation Generated on Tue Sep 21 14:09:40 2021 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.25.
+  0.9.26.
 </div>
 
     </div>

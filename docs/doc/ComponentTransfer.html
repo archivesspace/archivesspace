@@ -6,7 +6,7 @@
 <title>
   Module: ComponentTransfer
   
-    &mdash; Documentation by YARD 0.9.25
+    &mdash; Documentation by YARD 0.9.26
   
 </title>
 
@@ -230,16 +230,16 @@
       <pre class="lines">
 
 
+56
+57
 58
 59
 60
 61
-62
-63
-64</pre>
+62</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/component_transfer.rb', line 58</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/component_transfer.rb', line 56</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_deep_transfer identifier id'>deep_transfer</span><span class='lparen token'>(</span><span class='rubyid_new_resource_id identifier id'>new_resource_id</span><span class='comma token'>,</span> <span class='rubyid_obj identifier id'>obj</span><span class='rparen token'>)</span>
   <span class='rubyid_ArchivalObject constant id'>ArchivalObject</span><span class='dot token'>.</span><span class='rubyid_this_repo identifier id'>this_repo</span><span class='dot token'>.</span><span class='rubyid_filter identifier id'>filter</span><span class='lparen token'>(</span><span class='symbol val'>:root_record_id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_root_record_id identifier id'>root_record_id</span><span class='comma token'>,</span> <span class='symbol val'>:parent_id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_id identifier id'>id</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_child identifier id'>child</span><span class='bitor op'>|</span>
@@ -300,6 +300,8 @@
       <pre class="lines">
 
 
+21
+22
 23
 24
 25
@@ -330,18 +332,16 @@
 50
 51
 52
-53
-54
-55</pre>
+53</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/component_transfer.rb', line 23</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/component_transfer.rb', line 21</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_transfer identifier id'>transfer</span><span class='lparen token'>(</span><span class='rubyid_target_resource_uri identifier id'>target_resource_uri</span><span class='comma token'>,</span> <span class='rubyid_archival_object_uri identifier id'>archival_object_uri</span><span class='rparen token'>)</span>
   <span class='rubyid_id identifier id'>id</span> <span class='assign token'>=</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:archival_object</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_id_for identifier id'>id_for</span><span class='lparen token'>(</span><span class='rubyid_archival_object_uri identifier id'>archival_object_uri</span><span class='rparen token'>)</span>
 
   <span class='rubyid_obj identifier id'>obj</span> <span class='assign token'>=</span> <span class='rubyid_ArchivalObject constant id'>ArchivalObject</span><span class='lbrack token'>[</span><span class='symbol val'>:id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_id identifier id'>id</span><span class='rbrack token'>]</span>
-  
+
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span>
     <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_NotFoundException constant id'>NotFoundException</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='string val'>&quot;That which does not exist cannot be moved.&quot;</span><span class='rparen token'>)</span>
   <span class='rubyid_end end kw'>end</span>
@@ -349,7 +349,7 @@
   <span class='comment val'># Move the children first</span>
   <span class='rubyid_deep_transfer identifier id'>deep_transfer</span><span class='lparen token'>(</span><span class='rubyid_JSONModel constant id'>JSONModel</span><span class='colon2 op'>::</span><span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:resource</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_id_for identifier id'>id_for</span><span class='lparen token'>(</span><span class='rubyid_target_resource_uri identifier id'>target_resource_uri</span><span class='rparen token'>)</span><span class='comma token'>,</span> <span class='rubyid_obj identifier id'>obj</span><span class='rparen token'>)</span>
 
-  <span class='comment val'># Now move the main object to the next </span>
+  <span class='comment val'># Now move the main object to the next</span>
   <span class='comment val'># available top-level slot in the target</span>
   <span class='rubyid_json identifier id'>json</span> <span class='assign token'>=</span> <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_to_jsonmodel identifier id'>to_jsonmodel</span><span class='lparen token'>(</span><span class='rubyid_obj identifier id'>obj</span><span class='rparen token'>)</span>
 
@@ -381,9 +381,9 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.8.1.a Documentation Generated on Wed Nov 11 13:21:25 2020 by
+  ArchivesSpace Version X.Y.Z Documentation Generated on Tue Sep 21 14:09:29 2021 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.25.
+  0.9.26.
 </div>
 
     </div>

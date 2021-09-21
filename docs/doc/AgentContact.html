@@ -6,7 +6,7 @@
 <title>
   Class: AgentContact
   
-    &mdash; Documentation by YARD 0.9.25
+    &mdash; Documentation by YARD 0.9.26
   
 </title>
 
@@ -91,7 +91,7 @@
   
   <dl>
       <dt>Includes:</dt>
-      <dd><span class='object_link'><a href="ASModel.html" title="ASModel (module)">ASModel</a></span>, <span class='object_link'><a href="Publishable.html" title="Publishable (module)">Publishable</a></span>, <span class='object_link'><a href="Telephones.html" title="Telephones (module)">Telephones</a></span></dd>
+      <dd><span class='object_link'><a href="ASModel.html" title="ASModel (module)">ASModel</a></span>, <span class='object_link'><a href="Notes.html" title="Notes (module)">Notes</a></span>, <span class='object_link'><a href="Publishable.html" title="Publishable (module)">Publishable</a></span>, <span class='object_link'><a href="Representative.html" title="Representative (module)">Representative</a></span>, <span class='object_link'><a href="Telephones.html" title="Telephones (module)">Telephones</a></span></dd>
   </dl>
   
   
@@ -121,6 +121,40 @@
 
 
 
+  
+    <h2>
+      Instance Method Summary
+      <small><a href="#" class="summary_toggle">collapse</a></small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#representative_for_types-instance_method" title="#representative_for_types (instance method)">#<strong>representative_for_types</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
 
   
   
@@ -128,7 +162,29 @@
   
   
   
-  <h2>Method Summary</h2>
+  
+  
+  <h3 class="inherited">Methods included from <span class='object_link'><a href="Representative.html" title="Representative (module)">Representative</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="Representative.html#before_validation-instance_method" title="Representative#before_validation (method)">#before_validation</a></span>, <span class='object_link'><a href="Representative.html#representative_id_for_type-instance_method" title="Representative#representative_id_for_type (method)">#representative_id_for_type</a></span>, <span class='object_link'><a href="Representative.html#validate-instance_method" title="Representative#validate (method)">#validate</a></span></p>
+
+  
+  
+  
+  
+  
+  
+  
+  
+  <h3 class="inherited">Methods included from <span class='object_link'><a href="Notes.html" title="Notes (module)">Notes</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="Notes.html#included-class_method" title="Notes.included (method)">included</a></span>, <span class='object_link'><a href="Notes.html#persistent_id_context-instance_method" title="Notes#persistent_id_context (method)">#persistent_id_context</a></span>, <span class='object_link'><a href="Notes.html#update_from_json-instance_method" title="Notes#update_from_json (method)">#update_from_json</a></span></p>
+
+  
+  
+  
+  
+  
+  
+  
   
   <h3 class="inherited">Methods included from <span class='object_link'><a href="Telephones.html" title="Telephones (module)">Telephones</a></span></h3>
   <p class="inherited"><span class='object_link'><a href="Telephones.html#included-class_method" title="Telephones.included (method)">included</a></span></p>
@@ -168,12 +224,49 @@
 
   
 
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="representative_for_types-instance_method">
+  
+    #<strong>representative_for_types</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+12
+13
+14</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/model/agent_contact.rb', line 12</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_representative_for_types identifier id'>representative_for_types</span>
+  <span class='lbrace token'>{</span> <span class='label val'>is_representative:</span> <span class='lbrack token'>[</span><span class='symbol val'>:agent_person</span><span class='comma token'>,</span> <span class='symbol val'>:agent_family</span><span class='comma token'>,</span> <span class='symbol val'>:agent_corporate_entity</span><span class='comma token'>,</span> <span class='symbol val'>:agent_software</span><span class='rbrack token'>]</span> <span class='rbrace token'>}</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.8.1.a Documentation Generated on Wed Nov 11 13:21:51 2020 by
+  ArchivesSpace Version X.Y.Z Documentation Generated on Tue Sep 21 14:09:48 2021 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.25.
+  0.9.26.
 </div>
 
     </div>

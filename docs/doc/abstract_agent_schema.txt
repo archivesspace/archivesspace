@@ -12,23 +12,53 @@ string	agent_type
 
 array (JSONModel(:agent_contact) object)	agent_contacts
 
+array (JSONModel(:agent_record_control) object)	agent_record_controls
+
+array (JSONModel(:agent_alternate_set) object)	agent_alternate_sets
+
+array (JSONModel(:agent_conventions_declaration) object)	agent_conventions_declarations
+
+array (JSONModel(:agent_other_agency_codes) object)	agent_other_agency_codes
+
+array (JSONModel(:agent_maintenance_history) object)	agent_maintenance_histories
+
+array (JSONModel(:agent_record_identifier) object)	agent_record_identifiers
+
+array (JSONModel(:agent_identifier) object)	agent_identifiers
+
+array (JSONModel(:agent_sources) object)	agent_sources
+
+array (JSONModel(:agent_place) object)	agent_places
+
+array (JSONModel(:agent_occupation) object)	agent_occupations
+
+array (JSONModel(:agent_function) object)	agent_functions
+
+array (JSONModel(:agent_topic) object)	agent_topics
+
+array (JSONModel(:agent_resource) object)	agent_resources
+
 array (string)	linked_agent_roles
 
 array (JSONModel(:external_document) object)	external_documents
 
 boolean	system_generated
 
-array ([{"type"=>"JSONModel(:note_bioghist) object"}, {"type"=>"JSONModel(:note_agent_rights_statement) object"}])	notes
+array ([{"type"=>"JSONModel(:note_bioghist) object"}, {"type"=>"JSONModel(:note_mandate) object"}, {"type"=>"JSONModel(:note_legal_status) object"}, {"type"=>"JSONModel(:note_structure_or_genealogy) object"}, {"type"=>"JSONModel(:note_general_context) object"}])	notes
 
 array (JSONModel(:repository) uri)	used_within_repositories
 
 array (JSONModel(:repository) uri)	used_within_published_repositories
 
-array (JSONModel(:date) object)	dates_of_existence
+array (JSONModel(:structured_date_label) object)	dates_of_existence
+
+array (JSONModel(:used_language) object)	used_languages
 
 boolean	publish
 
 string	is_user
+
+array (JSONModel(:metadata_rights_declaration) object)	metadata_rights_declarations
 
 
 

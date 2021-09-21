@@ -2,9 +2,13 @@ JSON Schema: Abstract_agent_relationship
 
 Properties
 
+string	relationship_uri
+
+string	specific_relator
+
 string (max length: 65000)	description
 
-JSONModel(:date) object	dates
+JSONModel(:structured_date_label) object	dates
 
 
 

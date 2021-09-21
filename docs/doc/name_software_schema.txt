@@ -8,6 +8,8 @@ string (max length: 65000)	version
 
 string (max length: 65000)	manufacturer
 
+array (JSONModel(:parallel_name_software) object)	parallel_names
+
 
 
 

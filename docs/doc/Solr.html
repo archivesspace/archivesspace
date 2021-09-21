@@ -6,7 +6,7 @@
 <title>
   Class: Solr
   
-    &mdash; Documentation by YARD 0.9.25
+    &mdash; Documentation by YARD 0.9.26
   
 </title>
 
@@ -252,13 +252,6 @@
       <pre class="lines">
 
 
-307
-308
-309
-310
-311
-312
-313
 314
 315
 316
@@ -297,13 +290,18 @@
 349
 350
 351
-352</pre>
+352
+353
+354
+355
+356
+357
+358</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/solr.rb', line 307</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/solr.rb', line 314</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_search identifier id'>search</span><span class='lparen token'>(</span><span class='rubyid_query identifier id'>query</span><span class='rparen token'>)</span>
-
   <span class='rubyid_url identifier id'>url</span> <span class='assign token'>=</span> <span class='rubyid_query identifier id'>query</span><span class='dot token'>.</span><span class='rubyid_to_solr_url identifier id'>to_solr_url</span>
 
   <span class='rubyid_req identifier id'>req</span> <span class='assign token'>=</span> <span class='rubyid_Net constant id'>Net</span><span class='colon2 op'>::</span><span class='rubyid_HTTP constant id'>HTTP</span><span class='colon2 op'>::</span><span class='rubyid_Post constant id'>Post</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='rubyid_url identifier id'>url</span><span class='dot token'>.</span><span class='rubyid_path identifier id'>path</span><span class='rparen token'>)</span>
@@ -390,9 +388,9 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.8.1.a Documentation Generated on Wed Nov 11 13:21:41 2020 by
+  ArchivesSpace Version X.Y.Z Documentation Generated on Tue Sep 21 14:09:41 2021 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.25.
+  0.9.26.
 </div>
 
     </div>

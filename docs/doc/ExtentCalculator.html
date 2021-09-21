@@ -6,7 +6,7 @@
 <title>
   Class: ExtentCalculator
   
-    &mdash; Documentation by YARD 0.9.25
+    &mdash; Documentation by YARD 0.9.26
   
 </title>
 
@@ -595,7 +595,7 @@
 
   <span class='rubyid_DB constant id'>DB</span><span class='dot token'>.</span><span class='rubyid_open identifier id'>open</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_db identifier id'>db</span><span class='bitor op'>|</span>
     <span class='rubyid_db identifier id'>db</span><span class='lbrack token'>[</span><span class='symbol val'>:top_container_link_rlshp</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_filter identifier id'>filter</span><span class='lparen token'>(</span><span class='symbol val'>:id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_rel_ids identifier id'>rel_ids</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_select identifier id'>select</span><span class='lparen token'>(</span><span class='symbol val'>:top_container_id</span><span class='rparen token'>)</span><span class='dot token'>.</span>
-      <span class='rubyid_distinct identifier id'>distinct</span><span class='lparen token'>(</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span><span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_hash identifier id'>hash</span><span class='bitor op'>|</span> <span class='rubyid_hash identifier id'>hash</span><span class='lbrack token'>[</span><span class='symbol val'>:top_container_id</span><span class='rbrack token'>]</span><span class='rbrace token'>}</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_tc_id identifier id'>tc_id</span><span class='bitor op'>|</span>
+      <span class='rubyid_distinct identifier id'>distinct</span><span class='lparen token'>(</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_hash identifier id'>hash</span><span class='bitor op'>|</span> <span class='rubyid_hash identifier id'>hash</span><span class='lbrack token'>[</span><span class='symbol val'>:top_container_id</span><span class='rbrack token'>]</span><span class='rbrace token'>}</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_tc_id identifier id'>tc_id</span><span class='bitor op'>|</span>
 
       <span class='rubyid_@container_count ivar id'>@container_count</span> <span class='opasgn op'>+=</span> <span class='integer val'>1</span>
 
@@ -639,9 +639,9 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.8.1.a Documentation Generated on Wed Nov 11 13:21:59 2020 by
+  ArchivesSpace Version X.Y.Z Documentation Generated on Tue Sep 21 14:09:54 2021 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.25.
+  0.9.26.
 </div>
 
     </div>

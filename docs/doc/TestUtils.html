@@ -6,7 +6,7 @@
 <title>
   Module: TestUtils
   
-    &mdash; Documentation by YARD 0.9.25
+    &mdash; Documentation by YARD 0.9.26
   
 </title>
 
@@ -109,29 +109,6 @@ rubocop:disable Lint/HandleExceptions, Lint/RescueWithoutErrorClass</p>
     </h2>
 
     <ul class="summary">
-      
-        <li class="public ">
-  <span class="summary_signature">
-    
-      <a href="#add_solr-class_method" title="add_solr (class method)">.<strong>add_solr</strong>(java_opts, build_args, config)  &#x21d2; Object </a>
-    
-
-    
-  </span>
-  
-  
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'>
-</div></span>
-  
-</li>
-
       
         <li class="public ">
   <span class="summary_signature">
@@ -274,7 +251,7 @@ rubocop:disable Lint/HandleExceptions, Lint/RescueWithoutErrorClass</p>
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#start_frontend-class_method" title="start_frontend (class method)">.<strong>start_frontend</strong>(port, backend_url, config = {})  &#x21d2; Object </a>
+      <a href="#start_frontend-class_method" title="start_frontend (class method)">.<strong>start_frontend</strong>(port, backend_url, config = {}, config_file = nil)  &#x21d2; Object </a>
     
 
     
@@ -350,48 +327,7 @@ rubocop:disable Lint/HandleExceptions, Lint/RescueWithoutErrorClass</p>
 
     
       <div class="method_details first">
-  <h3 class="signature first" id="add_solr-class_method">
-  
-    .<strong>add_solr</strong>(java_opts, build_args, config)  &#x21d2; <tt>Object</tt> 
-  
-
-  
-
-  
-</h3><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-78
-79
-80
-81
-82
-83
-84
-85</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'common/test_utils.rb', line 78</span>
-
-<span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_add_solr identifier id'>add_solr</span><span class='lparen token'>(</span><span class='rubyid_java_opts identifier id'>java_opts</span><span class='comma token'>,</span> <span class='rubyid_build_args identifier id'>build_args</span><span class='comma token'>,</span> <span class='rubyid_config identifier id'>config</span><span class='rparen token'>)</span>
-  <span class='rubyid_if if kw'>if</span> <span class='rubyid_config identifier id'>config</span><span class='lbrack token'>[</span><span class='symbol val'>:solr_port</span><span class='rbrack token'>]</span>
-    <span class='rubyid_java_opts identifier id'>java_opts</span> <span class='opasgn op'>+=</span>
-      <span class='dstring node'>&quot; -Daspace.config.solr_url=http://localhost:#{config[:solr_port]}&quot;</span>
-    <span class='rubyid_build_args identifier id'>build_args</span><span class='dot token'>.</span><span class='rubyid_push identifier id'>push</span><span class='lparen token'>(</span><span class='dstring node'>&quot;-Daspace.solr.port=#{config[:solr_port]}&quot;</span><span class='rparen token'>)</span>
-  <span class='rubyid_end end kw'>end</span>
-  <span class='lbrack token'>[</span><span class='rubyid_java_opts identifier id'>java_opts</span><span class='comma token'>,</span> <span class='rubyid_build_args identifier id'>build_args</span><span class='rbrack token'>]</span>
-<span class='rubyid_end end kw'>end</span>
-</pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-      <div class="method_details ">
-  <h3 class="signature " id="build_config_string-class_method">
+  <h3 class="signature first" id="build_config_string-class_method">
   
     .<strong>build_config_string</strong>(config)  &#x21d2; <tt>Object</tt> 
   
@@ -513,17 +449,17 @@ rubocop:disable Lint/HandleExceptions, Lint/RescueWithoutErrorClass</p>
       <pre class="lines">
 
 
-145
-146
-147
-148
-149
-150
-151
-152</pre>
+134
+135
+136
+137
+138
+139
+140
+141</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/test_utils.rb', line 145</span>
+      <pre class="code"><span class="info file"># File 'common/test_utils.rb', line 134</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_free_port_from identifier id'>free_port_from</span><span class='lparen token'>(</span><span class='rubyid_port identifier id'>port</span><span class='rparen token'>)</span>
   <span class='rubyid_server identifier id'>server</span> <span class='assign token'>=</span> <span class='rubyid_TCPServer constant id'>TCPServer</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='string val'>&#39;127.0.0.1&#39;</span><span class='comma token'>,</span> <span class='rubyid_port identifier id'>port</span><span class='rparen token'>)</span>
@@ -636,6 +572,15 @@ rubocop:disable Lint/HandleExceptions, Lint/RescueWithoutErrorClass</p>
       <pre class="lines">
 
 
+78
+79
+80
+81
+82
+83
+84
+85
+86
 87
 88
 89
@@ -646,21 +591,10 @@ rubocop:disable Lint/HandleExceptions, Lint/RescueWithoutErrorClass</p>
 94
 95
 96
-97
-98
-99
-100
-101
-102
-103
-104
-105
-106
-107
-108</pre>
+97</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/test_utils.rb', line 87</span>
+      <pre class="code"><span class="info file"># File 'common/test_utils.rb', line 78</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_start_backend identifier id'>start_backend</span><span class='lparen token'>(</span><span class='rubyid_port identifier id'>port</span><span class='comma token'>,</span> <span class='rubyid_config identifier id'>config</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='comma token'>,</span> <span class='rubyid_config_file identifier id'>config_file</span> <span class='assign token'>=</span> <span class='rubyid_nil nil kw'>nil</span><span class='rparen token'>)</span>
   <span class='rubyid_db_url identifier id'>db_url</span> <span class='assign token'>=</span> <span class='rubyid_config identifier id'>config</span><span class='dot token'>.</span><span class='rubyid_delete identifier id'>delete</span><span class='lparen token'>(</span><span class='symbol val'>:db_url</span><span class='rparen token'>)</span>
@@ -671,8 +605,6 @@ rubocop:disable Lint/HandleExceptions, Lint/RescueWithoutErrorClass</p>
                                 <span class='dstring node'>&quot;-Daspace.backend.port=#{port}&quot;</span><span class='comma token'>,</span>
                                 <span class='string val'>&#39;-Daspace_integration_test=1&#39;</span><span class='comma token'>,</span>
                                 <span class='dstring node'>&quot;-Daspace.config.db_url=#{db_url}&quot;</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
-
-  <span class='rubyid_java_opts identifier id'>java_opts</span><span class='comma token'>,</span> <span class='rubyid_build_args identifier id'>build_args</span> <span class='assign token'>=</span> <span class='rubyid_add_solr identifier id'>add_solr</span><span class='lparen token'>(</span><span class='rubyid_java_opts identifier id'>java_opts</span><span class='comma token'>,</span> <span class='rubyid_build_args identifier id'>build_args</span><span class='comma token'>,</span> <span class='rubyid_config identifier id'>config</span><span class='rparen token'>)</span>
   <span class='rubyid_java_opts identifier id'>java_opts</span> <span class='opasgn op'>+=</span> <span class='string val'>&#39; -Xmx1024m&#39;</span>
 
   <span class='rubyid_puts identifier id'>puts</span> <span class='dstring node'>&quot;Spawning backend with opts: #{java_opts}&quot;</span>
@@ -693,7 +625,7 @@ rubocop:disable Lint/HandleExceptions, Lint/RescueWithoutErrorClass</p>
       <div class="method_details ">
   <h3 class="signature " id="start_frontend-class_method">
   
-    .<strong>start_frontend</strong>(port, backend_url, config = {})  &#x21d2; <tt>Object</tt> 
+    .<strong>start_frontend</strong>(port, backend_url, config = {}, config_file = nil)  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -705,38 +637,38 @@ rubocop:disable Lint/HandleExceptions, Lint/RescueWithoutErrorClass</p>
       <pre class="lines">
 
 
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
 110
 111
 112
 113
 114
 115
-116
-117
-118
-119
-120
-121
-122
-123
-124
-125
-126
-127</pre>
+116</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/test_utils.rb', line 110</span>
+      <pre class="code"><span class="info file"># File 'common/test_utils.rb', line 99</span>
 
-<span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_start_frontend identifier id'>start_frontend</span><span class='lparen token'>(</span><span class='rubyid_port identifier id'>port</span><span class='comma token'>,</span> <span class='rubyid_backend_url identifier id'>backend_url</span><span class='comma token'>,</span> <span class='rubyid_config identifier id'>config</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_start_frontend identifier id'>start_frontend</span><span class='lparen token'>(</span><span class='rubyid_port identifier id'>port</span><span class='comma token'>,</span> <span class='rubyid_backend_url identifier id'>backend_url</span><span class='comma token'>,</span> <span class='rubyid_config identifier id'>config</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='comma token'>,</span> <span class='rubyid_config_file identifier id'>config_file</span> <span class='assign token'>=</span> <span class='rubyid_nil nil kw'>nil</span><span class='rparen token'>)</span>
   <span class='rubyid_java_opts identifier id'>java_opts</span> <span class='assign token'>=</span> <span class='dstring node'>&quot;-Daspace.config.backend_url=#{backend_url}&quot;</span>
   <span class='rubyid_java_opts identifier id'>java_opts</span> <span class='opasgn op'>+=</span> <span class='rubyid_build_config_string identifier id'>build_config_string</span><span class='lparen token'>(</span><span class='rubyid_config identifier id'>config</span><span class='rparen token'>)</span>
+  <span class='rubyid_java_opts identifier id'>java_opts</span> <span class='opasgn op'>+=</span> <span class='dstring node'>&quot; -Daspace.config=#{config_file}&quot;</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_config_file identifier id'>config_file</span>
 
   <span class='rubyid_build_args identifier id'>build_args</span> <span class='assign token'>=</span> <span class='rubyid_java_build_args identifier id'>java_build_args</span><span class='lparen token'>(</span><span class='lbrack token'>[</span><span class='string val'>&#39;frontend:devserver:integration&#39;</span><span class='comma token'>,</span>
                                 <span class='dstring node'>&quot;-Daspace.frontend.port=#{port}&quot;</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
-
-  <span class='rubyid_java_opts identifier id'>java_opts</span><span class='comma token'>,</span> <span class='rubyid_build_args identifier id'>build_args</span> <span class='assign token'>=</span> <span class='rubyid_add_solr identifier id'>add_solr</span><span class='lparen token'>(</span><span class='rubyid_java_opts identifier id'>java_opts</span><span class='comma token'>,</span> <span class='rubyid_build_args identifier id'>build_args</span><span class='comma token'>,</span> <span class='rubyid_config identifier id'>config</span><span class='rparen token'>)</span>
   <span class='rubyid_java_opts identifier id'>java_opts</span> <span class='opasgn op'>+=</span> <span class='string val'>&#39; -Xmx1512m&#39;</span>
 
+  <span class='rubyid_puts identifier id'>puts</span> <span class='dstring node'>&quot;Spawning frontend with opts: #{java_opts}&quot;</span>
   <span class='rubyid_pid identifier id'>pid</span> <span class='assign token'>=</span> <span class='rubyid_Process constant id'>Process</span><span class='dot token'>.</span><span class='rubyid_spawn identifier id'>spawn</span><span class='lparen token'>(</span><span class='lbrace token'>{</span> <span class='string val'>&#39;JAVA_OPTS&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_java_opts identifier id'>java_opts</span><span class='comma token'>,</span> <span class='string val'>&#39;TEST_MODE&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;true&#39;</span> <span class='rbrace token'>}</span><span class='comma token'>,</span>
                       <span class='rubyid_find_ant identifier id'>find_ant</span><span class='comma token'>,</span> <span class='mult op'>*</span><span class='rubyid_build_args identifier id'>build_args</span><span class='rparen token'>)</span>
 
@@ -766,24 +698,24 @@ rubocop:disable Lint/HandleExceptions, Lint/RescueWithoutErrorClass</p>
       <pre class="lines">
 
 
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
 129
 130
 131
-132
-133
-134
-135
-136
-137
-138
-139
-140
-141
-142
-143</pre>
+132</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/test_utils.rb', line 129</span>
+      <pre class="code"><span class="info file"># File 'common/test_utils.rb', line 118</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_start_public identifier id'>start_public</span><span class='lparen token'>(</span><span class='rubyid_port identifier id'>port</span><span class='comma token'>,</span> <span class='rubyid_backend_url identifier id'>backend_url</span><span class='comma token'>,</span> <span class='rubyid_config identifier id'>config</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
   <span class='rubyid_java_opts identifier id'>java_opts</span> <span class='assign token'>=</span> <span class='dstring node'>&quot;-Daspace.config.backend_url=#{backend_url}&quot;</span>
@@ -886,9 +818,9 @@ rubocop:disable Lint/HandleExceptions, Lint/RescueWithoutErrorClass</p>
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.8.1.a Documentation Generated on Wed Nov 11 13:21:35 2020 by
+  ArchivesSpace Version X.Y.Z Documentation Generated on Tue Sep 21 14:09:37 2021 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.25.
+  0.9.26.
 </div>
 
     </div>

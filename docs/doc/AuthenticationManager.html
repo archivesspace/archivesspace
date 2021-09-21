@@ -6,7 +6,7 @@
 <title>
   Class: AuthenticationManager
   
-    &mdash; Documentation by YARD 0.9.25
+    &mdash; Documentation by YARD 0.9.26
   
 </title>
 
@@ -291,19 +291,23 @@ Return a User object if successful, nil otherwise</p>
 65
 66
 67
-68</pre>
+68
+69
+70</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'backend/app/model/authentication_manager.rb', line 20</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_authenticate identifier id'>authenticate</span><span class='lparen token'>(</span><span class='rubyid_username identifier id'>username</span><span class='comma token'>,</span> <span class='rubyid_password identifier id'>password</span><span class='rparen token'>)</span>
-
   <span class='rubyid_authentication_sources identifier id'>authentication_sources</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_source identifier id'>source</span><span class='bitor op'>|</span>
     <span class='rubyid_begin begin kw'>begin</span>
       <span class='rubyid_user identifier id'>user</span> <span class='assign token'>=</span> <span class='rubyid_User constant id'>User</span><span class='dot token'>.</span><span class='rubyid_find identifier id'>find</span><span class='lparen token'>(</span><span class='symbol val'>:username</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_username identifier id'>username</span><span class='rparen token'>)</span>
 
       <span class='comment val'># System users are only authenticated locally.</span>
       <span class='rubyid_next next kw'>next</span> <span class='rubyid_if if_mod kw'>if</span> <span class='lparen token'>(</span><span class='rubyid_user identifier id'>user</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_user identifier id'>user</span><span class='dot token'>.</span><span class='rubyid_is_system_user identifier id'>is_system_user</span> <span class='eq op'>==</span> <span class='integer val'>1</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_source identifier id'>source</span> <span class='neq op'>!=</span> <span class='rubyid_DBAuth constant id'>DBAuth</span><span class='rparen token'>)</span>
+
+      <span class='comment val'>#ANW-97: check if user is inactive</span>
+      <span class='rubyid_next next kw'>next</span> <span class='rubyid_if if_mod kw'>if</span> <span class='lparen token'>(</span><span class='rubyid_user identifier id'>user</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_user identifier id'>user</span><span class='dot token'>.</span><span class='rubyid_is_active_user identifier id'>is_active_user</span> <span class='neq op'>!=</span> <span class='integer val'>1</span><span class='rparen token'>)</span>
 
       <span class='rubyid_jsonmodel_user identifier id'>jsonmodel_user</span> <span class='assign token'>=</span> <span class='rubyid_source identifier id'>source</span><span class='dot token'>.</span><span class='rubyid_authenticate identifier id'>authenticate</span><span class='lparen token'>(</span><span class='rubyid_username identifier id'>username</span><span class='comma token'>,</span> <span class='rubyid_password identifier id'>password</span><span class='rparen token'>)</span>
 
@@ -397,14 +401,14 @@ Return a User object if successful, nil otherwise</p>
       <pre class="lines">
 
 
-71
-72
 73
 74
-75</pre>
+75
+76
+77</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/authentication_manager.rb', line 71</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/authentication_manager.rb', line 73</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_matching_usernames identifier id'>matching_usernames</span><span class='lparen token'>(</span><span class='rubyid_query identifier id'>query</span><span class='rparen token'>)</span>
   <span class='rubyid_authentication_sources identifier id'>authentication_sources</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_source identifier id'>source</span><span class='bitor op'>|</span>
@@ -461,9 +465,9 @@ Return a User object if successful, nil otherwise</p>
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.8.1.a Documentation Generated on Wed Nov 11 13:22:05 2020 by
+  ArchivesSpace Version X.Y.Z Documentation Generated on Tue Sep 21 14:09:58 2021 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.25.
+  0.9.26.
 </div>
 
     </div>

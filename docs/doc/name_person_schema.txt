@@ -18,6 +18,8 @@ string (max length: 65000)	fuller_form
 
 string (max length: 255)	number
 
+array (JSONModel(:parallel_name_person) object)	parallel_names
+
 
 
 

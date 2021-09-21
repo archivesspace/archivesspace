@@ -6,7 +6,7 @@
 <title>
   Module: Transferable
   
-    &mdash; Documentation by YARD 0.9.25
+    &mdash; Documentation by YARD 0.9.26
   
 </title>
 
@@ -362,7 +362,13 @@
 212
 213
 214
-215</pre>
+215
+216
+217
+218
+219
+220
+221</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'backend/app/model/mixins/transferable.rb', line 3</span>
@@ -473,6 +479,9 @@
   <span class='rubyid_topcon_rlshp identifier id'>topcon_rlshp</span> <span class='assign token'>=</span> <span class='rubyid_SubContainer constant id'>SubContainer</span><span class='dot token'>.</span><span class='rubyid_find_relationship identifier id'>find_relationship</span><span class='lparen token'>(</span><span class='symbol val'>:top_container_link</span><span class='rparen token'>)</span>
   <span class='comment val'># now we get  all the relationships in this graph</span>
   <span class='rubyid_all_ids identifier id'>all_ids</span> <span class='assign token'>=</span> <span class='rubyid_graph identifier id'>graph</span><span class='dot token'>.</span><span class='rubyid_ids_for identifier id'>ids_for</span><span class='lparen token'>(</span><span class='rubyid_topcon_rlshp identifier id'>topcon_rlshp</span><span class='rparen token'>)</span>
+  <span class='comment val'># add any conflicts to this, then raise unless it is empty</span>
+  <span class='rubyid_error identifier id'>error</span> <span class='assign token'>=</span> <span class='rubyid_TransferConstraintError constant id'>TransferConstraintError</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span>
+  <span class='rubyid_top_container_transferees identifier id'>top_container_transferees</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
 
   <span class='rubyid_DB constant id'>DB</span><span class='dot token'>.</span><span class='rubyid_open identifier id'>open</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_db identifier id'>db</span><span class='bitor op'>|</span>
     <span class='comment val'># Find relationships that are in our set of IDs that haven&#39;t been</span>
@@ -482,7 +491,12 @@
       <span class='dot token'>.</span><span class='rubyid_filter identifier id'>filter</span><span class='lparen token'>(</span><span class='symbol val'>:top_container_link_rlshp__id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_all_ids identifier id'>all_ids</span><span class='rparen token'>)</span>
       <span class='dot token'>.</span><span class='rubyid_filter identifier id'>filter</span><span class='lparen token'>(</span><span class='symbol val'>:top_container__repo_id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_active_repository identifier id'>active_repository</span><span class='rparen token'>)</span>
       <span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_tc_rel identifier id'>tc_rel</span><span class='bitor op'>|</span>
-      <span class='comment val'># lets get all the top_containers outside this graph</span>
+
+      <span class='rubyid_top_container identifier id'>top_container</span> <span class='assign token'>=</span> <span class='rubyid_TopContainer constant id'>TopContainer</span><span class='dot token'>.</span><span class='rubyid_this_repo identifier id'>this_repo</span><span class='dot token'>.</span><span class='rubyid_filter identifier id'>filter</span><span class='lparen token'>(</span><span class='label val'>id:</span> <span class='rubyid_tc_rel identifier id'>tc_rel</span><span class='lbrack token'>[</span><span class='symbol val'>:top_container_id</span><span class='rbrack token'>]</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_first identifier id'>first</span>
+      <span class='comment val'># Already transferred</span>
+      <span class='rubyid_next next kw'>next</span> <span class='rubyid_unless unless_mod kw'>unless</span> <span class='rubyid_top_container identifier id'>top_container</span>
+
+      <span class='comment val'># lets get all this container&#39;s links outside transferred object&#39;s graph</span>
       <span class='rubyid_number_of_tc_links identifier id'>number_of_tc_links</span> <span class='assign token'>=</span> <span class='rubyid_db identifier id'>db</span><span class='lbrack token'>[</span><span class='symbol val'>:top_container_link_rlshp</span><span class='rbrack token'>]</span>
                            <span class='dot token'>.</span><span class='rubyid_join identifier id'>join</span><span class='lparen token'>(</span><span class='symbol val'>:top_container</span><span class='comma token'>,</span> <span class='symbol val'>:id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:top_container_id</span><span class='rparen token'>)</span>
                            <span class='dot token'>.</span><span class='rubyid_filter identifier id'>filter</span><span class='lparen token'>(</span><span class='symbol val'>:top_container__repo_id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_active_repository identifier id'>active_repository</span><span class='rparen token'>)</span>
@@ -490,28 +504,26 @@
                            <span class='dot token'>.</span><span class='rubyid_exclude identifier id'>exclude</span><span class='lparen token'>(</span><span class='symbol val'>:top_container_link_rlshp__id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_all_ids identifier id'>all_ids</span><span class='rparen token'>)</span>
                            <span class='dot token'>.</span><span class='rubyid_count identifier id'>count</span>
 
-      <span class='rubyid_if if kw'>if</span> <span class='rubyid_number_of_tc_links identifier id'>number_of_tc_links</span> <span class='lt op'>&lt;</span> <span class='integer val'>1</span>
-        <span class='comment val'># this tc is only linked in this graph..so we transfer</span>
-        <span class='rubyid_top_container identifier id'>top_container</span> <span class='assign token'>=</span> <span class='rubyid_TopContainer constant id'>TopContainer</span><span class='dot token'>.</span><span class='rubyid_this_repo identifier id'>this_repo</span><span class='dot token'>.</span><span class='rubyid_filter identifier id'>filter</span><span class='lparen token'>(</span><span class='label val'>id:</span> <span class='rubyid_tc_rel identifier id'>tc_rel</span><span class='lbrack token'>[</span><span class='symbol val'>:top_container_id</span><span class='rbrack token'>]</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_first identifier id'>first</span>
-
-        <span class='rubyid_if if kw'>if</span> <span class='rubyid_top_container identifier id'>top_container</span>
-          <span class='rubyid_if if kw'>if</span> <span class='rubyid_top_container identifier id'>top_container</span><span class='dot token'>.</span><span class='rubyid_barcode identifier id'>barcode</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_TopContainer constant id'>TopContainer</span><span class='dot token'>.</span><span class='rubyid_any_repo identifier id'>any_repo</span><span class='lbrack token'>[</span><span class='symbol val'>:barcode</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_top_container identifier id'>top_container</span><span class='dot token'>.</span><span class='rubyid_barcode identifier id'>barcode</span><span class='comma token'>,</span> <span class='symbol val'>:repo_id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_repository identifier id'>repository</span><span class='dot token'>.</span><span class='rubyid_id identifier id'>id</span><span class='rbrack token'>]</span>
-            <span class='comment val'># There&#39;s already a top container with our barcode in the target</span>
-            <span class='comment val'># repository.  Not sure if merging them is the right strategy or</span>
-            <span class='comment val'># not, so throwing an error for now</span>
-            <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_TransferConstraintError constant id'>TransferConstraintError</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='rubyid_top_container identifier id'>top_container</span><span class='dot token'>.</span><span class='rubyid_uri identifier id'>uri</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='dstring node'>&quot;Top Container barcode &#39;#{top_container.barcode}&#39; already in use in target repository&quot;</span><span class='rparen token'>)</span>
-          <span class='rubyid_end end kw'>end</span>
-
-          <span class='rubyid_top_container identifier id'>top_container</span><span class='dot token'>.</span><span class='rubyid_transfer_to_repository identifier id'>transfer_to_repository</span><span class='lparen token'>(</span><span class='rubyid_repository identifier id'>repository</span><span class='comma token'>,</span> <span class='rubyid_transfer_group identifier id'>transfer_group</span> <span class='plus op'>+</span> <span class='lbrack token'>[</span><span class='rubyid_self self kw'>self</span><span class='rbrack token'>]</span><span class='rparen token'>)</span> <span class='comment val'># i guess we always add self just in case. dups are uniqed out.</span>
-        <span class='rubyid_else else kw'>else</span>
-          <span class='comment val'># Already transferred</span>
-        <span class='rubyid_end end kw'>end</span>
-      <span class='rubyid_else else kw'>else</span>
-        <span class='comment val'># something outside the graph is linked to it, add it to the list and we&#39;ll clone after transfer</span>
-        <span class='rubyid_tc_id identifier id'>tc_id</span> <span class='assign token'>=</span> <span class='rubyid_tc_rel identifier id'>tc_rel</span><span class='lbrack token'>[</span><span class='symbol val'>:top_container_id</span><span class='rbrack token'>]</span>
-        <span class='rubyid_containers_to_clone identifier id'>containers_to_clone</span><span class='lbrack token'>[</span><span class='rubyid_tc_id identifier id'>tc_id</span><span class='rbrack token'>]</span> <span class='opasgn op'>||=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
-        <span class='rubyid_containers_to_clone identifier id'>containers_to_clone</span><span class='lbrack token'>[</span><span class='rubyid_tc_id identifier id'>tc_id</span><span class='rbrack token'>]</span> <span class='lshft op'>&lt;&lt;</span>  <span class='rubyid_tc_rel identifier id'>tc_rel</span><span class='lbrack token'>[</span><span class='symbol val'>:sub_container_id</span><span class='rbrack token'>]</span>
+      <span class='comment val'># this tc linked beyond this graph..so it&#39;s an error</span>
+      <span class='rubyid_if if kw'>if</span> <span class='rubyid_number_of_tc_links identifier id'>number_of_tc_links</span> <span class='gt op'>&gt;</span> <span class='integer val'>0</span>
+        <span class='comment val'># ANW-979</span>
+        <span class='comment val'># Cancel transfer and let user know that they must unlink other top container</span>
+        <span class='rubyid_error identifier id'>error</span><span class='dot token'>.</span><span class='rubyid_add_conflict identifier id'>add_conflict</span><span class='lparen token'>(</span><span class='rubyid_top_container identifier id'>top_container</span><span class='dot token'>.</span><span class='rubyid_uri identifier id'>uri</span><span class='comma token'>,</span> <span class='label val'>message:</span> <span class='string val'>&quot;TOP_CONTAINER_IN_USE&quot;</span><span class='rparen token'>)</span>
       <span class='rubyid_end end kw'>end</span>
+
+      <span class='rubyid_if if kw'>if</span> <span class='rubyid_top_container identifier id'>top_container</span><span class='dot token'>.</span><span class='rubyid_barcode identifier id'>barcode</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_TopContainer constant id'>TopContainer</span><span class='dot token'>.</span><span class='rubyid_any_repo identifier id'>any_repo</span><span class='lbrack token'>[</span><span class='symbol val'>:barcode</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_top_container identifier id'>top_container</span><span class='dot token'>.</span><span class='rubyid_barcode identifier id'>barcode</span><span class='comma token'>,</span> <span class='symbol val'>:repo_id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_repository identifier id'>repository</span><span class='dot token'>.</span><span class='rubyid_id identifier id'>id</span><span class='rbrack token'>]</span>
+        <span class='comment val'># There&#39;s already a top container with our barcode in the target</span>
+        <span class='comment val'># repository.  Not sure if merging them is the right strategy or</span>
+        <span class='comment val'># not, so throwing an error for now</span>
+        <span class='rubyid_error identifier id'>error</span><span class='dot token'>.</span><span class='rubyid_add_conflict identifier id'>add_conflict</span><span class='lparen token'>(</span><span class='dstring node'>&quot;#{top_container.uri}&quot;</span><span class='comma token'>,</span> <span class='label val'>message:</span> <span class='string val'>&quot;BARCODE_IN_USE&quot;</span><span class='rparen token'>)</span>
+      <span class='rubyid_end end kw'>end</span>
+
+      <span class='rubyid_top_container_transferees identifier id'>top_container_transferees</span> <span class='lshft op'>&lt;&lt;</span> <span class='rubyid_top_container identifier id'>top_container</span>
+    <span class='rubyid_end end kw'>end</span>
+    <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_error identifier id'>error</span> <span class='rubyid_unless unless_mod kw'>unless</span> <span class='rubyid_error identifier id'>error</span><span class='dot token'>.</span><span class='rubyid_conflicts identifier id'>conflicts</span><span class='dot token'>.</span><span class='rubyid_empty? fid id'>empty?</span>
+
+    <span class='rubyid_top_container_transferees identifier id'>top_container_transferees</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_top_container identifier id'>top_container</span><span class='bitor op'>|</span>
+      <span class='rubyid_top_container identifier id'>top_container</span><span class='dot token'>.</span><span class='rubyid_transfer_to_repository identifier id'>transfer_to_repository</span><span class='lparen token'>(</span><span class='rubyid_repository identifier id'>repository</span><span class='comma token'>,</span> <span class='rubyid_transfer_group identifier id'>transfer_group</span> <span class='plus op'>+</span> <span class='lbrack token'>[</span><span class='rubyid_self self kw'>self</span><span class='rbrack token'>]</span><span class='rparen token'>)</span> <span class='comment val'># i guess we always add self just in case. dups are uniqed out.</span>
     <span class='rubyid_end end kw'>end</span>
   <span class='rubyid_end end kw'>end</span>
 
@@ -591,9 +603,9 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.8.1.a Documentation Generated on Wed Nov 11 13:21:28 2020 by
+  ArchivesSpace Version X.Y.Z Documentation Generated on Tue Sep 21 14:09:30 2021 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.25.
+  0.9.26.
 </div>
 
     </div>

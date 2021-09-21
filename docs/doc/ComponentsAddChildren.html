@@ -6,7 +6,7 @@
 <title>
   Module: ComponentsAddChildren
   
-    &mdash; Documentation by YARD 0.9.25
+    &mdash; Documentation by YARD 0.9.26
   
 </title>
 
@@ -271,14 +271,12 @@
 44
 45
 46
-47
-48</pre>
+47</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'backend/app/model/mixins/components_add_children.rb', line 11</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_add_children identifier id'>add_children</span><span class='lparen token'>(</span><span class='rubyid_children identifier id'>children</span><span class='rparen token'>)</span>
-
   <span class='rubyid_children identifier id'>children</span><span class='dot token'>.</span><span class='rubyid_children identifier id'>children</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_child identifier id'>child</span><span class='bitor op'>|</span>
     <span class='rubyid_obj identifier id'>obj</span> <span class='assign token'>=</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_node_record_type identifier id'>node_record_type</span><span class='dot token'>.</span><span class='rubyid_intern identifier id'>intern</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_from_hash identifier id'>from_hash</span><span class='lparen token'>(</span><span class='rubyid_child identifier id'>child</span><span class='rparen token'>)</span>
 
@@ -299,13 +297,13 @@
         <span class='string val'>&#39;ref&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_uri identifier id'>uri</span>
       <span class='rbrace token'>}</span>
     <span class='rubyid_end end kw'>end</span>
-    
+
     <span class='rubyid_begin begin kw'>begin</span>
       <span class='rubyid_node_model identifier id'>node_model</span><span class='dot token'>.</span><span class='rubyid_create_from_json identifier id'>create_from_json</span><span class='lparen token'>(</span><span class='rubyid_obj identifier id'>obj</span><span class='rparen token'>)</span>
     <span class='rubyid_rescue rescue kw'>rescue</span> <span class='rubyid_Sequel constant id'>Sequel</span><span class='colon2 op'>::</span><span class='rubyid_ValidationFailed constant id'>ValidationFailed</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_e identifier id'>e</span>
       <span class='comment val'># We&#39;ve run into something that the DB doesnt like.</span>
       <span class='comment val'># since we are dealing with a batch, we can add the</span>
-      <span class='comment val'># offending value to the error message in an attempt </span>
+      <span class='comment val'># offending value to the error message in an attempt</span>
       <span class='comment val'># to enlighten our  user</span>
       <span class='rubyid_e identifier id'>e</span><span class='dot token'>.</span><span class='rubyid_errors identifier id'>errors</span><span class='dot token'>.</span><span class='rubyid_keys identifier id'>keys</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_key identifier id'>key</span><span class='bitor op'>|</span>
         <span class='rubyid_next next kw'>next</span> <span class='rubyid_unless unless_mod kw'>unless</span> <span class='rubyid_obj identifier id'>obj</span><span class='lbrack token'>[</span><span class='rubyid_key identifier id'>key</span><span class='rbrack token'>]</span>
@@ -326,9 +324,9 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.8.1.a Documentation Generated on Wed Nov 11 13:21:32 2020 by
+  ArchivesSpace Version X.Y.Z Documentation Generated on Tue Sep 21 14:09:34 2021 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.25.
+  0.9.26.
 </div>
 
     </div>

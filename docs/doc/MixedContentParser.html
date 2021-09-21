@@ -6,7 +6,7 @@
 <title>
   Module: MixedContentParser
   
-    &mdash; Documentation by YARD 0.9.25
+    &mdash; Documentation by YARD 0.9.26
   
 </title>
 
@@ -224,12 +224,12 @@
   <span class='comment val'># (seems like the API falls down when we do this directly...)</span>
   <span class='rubyid_d identifier id'>d</span> <span class='assign token'>=</span> <span class='rubyid_org identifier id'>org</span><span class='dot token'>.</span><span class='rubyid_jsoup identifier id'>jsoup</span><span class='dot token'>.</span><span class='rubyid_Jsoup constant id'>Jsoup</span><span class='dot token'>.</span><span class='rubyid_parse identifier id'>parse</span><span class='lparen token'>(</span><span class='string val'>&quot;&quot;</span><span class='rparen token'>)</span>
   <span class='rubyid_d identifier id'>d</span><span class='dot token'>.</span><span class='rubyid_outputSettings identifier id'>outputSettings</span><span class='dot token'>.</span><span class='rubyid_prettyPrint identifier id'>prettyPrint</span><span class='lparen token'>(</span><span class='rubyid_opts identifier id'>opts</span><span class='lbrack token'>[</span><span class='symbol val'>:pretty_print</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
- 
+
   <span class='comment val'># archon does things differently.....</span>
-  <span class='rubyid_content identifier id'>content</span><span class='dot token'>.</span><span class='rubyid_gsub! fid id'>gsub!</span><span class='lparen token'>(</span><span class='string val'>&quot;\n\t&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;\n\n&quot;</span><span class='rparen token'>)</span> 
+  <span class='rubyid_content identifier id'>content</span><span class='dot token'>.</span><span class='rubyid_gsub! fid id'>gsub!</span><span class='lparen token'>(</span><span class='string val'>&quot;\n\t&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;\n\n&quot;</span><span class='rparen token'>)</span>
 
   <span class='comment val'># transform blocks of text seperated by line breaks into &lt;p&gt; wrapped blocks</span>
-  <span class='rubyid_content identifier id'>content</span> <span class='assign token'>=</span> <span class='rubyid_content identifier id'>content</span><span class='dot token'>.</span><span class='rubyid_split identifier id'>split</span><span class='lparen token'>(</span><span class='string val'>&quot;\n\n&quot;</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_inject identifier id'>inject</span><span class='lparen token'>(</span><span class='string val'>&quot;&quot;</span><span class='rparen token'>)</span> <span class='lbrace token'>{</span> <span class='bitor op'>|</span><span class='rubyid_c identifier id'>c</span><span class='comma token'>,</span><span class='rubyid_n identifier id'>n</span><span class='bitor op'>|</span> <span class='rubyid_c identifier id'>c</span> <span class='lshft op'>&lt;&lt;</span> <span class='dstring node'>&quot;&lt;p&gt;#{n}&lt;/p&gt;&quot;</span>  <span class='rbrace token'>}</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_opts identifier id'>opts</span><span class='lbrack token'>[</span><span class='symbol val'>:wrap_blocks</span><span class='rbrack token'>]</span>
+  <span class='rubyid_content identifier id'>content</span> <span class='assign token'>=</span> <span class='rubyid_content identifier id'>content</span><span class='dot token'>.</span><span class='rubyid_split identifier id'>split</span><span class='lparen token'>(</span><span class='string val'>&quot;\n\n&quot;</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_inject identifier id'>inject</span><span class='lparen token'>(</span><span class='string val'>&quot;&quot;</span><span class='rparen token'>)</span> <span class='lbrace token'>{</span> <span class='bitor op'>|</span><span class='rubyid_c identifier id'>c</span><span class='comma token'>,</span> <span class='rubyid_n identifier id'>n</span><span class='bitor op'>|</span> <span class='rubyid_c identifier id'>c</span> <span class='lshft op'>&lt;&lt;</span> <span class='dstring node'>&quot;&lt;p&gt;#{n}&lt;/p&gt;&quot;</span> <span class='rbrace token'>}</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_opts identifier id'>opts</span><span class='lbrack token'>[</span><span class='symbol val'>:wrap_blocks</span><span class='rbrack token'>]</span>
 
   <span class='rubyid_whitelist identifier id'>whitelist</span> <span class='assign token'>=</span> <span class='rubyid_org identifier id'>org</span><span class='dot token'>.</span><span class='rubyid_jsoup identifier id'>jsoup</span><span class='dot token'>.</span><span class='rubyid_safety identifier id'>safety</span><span class='dot token'>.</span><span class='rubyid_Whitelist constant id'>Whitelist</span><span class='dot token'>.</span><span class='rubyid_relaxed identifier id'>relaxed</span>
                                         <span class='dot token'>.</span><span class='rubyid_addTags identifier id'>addTags</span><span class='lparen token'>(</span><span class='string val'>&quot;emph&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;lb&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;title&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;unitdate&quot;</span><span class='rparen token'>)</span>
@@ -247,8 +247,8 @@
   <span class='rubyid_document identifier id'>document</span><span class='dot token'>.</span><span class='rubyid_select identifier id'>select</span><span class='lparen token'>(</span><span class='string val'>&quot;lb&quot;</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_tagName identifier id'>tagName</span><span class='lparen token'>(</span><span class='string val'>&quot;br&quot;</span><span class='rparen token'>)</span>
 
   <span class='comment val'># tweak the emph tags</span>
-  <span class='lbrack token'>[</span> <span class='string val'>&quot;emph&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;title&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;unitdate&quot;</span>  <span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_tag identifier id'>tag</span><span class='bitor op'>|</span> 
-    <span class='rubyid_document identifier id'>document</span><span class='dot token'>.</span><span class='rubyid_select identifier id'>select</span><span class='lparen token'>(</span><span class='rubyid_tag identifier id'>tag</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span> <span class='rubyid_emph identifier id'>emph</span> <span class='bitor op'>|</span>
+  <span class='lbrack token'>[</span> <span class='string val'>&quot;emph&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;title&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;unitdate&quot;</span>  <span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_tag identifier id'>tag</span><span class='bitor op'>|</span>
+    <span class='rubyid_document identifier id'>document</span><span class='dot token'>.</span><span class='rubyid_select identifier id'>select</span><span class='lparen token'>(</span><span class='rubyid_tag identifier id'>tag</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_emph identifier id'>emph</span><span class='bitor op'>|</span>
       <span class='comment val'># make all emph&#39;s a span</span>
       <span class='rubyid_emph identifier id'>emph</span><span class='dot token'>.</span><span class='rubyid_tagName identifier id'>tagName</span><span class='lparen token'>(</span><span class='string val'>&quot;span&quot;</span><span class='rparen token'>)</span>
 
@@ -282,9 +282,9 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.8.1.a Documentation Generated on Wed Nov 11 13:21:36 2020 by
+  ArchivesSpace Version X.Y.Z Documentation Generated on Tue Sep 21 14:09:38 2021 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.25.
+  0.9.26.
 </div>
 
     </div>

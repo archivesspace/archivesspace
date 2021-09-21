@@ -6,7 +6,7 @@
 <title>
   Class: ProgressTicker
   
-    &mdash; Documentation by YARD 0.9.25
+    &mdash; Documentation by YARD 0.9.26
   
 </title>
 
@@ -670,7 +670,7 @@
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_flush_results identifier id'>flush_results</span><span class='lparen token'>(</span><span class='rubyid_client identifier id'>client</span><span class='rparen token'>)</span>
   <span class='rubyid_results identifier id'>results</span> <span class='assign token'>=</span> <span class='rubyid_@results ivar id'>@results</span><span class='dot token'>.</span><span class='rubyid_swap identifier id'>swap</span><span class='lparen token'>(</span><span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
-  
+
   <span class='rubyid_unless unless kw'>unless</span> <span class='rubyid_results identifier id'>results</span><span class='dot token'>.</span><span class='rubyid_empty? fid id'>empty?</span>
     <span class='rubyid_client identifier id'>client</span><span class='dot token'>.</span><span class='rubyid_call identifier id'>call</span><span class='lparen token'>(</span><span class='rubyid_ASUtils constant id'>ASUtils</span><span class='dot token'>.</span><span class='rubyid_to_json identifier id'>to_json</span><span class='lparen token'>(</span><span class='rubyid_results identifier id'>results</span><span class='rparen token'>)</span> <span class='plus op'>+</span> <span class='string val'>&quot;\n&quot;</span><span class='rparen token'>)</span>
   <span class='rubyid_end end kw'>end</span>
@@ -861,7 +861,7 @@
       <pre class="code"><span class="info file"># File 'backend/app/lib/progress_ticker.rb', line 41</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_status_update identifier id'>status_update</span><span class='lparen token'>(</span><span class='rubyid_type identifier id'>type</span><span class='comma token'>,</span> <span class='rubyid_status identifier id'>status</span><span class='rparen token'>)</span>
-  <span class='rubyid_@status_updates ivar id'>@status_updates</span><span class='dot token'>.</span><span class='rubyid_update identifier id'>update</span><span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_val identifier id'>val</span><span class='bitor op'>|</span> <span class='rubyid_val identifier id'>val</span> <span class='plus op'>+</span> <span class='lbrack token'>[</span><span class='rubyid_status identifier id'>status</span><span class='dot token'>.</span><span class='rubyid_merge identifier id'>merge</span><span class='lparen token'>(</span><span class='symbol val'>:type</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_type identifier id'>type</span><span class='rparen token'>)</span><span class='rbrack token'>]</span> <span class='rbrace token'>}</span>
+  <span class='rubyid_@status_updates ivar id'>@status_updates</span><span class='dot token'>.</span><span class='rubyid_update identifier id'>update</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_val identifier id'>val</span><span class='bitor op'>|</span> <span class='rubyid_val identifier id'>val</span> <span class='plus op'>+</span> <span class='lbrack token'>[</span><span class='rubyid_status identifier id'>status</span><span class='dot token'>.</span><span class='rubyid_merge identifier id'>merge</span><span class='lparen token'>(</span><span class='symbol val'>:type</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_type identifier id'>type</span><span class='rparen token'>)</span><span class='rbrack token'>]</span> <span class='rbrace token'>}</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -942,9 +942,9 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.8.1.a Documentation Generated on Wed Nov 11 13:21:51 2020 by
+  ArchivesSpace Version X.Y.Z Documentation Generated on Tue Sep 21 14:09:48 2021 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.25.
+  0.9.26.
 </div>
 
     </div>

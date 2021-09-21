@@ -6,7 +6,7 @@
 <title>
   Class: ASpaceImport::RecordProxy
   
-    &mdash; Documentation by YARD 0.9.25
+    &mdash; Documentation by YARD 0.9.26
   
 </title>
 
@@ -409,6 +409,7 @@ or can just act as a store for delayed jobs.</p>
       <pre class="lines">
 
 
+52
 53
 54
 55
@@ -417,11 +418,10 @@ or can just act as a store for delayed jobs.</p>
 58
 59
 60
-61
-62</pre>
+61</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/converters/lib/record_proxy.rb', line 53</span>
+      <pre class="code"><span class="info file"># File 'backend/app/converters/lib/record_proxy.rb', line 52</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_initialize identifier id'>initialize</span><span class='lparen token'>(</span><span class='rubyid_key identifier id'>key</span><span class='comma token'>,</span> <span class='rubyid_record_type identifier id'>record_type</span> <span class='assign token'>=</span> <span class='rubyid_nil nil kw'>nil</span><span class='rparen token'>)</span>
   <span class='rubyid_@key ivar id'>@key</span> <span class='assign token'>=</span> <span class='rubyid_key identifier id'>key</span>
@@ -462,12 +462,12 @@ or can just act as a store for delayed jobs.</p>
       <pre class="lines">
 
 
+75
 76
-77
-78</pre>
+77</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/converters/lib/record_proxy.rb', line 76</span>
+      <pre class="code"><span class="info file"># File 'backend/app/converters/lib/record_proxy.rb', line 75</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_method_missing identifier id'>method_missing</span><span class='lparen token'>(</span><span class='rubyid_meth identifier id'>meth</span><span class='rparen token'>)</span>
   <span class='rubyid_@data ivar id'>@data</span><span class='dot token'>.</span><span class='rubyid_has_key? fid id'>has_key?</span><span class='lparen token'>(</span><span class='rubyid_meth identifier id'>meth</span><span class='dot token'>.</span><span class='rubyid_to_s identifier id'>to_s</span><span class='rparen token'>)</span> <span class='question op'>?</span> <span class='rubyid_@data ivar id'>@data</span><span class='lbrack token'>[</span><span class='rubyid_meth identifier id'>meth</span><span class='dot token'>.</span><span class='rubyid_to_s identifier id'>to_s</span><span class='rbrack token'>]</span> <span class='colon op'>:</span> <span class='rubyid_nil nil kw'>nil</span>
@@ -510,12 +510,12 @@ or can just act as a store for delayed jobs.</p>
       <pre class="lines">
 
 
+49
 50
-51
-52</pre>
+51</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/converters/lib/record_proxy.rb', line 50</span>
+      <pre class="code"><span class="info file"># File 'backend/app/converters/lib/record_proxy.rb', line 49</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_discharged identifier id'>discharged</span>
   <span class='rubyid_@discharged ivar id'>@discharged</span>
@@ -553,12 +553,12 @@ or can just act as a store for delayed jobs.</p>
       <pre class="lines">
 
 
+50
 51
-52
-53</pre>
+52</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/converters/lib/record_proxy.rb', line 51</span>
+      <pre class="code"><span class="info file"># File 'backend/app/converters/lib/record_proxy.rb', line 50</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_key identifier id'>key</span>
   <span class='rubyid_@key ivar id'>@key</span>
@@ -591,13 +591,13 @@ or can just act as a store for delayed jobs.</p>
       <pre class="lines">
 
 
+122
+123
 124
-125
-126
-127</pre>
+125</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/converters/lib/record_proxy.rb', line 124</span>
+      <pre class="code"><span class="info file"># File 'backend/app/converters/lib/record_proxy.rb', line 122</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_discharge identifier id'>discharge</span><span class='lparen token'>(</span><span class='rubyid_proxied_obj identifier id'>proxied_obj</span><span class='rparen token'>)</span>
   <span class='rubyid_@jobs ivar id'>@jobs</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_proc identifier id'>proc</span><span class='bitor op'>|</span> <span class='rubyid_proc identifier id'>proc</span><span class='dot token'>.</span><span class='rubyid_call identifier id'>call</span><span class='lparen token'>(</span><span class='rubyid_proxied_obj identifier id'>proxied_obj</span><span class='rparen token'>)</span> <span class='rbrace token'>}</span>
@@ -634,12 +634,12 @@ or can just act as a store for delayed jobs.</p>
       <pre class="lines">
 
 
-119
-120
-121</pre>
+117
+118
+119</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/converters/lib/record_proxy.rb', line 119</span>
+      <pre class="code"><span class="info file"># File 'backend/app/converters/lib/record_proxy.rb', line 117</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_on_discharge identifier id'>on_discharge</span><span class='lparen token'>(</span><span class='rubyid_receiver identifier id'>receiver</span><span class='comma token'>,</span> <span class='rubyid_method identifier id'>method</span><span class='comma token'>,</span> <span class='mult op'>*</span><span class='rubyid_args identifier id'>args</span><span class='rparen token'>)</span>
   <span class='rubyid_@jobs ivar id'>@jobs</span> <span class='lshft op'>&lt;&lt;</span> <span class='rubyid_Proc constant id'>Proc</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_obj identifier id'>obj</span><span class='bitor op'>|</span> <span class='rubyid_receiver identifier id'>receiver</span><span class='dot token'>.</span><span class='rubyid_send identifier id'>send</span><span class='lparen token'>(</span><span class='rubyid_method identifier id'>method</span><span class='comma token'>,</span> <span class='mult op'>*</span><span class='rubyid_args identifier id'>args</span><span class='comma token'>,</span> <span class='rubyid_obj identifier id'>obj</span><span class='rparen token'>)</span><span class='rbrace token'>}</span>
@@ -675,12 +675,12 @@ or can just act as a store for delayed jobs.</p>
       <pre class="lines">
 
 
-113
-114
-115</pre>
+111
+112
+113</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/converters/lib/record_proxy.rb', line 113</span>
+      <pre class="code"><span class="info file"># File 'backend/app/converters/lib/record_proxy.rb', line 111</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_on_spawn identifier id'>on_spawn</span><span class='lparen token'>(</span><span class='rubyid_callback identifier id'>callback</span><span class='rparen token'>)</span>
   <span class='rubyid_@spawn_callbacks ivar id'>@spawn_callbacks</span> <span class='lshft op'>&lt;&lt;</span> <span class='rubyid_callback identifier id'>callback</span>
@@ -706,12 +706,12 @@ or can just act as a store for delayed jobs.</p>
       <pre class="lines">
 
 
+70
 71
-72
-73</pre>
+72</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/converters/lib/record_proxy.rb', line 71</span>
+      <pre class="code"><span class="info file"># File 'backend/app/converters/lib/record_proxy.rb', line 70</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_set identifier id'>set</span><span class='lparen token'>(</span><span class='rubyid_k identifier id'>k</span><span class='comma token'>,</span> <span class='rubyid_v identifier id'>v</span><span class='rparen token'>)</span>
   <span class='rubyid_@data ivar id'>@data</span><span class='lbrack token'>[</span><span class='rubyid_k identifier id'>k</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_v identifier id'>v</span>
@@ -737,6 +737,7 @@ or can just act as a store for delayed jobs.</p>
       <pre class="lines">
 
 
+80
 81
 82
 83
@@ -763,23 +764,20 @@ or can just act as a store for delayed jobs.</p>
 104
 105
 106
-107
-108
-109</pre>
+107</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/converters/lib/record_proxy.rb', line 81</span>
+      <pre class="code"><span class="info file"># File 'backend/app/converters/lib/record_proxy.rb', line 80</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_spawn identifier id'>spawn</span>
-
   <span class='rubyid_raise identifier id'>raise</span> <span class='string val'>&quot;Can&#39;t spawn an object because record type is unknown&quot;</span> <span class='rubyid_unless unless_mod kw'>unless</span> <span class='rubyid_@record_type ivar id'>@record_type</span>
   <span class='rubyid_type identifier id'>type</span> <span class='assign token'>=</span> <span class='rubyid_@record_type ivar id'>@record_type</span><span class='dot token'>.</span><span class='rubyid_respond_to? fid id'>respond_to?</span><span class='lparen token'>(</span><span class='symbol val'>:call</span><span class='rparen token'>)</span> <span class='question op'>?</span> <span class='rubyid_@record_type ivar id'>@record_type</span><span class='dot token'>.</span><span class='rubyid_call identifier id'>call</span><span class='lparen token'>(</span><span class='rubyid_@data ivar id'>@data</span><span class='rparen token'>)</span> <span class='colon op'>:</span> <span class='rubyid_@record_type ivar id'>@record_type</span>
-  
+
   <span class='rubyid_return return kw'>return</span> <span class='rubyid_nil nil kw'>nil</span> <span class='rubyid_unless unless_mod kw'>unless</span> <span class='rubyid_type identifier id'>type</span>
 
   <span class='rubyid_obj identifier id'>obj</span> <span class='assign token'>=</span> <span class='rubyid_ASpaceImport constant id'>ASpaceImport</span><span class='colon2 op'>::</span><span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='rubyid_type identifier id'>type</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span>
   <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_key identifier id'>key</span> <span class='assign token'>=</span> <span class='rubyid_@key ivar id'>@key</span>
-  <span class='rubyid_@data ivar id'>@data</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_k identifier id'>k</span><span class='comma token'>,</span><span class='rubyid_v identifier id'>v</span><span class='bitor op'>|</span>
+  <span class='rubyid_@data ivar id'>@data</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_k identifier id'>k</span><span class='comma token'>,</span> <span class='rubyid_v identifier id'>v</span><span class='bitor op'>|</span>
 
     <span class='rubyid_next next kw'>next</span> <span class='rubyid_unless unless_mod kw'>unless</span> <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_schema identifier id'>schema</span><span class='lbrack token'>[</span><span class='string val'>&#39;properties&#39;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_has_key? fid id'>has_key?</span><span class='lparen token'>(</span><span class='rubyid_k identifier id'>k</span><span class='rparen token'>)</span>
 
@@ -820,13 +818,13 @@ or can just act as a store for delayed jobs.</p>
       <pre class="lines">
 
 
+64
 65
 66
-67
-68</pre>
+67</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/converters/lib/record_proxy.rb', line 65</span>
+      <pre class="code"><span class="info file"># File 'backend/app/converters/lib/record_proxy.rb', line 64</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_to_s identifier id'>to_s</span>
   <span class='rubyid_type identifier id'>type</span> <span class='assign token'>=</span> <span class='rubyid_@record_type ivar id'>@record_type</span> <span class='andop op'>&amp;&amp;</span> <span class='notop op'>!</span><span class='rubyid_@record_type ivar id'>@record_type</span><span class='dot token'>.</span><span class='rubyid_respond_to? fid id'>respond_to?</span><span class='lparen token'>(</span><span class='symbol val'>:call</span><span class='rparen token'>)</span> <span class='question op'>?</span> <span class='rubyid_@record_type ivar id'>@record_type</span> <span class='colon op'>:</span> <span class='string val'>&quot;Anonymous or Typeless Object&quot;</span>
@@ -843,9 +841,9 @@ or can just act as a store for delayed jobs.</p>
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.8.1.a Documentation Generated on Wed Nov 11 13:22:03 2020 by
+  ArchivesSpace Version X.Y.Z Documentation Generated on Tue Sep 21 14:09:57 2021 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.25.
+  0.9.26.
 </div>
 
     </div>

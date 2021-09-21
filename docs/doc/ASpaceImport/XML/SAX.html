@@ -6,7 +6,7 @@
 <title>
   Module: ASpaceImport::XML::SAX
   
-    &mdash; Documentation by YARD 0.9.25
+    &mdash; Documentation by YARD 0.9.26
   
 </title>
 
@@ -403,29 +403,6 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#is_node_empty%3F-instance_method" title="#is_node_empty? (instance method)">#<strong>is_node_empty?</strong>(node)  &#x21d2; Boolean </a>
-    
-
-    
-  </span>
-  
-  
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'><p>this is used to check if a node is empty before processing.</p>
-</div></span>
-  
-</li>
-
-      
-        <li class="public ">
-  <span class="summary_signature">
-    
       <a href="#make_sticky-instance_method" title="#make_sticky (instance method)">#<strong>make_sticky</strong>(node_name)  &#x21d2; Object </a>
     
 
@@ -487,29 +464,6 @@
 
   
     <span class="summary_desc"><div class='inline'>
-</div></span>
-  
-</li>
-
-      
-        <li class="public ">
-  <span class="summary_signature">
-    
-      <a href="#node_queue_for-instance_method" title="#node_queue_for (instance method)">#<strong>node_queue_for</strong>(reader)  &#x21d2; Object </a>
-    
-
-    
-  </span>
-  
-  
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'><p>Get a hold of Nokogiri’s internal nodeQueue for the sake of being able to clear it.</p>
 </div></span>
   
 </li>
@@ -703,11 +657,11 @@
       <pre class="lines">
 
 
-59
-60</pre>
+61
+62</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/converters/lib/xml_sax.rb', line 59</span>
+      <pre class="code"><span class="info file"># File 'backend/app/converters/lib/xml_sax.rb', line 61</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_method_missing identifier id'>method_missing</span><span class='lparen token'>(</span><span class='mult op'>*</span><span class='rubyid_args identifier id'>args</span><span class='rparen token'>)</span>
 <span class='rubyid_end end kw'>end</span>
@@ -739,12 +693,12 @@
       <pre class="lines">
 
 
-54
-55
-56</pre>
+56
+57
+58</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/converters/lib/xml_sax.rb', line 54</span>
+      <pre class="code"><span class="info file"># File 'backend/app/converters/lib/xml_sax.rb', line 56</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_included identifier id'>included</span><span class='lparen token'>(</span><span class='rubyid_base identifier id'>base</span><span class='rparen token'>)</span>
   <span class='rubyid_base identifier id'>base</span><span class='dot token'>.</span><span class='rubyid_extend identifier id'>extend</span><span class='lparen token'>(</span><span class='rubyid_ClassMethods constant id'>ClassMethods</span><span class='rparen token'>)</span>
@@ -776,15 +730,15 @@
       <pre class="lines">
 
 
-303
-304
-305
-306
-307
-308</pre>
+272
+273
+274
+275
+276
+277</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/converters/lib/xml_sax.rb', line 303</span>
+      <pre class="code"><span class="info file"># File 'backend/app/converters/lib/xml_sax.rb', line 272</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_ancestor identifier id'>ancestor</span><span class='lparen token'>(</span><span class='mult op'>*</span><span class='rubyid_types identifier id'>types</span><span class='rparen token'>)</span>
   <span class='rubyid_queue_offset identifier id'>queue_offset</span> <span class='assign token'>=</span> <span class='lparen token'>(</span><span class='rubyid_@context_nodes ivar id'>@context_nodes</span><span class='dot token'>.</span><span class='rubyid_has_key? fid id'>has_key?</span><span class='lparen token'>(</span><span class='rubyid_@node_name ivar id'>@node_name</span><span class='rparen token'>)</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_@context_nodes ivar id'>@context_nodes</span><span class='lbrack token'>[</span><span class='rubyid_@node_name ivar id'>@node_name</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='rubyid_@node_depth ivar id'>@node_depth</span><span class='rbrack token'>]</span><span class='rparen token'>)</span> <span class='question op'>?</span> <span class='integer val'>-2</span> <span class='colon op'>:</span> <span class='integer val'>-1</span>
@@ -813,19 +767,19 @@
       <pre class="lines">
 
 
-234
-235
-236
-237
-238
-239
-240
-241
-242
-243</pre>
+203
+204
+205
+206
+207
+208
+209
+210
+211
+212</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/converters/lib/xml_sax.rb', line 234</span>
+      <pre class="code"><span class="info file"># File 'backend/app/converters/lib/xml_sax.rb', line 203</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_append identifier id'>append</span><span class='lparen token'>(</span><span class='rubyid_obj identifier id'>obj</span> <span class='assign token'>=</span> <span class='rubyid_context_obj identifier id'>context_obj</span><span class='comma token'>,</span> <span class='rubyid_property identifier id'>property</span><span class='comma token'>,</span> <span class='rubyid_value identifier id'>value</span><span class='rparen token'>)</span>
   <span class='rubyid_property_type identifier id'>property_type</span> <span class='assign token'>=</span> <span class='rubyid_ASpaceImport constant id'>ASpaceImport</span><span class='colon2 op'>::</span><span class='rubyid_Utils constant id'>Utils</span><span class='dot token'>.</span><span class='rubyid_get_property_type identifier id'>get_property_type</span><span class='lparen token'>(</span><span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_schema identifier id'>schema</span><span class='lbrack token'>[</span><span class='string val'>&#39;properties&#39;</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='rubyid_property identifier id'>property</span><span class='dot token'>.</span><span class='rubyid_to_s identifier id'>to_s</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
@@ -858,17 +812,17 @@
       <pre class="lines">
 
 
-311
-312
-313
-314
-315
-316
-317
-318</pre>
+280
+281
+282
+283
+284
+285
+286
+287</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/converters/lib/xml_sax.rb', line 311</span>
+      <pre class="code"><span class="info file"># File 'backend/app/converters/lib/xml_sax.rb', line 280</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_att identifier id'>att</span><span class='lparen token'>(</span><span class='rubyid_attribute identifier id'>attribute</span><span class='rparen token'>)</span>
   <span class='rubyid_att_pair identifier id'>att_pair</span> <span class='assign token'>=</span> <span class='rubyid_@node ivar id'>@node</span><span class='dot token'>.</span><span class='rubyid_attributes identifier id'>attributes</span><span class='dot token'>.</span><span class='rubyid_find identifier id'>find</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_a identifier id'>a</span><span class='bitor op'>|</span> <span class='rubyid_a identifier id'>a</span><span class='lbrack token'>[</span><span class='integer val'>0</span><span class='rbrack token'>]</span> <span class='eq op'>==</span> <span class='rubyid_attribute identifier id'>attribute</span><span class='rbrace token'>}</span>
@@ -899,19 +853,19 @@
       <pre class="lines">
 
 
-208
-209
-210
-211
-212
-213
-214
-215
-216
-217</pre>
+177
+178
+179
+180
+181
+182
+183
+184
+185
+186</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/converters/lib/xml_sax.rb', line 208</span>
+      <pre class="code"><span class="info file"># File 'backend/app/converters/lib/xml_sax.rb', line 177</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_close_context identifier id'>close_context</span><span class='lparen token'>(</span><span class='rubyid_type identifier id'>type</span><span class='rparen token'>)</span>
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_@batch ivar id'>@batch</span><span class='dot token'>.</span><span class='rubyid_working_area identifier id'>working_area</span><span class='dot token'>.</span><span class='rubyid_last identifier id'>last</span><span class='dot token'>.</span><span class='rubyid_jsonmodel_type identifier id'>jsonmodel_type</span> <span class='neq op'>!=</span> <span class='rubyid_type identifier id'>type</span><span class='dot token'>.</span><span class='rubyid_to_s identifier id'>to_s</span>
@@ -944,12 +898,12 @@
       <pre class="lines">
 
 
-321
-322
-323</pre>
+290
+291
+292</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/converters/lib/xml_sax.rb', line 321</span>
+      <pre class="code"><span class="info file"># File 'backend/app/converters/lib/xml_sax.rb', line 290</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_context identifier id'>context</span>
   <span class='rubyid_@contexts ivar id'>@contexts</span><span class='dot token'>.</span><span class='rubyid_last identifier id'>last</span>
@@ -975,12 +929,12 @@
       <pre class="lines">
 
 
-331
-332
-333</pre>
+300
+301
+302</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/converters/lib/xml_sax.rb', line 331</span>
+      <pre class="code"><span class="info file"># File 'backend/app/converters/lib/xml_sax.rb', line 300</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_context_obj identifier id'>context_obj</span>
   <span class='rubyid_@batch ivar id'>@batch</span><span class='dot token'>.</span><span class='rubyid_working_area identifier id'>working_area</span><span class='dot token'>.</span><span class='rubyid_last identifier id'>last</span>
@@ -1006,12 +960,12 @@
       <pre class="lines">
 
 
-326
-327
-328</pre>
+295
+296
+297</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/converters/lib/xml_sax.rb', line 326</span>
+      <pre class="code"><span class="info file"># File 'backend/app/converters/lib/xml_sax.rb', line 295</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_full_context identifier id'>full_context</span>
   <span class='rubyid_@contexts ivar id'>@contexts</span>
@@ -1037,27 +991,27 @@
       <pre class="lines">
 
 
-168
-169
-170
-171
-172
-173
-174
-175
-176
-177
-178
-179
-180
-181
-182
-183
-184
-185</pre>
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/converters/lib/xml_sax.rb', line 168</span>
+      <pre class="code"><span class="info file"># File 'backend/app/converters/lib/xml_sax.rb', line 137</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_handle_closer identifier id'>handle_closer</span><span class='lparen token'>(</span><span class='rubyid_node identifier id'>node</span><span class='rparen token'>)</span>
   <span class='rubyid_@node_shadow ivar id'>@node_shadow</span> <span class='assign token'>=</span> <span class='rubyid_nil nil kw'>nil</span>
@@ -1098,39 +1052,39 @@
       <pre class="lines">
 
 
-139
-140
-141
-142
-143
-144
-145
-146
-147
-148
-149
-150
-151
-152
-153
-154
-155
-156
-157
-158
-159
-160</pre>
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/converters/lib/xml_sax.rb', line 139</span>
+      <pre class="code"><span class="info file"># File 'backend/app/converters/lib/xml_sax.rb', line 108</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_handle_opener identifier id'>handle_opener</span><span class='lparen token'>(</span><span class='rubyid_node identifier id'>node</span><span class='comma token'>,</span> <span class='rubyid_empty_node identifier id'>empty_node</span><span class='rparen token'>)</span>
   <span class='rubyid_@node_name ivar id'>@node_name</span> <span class='assign token'>=</span> <span class='rubyid_node identifier id'>node</span><span class='dot token'>.</span><span class='rubyid_local_name identifier id'>local_name</span>
   <span class='rubyid_@node_depth ivar id'>@node_depth</span> <span class='assign token'>=</span> <span class='rubyid_node identifier id'>node</span><span class='dot token'>.</span><span class='rubyid_depth identifier id'>depth</span>
   <span class='rubyid_@node_shadow ivar id'>@node_shadow</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rubyid_node identifier id'>node</span><span class='dot token'>.</span><span class='rubyid_local_name identifier id'>local_name</span><span class='comma token'>,</span> <span class='rubyid_node identifier id'>node</span><span class='dot token'>.</span><span class='rubyid_depth identifier id'>depth</span><span class='rbrack token'>]</span>
-  
+
   <span class='rubyid_@node ivar id'>@node</span> <span class='assign token'>=</span> <span class='rubyid_node identifier id'>node</span>
-  <span class='rubyid_@empty_node ivar id'>@empty_node</span> <span class='assign token'>=</span> <span class='rubyid_empty_node identifier id'>empty_node</span> 
+  <span class='rubyid_@empty_node ivar id'>@empty_node</span> <span class='assign token'>=</span> <span class='rubyid_empty_node identifier id'>empty_node</span>
 
 
   <span class='comment val'># constrained handlers, e.g. publication/date</span>
@@ -1167,12 +1121,12 @@
       <pre class="lines">
 
 
-163
-164
-165</pre>
+132
+133
+134</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/converters/lib/xml_sax.rb', line 163</span>
+      <pre class="code"><span class="info file"># File 'backend/app/converters/lib/xml_sax.rb', line 132</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_handle_text identifier id'>handle_text</span><span class='lparen token'>(</span><span class='rubyid_node identifier id'>node</span><span class='rparen token'>)</span>
   <span class='rubyid_@proxies ivar id'>@proxies</span><span class='dot token'>.</span><span class='rubyid_discharge_proxy identifier id'>discharge_proxy</span><span class='lparen token'>(</span><span class='symbol val'>:text</span><span class='comma token'>,</span> <span class='rubyid_node identifier id'>node</span><span class='dot token'>.</span><span class='rubyid_value identifier id'>value</span><span class='rparen token'>)</span>
@@ -1198,83 +1152,15 @@
       <pre class="lines">
 
 
-220
-221
-222</pre>
+189
+190
+191</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/converters/lib/xml_sax.rb', line 220</span>
+      <pre class="code"><span class="info file"># File 'backend/app/converters/lib/xml_sax.rb', line 189</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_inner_xml identifier id'>inner_xml</span>
-  <span class='rubyid_@node ivar id'>@node</span><span class='dot token'>.</span><span class='rubyid_inner_xml identifier id'>inner_xml</span><span class='dot token'>.</span><span class='rubyid_gsub identifier id'>gsub</span><span class='lparen token'>(</span><span class='string val'>&quot;&amp;&quot;</span><span class='comma token'>,</span><span class='string val'>&quot;&amp;amp;&quot;</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_strip identifier id'>strip</span>
-<span class='rubyid_end end kw'>end</span>
-</pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-      <div class="method_details ">
-  <h3 class="signature " id="is_node_empty?-instance_method">
-  
-    #<strong>is_node_empty?</strong>(node)  &#x21d2; <tt>Boolean</tt> 
-  
-
-  
-
-  
-</h3><div class="docstring">
-  <div class="discussion">
-    <p>this is used to check if a node is empty before processing. 
-this is a bit of a processing hit on this, especially for nodes
-that have any children. For this reason we skip the root node.<br />
-You should override this in order to not check nodes that are
-expected to be very deep.</p>
-
-
-  </div>
-</div>
-<div class="tags">
-  
-<p class="tag_title">Returns:</p>
-<ul class="return">
-  
-    <li>
-      
-      
-        <span class='type'>(<tt>Boolean</tt>)</span>
-      
-      
-      
-    </li>
-  
-</ul>
-
-</div><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-129
-130
-131
-132
-133
-134
-135
-136</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'backend/app/converters/lib/xml_sax.rb', line 129</span>
-
-<span class='rubyid_def def kw'>def</span> <span class='rubyid_is_node_empty? fid id'>is_node_empty?</span><span class='lparen token'>(</span><span class='rubyid_node identifier id'>node</span><span class='rparen token'>)</span>
-  <span class='comment val'># calling inner_xml on the root note slows things down a lot...</span>
-  <span class='rubyid_if if kw'>if</span> <span class='rubyid_node identifier id'>node</span><span class='dot token'>.</span><span class='rubyid_depth identifier id'>depth</span> <span class='eq op'>==</span> <span class='integer val'>0</span> 
-    <span class='rubyid_return return kw'>return</span> <span class='rubyid_false false kw'>false</span>
-  <span class='rubyid_else else kw'>else</span>   
-    <span class='rubyid_return return kw'>return</span>  <span class='rubyid_node identifier id'>node</span><span class='dot token'>.</span><span class='rubyid_inner_xml identifier id'>inner_xml</span><span class='dot token'>.</span><span class='rubyid_strip identifier id'>strip</span><span class='dot token'>.</span><span class='rubyid_empty? fid id'>empty?</span> <span class='comment val'># using empty_element? returns true if there&#39;s just whitespace... </span>
-  <span class='rubyid_end end kw'>end</span>
+  <span class='rubyid_@node ivar id'>@node</span><span class='dot token'>.</span><span class='rubyid_inner_xml identifier id'>inner_xml</span><span class='dot token'>.</span><span class='rubyid_gsub identifier id'>gsub</span><span class='lparen token'>(</span><span class='string val'>&quot;&amp;&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;&amp;amp;&quot;</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_strip identifier id'>strip</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -1297,12 +1183,12 @@ expected to be very deep.</p>
       <pre class="lines">
 
 
-336
-337
-338</pre>
+305
+306
+307</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/converters/lib/xml_sax.rb', line 336</span>
+      <pre class="code"><span class="info file"># File 'backend/app/converters/lib/xml_sax.rb', line 305</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_make_sticky identifier id'>make_sticky</span><span class='lparen token'>(</span><span class='rubyid_node_name identifier id'>node_name</span><span class='rparen token'>)</span>
   <span class='rubyid_@stickies ivar id'>@stickies</span> <span class='lshft op'>&lt;&lt;</span> <span class='rubyid_node_name identifier id'>node_name</span>
@@ -1328,63 +1214,15 @@ expected to be very deep.</p>
       <pre class="lines">
 
 
-298
-299
-300</pre>
+267
+268
+269</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/converters/lib/xml_sax.rb', line 298</span>
+      <pre class="code"><span class="info file"># File 'backend/app/converters/lib/xml_sax.rb', line 267</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_node identifier id'>node</span>
   <span class='rubyid_@node ivar id'>@node</span>
-<span class='rubyid_end end kw'>end</span>
-</pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-      <div class="method_details ">
-  <h3 class="signature " id="node_queue_for-instance_method">
-  
-    #<strong>node_queue_for</strong>(reader)  &#x21d2; <tt>Object</tt> 
-  
-
-  
-
-  
-</h3><div class="docstring">
-  <div class="discussion">
-    <p>Get a hold of Nokogiri’s internal nodeQueue for the sake of being able
-to clear it.  This might not be necessary in new versions of Nokogiri.</p>
-
-
-  </div>
-</div>
-<div class="tags">
-  
-
-</div><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-65
-66
-67
-68
-69
-70</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'backend/app/converters/lib/xml_sax.rb', line 65</span>
-
-<span class='rubyid_def def kw'>def</span> <span class='rubyid_node_queue_for identifier id'>node_queue_for</span><span class='lparen token'>(</span><span class='rubyid_reader identifier id'>reader</span><span class='rparen token'>)</span>
-  <span class='rubyid_obj identifier id'>obj</span> <span class='assign token'>=</span> <span class='rubyid_reader identifier id'>reader</span><span class='dot token'>.</span><span class='rubyid_to_java identifier id'>to_java</span>
-  <span class='rubyid_nodeQueueField identifier id'>nodeQueueField</span> <span class='assign token'>=</span> <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_get_class identifier id'>get_class</span><span class='dot token'>.</span><span class='rubyid_get_declared_field identifier id'>get_declared_field</span><span class='lparen token'>(</span><span class='string val'>&quot;nodeQueue&quot;</span><span class='rparen token'>)</span>
-  <span class='rubyid_nodeQueueField identifier id'>nodeQueueField</span><span class='dot token'>.</span><span class='rubyid_setAccessible identifier id'>setAccessible</span><span class='lparen token'>(</span><span class='rubyid_true true kw'>true</span><span class='rparen token'>)</span>
-  <span class='rubyid_nodeQueueField identifier id'>nodeQueueField</span><span class='dot token'>.</span><span class='rubyid_get identifier id'>get</span><span class='lparen token'>(</span><span class='rubyid_obj identifier id'>obj</span><span class='rparen token'>)</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -1434,24 +1272,24 @@ to clear it.  This might not be necessary in new versions of Nokogiri.</p>
       <pre class="lines">
 
 
-188
-189
-190
-191
-192
-193
-194
-195
-196
-197
-198
-199
-200
-201
-202</pre>
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/converters/lib/xml_sax.rb', line 188</span>
+      <pre class="code"><span class="info file"># File 'backend/app/converters/lib/xml_sax.rb', line 157</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_open_context identifier id'>open_context</span><span class='lparen token'>(</span><span class='rubyid_type identifier id'>type</span><span class='comma token'>,</span> <span class='rubyid_properties identifier id'>properties</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
   <span class='rubyid_obj identifier id'>obj</span> <span class='assign token'>=</span> <span class='rubyid_ASpaceImport constant id'>ASpaceImport</span><span class='colon2 op'>::</span><span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='rubyid_type identifier id'>type</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span>
@@ -1462,7 +1300,7 @@ to clear it.  This might not be necessary in new versions of Nokogiri.</p>
   <span class='rubyid_@context_nodes ivar id'>@context_nodes</span><span class='lbrack token'>[</span><span class='rubyid_@node_name ivar id'>@node_name</span><span class='rbrack token'>]</span> <span class='opasgn op'>||=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
   <span class='rubyid_@context_nodes ivar id'>@context_nodes</span><span class='lbrack token'>[</span><span class='rubyid_@node_name ivar id'>@node_name</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='rubyid_@node_depth ivar id'>@node_depth</span><span class='rbrack token'>]</span> <span class='opasgn op'>||=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
   <span class='rubyid_@context_nodes ivar id'>@context_nodes</span><span class='lbrack token'>[</span><span class='rubyid_@node_name ivar id'>@node_name</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='rubyid_@node_depth ivar id'>@node_depth</span><span class='rbrack token'>]</span> <span class='lshft op'>&lt;&lt;</span> <span class='rubyid_type identifier id'>type</span>
-  <span class='rubyid_properties identifier id'>properties</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_k identifier id'>k</span><span class='comma token'>,</span><span class='rubyid_v identifier id'>v</span><span class='bitor op'>|</span>
+  <span class='rubyid_properties identifier id'>properties</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_k identifier id'>k</span><span class='comma token'>,</span> <span class='rubyid_v identifier id'>v</span><span class='bitor op'>|</span>
     <span class='rubyid_set identifier id'>set</span> <span class='rubyid_obj identifier id'>obj</span><span class='comma token'>,</span> <span class='rubyid_k identifier id'>k</span><span class='comma token'>,</span> <span class='rubyid_v identifier id'>v</span>
   <span class='rubyid_end end kw'>end</span>
 
@@ -1489,12 +1327,12 @@ to clear it.  This might not be necessary in new versions of Nokogiri.</p>
       <pre class="lines">
 
 
-224
-225
-226</pre>
+193
+194
+195</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/converters/lib/xml_sax.rb', line 224</span>
+      <pre class="code"><span class="info file"># File 'backend/app/converters/lib/xml_sax.rb', line 193</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_outer_xml identifier id'>outer_xml</span>
   <span class='rubyid_@node ivar id'>@node</span><span class='dot token'>.</span><span class='rubyid_outer_xml identifier id'>outer_xml</span><span class='dot token'>.</span><span class='rubyid_strip identifier id'>strip</span>
@@ -1520,14 +1358,14 @@ to clear it.  This might not be necessary in new versions of Nokogiri.</p>
       <pre class="lines">
 
 
-228
-229
-230
-231
-232</pre>
+197
+198
+199
+200
+201</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/converters/lib/xml_sax.rb', line 228</span>
+      <pre class="code"><span class="info file"># File 'backend/app/converters/lib/xml_sax.rb', line 197</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_pprint_current_node identifier id'>pprint_current_node</span>
   <span class='rubyid_Nokogiri constant id'>Nokogiri</span><span class='colon2 op'>::</span><span class='rubyid_XML constant id'>XML</span><span class='colon2 op'>::</span><span class='rubyid_Builder constant id'>Builder</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span> <span class='symbol val'>:encoding</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;UTF-8&#39;</span> <span class='rparen token'>)</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_b identifier id'>b</span><span class='bitor op'>|</span>
@@ -1568,12 +1406,12 @@ will discharge the JSON subrecord once it is complete</p>
       <pre class="lines">
 
 
-293
-294
-295</pre>
+262
+263
+264</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/converters/lib/xml_sax.rb', line 293</span>
+      <pre class="code"><span class="info file"># File 'backend/app/converters/lib/xml_sax.rb', line 262</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_proxy identifier id'>proxy</span><span class='lparen token'>(</span><span class='rubyid_record_type identifier id'>record_type</span> <span class='assign token'>=</span> <span class='rubyid_context identifier id'>context</span><span class='rparen token'>)</span>
   <span class='rubyid_@proxies ivar id'>@proxies</span><span class='dot token'>.</span><span class='rubyid_get_proxy_for identifier id'>get_proxy_for</span><span class='lparen token'>(</span><span class='dstring node'>&quot;#{record_type}-#{@contexts.length}&quot;</span><span class='comma token'>,</span> <span class='rubyid_record_type identifier id'>record_type</span><span class='rparen token'>)</span>
@@ -1599,6 +1437,14 @@ will discharge the JSON subrecord once it is complete</p>
       <pre class="lines">
 
 
+65
+66
+67
+68
+69
+70
+71
+72
 73
 74
 75
@@ -1631,74 +1477,50 @@ will discharge the JSON subrecord once it is complete</p>
 102
 103
 104
-105
-106
-107
-108
-109
-110
-111
-112
-113
-114
-115
-116
-117
-118
-119
-120
-121</pre>
+105</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/converters/lib/xml_sax.rb', line 73</span>
+      <pre class="code"><span class="info file"># File 'backend/app/converters/lib/xml_sax.rb', line 65</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_run identifier id'>run</span>
-  <span class='rubyid_@reader ivar id'>@reader</span> <span class='assign token'>=</span> <span class='rubyid_Nokogiri constant id'>Nokogiri</span><span class='colon2 op'>::</span><span class='rubyid_XML constant id'>XML</span><span class='colon2 op'>::</span><span class='rubyid_Reader constant id'>Reader</span><span class='lparen token'>(</span> <span class='rubyid_IO constant id'>IO</span><span class='dot token'>.</span><span class='rubyid_read identifier id'>read</span><span class='lparen token'>(</span><span class='rubyid_@input_file ivar id'>@input_file</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_gsub identifier id'>gsub</span><span class='lparen token'>(</span><span class='regexp val'>/\s\s+/</span><span class='comma token'>,</span> <span class='string val'>&quot; &quot;</span><span class='rparen token'>)</span><span class='rparen token'>)</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_config identifier id'>config</span><span class='bitor op'>|</span>
-    <span class='rubyid_config identifier id'>config</span><span class='dot token'>.</span><span class='rubyid_noblanks identifier id'>noblanks</span><span class='dot token'>.</span><span class='rubyid_strict identifier id'>strict</span>
-  <span class='rubyid_end end kw'>end</span>
-  <span class='rubyid_node_queue identifier id'>node_queue</span> <span class='assign token'>=</span> <span class='rubyid_node_queue_for identifier id'>node_queue_for</span><span class='lparen token'>(</span><span class='rubyid_@reader ivar id'>@reader</span><span class='rparen token'>)</span>
+  <span class='rubyid_reader identifier id'>reader</span> <span class='assign token'>=</span> <span class='rubyid_SAXXMLReader constant id'>SAXXMLReader</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='rubyid_IO constant id'>IO</span><span class='dot token'>.</span><span class='rubyid_read identifier id'>read</span><span class='lparen token'>(</span><span class='rubyid_@input_file ivar id'>@input_file</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_gsub identifier id'>gsub</span><span class='lparen token'>(</span><span class='regexp val'>/\s\s+/</span><span class='comma token'>,</span> <span class='string val'>&quot; &quot;</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
+
   <span class='rubyid_@contexts ivar id'>@contexts</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
   <span class='rubyid_@context_nodes ivar id'>@context_nodes</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span>
   <span class='rubyid_@proxies ivar id'>@proxies</span> <span class='assign token'>=</span> <span class='rubyid_ASpaceImport constant id'>ASpaceImport</span><span class='colon2 op'>::</span><span class='rubyid_RecordProxyMgr constant id'>RecordProxyMgr</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span>
   <span class='rubyid_@stickies ivar id'>@stickies</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
   <span class='comment val'># another hack for noko:</span>
   <span class='rubyid_@node_shadow ivar id'>@node_shadow</span> <span class='assign token'>=</span> <span class='rubyid_nil nil kw'>nil</span>
-  <span class='rubyid_@empty_node ivar id'>@empty_node</span> <span class='assign token'>=</span> <span class='rubyid_false false kw'>false</span> 
+  <span class='rubyid_@empty_node ivar id'>@empty_node</span> <span class='assign token'>=</span> <span class='rubyid_false false kw'>false</span>
 
   <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_ensure_configuration identifier id'>ensure_configuration</span>
 
-  <span class='rubyid_@reader ivar id'>@reader</span><span class='dot token'>.</span><span class='rubyid_each_with_index identifier id'>each_with_index</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_node identifier id'>node</span><span class='comma token'>,</span> <span class='rubyid_i identifier id'>i</span><span class='bitor op'>|</span>
-
+  <span class='rubyid_reader identifier id'>reader</span><span class='dot token'>.</span><span class='rubyid_each_with_index identifier id'>each_with_index</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='lparen token'>(</span><span class='rubyid_node identifier id'>node</span><span class='comma token'>,</span> <span class='rubyid_is_node_empty identifier id'>is_node_empty</span><span class='rparen token'>)</span><span class='comma token'>,</span> <span class='rubyid_i identifier id'>i</span><span class='bitor op'>|</span>
     <span class='rubyid_case case kw'>case</span> <span class='rubyid_node identifier id'>node</span><span class='dot token'>.</span><span class='rubyid_node_type identifier id'>node_type</span>
 
     <span class='rubyid_when when kw'>when</span> <span class='integer val'>1</span>
-      
+
       <span class='rubyid_next next kw'>next</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_@ignore ivar id'>@ignore</span>
 
       <span class='comment val'># Nokogiri Reader won&#39;t create events for closing tags on empty nodes</span>
       <span class='comment val'># https://github.com/sparklemotion/nokogiri/issues/928</span>
       <span class='comment val'># handle_closer(node) if node.self_closing? #&lt;--- don&#39;t do this it&#39;s horribly slow</span>
-      <span class='rubyid_if if kw'>if</span> <span class='rubyid_@node_shadow ivar id'>@node_shadow</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_@empty_node ivar id'>@empty_node</span> 
+      <span class='rubyid_if if kw'>if</span> <span class='rubyid_@node_shadow ivar id'>@node_shadow</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_@empty_node ivar id'>@empty_node</span>
         <span class='rubyid_handle_closer identifier id'>handle_closer</span><span class='lparen token'>(</span><span class='rubyid_@node_shadow ivar id'>@node_shadow</span><span class='rparen token'>)</span>
       <span class='rubyid_end end kw'>end</span>
-      
+
       <span class='comment val'>#we do not bother with empty and attributesless nodes. however, a</span>
-      <span class='comment val'>#node can be empty as long as it has attributes </span>
-      <span class='rubyid_empty_node identifier id'>empty_node</span> <span class='assign token'>=</span> <span class='rubyid_is_node_empty? fid id'>is_node_empty?</span><span class='lparen token'>(</span><span class='rubyid_node identifier id'>node</span><span class='rparen token'>)</span>
-      <span class='rubyid_handle_opener identifier id'>handle_opener</span><span class='lparen token'>(</span><span class='rubyid_node identifier id'>node</span><span class='comma token'>,</span> <span class='rubyid_empty_node identifier id'>empty_node</span><span class='rparen token'>)</span> <span class='rubyid_unless unless_mod kw'>unless</span> <span class='lparen token'>(</span> <span class='rubyid_empty_node identifier id'>empty_node</span> <span class='andop op'>&amp;&amp;</span> <span class='notop op'>!</span><span class='rubyid_node identifier id'>node</span><span class='dot token'>.</span><span class='rubyid_attributes? fid id'>attributes?</span> <span class='rparen token'>)</span> 
+      <span class='comment val'>#node can be empty as long as it has attributes</span>
+      <span class='rubyid_handle_opener identifier id'>handle_opener</span><span class='lparen token'>(</span><span class='rubyid_node identifier id'>node</span><span class='comma token'>,</span> <span class='rubyid_is_node_empty identifier id'>is_node_empty</span><span class='rparen token'>)</span> <span class='rubyid_unless unless_mod kw'>unless</span> <span class='lparen token'>(</span> <span class='rubyid_is_node_empty identifier id'>is_node_empty</span> <span class='andop op'>&amp;&amp;</span> <span class='notop op'>!</span><span class='rubyid_node identifier id'>node</span><span class='dot token'>.</span><span class='rubyid_attributes? fid id'>attributes?</span> <span class='rparen token'>)</span>
 
     <span class='rubyid_when when kw'>when</span> <span class='integer val'>3</span>
       <span class='rubyid_handle_text identifier id'>handle_text</span><span class='lparen token'>(</span><span class='rubyid_node identifier id'>node</span><span class='rparen token'>)</span>
     <span class='rubyid_when when kw'>when</span> <span class='integer val'>15</span>
-      <span class='rubyid_if if kw'>if</span> <span class='rubyid_@node_shadow ivar id'>@node_shadow</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_node identifier id'>node</span><span class='dot token'>.</span><span class='rubyid_local_name identifier id'>local_name</span> <span class='neq op'>!=</span> <span class='rubyid_@node_shadow ivar id'>@node_shadow</span><span class='lbrack token'>[</span><span class='integer val'>0</span><span class='rbrack token'>]</span> 
+      <span class='rubyid_if if kw'>if</span> <span class='rubyid_@node_shadow ivar id'>@node_shadow</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_node identifier id'>node</span><span class='dot token'>.</span><span class='rubyid_local_name identifier id'>local_name</span> <span class='neq op'>!=</span> <span class='rubyid_@node_shadow ivar id'>@node_shadow</span><span class='lbrack token'>[</span><span class='integer val'>0</span><span class='rbrack token'>]</span>
         <span class='rubyid_handle_closer identifier id'>handle_closer</span><span class='lparen token'>(</span><span class='rubyid_@node_shadow ivar id'>@node_shadow</span><span class='rparen token'>)</span>
       <span class='rubyid_end end kw'>end</span>
       <span class='rubyid_handle_closer identifier id'>handle_closer</span><span class='lparen token'>(</span><span class='rubyid_node identifier id'>node</span><span class='rparen token'>)</span>
     <span class='rubyid_end end kw'>end</span>
-
-    <span class='comment val'># A gross hack.  Use Java Reflection to clear Nokogiri&#39;s node queue,</span>
-    <span class='comment val'># since otherwise we end up accumulating all nodes in memory.</span>
-    <span class='rubyid_node_queue identifier id'>node_queue</span><span class='dot token'>.</span><span class='rubyid_set identifier id'>set</span><span class='lparen token'>(</span><span class='rubyid_i identifier id'>i</span><span class='comma token'>,</span> <span class='rubyid_nil nil kw'>nil</span><span class='rparen token'>)</span>
   <span class='rubyid_end end kw'>end</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
@@ -1722,12 +1544,12 @@ will discharge the JSON subrecord once it is complete</p>
       <pre class="lines">
 
 
-246
-247
-248</pre>
+215
+216
+217</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/converters/lib/xml_sax.rb', line 246</span>
+      <pre class="code"><span class="info file"># File 'backend/app/converters/lib/xml_sax.rb', line 215</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_set identifier id'>set</span><span class='lparen token'>(</span><span class='mult op'>*</span><span class='rubyid_args identifier id'>args</span><span class='rparen token'>)</span>
   <span class='rubyid_set_property identifier id'>set_property</span><span class='lparen token'>(</span><span class='mult op'>*</span><span class='rubyid_args identifier id'>args</span><span class='rparen token'>)</span>
@@ -1753,44 +1575,44 @@ will discharge the JSON subrecord once it is complete</p>
       <pre class="lines">
 
 
+220
+221
+222
+223
+224
+225
+226
+227
+228
+229
+230
+231
+232
+233
+234
+235
+236
+237
+238
+239
+240
+241
+242
+243
+244
+245
+246
+247
+248
+249
+250
 251
 252
 253
-254
-255
-256
-257
-258
-259
-260
-261
-262
-263
-264
-265
-266
-267
-268
-269
-270
-271
-272
-273
-274
-275
-276
-277
-278
-279
-280
-281
-282
-283
-284
-285</pre>
+254</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/converters/lib/xml_sax.rb', line 251</span>
+      <pre class="code"><span class="info file"># File 'backend/app/converters/lib/xml_sax.rb', line 220</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_set_property identifier id'>set_property</span><span class='lparen token'>(</span><span class='rubyid_obj identifier id'>obj</span> <span class='assign token'>=</span> <span class='rubyid_context_obj identifier id'>context_obj</span><span class='comma token'>,</span> <span class='rubyid_property identifier id'>property</span><span class='comma token'>,</span> <span class='rubyid_value identifier id'>value</span><span class='rparen token'>)</span>
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span>
@@ -1838,9 +1660,9 @@ will discharge the JSON subrecord once it is complete</p>
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.8.1.a Documentation Generated on Wed Nov 11 13:21:25 2020 by
+  ArchivesSpace Version X.Y.Z Documentation Generated on Tue Sep 21 14:09:29 2021 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.25.
+  0.9.26.
 </div>
 
     </div>

@@ -6,7 +6,7 @@
 <title>
   Class: MARCSerializer
   
-    &mdash; Documentation by YARD 0.9.25
+    &mdash; Documentation by YARD 0.9.26
   
 </title>
 
@@ -265,13 +265,13 @@ the chance to change the leader, 008, add extra data fields, etc.</p>
       <pre class="lines">
 
 
+14
 15
 16
-17
-18</pre>
+17</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/exporters/serializers/marc21.rb', line 15</span>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/serializers/marc21.rb', line 14</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_add_decorator identifier id'>add_decorator</span><span class='lparen token'>(</span><span class='rubyid_decorator identifier id'>decorator</span><span class='rparen token'>)</span>
   <span class='rubyid_@decorators ivar id'>@decorators</span> <span class='opasgn op'>||=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
@@ -298,14 +298,14 @@ the chance to change the leader, 008, add extra data fields, etc.</p>
       <pre class="lines">
 
 
+19
 20
 21
 22
-23
-24</pre>
+23</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/exporters/serializers/marc21.rb', line 20</span>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/serializers/marc21.rb', line 19</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_decorate_record identifier id'>decorate_record</span><span class='lparen token'>(</span><span class='rubyid_record identifier id'>record</span><span class='rparen token'>)</span>
   <span class='rubyid_Array constant id'>Array</span><span class='lparen token'>(</span><span class='rubyid_@decorators ivar id'>@decorators</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_reduce identifier id'>reduce</span><span class='lparen token'>(</span><span class='rubyid_record identifier id'>record</span><span class='rparen token'>)</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_result identifier id'>result</span><span class='comma token'>,</span> <span class='rubyid_decorator identifier id'>decorator</span><span class='bitor op'>|</span>
@@ -345,14 +345,12 @@ the chance to change the leader, 008, add extra data fields, etc.</p>
 7
 8
 9
-10
-11</pre>
+10</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'backend/app/exporters/serializers/marc21.rb', line 4</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_build identifier id'>build</span><span class='lparen token'>(</span><span class='rubyid_marc identifier id'>marc</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
-
   <span class='rubyid_builder identifier id'>builder</span> <span class='assign token'>=</span> <span class='rubyid_Nokogiri constant id'>Nokogiri</span><span class='colon2 op'>::</span><span class='rubyid_XML constant id'>XML</span><span class='colon2 op'>::</span><span class='rubyid_Builder constant id'>Builder</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='symbol val'>:encoding</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;UTF-8&quot;</span><span class='rparen token'>)</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_xml identifier id'>xml</span><span class='bitor op'>|</span>
     <span class='rubyid__root identifier id'>_root</span><span class='lparen token'>(</span><span class='rubyid_marc identifier id'>marc</span><span class='comma token'>,</span> <span class='rubyid_xml identifier id'>xml</span><span class='rparen token'>)</span>
   <span class='rubyid_end end kw'>end</span>
@@ -380,18 +378,16 @@ the chance to change the leader, 008, add extra data fields, etc.</p>
       <pre class="lines">
 
 
+26
 27
 28
 29
-30
-31
-32</pre>
+30</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/exporters/serializers/marc21.rb', line 27</span>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/serializers/marc21.rb', line 26</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_serialize identifier id'>serialize</span><span class='lparen token'>(</span><span class='rubyid_marc identifier id'>marc</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
-
   <span class='rubyid_builder identifier id'>builder</span> <span class='assign token'>=</span> <span class='rubyid_build identifier id'>build</span><span class='lparen token'>(</span><span class='rubyid_MARCSerializer constant id'>MARCSerializer</span><span class='dot token'>.</span><span class='rubyid_decorate_record identifier id'>decorate_record</span><span class='lparen token'>(</span><span class='rubyid_marc identifier id'>marc</span><span class='rparen token'>)</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span><span class='rparen token'>)</span>
 
   <span class='rubyid_builder identifier id'>builder</span><span class='dot token'>.</span><span class='rubyid_to_xml identifier id'>to_xml</span>
@@ -407,9 +403,9 @@ the chance to change the leader, 008, add extra data fields, etc.</p>
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.8.1.a Documentation Generated on Wed Nov 11 13:22:04 2020 by
+  ArchivesSpace Version X.Y.Z Documentation Generated on Tue Sep 21 14:09:58 2021 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.25.
+  0.9.26.
 </div>
 
     </div>

@@ -6,7 +6,7 @@
 <title>
   Module: JSONModel::Client
   
-    &mdash; Documentation by YARD 0.9.25
+    &mdash; Documentation by YARD 0.9.26
   
 </title>
 
@@ -329,12 +329,12 @@
       <pre class="lines">
 
 
-292
-293
-294</pre>
+290
+291
+292</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/jsonmodel_client.rb', line 292</span>
+      <pre class="code"><span class="info file"># File 'common/jsonmodel_client.rb', line 290</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_included identifier id'>included</span><span class='lparen token'>(</span><span class='rubyid_base identifier id'>base</span><span class='rparen token'>)</span>
   <span class='rubyid_base identifier id'>base</span><span class='dot token'>.</span><span class='rubyid_extend identifier id'>extend</span><span class='lparen token'>(</span><span class='rubyid_ClassMethods constant id'>ClassMethods</span><span class='rparen token'>)</span>
@@ -366,14 +366,14 @@
       <pre class="lines">
 
 
+401
+402
+403
 404
-405
-406
-407
-408</pre>
+405</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/jsonmodel_client.rb', line 404</span>
+      <pre class="code"><span class="info file"># File 'common/jsonmodel_client.rb', line 401</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_add_error identifier id'>add_error</span><span class='lparen token'>(</span><span class='rubyid_field identifier id'>field</span><span class='comma token'>,</span> <span class='rubyid_message identifier id'>message</span><span class='rparen token'>)</span>
   <span class='rubyid_@errors ivar id'>@errors</span> <span class='opasgn op'>||=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span>
@@ -401,6 +401,9 @@
       <pre class="lines">
 
 
+360
+361
+362
 363
 364
 365
@@ -413,13 +416,10 @@
 372
 373
 374
-375
-376
-377
-378</pre>
+375</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/jsonmodel_client.rb', line 363</span>
+      <pre class="code"><span class="info file"># File 'common/jsonmodel_client.rb', line 360</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_delete identifier id'>delete</span>
   <span class='rubyid_response identifier id'>response</span> <span class='assign token'>=</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='colon2 op'>::</span><span class='rubyid_HTTP constant id'>HTTP</span><span class='dot token'>.</span><span class='rubyid_delete_request identifier id'>delete_request</span><span class='lparen token'>(</span><span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_my_url identifier id'>my_url</span><span class='lparen token'>(</span><span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_id identifier id'>id</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
@@ -458,18 +458,18 @@
       <pre class="lines">
 
 
+349
+350
+351
 352
 353
 354
 355
 356
-357
-358
-359
-360</pre>
+357</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/jsonmodel_client.rb', line 352</span>
+      <pre class="code"><span class="info file"># File 'common/jsonmodel_client.rb', line 349</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_refetch identifier id'>refetch</span>
   <span class='comment val'># if a new object, nothing to fetch</span>
@@ -512,6 +512,8 @@ update to the backend.</p>
       <pre class="lines">
 
 
+297
+298
 299
 300
 301
@@ -559,16 +561,12 @@ update to the backend.</p>
 343
 344
 345
-346
-347
-348
-349</pre>
+346</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/jsonmodel_client.rb', line 299</span>
+      <pre class="code"><span class="info file"># File 'common/jsonmodel_client.rb', line 297</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_save identifier id'>save</span><span class='lparen token'>(</span><span class='rubyid_opts identifier id'>opts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='comma token'>,</span> <span class='rubyid_whole_body identifier id'>whole_body</span> <span class='assign token'>=</span> <span class='rubyid_false false kw'>false</span><span class='rparen token'>)</span>
-
   <span class='rubyid_clear_errors identifier id'>clear_errors</span>
 
   <span class='rubyid_type identifier id'>type</span> <span class='assign token'>=</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_record_type identifier id'>record_type</span>
@@ -649,6 +647,9 @@ update to the backend.</p>
       <pre class="lines">
 
 
+378
+379
+380
 381
 382
 383
@@ -656,13 +657,10 @@ update to the backend.</p>
 385
 386
 387
-388
-389
-390
-391</pre>
+388</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/jsonmodel_client.rb', line 381</span>
+      <pre class="code"><span class="info file"># File 'common/jsonmodel_client.rb', line 378</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_set_suppressed identifier id'>set_suppressed</span><span class='lparen token'>(</span><span class='rubyid_val identifier id'>val</span><span class='rparen token'>)</span>
   <span class='rubyid_response identifier id'>response</span> <span class='assign token'>=</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='colon2 op'>::</span><span class='rubyid_HTTP constant id'>HTTP</span><span class='dot token'>.</span><span class='rubyid_post_form identifier id'>post_form</span><span class='lparen token'>(</span><span class='dstring node'>&quot;#{self.uri}/suppressed&quot;</span><span class='comma token'>,</span> <span class='symbol val'>:suppressed</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_val identifier id'>val</span><span class='rparen token'>)</span>
@@ -696,12 +694,12 @@ update to the backend.</p>
       <pre class="lines">
 
 
-394
-395
-396</pre>
+391
+392
+393</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/jsonmodel_client.rb', line 394</span>
+      <pre class="code"><span class="info file"># File 'common/jsonmodel_client.rb', line 391</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_suppress identifier id'>suppress</span>
   <span class='rubyid_set_suppressed identifier id'>set_suppressed</span><span class='lparen token'>(</span><span class='rubyid_true true kw'>true</span><span class='rparen token'>)</span>
@@ -727,12 +725,12 @@ update to the backend.</p>
       <pre class="lines">
 
 
-399
-400
-401</pre>
+396
+397
+398</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/jsonmodel_client.rb', line 399</span>
+      <pre class="code"><span class="info file"># File 'common/jsonmodel_client.rb', line 396</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_unsuppress identifier id'>unsuppress</span>
   <span class='rubyid_set_suppressed identifier id'>set_suppressed</span><span class='lparen token'>(</span><span class='rubyid_false false kw'>false</span><span class='rparen token'>)</span>
@@ -748,9 +746,9 @@ update to the backend.</p>
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.8.1.a Documentation Generated on Wed Nov 11 13:21:36 2020 by
+  ArchivesSpace Version X.Y.Z Documentation Generated on Tue Sep 21 14:09:38 2021 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.25.
+  0.9.26.
 </div>
 
     </div>

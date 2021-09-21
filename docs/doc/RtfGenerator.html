@@ -6,7 +6,7 @@
 <title>
   Class: RtfGenerator
   
-    &mdash; Documentation by YARD 0.9.25
+    &mdash; Documentation by YARD 0.9.26
   
 </title>
 
@@ -647,19 +647,19 @@
   <span class='rubyid_p identifier id'>p</span><span class='dot token'>.</span><span class='rubyid_line_break identifier id'>line_break</span>
   <span class='rubyid_hash identifier id'>hash</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_key identifier id'>key</span><span class='comma token'>,</span> <span class='rubyid_value identifier id'>value</span><span class='bitor op'>|</span>
     <span class='rubyid_next next kw'>next</span> <span class='rubyid_unless unless_mod kw'>unless</span> <span class='rubyid_value identifier id'>value</span>
-    <span class='rubyid_p identifier id'>p</span><span class='dot token'>.</span><span class='rubyid_line_break identifier id'>line_break</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_value identifier id'>value</span><span class='dot token'>.</span><span class='rubyid_kind_of? fid id'>kind_of?</span><span class='lparen token'>(</span><span class='rubyid_Array constant id'>Array</span><span class='rparen token'>)</span>
+    <span class='rubyid_p identifier id'>p</span><span class='dot token'>.</span><span class='rubyid_line_break identifier id'>line_break</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_value identifier id'>value</span><span class='dot token'>.</span><span class='rubyid_is_a? fid id'>is_a?</span><span class='lparen token'>(</span><span class='rubyid_Array constant id'>Array</span><span class='rparen token'>)</span>
     <span class='rubyid_p identifier id'>p</span> <span class='lshft op'>&lt;&lt;</span> <span class='string val'>&quot;\t&quot;</span> <span class='mult op'>*</span> <span class='rubyid_indent identifier id'>indent</span>
     <span class='rubyid_p identifier id'>p</span><span class='dot token'>.</span><span class='rubyid_apply identifier id'>apply</span><span class='lparen token'>(</span>
       <span class='string val'>&#39;bold&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_true true kw'>true</span>
     <span class='rparen token'>)</span> <span class='lshft op'>&lt;&lt;</span> <span class='dstring node'>&quot;#{t(key)}: &quot;</span> <span class='rubyid_unless unless_mod kw'>unless</span> <span class='rubyid_key identifier id'>key</span><span class='dot token'>.</span><span class='rubyid_to_s identifier id'>to_s</span><span class='lbrack token'>[</span><span class='integer val'>0</span><span class='rbrack token'>]</span> <span class='eq op'>==</span> <span class='string val'>&#39;_&#39;</span>
-    <span class='rubyid_if if kw'>if</span> <span class='rubyid_value identifier id'>value</span><span class='dot token'>.</span><span class='rubyid_kind_of? fid id'>kind_of?</span><span class='lparen token'>(</span><span class='rubyid_Array constant id'>Array</span><span class='rparen token'>)</span>
+    <span class='rubyid_if if kw'>if</span> <span class='rubyid_value identifier id'>value</span><span class='dot token'>.</span><span class='rubyid_is_a? fid id'>is_a?</span><span class='lparen token'>(</span><span class='rubyid_Array constant id'>Array</span><span class='rparen token'>)</span>
       <span class='rubyid_p identifier id'>p</span><span class='dot token'>.</span><span class='rubyid_line_break identifier id'>line_break</span>
       <span class='rubyid_generator identifier id'>generator</span><span class='dot token'>.</span><span class='rubyid_rtf_subreport identifier id'>rtf_subreport</span><span class='lparen token'>(</span><span class='rubyid_value identifier id'>value</span><span class='rparen token'>)</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_value identifier id'>value</span><span class='bitor op'>|</span>
         <span class='rubyid_value identifier id'>value</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_item identifier id'>item</span><span class='bitor op'>|</span>
           <span class='rubyid_content_attributes identifier id'>content_attributes</span><span class='lparen token'>(</span><span class='rubyid_p identifier id'>p</span><span class='comma token'>,</span> <span class='rubyid_item identifier id'>item</span><span class='comma token'>,</span> <span class='rubyid_indent identifier id'>indent</span> <span class='plus op'>+</span> <span class='integer val'>1</span><span class='rparen token'>)</span>
         <span class='rubyid_end end kw'>end</span>
       <span class='rubyid_end end kw'>end</span>
-    <span class='rubyid_elsif elsif kw'>elsif</span> <span class='rubyid_value identifier id'>value</span>        
+    <span class='rubyid_elsif elsif kw'>elsif</span> <span class='rubyid_value identifier id'>value</span>
       <span class='rubyid_p identifier id'>p</span> <span class='lshft op'>&lt;&lt;</span> <span class='rubyid_value identifier id'>value</span><span class='dot token'>.</span><span class='rubyid_to_s identifier id'>to_s</span>
       <span class='rubyid_p identifier id'>p</span><span class='dot token'>.</span><span class='rubyid_line_break identifier id'>line_break</span>
     <span class='rubyid_end end kw'>end</span>
@@ -852,9 +852,9 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.8.1.a Documentation Generated on Wed Nov 11 13:22:01 2020 by
+  ArchivesSpace Version X.Y.Z Documentation Generated on Tue Sep 21 14:09:55 2021 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.25.
+  0.9.26.
 </div>
 
     </div>

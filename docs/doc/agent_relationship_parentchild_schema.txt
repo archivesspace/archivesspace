@@ -4,7 +4,7 @@ Properties
 
 string	relator
 
-[{"type"=>"JSONModel(:agent_person) uri"}]	ref
+[{"type"=>"JSONModel(:agent_person) uri"}, {"type"=>"JSONModel(:agent_family) uri"}]	ref
 
 object	_resolved
 

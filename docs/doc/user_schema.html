@@ -6,7 +6,7 @@
 <title>
   Schema: user_schema
   
-    &mdash; Documentation by YARD 0.9.25
+    &mdash; Documentation by YARD 0.9.26
   
 </title>
 
@@ -96,6 +96,8 @@
 			
 				<h3 class="signature"> - (object) <strong>agent_record</strong></h3>
 			
+				<h3 class="signature"> - (boolean) <strong>is_active_user</strong></h3>
+			
 				<h3 class="signature"> - (boolean) <strong>is_admin</strong></h3>
 			
 		<span class="showSource"><a href="#" class="toggleSource">View Source</a></span>
@@ -161,7 +163,9 @@
 53
 54
 55
-56</pre>
+56
+57
+58</pre>
           </td>
           <td>
             <pre class="code"><span class="info file"># File 'common/schemas/user.rb', line 1</span>
@@ -215,6 +219,8 @@
           <span class='rbrace token'>}</span>
       <span class='rbrace token'>}</span><span class='comma token'>,</span>
 
+      <span class='string val'>&quot;is_active_user&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span><span class='string val'>&quot;type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;boolean&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;default&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_true true kw'>true</span><span class='rbrace token'>}</span><span class='comma token'>,</span>
+
       <span class='string val'>&quot;is_admin&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span>
         <span class='string val'>&quot;type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;boolean&quot;</span><span class='comma token'>,</span>
         <span class='string val'>&quot;default&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_false false kw'>false</span>
@@ -235,9 +241,9 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.8.1.a Documentation Generated on Wed Nov 11 13:22:29 2020 by
+  ArchivesSpace Version X.Y.Z Documentation Generated on Tue Sep 21 14:10:16 2021 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.25.
+  0.9.26.
 </div>
 
     </div>

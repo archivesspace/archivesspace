@@ -6,7 +6,7 @@
 <title>
   Class: NoteRenderer
   
-    &mdash; Documentation by YARD 0.9.25
+    &mdash; Documentation by YARD 0.9.26
   
 </title>
 
@@ -116,7 +116,7 @@
 
 </div><div id="subclasses">
   <h2>Direct Known Subclasses</h2>
-  <p class="children"><span class='object_link'><a href="ERBNoteRenderer.html" title="ERBNoteRenderer (class)">ERBNoteRenderer</a></span>, <span class='object_link'><a href="MultipartNoteRenderer.html" title="MultipartNoteRenderer (class)">MultipartNoteRenderer</a></span>, <span class='object_link'><a href="SinglepartNoteRenderer.html" title="SinglepartNoteRenderer (class)">SinglepartNoteRenderer</a></span></p>
+  <p class="children"><span class='object_link'><a href="ERBNoteRenderer.html" title="ERBNoteRenderer (class)">ERBNoteRenderer</a></span>, <span class='object_link'><a href="MultipartNoteRenderer.html" title="MultipartNoteRenderer (class)">MultipartNoteRenderer</a></span>, <span class='object_link'><a href="SinglepartNoteRenderer.html" title="SinglepartNoteRenderer (class)">SinglepartNoteRenderer</a></span>, <span class='object_link'><a href="UnhandledNoteRenderer.html" title="UnhandledNoteRenderer (class)">UnhandledNoteRenderer</a></span></p>
 </div>
 
 <h2>Defined Under Namespace</h2>
@@ -313,15 +313,19 @@
 15
 16
 17
-18</pre>
+18
+19
+20</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'public/app/models/note_renderer.rb', line 12</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_for identifier id'>for</span><span class='lparen token'>(</span><span class='rubyid_type identifier id'>type</span><span class='rparen token'>)</span>
   <span class='rubyid_result identifier id'>result</span> <span class='assign token'>=</span> <span class='rubyid_@renderers ivar id'>@renderers</span><span class='dot token'>.</span><span class='rubyid_find identifier id'>find</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_renderer identifier id'>renderer</span><span class='bitor op'>|</span> <span class='rubyid_renderer identifier id'>renderer</span><span class='dot token'>.</span><span class='rubyid_handles_type? fid id'>handles_type?</span><span class='lparen token'>(</span><span class='rubyid_type identifier id'>type</span><span class='rparen token'>)</span><span class='rbrace token'>}</span>
-
-  <span class='rubyid_raise identifier id'>raise</span> <span class='dstring node'>&quot;No note renderer for &#39;#{type}&#39;&quot;</span> <span class='rubyid_unless unless_mod kw'>unless</span> <span class='rubyid_result identifier id'>result</span>
+  <span class='rubyid_unless unless kw'>unless</span> <span class='rubyid_result identifier id'>result</span>
+    <span class='rubyid_$stderr gvar id'>$stderr</span><span class='dot token'>.</span><span class='rubyid_puts identifier id'>puts</span> <span class='dstring node'>&quot;No note renderer for &#39;#{type}&#39;&quot;</span>
+    <span class='rubyid_result identifier id'>result</span> <span class='assign token'>=</span> <span class='rubyid_UnhandledNoteRenderer constant id'>UnhandledNoteRenderer</span>
+  <span class='rubyid_end end kw'>end</span>
 
   <span class='rubyid_result identifier id'>result</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span>
 <span class='rubyid_end end kw'>end</span>
@@ -389,15 +393,15 @@
       <pre class="lines">
 
 
-39
-40
-41</pre>
+41
+42
+43</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'public/app/models/note_renderer.rb', line 39</span>
+      <pre class="code"><span class="info file"># File 'public/app/models/note_renderer.rb', line 41</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_build_label identifier id'>build_label</span><span class='lparen token'>(</span><span class='rubyid_type identifier id'>type</span><span class='comma token'>,</span> <span class='rubyid_note identifier id'>note</span><span class='rparen token'>)</span>
-  <span class='rubyid_note identifier id'>note</span><span class='dot token'>.</span><span class='rubyid_has_key? fid id'>has_key?</span><span class='lparen token'>(</span><span class='string val'>&#39;label&#39;</span><span class='rparen token'>)</span> <span class='question op'>?</span> <span class='rubyid_note identifier id'>note</span><span class='lbrack token'>[</span><span class='string val'>&#39;label&#39;</span><span class='rbrack token'>]</span> <span class='colon op'>:</span>  <span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='dstring node'>&quot;enumerations._note_types.#{type}&quot;</span><span class='comma token'>,</span> <span class='symbol val'>:default</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;&#39;</span><span class='rparen token'>)</span>
+  <span class='rubyid_note identifier id'>note</span><span class='dot token'>.</span><span class='rubyid_has_key? fid id'>has_key?</span><span class='lparen token'>(</span><span class='string val'>&#39;label&#39;</span><span class='rparen token'>)</span> <span class='question op'>?</span> <span class='rubyid_note identifier id'>note</span><span class='lbrack token'>[</span><span class='string val'>&#39;label&#39;</span><span class='rbrack token'>]</span> <span class='colon op'>:</span> <span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='dstring node'>&quot;enumerations._note_types.#{type}&quot;</span><span class='comma token'>,</span> <span class='symbol val'>:default</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;&#39;</span><span class='rparen token'>)</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -420,13 +424,13 @@
       <pre class="lines">
 
 
-30
-31
 32
-33</pre>
+33
+34
+35</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'public/app/models/note_renderer.rb', line 30</span>
+      <pre class="code"><span class="info file"># File 'public/app/models/note_renderer.rb', line 32</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_render identifier id'>render</span><span class='lparen token'>(</span><span class='rubyid_type identifier id'>type</span><span class='comma token'>,</span> <span class='rubyid_note identifier id'>note</span><span class='comma token'>,</span> <span class='rubyid_result identifier id'>result</span><span class='rparen token'>)</span>
   <span class='comment val'># Must fill out note_text and label</span>
@@ -453,12 +457,12 @@
       <pre class="lines">
 
 
-35
-36
-37</pre>
+37
+38
+39</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'public/app/models/note_renderer.rb', line 35</span>
+      <pre class="code"><span class="info file"># File 'public/app/models/note_renderer.rb', line 37</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_render_partial identifier id'>render_partial</span><span class='lparen token'>(</span><span class='rubyid_template identifier id'>template</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
   <span class='rubyid_ApplicationController constant id'>ApplicationController</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='dot token'>.</span><span class='rubyid_render_to_string identifier id'>render_to_string</span><span class='lparen token'>(</span><span class='rubyid_opts identifier id'>opts</span><span class='dot token'>.</span><span class='rubyid_merge identifier id'>merge</span><span class='lparen token'>(</span><span class='symbol val'>:partial</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;shared/&#39;</span> <span class='plus op'>+</span> <span class='rubyid_template identifier id'>template</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
@@ -474,9 +478,9 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.8.1.a Documentation Generated on Wed Nov 11 13:22:28 2020 by
+  ArchivesSpace Version X.Y.Z Documentation Generated on Tue Sep 21 14:10:15 2021 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.25.
+  0.9.26.
 </div>
 
     </div>

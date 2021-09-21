@@ -6,7 +6,7 @@
 <title>
   Class: AdvancedQueryBuilder
   
-    &mdash; Documentation by YARD 0.9.25
+    &mdash; Documentation by YARD 0.9.26
   
 </title>
 
@@ -472,31 +472,29 @@
 76
 77
 78
-79
-80</pre>
+79</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'common/advanced_query_builder.rb', line 59</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_build_query_from_form identifier id'>build_query_from_form</span><span class='lparen token'>(</span><span class='rubyid_queries identifier id'>queries</span><span class='rparen token'>)</span>
-
   <span class='rubyid_query identifier id'>query</span> <span class='assign token'>=</span> <span class='rubyid_if if kw'>if</span> <span class='rubyid_queries identifier id'>queries</span><span class='dot token'>.</span><span class='rubyid_length identifier id'>length</span> <span class='gt op'>&gt;</span> <span class='integer val'>1</span>
-    <span class='rubyid_stack identifier id'>stack</span> <span class='assign token'>=</span> <span class='rubyid_queries identifier id'>queries</span><span class='dot token'>.</span><span class='rubyid_reverse identifier id'>reverse</span><span class='dot token'>.</span><span class='rubyid_clone identifier id'>clone</span>
+            <span class='rubyid_stack identifier id'>stack</span> <span class='assign token'>=</span> <span class='rubyid_queries identifier id'>queries</span><span class='dot token'>.</span><span class='rubyid_reverse identifier id'>reverse</span><span class='dot token'>.</span><span class='rubyid_clone identifier id'>clone</span>
 
-    <span class='rubyid_while while kw'>while</span> <span class='rubyid_stack identifier id'>stack</span><span class='dot token'>.</span><span class='rubyid_length identifier id'>length</span> <span class='gt op'>&gt;</span> <span class='integer val'>1</span>
-      <span class='rubyid_a identifier id'>a</span> <span class='assign token'>=</span> <span class='rubyid_stack identifier id'>stack</span><span class='dot token'>.</span><span class='rubyid_pop identifier id'>pop</span>
-      <span class='rubyid_b identifier id'>b</span> <span class='assign token'>=</span> <span class='rubyid_stack identifier id'>stack</span><span class='dot token'>.</span><span class='rubyid_pop identifier id'>pop</span>
+            <span class='rubyid_while while kw'>while</span> <span class='rubyid_stack identifier id'>stack</span><span class='dot token'>.</span><span class='rubyid_length identifier id'>length</span> <span class='gt op'>&gt;</span> <span class='integer val'>1</span>
+              <span class='rubyid_a identifier id'>a</span> <span class='assign token'>=</span> <span class='rubyid_stack identifier id'>stack</span><span class='dot token'>.</span><span class='rubyid_pop identifier id'>pop</span>
+              <span class='rubyid_b identifier id'>b</span> <span class='assign token'>=</span> <span class='rubyid_stack identifier id'>stack</span><span class='dot token'>.</span><span class='rubyid_pop identifier id'>pop</span>
 
-      <span class='rubyid_stack identifier id'>stack</span><span class='dot token'>.</span><span class='rubyid_push identifier id'>push</span><span class='lparen token'>(</span><span class='rubyid_JSONModel constant id'>JSONModel</span><span class='colon2 op'>::</span><span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:boolean_query</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_from_hash identifier id'>from_hash</span><span class='lparen token'>(</span><span class='lbrace token'>{</span>
-                                                       <span class='symbol val'>:op</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_b identifier id'>b</span><span class='lbrack token'>[</span><span class='string val'>&quot;op&quot;</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
-                                                       <span class='symbol val'>:subqueries</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrack token'>[</span><span class='rubyid_as_field_query identifier id'>as_field_query</span><span class='lparen token'>(</span><span class='rubyid_a identifier id'>a</span><span class='rparen token'>)</span><span class='comma token'>,</span> <span class='rubyid_as_field_query identifier id'>as_field_query</span><span class='lparen token'>(</span><span class='rubyid_b identifier id'>b</span><span class='rparen token'>)</span><span class='rbrack token'>]</span>
-                                                     <span class='rbrace token'>}</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
-    <span class='rubyid_end end kw'>end</span>
+              <span class='rubyid_stack identifier id'>stack</span><span class='dot token'>.</span><span class='rubyid_push identifier id'>push</span><span class='lparen token'>(</span><span class='rubyid_JSONModel constant id'>JSONModel</span><span class='colon2 op'>::</span><span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:boolean_query</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_from_hash identifier id'>from_hash</span><span class='lparen token'>(</span><span class='lbrace token'>{</span>
+                                                               <span class='symbol val'>:op</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_b identifier id'>b</span><span class='lbrack token'>[</span><span class='string val'>&quot;op&quot;</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
+                                                               <span class='symbol val'>:subqueries</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrack token'>[</span><span class='rubyid_as_field_query identifier id'>as_field_query</span><span class='lparen token'>(</span><span class='rubyid_a identifier id'>a</span><span class='rparen token'>)</span><span class='comma token'>,</span> <span class='rubyid_as_field_query identifier id'>as_field_query</span><span class='lparen token'>(</span><span class='rubyid_b identifier id'>b</span><span class='rparen token'>)</span><span class='rbrack token'>]</span>
+                                                             <span class='rbrace token'>}</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
+            <span class='rubyid_end end kw'>end</span>
 
-    <span class='rubyid_stack identifier id'>stack</span><span class='dot token'>.</span><span class='rubyid_pop identifier id'>pop</span>
-  <span class='rubyid_else else kw'>else</span>
-    <span class='rubyid_as_field_query identifier id'>as_field_query</span><span class='lparen token'>(</span><span class='rubyid_queries identifier id'>queries</span><span class='lbrack token'>[</span><span class='integer val'>0</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
-  <span class='rubyid_end end kw'>end</span>
+            <span class='rubyid_stack identifier id'>stack</span><span class='dot token'>.</span><span class='rubyid_pop identifier id'>pop</span>
+          <span class='rubyid_else else kw'>else</span>
+            <span class='rubyid_as_field_query identifier id'>as_field_query</span><span class='lparen token'>(</span><span class='rubyid_queries identifier id'>queries</span><span class='lbrack token'>[</span><span class='integer val'>0</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
+          <span class='rubyid_end end kw'>end</span>
 
   <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='colon2 op'>::</span><span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:advanced_query</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_from_hash identifier id'>from_hash</span><span class='lparen token'>(</span><span class='lbrace token'>{</span><span class='string val'>&quot;query&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_query identifier id'>query</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
 <span class='rubyid_end end kw'>end</span>
@@ -749,9 +747,9 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.8.1.a Documentation Generated on Wed Nov 11 13:22:22 2020 by
+  ArchivesSpace Version X.Y.Z Documentation Generated on Tue Sep 21 14:10:12 2021 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.25.
+  0.9.26.
 </div>
 
     </div>

@@ -6,6 +6,8 @@ array (string)	filenames
 
 string	import_type
 
+string	import_events
+
 
 
 

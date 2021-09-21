@@ -6,7 +6,7 @@
 <title>
   Class: InstanceKey
   
-    &mdash; Documentation by YARD 0.9.25
+    &mdash; Documentation by YARD 0.9.26
   
 </title>
 
@@ -385,15 +385,15 @@
       <pre class="lines">
 
 
+305
 306
 307
 308
 309
-310
-311</pre>
+310</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/user_defined_field_migrator.rb', line 306</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/user_defined_field_migrator.rb', line 305</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_initialize identifier id'>initialize</span><span class='lparen token'>(</span><span class='rubyid_resource_id identifier id'>resource_id</span><span class='comma token'>,</span> <span class='rubyid_resource_component_id identifier id'>resource_component_id</span><span class='comma token'>,</span> <span class='rubyid_barcode identifier id'>barcode</span><span class='comma token'>,</span> <span class='rubyid_indicator identifier id'>indicator</span><span class='rparen token'>)</span>
   <span class='rubyid_super super kw'>super</span><span class='lparen token'>(</span><span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_stringify identifier id'>stringify</span><span class='lparen token'>(</span><span class='rubyid_resource_id identifier id'>resource_id</span><span class='rparen token'>)</span><span class='comma token'>,</span>
@@ -690,14 +690,12 @@
 299
 300
 301
-302
-303</pre>
+302</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'backend/app/lib/user_defined_field_migrator.rb', line 286</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_from_row identifier id'>from_row</span><span class='lparen token'>(</span><span class='rubyid_row identifier id'>row</span><span class='rparen token'>)</span>
-
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_row identifier id'>row</span><span class='lbrack token'>[</span><span class='symbol val'>:barcode</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_row identifier id'>row</span><span class='lbrack token'>[</span><span class='symbol val'>:container1AlphaNumIndicator</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_row identifier id'>row</span><span class='lbrack token'>[</span><span class='symbol val'>:container1NumericIndicator</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span>
     <span class='comment val'># This cannot be matched to a TopContainer</span>
     <span class='rubyid_return return kw'>return</span> <span class='rubyid_nil nil kw'>nil</span>
@@ -735,16 +733,16 @@
       <pre class="lines">
 
 
+313
 314
 315
 316
 317
 318
-319
-320</pre>
+319</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/user_defined_field_migrator.rb', line 314</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/user_defined_field_migrator.rb', line 313</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_stringify identifier id'>stringify</span><span class='lparen token'>(</span><span class='rubyid_value identifier id'>value</span><span class='rparen token'>)</span>
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_value identifier id'>value</span> <span class='eq op'>==</span> <span class='string val'>&quot;&quot;</span> <span class='orop op'>||</span> <span class='rubyid_value identifier id'>value</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span>
@@ -780,12 +778,12 @@
       <pre class="lines">
 
 
+321
 322
-323
-324</pre>
+323</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/user_defined_field_migrator.rb', line 322</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/user_defined_field_migrator.rb', line 321</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_to_bytes identifier id'>to_bytes</span>
   <span class='rubyid_Digest constant id'>Digest</span><span class='colon2 op'>::</span><span class='rubyid_SHA1 constant id'>SHA1</span><span class='dot token'>.</span><span class='rubyid_digest identifier id'>digest</span><span class='lparen token'>(</span><span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_to_json identifier id'>to_json</span><span class='rparen token'>)</span>
@@ -834,12 +832,12 @@
       <pre class="lines">
 
 
+326
 327
-328
-329</pre>
+328</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/user_defined_field_migrator.rb', line 327</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/user_defined_field_migrator.rb', line 326</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_valid? fid id'>valid?</span>
   <span class='rubyid_barcode identifier id'>barcode</span> <span class='orop op'>||</span> <span class='rubyid_indicator identifier id'>indicator</span>
@@ -855,9 +853,9 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.8.1.a Documentation Generated on Wed Nov 11 13:22:07 2020 by
+  ArchivesSpace Version X.Y.Z Documentation Generated on Tue Sep 21 14:10:00 2021 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.25.
+  0.9.26.
 </div>
 
     </div>

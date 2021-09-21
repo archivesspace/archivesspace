@@ -6,7 +6,7 @@
 <title>
   Class: Repository
   
-    &mdash; Documentation by YARD 0.9.25
+    &mdash; Documentation by YARD 0.9.26
   
 </title>
 
@@ -1611,13 +1611,13 @@
 123
 124
 125
-126</pre>
+126
+127</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'backend/app/model/repository.rb', line 46</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_after_create identifier id'>after_create</span>
-
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_repo_code identifier id'>repo_code</span> <span class='eq op'>==</span> <span class='rubyid_Repository constant id'>Repository</span><span class='dot token'>.</span><span class='rubyid_GLOBAL constant id'>GLOBAL</span>
     <span class='comment val'># No need for standard groups on this one.</span>
     <span class='rubyid_return return kw'>return</span>
@@ -1635,7 +1635,8 @@
                                                <span class='string val'>&quot;manage_rde_templates&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;manage_container_record&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;manage_container_profile_record&quot;</span><span class='comma token'>,</span>
                                                <span class='string val'>&quot;manage_location_profile_record&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;import_records&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;cancel_job&quot;</span><span class='comma token'>,</span>
                                                <span class='string val'>&quot;update_assessment_record&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;delete_assessment_record&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;manage_assessment_attributes&quot;</span><span class='comma token'>,</span>
-                                               <span class='string val'>&quot;update_enumeration_record&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;manage_enumeration_record&quot;</span><span class='rbrack token'>]</span>
+                                               <span class='string val'>&quot;update_enumeration_record&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;manage_enumeration_record&quot;</span><span class='comma token'>,</span>
+                                               <span class='string val'>&quot;show_full_agents&quot;</span><span class='rbrack token'>]</span>
                      <span class='rbrace token'>}</span><span class='comma token'>,</span>
                      <span class='lbrace token'>{</span>
                        <span class='symbol val'>:group_code</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;repository-archivists&quot;</span><span class='comma token'>,</span>
@@ -1647,7 +1648,8 @@
                                                <span class='string val'>&quot;manage_agent_record&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;view_agent_contact_record&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;manage_vocabulary_record&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;manage_container_record&quot;</span><span class='comma token'>,</span>
                                                <span class='string val'>&quot;manage_container_profile_record&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;manage_location_profile_record&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;import_records&quot;</span><span class='comma token'>,</span>
                                                <span class='string val'>&quot;update_assessment_record&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;delete_assessment_record&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;create_job&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;cancel_job&quot;</span><span class='comma token'>,</span>
-                                               <span class='string val'>&quot;update_enumeration_record&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;manage_enumeration_record&quot;</span><span class='rbrack token'>]</span>
+                                               <span class='string val'>&quot;update_enumeration_record&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;manage_enumeration_record&quot;</span><span class='comma token'>,</span>
+                                               <span class='string val'>&quot;show_full_agents&quot;</span><span class='rbrack token'>]</span>
                      <span class='rbrace token'>}</span><span class='comma token'>,</span>
                      <span class='lbrace token'>{</span>
                        <span class='symbol val'>:group_code</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;repository-project-managers&quot;</span><span class='comma token'>,</span>
@@ -1757,7 +1759,6 @@
       <pre class="lines">
 
 
-129
 130
 131
 132
@@ -1771,10 +1772,9 @@
 140</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/repository.rb', line 129</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/repository.rb', line 130</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_delete identifier id'>delete</span>
-
   <span class='comment val'># this is very expensive...probably need to come up with something</span>
   <span class='comment val'># better...</span>
   <span class='lbrack token'>[</span> <span class='rubyid_Classification constant id'>Classification</span><span class='comma token'>,</span> <span class='rubyid_Event constant id'>Event</span><span class='comma token'>,</span> <span class='rubyid_Resource constant id'>Resource</span><span class='comma token'>,</span> <span class='rubyid_DigitalObject constant id'>DigitalObject</span><span class='comma token'>,</span> <span class='rubyid_Accession constant id'>Accession</span> <span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_klass identifier id'>klass</span><span class='bitor op'>|</span>
@@ -1989,9 +1989,9 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.8.1.a Documentation Generated on Wed Nov 11 13:21:48 2020 by
+  ArchivesSpace Version X.Y.Z Documentation Generated on Tue Sep 21 14:09:46 2021 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.25.
+  0.9.26.
 </div>
 
     </div>

@@ -6,7 +6,7 @@
 <title>
   Class: XMLCleaner::NamespaceCorrectingErrorHandler
   
-    &mdash; Documentation by YARD 0.9.25
+    &mdash; Documentation by YARD 0.9.26
   
 </title>
 
@@ -280,12 +280,12 @@ namespace errors.</p>
       <pre class="lines">
 
 
-78
 79
-80</pre>
+80
+81</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'public/app/lib/xml_cleaner.rb', line 78</span>
+      <pre class="code"><span class="info file"># File 'public/app/lib/xml_cleaner.rb', line 79</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_method_missing identifier id'>method_missing</span><span class='lparen token'>(</span><span class='mult op'>*</span><span class='rparen token'>)</span>
   <span class='comment val'># All other errors are ignored</span>
@@ -330,7 +330,8 @@ namespace errors.</p>
 73
 74
 75
-76</pre>
+76
+77</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'public/app/lib/xml_cleaner.rb', line 64</span>
@@ -339,6 +340,7 @@ namespace errors.</p>
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_exception identifier id'>exception</span><span class='dot token'>.</span><span class='rubyid_getMessage identifier id'>getMessage</span> <span class='match op'>=~</span> <span class='regexp val'>/The prefix &quot;(.*)&quot; for .*? &quot;(\1:.*?)&quot;.* is not bound./</span> <span class='andop op'>&amp;&amp;</span>
      <span class='rubyid_exception identifier id'>exception</span><span class='dot token'>.</span><span class='rubyid_line_number identifier id'>line_number</span> <span class='andop op'>&amp;&amp;</span>
      <span class='rubyid_exception identifier id'>exception</span><span class='dot token'>.</span><span class='rubyid_column_number identifier id'>column_number</span>
+
     <span class='comment val'># Caused by an undefined namespace such as `ns2:href`.  We can correct these</span>
     <span class='rubyid_element_to_fix identifier id'>element_to_fix</span> <span class='assign token'>=</span> <span class='rubyid_$2 nth_ref id'>$2</span>
     <span class='rubyid_remove_namespace_prefix! fid id'>remove_namespace_prefix!</span><span class='lparen token'>(</span><span class='rubyid_element_to_fix identifier id'>element_to_fix</span><span class='comma token'>,</span> <span class='rubyid_exception identifier id'>exception</span><span class='dot token'>.</span><span class='rubyid_line_number identifier id'>line_number</span><span class='comma token'>,</span> <span class='rubyid_exception identifier id'>exception</span><span class='dot token'>.</span><span class='rubyid_column_number identifier id'>column_number</span><span class='rparen token'>)</span>
@@ -359,9 +361,9 @@ namespace errors.</p>
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.8.1.a Documentation Generated on Wed Nov 11 13:22:27 2020 by
+  ArchivesSpace Version X.Y.Z Documentation Generated on Tue Sep 21 14:10:14 2021 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.25.
+  0.9.26.
 </div>
 
     </div>

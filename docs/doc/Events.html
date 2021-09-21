@@ -6,7 +6,7 @@
 <title>
   Module: Events
   
-    &mdash; Documentation by YARD 0.9.25
+    &mdash; Documentation by YARD 0.9.26
   
 </title>
 
@@ -208,31 +208,31 @@
                              <span class='symbol val'>:contains_references_to_types</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_proc identifier id'>proc</span> <span class='lbrace token'>{</span><span class='lbrack token'>[</span><span class='rubyid_Event constant id'>Event</span><span class='rbrack token'>]</span><span class='rbrace token'>}</span><span class='comma token'>,</span>
                              <span class='symbol val'>:class_callback</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_proc identifier id'>proc</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_clz identifier id'>clz</span><span class='bitor op'>|</span>
                                <span class='rubyid_clz identifier id'>clz</span><span class='dot token'>.</span><span class='rubyid_instance_eval identifier id'>instance_eval</span> <span class='rubyid_do do kw'>do</span>
-                                 
+
                                  <span class='comment val'># If all of the records pointing to an event</span>
                                  <span class='comment val'># have been suppressed, suppress the event</span>
                                  <span class='comment val'># too.</span>
                                  <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_handle_suppressed identifier id'>handle_suppressed</span><span class='lparen token'>(</span><span class='rubyid_ids identifier id'>ids</span><span class='comma token'>,</span> <span class='rubyid_val identifier id'>val</span><span class='rparen token'>)</span>
                                    <span class='comment val'># Suppress the relationships</span>
                                    <span class='rubyid_super super kw'>super</span>
-                                   
+
                                    <span class='comment val'># Count how many unsuppressed records each event has.</span>
                                    <span class='rubyid_event_unsuppressed_counts identifier id'>event_unsuppressed_counts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span>
-                                   
+
                                    <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_filter identifier id'>filter</span><span class='lparen token'>(</span><span class='symbol val'>:event_id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_filter identifier id'>filter</span><span class='lparen token'>(</span><span class='symbol val'>:id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_ids identifier id'>ids</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_select identifier id'>select</span><span class='lparen token'>(</span><span class='symbol val'>:event_id</span><span class='rparen token'>)</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_row identifier id'>row</span><span class='bitor op'>|</span>
                                      <span class='rubyid_event_unsuppressed_counts identifier id'>event_unsuppressed_counts</span><span class='lbrack token'>[</span><span class='rubyid_row identifier id'>row</span><span class='lbrack token'>[</span><span class='symbol val'>:event_id</span><span class='rbrack token'>]</span><span class='rbrack token'>]</span> <span class='opasgn op'>||=</span> <span class='integer val'>0</span>
-                                     
+
                                      <span class='rubyid_if if kw'>if</span> <span class='rubyid_row identifier id'>row</span><span class='lbrack token'>[</span><span class='symbol val'>:suppressed</span><span class='rbrack token'>]</span> <span class='eq op'>==</span> <span class='integer val'>0</span>
                                        <span class='rubyid_event_unsuppressed_counts identifier id'>event_unsuppressed_counts</span><span class='lbrack token'>[</span><span class='rubyid_row identifier id'>row</span><span class='lbrack token'>[</span><span class='symbol val'>:event_id</span><span class='rbrack token'>]</span><span class='rbrack token'>]</span> <span class='opasgn op'>+=</span> <span class='integer val'>1</span>
                                      <span class='rubyid_end end kw'>end</span>
                                    <span class='rubyid_end end kw'>end</span>
-                                   
+
                                    <span class='comment val'># An event whose linked records are all</span>
                                    <span class='comment val'># suppressed gets suppressed.  Any other</span>
                                    <span class='comment val'># event is unsuppressed.</span>
                                    <span class='rubyid_events_to_suppress identifier id'>events_to_suppress</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
                                    <span class='rubyid_events_to_unsuppress identifier id'>events_to_unsuppress</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
-                                   
+
                                    <span class='rubyid_event_unsuppressed_counts identifier id'>event_unsuppressed_counts</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_event_id identifier id'>event_id</span><span class='comma token'>,</span> <span class='rubyid_count identifier id'>count</span><span class='bitor op'>|</span>
                                      <span class='rubyid_if if kw'>if</span> <span class='rubyid_count identifier id'>count</span> <span class='eq op'>==</span> <span class='integer val'>0</span>
                                        <span class='rubyid_events_to_suppress identifier id'>events_to_suppress</span> <span class='lshft op'>&lt;&lt;</span> <span class='rubyid_event_id identifier id'>event_id</span>
@@ -240,7 +240,7 @@
                                        <span class='rubyid_events_to_unsuppress identifier id'>events_to_unsuppress</span> <span class='lshft op'>&lt;&lt;</span> <span class='rubyid_event_id identifier id'>event_id</span>
                                      <span class='rubyid_end end kw'>end</span>
                                    <span class='rubyid_end end kw'>end</span>
-                                   
+
                                    <span class='rubyid_ASModel constant id'>ASModel</span><span class='dot token'>.</span><span class='rubyid_update_suppressed_flag identifier id'>update_suppressed_flag</span><span class='lparen token'>(</span><span class='rubyid_Event constant id'>Event</span><span class='dot token'>.</span><span class='rubyid_filter identifier id'>filter</span><span class='lparen token'>(</span><span class='symbol val'>:id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_events_to_suppress identifier id'>events_to_suppress</span><span class='rparen token'>)</span><span class='comma token'>,</span> <span class='rubyid_true true kw'>true</span><span class='rparen token'>)</span>
                                    <span class='rubyid_ASModel constant id'>ASModel</span><span class='dot token'>.</span><span class='rubyid_update_suppressed_flag identifier id'>update_suppressed_flag</span><span class='lparen token'>(</span><span class='rubyid_Event constant id'>Event</span><span class='dot token'>.</span><span class='rubyid_filter identifier id'>filter</span><span class='lparen token'>(</span><span class='symbol val'>:id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_events_to_unsuppress identifier id'>events_to_unsuppress</span><span class='rparen token'>)</span><span class='comma token'>,</span> <span class='rubyid_false false kw'>false</span><span class='rparen token'>)</span>
                                  <span class='rubyid_end end kw'>end</span>
@@ -259,9 +259,9 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.8.1.a Documentation Generated on Wed Nov 11 13:21:24 2020 by
+  ArchivesSpace Version X.Y.Z Documentation Generated on Tue Sep 21 14:09:28 2021 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.25.
+  0.9.26.
 </div>
 
     </div>

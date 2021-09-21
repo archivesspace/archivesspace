@@ -6,7 +6,7 @@ string (max length: 255)	authority_id
 
 string (max length: 255)	dates
 
-array (JSONModel(:date) object)	use_dates
+array (JSONModel(:structured_date_label) object)	use_dates
 
 string (max length: 255)	qualifier
 
@@ -17,6 +17,12 @@ string	rules
 boolean	authorized
 
 boolean	is_display_name
+
+string	language
+
+string	script
+
+string	transliteration
 
 string (max length: 255)	sort_name
 

@@ -6,7 +6,7 @@
 <title>
   Class: ASpaceExport::ExportModel
   
-    &mdash; Documentation by YARD 0.9.25
+    &mdash; Documentation by YARD 0.9.26
   
 </title>
 
@@ -106,7 +106,7 @@
 
 <div id="subclasses">
   <h2>Direct Known Subclasses</h2>
-  <p class="children"><span class='object_link'><a href="../DCModel.html" title="DCModel (class)">DCModel</a></span>, <span class='object_link'><a href="../EACModel.html" title="EACModel (class)">EACModel</a></span>, <span class='object_link'><a href="../EADModel.html" title="EADModel (class)">EADModel</a></span>, <span class='object_link'><a href="../LabelModel.html" title="LabelModel (class)">LabelModel</a></span>, <span class='object_link'><a href="../MARCModel.html" title="MARCModel (class)">MARCModel</a></span>, <span class='object_link'><a href="../METSModel.html" title="METSModel (class)">METSModel</a></span>, <span class='object_link'><a href="../MODSModel.html" title="MODSModel (class)">MODSModel</a></span></p>
+  <p class="children"><span class='object_link'><a href="../DCModel.html" title="DCModel (class)">DCModel</a></span>, <span class='object_link'><a href="../EACModel.html" title="EACModel (class)">EACModel</a></span>, <span class='object_link'><a href="../EADModel.html" title="EADModel (class)">EADModel</a></span>, <span class='object_link'><a href="../LabelModel.html" title="LabelModel (class)">LabelModel</a></span>, <span class='object_link'><a href="../MARCAuthModel.html" title="MARCAuthModel (class)">MARCAuthModel</a></span>, <span class='object_link'><a href="../MARCModel.html" title="MARCModel (class)">MARCModel</a></span>, <span class='object_link'><a href="../METSModel.html" title="METSModel (class)">METSModel</a></span>, <span class='object_link'><a href="../MODSModel.html" title="MODSModel (class)">MODSModel</a></span></p>
 </div>
 
 
@@ -261,12 +261,12 @@
       <pre class="lines">
 
 
-134
-135
-136</pre>
+132
+133
+134</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/exporters/lib/exporter.rb', line 134</span>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/lib/exporter.rb', line 132</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_inherited identifier id'>inherited</span><span class='lparen token'>(</span><span class='rubyid_subclass identifier id'>subclass</span><span class='rparen token'>)</span>
   <span class='rubyid_ASpaceExport constant id'>ASpaceExport</span><span class='dot token'>.</span><span class='rubyid_register_model identifier id'>register_model</span><span class='lparen token'>(</span><span class='rubyid_subclass identifier id'>subclass</span><span class='rparen token'>)</span>
@@ -292,12 +292,12 @@
       <pre class="lines">
 
 
-139
-140
-141</pre>
+137
+138
+139</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/exporters/lib/exporter.rb', line 139</span>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/lib/exporter.rb', line 137</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_model_for identifier id'>model_for</span><span class='lparen token'>(</span><span class='rubyid_name identifier id'>name</span><span class='rparen token'>)</span>
   <span class='rubyid_@model_for ivar id'>@model_for</span> <span class='assign token'>=</span> <span class='rubyid_name identifier id'>name</span>
@@ -346,12 +346,12 @@
       <pre class="lines">
 
 
-144
-145
-146</pre>
+142
+143
+144</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/exporters/lib/exporter.rb', line 144</span>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/lib/exporter.rb', line 142</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_model_for? fid id'>model_for?</span><span class='lparen token'>(</span><span class='rubyid_name identifier id'>name</span><span class='rparen token'>)</span>
   <span class='rubyid_@model_for ivar id'>@model_for</span> <span class='eq op'>==</span> <span class='rubyid_name identifier id'>name</span>
@@ -383,6 +383,8 @@
       <pre class="lines">
 
 
+147
+148
 149
 150
 151
@@ -394,12 +396,10 @@
 157
 158
 159
-160
-161
-162</pre>
+160</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/exporters/lib/exporter.rb', line 149</span>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/lib/exporter.rb', line 147</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_apply_map identifier id'>apply_map</span><span class='lparen token'>(</span><span class='rubyid_obj identifier id'>obj</span><span class='comma token'>,</span> <span class='rubyid_map identifier id'>map</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
   <span class='rubyid_fields_to_ignore identifier id'>fields_to_ignore</span> <span class='assign token'>=</span> <span class='rubyid_opts identifier id'>opts</span><span class='lbrack token'>[</span><span class='symbol val'>:ignore</span><span class='rbrack token'>]</span> <span class='opasgn op'>||=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
@@ -412,7 +412,7 @@
     <span class='rubyid_next next kw'>next</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_fieldable identifier id'>fieldable</span><span class='dot token'>.</span><span class='rubyid_empty? fid id'>empty?</span>
 
     <span class='rubyid_handler_args identifier id'>handler_args</span> <span class='assign token'>=</span> <span class='rubyid_fieldable identifier id'>fieldable</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_f identifier id'>f</span><span class='bitor op'>|</span> <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_send identifier id'>send</span><span class='lparen token'>(</span><span class='rubyid_f identifier id'>f</span><span class='rparen token'>)</span> <span class='rbrace token'>}</span>
-    <span class='lbrack token'>[</span><span class='rubyid_handler identifier id'>handler</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_flatten identifier id'>flatten</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_h identifier id'>h</span><span class='bitor op'>|</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_send identifier id'>send</span><span class='lparen token'>(</span><span class='rubyid_h identifier id'>h</span><span class='comma token'>,</span> <span class='mult op'>*</span><span class='rubyid_handler_args identifier id'>handler_args</span><span class='rparen token'>)</span>  <span class='rbrace token'>}</span>
+    <span class='lbrack token'>[</span><span class='rubyid_handler identifier id'>handler</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_flatten identifier id'>flatten</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_h identifier id'>h</span><span class='bitor op'>|</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_send identifier id'>send</span><span class='lparen token'>(</span><span class='rubyid_h identifier id'>h</span><span class='comma token'>,</span> <span class='mult op'>*</span><span class='rubyid_handler_args identifier id'>handler_args</span><span class='rparen token'>)</span> <span class='rbrace token'>}</span>
   <span class='rubyid_end end kw'>end</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
@@ -426,9 +426,9 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.8.1.a Documentation Generated on Wed Nov 11 13:21:56 2020 by
+  ArchivesSpace Version X.Y.Z Documentation Generated on Tue Sep 21 14:09:52 2021 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.25.
+  0.9.26.
 </div>
 
     </div>

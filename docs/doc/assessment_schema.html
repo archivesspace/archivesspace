@@ -6,7 +6,7 @@
 <title>
   Schema: assessment_schema
   
-    &mdash; Documentation by YARD 0.9.25
+    &mdash; Documentation by YARD 0.9.26
   
 </title>
 
@@ -141,6 +141,8 @@
 				<h3 class="signature"> - (string) <strong>monetary_value_note</strong></h3>
 			
 				<h3 class="signature"> - (string) <strong>conservation_note</strong></h3>
+			
+				<h3 class="signature"> - (array (JSONModel(:external_document) object)) <strong>external_documents</strong></h3>
 			
 				<h3 class="signature"> - (array (Object (ref, _resolved))) <strong>collections</strong></h3>
 			
@@ -285,7 +287,9 @@
 131
 132
 133
-134</pre>
+134
+135
+136</pre>
           </td>
           <td>
             <pre class="code"><span class="info file"># File 'common/schemas/assessment.rb', line 1</span>
@@ -404,6 +408,8 @@
 
       <span class='string val'>&quot;conservation_note&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span><span class='string val'>&quot;type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;string&quot;</span><span class='rbrace token'>}</span><span class='comma token'>,</span>
 
+      <span class='string val'>&quot;external_documents&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span><span class='string val'>&quot;type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;array&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;items&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span><span class='string val'>&quot;type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;JSONModel(:external_document) object&quot;</span><span class='rbrace token'>}</span><span class='rbrace token'>}</span><span class='comma token'>,</span>
+
       <span class='string val'>&quot;collections&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span>
         <span class='string val'>&quot;readonly&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;true&quot;</span><span class='comma token'>,</span>
         <span class='string val'>&quot;type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;array&quot;</span><span class='comma token'>,</span>
@@ -437,9 +443,9 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.8.1.a Documentation Generated on Wed Nov 11 13:22:30 2020 by
+  ArchivesSpace Version X.Y.Z Documentation Generated on Tue Sep 21 14:10:16 2021 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.25.
+  0.9.26.
 </div>
 
     </div>

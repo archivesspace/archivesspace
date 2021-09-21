@@ -6,7 +6,7 @@
 <title>
   Class: MODSSerializer
   
-    &mdash; Documentation by YARD 0.9.25
+    &mdash; Documentation by YARD 0.9.26
   
 </title>
 
@@ -296,14 +296,12 @@
 9
 10
 11
-12
-13</pre>
+12</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'backend/app/exporters/serializers/mods.rb', line 6</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_serialize identifier id'>serialize</span><span class='lparen token'>(</span><span class='rubyid_mods identifier id'>mods</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
-
   <span class='rubyid_builder identifier id'>builder</span> <span class='assign token'>=</span> <span class='rubyid_Nokogiri constant id'>Nokogiri</span><span class='colon2 op'>::</span><span class='rubyid_XML constant id'>XML</span><span class='colon2 op'>::</span><span class='rubyid_Builder constant id'>Builder</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='symbol val'>:encoding</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;UTF-8&quot;</span><span class='rparen token'>)</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_xml identifier id'>xml</span><span class='bitor op'>|</span>
     <span class='rubyid_serialize_mods identifier id'>serialize_mods</span><span class='lparen token'>(</span><span class='rubyid_mods identifier id'>mods</span><span class='comma token'>,</span> <span class='rubyid_xml identifier id'>xml</span><span class='rparen token'>)</span>
   <span class='rubyid_end end kw'>end</span>
@@ -331,25 +329,23 @@
       <pre class="lines">
 
 
+14
 15
 16
 17
 18
 19
 20
-21
-22
-23</pre>
+21</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/exporters/serializers/mods.rb', line 15</span>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/serializers/mods.rb', line 14</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_serialize_mods identifier id'>serialize_mods</span><span class='lparen token'>(</span><span class='rubyid_mods identifier id'>mods</span><span class='comma token'>,</span> <span class='rubyid_xml identifier id'>xml</span><span class='rparen token'>)</span>
-
   <span class='rubyid_root_args identifier id'>root_args</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='string val'>&#39;version&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;3.4&#39;</span><span class='rbrace token'>}</span>
   <span class='rubyid_root_args identifier id'>root_args</span><span class='lbrack token'>[</span><span class='string val'>&#39;xmlns&#39;</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='string val'>&#39;http://www.loc.gov/mods/v3&#39;</span>
 
-  <span class='rubyid_xml identifier id'>xml</span><span class='dot token'>.</span><span class='rubyid_mods identifier id'>mods</span><span class='lparen token'>(</span><span class='rubyid_root_args identifier id'>root_args</span><span class='rparen token'>)</span><span class='lbrace token'>{</span>
+  <span class='rubyid_xml identifier id'>xml</span><span class='dot token'>.</span><span class='rubyid_mods identifier id'>mods</span><span class='lparen token'>(</span><span class='rubyid_root_args identifier id'>root_args</span><span class='rparen token'>)</span> <span class='lbrace token'>{</span>
     <span class='rubyid_serialize_mods_inner identifier id'>serialize_mods_inner</span><span class='lparen token'>(</span><span class='rubyid_mods identifier id'>mods</span><span class='comma token'>,</span> <span class='rubyid_xml identifier id'>xml</span><span class='rparen token'>)</span>
   <span class='rbrace token'>}</span>
 <span class='rubyid_end end kw'>end</span>
@@ -374,6 +370,8 @@
       <pre class="lines">
 
 
+23
+24
 25
 26
 27
@@ -487,16 +485,12 @@
 135
 136
 137
-138
-139
-140
-141</pre>
+138</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/exporters/serializers/mods.rb', line 25</span>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/serializers/mods.rb', line 23</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_serialize_mods_inner identifier id'>serialize_mods_inner</span><span class='lparen token'>(</span><span class='rubyid_mods identifier id'>mods</span><span class='comma token'>,</span> <span class='rubyid_xml identifier id'>xml</span><span class='rparen token'>)</span>
-
   <span class='rubyid_xml identifier id'>xml</span><span class='dot token'>.</span><span class='rubyid_titleInfo identifier id'>titleInfo</span> <span class='lbrace token'>{</span>
     <span class='rubyid_xml identifier id'>xml</span><span class='dot token'>.</span><span class='rubyid_title identifier id'>title</span> <span class='rubyid_mods identifier id'>mods</span><span class='dot token'>.</span><span class='rubyid_title identifier id'>title</span>
   <span class='rbrace token'>}</span>
@@ -539,7 +533,7 @@
     <span class='rubyid_handle_date identifier id'>handle_date</span><span class='lparen token'>(</span><span class='rubyid_xml identifier id'>xml</span><span class='comma token'>,</span> <span class='rubyid_date identifier id'>date</span><span class='rparen token'>)</span>
   <span class='rubyid_end end kw'>end</span>
 
-  <span class='rubyid_xml identifier id'>xml</span><span class='dot token'>.</span><span class='rubyid_physicalDescription identifier id'>physicalDescription</span><span class='lbrace token'>{</span>
+  <span class='rubyid_xml identifier id'>xml</span><span class='dot token'>.</span><span class='rubyid_physicalDescription identifier id'>physicalDescription</span> <span class='lbrace token'>{</span>
     <span class='rubyid_mods identifier id'>mods</span><span class='dot token'>.</span><span class='rubyid_extents identifier id'>extents</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_extent identifier id'>extent</span><span class='bitor op'>|</span>
       <span class='rubyid_xml identifier id'>xml</span><span class='dot token'>.</span><span class='rubyid_extent identifier id'>extent</span> <span class='rubyid_extent identifier id'>extent</span>
     <span class='rubyid_end end kw'>end</span>
@@ -633,6 +627,9 @@
       <pre class="lines">
 
 
+141
+142
+143
 144
 145
 146
@@ -650,13 +647,10 @@
 158
 159
 160
-161
-162
-163
-164</pre>
+161</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/exporters/serializers/mods.rb', line 144</span>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/serializers/mods.rb', line 141</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_serialize_name identifier id'>serialize_name</span><span class='lparen token'>(</span><span class='rubyid_name identifier id'>name</span><span class='comma token'>,</span> <span class='rubyid_xml identifier id'>xml</span><span class='rparen token'>)</span>
   <span class='rubyid_atts identifier id'>atts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='symbol val'>:type</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_name identifier id'>name</span><span class='lbrack token'>[</span><span class='string val'>&#39;type&#39;</span><span class='rbrack token'>]</span><span class='rbrace token'>}</span>
@@ -700,18 +694,18 @@
       <pre class="lines">
 
 
+164
+165
+166
 167
 168
 169
 170
 171
-172
-173
-174
-175</pre>
+172</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/exporters/serializers/mods.rb', line 167</span>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/serializers/mods.rb', line 164</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_serialize_note identifier id'>serialize_note</span><span class='lparen token'>(</span><span class='rubyid_note identifier id'>note</span><span class='comma token'>,</span> <span class='rubyid_xml identifier id'>xml</span><span class='rparen token'>)</span>
   <span class='rubyid_atts identifier id'>atts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span>
@@ -733,9 +727,9 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.8.1.a Documentation Generated on Wed Nov 11 13:22:03 2020 by
+  ArchivesSpace Version X.Y.Z Documentation Generated on Tue Sep 21 14:09:56 2021 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.25.
+  0.9.26.
 </div>
 
     </div>

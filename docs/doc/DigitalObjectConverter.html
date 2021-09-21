@@ -6,7 +6,7 @@
 <title>
   Class: DigitalObjectConverter
   
-    &mdash; Documentation by YARD 0.9.25
+    &mdash; Documentation by YARD 0.9.26
   
 </title>
 
@@ -718,7 +718,7 @@
     <span class='string val'>&#39;file_version_file_size_bytes&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;file_version.file_size_bytes&#39;</span><span class='comma token'>,</span>
     <span class='string val'>&#39;file_version_checksum&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;file_version.checksum&#39;</span><span class='comma token'>,</span>
     <span class='string val'>&#39;file_version_checksum_method&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;file_version.checksum_method&#39;</span><span class='comma token'>,</span>
-    
+
     <span class='comment val'># 2. Define data handlers</span>
     <span class='comment val'>#    :record_type of the schema (if other than the handler key)</span>
     <span class='comment val'>#    :defaults - hash which maps property keys to default values if nothing shows up in the source date</span>
@@ -739,16 +739,16 @@
 
     <span class='symbol val'>:agent</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span>
       <span class='symbol val'>:record_type</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_Proc constant id'>Proc</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_data identifier id'>data</span><span class='bitor op'>|</span>
-        <span class='rubyid_@agent_type ivar id'>@agent_type</span> <span class='assign token'>=</span> <span class='rubyid_data identifier id'>data</span><span class='lbrack token'>[</span><span class='string val'>&#39;agent_type&#39;</span><span class='rbrack token'>]</span>
+          <span class='rubyid_@agent_type ivar id'>@agent_type</span> <span class='assign token'>=</span> <span class='rubyid_data identifier id'>data</span><span class='lbrack token'>[</span><span class='string val'>&#39;agent_type&#39;</span><span class='rbrack token'>]</span>
         <span class='rbrace token'>}</span><span class='comma token'>,</span>
       <span class='symbol val'>:on_row_complete</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_Proc constant id'>Proc</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_cache identifier id'>cache</span><span class='comma token'>,</span> <span class='rubyid_agent identifier id'>agent</span><span class='bitor op'>|</span>
-        <span class='rubyid_digital_object identifier id'>digital_object</span> <span class='assign token'>=</span> <span class='rubyid_cache identifier id'>cache</span><span class='dot token'>.</span><span class='rubyid_find identifier id'>find</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_obj identifier id'>obj</span><span class='bitor op'>|</span> <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_record_type identifier id'>record_type</span> <span class='eq op'>==</span> <span class='string val'>&#39;digital_object&#39;</span> <span class='rbrace token'>}</span>
+          <span class='rubyid_digital_object identifier id'>digital_object</span> <span class='assign token'>=</span> <span class='rubyid_cache identifier id'>cache</span><span class='dot token'>.</span><span class='rubyid_find identifier id'>find</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_obj identifier id'>obj</span><span class='bitor op'>|</span> <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_record_type identifier id'>record_type</span> <span class='eq op'>==</span> <span class='string val'>&#39;digital_object&#39;</span> <span class='rbrace token'>}</span>
 
-        <span class='rubyid_if if kw'>if</span> <span class='rubyid_digital_object identifier id'>digital_object</span>
-          <span class='rubyid_digital_object identifier id'>digital_object</span><span class='dot token'>.</span><span class='rubyid_linked_agents identifier id'>linked_agents</span><span class='lbrack token'>[</span><span class='integer val'>0</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>&#39;ref&#39;</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_agent identifier id'>agent</span><span class='dot token'>.</span><span class='rubyid_uri identifier id'>uri</span>
-        <span class='rubyid_else else kw'>else</span>
-          <span class='rubyid_cache identifier id'>cache</span><span class='dot token'>.</span><span class='rubyid_reject! fid id'>reject!</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_obj identifier id'>obj</span><span class='bitor op'>|</span> <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_key identifier id'>key</span> <span class='eq op'>==</span> <span class='rubyid_agent identifier id'>agent</span><span class='dot token'>.</span><span class='rubyid_key identifier id'>key</span><span class='rbrace token'>}</span>
-        <span class='rubyid_end end kw'>end</span>
+          <span class='rubyid_if if kw'>if</span> <span class='rubyid_digital_object identifier id'>digital_object</span>
+            <span class='rubyid_digital_object identifier id'>digital_object</span><span class='dot token'>.</span><span class='rubyid_linked_agents identifier id'>linked_agents</span><span class='lbrack token'>[</span><span class='integer val'>0</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>&#39;ref&#39;</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_agent identifier id'>agent</span><span class='dot token'>.</span><span class='rubyid_uri identifier id'>uri</span>
+          <span class='rubyid_else else kw'>else</span>
+            <span class='rubyid_cache identifier id'>cache</span><span class='dot token'>.</span><span class='rubyid_reject! fid id'>reject!</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_obj identifier id'>obj</span><span class='bitor op'>|</span> <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_key identifier id'>key</span> <span class='eq op'>==</span> <span class='rubyid_agent identifier id'>agent</span><span class='dot token'>.</span><span class='rubyid_key identifier id'>key</span><span class='rbrace token'>}</span>
+          <span class='rubyid_end end kw'>end</span>
         <span class='rbrace token'>}</span><span class='comma token'>,</span>
 
     <span class='rbrace token'>}</span><span class='comma token'>,</span>
@@ -883,7 +883,7 @@
         <span class='rubyid_digital_object identifier id'>digital_object</span><span class='dot token'>.</span><span class='rubyid_user_defined identifier id'>user_defined</span> <span class='assign token'>=</span> <span class='rubyid_this identifier id'>this</span>
       <span class='rbrace token'>}</span>
     <span class='rbrace token'>}</span><span class='comma token'>,</span>
-    
+
     <span class='symbol val'>:file_version</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span>
       <span class='symbol val'>:on_row_complete</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_Proc constant id'>Proc</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_cache identifier id'>cache</span><span class='comma token'>,</span> <span class='rubyid_this identifier id'>this</span><span class='bitor op'>|</span>
         <span class='rubyid_digital_object identifier id'>digital_object</span> <span class='assign token'>=</span> <span class='rubyid_cache identifier id'>cache</span><span class='dot token'>.</span><span class='rubyid_find identifier id'>find</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_obj identifier id'>obj</span><span class='bitor op'>|</span> <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_record_type identifier id'>record_type</span> <span class='match op'>=~</span> <span class='regexp val'>/^digital_object/</span> <span class='rbrace token'>}</span>
@@ -983,9 +983,9 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.8.1.a Documentation Generated on Wed Nov 11 13:22:09 2020 by
+  ArchivesSpace Version X.Y.Z Documentation Generated on Tue Sep 21 14:10:01 2021 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.25.
+  0.9.26.
 </div>
 
     </div>

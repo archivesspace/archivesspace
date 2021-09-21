@@ -6,7 +6,7 @@
 <title>
   Module: AgentManager::Mixin::ClassMethods
   
-    &mdash; Documentation by YARD 0.9.25
+    &mdash; Documentation by YARD 0.9.26
   
 </title>
 
@@ -420,6 +420,29 @@
 </li>
 
       
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#set_publish_for_subrecords_with_subjects-instance_method" title="#set_publish_for_subrecords_with_subjects (instance method)">#<strong>set_publish_for_subrecords_with_subjects</strong>(json)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Set the publish value of subrecords to match the publish value of the agent to work with implied publication for subjects.</p>
+</div></span>
+  
+</li>
+
+      
     </ul>
   
 
@@ -444,54 +467,54 @@
       <pre class="lines">
 
 
-277
-278
-279
-280
-281
-282
-283
-284
-285
-286
-287
-288
-289
-290
-291
-292
-293
-294
-295
-296
-297
-298
-299
-300
-301
-302
-303
-304
-305
-306
-307
-308
-309
-310
-311
-312
-313
-314</pre>
+316
+317
+318
+319
+320
+321
+322
+323
+324
+325
+326
+327
+328
+329
+330
+331
+332
+333
+334
+335
+336
+337
+338
+339
+340
+341
+342
+343
+344
+345
+346
+347
+348
+349
+350
+351
+352
+353</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/agent_manager.rb', line 277</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/agent_manager.rb', line 316</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_assemble_hash_fields identifier id'>assemble_hash_fields</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='rparen token'>)</span>
   <span class='rubyid_fields identifier id'>fields</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
 
   <span class='rubyid_json identifier id'>json</span><span class='dot token'>.</span><span class='rubyid_dates_of_existence identifier id'>dates_of_existence</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_date identifier id'>date</span><span class='bitor op'>|</span>
-    <span class='rubyid_fields identifier id'>fields</span> <span class='lshft op'>&lt;&lt;</span> <span class='rubyid_hash_chunk identifier id'>hash_chunk</span><span class='lparen token'>(</span><span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:date</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_from_hash identifier id'>from_hash</span><span class='lparen token'>(</span><span class='rubyid_date identifier id'>date</span><span class='rparen token'>)</span><span class='comma token'>,</span>
-                         <span class='dstring node'>%w(date_type label certainty expression begin end era calendar)</span><span class='rparen token'>)</span>
+    <span class='rubyid_fields identifier id'>fields</span> <span class='lshft op'>&lt;&lt;</span> <span class='rubyid_hash_chunk identifier id'>hash_chunk</span><span class='lparen token'>(</span><span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:structured_date_label</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_from_hash identifier id'>from_hash</span><span class='lparen token'>(</span><span class='rubyid_date identifier id'>date</span><span class='rparen token'>)</span><span class='comma token'>,</span>
+                         <span class='dstring node'>%w(date_type_structured date_label)</span><span class='rparen token'>)</span>
   <span class='rubyid_end end kw'>end</span>
 
   <span class='rubyid_json identifier id'>json</span><span class='dot token'>.</span><span class='rubyid_agent_contacts identifier id'>agent_contacts</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_contact identifier id'>contact</span><span class='bitor op'>|</span>
@@ -545,20 +568,20 @@
       <pre class="lines">
 
 
-317
-318
-319
-320
-321
-322</pre>
+356
+357
+358
+359
+360
+361</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/agent_manager.rb', line 317</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/agent_manager.rb', line 356</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_calculate_hash identifier id'>calculate_hash</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='rparen token'>)</span>
   <span class='rubyid_fields identifier id'>fields</span> <span class='assign token'>=</span> <span class='rubyid_assemble_hash_fields identifier id'>assemble_hash_fields</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='rparen token'>)</span>
   <span class='rubyid_digest identifier id'>digest</span> <span class='assign token'>=</span> <span class='rubyid_Digest constant id'>Digest</span><span class='colon2 op'>::</span><span class='rubyid_SHA1 constant id'>SHA1</span><span class='dot token'>.</span><span class='rubyid_hexdigest identifier id'>hexdigest</span><span class='lparen token'>(</span><span class='rubyid_fields identifier id'>fields</span><span class='dot token'>.</span><span class='rubyid_sort identifier id'>sort</span><span class='dot token'>.</span><span class='rubyid_join identifier id'>join</span><span class='lparen token'>(</span><span class='string val'>&#39;-&#39;</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
- 
+
   <span class='rubyid_digest identifier id'>digest</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
@@ -582,30 +605,6 @@
       <pre class="lines">
 
 
-136
-137
-138
-139
-140
-141
-142
-143
-144
-145
-146
-147
-148
-149
-150
-151
-152
-153
-154
-155
-156
-157
-158
-159
 160
 161
 162
@@ -627,10 +626,34 @@
 178
 179
 180
-181</pre>
+181
+182
+183
+184
+185
+186
+187
+188
+189
+190
+191
+192
+193
+194
+195
+196
+197
+198
+199
+200
+201
+202
+203
+204
+205</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/agent_manager.rb', line 136</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/agent_manager.rb', line 160</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_combine_unauthorized_names identifier id'>combine_unauthorized_names</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='rparen token'>)</span>
   <span class='rubyid_return return kw'>return</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_Array constant id'>Array</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='lbrack token'>[</span><span class='string val'>&#39;names&#39;</span><span class='rbrack token'>]</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_empty? fid id'>empty?</span>
@@ -699,28 +722,34 @@
       <pre class="lines">
 
 
-248
-249
-250
-251
-252
-253
-254
-255
-256
-257
-258
-259
-260
-261</pre>
+282
+283
+284
+285
+286
+287
+288
+289
+290
+291
+292
+293
+294
+295
+296
+297
+298
+299
+300</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/agent_manager.rb', line 248</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/agent_manager.rb', line 282</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_create_from_json identifier id'>create_from_json</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
   <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_ensure_authorized_name identifier id'>ensure_authorized_name</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='rparen token'>)</span>
   <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_ensure_display_name identifier id'>ensure_display_name</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='rparen token'>)</span>
   <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_combine_unauthorized_names identifier id'>combine_unauthorized_names</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='rparen token'>)</span>
+  <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_set_publish_for_subrecords_with_subjects identifier id'>set_publish_for_subrecords_with_subjects</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='rparen token'>)</span>
 
   <span class='comment val'># Force validation to make sure we&#39;re left with a valid record after our</span>
   <span class='comment val'># changes</span>
@@ -729,7 +758,11 @@
   <span class='comment val'># Called for the sake of updating the JSON blob sent to the realtime indexer</span>
   <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_populate_display_name identifier id'>populate_display_name</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='rparen token'>)</span>
 
-  <span class='rubyid_super super kw'>super</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span><span class='dot token'>.</span><span class='rubyid_merge identifier id'>merge</span><span class='lparen token'>(</span><span class='symbol val'>:agent_sha1</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_calculate_hash identifier id'>calculate_hash</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='rparen token'>)</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
+  <span class='rubyid_if if kw'>if</span> <span class='rubyid_opts identifier id'>opts</span><span class='lbrack token'>[</span><span class='symbol val'>:skip_sha</span><span class='rbrack token'>]</span>
+    <span class='rubyid_super super kw'>super</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span><span class='rparen token'>)</span>
+  <span class='rubyid_else else kw'>else</span>
+    <span class='rubyid_super super kw'>super</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span><span class='dot token'>.</span><span class='rubyid_merge identifier id'>merge</span><span class='lparen token'>(</span><span class='symbol val'>:agent_sha1</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_calculate_hash identifier id'>calculate_hash</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='rparen token'>)</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
+  <span class='rubyid_end end kw'>end</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -752,14 +785,14 @@
       <pre class="lines">
 
 
-119
-120
-121
-122
-123</pre>
+143
+144
+145
+146
+147</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/agent_manager.rb', line 119</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/agent_manager.rb', line 143</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_ensure_authorized_name identifier id'>ensure_authorized_name</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='rparen token'>)</span>
   <span class='rubyid_if if kw'>if</span> <span class='notop op'>!</span><span class='rubyid_Array constant id'>Array</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='lbrack token'>[</span><span class='string val'>&#39;names&#39;</span><span class='rbrack token'>]</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_empty? fid id'>empty?</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_json identifier id'>json</span><span class='lbrack token'>[</span><span class='string val'>&#39;names&#39;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_none? fid id'>none?</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_name identifier id'>name</span><span class='bitor op'>|</span> <span class='rubyid_name identifier id'>name</span><span class='lbrack token'>[</span><span class='string val'>&#39;authorized&#39;</span><span class='rbrack token'>]</span><span class='rbrace token'>}</span>
@@ -787,17 +820,17 @@
       <pre class="lines">
 
 
-126
-127
-128
-129
-130
-131
-132
-133</pre>
+150
+151
+152
+153
+154
+155
+156
+157</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/agent_manager.rb', line 126</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/agent_manager.rb', line 150</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_ensure_display_name identifier id'>ensure_display_name</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='rparen token'>)</span>
   <span class='rubyid_if if kw'>if</span> <span class='notop op'>!</span><span class='rubyid_Array constant id'>Array</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='lbrack token'>[</span><span class='string val'>&#39;names&#39;</span><span class='rbrack token'>]</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_empty? fid id'>empty?</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_json identifier id'>json</span><span class='lbrack token'>[</span><span class='string val'>&#39;names&#39;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_none? fid id'>none?</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_name identifier id'>name</span><span class='bitor op'>|</span> <span class='rubyid_name identifier id'>name</span><span class='lbrack token'>[</span><span class='string val'>&#39;is_display_name&#39;</span><span class='rbrack token'>]</span><span class='rbrace token'>}</span>
@@ -828,40 +861,6 @@
       <pre class="lines">
 
 
-184
-185
-186
-187
-188
-189
-190
-191
-192
-193
-194
-195
-196
-197
-198
-199
-200
-201
-202
-203
-204
-205
-206
-207
-208
-209
-210
-211
-212
-213
-214
-215
-216
-217
 218
 219
 220
@@ -875,36 +874,70 @@
 228
 229
 230
-231</pre>
+231
+232
+233
+234
+235
+236
+237
+238
+239
+240
+241
+242
+243
+244
+245
+246
+247
+248
+249
+250
+251
+252
+253
+254
+255
+256
+257
+258
+259
+260
+261
+262
+263
+264
+265</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/agent_manager.rb', line 184</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/agent_manager.rb', line 218</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_ensure_exists identifier id'>ensure_exists</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='comma token'>,</span> <span class='rubyid_referrer identifier id'>referrer</span><span class='rparen token'>)</span>
   <span class='rubyid_DB constant id'>DB</span><span class='dot token'>.</span><span class='rubyid_attempt identifier id'>attempt</span> <span class='lbrace token'>{</span>
     <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_ensure_authorized_name identifier id'>ensure_authorized_name</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='rparen token'>)</span>
-    
+
     <span class='rubyid_authorized_name identifier id'>authorized_name</span> <span class='assign token'>=</span> <span class='rubyid_json identifier id'>json</span><span class='lbrack token'>[</span><span class='string val'>&#39;names&#39;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_find identifier id'>find</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_name identifier id'>name</span><span class='bitor op'>|</span> <span class='rubyid_name identifier id'>name</span><span class='lbrack token'>[</span><span class='string val'>&#39;authorized&#39;</span><span class='rbrack token'>]</span><span class='rbrace token'>}</span>
     <span class='rubyid_if if kw'>if</span> <span class='rubyid_authorized_name identifier id'>authorized_name</span><span class='lbrack token'>[</span><span class='string val'>&quot;authority_id&quot;</span><span class='rbrack token'>]</span>
       <span class='rubyid_authorized_name_id identifier id'>authorized_name_id</span> <span class='assign token'>=</span> <span class='rubyid_NameAuthorityId constant id'>NameAuthorityId</span><span class='dot token'>.</span><span class='rubyid_find identifier id'>find</span><span class='lparen token'>(</span><span class='symbol val'>:authority_id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_authorized_name identifier id'>authorized_name</span><span class='lbrack token'>[</span><span class='string val'>&quot;authority_id&quot;</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
-      <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_AgentManager constant id'>AgentManager</span><span class='colon2 op'>::</span><span class='rubyid_AuthorizedNameError constant id'>AuthorizedNameError</span><span class='comma token'>,</span> <span class='string val'>&quot;Agent Authorized Name: Agent cannot have a authorized name with an existing authorized id&quot;</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_authorized_name_id identifier id'>authorized_name_id</span> 
+      <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_AgentManager constant id'>AgentManager</span><span class='colon2 op'>::</span><span class='rubyid_AuthorizedNameError constant id'>AuthorizedNameError</span><span class='comma token'>,</span> <span class='string val'>&quot;Agent Authorized Name: Agent cannot have a authorized name with an existing authorized id&quot;</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_authorized_name_id identifier id'>authorized_name_id</span>
     <span class='rubyid_end end kw'>end</span>
-   
+
     <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_create_from_json identifier id'>create_from_json</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='rparen token'>)</span>
   <span class='rbrace token'>}</span><span class='dot token'>.</span><span class='rubyid_and_if_constraint_fails identifier id'>and_if_constraint_fails</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_exception identifier id'>exception</span><span class='bitor op'>|</span>
-   
+
 
     <span class='rubyid_if if kw'>if</span> <span class='rubyid_exception identifier id'>exception</span><span class='dot token'>.</span><span class='rubyid_is_a? fid id'>is_a?</span> <span class='rubyid_AgentManager constant id'>AgentManager</span><span class='colon2 op'>::</span><span class='rubyid_AuthorizedNameError constant id'>AuthorizedNameError</span>
       <span class='rubyid_authorized_name identifier id'>authorized_name</span> <span class='assign token'>=</span> <span class='rubyid_json identifier id'>json</span><span class='lbrack token'>[</span><span class='string val'>&#39;names&#39;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_find identifier id'>find</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_name identifier id'>name</span><span class='bitor op'>|</span> <span class='rubyid_name identifier id'>name</span><span class='lbrack token'>[</span><span class='string val'>&#39;authorized&#39;</span><span class='rbrack token'>]</span><span class='rbrace token'>}</span>
-      
-      <span class='rubyid_agent_type identifier id'>agent_type</span> <span class='assign token'>=</span> <span class='rubyid_json identifier id'>json</span><span class='lbrack token'>[</span><span class='string val'>&quot;jsonmodel_type&quot;</span><span class='rbrack token'>]</span> 
+
+      <span class='rubyid_agent_type identifier id'>agent_type</span> <span class='assign token'>=</span> <span class='rubyid_json identifier id'>json</span><span class='lbrack token'>[</span><span class='string val'>&quot;jsonmodel_type&quot;</span><span class='rbrack token'>]</span>
       <span class='rubyid_name_type identifier id'>name_type</span> <span class='assign token'>=</span> <span class='rubyid_authorized_name identifier id'>authorized_name</span><span class='lbrack token'>[</span><span class='string val'>&quot;jsonmodel_type&quot;</span><span class='rbrack token'>]</span>
-     
+
       <span class='rubyid_agent identifier id'>agent</span> <span class='assign token'>=</span> <span class='rubyid_join identifier id'>join</span><span class='lparen token'>(</span><span class='rubyid_name_type identifier id'>name_type</span><span class='dot token'>.</span><span class='rubyid_intern identifier id'>intern</span><span class='comma token'>,</span> <span class='dstring node'>&quot;#{agent_type}_id&quot;</span><span class='dot token'>.</span><span class='rubyid_intern identifier id'>intern</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='dstring node'>&quot;#{agent_type}__id&quot;</span><span class='dot token'>.</span><span class='rubyid_intern identifier id'>intern</span><span class='rparen token'>)</span>
                 <span class='dot token'>.</span><span class='rubyid_join identifier id'>join</span><span class='lparen token'>(</span><span class='symbol val'>:name_authority_id</span><span class='comma token'>,</span> <span class='dstring node'>&quot;#{name_type}_id&quot;</span><span class='dot token'>.</span><span class='rubyid_intern identifier id'>intern</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='dstring node'>&quot;#{name_type}__id&quot;</span><span class='dot token'>.</span><span class='rubyid_intern identifier id'>intern</span> <span class='rparen token'>)</span>
                 <span class='dot token'>.</span><span class='rubyid_where identifier id'>where</span><span class='lparen token'>(</span> <span class='rubyid_Sequel constant id'>Sequel</span><span class='dot token'>.</span><span class='rubyid_qualify identifier id'>qualify</span><span class='lparen token'>(</span><span class='symbol val'>:name_authority_id</span><span class='comma token'>,</span> <span class='symbol val'>:authority_id</span><span class='rparen token'>)</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_authorized_name identifier id'>authorized_name</span><span class='lbrack token'>[</span><span class='string val'>&quot;authority_id&quot;</span><span class='rbrack token'>]</span> <span class='rparen token'>)</span>
-                <span class='dot token'>.</span><span class='rubyid_where identifier id'>where</span><span class='lparen token'>(</span> <span class='rubyid_Sequel constant id'>Sequel</span><span class='dot token'>.</span><span class='rubyid_qualify identifier id'>qualify</span><span class='lparen token'>(</span> <span class='rubyid_name_type identifier id'>name_type</span><span class='dot token'>.</span><span class='rubyid_intern identifier id'>intern</span><span class='comma token'>,</span> <span class='symbol val'>:authorized</span><span class='rparen token'>)</span>  <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='integer val'>1</span> <span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_select_all identifier id'>select_all</span><span class='lparen token'>(</span><span class='rubyid_agent_type identifier id'>agent_type</span><span class='dot token'>.</span><span class='rubyid_intern identifier id'>intern</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_first identifier id'>first</span>
-                
+                <span class='dot token'>.</span><span class='rubyid_where identifier id'>where</span><span class='lparen token'>(</span> <span class='rubyid_Sequel constant id'>Sequel</span><span class='dot token'>.</span><span class='rubyid_qualify identifier id'>qualify</span><span class='lparen token'>(</span> <span class='rubyid_name_type identifier id'>name_type</span><span class='dot token'>.</span><span class='rubyid_intern identifier id'>intern</span><span class='comma token'>,</span> <span class='symbol val'>:authorized</span><span class='rparen token'>)</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='integer val'>1</span> <span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_select_all identifier id'>select_all</span><span class='lparen token'>(</span><span class='rubyid_agent_type identifier id'>agent_type</span><span class='dot token'>.</span><span class='rubyid_intern identifier id'>intern</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_first identifier id'>first</span>
+
 
     <span class='rubyid_elsif elsif kw'>elsif</span> <span class='rubyid_exception identifier id'>exception</span><span class='dot token'>.</span><span class='rubyid_message identifier id'>message</span><span class='dot token'>.</span><span class='rubyid_end_with? fid id'>end_with?</span><span class='lparen token'>(</span><span class='rubyid_AGENT_MUST_BE_UNIQUE constant id'>AGENT_MUST_BE_UNIQUE</span><span class='rparen token'>)</span> <span class='orop op'>||</span> <span class='rubyid_exception identifier id'>exception</span><span class='dot token'>.</span><span class='rubyid_message identifier id'>message</span> <span class='match op'>=~</span> <span class='rubyid_AGENT_MUST_BE_UNIQUE_MYSQL_CONSTRAINT constant id'>AGENT_MUST_BE_UNIQUE_MYSQL_CONSTRAINT</span>
       <span class='comment val'># If the agent already exists, find and reuse them</span>
@@ -924,7 +957,7 @@
       <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_RetryTransaction constant id'>RetryTransaction</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span>
     <span class='rubyid_end end kw'>end</span>
 
-    
+
     <span class='rubyid_agent identifier id'>agent</span>
   <span class='rbrace token'>}</span>
 <span class='rubyid_end end kw'>end</span>
@@ -949,12 +982,12 @@
       <pre class="lines">
 
 
-243
-244
-245</pre>
+277
+278
+279</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/agent_manager.rb', line 243</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/agent_manager.rb', line 277</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_find_matching identifier id'>find_matching</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='rparen token'>)</span>
   <span class='rubyid_find identifier id'>find</span><span class='lparen token'>(</span><span class='symbol val'>:agent_sha1</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_calculate_hash identifier id'>calculate_hash</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
@@ -980,16 +1013,16 @@
       <pre class="lines">
 
 
-234
-235
-236
-237
-238
-239
-240</pre>
+268
+269
+270
+271
+272
+273
+274</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/agent_manager.rb', line 234</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/agent_manager.rb', line 268</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_find_matching_id identifier id'>find_matching_id</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='rparen token'>)</span>
   <span class='rubyid_authorized_id identifier id'>authorized_id</span> <span class='assign token'>=</span> <span class='rubyid_json identifier id'>json</span><span class='lbrack token'>[</span><span class='string val'>&#39;names&#39;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_find identifier id'>find</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_name identifier id'>name</span><span class='bitor op'>|</span> <span class='rubyid_name identifier id'>name</span><span class='lbrack token'>[</span><span class='string val'>&#39;authority_id&#39;</span><span class='rbrack token'>]</span><span class='rbrace token'>}</span>
@@ -1019,32 +1052,32 @@
       <pre class="lines">
 
 
-264
-265
-266
-267
-268
-269
-270
-271
-272
-273
-274
-275</pre>
+303
+304
+305
+306
+307
+308
+309
+310
+311
+312
+313
+314</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/agent_manager.rb', line 264</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/agent_manager.rb', line 303</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_hash_chunk identifier id'>hash_chunk</span><span class='lparen token'>(</span><span class='rubyid_rec identifier id'>rec</span><span class='comma token'>,</span> <span class='rubyid_field_array identifier id'>field_array</span><span class='rparen token'>)</span>
   <span class='rubyid_field_array identifier id'>field_array</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_property identifier id'>property</span><span class='bitor op'>|</span>
-    <span class='rubyid_if if kw'>if</span> <span class='notop op'>!</span><span class='rubyid_rec identifier id'>rec</span><span class='lbrack token'>[</span><span class='rubyid_property identifier id'>property</span><span class='rbrack token'>]</span>
-      <span class='string val'>&#39; &#39;</span>
-    <span class='rubyid_elsif elsif kw'>elsif</span> <span class='rubyid_rec identifier id'>rec</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_schema identifier id'>schema</span><span class='lbrack token'>[</span><span class='string val'>&quot;properties&quot;</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='rubyid_property identifier id'>property</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>&quot;dynamic_enum&quot;</span><span class='rbrack token'>]</span>
-      <span class='rubyid_enum identifier id'>enum</span> <span class='assign token'>=</span> <span class='rubyid_rec identifier id'>rec</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_schema identifier id'>schema</span><span class='lbrack token'>[</span><span class='string val'>&quot;properties&quot;</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='rubyid_property identifier id'>property</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>&quot;dynamic_enum&quot;</span><span class='rbrack token'>]</span>
-      <span class='rubyid_BackendEnumSource constant id'>BackendEnumSource</span><span class='dot token'>.</span><span class='rubyid_id_for_value identifier id'>id_for_value</span><span class='lparen token'>(</span><span class='rubyid_enum identifier id'>enum</span><span class='comma token'>,</span> <span class='rubyid_rec identifier id'>rec</span><span class='lbrack token'>[</span><span class='rubyid_property identifier id'>property</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
-    <span class='rubyid_else else kw'>else</span>
-      <span class='rubyid_rec identifier id'>rec</span><span class='lbrack token'>[</span><span class='rubyid_property identifier id'>property</span><span class='dot token'>.</span><span class='rubyid_to_s identifier id'>to_s</span><span class='rbrack token'>]</span>
-    <span class='rubyid_end end kw'>end</span>
+      <span class='rubyid_if if kw'>if</span> <span class='notop op'>!</span><span class='rubyid_rec identifier id'>rec</span><span class='lbrack token'>[</span><span class='rubyid_property identifier id'>property</span><span class='rbrack token'>]</span>
+        <span class='string val'>&#39; &#39;</span>
+      <span class='rubyid_elsif elsif kw'>elsif</span> <span class='rubyid_rec identifier id'>rec</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_schema identifier id'>schema</span><span class='lbrack token'>[</span><span class='string val'>&quot;properties&quot;</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='rubyid_property identifier id'>property</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>&quot;dynamic_enum&quot;</span><span class='rbrack token'>]</span>
+        <span class='rubyid_enum identifier id'>enum</span> <span class='assign token'>=</span> <span class='rubyid_rec identifier id'>rec</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_schema identifier id'>schema</span><span class='lbrack token'>[</span><span class='string val'>&quot;properties&quot;</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='rubyid_property identifier id'>property</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>&quot;dynamic_enum&quot;</span><span class='rbrack token'>]</span>
+        <span class='rubyid_BackendEnumSource constant id'>BackendEnumSource</span><span class='dot token'>.</span><span class='rubyid_id_for_value identifier id'>id_for_value</span><span class='lparen token'>(</span><span class='rubyid_enum identifier id'>enum</span><span class='comma token'>,</span> <span class='rubyid_rec identifier id'>rec</span><span class='lbrack token'>[</span><span class='rubyid_property identifier id'>property</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
+      <span class='rubyid_else else kw'>else</span>
+        <span class='rubyid_rec identifier id'>rec</span><span class='lbrack token'>[</span><span class='rubyid_property identifier id'>property</span><span class='dot token'>.</span><span class='rubyid_to_s identifier id'>to_s</span><span class='rbrack token'>]</span>
+      <span class='rubyid_end end kw'>end</span>
     <span class='rbrace token'>}</span><span class='dot token'>.</span><span class='rubyid_join identifier id'>join</span><span class='lparen token'>(</span><span class='string val'>&#39;_&#39;</span><span class='rparen token'>)</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
@@ -1068,12 +1101,12 @@
       <pre class="lines">
 
 
-355
-356
-357</pre>
+471
+472
+473</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/agent_manager.rb', line 355</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/agent_manager.rb', line 471</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_my_agent_type identifier id'>my_agent_type</span>
   <span class='rubyid_AgentManager constant id'>AgentManager</span><span class='dot token'>.</span><span class='rubyid_agent_type_of identifier id'>agent_type_of</span><span class='lparen token'>(</span><span class='rubyid_self self kw'>self</span><span class='rparen token'>)</span>
@@ -1099,12 +1132,12 @@
       <pre class="lines">
 
 
-114
-115
-116</pre>
+138
+139
+140</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/agent_manager.rb', line 114</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/agent_manager.rb', line 138</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_populate_display_name identifier id'>populate_display_name</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='rparen token'>)</span>
   <span class='rubyid_json identifier id'>json</span><span class='dot token'>.</span><span class='rubyid_display_name identifier id'>display_name</span> <span class='assign token'>=</span> <span class='rubyid_json identifier id'>json</span><span class='lbrack token'>[</span><span class='string val'>&#39;names&#39;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_find identifier id'>find</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_name identifier id'>name</span><span class='bitor op'>|</span> <span class='rubyid_name identifier id'>name</span><span class='lbrack token'>[</span><span class='string val'>&#39;is_display_name&#39;</span><span class='rbrack token'>]</span><span class='rbrace token'>}</span>
@@ -1130,91 +1163,6 @@
       <pre class="lines">
 
 
-325
-326
-327
-328
-329
-330
-331
-332
-333
-334
-335
-336
-337
-338
-339
-340
-341
-342
-343
-344
-345
-346
-347
-348
-349
-350
-351
-352</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/agent_manager.rb', line 325</span>
-
-<span class='rubyid_def def kw'>def</span> <span class='rubyid_register_agent_type identifier id'>register_agent_type</span><span class='lparen token'>(</span><span class='rubyid_opts identifier id'>opts</span><span class='rparen token'>)</span>
-  <span class='rubyid_AgentManager constant id'>AgentManager</span><span class='dot token'>.</span><span class='rubyid_register_agent_type identifier id'>register_agent_type</span><span class='lparen token'>(</span><span class='rubyid_self self kw'>self</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span><span class='rparen token'>)</span>
-
-
-
-  <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_one_to_many identifier id'>one_to_many</span> <span class='rubyid_my_agent_type identifier id'>my_agent_type</span><span class='lbrack token'>[</span><span class='symbol val'>:name_type</span><span class='rbrack token'>]</span>
-
-  <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_def_nested_record identifier id'>def_nested_record</span><span class='lparen token'>(</span><span class='symbol val'>:the_property</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:names</span><span class='comma token'>,</span>
-                         <span class='symbol val'>:contains_records_of_type</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_my_agent_type identifier id'>my_agent_type</span><span class='lbrack token'>[</span><span class='symbol val'>:name_type</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
-                         <span class='symbol val'>:corresponding_to_association</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_my_agent_type identifier id'>my_agent_type</span><span class='lbrack token'>[</span><span class='symbol val'>:name_type</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
-
-
-  <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_one_to_many identifier id'>one_to_many</span> <span class='symbol val'>:agent_contact</span>
-
-
-  <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_def_nested_record identifier id'>def_nested_record</span><span class='lparen token'>(</span><span class='symbol val'>:the_property</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:agent_contacts</span><span class='comma token'>,</span>
-                         <span class='symbol val'>:contains_records_of_type</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:agent_contact</span><span class='comma token'>,</span>
-                         <span class='symbol val'>:corresponding_to_association</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:agent_contact</span><span class='rparen token'>)</span>
-
-
-  <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_one_to_many identifier id'>one_to_many</span> <span class='symbol val'>:date</span><span class='comma token'>,</span> <span class='symbol val'>:class</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;ASDate&quot;</span>
-
-
-  <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_def_nested_record identifier id'>def_nested_record</span><span class='lparen token'>(</span><span class='symbol val'>:the_property</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:dates_of_existence</span><span class='comma token'>,</span>
-                         <span class='symbol val'>:contains_records_of_type</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:date</span><span class='comma token'>,</span>
-                         <span class='symbol val'>:corresponding_to_association</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:date</span><span class='rparen token'>)</span>
-
-<span class='rubyid_end end kw'>end</span>
-</pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-      <div class="method_details ">
-  <h3 class="signature " id="sequel_to_jsonmodel-instance_method">
-  
-    #<strong>sequel_to_jsonmodel</strong>(objs, opts = {})  &#x21d2; <tt>Object</tt> 
-  
-
-  
-
-  
-</h3><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-360
-361
-362
-363
 364
 365
 366
@@ -1243,10 +1191,255 @@
 389
 390
 391
-392</pre>
+392
+393
+394
+395
+396
+397
+398
+399
+400
+401
+402
+403
+404
+405
+406
+407
+408
+409
+410
+411
+412
+413
+414
+415
+416
+417
+418
+419
+420
+421
+422
+423
+424
+425
+426
+427
+428
+429
+430
+431
+432
+433
+434
+435
+436
+437
+438
+439
+440
+441
+442
+443
+444
+445
+446
+447
+448
+449
+450
+451
+452
+453
+454
+455
+456
+457
+458
+459
+460
+461
+462
+463
+464
+465
+466
+467
+468</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/agent_manager.rb', line 360</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/agent_manager.rb', line 364</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_register_agent_type identifier id'>register_agent_type</span><span class='lparen token'>(</span><span class='rubyid_opts identifier id'>opts</span><span class='rparen token'>)</span>
+  <span class='rubyid_AgentManager constant id'>AgentManager</span><span class='dot token'>.</span><span class='rubyid_register_agent_type identifier id'>register_agent_type</span><span class='lparen token'>(</span><span class='rubyid_self self kw'>self</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span><span class='rparen token'>)</span>
+
+  <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_one_to_many identifier id'>one_to_many</span> <span class='rubyid_my_agent_type identifier id'>my_agent_type</span><span class='lbrack token'>[</span><span class='symbol val'>:name_type</span><span class='rbrack token'>]</span>
+
+  <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_def_nested_record identifier id'>def_nested_record</span><span class='lparen token'>(</span><span class='symbol val'>:the_property</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:names</span><span class='comma token'>,</span>
+                         <span class='symbol val'>:contains_records_of_type</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_my_agent_type identifier id'>my_agent_type</span><span class='lbrack token'>[</span><span class='symbol val'>:name_type</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
+                         <span class='symbol val'>:corresponding_to_association</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_my_agent_type identifier id'>my_agent_type</span><span class='lbrack token'>[</span><span class='symbol val'>:name_type</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
+
+  <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_one_to_many identifier id'>one_to_many</span> <span class='symbol val'>:agent_contact</span>
+
+  <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_def_nested_record identifier id'>def_nested_record</span><span class='lparen token'>(</span><span class='symbol val'>:the_property</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:agent_contacts</span><span class='comma token'>,</span>
+                         <span class='symbol val'>:contains_records_of_type</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:agent_contact</span><span class='comma token'>,</span>
+                         <span class='symbol val'>:corresponding_to_association</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:agent_contact</span><span class='rparen token'>)</span>
+
+  <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_one_to_many identifier id'>one_to_many</span> <span class='symbol val'>:agent_record_control</span><span class='comma token'>,</span> <span class='symbol val'>:class</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;AgentRecordControl&quot;</span>
+
+  <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_def_nested_record identifier id'>def_nested_record</span><span class='lparen token'>(</span><span class='symbol val'>:the_property</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:agent_record_controls</span><span class='comma token'>,</span>
+                         <span class='symbol val'>:contains_records_of_type</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:agent_record_control</span><span class='comma token'>,</span>
+                         <span class='symbol val'>:corresponding_to_association</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:agent_record_control</span><span class='rparen token'>)</span>
+
+  <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_one_to_many identifier id'>one_to_many</span> <span class='symbol val'>:agent_alternate_set</span><span class='comma token'>,</span> <span class='symbol val'>:class</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;AgentAlternateSet&quot;</span>
+
+  <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_def_nested_record identifier id'>def_nested_record</span><span class='lparen token'>(</span><span class='symbol val'>:the_property</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:agent_alternate_sets</span><span class='comma token'>,</span>
+                         <span class='symbol val'>:contains_records_of_type</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:agent_alternate_set</span><span class='comma token'>,</span>
+                         <span class='symbol val'>:corresponding_to_association</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:agent_alternate_set</span><span class='rparen token'>)</span>
+
+  <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_one_to_many identifier id'>one_to_many</span> <span class='symbol val'>:agent_conventions_declaration</span><span class='comma token'>,</span> <span class='symbol val'>:class</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;AgentConventionsDeclaration&quot;</span>
+
+  <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_def_nested_record identifier id'>def_nested_record</span><span class='lparen token'>(</span><span class='symbol val'>:the_property</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:agent_conventions_declarations</span><span class='comma token'>,</span>
+                         <span class='symbol val'>:contains_records_of_type</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:agent_conventions_declaration</span><span class='comma token'>,</span>
+                         <span class='symbol val'>:corresponding_to_association</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:agent_conventions_declaration</span><span class='rparen token'>)</span>
+
+  <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_one_to_many identifier id'>one_to_many</span> <span class='symbol val'>:agent_other_agency_codes</span><span class='comma token'>,</span> <span class='symbol val'>:class</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;AgentOtherAgencyCodes&quot;</span>
+
+  <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_def_nested_record identifier id'>def_nested_record</span><span class='lparen token'>(</span><span class='symbol val'>:the_property</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:agent_other_agency_codes</span><span class='comma token'>,</span>
+                         <span class='symbol val'>:contains_records_of_type</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:agent_other_agency_codes</span><span class='comma token'>,</span>
+                         <span class='symbol val'>:corresponding_to_association</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:agent_other_agency_codes</span><span class='rparen token'>)</span>
+
+  <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_one_to_many identifier id'>one_to_many</span> <span class='symbol val'>:agent_maintenance_history</span><span class='comma token'>,</span> <span class='symbol val'>:class</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;AgentMaintenanceHistory&quot;</span>
+
+  <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_def_nested_record identifier id'>def_nested_record</span><span class='lparen token'>(</span><span class='symbol val'>:the_property</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:agent_maintenance_histories</span><span class='comma token'>,</span>
+                         <span class='symbol val'>:contains_records_of_type</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:agent_maintenance_history</span><span class='comma token'>,</span>
+                         <span class='symbol val'>:corresponding_to_association</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:agent_maintenance_history</span><span class='rparen token'>)</span>
+
+  <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_one_to_many identifier id'>one_to_many</span> <span class='symbol val'>:agent_record_identifier</span><span class='comma token'>,</span> <span class='symbol val'>:class</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;AgentRecordIdentifier&quot;</span>
+
+  <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_def_nested_record identifier id'>def_nested_record</span><span class='lparen token'>(</span><span class='symbol val'>:the_property</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:agent_record_identifiers</span><span class='comma token'>,</span>
+                         <span class='symbol val'>:contains_records_of_type</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:agent_record_identifier</span><span class='comma token'>,</span>
+                         <span class='symbol val'>:corresponding_to_association</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:agent_record_identifier</span><span class='rparen token'>)</span>
+
+  <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_one_to_many identifier id'>one_to_many</span> <span class='symbol val'>:agent_sources</span><span class='comma token'>,</span> <span class='symbol val'>:class</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;AgentSources&quot;</span>
+
+  <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_def_nested_record identifier id'>def_nested_record</span><span class='lparen token'>(</span><span class='symbol val'>:the_property</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:agent_sources</span><span class='comma token'>,</span>
+                         <span class='symbol val'>:contains_records_of_type</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:agent_sources</span><span class='comma token'>,</span>
+                         <span class='symbol val'>:corresponding_to_association</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:agent_sources</span><span class='rparen token'>)</span>
+
+  <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_one_to_many identifier id'>one_to_many</span> <span class='symbol val'>:structured_date_label</span><span class='comma token'>,</span> <span class='symbol val'>:class</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;StructuredDateLabel&quot;</span>
+
+  <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_def_nested_record identifier id'>def_nested_record</span><span class='lparen token'>(</span><span class='symbol val'>:the_property</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:dates_of_existence</span><span class='comma token'>,</span>
+                         <span class='symbol val'>:contains_records_of_type</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:structured_date_label</span><span class='comma token'>,</span>
+                         <span class='symbol val'>:corresponding_to_association</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:structured_date_label</span><span class='rparen token'>)</span>
+
+  <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_one_to_many identifier id'>one_to_many</span> <span class='symbol val'>:agent_place</span><span class='comma token'>,</span> <span class='symbol val'>:class</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;AgentPlace&quot;</span>
+
+  <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_def_nested_record identifier id'>def_nested_record</span><span class='lparen token'>(</span><span class='symbol val'>:the_property</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:agent_places</span><span class='comma token'>,</span>
+                         <span class='symbol val'>:contains_records_of_type</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:agent_place</span><span class='comma token'>,</span>
+                         <span class='symbol val'>:corresponding_to_association</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:agent_place</span><span class='rparen token'>)</span>
+
+  <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_one_to_many identifier id'>one_to_many</span> <span class='symbol val'>:agent_occupation</span><span class='comma token'>,</span> <span class='symbol val'>:class</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;AgentOccupation&quot;</span>
+
+  <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_def_nested_record identifier id'>def_nested_record</span><span class='lparen token'>(</span><span class='symbol val'>:the_property</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:agent_occupations</span><span class='comma token'>,</span>
+                         <span class='symbol val'>:contains_records_of_type</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:agent_occupation</span><span class='comma token'>,</span>
+                         <span class='symbol val'>:corresponding_to_association</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:agent_occupation</span><span class='rparen token'>)</span>
+
+  <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_one_to_many identifier id'>one_to_many</span> <span class='symbol val'>:agent_function</span><span class='comma token'>,</span> <span class='symbol val'>:class</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;AgentFunction&quot;</span>
+
+  <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_def_nested_record identifier id'>def_nested_record</span><span class='lparen token'>(</span><span class='symbol val'>:the_property</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:agent_functions</span><span class='comma token'>,</span>
+                         <span class='symbol val'>:contains_records_of_type</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:agent_function</span><span class='comma token'>,</span>
+                         <span class='symbol val'>:corresponding_to_association</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:agent_function</span><span class='rparen token'>)</span>
+
+  <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_one_to_many identifier id'>one_to_many</span> <span class='symbol val'>:agent_topic</span><span class='comma token'>,</span> <span class='symbol val'>:class</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;AgentTopic&quot;</span>
+
+  <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_def_nested_record identifier id'>def_nested_record</span><span class='lparen token'>(</span><span class='symbol val'>:the_property</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:agent_topics</span><span class='comma token'>,</span>
+                         <span class='symbol val'>:contains_records_of_type</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:agent_topic</span><span class='comma token'>,</span>
+                         <span class='symbol val'>:corresponding_to_association</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:agent_topic</span><span class='rparen token'>)</span>
+
+  <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_one_to_many identifier id'>one_to_many</span> <span class='symbol val'>:agent_identifier</span><span class='comma token'>,</span> <span class='symbol val'>:class</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;AgentIdentifier&quot;</span>
+
+  <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_def_nested_record identifier id'>def_nested_record</span><span class='lparen token'>(</span><span class='symbol val'>:the_property</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:agent_identifiers</span><span class='comma token'>,</span>
+                         <span class='symbol val'>:contains_records_of_type</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:agent_identifier</span><span class='comma token'>,</span>
+                         <span class='symbol val'>:corresponding_to_association</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:agent_identifier</span><span class='rparen token'>)</span>
+
+  <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_one_to_many identifier id'>one_to_many</span> <span class='symbol val'>:used_language</span><span class='comma token'>,</span> <span class='symbol val'>:class</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;UsedLanguage&quot;</span>
+
+  <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_def_nested_record identifier id'>def_nested_record</span><span class='lparen token'>(</span><span class='symbol val'>:the_property</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:used_languages</span><span class='comma token'>,</span>
+                         <span class='symbol val'>:contains_records_of_type</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:used_language</span><span class='comma token'>,</span>
+                         <span class='symbol val'>:corresponding_to_association</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:used_language</span><span class='rparen token'>)</span>
+
+  <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_one_to_many identifier id'>one_to_many</span> <span class='symbol val'>:agent_resource</span><span class='comma token'>,</span> <span class='symbol val'>:class</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;AgentResource&quot;</span>
+
+  <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_def_nested_record identifier id'>def_nested_record</span><span class='lparen token'>(</span><span class='symbol val'>:the_property</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:agent_resources</span><span class='comma token'>,</span>
+                         <span class='symbol val'>:contains_records_of_type</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:agent_resource</span><span class='comma token'>,</span>
+                         <span class='symbol val'>:corresponding_to_association</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:agent_resource</span><span class='rparen token'>)</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="sequel_to_jsonmodel-instance_method">
+  
+    #<strong>sequel_to_jsonmodel</strong>(objs, opts = {})  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+476
+477
+478
+479
+480
+481
+482
+483
+484
+485
+486
+487
+488
+489
+490
+491
+492
+493
+494
+495
+496
+497
+498
+499
+500
+501
+502
+503
+504
+505
+506
+507
+508
+509
+510
+511
+512
+513
+514</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/agent_manager.rb', line 476</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_sequel_to_jsonmodel identifier id'>sequel_to_jsonmodel</span><span class='lparen token'>(</span><span class='rubyid_objs identifier id'>objs</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
   <span class='rubyid_jsons identifier id'>jsons</span> <span class='assign token'>=</span> <span class='rubyid_super super kw'>super</span>
@@ -1256,7 +1449,7 @@
 
     <span class='rubyid_jsons identifier id'>jsons</span><span class='dot token'>.</span><span class='rubyid_zip identifier id'>zip</span><span class='lparen token'>(</span><span class='rubyid_objs identifier id'>objs</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_json identifier id'>json</span><span class='comma token'>,</span> <span class='rubyid_obj identifier id'>obj</span><span class='bitor op'>|</span>
       <span class='rubyid_json identifier id'>json</span><span class='dot token'>.</span><span class='rubyid_used_within_repositories identifier id'>used_within_repositories</span> <span class='assign token'>=</span> <span class='rubyid_agents_to_repositories identifier id'>agents_to_repositories</span><span class='dot token'>.</span><span class='rubyid_fetch identifier id'>fetch</span><span class='lparen token'>(</span><span class='rubyid_obj identifier id'>obj</span><span class='comma token'>,</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_repo identifier id'>repo</span><span class='bitor op'>|</span> <span class='rubyid_repo identifier id'>repo</span><span class='dot token'>.</span><span class='rubyid_uri identifier id'>uri</span><span class='rbrace token'>}</span>
-      <span class='rubyid_json identifier id'>json</span><span class='dot token'>.</span><span class='rubyid_used_within_published_repositories identifier id'>used_within_published_repositories</span> <span class='assign token'>=</span> <span class='rubyid_agents_to_repositories identifier id'>agents_to_repositories</span><span class='dot token'>.</span><span class='rubyid_fetch identifier id'>fetch</span><span class='lparen token'>(</span><span class='rubyid_obj identifier id'>obj</span><span class='comma token'>,</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_select identifier id'>select</span><span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_repo identifier id'>repo</span><span class='bitor op'>|</span> <span class='rubyid_repo identifier id'>repo</span><span class='dot token'>.</span><span class='rubyid_publish identifier id'>publish</span> <span class='eq op'>==</span> <span class='integer val'>1</span><span class='rbrace token'>}</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_repo identifier id'>repo</span><span class='bitor op'>|</span> <span class='rubyid_repo identifier id'>repo</span><span class='dot token'>.</span><span class='rubyid_uri identifier id'>uri</span><span class='rbrace token'>}</span>
+      <span class='rubyid_json identifier id'>json</span><span class='dot token'>.</span><span class='rubyid_used_within_published_repositories identifier id'>used_within_published_repositories</span> <span class='assign token'>=</span> <span class='rubyid_agents_to_repositories identifier id'>agents_to_repositories</span><span class='dot token'>.</span><span class='rubyid_fetch identifier id'>fetch</span><span class='lparen token'>(</span><span class='rubyid_obj identifier id'>obj</span><span class='comma token'>,</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_select identifier id'>select</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_repo identifier id'>repo</span><span class='bitor op'>|</span> <span class='rubyid_repo identifier id'>repo</span><span class='dot token'>.</span><span class='rubyid_publish identifier id'>publish</span> <span class='eq op'>==</span> <span class='integer val'>1</span><span class='rbrace token'>}</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_repo identifier id'>repo</span><span class='bitor op'>|</span> <span class='rubyid_repo identifier id'>repo</span><span class='dot token'>.</span><span class='rubyid_uri identifier id'>uri</span><span class='rbrace token'>}</span>
     <span class='rubyid_end end kw'>end</span>
   <span class='rubyid_end end kw'>end</span>
 
@@ -1267,6 +1460,9 @@
                           <span class='dot token'>.</span><span class='rubyid_filter identifier id'>filter</span><span class='lparen token'>(</span><span class='symbol val'>:agent_record_id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_objs identifier id'>objs</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span><span class='lparen token'>(</span><span class='bitand op'>&amp;</span><span class='symbol val'>:id</span><span class='rparen token'>)</span><span class='comma token'>,</span>
                                   <span class='symbol val'>:agent_record_type</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_jsonmodel_type identifier id'>jsonmodel_type</span><span class='rparen token'>)</span>
                           <span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_row identifier id'>row</span><span class='bitor op'>|</span> <span class='lbrack token'>[</span><span class='rubyid_row identifier id'>row</span><span class='lbrack token'>[</span><span class='symbol val'>:agent_record_id</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='rubyid_row identifier id'>row</span><span class='lbrack token'>[</span><span class='symbol val'>:username</span><span class='rbrack token'>]</span><span class='rbrack token'>]</span><span class='rbrace token'>}</span><span class='rbrack token'>]</span>
+  <span class='rubyid_repo_users identifier id'>repo_users</span> <span class='assign token'>=</span> <span class='rubyid_Hash constant id'>Hash</span><span class='lbrack token'>[</span><span class='rubyid_Repository constant id'>Repository</span>
+                          <span class='dot token'>.</span><span class='rubyid_filter identifier id'>filter</span><span class='lparen token'>(</span><span class='symbol val'>:agent_representation_id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_objs identifier id'>objs</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span><span class='lparen token'>(</span><span class='bitand op'>&amp;</span><span class='symbol val'>:id</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
+                          <span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_row identifier id'>row</span><span class='bitor op'>|</span> <span class='lbrack token'>[</span><span class='rubyid_row identifier id'>row</span><span class='lbrack token'>[</span><span class='symbol val'>:agent_representation_id</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='rubyid_row identifier id'>row</span><span class='lbrack token'>[</span><span class='symbol val'>:name</span><span class='rbrack token'>]</span><span class='rbrack token'>]</span><span class='rbrace token'>}</span><span class='rbrack token'>]</span>
 
   <span class='rubyid_jsons identifier id'>jsons</span><span class='dot token'>.</span><span class='rubyid_zip identifier id'>zip</span><span class='lparen token'>(</span><span class='rubyid_objs identifier id'>objs</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_json identifier id'>json</span><span class='comma token'>,</span> <span class='rubyid_obj identifier id'>obj</span><span class='bitor op'>|</span>
     <span class='rubyid_json identifier id'>json</span><span class='dot token'>.</span><span class='rubyid_agent_type identifier id'>agent_type</span> <span class='assign token'>=</span> <span class='rubyid_jsonmodel_type identifier id'>jsonmodel_type</span>
@@ -1277,9 +1473,60 @@
     <span class='rubyid_json identifier id'>json</span><span class='dot token'>.</span><span class='rubyid_title identifier id'>title</span> <span class='assign token'>=</span> <span class='rubyid_json identifier id'>json</span><span class='lbrack token'>[</span><span class='string val'>&#39;display_name&#39;</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>&#39;sort_name&#39;</span><span class='rbrack token'>]</span>
 
     <span class='rubyid_json identifier id'>json</span><span class='dot token'>.</span><span class='rubyid_is_user identifier id'>is_user</span> <span class='assign token'>=</span> <span class='rubyid_matching_users identifier id'>matching_users</span><span class='dot token'>.</span><span class='rubyid_fetch identifier id'>fetch</span><span class='lparen token'>(</span><span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_id identifier id'>id</span><span class='comma token'>,</span> <span class='rubyid_nil nil kw'>nil</span><span class='rparen token'>)</span>
+    <span class='rubyid_if if kw'>if</span> <span class='rubyid_jsonmodel_type identifier id'>jsonmodel_type</span> <span class='eq op'>==</span> <span class='string val'>&#39;agent_corporate_entity&#39;</span>
+      <span class='rubyid_json identifier id'>json</span><span class='dot token'>.</span><span class='rubyid_is_repo_agent identifier id'>is_repo_agent</span> <span class='assign token'>=</span> <span class='rubyid_repo_users identifier id'>repo_users</span><span class='dot token'>.</span><span class='rubyid_fetch identifier id'>fetch</span><span class='lparen token'>(</span><span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_id identifier id'>id</span><span class='comma token'>,</span> <span class='rubyid_nil nil kw'>nil</span><span class='rparen token'>)</span>
+    <span class='rubyid_end end kw'>end</span>
   <span class='rubyid_end end kw'>end</span>
 
   <span class='rubyid_jsons identifier id'>jsons</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="set_publish_for_subrecords_with_subjects-instance_method">
+  
+    #<strong>set_publish_for_subrecords_with_subjects</strong>(json)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Set the publish value of subrecords to match the publish value of the agent
+to work with implied publication for subjects</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+210
+211
+212
+213
+214
+215</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/agent_manager.rb', line 210</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_set_publish_for_subrecords_with_subjects identifier id'>set_publish_for_subrecords_with_subjects</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='rparen token'>)</span>
+  <span class='rubyid_publish identifier id'>publish</span> <span class='assign token'>=</span> <span class='rubyid_json identifier id'>json</span><span class='lbrack token'>[</span><span class='string val'>&#39;publish&#39;</span><span class='rbrack token'>]</span>
+  <span class='rubyid_AGENT_SUBRECORDS_WITH_SUBJECTS constant id'>AGENT_SUBRECORDS_WITH_SUBJECTS</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_subrecord_type identifier id'>subrecord_type</span><span class='bitor op'>|</span>
+    <span class='rubyid_json identifier id'>json</span><span class='lbrack token'>[</span><span class='rubyid_subrecord_type identifier id'>subrecord_type</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='lbrace token'>{</span> <span class='bitor op'>|</span><span class='rubyid_subrecord identifier id'>subrecord</span><span class='bitor op'>|</span> <span class='rubyid_subrecord identifier id'>subrecord</span><span class='lbrack token'>[</span><span class='string val'>&#39;publish&#39;</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_publish identifier id'>publish</span> <span class='rbrace token'>}</span>
+  <span class='rubyid_end end kw'>end</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -1292,9 +1539,9 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.8.1.a Documentation Generated on Wed Nov 11 13:21:28 2020 by
+  ArchivesSpace Version X.Y.Z Documentation Generated on Tue Sep 21 14:09:31 2021 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.25.
+  0.9.26.
 </div>
 
     </div>

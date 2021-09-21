@@ -6,7 +6,7 @@
 <title>
   Class: AssessmentAttributesController
   
-    &mdash; Documentation by YARD 0.9.25
+    &mdash; Documentation by YARD 0.9.26
   
 </title>
 
@@ -129,6 +129,29 @@
         <li class="public ">
   <span class="summary_signature">
     
+      <a href="#current_record-instance_method" title="#current_record (instance method)">#<strong>current_record</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
       <a href="#edit-instance_method" title="#edit (instance method)">#<strong>edit</strong>  &#x21d2; Object </a>
     
 
@@ -241,7 +264,38 @@
 
     
       <div class="method_details first">
-  <h3 class="signature first" id="edit-instance_method">
+  <h3 class="signature first" id="current_record-instance_method">
+  
+    #<strong>current_record</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+10
+11
+12</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'frontend/app/controllers/assessment_attributes_controller.rb', line 10</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_current_record identifier id'>current_record</span>
+  <span class='rubyid_@assessment_attribute_definitions ivar id'>@assessment_attribute_definitions</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="edit-instance_method">
   
     #<strong>edit</strong>  &#x21d2; <tt>Object</tt> 
   
@@ -286,10 +340,6 @@
       <pre class="lines">
 
 
-10
-11
-12
-13
 14
 15
 16
@@ -316,10 +366,14 @@
 37
 38
 39
-40</pre>
+40
+41
+42
+43
+44</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/controllers/assessment_attributes_controller.rb', line 10</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/controllers/assessment_attributes_controller.rb', line 14</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_update identifier id'>update</span>
   <span class='rubyid_@assessment_attribute_definitions ivar id'>@assessment_attribute_definitions</span> <span class='assign token'>=</span> <span class='rubyid_AssessmentAttributeDefinitions constant id'>AssessmentAttributeDefinitions</span><span class='dot token'>.</span><span class='rubyid_find identifier id'>find</span><span class='lparen token'>(</span><span class='rubyid_nil nil kw'>nil</span><span class='rparen token'>)</span>
@@ -363,9 +417,9 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.8.1.a Documentation Generated on Wed Nov 11 13:22:19 2020 by
+  ArchivesSpace Version X.Y.Z Documentation Generated on Tue Sep 21 14:10:09 2021 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.25.
+  0.9.26.
 </div>
 
     </div>

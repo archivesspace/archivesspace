@@ -6,7 +6,7 @@
 <title>
   Class: Nokogiri::XML::Builder
   
-    &mdash; Documentation by YARD 0.9.25
+    &mdash; Documentation by YARD 0.9.26
   
 </title>
 
@@ -197,39 +197,19 @@
       <pre class="lines">
 
 
+169
+170
 171
 172
-173
-174
-175
-176
-177
-178
-179
-180
-181
-182
-183
-184
-185</pre>
+173</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/exporters/lib/exporter.rb', line 171</span>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/lib/exporter.rb', line 169</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_method_missing identifier id'>method_missing</span><span class='lparen token'>(</span><span class='rubyid_m identifier id'>m</span><span class='comma token'>,</span> <span class='mult op'>*</span><span class='rubyid_args identifier id'>args</span><span class='comma token'>,</span> <span class='bitand op'>&amp;</span><span class='rubyid_block identifier id'>block</span><span class='rparen token'>)</span>
   <span class='rubyid_@sticky_ns ivar id'>@sticky_ns</span> <span class='opasgn op'>||=</span> <span class='rubyid_nil nil kw'>nil</span>
   <span class='rubyid_@ns ivar id'>@ns</span> <span class='assign token'>=</span> <span class='rubyid_@sticky_ns ivar id'>@sticky_ns</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_@sticky_ns ivar id'>@sticky_ns</span>
-  <span class='rubyid_begin begin kw'>begin</span>
-    <span class='rubyid_old_method_missing identifier id'>old_method_missing</span><span class='lparen token'>(</span><span class='rubyid_m identifier id'>m</span><span class='comma token'>,</span> <span class='mult op'>*</span><span class='rubyid_args identifier id'>args</span><span class='comma token'>,</span> <span class='bitand op'>&amp;</span><span class='rubyid_block identifier id'>block</span><span class='rparen token'>)</span>
-  <span class='rubyid_rescue rescue kw'>rescue</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_e identifier id'>e</span>
-    <span class='comment val'># this is a bit odd, but i would be better if the end-user gets the</span>
-    <span class='comment val'># error information in their export, rather than in their output.</span>
-    <span class='rubyid_node identifier id'>node</span> <span class='assign token'>=</span> <span class='rubyid_@doc ivar id'>@doc</span><span class='dot token'>.</span><span class='rubyid_create_element identifier id'>create_element</span><span class='lparen token'>(</span> <span class='string val'>&quot;aspace_export_error&quot;</span> <span class='rparen token'>)</span>
-    <span class='rubyid_node identifier id'>node</span><span class='dot token'>.</span><span class='rubyid_content identifier id'>content</span> <span class='assign token'>=</span> <span class='dstring node'>&quot;ASPACE EXPORT ERROR : YOU HAVE A PROBLEM WITH YOUR EXPORT OF YOUR RESOURCE. THE FOLLOWING INFORMATION MAY HELP:
-    \n #{e.message} \n #{e.backtrace.inspect}&quot;</span>
-    <span class='rubyid_@parent ivar id'>@parent</span><span class='dot token'>.</span><span class='rubyid_add_child identifier id'>add_child</span><span class='lparen token'>(</span><span class='rubyid_node identifier id'>node</span><span class='rparen token'>)</span>
-  <span class='rubyid_end end kw'>end</span>
-
+  <span class='rubyid_old_method_missing identifier id'>old_method_missing</span><span class='lparen token'>(</span><span class='rubyid_m identifier id'>m</span><span class='comma token'>,</span> <span class='mult op'>*</span><span class='rubyid_args identifier id'>args</span><span class='comma token'>,</span> <span class='bitand op'>&amp;</span><span class='rubyid_block identifier id'>block</span><span class='rparen token'>)</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -259,10 +239,10 @@
       <pre class="lines">
 
 
-169</pre>
+167</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/exporters/lib/exporter.rb', line 169</span>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/lib/exporter.rb', line 167</span>
 
 <span class='rubyid_alias alias kw'>alias</span> <span class='symbol val'>:old_method_missing</span> <span class='symbol val'>:method_missing</span>
 </pre>
@@ -276,9 +256,9 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.8.1.a Documentation Generated on Wed Nov 11 13:21:56 2020 by
+  ArchivesSpace Version X.Y.Z Documentation Generated on Tue Sep 21 14:09:52 2021 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.25.
+  0.9.26.
 </div>
 
     </div>

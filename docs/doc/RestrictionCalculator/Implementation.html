@@ -6,7 +6,7 @@
 <title>
   Module: RestrictionCalculator::Implementation
   
-    &mdash; Documentation by YARD 0.9.25
+    &mdash; Documentation by YARD 0.9.26
   
 </title>
 
@@ -145,6 +145,7 @@
       <pre class="lines">
 
 
+69
 70
 71
 72
@@ -166,14 +167,13 @@
 88
 89
 90
-91
-92</pre>
+91</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/restriction_calculator.rb', line 70</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/restriction_calculator.rb', line 69</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_expand_to_tree identifier id'>expand_to_tree</span><span class='lparen token'>(</span><span class='rubyid_model identifier id'>model</span><span class='comma token'>,</span> <span class='rubyid_id_set identifier id'>id_set</span><span class='rparen token'>)</span>
-  <span class='rubyid_return return kw'>return</span> <span class='lbrace token'>{</span><span class='rubyid_model identifier id'>model</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_id_set identifier id'>id_set</span><span class='rbrace token'>}</span> <span class='rubyid_unless unless_mod kw'>unless</span>  <span class='rubyid_model identifier id'>model</span><span class='dot token'>.</span><span class='rubyid_included_modules identifier id'>included_modules</span><span class='dot token'>.</span><span class='rubyid_include? fid id'>include?</span><span class='lparen token'>(</span><span class='rubyid_TreeNodes constant id'>TreeNodes</span><span class='rparen token'>)</span>
+  <span class='rubyid_return return kw'>return</span> <span class='lbrace token'>{</span><span class='rubyid_model identifier id'>model</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_id_set identifier id'>id_set</span><span class='rbrace token'>}</span> <span class='rubyid_unless unless_mod kw'>unless</span> <span class='rubyid_model identifier id'>model</span><span class='dot token'>.</span><span class='rubyid_included_modules identifier id'>included_modules</span><span class='dot token'>.</span><span class='rubyid_include? fid id'>include?</span><span class='lparen token'>(</span><span class='rubyid_TreeNodes constant id'>TreeNodes</span><span class='rparen token'>)</span>
 
   <span class='rubyid_rec_ids identifier id'>rec_ids</span> <span class='assign token'>=</span> <span class='rubyid_id_set identifier id'>id_set</span>
   <span class='rubyid_new_rec_ids identifier id'>new_rec_ids</span> <span class='assign token'>=</span> <span class='rubyid_rec_ids identifier id'>rec_ids</span>
@@ -206,9 +206,9 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.8.1.a Documentation Generated on Wed Nov 11 13:21:32 2020 by
+  ArchivesSpace Version X.Y.Z Documentation Generated on Tue Sep 21 14:09:34 2021 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.25.
+  0.9.26.
 </div>
 
     </div>

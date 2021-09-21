@@ -6,7 +6,7 @@
 <title>
   Class: StreamingImport
   
-    &mdash; Documentation by YARD 0.9.25
+    &mdash; Documentation by YARD 0.9.26
   
 </title>
 
@@ -316,17 +316,15 @@
 51
 52
 53
-54
-55</pre>
+54</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'backend/app/lib/streaming_import.rb', line 14</span>
 
-<span class='rubyid_def def kw'>def</span> <span class='rubyid_initialize identifier id'>initialize</span><span class='lparen token'>(</span><span class='rubyid_stream identifier id'>stream</span><span class='comma token'>,</span> <span class='rubyid_ticker identifier id'>ticker</span><span class='comma token'>,</span> <span class='rubyid_import_canceled identifier id'>import_canceled</span> <span class='assign token'>=</span> <span class='rubyid_false false kw'>false</span><span class='comma token'>,</span>  <span class='rubyid_migration identifier id'>migration</span> <span class='assign token'>=</span> <span class='rubyid_false false kw'>false</span><span class='rparen token'>)</span>
-  
-  <span class='rubyid_@import_canceled ivar id'>@import_canceled</span> <span class='assign token'>=</span> <span class='rubyid_import_canceled identifier id'>import_canceled</span> <span class='integer val'>? </span><span class='rubyid_import_canceled identifier id'>import_canceled</span> <span class='colon op'>:</span>  <span class='rubyid_Atomic constant id'>Atomic</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='rubyid_false false kw'>false</span><span class='rparen token'>)</span>
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_initialize identifier id'>initialize</span><span class='lparen token'>(</span><span class='rubyid_stream identifier id'>stream</span><span class='comma token'>,</span> <span class='rubyid_ticker identifier id'>ticker</span><span class='comma token'>,</span> <span class='rubyid_import_canceled identifier id'>import_canceled</span> <span class='assign token'>=</span> <span class='rubyid_false false kw'>false</span><span class='comma token'>,</span> <span class='rubyid_migration identifier id'>migration</span> <span class='assign token'>=</span> <span class='rubyid_false false kw'>false</span><span class='rparen token'>)</span>
+  <span class='rubyid_@import_canceled ivar id'>@import_canceled</span> <span class='assign token'>=</span> <span class='rubyid_import_canceled identifier id'>import_canceled</span> <span class='integer val'>? </span><span class='rubyid_import_canceled identifier id'>import_canceled</span> <span class='colon op'>:</span> <span class='rubyid_Atomic constant id'>Atomic</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='rubyid_false false kw'>false</span><span class='rparen token'>)</span>
   <span class='rubyid_@migration ivar id'>@migration</span> <span class='assign token'>=</span> <span class='rubyid_migration identifier id'>migration</span> <span class='integer val'>? </span><span class='rubyid_Atomic constant id'>Atomic</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='rubyid_true true kw'>true</span><span class='rparen token'>)</span> <span class='colon op'>:</span> <span class='rubyid_Atomic constant id'>Atomic</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='rubyid_false false kw'>false</span><span class='rparen token'>)</span>
- 
+
   <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_StandardError constant id'>StandardError</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='string val'>&quot;Nothing to stream&quot;</span><span class='rparen token'>)</span> <span class='rubyid_unless unless_mod kw'>unless</span> <span class='rubyid_stream identifier id'>stream</span>
 
   <span class='rubyid_@ticker ivar id'>@ticker</span> <span class='assign token'>=</span> <span class='rubyid_ticker identifier id'>ticker</span>
@@ -392,15 +390,15 @@
       <pre class="lines">
 
 
+62
 63
 64
 65
 66
-67
-68</pre>
+67</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/streaming_import.rb', line 63</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/streaming_import.rb', line 62</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_abort_if_import_canceled identifier id'>abort_if_import_canceled</span>
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_@import_canceled ivar id'>@import_canceled</span><span class='dot token'>.</span><span class='rubyid_value identifier id'>value</span>
@@ -429,12 +427,12 @@
       <pre class="lines">
 
 
+57
 58
-59
-60</pre>
+59</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/streaming_import.rb', line 58</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/streaming_import.rb', line 57</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_created_records identifier id'>created_records</span>
   <span class='rubyid_@logical_urls ivar id'>@logical_urls</span><span class='dot token'>.</span><span class='rubyid_reject identifier id'>reject</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_k identifier id'>k</span><span class='comma token'>,</span> <span class='rubyid_v identifier id'>v</span><span class='bitor op'>|</span> <span class='rubyid_v identifier id'>v</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span><span class='rbrace token'>}</span>
@@ -460,6 +458,7 @@
       <pre class="lines">
 
 
+70
 71
 72
 73
@@ -530,15 +529,12 @@
 138
 139
 140
-141
-142
-143</pre>
+141</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/streaming_import.rb', line 71</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/streaming_import.rb', line 70</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_process identifier id'>process</span>
-
   <span class='rubyid_round identifier id'>round</span> <span class='assign token'>=</span> <span class='integer val'>0</span>
   <span class='rubyid_finished identifier id'>finished</span> <span class='assign token'>=</span> <span class='rubyid_true true kw'>true</span>
 
@@ -621,9 +617,9 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.8.1.a Documentation Generated on Wed Nov 11 13:21:53 2020 by
+  ArchivesSpace Version X.Y.Z Documentation Generated on Tue Sep 21 14:09:49 2021 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.25.
+  0.9.26.
 </div>
 
     </div>

@@ -6,7 +6,7 @@
 <title>
   Module: HandleFaceting
   
-    &mdash; Documentation by YARD 0.9.25
+    &mdash; Documentation by YARD 0.9.26
   
 </title>
 
@@ -230,15 +230,15 @@
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_fetch_only_facets identifier id'>fetch_only_facets</span><span class='lparen token'>(</span><span class='rubyid_query identifier id'>query</span><span class='comma token'>,</span> <span class='rubyid_facets_array identifier id'>facets_array</span><span class='comma token'>,</span> <span class='rubyid_include_zero identifier id'>include_zero</span><span class='rparen token'>)</span>
 <span class='comment val'>#    Rails.logger.debug(&quot;Finding facets for query &#39;#{query}&#39;&quot;)</span>
- <span class='rubyid_criteria identifier id'>criteria</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span>
- <span class='rubyid_criteria identifier id'>criteria</span><span class='lbrack token'>[</span><span class='symbol val'>:page_size</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='integer val'>1</span>
- <span class='rubyid_criteria identifier id'>criteria</span><span class='lbrack token'>[</span><span class='string val'>&#39;facet[]&#39;</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_facets_array identifier id'>facets_array</span>
- <span class='rubyid_criteria identifier id'>criteria</span><span class='lbrack token'>[</span><span class='string val'>&#39;facet.mincount&#39;</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='integer val'>1</span> <span class='rubyid_if if_mod kw'>if</span> <span class='notop op'>!</span><span class='rubyid_include_zero identifier id'>include_zero</span>
- <span class='rubyid_data identifier id'>data</span> <span class='assign token'>=</span>  <span class='rubyid_archivesspace identifier id'>archivesspace</span><span class='dot token'>.</span><span class='rubyid_search identifier id'>search</span><span class='lparen token'>(</span><span class='rubyid_query identifier id'>query</span><span class='comma token'>,</span> <span class='integer val'>1</span><span class='comma token'>,</span> <span class='rubyid_criteria identifier id'>criteria</span><span class='rparen token'>)</span> <span class='orop op'>||</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span>
- <span class='rubyid_faceting identifier id'>faceting</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span>
- <span class='rubyid_if if kw'>if</span> <span class='notop op'>!</span><span class='rubyid_data identifier id'>data</span><span class='lbrack token'>[</span><span class='string val'>&#39;facets&#39;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_blank? fid id'>blank?</span> <span class='andop op'>&amp;&amp;</span> <span class='notop op'>!</span><span class='rubyid_data identifier id'>data</span><span class='lbrack token'>[</span><span class='string val'>&#39;facets&#39;</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>&#39;facet_fields&#39;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_blank? fid id'>blank?</span>
-   <span class='rubyid_faceting identifier id'>faceting</span> <span class='assign token'>=</span> <span class='rubyid_data identifier id'>data</span><span class='lbrack token'>[</span><span class='string val'>&#39;facets&#39;</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>&#39;facet_fields&#39;</span><span class='rbrack token'>]</span>
- <span class='rubyid_end end kw'>end</span>
+  <span class='rubyid_criteria identifier id'>criteria</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span>
+  <span class='rubyid_criteria identifier id'>criteria</span><span class='lbrack token'>[</span><span class='symbol val'>:page_size</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='integer val'>1</span>
+  <span class='rubyid_criteria identifier id'>criteria</span><span class='lbrack token'>[</span><span class='string val'>&#39;facet[]&#39;</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_facets_array identifier id'>facets_array</span>
+  <span class='rubyid_criteria identifier id'>criteria</span><span class='lbrack token'>[</span><span class='string val'>&#39;facet.mincount&#39;</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='integer val'>1</span> <span class='rubyid_if if_mod kw'>if</span> <span class='notop op'>!</span><span class='rubyid_include_zero identifier id'>include_zero</span>
+  <span class='rubyid_data identifier id'>data</span> <span class='assign token'>=</span> <span class='rubyid_archivesspace identifier id'>archivesspace</span><span class='dot token'>.</span><span class='rubyid_search identifier id'>search</span><span class='lparen token'>(</span><span class='rubyid_query identifier id'>query</span><span class='comma token'>,</span> <span class='integer val'>1</span><span class='comma token'>,</span> <span class='rubyid_criteria identifier id'>criteria</span><span class='rparen token'>)</span> <span class='orop op'>||</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span>
+  <span class='rubyid_faceting identifier id'>faceting</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span>
+  <span class='rubyid_if if kw'>if</span> <span class='notop op'>!</span><span class='rubyid_data identifier id'>data</span><span class='lbrack token'>[</span><span class='string val'>&#39;facets&#39;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_blank? fid id'>blank?</span> <span class='andop op'>&amp;&amp;</span> <span class='notop op'>!</span><span class='rubyid_data identifier id'>data</span><span class='lbrack token'>[</span><span class='string val'>&#39;facets&#39;</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>&#39;facet_fields&#39;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_blank? fid id'>blank?</span>
+    <span class='rubyid_faceting identifier id'>faceting</span> <span class='assign token'>=</span> <span class='rubyid_data identifier id'>data</span><span class='lbrack token'>[</span><span class='string val'>&#39;facets&#39;</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>&#39;facet_fields&#39;</span><span class='rbrack token'>]</span>
+  <span class='rubyid_end end kw'>end</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -271,7 +271,6 @@
       <pre class="lines">
 
 
-33
 34
 35
 36
@@ -290,10 +289,11 @@
 49
 50
 51
-52</pre>
+52
+53</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'public/app/controllers/concerns/handle_faceting.rb', line 33</span>
+      <pre class="code"><span class="info file"># File 'public/app/controllers/concerns/handle_faceting.rb', line 34</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_get_pretty_facet_value identifier id'>get_pretty_facet_value</span><span class='lparen token'>(</span><span class='rubyid_k identifier id'>k</span><span class='comma token'>,</span> <span class='rubyid_v identifier id'>v</span><span class='rparen token'>)</span>
   <span class='rubyid_pv identifier id'>pv</span> <span class='assign token'>=</span> <span class='rubyid_strip_mixed_content identifier id'>strip_mixed_content</span><span class='lparen token'>(</span><span class='rubyid_v identifier id'>v</span><span class='rparen token'>)</span>
@@ -382,9 +382,9 @@ returns a hash with the text of the facet as the key, count as the value</p>
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.8.1.a Documentation Generated on Wed Nov 11 13:21:38 2020 by
+  ArchivesSpace Version X.Y.Z Documentation Generated on Tue Sep 21 14:09:39 2021 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.25.
+  0.9.26.
 </div>
 
     </div>

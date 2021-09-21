@@ -6,7 +6,7 @@
 <title>
   Class: ClassificationTerm
   
-    &mdash; Documentation by YARD 0.9.25
+    &mdash; Documentation by YARD 0.9.26
   
 </title>
 
@@ -668,7 +668,7 @@
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_breadcrumb_title_for_node identifier id'>breadcrumb_title_for_node</span><span class='lparen token'>(</span><span class='rubyid_node identifier id'>node</span><span class='comma token'>,</span> <span class='rubyid_level identifier id'>level</span><span class='rparen token'>)</span>
   <span class='rubyid_json_path_to_root identifier id'>json_path_to_root</span> <span class='assign token'>=</span> <span class='rubyid_json identifier id'>json</span><span class='dot token'>.</span><span class='rubyid_fetch identifier id'>fetch</span><span class='lparen token'>(</span><span class='string val'>&#39;path_from_root&#39;</span><span class='rparen token'>)</span>
-  <span class='rubyid_json_identifiers identifier id'>json_identifiers</span> <span class='assign token'>=</span> <span class='rubyid_json_path_to_root identifier id'>json_path_to_root</span><span class='lbrack token'>[</span><span class='integer val'>0</span><span class='dot2 op'>..</span><span class='rubyid_level identifier id'>level</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span><span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_n identifier id'>n</span><span class='bitor op'>|</span> <span class='rubyid_n identifier id'>n</span><span class='dot token'>.</span><span class='rubyid_fetch identifier id'>fetch</span><span class='lparen token'>(</span><span class='string val'>&#39;identifier&#39;</span><span class='rparen token'>)</span><span class='rbrace token'>}</span>
+  <span class='rubyid_json_identifiers identifier id'>json_identifiers</span> <span class='assign token'>=</span> <span class='rubyid_json_path_to_root identifier id'>json_path_to_root</span><span class='lbrack token'>[</span><span class='integer val'>0</span><span class='dot2 op'>..</span><span class='rubyid_level identifier id'>level</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_n identifier id'>n</span><span class='bitor op'>|</span> <span class='rubyid_n identifier id'>n</span><span class='dot token'>.</span><span class='rubyid_fetch identifier id'>fetch</span><span class='lparen token'>(</span><span class='string val'>&#39;identifier&#39;</span><span class='rparen token'>)</span><span class='rbrace token'>}</span>
 
   <span class='dstring node'>&quot;#{json_identifiers.join(I18n.t(&#39;classification_term.identifier_separator&#39;))}#{I18n.t(&#39;classification.identifier_separator&#39;)} #{super}&quot;</span>
 <span class='rubyid_end end kw'>end</span>
@@ -800,9 +800,9 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.8.1.a Documentation Generated on Wed Nov 11 13:22:01 2020 by
+  ArchivesSpace Version X.Y.Z Documentation Generated on Tue Sep 21 14:09:55 2021 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.25.
+  0.9.26.
 </div>
 
     </div>

@@ -6,7 +6,7 @@
 <title>
   Class: ContainerInstanceHandler
   
-    &mdash; Documentation by YARD 0.9.25
+    &mdash; Documentation by YARD 0.9.26
   
 </title>
 
@@ -179,6 +179,29 @@
         <li class="public ">
   <span class="summary_signature">
     
+      <a href="#format_container_instance-instance_method" title="#format_container_instance (instance method)">#<strong>format_container_instance</strong>(instance_type, tc, subcont = {})  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Formats the container instance without a db retrieval or creation.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
       <a href="#get_db_tc-instance_method" title="#get_db_tc (instance method)">#<strong>get_db_tc</strong>(top_container, resource_uri)  &#x21d2; Object </a>
     
 
@@ -240,6 +263,29 @@
 
   
     <span class="summary_desc"><div class='inline'><p>returns a top container JSONModel.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#get_top_container_json_from_hash-instance_method" title="#get_top_container_json_from_hash (instance method)">#<strong>get_top_container_json_from_hash</strong>(type, indicator, barcode, resource)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
 </div></span>
   
 </li>
@@ -363,7 +409,7 @@
   
   
   <h3 class="inherited">Methods included from <span class='object_link'><a href="BulkImportMixins.html" title="BulkImportMixins (module)">BulkImportMixins</a></span></h3>
-  <p class="inherited"><span class='object_link'><a href="BulkImportMixins.html#ao_save-instance_method" title="BulkImportMixins#ao_save (method)">#ao_save</a></span>, <span class='object_link'><a href="BulkImportMixins.html#archival_object_from_ref-instance_method" title="BulkImportMixins#archival_object_from_ref (method)">#archival_object_from_ref</a></span>, <span class='object_link'><a href="BulkImportMixins.html#archival_object_from_ref_or_uri-instance_method" title="BulkImportMixins#archival_object_from_ref_or_uri (method)">#archival_object_from_ref_or_uri</a></span>, <span class='object_link'><a href="BulkImportMixins.html#archival_object_from_uri-instance_method" title="BulkImportMixins#archival_object_from_uri (method)">#archival_object_from_uri</a></span>, <span class='object_link'><a href="BulkImportMixins.html#create_date-instance_method" title="BulkImportMixins#create_date (method)">#create_date</a></span>, <span class='object_link'><a href="BulkImportMixins.html#created-instance_method" title="BulkImportMixins#created (method)">#created</a></span>, <span class='object_link'><a href="BulkImportMixins.html#handle_notes-instance_method" title="BulkImportMixins#handle_notes (method)">#handle_notes</a></span>, <span class='object_link'><a href="BulkImportMixins.html#resolves-instance_method" title="BulkImportMixins#resolves (method)">#resolves</a></span>, <span class='object_link'><a href="BulkImportMixins.html#resource_match-instance_method" title="BulkImportMixins#resource_match (method)">#resource_match</a></span>, <span class='object_link'><a href="BulkImportMixins.html#test_exceptions-instance_method" title="BulkImportMixins#test_exceptions (method)">#test_exceptions</a></span>, <span class='object_link'><a href="BulkImportMixins.html#valid-instance_method" title="BulkImportMixins#valid (method)">#valid</a></span>, <span class='object_link'><a href="BulkImportMixins.html#value_check-instance_method" title="BulkImportMixins#value_check (method)">#value_check</a></span></p>
+  <p class="inherited"><span class='object_link'><a href="BulkImportMixins.html#ao_save-instance_method" title="BulkImportMixins#ao_save (method)">#ao_save</a></span>, <span class='object_link'><a href="BulkImportMixins.html#archival_object_from_ref-instance_method" title="BulkImportMixins#archival_object_from_ref (method)">#archival_object_from_ref</a></span>, <span class='object_link'><a href="BulkImportMixins.html#archival_object_from_ref_or_uri-instance_method" title="BulkImportMixins#archival_object_from_ref_or_uri (method)">#archival_object_from_ref_or_uri</a></span>, <span class='object_link'><a href="BulkImportMixins.html#archival_object_from_uri-instance_method" title="BulkImportMixins#archival_object_from_uri (method)">#archival_object_from_uri</a></span>, <span class='object_link'><a href="BulkImportMixins.html#create_date-instance_method" title="BulkImportMixins#create_date (method)">#create_date</a></span>, <span class='object_link'><a href="BulkImportMixins.html#created-instance_method" title="BulkImportMixins#created (method)">#created</a></span>, <span class='object_link'><a href="BulkImportMixins.html#find_top_container-instance_method" title="BulkImportMixins#find_top_container (method)">#find_top_container</a></span>, <span class='object_link'><a href="BulkImportMixins.html#handle_notes-instance_method" title="BulkImportMixins#handle_notes (method)">#handle_notes</a></span>, <span class='object_link'><a href="BulkImportMixins.html#indicator_and_type_exist_for_resource%3F-instance_method" title="BulkImportMixins#indicator_and_type_exist_for_resource? (method)">#indicator_and_type_exist_for_resource?</a></span>, <span class='object_link'><a href="BulkImportMixins.html#resolves-instance_method" title="BulkImportMixins#resolves (method)">#resolves</a></span>, <span class='object_link'><a href="BulkImportMixins.html#resource_from_ref-instance_method" title="BulkImportMixins#resource_from_ref (method)">#resource_from_ref</a></span>, <span class='object_link'><a href="BulkImportMixins.html#resource_match-instance_method" title="BulkImportMixins#resource_match (method)">#resource_match</a></span>, <span class='object_link'><a href="BulkImportMixins.html#sub_container_from_barcode-instance_method" title="BulkImportMixins#sub_container_from_barcode (method)">#sub_container_from_barcode</a></span>, <span class='object_link'><a href="BulkImportMixins.html#test_exceptions-instance_method" title="BulkImportMixins#test_exceptions (method)">#test_exceptions</a></span>, <span class='object_link'><a href="BulkImportMixins.html#valid-instance_method" title="BulkImportMixins#valid (method)">#valid</a></span>, <span class='object_link'><a href="BulkImportMixins.html#value_check-instance_method" title="BulkImportMixins#value_check (method)">#value_check</a></span></p>
 
   
   
@@ -497,29 +543,36 @@
       <pre class="lines">
 
 
-100
-101
-102
-103
-104
-105
-106
-107
-108
-109
-110
-111
-112
-113
-114
-115
-116
-117
-118
-119</pre>
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/bulk_import/container_instance_handler.rb', line 100</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/bulk_import/container_instance_handler.rb', line 125</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_create_container_instance identifier id'>create_container_instance</span><span class='lparen token'>(</span><span class='rubyid_instance_type identifier id'>instance_type</span><span class='comma token'>,</span> <span class='rubyid_type identifier id'>type</span><span class='comma token'>,</span> <span class='rubyid_indicator identifier id'>indicator</span><span class='comma token'>,</span> <span class='rubyid_barcode identifier id'>barcode</span><span class='comma token'>,</span> <span class='rubyid_resource_uri identifier id'>resource_uri</span><span class='comma token'>,</span> <span class='rubyid_report identifier id'>report</span><span class='comma token'>,</span> <span class='rubyid_subcont identifier id'>subcont</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
   <span class='rubyid_errs identifier id'>errs</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
@@ -539,6 +592,78 @@
   <span class='rubyid_if if kw'>if</span> <span class='notop op'>!</span><span class='rubyid_errs identifier id'>errs</span><span class='dot token'>.</span><span class='rubyid_empty? fid id'>empty?</span>
     <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_BulkImportException constant id'>BulkImportException</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='rubyid_errs identifier id'>errs</span><span class='dot token'>.</span><span class='rubyid_join identifier id'>join</span><span class='lparen token'>(</span><span class='string val'>&quot;; &quot;</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
   <span class='rubyid_end end kw'>end</span>
+  <span class='dstring node'>%w(2 3)</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_num identifier id'>num</span><span class='bitor op'>|</span>
+    <span class='rubyid_if if kw'>if</span> <span class='rubyid_subcont identifier id'>subcont</span><span class='lbrack token'>[</span><span class='dstring node'>&quot;type_#{num}&quot;</span><span class='rbrack token'>]</span>
+      <span class='rubyid_sc identifier id'>sc</span><span class='lbrack token'>[</span><span class='dstring node'>&quot;type_#{num}&quot;</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_value_check identifier id'>value_check</span><span class='lparen token'>(</span><span class='rubyid_@container_types ivar id'>@container_types</span><span class='comma token'>,</span> <span class='rubyid_subcont identifier id'>subcont</span><span class='lbrack token'>[</span><span class='dstring node'>&quot;type_#{num}&quot;</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='rubyid_errs identifier id'>errs</span><span class='rparen token'>)</span>
+      <span class='rubyid_sc identifier id'>sc</span><span class='lbrack token'>[</span><span class='dstring node'>&quot;indicator_#{num}&quot;</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_subcont identifier id'>subcont</span><span class='lbrack token'>[</span><span class='dstring node'>&quot;indicator_#{num}&quot;</span><span class='rbrack token'>]</span> <span class='orop op'>||</span> <span class='string val'>&quot;Unknown&quot;</span>
+      <span class='rubyid_sc identifier id'>sc</span><span class='lbrack token'>[</span><span class='dstring node'>&quot;barcode_#{num}&quot;</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_subcont identifier id'>subcont</span><span class='lbrack token'>[</span><span class='dstring node'>&quot;barcode_#{num}&quot;</span><span class='rbrack token'>]</span> <span class='orop op'>||</span> <span class='rubyid_nil nil kw'>nil</span>
+    <span class='rubyid_end end kw'>end</span>
+  <span class='rubyid_end end kw'>end</span>
+  <span class='rubyid_instance identifier id'>instance</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="format_container_instance-instance_method">
+  
+    #<strong>format_container_instance</strong>(instance_type, tc, subcont = {})  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Formats the container instance without a db retrieval or creation</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/bulk_import/container_instance_handler.rb', line 109</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_format_container_instance identifier id'>format_container_instance</span><span class='lparen token'>(</span><span class='rubyid_instance_type identifier id'>instance_type</span><span class='comma token'>,</span> <span class='rubyid_tc identifier id'>tc</span><span class='comma token'>,</span> <span class='rubyid_subcont identifier id'>subcont</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
+  <span class='rubyid_instance identifier id'>instance</span> <span class='assign token'>=</span> <span class='rubyid_nil nil kw'>nil</span>
+  <span class='rubyid_sc identifier id'>sc</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='string val'>&#39;top_container&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span><span class='string val'>&#39;ref&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_tc identifier id'>tc</span><span class='dot token'>.</span><span class='rubyid_uri identifier id'>uri</span><span class='rbrace token'>}</span><span class='comma token'>,</span> <span class='string val'>&#39;jsonmodel_type&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;sub_container&#39;</span><span class='rbrace token'>}</span>
+  <span class='dstring node'>%w(2 3)</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_num identifier id'>num</span><span class='bitor op'>|</span>
+    <span class='rubyid_if if kw'>if</span> <span class='rubyid_subcont identifier id'>subcont</span><span class='lbrack token'>[</span><span class='dstring node'>&quot;type_#{num}&quot;</span><span class='rbrack token'>]</span>
+      <span class='rubyid_sc identifier id'>sc</span><span class='lbrack token'>[</span><span class='dstring node'>&quot;type_#{num}&quot;</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_@container_types ivar id'>@container_types</span><span class='dot token'>.</span><span class='rubyid_value identifier id'>value</span><span class='lparen token'>(</span><span class='rubyid_subcont identifier id'>subcont</span><span class='lbrack token'>[</span><span class='dstring node'>&quot;type_#{num}&quot;</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
+      <span class='rubyid_sc identifier id'>sc</span><span class='lbrack token'>[</span><span class='dstring node'>&quot;indicator_#{num}&quot;</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_subcont identifier id'>subcont</span><span class='lbrack token'>[</span><span class='dstring node'>&quot;indicator_#{num}&quot;</span><span class='rbrack token'>]</span> <span class='orop op'>||</span> <span class='string val'>&#39;Unknown&#39;</span>
+      <span class='rubyid_sc identifier id'>sc</span><span class='lbrack token'>[</span><span class='dstring node'>&quot;barcode_#{num}&quot;</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_subcont identifier id'>subcont</span><span class='lbrack token'>[</span><span class='dstring node'>&quot;barcode_#{num}&quot;</span><span class='rbrack token'>]</span> <span class='orop op'>||</span> <span class='rubyid_nil nil kw'>nil</span>
+    <span class='rubyid_end end kw'>end</span>
+  <span class='rubyid_end end kw'>end</span>
+  <span class='rubyid_instance identifier id'>instance</span> <span class='assign token'>=</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:instance</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='dot token'>.</span><span class='rubyid__always_valid! fid id'>_always_valid!</span>
+  <span class='rubyid_instance identifier id'>instance</span><span class='dot token'>.</span><span class='rubyid_instance_type identifier id'>instance_type</span> <span class='assign token'>=</span> <span class='rubyid_@instance_types ivar id'>@instance_types</span><span class='dot token'>.</span><span class='rubyid_value identifier id'>value</span><span class='lparen token'>(</span><span class='rubyid_instance_type identifier id'>instance_type</span><span class='rparen token'>)</span>
+  <span class='rubyid_instance identifier id'>instance</span><span class='dot token'>.</span><span class='rubyid_sub_container identifier id'>sub_container</span> <span class='assign token'>=</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:sub_container</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_from_hash identifier id'>from_hash</span><span class='lparen token'>(</span><span class='rubyid_sc identifier id'>sc</span><span class='rparen token'>)</span>
   <span class='rubyid_instance identifier id'>instance</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
@@ -562,20 +687,20 @@
       <pre class="lines">
 
 
-53
-54
-55
-56
-57
-58
-59
 60
 61
 62
-63</pre>
+63
+64
+65
+66
+67
+68
+69
+70</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/bulk_import/container_instance_handler.rb', line 53</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/bulk_import/container_instance_handler.rb', line 60</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_get_db_tc identifier id'>get_db_tc</span><span class='lparen token'>(</span><span class='rubyid_top_container identifier id'>top_container</span><span class='comma token'>,</span> <span class='rubyid_resource_uri identifier id'>resource_uri</span><span class='rparen token'>)</span>
   <span class='rubyid_repo_id identifier id'>repo_id</span> <span class='assign token'>=</span> <span class='rubyid_resource_uri identifier id'>resource_uri</span><span class='dot token'>.</span><span class='rubyid_split identifier id'>split</span><span class='lparen token'>(</span><span class='string val'>&quot;/&quot;</span><span class='rparen token'>)</span><span class='lbrack token'>[</span><span class='integer val'>2</span><span class='rbrack token'>]</span>
@@ -609,22 +734,22 @@
       <pre class="lines">
 
 
-65
-66
-67
-68
-69
-70
-71
 72
 73
 74
 75
 76
-77</pre>
+77
+78
+79
+80
+81
+82
+83
+84</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/bulk_import/container_instance_handler.rb', line 65</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/bulk_import/container_instance_handler.rb', line 72</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_get_db_tc_by_barcode identifier id'>get_db_tc_by_barcode</span><span class='lparen token'>(</span><span class='rubyid_barcode identifier id'>barcode</span><span class='comma token'>,</span> <span class='rubyid_repo_id identifier id'>repo_id</span><span class='rparen token'>)</span>
   <span class='rubyid_ret_tc identifier id'>ret_tc</span> <span class='assign token'>=</span> <span class='rubyid_nil nil kw'>nil</span>
@@ -670,13 +795,6 @@
       <pre class="lines">
 
 
-29
-30
-31
-32
-33
-34
-35
 36
 37
 38
@@ -692,10 +810,17 @@
 48
 49
 50
-51</pre>
+51
+52
+53
+54
+55
+56
+57
+58</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/bulk_import/container_instance_handler.rb', line 29</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/bulk_import/container_instance_handler.rb', line 36</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_get_or_create identifier id'>get_or_create</span><span class='lparen token'>(</span><span class='rubyid_type identifier id'>type</span><span class='comma token'>,</span> <span class='rubyid_indicator identifier id'>indicator</span><span class='comma token'>,</span> <span class='rubyid_barcode identifier id'>barcode</span><span class='comma token'>,</span> <span class='rubyid_resource identifier id'>resource</span><span class='comma token'>,</span> <span class='rubyid_report identifier id'>report</span><span class='rparen token'>)</span>
   <span class='rubyid_begin begin kw'>begin</span>
@@ -719,6 +844,43 @@
   <span class='rubyid_end end kw'>end</span>
   <span class='rubyid_@top_containers ivar id'>@top_containers</span><span class='lbrack token'>[</span><span class='rubyid_tc_key identifier id'>tc_key</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_existing_tc identifier id'>existing_tc</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_existing_tc identifier id'>existing_tc</span>
   <span class='rubyid_existing_tc identifier id'>existing_tc</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="get_top_container_json_from_hash-instance_method">
+  
+    #<strong>get_top_container_json_from_hash</strong>(type, indicator, barcode, resource)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+28
+29
+30
+31
+32
+33</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/bulk_import/container_instance_handler.rb', line 28</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_get_top_container_json_from_hash identifier id'>get_top_container_json_from_hash</span><span class='lparen token'>(</span><span class='rubyid_type identifier id'>type</span><span class='comma token'>,</span> <span class='rubyid_indicator identifier id'>indicator</span><span class='comma token'>,</span> <span class='rubyid_barcode identifier id'>barcode</span><span class='comma token'>,</span> <span class='rubyid_resource identifier id'>resource</span><span class='rparen token'>)</span>
+  <span class='rubyid_top_container_json identifier id'>top_container_json</span> <span class='assign token'>=</span> <span class='rubyid_build identifier id'>build</span><span class='lparen token'>(</span><span class='rubyid_type identifier id'>type</span><span class='comma token'>,</span> <span class='rubyid_indicator identifier id'>indicator</span><span class='comma token'>,</span> <span class='rubyid_barcode identifier id'>barcode</span><span class='rparen token'>)</span>
+  <span class='rubyid_tc_key identifier id'>tc_key</span> <span class='assign token'>=</span> <span class='rubyid_key_for identifier id'>key_for</span><span class='lparen token'>(</span><span class='rubyid_top_container_json identifier id'>top_container_json</span><span class='comma token'>,</span> <span class='rubyid_resource identifier id'>resource</span><span class='rparen token'>)</span>
+  <span class='rubyid_tc identifier id'>tc</span> <span class='assign token'>=</span> <span class='rubyid_@top_containers ivar id'>@top_containers</span><span class='dot token'>.</span><span class='rubyid_fetch identifier id'>fetch</span><span class='lparen token'>(</span><span class='rubyid_tc_key identifier id'>tc_key</span><span class='comma token'>,</span> <span class='rubyid_nil nil kw'>nil</span><span class='rparen token'>)</span>
+  <span class='rubyid_tc identifier id'>tc</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -821,13 +983,6 @@ no_tc: “Unable to create Top Container %number: [%why]”</p>
       <pre class="lines">
 
 
-84
-85
-86
-87
-88
-89
-90
 91
 92
 93
@@ -835,10 +990,18 @@ no_tc: “Unable to create Top Container %number: [%why]”</p>
 95
 96
 97
-98</pre>
+98
+99
+100
+101
+102
+103
+104
+105
+106</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/bulk_import/container_instance_handler.rb', line 84</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/bulk_import/container_instance_handler.rb', line 91</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_validate_container_instance identifier id'>validate_container_instance</span><span class='lparen token'>(</span><span class='rubyid_instance_type identifier id'>instance_type</span><span class='comma token'>,</span> <span class='rubyid_type identifier id'>type</span><span class='comma token'>,</span> <span class='rubyid_instance identifier id'>instance</span><span class='comma token'>,</span> <span class='rubyid_errs identifier id'>errs</span><span class='comma token'>,</span> <span class='rubyid_subcont identifier id'>subcont</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
   <span class='rubyid_sc identifier id'>sc</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span> <span class='string val'>&quot;jsonmodeltype&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;sub_container&quot;</span> <span class='rbrace token'>}</span>
@@ -851,6 +1014,7 @@ no_tc: “Unable to create Top Container %number: [%why]”</p>
     <span class='rubyid_if if kw'>if</span> <span class='rubyid_subcont identifier id'>subcont</span><span class='lbrack token'>[</span><span class='dstring node'>&quot;type_#{num}&quot;</span><span class='rbrack token'>]</span>
       <span class='rubyid_sc identifier id'>sc</span><span class='lbrack token'>[</span><span class='dstring node'>&quot;type_#{num}&quot;</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_value_check identifier id'>value_check</span><span class='lparen token'>(</span><span class='rubyid_@container_types ivar id'>@container_types</span><span class='comma token'>,</span> <span class='rubyid_subcont identifier id'>subcont</span><span class='lbrack token'>[</span><span class='dstring node'>&quot;type_#{num}&quot;</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='rubyid_errs identifier id'>errs</span><span class='rparen token'>)</span>
       <span class='rubyid_sc identifier id'>sc</span><span class='lbrack token'>[</span><span class='dstring node'>&quot;indicator_#{num}&quot;</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_subcont identifier id'>subcont</span><span class='lbrack token'>[</span><span class='dstring node'>&quot;indicator_#{num}&quot;</span><span class='rbrack token'>]</span> <span class='orop op'>||</span> <span class='string val'>&quot;Unknown&quot;</span>
+      <span class='rubyid_sc identifier id'>sc</span><span class='lbrack token'>[</span><span class='dstring node'>&quot;barcode_#{num}&quot;</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_subcont identifier id'>subcont</span><span class='lbrack token'>[</span><span class='dstring node'>&quot;barcode_#{num}&quot;</span><span class='rbrack token'>]</span> <span class='orop op'>||</span> <span class='rubyid_nil nil kw'>nil</span>
     <span class='rubyid_end end kw'>end</span>
   <span class='rubyid_end end kw'>end</span>
   <span class='rubyid_sc identifier id'>sc</span>
@@ -866,9 +1030,9 @@ no_tc: “Unable to create Top Container %number: [%why]”</p>
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.8.1.a Documentation Generated on Wed Nov 11 13:22:10 2020 by
+  ArchivesSpace Version X.Y.Z Documentation Generated on Tue Sep 21 14:10:03 2021 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.25.
+  0.9.26.
 </div>
 
     </div>

@@ -76,6 +76,8 @@ string	monetary_value_note
 
 string	conservation_note
 
+array (JSONModel(:external_document) object)	external_documents
+
 array (Object (ref, _resolved))	collections
 
 

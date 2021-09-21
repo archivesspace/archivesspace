@@ -6,7 +6,7 @@
 <title>
   Module: RelatedAgents
   
-    &mdash; Documentation by YARD 0.9.25
+    &mdash; Documentation by YARD 0.9.26
   
 </title>
 
@@ -201,14 +201,30 @@
 14
 15
 16
-17</pre>
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'backend/app/model/mixins/related_agents.rb', line 6</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_included identifier id'>included</span><span class='lparen token'>(</span><span class='rubyid_base identifier id'>base</span><span class='rparen token'>)</span>
-  <span class='rubyid_callback identifier id'>callback</span> <span class='assign token'>=</span> <span class='rubyid_proc identifier id'>proc</span> <span class='lbrace token'>{</span> <span class='bitor op'>|</span><span class='rubyid_clz identifier id'>clz</span><span class='bitor op'>|</span> <span class='rubyid_RelatedAgents constant id'>RelatedAgents</span><span class='dot token'>.</span><span class='rubyid_set_up_date_record_handling identifier id'>set_up_date_record_handling</span><span class='lparen token'>(</span><span class='rubyid_clz identifier id'>clz</span><span class='rparen token'>)</span> <span class='rbrace token'>}</span>
-
   <span class='rubyid_base identifier id'>base</span><span class='dot token'>.</span><span class='rubyid_include identifier id'>include</span><span class='lparen token'>(</span><span class='rubyid_DirectionalRelationships constant id'>DirectionalRelationships</span><span class='rparen token'>)</span>
 
   <span class='rubyid_base identifier id'>base</span><span class='dot token'>.</span><span class='rubyid_define_directional_relationship identifier id'>define_directional_relationship</span><span class='lparen token'>(</span><span class='symbol val'>:name</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:related_agents</span><span class='comma token'>,</span>
@@ -216,7 +232,27 @@
                                        <span class='symbol val'>:contains_references_to_types</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_proc identifier id'>proc</span> <span class='lbrace token'>{</span>
                                          <span class='rubyid_AgentManager constant id'>AgentManager</span><span class='dot token'>.</span><span class='rubyid_registered_agents identifier id'>registered_agents</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_a identifier id'>a</span><span class='bitor op'>|</span> <span class='rubyid_a identifier id'>a</span><span class='lbrack token'>[</span><span class='symbol val'>:model</span><span class='rbrack token'>]</span><span class='rbrace token'>}</span>
                                        <span class='rbrace token'>}</span><span class='comma token'>,</span>
-                                       <span class='symbol val'>:class_callback</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_callback identifier id'>callback</span><span class='rparen token'>)</span>
+                                       <span class='symbol val'>:class_callback</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_proc identifier id'>proc</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_clz identifier id'>clz</span><span class='bitor op'>|</span>
+                                         <span class='rubyid_clz identifier id'>clz</span><span class='dot token'>.</span><span class='rubyid_instance_eval identifier id'>instance_eval</span> <span class='rubyid_do do kw'>do</span>
+                                           <span class='rubyid_include identifier id'>include</span> <span class='rubyid_DynamicEnums constant id'>DynamicEnums</span>
+                                           <span class='rubyid_uses_enums identifier id'>uses_enums</span><span class='lparen token'>(</span><span class='lbrace token'>{</span>
+                                                        <span class='symbol val'>:property</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;relator&#39;</span><span class='comma token'>,</span>
+                                                        <span class='symbol val'>:uses_enum</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='dstring node'>%w[agent_relationship_associative_relator
+                                                                         agent_relationship_earlierlater_relator
+                                                                         agent_relationship_parentchild_relator
+                                                                         agent_relationship_subordinatesuperior_relator
+                                                                         agent_relationship_identity_relator
+                                                                         agent_relationship_hierarchical_relator
+                                                                         agent_relationship_temporal_relator
+                                                                         agent_relationship_family_relator]</span>
+                                                      <span class='rbrace token'>}</span><span class='comma token'>,</span>
+                                                      <span class='lbrace token'>{</span>
+                                                        <span class='symbol val'>:property</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;specific_relator&#39;</span><span class='comma token'>,</span>
+                                                        <span class='symbol val'>:uses_enum</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;agent_relationship_specific_relator&#39;</span>
+                                                      <span class='rbrace token'>}</span><span class='rparen token'>)</span>
+                                         <span class='rubyid_end end kw'>end</span>
+                                         <span class='rubyid_RelatedAgents constant id'>RelatedAgents</span><span class='dot token'>.</span><span class='rubyid_set_up_date_record_handling identifier id'>set_up_date_record_handling</span><span class='lparen token'>(</span><span class='rubyid_clz identifier id'>clz</span><span class='rparen token'>)</span>
+                                       <span class='rbrace token'>}</span><span class='rparen token'>)</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -250,24 +286,6 @@ record to capture the dates.</p>
       <pre class="lines">
 
 
-22
-23
-24
-25
-26
-27
-28
-29
-30
-31
-32
-33
-34
-35
-36
-37
-38
-39
 40
 41
 42
@@ -289,15 +307,33 @@ record to capture the dates.</p>
 58
 59
 60
-61</pre>
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/related_agents.rb', line 22</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/related_agents.rb', line 40</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_set_up_date_record_handling identifier id'>set_up_date_record_handling</span><span class='lparen token'>(</span><span class='rubyid_relationship_clz identifier id'>relationship_clz</span><span class='rparen token'>)</span>
   <span class='rubyid_relationship_clz identifier id'>relationship_clz</span><span class='dot token'>.</span><span class='rubyid_instance_eval identifier id'>instance_eval</span> <span class='rubyid_do do kw'>do</span>
     <span class='rubyid_extend identifier id'>extend</span> <span class='rubyid_JSONModel constant id'>JSONModel</span>
-    <span class='rubyid_one_to_one identifier id'>one_to_one</span> <span class='symbol val'>:relationship_date</span><span class='comma token'>,</span> <span class='symbol val'>:class</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;ASDate&quot;</span><span class='comma token'>,</span> <span class='symbol val'>:key</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:related_agents_rlshp_id</span>
+    <span class='rubyid_one_to_one identifier id'>one_to_one</span> <span class='symbol val'>:relationship_date</span><span class='comma token'>,</span> <span class='symbol val'>:class</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;StructuredDateLabel&quot;</span><span class='comma token'>,</span> <span class='symbol val'>:key</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:related_agents_rlshp_id</span>
 
     <span class='rubyid_include identifier id'>include</span> <span class='rubyid_ASModel constant id'>ASModel</span><span class='colon2 op'>::</span><span class='rubyid_SequelHooks constant id'>SequelHooks</span>
 
@@ -306,7 +342,7 @@ record to capture the dates.</p>
       <span class='rubyid_obj identifier id'>obj</span> <span class='assign token'>=</span> <span class='rubyid_super super kw'>super</span>
 
       <span class='rubyid_if if kw'>if</span> <span class='rubyid_date_values identifier id'>date_values</span>
-        <span class='rubyid_date identifier id'>date</span> <span class='assign token'>=</span> <span class='rubyid_ASDate constant id'>ASDate</span><span class='dot token'>.</span><span class='rubyid_create_from_json identifier id'>create_from_json</span><span class='lparen token'>(</span><span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:date</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_from_hash identifier id'>from_hash</span><span class='lparen token'>(</span><span class='rubyid_date_values identifier id'>date_values</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
+        <span class='rubyid_date identifier id'>date</span> <span class='assign token'>=</span> <span class='rubyid_StructuredDateLabel constant id'>StructuredDateLabel</span><span class='dot token'>.</span><span class='rubyid_create_from_json identifier id'>create_from_json</span><span class='lparen token'>(</span><span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:structured_date_label</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_from_hash identifier id'>from_hash</span><span class='lparen token'>(</span><span class='rubyid_date_values identifier id'>date_values</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
         <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_relationship_date identifier id'>relationship_date</span> <span class='assign token'>=</span> <span class='rubyid_date identifier id'>date</span>
         <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_save identifier id'>save</span>
       <span class='rubyid_end end kw'>end</span>
@@ -327,7 +363,7 @@ record to capture the dates.</p>
       <span class='rubyid_result identifier id'>result</span> <span class='assign token'>=</span> <span class='rubyid_values_orig identifier id'>values_orig</span>
 
       <span class='rubyid_if if kw'>if</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_relationship_date identifier id'>relationship_date</span>
-        <span class='rubyid_result identifier id'>result</span><span class='lbrack token'>[</span><span class='string val'>&#39;dates&#39;</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_ASDate constant id'>ASDate</span><span class='dot token'>.</span><span class='rubyid_to_jsonmodel identifier id'>to_jsonmodel</span><span class='lparen token'>(</span><span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_relationship_date identifier id'>relationship_date</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_to_hash identifier id'>to_hash</span>
+        <span class='rubyid_result identifier id'>result</span><span class='lbrack token'>[</span><span class='string val'>&#39;dates&#39;</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_StructuredDateLabel constant id'>StructuredDateLabel</span><span class='dot token'>.</span><span class='rubyid_to_jsonmodel identifier id'>to_jsonmodel</span><span class='lparen token'>(</span><span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_relationship_date identifier id'>relationship_date</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_to_hash identifier id'>to_hash</span>
       <span class='rubyid_end end kw'>end</span>
 
       <span class='rubyid_result identifier id'>result</span>
@@ -345,9 +381,9 @@ record to capture the dates.</p>
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.8.1.a Documentation Generated on Wed Nov 11 13:21:29 2020 by
+  ArchivesSpace Version X.Y.Z Documentation Generated on Tue Sep 21 14:09:32 2021 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.25.
+  0.9.26.
 </div>
 
     </div>

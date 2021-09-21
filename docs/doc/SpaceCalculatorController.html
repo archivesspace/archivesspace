@@ -6,7 +6,7 @@
 <title>
   Class: SpaceCalculatorController
   
-    &mdash; Documentation by YARD 0.9.25
+    &mdash; Documentation by YARD 0.9.26
   
 </title>
 
@@ -305,7 +305,7 @@
 
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:location</span><span class='rbrack token'>]</span>
     <span class='comment val'># by location(s)</span>
-    <span class='rubyid_@location_refs ivar id'>@location_refs</span> <span class='assign token'>=</span> <span class='rubyid_ASUtils constant id'>ASUtils</span><span class='dot token'>.</span><span class='rubyid_wrap identifier id'>wrap</span><span class='lparen token'>(</span><span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:location</span><span class='rbrack token'>]</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span><span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_loc identifier id'>loc</span><span class='bitor op'>|</span> <span class='rubyid_loc identifier id'>loc</span><span class='lbrack token'>[</span><span class='symbol val'>:ref</span><span class='rbrack token'>]</span><span class='rbrace token'>}</span><span class='dot token'>.</span><span class='rubyid_flatten identifier id'>flatten</span><span class='dot token'>.</span><span class='rubyid_compact identifier id'>compact</span>
+    <span class='rubyid_@location_refs ivar id'>@location_refs</span> <span class='assign token'>=</span> <span class='rubyid_ASUtils constant id'>ASUtils</span><span class='dot token'>.</span><span class='rubyid_wrap identifier id'>wrap</span><span class='lparen token'>(</span><span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:location</span><span class='rbrack token'>]</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_loc identifier id'>loc</span><span class='bitor op'>|</span> <span class='rubyid_loc identifier id'>loc</span><span class='lbrack token'>[</span><span class='symbol val'>:ref</span><span class='rbrack token'>]</span><span class='rbrace token'>}</span><span class='dot token'>.</span><span class='rubyid_flatten identifier id'>flatten</span><span class='dot token'>.</span><span class='rubyid_compact identifier id'>compact</span>
 
     <span class='rubyid_if if kw'>if</span> <span class='rubyid_@container_profile_ref ivar id'>@container_profile_ref</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_@location_refs ivar id'>@location_refs</span>
       <span class='rubyid_@results ivar id'>@results</span> <span class='assign token'>=</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='colon2 op'>::</span><span class='rubyid_HTTP constant id'>HTTP</span><span class='dot token'>.</span><span class='rubyid_get_json identifier id'>get_json</span><span class='lparen token'>(</span><span class='string val'>&quot;/space_calculator/by_location&quot;</span><span class='comma token'>,</span> <span class='lbrace token'>{</span>
@@ -335,7 +335,7 @@
 
   <span class='rubyid_@selectable ivar id'>@selectable</span> <span class='assign token'>=</span> <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:selectable</span><span class='rbrack token'>]</span> <span class='eq op'>==</span> <span class='string val'>&quot;true&quot;</span>
 
-  <span class='rubyid_render_aspace_partial identifier id'>render_aspace_partial</span> <span class='symbol val'>:partial</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span>  <span class='string val'>&quot;space_calculator/results&quot;</span>
+  <span class='rubyid_render_aspace_partial identifier id'>render_aspace_partial</span> <span class='symbol val'>:partial</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;space_calculator/results&quot;</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -399,9 +399,9 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.8.1.a Documentation Generated on Wed Nov 11 13:22:19 2020 by
+  ArchivesSpace Version X.Y.Z Documentation Generated on Tue Sep 21 14:10:09 2021 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.25.
+  0.9.26.
 </div>
 
     </div>

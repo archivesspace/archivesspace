@@ -6,7 +6,7 @@
 <title>
   Class: UserDefinedFieldMigrator
   
-    &mdash; Documentation by YARD 0.9.25
+    &mdash; Documentation by YARD 0.9.26
   
 </title>
 
@@ -551,7 +551,6 @@
       <pre class="code"><span class="info file"># File 'backend/app/lib/user_defined_field_migrator.rb', line 100</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_migrate identifier id'>migrate</span>
-
   <span class='rubyid_raise identifier id'>raise</span> <span class='string val'>&quot;No target ArchivesSpace repository was specified.  You will need to set AppConfig[:at_target_aspace_repo]&quot;</span> <span class='rubyid_unless unless_mod kw'>unless</span> <span class='rubyid_AppConfig constant id'>AppConfig</span><span class='dot token'>.</span><span class='rubyid_has_key? fid id'>has_key?</span><span class='lparen token'>(</span><span class='symbol val'>:at_target_aspace_repo</span><span class='rparen token'>)</span>
 
   <span class='rubyid_repo identifier id'>repo</span> <span class='assign token'>=</span> <span class='rubyid_Repository constant id'>Repository</span><span class='lbrack token'>[</span><span class='symbol val'>:repo_code</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_AppConfig constant id'>AppConfig</span><span class='lbrack token'>[</span><span class='symbol val'>:at_target_aspace_repo</span><span class='rbrack token'>]</span><span class='rbrack token'>]</span>
@@ -625,6 +624,7 @@
                   <span class='rubyid_filter identifier id'>filter</span><span class='lparen token'>(</span><span class='symbol val'>:top_container_id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_top_container identifier id'>top_container</span><span class='dot token'>.</span><span class='rubyid_id identifier id'>id</span><span class='rparen token'>)</span><span class='dot token'>.</span>
                   <span class='rubyid_where identifier id'>where</span> <span class='lbrace token'>{</span> <span class='rubyid_Sequel constant id'>Sequel</span><span class='dot token'>.</span><span class='bitnot op'>~</span><span class='lparen token'>(</span><span class='symbol val'>:accession_id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_nil nil kw'>nil</span><span class='rparen token'>)</span> <span class='rbrace token'>}</span><span class='dot token'>.</span>
                   <span class='rubyid_count identifier id'>count</span> <span class='gt op'>&gt;</span> <span class='integer val'>0</span>
+
                 <span class='comment val'># That&#39;s OK.  The top container is linked to an accession, so</span>
                 <span class='comment val'># not a huge problem that we didn&#39;t find a match.</span>
                 <span class='rubyid_true true kw'>true</span>
@@ -651,9 +651,9 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.8.1.a Documentation Generated on Wed Nov 11 13:22:07 2020 by
+  ArchivesSpace Version X.Y.Z Documentation Generated on Tue Sep 21 14:10:00 2021 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.25.
+  0.9.26.
 </div>
 
     </div>

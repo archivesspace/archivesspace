@@ -6,7 +6,7 @@
 <title>
   Class: Group
   
-    &mdash; Documentation by YARD 0.9.25
+    &mdash; Documentation by YARD 0.9.26
   
 </title>
 
@@ -561,12 +561,12 @@
       <pre class="lines">
 
 
-139
 140
-141</pre>
+141
+142</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/group.rb', line 139</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/group.rb', line 140</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_broadcast_changes identifier id'>broadcast_changes</span>
   <span class='rubyid_Notifications constant id'>Notifications</span><span class='dot token'>.</span><span class='rubyid_notify identifier id'>notify</span><span class='lparen token'>(</span><span class='string val'>&quot;REFRESH_ACLS&quot;</span><span class='rparen token'>)</span>
@@ -695,7 +695,6 @@
       <pre class="lines">
 
 
-115
 116
 117
 118
@@ -707,10 +706,11 @@
 124
 125
 126
-127</pre>
+127
+128</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/group.rb', line 115</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/group.rb', line 116</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_sequel_to_jsonmodel identifier id'>sequel_to_jsonmodel</span><span class='lparen token'>(</span><span class='rubyid_objs identifier id'>objs</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
   <span class='rubyid_jsons identifier id'>jsons</span> <span class='assign token'>=</span> <span class='rubyid_super super kw'>super</span>
@@ -913,12 +913,12 @@
       <pre class="lines">
 
 
-153
 154
-155</pre>
+155
+156</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/group.rb', line 153</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/group.rb', line 154</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_transfer_all identifier id'>transfer_all</span><span class='lparen token'>(</span><span class='rubyid_source_repository identifier id'>source_repository</span><span class='comma token'>,</span> <span class='rubyid_target_repository identifier id'>target_repository</span><span class='rparen token'>)</span>
   <span class='comment val'># Groups aren&#39;t candidates for being transferred, so we don&#39;t call super.</span>
@@ -985,16 +985,16 @@
       <pre class="lines">
 
 
-144
 145
 146
 147
 148
 149
-150</pre>
+150
+151</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/group.rb', line 144</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/group.rb', line 145</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_delete identifier id'>delete</span>
   <span class='rubyid_remove_all_permission identifier id'>remove_all_permission</span>
@@ -1031,7 +1031,8 @@
 109
 110
 111
-112</pre>
+112
+113</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'backend/app/model/group.rb', line 105</span>
@@ -1041,6 +1042,7 @@
 
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_db identifier id'>db</span><span class='lbrack token'>[</span><span class='symbol val'>:group_permission</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_filter identifier id'>filter</span><span class='lparen token'>(</span><span class='symbol val'>:group_id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_id identifier id'>id</span><span class='comma token'>,</span>
                                              <span class='symbol val'>:permission_id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_permission identifier id'>permission</span><span class='dot token'>.</span><span class='rubyid_id identifier id'>id</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_empty? fid id'>empty?</span>
+
     <span class='rubyid_add_permission identifier id'>add_permission</span><span class='lparen token'>(</span><span class='rubyid_permission identifier id'>permission</span><span class='rparen token'>)</span>
   <span class='rubyid_end end kw'>end</span>
 <span class='rubyid_end end kw'>end</span>
@@ -1106,16 +1108,16 @@
       <pre class="lines">
 
 
-130
 131
 132
 133
 134
 135
-136</pre>
+136
+137</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/group.rb', line 130</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/group.rb', line 131</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_validate identifier id'>validate</span>
   <span class='rubyid_super super kw'>super</span>
@@ -1135,9 +1137,9 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.8.1.a Documentation Generated on Wed Nov 11 13:21:42 2020 by
+  ArchivesSpace Version X.Y.Z Documentation Generated on Tue Sep 21 14:09:42 2021 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.25.
+  0.9.26.
 </div>
 
     </div>

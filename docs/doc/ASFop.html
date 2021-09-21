@@ -6,7 +6,7 @@
 <title>
   Class: ASFop
   
-    &mdash; Documentation by YARD 0.9.25
+    &mdash; Documentation by YARD 0.9.26
   
 </title>
 
@@ -386,15 +386,15 @@
       <pre class="code"><span class="info file"># File 'backend/app/lib/AS_fop.rb', line 23</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_initialize identifier id'>initialize</span><span class='lparen token'>(</span><span class='rubyid_source identifier id'>source</span><span class='comma token'>,</span> <span class='rubyid_output identifier id'>output</span><span class='assign token'>=</span> <span class='rubyid_nil nil kw'>nil</span><span class='comma token'>,</span> <span class='rubyid_pdf_image identifier id'>pdf_image</span><span class='rparen token'>)</span>
- <span class='rubyid_@source ivar id'>@source</span> <span class='assign token'>=</span> <span class='rubyid_source identifier id'>source</span>
- <span class='rubyid_@output ivar id'>@output</span> <span class='assign token'>=</span> <span class='rubyid_output identifier id'>output</span> <span class='integer val'>? </span><span class='rubyid_output identifier id'>output</span> <span class='colon op'>:</span> <span class='rubyid_ASUtils constant id'>ASUtils</span><span class='dot token'>.</span><span class='rubyid_tempfile identifier id'>tempfile</span><span class='lparen token'>(</span><span class='string val'>&#39;fop.pdf&#39;</span><span class='rparen token'>)</span>
- <span class='rubyid_if if kw'>if</span> <span class='rubyid_pdf_image identifier id'>pdf_image</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span>
-   <span class='rubyid_@pdf_image ivar id'>@pdf_image</span> <span class='assign token'>=</span> <span class='string val'>&quot;file:///&quot;</span> <span class='plus op'>+</span> <span class='rubyid_File constant id'>File</span><span class='dot token'>.</span><span class='rubyid_absolute_path identifier id'>absolute_path</span><span class='lparen token'>(</span><span class='rubyid_StaticAssetFinder constant id'>StaticAssetFinder</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='rubyid_File constant id'>File</span><span class='dot token'>.</span><span class='rubyid_join identifier id'>join</span><span class='lparen token'>(</span><span class='string val'>&#39;stylesheets&#39;</span><span class='rparen token'>)</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_find identifier id'>find</span><span class='lparen token'>(</span><span class='string val'>&#39;archivesspace.small.png&#39;</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
- <span class='rubyid_else else kw'>else</span>
-   <span class='rubyid_@pdf_image ivar id'>@pdf_image</span> <span class='assign token'>=</span> <span class='rubyid_pdf_image identifier id'>pdf_image</span>
- <span class='rubyid_end end kw'>end</span>
- <span class='rubyid_@xslt ivar id'>@xslt</span> <span class='assign token'>=</span> <span class='rubyid_File constant id'>File</span><span class='dot token'>.</span><span class='rubyid_read identifier id'>read</span><span class='lparen token'>(</span> <span class='rubyid_StaticAssetFinder constant id'>StaticAssetFinder</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='rubyid_File constant id'>File</span><span class='dot token'>.</span><span class='rubyid_join identifier id'>join</span><span class='lparen token'>(</span><span class='string val'>&#39;stylesheets&#39;</span><span class='rparen token'>)</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_find identifier id'>find</span><span class='lparen token'>(</span><span class='string val'>&#39;as-ead-pdf.xsl&#39;</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
- <span class='rubyid_@config ivar id'>@config</span> <span class='assign token'>=</span> <span class='rubyid_java identifier id'>java</span><span class='dot token'>.</span><span class='rubyid_io identifier id'>io</span><span class='dot token'>.</span><span class='rubyid_File constant id'>File</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='rubyid_StaticAssetFinder constant id'>StaticAssetFinder</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='rubyid_File constant id'>File</span><span class='dot token'>.</span><span class='rubyid_join identifier id'>join</span><span class='lparen token'>(</span><span class='string val'>&#39;stylesheets&#39;</span><span class='rparen token'>)</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_find identifier id'>find</span><span class='lparen token'>(</span><span class='string val'>&#39;fop-config.xml&#39;</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
+  <span class='rubyid_@source ivar id'>@source</span> <span class='assign token'>=</span> <span class='rubyid_source identifier id'>source</span>
+  <span class='rubyid_@output ivar id'>@output</span> <span class='assign token'>=</span> <span class='rubyid_output identifier id'>output</span> <span class='integer val'>? </span><span class='rubyid_output identifier id'>output</span> <span class='colon op'>:</span> <span class='rubyid_ASUtils constant id'>ASUtils</span><span class='dot token'>.</span><span class='rubyid_tempfile identifier id'>tempfile</span><span class='lparen token'>(</span><span class='string val'>&#39;fop.pdf&#39;</span><span class='rparen token'>)</span>
+  <span class='rubyid_if if kw'>if</span> <span class='rubyid_pdf_image identifier id'>pdf_image</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span>
+    <span class='rubyid_@pdf_image ivar id'>@pdf_image</span> <span class='assign token'>=</span> <span class='string val'>&quot;file:///&quot;</span> <span class='plus op'>+</span> <span class='rubyid_File constant id'>File</span><span class='dot token'>.</span><span class='rubyid_absolute_path identifier id'>absolute_path</span><span class='lparen token'>(</span><span class='rubyid_StaticAssetFinder constant id'>StaticAssetFinder</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='rubyid_File constant id'>File</span><span class='dot token'>.</span><span class='rubyid_join identifier id'>join</span><span class='lparen token'>(</span><span class='string val'>&#39;stylesheets&#39;</span><span class='rparen token'>)</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_find identifier id'>find</span><span class='lparen token'>(</span><span class='string val'>&#39;archivesspace.small.png&#39;</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
+  <span class='rubyid_else else kw'>else</span>
+    <span class='rubyid_@pdf_image ivar id'>@pdf_image</span> <span class='assign token'>=</span> <span class='rubyid_pdf_image identifier id'>pdf_image</span>
+  <span class='rubyid_end end kw'>end</span>
+  <span class='rubyid_@xslt ivar id'>@xslt</span> <span class='assign token'>=</span> <span class='rubyid_File constant id'>File</span><span class='dot token'>.</span><span class='rubyid_read identifier id'>read</span><span class='lparen token'>(</span> <span class='rubyid_StaticAssetFinder constant id'>StaticAssetFinder</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='rubyid_File constant id'>File</span><span class='dot token'>.</span><span class='rubyid_join identifier id'>join</span><span class='lparen token'>(</span><span class='string val'>&#39;stylesheets&#39;</span><span class='rparen token'>)</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_find identifier id'>find</span><span class='lparen token'>(</span><span class='string val'>&#39;as-ead-pdf.xsl&#39;</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
+  <span class='rubyid_@config ivar id'>@config</span> <span class='assign token'>=</span> <span class='rubyid_java identifier id'>java</span><span class='dot token'>.</span><span class='rubyid_io identifier id'>io</span><span class='dot token'>.</span><span class='rubyid_File constant id'>File</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='rubyid_StaticAssetFinder constant id'>StaticAssetFinder</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='rubyid_File constant id'>File</span><span class='dot token'>.</span><span class='rubyid_join identifier id'>join</span><span class='lparen token'>(</span><span class='string val'>&#39;stylesheets&#39;</span><span class='rparen token'>)</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_find identifier id'>find</span><span class='lparen token'>(</span><span class='string val'>&#39;fop-config.xml&#39;</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -693,7 +693,7 @@
   <span class='rubyid_begin begin kw'>begin</span>
     <span class='rubyid_to_fo identifier id'>to_fo</span><span class='lparen token'>(</span><span class='rubyid_fop_processor identifier id'>fop_processor</span><span class='dot token'>.</span><span class='rubyid_getDefaultHandler identifier id'>getDefaultHandler</span><span class='rparen token'>)</span>
   <span class='rubyid_ensure ensure kw'>ensure</span>
-   <span class='rubyid_@output ivar id'>@output</span><span class='dot token'>.</span><span class='rubyid_close identifier id'>close</span>
+    <span class='rubyid_@output ivar id'>@output</span><span class='dot token'>.</span><span class='rubyid_close identifier id'>close</span>
   <span class='rubyid_end end kw'>end</span>
   <span class='rubyid_@output ivar id'>@output</span>
 <span class='rubyid_end end kw'>end</span>
@@ -738,8 +738,8 @@
     <span class='rubyid_@output ivar id'>@output</span><span class='dot token'>.</span><span class='rubyid_rewind identifier id'>rewind</span>
     <span class='rubyid_@output ivar id'>@output</span><span class='dot token'>.</span><span class='rubyid_read identifier id'>read</span>
   <span class='rubyid_ensure ensure kw'>ensure</span>
-   <span class='rubyid_@output ivar id'>@output</span><span class='dot token'>.</span><span class='rubyid_close identifier id'>close</span>
-   <span class='rubyid_@output ivar id'>@output</span><span class='dot token'>.</span><span class='rubyid_unlink identifier id'>unlink</span>
+    <span class='rubyid_@output ivar id'>@output</span><span class='dot token'>.</span><span class='rubyid_close identifier id'>close</span>
+    <span class='rubyid_@output ivar id'>@output</span><span class='dot token'>.</span><span class='rubyid_unlink identifier id'>unlink</span>
   <span class='rubyid_end end kw'>end</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
@@ -753,9 +753,9 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.8.1.a Documentation Generated on Wed Nov 11 13:21:41 2020 by
+  ArchivesSpace Version X.Y.Z Documentation Generated on Tue Sep 21 14:09:41 2021 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.25.
+  0.9.26.
 </div>
 
     </div>

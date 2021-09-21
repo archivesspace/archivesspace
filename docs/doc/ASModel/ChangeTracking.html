@@ -6,7 +6,7 @@
 <title>
   Module: ASModel::ChangeTracking
   
-    &mdash; Documentation by YARD 0.9.25
+    &mdash; Documentation by YARD 0.9.26
   
 </title>
 
@@ -615,7 +615,7 @@ column.</p>
       <pre class="code"><span class="info file"># File 'backend/app/model/ASModel_change_tracking.rb', line 60</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_initial_value identifier id'>initial_value</span><span class='lparen token'>(</span><span class='rubyid_column identifier id'>column</span><span class='rparen token'>)</span>
-  <span class='rubyid_initial_values identifier id'>initial_values</span><span class='dot token'>.</span><span class='rubyid_fetch identifier id'>fetch</span><span class='lparen token'>(</span><span class='rubyid_column identifier id'>column</span><span class='rparen token'>)</span><span class='lbrace token'>{</span><span class='rubyid_get_column_value identifier id'>get_column_value</span><span class='lparen token'>(</span><span class='rubyid_column identifier id'>column</span><span class='rparen token'>)</span><span class='rbrace token'>}</span>
+  <span class='rubyid_initial_values identifier id'>initial_values</span><span class='dot token'>.</span><span class='rubyid_fetch identifier id'>fetch</span><span class='lparen token'>(</span><span class='rubyid_column identifier id'>column</span><span class='rparen token'>)</span> <span class='lbrace token'>{</span><span class='rubyid_get_column_value identifier id'>get_column_value</span><span class='lparen token'>(</span><span class='rubyid_column identifier id'>column</span><span class='rparen token'>)</span><span class='rbrace token'>}</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -780,20 +780,20 @@ if you plan to modify a column value in place, which is not recommended.</p>
   <span class='rubyid_check_missing_initial_value identifier id'>check_missing_initial_value</span><span class='lparen token'>(</span><span class='rubyid_column identifier id'>column</span><span class='rparen token'>)</span>
 
   <span class='rubyid_value identifier id'>value</span> <span class='assign token'>=</span> <span class='rubyid_if if kw'>if</span> <span class='rubyid_initial_values identifier id'>initial_values</span><span class='dot token'>.</span><span class='rubyid_has_key? fid id'>has_key?</span><span class='lparen token'>(</span><span class='rubyid_column identifier id'>column</span><span class='rparen token'>)</span>
-    <span class='rubyid_initial_values identifier id'>initial_values</span><span class='lbrack token'>[</span><span class='rubyid_column identifier id'>column</span><span class='rbrack token'>]</span>
-  <span class='rubyid_else else kw'>else</span>
-    <span class='rubyid_get_column_value identifier id'>get_column_value</span><span class='lparen token'>(</span><span class='rubyid_column identifier id'>column</span><span class='rparen token'>)</span>
-  <span class='rubyid_end end kw'>end</span>
+            <span class='rubyid_initial_values identifier id'>initial_values</span><span class='lbrack token'>[</span><span class='rubyid_column identifier id'>column</span><span class='rbrack token'>]</span>
+          <span class='rubyid_else else kw'>else</span>
+            <span class='rubyid_get_column_value identifier id'>get_column_value</span><span class='lparen token'>(</span><span class='rubyid_column identifier id'>column</span><span class='rparen token'>)</span>
+          <span class='rubyid_end end kw'>end</span>
 
   <span class='rubyid_initial_values identifier id'>initial_values</span><span class='lbrack token'>[</span><span class='rubyid_column identifier id'>column</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_if if kw'>if</span> <span class='rubyid_value identifier id'>value</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_value identifier id'>value</span> <span class='neq op'>!=</span> <span class='rubyid_true true kw'>true</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_value identifier id'>value</span><span class='dot token'>.</span><span class='rubyid_respond_to? fid id'>respond_to?</span><span class='lparen token'>(</span><span class='symbol val'>:clone</span><span class='rparen token'>)</span>
-    <span class='rubyid_begin begin kw'>begin</span>
-      <span class='rubyid_value identifier id'>value</span><span class='dot token'>.</span><span class='rubyid_clone identifier id'>clone</span>
-    <span class='rubyid_rescue rescue kw'>rescue</span> <span class='rubyid_TypeError constant id'>TypeError</span>
-      <span class='rubyid_value identifier id'>value</span>
-    <span class='rubyid_end end kw'>end</span>
-  <span class='rubyid_else else kw'>else</span>
-    <span class='rubyid_value identifier id'>value</span>
-  <span class='rubyid_end end kw'>end</span>
+                             <span class='rubyid_begin begin kw'>begin</span>
+                               <span class='rubyid_value identifier id'>value</span><span class='dot token'>.</span><span class='rubyid_clone identifier id'>clone</span>
+                             <span class='rubyid_rescue rescue kw'>rescue</span> <span class='rubyid_TypeError constant id'>TypeError</span>
+                               <span class='rubyid_value identifier id'>value</span>
+                             <span class='rubyid_end end kw'>end</span>
+                           <span class='rubyid_else else kw'>else</span>
+                             <span class='rubyid_value identifier id'>value</span>
+                           <span class='rubyid_end end kw'>end</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -806,9 +806,9 @@ if you plan to modify a column value in place, which is not recommended.</p>
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.8.1.a Documentation Generated on Wed Nov 11 13:21:30 2020 by
+  ArchivesSpace Version X.Y.Z Documentation Generated on Tue Sep 21 14:09:33 2021 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.25.
+  0.9.26.
 </div>
 
     </div>

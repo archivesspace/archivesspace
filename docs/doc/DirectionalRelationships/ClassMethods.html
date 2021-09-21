@@ -6,7 +6,7 @@
 <title>
   Module: DirectionalRelationships::ClassMethods
   
-    &mdash; Documentation by YARD 0.9.25
+    &mdash; Documentation by YARD 0.9.26
   
 </title>
 
@@ -416,7 +416,8 @@
 106
 107
 108
-109</pre>
+109
+110</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'backend/app/model/mixins/directional_relationships.rb', line 79</span>
@@ -430,6 +431,7 @@
 
       <span class='rubyid_if if kw'>if</span> <span class='lparen token'>(</span><span class='rubyid_relationship identifier id'>relationship</span><span class='lbrack token'>[</span><span class='string val'>&#39;relationship_target_record_type&#39;</span><span class='rbrack token'>]</span> <span class='eq op'>==</span> <span class='rubyid_ref identifier id'>ref</span><span class='lbrack token'>[</span><span class='symbol val'>:type</span><span class='rbrack token'>]</span> <span class='andop op'>&amp;&amp;</span>
           <span class='rubyid_relationship identifier id'>relationship</span><span class='lbrack token'>[</span><span class='string val'>&#39;relationship_target_id&#39;</span><span class='rbrack token'>]</span> <span class='eq op'>==</span> <span class='rubyid_ref identifier id'>ref</span><span class='lbrack token'>[</span><span class='symbol val'>:id</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_to_i identifier id'>to_i</span><span class='rparen token'>)</span>
+
         <span class='comment val'># This means we&#39;re looking at the relationship from the other side.</span>
         <span class='comment val'>#</span>
         <span class='comment val'># For example, if the relationship is &quot;A is a parent of B&quot;, then we</span>
@@ -563,9 +565,9 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.8.1.a Documentation Generated on Wed Nov 11 13:21:32 2020 by
+  ArchivesSpace Version X.Y.Z Documentation Generated on Tue Sep 21 14:09:35 2021 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.25.
+  0.9.26.
 </div>
 
     </div>

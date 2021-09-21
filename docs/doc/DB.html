@@ -6,7 +6,7 @@
 <title>
   Class: DB
   
-    &mdash; Documentation by YARD 0.9.25
+    &mdash; Documentation by YARD 0.9.26
   
 </title>
 
@@ -146,178 +146,14 @@
 
 
 
-  
-    <h2>
-      Class Method Summary
-      <small><a href="#" class="summary_toggle">collapse</a></small>
-    </h2>
 
-    <ul class="summary">
-      
-        <li class="public ">
-  <span class="summary_signature">
-    
-      <a href="#connect-class_method" title="connect (class method)">.<strong>connect</strong>  &#x21d2; Object </a>
-    
-
-    
-  </span>
-  
-  
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'>
-</div></span>
-  
-</li>
-
-      
-        <li class="public ">
-  <span class="summary_signature">
-    
-      <a href="#connected%3F-class_method" title="connected? (class method)">.<strong>connected?</strong>  &#x21d2; Boolean </a>
-    
-
-    
-  </span>
-  
-  
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'>
-</div></span>
-  
-</li>
-
-      
-    </ul>
-  
-
-
-
-  <div id="class_method_details" class="method_details_list">
-    <h2>Class Method Details</h2>
-
-    
-      <div class="method_details first">
-  <h3 class="signature first" id="connect-class_method">
-  
-    .<strong>connect</strong>  &#x21d2; <tt>Object</tt> 
-  
-
-  
-
-  
-</h3><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-405
-406
-407
-408
-409
-410
-411</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/db.rb', line 405</span>
-
-<span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_connect identifier id'>connect</span>
-  <span class='rubyid_if if kw'>if</span> <span class='rubyid_@default_pool ivar id'>@default_pool</span> <span class='eq op'>==</span> <span class='symbol val'>:not_connected</span>
-    <span class='rubyid_@default_pool ivar id'>@default_pool</span> <span class='assign token'>=</span> <span class='rubyid_DBPool constant id'>DBPool</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='dot token'>.</span><span class='rubyid_connect identifier id'>connect</span>
-  <span class='rubyid_else else kw'>else</span>
-    <span class='rubyid_@default_pool ivar id'>@default_pool</span>
-  <span class='rubyid_end end kw'>end</span>
-<span class='rubyid_end end kw'>end</span>
-</pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-      <div class="method_details ">
-  <h3 class="signature " id="connected?-class_method">
-  
-    .<strong>connected?</strong>  &#x21d2; <tt>Boolean</tt> 
-  
-
-  
-
-  
-</h3><div class="docstring">
-  <div class="discussion">
-    
-
-
-  </div>
-</div>
-<div class="tags">
-  
-<p class="tag_title">Returns:</p>
-<ul class="return">
-  
-    <li>
-      
-      
-        <span class='type'>(<tt>Boolean</tt>)</span>
-      
-      
-      
-    </li>
-  
-</ul>
-
-</div><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-413
-414
-415
-416
-417
-418
-419</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/db.rb', line 413</span>
-
-<span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_connected? fid id'>connected?</span>
-  <span class='rubyid_if if kw'>if</span> <span class='rubyid_@default_pool ivar id'>@default_pool</span> <span class='eq op'>==</span> <span class='symbol val'>:not_connected</span>
-    <span class='rubyid_false false kw'>false</span>
-  <span class='rubyid_else else kw'>else</span>
-    <span class='rubyid_@default_pool ivar id'>@default_pool</span><span class='dot token'>.</span><span class='rubyid_connected? fid id'>connected?</span>
-  <span class='rubyid_end end kw'>end</span>
-<span class='rubyid_end end kw'>end</span>
-</pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-  </div>
 
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.8.1.a Documentation Generated on Wed Nov 11 13:21:39 2020 by
+  ArchivesSpace Version X.Y.Z Documentation Generated on Tue Sep 21 14:09:40 2021 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.25.
+  0.9.26.
 </div>
 
     </div>

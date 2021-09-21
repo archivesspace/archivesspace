@@ -6,7 +6,7 @@
 <title>
   Class: AdvancedQueryString
   
-    &mdash; Documentation by YARD 0.9.25
+    &mdash; Documentation by YARD 0.9.26
   
 </title>
 
@@ -204,7 +204,7 @@
       <pre class="code"><span class="info file"># File 'backend/app/model/advanced_query_string.rb', line 4</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_initialize identifier id'>initialize</span><span class='lparen token'>(</span><span class='rubyid_query identifier id'>query</span><span class='comma token'>,</span> <span class='rubyid_use_literal identifier id'>use_literal</span><span class='rparen token'>)</span>
-  <span class='rubyid_@query ivar id'>@query</span> <span class='assign token'>=</span> <span class='rubyid_query identifier id'>query</span>
+  <span class='rubyid_@query ivar id'>@query</span> <span class='assign token'>=</span> <span class='rubyid_query identifier id'>query</span><span class='dot token'>.</span><span class='rubyid_transform_keys identifier id'>transform_keys</span> <span class='lbrace token'>{</span> <span class='bitor op'>|</span><span class='rubyid_k identifier id'>k</span><span class='bitor op'>|</span> <span class='rubyid_k identifier id'>k</span><span class='dot token'>.</span><span class='rubyid_to_s identifier id'>to_s</span> <span class='rbrace token'>}</span>
   <span class='rubyid_@use_literal ivar id'>@use_literal</span> <span class='assign token'>=</span> <span class='rubyid_use_literal identifier id'>use_literal</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
@@ -260,9 +260,9 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.8.1.a Documentation Generated on Wed Nov 11 13:22:04 2020 by
+  ArchivesSpace Version X.Y.Z Documentation Generated on Tue Sep 21 14:09:57 2021 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.25.
+  0.9.26.
 </div>
 
     </div>

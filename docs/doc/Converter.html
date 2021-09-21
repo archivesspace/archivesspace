@@ -6,7 +6,7 @@
 <title>
   Class: Converter
   
-    &mdash; Documentation by YARD 0.9.25
+    &mdash; Documentation by YARD 0.9.26
   
 </title>
 
@@ -113,7 +113,7 @@ the “IMPLEMENT ME” methods marked below.</p>
 
 </div><div id="subclasses">
   <h2>Direct Known Subclasses</h2>
-  <p class="children"><span class='object_link'><a href="AccessionConverter.html" title="AccessionConverter (class)">AccessionConverter</a></span>, <span class='object_link'><a href="AssessmentConverter.html" title="AssessmentConverter (class)">AssessmentConverter</a></span>, <span class='object_link'><a href="DigitalObjectConverter.html" title="DigitalObjectConverter (class)">DigitalObjectConverter</a></span>, <span class='object_link'><a href="EACConverter.html" title="EACConverter (class)">EACConverter</a></span>, <span class='object_link'><a href="EADConverter.html" title="EADConverter (class)">EADConverter</a></span>, <span class='object_link'><a href="LocationConverter.html" title="LocationConverter (class)">LocationConverter</a></span>, <span class='object_link'><a href="MarcXMLConverter.html" title="MarcXMLConverter (class)">MarcXMLConverter</a></span></p>
+  <p class="children"><span class='object_link'><a href="AccessionConverter.html" title="AccessionConverter (class)">AccessionConverter</a></span>, <span class='object_link'><a href="AssessmentConverter.html" title="AssessmentConverter (class)">AssessmentConverter</a></span>, <span class='object_link'><a href="DigitalObjectConverter.html" title="DigitalObjectConverter (class)">DigitalObjectConverter</a></span>, <span class='object_link'><a href="EACConverter.html" title="EACConverter (class)">EACConverter</a></span>, <span class='object_link'><a href="EADConverter.html" title="EADConverter (class)">EADConverter</a></span>, <span class='object_link'><a href="LocationConverter.html" title="LocationConverter (class)">LocationConverter</a></span>, <span class='object_link'><a href="MarcXMLAuthAgentConverter.html" title="MarcXMLAuthAgentConverter (class)">MarcXMLAuthAgentConverter</a></span>, <span class='object_link'><a href="MarcXMLBibConverter.html" title="MarcXMLBibConverter (class)">MarcXMLBibConverter</a></span></p>
 </div>
 
 <h2>Defined Under Namespace</h2>
@@ -147,7 +147,7 @@ the “IMPLEMENT ME” methods marked below.</p>
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#for-class_method" title="for (class method)">.<strong>for</strong>(type, input_file)  &#x21d2; Object </a>
+      <a href="#for-class_method" title="for (class method)">.<strong>for</strong>(type, input_file, opts = {})  &#x21d2; Object </a>
     
 
     
@@ -444,7 +444,7 @@ the “IMPLEMENT ME” methods marked below.</p>
       <div class="method_details first">
   <h3 class="signature first" id="for-class_method">
   
-    .<strong>for</strong>(type, input_file)  &#x21d2; <tt>Object</tt> 
+    .<strong>for</strong>(type, input_file, opts = {})  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -486,14 +486,32 @@ the “IMPLEMENT ME” methods marked below.</p>
 125
 126
 127
-128</pre>
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'backend/app/converters/converter.rb', line 121</span>
 
-<span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_for identifier id'>for</span><span class='lparen token'>(</span><span class='rubyid_type identifier id'>type</span><span class='comma token'>,</span> <span class='rubyid_input_file identifier id'>input_file</span><span class='rparen token'>)</span>
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_for identifier id'>for</span><span class='lparen token'>(</span><span class='rubyid_type identifier id'>type</span><span class='comma token'>,</span> <span class='rubyid_input_file identifier id'>input_file</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
   <span class='rubyid_Array constant id'>Array</span><span class='lparen token'>(</span><span class='rubyid_@converters ivar id'>@converters</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_converter identifier id'>converter</span><span class='bitor op'>|</span>
     <span class='rubyid_converter identifier id'>converter</span> <span class='assign token'>=</span> <span class='rubyid_converter identifier id'>converter</span><span class='dot token'>.</span><span class='rubyid_instance_for identifier id'>instance_for</span><span class='lparen token'>(</span><span class='rubyid_type identifier id'>type</span><span class='comma token'>,</span> <span class='rubyid_input_file identifier id'>input_file</span><span class='rparen token'>)</span>
+
+    <span class='rubyid_if if kw'>if</span> <span class='rubyid_converter identifier id'>converter</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_converter identifier id'>converter</span><span class='dot token'>.</span><span class='rubyid_respond_to? fid id'>respond_to?</span><span class='lparen token'>(</span><span class='symbol val'>:set_import_events</span><span class='rparen token'>)</span>
+      <span class='rubyid_if if kw'>if</span> <span class='rubyid_opts identifier id'>opts</span><span class='lbrack token'>[</span><span class='symbol val'>:import_events</span><span class='rbrack token'>]</span>
+        <span class='rubyid_converter identifier id'>converter</span><span class='dot token'>.</span><span class='rubyid_set_import_events identifier id'>set_import_events</span>
+      <span class='rubyid_else else kw'>else</span>
+        <span class='rubyid_converter identifier id'>converter</span><span class='dot token'>.</span><span class='rubyid_unset_import_events identifier id'>unset_import_events</span>
+      <span class='rubyid_end end kw'>end</span>
+    <span class='rubyid_end end kw'>end</span>
+
     <span class='rubyid_return return kw'>return</span> <span class='rubyid_converter identifier id'>converter</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_converter identifier id'>converter</span>
   <span class='rubyid_end end kw'>end</span>
 
@@ -874,15 +892,15 @@ shouldn’t be shown to end users)</p>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_remove_files identifier id'>remove_files</span>
   <span class='rubyid_@batch ivar id'>@batch</span><span class='dot token'>.</span><span class='rubyid_each_open_file_path identifier id'>each_open_file_path</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_path identifier id'>path</span><span class='bitor op'>|</span>
-    <span class='float val'>3</span><span class='dot token'>.</span><span class='rubyid_times identifier id'>times</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_i identifier id'>i</span><span class='bitor op'>|</span> 
-      <span class='rubyid_begin begin kw'>begin</span> 
+    <span class='float val'>3</span><span class='dot token'>.</span><span class='rubyid_times identifier id'>times</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_i identifier id'>i</span><span class='bitor op'>|</span>
+      <span class='rubyid_begin begin kw'>begin</span>
         <span class='rubyid_File constant id'>File</span><span class='dot token'>.</span><span class='rubyid_unlink identifier id'>unlink</span><span class='lparen token'>(</span><span class='rubyid_path identifier id'>path</span><span class='rparen token'>)</span>
-        <span class='rubyid_break break kw'>break</span> 
+        <span class='rubyid_break break kw'>break</span>
       <span class='rubyid_rescue rescue kw'>rescue</span> <span class='rubyid_Errno constant id'>Errno</span><span class='colon2 op'>::</span><span class='rubyid_EACCES constant id'>EACCES</span> <span class='comment val'># sometimes windows does not like this. let&#39;s wait and retry.</span>
         <span class='rubyid_sleep identifier id'>sleep</span><span class='lparen token'>(</span><span class='integer val'>1</span><span class='rparen token'>)</span> <span class='comment val'># just in case it&#39;s open by something else..</span>
-        <span class='rubyid_next next kw'>next</span> <span class='rubyid_unless unless_mod kw'>unless</span> <span class='rubyid_i identifier id'>i</span> <span class='eq op'>==</span> <span class='integer val'>2</span> 
+        <span class='rubyid_next next kw'>next</span> <span class='rubyid_unless unless_mod kw'>unless</span> <span class='rubyid_i identifier id'>i</span> <span class='eq op'>==</span> <span class='integer val'>2</span>
         <span class='rubyid_$stderr gvar id'>$stderr</span><span class='dot token'>.</span><span class='rubyid_puts identifier id'>puts</span> <span class='dstring node'>&quot;Cannot remove #{path}...giving up.&quot;</span>
-      <span class='rubyid_end end kw'>end</span> 
+      <span class='rubyid_end end kw'>end</span>
     <span class='rubyid_end end kw'>end</span>
   <span class='rubyid_end end kw'>end</span>
 <span class='rubyid_end end kw'>end</span>
@@ -953,9 +971,9 @@ shouldn’t be shown to end users)</p>
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.8.1.a Documentation Generated on Wed Nov 11 13:21:52 2020 by
+  ArchivesSpace Version X.Y.Z Documentation Generated on Tue Sep 21 14:09:49 2021 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.25.
+  0.9.26.
 </div>
 
     </div>

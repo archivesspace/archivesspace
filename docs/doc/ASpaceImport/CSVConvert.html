@@ -6,7 +6,7 @@
 <title>
   Module: ASpaceImport::CSVConvert
   
-    &mdash; Documentation by YARD 0.9.25
+    &mdash; Documentation by YARD 0.9.26
   
 </title>
 
@@ -402,6 +402,8 @@
       <pre class="lines">
 
 
+111
+112
 113
 114
 115
@@ -424,16 +426,12 @@
 132
 133
 134
-135
-136
-137
-138</pre>
+135</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/converters/lib/csv_converter.rb', line 113</span>
+      <pre class="code"><span class="info file"># File 'backend/app/converters/lib/csv_converter.rb', line 111</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_get_new identifier id'>get_new</span><span class='lparen token'>(</span><span class='rubyid_key identifier id'>key</span><span class='rparen token'>)</span>
-
   <span class='rubyid_conf identifier id'>conf</span> <span class='assign token'>=</span> <span class='rubyid_configuration identifier id'>configuration</span><span class='lbrack token'>[</span><span class='rubyid_key identifier id'>key</span><span class='dot token'>.</span><span class='rubyid_to_sym identifier id'>to_sym</span><span class='rbrack token'>]</span> <span class='orop op'>||</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span>
 
   <span class='rubyid_type identifier id'>type</span> <span class='assign token'>=</span> <span class='rubyid_conf identifier id'>conf</span><span class='lbrack token'>[</span><span class='symbol val'>:record_type</span><span class='rbrack token'>]</span> <span class='question op'>?</span> <span class='rubyid_conf identifier id'>conf</span><span class='lbrack token'>[</span><span class='symbol val'>:record_type</span><span class='rbrack token'>]</span> <span class='colon op'>:</span> <span class='rubyid_key identifier id'>key</span>
@@ -479,17 +477,17 @@
       <pre class="lines">
 
 
+101
+102
 103
 104
 105
 106
 107
-108
-109
-110</pre>
+108</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/converters/lib/csv_converter.rb', line 103</span>
+      <pre class="code"><span class="info file"># File 'backend/app/converters/lib/csv_converter.rb', line 101</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_get_queued_or_new identifier id'>get_queued_or_new</span><span class='lparen token'>(</span><span class='rubyid_key identifier id'>key</span><span class='rparen token'>)</span>
   <span class='rubyid_if if kw'>if</span> <span class='lparen token'>(</span><span class='rubyid_prox identifier id'>prox</span> <span class='assign token'>=</span> <span class='rubyid_@batch ivar id'>@batch</span><span class='dot token'>.</span><span class='rubyid_working_area identifier id'>working_area</span><span class='dot token'>.</span><span class='rubyid_find identifier id'>find</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_j identifier id'>j</span><span class='bitor op'>|</span> <span class='rubyid_j identifier id'>j</span><span class='dot token'>.</span><span class='rubyid_key identifier id'>key</span> <span class='eq op'>==</span> <span class='rubyid_key identifier id'>key</span> <span class='rbrace token'>}</span><span class='rparen token'>)</span>
@@ -520,6 +518,7 @@
       <pre class="lines">
 
 
+87
 88
 89
 90
@@ -530,15 +529,12 @@
 95
 96
 97
-98
-99
-100</pre>
+98</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/converters/lib/csv_converter.rb', line 88</span>
+      <pre class="code"><span class="info file"># File 'backend/app/converters/lib/csv_converter.rb', line 87</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_parse_cell identifier id'>parse_cell</span><span class='lparen token'>(</span><span class='rubyid_handler identifier id'>handler</span><span class='comma token'>,</span> <span class='rubyid_cell_contents identifier id'>cell_contents</span><span class='rparen token'>)</span>
-
   <span class='rubyid_return return kw'>return</span> <span class='rubyid_nil nil kw'>nil</span> <span class='rubyid_unless unless_mod kw'>unless</span> <span class='rubyid_handler identifier id'>handler</span>
 
   <span class='rubyid_val identifier id'>val</span> <span class='assign token'>=</span> <span class='rubyid_handler identifier id'>handler</span><span class='dot token'>.</span><span class='rubyid_extract_value identifier id'>extract_value</span><span class='lparen token'>(</span><span class='rubyid_cell_contents identifier id'>cell_contents</span><span class='rparen token'>)</span>
@@ -571,6 +567,7 @@
       <pre class="lines">
 
 
+73
 74
 75
 76
@@ -581,11 +578,10 @@
 81
 82
 83
-84
-85</pre>
+84</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/converters/lib/csv_converter.rb', line 74</span>
+      <pre class="code"><span class="info file"># File 'backend/app/converters/lib/csv_converter.rb', line 73</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_parse_row identifier id'>parse_row</span><span class='lparen token'>(</span><span class='rubyid_row identifier id'>row</span><span class='rparen token'>)</span>
   <span class='rubyid_row identifier id'>row</span><span class='dot token'>.</span><span class='rubyid_each_with_index identifier id'>each_with_index</span> <span class='lbrace token'>{</span> <span class='bitor op'>|</span><span class='rubyid_cell identifier id'>cell</span><span class='comma token'>,</span> <span class='rubyid_i identifier id'>i</span><span class='bitor op'>|</span> <span class='rubyid_parse_cell identifier id'>parse_cell</span><span class='lparen token'>(</span><span class='rubyid_@cell_handlers ivar id'>@cell_handlers</span><span class='lbrack token'>[</span><span class='rubyid_i identifier id'>i</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='rubyid_cell identifier id'>cell</span><span class='rparen token'>)</span> <span class='rbrace token'>}</span>
@@ -643,14 +639,12 @@
 67
 68
 69
-70
-71</pre>
+70</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'backend/app/converters/lib/csv_converter.rb', line 47</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_run identifier id'>run</span>
-
   <span class='rubyid_@cell_handlers ivar id'>@cell_handlers</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
   <span class='rubyid_@proxies ivar id'>@proxies</span> <span class='assign token'>=</span> <span class='rubyid_ASpaceImport constant id'>ASpaceImport</span><span class='colon2 op'>::</span><span class='rubyid_RecordProxyMgr constant id'>RecordProxyMgr</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span>
 
@@ -695,14 +689,14 @@
       <pre class="lines">
 
 
+138
+139
+140
 141
-142
-143
-144
-145</pre>
+142</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/converters/lib/csv_converter.rb', line 141</span>
+      <pre class="code"><span class="info file"># File 'backend/app/converters/lib/csv_converter.rb', line 138</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_set_default identifier id'>set_default</span><span class='lparen token'>(</span><span class='rubyid_property identifier id'>property</span><span class='comma token'>,</span> <span class='rubyid_val identifier id'>val</span><span class='comma token'>,</span> <span class='rubyid_obj identifier id'>obj</span><span class='rparen token'>)</span>
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_send identifier id'>send</span><span class='lparen token'>(</span><span class='dstring node'>&quot;#{property}&quot;</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span>
@@ -720,9 +714,9 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.8.1.a Documentation Generated on Wed Nov 11 13:21:30 2020 by
+  ArchivesSpace Version X.Y.Z Documentation Generated on Tue Sep 21 14:09:32 2021 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.25.
+  0.9.26.
 </div>
 
     </div>

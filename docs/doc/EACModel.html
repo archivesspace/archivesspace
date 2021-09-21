@@ -6,7 +6,7 @@
 <title>
   Class: EACModel
   
-    &mdash; Documentation by YARD 0.9.25
+    &mdash; Documentation by YARD 0.9.26
   
 </title>
 
@@ -101,13 +101,96 @@
   
 </div>
 
+<h2>Overview</h2><div class="docstring">
+  <div class="discussion">
+    <p>frozen_string_literal: true</p>
 
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+
+  
+    <h2>
+      Constant Summary
+      <small><a href="#" class="constants_summary_toggle">collapse</a></small>
+    </h2>
+
+    <dl class="constants">
+      
+        <dt id="RESOLVE-constant" class="">RESOLVE =
+          
+        </dt>
+        <dd><pre class="code"><span class='lbrack token'>[</span><span class='string val'>&#39;subjects&#39;</span><span class='comma token'>,</span> <span class='string val'>&#39;places&#39;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_freeze identifier id'>freeze</span>
+</pre></dd>
+      
+    </dl>
+  
 
 
 
 
   <h2>Instance Attribute Summary <small><a href="#" class="summary_toggle">collapse</a></small></h2>
   <ul class="summary">
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#events-instance_method" title="#events (instance method)">#<strong>events</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Returns the value of attribute events.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#json-instance_method" title="#json (instance method)">#<strong>json</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Returns the value of attribute json.</p>
+</div></span>
+  
+</li>
+
     
       <li class="public ">
   <span class="summary_signature">
@@ -182,29 +265,6 @@
     </h2>
 
     <ul class="summary">
-      
-        <li class="public ">
-  <span class="summary_signature">
-    
-      <a href="#events-instance_method" title="#events (instance method)">#<strong>events</strong>  &#x21d2; Object </a>
-    
-
-    
-  </span>
-  
-  
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'>
-</div></span>
-  
-</li>
-
       
         <li class="public ">
   <span class="summary_signature">
@@ -376,19 +436,21 @@
       <pre class="lines">
 
 
+57
+58
+59
+60
+61
 62
-63
-64
-65
-66
-67</pre>
+63</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/eac.rb', line 62</span>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/eac.rb', line 57</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_initialize identifier id'>initialize</span><span class='lparen token'>(</span><span class='rubyid_obj identifier id'>obj</span><span class='comma token'>,</span> <span class='rubyid_events identifier id'>events</span><span class='comma token'>,</span> <span class='rubyid_related_records identifier id'>related_records</span><span class='comma token'>,</span> <span class='rubyid_repo identifier id'>repo</span><span class='rparen token'>)</span>
-  <span class='rubyid_@json ivar id'>@json</span> <span class='assign token'>=</span> <span class='rubyid_obj identifier id'>obj</span>
-  <span class='rubyid_@events ivar id'>@events</span> <span class='assign token'>=</span> <span class='rubyid_events identifier id'>events</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_e identifier id'>e</span><span class='bitor op'>|</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_instance_variable_get identifier id'>instance_variable_get</span><span class='lparen token'>(</span><span class='symbol val'>:@eac_event</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='rubyid_e identifier id'>e</span><span class='rparen token'>)</span> <span class='rbrace token'>}</span>
+  <span class='rubyid_@type ivar id'>@type</span> <span class='assign token'>=</span> <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_jsonmodel_type identifier id'>jsonmodel_type</span>
+  <span class='rubyid_@json ivar id'>@json</span> <span class='assign token'>=</span> <span class='rubyid_URIResolver constant id'>URIResolver</span><span class='dot token'>.</span><span class='rubyid_resolve_references identifier id'>resolve_references</span><span class='lparen token'>(</span><span class='rubyid_obj identifier id'>obj</span><span class='comma token'>,</span> <span class='rubyid_RESOLVE constant id'>RESOLVE</span><span class='rparen token'>)</span>
+  <span class='rubyid_@events ivar id'>@events</span> <span class='assign token'>=</span> <span class='rubyid_events identifier id'>events</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span> <span class='lbrace token'>{</span> <span class='bitor op'>|</span><span class='rubyid_e identifier id'>e</span><span class='bitor op'>|</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_instance_variable_get identifier id'>instance_variable_get</span><span class='lparen token'>(</span><span class='symbol val'>:@eac_event</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='rubyid_e identifier id'>e</span><span class='rparen token'>)</span> <span class='rbrace token'>}</span>
   <span class='rubyid_@related_records ivar id'>@related_records</span> <span class='assign token'>=</span> <span class='rubyid_related_records identifier id'>related_records</span>
   <span class='rubyid_@repo ivar id'>@repo</span> <span class='assign token'>=</span> <span class='rubyid_repo identifier id'>repo</span>
 <span class='rubyid_end end kw'>end</span>
@@ -421,23 +483,15 @@
       <pre class="lines">
 
 
-93
-94
-95
-96
-97
-98
-99</pre>
+81
+82
+83</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/eac.rb', line 93</span>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/eac.rb', line 81</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_method_missing identifier id'>method_missing</span><span class='lparen token'>(</span><span class='rubyid_meth identifier id'>meth</span><span class='rparen token'>)</span>
-  <span class='rubyid_if if kw'>if</span> <span class='rubyid_@json ivar id'>@json</span><span class='dot token'>.</span><span class='rubyid_respond_to? fid id'>respond_to?</span><span class='lparen token'>(</span><span class='rubyid_meth identifier id'>meth</span><span class='rparen token'>)</span>
-    <span class='rubyid_@json ivar id'>@json</span><span class='dot token'>.</span><span class='rubyid_send identifier id'>send</span><span class='lparen token'>(</span><span class='rubyid_meth identifier id'>meth</span><span class='rparen token'>)</span>
-  <span class='rubyid_else else kw'>else</span>
-    <span class='rubyid_nil nil kw'>nil</span>
-  <span class='rubyid_end end kw'>end</span>
+  <span class='rubyid_@json ivar id'>@json</span><span class='dot token'>.</span><span class='rubyid_send identifier id'>send</span><span class='lparen token'>(</span><span class='rubyid_meth identifier id'>meth</span><span class='rparen token'>)</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_@json ivar id'>@json</span><span class='dot token'>.</span><span class='rubyid_respond_to? fid id'>respond_to?</span><span class='lparen token'>(</span><span class='rubyid_meth identifier id'>meth</span><span class='rparen token'>)</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -453,7 +507,93 @@
       
       <span id=""></span>
       <div class="method_details first">
-  <h3 class="signature first" id="related_records-instance_method">
+  <h3 class="signature first" id="events-instance_method">
+  
+    #<strong>events</strong>  &#x21d2; <tt>Object</tt>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Returns the value of attribute events</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+69
+70
+71</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/eac.rb', line 69</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_events identifier id'>events</span>
+  <span class='rubyid_@events ivar id'>@events</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="json-instance_method">
+  
+    #<strong>json</strong>  &#x21d2; <tt>Object</tt>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Returns the value of attribute json</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+6
+7
+8</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/eac.rb', line 6</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_json identifier id'>json</span>
+  <span class='rubyid_@json ivar id'>@json</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="related_records-instance_method">
   
     #<strong>related_records</strong>  &#x21d2; <tt>Object</tt>  <span class="extras">(readonly)</span>
   
@@ -477,12 +617,12 @@
       <pre class="lines">
 
 
-4
-5
-6</pre>
+6
+7
+8</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/eac.rb', line 4</span>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/eac.rb', line 6</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_related_records identifier id'>related_records</span>
   <span class='rubyid_@related_records ivar id'>@related_records</span>
@@ -515,15 +655,15 @@
       <pre class="lines">
 
 
-70
-71
-72</pre>
+65
+66
+67</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/eac.rb', line 70</span>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/eac.rb', line 65</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_from_agent identifier id'>from_agent</span><span class='lparen token'>(</span><span class='rubyid_obj identifier id'>obj</span><span class='comma token'>,</span> <span class='rubyid_events identifier id'>events</span><span class='comma token'>,</span> <span class='rubyid_related_records identifier id'>related_records</span><span class='comma token'>,</span> <span class='rubyid_repo identifier id'>repo</span><span class='rparen token'>)</span>
-  <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='rubyid_obj identifier id'>obj</span><span class='comma token'>,</span> <span class='rubyid_events identifier id'>events</span><span class='comma token'>,</span> <span class='rubyid_related_records identifier id'>related_records</span><span class='comma token'>,</span> <span class='rubyid_repo identifier id'>repo</span><span class='rparen token'>)</span>
+  <span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='rubyid_obj identifier id'>obj</span><span class='comma token'>,</span> <span class='rubyid_events identifier id'>events</span><span class='comma token'>,</span> <span class='rubyid_related_records identifier id'>related_records</span><span class='comma token'>,</span> <span class='rubyid_repo identifier id'>repo</span><span class='rparen token'>)</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -538,38 +678,7 @@
 
     
       <div class="method_details first">
-  <h3 class="signature first" id="events-instance_method">
-  
-    #<strong>events</strong>  &#x21d2; <tt>Object</tt> 
-  
-
-  
-
-  
-</h3><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-75
-76
-77</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/eac.rb', line 75</span>
-
-<span class='rubyid_def def kw'>def</span> <span class='rubyid_events identifier id'>events</span>
-  <span class='rubyid_@events ivar id'>@events</span>
-<span class='rubyid_end end kw'>end</span>
-</pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-      <div class="method_details ">
-  <h3 class="signature " id="maintenanceAgency-instance_method">
+  <h3 class="signature first" id="maintenanceAgency-instance_method">
   
     #<strong>maintenanceAgency</strong>  &#x21d2; <tt>Object</tt> 
   
@@ -583,28 +692,24 @@
       <pre class="lines">
 
 
-80
-81
-82
-83
-84
-85
-86
-87
-88
-89
-90</pre>
+71
+72
+73
+74
+75
+76
+77
+78
+79</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/eac.rb', line 80</span>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/eac.rb', line 71</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_maintenanceAgency identifier id'>maintenanceAgency</span>
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_@ma ivar id'>@ma</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span>
     <span class='rubyid_@ma ivar id'>@ma</span> <span class='assign token'>=</span> <span class='rubyid_OpenStruct constant id'>OpenStruct</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span>
     <span class='rubyid_@ma ivar id'>@ma</span><span class='dot token'>.</span><span class='rubyid_agencyName identifier id'>agencyName</span> <span class='assign token'>=</span> <span class='rubyid_@repo ivar id'>@repo</span><span class='dot token'>.</span><span class='rubyid_name identifier id'>name</span>
-    <span class='rubyid_if if kw'>if</span> <span class='rubyid_@repo ivar id'>@repo</span><span class='dot token'>.</span><span class='rubyid_org_code identifier id'>org_code</span>
-      <span class='rubyid_@ma ivar id'>@ma</span><span class='dot token'>.</span><span class='rubyid_agencyCode identifier id'>agencyCode</span> <span class='assign token'>=</span> <span class='rubyid_@repo ivar id'>@repo</span><span class='dot token'>.</span><span class='rubyid_org_code identifier id'>org_code</span>
-    <span class='rubyid_end end kw'>end</span>
+    <span class='rubyid_@ma ivar id'>@ma</span><span class='dot token'>.</span><span class='rubyid_agencyCode identifier id'>agencyCode</span> <span class='assign token'>=</span> <span class='rubyid_@repo ivar id'>@repo</span><span class='dot token'>.</span><span class='rubyid_org_code identifier id'>org_code</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_@repo ivar id'>@repo</span><span class='dot token'>.</span><span class='rubyid_org_code identifier id'>org_code</span>
   <span class='rubyid_end end kw'>end</span>
 
   <span class='rubyid_@ma ivar id'>@ma</span>
@@ -640,6 +745,24 @@
       <pre class="lines">
 
 
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
 112
 113
 114
@@ -664,53 +787,51 @@
 133
 134
 135
-136
-137
-138
-139
-140
-141
-142
-143
-144
-145
-146</pre>
+136</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/eac.rb', line 112</span>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/eac.rb', line 94</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_name_part_fields identifier id'>name_part_fields</span>
-  <span class='rubyid_case case kw'>case</span> <span class='rubyid_@json ivar id'>@json</span><span class='dot token'>.</span><span class='rubyid_jsonmodel_type identifier id'>jsonmodel_type</span>
+  <span class='rubyid_case case kw'>case</span> <span class='rubyid_@type ivar id'>@type</span>
   <span class='rubyid_when when kw'>when</span> <span class='string val'>&#39;agent_person&#39;</span>
     <span class='lbrace token'>{</span>
-      <span class='string val'>&quot;primary_name&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;surname&quot;</span><span class='comma token'>,</span>
-      <span class='string val'>&quot;title&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_nil nil kw'>nil</span><span class='comma token'>,</span>
-      <span class='string val'>&quot;prefix&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_nil nil kw'>nil</span><span class='comma token'>,</span>
-      <span class='string val'>&quot;rest_of_name&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;forename&quot;</span><span class='comma token'>,</span>
-      <span class='string val'>&quot;suffix&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_nil nil kw'>nil</span><span class='comma token'>,</span>
-      <span class='string val'>&quot;fuller_form&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;fullerForm&quot;</span><span class='comma token'>,</span>
-      <span class='string val'>&quot;number&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_nil nil kw'>nil</span><span class='comma token'>,</span>
-      <span class='string val'>&quot;qualifier&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_nil nil kw'>nil</span><span class='comma token'>,</span>
+      <span class='string val'>&#39;primary_name&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;surname&#39;</span><span class='comma token'>,</span>
+      <span class='string val'>&#39;title&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;title&#39;</span><span class='comma token'>,</span>
+      <span class='string val'>&#39;prefix&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;prefix&#39;</span><span class='comma token'>,</span>
+      <span class='string val'>&#39;rest_of_name&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;forename&#39;</span><span class='comma token'>,</span>
+      <span class='string val'>&#39;suffix&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;suffix&#39;</span><span class='comma token'>,</span>
+      <span class='string val'>&#39;fuller_form&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;fuller_form&#39;</span><span class='comma token'>,</span>
+      <span class='string val'>&#39;number&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;numeration&#39;</span><span class='comma token'>,</span>
+      <span class='string val'>&#39;qualifier&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;qualifier&#39;</span><span class='comma token'>,</span>
+      <span class='string val'>&#39;dates&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;dates&#39;</span>
     <span class='rbrace token'>}</span>
   <span class='rubyid_when when kw'>when</span> <span class='string val'>&#39;agent_family&#39;</span>
     <span class='lbrace token'>{</span>
-      <span class='string val'>&quot;family_name&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;familyName&#39;</span><span class='comma token'>,</span>
-      <span class='string val'>&quot;prefix&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_nil nil kw'>nil</span><span class='comma token'>,</span>
-      <span class='string val'>&quot;qualifier&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_nil nil kw'>nil</span><span class='comma token'>,</span>
+      <span class='string val'>&#39;prefix&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;prefix&#39;</span><span class='comma token'>,</span>
+      <span class='string val'>&#39;family_name&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;surname&#39;</span><span class='comma token'>,</span>
+      <span class='string val'>&#39;number&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;numeration&#39;</span><span class='comma token'>,</span>
+      <span class='string val'>&#39;qualifier&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;qualifier&#39;</span><span class='comma token'>,</span>
+      <span class='string val'>&#39;location&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;location&#39;</span><span class='comma token'>,</span>
+      <span class='string val'>&#39;dates&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;dates&#39;</span><span class='comma token'>,</span>
+      <span class='string val'>&#39;family_type&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;family_type&#39;</span>
     <span class='rbrace token'>}</span>
+  <span class='comment val'># TODO: Remove software?</span>
   <span class='rubyid_when when kw'>when</span> <span class='string val'>&#39;agent_software&#39;</span>
     <span class='lbrace token'>{</span>
-      <span class='string val'>&quot;software_name&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_nil nil kw'>nil</span><span class='comma token'>,</span>
-      <span class='string val'>&quot;version&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_nil nil kw'>nil</span><span class='comma token'>,</span>
-      <span class='string val'>&quot;manufacturer&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_nil nil kw'>nil</span>
+      <span class='string val'>&#39;software_name&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_nil nil kw'>nil</span><span class='comma token'>,</span>
+      <span class='string val'>&#39;version&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_nil nil kw'>nil</span><span class='comma token'>,</span>
+      <span class='string val'>&#39;manufacturer&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_nil nil kw'>nil</span>
     <span class='rbrace token'>}</span>
   <span class='rubyid_when when kw'>when</span> <span class='string val'>&#39;agent_corporate_entity&#39;</span>
     <span class='lbrace token'>{</span>
-      <span class='string val'>&quot;primary_name&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;primaryPart&quot;</span><span class='comma token'>,</span> 
-      <span class='string val'>&quot;subordinate_name_1&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;secondaryPart&quot;</span><span class='comma token'>,</span> 
-      <span class='string val'>&quot;subordinate_name_2&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;tertiaryPart&quot;</span><span class='comma token'>,</span> 
-      <span class='string val'>&quot;number&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_nil nil kw'>nil</span><span class='comma token'>,</span>
-      <span class='string val'>&quot;qualifier&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_nil nil kw'>nil</span>
+      <span class='string val'>&#39;primary_name&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;primary_name&#39;</span><span class='comma token'>,</span>
+      <span class='string val'>&#39;subordinate_name_1&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;subordinate_name_1&#39;</span><span class='comma token'>,</span>
+      <span class='string val'>&#39;subordinate_name_2&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;subordinate_name_2&#39;</span><span class='comma token'>,</span>
+      <span class='string val'>&#39;number&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;numeration&#39;</span><span class='comma token'>,</span>
+      <span class='string val'>&#39;qualifier&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;qualifier&#39;</span><span class='comma token'>,</span>
+      <span class='string val'>&#39;location&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;location&#39;</span><span class='comma token'>,</span>
+      <span class='string val'>&#39;dates&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;dates&#39;</span>
     <span class='rbrace token'>}</span>
   <span class='rubyid_end end kw'>end</span>
 <span class='rubyid_end end kw'>end</span>
@@ -735,16 +856,16 @@
       <pre class="lines">
 
 
-102
-103
-104
-105
-106
-107
-108</pre>
+85
+86
+87
+88
+89
+90
+91</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/eac.rb', line 102</span>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/eac.rb', line 85</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_related_agents identifier id'>related_agents</span>
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_@json ivar id'>@json</span><span class='dot token'>.</span><span class='rubyid_respond_to? fid id'>respond_to?</span><span class='lparen token'>(</span><span class='symbol val'>:related_agents</span><span class='rparen token'>)</span>
@@ -764,9 +885,9 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.8.1.a Documentation Generated on Wed Nov 11 13:21:52 2020 by
+  ArchivesSpace Version X.Y.Z Documentation Generated on Tue Sep 21 14:09:49 2021 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.25.
+  0.9.26.
 </div>
 
     </div>

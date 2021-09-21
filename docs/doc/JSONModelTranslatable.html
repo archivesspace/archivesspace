@@ -6,7 +6,7 @@
 <title>
   Module: JSONModelTranslatable
   
-    &mdash; Documentation by YARD 0.9.25
+    &mdash; Documentation by YARD 0.9.26
   
 </title>
 
@@ -189,6 +189,8 @@ than “eng”</p>
       <pre class="lines">
 
 
+20
+21
 22
 23
 24
@@ -224,12 +226,10 @@ than “eng”</p>
 54
 55
 56
-57
-58
-59</pre>
+57</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/jsonmodel_translatable.rb', line 22</span>
+      <pre class="code"><span class="info file"># File 'common/jsonmodel_translatable.rb', line 20</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_translate_hash identifier id'>translate_hash</span><span class='lparen token'>(</span><span class='rubyid_hash identifier id'>hash</span><span class='comma token'>,</span> <span class='rubyid_schema identifier id'>schema</span><span class='comma token'>,</span> <span class='rubyid_enums_to_translate identifier id'>enums_to_translate</span><span class='rparen token'>)</span>
   <span class='rubyid_result identifier id'>result</span> <span class='assign token'>=</span> <span class='rubyid_hash identifier id'>hash</span><span class='dot token'>.</span><span class='rubyid_clone identifier id'>clone</span>
@@ -244,11 +244,11 @@ than “eng”</p>
 
     <span class='rubyid_elsif elsif kw'>elsif</span> <span class='lparen token'>(</span><span class='rubyid_definition identifier id'>definition</span><span class='lbrack token'>[</span><span class='string val'>&#39;type&#39;</span><span class='rbrack token'>]</span> <span class='eq op'>==</span> <span class='string val'>&#39;array&#39;</span><span class='rparen token'>)</span> <span class='rubyid_and and kw'>and</span> <span class='lparen token'>(</span><span class='rubyid_definition identifier id'>definition</span><span class='lbrack token'>[</span><span class='string val'>&#39;items&#39;</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>&#39;type&#39;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_is_a? fid id'>is_a?</span><span class='lparen token'>(</span><span class='rubyid_Array constant id'>Array</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
       <span class='rubyid_result identifier id'>result</span><span class='lbrack token'>[</span><span class='rubyid_property identifier id'>property</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_hash identifier id'>hash</span><span class='lbrack token'>[</span><span class='rubyid_property identifier id'>property</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_item identifier id'>item</span><span class='bitor op'>|</span>
-       <span class='rubyid_if if kw'>if</span> <span class='rubyid_item identifier id'>item</span><span class='lbrack token'>[</span><span class='string val'>&#39;jsonmodel_type&#39;</span><span class='rbrack token'>]</span>
-         <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_translate_hash identifier id'>translate_hash</span><span class='lparen token'>(</span><span class='rubyid_item identifier id'>item</span><span class='comma token'>,</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='rubyid_item identifier id'>item</span><span class='lbrack token'>[</span><span class='string val'>&#39;jsonmodel_type&#39;</span><span class='rbrack token'>]</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_schema identifier id'>schema</span><span class='comma token'>,</span> <span class='rubyid_enums_to_translate identifier id'>enums_to_translate</span><span class='rparen token'>)</span>
-       <span class='rubyid_else else kw'>else</span>
-         <span class='rubyid_item identifier id'>item</span>
-       <span class='rubyid_end end kw'>end</span>
+        <span class='rubyid_if if kw'>if</span> <span class='rubyid_item identifier id'>item</span><span class='lbrack token'>[</span><span class='string val'>&#39;jsonmodel_type&#39;</span><span class='rbrack token'>]</span>
+          <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_translate_hash identifier id'>translate_hash</span><span class='lparen token'>(</span><span class='rubyid_item identifier id'>item</span><span class='comma token'>,</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='rubyid_item identifier id'>item</span><span class='lbrack token'>[</span><span class='string val'>&#39;jsonmodel_type&#39;</span><span class='rbrack token'>]</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_schema identifier id'>schema</span><span class='comma token'>,</span> <span class='rubyid_enums_to_translate identifier id'>enums_to_translate</span><span class='rparen token'>)</span>
+        <span class='rubyid_else else kw'>else</span>
+          <span class='rubyid_item identifier id'>item</span>
+        <span class='rubyid_end end kw'>end</span>
       <span class='rbrace token'>}</span>
 
     <span class='rubyid_elsif elsif kw'>elsif</span> <span class='rubyid_definition identifier id'>definition</span><span class='dot token'>.</span><span class='rubyid_has_key? fid id'>has_key?</span><span class='lparen token'>(</span><span class='string val'>&quot;dynamic_enum&quot;</span><span class='rparen token'>)</span>
@@ -304,15 +304,12 @@ than “eng”</p>
 14
 15
 16
-17
-18
-19</pre>
+17</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'common/jsonmodel_translatable.rb', line 9</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_to_hash_with_translated_enums identifier id'>to_hash_with_translated_enums</span><span class='lparen token'>(</span><span class='rubyid_enums_to_translate identifier id'>enums_to_translate</span><span class='comma token'>,</span> <span class='rubyid_mode identifier id'>mode</span> <span class='assign token'>=</span> <span class='rubyid_nil nil kw'>nil</span><span class='rparen token'>)</span>
-
   <span class='rubyid_hash identifier id'>hash</span> <span class='assign token'>=</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_to_hash identifier id'>to_hash</span><span class='lparen token'>(</span><span class='rubyid_mode identifier id'>mode</span><span class='rparen token'>)</span>
 
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_enums_to_translate identifier id'>enums_to_translate</span>
@@ -320,7 +317,6 @@ than “eng”</p>
   <span class='rubyid_end end kw'>end</span>
 
   <span class='rubyid_hash identifier id'>hash</span>
-
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -333,9 +329,9 @@ than “eng”</p>
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.8.1.a Documentation Generated on Wed Nov 11 13:21:37 2020 by
+  ArchivesSpace Version X.Y.Z Documentation Generated on Tue Sep 21 14:09:38 2021 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.25.
+  0.9.26.
 </div>
 
     </div>

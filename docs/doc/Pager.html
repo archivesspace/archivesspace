@@ -6,7 +6,7 @@
 <title>
   Class: Pager
   
-    &mdash; Documentation by YARD 0.9.25
+    &mdash; Documentation by YARD 0.9.26
   
 </title>
 
@@ -509,12 +509,12 @@
   <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_page identifier id'>page</span> <span class='assign token'>=</span> <span class='rubyid_page identifier id'>page</span><span class='dot token'>.</span><span class='rubyid_to_i identifier id'>to_i</span> <span class='orop op'>||</span> <span class='integer val'>1</span>
   <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_last_page identifier id'>last_page</span> <span class='assign token'>=</span> <span class='rubyid_last_page identifier id'>last_page</span><span class='dot token'>.</span><span class='rubyid_to_i identifier id'>to_i</span>
   <span class='rubyid_lower_page identifier id'>lower_page</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span> <span class='lparen token'>(</span><span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_page identifier id'>page</span> <span class='minus op'>-</span> <span class='rubyid_PAGE_NUMBERS_TO_SHOW constant id'>PAGE_NUMBERS_TO_SHOW</span> <span class='div op'>/</span> <span class='integer val'>2</span><span class='rparen token'>)</span><span class='comma token'>,</span> <span class='integer val'>1</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_max identifier id'>max</span>
-  <span class='rubyid_upper_page identifier id'>upper_page</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rubyid_lower_page identifier id'>lower_page</span> <span class='plus op'>+</span> <span class='rubyid_PAGE_NUMBERS_TO_SHOW constant id'>PAGE_NUMBERS_TO_SHOW</span><span class='comma token'>,</span> <span class='lparen token'>(</span><span class='rubyid_last_page identifier id'>last_page</span><span class='dot token'>.</span><span class='rubyid_to_i identifier id'>to_i</span> <span class='eq op'>==</span> <span class='integer val'>1</span><span class='question op'>?</span> <span class='integer val'>1</span> <span class='colon op'>:</span>  <span class='rubyid_last_page identifier id'>last_page</span><span class='dot token'>.</span><span class='rubyid_to_i identifier id'>to_i</span> <span class='plus op'>+</span> <span class='integer val'>1</span><span class='rparen token'>)</span> <span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_min identifier id'>min</span>
+  <span class='rubyid_upper_page identifier id'>upper_page</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rubyid_lower_page identifier id'>lower_page</span> <span class='plus op'>+</span> <span class='rubyid_PAGE_NUMBERS_TO_SHOW constant id'>PAGE_NUMBERS_TO_SHOW</span><span class='comma token'>,</span> <span class='lparen token'>(</span><span class='rubyid_last_page identifier id'>last_page</span><span class='dot token'>.</span><span class='rubyid_to_i identifier id'>to_i</span> <span class='eq op'>==</span> <span class='integer val'>1</span><span class='question op'>?</span> <span class='integer val'>1</span> <span class='colon op'>:</span> <span class='rubyid_last_page identifier id'>last_page</span><span class='dot token'>.</span><span class='rubyid_to_i identifier id'>to_i</span> <span class='plus op'>+</span> <span class='integer val'>1</span><span class='rparen token'>)</span> <span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_min identifier id'>min</span>
   <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_need_prev identifier id'>need_prev</span> <span class='assign token'>=</span> <span class='lparen token'>(</span><span class='rubyid_lower_page identifier id'>lower_page</span> <span class='gt op'>&gt;</span> <span class='integer val'>1</span><span class='rparen token'>)</span>
   <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_prev identifier id'>prev</span> <span class='assign token'>=</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_page identifier id'>page</span> <span class='minus op'>-</span> <span class='integer val'>1</span>
   <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_need_next identifier id'>need_next</span> <span class='assign token'>=</span> <span class='lparen token'>(</span><span class='rubyid_upper_page identifier id'>upper_page</span> <span class='lt op'>&lt;</span> <span class='rubyid_last_page identifier id'>last_page</span><span class='dot token'>.</span><span class='rubyid_to_i identifier id'>to_i</span><span class='rparen token'>)</span>
   <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_need_last identifier id'>need_last</span> <span class='assign token'>=</span> <span class='lparen token'>(</span><span class='rubyid_last_page identifier id'>last_page</span><span class='dot token'>.</span><span class='rubyid_to_i identifier id'>to_i</span> <span class='plus op'>+</span> <span class='integer val'>1</span> <span class='gt op'>&gt;</span> <span class='rubyid_upper_page identifier id'>upper_page</span> <span class='rparen token'>)</span>
-  <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_next identifier id'>next</span> <span class='assign token'>=</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_page identifier id'>page</span> <span class='plus op'>+</span> <span class='integer val'>1</span> 
+  <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_next identifier id'>next</span> <span class='assign token'>=</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_page identifier id'>page</span> <span class='plus op'>+</span> <span class='integer val'>1</span>
   <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_pages identifier id'>pages</span> <span class='assign token'>=</span> <span class='rubyid_Range constant id'>Range</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='rubyid_lower_page identifier id'>lower_page</span><span class='comma token'>,</span> <span class='rubyid_upper_page identifier id'>upper_page</span><span class='comma token'>,</span> <span class='rubyid_true true kw'>true</span><span class='rparen token'>)</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
@@ -1113,12 +1113,12 @@
       <pre class="lines">
 
 
-17
 18
-19</pre>
+19
+20</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'public/app/models/pager.rb', line 17</span>
+      <pre class="code"><span class="info file"># File 'public/app/models/pager.rb', line 18</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_one_page? fid id'>one_page?</span>
   <span class='rubyid_last_page identifier id'>last_page</span> <span class='lt op'>&lt;</span> <span class='integer val'>2</span>
@@ -1144,12 +1144,12 @@
       <pre class="lines">
 
 
-20
-21
-22</pre>
+22
+23
+24</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'public/app/models/pager.rb', line 20</span>
+      <pre class="code"><span class="info file"># File 'public/app/models/pager.rb', line 22</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_to_s identifier id'>to_s</span>
   <span class='dstring node'>&quot;Link: #{self.link} Page #{self.page} Last Page #{self.last_page} Need Prev? #{self.need_prev} Need Next: #{self.need_next}&quot;</span>
@@ -1165,9 +1165,9 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.8.1.a Documentation Generated on Wed Nov 11 13:22:26 2020 by
+  ArchivesSpace Version X.Y.Z Documentation Generated on Tue Sep 21 14:10:14 2021 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.25.
+  0.9.26.
 </div>
 
     </div>

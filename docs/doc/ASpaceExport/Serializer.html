@@ -6,7 +6,7 @@
 <title>
   Class: ASpaceExport::Serializer
   
-    &mdash; Documentation by YARD 0.9.25
+    &mdash; Documentation by YARD 0.9.26
   
 </title>
 
@@ -101,7 +101,7 @@
 
 <div id="subclasses">
   <h2>Direct Known Subclasses</h2>
-  <p class="children"><span class='object_link'><a href="../DCSerializer.html" title="DCSerializer (class)">DCSerializer</a></span>, <span class='object_link'><a href="../EACSerializer.html" title="EACSerializer (class)">EACSerializer</a></span>, <span class='object_link'><a href="../EADSerializer.html" title="EADSerializer (class)">EADSerializer</a></span>, <span class='object_link'><a href="../MARCSerializer.html" title="MARCSerializer (class)">MARCSerializer</a></span>, <span class='object_link'><a href="../METSSerializer.html" title="METSSerializer (class)">METSSerializer</a></span>, <span class='object_link'><a href="../MODSSerializer.html" title="MODSSerializer (class)">MODSSerializer</a></span></p>
+  <p class="children"><span class='object_link'><a href="../DCSerializer.html" title="DCSerializer (class)">DCSerializer</a></span>, <span class='object_link'><a href="../EACSerializer.html" title="EACSerializer (class)">EACSerializer</a></span>, <span class='object_link'><a href="../EADSerializer.html" title="EADSerializer (class)">EADSerializer</a></span>, <span class='object_link'><a href="../MARCAuthSerializer.html" title="MARCAuthSerializer (class)">MARCAuthSerializer</a></span>, <span class='object_link'><a href="../MARCSerializer.html" title="MARCSerializer (class)">MARCSerializer</a></span>, <span class='object_link'><a href="../METSSerializer.html" title="METSSerializer (class)">METSSerializer</a></span>, <span class='object_link'><a href="../MODSSerializer.html" title="MODSSerializer (class)">MODSSerializer</a></span></p>
 </div>
 
 
@@ -236,12 +236,12 @@
       <pre class="lines">
 
 
-104
-105
-106</pre>
+102
+103
+104</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/exporters/lib/exporter.rb', line 104</span>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/lib/exporter.rb', line 102</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_inherited identifier id'>inherited</span><span class='lparen token'>(</span><span class='rubyid_subclass identifier id'>subclass</span><span class='rparen token'>)</span>
   <span class='rubyid_ASpaceExport constant id'>ASpaceExport</span><span class='dot token'>.</span><span class='rubyid_register_serializer identifier id'>register_serializer</span><span class='lparen token'>(</span><span class='rubyid_subclass identifier id'>subclass</span><span class='rparen token'>)</span>
@@ -267,12 +267,12 @@
       <pre class="lines">
 
 
-109
-110
-111</pre>
+107
+108
+109</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/exporters/lib/exporter.rb', line 109</span>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/lib/exporter.rb', line 107</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_serializer_for identifier id'>serializer_for</span><span class='lparen token'>(</span><span class='rubyid_name identifier id'>name</span><span class='rparen token'>)</span>
   <span class='rubyid_@serializer_for ivar id'>@serializer_for</span> <span class='assign token'>=</span> <span class='rubyid_name identifier id'>name</span>
@@ -321,12 +321,12 @@
       <pre class="lines">
 
 
-114
-115
-116</pre>
+112
+113
+114</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/exporters/lib/exporter.rb', line 114</span>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/lib/exporter.rb', line 112</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_serializer_for? fid id'>serializer_for?</span><span class='lparen token'>(</span><span class='rubyid_name identifier id'>name</span><span class='rparen token'>)</span>
   <span class='rubyid_@serializer_for ivar id'>@serializer_for</span> <span class='eq op'>==</span> <span class='rubyid_name identifier id'>name</span>
@@ -363,18 +363,18 @@ for example, MODS data wrapped in METS</p>
       <pre class="lines">
 
 
+118
+119
 120
 121
 122
-123
-124
-125</pre>
+123</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/exporters/lib/exporter.rb', line 120</span>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/lib/exporter.rb', line 118</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_with_namespace identifier id'>with_namespace</span><span class='lparen token'>(</span><span class='rubyid_prefix identifier id'>prefix</span><span class='comma token'>,</span> <span class='rubyid_xml identifier id'>xml</span><span class='rparen token'>)</span>
-  <span class='rubyid_ns identifier id'>ns</span> <span class='assign token'>=</span> <span class='rubyid_xml identifier id'>xml</span><span class='dot token'>.</span><span class='rubyid_doc identifier id'>doc</span><span class='dot token'>.</span><span class='rubyid_root identifier id'>root</span><span class='dot token'>.</span><span class='rubyid_namespace_definitions identifier id'>namespace_definitions</span><span class='dot token'>.</span><span class='rubyid_find identifier id'>find</span><span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_ns identifier id'>ns</span><span class='bitor op'>|</span> <span class='rubyid_ns identifier id'>ns</span><span class='dot token'>.</span><span class='rubyid_prefix identifier id'>prefix</span> <span class='eq op'>==</span> <span class='rubyid_prefix identifier id'>prefix</span><span class='rbrace token'>}</span>
+  <span class='rubyid_ns identifier id'>ns</span> <span class='assign token'>=</span> <span class='rubyid_xml identifier id'>xml</span><span class='dot token'>.</span><span class='rubyid_doc identifier id'>doc</span><span class='dot token'>.</span><span class='rubyid_root identifier id'>root</span><span class='dot token'>.</span><span class='rubyid_namespace_definitions identifier id'>namespace_definitions</span><span class='dot token'>.</span><span class='rubyid_find identifier id'>find</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_ns identifier id'>ns</span><span class='bitor op'>|</span> <span class='rubyid_ns identifier id'>ns</span><span class='dot token'>.</span><span class='rubyid_prefix identifier id'>prefix</span> <span class='eq op'>==</span> <span class='rubyid_prefix identifier id'>prefix</span><span class='rbrace token'>}</span>
   <span class='rubyid_xml identifier id'>xml</span><span class='dot token'>.</span><span class='rubyid_instance_variable_set identifier id'>instance_variable_set</span><span class='lparen token'>(</span><span class='symbol val'>:@sticky_ns</span><span class='comma token'>,</span> <span class='rubyid_ns identifier id'>ns</span><span class='rparen token'>)</span>
   <span class='rubyid_yield yield kw'>yield</span>
   <span class='rubyid_xml identifier id'>xml</span><span class='dot token'>.</span><span class='rubyid_instance_variable_set identifier id'>instance_variable_set</span><span class='lparen token'>(</span><span class='symbol val'>:@sticky_ns</span><span class='comma token'>,</span> <span class='rubyid_nil nil kw'>nil</span><span class='rparen token'>)</span>
@@ -390,9 +390,9 @@ for example, MODS data wrapped in METS</p>
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.8.1.a Documentation Generated on Wed Nov 11 13:21:56 2020 by
+  ArchivesSpace Version X.Y.Z Documentation Generated on Tue Sep 21 14:09:52 2021 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.25.
+  0.9.26.
 </div>
 
     </div>

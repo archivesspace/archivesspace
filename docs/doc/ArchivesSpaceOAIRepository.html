@@ -6,7 +6,7 @@
 <title>
   Class: ArchivesSpaceOAIRepository
   
-    &mdash; Documentation by YARD 0.9.25
+    &mdash; Documentation by YARD 0.9.26
   
 </title>
 
@@ -137,7 +137,19 @@
         <dt id="RESOLVE-constant" class="">RESOLVE =
           
         </dt>
-        <dd><pre class="code"><span class='lbrack token'>[</span><span class='string val'>&#39;repository&#39;</span><span class='comma token'>,</span> <span class='string val'>&#39;subjects&#39;</span><span class='comma token'>,</span> <span class='string val'>&#39;linked_agents&#39;</span><span class='comma token'>,</span> <span class='string val'>&#39;digital_object&#39;</span><span class='comma token'>,</span> <span class='string val'>&#39;top_container&#39;</span><span class='comma token'>,</span> <span class='string val'>&#39;ancestors&#39;</span><span class='comma token'>,</span> <span class='string val'>&#39;linked_agents&#39;</span><span class='comma token'>,</span> <span class='string val'>&#39;resource&#39;</span><span class='comma token'>,</span> <span class='string val'>&#39;top_container::container_profile&#39;</span><span class='rbrack token'>]</span>
+        <dd><pre class="code"><span class='lbrack token'>[</span>
+  <span class='string val'>&#39;ancestors&#39;</span><span class='comma token'>,</span>
+  <span class='string val'>&#39;ancestors::linked_agents&#39;</span><span class='comma token'>,</span>
+  <span class='string val'>&#39;ancestors::subjects&#39;</span><span class='comma token'>,</span>
+  <span class='string val'>&#39;ancestors::instances::sub_container::top_container&#39;</span><span class='comma token'>,</span>
+  <span class='string val'>&#39;digital_object&#39;</span><span class='comma token'>,</span>
+  <span class='string val'>&#39;linked_agents&#39;</span><span class='comma token'>,</span>
+  <span class='string val'>&#39;repository&#39;</span><span class='comma token'>,</span>
+  <span class='string val'>&#39;resource&#39;</span><span class='comma token'>,</span>
+  <span class='string val'>&#39;subjects&#39;</span><span class='comma token'>,</span>
+  <span class='string val'>&#39;top_container&#39;</span><span class='comma token'>,</span>
+  <span class='string val'>&#39;top_container::container_profile&#39;</span>
+<span class='rbrack token'>]</span>
 </pre></dd>
       
     </dl>
@@ -514,12 +526,12 @@ pretty much stuck doing slow lookups.</p>
       <pre class="lines">
 
 
-44
-45
-46</pre>
+56
+57
+58</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/oai/aspace_oai_repository.rb', line 44</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/oai/aspace_oai_repository.rb', line 56</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_earliest identifier id'>earliest</span>
   <span class='rubyid_Time constant id'>Time</span><span class='dot token'>.</span><span class='rubyid_at identifier id'>at</span><span class='lparen token'>(</span><span class='integer val'>0</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_utc identifier id'>utc</span>
@@ -568,18 +580,6 @@ pretty much stuck doing slow lookups.</p>
       <pre class="lines">
 
 
-100
-101
-102
-103
-104
-105
-106
-107
-108
-109
-110
-111
 112
 113
 114
@@ -598,10 +598,22 @@ pretty much stuck doing slow lookups.</p>
 127
 128
 129
-130</pre>
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/oai/aspace_oai_repository.rb', line 100</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/oai/aspace_oai_repository.rb', line 112</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_fetch_single_record identifier id'>fetch_single_record</span><span class='lparen token'>(</span><span class='rubyid_uri identifier id'>uri</span><span class='comma token'>,</span> <span class='rubyid_options identifier id'>options</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
   <span class='rubyid_tombstone identifier id'>tombstone</span> <span class='assign token'>=</span> <span class='rubyid_Tombstone constant id'>Tombstone</span><span class='dot token'>.</span><span class='rubyid_filter identifier id'>filter</span><span class='lparen token'>(</span><span class='symbol val'>:uri</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_uri identifier id'>uri</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_first identifier id'>first</span>
@@ -655,18 +667,6 @@ pretty much stuck doing slow lookups.</p>
       <pre class="lines">
 
 
-132
-133
-134
-135
-136
-137
-138
-139
-140
-141
-142
-143
 144
 145
 146
@@ -680,10 +680,22 @@ pretty much stuck doing slow lookups.</p>
 154
 155
 156
-157</pre>
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/oai/aspace_oai_repository.rb', line 132</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/oai/aspace_oai_repository.rb', line 144</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_find identifier id'>find</span><span class='lparen token'>(</span><span class='rubyid_selector identifier id'>selector</span><span class='comma token'>,</span> <span class='rubyid_options identifier id'>options</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_selector identifier id'>selector</span><span class='dot token'>.</span><span class='rubyid_is_a? fid id'>is_a?</span><span class='lparen token'>(</span><span class='rubyid_String constant id'>String</span><span class='rparen token'>)</span>
@@ -775,12 +787,12 @@ pretty much stuck doing slow lookups.</p>
       <pre class="lines">
 
 
-48
-49
-50</pre>
+60
+61
+62</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/oai/aspace_oai_repository.rb', line 48</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/oai/aspace_oai_repository.rb', line 60</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_latest identifier id'>latest</span>
   <span class='rubyid_Time constant id'>Time</span><span class='dot token'>.</span><span class='rubyid_now identifier id'>now</span><span class='dot token'>.</span><span class='rubyid_utc identifier id'>utc</span>
@@ -829,24 +841,24 @@ pretty much stuck doing slow lookups.</p>
       <pre class="lines">
 
 
-84
-85
-86
-87
-88
-89
-90
-91
-92
-93
-94
-95
 96
 97
-98</pre>
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/oai/aspace_oai_repository.rb', line 84</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/oai/aspace_oai_repository.rb', line 96</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_set_enabled? fid id'>set_enabled?</span><span class='lparen token'>(</span><span class='rubyid_set identifier id'>set</span><span class='rparen token'>)</span>
   <span class='rubyid_sets_in_repos identifier id'>sets_in_repos</span> <span class='assign token'>=</span> <span class='rubyid_Repository constant id'>Repository</span><span class='dot token'>.</span><span class='rubyid_exclude identifier id'>exclude</span><span class='lparen token'>(</span><span class='symbol val'>:publish</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='integer val'>0</span><span class='rparen token'>)</span>
@@ -884,18 +896,6 @@ pretty much stuck doing slow lookups.</p>
       <pre class="lines">
 
 
-52
-53
-54
-55
-56
-57
-58
-59
-60
-61
-62
-63
 64
 65
 66
@@ -913,16 +913,28 @@ pretty much stuck doing slow lookups.</p>
 78
 79
 80
-81</pre>
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/oai/aspace_oai_repository.rb', line 52</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/oai/aspace_oai_repository.rb', line 64</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_sets identifier id'>sets</span>
   <span class='rubyid_available_levels identifier id'>available_levels</span> <span class='assign token'>=</span> <span class='rubyid_BackendEnumSource constant id'>BackendEnumSource</span><span class='dot token'>.</span><span class='rubyid_values_for identifier id'>values_for</span><span class='lparen token'>(</span><span class='string val'>&quot;archival_record_level&quot;</span><span class='rparen token'>)</span>
   <span class='rubyid_get_oai_config_values identifier id'>get_oai_config_values</span>
 
-  <span class='comment val'># ANW-674: </span>
+  <span class='comment val'># ANW-674:</span>
   <span class='comment val'># Get set values from OAIConfig table instead of config file</span>
   <span class='rubyid_config_sets identifier id'>config_sets</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
 
@@ -959,9 +971,9 @@ pretty much stuck doing slow lookups.</p>
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.8.1.a Documentation Generated on Wed Nov 11 13:22:05 2020 by
+  ArchivesSpace Version X.Y.Z Documentation Generated on Tue Sep 21 14:09:59 2021 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.25.
+  0.9.26.
 </div>
 
     </div>

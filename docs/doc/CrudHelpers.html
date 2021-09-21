@@ -6,7 +6,7 @@
 <title>
   Module: CrudHelpers
   
-    &mdash; Documentation by YARD 0.9.25
+    &mdash; Documentation by YARD 0.9.26
   
 </title>
 
@@ -398,6 +398,8 @@
       <pre class="lines">
 
 
+71
+72
 73
 74
 75
@@ -410,12 +412,10 @@
 82
 83
 84
-85
-86
-87</pre>
+85</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/crud_helpers.rb', line 73</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/crud_helpers.rb', line 71</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_with_record_conflict_reporting identifier id'>with_record_conflict_reporting</span><span class='lparen token'>(</span><span class='rubyid_model identifier id'>model</span><span class='comma token'>,</span> <span class='rubyid_json identifier id'>json</span><span class='rparen token'>)</span>
   <span class='rubyid_begin begin kw'>begin</span>
@@ -551,20 +551,16 @@
 65
 66
 67
-68
-69
-70</pre>
+68</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'backend/app/lib/crud_helpers.rb', line 48</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_handle_listing identifier id'>handle_listing</span><span class='lparen token'>(</span><span class='rubyid_model identifier id'>model</span><span class='comma token'>,</span> <span class='rubyid_pagination_data identifier id'>pagination_data</span><span class='comma token'>,</span> <span class='rubyid_where identifier id'>where</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='comma token'>,</span> <span class='rubyid_order identifier id'>order</span> <span class='assign token'>=</span> <span class='rubyid_nil nil kw'>nil</span><span class='rparen token'>)</span>
-
   <span class='rubyid_dataset identifier id'>dataset</span> <span class='assign token'>=</span> <span class='rubyid_CrudHelpers constant id'>CrudHelpers</span><span class='dot token'>.</span><span class='rubyid_scoped_dataset identifier id'>scoped_dataset</span><span class='lparen token'>(</span><span class='rubyid_model identifier id'>model</span><span class='comma token'>,</span> <span class='rubyid_where identifier id'>where</span><span class='rparen token'>)</span>
-
+  <span class='rubyid_order identifier id'>order</span> <span class='assign token'>=</span> <span class='rubyid_Sequel constant id'>Sequel</span><span class='dot token'>.</span><span class='rubyid_send identifier id'>send</span><span class='lparen token'>(</span><span class='rubyid_pagination_data identifier id'>pagination_data</span><span class='lbrack token'>[</span><span class='string val'>&#39;sort_direction&#39;</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='rubyid_pagination_data identifier id'>pagination_data</span><span class='lbrack token'>[</span><span class='string val'>&#39;sort_field&#39;</span><span class='rbrack token'>]</span><span class='rparen token'>)</span> <span class='rubyid_unless unless_mod kw'>unless</span> <span class='rubyid_order identifier id'>order</span>
   <span class='rubyid_modified_since_time identifier id'>modified_since_time</span> <span class='assign token'>=</span> <span class='rubyid_Time constant id'>Time</span><span class='dot token'>.</span><span class='rubyid_at identifier id'>at</span><span class='lparen token'>(</span><span class='rubyid_pagination_data identifier id'>pagination_data</span><span class='lbrack token'>[</span><span class='symbol val'>:modified_since</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
-  <span class='rubyid_dataset identifier id'>dataset</span> <span class='assign token'>=</span> <span class='rubyid_dataset identifier id'>dataset</span><span class='dot token'>.</span><span class='rubyid_where identifier id'>where</span> <span class='lbrace token'>{</span> <span class='rubyid_system_mtime identifier id'>system_mtime</span> <span class='geq op'>&gt;=</span> <span class='rubyid_modified_since_time identifier id'>modified_since_time</span> <span class='rbrace token'>}</span>
-  <span class='rubyid_dataset identifier id'>dataset</span> <span class='assign token'>=</span> <span class='rubyid_order identifier id'>order</span> <span class='integer val'>? </span><span class='rubyid_dataset identifier id'>dataset</span><span class='dot token'>.</span><span class='rubyid_order identifier id'>order</span><span class='lparen token'>(</span><span class='mult op'>*</span><span class='rubyid_order identifier id'>order</span><span class='rparen token'>)</span> <span class='colon op'>:</span> <span class='rubyid_dataset identifier id'>dataset</span><span class='dot token'>.</span><span class='rubyid_order identifier id'>order</span><span class='lparen token'>(</span><span class='symbol val'>:id</span><span class='rparen token'>)</span>
+  <span class='rubyid_dataset identifier id'>dataset</span> <span class='assign token'>=</span> <span class='rubyid_dataset identifier id'>dataset</span><span class='dot token'>.</span><span class='rubyid_where identifier id'>where</span> <span class='lbrace token'>{</span> <span class='rubyid_system_mtime identifier id'>system_mtime</span> <span class='geq op'>&gt;=</span> <span class='rubyid_modified_since_time identifier id'>modified_since_time</span> <span class='rbrace token'>}</span><span class='dot token'>.</span><span class='rubyid_order identifier id'>order</span><span class='lparen token'>(</span><span class='mult op'>*</span><span class='rubyid_order identifier id'>order</span><span class='rparen token'>)</span>
 
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_pagination_data identifier id'>pagination_data</span><span class='lbrack token'>[</span><span class='symbol val'>:page</span><span class='rbrack token'>]</span>
     <span class='comment val'># Classic pagination mode</span>
@@ -727,14 +723,14 @@
       <pre class="lines">
 
 
+88
+89
 90
 91
-92
-93
-94</pre>
+92</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/crud_helpers.rb', line 90</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/crud_helpers.rb', line 88</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_with_record_conflict_reporting identifier id'>with_record_conflict_reporting</span><span class='lparen token'>(</span><span class='rubyid_model identifier id'>model</span><span class='comma token'>,</span> <span class='rubyid_json identifier id'>json</span><span class='rparen token'>)</span>
   <span class='rubyid_CrudHelpers constant id'>CrudHelpers</span><span class='colon2 op'>::</span><span class='rubyid_with_record_conflict_reporting identifier id'>with_record_conflict_reporting</span><span class='lparen token'>(</span><span class='rubyid_model identifier id'>model</span><span class='comma token'>,</span> <span class='rubyid_json identifier id'>json</span><span class='rparen token'>)</span> <span class='rubyid_do do kw'>do</span>
@@ -752,9 +748,9 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.8.1.a Documentation Generated on Wed Nov 11 13:21:21 2020 by
+  ArchivesSpace Version X.Y.Z Documentation Generated on Tue Sep 21 14:09:26 2021 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.25.
+  0.9.26.
 </div>
 
     </div>

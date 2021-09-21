@@ -6,7 +6,7 @@
 <title>
   Class: RdeTemplatesController
   
-    &mdash; Documentation by YARD 0.9.25
+    &mdash; Documentation by YARD 0.9.26
   
 </title>
 
@@ -301,29 +301,25 @@
       <pre class="lines">
 
 
+41
+42
 43
 44
 45
 46
 47
-48
-49
-50
-51
-52</pre>
+48</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/controllers/rde_templates_controller.rb', line 43</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/controllers/rde_templates_controller.rb', line 41</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_batch_delete identifier id'>batch_delete</span>
-
   <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:ids</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_id identifier id'>id</span><span class='bitor op'>|</span>
     <span class='rubyid_template identifier id'>template</span> <span class='assign token'>=</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:rde_template</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_find identifier id'>find</span><span class='lparen token'>(</span><span class='rubyid_id identifier id'>id</span><span class='rparen token'>)</span>
     <span class='rubyid_template identifier id'>template</span><span class='dot token'>.</span><span class='rubyid_delete identifier id'>delete</span>
   <span class='rubyid_end end kw'>end</span>
 
   <span class='rubyid_redirect_to identifier id'>redirect_to</span> <span class='symbol val'>:action</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;index&#39;</span>
-  
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -358,8 +354,7 @@
 15
 16
 17
-18
-19</pre>
+18</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'frontend/app/controllers/rde_templates_controller.rb', line 6</span>
@@ -376,7 +371,6 @@
   <span class='rubyid_id identifier id'>id</span> <span class='assign token'>=</span> <span class='rubyid_template identifier id'>template</span><span class='dot token'>.</span><span class='rubyid_save identifier id'>save</span>
 
   <span class='rubyid_render identifier id'>render</span> <span class='symbol val'>:json</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span><span class='label val'>id:</span> <span class='rubyid_id identifier id'>id</span><span class='rbrace token'>}</span>
-
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -399,6 +393,7 @@
       <pre class="lines">
 
 
+21
 22
 23
 24
@@ -408,12 +403,10 @@
 28
 29
 30
-31
-32
-33</pre>
+31</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/controllers/rde_templates_controller.rb', line 22</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/controllers/rde_templates_controller.rb', line 21</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_index identifier id'>index</span>
   <span class='rubyid_templates identifier id'>templates</span> <span class='assign token'>=</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:rde_template</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_all identifier id'>all</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_template identifier id'>template</span><span class='bitor op'>|</span>
@@ -425,7 +418,6 @@
   <span class='rubyid_end end kw'>end</span>
 
   <span class='rubyid_render identifier id'>render</span> <span class='symbol val'>:json</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_templates identifier id'>templates</span>
-
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -448,14 +440,14 @@
       <pre class="lines">
 
 
+34
+35
 36
 37
-38
-39
-40</pre>
+38</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/controllers/rde_templates_controller.rb', line 36</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/controllers/rde_templates_controller.rb', line 34</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_show identifier id'>show</span>
   <span class='rubyid_template identifier id'>template</span> <span class='assign token'>=</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:rde_template</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_find identifier id'>find</span><span class='lparen token'>(</span><span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:id</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
@@ -473,9 +465,9 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.8.1.a Documentation Generated on Wed Nov 11 13:22:17 2020 by
+  ArchivesSpace Version X.Y.Z Documentation Generated on Tue Sep 21 14:10:08 2021 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.25.
+  0.9.26.
 </div>
 
     </div>

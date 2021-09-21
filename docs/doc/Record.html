@@ -6,7 +6,7 @@
 <title>
   Class: Record
   
-    &mdash; Documentation by YARD 0.9.25
+    &mdash; Documentation by YARD 0.9.26
   
 </title>
 
@@ -1131,7 +1131,7 @@
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_initialize identifier id'>initialize</span><span class='lparen token'>(</span><span class='rubyid_solr_result identifier id'>solr_result</span><span class='comma token'>,</span> <span class='rubyid_full identifier id'>full</span> <span class='assign token'>=</span> <span class='rubyid_false false kw'>false</span><span class='rparen token'>)</span>
   <span class='rubyid_@raw ivar id'>@raw</span> <span class='assign token'>=</span> <span class='rubyid_solr_result identifier id'>solr_result</span>
-  <span class='rubyid_if if kw'>if</span> <span class='rubyid_solr_result identifier id'>solr_result</span><span class='lbrack token'>[</span><span class='string val'>&#39;json&#39;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_kind_of? fid id'>kind_of?</span> <span class='rubyid_Hash constant id'>Hash</span>
+  <span class='rubyid_if if kw'>if</span> <span class='rubyid_solr_result identifier id'>solr_result</span><span class='lbrack token'>[</span><span class='string val'>&#39;json&#39;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_is_a? fid id'>is_a?</span> <span class='rubyid_Hash constant id'>Hash</span>
     <span class='rubyid_@json ivar id'>@json</span> <span class='assign token'>=</span> <span class='rubyid_solr_result identifier id'>solr_result</span><span class='lbrack token'>[</span><span class='string val'>&#39;json&#39;</span><span class='rbrack token'>]</span>
   <span class='rubyid_else else kw'>else</span>
     <span class='rubyid_@json ivar id'>@json</span> <span class='assign token'>=</span> <span class='rubyid_ASUtils constant id'>ASUtils</span><span class='dot token'>.</span><span class='rubyid_json_parse identifier id'>json_parse</span><span class='lparen token'>(</span><span class='rubyid_solr_result identifier id'>solr_result</span><span class='lbrack token'>[</span><span class='string val'>&#39;json&#39;</span><span class='rbrack token'>]</span><span class='rparen token'>)</span> <span class='orop op'>||</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span>
@@ -1153,7 +1153,7 @@
   <span class='rubyid_@container_summary_for_badge ivar id'>@container_summary_for_badge</span> <span class='assign token'>=</span> <span class='rubyid_parse_container_summary_for_badge identifier id'>parse_container_summary_for_badge</span>
   <span class='rubyid_@container_titles_and_uris ivar id'>@container_titles_and_uris</span> <span class='assign token'>=</span> <span class='rubyid_parse_container_display identifier id'>parse_container_display</span><span class='lparen token'>(</span><span class='symbol val'>:include_uri</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_true true kw'>true</span><span class='rparen token'>)</span>
   <span class='rubyid_@linked_digital_objects ivar id'>@linked_digital_objects</span> <span class='assign token'>=</span> <span class='rubyid_parse_digital_object_instances identifier id'>parse_digital_object_instances</span>
-  <span class='rubyid_@notes ivar id'>@notes</span> <span class='assign token'>=</span>  <span class='rubyid_parse_notes identifier id'>parse_notes</span>
+  <span class='rubyid_@notes ivar id'>@notes</span> <span class='assign token'>=</span> <span class='rubyid_parse_notes identifier id'>parse_notes</span>
   <span class='rubyid_@dates ivar id'>@dates</span> <span class='assign token'>=</span> <span class='rubyid_parse_dates identifier id'>parse_dates</span>
   <span class='rubyid_@lang_materials ivar id'>@lang_materials</span> <span class='assign token'>=</span> <span class='rubyid_parse_lang_materials identifier id'>parse_lang_materials</span>
   <span class='rubyid_@external_documents ivar id'>@external_documents</span> <span class='assign token'>=</span> <span class='rubyid_parse_external_documents identifier id'>parse_external_documents</span>
@@ -2402,7 +2402,7 @@
       <pre class="code"><span class="info file"># File 'public/app/models/record.rb', line 68</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_note identifier id'>note</span><span class='lparen token'>(</span><span class='rubyid_type identifier id'>type</span><span class='rparen token'>)</span>
-  <span class='rubyid_if if kw'>if</span> <span class='rubyid_notes identifier id'>notes</span><span class='lbrack token'>[</span><span class='rubyid_type identifier id'>type</span><span class='rbrack token'>]</span>
+  <span class='rubyid_if if kw'>if</span> <span class='rubyid_notes identifier id'>notes</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_notes identifier id'>notes</span><span class='lbrack token'>[</span><span class='rubyid_type identifier id'>type</span><span class='rbrack token'>]</span>
     <span class='rubyid_note identifier id'>note</span> <span class='assign token'>=</span> <span class='rubyid_notes identifier id'>notes</span><span class='lbrack token'>[</span><span class='rubyid_type identifier id'>type</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='integer val'>0</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_clone identifier id'>clone</span>
     <span class='rubyid_for for kw'>for</span> <span class='rubyid_i identifier id'>i</span> <span class='rubyid_in in kw'>in</span> <span class='float val'>1</span><span class='dot3 op'>...</span><span class='rubyid_notes identifier id'>notes</span><span class='lbrack token'>[</span><span class='rubyid_type identifier id'>type</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_length identifier id'>length</span>
       <span class='rubyid_note identifier id'>note</span> <span class='assign token'>=</span> <span class='rubyid_merge_notes identifier id'>merge_notes</span><span class='lparen token'>(</span><span class='rubyid_note identifier id'>note</span><span class='comma token'>,</span> <span class='rubyid_notes identifier id'>notes</span><span class='lbrack token'>[</span><span class='rubyid_type identifier id'>type</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='rubyid_i identifier id'>i</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
@@ -2445,7 +2445,7 @@
       <pre class="code"><span class="info file"># File 'public/app/models/record.rb', line 86</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_parse_full_title identifier id'>parse_full_title</span><span class='lparen token'>(</span><span class='rubyid_infinite_item identifier id'>infinite_item</span> <span class='assign token'>=</span> <span class='rubyid_false false kw'>false</span><span class='rparen token'>)</span>
-  <span class='rubyid_ft identifier id'>ft</span> <span class='assign token'>=</span>  <span class='rubyid_process_mixed_content identifier id'>process_mixed_content</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='lbrack token'>[</span><span class='string val'>&#39;display_string&#39;</span><span class='rbrack token'>]</span> <span class='orop op'>||</span> <span class='rubyid_json identifier id'>json</span><span class='lbrack token'>[</span><span class='string val'>&#39;title&#39;</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='symbol val'>:preserve_newlines</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_true true kw'>true</span><span class='rparen token'>)</span>
+  <span class='rubyid_ft identifier id'>ft</span> <span class='assign token'>=</span> <span class='rubyid_process_mixed_content identifier id'>process_mixed_content</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='lbrack token'>[</span><span class='string val'>&#39;display_string&#39;</span><span class='rbrack token'>]</span> <span class='orop op'>||</span> <span class='rubyid_json identifier id'>json</span><span class='lbrack token'>[</span><span class='string val'>&#39;title&#39;</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='symbol val'>:preserve_newlines</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_true true kw'>true</span><span class='rparen token'>)</span>
   <span class='rubyid_unless unless kw'>unless</span> <span class='rubyid_infinite_item identifier id'>infinite_item</span> <span class='orop op'>||</span> <span class='rubyid_json identifier id'>json</span><span class='lbrack token'>[</span><span class='string val'>&#39;title_inherited&#39;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_blank? fid id'>blank?</span> <span class='orop op'>||</span> <span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='lbrack token'>[</span><span class='string val'>&#39;display_string&#39;</span><span class='rbrack token'>]</span> <span class='orop op'>||</span> <span class='string val'>&#39;&#39;</span><span class='rparen token'>)</span> <span class='eq op'>==</span> <span class='rubyid_json identifier id'>json</span><span class='lbrack token'>[</span><span class='string val'>&#39;title&#39;</span><span class='rbrack token'>]</span>
     <span class='rubyid_ft identifier id'>ft</span> <span class='assign token'>=</span> <span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='string val'>&#39;inherited&#39;</span><span class='comma token'>,</span> <span class='symbol val'>:title</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_process_mixed_content identifier id'>process_mixed_content</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='lbrack token'>[</span><span class='string val'>&#39;title&#39;</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='symbol val'>:preserve_newlines</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_true true kw'>true</span><span class='rparen token'>)</span><span class='comma token'>,</span> <span class='symbol val'>:display</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_ft identifier id'>ft</span><span class='rparen token'>)</span>
   <span class='rubyid_end end kw'>end</span>
@@ -2497,9 +2497,9 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.8.1.a Documentation Generated on Wed Nov 11 13:22:27 2020 by
+  ArchivesSpace Version X.Y.Z Documentation Generated on Tue Sep 21 14:10:14 2021 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.25.
+  0.9.26.
 </div>
 
     </div>

@@ -6,7 +6,7 @@
 <title>
   Module: RightsRestrictionNotes::Implementation
   
-    &mdash; Documentation by YARD 0.9.25
+    &mdash; Documentation by YARD 0.9.26
   
 </title>
 
@@ -145,6 +145,12 @@
       <pre class="lines">
 
 
+40
+41
+42
+43
+44
+45
 46
 47
 48
@@ -154,19 +160,10 @@
 52
 53
 54
-55
-56
-57
-58
-59
-60
-61
-62
-63
-64</pre>
+55</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/rights_restriction_notes.rb', line 46</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/rights_restriction_notes.rb', line 40</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_process_restriction_notes identifier id'>process_restriction_notes</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='comma token'>,</span> <span class='rubyid_obj identifier id'>obj</span><span class='rparen token'>)</span>
   <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_rights_restriction_dataset identifier id'>rights_restriction_dataset</span><span class='dot token'>.</span><span class='rubyid_delete identifier id'>delete</span>
@@ -175,11 +172,8 @@
     <span class='rubyid_next next kw'>next</span> <span class='rubyid_unless unless_mod kw'>unless</span> <span class='rubyid_note identifier id'>note</span><span class='lbrack token'>[</span><span class='string val'>&#39;jsonmodel_type&#39;</span><span class='rbrack token'>]</span> <span class='eq op'>==</span> <span class='string val'>&#39;note_multipart&#39;</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_RESTRICTION_NOTE_TYPES constant id'>RESTRICTION_NOTE_TYPES</span><span class='dot token'>.</span><span class='rubyid_include? fid id'>include?</span><span class='lparen token'>(</span><span class='rubyid_note identifier id'>note</span><span class='lbrack token'>[</span><span class='string val'>&#39;type&#39;</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
     <span class='rubyid_next next kw'>next</span> <span class='rubyid_unless unless_mod kw'>unless</span> <span class='rubyid_note identifier id'>note</span><span class='dot token'>.</span><span class='rubyid_has_key? fid id'>has_key?</span><span class='lparen token'>(</span><span class='string val'>&#39;rights_restriction&#39;</span><span class='rparen token'>)</span>
 
-    <span class='rubyid_begin_date identifier id'>begin_date</span> <span class='assign token'>=</span> <span class='rubyid_note identifier id'>note</span><span class='lbrack token'>[</span><span class='string val'>&#39;rights_restriction&#39;</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>&#39;begin&#39;</span><span class='rbrack token'>]</span> <span class='question op'>?</span> <span class='rubyid_Date constant id'>Date</span><span class='dot token'>.</span><span class='rubyid_parse identifier id'>parse</span><span class='lparen token'>(</span><span class='rubyid_note identifier id'>note</span><span class='lbrack token'>[</span><span class='string val'>&#39;rights_restriction&#39;</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>&#39;begin&#39;</span><span class='rbrack token'>]</span><span class='rparen token'>)</span> <span class='colon op'>:</span> <span class='rubyid_nil nil kw'>nil</span>
-    <span class='rubyid_end_date identifier id'>end_date</span> <span class='assign token'>=</span> <span class='rubyid_note identifier id'>note</span><span class='lbrack token'>[</span><span class='string val'>&#39;rights_restriction&#39;</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>&#39;end&#39;</span><span class='rbrack token'>]</span> <span class='question op'>?</span> <span class='rubyid_Date constant id'>Date</span><span class='dot token'>.</span><span class='rubyid_parse identifier id'>parse</span><span class='lparen token'>(</span><span class='rubyid_note identifier id'>note</span><span class='lbrack token'>[</span><span class='string val'>&#39;rights_restriction&#39;</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>&#39;end&#39;</span><span class='rbrack token'>]</span><span class='rparen token'>)</span> <span class='colon op'>:</span> <span class='rubyid_nil nil kw'>nil</span>
-
-    <span class='rubyid_restriction identifier id'>restriction</span> <span class='assign token'>=</span> <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_add_rights_restriction identifier id'>add_rights_restriction</span><span class='lparen token'>(</span><span class='symbol val'>:begin</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_begin_date identifier id'>begin_date</span><span class='comma token'>,</span>
-                                             <span class='symbol val'>:end</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_end_date identifier id'>end_date</span><span class='comma token'>,</span>
+    <span class='rubyid_restriction identifier id'>restriction</span> <span class='assign token'>=</span> <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_add_rights_restriction identifier id'>add_rights_restriction</span><span class='lparen token'>(</span><span class='symbol val'>:begin</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_note identifier id'>note</span><span class='lbrack token'>[</span><span class='string val'>&#39;rights_restriction&#39;</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>&#39;begin&#39;</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
+                                             <span class='symbol val'>:end</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_note identifier id'>note</span><span class='lbrack token'>[</span><span class='string val'>&#39;rights_restriction&#39;</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>&#39;end&#39;</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
                                              <span class='symbol val'>:restriction_note_type</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_note identifier id'>note</span><span class='lbrack token'>[</span><span class='string val'>&#39;type&#39;</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
 
     <span class='rubyid_ASUtils constant id'>ASUtils</span><span class='dot token'>.</span><span class='rubyid_wrap identifier id'>wrap</span><span class='lparen token'>(</span><span class='rubyid_note identifier id'>note</span><span class='lbrack token'>[</span><span class='string val'>&#39;rights_restriction&#39;</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>&#39;local_access_restriction_type&#39;</span><span class='rbrack token'>]</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_restriction_type identifier id'>restriction_type</span><span class='bitor op'>|</span>
@@ -198,9 +192,9 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.8.1.a Documentation Generated on Wed Nov 11 13:21:32 2020 by
+  ArchivesSpace Version X.Y.Z Documentation Generated on Tue Sep 21 14:09:35 2021 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.25.
+  0.9.26.
 </div>
 
     </div>

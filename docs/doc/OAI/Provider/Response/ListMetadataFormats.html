@@ -6,7 +6,7 @@
 <title>
   Class: OAI::Provider::Response::ListMetadataFormats
   
-    &mdash; Documentation by YARD 0.9.25
+    &mdash; Documentation by YARD 0.9.26
   
 </title>
 
@@ -237,7 +237,7 @@
     <span class='comment val'># Only select formats where this type is supported</span>
     <span class='rubyid_formats identifier id'>formats</span><span class='dot token'>.</span><span class='rubyid_select! fid id'>select!</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_f identifier id'>f</span><span class='bitor op'>|</span>
       <span class='rubyid_format identifier id'>format</span> <span class='assign token'>=</span> <span class='rubyid_ArchivesSpaceOAIRepository constant id'>ArchivesSpaceOAIRepository</span><span class='dot token'>.</span><span class='rubyid_available_record_types identifier id'>available_record_types</span><span class='dot token'>.</span><span class='rubyid_fetch identifier id'>fetch</span><span class='lparen token'>(</span><span class='rubyid_f identifier id'>f</span><span class='dot token'>.</span><span class='rubyid_prefix identifier id'>prefix</span><span class='rparen token'>)</span>
-      <span class='rubyid_format identifier id'>format</span><span class='dot token'>.</span><span class='rubyid_record_types identifier id'>record_types</span><span class='dot token'>.</span><span class='rubyid_any? fid id'>any?</span><span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_jsonmodel_clz identifier id'>jsonmodel_clz</span><span class='bitor op'>|</span>
+      <span class='rubyid_format identifier id'>format</span><span class='dot token'>.</span><span class='rubyid_record_types identifier id'>record_types</span><span class='dot token'>.</span><span class='rubyid_any? fid id'>any?</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_jsonmodel_clz identifier id'>jsonmodel_clz</span><span class='bitor op'>|</span>
         <span class='rubyid_jsonmodel_clz identifier id'>jsonmodel_clz</span><span class='dot token'>.</span><span class='rubyid_my_jsonmodel identifier id'>my_jsonmodel</span><span class='dot token'>.</span><span class='rubyid_record_type identifier id'>record_type</span> <span class='eq op'>==</span> <span class='rubyid_jsonmodel_type identifier id'>jsonmodel_type</span>
       <span class='rbrace token'>}</span>
     <span class='rbrace token'>}</span>
@@ -266,9 +266,9 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.8.1.a Documentation Generated on Wed Nov 11 13:22:29 2020 by
+  ArchivesSpace Version X.Y.Z Documentation Generated on Tue Sep 21 14:10:16 2021 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.25.
+  0.9.26.
 </div>
 
     </div>

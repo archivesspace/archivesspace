@@ -6,7 +6,7 @@
 <title>
   Module: RESTHelpers
   
-    &mdash; Documentation by YARD 0.9.25
+    &mdash; Documentation by YARD 0.9.26
   
 </title>
 
@@ -186,16 +186,6 @@
       <pre class="lines">
 
 
-447
-448
-449
-450
-451
-452
-453
-454
-455
-456
 457
 458
 459
@@ -373,13 +363,31 @@
 631
 632
 633
-634</pre>
+634
+635
+636
+637
+638
+639
+640
+641
+642
+643
+644
+645
+646
+647
+648
+649
+650
+651
+652
+653</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/rest.rb', line 447</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/rest.rb', line 457</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_included identifier id'>included</span><span class='lparen token'>(</span><span class='rubyid_base identifier id'>base</span><span class='rparen token'>)</span>
-
   <span class='rubyid_base identifier id'>base</span><span class='dot token'>.</span><span class='rubyid_extend identifier id'>extend</span><span class='lparen token'>(</span><span class='rubyid_JSONModel constant id'>JSONModel</span><span class='rparen token'>)</span>
 
   <span class='rubyid_base identifier id'>base</span><span class='dot token'>.</span><span class='rubyid_helpers identifier id'>helpers</span> <span class='rubyid_do do kw'>do</span>
@@ -423,15 +431,24 @@
 
     <span class='rubyid_def def kw'>def</span> <span class='rubyid_process_pagination_params identifier id'>process_pagination_params</span><span class='lparen token'>(</span><span class='rubyid_params identifier id'>params</span><span class='comma token'>,</span> <span class='rubyid_known_params identifier id'>known_params</span><span class='comma token'>,</span> <span class='rubyid_errors identifier id'>errors</span><span class='comma token'>,</span> <span class='rubyid_paged identifier id'>paged</span><span class='rparen token'>)</span>
       <span class='rubyid_known_params identifier id'>known_params</span><span class='lbrack token'>[</span><span class='string val'>&#39;resolve&#39;</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_known_params identifier id'>known_params</span><span class='lbrack token'>[</span><span class='string val'>&#39;modified_since&#39;</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_true true kw'>true</span>
-
       <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='string val'>&#39;modified_since&#39;</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_coerce_type identifier id'>coerce_type</span><span class='lparen token'>(</span><span class='lparen token'>(</span><span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:modified_since</span><span class='rbrack token'>]</span> <span class='orop op'>||</span> <span class='string val'>&#39;0&#39;</span><span class='rparen token'>)</span><span class='comma token'>,</span>
                                             <span class='rubyid_NonNegativeInteger constant id'>NonNegativeInteger</span><span class='rparen token'>)</span>
+
+      <span class='rubyid_known_params identifier id'>known_params</span><span class='lbrack token'>[</span><span class='string val'>&#39;sort_field&#39;</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_true true kw'>true</span>
+      <span class='rubyid_known_params identifier id'>known_params</span><span class='lbrack token'>[</span><span class='string val'>&#39;sort_direction&#39;</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_true true kw'>true</span>
+      <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='string val'>&#39;sort_field&#39;</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_params identifier id'>params</span><span class='dot token'>.</span><span class='rubyid_fetch identifier id'>fetch</span><span class='lparen token'>(</span><span class='string val'>&#39;sort_field&#39;</span><span class='comma token'>,</span> <span class='string val'>&#39;id&#39;</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_to_sym identifier id'>to_sym</span>
+      <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='string val'>&#39;sort_direction&#39;</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_params identifier id'>params</span><span class='dot token'>.</span><span class='rubyid_fetch identifier id'>fetch</span><span class='lparen token'>(</span><span class='string val'>&#39;sort_direction&#39;</span><span class='comma token'>,</span> <span class='string val'>&#39;asc&#39;</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_to_sym identifier id'>to_sym</span>
+
+      <span class='rubyid_unless unless kw'>unless</span> <span class='lbrack token'>[</span><span class='symbol val'>:asc</span><span class='comma token'>,</span> <span class='symbol val'>:desc</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_include? fid id'>include?</span> <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='string val'>&#39;sort_direction&#39;</span><span class='rbrack token'>]</span>
+        <span class='rubyid_errors identifier id'>errors</span><span class='lbrack token'>[</span><span class='symbol val'>:failed_validation</span><span class='rbrack token'>]</span> <span class='lshft op'>&lt;&lt;</span> <span class='lbrace token'>{</span>
+          <span class='label val'>name:</span> <span class='string val'>&#39;sort_direction&#39;</span><span class='comma token'>,</span> <span class='label val'>validation:</span> <span class='dstring node'>&quot;must be either &#39;asc&#39; or &#39;desc&#39; but given: #{params[&#39;sort_direction&#39;]}&quot;</span>
+        <span class='rbrace token'>}</span>
+      <span class='rubyid_end end kw'>end</span>
 
       <span class='rubyid_if if kw'>if</span> <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:page</span><span class='rbrack token'>]</span>
         <span class='rubyid_known_params identifier id'>known_params</span><span class='lbrack token'>[</span><span class='string val'>&#39;page_size&#39;</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_known_params identifier id'>known_params</span><span class='lbrack token'>[</span><span class='string val'>&#39;page&#39;</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_true true kw'>true</span>
         <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='string val'>&#39;page_size&#39;</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_coerce_type identifier id'>coerce_type</span><span class='lparen token'>(</span><span class='lparen token'>(</span><span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:page_size</span><span class='rbrack token'>]</span> <span class='orop op'>||</span> <span class='rubyid_AppConfig constant id'>AppConfig</span><span class='lbrack token'>[</span><span class='symbol val'>:default_page_size</span><span class='rbrack token'>]</span><span class='rparen token'>)</span><span class='comma token'>,</span> <span class='rubyid_PageSize constant id'>PageSize</span><span class='rparen token'>)</span>
         <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='string val'>&#39;page&#39;</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_coerce_type identifier id'>coerce_type</span><span class='lparen token'>(</span><span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:page</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='rubyid_NonNegativeInteger constant id'>NonNegativeInteger</span><span class='rparen token'>)</span>
-
       <span class='rubyid_elsif elsif kw'>elsif</span> <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:id_set</span><span class='rbrack token'>]</span>
         <span class='rubyid_known_params identifier id'>known_params</span><span class='lbrack token'>[</span><span class='string val'>&#39;id_set&#39;</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_true true kw'>true</span>
         <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='string val'>&#39;id_set&#39;</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_coerce_type identifier id'>coerce_type</span><span class='lparen token'>(</span><span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:id_set</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='rubyid_IdSet constant id'>IdSet</span><span class='rparen token'>)</span>
@@ -549,6 +566,7 @@
           <span class='rubyid_if if kw'>if</span> <span class='rubyid_bad identifier id'>bad</span><span class='lbrack token'>[</span><span class='symbol val'>:type</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_is_a? fid id'>is_a?</span><span class='lparen token'>(</span><span class='rubyid_Array constant id'>Array</span><span class='rparen token'>)</span> <span class='andop op'>&amp;&amp;</span>
              <span class='notop op'>!</span><span class='rubyid_provided_value identifier id'>provided_value</span><span class='dot token'>.</span><span class='rubyid_is_a? fid id'>is_a?</span><span class='lparen token'>(</span><span class='rubyid_Array constant id'>Array</span><span class='rparen token'>)</span> <span class='andop op'>&amp;&amp;</span>
              <span class='rubyid_provided_value identifier id'>provided_value</span><span class='dot token'>.</span><span class='rubyid_is_a? fid id'>is_a?</span><span class='lparen token'>(</span><span class='rubyid_bad identifier id'>bad</span><span class='lbrack token'>[</span><span class='symbol val'>:type</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='integer val'>0</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
+
             <span class='comment val'># The caller got the right type but didn&#39;t wrap it in an array.</span>
             <span class='comment val'># Provide a more useful error message.</span>
             <span class='rubyid_msg identifier id'>msg</span> <span class='lshft op'>&lt;&lt;</span> <span class='dstring node'>&quot;.  Perhaps you meant to specify an array like: #{bad[:name]}[]=#{URI.escape(provided_value)}&quot;</span>
@@ -577,9 +595,9 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.8.1.a Documentation Generated on Wed Nov 11 13:21:20 2020 by
+  ArchivesSpace Version X.Y.Z Documentation Generated on Tue Sep 21 14:09:25 2021 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.25.
+  0.9.26.
 </div>
 
     </div>

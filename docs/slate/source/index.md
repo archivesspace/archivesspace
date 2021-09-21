@@ -25,20 +25,6 @@ This example API documentation page was created with [Slate](http://github.com/t
 
 # Authentication
 
-<!--
-```ruby
-require 'kittn'
-
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-```
-
-```python
-import kittn
-
-api = kittn.authorize('meowmeowmeow')
-```
--->
-
 > Example Authentication Request:
 
 ```shell
@@ -189,9 +175,20 @@ Most requests to the ArchivesSpace backend require a user to be authenticated. S
 
 The JSON that is returned will have a session key, which can be stored and used for other requests. Sessions will expire after an hour, although you can change this in your config.rb file.
 
-# Common Parameters
+# Common Route Categories and Parameters
 
 As you use the ArchivesSpace API, you may start to notice similarities between different endpoints, and arguments that repeatedly show up in URLs or parameter lists.  Some of the most general bear special description.
+
+## Create/Read/Update/Destroy (CRUD) Endpoints
+
+The simplest types of endpoints conceptually, these are endpoints that allow you to create new resources, fetch and update existing known resources, get all the resources of a particular type, and remove resources from the system.  Almost every kind of object in the system has routes of this type: here are the routes for `agent_corporate_entity` records.
+
+Example routes:
+- **Create:** [POST /agents/corporate_entities](#create-a-corporate-entity-agent)
+- **Read (Index route):** [GET /agents/corporate_entities](#list-all-corporate-entity-agents)
+- **Read (Single Record):** [GET /agents/corporate_entities/42](#get-a-corporate-entity-by-id)
+- **Update:** [POST /agents/corporate_entities/42](#update-a-corporate-entity-agent)
+- **Destroy:** [DELETE /agents/corporate_entities/42](#delete-a-corporate-entity-agent)
 
 ## Paginated Endpoints
 
@@ -212,6 +209,70 @@ These endpoints support some or all of the following:
 - paged access to objects (via :page)
 - listing all matching ids (via :all_ids)
 - fetching specific known objects via their database ids (via :id_set)
+
+
+## Search routes
+
+A number of routes in the ArchivesSpace API are designed to search for content across all or part of the records in the application.  These routes make use of [Solr](https://lucene.apache.org/solr/), a component bundled with ArchivesSpace and used to provide full text search over records.
+
+The search routes present in the application as of this time are:
+
+- [Search this archive](#search-this-archive)
+- [Search across repositories](#search-across-repositories)
+- [Search this repository](#search-this-repository)
+- [Search across subjects](#search-across-subjects)
+- [Search for top containers](#search-for-top-containers)
+- [Search across location profiles](#search-across-location-profiles)
+
+Search routes take quite a few different parameters, most of which correspond directly to Solr query parameters.  The most important parameter to understand is `q`, which is the query sent to Solr. This query is made in Lucene query syntax.  The relevant docs are located [here](https://lucene.apache.org/solr/guide/6_6/the-standard-query-parser.html#the-standard-query-parser).
+
+To limit a search to records of a particular type or set of types, you can use the 'type' parameter.  This is only relevant for search endpoints that aren't limited to specific types.  Note that type is expected to be a *list* of types, even if there is only one type you care about.
+
+```python
+from asnake.client import ASnakeClient
+
+client = ASnakeClient()
+client.authorize()
+
+# Search repository for records of any type with the word "pearlescent" in any field
+client.get('repositories/2/search', params={'q': 'pearlescent', 'page': 1}).json()
+
+# Search repository wth ID 24 for archival objects with "dragon" in their title field
+client.get('repositories/2/search', params={'q': 'title:dragon', 'type': ['archival_object'], 'page': 1}).json()
+
+```
+
+### Notes on search routes and results
+
+ArchivesSpace represents records as JSONModel Objects - this is what you get from and send to the system.
+
+SOLR takes these records, and stores "documents" BASED ON these JSONModel objects in a searchable index.
+
+Search routes query these documents, NOT the records themselves as stored in the database and represented by JSONModel.
+
+JSONModel objects and SOLR documents are similar in some ways:
+
+- both SOLR documents and JSONModel Objects are expressed in JSON
+- in general, documents will always contain some subset of the JSONModel object they represent
+
+But they also differ in quite a few important ways:
+
+- SOLR documents don't necessarily have all fields from a JSONModel object
+- SOLR documents do not automatically contain nested JSONModel Objects
+- SOLR documents can have fields defined that are arbitrary "search representations" of fields in associated records, or combinations of fields in a record
+- SOLR documents don't have a `jsonmodel_type` field - the `jsonmodel_type` of the record is stored as `primary_type` in SOLR
+
+### How do I get the actual JSONModel from a search document?
+
+In ArchivesSpace, SOLR documents all have a field `json`, which contains the JSONModel Object the document represents as a string.  You can use a JSON library to parse this string from the field, for example the json library in Python.
+
+```python
+import json
+search_results = client.get('repositories/2/search', params={'q': 'title:dragon', 'type': ['archival_object']}).json()['results']
+
+# get JSONModel from first search document in results
+my_record = json.loads(search_results[0]['json'])
+```
 
 ## refs and :resolve
 
@@ -307,9 +368,8 @@ In ArchivesSpace's JSONModel schema, a `ref` is a link to another object.  They 
 
 The :resolve parameter is a way to tell ArchivesSpace to attach the full object to these refs; it is passed in as an array of keys to "prefetch" in the returned JSON.  The object is included in the ref under a `_resolved` key.
 
-
 # ArchivesSpace REST API
-As of 2020-11-11 13:20:40 -0500 the following REST endpoints exist in the master branch of the development repository:
+As of 2021-09-21 14:08:49 -0400 the following REST endpoints exist in the master branch of the development repository:
 
 
 ## Create a corporate entity agent
@@ -330,43 +390,79 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
   -d '{ "jsonmodel_type":"agent_corporate_entity",
 "agent_contacts":[{ "jsonmodel_type":"agent_contact",
 "telephones":[{ "jsonmodel_type":"telephone",
-"number_type":"home",
-"number":"116 04140 272 36318"}],
-"name":"Name Number 5",
-"address_1":"228305FLV",
-"country":"Y998GQS",
-"fax":"756R109R789",
-"note":"TS543YO"}],
+"number":"37234 6300 054",
+"ext":"E953C566558"}],
+"notes":[{ "jsonmodel_type":"note_contact_note",
+"date_of_contact":"TY918852M",
+"contact_notes":"TTM483M"}],
+"is_representative":false,
+"name":"Name Number 6",
+"address_1":"C386HET",
+"address_3":"NPU409W",
+"city":"BI351496828",
+"region":"F94501NR",
+"fax":"EKE354J",
+"email_signature":"YSEXM"}],
+"agent_record_controls":[],
+"agent_alternate_sets":[],
+"agent_conventions_declarations":[],
+"agent_other_agency_codes":[],
+"agent_maintenance_histories":[],
+"agent_record_identifiers":[],
+"agent_identifiers":[],
+"agent_sources":[],
+"agent_places":[],
+"agent_occupations":[],
+"agent_functions":[],
+"agent_topics":[],
+"agent_resources":[],
 "linked_agent_roles":[],
 "external_documents":[],
 "notes":[],
 "used_within_repositories":[],
 "used_within_published_repositories":[],
-"dates_of_existence":[{ "jsonmodel_type":"date",
-"date_type":"range",
-"label":"existence",
-"begin":"2004-01-06",
-"end":"2004-01-06",
-"certainty":"inferred",
-"era":"ce",
-"calendar":"gregorian",
-"expression":"181409480C719"}],
+"dates_of_existence":[{ "jsonmodel_type":"structured_date_label",
+"date_type_structured":"single",
+"date_label":"existence",
+"structured_date_single":{ "jsonmodel_type":"structured_date_single",
+"date_role":"begin",
+"date_expression":"Yesterday",
+"date_standardized":"2019-06-01",
+"date_standardized_type":"standard"},
+"date_certainty":"approximate",
+"date_era":"ce",
+"date_calendar":"gregorian"}],
+"used_languages":[],
+"metadata_rights_declarations":[],
 "is_slug_auto":true,
 "names":[{ "jsonmodel_type":"name_corporate_entity",
-"use_dates":[],
+"use_dates":[{ "jsonmodel_type":"structured_date_label",
+"date_type_structured":"single",
+"date_label":"existence",
+"structured_date_single":{ "jsonmodel_type":"structured_date_single",
+"date_role":"begin",
+"date_expression":"Yesterday",
+"date_standardized":"2019-06-01",
+"date_standardized_type":"standard"},
+"date_certainty":"approximate",
+"date_era":"ce",
+"date_calendar":"gregorian"}],
 "authorized":false,
 "is_display_name":false,
 "sort_name_auto_generate":true,
-"rules":"rda",
-"primary_name":"Name Number 4",
-"subordinate_name_1":"LWL410G",
-"subordinate_name_2":"584610OCT",
-"number":"I547907L821",
-"sort_name":"SORT s - 2",
-"dates":"640781J70P",
-"qualifier":"37631O993614",
-"authority_id":"http://www.example-2.com",
-"source":"local"}],
+"conference_meeting":false,
+"jurisdiction":false,
+"parallel_names":[],
+"rules":"aacr",
+"primary_name":"Name Number 5",
+"subordinate_name_1":"7968494U545",
+"subordinate_name_2":"QXX604O",
+"number":"V441C455I",
+"sort_name":"SORT v - 4",
+"qualifier":"BHK735T",
+"dates":"C140KVG",
+"authority_id":"http://www.example-8-1632179081.com",
+"source":"nad"}],
 "related_agents":[],
 "agent_type":"agent_corporate_entity"}' \
   "http://localhost:8089/agents/corporate_entities"
@@ -374,34 +470,29 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 ```
 
 
+
 __Endpoint__
 
 ```[:POST] /agents/corporate_entities ```
 
+
 __Description__
 
-Create a corporate entity agent
-
-
-__Parameters__
+Create a corporate entity agent.
 
   
-    
   
-  
-    
-    
-  
-  
-	  JSONModel(:agent_corporate_entity) <request body> -- The record to create
-  
+
+
+__Accepts Payload of Type__
+
+JSONModel(:agent_corporate_entity)
 
 __Returns__
 
   	200 -- {:status => "Created", :id => (id of created object), :warnings => {(warnings)}}
 
   	400 -- {:error => (description of error)}
-
 
 
 
@@ -425,13 +516,16 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 ```
 
 
+
 __Endpoint__
 
 ```[:GET] /agents/corporate_entities ```
 
+
 __Description__
 
-List all corporate entity agents
+List all corporate entity agents.
+
 
 
 __Parameters__
@@ -446,10 +540,11 @@ This endpoint is paginated. :page, :id_set, or :all_ids is required
 </aside>
 
 
+
+
 __Returns__
 
   	200 -- [(:agent_corporate_entity)]
-
 
 
 
@@ -477,43 +572,79 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
   -d '{ "jsonmodel_type":"agent_corporate_entity",
 "agent_contacts":[{ "jsonmodel_type":"agent_contact",
 "telephones":[{ "jsonmodel_type":"telephone",
-"number_type":"home",
-"number":"116 04140 272 36318"}],
-"name":"Name Number 5",
-"address_1":"228305FLV",
-"country":"Y998GQS",
-"fax":"756R109R789",
-"note":"TS543YO"}],
+"number":"37234 6300 054",
+"ext":"E953C566558"}],
+"notes":[{ "jsonmodel_type":"note_contact_note",
+"date_of_contact":"TY918852M",
+"contact_notes":"TTM483M"}],
+"is_representative":false,
+"name":"Name Number 6",
+"address_1":"C386HET",
+"address_3":"NPU409W",
+"city":"BI351496828",
+"region":"F94501NR",
+"fax":"EKE354J",
+"email_signature":"YSEXM"}],
+"agent_record_controls":[],
+"agent_alternate_sets":[],
+"agent_conventions_declarations":[],
+"agent_other_agency_codes":[],
+"agent_maintenance_histories":[],
+"agent_record_identifiers":[],
+"agent_identifiers":[],
+"agent_sources":[],
+"agent_places":[],
+"agent_occupations":[],
+"agent_functions":[],
+"agent_topics":[],
+"agent_resources":[],
 "linked_agent_roles":[],
 "external_documents":[],
 "notes":[],
 "used_within_repositories":[],
 "used_within_published_repositories":[],
-"dates_of_existence":[{ "jsonmodel_type":"date",
-"date_type":"range",
-"label":"existence",
-"begin":"2004-01-06",
-"end":"2004-01-06",
-"certainty":"inferred",
-"era":"ce",
-"calendar":"gregorian",
-"expression":"181409480C719"}],
+"dates_of_existence":[{ "jsonmodel_type":"structured_date_label",
+"date_type_structured":"single",
+"date_label":"existence",
+"structured_date_single":{ "jsonmodel_type":"structured_date_single",
+"date_role":"begin",
+"date_expression":"Yesterday",
+"date_standardized":"2019-06-01",
+"date_standardized_type":"standard"},
+"date_certainty":"approximate",
+"date_era":"ce",
+"date_calendar":"gregorian"}],
+"used_languages":[],
+"metadata_rights_declarations":[],
 "is_slug_auto":true,
 "names":[{ "jsonmodel_type":"name_corporate_entity",
-"use_dates":[],
+"use_dates":[{ "jsonmodel_type":"structured_date_label",
+"date_type_structured":"single",
+"date_label":"existence",
+"structured_date_single":{ "jsonmodel_type":"structured_date_single",
+"date_role":"begin",
+"date_expression":"Yesterday",
+"date_standardized":"2019-06-01",
+"date_standardized_type":"standard"},
+"date_certainty":"approximate",
+"date_era":"ce",
+"date_calendar":"gregorian"}],
 "authorized":false,
 "is_display_name":false,
 "sort_name_auto_generate":true,
-"rules":"rda",
-"primary_name":"Name Number 4",
-"subordinate_name_1":"LWL410G",
-"subordinate_name_2":"584610OCT",
-"number":"I547907L821",
-"sort_name":"SORT s - 2",
-"dates":"640781J70P",
-"qualifier":"37631O993614",
-"authority_id":"http://www.example-2.com",
-"source":"local"}],
+"conference_meeting":false,
+"jurisdiction":false,
+"parallel_names":[],
+"rules":"aacr",
+"primary_name":"Name Number 5",
+"subordinate_name_1":"7968494U545",
+"subordinate_name_2":"QXX604O",
+"number":"V441C455I",
+"sort_name":"SORT v - 4",
+"qualifier":"BHK735T",
+"dates":"C140KVG",
+"authority_id":"http://www.example-8-1632179081.com",
+"source":"nad"}],
 "related_agents":[],
 "agent_type":"agent_corporate_entity"}' \
   "http://localhost:8089/agents/corporate_entities/1"
@@ -521,41 +652,63 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 ```
 
 
+
 __Endpoint__
 
 ```[:POST] /agents/corporate_entities/:id ```
 
+
 __Description__
 
-Update a corporate entity agent
+Update a corporate entity agent.
+
+  
+  
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
-  
-	  Integer id -- The ID of the record
-  
-  
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>id</code></td>
+        <td style="word-break: break-word;">
+            The ID of the record
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-  
-  
-    
-    
-  
-  
-	  JSONModel(:agent_corporate_entity) <request body> -- The updated record
-  
+  </tbody>
+</table>
+
+__Accepts Payload of Type__
+
+JSONModel(:agent_corporate_entity)
 
 __Returns__
 
   	200 -- {:status => "Updated", :id => (id of updated object)}
 
   	400 -- {:error => (description of error)}
-
 
 
 
@@ -591,41 +744,79 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 ```
 
 
+
 __Endpoint__
 
 ```[:GET] /agents/corporate_entities/:id ```
 
+
 __Description__
 
-Get a corporate entity by ID
+Get a corporate entity by ID.
+
+  
+  
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
-  
-	  Integer id -- ID of the corporate entity agent
-  
-  
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>id</code></td>
+        <td style="word-break: break-word;">
+            ID of the corporate entity agent
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>resolve</code></td>
+        <td style="word-break: break-word;">
+            A list of references to resolve and embed in the response
+            
+        </td>
+        <td>[String]</td>
+        <td>true</td>
+      </tr>
     
-    
-  
-  
-	  [String] resolve (Optional) -- A list of references to resolve and embed in the response
-  
+  </tbody>
+</table>
+
 
 __Returns__
 
   	200 -- (:agent_corporate_entity)
 
   	404 -- Not found
-
 
 
 
@@ -649,29 +840,131 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 ```
 
 
+
 __Endpoint__
 
 ```[:DELETE] /agents/corporate_entities/:id ```
 
+
 __Description__
 
-Delete a corporate entity agent
+Delete a corporate entity agent.
+
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
-  
-	  Integer id -- ID of the corporate entity agent
-  
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>id</code></td>
+        <td style="word-break: break-word;">
+            ID of the corporate entity agent
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
+    
+  </tbody>
+</table>
+
 
 __Returns__
 
   	200 -- deleted
 
+
+
+## Publish a corporate entity agent and all its sub-records
+
+
+
+  
+    
+  
+
+  
+    
+  
+  
+```shell
+curl -H "X-ArchivesSpace-Session: $SESSION" \
+  -d 'Example Missing' \
+  "http://localhost:8089/agents/corporate_entities/1/publish"
+
+```
+
+
+
+__Endpoint__
+
+```[:POST] /agents/corporate_entities/:id/publish ```
+
+
+__Description__
+
+Publish a corporate entity agent and all its sub-records.
+
+  
+  
+
+
+__Parameters__
+
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
+    
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>id</code></td>
+        <td style="word-break: break-word;">
+            The ID of the record
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
+    
+  </tbody>
+</table>
+
+
+__Returns__
+
+  	200 -- {:status => "Updated", :id => (id of updated object)}
+
+  	400 -- {:error => (description of error)}
 
 
 
@@ -692,34 +985,62 @@ __Returns__
 curl -H "X-ArchivesSpace-Session: $SESSION" \
   -d '{ "jsonmodel_type":"agent_family",
 "agent_contacts":[],
+"agent_record_controls":[],
+"agent_alternate_sets":[],
+"agent_conventions_declarations":[],
+"agent_other_agency_codes":[],
+"agent_maintenance_histories":[],
+"agent_record_identifiers":[],
+"agent_identifiers":[],
+"agent_sources":[],
+"agent_places":[],
+"agent_occupations":[],
+"agent_functions":[],
+"agent_topics":[],
+"agent_resources":[],
 "linked_agent_roles":[],
 "external_documents":[],
 "notes":[],
 "used_within_repositories":[],
 "used_within_published_repositories":[],
-"dates_of_existence":[{ "jsonmodel_type":"date",
-"date_type":"inclusive",
-"label":"existence",
-"begin":"1992-04-30",
-"end":"1992-04-30",
-"certainty":"inferred",
-"era":"ce",
-"calendar":"gregorian",
-"expression":"780BC244Q"}],
+"dates_of_existence":[{ "jsonmodel_type":"structured_date_label",
+"date_type_structured":"single",
+"date_label":"existence",
+"structured_date_single":{ "jsonmodel_type":"structured_date_single",
+"date_role":"begin",
+"date_expression":"Yesterday",
+"date_standardized":"2019-06-01",
+"date_standardized_type":"standard"},
+"date_certainty":"approximate",
+"date_era":"ce",
+"date_calendar":"gregorian"}],
+"used_languages":[],
+"metadata_rights_declarations":[],
 "is_slug_auto":true,
 "names":[{ "jsonmodel_type":"name_family",
-"use_dates":[],
+"use_dates":[{ "jsonmodel_type":"structured_date_label",
+"date_type_structured":"single",
+"date_label":"existence",
+"structured_date_single":{ "jsonmodel_type":"structured_date_single",
+"date_role":"begin",
+"date_expression":"Yesterday",
+"date_standardized":"2019-06-01",
+"date_standardized_type":"standard"},
+"date_certainty":"approximate",
+"date_era":"ce",
+"date_calendar":"gregorian"}],
 "authorized":false,
 "is_display_name":false,
 "sort_name_auto_generate":true,
+"parallel_names":[],
 "rules":"aacr",
-"family_name":"Name Number 6",
-"sort_name":"SORT h - 3",
-"dates":"TF750501T",
-"qualifier":"VHC132O",
-"prefix":"728222617OI",
-"authority_id":"http://www.example-3.com",
-"source":"naf"}],
+"family_name":"Name Number 3",
+"sort_name":"SORT j - 2",
+"dates":"866654628PU",
+"qualifier":"SNCOB",
+"prefix":"V327753799131",
+"authority_id":"http://www.example-4-1632179079.com",
+"source":"ingest"}],
 "related_agents":[],
 "agent_type":"agent_family"}' \
   "http://localhost:8089/agents/families"
@@ -727,34 +1048,29 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 ```
 
 
+
 __Endpoint__
 
 ```[:POST] /agents/families ```
 
+
 __Description__
 
-Create a family agent
-
-
-__Parameters__
+Create a family agent.
 
   
-    
   
-  
-    
-    
-  
-  
-	  JSONModel(:agent_family) <request body> -- The record to create
-  
+
+
+__Accepts Payload of Type__
+
+JSONModel(:agent_family)
 
 __Returns__
 
   	200 -- {:status => "Created", :id => (id of created object), :warnings => {(warnings)}}
 
   	400 -- {:error => (description of error)}
-
 
 
 
@@ -778,13 +1094,16 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 ```
 
 
+
 __Endpoint__
 
 ```[:GET] /agents/families ```
 
+
 __Description__
 
-List all family agents
+List all family agents.
+
 
 
 __Parameters__
@@ -799,10 +1118,11 @@ This endpoint is paginated. :page, :id_set, or :all_ids is required
 </aside>
 
 
+
+
 __Returns__
 
   	200 -- [(:agent_family)]
-
 
 
 
@@ -829,34 +1149,62 @@ __Returns__
 curl -H "X-ArchivesSpace-Session: $SESSION" \
   -d '{ "jsonmodel_type":"agent_family",
 "agent_contacts":[],
+"agent_record_controls":[],
+"agent_alternate_sets":[],
+"agent_conventions_declarations":[],
+"agent_other_agency_codes":[],
+"agent_maintenance_histories":[],
+"agent_record_identifiers":[],
+"agent_identifiers":[],
+"agent_sources":[],
+"agent_places":[],
+"agent_occupations":[],
+"agent_functions":[],
+"agent_topics":[],
+"agent_resources":[],
 "linked_agent_roles":[],
 "external_documents":[],
 "notes":[],
 "used_within_repositories":[],
 "used_within_published_repositories":[],
-"dates_of_existence":[{ "jsonmodel_type":"date",
-"date_type":"inclusive",
-"label":"existence",
-"begin":"1992-04-30",
-"end":"1992-04-30",
-"certainty":"inferred",
-"era":"ce",
-"calendar":"gregorian",
-"expression":"780BC244Q"}],
+"dates_of_existence":[{ "jsonmodel_type":"structured_date_label",
+"date_type_structured":"single",
+"date_label":"existence",
+"structured_date_single":{ "jsonmodel_type":"structured_date_single",
+"date_role":"begin",
+"date_expression":"Yesterday",
+"date_standardized":"2019-06-01",
+"date_standardized_type":"standard"},
+"date_certainty":"approximate",
+"date_era":"ce",
+"date_calendar":"gregorian"}],
+"used_languages":[],
+"metadata_rights_declarations":[],
 "is_slug_auto":true,
 "names":[{ "jsonmodel_type":"name_family",
-"use_dates":[],
+"use_dates":[{ "jsonmodel_type":"structured_date_label",
+"date_type_structured":"single",
+"date_label":"existence",
+"structured_date_single":{ "jsonmodel_type":"structured_date_single",
+"date_role":"begin",
+"date_expression":"Yesterday",
+"date_standardized":"2019-06-01",
+"date_standardized_type":"standard"},
+"date_certainty":"approximate",
+"date_era":"ce",
+"date_calendar":"gregorian"}],
 "authorized":false,
 "is_display_name":false,
 "sort_name_auto_generate":true,
+"parallel_names":[],
 "rules":"aacr",
-"family_name":"Name Number 6",
-"sort_name":"SORT h - 3",
-"dates":"TF750501T",
-"qualifier":"VHC132O",
-"prefix":"728222617OI",
-"authority_id":"http://www.example-3.com",
-"source":"naf"}],
+"family_name":"Name Number 3",
+"sort_name":"SORT j - 2",
+"dates":"866654628PU",
+"qualifier":"SNCOB",
+"prefix":"V327753799131",
+"authority_id":"http://www.example-4-1632179079.com",
+"source":"ingest"}],
 "related_agents":[],
 "agent_type":"agent_family"}' \
   "http://localhost:8089/agents/families/1"
@@ -864,41 +1212,63 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 ```
 
 
+
 __Endpoint__
 
 ```[:POST] /agents/families/:id ```
 
+
 __Description__
 
-Update a family agent
+Update a family agent.
+
+  
+  
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
-  
-	  Integer id -- The ID of the record
-  
-  
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>id</code></td>
+        <td style="word-break: break-word;">
+            The ID of the record
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-  
-  
-    
-    
-  
-  
-	  JSONModel(:agent_family) <request body> -- The updated record
-  
+  </tbody>
+</table>
+
+__Accepts Payload of Type__
+
+JSONModel(:agent_family)
 
 __Returns__
 
   	200 -- {:status => "Updated", :id => (id of updated object)}
 
   	400 -- {:error => (description of error)}
-
 
 
 
@@ -934,41 +1304,79 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 ```
 
 
+
 __Endpoint__
 
 ```[:GET] /agents/families/:id ```
 
+
 __Description__
 
-Get a family by ID
+Get a family by ID.
+
+  
+  
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
-  
-	  Integer id -- ID of the family agent
-  
-  
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>id</code></td>
+        <td style="word-break: break-word;">
+            ID of the family agent
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>resolve</code></td>
+        <td style="word-break: break-word;">
+            A list of references to resolve and embed in the response
+            
+        </td>
+        <td>[String]</td>
+        <td>true</td>
+      </tr>
     
-    
-  
-  
-	  [String] resolve (Optional) -- A list of references to resolve and embed in the response
-  
+  </tbody>
+</table>
+
 
 __Returns__
 
   	200 -- (:agent)
 
   	404 -- Not found
-
 
 
 
@@ -992,29 +1400,131 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 ```
 
 
+
 __Endpoint__
 
 ```[:DELETE] /agents/families/:id ```
 
+
 __Description__
 
-Delete an agent family
+Delete an agent family.
+
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
-  
-	  Integer id -- ID of the family agent
-  
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>id</code></td>
+        <td style="word-break: break-word;">
+            ID of the family agent
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
+    
+  </tbody>
+</table>
+
 
 __Returns__
 
   	200 -- deleted
 
+
+
+## Publish a family agent and all its sub-records
+
+
+
+  
+    
+  
+
+  
+    
+  
+  
+```shell
+curl -H "X-ArchivesSpace-Session: $SESSION" \
+  -d 'Example Missing' \
+  "http://localhost:8089/agents/families/1/publish"
+
+```
+
+
+
+__Endpoint__
+
+```[:POST] /agents/families/:id/publish ```
+
+
+__Description__
+
+Publish a family agent and all its sub-records.
+
+  
+  
+
+
+__Parameters__
+
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
+    
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>id</code></td>
+        <td style="word-break: break-word;">
+            The ID of the record
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
+    
+  </tbody>
+</table>
+
+
+__Returns__
+
+  	200 -- {:status => "Updated", :id => (id of updated object)}
+
+  	400 -- {:error => (description of error)}
 
 
 
@@ -1035,38 +1545,69 @@ __Returns__
 curl -H "X-ArchivesSpace-Session: $SESSION" \
   -d '{ "jsonmodel_type":"agent_person",
 "agent_contacts":[],
+"agent_record_controls":[],
+"agent_alternate_sets":[],
+"agent_conventions_declarations":[],
+"agent_other_agency_codes":[],
+"agent_maintenance_histories":[],
+"agent_record_identifiers":[],
+"agent_identifiers":[],
+"agent_sources":[],
+"agent_places":[],
+"agent_occupations":[],
+"agent_functions":[],
+"agent_topics":[],
+"agent_resources":[],
 "linked_agent_roles":[],
 "external_documents":[],
 "notes":[],
 "used_within_repositories":[],
 "used_within_published_repositories":[],
-"dates_of_existence":[{ "jsonmodel_type":"date",
-"date_type":"range",
-"label":"existence",
-"begin":"2020-01-28",
-"end":"2020-01-28",
-"certainty":"inferred",
-"era":"ce",
-"calendar":"gregorian",
-"expression":"E288Y51084"}],
+"dates_of_existence":[{ "jsonmodel_type":"structured_date_label",
+"date_type_structured":"single",
+"date_label":"existence",
+"structured_date_single":{ "jsonmodel_type":"structured_date_single",
+"date_role":"begin",
+"date_expression":"Yesterday",
+"date_standardized":"2019-06-01",
+"date_standardized_type":"standard"},
+"date_certainty":"approximate",
+"date_era":"ce",
+"date_calendar":"gregorian"}],
+"used_languages":[],
+"metadata_rights_declarations":[],
 "is_slug_auto":true,
 "names":[{ "jsonmodel_type":"name_person",
-"use_dates":[],
+"use_dates":[{ "jsonmodel_type":"structured_date_label",
+"date_type_structured":"single",
+"date_label":"existence",
+"structured_date_single":{ "jsonmodel_type":"structured_date_single",
+"date_role":"begin",
+"date_expression":"Yesterday",
+"date_standardized":"2019-06-01",
+"date_standardized_type":"standard"},
+"date_certainty":"approximate",
+"date_era":"ce",
+"date_calendar":"gregorian"}],
 "authorized":false,
 "is_display_name":false,
 "sort_name_auto_generate":true,
-"rules":"dacs",
-"source":"local",
-"primary_name":"Name Number 7",
-"sort_name":"SORT n - 4",
+"parallel_names":[],
+"rules":"aacr",
+"source":"naf",
+"primary_name":"Name Number 14",
+"sort_name":"SORT m - 10",
 "name_order":"direct",
-"number":"I10J668111",
-"dates":"674MWUJ",
-"qualifier":"TOKQ871",
-"fuller_form":"YA852XD",
-"suffix":"SXDBQ",
-"rest_of_name":"Y916E293A",
-"authority_id":"http://www.example-4.com"}],
+"number":"25214C963586",
+"dates":"306TWVY",
+"qualifier":"Y62VFF",
+"fuller_form":"OETNM",
+"prefix":"325LCW206",
+"title":"193294WA536",
+"suffix":"LOK423R",
+"rest_of_name":"TJDCW",
+"authority_id":"http://www.example-25-1632179086.com"}],
+"agent_genders":[],
 "related_agents":[],
 "agent_type":"agent_person"}' \
   "http://localhost:8089/agents/people"
@@ -1074,34 +1615,29 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 ```
 
 
+
 __Endpoint__
 
 ```[:POST] /agents/people ```
 
+
 __Description__
 
-Create a person agent
-
-
-__Parameters__
+Create a person agent.
 
   
-    
   
-  
-    
-    
-  
-  
-	  JSONModel(:agent_person) <request body> -- The record to create
-  
+
+
+__Accepts Payload of Type__
+
+JSONModel(:agent_person)
 
 __Returns__
 
   	200 -- {:status => "Created", :id => (id of created object), :warnings => {(warnings)}}
 
   	400 -- {:error => (description of error)}
-
 
 
 
@@ -1125,13 +1661,16 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 ```
 
 
+
 __Endpoint__
 
 ```[:GET] /agents/people ```
 
+
 __Description__
 
-List all person agents
+List all person agents.
+
 
 
 __Parameters__
@@ -1146,10 +1685,11 @@ This endpoint is paginated. :page, :id_set, or :all_ids is required
 </aside>
 
 
+
+
 __Returns__
 
   	200 -- [(:agent_person)]
-
 
 
 
@@ -1176,38 +1716,69 @@ __Returns__
 curl -H "X-ArchivesSpace-Session: $SESSION" \
   -d '{ "jsonmodel_type":"agent_person",
 "agent_contacts":[],
+"agent_record_controls":[],
+"agent_alternate_sets":[],
+"agent_conventions_declarations":[],
+"agent_other_agency_codes":[],
+"agent_maintenance_histories":[],
+"agent_record_identifiers":[],
+"agent_identifiers":[],
+"agent_sources":[],
+"agent_places":[],
+"agent_occupations":[],
+"agent_functions":[],
+"agent_topics":[],
+"agent_resources":[],
 "linked_agent_roles":[],
 "external_documents":[],
 "notes":[],
 "used_within_repositories":[],
 "used_within_published_repositories":[],
-"dates_of_existence":[{ "jsonmodel_type":"date",
-"date_type":"range",
-"label":"existence",
-"begin":"2020-01-28",
-"end":"2020-01-28",
-"certainty":"inferred",
-"era":"ce",
-"calendar":"gregorian",
-"expression":"E288Y51084"}],
+"dates_of_existence":[{ "jsonmodel_type":"structured_date_label",
+"date_type_structured":"single",
+"date_label":"existence",
+"structured_date_single":{ "jsonmodel_type":"structured_date_single",
+"date_role":"begin",
+"date_expression":"Yesterday",
+"date_standardized":"2019-06-01",
+"date_standardized_type":"standard"},
+"date_certainty":"approximate",
+"date_era":"ce",
+"date_calendar":"gregorian"}],
+"used_languages":[],
+"metadata_rights_declarations":[],
 "is_slug_auto":true,
 "names":[{ "jsonmodel_type":"name_person",
-"use_dates":[],
+"use_dates":[{ "jsonmodel_type":"structured_date_label",
+"date_type_structured":"single",
+"date_label":"existence",
+"structured_date_single":{ "jsonmodel_type":"structured_date_single",
+"date_role":"begin",
+"date_expression":"Yesterday",
+"date_standardized":"2019-06-01",
+"date_standardized_type":"standard"},
+"date_certainty":"approximate",
+"date_era":"ce",
+"date_calendar":"gregorian"}],
 "authorized":false,
 "is_display_name":false,
 "sort_name_auto_generate":true,
-"rules":"dacs",
-"source":"local",
-"primary_name":"Name Number 7",
-"sort_name":"SORT n - 4",
+"parallel_names":[],
+"rules":"aacr",
+"source":"naf",
+"primary_name":"Name Number 14",
+"sort_name":"SORT m - 10",
 "name_order":"direct",
-"number":"I10J668111",
-"dates":"674MWUJ",
-"qualifier":"TOKQ871",
-"fuller_form":"YA852XD",
-"suffix":"SXDBQ",
-"rest_of_name":"Y916E293A",
-"authority_id":"http://www.example-4.com"}],
+"number":"25214C963586",
+"dates":"306TWVY",
+"qualifier":"Y62VFF",
+"fuller_form":"OETNM",
+"prefix":"325LCW206",
+"title":"193294WA536",
+"suffix":"LOK423R",
+"rest_of_name":"TJDCW",
+"authority_id":"http://www.example-25-1632179086.com"}],
+"agent_genders":[],
 "related_agents":[],
 "agent_type":"agent_person"}' \
   "http://localhost:8089/agents/people/1"
@@ -1215,41 +1786,63 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 ```
 
 
+
 __Endpoint__
 
 ```[:POST] /agents/people/:id ```
 
+
 __Description__
 
-Update a person agent
+Update a person agent.
+
+  
+  
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
-  
-	  Integer id -- The ID of the record
-  
-  
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>id</code></td>
+        <td style="word-break: break-word;">
+            The ID of the record
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-  
-  
-    
-    
-  
-  
-	  JSONModel(:agent_person) <request body> -- The updated record
-  
+  </tbody>
+</table>
+
+__Accepts Payload of Type__
+
+JSONModel(:agent_person)
 
 __Returns__
 
   	200 -- {:status => "Updated", :id => (id of updated object)}
 
   	400 -- {:error => (description of error)}
-
 
 
 
@@ -1285,41 +1878,79 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 ```
 
 
+
 __Endpoint__
 
 ```[:GET] /agents/people/:id ```
 
+
 __Description__
 
-Get a person by ID
+Get a person by ID.
+
+  
+  
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
-  
-	  Integer id -- ID of the person agent
-  
-  
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>id</code></td>
+        <td style="word-break: break-word;">
+            ID of the person agent
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>resolve</code></td>
+        <td style="word-break: break-word;">
+            A list of references to resolve and embed in the response
+            
+        </td>
+        <td>[String]</td>
+        <td>true</td>
+      </tr>
     
-    
-  
-  
-	  [String] resolve (Optional) -- A list of references to resolve and embed in the response
-  
+  </tbody>
+</table>
+
 
 __Returns__
 
   	200 -- (:agent)
 
   	404 -- Not found
-
 
 
 
@@ -1343,29 +1974,131 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 ```
 
 
+
 __Endpoint__
 
 ```[:DELETE] /agents/people/:id ```
 
+
 __Description__
 
-Delete an agent person
+Delete an agent person.
+
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
-  
-	  Integer id -- ID of the person agent
-  
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>id</code></td>
+        <td style="word-break: break-word;">
+            ID of the person agent
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
+    
+  </tbody>
+</table>
+
 
 __Returns__
 
   	200 -- deleted
 
+
+
+## Publish an agent person and all its sub-records
+
+
+
+  
+    
+  
+
+  
+    
+  
+  
+```shell
+curl -H "X-ArchivesSpace-Session: $SESSION" \
+  -d 'Example Missing' \
+  "http://localhost:8089/agents/people/1/publish"
+
+```
+
+
+
+__Endpoint__
+
+```[:POST] /agents/people/:id/publish ```
+
+
+__Description__
+
+Publish an agent person and all its sub-records.
+
+  
+  
+
+
+__Parameters__
+
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
+    
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>id</code></td>
+        <td style="word-break: break-word;">
+            The ID of the record
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
+    
+  </tbody>
+</table>
+
+
+__Returns__
+
+  	200 -- {:status => "Updated", :id => (id of updated object)}
+
+  	400 -- {:error => (description of error)}
 
 
 
@@ -1386,67 +2119,90 @@ __Returns__
 curl -H "X-ArchivesSpace-Session: $SESSION" \
   -d '{ "jsonmodel_type":"agent_software",
 "agent_contacts":[],
+"agent_record_controls":[],
+"agent_alternate_sets":[],
+"agent_conventions_declarations":[],
+"agent_other_agency_codes":[],
+"agent_maintenance_histories":[],
+"agent_record_identifiers":[],
+"agent_identifiers":[],
+"agent_sources":[],
+"agent_places":[],
+"agent_occupations":[],
+"agent_functions":[],
+"agent_topics":[],
+"agent_resources":[],
 "linked_agent_roles":[],
 "external_documents":[],
 "notes":[],
 "used_within_repositories":[],
 "used_within_published_repositories":[],
-"dates_of_existence":[{ "jsonmodel_type":"date",
-"date_type":"single",
-"label":"existence",
-"begin":"2017-08-13",
-"end":"2017-08-13",
-"certainty":"inferred",
-"era":"ce",
-"calendar":"gregorian",
-"expression":"JUP799R"}],
+"dates_of_existence":[{ "jsonmodel_type":"structured_date_label",
+"date_type_structured":"single",
+"date_label":"existence",
+"structured_date_single":{ "jsonmodel_type":"structured_date_single",
+"date_role":"begin",
+"date_expression":"Yesterday",
+"date_standardized":"2019-06-01",
+"date_standardized_type":"standard"},
+"date_certainty":"approximate",
+"date_era":"ce",
+"date_calendar":"gregorian"}],
+"used_languages":[],
+"metadata_rights_declarations":[],
 "is_slug_auto":true,
 "names":[{ "jsonmodel_type":"name_software",
-"use_dates":[],
+"use_dates":[{ "jsonmodel_type":"structured_date_label",
+"date_type_structured":"single",
+"date_label":"existence",
+"structured_date_single":{ "jsonmodel_type":"structured_date_single",
+"date_role":"begin",
+"date_expression":"Yesterday",
+"date_standardized":"2019-06-01",
+"date_standardized_type":"standard"},
+"date_certainty":"approximate",
+"date_era":"ce",
+"date_calendar":"gregorian"}],
 "authorized":false,
 "is_display_name":false,
 "sort_name_auto_generate":true,
+"parallel_names":[],
 "rules":"dacs",
-"source":"local",
-"software_name":"Name Number 8",
-"sort_name":"SORT a - 5",
-"dates":"C45NV615",
-"qualifier":"Y896170836X",
-"authority_id":"http://www.example-5.com"}],
+"source":"snac",
+"software_name":"Name Number 12",
+"sort_name":"SORT k - 9",
+"qualifier":"TRO425606",
+"dates":"KHBP456",
+"authority_id":"http://www.example-24-1632179086.com"}],
 "agent_type":"agent_software"}' \
   "http://localhost:8089/agents/software"
 
 ```
 
 
+
 __Endpoint__
 
 ```[:POST] /agents/software ```
 
+
 __Description__
 
-Create a software agent
-
-
-__Parameters__
+Create a software agent.
 
   
-    
   
-  
-    
-    
-  
-  
-	  JSONModel(:agent_software) <request body> -- The record to create
-  
+
+
+__Accepts Payload of Type__
+
+JSONModel(:agent_software)
 
 __Returns__
 
   	200 -- {:status => "Created", :id => (id of created object), :warnings => {(warnings)}}
 
   	400 -- {:error => (description of error)}
-
 
 
 
@@ -1470,13 +2226,16 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 ```
 
 
+
 __Endpoint__
 
 ```[:GET] /agents/software ```
 
+
 __Description__
 
-List all software agents
+List all software agents.
+
 
 
 __Parameters__
@@ -1491,10 +2250,11 @@ This endpoint is paginated. :page, :id_set, or :all_ids is required
 </aside>
 
 
+
+
 __Returns__
 
   	200 -- [(:agent_software)]
-
 
 
 
@@ -1521,74 +2281,124 @@ __Returns__
 curl -H "X-ArchivesSpace-Session: $SESSION" \
   -d '{ "jsonmodel_type":"agent_software",
 "agent_contacts":[],
+"agent_record_controls":[],
+"agent_alternate_sets":[],
+"agent_conventions_declarations":[],
+"agent_other_agency_codes":[],
+"agent_maintenance_histories":[],
+"agent_record_identifiers":[],
+"agent_identifiers":[],
+"agent_sources":[],
+"agent_places":[],
+"agent_occupations":[],
+"agent_functions":[],
+"agent_topics":[],
+"agent_resources":[],
 "linked_agent_roles":[],
 "external_documents":[],
 "notes":[],
 "used_within_repositories":[],
 "used_within_published_repositories":[],
-"dates_of_existence":[{ "jsonmodel_type":"date",
-"date_type":"single",
-"label":"existence",
-"begin":"2017-08-13",
-"end":"2017-08-13",
-"certainty":"inferred",
-"era":"ce",
-"calendar":"gregorian",
-"expression":"JUP799R"}],
+"dates_of_existence":[{ "jsonmodel_type":"structured_date_label",
+"date_type_structured":"single",
+"date_label":"existence",
+"structured_date_single":{ "jsonmodel_type":"structured_date_single",
+"date_role":"begin",
+"date_expression":"Yesterday",
+"date_standardized":"2019-06-01",
+"date_standardized_type":"standard"},
+"date_certainty":"approximate",
+"date_era":"ce",
+"date_calendar":"gregorian"}],
+"used_languages":[],
+"metadata_rights_declarations":[],
 "is_slug_auto":true,
 "names":[{ "jsonmodel_type":"name_software",
-"use_dates":[],
+"use_dates":[{ "jsonmodel_type":"structured_date_label",
+"date_type_structured":"single",
+"date_label":"existence",
+"structured_date_single":{ "jsonmodel_type":"structured_date_single",
+"date_role":"begin",
+"date_expression":"Yesterday",
+"date_standardized":"2019-06-01",
+"date_standardized_type":"standard"},
+"date_certainty":"approximate",
+"date_era":"ce",
+"date_calendar":"gregorian"}],
 "authorized":false,
 "is_display_name":false,
 "sort_name_auto_generate":true,
+"parallel_names":[],
 "rules":"dacs",
-"source":"local",
-"software_name":"Name Number 8",
-"sort_name":"SORT a - 5",
-"dates":"C45NV615",
-"qualifier":"Y896170836X",
-"authority_id":"http://www.example-5.com"}],
+"source":"snac",
+"software_name":"Name Number 12",
+"sort_name":"SORT k - 9",
+"qualifier":"TRO425606",
+"dates":"KHBP456",
+"authority_id":"http://www.example-24-1632179086.com"}],
 "agent_type":"agent_software"}' \
   "http://localhost:8089/agents/software/1"
 
 ```
 
 
+
 __Endpoint__
 
 ```[:POST] /agents/software/:id ```
 
+
 __Description__
 
-Update a software agent
+Update a software agent.
+
+  
+  
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
-  
-	  Integer id -- The ID of the record
-  
-  
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>id</code></td>
+        <td style="word-break: break-word;">
+            The ID of the record
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-  
-  
-    
-    
-  
-  
-	  JSONModel(:agent_software) <request body> -- The updated record
-  
+  </tbody>
+</table>
+
+__Accepts Payload of Type__
+
+JSONModel(:agent_software)
 
 __Returns__
 
   	200 -- {:status => "Updated", :id => (id of updated object)}
 
   	400 -- {:error => (description of error)}
-
 
 
 
@@ -1624,41 +2434,79 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 ```
 
 
+
 __Endpoint__
 
 ```[:GET] /agents/software/:id ```
 
+
 __Description__
 
-Get a software agent by ID
+Get a software agent by ID.
+
+  
+  
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
-  
-	  Integer id -- ID of the software agent
-  
-  
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>id</code></td>
+        <td style="word-break: break-word;">
+            ID of the software agent
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>resolve</code></td>
+        <td style="word-break: break-word;">
+            A list of references to resolve and embed in the response
+            
+        </td>
+        <td>[String]</td>
+        <td>true</td>
+      </tr>
     
-    
-  
-  
-	  [String] resolve (Optional) -- A list of references to resolve and embed in the response
-  
+  </tbody>
+</table>
+
 
 __Returns__
 
   	200 -- (:agent)
 
   	404 -- Not found
-
 
 
 
@@ -1682,29 +2530,131 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 ```
 
 
+
 __Endpoint__
 
 ```[:DELETE] /agents/software/:id ```
 
+
 __Description__
 
-Delete a software agent
+Delete a software agent.
+
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
-  
-	  Integer id -- ID of the software agent
-  
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>id</code></td>
+        <td style="word-break: break-word;">
+            ID of the software agent
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
+    
+  </tbody>
+</table>
+
 
 __Returns__
 
   	200 -- deleted
 
+
+
+## Publish a software agent and all its sub-records
+
+
+
+  
+    
+  
+
+  
+    
+  
+  
+```shell
+curl -H "X-ArchivesSpace-Session: $SESSION" \
+  -d 'Example Missing' \
+  "http://localhost:8089/agents/software/1/publish"
+
+```
+
+
+
+__Endpoint__
+
+```[:POST] /agents/software/:id/publish ```
+
+
+__Description__
+
+Publish a software agent and all its sub-records.
+
+  
+  
+
+
+__Parameters__
+
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
+    
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>id</code></td>
+        <td style="word-break: break-word;">
+            The ID of the record
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
+    
+  </tbody>
+</table>
+
+
+__Returns__
+
+  	200 -- {:status => "Updated", :id => (id of updated object)}
+
+  	400 -- {:error => (description of error)}
 
 
 
@@ -1727,31 +2677,58 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 ```
 
 
+
 __Endpoint__
 
 ```[:GET] /ark*/:naan/:id ```
 
+
 __Description__
 
-Redirect to resource identified by ARK Name
+Redirect to resource identified by ARK Name.
+
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
-  
-	  Integer id -- The ID of the record
-  
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>id</code></td>
+        <td style="word-break: break-word;">
+            The ID of the record
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
+    
+  </tbody>
+</table>
+
 
 __Returns__
 
   	404 -- Not found
 
   	302 -- redirect
-
 
 
 
@@ -1779,34 +2756,61 @@ __Returns__
 ```shell
 curl -H "X-ArchivesSpace-Session: $SESSION" \
   -d 'Example Missing' \
-  "http://localhost:8089/batch_delete?record_uris=M829439S549"
+  "http://localhost:8089/batch_delete?record_uris=Y528728UT"
 
 ```
+
 
 
 __Endpoint__
 
 ```[:POST] /batch_delete ```
 
+
 __Description__
 
-Carry out delete requests against a list of records
+Carry out delete requests against a list of records.
+
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
-  
-	  [String] record_uris -- A list of record uris
-  
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>record_uris</code></td>
+        <td style="word-break: break-word;">
+            A list of record uris
+            
+        </td>
+        <td>[String]</td>
+        <td></td>
+      </tr>
+    
+  </tbody>
+</table>
+
 
 __Returns__
 
   	200 -- deleted
-
 
 
 
@@ -1845,39 +2849,78 @@ __Returns__
   
 ```shell
 curl -H "X-ArchivesSpace-Session: $SESSION" \
-  "http://localhost:8089/by-external-id?eid=U550JGS&type=XVT913C"
+  "http://localhost:8089/by-external-id?eid=I99672GU&type=D66246E881"
 
 ```
+
 
 
 __Endpoint__
 
 ```[:GET] /by-external-id ```
 
+
 __Description__
 
-List records by their external ID(s)
+List records by their external ID(s).
+
+  
+  
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
-  
-	  String eid -- An external ID to find
-  
-  
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>eid</code></td>
+        <td style="word-break: break-word;">
+            An external ID to find
+            
+        </td>
+        <td>String</td>
+        <td></td>
+      </tr>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>type</code></td>
+        <td style="word-break: break-word;">
+            The record type to search (useful if IDs may be shared between different types)
+            
+        </td>
+        <td>[String]</td>
+        <td>true</td>
+      </tr>
     
-    
-  
-  
-	  [String] type (Optional) -- The record type to search (useful if IDs may be shared between different types)
-  
+  </tbody>
+</table>
+
 
 __Returns__
 
@@ -1886,7 +2929,6 @@ __Returns__
   	300 -- A JSON-formatted list of URIs if there were multiple matches
 
   	404 -- No external ID matched
-
 
 
 
@@ -1909,29 +2951,56 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 ```
 
 
+
 __Endpoint__
 
 ```[:GET] /config/enumeration_values/:enum_val_id ```
 
+
 __Description__
 
-Get an Enumeration Value
+Get an Enumeration Value.
+
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
-  
-	  Integer enum_val_id -- The ID of the enumeration value to retrieve
-  
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>enum_val_id</code></td>
+        <td style="word-break: break-word;">
+            The ID of the enumeration value to retrieve
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
+    
+  </tbody>
+</table>
+
 
 __Returns__
 
   	200 -- (:enumeration_value)
-
 
 
 
@@ -1962,41 +3031,63 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 ```
 
 
+
 __Endpoint__
 
 ```[:POST] /config/enumeration_values/:enum_val_id ```
 
+
 __Description__
 
-Update an enumeration value
+Update an enumeration value.
+
+  
+  
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
-  
-	  Integer enum_val_id -- The ID of the enumeration value to update
-  
-  
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>enum_val_id</code></td>
+        <td style="word-break: break-word;">
+            The ID of the enumeration value to update
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-  
-  
-    
-    
-  
-  
-	  JSONModel(:enumeration_value) <request body> -- The enumeration value to update
-  
+  </tbody>
+</table>
+
+__Accepts Payload of Type__
+
+JSONModel(:enumeration_value)
 
 __Returns__
 
   	200 -- {:status => "Updated", :id => (id of updated object)}
 
   	400 -- {:error => (description of error)}
-
 
 
 
@@ -2035,38 +3126,76 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 ```
 
 
+
 __Endpoint__
 
 ```[:POST] /config/enumeration_values/:enum_val_id/position ```
 
+
 __Description__
 
-Update the position of an ennumeration value
+Update the position of an ennumeration value.
+
+  
+  
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
-  
-	  Integer enum_val_id -- The ID of the enumeration value to update
-  
-  
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>enum_val_id</code></td>
+        <td style="word-break: break-word;">
+            The ID of the enumeration value to update
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-  
-  
-  
-	  Integer position -- The target position in the value list
-  
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>position</code></td>
+        <td style="word-break: break-word;">
+            The target position in the value list
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
+    
+  </tbody>
+</table>
+
 
 __Returns__
 
   	200 -- {:status => "Updated", :id => (id of updated object)}
 
   	400 -- {:error => (description of error)}
-
 
 
 
@@ -2105,38 +3234,76 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 ```
 
 
+
 __Endpoint__
 
 ```[:POST] /config/enumeration_values/:enum_val_id/suppressed ```
 
+
 __Description__
 
-Suppress this value
+Suppress this value.
+
+  
+  
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
-  
-	  Integer enum_val_id -- The ID of the enumeration value to update
-  
-  
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>enum_val_id</code></td>
+        <td style="word-break: break-word;">
+            The ID of the enumeration value to update
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-  
-  
-  
-	  RESTHelpers::BooleanParam suppressed -- Suppression state
-  
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>suppressed</code></td>
+        <td style="word-break: break-word;">
+            Suppression state
+            
+        </td>
+        <td>RESTHelpers::BooleanParam</td>
+        <td></td>
+      </tr>
+    
+  </tbody>
+</table>
+
 
 __Returns__
 
   	200 -- {:status => "Suppressed", :id => (id of updated object), :suppressed_state => (true|false)}
 
   	400 -- {:error => (description of error)}
-
 
 
 
@@ -2153,22 +3320,22 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 ```
 
 
+
 __Endpoint__
 
 ```[:GET] /config/enumerations ```
 
+
 __Description__
 
-List all defined enumerations
+List all defined enumerations.
 
 
-__Parameters__
 
 
 __Returns__
 
   	200 -- [(:enumeration)]
-
 
 
 
@@ -2193,34 +3360,29 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 ```
 
 
+
 __Endpoint__
 
 ```[:POST] /config/enumerations ```
 
+
 __Description__
 
-Create an enumeration
-
-
-__Parameters__
+Create an enumeration.
 
   
-    
   
-  
-    
-    
-  
-  
-	  JSONModel(:enumeration) <request body> -- The record to create
-  
+
+
+__Accepts Payload of Type__
+
+JSONModel(:enumeration)
 
 __Returns__
 
   	200 -- {:status => "Created", :id => (id of created object), :warnings => {(warnings)}}
 
   	400 -- {:error => (description of error)}
-
 
 
 
@@ -2251,41 +3413,63 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 ```
 
 
+
 __Endpoint__
 
 ```[:POST] /config/enumerations/:enum_id ```
 
+
 __Description__
 
-Update an enumeration
+Update an enumeration.
+
+  
+  
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
-  
-	  Integer enum_id -- The ID of the enumeration to update
-  
-  
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>enum_id</code></td>
+        <td style="word-break: break-word;">
+            The ID of the enumeration to update
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-  
-  
-    
-    
-  
-  
-	  JSONModel(:enumeration) <request body> -- The enumeration to update
-  
+  </tbody>
+</table>
+
+__Accepts Payload of Type__
+
+JSONModel(:enumeration)
 
 __Returns__
 
   	200 -- {:status => "Updated", :id => (id of updated object)}
 
   	400 -- {:error => (description of error)}
-
 
 
 
@@ -2308,29 +3492,56 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 ```
 
 
+
 __Endpoint__
 
 ```[:GET] /config/enumerations/:enum_id ```
 
+
 __Description__
 
-Get an Enumeration
+Get an Enumeration.
+
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
-  
-	  Integer enum_id -- The ID of the enumeration to retrieve
-  
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>enum_id</code></td>
+        <td style="word-break: break-word;">
+            The ID of the enumeration to retrieve
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
+    
+  </tbody>
+</table>
+
 
 __Returns__
 
   	200 -- (:enumeration)
-
 
 
 
@@ -2347,22 +3558,22 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 ```
 
 
+
 __Endpoint__
 
 ```[:GET] /config/enumerations/csv ```
 
+
 __Description__
 
-List all defined enumerations as a csv
+List all defined enumerations as a csv.
 
 
-__Parameters__
 
 
 __Returns__
 
   	200 -- (csv)
-
 
 
 
@@ -2404,27 +3615,23 @@ client.post('/config/enumerations/migration',
 
 ```
 
+
 __Endpoint__
 
 ```[:POST] /config/enumerations/migration ```
 
+
 __Description__
 
-Migrate all records from one value to another
-
-
-__Parameters__
+Migrate all records from one value to another.
 
   
-    
   
-  
-    
-    
-  
-  
-	  JSONModel(:enumeration_migration) <request body> -- The migration request
-  
+
+
+__Accepts Payload of Type__
+
+JSONModel(:enumeration_migration)
 
 __Returns__
 
@@ -2433,7 +3640,6 @@ __Returns__
   	400 -- {:error => (description of error)}
 
   	404 -- Not found
-
 
 
 
@@ -2456,29 +3662,56 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 ```
 
 
+
 __Endpoint__
 
 ```[:GET] /config/enumerations/names/:enum_name ```
 
+
 __Description__
 
-Get an Enumeration by Name
+Get an Enumeration by Name.
+
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
-  
-	  String enum_name -- The name of the enumeration to retrieve
-  
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>enum_name</code></td>
+        <td style="word-break: break-word;">
+            The name of the enumeration to retrieve
+            
+        </td>
+        <td>String</td>
+        <td></td>
+      </tr>
+    
+  </tbody>
+</table>
+
 
 __Returns__
 
   	200 -- (:enumeration)
-
 
 
 
@@ -2498,44 +3731,39 @@ __Returns__
 ```shell
 curl -H "X-ArchivesSpace-Session: $SESSION" \
   -d '{ "jsonmodel_type":"container_profile",
-"name":"L959GY311",
-"url":"DKQ829S",
+"name":"GNY733C",
+"url":"Q182UQK",
 "dimension_units":"inches",
 "extent_dimension":"width",
-"depth":"42",
-"height":"56",
-"width":"93"}' \
+"depth":"70",
+"height":"37",
+"width":"46"}' \
   "http://localhost:8089/container_profiles"
 
 ```
+
 
 
 __Endpoint__
 
 ```[:POST] /container_profiles ```
 
+
 __Description__
 
-Create a Container_Profile
-
-
-__Parameters__
+Create a Container_Profile.
 
   
-    
   
-  
-    
-    
-  
-  
-	  JSONModel(:container_profile) <request body> -- The record to create
-  
+
+
+__Accepts Payload of Type__
+
+JSONModel(:container_profile)
 
 __Returns__
 
   	200 -- {:status => "Created", :id => (id of created object), :warnings => {(warnings)}}
-
 
 
 
@@ -2559,13 +3787,16 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 ```
 
 
+
 __Endpoint__
 
 ```[:GET] /container_profiles ```
 
+
 __Description__
 
-Get a list of Container Profiles
+Get a list of Container Profiles.
+
 
 
 __Parameters__
@@ -2580,10 +3811,11 @@ This endpoint is paginated. :page, :id_set, or :all_ids is required
 </aside>
 
 
+
+
 __Returns__
 
   	200 -- [(:container_profile)]
-
 
 
 
@@ -2609,51 +3841,73 @@ __Returns__
 ```shell
 curl -H "X-ArchivesSpace-Session: $SESSION" \
   -d '{ "jsonmodel_type":"container_profile",
-"name":"L959GY311",
-"url":"DKQ829S",
+"name":"GNY733C",
+"url":"Q182UQK",
 "dimension_units":"inches",
 "extent_dimension":"width",
-"depth":"42",
-"height":"56",
-"width":"93"}' \
+"depth":"70",
+"height":"37",
+"width":"46"}' \
   "http://localhost:8089/container_profiles/1"
 
 ```
+
 
 
 __Endpoint__
 
 ```[:POST] /container_profiles/:id ```
 
+
 __Description__
 
-Update a Container Profile
+Update a Container Profile.
+
+  
+  
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
-  
-	  Integer id -- The ID of the record
-  
-  
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>id</code></td>
+        <td style="word-break: break-word;">
+            The ID of the record
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-  
-  
-    
-    
-  
-  
-	  JSONModel(:container_profile) <request body> -- The updated record
-  
+  </tbody>
+</table>
+
+__Accepts Payload of Type__
+
+JSONModel(:container_profile)
 
 __Returns__
 
   	200 -- {:status => "Updated", :id => (id of updated object)}
-
 
 
 
@@ -2689,39 +3943,77 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 ```
 
 
+
 __Endpoint__
 
 ```[:GET] /container_profiles/:id ```
 
+
 __Description__
 
-Get a Container Profile by ID
+Get a Container Profile by ID.
+
+  
+  
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
-  
-	  Integer id -- The ID of the record
-  
-  
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>id</code></td>
+        <td style="word-break: break-word;">
+            The ID of the record
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>resolve</code></td>
+        <td style="word-break: break-word;">
+            A list of references to resolve and embed in the response
+            
+        </td>
+        <td>[String]</td>
+        <td>true</td>
+      </tr>
     
-    
-  
-  
-	  [String] resolve (Optional) -- A list of references to resolve and embed in the response
-  
+  </tbody>
+</table>
+
 
 __Returns__
 
   	200 -- (:container_profile)
-
 
 
 
@@ -2745,29 +4037,56 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 ```
 
 
+
 __Endpoint__
 
 ```[:DELETE] /container_profiles/:id ```
 
+
 __Description__
 
-Delete an Container Profile
+Delete an Container Profile.
+
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
-  
-	  Integer id -- The ID of the record
-  
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>id</code></td>
+        <td style="word-break: break-word;">
+            The ID of the record
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
+    
+  </tbody>
+</table>
+
 
 __Returns__
 
   	200 -- deleted
-
 
 
 
@@ -2784,22 +4103,22 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 ```
 
 
+
 __Endpoint__
 
 ```[:GET] /current_global_preferences ```
 
+
 __Description__
 
-Get the global Preferences records for the current user.
+Get the global Preferences records for the current user..
 
 
-__Parameters__
 
 
 __Returns__
 
   	200 -- {(:preference)}
-
 
 
 
@@ -2838,44 +4157,82 @@ __Returns__
   
 ```shell
 curl -H "X-ArchivesSpace-Session: $SESSION" \
-  "http://localhost:8089/date_calculator?record_uri=TWRP79&label=KYWO183"
+  "http://localhost:8089/date_calculator?record_uri=T229BF39&label=WV17C702"
 
 ```
+
 
 
 __Endpoint__
 
 ```[:GET] /date_calculator ```
 
+
 __Description__
 
-Calculate the dates of an archival object tree
+Calculate the dates of an archival object tree.
+
+  
+  
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
-  
-	  String record_uri -- The uri of the object
-  
-  
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>record_uri</code></td>
+        <td style="word-break: break-word;">
+            The uri of the object
+            
+        </td>
+        <td>String</td>
+        <td></td>
+      </tr>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>label</code></td>
+        <td style="word-break: break-word;">
+            The date label to filter on
+            
+        </td>
+        <td>String</td>
+        <td>true</td>
+      </tr>
     
-    
-  
-  
-	  String label (Optional) -- The date label to filter on
-  
+  </tbody>
+</table>
+
 
 __Returns__
 
   	200 -- Calculation results
-
 
 
 
@@ -2893,13 +4250,16 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 ```
 
 
+
 __Endpoint__
 
 ```[:GET] /delete-feed ```
 
+
 __Description__
 
-Get a stream of deleted records
+Get a stream of deleted records.
+
 
 
 __Parameters__
@@ -2912,10 +4272,10 @@ This endpoint is paginated. :page is required
 </aside>
 
 
+
 __Returns__
 
   	200 -- a list of URIs that were deleted
-
 
 
 
@@ -2954,44 +4314,82 @@ __Returns__
   
 ```shell
 curl -H "X-ArchivesSpace-Session: $SESSION" \
-  "http://localhost:8089/extent_calculator?record_uri=AH412U331&unit=68J696513P"
+  "http://localhost:8089/extent_calculator?record_uri=TBIUC&unit=233568MEK"
 
 ```
+
 
 
 __Endpoint__
 
 ```[:GET] /extent_calculator ```
 
+
 __Description__
 
-Calculate the extent of an archival object tree
+Calculate the extent of an archival object tree.
+
+  
+  
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
-  
-	  String record_uri -- The uri of the object
-  
-  
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>record_uri</code></td>
+        <td style="word-break: break-word;">
+            The uri of the object
+            
+        </td>
+        <td>String</td>
+        <td></td>
+      </tr>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>unit</code></td>
+        <td style="word-break: break-word;">
+            The unit of measurement to use
+            
+        </td>
+        <td>String</td>
+        <td>true</td>
+      </tr>
     
-    
-  
-  
-	  String unit (Optional) -- The unit of measurement to use
-  
+  </tbody>
+</table>
+
 
 __Returns__
 
   	200 -- Calculation results
-
 
 
 
@@ -3008,22 +4406,22 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 ```
 
 
+
 __Endpoint__
 
 ```[:GET] /job_types ```
 
+
 __Description__
 
-List all supported job types
+List all supported job types.
 
 
-__Parameters__
 
 
 __Returns__
 
   	200 -- A list of supported job types
-
 
 
 
@@ -3043,42 +4441,37 @@ __Returns__
 ```shell
 curl -H "X-ArchivesSpace-Session: $SESSION" \
   -d '{ "jsonmodel_type":"location_profile",
-"name":"HDWKT",
-"dimension_units":"inches",
-"depth":"30",
-"height":"14",
-"width":"86"}' \
+"name":"ELLIM",
+"dimension_units":"millimeters",
+"depth":"88",
+"height":"59",
+"width":"10"}' \
   "http://localhost:8089/location_profiles"
 
 ```
+
 
 
 __Endpoint__
 
 ```[:POST] /location_profiles ```
 
+
 __Description__
 
-Create a Location_Profile
-
-
-__Parameters__
+Create a Location_Profile.
 
   
-    
   
-  
-    
-    
-  
-  
-	  JSONModel(:location_profile) <request body> -- The record to create
-  
+
+
+__Accepts Payload of Type__
+
+JSONModel(:location_profile)
 
 __Returns__
 
   	200 -- {:status => "Created", :id => (id of created object), :warnings => {(warnings)}}
-
 
 
 
@@ -3102,13 +4495,16 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 ```
 
 
+
 __Endpoint__
 
 ```[:GET] /location_profiles ```
 
+
 __Description__
 
-Get a list of Location Profiles
+Get a list of Location Profiles.
+
 
 
 __Parameters__
@@ -3123,10 +4519,11 @@ This endpoint is paginated. :page, :id_set, or :all_ids is required
 </aside>
 
 
+
+
 __Returns__
 
   	200 -- [(:location_profile)]
-
 
 
 
@@ -3152,49 +4549,71 @@ __Returns__
 ```shell
 curl -H "X-ArchivesSpace-Session: $SESSION" \
   -d '{ "jsonmodel_type":"location_profile",
-"name":"HDWKT",
-"dimension_units":"inches",
-"depth":"30",
-"height":"14",
-"width":"86"}' \
+"name":"ELLIM",
+"dimension_units":"millimeters",
+"depth":"88",
+"height":"59",
+"width":"10"}' \
   "http://localhost:8089/location_profiles/1"
 
 ```
+
 
 
 __Endpoint__
 
 ```[:POST] /location_profiles/:id ```
 
+
 __Description__
 
-Update a Location Profile
+Update a Location Profile.
+
+  
+  
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
-  
-	  Integer id -- The ID of the record
-  
-  
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>id</code></td>
+        <td style="word-break: break-word;">
+            The ID of the record
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-  
-  
-    
-    
-  
-  
-	  JSONModel(:location_profile) <request body> -- The updated record
-  
+  </tbody>
+</table>
+
+__Accepts Payload of Type__
+
+JSONModel(:location_profile)
 
 __Returns__
 
   	200 -- {:status => "Updated", :id => (id of updated object)}
-
 
 
 
@@ -3230,39 +4649,77 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 ```
 
 
+
 __Endpoint__
 
 ```[:GET] /location_profiles/:id ```
 
+
 __Description__
 
-Get a Location Profile by ID
+Get a Location Profile by ID.
+
+  
+  
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
-  
-	  Integer id -- The ID of the record
-  
-  
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>id</code></td>
+        <td style="word-break: break-word;">
+            The ID of the record
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>resolve</code></td>
+        <td style="word-break: break-word;">
+            A list of references to resolve and embed in the response
+            
+        </td>
+        <td>[String]</td>
+        <td>true</td>
+      </tr>
     
-    
-  
-  
-	  [String] resolve (Optional) -- A list of references to resolve and embed in the response
-  
+  </tbody>
+</table>
+
 
 __Returns__
 
   	200 -- (:location_profile)
-
 
 
 
@@ -3286,29 +4743,56 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 ```
 
 
+
 __Endpoint__
 
 ```[:DELETE] /location_profiles/:id ```
 
+
 __Description__
 
-Delete an Location Profile
+Delete an Location Profile.
+
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
-  
-	  Integer id -- The ID of the record
-  
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>id</code></td>
+        <td style="word-break: break-word;">
+            The ID of the record
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
+    
+  </tbody>
+</table>
+
 
 __Returns__
 
   	200 -- deleted
-
 
 
 
@@ -3330,43 +4814,38 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
   -d '{ "jsonmodel_type":"location",
 "external_ids":[],
 "functions":[],
-"building":"8 W 9th Street",
-"floor":"10",
-"room":"9",
+"building":"36 E 5th Street",
+"floor":"9",
+"room":"2",
 "area":"Back",
-"barcode":"00110010011011010011",
-"temporary":"reading_room"}' \
+"barcode":"10000110011110101100",
+"temporary":"conservation"}' \
   "http://localhost:8089/locations"
 
 ```
+
 
 
 __Endpoint__
 
 ```[:POST] /locations ```
 
+
 __Description__
 
-Create a Location
-
-
-__Parameters__
+Create a Location.
 
   
-    
   
-  
-    
-    
-  
-  
-	  JSONModel(:location) <request body> -- The record to create
-  
+
+
+__Accepts Payload of Type__
+
+JSONModel(:location)
 
 __Returns__
 
   	200 -- {:status => "Created", :id => (id of created object), :warnings => {(warnings)}}
-
 
 
 
@@ -3390,13 +4869,16 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 ```
 
 
+
 __Endpoint__
 
 ```[:GET] /locations ```
 
+
 __Description__
 
-Get a list of locations
+Get a list of locations.
+
 
 
 __Parameters__
@@ -3411,10 +4893,11 @@ This endpoint is paginated. :page, :id_set, or :all_ids is required
 </aside>
 
 
+
+
 __Returns__
 
   	200 -- [(:location)]
-
 
 
 
@@ -3442,50 +4925,72 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
   -d '{ "jsonmodel_type":"location",
 "external_ids":[],
 "functions":[],
-"building":"8 W 9th Street",
-"floor":"10",
-"room":"9",
+"building":"36 E 5th Street",
+"floor":"9",
+"room":"2",
 "area":"Back",
-"barcode":"00110010011011010011",
-"temporary":"reading_room"}' \
+"barcode":"10000110011110101100",
+"temporary":"conservation"}' \
   "http://localhost:8089/locations/1"
 
 ```
+
 
 
 __Endpoint__
 
 ```[:POST] /locations/:id ```
 
+
 __Description__
 
-Update a Location
+Update a Location.
+
+  
+  
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
-  
-	  Integer id -- The ID of the record
-  
-  
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>id</code></td>
+        <td style="word-break: break-word;">
+            The ID of the record
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-  
-  
-    
-    
-  
-  
-	  JSONModel(:location) <request body> -- The updated record
-  
+  </tbody>
+</table>
+
+__Accepts Payload of Type__
+
+JSONModel(:location)
 
 __Returns__
 
   	200 -- {:status => "Updated", :id => (id of updated object)}
-
 
 
 
@@ -3521,39 +5026,77 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 ```
 
 
+
 __Endpoint__
 
 ```[:GET] /locations/:id ```
 
+
 __Description__
 
-Get a Location by ID
+Get a Location by ID.
+
+  
+  
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
-  
-	  Integer id -- The ID of the record
-  
-  
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>id</code></td>
+        <td style="word-break: break-word;">
+            The ID of the record
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>resolve</code></td>
+        <td style="word-break: break-word;">
+            A list of references to resolve and embed in the response
+            
+        </td>
+        <td>[String]</td>
+        <td>true</td>
+      </tr>
     
-    
-  
-  
-	  [String] resolve (Optional) -- A list of references to resolve and embed in the response
-  
+  </tbody>
+</table>
+
 
 __Returns__
 
   	200 -- (:location)
-
 
 
 
@@ -3577,29 +5120,56 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 ```
 
 
+
 __Endpoint__
 
 ```[:DELETE] /locations/:id ```
 
+
 __Description__
 
-Delete a Location
+Delete a Location.
+
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
-  
-	  Integer id -- The ID of the record
-  
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>id</code></td>
+        <td style="word-break: break-word;">
+            The ID of the record
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
+    
+  </tbody>
+</table>
+
 
 __Returns__
 
   	200 -- deleted
-
 
 
 
@@ -3639,42 +5209,64 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 ```
 
 
+
 __Endpoint__
 
 ```[:POST] /locations/batch ```
 
+
 __Description__
 
-Create a Batch of Locations
+Create a Batch of Locations.
+
+  
+  
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>dry_run</code></td>
+        <td style="word-break: break-word;">
+            If true, don't create the locations, just list them
+            
+        </td>
+        <td>RESTHelpers::BooleanParam</td>
+        <td>true</td>
+      </tr>
     
-    
-  
-  
-	  RESTHelpers::BooleanParam dry_run (Optional) -- If true, don't create the locations, just list them
-  
-  
-    
-  
-  
-    
-    
-  
-  
-	  JSONModel(:location_batch) <request body> -- The location batch data to generate all locations
-  
+  </tbody>
+</table>
+
+__Accepts Payload of Type__
+
+JSONModel(:location_batch)
 
 __Returns__
 
   	200 -- {:status => "Updated", :id => (id of updated object)}
-
 
 
 
@@ -3699,32 +5291,27 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 ```
 
 
+
 __Endpoint__
 
 ```[:POST] /locations/batch_update ```
 
+
 __Description__
 
-Update a Location
-
-
-__Parameters__
+Update a Location.
 
   
-    
   
-  
-    
-    
-  
-  
-	  JSONModel(:location_batch_update) <request body> -- The location batch data to update all locations
-  
+
+
+__Accepts Payload of Type__
+
+JSONModel(:location_batch_update)
 
 __Returns__
 
   	200 -- {:status => "Updated", :id => (id of updated object)}
-
 
 
 
@@ -3742,22 +5329,22 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 ```
 
 
+
 __Endpoint__
 
 ```[:POST] /logout ```
 
+
 __Description__
 
-Log out the current session
+Log out the current session.
 
 
-__Parameters__
 
 
 __Returns__
 
   	200 -- Session logged out
-
 
 
 
@@ -3782,32 +5369,27 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 ```
 
 
+
 __Endpoint__
 
 ```[:POST] /merge_requests/agent ```
 
+
 __Description__
 
-Carry out a merge request against Agent records
-
-
-__Parameters__
+Carry out a merge request against Agent records.
 
   
-    
   
-  
-    
-    
-  
-  
-	  JSONModel(:merge_request) <request body> -- A merge request
-  
+
+
+__Accepts Payload of Type__
+
+JSONModel(:merge_request)
 
 __Returns__
 
   	200 -- {:status => "Updated", :id => (id of updated object)}
-
 
 
 
@@ -3839,50 +5421,88 @@ __Returns__
   
   
   
-```shell
-curl -H "X-ArchivesSpace-Session: $SESSION" \
-  -d '["Example Missing"]' \
-  "http://localhost:8089/merge_requests/agent_detail?dry_run=true"
+  ```shell
+curl -H 'Content-Type: application/json' \
+    -H "X-ArchivesSpace-Session: $SESSION" \
+    -d '{"dry_run":true, \
+         "merge_request_detail":{ \
+           "jsonmodel_type":"merge_request_detail", \
+           "victims":[{"ref":"/agents/people/3"}], \
+           "target":{"ref":"/agents/people/4"}, \
+           "selections":{
+             "names":[{"primary_name":"REPLACE", "position":"0"}], \
+             "agent_record_identifiers":[{"append":"APPEND", "position":"0"}], \
+             "agent_conventions_declarations":[
+               {"append":"REPLACE", "position":"1"}, \
+               {"append":"REPLACE", "position":"0"} \
+              ],
+           } \
+        } \
+      } \
+    "http://localhost:8089/merge_requests/agent_detail"
 
 ```
+
+
 
 
 __Endpoint__
 
 ```[:POST] /merge_requests/agent_detail ```
 
+
 __Description__
 
-Carry out a detailed merge request against Agent records
+Carry out a detailed merge request against Agent records.
+
+  
+  
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>dry_run</code></td>
+        <td style="word-break: break-word;">
+            If true, don't process the merge, just display the merged record
+            
+        </td>
+        <td>RESTHelpers::BooleanParam</td>
+        <td>true</td>
+      </tr>
     
-    
-  
-  
-	  RESTHelpers::BooleanParam dry_run (Optional) -- If true, don't process the merge, just display the merged record
-  
-  
-    
-  
-  
-    
-    
-  
-  
-	  JSONModel(:merge_request_detail) <request body> -- A detailed merge request
-  
+  </tbody>
+</table>
+
+__Accepts Payload of Type__
+
+JSONModel(:merge_request_detail)
 
 __Returns__
 
   	200 -- {:status => "Updated", :id => (id of updated object)}
-
 
 
 
@@ -3928,32 +5548,27 @@ client.post('/merge_requests/container_profile',
 
 ```
 
+
 __Endpoint__
 
 ```[:POST] /merge_requests/container_profile ```
 
+
 __Description__
 
-Carry out a merge request against Container Profile records
-
-
-__Parameters__
+Carry out a merge request against Container Profile records.
 
   
-    
   
-  
-    
-    
-  
-  
-	  JSONModel(:merge_request) <request body> -- A merge request
-  
+
+
+__Accepts Payload of Type__
+
+JSONModel(:merge_request)
 
 __Returns__
 
   	200 -- {:status => "Updated", :id => (id of updated object)}
-
 
 
 
@@ -3984,42 +5599,67 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 ```
 
 
+
 __Endpoint__
 
 ```[:POST] /merge_requests/digital_object ```
 
+
 __Description__
 
-Carry out a merge request against Digital_Object records
+Carry out a merge request against Digital_Object records.
+
+  
+  
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>repo_id</code></td>
+        <td style="word-break: break-word;">
+            The Repository ID
+            
+            <br>
+            <b>Note: </b> The Repository must exist
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-    
-  
-  
-	  Integer repo_id -- The Repository ID -- The Repository must exist
-  
-  
-    
-  
-  
-    
-    
-  
-  
-	  JSONModel(:merge_request) <request body> -- A merge request
-  
+  </tbody>
+</table>
+
+__Accepts Payload of Type__
+
+JSONModel(:merge_request)
 
 __Returns__
 
   	200 -- {:status => "Updated", :id => (id of updated object)}
-
 
 
 
@@ -4050,42 +5690,67 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 ```
 
 
+
 __Endpoint__
 
 ```[:POST] /merge_requests/resource ```
 
+
 __Description__
 
-Carry out a merge request against Resource records
+Carry out a merge request against Resource records.
+
+  
+  
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>repo_id</code></td>
+        <td style="word-break: break-word;">
+            The Repository ID
+            
+            <br>
+            <b>Note: </b> The Repository must exist
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-    
-  
-  
-	  Integer repo_id -- The Repository ID -- The Repository must exist
-  
-  
-    
-  
-  
-    
-    
-  
-  
-	  JSONModel(:merge_request) <request body> -- A merge request
-  
+  </tbody>
+</table>
+
+__Accepts Payload of Type__
+
+JSONModel(:merge_request)
 
 __Returns__
 
   	200 -- {:status => "Updated", :id => (id of updated object)}
-
 
 
 
@@ -4110,32 +5775,27 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 ```
 
 
+
 __Endpoint__
 
 ```[:POST] /merge_requests/subject ```
 
+
 __Description__
 
-Carry out a merge request against Subject records
-
-
-__Parameters__
+Carry out a merge request against Subject records.
 
   
-    
   
-  
-    
-    
-  
-  
-	  JSONModel(:merge_request) <request body> -- A merge request
-  
+
+
+__Accepts Payload of Type__
+
+JSONModel(:merge_request)
 
 __Returns__
 
   	200 -- {:status => "Updated", :id => (id of updated object)}
-
 
 
 
@@ -4187,42 +5847,67 @@ client.post('/merge_requests/top_container?repo_id=2',
 
 ```
 
+
 __Endpoint__
 
 ```[:POST] /merge_requests/top_container ```
 
+
 __Description__
 
-Carry out a merge request against Top Container records
+Carry out a merge request against Top Container records.
+
+  
+  
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>repo_id</code></td>
+        <td style="word-break: break-word;">
+            The Repository ID
+            
+            <br>
+            <b>Note: </b> The Repository must exist
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-    
-  
-  
-	  Integer repo_id -- The Repository ID -- The Repository must exist
-  
-  
-    
-  
-  
-    
-    
-  
-  
-	  JSONModel(:merge_request) <request body> -- A merge request
-  
+  </tbody>
+</table>
+
+__Accepts Payload of Type__
+
+JSONModel(:merge_request)
 
 __Returns__
 
   	200 -- {:status => "Updated", :id => (id of updated object)}
-
 
 
 
@@ -4254,32 +5939,59 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 ```
 
 
+
 __Endpoint__
 
 ```[:GET] /notifications ```
 
+
 __Description__
 
-Get a stream of notifications
+Get a stream of notifications.
+
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>last_sequence</code></td>
+        <td style="word-break: break-word;">
+            The last sequence number seen
+            
+        </td>
+        <td>Integer</td>
+        <td>true</td>
+      </tr>
     
-    
-  
-  
-	  Integer last_sequence (Optional) -- The last sequence number seen
-  
+  </tbody>
+</table>
+
 
 __Returns__
 
   	200 -- a list of notifications
-
 
 
 
@@ -4306,37 +6018,67 @@ __Returns__
   
 ```shell
 curl -H "X-ArchivesSpace-Session: $SESSION" \
-  "http://localhost:8089/permissions?level=782192485R403"
+  "http://localhost:8089/permissions?level=LGJCG"
 
 ```
+
 
 
 __Endpoint__
 
 ```[:GET] /permissions ```
 
+
 __Description__
 
-Get a list of Permissions
+Get a list of Permissions.
+
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>level</code></td>
+        <td style="word-break: break-word;">
+            The permission level to get (one of: repository, global, all)
+            
+            <br>
+            <b>Note: </b> Must be one of repository, global, all
+            
+        </td>
+        <td>String</td>
+        <td></td>
+      </tr>
     
-    
-  
-  
-	  String level -- The permission level to get (one of: repository, global, all) -- Must be one of repository, global, all
-  
+  </tbody>
+</table>
+
 
 __Returns__
 
   	200 -- [(:permission)]
-
 
 
 
@@ -4353,22 +6095,57 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 ```
 
 
+
 __Endpoint__
 
 ```[:GET] /reports ```
 
+
 __Description__
 
-List all reports
+List all reports.
 
 
-__Parameters__
 
 
 __Returns__
 
   	200 -- report list in json
 
+
+
+## Get a list of availiable options for custom reports
+
+
+
+
+  
+  ```shell
+curl -H "X-ArchivesSpace-Session: $SESSION" \
+  "http://localhost:8089/reports/custom_data"
+
+```
+
+
+
+
+__Endpoint__
+
+```[:GET] /reports/custom_data ```
+
+
+__Description__
+
+Get a list of availiable options for custom reports.
+
+
+
+
+__Returns__
+
+  	200 -- 
+
+  	h -- a
 
 
 
@@ -4395,34 +6172,61 @@ __Returns__
   
 ```shell
 curl -H "X-ArchivesSpace-Session: $SESSION" \
-  "http://localhost:8089/reports/static/*?splat=251KI93H"
+  "http://localhost:8089/reports/static/*?splat=ER911YQ"
 
 ```
+
 
 
 __Endpoint__
 
 ```[:GET] /reports/static/* ```
 
+
 __Description__
 
-Get a static asset for a report
+Get a static asset for a report.
+
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
-  
-	  String splat -- The requested asset
-  
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>splat</code></td>
+        <td style="word-break: break-word;">
+            The requested asset
+            
+        </td>
+        <td>String</td>
+        <td></td>
+      </tr>
+    
+  </tbody>
+</table>
+
 
 __Returns__
 
   	200 -- the asset
-
 
 
 
@@ -4442,39 +6246,35 @@ __Returns__
 ```shell
 curl -H "X-ArchivesSpace-Session: $SESSION" \
   -d '{ "jsonmodel_type":"repository",
-"name":"Description: 11",
+"name":"Description: 2",
 "is_slug_auto":true,
-"repo_code":"ASPACE REPO 2 -- 264583",
-"org_code":"ABQMQ",
-"image_url":"http://www.example-12.com",
-"url":"http://www.example-13.com",
+"repo_code":"ASPACE REPO 2 -- 119175",
+"org_code":"IQNTA",
+"image_url":"http://www.example-2-1632179079.com",
+"url":"http://www.example-3-1632179079.com",
 "country":"US"}' \
   "http://localhost:8089/repositories"
 
 ```
 
 
+
 __Endpoint__
 
 ```[:POST] /repositories ```
 
+
 __Description__
 
-Create a Repository
-
-
-__Parameters__
+Create a Repository.
 
   
-    
   
-  
-    
-    
-  
-  
-	  JSONModel(:repository) <request body> -- The record to create
-  
+
+
+__Accepts Payload of Type__
+
+JSONModel(:repository)
 
 __Returns__
 
@@ -4483,7 +6283,6 @@ __Returns__
   	400 -- {:error => (description of error)}
 
   	403 -- access_denied
-
 
 
 
@@ -4513,32 +6312,59 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 ```
 
 
+
 __Endpoint__
 
 ```[:GET] /repositories ```
 
+
 __Description__
 
-Get a list of Repositories
+Get a list of Repositories.
+
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>resolve</code></td>
+        <td style="word-break: break-word;">
+            A list of references to resolve and embed in the response
+            
+        </td>
+        <td>[String]</td>
+        <td>true</td>
+      </tr>
     
-    
-  
-  
-	  [String] resolve (Optional) -- A list of references to resolve and embed in the response
-  
+  </tbody>
+</table>
+
 
 __Returns__
 
   	200 -- [(:repository)]
-
 
 
 
@@ -4564,51 +6390,73 @@ __Returns__
 ```shell
 curl -H "X-ArchivesSpace-Session: $SESSION" \
   -d '{ "jsonmodel_type":"repository",
-"name":"Description: 11",
+"name":"Description: 2",
 "is_slug_auto":true,
-"repo_code":"ASPACE REPO 2 -- 264583",
-"org_code":"ABQMQ",
-"image_url":"http://www.example-12.com",
-"url":"http://www.example-13.com",
+"repo_code":"ASPACE REPO 2 -- 119175",
+"org_code":"IQNTA",
+"image_url":"http://www.example-2-1632179079.com",
+"url":"http://www.example-3-1632179079.com",
 "country":"US"}' \
   "http://localhost:8089/repositories/1"
 
 ```
 
 
+
 __Endpoint__
 
 ```[:POST] /repositories/:id ```
 
+
 __Description__
 
-Update a repository
+Update a repository.
+
+  
+  
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
-  
-	  Integer id -- The ID of the record
-  
-  
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>id</code></td>
+        <td style="word-break: break-word;">
+            The ID of the record
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-  
-  
-    
-    
-  
-  
-	  JSONModel(:repository) <request body> -- The updated record
-  
+  </tbody>
+</table>
+
+__Accepts Payload of Type__
+
+JSONModel(:repository)
 
 __Returns__
 
   	200 -- {:status => "Updated", :id => (id of updated object)}
-
 
 
 
@@ -4644,41 +6492,79 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 ```
 
 
+
 __Endpoint__
 
 ```[:GET] /repositories/:id ```
 
+
 __Description__
 
-Get a Repository by ID
+Get a Repository by ID.
+
+  
+  
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
-  
-	  Integer id -- The ID of the record
-  
-  
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>id</code></td>
+        <td style="word-break: break-word;">
+            The ID of the record
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>resolve</code></td>
+        <td style="word-break: break-word;">
+            A list of references to resolve and embed in the response
+            
+        </td>
+        <td>[String]</td>
+        <td>true</td>
+      </tr>
     
-    
-  
-  
-	  [String] resolve (Optional) -- A list of references to resolve and embed in the response
-  
+  </tbody>
+</table>
+
 
 __Returns__
 
   	200 -- (:repository)
 
   	404 -- Not found
-
 
 
 
@@ -4702,32 +6588,62 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 ```
 
 
+
 __Endpoint__
 
 ```[:DELETE] /repositories/:repo_id ```
 
+
 __Description__
 
-Delete a Repository
+Delete a Repository.
+
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>repo_id</code></td>
+        <td style="word-break: break-word;">
+            The Repository ID
+            
+            <br>
+            <b>Note: </b> The Repository must exist
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-    
-  
-  
-	  Integer repo_id -- The Repository ID -- The Repository must exist
-  
+  </tbody>
+</table>
+
 
 __Returns__
 
   	200 -- deleted
-
 
 
 
@@ -4756,11 +6672,12 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 "external_ids":[],
 "is_slug_auto":true,
 "related_accessions":[],
-"accession_date":"2006-03-22",
+"accession_date":"2008-10-27",
 "classifications":[],
 "subjects":[],
 "linked_events":[],
 "extents":[],
+"lang_materials":[],
 "dates":[],
 "external_documents":[],
 "rights_statements":[],
@@ -4771,54 +6688,80 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 "use_restrictions":false,
 "linked_agents":[],
 "instances":[],
-"id_0":"644UBQU",
-"id_1":"Y510SAY",
-"id_2":"LYOAV",
-"id_3":"405HW31C",
-"title":"Accession Title: 1",
-"content_description":"Description: 2",
-"condition_description":"Description: 3"}' \
+"metadata_rights_declarations":[],
+"id_0":"825292U360R",
+"id_1":"201828N940I",
+"id_2":"P28SRK",
+"id_3":"225WRIG",
+"title":"Accession Title: 10",
+"content_description":"Description: 10",
+"condition_description":"Description: 11"}' \
   "http://localhost:8089/repositories/2/accessions"
 
 ```
+
 
 
 __Endpoint__
 
 ```[:POST] /repositories/:repo_id/accessions ```
 
+
 __Description__
 
-Create an Accession
+Create an Accession.
+
+  
+  
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>repo_id</code></td>
+        <td style="word-break: break-word;">
+            The Repository ID
+            
+            <br>
+            <b>Note: </b> The Repository must exist
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-    
-  
-  
-	  JSONModel(:accession) <request body> -- The record to create
-  
-  
-    
-  
-  
-    
-    
-  
-  
-	  Integer repo_id -- The Repository ID -- The Repository must exist
-  
+  </tbody>
+</table>
+
+__Accepts Payload of Type__
+
+JSONModel(:accession)
 
 __Returns__
 
   	200 -- {:status => "Created", :id => (id of created object), :warnings => {(warnings)}}
-
 
 
 
@@ -4848,13 +6791,18 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 ```
 
 
+
 __Endpoint__
 
 ```[:GET] /repositories/:repo_id/accessions ```
 
+
 __Description__
 
-Get a list of Accessions for a Repository
+Get a list of Accessions for a Repository.
+
+  
+  
 
 
 __Parameters__
@@ -4868,21 +6816,47 @@ This endpoint is paginated. :page, :id_set, or :all_ids is required
 </ul>
 </aside>
 
-  
+
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>repo_id</code></td>
+        <td style="word-break: break-word;">
+            The Repository ID
+            
+            <br>
+            <b>Note: </b> The Repository must exist
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-    
-  
-  
-	  Integer repo_id -- The Repository ID -- The Repository must exist
-  
+  </tbody>
+</table>
+
 
 __Returns__
 
   	200 -- [(:accession)]
-
 
 
 
@@ -4917,11 +6891,12 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 "external_ids":[],
 "is_slug_auto":true,
 "related_accessions":[],
-"accession_date":"2006-03-22",
+"accession_date":"2008-10-27",
 "classifications":[],
 "subjects":[],
 "linked_events":[],
 "extents":[],
+"lang_materials":[],
 "dates":[],
 "external_documents":[],
 "rights_statements":[],
@@ -4932,61 +6907,98 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 "use_restrictions":false,
 "linked_agents":[],
 "instances":[],
-"id_0":"644UBQU",
-"id_1":"Y510SAY",
-"id_2":"LYOAV",
-"id_3":"405HW31C",
-"title":"Accession Title: 1",
-"content_description":"Description: 2",
-"condition_description":"Description: 3"}' \
+"metadata_rights_declarations":[],
+"id_0":"825292U360R",
+"id_1":"201828N940I",
+"id_2":"P28SRK",
+"id_3":"225WRIG",
+"title":"Accession Title: 10",
+"content_description":"Description: 10",
+"condition_description":"Description: 11"}' \
   "http://localhost:8089/repositories/2/accessions/1"
 
 ```
+
 
 
 __Endpoint__
 
 ```[:POST] /repositories/:repo_id/accessions/:id ```
 
+
 __Description__
 
-Update an Accession
+Update an Accession.
+
+  
+  
+  
+  
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
-  
-	  Integer id -- The ID of the record
-  
-  
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>id</code></td>
+        <td style="word-break: break-word;">
+            The ID of the record
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>repo_id</code></td>
+        <td style="word-break: break-word;">
+            The Repository ID
+            
+            <br>
+            <b>Note: </b> The Repository must exist
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-    
-  
-  
-	  JSONModel(:accession) <request body> -- The updated record
-  
-  
-    
-  
-  
-    
-    
-  
-  
-	  Integer repo_id -- The Repository ID -- The Repository must exist
-  
+  </tbody>
+</table>
+
+__Accepts Payload of Type__
+
+JSONModel(:accession)
 
 __Returns__
 
   	200 -- {:status => "Updated", :id => (id of updated object)}
-
 
 
 
@@ -5028,49 +7040,101 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 ```
 
 
+
 __Endpoint__
 
 ```[:GET] /repositories/:repo_id/accessions/:id ```
 
+
 __Description__
 
-Get an Accession by ID
+Get an Accession by ID.
+
+  
+  
+  
+  
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
-  
-	  Integer id -- The ID of the record
-  
-  
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>id</code></td>
+        <td style="word-break: break-word;">
+            The ID of the record
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>repo_id</code></td>
+        <td style="word-break: break-word;">
+            The Repository ID
+            
+            <br>
+            <b>Note: </b> The Repository must exist
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>resolve</code></td>
+        <td style="word-break: break-word;">
+            A list of references to resolve and embed in the response
+            
+        </td>
+        <td>[String]</td>
+        <td>true</td>
+      </tr>
     
-  
-  
-	  Integer repo_id -- The Repository ID -- The Repository must exist
-  
-  
-    
-  
-  
-    
-    
-  
-  
-	  [String] resolve (Optional) -- A list of references to resolve and embed in the response
-  
+  </tbody>
+</table>
+
 
 __Returns__
 
   	200 -- (:accession)
-
 
 
 
@@ -5100,39 +7164,80 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 ```
 
 
+
 __Endpoint__
 
 ```[:DELETE] /repositories/:repo_id/accessions/:id ```
 
+
 __Description__
 
-Delete an Accession
+Delete an Accession.
+
+  
+  
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
-  
-	  Integer id -- The ID of the record
-  
-  
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>id</code></td>
+        <td style="word-break: break-word;">
+            The ID of the record
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>repo_id</code></td>
+        <td style="word-break: break-word;">
+            The Repository ID
+            
+            <br>
+            <b>Note: </b> The Repository must exist
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-    
-  
-  
-	  Integer repo_id -- The Repository ID -- The Repository must exist
-  
+  </tbody>
+</table>
+
 
 __Returns__
 
   	200 -- deleted
-
 
 
 
@@ -5177,46 +7282,98 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 ```
 
 
+
 __Endpoint__
 
 ```[:POST] /repositories/:repo_id/accessions/:id/suppressed ```
 
+
 __Description__
 
-Suppress this record
+Suppress this record.
+
+  
+  
+  
+  
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
-  
-	  Integer id -- The ID of the record
-  
-  
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>id</code></td>
+        <td style="word-break: break-word;">
+            The ID of the record
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-  
-  
-  
-	  RESTHelpers::BooleanParam suppressed -- Suppression state
-  
-  
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>suppressed</code></td>
+        <td style="word-break: break-word;">
+            Suppression state
+            
+        </td>
+        <td>RESTHelpers::BooleanParam</td>
+        <td></td>
+      </tr>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>repo_id</code></td>
+        <td style="word-break: break-word;">
+            The Repository ID
+            
+            <br>
+            <b>Note: </b> The Repository must exist
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-    
-  
-  
-	  Integer repo_id -- The Repository ID -- The Repository must exist
-  
+  </tbody>
+</table>
+
 
 __Returns__
 
   	200 -- {:status => "Suppressed", :id => (id of updated object), :suppressed_state => (true|false)}
-
 
 
 
@@ -5258,51 +7415,103 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 ```
 
 
+
 __Endpoint__
 
 ```[:GET] /repositories/:repo_id/accessions/:id/top_containers ```
 
+
 __Description__
 
-Get Top Containers linked to an Accession
+Get Top Containers linked to an Accession.
+
+  
+  
+  
+  
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
-  
-	  Integer id -- The ID of the record
-  
-  
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>id</code></td>
+        <td style="word-break: break-word;">
+            The ID of the record
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>repo_id</code></td>
+        <td style="word-break: break-word;">
+            The Repository ID
+            
+            <br>
+            <b>Note: </b> The Repository must exist
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>resolve</code></td>
+        <td style="word-break: break-word;">
+            A list of references to resolve and embed in the response
+            
+        </td>
+        <td>[String]</td>
+        <td>true</td>
+      </tr>
     
-  
-  
-	  Integer repo_id -- The Repository ID -- The Repository must exist
-  
-  
-    
-  
-  
-    
-    
-  
-  
-	  [String] resolve (Optional) -- A list of references to resolve and embed in the response
-  
+  </tbody>
+</table>
+
 
 __Returns__
 
   	200 -- a list of linked top containers
 
   	404 -- Not found
-
 
 
 
@@ -5342,51 +7551,715 @@ __Returns__
 ```shell
 curl -H "X-ArchivesSpace-Session: $SESSION" \
   -d 'Example Missing' \
-  "http://localhost:8089/repositories/2/accessions/1/transfer?target_repo=909ECDK"
+  "http://localhost:8089/repositories/2/accessions/1/transfer?target_repo=209XW199J"
 
 ```
+
 
 
 __Endpoint__
 
 ```[:POST] /repositories/:repo_id/accessions/:id/transfer ```
 
+
 __Description__
 
-Transfer this record to a different repository
+Transfer this record to a different repository.
+
+  
+  
+  
+  
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
-  
-	  Integer id -- The ID of the record
-  
-  
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>id</code></td>
+        <td style="word-break: break-word;">
+            The ID of the record
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-  
-  
-  
-	  String target_repo -- The URI of the target repository
-  
-  
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>target_repo</code></td>
+        <td style="word-break: break-word;">
+            The URI of the target repository
+            
+        </td>
+        <td>String</td>
+        <td></td>
+      </tr>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>repo_id</code></td>
+        <td style="word-break: break-word;">
+            The Repository ID
+            
+            <br>
+            <b>Note: </b> The Repository must exist
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-    
-  
-  
-	  Integer repo_id -- The Repository ID -- The Repository must exist
-  
+  </tbody>
+</table>
+
 
 __Returns__
 
   	200 -- moved
 
+
+
+## Get metadata for an MARC Auth export of a corporate entity
+
+
+
+  
+    
+  
+  
+    
+  
+
+  
+    
+  
+  
+    
+  
+  
+```shell
+curl -H "X-ArchivesSpace-Session: $SESSION" \
+  "http://localhost:8089/repositories/2/agents/corporate_entities/marc21/1.:fmt/metadata"
+
+```
+
+
+
+__Endpoint__
+
+```[:GET] /repositories/:repo_id/agents/corporate_entities/marc21/:id.:fmt/metadata ```
+
+
+__Description__
+
+Get metadata for an MARC Auth export of a corporate entity.
+
+  
+  
+  
+  
+
+
+__Parameters__
+
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
+    
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>id</code></td>
+        <td style="word-break: break-word;">
+            The ID of the record
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
+    
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>repo_id</code></td>
+        <td style="word-break: break-word;">
+            The Repository ID
+            
+            <br>
+            <b>Note: </b> The Repository must exist
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
+    
+  </tbody>
+</table>
+
+
+__Returns__
+
+  	200 -- The export metadata
+
+
+
+## Get a MARC Auth representation of a Corporate Entity
+
+
+
+  
+    
+  
+  
+    
+  
+
+  
+    
+  
+  
+    
+  
+  
+```shell
+curl -H "X-ArchivesSpace-Session: $SESSION" \
+  "http://localhost:8089/repositories/2/agents/corporate_entities/marc21/1.xml"
+
+```
+
+
+
+__Endpoint__
+
+```[:GET] /repositories/:repo_id/agents/corporate_entities/marc21/:id.xml ```
+
+
+__Description__
+
+Get a MARC Auth representation of a Corporate Entity.
+
+  
+  
+  
+  
+
+
+__Parameters__
+
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
+    
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>id</code></td>
+        <td style="word-break: break-word;">
+            The ID of the record
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
+    
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>repo_id</code></td>
+        <td style="word-break: break-word;">
+            The Repository ID
+            
+            <br>
+            <b>Note: </b> The Repository must exist
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
+    
+  </tbody>
+</table>
+
+
+__Returns__
+
+  	200 -- (:agent)
+
+
+
+## Get metadata for an MARC Auth export of a family
+
+
+
+  
+    
+  
+  
+    
+  
+
+  
+    
+  
+  
+    
+  
+  
+```shell
+curl -H "X-ArchivesSpace-Session: $SESSION" \
+  "http://localhost:8089/repositories/2/agents/families/marc21/1.:fmt/metadata"
+
+```
+
+
+
+__Endpoint__
+
+```[:GET] /repositories/:repo_id/agents/families/marc21/:id.:fmt/metadata ```
+
+
+__Description__
+
+Get metadata for an MARC Auth export of a family.
+
+  
+  
+  
+  
+
+
+__Parameters__
+
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
+    
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>id</code></td>
+        <td style="word-break: break-word;">
+            The ID of the record
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
+    
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>repo_id</code></td>
+        <td style="word-break: break-word;">
+            The Repository ID
+            
+            <br>
+            <b>Note: </b> The Repository must exist
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
+    
+  </tbody>
+</table>
+
+
+__Returns__
+
+  	200 -- The export metadata
+
+
+
+## Get an MARC Auth representation of a Family
+
+
+
+  
+    
+  
+  
+    
+  
+
+  
+    
+  
+  
+    
+  
+  
+```shell
+curl -H "X-ArchivesSpace-Session: $SESSION" \
+  "http://localhost:8089/repositories/2/agents/families/marc21/1.xml"
+
+```
+
+
+
+__Endpoint__
+
+```[:GET] /repositories/:repo_id/agents/families/marc21/:id.xml ```
+
+
+__Description__
+
+Get an MARC Auth representation of a Family.
+
+  
+  
+  
+  
+
+
+__Parameters__
+
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
+    
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>id</code></td>
+        <td style="word-break: break-word;">
+            The ID of the record
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
+    
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>repo_id</code></td>
+        <td style="word-break: break-word;">
+            The Repository ID
+            
+            <br>
+            <b>Note: </b> The Repository must exist
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
+    
+  </tbody>
+</table>
+
+
+__Returns__
+
+  	200 -- (:agent)
+
+
+
+## Get metadata for an MARC Auth export of a person
+
+
+
+  
+    
+  
+  
+    
+  
+
+  
+    
+  
+  
+    
+  
+  
+```shell
+curl -H "X-ArchivesSpace-Session: $SESSION" \
+  "http://localhost:8089/repositories/2/agents/people/marc21/1.:fmt/metadata"
+
+```
+
+
+
+__Endpoint__
+
+```[:GET] /repositories/:repo_id/agents/people/marc21/:id.:fmt/metadata ```
+
+
+__Description__
+
+Get metadata for an MARC Auth export of a person.
+
+  
+  
+  
+  
+
+
+__Parameters__
+
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
+    
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>id</code></td>
+        <td style="word-break: break-word;">
+            The ID of the record
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
+    
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>repo_id</code></td>
+        <td style="word-break: break-word;">
+            The Repository ID
+            
+            <br>
+            <b>Note: </b> The Repository must exist
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
+    
+  </tbody>
+</table>
+
+
+__Returns__
+
+  	200 -- The export metadata
+
+
+
+## Get an MARC Auth representation of an Person
+
+
+
+  
+    
+  
+  
+    
+  
+
+  
+    
+  
+  
+    
+  
+  
+```shell
+curl -H "X-ArchivesSpace-Session: $SESSION" \
+  "http://localhost:8089/repositories/2/agents/people/marc21/1.xml"
+
+```
+
+
+
+__Endpoint__
+
+```[:GET] /repositories/:repo_id/agents/people/marc21/:id.xml ```
+
+
+__Description__
+
+Get an MARC Auth representation of an Person.
+
+  
+  
+  
+  
+
+
+__Parameters__
+
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
+    
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>id</code></td>
+        <td style="word-break: break-word;">
+            The ID of the record
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
+    
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>repo_id</code></td>
+        <td style="word-break: break-word;">
+            The Repository ID
+            
+            <br>
+            <b>Note: </b> The Repository must exist
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
+    
+  </tbody>
+</table>
+
+
+__Returns__
+
+  	200 -- (:agent)
 
 
 
@@ -5408,9 +8281,30 @@ __Returns__
     
   
   
-```shell
-curl -H "X-ArchivesSpace-Session: $SESSION" \
-  "http://localhost:8089/repositories/2/archival_contexts/corporate_entities/1.:fmt/metadata"
+  ```shell
+curl -s -F password="admin" "http://localhost:8089/users/admin/login"
+set SESSION="session_id"
+curl -H "X-ArchivesSpace-Session: $SESSION" //
+"http://localhost:8089/repositories/2/archival_contexts/corporate_entities/1238.:fmt/metadata"
+
+```
+
+
+```python
+from asnake.client import ASnakeClient  # import the ArchivesSnake client
+
+client = ASnakeClient(baseurl="http://localhost:8089", username="admin", password="admin")
+# replace http://localhost:8089 with your ArchivesSpace API URL and admin for your username and password
+
+client.authorize()  # authorizes the client
+
+eac_cpf_corp_fmt = client.get("/repositories/2/archival_contexts/corporate_entities/1238.:fmt/metadata")
+# replace 2 for your repository ID and 1238 with your corporate agent ID. Find these at the URI on the staff interface
+
+print(eac_cpf_corp_fmt.content)
+# Sample output: {"filename":"title_20210218_182435_UTC__eac.xml","mimetype":"application/xml"}
+
+# For error handling, print or log the returned value of client.get with .json() - print(eac_cpf_corp_fmt.json())
 
 ```
 
@@ -5419,35 +8313,75 @@ __Endpoint__
 
 ```[:GET] /repositories/:repo_id/archival_contexts/corporate_entities/:id.:fmt/metadata ```
 
+
 __Description__
 
-Get metadata for an EAC-CPF export of a corporate entity
+Get metadata for an EAC-CPF export of a corporate entity.
+
+  
+  
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
-  
-	  Integer id -- The ID of the record
-  
-  
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>id</code></td>
+        <td style="word-break: break-word;">
+            The ID of the record
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>repo_id</code></td>
+        <td style="word-break: break-word;">
+            The Repository ID
+            
+            <br>
+            <b>Note: </b> The Repository must exist
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-    
-  
-  
-	  Integer repo_id -- The Repository ID -- The Repository must exist
-  
+  </tbody>
+</table>
+
 
 __Returns__
 
   	200 -- The export metadata
-
 
 
 
@@ -5469,9 +8403,31 @@ __Returns__
     
   
   
-```shell
-curl -H "X-ArchivesSpace-Session: $SESSION" \
-  "http://localhost:8089/repositories/2/archival_contexts/corporate_entities/1.xml"
+  ```shell
+curl -s -F password="admin" "http://localhost:8089/users/admin/login"
+set SESSION="session_id"
+curl -H "X-ArchivesSpace-Session: $SESSION" //
+"http://localhost:8089/repositories/2/archival_contexts/corporate_entities/1238.xml" --output eac_cpf_corp.xml
+
+```
+
+
+```python
+from asnake.client import ASnakeClient  # import the ArchivesSnake client
+
+client = ASnakeClient(baseurl="http://localhost:8089", username="admin", password="admin")
+# replace http://localhost:8089 with your ArchivesSpace API URL and admin for your username and password
+
+client.authorize()  # authorizes the client
+
+eac_cpf_corp_xml = client.get("/repositories/2/archival_contexts/corporate_entities/1238.xml")
+# replace 2 for your repository ID and 1238 with your corporate agent ID. Find these at the URI on the staff interface
+
+with open("eac_cpf_corp.xml", "wb") as file:  # save the file
+    file.write(eac_cpf_corp_xml.content)  # write the file content to our file.
+    file.close()
+
+# For error handling, print or log the returned value of client.get with .json() - print(eac_cpf_corp_xml.json())
 
 ```
 
@@ -5480,35 +8436,75 @@ __Endpoint__
 
 ```[:GET] /repositories/:repo_id/archival_contexts/corporate_entities/:id.xml ```
 
+
 __Description__
 
-Get an EAC-CPF representation of a Corporate Entity
+Get an EAC-CPF representation of a Corporate Entity.
+
+  
+  
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
-  
-	  Integer id -- The ID of the record
-  
-  
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>id</code></td>
+        <td style="word-break: break-word;">
+            The ID of the record
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>repo_id</code></td>
+        <td style="word-break: break-word;">
+            The Repository ID
+            
+            <br>
+            <b>Note: </b> The Repository must exist
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-    
-  
-  
-	  Integer repo_id -- The Repository ID -- The Repository must exist
-  
+  </tbody>
+</table>
+
 
 __Returns__
 
   	200 -- (:agent)
-
 
 
 
@@ -5530,9 +8526,30 @@ __Returns__
     
   
   
-```shell
-curl -H "X-ArchivesSpace-Session: $SESSION" \
-  "http://localhost:8089/repositories/2/archival_contexts/families/1.:fmt/metadata"
+  ```shell
+curl -s -F password="admin" "http://localhost:8089/users/admin/login"
+set SESSION="session_id"
+curl -H "X-ArchivesSpace-Session: $SESSION" //
+"http://localhost:8089/repositories/2/archival_contexts/families/479.:fmt/metadata" --output eac_cpf_fam.fmt
+
+```
+
+
+```python
+from asnake.client import ASnakeClient  # import the ArchivesSnake client
+
+client = ASnakeClient(baseurl="http://localhost:8089", username="admin", password="admin")
+# replace http://localhost:8089 with your ArchivesSpace API URL and admin for your username and password
+
+client.authorize()  # authorizes the client
+
+eac_cpf_fam_fmt = client.get("/repositories/2/archival_contexts/families/479.:fmt/metadata")
+# replace 2 for your repository ID and 479 with your family agent ID. Find these at the URI on the staff interface
+
+print(eac_cpf_fam_fmt.content)
+# Sample output: {"filename":"Adams_family_20210218_182435_UTC__eac.xml","mimetype":"application/xml"}
+
+# For error handling, print or log the returned value of client.get with .json() - print(eac_cpf_fam_fmt.json())
 
 ```
 
@@ -5541,35 +8558,75 @@ __Endpoint__
 
 ```[:GET] /repositories/:repo_id/archival_contexts/families/:id.:fmt/metadata ```
 
+
 __Description__
 
-Get metadata for an EAC-CPF export of a family
+Get metadata for an EAC-CPF export of a family.
+
+  
+  
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
-  
-	  Integer id -- The ID of the record
-  
-  
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>id</code></td>
+        <td style="word-break: break-word;">
+            The ID of the record
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>repo_id</code></td>
+        <td style="word-break: break-word;">
+            The Repository ID
+            
+            <br>
+            <b>Note: </b> The Repository must exist
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-    
-  
-  
-	  Integer repo_id -- The Repository ID -- The Repository must exist
-  
+  </tbody>
+</table>
+
 
 __Returns__
 
   	200 -- The export metadata
-
 
 
 
@@ -5591,9 +8648,31 @@ __Returns__
     
   
   
-```shell
-curl -H "X-ArchivesSpace-Session: $SESSION" \
-  "http://localhost:8089/repositories/2/archival_contexts/families/1.xml"
+  ```shell
+curl -s -F password="admin" "http://localhost:8089/users/admin/login"
+set SESSION="session_id"
+curl -H "X-ArchivesSpace-Session: $SESSION" //
+"http://localhost:8089/repositories/2/archival_contexts/families/479.xml" --output eac_cpf_fam.xml
+
+```
+
+
+```python
+from asnake.client import ASnakeClient  # import the ArchivesSnake client
+
+client = ASnakeClient(baseurl="http://localhost:8089", username="admin", password="admin")
+# replace http://localhost:8089 with your ArchivesSpace API URL and admin for your username and password
+
+client.authorize()  # authorizes the client
+
+eac_cpf_fam_xml = client.get("/repositories/2/archival_contexts/families/479.xml")
+# replace 2 for your repository ID and 479 with your family agent ID. Find these at the URI on the staff interface
+
+with open("eac_cpf_fam.xml", "wb") as file:  # save the file
+    file.write(eac_cpf_fam_xml.content)  # write the file content to our file.
+    file.close()
+
+# For error handling, print or log the returned value of client.get with .json() - print(eac_cpf_fam_xml.json())
 
 ```
 
@@ -5602,35 +8681,75 @@ __Endpoint__
 
 ```[:GET] /repositories/:repo_id/archival_contexts/families/:id.xml ```
 
+
 __Description__
 
-Get an EAC-CPF representation of a Family
+Get an EAC-CPF representation of a Family.
+
+  
+  
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
-  
-	  Integer id -- The ID of the record
-  
-  
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>id</code></td>
+        <td style="word-break: break-word;">
+            The ID of the record
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>repo_id</code></td>
+        <td style="word-break: break-word;">
+            The Repository ID
+            
+            <br>
+            <b>Note: </b> The Repository must exist
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-    
-  
-  
-	  Integer repo_id -- The Repository ID -- The Repository must exist
-  
+  </tbody>
+</table>
+
 
 __Returns__
 
   	200 -- (:agent)
-
 
 
 
@@ -5652,9 +8771,30 @@ __Returns__
     
   
   
-```shell
-curl -H "X-ArchivesSpace-Session: $SESSION" \
-  "http://localhost:8089/repositories/2/archival_contexts/people/1.:fmt/metadata"
+  ```shell
+curl -s -F password="admin" "http://localhost:8089/users/admin/login"
+set SESSION="session_id"
+curl -H "X-ArchivesSpace-Session: $SESSION" //
+"http://localhost:8089/repositories/2/archival_contexts/people/159.:fmt/metadata"
+
+```
+
+
+```python
+from asnake.client import ASnakeClient  # import the ArchivesSnake client
+
+client = ASnakeClient(baseurl="http://localhost:8089", username="admin", password="admin")
+# replace http://localhost:8089 with your ArchivesSpace API URL and admin for your username and password
+
+client.authorize()  # authorizes the client
+
+eac_cpf_fmt = client.get("/repositories/2/archival_contexts/people/159.:fmt/metadata")
+# replace 2 for your repository ID and 159 with your agent ID. Find these at the URI on the staff interface
+
+print(eac_cpf_fmt.content)
+# Sample output: {"filename":"title_20210218_182435_UTC__eac.xml","mimetype":"application/xml"}
+
+# For error handling, print or log the returned value of client.get with .json() - print(eac_cpf_fmt.json())
 
 ```
 
@@ -5663,35 +8803,75 @@ __Endpoint__
 
 ```[:GET] /repositories/:repo_id/archival_contexts/people/:id.:fmt/metadata ```
 
+
 __Description__
 
-Get metadata for an EAC-CPF export of a person
+Get metadata for an EAC-CPF export of a person.
+
+  
+  
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
-  
-	  Integer id -- The ID of the record
-  
-  
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>id</code></td>
+        <td style="word-break: break-word;">
+            The ID of the record
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>repo_id</code></td>
+        <td style="word-break: break-word;">
+            The Repository ID
+            
+            <br>
+            <b>Note: </b> The Repository must exist
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-    
-  
-  
-	  Integer repo_id -- The Repository ID -- The Repository must exist
-  
+  </tbody>
+</table>
+
 
 __Returns__
 
   	200 -- The export metadata
-
 
 
 
@@ -5713,9 +8893,31 @@ __Returns__
     
   
   
-```shell
-curl -H "X-ArchivesSpace-Session: $SESSION" \
-  "http://localhost:8089/repositories/2/archival_contexts/people/1.xml"
+  ```shell
+curl -s -F password="admin" "http://localhost:8089/users/admin/login"
+set SESSION="session_id"
+curl -H "X-ArchivesSpace-Session: $SESSION" //
+"http://localhost:8089/repositories/2/archival_contexts/people/159.xml" --output eac_cpf.xml
+
+```
+
+
+```python
+from asnake.client import ASnakeClient  # import the ArchivesSnake client
+
+client = ASnakeClient(baseurl="http://localhost:8089", username="admin", password="admin")
+# replace http://localhost:8089 with your ArchivesSpace API URL and admin for your username and password
+
+client.authorize()  # authorizes the client
+
+eac_cpf_xml = client.get("/repositories/2/archival_contexts/people/159.xml")
+# replace 2 for your repository ID and 159 with your agent ID. Find these at the URI on the staff interface
+
+with open("eac_cpf.xml", "wb") as file:  # save the file
+    file.write(eac_cpf_xml.content)  # write the file content to our file.
+    file.close()
+
+# For error handling, print or log the returned value of client.get with .json() - print(eac_cpf_xml.json())
 
 ```
 
@@ -5724,35 +8926,75 @@ __Endpoint__
 
 ```[:GET] /repositories/:repo_id/archival_contexts/people/:id.xml ```
 
+
 __Description__
 
-Get an EAC-CPF representation of an Agent
+Get an EAC-CPF representation of an Agent.
+
+  
+  
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
-  
-	  Integer id -- The ID of the record
-  
-  
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>id</code></td>
+        <td style="word-break: break-word;">
+            The ID of the record
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>repo_id</code></td>
+        <td style="word-break: break-word;">
+            The Repository ID
+            
+            <br>
+            <b>Note: </b> The Repository must exist
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-    
-  
-  
-	  Integer repo_id -- The Repository ID -- The Repository must exist
-  
+  </tbody>
+</table>
+
 
 __Returns__
 
   	200 -- (:agent)
-
 
 
 
@@ -5774,9 +9016,30 @@ __Returns__
     
   
   
-```shell
-curl -H "X-ArchivesSpace-Session: $SESSION" \
-  "http://localhost:8089/repositories/2/archival_contexts/softwares/1.:fmt/metadata"
+  ```shell
+curl -s -F password="admin" "http://localhost:8089/users/admin/login"
+set SESSION="session_id"
+curl -H "X-ArchivesSpace-Session: $SESSION" //
+"http://localhost:8089/repositories/2/archival_contexts/softwares/1.:fmt/metadata"
+
+```
+
+
+```python
+from asnake.client import ASnakeClient  # import the ArchivesSnake client
+
+client = ASnakeClient(baseurl="http://localhost:8089", username="admin", password="admin")
+# replace http://localhost:8089 with your ArchivesSpace API URL and admin for your username and password
+
+client.authorize()  # authorizes the client
+
+eac_cpf_soft_fmt = client.get("/repositories/2/archival_contexts/softwares/1.:fmt/metadata")
+# replace 2 for your repository ID and 1 with your software agent ID. Find these at the URI on the staff interface
+
+print(eac_cpf_soft_fmt.content)
+# Sample output: {"filename":"ArchivesSpace_20210218_182253_UTC__eac.xml","mimetype":"application/xml"}
+
+# For error handling, print or log the returned value of client.get with .json() - print(eac_cpf_soft_fmt.json())
 
 ```
 
@@ -5785,35 +9048,81 @@ __Endpoint__
 
 ```[:GET] /repositories/:repo_id/archival_contexts/softwares/:id.:fmt/metadata ```
 
+<aside class="warning">
+  This endpoint is deprecated, and may be removed from a future release of ArchivesSpace.
+  
+    <p>Software agents cannot be validly mapped to an EAC record, thus exporting is no longer supported.</p>
+  
+</aside>
+
 __Description__
 
-Get metadata for an EAC-CPF export of a software
+Get metadata for an EAC-CPF export of a software.
+
+  
+  
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
-  
-	  Integer id -- The ID of the record
-  
-  
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>id</code></td>
+        <td style="word-break: break-word;">
+            The ID of the record
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>repo_id</code></td>
+        <td style="word-break: break-word;">
+            The Repository ID
+            
+            <br>
+            <b>Note: </b> The Repository must exist
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-    
-  
-  
-	  Integer repo_id -- The Repository ID -- The Repository must exist
-  
+  </tbody>
+</table>
+
 
 __Returns__
 
   	200 -- The export metadata
-
 
 
 
@@ -5835,9 +9144,31 @@ __Returns__
     
   
   
-```shell
-curl -H "X-ArchivesSpace-Session: $SESSION" \
-  "http://localhost:8089/repositories/2/archival_contexts/softwares/1.xml"
+  ```shell
+curl -s -F password="admin" "http://localhost:8089/users/admin/login"
+set SESSION="session_id"
+curl -H "X-ArchivesSpace-Session: $SESSION" //
+"http://localhost:8089/repositories/2/archival_contexts/softwares/1.xml" --output eac_cpf_soft.xml
+
+```
+
+
+```python
+from asnake.client import ASnakeClient  # import the ArchivesSnake client
+
+client = ASnakeClient(baseurl="http://localhost:8089", username="admin", password="admin")
+# replace http://localhost:8089 with your ArchivesSpace API URL and admin for your username and password
+
+client.authorize()  # authorizes the client
+
+eac_cpf_soft_xml = client.get("/repositories/2/archival_contexts/softwares/1.xml")
+# replace 2 for your repository ID and 1 with your software agent ID. Find these at the URI on the staff interface
+
+with open("eac_cpf_soft.xml", "wb") as file:  # save the file
+    file.write(eac_cpf_soft_xml.content)  # write the file content to our file.
+    file.close()
+
+# For error handling, print or log the returned value of client.get with .json() - print(eac_cpf_soft_xml.json())
 
 ```
 
@@ -5846,35 +9177,81 @@ __Endpoint__
 
 ```[:GET] /repositories/:repo_id/archival_contexts/softwares/:id.xml ```
 
+<aside class="warning">
+  This endpoint is deprecated, and may be removed from a future release of ArchivesSpace.
+  
+    <p>Software agents cannot be validly mapped to an EAC record, thus exporting is no longer supported.</p>
+  
+</aside>
+
 __Description__
 
-Get an EAC-CPF representation of a Software agent
+Get an EAC-CPF representation of a Software agent.
+
+  
+  
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
-  
-	  Integer id -- The ID of the record
-  
-  
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>id</code></td>
+        <td style="word-break: break-word;">
+            The ID of the record
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>repo_id</code></td>
+        <td style="word-break: break-word;">
+            The Repository ID
+            
+            <br>
+            <b>Note: </b> The Repository must exist
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-    
-  
-  
-	  Integer repo_id -- The Repository ID -- The Repository must exist
-  
+  </tbody>
+</table>
+
 
 __Returns__
 
   	200 -- (:agent)
-
 
 
 
@@ -5914,53 +9291,78 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 "ancestors":[],
 "instances":[],
 "notes":[],
-"ref_id":"836QX399J",
+"ref_id":"278DLJ927",
 "level":"subseries",
-"title":"Archival Object Title: 2",
-"resource":{ "ref":"/repositories/2/resources/1"}}' \
+"title":"Archival Object Title: 11",
+"resource":{ "ref":"/repositories/2/resources/3"}}' \
   "http://localhost:8089/repositories/2/archival_objects"
 
 ```
+
 
 
 __Endpoint__
 
 ```[:POST] /repositories/:repo_id/archival_objects ```
 
+
 __Description__
 
-Create an Archival Object
+Create an Archival Object.
+
+  
+  
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>repo_id</code></td>
+        <td style="word-break: break-word;">
+            The Repository ID
+            
+            <br>
+            <b>Note: </b> The Repository must exist
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-    
-  
-  
-	  JSONModel(:archival_object) <request body> -- The record to create
-  
-  
-    
-  
-  
-    
-    
-  
-  
-	  Integer repo_id -- The Repository ID -- The Repository must exist
-  
+  </tbody>
+</table>
+
+__Accepts Payload of Type__
+
+JSONModel(:archival_object)
 
 __Returns__
 
   	200 -- {:status => "Created", :id => (id of created object), :warnings => {(warnings)}}
 
   	400 -- {:error => (description of error)}
-
 
 
 
@@ -5990,13 +9392,18 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 ```
 
 
+
 __Endpoint__
 
 ```[:GET] /repositories/:repo_id/archival_objects ```
 
+
 __Description__
 
-Get a list of Archival Objects for a Repository
+Get a list of Archival Objects for a Repository.
+
+  
+  
 
 
 __Parameters__
@@ -6010,21 +9417,47 @@ This endpoint is paginated. :page, :id_set, or :all_ids is required
 </ul>
 </aside>
 
-  
+
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>repo_id</code></td>
+        <td style="word-break: break-word;">
+            The Repository ID
+            
+            <br>
+            <b>Note: </b> The Repository must exist
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-    
-  
-  
-	  Integer repo_id -- The Repository ID -- The Repository must exist
-  
+  </tbody>
+</table>
+
 
 __Returns__
 
   	200 -- [(:archival_object)]
-
 
 
 
@@ -6070,60 +9503,96 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 "ancestors":[],
 "instances":[],
 "notes":[],
-"ref_id":"836QX399J",
+"ref_id":"278DLJ927",
 "level":"subseries",
-"title":"Archival Object Title: 2",
-"resource":{ "ref":"/repositories/2/resources/1"}}' \
+"title":"Archival Object Title: 11",
+"resource":{ "ref":"/repositories/2/resources/3"}}' \
   "http://localhost:8089/repositories/2/archival_objects/1"
 
 ```
+
 
 
 __Endpoint__
 
 ```[:POST] /repositories/:repo_id/archival_objects/:id ```
 
+
 __Description__
 
-Update an Archival Object
+Update an Archival Object.
+
+  
+  
+  
+  
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
-  
-	  Integer id -- The ID of the record
-  
-  
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>id</code></td>
+        <td style="word-break: break-word;">
+            The ID of the record
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>repo_id</code></td>
+        <td style="word-break: break-word;">
+            The Repository ID
+            
+            <br>
+            <b>Note: </b> The Repository must exist
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-    
-  
-  
-	  JSONModel(:archival_object) <request body> -- The updated record
-  
-  
-    
-  
-  
-    
-    
-  
-  
-	  Integer repo_id -- The Repository ID -- The Repository must exist
-  
+  </tbody>
+</table>
+
+__Accepts Payload of Type__
+
+JSONModel(:archival_object)
 
 __Returns__
 
   	200 -- {:status => "Updated", :id => (id of updated object)}
 
   	400 -- {:error => (description of error)}
-
 
 
 
@@ -6165,51 +9634,103 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 ```
 
 
+
 __Endpoint__
 
 ```[:GET] /repositories/:repo_id/archival_objects/:id ```
 
+
 __Description__
 
-Get an Archival Object by ID
+Get an Archival Object by ID.
+
+  
+  
+  
+  
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
-  
-	  Integer id -- The ID of the record
-  
-  
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>id</code></td>
+        <td style="word-break: break-word;">
+            The ID of the record
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>repo_id</code></td>
+        <td style="word-break: break-word;">
+            The Repository ID
+            
+            <br>
+            <b>Note: </b> The Repository must exist
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>resolve</code></td>
+        <td style="word-break: break-word;">
+            A list of references to resolve and embed in the response
+            
+        </td>
+        <td>[String]</td>
+        <td>true</td>
+      </tr>
     
-  
-  
-	  Integer repo_id -- The Repository ID -- The Repository must exist
-  
-  
-    
-  
-  
-    
-    
-  
-  
-	  [String] resolve (Optional) -- A list of references to resolve and embed in the response
-  
+  </tbody>
+</table>
+
 
 __Returns__
 
   	200 -- (:archival_object)
 
   	404 -- Not found
-
 
 
 
@@ -6239,39 +9760,80 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 ```
 
 
+
 __Endpoint__
 
 ```[:DELETE] /repositories/:repo_id/archival_objects/:id ```
 
+
 __Description__
 
-Delete an Archival Object
+Delete an Archival Object.
+
+  
+  
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
-  
-	  Integer id -- The ID of the record
-  
-  
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>id</code></td>
+        <td style="word-break: break-word;">
+            The ID of the record
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>repo_id</code></td>
+        <td style="word-break: break-word;">
+            The Repository ID
+            
+            <br>
+            <b>Note: </b> The Repository must exist
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-    
-  
-  
-	  Integer repo_id -- The Repository ID -- The Repository must exist
-  
+  </tbody>
+</table>
+
 
 __Returns__
 
   	200 -- deleted
-
 
 
 
@@ -6323,56 +9885,120 @@ __Returns__
 ```shell
 curl -H "X-ArchivesSpace-Session: $SESSION" \
   -d 'Example Missing' \
-  "http://localhost:8089/repositories/2/archival_objects/1/accept_children?children=742X930559Q&position=1"
+  "http://localhost:8089/repositories/2/archival_objects/1/accept_children?children=BDP950A&position=1"
 
 ```
+
 
 
 __Endpoint__
 
 ```[:POST] /repositories/:repo_id/archival_objects/:id/accept_children ```
 
+
 __Description__
 
-Move existing Archival Objects to become children of an Archival Object
+Move existing Archival Objects to become children of an Archival Object.
+
+  
+  
+  
+  
+  
+  
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>children</code></td>
+        <td style="word-break: break-word;">
+            The children to move to the Archival Object
+            
+        </td>
+        <td>[String]</td>
+        <td>true</td>
+      </tr>
     
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>id</code></td>
+        <td style="word-break: break-word;">
+            The ID of the Archival Object to move children to
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-  
-  
-	  [String] children (Optional) -- The children to move to the Archival Object
-  
-  
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>position</code></td>
+        <td style="word-break: break-word;">
+            The index for the first child to be moved to
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-  
-  
-  
-	  Integer id -- The ID of the Archival Object to move children to
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>repo_id</code></td>
+        <td style="word-break: break-word;">
+            The Repository ID
+            
+            <br>
+            <b>Note: </b> The Repository must exist
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-  
-  
-  
-	  Integer position -- The index for the first child to be moved to
-  
-  
-    
-  
-  
-    
-    
-  
-  
-	  Integer repo_id -- The Repository ID -- The Repository must exist
-  
+  </tbody>
+</table>
+
 
 __Returns__
 
@@ -6381,7 +10007,6 @@ __Returns__
   	400 -- {:error => (description of error)}
 
   	409 -- {:error => (description of error)}
-
 
 
 
@@ -6410,41 +10035,82 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 ```
 
 
+
 __Endpoint__
 
 ```[:GET] /repositories/:repo_id/archival_objects/:id/children ```
 
+
 __Description__
 
-Get the children of an Archival Object
+Get the children of an Archival Object.
+
+  
+  
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
-  
-	  Integer id -- The ID of the record
-  
-  
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>id</code></td>
+        <td style="word-break: break-word;">
+            The ID of the record
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>repo_id</code></td>
+        <td style="word-break: break-word;">
+            The Repository ID
+            
+            <br>
+            <b>Note: </b> The Repository must exist
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-    
-  
-  
-	  Integer repo_id -- The Repository ID -- The Repository must exist
-  
+  </tbody>
+</table>
+
 
 __Returns__
 
   	200 -- a list of archival object references
 
   	404 -- Not found
-
 
 
 
@@ -6473,52 +10139,128 @@ __Returns__
   
   
   
-```shell
-curl -H "X-ArchivesSpace-Session: $SESSION" \
-  -d '["Example Missing"]' \
-  "http://localhost:8089/repositories/2/archival_objects/1/children"
+  ```shell
+  curl -H "X-ArchivesSpace-Session: $SESSION"         -d '{
+    "jsonmodel_type": "archival_record_children",
+    "children": [
+        { "jsonmodel_type":"archival_object",
+            "external_ids":[],
+            "subjects":[],
+            "linked_events":[],
+            "extents":[],
+            "lang_materials":[],
+            "dates":[],
+            "external_documents":[],
+            "rights_statements":[],
+            "linked_agents":[],
+            "is_slug_auto":true,
+            "restrictions_apply":false,
+            "ancestors":[],
+            "instances":[],
+            "notes":[],
+            "level":"subseries",
+            "title":"Archival Object Title: 1",
+            "resource":{ "ref":"/repositories/2/resources/1"}},
+        { "jsonmodel_type":"archival_object",
+            "external_ids":[],
+            "subjects":[],
+            "linked_events":[],
+            "extents":[],
+            "lang_materials":[],
+            "dates":[],
+            "external_documents":[],
+            "rights_statements":[],
+            "linked_agents":[],
+            "is_slug_auto":true,
+            "restrictions_apply":false,
+            "ancestors":[],
+            "instances":[],
+            "notes":[],
+            "level":"subseries",
+            "title":"Archival Object Title: 2",
+            "resource":{ "ref":"/repositories/2/resources/1"}}
+    ]
+}'           "http://localhost:8089/repositories/2/archival_objects/1/children"
 
 ```
+
+
 
 
 __Endpoint__
 
 ```[:POST] /repositories/:repo_id/archival_objects/:id/children ```
 
+
 __Description__
 
-Batch create several Archival Objects as children of an existing Archival Object
+Batch create several Archival Objects as children of an existing Archival Object.
+
+  
+  
+  
+  
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>id</code></td>
+        <td style="word-break: break-word;">
+            The ID of the archival object to add children to
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>repo_id</code></td>
+        <td style="word-break: break-word;">
+            The Repository ID
+            
+            <br>
+            <b>Note: </b> The Repository must exist
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-  
-  
-	  JSONModel(:archival_record_children) <request body> -- The children to add to the archival object
-  
-  
-    
-  
-  
-  
-	  Integer id -- The ID of the archival object to add children to
-  
-  
-    
-  
-  
-    
-    
-  
-  
-	  Integer repo_id -- The Repository ID -- The Repository must exist
-  
+  </tbody>
+</table>
+
+__Accepts Payload of Type__
+
+JSONModel(:archival_record_children)
 
 __Returns__
 
@@ -6528,6 +10270,107 @@ __Returns__
 
   	409 -- {:error => (description of error)}
 
+
+
+## Get a list of record types in the graph of an archival object
+
+
+
+  
+    
+  
+  
+    
+  
+
+  
+    
+  
+  
+    
+  
+  
+```shell
+curl -H "X-ArchivesSpace-Session: $SESSION" \
+  "http://localhost:8089/repositories/2/archival_objects/1/models_in_graph"
+
+```
+
+
+
+__Endpoint__
+
+```[:GET] /repositories/:repo_id/archival_objects/:id/models_in_graph ```
+
+
+__Description__
+
+Get a list of record types in the graph of an archival object.
+
+  
+  
+  
+  
+
+
+__Parameters__
+
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
+    
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>id</code></td>
+        <td style="word-break: break-word;">
+            The ID of the record
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
+    
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>repo_id</code></td>
+        <td style="word-break: break-word;">
+            The Repository ID
+            
+            <br>
+            <b>Note: </b> The Repository must exist
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
+    
+  </tbody>
+</table>
+
+
+__Returns__
+
+  	200 -- OK
 
 
 
@@ -6584,61 +10427,124 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 ```
 
 
+
 __Endpoint__
 
 ```[:POST] /repositories/:repo_id/archival_objects/:id/parent ```
 
+
 __Description__
 
-Set the parent/position of an Archival Object in a tree
+Set the parent/position of an Archival Object in a tree.
+
+  
+  
+  
+  
+  
+  
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
-  
-	  Integer id -- The ID of the record
-  
-  
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>id</code></td>
+        <td style="word-break: break-word;">
+            The ID of the record
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>parent</code></td>
+        <td style="word-break: break-word;">
+            The parent of this node in the tree
+            
+        </td>
+        <td>Integer</td>
+        <td>true</td>
+      </tr>
     
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>position</code></td>
+        <td style="word-break: break-word;">
+            The position of this node in the tree
+            
+        </td>
+        <td>Integer</td>
+        <td>true</td>
+      </tr>
     
-  
-  
-	  Integer parent (Optional) -- The parent of this node in the tree
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>repo_id</code></td>
+        <td style="word-break: break-word;">
+            The Repository ID
+            
+            <br>
+            <b>Note: </b> The Repository must exist
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-  
-  
-    
-    
-  
-  
-	  Integer position (Optional) -- The position of this node in the tree
-  
-  
-    
-  
-  
-    
-    
-  
-  
-	  Integer repo_id -- The Repository ID -- The Repository must exist
-  
+  </tbody>
+</table>
+
 
 __Returns__
 
   	200 -- {:status => "Updated", :id => (id of updated object)}
 
   	400 -- {:error => (description of error)}
-
 
 
 
@@ -6667,34 +10573,76 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 ```
 
 
+
 __Endpoint__
 
 ```[:GET] /repositories/:repo_id/archival_objects/:id/previous ```
 
+
 __Description__
 
-Get the previous record in the tree for an Archival Object
+Get the previous record in the tree for an Archival Object.
+
+  
+  
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
-  
-	  Integer id -- The ID of the record
-  
-  
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>id</code></td>
+        <td style="word-break: break-word;">
+            The ID of the record
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>repo_id</code></td>
+        <td style="word-break: break-word;">
+            The Repository ID
+            
+            <br>
+            <b>Note: </b> The Repository must exist
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-    
-  
-  
-	  Integer repo_id -- The Repository ID -- The Repository must exist
-  
+  </tbody>
+</table>
+
 
 __Returns__
 
@@ -6702,6 +10650,110 @@ __Returns__
 
   	404 -- No previous node
 
+
+
+## Publish an Archival Object and all its sub-records and components
+
+
+
+  
+    
+  
+  
+    
+  
+
+  
+    
+  
+  
+    
+  
+  
+```shell
+curl -H "X-ArchivesSpace-Session: $SESSION" \
+  -d 'Example Missing' \
+  "http://localhost:8089/repositories/2/archival_objects/1/publish"
+
+```
+
+
+
+__Endpoint__
+
+```[:POST] /repositories/:repo_id/archival_objects/:id/publish ```
+
+
+__Description__
+
+Publish an Archival Object and all its sub-records and components.
+
+  
+  
+  
+  
+
+
+__Parameters__
+
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
+    
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>id</code></td>
+        <td style="word-break: break-word;">
+            The ID of the record
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
+    
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>repo_id</code></td>
+        <td style="word-break: break-word;">
+            The Repository ID
+            
+            <br>
+            <b>Note: </b> The Repository must exist
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
+    
+  </tbody>
+</table>
+
+
+__Returns__
+
+  	200 -- {:status => "Updated", :id => (id of updated object)}
+
+  	400 -- {:error => (description of error)}
 
 
 
@@ -6746,46 +10798,203 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 ```
 
 
+
 __Endpoint__
 
 ```[:POST] /repositories/:repo_id/archival_objects/:id/suppressed ```
 
+
 __Description__
 
-Suppress this record
+Suppress this record.
+
+  
+  
+  
+  
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
-  
-	  Integer id -- The ID of the record
-  
-  
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>id</code></td>
+        <td style="word-break: break-word;">
+            The ID of the record
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-  
-  
-  
-	  RESTHelpers::BooleanParam suppressed -- Suppression state
-  
-  
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>suppressed</code></td>
+        <td style="word-break: break-word;">
+            Suppression state
+            
+        </td>
+        <td>RESTHelpers::BooleanParam</td>
+        <td></td>
+      </tr>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>repo_id</code></td>
+        <td style="word-break: break-word;">
+            The Repository ID
+            
+            <br>
+            <b>Note: </b> The Repository must exist
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-    
-  
-  
-	  Integer repo_id -- The Repository ID -- The Repository must exist
-  
+  </tbody>
+</table>
+
 
 __Returns__
 
   	200 -- {:status => "Suppressed", :id => (id of updated object), :suppressed_state => (true|false)}
 
+
+
+## Unpublish an Archival Object and all its sub-records and components
+
+
+
+  
+    
+  
+  
+    
+  
+
+  
+    
+  
+  
+    
+  
+  
+```shell
+curl -H "X-ArchivesSpace-Session: $SESSION" \
+  -d 'Example Missing' \
+  "http://localhost:8089/repositories/2/archival_objects/1/unpublish"
+
+```
+
+
+
+__Endpoint__
+
+```[:POST] /repositories/:repo_id/archival_objects/:id/unpublish ```
+
+
+__Description__
+
+Unpublish an Archival Object and all its sub-records and components.
+
+  
+  
+  
+  
+
+
+__Parameters__
+
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
+    
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>id</code></td>
+        <td style="word-break: break-word;">
+            The ID of the record
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
+    
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>repo_id</code></td>
+        <td style="word-break: break-word;">
+            The Repository ID
+            
+            <br>
+            <b>Note: </b> The Repository must exist
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
+    
+  </tbody>
+</table>
+
+
+__Returns__
+
+  	200 -- {:status => "Updated", :id => (id of updated object)}
+
+  	400 -- {:error => (description of error)}
 
 
 
@@ -6816,42 +11025,67 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 ```
 
 
+
 __Endpoint__
 
 ```[:POST] /repositories/:repo_id/assessment_attribute_definitions ```
 
+
 __Description__
 
-Update this repository's assessment attribute definitions
+Update this repository's assessment attribute definitions.
+
+  
+  
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>repo_id</code></td>
+        <td style="word-break: break-word;">
+            The Repository ID
+            
+            <br>
+            <b>Note: </b> The Repository must exist
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-    
-  
-  
-	  Integer repo_id -- The Repository ID -- The Repository must exist
-  
-  
-    
-  
-  
-    
-    
-  
-  
-	  JSONModel(:assessment_attribute_definitions) <request body> -- The assessment attribute definitions
-  
+  </tbody>
+</table>
+
+__Accepts Payload of Type__
+
+JSONModel(:assessment_attribute_definitions)
 
 __Returns__
 
   	200 -- {:status => "Updated", :id => (id of updated object)}
-
 
 
 
@@ -6874,32 +11108,62 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 ```
 
 
+
 __Endpoint__
 
 ```[:GET] /repositories/:repo_id/assessment_attribute_definitions ```
 
+
 __Description__
 
-Get this repository's assessment attribute definitions
+Get this repository's assessment attribute definitions.
+
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>repo_id</code></td>
+        <td style="word-break: break-word;">
+            The Repository ID
+            
+            <br>
+            <b>Note: </b> The Repository must exist
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-    
-  
-  
-	  Integer repo_id -- The Repository ID -- The Repository must exist
-  
+  </tbody>
+</table>
+
 
 __Returns__
 
   	200 -- (:assessment_attribute_definitions)
-
 
 
 
@@ -6930,42 +11194,67 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 ```
 
 
+
 __Endpoint__
 
 ```[:POST] /repositories/:repo_id/assessments ```
 
+
 __Description__
 
-Create an Assessment
+Create an Assessment.
+
+  
+  
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>repo_id</code></td>
+        <td style="word-break: break-word;">
+            The Repository ID
+            
+            <br>
+            <b>Note: </b> The Repository must exist
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-    
-  
-  
-	  JSONModel(:assessment) <request body> -- The record to create
-  
-  
-    
-  
-  
-    
-    
-  
-  
-	  Integer repo_id -- The Repository ID -- The Repository must exist
-  
+  </tbody>
+</table>
+
+__Accepts Payload of Type__
+
+JSONModel(:assessment)
 
 __Returns__
 
   	200 -- {:status => "Created", :id => (id of created object), :warnings => {(warnings)}}
-
 
 
 
@@ -6995,13 +11284,18 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 ```
 
 
+
 __Endpoint__
 
 ```[:GET] /repositories/:repo_id/assessments ```
 
+
 __Description__
 
-Get a list of Assessments for a Repository
+Get a list of Assessments for a Repository.
+
+  
+  
 
 
 __Parameters__
@@ -7015,21 +11309,47 @@ This endpoint is paginated. :page, :id_set, or :all_ids is required
 </ul>
 </aside>
 
-  
+
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>repo_id</code></td>
+        <td style="word-break: break-word;">
+            The Repository ID
+            
+            <br>
+            <b>Note: </b> The Repository must exist
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-    
-  
-  
-	  Integer repo_id -- The Repository ID -- The Repository must exist
-  
+  </tbody>
+</table>
+
 
 __Returns__
 
   	200 -- [(:assessment)]
-
 
 
 
@@ -7066,49 +11386,85 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 ```
 
 
+
 __Endpoint__
 
 ```[:POST] /repositories/:repo_id/assessments/:id ```
 
+
 __Description__
 
-Update an Assessment
+Update an Assessment.
+
+  
+  
+  
+  
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
-  
-	  Integer id -- The ID of the record
-  
-  
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>id</code></td>
+        <td style="word-break: break-word;">
+            The ID of the record
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>repo_id</code></td>
+        <td style="word-break: break-word;">
+            The Repository ID
+            
+            <br>
+            <b>Note: </b> The Repository must exist
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-    
-  
-  
-	  JSONModel(:assessment) <request body> -- The updated record
-  
-  
-    
-  
-  
-    
-    
-  
-  
-	  Integer repo_id -- The Repository ID -- The Repository must exist
-  
+  </tbody>
+</table>
+
+__Accepts Payload of Type__
+
+JSONModel(:assessment)
 
 __Returns__
 
   	200 -- {:status => "Updated", :id => (id of updated object)}
-
 
 
 
@@ -7150,49 +11506,101 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 ```
 
 
+
 __Endpoint__
 
 ```[:GET] /repositories/:repo_id/assessments/:id ```
 
+
 __Description__
 
-Get an Assessment by ID
+Get an Assessment by ID.
+
+  
+  
+  
+  
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
-  
-	  Integer id -- The ID of the record
-  
-  
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>id</code></td>
+        <td style="word-break: break-word;">
+            The ID of the record
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>repo_id</code></td>
+        <td style="word-break: break-word;">
+            The Repository ID
+            
+            <br>
+            <b>Note: </b> The Repository must exist
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>resolve</code></td>
+        <td style="word-break: break-word;">
+            A list of references to resolve and embed in the response
+            
+        </td>
+        <td>[String]</td>
+        <td>true</td>
+      </tr>
     
-  
-  
-	  Integer repo_id -- The Repository ID -- The Repository must exist
-  
-  
-    
-  
-  
-    
-    
-  
-  
-	  [String] resolve (Optional) -- A list of references to resolve and embed in the response
-  
+  </tbody>
+</table>
+
 
 __Returns__
 
   	200 -- (:assessment)
-
 
 
 
@@ -7222,39 +11630,80 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 ```
 
 
+
 __Endpoint__
 
 ```[:DELETE] /repositories/:repo_id/assessments/:id ```
 
+
 __Description__
 
-Delete an Assessment
+Delete an Assessment.
+
+  
+  
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
-  
-	  Integer id -- The ID of the record
-  
-  
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>id</code></td>
+        <td style="word-break: break-word;">
+            The ID of the record
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>repo_id</code></td>
+        <td style="word-break: break-word;">
+            The Repository ID
+            
+            <br>
+            <b>Note: </b> The Repository must exist
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-    
-  
-  
-	  Integer repo_id -- The Repository ID -- The Repository must exist
-  
+  </tbody>
+</table>
+
 
 __Returns__
 
   	200 -- deleted
-
 
 
 
@@ -7307,59 +11756,110 @@ __Returns__
 ```shell
 curl -H "X-ArchivesSpace-Session: $SESSION" \
   -d '"body_stream"' \
-  "http://localhost:8089/repositories/2/batch_imports?migration=330J158391B&skip_results=true"
+  "http://localhost:8089/repositories/2/batch_imports?migration=PR274441352&skip_results=true"
 
 ```
+
 
 
 __Endpoint__
 
 ```[:POST] /repositories/:repo_id/batch_imports ```
 
+
 __Description__
 
-Import a batch of records
+Import a batch of records.
+
+  
+  
+  
+  
+  
+  
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
-  
-	  body_stream batch_import -- The batch of records
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>repo_id</code></td>
+        <td style="word-break: break-word;">
+            The Repository ID
+            
+            <br>
+            <b>Note: </b> The Repository must exist
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>migration</code></td>
+        <td style="word-break: break-word;">
+            Param to indicate we are using a migrator
+            
+        </td>
+        <td>String</td>
+        <td>true</td>
+      </tr>
     
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>skip_results</code></td>
+        <td style="word-break: break-word;">
+            If true, don't return the list of created record URIs
+            
+        </td>
+        <td>RESTHelpers::BooleanParam</td>
+        <td>true</td>
+      </tr>
     
-  
-  
-	  Integer repo_id -- The Repository ID -- The Repository must exist
-  
-  
-    
-  
-  
-    
-    
-  
-  
-	  String migration (Optional) -- Param to indicate we are using a migrator
-  
-  
-    
-  
-  
-    
-    
-  
-  
-	  RESTHelpers::BooleanParam skip_results (Optional) -- If true, don't return the list of created record URIs
-  
+  </tbody>
+</table>
+
+__Accepts Payload of Type__
+
+body_stream
 
 __Returns__
 
@@ -7368,7 +11868,6 @@ __Returns__
   	400 -- {:error => (description of error)}
 
   	409 -- {:error => (description of error)}
-
 
 
 
@@ -7398,53 +11897,78 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 "path_from_root":[],
 "linked_records":[],
 "is_slug_auto":true,
-"identifier":"S160788J621",
-"title":"Classification Title: 4",
-"description":"Description: 5",
+"identifier":"MXBFX",
+"title":"Classification Title: 8",
+"description":"Description: 8",
 "classification":{ "ref":"/repositories/2/classifications/1"}}' \
   "http://localhost:8089/repositories/2/classification_terms"
 
 ```
 
 
+
 __Endpoint__
 
 ```[:POST] /repositories/:repo_id/classification_terms ```
 
+
 __Description__
 
-Create a Classification Term
+Create a Classification Term.
+
+  
+  
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>repo_id</code></td>
+        <td style="word-break: break-word;">
+            The Repository ID
+            
+            <br>
+            <b>Note: </b> The Repository must exist
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-    
-  
-  
-	  JSONModel(:classification_term) <request body> -- The record to create
-  
-  
-    
-  
-  
-    
-    
-  
-  
-	  Integer repo_id -- The Repository ID -- The Repository must exist
-  
+  </tbody>
+</table>
+
+__Accepts Payload of Type__
+
+JSONModel(:classification_term)
 
 __Returns__
 
   	200 -- {:status => "Created", :id => (id of created object), :warnings => {(warnings)}}
 
   	400 -- {:error => (description of error)}
-
 
 
 
@@ -7474,13 +11998,18 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 ```
 
 
+
 __Endpoint__
 
 ```[:GET] /repositories/:repo_id/classification_terms ```
 
+
 __Description__
 
-Get a list of Classification Terms for a Repository
+Get a list of Classification Terms for a Repository.
+
+  
+  
 
 
 __Parameters__
@@ -7494,21 +12023,47 @@ This endpoint is paginated. :page, :id_set, or :all_ids is required
 </ul>
 </aside>
 
-  
+
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>repo_id</code></td>
+        <td style="word-break: break-word;">
+            The Repository ID
+            
+            <br>
+            <b>Note: </b> The Repository must exist
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-    
-  
-  
-	  Integer repo_id -- The Repository ID -- The Repository must exist
-  
+  </tbody>
+</table>
+
 
 __Returns__
 
   	200 -- [(:classification_term)]
-
 
 
 
@@ -7544,60 +12099,96 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 "path_from_root":[],
 "linked_records":[],
 "is_slug_auto":true,
-"identifier":"S160788J621",
-"title":"Classification Title: 4",
-"description":"Description: 5",
+"identifier":"MXBFX",
+"title":"Classification Title: 8",
+"description":"Description: 8",
 "classification":{ "ref":"/repositories/2/classifications/1"}}' \
   "http://localhost:8089/repositories/2/classification_terms/1"
 
 ```
 
 
+
 __Endpoint__
 
 ```[:POST] /repositories/:repo_id/classification_terms/:id ```
 
+
 __Description__
 
-Update a Classification Term
+Update a Classification Term.
+
+  
+  
+  
+  
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
-  
-	  Integer id -- The ID of the record
-  
-  
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>id</code></td>
+        <td style="word-break: break-word;">
+            The ID of the record
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>repo_id</code></td>
+        <td style="word-break: break-word;">
+            The Repository ID
+            
+            <br>
+            <b>Note: </b> The Repository must exist
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-    
-  
-  
-	  JSONModel(:classification_term) <request body> -- The updated record
-  
-  
-    
-  
-  
-    
-    
-  
-  
-	  Integer repo_id -- The Repository ID -- The Repository must exist
-  
+  </tbody>
+</table>
+
+__Accepts Payload of Type__
+
+JSONModel(:classification_term)
 
 __Returns__
 
   	200 -- {:status => "Updated", :id => (id of updated object)}
 
   	400 -- {:error => (description of error)}
-
 
 
 
@@ -7639,51 +12230,103 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 ```
 
 
+
 __Endpoint__
 
 ```[:GET] /repositories/:repo_id/classification_terms/:id ```
 
+
 __Description__
 
-Get a Classification Term by ID
+Get a Classification Term by ID.
+
+  
+  
+  
+  
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
-  
-	  Integer id -- The ID of the record
-  
-  
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>id</code></td>
+        <td style="word-break: break-word;">
+            The ID of the record
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>repo_id</code></td>
+        <td style="word-break: break-word;">
+            The Repository ID
+            
+            <br>
+            <b>Note: </b> The Repository must exist
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>resolve</code></td>
+        <td style="word-break: break-word;">
+            A list of references to resolve and embed in the response
+            
+        </td>
+        <td>[String]</td>
+        <td>true</td>
+      </tr>
     
-  
-  
-	  Integer repo_id -- The Repository ID -- The Repository must exist
-  
-  
-    
-  
-  
-    
-    
-  
-  
-	  [String] resolve (Optional) -- A list of references to resolve and embed in the response
-  
+  </tbody>
+</table>
+
 
 __Returns__
 
   	200 -- (:classification_term)
 
   	404 -- Not found
-
 
 
 
@@ -7713,39 +12356,80 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 ```
 
 
+
 __Endpoint__
 
 ```[:DELETE] /repositories/:repo_id/classification_terms/:id ```
 
+
 __Description__
 
-Delete a Classification Term
+Delete a Classification Term.
+
+  
+  
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
-  
-	  Integer id -- The ID of the record
-  
-  
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>id</code></td>
+        <td style="word-break: break-word;">
+            The ID of the record
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>repo_id</code></td>
+        <td style="word-break: break-word;">
+            The Repository ID
+            
+            <br>
+            <b>Note: </b> The Repository must exist
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-    
-  
-  
-	  Integer repo_id -- The Repository ID -- The Repository must exist
-  
+  </tbody>
+</table>
+
 
 __Returns__
 
   	200 -- deleted
-
 
 
 
@@ -7797,56 +12481,120 @@ __Returns__
 ```shell
 curl -H "X-ArchivesSpace-Session: $SESSION" \
   -d 'Example Missing' \
-  "http://localhost:8089/repositories/2/classification_terms/1/accept_children?children=C65P478L&position=1"
+  "http://localhost:8089/repositories/2/classification_terms/1/accept_children?children=993SF70589&position=1"
 
 ```
+
 
 
 __Endpoint__
 
 ```[:POST] /repositories/:repo_id/classification_terms/:id/accept_children ```
 
+
 __Description__
 
-Move existing Classification Terms to become children of another Classification Term
+Move existing Classification Terms to become children of another Classification Term.
+
+  
+  
+  
+  
+  
+  
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>children</code></td>
+        <td style="word-break: break-word;">
+            The children to move to the Classification Term
+            
+        </td>
+        <td>[String]</td>
+        <td>true</td>
+      </tr>
     
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>id</code></td>
+        <td style="word-break: break-word;">
+            The ID of the Classification Term to move children to
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-  
-  
-	  [String] children (Optional) -- The children to move to the Classification Term
-  
-  
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>position</code></td>
+        <td style="word-break: break-word;">
+            The index for the first child to be moved to
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-  
-  
-  
-	  Integer id -- The ID of the Classification Term to move children to
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>repo_id</code></td>
+        <td style="word-break: break-word;">
+            The Repository ID
+            
+            <br>
+            <b>Note: </b> The Repository must exist
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-  
-  
-  
-	  Integer position -- The index for the first child to be moved to
-  
-  
-    
-  
-  
-    
-    
-  
-  
-	  Integer repo_id -- The Repository ID -- The Repository must exist
-  
+  </tbody>
+</table>
+
 
 __Returns__
 
@@ -7855,7 +12603,6 @@ __Returns__
   	400 -- {:error => (description of error)}
 
   	409 -- {:error => (description of error)}
-
 
 
 
@@ -7884,41 +12631,82 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 ```
 
 
+
 __Endpoint__
 
 ```[:GET] /repositories/:repo_id/classification_terms/:id/children ```
 
+
 __Description__
 
-Get the children of a Classification Term
+Get the children of a Classification Term.
+
+  
+  
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
-  
-	  Integer id -- The ID of the record
-  
-  
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>id</code></td>
+        <td style="word-break: break-word;">
+            The ID of the record
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>repo_id</code></td>
+        <td style="word-break: break-word;">
+            The Repository ID
+            
+            <br>
+            <b>Note: </b> The Repository must exist
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-    
-  
-  
-	  Integer repo_id -- The Repository ID -- The Repository must exist
-  
+  </tbody>
+</table>
+
 
 __Returns__
 
   	200 -- a list of classification term references
 
   	404 -- Not found
-
 
 
 
@@ -7975,61 +12763,124 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 ```
 
 
+
 __Endpoint__
 
 ```[:POST] /repositories/:repo_id/classification_terms/:id/parent ```
 
+
 __Description__
 
-Set the parent/position of a Classification Term in a tree
+Set the parent/position of a Classification Term in a tree.
+
+  
+  
+  
+  
+  
+  
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
-  
-	  Integer id -- The ID of the record
-  
-  
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>id</code></td>
+        <td style="word-break: break-word;">
+            The ID of the record
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>parent</code></td>
+        <td style="word-break: break-word;">
+            The parent of this node in the tree
+            
+        </td>
+        <td>Integer</td>
+        <td>true</td>
+      </tr>
     
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>position</code></td>
+        <td style="word-break: break-word;">
+            The position of this node in the tree
+            
+        </td>
+        <td>Integer</td>
+        <td>true</td>
+      </tr>
     
-  
-  
-	  Integer parent (Optional) -- The parent of this node in the tree
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>repo_id</code></td>
+        <td style="word-break: break-word;">
+            The Repository ID
+            
+            <br>
+            <b>Note: </b> The Repository must exist
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-  
-  
-    
-    
-  
-  
-	  Integer position (Optional) -- The position of this node in the tree
-  
-  
-    
-  
-  
-    
-    
-  
-  
-	  Integer repo_id -- The Repository ID -- The Repository must exist
-  
+  </tbody>
+</table>
+
 
 __Returns__
 
   	200 -- {:status => "Updated", :id => (id of updated object)}
 
   	400 -- {:error => (description of error)}
-
 
 
 
@@ -8059,52 +12910,77 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 "path_from_root":[],
 "linked_records":[],
 "is_slug_auto":true,
-"identifier":"S469WMO",
-"title":"Classification Title: 3",
-"description":"Description: 4"}' \
+"identifier":"SFSB930",
+"title":"Classification Title: 2",
+"description":"Description: 3"}' \
   "http://localhost:8089/repositories/2/classifications"
 
 ```
+
 
 
 __Endpoint__
 
 ```[:POST] /repositories/:repo_id/classifications ```
 
+
 __Description__
 
-Create a Classification
+Create a Classification.
+
+  
+  
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>repo_id</code></td>
+        <td style="word-break: break-word;">
+            The Repository ID
+            
+            <br>
+            <b>Note: </b> The Repository must exist
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-    
-  
-  
-	  JSONModel(:classification) <request body> -- The record to create
-  
-  
-    
-  
-  
-    
-    
-  
-  
-	  Integer repo_id -- The Repository ID -- The Repository must exist
-  
+  </tbody>
+</table>
+
+__Accepts Payload of Type__
+
+JSONModel(:classification)
 
 __Returns__
 
   	200 -- {:status => "Created", :id => (id of created object), :warnings => {(warnings)}}
 
   	400 -- {:error => (description of error)}
-
 
 
 
@@ -8134,13 +13010,18 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 ```
 
 
+
 __Endpoint__
 
 ```[:GET] /repositories/:repo_id/classifications ```
 
+
 __Description__
 
-Get a list of Classifications for a Repository
+Get a list of Classifications for a Repository.
+
+  
+  
 
 
 __Parameters__
@@ -8154,21 +13035,47 @@ This endpoint is paginated. :page, :id_set, or :all_ids is required
 </ul>
 </aside>
 
-  
+
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>repo_id</code></td>
+        <td style="word-break: break-word;">
+            The Repository ID
+            
+            <br>
+            <b>Note: </b> The Repository must exist
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-    
-  
-  
-	  Integer repo_id -- The Repository ID -- The Repository must exist
-  
+  </tbody>
+</table>
+
 
 __Returns__
 
   	200 -- [(:classification)]
-
 
 
 
@@ -8210,49 +13117,101 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 ```
 
 
+
 __Endpoint__
 
 ```[:GET] /repositories/:repo_id/classifications/:id ```
 
+
 __Description__
 
-Get a Classification
+Get a Classification.
+
+  
+  
+  
+  
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
-  
-	  Integer id -- The ID of the record
-  
-  
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>id</code></td>
+        <td style="word-break: break-word;">
+            The ID of the record
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>repo_id</code></td>
+        <td style="word-break: break-word;">
+            The Repository ID
+            
+            <br>
+            <b>Note: </b> The Repository must exist
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>resolve</code></td>
+        <td style="word-break: break-word;">
+            A list of references to resolve and embed in the response
+            
+        </td>
+        <td>[String]</td>
+        <td>true</td>
+      </tr>
     
-  
-  
-	  Integer repo_id -- The Repository ID -- The Repository must exist
-  
-  
-    
-  
-  
-    
-    
-  
-  
-	  [String] resolve (Optional) -- A list of references to resolve and embed in the response
-  
+  </tbody>
+</table>
+
 
 __Returns__
 
   	200 -- (:classification)
-
 
 
 
@@ -8288,59 +13247,95 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 "path_from_root":[],
 "linked_records":[],
 "is_slug_auto":true,
-"identifier":"S469WMO",
-"title":"Classification Title: 3",
-"description":"Description: 4"}' \
+"identifier":"SFSB930",
+"title":"Classification Title: 2",
+"description":"Description: 3"}' \
   "http://localhost:8089/repositories/2/classifications/1"
 
 ```
+
 
 
 __Endpoint__
 
 ```[:POST] /repositories/:repo_id/classifications/:id ```
 
+
 __Description__
 
-Update a Classification
+Update a Classification.
+
+  
+  
+  
+  
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
-  
-	  Integer id -- The ID of the record
-  
-  
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>id</code></td>
+        <td style="word-break: break-word;">
+            The ID of the record
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>repo_id</code></td>
+        <td style="word-break: break-word;">
+            The Repository ID
+            
+            <br>
+            <b>Note: </b> The Repository must exist
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-    
-  
-  
-	  JSONModel(:classification) <request body> -- The updated record
-  
-  
-    
-  
-  
-    
-    
-  
-  
-	  Integer repo_id -- The Repository ID -- The Repository must exist
-  
+  </tbody>
+</table>
+
+__Accepts Payload of Type__
+
+JSONModel(:classification)
 
 __Returns__
 
   	200 -- {:status => "Updated", :id => (id of updated object)}
 
   	400 -- {:error => (description of error)}
-
 
 
 
@@ -8370,39 +13365,80 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 ```
 
 
+
 __Endpoint__
 
 ```[:DELETE] /repositories/:repo_id/classifications/:id ```
 
+
 __Description__
 
-Delete a Classification
+Delete a Classification.
+
+  
+  
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
-  
-	  Integer id -- The ID of the record
-  
-  
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>id</code></td>
+        <td style="word-break: break-word;">
+            The ID of the record
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>repo_id</code></td>
+        <td style="word-break: break-word;">
+            The Repository ID
+            
+            <br>
+            <b>Note: </b> The Repository must exist
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-    
-  
-  
-	  Integer repo_id -- The Repository ID -- The Repository must exist
-  
+  </tbody>
+</table>
+
 
 __Returns__
 
   	200 -- deleted
-
 
 
 
@@ -8454,56 +13490,120 @@ __Returns__
 ```shell
 curl -H "X-ArchivesSpace-Session: $SESSION" \
   -d 'Example Missing' \
-  "http://localhost:8089/repositories/2/classifications/1/accept_children?children=383K120VY&position=1"
+  "http://localhost:8089/repositories/2/classifications/1/accept_children?children=V253874967358&position=1"
 
 ```
+
 
 
 __Endpoint__
 
 ```[:POST] /repositories/:repo_id/classifications/:id/accept_children ```
 
+
 __Description__
 
-Move existing Classification Terms to become children of a Classification
+Move existing Classification Terms to become children of a Classification.
+
+  
+  
+  
+  
+  
+  
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>children</code></td>
+        <td style="word-break: break-word;">
+            The children to move to the Classification
+            
+        </td>
+        <td>[String]</td>
+        <td>true</td>
+      </tr>
     
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>id</code></td>
+        <td style="word-break: break-word;">
+            The ID of the Classification to move children to
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-  
-  
-	  [String] children (Optional) -- The children to move to the Classification
-  
-  
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>position</code></td>
+        <td style="word-break: break-word;">
+            The index for the first child to be moved to
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-  
-  
-  
-	  Integer id -- The ID of the Classification to move children to
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>repo_id</code></td>
+        <td style="word-break: break-word;">
+            The Repository ID
+            
+            <br>
+            <b>Note: </b> The Repository must exist
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-  
-  
-  
-	  Integer position -- The index for the first child to be moved to
-  
-  
-    
-  
-  
-    
-    
-  
-  
-	  Integer repo_id -- The Repository ID -- The Repository must exist
-  
+  </tbody>
+</table>
+
 
 __Returns__
 
@@ -8512,7 +13612,6 @@ __Returns__
   	400 -- {:error => (description of error)}
 
   	409 -- {:error => (description of error)}
-
 
 
 
@@ -8541,16 +13640,11 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 ```
 
 
+
 __Endpoint__
 
 ```[:GET] /repositories/:repo_id/classifications/:id/tree ```
 
-__Description__
-
-Get a Classification tree
-
-
-__Parameters__
 <aside class="warning">
   This endpoint is deprecated, and may be removed from a future release of ArchivesSpace.
   
@@ -8558,29 +13652,74 @@ __Parameters__
   
 </aside>
 
+__Description__
+
+Get a Classification tree.
 
   
+  
+  
+  
+
+
+__Parameters__
+
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
-  
-	  Integer id -- The ID of the record
-  
-  
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>id</code></td>
+        <td style="word-break: break-word;">
+            The ID of the record
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>repo_id</code></td>
+        <td style="word-break: break-word;">
+            The Repository ID
+            
+            <br>
+            <b>Note: </b> The Repository must exist
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-    
-  
-  
-	  Integer repo_id -- The Repository ID -- The Repository must exist
-  
+  </tbody>
+</table>
+
 
 __Returns__
 
   	200 -- OK
-
 
 
 
@@ -8629,58 +13768,123 @@ __Returns__
     
   
   
-```shell
+  ```shell
 curl -H "X-ArchivesSpace-Session: $SESSION" \
-  "http://localhost:8089/repositories/2/classifications/1/tree/node?node_uri=85858N982612&published_only=true"
+  "http://localhost:8089/repositories/2/classifications/1/tree/node?node_uri=/repositories/2/classification_terms/1"
 
 ```
+
+
 
 
 __Endpoint__
 
 ```[:GET] /repositories/:repo_id/classifications/:id/tree/node ```
 
+
 __Description__
 
-Fetch tree information for an Classification Term record within a tree
+Fetch tree information for an Classification Term record within a tree.
+
+  
+  
+  
+  
+  
+  
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
-  
-	  Integer id -- The ID of the record
-  
-  
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>id</code></td>
+        <td style="word-break: break-word;">
+            The ID of the record
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>repo_id</code></td>
+        <td style="word-break: break-word;">
+            The Repository ID
+            
+            <br>
+            <b>Note: </b> The Repository must exist
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>node_uri</code></td>
+        <td style="word-break: break-word;">
+            The URI of the Classification Term record of interest
+            
+        </td>
+        <td>String</td>
+        <td></td>
+      </tr>
     
-  
-  
-	  Integer repo_id -- The Repository ID -- The Repository must exist
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>published_only</code></td>
+        <td style="word-break: break-word;">
+            Whether to restrict to published/unsuppressed items
+            
+        </td>
+        <td>RESTHelpers::BooleanParam</td>
+        <td></td>
+      </tr>
     
-  
-  
-  
-	  String node_uri -- The URI of the Classification Term record of interest
-  
-  
-    
-  
-  
-    
-    
-  
-  
-	  RESTHelpers::BooleanParam published_only -- Whether to restrict to published/unsuppressed items
-  
+  </tbody>
+</table>
+
 
 __Returns__
 
@@ -8702,7 +13906,6 @@ __Returns__
     same format as returned by the '/waypoint' endpoint.  Since a fetch for a
     given node is almost always followed by a fetch of the first waypoint, using
     the information in this structure can save a backend call.
-
 
 
 
@@ -8751,58 +13954,123 @@ __Returns__
     
   
   
-```shell
+  ```shell
 curl -H "X-ArchivesSpace-Session: $SESSION" \
-  "http://localhost:8089/repositories/2/classifications/1/tree/node_from_root?node_ids=1&published_only=true"
+  "http://localhost:8089/repositories/2/classifications/1/tree/node_from_root?node_ids[]=1"
 
 ```
+
+
 
 
 __Endpoint__
 
 ```[:GET] /repositories/:repo_id/classifications/:id/tree/node_from_root ```
 
+
 __Description__
 
-Fetch tree path from the root record to Classification Terms
+Fetch tree path from the root record to Classification Terms.
+
+  
+  
+  
+  
+  
+  
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
-  
-	  Integer id -- The ID of the record
-  
-  
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>id</code></td>
+        <td style="word-break: break-word;">
+            The ID of the record
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>repo_id</code></td>
+        <td style="word-break: break-word;">
+            The Repository ID
+            
+            <br>
+            <b>Note: </b> The Repository must exist
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>node_ids</code></td>
+        <td style="word-break: break-word;">
+            The IDs of the Classification Term records of interest
+            
+        </td>
+        <td>[Integer]</td>
+        <td></td>
+      </tr>
     
-  
-  
-	  Integer repo_id -- The Repository ID -- The Repository must exist
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>published_only</code></td>
+        <td style="word-break: break-word;">
+            Whether to restrict to published/unsuppressed items
+            
+        </td>
+        <td>RESTHelpers::BooleanParam</td>
+        <td></td>
+      </tr>
     
-  
-  
-  
-	  [Integer] node_ids -- The IDs of the Classification Term records of interest
-  
-  
-    
-  
-  
-    
-    
-  
-  
-	  RESTHelpers::BooleanParam published_only -- Whether to restrict to published/unsuppressed items
-  
+  </tbody>
+</table>
+
 
 __Returns__
 
@@ -8812,7 +14080,6 @@ __Returns__
 
   * offset -- the waypoint number within `node` that contains the next entry in
     the path (or the desired record, if we're at the end of the path)
-
 
 
 
@@ -8849,51 +14116,105 @@ __Returns__
     
   
   
-```shell
+  ```shell
 curl -H "X-ArchivesSpace-Session: $SESSION" \
-  "http://localhost:8089/repositories/2/classifications/1/tree/root?published_only=true"
+  "http://localhost:8089/repositories/2/classifications/1/tree/root"
 
 ```
+
+
 
 
 __Endpoint__
 
 ```[:GET] /repositories/:repo_id/classifications/:id/tree/root ```
 
+
 __Description__
 
-Fetch tree information for the top-level classification record
+Fetch tree information for the top-level classification record.
+
+  
+  
+  
+  
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
-  
-	  Integer id -- The ID of the record
-  
-  
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>id</code></td>
+        <td style="word-break: break-word;">
+            The ID of the record
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>repo_id</code></td>
+        <td style="word-break: break-word;">
+            The Repository ID
+            
+            <br>
+            <b>Note: </b> The Repository must exist
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>published_only</code></td>
+        <td style="word-break: break-word;">
+            Whether to restrict to published/unsuppressed items
+            
+        </td>
+        <td>RESTHelpers::BooleanParam</td>
+        <td></td>
+      </tr>
     
-  
-  
-	  Integer repo_id -- The Repository ID -- The Repository must exist
-  
-  
-    
-  
-  
-    
-    
-  
-  
-	  RESTHelpers::BooleanParam published_only -- Whether to restrict to published/unsuppressed items
-  
+  </tbody>
+</table>
+
 
 __Returns__
 
@@ -8908,7 +14229,6 @@ __Returns__
   * waypoints -- the number of "waypoints" those children are grouped into
 
   * waypoint_size -- the number of children in each waypoint
-
 
 
 
@@ -8969,68 +14289,144 @@ __Returns__
     
   
   
-```shell
+  ```shell
 curl -H "X-ArchivesSpace-Session: $SESSION" \
-  "http://localhost:8089/repositories/2/classifications/1/tree/waypoint?offset=1&parent_node=AJ836TP&published_only=true"
+  "http://localhost:8089/repositories/2/classifications/1/tree/waypoint?offset=0&parent_node=/repositories/2/classification_terms/1"
 
 ```
+
+
 
 
 __Endpoint__
 
 ```[:GET] /repositories/:repo_id/classifications/:id/tree/waypoint ```
 
+
 __Description__
 
-Fetch the record slice for a given tree waypoint
+Fetch the record slice for a given tree waypoint.
+
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
-  
-	  Integer id -- The ID of the record
-  
-  
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>id</code></td>
+        <td style="word-break: break-word;">
+            The ID of the record
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>repo_id</code></td>
+        <td style="word-break: break-word;">
+            The Repository ID
+            
+            <br>
+            <b>Note: </b> The Repository must exist
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>offset</code></td>
+        <td style="word-break: break-word;">
+            The page of records to return
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-  
-  
-	  Integer repo_id -- The Repository ID -- The Repository must exist
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>parent_node</code></td>
+        <td style="word-break: break-word;">
+            The URI of the parent of this waypoint (none for the root record)
+            
+        </td>
+        <td>String</td>
+        <td>true</td>
+      </tr>
     
-  
-  
-  
-	  Integer offset -- The page of records to return
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>published_only</code></td>
+        <td style="word-break: break-word;">
+            Whether to restrict to published/unsuppressed items
+            
+        </td>
+        <td>RESTHelpers::BooleanParam</td>
+        <td></td>
+      </tr>
     
-  
-  
-    
-    
-  
-  
-	  String parent_node (Optional) -- The URI of the parent of this waypoint (none for the root record)
-  
-  
-    
-  
-  
-    
-    
-  
-  
-	  RESTHelpers::BooleanParam published_only -- Whether to restrict to published/unsuppressed items
-  
+  </tbody>
+</table>
+
 
 __Returns__
 
@@ -9043,7 +14439,6 @@ __Returns__
   * position -- the logical position of this record within its subtree
 
   * parent_id -- the internal ID of this document's parent
-
 
 
 
@@ -9085,49 +14480,101 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 ```
 
 
+
 __Endpoint__
 
 ```[:GET] /repositories/:repo_id/collection_management/:id ```
 
+
 __Description__
 
-Get a Collection Management Record by ID
+Get a Collection Management Record by ID.
+
+  
+  
+  
+  
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
-  
-	  Integer id -- The ID of the record
-  
-  
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>id</code></td>
+        <td style="word-break: break-word;">
+            The ID of the record
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>repo_id</code></td>
+        <td style="word-break: break-word;">
+            The Repository ID
+            
+            <br>
+            <b>Note: </b> The Repository must exist
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>resolve</code></td>
+        <td style="word-break: break-word;">
+            A list of references to resolve and embed in the response
+            
+        </td>
+        <td>[String]</td>
+        <td>true</td>
+      </tr>
     
-  
-  
-	  Integer repo_id -- The Repository ID -- The Repository must exist
-  
-  
-    
-  
-  
-    
-    
-  
-  
-	  [String] resolve (Optional) -- A list of references to resolve and embed in the response
-  
+  </tbody>
+</table>
+
 
 __Returns__
 
   	200 -- (:collection_management)
-
 
 
 
@@ -9173,46 +14620,99 @@ __Returns__
 ```shell
 curl -H "X-ArchivesSpace-Session: $SESSION" \
   -d 'Example Missing' \
-  "http://localhost:8089/repositories/2/component_transfers?target_resource=Y608PMX&component=QALW866"
+  "http://localhost:8089/repositories/2/component_transfers?target_resource=790XWMI&component=906F246N369"
 
 ```
+
 
 
 __Endpoint__
 
 ```[:POST] /repositories/:repo_id/component_transfers ```
 
+
 __Description__
 
-Transfer components from one resource to another
+Transfer components from one resource to another.
+
+  
+  
+  
+  
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
-  
-	  String target_resource -- The URI of the resource to transfer into
-  
-  
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>target_resource</code></td>
+        <td style="word-break: break-word;">
+            The URI of the resource to transfer into
+            
+        </td>
+        <td>String</td>
+        <td></td>
+      </tr>
     
-  
-  
-  
-	  String component -- The URI of the archival object to transfer
-  
-  
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>component</code></td>
+        <td style="word-break: break-word;">
+            The URI of the archival object to transfer
+            
+        </td>
+        <td>String</td>
+        <td></td>
+      </tr>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>repo_id</code></td>
+        <td style="word-break: break-word;">
+            The Repository ID
+            
+            <br>
+            <b>Note: </b> The Repository must exist
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-    
-  
-  
-	  Integer repo_id -- The Repository ID -- The Repository must exist
-  
+  </tbody>
+</table>
+
 
 __Returns__
 
@@ -9221,7 +14721,6 @@ __Returns__
   	400 -- {:error => (description of error)}
 
   	409 -- {:error => (description of error)}
-
 
 
 
@@ -9244,32 +14743,622 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 ```
 
 
+
 __Endpoint__
 
 ```[:GET] /repositories/:repo_id/current_preferences ```
 
+
 __Description__
 
-Get the Preferences records for the current repository and user.
+Get the Preferences records for the current repository and user..
+
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>repo_id</code></td>
+        <td style="word-break: break-word;">
+            The Repository ID
+            
+            <br>
+            <b>Note: </b> The Repository must exist
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-    
-  
-  
-	  Integer repo_id -- The Repository ID -- The Repository must exist
-  
+  </tbody>
+</table>
+
 
 __Returns__
 
   	200 -- {(:preference)}
 
+
+
+## Create a Custom Report Template
+
+
+
+  
+    
+  
+  
+    
+  
+
+  
+    
+  
+  
+    
+  
+  
+  
+  ```shell
+curl -H 'Content-Type: application/json' \
+  -H "X-ArchivesSpace-Session: $SESSION" \
+  -d '{
+        "lock_version": 0,
+        "name": "A New Custom Template",
+        "description": "A custom report template returning old accessions sorted by title.",
+        "data": "{"fields":{"access_restrictions":{"value":"true"},"accession_date":{"include":"1","narrow_by":"1","range_start":"2011-01-01","range_end":"2019-12-31"},"publish":{"value":"true"},"restrictions_apply":{"value":"true"},"title":{"include":"1"},"use_restrictions":{"value":"true"},"create_time":{"range_start":"","range_end":""},"user_mtime":{"range_start":"","range_end":""}},"sort_by":"title","custom_record_type":"accession"}",
+        "limit": 100,
+        "jsonmodel_type": "custom_report_template",
+        "repository": {
+            "ref": "/repositories/2"
+        }
+      }' \
+  "http://localhost:8089/repositories/2/custom_report_templates"
+
+```
+
+
+
+
+__Endpoint__
+
+```[:POST] /repositories/:repo_id/custom_report_templates ```
+
+
+__Description__
+
+Create a Custom Report Template.
+
+  
+  
+  
+  
+
+
+__Parameters__
+
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
+    
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>repo_id</code></td>
+        <td style="word-break: break-word;">
+            The Repository ID
+            
+            <br>
+            <b>Note: </b> The Repository must exist
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
+    
+  </tbody>
+</table>
+
+__Accepts Payload of Type__
+
+JSONModel(:custom_report_template)
+
+__Returns__
+
+  	200 -- {:status => "Created", :id => (id of created object), :warnings => {(warnings)}}
+
+
+
+## Get a list of Custom Report Templates
+
+
+
+  
+    
+  
+
+  
+    
+  
+  
+  ```shell
+curl -H "X-ArchivesSpace-Session: $SESSION" \
+  "http://localhost:8089/repositories/2/custom_report_templates?page=1"
+
+```
+
+
+
+
+__Endpoint__
+
+```[:GET] /repositories/:repo_id/custom_report_templates ```
+
+
+__Description__
+
+Get a list of Custom Report Templates.
+
+  
+  
+
+
+__Parameters__
+<aside class="notice">
+This endpoint is paginated. :page, :id_set, or :all_ids is required
+<ul>
+  <li>Integer page &ndash; The page set to be returned</li>
+  <li>Integer page_size &ndash; The size of the set to be returned ( Optional. default set in AppConfig )</li>
+  <li>Comma separated list id_set &ndash; A list of ids to request resolved objects ( Must be smaller than default page_size )</li>
+  <li>Boolean all_ids &ndash; Return a list of all object ids</li>
+</ul>
+</aside>
+
+
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
+    
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>repo_id</code></td>
+        <td style="word-break: break-word;">
+            The Repository ID
+            
+            <br>
+            <b>Note: </b> The Repository must exist
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
+    
+  </tbody>
+</table>
+
+
+__Returns__
+
+  	200 -- [(:custom_report_template)]
+
+
+
+## Update a CustomReportTemplate
+
+
+
+  
+    
+  
+  
+    
+  
+  
+    
+  
+
+  
+    
+  
+  
+    
+  
+  
+    
+  
+  
+  
+  ```shell
+curl -H 'Content-Type: application/json' \
+  -H "X-ArchivesSpace-Session: $SESSION" \
+  -d '{
+        "lock_version": 0,
+        "name": "A Newer Custom Template",
+        "description": "A custom report template returning old accessions sorted by title.",
+        "data": "{"fields":{"access_restrictions":{"value":"true"},"accession_date":{"include":"1","narrow_by":"1","range_start":"2011-01-01","range_end":"2019-12-31"},"publish":{"value":"true"},"restrictions_apply":{"value":"true"},"title":{"include":"1"},"use_restrictions":{"value":"true"},"create_time":{"range_start":"","range_end":""},"user_mtime":{"range_start":"","range_end":""}},"sort_by":"title","custom_record_type":"accession"}",
+        "limit": 100,
+        "jsonmodel_type": "custom_report_template",
+        "repository": {
+            "ref": "/repositories/2"
+        }
+      }' \
+  "http://localhost:8089/repositories/2/custom_report_templates/1"
+
+```
+
+
+
+
+__Endpoint__
+
+```[:POST] /repositories/:repo_id/custom_report_templates/:id ```
+
+
+__Description__
+
+Update a CustomReportTemplate.
+
+  
+  
+  
+  
+  
+  
+
+
+__Parameters__
+
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
+    
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>id</code></td>
+        <td style="word-break: break-word;">
+            The ID of the record
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
+    
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>repo_id</code></td>
+        <td style="word-break: break-word;">
+            The Repository ID
+            
+            <br>
+            <b>Note: </b> The Repository must exist
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
+    
+  </tbody>
+</table>
+
+__Accepts Payload of Type__
+
+JSONModel(:custom_report_template)
+
+__Returns__
+
+  	200 -- {:status => "Updated", :id => (id of updated object)}
+
+
+
+## Get a Custom Report Template by ID
+
+
+
+  
+    
+  
+  
+    
+  
+  
+    
+  
+  
+  
+    
+      
+    
+  
+  
+
+  
+    
+  
+  
+    
+  
+  
+    
+  
+  
+  ```shell
+curl -H "X-ArchivesSpace-Session: $SESSION" \
+  "http://localhost:8089/repositories/2/custom_report_templates/1"
+
+```
+
+
+
+
+__Endpoint__
+
+```[:GET] /repositories/:repo_id/custom_report_templates/:id ```
+
+
+__Description__
+
+Get a Custom Report Template by ID.
+
+  
+  
+  
+  
+  
+  
+
+
+__Parameters__
+
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
+    
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>id</code></td>
+        <td style="word-break: break-word;">
+            The ID of the record
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
+    
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>resolve</code></td>
+        <td style="word-break: break-word;">
+            A list of references to resolve and embed in the response
+            
+        </td>
+        <td>[String]</td>
+        <td>true</td>
+      </tr>
+    
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>repo_id</code></td>
+        <td style="word-break: break-word;">
+            The Repository ID
+            
+            <br>
+            <b>Note: </b> The Repository must exist
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
+    
+  </tbody>
+</table>
+
+
+__Returns__
+
+  	200 -- (:custom_report_template)
+
+
+
+## Delete an Custom Report Template
+
+
+
+  
+    
+  
+  
+    
+  
+
+  
+    
+  
+  
+    
+  
+  
+  ```shell
+curl -H "X-ArchivesSpace-Session: $SESSION" \
+  -X DELETE \
+  "http://localhost:8089/repositories/2/custom_report_templates/1"
+
+```
+
+
+
+
+__Endpoint__
+
+```[:DELETE] /repositories/:repo_id/custom_report_templates/:id ```
+
+
+__Description__
+
+Delete an Custom Report Template.
+
+  
+  
+  
+  
+
+
+__Parameters__
+
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
+    
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>id</code></td>
+        <td style="word-break: break-word;">
+            The ID of the record
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
+    
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>repo_id</code></td>
+        <td style="word-break: break-word;">
+            The Repository ID
+            
+            <br>
+            <b>Note: </b> The Repository must exist
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
+    
+  </tbody>
+</table>
+
+
+__Returns__
+
+  	200 -- deleted
 
 
 
@@ -9306,51 +15395,87 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 ```
 
 
+
 __Endpoint__
 
 ```[:POST] /repositories/:repo_id/default_values/:record_type ```
 
+
 __Description__
 
-Save defaults for a record type
+Save defaults for a record type.
+
+  
+  
+  
+  
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>repo_id</code></td>
+        <td style="word-break: break-word;">
+            The Repository ID
+            
+            <br>
+            <b>Note: </b> The Repository must exist
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>record_type</code></td>
+        <td style="word-break: break-word;">
+            
+            
+        </td>
+        <td>String</td>
+        <td></td>
+      </tr>
     
-  
-  
-	  JSONModel(:default_values) <request body> -- The default values set
-  
-  
-    
-  
-  
-    
-    
-  
-  
-	  Integer repo_id -- The Repository ID -- The Repository must exist
-  
-  
-    
-  
-  
-  
-	  String record_type -- 
-  
+  </tbody>
+</table>
+
+__Accepts Payload of Type__
+
+JSONModel(:default_values)
 
 __Returns__
 
   	200 -- {:status => "Created", :id => (id of created object), :warnings => {(warnings)}}
 
   	400 -- {:error => (description of error)}
-
 
 
 
@@ -9379,41 +15504,82 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 ```
 
 
+
 __Endpoint__
 
 ```[:GET] /repositories/:repo_id/default_values/:record_type ```
 
+
 __Description__
 
-Get default values for a record type
+Get default values for a record type.
+
+  
+  
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>repo_id</code></td>
+        <td style="word-break: break-word;">
+            The Repository ID
+            
+            <br>
+            <b>Note: </b> The Repository must exist
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>record_type</code></td>
+        <td style="word-break: break-word;">
+            
+            
+        </td>
+        <td>String</td>
+        <td></td>
+      </tr>
     
-  
-  
-	  Integer repo_id -- The Repository ID -- The Repository must exist
-  
-  
-    
-  
-  
-  
-	  String record_type -- 
-  
+  </tbody>
+</table>
+
 
 __Returns__
 
   	200 -- {:status => "Created", :id => (id of created object), :warnings => {(warnings)}}
 
   	400 -- {:error => (description of error)}
-
 
 
 
@@ -9451,54 +15617,79 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 "file_versions":[],
 "is_slug_auto":true,
 "notes":[],
-"component_id":"F795773711N",
-"title":"Digital Object Component Title: 7",
+"component_id":"KY414VI",
+"title":"Digital Object Component Title: 6",
 "digital_object":{ "ref":"/repositories/2/digital_objects/1"},
-"position":10,
+"position":7,
 "has_unpublished_ancestor":true}' \
   "http://localhost:8089/repositories/2/digital_object_components"
 
 ```
 
 
+
 __Endpoint__
 
 ```[:POST] /repositories/:repo_id/digital_object_components ```
 
+
 __Description__
 
-Create an Digital Object Component
+Create an Digital Object Component.
+
+  
+  
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>repo_id</code></td>
+        <td style="word-break: break-word;">
+            The Repository ID
+            
+            <br>
+            <b>Note: </b> The Repository must exist
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-    
-  
-  
-	  JSONModel(:digital_object_component) <request body> -- The record to create
-  
-  
-    
-  
-  
-    
-    
-  
-  
-	  Integer repo_id -- The Repository ID -- The Repository must exist
-  
+  </tbody>
+</table>
+
+__Accepts Payload of Type__
+
+JSONModel(:digital_object_component)
 
 __Returns__
 
   	200 -- {:status => "Created", :id => (id of created object), :warnings => {(warnings)}}
 
   	400 -- {:error => (description of error)}
-
 
 
 
@@ -9528,13 +15719,18 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 ```
 
 
+
 __Endpoint__
 
 ```[:GET] /repositories/:repo_id/digital_object_components ```
 
+
 __Description__
 
-Get a list of Digital Object Components for a Repository
+Get a list of Digital Object Components for a Repository.
+
+  
+  
 
 
 __Parameters__
@@ -9548,21 +15744,47 @@ This endpoint is paginated. :page, :id_set, or :all_ids is required
 </ul>
 </aside>
 
-  
+
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>repo_id</code></td>
+        <td style="word-break: break-word;">
+            The Repository ID
+            
+            <br>
+            <b>Note: </b> The Repository must exist
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-    
-  
-  
-	  Integer repo_id -- The Repository ID -- The Repository must exist
-  
+  </tbody>
+</table>
+
 
 __Returns__
 
   	200 -- [(:digital_object_component)]
-
 
 
 
@@ -9606,61 +15828,97 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 "file_versions":[],
 "is_slug_auto":true,
 "notes":[],
-"component_id":"F795773711N",
-"title":"Digital Object Component Title: 7",
+"component_id":"KY414VI",
+"title":"Digital Object Component Title: 6",
 "digital_object":{ "ref":"/repositories/2/digital_objects/1"},
-"position":10,
+"position":7,
 "has_unpublished_ancestor":true}' \
   "http://localhost:8089/repositories/2/digital_object_components/1"
 
 ```
 
 
+
 __Endpoint__
 
 ```[:POST] /repositories/:repo_id/digital_object_components/:id ```
 
+
 __Description__
 
-Update an Digital Object Component
+Update an Digital Object Component.
+
+  
+  
+  
+  
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
-  
-	  Integer id -- The ID of the record
-  
-  
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>id</code></td>
+        <td style="word-break: break-word;">
+            The ID of the record
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>repo_id</code></td>
+        <td style="word-break: break-word;">
+            The Repository ID
+            
+            <br>
+            <b>Note: </b> The Repository must exist
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-    
-  
-  
-	  JSONModel(:digital_object_component) <request body> -- The updated record
-  
-  
-    
-  
-  
-    
-    
-  
-  
-	  Integer repo_id -- The Repository ID -- The Repository must exist
-  
+  </tbody>
+</table>
+
+__Accepts Payload of Type__
+
+JSONModel(:digital_object_component)
 
 __Returns__
 
   	200 -- {:status => "Updated", :id => (id of updated object)}
 
   	400 -- {:error => (description of error)}
-
 
 
 
@@ -9702,51 +15960,103 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 ```
 
 
+
 __Endpoint__
 
 ```[:GET] /repositories/:repo_id/digital_object_components/:id ```
 
+
 __Description__
 
-Get an Digital Object Component by ID
+Get an Digital Object Component by ID.
+
+  
+  
+  
+  
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
-  
-	  Integer id -- The ID of the record
-  
-  
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>id</code></td>
+        <td style="word-break: break-word;">
+            The ID of the record
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>repo_id</code></td>
+        <td style="word-break: break-word;">
+            The Repository ID
+            
+            <br>
+            <b>Note: </b> The Repository must exist
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>resolve</code></td>
+        <td style="word-break: break-word;">
+            A list of references to resolve and embed in the response
+            
+        </td>
+        <td>[String]</td>
+        <td>true</td>
+      </tr>
     
-  
-  
-	  Integer repo_id -- The Repository ID -- The Repository must exist
-  
-  
-    
-  
-  
-    
-    
-  
-  
-	  [String] resolve (Optional) -- A list of references to resolve and embed in the response
-  
+  </tbody>
+</table>
+
 
 __Returns__
 
   	200 -- (:digital_object_component)
 
   	404 -- Not found
-
 
 
 
@@ -9776,39 +16086,80 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 ```
 
 
+
 __Endpoint__
 
 ```[:DELETE] /repositories/:repo_id/digital_object_components/:id ```
 
+
 __Description__
 
-Delete a Digital Object Component
+Delete a Digital Object Component.
+
+  
+  
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
-  
-	  Integer id -- The ID of the record
-  
-  
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>id</code></td>
+        <td style="word-break: break-word;">
+            The ID of the record
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>repo_id</code></td>
+        <td style="word-break: break-word;">
+            The Repository ID
+            
+            <br>
+            <b>Note: </b> The Repository must exist
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-    
-  
-  
-	  Integer repo_id -- The Repository ID -- The Repository must exist
-  
+  </tbody>
+</table>
+
 
 __Returns__
 
   	200 -- deleted
-
 
 
 
@@ -9860,56 +16211,120 @@ __Returns__
 ```shell
 curl -H "X-ArchivesSpace-Session: $SESSION" \
   -d 'Example Missing' \
-  "http://localhost:8089/repositories/2/digital_object_components/1/accept_children?children=856263X695945&position=1"
+  "http://localhost:8089/repositories/2/digital_object_components/1/accept_children?children=910806A22411&position=1"
 
 ```
+
 
 
 __Endpoint__
 
 ```[:POST] /repositories/:repo_id/digital_object_components/:id/accept_children ```
 
+
 __Description__
 
-Move existing Digital Object Components to become children of a Digital Object Component
+Move existing Digital Object Components to become children of a Digital Object Component.
+
+  
+  
+  
+  
+  
+  
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>children</code></td>
+        <td style="word-break: break-word;">
+            The children to move to the Digital Object Component
+            
+        </td>
+        <td>[String]</td>
+        <td>true</td>
+      </tr>
     
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>id</code></td>
+        <td style="word-break: break-word;">
+            The ID of the Digital Object Component to move children to
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-  
-  
-	  [String] children (Optional) -- The children to move to the Digital Object Component
-  
-  
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>position</code></td>
+        <td style="word-break: break-word;">
+            The index for the first child to be moved to
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-  
-  
-  
-	  Integer id -- The ID of the Digital Object Component to move children to
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>repo_id</code></td>
+        <td style="word-break: break-word;">
+            The Repository ID
+            
+            <br>
+            <b>Note: </b> The Repository must exist
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-  
-  
-  
-	  Integer position -- The index for the first child to be moved to
-  
-  
-    
-  
-  
-    
-    
-  
-  
-	  Integer repo_id -- The Repository ID -- The Repository must exist
-  
+  </tbody>
+</table>
+
 
 __Returns__
 
@@ -9918,7 +16333,6 @@ __Returns__
   	400 -- {:error => (description of error)}
 
   	409 -- {:error => (description of error)}
-
 
 
 
@@ -9955,44 +16369,81 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 ```
 
 
+
 __Endpoint__
 
 ```[:POST] /repositories/:repo_id/digital_object_components/:id/children ```
 
+
 __Description__
 
-Batch create several Digital Object Components as children of an existing Digital Object Component
+Batch create several Digital Object Components as children of an existing Digital Object Component.
+
+  
+  
+  
+  
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>id</code></td>
+        <td style="word-break: break-word;">
+            The ID of the digital object component to add children to
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>repo_id</code></td>
+        <td style="word-break: break-word;">
+            The Repository ID
+            
+            <br>
+            <b>Note: </b> The Repository must exist
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-  
-  
-	  JSONModel(:digital_record_children) <request body> -- The children to add to the digital object component
-  
-  
-    
-  
-  
-  
-	  Integer id -- The ID of the digital object component to add children to
-  
-  
-    
-  
-  
-    
-    
-  
-  
-	  Integer repo_id -- The Repository ID -- The Repository must exist
-  
+  </tbody>
+</table>
+
+__Accepts Payload of Type__
+
+JSONModel(:digital_record_children)
 
 __Returns__
 
@@ -10001,7 +16452,6 @@ __Returns__
   	400 -- {:error => (description of error)}
 
   	409 -- {:error => (description of error)}
-
 
 
 
@@ -10030,41 +16480,82 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 ```
 
 
+
 __Endpoint__
 
 ```[:GET] /repositories/:repo_id/digital_object_components/:id/children ```
 
+
 __Description__
 
-Get the children of an Digital Object Component
+Get the children of an Digital Object Component.
+
+  
+  
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
-  
-	  Integer id -- The ID of the record
-  
-  
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>id</code></td>
+        <td style="word-break: break-word;">
+            The ID of the record
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>repo_id</code></td>
+        <td style="word-break: break-word;">
+            The Repository ID
+            
+            <br>
+            <b>Note: </b> The Repository must exist
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-    
-  
-  
-	  Integer repo_id -- The Repository ID -- The Repository must exist
-  
+  </tbody>
+</table>
+
 
 __Returns__
 
   	200 -- [(:digital_object_component)]
 
   	404 -- Not found
-
 
 
 
@@ -10121,61 +16612,124 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 ```
 
 
+
 __Endpoint__
 
 ```[:POST] /repositories/:repo_id/digital_object_components/:id/parent ```
 
+
 __Description__
 
-Set the parent/position of an Digital Object Component in a tree
+Set the parent/position of an Digital Object Component in a tree.
+
+  
+  
+  
+  
+  
+  
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
-  
-	  Integer id -- The ID of the record
-  
-  
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>id</code></td>
+        <td style="word-break: break-word;">
+            The ID of the record
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>parent</code></td>
+        <td style="word-break: break-word;">
+            The parent of this node in the tree
+            
+        </td>
+        <td>Integer</td>
+        <td>true</td>
+      </tr>
     
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>position</code></td>
+        <td style="word-break: break-word;">
+            The position of this node in the tree
+            
+        </td>
+        <td>Integer</td>
+        <td>true</td>
+      </tr>
     
-  
-  
-	  Integer parent (Optional) -- The parent of this node in the tree
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>repo_id</code></td>
+        <td style="word-break: break-word;">
+            The Repository ID
+            
+            <br>
+            <b>Note: </b> The Repository must exist
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-  
-  
-    
-    
-  
-  
-	  Integer position (Optional) -- The position of this node in the tree
-  
-  
-    
-  
-  
-    
-    
-  
-  
-	  Integer repo_id -- The Repository ID -- The Repository must exist
-  
+  </tbody>
+</table>
+
 
 __Returns__
 
   	200 -- {:status => "Updated", :id => (id of updated object)}
 
   	400 -- {:error => (description of error)}
-
 
 
 
@@ -10220,46 +16774,98 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 ```
 
 
+
 __Endpoint__
 
 ```[:POST] /repositories/:repo_id/digital_object_components/:id/suppressed ```
 
+
 __Description__
 
-Suppress this record
+Suppress this record.
+
+  
+  
+  
+  
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
-  
-	  Integer id -- The ID of the record
-  
-  
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>id</code></td>
+        <td style="word-break: break-word;">
+            The ID of the record
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-  
-  
-  
-	  RESTHelpers::BooleanParam suppressed -- Suppression state
-  
-  
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>suppressed</code></td>
+        <td style="word-break: break-word;">
+            Suppression state
+            
+        </td>
+        <td>RESTHelpers::BooleanParam</td>
+        <td></td>
+      </tr>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>repo_id</code></td>
+        <td style="word-break: break-word;">
+            The Repository ID
+            
+            <br>
+            <b>Note: </b> The Repository must exist
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-    
-  
-  
-	  Integer repo_id -- The Repository ID -- The Repository must exist
-  
+  </tbody>
+</table>
+
 
 __Returns__
 
   	200 -- {:status => "Suppressed", :id => (id of updated object), :suppressed_state => (true|false)}
-
 
 
 
@@ -10289,81 +16895,97 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 "subjects":[],
 "linked_events":[],
 "extents":[{ "jsonmodel_type":"extent",
-"portion":"part",
-"number":"79",
-"extent_type":"terabytes",
-"dimensions":"NN667I654",
-"physical_details":"X47UDD"}],
+"portion":"whole",
+"number":"71",
+"extent_type":"cassettes",
+"dimensions":"OSKJE",
+"physical_details":"XFYGT"}],
 "lang_materials":[{ "jsonmodel_type":"lang_material",
 "notes":[],
 "language_and_script":{ "jsonmodel_type":"language_and_script",
-"language":"mos",
-"script":"Gong"}}],
+"language":"csb",
+"script":"Nkgb"}}],
 "dates":[],
 "external_documents":[],
 "rights_statements":[],
 "linked_agents":[],
 "is_slug_auto":true,
-"file_versions":[{ "jsonmodel_type":"file_version",
-"is_representative":false,
-"file_uri":"TTNEA",
-"use_statement":"image-thumbnail",
-"xlink_actuate_attribute":"other",
-"xlink_show_attribute":"replace",
-"file_format_name":"tiff",
-"file_format_version":"PENEX",
-"file_size_bytes":33,
-"checksum":"E227YUT",
-"checksum_method":"sha-384",
-"publish":true}],
+"file_versions":[],
 "restrictions":false,
+"classifications":[],
 "notes":[],
 "linked_instances":[],
-"title":"Digital Object Title: 6",
-"digital_object_id":"48198RU731"}' \
+"metadata_rights_declarations":[],
+"title":"Digital Object Title: 1",
+"digital_object_id":"281FD869991"}' \
   "http://localhost:8089/repositories/2/digital_objects"
 
 ```
+
 
 
 __Endpoint__
 
 ```[:POST] /repositories/:repo_id/digital_objects ```
 
+
 __Description__
 
-Create a Digital Object
+Create a Digital Object.
+
+  
+  
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>repo_id</code></td>
+        <td style="word-break: break-word;">
+            The Repository ID
+            
+            <br>
+            <b>Note: </b> The Repository must exist
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-    
-  
-  
-	  JSONModel(:digital_object) <request body> -- The record to create
-  
-  
-    
-  
-  
-    
-    
-  
-  
-	  Integer repo_id -- The Repository ID -- The Repository must exist
-  
+  </tbody>
+</table>
+
+__Accepts Payload of Type__
+
+JSONModel(:digital_object)
 
 __Returns__
 
   	200 -- {:status => "Created", :id => (id of created object), :warnings => {(warnings)}}
 
   	400 -- {:error => (description of error)}
-
 
 
 
@@ -10393,13 +17015,18 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 ```
 
 
+
 __Endpoint__
 
 ```[:GET] /repositories/:repo_id/digital_objects ```
 
+
 __Description__
 
-Get a list of Digital Objects for a Repository
+Get a list of Digital Objects for a Repository.
+
+  
+  
 
 
 __Parameters__
@@ -10413,21 +17040,47 @@ This endpoint is paginated. :page, :id_set, or :all_ids is required
 </ul>
 </aside>
 
-  
+
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>repo_id</code></td>
+        <td style="word-break: break-word;">
+            The Repository ID
+            
+            <br>
+            <b>Note: </b> The Repository must exist
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-    
-  
-  
-	  Integer repo_id -- The Repository ID -- The Repository must exist
-  
+  </tbody>
+</table>
+
 
 __Returns__
 
   	200 -- [(:digital_object)]
-
 
 
 
@@ -10469,49 +17122,101 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 ```
 
 
+
 __Endpoint__
 
 ```[:GET] /repositories/:repo_id/digital_objects/:id ```
 
+
 __Description__
 
-Get a Digital Object
+Get a Digital Object.
+
+  
+  
+  
+  
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
-  
-	  Integer id -- The ID of the record
-  
-  
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>id</code></td>
+        <td style="word-break: break-word;">
+            The ID of the record
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>repo_id</code></td>
+        <td style="word-break: break-word;">
+            The Repository ID
+            
+            <br>
+            <b>Note: </b> The Repository must exist
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>resolve</code></td>
+        <td style="word-break: break-word;">
+            A list of references to resolve and embed in the response
+            
+        </td>
+        <td>[String]</td>
+        <td>true</td>
+      </tr>
     
-  
-  
-	  Integer repo_id -- The Repository ID -- The Repository must exist
-  
-  
-    
-  
-  
-    
-    
-  
-  
-	  [String] resolve (Optional) -- A list of references to resolve and embed in the response
-  
+  </tbody>
+</table>
+
 
 __Returns__
 
   	200 -- (:digital_object)
-
 
 
 
@@ -10547,88 +17252,115 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 "subjects":[],
 "linked_events":[],
 "extents":[{ "jsonmodel_type":"extent",
-"portion":"part",
-"number":"79",
-"extent_type":"terabytes",
-"dimensions":"NN667I654",
-"physical_details":"X47UDD"}],
+"portion":"whole",
+"number":"71",
+"extent_type":"cassettes",
+"dimensions":"OSKJE",
+"physical_details":"XFYGT"}],
 "lang_materials":[{ "jsonmodel_type":"lang_material",
 "notes":[],
 "language_and_script":{ "jsonmodel_type":"language_and_script",
-"language":"mos",
-"script":"Gong"}}],
+"language":"csb",
+"script":"Nkgb"}}],
 "dates":[],
 "external_documents":[],
 "rights_statements":[],
 "linked_agents":[],
 "is_slug_auto":true,
-"file_versions":[{ "jsonmodel_type":"file_version",
-"is_representative":false,
-"file_uri":"TTNEA",
-"use_statement":"image-thumbnail",
-"xlink_actuate_attribute":"other",
-"xlink_show_attribute":"replace",
-"file_format_name":"tiff",
-"file_format_version":"PENEX",
-"file_size_bytes":33,
-"checksum":"E227YUT",
-"checksum_method":"sha-384",
-"publish":true}],
+"file_versions":[],
 "restrictions":false,
+"classifications":[],
 "notes":[],
 "linked_instances":[],
-"title":"Digital Object Title: 6",
-"digital_object_id":"48198RU731"}' \
+"metadata_rights_declarations":[],
+"title":"Digital Object Title: 1",
+"digital_object_id":"281FD869991"}' \
   "http://localhost:8089/repositories/2/digital_objects/1"
 
 ```
+
 
 
 __Endpoint__
 
 ```[:POST] /repositories/:repo_id/digital_objects/:id ```
 
+
 __Description__
 
-Update a Digital Object
+Update a Digital Object.
+
+  
+  
+  
+  
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
-  
-	  Integer id -- The ID of the record
-  
-  
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>id</code></td>
+        <td style="word-break: break-word;">
+            The ID of the record
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>repo_id</code></td>
+        <td style="word-break: break-word;">
+            The Repository ID
+            
+            <br>
+            <b>Note: </b> The Repository must exist
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-    
-  
-  
-	  JSONModel(:digital_object) <request body> -- The updated record
-  
-  
-    
-  
-  
-    
-    
-  
-  
-	  Integer repo_id -- The Repository ID -- The Repository must exist
-  
+  </tbody>
+</table>
+
+__Accepts Payload of Type__
+
+JSONModel(:digital_object)
 
 __Returns__
 
   	200 -- {:status => "Updated", :id => (id of updated object)}
 
   	400 -- {:error => (description of error)}
-
 
 
 
@@ -10658,39 +17390,80 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 ```
 
 
+
 __Endpoint__
 
 ```[:DELETE] /repositories/:repo_id/digital_objects/:id ```
 
+
 __Description__
 
-Delete a Digital Object
+Delete a Digital Object.
+
+  
+  
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
-  
-	  Integer id -- The ID of the record
-  
-  
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>id</code></td>
+        <td style="word-break: break-word;">
+            The ID of the record
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>repo_id</code></td>
+        <td style="word-break: break-word;">
+            The Repository ID
+            
+            <br>
+            <b>Note: </b> The Repository must exist
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-    
-  
-  
-	  Integer repo_id -- The Repository ID -- The Repository must exist
-  
+  </tbody>
+</table>
+
 
 __Returns__
 
   	200 -- deleted
-
 
 
 
@@ -10742,56 +17515,120 @@ __Returns__
 ```shell
 curl -H "X-ArchivesSpace-Session: $SESSION" \
   -d 'Example Missing' \
-  "http://localhost:8089/repositories/2/digital_objects/1/accept_children?children=RFTKT&position=1"
+  "http://localhost:8089/repositories/2/digital_objects/1/accept_children?children=DTLG481&position=1"
 
 ```
+
 
 
 __Endpoint__
 
 ```[:POST] /repositories/:repo_id/digital_objects/:id/accept_children ```
 
+
 __Description__
 
-Move existing Digital Object components to become children of a Digital Object
+Move existing Digital Object components to become children of a Digital Object.
+
+  
+  
+  
+  
+  
+  
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>children</code></td>
+        <td style="word-break: break-word;">
+            The children to move to the Digital Object
+            
+        </td>
+        <td>[String]</td>
+        <td>true</td>
+      </tr>
     
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>id</code></td>
+        <td style="word-break: break-word;">
+            The ID of the Digital Object to move children to
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-  
-  
-	  [String] children (Optional) -- The children to move to the Digital Object
-  
-  
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>position</code></td>
+        <td style="word-break: break-word;">
+            The index for the first child to be moved to
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-  
-  
-  
-	  Integer id -- The ID of the Digital Object to move children to
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>repo_id</code></td>
+        <td style="word-break: break-word;">
+            The Repository ID
+            
+            <br>
+            <b>Note: </b> The Repository must exist
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-  
-  
-  
-	  Integer position -- The index for the first child to be moved to
-  
-  
-    
-  
-  
-    
-    
-  
-  
-	  Integer repo_id -- The Repository ID -- The Repository must exist
-  
+  </tbody>
+</table>
+
 
 __Returns__
 
@@ -10800,7 +17637,6 @@ __Returns__
   	400 -- {:error => (description of error)}
 
   	409 -- {:error => (description of error)}
-
 
 
 
@@ -10837,44 +17673,81 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 ```
 
 
+
 __Endpoint__
 
 ```[:POST] /repositories/:repo_id/digital_objects/:id/children ```
 
+
 __Description__
 
-Batch create several Digital Object Components as children of an existing Digital Object
+Batch create several Digital Object Components as children of an existing Digital Object.
+
+  
+  
+  
+  
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>id</code></td>
+        <td style="word-break: break-word;">
+            The ID of the record
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>repo_id</code></td>
+        <td style="word-break: break-word;">
+            The Repository ID
+            
+            <br>
+            <b>Note: </b> The Repository must exist
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-  
-  
-	  JSONModel(:digital_record_children) <request body> -- The component children to add to the digital object
-  
-  
-    
-  
-  
-  
-	  Integer id -- The ID of the record
-  
-  
-    
-  
-  
-    
-    
-  
-  
-	  Integer repo_id -- The Repository ID -- The Repository must exist
-  
+  </tbody>
+</table>
+
+__Accepts Payload of Type__
+
+JSONModel(:digital_record_children)
 
 __Returns__
 
@@ -10883,7 +17756,6 @@ __Returns__
   	400 -- {:error => (description of error)}
 
   	409 -- {:error => (description of error)}
-
 
 
 
@@ -10913,41 +17785,82 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 ```
 
 
+
 __Endpoint__
 
 ```[:POST] /repositories/:repo_id/digital_objects/:id/publish ```
 
+
 __Description__
 
-Publish a digital object and all its sub-records and components
+Publish a digital object and all its sub-records and components.
+
+  
+  
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
-  
-	  Integer id -- The ID of the record
-  
-  
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>id</code></td>
+        <td style="word-break: break-word;">
+            The ID of the record
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>repo_id</code></td>
+        <td style="word-break: break-word;">
+            The Repository ID
+            
+            <br>
+            <b>Note: </b> The Repository must exist
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-    
-  
-  
-	  Integer repo_id -- The Repository ID -- The Repository must exist
-  
+  </tbody>
+</table>
+
 
 __Returns__
 
   	200 -- {:status => "Updated", :id => (id of updated object)}
 
   	400 -- {:error => (description of error)}
-
 
 
 
@@ -10992,46 +17905,98 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 ```
 
 
+
 __Endpoint__
 
 ```[:POST] /repositories/:repo_id/digital_objects/:id/suppressed ```
 
+
 __Description__
 
-Suppress this record
+Suppress this record.
+
+  
+  
+  
+  
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
-  
-	  Integer id -- The ID of the record
-  
-  
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>id</code></td>
+        <td style="word-break: break-word;">
+            The ID of the record
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-  
-  
-  
-	  RESTHelpers::BooleanParam suppressed -- Suppression state
-  
-  
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>suppressed</code></td>
+        <td style="word-break: break-word;">
+            Suppression state
+            
+        </td>
+        <td>RESTHelpers::BooleanParam</td>
+        <td></td>
+      </tr>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>repo_id</code></td>
+        <td style="word-break: break-word;">
+            The Repository ID
+            
+            <br>
+            <b>Note: </b> The Repository must exist
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-    
-  
-  
-	  Integer repo_id -- The Repository ID -- The Repository must exist
-  
+  </tbody>
+</table>
+
 
 __Returns__
 
   	200 -- {:status => "Suppressed", :id => (id of updated object), :suppressed_state => (true|false)}
-
 
 
 
@@ -11071,51 +18036,103 @@ __Returns__
 ```shell
 curl -H "X-ArchivesSpace-Session: $SESSION" \
   -d 'Example Missing' \
-  "http://localhost:8089/repositories/2/digital_objects/1/transfer?target_repo=RHKS250"
+  "http://localhost:8089/repositories/2/digital_objects/1/transfer?target_repo=K540852ET"
 
 ```
+
 
 
 __Endpoint__
 
 ```[:POST] /repositories/:repo_id/digital_objects/:id/transfer ```
 
+
 __Description__
 
-Transfer this record to a different repository
+Transfer this record to a different repository.
+
+  
+  
+  
+  
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
-  
-	  Integer id -- The ID of the record
-  
-  
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>id</code></td>
+        <td style="word-break: break-word;">
+            The ID of the record
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-  
-  
-  
-	  String target_repo -- The URI of the target repository
-  
-  
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>target_repo</code></td>
+        <td style="word-break: break-word;">
+            The URI of the target repository
+            
+        </td>
+        <td>String</td>
+        <td></td>
+      </tr>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>repo_id</code></td>
+        <td style="word-break: break-word;">
+            The Repository ID
+            
+            <br>
+            <b>Note: </b> The Repository must exist
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-    
-  
-  
-	  Integer repo_id -- The Repository ID -- The Repository must exist
-  
+  </tbody>
+</table>
+
 
 __Returns__
 
   	200 -- moved
-
 
 
 
@@ -11144,16 +18161,11 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 ```
 
 
+
 __Endpoint__
 
 ```[:GET] /repositories/:repo_id/digital_objects/:id/tree ```
 
-__Description__
-
-Get a Digital Object tree
-
-
-__Parameters__
 <aside class="warning">
   This endpoint is deprecated, and may be removed from a future release of ArchivesSpace.
   
@@ -11161,29 +18173,74 @@ __Parameters__
   
 </aside>
 
+__Description__
+
+Get a Digital Object tree.
 
   
+  
+  
+  
+
+
+__Parameters__
+
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
-  
-	  Integer id -- The ID of the record
-  
-  
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>id</code></td>
+        <td style="word-break: break-word;">
+            The ID of the record
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>repo_id</code></td>
+        <td style="word-break: break-word;">
+            The Repository ID
+            
+            <br>
+            <b>Note: </b> The Repository must exist
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-    
-  
-  
-	  Integer repo_id -- The Repository ID -- The Repository must exist
-  
+  </tbody>
+</table>
+
 
 __Returns__
 
   	200 -- OK
-
 
 
 
@@ -11232,58 +18289,123 @@ __Returns__
     
   
   
-```shell
+  ```shell
 curl -H "X-ArchivesSpace-Session: $SESSION" \
-  "http://localhost:8089/repositories/2/digital_objects/1/tree/node?node_uri=GNDW936&published_only=true"
+  "http://localhost:8089/repositories/2/digital_objects/1/tree/node?node_uri=/repositories/2/digital_object_components/1"
 
 ```
+
+
 
 
 __Endpoint__
 
 ```[:GET] /repositories/:repo_id/digital_objects/:id/tree/node ```
 
+
 __Description__
 
-Fetch tree information for an Digital Object Component record within a tree
+Fetch tree information for an Digital Object Component record within a tree.
+
+  
+  
+  
+  
+  
+  
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
-  
-	  Integer id -- The ID of the record
-  
-  
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>id</code></td>
+        <td style="word-break: break-word;">
+            The ID of the record
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>repo_id</code></td>
+        <td style="word-break: break-word;">
+            The Repository ID
+            
+            <br>
+            <b>Note: </b> The Repository must exist
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>node_uri</code></td>
+        <td style="word-break: break-word;">
+            The URI of the Digital Object Component record of interest
+            
+        </td>
+        <td>String</td>
+        <td></td>
+      </tr>
     
-  
-  
-	  Integer repo_id -- The Repository ID -- The Repository must exist
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>published_only</code></td>
+        <td style="word-break: break-word;">
+            Whether to restrict to published/unsuppressed items
+            
+        </td>
+        <td>RESTHelpers::BooleanParam</td>
+        <td></td>
+      </tr>
     
-  
-  
-  
-	  String node_uri -- The URI of the Digital Object Component record of interest
-  
-  
-    
-  
-  
-    
-    
-  
-  
-	  RESTHelpers::BooleanParam published_only -- Whether to restrict to published/unsuppressed items
-  
+  </tbody>
+</table>
+
 
 __Returns__
 
@@ -11305,7 +18427,6 @@ __Returns__
     same format as returned by the '/waypoint' endpoint.  Since a fetch for a
     given node is almost always followed by a fetch of the first waypoint, using
     the information in this structure can save a backend call.
-
 
 
 
@@ -11354,58 +18475,123 @@ __Returns__
     
   
   
-```shell
+  ```shell
 curl -H "X-ArchivesSpace-Session: $SESSION" \
-  "http://localhost:8089/repositories/2/digital_objects/1/tree/node_from_root?node_ids=1&published_only=true"
+  "http://localhost:8089/repositories/2/digital_objects/1/tree/node_from_root?node_ids[]=1"
 
 ```
+
+
 
 
 __Endpoint__
 
 ```[:GET] /repositories/:repo_id/digital_objects/:id/tree/node_from_root ```
 
+
 __Description__
 
-Fetch tree paths from the root record to Digital Object Components
+Fetch tree paths from the root record to Digital Object Components.
+
+  
+  
+  
+  
+  
+  
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
-  
-	  Integer id -- The ID of the record
-  
-  
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>id</code></td>
+        <td style="word-break: break-word;">
+            The ID of the record
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>repo_id</code></td>
+        <td style="word-break: break-word;">
+            The Repository ID
+            
+            <br>
+            <b>Note: </b> The Repository must exist
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>node_ids</code></td>
+        <td style="word-break: break-word;">
+            The IDs of the Digital Object Component records of interest
+            
+        </td>
+        <td>[Integer]</td>
+        <td></td>
+      </tr>
     
-  
-  
-	  Integer repo_id -- The Repository ID -- The Repository must exist
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>published_only</code></td>
+        <td style="word-break: break-word;">
+            Whether to restrict to published/unsuppressed items
+            
+        </td>
+        <td>RESTHelpers::BooleanParam</td>
+        <td></td>
+      </tr>
     
-  
-  
-  
-	  [Integer] node_ids -- The IDs of the Digital Object Component records of interest
-  
-  
-    
-  
-  
-    
-    
-  
-  
-	  RESTHelpers::BooleanParam published_only -- Whether to restrict to published/unsuppressed items
-  
+  </tbody>
+</table>
+
 
 __Returns__
 
@@ -11415,7 +18601,6 @@ __Returns__
 
   * offset -- the waypoint number within `node` that contains the next entry in
     the path (or the desired record, if we're at the end of the path)
-
 
 
 
@@ -11452,51 +18637,105 @@ __Returns__
     
   
   
-```shell
+  ```shell
 curl -H "X-ArchivesSpace-Session: $SESSION" \
-  "http://localhost:8089/repositories/2/digital_objects/1/tree/root?published_only=true"
+  "http://localhost:8089/repositories/2/digital_objects/1/tree/root"
 
 ```
+
+
 
 
 __Endpoint__
 
 ```[:GET] /repositories/:repo_id/digital_objects/:id/tree/root ```
 
+
 __Description__
 
-Fetch tree information for the top-level digital object record
+Fetch tree information for the top-level digital object record.
+
+  
+  
+  
+  
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
-  
-	  Integer id -- The ID of the record
-  
-  
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>id</code></td>
+        <td style="word-break: break-word;">
+            The ID of the record
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>repo_id</code></td>
+        <td style="word-break: break-word;">
+            The Repository ID
+            
+            <br>
+            <b>Note: </b> The Repository must exist
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>published_only</code></td>
+        <td style="word-break: break-word;">
+            Whether to restrict to published/unsuppressed items
+            
+        </td>
+        <td>RESTHelpers::BooleanParam</td>
+        <td></td>
+      </tr>
     
-  
-  
-	  Integer repo_id -- The Repository ID -- The Repository must exist
-  
-  
-    
-  
-  
-    
-    
-  
-  
-	  RESTHelpers::BooleanParam published_only -- Whether to restrict to published/unsuppressed items
-  
+  </tbody>
+</table>
+
 
 __Returns__
 
@@ -11511,7 +18750,6 @@ __Returns__
   * waypoints -- the number of "waypoints" those children are grouped into
 
   * waypoint_size -- the number of children in each waypoint
-
 
 
 
@@ -11572,68 +18810,144 @@ __Returns__
     
   
   
-```shell
+  ```shell
 curl -H "X-ArchivesSpace-Session: $SESSION" \
-  "http://localhost:8089/repositories/2/digital_objects/1/tree/waypoint?offset=1&parent_node=YG519Y994&published_only=true"
+  "http://localhost:8089/repositories/2/digital_objects/1/tree/waypoint?offset=0&parent_node=/repositories/2/digital_object_components/1"
 
 ```
+
+
 
 
 __Endpoint__
 
 ```[:GET] /repositories/:repo_id/digital_objects/:id/tree/waypoint ```
 
+
 __Description__
 
-Fetch the record slice for a given tree waypoint
+Fetch the record slice for a given tree waypoint.
+
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
-  
-	  Integer id -- The ID of the record
-  
-  
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>id</code></td>
+        <td style="word-break: break-word;">
+            The ID of the record
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>repo_id</code></td>
+        <td style="word-break: break-word;">
+            The Repository ID
+            
+            <br>
+            <b>Note: </b> The Repository must exist
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>offset</code></td>
+        <td style="word-break: break-word;">
+            The page of records to return
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-  
-  
-	  Integer repo_id -- The Repository ID -- The Repository must exist
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>parent_node</code></td>
+        <td style="word-break: break-word;">
+            The URI of the parent of this waypoint (none for the root record)
+            
+        </td>
+        <td>String</td>
+        <td>true</td>
+      </tr>
     
-  
-  
-  
-	  Integer offset -- The page of records to return
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>published_only</code></td>
+        <td style="word-break: break-word;">
+            Whether to restrict to published/unsuppressed items
+            
+        </td>
+        <td>RESTHelpers::BooleanParam</td>
+        <td></td>
+      </tr>
     
-  
-  
-    
-    
-  
-  
-	  String parent_node (Optional) -- The URI of the parent of this waypoint (none for the root record)
-  
-  
-    
-  
-  
-    
-    
-  
-  
-	  RESTHelpers::BooleanParam published_only -- Whether to restrict to published/unsuppressed items
-  
+  </tbody>
+</table>
+
 
 __Returns__
 
@@ -11646,7 +18960,6 @@ __Returns__
   * position -- the logical position of this record within its subtree
 
   * parent_id -- the internal ID of this document's parent
-
 
 
 
@@ -11668,9 +18981,30 @@ __Returns__
     
   
   
-```shell
-curl -H "X-ArchivesSpace-Session: $SESSION" \
-  "http://localhost:8089/repositories/2/digital_objects/dublin_core/1.:fmt/metadata"
+  ```shell
+curl -s -F password="admin" "http://localhost:8089/users/admin/login"
+set SESSION="session_id"
+curl -H "X-ArchivesSpace-Session: $SESSION" //
+"http://localhost:8089/repositories/2/digital_objects/dublin_core/48.:fmt/metadata"
+
+```
+
+
+```python
+from asnake.client import ASnakeClient  # import the ArchivesSnake client
+
+client = ASnakeClient(baseurl="http://localhost:8089", username="admin", password="admin")
+# replace http://localhost:8089 with your ArchivesSpace API URL and admin for your username and password
+
+client.authorize()  # authorizes the client
+
+do_dc = client.get("/repositories/2/digital_objects/dublin_core/48.fmt/metadata")
+# replace 2 for your repository ID and 48 with your digital object ID. Find these at the URI on the staff interface
+
+print(do_dc_fmt.content)
+# Sample output: {"filename":"identifier_youtube_20210218_182435_UTC__dc.xml","mimetype":"application/xml"}
+
+# For error handling, print or log the returned value of client.get with .json() - print(do_dc.json())
 
 ```
 
@@ -11679,30 +19013,71 @@ __Endpoint__
 
 ```[:GET] /repositories/:repo_id/digital_objects/dublin_core/:id.:fmt/metadata ```
 
+
 __Description__
 
-Get metadata for a Dublin Core export
+Get metadata for a Dublin Core export.
+
+  
+  
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
-  
-	  Integer id -- The ID of the record
-  
-  
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>id</code></td>
+        <td style="word-break: break-word;">
+            The ID of the record
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>repo_id</code></td>
+        <td style="word-break: break-word;">
+            The Repository ID
+            
+            <br>
+            <b>Note: </b> The Repository must exist
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-    
-  
-  
-	  Integer repo_id -- The Repository ID -- The Repository must exist
-  
+  </tbody>
+</table>
+
 
 __Returns__
 
@@ -11710,17 +19085,9 @@ __Returns__
 
 
 
-
-## Get a Dublin Core representation of a Digital Object 
-
+## Get a Dublin Core representation of a Digital Object
 
 
-  
-    
-  
-  
-    
-  
 
   
     
@@ -11728,10 +19095,37 @@ __Returns__
   
     
   
+
   
-```shell
-curl -H "X-ArchivesSpace-Session: $SESSION" \
-  "http://localhost:8089/repositories/2/digital_objects/dublin_core/1.xml"
+    
+  
+  
+    
+  
+  
+  ```shell
+curl -s -F password="admin" "http://localhost:8089/users/admin/login"
+set SESSION="session_id"
+curl -H "X-ArchivesSpace-Session: $SESSION" //
+"http://localhost:8089/repositories/2/digital_objects/dublin_core/48.xml" --output do_dublincore.xml
+
+```
+
+
+```python
+from asnake.client import ASnakeClient  # import the ArchivesSnake client
+
+client = ASnakeClient(baseurl="http://localhost:8089", username="admin", password="admin")
+# replace http://localhost:8089 with your ArchivesSpace API URL and admin for your username and password
+
+client.authorize()  # authorizes the client
+
+do_dc = client.get("/repositories/2/digital_objects/dublin_core/48.xml")
+# replace 2 for your repository ID and 48 with your digital object ID. Find these at the URI on the staff interface
+
+with open("do_dc.xml", "wb") as file:  # save the file
+    file.write(do_dc.content)  # write the file content to our file.
+    file.close()
 
 ```
 
@@ -11740,35 +19134,75 @@ __Endpoint__
 
 ```[:GET] /repositories/:repo_id/digital_objects/dublin_core/:id.xml ```
 
+
 __Description__
 
-Get a Dublin Core representation of a Digital Object 
+Get a Dublin Core representation of a Digital Object.
+
+  
+  
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
-  
-	  Integer id -- The ID of the record
-  
-  
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>id</code></td>
+        <td style="word-break: break-word;">
+            The ID of the record
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>repo_id</code></td>
+        <td style="word-break: break-word;">
+            The Repository ID
+            
+            <br>
+            <b>Note: </b> The Repository must exist
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-    
-  
-  
-	  Integer repo_id -- The Repository ID -- The Repository must exist
-  
+  </tbody>
+</table>
+
 
 __Returns__
 
   	200 -- (:digital_object)
-
 
 
 
@@ -11790,9 +19224,30 @@ __Returns__
     
   
   
-```shell
-curl -H "X-ArchivesSpace-Session: $SESSION" \
-  "http://localhost:8089/repositories/2/digital_objects/mets/1.:fmt/metadata"
+  ```shell
+curl -s -F password="admin" "http://localhost:8089/users/admin/login"
+set SESSION="session_id"
+curl -H "X-ArchivesSpace-Session: $SESSION" //
+"http://localhost:8089/repositories/2/digital_objects/mets/48.:fmt/metadata"
+
+```
+
+
+```python
+from asnake.client import ASnakeClient  # import the ArchivesSnake client
+
+client = ASnakeClient(baseurl="http://localhost:8089", username="admin", password="admin")
+# replace http://localhost:8089 with your ArchivesSpace API URL and admin for your username and password
+
+client.authorize()  # authorizes the client
+
+mets_fmt = client.get("/repositories/2/digital_objects/mets/48.fmt/metadata")
+# replace 2 for your repository ID and 48 with your digital object ID. Find these at the URI on the staff interface
+
+print(mets_fmt.content)
+# Sample output: {"filename":"identifier_youtube_20210218_182435_UTC__mets.xml","mimetype":"application/xml"}
+
+# For error handling, print or log the returned value of client.get with .json() - print(mets_fmt.json())
 
 ```
 
@@ -11801,30 +19256,71 @@ __Endpoint__
 
 ```[:GET] /repositories/:repo_id/digital_objects/mets/:id.:fmt/metadata ```
 
+
 __Description__
 
-Get metadata for a METS export
+Get metadata for a METS export.
+
+  
+  
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
-  
-	  Integer id -- The ID of the record
-  
-  
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>id</code></td>
+        <td style="word-break: break-word;">
+            The ID of the record
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>repo_id</code></td>
+        <td style="word-break: break-word;">
+            The Repository ID
+            
+            <br>
+            <b>Note: </b> The Repository must exist
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-    
-  
-  
-	  Integer repo_id -- The Repository ID -- The Repository must exist
-  
+  </tbody>
+</table>
+
 
 __Returns__
 
@@ -11832,8 +19328,7 @@ __Returns__
 
 
 
-
-## Get a METS representation of a Digital Object 
+## Get a METS representation of a Digital Object
 
 
 
@@ -11866,9 +19361,31 @@ __Returns__
     
   
   
-```shell
-curl -H "X-ArchivesSpace-Session: $SESSION" \
-  "http://localhost:8089/repositories/2/digital_objects/mets/1.xml?dmd=PKG410P"
+  ```shell
+curl -s -F password="admin" "http://localhost:8089/users/admin/login"
+set SESSION="session_id"
+curl -H "X-ArchivesSpace-Session: $SESSION" //
+"http://localhost:8089/repositories/2/digital_objects/mets/48.xml?dmd=PKG410P" --output do_mets.xml
+
+```
+
+
+```python
+from asnake.client import ASnakeClient  # import the ArchivesSnake client
+
+client = ASnakeClient(baseurl="http://localhost:8089", username="admin", password="admin")
+# replace http://localhost:8089 with your ArchivesSpace API URL and admin for your username and password
+
+client.authorize()  # authorizes the client
+
+mets_xml = client.get("/repositories/2/digital_objects/mets/48.xml",
+                      params={"dmd": "PKG410P"})
+# replace 2 for your repository ID and 48 with your digital object ID. Find these at the URI on the staff interface
+# replace PKG410P with your preferred DMD schema
+
+with open("do_mets.xml", "wb") as file:  # save the file
+    file.write(mets_xml.content)  # write the file content to our file.
+    file.close()
 
 ```
 
@@ -11877,45 +19394,96 @@ __Endpoint__
 
 ```[:GET] /repositories/:repo_id/digital_objects/mets/:id.xml ```
 
+
 __Description__
 
-Get a METS representation of a Digital Object 
+Get a METS representation of a Digital Object.
+
+  
+  
+  
+  
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
-  
-	  Integer id -- The ID of the record
-  
-  
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>id</code></td>
+        <td style="word-break: break-word;">
+            The ID of the record
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>repo_id</code></td>
+        <td style="word-break: break-word;">
+            The Repository ID
+            
+            <br>
+            <b>Note: </b> The Repository must exist
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>dmd</code></td>
+        <td style="word-break: break-word;">
+            DMD Scheme to use
+            
+        </td>
+        <td>String</td>
+        <td>true</td>
+      </tr>
     
-  
-  
-	  Integer repo_id -- The Repository ID -- The Repository must exist
-  
-  
-    
-  
-  
-    
-    
-  
-  
-	  String dmd (Optional) -- DMD Scheme to use
-  
+  </tbody>
+</table>
+
 
 __Returns__
 
   	200 -- (:digital_object)
-
 
 
 
@@ -11937,9 +19505,30 @@ __Returns__
     
   
   
-```shell
-curl -H "X-ArchivesSpace-Session: $SESSION" \
-  "http://localhost:8089/repositories/2/digital_objects/mods/1.:fmt/metadata"
+  ```shell
+curl -s -F password="admin" "http://localhost:8089/users/admin/login"
+set SESSION="session_id"
+curl -H "X-ArchivesSpace-Session: $SESSION" //
+"http://localhost:8089/repositories/2/digital_objects/mods/48.fmt/metadata"
+
+```
+
+
+```python
+from asnake.client import ASnakeClient  # import the ArchivesSnake client
+
+client = ASnakeClient(baseurl="http://localhost:8089", username="admin", password="admin")
+# replace http://localhost:8089 with your ArchivesSpace API URL and admin for your username and password
+
+client.authorize()  # authorizes the client
+
+mods_fmt = client.get("/repositories/2/digital_objects/mods/48.:fmt/metadata")
+# replace 2 for your repository ID and 48 with your digital object ID. Find these at the URI on the staff interface
+
+print(mods_fmt.content)
+# Sample output: {"filename":"identifier_youtube_20210218_182435_UTC__mods.xml","mimetype":"application/xml"}
+
+# For error handling, print or log the returned value of client.get with .json() - print(mods_fmt.json())
 
 ```
 
@@ -11948,35 +19537,75 @@ __Endpoint__
 
 ```[:GET] /repositories/:repo_id/digital_objects/mods/:id.:fmt/metadata ```
 
+
 __Description__
 
-Get metadata for a MODS export
+Get metadata for a MODS export.
+
+  
+  
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
-  
-	  Integer id -- The ID of the record
-  
-  
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>id</code></td>
+        <td style="word-break: break-word;">
+            The ID of the record
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>repo_id</code></td>
+        <td style="word-break: break-word;">
+            The Repository ID
+            
+            <br>
+            <b>Note: </b> The Repository must exist
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-    
-  
-  
-	  Integer repo_id -- The Repository ID -- The Repository must exist
-  
+  </tbody>
+</table>
+
 
 __Returns__
 
   	200 -- The export metadata
-
 
 
 
@@ -11998,9 +19627,29 @@ __Returns__
     
   
   
-```shell
-curl -H "X-ArchivesSpace-Session: $SESSION" \
-  "http://localhost:8089/repositories/2/digital_objects/mods/1.xml"
+  ```shell
+curl -s -F password="admin" "http://localhost:8089/users/admin/login"
+set SESSION="session_id"
+curl -H "X-ArchivesSpace-Session: $SESSION" //
+"http://localhost:8089/repositories/2/digital_objects/mods/48.xml" --output do_mods.xml
+
+```
+
+
+```python
+from asnake.client import ASnakeClient  # import the ArchivesSnake client
+
+client = ASnakeClient(baseurl="http://localhost:8089", username="admin", password="admin")
+# replace http://localhost:8089 with your ArchivesSpace API URL and admin for your username and password
+
+client.authorize()  # authorizes the client
+
+mods_xml = client.get("/repositories/2/digital_objects/mods/48.xml")
+# replace 2 for your repository ID and 48 with your digital object ID. Find these at the URI on the staff interface
+
+with open("do_mods.xml", "wb") as file:  # save the file
+    file.write(mods_xml.content)  # write the file content to our file.
+    file.close()
 
 ```
 
@@ -12009,35 +19658,75 @@ __Endpoint__
 
 ```[:GET] /repositories/:repo_id/digital_objects/mods/:id.xml ```
 
+
 __Description__
 
-Get a MODS representation of a Digital Object 
+Get a MODS representation of a Digital Object .
+
+  
+  
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
-  
-	  Integer id -- The ID of the record
-  
-  
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>id</code></td>
+        <td style="word-break: break-word;">
+            The ID of the record
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>repo_id</code></td>
+        <td style="word-break: break-word;">
+            The Repository ID
+            
+            <br>
+            <b>Note: </b> The Repository must exist
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-    
-  
-  
-	  Integer repo_id -- The Repository ID -- The Repository must exist
-  
+  </tbody>
+</table>
+
 
 __Returns__
 
   	200 -- (:digital_object)
-
 
 
 
@@ -12066,62 +19755,87 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 "external_ids":[],
 "external_documents":[],
 "linked_agents":[{ "ref":"/agents/people/2",
-"role":"requester"}],
+"role":"authorizer"}],
 "linked_records":[{ "ref":"/repositories/2/accessions/1",
-"role":"transfer"}],
+"role":"outcome"}],
 "date":{ "jsonmodel_type":"date",
-"date_type":"bulk",
+"date_type":"single",
 "label":"creation",
-"begin":"2000-09-14",
-"end":"2000-09-14",
+"begin":"1994-11-01",
+"end":"1994-11-01",
 "certainty":"inferred",
 "era":"ce",
 "calendar":"gregorian",
-"expression":"A182652977F"},
-"event_type":"cataloged"}' \
+"expression":"J568L635G"},
+"event_type":"acknowledgement_received"}' \
   "http://localhost:8089/repositories/2/events"
 
 ```
+
 
 
 __Endpoint__
 
 ```[:POST] /repositories/:repo_id/events ```
 
+
 __Description__
 
-Create an Event
+Create an Event.
+
+  
+  
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>repo_id</code></td>
+        <td style="word-break: break-word;">
+            The Repository ID
+            
+            <br>
+            <b>Note: </b> The Repository must exist
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-    
-  
-  
-	  JSONModel(:event) <request body> -- The record to create
-  
-  
-    
-  
-  
-    
-    
-  
-  
-	  Integer repo_id -- The Repository ID -- The Repository must exist
-  
+  </tbody>
+</table>
+
+__Accepts Payload of Type__
+
+JSONModel(:event)
 
 __Returns__
 
   	200 -- {:status => "Created", :id => (id of created object), :warnings => {(warnings)}}
 
   	400 -- {:error => (description of error)}
-
 
 
 
@@ -12151,13 +19865,18 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 ```
 
 
+
 __Endpoint__
 
 ```[:GET] /repositories/:repo_id/events ```
 
+
 __Description__
 
-Get a list of Events for a Repository
+Get a list of Events for a Repository.
+
+  
+  
 
 
 __Parameters__
@@ -12171,21 +19890,47 @@ This endpoint is paginated. :page, :id_set, or :all_ids is required
 </ul>
 </aside>
 
-  
+
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>repo_id</code></td>
+        <td style="word-break: break-word;">
+            The Repository ID
+            
+            <br>
+            <b>Note: </b> The Repository must exist
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-    
-  
-  
-	  Integer repo_id -- The Repository ID -- The Repository must exist
-  
+  </tbody>
+</table>
+
 
 __Returns__
 
   	200 -- [(:event)]
-
 
 
 
@@ -12220,67 +19965,103 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 "external_ids":[],
 "external_documents":[],
 "linked_agents":[{ "ref":"/agents/people/2",
-"role":"requester"}],
+"role":"authorizer"}],
 "linked_records":[{ "ref":"/repositories/2/accessions/1",
-"role":"transfer"}],
+"role":"outcome"}],
 "date":{ "jsonmodel_type":"date",
-"date_type":"bulk",
+"date_type":"single",
 "label":"creation",
-"begin":"2000-09-14",
-"end":"2000-09-14",
+"begin":"1994-11-01",
+"end":"1994-11-01",
 "certainty":"inferred",
 "era":"ce",
 "calendar":"gregorian",
-"expression":"A182652977F"},
-"event_type":"cataloged"}' \
+"expression":"J568L635G"},
+"event_type":"acknowledgement_received"}' \
   "http://localhost:8089/repositories/2/events/1"
 
 ```
+
 
 
 __Endpoint__
 
 ```[:POST] /repositories/:repo_id/events/:id ```
 
+
 __Description__
 
-Update an Event
+Update an Event.
+
+  
+  
+  
+  
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
-  
-	  Integer id -- The ID of the record
-  
-  
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>id</code></td>
+        <td style="word-break: break-word;">
+            The ID of the record
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>repo_id</code></td>
+        <td style="word-break: break-word;">
+            The Repository ID
+            
+            <br>
+            <b>Note: </b> The Repository must exist
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-    
-  
-  
-	  JSONModel(:event) <request body> -- The updated record
-  
-  
-    
-  
-  
-    
-    
-  
-  
-	  Integer repo_id -- The Repository ID -- The Repository must exist
-  
+  </tbody>
+</table>
+
+__Accepts Payload of Type__
+
+JSONModel(:event)
 
 __Returns__
 
   	200 -- {:status => "Updated", :id => (id of updated object)}
-
 
 
 
@@ -12322,51 +20103,103 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 ```
 
 
+
 __Endpoint__
 
 ```[:GET] /repositories/:repo_id/events/:id ```
 
+
 __Description__
 
-Get an Event by ID
+Get an Event by ID.
+
+  
+  
+  
+  
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
-  
-	  Integer id -- The ID of the record
-  
-  
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>id</code></td>
+        <td style="word-break: break-word;">
+            The ID of the record
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>repo_id</code></td>
+        <td style="word-break: break-word;">
+            The Repository ID
+            
+            <br>
+            <b>Note: </b> The Repository must exist
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>resolve</code></td>
+        <td style="word-break: break-word;">
+            A list of references to resolve and embed in the response
+            
+        </td>
+        <td>[String]</td>
+        <td>true</td>
+      </tr>
     
-  
-  
-	  Integer repo_id -- The Repository ID -- The Repository must exist
-  
-  
-    
-  
-  
-    
-    
-  
-  
-	  [String] resolve (Optional) -- A list of references to resolve and embed in the response
-  
+  </tbody>
+</table>
+
 
 __Returns__
 
   	200 -- (:event)
 
   	404 -- Not found
-
 
 
 
@@ -12396,39 +20229,80 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 ```
 
 
+
 __Endpoint__
 
 ```[:DELETE] /repositories/:repo_id/events/:id ```
 
+
 __Description__
 
-Delete an event record
+Delete an event record.
+
+  
+  
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
-  
-	  Integer id -- The ID of the record
-  
-  
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>id</code></td>
+        <td style="word-break: break-word;">
+            The ID of the record
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>repo_id</code></td>
+        <td style="word-break: break-word;">
+            The Repository ID
+            
+            <br>
+            <b>Note: </b> The Repository must exist
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-    
-  
-  
-	  Integer repo_id -- The Repository ID -- The Repository must exist
-  
+  </tbody>
+</table>
+
 
 __Returns__
 
   	200 -- deleted
-
 
 
 
@@ -12473,46 +20347,98 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 ```
 
 
+
 __Endpoint__
 
 ```[:POST] /repositories/:repo_id/events/:id/suppressed ```
 
+
 __Description__
 
-Suppress this record from non-managers
+Suppress this record from non-managers.
+
+  
+  
+  
+  
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
-  
-	  Integer id -- The ID of the record
-  
-  
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>id</code></td>
+        <td style="word-break: break-word;">
+            The ID of the record
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-  
-  
-  
-	  RESTHelpers::BooleanParam suppressed -- Suppression state
-  
-  
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>suppressed</code></td>
+        <td style="word-break: break-word;">
+            Suppression state
+            
+        </td>
+        <td>RESTHelpers::BooleanParam</td>
+        <td></td>
+      </tr>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>repo_id</code></td>
+        <td style="word-break: break-word;">
+            The Repository ID
+            
+            <br>
+            <b>Note: </b> The Repository must exist
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-    
-  
-  
-	  Integer repo_id -- The Repository ID -- The Repository must exist
-  
+  </tbody>
+</table>
+
 
 __Returns__
 
   	200 -- {:status => "Suppressed", :id => (id of updated object), :suppressed_state => (true|false)}
-
 
 
 
@@ -12567,67 +20493,130 @@ __Returns__
   
 ```shell
 curl -H "X-ArchivesSpace-Session: $SESSION" \
-  "http://localhost:8089/repositories/2/find_by_id/archival_objects?ref_id=C773851513V&component_id=R881DC637&resolve[]=[record_types, to_resolve]"
+  "http://localhost:8089/repositories/2/find_by_id/archival_objects?ref_id=88210V856273&component_id=PYU984F&resolve[]=[record_types, to_resolve]"
 
 ```
+
 
 
 __Endpoint__
 
 ```[:GET] /repositories/:repo_id/find_by_id/archival_objects ```
 
+
 __Description__
 
-Find Archival Objects by ref_id or component_id
+Find Archival Objects by ref_id or component_id.
+
+  
+  
+  
+  
+  
+  
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>repo_id</code></td>
+        <td style="word-break: break-word;">
+            The Repository ID
+            
+            <br>
+            <b>Note: </b> The Repository must exist
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>ref_id</code></td>
+        <td style="word-break: break-word;">
+            An archival object's Ref ID (param may be repeated)
+            
+        </td>
+        <td>[String]</td>
+        <td>true</td>
+      </tr>
     
-  
-  
-	  Integer repo_id -- The Repository ID -- The Repository must exist
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>component_id</code></td>
+        <td style="word-break: break-word;">
+            An archival object's component ID (param may be repeated)
+            
+        </td>
+        <td>[String]</td>
+        <td>true</td>
+      </tr>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>resolve</code></td>
+        <td style="word-break: break-word;">
+            A list of references to resolve and embed in the response
+            
+        </td>
+        <td>[String]</td>
+        <td>true</td>
+      </tr>
     
-    
-  
-  
-	  [String] ref_id (Optional) -- An archival object's Ref ID (param may be repeated)
-  
-  
-    
-  
-  
-    
-    
-  
-  
-	  [String] component_id (Optional) -- An archival object's component ID (param may be repeated)
-  
-  
-    
-  
-  
-    
-    
-  
-  
-	  [String] resolve (Optional) -- A list of references to resolve and embed in the response
-  
+  </tbody>
+</table>
+
 
 __Returns__
 
   	200 -- JSON array of refs
-
 
 
 
@@ -12670,57 +20659,109 @@ __Returns__
   
 ```shell
 curl -H "X-ArchivesSpace-Session: $SESSION" \
-  "http://localhost:8089/repositories/2/find_by_id/digital_object_components?component_id=424TL927Q&resolve[]=[record_types, to_resolve]"
+  "http://localhost:8089/repositories/2/find_by_id/digital_object_components?component_id=F429M646L&resolve[]=[record_types, to_resolve]"
 
 ```
+
 
 
 __Endpoint__
 
 ```[:GET] /repositories/:repo_id/find_by_id/digital_object_components ```
 
+
 __Description__
 
-Find Digital Object Components by component_id
+Find Digital Object Components by component_id.
+
+  
+  
+  
+  
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>repo_id</code></td>
+        <td style="word-break: break-word;">
+            The Repository ID
+            
+            <br>
+            <b>Note: </b> The Repository must exist
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>component_id</code></td>
+        <td style="word-break: break-word;">
+            A digital object component's component ID (param may be repeated)
+            
+        </td>
+        <td>[String]</td>
+        <td>true</td>
+      </tr>
     
-  
-  
-	  Integer repo_id -- The Repository ID -- The Repository must exist
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>resolve</code></td>
+        <td style="word-break: break-word;">
+            A list of references to resolve and embed in the response
+            
+        </td>
+        <td>[String]</td>
+        <td>true</td>
+      </tr>
     
-  
-  
-    
-    
-  
-  
-	  [String] component_id (Optional) -- A digital object component's component ID (param may be repeated)
-  
-  
-    
-  
-  
-    
-    
-  
-  
-	  [String] resolve (Optional) -- A list of references to resolve and embed in the response
-  
+  </tbody>
+</table>
+
 
 __Returns__
 
   	200 -- JSON array of refs
-
 
 
 
@@ -12763,57 +20804,109 @@ __Returns__
   
 ```shell
 curl -H "X-ArchivesSpace-Session: $SESSION" \
-  "http://localhost:8089/repositories/2/find_by_id/digital_objects?digital_object_id=TIGO877&resolve[]=[record_types, to_resolve]"
+  "http://localhost:8089/repositories/2/find_by_id/digital_objects?digital_object_id=KX8543124&resolve[]=[record_types, to_resolve]"
 
 ```
+
 
 
 __Endpoint__
 
 ```[:GET] /repositories/:repo_id/find_by_id/digital_objects ```
 
+
 __Description__
 
-Find Digital Objects by digital_object_id
+Find Digital Objects by digital_object_id.
+
+  
+  
+  
+  
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>repo_id</code></td>
+        <td style="word-break: break-word;">
+            The Repository ID
+            
+            <br>
+            <b>Note: </b> The Repository must exist
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>digital_object_id</code></td>
+        <td style="word-break: break-word;">
+            A digital object's digital object ID (param may be repeated)
+            
+        </td>
+        <td>[String]</td>
+        <td>true</td>
+      </tr>
     
-  
-  
-	  Integer repo_id -- The Repository ID -- The Repository must exist
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>resolve</code></td>
+        <td style="word-break: break-word;">
+            A list of references to resolve and embed in the response
+            
+        </td>
+        <td>[String]</td>
+        <td>true</td>
+      </tr>
     
-  
-  
-    
-    
-  
-  
-	  [String] digital_object_id (Optional) -- A digital object's digital object ID (param may be repeated)
-  
-  
-    
-  
-  
-    
-    
-  
-  
-	  [String] resolve (Optional) -- A list of references to resolve and embed in the response
-  
+  </tbody>
+</table>
+
 
 __Returns__
 
   	200 -- JSON array of refs
-
 
 
 
@@ -12856,57 +20949,109 @@ __Returns__
   
 ```shell
 curl -H "X-ArchivesSpace-Session: $SESSION" \
-  "http://localhost:8089/repositories/2/find_by_id/resources?identifier=921582L83382&resolve[]=[record_types, to_resolve]"
+  "http://localhost:8089/repositories/2/find_by_id/resources?identifier=884JYQF&resolve[]=[record_types, to_resolve]"
 
 ```
+
 
 
 __Endpoint__
 
 ```[:GET] /repositories/:repo_id/find_by_id/resources ```
 
+
 __Description__
 
-Find Resources by their identifiers
+Find Resources by their identifiers.
+
+  
+  
+  
+  
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>repo_id</code></td>
+        <td style="word-break: break-word;">
+            The Repository ID
+            
+            <br>
+            <b>Note: </b> The Repository must exist
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>identifier</code></td>
+        <td style="word-break: break-word;">
+            A 4-part identifier expressed as a JSON array (of up to 4 strings) comprised of the id_0 to id_3 fields (though empty fields will be handled if not provided)
+            
+        </td>
+        <td>[String]</td>
+        <td>true</td>
+      </tr>
     
-  
-  
-	  Integer repo_id -- The Repository ID -- The Repository must exist
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>resolve</code></td>
+        <td style="word-break: break-word;">
+            A list of references to resolve and embed in the response
+            
+        </td>
+        <td>[String]</td>
+        <td>true</td>
+      </tr>
     
-  
-  
-    
-    
-  
-  
-	  [String] identifier (Optional) -- A 4-part identifier expressed as a JSON array (of up to 4 strings) comprised of the id_0 to id_3 fields (though empty fields will be handled if not provided)
-  
-  
-    
-  
-  
-    
-    
-  
-  
-	  [String] resolve (Optional) -- A list of references to resolve and embed in the response
-  
+  </tbody>
+</table>
+
 
 __Returns__
 
   	200 -- JSON array of refs
-
 
 
 
@@ -12932,46 +21077,72 @@ __Returns__
 ```shell
 curl -H "X-ArchivesSpace-Session: $SESSION" \
   -d '{ "jsonmodel_type":"group",
-"description":"Description: 10",
+"description":"Description: 7",
 "member_usernames":[],
 "grants_permissions":[],
-"group_code":"H158785A79"}' \
+"group_code":"926200700201S"}' \
   "http://localhost:8089/repositories/2/groups"
 
 ```
+
 
 
 __Endpoint__
 
 ```[:POST] /repositories/:repo_id/groups ```
 
+
 __Description__
 
-Create a group within a repository
+Create a group within a repository.
+
+  
+  
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>repo_id</code></td>
+        <td style="word-break: break-word;">
+            The Repository ID
+            
+            <br>
+            <b>Note: </b> The Repository must exist
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-    
-  
-  
-	  JSONModel(:group) <request body> -- The record to create
-  
-  
-    
-  
-  
-    
-    
-  
-  
-	  Integer repo_id -- The Repository ID -- The Repository must exist
-  
+  </tbody>
+</table>
+
+__Accepts Payload of Type__
+
+JSONModel(:group)
 
 __Returns__
 
@@ -12980,7 +21151,6 @@ __Returns__
   	400 -- {:error => (description of error)}
 
   	409 -- conflict
-
 
 
 
@@ -13013,47 +21183,88 @@ __Returns__
   
 ```shell
 curl -H "X-ArchivesSpace-Session: $SESSION" \
-  "http://localhost:8089/repositories/2/groups?group_code=QCX644194"
+  "http://localhost:8089/repositories/2/groups?group_code=XBFAS"
 
 ```
+
 
 
 __Endpoint__
 
 ```[:GET] /repositories/:repo_id/groups ```
 
+
 __Description__
 
-Get a list of groups for a repository
+Get a list of groups for a repository.
+
+  
+  
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>repo_id</code></td>
+        <td style="word-break: break-word;">
+            The Repository ID
+            
+            <br>
+            <b>Note: </b> The Repository must exist
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>group_code</code></td>
+        <td style="word-break: break-word;">
+            Get groups by group code
+            
+        </td>
+        <td>String</td>
+        <td>true</td>
+      </tr>
     
-  
-  
-	  Integer repo_id -- The Repository ID -- The Repository must exist
-  
-  
-    
-  
-  
-    
-    
-  
-  
-	  String group_code (Optional) -- Get groups by group code
-  
+  </tbody>
+</table>
+
 
 __Returns__
 
   	200 -- [(:resource)]
-
 
 
 
@@ -13100,63 +21311,111 @@ __Returns__
 ```shell
 curl -H "X-ArchivesSpace-Session: $SESSION" \
   -d '{ "jsonmodel_type":"group",
-"description":"Description: 10",
+"description":"Description: 7",
 "member_usernames":[],
 "grants_permissions":[],
-"group_code":"H158785A79"}' \
+"group_code":"926200700201S"}' \
   "http://localhost:8089/repositories/2/groups/1?with_members=true"
 
 ```
+
 
 
 __Endpoint__
 
 ```[:POST] /repositories/:repo_id/groups/:id ```
 
+
 __Description__
 
-Update a group
+Update a group.
+
+  
+  
+  
+  
+  
+  
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
-  
-	  Integer id -- The ID of the record
-  
-  
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>id</code></td>
+        <td style="word-break: break-word;">
+            The ID of the record
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>repo_id</code></td>
+        <td style="word-break: break-word;">
+            The Repository ID
+            
+            <br>
+            <b>Note: </b> The Repository must exist
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>with_members</code></td>
+        <td style="word-break: break-word;">
+            If 'true' (the default) replace the membership list with the list provided
+            
+        </td>
+        <td>RESTHelpers::BooleanParam</td>
+        <td></td>
+      </tr>
     
-  
-  
-	  JSONModel(:group) <request body> -- The updated record
-  
-  
-    
-  
-  
-    
-    
-  
-  
-	  Integer repo_id -- The Repository ID -- The Repository must exist
-  
-  
-    
-  
-  
-    
-    
-  
-  
-	  RESTHelpers::BooleanParam with_members -- If 'true' (the default) replace the membership list with the list provided
-  
+  </tbody>
+</table>
+
+__Accepts Payload of Type__
+
+JSONModel(:group)
 
 __Returns__
 
@@ -13165,7 +21424,6 @@ __Returns__
   	400 -- {:error => (description of error)}
 
   	409 -- conflict
-
 
 
 
@@ -13209,51 +21467,103 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 ```
 
 
+
 __Endpoint__
 
 ```[:GET] /repositories/:repo_id/groups/:id ```
 
+
 __Description__
 
-Get a group by ID
+Get a group by ID.
+
+  
+  
+  
+  
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
-  
-	  Integer id -- The ID of the record
-  
-  
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>id</code></td>
+        <td style="word-break: break-word;">
+            The ID of the record
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>repo_id</code></td>
+        <td style="word-break: break-word;">
+            The Repository ID
+            
+            <br>
+            <b>Note: </b> The Repository must exist
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>with_members</code></td>
+        <td style="word-break: break-word;">
+            If 'true' (the default) return the list of members with the group
+            
+        </td>
+        <td>RESTHelpers::BooleanParam</td>
+        <td></td>
+      </tr>
     
-  
-  
-	  Integer repo_id -- The Repository ID -- The Repository must exist
-  
-  
-    
-  
-  
-    
-    
-  
-  
-	  RESTHelpers::BooleanParam with_members -- If 'true' (the default) return the list of members with the group
-  
+  </tbody>
+</table>
+
 
 __Returns__
 
   	200 -- (:group)
 
   	404 -- Not found
-
 
 
 
@@ -13283,41 +21593,82 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 ```
 
 
+
 __Endpoint__
 
 ```[:DELETE] /repositories/:repo_id/groups/:id ```
 
+
 __Description__
 
-Delete a group by ID
+Delete a group by ID.
+
+  
+  
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
-  
-	  Integer id -- The ID of the record
-  
-  
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>id</code></td>
+        <td style="word-break: break-word;">
+            The ID of the record
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>repo_id</code></td>
+        <td style="word-break: break-word;">
+            The Repository ID
+            
+            <br>
+            <b>Note: </b> The Repository must exist
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-    
-  
-  
-	  Integer repo_id -- The Repository ID -- The Repository must exist
-  
+  </tbody>
+</table>
+
 
 __Returns__
 
   	200 -- (:group)
 
   	404 -- Not found
-
 
 
 
@@ -13345,52 +21696,77 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
   -d '{ "jsonmodel_type":"job",
 "status":"queued",
 "job":{ "jsonmodel_type":"import_job",
-"filenames":["SO837QA",
-"LLX701T",
-"C861898IT",
-"Y260B145R"],
+"filenames":["M393VQ206",
+"417H221QR",
+"245F152428V",
+"BAK910257"],
 "import_type":"marcxml"}}' \
   "http://localhost:8089/repositories/2/jobs"
 
 ```
 
 
+
 __Endpoint__
 
 ```[:POST] /repositories/:repo_id/jobs ```
 
+
 __Description__
 
-Create a new job
+Create a new job.
+
+  
+  
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>repo_id</code></td>
+        <td style="word-break: break-word;">
+            The Repository ID
+            
+            <br>
+            <b>Note: </b> The Repository must exist
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-    
-  
-  
-	  JSONModel(:job) <request body> -- The job object
-  
-  
-    
-  
-  
-    
-    
-  
-  
-	  Integer repo_id -- The Repository ID -- The Repository must exist
-  
+  </tbody>
+</table>
+
+__Accepts Payload of Type__
+
+JSONModel(:job)
 
 __Returns__
 
   	200 -- {:status => "Updated", :id => (id of updated object)}
-
 
 
 
@@ -13420,13 +21796,18 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 ```
 
 
+
 __Endpoint__
 
 ```[:GET] /repositories/:repo_id/jobs ```
 
+
 __Description__
 
-Get a list of Jobs for a Repository
+Get a list of Jobs for a Repository.
+
+  
+  
 
 
 __Parameters__
@@ -13440,21 +21821,47 @@ This endpoint is paginated. :page, :id_set, or :all_ids is required
 </ul>
 </aside>
 
-  
+
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>repo_id</code></td>
+        <td style="word-break: break-word;">
+            The Repository ID
+            
+            <br>
+            <b>Note: </b> The Repository must exist
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-    
-  
-  
-	  Integer repo_id -- The Repository ID -- The Repository must exist
-  
+  </tbody>
+</table>
+
 
 __Returns__
 
   	200 -- [(:job)]
-
 
 
 
@@ -13484,39 +21891,80 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 ```
 
 
+
 __Endpoint__
 
 ```[:DELETE] /repositories/:repo_id/jobs/:id ```
 
+
 __Description__
 
-Delete a Job
+Delete a Job.
+
+  
+  
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
-  
-	  Integer id -- The ID of the record
-  
-  
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>id</code></td>
+        <td style="word-break: break-word;">
+            The ID of the record
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>repo_id</code></td>
+        <td style="word-break: break-word;">
+            The Repository ID
+            
+            <br>
+            <b>Note: </b> The Repository must exist
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-    
-  
-  
-	  Integer repo_id -- The Repository ID -- The Repository must exist
-  
+  </tbody>
+</table>
+
 
 __Returns__
 
   	200 -- deleted
-
 
 
 
@@ -13558,49 +22006,101 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 ```
 
 
+
 __Endpoint__
 
 ```[:GET] /repositories/:repo_id/jobs/:id ```
 
+
 __Description__
 
-Get a Job by ID
+Get a Job by ID.
+
+  
+  
+  
+  
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
-  
-	  Integer id -- The ID of the record
-  
-  
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>id</code></td>
+        <td style="word-break: break-word;">
+            The ID of the record
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>resolve</code></td>
+        <td style="word-break: break-word;">
+            A list of references to resolve and embed in the response
+            
+        </td>
+        <td>[String]</td>
+        <td>true</td>
+      </tr>
     
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>repo_id</code></td>
+        <td style="word-break: break-word;">
+            The Repository ID
+            
+            <br>
+            <b>Note: </b> The Repository must exist
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-  
-  
-	  [String] resolve (Optional) -- A list of references to resolve and embed in the response
-  
-  
-    
-  
-  
-    
-    
-  
-  
-	  Integer repo_id -- The Repository ID -- The Repository must exist
-  
+  </tbody>
+</table>
+
 
 __Returns__
 
   	200 -- (:job)
-
 
 
 
@@ -13630,39 +22130,80 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 ```
 
 
+
 __Endpoint__
 
 ```[:POST] /repositories/:repo_id/jobs/:id/cancel ```
 
+
 __Description__
 
-Cancel a Job
+Cancel a Job.
+
+  
+  
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
-  
-	  Integer id -- The ID of the record
-  
-  
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>id</code></td>
+        <td style="word-break: break-word;">
+            The ID of the record
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>repo_id</code></td>
+        <td style="word-break: break-word;">
+            The Repository ID
+            
+            <br>
+            <b>Note: </b> The Repository must exist
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-    
-  
-  
-	  Integer repo_id -- The Repository ID -- The Repository must exist
-  
+  </tbody>
+</table>
+
 
 __Returns__
 
   	200 -- {:status => "Updated", :id => (id of updated object)}
-
 
 
 
@@ -13706,49 +22247,101 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 ```
 
 
+
 __Endpoint__
 
 ```[:GET] /repositories/:repo_id/jobs/:id/log ```
 
+
 __Description__
 
-Get a Job's log by ID
+Get a Job's log by ID.
+
+  
+  
+  
+  
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
-  
-	  Integer id -- The ID of the record
-  
-  
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>id</code></td>
+        <td style="word-break: break-word;">
+            The ID of the record
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>repo_id</code></td>
+        <td style="word-break: break-word;">
+            The Repository ID
+            
+            <br>
+            <b>Note: </b> The Repository must exist
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>offset</code></td>
+        <td style="word-break: break-word;">
+            The byte offset of the log file to show
+            
+        </td>
+        <td>RESTHelpers::NonNegativeInteger</td>
+        <td></td>
+      </tr>
     
-  
-  
-	  Integer repo_id -- The Repository ID -- The Repository must exist
-  
-  
-    
-  
-  
-    
-    
-  
-  
-	  RESTHelpers::NonNegativeInteger offset -- The byte offset of the log file to show
-  
+  </tbody>
+</table>
+
 
 __Returns__
 
   	200 -- The section of the import log between 'offset' and the end of file
-
 
 
 
@@ -13777,39 +22370,80 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 ```
 
 
+
 __Endpoint__
 
 ```[:GET] /repositories/:repo_id/jobs/:id/output_files ```
 
+
 __Description__
 
-Get a list of Job's output files by ID
+Get a list of Job's output files by ID.
+
+  
+  
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
-  
-	  Integer id -- The ID of the record
-  
-  
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>id</code></td>
+        <td style="word-break: break-word;">
+            The ID of the record
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>repo_id</code></td>
+        <td style="word-break: break-word;">
+            The Repository ID
+            
+            <br>
+            <b>Note: </b> The Repository must exist
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-    
-  
-  
-	  Integer repo_id -- The Repository ID -- The Repository must exist
-  
+  </tbody>
+</table>
+
 
 __Returns__
 
   	200 -- An array of output files
-
 
 
 
@@ -13844,46 +22478,98 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 ```
 
 
+
 __Endpoint__
 
 ```[:GET] /repositories/:repo_id/jobs/:id/output_files/:file_id ```
 
+
 __Description__
 
-Get a Job's output file by ID
+Get a Job's output file by ID.
+
+  
+  
+  
+  
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
-  
-	  Integer id -- The ID of the record
-  
-  
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>id</code></td>
+        <td style="word-break: break-word;">
+            The ID of the record
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-  
-  
-  
-	  Integer file_id -- The ID of the record
-  
-  
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>file_id</code></td>
+        <td style="word-break: break-word;">
+            The ID of the record
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>repo_id</code></td>
+        <td style="word-break: break-word;">
+            The Repository ID
+            
+            <br>
+            <b>Note: </b> The Repository must exist
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-    
-  
-  
-	  Integer repo_id -- The Repository ID -- The Repository must exist
-  
+  </tbody>
+</table>
+
 
 __Returns__
 
   	200 -- Returns the file
-
 
 
 
@@ -13919,13 +22605,20 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 ```
 
 
+
 __Endpoint__
 
 ```[:GET] /repositories/:repo_id/jobs/:id/records ```
 
+
 __Description__
 
-Get a Job's list of created URIs
+Get a Job's list of created URIs.
+
+  
+  
+  
+  
 
 
 __Parameters__
@@ -13939,28 +22632,63 @@ This endpoint is paginated. :page, :id_set, or :all_ids is required
 </ul>
 </aside>
 
-  
+
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
-  
-	  Integer id -- The ID of the record
-  
-  
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>id</code></td>
+        <td style="word-break: break-word;">
+            The ID of the record
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>repo_id</code></td>
+        <td style="word-break: break-word;">
+            The Repository ID
+            
+            <br>
+            <b>Note: </b> The Repository must exist
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-    
-  
-  
-	  Integer repo_id -- The Repository ID -- The Repository must exist
-  
+  </tbody>
+</table>
+
 
 __Returns__
 
   	200 -- An array of created records
-
 
 
 
@@ -13996,42 +22724,83 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 ```
 
 
+
 __Endpoint__
 
 ```[:GET] /repositories/:repo_id/jobs/active ```
 
+
 __Description__
 
-Get a list of all active Jobs for a Repository
+Get a list of all active Jobs for a Repository.
+
+  
+  
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>resolve</code></td>
+        <td style="word-break: break-word;">
+            A list of references to resolve and embed in the response
+            
+        </td>
+        <td>[String]</td>
+        <td>true</td>
+      </tr>
     
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>repo_id</code></td>
+        <td style="word-break: break-word;">
+            The Repository ID
+            
+            <br>
+            <b>Note: </b> The Repository must exist
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-  
-  
-	  [String] resolve (Optional) -- A list of references to resolve and embed in the response
-  
-  
-    
-  
-  
-    
-    
-  
-  
-	  Integer repo_id -- The Repository ID -- The Repository must exist
-  
+  </tbody>
+</table>
+
 
 __Returns__
 
   	200 -- [(:job)]
-
 
 
 
@@ -14067,13 +22836,20 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 ```
 
 
+
 __Endpoint__
 
 ```[:GET] /repositories/:repo_id/jobs/archived ```
 
+
 __Description__
 
-Get a list of all archived Jobs for a Repository
+Get a list of all archived Jobs for a Repository.
+
+  
+  
+  
+  
 
 
 __Parameters__
@@ -14087,31 +22863,66 @@ This endpoint is paginated. :page, :id_set, or :all_ids is required
 </ul>
 </aside>
 
-  
+
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>resolve</code></td>
+        <td style="word-break: break-word;">
+            A list of references to resolve and embed in the response
+            
+        </td>
+        <td>[String]</td>
+        <td>true</td>
+      </tr>
     
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>repo_id</code></td>
+        <td style="word-break: break-word;">
+            The Repository ID
+            
+            <br>
+            <b>Note: </b> The Repository must exist
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-  
-  
-	  [String] resolve (Optional) -- A list of references to resolve and embed in the response
-  
-  
-    
-  
-  
-    
-    
-  
-  
-	  Integer repo_id -- The Repository ID -- The Repository must exist
-  
+  </tbody>
+</table>
+
 
 __Returns__
 
   	200 -- [(:job)]
-
 
 
 
@@ -14134,32 +22945,62 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 ```
 
 
+
 __Endpoint__
 
 ```[:GET] /repositories/:repo_id/jobs/import_types ```
 
+
 __Description__
 
-List all supported import job types
+List all supported import job types.
+
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>repo_id</code></td>
+        <td style="word-break: break-word;">
+            The Repository ID
+            
+            <br>
+            <b>Note: </b> The Repository must exist
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-    
-  
-  
-	  Integer repo_id -- The Repository ID -- The Repository must exist
-  
+  </tbody>
+</table>
+
 
 __Returns__
 
   	200 -- A list of supported import types
-
 
 
 
@@ -14205,51 +23046,103 @@ __Returns__
 ```shell
 curl -H "X-ArchivesSpace-Session: $SESSION" \
   -d 'Example Missing' \
-  "http://localhost:8089/repositories/2/jobs_with_files?job={"jsonmodel_type"=>"job", "status"=>"queued", "job"=>{"jsonmodel_type"=>"import_job", "filenames"=>["SO837QA", "LLX701T", "C861898IT", "Y260B145R"], "import_type"=>"marcxml"}}&files=UploadFile"
+  "http://localhost:8089/repositories/2/jobs_with_files?job={"jsonmodel_type"=>"job", "status"=>"queued", "job"=>{"jsonmodel_type"=>"import_job", "filenames"=>["M393VQ206", "417H221QR", "245F152428V", "BAK910257"], "import_type"=>"marcxml"}}&files=UploadFile"
 
 ```
+
 
 
 __Endpoint__
 
 ```[:POST] /repositories/:repo_id/jobs_with_files ```
 
+
 __Description__
 
-Create a new job and post input files
+Create a new job and post input files.
+
+  
+  
+  
+  
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
-  
-	  JSONModel(:job) job -- 
-  
-  
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>job</code></td>
+        <td style="word-break: break-word;">
+            
+            
+        </td>
+        <td>JSONModel(:job)</td>
+        <td></td>
+      </tr>
     
-  
-  
-  
-	  [RESTHelpers::UploadFile] files -- 
-  
-  
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>files</code></td>
+        <td style="word-break: break-word;">
+            
+            
+        </td>
+        <td>[RESTHelpers::UploadFile]</td>
+        <td></td>
+      </tr>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>repo_id</code></td>
+        <td style="word-break: break-word;">
+            The Repository ID
+            
+            <br>
+            <b>Note: </b> The Repository must exist
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-    
-  
-  
-	  Integer repo_id -- The Repository ID -- The Repository must exist
-  
+  </tbody>
+</table>
+
 
 __Returns__
 
   	200 -- {:status => "Updated", :id => (id of updated object)}
-
 
 
 
@@ -14285,44 +23178,69 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 ```
 
 
+
 __Endpoint__
 
 ```[:POST] /repositories/:repo_id/preferences ```
 
+
 __Description__
 
-Create a Preferences record
+Create a Preferences record.
+
+  
+  
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>repo_id</code></td>
+        <td style="word-break: break-word;">
+            The Repository ID
+            
+            <br>
+            <b>Note: </b> The Repository must exist
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-    
-  
-  
-	  JSONModel(:preference) <request body> -- The record to create
-  
-  
-    
-  
-  
-    
-    
-  
-  
-	  Integer repo_id -- The Repository ID -- The Repository must exist
-  
+  </tbody>
+</table>
+
+__Accepts Payload of Type__
+
+JSONModel(:preference)
 
 __Returns__
 
   	200 -- {:status => "Created", :id => (id of created object), :warnings => {(warnings)}}
 
   	400 -- {:error => (description of error)}
-
 
 
 
@@ -14360,42 +23278,83 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 ```
 
 
+
 __Endpoint__
 
 ```[:GET] /repositories/:repo_id/preferences ```
 
+
 __Description__
 
-Get a list of Preferences for a Repository and optionally a user
+Get a list of Preferences for a Repository and optionally a user.
+
+  
+  
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>repo_id</code></td>
+        <td style="word-break: break-word;">
+            The Repository ID
+            
+            <br>
+            <b>Note: </b> The Repository must exist
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>user_id</code></td>
+        <td style="word-break: break-word;">
+            The username to retrieve defaults for
+            
+        </td>
+        <td>Integer</td>
+        <td>true</td>
+      </tr>
     
-  
-  
-	  Integer repo_id -- The Repository ID -- The Repository must exist
-  
-  
-    
-  
-  
-    
-    
-  
-  
-	  Integer user_id (Optional) -- The username to retrieve defaults for
-  
+  </tbody>
+</table>
+
 
 __Returns__
 
   	200 -- [(:preference)]
-
 
 
 
@@ -14424,39 +23383,80 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 ```
 
 
+
 __Endpoint__
 
 ```[:GET] /repositories/:repo_id/preferences/:id ```
 
+
 __Description__
 
-Get a Preferences record
+Get a Preferences record.
+
+  
+  
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
-  
-	  Integer id -- The ID of the record
-  
-  
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>id</code></td>
+        <td style="word-break: break-word;">
+            The ID of the record
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>repo_id</code></td>
+        <td style="word-break: break-word;">
+            The Repository ID
+            
+            <br>
+            <b>Note: </b> The Repository must exist
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-    
-  
-  
-	  Integer repo_id -- The Repository ID -- The Repository must exist
-  
+  </tbody>
+</table>
+
 
 __Returns__
 
   	200 -- (:preference)
-
 
 
 
@@ -14498,51 +23498,87 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 ```
 
 
+
 __Endpoint__
 
 ```[:POST] /repositories/:repo_id/preferences/:id ```
 
+
 __Description__
 
-Update a Preferences record
+Update a Preferences record.
+
+  
+  
+  
+  
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
-  
-	  Integer id -- The ID of the record
-  
-  
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>id</code></td>
+        <td style="word-break: break-word;">
+            The ID of the record
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>repo_id</code></td>
+        <td style="word-break: break-word;">
+            The Repository ID
+            
+            <br>
+            <b>Note: </b> The Repository must exist
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-    
-  
-  
-	  JSONModel(:preference) <request body> -- The updated record
-  
-  
-    
-  
-  
-    
-    
-  
-  
-	  Integer repo_id -- The Repository ID -- The Repository must exist
-  
+  </tbody>
+</table>
+
+__Accepts Payload of Type__
+
+JSONModel(:preference)
 
 __Returns__
 
   	200 -- {:status => "Updated", :id => (id of updated object)}
 
   	400 -- {:error => (description of error)}
-
 
 
 
@@ -14572,39 +23608,80 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 ```
 
 
+
 __Endpoint__
 
 ```[:DELETE] /repositories/:repo_id/preferences/:id ```
 
+
 __Description__
 
-Delete a Preferences record
+Delete a Preferences record.
+
+  
+  
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
-  
-	  Integer id -- The ID of the record
-  
-  
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>id</code></td>
+        <td style="word-break: break-word;">
+            The ID of the record
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>repo_id</code></td>
+        <td style="word-break: break-word;">
+            The Repository ID
+            
+            <br>
+            <b>Note: </b> The Repository must exist
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-    
-  
-  
-	  Integer repo_id -- The Repository ID -- The Repository must exist
-  
+  </tbody>
+</table>
+
 
 __Returns__
 
   	200 -- deleted
-
 
 
 
@@ -14637,47 +23714,88 @@ __Returns__
   
 ```shell
 curl -H "X-ArchivesSpace-Session: $SESSION" \
-  "http://localhost:8089/repositories/2/preferences/defaults?username=AH887RC"
+  "http://localhost:8089/repositories/2/preferences/defaults?username=OA611291A"
 
 ```
+
 
 
 __Endpoint__
 
 ```[:GET] /repositories/:repo_id/preferences/defaults ```
 
+
 __Description__
 
-Get the default set of Preferences for a Repository and optionally a user
+Get the default set of Preferences for a Repository and optionally a user.
+
+  
+  
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>repo_id</code></td>
+        <td style="word-break: break-word;">
+            The Repository ID
+            
+            <br>
+            <b>Note: </b> The Repository must exist
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>username</code></td>
+        <td style="word-break: break-word;">
+            The username to retrieve defaults for
+            
+        </td>
+        <td>String</td>
+        <td>true</td>
+      </tr>
     
-  
-  
-	  Integer repo_id -- The Repository ID -- The Repository must exist
-  
-  
-    
-  
-  
-    
-    
-  
-  
-	  String username (Optional) -- The username to retrieve defaults for
-  
+  </tbody>
+</table>
+
 
 __Returns__
 
   	200 -- (defaults)
-
 
 
 
@@ -14708,44 +23826,69 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 ```
 
 
+
 __Endpoint__
 
 ```[:POST] /repositories/:repo_id/rde_templates ```
 
+
 __Description__
 
-Create an RDE template
+Create an RDE template.
+
+  
+  
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>repo_id</code></td>
+        <td style="word-break: break-word;">
+            The Repository ID
+            
+            <br>
+            <b>Note: </b> The Repository must exist
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-    
-  
-  
-	  JSONModel(:rde_template) <request body> -- The record to create
-  
-  
-    
-  
-  
-    
-    
-  
-  
-	  Integer repo_id -- The Repository ID -- The Repository must exist
-  
+  </tbody>
+</table>
+
+__Accepts Payload of Type__
+
+JSONModel(:rde_template)
 
 __Returns__
 
   	200 -- {:status => "Created", :id => (id of created object), :warnings => {(warnings)}}
 
   	400 -- {:error => (description of error)}
-
 
 
 
@@ -14768,32 +23911,62 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 ```
 
 
+
 __Endpoint__
 
 ```[:GET] /repositories/:repo_id/rde_templates ```
 
+
 __Description__
 
-Get a list of RDE Templates
+Get a list of RDE Templates.
+
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>repo_id</code></td>
+        <td style="word-break: break-word;">
+            The Repository ID
+            
+            <br>
+            <b>Note: </b> The Repository must exist
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-    
-  
-  
-	  Integer repo_id -- The Repository ID -- The Repository must exist
-  
+  </tbody>
+</table>
+
 
 __Returns__
 
   	200 -- [(:rde_template)]
-
 
 
 
@@ -14822,39 +23995,80 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 ```
 
 
+
 __Endpoint__
 
 ```[:GET] /repositories/:repo_id/rde_templates/:id ```
 
+
 __Description__
 
-Get an RDE template record
+Get an RDE template record.
+
+  
+  
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
-  
-	  Integer id -- The ID of the record
-  
-  
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>id</code></td>
+        <td style="word-break: break-word;">
+            The ID of the record
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>repo_id</code></td>
+        <td style="word-break: break-word;">
+            The Repository ID
+            
+            <br>
+            <b>Note: </b> The Repository must exist
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-    
-  
-  
-	  Integer repo_id -- The Repository ID -- The Repository must exist
-  
+  </tbody>
+</table>
+
 
 __Returns__
 
   	200 -- (:rde_template)
-
 
 
 
@@ -14884,39 +24098,80 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 ```
 
 
+
 __Endpoint__
 
 ```[:DELETE] /repositories/:repo_id/rde_templates/:id ```
 
+
 __Description__
 
-Delete an RDE Template
+Delete an RDE Template.
+
+  
+  
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
-  
-	  Integer id -- The ID of the record
-  
-  
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>id</code></td>
+        <td style="word-break: break-word;">
+            The ID of the record
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>repo_id</code></td>
+        <td style="word-break: break-word;">
+            The Repository ID
+            
+            <br>
+            <b>Note: </b> The Repository must exist
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-    
-  
-  
-	  Integer repo_id -- The Repository ID -- The Repository must exist
-  
+  </tbody>
+</table>
+
 
 __Returns__
 
   	200 -- deleted
-
 
 
 
@@ -14953,51 +24208,87 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 ```
 
 
+
 __Endpoint__
 
 ```[:POST] /repositories/:repo_id/required_fields/:record_type ```
 
+
 __Description__
 
-Require fields for a record type
+Require fields for a record type.
+
+  
+  
+  
+  
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>repo_id</code></td>
+        <td style="word-break: break-word;">
+            The Repository ID
+            
+            <br>
+            <b>Note: </b> The Repository must exist
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>record_type</code></td>
+        <td style="word-break: break-word;">
+            
+            
+        </td>
+        <td>String</td>
+        <td></td>
+      </tr>
     
-  
-  
-	  JSONModel(:required_fields) <request body> -- The fields required
-  
-  
-    
-  
-  
-    
-    
-  
-  
-	  Integer repo_id -- The Repository ID -- The Repository must exist
-  
-  
-    
-  
-  
-  
-	  String record_type -- 
-  
+  </tbody>
+</table>
+
+__Accepts Payload of Type__
+
+JSONModel(:required_fields)
 
 __Returns__
 
   	200 -- {:status => "Created", :id => (id of created object), :warnings => {(warnings)}}
 
   	400 -- {:error => (description of error)}
-
 
 
 
@@ -15026,41 +24317,82 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 ```
 
 
+
 __Endpoint__
 
 ```[:GET] /repositories/:repo_id/required_fields/:record_type ```
 
+
 __Description__
 
-Get required fields for a record type
+Get required fields for a record type.
+
+  
+  
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>repo_id</code></td>
+        <td style="word-break: break-word;">
+            The Repository ID
+            
+            <br>
+            <b>Note: </b> The Repository must exist
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>record_type</code></td>
+        <td style="word-break: break-word;">
+            
+            
+        </td>
+        <td>String</td>
+        <td></td>
+      </tr>
     
-  
-  
-	  Integer repo_id -- The Repository ID -- The Repository must exist
-  
-  
-    
-  
-  
-  
-	  String record_type -- 
-  
+  </tbody>
+</table>
+
 
 __Returns__
 
   	200 -- {:status => "Created", :id => (id of created object), :warnings => {(warnings)}}
 
   	400 -- {:error => (description of error)}
-
 
 
 
@@ -15097,9 +24429,32 @@ __Returns__
     
   
   
-```shell
-curl -H "X-ArchivesSpace-Session: $SESSION" \
-  "http://localhost:8089/repositories/2/resource_descriptions/1.:fmt/metadata?fmt=864442169P755"
+  ```shell
+curl -s -F password="admin" "http://localhost:8089/users/admin/login"
+set SESSION="session_id"
+curl -H "X-ArchivesSpace-Session: $SESSION" //
+"http://localhost:8089/repositories/2/resources/resource_descriptions/577.:fmt/metadata?fmt=864442169P755"
+
+```
+
+
+```python
+from asnake.client import ASnakeClient  # import the ArchivesSnake client
+
+client = ASnakeClient(baseurl="http://localhost:8089", username="admin", password="admin")
+# replace http://localhost:8089 with your ArchivesSpace API URL and admin for your username and password
+
+client.authorize()  # authorizes the client
+
+res_fmt = client.get("/repositories/2/resource_descriptions/577.:fmt/metadata",
+                     params={"fmt": "864442169P755"})
+# replace 2 for your repository ID and 577 with your resource ID. Find these at the URI on the staff interface
+# set fmt to the format of the request you would like to export
+
+print(res_fmt.content)
+# Sample output: {"filename":"identifier_20210218_182435_UTC__ead.fmt","mimetype":"application/:fmt"}
+
+# For error handling, print or log the returned value of client.get with .json() - print(res_fmt.json())
 
 ```
 
@@ -15108,40 +24463,92 @@ __Endpoint__
 
 ```[:GET] /repositories/:repo_id/resource_descriptions/:id.:fmt/metadata ```
 
+
 __Description__
 
-Get export metadata for a Resource Description
+Get export metadata for a Resource Description.
+
+  
+  
+  
+  
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
-  
-	  Integer id -- The ID of the record
-  
-  
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>id</code></td>
+        <td style="word-break: break-word;">
+            The ID of the record
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>repo_id</code></td>
+        <td style="word-break: break-word;">
+            The Repository ID
+            
+            <br>
+            <b>Note: </b> The Repository must exist
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>fmt</code></td>
+        <td style="word-break: break-word;">
+            Format of the request
+            
+        </td>
+        <td>String</td>
+        <td>true</td>
+      </tr>
     
-  
-  
-	  Integer repo_id -- The Repository ID -- The Repository must exist
-  
-  
-    
-  
-  
-    
-    
-  
-  
-	  String fmt (Optional) -- Format of the request
-  
+  </tbody>
+</table>
+
 
 __Returns__
 
@@ -15149,65 +24556,9 @@ __Returns__
 
 
 
-
-## Get an EAD representation of a Resource
-
+## Get a PDF representation of a Resource
 
 
-  
-    
-  
-  
-    
-  
-  
-    
-  
-  
-    
-  
-  
-    
-  
-  
-    
-  
-  
-    
-  
-  
-  
-    
-      
-        
-      
-        
-  
-    
-      
-        
-      
-        
-  
-    
-      
-        
-      
-        
-  
-    
-      
-        
-      
-        
-  
-    
-      
-        
-      
-        
-  
-  
 
   
     
@@ -15231,9 +24582,93 @@ __Returns__
     
   
   
-```shell
-curl -H "X-ArchivesSpace-Session: $SESSION" \
-  "http://localhost:8089/repositories/2/resource_descriptions/1.pdf?include_unpublished=true&include_daos=true&numbered_cs=true&print_pdf=true&ead3=true"
+  
+    
+      
+        
+      
+        
+  
+    
+      
+        
+      
+        
+  
+    
+      
+        
+      
+        
+  
+    
+      
+        
+      
+        
+  
+    
+      
+        
+      
+        
+  
+  
+
+  
+    
+  
+  
+    
+  
+  
+    
+  
+  
+    
+  
+  
+    
+  
+  
+    
+  
+  
+    
+  
+  
+  ```shell
+curl -s -F password="admin" "http://localhost:8089/users/admin/login"
+set SESSION="session_id"
+curl -H "X-ArchivesSpace-Session: $SESSION" //
+"http://localhost:8089/repositories/2/resource_descriptions/577.pdf?include_unpublished=false&include_daos=true&numbered_cs=true&print_pdf=false&ead3=false" //
+--output ead.pdf
+
+```
+
+
+```python
+from asnake.client import ASnakeClient  # import the ArchivesSnake client
+
+client = ASnakeClient(baseurl="http://localhost:8089", username="admin", password="admin")
+# replace http://localhost:8089 with your ArchivesSpace API URL and admin for your username and password
+
+client.authorize()  # authorizes the client
+
+ead_pdf = client.get("repositories/2/resource_descriptions/577.pdf",
+                      params={"include_unpublished": False,
+                              "include_daos": True,
+                              "numbered_cs": True,
+                              "print_pdf": True,
+                              "ead3": False})
+# replace 2 for your repository ID and 577 with your resource ID. Find these at the URI on the staff interface
+# set parameters to True or False
+
+with open("ead.pdf", "wb") as file:  # save the file
+    file.write(ead_pdf.content)  # write the file content to our file.
+    file.close()
+
+# For error handling, print or log the returned value of client.get with .json() - print(ead_pdf.json())
 
 ```
 
@@ -15242,85 +24677,180 @@ __Endpoint__
 
 ```[:GET] /repositories/:repo_id/resource_descriptions/:id.pdf ```
 
+
 __Description__
 
-Get an EAD representation of a Resource
+Get a PDF representation of a Resource.
+
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
-  
-	  Integer id -- The ID of the record
-  
-  
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>id</code></td>
+        <td style="word-break: break-word;">
+            The ID of the record
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>include_unpublished</code></td>
+        <td style="word-break: break-word;">
+            Include unpublished records
+            
+        </td>
+        <td>RESTHelpers::BooleanParam</td>
+        <td>true</td>
+      </tr>
     
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>include_daos</code></td>
+        <td style="word-break: break-word;">
+            Include digital objects in dao tags
+            
+        </td>
+        <td>RESTHelpers::BooleanParam</td>
+        <td>true</td>
+      </tr>
     
-  
-  
-	  RESTHelpers::BooleanParam include_unpublished (Optional) -- Include unpublished records
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>numbered_cs</code></td>
+        <td style="word-break: break-word;">
+            Use numbered <c> tags in ead
+            
+        </td>
+        <td>RESTHelpers::BooleanParam</td>
+        <td>true</td>
+      </tr>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>print_pdf</code></td>
+        <td style="word-break: break-word;">
+            Print EAD to pdf
+            
+        </td>
+        <td>RESTHelpers::BooleanParam</td>
+        <td>true</td>
+      </tr>
     
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>repo_id</code></td>
+        <td style="word-break: break-word;">
+            The Repository ID
+            
+            <br>
+            <b>Note: </b> The Repository must exist
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-  
-  
-	  RESTHelpers::BooleanParam include_daos (Optional) -- Include digital objects in dao tags
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>ead3</code></td>
+        <td style="word-break: break-word;">
+            Export using EAD3 schema
+            
+        </td>
+        <td>RESTHelpers::BooleanParam</td>
+        <td>true</td>
+      </tr>
     
-  
-  
-    
-    
-  
-  
-	  RESTHelpers::BooleanParam numbered_cs (Optional) -- Use numbered <c> tags in ead
-  
-  
-    
-  
-  
-    
-    
-  
-  
-	  RESTHelpers::BooleanParam print_pdf (Optional) -- Print EAD to pdf
-  
-  
-    
-  
-  
-    
-    
-  
-  
-	  Integer repo_id -- The Repository ID -- The Repository must exist
-  
-  
-    
-  
-  
-    
-    
-  
-  
-	  RESTHelpers::BooleanParam ead3 (Optional) -- Export using EAD3 schema
-  
+  </tbody>
+</table>
+
 
 __Returns__
 
   	200 -- (:resource)
-
 
 
 
@@ -15405,9 +24935,38 @@ __Returns__
     
   
   
-```shell
-curl -H "X-ArchivesSpace-Session: $SESSION" \
-  "http://localhost:8089/repositories/2/resource_descriptions/1.xml?include_unpublished=true&include_daos=true&numbered_cs=true&print_pdf=true&ead3=true"
+  ```shell
+curl -s -F password="admin" "http://localhost:8089/users/admin/login"
+set SESSION="session_id"
+curl -H "X-ArchivesSpace-Session: $SESSION" //
+"http://localhost:8089/repositories/2/resource_descriptions/577.xml?include_unpublished=false&include_daos=true&numbered_cs=true&print_pdf=false&ead3=false" //
+--output ead.xml
+
+```
+
+
+```python
+from asnake.client import ASnakeClient  # import the ArchivesSnake client
+
+client = ASnakeClient(baseurl="http://localhost:8089", username="admin", password="admin")
+# replace http://localhost:8089 with your ArchivesSpace API URL and admin for your username and password
+
+client.authorize()  # authorizes the client
+
+ead_xml = client.get("repositories/2/resource_descriptions/577.xml",
+                     params={"include_unpublished": False,
+                             "include_daos": True,
+                             "numbered_cs": True,
+                             "print_pdf": False,
+                             "ead3": False})
+# replace 2 for your repository ID and 577 with your resource ID. Find these at the URI on the staff interface
+# set parameters to True or False
+
+with open("ead.xml", "wb") as file:  # save the file
+    file.write(ead_xml.content)  # write the file content to our file.
+    file.close()
+
+# For error handling, print or log the returned value of client.get with .json() - print(ead_xml.json())
 
 ```
 
@@ -15416,85 +24975,180 @@ __Endpoint__
 
 ```[:GET] /repositories/:repo_id/resource_descriptions/:id.xml ```
 
+
 __Description__
 
-Get an EAD representation of a Resource
+Get an EAD representation of a Resource.
+
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
-  
-	  Integer id -- The ID of the record
-  
-  
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>id</code></td>
+        <td style="word-break: break-word;">
+            The ID of the record
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>include_unpublished</code></td>
+        <td style="word-break: break-word;">
+            Include unpublished records
+            
+        </td>
+        <td>RESTHelpers::BooleanParam</td>
+        <td>true</td>
+      </tr>
     
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>include_daos</code></td>
+        <td style="word-break: break-word;">
+            Include digital objects in dao tags
+            
+        </td>
+        <td>RESTHelpers::BooleanParam</td>
+        <td>true</td>
+      </tr>
     
-  
-  
-	  RESTHelpers::BooleanParam include_unpublished (Optional) -- Include unpublished records
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>numbered_cs</code></td>
+        <td style="word-break: break-word;">
+            Use numbered <c> tags in ead
+            
+        </td>
+        <td>RESTHelpers::BooleanParam</td>
+        <td>true</td>
+      </tr>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>print_pdf</code></td>
+        <td style="word-break: break-word;">
+            Print EAD to pdf
+            
+        </td>
+        <td>RESTHelpers::BooleanParam</td>
+        <td>true</td>
+      </tr>
     
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>repo_id</code></td>
+        <td style="word-break: break-word;">
+            The Repository ID
+            
+            <br>
+            <b>Note: </b> The Repository must exist
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-  
-  
-	  RESTHelpers::BooleanParam include_daos (Optional) -- Include digital objects in dao tags
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>ead3</code></td>
+        <td style="word-break: break-word;">
+            Export using EAD3 schema
+            
+        </td>
+        <td>RESTHelpers::BooleanParam</td>
+        <td>true</td>
+      </tr>
     
-  
-  
-    
-    
-  
-  
-	  RESTHelpers::BooleanParam numbered_cs (Optional) -- Use numbered <c> tags in ead
-  
-  
-    
-  
-  
-    
-    
-  
-  
-	  RESTHelpers::BooleanParam print_pdf (Optional) -- Print EAD to pdf
-  
-  
-    
-  
-  
-    
-    
-  
-  
-	  Integer repo_id -- The Repository ID -- The Repository must exist
-  
-  
-    
-  
-  
-    
-    
-  
-  
-	  RESTHelpers::BooleanParam ead3 (Optional) -- Export using EAD3 schema
-  
+  </tbody>
+</table>
+
 
 __Returns__
 
   	200 -- (:resource)
-
 
 
 
@@ -15516,9 +25170,30 @@ __Returns__
     
   
   
-```shell
-curl -H "X-ArchivesSpace-Session: $SESSION" \
-  "http://localhost:8089/repositories/2/resource_labels/1.:fmt/metadata"
+  ```shell
+curl -s -F password="admin" "http://localhost:8089/users/admin/login"
+set SESSION="session_id"
+curl -H "X-ArchivesSpace-Session: $SESSION" //
+"http://localhost:8089/repositories/2/resource_labels/577.:fmt/metadata" --output labels.fmt
+
+```
+
+
+```python
+from asnake.client import ASnakeClient  # import the ArchivesSnake client
+
+client = ASnakeClient(baseurl="http://localhost:8089", username="admin", password="admin")
+# replace http://localhost:8089 with your ArchivesSpace API URL and admin for your username and password
+
+client.authorize()  # authorizes the client
+
+labels_fmt = client.get("/repositories/2/resource_labels/577.:fmt/metadata")
+# replace 2 for your repository ID and 577 with your resource ID. Find these at the URI on the staff interface
+
+print(labels_fmt.content)
+# Sample output: {"filename":"identifier_20210218_182435_UTC__labels.tsv","mimetype":"text/tab-separated-values"}
+
+# For error handling, print or log the returned value of client.get with .json() - print(labels_fmt.json())
 
 ```
 
@@ -15527,35 +25202,75 @@ __Endpoint__
 
 ```[:GET] /repositories/:repo_id/resource_labels/:id.:fmt/metadata ```
 
+
 __Description__
 
-Get export metadata for Resource labels
+Get export metadata for Resource labels.
+
+  
+  
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
-  
-	  Integer id -- The ID of the record
-  
-  
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>id</code></td>
+        <td style="word-break: break-word;">
+            The ID of the record
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>repo_id</code></td>
+        <td style="word-break: break-word;">
+            The Repository ID
+            
+            <br>
+            <b>Note: </b> The Repository must exist
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-    
-  
-  
-	  Integer repo_id -- The Repository ID -- The Repository must exist
-  
+  </tbody>
+</table>
+
 
 __Returns__
 
   	200 -- The export metadata
-
 
 
 
@@ -15577,9 +25292,31 @@ __Returns__
     
   
   
-```shell
-curl -H "X-ArchivesSpace-Session: $SESSION" \
-  "http://localhost:8089/repositories/2/resource_labels/1.tsv"
+  ```shell
+curl -s -F password="admin" "http://localhost:8089/users/admin/login"
+set SESSION="session_id"
+curl -H "X-ArchivesSpace-Session: $SESSION" //
+"http://localhost:8089/repositories/2/resource_labels/577.tsv" --output container_labels.tsv
+
+```
+
+
+```python
+from asnake.client import ASnakeClient  # import the ArchivesSnake client
+
+client = ASnakeClient(baseurl="http://localhost:8089", username="admin", password="admin")
+# replace http://localhost:8089 with your ArchivesSpace API URL and admin for your username and password
+
+client.authorize()  # authorizes the client
+
+request_labels = client.get("repositories/2/resource_labels/577.tsv")
+# replace 2 for your repository ID and 577 with your resource ID. Find these at the URI on the staff interface
+
+with open("container_labels.tsv", "wb") as local_file:
+    local_file.write(request_labels.content)  # write the file content to our file.
+    local_file.close()
+
+# For error handling, print or log the returned value of client.get with .json() - print(request_labels.json())
 
 ```
 
@@ -15588,35 +25325,75 @@ __Endpoint__
 
 ```[:GET] /repositories/:repo_id/resource_labels/:id.tsv ```
 
+
 __Description__
 
-Get a tsv list of printable labels for a Resource
+Get a tsv list of printable labels for a Resource.
+
+  
+  
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
-  
-	  Integer id -- The ID of the record
-  
-  
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>id</code></td>
+        <td style="word-break: break-word;">
+            The ID of the record
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>repo_id</code></td>
+        <td style="word-break: break-word;">
+            The Repository ID
+            
+            <br>
+            <b>Note: </b> The Repository must exist
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-    
-  
-  
-	  Integer repo_id -- The Repository ID -- The Repository must exist
-  
+  </tbody>
+</table>
+
 
 __Returns__
 
   	200 -- (:resource)
-
 
 
 
@@ -15647,105 +25424,134 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 "linked_events":[],
 "extents":[{ "jsonmodel_type":"extent",
 "portion":"part",
-"number":"2",
-"extent_type":"cassettes",
-"dimensions":"255IHVA",
-"physical_details":"QIH379D"}],
+"number":"71",
+"extent_type":"gigabytes",
+"dimensions":"B203799UY",
+"physical_details":"K858764S612"}],
 "lang_materials":[{ "jsonmodel_type":"lang_material",
 "notes":[],
 "language_and_script":{ "jsonmodel_type":"language_and_script",
-"language":"arw",
-"script":"Rohg"}}],
+"language":"tam",
+"script":"Lana"}}],
 "dates":[{ "jsonmodel_type":"date",
-"date_type":"bulk",
+"date_type":"single",
 "label":"creation",
-"begin":"2002-03-14",
-"end":"2002-03-14",
+"begin":"1974-05-28",
+"end":"1974-05-28",
 "certainty":"inferred",
 "era":"ce",
 "calendar":"gregorian",
-"expression":"BJ48AW"},
+"expression":"ORWA961"},
 { "jsonmodel_type":"date",
 "date_type":"single",
 "label":"creation",
-"begin":"2007-11-17",
+"begin":"1974-06-20",
 "certainty":"inferred",
 "era":"ce",
 "calendar":"gregorian",
-"expression":"EFHXG"}],
+"expression":"FVRCK"}],
 "external_documents":[],
 "rights_statements":[],
 "linked_agents":[],
 "is_slug_auto":true,
 "restrictions":false,
 "revision_statements":[{ "jsonmodel_type":"revision_statement",
-"date":"WKESU",
-"description":"E11470823W"}],
+"date":"QPGEF",
+"description":"EW94855R"}],
 "instances":[{ "jsonmodel_type":"instance",
 "is_representative":false,
-"instance_type":"mixed_materials",
+"instance_type":"text",
 "sub_container":{ "jsonmodel_type":"sub_container",
-"top_container":{ "ref":"/repositories/2/top_containers/5"},
-"type_2":"reel",
-"indicator_2":"874NQ177516",
-"type_3":"folder",
-"indicator_3":"LUL337435"}}],
+"top_container":{ "ref":"/repositories/2/top_containers/4"},
+"type_2":"folder",
+"indicator_2":"266FQ148I",
+"barcode_2":"LS62V742",
+"type_3":"carton",
+"indicator_3":"NF145364W"}}],
 "deaccessions":[],
 "related_accessions":[],
 "classifications":[],
 "notes":[],
-"title":"Resource Title: <emph render='italic'>4</emph>",
-"id_0":"939OQTU",
-"level":"item",
-"finding_aid_date":"L667714274C",
-"finding_aid_series_statement":"256235HWR",
-"finding_aid_language":"bua",
-"finding_aid_script":"Lana",
-"finding_aid_note":"H755G946R",
-"ead_location":"116451DKA"}' \
+"metadata_rights_declarations":[],
+"title":"Resource Title: <emph render='italic'>2</emph>",
+"id_0":"U810V283640",
+"level":"subseries",
+"finding_aid_description_rules":"cco",
+"ead_id":"675JIQU",
+"finding_aid_date":"72467793U313",
+"finding_aid_series_statement":"CW513QL",
+"finding_aid_language":"amh",
+"finding_aid_script":"Ogam",
+"finding_aid_note":"613NXJO",
+"ead_location":"T798623PX"}' \
   "http://localhost:8089/repositories/2/resources"
 
 ```
+
 
 
 __Endpoint__
 
 ```[:POST] /repositories/:repo_id/resources ```
 
+
 __Description__
 
-Create a Resource
+Create a Resource.
+
+  
+  
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>repo_id</code></td>
+        <td style="word-break: break-word;">
+            The Repository ID
+            
+            <br>
+            <b>Note: </b> The Repository must exist
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-    
-  
-  
-	  JSONModel(:resource) <request body> -- The record to create
-  
-  
-    
-  
-  
-    
-    
-  
-  
-	  Integer repo_id -- The Repository ID -- The Repository must exist
-  
+  </tbody>
+</table>
+
+__Accepts Payload of Type__
+
+JSONModel(:resource)
 
 __Returns__
 
   	200 -- {:status => "Created", :id => (id of created object), :warnings => {(warnings)}}
 
   	400 -- {:error => (description of error)}
-
 
 
 
@@ -15775,13 +25581,18 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 ```
 
 
+
 __Endpoint__
 
 ```[:GET] /repositories/:repo_id/resources ```
 
+
 __Description__
 
-Get a list of Resources for a Repository
+Get a list of Resources for a Repository.
+
+  
+  
 
 
 __Parameters__
@@ -15795,21 +25606,47 @@ This endpoint is paginated. :page, :id_set, or :all_ids is required
 </ul>
 </aside>
 
-  
+
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>repo_id</code></td>
+        <td style="word-break: break-word;">
+            The Repository ID
+            
+            <br>
+            <b>Note: </b> The Repository must exist
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-    
-  
-  
-	  Integer repo_id -- The Repository ID -- The Repository must exist
-  
+  </tbody>
+</table>
+
 
 __Returns__
 
   	200 -- [(:resource)]
-
 
 
 
@@ -15851,49 +25688,101 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 ```
 
 
+
 __Endpoint__
 
 ```[:GET] /repositories/:repo_id/resources/:id ```
 
+
 __Description__
 
-Get a Resource
+Get a Resource.
+
+  
+  
+  
+  
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
-  
-	  Integer id -- The ID of the record
-  
-  
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>id</code></td>
+        <td style="word-break: break-word;">
+            The ID of the record
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>repo_id</code></td>
+        <td style="word-break: break-word;">
+            The Repository ID
+            
+            <br>
+            <b>Note: </b> The Repository must exist
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>resolve</code></td>
+        <td style="word-break: break-word;">
+            A list of references to resolve and embed in the response
+            
+        </td>
+        <td>[String]</td>
+        <td>true</td>
+      </tr>
     
-  
-  
-	  Integer repo_id -- The Repository ID -- The Repository must exist
-  
-  
-    
-  
-  
-    
-    
-  
-  
-	  [String] resolve (Optional) -- A list of references to resolve and embed in the response
-  
+  </tbody>
+</table>
+
 
 __Returns__
 
   	200 -- (:resource)
-
 
 
 
@@ -15930,112 +25819,152 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 "linked_events":[],
 "extents":[{ "jsonmodel_type":"extent",
 "portion":"part",
-"number":"2",
-"extent_type":"cassettes",
-"dimensions":"255IHVA",
-"physical_details":"QIH379D"}],
+"number":"71",
+"extent_type":"gigabytes",
+"dimensions":"B203799UY",
+"physical_details":"K858764S612"}],
 "lang_materials":[{ "jsonmodel_type":"lang_material",
 "notes":[],
 "language_and_script":{ "jsonmodel_type":"language_and_script",
-"language":"arw",
-"script":"Rohg"}}],
+"language":"tam",
+"script":"Lana"}}],
 "dates":[{ "jsonmodel_type":"date",
-"date_type":"bulk",
+"date_type":"single",
 "label":"creation",
-"begin":"2002-03-14",
-"end":"2002-03-14",
+"begin":"1974-05-28",
+"end":"1974-05-28",
 "certainty":"inferred",
 "era":"ce",
 "calendar":"gregorian",
-"expression":"BJ48AW"},
+"expression":"ORWA961"},
 { "jsonmodel_type":"date",
 "date_type":"single",
 "label":"creation",
-"begin":"2007-11-17",
+"begin":"1974-06-20",
 "certainty":"inferred",
 "era":"ce",
 "calendar":"gregorian",
-"expression":"EFHXG"}],
+"expression":"FVRCK"}],
 "external_documents":[],
 "rights_statements":[],
 "linked_agents":[],
 "is_slug_auto":true,
 "restrictions":false,
 "revision_statements":[{ "jsonmodel_type":"revision_statement",
-"date":"WKESU",
-"description":"E11470823W"}],
+"date":"QPGEF",
+"description":"EW94855R"}],
 "instances":[{ "jsonmodel_type":"instance",
 "is_representative":false,
-"instance_type":"mixed_materials",
+"instance_type":"text",
 "sub_container":{ "jsonmodel_type":"sub_container",
-"top_container":{ "ref":"/repositories/2/top_containers/5"},
-"type_2":"reel",
-"indicator_2":"874NQ177516",
-"type_3":"folder",
-"indicator_3":"LUL337435"}}],
+"top_container":{ "ref":"/repositories/2/top_containers/4"},
+"type_2":"folder",
+"indicator_2":"266FQ148I",
+"barcode_2":"LS62V742",
+"type_3":"carton",
+"indicator_3":"NF145364W"}}],
 "deaccessions":[],
 "related_accessions":[],
 "classifications":[],
 "notes":[],
-"title":"Resource Title: <emph render='italic'>4</emph>",
-"id_0":"939OQTU",
-"level":"item",
-"finding_aid_date":"L667714274C",
-"finding_aid_series_statement":"256235HWR",
-"finding_aid_language":"bua",
-"finding_aid_script":"Lana",
-"finding_aid_note":"H755G946R",
-"ead_location":"116451DKA"}' \
+"metadata_rights_declarations":[],
+"title":"Resource Title: <emph render='italic'>2</emph>",
+"id_0":"U810V283640",
+"level":"subseries",
+"finding_aid_description_rules":"cco",
+"ead_id":"675JIQU",
+"finding_aid_date":"72467793U313",
+"finding_aid_series_statement":"CW513QL",
+"finding_aid_language":"amh",
+"finding_aid_script":"Ogam",
+"finding_aid_note":"613NXJO",
+"ead_location":"T798623PX"}' \
   "http://localhost:8089/repositories/2/resources/1"
 
 ```
+
 
 
 __Endpoint__
 
 ```[:POST] /repositories/:repo_id/resources/:id ```
 
+
 __Description__
 
-Update a Resource
+Update a Resource.
+
+  
+  
+  
+  
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
-  
-	  Integer id -- The ID of the record
-  
-  
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>id</code></td>
+        <td style="word-break: break-word;">
+            The ID of the record
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>repo_id</code></td>
+        <td style="word-break: break-word;">
+            The Repository ID
+            
+            <br>
+            <b>Note: </b> The Repository must exist
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-    
-  
-  
-	  JSONModel(:resource) <request body> -- The updated record
-  
-  
-    
-  
-  
-    
-    
-  
-  
-	  Integer repo_id -- The Repository ID -- The Repository must exist
-  
+  </tbody>
+</table>
+
+__Accepts Payload of Type__
+
+JSONModel(:resource)
 
 __Returns__
 
   	200 -- {:status => "Updated", :id => (id of updated object)}
 
   	400 -- {:error => (description of error)}
-
 
 
 
@@ -16065,39 +25994,80 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 ```
 
 
+
 __Endpoint__
 
 ```[:DELETE] /repositories/:repo_id/resources/:id ```
 
+
 __Description__
 
-Delete a Resource
+Delete a Resource.
+
+  
+  
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
-  
-	  Integer id -- The ID of the record
-  
-  
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>id</code></td>
+        <td style="word-break: break-word;">
+            The ID of the record
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>repo_id</code></td>
+        <td style="word-break: break-word;">
+            The Repository ID
+            
+            <br>
+            <b>Note: </b> The Repository must exist
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-    
-  
-  
-	  Integer repo_id -- The Repository ID -- The Repository must exist
-  
+  </tbody>
+</table>
+
 
 __Returns__
 
   	200 -- deleted
-
 
 
 
@@ -16149,56 +26119,120 @@ __Returns__
 ```shell
 curl -H "X-ArchivesSpace-Session: $SESSION" \
   -d 'Example Missing' \
-  "http://localhost:8089/repositories/2/resources/1/accept_children?children=AQIT943&position=1"
+  "http://localhost:8089/repositories/2/resources/1/accept_children?children=OA67R363&position=1"
 
 ```
+
 
 
 __Endpoint__
 
 ```[:POST] /repositories/:repo_id/resources/:id/accept_children ```
 
+
 __Description__
 
-Move existing Archival Objects to become children of a Resource
+Move existing Archival Objects to become children of a Resource.
+
+  
+  
+  
+  
+  
+  
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>children</code></td>
+        <td style="word-break: break-word;">
+            The children to move to the Resource
+            
+        </td>
+        <td>[String]</td>
+        <td>true</td>
+      </tr>
     
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>id</code></td>
+        <td style="word-break: break-word;">
+            The ID of the Resource to move children to
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-  
-  
-	  [String] children (Optional) -- The children to move to the Resource
-  
-  
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>position</code></td>
+        <td style="word-break: break-word;">
+            The index for the first child to be moved to
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-  
-  
-  
-	  Integer id -- The ID of the Resource to move children to
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>repo_id</code></td>
+        <td style="word-break: break-word;">
+            The Repository ID
+            
+            <br>
+            <b>Note: </b> The Repository must exist
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-  
-  
-  
-	  Integer position -- The index for the first child to be moved to
-  
-  
-    
-  
-  
-    
-    
-  
-  
-	  Integer repo_id -- The Repository ID -- The Repository must exist
-  
+  </tbody>
+</table>
+
 
 __Returns__
 
@@ -16207,7 +26241,6 @@ __Returns__
   	400 -- {:error => (description of error)}
 
   	409 -- {:error => (description of error)}
-
 
 
 
@@ -16236,52 +26269,128 @@ __Returns__
   
   
   
-```shell
-curl -H "X-ArchivesSpace-Session: $SESSION" \
-  -d '["Example Missing"]' \
-  "http://localhost:8089/repositories/2/resources/1/children"
+  ```shell
+  curl -H "X-ArchivesSpace-Session: $SESSION"         -d '{
+    "jsonmodel_type": "archival_record_children",
+    "children": [
+        { "jsonmodel_type":"archival_object",
+            "external_ids":[],
+            "subjects":[],
+            "linked_events":[],
+            "extents":[],
+            "lang_materials":[],
+            "dates":[],
+            "external_documents":[],
+            "rights_statements":[],
+            "linked_agents":[],
+            "is_slug_auto":true,
+            "restrictions_apply":false,
+            "ancestors":[],
+            "instances":[],
+            "notes":[],
+            "level":"subseries",
+            "title":"Archival Object Title: 1",
+            "resource":{ "ref":"/repositories/2/resources/1"}},
+        { "jsonmodel_type":"archival_object",
+            "external_ids":[],
+            "subjects":[],
+            "linked_events":[],
+            "extents":[],
+            "lang_materials":[],
+            "dates":[],
+            "external_documents":[],
+            "rights_statements":[],
+            "linked_agents":[],
+            "is_slug_auto":true,
+            "restrictions_apply":false,
+            "ancestors":[],
+            "instances":[],
+            "notes":[],
+            "level":"subseries",
+            "title":"Archival Object Title: 2",
+            "resource":{ "ref":"/repositories/2/resources/1"}}
+    ]
+}'           "http://localhost:8089/repositories/2/resources/1/children"
 
 ```
+
+
 
 
 __Endpoint__
 
 ```[:POST] /repositories/:repo_id/resources/:id/children ```
 
+
 __Description__
 
-Batch create several Archival Objects as children of an existing Resource
+Batch create several Archival Objects as children of an existing Resource.
+
+  
+  
+  
+  
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>id</code></td>
+        <td style="word-break: break-word;">
+            The ID of the record
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>repo_id</code></td>
+        <td style="word-break: break-word;">
+            The Repository ID
+            
+            <br>
+            <b>Note: </b> The Repository must exist
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-  
-  
-	  JSONModel(:archival_record_children) <request body> -- The children to add to the resource
-  
-  
-    
-  
-  
-  
-	  Integer id -- The ID of the record
-  
-  
-    
-  
-  
-    
-    
-  
-  
-	  Integer repo_id -- The Repository ID -- The Repository must exist
-  
+  </tbody>
+</table>
+
+__Accepts Payload of Type__
+
+JSONModel(:archival_record_children)
 
 __Returns__
 
@@ -16290,7 +26399,6 @@ __Returns__
   	400 -- {:error => (description of error)}
 
   	409 -- {:error => (description of error)}
-
 
 
 
@@ -16319,39 +26427,80 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 ```
 
 
+
 __Endpoint__
 
 ```[:GET] /repositories/:repo_id/resources/:id/models_in_graph ```
 
+
 __Description__
 
-Get a list of record types in the graph of a resource
+Get a list of record types in the graph of a resource.
+
+  
+  
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
-  
-	  Integer id -- The ID of the record
-  
-  
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>id</code></td>
+        <td style="word-break: break-word;">
+            The ID of the record
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>repo_id</code></td>
+        <td style="word-break: break-word;">
+            The Repository ID
+            
+            <br>
+            <b>Note: </b> The Repository must exist
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-    
-  
-  
-	  Integer repo_id -- The Repository ID -- The Repository must exist
-  
+  </tbody>
+</table>
+
 
 __Returns__
 
   	200 -- OK
-
 
 
 
@@ -16380,39 +26529,80 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 ```
 
 
+
 __Endpoint__
 
 ```[:GET] /repositories/:repo_id/resources/:id/ordered_records ```
 
+
 __Description__
 
-Get the list of URIs of this published resource and all published archival objects contained within.Ordered by tree order (i.e. if you fully expanded the record tree and read from top to bottom)
+Get the list of URIs of this published resource and all published archival objects contained within.Ordered by tree order (i.e. if you fully expanded the record tree and read from top to bottom).
+
+  
+  
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
-  
-	  Integer id -- The ID of the record
-  
-  
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>id</code></td>
+        <td style="word-break: break-word;">
+            The ID of the record
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>repo_id</code></td>
+        <td style="word-break: break-word;">
+            The Repository ID
+            
+            <br>
+            <b>Note: </b> The Repository must exist
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-    
-  
-  
-	  Integer repo_id -- The Repository ID -- The Repository must exist
-  
+  </tbody>
+</table>
+
 
 __Returns__
 
   	200 -- JSONModel(:resource_ordered_records)
-
 
 
 
@@ -16442,41 +26632,82 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 ```
 
 
+
 __Endpoint__
 
 ```[:POST] /repositories/:repo_id/resources/:id/publish ```
 
+
 __Description__
 
-Publish a resource and all its sub-records and components
+Publish a resource and all its sub-records and components.
+
+  
+  
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
-  
-	  Integer id -- The ID of the record
-  
-  
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>id</code></td>
+        <td style="word-break: break-word;">
+            The ID of the record
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>repo_id</code></td>
+        <td style="word-break: break-word;">
+            The Repository ID
+            
+            <br>
+            <b>Note: </b> The Repository must exist
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-    
-  
-  
-	  Integer repo_id -- The Repository ID -- The Repository must exist
-  
+  </tbody>
+</table>
+
 
 __Returns__
 
   	200 -- {:status => "Updated", :id => (id of updated object)}
 
   	400 -- {:error => (description of error)}
-
 
 
 
@@ -16521,46 +26752,227 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 ```
 
 
+
 __Endpoint__
 
 ```[:POST] /repositories/:repo_id/resources/:id/suppressed ```
 
+
 __Description__
 
-Suppress this record
+Suppress this record.
+
+  
+  
+  
+  
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
-  
-	  Integer id -- The ID of the record
-  
-  
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>id</code></td>
+        <td style="word-break: break-word;">
+            The ID of the record
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-  
-  
-  
-	  RESTHelpers::BooleanParam suppressed -- Suppression state
-  
-  
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>suppressed</code></td>
+        <td style="word-break: break-word;">
+            Suppression state
+            
+        </td>
+        <td>RESTHelpers::BooleanParam</td>
+        <td></td>
+      </tr>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>repo_id</code></td>
+        <td style="word-break: break-word;">
+            The Repository ID
+            
+            <br>
+            <b>Note: </b> The Repository must exist
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-    
-  
-  
-	  Integer repo_id -- The Repository ID -- The Repository must exist
-  
+  </tbody>
+</table>
+
 
 __Returns__
 
   	200 -- {:status => "Suppressed", :id => (id of updated object), :suppressed_state => (true|false)}
 
+
+
+## Get a CSV template useful for bulk-creating containers for archival objects of a resource
+
+
+
+  
+    
+  
+  
+    
+  
+
+  
+    
+  
+  
+    
+  
+  
+  ```shell
+# Saves the csv to file 'resource_1_top_container_creation.csv'
+curl -H "X-ArchivesSpace-Session: $SESSION" \
+  "http://localhost:8089/repositories/2/resources/1/templates/top_container_creation.csv" \
+  > resource_1_top_container_creation.csv
+
+```
+
+
+```python
+from asnake.client import ASnakeClient
+
+client = ASnakeClient()
+client.authorize()
+
+with open('resource_1_top_container_creation.csv', 'wb') as file:
+    resp = client.get('repositories/2/resources/1/templates/top_container_creation.csv')
+    if resp.status_code == 200:
+        file.write(resp.content)
+
+```
+
+
+__Endpoint__
+
+```[:GET] /repositories/:repo_id/resources/:id/templates/top_container_creation.csv ```
+
+
+__Description__
+
+Get a CSV template useful for bulk-creating containers for archival objects of a resource.
+<br>
+<br>
+This method returns a spreadsheet representing all the archival objects in a resource, with the following  fields:
+
+* Reference Fields (Non-editable):
+  * Archival Object: ID, Ref ID, and Component ID
+  * Resource: Title and Identifier
+* Editable Fields:
+   * Top Container: Instance type, Type, Indicator, and Barcode
+   * Child Container: Type, Indicator, and Barcode
+   * Location: ID (the location must already exist in the system)
+
+
+  
+  
+  
+  
+
+
+__Parameters__
+
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
+    
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>id</code></td>
+        <td style="word-break: break-word;">
+            The ID of the record
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
+    
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>repo_id</code></td>
+        <td style="word-break: break-word;">
+            The Repository ID
+            
+            <br>
+            <b>Note: </b> The Repository must exist
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
+    
+  </tbody>
+</table>
+
+
+__Returns__
+
+  	200 -- The CSV template
 
 
 
@@ -16602,51 +27014,103 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 ```
 
 
+
 __Endpoint__
 
 ```[:GET] /repositories/:repo_id/resources/:id/top_containers ```
 
+
 __Description__
 
-Get Top Containers linked to a published resource and published archival ojbects contained within.
+Get Top Containers linked to a published resource and published archival ojbects contained within..
+
+  
+  
+  
+  
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
-  
-	  Integer id -- The ID of the record
-  
-  
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>id</code></td>
+        <td style="word-break: break-word;">
+            The ID of the record
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>repo_id</code></td>
+        <td style="word-break: break-word;">
+            The Repository ID
+            
+            <br>
+            <b>Note: </b> The Repository must exist
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>resolve</code></td>
+        <td style="word-break: break-word;">
+            A list of references to resolve and embed in the response
+            
+        </td>
+        <td>[String]</td>
+        <td>true</td>
+      </tr>
     
-  
-  
-	  Integer repo_id -- The Repository ID -- The Repository must exist
-  
-  
-    
-  
-  
-    
-    
-  
-  
-	  [String] resolve (Optional) -- A list of references to resolve and embed in the response
-  
+  </tbody>
+</table>
+
 
 __Returns__
 
   	200 -- a list of linked top containers
 
   	404 -- Not found
-
 
 
 
@@ -16686,51 +27150,103 @@ __Returns__
 ```shell
 curl -H "X-ArchivesSpace-Session: $SESSION" \
   -d 'Example Missing' \
-  "http://localhost:8089/repositories/2/resources/1/transfer?target_repo=KBVKL"
+  "http://localhost:8089/repositories/2/resources/1/transfer?target_repo=XH598327220"
 
 ```
+
 
 
 __Endpoint__
 
 ```[:POST] /repositories/:repo_id/resources/:id/transfer ```
 
+
 __Description__
 
-Transfer this record to a different repository
+Transfer this record to a different repository.
+
+  
+  
+  
+  
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
-  
-	  Integer id -- The ID of the record
-  
-  
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>id</code></td>
+        <td style="word-break: break-word;">
+            The ID of the record
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-  
-  
-  
-	  String target_repo -- The URI of the target repository
-  
-  
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>target_repo</code></td>
+        <td style="word-break: break-word;">
+            The URI of the target repository
+            
+        </td>
+        <td>String</td>
+        <td></td>
+      </tr>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>repo_id</code></td>
+        <td style="word-break: break-word;">
+            The Repository ID
+            
+            <br>
+            <b>Note: </b> The Repository must exist
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-    
-  
-  
-	  Integer repo_id -- The Repository ID -- The Repository must exist
-  
+  </tbody>
+</table>
+
 
 __Returns__
 
   	200 -- moved
-
 
 
 
@@ -16769,21 +27285,16 @@ __Returns__
   
 ```shell
 curl -H "X-ArchivesSpace-Session: $SESSION" \
-  "http://localhost:8089/repositories/2/resources/1/tree?limit_to=ITJ723D"
+  "http://localhost:8089/repositories/2/resources/1/tree?limit_to=U106CSG"
 
 ```
+
 
 
 __Endpoint__
 
 ```[:GET] /repositories/:repo_id/resources/:id/tree ```
 
-__Description__
-
-Get a Resource tree
-
-
-__Parameters__
 <aside class="warning">
   This endpoint is deprecated, and may be removed from a future release of ArchivesSpace.
   
@@ -16791,39 +27302,95 @@ __Parameters__
   
 </aside>
 
+__Description__
+
+Get a Resource tree.
 
   
+  
+  
+  
+  
+  
+
+
+__Parameters__
+
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
-  
-	  Integer id -- The ID of the record
-  
-  
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>id</code></td>
+        <td style="word-break: break-word;">
+            The ID of the record
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>limit_to</code></td>
+        <td style="word-break: break-word;">
+            An Archival Object URI or 'root'
+            
+        </td>
+        <td>String</td>
+        <td>true</td>
+      </tr>
     
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>repo_id</code></td>
+        <td style="word-break: break-word;">
+            The Repository ID
+            
+            <br>
+            <b>Note: </b> The Repository must exist
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-  
-  
-	  String limit_to (Optional) -- An Archival Object URI or 'root'
-  
-  
-    
-  
-  
-    
-    
-  
-  
-	  Integer repo_id -- The Repository ID -- The Repository must exist
-  
+  </tbody>
+</table>
+
 
 __Returns__
 
   	200 -- OK
-
 
 
 
@@ -16872,58 +27439,123 @@ __Returns__
     
   
   
-```shell
+  ```shell
 curl -H "X-ArchivesSpace-Session: $SESSION" \
-  "http://localhost:8089/repositories/2/resources/1/tree/node?node_uri=K132TY698&published_only=true"
+  "http://localhost:8089/repositories/2/resources/1/tree/node?node_uri=/repositories/2/archival_objects/1"
 
 ```
+
+
 
 
 __Endpoint__
 
 ```[:GET] /repositories/:repo_id/resources/:id/tree/node ```
 
+
 __Description__
 
-Fetch tree information for an Archival Object record within a tree
+Fetch tree information for an Archival Object record within a tree.
+
+  
+  
+  
+  
+  
+  
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
-  
-	  Integer id -- The ID of the record
-  
-  
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>id</code></td>
+        <td style="word-break: break-word;">
+            The ID of the record
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>repo_id</code></td>
+        <td style="word-break: break-word;">
+            The Repository ID
+            
+            <br>
+            <b>Note: </b> The Repository must exist
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>node_uri</code></td>
+        <td style="word-break: break-word;">
+            The URI of the Archival Object record of interest
+            
+        </td>
+        <td>String</td>
+        <td></td>
+      </tr>
     
-  
-  
-	  Integer repo_id -- The Repository ID -- The Repository must exist
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>published_only</code></td>
+        <td style="word-break: break-word;">
+            Whether to restrict to published/unsuppressed items
+            
+        </td>
+        <td>RESTHelpers::BooleanParam</td>
+        <td></td>
+      </tr>
     
-  
-  
-  
-	  String node_uri -- The URI of the Archival Object record of interest
-  
-  
-    
-  
-  
-    
-    
-  
-  
-	  RESTHelpers::BooleanParam published_only -- Whether to restrict to published/unsuppressed items
-  
+  </tbody>
+</table>
+
 
 __Returns__
 
@@ -16945,7 +27577,6 @@ __Returns__
     same format as returned by the '/waypoint' endpoint.  Since a fetch for a
     given node is almost always followed by a fetch of the first waypoint, using
     the information in this structure can save a backend call.
-
 
 
 
@@ -16994,58 +27625,123 @@ __Returns__
     
   
   
-```shell
+  ```shell
 curl -H "X-ArchivesSpace-Session: $SESSION" \
-  "http://localhost:8089/repositories/2/resources/1/tree/node_from_root?node_ids=1&published_only=true"
+  "http://localhost:8089/repositories/2/resources/1/tree/node_from_root?node_ids[]=1"
 
 ```
+
+
 
 
 __Endpoint__
 
 ```[:GET] /repositories/:repo_id/resources/:id/tree/node_from_root ```
 
+
 __Description__
 
-Fetch tree paths from the root record to Archival Objects
+Fetch tree paths from the root record to Archival Objects.
+
+  
+  
+  
+  
+  
+  
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
-  
-	  Integer id -- The ID of the record
-  
-  
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>id</code></td>
+        <td style="word-break: break-word;">
+            The ID of the record
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>repo_id</code></td>
+        <td style="word-break: break-word;">
+            The Repository ID
+            
+            <br>
+            <b>Note: </b> The Repository must exist
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>node_ids</code></td>
+        <td style="word-break: break-word;">
+            The IDs of the Archival Object records of interest
+            
+        </td>
+        <td>[Integer]</td>
+        <td></td>
+      </tr>
     
-  
-  
-	  Integer repo_id -- The Repository ID -- The Repository must exist
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>published_only</code></td>
+        <td style="word-break: break-word;">
+            Whether to restrict to published/unsuppressed items
+            
+        </td>
+        <td>RESTHelpers::BooleanParam</td>
+        <td></td>
+      </tr>
     
-  
-  
-  
-	  [Integer] node_ids -- The IDs of the Archival Object records of interest
-  
-  
-    
-  
-  
-    
-    
-  
-  
-	  RESTHelpers::BooleanParam published_only -- Whether to restrict to published/unsuppressed items
-  
+  </tbody>
+</table>
+
 
 __Returns__
 
@@ -17055,7 +27751,6 @@ __Returns__
 
   * offset -- the waypoint number within `node` that contains the next entry in
     the path (or the desired record, if we're at the end of the path)
-
 
 
 
@@ -17092,51 +27787,105 @@ __Returns__
     
   
   
-```shell
+  ```shell
 curl -H "X-ArchivesSpace-Session: $SESSION" \
-  "http://localhost:8089/repositories/2/resources/1/tree/root?published_only=true"
+  "http://localhost:8089/repositories/2/resources/1/tree/root"
 
 ```
+
+
 
 
 __Endpoint__
 
 ```[:GET] /repositories/:repo_id/resources/:id/tree/root ```
 
+
 __Description__
 
-Fetch tree information for the top-level resource record
+Fetch tree information for the top-level resource record.
+
+  
+  
+  
+  
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
-  
-	  Integer id -- The ID of the record
-  
-  
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>id</code></td>
+        <td style="word-break: break-word;">
+            The ID of the record
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>repo_id</code></td>
+        <td style="word-break: break-word;">
+            The Repository ID
+            
+            <br>
+            <b>Note: </b> The Repository must exist
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>published_only</code></td>
+        <td style="word-break: break-word;">
+            Whether to restrict to published/unsuppressed items
+            
+        </td>
+        <td>RESTHelpers::BooleanParam</td>
+        <td></td>
+      </tr>
     
-  
-  
-	  Integer repo_id -- The Repository ID -- The Repository must exist
-  
-  
-    
-  
-  
-    
-    
-  
-  
-	  RESTHelpers::BooleanParam published_only -- Whether to restrict to published/unsuppressed items
-  
+  </tbody>
+</table>
+
 
 __Returns__
 
@@ -17151,7 +27900,6 @@ __Returns__
   * waypoints -- the number of "waypoints" those children are grouped into
 
   * waypoint_size -- the number of children in each waypoint
-
 
 
 
@@ -17212,68 +27960,144 @@ __Returns__
     
   
   
-```shell
+  ```shell
 curl -H "X-ArchivesSpace-Session: $SESSION" \
-  "http://localhost:8089/repositories/2/resources/1/tree/waypoint?offset=1&parent_node=WCY583E&published_only=true"
+  "http://localhost:8089/repositories/2/resources/1/tree/waypoint?offset=0&parent_node=/repositories/2/archival_objects/1"
 
 ```
+
+
 
 
 __Endpoint__
 
 ```[:GET] /repositories/:repo_id/resources/:id/tree/waypoint ```
 
+
 __Description__
 
-Fetch the record slice for a given tree waypoint
+Fetch the record slice for a given tree waypoint.
+
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
-  
-	  Integer id -- The ID of the record
-  
-  
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>id</code></td>
+        <td style="word-break: break-word;">
+            The ID of the record
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>repo_id</code></td>
+        <td style="word-break: break-word;">
+            The Repository ID
+            
+            <br>
+            <b>Note: </b> The Repository must exist
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>offset</code></td>
+        <td style="word-break: break-word;">
+            The page of records to return
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-  
-  
-	  Integer repo_id -- The Repository ID -- The Repository must exist
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>parent_node</code></td>
+        <td style="word-break: break-word;">
+            The URI of the parent of this waypoint (none for the root record)
+            
+        </td>
+        <td>String</td>
+        <td>true</td>
+      </tr>
     
-  
-  
-  
-	  Integer offset -- The page of records to return
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>published_only</code></td>
+        <td style="word-break: break-word;">
+            Whether to restrict to published/unsuppressed items
+            
+        </td>
+        <td>RESTHelpers::BooleanParam</td>
+        <td></td>
+      </tr>
     
-  
-  
-    
-    
-  
-  
-	  String parent_node (Optional) -- The URI of the parent of this waypoint (none for the root record)
-  
-  
-    
-  
-  
-    
-    
-  
-  
-	  RESTHelpers::BooleanParam published_only -- Whether to restrict to published/unsuppressed items
-  
+  </tbody>
+</table>
+
 
 __Returns__
 
@@ -17287,6 +28111,110 @@ __Returns__
 
   * parent_id -- the internal ID of this document's parent
 
+
+
+## Unpublish a resource and all its sub-records and components
+
+
+
+  
+    
+  
+  
+    
+  
+
+  
+    
+  
+  
+    
+  
+  
+```shell
+curl -H "X-ArchivesSpace-Session: $SESSION" \
+  -d 'Example Missing' \
+  "http://localhost:8089/repositories/2/resources/1/unpublish"
+
+```
+
+
+
+__Endpoint__
+
+```[:POST] /repositories/:repo_id/resources/:id/unpublish ```
+
+
+__Description__
+
+Unpublish a resource and all its sub-records and components.
+
+  
+  
+  
+  
+
+
+__Parameters__
+
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
+    
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>id</code></td>
+        <td style="word-break: break-word;">
+            The ID of the record
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
+    
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>repo_id</code></td>
+        <td style="word-break: break-word;">
+            The Repository ID
+            
+            <br>
+            <b>Note: </b> The Repository must exist
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
+    
+  </tbody>
+</table>
+
+
+__Returns__
+
+  	200 -- {:status => "Updated", :id => (id of updated object)}
+
+  	400 -- {:error => (description of error)}
 
 
 
@@ -17323,9 +28251,32 @@ __Returns__
     
   
   
-```shell
-curl -H "X-ArchivesSpace-Session: $SESSION" \
-  "http://localhost:8089/repositories/2/resources/marc21/1.:fmt/metadata?include_unpublished_marc=true"
+  ```shell
+curl -s -F password="admin" "http://localhost:8089/users/admin/login"
+set SESSION="session_id"
+curl -H "X-ArchivesSpace-Session: $SESSION" //
+"http://localhost:8089/repositories/2/resources/marc21/577.:fmt/metadata?include_unpublished_marc=true"
+
+```
+
+
+```python
+from asnake.client import ASnakeClient  # import the ArchivesSnake client
+
+client = ASnakeClient(baseurl="http://localhost:8089", username="admin", password="admin")
+# replace http://localhost:8089 with your ArchivesSpace API URL and admin for your username and password
+
+client.authorize()  # authorizes the client
+
+marc21_fmt = client.get("/repositories/2/resources/marc21/577.:fmt/metadata",
+                        params={"include_unpublished_marc": True})
+# replace 2 for your repository ID and 577 with your resource ID. Find these at the URI on the staff interface
+# set include_unpublished_marc to True or False
+
+print(marc21_fmt.content)
+# Sample output: {"filename":"identifier_20210218_182435_UTC__marc21.xml","mimetype":"application/xml"}
+
+# For error handling, print or log the returned value of client.get with .json() - print(marc21_fmt.json())
 
 ```
 
@@ -17334,45 +28285,96 @@ __Endpoint__
 
 ```[:GET] /repositories/:repo_id/resources/marc21/:id.:fmt/metadata ```
 
+
 __Description__
 
-Get metadata for a MARC21 export
+Get metadata for a MARC21 export.
+
+  
+  
+  
+  
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
-  
-	  Integer id -- The ID of the record
-  
-  
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>id</code></td>
+        <td style="word-break: break-word;">
+            The ID of the record
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>repo_id</code></td>
+        <td style="word-break: break-word;">
+            The Repository ID
+            
+            <br>
+            <b>Note: </b> The Repository must exist
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>include_unpublished_marc</code></td>
+        <td style="word-break: break-word;">
+            Include unpublished notes
+            
+        </td>
+        <td>RESTHelpers::BooleanParam</td>
+        <td>true</td>
+      </tr>
     
-  
-  
-	  Integer repo_id -- The Repository ID -- The Repository must exist
-  
-  
-    
-  
-  
-    
-    
-  
-  
-	  RESTHelpers::BooleanParam include_unpublished_marc (Optional) -- Include unpublished notes
-  
+  </tbody>
+</table>
+
 
 __Returns__
 
   	200 -- The export metadata
-
 
 
 
@@ -17409,9 +28411,33 @@ __Returns__
     
   
   
-```shell
-curl -H "X-ArchivesSpace-Session: $SESSION" \
-  "http://localhost:8089/repositories/2/resources/marc21/1.xml?include_unpublished_marc=true"
+  ```shell
+curl -s -F password="admin" "http://localhost:8089/users/admin/login"
+set SESSION="session_id"
+curl -H "X-ArchivesSpace-Session: $SESSION" //
+"http://localhost:8089/repositories/2/resources/marc21/577.xml?include_unpublished_marc=true;include_unpublished_notes=false" //
+--output marc21.xml
+
+```
+
+
+```python
+from asnake.client import ASnakeClient  # import the ArchivesSnake client
+
+client = ASnakeClient(baseurl="http://localhost:8089", username="admin", password="admin")
+# replace http://localhost:8089 with your ArchivesSpace API URL and admin for your username and password
+
+client.authorize()  # authorizes the client
+
+marc21_xml = client.get("/repositories/2/resources/marc21/577.xml",
+                        params={"include_unpublished_marc": True,
+                                "include_unpublished_notes": False})
+# replace 2 for your repository ID and 577 with your resource ID. Find these at the URI on the staff interface
+# set parameters to True or False
+
+with open("marc21.xml", "wb") as file:  # save the file
+    file.write(marc21_xml.content)  # write the file content to our file.
+    file.close()
 
 ```
 
@@ -17420,45 +28446,96 @@ __Endpoint__
 
 ```[:GET] /repositories/:repo_id/resources/marc21/:id.xml ```
 
+
 __Description__
 
-Get a MARC 21 representation of a Resource
+Get a MARC 21 representation of a Resource.
+
+  
+  
+  
+  
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
-  
-	  Integer id -- The ID of the record
-  
-  
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>id</code></td>
+        <td style="word-break: break-word;">
+            The ID of the record
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>repo_id</code></td>
+        <td style="word-break: break-word;">
+            The Repository ID
+            
+            <br>
+            <b>Note: </b> The Repository must exist
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>include_unpublished_marc</code></td>
+        <td style="word-break: break-word;">
+            Include unpublished notes
+            
+        </td>
+        <td>RESTHelpers::BooleanParam</td>
+        <td>true</td>
+      </tr>
     
-  
-  
-	  Integer repo_id -- The Repository ID -- The Repository must exist
-  
-  
-    
-  
-  
-    
-    
-  
-  
-	  RESTHelpers::BooleanParam include_unpublished_marc (Optional) -- Include unpublished notes
-  
+  </tbody>
+</table>
+
 
 __Returns__
 
   	200 -- (:resource)
-
 
 
 
@@ -17506,6 +28583,15 @@ __Returns__
     
   
   
+    
+  
+  
+  
+    
+      
+        
+      
+        
   
     
       
@@ -17581,6 +28667,9 @@ __Returns__
   
   
 
+  
+    
+  
   
     
   
@@ -17624,64 +28713,99 @@ __Returns__
 ```shell
     
 curl -H "X-ArchivesSpace-Session: $SESSION" \
-  -d '"42213DSX"' \
-  "http://localhost:8089/repositories/2/search?q=42213DSX&aq=["Example Missing"]&type=VRA932N&sort=EW730YL&facet=N711542B834&facet_mincount=1&filter=["Example Missing"]&exclude=RKQCW&hl=true&root_record=TP569TA&dt=F28198134061&fields=515158EHP"
+  -d '"WJQ40460"' \
+  "http://localhost:8089/repositories/2/search?q=WJQ40460&aq=["Example Missing"]&type=KLNIJ&sort=228S786TL&facet=G917642826&facet_mincount=1&filter=["Example Missing"]&filter_query=985H286HR&exclude=LH297O71&hl=true&root_record=E337W452R&dt=806NE491396&fields=679FWRT"
     
 curl -H "X-ArchivesSpace-Session: $SESSION" \
   -d '["Example Missing"]' \
-  "http://localhost:8089/repositories/2/search?q=42213DSX&aq=["Example Missing"]&type=VRA932N&sort=EW730YL&facet=N711542B834&facet_mincount=1&filter=["Example Missing"]&exclude=RKQCW&hl=true&root_record=TP569TA&dt=F28198134061&fields=515158EHP"
+  "http://localhost:8089/repositories/2/search?q=WJQ40460&aq=["Example Missing"]&type=KLNIJ&sort=228S786TL&facet=G917642826&facet_mincount=1&filter=["Example Missing"]&filter_query=985H286HR&exclude=LH297O71&hl=true&root_record=E337W452R&dt=806NE491396&fields=679FWRT"
     
 curl -H "X-ArchivesSpace-Session: $SESSION" \
-  -d '"VRA932N"' \
-  "http://localhost:8089/repositories/2/search?q=42213DSX&aq=["Example Missing"]&type=VRA932N&sort=EW730YL&facet=N711542B834&facet_mincount=1&filter=["Example Missing"]&exclude=RKQCW&hl=true&root_record=TP569TA&dt=F28198134061&fields=515158EHP"
+  -d '"KLNIJ"' \
+  "http://localhost:8089/repositories/2/search?q=WJQ40460&aq=["Example Missing"]&type=KLNIJ&sort=228S786TL&facet=G917642826&facet_mincount=1&filter=["Example Missing"]&filter_query=985H286HR&exclude=LH297O71&hl=true&root_record=E337W452R&dt=806NE491396&fields=679FWRT"
     
 curl -H "X-ArchivesSpace-Session: $SESSION" \
-  -d '"EW730YL"' \
-  "http://localhost:8089/repositories/2/search?q=42213DSX&aq=["Example Missing"]&type=VRA932N&sort=EW730YL&facet=N711542B834&facet_mincount=1&filter=["Example Missing"]&exclude=RKQCW&hl=true&root_record=TP569TA&dt=F28198134061&fields=515158EHP"
+  -d '"228S786TL"' \
+  "http://localhost:8089/repositories/2/search?q=WJQ40460&aq=["Example Missing"]&type=KLNIJ&sort=228S786TL&facet=G917642826&facet_mincount=1&filter=["Example Missing"]&filter_query=985H286HR&exclude=LH297O71&hl=true&root_record=E337W452R&dt=806NE491396&fields=679FWRT"
     
 curl -H "X-ArchivesSpace-Session: $SESSION" \
-  -d '"N711542B834"' \
-  "http://localhost:8089/repositories/2/search?q=42213DSX&aq=["Example Missing"]&type=VRA932N&sort=EW730YL&facet=N711542B834&facet_mincount=1&filter=["Example Missing"]&exclude=RKQCW&hl=true&root_record=TP569TA&dt=F28198134061&fields=515158EHP"
+  -d '"G917642826"' \
+  "http://localhost:8089/repositories/2/search?q=WJQ40460&aq=["Example Missing"]&type=KLNIJ&sort=228S786TL&facet=G917642826&facet_mincount=1&filter=["Example Missing"]&filter_query=985H286HR&exclude=LH297O71&hl=true&root_record=E337W452R&dt=806NE491396&fields=679FWRT"
     
 curl -H "X-ArchivesSpace-Session: $SESSION" \
   -d '"1"' \
-  "http://localhost:8089/repositories/2/search?q=42213DSX&aq=["Example Missing"]&type=VRA932N&sort=EW730YL&facet=N711542B834&facet_mincount=1&filter=["Example Missing"]&exclude=RKQCW&hl=true&root_record=TP569TA&dt=F28198134061&fields=515158EHP"
+  "http://localhost:8089/repositories/2/search?q=WJQ40460&aq=["Example Missing"]&type=KLNIJ&sort=228S786TL&facet=G917642826&facet_mincount=1&filter=["Example Missing"]&filter_query=985H286HR&exclude=LH297O71&hl=true&root_record=E337W452R&dt=806NE491396&fields=679FWRT"
     
 curl -H "X-ArchivesSpace-Session: $SESSION" \
   -d '["Example Missing"]' \
-  "http://localhost:8089/repositories/2/search?q=42213DSX&aq=["Example Missing"]&type=VRA932N&sort=EW730YL&facet=N711542B834&facet_mincount=1&filter=["Example Missing"]&exclude=RKQCW&hl=true&root_record=TP569TA&dt=F28198134061&fields=515158EHP"
+  "http://localhost:8089/repositories/2/search?q=WJQ40460&aq=["Example Missing"]&type=KLNIJ&sort=228S786TL&facet=G917642826&facet_mincount=1&filter=["Example Missing"]&filter_query=985H286HR&exclude=LH297O71&hl=true&root_record=E337W452R&dt=806NE491396&fields=679FWRT"
     
 curl -H "X-ArchivesSpace-Session: $SESSION" \
-  -d '"RKQCW"' \
-  "http://localhost:8089/repositories/2/search?q=42213DSX&aq=["Example Missing"]&type=VRA932N&sort=EW730YL&facet=N711542B834&facet_mincount=1&filter=["Example Missing"]&exclude=RKQCW&hl=true&root_record=TP569TA&dt=F28198134061&fields=515158EHP"
+  -d '"985H286HR"' \
+  "http://localhost:8089/repositories/2/search?q=WJQ40460&aq=["Example Missing"]&type=KLNIJ&sort=228S786TL&facet=G917642826&facet_mincount=1&filter=["Example Missing"]&filter_query=985H286HR&exclude=LH297O71&hl=true&root_record=E337W452R&dt=806NE491396&fields=679FWRT"
+    
+curl -H "X-ArchivesSpace-Session: $SESSION" \
+  -d '"LH297O71"' \
+  "http://localhost:8089/repositories/2/search?q=WJQ40460&aq=["Example Missing"]&type=KLNIJ&sort=228S786TL&facet=G917642826&facet_mincount=1&filter=["Example Missing"]&filter_query=985H286HR&exclude=LH297O71&hl=true&root_record=E337W452R&dt=806NE491396&fields=679FWRT"
     
 curl -H "X-ArchivesSpace-Session: $SESSION" \
   -d '"BooleanParam"' \
-  "http://localhost:8089/repositories/2/search?q=42213DSX&aq=["Example Missing"]&type=VRA932N&sort=EW730YL&facet=N711542B834&facet_mincount=1&filter=["Example Missing"]&exclude=RKQCW&hl=true&root_record=TP569TA&dt=F28198134061&fields=515158EHP"
+  "http://localhost:8089/repositories/2/search?q=WJQ40460&aq=["Example Missing"]&type=KLNIJ&sort=228S786TL&facet=G917642826&facet_mincount=1&filter=["Example Missing"]&filter_query=985H286HR&exclude=LH297O71&hl=true&root_record=E337W452R&dt=806NE491396&fields=679FWRT"
     
 curl -H "X-ArchivesSpace-Session: $SESSION" \
-  -d '"TP569TA"' \
-  "http://localhost:8089/repositories/2/search?q=42213DSX&aq=["Example Missing"]&type=VRA932N&sort=EW730YL&facet=N711542B834&facet_mincount=1&filter=["Example Missing"]&exclude=RKQCW&hl=true&root_record=TP569TA&dt=F28198134061&fields=515158EHP"
+  -d '"E337W452R"' \
+  "http://localhost:8089/repositories/2/search?q=WJQ40460&aq=["Example Missing"]&type=KLNIJ&sort=228S786TL&facet=G917642826&facet_mincount=1&filter=["Example Missing"]&filter_query=985H286HR&exclude=LH297O71&hl=true&root_record=E337W452R&dt=806NE491396&fields=679FWRT"
     
 curl -H "X-ArchivesSpace-Session: $SESSION" \
-  -d '"F28198134061"' \
-  "http://localhost:8089/repositories/2/search?q=42213DSX&aq=["Example Missing"]&type=VRA932N&sort=EW730YL&facet=N711542B834&facet_mincount=1&filter=["Example Missing"]&exclude=RKQCW&hl=true&root_record=TP569TA&dt=F28198134061&fields=515158EHP"
+  -d '"806NE491396"' \
+  "http://localhost:8089/repositories/2/search?q=WJQ40460&aq=["Example Missing"]&type=KLNIJ&sort=228S786TL&facet=G917642826&facet_mincount=1&filter=["Example Missing"]&filter_query=985H286HR&exclude=LH297O71&hl=true&root_record=E337W452R&dt=806NE491396&fields=679FWRT"
     
 curl -H "X-ArchivesSpace-Session: $SESSION" \
-  -d '"515158EHP"' \
-  "http://localhost:8089/repositories/2/search?q=42213DSX&aq=["Example Missing"]&type=VRA932N&sort=EW730YL&facet=N711542B834&facet_mincount=1&filter=["Example Missing"]&exclude=RKQCW&hl=true&root_record=TP569TA&dt=F28198134061&fields=515158EHP"
+  -d '"679FWRT"' \
+  "http://localhost:8089/repositories/2/search?q=WJQ40460&aq=["Example Missing"]&type=KLNIJ&sort=228S786TL&facet=G917642826&facet_mincount=1&filter=["Example Missing"]&filter_query=985H286HR&exclude=LH297O71&hl=true&root_record=E337W452R&dt=806NE491396&fields=679FWRT"
   
 
 ```
+
 
 
 __Endpoint__
 
 ```[:GET, :POST] /repositories/:repo_id/search ```
 
+
 __Description__
 
-Search this repository
+Search this repository.
+
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
 
 
 __Parameters__
@@ -17693,141 +28817,293 @@ This endpoint is paginated. :page is required
 </ul>
 </aside>
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>repo_id</code></td>
+        <td style="word-break: break-word;">
+            The Repository ID
+            
+            <br>
+            <b>Note: </b> The Repository must exist
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>q</code></td>
+        <td style="word-break: break-word;">
+            A search query string.  Uses Lucene 4.0 syntax: http://lucene.apache.org/core/4_0_0/queryparser/org/apache/lucene/queryparser/classic/package-summary.html  Search index structure can be found in solr/schema.xml
+            
+        </td>
+        <td>String</td>
+        <td>true</td>
+      </tr>
     
-  
-  
-	  Integer repo_id -- The Repository ID -- The Repository must exist
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>aq</code></td>
+        <td style="word-break: break-word;">
+            A json string containing the advanced query
+            
+        </td>
+        <td>JSONModel(:advanced_query)</td>
+        <td>true</td>
+      </tr>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>type</code></td>
+        <td style="word-break: break-word;">
+            The record type to search (defaults to all types if not specified)
+            
+        </td>
+        <td>[String]</td>
+        <td>true</td>
+      </tr>
     
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>sort</code></td>
+        <td style="word-break: break-word;">
+            The attribute to sort and the direction e.g. &sort=title desc&...
+            
+        </td>
+        <td>String</td>
+        <td>true</td>
+      </tr>
     
-  
-  
-	  String q (Optional) -- A search query string.  Uses Lucene 4.0 syntax: http://lucene.apache.org/core/4_0_0/queryparser/org/apache/lucene/queryparser/classic/package-summary.html  Search index structure can be found in solr/schema.xml
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>facet</code></td>
+        <td style="word-break: break-word;">
+            The list of the fields to produce facets for
+            
+        </td>
+        <td>[String]</td>
+        <td>true</td>
+      </tr>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>facet_mincount</code></td>
+        <td style="word-break: break-word;">
+            The minimum count for a facet field to be included in the response
+            
+        </td>
+        <td>Integer</td>
+        <td>true</td>
+      </tr>
     
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>filter</code></td>
+        <td style="word-break: break-word;">
+            A json string containing the advanced query to filter by
+            
+        </td>
+        <td>JSONModel(:advanced_query)</td>
+        <td>true</td>
+      </tr>
     
-  
-  
-	  JSONModel(:advanced_query) aq (Optional) -- A json string containing the advanced query
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>filter_query</code></td>
+        <td style="word-break: break-word;">
+            Search queries to be applied as a filter to the results.
+            
+        </td>
+        <td>[String]</td>
+        <td>true</td>
+      </tr>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>exclude</code></td>
+        <td style="word-break: break-word;">
+            A list of document IDs that should be excluded from results
+            
+        </td>
+        <td>[String]</td>
+        <td>true</td>
+      </tr>
     
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>hl</code></td>
+        <td style="word-break: break-word;">
+            Whether to use highlighting
+            
+        </td>
+        <td>RESTHelpers::BooleanParam</td>
+        <td>true</td>
+      </tr>
     
-  
-  
-	  [String] type (Optional) -- The record type to search (defaults to all types if not specified)
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>root_record</code></td>
+        <td style="word-break: break-word;">
+            Search within a collection of records (defined by the record at the root of the tree)
+            
+        </td>
+        <td>String</td>
+        <td>true</td>
+      </tr>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>dt</code></td>
+        <td style="word-break: break-word;">
+            Format to return (JSON default)
+            
+        </td>
+        <td>String</td>
+        <td>true</td>
+      </tr>
     
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>fields</code></td>
+        <td style="word-break: break-word;">
+            The list of fields to include in the results
+            
+        </td>
+        <td>[String]</td>
+        <td>true</td>
+      </tr>
     
-  
-  
-	  String sort (Optional) -- The attribute to sort and the direction e.g. &sort=title desc&...
-  
-  
-    
-  
-  
-    
-    
-  
-  
-	  [String] facet (Optional) -- The list of the fields to produce facets for
-  
-  
-    
-  
-  
-    
-    
-  
-  
-	  Integer facet_mincount (Optional) -- The minimum count for a facet field to be included in the response
-  
-  
-    
-  
-  
-    
-    
-  
-  
-	  JSONModel(:advanced_query) filter (Optional) -- A json string containing the advanced query to filter by
-  
-  
-    
-  
-  
-    
-    
-  
-  
-	  [String] exclude (Optional) -- A list of document IDs that should be excluded from results
-  
-  
-    
-  
-  
-    
-    
-  
-  
-	  RESTHelpers::BooleanParam hl (Optional) -- Whether to use highlighting
-  
-  
-    
-  
-  
-    
-    
-  
-  
-	  String root_record (Optional) -- Search within a collection of records (defined by the record at the root of the tree)
-  
-  
-    
-  
-  
-    
-    
-  
-  
-	  String dt (Optional) -- Format to return (JSON default)
-  
-  
-    
-  
-  
-    
-    
-  
-  
-	  [String] fields (Optional) -- The list of fields to include in the results
-  
+  </tbody>
+</table>
+
 
 __Returns__
 
   	200 -- 
-
 
 
 
@@ -17857,53 +29133,78 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 "container_locations":[],
 "series":[],
 "collection":[],
-"indicator":"73516PYH",
+"indicator":"130UI788D",
 "type":"box",
-"barcode":"228ad3845f336224fe31d73a15e2a656",
-"ils_holding_id":"J501MM0",
-"ils_item_id":"564EHTB",
-"exported_to_ils":"2020-11-11T13:18:16-05:00"}' \
+"barcode":"dfd3661ae04731b705c32e3af31585d1",
+"ils_holding_id":"SJ885I20",
+"ils_item_id":"UR88943Q",
+"exported_to_ils":"2021-09-20T19:04:39-04:00"}' \
   "http://localhost:8089/repositories/2/top_containers"
 
 ```
+
 
 
 __Endpoint__
 
 ```[:POST] /repositories/:repo_id/top_containers ```
 
+
 __Description__
 
-Create a top container
+Create a top container.
+
+  
+  
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>repo_id</code></td>
+        <td style="word-break: break-word;">
+            The Repository ID
+            
+            <br>
+            <b>Note: </b> The Repository must exist
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-    
-  
-  
-	  JSONModel(:top_container) <request body> -- The record to create
-  
-  
-    
-  
-  
-    
-    
-  
-  
-	  Integer repo_id -- The Repository ID -- The Repository must exist
-  
+  </tbody>
+</table>
+
+__Accepts Payload of Type__
+
+JSONModel(:top_container)
 
 __Returns__
 
   	200 -- {:status => "Created", :id => (id of created object), :warnings => {(warnings)}}
-
 
 
 
@@ -17933,13 +29234,18 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 ```
 
 
+
 __Endpoint__
 
 ```[:GET] /repositories/:repo_id/top_containers ```
 
+
 __Description__
 
-Get a list of TopContainers for a Repository
+Get a list of TopContainers for a Repository.
+
+  
+  
 
 
 __Parameters__
@@ -17953,21 +29259,47 @@ This endpoint is paginated. :page, :id_set, or :all_ids is required
 </ul>
 </aside>
 
-  
+
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>repo_id</code></td>
+        <td style="word-break: break-word;">
+            The Repository ID
+            
+            <br>
+            <b>Note: </b> The Repository must exist
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-    
-  
-  
-	  Integer repo_id -- The Repository ID -- The Repository must exist
-  
+  </tbody>
+</table>
+
 
 __Returns__
 
   	200 -- [(:top_container)]
-
 
 
 
@@ -18003,60 +29335,96 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 "container_locations":[],
 "series":[],
 "collection":[],
-"indicator":"73516PYH",
+"indicator":"130UI788D",
 "type":"box",
-"barcode":"228ad3845f336224fe31d73a15e2a656",
-"ils_holding_id":"J501MM0",
-"ils_item_id":"564EHTB",
-"exported_to_ils":"2020-11-11T13:18:16-05:00"}' \
+"barcode":"dfd3661ae04731b705c32e3af31585d1",
+"ils_holding_id":"SJ885I20",
+"ils_item_id":"UR88943Q",
+"exported_to_ils":"2021-09-20T19:04:39-04:00"}' \
   "http://localhost:8089/repositories/2/top_containers/1"
 
 ```
+
 
 
 __Endpoint__
 
 ```[:POST] /repositories/:repo_id/top_containers/:id ```
 
+
 __Description__
 
-Update a top container
+Update a top container.
+
+  
+  
+  
+  
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
-  
-	  Integer id -- The ID of the record
-  
-  
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>id</code></td>
+        <td style="word-break: break-word;">
+            The ID of the record
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>repo_id</code></td>
+        <td style="word-break: break-word;">
+            The Repository ID
+            
+            <br>
+            <b>Note: </b> The Repository must exist
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-    
-  
-  
-	  JSONModel(:top_container) <request body> -- The updated record
-  
-  
-    
-  
-  
-    
-    
-  
-  
-	  Integer repo_id -- The Repository ID -- The Repository must exist
-  
+  </tbody>
+</table>
+
+__Accepts Payload of Type__
+
+JSONModel(:top_container)
 
 __Returns__
 
   	200 -- {:status => "Updated", :id => (id of updated object)}
-
 
 
 
@@ -18098,49 +29466,101 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 ```
 
 
+
 __Endpoint__
 
 ```[:GET] /repositories/:repo_id/top_containers/:id ```
 
+
 __Description__
 
-Get a top container by ID
+Get a top container by ID.
+
+  
+  
+  
+  
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
-  
-	  Integer id -- The ID of the record
-  
-  
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>id</code></td>
+        <td style="word-break: break-word;">
+            The ID of the record
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>repo_id</code></td>
+        <td style="word-break: break-word;">
+            The Repository ID
+            
+            <br>
+            <b>Note: </b> The Repository must exist
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>resolve</code></td>
+        <td style="word-break: break-word;">
+            A list of references to resolve and embed in the response
+            
+        </td>
+        <td>[String]</td>
+        <td>true</td>
+      </tr>
     
-  
-  
-	  Integer repo_id -- The Repository ID -- The Repository must exist
-  
-  
-    
-  
-  
-    
-    
-  
-  
-	  [String] resolve (Optional) -- A list of references to resolve and embed in the response
-  
+  </tbody>
+</table>
+
 
 __Returns__
 
   	200 -- (:top_container)
-
 
 
 
@@ -18170,39 +29590,80 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 ```
 
 
+
 __Endpoint__
 
 ```[:DELETE] /repositories/:repo_id/top_containers/:id ```
 
+
 __Description__
 
-Delete a top container
+Delete a top container.
+
+  
+  
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
-  
-	  Integer id -- The ID of the record
-  
-  
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>id</code></td>
+        <td style="word-break: break-word;">
+            The ID of the record
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>repo_id</code></td>
+        <td style="word-break: break-word;">
+            The Repository ID
+            
+            <br>
+            <b>Note: </b> The Repository must exist
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-    
-  
-  
-	  Integer repo_id -- The Repository ID -- The Repository must exist
-  
+  </tbody>
+</table>
+
 
 __Returns__
 
   	200 -- deleted
-
 
 
 
@@ -18248,51 +29709,103 @@ __Returns__
 ```shell
 curl -H "X-ArchivesSpace-Session: $SESSION" \
   -d 'Example Missing' \
-  "http://localhost:8089/repositories/2/top_containers/batch/container_profile?ids=1&container_profile_uri=465F871Y726"
+  "http://localhost:8089/repositories/2/top_containers/batch/container_profile?ids=1&container_profile_uri=LQAKT"
 
 ```
+
 
 
 __Endpoint__
 
 ```[:POST] /repositories/:repo_id/top_containers/batch/container_profile ```
 
+
 __Description__
 
-Update container profile for a batch of top containers
+Update container profile for a batch of top containers.
+
+  
+  
+  
+  
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
-  
-	  [Integer] ids -- 
-  
-  
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>ids</code></td>
+        <td style="word-break: break-word;">
+            
+            
+        </td>
+        <td>[Integer]</td>
+        <td></td>
+      </tr>
     
-  
-  
-  
-	  String container_profile_uri -- The uri of the container profile
-  
-  
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>container_profile_uri</code></td>
+        <td style="word-break: break-word;">
+            The uri of the container profile
+            
+        </td>
+        <td>String</td>
+        <td></td>
+      </tr>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>repo_id</code></td>
+        <td style="word-break: break-word;">
+            The Repository ID
+            
+            <br>
+            <b>Note: </b> The Repository must exist
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-    
-  
-  
-	  Integer repo_id -- The Repository ID -- The Repository must exist
-  
+  </tbody>
+</table>
+
 
 __Returns__
 
   	200 -- {:status => "Updated", :id => (id of updated object)}
-
 
 
 
@@ -18338,51 +29851,103 @@ __Returns__
 ```shell
 curl -H "X-ArchivesSpace-Session: $SESSION" \
   -d 'Example Missing' \
-  "http://localhost:8089/repositories/2/top_containers/batch/ils_holding_id?ids=1&ils_holding_id=379E660AT"
+  "http://localhost:8089/repositories/2/top_containers/batch/ils_holding_id?ids=1&ils_holding_id=D743831543V"
 
 ```
+
 
 
 __Endpoint__
 
 ```[:POST] /repositories/:repo_id/top_containers/batch/ils_holding_id ```
 
+
 __Description__
 
-Update ils_holding_id for a batch of top containers
+Update ils_holding_id for a batch of top containers.
+
+  
+  
+  
+  
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
-  
-	  [Integer] ids -- 
-  
-  
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>ids</code></td>
+        <td style="word-break: break-word;">
+            
+            
+        </td>
+        <td>[Integer]</td>
+        <td></td>
+      </tr>
     
-  
-  
-  
-	  String ils_holding_id -- Value to set for ils_holding_id
-  
-  
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>ils_holding_id</code></td>
+        <td style="word-break: break-word;">
+            Value to set for ils_holding_id
+            
+        </td>
+        <td>String</td>
+        <td></td>
+      </tr>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>repo_id</code></td>
+        <td style="word-break: break-word;">
+            The Repository ID
+            
+            <br>
+            <b>Note: </b> The Repository must exist
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-    
-  
-  
-	  Integer repo_id -- The Repository ID -- The Repository must exist
-  
+  </tbody>
+</table>
+
 
 __Returns__
 
   	200 -- {:status => "Updated", :id => (id of updated object)}
-
 
 
 
@@ -18442,48 +30007,102 @@ client.post('repositories/2/top_containers/batch/location',
 
 ```
 
+
 __Endpoint__
 
 ```[:POST] /repositories/:repo_id/top_containers/batch/location ```
 
+
 __Description__
 
-Update location for a batch of top containers
+Update location for a batch of top containers.
+<br>
+<br>
 This route takes the `ids` of one or more containers, and associates the containers
 with the location referenced by `location_uri`.
+
+  
+  
+  
+  
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
-  
-	  [Integer] ids -- 
-  
-  
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>ids</code></td>
+        <td style="word-break: break-word;">
+            
+            
+        </td>
+        <td>[Integer]</td>
+        <td></td>
+      </tr>
     
-  
-  
-  
-	  String location_uri -- The uri of the location
-  
-  
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>location_uri</code></td>
+        <td style="word-break: break-word;">
+            The uri of the location
+            
+        </td>
+        <td>String</td>
+        <td></td>
+      </tr>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>repo_id</code></td>
+        <td style="word-break: break-word;">
+            The Repository ID
+            
+            <br>
+            <b>Note: </b> The Repository must exist
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-    
-  
-  
-	  Integer repo_id -- The Repository ID -- The Repository must exist
-  
+  </tbody>
+</table>
+
 
 __Returns__
 
   	200 -- {:status => "Updated", :id => (id of updated object)}
-
 
 
 
@@ -18508,48 +30127,73 @@ __Returns__
   
 ```shell
 curl -H "X-ArchivesSpace-Session: $SESSION" \
-  -d '"W436CQA"' \
+  -d '"187I490W739"' \
   "http://localhost:8089/repositories/2/top_containers/bulk/barcodes"
 
 ```
+
 
 
 __Endpoint__
 
 ```[:POST] /repositories/:repo_id/top_containers/bulk/barcodes ```
 
+
 __Description__
 
-Bulk update barcodes
+Bulk update barcodes.
+
+  
+  
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>repo_id</code></td>
+        <td style="word-break: break-word;">
+            The Repository ID
+            
+            <br>
+            <b>Note: </b> The Repository must exist
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-    
-  
-  
-	  String <request body> -- JSON string containing barcode data {uri=>barcode}
-  
-  
-    
-  
-  
-    
-    
-  
-  
-	  Integer repo_id -- The Repository ID -- The Repository must exist
-  
+  </tbody>
+</table>
+
+__Accepts Payload of Type__
+
+String
 
 __Returns__
 
   	200 -- {:status => "Updated", :id => (id of updated object)}
-
 
 
 
@@ -18574,48 +30218,73 @@ __Returns__
   
 ```shell
 curl -H "X-ArchivesSpace-Session: $SESSION" \
-  -d '"RULV802"' \
+  -d '"340715FGM"' \
   "http://localhost:8089/repositories/2/top_containers/bulk/locations"
 
 ```
+
 
 
 __Endpoint__
 
 ```[:POST] /repositories/:repo_id/top_containers/bulk/locations ```
 
+
 __Description__
 
-Bulk update locations
+Bulk update locations.
+
+  
+  
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>repo_id</code></td>
+        <td style="word-break: break-word;">
+            The Repository ID
+            
+            <br>
+            <b>Note: </b> The Repository must exist
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-    
-  
-  
-	  String <request body> -- JSON string containing location data {container_uri=>location_uri}
-  
-  
-    
-  
-  
-    
-    
-  
-  
-	  Integer repo_id -- The Repository ID -- The Repository must exist
-  
+  </tbody>
+</table>
+
+__Accepts Payload of Type__
+
+String
 
 __Returns__
 
   	200 -- {:status => "Updated", :id => (id of updated object)}
-
 
 
 
@@ -18663,6 +30332,15 @@ __Returns__
     
   
   
+    
+  
+  
+  
+    
+      
+        
+      
+        
   
     
       
@@ -18738,6 +30416,9 @@ __Returns__
   
   
 
+  
+    
+  
   
     
   
@@ -18780,157 +30461,340 @@ __Returns__
   
 ```shell
 curl -H "X-ArchivesSpace-Session: $SESSION" \
-  "http://localhost:8089/repositories/2/top_containers/search?q=E39I394717&aq=["Example Missing"]&type=O207NBV&sort=LNF672214&facet=RSU495813&facet_mincount=1&filter=["Example Missing"]&exclude=D111WNL&hl=true&root_record=506MVRV&dt=586DPT352&fields=SGN650I"
+  "http://localhost:8089/repositories/2/top_containers/search?q=GHCN877&aq=["Example Missing"]&type=84PNEI&sort=K532949177D&facet=ALECI&facet_mincount=1&filter=["Example Missing"]&filter_query=OUO397Q&exclude=635582G404L&hl=true&root_record=935855R946150&dt=TMNSI&fields=UJM341F"
 
 ```
+
 
 
 __Endpoint__
 
 ```[:GET] /repositories/:repo_id/top_containers/search ```
 
+
 __Description__
 
-Search for top containers
+Search for top containers.
+
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>repo_id</code></td>
+        <td style="word-break: break-word;">
+            The Repository ID
+            
+            <br>
+            <b>Note: </b> The Repository must exist
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>q</code></td>
+        <td style="word-break: break-word;">
+            A search query string.  Uses Lucene 4.0 syntax: http://lucene.apache.org/core/4_0_0/queryparser/org/apache/lucene/queryparser/classic/package-summary.html  Search index structure can be found in solr/schema.xml
+            
+        </td>
+        <td>String</td>
+        <td>true</td>
+      </tr>
     
-  
-  
-	  Integer repo_id -- The Repository ID -- The Repository must exist
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>aq</code></td>
+        <td style="word-break: break-word;">
+            A json string containing the advanced query
+            
+        </td>
+        <td>JSONModel(:advanced_query)</td>
+        <td>true</td>
+      </tr>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>type</code></td>
+        <td style="word-break: break-word;">
+            The record type to search (defaults to all types if not specified)
+            
+        </td>
+        <td>[String]</td>
+        <td>true</td>
+      </tr>
     
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>sort</code></td>
+        <td style="word-break: break-word;">
+            The attribute to sort and the direction e.g. &sort=title desc&...
+            
+        </td>
+        <td>String</td>
+        <td>true</td>
+      </tr>
     
-  
-  
-	  String q (Optional) -- A search query string.  Uses Lucene 4.0 syntax: http://lucene.apache.org/core/4_0_0/queryparser/org/apache/lucene/queryparser/classic/package-summary.html  Search index structure can be found in solr/schema.xml
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>facet</code></td>
+        <td style="word-break: break-word;">
+            The list of the fields to produce facets for
+            
+        </td>
+        <td>[String]</td>
+        <td>true</td>
+      </tr>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>facet_mincount</code></td>
+        <td style="word-break: break-word;">
+            The minimum count for a facet field to be included in the response
+            
+        </td>
+        <td>Integer</td>
+        <td>true</td>
+      </tr>
     
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>filter</code></td>
+        <td style="word-break: break-word;">
+            A json string containing the advanced query to filter by
+            
+        </td>
+        <td>JSONModel(:advanced_query)</td>
+        <td>true</td>
+      </tr>
     
-  
-  
-	  JSONModel(:advanced_query) aq (Optional) -- A json string containing the advanced query
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>filter_query</code></td>
+        <td style="word-break: break-word;">
+            Search queries to be applied as a filter to the results.
+            
+        </td>
+        <td>[String]</td>
+        <td>true</td>
+      </tr>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>exclude</code></td>
+        <td style="word-break: break-word;">
+            A list of document IDs that should be excluded from results
+            
+        </td>
+        <td>[String]</td>
+        <td>true</td>
+      </tr>
     
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>hl</code></td>
+        <td style="word-break: break-word;">
+            Whether to use highlighting
+            
+        </td>
+        <td>RESTHelpers::BooleanParam</td>
+        <td>true</td>
+      </tr>
     
-  
-  
-	  [String] type (Optional) -- The record type to search (defaults to all types if not specified)
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>root_record</code></td>
+        <td style="word-break: break-word;">
+            Search within a collection of records (defined by the record at the root of the tree)
+            
+        </td>
+        <td>String</td>
+        <td>true</td>
+      </tr>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>dt</code></td>
+        <td style="word-break: break-word;">
+            Format to return (JSON default)
+            
+        </td>
+        <td>String</td>
+        <td>true</td>
+      </tr>
     
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>fields</code></td>
+        <td style="word-break: break-word;">
+            The list of fields to include in the results
+            
+        </td>
+        <td>[String]</td>
+        <td>true</td>
+      </tr>
     
-  
-  
-	  String sort (Optional) -- The attribute to sort and the direction e.g. &sort=title desc&...
-  
-  
-    
-  
-  
-    
-    
-  
-  
-	  [String] facet (Optional) -- The list of the fields to produce facets for
-  
-  
-    
-  
-  
-    
-    
-  
-  
-	  Integer facet_mincount (Optional) -- The minimum count for a facet field to be included in the response
-  
-  
-    
-  
-  
-    
-    
-  
-  
-	  JSONModel(:advanced_query) filter (Optional) -- A json string containing the advanced query to filter by
-  
-  
-    
-  
-  
-    
-    
-  
-  
-	  [String] exclude (Optional) -- A list of document IDs that should be excluded from results
-  
-  
-    
-  
-  
-    
-    
-  
-  
-	  RESTHelpers::BooleanParam hl (Optional) -- Whether to use highlighting
-  
-  
-    
-  
-  
-    
-    
-  
-  
-	  String root_record (Optional) -- Search within a collection of records (defined by the record at the root of the tree)
-  
-  
-    
-  
-  
-    
-    
-  
-  
-	  String dt (Optional) -- Format to return (JSON default)
-  
-  
-    
-  
-  
-    
-    
-  
-  
-	  [String] fields (Optional) -- The list of fields to include in the results
-  
+  </tbody>
+</table>
+
 
 __Returns__
 
   	200 -- [(:top_container)]
-
 
 
 
@@ -18964,44 +30828,85 @@ __Returns__
 ```shell
 curl -H "X-ArchivesSpace-Session: $SESSION" \
   -d 'Example Missing' \
-  "http://localhost:8089/repositories/2/transfer?target_repo=XVFKH"
+  "http://localhost:8089/repositories/2/transfer?target_repo=N727350I363"
 
 ```
+
 
 
 __Endpoint__
 
 ```[:POST] /repositories/:repo_id/transfer ```
 
+
 __Description__
 
-Transfer this record to a different repository
+Transfer this record to a different repository.
+
+  
+  
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
-  
-	  String target_repo -- The URI of the target repository
-  
-  
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>target_repo</code></td>
+        <td style="word-break: break-word;">
+            The URI of the target repository
+            
+        </td>
+        <td>String</td>
+        <td></td>
+      </tr>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>repo_id</code></td>
+        <td style="word-break: break-word;">
+            The Repository ID
+            
+            <br>
+            <b>Note: </b> The Repository must exist
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-    
-  
-  
-	  Integer repo_id -- The Repository ID -- The Repository must exist
-  
+  </tbody>
+</table>
+
 
 __Returns__
 
   	200 -- moved
-
 
 
 
@@ -19030,39 +30935,80 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 ```
 
 
+
 __Endpoint__
 
 ```[:GET] /repositories/:repo_id/users/:id ```
 
+
 __Description__
 
-Get a user's details including their groups for the current repository
+Get a user's details including their groups for the current repository.
+
+  
+  
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
-  
-	  Integer id -- The username id to fetch
-  
-  
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>id</code></td>
+        <td style="word-break: break-word;">
+            The username id to fetch
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>repo_id</code></td>
+        <td style="word-break: break-word;">
+            The Repository ID
+            
+            <br>
+            <b>Note: </b> The Repository must exist
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-    
-  
-  
-	  Integer repo_id -- The Repository ID -- The Repository must exist
-  
+  </tbody>
+</table>
+
 
 __Returns__
 
   	200 -- (:user)
-
 
 
 
@@ -19083,54 +31029,88 @@ __Returns__
 curl -H "X-ArchivesSpace-Session: $SESSION" \
   -d '{ "jsonmodel_type":"repository_with_agent",
 "repository":{ "jsonmodel_type":"repository",
-"name":"Description: 12",
+"name":"Description: 6",
 "is_slug_auto":true,
-"repo_code":"ASPACE REPO 3 -- 228764",
-"org_code":"GIP345R",
-"image_url":"http://www.example-14.com",
-"url":"http://www.example-15.com",
+"repo_code":"ASPACE REPO 3 -- 719662",
+"org_code":"D814N666A",
+"image_url":"http://www.example-12-1632179083.com",
+"url":"http://www.example-13-1632179083.com",
 "country":"US"},
 "agent_representation":{ "jsonmodel_type":"agent_corporate_entity",
 "agent_contacts":[{ "jsonmodel_type":"agent_contact",
 "telephones":[{ "jsonmodel_type":"telephone",
 "number_type":"home",
-"number":"0046 88024 3736",
-"ext":"898M845H664"}],
-"name":"Name Number 15",
-"address_2":"I40753406H",
-"address_3":"856N812170V",
-"post_code":"JPQ102T",
-"fax":"X866G4T",
-"email":"KLG434589"}],
+"number":"688 46464 60677 557",
+"ext":"RCKGO"}],
+"notes":[{ "jsonmodel_type":"note_contact_note",
+"date_of_contact":"T18080661996",
+"contact_notes":"EGP788L"}],
+"is_representative":false,
+"name":"Name Number 10",
+"address_2":"291ROXL",
+"country":"927O548VJ",
+"post_code":"YL414118188",
+"fax":"901WA708P",
+"email":"OXETC"}],
+"agent_record_controls":[],
+"agent_alternate_sets":[],
+"agent_conventions_declarations":[],
+"agent_other_agency_codes":[],
+"agent_maintenance_histories":[],
+"agent_record_identifiers":[],
+"agent_identifiers":[],
+"agent_sources":[],
+"agent_places":[],
+"agent_occupations":[],
+"agent_functions":[],
+"agent_topics":[],
+"agent_resources":[],
 "linked_agent_roles":[],
 "external_documents":[],
 "notes":[],
 "used_within_repositories":[],
 "used_within_published_repositories":[],
-"dates_of_existence":[{ "jsonmodel_type":"date",
-"date_type":"range",
-"label":"existence",
-"begin":"1988-01-13",
-"end":"1988-01-13",
-"certainty":"inferred",
-"era":"ce",
-"calendar":"gregorian",
-"expression":"MW458FW"}],
+"dates_of_existence":[{ "jsonmodel_type":"structured_date_label",
+"date_type_structured":"single",
+"date_label":"existence",
+"structured_date_single":{ "jsonmodel_type":"structured_date_single",
+"date_role":"begin",
+"date_expression":"Yesterday",
+"date_standardized":"2019-06-01",
+"date_standardized_type":"standard"},
+"date_certainty":"approximate",
+"date_era":"ce",
+"date_calendar":"gregorian"}],
+"used_languages":[],
+"metadata_rights_declarations":[],
 "is_slug_auto":true,
 "names":[{ "jsonmodel_type":"name_corporate_entity",
-"use_dates":[],
+"use_dates":[{ "jsonmodel_type":"structured_date_label",
+"date_type_structured":"single",
+"date_label":"existence",
+"structured_date_single":{ "jsonmodel_type":"structured_date_single",
+"date_role":"begin",
+"date_expression":"Yesterday",
+"date_standardized":"2019-06-01",
+"date_standardized_type":"standard"},
+"date_certainty":"approximate",
+"date_era":"ce",
+"date_calendar":"gregorian"}],
 "authorized":false,
 "is_display_name":false,
 "sort_name_auto_generate":true,
-"rules":"aacr",
-"primary_name":"Name Number 14",
-"subordinate_name_1":"691RWEE",
-"subordinate_name_2":"529439586SG",
-"number":"FKJBN",
-"sort_name":"SORT l - 11",
-"dates":"EB196129411",
-"qualifier":"816922LEX",
-"authority_id":"http://www.example-16.com",
+"conference_meeting":false,
+"jurisdiction":false,
+"parallel_names":[],
+"rules":"dacs",
+"primary_name":"Name Number 9",
+"subordinate_name_1":"ROO833945",
+"subordinate_name_2":"EI980GL",
+"number":"619N410JN",
+"sort_name":"SORT y - 7",
+"qualifier":"J880IJ290",
+"dates":"JEGBY",
+"authority_id":"http://www.example-14-1632179083.com",
 "source":"ingest"}],
 "related_agents":[],
 "agent_type":"agent_corporate_entity"}}' \
@@ -19139,27 +31119,23 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 ```
 
 
+
 __Endpoint__
 
 ```[:POST] /repositories/with_agent ```
 
+
 __Description__
 
-Create a Repository with an agent representation
-
-
-__Parameters__
+Create a Repository with an agent representation.
 
   
-    
   
-  
-    
-    
-  
-  
-	  JSONModel(:repository_with_agent) <request body> -- The record to create
-  
+
+
+__Accepts Payload of Type__
+
+JSONModel(:repository_with_agent)
 
 __Returns__
 
@@ -19168,7 +31144,6 @@ __Returns__
   	400 -- {:error => (description of error)}
 
   	403 -- access_denied
-
 
 
 
@@ -19191,31 +31166,58 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 ```
 
 
+
 __Endpoint__
 
 ```[:GET] /repositories/with_agent/:id ```
 
+
 __Description__
 
-Get a Repository by ID, including its agent representation
+Get a Repository by ID, including its agent representation.
+
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
-  
-	  Integer id -- The ID of the record
-  
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>id</code></td>
+        <td style="word-break: break-word;">
+            The ID of the record
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
+    
+  </tbody>
+</table>
+
 
 __Returns__
 
   	200 -- (:repository_with_agent)
 
   	404 -- Not found
-
 
 
 
@@ -19242,54 +31244,88 @@ __Returns__
 curl -H "X-ArchivesSpace-Session: $SESSION" \
   -d '{ "jsonmodel_type":"repository_with_agent",
 "repository":{ "jsonmodel_type":"repository",
-"name":"Description: 12",
+"name":"Description: 6",
 "is_slug_auto":true,
-"repo_code":"ASPACE REPO 3 -- 228764",
-"org_code":"GIP345R",
-"image_url":"http://www.example-14.com",
-"url":"http://www.example-15.com",
+"repo_code":"ASPACE REPO 3 -- 719662",
+"org_code":"D814N666A",
+"image_url":"http://www.example-12-1632179083.com",
+"url":"http://www.example-13-1632179083.com",
 "country":"US"},
 "agent_representation":{ "jsonmodel_type":"agent_corporate_entity",
 "agent_contacts":[{ "jsonmodel_type":"agent_contact",
 "telephones":[{ "jsonmodel_type":"telephone",
 "number_type":"home",
-"number":"0046 88024 3736",
-"ext":"898M845H664"}],
-"name":"Name Number 15",
-"address_2":"I40753406H",
-"address_3":"856N812170V",
-"post_code":"JPQ102T",
-"fax":"X866G4T",
-"email":"KLG434589"}],
+"number":"688 46464 60677 557",
+"ext":"RCKGO"}],
+"notes":[{ "jsonmodel_type":"note_contact_note",
+"date_of_contact":"T18080661996",
+"contact_notes":"EGP788L"}],
+"is_representative":false,
+"name":"Name Number 10",
+"address_2":"291ROXL",
+"country":"927O548VJ",
+"post_code":"YL414118188",
+"fax":"901WA708P",
+"email":"OXETC"}],
+"agent_record_controls":[],
+"agent_alternate_sets":[],
+"agent_conventions_declarations":[],
+"agent_other_agency_codes":[],
+"agent_maintenance_histories":[],
+"agent_record_identifiers":[],
+"agent_identifiers":[],
+"agent_sources":[],
+"agent_places":[],
+"agent_occupations":[],
+"agent_functions":[],
+"agent_topics":[],
+"agent_resources":[],
 "linked_agent_roles":[],
 "external_documents":[],
 "notes":[],
 "used_within_repositories":[],
 "used_within_published_repositories":[],
-"dates_of_existence":[{ "jsonmodel_type":"date",
-"date_type":"range",
-"label":"existence",
-"begin":"1988-01-13",
-"end":"1988-01-13",
-"certainty":"inferred",
-"era":"ce",
-"calendar":"gregorian",
-"expression":"MW458FW"}],
+"dates_of_existence":[{ "jsonmodel_type":"structured_date_label",
+"date_type_structured":"single",
+"date_label":"existence",
+"structured_date_single":{ "jsonmodel_type":"structured_date_single",
+"date_role":"begin",
+"date_expression":"Yesterday",
+"date_standardized":"2019-06-01",
+"date_standardized_type":"standard"},
+"date_certainty":"approximate",
+"date_era":"ce",
+"date_calendar":"gregorian"}],
+"used_languages":[],
+"metadata_rights_declarations":[],
 "is_slug_auto":true,
 "names":[{ "jsonmodel_type":"name_corporate_entity",
-"use_dates":[],
+"use_dates":[{ "jsonmodel_type":"structured_date_label",
+"date_type_structured":"single",
+"date_label":"existence",
+"structured_date_single":{ "jsonmodel_type":"structured_date_single",
+"date_role":"begin",
+"date_expression":"Yesterday",
+"date_standardized":"2019-06-01",
+"date_standardized_type":"standard"},
+"date_certainty":"approximate",
+"date_era":"ce",
+"date_calendar":"gregorian"}],
 "authorized":false,
 "is_display_name":false,
 "sort_name_auto_generate":true,
-"rules":"aacr",
-"primary_name":"Name Number 14",
-"subordinate_name_1":"691RWEE",
-"subordinate_name_2":"529439586SG",
-"number":"FKJBN",
-"sort_name":"SORT l - 11",
-"dates":"EB196129411",
-"qualifier":"816922LEX",
-"authority_id":"http://www.example-16.com",
+"conference_meeting":false,
+"jurisdiction":false,
+"parallel_names":[],
+"rules":"dacs",
+"primary_name":"Name Number 9",
+"subordinate_name_1":"ROO833945",
+"subordinate_name_2":"EI980GL",
+"number":"619N410JN",
+"sort_name":"SORT y - 7",
+"qualifier":"J880IJ290",
+"dates":"JEGBY",
+"authority_id":"http://www.example-14-1632179083.com",
 "source":"ingest"}],
 "related_agents":[],
 "agent_type":"agent_corporate_entity"}}' \
@@ -19298,39 +31334,61 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 ```
 
 
+
 __Endpoint__
 
 ```[:POST] /repositories/with_agent/:id ```
 
+
 __Description__
 
-Update a repository with an agent representation
+Update a repository with an agent representation.
+
+  
+  
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
-  
-	  Integer id -- The ID of the record
-  
-  
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>id</code></td>
+        <td style="word-break: break-word;">
+            The ID of the record
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-  
-  
-    
-    
-  
-  
-	  JSONModel(:repository_with_agent) <request body> -- The updated record
-  
+  </tbody>
+</table>
+
+__Accepts Payload of Type__
+
+JSONModel(:repository_with_agent)
 
 __Returns__
 
   	200 -- {:status => "Updated", :id => (id of updated object)}
-
 
 
 
@@ -19347,22 +31405,22 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 ```
 
 
+
 __Endpoint__
 
 ```[:GET] /schemas ```
 
+
 __Description__
 
-Get all ArchivesSpace schemas
+Get all ArchivesSpace schemas.
 
 
-__Parameters__
 
 
 __Returns__
 
   	200 -- ArchivesSpace (schemas)
-
 
 
 
@@ -19385,31 +31443,58 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 ```
 
 
+
 __Endpoint__
 
 ```[:GET] /schemas/:schema ```
 
+
 __Description__
 
-Get an ArchivesSpace schema
+Get an ArchivesSpace schema.
+
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
-  
-	  String schema -- Schema name to retrieve
-  
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>schema</code></td>
+        <td style="word-break: break-word;">
+            Schema name to retrieve
+            
+        </td>
+        <td>String</td>
+        <td></td>
+      </tr>
+    
+  </tbody>
+</table>
+
 
 __Returns__
 
   	200 -- ArchivesSpace (:schema)
 
   	404 -- Schema not found
-
 
 
 
@@ -19454,6 +31539,15 @@ __Returns__
     
   
   
+    
+  
+  
+  
+    
+      
+        
+      
+        
   
     
       
@@ -19529,6 +31623,9 @@ __Returns__
   
   
 
+  
+    
+  
   
     
   
@@ -19569,64 +31666,97 @@ __Returns__
 ```shell
   
 curl -H "X-ArchivesSpace-Session: $SESSION" \
-  -d '"128122JNY"' \
-  "http://localhost:8089/search?q=128122JNY&aq=["Example Missing"]&type=480921VPV&sort=671K736HM&facet=QHKOD&facet_mincount=1&filter=["Example Missing"]&exclude=210Y484M39&hl=true&root_record=HED575249&dt=295408993E1&fields=234129B965R"
+  -d '"ID864Q390"' \
+  "http://localhost:8089/search?q=ID864Q390&aq=["Example Missing"]&type=P112AC485&sort=IT657GE&facet=WH117240N&facet_mincount=1&filter=["Example Missing"]&filter_query=CFO862A&exclude=FHK650148&hl=true&root_record=39N711T301&dt=HNY808U&fields=E622369RV"
     
 curl -H "X-ArchivesSpace-Session: $SESSION" \
   -d '["Example Missing"]' \
-  "http://localhost:8089/search?q=128122JNY&aq=["Example Missing"]&type=480921VPV&sort=671K736HM&facet=QHKOD&facet_mincount=1&filter=["Example Missing"]&exclude=210Y484M39&hl=true&root_record=HED575249&dt=295408993E1&fields=234129B965R"
+  "http://localhost:8089/search?q=ID864Q390&aq=["Example Missing"]&type=P112AC485&sort=IT657GE&facet=WH117240N&facet_mincount=1&filter=["Example Missing"]&filter_query=CFO862A&exclude=FHK650148&hl=true&root_record=39N711T301&dt=HNY808U&fields=E622369RV"
     
 curl -H "X-ArchivesSpace-Session: $SESSION" \
-  -d '"480921VPV"' \
-  "http://localhost:8089/search?q=128122JNY&aq=["Example Missing"]&type=480921VPV&sort=671K736HM&facet=QHKOD&facet_mincount=1&filter=["Example Missing"]&exclude=210Y484M39&hl=true&root_record=HED575249&dt=295408993E1&fields=234129B965R"
+  -d '"P112AC485"' \
+  "http://localhost:8089/search?q=ID864Q390&aq=["Example Missing"]&type=P112AC485&sort=IT657GE&facet=WH117240N&facet_mincount=1&filter=["Example Missing"]&filter_query=CFO862A&exclude=FHK650148&hl=true&root_record=39N711T301&dt=HNY808U&fields=E622369RV"
     
 curl -H "X-ArchivesSpace-Session: $SESSION" \
-  -d '"671K736HM"' \
-  "http://localhost:8089/search?q=128122JNY&aq=["Example Missing"]&type=480921VPV&sort=671K736HM&facet=QHKOD&facet_mincount=1&filter=["Example Missing"]&exclude=210Y484M39&hl=true&root_record=HED575249&dt=295408993E1&fields=234129B965R"
+  -d '"IT657GE"' \
+  "http://localhost:8089/search?q=ID864Q390&aq=["Example Missing"]&type=P112AC485&sort=IT657GE&facet=WH117240N&facet_mincount=1&filter=["Example Missing"]&filter_query=CFO862A&exclude=FHK650148&hl=true&root_record=39N711T301&dt=HNY808U&fields=E622369RV"
     
 curl -H "X-ArchivesSpace-Session: $SESSION" \
-  -d '"QHKOD"' \
-  "http://localhost:8089/search?q=128122JNY&aq=["Example Missing"]&type=480921VPV&sort=671K736HM&facet=QHKOD&facet_mincount=1&filter=["Example Missing"]&exclude=210Y484M39&hl=true&root_record=HED575249&dt=295408993E1&fields=234129B965R"
+  -d '"WH117240N"' \
+  "http://localhost:8089/search?q=ID864Q390&aq=["Example Missing"]&type=P112AC485&sort=IT657GE&facet=WH117240N&facet_mincount=1&filter=["Example Missing"]&filter_query=CFO862A&exclude=FHK650148&hl=true&root_record=39N711T301&dt=HNY808U&fields=E622369RV"
     
 curl -H "X-ArchivesSpace-Session: $SESSION" \
   -d '"1"' \
-  "http://localhost:8089/search?q=128122JNY&aq=["Example Missing"]&type=480921VPV&sort=671K736HM&facet=QHKOD&facet_mincount=1&filter=["Example Missing"]&exclude=210Y484M39&hl=true&root_record=HED575249&dt=295408993E1&fields=234129B965R"
+  "http://localhost:8089/search?q=ID864Q390&aq=["Example Missing"]&type=P112AC485&sort=IT657GE&facet=WH117240N&facet_mincount=1&filter=["Example Missing"]&filter_query=CFO862A&exclude=FHK650148&hl=true&root_record=39N711T301&dt=HNY808U&fields=E622369RV"
     
 curl -H "X-ArchivesSpace-Session: $SESSION" \
   -d '["Example Missing"]' \
-  "http://localhost:8089/search?q=128122JNY&aq=["Example Missing"]&type=480921VPV&sort=671K736HM&facet=QHKOD&facet_mincount=1&filter=["Example Missing"]&exclude=210Y484M39&hl=true&root_record=HED575249&dt=295408993E1&fields=234129B965R"
+  "http://localhost:8089/search?q=ID864Q390&aq=["Example Missing"]&type=P112AC485&sort=IT657GE&facet=WH117240N&facet_mincount=1&filter=["Example Missing"]&filter_query=CFO862A&exclude=FHK650148&hl=true&root_record=39N711T301&dt=HNY808U&fields=E622369RV"
     
 curl -H "X-ArchivesSpace-Session: $SESSION" \
-  -d '"210Y484M39"' \
-  "http://localhost:8089/search?q=128122JNY&aq=["Example Missing"]&type=480921VPV&sort=671K736HM&facet=QHKOD&facet_mincount=1&filter=["Example Missing"]&exclude=210Y484M39&hl=true&root_record=HED575249&dt=295408993E1&fields=234129B965R"
+  -d '"CFO862A"' \
+  "http://localhost:8089/search?q=ID864Q390&aq=["Example Missing"]&type=P112AC485&sort=IT657GE&facet=WH117240N&facet_mincount=1&filter=["Example Missing"]&filter_query=CFO862A&exclude=FHK650148&hl=true&root_record=39N711T301&dt=HNY808U&fields=E622369RV"
+    
+curl -H "X-ArchivesSpace-Session: $SESSION" \
+  -d '"FHK650148"' \
+  "http://localhost:8089/search?q=ID864Q390&aq=["Example Missing"]&type=P112AC485&sort=IT657GE&facet=WH117240N&facet_mincount=1&filter=["Example Missing"]&filter_query=CFO862A&exclude=FHK650148&hl=true&root_record=39N711T301&dt=HNY808U&fields=E622369RV"
     
 curl -H "X-ArchivesSpace-Session: $SESSION" \
   -d '"BooleanParam"' \
-  "http://localhost:8089/search?q=128122JNY&aq=["Example Missing"]&type=480921VPV&sort=671K736HM&facet=QHKOD&facet_mincount=1&filter=["Example Missing"]&exclude=210Y484M39&hl=true&root_record=HED575249&dt=295408993E1&fields=234129B965R"
+  "http://localhost:8089/search?q=ID864Q390&aq=["Example Missing"]&type=P112AC485&sort=IT657GE&facet=WH117240N&facet_mincount=1&filter=["Example Missing"]&filter_query=CFO862A&exclude=FHK650148&hl=true&root_record=39N711T301&dt=HNY808U&fields=E622369RV"
     
 curl -H "X-ArchivesSpace-Session: $SESSION" \
-  -d '"HED575249"' \
-  "http://localhost:8089/search?q=128122JNY&aq=["Example Missing"]&type=480921VPV&sort=671K736HM&facet=QHKOD&facet_mincount=1&filter=["Example Missing"]&exclude=210Y484M39&hl=true&root_record=HED575249&dt=295408993E1&fields=234129B965R"
+  -d '"39N711T301"' \
+  "http://localhost:8089/search?q=ID864Q390&aq=["Example Missing"]&type=P112AC485&sort=IT657GE&facet=WH117240N&facet_mincount=1&filter=["Example Missing"]&filter_query=CFO862A&exclude=FHK650148&hl=true&root_record=39N711T301&dt=HNY808U&fields=E622369RV"
     
 curl -H "X-ArchivesSpace-Session: $SESSION" \
-  -d '"295408993E1"' \
-  "http://localhost:8089/search?q=128122JNY&aq=["Example Missing"]&type=480921VPV&sort=671K736HM&facet=QHKOD&facet_mincount=1&filter=["Example Missing"]&exclude=210Y484M39&hl=true&root_record=HED575249&dt=295408993E1&fields=234129B965R"
+  -d '"HNY808U"' \
+  "http://localhost:8089/search?q=ID864Q390&aq=["Example Missing"]&type=P112AC485&sort=IT657GE&facet=WH117240N&facet_mincount=1&filter=["Example Missing"]&filter_query=CFO862A&exclude=FHK650148&hl=true&root_record=39N711T301&dt=HNY808U&fields=E622369RV"
     
 curl -H "X-ArchivesSpace-Session: $SESSION" \
-  -d '"234129B965R"' \
-  "http://localhost:8089/search?q=128122JNY&aq=["Example Missing"]&type=480921VPV&sort=671K736HM&facet=QHKOD&facet_mincount=1&filter=["Example Missing"]&exclude=210Y484M39&hl=true&root_record=HED575249&dt=295408993E1&fields=234129B965R"
+  -d '"E622369RV"' \
+  "http://localhost:8089/search?q=ID864Q390&aq=["Example Missing"]&type=P112AC485&sort=IT657GE&facet=WH117240N&facet_mincount=1&filter=["Example Missing"]&filter_query=CFO862A&exclude=FHK650148&hl=true&root_record=39N711T301&dt=HNY808U&fields=E622369RV"
   
 
 ```
+
 
 
 __Endpoint__
 
 ```[:GET, :POST] /search ```
 
+
 __Description__
 
-Search this archive
+Search this archive.
+
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
 
 
 __Parameters__
@@ -19638,131 +31768,271 @@ This endpoint is paginated. :page is required
 </ul>
 </aside>
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>q</code></td>
+        <td style="word-break: break-word;">
+            A search query string.  Uses Lucene 4.0 syntax: http://lucene.apache.org/core/4_0_0/queryparser/org/apache/lucene/queryparser/classic/package-summary.html  Search index structure can be found in solr/schema.xml
+            
+        </td>
+        <td>String</td>
+        <td>true</td>
+      </tr>
     
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>aq</code></td>
+        <td style="word-break: break-word;">
+            A json string containing the advanced query
+            
+        </td>
+        <td>JSONModel(:advanced_query)</td>
+        <td>true</td>
+      </tr>
     
-  
-  
-	  String q (Optional) -- A search query string.  Uses Lucene 4.0 syntax: http://lucene.apache.org/core/4_0_0/queryparser/org/apache/lucene/queryparser/classic/package-summary.html  Search index structure can be found in solr/schema.xml
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>type</code></td>
+        <td style="word-break: break-word;">
+            The record type to search (defaults to all types if not specified)
+            
+        </td>
+        <td>[String]</td>
+        <td>true</td>
+      </tr>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>sort</code></td>
+        <td style="word-break: break-word;">
+            The attribute to sort and the direction e.g. &sort=title desc&...
+            
+        </td>
+        <td>String</td>
+        <td>true</td>
+      </tr>
     
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>facet</code></td>
+        <td style="word-break: break-word;">
+            The list of the fields to produce facets for
+            
+        </td>
+        <td>[String]</td>
+        <td>true</td>
+      </tr>
     
-  
-  
-	  JSONModel(:advanced_query) aq (Optional) -- A json string containing the advanced query
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>facet_mincount</code></td>
+        <td style="word-break: break-word;">
+            The minimum count for a facet field to be included in the response
+            
+        </td>
+        <td>Integer</td>
+        <td>true</td>
+      </tr>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>filter</code></td>
+        <td style="word-break: break-word;">
+            A json string containing the advanced query to filter by
+            
+        </td>
+        <td>JSONModel(:advanced_query)</td>
+        <td>true</td>
+      </tr>
     
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>filter_query</code></td>
+        <td style="word-break: break-word;">
+            Search queries to be applied as a filter to the results.
+            
+        </td>
+        <td>[String]</td>
+        <td>true</td>
+      </tr>
     
-  
-  
-	  [String] type (Optional) -- The record type to search (defaults to all types if not specified)
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>exclude</code></td>
+        <td style="word-break: break-word;">
+            A list of document IDs that should be excluded from results
+            
+        </td>
+        <td>[String]</td>
+        <td>true</td>
+      </tr>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>hl</code></td>
+        <td style="word-break: break-word;">
+            Whether to use highlighting
+            
+        </td>
+        <td>RESTHelpers::BooleanParam</td>
+        <td>true</td>
+      </tr>
     
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>root_record</code></td>
+        <td style="word-break: break-word;">
+            Search within a collection of records (defined by the record at the root of the tree)
+            
+        </td>
+        <td>String</td>
+        <td>true</td>
+      </tr>
     
-  
-  
-	  String sort (Optional) -- The attribute to sort and the direction e.g. &sort=title desc&...
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>dt</code></td>
+        <td style="word-break: break-word;">
+            Format to return (JSON default)
+            
+        </td>
+        <td>String</td>
+        <td>true</td>
+      </tr>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>fields</code></td>
+        <td style="word-break: break-word;">
+            The list of fields to include in the results
+            
+        </td>
+        <td>[String]</td>
+        <td>true</td>
+      </tr>
     
-    
-  
-  
-	  [String] facet (Optional) -- The list of the fields to produce facets for
-  
-  
-    
-  
-  
-    
-    
-  
-  
-	  Integer facet_mincount (Optional) -- The minimum count for a facet field to be included in the response
-  
-  
-    
-  
-  
-    
-    
-  
-  
-	  JSONModel(:advanced_query) filter (Optional) -- A json string containing the advanced query to filter by
-  
-  
-    
-  
-  
-    
-    
-  
-  
-	  [String] exclude (Optional) -- A list of document IDs that should be excluded from results
-  
-  
-    
-  
-  
-    
-    
-  
-  
-	  RESTHelpers::BooleanParam hl (Optional) -- Whether to use highlighting
-  
-  
-    
-  
-  
-    
-    
-  
-  
-	  String root_record (Optional) -- Search within a collection of records (defined by the record at the root of the tree)
-  
-  
-    
-  
-  
-    
-    
-  
-  
-	  String dt (Optional) -- Format to return (JSON default)
-  
-  
-    
-  
-  
-    
-    
-  
-  
-	  [String] fields (Optional) -- The list of fields to include in the results
-  
+  </tbody>
+</table>
+
 
 __Returns__
 
   	200 -- 
-
 
 
 
@@ -19807,6 +32077,15 @@ __Returns__
     
   
   
+    
+  
+  
+  
+    
+      
+        
+      
+        
   
     
       
@@ -19882,6 +32161,9 @@ __Returns__
   
   
 
+  
+    
+  
   
     
   
@@ -19922,18 +32204,47 @@ __Returns__
 ```shell
 # return first 10 records
 curl -H "X-ArchivesSpace-Session: $SESSION" \
-  "http://localhost:8089/search/location_profile?q=W70644385A&aq=["Example Missing"]&type=261W832205958&sort=633HOT462&facet=F572EDV&facet_mincount=1&filter=["Example Missing"]&exclude=YLDHK&hl=true&root_record=MPLKS&dt=KAFGC&fields=949NSI203?page=1&page_size=10"
+  "http://localhost:8089/search/location_profile?q=A992KBO&aq=["Example Missing"]&type=XJHIX&sort=RFQEQ&facet=JJ963722K&facet_mincount=1&filter=["Example Missing"]&filter_query=OC622IB&exclude=HPP888591&hl=true&root_record=EE58873583&dt=350XD200458&fields=YKWVS?page=1&page_size=10"
 
 ```
+
 
 
 __Endpoint__
 
 ```[:GET] /search/location_profile ```
 
+
 __Description__
 
-Search across Location Profiles
+Search across Location Profiles.
+
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
 
 
 __Parameters__
@@ -19945,131 +32256,271 @@ This endpoint is paginated. :page is required
 </ul>
 </aside>
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>q</code></td>
+        <td style="word-break: break-word;">
+            A search query string.  Uses Lucene 4.0 syntax: http://lucene.apache.org/core/4_0_0/queryparser/org/apache/lucene/queryparser/classic/package-summary.html  Search index structure can be found in solr/schema.xml
+            
+        </td>
+        <td>String</td>
+        <td>true</td>
+      </tr>
     
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>aq</code></td>
+        <td style="word-break: break-word;">
+            A json string containing the advanced query
+            
+        </td>
+        <td>JSONModel(:advanced_query)</td>
+        <td>true</td>
+      </tr>
     
-  
-  
-	  String q (Optional) -- A search query string.  Uses Lucene 4.0 syntax: http://lucene.apache.org/core/4_0_0/queryparser/org/apache/lucene/queryparser/classic/package-summary.html  Search index structure can be found in solr/schema.xml
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>type</code></td>
+        <td style="word-break: break-word;">
+            The record type to search (defaults to all types if not specified)
+            
+        </td>
+        <td>[String]</td>
+        <td>true</td>
+      </tr>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>sort</code></td>
+        <td style="word-break: break-word;">
+            The attribute to sort and the direction e.g. &sort=title desc&...
+            
+        </td>
+        <td>String</td>
+        <td>true</td>
+      </tr>
     
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>facet</code></td>
+        <td style="word-break: break-word;">
+            The list of the fields to produce facets for
+            
+        </td>
+        <td>[String]</td>
+        <td>true</td>
+      </tr>
     
-  
-  
-	  JSONModel(:advanced_query) aq (Optional) -- A json string containing the advanced query
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>facet_mincount</code></td>
+        <td style="word-break: break-word;">
+            The minimum count for a facet field to be included in the response
+            
+        </td>
+        <td>Integer</td>
+        <td>true</td>
+      </tr>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>filter</code></td>
+        <td style="word-break: break-word;">
+            A json string containing the advanced query to filter by
+            
+        </td>
+        <td>JSONModel(:advanced_query)</td>
+        <td>true</td>
+      </tr>
     
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>filter_query</code></td>
+        <td style="word-break: break-word;">
+            Search queries to be applied as a filter to the results.
+            
+        </td>
+        <td>[String]</td>
+        <td>true</td>
+      </tr>
     
-  
-  
-	  [String] type (Optional) -- The record type to search (defaults to all types if not specified)
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>exclude</code></td>
+        <td style="word-break: break-word;">
+            A list of document IDs that should be excluded from results
+            
+        </td>
+        <td>[String]</td>
+        <td>true</td>
+      </tr>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>hl</code></td>
+        <td style="word-break: break-word;">
+            Whether to use highlighting
+            
+        </td>
+        <td>RESTHelpers::BooleanParam</td>
+        <td>true</td>
+      </tr>
     
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>root_record</code></td>
+        <td style="word-break: break-word;">
+            Search within a collection of records (defined by the record at the root of the tree)
+            
+        </td>
+        <td>String</td>
+        <td>true</td>
+      </tr>
     
-  
-  
-	  String sort (Optional) -- The attribute to sort and the direction e.g. &sort=title desc&...
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>dt</code></td>
+        <td style="word-break: break-word;">
+            Format to return (JSON default)
+            
+        </td>
+        <td>String</td>
+        <td>true</td>
+      </tr>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>fields</code></td>
+        <td style="word-break: break-word;">
+            The list of fields to include in the results
+            
+        </td>
+        <td>[String]</td>
+        <td>true</td>
+      </tr>
     
-    
-  
-  
-	  [String] facet (Optional) -- The list of the fields to produce facets for
-  
-  
-    
-  
-  
-    
-    
-  
-  
-	  Integer facet_mincount (Optional) -- The minimum count for a facet field to be included in the response
-  
-  
-    
-  
-  
-    
-    
-  
-  
-	  JSONModel(:advanced_query) filter (Optional) -- A json string containing the advanced query to filter by
-  
-  
-    
-  
-  
-    
-    
-  
-  
-	  [String] exclude (Optional) -- A list of document IDs that should be excluded from results
-  
-  
-    
-  
-  
-    
-    
-  
-  
-	  RESTHelpers::BooleanParam hl (Optional) -- Whether to use highlighting
-  
-  
-    
-  
-  
-    
-    
-  
-  
-	  String root_record (Optional) -- Search within a collection of records (defined by the record at the root of the tree)
-  
-  
-    
-  
-  
-    
-    
-  
-  
-	  String dt (Optional) -- Format to return (JSON default)
-  
-  
-    
-  
-  
-    
-    
-  
-  
-	  [String] fields (Optional) -- The list of fields to include in the results
-  
+  </tbody>
+</table>
+
 
 __Returns__
 
   	200 -- 
-
 
 
 
@@ -20096,36 +32547,63 @@ __Returns__
   
 ```shell
 curl -H "X-ArchivesSpace-Session: $SESSION" \
-  "http://localhost:8089/search/published_tree?node_uri=757626TNB"
+  "http://localhost:8089/search/published_tree?node_uri=164JTTC"
 
 ```
+
 
 
 __Endpoint__
 
 ```[:GET] /search/published_tree ```
 
+
 __Description__
 
-Find the tree view for a particular archival record
+Find the tree view for a particular archival record.
+
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
-  
-	  String node_uri -- The URI of the archival record to find the tree view for
-  
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>node_uri</code></td>
+        <td style="word-break: break-word;">
+            The URI of the archival record to find the tree view for
+            
+        </td>
+        <td>String</td>
+        <td></td>
+      </tr>
+    
+  </tbody>
+</table>
+
 
 __Returns__
 
   	200 -- OK
 
   	404 -- Not found
-
 
 
 
@@ -20165,50 +32643,88 @@ __Returns__
 ```shell
   
 curl -H "X-ArchivesSpace-Session: $SESSION" \
-  -d '"G652RDG"' \
-  "http://localhost:8089/search/record_types_by_repository?record_types=G652RDG&repo_uri=OU448YX"
+  -d '"I287M420987"' \
+  "http://localhost:8089/search/record_types_by_repository?record_types=I287M420987&repo_uri=F582HQB"
     
 curl -H "X-ArchivesSpace-Session: $SESSION" \
-  -d '"OU448YX"' \
-  "http://localhost:8089/search/record_types_by_repository?record_types=G652RDG&repo_uri=OU448YX"
+  -d '"F582HQB"' \
+  "http://localhost:8089/search/record_types_by_repository?record_types=I287M420987&repo_uri=F582HQB"
   
 
 ```
+
 
 
 __Endpoint__
 
 ```[:GET, :POST] /search/record_types_by_repository ```
 
+
 __Description__
 
-Return the counts of record types of interest by repository
+Return the counts of record types of interest by repository.
+
+  
+  
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
-  
-	  [String] record_types -- The list of record types to tally
-  
-  
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>record_types</code></td>
+        <td style="word-break: break-word;">
+            The list of record types to tally
+            
+        </td>
+        <td>[String]</td>
+        <td></td>
+      </tr>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>repo_uri</code></td>
+        <td style="word-break: break-word;">
+            An optional repository URI.  If given, just return counts for the single repository
+            
+        </td>
+        <td>String</td>
+        <td>true</td>
+      </tr>
     
-    
-  
-  
-	  String repo_uri (Optional) -- An optional repository URI.  If given, just return counts for the single repository
-  
+  </tbody>
+</table>
+
 
 __Returns__
 
   	200 -- If repository is given, returns a map like {'record_type' => <count>}.  Otherwise, {'repo_uri' => {'record_type' => <count>}}
-
 
 
 
@@ -20246,50 +32762,88 @@ __Returns__
 ```shell
   
 curl -H "X-ArchivesSpace-Session: $SESSION" \
-  -d '"153215F972N"' \
-  "http://localhost:8089/search/records?uri=153215F972N&resolve[]=[record_types, to_resolve]"
+  -d '"384C102CP"' \
+  "http://localhost:8089/search/records?uri=384C102CP&resolve[]=[record_types, to_resolve]"
     
 curl -H "X-ArchivesSpace-Session: $SESSION" \
-  -d '"292NQ285662"' \
-  "http://localhost:8089/search/records?uri=153215F972N&resolve[]=[record_types, to_resolve]"
+  -d '"H863392HG"' \
+  "http://localhost:8089/search/records?uri=384C102CP&resolve[]=[record_types, to_resolve]"
   
 
 ```
+
 
 
 __Endpoint__
 
 ```[:GET, :POST] /search/records ```
 
+
 __Description__
 
-Return a set of records by URI
+Return a set of records by URI.
+
+  
+  
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
-  
-	  [String] uri -- The list of record URIs to fetch
-  
-  
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>uri</code></td>
+        <td style="word-break: break-word;">
+            The list of record URIs to fetch
+            
+        </td>
+        <td>[String]</td>
+        <td></td>
+      </tr>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>resolve</code></td>
+        <td style="word-break: break-word;">
+            The list of result fields to resolve (if any)
+            
+        </td>
+        <td>[String]</td>
+        <td>true</td>
+      </tr>
     
-    
-  
-  
-	  [String] resolve (Optional) -- The list of result fields to resolve (if any)
-  
+  </tbody>
+</table>
+
 
 __Returns__
 
   	200 -- a JSON map of records
-
 
 
 
@@ -20334,6 +32888,15 @@ __Returns__
     
   
   
+    
+  
+  
+  
+    
+      
+        
+      
+        
   
     
       
@@ -20409,6 +32972,9 @@ __Returns__
   
   
 
+  
+    
+  
   
     
   
@@ -20449,64 +33015,97 @@ __Returns__
 ```shell
   
 curl -H "X-ArchivesSpace-Session: $SESSION" \
-  -d '"V824324LW"' \
-  "http://localhost:8089/search/repositories?q=V824324LW&aq=["Example Missing"]&type=420R435Q330&sort=984H69PU&facet=WMILJ&facet_mincount=1&filter=["Example Missing"]&exclude=X882251422C&hl=true&root_record=T657ODR&dt=AQ829MR&fields=KNR72822"
+  -d '"D24324P189"' \
+  "http://localhost:8089/search/repositories?q=D24324P189&aq=["Example Missing"]&type=518510LHY&sort=56XK567C&facet=P76614O91&facet_mincount=1&filter=["Example Missing"]&filter_query=GTG829O&exclude=RXGC214&hl=true&root_record=BH386RX&dt=YNR297K&fields=980X614Q738"
     
 curl -H "X-ArchivesSpace-Session: $SESSION" \
   -d '["Example Missing"]' \
-  "http://localhost:8089/search/repositories?q=V824324LW&aq=["Example Missing"]&type=420R435Q330&sort=984H69PU&facet=WMILJ&facet_mincount=1&filter=["Example Missing"]&exclude=X882251422C&hl=true&root_record=T657ODR&dt=AQ829MR&fields=KNR72822"
+  "http://localhost:8089/search/repositories?q=D24324P189&aq=["Example Missing"]&type=518510LHY&sort=56XK567C&facet=P76614O91&facet_mincount=1&filter=["Example Missing"]&filter_query=GTG829O&exclude=RXGC214&hl=true&root_record=BH386RX&dt=YNR297K&fields=980X614Q738"
     
 curl -H "X-ArchivesSpace-Session: $SESSION" \
-  -d '"420R435Q330"' \
-  "http://localhost:8089/search/repositories?q=V824324LW&aq=["Example Missing"]&type=420R435Q330&sort=984H69PU&facet=WMILJ&facet_mincount=1&filter=["Example Missing"]&exclude=X882251422C&hl=true&root_record=T657ODR&dt=AQ829MR&fields=KNR72822"
+  -d '"518510LHY"' \
+  "http://localhost:8089/search/repositories?q=D24324P189&aq=["Example Missing"]&type=518510LHY&sort=56XK567C&facet=P76614O91&facet_mincount=1&filter=["Example Missing"]&filter_query=GTG829O&exclude=RXGC214&hl=true&root_record=BH386RX&dt=YNR297K&fields=980X614Q738"
     
 curl -H "X-ArchivesSpace-Session: $SESSION" \
-  -d '"984H69PU"' \
-  "http://localhost:8089/search/repositories?q=V824324LW&aq=["Example Missing"]&type=420R435Q330&sort=984H69PU&facet=WMILJ&facet_mincount=1&filter=["Example Missing"]&exclude=X882251422C&hl=true&root_record=T657ODR&dt=AQ829MR&fields=KNR72822"
+  -d '"56XK567C"' \
+  "http://localhost:8089/search/repositories?q=D24324P189&aq=["Example Missing"]&type=518510LHY&sort=56XK567C&facet=P76614O91&facet_mincount=1&filter=["Example Missing"]&filter_query=GTG829O&exclude=RXGC214&hl=true&root_record=BH386RX&dt=YNR297K&fields=980X614Q738"
     
 curl -H "X-ArchivesSpace-Session: $SESSION" \
-  -d '"WMILJ"' \
-  "http://localhost:8089/search/repositories?q=V824324LW&aq=["Example Missing"]&type=420R435Q330&sort=984H69PU&facet=WMILJ&facet_mincount=1&filter=["Example Missing"]&exclude=X882251422C&hl=true&root_record=T657ODR&dt=AQ829MR&fields=KNR72822"
+  -d '"P76614O91"' \
+  "http://localhost:8089/search/repositories?q=D24324P189&aq=["Example Missing"]&type=518510LHY&sort=56XK567C&facet=P76614O91&facet_mincount=1&filter=["Example Missing"]&filter_query=GTG829O&exclude=RXGC214&hl=true&root_record=BH386RX&dt=YNR297K&fields=980X614Q738"
     
 curl -H "X-ArchivesSpace-Session: $SESSION" \
   -d '"1"' \
-  "http://localhost:8089/search/repositories?q=V824324LW&aq=["Example Missing"]&type=420R435Q330&sort=984H69PU&facet=WMILJ&facet_mincount=1&filter=["Example Missing"]&exclude=X882251422C&hl=true&root_record=T657ODR&dt=AQ829MR&fields=KNR72822"
+  "http://localhost:8089/search/repositories?q=D24324P189&aq=["Example Missing"]&type=518510LHY&sort=56XK567C&facet=P76614O91&facet_mincount=1&filter=["Example Missing"]&filter_query=GTG829O&exclude=RXGC214&hl=true&root_record=BH386RX&dt=YNR297K&fields=980X614Q738"
     
 curl -H "X-ArchivesSpace-Session: $SESSION" \
   -d '["Example Missing"]' \
-  "http://localhost:8089/search/repositories?q=V824324LW&aq=["Example Missing"]&type=420R435Q330&sort=984H69PU&facet=WMILJ&facet_mincount=1&filter=["Example Missing"]&exclude=X882251422C&hl=true&root_record=T657ODR&dt=AQ829MR&fields=KNR72822"
+  "http://localhost:8089/search/repositories?q=D24324P189&aq=["Example Missing"]&type=518510LHY&sort=56XK567C&facet=P76614O91&facet_mincount=1&filter=["Example Missing"]&filter_query=GTG829O&exclude=RXGC214&hl=true&root_record=BH386RX&dt=YNR297K&fields=980X614Q738"
     
 curl -H "X-ArchivesSpace-Session: $SESSION" \
-  -d '"X882251422C"' \
-  "http://localhost:8089/search/repositories?q=V824324LW&aq=["Example Missing"]&type=420R435Q330&sort=984H69PU&facet=WMILJ&facet_mincount=1&filter=["Example Missing"]&exclude=X882251422C&hl=true&root_record=T657ODR&dt=AQ829MR&fields=KNR72822"
+  -d '"GTG829O"' \
+  "http://localhost:8089/search/repositories?q=D24324P189&aq=["Example Missing"]&type=518510LHY&sort=56XK567C&facet=P76614O91&facet_mincount=1&filter=["Example Missing"]&filter_query=GTG829O&exclude=RXGC214&hl=true&root_record=BH386RX&dt=YNR297K&fields=980X614Q738"
+    
+curl -H "X-ArchivesSpace-Session: $SESSION" \
+  -d '"RXGC214"' \
+  "http://localhost:8089/search/repositories?q=D24324P189&aq=["Example Missing"]&type=518510LHY&sort=56XK567C&facet=P76614O91&facet_mincount=1&filter=["Example Missing"]&filter_query=GTG829O&exclude=RXGC214&hl=true&root_record=BH386RX&dt=YNR297K&fields=980X614Q738"
     
 curl -H "X-ArchivesSpace-Session: $SESSION" \
   -d '"BooleanParam"' \
-  "http://localhost:8089/search/repositories?q=V824324LW&aq=["Example Missing"]&type=420R435Q330&sort=984H69PU&facet=WMILJ&facet_mincount=1&filter=["Example Missing"]&exclude=X882251422C&hl=true&root_record=T657ODR&dt=AQ829MR&fields=KNR72822"
+  "http://localhost:8089/search/repositories?q=D24324P189&aq=["Example Missing"]&type=518510LHY&sort=56XK567C&facet=P76614O91&facet_mincount=1&filter=["Example Missing"]&filter_query=GTG829O&exclude=RXGC214&hl=true&root_record=BH386RX&dt=YNR297K&fields=980X614Q738"
     
 curl -H "X-ArchivesSpace-Session: $SESSION" \
-  -d '"T657ODR"' \
-  "http://localhost:8089/search/repositories?q=V824324LW&aq=["Example Missing"]&type=420R435Q330&sort=984H69PU&facet=WMILJ&facet_mincount=1&filter=["Example Missing"]&exclude=X882251422C&hl=true&root_record=T657ODR&dt=AQ829MR&fields=KNR72822"
+  -d '"BH386RX"' \
+  "http://localhost:8089/search/repositories?q=D24324P189&aq=["Example Missing"]&type=518510LHY&sort=56XK567C&facet=P76614O91&facet_mincount=1&filter=["Example Missing"]&filter_query=GTG829O&exclude=RXGC214&hl=true&root_record=BH386RX&dt=YNR297K&fields=980X614Q738"
     
 curl -H "X-ArchivesSpace-Session: $SESSION" \
-  -d '"AQ829MR"' \
-  "http://localhost:8089/search/repositories?q=V824324LW&aq=["Example Missing"]&type=420R435Q330&sort=984H69PU&facet=WMILJ&facet_mincount=1&filter=["Example Missing"]&exclude=X882251422C&hl=true&root_record=T657ODR&dt=AQ829MR&fields=KNR72822"
+  -d '"YNR297K"' \
+  "http://localhost:8089/search/repositories?q=D24324P189&aq=["Example Missing"]&type=518510LHY&sort=56XK567C&facet=P76614O91&facet_mincount=1&filter=["Example Missing"]&filter_query=GTG829O&exclude=RXGC214&hl=true&root_record=BH386RX&dt=YNR297K&fields=980X614Q738"
     
 curl -H "X-ArchivesSpace-Session: $SESSION" \
-  -d '"KNR72822"' \
-  "http://localhost:8089/search/repositories?q=V824324LW&aq=["Example Missing"]&type=420R435Q330&sort=984H69PU&facet=WMILJ&facet_mincount=1&filter=["Example Missing"]&exclude=X882251422C&hl=true&root_record=T657ODR&dt=AQ829MR&fields=KNR72822"
+  -d '"980X614Q738"' \
+  "http://localhost:8089/search/repositories?q=D24324P189&aq=["Example Missing"]&type=518510LHY&sort=56XK567C&facet=P76614O91&facet_mincount=1&filter=["Example Missing"]&filter_query=GTG829O&exclude=RXGC214&hl=true&root_record=BH386RX&dt=YNR297K&fields=980X614Q738"
   
 
 ```
+
 
 
 __Endpoint__
 
 ```[:GET, :POST] /search/repositories ```
 
+
 __Description__
 
-Search across repositories
+Search across repositories.
+
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
 
 
 __Parameters__
@@ -20518,131 +33117,271 @@ This endpoint is paginated. :page is required
 </ul>
 </aside>
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>q</code></td>
+        <td style="word-break: break-word;">
+            A search query string.  Uses Lucene 4.0 syntax: http://lucene.apache.org/core/4_0_0/queryparser/org/apache/lucene/queryparser/classic/package-summary.html  Search index structure can be found in solr/schema.xml
+            
+        </td>
+        <td>String</td>
+        <td>true</td>
+      </tr>
     
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>aq</code></td>
+        <td style="word-break: break-word;">
+            A json string containing the advanced query
+            
+        </td>
+        <td>JSONModel(:advanced_query)</td>
+        <td>true</td>
+      </tr>
     
-  
-  
-	  String q (Optional) -- A search query string.  Uses Lucene 4.0 syntax: http://lucene.apache.org/core/4_0_0/queryparser/org/apache/lucene/queryparser/classic/package-summary.html  Search index structure can be found in solr/schema.xml
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>type</code></td>
+        <td style="word-break: break-word;">
+            The record type to search (defaults to all types if not specified)
+            
+        </td>
+        <td>[String]</td>
+        <td>true</td>
+      </tr>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>sort</code></td>
+        <td style="word-break: break-word;">
+            The attribute to sort and the direction e.g. &sort=title desc&...
+            
+        </td>
+        <td>String</td>
+        <td>true</td>
+      </tr>
     
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>facet</code></td>
+        <td style="word-break: break-word;">
+            The list of the fields to produce facets for
+            
+        </td>
+        <td>[String]</td>
+        <td>true</td>
+      </tr>
     
-  
-  
-	  JSONModel(:advanced_query) aq (Optional) -- A json string containing the advanced query
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>facet_mincount</code></td>
+        <td style="word-break: break-word;">
+            The minimum count for a facet field to be included in the response
+            
+        </td>
+        <td>Integer</td>
+        <td>true</td>
+      </tr>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>filter</code></td>
+        <td style="word-break: break-word;">
+            A json string containing the advanced query to filter by
+            
+        </td>
+        <td>JSONModel(:advanced_query)</td>
+        <td>true</td>
+      </tr>
     
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>filter_query</code></td>
+        <td style="word-break: break-word;">
+            Search queries to be applied as a filter to the results.
+            
+        </td>
+        <td>[String]</td>
+        <td>true</td>
+      </tr>
     
-  
-  
-	  [String] type (Optional) -- The record type to search (defaults to all types if not specified)
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>exclude</code></td>
+        <td style="word-break: break-word;">
+            A list of document IDs that should be excluded from results
+            
+        </td>
+        <td>[String]</td>
+        <td>true</td>
+      </tr>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>hl</code></td>
+        <td style="word-break: break-word;">
+            Whether to use highlighting
+            
+        </td>
+        <td>RESTHelpers::BooleanParam</td>
+        <td>true</td>
+      </tr>
     
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>root_record</code></td>
+        <td style="word-break: break-word;">
+            Search within a collection of records (defined by the record at the root of the tree)
+            
+        </td>
+        <td>String</td>
+        <td>true</td>
+      </tr>
     
-  
-  
-	  String sort (Optional) -- The attribute to sort and the direction e.g. &sort=title desc&...
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>dt</code></td>
+        <td style="word-break: break-word;">
+            Format to return (JSON default)
+            
+        </td>
+        <td>String</td>
+        <td>true</td>
+      </tr>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>fields</code></td>
+        <td style="word-break: break-word;">
+            The list of fields to include in the results
+            
+        </td>
+        <td>[String]</td>
+        <td>true</td>
+      </tr>
     
-    
-  
-  
-	  [String] facet (Optional) -- The list of the fields to produce facets for
-  
-  
-    
-  
-  
-    
-    
-  
-  
-	  Integer facet_mincount (Optional) -- The minimum count for a facet field to be included in the response
-  
-  
-    
-  
-  
-    
-    
-  
-  
-	  JSONModel(:advanced_query) filter (Optional) -- A json string containing the advanced query to filter by
-  
-  
-    
-  
-  
-    
-    
-  
-  
-	  [String] exclude (Optional) -- A list of document IDs that should be excluded from results
-  
-  
-    
-  
-  
-    
-    
-  
-  
-	  RESTHelpers::BooleanParam hl (Optional) -- Whether to use highlighting
-  
-  
-    
-  
-  
-    
-    
-  
-  
-	  String root_record (Optional) -- Search within a collection of records (defined by the record at the root of the tree)
-  
-  
-    
-  
-  
-    
-    
-  
-  
-	  String dt (Optional) -- Format to return (JSON default)
-  
-  
-    
-  
-  
-    
-    
-  
-  
-	  [String] fields (Optional) -- The list of fields to include in the results
-  
+  </tbody>
+</table>
+
 
 __Returns__
 
   	200 -- 
-
 
 
 
@@ -20687,6 +33426,15 @@ __Returns__
     
   
   
+    
+  
+  
+  
+    
+      
+        
+      
+        
   
     
       
@@ -20762,6 +33510,9 @@ __Returns__
   
   
 
+  
+    
+  
   
     
   
@@ -20802,67 +33553,66 @@ __Returns__
 ```shell
   
 curl -H "X-ArchivesSpace-Session: $SESSION" \
-  -d '"MC812YM"' \
-  "http://localhost:8089/search/subjects?q=MC812YM&aq=["Example Missing"]&type=U576461CX&sort=G274FHN&facet=Y677IF229&facet_mincount=1&filter=["Example Missing"]&exclude=337QNUF&hl=true&root_record=483N653SW&dt=J594294L722&fields=235RFEY"
+  -d '"226X195670557"' \
+  "http://localhost:8089/search/subjects?q=226X195670557&aq=["Example Missing"]&type=WD701NB&sort=PX726JG&facet=JLM647E&facet_mincount=1&filter=["Example Missing"]&filter_query=511G779NF&exclude=USJIJ&hl=true&root_record=SXC543E&dt=I275315ML&fields=Q738454959539"
     
 curl -H "X-ArchivesSpace-Session: $SESSION" \
   -d '["Example Missing"]' \
-  "http://localhost:8089/search/subjects?q=MC812YM&aq=["Example Missing"]&type=U576461CX&sort=G274FHN&facet=Y677IF229&facet_mincount=1&filter=["Example Missing"]&exclude=337QNUF&hl=true&root_record=483N653SW&dt=J594294L722&fields=235RFEY"
+  "http://localhost:8089/search/subjects?q=226X195670557&aq=["Example Missing"]&type=WD701NB&sort=PX726JG&facet=JLM647E&facet_mincount=1&filter=["Example Missing"]&filter_query=511G779NF&exclude=USJIJ&hl=true&root_record=SXC543E&dt=I275315ML&fields=Q738454959539"
     
 curl -H "X-ArchivesSpace-Session: $SESSION" \
-  -d '"U576461CX"' \
-  "http://localhost:8089/search/subjects?q=MC812YM&aq=["Example Missing"]&type=U576461CX&sort=G274FHN&facet=Y677IF229&facet_mincount=1&filter=["Example Missing"]&exclude=337QNUF&hl=true&root_record=483N653SW&dt=J594294L722&fields=235RFEY"
+  -d '"WD701NB"' \
+  "http://localhost:8089/search/subjects?q=226X195670557&aq=["Example Missing"]&type=WD701NB&sort=PX726JG&facet=JLM647E&facet_mincount=1&filter=["Example Missing"]&filter_query=511G779NF&exclude=USJIJ&hl=true&root_record=SXC543E&dt=I275315ML&fields=Q738454959539"
     
 curl -H "X-ArchivesSpace-Session: $SESSION" \
-  -d '"G274FHN"' \
-  "http://localhost:8089/search/subjects?q=MC812YM&aq=["Example Missing"]&type=U576461CX&sort=G274FHN&facet=Y677IF229&facet_mincount=1&filter=["Example Missing"]&exclude=337QNUF&hl=true&root_record=483N653SW&dt=J594294L722&fields=235RFEY"
+  -d '"PX726JG"' \
+  "http://localhost:8089/search/subjects?q=226X195670557&aq=["Example Missing"]&type=WD701NB&sort=PX726JG&facet=JLM647E&facet_mincount=1&filter=["Example Missing"]&filter_query=511G779NF&exclude=USJIJ&hl=true&root_record=SXC543E&dt=I275315ML&fields=Q738454959539"
     
 curl -H "X-ArchivesSpace-Session: $SESSION" \
-  -d '"Y677IF229"' \
-  "http://localhost:8089/search/subjects?q=MC812YM&aq=["Example Missing"]&type=U576461CX&sort=G274FHN&facet=Y677IF229&facet_mincount=1&filter=["Example Missing"]&exclude=337QNUF&hl=true&root_record=483N653SW&dt=J594294L722&fields=235RFEY"
+  -d '"JLM647E"' \
+  "http://localhost:8089/search/subjects?q=226X195670557&aq=["Example Missing"]&type=WD701NB&sort=PX726JG&facet=JLM647E&facet_mincount=1&filter=["Example Missing"]&filter_query=511G779NF&exclude=USJIJ&hl=true&root_record=SXC543E&dt=I275315ML&fields=Q738454959539"
     
 curl -H "X-ArchivesSpace-Session: $SESSION" \
   -d '"1"' \
-  "http://localhost:8089/search/subjects?q=MC812YM&aq=["Example Missing"]&type=U576461CX&sort=G274FHN&facet=Y677IF229&facet_mincount=1&filter=["Example Missing"]&exclude=337QNUF&hl=true&root_record=483N653SW&dt=J594294L722&fields=235RFEY"
+  "http://localhost:8089/search/subjects?q=226X195670557&aq=["Example Missing"]&type=WD701NB&sort=PX726JG&facet=JLM647E&facet_mincount=1&filter=["Example Missing"]&filter_query=511G779NF&exclude=USJIJ&hl=true&root_record=SXC543E&dt=I275315ML&fields=Q738454959539"
     
 curl -H "X-ArchivesSpace-Session: $SESSION" \
   -d '["Example Missing"]' \
-  "http://localhost:8089/search/subjects?q=MC812YM&aq=["Example Missing"]&type=U576461CX&sort=G274FHN&facet=Y677IF229&facet_mincount=1&filter=["Example Missing"]&exclude=337QNUF&hl=true&root_record=483N653SW&dt=J594294L722&fields=235RFEY"
+  "http://localhost:8089/search/subjects?q=226X195670557&aq=["Example Missing"]&type=WD701NB&sort=PX726JG&facet=JLM647E&facet_mincount=1&filter=["Example Missing"]&filter_query=511G779NF&exclude=USJIJ&hl=true&root_record=SXC543E&dt=I275315ML&fields=Q738454959539"
     
 curl -H "X-ArchivesSpace-Session: $SESSION" \
-  -d '"337QNUF"' \
-  "http://localhost:8089/search/subjects?q=MC812YM&aq=["Example Missing"]&type=U576461CX&sort=G274FHN&facet=Y677IF229&facet_mincount=1&filter=["Example Missing"]&exclude=337QNUF&hl=true&root_record=483N653SW&dt=J594294L722&fields=235RFEY"
+  -d '"511G779NF"' \
+  "http://localhost:8089/search/subjects?q=226X195670557&aq=["Example Missing"]&type=WD701NB&sort=PX726JG&facet=JLM647E&facet_mincount=1&filter=["Example Missing"]&filter_query=511G779NF&exclude=USJIJ&hl=true&root_record=SXC543E&dt=I275315ML&fields=Q738454959539"
+    
+curl -H "X-ArchivesSpace-Session: $SESSION" \
+  -d '"USJIJ"' \
+  "http://localhost:8089/search/subjects?q=226X195670557&aq=["Example Missing"]&type=WD701NB&sort=PX726JG&facet=JLM647E&facet_mincount=1&filter=["Example Missing"]&filter_query=511G779NF&exclude=USJIJ&hl=true&root_record=SXC543E&dt=I275315ML&fields=Q738454959539"
     
 curl -H "X-ArchivesSpace-Session: $SESSION" \
   -d '"BooleanParam"' \
-  "http://localhost:8089/search/subjects?q=MC812YM&aq=["Example Missing"]&type=U576461CX&sort=G274FHN&facet=Y677IF229&facet_mincount=1&filter=["Example Missing"]&exclude=337QNUF&hl=true&root_record=483N653SW&dt=J594294L722&fields=235RFEY"
+  "http://localhost:8089/search/subjects?q=226X195670557&aq=["Example Missing"]&type=WD701NB&sort=PX726JG&facet=JLM647E&facet_mincount=1&filter=["Example Missing"]&filter_query=511G779NF&exclude=USJIJ&hl=true&root_record=SXC543E&dt=I275315ML&fields=Q738454959539"
     
 curl -H "X-ArchivesSpace-Session: $SESSION" \
-  -d '"483N653SW"' \
-  "http://localhost:8089/search/subjects?q=MC812YM&aq=["Example Missing"]&type=U576461CX&sort=G274FHN&facet=Y677IF229&facet_mincount=1&filter=["Example Missing"]&exclude=337QNUF&hl=true&root_record=483N653SW&dt=J594294L722&fields=235RFEY"
+  -d '"SXC543E"' \
+  "http://localhost:8089/search/subjects?q=226X195670557&aq=["Example Missing"]&type=WD701NB&sort=PX726JG&facet=JLM647E&facet_mincount=1&filter=["Example Missing"]&filter_query=511G779NF&exclude=USJIJ&hl=true&root_record=SXC543E&dt=I275315ML&fields=Q738454959539"
     
 curl -H "X-ArchivesSpace-Session: $SESSION" \
-  -d '"J594294L722"' \
-  "http://localhost:8089/search/subjects?q=MC812YM&aq=["Example Missing"]&type=U576461CX&sort=G274FHN&facet=Y677IF229&facet_mincount=1&filter=["Example Missing"]&exclude=337QNUF&hl=true&root_record=483N653SW&dt=J594294L722&fields=235RFEY"
+  -d '"I275315ML"' \
+  "http://localhost:8089/search/subjects?q=226X195670557&aq=["Example Missing"]&type=WD701NB&sort=PX726JG&facet=JLM647E&facet_mincount=1&filter=["Example Missing"]&filter_query=511G779NF&exclude=USJIJ&hl=true&root_record=SXC543E&dt=I275315ML&fields=Q738454959539"
     
 curl -H "X-ArchivesSpace-Session: $SESSION" \
-  -d '"235RFEY"' \
-  "http://localhost:8089/search/subjects?q=MC812YM&aq=["Example Missing"]&type=U576461CX&sort=G274FHN&facet=Y677IF229&facet_mincount=1&filter=["Example Missing"]&exclude=337QNUF&hl=true&root_record=483N653SW&dt=J594294L722&fields=235RFEY"
+  -d '"Q738454959539"' \
+  "http://localhost:8089/search/subjects?q=226X195670557&aq=["Example Missing"]&type=WD701NB&sort=PX726JG&facet=JLM647E&facet_mincount=1&filter=["Example Missing"]&filter_query=511G779NF&exclude=USJIJ&hl=true&root_record=SXC543E&dt=I275315ML&fields=Q738454959539"
   
 
 ```
+
 
 
 __Endpoint__
 
 ```[:GET, :POST] /search/subjects ```
 
-__Description__
-
-Search across subjects
-
-
-__Parameters__
 <aside class="warning">
   This endpoint is deprecated, and may be removed from a future release of ArchivesSpace.
   
@@ -20870,6 +33620,39 @@ __Parameters__
   
 </aside>
 
+__Description__
+
+Search across subjects.
+
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+
+
+__Parameters__
 <aside class="notice">
 This endpoint is paginated. :page is required
 <ul>
@@ -20878,131 +33661,271 @@ This endpoint is paginated. :page is required
 </ul>
 </aside>
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>q</code></td>
+        <td style="word-break: break-word;">
+            A search query string.  Uses Lucene 4.0 syntax: http://lucene.apache.org/core/4_0_0/queryparser/org/apache/lucene/queryparser/classic/package-summary.html  Search index structure can be found in solr/schema.xml
+            
+        </td>
+        <td>String</td>
+        <td>true</td>
+      </tr>
     
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>aq</code></td>
+        <td style="word-break: break-word;">
+            A json string containing the advanced query
+            
+        </td>
+        <td>JSONModel(:advanced_query)</td>
+        <td>true</td>
+      </tr>
     
-  
-  
-	  String q (Optional) -- A search query string.  Uses Lucene 4.0 syntax: http://lucene.apache.org/core/4_0_0/queryparser/org/apache/lucene/queryparser/classic/package-summary.html  Search index structure can be found in solr/schema.xml
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>type</code></td>
+        <td style="word-break: break-word;">
+            The record type to search (defaults to all types if not specified)
+            
+        </td>
+        <td>[String]</td>
+        <td>true</td>
+      </tr>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>sort</code></td>
+        <td style="word-break: break-word;">
+            The attribute to sort and the direction e.g. &sort=title desc&...
+            
+        </td>
+        <td>String</td>
+        <td>true</td>
+      </tr>
     
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>facet</code></td>
+        <td style="word-break: break-word;">
+            The list of the fields to produce facets for
+            
+        </td>
+        <td>[String]</td>
+        <td>true</td>
+      </tr>
     
-  
-  
-	  JSONModel(:advanced_query) aq (Optional) -- A json string containing the advanced query
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>facet_mincount</code></td>
+        <td style="word-break: break-word;">
+            The minimum count for a facet field to be included in the response
+            
+        </td>
+        <td>Integer</td>
+        <td>true</td>
+      </tr>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>filter</code></td>
+        <td style="word-break: break-word;">
+            A json string containing the advanced query to filter by
+            
+        </td>
+        <td>JSONModel(:advanced_query)</td>
+        <td>true</td>
+      </tr>
     
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>filter_query</code></td>
+        <td style="word-break: break-word;">
+            Search queries to be applied as a filter to the results.
+            
+        </td>
+        <td>[String]</td>
+        <td>true</td>
+      </tr>
     
-  
-  
-	  [String] type (Optional) -- The record type to search (defaults to all types if not specified)
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>exclude</code></td>
+        <td style="word-break: break-word;">
+            A list of document IDs that should be excluded from results
+            
+        </td>
+        <td>[String]</td>
+        <td>true</td>
+      </tr>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>hl</code></td>
+        <td style="word-break: break-word;">
+            Whether to use highlighting
+            
+        </td>
+        <td>RESTHelpers::BooleanParam</td>
+        <td>true</td>
+      </tr>
     
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>root_record</code></td>
+        <td style="word-break: break-word;">
+            Search within a collection of records (defined by the record at the root of the tree)
+            
+        </td>
+        <td>String</td>
+        <td>true</td>
+      </tr>
     
-  
-  
-	  String sort (Optional) -- The attribute to sort and the direction e.g. &sort=title desc&...
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>dt</code></td>
+        <td style="word-break: break-word;">
+            Format to return (JSON default)
+            
+        </td>
+        <td>String</td>
+        <td>true</td>
+      </tr>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>fields</code></td>
+        <td style="word-break: break-word;">
+            The list of fields to include in the results
+            
+        </td>
+        <td>[String]</td>
+        <td>true</td>
+      </tr>
     
-    
-  
-  
-	  [String] facet (Optional) -- The list of the fields to produce facets for
-  
-  
-    
-  
-  
-    
-    
-  
-  
-	  Integer facet_mincount (Optional) -- The minimum count for a facet field to be included in the response
-  
-  
-    
-  
-  
-    
-    
-  
-  
-	  JSONModel(:advanced_query) filter (Optional) -- A json string containing the advanced query to filter by
-  
-  
-    
-  
-  
-    
-    
-  
-  
-	  [String] exclude (Optional) -- A list of document IDs that should be excluded from results
-  
-  
-    
-  
-  
-    
-    
-  
-  
-	  RESTHelpers::BooleanParam hl (Optional) -- Whether to use highlighting
-  
-  
-    
-  
-  
-    
-    
-  
-  
-	  String root_record (Optional) -- Search within a collection of records (defined by the record at the root of the tree)
-  
-  
-    
-  
-  
-    
-    
-  
-  
-	  String dt (Optional) -- Format to return (JSON default)
-  
-  
-    
-  
-  
-    
-    
-  
-  
-	  [String] fields (Optional) -- The list of fields to include in the results
-  
+  </tbody>
+</table>
+
 
 __Returns__
 
   	200 -- 
-
 
 
 
@@ -21059,43 +33982,86 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 ```
 
 
+
 __Endpoint__
 
 ```[:GET] /slug ```
 
+
 __Description__
 
-Find the record given the slug, return id, repo_id, and table name
+Find the record given the slug, return id, repo_id, and table name.
 
+      
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
-  
-	  l s -- u
-  
-  
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>s</code></td>
+        <td style="word-break: break-word;">
+            u
+            
+        </td>
+        <td>l</td>
+        <td></td>
+      </tr>
     
-  
-  
-  
-	  o c -- n
-  
-  
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>c</code></td>
+        <td style="word-break: break-word;">
+            n
+            
+        </td>
+        <td>o</td>
+        <td></td>
+      </tr>
     
-  
-  
-  
-	  c a -- t
-  
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>a</code></td>
+        <td style="word-break: break-word;">
+            t
+            
+        </td>
+        <td>c</td>
+        <td></td>
+      </tr>
+    
+  </tbody>
+</table>
+
 
 __Returns__
 
   	200 -- 
-
 
 
 
@@ -21112,22 +34078,22 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 ```
 
 
+
 __Endpoint__
 
 ```[:GET] /space_calculator/buildings ```
 
+
 __Description__
 
-Get a Location by ID
+Get a Location by ID.
 
 
-__Parameters__
 
 
 __Returns__
 
   	200 -- Location building data as JSON
-
 
 
 
@@ -21202,71 +34168,142 @@ __Returns__
   
 ```shell
 curl -H "X-ArchivesSpace-Session: $SESSION" \
-  "http://localhost:8089/space_calculator/by_building?container_profile_uri=965BQSI&building=UN204T231&floor=940Q314RJ&room=635HNW159&area=72SPOT"
+  "http://localhost:8089/space_calculator/by_building?container_profile_uri=960O927S810&building=191R568271C&floor=YY34693L&room=211AFKU&area=RI649MF"
 
 ```
+
 
 
 __Endpoint__
 
 ```[:GET] /space_calculator/by_building ```
 
+
 __Description__
 
-Calculate how many containers will fit in locations for a given building
+Calculate how many containers will fit in locations for a given building.
+
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
-  
-	  String container_profile_uri -- The uri of the container profile
-  
-  
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>container_profile_uri</code></td>
+        <td style="word-break: break-word;">
+            The uri of the container profile
+            
+        </td>
+        <td>String</td>
+        <td></td>
+      </tr>
     
-  
-  
-  
-	  String building -- The building to check for space in
-  
-  
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>building</code></td>
+        <td style="word-break: break-word;">
+            The building to check for space in
+            
+        </td>
+        <td>String</td>
+        <td></td>
+      </tr>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>floor</code></td>
+        <td style="word-break: break-word;">
+            The floor to check for space in
+            
+        </td>
+        <td>String</td>
+        <td>true</td>
+      </tr>
     
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>room</code></td>
+        <td style="word-break: break-word;">
+            The room to check for space in
+            
+        </td>
+        <td>String</td>
+        <td>true</td>
+      </tr>
     
-  
-  
-	  String floor (Optional) -- The floor to check for space in
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>area</code></td>
+        <td style="word-break: break-word;">
+            The area to check for space in
+            
+        </td>
+        <td>String</td>
+        <td>true</td>
+      </tr>
     
-  
-  
-    
-    
-  
-  
-	  String room (Optional) -- The room to check for space in
-  
-  
-    
-  
-  
-    
-    
-  
-  
-	  String area (Optional) -- The area to check for space in
-  
+  </tbody>
+</table>
+
 
 __Returns__
 
   	200 -- Calculation results
-
 
 
 
@@ -21305,41 +34342,79 @@ __Returns__
   
 ```shell
 curl -H "X-ArchivesSpace-Session: $SESSION" \
-  "http://localhost:8089/space_calculator/by_location?container_profile_uri=GO677719990&location_uris=GCUYA"
+  "http://localhost:8089/space_calculator/by_location?container_profile_uri=17845380NR&location_uris=260882NKD"
 
 ```
+
 
 
 __Endpoint__
 
 ```[:GET] /space_calculator/by_location ```
 
+
 __Description__
 
-Calculate how many containers will fit in a list of locations
+Calculate how many containers will fit in a list of locations.
+
+  
+  
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
-  
-	  String container_profile_uri -- The uri of the container profile
-  
-  
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>container_profile_uri</code></td>
+        <td style="word-break: break-word;">
+            The uri of the container profile
+            
+        </td>
+        <td>String</td>
+        <td></td>
+      </tr>
     
-  
-  
-  
-	  [String] location_uris -- A list of location uris to calculate space for
-  
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>location_uris</code></td>
+        <td style="word-break: break-word;">
+            A list of location uris to calculate space for
+            
+        </td>
+        <td>[String]</td>
+        <td></td>
+      </tr>
+    
+  </tbody>
+</table>
+
 
 __Returns__
 
   	200 -- Calculation results
-
 
 
 
@@ -21356,9 +34431,8 @@ __Returns__
   
   
   
-```shell
-curl -H "X-ArchivesSpace-Session: $SESSION" \
-  -d '{ "jsonmodel_type":"subject",
+  ```shell
+curl -H "X-ArchivesSpace-Session: $SESSION"       -d '{ "jsonmodel_type":"subject",
 "external_ids":[],
 "publish":true,
 "is_slug_auto":true,
@@ -21372,8 +34446,25 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 "vocabulary":"/vocabularies/3",
 "authority_id":"http://www.example-18.com",
 "scope_note":"440FVOO",
-"source":"lcsh"}' \
-  "http://localhost:8089/subjects"
+"source":"lcsh"}'         "http://localhost:8089/subjects"
+
+```
+
+
+```python
+from asnake.aspace import ASpace
+from asnake.jsonmodel import JM
+# create a new subject
+# minimum requirements:
+# -  at least one Term object, with a term, a valid term_type, and  vocabulary (set to `/vocabularies/1')
+# - a defined source (e.g.: ingest, lcsh) and vocabulary (set to `/vocabularies/1')
+subj_json = JM.subject(source='ingest', vocabulary='/vocabularies/1' )
+term = JM.term(term='Black lives matter movement', term_type='topical',vocabulary='/vocabularies/1' )
+subj_json["terms"] = [term]
+res = aspace.client.post('/subjects', json=subj_json)
+subj_id = None
+if res.status_code ==  200:
+  subj_id = res.json()["id"]
 
 ```
 
@@ -21382,28 +34473,22 @@ __Endpoint__
 
 ```[:POST] /subjects ```
 
+
 __Description__
 
-Create a Subject
-
-
-__Parameters__
+Create a Subject.
 
   
-    
   
-  
-    
-    
-  
-  
-	  JSONModel(:subject) <request body> -- The record to create
-  
+
+
+__Accepts Payload of Type__
+
+JSONModel(:subject)
 
 __Returns__
 
   	200 -- {:status => "Created", :id => (id of created object), :warnings => {(warnings)}}
-
 
 
 
@@ -21427,13 +34512,16 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 ```
 
 
+
 __Endpoint__
 
 ```[:GET] /subjects ```
 
+
 __Description__
 
-Get a list of Subjects
+Get a list of Subjects.
+
 
 
 __Parameters__
@@ -21448,10 +34536,11 @@ This endpoint is paginated. :page, :id_set, or :all_ids is required
 </aside>
 
 
+
+
 __Returns__
 
   	200 -- [(:subject)]
-
 
 
 
@@ -21474,9 +34563,8 @@ __Returns__
   
   
   
-```shell
-curl -H "X-ArchivesSpace-Session: $SESSION" \
-  -d '{ "jsonmodel_type":"subject",
+  ```shell
+  curl -H "X-ArchivesSpace-Session: $SESSION"         -d '{ "jsonmodel_type":"subject",
 "external_ids":[],
 "publish":true,
 "is_slug_auto":true,
@@ -21490,8 +34578,22 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 "vocabulary":"/vocabularies/3",
 "authority_id":"http://www.example-18.com",
 "scope_note":"440FVOO",
-"source":"lcsh"}' \
-  "http://localhost:8089/subjects/1"
+"source":"lcsh"}'         "http://localhost:8089/subjects/1"
+
+```
+
+
+```python
+from asnake.aspace import ASpace
+subj = aspace.subjects(1)
+# test to be sure that you got something
+if subj.__class__.__name__ == 'JSONModelObject':
+  json_subj = subj.json()
+  json_subj['source'] = 'lcsh'
+  json_subj['authority_id'] = 'http://id.loc.gov/authorities/subjects/sh2016001442'  
+  res = aspace.client.post(json_subj['uri'], json=json_subj)
+  if res.status_code != 200:
+    print(f'ERROR: {res.status_code}')
 
 ```
 
@@ -21500,35 +34602,56 @@ __Endpoint__
 
 ```[:POST] /subjects/:id ```
 
+
 __Description__
 
-Update a Subject
+Update a Subject.
+
+  
+  
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
-  
-	  Integer id -- The ID of the record
-  
-  
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>id</code></td>
+        <td style="word-break: break-word;">
+            The ID of the record
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-  
-  
-    
-    
-  
-  
-	  JSONModel(:subject) <request body> -- The updated record
-  
+  </tbody>
+</table>
+
+__Accepts Payload of Type__
+
+JSONModel(:subject)
 
 __Returns__
 
   	200 -- {:status => "Updated", :id => (id of updated object)}
-
 
 
 
@@ -21544,9 +34667,23 @@ __Returns__
     
   
   
-```shell
-curl -H "X-ArchivesSpace-Session: $SESSION" \
-  "http://localhost:8089/subjects/1"
+  ```shell
+url -H "X-ArchivesSpace-Session: $SESSION"       "http://localhost:8089/subjects/1"
+
+```
+
+
+```python
+from asnake.aspace import ASpace
+subj = aspace.subjects(1)
+# test to be sure that you got something
+if subj.__class__.__name__ == 'JSONModelObject':
+    json_subj = subj.json()
+    print(f'Title: {json_subj["title"]}; Source: {json_subj["source"]}')
+    if 'authority_id' in json_subj:
+      print(f'Authority ID: {json_subj["authority_id"]}')
+    else:
+        print('Authority ID not defined')
 
 ```
 
@@ -21555,25 +34692,51 @@ __Endpoint__
 
 ```[:GET] /subjects/:id ```
 
+
 __Description__
 
-Get a Subject by ID
+Get a Subject by ID.
+
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
-  
-	  Integer id -- The ID of the record
-  
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>id</code></td>
+        <td style="word-break: break-word;">
+            The ID of the record
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
+    
+  </tbody>
+</table>
+
 
 __Returns__
 
   	200 -- (:subject)
-
 
 
 
@@ -21589,10 +34752,15 @@ __Returns__
     
   
   
-```shell
-curl -H "X-ArchivesSpace-Session: $SESSION" \
-  -X DELETE \
-  "http://localhost:8089/subjects/1"
+  ```shell
+curl -H "X-ArchivesSpace-Session: $SESSION"       -X DELETE       "http://localhost:8089/subjects/1"  
+
+```
+
+
+```python
+from asnake.aspace import ASpace
+res = aspace.client.delete("http://localhost:8089/subjects/1")
 
 ```
 
@@ -21601,25 +34769,51 @@ __Endpoint__
 
 ```[:DELETE] /subjects/:id ```
 
+
 __Description__
 
-Delete a Subject
+Delete a Subject.
+
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
-  
-	  Integer id -- The ID of the record
-  
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>id</code></td>
+        <td style="word-break: break-word;">
+            The ID of the record
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
+    
+  </tbody>
+</table>
+
 
 __Returns__
 
   	200 -- deleted
-
 
 
 
@@ -21646,34 +34840,61 @@ __Returns__
   
 ```shell
 curl -H "X-ArchivesSpace-Session: $SESSION" \
-  "http://localhost:8089/terms?q=696426I281G"
+  "http://localhost:8089/terms?q=A238D789B"
 
 ```
+
 
 
 __Endpoint__
 
 ```[:GET] /terms ```
 
+
 __Description__
 
-Get a list of Terms matching a prefix
+Get a list of Terms matching a prefix.
+
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
-  
-	  String q -- The prefix to match
-  
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>q</code></td>
+        <td style="word-break: break-word;">
+            The prefix to match
+            
+        </td>
+        <td>String</td>
+        <td></td>
+      </tr>
+    
+  </tbody>
+</table>
+
 
 __Returns__
 
   	200 -- [(:term)]
-
 
 
 
@@ -21715,42 +34936,80 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 ```
 
 
+
 __Endpoint__
 
 ```[:GET] /update-feed ```
 
+
 __Description__
 
-Get a stream of updated records
+Get a stream of updated records.
+
+  
+  
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>last_sequence</code></td>
+        <td style="word-break: break-word;">
+            The last sequence number seen
+            
+        </td>
+        <td>Integer</td>
+        <td>true</td>
+      </tr>
     
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>resolve</code></td>
+        <td style="word-break: break-word;">
+            A list of references to resolve and embed in the response
+            
+        </td>
+        <td>[String]</td>
+        <td>true</td>
+      </tr>
     
-  
-  
-	  Integer last_sequence (Optional) -- The last sequence number seen
-  
-  
-    
-  
-  
-    
-    
-  
-  
-	  [String] resolve (Optional) -- A list of references to resolve and embed in the response
-  
+  </tbody>
+</table>
+
 
 __Returns__
 
   	200 -- a list of records and sequence numbers
-
 
 
 
@@ -21775,32 +35034,27 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 ```
 
 
+
 __Endpoint__
 
 ```[:POST] /update_monitor ```
 
+
 __Description__
 
-Refresh the list of currently known edits
-
-
-__Parameters__
+Refresh the list of currently known edits.
 
   
-    
   
-  
-    
-    
-  
-  
-	  JSONModel(:active_edits) <request body> -- The list of active edits
-  
+
+
+__Accepts Payload of Type__
+
+JSONModel(:active_edits)
 
 __Returns__
 
   	200 -- A list of records, the user editing it and the lock version for each
-
 
 
 
@@ -21848,59 +35102,93 @@ __Returns__
 curl -H "X-ArchivesSpace-Session: $SESSION" \
   -d '{ "jsonmodel_type":"user",
 "groups":[],
+"is_active_user":true,
 "is_admin":false,
 "username":"username_1",
 "name":"Name Number 16"}' \
-  "http://localhost:8089/users?password=924WY481X&groups=PT546632949"
+  "http://localhost:8089/users?password=857P2UQ&groups=764B69082K"
 
 ```
+
 
 
 __Endpoint__
 
 ```[:POST] /users ```
 
+
 __Description__
 
-Create a local user
+Create a local user.
+
+  
+  
+  
+  
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
-  
-	  String password -- The user's password
-  
-  
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>password</code></td>
+        <td style="word-break: break-word;">
+            The user's password
+            
+        </td>
+        <td>String</td>
+        <td></td>
+      </tr>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>groups</code></td>
+        <td style="word-break: break-word;">
+            Array of groups URIs to assign the user to
+            
+        </td>
+        <td>[String]</td>
+        <td>true</td>
+      </tr>
     
-    
-  
-  
-	  [String] groups (Optional) -- Array of groups URIs to assign the user to
-  
-  
-    
-  
-  
-    
-    
-  
-  
-	  JSONModel(:user) <request body> -- The record to create
-  
+  </tbody>
+</table>
+
+__Accepts Payload of Type__
+
+JSONModel(:user)
 
 __Returns__
 
   	200 -- {:status => "Created", :id => (id of created object), :warnings => {(warnings)}}
 
   	400 -- {:error => (description of error)}
-
 
 
 
@@ -21924,13 +35212,16 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 ```
 
 
+
 __Endpoint__
 
 ```[:GET] /users ```
 
+
 __Description__
 
-Get a list of users
+Get a list of users.
+
 
 
 __Parameters__
@@ -21945,10 +35236,11 @@ This endpoint is paginated. :page, :id_set, or :all_ids is required
 </aside>
 
 
+
+
 __Returns__
 
   	200 -- [(:resource)]
-
 
 
 
@@ -21971,29 +35263,56 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 ```
 
 
+
 __Endpoint__
 
 ```[:GET] /users/:id ```
 
+
 __Description__
 
-Get a user's details (including their current permissions)
+Get a user's details (including their current permissions).
+
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
-  
-	  Integer id -- The username id to fetch
-  
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>id</code></td>
+        <td style="word-break: break-word;">
+            The username id to fetch
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
+    
+  </tbody>
+</table>
+
 
 __Returns__
 
   	200 -- (:user)
-
 
 
 
@@ -22035,59 +35354,93 @@ __Returns__
 curl -H "X-ArchivesSpace-Session: $SESSION" \
   -d '{ "jsonmodel_type":"user",
 "groups":[],
+"is_active_user":true,
 "is_admin":false,
 "username":"username_1",
 "name":"Name Number 16"}' \
-  "http://localhost:8089/users/1?password=KYP145L"
+  "http://localhost:8089/users/1?password=BKE531J"
 
 ```
+
 
 
 __Endpoint__
 
 ```[:POST] /users/:id ```
 
+
 __Description__
 
-Update a user's account
+Update a user's account.
+
+  
+  
+  
+  
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
-  
-	  Integer id -- The ID of the record
-  
-  
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>id</code></td>
+        <td style="word-break: break-word;">
+            The ID of the record
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>password</code></td>
+        <td style="word-break: break-word;">
+            The user's password
+            
+        </td>
+        <td>String</td>
+        <td>true</td>
+      </tr>
     
-    
-  
-  
-	  String password (Optional) -- The user's password
-  
-  
-    
-  
-  
-    
-    
-  
-  
-	  JSONModel(:user) <request body> -- The updated record
-  
+  </tbody>
+</table>
+
+__Accepts Payload of Type__
+
+JSONModel(:user)
 
 __Returns__
 
   	200 -- {:status => "Updated", :id => (id of updated object)}
 
   	400 -- {:error => (description of error)}
-
 
 
 
@@ -22111,29 +35464,200 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 ```
 
 
+
 __Endpoint__
 
 ```[:DELETE] /users/:id ```
 
+
 __Description__
 
-Delete a user
+Delete a user.
+
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
-  
-	  Integer id -- The user to delete
-  
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>id</code></td>
+        <td style="word-break: break-word;">
+            The user to delete
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
+    
+  </tbody>
+</table>
+
 
 __Returns__
 
   	200 -- deleted
 
+
+
+## Set a user to be activated
+
+
+
+  
+    
+  
+
+  
+    
+  
+  
+```shell
+curl -H "X-ArchivesSpace-Session: $SESSION" \
+  "http://localhost:8089/users/1/activate"
+
+```
+
+
+
+__Endpoint__
+
+```[:GET] /users/:id/activate ```
+
+
+__Description__
+
+Set a user to be activated.
+
+  
+  
+
+
+__Parameters__
+
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
+    
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>id</code></td>
+        <td style="word-break: break-word;">
+            The username id to fetch
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
+    
+  </tbody>
+</table>
+
+
+__Returns__
+
+  	200 -- (:user)
+
+
+
+## Set a user to be deactivated
+
+
+
+  
+    
+  
+
+  
+    
+  
+  
+```shell
+curl -H "X-ArchivesSpace-Session: $SESSION" \
+  "http://localhost:8089/users/1/deactivate"
+
+```
+
+
+
+__Endpoint__
+
+```[:GET] /users/:id/deactivate ```
+
+
+__Description__
+
+Set a user to be deactivated.
+
+  
+  
+
+
+__Parameters__
+
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
+    
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>id</code></td>
+        <td style="word-break: break-word;">
+            The username id to fetch
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
+    
+  </tbody>
+</table>
+
+
+__Returns__
+
+  	200 -- (:user)
 
 
 
@@ -22185,60 +35709,120 @@ __Returns__
 ```shell
 curl -H "X-ArchivesSpace-Session: $SESSION" \
   -d 'Example Missing' \
-  "http://localhost:8089/users/1/groups?groups=363PCVE&remove_groups=true"
+  "http://localhost:8089/users/1/groups?groups=XCBNR&remove_groups=true"
 
 ```
+
 
 
 __Endpoint__
 
 ```[:POST] /users/:id/groups ```
 
+
 __Description__
 
-Update a user's groups
+Update a user's groups.
+
+  
+  
+  
+  
+  
+  
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
-  
-	  Integer id -- The ID of the record
-  
-  
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>id</code></td>
+        <td style="word-break: break-word;">
+            The ID of the record
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>groups</code></td>
+        <td style="word-break: break-word;">
+            Array of groups URIs to assign the user to
+            
+        </td>
+        <td>[String]</td>
+        <td>true</td>
+      </tr>
     
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>remove_groups</code></td>
+        <td style="word-break: break-word;">
+            Remove all groups from the user for the current repo_id if true
+            
+        </td>
+        <td>RESTHelpers::BooleanParam</td>
+        <td></td>
+      </tr>
     
-  
-  
-	  [String] groups (Optional) -- Array of groups URIs to assign the user to
-  
-  
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>repo_id</code></td>
+        <td style="word-break: break-word;">
+            The Repository groups to clear
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-  
-  
-  
-	  RESTHelpers::BooleanParam remove_groups -- Remove all groups from the user for the current repo_id if true
-  
-  
-    
-  
-  
-  
-	  Integer repo_id -- The Repository groups to clear
-  
+  </tbody>
+</table>
+
 
 __Returns__
 
   	200 -- {:status => "Updated", :id => (id of updated object)}
 
   	400 -- {:error => (description of error)}
-
 
 
 
@@ -22262,31 +35846,58 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 ```
 
 
+
 __Endpoint__
 
 ```[:POST] /users/:username/become-user ```
 
+
 __Description__
 
-Become a different user
+Become a different user.
+
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
-  
-	  Username username -- The username to become
-  
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>username</code></td>
+        <td style="word-break: break-word;">
+            The username to become
+            
+        </td>
+        <td>Username</td>
+        <td></td>
+      </tr>
+    
+  </tbody>
+</table>
+
 
 __Returns__
 
   	200 -- Accepted
 
   	404 -- User not found
-
 
 
 
@@ -22332,55 +35943,104 @@ __Returns__
 ```shell
 curl -H "X-ArchivesSpace-Session: $SESSION" \
   -d 'Example Missing' \
-  "http://localhost:8089/users/1/login?password=VVYF567&expiring=true"
+  "http://localhost:8089/users/1/login?password=D43596X752&expiring=true"
 
 ```
+
 
 
 __Endpoint__
 
 ```[:POST] /users/:username/login ```
 
+
 __Description__
 
-Log in
+Log in.
+
+  
+  
+  
+  
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
-  
-	  Username username -- Your username
-  
-  
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>username</code></td>
+        <td style="word-break: break-word;">
+            Your username
+            
+        </td>
+        <td>Username</td>
+        <td></td>
+      </tr>
     
-  
-  
-  
-	  String password -- Your password
-  
-  
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>password</code></td>
+        <td style="word-break: break-word;">
+            Your password
+            
+        </td>
+        <td>String</td>
+        <td></td>
+      </tr>
     
-  
-  
-    
-    
-  
-  
-	  RESTHelpers::BooleanParam expiring -- If true, the session will expire after 3600 seconds of inactivity.  If false, it will  expire after 604800 seconds of inactivity.
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>expiring</code></td>
+        <td style="word-break: break-word;">
+            If true, the session will expire after 604800000 seconds of inactivity.  If false, it will  expire after 604800 seconds of inactivity.
 
 NOTE: Previously this parameter would cause the created session to last forever, but this generally isn't what you want.  The parameter name is unfortunate, but we're keeping it for backward-compatibility.
-  
+            
+        </td>
+        <td>RESTHelpers::BooleanParam</td>
+        <td></td>
+      </tr>
+    
+  </tbody>
+</table>
+
 
 __Returns__
 
   	200 -- Login accepted
 
   	403 -- Login failed
-
 
 
 
@@ -22407,34 +36067,61 @@ __Returns__
   
 ```shell
 curl -H "X-ArchivesSpace-Session: $SESSION" \
-  "http://localhost:8089/users/complete?query=223WKED"
+  "http://localhost:8089/users/complete?query=372TOUD"
 
 ```
+
 
 
 __Endpoint__
 
 ```[:GET] /users/complete ```
 
+
 __Description__
 
-Get a list of system users
+Get a list of system users.
+
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
-  
-	  String query -- A prefix to search for
-  
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>query</code></td>
+        <td style="word-break: break-word;">
+            A prefix to search for
+            
+        </td>
+        <td>String</td>
+        <td></td>
+      </tr>
+    
+  </tbody>
+</table>
+
 
 __Returns__
 
   	200 -- A list of usernames
-
 
 
 
@@ -22451,16 +36138,17 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 ```
 
 
+
 __Endpoint__
 
 ```[:GET] /users/current-user ```
 
+
 __Description__
 
-Get the currently logged in user
+Get the currently logged in user.
 
 
-__Parameters__
 
 
 __Returns__
@@ -22468,7 +36156,6 @@ __Returns__
   	200 -- (:user)
 
   	404 -- Not logged in
-
 
 
 
@@ -22485,22 +36172,22 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 ```
 
 
+
 __Endpoint__
 
 ```[:GET] /version ```
 
+
 __Description__
 
-Get the ArchivesSpace application version
+Get the ArchivesSpace application version.
 
 
-__Parameters__
 
 
 __Returns__
 
   	200 -- ArchivesSpace (version)
-
 
 
 
@@ -22521,39 +36208,34 @@ __Returns__
 curl -H "X-ArchivesSpace-Session: $SESSION" \
   -d '{ "jsonmodel_type":"vocabulary",
 "terms":[],
-"name":"Vocabulary 4 - 2020-11-11 13:18:16 -0500",
-"ref_id":"vocab_ref_4 - 2020-11-11 13:18:16 -0500"}' \
+"name":"Vocabulary 5 - 2021-09-20 19:04:41 -0400",
+"ref_id":"vocab_ref_5 - 2021-09-20 19:04:41 -0400"}' \
   "http://localhost:8089/vocabularies"
 
 ```
+
 
 
 __Endpoint__
 
 ```[:POST] /vocabularies ```
 
+
 __Description__
 
-Create a Vocabulary
-
-
-__Parameters__
+Create a Vocabulary.
 
   
-    
   
-  
-    
-    
-  
-  
-	  JSONModel(:vocabulary) <request body> -- The record to create
-  
+
+
+__Accepts Payload of Type__
+
+JSONModel(:vocabulary)
 
 __Returns__
 
   	200 -- {:status => "Created", :id => (id of created object), :warnings => {(warnings)}}
-
 
 
 
@@ -22580,37 +36262,64 @@ __Returns__
   
 ```shell
 curl -H "X-ArchivesSpace-Session: $SESSION" \
-  "http://localhost:8089/vocabularies?ref_id=E471536W247"
+  "http://localhost:8089/vocabularies?ref_id=KY268932E"
 
 ```
+
 
 
 __Endpoint__
 
 ```[:GET] /vocabularies ```
 
+
 __Description__
 
-Get a list of Vocabularies
+Get a list of Vocabularies.
+
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
+        
+          
+        
+
+        
+        
+        
+        
+        
+      <tr>      
+        <td><code>ref_id</code></td>
+        <td style="word-break: break-word;">
+            An alternate, externally-created ID for the vocabulary
+            
+        </td>
+        <td>String</td>
+        <td>true</td>
+      </tr>
     
-    
-  
-  
-	  String ref_id (Optional) -- An alternate, externally-created ID for the vocabulary
-  
+  </tbody>
+</table>
+
 
 __Returns__
 
   	200 -- [(:vocabulary)]
-
 
 
 
@@ -22637,46 +36346,68 @@ __Returns__
 curl -H "X-ArchivesSpace-Session: $SESSION" \
   -d '{ "jsonmodel_type":"vocabulary",
 "terms":[],
-"name":"Vocabulary 4 - 2020-11-11 13:18:16 -0500",
-"ref_id":"vocab_ref_4 - 2020-11-11 13:18:16 -0500"}' \
+"name":"Vocabulary 5 - 2021-09-20 19:04:41 -0400",
+"ref_id":"vocab_ref_5 - 2021-09-20 19:04:41 -0400"}' \
   "http://localhost:8089/vocabularies/1"
 
 ```
+
 
 
 __Endpoint__
 
 ```[:POST] /vocabularies/:id ```
 
+
 __Description__
 
-Update a Vocabulary
+Update a Vocabulary.
+
+  
+  
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
-  
-	  Integer id -- The ID of the record
-  
-  
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>id</code></td>
+        <td style="word-break: break-word;">
+            The ID of the record
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
     
-  
-  
-    
-    
-  
-  
-	  JSONModel(:vocabulary) <request body> -- The updated record
-  
+  </tbody>
+</table>
+
+__Accepts Payload of Type__
+
+JSONModel(:vocabulary)
 
 __Returns__
 
   	200 -- {:status => "Updated", :id => (id of updated object)}
-
 
 
 
@@ -22699,29 +36430,56 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 ```
 
 
+
 __Endpoint__
 
 ```[:GET] /vocabularies/:id ```
 
+
 __Description__
 
-Get a Vocabulary by ID
+Get a Vocabulary by ID.
+
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
-  
-	  Integer id -- The ID of the record
-  
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>id</code></td>
+        <td style="word-break: break-word;">
+            The ID of the record
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
+    
+  </tbody>
+</table>
+
 
 __Returns__
 
   	200 -- OK
-
 
 
 
@@ -22744,29 +36502,56 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 ```
 
 
+
 __Endpoint__
 
 ```[:GET] /vocabularies/:id/terms ```
 
+
 __Description__
 
-Get a list of Terms for a Vocabulary
+Get a list of Terms for a Vocabulary.
+
+  
+  
 
 
 __Parameters__
 
-  
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
     
-  
-  
-  
-	  Integer id -- The ID of the record
-  
+        
+          
+        
+
+        
+        
+      <tr>      
+        <td><code>id</code></td>
+        <td style="word-break: break-word;">
+            The ID of the record
+            
+        </td>
+        <td>Integer</td>
+        <td></td>
+      </tr>
+    
+  </tbody>
+</table>
+
 
 __Returns__
 
   	200 -- [(:term)]
-
 
 
 
@@ -22775,7 +36560,6 @@ __Returns__
 <p>An index of routes available in the ArchivesSpace API, alphabetically by URI.</p>
 
 <table>
-  <thead>></thead>
   <thead>
     <tr>
       <th>Route</th> <th>Method(s)</th> <th>Description</th>
@@ -22814,6 +36598,12 @@ __Returns__
       </tr>
     
       <tr>
+        <td><a href="#publish-a-corporate-entity-agent-and-all-its-sub-records">/agents/corporate_entities/:id/publish</a></td>
+        <td>POST</td>
+        <td>Publish a corporate entity agent and all its sub-records</td>
+      </tr>
+    
+      <tr>
         <td><a href="#create-a-family-agent">/agents/families</a></td>
         <td>POST</td>
         <td>Create a family agent</td>
@@ -22841,6 +36631,12 @@ __Returns__
         <td><a href="#delete-an-agent-family">/agents/families/:id</a></td>
         <td>DELETE</td>
         <td>Delete an agent family</td>
+      </tr>
+    
+      <tr>
+        <td><a href="#publish-a-family-agent-and-all-its-sub-records">/agents/families/:id/publish</a></td>
+        <td>POST</td>
+        <td>Publish a family agent and all its sub-records</td>
       </tr>
     
       <tr>
@@ -22874,6 +36670,12 @@ __Returns__
       </tr>
     
       <tr>
+        <td><a href="#publish-an-agent-person-and-all-its-sub-records">/agents/people/:id/publish</a></td>
+        <td>POST</td>
+        <td>Publish an agent person and all its sub-records</td>
+      </tr>
+    
+      <tr>
         <td><a href="#create-a-software-agent">/agents/software</a></td>
         <td>POST</td>
         <td>Create a software agent</td>
@@ -22901,6 +36703,12 @@ __Returns__
         <td><a href="#delete-a-software-agent">/agents/software/:id</a></td>
         <td>DELETE</td>
         <td>Delete a software agent</td>
+      </tr>
+    
+      <tr>
+        <td><a href="#publish-a-software-agent-and-all-its-sub-records">/agents/software/:id/publish</a></td>
+        <td>POST</td>
+        <td>Publish a software agent and all its sub-records</td>
       </tr>
     
       <tr>
@@ -23186,6 +36994,12 @@ __Returns__
       </tr>
     
       <tr>
+        <td><a href="#get-a-list-of-availiable-options-for-custom-reports">/reports/custom_data</a></td>
+        <td>GET</td>
+        <td>Get a list of availiable options for custom reports</td>
+      </tr>
+    
+      <tr>
         <td><a href="#get-a-static-asset-for-a-report">/reports/static/*</a></td>
         <td>GET</td>
         <td>Get a static asset for a report</td>
@@ -23267,6 +37081,42 @@ __Returns__
         <td><a href="#transfer-this-record-to-a-different-repository">/repositories/:repo_id/accessions/:id/transfer</a></td>
         <td>POST</td>
         <td>Transfer this record to a different repository</td>
+      </tr>
+    
+      <tr>
+        <td><a href="#get-metadata-for-an-marc-auth-export-of-a-corporate-entity">/repositories/:repo_id/agents/corporate_entities/marc21/:id.:fmt/metadata</a></td>
+        <td>GET</td>
+        <td>Get metadata for an MARC Auth export of a corporate entity</td>
+      </tr>
+    
+      <tr>
+        <td><a href="#get-a-marc-auth-representation-of-a-corporate-entity">/repositories/:repo_id/agents/corporate_entities/marc21/:id.xml</a></td>
+        <td>GET</td>
+        <td>Get a MARC Auth representation of a Corporate Entity</td>
+      </tr>
+    
+      <tr>
+        <td><a href="#get-metadata-for-an-marc-auth-export-of-a-family">/repositories/:repo_id/agents/families/marc21/:id.:fmt/metadata</a></td>
+        <td>GET</td>
+        <td>Get metadata for an MARC Auth export of a family</td>
+      </tr>
+    
+      <tr>
+        <td><a href="#get-an-marc-auth-representation-of-a-family">/repositories/:repo_id/agents/families/marc21/:id.xml</a></td>
+        <td>GET</td>
+        <td>Get an MARC Auth representation of a Family</td>
+      </tr>
+    
+      <tr>
+        <td><a href="#get-metadata-for-an-marc-auth-export-of-a-person">/repositories/:repo_id/agents/people/marc21/:id.:fmt/metadata</a></td>
+        <td>GET</td>
+        <td>Get metadata for an MARC Auth export of a person</td>
+      </tr>
+    
+      <tr>
+        <td><a href="#get-an-marc-auth-representation-of-an-person">/repositories/:repo_id/agents/people/marc21/:id.xml</a></td>
+        <td>GET</td>
+        <td>Get an MARC Auth representation of an Person</td>
       </tr>
     
       <tr>
@@ -23366,6 +37216,12 @@ __Returns__
       </tr>
     
       <tr>
+        <td><a href="#get-a-list-of-record-types-in-the-graph-of-an-archival-object">/repositories/:repo_id/archival_objects/:id/models_in_graph</a></td>
+        <td>GET</td>
+        <td>Get a list of record types in the graph of an archival object</td>
+      </tr>
+    
+      <tr>
         <td><a href="#set-the-parent-position-of-an-archival-object-in-a-tree">/repositories/:repo_id/archival_objects/:id/parent</a></td>
         <td>POST</td>
         <td>Set the parent/position of an Archival Object in a tree</td>
@@ -23378,9 +37234,21 @@ __Returns__
       </tr>
     
       <tr>
+        <td><a href="#publish-an-archival-object-and-all-its-sub-records-and-components">/repositories/:repo_id/archival_objects/:id/publish</a></td>
+        <td>POST</td>
+        <td>Publish an Archival Object and all its sub-records and components</td>
+      </tr>
+    
+      <tr>
         <td><a href="#suppress-this-record">/repositories/:repo_id/archival_objects/:id/suppressed</a></td>
         <td>POST</td>
         <td>Suppress this record</td>
+      </tr>
+    
+      <tr>
+        <td><a href="#unpublish-an-archival-object-and-all-its-sub-records-and-components">/repositories/:repo_id/archival_objects/:id/unpublish</a></td>
+        <td>POST</td>
+        <td>Unpublish an Archival Object and all its sub-records and components</td>
       </tr>
     
       <tr>
@@ -23564,6 +37432,36 @@ __Returns__
       </tr>
     
       <tr>
+        <td><a href="#create-a-custom-report-template">/repositories/:repo_id/custom_report_templates</a></td>
+        <td>POST</td>
+        <td>Create a Custom Report Template</td>
+      </tr>
+    
+      <tr>
+        <td><a href="#get-a-list-of-custom-report-templates">/repositories/:repo_id/custom_report_templates</a></td>
+        <td>GET</td>
+        <td>Get a list of Custom Report Templates</td>
+      </tr>
+    
+      <tr>
+        <td><a href="#update-a-customreporttemplate">/repositories/:repo_id/custom_report_templates/:id</a></td>
+        <td>POST</td>
+        <td>Update a CustomReportTemplate</td>
+      </tr>
+    
+      <tr>
+        <td><a href="#get-a-custom-report-template-by-id">/repositories/:repo_id/custom_report_templates/:id</a></td>
+        <td>GET</td>
+        <td>Get a Custom Report Template by ID</td>
+      </tr>
+    
+      <tr>
+        <td><a href="#delete-an-custom-report-template">/repositories/:repo_id/custom_report_templates/:id</a></td>
+        <td>DELETE</td>
+        <td>Delete an Custom Report Template</td>
+      </tr>
+    
+      <tr>
         <td><a href="#save-defaults-for-a-record-type">/repositories/:repo_id/default_values/:record_type</a></td>
         <td>POST</td>
         <td>Save defaults for a record type</td>
@@ -23734,7 +37632,7 @@ __Returns__
       <tr>
         <td><a href="#get-a-dublin-core-representation-of-a-digital-object">/repositories/:repo_id/digital_objects/dublin_core/:id.xml</a></td>
         <td>GET</td>
-        <td>Get a Dublin Core representation of a Digital Object </td>
+        <td>Get a Dublin Core representation of a Digital Object</td>
       </tr>
     
       <tr>
@@ -23746,7 +37644,7 @@ __Returns__
       <tr>
         <td><a href="#get-a-mets-representation-of-a-digital-object">/repositories/:repo_id/digital_objects/mets/:id.xml</a></td>
         <td>GET</td>
-        <td>Get a METS representation of a Digital Object </td>
+        <td>Get a METS representation of a Digital Object</td>
       </tr>
     
       <tr>
@@ -24008,9 +37906,9 @@ __Returns__
       </tr>
     
       <tr>
-        <td><a href="#get-an-ead-representation-of-a-resource">/repositories/:repo_id/resource_descriptions/:id.pdf</a></td>
+        <td><a href="#get-a-pdf-representation-of-a-resource">/repositories/:repo_id/resource_descriptions/:id.pdf</a></td>
         <td>GET</td>
-        <td>Get an EAD representation of a Resource</td>
+        <td>Get a PDF representation of a Resource</td>
       </tr>
     
       <tr>
@@ -24098,6 +37996,12 @@ __Returns__
       </tr>
     
       <tr>
+        <td><a href="#get-a-csv-template-useful-for-bulk-creating-containers-for-archival-objects-of-a-resource">/repositories/:repo_id/resources/:id/templates/top_container_creation.csv</a></td>
+        <td>GET</td>
+        <td>Get a CSV template useful for bulk-creating containers for archival objects of a resource</td>
+      </tr>
+    
+      <tr>
         <td><a href="#get-top-containers-linked-to-a-published-resource-and-published-archival-ojbects-contained-within">/repositories/:repo_id/resources/:id/top_containers</a></td>
         <td>GET</td>
         <td>Get Top Containers linked to a published resource and published archival ojbects contained within.</td>
@@ -24137,6 +38041,12 @@ __Returns__
         <td><a href="#fetch-the-record-slice-for-a-given-tree-waypoint">/repositories/:repo_id/resources/:id/tree/waypoint</a></td>
         <td>GET</td>
         <td>Fetch the record slice for a given tree waypoint</td>
+      </tr>
+    
+      <tr>
+        <td><a href="#unpublish-a-resource-and-all-its-sub-records-and-components">/repositories/:repo_id/resources/:id/unpublish</a></td>
+        <td>POST</td>
+        <td>Unpublish a resource and all its sub-records and components</td>
       </tr>
     
       <tr>
@@ -24407,6 +38317,18 @@ __Returns__
         <td><a href="#delete-a-user">/users/:id</a></td>
         <td>DELETE</td>
         <td>Delete a user</td>
+      </tr>
+    
+      <tr>
+        <td><a href="#set-a-user-to-be-activated">/users/:id/activate</a></td>
+        <td>GET</td>
+        <td>Set a user to be activated</td>
+      </tr>
+    
+      <tr>
+        <td><a href="#set-a-user-to-be-deactivated">/users/:id/deactivate</a></td>
+        <td>GET</td>
+        <td>Set a user to be deactivated</td>
       </tr>
     
       <tr>

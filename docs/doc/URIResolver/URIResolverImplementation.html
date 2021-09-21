@@ -6,7 +6,7 @@
 <title>
   Class: URIResolver::URIResolverImplementation
   
-    &mdash; Documentation by YARD 0.9.25
+    &mdash; Documentation by YARD 0.9.26
   
 </title>
 
@@ -295,12 +295,12 @@
       <pre class="lines">
 
 
-65
-66
-67</pre>
+80
+81
+82</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/uri_resolver.rb', line 65</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/uri_resolver.rb', line 80</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_initialize identifier id'>initialize</span><span class='lparen token'>(</span><span class='rubyid_properties_to_resolve identifier id'>properties_to_resolve</span><span class='rparen token'>)</span>
   <span class='rubyid_@properties_to_resolve ivar id'>@properties_to_resolve</span> <span class='assign token'>=</span> <span class='rubyid_parse_properties identifier id'>parse_properties</span><span class='lparen token'>(</span><span class='rubyid_properties_to_resolve identifier id'>properties_to_resolve</span><span class='rparen token'>)</span>
@@ -333,12 +333,12 @@
       <pre class="lines">
 
 
-73
-74
-75</pre>
+88
+89
+90</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/uri_resolver.rb', line 73</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/uri_resolver.rb', line 88</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_register_resolver identifier id'>register_resolver</span><span class='lparen token'>(</span><span class='rubyid_resolver identifier id'>resolver</span><span class='rparen token'>)</span>
   <span class='rubyid_resolvers identifier id'>resolvers</span><span class='dot token'>.</span><span class='rubyid_insert identifier id'>insert</span><span class='lparen token'>(</span><span class='integer val'>0</span><span class='comma token'>,</span> <span class='rubyid_resolver identifier id'>resolver</span><span class='rparen token'>)</span>
@@ -364,12 +364,12 @@
       <pre class="lines">
 
 
-69
-70
-71</pre>
+84
+85
+86</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/uri_resolver.rb', line 69</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/uri_resolver.rb', line 84</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_resolvers identifier id'>resolvers</span>
   <span class='rubyid_@resolvers ivar id'>@resolvers</span> <span class='opasgn op'>||=</span> <span class='lbrack token'>[</span><span class='rubyid_TreeResolver constant id'>TreeResolver</span><span class='comma token'>,</span> <span class='rubyid_ASModelResolver constant id'>ASModelResolver</span><span class='rbrack token'>]</span>
@@ -401,25 +401,26 @@
       <pre class="lines">
 
 
-77
-78
-79
-80
-81
-82
-83
-84
-85
-86
-87
-88
-89
-90
-91
-92</pre>
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/uri_resolver.rb', line 77</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/uri_resolver.rb', line 92</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_ensure_reference_is_valid identifier id'>ensure_reference_is_valid</span><span class='lparen token'>(</span><span class='rubyid_uri identifier id'>uri</span><span class='comma token'>,</span> <span class='rubyid_active_repository_id identifier id'>active_repository_id</span> <span class='assign token'>=</span> <span class='rubyid_nil nil kw'>nil</span><span class='rparen token'>)</span>
   <span class='rubyid_parsed identifier id'>parsed</span> <span class='assign token'>=</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='dot token'>.</span><span class='rubyid_parse_reference identifier id'>parse_reference</span><span class='lparen token'>(</span><span class='rubyid_uri identifier id'>uri</span><span class='rparen token'>)</span>
@@ -428,6 +429,7 @@
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_active_repository_id identifier id'>active_repository_id</span> <span class='andop op'>&amp;&amp;</span> \
      <span class='rubyid_parsed identifier id'>parsed</span><span class='lbrack token'>[</span><span class='symbol val'>:repository</span><span class='rbrack token'>]</span> <span class='andop op'>&amp;&amp;</span> \
      <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='dot token'>.</span><span class='rubyid_parse_reference identifier id'>parse_reference</span><span class='lparen token'>(</span><span class='rubyid_parsed identifier id'>parsed</span><span class='lbrack token'>[</span><span class='symbol val'>:repository</span><span class='rbrack token'>]</span><span class='rparen token'>)</span><span class='lbrack token'>[</span><span class='symbol val'>:id</span><span class='rbrack token'>]</span> <span class='neq op'>!=</span> <span class='rubyid_active_repository_id identifier id'>active_repository_id</span>
+
     <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_ReferenceError constant id'>ReferenceError</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='dstring node'>&quot;Inter-repository links are not allowed in this operation! (Bad link: &#39;#{uri}&#39;; Active repo: &#39;#/repositories/#{active_repository_id}&#39;)&quot;</span><span class='rparen token'>)</span>
   <span class='rubyid_end end kw'>end</span>
 
@@ -468,22 +470,6 @@
       <pre class="lines">
 
 
-95
-96
-97
-98
-99
-100
-101
-102
-103
-104
-105
-106
-107
-108
-109
-110
 111
 112
 113
@@ -515,10 +501,26 @@
 139
 140
 141
-142</pre>
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/uri_resolver.rb', line 95</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/uri_resolver.rb', line 111</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_resolve_references identifier id'>resolve_references</span><span class='lparen token'>(</span><span class='rubyid_value identifier id'>value</span><span class='rparen token'>)</span>
   <span class='rubyid_return return kw'>return</span> <span class='rubyid_value identifier id'>value</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_@properties_to_resolve ivar id'>@properties_to_resolve</span><span class='dot token'>.</span><span class='rubyid_empty? fid id'>empty?</span>
@@ -579,9 +581,9 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.8.1.a Documentation Generated on Wed Nov 11 13:21:47 2020 by
+  ArchivesSpace Version X.Y.Z Documentation Generated on Tue Sep 21 14:09:45 2021 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.25.
+  0.9.26.
 </div>
 
     </div>

@@ -6,7 +6,7 @@
 <title>
   Class: AspaceFormHelper::FormContext::JSONModelDefinition
   
-    &mdash; Documentation by YARD 0.9.25
+    &mdash; Documentation by YARD 0.9.26
   
 </title>
 
@@ -272,13 +272,13 @@
       <pre class="lines">
 
 
-875
-876
-877
-878</pre>
+1031
+1032
+1033
+1034</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/helpers/aspace_form_helper.rb', line 875</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/helpers/aspace_form_helper.rb', line 1031</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_initialize identifier id'>initialize</span><span class='lparen token'>(</span><span class='rubyid_jsonmodel identifier id'>jsonmodel</span><span class='comma token'>,</span> <span class='rubyid_root identifier id'>root</span><span class='rparen token'>)</span>
   <span class='rubyid_@jsonmodel ivar id'>@jsonmodel</span> <span class='assign token'>=</span> <span class='rubyid_jsonmodel identifier id'>jsonmodel</span>
@@ -312,21 +312,21 @@
       <pre class="lines">
 
 
-903
-904
-905
-906
-907
-908
-909
-910
-911
-912
-913
-914</pre>
+1059
+1060
+1061
+1062
+1063
+1064
+1065
+1066
+1067
+1068
+1069
+1070</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/helpers/aspace_form_helper.rb', line 903</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/helpers/aspace_form_helper.rb', line 1059</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_allowable_types_for identifier id'>allowable_types_for</span><span class='lparen token'>(</span><span class='rubyid_name identifier id'>name</span><span class='rparen token'>)</span>
   <span class='rubyid_defn identifier id'>defn</span> <span class='assign token'>=</span> <span class='rubyid_jsonmodel_schema_definition identifier id'>jsonmodel_schema_definition</span><span class='lparen token'>(</span><span class='rubyid_name identifier id'>name</span><span class='rparen token'>)</span>
@@ -361,23 +361,23 @@
       <pre class="lines">
 
 
-887
-888
-889
-890
-891
-892
-893
-894
-895
-896
-897
-898
-899
-900</pre>
+1043
+1044
+1045
+1046
+1047
+1048
+1049
+1050
+1051
+1052
+1053
+1054
+1055
+1056</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/helpers/aspace_form_helper.rb', line 887</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/helpers/aspace_form_helper.rb', line 1043</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_default_for identifier id'>default_for</span><span class='lparen token'>(</span><span class='rubyid_name identifier id'>name</span><span class='rparen token'>)</span>
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_jsonmodel_schema_definition identifier id'>jsonmodel_schema_definition</span><span class='lparen token'>(</span><span class='rubyid_name identifier id'>name</span><span class='rparen token'>)</span>
@@ -414,43 +414,42 @@
       <pre class="lines">
 
 
-917
-918
-919
-920
-921
-922
-923
-924
-925
-926
-927
-928
-929
-930
-931
-932
-933
-934
-935
-936
-937
-938
-939
-940
-941
-942
-943
-944
-945
-946</pre>
+1073
+1074
+1075
+1076
+1077
+1078
+1079
+1080
+1081
+1082
+1083
+1084
+1085
+1086
+1087
+1088
+1089
+1090
+1091
+1092
+1093
+1094
+1095
+1096
+1097
+1098
+1099
+1100
+1101</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/helpers/aspace_form_helper.rb', line 917</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/helpers/aspace_form_helper.rb', line 1073</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_options_for identifier id'>options_for</span><span class='lparen token'>(</span><span class='rubyid_context identifier id'>context</span><span class='comma token'>,</span> <span class='rubyid_property identifier id'>property</span><span class='comma token'>,</span> <span class='rubyid_add_empty_options identifier id'>add_empty_options</span> <span class='assign token'>=</span> <span class='rubyid_false false kw'>false</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
   <span class='rubyid_options identifier id'>options</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
-  <span class='rubyid_options identifier id'>options</span><span class='dot token'>.</span><span class='rubyid_push identifier id'>push</span><span class='lparen token'>(</span><span class='lbrack token'>[</span><span class='lparen token'>(</span><span class='rubyid_opts identifier id'>opts</span><span class='lbrack token'>[</span><span class='symbol val'>:empty_label</span><span class='rbrack token'>]</span> <span class='orop op'>||</span> <span class='string val'>&quot;&quot;</span><span class='rparen token'>)</span><span class='comma token'>,</span><span class='string val'>&quot;&quot;</span><span class='rbrack token'>]</span><span class='rparen token'>)</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_add_empty_options identifier id'>add_empty_options</span>
+  <span class='rubyid_options identifier id'>options</span><span class='dot token'>.</span><span class='rubyid_push identifier id'>push</span><span class='lparen token'>(</span><span class='lbrack token'>[</span><span class='lparen token'>(</span><span class='rubyid_opts identifier id'>opts</span><span class='lbrack token'>[</span><span class='symbol val'>:empty_label</span><span class='rbrack token'>]</span> <span class='orop op'>||</span> <span class='string val'>&quot;&quot;</span><span class='rparen token'>)</span><span class='comma token'>,</span> <span class='string val'>&quot;&quot;</span><span class='rbrack token'>]</span><span class='rparen token'>)</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_add_empty_options identifier id'>add_empty_options</span>
 
   <span class='rubyid_defn identifier id'>defn</span> <span class='assign token'>=</span> <span class='rubyid_jsonmodel_schema_definition identifier id'>jsonmodel_schema_definition</span><span class='lparen token'>(</span><span class='rubyid_property identifier id'>property</span><span class='rparen token'>)</span>
 
@@ -464,7 +463,7 @@
     <span class='rubyid_if if kw'>if</span> <span class='rubyid_opts identifier id'>opts</span><span class='dot token'>.</span><span class='rubyid_has_key? fid id'>has_key?</span><span class='lparen token'>(</span><span class='symbol val'>:i18n_path_for</span><span class='rparen token'>)</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_opts identifier id'>opts</span><span class='lbrack token'>[</span><span class='symbol val'>:i18n_path_for</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_has_key? fid id'>has_key?</span><span class='lparen token'>(</span><span class='rubyid_v identifier id'>v</span><span class='rparen token'>)</span>
       <span class='rubyid_i18n_path identifier id'>i18n_path</span> <span class='assign token'>=</span> <span class='rubyid_opts identifier id'>opts</span><span class='lbrack token'>[</span><span class='symbol val'>:i18n_path_for</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='rubyid_v identifier id'>v</span><span class='rbrack token'>]</span>
     <span class='rubyid_elsif elsif kw'>elsif</span> <span class='rubyid_opts identifier id'>opts</span><span class='dot token'>.</span><span class='rubyid_has_key? fid id'>has_key?</span><span class='lparen token'>(</span><span class='symbol val'>:i18n_prefix</span><span class='rparen token'>)</span>
-      <span class='rubyid_i18n_path identifier id'>i18n_path</span> <span class='assign token'>=</span>  <span class='dstring node'>&quot;#{opts[:i18n_prefix]}.#{v}&quot;</span>
+      <span class='rubyid_i18n_path identifier id'>i18n_path</span> <span class='assign token'>=</span> <span class='dstring node'>&quot;#{opts[:i18n_prefix]}.#{v}&quot;</span>
     <span class='rubyid_elsif elsif kw'>elsif</span> <span class='rubyid_defn identifier id'>defn</span><span class='dot token'>.</span><span class='rubyid_has_key? fid id'>has_key?</span><span class='lparen token'>(</span><span class='string val'>&#39;dynamic_enum&#39;</span><span class='rparen token'>)</span>
       <span class='rubyid_i18n_path identifier id'>i18n_path</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span>
         <span class='symbol val'>:enumeration</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span>  <span class='rubyid_defn identifier id'>defn</span><span class='lbrack token'>[</span><span class='string val'>&#39;dynamic_enum&#39;</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
@@ -476,7 +475,6 @@
     <span class='rubyid_options identifier id'>options</span><span class='dot token'>.</span><span class='rubyid_push identifier id'>push</span><span class='lparen token'>(</span><span class='lbrack token'>[</span><span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='rubyid_i18n_path identifier id'>i18n_path</span><span class='comma token'>,</span> <span class='symbol val'>:default</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_v identifier id'>v</span><span class='rparen token'>)</span><span class='comma token'>,</span> <span class='rubyid_v identifier id'>v</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
   <span class='rubyid_end end kw'>end</span>
   <span class='rubyid_options identifier id'>options</span>
-  <span class='comment val'>#options.sort {|a,b| a[0] &lt;=&gt; b[0]}</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -522,13 +520,13 @@
       <pre class="lines">
 
 
-881
-882
-883
-884</pre>
+1037
+1038
+1039
+1040</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/helpers/aspace_form_helper.rb', line 881</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/helpers/aspace_form_helper.rb', line 1037</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_required? fid id'>required?</span><span class='lparen token'>(</span><span class='rubyid_name identifier id'>name</span><span class='rparen token'>)</span>
   <span class='lparen token'>(</span><span class='lparen token'>(</span><span class='rubyid_jsonmodel_schema_definition identifier id'>jsonmodel_schema_definition</span><span class='lparen token'>(</span><span class='rubyid_name identifier id'>name</span><span class='rparen token'>)</span> <span class='andop op'>&amp;&amp;</span>
@@ -545,9 +543,9 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.8.1.a Documentation Generated on Wed Nov 11 13:22:13 2020 by
+  ArchivesSpace Version X.Y.Z Documentation Generated on Tue Sep 21 14:10:05 2021 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.25.
+  0.9.26.
 </div>
 
     </div>

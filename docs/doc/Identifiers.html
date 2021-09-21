@@ -6,7 +6,7 @@
 <title>
   Module: Identifiers
   
-    &mdash; Documentation by YARD 0.9.25
+    &mdash; Documentation by YARD 0.9.26
   
 </title>
 
@@ -406,12 +406,12 @@
       <pre class="lines">
 
 
-17
-18
-19</pre>
+20
+21
+22</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/identifiers.rb', line 17</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/identifiers.rb', line 20</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_format identifier id'>format</span><span class='lparen token'>(</span><span class='rubyid_identifier identifier id'>identifier</span><span class='rparen token'>)</span>
   <span class='rubyid_identifier identifier id'>identifier</span><span class='dot token'>.</span><span class='rubyid_compact identifier id'>compact</span><span class='dot token'>.</span><span class='rubyid_join identifier id'>join</span><span class='lparen token'>(</span><span class='string val'>&quot;--&quot;</span><span class='rparen token'>)</span>
@@ -437,14 +437,14 @@
       <pre class="lines">
 
 
-11
-12
-13
 14
-15</pre>
+15
+16
+17
+18</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/identifiers.rb', line 11</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/identifiers.rb', line 14</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_included identifier id'>included</span><span class='lparen token'>(</span><span class='rubyid_base identifier id'>base</span><span class='rparen token'>)</span>
   <span class='rubyid_base identifier id'>base</span><span class='dot token'>.</span><span class='rubyid_repo_unique_constraint identifier id'>repo_unique_constraint</span><span class='lparen token'>(</span><span class='symbol val'>:identifier</span><span class='comma token'>,</span>
@@ -472,12 +472,12 @@
       <pre class="lines">
 
 
-22
-23
-24</pre>
+25
+26
+27</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/identifiers.rb', line 22</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/identifiers.rb', line 25</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_parse identifier id'>parse</span><span class='lparen token'>(</span><span class='rubyid_identifier identifier id'>identifier</span><span class='rparen token'>)</span>
   <span class='rubyid_ASUtils constant id'>ASUtils</span><span class='dot token'>.</span><span class='rubyid_json_parse identifier id'>json_parse</span><span class='lparen token'>(</span><span class='rubyid_identifier identifier id'>identifier</span> <span class='orop op'>||</span> <span class='string val'>&quot;[]&quot;</span><span class='rparen token'>)</span>
@@ -509,9 +509,6 @@
       <pre class="lines">
 
 
-27
-28
-29
 30
 31
 32
@@ -525,10 +522,13 @@
 40
 41
 42
-43</pre>
+43
+44
+45
+46</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/identifiers.rb', line 27</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/identifiers.rb', line 30</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_after_initialize identifier id'>after_initialize</span>
   <span class='comment val'># Split the identifier into its components and add the individual pieces as</span>
@@ -568,9 +568,6 @@
       <pre class="lines">
 
 
-45
-46
-47
 48
 49
 50
@@ -586,16 +583,19 @@
 60
 61
 62
-63</pre>
+63
+64
+65
+66</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/identifiers.rb', line 45</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/identifiers.rb', line 48</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_before_validation identifier id'>before_validation</span>
   <span class='comment val'># Combine the identifier into a single string and remove the instance variables we added previously.</span>
   <span class='rubyid_values identifier id'>values</span> <span class='assign token'>=</span> <span class='lparen token'>(</span><span class='integer val'>0</span><span class='dot3 op'>...</span><span class='integer val'>4</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_i identifier id'>i</span><span class='bitor op'>|</span> <span class='rubyid_instance_variable_get identifier id'>instance_variable_get</span><span class='lparen token'>(</span><span class='dstring node'>&quot;@id_#{i}&quot;</span><span class='rparen token'>)</span><span class='rbrace token'>}</span>
 
-  <span class='rubyid_if if kw'>if</span> <span class='lparen token'>(</span><span class='rubyid_values identifier id'>values</span><span class='dot token'>.</span><span class='rubyid_reject identifier id'>reject</span><span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_v identifier id'>v</span><span class='bitor op'>|</span> <span class='rubyid_v identifier id'>v</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span> <span class='orop op'>||</span> <span class='rubyid_v identifier id'>v</span><span class='dot token'>.</span><span class='rubyid_empty? fid id'>empty?</span><span class='rbrace token'>}</span><span class='dot token'>.</span><span class='rubyid_empty? fid id'>empty?</span><span class='rparen token'>)</span>
+  <span class='rubyid_if if kw'>if</span> <span class='lparen token'>(</span><span class='rubyid_values identifier id'>values</span><span class='dot token'>.</span><span class='rubyid_reject identifier id'>reject</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_v identifier id'>v</span><span class='bitor op'>|</span> <span class='rubyid_v identifier id'>v</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span> <span class='orop op'>||</span> <span class='rubyid_v identifier id'>v</span><span class='dot token'>.</span><span class='rubyid_empty? fid id'>empty?</span><span class='rbrace token'>}</span><span class='dot token'>.</span><span class='rubyid_empty? fid id'>empty?</span><span class='rparen token'>)</span>
     <span class='comment val'># None of the id_* fields were set, so the whole identifier is NULL.</span>
     <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_identifier identifier id'>identifier</span> <span class='assign token'>=</span> <span class='rubyid_nil nil kw'>nil</span>
   <span class='rubyid_else else kw'>else</span>
@@ -642,21 +642,21 @@ and convert it into this: “3422-345FD-3423ASDA”</p>
       <pre class="lines">
 
 
-79
-80
-81
 82
 83
 84
 85
-86</pre>
+86
+87
+88
+89</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/identifiers.rb', line 79</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/identifiers.rb', line 82</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_format_multipart_identifier identifier id'>format_multipart_identifier</span>
   <span class='rubyid_self self kw'>self</span><span class='lbrack token'>[</span><span class='symbol val'>:identifier</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_gsub identifier id'>gsub</span><span class='lparen token'>(</span><span class='string val'>&quot;null&quot;</span><span class='comma token'>,</span> <span class='string val'>&#39;&#39;</span><span class='rparen token'>)</span>
-                    <span class='dot token'>.</span><span class='rubyid_gsub! fid id'>gsub!</span><span class='lparen token'>(</span><span class='regexp val'>/[\[\]]/</span><span class='comma token'>,</span><span class='string val'>&#39;&#39;</span><span class='rparen token'>)</span>
+                    <span class='dot token'>.</span><span class='rubyid_gsub! fid id'>gsub!</span><span class='lparen token'>(</span><span class='regexp val'>/[\[\]]/</span><span class='comma token'>,</span> <span class='string val'>&#39;&#39;</span><span class='rparen token'>)</span>
                     <span class='dot token'>.</span><span class='rubyid_gsub identifier id'>gsub</span><span class='lparen token'>(</span><span class='string val'>&quot;,&quot;</span><span class='comma token'>,</span> <span class='string val'>&#39;&#39;</span><span class='rparen token'>)</span>
                     <span class='dot token'>.</span><span class='rubyid_split identifier id'>split</span><span class='lparen token'>(</span><span class='string val'>&#39;&quot;&#39;</span><span class='rparen token'>)</span>
                     <span class='dot token'>.</span><span class='rubyid_select identifier id'>select</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_s identifier id'>s</span><span class='bitor op'>|</span> <span class='notop op'>!</span><span class='rubyid_s identifier id'>s</span><span class='dot token'>.</span><span class='rubyid_empty? fid id'>empty?</span><span class='rbrace token'>}</span>
@@ -710,10 +710,10 @@ and convert it into this: “3422-345FD-3423ASDA”</p>
       <pre class="lines">
 
 
-6</pre>
+7</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/identifiers.rb', line 6</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/identifiers.rb', line 7</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_id_1= identifier id'>id_1=</span><span class='lparen token'>(</span><span class='rubyid_v identifier id'>v</span><span class='rparen token'>)</span> <span class='rubyid_@id_1 ivar id'>@id_1</span> <span class='assign token'>=</span> <span class='rubyid_v identifier id'>v</span><span class='semicolon token'>;</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_modified! fid id'>modified!</span> <span class='rubyid_end end kw'>end</span>
 </pre>
@@ -737,10 +737,10 @@ and convert it into this: “3422-345FD-3423ASDA”</p>
       <pre class="lines">
 
 
-7</pre>
+9</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/identifiers.rb', line 7</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/identifiers.rb', line 9</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_id_2= identifier id'>id_2=</span><span class='lparen token'>(</span><span class='rubyid_v identifier id'>v</span><span class='rparen token'>)</span> <span class='rubyid_@id_2 ivar id'>@id_2</span> <span class='assign token'>=</span> <span class='rubyid_v identifier id'>v</span><span class='semicolon token'>;</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_modified! fid id'>modified!</span> <span class='rubyid_end end kw'>end</span>
 </pre>
@@ -764,10 +764,10 @@ and convert it into this: “3422-345FD-3423ASDA”</p>
       <pre class="lines">
 
 
-8</pre>
+11</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/identifiers.rb', line 8</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/identifiers.rb', line 11</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_id_3= identifier id'>id_3=</span><span class='lparen token'>(</span><span class='rubyid_v identifier id'>v</span><span class='rparen token'>)</span> <span class='rubyid_@id_3 ivar id'>@id_3</span> <span class='assign token'>=</span> <span class='rubyid_v identifier id'>v</span><span class='semicolon token'>;</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_modified! fid id'>modified!</span> <span class='rubyid_end end kw'>end</span>
 </pre>
@@ -791,19 +791,19 @@ and convert it into this: “3422-345FD-3423ASDA”</p>
       <pre class="lines">
 
 
-66
-67
-68
 69
 70
 71
 72
 73
 74
-75</pre>
+75
+76
+77
+78</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/identifiers.rb', line 66</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/identifiers.rb', line 69</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_validate identifier id'>validate</span>
   <span class='rubyid_return return kw'>return</span> <span class='rubyid_super super kw'>super</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_table_name identifier id'>table_name</span> <span class='eqq op'>===</span> <span class='symbol val'>:resource</span> <span class='rubyid_and and kw'>and</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_identifier identifier id'>identifier</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span>
@@ -826,9 +826,9 @@ and convert it into this: “3422-345FD-3423ASDA”</p>
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.8.1.a Documentation Generated on Wed Nov 11 13:21:27 2020 by
+  ArchivesSpace Version X.Y.Z Documentation Generated on Tue Sep 21 14:09:30 2021 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.25.
+  0.9.26.
 </div>
 
     </div>

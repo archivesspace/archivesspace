@@ -6,7 +6,7 @@
 <title>
   Class: Job
   
-    &mdash; Documentation by YARD 0.9.25
+    &mdash; Documentation by YARD 0.9.26
   
 </title>
 
@@ -686,6 +686,29 @@
         <li class="public ">
   <span class="summary_signature">
     
+      <a href="#running%3F-instance_method" title="#running? (instance method)">#<strong>running?</strong>  &#x21d2; Boolean </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
       <a href="#start!-instance_method" title="#start! (instance method)">#<strong>start!</strong>  &#x21d2; Object </a>
     
 
@@ -885,14 +908,12 @@
 10
 11
 12
-13
-14</pre>
+13</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'frontend/app/models/job.rb', line 3</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_initialize identifier id'>initialize</span><span class='lparen token'>(</span><span class='rubyid_job_type identifier id'>job_type</span><span class='comma token'>,</span> <span class='rubyid_job_data identifier id'>job_data</span><span class='comma token'>,</span> <span class='rubyid_files_to_import identifier id'>files_to_import</span><span class='comma token'>,</span> <span class='rubyid_job_params identifier id'>job_params</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
-
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_job_type identifier id'>job_type</span> <span class='eq op'>==</span> <span class='string val'>&#39;import_job&#39;</span>
     <span class='rubyid_job_data identifier id'>job_data</span><span class='lbrack token'>[</span><span class='symbol val'>:filenames</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_files_to_import identifier id'>files_to_import</span><span class='dot token'>.</span><span class='rubyid_keys identifier id'>keys</span>
   <span class='rubyid_end end kw'>end</span>
@@ -931,12 +952,12 @@
       <pre class="lines">
 
 
-40
-41
-42</pre>
+38
+39
+40</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/models/job.rb', line 40</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/models/job.rb', line 38</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_active identifier id'>active</span>
   <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='colon2 op'>::</span><span class='rubyid_HTTP constant id'>HTTP</span><span class='colon2 op'>::</span><span class='rubyid_get_json identifier id'>get_json</span><span class='lparen token'>(</span><span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:job</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_uri_for identifier id'>uri_for</span><span class='lparen token'>(</span><span class='string val'>&quot;active&quot;</span><span class='rparen token'>)</span><span class='comma token'>,</span> <span class='string val'>&quot;resolve[]&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;repository&quot;</span><span class='rparen token'>)</span> <span class='orop op'>||</span> <span class='lbrace token'>{</span><span class='string val'>&#39;results&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span><span class='rbrace token'>}</span>
@@ -1016,12 +1037,12 @@
       <pre class="lines">
 
 
-45
-46
-47</pre>
+43
+44
+45</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/models/job.rb', line 45</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/models/job.rb', line 43</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_archived identifier id'>archived</span><span class='lparen token'>(</span><span class='rubyid_page identifier id'>page</span><span class='rparen token'>)</span>
   <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='colon2 op'>::</span><span class='rubyid_HTTP constant id'>HTTP</span><span class='colon2 op'>::</span><span class='rubyid_get_json identifier id'>get_json</span><span class='lparen token'>(</span><span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:job</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_uri_for identifier id'>uri_for</span><span class='lparen token'>(</span><span class='string val'>&quot;archived&quot;</span><span class='rparen token'>)</span><span class='comma token'>,</span> <span class='symbol val'>:page</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_page identifier id'>page</span><span class='comma token'>,</span> <span class='string val'>&quot;resolve[]&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;repository&quot;</span><span class='rparen token'>)</span> <span class='orop op'>||</span> <span class='lbrace token'>{</span><span class='string val'>&#39;results&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span><span class='rbrace token'>}</span>
@@ -1047,12 +1068,12 @@
       <pre class="lines">
 
 
-72
-73
-74</pre>
+70
+71
+72</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/models/job.rb', line 72</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/models/job.rb', line 70</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_available_import_types identifier id'>available_import_types</span>
   <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='colon2 op'>::</span><span class='rubyid_HTTP constant id'>HTTP</span><span class='dot token'>.</span><span class='rubyid_get_json identifier id'>get_json</span><span class='lparen token'>(</span><span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:job</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_uri_for identifier id'>uri_for</span><span class='lparen token'>(</span><span class='string val'>&quot;import_types&quot;</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
@@ -1078,12 +1099,12 @@
       <pre class="lines">
 
 
-67
-68
-69</pre>
+65
+66
+67</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/models/job.rb', line 67</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/models/job.rb', line 65</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_available_types identifier id'>available_types</span>
   <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='colon2 op'>::</span><span class='rubyid_HTTP constant id'>HTTP</span><span class='dot token'>.</span><span class='rubyid_get_json identifier id'>get_json</span><span class='lparen token'>(</span><span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:job</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_uri_for identifier id'>uri_for</span><span class='lparen token'>(</span><span class='string val'>&quot;types&quot;</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
@@ -1109,14 +1130,14 @@
       <pre class="lines">
 
 
+58
+59
 60
 61
-62
-63
-64</pre>
+62</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/models/job.rb', line 60</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/models/job.rb', line 58</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_cancel identifier id'>cancel</span><span class='lparen token'>(</span><span class='rubyid_id identifier id'>id</span><span class='rparen token'>)</span>
   <span class='rubyid_response identifier id'>response</span> <span class='assign token'>=</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='colon2 op'>::</span><span class='rubyid_HTTP constant id'>HTTP</span><span class='dot token'>.</span><span class='rubyid_post_form identifier id'>post_form</span><span class='lparen token'>(</span><span class='dstring node'>&quot;#{JSONModel(:job).uri_for(id)}/cancel&quot;</span><span class='rparen token'>)</span>
@@ -1164,7 +1185,7 @@
       <pre class="code"><span class="info file"># File 'backend/app/model/job.rb', line 78</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_create_from_json identifier id'>create_from_json</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
-  <span class='rubyid_if if kw'>if</span> <span class='rubyid_json identifier id'>json</span><span class='dot token'>.</span><span class='rubyid_job_params identifier id'>job_params</span> <span class='eq op'>==</span> <span class='string val'>&quot;null&quot;</span> 
+  <span class='rubyid_if if kw'>if</span> <span class='rubyid_json identifier id'>json</span><span class='dot token'>.</span><span class='rubyid_job_params identifier id'>job_params</span> <span class='eq op'>==</span> <span class='string val'>&quot;null&quot;</span>
     <span class='rubyid_json identifier id'>json</span><span class='dot token'>.</span><span class='rubyid_job_params identifier id'>job_params</span> <span class='assign token'>=</span> <span class='string val'>&quot;&quot;</span>
   <span class='rubyid_end end kw'>end</span>
 
@@ -1175,7 +1196,7 @@
                          <span class='symbol val'>:owner_id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_opts identifier id'>opts</span><span class='dot token'>.</span><span class='rubyid_fetch identifier id'>fetch</span><span class='lparen token'>(</span><span class='symbol val'>:user</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_id identifier id'>id</span><span class='comma token'>,</span>
                          <span class='symbol val'>:job_type</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_json identifier id'>json</span><span class='dot token'>.</span><span class='rubyid_job identifier id'>job</span><span class='lbrack token'>[</span><span class='string val'>&#39;jsonmodel_type&#39;</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
                          <span class='symbol val'>:job_blob</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_ASUtils constant id'>ASUtils</span><span class='dot token'>.</span><span class='rubyid_to_json identifier id'>to_json</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='dot token'>.</span><span class='rubyid_job identifier id'>job</span><span class='rparen token'>)</span><span class='comma token'>,</span>
-                         <span class='symbol val'>:job_params</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_ASUtils constant id'>ASUtils</span><span class='dot token'>.</span><span class='rubyid_to_json identifier id'>to_json</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='dot token'>.</span><span class='rubyid_job_params identifier id'>job_params</span><span class='rparen token'>)</span> 
+                         <span class='symbol val'>:job_params</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_ASUtils constant id'>ASUtils</span><span class='dot token'>.</span><span class='rubyid_to_json identifier id'>to_json</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='dot token'>.</span><span class='rubyid_job_params identifier id'>job_params</span><span class='rparen token'>)</span>
                         <span class='rparen token'>)</span><span class='rparen token'>)</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
@@ -1199,12 +1220,12 @@
       <pre class="lines">
 
 
-50
-51
-52</pre>
+48
+49
+50</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/models/job.rb', line 50</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/models/job.rb', line 48</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_log identifier id'>log</span><span class='lparen token'>(</span><span class='rubyid_id identifier id'>id</span><span class='comma token'>,</span> <span class='rubyid_offset identifier id'>offset</span> <span class='assign token'>=</span> <span class='integer val'>0</span><span class='comma token'>,</span> <span class='bitand op'>&amp;</span><span class='rubyid_block identifier id'>block</span><span class='rparen token'>)</span>
   <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='colon2 op'>::</span><span class='rubyid_HTTP constant id'>HTTP</span><span class='colon2 op'>::</span><span class='rubyid_stream identifier id'>stream</span><span class='lparen token'>(</span><span class='dstring node'>&quot;#{JSONModel(:job).uri_for(id)}/log&quot;</span><span class='comma token'>,</span> <span class='lbrace token'>{</span><span class='symbol val'>:offset</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_offset identifier id'>offset</span><span class='rbrace token'>}</span><span class='comma token'>,</span> <span class='bitand op'>&amp;</span><span class='rubyid_block identifier id'>block</span><span class='rparen token'>)</span>
@@ -1261,12 +1282,12 @@
       <pre class="lines">
 
 
-55
-56
-57</pre>
+53
+54
+55</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/models/job.rb', line 55</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/models/job.rb', line 53</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_records identifier id'>records</span><span class='lparen token'>(</span><span class='rubyid_id identifier id'>id</span><span class='comma token'>,</span> <span class='rubyid_page identifier id'>page</span><span class='rparen token'>)</span>
   <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='colon2 op'>::</span><span class='rubyid_HTTP constant id'>HTTP</span><span class='colon2 op'>::</span><span class='rubyid_get_json identifier id'>get_json</span><span class='lparen token'>(</span><span class='dstring node'>&quot;#{JSONModel(:job).uri_for(id)}/records&quot;</span><span class='comma token'>,</span> <span class='symbol val'>:page</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_page identifier id'>page</span><span class='comma token'>,</span> <span class='string val'>&quot;resolve[]&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;record&quot;</span><span class='rparen token'>)</span>
@@ -1331,7 +1352,7 @@
       <pre class="code"><span class="info file"># File 'backend/app/model/job.rb', line 117</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_running_jobs_untouched_since identifier id'>running_jobs_untouched_since</span><span class='lparen token'>(</span><span class='rubyid_time identifier id'>time</span><span class='rparen token'>)</span>
-  <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_any_repo identifier id'>any_repo</span><span class='dot token'>.</span><span class='rubyid_filter identifier id'>filter</span><span class='lparen token'>(</span><span class='symbol val'>:status</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;running&quot;</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_where identifier id'>where</span> <span class='lbrace token'>{</span> <span class='rubyid_system_mtime identifier id'>system_mtime</span> <span class='lt op'>&lt;</span> <span class='rubyid_time identifier id'>time</span> <span class='rbrace token'>}</span> 
+  <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_any_repo identifier id'>any_repo</span><span class='dot token'>.</span><span class='rubyid_filter identifier id'>filter</span><span class='lparen token'>(</span><span class='symbol val'>:status</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;running&quot;</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_where identifier id'>where</span> <span class='lbrace token'>{</span> <span class='rubyid_system_mtime identifier id'>system_mtime</span> <span class='lt op'>&lt;</span> <span class='rubyid_time identifier id'>time</span> <span class='rbrace token'>}</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -1436,15 +1457,15 @@
       <pre class="lines">
 
 
-206
-207
-208
-209
-210
-211</pre>
+212
+213
+214
+215
+216
+217</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/job.rb', line 206</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/job.rb', line 212</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_cancel! fid id'>cancel!</span>
   <span class='rubyid_if if kw'>if</span> <span class='lbrack token'>[</span><span class='string val'>&quot;queued&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;running&quot;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_include? fid id'>include?</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_status identifier id'>status</span>
@@ -1708,6 +1729,62 @@
 </div>
     
       <div class="method_details ">
+  <h3 class="signature " id="running?-instance_method">
+  
+    #<strong>running?</strong>  &#x21d2; <tt>Boolean</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+200
+201
+202
+203</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/model/job.rb', line 200</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_running? fid id'>running?</span>
+  <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_reload identifier id'>reload</span>
+  <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_status identifier id'>status</span> <span class='eq op'>==</span> <span class='string val'>&#39;running&#39;</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
   <h3 class="signature " id="start!-instance_method">
   
     #<strong>start!</strong>  &#x21d2; <tt>Object</tt> 
@@ -1780,13 +1857,13 @@
       <pre class="lines">
 
 
-200
-201
-202
-203</pre>
+206
+207
+208
+209</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/job.rb', line 200</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/job.rb', line 206</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_success? fid id'>success?</span>
   <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_reload identifier id'>reload</span>
@@ -1844,12 +1921,12 @@
       <pre class="lines">
 
 
-214
-215
-216</pre>
+220
+221
+222</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/job.rb', line 214</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/job.rb', line 220</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_update_mtime identifier id'>update_mtime</span>
   <span class='rubyid_Job constant id'>Job</span><span class='dot token'>.</span><span class='rubyid_update_mtime_for_ids identifier id'>update_mtime_for_ids</span><span class='lparen token'>(</span><span class='lbrack token'>[</span><span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_id identifier id'>id</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
@@ -1875,6 +1952,7 @@
       <pre class="lines">
 
 
+16
 17
 18
 19
@@ -1893,12 +1971,10 @@
 32
 33
 34
-35
-36
-37</pre>
+35</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/models/job.rb', line 17</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/models/job.rb', line 16</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_upload identifier id'>upload</span>
   <span class='rubyid_unless unless kw'>unless</span> <span class='rubyid_@files ivar id'>@files</span><span class='dot token'>.</span><span class='rubyid_empty? fid id'>empty?</span>
@@ -1919,7 +1995,6 @@
 
     <span class='lbrace token'>{</span><span class='string val'>&#39;uri&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_@job ivar id'>@job</span><span class='dot token'>.</span><span class='rubyid_uri identifier id'>uri</span><span class='rbrace token'>}</span>
   <span class='rubyid_end end kw'>end</span>
-
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -1963,9 +2038,9 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.8.1.a Documentation Generated on Wed Nov 11 13:21:40 2020 by
+  ArchivesSpace Version X.Y.Z Documentation Generated on Tue Sep 21 14:09:41 2021 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.25.
+  0.9.26.
 </div>
 
     </div>

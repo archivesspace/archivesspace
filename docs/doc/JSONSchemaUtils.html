@@ -6,7 +6,7 @@
 <title>
   Module: JSONSchemaUtils
   
-    &mdash; Documentation by YARD 0.9.25
+    &mdash; Documentation by YARD 0.9.26
   
 </title>
 
@@ -155,7 +155,7 @@
      <span class='rubyid_msgs identifier id'>msgs</span><span class='lbrack token'>[</span><span class='symbol val'>:errors</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='rubyid_fragment_join identifier id'>fragment_join</span><span class='lparen token'>(</span><span class='rubyid_path identifier id'>path</span><span class='rparen token'>)</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='dstring node'>&quot;Invalid value &#39;#{invalid}&#39;.  Must be one of: #{valid_set}&quot;</span><span class='rbrack token'>]</span>
    <span class='rbrace token'>}</span>
  <span class='rbrace token'>}</span><span class='comma token'>,</span>
- 
+
  <span class='lbrace token'>{</span>
    <span class='symbol val'>:failed_attribute</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrack token'>[</span><span class='string val'>&#39;ArchivesSpaceDynamicEnum&#39;</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
    <span class='symbol val'>:pattern</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='regexp val'>/The property &#39;#\/.*?&#39; value &quot;(.*?)&quot; .*values: (.*) in schema/</span><span class='comma token'>,</span>
@@ -186,9 +186,9 @@
 
        <span class='rubyid_if if kw'>if</span> <span class='rubyid_msgs identifier id'>msgs</span><span class='lbrack token'>[</span><span class='symbol val'>:state</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='rubyid_fragment_join identifier id'>fragment_join</span><span class='lparen token'>(</span><span class='rubyid_path identifier id'>path</span><span class='rparen token'>)</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_length identifier id'>length</span> <span class='eq op'>==</span> <span class='integer val'>1</span>
          <span class='rubyid_msgs identifier id'>msgs</span><span class='lbrack token'>[</span><span class='symbol val'>:errors</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='rubyid_fragment_join identifier id'>fragment_join</span><span class='lparen token'>(</span><span class='rubyid_path identifier id'>path</span><span class='rparen token'>)</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='dstring node'>&quot;Must be a #{desired_type} (you provided a #{actual_type})&quot;</span><span class='rbrack token'>]</span>
-         <span class='comment val'># a little better messages for malformed uri </span>
+         <span class='comment val'># a little better messages for malformed uri</span>
          <span class='rubyid_if if kw'>if</span> <span class='rubyid_desired_type identifier id'>desired_type</span> <span class='match op'>=~</span> <span class='regexp val'>/uri$/</span>
-          <span class='rubyid_msgs identifier id'>msgs</span><span class='lbrack token'>[</span><span class='symbol val'>:errors</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='rubyid_fragment_join identifier id'>fragment_join</span><span class='lparen token'>(</span><span class='rubyid_path identifier id'>path</span><span class='rparen token'>)</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_first identifier id'>first</span> <span class='lshft op'>&lt;&lt;</span> <span class='string val'>&quot; (malformed or invalid uri? check if referenced object exists.)&quot;</span>
+           <span class='rubyid_msgs identifier id'>msgs</span><span class='lbrack token'>[</span><span class='symbol val'>:errors</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='rubyid_fragment_join identifier id'>fragment_join</span><span class='lparen token'>(</span><span class='rubyid_path identifier id'>path</span><span class='rparen token'>)</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_first identifier id'>first</span> <span class='lshft op'>&lt;&lt;</span> <span class='string val'>&quot; (malformed or invalid uri? check if referenced object exists.)&quot;</span>
          <span class='rubyid_end end kw'>end</span>
        <span class='rubyid_else else kw'>else</span>
          <span class='rubyid_msgs identifier id'>msgs</span><span class='lbrack token'>[</span><span class='symbol val'>:errors</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='rubyid_fragment_join identifier id'>fragment_join</span><span class='lparen token'>(</span><span class='rubyid_path identifier id'>path</span><span class='rparen token'>)</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='dstring node'>&quot;Must be one of: #{msgs[:state][fragment_join(path)].join (&quot;, &quot;)} (you provided a #{actual_type})&quot;</span><span class='rbrack token'>]</span>
@@ -483,6 +483,7 @@
       <pre class="lines">
 
 
+380
 381
 382
 383
@@ -501,11 +502,10 @@
 396
 397
 398
-399
-400</pre>
+399</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/json_schema_utils.rb', line 381</span>
+      <pre class="code"><span class="info file"># File 'common/json_schema_utils.rb', line 380</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_apply_schema_defaults identifier id'>apply_schema_defaults</span><span class='lparen token'>(</span><span class='rubyid_hash identifier id'>hash</span><span class='comma token'>,</span> <span class='rubyid_schema identifier id'>schema</span><span class='rparen token'>)</span>
   <span class='rubyid_fn identifier id'>fn</span> <span class='assign token'>=</span> <span class='rubyid_proc identifier id'>proc</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_hash identifier id'>hash</span><span class='comma token'>,</span> <span class='rubyid_schema identifier id'>schema</span><span class='bitor op'>|</span>
@@ -571,12 +571,12 @@
       <pre class="lines">
 
 
+314
 315
-316
-317</pre>
+316</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/json_schema_utils.rb', line 315</span>
+      <pre class="code"><span class="info file"># File 'common/json_schema_utils.rb', line 314</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_blank? fid id'>blank?</span><span class='lparen token'>(</span><span class='rubyid_obj identifier id'>obj</span><span class='rparen token'>)</span>
   <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span> <span class='orop op'>||</span> <span class='rubyid_obj identifier id'>obj</span> <span class='eq op'>==</span> <span class='string val'>&#39;&#39;</span> <span class='orop op'>||</span> <span class='rubyid_obj identifier id'>obj</span> <span class='eq op'>==</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span>
@@ -614,6 +614,7 @@ empty after having its own empty elements removed, it gets removed as well.</p>
       <pre class="lines">
 
 
+321
 322
 323
 324
@@ -646,11 +647,10 @@ empty after having its own empty elements removed, it gets removed as well.</p>
 351
 352
 353
-354
-355</pre>
+354</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/json_schema_utils.rb', line 322</span>
+      <pre class="code"><span class="info file"># File 'common/json_schema_utils.rb', line 321</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_drop_empty_elements identifier id'>drop_empty_elements</span><span class='lparen token'>(</span><span class='rubyid_obj identifier id'>obj</span><span class='rparen token'>)</span>
   <span class='rubyid_queue identifier id'>queue</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rubyid_obj identifier id'>obj</span><span class='rbrack token'>]</span>
@@ -721,6 +721,7 @@ client, but are not part of the data model.</p>
       <pre class="lines">
 
 
+362
 363
 364
 365
@@ -735,11 +736,10 @@ client, but are not part of the data model.</p>
 374
 375
 376
-377
-378</pre>
+377</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/json_schema_utils.rb', line 363</span>
+      <pre class="code"><span class="info file"># File 'common/json_schema_utils.rb', line 362</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_drop_unknown_properties identifier id'>drop_unknown_properties</span><span class='lparen token'>(</span><span class='rubyid_hash identifier id'>hash</span><span class='comma token'>,</span> <span class='rubyid_schema identifier id'>schema</span><span class='comma token'>,</span> <span class='rubyid_drop_readonly identifier id'>drop_readonly</span> <span class='assign token'>=</span> <span class='rubyid_false false kw'>false</span><span class='rparen token'>)</span>
   <span class='rubyid_fn identifier id'>fn</span> <span class='assign token'>=</span> <span class='rubyid_proc identifier id'>proc</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_hash identifier id'>hash</span><span class='comma token'>,</span> <span class='rubyid_schema identifier id'>schema</span><span class='bitor op'>|</span>
@@ -900,6 +900,7 @@ the node in the record tree.</p>
       <pre class="lines">
 
 
+240
 241
 242
 243
@@ -971,11 +972,10 @@ the node in the record tree.</p>
 309
 310
 311
-312
-313</pre>
+312</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/json_schema_utils.rb', line 241</span>
+      <pre class="code"><span class="info file"># File 'common/json_schema_utils.rb', line 240</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_map_hash_with_schema identifier id'>map_hash_with_schema</span><span class='lparen token'>(</span><span class='rubyid_record identifier id'>record</span><span class='comma token'>,</span> <span class='rubyid_schema identifier id'>schema</span><span class='comma token'>,</span> <span class='rubyid_transformations identifier id'>transformations</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
   <span class='rubyid_return return kw'>return</span> <span class='rubyid_record identifier id'>record</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_not not kw'>not</span> <span class='rubyid_record identifier id'>record</span><span class='dot token'>.</span><span class='rubyid_is_a? fid id'>is_a?</span><span class='lparen token'>(</span><span class='rubyid_Hash constant id'>Hash</span><span class='rparen token'>)</span>
@@ -1087,6 +1087,7 @@ them into a structured format like:</p>
       <pre class="lines">
 
 
+201
 202
 203
 204
@@ -1114,14 +1115,12 @@ them into a structured format like:</p>
 226
 227
 228
-229
-230</pre>
+229</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/json_schema_utils.rb', line 202</span>
+      <pre class="code"><span class="info file"># File 'common/json_schema_utils.rb', line 201</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_parse_schema_messages identifier id'>parse_schema_messages</span><span class='lparen token'>(</span><span class='rubyid_messages identifier id'>messages</span><span class='comma token'>,</span> <span class='rubyid_validator identifier id'>validator</span><span class='rparen token'>)</span>
-
   <span class='rubyid_messages identifier id'>messages</span> <span class='assign token'>=</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_extract_suberrors identifier id'>extract_suberrors</span><span class='lparen token'>(</span><span class='rubyid_messages identifier id'>messages</span><span class='rparen token'>)</span>
 
   <span class='rubyid_msgs identifier id'>msgs</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span>
@@ -1137,6 +1136,7 @@ them into a structured format like:</p>
     <span class='rubyid_SCHEMA_PARSE_RULES constant id'>SCHEMA_PARSE_RULES</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_rule identifier id'>rule</span><span class='bitor op'>|</span>
       <span class='rubyid_if if kw'>if</span> <span class='lparen token'>(</span><span class='rubyid_rule identifier id'>rule</span><span class='lbrack token'>[</span><span class='symbol val'>:failed_attribute</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span> <span class='orop op'>||</span> <span class='rubyid_rule identifier id'>rule</span><span class='lbrack token'>[</span><span class='symbol val'>:failed_attribute</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_include? fid id'>include?</span><span class='lparen token'>(</span><span class='rubyid_message identifier id'>message</span><span class='lbrack token'>[</span><span class='symbol val'>:failed_attribute</span><span class='rbrack token'>]</span><span class='rparen token'>)</span><span class='rparen token'>)</span> <span class='rubyid_and and kw'>and</span>
           <span class='rubyid_message identifier id'>message</span><span class='lbrack token'>[</span><span class='symbol val'>:message</span><span class='rbrack token'>]</span> <span class='match op'>=~</span> <span class='rubyid_rule identifier id'>rule</span><span class='lbrack token'>[</span><span class='symbol val'>:pattern</span><span class='rbrack token'>]</span>
+
         <span class='rubyid_rule identifier id'>rule</span><span class='lbrack token'>[</span><span class='symbol val'>:do</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_call identifier id'>call</span><span class='lparen token'>(</span><span class='rubyid_msgs identifier id'>msgs</span><span class='comma token'>,</span> <span class='rubyid_message identifier id'>message</span><span class='comma token'>,</span> <span class='rubyid_message identifier id'>message</span><span class='lbrack token'>[</span><span class='symbol val'>:fragment</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
                        <span class='mult op'>*</span><span class='rubyid_message identifier id'>message</span><span class='lbrack token'>[</span><span class='symbol val'>:message</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_scan identifier id'>scan</span><span class='lparen token'>(</span><span class='rubyid_rule identifier id'>rule</span><span class='lbrack token'>[</span><span class='symbol val'>:pattern</span><span class='rbrack token'>]</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_flatten identifier id'>flatten</span><span class='rparen token'>)</span>
 
@@ -1223,9 +1223,9 @@ them into a structured format like:</p>
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.8.1.a Documentation Generated on Wed Nov 11 13:21:36 2020 by
+  ArchivesSpace Version X.Y.Z Documentation Generated on Tue Sep 21 14:09:38 2021 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.25.
+  0.9.26.
 </div>
 
     </div>

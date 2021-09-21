@@ -6,7 +6,7 @@
 <title>
   Schema: abstract_agent_schema
   
-    &mdash; Documentation by YARD 0.9.25
+    &mdash; Documentation by YARD 0.9.26
   
 </title>
 
@@ -78,23 +78,53 @@
 			
 				<h3 class="signature"> - (array (JSONModel(:agent_contact) object)) <strong>agent_contacts</strong></h3>
 			
+				<h3 class="signature"> - (array (JSONModel(:agent_record_control) object)) <strong>agent_record_controls</strong></h3>
+			
+				<h3 class="signature"> - (array (JSONModel(:agent_alternate_set) object)) <strong>agent_alternate_sets</strong></h3>
+			
+				<h3 class="signature"> - (array (JSONModel(:agent_conventions_declaration) object)) <strong>agent_conventions_declarations</strong></h3>
+			
+				<h3 class="signature"> - (array (JSONModel(:agent_other_agency_codes) object)) <strong>agent_other_agency_codes</strong></h3>
+			
+				<h3 class="signature"> - (array (JSONModel(:agent_maintenance_history) object)) <strong>agent_maintenance_histories</strong></h3>
+			
+				<h3 class="signature"> - (array (JSONModel(:agent_record_identifier) object)) <strong>agent_record_identifiers</strong></h3>
+			
+				<h3 class="signature"> - (array (JSONModel(:agent_identifier) object)) <strong>agent_identifiers</strong></h3>
+			
+				<h3 class="signature"> - (array (JSONModel(:agent_sources) object)) <strong>agent_sources</strong></h3>
+			
+				<h3 class="signature"> - (array (JSONModel(:agent_place) object)) <strong>agent_places</strong></h3>
+			
+				<h3 class="signature"> - (array (JSONModel(:agent_occupation) object)) <strong>agent_occupations</strong></h3>
+			
+				<h3 class="signature"> - (array (JSONModel(:agent_function) object)) <strong>agent_functions</strong></h3>
+			
+				<h3 class="signature"> - (array (JSONModel(:agent_topic) object)) <strong>agent_topics</strong></h3>
+			
+				<h3 class="signature"> - (array (JSONModel(:agent_resource) object)) <strong>agent_resources</strong></h3>
+			
 				<h3 class="signature"> - (array (string)) <strong>linked_agent_roles</strong></h3>
 			
 				<h3 class="signature"> - (array (JSONModel(:external_document) object)) <strong>external_documents</strong></h3>
 			
 				<h3 class="signature"> - (boolean) <strong>system_generated</strong></h3>
 			
-				<h3 class="signature"> - (array ([{"type"=>"JSONModel(:note_bioghist) object"}, {"type"=>"JSONModel(:note_agent_rights_statement) object"}])) <strong>notes</strong></h3>
+				<h3 class="signature"> - (array ([{"type"=>"JSONModel(:note_bioghist) object"}, {"type"=>"JSONModel(:note_mandate) object"}, {"type"=>"JSONModel(:note_legal_status) object"}, {"type"=>"JSONModel(:note_structure_or_genealogy) object"}, {"type"=>"JSONModel(:note_general_context) object"}])) <strong>notes</strong></h3>
 			
 				<h3 class="signature"> - (array (JSONModel(:repository) uri)) <strong>used_within_repositories</strong></h3>
 			
 				<h3 class="signature"> - (array (JSONModel(:repository) uri)) <strong>used_within_published_repositories</strong></h3>
 			
-				<h3 class="signature"> - (array (JSONModel(:date) object)) <strong>dates_of_existence</strong></h3>
+				<h3 class="signature"> - (array (JSONModel(:structured_date_label) object)) <strong>dates_of_existence</strong></h3>
+			
+				<h3 class="signature"> - (array (JSONModel(:used_language) object)) <strong>used_languages</strong></h3>
 			
 				<h3 class="signature"> - (boolean) <strong>publish</strong></h3>
 			
 				<h3 class="signature"> - (string) <strong>is_user</strong></h3>
+			
+				<h3 class="signature"> - (array (JSONModel(:metadata_rights_declaration) object)) <strong>metadata_rights_declarations</strong></h3>
 			
 		<span class="showSource"><a href="#" class="toggleSource">View Source</a></span>
 
@@ -160,7 +190,111 @@
 54
 55
 56
-57</pre>
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161</pre>
           </td>
           <td>
             <pre class="code"><span class="info file"># File 'common/schemas/abstract_agent.rb', line 1</span>
@@ -191,6 +325,97 @@
         <span class='string val'>&quot;items&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span><span class='string val'>&quot;type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;JSONModel(:agent_contact) object&quot;</span><span class='rbrace token'>}</span>
       <span class='rbrace token'>}</span><span class='comma token'>,</span>
 
+      <span class='string val'>&quot;agent_record_controls&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span>
+        <span class='string val'>&quot;required&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_false false kw'>false</span><span class='comma token'>,</span>
+        <span class='string val'>&quot;type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;array&quot;</span><span class='comma token'>,</span>
+        <span class='string val'>&quot;items&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span><span class='string val'>&quot;type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;JSONModel(:agent_record_control) object&quot;</span><span class='rbrace token'>}</span><span class='comma token'>,</span>
+        <span class='string val'>&quot;tags&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrack token'>[</span><span class='string val'>&quot;agent_subrecord&quot;</span><span class='rbrack token'>]</span>
+      <span class='rbrace token'>}</span><span class='comma token'>,</span>
+
+      <span class='string val'>&quot;agent_alternate_sets&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span>
+        <span class='string val'>&quot;required&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_false false kw'>false</span><span class='comma token'>,</span>
+        <span class='string val'>&quot;type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;array&quot;</span><span class='comma token'>,</span>
+        <span class='string val'>&quot;items&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span><span class='string val'>&quot;type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;JSONModel(:agent_alternate_set) object&quot;</span><span class='rbrace token'>}</span><span class='comma token'>,</span>
+        <span class='string val'>&quot;tags&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrack token'>[</span><span class='string val'>&quot;agent_subrecord&quot;</span><span class='rbrack token'>]</span>
+      <span class='rbrace token'>}</span><span class='comma token'>,</span>
+
+      <span class='string val'>&quot;agent_conventions_declarations&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span>
+        <span class='string val'>&quot;required&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_false false kw'>false</span><span class='comma token'>,</span>
+        <span class='string val'>&quot;type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;array&quot;</span><span class='comma token'>,</span>
+        <span class='string val'>&quot;items&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span><span class='string val'>&quot;type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;JSONModel(:agent_conventions_declaration) object&quot;</span><span class='rbrace token'>}</span><span class='comma token'>,</span>
+        <span class='string val'>&quot;tags&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrack token'>[</span><span class='string val'>&quot;agent_subrecord&quot;</span><span class='rbrack token'>]</span>
+      <span class='rbrace token'>}</span><span class='comma token'>,</span>
+
+      <span class='string val'>&quot;agent_other_agency_codes&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span>
+        <span class='string val'>&quot;required&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_false false kw'>false</span><span class='comma token'>,</span>
+        <span class='string val'>&quot;type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;array&quot;</span><span class='comma token'>,</span>
+        <span class='string val'>&quot;items&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span><span class='string val'>&quot;type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;JSONModel(:agent_other_agency_codes) object&quot;</span><span class='rbrace token'>}</span><span class='comma token'>,</span>
+        <span class='string val'>&quot;tags&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrack token'>[</span><span class='string val'>&quot;agent_subrecord&quot;</span><span class='rbrack token'>]</span>
+      <span class='rbrace token'>}</span><span class='comma token'>,</span>
+
+      <span class='string val'>&quot;agent_maintenance_histories&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span>
+        <span class='string val'>&quot;required&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_false false kw'>false</span><span class='comma token'>,</span>
+        <span class='string val'>&quot;type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;array&quot;</span><span class='comma token'>,</span>
+        <span class='string val'>&quot;items&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span><span class='string val'>&quot;type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;JSONModel(:agent_maintenance_history) object&quot;</span><span class='rbrace token'>}</span><span class='comma token'>,</span>
+        <span class='string val'>&quot;tags&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrack token'>[</span><span class='string val'>&quot;agent_subrecord&quot;</span><span class='rbrack token'>]</span>
+      <span class='rbrace token'>}</span><span class='comma token'>,</span>
+
+      <span class='string val'>&quot;agent_record_identifiers&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span>
+        <span class='string val'>&quot;required&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_false false kw'>false</span><span class='comma token'>,</span>
+        <span class='string val'>&quot;type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;array&quot;</span><span class='comma token'>,</span>
+        <span class='string val'>&quot;items&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span><span class='string val'>&quot;type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;JSONModel(:agent_record_identifier) object&quot;</span><span class='rbrace token'>}</span><span class='comma token'>,</span>
+        <span class='string val'>&quot;tags&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrack token'>[</span><span class='string val'>&quot;agent_subrecord&quot;</span><span class='rbrack token'>]</span>
+      <span class='rbrace token'>}</span><span class='comma token'>,</span>
+
+      <span class='string val'>&quot;agent_identifiers&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span>
+        <span class='string val'>&quot;required&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_false false kw'>false</span><span class='comma token'>,</span>
+        <span class='string val'>&quot;type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;array&quot;</span><span class='comma token'>,</span>
+        <span class='string val'>&quot;items&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span><span class='string val'>&quot;type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;JSONModel(:agent_identifier) object&quot;</span><span class='rbrace token'>}</span><span class='comma token'>,</span>
+        <span class='string val'>&quot;tags&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrack token'>[</span><span class='string val'>&quot;agent_subrecord&quot;</span><span class='rbrack token'>]</span>
+      <span class='rbrace token'>}</span><span class='comma token'>,</span>
+
+      <span class='string val'>&quot;agent_sources&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span>
+        <span class='string val'>&quot;required&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_false false kw'>false</span><span class='comma token'>,</span>
+        <span class='string val'>&quot;type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;array&quot;</span><span class='comma token'>,</span>
+        <span class='string val'>&quot;items&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span><span class='string val'>&quot;type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;JSONModel(:agent_sources) object&quot;</span><span class='rbrace token'>}</span><span class='comma token'>,</span>
+        <span class='string val'>&quot;tags&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrack token'>[</span><span class='string val'>&quot;agent_subrecord&quot;</span><span class='rbrack token'>]</span>
+      <span class='rbrace token'>}</span><span class='comma token'>,</span>
+
+      <span class='string val'>&quot;agent_places&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span>
+        <span class='string val'>&quot;required&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_false false kw'>false</span><span class='comma token'>,</span>
+        <span class='string val'>&quot;type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;array&quot;</span><span class='comma token'>,</span>
+        <span class='string val'>&quot;items&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span><span class='string val'>&quot;type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;JSONModel(:agent_place) object&quot;</span><span class='rbrace token'>}</span><span class='comma token'>,</span>
+        <span class='string val'>&quot;tags&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrack token'>[</span><span class='string val'>&quot;agent_subrecord&quot;</span><span class='rbrack token'>]</span>
+      <span class='rbrace token'>}</span><span class='comma token'>,</span>
+
+      <span class='string val'>&quot;agent_occupations&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span>
+        <span class='string val'>&quot;required&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_false false kw'>false</span><span class='comma token'>,</span>
+        <span class='string val'>&quot;type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;array&quot;</span><span class='comma token'>,</span>
+        <span class='string val'>&quot;items&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span><span class='string val'>&quot;type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;JSONModel(:agent_occupation) object&quot;</span><span class='rbrace token'>}</span><span class='comma token'>,</span>
+        <span class='string val'>&quot;tags&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrack token'>[</span><span class='string val'>&quot;agent_subrecord&quot;</span><span class='rbrack token'>]</span>
+      <span class='rbrace token'>}</span><span class='comma token'>,</span>
+
+      <span class='string val'>&quot;agent_functions&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span>
+        <span class='string val'>&quot;required&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_false false kw'>false</span><span class='comma token'>,</span>
+        <span class='string val'>&quot;type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;array&quot;</span><span class='comma token'>,</span>
+        <span class='string val'>&quot;items&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span><span class='string val'>&quot;type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;JSONModel(:agent_function) object&quot;</span><span class='rbrace token'>}</span><span class='comma token'>,</span>
+        <span class='string val'>&quot;tags&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrack token'>[</span><span class='string val'>&quot;agent_subrecord&quot;</span><span class='rbrack token'>]</span>
+      <span class='rbrace token'>}</span><span class='comma token'>,</span>
+
+      <span class='string val'>&quot;agent_topics&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span>
+        <span class='string val'>&quot;required&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_false false kw'>false</span><span class='comma token'>,</span>
+        <span class='string val'>&quot;type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;array&quot;</span><span class='comma token'>,</span>
+        <span class='string val'>&quot;items&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span><span class='string val'>&quot;type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;JSONModel(:agent_topic) object&quot;</span><span class='rbrace token'>}</span><span class='comma token'>,</span>
+        <span class='string val'>&quot;tags&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrack token'>[</span><span class='string val'>&quot;agent_subrecord&quot;</span><span class='rbrack token'>]</span>
+      <span class='rbrace token'>}</span><span class='comma token'>,</span>
+
+      <span class='string val'>&quot;agent_resources&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span>
+        <span class='string val'>&quot;required&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_false false kw'>false</span><span class='comma token'>,</span>
+        <span class='string val'>&quot;type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;array&quot;</span><span class='comma token'>,</span>
+        <span class='string val'>&quot;items&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span><span class='string val'>&quot;type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;JSONModel(:agent_resource) object&quot;</span><span class='rbrace token'>}</span><span class='comma token'>,</span>
+        <span class='string val'>&quot;tags&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrack token'>[</span><span class='string val'>&quot;agent_subrecord&quot;</span><span class='rbrack token'>]</span>
+      <span class='rbrace token'>}</span><span class='comma token'>,</span>
+
       <span class='string val'>&quot;linked_agent_roles&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span>
         <span class='string val'>&quot;type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;array&quot;</span><span class='comma token'>,</span>
         <span class='string val'>&quot;items&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span><span class='string val'>&quot;type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;string&quot;</span><span class='rbrace token'>}</span><span class='comma token'>,</span>
@@ -207,18 +432,31 @@
       <span class='string val'>&quot;notes&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span>
         <span class='string val'>&quot;type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;array&quot;</span><span class='comma token'>,</span>
         <span class='string val'>&quot;items&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span><span class='string val'>&quot;type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrack token'>[</span><span class='lbrace token'>{</span><span class='string val'>&quot;type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;JSONModel(:note_bioghist) object&quot;</span><span class='rbrace token'>}</span><span class='comma token'>,</span>
-                               <span class='lbrace token'>{</span><span class='string val'>&quot;type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;JSONModel(:note_agent_rights_statement) object&quot;</span><span class='rbrace token'>}</span><span class='rbrack token'>]</span><span class='rbrace token'>}</span><span class='comma token'>,</span>
+                               <span class='lbrace token'>{</span><span class='string val'>&quot;type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;JSONModel(:note_mandate) object&quot;</span><span class='rbrace token'>}</span><span class='comma token'>,</span>
+                               <span class='lbrace token'>{</span><span class='string val'>&quot;type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;JSONModel(:note_legal_status) object&quot;</span><span class='rbrace token'>}</span><span class='comma token'>,</span>
+                               <span class='lbrace token'>{</span><span class='string val'>&quot;type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;JSONModel(:note_structure_or_genealogy) object&quot;</span><span class='rbrace token'>}</span><span class='comma token'>,</span>
+                               <span class='lbrace token'>{</span><span class='string val'>&quot;type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;JSONModel(:note_general_context) object&quot;</span><span class='rbrace token'>}</span><span class='rbrack token'>]</span><span class='rbrace token'>}</span><span class='comma token'>,</span>
       <span class='rbrace token'>}</span><span class='comma token'>,</span>
 
       <span class='string val'>&quot;used_within_repositories&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span><span class='string val'>&quot;type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;array&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;items&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span><span class='string val'>&quot;type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;JSONModel(:repository) uri&quot;</span><span class='rbrace token'>}</span><span class='comma token'>,</span> <span class='string val'>&quot;readonly&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_true true kw'>true</span><span class='rbrace token'>}</span><span class='comma token'>,</span>
       <span class='string val'>&quot;used_within_published_repositories&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span><span class='string val'>&quot;type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;array&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;items&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span><span class='string val'>&quot;type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;JSONModel(:repository) uri&quot;</span><span class='rbrace token'>}</span><span class='comma token'>,</span> <span class='string val'>&quot;readonly&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_true true kw'>true</span><span class='rbrace token'>}</span><span class='comma token'>,</span>
 
-      <span class='string val'>&quot;dates_of_existence&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span><span class='string val'>&quot;type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;array&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;items&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span><span class='string val'>&quot;type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;JSONModel(:date) object&quot;</span><span class='rbrace token'>}</span><span class='rbrace token'>}</span><span class='comma token'>,</span>
+      <span class='string val'>&quot;dates_of_existence&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span>
+        <span class='string val'>&quot;type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;array&quot;</span><span class='comma token'>,</span>
+        <span class='string val'>&quot;items&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span><span class='string val'>&quot;type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;JSONModel(:structured_date_label) object&quot;</span><span class='rbrace token'>}</span>
+      <span class='rbrace token'>}</span><span class='comma token'>,</span>
+
+      <span class='string val'>&quot;used_languages&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span>
+        <span class='string val'>&quot;type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;array&quot;</span><span class='comma token'>,</span>
+        <span class='string val'>&quot;items&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span><span class='string val'>&quot;type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;JSONModel(:used_language) object&quot;</span><span class='rbrace token'>}</span><span class='comma token'>,</span>
+        <span class='string val'>&quot;tags&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrack token'>[</span><span class='string val'>&quot;agent_subrecord&quot;</span><span class='rbrack token'>]</span>
+      <span class='rbrace token'>}</span><span class='comma token'>,</span>
 
       <span class='string val'>&quot;publish&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span><span class='string val'>&quot;type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;boolean&quot;</span><span class='rbrace token'>}</span><span class='comma token'>,</span>
 
       <span class='string val'>&quot;is_user&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span><span class='string val'>&quot;readonly&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_true true kw'>true</span><span class='comma token'>,</span> <span class='string val'>&quot;type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;string&quot;</span><span class='rbrace token'>}</span><span class='comma token'>,</span>
 
+      <span class='string val'>&quot;metadata_rights_declarations&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span><span class='string val'>&quot;type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;array&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;items&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span><span class='string val'>&quot;type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;JSONModel(:metadata_rights_declaration) object&quot;</span><span class='rbrace token'>}</span><span class='rbrace token'>}</span><span class='comma token'>,</span>
     <span class='rbrace token'>}</span><span class='comma token'>,</span>
   <span class='rbrace token'>}</span><span class='comma token'>,</span>
 <span class='rbrace token'>}</span>
@@ -235,9 +473,9 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.8.1.a Documentation Generated on Wed Nov 11 13:22:30 2020 by
+  ArchivesSpace Version X.Y.Z Documentation Generated on Tue Sep 21 14:10:17 2021 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.25.
+  0.9.26.
 </div>
 
     </div>

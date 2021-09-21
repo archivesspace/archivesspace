@@ -6,7 +6,7 @@
 <title>
   Class: ArchivesSpaceDynamicEnumAttribute
   
-    &mdash; Documentation by YARD 0.9.25
+    &mdash; Documentation by YARD 0.9.26
   
 </title>
 
@@ -185,7 +185,8 @@
 152
 153
 154
-155</pre>
+155
+156</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'common/archivesspace_json_schema.rb', line 136</span>
@@ -194,19 +195,20 @@
   <span class='rubyid_enum_name identifier id'>enum_name</span> <span class='assign token'>=</span> <span class='rubyid_current_schema identifier id'>current_schema</span><span class='dot token'>.</span><span class='rubyid_schema identifier id'>schema</span><span class='lbrack token'>[</span><span class='string val'>&#39;dynamic_enum&#39;</span><span class='rbrack token'>]</span>
 
   <span class='rubyid_if if kw'>if</span> <span class='notop op'>!</span><span class='rubyid_JSONModel constant id'>JSONModel</span><span class='dot token'>.</span><span class='rubyid_init_args identifier id'>init_args</span><span class='lbrack token'>[</span><span class='symbol val'>:enum_source</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_valid? fid id'>valid?</span><span class='lparen token'>(</span><span class='rubyid_enum_name identifier id'>enum_name</span><span class='comma token'>,</span> <span class='rubyid_data identifier id'>data</span><span class='rparen token'>)</span>
-    <span class='rubyid_possible_values identifier id'>possible_values</span> <span class='assign token'>=</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='dot token'>.</span><span class='rubyid_init_args identifier id'>init_args</span><span class='lbrack token'>[</span><span class='symbol val'>:enum_source</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_values_for identifier id'>values_for</span><span class='lparen token'>(</span><span class='rubyid_enum_name identifier id'>enum_name</span><span class='rparen token'>)</span>  
+    <span class='rubyid_possible_values identifier id'>possible_values</span> <span class='assign token'>=</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='dot token'>.</span><span class='rubyid_init_args identifier id'>init_args</span><span class='lbrack token'>[</span><span class='symbol val'>:enum_source</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_values_for identifier id'>values_for</span><span class='lparen token'>(</span><span class='rubyid_enum_name identifier id'>enum_name</span><span class='rparen token'>)</span>
     <span class='rubyid_message identifier id'>message</span> <span class='assign token'>=</span> <span class='lparen token'>(</span><span class='dstring node'>&quot;The property &#39;#{build_fragment(fragments)}&#39; value #{data.inspect} &quot;</span> <span class='plus op'>+</span>
                <span class='dstring node'>&quot;did not match one of the following configurable values: #{possible_values.join(&#39;, &#39;)}&quot;</span><span class='rparen token'>)</span>
-   
+
     <span class='comment val'># 11/26/18: added this check because many Selenium tests were failing here with a NoMethodError</span>
     <span class='rubyid_enum_source identifier id'>enum_source</span> <span class='assign token'>=</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='dot token'>.</span><span class='rubyid_init_args identifier id'>init_args</span><span class='lbrack token'>[</span><span class='symbol val'>:enum_source</span><span class='rbrack token'>]</span>
-    <span class='rubyid_if if kw'>if</span> <span class='rubyid_enum_source identifier id'>enum_source</span><span class='dot token'>.</span><span class='rubyid_respond_to? fid id'>respond_to?</span><span class='lparen token'>(</span><span class='symbol val'>:editable?</span><span class='rparen token'>)</span> <span class='andop op'>&amp;&amp;</span> 
+    <span class='rubyid_if if kw'>if</span> <span class='rubyid_enum_source identifier id'>enum_source</span><span class='dot token'>.</span><span class='rubyid_respond_to? fid id'>respond_to?</span><span class='lparen token'>(</span><span class='symbol val'>:editable?</span><span class='rparen token'>)</span> <span class='andop op'>&amp;&amp;</span>
        <span class='rubyid_enum_source identifier id'>enum_source</span><span class='dot token'>.</span><span class='rubyid_editable? fid id'>editable?</span><span class='lparen token'>(</span><span class='rubyid_enum_name identifier id'>enum_name</span><span class='rparen token'>)</span>
+
       <span class='rubyid_klass identifier id'>klass</span> <span class='assign token'>=</span> <span class='rubyid_self self kw'>self</span>
     <span class='rubyid_else else kw'>else</span>
       <span class='rubyid_klass identifier id'>klass</span> <span class='assign token'>=</span> <span class='rubyid_ArchivesSpaceReadOnlyDynamicEnumAttribute constant id'>ArchivesSpaceReadOnlyDynamicEnumAttribute</span>
     <span class='rubyid_end end kw'>end</span>
-    
+
     <span class='rubyid_validation_error identifier id'>validation_error</span><span class='lparen token'>(</span><span class='rubyid_message identifier id'>message</span><span class='comma token'>,</span> <span class='rubyid_fragments identifier id'>fragments</span><span class='comma token'>,</span> <span class='rubyid_current_schema identifier id'>current_schema</span><span class='comma token'>,</span> <span class='rubyid_klass identifier id'>klass</span><span class='comma token'>,</span> <span class='rubyid_options identifier id'>options</span><span class='lbrack token'>[</span><span class='symbol val'>:record_errors</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
   <span class='rubyid_end end kw'>end</span>
 <span class='rubyid_end end kw'>end</span>
@@ -221,9 +223,9 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.8.1.a Documentation Generated on Wed Nov 11 13:22:23 2020 by
+  ArchivesSpace Version X.Y.Z Documentation Generated on Tue Sep 21 14:10:12 2021 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.25.
+  0.9.26.
 </div>
 
     </div>

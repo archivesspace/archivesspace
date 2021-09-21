@@ -6,7 +6,7 @@
 <title>
   Module: NotesHelper
   
-    &mdash; Documentation by YARD 0.9.25
+    &mdash; Documentation by YARD 0.9.26
   
 </title>
 
@@ -147,6 +147,75 @@
         <li class="public ">
   <span class="summary_signature">
     
+      <a href="#general_context_subnotes-instance_method" title="#general_context_subnotes (instance method)">#<strong>general_context_subnotes</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#legal_status_subnotes-instance_method" title="#legal_status_subnotes (instance method)">#<strong>legal_status_subnotes</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#mandate_subnotes-instance_method" title="#mandate_subnotes (instance method)">#<strong>mandate_subnotes</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
       <a href="#multipart_notes-instance_method" title="#multipart_notes (instance method)">#<strong>multipart_notes</strong>  &#x21d2; Object </a>
     
 
@@ -236,6 +305,29 @@
 </li>
 
       
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#structure_or_genealogy_subnotes-instance_method" title="#structure_or_genealogy_subnotes (instance method)">#<strong>structure_or_genealogy_subnotes</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
     </ul>
   
 
@@ -260,22 +352,22 @@
       <pre class="lines">
 
 
-141
-142
-143
-144
-145
-146
-147
-148
-149
-150
-151
-152
-153</pre>
+236
+237
+238
+239
+240
+241
+242
+243
+244
+245
+246
+247
+248</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/helpers/notes_helper.rb', line 141</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/helpers/notes_helper.rb', line 236</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_bioghist_subnotes identifier id'>bioghist_subnotes</span>
   <span class='rubyid_note_types identifier id'>note_types</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span>
@@ -311,15 +403,168 @@
       <pre class="lines">
 
 
-156
-157
-158</pre>
+306
+307
+308</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/helpers/notes_helper.rb', line 156</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/helpers/notes_helper.rb', line 306</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_clean_note identifier id'>clean_note</span><span class='lparen token'>(</span><span class='rubyid_note identifier id'>note</span><span class='rparen token'>)</span>
   <span class='rubyid_MixedContentParser constant id'>MixedContentParser</span><span class='colon2 op'>::</span><span class='rubyid_parse identifier id'>parse</span><span class='lparen token'>(</span><span class='rubyid_note identifier id'>note</span><span class='comma token'>,</span> <span class='rubyid_url_for identifier id'>url_for</span><span class='lparen token'>(</span><span class='symbol val'>:root</span><span class='rparen token'>)</span><span class='comma token'>,</span> <span class='symbol val'>:wrap_blocks</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_true true kw'>true</span><span class='rparen token'>)</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="general_context_subnotes-instance_method">
+  
+    #<strong>general_context_subnotes</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+250
+251
+252
+253
+254
+255
+256
+257
+258
+259
+260
+261
+262</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'frontend/app/helpers/notes_helper.rb', line 250</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_general_context_subnotes identifier id'>general_context_subnotes</span>
+  <span class='rubyid_note_types identifier id'>note_types</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span>
+
+  <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:note_general_context</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_schema identifier id'>schema</span><span class='lbrack token'>[</span><span class='string val'>&#39;properties&#39;</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>&#39;subnotes&#39;</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>&#39;items&#39;</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>&#39;type&#39;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_item_def identifier id'>item_def</span><span class='bitor op'>|</span>
+    <span class='rubyid_type identifier id'>type</span> <span class='assign token'>=</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='dot token'>.</span><span class='rubyid_parse_jsonmodel_ref identifier id'>parse_jsonmodel_ref</span><span class='lparen token'>(</span><span class='rubyid_item_def identifier id'>item_def</span><span class='lbrack token'>[</span><span class='string val'>&#39;type&#39;</span><span class='rbrack token'>]</span><span class='rparen token'>)</span><span class='lbrack token'>[</span><span class='integer val'>0</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_to_s identifier id'>to_s</span>
+    <span class='rubyid_note_types identifier id'>note_types</span><span class='lbrack token'>[</span><span class='rubyid_type identifier id'>type</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span>
+      <span class='symbol val'>:value</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_type identifier id'>type</span><span class='comma token'>,</span>
+      <span class='symbol val'>:i18n</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='dstring node'>&quot;#{type}.option&quot;</span><span class='comma token'>,</span> <span class='symbol val'>:default</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_type identifier id'>type</span><span class='rparen token'>)</span>
+    <span class='rbrace token'>}</span>
+  <span class='rubyid_end end kw'>end</span>
+
+  <span class='rubyid_note_types identifier id'>note_types</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="legal_status_subnotes-instance_method">
+  
+    #<strong>legal_status_subnotes</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+278
+279
+280
+281
+282
+283
+284
+285
+286
+287
+288
+289
+290</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'frontend/app/helpers/notes_helper.rb', line 278</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_legal_status_subnotes identifier id'>legal_status_subnotes</span>
+  <span class='rubyid_note_types identifier id'>note_types</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span>
+
+  <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:note_legal_status</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_schema identifier id'>schema</span><span class='lbrack token'>[</span><span class='string val'>&#39;properties&#39;</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>&#39;subnotes&#39;</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>&#39;items&#39;</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>&#39;type&#39;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_item_def identifier id'>item_def</span><span class='bitor op'>|</span>
+    <span class='rubyid_type identifier id'>type</span> <span class='assign token'>=</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='dot token'>.</span><span class='rubyid_parse_jsonmodel_ref identifier id'>parse_jsonmodel_ref</span><span class='lparen token'>(</span><span class='rubyid_item_def identifier id'>item_def</span><span class='lbrack token'>[</span><span class='string val'>&#39;type&#39;</span><span class='rbrack token'>]</span><span class='rparen token'>)</span><span class='lbrack token'>[</span><span class='integer val'>0</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_to_s identifier id'>to_s</span>
+    <span class='rubyid_note_types identifier id'>note_types</span><span class='lbrack token'>[</span><span class='rubyid_type identifier id'>type</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span>
+      <span class='symbol val'>:value</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_type identifier id'>type</span><span class='comma token'>,</span>
+      <span class='symbol val'>:i18n</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='dstring node'>&quot;#{type}.option&quot;</span><span class='comma token'>,</span> <span class='symbol val'>:default</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_type identifier id'>type</span><span class='rparen token'>)</span>
+    <span class='rbrace token'>}</span>
+  <span class='rubyid_end end kw'>end</span>
+
+  <span class='rubyid_note_types identifier id'>note_types</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="mandate_subnotes-instance_method">
+  
+    #<strong>mandate_subnotes</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+264
+265
+266
+267
+268
+269
+270
+271
+272
+273
+274
+275
+276</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'frontend/app/helpers/notes_helper.rb', line 264</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_mandate_subnotes identifier id'>mandate_subnotes</span>
+  <span class='rubyid_note_types identifier id'>note_types</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span>
+
+  <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:note_mandate</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_schema identifier id'>schema</span><span class='lbrack token'>[</span><span class='string val'>&#39;properties&#39;</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>&#39;subnotes&#39;</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>&#39;items&#39;</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>&#39;type&#39;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_item_def identifier id'>item_def</span><span class='bitor op'>|</span>
+    <span class='rubyid_type identifier id'>type</span> <span class='assign token'>=</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='dot token'>.</span><span class='rubyid_parse_jsonmodel_ref identifier id'>parse_jsonmodel_ref</span><span class='lparen token'>(</span><span class='rubyid_item_def identifier id'>item_def</span><span class='lbrack token'>[</span><span class='string val'>&#39;type&#39;</span><span class='rbrack token'>]</span><span class='rparen token'>)</span><span class='lbrack token'>[</span><span class='integer val'>0</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_to_s identifier id'>to_s</span>
+    <span class='rubyid_note_types identifier id'>note_types</span><span class='lbrack token'>[</span><span class='rubyid_type identifier id'>type</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span>
+      <span class='symbol val'>:value</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_type identifier id'>type</span><span class='comma token'>,</span>
+      <span class='symbol val'>:i18n</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='dstring node'>&quot;#{type}.option&quot;</span><span class='comma token'>,</span> <span class='symbol val'>:default</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_type identifier id'>type</span><span class='rparen token'>)</span>
+    <span class='rbrace token'>}</span>
+  <span class='rubyid_end end kw'>end</span>
+
+  <span class='rubyid_note_types identifier id'>note_types</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -342,23 +587,23 @@
       <pre class="lines">
 
 
-110
-111
-112
-113
-114
-115
-116
-117
-118
-119
-120
-121
-122
-123</pre>
+205
+206
+207
+208
+209
+210
+211
+212
+213
+214
+215
+216
+217
+218</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/helpers/notes_helper.rb', line 110</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/helpers/notes_helper.rb', line 205</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_multipart_notes identifier id'>multipart_notes</span>
   <span class='rubyid_note_types identifier id'>note_types</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span>
@@ -395,22 +640,22 @@
       <pre class="lines">
 
 
-126
-127
-128
-129
-130
-131
-132
-133
-134
-135
-136
-137
-138</pre>
+221
+222
+223
+224
+225
+226
+227
+228
+229
+230
+231
+232
+233</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/helpers/notes_helper.rb', line 126</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/helpers/notes_helper.rb', line 221</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_multipart_subnotes identifier id'>multipart_subnotes</span>
   <span class='rubyid_note_types identifier id'>note_types</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span>
@@ -532,13 +777,107 @@
 88
 89
 90
-91</pre>
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184
+185
+186</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'frontend/app/helpers/notes_helper.rb', line 5</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_note_types_for identifier id'>note_types_for</span><span class='lparen token'>(</span><span class='rubyid_jsonmodel_type identifier id'>jsonmodel_type</span><span class='rparen token'>)</span>
-
   <span class='rubyid_note_types identifier id'>note_types</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span>
     <span class='string val'>&quot;bibliography&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span>
       <span class='symbol val'>:target</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:note_bibliography</span><span class='comma token'>,</span>
@@ -569,7 +908,52 @@
       <span class='rbrace token'>}</span>
     <span class='rbrace token'>}</span>
 
-  <span class='rubyid_elsif elsif kw'>elsif</span> <span class='rubyid_jsonmodel_type identifier id'>jsonmodel_type</span> <span class='match op'>=~</span> <span class='regexp val'>/agent/</span>
+  <span class='rubyid_elsif elsif kw'>elsif</span> <span class='rubyid_jsonmodel_type identifier id'>jsonmodel_type</span> <span class='match op'>=~</span> <span class='regexp val'>/used_language/</span>
+
+    <span class='rubyid_note_types identifier id'>note_types</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span>
+      <span class='string val'>&quot;text&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span>
+        <span class='symbol val'>:target</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:note_text</span><span class='comma token'>,</span>
+        <span class='symbol val'>:value</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;text&quot;</span><span class='comma token'>,</span>
+        <span class='symbol val'>:i18n</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='string val'>&quot;note.note_text&quot;</span><span class='rparen token'>)</span>
+      <span class='rbrace token'>}</span><span class='comma token'>,</span>
+      <span class='string val'>&quot;citation&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span>
+        <span class='symbol val'>:target</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:note_citation</span><span class='comma token'>,</span>
+        <span class='symbol val'>:value</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;citation&quot;</span><span class='comma token'>,</span>
+        <span class='symbol val'>:i18n</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='string val'>&quot;note.note_citation&quot;</span><span class='rparen token'>)</span>
+      <span class='rbrace token'>}</span>
+    <span class='rbrace token'>}</span>
+
+  <span class='rubyid_elsif elsif kw'>elsif</span> <span class='rubyid_jsonmodel_type identifier id'>jsonmodel_type</span> <span class='eq op'>==</span> <span class='string val'>&quot;agent_contact&quot;</span>
+
+    <span class='rubyid_note_types identifier id'>note_types</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span>
+      <span class='string val'>&quot;contact_note&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span>
+        <span class='symbol val'>:target</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:note_contact_note</span><span class='comma token'>,</span>
+        <span class='symbol val'>:value</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;contact_note&quot;</span><span class='comma token'>,</span>
+        <span class='symbol val'>:i18n</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='string val'>&quot;note.note_contact_note&quot;</span><span class='rparen token'>)</span>
+      <span class='rbrace token'>}</span>
+    <span class='rbrace token'>}</span>
+
+  <span class='rubyid_elsif elsif kw'>elsif</span> <span class='rubyid_jsonmodel_type identifier id'>jsonmodel_type</span> <span class='eq op'>==</span> <span class='string val'>&quot;agent_place&quot;</span> <span class='orop op'>||</span>
+        <span class='rubyid_jsonmodel_type identifier id'>jsonmodel_type</span> <span class='eq op'>==</span> <span class='string val'>&quot;agent_occupation&quot;</span> <span class='orop op'>||</span>
+        <span class='rubyid_jsonmodel_type identifier id'>jsonmodel_type</span> <span class='eq op'>==</span> <span class='string val'>&quot;agent_function&quot;</span> <span class='orop op'>||</span>
+        <span class='rubyid_jsonmodel_type identifier id'>jsonmodel_type</span> <span class='eq op'>==</span> <span class='string val'>&quot;agent_topic&quot;</span> <span class='orop op'>||</span>
+        <span class='rubyid_jsonmodel_type identifier id'>jsonmodel_type</span> <span class='eq op'>==</span> <span class='string val'>&quot;agent_gender&quot;</span>
+
+    <span class='rubyid_note_types identifier id'>note_types</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span>
+      <span class='string val'>&quot;text&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span>
+        <span class='symbol val'>:target</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:note_text</span><span class='comma token'>,</span>
+        <span class='symbol val'>:value</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;text&quot;</span><span class='comma token'>,</span>
+        <span class='symbol val'>:i18n</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='string val'>&quot;note.note_text&quot;</span><span class='rparen token'>)</span>
+      <span class='rbrace token'>}</span><span class='comma token'>,</span>
+      <span class='string val'>&quot;citation&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span>
+        <span class='symbol val'>:target</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:note_citation</span><span class='comma token'>,</span>
+        <span class='symbol val'>:value</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;citation&quot;</span><span class='comma token'>,</span>
+        <span class='symbol val'>:i18n</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='string val'>&quot;note.note_citation&quot;</span><span class='rparen token'>)</span>
+      <span class='rbrace token'>}</span>
+    <span class='rbrace token'>}</span>
+
+  <span class='rubyid_elsif elsif kw'>elsif</span> <span class='rubyid_jsonmodel_type identifier id'>jsonmodel_type</span> <span class='eq op'>==</span> <span class='string val'>&quot;agent_person&quot;</span> <span class='orop op'>||</span>
+        <span class='rubyid_jsonmodel_type identifier id'>jsonmodel_type</span> <span class='eq op'>==</span> <span class='string val'>&quot;agent_software&quot;</span>
 
     <span class='rubyid_note_types identifier id'>note_types</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span>
       <span class='string val'>&quot;bioghist&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span>
@@ -577,10 +961,59 @@
         <span class='symbol val'>:value</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;bioghist&quot;</span><span class='comma token'>,</span>
         <span class='symbol val'>:i18n</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='string val'>&quot;enumerations._note_types.bioghist&quot;</span><span class='comma token'>,</span> <span class='symbol val'>:default</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;bioghist&quot;</span><span class='rparen token'>)</span>
       <span class='rbrace token'>}</span><span class='comma token'>,</span>
-      <span class='string val'>&quot;agent_rights_statement&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span>
-        <span class='symbol val'>:target</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:note_agent_rights_statement</span><span class='comma token'>,</span>
-        <span class='symbol val'>:value</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;agent_rights_statement&quot;</span><span class='comma token'>,</span>
-        <span class='symbol val'>:i18n</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='string val'>&quot;note.note_agent_rights_statement&quot;</span><span class='rparen token'>)</span>
+      <span class='string val'>&quot;general_context&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span>
+        <span class='symbol val'>:target</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:note_general_context</span><span class='comma token'>,</span>
+        <span class='symbol val'>:value</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;general_context&quot;</span><span class='comma token'>,</span>
+        <span class='symbol val'>:i18n</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='string val'>&quot;enumerations._note_types.general_context&quot;</span><span class='comma token'>,</span> <span class='symbol val'>:default</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;general_context&quot;</span><span class='rparen token'>)</span>
+      <span class='rbrace token'>}</span>
+    <span class='rbrace token'>}</span>
+
+  <span class='rubyid_elsif elsif kw'>elsif</span> <span class='rubyid_jsonmodel_type identifier id'>jsonmodel_type</span> <span class='eq op'>==</span> <span class='string val'>&quot;agent_family&quot;</span>
+
+    <span class='rubyid_note_types identifier id'>note_types</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span>
+      <span class='string val'>&quot;bioghist&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span>
+        <span class='symbol val'>:target</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:note_bioghist</span><span class='comma token'>,</span>
+        <span class='symbol val'>:value</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;bioghist&quot;</span><span class='comma token'>,</span>
+        <span class='symbol val'>:i18n</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='string val'>&quot;enumerations._note_types.bioghist&quot;</span><span class='comma token'>,</span> <span class='symbol val'>:default</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;bioghist&quot;</span><span class='rparen token'>)</span>
+      <span class='rbrace token'>}</span><span class='comma token'>,</span>
+      <span class='string val'>&quot;general_context&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span>
+        <span class='symbol val'>:target</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:note_general_context</span><span class='comma token'>,</span>
+        <span class='symbol val'>:value</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;general_context&quot;</span><span class='comma token'>,</span>
+        <span class='symbol val'>:i18n</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='string val'>&quot;enumerations._note_types.general_context&quot;</span><span class='comma token'>,</span> <span class='symbol val'>:default</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;general_context&quot;</span><span class='rparen token'>)</span>
+      <span class='rbrace token'>}</span><span class='comma token'>,</span>
+      <span class='string val'>&quot;structure_or_genealogy&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span>
+        <span class='symbol val'>:target</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:note_structure_or_genealogy</span><span class='comma token'>,</span>
+        <span class='symbol val'>:value</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;structure_or_genealogy&quot;</span><span class='comma token'>,</span>
+        <span class='symbol val'>:i18n</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='string val'>&quot;enumerations._note_types.structure_or_genealogy&quot;</span><span class='comma token'>,</span> <span class='symbol val'>:default</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;structure_or_genealogy&quot;</span><span class='rparen token'>)</span>
+      <span class='rbrace token'>}</span>
+    <span class='rbrace token'>}</span>
+
+  <span class='rubyid_elsif elsif kw'>elsif</span> <span class='rubyid_jsonmodel_type identifier id'>jsonmodel_type</span> <span class='eq op'>==</span> <span class='string val'>&quot;agent_corporate_entity&quot;</span>
+    <span class='rubyid_note_types identifier id'>note_types</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span>
+      <span class='string val'>&quot;bioghist&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span>
+        <span class='symbol val'>:target</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:note_bioghist</span><span class='comma token'>,</span>
+        <span class='symbol val'>:value</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;bioghist&quot;</span><span class='comma token'>,</span>
+        <span class='symbol val'>:i18n</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='string val'>&quot;enumerations._note_types.bioghist&quot;</span><span class='comma token'>,</span> <span class='symbol val'>:default</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;bioghist&quot;</span><span class='rparen token'>)</span>
+      <span class='rbrace token'>}</span><span class='comma token'>,</span>
+      <span class='string val'>&quot;general_context&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span>
+        <span class='symbol val'>:target</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:note_general_context</span><span class='comma token'>,</span>
+        <span class='symbol val'>:value</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;general_context&quot;</span><span class='comma token'>,</span>
+        <span class='symbol val'>:i18n</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='string val'>&quot;enumerations._note_types.general_context&quot;</span><span class='comma token'>,</span> <span class='symbol val'>:default</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;general_context&quot;</span><span class='rparen token'>)</span>
+      <span class='rbrace token'>}</span><span class='comma token'>,</span>
+      <span class='string val'>&quot;mandate&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span>
+        <span class='symbol val'>:target</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:note_mandate</span><span class='comma token'>,</span>
+        <span class='symbol val'>:value</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;mandate&quot;</span><span class='comma token'>,</span>
+        <span class='symbol val'>:i18n</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='string val'>&quot;enumerations._note_types.mandate&quot;</span><span class='comma token'>,</span> <span class='symbol val'>:default</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;mandate&quot;</span><span class='rparen token'>)</span>
+      <span class='rbrace token'>}</span><span class='comma token'>,</span>
+      <span class='string val'>&quot;legal_status&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span>
+        <span class='symbol val'>:target</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:note_legal_status</span><span class='comma token'>,</span>
+        <span class='symbol val'>:value</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;legal_status&quot;</span><span class='comma token'>,</span>
+        <span class='symbol val'>:i18n</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='string val'>&quot;enumerations._note_types.legal_status&quot;</span><span class='comma token'>,</span> <span class='symbol val'>:default</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;legal_status&quot;</span><span class='rparen token'>)</span>
+      <span class='rbrace token'>}</span><span class='comma token'>,</span>
+      <span class='string val'>&quot;structure_or_genealogy&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span>
+        <span class='symbol val'>:target</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:note_structure_or_genealogy</span><span class='comma token'>,</span>
+        <span class='symbol val'>:value</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;structure_or_genealogy&quot;</span><span class='comma token'>,</span>
+        <span class='symbol val'>:i18n</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='string val'>&quot;enumerations._note_types.structure_or_genealogy&quot;</span><span class='comma token'>,</span> <span class='symbol val'>:default</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;structure_or_genealogy&quot;</span><span class='rparen token'>)</span>
       <span class='rbrace token'>}</span>
     <span class='rbrace token'>}</span>
 
@@ -622,6 +1055,8 @@
     <span class='rbrace token'>}</span>
   <span class='rubyid_end end kw'>end</span>
 
+  <span class='rubyid_note_types identifier id'>note_types</span> <span class='assign token'>=</span> <span class='rubyid_Plugins constant id'>Plugins</span><span class='dot token'>.</span><span class='rubyid_handle_note_types_for identifier id'>handle_note_types_for</span><span class='lparen token'>(</span><span class='rubyid_jsonmodel_type identifier id'>jsonmodel_type</span><span class='comma token'>,</span> <span class='rubyid_note_types identifier id'>note_types</span><span class='comma token'>,</span> <span class='rubyid_self self kw'>self</span><span class='rparen token'>)</span>
+
   <span class='rubyid_note_types identifier id'>note_types</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
@@ -645,23 +1080,23 @@
       <pre class="lines">
 
 
-94
-95
-96
-97
-98
-99
-100
-101
-102
-103
-104
-105
-106
-107</pre>
+189
+190
+191
+192
+193
+194
+195
+196
+197
+198
+199
+200
+201
+202</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/helpers/notes_helper.rb', line 94</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/helpers/notes_helper.rb', line 189</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_singlepart_notes identifier id'>singlepart_notes</span>
   <span class='rubyid_note_types identifier id'>note_types</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span>
@@ -683,14 +1118,65 @@
 </table>
 </div>
     
+      <div class="method_details ">
+  <h3 class="signature " id="structure_or_genealogy_subnotes-instance_method">
+  
+    #<strong>structure_or_genealogy_subnotes</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+292
+293
+294
+295
+296
+297
+298
+299
+300
+301
+302
+303
+304</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'frontend/app/helpers/notes_helper.rb', line 292</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_structure_or_genealogy_subnotes identifier id'>structure_or_genealogy_subnotes</span>
+  <span class='rubyid_note_types identifier id'>note_types</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span>
+
+  <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:note_structure_or_genealogy</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_schema identifier id'>schema</span><span class='lbrack token'>[</span><span class='string val'>&#39;properties&#39;</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>&#39;subnotes&#39;</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>&#39;items&#39;</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>&#39;type&#39;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_item_def identifier id'>item_def</span><span class='bitor op'>|</span>
+    <span class='rubyid_type identifier id'>type</span> <span class='assign token'>=</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='dot token'>.</span><span class='rubyid_parse_jsonmodel_ref identifier id'>parse_jsonmodel_ref</span><span class='lparen token'>(</span><span class='rubyid_item_def identifier id'>item_def</span><span class='lbrack token'>[</span><span class='string val'>&#39;type&#39;</span><span class='rbrack token'>]</span><span class='rparen token'>)</span><span class='lbrack token'>[</span><span class='integer val'>0</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_to_s identifier id'>to_s</span>
+    <span class='rubyid_note_types identifier id'>note_types</span><span class='lbrack token'>[</span><span class='rubyid_type identifier id'>type</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span>
+      <span class='symbol val'>:value</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_type identifier id'>type</span><span class='comma token'>,</span>
+      <span class='symbol val'>:i18n</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='dstring node'>&quot;#{type}.option&quot;</span><span class='comma token'>,</span> <span class='symbol val'>:default</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_type identifier id'>type</span><span class='rparen token'>)</span>
+    <span class='rbrace token'>}</span>
+  <span class='rubyid_end end kw'>end</span>
+
+  <span class='rubyid_note_types identifier id'>note_types</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
   </div>
 
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.8.1.a Documentation Generated on Wed Nov 11 13:21:33 2020 by
+  ArchivesSpace Version X.Y.Z Documentation Generated on Tue Sep 21 14:09:35 2021 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.25.
+  0.9.26.
 </div>
 
     </div>

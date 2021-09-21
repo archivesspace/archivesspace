@@ -6,7 +6,7 @@
 <title>
   Class: DCModel
   
-    &mdash; Documentation by YARD 0.9.25
+    &mdash; Documentation by YARD 0.9.26
   
 </title>
 
@@ -1161,13 +1161,13 @@
       <pre class="lines">
 
 
+63
+64
 65
-66
-67
-68</pre>
+66</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/dc.rb', line 65</span>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/dc.rb', line 63</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_DESCRIPTIVE_NOTE_TYPES constant id'>DESCRIPTIVE_NOTE_TYPES</span>
   <span class='rubyid_@descriptive_note_type ivar id'>@descriptive_note_type</span> <span class='opasgn op'>||=</span> <span class='dstring node'>%w(bioghist prefercite)</span>
@@ -1194,13 +1194,13 @@
       <pre class="lines">
 
 
+73
+74
 75
-76
-77
-78</pre>
+76</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/dc.rb', line 75</span>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/dc.rb', line 73</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_FORMAT_NOTE_TYPES constant id'>FORMAT_NOTE_TYPES</span>
   <span class='rubyid_@format_note_type ivar id'>@format_note_type</span> <span class='opasgn op'>||=</span> <span class='dstring node'>%w(dimensions physdesc)</span>
@@ -1233,18 +1233,16 @@
 41
 42
 43
-44
-45</pre>
+44</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'backend/app/exporters/models/dc.rb', line 38</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_from_archival_object identifier id'>from_archival_object</span><span class='lparen token'>(</span><span class='rubyid_obj identifier id'>obj</span><span class='rparen token'>)</span>
-  
   <span class='rubyid_dc identifier id'>dc</span> <span class='assign token'>=</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='rubyid_obj identifier id'>obj</span><span class='rparen token'>)</span>
-  
+
   <span class='rubyid_dc identifier id'>dc</span><span class='dot token'>.</span><span class='rubyid_apply_map identifier id'>apply_map</span><span class='lparen token'>(</span><span class='rubyid_obj identifier id'>obj</span><span class='comma token'>,</span> <span class='rubyid_@archival_object_map ivar id'>@archival_object_map</span><span class='rparen token'>)</span>
-  
+
   <span class='rubyid_dc identifier id'>dc</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
@@ -1268,6 +1266,7 @@
       <pre class="lines">
 
 
+47
 48
 49
 50
@@ -1281,17 +1280,14 @@
 58
 59
 60
-61
-62
-63</pre>
+61</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/dc.rb', line 48</span>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/dc.rb', line 47</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_from_digital_object identifier id'>from_digital_object</span><span class='lparen token'>(</span><span class='rubyid_obj identifier id'>obj</span><span class='rparen token'>)</span>
-  
   <span class='rubyid_dc identifier id'>dc</span> <span class='assign token'>=</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_from_archival_object identifier id'>from_archival_object</span><span class='lparen token'>(</span><span class='rubyid_obj identifier id'>obj</span><span class='rparen token'>)</span>
-  
+
   <span class='rubyid_dc identifier id'>dc</span><span class='dot token'>.</span><span class='rubyid_apply_map identifier id'>apply_map</span><span class='lparen token'>(</span><span class='rubyid_obj identifier id'>obj</span><span class='comma token'>,</span> <span class='rubyid_@digital_object_map ivar id'>@digital_object_map</span><span class='rparen token'>)</span>
 
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_respond_to? fid id'>respond_to?</span><span class='lparen token'>(</span><span class='string val'>&#39;uri&#39;</span><span class='rparen token'>)</span>
@@ -1325,13 +1321,13 @@
       <pre class="lines">
 
 
+83
+84
 85
-86
-87
-88</pre>
+86</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/dc.rb', line 85</span>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/dc.rb', line 83</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_RELATION_NOTE_TYPES constant id'>RELATION_NOTE_TYPES</span>
   <span class='rubyid_@relation_note_type ivar id'>@relation_note_type</span> <span class='opasgn op'>||=</span> <span class='dstring node'>%w(relatedmaterial)</span>
@@ -1358,13 +1354,13 @@
       <pre class="lines">
 
 
+68
+69
 70
-71
-72
-73</pre>
+71</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/dc.rb', line 70</span>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/dc.rb', line 68</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_RIGHTS_NOTE_TYPES constant id'>RIGHTS_NOTE_TYPES</span>
   <span class='rubyid_@rights_note_type ivar id'>@rights_note_type</span> <span class='opasgn op'>||=</span> <span class='dstring node'>%w(accessrestrict userestrict)</span>
@@ -1391,13 +1387,13 @@
       <pre class="lines">
 
 
+78
+79
 80
-81
-82
-83</pre>
+81</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/dc.rb', line 80</span>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/dc.rb', line 78</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_SOURCE_NOTE_TYPES constant id'>SOURCE_NOTE_TYPES</span>
   <span class='rubyid_@source_note_type ivar id'>@source_note_type</span> <span class='opasgn op'>||=</span> <span class='dstring node'>%w(originalsloc)</span>
@@ -1430,6 +1426,8 @@
       <pre class="lines">
 
 
+88
+89
 90
 91
 92
@@ -1442,12 +1440,10 @@
 99
 100
 101
-102
-103
-104</pre>
+102</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/dc.rb', line 90</span>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/dc.rb', line 88</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_each_description identifier id'>each_description</span>
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_@json ivar id'>@json</span><span class='dot token'>.</span><span class='rubyid_respond_to? fid id'>respond_to?</span><span class='lparen token'>(</span><span class='string val'>&#39;notes&#39;</span><span class='rparen token'>)</span>
@@ -1485,18 +1481,18 @@
       <pre class="lines">
 
 
+114
+115
 116
 117
 118
 119
 120
 121
-122
-123
-124</pre>
+122</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/dc.rb', line 116</span>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/dc.rb', line 114</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_each_format identifier id'>each_format</span>
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_@json ivar id'>@json</span><span class='dot token'>.</span><span class='rubyid_respond_to? fid id'>respond_to?</span><span class='lparen token'>(</span><span class='string val'>&#39;notes&#39;</span><span class='rparen token'>)</span>
@@ -1528,18 +1524,18 @@
       <pre class="lines">
 
 
+134
+135
 136
 137
 138
 139
 140
 141
-142
-143
-144</pre>
+142</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/dc.rb', line 136</span>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/dc.rb', line 134</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_each_relation identifier id'>each_relation</span>
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_@json ivar id'>@json</span><span class='dot token'>.</span><span class='rubyid_respond_to? fid id'>respond_to?</span><span class='lparen token'>(</span><span class='string val'>&#39;notes&#39;</span><span class='rparen token'>)</span>
@@ -1571,18 +1567,18 @@
       <pre class="lines">
 
 
+104
+105
 106
 107
 108
 109
 110
 111
-112
-113
-114</pre>
+112</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/dc.rb', line 106</span>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/dc.rb', line 104</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_each_rights identifier id'>each_rights</span>
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_@json ivar id'>@json</span><span class='dot token'>.</span><span class='rubyid_respond_to? fid id'>respond_to?</span><span class='lparen token'>(</span><span class='string val'>&#39;notes&#39;</span><span class='rparen token'>)</span>
@@ -1614,18 +1610,18 @@
       <pre class="lines">
 
 
+124
+125
 126
 127
 128
 129
 130
 131
-132
-133
-134</pre>
+132</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/dc.rb', line 126</span>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/dc.rb', line 124</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_each_source identifier id'>each_source</span>
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_@json ivar id'>@json</span><span class='dot token'>.</span><span class='rubyid_respond_to? fid id'>respond_to?</span><span class='lparen token'>(</span><span class='string val'>&#39;notes&#39;</span><span class='rparen token'>)</span>
@@ -1657,6 +1653,8 @@
       <pre class="lines">
 
 
+145
+146
 147
 148
 149
@@ -1668,12 +1666,10 @@
 155
 156
 157
-158
-159
-160</pre>
+158</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/dc.rb', line 147</span>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/dc.rb', line 145</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_handle_agents identifier id'>handle_agents</span><span class='lparen token'>(</span><span class='rubyid_linked_agents identifier id'>linked_agents</span><span class='rparen token'>)</span>
   <span class='rubyid_linked_agents identifier id'>linked_agents</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_link identifier id'>link</span><span class='bitor op'>|</span>
@@ -1682,7 +1678,7 @@
     <span class='rubyid_agent identifier id'>agent</span> <span class='assign token'>=</span> <span class='rubyid_link identifier id'>link</span><span class='lbrack token'>[</span><span class='string val'>&#39;_resolved&#39;</span><span class='rbrack token'>]</span>
 
     <span class='rubyid_case case kw'>case</span> <span class='rubyid_role identifier id'>role</span>
-    <span class='rubyid_when when kw'>when</span> <span class='string val'>&#39;creator&#39;</span>        
+    <span class='rubyid_when when kw'>when</span> <span class='string val'>&#39;creator&#39;</span>
       <span class='rubyid_agent identifier id'>agent</span><span class='lbrack token'>[</span><span class='string val'>&#39;names&#39;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_n identifier id'>n</span><span class='bitor op'>|</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_creators identifier id'>creators</span> <span class='lshft op'>&lt;&lt;</span> <span class='rubyid_n identifier id'>n</span><span class='lbrack token'>[</span><span class='string val'>&#39;sort_name&#39;</span><span class='rbrack token'>]</span> <span class='rbrace token'>}</span>
     <span class='rubyid_when when kw'>when</span> <span class='string val'>&#39;subject&#39;</span>
       <span class='rubyid_agent identifier id'>agent</span><span class='lbrack token'>[</span><span class='string val'>&#39;names&#39;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_n identifier id'>n</span><span class='bitor op'>|</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_subjects identifier id'>subjects</span> <span class='lshft op'>&lt;&lt;</span> <span class='rubyid_n identifier id'>n</span><span class='lbrack token'>[</span><span class='string val'>&#39;sort_name&#39;</span><span class='rbrack token'>]</span> <span class='rbrace token'>}</span>
@@ -1710,14 +1706,14 @@
       <pre class="lines">
 
 
-185
-186
-187
-188
-189</pre>
+181
+182
+183
+184
+185</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/dc.rb', line 185</span>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/dc.rb', line 181</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_handle_date identifier id'>handle_date</span><span class='lparen token'>(</span><span class='rubyid_dates identifier id'>dates</span><span class='rparen token'>)</span>
   <span class='rubyid_dates identifier id'>dates</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_date identifier id'>date</span><span class='bitor op'>|</span>
@@ -1745,6 +1741,8 @@
       <pre class="lines">
 
 
+161
+162
 163
 164
 165
@@ -1760,18 +1758,13 @@
 175
 176
 177
-178
-179
-180
-181
-182</pre>
+178</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/dc.rb', line 163</span>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/dc.rb', line 161</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_handle_langmaterials identifier id'>handle_langmaterials</span><span class='lparen token'>(</span><span class='rubyid_lang_materials identifier id'>lang_materials</span><span class='rparen token'>)</span>
-
-  <span class='rubyid_language_vals identifier id'>language_vals</span> <span class='assign token'>=</span> <span class='rubyid_lang_materials identifier id'>lang_materials</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span><span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_l identifier id'>l</span><span class='bitor op'>|</span> <span class='rubyid_l identifier id'>l</span><span class='lbrack token'>[</span><span class='string val'>&#39;language_and_script&#39;</span><span class='rbrack token'>]</span><span class='rbrace token'>}</span><span class='dot token'>.</span><span class='rubyid_compact identifier id'>compact</span>
+  <span class='rubyid_language_vals identifier id'>language_vals</span> <span class='assign token'>=</span> <span class='rubyid_lang_materials identifier id'>lang_materials</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_l identifier id'>l</span><span class='bitor op'>|</span> <span class='rubyid_l identifier id'>l</span><span class='lbrack token'>[</span><span class='string val'>&#39;language_and_script&#39;</span><span class='rbrack token'>]</span><span class='rbrace token'>}</span><span class='dot token'>.</span><span class='rubyid_compact identifier id'>compact</span>
   <span class='rubyid_if if kw'>if</span> <span class='notop op'>!</span><span class='rubyid_language_vals identifier id'>language_vals</span><span class='dot token'>.</span><span class='rubyid_empty? fid id'>empty?</span>
     <span class='rubyid_language_vals identifier id'>language_vals</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_language identifier id'>language</span><span class='bitor op'>|</span>
       <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_lang_materials identifier id'>lang_materials</span> <span class='lshft op'>&lt;&lt;</span> <span class='rubyid_language identifier id'>language</span><span class='lbrack token'>[</span><span class='string val'>&#39;language&#39;</span><span class='rbrack token'>]</span>
@@ -1781,13 +1774,12 @@
     <span class='rubyid_end end kw'>end</span>
   <span class='rubyid_end end kw'>end</span>
 
-  <span class='rubyid_language_notes identifier id'>language_notes</span> <span class='assign token'>=</span> <span class='rubyid_lang_materials identifier id'>lang_materials</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_l identifier id'>l</span><span class='bitor op'>|</span> <span class='rubyid_l identifier id'>l</span><span class='lbrack token'>[</span><span class='string val'>&#39;notes&#39;</span><span class='rbrack token'>]</span><span class='rbrace token'>}</span><span class='dot token'>.</span><span class='rubyid_compact identifier id'>compact</span><span class='dot token'>.</span><span class='rubyid_reject identifier id'>reject</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_e identifier id'>e</span><span class='bitor op'>|</span>  <span class='rubyid_e identifier id'>e</span> <span class='eq op'>==</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span> <span class='rbrace token'>}</span><span class='dot token'>.</span><span class='rubyid_flatten identifier id'>flatten</span>
+  <span class='rubyid_language_notes identifier id'>language_notes</span> <span class='assign token'>=</span> <span class='rubyid_lang_materials identifier id'>lang_materials</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_l identifier id'>l</span><span class='bitor op'>|</span> <span class='rubyid_l identifier id'>l</span><span class='lbrack token'>[</span><span class='string val'>&#39;notes&#39;</span><span class='rbrack token'>]</span><span class='rbrace token'>}</span><span class='dot token'>.</span><span class='rubyid_compact identifier id'>compact</span><span class='dot token'>.</span><span class='rubyid_reject identifier id'>reject</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_e identifier id'>e</span><span class='bitor op'>|</span> <span class='rubyid_e identifier id'>e</span> <span class='eq op'>==</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span> <span class='rbrace token'>}</span><span class='dot token'>.</span><span class='rubyid_flatten identifier id'>flatten</span>
   <span class='rubyid_if if kw'>if</span> <span class='notop op'>!</span><span class='rubyid_language_notes identifier id'>language_notes</span><span class='dot token'>.</span><span class='rubyid_empty? fid id'>empty?</span>
     <span class='rubyid_language_notes identifier id'>language_notes</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_note identifier id'>note</span><span class='bitor op'>|</span>
       <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_lang_materials identifier id'>lang_materials</span> <span class='lshft op'>&lt;&lt;</span> <span class='rubyid_extract_note_content identifier id'>extract_note_content</span><span class='lparen token'>(</span><span class='rubyid_note identifier id'>note</span><span class='rparen token'>)</span>
     <span class='rubyid_end end kw'>end</span>
   <span class='rubyid_end end kw'>end</span>
-
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -1810,6 +1802,10 @@
       <pre class="lines">
 
 
+188
+189
+190
+191
 192
 193
 194
@@ -1823,32 +1819,28 @@
 202
 203
 204
-205
-206
-207
-208
-209</pre>
+205</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/dc.rb', line 192</span>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/dc.rb', line 188</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_handle_rights identifier id'>handle_rights</span><span class='lparen token'>(</span><span class='rubyid_rights_statements identifier id'>rights_statements</span><span class='rparen token'>)</span>
   <span class='rubyid_rights_statements identifier id'>rights_statements</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_rs identifier id'>rs</span><span class='bitor op'>|</span>
-    
+
     <span class='rubyid_case case kw'>case</span> <span class='rubyid_rs identifier id'>rs</span><span class='lbrack token'>[</span><span class='string val'>&#39;rights_type&#39;</span><span class='rbrack token'>]</span>
-    
+
     <span class='rubyid_when when kw'>when</span> <span class='string val'>&#39;license&#39;</span>
       <span class='rubyid_self self kw'>self</span><span class='lbrack token'>[</span><span class='string val'>&#39;rights&#39;</span><span class='rbrack token'>]</span> <span class='lshft op'>&lt;&lt;</span> <span class='dstring node'>&quot;License: #{rs.license_identifier_terms}&quot;</span>
     <span class='rubyid_end end kw'>end</span>
-    
+
     <span class='rubyid_if if kw'>if</span> <span class='rubyid_rs identifier id'>rs</span><span class='lbrack token'>[</span><span class='string val'>&#39;permissions&#39;</span><span class='rbrack token'>]</span>
       <span class='rubyid_self self kw'>self</span><span class='lbrack token'>[</span><span class='string val'>&#39;rights&#39;</span><span class='rbrack token'>]</span> <span class='lshft op'>&lt;&lt;</span> <span class='dstring node'>&quot;Permissions: #{rs.permissions}&quot;</span>
     <span class='rubyid_end end kw'>end</span>
-    
+
     <span class='rubyid_if if kw'>if</span> <span class='rubyid_rs identifier id'>rs</span><span class='lbrack token'>[</span><span class='string val'>&#39;restrictions&#39;</span><span class='rbrack token'>]</span>
       <span class='rubyid_self self kw'>self</span><span class='lbrack token'>[</span><span class='string val'>&#39;rights&#39;</span><span class='rbrack token'>]</span> <span class='lshft op'>&lt;&lt;</span> <span class='dstring node'>&quot;Restriction: #{rs.restrictions}&quot;</span>
     <span class='rubyid_end end kw'>end</span>
-  <span class='rubyid_end end kw'>end</span>  
+  <span class='rubyid_end end kw'>end</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -1871,14 +1863,14 @@
       <pre class="lines">
 
 
-211
-212
-213
-214
-215</pre>
+207
+208
+209
+210
+211</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/dc.rb', line 211</span>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/dc.rb', line 207</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_handle_subjects identifier id'>handle_subjects</span><span class='lparen token'>(</span><span class='rubyid_subjects identifier id'>subjects</span><span class='rparen token'>)</span>
   <span class='rubyid_subjects identifier id'>subjects</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_s identifier id'>s</span><span class='bitor op'>|</span> <span class='rubyid_s identifier id'>s</span><span class='lbrack token'>[</span><span class='string val'>&#39;_resolved&#39;</span><span class='rbrack token'>]</span> <span class='rbrace token'>}</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_subject identifier id'>subject</span><span class='bitor op'>|</span>
@@ -1896,9 +1888,9 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.8.1.a Documentation Generated on Wed Nov 11 13:21:50 2020 by
+  ArchivesSpace Version X.Y.Z Documentation Generated on Tue Sep 21 14:09:48 2021 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.25.
+  0.9.26.
 </div>
 
     </div>

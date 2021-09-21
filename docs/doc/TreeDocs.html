@@ -6,7 +6,7 @@
 <title>
   Class: TreeDocs
   
-    &mdash; Documentation by YARD 0.9.25
+    &mdash; Documentation by YARD 0.9.26
   
 </title>
 
@@ -123,25 +123,7 @@ apply to all tree types.</p>
         <dt id="ROOT_DOCS-constant" class="">ROOT_DOCS =
           
         </dt>
-        <dd><pre class="code"><span class='string val'>&quot;Returns a JSON object describing enough information about this tree&#39;s root record to render the rest.  Includes:\n\n  * title -- the collection title\n\n  * uri -- the collection URI\n\n  * child_count -- the number of immediate children\n\n  * waypoints -- the number of \&quot;waypoints\&quot; those children are grouped into\n\n  * waypoint_size -- the number of children in each waypoint\n&quot;</span><span class='dot token'>.</span><span class='rubyid_strip identifier id'>strip</span>
-</pre></dd>
-      
-        <dt id="WAYPOINT_DOCS-constant" class="">WAYPOINT_DOCS =
-          
-        </dt>
-        <dd><pre class="code"><span class='string val'>&quot;Returns a JSON array containing information for the records contained in a given waypoint.  Each array element is an object that includes:\n\n  * title -- the record&#39;s title\n\n  * uri -- the record URI\n\n  * position -- the logical position of this record within its subtree\n\n  * parent_id -- the internal ID of this document&#39;s parent\n&quot;</span><span class='dot token'>.</span><span class='rubyid_strip identifier id'>strip</span>
-</pre></dd>
-      
-        <dt id="NODE_DOCS-constant" class="">NODE_DOCS =
-          
-        </dt>
-        <dd><pre class="code"><span class='string val'>&quot;Returns a JSON object describing enough information about a specific node.  Includes:\n\n  * title -- the collection title\n\n  * uri -- the collection URI\n\n  * child_count -- the number of immediate children\n\n  * waypoints -- the number of \&quot;waypoints\&quot; those children are grouped into\n\n  * waypoint_size -- the number of children in each waypoint\n\n  * position -- the logical position of this record within its subtree\n\n  * precomputed_waypoints -- a collection of arrays (keyed on child URI) in the\n    same format as returned by the &#39;/waypoint&#39; endpoint.  Since a fetch for a\n    given node is almost always followed by a fetch of the first waypoint, using\n    the information in this structure can save a backend call.\n&quot;</span><span class='dot token'>.</span><span class='rubyid_strip identifier id'>strip</span>
-</pre></dd>
-      
-        <dt id="NODE_FROM_ROOT_DOCS-constant" class="">NODE_FROM_ROOT_DOCS =
-          
-        </dt>
-        <dd><pre class="code"><span class='string val'>&quot;Returns a JSON array describing the path to a node, starting from the root of the tree.  Each path element provides:\n\n  * node -- the URI of the node to next expand\n\n  * offset -- the waypoint number within `node` that contains the next entry in\n    the path (or the desired record, if we&#39;re at the end of the path)\n&quot;</span><span class='dot token'>.</span><span class='rubyid_strip identifier id'>strip</span>
+        <dd><pre class="code"><span class='lshft op'>&lt;&lt;</span><span class='bitnot op'>~</span><span class='rubyid_EOS constant id'>EOS</span><span class='dot token'>.</span><span class='rubyid_strip identifier id'>strip</span>
 </pre></dd>
       
     </dl>
@@ -159,9 +141,9 @@ apply to all tree types.</p>
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.8.1.a Documentation Generated on Wed Nov 11 13:21:54 2020 by
+  ArchivesSpace Version X.Y.Z Documentation Generated on Tue Sep 21 14:09:50 2021 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.25.
+  0.9.26.
 </div>
 
     </div>

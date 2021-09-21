@@ -6,7 +6,7 @@
 <title>
   Module: ASpaceExport
   
-    &mdash; Documentation by YARD 0.9.25
+    &mdash; Documentation by YARD 0.9.26
   
 </title>
 
@@ -339,18 +339,18 @@
       <pre class="lines">
 
 
+77
+78
 79
 80
 81
 82
 83
 84
-85
-86
-87</pre>
+85</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/exporters/lib/exporter.rb', line 79</span>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/lib/exporter.rb', line 77</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_get_serializer_for identifier id'>get_serializer_for</span><span class='lparen token'>(</span><span class='rubyid_model identifier id'>model</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span><span class='rparen token'>)</span>
   <span class='rubyid_key identifier id'>key</span> <span class='assign token'>=</span> <span class='rubyid_if if kw'>if</span> <span class='rubyid_opts identifier id'>opts</span><span class='lbrack token'>[</span><span class='symbol val'>:serializer</span><span class='rbrack token'>]</span>
@@ -437,6 +437,7 @@
       <pre class="lines">
 
 
+56
 57
 58
 59
@@ -454,15 +455,12 @@
 71
 72
 73
-74
-75
-76</pre>
+74</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/exporters/lib/exporter.rb', line 57</span>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/lib/exporter.rb', line 56</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_model identifier id'>model</span><span class='lparen token'>(</span><span class='rubyid_name identifier id'>name</span><span class='comma token'>,</span> <span class='bitand op'>&amp;</span><span class='rubyid_block identifier id'>block</span><span class='rparen token'>)</span>
-
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_block_given? fid id'>block_given?</span>
     <span class='rubyid_model identifier id'>model</span> <span class='assign token'>=</span> <span class='rubyid_Class constant id'>Class</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='rubyid_ExportModel constant id'>ExportModel</span><span class='comma token'>,</span> <span class='bitand op'>&amp;</span><span class='rubyid_block identifier id'>block</span><span class='rparen token'>)</span>
     <span class='rubyid_model identifier id'>model</span><span class='dot token'>.</span><span class='rubyid_instance_variable_set identifier id'>instance_variable_set</span><span class='lparen token'>(</span><span class='symbol val'>:@model_for</span><span class='comma token'>,</span> <span class='rubyid_name identifier id'>name</span><span class='rparen token'>)</span>
@@ -502,12 +500,12 @@
       <pre class="lines">
 
 
+50
 51
-52
-53</pre>
+52</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/exporters/lib/exporter.rb', line 51</span>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/lib/exporter.rb', line 50</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_register_model identifier id'>register_model</span><span class='lparen token'>(</span><span class='rubyid_model_class identifier id'>model_class</span><span class='rparen token'>)</span>
   <span class='rubyid_@@models ivar id'>@@models</span> <span class='lshft op'>&lt;&lt;</span> <span class='rubyid_model_class identifier id'>model_class</span>
@@ -564,13 +562,13 @@
       <pre class="lines">
 
 
+88
+89
 90
-91
-92
-93</pre>
+91</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/exporters/lib/exporter.rb', line 90</span>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/lib/exporter.rb', line 88</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_serialize identifier id'>serialize</span><span class='lparen token'>(</span><span class='rubyid_model identifier id'>model</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
   <span class='rubyid_s identifier id'>s</span> <span class='assign token'>=</span> <span class='rubyid_get_serializer_for identifier id'>get_serializer_for</span><span class='lparen token'>(</span><span class='rubyid_model identifier id'>model</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span><span class='rparen token'>)</span>
@@ -625,14 +623,12 @@
 44
 45
 46
-47
-48</pre>
+47</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'backend/app/exporters/lib/exporter.rb', line 29</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_serializer identifier id'>serializer</span><span class='lparen token'>(</span><span class='rubyid_name identifier id'>name</span><span class='comma token'>,</span> <span class='bitand op'>&amp;</span><span class='rubyid_block identifier id'>block</span><span class='rparen token'>)</span>
-
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_block_given? fid id'>block_given?</span>
     <span class='rubyid_serializer identifier id'>serializer</span> <span class='assign token'>=</span> <span class='rubyid_Class constant id'>Class</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='rubyid_Serializer constant id'>Serializer</span><span class='comma token'>,</span> <span class='bitand op'>&amp;</span><span class='rubyid_block identifier id'>block</span><span class='rparen token'>)</span>
     <span class='rubyid_serializer identifier id'>serializer</span><span class='dot token'>.</span><span class='rubyid_instance_variable_set identifier id'>instance_variable_set</span><span class='lparen token'>(</span><span class='symbol val'>:@serializer_for</span><span class='comma token'>,</span> <span class='rubyid_name identifier id'>name</span><span class='rparen token'>)</span>
@@ -672,13 +668,13 @@
       <pre class="lines">
 
 
+94
+95
 96
-97
-98
-99</pre>
+97</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/exporters/lib/exporter.rb', line 96</span>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/lib/exporter.rb', line 94</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_stream identifier id'>stream</span><span class='lparen token'>(</span><span class='rubyid_model identifier id'>model</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
   <span class='rubyid_s identifier id'>s</span> <span class='assign token'>=</span> <span class='rubyid_get_serializer_for identifier id'>get_serializer_for</span><span class='lparen token'>(</span><span class='rubyid_model identifier id'>model</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span><span class='rparen token'>)</span>
@@ -695,9 +691,9 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.8.1.a Documentation Generated on Wed Nov 11 13:21:23 2020 by
+  ArchivesSpace Version X.Y.Z Documentation Generated on Tue Sep 21 14:09:27 2021 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.25.
+  0.9.26.
 </div>
 
     </div>

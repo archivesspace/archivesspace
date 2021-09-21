@@ -6,7 +6,7 @@
 <title>
   Class: MARCModel
   
-    &mdash; Documentation by YARD 0.9.25
+    &mdash; Documentation by YARD 0.9.26
   
 </title>
 
@@ -405,6 +405,29 @@
         <li class="public ">
   <span class="summary_signature">
     
+      <a href="#handle_agent_terms-instance_method" title="#handle_agent_terms (instance method)">#<strong>handle_agent_terms</strong>(terms)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
       <a href="#handle_agents-instance_method" title="#handle_agents (instance method)">#<strong>handle_agents</strong>(linked_agents)  &#x21d2; Object </a>
     
 
@@ -613,6 +636,29 @@
   <span class="summary_signature">
     
       <a href="#handle_primary_creator-instance_method" title="#handle_primary_creator (instance method)">#<strong>handle_primary_creator</strong>(linked_agents)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#handle_relators-instance_method" title="#handle_relators (instance method)">#<strong>handle_relators</strong>(relator_sfs, link)  &#x21d2; Object </a>
     
 
     
@@ -967,6 +1013,7 @@
       <pre class="lines">
 
 
+115
 116
 117
 118
@@ -998,19 +1045,15 @@
 144
 145
 146
-147
-148
-149
-150</pre>
+147</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/marc21.rb', line 116</span>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/marc21.rb', line 115</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_assemble_controlfield_string identifier id'>assemble_controlfield_string</span><span class='lparen token'>(</span><span class='rubyid_obj identifier id'>obj</span><span class='rparen token'>)</span>
-
   <span class='rubyid_date identifier id'>date</span> <span class='assign token'>=</span> <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_dates identifier id'>dates</span><span class='lbrack token'>[</span><span class='integer val'>0</span><span class='rbrack token'>]</span> <span class='orop op'>||</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span>
   <span class='rubyid_string identifier id'>string</span> <span class='assign token'>=</span> <span class='rubyid_obj identifier id'>obj</span><span class='lbrack token'>[</span><span class='string val'>&#39;system_mtime&#39;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_scan identifier id'>scan</span><span class='lparen token'>(</span><span class='regexp val'>/\d{2}/</span><span class='rparen token'>)</span><span class='lbrack token'>[</span><span class='float val'>1</span><span class='dot2 op'>..</span><span class='integer val'>3</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_join identifier id'>join</span><span class='lparen token'>(</span><span class='string val'>&#39;&#39;</span><span class='rparen token'>)</span>
-  <span class='rubyid_string identifier id'>string</span> <span class='opasgn op'>+=</span> <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_level identifier id'>level</span> <span class='eq op'>==</span> <span class='string val'>&#39;item&#39;</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_date identifier id'>date</span><span class='lbrack token'>[</span><span class='string val'>&#39;date_type&#39;</span><span class='rbrack token'>]</span> <span class='eq op'>==</span> <span class='string val'>&#39;single&#39;</span> <span class='question op'>?</span> <span class='string val'>&#39;s&#39;</span> <span class='colon op'>:</span> <span class='string val'>&#39;i&#39;</span>
+  <span class='rubyid_string identifier id'>string</span> <span class='opasgn op'>+=</span> <span class='rubyid_date identifier id'>date</span><span class='lbrack token'>[</span><span class='string val'>&#39;date_type&#39;</span><span class='rbrack token'>]</span> <span class='eq op'>==</span> <span class='string val'>&#39;single&#39;</span> <span class='question op'>?</span> <span class='string val'>&#39;s&#39;</span> <span class='colon op'>:</span> <span class='string val'>&#39;i&#39;</span>
   <span class='rubyid_string identifier id'>string</span> <span class='opasgn op'>+=</span> <span class='rubyid_date identifier id'>date</span><span class='lbrack token'>[</span><span class='string val'>&#39;begin&#39;</span><span class='rbrack token'>]</span> <span class='question op'>?</span> <span class='rubyid_date identifier id'>date</span><span class='lbrack token'>[</span><span class='string val'>&#39;begin&#39;</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='integer val'>0</span><span class='dot2 op'>..</span><span class='integer val'>3</span><span class='rbrack token'>]</span> <span class='colon op'>:</span> <span class='string val'>&quot;    &quot;</span>
   <span class='rubyid_string identifier id'>string</span> <span class='opasgn op'>+=</span> <span class='rubyid_date identifier id'>date</span><span class='lbrack token'>[</span><span class='string val'>&#39;end&#39;</span><span class='rbrack token'>]</span> <span class='question op'>?</span> <span class='rubyid_date identifier id'>date</span><span class='lbrack token'>[</span><span class='string val'>&#39;end&#39;</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='integer val'>0</span><span class='dot2 op'>..</span><span class='integer val'>3</span><span class='rbrack token'>]</span> <span class='colon op'>:</span> <span class='string val'>&quot;    &quot;</span>
 
@@ -1030,7 +1073,7 @@
 
   <span class='comment val'># If only one Language and Script subrecord its code value should be exported in the MARC 008 field position 35-37; If more than one Language and Script subrecord is recorded, a value of &quot;mul&quot; should be exported in the MARC 008 field position 35-37.</span>
   <span class='rubyid_lang_materials identifier id'>lang_materials</span> <span class='assign token'>=</span> <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_lang_materials identifier id'>lang_materials</span>
-  <span class='rubyid_languages identifier id'>languages</span> <span class='assign token'>=</span> <span class='rubyid_lang_materials identifier id'>lang_materials</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span><span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_l identifier id'>l</span><span class='bitor op'>|</span> <span class='rubyid_l identifier id'>l</span><span class='lbrack token'>[</span><span class='string val'>&#39;language_and_script&#39;</span><span class='rbrack token'>]</span><span class='rbrace token'>}</span><span class='dot token'>.</span><span class='rubyid_compact identifier id'>compact</span>
+  <span class='rubyid_languages identifier id'>languages</span> <span class='assign token'>=</span> <span class='rubyid_lang_materials identifier id'>lang_materials</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_l identifier id'>l</span><span class='bitor op'>|</span> <span class='rubyid_l identifier id'>l</span><span class='lbrack token'>[</span><span class='string val'>&#39;language_and_script&#39;</span><span class='rbrack token'>]</span><span class='rbrace token'>}</span><span class='dot token'>.</span><span class='rubyid_compact identifier id'>compact</span>
   <span class='rubyid_langcode identifier id'>langcode</span> <span class='assign token'>=</span> <span class='rubyid_languages identifier id'>languages</span><span class='dot token'>.</span><span class='rubyid_count identifier id'>count</span> <span class='eq op'>==</span> <span class='integer val'>1</span> <span class='question op'>?</span> <span class='rubyid_languages identifier id'>languages</span><span class='lbrack token'>[</span><span class='integer val'>0</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>&#39;language&#39;</span><span class='rbrack token'>]</span> <span class='colon op'>:</span> <span class='string val'>&#39;mul&#39;</span>
 
   <span class='comment val'># variable number of spaces needed since country code could have 2 or 3 chars</span>
@@ -1039,7 +1082,6 @@
   <span class='rubyid_string identifier id'>string</span> <span class='opasgn op'>+=</span> <span class='string val'>&#39; d&#39;</span>
 
   <span class='rubyid_string identifier id'>string</span>
-
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -1114,14 +1156,12 @@
 96
 97
 98
-99
-100</pre>
+99</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'backend/app/exporters/models/marc21.rb', line 94</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_from_archival_object identifier id'>from_archival_object</span><span class='lparen token'>(</span><span class='rubyid_obj identifier id'>obj</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
-
   <span class='rubyid_marc identifier id'>marc</span> <span class='assign token'>=</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_from_aspace_object identifier id'>from_aspace_object</span><span class='lparen token'>(</span><span class='rubyid_obj identifier id'>obj</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span><span class='rparen token'>)</span>
   <span class='rubyid_marc identifier id'>marc</span><span class='dot token'>.</span><span class='rubyid_apply_map identifier id'>apply_map</span><span class='lparen token'>(</span><span class='rubyid_obj identifier id'>obj</span><span class='comma token'>,</span> <span class='rubyid_@archival_object_map ivar id'>@archival_object_map</span><span class='rparen token'>)</span>
 
@@ -1189,6 +1229,7 @@
       <pre class="lines">
 
 
+103
 104
 105
 106
@@ -1197,11 +1238,10 @@
 109
 110
 111
-112
-113</pre>
+112</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/marc21.rb', line 104</span>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/marc21.rb', line 103</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_from_resource identifier id'>from_resource</span><span class='lparen token'>(</span><span class='rubyid_obj identifier id'>obj</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
   <span class='rubyid_marc identifier id'>marc</span> <span class='assign token'>=</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_from_archival_object identifier id'>from_archival_object</span><span class='lparen token'>(</span><span class='rubyid_obj identifier id'>obj</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span><span class='rparen token'>)</span>
@@ -1248,7 +1288,7 @@
       <pre class="code"><span class="info file"># File 'backend/app/exporters/models/marc21.rb', line 80</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_datafields identifier id'>datafields</span>
-  <span class='rubyid_@datafields ivar id'>@datafields</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_k identifier id'>k</span><span class='comma token'>,</span><span class='rubyid_v identifier id'>v</span><span class='bitor op'>|</span> <span class='rubyid_v identifier id'>v</span><span class='rbrace token'>}</span>
+  <span class='rubyid_@datafields ivar id'>@datafields</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_k identifier id'>k</span><span class='comma token'>,</span> <span class='rubyid_v identifier id'>v</span><span class='bitor op'>|</span> <span class='rubyid_v identifier id'>v</span><span class='rbrace token'>}</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -1271,17 +1311,17 @@
       <pre class="lines">
 
 
+158
+159
+160
 161
 162
 163
 164
-165
-166
-167
-168</pre>
+165</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/marc21.rb', line 161</span>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/marc21.rb', line 158</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_df identifier id'>df</span><span class='lparen token'>(</span><span class='mult op'>*</span><span class='rubyid_args identifier id'>args</span><span class='rparen token'>)</span>
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_@datafields ivar id'>@datafields</span><span class='dot token'>.</span><span class='rubyid_has_key? fid id'>has_key?</span><span class='lparen token'>(</span><span class='rubyid_args identifier id'>args</span><span class='dot token'>.</span><span class='rubyid_to_s identifier id'>to_s</span><span class='rparen token'>)</span>
@@ -1312,21 +1352,78 @@
       <pre class="lines">
 
 
+150
+151
+152
 153
 154
-155
-156
-157
-158</pre>
+155</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/marc21.rb', line 153</span>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/marc21.rb', line 150</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_df! fid id'>df!</span><span class='lparen token'>(</span><span class='mult op'>*</span><span class='rubyid_args identifier id'>args</span><span class='rparen token'>)</span>
   <span class='rubyid_@sequence ivar id'>@sequence</span> <span class='opasgn op'>||=</span> <span class='integer val'>0</span>
   <span class='rubyid_@sequence ivar id'>@sequence</span> <span class='opasgn op'>+=</span> <span class='integer val'>1</span>
   <span class='rubyid_@datafields ivar id'>@datafields</span><span class='lbrack token'>[</span><span class='rubyid_@sequence ivar id'>@sequence</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_@@datafield ivar id'>@@datafield</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='mult op'>*</span><span class='rubyid_args identifier id'>args</span><span class='rparen token'>)</span>
   <span class='rubyid_@datafields ivar id'>@datafields</span><span class='lbrack token'>[</span><span class='rubyid_@sequence ivar id'>@sequence</span><span class='rbrack token'>]</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="handle_agent_terms-instance_method">
+  
+    #<strong>handle_agent_terms</strong>(terms)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+486
+487
+488
+489
+490
+491
+492
+493
+494
+495
+496
+497
+498
+499
+500
+501</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/marc21.rb', line 486</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_handle_agent_terms identifier id'>handle_agent_terms</span><span class='lparen token'>(</span><span class='rubyid_terms identifier id'>terms</span><span class='rparen token'>)</span>
+  <span class='rubyid_sfs identifier id'>sfs</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
+  <span class='rubyid_terms identifier id'>terms</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_t identifier id'>t</span><span class='bitor op'>|</span>
+    <span class='rubyid_tag identifier id'>tag</span> <span class='assign token'>=</span> <span class='rubyid_case case kw'>case</span> <span class='rubyid_t identifier id'>t</span><span class='lbrack token'>[</span><span class='string val'>&#39;term_type&#39;</span><span class='rbrack token'>]</span>
+          <span class='rubyid_when when kw'>when</span> <span class='string val'>&#39;uniform_title&#39;</span><span class='semicolon token'>;</span> <span class='string val'>&#39;t&#39;</span>
+          <span class='rubyid_when when kw'>when</span> <span class='string val'>&#39;genre_form&#39;</span><span class='comma token'>,</span> <span class='string val'>&#39;style_period&#39;</span><span class='semicolon token'>;</span> <span class='string val'>&#39;v&#39;</span>
+          <span class='rubyid_when when kw'>when</span> <span class='string val'>&#39;topical&#39;</span><span class='comma token'>,</span> <span class='string val'>&#39;cultural_context&#39;</span><span class='semicolon token'>;</span> <span class='string val'>&#39;x&#39;</span>
+          <span class='rubyid_when when kw'>when</span> <span class='string val'>&#39;temporal&#39;</span><span class='semicolon token'>;</span> <span class='string val'>&#39;y&#39;</span>
+          <span class='rubyid_when when kw'>when</span> <span class='string val'>&#39;geographic&#39;</span><span class='semicolon token'>;</span> <span class='string val'>&#39;z&#39;</span>
+          <span class='rubyid_end end kw'>end</span>
+    <span class='rubyid_next next kw'>next</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_tag identifier id'>tag</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span>
+    <span class='rubyid_sfs identifier id'>sfs</span> <span class='lshft op'>&lt;&lt;</span> <span class='lbrack token'>[</span><span class='lparen token'>(</span><span class='rubyid_tag identifier id'>tag</span><span class='rparen token'>)</span><span class='comma token'>,</span> <span class='rubyid_t identifier id'>t</span><span class='lbrack token'>[</span><span class='string val'>&#39;term&#39;</span><span class='rbrack token'>]</span><span class='rbrack token'>]</span>
+  <span class='rubyid_end end kw'>end</span>
+
+  <span class='rubyid_sfs identifier id'>sfs</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -1349,6 +1446,11 @@
       <pre class="lines">
 
 
+420
+421
+422
+423
+424
 425
 426
 427
@@ -1396,31 +1498,16 @@
 469
 470
 471
-472
-473
-474
-475
-476
-477
-478
-479
-480
-481
-482
-483
-484
-485
-486</pre>
+472</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/marc21.rb', line 425</span>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/marc21.rb', line 420</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_handle_agents identifier id'>handle_agents</span><span class='lparen token'>(</span><span class='rubyid_linked_agents identifier id'>linked_agents</span><span class='rparen token'>)</span>
-
   <span class='rubyid_handle_primary_creator identifier id'>handle_primary_creator</span><span class='lparen token'>(</span><span class='rubyid_linked_agents identifier id'>linked_agents</span><span class='rparen token'>)</span>
   <span class='rubyid_handle_other_creators identifier id'>handle_other_creators</span><span class='lparen token'>(</span><span class='rubyid_linked_agents identifier id'>linked_agents</span><span class='rparen token'>)</span>
 
-  <span class='rubyid_subjects identifier id'>subjects</span> <span class='assign token'>=</span> <span class='rubyid_linked_agents identifier id'>linked_agents</span><span class='dot token'>.</span><span class='rubyid_select identifier id'>select</span><span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_a identifier id'>a</span><span class='bitor op'>|</span> <span class='rubyid_a identifier id'>a</span><span class='lbrack token'>[</span><span class='string val'>&#39;role&#39;</span><span class='rbrack token'>]</span> <span class='eq op'>==</span> <span class='string val'>&#39;subject&#39;</span><span class='rbrace token'>}</span>
+  <span class='rubyid_subjects identifier id'>subjects</span> <span class='assign token'>=</span> <span class='rubyid_linked_agents identifier id'>linked_agents</span><span class='dot token'>.</span><span class='rubyid_select identifier id'>select</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_a identifier id'>a</span><span class='bitor op'>|</span> <span class='rubyid_a identifier id'>a</span><span class='lbrack token'>[</span><span class='string val'>&#39;role&#39;</span><span class='rbrack token'>]</span> <span class='eq op'>==</span> <span class='string val'>&#39;subject&#39;</span><span class='rbrace token'>}</span>
 
   <span class='rubyid_subjects identifier id'>subjects</span><span class='dot token'>.</span><span class='rubyid_each_with_index identifier id'>each_with_index</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_link identifier id'>link</span><span class='comma token'>,</span> <span class='rubyid_i identifier id'>i</span><span class='bitor op'>|</span>
     <span class='rubyid_next next kw'>next</span> <span class='rubyid_unless unless_mod kw'>unless</span> <span class='rubyid_link identifier id'>link</span><span class='lbrack token'>[</span><span class='string val'>&quot;_resolved&quot;</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>&quot;publish&quot;</span><span class='rbrack token'>]</span> <span class='orop op'>||</span> <span class='rubyid_@include_unpublished ivar id'>@include_unpublished</span>
@@ -1430,9 +1517,9 @@
     <span class='rubyid_terms identifier id'>terms</span> <span class='assign token'>=</span> <span class='rubyid_link identifier id'>link</span><span class='lbrack token'>[</span><span class='string val'>&#39;terms&#39;</span><span class='rbrack token'>]</span>
     <span class='rubyid_ind2 identifier id'>ind2</span> <span class='assign token'>=</span> <span class='rubyid_source_to_code identifier id'>source_to_code</span><span class='lparen token'>(</span><span class='rubyid_name identifier id'>name</span><span class='lbrack token'>[</span><span class='string val'>&#39;source&#39;</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
 
+    <span class='rubyid_relator_sfs identifier id'>relator_sfs</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
     <span class='rubyid_if if kw'>if</span> <span class='rubyid_link identifier id'>link</span><span class='lbrack token'>[</span><span class='string val'>&#39;relator&#39;</span><span class='rbrack token'>]</span>
-      <span class='rubyid_relator identifier id'>relator</span> <span class='assign token'>=</span> <span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='dstring node'>&quot;enumerations.linked_agent_archival_record_relators.#{link[&#39;relator&#39;]}&quot;</span><span class='rparen token'>)</span>
-      <span class='rubyid_relator_sf identifier id'>relator_sf</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='string val'>&#39;4&#39;</span><span class='comma token'>,</span> <span class='rubyid_relator identifier id'>relator</span><span class='rbrack token'>]</span>
+      <span class='rubyid_handle_relators identifier id'>handle_relators</span><span class='lparen token'>(</span><span class='rubyid_relator_sfs identifier id'>relator_sfs</span><span class='comma token'>,</span> <span class='rubyid_link identifier id'>link</span><span class='lbrack token'>[</span><span class='string val'>&#39;relator&#39;</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
     <span class='rubyid_end end kw'>end</span>
 
     <span class='rubyid_case case kw'>case</span> <span class='rubyid_subject identifier id'>subject</span><span class='lbrack token'>[</span><span class='string val'>&#39;agent_type&#39;</span><span class='rbrack token'>]</span>
@@ -1440,17 +1527,17 @@
     <span class='rubyid_when when kw'>when</span> <span class='string val'>&#39;agent_corporate_entity&#39;</span>
       <span class='rubyid_code identifier id'>code</span> <span class='assign token'>=</span> <span class='string val'>&#39;610&#39;</span>
       <span class='rubyid_ind1 identifier id'>ind1</span> <span class='assign token'>=</span> <span class='string val'>&#39;2&#39;</span>
-      <span class='rubyid_sfs identifier id'>sfs</span> <span class='assign token'>=</span> <span class='rubyid_gather_agent_corporate_subfield_mappings identifier id'>gather_agent_corporate_subfield_mappings</span><span class='lparen token'>(</span><span class='rubyid_name identifier id'>name</span><span class='comma token'>,</span> <span class='rubyid_relator_sf identifier id'>relator_sf</span><span class='comma token'>,</span> <span class='rubyid_subject identifier id'>subject</span><span class='rparen token'>)</span>
+      <span class='rubyid_sfs identifier id'>sfs</span> <span class='assign token'>=</span> <span class='rubyid_gather_agent_corporate_subfield_mappings identifier id'>gather_agent_corporate_subfield_mappings</span><span class='lparen token'>(</span><span class='rubyid_name identifier id'>name</span><span class='comma token'>,</span> <span class='rubyid_relator_sfs identifier id'>relator_sfs</span><span class='comma token'>,</span> <span class='rubyid_subject identifier id'>subject</span><span class='comma token'>,</span> <span class='rubyid_terms identifier id'>terms</span><span class='rparen token'>)</span>
 
     <span class='rubyid_when when kw'>when</span> <span class='string val'>&#39;agent_person&#39;</span>
       <span class='rubyid_ind1 identifier id'>ind1</span>  <span class='assign token'>=</span> <span class='rubyid_name identifier id'>name</span><span class='lbrack token'>[</span><span class='string val'>&#39;name_order&#39;</span><span class='rbrack token'>]</span> <span class='eq op'>==</span> <span class='string val'>&#39;direct&#39;</span> <span class='question op'>?</span> <span class='string val'>&#39;0&#39;</span> <span class='colon op'>:</span> <span class='string val'>&#39;1&#39;</span>
       <span class='rubyid_code identifier id'>code</span> <span class='assign token'>=</span> <span class='string val'>&#39;600&#39;</span>
-      <span class='rubyid_sfs identifier id'>sfs</span> <span class='assign token'>=</span> <span class='rubyid_gather_agent_person_subfield_mappings identifier id'>gather_agent_person_subfield_mappings</span><span class='lparen token'>(</span><span class='rubyid_name identifier id'>name</span><span class='comma token'>,</span> <span class='rubyid_relator_sf identifier id'>relator_sf</span><span class='comma token'>,</span> <span class='rubyid_subject identifier id'>subject</span><span class='rparen token'>)</span>
+      <span class='rubyid_sfs identifier id'>sfs</span> <span class='assign token'>=</span> <span class='rubyid_gather_agent_person_subfield_mappings identifier id'>gather_agent_person_subfield_mappings</span><span class='lparen token'>(</span><span class='rubyid_name identifier id'>name</span><span class='comma token'>,</span> <span class='rubyid_relator_sfs identifier id'>relator_sfs</span><span class='comma token'>,</span> <span class='rubyid_subject identifier id'>subject</span><span class='comma token'>,</span> <span class='rubyid_terms identifier id'>terms</span><span class='rparen token'>)</span>
 
     <span class='rubyid_when when kw'>when</span> <span class='string val'>&#39;agent_family&#39;</span>
       <span class='rubyid_code identifier id'>code</span> <span class='assign token'>=</span> <span class='string val'>&#39;600&#39;</span>
       <span class='rubyid_ind1 identifier id'>ind1</span> <span class='assign token'>=</span> <span class='string val'>&#39;3&#39;</span>
-      <span class='rubyid_sfs identifier id'>sfs</span> <span class='assign token'>=</span> <span class='rubyid_gather_agent_family_subfield_mappings identifier id'>gather_agent_family_subfield_mappings</span><span class='lparen token'>(</span><span class='rubyid_name identifier id'>name</span><span class='comma token'>,</span> <span class='rubyid_relator_sf identifier id'>relator_sf</span><span class='comma token'>,</span> <span class='rubyid_subject identifier id'>subject</span><span class='rparen token'>)</span>
+      <span class='rubyid_sfs identifier id'>sfs</span> <span class='assign token'>=</span> <span class='rubyid_gather_agent_family_subfield_mappings identifier id'>gather_agent_family_subfield_mappings</span><span class='lparen token'>(</span><span class='rubyid_name identifier id'>name</span><span class='comma token'>,</span> <span class='rubyid_relator_sfs identifier id'>relator_sfs</span><span class='comma token'>,</span> <span class='rubyid_subject identifier id'>subject</span><span class='comma token'>,</span> <span class='rubyid_terms identifier id'>terms</span><span class='rparen token'>)</span>
 
     <span class='rubyid_when when kw'>when</span> <span class='string val'>&#39;agent_software&#39;</span>
       <span class='rubyid_code identifier id'>code</span> <span class='assign token'>=</span> <span class='string val'>&#39;653&#39;</span>
@@ -1459,16 +1546,8 @@
 
     <span class='rubyid_end end kw'>end</span>
 
-    <span class='rubyid_terms identifier id'>terms</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_t identifier id'>t</span><span class='bitor op'>|</span>
-      <span class='rubyid_tag identifier id'>tag</span> <span class='assign token'>=</span> <span class='rubyid_case case kw'>case</span> <span class='rubyid_t identifier id'>t</span><span class='lbrack token'>[</span><span class='string val'>&#39;term_type&#39;</span><span class='rbrack token'>]</span>
-        <span class='rubyid_when when kw'>when</span> <span class='string val'>&#39;uniform_title&#39;</span><span class='semicolon token'>;</span> <span class='string val'>&#39;t&#39;</span>
-        <span class='rubyid_when when kw'>when</span> <span class='string val'>&#39;genre_form&#39;</span><span class='comma token'>,</span> <span class='string val'>&#39;style_period&#39;</span><span class='semicolon token'>;</span> <span class='string val'>&#39;v&#39;</span>
-        <span class='rubyid_when when kw'>when</span> <span class='string val'>&#39;topical&#39;</span><span class='comma token'>,</span> <span class='string val'>&#39;cultural_context&#39;</span><span class='semicolon token'>;</span> <span class='string val'>&#39;x&#39;</span>
-        <span class='rubyid_when when kw'>when</span> <span class='string val'>&#39;temporal&#39;</span><span class='semicolon token'>;</span> <span class='string val'>&#39;y&#39;</span>
-        <span class='rubyid_when when kw'>when</span> <span class='string val'>&#39;geographic&#39;</span><span class='semicolon token'>;</span> <span class='string val'>&#39;z&#39;</span>
-        <span class='rubyid_end end kw'>end</span>
-      <span class='rubyid_sfs identifier id'>sfs</span> <span class='lshft op'>&lt;&lt;</span> <span class='lbrack token'>[</span><span class='lparen token'>(</span><span class='rubyid_tag identifier id'>tag</span><span class='rparen token'>)</span><span class='comma token'>,</span> <span class='rubyid_t identifier id'>t</span><span class='lbrack token'>[</span><span class='string val'>&#39;term&#39;</span><span class='rbrack token'>]</span><span class='rbrack token'>]</span>
-    <span class='rubyid_end end kw'>end</span>
+    <span class='comment val'># ANW-825: Don&#39;t export $0 if $v, $x, $y, or $z are present</span>
+    <span class='rubyid_sfs identifier id'>sfs</span><span class='dot token'>.</span><span class='rubyid_reject! fid id'>reject!</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_k identifier id'>k</span><span class='bitor op'>|</span> <span class='rubyid_k identifier id'>k</span><span class='lbrack token'>[</span><span class='integer val'>0</span><span class='rbrack token'>]</span> <span class='eq op'>==</span> <span class='integer val'>0</span> <span class='rbrace token'>}</span> <span class='rubyid_if if_mod kw'>if</span> <span class='lparen token'>(</span><span class='lbrack token'>[</span><span class='string val'>&#39;v&#39;</span><span class='comma token'>,</span> <span class='string val'>&#39;x&#39;</span><span class='comma token'>,</span> <span class='string val'>&#39;y&#39;</span><span class='comma token'>,</span> <span class='string val'>&#39;z&#39;</span><span class='rbrack token'>]</span> <span class='minus op'>-</span> <span class='rubyid_sfs identifier id'>sfs</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span> <span class='lbrace token'>{</span> <span class='bitor op'>|</span><span class='rubyid_k identifier id'>k</span><span class='bitor op'>|</span> <span class='rubyid_k identifier id'>k</span><span class='lbrack token'>[</span><span class='integer val'>0</span><span class='rbrack token'>]</span> <span class='rbrace token'>}</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_length identifier id'>length</span> <span class='lt op'>&lt;</span> <span class='integer val'>4</span>
 
     <span class='rubyid_if if kw'>if</span> <span class='rubyid_ind2 identifier id'>ind2</span> <span class='eq op'>==</span> <span class='string val'>&#39;7&#39;</span>
       <span class='rubyid_sfs identifier id'>sfs</span> <span class='lshft op'>&lt;&lt;</span> <span class='lbrack token'>[</span><span class='string val'>&#39;2&#39;</span><span class='comma token'>,</span> <span class='rubyid_subject identifier id'>subject</span><span class='lbrack token'>[</span><span class='string val'>&#39;names&#39;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_first identifier id'>first</span><span class='lbrack token'>[</span><span class='string val'>&#39;source&#39;</span><span class='rbrack token'>]</span><span class='rbrack token'>]</span>
@@ -1498,24 +1577,24 @@
       <pre class="lines">
 
 
-591
-592
-593
-594
-595
-596
-597
-598
-599
-600
-601
-602
-603
-604
-605</pre>
+605
+606
+607
+608
+609
+610
+611
+612
+613
+614
+615
+616
+617
+618
+619</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/marc21.rb', line 591</span>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/marc21.rb', line 605</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_handle_ark identifier id'>handle_ark</span><span class='lparen token'>(</span><span class='rubyid_id identifier id'>id</span><span class='comma token'>,</span> <span class='rubyid_type identifier id'>type</span><span class='assign token'>=</span><span class='string val'>&#39;resource&#39;</span><span class='rparen token'>)</span>
   <span class='comment val'># If ARKs are enabled, add an 856</span>
@@ -1524,11 +1603,11 @@
   <span class='comment val'>#  &lt;subfield code=&quot;u&quot;&gt;ARK URL&lt;/subfield&gt;</span>
   <span class='comment val'>#&lt;/datafield&gt;</span>
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_AppConfig constant id'>AppConfig</span><span class='lbrack token'>[</span><span class='symbol val'>:arks_enabled</span><span class='rbrack token'>]</span>
-     <span class='rubyid_ark_url identifier id'>ark_url</span> <span class='assign token'>=</span> <span class='rubyid_ArkName constant id'>ArkName</span><span class='colon2 op'>::</span><span class='rubyid_get_ark_url identifier id'>get_ark_url</span><span class='lparen token'>(</span><span class='rubyid_id identifier id'>id</span><span class='comma token'>,</span> <span class='rubyid_type identifier id'>type</span><span class='dot token'>.</span><span class='rubyid_to_sym identifier id'>to_sym</span><span class='rparen token'>)</span>
-     <span class='rubyid_df identifier id'>df</span><span class='lparen token'>(</span><span class='string val'>&#39;856&#39;</span><span class='comma token'>,</span> <span class='string val'>&#39;4&#39;</span><span class='comma token'>,</span> <span class='string val'>&#39;2&#39;</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_with_sfs identifier id'>with_sfs</span><span class='lparen token'>(</span>
-                                  <span class='lbrack token'>[</span><span class='string val'>&#39;z&#39;</span><span class='comma token'>,</span> <span class='string val'>&quot;Archival Resource Key:&quot;</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
-                                  <span class='lbrack token'>[</span><span class='string val'>&#39;u&#39;</span><span class='comma token'>,</span> <span class='rubyid_ark_url identifier id'>ark_url</span><span class='rbrack token'>]</span>
-                                <span class='rparen token'>)</span> <span class='rubyid_unless unless_mod kw'>unless</span> <span class='rubyid_ark_url identifier id'>ark_url</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span> <span class='orop op'>||</span> <span class='rubyid_ark_url identifier id'>ark_url</span><span class='dot token'>.</span><span class='rubyid_empty? fid id'>empty?</span>
+    <span class='rubyid_ark_url identifier id'>ark_url</span> <span class='assign token'>=</span> <span class='rubyid_ArkName constant id'>ArkName</span><span class='colon2 op'>::</span><span class='rubyid_get_ark_url identifier id'>get_ark_url</span><span class='lparen token'>(</span><span class='rubyid_id identifier id'>id</span><span class='comma token'>,</span> <span class='rubyid_type identifier id'>type</span><span class='dot token'>.</span><span class='rubyid_to_sym identifier id'>to_sym</span><span class='rparen token'>)</span>
+    <span class='rubyid_df identifier id'>df</span><span class='lparen token'>(</span><span class='string val'>&#39;856&#39;</span><span class='comma token'>,</span> <span class='string val'>&#39;4&#39;</span><span class='comma token'>,</span> <span class='string val'>&#39;2&#39;</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_with_sfs identifier id'>with_sfs</span><span class='lparen token'>(</span>
+                                 <span class='lbrack token'>[</span><span class='string val'>&#39;z&#39;</span><span class='comma token'>,</span> <span class='string val'>&quot;Archival Resource Key:&quot;</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
+                                 <span class='lbrack token'>[</span><span class='string val'>&#39;u&#39;</span><span class='comma token'>,</span> <span class='rubyid_ark_url identifier id'>ark_url</span><span class='rbrack token'>]</span>
+                               <span class='rparen token'>)</span> <span class='rubyid_unless unless_mod kw'>unless</span> <span class='rubyid_ark_url identifier id'>ark_url</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span> <span class='orop op'>||</span> <span class='rubyid_ark_url identifier id'>ark_url</span><span class='dot token'>.</span><span class='rubyid_empty? fid id'>empty?</span>
 
   <span class='rubyid_end end kw'>end</span>
 <span class='rubyid_end end kw'>end</span>
@@ -1553,6 +1632,11 @@
       <pre class="lines">
 
 
+232
+233
+234
+235
+236
 237
 238
 239
@@ -1568,15 +1652,10 @@
 249
 250
 251
-252
-253
-254
-255
-256
-257</pre>
+252</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/marc21.rb', line 237</span>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/marc21.rb', line 232</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_handle_dates identifier id'>handle_dates</span><span class='lparen token'>(</span><span class='rubyid_dates identifier id'>dates</span><span class='rparen token'>)</span>
   <span class='rubyid_return return kw'>return</span> <span class='rubyid_false false kw'>false</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_dates identifier id'>dates</span><span class='dot token'>.</span><span class='rubyid_empty? fid id'>empty?</span>
@@ -1630,22 +1709,22 @@
       <pre class="lines">
 
 
-577
-578
-579
-580
-581
-582
-583
-584
-585
-586
-587
-588
-589</pre>
+591
+592
+593
+594
+595
+596
+597
+598
+599
+600
+601
+602
+603</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/marc21.rb', line 577</span>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/marc21.rb', line 591</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_handle_ead_loc identifier id'>handle_ead_loc</span><span class='lparen token'>(</span><span class='rubyid_ead_loc identifier id'>ead_loc</span><span class='rparen token'>)</span>
   <span class='comment val'># If there is EADlocation</span>
@@ -1681,26 +1760,26 @@
       <pre class="lines">
 
 
-562
-563
-564
-565
-566
-567
-568
-569
-570
-571
-572
-573</pre>
+576
+577
+578
+579
+580
+581
+582
+583
+584
+585
+586
+587</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/marc21.rb', line 562</span>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/marc21.rb', line 576</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_handle_extents identifier id'>handle_extents</span><span class='lparen token'>(</span><span class='rubyid_extents identifier id'>extents</span><span class='rparen token'>)</span>
   <span class='rubyid_extents identifier id'>extents</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_ext identifier id'>ext</span><span class='bitor op'>|</span>
     <span class='rubyid_e identifier id'>e</span> <span class='assign token'>=</span> <span class='rubyid_ext identifier id'>ext</span><span class='lbrack token'>[</span><span class='string val'>&#39;number&#39;</span><span class='rbrack token'>]</span>
-    <span class='rubyid_t identifier id'>t</span> <span class='assign token'>=</span>  <span class='dstring node'>&quot;#{I18n.t(&#39;enumerations.extent_extent_type.&#39;+ext[&#39;extent_type&#39;], :default =&gt; ext[&#39;extent_type&#39;])}&quot;</span>
+    <span class='rubyid_t identifier id'>t</span> <span class='assign token'>=</span> <span class='dstring node'>&quot;#{I18n.t(&#39;enumerations.extent_extent_type.&#39;+ext[&#39;extent_type&#39;], :default =&gt; ext[&#39;extent_type&#39;])}&quot;</span>
 
     <span class='rubyid_if if kw'>if</span> <span class='rubyid_ext identifier id'>ext</span><span class='lbrack token'>[</span><span class='string val'>&#39;container_summary&#39;</span><span class='rbrack token'>]</span>
       <span class='rubyid_t identifier id'>t</span> <span class='lshft op'>&lt;&lt;</span> <span class='dstring node'>&quot; (#{ext[&#39;container_summary&#39;]})&quot;</span>
@@ -1730,16 +1809,16 @@
       <pre class="lines">
 
 
-171
-172
-173
-174</pre>
+168
+169
+170
+171</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/marc21.rb', line 171</span>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/marc21.rb', line 168</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_handle_id identifier id'>handle_id</span><span class='lparen token'>(</span><span class='mult op'>*</span><span class='rubyid_ids identifier id'>ids</span><span class='rparen token'>)</span>
-  <span class='rubyid_ids identifier id'>ids</span><span class='dot token'>.</span><span class='rubyid_reject! fid id'>reject!</span><span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_i identifier id'>i</span><span class='bitor op'>|</span> <span class='rubyid_i identifier id'>i</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span> <span class='orop op'>||</span> <span class='rubyid_i identifier id'>i</span><span class='dot token'>.</span><span class='rubyid_empty? fid id'>empty?</span><span class='rbrace token'>}</span>
+  <span class='rubyid_ids identifier id'>ids</span><span class='dot token'>.</span><span class='rubyid_reject! fid id'>reject!</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_i identifier id'>i</span><span class='bitor op'>|</span> <span class='rubyid_i identifier id'>i</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span> <span class='orop op'>||</span> <span class='rubyid_i identifier id'>i</span><span class='dot token'>.</span><span class='rubyid_empty? fid id'>empty?</span><span class='rbrace token'>}</span>
   <span class='rubyid_df identifier id'>df</span><span class='lparen token'>(</span><span class='string val'>&#39;099&#39;</span><span class='comma token'>,</span> <span class='string val'>&#39; &#39;</span><span class='comma token'>,</span> <span class='string val'>&#39; &#39;</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_with_sfs identifier id'>with_sfs</span><span class='lparen token'>(</span><span class='lbrack token'>[</span><span class='string val'>&#39;a&#39;</span><span class='comma token'>,</span> <span class='rubyid_ids identifier id'>ids</span><span class='dot token'>.</span><span class='rubyid_join identifier id'>join</span><span class='lparen token'>(</span><span class='string val'>&#39;.&#39;</span><span class='rparen token'>)</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
@@ -1763,6 +1842,9 @@
       <pre class="lines">
 
 
+209
+210
+211
 212
 213
 214
@@ -1780,21 +1862,15 @@
 226
 227
 228
-229
-230
-231
-232
-233
-234</pre>
+229</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/marc21.rb', line 212</span>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/marc21.rb', line 209</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_handle_languages identifier id'>handle_languages</span><span class='lparen token'>(</span><span class='rubyid_lang_materials identifier id'>lang_materials</span><span class='rparen token'>)</span>
-
   <span class='comment val'># ANW-697: The Language subrecord code values should be exported in repeating subfield $a entries in the MARC 041 field.</span>
 
-  <span class='rubyid_languages identifier id'>languages</span> <span class='assign token'>=</span> <span class='rubyid_lang_materials identifier id'>lang_materials</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span><span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_l identifier id'>l</span><span class='bitor op'>|</span> <span class='rubyid_l identifier id'>l</span><span class='lbrack token'>[</span><span class='string val'>&#39;language_and_script&#39;</span><span class='rbrack token'>]</span><span class='rbrace token'>}</span><span class='dot token'>.</span><span class='rubyid_compact identifier id'>compact</span>
+  <span class='rubyid_languages identifier id'>languages</span> <span class='assign token'>=</span> <span class='rubyid_lang_materials identifier id'>lang_materials</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_l identifier id'>l</span><span class='bitor op'>|</span> <span class='rubyid_l identifier id'>l</span><span class='lbrack token'>[</span><span class='string val'>&#39;language_and_script&#39;</span><span class='rbrack token'>]</span><span class='rbrace token'>}</span><span class='dot token'>.</span><span class='rubyid_compact identifier id'>compact</span>
 
   <span class='rubyid_languages identifier id'>languages</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_language identifier id'>language</span><span class='bitor op'>|</span>
 
@@ -1804,14 +1880,13 @@
 
   <span class='comment val'># ANW-697: Language Text subrecords should be exported in the MARC 546 subfield $a</span>
 
-  <span class='rubyid_language_notes identifier id'>language_notes</span> <span class='assign token'>=</span> <span class='rubyid_lang_materials identifier id'>lang_materials</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_l identifier id'>l</span><span class='bitor op'>|</span> <span class='rubyid_l identifier id'>l</span><span class='lbrack token'>[</span><span class='string val'>&#39;notes&#39;</span><span class='rbrack token'>]</span><span class='rbrace token'>}</span><span class='dot token'>.</span><span class='rubyid_compact identifier id'>compact</span><span class='dot token'>.</span><span class='rubyid_reject identifier id'>reject</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_e identifier id'>e</span><span class='bitor op'>|</span>  <span class='rubyid_e identifier id'>e</span> <span class='eq op'>==</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span> <span class='rbrace token'>}</span>
+  <span class='rubyid_language_notes identifier id'>language_notes</span> <span class='assign token'>=</span> <span class='rubyid_lang_materials identifier id'>lang_materials</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_l identifier id'>l</span><span class='bitor op'>|</span> <span class='rubyid_l identifier id'>l</span><span class='lbrack token'>[</span><span class='string val'>&#39;notes&#39;</span><span class='rbrack token'>]</span><span class='rbrace token'>}</span><span class='dot token'>.</span><span class='rubyid_compact identifier id'>compact</span><span class='dot token'>.</span><span class='rubyid_reject identifier id'>reject</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_e identifier id'>e</span><span class='bitor op'>|</span> <span class='rubyid_e identifier id'>e</span> <span class='eq op'>==</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span> <span class='rbrace token'>}</span>
 
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_language_notes identifier id'>language_notes</span>
     <span class='rubyid_language_notes identifier id'>language_notes</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_note identifier id'>note</span><span class='bitor op'>|</span>
       <span class='rubyid_handle_notes identifier id'>handle_notes</span><span class='lparen token'>(</span><span class='rubyid_note identifier id'>note</span><span class='rparen token'>)</span>
     <span class='rubyid_end end kw'>end</span>
   <span class='rubyid_end end kw'>end</span>
-
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -1834,21 +1909,6 @@
       <pre class="lines">
 
 
-489
-490
-491
-492
-493
-494
-495
-496
-497
-498
-499
-500
-501
-502
-503
 504
 505
 506
@@ -1904,13 +1964,26 @@
 556
 557
 558
-559</pre>
+559
+560
+561
+562
+563
+564
+565
+566
+567
+568
+569
+570
+571
+572
+573</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/marc21.rb', line 489</span>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/marc21.rb', line 504</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_handle_notes identifier id'>handle_notes</span><span class='lparen token'>(</span><span class='rubyid_notes identifier id'>notes</span><span class='rparen token'>)</span>
-
   <span class='rubyid_notes identifier id'>notes</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_note identifier id'>note</span><span class='bitor op'>|</span>
 
     <span class='rubyid_prefix identifier id'>prefix</span> <span class='assign token'>=</span>  <span class='rubyid_case case kw'>case</span> <span class='rubyid_note identifier id'>note</span><span class='lbrack token'>[</span><span class='string val'>&#39;type&#39;</span><span class='rbrack token'>]</span>
@@ -1930,9 +2003,9 @@
                 <span class='rubyid_when when kw'>when</span> <span class='string val'>&#39;arrangement&#39;</span><span class='comma token'>,</span> <span class='string val'>&#39;fileplan&#39;</span>
                   <span class='lbrack token'>[</span><span class='string val'>&#39;351&#39;</span><span class='comma token'>,</span> <span class='string val'>&#39;a&#39;</span><span class='rbrack token'>]</span>
                 <span class='rubyid_when when kw'>when</span> <span class='string val'>&#39;odd&#39;</span><span class='comma token'>,</span> <span class='string val'>&#39;dimensions&#39;</span><span class='comma token'>,</span> <span class='string val'>&#39;physdesc&#39;</span><span class='comma token'>,</span> <span class='string val'>&#39;materialspec&#39;</span><span class='comma token'>,</span> <span class='string val'>&#39;physloc&#39;</span><span class='comma token'>,</span> <span class='string val'>&#39;phystech&#39;</span><span class='comma token'>,</span> <span class='string val'>&#39;physfacet&#39;</span><span class='comma token'>,</span> <span class='string val'>&#39;processinfo&#39;</span><span class='comma token'>,</span> <span class='string val'>&#39;separatedmaterial&#39;</span>
-                  <span class='lbrack token'>[</span><span class='string val'>&#39;500&#39;</span><span class='comma token'>,</span><span class='string val'>&#39;a&#39;</span><span class='rbrack token'>]</span>
+                  <span class='lbrack token'>[</span><span class='string val'>&#39;500&#39;</span><span class='comma token'>,</span> <span class='string val'>&#39;a&#39;</span><span class='rbrack token'>]</span>
                 <span class='rubyid_when when kw'>when</span> <span class='string val'>&#39;accessrestrict&#39;</span>
-                  <span class='lbrack token'>[</span><span class='string val'>&#39;506&#39;</span><span class='comma token'>,</span><span class='string val'>&#39;a&#39;</span><span class='rbrack token'>]</span>
+                  <span class='lbrack token'>[</span><span class='string val'>&#39;506&#39;</span><span class='comma token'>,</span> <span class='string val'>&#39;a&#39;</span><span class='rbrack token'>]</span>
                 <span class='rubyid_when when kw'>when</span> <span class='string val'>&#39;scopecontent&#39;</span>
                   <span class='lbrack token'>[</span><span class='string val'>&#39;520&#39;</span><span class='comma token'>,</span> <span class='string val'>&#39;2&#39;</span><span class='comma token'>,</span> <span class='string val'>&#39; &#39;</span><span class='comma token'>,</span> <span class='string val'>&#39;a&#39;</span><span class='rbrack token'>]</span>
                 <span class='rubyid_when when kw'>when</span> <span class='string val'>&#39;abstract&#39;</span>
@@ -1943,9 +2016,9 @@
                   <span class='rubyid_ind1 identifier id'>ind1</span> <span class='assign token'>=</span> <span class='rubyid_note identifier id'>note</span><span class='lbrack token'>[</span><span class='string val'>&#39;publish&#39;</span><span class='rbrack token'>]</span> <span class='question op'>?</span> <span class='string val'>&#39;1&#39;</span> <span class='colon op'>:</span> <span class='string val'>&#39;0&#39;</span>
                   <span class='lbrack token'>[</span><span class='string val'>&#39;541&#39;</span><span class='comma token'>,</span> <span class='rubyid_ind1 identifier id'>ind1</span><span class='comma token'>,</span> <span class='string val'>&#39; &#39;</span><span class='comma token'>,</span> <span class='string val'>&#39;a&#39;</span><span class='rbrack token'>]</span>
                 <span class='rubyid_when when kw'>when</span> <span class='string val'>&#39;relatedmaterial&#39;</span>
-                  <span class='lbrack token'>[</span><span class='string val'>&#39;544&#39;</span><span class='comma token'>,</span><span class='string val'>&#39;d&#39;</span><span class='rbrack token'>]</span>
+                  <span class='lbrack token'>[</span><span class='string val'>&#39;544&#39;</span><span class='comma token'>,</span> <span class='string val'>&#39;d&#39;</span><span class='rbrack token'>]</span>
                 <span class='rubyid_when when kw'>when</span> <span class='string val'>&#39;bioghist&#39;</span>
-                  <span class='lbrack token'>[</span><span class='string val'>&#39;545&#39;</span><span class='comma token'>,</span><span class='string val'>&#39;a&#39;</span><span class='rbrack token'>]</span>
+                  <span class='lbrack token'>[</span><span class='string val'>&#39;545&#39;</span><span class='comma token'>,</span> <span class='string val'>&#39;a&#39;</span><span class='rbrack token'>]</span>
                 <span class='rubyid_when when kw'>when</span> <span class='string val'>&#39;custodhist&#39;</span>
                   <span class='rubyid_ind1 identifier id'>ind1</span> <span class='assign token'>=</span> <span class='rubyid_note identifier id'>note</span><span class='lbrack token'>[</span><span class='string val'>&#39;publish&#39;</span><span class='rbrack token'>]</span> <span class='question op'>?</span> <span class='string val'>&#39;1&#39;</span> <span class='colon op'>:</span> <span class='string val'>&#39;0&#39;</span>
                   <span class='lbrack token'>[</span><span class='string val'>&#39;561&#39;</span><span class='comma token'>,</span> <span class='rubyid_ind1 identifier id'>ind1</span><span class='comma token'>,</span> <span class='string val'>&#39; &#39;</span><span class='comma token'>,</span> <span class='string val'>&#39;a&#39;</span><span class='rbrack token'>]</span>
@@ -2012,6 +2085,11 @@ this method is very similair to handle_primary_creator and handle_agents</p>
       <pre class="lines">
 
 
+374
+375
+376
+377
+378
 379
 380
 381
@@ -2050,34 +2128,29 @@ this method is very similair to handle_primary_creator and handle_agents</p>
 414
 415
 416
-417
-418
-419
-420
-421
-422</pre>
+417</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/marc21.rb', line 379</span>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/marc21.rb', line 374</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_handle_other_creators identifier id'>handle_other_creators</span><span class='lparen token'>(</span><span class='rubyid_linked_agents identifier id'>linked_agents</span><span class='rparen token'>)</span>
-  <span class='rubyid_creators identifier id'>creators</span> <span class='assign token'>=</span> <span class='rubyid_linked_agents identifier id'>linked_agents</span><span class='dot token'>.</span><span class='rubyid_select identifier id'>select</span><span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_a identifier id'>a</span><span class='bitor op'>|</span> <span class='rubyid_a identifier id'>a</span><span class='lbrack token'>[</span><span class='string val'>&#39;role&#39;</span><span class='rbrack token'>]</span> <span class='eq op'>==</span> <span class='string val'>&#39;creator&#39;</span><span class='rbrace token'>}</span><span class='lbrack token'>[</span><span class='float val'>1</span><span class='dot2 op'>..</span><span class='integer val'>-1</span><span class='rbrack token'>]</span> <span class='orop op'>||</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
-  <span class='rubyid_creators identifier id'>creators</span> <span class='assign token'>=</span> <span class='rubyid_creators identifier id'>creators</span> <span class='plus op'>+</span> <span class='rubyid_linked_agents identifier id'>linked_agents</span><span class='dot token'>.</span><span class='rubyid_select identifier id'>select</span><span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_a identifier id'>a</span><span class='bitor op'>|</span> <span class='rubyid_a identifier id'>a</span><span class='lbrack token'>[</span><span class='string val'>&#39;role&#39;</span><span class='rbrack token'>]</span> <span class='eq op'>==</span> <span class='string val'>&#39;source&#39;</span><span class='rbrace token'>}</span>
+  <span class='rubyid_creators identifier id'>creators</span> <span class='assign token'>=</span> <span class='rubyid_linked_agents identifier id'>linked_agents</span><span class='dot token'>.</span><span class='rubyid_select identifier id'>select</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_a identifier id'>a</span><span class='bitor op'>|</span> <span class='rubyid_a identifier id'>a</span><span class='lbrack token'>[</span><span class='string val'>&#39;role&#39;</span><span class='rbrack token'>]</span> <span class='eq op'>==</span> <span class='string val'>&#39;creator&#39;</span><span class='rbrace token'>}</span><span class='lbrack token'>[</span><span class='float val'>1</span><span class='dot2 op'>..</span><span class='integer val'>-1</span><span class='rbrack token'>]</span> <span class='orop op'>||</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
+  <span class='rubyid_creators identifier id'>creators</span> <span class='assign token'>=</span> <span class='rubyid_creators identifier id'>creators</span> <span class='plus op'>+</span> <span class='rubyid_linked_agents identifier id'>linked_agents</span><span class='dot token'>.</span><span class='rubyid_select identifier id'>select</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_a identifier id'>a</span><span class='bitor op'>|</span> <span class='rubyid_a identifier id'>a</span><span class='lbrack token'>[</span><span class='string val'>&#39;role&#39;</span><span class='rbrack token'>]</span> <span class='eq op'>==</span> <span class='string val'>&#39;source&#39;</span><span class='rbrace token'>}</span>
 
   <span class='rubyid_creators identifier id'>creators</span><span class='dot token'>.</span><span class='rubyid_each_with_index identifier id'>each_with_index</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_link identifier id'>link</span><span class='comma token'>,</span> <span class='rubyid_i identifier id'>i</span><span class='bitor op'>|</span>
     <span class='rubyid_next next kw'>next</span> <span class='rubyid_unless unless_mod kw'>unless</span> <span class='rubyid_link identifier id'>link</span><span class='lbrack token'>[</span><span class='string val'>&quot;_resolved&quot;</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>&quot;publish&quot;</span><span class='rbrack token'>]</span> <span class='orop op'>||</span> <span class='rubyid_@include_unpublished ivar id'>@include_unpublished</span>
 
     <span class='rubyid_creator identifier id'>creator</span> <span class='assign token'>=</span> <span class='rubyid_link identifier id'>link</span><span class='lbrack token'>[</span><span class='string val'>&#39;_resolved&#39;</span><span class='rbrack token'>]</span>
     <span class='rubyid_name identifier id'>name</span> <span class='assign token'>=</span> <span class='rubyid_creator identifier id'>creator</span><span class='lbrack token'>[</span><span class='string val'>&#39;display_name&#39;</span><span class='rbrack token'>]</span>
-    <span class='rubyid_terms identifier id'>terms</span> <span class='assign token'>=</span> <span class='rubyid_link identifier id'>link</span><span class='lbrack token'>[</span><span class='string val'>&#39;terms&#39;</span><span class='rbrack token'>]</span>
     <span class='rubyid_role identifier id'>role</span> <span class='assign token'>=</span> <span class='rubyid_link identifier id'>link</span><span class='lbrack token'>[</span><span class='string val'>&#39;role&#39;</span><span class='rbrack token'>]</span>
 
+    <span class='rubyid_relator_sfs identifier id'>relator_sfs</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
     <span class='rubyid_if if kw'>if</span> <span class='rubyid_link identifier id'>link</span><span class='lbrack token'>[</span><span class='string val'>&#39;relator&#39;</span><span class='rbrack token'>]</span>
-      <span class='rubyid_relator_sf identifier id'>relator_sf</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='string val'>&#39;4&#39;</span><span class='comma token'>,</span> <span class='rubyid_link identifier id'>link</span><span class='lbrack token'>[</span><span class='string val'>&#39;relator&#39;</span><span class='rbrack token'>]</span><span class='rbrack token'>]</span>
+      <span class='rubyid_handle_relators identifier id'>handle_relators</span><span class='lparen token'>(</span><span class='rubyid_relator_sfs identifier id'>relator_sfs</span><span class='comma token'>,</span> <span class='rubyid_link identifier id'>link</span><span class='lbrack token'>[</span><span class='string val'>&#39;relator&#39;</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
     <span class='rubyid_elsif elsif kw'>elsif</span> <span class='rubyid_role identifier id'>role</span> <span class='eq op'>==</span> <span class='string val'>&#39;source&#39;</span>
-      <span class='rubyid_relator_sf identifier id'>relator_sf</span> <span class='assign token'>=</span>  <span class='lbrack token'>[</span><span class='string val'>&#39;e&#39;</span><span class='comma token'>,</span> <span class='string val'>&#39;former owner&#39;</span><span class='rbrack token'>]</span>
+      <span class='rubyid_relator_sfs identifier id'>relator_sfs</span> <span class='lshft op'>&lt;&lt;</span> <span class='lbrack token'>[</span><span class='string val'>&#39;e&#39;</span><span class='comma token'>,</span> <span class='string val'>&#39;former owner&#39;</span><span class='rbrack token'>]</span>
     <span class='rubyid_else else kw'>else</span>
-      <span class='rubyid_relator_sf identifier id'>relator_sf</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='string val'>&#39;e&#39;</span><span class='comma token'>,</span> <span class='string val'>&#39;creator&#39;</span><span class='rbrack token'>]</span>
+      <span class='rubyid_relator_sfs identifier id'>relator_sfs</span> <span class='lshft op'>&lt;&lt;</span> <span class='lbrack token'>[</span><span class='string val'>&#39;e&#39;</span><span class='comma token'>,</span> <span class='string val'>&#39;creator&#39;</span><span class='rbrack token'>]</span>
     <span class='rubyid_end end kw'>end</span>
 
     <span class='rubyid_ind2 identifier id'>ind2</span> <span class='assign token'>=</span> <span class='string val'>&#39; &#39;</span>
@@ -2087,17 +2160,17 @@ this method is very similair to handle_primary_creator and handle_agents</p>
     <span class='rubyid_when when kw'>when</span> <span class='string val'>&#39;agent_corporate_entity&#39;</span>
       <span class='rubyid_code identifier id'>code</span> <span class='assign token'>=</span> <span class='string val'>&#39;710&#39;</span>
       <span class='rubyid_ind1 identifier id'>ind1</span> <span class='assign token'>=</span> <span class='string val'>&#39;2&#39;</span>
-      <span class='rubyid_sfs identifier id'>sfs</span> <span class='assign token'>=</span> <span class='rubyid_gather_agent_corporate_subfield_mappings identifier id'>gather_agent_corporate_subfield_mappings</span><span class='lparen token'>(</span><span class='rubyid_name identifier id'>name</span><span class='comma token'>,</span> <span class='rubyid_relator_sf identifier id'>relator_sf</span><span class='comma token'>,</span> <span class='rubyid_creator identifier id'>creator</span><span class='rparen token'>)</span>
+      <span class='rubyid_sfs identifier id'>sfs</span> <span class='assign token'>=</span> <span class='rubyid_gather_agent_corporate_subfield_mappings identifier id'>gather_agent_corporate_subfield_mappings</span><span class='lparen token'>(</span><span class='rubyid_name identifier id'>name</span><span class='comma token'>,</span> <span class='rubyid_relator_sfs identifier id'>relator_sfs</span><span class='comma token'>,</span> <span class='rubyid_creator identifier id'>creator</span><span class='rparen token'>)</span>
 
     <span class='rubyid_when when kw'>when</span> <span class='string val'>&#39;agent_person&#39;</span>
       <span class='rubyid_ind1 identifier id'>ind1</span>  <span class='assign token'>=</span> <span class='rubyid_name identifier id'>name</span><span class='lbrack token'>[</span><span class='string val'>&#39;name_order&#39;</span><span class='rbrack token'>]</span> <span class='eq op'>==</span> <span class='string val'>&#39;direct&#39;</span> <span class='question op'>?</span> <span class='string val'>&#39;0&#39;</span> <span class='colon op'>:</span> <span class='string val'>&#39;1&#39;</span>
       <span class='rubyid_code identifier id'>code</span> <span class='assign token'>=</span> <span class='string val'>&#39;700&#39;</span>
-      <span class='rubyid_sfs identifier id'>sfs</span> <span class='assign token'>=</span> <span class='rubyid_gather_agent_person_subfield_mappings identifier id'>gather_agent_person_subfield_mappings</span><span class='lparen token'>(</span><span class='rubyid_name identifier id'>name</span><span class='comma token'>,</span> <span class='rubyid_relator_sf identifier id'>relator_sf</span><span class='comma token'>,</span> <span class='rubyid_creator identifier id'>creator</span><span class='rparen token'>)</span>
+      <span class='rubyid_sfs identifier id'>sfs</span> <span class='assign token'>=</span> <span class='rubyid_gather_agent_person_subfield_mappings identifier id'>gather_agent_person_subfield_mappings</span><span class='lparen token'>(</span><span class='rubyid_name identifier id'>name</span><span class='comma token'>,</span> <span class='rubyid_relator_sfs identifier id'>relator_sfs</span><span class='comma token'>,</span> <span class='rubyid_creator identifier id'>creator</span><span class='rparen token'>)</span>
 
     <span class='rubyid_when when kw'>when</span> <span class='string val'>&#39;agent_family&#39;</span>
       <span class='rubyid_ind1 identifier id'>ind1</span> <span class='assign token'>=</span> <span class='string val'>&#39;3&#39;</span>
       <span class='rubyid_code identifier id'>code</span> <span class='assign token'>=</span> <span class='string val'>&#39;700&#39;</span>
-      <span class='rubyid_sfs identifier id'>sfs</span> <span class='assign token'>=</span> <span class='rubyid_gather_agent_family_subfield_mappings identifier id'>gather_agent_family_subfield_mappings</span><span class='lparen token'>(</span><span class='rubyid_name identifier id'>name</span><span class='comma token'>,</span> <span class='rubyid_relator_sf identifier id'>relator_sf</span><span class='comma token'>,</span> <span class='rubyid_creator identifier id'>creator</span><span class='rparen token'>)</span>
+      <span class='rubyid_sfs identifier id'>sfs</span> <span class='assign token'>=</span> <span class='rubyid_gather_agent_family_subfield_mappings identifier id'>gather_agent_family_subfield_mappings</span><span class='lparen token'>(</span><span class='rubyid_name identifier id'>name</span><span class='comma token'>,</span> <span class='rubyid_relator_sfs identifier id'>relator_sfs</span><span class='comma token'>,</span> <span class='rubyid_creator identifier id'>creator</span><span class='rparen token'>)</span>
 
     <span class='rubyid_end end kw'>end</span>
 
@@ -2125,6 +2198,11 @@ this method is very similair to handle_primary_creator and handle_agents</p>
       <pre class="lines">
 
 
+333
+334
+335
+336
+337
 338
 339
 340
@@ -2157,18 +2235,13 @@ this method is very similair to handle_primary_creator and handle_agents</p>
 367
 368
 369
-370
-371
-372
-373
-374
-375</pre>
+370</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/marc21.rb', line 338</span>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/marc21.rb', line 333</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_handle_primary_creator identifier id'>handle_primary_creator</span><span class='lparen token'>(</span><span class='rubyid_linked_agents identifier id'>linked_agents</span><span class='rparen token'>)</span>
-  <span class='rubyid_link identifier id'>link</span> <span class='assign token'>=</span> <span class='rubyid_linked_agents identifier id'>linked_agents</span><span class='dot token'>.</span><span class='rubyid_find identifier id'>find</span><span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_a identifier id'>a</span><span class='bitor op'>|</span> <span class='rubyid_a identifier id'>a</span><span class='lbrack token'>[</span><span class='string val'>&#39;role&#39;</span><span class='rbrack token'>]</span> <span class='eq op'>==</span> <span class='string val'>&#39;creator&#39;</span><span class='rbrace token'>}</span>
+  <span class='rubyid_link identifier id'>link</span> <span class='assign token'>=</span> <span class='rubyid_linked_agents identifier id'>linked_agents</span><span class='dot token'>.</span><span class='rubyid_find identifier id'>find</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_a identifier id'>a</span><span class='bitor op'>|</span> <span class='rubyid_a identifier id'>a</span><span class='lbrack token'>[</span><span class='string val'>&#39;role&#39;</span><span class='rbrack token'>]</span> <span class='eq op'>==</span> <span class='string val'>&#39;creator&#39;</span><span class='rbrace token'>}</span>
   <span class='rubyid_return return kw'>return</span> <span class='rubyid_nil nil kw'>nil</span> <span class='rubyid_unless unless_mod kw'>unless</span> <span class='rubyid_link identifier id'>link</span>
   <span class='rubyid_return return kw'>return</span> <span class='rubyid_nil nil kw'>nil</span> <span class='rubyid_unless unless_mod kw'>unless</span> <span class='rubyid_link identifier id'>link</span><span class='lbrack token'>[</span><span class='string val'>&quot;_resolved&quot;</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>&quot;publish&quot;</span><span class='rbrack token'>]</span> <span class='orop op'>||</span> <span class='rubyid_@include_unpublished ivar id'>@include_unpublished</span>
 
@@ -2177,11 +2250,11 @@ this method is very similair to handle_primary_creator and handle_agents</p>
 
   <span class='rubyid_ind2 identifier id'>ind2</span> <span class='assign token'>=</span> <span class='string val'>&#39; &#39;</span>
 
+  <span class='rubyid_relator_sfs identifier id'>relator_sfs</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_link identifier id'>link</span><span class='lbrack token'>[</span><span class='string val'>&#39;relator&#39;</span><span class='rbrack token'>]</span>
-    <span class='rubyid_relator identifier id'>relator</span> <span class='assign token'>=</span> <span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='dstring node'>&quot;enumerations.linked_agent_archival_record_relators.#{link[&#39;relator&#39;]}&quot;</span><span class='rparen token'>)</span>
-    <span class='rubyid_role_info identifier id'>role_info</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='string val'>&#39;4&#39;</span><span class='comma token'>,</span> <span class='rubyid_relator identifier id'>relator</span><span class='rbrack token'>]</span>
+    <span class='rubyid_handle_relators identifier id'>handle_relators</span><span class='lparen token'>(</span><span class='rubyid_relator_sfs identifier id'>relator_sfs</span><span class='comma token'>,</span> <span class='rubyid_link identifier id'>link</span><span class='lbrack token'>[</span><span class='string val'>&#39;relator&#39;</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
   <span class='rubyid_else else kw'>else</span>
-    <span class='rubyid_role_info identifier id'>role_info</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='string val'>&#39;e&#39;</span><span class='comma token'>,</span> <span class='string val'>&#39;creator&#39;</span><span class='rbrack token'>]</span>
+    <span class='rubyid_relator_sfs identifier id'>relator_sfs</span> <span class='lshft op'>&lt;&lt;</span> <span class='lbrack token'>[</span><span class='string val'>&#39;e&#39;</span><span class='comma token'>,</span> <span class='string val'>&#39;creator&#39;</span><span class='rbrack token'>]</span>
   <span class='rubyid_end end kw'>end</span>
 
   <span class='rubyid_case case kw'>case</span> <span class='rubyid_creator identifier id'>creator</span><span class='lbrack token'>[</span><span class='string val'>&#39;agent_type&#39;</span><span class='rbrack token'>]</span>
@@ -2189,21 +2262,64 @@ this method is very similair to handle_primary_creator and handle_agents</p>
   <span class='rubyid_when when kw'>when</span> <span class='string val'>&#39;agent_corporate_entity&#39;</span>
     <span class='rubyid_code identifier id'>code</span> <span class='assign token'>=</span> <span class='string val'>&#39;110&#39;</span>
     <span class='rubyid_ind1 identifier id'>ind1</span> <span class='assign token'>=</span> <span class='string val'>&#39;2&#39;</span>
-    <span class='rubyid_sfs identifier id'>sfs</span> <span class='assign token'>=</span> <span class='rubyid_gather_agent_corporate_subfield_mappings identifier id'>gather_agent_corporate_subfield_mappings</span><span class='lparen token'>(</span><span class='rubyid_name identifier id'>name</span><span class='comma token'>,</span> <span class='rubyid_role_info identifier id'>role_info</span><span class='comma token'>,</span> <span class='rubyid_creator identifier id'>creator</span><span class='rparen token'>)</span>
+    <span class='rubyid_sfs identifier id'>sfs</span> <span class='assign token'>=</span> <span class='rubyid_gather_agent_corporate_subfield_mappings identifier id'>gather_agent_corporate_subfield_mappings</span><span class='lparen token'>(</span><span class='rubyid_name identifier id'>name</span><span class='comma token'>,</span> <span class='rubyid_relator_sfs identifier id'>relator_sfs</span><span class='comma token'>,</span> <span class='rubyid_creator identifier id'>creator</span><span class='rparen token'>)</span>
 
   <span class='rubyid_when when kw'>when</span> <span class='string val'>&#39;agent_person&#39;</span>
     <span class='rubyid_ind1 identifier id'>ind1</span>  <span class='assign token'>=</span> <span class='rubyid_name identifier id'>name</span><span class='lbrack token'>[</span><span class='string val'>&#39;name_order&#39;</span><span class='rbrack token'>]</span> <span class='eq op'>==</span> <span class='string val'>&#39;direct&#39;</span> <span class='question op'>?</span> <span class='string val'>&#39;0&#39;</span> <span class='colon op'>:</span> <span class='string val'>&#39;1&#39;</span>
     <span class='rubyid_code identifier id'>code</span> <span class='assign token'>=</span> <span class='string val'>&#39;100&#39;</span>
-    <span class='rubyid_sfs identifier id'>sfs</span> <span class='assign token'>=</span> <span class='rubyid_gather_agent_person_subfield_mappings identifier id'>gather_agent_person_subfield_mappings</span><span class='lparen token'>(</span><span class='rubyid_name identifier id'>name</span><span class='comma token'>,</span> <span class='rubyid_role_info identifier id'>role_info</span><span class='comma token'>,</span> <span class='rubyid_creator identifier id'>creator</span><span class='rparen token'>)</span>
+    <span class='rubyid_sfs identifier id'>sfs</span> <span class='assign token'>=</span> <span class='rubyid_gather_agent_person_subfield_mappings identifier id'>gather_agent_person_subfield_mappings</span><span class='lparen token'>(</span><span class='rubyid_name identifier id'>name</span><span class='comma token'>,</span> <span class='rubyid_relator_sfs identifier id'>relator_sfs</span><span class='comma token'>,</span> <span class='rubyid_creator identifier id'>creator</span><span class='rparen token'>)</span>
 
   <span class='rubyid_when when kw'>when</span> <span class='string val'>&#39;agent_family&#39;</span>
     <span class='rubyid_code identifier id'>code</span> <span class='assign token'>=</span> <span class='string val'>&#39;100&#39;</span>
     <span class='rubyid_ind1 identifier id'>ind1</span> <span class='assign token'>=</span> <span class='string val'>&#39;3&#39;</span>
-    <span class='rubyid_sfs identifier id'>sfs</span> <span class='assign token'>=</span> <span class='rubyid_gather_agent_family_subfield_mappings identifier id'>gather_agent_family_subfield_mappings</span><span class='lparen token'>(</span><span class='rubyid_name identifier id'>name</span><span class='comma token'>,</span> <span class='rubyid_role_info identifier id'>role_info</span><span class='comma token'>,</span> <span class='rubyid_creator identifier id'>creator</span><span class='rparen token'>)</span>
+    <span class='rubyid_sfs identifier id'>sfs</span> <span class='assign token'>=</span> <span class='rubyid_gather_agent_family_subfield_mappings identifier id'>gather_agent_family_subfield_mappings</span><span class='lparen token'>(</span><span class='rubyid_name identifier id'>name</span><span class='comma token'>,</span> <span class='rubyid_relator_sfs identifier id'>relator_sfs</span><span class='comma token'>,</span> <span class='rubyid_creator identifier id'>creator</span><span class='rparen token'>)</span>
 
   <span class='rubyid_end end kw'>end</span>
 
   <span class='rubyid_df identifier id'>df</span><span class='lparen token'>(</span><span class='rubyid_code identifier id'>code</span><span class='comma token'>,</span> <span class='rubyid_ind1 identifier id'>ind1</span><span class='comma token'>,</span> <span class='rubyid_ind2 identifier id'>ind2</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_with_sfs identifier id'>with_sfs</span><span class='lparen token'>(</span><span class='mult op'>*</span><span class='rubyid_sfs identifier id'>sfs</span><span class='rparen token'>)</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="handle_relators-instance_method">
+  
+    #<strong>handle_relators</strong>(relator_sfs, link)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+475
+476
+477
+478
+479
+480
+481
+482
+483</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/marc21.rb', line 475</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_handle_relators identifier id'>handle_relators</span><span class='lparen token'>(</span><span class='rubyid_relator_sfs identifier id'>relator_sfs</span><span class='comma token'>,</span> <span class='rubyid_link identifier id'>link</span><span class='rparen token'>)</span>
+  <span class='rubyid_relator identifier id'>relator</span> <span class='assign token'>=</span> <span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='dstring node'>&quot;enumerations.linked_agent_archival_record_relators.#{link}&quot;</span><span class='rparen token'>)</span>
+  <span class='rubyid_relator_sfs identifier id'>relator_sfs</span> <span class='lshft op'>&lt;&lt;</span> <span class='lbrack token'>[</span><span class='string val'>&#39;4&#39;</span><span class='comma token'>,</span> <span class='rubyid_link identifier id'>link</span><span class='rbrack token'>]</span>
+  <span class='rubyid_unless unless kw'>unless</span> <span class='rubyid_relator identifier id'>relator</span><span class='dot token'>.</span><span class='rubyid_to_s identifier id'>to_s</span><span class='dot token'>.</span><span class='rubyid_include? fid id'>include?</span><span class='lparen token'>(</span><span class='string val'>&#39;translation missing&#39;</span><span class='rparen token'>)</span>
+    <span class='rubyid_relator_sfs identifier id'>relator_sfs</span> <span class='lshft op'>&lt;&lt;</span> <span class='lbrack token'>[</span><span class='string val'>&#39;e&#39;</span><span class='comma token'>,</span> <span class='rubyid_relator identifier id'>relator</span><span class='rbrack token'>]</span>
+  <span class='rubyid_end end kw'>end</span>
+
+  <span class='rubyid_return return kw'>return</span> <span class='rubyid_relator_sfs identifier id'>relator_sfs</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -2226,6 +2342,11 @@ this method is very similair to handle_primary_creator and handle_agents</p>
       <pre class="lines">
 
 
+254
+255
+256
+257
+258
 259
 260
 261
@@ -2249,15 +2370,10 @@ this method is very similair to handle_primary_creator and handle_agents</p>
 279
 280
 281
-282
-283
-284
-285
-286
-287</pre>
+282</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/marc21.rb', line 259</span>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/marc21.rb', line 254</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_handle_repo_code identifier id'>handle_repo_code</span><span class='lparen token'>(</span><span class='rubyid_repository identifier id'>repository</span><span class='comma token'>,</span> <span class='mult op'>*</span><span class='rubyid_finding_aid_language identifier id'>finding_aid_language</span><span class='rparen token'>)</span>
   <span class='rubyid_repo identifier id'>repo</span> <span class='assign token'>=</span> <span class='rubyid_repository identifier id'>repository</span><span class='lbrack token'>[</span><span class='string val'>&#39;_resolved&#39;</span><span class='rbrack token'>]</span>
@@ -2285,7 +2401,7 @@ this method is very similair to handle_primary_creator and handle_agents</p>
   <span class='rubyid_end end kw'>end</span>
 
   <span class='rubyid_df identifier id'>df</span><span class='lparen token'>(</span><span class='string val'>&#39;852&#39;</span><span class='comma token'>,</span> <span class='string val'>&#39; &#39;</span><span class='comma token'>,</span> <span class='string val'>&#39; &#39;</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_with_sfs identifier id'>with_sfs</span><span class='lparen token'>(</span><span class='mult op'>*</span><span class='rubyid_subfields_852 identifier id'>subfields_852</span><span class='rparen token'>)</span>
-  <span class='rubyid_df identifier id'>df</span><span class='lparen token'>(</span><span class='string val'>&#39;040&#39;</span><span class='comma token'>,</span> <span class='string val'>&#39; &#39;</span><span class='comma token'>,</span> <span class='string val'>&#39; &#39;</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_with_sfs identifier id'>with_sfs</span><span class='lparen token'>(</span><span class='lbrack token'>[</span><span class='string val'>&#39;a&#39;</span><span class='comma token'>,</span> <span class='rubyid_repo identifier id'>repo</span><span class='lbrack token'>[</span><span class='string val'>&#39;org_code&#39;</span><span class='rbrack token'>]</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='lbrack token'>[</span><span class='string val'>&#39;b&#39;</span><span class='comma token'>,</span> <span class='rubyid_finding_aid_language identifier id'>finding_aid_language</span><span class='lbrack token'>[</span><span class='integer val'>0</span><span class='rbrack token'>]</span><span class='rbrack token'>]</span><span class='comma token'>,</span><span class='lbrack token'>[</span><span class='string val'>&#39;c&#39;</span><span class='comma token'>,</span> <span class='rubyid_repo identifier id'>repo</span><span class='lbrack token'>[</span><span class='string val'>&#39;org_code&#39;</span><span class='rbrack token'>]</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
+  <span class='rubyid_df identifier id'>df</span><span class='lparen token'>(</span><span class='string val'>&#39;040&#39;</span><span class='comma token'>,</span> <span class='string val'>&#39; &#39;</span><span class='comma token'>,</span> <span class='string val'>&#39; &#39;</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_with_sfs identifier id'>with_sfs</span><span class='lparen token'>(</span><span class='lbrack token'>[</span><span class='string val'>&#39;a&#39;</span><span class='comma token'>,</span> <span class='rubyid_repo identifier id'>repo</span><span class='lbrack token'>[</span><span class='string val'>&#39;org_code&#39;</span><span class='rbrack token'>]</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='lbrack token'>[</span><span class='string val'>&#39;b&#39;</span><span class='comma token'>,</span> <span class='rubyid_finding_aid_language identifier id'>finding_aid_language</span><span class='lbrack token'>[</span><span class='integer val'>0</span><span class='rbrack token'>]</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='lbrack token'>[</span><span class='string val'>&#39;c&#39;</span><span class='comma token'>,</span> <span class='rubyid_repo identifier id'>repo</span><span class='lbrack token'>[</span><span class='string val'>&#39;org_code&#39;</span><span class='rbrack token'>]</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
   <span class='rubyid_df identifier id'>df</span><span class='lparen token'>(</span><span class='string val'>&#39;049&#39;</span><span class='comma token'>,</span> <span class='string val'>&#39; &#39;</span><span class='comma token'>,</span> <span class='string val'>&#39; &#39;</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_with_sfs identifier id'>with_sfs</span><span class='lparen token'>(</span><span class='lbrack token'>[</span><span class='string val'>&#39;a&#39;</span><span class='comma token'>,</span> <span class='rubyid_repo identifier id'>repo</span><span class='lbrack token'>[</span><span class='string val'>&#39;org_code&#39;</span><span class='rbrack token'>]</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
@@ -2309,6 +2425,11 @@ this method is very similair to handle_primary_creator and handle_agents</p>
       <pre class="lines">
 
 
+288
+289
+290
+291
+292
 293
 294
 295
@@ -2346,15 +2467,10 @@ this method is very similair to handle_primary_creator and handle_agents</p>
 327
 328
 329
-330
-331
-332
-333
-334
-335</pre>
+330</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/marc21.rb', line 293</span>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/marc21.rb', line 288</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_handle_subjects identifier id'>handle_subjects</span><span class='lparen token'>(</span><span class='rubyid_subjects identifier id'>subjects</span><span class='rparen token'>)</span>
   <span class='rubyid_subjects identifier id'>subjects</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_link identifier id'>link</span><span class='bitor op'>|</span>
@@ -2420,6 +2536,9 @@ this method is very similair to handle_primary_creator and handle_agents</p>
       <pre class="lines">
 
 
+174
+175
+176
 177
 178
 179
@@ -2449,16 +2568,13 @@ this method is very similair to handle_primary_creator and handle_agents</p>
 203
 204
 205
-206
-207
-208
-209</pre>
+206</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/marc21.rb', line 177</span>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/marc21.rb', line 174</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_handle_title identifier id'>handle_title</span><span class='lparen token'>(</span><span class='rubyid_title identifier id'>title</span><span class='comma token'>,</span> <span class='rubyid_linked_agents identifier id'>linked_agents</span><span class='comma token'>,</span> <span class='rubyid_dates identifier id'>dates</span><span class='rparen token'>)</span>
-  <span class='rubyid_creator identifier id'>creator</span> <span class='assign token'>=</span> <span class='rubyid_linked_agents identifier id'>linked_agents</span><span class='dot token'>.</span><span class='rubyid_find identifier id'>find</span><span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_a identifier id'>a</span><span class='bitor op'>|</span> <span class='rubyid_a identifier id'>a</span><span class='lbrack token'>[</span><span class='string val'>&#39;role&#39;</span><span class='rbrack token'>]</span> <span class='eq op'>==</span> <span class='string val'>&#39;creator&#39;</span><span class='rbrace token'>}</span>
+  <span class='rubyid_creator identifier id'>creator</span> <span class='assign token'>=</span> <span class='rubyid_linked_agents identifier id'>linked_agents</span><span class='dot token'>.</span><span class='rubyid_find identifier id'>find</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_a identifier id'>a</span><span class='bitor op'>|</span> <span class='rubyid_a identifier id'>a</span><span class='lbrack token'>[</span><span class='string val'>&#39;role&#39;</span><span class='rbrack token'>]</span> <span class='eq op'>==</span> <span class='string val'>&#39;creator&#39;</span><span class='rbrace token'>}</span>
   <span class='rubyid_date_codes identifier id'>date_codes</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
 
   <span class='comment val'># process dates first, if defined.</span>
@@ -2565,12 +2681,12 @@ this method is very similair to handle_primary_creator and handle_agents</p>
       <pre class="lines">
 
 
-289
-290
-291</pre>
+284
+285
+286</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/marc21.rb', line 289</span>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/marc21.rb', line 284</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_source_to_code identifier id'>source_to_code</span><span class='lparen token'>(</span><span class='rubyid_source identifier id'>source</span><span class='rparen token'>)</span>
   <span class='rubyid_ASpaceMappings constant id'>ASpaceMappings</span><span class='colon2 op'>::</span><span class='rubyid_MARC21 constant id'>MARC21</span><span class='dot token'>.</span><span class='rubyid_get_marc_source_code identifier id'>get_marc_source_code</span><span class='lparen token'>(</span><span class='rubyid_source identifier id'>source</span><span class='rparen token'>)</span>
@@ -2586,9 +2702,9 @@ this method is very similair to handle_primary_creator and handle_agents</p>
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.8.1.a Documentation Generated on Wed Nov 11 13:21:58 2020 by
+  ArchivesSpace Version X.Y.Z Documentation Generated on Tue Sep 21 14:09:53 2021 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.25.
+  0.9.26.
 </div>
 
     </div>

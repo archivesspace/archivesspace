@@ -6,7 +6,7 @@
 <title>
   Class: Log
   
-    &mdash; Documentation by YARD 0.9.25
+    &mdash; Documentation by YARD 0.9.26
   
 </title>
 
@@ -442,15 +442,15 @@ Frontend or PUI</p>
       <pre class="lines">
 
 
-39
-40
-41</pre>
+42
+43
+44</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/log.rb', line 39</span>
+      <pre class="code"><span class="info file"># File 'common/log.rb', line 42</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_backlog identifier id'>backlog</span>
-  <span class='rubyid_@@logger ivar id'>@@logger</span><span class='dot token'>.</span><span class='rubyid_backlog_and_flush identifier id'>backlog_and_flush</span> 
+  <span class='rubyid_@@logger ivar id'>@@logger</span><span class='dot token'>.</span><span class='rubyid_backlog_and_flush identifier id'>backlog_and_flush</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -500,10 +500,10 @@ Frontend or PUI</p>
       <pre class="lines">
 
 
-36</pre>
+39</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/log.rb', line 36</span>
+      <pre class="code"><span class="info file"># File 'common/log.rb', line 39</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_error identifier id'>error</span><span class='lparen token'>(</span><span class='rubyid_s identifier id'>s</span><span class='rparen token'>)</span> <span class='rubyid_@@logger ivar id'>@@logger</span><span class='dot token'>.</span><span class='rubyid_error identifier id'>error</span><span class='lparen token'>(</span><span class='rubyid_prepare identifier id'>prepare</span><span class='lparen token'>(</span><span class='rubyid_s identifier id'>s</span><span class='rparen token'>)</span><span class='rparen token'>)</span> <span class='rubyid_end end kw'>end</span>
 </pre>
@@ -560,9 +560,6 @@ Frontend or PUI</p>
       <pre class="lines">
 
 
-43
-44
-45
 46
 47
 48
@@ -574,10 +571,13 @@ Frontend or PUI</p>
 54
 55
 56
-57</pre>
+57
+58
+59
+60</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/log.rb', line 43</span>
+      <pre class="code"><span class="info file"># File 'common/log.rb', line 46</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_filter_passwords identifier id'>filter_passwords</span><span class='lparen token'>(</span><span class='rubyid_params identifier id'>params</span><span class='rparen token'>)</span>
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_params identifier id'>params</span><span class='dot token'>.</span><span class='rubyid_is_a? fid id'>is_a?</span> <span class='rubyid_String constant id'>String</span>
@@ -585,7 +585,7 @@ Frontend or PUI</p>
   <span class='rubyid_else else kw'>else</span>
     <span class='rubyid_params identifier id'>params</span> <span class='assign token'>=</span> <span class='rubyid_params identifier id'>params</span><span class='dot token'>.</span><span class='rubyid_clone identifier id'>clone</span>
 
-    <span class='lbrack token'>[</span><span class='string val'>&quot;password&quot;</span><span class='comma token'>,</span> <span class='symbol val'>:password</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span><span class='bitor op'>|</span><span class='rubyid_param identifier id'>param</span><span class='bitor op'>|</span>
+    <span class='lbrack token'>[</span><span class='string val'>&quot;password&quot;</span><span class='comma token'>,</span> <span class='symbol val'>:password</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_param identifier id'>param</span><span class='bitor op'>|</span>
       <span class='rubyid_if if kw'>if</span> <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='rubyid_param identifier id'>param</span><span class='rbrack token'>]</span>
         <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='rubyid_param identifier id'>param</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='string val'>&quot;[FILTERED]&quot;</span>
       <span class='rubyid_end end kw'>end</span>
@@ -615,10 +615,10 @@ Frontend or PUI</p>
       <pre class="lines">
 
 
-34</pre>
+35</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/log.rb', line 34</span>
+      <pre class="code"><span class="info file"># File 'common/log.rb', line 35</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_info identifier id'>info</span><span class='lparen token'>(</span><span class='rubyid_s identifier id'>s</span><span class='rparen token'>)</span> <span class='rubyid_@@logger ivar id'>@@logger</span><span class='dot token'>.</span><span class='rubyid_info identifier id'>info</span><span class='lparen token'>(</span><span class='rubyid_prepare identifier id'>prepare</span><span class='lparen token'>(</span><span class='rubyid_s identifier id'>s</span><span class='rparen token'>)</span><span class='rparen token'>)</span> <span class='rubyid_end end kw'>end</span>
 </pre>
@@ -649,8 +649,8 @@ Frontend or PUI</p>
     <td>
       <pre class="code"><span class="info file"># File 'common/log.rb', line 11</span>
 
-<span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_logger identifier id'>logger</span><span class='lparen token'>(</span><span class='rubyid_log identifier id'>log</span><span class='rparen token'>)</span> 
-  <span class='rubyid_@@logger ivar id'>@@logger</span> <span class='assign token'>=</span>  <span class='rubyid_ASpaceLogger constant id'>ASpaceLogger</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='rubyid_log identifier id'>log</span><span class='rparen token'>)</span>
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_logger identifier id'>logger</span><span class='lparen token'>(</span><span class='rubyid_log identifier id'>log</span><span class='rparen token'>)</span>
+  <span class='rubyid_@@logger ivar id'>@@logger</span> <span class='assign token'>=</span> <span class='rubyid_ASpaceLogger constant id'>ASpaceLogger</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='rubyid_log identifier id'>log</span><span class='rparen token'>)</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -768,10 +768,10 @@ Frontend or PUI</p>
       <pre class="lines">
 
 
-35</pre>
+37</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/log.rb', line 35</span>
+      <pre class="code"><span class="info file"># File 'common/log.rb', line 37</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_warn identifier id'>warn</span><span class='lparen token'>(</span><span class='rubyid_s identifier id'>s</span><span class='rparen token'>)</span> <span class='rubyid_@@logger ivar id'>@@logger</span><span class='dot token'>.</span><span class='rubyid_warn identifier id'>warn</span><span class='lparen token'>(</span><span class='rubyid_prepare identifier id'>prepare</span><span class='lparen token'>(</span><span class='rubyid_s identifier id'>s</span><span class='rparen token'>)</span><span class='rparen token'>)</span> <span class='rubyid_end end kw'>end</span>
 </pre>
@@ -785,9 +785,9 @@ Frontend or PUI</p>
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.8.1.a Documentation Generated on Wed Nov 11 13:22:20 2020 by
+  ArchivesSpace Version X.Y.Z Documentation Generated on Tue Sep 21 14:10:10 2021 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.25.
+  0.9.26.
 </div>
 
     </div>

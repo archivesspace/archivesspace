@@ -32,6 +32,8 @@ string (max length: 255)	authority_id
 
 array (JSONModel(:external_document) object)	external_documents
 
+array (JSONModel(:metadata_rights_declaration) object)	metadata_rights_declarations
+
 
 
 

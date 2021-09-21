@@ -6,7 +6,7 @@
 <title>
   Class: EACSerializer
   
-    &mdash; Documentation by YARD 0.9.25
+    &mdash; Documentation by YARD 0.9.26
   
 </title>
 
@@ -101,7 +101,17 @@
   
 </div>
 
+<h2>Overview</h2><div class="docstring">
+  <div class="discussion">
+    <p>frozen_string_literal: true</p>
 
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
 
 
 
@@ -121,7 +131,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#serialize-instance_method" title="#serialize (instance method)">#<strong>serialize</strong>(eac, opts = {})  &#x21d2; Object </a>
+      <a href="#serialize-instance_method" title="#serialize (instance method)">#<strong>serialize</strong>(eac, _opts = {})  &#x21d2; Object </a>
     
 
     
@@ -164,7 +174,7 @@
       <div class="method_details first">
   <h3 class="signature first" id="serialize-instance_method">
   
-    #<strong>serialize</strong>(eac, opts = {})  &#x21d2; <tt>Object</tt> 
+    #<strong>serialize</strong>(eac, _opts = {})  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -176,8 +186,6 @@
       <pre class="lines">
 
 
-4
-5
 6
 7
 8
@@ -186,15 +194,13 @@
 11</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/exporters/serializers/eac.rb', line 4</span>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/serializers/eac.rb', line 6</span>
 
-<span class='rubyid_def def kw'>def</span> <span class='rubyid_serialize identifier id'>serialize</span><span class='lparen token'>(</span><span class='rubyid_eac identifier id'>eac</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
-
-  <span class='rubyid_builder identifier id'>builder</span> <span class='assign token'>=</span> <span class='rubyid_Nokogiri constant id'>Nokogiri</span><span class='colon2 op'>::</span><span class='rubyid_XML constant id'>XML</span><span class='colon2 op'>::</span><span class='rubyid_Builder constant id'>Builder</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='symbol val'>:encoding</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;UTF-8&quot;</span><span class='rparen token'>)</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_xml identifier id'>xml</span><span class='bitor op'>|</span>
-    <span class='rubyid__eac identifier id'>_eac</span><span class='lparen token'>(</span><span class='rubyid_eac identifier id'>eac</span><span class='comma token'>,</span> <span class='rubyid_xml identifier id'>xml</span><span class='rparen token'>)</span>     
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_serialize identifier id'>serialize</span><span class='lparen token'>(</span><span class='rubyid_eac identifier id'>eac</span><span class='comma token'>,</span> <span class='rubyid__opts identifier id'>_opts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
+  <span class='rubyid_builder identifier id'>builder</span> <span class='assign token'>=</span> <span class='rubyid_Nokogiri constant id'>Nokogiri</span><span class='colon2 op'>::</span><span class='rubyid_XML constant id'>XML</span><span class='colon2 op'>::</span><span class='rubyid_Builder constant id'>Builder</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='label val'>encoding:</span> <span class='string val'>&#39;UTF-8&#39;</span><span class='rparen token'>)</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_xml identifier id'>xml</span><span class='bitor op'>|</span>
+    <span class='rubyid__eac identifier id'>_eac</span><span class='lparen token'>(</span><span class='rubyid_eac identifier id'>eac</span><span class='comma token'>,</span> <span class='rubyid_xml identifier id'>xml</span><span class='rparen token'>)</span>
   <span class='rubyid_end end kw'>end</span>
-  
-  <span class='rubyid_builder identifier id'>builder</span><span class='dot token'>.</span><span class='rubyid_to_xml identifier id'>to_xml</span>   
+  <span class='rubyid_builder identifier id'>builder</span><span class='dot token'>.</span><span class='rubyid_to_xml identifier id'>to_xml</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -207,9 +213,9 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.8.1.a Documentation Generated on Wed Nov 11 13:22:00 2020 by
+  ArchivesSpace Version X.Y.Z Documentation Generated on Tue Sep 21 14:09:54 2021 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.25.
+  0.9.26.
 </div>
 
     </div>

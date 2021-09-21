@@ -6,7 +6,7 @@
 <title>
   Class: BackgroundJobQueue
   
-    &mdash; Documentation by YARD 0.9.25
+    &mdash; Documentation by YARD 0.9.26
   
 </title>
 
@@ -308,7 +308,7 @@
   <span class='rubyid_rescue rescue kw'>rescue</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_e identifier id'>e</span>
     <span class='rubyid_Log constant id'>Log</span><span class='dot token'>.</span><span class='rubyid_error identifier id'>error</span><span class='lparen token'>(</span><span class='dstring node'>&quot;Error trying to cancel old jobs: #{e.class} #{$!} #{$@}&quot;</span><span class='rparen token'>)</span>
   <span class='rubyid_end end kw'>end</span>
-  
+
 
   <span class='rubyid_queue identifier id'>queue</span> <span class='assign token'>=</span> <span class='rubyid_BackgroundJobQueue constant id'>BackgroundJobQueue</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span>
   <span class='rubyid_queue identifier id'>queue</span><span class='dot token'>.</span><span class='rubyid_start_background_threads identifier id'>start_background_threads</span>
@@ -609,7 +609,7 @@
       <span class='comment val'># Mark the job as permanently canceled</span>
       <span class='rubyid_job identifier id'>job</span><span class='dot token'>.</span><span class='rubyid_finish! fid id'>finish!</span><span class='lparen token'>(</span><span class='symbol val'>:canceled</span><span class='rparen token'>)</span>
     <span class='rubyid_else else kw'>else</span>
-      <span class='rubyid_unless unless kw'>unless</span> <span class='rubyid_job identifier id'>job</span><span class='dot token'>.</span><span class='rubyid_success? fid id'>success?</span>
+      <span class='rubyid_if if kw'>if</span> <span class='rubyid_job identifier id'>job</span><span class='dot token'>.</span><span class='rubyid_running? fid id'>running?</span>
         <span class='comment val'># If the job didn&#39;t record success, mark it as finished ourselves.</span>
         <span class='comment val'># This isn&#39;t really a problem, but it does mean that the job status</span>
         <span class='comment val'># update is now happening in a separate DB transaction than the one</span>
@@ -734,9 +734,9 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.8.1.a Documentation Generated on Wed Nov 11 13:22:00 2020 by
+  ArchivesSpace Version X.Y.Z Documentation Generated on Tue Sep 21 14:09:54 2021 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.25.
+  0.9.26.
 </div>
 
     </div>

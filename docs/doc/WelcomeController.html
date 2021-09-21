@@ -6,7 +6,7 @@
 <title>
   Class: WelcomeController
   
-    &mdash; Documentation by YARD 0.9.25
+    &mdash; Documentation by YARD 0.9.26
   
 </title>
 
@@ -268,17 +268,15 @@
 12
 13
 14
-15
-16</pre>
+15</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'frontend/app/controllers/welcome_controller.rb', line 4</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_index identifier id'>index</span>
- 
   <span class='rubyid_info identifier id'>info</span> <span class='assign token'>=</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='colon2 op'>::</span><span class='rubyid_HTTP constant id'>HTTP</span><span class='colon2 op'>::</span><span class='rubyid_get_json identifier id'>get_json</span><span class='lparen token'>(</span><span class='string val'>&#39;/&#39;</span><span class='rparen token'>)</span>
-  <span class='rubyid_view_context identifier id'>view_context</span><span class='dot token'>.</span><span class='rubyid_database_warning identifier id'>database_warning</span><span class='lparen token'>(</span> <span class='rubyid_info identifier id'>info</span> <span class='rparen token'>)</span> 
-  
+  <span class='rubyid_view_context identifier id'>view_context</span><span class='dot token'>.</span><span class='rubyid_database_warning identifier id'>database_warning</span><span class='lparen token'>(</span> <span class='rubyid_info identifier id'>info</span> <span class='rparen token'>)</span>
+
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_session identifier id'>session</span><span class='lbrack token'>[</span><span class='symbol val'>:user</span><span class='rbrack token'>]</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_@repositories ivar id'>@repositories</span><span class='dot token'>.</span><span class='rubyid_length identifier id'>length</span> <span class='eqq op'>===</span> <span class='integer val'>0</span>
     <span class='rubyid_if if kw'>if</span> <span class='rubyid_user_can? fid id'>user_can?</span><span class='lparen token'>(</span><span class='string val'>&#39;create_repository&#39;</span><span class='rparen token'>)</span>
       <span class='rubyid_flash identifier id'>flash</span><span class='dot token'>.</span><span class='rubyid_now identifier id'>now</span><span class='lbrack token'>[</span><span class='symbol val'>:info</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='string val'>&quot;repository._frontend.messages.create_first_repository&quot;</span><span class='rparen token'>)</span>
@@ -320,7 +318,7 @@
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_show identifier id'>show</span>
   <span class='rubyid_@page_title ivar id'>@page_title</span> <span class='assign token'>=</span> <span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span> <span class='string val'>&#39;brand.welcome_page_title&#39;</span>
   <span class='rubyid_@search ivar id'>@search</span> <span class='assign token'>=</span> <span class='rubyid_Search constant id'>Search</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='rubyid_params identifier id'>params</span><span class='rparen token'>)</span>
-  <span class='rubyid_render identifier id'>render</span>  
+  <span class='rubyid_render identifier id'>render</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -333,9 +331,9 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.8.1.a Documentation Generated on Wed Nov 11 13:22:14 2020 by
+  ArchivesSpace Version X.Y.Z Documentation Generated on Tue Sep 21 14:10:06 2021 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.25.
+  0.9.26.
 </div>
 
     </div>

@@ -6,7 +6,7 @@
 <title>
   Exception: JSONModel::ValidationException
   
-    &mdash; Documentation by YARD 0.9.25
+    &mdash; Documentation by YARD 0.9.26
   
 </title>
 
@@ -359,20 +359,22 @@
       <pre class="lines">
 
 
-42
 43
 44
 45
 46
 47
-48</pre>
+48
+49
+50</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/jsonmodel.rb', line 42</span>
+      <pre class="code"><span class="info file"># File 'common/jsonmodel.rb', line 43</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_initialize identifier id'>initialize</span><span class='lparen token'>(</span><span class='rubyid_opts identifier id'>opts</span><span class='rparen token'>)</span>
   <span class='rubyid_@invalid_object ivar id'>@invalid_object</span> <span class='assign token'>=</span> <span class='rubyid_opts identifier id'>opts</span><span class='lbrack token'>[</span><span class='symbol val'>:invalid_object</span><span class='rbrack token'>]</span>
   <span class='rubyid_@errors ivar id'>@errors</span> <span class='assign token'>=</span> <span class='rubyid_opts identifier id'>opts</span><span class='lbrack token'>[</span><span class='symbol val'>:errors</span><span class='rbrack token'>]</span>
+  <span class='rubyid_@warnings ivar id'>@warnings</span> <span class='assign token'>=</span> <span class='rubyid_opts identifier id'>opts</span><span class='lbrack token'>[</span><span class='symbol val'>:warnings</span><span class='rbrack token'>]</span>
   <span class='rubyid_@import_context ivar id'>@import_context</span> <span class='assign token'>=</span> <span class='rubyid_opts identifier id'>opts</span><span class='lbrack token'>[</span><span class='symbol val'>:import_context</span><span class='rbrack token'>]</span>
   <span class='rubyid_@object_context ivar id'>@object_context</span> <span class='assign token'>=</span> <span class='rubyid_opts identifier id'>opts</span><span class='lbrack token'>[</span><span class='symbol val'>:object_context</span><span class='rbrack token'>]</span>
   <span class='rubyid_@attribute_types ivar id'>@attribute_types</span> <span class='assign token'>=</span> <span class='rubyid_opts identifier id'>opts</span><span class='lbrack token'>[</span><span class='symbol val'>:attribute_types</span><span class='rbrack token'>]</span>
@@ -415,12 +417,12 @@
       <pre class="lines">
 
 
-38
 39
-40</pre>
+40
+41</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/jsonmodel.rb', line 38</span>
+      <pre class="code"><span class="info file"># File 'common/jsonmodel.rb', line 39</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_attribute_types identifier id'>attribute_types</span>
   <span class='rubyid_@attribute_types ivar id'>@attribute_types</span>
@@ -458,12 +460,12 @@
       <pre class="lines">
 
 
-36
 37
-38</pre>
+38
+39</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/jsonmodel.rb', line 36</span>
+      <pre class="code"><span class="info file"># File 'common/jsonmodel.rb', line 37</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_errors identifier id'>errors</span>
   <span class='rubyid_@errors ivar id'>@errors</span>
@@ -501,12 +503,12 @@
       <pre class="lines">
 
 
-39
 40
-41</pre>
+41
+42</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/jsonmodel.rb', line 39</span>
+      <pre class="code"><span class="info file"># File 'common/jsonmodel.rb', line 40</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_import_context identifier id'>import_context</span>
   <span class='rubyid_@import_context ivar id'>@import_context</span>
@@ -544,12 +546,12 @@
       <pre class="lines">
 
 
-35
 36
-37</pre>
+37
+38</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/jsonmodel.rb', line 35</span>
+      <pre class="code"><span class="info file"># File 'common/jsonmodel.rb', line 36</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_invalid_object identifier id'>invalid_object</span>
   <span class='rubyid_@invalid_object ivar id'>@invalid_object</span>
@@ -587,12 +589,12 @@
       <pre class="lines">
 
 
-40
 41
-42</pre>
+42
+43</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/jsonmodel.rb', line 40</span>
+      <pre class="code"><span class="info file"># File 'common/jsonmodel.rb', line 41</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_object_context identifier id'>object_context</span>
   <span class='rubyid_@object_context ivar id'>@object_context</span>
@@ -630,12 +632,12 @@
       <pre class="lines">
 
 
-37
 38
-39</pre>
+39
+40</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/jsonmodel.rb', line 37</span>
+      <pre class="code"><span class="info file"># File 'common/jsonmodel.rb', line 38</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_warnings identifier id'>warnings</span>
   <span class='rubyid_@warnings ivar id'>@warnings</span>
@@ -668,21 +670,21 @@
       <pre class="lines">
 
 
-50
-51
 52
 53
 54
-55</pre>
+55
+56
+57</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/jsonmodel.rb', line 50</span>
+      <pre class="code"><span class="info file"># File 'common/jsonmodel.rb', line 52</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_to_s identifier id'>to_s</span>
-   <span class='rubyid_msg identifier id'>msg</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span> <span class='symbol val'>:errors</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_@errors ivar id'>@errors</span> <span class='rbrace token'>}</span> 
-   <span class='rubyid_msg identifier id'>msg</span><span class='lbrack token'>[</span><span class='symbol val'>:import_context</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_@import_context ivar id'>@import_context</span> <span class='rubyid_unless unless_mod kw'>unless</span> <span class='rubyid_@import_context ivar id'>@import_context</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span> 
-   <span class='rubyid_msg identifier id'>msg</span><span class='lbrack token'>[</span><span class='symbol val'>:object_context</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_@object_context ivar id'>@object_context</span> <span class='rubyid_unless unless_mod kw'>unless</span> <span class='rubyid_@object_context ivar id'>@object_context</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span> 
-   <span class='dstring node'>&quot;#&lt;:ValidationException: #{msg.inspect}&gt;&quot;</span>
+  <span class='rubyid_msg identifier id'>msg</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span> <span class='symbol val'>:errors</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_@errors ivar id'>@errors</span> <span class='rbrace token'>}</span>
+  <span class='rubyid_msg identifier id'>msg</span><span class='lbrack token'>[</span><span class='symbol val'>:import_context</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_@import_context ivar id'>@import_context</span> <span class='rubyid_unless unless_mod kw'>unless</span> <span class='rubyid_@import_context ivar id'>@import_context</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span>
+  <span class='rubyid_msg identifier id'>msg</span><span class='lbrack token'>[</span><span class='symbol val'>:object_context</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_@object_context ivar id'>@object_context</span> <span class='rubyid_unless unless_mod kw'>unless</span> <span class='rubyid_@object_context ivar id'>@object_context</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span>
+  <span class='dstring node'>&quot;#&lt;:ValidationException: #{msg.inspect}&gt;&quot;</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -695,9 +697,9 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.8.1.a Documentation Generated on Wed Nov 11 13:22:20 2020 by
+  ArchivesSpace Version X.Y.Z Documentation Generated on Tue Sep 21 14:10:10 2021 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.25.
+  0.9.26.
 </div>
 
     </div>

@@ -6,7 +6,7 @@
 <title>
   Class: DBAuth
   
-    &mdash; Documentation by YARD 0.9.25
+    &mdash; Documentation by YARD 0.9.26
   
 </title>
 
@@ -289,28 +289,28 @@
       <pre class="code"><span class="info file"># File 'backend/app/model/dbauth.rb', line 29</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_authenticate identifier id'>authenticate</span><span class='lparen token'>(</span><span class='rubyid_username identifier id'>username</span><span class='comma token'>,</span> <span class='rubyid_password identifier id'>password</span><span class='rparen token'>)</span>
-    <span class='rubyid_username identifier id'>username</span> <span class='assign token'>=</span> <span class='rubyid_username identifier id'>username</span><span class='dot token'>.</span><span class='rubyid_downcase identifier id'>downcase</span>
+  <span class='rubyid_username identifier id'>username</span> <span class='assign token'>=</span> <span class='rubyid_username identifier id'>username</span><span class='dot token'>.</span><span class='rubyid_downcase identifier id'>downcase</span>
 
-    <span class='rubyid_DB constant id'>DB</span><span class='dot token'>.</span><span class='rubyid_open identifier id'>open</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_db identifier id'>db</span><span class='bitor op'>|</span>
-      <span class='rubyid_pwhash identifier id'>pwhash</span> <span class='assign token'>=</span> <span class='rubyid_db identifier id'>db</span><span class='lbrack token'>[</span><span class='symbol val'>:auth_db</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_filter identifier id'>filter</span><span class='lparen token'>(</span><span class='symbol val'>:username</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_username identifier id'>username</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_get identifier id'>get</span><span class='lparen token'>(</span><span class='symbol val'>:pwhash</span><span class='rparen token'>)</span>
+  <span class='rubyid_DB constant id'>DB</span><span class='dot token'>.</span><span class='rubyid_open identifier id'>open</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_db identifier id'>db</span><span class='bitor op'>|</span>
+  <span class='rubyid_pwhash identifier id'>pwhash</span> <span class='assign token'>=</span> <span class='rubyid_db identifier id'>db</span><span class='lbrack token'>[</span><span class='symbol val'>:auth_db</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_filter identifier id'>filter</span><span class='lparen token'>(</span><span class='symbol val'>:username</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_username identifier id'>username</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_get identifier id'>get</span><span class='lparen token'>(</span><span class='symbol val'>:pwhash</span><span class='rparen token'>)</span>
 
-      <span class='rubyid_if if kw'>if</span> <span class='rubyid_pwhash identifier id'>pwhash</span> <span class='rubyid_and and kw'>and</span> <span class='lparen token'>(</span><span class='rubyid_Password constant id'>Password</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='rubyid_pwhash identifier id'>pwhash</span><span class='rparen token'>)</span> <span class='eq op'>==</span> <span class='rubyid_password identifier id'>password</span><span class='rparen token'>)</span>
-       <span class='rubyid_user identifier id'>user</span> <span class='assign token'>=</span> <span class='rubyid_User constant id'>User</span><span class='dot token'>.</span><span class='rubyid_find identifier id'>find</span><span class='lparen token'>(</span><span class='symbol val'>:username</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_username identifier id'>username</span><span class='rparen token'>)</span>
-       <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:user</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_from_hash identifier id'>from_hash</span><span class='lparen token'>(</span>
-        <span class='symbol val'>:username</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_username identifier id'>username</span><span class='comma token'>,</span>
-        <span class='symbol val'>:name</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_user identifier id'>user</span><span class='dot token'>.</span><span class='rubyid_name identifier id'>name</span><span class='comma token'>,</span>
-        <span class='symbol val'>:email</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_user identifier id'>user</span><span class='dot token'>.</span><span class='rubyid_email identifier id'>email</span><span class='comma token'>,</span>
-        <span class='symbol val'>:first_name</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_user identifier id'>user</span><span class='dot token'>.</span><span class='rubyid_first_name identifier id'>first_name</span><span class='comma token'>,</span>
-        <span class='symbol val'>:last_name</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_user identifier id'>user</span><span class='dot token'>.</span><span class='rubyid_last_name identifier id'>last_name</span><span class='comma token'>,</span>
-        <span class='symbol val'>:telephone</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_user identifier id'>user</span><span class='dot token'>.</span><span class='rubyid_telephone identifier id'>telephone</span><span class='comma token'>,</span>
-        <span class='symbol val'>:title</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_user identifier id'>user</span><span class='dot token'>.</span><span class='rubyid_title identifier id'>title</span><span class='comma token'>,</span>
-        <span class='symbol val'>:department</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_user identifier id'>user</span><span class='dot token'>.</span><span class='rubyid_department identifier id'>department</span><span class='comma token'>,</span>
-        <span class='symbol val'>:additional_contact</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_user identifier id'>user</span><span class='dot token'>.</span><span class='rubyid_additional_contact identifier id'>additional_contact</span>
-       <span class='rparen token'>)</span>
-    <span class='rubyid_else else kw'>else</span>
-      <span class='rubyid_nil nil kw'>nil</span>
-    <span class='rubyid_end end kw'>end</span>
+  <span class='rubyid_if if kw'>if</span> <span class='rubyid_pwhash identifier id'>pwhash</span> <span class='rubyid_and and kw'>and</span> <span class='lparen token'>(</span><span class='rubyid_Password constant id'>Password</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='rubyid_pwhash identifier id'>pwhash</span><span class='rparen token'>)</span> <span class='eq op'>==</span> <span class='rubyid_password identifier id'>password</span><span class='rparen token'>)</span>
+    <span class='rubyid_user identifier id'>user</span> <span class='assign token'>=</span> <span class='rubyid_User constant id'>User</span><span class='dot token'>.</span><span class='rubyid_find identifier id'>find</span><span class='lparen token'>(</span><span class='symbol val'>:username</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_username identifier id'>username</span><span class='rparen token'>)</span>
+    <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:user</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_from_hash identifier id'>from_hash</span><span class='lparen token'>(</span>
+     <span class='symbol val'>:username</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_username identifier id'>username</span><span class='comma token'>,</span>
+     <span class='symbol val'>:name</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_user identifier id'>user</span><span class='dot token'>.</span><span class='rubyid_name identifier id'>name</span><span class='comma token'>,</span>
+     <span class='symbol val'>:email</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_user identifier id'>user</span><span class='dot token'>.</span><span class='rubyid_email identifier id'>email</span><span class='comma token'>,</span>
+     <span class='symbol val'>:first_name</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_user identifier id'>user</span><span class='dot token'>.</span><span class='rubyid_first_name identifier id'>first_name</span><span class='comma token'>,</span>
+     <span class='symbol val'>:last_name</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_user identifier id'>user</span><span class='dot token'>.</span><span class='rubyid_last_name identifier id'>last_name</span><span class='comma token'>,</span>
+     <span class='symbol val'>:telephone</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_user identifier id'>user</span><span class='dot token'>.</span><span class='rubyid_telephone identifier id'>telephone</span><span class='comma token'>,</span>
+     <span class='symbol val'>:title</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_user identifier id'>user</span><span class='dot token'>.</span><span class='rubyid_title identifier id'>title</span><span class='comma token'>,</span>
+     <span class='symbol val'>:department</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_user identifier id'>user</span><span class='dot token'>.</span><span class='rubyid_department identifier id'>department</span><span class='comma token'>,</span>
+     <span class='symbol val'>:additional_contact</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_user identifier id'>user</span><span class='dot token'>.</span><span class='rubyid_additional_contact identifier id'>additional_contact</span>
+    <span class='rparen token'>)</span>
+  <span class='rubyid_else else kw'>else</span>
+    <span class='rubyid_nil nil kw'>nil</span>
   <span class='rubyid_end end kw'>end</span>
+<span class='rubyid_end end kw'>end</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -470,9 +470,9 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.8.1.a Documentation Generated on Wed Nov 11 13:21:42 2020 by
+  ArchivesSpace Version X.Y.Z Documentation Generated on Tue Sep 21 14:09:42 2021 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.25.
+  0.9.26.
 </div>
 
     </div>

@@ -6,7 +6,7 @@
 <title>
   Module: ComponentTransfer::ResponseHelpers
   
-    &mdash; Documentation by YARD 0.9.25
+    &mdash; Documentation by YARD 0.9.26
   
 </title>
 
@@ -155,19 +155,15 @@
 14
 15
 16
-17
-18
-19</pre>
+17</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'backend/app/lib/component_transfer.rb', line 12</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_component_transfer_response identifier id'>component_transfer_response</span><span class='lparen token'>(</span><span class='rubyid_resource_uri identifier id'>resource_uri</span><span class='comma token'>,</span> <span class='rubyid_archival_object_uri identifier id'>archival_object_uri</span><span class='rparen token'>)</span>
-
   <span class='rubyid_begin begin kw'>begin</span>
     <span class='lparen token'>(</span><span class='rubyid_ao identifier id'>ao</span><span class='comma token'>,</span> <span class='rubyid_event identifier id'>event</span><span class='rparen token'>)</span> <span class='assign token'>=</span> <span class='rubyid_ComponentTransfer constant id'>ComponentTransfer</span><span class='dot token'>.</span><span class='rubyid_transfer identifier id'>transfer</span><span class='lparen token'>(</span><span class='rubyid_resource_uri identifier id'>resource_uri</span><span class='comma token'>,</span> <span class='rubyid_archival_object_uri identifier id'>archival_object_uri</span><span class='rparen token'>)</span>
     <span class='rubyid_json_response identifier id'>json_response</span><span class='lparen token'>(</span><span class='lbrace token'>{</span><span class='symbol val'>:component</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_archival_object_uri identifier id'>archival_object_uri</span><span class='comma token'>,</span> <span class='symbol val'>:resource</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_resource_uri identifier id'>resource_uri</span><span class='comma token'>,</span> <span class='symbol val'>:event</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_event identifier id'>event</span><span class='dot token'>.</span><span class='rubyid_uri identifier id'>uri</span><span class='rbrace token'>}</span><span class='comma token'>,</span> <span class='integer val'>200</span><span class='rparen token'>)</span>
-
   <span class='rubyid_end end kw'>end</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
@@ -181,9 +177,9 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.8.1.a Documentation Generated on Wed Nov 11 13:21:25 2020 by
+  ArchivesSpace Version X.Y.Z Documentation Generated on Tue Sep 21 14:09:29 2021 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.25.
+  0.9.26.
 </div>
 
     </div>

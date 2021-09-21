@@ -6,7 +6,7 @@
 <title>
   Class: JobRunner
   
-    &mdash; Documentation by YARD 0.9.25
+    &mdash; Documentation by YARD 0.9.26
   
 </title>
 
@@ -101,7 +101,7 @@
 
 <div id="subclasses">
   <h2>Direct Known Subclasses</h2>
-  <p class="children"><span class='object_link'><a href="BatchImportRunner.html" title="BatchImportRunner (class)">BatchImportRunner</a></span>, <span class='object_link'><a href="BulkImportRunner.html" title="BulkImportRunner (class)">BulkImportRunner</a></span>, <span class='object_link'><a href="ContainerLabelsRunner.html" title="ContainerLabelsRunner (class)">ContainerLabelsRunner</a></span>, <span class='object_link'><a href="FindAndReplaceRunner.html" title="FindAndReplaceRunner (class)">FindAndReplaceRunner</a></span>, <span class='object_link'><a href="GenerateArksRunner.html" title="GenerateArksRunner (class)">GenerateArksRunner</a></span>, <span class='object_link'><a href="GenerateSlugsRunner.html" title="GenerateSlugsRunner (class)">GenerateSlugsRunner</a></span>, <span class='object_link'><a href="PrintToPDFRunner.html" title="PrintToPDFRunner (class)">PrintToPDFRunner</a></span>, <span class='object_link'><a href="ReportRunner.html" title="ReportRunner (class)">ReportRunner</a></span>, <span class='object_link'><a href="TrimWhitespaceRunner.html" title="TrimWhitespaceRunner (class)">TrimWhitespaceRunner</a></span></p>
+  <p class="children"><span class='object_link'><a href="BatchImportRunner.html" title="BatchImportRunner (class)">BatchImportRunner</a></span>, <span class='object_link'><a href="BulkImportRunner.html" title="BulkImportRunner (class)">BulkImportRunner</a></span>, <span class='object_link'><a href="ContainerLabelsRunner.html" title="ContainerLabelsRunner (class)">ContainerLabelsRunner</a></span>, <span class='object_link'><a href="FindAndReplaceRunner.html" title="FindAndReplaceRunner (class)">FindAndReplaceRunner</a></span>, <span class='object_link'><a href="GenerateArksRunner.html" title="GenerateArksRunner (class)">GenerateArksRunner</a></span>, <span class='object_link'><a href="GenerateSlugsRunner.html" title="GenerateSlugsRunner (class)">GenerateSlugsRunner</a></span>, <span class='object_link'><a href="PrintToPDFRunner.html" title="PrintToPDFRunner (class)">PrintToPDFRunner</a></span>, <span class='object_link'><a href="ReportRunner.html" title="ReportRunner (class)">ReportRunner</a></span>, <span class='object_link'><a href="TopContainerLinkerRunner.html" title="TopContainerLinkerRunner (class)">TopContainerLinkerRunner</a></span>, <span class='object_link'><a href="TrimWhitespaceRunner.html" title="TrimWhitespaceRunner (class)">TrimWhitespaceRunner</a></span></p>
 </div>
 
 <h2>Defined Under Namespace</h2>
@@ -330,6 +330,29 @@
         <li class="public ">
   <span class="summary_signature">
     
+      <a href="#parse_job_params_string-instance_method" title="#parse_job_params_string (instance method)">#<strong>parse_job_params_string</strong>(job_params)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
       <a href="#run-instance_method" title="#run (instance method)">#<strong>run</strong>  &#x21d2; Object </a>
     
 
@@ -354,6 +377,29 @@
   <span class="summary_signature">
     
       <a href="#success!-instance_method" title="#success! (instance method)">#<strong>success!</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#symbol_keys-instance_method" title="#symbol_keys (instance method)">#<strong>symbol_keys</strong>(hash)  &#x21d2; Object </a>
     
 
     
@@ -404,15 +450,15 @@
       <pre class="lines">
 
 
-93
 94
 95
 96
 97
-98</pre>
+98
+99</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/job_runner.rb', line 93</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/job_runner.rb', line 94</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_initialize identifier id'>initialize</span><span class='lparen token'>(</span><span class='rubyid_job identifier id'>job</span><span class='rparen token'>)</span>
   <span class='rubyid_@job ivar id'>@job</span> <span class='assign token'>=</span> <span class='rubyid_job identifier id'>job</span>
@@ -448,18 +494,18 @@
       <pre class="lines">
 
 
-71
-72
 73
 74
 75
 76
 77
 78
-79</pre>
+79
+80
+81</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/job_runner.rb', line 71</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/job_runner.rb', line 73</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_for identifier id'>for</span><span class='lparen token'>(</span><span class='rubyid_job identifier id'>job</span><span class='rparen token'>)</span>
   <span class='rubyid_type identifier id'>type</span> <span class='assign token'>=</span> <span class='rubyid_ASUtils constant id'>ASUtils</span><span class='dot token'>.</span><span class='rubyid_json_parse identifier id'>json_parse</span><span class='lparen token'>(</span><span class='rubyid_job identifier id'>job</span><span class='lbrack token'>[</span><span class='symbol val'>:job_blob</span><span class='rbrack token'>]</span><span class='rparen token'>)</span><span class='lbrack token'>[</span><span class='string val'>&#39;jsonmodel_type&#39;</span><span class='rbrack token'>]</span>
@@ -491,8 +537,6 @@
       <pre class="lines">
 
 
-55
-56
 57
 58
 59
@@ -504,10 +548,12 @@
 65
 66
 67
-68</pre>
+68
+69
+70</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/job_runner.rb', line 55</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/job_runner.rb', line 57</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_register_for_job_type identifier id'>register_for_job_type</span><span class='lparen token'>(</span><span class='rubyid_type identifier id'>type</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
   <span class='rubyid_@@runners ivar id'>@@runners</span> <span class='opasgn op'>||=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span>
@@ -544,16 +590,16 @@
       <pre class="lines">
 
 
-87
-88
 89
-90</pre>
+90
+91
+92</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/job_runner.rb', line 87</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/job_runner.rb', line 89</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_registered_job_types identifier id'>registered_job_types</span>
-  <span class='rubyid_Hash constant id'>Hash</span><span class='lbrack token'>[</span> <span class='rubyid_@@runners ivar id'>@@runners</span><span class='dot token'>.</span><span class='rubyid_reject identifier id'>reject</span><span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_k identifier id'>k</span><span class='comma token'>,</span><span class='rubyid_v identifier id'>v</span><span class='bitor op'>|</span> <span class='rubyid_v identifier id'>v</span><span class='lbrack token'>[</span><span class='symbol val'>:hidden</span><span class='rbrack token'>]</span> <span class='rbrace token'>}</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span> <span class='lbrace token'>{</span> <span class='bitor op'>|</span><span class='rubyid_k identifier id'>k</span><span class='comma token'>,</span> <span class='rubyid_v identifier id'>v</span><span class='bitor op'>|</span> <span class='lbrack token'>[</span><span class='rubyid_k identifier id'>k</span><span class='comma token'>,</span> <span class='lbrace token'>{</span><span class='symbol val'>:create_permissions</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_v identifier id'>v</span><span class='dot token'>.</span><span class='rubyid_create_permissions identifier id'>create_permissions</span><span class='comma token'>,</span>
+  <span class='rubyid_Hash constant id'>Hash</span><span class='lbrack token'>[</span> <span class='rubyid_@@runners ivar id'>@@runners</span><span class='dot token'>.</span><span class='rubyid_reject identifier id'>reject</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_k identifier id'>k</span><span class='comma token'>,</span> <span class='rubyid_v identifier id'>v</span><span class='bitor op'>|</span> <span class='rubyid_v identifier id'>v</span><span class='lbrack token'>[</span><span class='symbol val'>:hidden</span><span class='rbrack token'>]</span> <span class='rbrace token'>}</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span> <span class='lbrace token'>{</span> <span class='bitor op'>|</span><span class='rubyid_k identifier id'>k</span><span class='comma token'>,</span> <span class='rubyid_v identifier id'>v</span><span class='bitor op'>|</span> <span class='lbrack token'>[</span><span class='rubyid_k identifier id'>k</span><span class='comma token'>,</span> <span class='lbrace token'>{</span><span class='symbol val'>:create_permissions</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_v identifier id'>v</span><span class='dot token'>.</span><span class='rubyid_create_permissions identifier id'>create_permissions</span><span class='comma token'>,</span>
                                                               <span class='symbol val'>:cancel_permissions</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_v identifier id'>v</span><span class='dot token'>.</span><span class='rubyid_cancel_permissions identifier id'>cancel_permissions</span><span class='rbrace token'>}</span><span class='rbrack token'>]</span> <span class='rbrace token'>}</span> <span class='rbrack token'>]</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
@@ -577,12 +623,12 @@
       <pre class="lines">
 
 
-82
-83
-84</pre>
+84
+85
+86</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/job_runner.rb', line 82</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/job_runner.rb', line 84</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_registered_runner_for identifier id'>registered_runner_for</span><span class='lparen token'>(</span><span class='rubyid_type identifier id'>type</span><span class='rparen token'>)</span>
   <span class='rubyid_@@runners ivar id'>@@runners</span><span class='dot token'>.</span><span class='rubyid_fetch identifier id'>fetch</span><span class='lparen token'>(</span><span class='rubyid_type identifier id'>type</span><span class='rparen token'>)</span> <span class='lbrace token'>{</span> <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_NotFoundException constant id'>NotFoundException</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='dstring node'>&quot;No runner found for #{type}&quot;</span><span class='rparen token'>)</span> <span class='rbrace token'>}</span>
@@ -614,13 +660,13 @@
       <pre class="lines">
 
 
-101
 102
 103
-104</pre>
+104
+105</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/job_runner.rb', line 101</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/job_runner.rb', line 102</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_add_success_hook identifier id'>add_success_hook</span><span class='lparen token'>(</span><span class='bitand op'>&amp;</span><span class='rubyid_block identifier id'>block</span><span class='rparen token'>)</span>
   <span class='rubyid_@success_hooks ivar id'>@success_hooks</span> <span class='opasgn op'>||=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
@@ -701,15 +747,52 @@
       <pre class="lines">
 
 
-114
 115
-116</pre>
+116
+117</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/job_runner.rb', line 114</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/job_runner.rb', line 115</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_canceled? fid id'>canceled?</span>
   <span class='rubyid_@job_canceled ivar id'>@job_canceled</span><span class='dot token'>.</span><span class='rubyid_value identifier id'>value</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="parse_job_params_string-instance_method">
+  
+    #<strong>parse_job_params_string</strong>(job_params)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+123
+124
+125
+126
+127
+128</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/job_runner.rb', line 123</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_parse_job_params_string identifier id'>parse_job_params_string</span><span class='lparen token'>(</span><span class='rubyid_job_params identifier id'>job_params</span><span class='rparen token'>)</span>
+  <span class='rubyid_param_string identifier id'>param_string</span> <span class='assign token'>=</span> <span class='rubyid_job_params identifier id'>job_params</span><span class='lbrack token'>[</span><span class='float val'>1</span><span class='dot2 op'>..</span><span class='integer val'>-2</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_delete identifier id'>delete</span><span class='lparen token'>(</span><span class='string val'>&#39;\\\\&#39;</span><span class='rparen token'>)</span>
+  <span class='rubyid_params identifier id'>params</span> <span class='assign token'>=</span> <span class='rubyid_ASUtils constant id'>ASUtils</span><span class='dot token'>.</span><span class='rubyid_json_parse identifier id'>json_parse</span><span class='lparen token'>(</span><span class='rubyid_param_string identifier id'>param_string</span><span class='rparen token'>)</span>
+  <span class='rubyid_params identifier id'>params</span> <span class='assign token'>=</span> <span class='rubyid_symbol_keys identifier id'>symbol_keys</span><span class='lparen token'>(</span><span class='rubyid_params identifier id'>params</span><span class='rparen token'>)</span>
+  <span class='rubyid_params identifier id'>params</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -757,12 +840,12 @@
       <pre class="lines">
 
 
-47
-48
-49</pre>
+49
+50
+51</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/job_runner.rb', line 47</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/job_runner.rb', line 49</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_run identifier id'>run</span>
   <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_JobRunnerError constant id'>JobRunnerError</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='dstring node'>&quot;#{self.class} must implement the #run method&quot;</span><span class='rparen token'>)</span>
@@ -788,14 +871,14 @@
       <pre class="lines">
 
 
-107
 108
 109
 110
-111</pre>
+111
+112</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/job_runner.rb', line 107</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/job_runner.rb', line 108</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_success! fid id'>success!</span>
   <span class='rubyid_Array constant id'>Array</span><span class='lparen token'>(</span><span class='rubyid_@success_hooks ivar id'>@success_hooks</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_hook identifier id'>hook</span><span class='bitor op'>|</span>
@@ -808,14 +891,63 @@
 </table>
 </div>
     
+      <div class="method_details ">
+  <h3 class="signature " id="symbol_keys-instance_method">
+  
+    #<strong>symbol_keys</strong>(hash)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/job_runner.rb', line 130</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_symbol_keys identifier id'>symbol_keys</span><span class='lparen token'>(</span><span class='rubyid_hash identifier id'>hash</span><span class='rparen token'>)</span>
+  <span class='rubyid_h identifier id'>h</span> <span class='assign token'>=</span> <span class='rubyid_hash identifier id'>hash</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_k identifier id'>k</span><span class='comma token'>,</span> <span class='rubyid_v identifier id'>v</span><span class='bitor op'>|</span>
+    <span class='rubyid_v_sym identifier id'>v_sym</span> <span class='assign token'>=</span> <span class='rubyid_if if kw'>if</span> <span class='rubyid_v identifier id'>v</span><span class='dot token'>.</span><span class='rubyid_instance_of? fid id'>instance_of?</span> <span class='rubyid_Hash constant id'>Hash</span>
+              <span class='rubyid_v identifier id'>v</span> <span class='assign token'>=</span> <span class='rubyid_symbol_keys identifier id'>symbol_keys</span><span class='lparen token'>(</span><span class='rubyid_v identifier id'>v</span><span class='rparen token'>)</span>
+            <span class='rubyid_else else kw'>else</span>
+              <span class='rubyid_v identifier id'>v</span>
+            <span class='rubyid_end end kw'>end</span>
+
+    <span class='lbrack token'>[</span><span class='rubyid_k identifier id'>k</span><span class='dot token'>.</span><span class='rubyid_to_sym identifier id'>to_sym</span><span class='comma token'>,</span> <span class='rubyid_v_sym identifier id'>v_sym</span><span class='rbrack token'>]</span>
+  <span class='rubyid_end end kw'>end</span>
+  <span class='rubyid_Hash constant id'>Hash</span><span class='lbrack token'>[</span><span class='rubyid_h identifier id'>h</span><span class='rbrack token'>]</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
   </div>
 
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.8.1.a Documentation Generated on Wed Nov 11 13:21:45 2020 by
+  ArchivesSpace Version X.Y.Z Documentation Generated on Tue Sep 21 14:09:44 2021 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.25.
+  0.9.26.
 </div>
 
     </div>

@@ -6,7 +6,7 @@
 <title>
   Module: AutoGenerator::ClassMethods
   
-    &mdash; Documentation by YARD 0.9.25
+    &mdash; Documentation by YARD 0.9.26
   
 </title>
 
@@ -200,7 +200,7 @@
       <pre class="code"><span class="info file"># File 'backend/app/model/mixins/auto_generator.rb', line 47</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_auto_generate identifier id'>auto_generate</span><span class='lparen token'>(</span><span class='rubyid_opts identifier id'>opts</span><span class='rparen token'>)</span>
-  <span class='rubyid_properties_to_auto_generate identifier id'>properties_to_auto_generate</span><span class='dot token'>.</span><span class='rubyid_delete_if identifier id'>delete_if</span><span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_generate_opts identifier id'>generate_opts</span><span class='bitor op'>|</span> <span class='rubyid_generate_opts identifier id'>generate_opts</span><span class='lbrack token'>[</span><span class='symbol val'>:property</span><span class='rbrack token'>]</span> <span class='eq op'>==</span> <span class='rubyid_opts identifier id'>opts</span><span class='lbrack token'>[</span><span class='symbol val'>:property</span><span class='rbrack token'>]</span> <span class='rbrace token'>}</span>
+  <span class='rubyid_properties_to_auto_generate identifier id'>properties_to_auto_generate</span><span class='dot token'>.</span><span class='rubyid_delete_if identifier id'>delete_if</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_generate_opts identifier id'>generate_opts</span><span class='bitor op'>|</span> <span class='rubyid_generate_opts identifier id'>generate_opts</span><span class='lbrack token'>[</span><span class='symbol val'>:property</span><span class='rbrack token'>]</span> <span class='eq op'>==</span> <span class='rubyid_opts identifier id'>opts</span><span class='lbrack token'>[</span><span class='symbol val'>:property</span><span class='rbrack token'>]</span> <span class='rbrace token'>}</span>
   <span class='rubyid_properties_to_auto_generate identifier id'>properties_to_auto_generate</span><span class='dot token'>.</span><span class='rubyid_push identifier id'>push</span><span class='lparen token'>(</span><span class='rubyid_opts identifier id'>opts</span><span class='rparen token'>)</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
@@ -306,9 +306,9 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.8.1.a Documentation Generated on Wed Nov 11 13:21:29 2020 by
+  ArchivesSpace Version X.Y.Z Documentation Generated on Tue Sep 21 14:09:32 2021 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.25.
+  0.9.26.
 </div>
 
     </div>

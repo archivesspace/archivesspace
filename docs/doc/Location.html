@@ -6,7 +6,7 @@
 <title>
   Class: Location
   
-    &mdash; Documentation by YARD 0.9.25
+    &mdash; Documentation by YARD 0.9.26
   
 </title>
 
@@ -637,7 +637,7 @@
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_create_for_batch identifier id'>create_for_batch</span><span class='lparen token'>(</span><span class='rubyid_batch identifier id'>batch</span><span class='rparen token'>)</span>
   <span class='rubyid_locations identifier id'>locations</span> <span class='assign token'>=</span> <span class='rubyid_generate_locations_for_batch identifier id'>generate_locations_for_batch</span><span class='lparen token'>(</span><span class='rubyid_batch identifier id'>batch</span><span class='rparen token'>)</span>
-  <span class='rubyid_locations identifier id'>locations</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span><span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_location identifier id'>location</span><span class='bitor op'>|</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_create_from_json identifier id'>create_from_json</span><span class='lparen token'>(</span><span class='rubyid_location identifier id'>location</span><span class='rparen token'>)</span><span class='rbrace token'>}</span>
+  <span class='rubyid_locations identifier id'>locations</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_location identifier id'>location</span><span class='bitor op'>|</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_create_from_json identifier id'>create_from_json</span><span class='lparen token'>(</span><span class='rubyid_location identifier id'>location</span><span class='rparen token'>)</span><span class='rbrace token'>}</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -748,7 +748,7 @@
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_generate_indicators identifier id'>generate_indicators</span><span class='lparen token'>(</span><span class='rubyid_opts identifier id'>opts</span><span class='rparen token'>)</span>
   <span class='rubyid_range identifier id'>range</span> <span class='assign token'>=</span> <span class='lparen token'>(</span><span class='rubyid_opts identifier id'>opts</span><span class='lbrack token'>[</span><span class='string val'>&quot;start&quot;</span><span class='rbrack token'>]</span><span class='dot2 op'>..</span><span class='rubyid_opts identifier id'>opts</span><span class='lbrack token'>[</span><span class='string val'>&quot;end&quot;</span><span class='rbrack token'>]</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_take identifier id'>take</span><span class='lparen token'>(</span><span class='rubyid_AppConfig constant id'>AppConfig</span><span class='lbrack token'>[</span><span class='symbol val'>:max_location_range</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_to_i identifier id'>to_i</span><span class='rparen token'>)</span>
-  <span class='rubyid_range identifier id'>range</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span><span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_i identifier id'>i</span><span class='bitor op'>|</span> <span class='dstring node'>&quot;#{opts[&quot;prefix&quot;]}#{i}#{opts[&quot;suffix&quot;]}&quot;</span><span class='rbrace token'>}</span>
+  <span class='rubyid_range identifier id'>range</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_i identifier id'>i</span><span class='bitor op'>|</span> <span class='dstring node'>&quot;#{opts[&quot;prefix&quot;]}#{i}#{opts[&quot;suffix&quot;]}&quot;</span><span class='rbrace token'>}</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -812,9 +812,9 @@
       <pre class="code"><span class="info file"># File 'backend/app/model/location.rb', line 100</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_generate_locations_for_batch identifier id'>generate_locations_for_batch</span><span class='lparen token'>(</span><span class='rubyid_batch identifier id'>batch</span><span class='rparen token'>)</span>
-  <span class='rubyid_indicators_1 identifier id'>indicators_1</span><span class='comma token'>,</span> <span class='rubyid_indicators_2 identifier id'>indicators_2</span><span class='comma token'>,</span> <span class='rubyid_indicators_3 identifier id'>indicators_3</span>  <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rubyid_batch identifier id'>batch</span><span class='lbrack token'>[</span><span class='string val'>&quot;coordinate_1_range&quot;</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='rubyid_batch identifier id'>batch</span><span class='lbrack token'>[</span><span class='string val'>&quot;coordinate_2_range&quot;</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='rubyid_batch identifier id'>batch</span><span class='lbrack token'>[</span><span class='string val'>&quot;coordinate_3_range&quot;</span><span class='rbrack token'>]</span><span class='rbrack token'>]</span><span class='dot token'>.</span>
+  <span class='rubyid_indicators_1 identifier id'>indicators_1</span><span class='comma token'>,</span> <span class='rubyid_indicators_2 identifier id'>indicators_2</span><span class='comma token'>,</span> <span class='rubyid_indicators_3 identifier id'>indicators_3</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rubyid_batch identifier id'>batch</span><span class='lbrack token'>[</span><span class='string val'>&quot;coordinate_1_range&quot;</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='rubyid_batch identifier id'>batch</span><span class='lbrack token'>[</span><span class='string val'>&quot;coordinate_2_range&quot;</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='rubyid_batch identifier id'>batch</span><span class='lbrack token'>[</span><span class='string val'>&quot;coordinate_3_range&quot;</span><span class='rbrack token'>]</span><span class='rbrack token'>]</span><span class='dot token'>.</span>
                                                 <span class='rubyid_compact identifier id'>compact</span><span class='dot token'>.</span>
-                                                <span class='rubyid_map identifier id'>map</span><span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_data identifier id'>data</span><span class='bitor op'>|</span> <span class='rubyid_generate_indicators identifier id'>generate_indicators</span><span class='lparen token'>(</span><span class='rubyid_data identifier id'>data</span><span class='rparen token'>)</span><span class='rbrace token'>}</span>
+                                                <span class='rubyid_map identifier id'>map</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_data identifier id'>data</span><span class='bitor op'>|</span> <span class='rubyid_generate_indicators identifier id'>generate_indicators</span><span class='lparen token'>(</span><span class='rubyid_data identifier id'>data</span><span class='rparen token'>)</span><span class='rbrace token'>}</span>
 
   <span class='rubyid_source_location identifier id'>source_location</span> <span class='assign token'>=</span> <span class='rubyid_batch identifier id'>batch</span><span class='dot token'>.</span><span class='rubyid_clone identifier id'>clone</span>
 
@@ -941,7 +941,7 @@
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_titles_for_batch identifier id'>titles_for_batch</span><span class='lparen token'>(</span><span class='rubyid_batch identifier id'>batch</span><span class='rparen token'>)</span>
   <span class='rubyid_locations identifier id'>locations</span> <span class='assign token'>=</span> <span class='rubyid_generate_locations_for_batch identifier id'>generate_locations_for_batch</span><span class='lparen token'>(</span><span class='rubyid_batch identifier id'>batch</span><span class='rparen token'>)</span>
-  <span class='rubyid_locations identifier id'>locations</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span><span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_location identifier id'>location</span><span class='bitor op'>|</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_generate_title identifier id'>generate_title</span><span class='lparen token'>(</span><span class='rubyid_location identifier id'>location</span><span class='rparen token'>)</span><span class='rbrace token'>}</span>
+  <span class='rubyid_locations identifier id'>locations</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_location identifier id'>location</span><span class='bitor op'>|</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_generate_title identifier id'>generate_title</span><span class='lparen token'>(</span><span class='rubyid_location identifier id'>location</span><span class='rparen token'>)</span><span class='rbrace token'>}</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -1116,9 +1116,9 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.8.1.a Documentation Generated on Wed Nov 11 13:21:45 2020 by
+  ArchivesSpace Version X.Y.Z Documentation Generated on Tue Sep 21 14:09:44 2021 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.25.
+  0.9.26.
 </div>
 
     </div>

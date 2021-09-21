@@ -6,7 +6,7 @@
 <title>
   Exception: TransferConstraintError
   
-    &mdash; Documentation by YARD 0.9.25
+    &mdash; Documentation by YARD 0.9.26
   
 </title>
 
@@ -340,13 +340,23 @@
 
 61
 62
-63</pre>
+63
+64
+65
+66
+67
+68</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'backend/app/lib/exceptions.rb', line 61</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_add_conflict identifier id'>add_conflict</span><span class='lparen token'>(</span><span class='rubyid_uri identifier id'>uri</span><span class='comma token'>,</span> <span class='rubyid_property identifier id'>property</span><span class='rparen token'>)</span>
-  <span class='rubyid_@conflicts ivar id'>@conflicts</span><span class='lbrack token'>[</span><span class='rubyid_uri identifier id'>uri</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_property identifier id'>property</span>
+  <span class='rubyid_if if kw'>if</span> <span class='rubyid_property identifier id'>property</span><span class='dot token'>.</span><span class='rubyid_is_a? fid id'>is_a?</span> <span class='rubyid_Hash constant id'>Hash</span>
+    <span class='rubyid_@conflicts ivar id'>@conflicts</span><span class='lbrack token'>[</span><span class='rubyid_uri identifier id'>uri</span><span class='rbrack token'>]</span> <span class='opasgn op'>||=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
+    <span class='rubyid_@conflicts ivar id'>@conflicts</span><span class='lbrack token'>[</span><span class='rubyid_uri identifier id'>uri</span><span class='rbrack token'>]</span> <span class='lshft op'>&lt;&lt;</span> <span class='rubyid_property identifier id'>property</span>
+  <span class='rubyid_else else kw'>else</span>
+    <span class='rubyid_@conflicts ivar id'>@conflicts</span><span class='lbrack token'>[</span><span class='rubyid_uri identifier id'>uri</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_property identifier id'>property</span>
+  <span class='rubyid_end end kw'>end</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -369,12 +379,12 @@
       <pre class="lines">
 
 
-65
-66
-67</pre>
+70
+71
+72</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/exceptions.rb', line 65</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/exceptions.rb', line 70</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_to_s identifier id'>to_s</span>
   <span class='dstring node'>&quot;#&lt;#{self.class}: #{@conflicts.inspect}&gt;&quot;</span>
@@ -390,9 +400,9 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.8.1.a Documentation Generated on Wed Nov 11 13:21:44 2020 by
+  ArchivesSpace Version X.Y.Z Documentation Generated on Tue Sep 21 14:09:43 2021 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.25.
+  0.9.26.
 </div>
 
     </div>

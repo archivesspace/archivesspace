@@ -6,7 +6,7 @@
 <title>
   Class: BatchImportRunner
   
-    &mdash; Documentation by YARD 0.9.25
+    &mdash; Documentation by YARD 0.9.26
   
 </title>
 
@@ -154,7 +154,7 @@
   
   
   <h3 class="inherited">Methods inherited from <span class='object_link'><a href="JobRunner.html" title="JobRunner (class)">JobRunner</a></span></h3>
-  <p class="inherited"><span class='object_link'><a href="JobRunner.html#add_success_hook-instance_method" title="JobRunner#add_success_hook (method)">#add_success_hook</a></span>, <span class='object_link'><a href="JobRunner.html#cancelation_signaler-instance_method" title="JobRunner#cancelation_signaler (method)">#cancelation_signaler</a></span>, <span class='object_link'><a href="JobRunner.html#canceled%3F-instance_method" title="JobRunner#canceled? (method)">#canceled?</a></span>, <span class='object_link'><a href="JobRunner.html#for-class_method" title="JobRunner.for (method)">for</a></span>, <span class='object_link'><a href="JobRunner.html#initialize-instance_method" title="JobRunner#initialize (method)">#initialize</a></span>, <span class='object_link'><a href="JobRunner.html#register_for_job_type-class_method" title="JobRunner.register_for_job_type (method)">register_for_job_type</a></span>, <span class='object_link'><a href="JobRunner.html#registered_job_types-class_method" title="JobRunner.registered_job_types (method)">registered_job_types</a></span>, <span class='object_link'><a href="JobRunner.html#registered_runner_for-class_method" title="JobRunner.registered_runner_for (method)">registered_runner_for</a></span>, <span class='object_link'><a href="JobRunner.html#success!-instance_method" title="JobRunner#success! (method)">#success!</a></span></p>
+  <p class="inherited"><span class='object_link'><a href="JobRunner.html#add_success_hook-instance_method" title="JobRunner#add_success_hook (method)">#add_success_hook</a></span>, <span class='object_link'><a href="JobRunner.html#cancelation_signaler-instance_method" title="JobRunner#cancelation_signaler (method)">#cancelation_signaler</a></span>, <span class='object_link'><a href="JobRunner.html#canceled%3F-instance_method" title="JobRunner#canceled? (method)">#canceled?</a></span>, <span class='object_link'><a href="JobRunner.html#for-class_method" title="JobRunner.for (method)">for</a></span>, <span class='object_link'><a href="JobRunner.html#initialize-instance_method" title="JobRunner#initialize (method)">#initialize</a></span>, <span class='object_link'><a href="JobRunner.html#parse_job_params_string-instance_method" title="JobRunner#parse_job_params_string (method)">#parse_job_params_string</a></span>, <span class='object_link'><a href="JobRunner.html#register_for_job_type-class_method" title="JobRunner.register_for_job_type (method)">register_for_job_type</a></span>, <span class='object_link'><a href="JobRunner.html#registered_job_types-class_method" title="JobRunner.registered_job_types (method)">registered_job_types</a></span>, <span class='object_link'><a href="JobRunner.html#registered_runner_for-class_method" title="JobRunner.registered_runner_for (method)">registered_runner_for</a></span>, <span class='object_link'><a href="JobRunner.html#success!-instance_method" title="JobRunner#success! (method)">#success!</a></span>, <span class='object_link'><a href="JobRunner.html#symbol_keys-instance_method" title="JobRunner#symbol_keys (method)">#symbol_keys</a></span></p>
 <div id="constructor_details" class="method_details_list">
   <h2>Constructor Details</h2>
   
@@ -292,7 +292,30 @@
 127
 128
 129
-130</pre>
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'backend/app/lib/job_runners/batch_import_runner.rb', line 20</span>
@@ -305,6 +328,7 @@
   <span class='rubyid_success identifier id'>success</span> <span class='assign token'>=</span> <span class='rubyid_false false kw'>false</span>
 
   <span class='rubyid_filenames identifier id'>filenames</span> <span class='assign token'>=</span> <span class='rubyid_@json ivar id'>@json</span><span class='dot token'>.</span><span class='rubyid_job identifier id'>job</span><span class='lbrack token'>[</span><span class='string val'>&#39;filenames&#39;</span><span class='rbrack token'>]</span> <span class='orop op'>||</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
+  <span class='rubyid_import_maint_events identifier id'>import_maint_events</span> <span class='assign token'>=</span> <span class='rubyid_@json ivar id'>@json</span><span class='dot token'>.</span><span class='rubyid_job identifier id'>job</span><span class='lbrack token'>[</span><span class='string val'>&quot;import_events&quot;</span><span class='rbrack token'>]</span> <span class='orop op'>||</span> <span class='rubyid_false false kw'>false</span>
 
   <span class='comment val'># Wrap the import in a transaction if the DB supports MVCC</span>
   <span class='rubyid_begin begin kw'>begin</span>
@@ -314,7 +338,7 @@
       <span class='rubyid_begin begin kw'>begin</span>
         <span class='rubyid_@job ivar id'>@job</span><span class='dot token'>.</span><span class='rubyid_job_files identifier id'>job_files</span><span class='dot token'>.</span><span class='rubyid_each_with_index identifier id'>each_with_index</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_input_file identifier id'>input_file</span><span class='comma token'>,</span> <span class='rubyid_i identifier id'>i</span><span class='bitor op'>|</span>
           <span class='rubyid_ticker identifier id'>ticker</span><span class='dot token'>.</span><span class='rubyid_log identifier id'>log</span><span class='lparen token'>(</span><span class='lparen token'>(</span><span class='string val'>&quot;=&quot;</span> <span class='mult op'>*</span> <span class='integer val'>50</span><span class='rparen token'>)</span> <span class='plus op'>+</span> <span class='dstring node'>&quot;\n#{filenames[i]}\n&quot;</span> <span class='plus op'>+</span> <span class='lparen token'>(</span><span class='string val'>&quot;=&quot;</span> <span class='mult op'>*</span> <span class='integer val'>50</span><span class='rparen token'>)</span><span class='rparen token'>)</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_filenames identifier id'>filenames</span><span class='lbrack token'>[</span><span class='rubyid_i identifier id'>i</span><span class='rbrack token'>]</span>
-          <span class='rubyid_converter identifier id'>converter</span> <span class='assign token'>=</span> <span class='rubyid_Converter constant id'>Converter</span><span class='dot token'>.</span><span class='rubyid_for identifier id'>for</span><span class='lparen token'>(</span><span class='rubyid_@json ivar id'>@json</span><span class='dot token'>.</span><span class='rubyid_job identifier id'>job</span><span class='lbrack token'>[</span><span class='string val'>&#39;import_type&#39;</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='rubyid_input_file identifier id'>input_file</span><span class='dot token'>.</span><span class='rubyid_full_file_path identifier id'>full_file_path</span><span class='rparen token'>)</span>
+          <span class='rubyid_converter identifier id'>converter</span> <span class='assign token'>=</span> <span class='rubyid_Converter constant id'>Converter</span><span class='dot token'>.</span><span class='rubyid_for identifier id'>for</span><span class='lparen token'>(</span><span class='rubyid_@json ivar id'>@json</span><span class='dot token'>.</span><span class='rubyid_job identifier id'>job</span><span class='lbrack token'>[</span><span class='string val'>&#39;import_type&#39;</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='rubyid_input_file identifier id'>input_file</span><span class='dot token'>.</span><span class='rubyid_full_file_path identifier id'>full_file_path</span><span class='comma token'>,</span> <span class='lbrace token'>{</span><span class='symbol val'>:import_events</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_import_maint_events identifier id'>import_maint_events</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
           <span class='rubyid_begin begin kw'>begin</span>
             <span class='rubyid_RequestContext constant id'>RequestContext</span><span class='dot token'>.</span><span class='rubyid_open identifier id'>open</span><span class='lparen token'>(</span><span class='symbol val'>:create_enums</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_true true kw'>true</span><span class='comma token'>,</span>
                                 <span class='symbol val'>:current_username</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_@job ivar id'>@job</span><span class='dot token'>.</span><span class='rubyid_owner identifier id'>owner</span><span class='dot token'>.</span><span class='rubyid_username identifier id'>username</span><span class='comma token'>,</span>
@@ -367,44 +391,66 @@
       <span class='rubyid_end end kw'>end</span>
     <span class='rubyid_end end kw'>end</span>
   <span class='rubyid_rescue rescue kw'>rescue</span>
-    <span class='rubyid_last_error identifier id'>last_error</span> <span class='assign token'>=</span> <span class='rubyid_$! gvar id'>$!</span>
+    <span class='comment val'># If we get to here, last_error will generally not have been set yet.  The</span>
+    <span class='comment val'># conditional set is here to deal with code that does something like this:</span>
+    <span class='comment val'>#</span>
+    <span class='comment val'>#  DB.open do                 # Start a transaction (1)</span>
+    <span class='comment val'>#    BatchImportRunner#run    # Run this import process, which does another DB.open (2)</span>
+    <span class='comment val'>#    &lt;run some other updates&gt;</span>
+    <span class='comment val'>#  end</span>
+    <span class='comment val'>#</span>
+    <span class='comment val'># The intention is to run the import and some related updates in a single</span>
+    <span class='comment val'># transaction, but the result is surprising: if the BatchImportRunner</span>
+    <span class='comment val'># fails for some reason, everything gets rolled back and the only error</span>
+    <span class='comment val'># logged is a Sequel::Rollback.</span>
+    <span class='comment val'>#</span>
+    <span class='comment val'># What&#39;s happening here is that DB.open (2) actually didn&#39;t establish a</span>
+    <span class='comment val'># new transaction (since it was already running in a transaction) and, as</span>
+    <span class='comment val'># a result, Sequel didn&#39;t set up the begin/rescue block needed to catch</span>
+    <span class='comment val'># Sequel::Rollback.  So the rollback exception keeps bubbling up until</span>
+    <span class='comment val'># it&#39;s caught by the block you&#39;re currently reading.  When this happens,</span>
+    <span class='comment val'># last_error contains the real cause of the strife, and Sequel::Rollback</span>
+    <span class='comment val'># should be ignored.</span>
+
+    <span class='rubyid_last_error identifier id'>last_error</span> <span class='opasgn op'>||=</span> <span class='rubyid_$! gvar id'>$!</span>
   <span class='rubyid_end end kw'>end</span>
 
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_last_error identifier id'>last_error</span>
-   
-    <span class='rubyid_ticker identifier id'>ticker</span><span class='dot token'>.</span><span class='rubyid_log identifier id'>log</span><span class='lparen token'>(</span><span class='string val'>&quot;\n\n&quot;</span> <span class='rparen token'>)</span> 
-    <span class='rubyid_ticker identifier id'>ticker</span><span class='dot token'>.</span><span class='rubyid_log identifier id'>log</span><span class='lparen token'>(</span> <span class='string val'>&quot;!&quot;</span> <span class='mult op'>*</span> <span class='integer val'>50</span> <span class='rparen token'>)</span> 
-    <span class='rubyid_ticker identifier id'>ticker</span><span class='dot token'>.</span><span class='rubyid_log identifier id'>log</span><span class='lparen token'>(</span> <span class='string val'>&quot;IMPORT ERROR&quot;</span> <span class='rparen token'>)</span> 
-    <span class='rubyid_ticker identifier id'>ticker</span><span class='dot token'>.</span><span class='rubyid_log identifier id'>log</span><span class='lparen token'>(</span> <span class='string val'>&quot;!&quot;</span> <span class='mult op'>*</span> <span class='integer val'>50</span> <span class='rparen token'>)</span> 
-    <span class='rubyid_ticker identifier id'>ticker</span><span class='dot token'>.</span><span class='rubyid_log identifier id'>log</span><span class='lparen token'>(</span><span class='string val'>&quot;\n\n&quot;</span> <span class='rparen token'>)</span> 
-    
-    <span class='rubyid_if if kw'>if</span>  <span class='rubyid_last_error identifier id'>last_error</span><span class='dot token'>.</span><span class='rubyid_respond_to? fid id'>respond_to?</span><span class='lparen token'>(</span><span class='symbol val'>:errors</span><span class='rparen token'>)</span>
-   
+
+    <span class='rubyid_ticker identifier id'>ticker</span><span class='dot token'>.</span><span class='rubyid_log identifier id'>log</span><span class='lparen token'>(</span><span class='string val'>&quot;\n\n&quot;</span> <span class='rparen token'>)</span>
+    <span class='rubyid_ticker identifier id'>ticker</span><span class='dot token'>.</span><span class='rubyid_log identifier id'>log</span><span class='lparen token'>(</span> <span class='string val'>&quot;!&quot;</span> <span class='mult op'>*</span> <span class='integer val'>50</span> <span class='rparen token'>)</span>
+    <span class='rubyid_ticker identifier id'>ticker</span><span class='dot token'>.</span><span class='rubyid_log identifier id'>log</span><span class='lparen token'>(</span> <span class='string val'>&quot;IMPORT ERROR&quot;</span> <span class='rparen token'>)</span>
+    <span class='rubyid_ticker identifier id'>ticker</span><span class='dot token'>.</span><span class='rubyid_log identifier id'>log</span><span class='lparen token'>(</span> <span class='string val'>&quot;!&quot;</span> <span class='mult op'>*</span> <span class='integer val'>50</span> <span class='rparen token'>)</span>
+    <span class='rubyid_ticker identifier id'>ticker</span><span class='dot token'>.</span><span class='rubyid_log identifier id'>log</span><span class='lparen token'>(</span><span class='string val'>&quot;\n\n&quot;</span> <span class='rparen token'>)</span>
+
+    <span class='rubyid_if if kw'>if</span> <span class='rubyid_last_error identifier id'>last_error</span><span class='dot token'>.</span><span class='rubyid_respond_to? fid id'>respond_to?</span><span class='lparen token'>(</span><span class='symbol val'>:errors</span><span class='rparen token'>)</span>
+
       <span class='rubyid_ticker identifier id'>ticker</span><span class='dot token'>.</span><span class='rubyid_log identifier id'>log</span><span class='lparen token'>(</span><span class='dstring node'>&quot;#{last_error}&quot;</span><span class='rparen token'>)</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_last_error identifier id'>last_error</span><span class='dot token'>.</span><span class='rubyid_errors identifier id'>errors</span><span class='dot token'>.</span><span class='rubyid_empty? fid id'>empty?</span> <span class='comment val'># just spit it out if there&#39;s not explicit errors</span>
-      
-      <span class='rubyid_ticker identifier id'>ticker</span><span class='dot token'>.</span><span class='rubyid_log identifier id'>log</span><span class='lparen token'>(</span><span class='string val'>&quot;The following errors were found:\n&quot;</span><span class='rparen token'>)</span> 
-      
-      <span class='rubyid_last_error identifier id'>last_error</span><span class='dot token'>.</span><span class='rubyid_errors identifier id'>errors</span><span class='dot token'>.</span><span class='rubyid_each_pair identifier id'>each_pair</span> <span class='lbrace token'>{</span> <span class='bitor op'>|</span><span class='rubyid_k identifier id'>k</span><span class='comma token'>,</span><span class='rubyid_v identifier id'>v</span><span class='bitor op'>|</span> <span class='rubyid_ticker identifier id'>ticker</span><span class='dot token'>.</span><span class='rubyid_log identifier id'>log</span><span class='lparen token'>(</span><span class='dstring node'>&quot;\t#{k.to_s} : #{v.join(&#39; -- &#39;)}&quot;</span> <span class='rparen token'>)</span> <span class='rbrace token'>}</span>
-      
-      <span class='rubyid_if if kw'>if</span> <span class='rubyid_last_error identifier id'>last_error</span><span class='dot token'>.</span><span class='rubyid_is_a? fid id'>is_a?</span><span class='lparen token'>(</span><span class='rubyid_Sequel constant id'>Sequel</span><span class='colon2 op'>::</span><span class='rubyid_ValidationFailed constant id'>ValidationFailed</span><span class='rparen token'>)</span> 
-        <span class='rubyid_ticker identifier id'>ticker</span><span class='dot token'>.</span><span class='rubyid_log identifier id'>log</span><span class='lparen token'>(</span><span class='string val'>&quot;\n&quot;</span> <span class='rparen token'>)</span> 
-        <span class='rubyid_ticker identifier id'>ticker</span><span class='dot token'>.</span><span class='rubyid_log identifier id'>log</span><span class='lparen token'>(</span><span class='string val'>&quot;%&quot;</span> <span class='mult op'>*</span> <span class='integer val'>50</span> <span class='rparen token'>)</span> 
-        <span class='rubyid_ticker identifier id'>ticker</span><span class='dot token'>.</span><span class='rubyid_log identifier id'>log</span><span class='lparen token'>(</span><span class='dstring node'>&quot;\n Full Error Message:\n #{last_error.to_s}\n\n&quot;</span><span class='rparen token'>)</span> 
-      <span class='rubyid_end end kw'>end</span> 
-      
-      <span class='rubyid_if if kw'>if</span> <span class='lparen token'>(</span> <span class='rubyid_last_error identifier id'>last_error</span><span class='dot token'>.</span><span class='rubyid_respond_to? fid id'>respond_to?</span><span class='lparen token'>(</span><span class='symbol val'>:invalid_object</span><span class='rparen token'>)</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_last_error identifier id'>last_error</span><span class='dot token'>.</span><span class='rubyid_invalid_object identifier id'>invalid_object</span> <span class='rparen token'>)</span> 
-        <span class='rubyid_ticker identifier id'>ticker</span><span class='dot token'>.</span><span class='rubyid_log identifier id'>log</span><span class='lparen token'>(</span><span class='dstring node'>&quot;\n\n For #{ last_error.invalid_object.class }: \n #{ last_error.invalid_object.inspect  }&quot;</span><span class='rparen token'>)</span>  
-      <span class='rubyid_end end kw'>end</span> 
-      
+
+      <span class='rubyid_ticker identifier id'>ticker</span><span class='dot token'>.</span><span class='rubyid_log identifier id'>log</span><span class='lparen token'>(</span><span class='string val'>&quot;The following errors were found:\n&quot;</span><span class='rparen token'>)</span>
+
+      <span class='rubyid_last_error identifier id'>last_error</span><span class='dot token'>.</span><span class='rubyid_errors identifier id'>errors</span><span class='dot token'>.</span><span class='rubyid_each_pair identifier id'>each_pair</span> <span class='lbrace token'>{</span> <span class='bitor op'>|</span><span class='rubyid_k identifier id'>k</span><span class='comma token'>,</span> <span class='rubyid_v identifier id'>v</span><span class='bitor op'>|</span> <span class='rubyid_ticker identifier id'>ticker</span><span class='dot token'>.</span><span class='rubyid_log identifier id'>log</span><span class='lparen token'>(</span><span class='dstring node'>&quot;\t#{k.to_s} : #{v.join(&#39; -- &#39;)}&quot;</span> <span class='rparen token'>)</span> <span class='rbrace token'>}</span>
+
+      <span class='rubyid_if if kw'>if</span> <span class='rubyid_last_error identifier id'>last_error</span><span class='dot token'>.</span><span class='rubyid_is_a? fid id'>is_a?</span><span class='lparen token'>(</span><span class='rubyid_Sequel constant id'>Sequel</span><span class='colon2 op'>::</span><span class='rubyid_ValidationFailed constant id'>ValidationFailed</span><span class='rparen token'>)</span>
+        <span class='rubyid_ticker identifier id'>ticker</span><span class='dot token'>.</span><span class='rubyid_log identifier id'>log</span><span class='lparen token'>(</span><span class='string val'>&quot;\n&quot;</span> <span class='rparen token'>)</span>
+        <span class='rubyid_ticker identifier id'>ticker</span><span class='dot token'>.</span><span class='rubyid_log identifier id'>log</span><span class='lparen token'>(</span><span class='string val'>&quot;%&quot;</span> <span class='mult op'>*</span> <span class='integer val'>50</span> <span class='rparen token'>)</span>
+        <span class='rubyid_ticker identifier id'>ticker</span><span class='dot token'>.</span><span class='rubyid_log identifier id'>log</span><span class='lparen token'>(</span><span class='dstring node'>&quot;\n Full Error Message:\n #{last_error.to_s}\n\n&quot;</span><span class='rparen token'>)</span>
+      <span class='rubyid_end end kw'>end</span>
+
+      <span class='rubyid_if if kw'>if</span> <span class='lparen token'>(</span> <span class='rubyid_last_error identifier id'>last_error</span><span class='dot token'>.</span><span class='rubyid_respond_to? fid id'>respond_to?</span><span class='lparen token'>(</span><span class='symbol val'>:invalid_object</span><span class='rparen token'>)</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_last_error identifier id'>last_error</span><span class='dot token'>.</span><span class='rubyid_invalid_object identifier id'>invalid_object</span> <span class='rparen token'>)</span>
+        <span class='rubyid_ticker identifier id'>ticker</span><span class='dot token'>.</span><span class='rubyid_log identifier id'>log</span><span class='lparen token'>(</span><span class='dstring node'>&quot;\n\n For #{ last_error.invalid_object.class }: \n #{ last_error.invalid_object.inspect }&quot;</span><span class='rparen token'>)</span>
+      <span class='rubyid_end end kw'>end</span>
+
       <span class='rubyid_if if kw'>if</span> <span class='lparen token'>(</span> <span class='rubyid_last_error identifier id'>last_error</span><span class='dot token'>.</span><span class='rubyid_respond_to? fid id'>respond_to?</span><span class='lparen token'>(</span><span class='symbol val'>:import_context</span><span class='rparen token'>)</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_last_error identifier id'>last_error</span><span class='dot token'>.</span><span class='rubyid_import_context identifier id'>import_context</span> <span class='rparen token'>)</span>
         <span class='rubyid_ticker identifier id'>ticker</span><span class='dot token'>.</span><span class='rubyid_log identifier id'>log</span><span class='lparen token'>(</span><span class='dstring node'>&quot;\n\nIn : \n #{ CGI.escapeHTML( last_error.import_context ) } &quot;</span><span class='rparen token'>)</span>
-        <span class='rubyid_ticker identifier id'>ticker</span><span class='dot token'>.</span><span class='rubyid_log identifier id'>log</span><span class='lparen token'>(</span><span class='string val'>&quot;\n\n&quot;</span><span class='rparen token'>)</span> 
-      <span class='rubyid_end end kw'>end</span> 
+        <span class='rubyid_ticker identifier id'>ticker</span><span class='dot token'>.</span><span class='rubyid_log identifier id'>log</span><span class='lparen token'>(</span><span class='string val'>&quot;\n\n&quot;</span><span class='rparen token'>)</span>
+      <span class='rubyid_end end kw'>end</span>
     <span class='rubyid_else else kw'>else</span>
-      <span class='rubyid_ticker identifier id'>ticker</span><span class='dot token'>.</span><span class='rubyid_log identifier id'>log</span><span class='lparen token'>(</span><span class='dstring node'>&quot;Error: #{CGI.escapeHTML(  last_error.inspect )}&quot;</span><span class='rparen token'>)</span>
+      <span class='rubyid_ticker identifier id'>ticker</span><span class='dot token'>.</span><span class='rubyid_log identifier id'>log</span><span class='lparen token'>(</span><span class='string val'>&quot;Trace:&quot;</span> <span class='plus op'>+</span> <span class='rubyid_last_error identifier id'>last_error</span><span class='dot token'>.</span><span class='rubyid_backtrace identifier id'>backtrace</span><span class='dot token'>.</span><span class='rubyid_inspect identifier id'>inspect</span><span class='rparen token'>)</span>
+      <span class='rubyid_ticker identifier id'>ticker</span><span class='dot token'>.</span><span class='rubyid_log identifier id'>log</span><span class='lparen token'>(</span><span class='dstring node'>&quot;Errors: #{CGI.escapeHTML( last_error.inspect )}&quot;</span><span class='rparen token'>)</span>
       <span class='rubyid_Log constant id'>Log</span><span class='dot token'>.</span><span class='rubyid_exception identifier id'>exception</span><span class='lparen token'>(</span><span class='rubyid_last_error identifier id'>last_error</span><span class='rparen token'>)</span>
     <span class='rubyid_end end kw'>end</span>
-    <span class='rubyid_ticker identifier id'>ticker</span><span class='dot token'>.</span><span class='rubyid_log identifier id'>log</span><span class='lparen token'>(</span><span class='string val'>&quot;!&quot;</span> <span class='mult op'>*</span> <span class='integer val'>50</span> <span class='rparen token'>)</span> 
+    <span class='rubyid_ticker identifier id'>ticker</span><span class='dot token'>.</span><span class='rubyid_log identifier id'>log</span><span class='lparen token'>(</span><span class='string val'>&quot;!&quot;</span> <span class='mult op'>*</span> <span class='integer val'>50</span> <span class='rparen token'>)</span>
     <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_last_error identifier id'>last_error</span>
   <span class='rubyid_end end kw'>end</span>
 <span class='rubyid_end end kw'>end</span>
@@ -419,9 +465,9 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.8.1.a Documentation Generated on Wed Nov 11 13:22:09 2020 by
+  ArchivesSpace Version X.Y.Z Documentation Generated on Tue Sep 21 14:10:01 2021 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.25.
+  0.9.26.
 </div>
 
     </div>

@@ -18,6 +18,8 @@ boolean	restrictions
 
 object	tree
 
+array (Object (ref, _resolved))	classifications
+
 array ([{"type"=>"JSONModel(:note_bibliography) object"}, {"type"=>"JSONModel(:note_digital_object) object"}])	notes
 
 JSONModel(:collection_management) object	collection_management
@@ -25,6 +27,8 @@ JSONModel(:collection_management) object	collection_management
 JSONModel(:user_defined) object	user_defined
 
 array (Object (ref, _resolved))	linked_instances
+
+array (JSONModel(:metadata_rights_declaration) object)	metadata_rights_declarations
 
 
 

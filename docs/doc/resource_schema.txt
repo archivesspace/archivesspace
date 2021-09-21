@@ -86,6 +86,8 @@ JSONModel(:file_version) object	representative_image
 
 JSONModel(:ark_name) object	ark_name
 
+array (JSONModel(:metadata_rights_declaration) object)	metadata_rights_declarations
+
 
 
 

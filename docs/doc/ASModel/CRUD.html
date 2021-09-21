@@ -6,7 +6,7 @@
 <title>
   Module: ASModel::CRUD
   
-    &mdash; Documentation by YARD 0.9.25
+    &mdash; Documentation by YARD 0.9.26
   
 </title>
 
@@ -656,14 +656,12 @@ subrecords with the main record.</p>
 150
 151
 152
-153
-154</pre>
+153</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'backend/app/model/ASModel_crud.rb', line 60</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_apply_nested_records identifier id'>apply_nested_records</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='comma token'>,</span> <span class='rubyid_new_record identifier id'>new_record</span> <span class='assign token'>=</span> <span class='rubyid_false false kw'>false</span><span class='rparen token'>)</span>
-
   <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_remove_nested_records identifier id'>remove_nested_records</span> <span class='rubyid_if if_mod kw'>if</span> <span class='notop op'>!</span><span class='rubyid_new_record identifier id'>new_record</span>
 
   <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_nested_records identifier id'>nested_records</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_nested_record identifier id'>nested_record</span><span class='bitor op'>|</span>
@@ -696,9 +694,9 @@ subrecords with the main record.</p>
       <span class='rubyid_begin begin kw'>begin</span>
         <span class='rubyid_needs_linking identifier id'>needs_linking</span> <span class='assign token'>=</span> <span class='rubyid_true true kw'>true</span>
 
-        <span class='rubyid_if if kw'>if</span> <span class='rubyid_json_or_uri identifier id'>json_or_uri</span><span class='dot token'>.</span><span class='rubyid_kind_of? fid id'>kind_of?</span> <span class='rubyid_String constant id'>String</span>
+        <span class='rubyid_if if kw'>if</span> <span class='rubyid_json_or_uri identifier id'>json_or_uri</span><span class='dot token'>.</span><span class='rubyid_is_a? fid id'>is_a?</span> <span class='rubyid_String constant id'>String</span>
           <span class='comment val'># A URI.  Just grab its database ID and look it up.</span>
-                  <span class='rubyid_db_record identifier id'>db_record</span> <span class='assign token'>=</span> <span class='rubyid_model identifier id'>model</span><span class='lbrack token'>[</span><span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='rubyid_nested_record identifier id'>nested_record</span><span class='lbrack token'>[</span><span class='symbol val'>:jsonmodel</span><span class='rbrack token'>]</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_id_for identifier id'>id_for</span><span class='lparen token'>(</span><span class='rubyid_json_or_uri identifier id'>json_or_uri</span><span class='rparen token'>)</span><span class='rbrack token'>]</span>
+          <span class='rubyid_db_record identifier id'>db_record</span> <span class='assign token'>=</span> <span class='rubyid_model identifier id'>model</span><span class='lbrack token'>[</span><span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='rubyid_nested_record identifier id'>nested_record</span><span class='lbrack token'>[</span><span class='symbol val'>:jsonmodel</span><span class='rbrack token'>]</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_id_for identifier id'>id_for</span><span class='lparen token'>(</span><span class='rubyid_json_or_uri identifier id'>json_or_uri</span><span class='rparen token'>)</span><span class='rbrack token'>]</span>
           <span class='rubyid_updated_records identifier id'>updated_records</span> <span class='lshft op'>&lt;&lt;</span> <span class='rubyid_json_or_uri identifier id'>json_or_uri</span>
         <span class='rubyid_else else kw'>else</span>
           <span class='comment val'># Create a database record for the JSON blob and return its ID</span>
@@ -778,18 +776,18 @@ subrecords with the main record.</p>
       <pre class="lines">
 
 
+329
+330
+331
 332
 333
 334
 335
 336
-337
-338
-339
-340</pre>
+337</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/ASModel_crud.rb', line 332</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/ASModel_crud.rb', line 329</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_create_ark_name identifier id'>create_ark_name</span>
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span> <span class='eq op'>==</span> <span class='rubyid_Resource constant id'>Resource</span>
@@ -832,6 +830,9 @@ dependencies first.</p>
       <pre class="lines">
 
 
+228
+229
+230
 231
 232
 233
@@ -889,13 +890,10 @@ dependencies first.</p>
 285
 286
 287
-288
-289
-290
-291</pre>
+288</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/ASModel_crud.rb', line 231</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/ASModel_crud.rb', line 228</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_delete identifier id'>delete</span>
   <span class='rubyid_object_graph identifier id'>object_graph</span> <span class='assign token'>=</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_object_graph identifier id'>object_graph</span>
@@ -979,18 +977,18 @@ dependencies first.</p>
       <pre class="lines">
 
 
+339
+340
+341
 342
 343
 344
 345
 346
-347
-348
-349
-350</pre>
+347</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/ASModel_crud.rb', line 342</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/ASModel_crud.rb', line 339</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_delete_ark_name identifier id'>delete_ark_name</span>
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span> <span class='eq op'>==</span> <span class='rubyid_Resource constant id'>Resource</span>
@@ -1082,6 +1080,9 @@ report this to the client we just want to tell them that the value for
       <pre class="lines">
 
 
+298
+299
+300
 301
 302
 303
@@ -1091,13 +1092,10 @@ report this to the client we just want to tell them that the value for
 307
 308
 309
-310
-311
-312
-313</pre>
+310</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/ASModel_crud.rb', line 301</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/ASModel_crud.rb', line 298</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_map_validation_to_json_property identifier id'>map_validation_to_json_property</span><span class='lparen token'>(</span><span class='rubyid_columns identifier id'>columns</span><span class='comma token'>,</span> <span class='rubyid_property identifier id'>property</span><span class='rparen token'>)</span>
   <span class='rubyid_errors identifier id'>errors</span> <span class='assign token'>=</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_errors identifier id'>errors</span><span class='dot token'>.</span><span class='rubyid_clone identifier id'>clone</span>
@@ -1133,12 +1131,12 @@ report this to the client we just want to tell them that the value for
       <pre class="lines">
 
 
-328
-329
-330</pre>
+325
+326
+327</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/ASModel_crud.rb', line 328</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/ASModel_crud.rb', line 325</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_mark_as_system_modified identifier id'>mark_as_system_modified</span>
   <span class='rubyid_@system_modified ivar id'>@system_modified</span> <span class='assign token'>=</span> <span class='rubyid_true true kw'>true</span>
@@ -1164,6 +1162,7 @@ report this to the client we just want to tell them that the value for
       <pre class="lines">
 
 
+156
 157
 158
 159
@@ -1181,11 +1180,10 @@ report this to the client we just want to tell them that the value for
 171
 172
 173
-174
-175</pre>
+174</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/ASModel_crud.rb', line 157</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/ASModel_crud.rb', line 156</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_remove_nested_records identifier id'>remove_nested_records</span>
   <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_nested_records identifier id'>nested_records</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_nested_record_defn identifier id'>nested_record_defn</span><span class='bitor op'>|</span>
@@ -1250,12 +1248,12 @@ report this to the client we just want to tell them that the value for
       <pre class="lines">
 
 
-323
-324
-325</pre>
+320
+321
+322</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/ASModel_crud.rb', line 323</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/ASModel_crud.rb', line 320</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_system_modified? fid id'>system_modified?</span>
   <span class='rubyid_@system_modified ivar id'>@system_modified</span>
@@ -1281,6 +1279,8 @@ report this to the client we just want to tell them that the value for
       <pre class="lines">
 
 
+177
+178
 179
 180
 181
@@ -1325,16 +1325,12 @@ report this to the client we just want to tell them that the value for
 220
 221
 222
-223
-224
-225
-226</pre>
+223</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/ASModel_crud.rb', line 179</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/ASModel_crud.rb', line 177</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_update_from_json identifier id'>update_from_json</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='comma token'>,</span> <span class='rubyid_extra_values identifier id'>extra_values</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='comma token'>,</span> <span class='rubyid_apply_nested_records identifier id'>apply_nested_records</span> <span class='assign token'>=</span> <span class='rubyid_true true kw'>true</span><span class='rparen token'>)</span>
-
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_values identifier id'>values</span><span class='dot token'>.</span><span class='rubyid_has_key? fid id'>has_key?</span><span class='lparen token'>(</span><span class='symbol val'>:suppressed</span><span class='rparen token'>)</span>
     <span class='rubyid_if if kw'>if</span> <span class='rubyid_self self kw'>self</span><span class='lbrack token'>[</span><span class='symbol val'>:suppressed</span><span class='rbrack token'>]</span> <span class='eq op'>==</span> <span class='integer val'>1</span>
       <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_ReadOnlyException constant id'>ReadOnlyException</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='string val'>&quot;Can&#39;t update an object that has been suppressed&quot;</span><span class='rparen token'>)</span>
@@ -1346,7 +1342,7 @@ report this to the client we just want to tell them that the value for
   <span class='rubyid_end end kw'>end</span>
 
 
-  <span class='rubyid_schema_defined_properties identifier id'>schema_defined_properties</span> <span class='assign token'>=</span> <span class='rubyid_json identifier id'>json</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_schema identifier id'>schema</span><span class='lbrack token'>[</span><span class='string val'>&quot;properties&quot;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span><span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_prop identifier id'>prop</span><span class='comma token'>,</span> <span class='rubyid_defn identifier id'>defn</span><span class='bitor op'>|</span>
+  <span class='rubyid_schema_defined_properties identifier id'>schema_defined_properties</span> <span class='assign token'>=</span> <span class='rubyid_json identifier id'>json</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_schema identifier id'>schema</span><span class='lbrack token'>[</span><span class='string val'>&quot;properties&quot;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_prop identifier id'>prop</span><span class='comma token'>,</span> <span class='rubyid_defn identifier id'>defn</span><span class='bitor op'>|</span>
     <span class='rubyid_prop identifier id'>prop</span> <span class='rubyid_if if_mod kw'>if</span> <span class='notop op'>!</span><span class='rubyid_defn identifier id'>defn</span><span class='lbrack token'>[</span><span class='string val'>&#39;readonly&#39;</span><span class='rbrack token'>]</span>
   <span class='rbrace token'>}</span><span class='dot token'>.</span><span class='rubyid_compact identifier id'>compact</span>
 
@@ -1439,9 +1435,9 @@ report this to the client we just want to tell them that the value for
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.8.1.a Documentation Generated on Wed Nov 11 13:21:22 2020 by
+  ArchivesSpace Version X.Y.Z Documentation Generated on Tue Sep 21 14:09:26 2021 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.25.
+  0.9.26.
 </div>
 
     </div>

@@ -6,7 +6,7 @@
 <title>
   Class: DateCalculator
   
-    &mdash; Documentation by YARD 0.9.25
+    &mdash; Documentation by YARD 0.9.26
   
 </title>
 
@@ -750,11 +750,11 @@
         <span class='rubyid_ao_ids identifier id'>ao_ids</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rubyid_@root_object ivar id'>@root_object</span><span class='dot token'>.</span><span class='rubyid_id identifier id'>id</span><span class='rbrack token'>]</span>
         <span class='rubyid_parent_ids identifier id'>parent_ids</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rubyid_@root_object ivar id'>@root_object</span><span class='dot token'>.</span><span class='rubyid_id identifier id'>id</span><span class='rbrack token'>]</span>
 
-        <span class='rubyid_while while kw'>while</span><span class='lparen token'>(</span><span class='rubyid_true true kw'>true</span><span class='rparen token'>)</span> <span class='rubyid_do do kw'>do</span>
+        <span class='rubyid_while while kw'>while</span> <span class='lparen token'>(</span><span class='rubyid_true true kw'>true</span><span class='rparen token'>)</span> <span class='rubyid_do do kw'>do</span>
           <span class='rubyid_ids identifier id'>ids</span> <span class='assign token'>=</span> <span class='rubyid_db identifier id'>db</span><span class='lbrack token'>[</span><span class='symbol val'>:archival_object</span><span class='rbrack token'>]</span>
                  <span class='dot token'>.</span><span class='rubyid_filter identifier id'>filter</span><span class='lparen token'>(</span><span class='symbol val'>:parent_id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_parent_ids identifier id'>parent_ids</span><span class='rparen token'>)</span>
                  <span class='dot token'>.</span><span class='rubyid_select identifier id'>select</span><span class='lparen token'>(</span><span class='symbol val'>:id</span><span class='rparen token'>)</span>
-                 <span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span><span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_row identifier id'>row</span><span class='bitor op'>|</span> <span class='rubyid_row identifier id'>row</span><span class='lbrack token'>[</span><span class='symbol val'>:id</span><span class='rbrack token'>]</span><span class='rbrace token'>}</span>
+                 <span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_row identifier id'>row</span><span class='bitor op'>|</span> <span class='rubyid_row identifier id'>row</span><span class='lbrack token'>[</span><span class='symbol val'>:id</span><span class='rbrack token'>]</span><span class='rbrace token'>}</span>
 
           <span class='rubyid_if if kw'>if</span> <span class='rubyid_ids identifier id'>ids</span><span class='dot token'>.</span><span class='rubyid_empty? fid id'>empty?</span>
             <span class='rubyid_break break kw'>break</span>
@@ -815,9 +815,9 @@
   <span class='rubyid_def def kw'>def</span> <span class='rubyid_coerce_begin_date identifier id'>coerce_begin_date</span><span class='lparen token'>(</span><span class='rubyid_raw_date identifier id'>raw_date</span><span class='rparen token'>)</span>
     <span class='rubyid_return return kw'>return</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_raw_date identifier id'>raw_date</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span>
 
-    <span class='rubyid_if if kw'>if</span> <span class='rubyid_raw_date identifier id'>raw_date</span> <span class='match op'>=~</span> <span class='regexp val'>/^[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]$/</span>
+    <span class='rubyid_if if kw'>if</span> <span class='rubyid_raw_date identifier id'>raw_date</span> <span class='match op'>=~</span> <span class='regexp val'>/^[0-9][0-9][0-9][0-9]-[0-9][0-9]?-[0-9][0-9]?$/</span>
       <span class='rubyid_Date constant id'>Date</span><span class='dot token'>.</span><span class='rubyid_strptime identifier id'>strptime</span><span class='lparen token'>(</span><span class='rubyid_raw_date identifier id'>raw_date</span><span class='comma token'>,</span> <span class='string val'>&#39;%Y-%m-%d&#39;</span><span class='rparen token'>)</span>
-    <span class='rubyid_elsif elsif kw'>elsif</span> <span class='rubyid_raw_date identifier id'>raw_date</span> <span class='match op'>=~</span> <span class='regexp val'>/^[0-9][0-9][0-9][0-9]-[0-9][0-9]$/</span>
+    <span class='rubyid_elsif elsif kw'>elsif</span> <span class='rubyid_raw_date identifier id'>raw_date</span> <span class='match op'>=~</span> <span class='regexp val'>/^[0-9][0-9][0-9][0-9]-[0-9][0-9]?$/</span>
       <span class='rubyid_Date constant id'>Date</span><span class='dot token'>.</span><span class='rubyid_strptime identifier id'>strptime</span><span class='lparen token'>(</span><span class='dstring node'>&quot;#{raw_date}-01&quot;</span><span class='comma token'>,</span> <span class='string val'>&#39;%Y-%m-%d&#39;</span><span class='rparen token'>)</span>
     <span class='rubyid_elsif elsif kw'>elsif</span> <span class='rubyid_raw_date identifier id'>raw_date</span> <span class='match op'>=~</span> <span class='regexp val'>/^[0-9][0-9][0-9][0-9]$/</span>
       <span class='rubyid_Date constant id'>Date</span><span class='dot token'>.</span><span class='rubyid_strptime identifier id'>strptime</span><span class='lparen token'>(</span><span class='dstring node'>&quot;#{raw_date}-01-01&quot;</span><span class='comma token'>,</span> <span class='string val'>&#39;%Y-%m-%d&#39;</span><span class='rparen token'>)</span>
@@ -829,10 +829,10 @@
   <span class='rubyid_def def kw'>def</span> <span class='rubyid_coerce_end_date identifier id'>coerce_end_date</span><span class='lparen token'>(</span><span class='rubyid_raw_date identifier id'>raw_date</span><span class='rparen token'>)</span>
     <span class='rubyid_return return kw'>return</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_raw_date identifier id'>raw_date</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span>
 
-    <span class='rubyid_if if kw'>if</span> <span class='rubyid_raw_date identifier id'>raw_date</span> <span class='match op'>=~</span> <span class='regexp val'>/^[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]$/</span>
+    <span class='rubyid_if if kw'>if</span> <span class='rubyid_raw_date identifier id'>raw_date</span> <span class='match op'>=~</span> <span class='regexp val'>/^[0-9][0-9][0-9][0-9]-[0-9][0-9]?-[0-9][0-9]?$/</span>
       <span class='rubyid_Date constant id'>Date</span><span class='dot token'>.</span><span class='rubyid_strptime identifier id'>strptime</span><span class='lparen token'>(</span><span class='rubyid_raw_date identifier id'>raw_date</span><span class='comma token'>,</span> <span class='string val'>&#39;%Y-%m-%d&#39;</span><span class='rparen token'>)</span>
-    <span class='rubyid_elsif elsif kw'>elsif</span> <span class='rubyid_raw_date identifier id'>raw_date</span> <span class='match op'>=~</span> <span class='regexp val'>/^[0-9][0-9][0-9][0-9]-[0-9][0-9]$/</span>
-      <span class='rubyid_year identifier id'>year</span><span class='comma token'>,</span> <span class='rubyid_month identifier id'>month</span> <span class='assign token'>=</span> <span class='rubyid_raw_date identifier id'>raw_date</span><span class='dot token'>.</span><span class='rubyid_match identifier id'>match</span><span class='lparen token'>(</span><span class='regexp val'>/([0-9][0-9][0-9][0-9])-([0-9][0-9])/</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_captures identifier id'>captures</span>
+    <span class='rubyid_elsif elsif kw'>elsif</span> <span class='rubyid_raw_date identifier id'>raw_date</span> <span class='match op'>=~</span> <span class='regexp val'>/^[0-9][0-9][0-9][0-9]-[0-9][0-9]?$/</span>
+      <span class='rubyid_year identifier id'>year</span><span class='comma token'>,</span> <span class='rubyid_month identifier id'>month</span> <span class='assign token'>=</span> <span class='rubyid_raw_date identifier id'>raw_date</span><span class='dot token'>.</span><span class='rubyid_match identifier id'>match</span><span class='lparen token'>(</span><span class='regexp val'>/([0-9][0-9][0-9][0-9])-([0-9][0-9]?)/</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_captures identifier id'>captures</span>
       <span class='rubyid_Date constant id'>Date</span><span class='dot token'>.</span><span class='rubyid_civil identifier id'>civil</span><span class='lparen token'>(</span><span class='rubyid_year identifier id'>year</span><span class='dot token'>.</span><span class='rubyid_to_i identifier id'>to_i</span><span class='comma token'>,</span> <span class='rubyid_month identifier id'>month</span><span class='dot token'>.</span><span class='rubyid_to_i identifier id'>to_i</span><span class='comma token'>,</span> <span class='integer val'>-1</span><span class='rparen token'>)</span>
     <span class='rubyid_elsif elsif kw'>elsif</span> <span class='rubyid_raw_date identifier id'>raw_date</span> <span class='match op'>=~</span> <span class='regexp val'>/^[0-9][0-9][0-9][0-9]$/</span>
       <span class='rubyid_Date constant id'>Date</span><span class='dot token'>.</span><span class='rubyid_civil identifier id'>civil</span><span class='lparen token'>(</span><span class='rubyid_raw_date identifier id'>raw_date</span><span class='dot token'>.</span><span class='rubyid_to_i identifier id'>to_i</span><span class='comma token'>,</span> <span class='integer val'>-1</span><span class='comma token'>,</span> <span class='integer val'>-1</span><span class='rparen token'>)</span>
@@ -883,9 +883,9 @@
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_coerce_begin_date identifier id'>coerce_begin_date</span><span class='lparen token'>(</span><span class='rubyid_raw_date identifier id'>raw_date</span><span class='rparen token'>)</span>
   <span class='rubyid_return return kw'>return</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_raw_date identifier id'>raw_date</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span>
 
-  <span class='rubyid_if if kw'>if</span> <span class='rubyid_raw_date identifier id'>raw_date</span> <span class='match op'>=~</span> <span class='regexp val'>/^[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]$/</span>
+  <span class='rubyid_if if kw'>if</span> <span class='rubyid_raw_date identifier id'>raw_date</span> <span class='match op'>=~</span> <span class='regexp val'>/^[0-9][0-9][0-9][0-9]-[0-9][0-9]?-[0-9][0-9]?$/</span>
     <span class='rubyid_Date constant id'>Date</span><span class='dot token'>.</span><span class='rubyid_strptime identifier id'>strptime</span><span class='lparen token'>(</span><span class='rubyid_raw_date identifier id'>raw_date</span><span class='comma token'>,</span> <span class='string val'>&#39;%Y-%m-%d&#39;</span><span class='rparen token'>)</span>
-  <span class='rubyid_elsif elsif kw'>elsif</span> <span class='rubyid_raw_date identifier id'>raw_date</span> <span class='match op'>=~</span> <span class='regexp val'>/^[0-9][0-9][0-9][0-9]-[0-9][0-9]$/</span>
+  <span class='rubyid_elsif elsif kw'>elsif</span> <span class='rubyid_raw_date identifier id'>raw_date</span> <span class='match op'>=~</span> <span class='regexp val'>/^[0-9][0-9][0-9][0-9]-[0-9][0-9]?$/</span>
     <span class='rubyid_Date constant id'>Date</span><span class='dot token'>.</span><span class='rubyid_strptime identifier id'>strptime</span><span class='lparen token'>(</span><span class='dstring node'>&quot;#{raw_date}-01&quot;</span><span class='comma token'>,</span> <span class='string val'>&#39;%Y-%m-%d&#39;</span><span class='rparen token'>)</span>
   <span class='rubyid_elsif elsif kw'>elsif</span> <span class='rubyid_raw_date identifier id'>raw_date</span> <span class='match op'>=~</span> <span class='regexp val'>/^[0-9][0-9][0-9][0-9]$/</span>
     <span class='rubyid_Date constant id'>Date</span><span class='dot token'>.</span><span class='rubyid_strptime identifier id'>strptime</span><span class='lparen token'>(</span><span class='dstring node'>&quot;#{raw_date}-01-01&quot;</span><span class='comma token'>,</span> <span class='string val'>&#39;%Y-%m-%d&#39;</span><span class='rparen token'>)</span>
@@ -935,10 +935,10 @@
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_coerce_end_date identifier id'>coerce_end_date</span><span class='lparen token'>(</span><span class='rubyid_raw_date identifier id'>raw_date</span><span class='rparen token'>)</span>
   <span class='rubyid_return return kw'>return</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_raw_date identifier id'>raw_date</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span>
 
-  <span class='rubyid_if if kw'>if</span> <span class='rubyid_raw_date identifier id'>raw_date</span> <span class='match op'>=~</span> <span class='regexp val'>/^[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]$/</span>
+  <span class='rubyid_if if kw'>if</span> <span class='rubyid_raw_date identifier id'>raw_date</span> <span class='match op'>=~</span> <span class='regexp val'>/^[0-9][0-9][0-9][0-9]-[0-9][0-9]?-[0-9][0-9]?$/</span>
     <span class='rubyid_Date constant id'>Date</span><span class='dot token'>.</span><span class='rubyid_strptime identifier id'>strptime</span><span class='lparen token'>(</span><span class='rubyid_raw_date identifier id'>raw_date</span><span class='comma token'>,</span> <span class='string val'>&#39;%Y-%m-%d&#39;</span><span class='rparen token'>)</span>
-  <span class='rubyid_elsif elsif kw'>elsif</span> <span class='rubyid_raw_date identifier id'>raw_date</span> <span class='match op'>=~</span> <span class='regexp val'>/^[0-9][0-9][0-9][0-9]-[0-9][0-9]$/</span>
-    <span class='rubyid_year identifier id'>year</span><span class='comma token'>,</span> <span class='rubyid_month identifier id'>month</span> <span class='assign token'>=</span> <span class='rubyid_raw_date identifier id'>raw_date</span><span class='dot token'>.</span><span class='rubyid_match identifier id'>match</span><span class='lparen token'>(</span><span class='regexp val'>/([0-9][0-9][0-9][0-9])-([0-9][0-9])/</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_captures identifier id'>captures</span>
+  <span class='rubyid_elsif elsif kw'>elsif</span> <span class='rubyid_raw_date identifier id'>raw_date</span> <span class='match op'>=~</span> <span class='regexp val'>/^[0-9][0-9][0-9][0-9]-[0-9][0-9]?$/</span>
+    <span class='rubyid_year identifier id'>year</span><span class='comma token'>,</span> <span class='rubyid_month identifier id'>month</span> <span class='assign token'>=</span> <span class='rubyid_raw_date identifier id'>raw_date</span><span class='dot token'>.</span><span class='rubyid_match identifier id'>match</span><span class='lparen token'>(</span><span class='regexp val'>/([0-9][0-9][0-9][0-9])-([0-9][0-9]?)/</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_captures identifier id'>captures</span>
     <span class='rubyid_Date constant id'>Date</span><span class='dot token'>.</span><span class='rubyid_civil identifier id'>civil</span><span class='lparen token'>(</span><span class='rubyid_year identifier id'>year</span><span class='dot token'>.</span><span class='rubyid_to_i identifier id'>to_i</span><span class='comma token'>,</span> <span class='rubyid_month identifier id'>month</span><span class='dot token'>.</span><span class='rubyid_to_i identifier id'>to_i</span><span class='comma token'>,</span> <span class='integer val'>-1</span><span class='rparen token'>)</span>
   <span class='rubyid_elsif elsif kw'>elsif</span> <span class='rubyid_raw_date identifier id'>raw_date</span> <span class='match op'>=~</span> <span class='regexp val'>/^[0-9][0-9][0-9][0-9]$/</span>
     <span class='rubyid_Date constant id'>Date</span><span class='dot token'>.</span><span class='rubyid_civil identifier id'>civil</span><span class='lparen token'>(</span><span class='rubyid_raw_date identifier id'>raw_date</span><span class='dot token'>.</span><span class='rubyid_to_i identifier id'>to_i</span><span class='comma token'>,</span> <span class='integer val'>-1</span><span class='comma token'>,</span> <span class='integer val'>-1</span><span class='rparen token'>)</span>
@@ -1014,9 +1014,9 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.8.1.a Documentation Generated on Wed Nov 11 13:21:55 2020 by
+  ArchivesSpace Version X.Y.Z Documentation Generated on Tue Sep 21 14:09:51 2021 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.25.
+  0.9.26.
 </div>
 
     </div>

@@ -6,7 +6,7 @@
 <title>
   Module: ASpaceExport::Utils
   
-    &mdash; Documentation by YARD 0.9.25
+    &mdash; Documentation by YARD 0.9.26
   
 </title>
 
@@ -380,7 +380,7 @@ text subnotes)</p>
       <pre class="code"><span class="info file"># File 'backend/app/exporters/lib/utils.rb', line 24</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_has_html? fid id'>has_html?</span><span class='lparen token'>(</span><span class='rubyid_text identifier id'>text</span><span class='rparen token'>)</span>
-  <span class='notop op'>!</span><span class='notop op'>!</span><span class='lparen token'>(</span><span class='rubyid_text identifier id'>text</span> <span class='match op'>=~</span> <span class='regexp val'>/.*\&lt;[^&gt;]+&gt;.*/</span>   <span class='rparen token'>)</span>
+  <span class='notop op'>!</span><span class='notop op'>!</span><span class='lparen token'>(</span><span class='rubyid_text identifier id'>text</span> <span class='match op'>=~</span> <span class='regexp val'>/.*\&lt;[^&gt;]+&gt;.*/</span> <span class='rparen token'>)</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -434,7 +434,7 @@ text subnotes)</p>
       <pre class="code"><span class="info file"># File 'backend/app/exporters/lib/utils.rb', line 28</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_has_xml_node? fid id'>has_xml_node?</span><span class='lparen token'>(</span><span class='rubyid_node identifier id'>node</span><span class='comma token'>,</span> <span class='rubyid_text identifier id'>text</span><span class='rparen token'>)</span>
-  <span class='notop op'>!</span><span class='notop op'>!</span><span class='lparen token'>(</span><span class='rubyid_text identifier id'>text</span> <span class='match op'>=~</span>  <span class='dregexp node'>/\&lt;#{node}*/</span> <span class='rparen token'>)</span>
+  <span class='notop op'>!</span><span class='notop op'>!</span><span class='lparen token'>(</span><span class='rubyid_text identifier id'>text</span> <span class='match op'>=~</span> <span class='dregexp node'>/\&lt;#{node}*/</span> <span class='rparen token'>)</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -492,11 +492,11 @@ text subnotes)</p>
       <pre class="code"><span class="info file"># File 'backend/app/exporters/lib/utils.rb', line 50</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_headless_note? fid id'>headless_note?</span><span class='lparen token'>(</span><span class='rubyid_note_type identifier id'>note_type</span><span class='comma token'>,</span> <span class='rubyid_content identifier id'>content</span><span class='rparen token'>)</span>
-   <span class='rubyid_if if kw'>if</span> <span class='rubyid_content identifier id'>content</span><span class='dot token'>.</span><span class='rubyid_strip identifier id'>strip</span><span class='dot token'>.</span><span class='rubyid_start_with? fid id'>start_with?</span><span class='lparen token'>(</span><span class='string val'>&#39;&lt;head&#39;</span><span class='rparen token'>)</span> <span class='rubyid_or or kw'>or</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_headless_notes identifier id'>headless_notes</span><span class='dot token'>.</span><span class='rubyid_include? fid id'>include?</span><span class='lparen token'>(</span><span class='rubyid_note_type identifier id'>note_type</span><span class='rparen token'>)</span>
-      <span class='rubyid_true true kw'>true</span>
-   <span class='rubyid_else else kw'>else</span>
-     <span class='rubyid_false false kw'>false</span>
-   <span class='rubyid_end end kw'>end</span>
+  <span class='rubyid_if if kw'>if</span> <span class='rubyid_content identifier id'>content</span><span class='dot token'>.</span><span class='rubyid_strip identifier id'>strip</span><span class='dot token'>.</span><span class='rubyid_start_with? fid id'>start_with?</span><span class='lparen token'>(</span><span class='string val'>&#39;&lt;head&#39;</span><span class='rparen token'>)</span> <span class='rubyid_or or kw'>or</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_headless_notes identifier id'>headless_notes</span><span class='dot token'>.</span><span class='rubyid_include? fid id'>include?</span><span class='lparen token'>(</span><span class='rubyid_note_type identifier id'>note_type</span><span class='rparen token'>)</span>
+    <span class='rubyid_true true kw'>true</span>
+  <span class='rubyid_else else kw'>else</span>
+    <span class='rubyid_false false kw'>false</span>
+  <span class='rubyid_end end kw'>end</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -537,7 +537,7 @@ text subnotes)</p>
       <pre class="code"><span class="info file"># File 'backend/app/exporters/lib/utils.rb', line 33</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_headless_notes identifier id'>headless_notes</span>
- <span class='dstring node'>%w{ legalstatus }</span>
+  <span class='dstring node'>%w{ legalstatus }</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -653,9 +653,9 @@ text subnotes)</p>
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.8.1.a Documentation Generated on Wed Nov 11 13:21:23 2020 by
+  ArchivesSpace Version X.Y.Z Documentation Generated on Tue Sep 21 14:09:28 2021 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.25.
+  0.9.26.
 </div>
 
     </div>

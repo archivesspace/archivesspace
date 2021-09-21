@@ -6,7 +6,7 @@
 <title>
   Class: EditMediator::UpdateThread
   
-    &mdash; Documentation by YARD 0.9.25
+    &mdash; Documentation by YARD 0.9.26
   
 </title>
 
@@ -293,13 +293,13 @@ don’t add too much delay to a client’s update hitting the backend.</p>
       <pre class="lines">
 
 
+48
 49
 50
-51
-52</pre>
+51</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/models/edit_mediator.rb', line 49</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/models/edit_mediator.rb', line 48</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_initialize identifier id'>initialize</span><span class='lparen token'>(</span><span class='rubyid_active_edits identifier id'>active_edits</span><span class='comma token'>,</span> <span class='rubyid_queue identifier id'>queue</span><span class='rparen token'>)</span>
   <span class='rubyid_@active_edits ivar id'>@active_edits</span> <span class='assign token'>=</span> <span class='rubyid_active_edits identifier id'>active_edits</span>
@@ -333,6 +333,7 @@ don’t add too much delay to a client’s update hitting the backend.</p>
       <pre class="lines">
 
 
+64
 65
 66
 67
@@ -348,11 +349,10 @@ don’t add too much delay to a client’s update hitting the backend.</p>
 77
 78
 79
-80
-81</pre>
+80</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/models/edit_mediator.rb', line 65</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/models/edit_mediator.rb', line 64</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_log_in_to_backend identifier id'>log_in_to_backend</span><span class='lparen token'>(</span><span class='rubyid_force identifier id'>force</span> <span class='assign token'>=</span> <span class='rubyid_false false kw'>false</span><span class='rparen token'>)</span>
   <span class='rubyid_@backend_session ivar id'>@backend_session</span> <span class='assign token'>=</span> <span class='rubyid_nil nil kw'>nil</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_force identifier id'>force</span>
@@ -392,17 +392,17 @@ don’t add too much delay to a client’s update hitting the backend.</p>
       <pre class="lines">
 
 
+54
 55
 56
 57
 58
 59
 60
-61
-62</pre>
+61</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/models/edit_mediator.rb', line 55</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/models/edit_mediator.rb', line 54</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_record_update_locally identifier id'>record_update_locally</span><span class='lparen token'>(</span><span class='rubyid_user identifier id'>user</span><span class='comma token'>,</span> <span class='rubyid_uri identifier id'>uri</span><span class='comma token'>,</span> <span class='rubyid_last_report_time identifier id'>last_report_time</span><span class='rparen token'>)</span>
   <span class='rubyid_@active_edits ivar id'>@active_edits</span><span class='dot token'>.</span><span class='rubyid_update identifier id'>update</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_edits identifier id'>edits</span><span class='bitor op'>|</span>
@@ -433,6 +433,7 @@ don’t add too much delay to a client’s update hitting the backend.</p>
       <pre class="lines">
 
 
+107
 108
 109
 110
@@ -459,16 +460,12 @@ don’t add too much delay to a client’s update hitting the backend.</p>
 131
 132
 133
-134
-135
-136
-137</pre>
+134</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/models/edit_mediator.rb', line 108</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/models/edit_mediator.rb', line 107</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_start identifier id'>start</span>
-
   <span class='comment val'># The main thread: respond to updates and manage the local editing state.</span>
   <span class='rubyid_Thread constant id'>Thread</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span> <span class='rubyid_do do kw'>do</span>
     <span class='rubyid_while while kw'>while</span> <span class='rubyid_true true kw'>true</span>
@@ -495,7 +492,6 @@ don’t add too much delay to a client’s update hitting the backend.</p>
       <span class='rubyid_@queue ivar id'>@queue</span> <span class='lshft op'>&lt;&lt;</span> <span class='lbrace token'>{</span><span class='symbol val'>:type</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:sync</span><span class='rbrace token'>}</span>
     <span class='rubyid_end end kw'>end</span>
   <span class='rubyid_end end kw'>end</span>
-
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -518,6 +514,7 @@ don’t add too much delay to a client’s update hitting the backend.</p>
       <pre class="lines">
 
 
+83
 84
 85
 86
@@ -539,11 +536,10 @@ don’t add too much delay to a client’s update hitting the backend.</p>
 102
 103
 104
-105
-106</pre>
+105</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/models/edit_mediator.rb', line 84</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/models/edit_mediator.rb', line 83</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_synchronise_with_backend identifier id'>synchronise_with_backend</span>
   <span class='rubyid_snapshot identifier id'>snapshot</span> <span class='assign token'>=</span> <span class='rubyid_@active_edits ivar id'>@active_edits</span><span class='dot token'>.</span><span class='rubyid_value identifier id'>value</span>
@@ -579,9 +575,9 @@ don’t add too much delay to a client’s update hitting the backend.</p>
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.8.1.a Documentation Generated on Wed Nov 11 13:22:11 2020 by
+  ArchivesSpace Version X.Y.Z Documentation Generated on Tue Sep 21 14:10:03 2021 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.25.
+  0.9.26.
 </div>
 
     </div>

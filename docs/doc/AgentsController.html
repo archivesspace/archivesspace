@@ -6,7 +6,7 @@
 <title>
   Class: AgentsController
   
-    &mdash; Documentation by YARD 0.9.25
+    &mdash; Documentation by YARD 0.9.26
   
 </title>
 
@@ -110,7 +110,17 @@
   
 </div>
 
+<h2>Overview</h2><div class="docstring">
+  <div class="discussion">
+    <p>frozen_string_literal: true</p>
 
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
 
   
     <h2>
@@ -187,6 +197,29 @@
   <span class="summary_signature">
     
       <a href="#create-instance_method" title="#create (instance method)">#<strong>create</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#current_record-instance_method" title="#current_record (instance method)">#<strong>current_record</strong>  &#x21d2; Object </a>
     
 
     
@@ -371,6 +404,29 @@
   <span class="summary_signature">
     
       <a href="#new-instance_method" title="#new (instance method)">#<strong>new</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#publish-instance_method" title="#publish (instance method)">#<strong>publish</strong>  &#x21d2; Object </a>
     
 
     
@@ -634,13 +690,6 @@
       <pre class="lines">
 
 
-61
-62
-63
-64
-65
-66
-67
 68
 69
 70
@@ -666,43 +715,87 @@
 90
 91
 92
-93</pre>
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/controllers/agents_controller.rb', line 61</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/controllers/agents_controller.rb', line 68</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_create identifier id'>create</span>
-  <span class='rubyid_required identifier id'>required</span> <span class='assign token'>=</span> <span class='rubyid_RequiredFields constant id'>RequiredFields</span><span class='dot token'>.</span><span class='rubyid_get identifier id'>get</span> <span class='rubyid_@agent_type ivar id'>@agent_type</span><span class='dot token'>.</span><span class='rubyid_to_s identifier id'>to_s</span>
-  <span class='rubyid_if if kw'>if</span> <span class='rubyid_required identifier id'>required</span>
-    <span class='rubyid_required_values identifier id'>required_values</span> <span class='assign token'>=</span> <span class='rubyid_required identifier id'>required</span><span class='dot token'>.</span><span class='rubyid_values identifier id'>values</span>
-  <span class='rubyid_else else kw'>else</span>
-    <span class='rubyid_required_values identifier id'>required_values</span> <span class='assign token'>=</span> <span class='rubyid_nil nil kw'>nil</span>
-  <span class='rubyid_end end kw'>end</span>
-  <span class='rubyid_handle_crud identifier id'>handle_crud</span><span class='lparen token'>(</span><span class='symbol val'>:instance</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:agent</span><span class='comma token'>,</span>
-              <span class='symbol val'>:model</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='rubyid_@agent_type ivar id'>@agent_type</span><span class='rparen token'>)</span><span class='comma token'>,</span>
-              <span class='symbol val'>:required</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_required_values identifier id'>required_values</span><span class='comma token'>,</span>
-              <span class='symbol val'>:find_opts</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_find_opts identifier id'>find_opts</span><span class='comma token'>,</span>
-              <span class='symbol val'>:on_invalid</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='minus op'>-</span><span class='gt op'>&gt;</span><span class='lparen token'>(</span><span class='rparen token'>)</span><span class='lbrace token'>{</span>
-                <span class='rubyid_required identifier id'>required</span> <span class='assign token'>=</span> <span class='rubyid_RequiredFields constant id'>RequiredFields</span><span class='dot token'>.</span><span class='rubyid_get identifier id'>get</span> <span class='rubyid_@agent_type ivar id'>@agent_type</span><span class='dot token'>.</span><span class='rubyid_to_s identifier id'>to_s</span>
-                <span class='rubyid_@agent ivar id'>@agent</span><span class='dot token'>.</span><span class='rubyid_update_concat identifier id'>update_concat</span><span class='lparen token'>(</span><span class='rubyid_required identifier id'>required</span><span class='dot token'>.</span><span class='rubyid_values identifier id'>values</span><span class='rparen token'>)</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_required identifier id'>required</span>
-                <span class='rubyid_ensure_auth_and_display identifier id'>ensure_auth_and_display</span><span class='lparen token'>(</span><span class='rparen token'>)</span>
-                <span class='rubyid_return return kw'>return</span> <span class='rubyid_render_aspace_partial identifier id'>render_aspace_partial</span> <span class='symbol val'>:partial</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;agents/new&quot;</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_inline? fid id'>inline?</span>
-                <span class='rubyid_return return kw'>return</span> <span class='rubyid_render identifier id'>render</span> <span class='symbol val'>:action</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:new</span>
-              <span class='rbrace token'>}</span><span class='comma token'>,</span>
-              <span class='symbol val'>:on_valid</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='minus op'>-</span><span class='gt op'>&gt;</span><span class='lparen token'>(</span><span class='rubyid_id identifier id'>id</span><span class='rparen token'>)</span><span class='lbrace token'>{</span>
-                <span class='rubyid_flash identifier id'>flash</span><span class='lbrack token'>[</span><span class='symbol val'>:success</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='string val'>&quot;agent._frontend.messages.created&quot;</span><span class='rparen token'>)</span>
+  <span class='rubyid_required_values identifier id'>required_values</span> <span class='assign token'>=</span> <span class='lparen token'>(</span><span class='rubyid_@required ivar id'>@required</span><span class='dot token'>.</span><span class='rubyid_values identifier id'>values</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_@required ivar id'>@required</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span> <span class='eq op'>==</span> <span class='rubyid_RequiredFields constant id'>RequiredFields</span><span class='rparen token'>)</span>
+  <span class='rubyid_handle_crud identifier id'>handle_crud</span><span class='lparen token'>(</span><span class='label val'>instance:</span> <span class='symbol val'>:agent</span><span class='comma token'>,</span>
+              <span class='label val'>model:</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='rubyid_@agent_type ivar id'>@agent_type</span><span class='rparen token'>)</span><span class='comma token'>,</span>
+              <span class='label val'>required:</span> <span class='rubyid_required_values identifier id'>required_values</span><span class='comma token'>,</span>
+              <span class='label val'>find_opts:</span> <span class='rubyid_find_opts identifier id'>find_opts</span><span class='comma token'>,</span>
+              <span class='label val'>on_invalid:</span> <span class='rubyid_lambda identifier id'>lambda</span> <span class='lbrace token'>{</span>
+                <span class='rubyid_@required ivar id'>@required</span> <span class='assign token'>=</span> <span class='rubyid_RequiredFields constant id'>RequiredFields</span><span class='dot token'>.</span><span class='rubyid_get identifier id'>get</span> <span class='rubyid_@agent_type ivar id'>@agent_type</span><span class='dot token'>.</span><span class='rubyid_to_s identifier id'>to_s</span>
+                <span class='rubyid_@required ivar id'>@required</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_@required ivar id'>@required</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span>
+                <span class='rubyid_if if kw'>if</span> <span class='rubyid_@required ivar id'>@required</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span> <span class='eq op'>==</span> <span class='rubyid_RequiredFields constant id'>RequiredFields</span>
+                  <span class='rubyid_@agent ivar id'>@agent</span><span class='dot token'>.</span><span class='rubyid_update_concat identifier id'>update_concat</span><span class='lparen token'>(</span><span class='rubyid_@required ivar id'>@required</span><span class='dot token'>.</span><span class='rubyid_values identifier id'>values</span><span class='rparen token'>)</span>
+                <span class='rubyid_end end kw'>end</span>
+                <span class='rubyid_ensure_auth_and_display identifier id'>ensure_auth_and_display</span>
+                <span class='rubyid_return return kw'>return</span> <span class='rubyid_render_aspace_partial identifier id'>render_aspace_partial</span> <span class='label val'>partial:</span> <span class='string val'>&#39;agents/new&#39;</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_inline? fid id'>inline?</span>
 
-                <span class='rubyid_if if kw'>if</span> <span class='rubyid_@agent ivar id'>@agent</span><span class='lbrack token'>[</span><span class='string val'>&quot;is_slug_auto&quot;</span><span class='rbrack token'>]</span> <span class='eq op'>==</span> <span class='rubyid_false false kw'>false</span> <span class='andop op'>&amp;&amp;</span>
-                   <span class='rubyid_@agent ivar id'>@agent</span><span class='lbrack token'>[</span><span class='string val'>&quot;slug&quot;</span><span class='rbrack token'>]</span> <span class='eq op'>==</span> <span class='rubyid_nil nil kw'>nil</span> <span class='andop op'>&amp;&amp;</span>
-                   <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='string val'>&quot;agent&quot;</span><span class='rbrack token'>]</span> <span class='andop op'>&amp;&amp;</span>
-                   <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='string val'>&quot;agent&quot;</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>&quot;is_slug_auto&quot;</span><span class='rbrack token'>]</span> <span class='eq op'>==</span> <span class='string val'>&quot;1&quot;</span>
-                  <span class='rubyid_flash identifier id'>flash</span><span class='lbrack token'>[</span><span class='symbol val'>:warning</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='string val'>&quot;slug.autogen_disabled&quot;</span><span class='rparen token'>)</span>
+                <span class='rubyid_return return kw'>return</span> <span class='rubyid_render identifier id'>render</span> <span class='label val'>action:</span> <span class='symbol val'>:new</span>
+              <span class='rbrace token'>}</span><span class='comma token'>,</span>
+              <span class='label val'>on_valid:</span> <span class='rubyid_lambda identifier id'>lambda</span>  <span class='lbrace token'>{</span> <span class='bitor op'>|</span><span class='rubyid_id identifier id'>id</span><span class='bitor op'>|</span>
+                <span class='rubyid_flash identifier id'>flash</span><span class='lbrack token'>[</span><span class='symbol val'>:success</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='string val'>&#39;agent._frontend.messages.created&#39;</span><span class='rparen token'>)</span>
+
+                <span class='rubyid_if if kw'>if</span> <span class='rubyid_@agent ivar id'>@agent</span><span class='lbrack token'>[</span><span class='string val'>&#39;is_slug_auto&#39;</span><span class='rbrack token'>]</span> <span class='eq op'>==</span> <span class='rubyid_false false kw'>false</span> <span class='andop op'>&amp;&amp;</span>
+                   <span class='rubyid_@agent ivar id'>@agent</span><span class='lbrack token'>[</span><span class='string val'>&#39;slug&#39;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span> <span class='andop op'>&amp;&amp;</span>
+                   <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='string val'>&#39;agent&#39;</span><span class='rbrack token'>]</span> <span class='andop op'>&amp;&amp;</span>
+                   <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='string val'>&#39;agent&#39;</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>&#39;is_slug_auto&#39;</span><span class='rbrack token'>]</span> <span class='eq op'>==</span> <span class='string val'>&#39;1&#39;</span>
+
+                  <span class='rubyid_flash identifier id'>flash</span><span class='lbrack token'>[</span><span class='symbol val'>:warning</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='string val'>&#39;slug.autogen_disabled&#39;</span><span class='rparen token'>)</span>
                 <span class='rubyid_end end kw'>end</span>
 
-                <span class='rubyid_return return kw'>return</span> <span class='rubyid_render identifier id'>render</span> <span class='symbol val'>:json</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_@agent ivar id'>@agent</span><span class='dot token'>.</span><span class='rubyid_to_hash identifier id'>to_hash</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_inline? fid id'>inline?</span>
-                <span class='rubyid_return return kw'>return</span> <span class='rubyid_redirect_to identifier id'>redirect_to</span><span class='lparen token'>(</span><span class='lbrace token'>{</span><span class='symbol val'>:controller</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:agents</span><span class='comma token'>,</span> <span class='symbol val'>:action</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:new</span><span class='comma token'>,</span> <span class='symbol val'>:agent_type</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_@agent_type ivar id'>@agent_type</span><span class='rbrace token'>}</span><span class='rparen token'>)</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_params identifier id'>params</span><span class='dot token'>.</span><span class='rubyid_has_key? fid id'>has_key?</span><span class='lparen token'>(</span><span class='symbol val'>:plus_one</span><span class='rparen token'>)</span>
-                <span class='rubyid_redirect_to identifier id'>redirect_to</span><span class='lparen token'>(</span><span class='lbrace token'>{</span><span class='symbol val'>:controller</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:agents</span><span class='comma token'>,</span> <span class='symbol val'>:action</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:edit</span><span class='comma token'>,</span> <span class='symbol val'>:id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_id identifier id'>id</span><span class='comma token'>,</span> <span class='symbol val'>:agent_type</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_@agent_type ivar id'>@agent_type</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
+                <span class='rubyid_return return kw'>return</span> <span class='rubyid_render identifier id'>render</span> <span class='label val'>json:</span> <span class='rubyid_@agent ivar id'>@agent</span><span class='dot token'>.</span><span class='rubyid_to_hash identifier id'>to_hash</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_inline? fid id'>inline?</span>
+                <span class='rubyid_if if kw'>if</span> <span class='rubyid_params identifier id'>params</span><span class='dot token'>.</span><span class='rubyid_key? fid id'>key?</span><span class='lparen token'>(</span><span class='symbol val'>:plus_one</span><span class='rparen token'>)</span>
+                  <span class='rubyid_return return kw'>return</span> <span class='rubyid_redirect_to identifier id'>redirect_to</span><span class='lparen token'>(</span><span class='lbrace token'>{</span> <span class='label val'>controller:</span> <span class='symbol val'>:agents</span><span class='comma token'>,</span> <span class='label val'>action:</span> <span class='symbol val'>:new</span><span class='comma token'>,</span> <span class='label val'>agent_type:</span> <span class='rubyid_@agent_type ivar id'>@agent_type</span> <span class='rbrace token'>}</span><span class='rparen token'>)</span>
+                <span class='rubyid_end end kw'>end</span>
+
+                <span class='rubyid_redirect_to identifier id'>redirect_to</span><span class='lparen token'>(</span><span class='lbrace token'>{</span> <span class='label val'>controller:</span> <span class='symbol val'>:agents</span><span class='comma token'>,</span> <span class='label val'>action:</span> <span class='symbol val'>:edit</span><span class='comma token'>,</span> <span class='label val'>id:</span> <span class='rubyid_id identifier id'>id</span><span class='comma token'>,</span> <span class='label val'>agent_type:</span> <span class='rubyid_@agent_type ivar id'>@agent_type</span> <span class='rbrace token'>}</span><span class='rparen token'>)</span>
               <span class='rbrace token'>}</span><span class='rparen token'>)</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="current_record-instance_method">
+  
+    #<strong>current_record</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+29
+30
+31</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'frontend/app/controllers/agents_controller.rb', line 29</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_current_record identifier id'>current_record</span>
+  <span class='rubyid_@agent ivar id'>@agent</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -725,23 +818,23 @@
       <pre class="lines">
 
 
-135
-136
-137
-138
-139
-140
-141
-142
-143</pre>
+165
+166
+167
+168
+169
+170
+171
+172
+173</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/controllers/agents_controller.rb', line 135</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/controllers/agents_controller.rb', line 165</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_defaults identifier id'>defaults</span>
   <span class='rubyid_defaults identifier id'>defaults</span> <span class='assign token'>=</span> <span class='rubyid_DefaultValues constant id'>DefaultValues</span><span class='dot token'>.</span><span class='rubyid_get identifier id'>get</span> <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='string val'>&#39;agent_type&#39;</span><span class='rbrack token'>]</span>
 
-  <span class='rubyid_@agent ivar id'>@agent</span> <span class='assign token'>=</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='rubyid_@agent_type ivar id'>@agent_type</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='lbrace token'>{</span><span class='symbol val'>:agent_type</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_@agent_type ivar id'>@agent_type</span><span class='rbrace token'>}</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid__always_valid! fid id'>_always_valid!</span>
+  <span class='rubyid_@agent ivar id'>@agent</span> <span class='assign token'>=</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='rubyid_@agent_type ivar id'>@agent_type</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='lbrace token'>{</span> <span class='label val'>agent_type:</span> <span class='rubyid_@agent_type ivar id'>@agent_type</span> <span class='rbrace token'>}</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid__always_valid! fid id'>_always_valid!</span>
 
   <span class='rubyid_@agent ivar id'>@agent</span><span class='dot token'>.</span><span class='rubyid_update identifier id'>update</span><span class='lparen token'>(</span><span class='rubyid_defaults identifier id'>defaults</span><span class='dot token'>.</span><span class='rubyid_form_values identifier id'>form_values</span><span class='rparen token'>)</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_defaults identifier id'>defaults</span>
 
@@ -768,37 +861,49 @@
       <pre class="lines">
 
 
-120
-121
-122
-123
-124
-125
-126
-127
-128
-129
 130
 131
 132
-133</pre>
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/controllers/agents_controller.rb', line 120</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/controllers/agents_controller.rb', line 130</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_delete identifier id'>delete</span>
   <span class='rubyid_agent identifier id'>agent</span> <span class='assign token'>=</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='rubyid_@agent_type ivar id'>@agent_type</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_find identifier id'>find</span><span class='lparen token'>(</span><span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:id</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
 
-  <span class='rubyid_begin begin kw'>begin</span>
-    <span class='rubyid_agent identifier id'>agent</span><span class='dot token'>.</span><span class='rubyid_delete identifier id'>delete</span>
-  <span class='rubyid_rescue rescue kw'>rescue</span> <span class='rubyid_ConflictException constant id'>ConflictException</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_e identifier id'>e</span>
-    <span class='rubyid_flash identifier id'>flash</span><span class='lbrack token'>[</span><span class='symbol val'>:error</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='string val'>&quot;agent._frontend.messages.delete_conflict&quot;</span><span class='comma token'>,</span> <span class='symbol val'>:error</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='dstring node'>&quot;errors.#{e.conflicts}&quot;</span><span class='comma token'>,</span> <span class='symbol val'>:default</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_e identifier id'>e</span><span class='dot token'>.</span><span class='rubyid_message identifier id'>message</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
-    <span class='rubyid_redirect_to identifier id'>redirect_to</span><span class='lparen token'>(</span><span class='symbol val'>:controller</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:agents</span><span class='comma token'>,</span> <span class='symbol val'>:action</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:show</span><span class='comma token'>,</span> <span class='symbol val'>:id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:id</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
+  <span class='rubyid_if if kw'>if</span> <span class='rubyid_agent identifier id'>agent</span><span class='dot token'>.</span><span class='rubyid_key? fid id'>key?</span><span class='lparen token'>(</span><span class='string val'>&#39;is_repo_agent&#39;</span><span class='rparen token'>)</span>
+    <span class='rubyid_flash identifier id'>flash</span><span class='lbrack token'>[</span><span class='symbol val'>:error</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='string val'>&#39;errors.cannot_delete_repository_agent&#39;</span><span class='rparen token'>)</span>
+    <span class='rubyid_redirect_to identifier id'>redirect_to</span><span class='lparen token'>(</span><span class='label val'>controller:</span> <span class='symbol val'>:agents</span><span class='comma token'>,</span> <span class='label val'>action:</span> <span class='symbol val'>:show</span><span class='comma token'>,</span> <span class='label val'>id:</span> <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:id</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
     <span class='rubyid_return return kw'>return</span>
   <span class='rubyid_end end kw'>end</span>
 
-  <span class='rubyid_flash identifier id'>flash</span><span class='lbrack token'>[</span><span class='symbol val'>:success</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='string val'>&quot;agent._frontend.messages.deleted&quot;</span><span class='comma token'>,</span> <span class='rubyid_JSONModelI18nWrapper constant id'>JSONModelI18nWrapper</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='symbol val'>:agent</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_agent identifier id'>agent</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
-  <span class='rubyid_redirect_to identifier id'>redirect_to</span><span class='lparen token'>(</span><span class='symbol val'>:controller</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:agents</span><span class='comma token'>,</span> <span class='symbol val'>:action</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:index</span><span class='comma token'>,</span> <span class='symbol val'>:deleted_uri</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_agent identifier id'>agent</span><span class='dot token'>.</span><span class='rubyid_uri identifier id'>uri</span><span class='rparen token'>)</span>
+  <span class='rubyid_begin begin kw'>begin</span>
+    <span class='rubyid_agent identifier id'>agent</span><span class='dot token'>.</span><span class='rubyid_delete identifier id'>delete</span>
+  <span class='rubyid_rescue rescue kw'>rescue</span> <span class='rubyid_ConflictException constant id'>ConflictException</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_e identifier id'>e</span>
+    <span class='rubyid_flash identifier id'>flash</span><span class='lbrack token'>[</span><span class='symbol val'>:error</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='string val'>&#39;agent._frontend.messages.delete_conflict&#39;</span><span class='comma token'>,</span> <span class='label val'>error:</span> <span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='dstring node'>&quot;errors.#{e.conflicts}&quot;</span><span class='comma token'>,</span> <span class='label val'>default:</span> <span class='rubyid_e identifier id'>e</span><span class='dot token'>.</span><span class='rubyid_message identifier id'>message</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
+    <span class='rubyid_redirect_to identifier id'>redirect_to</span><span class='lparen token'>(</span><span class='label val'>controller:</span> <span class='symbol val'>:agents</span><span class='comma token'>,</span> <span class='label val'>action:</span> <span class='symbol val'>:show</span><span class='comma token'>,</span> <span class='label val'>id:</span> <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:id</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
+    <span class='rubyid_return return kw'>return</span>
+  <span class='rubyid_end end kw'>end</span>
+
+  <span class='rubyid_flash identifier id'>flash</span><span class='lbrack token'>[</span><span class='symbol val'>:success</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='string val'>&#39;agent._frontend.messages.deleted&#39;</span><span class='comma token'>,</span> <span class='rubyid_JSONModelI18nWrapper constant id'>JSONModelI18nWrapper</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='label val'>agent:</span> <span class='rubyid_agent identifier id'>agent</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
+  <span class='rubyid_redirect_to identifier id'>redirect_to</span><span class='lparen token'>(</span><span class='label val'>controller:</span> <span class='symbol val'>:agents</span><span class='comma token'>,</span> <span class='label val'>action:</span> <span class='symbol val'>:index</span><span class='comma token'>,</span> <span class='label val'>deleted_uri:</span> <span class='rubyid_agent identifier id'>agent</span><span class='dot token'>.</span><span class='rubyid_uri identifier id'>uri</span><span class='rparen token'>)</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -821,12 +926,12 @@
       <pre class="lines">
 
 
-57
-58
-59</pre>
+64
+65
+66</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/controllers/agents_controller.rb', line 57</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/controllers/agents_controller.rb', line 64</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_edit identifier id'>edit</span>
   <span class='rubyid_@agent ivar id'>@agent</span> <span class='assign token'>=</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='rubyid_@agent_type ivar id'>@agent_type</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_find identifier id'>find</span><span class='lparen token'>(</span><span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:id</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='rubyid_find_opts identifier id'>find_opts</span><span class='rparen token'>)</span>
@@ -852,8 +957,6 @@
       <pre class="lines">
 
 
-13
-14
 15
 16
 17
@@ -864,22 +967,24 @@
 22
 23
 24
-25</pre>
+25
+26
+27</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/controllers/agents_controller.rb', line 13</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/controllers/agents_controller.rb', line 15</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_index identifier id'>index</span>
   <span class='rubyid_respond_to identifier id'>respond_to</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_format identifier id'>format</span><span class='bitor op'>|</span>
-    <span class='rubyid_format identifier id'>format</span><span class='dot token'>.</span><span class='rubyid_html identifier id'>html</span> <span class='lbrace token'>{</span>
-      <span class='rubyid_@search_data ivar id'>@search_data</span> <span class='assign token'>=</span> <span class='rubyid_Search constant id'>Search</span><span class='dot token'>.</span><span class='rubyid_for_type identifier id'>for_type</span><span class='lparen token'>(</span><span class='rubyid_session identifier id'>session</span><span class='lbrack token'>[</span><span class='symbol val'>:repo_id</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='string val'>&quot;agent&quot;</span><span class='comma token'>,</span> <span class='rubyid_params_for_backend_search identifier id'>params_for_backend_search</span><span class='dot token'>.</span><span class='rubyid_merge identifier id'>merge</span><span class='lparen token'>(</span><span class='lbrace token'>{</span><span class='string val'>&quot;facet[]&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_SearchResultData constant id'>SearchResultData</span><span class='dot token'>.</span><span class='rubyid_AGENT_FACETS constant id'>AGENT_FACETS</span><span class='rbrace token'>}</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
-    <span class='rbrace token'>}</span>
-    <span class='rubyid_format identifier id'>format</span><span class='dot token'>.</span><span class='rubyid_csv identifier id'>csv</span> <span class='lbrace token'>{</span>
-      <span class='rubyid_search_params identifier id'>search_params</span> <span class='assign token'>=</span> <span class='rubyid_params_for_backend_search identifier id'>params_for_backend_search</span><span class='dot token'>.</span><span class='rubyid_merge identifier id'>merge</span><span class='lparen token'>(</span><span class='lbrace token'>{</span><span class='string val'>&quot;facet[]&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_SearchResultData constant id'>SearchResultData</span><span class='dot token'>.</span><span class='rubyid_AGENT_FACETS constant id'>AGENT_FACETS</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
-      <span class='rubyid_search_params identifier id'>search_params</span><span class='lbrack token'>[</span><span class='string val'>&quot;type[]&quot;</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='string val'>&quot;agent&quot;</span>
+    <span class='rubyid_format identifier id'>format</span><span class='dot token'>.</span><span class='rubyid_html identifier id'>html</span> <span class='rubyid_do do kw'>do</span>
+      <span class='rubyid_@search_data ivar id'>@search_data</span> <span class='assign token'>=</span> <span class='rubyid_Search constant id'>Search</span><span class='dot token'>.</span><span class='rubyid_for_type identifier id'>for_type</span><span class='lparen token'>(</span><span class='rubyid_session identifier id'>session</span><span class='lbrack token'>[</span><span class='symbol val'>:repo_id</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='string val'>&#39;agent&#39;</span><span class='comma token'>,</span> <span class='rubyid_params_for_backend_search identifier id'>params_for_backend_search</span><span class='dot token'>.</span><span class='rubyid_merge identifier id'>merge</span><span class='lparen token'>(</span><span class='lbrace token'>{</span> <span class='string val'>&#39;facet[]&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_SearchResultData constant id'>SearchResultData</span><span class='dot token'>.</span><span class='rubyid_AGENT_FACETS constant id'>AGENT_FACETS</span> <span class='rbrace token'>}</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
+    <span class='rubyid_end end kw'>end</span>
+    <span class='rubyid_format identifier id'>format</span><span class='dot token'>.</span><span class='rubyid_csv identifier id'>csv</span> <span class='rubyid_do do kw'>do</span>
+      <span class='rubyid_search_params identifier id'>search_params</span> <span class='assign token'>=</span> <span class='rubyid_params_for_backend_search identifier id'>params_for_backend_search</span><span class='dot token'>.</span><span class='rubyid_merge identifier id'>merge</span><span class='lparen token'>(</span><span class='lbrace token'>{</span> <span class='string val'>&#39;facet[]&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_SearchResultData constant id'>SearchResultData</span><span class='dot token'>.</span><span class='rubyid_AGENT_FACETS constant id'>AGENT_FACETS</span> <span class='rbrace token'>}</span><span class='rparen token'>)</span>
+      <span class='rubyid_search_params identifier id'>search_params</span><span class='lbrack token'>[</span><span class='string val'>&#39;type[]&#39;</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='string val'>&#39;agent&#39;</span>
       <span class='rubyid_uri identifier id'>uri</span> <span class='assign token'>=</span> <span class='dstring node'>&quot;/repositories/#{session[:repo_id]}/search&quot;</span>
-      <span class='rubyid_csv_response identifier id'>csv_response</span><span class='lparen token'>(</span> <span class='rubyid_uri identifier id'>uri</span><span class='comma token'>,</span> <span class='rubyid_Search constant id'>Search</span><span class='dot token'>.</span><span class='rubyid_build_filters identifier id'>build_filters</span><span class='lparen token'>(</span><span class='rubyid_search_params identifier id'>search_params</span><span class='rparen token'>)</span><span class='comma token'>,</span> <span class='dstring node'>&quot;#{I18n.t(&#39;agent._plural&#39;).downcase}.&quot;</span> <span class='rparen token'>)</span>
-    <span class='rbrace token'>}</span>
+      <span class='rubyid_csv_response identifier id'>csv_response</span><span class='lparen token'>(</span><span class='rubyid_uri identifier id'>uri</span><span class='comma token'>,</span> <span class='rubyid_Search constant id'>Search</span><span class='dot token'>.</span><span class='rubyid_build_filters identifier id'>build_filters</span><span class='lparen token'>(</span><span class='rubyid_search_params identifier id'>search_params</span><span class='rparen token'>)</span><span class='comma token'>,</span> <span class='dstring node'>&quot;#{I18n.t(&#39;agent._plural&#39;).downcase}.&quot;</span><span class='rparen token'>)</span>
+    <span class='rubyid_end end kw'>end</span>
   <span class='rubyid_end end kw'>end</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
@@ -903,20 +1008,20 @@
       <pre class="lines">
 
 
-196
-197
-198
-199
-200
-201
-202
-203
-204
-205
-206</pre>
+217
+218
+219
+220
+221
+222
+223
+224
+225
+226
+227</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/controllers/agents_controller.rb', line 196</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/controllers/agents_controller.rb', line 217</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_merge identifier id'>merge</span>
   <span class='rubyid_merge_list identifier id'>merge_list</span> <span class='assign token'>=</span> <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:record_uris</span><span class='rbrack token'>]</span>
@@ -924,10 +1029,10 @@
   <span class='rubyid_merge_list identifier id'>merge_list</span><span class='dot token'>.</span><span class='rubyid_shift identifier id'>shift</span>
   <span class='rubyid_victims identifier id'>victims</span> <span class='assign token'>=</span> <span class='rubyid_merge_list identifier id'>merge_list</span>
   <span class='rubyid_target_type identifier id'>target_type</span> <span class='assign token'>=</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='dot token'>.</span><span class='rubyid_parse_reference identifier id'>parse_reference</span><span class='lparen token'>(</span><span class='rubyid_target identifier id'>target</span><span class='rparen token'>)</span><span class='lbrack token'>[</span><span class='symbol val'>:type</span><span class='rbrack token'>]</span>
-  <span class='rubyid_handle_merge identifier id'>handle_merge</span><span class='lparen token'>(</span> <span class='rubyid_victims identifier id'>victims</span><span class='comma token'>,</span>
-                <span class='rubyid_target identifier id'>target</span><span class='comma token'>,</span>
-                <span class='string val'>&#39;agent&#39;</span><span class='comma token'>,</span>
-                <span class='lbrace token'>{</span><span class='symbol val'>:agent_type</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_target_type identifier id'>target_type</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
+  <span class='rubyid_handle_merge identifier id'>handle_merge</span><span class='lparen token'>(</span><span class='rubyid_victims identifier id'>victims</span><span class='comma token'>,</span>
+               <span class='rubyid_target identifier id'>target</span><span class='comma token'>,</span>
+               <span class='string val'>&#39;agent&#39;</span><span class='comma token'>,</span>
+               <span class='lbrace token'>{</span> <span class='label val'>agent_type:</span> <span class='rubyid_target_type identifier id'>target_type</span> <span class='rbrace token'>}</span><span class='rparen token'>)</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -939,6 +1044,105 @@
   <h3 class="signature " id="merge_detail-instance_method">
   
     #<strong>merge_detail</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+269
+270
+271
+272
+273
+274
+275
+276
+277
+278
+279
+280
+281
+282
+283
+284
+285
+286
+287
+288
+289
+290
+291
+292
+293
+294
+295
+296
+297
+298
+299
+300
+301
+302
+303
+304
+305</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'frontend/app/controllers/agents_controller.rb', line 269</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_merge_detail identifier id'>merge_detail</span>
+  <span class='rubyid_request identifier id'>request</span> <span class='assign token'>=</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:merge_request_detail</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span>
+  <span class='rubyid_request identifier id'>request</span><span class='dot token'>.</span><span class='rubyid_target identifier id'>target</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span> <span class='string val'>&#39;ref&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='rubyid_@agent_type ivar id'>@agent_type</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_uri_for identifier id'>uri_for</span><span class='lparen token'>(</span><span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:id</span><span class='rbrack token'>]</span><span class='rparen token'>)</span> <span class='rbrace token'>}</span>
+  <span class='rubyid_request identifier id'>request</span><span class='dot token'>.</span><span class='rubyid_victims identifier id'>victims</span> <span class='assign token'>=</span> <span class='rubyid_Array constant id'>Array</span><span class='dot token'>.</span><span class='rubyid_wrap identifier id'>wrap</span><span class='lparen token'>(</span><span class='lbrace token'>{</span> <span class='string val'>&#39;ref&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='string val'>&#39;victim_uri&#39;</span><span class='rbrack token'>]</span> <span class='rbrace token'>}</span><span class='rparen token'>)</span>
+
+  <span class='comment val'># the backend is expecting to know how the user may have re-ordered subrecords in the merge interface. This information is encoded in the params, but will be stripped out when we clean them up unless we add them as a pseudo schema attribute.</span>
+  <span class='comment val'># add_position_to_agents_merge does exactly this.</span>
+  <span class='rubyid_agent_params_with_position identifier id'>agent_params_with_position</span> <span class='assign token'>=</span> <span class='rubyid_add_position_to_agents_merge_params identifier id'>add_position_to_agents_merge_params</span><span class='lparen token'>(</span><span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='string val'>&#39;agent&#39;</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
+  <span class='rubyid_request identifier id'>request</span><span class='dot token'>.</span><span class='rubyid_selections identifier id'>selections</span> <span class='assign token'>=</span> <span class='rubyid_cleanup_params_for_schema identifier id'>cleanup_params_for_schema</span><span class='lparen token'>(</span><span class='rubyid_agent_params_with_position identifier id'>agent_params_with_position</span><span class='comma token'>,</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='rubyid_@agent_type ivar id'>@agent_type</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_schema identifier id'>schema</span><span class='rparen token'>)</span>
+
+  <span class='rubyid_uri identifier id'>uri</span> <span class='assign token'>=</span> <span class='dstring node'>&quot;#{JSONModel::HTTP.backend_url}/merge_requests/agent_detail&quot;</span>
+  <span class='rubyid_if if kw'>if</span> <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='string val'>&#39;dry_run&#39;</span><span class='rbrack token'>]</span>
+    <span class='rubyid_uri identifier id'>uri</span> <span class='opasgn op'>+=</span> <span class='string val'>&#39;?dry_run=true&#39;</span>
+    <span class='rubyid_response identifier id'>response</span> <span class='assign token'>=</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='colon2 op'>::</span><span class='rubyid_HTTP constant id'>HTTP</span><span class='dot token'>.</span><span class='rubyid_post_json identifier id'>post_json</span><span class='lparen token'>(</span><span class='rubyid_URI constant id'>URI</span><span class='lparen token'>(</span><span class='rubyid_uri identifier id'>uri</span><span class='rparen token'>)</span><span class='comma token'>,</span> <span class='rubyid_request identifier id'>request</span><span class='dot token'>.</span><span class='rubyid_to_json identifier id'>to_json</span><span class='rparen token'>)</span>
+    <span class='rubyid_merge_response identifier id'>merge_response</span> <span class='assign token'>=</span> <span class='rubyid_ASUtils constant id'>ASUtils</span><span class='dot token'>.</span><span class='rubyid_json_parse identifier id'>json_parse</span><span class='lparen token'>(</span><span class='rubyid_response identifier id'>response</span><span class='dot token'>.</span><span class='rubyid_body identifier id'>body</span><span class='rparen token'>)</span>
+
+    <span class='rubyid_@agent ivar id'>@agent</span> <span class='assign token'>=</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='rubyid_@agent_type ivar id'>@agent_type</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_from_hash identifier id'>from_hash</span><span class='lparen token'>(</span><span class='rubyid_merge_response identifier id'>merge_response</span><span class='lbrack token'>[</span><span class='string val'>&#39;result&#39;</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='rubyid_find_opts identifier id'>find_opts</span><span class='rparen token'>)</span>
+    <span class='rubyid_render_aspace_partial identifier id'>render_aspace_partial</span> <span class='label val'>partial:</span> <span class='string val'>&#39;agents/merge_preview&#39;</span><span class='comma token'>,</span> <span class='label val'>locals:</span> <span class='lbrace token'>{</span> <span class='label val'>object:</span> <span class='rubyid_@agent ivar id'>@agent</span> <span class='rbrace token'>}</span>
+  <span class='rubyid_else else kw'>else</span>
+    <span class='rubyid_begin begin kw'>begin</span>
+      <span class='rubyid_response identifier id'>response</span> <span class='assign token'>=</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='colon2 op'>::</span><span class='rubyid_HTTP constant id'>HTTP</span><span class='dot token'>.</span><span class='rubyid_post_json identifier id'>post_json</span><span class='lparen token'>(</span><span class='rubyid_URI constant id'>URI</span><span class='lparen token'>(</span><span class='rubyid_uri identifier id'>uri</span><span class='rparen token'>)</span><span class='comma token'>,</span> <span class='rubyid_request identifier id'>request</span><span class='dot token'>.</span><span class='rubyid_to_json identifier id'>to_json</span><span class='rparen token'>)</span>
+
+      <span class='rubyid_flash identifier id'>flash</span><span class='lbrack token'>[</span><span class='symbol val'>:success</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='string val'>&#39;agent._frontend.messages.merged&#39;</span><span class='rparen token'>)</span>
+      <span class='rubyid_resolver identifier id'>resolver</span> <span class='assign token'>=</span> <span class='rubyid_Resolver constant id'>Resolver</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='rubyid_request identifier id'>request</span><span class='dot token'>.</span><span class='rubyid_target identifier id'>target</span><span class='lbrack token'>[</span><span class='string val'>&#39;ref&#39;</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
+      <span class='rubyid_redirect_to identifier id'>redirect_to</span><span class='lparen token'>(</span><span class='rubyid_resolver identifier id'>resolver</span><span class='dot token'>.</span><span class='rubyid_view_uri identifier id'>view_uri</span><span class='rparen token'>)</span>
+    <span class='rubyid_rescue rescue kw'>rescue</span> <span class='rubyid_ValidationException constant id'>ValidationException</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_e identifier id'>e</span>
+      <span class='rubyid_flash identifier id'>flash</span><span class='lbrack token'>[</span><span class='symbol val'>:error</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_e identifier id'>e</span><span class='dot token'>.</span><span class='rubyid_errors identifier id'>errors</span><span class='dot token'>.</span><span class='rubyid_to_s identifier id'>to_s</span>
+      <span class='rubyid_redirect_to identifier id'>redirect_to</span><span class='lparen token'>(</span><span class='lbrace token'>{</span> <span class='label val'>action:</span> <span class='symbol val'>:show</span><span class='comma token'>,</span> <span class='label val'>id:</span> <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:id</span><span class='rbrack token'>]</span> <span class='rbrace token'>}</span><span class='dot token'>.</span><span class='rubyid_merge identifier id'>merge</span><span class='lparen token'>(</span><span class='rubyid_extra_params identifier id'>extra_params</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
+    <span class='rubyid_rescue rescue kw'>rescue</span> <span class='rubyid_ConflictException constant id'>ConflictException</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_e identifier id'>e</span>
+      <span class='rubyid_flash identifier id'>flash</span><span class='lbrack token'>[</span><span class='symbol val'>:error</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='string val'>&#39;errors.merge_conflict&#39;</span><span class='comma token'>,</span> <span class='label val'>message:</span> <span class='rubyid_e identifier id'>e</span><span class='dot token'>.</span><span class='rubyid_conflicts identifier id'>conflicts</span><span class='rparen token'>)</span>
+      <span class='rubyid_redirect_to identifier id'>redirect_to</span><span class='lparen token'>(</span><span class='lbrace token'>{</span> <span class='label val'>action:</span> <span class='symbol val'>:show</span><span class='comma token'>,</span> <span class='label val'>id:</span> <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:id</span><span class='rbrack token'>]</span> <span class='rbrace token'>}</span><span class='dot token'>.</span><span class='rubyid_merge identifier id'>merge</span><span class='lparen token'>(</span><span class='rubyid_extra_params identifier id'>extra_params</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
+    <span class='rubyid_rescue rescue kw'>rescue</span> <span class='rubyid_RecordNotFound constant id'>RecordNotFound</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_e identifier id'>e</span>
+      <span class='rubyid_flash identifier id'>flash</span><span class='lbrack token'>[</span><span class='symbol val'>:error</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='string val'>&#39;errors.error_404&#39;</span><span class='rparen token'>)</span>
+      <span class='rubyid_redirect_to identifier id'>redirect_to</span><span class='lparen token'>(</span><span class='lbrace token'>{</span> <span class='label val'>action:</span> <span class='symbol val'>:show</span><span class='comma token'>,</span> <span class='label val'>id:</span> <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:id</span><span class='rbrack token'>]</span> <span class='rbrace token'>}</span><span class='dot token'>.</span><span class='rubyid_merge identifier id'>merge</span><span class='lparen token'>(</span><span class='rubyid_extra_params identifier id'>extra_params</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
+    <span class='rubyid_end end kw'>end</span>
+  <span class='rubyid_end end kw'>end</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="merge_selector-instance_method">
+  
+    #<strong>merge_selector</strong>  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -981,111 +1185,56 @@
 257
 258
 259
-260</pre>
+260
+261
+262
+263
+264
+265
+266
+267</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'frontend/app/controllers/agents_controller.rb', line 229</span>
 
-<span class='rubyid_def def kw'>def</span> <span class='rubyid_merge_detail identifier id'>merge_detail</span>
-  <span class='rubyid_request identifier id'>request</span> <span class='assign token'>=</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:merge_request_detail</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span>
-  <span class='rubyid_request identifier id'>request</span><span class='dot token'>.</span><span class='rubyid_target identifier id'>target</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='string val'>&#39;ref&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='rubyid_@agent_type ivar id'>@agent_type</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_uri_for identifier id'>uri_for</span><span class='lparen token'>(</span><span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:id</span><span class='rbrack token'>]</span><span class='rparen token'>)</span><span class='rbrace token'>}</span>
-  <span class='rubyid_request identifier id'>request</span><span class='dot token'>.</span><span class='rubyid_victims identifier id'>victims</span> <span class='assign token'>=</span> <span class='rubyid_Array constant id'>Array</span><span class='dot token'>.</span><span class='rubyid_wrap identifier id'>wrap</span><span class='lparen token'>(</span><span class='lbrace token'>{</span> <span class='string val'>&#39;ref&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='string val'>&#39;victim_uri&#39;</span><span class='rbrack token'>]</span> <span class='rbrace token'>}</span><span class='rparen token'>)</span>
-  <span class='rubyid_request identifier id'>request</span><span class='dot token'>.</span><span class='rubyid_selections identifier id'>selections</span> <span class='assign token'>=</span> <span class='rubyid_cleanup_params_for_schema identifier id'>cleanup_params_for_schema</span><span class='lparen token'>(</span><span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='string val'>&#39;agent&#39;</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='rubyid_@agent_type ivar id'>@agent_type</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_schema identifier id'>schema</span><span class='rparen token'>)</span>
-  <span class='rubyid_uri identifier id'>uri</span> <span class='assign token'>=</span> <span class='dstring node'>&quot;#{JSONModel::HTTP.backend_url}/merge_requests/agent_detail&quot;</span>
-  <span class='rubyid_if if kw'>if</span> <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='string val'>&quot;dry_run&quot;</span><span class='rbrack token'>]</span>
-    <span class='rubyid_uri identifier id'>uri</span> <span class='opasgn op'>+=</span> <span class='string val'>&quot;?dry_run=true&quot;</span>
-    <span class='rubyid_response identifier id'>response</span> <span class='assign token'>=</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='colon2 op'>::</span><span class='rubyid_HTTP constant id'>HTTP</span><span class='dot token'>.</span><span class='rubyid_post_json identifier id'>post_json</span><span class='lparen token'>(</span><span class='rubyid_URI constant id'>URI</span><span class='lparen token'>(</span><span class='rubyid_uri identifier id'>uri</span><span class='rparen token'>)</span><span class='comma token'>,</span> <span class='rubyid_request identifier id'>request</span><span class='dot token'>.</span><span class='rubyid_to_json identifier id'>to_json</span><span class='rparen token'>)</span>
-    <span class='rubyid_merge_response identifier id'>merge_response</span> <span class='assign token'>=</span> <span class='rubyid_ASUtils constant id'>ASUtils</span><span class='dot token'>.</span><span class='rubyid_json_parse identifier id'>json_parse</span><span class='lparen token'>(</span><span class='rubyid_response identifier id'>response</span><span class='dot token'>.</span><span class='rubyid_body identifier id'>body</span><span class='rparen token'>)</span>
-    <span class='rubyid_@agent ivar id'>@agent</span> <span class='assign token'>=</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='rubyid_@agent_type ivar id'>@agent_type</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_from_hash identifier id'>from_hash</span><span class='lparen token'>(</span><span class='rubyid_merge_response identifier id'>merge_response</span><span class='comma token'>,</span> <span class='rubyid_find_opts identifier id'>find_opts</span><span class='rparen token'>)</span>
-    <span class='rubyid_render_aspace_partial identifier id'>render_aspace_partial</span> <span class='symbol val'>:partial</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;agents/merge_preview&quot;</span><span class='comma token'>,</span> <span class='symbol val'>:locals</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span><span class='symbol val'>:object</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_@agent ivar id'>@agent</span><span class='rbrace token'>}</span>
-  <span class='rubyid_else else kw'>else</span>
-    <span class='rubyid_begin begin kw'>begin</span>
-      <span class='rubyid_response identifier id'>response</span> <span class='assign token'>=</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='colon2 op'>::</span><span class='rubyid_HTTP constant id'>HTTP</span><span class='dot token'>.</span><span class='rubyid_post_json identifier id'>post_json</span><span class='lparen token'>(</span><span class='rubyid_URI constant id'>URI</span><span class='lparen token'>(</span><span class='rubyid_uri identifier id'>uri</span><span class='rparen token'>)</span><span class='comma token'>,</span> <span class='rubyid_request identifier id'>request</span><span class='dot token'>.</span><span class='rubyid_to_json identifier id'>to_json</span><span class='rparen token'>)</span>
-      <span class='rubyid_if if kw'>if</span> <span class='rubyid_response identifier id'>response</span><span class='dot token'>.</span><span class='rubyid_message identifier id'>message</span> <span class='eqq op'>===</span> <span class='string val'>&quot;OK&quot;</span>
-        <span class='rubyid_flash identifier id'>flash</span><span class='lbrack token'>[</span><span class='symbol val'>:success</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='string val'>&quot;agent._frontend.messages.merged&quot;</span><span class='rparen token'>)</span>
-        <span class='rubyid_resolver identifier id'>resolver</span> <span class='assign token'>=</span> <span class='rubyid_Resolver constant id'>Resolver</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='rubyid_request identifier id'>request</span><span class='dot token'>.</span><span class='rubyid_target identifier id'>target</span><span class='lbrack token'>[</span><span class='string val'>&quot;ref&quot;</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
-        <span class='rubyid_redirect_to identifier id'>redirect_to</span><span class='lparen token'>(</span><span class='rubyid_resolver identifier id'>resolver</span><span class='dot token'>.</span><span class='rubyid_view_uri identifier id'>view_uri</span><span class='rparen token'>)</span>
-      <span class='rubyid_end end kw'>end</span>
-    <span class='rubyid_rescue rescue kw'>rescue</span> <span class='rubyid_ValidationException constant id'>ValidationException</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_e identifier id'>e</span>
-      <span class='rubyid_flash identifier id'>flash</span><span class='lbrack token'>[</span><span class='symbol val'>:error</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_e identifier id'>e</span><span class='dot token'>.</span><span class='rubyid_errors identifier id'>errors</span><span class='dot token'>.</span><span class='rubyid_to_s identifier id'>to_s</span>
-      <span class='rubyid_redirect_to identifier id'>redirect_to</span><span class='lparen token'>(</span><span class='lbrace token'>{</span><span class='symbol val'>:action</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:show</span><span class='comma token'>,</span> <span class='symbol val'>:id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:id</span><span class='rbrack token'>]</span><span class='rbrace token'>}</span><span class='dot token'>.</span><span class='rubyid_merge identifier id'>merge</span><span class='lparen token'>(</span><span class='rubyid_extra_params identifier id'>extra_params</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
-    <span class='rubyid_rescue rescue kw'>rescue</span> <span class='rubyid_ConflictException constant id'>ConflictException</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_e identifier id'>e</span>
-      <span class='rubyid_flash identifier id'>flash</span><span class='lbrack token'>[</span><span class='symbol val'>:error</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='string val'>&quot;errors.merge_conflict&quot;</span><span class='comma token'>,</span> <span class='symbol val'>:message</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_e identifier id'>e</span><span class='dot token'>.</span><span class='rubyid_conflicts identifier id'>conflicts</span><span class='rparen token'>)</span>
-      <span class='rubyid_redirect_to identifier id'>redirect_to</span><span class='lparen token'>(</span><span class='lbrace token'>{</span><span class='symbol val'>:action</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:show</span><span class='comma token'>,</span> <span class='symbol val'>:id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:id</span><span class='rbrack token'>]</span><span class='rbrace token'>}</span><span class='dot token'>.</span><span class='rubyid_merge identifier id'>merge</span><span class='lparen token'>(</span><span class='rubyid_extra_params identifier id'>extra_params</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
-    <span class='rubyid_rescue rescue kw'>rescue</span> <span class='rubyid_RecordNotFound constant id'>RecordNotFound</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_e identifier id'>e</span>
-      <span class='rubyid_flash identifier id'>flash</span><span class='lbrack token'>[</span><span class='symbol val'>:error</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='string val'>&quot;errors.error_404&quot;</span><span class='rparen token'>)</span>
-      <span class='rubyid_redirect_to identifier id'>redirect_to</span><span class='lparen token'>(</span><span class='lbrace token'>{</span><span class='symbol val'>:action</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:show</span><span class='comma token'>,</span> <span class='symbol val'>:id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:id</span><span class='rbrack token'>]</span><span class='rbrace token'>}</span><span class='dot token'>.</span><span class='rubyid_merge identifier id'>merge</span><span class='lparen token'>(</span><span class='rubyid_extra_params identifier id'>extra_params</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
-    <span class='rubyid_end end kw'>end</span>
-  <span class='rubyid_end end kw'>end</span>
-<span class='rubyid_end end kw'>end</span>
-</pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-      <div class="method_details ">
-  <h3 class="signature " id="merge_selector-instance_method">
-  
-    #<strong>merge_selector</strong>  &#x21d2; <tt>Object</tt> 
-  
-
-  
-
-  
-</h3><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-207
-208
-209
-210
-211
-212
-213
-214
-215
-216
-217
-218
-219
-220
-221
-222
-223
-224
-225
-226
-227
-228</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/controllers/agents_controller.rb', line 207</span>
-
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_merge_selector identifier id'>merge_selector</span>
   <span class='rubyid_@agent ivar id'>@agent</span> <span class='assign token'>=</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='rubyid_@agent_type ivar id'>@agent_type</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_find identifier id'>find</span><span class='lparen token'>(</span><span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:id</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='rubyid_find_opts identifier id'>find_opts</span><span class='rparen token'>)</span>
+
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:refs</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_is_a? fid id'>is_a?</span><span class='lparen token'>(</span><span class='rubyid_Array constant id'>Array</span><span class='rparen token'>)</span>
-    <span class='rubyid_flash identifier id'>flash</span><span class='lbrack token'>[</span><span class='symbol val'>:error</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='string val'>&quot;errors.merge_too_many_victims&quot;</span><span class='rparen token'>)</span>
-    <span class='rubyid_redirect_to identifier id'>redirect_to</span><span class='lparen token'>(</span><span class='lbrace token'>{</span><span class='symbol val'>:action</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:show</span><span class='comma token'>,</span> <span class='symbol val'>:id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:id</span><span class='rbrack token'>]</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
-  <span class='rubyid_elsif elsif kw'>elsif</span> <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:refs</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_is_a? fid id'>is_a?</span><span class='lparen token'>(</span><span class='rubyid_String constant id'>String</span><span class='rparen token'>)</span>
-    <span class='rubyid_victim_details identifier id'>victim_details</span> <span class='assign token'>=</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='dot token'>.</span><span class='rubyid_parse_reference identifier id'>parse_reference</span><span class='lparen token'>(</span><span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:refs</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
-    <span class='rubyid_@victim_type ivar id'>@victim_type</span> <span class='assign token'>=</span> <span class='rubyid_victim_details identifier id'>victim_details</span><span class='lbrack token'>[</span><span class='symbol val'>:type</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_to_sym identifier id'>to_sym</span>
-    <span class='rubyid_if if kw'>if</span> <span class='rubyid_@victim_type ivar id'>@victim_type</span> <span class='neq op'>!=</span> <span class='rubyid_@agent_type ivar id'>@agent_type</span>
-      <span class='rubyid_flash identifier id'>flash</span><span class='lbrack token'>[</span><span class='symbol val'>:error</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='string val'>&quot;errors.merge_different_types&quot;</span><span class='rparen token'>)</span>
-      <span class='rubyid_redirect_to identifier id'>redirect_to</span><span class='lparen token'>(</span><span class='lbrace token'>{</span><span class='symbol val'>:action</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:show</span><span class='comma token'>,</span> <span class='symbol val'>:id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:id</span><span class='rbrack token'>]</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
-    <span class='rubyid_else else kw'>else</span>
-      <span class='rubyid_@victim ivar id'>@victim</span> <span class='assign token'>=</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='rubyid_@victim_type ivar id'>@victim_type</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_find identifier id'>find</span><span class='lparen token'>(</span><span class='rubyid_victim_details identifier id'>victim_details</span><span class='lbrack token'>[</span><span class='symbol val'>:id</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='rubyid_find_opts identifier id'>find_opts</span><span class='rparen token'>)</span>
-      <span class='rubyid_if if kw'>if</span> <span class='rubyid_@agent ivar id'>@agent</span><span class='dot token'>.</span><span class='rubyid_has_key? fid id'>has_key?</span><span class='lparen token'>(</span><span class='string val'>&quot;is_user&quot;</span><span class='rparen token'>)</span> <span class='orop op'>||</span> <span class='rubyid_@victim ivar id'>@victim</span><span class='dot token'>.</span><span class='rubyid_has_key? fid id'>has_key?</span><span class='lparen token'>(</span><span class='string val'>&quot;is_user&quot;</span><span class='rparen token'>)</span>
-        <span class='rubyid_flash identifier id'>flash</span><span class='lbrack token'>[</span><span class='symbol val'>:error</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='string val'>&quot;One or more agents is a system user&quot;</span>
-        <span class='rubyid_redirect_to identifier id'>redirect_to</span><span class='lparen token'>(</span><span class='lbrace token'>{</span><span class='symbol val'>:action</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:show</span><span class='comma token'>,</span> <span class='symbol val'>:id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:id</span><span class='rbrack token'>]</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
-      <span class='rubyid_else else kw'>else</span>
-        <span class='rubyid_render identifier id'>render</span> <span class='string val'>&#39;_merge_selector&#39;</span>
-      <span class='rubyid_end end kw'>end</span>
-    <span class='rubyid_end end kw'>end</span>
+    <span class='rubyid_flash identifier id'>flash</span><span class='lbrack token'>[</span><span class='symbol val'>:error</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='string val'>&#39;errors.merge_too_many_victims&#39;</span><span class='rparen token'>)</span>
+    <span class='rubyid_redirect_to identifier id'>redirect_to</span><span class='lparen token'>(</span><span class='lbrace token'>{</span> <span class='label val'>action:</span> <span class='symbol val'>:show</span><span class='comma token'>,</span> <span class='label val'>id:</span> <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:id</span><span class='rbrack token'>]</span> <span class='rbrace token'>}</span><span class='rparen token'>)</span>
+    <span class='rubyid_return return kw'>return</span>
   <span class='rubyid_end end kw'>end</span>
+
+  <span class='rubyid_victim_details identifier id'>victim_details</span> <span class='assign token'>=</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='dot token'>.</span><span class='rubyid_parse_reference identifier id'>parse_reference</span><span class='lparen token'>(</span><span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:refs</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
+  <span class='rubyid_@victim_type ivar id'>@victim_type</span> <span class='assign token'>=</span> <span class='rubyid_victim_details identifier id'>victim_details</span><span class='lbrack token'>[</span><span class='symbol val'>:type</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_to_sym identifier id'>to_sym</span>
+  <span class='rubyid_if if kw'>if</span> <span class='rubyid_@victim_type ivar id'>@victim_type</span> <span class='neq op'>!=</span> <span class='rubyid_@agent_type ivar id'>@agent_type</span>
+    <span class='rubyid_flash identifier id'>flash</span><span class='lbrack token'>[</span><span class='symbol val'>:error</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='string val'>&#39;errors.merge_different_types&#39;</span><span class='rparen token'>)</span>
+    <span class='rubyid_redirect_to identifier id'>redirect_to</span><span class='lparen token'>(</span><span class='lbrace token'>{</span> <span class='label val'>action:</span> <span class='symbol val'>:show</span><span class='comma token'>,</span> <span class='label val'>id:</span> <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:id</span><span class='rbrack token'>]</span> <span class='rbrace token'>}</span><span class='rparen token'>)</span>
+    <span class='rubyid_return return kw'>return</span>
+  <span class='rubyid_end end kw'>end</span>
+
+  <span class='rubyid_@victim ivar id'>@victim</span> <span class='assign token'>=</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='rubyid_@victim_type ivar id'>@victim_type</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_find identifier id'>find</span><span class='lparen token'>(</span><span class='rubyid_victim_details identifier id'>victim_details</span><span class='lbrack token'>[</span><span class='symbol val'>:id</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='rubyid_find_opts identifier id'>find_opts</span><span class='rparen token'>)</span>
+  <span class='rubyid_if if kw'>if</span> <span class='rubyid_@agent ivar id'>@agent</span><span class='dot token'>.</span><span class='rubyid_key? fid id'>key?</span><span class='lparen token'>(</span><span class='string val'>&#39;is_user&#39;</span><span class='rparen token'>)</span> <span class='orop op'>||</span> <span class='rubyid_@victim ivar id'>@victim</span><span class='dot token'>.</span><span class='rubyid_key? fid id'>key?</span><span class='lparen token'>(</span><span class='string val'>&#39;is_user&#39;</span><span class='rparen token'>)</span>
+    <span class='rubyid_flash identifier id'>flash</span><span class='lbrack token'>[</span><span class='symbol val'>:error</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='string val'>&#39;errors.merge_denied_for_system_user&#39;</span><span class='rparen token'>)</span>
+    <span class='rubyid_redirect_to identifier id'>redirect_to</span><span class='lparen token'>(</span><span class='lbrace token'>{</span> <span class='label val'>action:</span> <span class='symbol val'>:show</span><span class='comma token'>,</span> <span class='label val'>id:</span> <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:id</span><span class='rbrack token'>]</span> <span class='rbrace token'>}</span><span class='rparen token'>)</span>
+    <span class='rubyid_return return kw'>return</span>
+  <span class='rubyid_end end kw'>end</span>
+
+  <span class='rubyid_relationship_uris identifier id'>relationship_uris</span> <span class='assign token'>=</span> <span class='rubyid_@victim ivar id'>@victim</span><span class='lbrack token'>[</span><span class='string val'>&#39;related_agents&#39;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_ra identifier id'>ra</span><span class='bitor op'>|</span> <span class='rubyid_ra identifier id'>ra</span><span class='lbrack token'>[</span><span class='string val'>&#39;ref&#39;</span><span class='rbrack token'>]</span><span class='rbrace token'>}</span>
+  <span class='rubyid_if if kw'>if</span> <span class='rubyid_relationship_uris identifier id'>relationship_uris</span><span class='dot token'>.</span><span class='rubyid_include? fid id'>include?</span><span class='lparen token'>(</span><span class='rubyid_@agent ivar id'>@agent</span><span class='lbrack token'>[</span><span class='string val'>&#39;uri&#39;</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
+    <span class='rubyid_flash identifier id'>flash</span><span class='lbrack token'>[</span><span class='symbol val'>:error</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='string val'>&#39;errors.merge_denied_relationship&#39;</span><span class='rparen token'>)</span>
+    <span class='rubyid_redirect_to identifier id'>redirect_to</span><span class='lparen token'>(</span><span class='lbrace token'>{</span> <span class='label val'>action:</span> <span class='symbol val'>:show</span><span class='comma token'>,</span> <span class='label val'>id:</span> <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:id</span><span class='rbrack token'>]</span> <span class='rbrace token'>}</span><span class='rparen token'>)</span>
+    <span class='rubyid_return return kw'>return</span>
+  <span class='rubyid_end end kw'>end</span>
+
+  <span class='rubyid_if if kw'>if</span> <span class='notop op'>!</span><span class='rubyid_user_can? fid id'>user_can?</span><span class='lparen token'>(</span><span class='string val'>&#39;view_agent_contact_record&#39;</span><span class='rparen token'>)</span> <span class='andop op'>&amp;&amp;</span> <span class='lparen token'>(</span><span class='rubyid_@agent ivar id'>@agent</span><span class='dot token'>.</span><span class='rubyid_agent_contacts identifier id'>agent_contacts</span><span class='dot token'>.</span><span class='rubyid_any? fid id'>any?</span> <span class='orop op'>||</span> <span class='rubyid_@victim ivar id'>@victim</span><span class='dot token'>.</span><span class='rubyid_agent_contacts identifier id'>agent_contacts</span><span class='dot token'>.</span><span class='rubyid_any? fid id'>any?</span><span class='rparen token'>)</span>
+    <span class='rubyid_flash identifier id'>flash</span><span class='lbrack token'>[</span><span class='symbol val'>:error</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='string val'>&#39;errors.merge_restricted_contact_details&#39;</span><span class='rparen token'>)</span>
+    <span class='rubyid_redirect_to identifier id'>redirect_to</span><span class='lparen token'>(</span><span class='lbrace token'>{</span> <span class='label val'>action:</span> <span class='symbol val'>:show</span><span class='comma token'>,</span> <span class='label val'>id:</span> <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:id</span><span class='rbrack token'>]</span> <span class='rbrace token'>}</span><span class='rparen token'>)</span>
+    <span class='rubyid_return return kw'>return</span>
+  <span class='rubyid_end end kw'>end</span>
+
+  <span class='rubyid_render identifier id'>render</span> <span class='string val'>&#39;_merge_selector&#39;</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -1108,12 +1257,6 @@
       <pre class="lines">
 
 
-31
-32
-33
-34
-35
-36
 37
 38
 39
@@ -1132,35 +1275,94 @@
 52
 53
 54
-55</pre>
+55
+56
+57
+58
+59
+60
+61
+62</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/controllers/agents_controller.rb', line 31</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/controllers/agents_controller.rb', line 37</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_new identifier id'>new</span>
-  <span class='rubyid_@agent ivar id'>@agent</span> <span class='assign token'>=</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='rubyid_@agent_type ivar id'>@agent_type</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='lbrace token'>{</span><span class='symbol val'>:agent_type</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_@agent_type ivar id'>@agent_type</span><span class='rbrace token'>}</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid__always_valid! fid id'>_always_valid!</span>
+  <span class='rubyid_@agent ivar id'>@agent</span> <span class='assign token'>=</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='rubyid_@agent_type ivar id'>@agent_type</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='lbrace token'>{</span> <span class='label val'>agent_type:</span> <span class='rubyid_@agent_type ivar id'>@agent_type</span> <span class='rbrace token'>}</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid__always_valid! fid id'>_always_valid!</span>
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_user_prefs identifier id'>user_prefs</span><span class='lbrack token'>[</span><span class='string val'>&#39;default_values&#39;</span><span class='rbrack token'>]</span>
     <span class='rubyid_defaults identifier id'>defaults</span> <span class='assign token'>=</span> <span class='rubyid_DefaultValues constant id'>DefaultValues</span><span class='dot token'>.</span><span class='rubyid_get identifier id'>get</span> <span class='rubyid_@agent_type ivar id'>@agent_type</span><span class='dot token'>.</span><span class='rubyid_to_s identifier id'>to_s</span>
     <span class='rubyid_@agent ivar id'>@agent</span><span class='dot token'>.</span><span class='rubyid_update identifier id'>update</span><span class='lparen token'>(</span><span class='rubyid_defaults identifier id'>defaults</span><span class='dot token'>.</span><span class='rubyid_values identifier id'>values</span><span class='rparen token'>)</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_defaults identifier id'>defaults</span>
   <span class='rubyid_end end kw'>end</span>
 
-  <span class='rubyid_required identifier id'>required</span> <span class='assign token'>=</span> <span class='rubyid_RequiredFields constant id'>RequiredFields</span><span class='dot token'>.</span><span class='rubyid_get identifier id'>get</span> <span class='rubyid_@agent_type ivar id'>@agent_type</span><span class='dot token'>.</span><span class='rubyid_to_s identifier id'>to_s</span>
   <span class='rubyid_begin begin kw'>begin</span>
-    <span class='rubyid_@agent ivar id'>@agent</span><span class='dot token'>.</span><span class='rubyid_update_concat identifier id'>update_concat</span><span class='lparen token'>(</span><span class='rubyid_required identifier id'>required</span><span class='dot token'>.</span><span class='rubyid_values identifier id'>values</span><span class='rparen token'>)</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_required identifier id'>required</span>
+    <span class='rubyid_if if kw'>if</span> <span class='rubyid_@required ivar id'>@required</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span> <span class='eq op'>==</span> <span class='rubyid_RequiredFields constant id'>RequiredFields</span>
+      <span class='rubyid_@agent ivar id'>@agent</span><span class='dot token'>.</span><span class='rubyid_update_concat identifier id'>update_concat</span><span class='lparen token'>(</span><span class='rubyid_@required ivar id'>@required</span><span class='dot token'>.</span><span class='rubyid_values identifier id'>values</span><span class='rparen token'>)</span>
+    <span class='rubyid_end end kw'>end</span>
   <span class='rubyid_rescue rescue kw'>rescue</span> <span class='rubyid_Exception constant id'>Exception</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_e identifier id'>e</span>
     <span class='rubyid_flash identifier id'>flash</span><span class='lbrack token'>[</span><span class='symbol val'>:error</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_e identifier id'>e</span><span class='dot token'>.</span><span class='rubyid_message identifier id'>message</span>
-    <span class='rubyid_redirect_to identifier id'>redirect_to</span> <span class='symbol val'>:controller</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:agents</span><span class='comma token'>,</span> <span class='symbol val'>:action</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:required</span>
+    <span class='rubyid_redirect_to identifier id'>redirect_to</span> <span class='label val'>controller:</span> <span class='symbol val'>:agents</span><span class='comma token'>,</span> <span class='label val'>action:</span> <span class='symbol val'>:required</span>
   <span class='rubyid_end end kw'>end</span>
 
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_@agent ivar id'>@agent</span><span class='dot token'>.</span><span class='rubyid_names identifier id'>names</span><span class='dot token'>.</span><span class='rubyid_empty? fid id'>empty?</span>
-    <span class='rubyid_@agent ivar id'>@agent</span><span class='dot token'>.</span><span class='rubyid_names identifier id'>names</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rubyid_@name_type ivar id'>@name_type</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='lbrace token'>{</span><span class='symbol val'>:authorized</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_true true kw'>true</span><span class='comma token'>,</span> <span class='symbol val'>:is_display_name</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_true true kw'>true</span><span class='rbrace token'>}</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid__always_valid! fid id'>_always_valid!</span><span class='rbrack token'>]</span>
+    <span class='rubyid_@agent ivar id'>@agent</span><span class='dot token'>.</span><span class='rubyid_names identifier id'>names</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rubyid_@name_type ivar id'>@name_type</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='lbrace token'>{</span> <span class='label val'>authorized:</span> <span class='rubyid_true true kw'>true</span><span class='comma token'>,</span> <span class='label val'>is_display_name:</span> <span class='rubyid_true true kw'>true</span> <span class='rbrace token'>}</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid__always_valid! fid id'>_always_valid!</span><span class='rbrack token'>]</span>
   <span class='rubyid_end end kw'>end</span>
 
-  <span class='rubyid_ensure_auth_and_display identifier id'>ensure_auth_and_display</span><span class='lparen token'>(</span><span class='rparen token'>)</span>
+  <span class='rubyid_ensure_auth_and_display identifier id'>ensure_auth_and_display</span>
 
-  <span class='rubyid_set_sort_name_default identifier id'>set_sort_name_default</span><span class='lparen token'>(</span><span class='rparen token'>)</span>
+  <span class='rubyid_set_sort_name_default identifier id'>set_sort_name_default</span>
 
-  <span class='rubyid_render_aspace_partial identifier id'>render_aspace_partial</span> <span class='symbol val'>:partial</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;agents/new&quot;</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_inline? fid id'>inline?</span>
+  <span class='rubyid_render_aspace_partial identifier id'>render_aspace_partial</span> <span class='label val'>partial:</span> <span class='string val'>&#39;agents/new&#39;</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_inline? fid id'>inline?</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="publish-instance_method">
+  
+    #<strong>publish</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'frontend/app/controllers/agents_controller.rb', line 151</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_publish identifier id'>publish</span>
+  <span class='rubyid_agent identifier id'>agent</span> <span class='assign token'>=</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='rubyid_@agent_type ivar id'>@agent_type</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_find identifier id'>find</span><span class='lparen token'>(</span><span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:id</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
+
+  <span class='rubyid_response identifier id'>response</span> <span class='assign token'>=</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='colon2 op'>::</span><span class='rubyid_HTTP constant id'>HTTP</span><span class='dot token'>.</span><span class='rubyid_post_form identifier id'>post_form</span><span class='lparen token'>(</span><span class='dstring node'>&quot;#{agent.uri}/publish&quot;</span><span class='rparen token'>)</span>
+
+  <span class='rubyid_if if kw'>if</span> <span class='rubyid_response identifier id'>response</span><span class='dot token'>.</span><span class='rubyid_code identifier id'>code</span> <span class='eq op'>==</span> <span class='string val'>&#39;200&#39;</span>
+    <span class='rubyid_flash identifier id'>flash</span><span class='lbrack token'>[</span><span class='symbol val'>:success</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='string val'>&#39;agent._frontend.messages.published&#39;</span><span class='comma token'>,</span> <span class='rubyid_JSONModelI18nWrapper constant id'>JSONModelI18nWrapper</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='label val'>agent:</span> <span class='rubyid_agent identifier id'>agent</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_enable_parse_mixed_content! fid id'>enable_parse_mixed_content!</span><span class='lparen token'>(</span><span class='rubyid_url_for identifier id'>url_for</span><span class='lparen token'>(</span><span class='symbol val'>:root</span><span class='rparen token'>)</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
+  <span class='rubyid_else else kw'>else</span>
+    <span class='rubyid_flash identifier id'>flash</span><span class='lbrack token'>[</span><span class='symbol val'>:error</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_ASUtils constant id'>ASUtils</span><span class='dot token'>.</span><span class='rubyid_json_parse identifier id'>json_parse</span><span class='lparen token'>(</span><span class='rubyid_response identifier id'>response</span><span class='dot token'>.</span><span class='rubyid_body identifier id'>body</span><span class='rparen token'>)</span><span class='lbrack token'>[</span><span class='string val'>&#39;error&#39;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_to_s identifier id'>to_s</span>
+  <span class='rubyid_end end kw'>end</span>
+
+  <span class='rubyid_redirect_to identifier id'>redirect_to</span> <span class='rubyid_request identifier id'>request</span><span class='dot token'>.</span><span class='rubyid_referer identifier id'>referer</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -1183,29 +1385,23 @@
       <pre class="lines">
 
 
-165
-166
-167
-168
-169
-170
-171
-172
-173
-174</pre>
+192
+193
+194
+195
+196
+197
+198</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/controllers/agents_controller.rb', line 165</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/controllers/agents_controller.rb', line 192</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_required identifier id'>required</span>
-  <span class='rubyid_required identifier id'>required</span> <span class='assign token'>=</span> <span class='rubyid_RequiredFields constant id'>RequiredFields</span><span class='dot token'>.</span><span class='rubyid_get identifier id'>get</span> <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='string val'>&#39;agent_type&#39;</span><span class='rbrack token'>]</span>
+  <span class='rubyid_@agent ivar id'>@agent</span> <span class='assign token'>=</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='rubyid_@agent_type ivar id'>@agent_type</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='lbrace token'>{</span> <span class='label val'>agent_type:</span> <span class='rubyid_@agent_type ivar id'>@agent_type</span> <span class='rbrace token'>}</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid__always_valid! fid id'>_always_valid!</span>
 
-  <span class='rubyid_@agent ivar id'>@agent</span> <span class='assign token'>=</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='rubyid_@agent_type ivar id'>@agent_type</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='lbrace token'>{</span><span class='symbol val'>:agent_type</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_@agent_type ivar id'>@agent_type</span><span class='rbrace token'>}</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid__always_valid! fid id'>_always_valid!</span>
-
-  <span class='rubyid_@agent ivar id'>@agent</span><span class='dot token'>.</span><span class='rubyid_update identifier id'>update</span><span class='lparen token'>(</span><span class='rubyid_required identifier id'>required</span><span class='dot token'>.</span><span class='rubyid_form_values identifier id'>form_values</span><span class='rparen token'>)</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_required identifier id'>required</span>
+  <span class='rubyid_@agent ivar id'>@agent</span><span class='dot token'>.</span><span class='rubyid_update identifier id'>update</span><span class='lparen token'>(</span><span class='rubyid_@required ivar id'>@required</span><span class='dot token'>.</span><span class='rubyid_form_values identifier id'>form_values</span><span class='rparen token'>)</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_@required ivar id'>@required</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span> <span class='eq op'>==</span> <span class='rubyid_RequiredFields constant id'>RequiredFields</span>
 
   <span class='rubyid_render identifier id'>render</span> <span class='string val'>&#39;required&#39;</span>
-
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -1255,7 +1451,7 @@
   <span class='rubyid_@base_search ivar id'>@base_search</span> <span class='assign token'>=</span> <span class='string val'>&#39;/agents/search?&#39;</span>
   <span class='rubyid_page identifier id'>page</span> <span class='assign token'>=</span> <span class='rubyid_Integer constant id'>Integer</span><span class='lparen token'>(</span><span class='rubyid_params identifier id'>params</span><span class='dot token'>.</span><span class='rubyid_fetch identifier id'>fetch</span><span class='lparen token'>(</span><span class='symbol val'>:page</span><span class='comma token'>,</span> <span class='string val'>&quot;1&quot;</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
   <span class='rubyid_begin begin kw'>begin</span>
-    <span class='rubyid_set_up_and_run_search identifier id'>set_up_and_run_search</span><span class='lparen token'>(</span> <span class='rubyid_DEFAULT_AG_TYPES constant id'>DEFAULT_AG_TYPES</span><span class='comma token'>,</span> <span class='rubyid_DEFAULT_AG_FACET_TYPES constant id'>DEFAULT_AG_FACET_TYPES</span><span class='comma token'>,</span>  <span class='rubyid_DEFAULT_AG_SEARCH_OPTS constant id'>DEFAULT_AG_SEARCH_OPTS</span><span class='comma token'>,</span> <span class='rubyid_params identifier id'>params</span><span class='rparen token'>)</span>
+    <span class='rubyid_set_up_and_run_search identifier id'>set_up_and_run_search</span><span class='lparen token'>(</span> <span class='rubyid_DEFAULT_AG_TYPES constant id'>DEFAULT_AG_TYPES</span><span class='comma token'>,</span> <span class='rubyid_DEFAULT_AG_FACET_TYPES constant id'>DEFAULT_AG_FACET_TYPES</span><span class='comma token'>,</span> <span class='rubyid_DEFAULT_AG_SEARCH_OPTS constant id'>DEFAULT_AG_SEARCH_OPTS</span><span class='comma token'>,</span> <span class='rubyid_params identifier id'>params</span><span class='rparen token'>)</span>
   <span class='rubyid_rescue rescue kw'>rescue</span> <span class='rubyid_NoResultsError constant id'>NoResultsError</span>
     <span class='rubyid_flash identifier id'>flash</span><span class='lbrack token'>[</span><span class='symbol val'>:error</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='string val'>&#39;search_results.no_results&#39;</span><span class='rparen token'>)</span>
     <span class='rubyid_redirect_back identifier id'>redirect_back</span><span class='lparen token'>(</span><span class='label val'>fallback_location:</span> <span class='string val'>&#39;/&#39;</span><span class='rparen token'>)</span> <span class='rubyid_and and kw'>and</span> <span class='rubyid_return return kw'>return</span>
@@ -1266,7 +1462,7 @@
   <span class='rubyid_@page_title ivar id'>@page_title</span> <span class='assign token'>=</span> <span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='string val'>&#39;agent._plural&#39;</span><span class='rparen token'>)</span>
   <span class='rubyid_@results_type ivar id'>@results_type</span> <span class='assign token'>=</span> <span class='rubyid_@page_title ivar id'>@page_title</span>
   <span class='rubyid_@search_title ivar id'>@search_title</span> <span class='assign token'>=</span> <span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='string val'>&#39;search_results.search_for&#39;</span><span class='comma token'>,</span> <span class='lbrace token'>{</span><span class='symbol val'>:type</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='string val'>&#39;agent._plural&#39;</span><span class='rparen token'>)</span><span class='comma token'>,</span> <span class='symbol val'>:term</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_params identifier id'>params</span><span class='dot token'>.</span><span class='rubyid_fetch identifier id'>fetch</span><span class='lparen token'>(</span><span class='symbol val'>:q</span><span class='rparen token'>)</span><span class='lbrack token'>[</span><span class='integer val'>0</span><span class='rbrack token'>]</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
-   <span class='rubyid_render identifier id'>render</span> <span class='string val'>&#39;search/search_results&#39;</span>
+  <span class='rubyid_render identifier id'>render</span> <span class='string val'>&#39;search/search_results&#39;</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -1289,12 +1485,12 @@
       <pre class="lines">
 
 
-27
-28
-29</pre>
+33
+34
+35</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/controllers/agents_controller.rb', line 27</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/controllers/agents_controller.rb', line 33</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_show identifier id'>show</span>
   <span class='rubyid_@agent ivar id'>@agent</span> <span class='assign token'>=</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='rubyid_@agent_type ivar id'>@agent_type</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_find identifier id'>find</span><span class='lparen token'>(</span><span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:id</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='rubyid_find_opts identifier id'>find_opts</span><span class='rparen token'>)</span>
@@ -1320,16 +1516,6 @@
       <pre class="lines">
 
 
-95
-96
-97
-98
-99
-100
-101
-102
-103
-104
 105
 106
 107
@@ -1342,32 +1528,44 @@
 114
 115
 116
-117</pre>
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/controllers/agents_controller.rb', line 95</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/controllers/agents_controller.rb', line 105</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_update identifier id'>update</span>
-  <span class='rubyid_handle_crud identifier id'>handle_crud</span><span class='lparen token'>(</span><span class='symbol val'>:instance</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:agent</span><span class='comma token'>,</span>
-              <span class='symbol val'>:model</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='rubyid_@agent_type ivar id'>@agent_type</span><span class='rparen token'>)</span><span class='comma token'>,</span>
-              <span class='symbol val'>:obj</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='rubyid_@agent_type ivar id'>@agent_type</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_find identifier id'>find</span><span class='lparen token'>(</span><span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:id</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='rubyid_find_opts identifier id'>find_opts</span><span class='rparen token'>)</span><span class='comma token'>,</span>
-              <span class='symbol val'>:on_invalid</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='minus op'>-</span><span class='gt op'>&gt;</span><span class='lparen token'>(</span><span class='rparen token'>)</span><span class='lbrace token'>{</span>
+  <span class='rubyid_handle_crud identifier id'>handle_crud</span><span class='lparen token'>(</span><span class='label val'>instance:</span> <span class='symbol val'>:agent</span><span class='comma token'>,</span>
+              <span class='label val'>model:</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='rubyid_@agent_type ivar id'>@agent_type</span><span class='rparen token'>)</span><span class='comma token'>,</span>
+              <span class='label val'>obj:</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='rubyid_@agent_type ivar id'>@agent_type</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_find identifier id'>find</span><span class='lparen token'>(</span><span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:id</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='rubyid_find_opts identifier id'>find_opts</span><span class='rparen token'>)</span><span class='comma token'>,</span>
+              <span class='label val'>on_invalid:</span> <span class='rubyid_lambda identifier id'>lambda</span> <span class='lbrace token'>{</span>
                 <span class='rubyid_if if kw'>if</span> <span class='rubyid_@agent ivar id'>@agent</span><span class='dot token'>.</span><span class='rubyid_names identifier id'>names</span><span class='dot token'>.</span><span class='rubyid_empty? fid id'>empty?</span>
                   <span class='rubyid_@agent ivar id'>@agent</span><span class='dot token'>.</span><span class='rubyid_names identifier id'>names</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rubyid_@name_type ivar id'>@name_type</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='dot token'>.</span><span class='rubyid__always_valid! fid id'>_always_valid!</span><span class='rbrack token'>]</span>
                 <span class='rubyid_end end kw'>end</span>
 
-                <span class='rubyid_return return kw'>return</span> <span class='rubyid_render identifier id'>render</span> <span class='symbol val'>:action</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:edit</span>
+                <span class='rubyid_return return kw'>return</span> <span class='rubyid_render identifier id'>render</span> <span class='label val'>action:</span> <span class='symbol val'>:edit</span>
               <span class='rbrace token'>}</span><span class='comma token'>,</span>
-              <span class='symbol val'>:on_valid</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='minus op'>-</span><span class='gt op'>&gt;</span><span class='lparen token'>(</span><span class='rubyid_id identifier id'>id</span><span class='rparen token'>)</span><span class='lbrace token'>{</span>
-                <span class='rubyid_flash identifier id'>flash</span><span class='lbrack token'>[</span><span class='symbol val'>:success</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='string val'>&quot;agent._frontend.messages.updated&quot;</span><span class='rparen token'>)</span>
-                <span class='rubyid_if if kw'>if</span> <span class='rubyid_@agent ivar id'>@agent</span><span class='lbrack token'>[</span><span class='string val'>&quot;is_slug_auto&quot;</span><span class='rbrack token'>]</span> <span class='eq op'>==</span> <span class='rubyid_false false kw'>false</span> <span class='andop op'>&amp;&amp;</span>
-                   <span class='rubyid_@agent ivar id'>@agent</span><span class='lbrack token'>[</span><span class='string val'>&quot;slug&quot;</span><span class='rbrack token'>]</span> <span class='eq op'>==</span> <span class='rubyid_nil nil kw'>nil</span> <span class='andop op'>&amp;&amp;</span>
-                   <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='string val'>&quot;agent&quot;</span><span class='rbrack token'>]</span> <span class='andop op'>&amp;&amp;</span>
-                   <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='string val'>&quot;agent&quot;</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>&quot;is_slug_auto&quot;</span><span class='rbrack token'>]</span> <span class='eq op'>==</span> <span class='string val'>&quot;1&quot;</span>
-                  <span class='rubyid_flash identifier id'>flash</span><span class='lbrack token'>[</span><span class='symbol val'>:warning</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='string val'>&quot;slug.autogen_disabled&quot;</span><span class='rparen token'>)</span>
+              <span class='label val'>on_valid:</span> <span class='rubyid_lambda identifier id'>lambda</span>  <span class='lbrace token'>{</span> <span class='bitor op'>|</span><span class='rubyid_id identifier id'>id</span><span class='bitor op'>|</span>
+                <span class='rubyid_flash identifier id'>flash</span><span class='lbrack token'>[</span><span class='symbol val'>:success</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='string val'>&#39;agent._frontend.messages.updated&#39;</span><span class='rparen token'>)</span>
+                <span class='rubyid_if if kw'>if</span> <span class='rubyid_@agent ivar id'>@agent</span><span class='lbrack token'>[</span><span class='string val'>&#39;is_slug_auto&#39;</span><span class='rbrack token'>]</span> <span class='eq op'>==</span> <span class='rubyid_false false kw'>false</span> <span class='andop op'>&amp;&amp;</span>
+                   <span class='rubyid_@agent ivar id'>@agent</span><span class='lbrack token'>[</span><span class='string val'>&#39;slug&#39;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span> <span class='andop op'>&amp;&amp;</span>
+                   <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='string val'>&#39;agent&#39;</span><span class='rbrack token'>]</span> <span class='andop op'>&amp;&amp;</span>
+                   <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='string val'>&#39;agent&#39;</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>&#39;is_slug_auto&#39;</span><span class='rbrack token'>]</span> <span class='eq op'>==</span> <span class='string val'>&#39;1&#39;</span>
+
+                  <span class='rubyid_flash identifier id'>flash</span><span class='lbrack token'>[</span><span class='symbol val'>:warning</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='string val'>&#39;slug.autogen_disabled&#39;</span><span class='rparen token'>)</span>
                 <span class='rubyid_end end kw'>end</span>
 
-                <span class='rubyid_redirect_to identifier id'>redirect_to</span> <span class='symbol val'>:controller</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:agents</span><span class='comma token'>,</span> <span class='symbol val'>:action</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:edit</span><span class='comma token'>,</span> <span class='symbol val'>:id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_id identifier id'>id</span><span class='comma token'>,</span> <span class='symbol val'>:agent_type</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_@agent_type ivar id'>@agent_type</span>
+                <span class='rubyid_redirect_to identifier id'>redirect_to</span> <span class='label val'>controller:</span> <span class='symbol val'>:agents</span><span class='comma token'>,</span> <span class='label val'>action:</span> <span class='symbol val'>:edit</span><span class='comma token'>,</span> <span class='label val'>id:</span> <span class='rubyid_id identifier id'>id</span><span class='comma token'>,</span> <span class='label val'>agent_type:</span> <span class='rubyid_@agent_type ivar id'>@agent_type</span>
               <span class='rbrace token'>}</span><span class='rparen token'>)</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
@@ -1391,47 +1589,41 @@
       <pre class="lines">
 
 
-145
-146
-147
-148
-149
-150
-151
-152
-153
-154
-155
-156
-157
-158
-159
-160
-161
-162
-163</pre>
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184
+185
+186
+187
+188
+189
+190</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/controllers/agents_controller.rb', line 145</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/controllers/agents_controller.rb', line 175</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_update_defaults identifier id'>update_defaults</span>
+  <span class='rubyid_DefaultValues constant id'>DefaultValues</span><span class='dot token'>.</span><span class='rubyid_from_hash identifier id'>from_hash</span><span class='lparen token'>(</span><span class='lbrace token'>{</span>
+                            <span class='string val'>&#39;record_type&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_@agent_type ivar id'>@agent_type</span><span class='dot token'>.</span><span class='rubyid_to_s identifier id'>to_s</span><span class='comma token'>,</span>
+                            <span class='string val'>&#39;lock_version&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='string val'>&#39;agent&#39;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_delete identifier id'>delete</span><span class='lparen token'>(</span><span class='string val'>&#39;lock_version&#39;</span><span class='rparen token'>)</span><span class='comma token'>,</span>
+                            <span class='string val'>&#39;defaults&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_cleanup_params_for_schema identifier id'>cleanup_params_for_schema</span><span class='lparen token'>(</span>
+                              <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='string val'>&#39;agent&#39;</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
+                              <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='rubyid_@agent_type ivar id'>@agent_type</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_schema identifier id'>schema</span>
+                            <span class='rparen token'>)</span>
+                          <span class='rbrace token'>}</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_save identifier id'>save</span>
 
-  <span class='rubyid_begin begin kw'>begin</span>
-
-    <span class='rubyid_DefaultValues constant id'>DefaultValues</span><span class='dot token'>.</span><span class='rubyid_from_hash identifier id'>from_hash</span><span class='lparen token'>(</span><span class='lbrace token'>{</span>
-                              <span class='string val'>&quot;record_type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_@agent_type ivar id'>@agent_type</span><span class='dot token'>.</span><span class='rubyid_to_s identifier id'>to_s</span><span class='comma token'>,</span>
-                              <span class='string val'>&quot;lock_version&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='string val'>&#39;agent&#39;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_delete identifier id'>delete</span><span class='lparen token'>(</span><span class='string val'>&#39;lock_version&#39;</span><span class='rparen token'>)</span><span class='comma token'>,</span>
-                              <span class='string val'>&quot;defaults&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_cleanup_params_for_schema identifier id'>cleanup_params_for_schema</span><span class='lparen token'>(</span>
-                                                                      <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='string val'>&#39;agent&#39;</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
-                                                                      <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='rubyid_@agent_type ivar id'>@agent_type</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_schema identifier id'>schema</span><span class='rparen token'>)</span>
-                            <span class='rbrace token'>}</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_save identifier id'>save</span>
-
-    <span class='rubyid_flash identifier id'>flash</span><span class='lbrack token'>[</span><span class='symbol val'>:success</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='string val'>&quot;default_values.messages.defaults_updated&quot;</span><span class='rparen token'>)</span>
-    <span class='rubyid_redirect_to identifier id'>redirect_to</span> <span class='symbol val'>:controller</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:agents</span><span class='comma token'>,</span> <span class='symbol val'>:action</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:defaults</span>
-  <span class='rubyid_rescue rescue kw'>rescue</span> <span class='rubyid_Exception constant id'>Exception</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_e identifier id'>e</span>
-    <span class='rubyid_flash identifier id'>flash</span><span class='lbrack token'>[</span><span class='symbol val'>:error</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_e identifier id'>e</span><span class='dot token'>.</span><span class='rubyid_message identifier id'>message</span>
-    <span class='rubyid_redirect_to identifier id'>redirect_to</span> <span class='symbol val'>:controller</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:agents</span><span class='comma token'>,</span> <span class='symbol val'>:action</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:defaults</span>
-  <span class='rubyid_end end kw'>end</span>
+  <span class='rubyid_flash identifier id'>flash</span><span class='lbrack token'>[</span><span class='symbol val'>:success</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='string val'>&#39;default_values.messages.defaults_updated&#39;</span><span class='rparen token'>)</span>
+  <span class='rubyid_redirect_to identifier id'>redirect_to</span> <span class='label val'>controller:</span> <span class='symbol val'>:agents</span><span class='comma token'>,</span> <span class='label val'>action:</span> <span class='symbol val'>:defaults</span>
+<span class='rubyid_rescue rescue kw'>rescue</span> <span class='rubyid_Exception constant id'>Exception</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_e identifier id'>e</span>
+  <span class='rubyid_flash identifier id'>flash</span><span class='lbrack token'>[</span><span class='symbol val'>:error</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_e identifier id'>e</span><span class='dot token'>.</span><span class='rubyid_message identifier id'>message</span>
+  <span class='rubyid_redirect_to identifier id'>redirect_to</span> <span class='label val'>controller:</span> <span class='symbol val'>:agents</span><span class='comma token'>,</span> <span class='label val'>action:</span> <span class='symbol val'>:defaults</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -1454,45 +1646,41 @@
       <pre class="lines">
 
 
-176
-177
-178
-179
-180
-181
-182
-183
-184
-185
-186
-187
-188
-189
-190
-191
-192
-193</pre>
+200
+201
+202
+203
+204
+205
+206
+207
+208
+209
+210
+211
+212
+213
+214
+215</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/controllers/agents_controller.rb', line 176</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/controllers/agents_controller.rb', line 200</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_update_required identifier id'>update_required</span>
-  <span class='rubyid_begin begin kw'>begin</span>
+  <span class='rubyid_RequiredFields constant id'>RequiredFields</span><span class='dot token'>.</span><span class='rubyid_from_hash identifier id'>from_hash</span><span class='lparen token'>(</span><span class='lbrace token'>{</span>
+                             <span class='string val'>&#39;record_type&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_@agent_type ivar id'>@agent_type</span><span class='dot token'>.</span><span class='rubyid_to_s identifier id'>to_s</span><span class='comma token'>,</span>
+                             <span class='string val'>&#39;lock_version&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='string val'>&#39;agent&#39;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_delete identifier id'>delete</span><span class='lparen token'>(</span><span class='string val'>&#39;lock_version&#39;</span><span class='rparen token'>)</span><span class='comma token'>,</span>
+                             <span class='string val'>&#39;required&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_cleanup_params_for_schema identifier id'>cleanup_params_for_schema</span><span class='lparen token'>(</span>
+                               <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='string val'>&#39;agent&#39;</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
+                               <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='rubyid_@agent_type ivar id'>@agent_type</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_schema identifier id'>schema</span>
+                             <span class='rparen token'>)</span>
+                           <span class='rbrace token'>}</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_save identifier id'>save</span>
 
-    <span class='rubyid_RequiredFields constant id'>RequiredFields</span><span class='dot token'>.</span><span class='rubyid_from_hash identifier id'>from_hash</span><span class='lparen token'>(</span><span class='lbrace token'>{</span>
-                              <span class='string val'>&quot;record_type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_@agent_type ivar id'>@agent_type</span><span class='dot token'>.</span><span class='rubyid_to_s identifier id'>to_s</span><span class='comma token'>,</span>
-                              <span class='string val'>&quot;lock_version&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='string val'>&#39;agent&#39;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_delete identifier id'>delete</span><span class='lparen token'>(</span><span class='string val'>&#39;lock_version&#39;</span><span class='rparen token'>)</span><span class='comma token'>,</span>
-                              <span class='string val'>&quot;required&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_cleanup_params_for_schema identifier id'>cleanup_params_for_schema</span><span class='lparen token'>(</span>
-                                                                      <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='string val'>&#39;agent&#39;</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
-                                                                      <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='rubyid_@agent_type ivar id'>@agent_type</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_schema identifier id'>schema</span><span class='rparen token'>)</span>
-                            <span class='rbrace token'>}</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_save identifier id'>save</span>
-
-    <span class='rubyid_flash identifier id'>flash</span><span class='lbrack token'>[</span><span class='symbol val'>:success</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='string val'>&quot;required_fields.messages.required_fields_updated&quot;</span><span class='rparen token'>)</span>
-    <span class='rubyid_redirect_to identifier id'>redirect_to</span> <span class='symbol val'>:controller</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:agents</span><span class='comma token'>,</span> <span class='symbol val'>:action</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:required</span>
-  <span class='rubyid_rescue rescue kw'>rescue</span> <span class='rubyid_Exception constant id'>Exception</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_e identifier id'>e</span>
-    <span class='rubyid_flash identifier id'>flash</span><span class='lbrack token'>[</span><span class='symbol val'>:error</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_e identifier id'>e</span><span class='dot token'>.</span><span class='rubyid_message identifier id'>message</span>
-    <span class='rubyid_redirect_to identifier id'>redirect_to</span> <span class='symbol val'>:controller</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:agents</span><span class='comma token'>,</span> <span class='symbol val'>:action</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:required</span>
-  <span class='rubyid_end end kw'>end</span>
+  <span class='rubyid_flash identifier id'>flash</span><span class='lbrack token'>[</span><span class='symbol val'>:success</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='string val'>&#39;required_fields.messages.required_fields_updated&#39;</span><span class='rparen token'>)</span>
+  <span class='rubyid_redirect_to identifier id'>redirect_to</span> <span class='label val'>controller:</span> <span class='symbol val'>:agents</span><span class='comma token'>,</span> <span class='label val'>action:</span> <span class='symbol val'>:required</span>
+<span class='rubyid_rescue rescue kw'>rescue</span> <span class='rubyid_Exception constant id'>Exception</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_e identifier id'>e</span>
+  <span class='rubyid_flash identifier id'>flash</span><span class='lbrack token'>[</span><span class='symbol val'>:error</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_e identifier id'>e</span><span class='dot token'>.</span><span class='rubyid_message identifier id'>message</span>
+  <span class='rubyid_redirect_to identifier id'>redirect_to</span> <span class='label val'>controller:</span> <span class='symbol val'>:agents</span><span class='comma token'>,</span> <span class='label val'>action:</span> <span class='symbol val'>:required</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -1505,9 +1693,9 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.8.1.a Documentation Generated on Wed Nov 11 13:22:14 2020 by
+  ArchivesSpace Version X.Y.Z Documentation Generated on Tue Sep 21 14:10:05 2021 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.25.
+  0.9.26.
 </div>
 
     </div>

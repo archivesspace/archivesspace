@@ -10,6 +10,8 @@ string (max length: 255)	description
 
 string (max length: 65000)	data
 
+integer	limit
+
 
 
 

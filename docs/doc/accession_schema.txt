@@ -46,6 +46,8 @@ array (Object (ref, _resolved))	linked_events
 
 array (JSONModel(:extent) object)	extents
 
+array (JSONModel(:lang_material) object)	lang_materials
+
 array (JSONModel(:date) object)	dates
 
 array (JSONModel(:external_document) object)	external_documents
@@ -66,6 +68,10 @@ string	acquisition_type
 
 string	resource_type
 
+string	language
+
+string	script
+
 boolean	restrictions_apply
 
 string (max length: 65000)	retention_rule
@@ -83,6 +89,8 @@ string (max length: 65000)	use_restrictions_note
 array (Object (role, terms, title, relator, ref, _resolved))	linked_agents
 
 array (JSONModel(:instance) object)	instances
+
+array (JSONModel(:metadata_rights_declaration) object)	metadata_rights_declarations
 
 
 

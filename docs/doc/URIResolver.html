@@ -6,7 +6,7 @@
 <title>
   Module: URIResolver
   
-    &mdash; Documentation by YARD 0.9.25
+    &mdash; Documentation by YARD 0.9.26
   
 </title>
 
@@ -161,6 +161,29 @@ of refs with double colons, like “resource::linked_agent”.</p>
         <li class="public ">
   <span class="summary_signature">
     
+      <a href="#add_resolve_wrapper-class_method" title="add_resolve_wrapper (class method)">.<strong>add_resolve_wrapper</strong>(wrapper)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
       <a href="#ensure_reference_is_valid-class_method" title="ensure_reference_is_valid (class method)">.<strong>ensure_reference_is_valid</strong>(reference, active_repository = nil)  &#x21d2; Object </a>
     
 
@@ -227,6 +250,29 @@ of refs with double colons, like “resource::linked_agent”.</p>
 </li>
 
       
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#resolve_wrappers-class_method" title="resolve_wrappers (class method)">.<strong>resolve_wrappers</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
     </ul>
   
 
@@ -248,7 +294,40 @@ of refs with double colons, like “resource::linked_agent”.</p>
 
     
       <div class="method_details first">
-  <h3 class="signature first" id="ensure_reference_is_valid-class_method">
+  <h3 class="signature first" id="add_resolve_wrapper-class_method">
+  
+    .<strong>add_resolve_wrapper</strong>(wrapper)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+29
+30
+31
+32</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/uri_resolver.rb', line 29</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_add_resolve_wrapper identifier id'>add_resolve_wrapper</span><span class='lparen token'>(</span><span class='rubyid_wrapper identifier id'>wrapper</span><span class='rparen token'>)</span>
+  <span class='rubyid_@resolve_wrappers ivar id'>@resolve_wrappers</span> <span class='opasgn op'>||=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
+  <span class='rubyid_@resolve_wrappers ivar id'>@resolve_wrappers</span> <span class='lshft op'>&lt;&lt;</span> <span class='rubyid_wrapper identifier id'>wrapper</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="ensure_reference_is_valid-class_method">
   
     .<strong>ensure_reference_is_valid</strong>(reference, active_repository = nil)  &#x21d2; <tt>Object</tt> 
   
@@ -262,12 +341,12 @@ of refs with double colons, like “resource::linked_agent”.</p>
       <pre class="lines">
 
 
-57
-58
-59</pre>
+72
+73
+74</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/uri_resolver.rb', line 57</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/uri_resolver.rb', line 72</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_ensure_reference_is_valid identifier id'>ensure_reference_is_valid</span><span class='lparen token'>(</span><span class='rubyid_reference identifier id'>reference</span><span class='comma token'>,</span> <span class='rubyid_active_repository identifier id'>active_repository</span> <span class='assign token'>=</span> <span class='rubyid_nil nil kw'>nil</span><span class='rparen token'>)</span>
   <span class='rubyid_URIResolverImplementation constant id'>URIResolverImplementation</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='lbrack token'>[</span><span class='rbrack token'>]</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_ensure_reference_is_valid identifier id'>ensure_reference_is_valid</span><span class='lparen token'>(</span><span class='rubyid_reference identifier id'>reference</span><span class='comma token'>,</span> <span class='rubyid_active_repository identifier id'>active_repository</span><span class='rparen token'>)</span>
@@ -303,12 +382,12 @@ of refs with double colons, like “resource::linked_agent”.</p>
       <pre class="lines">
 
 
-53
-54
-55</pre>
+68
+69
+70</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/uri_resolver.rb', line 53</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/uri_resolver.rb', line 68</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_register_resolver identifier id'>register_resolver</span><span class='lparen token'>(</span><span class='rubyid_resolver identifier id'>resolver</span><span class='rparen token'>)</span>
   <span class='rubyid_URIResolverImplementation constant id'>URIResolverImplementation</span><span class='dot token'>.</span><span class='rubyid_register_resolver identifier id'>register_resolver</span><span class='lparen token'>(</span><span class='rubyid_resolver identifier id'>resolver</span><span class='rparen token'>)</span>
@@ -345,15 +424,6 @@ which required an <code>env</code>.  In the long-run, we can get rid of this.</p
       <pre class="lines">
 
 
-31
-32
-33
-34
-35
-36
-37
-38
-39
 40
 41
 42
@@ -362,10 +432,25 @@ which required an <code>env</code>.  In the long-run, we can get rid of this.</p
 45
 46
 47
-48</pre>
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/uri_resolver.rb', line 31</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/uri_resolver.rb', line 40</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_resolve_references identifier id'>resolve_references</span><span class='lparen token'>(</span><span class='rubyid_records identifier id'>records</span><span class='comma token'>,</span> <span class='rubyid_properties_to_resolve identifier id'>properties_to_resolve</span><span class='comma token'>,</span> <span class='rubyid_ignored identifier id'>ignored</span> <span class='assign token'>=</span> <span class='rubyid_nil nil kw'>nil</span><span class='rparen token'>)</span>
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_ignored identifier id'>ignored</span>
@@ -379,11 +464,48 @@ which required an <code>env</code>.  In the long-run, we can get rid of this.</p
     <span class='rubyid_end end kw'>end</span>
   <span class='rubyid_end end kw'>end</span>
 
-  <span class='rubyid_if if kw'>if</span> <span class='rubyid_properties_to_resolve identifier id'>properties_to_resolve</span>
-    <span class='rubyid_URIResolverImplementation constant id'>URIResolverImplementation</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='rubyid_properties_to_resolve identifier id'>properties_to_resolve</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_resolve_references identifier id'>resolve_references</span><span class='lparen token'>(</span><span class='rubyid_records identifier id'>records</span><span class='rparen token'>)</span>
-  <span class='rubyid_else else kw'>else</span>
-    <span class='rubyid_records identifier id'>records</span>
+  <span class='rubyid_result identifier id'>result</span> <span class='assign token'>=</span> <span class='rubyid_if if kw'>if</span> <span class='rubyid_properties_to_resolve identifier id'>properties_to_resolve</span>
+             <span class='rubyid_URIResolverImplementation constant id'>URIResolverImplementation</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='rubyid_properties_to_resolve identifier id'>properties_to_resolve</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_resolve_references identifier id'>resolve_references</span><span class='lparen token'>(</span><span class='rubyid_records identifier id'>records</span><span class='rparen token'>)</span>
+           <span class='rubyid_else else kw'>else</span>
+             <span class='rubyid_records identifier id'>records</span>
+           <span class='rubyid_end end kw'>end</span>
+
+  <span class='rubyid_URIResolver constant id'>URIResolver</span><span class='dot token'>.</span><span class='rubyid_resolve_wrappers identifier id'>resolve_wrappers</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_resolve_wrapper identifier id'>resolve_wrapper</span><span class='bitor op'>|</span>
+    <span class='rubyid_result identifier id'>result</span> <span class='assign token'>=</span> <span class='rubyid_resolve_wrapper identifier id'>resolve_wrapper</span><span class='dot token'>.</span><span class='rubyid_resolve identifier id'>resolve</span><span class='lparen token'>(</span><span class='rubyid_result identifier id'>result</span><span class='comma token'>,</span> <span class='rubyid_records identifier id'>records</span><span class='comma token'>,</span> <span class='rubyid_properties_to_resolve identifier id'>properties_to_resolve</span><span class='rparen token'>)</span>
   <span class='rubyid_end end kw'>end</span>
+
+  <span class='rubyid_result identifier id'>result</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="resolve_wrappers-class_method">
+  
+    .<strong>resolve_wrappers</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+34
+35
+36</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/uri_resolver.rb', line 34</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_resolve_wrappers identifier id'>resolve_wrappers</span>
+  <span class='rubyid_@resolve_wrappers ivar id'>@resolve_wrappers</span> <span class='opasgn op'>||=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -396,9 +518,9 @@ which required an <code>env</code>.  In the long-run, we can get rid of this.</p
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.8.1.a Documentation Generated on Wed Nov 11 13:21:21 2020 by
+  ArchivesSpace Version X.Y.Z Documentation Generated on Tue Sep 21 14:09:26 2021 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.25.
+  0.9.26.
 </div>
 
     </div>

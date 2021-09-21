@@ -6,7 +6,7 @@
 <title>
   Class: ASpaceImport::RecordProxyMgr
   
-    &mdash; Documentation by YARD 0.9.25
+    &mdash; Documentation by YARD 0.9.26
   
 </title>
 
@@ -290,15 +290,15 @@ discharged</p>
       <pre class="lines">
 
 
+21
 22
 23
 24
 25
-26
-27</pre>
+26</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/converters/lib/record_proxy.rb', line 22</span>
+      <pre class="code"><span class="info file"># File 'backend/app/converters/lib/record_proxy.rb', line 21</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_discharge_proxy identifier id'>discharge_proxy</span><span class='lparen token'>(</span><span class='rubyid_proxy_key identifier id'>proxy_key</span><span class='comma token'>,</span> <span class='rubyid_proxied_obj identifier id'>proxied_obj</span><span class='rparen token'>)</span>
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_@proxies ivar id'>@proxies</span><span class='dot token'>.</span><span class='rubyid_has_key? fid id'>has_key?</span><span class='lparen token'>(</span><span class='rubyid_proxy_key identifier id'>proxy_key</span><span class='rparen token'>)</span>
@@ -333,14 +333,12 @@ discharged</p>
 13
 14
 15
-16
-17</pre>
+16</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'backend/app/converters/lib/record_proxy.rb', line 10</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_get_proxy_for identifier id'>get_proxy_for</span><span class='lparen token'>(</span><span class='rubyid_proxy_key identifier id'>proxy_key</span><span class='comma token'>,</span> <span class='rubyid_record_type identifier id'>record_type</span> <span class='assign token'>=</span> <span class='rubyid_nil nil kw'>nil</span><span class='rparen token'>)</span>
-
   <span class='rubyid_unless unless kw'>unless</span> <span class='rubyid_@proxies ivar id'>@proxies</span><span class='dot token'>.</span><span class='rubyid_has_key? fid id'>has_key?</span><span class='lparen token'>(</span><span class='rubyid_proxy_key identifier id'>proxy_key</span><span class='rparen token'>)</span>
     <span class='rubyid_@proxies ivar id'>@proxies</span><span class='lbrack token'>[</span><span class='rubyid_proxy_key identifier id'>proxy_key</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_RecordProxy constant id'>RecordProxy</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='rubyid_proxy_key identifier id'>proxy_key</span><span class='comma token'>,</span> <span class='rubyid_record_type identifier id'>record_type</span><span class='rparen token'>)</span>
   <span class='rubyid_end end kw'>end</span>
@@ -368,6 +366,7 @@ discharged</p>
       <pre class="lines">
 
 
+29
 30
 31
 32
@@ -375,11 +374,10 @@ discharged</p>
 34
 35
 36
-37
-38</pre>
+37</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/converters/lib/record_proxy.rb', line 30</span>
+      <pre class="code"><span class="info file"># File 'backend/app/converters/lib/record_proxy.rb', line 29</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_undischarged identifier id'>undischarged</span>
   <span class='rubyid_undis identifier id'>undis</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
@@ -401,9 +399,9 @@ discharged</p>
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.8.1.a Documentation Generated on Wed Nov 11 13:22:03 2020 by
+  ArchivesSpace Version X.Y.Z Documentation Generated on Tue Sep 21 14:09:57 2021 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.25.
+  0.9.26.
 </div>
 
     </div>

@@ -6,7 +6,7 @@
 <title>
   Module: FileEmbedHelper
   
-    &mdash; Documentation by YARD 0.9.25
+    &mdash; Documentation by YARD 0.9.26
   
 </title>
 
@@ -313,7 +313,8 @@
 35
 36
 37
-38</pre>
+38
+39</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'frontend/app/helpers/file_embed_helper.rb', line 25</span>
@@ -324,6 +325,7 @@
     <span class='rubyid_if if kw'>if</span> <span class='dstring node'>%w(jpeg gif)</span><span class='dot token'>.</span><span class='rubyid_include? fid id'>include?</span><span class='lparen token'>(</span><span class='rubyid_file_version identifier id'>file_version</span><span class='lbrack token'>[</span><span class='string val'>&#39;file_format_name&#39;</span><span class='rbrack token'>]</span><span class='rparen token'>)</span> <span class='andop op'>&amp;&amp;</span>
       <span class='rubyid_uri identifier id'>uri</span><span class='dot token'>.</span><span class='rubyid_scheme identifier id'>scheme</span> <span class='match op'>=~</span> <span class='regexp val'>/http/</span> <span class='andop op'>&amp;&amp;</span>
       <span class='rubyid_file_version identifier id'>file_version</span><span class='lbrack token'>[</span><span class='string val'>&#39;file_size_bytes&#39;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_to_i identifier id'>to_i</span> <span class='lt op'>&lt;</span> <span class='integer val'>512001</span>
+
       <span class='rubyid_true true kw'>true</span>
     <span class='rubyid_else else kw'>else</span>
       <span class='rubyid_false false kw'>false</span>
@@ -398,9 +400,9 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.8.1.a Documentation Generated on Wed Nov 11 13:21:33 2020 by
+  ArchivesSpace Version X.Y.Z Documentation Generated on Tue Sep 21 14:09:36 2021 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.25.
+  0.9.26.
 </div>
 
     </div>

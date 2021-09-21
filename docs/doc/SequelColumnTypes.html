@@ -6,7 +6,7 @@
 <title>
   Module: SequelColumnTypes
   
-    &mdash; Documentation by YARD 0.9.25
+    &mdash; Documentation by YARD 0.9.26
   
 </title>
 
@@ -148,6 +148,29 @@ Creation is the normal:</p>
   <span class="summary_signature">
     
       <a href="#apply_name_columns-instance_method" title="#apply_name_columns (instance method)">#<strong>apply_name_columns</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#apply_parallel_name_columns-instance_method" title="#apply_parallel_name_columns (instance method)">#<strong>apply_parallel_name_columns</strong>  &#x21d2; Object </a>
     
 
     
@@ -375,20 +398,20 @@ Creation is the normal:</p>
       <pre class="lines">
 
 
-136
-137
-138
-139
-140
-141
-142
-143
 144
 145
-146</pre>
+146
+147
+148
+149
+150
+151
+152
+153
+154</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/db/db_migrator.rb', line 136</span>
+      <pre class="code"><span class="info file"># File 'common/db/db_migrator.rb', line 144</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_apply_mtime_columns identifier id'>apply_mtime_columns</span><span class='lparen token'>(</span><span class='rubyid_create_time identifier id'>create_time</span> <span class='assign token'>=</span> <span class='rubyid_true true kw'>true</span><span class='rparen token'>)</span>
   <span class='rubyid_String constant id'>String</span> <span class='symbol val'>:created_by</span>
@@ -443,6 +466,47 @@ Creation is the normal:</p>
   <span class='rubyid_DynamicEnum constant id'>DynamicEnum</span> <span class='symbol val'>:rules_id</span><span class='comma token'>,</span> <span class='symbol val'>:null</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_true true kw'>true</span>
   <span class='rubyid_TextField constant id'>TextField</span> <span class='symbol val'>:sort_name</span><span class='comma token'>,</span> <span class='symbol val'>:null</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_false false kw'>false</span>
   <span class='rubyid_Integer constant id'>Integer</span> <span class='symbol val'>:sort_name_auto_generate</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="apply_parallel_name_columns-instance_method">
+  
+    #<strong>apply_parallel_name_columns</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+135
+136
+137
+138
+139
+140
+141
+142</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'common/db/db_migrator.rb', line 135</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_apply_parallel_name_columns identifier id'>apply_parallel_name_columns</span>
+  <span class='rubyid_String constant id'>String</span> <span class='symbol val'>:dates</span><span class='comma token'>,</span> <span class='symbol val'>:null</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_true true kw'>true</span>
+  <span class='rubyid_TextField constant id'>TextField</span> <span class='symbol val'>:qualifier</span><span class='comma token'>,</span> <span class='symbol val'>:null</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_true true kw'>true</span>
+  <span class='rubyid_DynamicEnum constant id'>DynamicEnum</span> <span class='symbol val'>:source_id</span><span class='comma token'>,</span> <span class='symbol val'>:null</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_true true kw'>true</span>
+  <span class='rubyid_DynamicEnum constant id'>DynamicEnum</span> <span class='symbol val'>:rules_id</span><span class='comma token'>,</span> <span class='symbol val'>:null</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_true true kw'>true</span>
+  <span class='rubyid_TextField constant id'>TextField</span> <span class='symbol val'>:sort_name</span><span class='comma token'>,</span> <span class='symbol val'>:null</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_false false kw'>false</span>
+  <span class='rubyid_Integer constant id'>Integer</span> <span class='symbol val'>:sort_name_auto_generate</span><span class='comma token'>,</span> <span class='symbol val'>:default</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='integer val'>1</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -713,9 +777,9 @@ Creation is the normal:</p>
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.8.1.a Documentation Generated on Wed Nov 11 13:21:37 2020 by
+  ArchivesSpace Version X.Y.Z Documentation Generated on Tue Sep 21 14:09:38 2021 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.25.
+  0.9.26.
 </div>
 
     </div>

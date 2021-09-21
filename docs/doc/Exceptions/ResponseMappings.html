@@ -6,7 +6,7 @@
 <title>
   Module: Exceptions::ResponseMappings
   
-    &mdash; Documentation by YARD 0.9.25
+    &mdash; Documentation by YARD 0.9.26
   
 </title>
 
@@ -150,9 +150,6 @@
       <pre class="lines">
 
 
-116
-117
-118
 119
 120
 121
@@ -265,10 +262,19 @@
 228
 229
 230
-231</pre>
+231
+232
+233
+234
+235
+236
+237
+238
+239
+240</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/exceptions.rb', line 116</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/exceptions.rb', line 119</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_included identifier id'>included</span><span class='lparen token'>(</span><span class='rubyid_base identifier id'>base</span><span class='rparen token'>)</span>
   <span class='rubyid_base identifier id'>base</span><span class='dot token'>.</span><span class='rubyid_instance_eval identifier id'>instance_eval</span> <span class='rubyid_do do kw'>do</span>
@@ -291,6 +297,10 @@
 
     <span class='rubyid_error identifier id'>error</span> <span class='rubyid_BadParamsException constant id'>BadParamsException</span> <span class='rubyid_do do kw'>do</span>
       <span class='rubyid_json_response identifier id'>json_response</span><span class='lparen token'>(</span><span class='lbrace token'>{</span><span class='symbol val'>:error</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_request identifier id'>request</span><span class='dot token'>.</span><span class='rubyid_env identifier id'>env</span><span class='lbrack token'>[</span><span class='string val'>&#39;sinatra.error&#39;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_params identifier id'>params</span><span class='rbrace token'>}</span><span class='comma token'>,</span> <span class='integer val'>400</span><span class='rparen token'>)</span>
+    <span class='rubyid_end end kw'>end</span>
+
+    <span class='rubyid_error identifier id'>error</span> <span class='rubyid_ReadOnlyException constant id'>ReadOnlyException</span> <span class='rubyid_do do kw'>do</span>
+      <span class='rubyid_json_response identifier id'>json_response</span><span class='lparen token'>(</span><span class='lbrace token'>{</span><span class='symbol val'>:error</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_request identifier id'>request</span><span class='dot token'>.</span><span class='rubyid_env identifier id'>env</span><span class='lbrack token'>[</span><span class='string val'>&#39;sinatra.error&#39;</span><span class='rbrack token'>]</span><span class='rbrace token'>}</span><span class='comma token'>,</span> <span class='integer val'>409</span><span class='rparen token'>)</span>
     <span class='rubyid_end end kw'>end</span>
 
     <span class='rubyid_error identifier id'>error</span> <span class='rubyid_UserNotFoundException constant id'>UserNotFoundException</span> <span class='rubyid_do do kw'>do</span>
@@ -381,7 +391,9 @@
         <span class='rubyid_Log constant id'>Log</span><span class='dot token'>.</span><span class='rubyid_error identifier id'>error</span><span class='lparen token'>(</span><span class='string val'>&#39;Unhandled exception!&#39;</span><span class='rparen token'>)</span>
         <span class='rubyid_Log constant id'>Log</span><span class='dot token'>.</span><span class='rubyid_exception identifier id'>exception</span><span class='lparen token'>(</span><span class='rubyid_request identifier id'>request</span><span class='dot token'>.</span><span class='rubyid_env identifier id'>env</span><span class='lbrack token'>[</span><span class='string val'>&#39;sinatra.error&#39;</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
 
-        <span class='rubyid_json_response identifier id'>json_response</span><span class='lparen token'>(</span><span class='lbrace token'>{</span><span class='symbol val'>:error</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_ex identifier id'>ex</span><span class='dot token'>.</span><span class='rubyid_message identifier id'>message</span><span class='rbrace token'>}</span><span class='comma token'>,</span> <span class='integer val'>500</span><span class='rparen token'>)</span>
+        <span class='rubyid_message identifier id'>message</span> <span class='assign token'>=</span> <span class='rubyid_ex identifier id'>ex</span><span class='dot token'>.</span><span class='rubyid_message identifier id'>message</span> <span class='plus op'>+</span> <span class='string val'>&quot;: &quot;</span> <span class='plus op'>+</span> <span class='rubyid_ex identifier id'>ex</span><span class='dot token'>.</span><span class='rubyid_backtrace identifier id'>backtrace</span><span class='dot token'>.</span><span class='rubyid_join identifier id'>join</span><span class='lparen token'>(</span><span class='string val'>&quot;\n\t&quot;</span><span class='rparen token'>)</span>
+
+        <span class='rubyid_json_response identifier id'>json_response</span><span class='lparen token'>(</span><span class='lbrace token'>{</span><span class='symbol val'>:error</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_message identifier id'>message</span><span class='rbrace token'>}</span><span class='comma token'>,</span> <span class='integer val'>500</span><span class='rparen token'>)</span>
       <span class='rubyid_end end kw'>end</span>
     <span class='rubyid_end end kw'>end</span>
   <span class='rubyid_end end kw'>end</span>
@@ -397,9 +409,9 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.8.1.a Documentation Generated on Wed Nov 11 13:21:21 2020 by
+  ArchivesSpace Version X.Y.Z Documentation Generated on Tue Sep 21 14:09:25 2021 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.25.
+  0.9.26.
 </div>
 
     </div>

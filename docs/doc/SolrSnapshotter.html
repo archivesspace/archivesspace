@@ -6,7 +6,7 @@
 <title>
   Class: SolrSnapshotter
   
-    &mdash; Documentation by YARD 0.9.25
+    &mdash; Documentation by YARD 0.9.26
   
 </title>
 
@@ -301,6 +301,7 @@
       <pre class="lines">
 
 
+88
 89
 90
 91
@@ -346,11 +347,10 @@
 131
 132
 133
-134
-135</pre>
+134</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/solr_snapshotter.rb', line 89</span>
+      <pre class="code"><span class="info file"># File 'common/solr_snapshotter.rb', line 88</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_do_snapshot identifier id'>do_snapshot</span><span class='lparen token'>(</span><span class='rubyid_identifier identifier id'>identifier</span> <span class='assign token'>=</span> <span class='rubyid_nil nil kw'>nil</span><span class='rparen token'>)</span>
   <span class='rubyid_identifier identifier id'>identifier</span> <span class='opasgn op'>||=</span> <span class='rubyid_Time constant id'>Time</span><span class='dot token'>.</span><span class='rubyid_now identifier id'>now</span><span class='dot token'>.</span><span class='rubyid_to_i identifier id'>to_i</span>
@@ -441,8 +441,7 @@
 32
 33
 34
-35
-36</pre>
+35</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'common/solr_snapshotter.rb', line 14</span>
@@ -468,7 +467,6 @@
       <span class='rubyid_log identifier id'>log</span><span class='lparen token'>(</span><span class='symbol val'>:info</span><span class='comma token'>,</span> <span class='dstring node'>&quot;Too cowardly to delete: #{backup_dir}&quot;</span><span class='rparen token'>)</span>
     <span class='rubyid_end end kw'>end</span>
   <span class='rubyid_end end kw'>end</span>
-
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -491,6 +489,7 @@
       <pre class="lines">
 
 
+43
 44
 45
 46
@@ -501,11 +500,10 @@
 51
 52
 53
-54
-55</pre>
+54</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/solr_snapshotter.rb', line 44</span>
+      <pre class="code"><span class="info file"># File 'common/solr_snapshotter.rb', line 43</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_last_snapshot_status identifier id'>last_snapshot_status</span>
   <span class='rubyid_response identifier id'>response</span> <span class='assign token'>=</span> <span class='rubyid_ASHTTP constant id'>ASHTTP</span><span class='dot token'>.</span><span class='rubyid_get_response identifier id'>get_response</span><span class='lparen token'>(</span><span class='rubyid_URI constant id'>URI</span><span class='dot token'>.</span><span class='rubyid_join identifier id'>join</span><span class='lparen token'>(</span><span class='rubyid_AppConfig constant id'>AppConfig</span><span class='lbrack token'>[</span><span class='symbol val'>:solr_url</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
@@ -540,12 +538,12 @@
       <pre class="lines">
 
 
+38
 39
-40
-41</pre>
+40</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/solr_snapshotter.rb', line 39</span>
+      <pre class="code"><span class="info file"># File 'common/solr_snapshotter.rb', line 38</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_latest_snapshot identifier id'>latest_snapshot</span>
   <span class='rubyid_latest identifier id'>latest</span> <span class='assign token'>=</span> <span class='rubyid_Dir constant id'>Dir</span><span class='dot token'>.</span><span class='rubyid_glob identifier id'>glob</span><span class='lparen token'>(</span><span class='rubyid_File constant id'>File</span><span class='dot token'>.</span><span class='rubyid_join identifier id'>join</span><span class='lparen token'>(</span><span class='rubyid_AppConfig constant id'>AppConfig</span><span class='lbrack token'>[</span><span class='symbol val'>:solr_index_directory</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='string val'>&quot;snapshot.*&quot;</span><span class='rparen token'>)</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_sort identifier id'>sort</span><span class='dot token'>.</span><span class='rubyid_last identifier id'>last</span>
@@ -610,6 +608,7 @@
       <pre class="lines">
 
 
+57
 58
 59
 60
@@ -624,11 +623,10 @@
 69
 70
 71
-72
-73</pre>
+72</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/solr_snapshotter.rb', line 58</span>
+      <pre class="code"><span class="info file"># File 'common/solr_snapshotter.rb', line 57</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_snapshot identifier id'>snapshot</span><span class='lparen token'>(</span><span class='rubyid_identifier identifier id'>identifier</span> <span class='assign token'>=</span> <span class='rubyid_nil nil kw'>nil</span><span class='rparen token'>)</span>
   <span class='rubyid_retries identifier id'>retries</span> <span class='assign token'>=</span> <span class='integer val'>5</span>
@@ -667,6 +665,7 @@
       <pre class="lines">
 
 
+75
 76
 77
 78
@@ -676,11 +675,10 @@
 82
 83
 84
-85
-86</pre>
+85</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/solr_snapshotter.rb', line 76</span>
+      <pre class="code"><span class="info file"># File 'common/solr_snapshotter.rb', line 75</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_wait_for_snapshot_to_finish identifier id'>wait_for_snapshot_to_finish</span><span class='lparen token'>(</span><span class='rubyid_starting_status identifier id'>starting_status</span><span class='comma token'>,</span> <span class='rubyid_starting_snapshot identifier id'>starting_snapshot</span><span class='rparen token'>)</span>
   <span class='rubyid_while while kw'>while</span> <span class='rubyid_true true kw'>true</span>
@@ -704,9 +702,9 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.8.1.a Documentation Generated on Wed Nov 11 13:22:22 2020 by
+  ArchivesSpace Version X.Y.Z Documentation Generated on Tue Sep 21 14:10:11 2021 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.25.
+  0.9.26.
 </div>
 
     </div>

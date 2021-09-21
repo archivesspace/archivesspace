@@ -6,7 +6,7 @@
 <title>
   Module: AgentNames
   
-    &mdash; Documentation by YARD 0.9.25
+    &mdash; Documentation by YARD 0.9.26
   
 </title>
 
@@ -237,12 +237,12 @@
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_included identifier id'>included</span><span class='lparen token'>(</span><span class='rubyid_base identifier id'>base</span><span class='rparen token'>)</span>
   <span class='rubyid_base identifier id'>base</span><span class='dot token'>.</span><span class='rubyid_set_model_scope identifier id'>set_model_scope</span> <span class='symbol val'>:global</span>
-  
-  <span class='rubyid_base identifier id'>base</span><span class='dot token'>.</span><span class='rubyid_one_to_many identifier id'>one_to_many</span> <span class='symbol val'>:date</span><span class='comma token'>,</span> <span class='symbol val'>:class</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;ASDate&quot;</span>
-  
+
+  <span class='rubyid_base identifier id'>base</span><span class='dot token'>.</span><span class='rubyid_one_to_many identifier id'>one_to_many</span> <span class='symbol val'>:structured_date_label</span><span class='comma token'>,</span> <span class='symbol val'>:class</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;StructuredDateLabel&quot;</span>
+
   <span class='rubyid_base identifier id'>base</span><span class='dot token'>.</span><span class='rubyid_def_nested_record identifier id'>def_nested_record</span><span class='lparen token'>(</span><span class='symbol val'>:the_property</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:use_dates</span><span class='comma token'>,</span>
-                         <span class='symbol val'>:contains_records_of_type</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:date</span><span class='comma token'>,</span>
-                         <span class='symbol val'>:corresponding_to_association</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:date</span><span class='rparen token'>)</span>
+                         <span class='symbol val'>:contains_records_of_type</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:structured_date_label</span><span class='comma token'>,</span>
+                         <span class='symbol val'>:corresponding_to_association</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:structured_date_label</span><span class='rparen token'>)</span>
 
 
   <span class='rubyid_base identifier id'>base</span><span class='dot token'>.</span><span class='rubyid_one_to_one identifier id'>one_to_one</span> <span class='symbol val'>:name_authority_id</span>
@@ -340,9 +340,9 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.8.1.a Documentation Generated on Wed Nov 11 13:21:27 2020 by
+  ArchivesSpace Version X.Y.Z Documentation Generated on Tue Sep 21 14:09:30 2021 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.25.
+  0.9.26.
 </div>
 
     </div>

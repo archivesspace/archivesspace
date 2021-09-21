@@ -6,7 +6,7 @@
 <title>
   Class: SequenceGenerator
   
-    &mdash; Documentation by YARD 0.9.25
+    &mdash; Documentation by YARD 0.9.26
   
 </title>
 
@@ -353,7 +353,7 @@
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_generate_range identifier id'>generate_range</span>
   <span class='rubyid_range identifier id'>range</span> <span class='assign token'>=</span> <span class='lparen token'>(</span><span class='rubyid_@from ivar id'>@from</span><span class='dot2 op'>..</span><span class='rubyid_@to ivar id'>@to</span><span class='rparen token'>)</span>
-  <span class='rubyid_values identifier id'>values</span> <span class='assign token'>=</span> <span class='rubyid_range identifier id'>range</span><span class='dot token'>.</span><span class='rubyid_take identifier id'>take</span><span class='lparen token'>(</span><span class='rubyid_@limit ivar id'>@limit</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span><span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_i identifier id'>i</span><span class='bitor op'>|</span> <span class='dstring node'>&quot;#{@prefix}#{i}#{@suffix}&quot;</span><span class='rbrace token'>}</span>
+  <span class='rubyid_values identifier id'>values</span> <span class='assign token'>=</span> <span class='rubyid_range identifier id'>range</span><span class='dot token'>.</span><span class='rubyid_take identifier id'>take</span><span class='lparen token'>(</span><span class='rubyid_@limit ivar id'>@limit</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_i identifier id'>i</span><span class='bitor op'>|</span> <span class='dstring node'>&quot;#{@prefix}#{i}#{@suffix}&quot;</span><span class='rbrace token'>}</span>
 
   <span class='lbrace token'>{</span>
     <span class='string val'>&quot;size&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_values identifier id'>values</span><span class='dot token'>.</span><span class='rubyid_length identifier id'>length</span><span class='comma token'>,</span>
@@ -375,9 +375,9 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.8.1.a Documentation Generated on Wed Nov 11 13:22:12 2020 by
+  ArchivesSpace Version X.Y.Z Documentation Generated on Tue Sep 21 14:10:04 2021 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.25.
+  0.9.26.
 </div>
 
     </div>

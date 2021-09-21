@@ -6,7 +6,7 @@
 <title>
   Module: ASpaceImport::Utils
   
-    &mdash; Documentation by YARD 0.9.25
+    &mdash; Documentation by YARD 0.9.26
   
 </title>
 
@@ -442,14 +442,12 @@
 147
 148
 149
-150
-151</pre>
+150</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'backend/app/converters/lib/utils.rb', line 141</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_ref_type_list identifier id'>ref_type_list</span><span class='lparen token'>(</span><span class='rubyid_property_ref_type identifier id'>property_ref_type</span><span class='rparen token'>)</span>
-
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_property_ref_type identifier id'>property_ref_type</span><span class='dot token'>.</span><span class='rubyid_is_a? fid id'>is_a?</span><span class='lparen token'>(</span><span class='rubyid_Array constant id'>Array</span><span class='rparen token'>)</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_property_ref_type identifier id'>property_ref_type</span><span class='lbrack token'>[</span><span class='integer val'>0</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_is_a? fid id'>is_a?</span><span class='lparen token'>(</span><span class='rubyid_Hash constant id'>Hash</span><span class='rparen token'>)</span>
     <span class='rubyid_property_ref_type identifier id'>property_ref_type</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span> <span class='lbrace token'>{</span> <span class='bitor op'>|</span><span class='rubyid_t identifier id'>t</span><span class='bitor op'>|</span> <span class='rubyid_t identifier id'>t</span><span class='lbrack token'>[</span><span class='string val'>&#39;type&#39;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_scan identifier id'>scan</span><span class='lparen token'>(</span><span class='regexp val'>/:([a-zA-Z_]*)/</span><span class='rparen token'>)</span><span class='lbrack token'>[</span><span class='integer val'>0</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='integer val'>0</span><span class='rbrack token'>]</span> <span class='rbrace token'>}</span>
 
@@ -480,6 +478,7 @@
       <pre class="lines">
 
 
+153
 154
 155
 156
@@ -493,11 +492,10 @@
 164
 165
 166
-167
-168</pre>
+167</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/converters/lib/utils.rb', line 154</span>
+      <pre class="code"><span class="info file"># File 'backend/app/converters/lib/utils.rb', line 153</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_update_record_references identifier id'>update_record_references</span><span class='lparen token'>(</span><span class='rubyid_record identifier id'>record</span><span class='comma token'>,</span> <span class='rubyid_ref_source identifier id'>ref_source</span><span class='rparen token'>)</span>
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_record identifier id'>record</span><span class='dot token'>.</span><span class='rubyid_is_a? fid id'>is_a?</span><span class='lparen token'>(</span><span class='rubyid_Array constant id'>Array</span><span class='rparen token'>)</span> <span class='orop op'>||</span> <span class='rubyid_record identifier id'>record</span><span class='dot token'>.</span><span class='rubyid_respond_to? fid id'>respond_to?</span><span class='lparen token'>(</span><span class='symbol val'>:to_array</span><span class='rparen token'>)</span>
@@ -606,62 +604,62 @@
       <pre class="code"><span class="info file"># File 'backend/app/converters/lib/utils.rb', line 73</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_value_filter identifier id'>value_filter</span><span class='lparen token'>(</span><span class='rubyid_property_type identifier id'>property_type</span><span class='rparen token'>)</span>
- <span class='rubyid_case case kw'>case</span> <span class='rubyid_property_type identifier id'>property_type</span>
+  <span class='rubyid_case case kw'>case</span> <span class='rubyid_property_type identifier id'>property_type</span>
 
- <span class='rubyid_when when kw'>when</span> <span class='regexp val'>/^record_uri_or_record_inline/</span>
-   <span class='rubyid_lambda identifier id'>lambda</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_val identifier id'>val</span><span class='bitor op'>|</span>
-     <span class='rubyid_val identifier id'>val</span><span class='dot token'>.</span><span class='rubyid_block_further_reception identifier id'>block_further_reception</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_val identifier id'>val</span><span class='dot token'>.</span><span class='rubyid_respond_to? fid id'>respond_to?</span> <span class='symbol val'>:block_further_reception</span>
-     <span class='rubyid_if if kw'>if</span> <span class='rubyid_val identifier id'>val</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_method_defined? fid id'>method_defined?</span> <span class='colon op'>:</span><span class='rubyid_uri identifier id'>uri</span>
-       <span class='rubyid_val identifier id'>val</span><span class='dot token'>.</span><span class='rubyid_uri identifier id'>uri</span>
-     <span class='rubyid_else else kw'>else</span>
-       <span class='rubyid_val identifier id'>val</span>
-     <span class='rubyid_end end kw'>end</span>
-   <span class='rbrace token'>}</span>
+  <span class='rubyid_when when kw'>when</span> <span class='regexp val'>/^record_uri_or_record_inline/</span>
+    <span class='rubyid_lambda identifier id'>lambda</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_val identifier id'>val</span><span class='bitor op'>|</span>
+      <span class='rubyid_val identifier id'>val</span><span class='dot token'>.</span><span class='rubyid_block_further_reception identifier id'>block_further_reception</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_val identifier id'>val</span><span class='dot token'>.</span><span class='rubyid_respond_to? fid id'>respond_to?</span> <span class='symbol val'>:block_further_reception</span>
+      <span class='rubyid_if if kw'>if</span> <span class='rubyid_val identifier id'>val</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_method_defined? fid id'>method_defined?</span> <span class='colon op'>:</span><span class='rubyid_uri identifier id'>uri</span>
+        <span class='rubyid_val identifier id'>val</span><span class='dot token'>.</span><span class='rubyid_uri identifier id'>uri</span>
+      <span class='rubyid_else else kw'>else</span>
+        <span class='rubyid_val identifier id'>val</span>
+      <span class='rubyid_end end kw'>end</span>
+    <span class='rbrace token'>}</span>
 
- <span class='rubyid_when when kw'>when</span> <span class='regexp val'>/^record_uri/</span>
-   <span class='rubyid_lambda identifier id'>lambda</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_val identifier id'>val</span><span class='bitor op'>|</span>
-     <span class='rubyid_if if kw'>if</span> <span class='rubyid_val identifier id'>val</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_method_defined? fid id'>method_defined?</span> <span class='colon op'>:</span><span class='rubyid_uri identifier id'>uri</span>
-       <span class='rubyid_val identifier id'>val</span><span class='dot token'>.</span><span class='rubyid_uri identifier id'>uri</span>
-     <span class='rubyid_else else kw'>else</span>
-       <span class='rubyid_val identifier id'>val</span><span class='dot token'>.</span><span class='rubyid_to_s identifier id'>to_s</span>
-     <span class='rubyid_end end kw'>end</span>
-   <span class='rbrace token'>}</span>
+  <span class='rubyid_when when kw'>when</span> <span class='regexp val'>/^record_uri/</span>
+    <span class='rubyid_lambda identifier id'>lambda</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_val identifier id'>val</span><span class='bitor op'>|</span>
+      <span class='rubyid_if if kw'>if</span> <span class='rubyid_val identifier id'>val</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_method_defined? fid id'>method_defined?</span> <span class='colon op'>:</span><span class='rubyid_uri identifier id'>uri</span>
+        <span class='rubyid_val identifier id'>val</span><span class='dot token'>.</span><span class='rubyid_uri identifier id'>uri</span>
+      <span class='rubyid_else else kw'>else</span>
+        <span class='rubyid_val identifier id'>val</span><span class='dot token'>.</span><span class='rubyid_to_s identifier id'>to_s</span>
+      <span class='rubyid_end end kw'>end</span>
+    <span class='rbrace token'>}</span>
 
- <span class='rubyid_when when kw'>when</span> <span class='regexp val'>/^record_inline/</span>
-   <span class='rubyid_lambda identifier id'>lambda</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_val identifier id'>val</span><span class='bitor op'>|</span>
-     <span class='rubyid_val identifier id'>val</span>
-   <span class='rbrace token'>}</span>
+  <span class='rubyid_when when kw'>when</span> <span class='regexp val'>/^record_inline/</span>
+    <span class='rubyid_lambda identifier id'>lambda</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_val identifier id'>val</span><span class='bitor op'>|</span>
+      <span class='rubyid_val identifier id'>val</span>
+    <span class='rbrace token'>}</span>
 
- <span class='rubyid_when when kw'>when</span> <span class='regexp val'>/^record_ref/</span>
-   <span class='rubyid_lambda identifier id'>lambda</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_val identifier id'>val</span><span class='bitor op'>|</span>
-     <span class='rubyid_if if kw'>if</span> <span class='rubyid_val identifier id'>val</span><span class='dot token'>.</span><span class='rubyid_respond_to? fid id'>respond_to?</span><span class='lparen token'>(</span><span class='symbol val'>:uri</span><span class='rparen token'>)</span>
-       <span class='lbrace token'>{</span><span class='string val'>&#39;ref&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_val identifier id'>val</span><span class='dot token'>.</span><span class='rubyid_uri identifier id'>uri</span><span class='rbrace token'>}</span>
-     <span class='rubyid_else else kw'>else</span>
-       <span class='rubyid_val identifier id'>val</span>
-     <span class='rubyid_end end kw'>end</span>
-   <span class='rbrace token'>}</span>
+  <span class='rubyid_when when kw'>when</span> <span class='regexp val'>/^record_ref/</span>
+    <span class='rubyid_lambda identifier id'>lambda</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_val identifier id'>val</span><span class='bitor op'>|</span>
+      <span class='rubyid_if if kw'>if</span> <span class='rubyid_val identifier id'>val</span><span class='dot token'>.</span><span class='rubyid_respond_to? fid id'>respond_to?</span><span class='lparen token'>(</span><span class='symbol val'>:uri</span><span class='rparen token'>)</span>
+        <span class='lbrace token'>{</span><span class='string val'>&#39;ref&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_val identifier id'>val</span><span class='dot token'>.</span><span class='rubyid_uri identifier id'>uri</span><span class='rbrace token'>}</span>
+      <span class='rubyid_else else kw'>else</span>
+        <span class='rubyid_val identifier id'>val</span>
+      <span class='rubyid_end end kw'>end</span>
+    <span class='rbrace token'>}</span>
 
- <span class='rubyid_when when kw'>when</span> <span class='symbol val'>:boolean</span>
-   <span class='rubyid_lambda identifier id'>lambda</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_val identifier id'>val</span><span class='bitor op'>|</span>
-     <span class='rubyid_if if kw'>if</span> <span class='lbrack token'>[</span><span class='rubyid_false false kw'>false</span><span class='comma token'>,</span> <span class='rubyid_true true kw'>true</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_include? fid id'>include?</span> <span class='rubyid_val identifier id'>val</span>
-       <span class='rubyid_val identifier id'>val</span>
-     <span class='rubyid_elsif elsif kw'>elsif</span> <span class='rubyid_val identifier id'>val</span><span class='dot token'>.</span><span class='rubyid_to_s identifier id'>to_s</span> <span class='eq op'>==</span> <span class='string val'>&#39;0&#39;</span>
-       <span class='rubyid_false false kw'>false</span>
-     <span class='rubyid_elsif elsif kw'>elsif</span> <span class='rubyid_val identifier id'>val</span><span class='dot token'>.</span><span class='rubyid_to_s identifier id'>to_s</span> <span class='eq op'>==</span> <span class='string val'>&#39;1&#39;</span>
-       <span class='rubyid_true true kw'>true</span>
-     <span class='rubyid_end end kw'>end</span>
-   <span class='rbrace token'>}</span>
+  <span class='rubyid_when when kw'>when</span> <span class='symbol val'>:boolean</span>
+    <span class='rubyid_lambda identifier id'>lambda</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_val identifier id'>val</span><span class='bitor op'>|</span>
+      <span class='rubyid_if if kw'>if</span> <span class='lbrack token'>[</span><span class='rubyid_false false kw'>false</span><span class='comma token'>,</span> <span class='rubyid_true true kw'>true</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_include? fid id'>include?</span> <span class='rubyid_val identifier id'>val</span>
+        <span class='rubyid_val identifier id'>val</span>
+      <span class='rubyid_elsif elsif kw'>elsif</span> <span class='rubyid_val identifier id'>val</span><span class='dot token'>.</span><span class='rubyid_to_s identifier id'>to_s</span> <span class='eq op'>==</span> <span class='string val'>&#39;0&#39;</span>
+        <span class='rubyid_false false kw'>false</span>
+      <span class='rubyid_elsif elsif kw'>elsif</span> <span class='rubyid_val identifier id'>val</span><span class='dot token'>.</span><span class='rubyid_to_s identifier id'>to_s</span> <span class='eq op'>==</span> <span class='string val'>&#39;1&#39;</span>
+        <span class='rubyid_true true kw'>true</span>
+      <span class='rubyid_end end kw'>end</span>
+    <span class='rbrace token'>}</span>
 
- <span class='rubyid_when when kw'>when</span> <span class='symbol val'>:dynamic_enum</span>
-   <span class='rubyid_lambda identifier id'>lambda</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_val identifier id'>val</span><span class='bitor op'>|</span>
-     <span class='rubyid_val identifier id'>val</span>
-   <span class='rbrace token'>}</span>
+  <span class='rubyid_when when kw'>when</span> <span class='symbol val'>:dynamic_enum</span>
+    <span class='rubyid_lambda identifier id'>lambda</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_val identifier id'>val</span><span class='bitor op'>|</span>
+      <span class='rubyid_val identifier id'>val</span>
+    <span class='rbrace token'>}</span>
 
   <span class='rubyid_when when kw'>when</span> <span class='regexp val'>/^string/</span>
     <span class='rubyid_lambda identifier id'>lambda</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_val identifier id'>val</span><span class='bitor op'>|</span>
       <span class='rubyid_val identifier id'>val</span><span class='dot token'>.</span><span class='rubyid_split identifier id'>split</span><span class='lparen token'>(</span><span class='string val'>&quot;\n&quot;</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_s identifier id'>s</span><span class='bitor op'>|</span> <span class='rubyid_s identifier id'>s</span><span class='dot token'>.</span><span class='rubyid_strip identifier id'>strip</span> <span class='rbrace token'>}</span><span class='dot token'>.</span><span class='rubyid_join identifier id'>join</span><span class='lparen token'>(</span><span class='string val'>&quot;\n&quot;</span><span class='rparen token'>)</span>
     <span class='rbrace token'>}</span>
-  
+
   <span class='rubyid_when when kw'>when</span> <span class='symbol val'>:integer</span>
     <span class='rubyid_lambda identifier id'>lambda</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_val identifier id'>val</span><span class='bitor op'>|</span>
       <span class='rubyid_val identifier id'>val</span><span class='dot token'>.</span><span class='rubyid_to_i identifier id'>to_i</span>
@@ -682,9 +680,9 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.8.1.a Documentation Generated on Wed Nov 11 13:21:24 2020 by
+  ArchivesSpace Version X.Y.Z Documentation Generated on Tue Sep 21 14:09:28 2021 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.25.
+  0.9.26.
 </div>
 
     </div>

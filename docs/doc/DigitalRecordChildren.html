@@ -6,7 +6,7 @@
 <title>
   Class: DigitalRecordChildren
   
-    &mdash; Documentation by YARD 0.9.25
+    &mdash; Documentation by YARD 0.9.26
   
 </title>
 
@@ -358,7 +358,7 @@
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_clean_file_versions identifier id'>clean_file_versions</span><span class='lparen token'>(</span><span class='rubyid_child identifier id'>child</span><span class='rparen token'>)</span>
   <span class='rubyid_return return kw'>return</span> <span class='rubyid_unless unless_mod kw'>unless</span> <span class='rubyid_child identifier id'>child</span><span class='lbrack token'>[</span><span class='string val'>&quot;file_versions&quot;</span><span class='rbrack token'>]</span>
 
-  <span class='rubyid_if if kw'>if</span> <span class='rubyid_child identifier id'>child</span><span class='lbrack token'>[</span><span class='string val'>&quot;file_versions&quot;</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='integer val'>0</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_reject identifier id'>reject</span><span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_k identifier id'>k</span><span class='comma token'>,</span><span class='rubyid_v identifier id'>v</span><span class='bitor op'>|</span> <span class='lparen token'>(</span><span class='rubyid_k identifier id'>k</span> <span class='eq op'>==</span> <span class='string val'>&quot;publish&quot;</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_v identifier id'>v</span> <span class='eq op'>==</span> <span class='rubyid_true true kw'>true</span><span class='rparen token'>)</span> <span class='orop op'>||</span> <span class='rubyid_v identifier id'>v</span><span class='dot token'>.</span><span class='rubyid_blank? fid id'>blank?</span><span class='rbrace token'>}</span><span class='dot token'>.</span><span class='rubyid_empty? fid id'>empty?</span>
+  <span class='rubyid_if if kw'>if</span> <span class='rubyid_child identifier id'>child</span><span class='lbrack token'>[</span><span class='string val'>&quot;file_versions&quot;</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='integer val'>0</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_reject identifier id'>reject</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_k identifier id'>k</span><span class='comma token'>,</span> <span class='rubyid_v identifier id'>v</span><span class='bitor op'>|</span> <span class='lparen token'>(</span><span class='rubyid_k identifier id'>k</span> <span class='eq op'>==</span> <span class='string val'>&quot;publish&quot;</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_v identifier id'>v</span> <span class='eq op'>==</span> <span class='rubyid_true true kw'>true</span><span class='rparen token'>)</span> <span class='orop op'>||</span> <span class='rubyid_v identifier id'>v</span><span class='dot token'>.</span><span class='rubyid_blank? fid id'>blank?</span><span class='rbrace token'>}</span><span class='dot token'>.</span><span class='rubyid_empty? fid id'>empty?</span>
     <span class='rubyid_child identifier id'>child</span><span class='dot token'>.</span><span class='rubyid_delete identifier id'>delete</span><span class='lparen token'>(</span><span class='string val'>&quot;file_versions&quot;</span><span class='rparen token'>)</span>
   <span class='rubyid_end end kw'>end</span>
 <span class='rubyid_end end kw'>end</span>
@@ -404,9 +404,9 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.8.1.a Documentation Generated on Wed Nov 11 13:22:14 2020 by
+  ArchivesSpace Version X.Y.Z Documentation Generated on Tue Sep 21 14:10:06 2021 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.25.
+  0.9.26.
 </div>
 
     </div>
