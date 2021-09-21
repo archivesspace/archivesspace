@@ -1983,25 +1983,17 @@ ja:
         add: 並列名を追加
 
   parallel_name_person:
-    rest_of_name_tooltip: "<p>レコードで指定された人物の名要素またはフォアネームと追加の名前（ミドルネームなど）。</p><p>例：</p><ul><li>ウィンストン<em>（チャーチル、ウィンストン、サー、1874-1965）</em></li><li>ハンフリー<em>（ワード、ハンフリー、夫人、1851年から1920年）</em></li></ul>"
     authorized: 承認済み
     _singular: パラレルネーム
     _plural: 並列名
 
   parallel_name_family:
-    rest_of_name_tooltip: "<p>レコードで指定された人物の名要素またはフォアネームと追加の名前（ミドルネームなど）。</p><p>例：</p><ul><li>ウィンストン<em>（チャーチル、ウィンストン、サー、1874-1965）</em></li><li>ハンフリー<em>（ワード、ハンフリー、夫人、1851年から1920年）</em></li></ul>"
     authorized: 承認済み
   parallel_name_corporate_entity:
-    authority_id: 機関ID
     suffix: サフィックス
-    is_display_name: 表示名
     conference_meeting_tooltip: "<p>エンティティが標準の企業体であるか、会議、会議、またはその他の名前付きイベントであるかを示します。</p>"
   parallel_name_software:
-    primary_name_tooltip: "<p>名前フォームの主要部分（たとえば、人の姓または名前）。</p><p>例：</p><ul><li>チャーチル<em>（チャーチル、ウィンストン、サー、1874-1965\
-      \ [人]）</em><li>ブラックフット<em>（ブラックフット、チーフ、1877年[人]）</em></li><li> International Business Machines <em>（International\
-      \ BusinessMachinesの場合。マイクロエレクトロニクス部門[企業体]）</em></li></ul>"
     sort_name: ソート名
-    manufacturer: メーカー
   agent_record_identifiers:
     identifier_type_tooltip: "<p>権限レコードIDのタイプまたはフォーマットを示します。この管理値リストの値は変更される可能性があります。</p>"
     source_tooltip: "<p>関連する識別子の発信元の典拠ファイルを示します。例：NAF（nr2003017069の場合）。この管理値リストの値は変更される可能性があります。</p>"
@@ -2128,14 +2120,12 @@ ja:
   structured_date_single_fields: {}
   structured_date_range_fields: {}
   note_contact_note:
-    items: アイテム
     subnotes: サブノート
     date_of_contact: 連絡日
     contact_notes: 連絡先
 
   related_agents: {}
   note_general_context:
-    content_tooltip: "<p>メモの内容。</p>"
     subnotes: サブノート
   note_mandate:
     subnotes: サブノート
@@ -2149,19 +2139,15 @@ ja:
     <<: *agent_attributes
     _singular: 人
     _plural: 人
-    used_languages_tooltip: エージェントに関連付けられている言語。例：英語。
   agent_family:
     <<: *agent_attributes
     _singular: 家族
     _plural: 家族
-    used_languages_tooltip: エージェントに関連付けられている言語。例：英語。
   agent_software:
     <<: *agent_attributes
     _singular: ソフトウェア
     _plural: ソフトウェア
-    used_languages_tooltip: エージェントに関連付けられている言語。例：英語。
   agent_corporate_entity:
     <<: *agent_attributes
     _singular: コーポレートエンティティ
     _plural: 法人
-    used_languages_tooltip: エージェントに関連付けられている言語。例：英語。

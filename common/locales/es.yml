@@ -1394,25 +1394,21 @@ es:
 
   agent_person:
     <<: *agent_attributes
-    used_languages_tooltip: 'El (los) idioma (s) asociados con el agente. Ejemplo: inglés.'
     _singular: Persona
     _plural: Personas
 
   agent_family:
     <<: *agent_attributes
-    used_languages_tooltip: 'El (los) idioma (s) asociados con el agente. Ejemplo: inglés.'
     _singular: Familia
     _plural: Familias
 
   agent_software:
     <<: *agent_attributes
-    used_languages_tooltip: 'El (los) idioma (s) asociados con el agente. Ejemplo: inglés.'
     _singular: Software
     _plural: Software
 
   agent_corporate_entity:
     <<: *agent_attributes
-    used_languages_tooltip: 'El (los) idioma (s) asociados con el agente. Ejemplo: inglés.'
     _singular: Entidad corporativa
     _plural: Entidades corporativas
 
@@ -2686,32 +2682,18 @@ es:
         add: Agregar nombre paralelo
 
   parallel_name_person:
-    rest_of_name_tooltip: "<p>El primer elemento de nombre o nombre y nombres adicionales, por ejemplo,\
-      \ segundo nombre, de la persona nombrada en el registro.</p><p> Ejemplos:</p><ul><li> Winston <em>(para\
-      \ Churchill, Winston, señor, 1874-1965)</em></li><li> Humphrey <em>(para Ward, Humphrey, Sra., 1851-1920)</em></li></ul>"
     authorized: Autorizado
     _singular: Nombre paralelo
     _plural: Nombres paralelos
 
   parallel_name_family:
-    rest_of_name_tooltip: "<p>El primer elemento de nombre o nombre y nombres adicionales, por ejemplo,\
-      \ segundo nombre, de la persona nombrada en el registro.</p><p> Ejemplos:</p><ul><li> Winston <em>(para\
-      \ Churchill, Winston, señor, 1874-1965)</em></li><li> Humphrey <em>(para Ward, Humphrey, Sra., 1851-1920)</em></li></ul>"
     authorized: Autorizado
   parallel_name_corporate_entity:
-    authority_id: ID de autoridad
     suffix: Sufijo
-    is_display_name: Nombre para mostrar
     conference_meeting_tooltip: "<p>Indica si la entidad es una entidad corporativa estándar o es una\
       \ conferencia, reunión u otro evento con nombre.</p>"
   parallel_name_software:
-    primary_name_tooltip: "<p>La parte principal de la forma de un nombre (por ejemplo, el apellido o\
-      \ el apellido de una persona).</p><p> Ejemplos:</p><ul><li> Churchill <em>(para Churchill, Winston,\
-      \ Sir, 1874-1965 [persona])</em><li> Black Foot <em>(para Black Foot, Jefe, muerto en 1877 [persona])</em></li><li>\
-      \ International Business Machines <em>(para International Business Machines. División de microelectrónica\
-      \ [entidad corporativa])</em></li></ul>"
     sort_name: Ordenar nombre
-    manufacturer: Fabricante
   agent_record_identifiers:
     identifier_type_tooltip: "<p>Indica el tipo o formato del identificador de registro de autoridad.\
       \ Los valores de esta Lista de valores controlados pueden modificarse.</p>"
@@ -2940,14 +2922,12 @@ es:
   structured_date_single_fields: {}
   structured_date_range_fields: {}
   note_contact_note:
-    items: Artículos
     subnotes: Notas secundarias
     date_of_contact: Fecha de contacto
     contact_notes: Notas de contacto
 
   related_agents: {}
   note_general_context:
-    content_tooltip: "<p>El contenido de la nota.</p>"
     subnotes: Notas secundarias
 
   note_mandate:

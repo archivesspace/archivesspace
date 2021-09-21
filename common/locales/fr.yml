@@ -1418,7 +1418,6 @@ fr:
 
   agent_person:
     <<: *agent_attributes
-    used_languages_tooltip: 'La ou les langues associées à l''agent. Exemple: anglais.'
     _singular: Personne
     _plural: Personnes
 
@@ -1426,12 +1425,10 @@ fr:
     <<: *agent_attributes
     _singular: Famille
     _plural: Familles
-    used_languages_tooltip: 'La ou les langues associées à l''agent. Exemple: anglais.'
   agent_software:
     <<: *agent_attributes
     _singular: Logiciel
     _plural: Logiciels
-    used_languages_tooltip: 'La ou les langues associées à l''agent. Exemple: anglais.'
   agent_corporate_entity:
     <<: *agent_attributes
     agent_functions_tooltip: Termes utilisés pour identifier les fonctions, processus, tâches, activités
@@ -2691,34 +2688,18 @@ fr:
       cannot: Impossible de continuer en raison d'erreurs précédentes
 
   parallel_name_person:
-    rest_of_name_tooltip: "<p>L'élément ou le prénom du prénom et les noms supplémentaires, par exemple,\
-      \ les prénoms, pour la personne nommée dans l'enregistrement.</p><p> Exemples:</p><ul><li> Winston\
-      \ <em>(pour Churchill, Winston, Sir, 1874-1965)</em></li><li> Humphrey <em>(pour Ward, Humphrey,\
-      \ Mrs., 1851-1920)</em></li></ul>"
     authorized: Autorisé
     _singular: Nom parallèle
     _plural: Noms parallèles
 
   parallel_name_family:
-    rest_of_name_tooltip: "<p>L'élément ou le prénom du prénom et les noms supplémentaires, par exemple,\
-      \ les prénoms, pour la personne nommée dans l'enregistrement.</p><p> Exemples:</p><ul><li> Winston\
-      \ <em>(pour Churchill, Winston, Sir, 1874-1965)</em></li><li> Humphrey <em>(pour Ward, Humphrey,\
-      \ Mrs., 1851-1920)</em></li></ul>"
     authorized: Autorisé
   parallel_name_corporate_entity:
-    authority_id: ID d'autorité
     suffix: Suffixe
-    is_display_name: Afficher un nom
     conference_meeting_tooltip: "<p>Indique si l'entité est une personne morale standard ou est une conférence,\
       \ une réunion ou un autre événement nommé.</p>"
   parallel_name_software:
-    primary_name_tooltip: "<p>La partie principale d'une forme de nom (par exemple un nom de famille ou\
-      \ un nom de famille d'une personne).</p><p> Exemples:</p><ul><li> Churchill <em>(pour Churchill,\
-      \ Winston, Sir, 1874-1965 [personne])</em><li> Black Foot <em>(pour Black Foot, Chief, décédé en\
-      \ 1877 [personne])</em></li><li> Machines de bureau internationales <em>(pour machines de bureau\
-      \ internationales. Division de la microélectronique [entité commerciale])</em></li></ul>"
     sort_name: Nom du tri
-    manufacturer: Fabricant
   agent_record_identifiers:
     identifier_type_tooltip: "<p>Indique le type ou le format de l'identifiant de la notice d'autorité.\
       \ Les valeurs de cette liste de valeurs contrôlées peuvent être modifiées.</p>"
@@ -2948,14 +2929,12 @@ fr:
   structured_date_single_fields: {}
   structured_date_range_fields: {}
   note_contact_note:
-    items: Articles
     subnotes: Notes secondaires
     date_of_contact: Date de contact
     contact_notes: Notes de contact
 
   related_agents: {}
   note_general_context:
-    content_tooltip: "<p>Le contenu de la note.</p>"
     subnotes: Notes secondaires
 
   note_mandate:
