@@ -31,7 +31,13 @@ class ArchivesSpaceService < Sinatra::Base
 
   Endpoint.get('/reports/custom_data')
   .description('Get a list of availiable options for custom reports')
-  .permissions([])
+  .permissions(['create_job'])
+  .example('shell') do
+    <<~SHELL
+      curl -H "X-ArchivesSpace-Session: $SESSION" \\
+        "http://localhost:8089/reports/custom_data"
+    SHELL
+  end
   .returns([200], "hash of availiable options") \
   do
     json_response(CustomField.registered_fields)

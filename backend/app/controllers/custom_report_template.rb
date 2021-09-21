@@ -4,6 +4,24 @@ class ArchivesSpaceService < Sinatra::Base
     .description("Create a Custom Report Template")
     .params(["custom_report_template", JSONModel(:custom_report_template), "The record to create", :body => true],
         ["repo_id", :repo_id])
+    .example('shell') do
+      <<~SHELL
+        curl -H 'Content-Type: application/json' \\
+          -H "X-ArchivesSpace-Session: $SESSION" \\
+          -d '{
+                "lock_version": 0,
+                "name": "A New Custom Template",
+                "description": "A custom report template returning old accessions sorted by title.",
+                "data": "{\"fields\":{\"access_restrictions\":{\"value\":\"true\"},\"accession_date\":{\"include\":\"1\",\"narrow_by\":\"1\",\"range_start\":\"2011-01-01\",\"range_end\":\"2019-12-31\"},\"publish\":{\"value\":\"true\"},\"restrictions_apply\":{\"value\":\"true\"},\"title\":{\"include\":\"1\"},\"use_restrictions\":{\"value\":\"true\"},\"create_time\":{\"range_start\":\"\",\"range_end\":\"\"},\"user_mtime\":{\"range_start\":\"\",\"range_end\":\"\"}},\"sort_by\":\"title\",\"custom_record_type\":\"accession\"}",
+                "limit": 100,
+                "jsonmodel_type": "custom_report_template",
+                "repository": {
+                    "ref": "/repositories/2"
+                }
+              }' \\
+          "http://localhost:8089/repositories/2/custom_report_templates"
+      SHELL
+    end
     .permissions(['create_job'])
     .returns([200, :created]) \
   do
@@ -15,6 +33,24 @@ class ArchivesSpaceService < Sinatra::Base
     .params(["id", :id],
             ["custom_report_template", JSONModel(:custom_report_template), "The updated record", :body => true],
             ["repo_id", :repo_id])
+    .example('shell') do
+      <<~SHELL
+        curl -H 'Content-Type: application/json' \\
+          -H "X-ArchivesSpace-Session: $SESSION" \\
+          -d '{
+                "lock_version": 0,
+                "name": "A Newer Custom Template",
+                "description": "A custom report template returning old accessions sorted by title.",
+                "data": "{\"fields\":{\"access_restrictions\":{\"value\":\"true\"},\"accession_date\":{\"include\":\"1\",\"narrow_by\":\"1\",\"range_start\":\"2011-01-01\",\"range_end\":\"2019-12-31\"},\"publish\":{\"value\":\"true\"},\"restrictions_apply\":{\"value\":\"true\"},\"title\":{\"include\":\"1\"},\"use_restrictions\":{\"value\":\"true\"},\"create_time\":{\"range_start\":\"\",\"range_end\":\"\"},\"user_mtime\":{\"range_start\":\"\",\"range_end\":\"\"}},\"sort_by\":\"title\",\"custom_record_type\":\"accession\"}",
+                "limit": 100,
+                "jsonmodel_type": "custom_report_template",
+                "repository": {
+                    "ref": "/repositories/2"
+                }
+              }' \\
+          "http://localhost:8089/repositories/2/custom_report_templates/1"
+      SHELL
+    end
     .permissions(['create_job'])
     .returns([200, :updated]) \
   do
@@ -24,6 +60,12 @@ class ArchivesSpaceService < Sinatra::Base
   Endpoint.get('/repositories/:repo_id/custom_report_templates')
     .description("Get a list of Custom Report Templates")
     .params(["repo_id", :repo_id])
+    .example('shell') do
+      <<~SHELL
+        curl -H "X-ArchivesSpace-Session: $SESSION" \\
+          "http://localhost:8089/repositories/2/custom_report_templates?page=1"
+      SHELL
+    end
     .paginated(true)
     .permissions(['create_job'])
     .returns([200, "[(:custom_report_template)]"]) \
@@ -37,6 +79,12 @@ class ArchivesSpaceService < Sinatra::Base
     .params(["id", :id],
         ["resolve", :resolve],
         ["repo_id", :repo_id])
+    .example('shell') do
+      <<~SHELL
+        curl -H "X-ArchivesSpace-Session: $SESSION" \\
+          "http://localhost:8089/repositories/2/custom_report_templates/1"
+      SHELL
+    end
     .permissions(['create_job'])
     .returns([200, "(:custom_report_template)"]) \
   do
@@ -50,6 +98,13 @@ class ArchivesSpaceService < Sinatra::Base
     .description("Delete an Custom Report Template")
     .params(["id", :id],
         ["repo_id", :repo_id])
+    .example('shell') do
+      <<~SHELL
+        curl -H "X-ArchivesSpace-Session: $SESSION" \\
+          -X DELETE \\
+          "http://localhost:8089/repositories/2/custom_report_templates/1"
+      SHELL
+    end
     .permissions(['create_job'])
     .returns([200, :deleted]) \
   do
