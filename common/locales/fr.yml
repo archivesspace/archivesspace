@@ -723,25 +723,18 @@ fr:
   agent_relationship_parentchild:
     _singular: Relation parent/enfant
   agent_relationship_earlierlater:
-    ref: Agent associé
     _singular: Relation avant/après
   agent_relationship_subordinatesuperior:
-    ref: Agent associé
     _singular: Relation subordonné/supérieur
   agent_relationship_associative:
-    date: Date
     _singular: Relation associatif
   agent_relationship_identity:
-    specific_relator: Type de relation spécifique
     _singular: Relation d'agent identifiée avec le parent
   agent_relationship_hierarchical:
-    date: Date
     _singular: Relateur hiérarchique de la relation d'agent
   agent_relationship_temporal:
-    date: Date
     _singular: Relateur temporel de la relation d'agent
   agent_relationship_family:
-    date: Date
     _singular: Relateur lié à la relation d'agent
   note:
     note_general_context: Contexte général
@@ -1425,8 +1418,6 @@ fr:
 
   agent_person:
     <<: *agent_attributes
-    agent_sources_tooltip: "<p>Une source utilisée dans la formulation du contenu de l'enregistrement\
-      \ de l'agent.</p>"
     used_languages_tooltip: 'La ou les langues associées à l''agent. Exemple: anglais.'
     _singular: Personne
     _plural: Personnes
@@ -1435,20 +1426,14 @@ fr:
     <<: *agent_attributes
     _singular: Famille
     _plural: Familles
-    agent_sources_tooltip: "<p>Une source utilisée dans la formulation du contenu de l'enregistrement\
-      \ de l'agent.</p>"
     used_languages_tooltip: 'La ou les langues associées à l''agent. Exemple: anglais.'
   agent_software:
     <<: *agent_attributes
     _singular: Logiciel
     _plural: Logiciels
-    agent_sources_tooltip: "<p>Une source utilisée dans la formulation du contenu de l'enregistrement\
-      \ de l'agent.</p>"
     used_languages_tooltip: 'La ou les langues associées à l''agent. Exemple: anglais.'
   agent_corporate_entity:
     <<: *agent_attributes
-    agent_other_agency_codes_tooltip: "<p>Informations sur les codes alternatifs pour l'agence ou l'organisation\
-      \ responsable de la création ou de la maintenance d'un enregistrement d'agent.</p>"
     agent_functions_tooltip: Termes utilisés pour identifier les fonctions, processus, tâches, activités
       ou transactions effectuées par l'agent.
     _singular: Personne morale
@@ -2706,58 +2691,33 @@ fr:
       cannot: Impossible de continuer en raison d'erreurs précédentes
 
   parallel_name_person:
-    name_order_tooltip: "<p>Indique si la forme du nom doit être affichée dans l'ordre inversé (nom, prénom)\
-      \ ou dans l'ordre direct (prénom nom).</p>"
     rest_of_name_tooltip: "<p>L'élément ou le prénom du prénom et les noms supplémentaires, par exemple,\
       \ les prénoms, pour la personne nommée dans l'enregistrement.</p><p> Exemples:</p><ul><li> Winston\
       \ <em>(pour Churchill, Winston, Sir, 1874-1965)</em></li><li> Humphrey <em>(pour Ward, Humphrey,\
       \ Mrs., 1851-1920)</em></li></ul>"
-    dates_tooltip: "<p>Utilisez ce champ pour l'alignement avec les notices d'autorité MARC. Ces dates,\
-      \ plutôt que les dates d'existence, sont ajoutées à l'entrée de nom dans l'affichage.</p><p> Dates\
-      \ d'existence de l'entité nommée.</p><p> Exemples:<p><ul><li> 1886-1961 <em>(pour HD, Hilda Doolittle,\
-      \ 1886-1961)</em></li></ul>"
     authorized: Autorisé
     _singular: Nom parallèle
     _plural: Noms parallèles
 
   parallel_name_family:
-    name_order_tooltip: "<p>Indique si la forme du nom doit être affichée dans l'ordre inversé (nom, prénom)\
-      \ ou dans l'ordre direct (prénom nom).</p>"
     rest_of_name_tooltip: "<p>L'élément ou le prénom du prénom et les noms supplémentaires, par exemple,\
       \ les prénoms, pour la personne nommée dans l'enregistrement.</p><p> Exemples:</p><ul><li> Winston\
       \ <em>(pour Churchill, Winston, Sir, 1874-1965)</em></li><li> Humphrey <em>(pour Ward, Humphrey,\
       \ Mrs., 1851-1920)</em></li></ul>"
-    dates_tooltip: "<p>Utilisez ce champ pour l'alignement avec les notices d'autorité MARC. Ces dates,\
-      \ plutôt que les dates d'existence, sont ajoutées à l'entrée de nom dans l'affichage.</p><p> Dates\
-      \ d'existence de l'entité nommée.</p><p> Exemples:<p><ul><li> 1886-1961 <em>(pour HD, Hilda Doolittle,\
-      \ 1886-1961)</em></li></ul>"
     authorized: Autorisé
-    _singular: Formulaire de nom
   parallel_name_corporate_entity:
     authority_id: ID d'autorité
-    prefix: Préfixe
     suffix: Suffixe
-    use_dates: Dates d'utilisation
     is_display_name: Afficher un nom
-    _plural: Formulaires de nom
     conference_meeting_tooltip: "<p>Indique si l'entité est une personne morale standard ou est une conférence,\
       \ une réunion ou un autre événement nommé.</p>"
   parallel_name_software:
-    rules_tooltip: "<p>CHAMP CONDITIONNELLEMENT REQUIS, si la source de nom n'est pas utilisée. Une indication\
-      \ des règles utilisées pour formuler l'entrée de nom.</p><p> Les valeurs de cette liste de valeurs\
-      \ contrôlées peuvent être modifiées.</p>"
     primary_name_tooltip: "<p>La partie principale d'une forme de nom (par exemple un nom de famille ou\
       \ un nom de famille d'une personne).</p><p> Exemples:</p><ul><li> Churchill <em>(pour Churchill,\
       \ Winston, Sir, 1874-1965 [personne])</em><li> Black Foot <em>(pour Black Foot, Chief, décédé en\
       \ 1877 [personne])</em></li><li> Machines de bureau internationales <em>(pour machines de bureau\
       \ internationales. Division de la microélectronique [entité commerciale])</em></li></ul>"
-    number_tooltip: "<p>Un nombre, parfois avec un terme, qui qualifie le nom. Pour les noms personnels,\
-      \ souvent un chiffre romain ou un chiffre romain et une partie ultérieure d'un prénom. Pour les\
-      \ dénominations sociales, le numéro d'une partie / section ou réunion.</p><p> Exemples:</p><ul><li>\
-      \ II Comnenus <em>(pour Jean II Comnenus, Empereur d'Orient</em> / li><li> II <em>(pour Jean-Paul\
-      \ II)</em></li><li> 97e, 2e session <em>(pour le Congrès des États-Unis, 97e, 2e session)</em></li></ul>"
     sort_name: Nom du tri
-    transliteration: Translitération
     manufacturer: Fabricant
   agent_record_identifiers:
     identifier_type_tooltip: "<p>Indique le type ou le format de l'identifiant de la notice d'autorité.\
@@ -2960,11 +2920,7 @@ fr:
       julien. La valeur "grégorien" est la valeur par défaut.</p>
 
   structured_date_label_existence: {}
-  structured_date_label_common_fields:
-    date_certainty_tooltip: "<p>Le niveau de confiance pour les informations données dans une déclaration\
-      \ de date. Ces informations sont facultatives et ne doivent être ajoutées que lorsque les informations\
-      \ de date sont qualifiées de potentiellement incertaines en fonction de la description ou des règles\
-      \ de catalogage utilisées.</p>"
+  structured_date_label_common_fields: {}
   structured_date_single:
     date_role_tooltip: "<p>Pour une seule date, utilisé pour indiquer si la date doit être comprise comme\
       \ une date de début ou une date de fin. La valeur par défaut est Begin.</p>"
@@ -2990,32 +2946,23 @@ fr:
       \ la date réelle ou une estimation du premier ou du dernier événement qui aurait pu se produire.</p>"
 
   structured_date_single_fields: {}
-  structured_date_range_fields:
-    end_date_expression_tooltip: "<p>Une expression en langage naturel spécifiant la fin d'une plage de\
-      \ dates. Requis lorsqu'une date normalisée n'est pas enregistrée.</p>"
+  structured_date_range_fields: {}
   note_contact_note:
     items: Articles
-    type_tooltip: "<p>Le type de note pour le contenu. Les types de note sont utilisés pour guider l'exportation\
-      \ du contenu des notes vers certains éléments dans des formats de données spécifiques.</p>"
     subnotes: Notes secondaires
     date_of_contact: Date de contact
     contact_notes: Notes de contact
 
-  related_agents:
-    dates: Rendez-vous
+  related_agents: {}
   note_general_context:
     content_tooltip: "<p>Le contenu de la note.</p>"
-    type: Taper
     subnotes: Notes secondaires
 
   note_mandate:
-    item_singular: Article
     subnotes: Notes secondaires
 
   note_legal_status:
-    item_singular: Article
     subnotes: Notes secondaires
 
   note_structure_or_genealogy:
-    item_singular: Article
     subnotes: Notes secondaires

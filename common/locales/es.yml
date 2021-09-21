@@ -528,8 +528,6 @@ es:
     <<: *agent_name_attributes
   name_family:
     <<: *agent_name_attributes
-    parallel_names_tooltip: "<p>Se puede utilizar para registrar una forma paralela del nombre en diferentes\
-      \ idiomas y / o escrituras o formas transliteradas del nombre.</p>"
     family_type: Tipo de familia
     family_type_tooltip: "<p>Tipo de familia utilizado como calificador para distinguir entradas de nombres\
       \ similares. Ejemplos: familia, dinastía, casa real.</p>"
@@ -719,25 +717,18 @@ es:
   agent_relationship_parentchild:
     _singular: Relación padre/hijo
   agent_relationship_earlierlater:
-    ref: Autoridad relacionada
     _singular: Relación antes/después
   agent_relationship_subordinatesuperior:
-    ref: Autoridad relacionada
     _singular: Relación subordinada/Superior
   agent_relationship_associative:
-    date: Fecha
     _singular: Relación asociativa
   agent_relationship_identity:
-    specific_relator: Tipo de relación específico
     _singular: Relación del agente identificada con el relator
   agent_relationship_hierarchical:
-    date: Fecha
     _singular: Relator jerárquico de la relación del agente
   agent_relationship_temporal:
-    date: Fecha
     _singular: Relator temporal de la relación del agente
   agent_relationship_family:
-    date: Fecha
     _singular: Relator relacionado con la relación del agente
   note:
     note_general_context: Contexto general
@@ -1403,28 +1394,24 @@ es:
 
   agent_person:
     <<: *agent_attributes
-    agent_sources_tooltip: "<p>Una fuente utilizada en la formulación del contenido del registro del Agente.</p>"
     used_languages_tooltip: 'El (los) idioma (s) asociados con el agente. Ejemplo: inglés.'
     _singular: Persona
     _plural: Personas
 
   agent_family:
     <<: *agent_attributes
-    agent_sources_tooltip: "<p>Una fuente utilizada en la formulación del contenido del registro del Agente.</p>"
     used_languages_tooltip: 'El (los) idioma (s) asociados con el agente. Ejemplo: inglés.'
     _singular: Familia
     _plural: Familias
 
   agent_software:
     <<: *agent_attributes
-    agent_sources_tooltip: "<p>Una fuente utilizada en la formulación del contenido del registro del Agente.</p>"
     used_languages_tooltip: 'El (los) idioma (s) asociados con el agente. Ejemplo: inglés.'
     _singular: Software
     _plural: Software
 
   agent_corporate_entity:
     <<: *agent_attributes
-    agent_sources_tooltip: "<p>Una fuente utilizada en la formulación del contenido del registro del Agente.</p>"
     used_languages_tooltip: 'El (los) idioma (s) asociados con el agente. Ejemplo: inglés.'
     _singular: Entidad corporativa
     _plural: Entidades corporativas
@@ -2699,57 +2686,31 @@ es:
         add: Agregar nombre paralelo
 
   parallel_name_person:
-    name_order_tooltip: "<p>Indica si la forma del nombre debe mostrarse en orden inverso (apellido, nombre)\
-      \ o en orden directo (nombre apellido).</p>"
     rest_of_name_tooltip: "<p>El primer elemento de nombre o nombre y nombres adicionales, por ejemplo,\
       \ segundo nombre, de la persona nombrada en el registro.</p><p> Ejemplos:</p><ul><li> Winston <em>(para\
       \ Churchill, Winston, señor, 1874-1965)</em></li><li> Humphrey <em>(para Ward, Humphrey, Sra., 1851-1920)</em></li></ul>"
-    dates_tooltip: "<p>Utilice este campo para alinearse con los registros de autoridad MARC. Estas fechas,\
-      \ en lugar de Fechas de existencia, se agregan a la entrada de nombre en la pantalla.</p><p> Fechas\
-      \ de existencia de la entidad nombrada.</p><p> Ejemplos:<p><ul><li> 1886-1961 <em>(para HD, Hilda\
-      \ Doolittle, 1886-1961)</em></li></ul>"
     authorized: Autorizado
     _singular: Nombre paralelo
     _plural: Nombres paralelos
 
   parallel_name_family:
-    name_order_tooltip: "<p>Indica si la forma del nombre debe mostrarse en orden inverso (apellido, nombre)\
-      \ o en orden directo (nombre apellido).</p>"
     rest_of_name_tooltip: "<p>El primer elemento de nombre o nombre y nombres adicionales, por ejemplo,\
       \ segundo nombre, de la persona nombrada en el registro.</p><p> Ejemplos:</p><ul><li> Winston <em>(para\
       \ Churchill, Winston, señor, 1874-1965)</em></li><li> Humphrey <em>(para Ward, Humphrey, Sra., 1851-1920)</em></li></ul>"
-    dates_tooltip: "<p>Utilice este campo para alinearse con los registros de autoridad MARC. Estas fechas,\
-      \ en lugar de Fechas de existencia, se agregan a la entrada de nombre en la pantalla.</p><p> Fechas\
-      \ de existencia de la entidad nombrada.</p><p> Ejemplos:<p><ul><li> 1886-1961 <em>(para HD, Hilda\
-      \ Doolittle, 1886-1961)</em></li></ul>"
     authorized: Autorizado
-    _singular: Formulario de nombre
   parallel_name_corporate_entity:
     authority_id: ID de autoridad
-    prefix: Prefijo
     suffix: Sufijo
-    use_dates: Fechas de uso
     is_display_name: Nombre para mostrar
-    _plural: Formularios de nombres
     conference_meeting_tooltip: "<p>Indica si la entidad es una entidad corporativa estándar o es una\
       \ conferencia, reunión u otro evento con nombre.</p>"
   parallel_name_software:
-    rules_tooltip: "<p>CAMPO CONDICIONALMENTE REQUERIDO, si no se utiliza Nombre de fuente. Una indicación\
-      \ de las reglas utilizadas para formular la entrada de nombre.</p><p> Los valores de esta Lista\
-      \ de valores controlados pueden modificarse.</p>"
     primary_name_tooltip: "<p>La parte principal de la forma de un nombre (por ejemplo, el apellido o\
       \ el apellido de una persona).</p><p> Ejemplos:</p><ul><li> Churchill <em>(para Churchill, Winston,\
       \ Sir, 1874-1965 [persona])</em><li> Black Foot <em>(para Black Foot, Jefe, muerto en 1877 [persona])</em></li><li>\
       \ International Business Machines <em>(para International Business Machines. División de microelectrónica\
       \ [entidad corporativa])</em></li></ul>"
-    number_tooltip: "<p>Un número, a veces con un término, que califica el nombre. Para los nombres personales,\
-      \ a menudo un número romano o un número romano y una parte posterior de un nombre. Para nombres\
-      \ corporativos, el número de una parte / sección o reunión.</p><p> Ejemplos:</p><ul><li> II Comnenus\
-      \ <em>(para Juan II Comnenus, Emperador de Oriente</em> / li><li> II <em>(para Juan Pablo II)</em></li><li>\
-      \ 97 °, 2 ° período de sesiones <em>(para el Congreso de los Estados Unidos, 97 °, 2 ° período de\
-      \ sesiones)</em></li></ul>"
     sort_name: Ordenar nombre
-    transliteration: Transcripción
     manufacturer: Fabricante
   agent_record_identifiers:
     identifier_type_tooltip: "<p>Indica el tipo o formato del identificador de registro de autoridad.\
@@ -2949,10 +2910,7 @@ es:
       juliano. El valor "gregoriano" es el predeterminado.</p>
 
   structured_date_label_existence: {}
-  structured_date_label_common_fields:
-    date_certainty_tooltip: "<p>El nivel de confianza de la información proporcionada en una declaración\
-      \ de fecha. Esta información es opcional y solo debe agregarse cuando se califica la información\
-      \ de fecha como potencialmente incierta según la descripción o las reglas de catalogación en uso.</p>"
+  structured_date_label_common_fields: {}
   structured_date_single:
     date_role_tooltip: "<p>Para una sola fecha, se utiliza para indicar si la fecha debe entenderse como\
       \ una fecha de inicio o una fecha de finalización. El valor predeterminado es Comenzar.</p>"
@@ -2980,32 +2938,23 @@ es:
       \ ocurrido.</p>"
 
   structured_date_single_fields: {}
-  structured_date_range_fields:
-    end_date_expression_tooltip: "<p>Una expresión de lenguaje natural que especifica el final de un intervalo\
-      \ de fechas. Requerido cuando no se registra una fecha estandarizada.</p>"
+  structured_date_range_fields: {}
   note_contact_note:
     items: Artículos
-    type_tooltip: "<p>El tipo de nota del contenido. Los tipos de notas se utilizan para guiar la exportación\
-      \ del contenido de las notas a ciertos elementos en formatos de datos específicos.</p>"
     subnotes: Notas secundarias
     date_of_contact: Fecha de contacto
     contact_notes: Notas de contacto
 
-  related_agents:
-    dates: fechas
+  related_agents: {}
   note_general_context:
     content_tooltip: "<p>El contenido de la nota.</p>"
-    type: Tipo
     subnotes: Notas secundarias
 
   note_mandate:
-    item_singular: Artículo
     subnotes: Notas secundarias
 
   note_legal_status:
-    item_singular: Artículo
     subnotes: Notas secundarias
 
   note_structure_or_genealogy:
-    item_singular: Artículo
     subnotes: Notas secundarias
