@@ -380,7 +380,7 @@ As of <%= @time.inspect %> the following REST endpoints exist in the master bran
 
 ## <%= e[:description]%>
 
-<% example =  @examples[e[:uri]][e[:method].to_s] %>
+<% example = @examples[e[:uri]][e[:method].to_s] %>
 
 <% if example %>
 
@@ -472,19 +472,12 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 
 <%= e[:examples].reject do |k,v| k == 'shell' end.to_h.values.join("\n\n") %>
 
+<% end %>
+
 __Endpoint__
 
 ```<%= e[:method].map &:upcase %> <%= e[:uri]%> ```
 
-__Description__
-
-<%= e[:description]%>
-
-<%= e[:documentation] %>
-
-<% if !e[:documentation] || e[:prepend_docs] %>
-
-__Parameters__
 <% if e[:deprecated] %>
 <aside class="warning">
   This endpoint is deprecated, and may be removed from a future release of ArchivesSpace.
@@ -492,8 +485,28 @@ __Parameters__
     <p><%= e[:deprecated_description] %></p>
   <% end %>
 </aside>
-
 <% end %>
+
+__Description__
+
+<%= e[:description] + "." %>
+
+<% if e[:documentation] %>
+<br>
+<br>
+<%= e[:documentation] %>
+<% end %>
+
+<% @payload = [] %>
+<% e[:params].each do |p| %>
+  <% next if p.is_a? String %>
+  <% @payload << p if ((p[3] or {})[:body] or p[1] == :body_stream) %>
+<% end %>
+<% params = e[:params] - @payload %>
+
+<% if e[:paginated] || e[:paged] || params.any? %>
+
+__Parameters__
 <% if e[:paginated] %>
 <aside class="notice">
 This endpoint is paginated. :page, :id_set, or :all_ids is required
@@ -504,6 +517,7 @@ This endpoint is paginated. :page, :id_set, or :all_ids is required
   <li>Boolean all_ids &ndash; Return a list of all object ids</li>
 </ul>
 </aside>
+
 <% elsif e[:paged]%>
 <aside class="notice">
 This endpoint is paginated. :page is required
@@ -514,31 +528,58 @@ This endpoint is paginated. :page is required
 </aside>
 <% end %>
 
-<% e[:params].each do |param| %>
-  <% if param.is_a? String %>
-    <% opts = {} %>
-  <% else %>
-    <% opts = (param[3] or {}) %>
-  <% end %>
-  <% unless opts.empty? %>
-    <% vs = opts[:validation] ? " -- #{opts[:validation][0]}" : "" %>
-    <% optional = opts[:optional] ? " (Optional)" : "" %>
-  <% end %>
-  <% if opts[:body] %>
-	  <%= "#{param[1]} <request body> -- #{param[2]}#{vs}" %>
-  <% else %>
-	  <%= "#{param[1]} #{param[0]}#{optional} -- #{param[2]}#{vs}" %>
-  <% end %>
+<% if params.any? %>
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% params.each do |param| %>
+        <% if param.is_a? String %>
+          <% opts = {} %>
+        <% else %>
+          <% opts = (param[3] or {}) %>
+        <% end %>
+
+        <% unless opts.empty? %>
+        <% vs = opts[:validation] %>
+        <% optional = opts[:optional] %>
+        <% end %>
+        
+      <tr>      
+        <td><code><%= param[0] %></code></td>
+        <td style="word-break: break-word;">
+            <%= param[2] %>
+            <% if !vs.nil? %>
+            <br>
+            <b><%= "Note: " %></b> <%= vs[0] %>
+            <% end %>
+        </td>
+        <td><%= param[1] %></td>
+        <td><%= optional %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+<% end %>
+<% end %>
+
+<% if @payload.any? %>
+__Accepts Payload of Type__
+
+<%= @payload.flatten[1] %>
+
 <% end %>
 
 __Returns__
 
 <% e[:returns].each do |ret| %>
   <%= "\t#{ret[0]} -- #{ret[1]}\n" %>
-<% end %>
-
-<%# end prepend check %>
-<% end %>
 <% end %>
 
 <% end %>
@@ -548,7 +589,6 @@ __Returns__
 <p>An index of routes available in the ArchivesSpace API, alphabetically by URI.</p>
 
 <table>
-  <thead>></thead>
   <thead>
     <tr>
       <th>Route</th> <th>Method(s)</th> <th>Description</th>
