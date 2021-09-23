@@ -98,10 +98,12 @@ class ArkName < Sequel::Model(:ark_name)
     }
 
     DB.open do |db|
+      current_ark = ArkName.first(fk_col => obj.id, :is_current => 1)
+
       ArkName.filter(fk_col => obj.id).delete
 
       if ark_name['current']
-        generated_value, user_value = calculate_values(ark_name['current'])
+        generated_value, user_value = calculate_values(ark_name['current'], current_ark)
 
         ArkName.insert(ark.merge(:generated_value => generated_value,
                                  :user_value => user_value,
@@ -126,14 +128,19 @@ class ArkName < Sequel::Model(:ark_name)
     true
   end
 
-  def self.calculate_values(value)
+  # return generated_value and user_value column values for an ark_name based on these rules:
+  #  - blow up if the value is not a valid ark
+  #  - if `:arks_allow_external_arks` is true and this is a current_ark and the value is unchanged
+  #      then no change is applied to generated_value or user_value (prefix is always snipped off)
+  #  - in all other cases treat value as a generated_value
+  def self.calculate_values(value, current_ark = nil)
     unless value.match(/^(.*?\/)?ark:\//)
       raise JSONModel::ValidationException.new(:errors => {"ark" => ["ark_format_error"]})
     end
 
     # [generated_value, user_value]
-    if AppConfig[:arks_allow_external_arks]
-      [value.sub(/^(.*?\/)?ark:\//, 'ark:/'), value]
+    if AppConfig[:arks_allow_external_arks] && current_ark && value == current_ark[:user_value]
+      [current_ark[:generated_value].sub(/^(.*?\/)?ark:\//, 'ark:/'), value]
     else
       [value.sub(/^(.*?\/)?ark:\//, 'ark:/'), nil]
     end
