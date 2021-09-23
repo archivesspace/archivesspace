@@ -1983,15 +1983,12 @@ ja:
         add: 並列名を追加
 
   parallel_name_person:
-    authorized: 承認済み
     _singular: パラレルネーム
     _plural: 並列名
 
-  parallel_name_family:
-    authorized: 承認済み
+  parallel_name_family: {}
   parallel_name_corporate_entity:
     suffix: サフィックス
-    conference_meeting_tooltip: "<p>エンティティが標準の企業体であるか、会議、会議、またはその他の名前付きイベントであるかを示します。</p>"
   parallel_name_software:
     sort_name: ソート名
   agent_record_identifiers:

@@ -1431,8 +1431,6 @@ fr:
     _plural: Logiciels
   agent_corporate_entity:
     <<: *agent_attributes
-    agent_functions_tooltip: Termes utilisés pour identifier les fonctions, processus, tâches, activités
-      ou transactions effectuées par l'agent.
     _singular: Personne morale
     _plural: Personnes morales
 
@@ -2688,16 +2686,12 @@ fr:
       cannot: Impossible de continuer en raison d'erreurs précédentes
 
   parallel_name_person:
-    authorized: Autorisé
     _singular: Nom parallèle
     _plural: Noms parallèles
 
-  parallel_name_family:
-    authorized: Autorisé
+  parallel_name_family: {}
   parallel_name_corporate_entity:
     suffix: Suffixe
-    conference_meeting_tooltip: "<p>Indique si l'entité est une personne morale standard ou est une conférence,\
-      \ une réunion ou un autre événement nommé.</p>"
   parallel_name_software:
     sort_name: Nom du tri
   agent_record_identifiers:
