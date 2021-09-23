@@ -144,7 +144,7 @@ describe 'Accessibility', js: true, db: 'accessibility' do
       expect(page).to have_no_xpath("//a[not(@href)]")
     end
 
-    # 519100
+    # 519100, #519357
     it "supports aria-expanded for event and merge dropdowns" do
       visit "/resources/1"
       page.has_css? "div.record-toolbar"
@@ -160,6 +160,17 @@ describe 'Accessibility', js: true, db: 'accessibility' do
           dropdown_ctrl.click
           expect(dropdown_ctrl).to have_xpath("self::*[@aria-expanded='false']")
         end
+
+        # #merge-dropdown a.dropdown-toggle is inside the merge menu, so we need to drop that down first so the target element is visible
+        find("#merge-dropdown button.merge-action").click
+
+        dropdown_ctrl = find("#merge-dropdown a.dropdown-toggle")
+
+        expect(dropdown_ctrl).to have_xpath("self::*[@aria-expanded='false']")
+        dropdown_ctrl.click
+        expect(dropdown_ctrl).to have_xpath("self::*[@aria-expanded='true']")
+        dropdown_ctrl.click
+        expect(dropdown_ctrl).to have_xpath("self::*[@aria-expanded='false']")
       end
     end
 

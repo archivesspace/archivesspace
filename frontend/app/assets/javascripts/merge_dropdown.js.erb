@@ -40,6 +40,14 @@ $(function () {
     $(".merge-form .linker-wrapper .dropdown-toggle").on("click", function(event) {
       event.stopPropagation();
       $(this).parent().toggleClass("open");
+
+
+      if($(this).parent().hasClass("open")) {
+        $(this).attr('aria-expanded', true);
+      } 
+      else {
+        $(this).attr('aria-expanded', false);
+      }
     });
 
 
