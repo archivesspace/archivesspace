@@ -41,7 +41,11 @@
 
         <div class="form-actions">
             <div>
-                <button class="btn btn-primary btn-save-arks"><%= I18n.t('arks.save') %></button>
+                <div style="display: inline-block">
+                    <button class="btn btn-primary btn-save-arks"><%= I18n.t('arks.save') %></button>
+                    <div class="text-muted ark-no-changes"><small><%= I18n.t('arks.no_changes') %></small></div>
+                </div>
+
                 <button class="btn btn-default btn-cancel pull-right"><%= I18n.t('actions.cancel') %></button>
             </div>
             <div>
@@ -72,6 +76,8 @@
 
      this.newArkInput = this.rootElt.find('.new-ark-value');
 
+     this.initialFormState = this.serializeState();
+
      this.addHandlers();
      this.refreshTable();
  }
@@ -99,6 +105,15 @@
      } else {
          this.rootElt.find('.ark-errors').hide();
      }
+
+     if (self.initialFormState === self.serializeState()) {
+         self.rootElt.find('.btn-save-arks').attr('disabled', 'disabled');
+         self.rootElt.find('.ark-no-changes').show();
+     } else {
+         self.rootElt.find('.btn-save-arks').attr('disabled', null);
+         self.rootElt.find('.ark-no-changes').hide();
+
+     }
  };
 
  EditArksForm.prototype.addNewArk = function(arkValue) {
@@ -112,6 +127,13 @@
  };
 
 
+ EditArksForm.prototype.serializeState = function() {
+     return JSON.stringify({
+         current: this.currentArk,
+         previous: this.previousArks,
+     })
+ };
+
  EditArksForm.prototype.saveArks = function() {
      var self = this;
 
@@ -119,10 +141,7 @@
          url: AS.app_prefix("/ark_update"),
          data: {
              uri: "<%= record['uri'] %>",
-             ark_name: JSON.stringify({
-                 current: self.currentArk,
-                 previous: self.previousArks,
-             })
+             ark_name: self.serializeState(),
          },
          type: "post",
          success: function(html) {
