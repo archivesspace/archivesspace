@@ -2984,6 +2984,7 @@ en:
     add_new: Add new ARK
     set_current: Set to current
     save: Save ARKs
+    no_changes: No changes to save
     modal_title: Edit ARKs for current record
     unsubmitted_input: You have unsubmitted input
     ark_editor_errors:
