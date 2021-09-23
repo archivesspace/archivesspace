@@ -1987,8 +1987,7 @@ ja:
     _plural: 並列名
 
   parallel_name_family: {}
-  parallel_name_corporate_entity:
-    suffix: サフィックス
+  parallel_name_corporate_entity: {}
   parallel_name_software:
     sort_name: ソート名
   agent_record_identifiers:

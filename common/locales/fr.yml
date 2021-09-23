@@ -2690,8 +2690,7 @@ fr:
     _plural: Noms parallèles
 
   parallel_name_family: {}
-  parallel_name_corporate_entity:
-    suffix: Suffixe
+  parallel_name_corporate_entity: {}
   parallel_name_software:
     sort_name: Nom du tri
   agent_record_identifiers:
