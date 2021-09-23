@@ -1988,8 +1988,7 @@ ja:
 
   parallel_name_family: {}
   parallel_name_corporate_entity: {}
-  parallel_name_software:
-    sort_name: ソート名
+  parallel_name_software: {}
   agent_record_identifiers:
     identifier_type_tooltip: "<p>権限レコードIDのタイプまたはフォーマットを示します。この管理値リストの値は変更される可能性があります。</p>"
     source_tooltip: "<p>関連する識別子の発信元の典拠ファイルを示します。例：NAF（nr2003017069の場合）。この管理値リストの値は変更される可能性があります。</p>"

@@ -2691,8 +2691,7 @@ fr:
 
   parallel_name_family: {}
   parallel_name_corporate_entity: {}
-  parallel_name_software:
-    sort_name: Nom du tri
+  parallel_name_software: {}
   agent_record_identifiers:
     identifier_type_tooltip: "<p>Indique le type ou le format de l'identifiant de la notice d'autorité.\
       \ Les valeurs de cette liste de valeurs contrôlées peuvent être modifiées.</p>"
