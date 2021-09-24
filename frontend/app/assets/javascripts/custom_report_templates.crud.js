@@ -17,6 +17,52 @@ $(function () {
   };
 
   initCustomReportTemplateForm();
+
+  // Don't fire a request for *every* keystroke.  Wait until they stop
+  // typing for a moment.
+  var username_typeahead = AS.delayedTypeAhead(function (query, callback) {
+    $.ajax({
+      url: AS.app_prefix('users/complete'),
+      data: { query: query },
+      type: 'GET',
+      success: function (usernames) {
+        callback(usernames);
+      },
+      error: function () {
+        callback([]);
+      },
+    });
+  });
+
+  function extractor(query) {
+    var result = /([^,]+)$/.exec(query);
+    if (result && result[1]) return result[1].trim();
+    return '';
+  }
+
+  $('.user-field').typeahead({
+    source: username_typeahead.handle,
+    updater: function (item) {
+      $text_area = $('#' + this.$element.attr('id').replace(/_control$/, ''));
+      console.log(item + ' *');
+      values = $text_area.val().split('\n');
+      values.push(item);
+      set = new Set(values);
+      console.log(set);
+      deduped_values = [];
+      set.forEach(function (value) {
+        if (value.length > 0) {
+          deduped_values.push(value);
+        }
+      });
+      $text_area.val(deduped_values.join('\n'));
+      return '';
+    },
+  });
+
+  $('.user-field-clear-button').click(function (e) {
+    $(this).siblings('textarea').val('');
+  });
 });
 
 $(document).ready(function () {

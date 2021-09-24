@@ -9,7 +9,7 @@ module JSONModel
     if (jsonmodel.is_a?(Hash))
       traverse!(jsonmodel)
     else
-      traverse!(jsonmodel.data)
+      traverse!(jsonmodel.instance_variable_get(:@data))
     end
   end
 

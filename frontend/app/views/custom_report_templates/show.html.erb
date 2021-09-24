@@ -18,7 +18,7 @@
 
           <div id="template_information">
             <h3><%= I18n.t "custom_report_template._frontend.section.template_information" %></h3>
-          
+
             <%= readonly.label_and_textarea "name", :required => true %>
             <%= readonly.label_and_textarea "description" %>
             <%= readonly.label_and_textarea "limit" %>
@@ -31,7 +31,7 @@
             </div>
           </div>
 
-          
+
           <% enums = JSONModel(:enumeration).all %>
 
           <% users = [] %>
@@ -50,7 +50,7 @@
               <div id="<%= record_type %>_basic_information_fields">
 
                 <h3><%= I18n.t "custom_report_template._frontend.section.basic_information_fields" %></h3>
-                
+
                 <% fields.each do |field| %>
                   <div class="panel panel-default">
 
@@ -68,7 +68,7 @@
                         <%= readonly.label 'display', :class => "col-sm-2 control-label" %>
                         <div class="col-sm-9 label-only">
                           <%= I18n.t("boolean.true") %>
-                        </div>        
+                        </div>
                       </div>
 
                     </div>
@@ -121,7 +121,7 @@
                           <% enum_name = "#{record_type}_#{field[0]}" %>
                         <% end %>
                         <% enum = enums.find {|obj| obj.name == enum_name} if enum_name%>
-                        
+
                         <div class="form-group">
                           <%= readonly.label "narrow_by", :class => "col-sm-2 control-label" %>
                           <div class="col-sm-9 label-only">
@@ -141,7 +141,6 @@
 
               <div id="<%= record_type %>_linked_records">
                 <h3><%= I18n.t "custom_report_template._frontend.section.linked_records" %></h3>
-
                 <% record_data.fetch('subreports', []).each do |subreport| %>
                   <% translation = "#{subreport[0]}._plural" %>
                   <div class="panel panel-default">
@@ -155,7 +154,7 @@
                         <%= readonly.label 'include', :class => "col-sm-2 control-label" %>
                         <div class="col-sm-9 label-only">
                           <%= I18n.t("boolean.true") %>
-                        </div>        
+                        </div>
                       </div>
 
                     </div>

@@ -1,12 +1,13 @@
 class UsersController < ApplicationController
 
   set_access_control "manage_users" => [:index, :edit, :update, :delete, :activate, :deactivate],
-                    "manage_repository" => [:manage_access, :edit_groups, :update_groups, :complete],
-                    :public => [:new, :create]
+                    "manage_repository" => [:manage_access, :edit_groups, :update_groups],
+                    :public => [:new, :create, :complete]
 
   before_action :account_self_service, :only => [:new, :create]
   before_action :user_needs_to_be_a_user_manager_or_new_user, :only => [:new, :create]
-  before_action :user_needs_to_be_a_user, :only => [:show]
+  before_action :user_needs_to_be_a_user, :only => [:show, :complete]
+
 
   def index
     @search_data = JSONModel(:user).all(
@@ -43,7 +44,6 @@ class UsersController < ApplicationController
 
   def complete
     query = params[:query].strip
-
     if !query.empty?
       begin
         return render :json => JSONModel::HTTP::get_json("/users/complete", :query => params[:query])
