@@ -142,7 +142,7 @@
               <div id="<%= record_type %>_linked_records">
                 <h3><%= I18n.t "custom_report_template._frontend.section.linked_records" %></h3>
 
-                <% record_data['subreports'].each do |subreport| %>
+                <% record_data.fetch('subreports', []).each do |subreport| %>
                   <% translation = "#{subreport[0]}._plural" %>
                   <div class="panel panel-default">
 
