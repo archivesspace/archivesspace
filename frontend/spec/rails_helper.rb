@@ -70,4 +70,8 @@ Capybara.register_server :mizuno do |app, port, host|
   Rack::Handler.get('mizuno').run(app, port: port, host: host)
 end
 Capybara.server = :mizuno
-Capybara.default_max_wait_time = 5
+Capybara.default_max_wait_time = 10
+
+
+ActionController::Base.logger.level = Logger::ERROR
+Rails.logger.level = Logger::ERROR
