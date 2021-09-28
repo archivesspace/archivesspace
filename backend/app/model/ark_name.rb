@@ -125,6 +125,8 @@ class ArkName < Sequel::Model(:ark_name)
 
     check_unique(db, obj)
 
+    obj.class.update_mtime_for_ids([obj.id])
+
     true
   end
 
