@@ -38,7 +38,7 @@ describe "Generate ARKs job" do
   end
 
   it "does not mess with current valid ARKs" do
-    resource  = Resource.create_from_json(build(:json_resource_nohtml))
+    resource = Resource.create_from_json(build(:json_resource_nohtml))
     archival_object = ArchivalObject.create_from_json(build(:json_archival_object_nohtml))
 
     res_ark_before = ArkName.first(:resource_id => resource.id)
@@ -60,7 +60,7 @@ describe "Generate ARKs job" do
   end
 
   it "generates a new ARK, and remembers the old one, when the current ARK is no longer valid" do
-    resource  = Resource.create_from_json(build(:json_resource_nohtml))
+    resource = Resource.create_from_json(build(:json_resource_nohtml))
     archival_object = ArchivalObject.create_from_json(build(:json_archival_object_nohtml))
 
     res_ark_id = ArkName.first(:resource_id => resource.id).id
