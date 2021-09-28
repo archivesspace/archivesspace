@@ -148,12 +148,30 @@ class ReportGenerator
   end
 
   def show_in_list(value)
-    sub_report_code_stack.push(value.pop)
-    sub_report_data_stack.push(value)
-    render = do_render('nested_subreport.erb')
-    sub_report_code_stack.pop
-    sub_report_data_stack.pop
-    render
+    # organize list values (needed for multiple report types within a single list)
+    rendered = ''
+    list = {}
+    report_data = []
+    value.each do |v|
+      if v.is_a?(String)
+        # this is the report type, assign the currently collected data to it
+        list[v] = report_data.dup
+        report_data = []
+      else
+        # this is the data, collect it
+        report_data << v
+      end
+    end
+
+    list.each do |type, data|
+      sub_report_code_stack.push(type)
+      sub_report_data_stack.push(data)
+      rendered += do_render('nested_subreport.erb')
+      sub_report_code_stack.pop
+      sub_report_data_stack.pop
+    end
+
+    rendered
   end
 
   def rtf_subreport(value)

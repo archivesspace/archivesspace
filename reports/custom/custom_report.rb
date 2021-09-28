@@ -225,8 +225,8 @@ class CustomReport < AbstractReport
 		end
 		@subreports.each do |subreport_class|
 			begin
-				row[subreport_class.field_name.to_sym] = subreport_class
-					.new(self, row[:id]).get_content
+				subreport = subreport_class.new(self, row[:id])
+				row[subreport_class.field_name.to_sym] = subreport.get_content
 			rescue Exception => e
 				name = special_translation(@record_type, subreport_class.code)
 				job.write_output("Problem with '#{name}' Subreport: #{e}")
