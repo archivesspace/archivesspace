@@ -40,7 +40,7 @@ endpoint_examples*
 build/demo_db_backups
 *.jasper
 .bundle
-*/node_modules
+node_modules/
 locales.diff
 */bower_components
 Gemfile.local

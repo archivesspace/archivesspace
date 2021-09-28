@@ -1,0 +1,20 @@
+{
+  "root": true,
+  "env": {
+    "browser": true,
+    "es2021": true,
+    "jquery": true
+  },
+  "parserOptions": {
+    "ecmaVersion": 12
+  },
+  "extends": ["eslint:recommended", "prettier"],
+  "globals": {
+    "AS": "writable",
+    "CodeMirror": "readonly"
+  },
+  "rules": {
+    "no-undef": "warn",
+    "no-unused-vars": "warn"
+  }
+}
