@@ -1,6 +1,6 @@
 class ArkUpdateController < ApplicationController
 
-  set_access_control  "administer_system" => [:update]
+  set_access_control "administer_system" => [:update]
 
   def update
     uri = "#{JSONModel::HTTP.backend_url}#{params[:uri]}/ark_name"
@@ -16,4 +16,3 @@ class ArkUpdateController < ApplicationController
   end
 
 end
-

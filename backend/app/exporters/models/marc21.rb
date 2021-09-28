@@ -614,10 +614,10 @@ class MARCModel < ASpaceExport::ExportModel
     #</datafield>
 
     if ark_url = ark_name['current']
-       df('856', '4', '2').with_sfs(
-                                    ['z', "Archival Resource Key:"],
-                                    ['u', ark_url]
-                                  ) unless ark_url.nil? || ark_url.empty?
+      df('856', '4', '2').with_sfs(
+        ['z', "Archival Resource Key:"],
+        ['u', ark_url]
+      ) unless ark_url.nil? || ark_url.empty?
 
     end
   end
