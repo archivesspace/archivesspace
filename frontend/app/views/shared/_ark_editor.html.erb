@@ -13,7 +13,27 @@
 
             <tr class="current-ark-value">
                 <td class="ark-value"></td>
-                <td class="ark-actions"><span class="badge"><%= I18n.t('arks.current') %></span></td>
+                <td class="ark-actions">
+                    <span class="badge"><%= I18n.t('arks.current') %></span>
+                    <label class="pull-right">
+                        <input
+                            class="current-ark-is-external"
+                            type="checkbox"
+                            name="is_external_ark"
+                            <% if record['ark_name']['current_is_external'] %>
+                            checked="checked"
+                            <% end %>
+                        />
+
+                        External?
+                    </label>
+                </td>
+            </tr>
+
+            <tr class="only-current-ark-external-msg" style="display: none">
+                <td colspan="2" style="text-align: right">
+                    <small class="text-muted"><%= I18n.t('arks.only_current_ark_can_be_external') %></small>
+                </td>
             </tr>
 
             <tr class="previous-ark-value-template" style="display: none">
@@ -63,6 +83,7 @@
      this.cancelCallback = cancelCallback;
 
      this.currentArk = <%= record['ark_name']['current'].to_json.html_safe %>;
+
      this.previousArks = <%= record['ark_name']['previous'].to_json.html_safe %>;
 
      this.saveButton = this.rootElt.find('button.btn-save-arks');
@@ -85,7 +106,20 @@
  EditArksForm.prototype.refreshTable = function() {
      var self = this;
 
-     this.currentArkRow.find('.ark-value').text(this.currentArk);
+     if (this.currentArk) {
+         this.currentArkRow.find('.ark-value').text(this.currentArk);
+         this.currentArkRow.show();
+     } else {
+         this.currentArkRow.hide();
+     }
+
+     if (this.rootElt.find('.current-ark-is-external').is(':checked')) {
+         this.rootElt.find('.set-ark-current').attr('disabled', 'disabled');
+         this.rootElt.find('.only-current-ark-external-msg').show();
+     } else {
+         this.rootElt.find('.set-ark-current').attr('disabled', null);
+         this.rootElt.find('.only-current-ark-external-msg').hide();
+     }
 
      this.table.find('.previous_ark_row').remove();
 
@@ -130,6 +164,7 @@
  EditArksForm.prototype.serializeState = function() {
      return JSON.stringify({
          current: this.currentArk,
+         current_is_external: this.rootElt.find('.current-ark-is-external').is(':checked'),
          previous: this.previousArks,
      })
  };
@@ -230,6 +265,10 @@
 
      this.rootElt.on('click', 'button.btn-cancel', function () {
          self.cancelCallback();
+     });
+
+     this.currentArkRow.find('.current-ark-is-external').on('change', function () {
+         self.refreshTable();
      });
 
  };

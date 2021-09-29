@@ -316,8 +316,8 @@ describe 'ArkName model' do
         json['external_ark_url'] = external_ark_url
         Resource[obj.id].update_from_json(json)
 
-        expect(ArkName.filter(:resource_id => obj.id).count).to eq(1)
-        expect(ArkName.first(:resource_id => obj.id).value).to eq(external_ark_url)
+        expect(ArkName.filter(:resource_id => obj.id).count).to eq(2)
+        expect(ArkName.first(:resource_id => obj.id, :is_current => 1).value).to eq(external_ark_url)
 
         # set external_ark_url back to empty
         json = Resource.to_jsonmodel(Resource[obj.id])
@@ -325,7 +325,7 @@ describe 'ArkName model' do
         Resource[obj.id].update_from_json(json)
 
         expect(ArkName.filter(:resource_id => obj.id).count).to eq(1)
-        expect(ArkName.first(:resource_id => obj.id).value).to eq(original_generated_ark)
+        expect(ArkName.first(:resource_id => obj.id, :is_current => 1).value).to eq(original_generated_ark)
       end
 
       it "ensures unique user_value" do

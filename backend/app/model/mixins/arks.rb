@@ -23,7 +23,13 @@ module Arks
 
       rec_ids_to_arks = {}
 
-      ArkName.filter(fk_col => objs.map(&:id)).each do |ark_obj|
+      ark_query = ArkName.filter(fk_col => objs.map(&:id))
+
+      unless AppConfig[:arks_allow_external_arks]
+        ark_query = ark_query.filter(:is_external_url => 0)
+      end
+
+      ark_query.each do |ark_obj|
         rec_ids_to_arks[ark_obj[fk_col]] ||= []
         rec_ids_to_arks[ark_obj[fk_col]] << ark_obj
       end
@@ -35,11 +41,19 @@ module Arks
           (current, *), previous = arks.partition {|ark| ark.is_current == 1}
 
           json['ark_name'] = {
-            'current' => current.value,
             'previous' => previous.map(&:value),
           }
 
-          json['external_ark_url'] = current.user_value
+          if current
+            json['ark_name']['current'] = current.value
+            json['ark_name']['current_is_external'] = (current.is_external_url == 1)
+
+            if current.is_external_url == 1
+              json['external_ark_url'] = current.ark_value
+            else
+              json['external_ark_url'] = nil
+            end
+          end
         end
       end
 

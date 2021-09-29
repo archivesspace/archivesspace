@@ -9,10 +9,6 @@
 #      - obj :: a Sequel::Model instance of the record we're minting an ARK for.
 #          At the time of writing, that's either an Archival Object or a Resource.
 #
-#      - external_ark_url :: if AppConfig[:arks_allow_external_arks] is `true`,
-#          this will contain the user-inputted value from the "External ARK URL"
-#          field on the record form.
-#
 #      - row_defaults :: the recommended default values for several `ark_name`
 #          columns.  You can merge any customized values you like into this set.
 #
@@ -57,7 +53,7 @@ require 'digest'
 
 class ArkMinter
 
-  def mint!(obj, external_ark_url, row_defaults)
+  def mint!(obj, row_defaults)
     raise NotImplementedError.new
   end
 

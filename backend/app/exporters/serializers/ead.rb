@@ -249,15 +249,17 @@ class EADSerializer < ASpaceExport::Serializer
     return unless AppConfig[:arks_enabled]
     return unless data.ark_name
 
-    xml.unitid ({
-      "type" => "ark",
-    }) {
-      xml.extref ({
-        "xlink:href" => data.ark_name.fetch('current'),
-        "xlink:actuate" => "onLoad",
-        "xlink:show" => "new",
-      }) { xml.text 'Archival Resource Key' }
-    }
+    if current_ark = data.ark_name.fetch('current', nil)
+      xml.unitid ({
+                    "type" => "ark",
+                  }) {
+        xml.extref ({
+                      "xlink:href" => current_ark,
+                      "xlink:actuate" => "onLoad",
+                      "xlink:show" => "new",
+                    }) { xml.text 'Archival Resource Key' }
+      }
+    end
 
     data.ark_name.fetch('previous', []).each do |old_ark_url|
       xml.unitid ({
@@ -811,8 +813,8 @@ class EADSerializer < ASpaceExport::Serializer
   def serialize_eadheader(data, xml, fragments)
     eadid_url = data.ead_location
 
-    if AppConfig[:arks_enabled] && data.ark_name
-      eadid_url = data.ark_name.fetch('current')
+    if AppConfig[:arks_enabled] && data.ark_name && (current_ark = data.ark_name.fetch('current', nil))
+      eadid_url = current_ark
     end
 
     eadheader_atts = {:findaidstatus => data.finding_aid_status,

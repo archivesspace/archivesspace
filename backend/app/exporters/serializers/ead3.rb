@@ -584,8 +584,8 @@ class EAD3Serializer < EADSerializer
     xml.control(control_atts) {
       ins_url = data.ead_location
 
-      if AppConfig[:arks_enabled] && data.ark_name
-        ins_url = data.ark_name.fetch('current')
+      if AppConfig[:arks_enabled] && data.ark_name && (current_ark = data.ark_name.fetch('current', nil))
+        ins_url = current_ark
       end
 
       recordid_atts = {
@@ -1223,14 +1223,16 @@ class EAD3Serializer < EADSerializer
     return unless AppConfig[:arks_enabled]
     return unless data.ark_name
 
-    xml.unitid ({
-      "localtype" => "ark",
-    }) {
-      xml.ref ({"href" => data.ark_name.fetch('current'),
-                "actuate" => "onload",
-                "show" => "new",
-      }) { xml.text 'Archival Resource Key' }
-    }
+    if current_ark = data.ark_name.fetch('current', nil)
+      xml.unitid ({
+                    "localtype" => "ark",
+                  }) {
+        xml.ref ({"href" => current_ark,
+                  "actuate" => "onload",
+                  "show" => "new",
+                 }) { xml.text 'Archival Resource Key' }
+      }
+    end
 
     data.ark_name.fetch('previous', []).each do |old_ark_url|
       xml.unitid ({
