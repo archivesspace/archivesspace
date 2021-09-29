@@ -6,6 +6,8 @@ class ArkName < Sequel::Model(:ark_name)
 
   @minters ||= {}
 
+  EXTERNAL_ARK_VERSION_KEY = '__archivesspace_external_url'
+
   def self.register_minter(minter_id, clz)
     @minters[minter_id] = clz
     nil
@@ -34,13 +36,59 @@ class ArkName < Sequel::Model(:ark_name)
     now = Time.now
 
     DB.open do |db|
+      # Handle the case where external ARKs are enabled
+      if AppConfig[:arks_allow_external_arks]
+        self.filter(fk_col => obj.id, :is_external_url => 1).delete
+
+        # ... and we have one coming in
+        if external_ark_url
+          self
+            .filter(fk_col => obj.id, :is_current => 1)
+            .update(:is_current => 0,
+                    :retired_at_epoch_ms => (now.to_f * 1000).to_i)
+
+          self.insert(fk_col => obj.id,
+                      :created_by => 'admin',
+                      :last_modified_by => 'admin',
+                      :create_time => now,
+                      :system_mtime => now,
+                      :user_mtime => now,
+                      :is_current => 1,
+                      :is_external_url => 1,
+                      :retired_at_epoch_ms => 0,
+                      :lock_version => 0,
+                      :version_key => EXTERNAL_ARK_VERSION_KEY,
+                      :ark_value => external_ark_url,
+                     )
+
+          check_unique(db, obj)
+          return true
+        end
+      end
+
+      # Look for a previously minted ARK that we can promote into current
+      previous_ark = self
+        .filter(fk_col => obj.id, :version_key => ark_minter.version_key_for(obj))
+        .reverse(:retired_at_epoch_ms)
+        .first
+
+      if previous_ark
+        self
+          .filter(fk_col => obj.id, :is_current => 1)
+          .update(:is_current => 0,
+                  :retired_at_epoch_ms => (now.to_f * 1000).to_i)
+
+        self.filter(:id => previous_ark.id).update(:is_current => 1, :retired_at_epoch_ms => 0)
+        return
+      end
+
+      # Need to mint a new ARK
       self
         .filter(fk_col => obj.id, :is_current => 1)
         .update(:is_current => 0,
-                :user_value => nil,
                 :retired_at_epoch_ms => (now.to_f * 1000).to_i)
 
-      ark_minter.mint!(obj, external_ark_url,
+      ark_minter.mint!(obj,
                        fk_col => obj.id,
                        :created_by => 'admin',
                        :last_modified_by => 'admin',
@@ -48,6 +96,7 @@ class ArkName < Sequel::Model(:ark_name)
                        :system_mtime => now,
                        :user_mtime => now,
                        :is_current => 1,
+                       :is_external_url => 0,
                        :retired_at_epoch_ms => 0,
                        :lock_version => 0,
                        :version_key => ark_minter.version_key_for(obj),
@@ -63,15 +112,29 @@ class ArkName < Sequel::Model(:ark_name)
     fk_col = fk_for_class(obj.class)
     return unless fk_col
 
-    # Make sure the value we've generated hasn't been used elsewhere.
+    # Make sure the value we've generated, or the user value hasn't been used elsewhere.
     db[:ark_uniq_check].filter(:record_uri => obj.uri).delete
-    generated_values = self.filter(fk_col => obj.id).select(:generated_value).distinct.map {|row| row[:generated_value]}
+
+    ark_value_query = self.filter(fk_col => obj.id).select(:ark_value).distinct
+
+    # If external ARKs are turned off, don't count them in our uniqueness checks
+    unless AppConfig[:arks_allow_external_arks]
+      ark_value_query = ark_value_query.filter(:is_external_url => 0)
+    end
 
     begin
-      generated_values.each do |value|
-        db[:ark_uniq_check].insert(:record_uri => obj.uri, :generated_value => value)
+      ark_value_query.map {|row| row[:ark_value]}.each do |value|
+        db[:ark_uniq_check].insert(:record_uri => obj.uri, :value => value.sub(/^.*?ark:/i, 'ark:'))
       end
     rescue Sequel::UniqueConstraintViolation => e
+      # We want to give a useful error in the case that the collision is on the external_ark_url
+      if our_external_ark = db[:ark_name].filter(fk_col => obj.id).filter(:is_external_url => 1).get(:ark_value)
+        if db[:ark_name].filter(Sequel.~(fk_col => obj.id)).filter(:ark_value => our_external_ark).count > 0
+          # Someone else collided with our external ARK url
+          raise JSONModel::ValidationException.new(:errors => {"external_ark_url" => ["external_ark_collision"]})
+        end
+      end
+
       raise JSONModel::ValidationException.new(:errors => {"ark" => ["ark_collision"]})
     end
   end
@@ -94,7 +157,6 @@ class ArkName < Sequel::Model(:ark_name)
       :system_mtime => now,
       :user_mtime => now,
       :lock_version => 0,
-      :version_key => ark_minter.version_key_for(obj)
     }
 
     DB.open do |db|
@@ -103,23 +165,29 @@ class ArkName < Sequel::Model(:ark_name)
       ArkName.filter(fk_col => obj.id).delete
 
       if ark_name['current']
-        generated_value, user_value = calculate_values(ark_name['current'], current_ark)
-
-        ArkName.insert(ark.merge(:generated_value => generated_value,
-                                 :user_value => user_value,
-                                 :is_current => 1,
-                                 :retired_at_epoch_ms => 0))
+        if ark_name['current_is_external']
+          ArkName.insert(ark.merge(:ark_value => ark_name['current'],
+                                   :is_external_url => 1,
+                                   :is_current => 1,
+                                   :retired_at_epoch_ms => 0,
+                                   :version_key => EXTERNAL_ARK_VERSION_KEY))
+        else
+          ArkName.insert(ark.merge(:ark_value => clean_ark_value(ark_name['current']),
+                                   :is_external_url => 0,
+                                   :is_current => 1,
+                                   :retired_at_epoch_ms => 0,
+                                   :version_key => ark_minter.version_key_for(obj)))
+        end
       end
 
       now_i = (now.to_f * 1000).to_i
 
       ark_name['previous'].each_with_index do |prev, ix|
-        generated_value, user_value = calculate_values(prev)
-
-        ArkName.insert(ark.merge(:generated_value => generated_value,
-                                 :user_value => user_value,
+        ArkName.insert(ark.merge(:ark_value => clean_ark_value(prev),
                                  :is_current => 0,
-                                 :retired_at_epoch_ms => (now_i - ix)))
+                                 :is_external_url => 0,
+                                 :retired_at_epoch_ms => (now_i - ix),
+                                 :version_key => ark_minter.version_key_for(obj)))
       end
     end
 
@@ -130,23 +198,14 @@ class ArkName < Sequel::Model(:ark_name)
     true
   end
 
-  # return generated_value and user_value column values for an ark_name based on these rules:
-  #  - blow up if the value is not a valid ark
-  #  - if `:arks_allow_external_arks` is true and this is a current_ark and the value is unchanged
-  #      then no change is applied to generated_value or user_value (prefix is always snipped off)
-  #  - in all other cases treat value as a generated_value
-  def self.calculate_values(value, current_ark = nil)
+  def self.clean_ark_value(value)
     unless value.match(/^(.*?\/)?ark:\//)
       raise JSONModel::ValidationException.new(:errors => {"ark" => ["ark_format_error"]})
     end
 
-    # [generated_value, user_value]
-    if AppConfig[:arks_allow_external_arks] && current_ark && value == current_ark[:user_value]
-      [current_ark[:generated_value].sub(/^(.*?\/)?ark:\//, 'ark:/'), value]
-    else
-      [value.sub(/^(.*?\/)?ark:\//, 'ark:/'), nil]
-    end
+    value.sub(/^(.*?\/)?ark:\//, 'ark:/')
   end
+
 
   # Invoked when the ARKs runner job kicks off.
   def self.run_housekeeping!
@@ -182,10 +241,10 @@ class ArkName < Sequel::Model(:ark_name)
   end
 
   def value
-    if AppConfig[:arks_allow_external_arks] && self.user_value
-      self.user_value
+    if self.is_external_url == 1
+      self.ark_value
     else
-      self.class.prefix(self.generated_value)
+      self.class.prefix(self.ark_value)
     end
   end
 
@@ -208,7 +267,13 @@ class ArkName < Sequel::Model(:ark_name)
     # record needs a current ark
     return true if current.nil?
 
-    return true if AppConfig[:arks_allow_external_arks] && current.user_value.to_s != external_ark_url.to_s
+    if AppConfig[:arks_allow_external_arks] && external_ark_url
+      if current.ark_value.to_s == external_ark_url && current.is_external_url == 1
+        return false
+      end
+
+      return true
+    end
 
     minter = self.ark_minter
 

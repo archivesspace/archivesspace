@@ -55,8 +55,8 @@ describe "Generate ARKs job" do
     expect(ArkName.first(:resource_id => resource.id).id).to eq(res_ark_before.id)
     expect(ArkName.first(:archival_object_id => archival_object.id).id).to eq(ao_ark_before.id)
 
-    expect(ArkName[res_ark_before.id].generated_value).to eq(res_ark_before.generated_value)
-    expect(ArkName[ao_ark_before.id].generated_value).to eq(ao_ark_before.generated_value)
+    expect(ArkName[res_ark_before.id].value).to eq(res_ark_before.value)
+    expect(ArkName[ao_ark_before.id].value).to eq(ao_ark_before.value)
   end
 
   it "generates a new ARK, and remembers the old one, when the current ARK is no longer valid" do

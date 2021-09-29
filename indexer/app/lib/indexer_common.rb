@@ -353,7 +353,7 @@ class IndexerCommon
     return unless AppConfig[:arks_enabled]
 
     if arks = record['record']['ark_name']
-      doc['ark_name'] = ([arks.fetch('current')] + arks.fetch('previous')).map {|s| trim_ark_value(s)}
+      doc['ark_name'] = ([arks.fetch('current', nil)] + arks.fetch('previous')).compact.map {|s| trim_ark_value(s)}
     end
   end
 

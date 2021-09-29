@@ -2447,6 +2447,7 @@ en:
     must_specify_a_primary_subject: "Description Information: Record is missing a primary subject"
     subrecord_not_allowed_for_agent_software: "Software Agents cannot have record control or relation subrecords"
     ark_collision: There was a problem while generating an ARK for this record. Please contact your system administrator.
+    external_ark_collision: External ARK already in use
     ark_format_error: One of the ARKs provided was not a valid ARK.
 
   job:
@@ -2987,6 +2988,7 @@ en:
     no_changes: No changes to save
     modal_title: Edit ARKs for current record
     unsubmitted_input: You have unsubmitted input
+    only_current_ark_can_be_external: The current ARK cannot be replaced while it is marked as external.
     ark_editor_errors:
       ark_collision: One of the ARKs provided is already in use.
       ark_format_error: One of the ARKs provided was not a valid ARK.

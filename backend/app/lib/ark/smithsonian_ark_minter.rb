@@ -2,12 +2,11 @@ require 'securerandom'
 
 class SmithsonianArkMinter < ArkMinter
 
-  def mint!(obj, external_ark_url, row_defaults)
+  def mint!(obj, row_defaults)
     DB.open do |db|
       ark_shoulder = shoulder_for_repo(obj.repo_id)
 
-      db[:ark_name].insert(row_defaults.merge(:generated_value => build_generated_ark(ark_shoulder),
-                                              :user_value => external_ark_url))
+      db[:ark_name].insert(row_defaults.merge(:ark_value => build_generated_ark(ark_shoulder)))
     end
   end
 

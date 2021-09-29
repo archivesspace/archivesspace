@@ -5,6 +5,7 @@
     "type" => "object",
     "properties" => {
       "current" => {"type" => "string", "required" => false},
+      "current_is_external" => {"type" => "boolean", "required" => false},
       "previous" => {
         "type" => "array",
         "items" => {

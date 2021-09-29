@@ -25,16 +25,17 @@ class GenerateArksRunner < JobRunner
               fk = ArkName.fk_for_class(model)
 
               # Retain any existing external URL values
-              user_value_lookup = ArkName.filter(fk => objs.map(&:id),
-                                                 :is_current => 1)
-                                    .select(fk, :user_value)
-                                    .map {|row| [row[fk], row[:user_value]] }
-                                    .to_h
+              external_ark_lookup = ArkName.filter(fk => objs.map(&:id),
+                                                   :is_current => 1,
+                                                   :is_external_url => 1)
+                                      .select(fk, :ark_value)
+                                      .map {|row| [row[fk], row[:ark_value]] }
+                                      .to_h
 
               records_to_reindex = []
               objs.each do |obj|
                 begin
-                  if ArkName.ensure_ark_for_record(obj, user_value_lookup.fetch(obj.id, nil))
+                  if ArkName.ensure_ark_for_record(obj, external_ark_lookup.fetch(obj.id, nil))
                     created_arks += 1
                     records_to_reindex << obj.id
                   end
