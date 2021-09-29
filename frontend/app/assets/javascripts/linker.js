@@ -147,7 +147,7 @@ $(function() {
                       $("tr.selected", $input.closest("table")).removeClass("selected");
                     }
 
-                    if (currentlySelected.hasOwnProperty($input.val())) {
+                    if (Object.prototype.hasOwnProperty.call(currentlySelected, $input.val())) {
                       // remove from the list
                       delete currentlySelected[$input.val()];
                       $input.closest("tr").removeClass("selected");

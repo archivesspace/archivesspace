@@ -2,7 +2,7 @@
 //= require bootstrap-datepicker
 //= require bootstrap-combobox
 
-var AS = {};
+var AS = {}; // eslint-disable-line
 
 // initialise ajax modal
 $(function() {
@@ -447,7 +447,7 @@ AS.openCustomModal = function(id, title, contents, modalSize, modalOpts, initiat
 
   var resizeModal = function() {
     var height;
-    if (modalSize === 'full' || 'large') {
+    if (modalSize === "full" || modalSize === "large") {
       height = $(window).height() - ($(window).height() * 0.03);
     } else {
       height = $(window).height() - ($(window).height() * 0.2);

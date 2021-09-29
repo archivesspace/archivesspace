@@ -127,7 +127,7 @@ var HTML_ESCAPES = {
   '/': '&#x2F;'
 };
 
-var HTML_ESCAPE_CHARS = /[&<>"'\/]/g;
+var HTML_ESCAPE_CHARS = /[&<>"'/]/g;
 
 function coerceToString(val) {
   return String((val === null || val === undefined) ? '' : val);
