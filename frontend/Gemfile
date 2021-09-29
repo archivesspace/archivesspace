@@ -55,13 +55,12 @@ group :development, :test do
   gem 'pry-debugger-jruby', '>= 1.2.2'
   gem 'pry-nav'
   gem 'pry-rails'
+  gem 'mizuno', git: "https://github.com/quoideneuf/mizuno", branch: "master"
 end
 
 group :development do
   gem 'web-console'
 end
-
-gem 'mizuno', '0.6.11'
 
 gem 'multi_json', '~> 1.15.0'
 gem 'multipart-post', '1.2.0'

@@ -1,3 +1,14 @@
+GIT
+  remote: https://github.com/quoideneuf/mizuno
+  revision: 43b9eecae66fcd7d6df3bbe8b003c0b778cb23c3
+  branch: master
+  specs:
+    mizuno (0.6.11)
+      childprocess (>= 0.2.6)
+      choice (>= 0.1.0)
+      ffi (>= 1.0.0)
+      rack (>= 1.0.0)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -41,11 +52,6 @@ GEM
     ladle (0.2.0-java)
     method_source (0.9.2)
     minitest (5.14.4)
-    mizuno (0.6.11)
-      childprocess (>= 0.2.6)
-      choice (>= 0.1.0)
-      ffi (>= 1.0.0)
-      rack (>= 1.0.0)
     multi_json (1.15.0)
     multipart-post (1.2.0)
     mustermann (1.1.1)
@@ -157,7 +163,7 @@ DEPENDENCIES
   json (= 2.3.0)
   json-schema (= 1.0.10)
   ladle (= 0.2.0)
-  mizuno (= 0.6.11)
+  mizuno!
   multi_json (~> 1.15.0)
   multipart-post (= 1.2.0)
   net-http-persistent (= 2.8)
