@@ -36,11 +36,15 @@ class ArkNameController < ApplicationController
     if json_response['type'] == 'not_found'
       ark_not_resolved(uri)
     else
-      if AppConfig[:arks_allow_external_arks] && json_response['external_ark_url']
+      if is_external?(json_response['external_ark_url'])
         redirect_to json_response['external_ark_url']
       else
         redirect_to PrefixHelper.app_prefix(json_response['uri'])
       end
     end
+  end
+
+  def is_external?(ark)
+    AppConfig[:arks_allow_external_arks] && ark && !ark.start_with?(AppConfig[:public_proxy_url])
   end
 end
