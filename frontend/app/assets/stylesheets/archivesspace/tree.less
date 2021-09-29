@@ -6,10 +6,11 @@
   margin: -14px -15px 10px -15px !important;
   padding: 10px 0 10px 0;
   position: relative;
-  background-color: #F3F3F3;
+  background-color: #f3f3f3;
   #gradient > .vertical(#F3F3F3, #EDEDED);
-  border-top: 1px solid #EEE;
-  border-bottom: 1px solid #FFF;
+
+  border-top: 1px solid #eee;
+  border-bottom: 1px solid #fff;
   overflow: visible;
   width: auto !important;
 
@@ -19,7 +20,7 @@
 
   > .archives-tree-title {
     background-color: #eee;
-    background-color: rgba(0,0,0,.025);
+    background-color: rgba(0, 0, 0, 0.025);
     padding: 5px;
     margin: 0;
     font-weight: bold;
@@ -33,27 +34,27 @@
   .retract-tree {
     display: none;
   }
-  
+
   .spinner {
-      display: none; 
-      position: absolute;
-      top: 25%;
-      left: 50%;
-      padding-right: 0 !important;
-      font-size: 30px;
-      margin-right: 10px !important;
+    display: none;
+    position: absolute;
+    top: 25%;
+    left: 50%;
+    padding-right: 0 !important;
+    font-size: 30px;
+    margin-right: 10px !important;
   }
-  
+
   #archives_tree_overlay {
     z-index: 100;
-    opacity: 0.1; 
+    opacity: 0.1;
   }
-  
+
   #archives_tree_toolbar {
     padding: 0 15px;
 
     > .btn-toolbar {
-      border-bottom: 1px solid #E6E6E6;
+      border-bottom: 1px solid #e6e6e6;
       padding-bottom: 5px;
       margin-bottom: 6px;
     }
@@ -83,15 +84,15 @@
   }
 }
 
-
 .archives-tree-container.expanded {
   .box-shadow(1px 1px 5px rgba(0, 0, 0, 0.4));
   .opacity(95);
+
   z-index: 1000;
   background-color: #f9f9f9;
 
   .expand-tree {
-    display:none;
+    display: none;
   }
 
   .retract-tree {
@@ -114,6 +115,7 @@
   padding-top: 1em;
   .opacity(95);
   .box-shadow(3px 3px 10px rgba(0, 0, 0, 0.6));
+
   z-index: 1;
 }
 
@@ -125,13 +127,21 @@
 }
 
 @-webkit-keyframes spin2 {
-    from { -webkit-transform: rotate(0deg);}
-    to { -webkit-transform: rotate(360deg);}
+  from {
+    -webkit-transform: rotate(0deg);
+  }
+  to {
+    -webkit-transform: rotate(360deg);
+  }
 }
 
 @keyframes spin {
-    from { transform: scale(1) rotate(0deg);}
-    to { transform: scale(1) rotate(360deg);}
+  from {
+    transform: scale(1) rotate(0deg);
+  }
+  to {
+    transform: scale(1) rotate(360deg);
+  }
 }
 
 @media (max-width: 600px) {

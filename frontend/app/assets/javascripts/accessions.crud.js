@@ -14,10 +14,6 @@
 //= require interrelated_accessions.crud
 //= require slug
 
-
 $(function () {
-
-  $(document).triggerHandler("loadedrecordform.aspace", [$("#form_accession")]);
-
-
+  $(document).triggerHandler('loadedrecordform.aspace', [$('#form_accession')]);
 });

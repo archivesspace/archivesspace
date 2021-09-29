@@ -27,7 +27,7 @@
 }
 
 .record-type-badge.agent {
- @include record-type-badge-colored($agent-color);
+  @include record-type-badge-colored($agent-color);
 }
 
 .record-type-badge.accession {
