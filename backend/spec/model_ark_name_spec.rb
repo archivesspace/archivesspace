@@ -302,6 +302,47 @@ describe 'ArkName model' do
 
         expect(ark).to eq(json['ark_name']['current'])
       end
+
+      it "maintains single ARK when external_ark_url is edited" do
+        obj = create_resource
+        json = Resource.to_jsonmodel(obj)
+
+        # initial ARK
+        expect(ArkName.filter(:resource_id => obj.id).count).to eq(1)
+        original_generated_ark = ArkName.first(:resource_id => obj.id).value
+
+        # update to external ARK
+        external_ark_url = "http://foo.bar/ark:/123/123"
+        json['external_ark_url'] = external_ark_url
+        Resource[obj.id].update_from_json(json)
+
+        expect(ArkName.filter(:resource_id => obj.id).count).to eq(1)
+        expect(ArkName.first(:resource_id => obj.id).value).to eq(external_ark_url)
+
+        # set external_ark_url back to empty
+        json = Resource.to_jsonmodel(Resource[obj.id])
+        json['external_ark_url'] = nil
+        Resource[obj.id].update_from_json(json)
+
+        expect(ArkName.filter(:resource_id => obj.id).count).to eq(1)
+        expect(ArkName.first(:resource_id => obj.id).value).to eq(original_generated_ark)
+      end
+
+      it "ensures unique user_value" do
+        external_ark_url = "http://foo.bar/ark:/123/123"
+
+        # give resource A an external_ark_url
+        obj_a = create_resource
+        json_a = Resource.to_jsonmodel(obj_a)
+        json_a['external_ark_url'] = external_ark_url
+        Resource[obj_a.id].update_from_json(json_a)
+
+        # try to give resource B the same external_ark_url
+        obj_b = create_resource
+        json_b = Resource.to_jsonmodel(obj_b)
+        json_b['external_ark_url'] = external_ark_url
+        expect{Resource[obj_b.id].update_from_json(json_b)}.to raise_error(JSONModel::ValidationException)
+      end
     end
   end
 end
