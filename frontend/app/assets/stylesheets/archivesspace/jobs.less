@@ -1,4 +1,4 @@
-@import "archivesspace/variables";
+@import 'archivesspace/variables';
 
 // Listing styles
 .table-import-jobs {
@@ -10,7 +10,7 @@
 // Form styles
 .fileinput-wrapper {
   height: 100px;
-  border: 2px dashed #EEE;
+  border: 2px dashed #eee;
 }
 
 .fileinput-button {
@@ -32,14 +32,13 @@
 #files {
   margin-top: 10px;
   min-height: 100px;
-
-  border: 2px dashed #F3F3F3;
+  border: 2px dashed #f3f3f3;
 
   .hint {
     width: 300px;
     margin: 40px auto;
     font-size: 1.4em;
-    color: #DDD;
+    color: #ddd;
 
     .plus {
       font-size: 1.4em;
@@ -47,16 +46,16 @@
   }
 
   &.incoming {
-    border: 2px dashed #7DF;
+    border: 2px dashed #7df;
   }
 
   &.active {
-    border: 2px solid #7DF;
+    border: 2px solid #7df;
   }
 
   .import-file {
     display: block;
-    border-top: 1px solid #F3F3F3;
+    border-top: 1px solid #f3f3f3;
     padding: 10px;
 
     input {
@@ -65,15 +64,15 @@
   }
 
   .import-file:nth-child(2n-1) {
-    background-color: #FAFAFA;
+    background-color: #fafafa;
   }
 
   .import-file:last-child {
-    border-bottom: 1px solid #F3F3F3;
+    border-bottom: 1px solid #f3f3f3;
   }
 
   .btn-remove-file {
-    float:right;
+    float: right;
   }
 }
 
@@ -92,12 +91,6 @@
   .job-status {
     .controls {
       color: @successText;
-    }
-  }
-}
-.job-status-canceled {
-  .job-status {
-    .controls {
     }
   }
 }
@@ -157,7 +150,8 @@
       .report-title.disabled {
         opacity: 1;
       }
-      .select-report, .unselect-report .create-report-template {
+      .select-report,
+      .unselect-report .create-report-template {
         margin-top: -6px;
       }
     }

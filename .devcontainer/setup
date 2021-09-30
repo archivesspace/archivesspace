@@ -1,0 +1,47 @@
+#!/bin/bash
+
+set -eu
+echo "Copying config files"
+cp .devcontainer/aliases ~/.bash_aliases
+SECRETS=.devcontainer/secrets && test -f $SECRETS && echo "source $SECRETS" >> ~/.bashrc
+
+echo "Starting MySQL (MariaDB) and Solr"
+sudo service mysql start
+sudo service solr start
+
+# TODO: this section will be deleted when Solr 4.x gone
+mkdir -p /tmp/solr/
+cp ./solr/schema-8.8.min.xml /tmp/solr/schema.xml
+cp ./solr/solrconfig-8.8.min.xml /tmp/solr/solrconfig.xml
+cp ./solr/stopwords.txt /tmp/solr/stopwords.txt
+cp ./solr/synonyms.txt /tmp/solr/synonyms.txt
+
+echo "Creating dev & test Solr cores"
+sudo su - solr -c "/opt/solr/bin/solr create -p 8983 -c asdev -d /tmp/solr" # /workspaces/archivesspace/solr
+sudo su - solr -c "/opt/solr/bin/solr create -p 8983 -c astest -d /tmp/solr" # /workspaces/archivesspace/solr
+
+echo "Downloading MySQL connector"
+wget https://repo1.maven.org/maven2/mysql/mysql-connector-java/$MYSQL_CONNECTOR_VERSION/mysql-connector-java-$MYSQL_CONNECTOR_VERSION.jar && mv mysql-connector-java-$MYSQL_CONNECTOR_VERSION.jar ./common/lib/
+
+echo "Creating dev & test DB"
+MYSQL_PWD=root sudo mysql -uroot <<SQL
+CREATE USER IF NOT EXISTS 'as'@'localhost' IDENTIFIED BY 'as123';
+CREATE DATABASE IF NOT EXISTS asdev  DEFAULT CHARACTER SET utf8mb4;
+CREATE DATABASE IF NOT EXISTS astest DEFAULT CHARACTER SET utf8mb4;
+GRANT ALL PRIVILEGES ON asdev.* to 'as'@'localhost';
+GRANT ALL PRIVILEGES ON astest.* to 'as'@'localhost';
+SQL
+
+# echo "Copying pre-bootstrapped build directory"
+# sudo chown -R vscode:vscode /tmp/build
+# cd build && rm -rf .bundle/ .gem/ gems/ *.jar *.war && cd ..
+# cp -r /tmp/build/* build/
+
+# TODO: make this conditional (or remove?) if pre-bootstrapping
+# the pre-bootstrapped env will be right most of the time
+# and this can be run manually in the container when necessary
+echo "Running bootstrap"
+./build/run bootstrap
+
+echo "Running database migrations"
+./build/run db:migrate

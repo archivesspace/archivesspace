@@ -1,0 +1,26 @@
+{
+  "name": "ArchivesSpace",
+  "build": {
+    "dockerfile": "Dockerfile",
+    "context": "..",
+    "args": {
+      "GECKODRIVER_VERSION": "0.29.1",
+      "MYSQL_CONNECTOR_VERSION": "8.0.23",
+      "SOLR_VERSION": "8.10.0"
+    }
+  },
+  "forwardPorts": [
+    3000,
+    3001,
+    3306,
+    4567,
+    8983
+  ],
+  "settings": {},
+  "extensions": [
+    "misogi.ruby-rubocop",
+    "rebornix.Ruby"
+  ],
+  "postCreateCommand": ".devcontainer/setup",
+  "remoteUser": "vscode"
+}

@@ -1,0 +1,24 @@
+{
+  "name": "archivesspace-frontends",
+  "version": "1.0.0",
+  "description": "Check front end files for lint errors during CI",
+  "scripts": {
+    "eslint:ci": "eslint frontend/ public/",
+    "stylelint:ci": "stylelint '{frontend,public}/**/*.{less,css,scss}' -f verbose",
+    "prettier:ci": "prettier --check frontend/ public/"
+  },
+  "devDependencies": {
+    "eslint": "^7.32.0",
+    "eslint-config-prettier": "^8.3.0",
+    "prettier": "^2.3.2",
+    "stylelint": "^13.13.1",
+    "stylelint-config-prettier": "^8.0.2",
+    "stylelint-config-standard": "^22.0.0",
+    "stylelint-scss": "^3.20.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:archivesspace/archivesspace.git"
+  },
+  "license": "ECL-2.0"
+}
