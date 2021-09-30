@@ -15,6 +15,15 @@
       "other_level" => {"type" => "string", "maxLength" => 255},
       "external_ark_url" => {"type" => "string", "required" => false},
 
+      "import_current_ark" => {"type" => "string"},
+
+      "import_previous_arks" => {
+        "type" => "array",
+        "items" => {
+          "type" => "string",
+        }
+      },
+
       "title" => {"type" => "string", "maxLength" => 8192, "ifmissing" => nil},
 
       "slug" => {"type" => "string"},

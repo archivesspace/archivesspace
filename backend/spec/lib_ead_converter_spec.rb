@@ -1557,11 +1557,13 @@ describe 'EAD converter' do
     end
 
     it "imported to resource" do
-      expect(@resource['external_ark_url']).to eq('http://archivesspace.org/ark:/12345/96944aa7-7d78-4be3-b013-9d196d7e8725')
+      expect(@resource['import_current_ark']).to eq('http://archivesspace.org/ark:/12345/96944aa7-7d78-4be3-b013-9d196d7e8725')
+      expect(@resource['import_previous_arks']).to eq(['http://archivesspace.org/ark:/12345/3e578efe-a432-4d12-8c40-fd62c9e6e3e9'])
     end
 
     it "imported to archival object" do
-      expect(@child['external_ark_url']).to eq('http://archivesspace.org/ark:/12345/11256ebb-4377-4ad2-aa9f-6a1638bef028')
+      expect(@child['import_current_ark']).to eq('http://archivesspace.org/ark:/12345/11256ebb-4377-4ad2-aa9f-6a1638bef028')
+      expect(@child['import_previous_arks']).to eq(['http://archivesspace.org/ark:/12345/b4a11bcc-0b1e-4a83-b8f7-cac7a821e1e8'])
     end
 
     it "should not be included as an external id" do

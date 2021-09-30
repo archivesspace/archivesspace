@@ -15,6 +15,15 @@
       "id_3" => {"type" => "string", "maxLength" => 255},
       "external_ark_url" => {"type" => "string", "required" => false},
 
+      "import_current_ark" => {"type" => "string"},
+
+      "import_previous_arks" => {
+        "type" => "array",
+        "items" => {
+          "type" => "string",
+        }
+      },
+
       "level" => {"type" => "string", "ifmissing" => "error", "dynamic_enum" => "archival_record_level"},
       "other_level" => {"type" => "string", "maxLength" => 255},
 
