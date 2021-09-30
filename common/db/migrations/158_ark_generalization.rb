@@ -15,7 +15,7 @@ Sequel.migration do
 
     # Populate initial version_key
     self.transaction do
-      self[:ark_name].update(:version_key => Digest::SHA256.hexdigest([AppConfig[:ark_naan], '', ''].to_json))
+      self[:ark_name].update(:version_key => Digest::SHA256.hexdigest([AppConfig[:ark_naan], '', '', 'archivesspace_ark_minter'].to_json))
     end
 
     alter_table(:ark_name) do

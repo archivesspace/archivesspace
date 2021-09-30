@@ -75,7 +75,7 @@ class ArkMinter
   # an ARK for `obj`.  Default implementation just hashes together the bits of
   # data the provided minters use for generating ARKs.
   def version_key_for(obj)
-    ArkMinter.generate_version_key(AppConfig[:ark_naan], shoulder_for_repo(obj.repo_id), AppConfig[:ark_shoulder_delimiter])
+    ArkMinter.generate_version_key(AppConfig[:ark_naan], shoulder_for_repo(obj.repo_id), AppConfig[:ark_shoulder_delimiter], AppConfig[:ark_minter])
   end
 
   # Hash some values together and return a string.
