@@ -172,22 +172,32 @@ class ArkName < Sequel::Model(:ark_name)
                                    :retired_at_epoch_ms => 0,
                                    :version_key => EXTERNAL_ARK_VERSION_KEY))
         else
-          ArkName.insert(ark.merge(:ark_value => clean_ark_value(ark_name['current']),
-                                   :is_external_url => 0,
-                                   :is_current => 1,
-                                   :retired_at_epoch_ms => 0,
-                                   :version_key => ark_minter.version_key_for(obj)))
+          if ark_minter.ark_recognized?(ark_name['current'])
+            ArkName.insert(ark.merge(:ark_value => clean_ark_value(ark_name['current']),
+                                     :is_external_url => 0,
+                                     :is_current => 1,
+                                     :retired_at_epoch_ms => 0,
+                                     :version_key => ark_minter.version_key_for(obj)))
+          elsif AppConfig[:arks_allow_external_arks]
+            ArkName.insert(ark.merge(:ark_value => ark_name['current'],
+                                     :is_external_url => 1,
+                                     :is_current => 1,
+                                     :retired_at_epoch_ms => 0,
+                                     :version_key => EXTERNAL_ARK_VERSION_KEY))
+          end
         end
       end
 
       now_i = (now.to_f * 1000).to_i
 
       ark_name['previous'].each_with_index do |prev, ix|
-        ArkName.insert(ark.merge(:ark_value => clean_ark_value(prev),
-                                 :is_current => 0,
-                                 :is_external_url => 0,
-                                 :retired_at_epoch_ms => (now_i - ix),
-                                 :version_key => ark_minter.version_key_for(obj)))
+        if ark_minter.ark_recognized?(prev)
+          ArkName.insert(ark.merge(:ark_value => clean_ark_value(prev),
+                                   :is_current => 0,
+                                   :is_external_url => 0,
+                                   :retired_at_epoch_ms => (now_i - ix),
+                                   :version_key => ark_minter.version_key_for(obj)))
+        end
       end
     end
 
@@ -233,7 +243,13 @@ class ArkName < Sequel::Model(:ark_name)
   end
 
   def self.handle_delete(model_clz, ids)
-    ArkName.filter(fk_for_class(model_clz) => ids).delete
+    DB.open do |db|
+      db[:ark_uniq_check]
+        .filter(:record_uri => ids.map {|id| model_clz.my_jsonmodel.uri_for(id, :repo_id => model_clz.active_repository)})
+        .delete
+
+      ArkName.filter(fk_for_class(model_clz) => ids).delete
+    end
   end
 
   def self.prefix(value)

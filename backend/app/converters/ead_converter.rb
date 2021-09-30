@@ -120,26 +120,31 @@ class EADConverter < Converter
 
 
     with 'unitid' do |node|
+
+      extract_ark = proc do |s|
+        if s.start_with?('<extref')
+          Nokogiri::XML::DocumentFragment.parse(s)
+            .children[0]
+            .attribute('xlink:href')
+            .value
+        elsif s.start_with?('<ref')
+          Nokogiri::XML::DocumentFragment.parse(s)
+            .children[0]
+            .attribute('href')
+            .value
+        else
+          s
+        end
+      end
+
       if 'ark' == node.attribute('type') || 'ark' == node.attribute('localtype')
         ancestor(:resource, :archival_object) do |obj|
-          ark = if inner_xml.strip.start_with?('<extref')
-                  Nokogiri::XML::DocumentFragment.parse(inner_xml.strip)
-                    .children[0]
-                    .attribute('xlink:href')
-                    .value
-                elsif inner_xml.strip.start_with?('<ref')
-                  Nokogiri::XML::DocumentFragment.parse(inner_xml.strip)
-                    .children[0]
-                    .attribute('href')
-                    .value
-                else
-                  inner_xml.strip
-                end
-
-          set obj, :external_ark_url, ark
+          set obj, :import_current_ark, extract_ark.call(inner_xml.strip)
         end
       elsif 'ark-superseded' == node.attribute('type') || 'ark-superseded' == node.attribute('localtype')
-        # do nothing
+        ancestor(:resource, :archival_object) do |obj|
+          set obj, :import_previous_arks, extract_ark.call(inner_xml.strip)
+        end
       else
         ancestor(:note_multipart, :resource, :archival_object) do |obj|
           case obj.class.record_type

@@ -11,6 +11,22 @@ module Arks
   def apply_nested_records(json, new_record = false)
     super
 
+    return unless AppConfig[:arks_enabled]
+
+    ark_name = {
+      'current' => json['import_current_ark'],
+      'previous' => ASUtils.wrap(json['import_previous_arks']),
+    }
+
+    if ark_name['current'] || !ark_name['previous'].empty?
+      ArkName.update_for_record(self, ark_name)
+
+      # If external ARKs are enabled, we now definitely have a current ARK.
+      if ark_name['current'] && AppConfig[:arks_allow_external_arks]
+        return
+      end
+    end
+
     ArkName.ensure_ark_for_record(self, json['external_ark_url'])
   end
 

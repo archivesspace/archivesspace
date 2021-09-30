@@ -14,6 +14,18 @@ class ArchivesSpaceArkMinter < ArkMinter
     end
   end
 
+  # True if the ARK has the right NAAN and has a number that falls within the
+  # range that we have already minted.
+  def ark_recognized?(ark)
+    if ark =~ %r{/ark:/#{AppConfig[:ark_naan]}/.*?(\d+)$}
+      ark_number = Integer($1)
+
+      DB.open do |db|
+        ark_number <= db[:ark_name].max(:id)
+      end
+    end
+  end
+
   private
 
   def build_generated_ark(ark_id, ark_shoulder)
