@@ -228,8 +228,14 @@ module AspaceFormHelper
     end
 
 
-    def i18n_for(name)
-      "#{@active_template or form_top}.#{name.to_s.gsub(/\[\]$/, "")}"
+    # ignore_form_context will return a translation divorced from the active template
+    # or form in which it appears.
+    def i18n_for(name, ignore_form_context = false)
+      if ignore_form_context
+        "#{name.to_s.gsub(/\[\]$/, "")}"
+      else
+        "#{@active_template or form_top}.#{name.to_s.gsub(/\[\]$/, "")}"
+      end
     end
 
 
@@ -536,7 +542,7 @@ module AspaceFormHelper
                       .map {|k, v| '%s="%s"' % [CGI::escapeHTML(k.to_s),
                                                 CGI::escapeHTML(v.to_s)]}
                       .join(' ')
-      content = CGI::escapeHTML(I18n.t(prefix + i18n_for(name)))
+      content = CGI::escapeHTML(I18n.t(prefix + i18n_for(name, opts[:ignore_form_context])))
       "<label #{attr_string}>#{content}</label>".html_safe
     end
 

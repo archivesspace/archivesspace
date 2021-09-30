@@ -171,8 +171,6 @@ module RegisterCustomFields
     :sortable => true)
   register_field('resource', 'finding_aid_note', String,
     :sortable => true)
-  register_field('resource', 'finding_aid_subtitle', String,
-    :sortable => true)
 
   register_field('rights_statement', 'rights_type', 'Enum',
     :sortable => true)
