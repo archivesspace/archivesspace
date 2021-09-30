@@ -328,7 +328,7 @@ describe 'ArkName model' do
         expect(ArkName.first(:resource_id => obj.id, :is_current => 1).value).to eq(original_generated_ark)
       end
 
-      it "ensures unique user_value" do
+      it "ensures unique value" do
         external_ark_url = "http://foo.bar/ark:/123/123"
 
         # give resource A an external_ark_url
@@ -341,7 +341,7 @@ describe 'ArkName model' do
         obj_b = create_resource
         json_b = Resource.to_jsonmodel(obj_b)
         json_b['external_ark_url'] = external_ark_url
-        expect{Resource[obj_b.id].update_from_json(json_b)}.to raise_error(JSONModel::ValidationException)
+        expect { Resource[obj_b.id].update_from_json(json_b) }.to raise_error(JSONModel::ValidationException)
       end
     end
   end
