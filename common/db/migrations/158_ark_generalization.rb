@@ -11,9 +11,6 @@ Sequel.migration do
       add_column(:is_external_url, Integer, :default => 0)
       add_column(:retired_at_epoch_ms, :Bignum, :null => false, :default => 0)
       add_column(:version_key, String, :null => true)
-
-      add_unique_constraint([:archival_object_id, :is_current, :retired_at_epoch_ms], :name => "ark_name_ao_uniq")
-      add_unique_constraint([:resource_id, :is_current, :retired_at_epoch_ms], :name => "ark_name_resource_uniq")
     end
 
     # Populate initial version_key
@@ -115,6 +112,9 @@ Sequel.migration do
     alter_table(:ark_name) do
       add_foreign_key([:resource_id], :resource, :key => :id)
       add_foreign_key([:archival_object_id], :archival_object, :key => :id)
+
+      add_unique_constraint([:archival_object_id, :is_current, :retired_at_epoch_ms], :name => "ark_name_ao_uniq")
+      add_unique_constraint([:resource_id, :is_current, :retired_at_epoch_ms], :name => "ark_name_resource_uniq")
     end
 
     alter_table(:repository) do
@@ -190,6 +190,14 @@ Sequel.migration do
       end
     end
 
+    # reindex all records with an ARK
+    now = Time.now
+    [[:resource, :resource_id],
+     [:archival_object, :archival_object_id]].each do |tbl, fk|
+      self[tbl]
+        .filter(:id => self[:ark_name].filter(Sequel.~(fk => nil)).select(fk))
+        .update(:system_mtime => now)
+    end
 
   end
 end
