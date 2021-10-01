@@ -1270,7 +1270,7 @@ es:
       <ul>
       <li>Diarios en cuadro de diez tienen están restringidos por el donante hasta el 2030.</li>
       </ul>
-    use_restrictions: Restricciones de uso.
+    use_restrictions: ¿Restricciones de uso?
     use_restrictions_tooltip: |
       <p>Una casilla de verificación para indicar que hay restricciones de uso de materiales en la entrada.</p>
     use_restrictions_note: Nota de las restricciones de uso
@@ -1503,7 +1503,7 @@ es:
     member_usernames: Miembros
     member_usernames_tooltip: |
       <p>Los miembros que forman parte de este grupo.</p>
-    permissions: "Los miembros pueden"
+    permissions: "Los miembros pueden:"
     permission_types:
       show_full_agents: trabajar con agentes en modo completo
       manage_repository: "gestionar repositorio"
@@ -1994,7 +1994,7 @@ es:
     multi_browse_section: Buscar columnas
     job_browse_section: Columnas de trabajos en segundo plano
     note_order_section: Orden de las notas
-    accept_default_message: ' > Acepte por defecto:'
+    accept_default_message: '> Acepte por defecto:'
     no_value: '[ningún valor]'
     _singular: Valores predeterminados
     _plural: Valores predeterminados
@@ -2662,8 +2662,8 @@ es:
       lang_code: "No se puede validar el lenguaje (%{lang})"
       script_code: "No se puede validar un script language (%{script})"
       process_error: "Procesamiento de Error %{type} %{num}: %{why}"
-      bad_ao_uri: "Con uri %{uri}"
-      bad_ao_ref_id: "Con REF ID %{ref_id}"
+      bad_ao_uri: " con uri %{uri}"
+      bad_ao_ref_id: " con REF ID  %{ref_id}"
       bad_ao: "No se puede encontrar el objeto de archivos %{errs}"
       no_uri_or_ref: Tampoco se presentó una URI objeto archival ni un ID REF
       file_too_big: "Este archivo, en %{file_info}, supera el tamaño y / o fila límites de número de %{limits}"
