@@ -2427,7 +2427,8 @@ en:
     short_name_already_in_use: The repository short name must be unique within this ArchivesSpace
     custom_report_template_name_not_unique: The custom report template's name must be unique.
     custom_report_must_include_field_or_subreport: The custom report template must include at least one field or subreport.
-    missing_filter_values: Selected to filter results by field but no value(s) given
+    missing_end_filter_date: Start and end dates are required to filter by date. Please provide an end date.
+    missing_start_filter_date: Start and end dates are required to filter by date. Please provide a start date.
     must_be_a_valid_email_address: Email address field must contain a valid address
     repo_set_desc_required: Repository set description is required for creating an OAI repository set
     repo_set_name_required: Repository set name is required for creating an OAI repository set
@@ -2748,13 +2749,12 @@ en:
     record_type: Record Type
     display: Display?
     limit: Limit
-    narrow_by: Narrow By?
-    values: Values
-    value: Value
+    values: Narrow by Values
+    value: Narrow by Value
     "true": "Yes"
     "false": "No"
-    start_date: Start Date
-    end_date: End Date
+    start_date: Narrow by Start Date
+    end_date: Narrow by End Date
     field: Field
     include: Include
     _singular: Custom Report Template
