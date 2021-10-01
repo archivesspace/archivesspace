@@ -1,12 +1,16 @@
 AllCops:
+  TargetRubyVersion: 2.5
+  SuggestExtensions: false
+  DisabledByDefault: true
+  Exclude:
+    - build/**/*
+    - docs/**/*
   Include:
     - common/**/*.rb
     - backend/**/*.rb
     - frontend/**/*.rb
     - public/**/*.rb
     - oai/**/*.rb
-
-  DisabledByDefault: true
 
 Layout/AccessModifierIndentation:
   Enabled: true
@@ -116,6 +120,9 @@ Layout/TrailingEmptyLines:
 Layout/TrailingWhitespace:
   Enabled: true
   AllowInHeredoc: true
+
+Lint/Syntax:
+  Enabled: true
 
 Style/ArrayCoercion:
   Enabled: true

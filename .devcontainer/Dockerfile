@@ -19,6 +19,8 @@ ENV APPCONFIG_DB_URL="jdbc:mysql://localhost:3306/asdev?useUnicode=true&characte
 RUN apt-get update && \
     # INSTALL DEPENDENCIES
     apt-get -y install --no-install-recommends \
+        bash-completion \
+        build-essential \
         curl \
         firefox-esr \
         git \
@@ -27,10 +29,12 @@ RUN apt-get update && \
         mycli \
         python3-pkg-resources \
         python3-setuptools \
+        ruby-dev \
         shared-mime-info \
         supervisor \
         vim \
         wget && \
+    gem install rubocop && \
     # DOWNLOAD & INSTALL SOLR
     wget https://dlcdn.apache.org/lucene/solr/$SOLR_VERSION/solr-$SOLR_VERSION.tgz && \
     tar xzf solr-$SOLR_VERSION.tgz solr-$SOLR_VERSION/bin/install_solr_service.sh --strip-components=2 && \

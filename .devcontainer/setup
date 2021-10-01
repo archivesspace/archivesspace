@@ -5,20 +5,16 @@ echo "Copying config files"
 cp .devcontainer/aliases ~/.bash_aliases
 SECRETS=.devcontainer/secrets && test -f $SECRETS && echo "source $SECRETS" >> ~/.bashrc
 
+echo "Resetting gems folder permissions"
+sudo chown vscode build/gems
+
 echo "Starting MySQL (MariaDB) and Solr"
 sudo service mysql start
 sudo service solr start
 
-# TODO: this section will be deleted when Solr 4.x gone
-mkdir -p /tmp/solr/
-cp ./solr/schema-8.8.min.xml /tmp/solr/schema.xml
-cp ./solr/solrconfig-8.8.min.xml /tmp/solr/solrconfig.xml
-cp ./solr/stopwords.txt /tmp/solr/stopwords.txt
-cp ./solr/synonyms.txt /tmp/solr/synonyms.txt
-
 echo "Creating dev & test Solr cores"
-sudo su - solr -c "/opt/solr/bin/solr create -p 8983 -c asdev -d /tmp/solr" # /workspaces/archivesspace/solr
-sudo su - solr -c "/opt/solr/bin/solr create -p 8983 -c astest -d /tmp/solr" # /workspaces/archivesspace/solr
+sudo su - solr -c "/opt/solr/bin/solr create -p 8983 -c asdev -d /workspaces/archivesspace/solr"
+sudo su - solr -c "/opt/solr/bin/solr create -p 8983 -c astest -d /workspaces/archivesspace/solr"
 
 echo "Downloading MySQL connector"
 wget https://repo1.maven.org/maven2/mysql/mysql-connector-java/$MYSQL_CONNECTOR_VERSION/mysql-connector-java-$MYSQL_CONNECTOR_VERSION.jar && mv mysql-connector-java-$MYSQL_CONNECTOR_VERSION.jar ./common/lib/
@@ -42,6 +38,9 @@ SQL
 # and this can be run manually in the container when necessary
 echo "Running bootstrap"
 ./build/run bootstrap
+
+echo "Clearing local indexer state"
+./build/run solr:reset
 
 echo "Running database migrations"
 ./build/run db:migrate
