@@ -10,6 +10,8 @@ en:
     bulk_import_job: Load via Spreadsheet
     download_bulk_import_report: Download report
     cancel: Cancel
+    check_all: Check All
+    uncheck_all: Uncheck All
     close: Close
     continue: Continue
     confirm: Confirm
