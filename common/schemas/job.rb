@@ -51,7 +51,13 @@
       "queue_position" => {
         "type" => "number",
         "readonly" => true
-      }
+      },
+
+      "has_modified_records" => {
+        "type" => "boolean",
+        "default" => false,
+        "readonly" => true
+      },
     },
   },
 }

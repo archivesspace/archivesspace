@@ -167,6 +167,15 @@ describe 'Background jobs' do
       runner.run
       expect(runner.canceled?).to be_falsey
     end
+
+    it 'will tell you if the job has associated modified records' do
+      json = Job.to_jsonmodel(job.id)
+      expect(json.has_modified_records).to be_falsey
+      job.record_modified_uris(["/foo/bar/1"])
+      json = Job.to_jsonmodel(job.id)
+      expect(json.has_modified_records).to be_truthy
+    end
+
   end
 
 
