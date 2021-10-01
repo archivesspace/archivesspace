@@ -22,6 +22,7 @@ if ENV['COVERAGE_REPORTS'] == 'true'
   ASpaceCoverage.start('frontend:test', 'rails')
 end
 AppConfig[:frontend_cookie_secret] = "shhhhh"
+AppConfig[:enable_custom_reports] = true
 
 backend_port = TestUtils.free_port_from(3636)
 backend = ENV['ASPACE_TEST_BACKEND_URL'] || "http://localhost:#{backend_port}"
