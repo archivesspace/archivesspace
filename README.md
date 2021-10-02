@@ -1,4 +1,4 @@
-ArchivesSpace
+[ArchivesSpace](https://archivesspace.org/)
 --------------------
 
 Built for archives by archivists, ArchivesSpace is the open source archives information management application for managing and providing web access to archives, manuscripts and digital objects.
@@ -11,6 +11,7 @@ Built for archives by archivists, ArchivesSpace is the open source archives info
 * [API](http://archivesspace.github.io/archivesspace/api)
 * [Wiki](http://wiki.archivesspace.org)
 * [Issue Tracker](http://development.archivesspace.org)
+* [ArchivesSpace GitHub](https://github.com/archivesspace)
 
 The latest technical documentation is managed in a separate GitHub repository [ArchivesSpace tech-docs](https://github.com/archivesspace/tech-docs) and is published at
 [https://archivesspace.github.io/tech-docs/](https://archivesspace.github.io/tech-docs/).
