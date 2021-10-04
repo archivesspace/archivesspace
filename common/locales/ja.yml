@@ -80,6 +80,7 @@ ja:
     classification_tooltip: "<p>記述された資料を、アプリケーション内で管理されている分類または分類用語（レコードグループシステムなど）にリンクするために使用されます。 </p>"
     user_defined_tooltip: "<p>アプリケーションの他のセクションでキャプチャされていない追加情報を記録するためのユーザー定義フィールド。 </p>"
 
+    metadata_rights_declarations_tooltip: "<p> DACS8.2および13.11に基づく</p>\n"
   digital_object: &digital_object_attributes
     <<: [*section_tooltips, *slug_attributes]
     user_defined:
@@ -303,6 +304,7 @@ ja:
     _singular: イベント
     _plural: イベント
 
+    linked_agents_tooltip: "<p>必要なサブレコード：1人以上のエージェントをこのイベントの参加者として関連付けます。</p>\n"
   linked_event:
     <<: *event
 
@@ -520,6 +522,11 @@ ja:
     dates: 日付
     ref: 関連エージェント
 
+    relationship_type_tooltip: 一次エージェントと関連エージェントの間の関係の性質を大まかに説明する管理された用語。
+    specific_relator_tooltip: プライマリエージェントと関連エージェント間の関係の性質をより具体的に説明する管理された用語。
+    relationship_uri_tooltip: エージェント間の関係のタイプについて、オントロジーまたはその他のリソースのエントリを指すURI。主にEAC-CPFの目的で使用されます。
+    description_tooltip: 関係の性質のフリーテキストの説明。
+    related_agent_tooltip: プライマリエージェントに関連する個人、家族、または企業体。
   agent_relationship_parentchild:
     _singular: 親子関係
   agent_relationship_earlierlater:
@@ -961,6 +968,10 @@ ja:
     _singular: 受託
     _plural: 受託
 
+    created_by: によって作成された
+    last_modified_by: 最終更新者
+    create_time: 作成した
+    user_mtime: 更新日
   interrelated_accession:
     _plural: 関連するアクセス
     relationship_type: 関係タイプ
@@ -1072,6 +1083,7 @@ ja:
     has_unpublished_ancestor: 祖先は未公開ですか？
     _singular: アーカイブオブジェクト
     _plural: アーカイブオブジェクト
+    dates_tooltip: "<p>条件付きで必要なサブレコード。アーカイブオブジェクトには、タイトルまたは日付のサブレコードが必要です。</p>\n"
   group:
     group_code: グループコード
     group_code_tooltip: "<p>グループ名の短いバージョン。 </p>"
@@ -1188,6 +1200,12 @@ ja:
     _singular: リソース
     _plural: リソース
 
+    repository_processing_note_tooltip: "<p>マテリアルの処理に関する情報を記録するアプリケーション固有のフィールド。このメモは、エクスポートやレポートには含まれておらず、インポートによって生成されません。\
+      \ </p>\n"
+    created_by: によって作成された
+    last_modified_by: 最終更新者
+    create_time: 作成した
+    user_mtime: 更新日
   related_accession:
     _singular: 関連するアクセス権
     _plural: 関連するアクセス
@@ -1520,6 +1538,7 @@ ja:
     sponsor_set_name_required: OAIスポンサーセットを作成するにはスポンサーセット名が必要です
     invalid_characters: 無効な文字が含まれています
 
+    subrecord_not_allowed_for_agent_software: ソフトウェアエージェントは、レコード制御または関係サブレコードを持つことはできません
   job:
     _singular: バックグラウンドジョブ
     _plural: バックグラウンドジョブ
@@ -1536,6 +1555,7 @@ ja:
       trim_whitespace_job: 空白をトリム
       unknown_job_type: 不明なジョブタイプ
       bulk_import_job: スプレッドシートを介してロード
+      top_container_linker_job: トップコンテナリンカー
     status: 状態
     status_completed: 完了しました
     status_queued: 待機中
@@ -1841,6 +1861,8 @@ ja:
     _singular: カスタムレポートテンプレート
     _plural: カスタムレポートテンプレート
 
+    limit: 制限
+    include: 含む
   repository_oai:
     oai_is_disabled_tooltip: OAIは無効になっています
     oai_sets_available_tooltip: OAIが利用可能なツールチップを設定
@@ -1972,6 +1994,8 @@ ja:
       dig_obj_unique: "デジタルオブジェクトID '%{id}' もう存在している。"
       cannot: 以前のエラーのため続行できません
 
+      find_tc: params：％{where}のトップコンテナが見つかりません。
+      sc_barcode: この子バーコード％{barcode}のサブコンテナが見つかりません
   dates_of_existence:
     _frontend:
       action:
@@ -2119,6 +2143,8 @@ ja:
     date_of_contact: 連絡日
     contact_notes: 連絡先
 
+    contact_notes_tooltip: "<p>連絡先とのやり取りに関する詳細</p>\n"
+    date_of_contact_tooltip: "<p>インタラクションの特定の日付または時間枠を記録するために使用されます</p>\n"
   related_agents: {}
   note_general_context:
     subnotes: サブノート
@@ -2146,3 +2172,84 @@ ja:
     <<: *agent_attributes
     _singular: コーポレートエンティティ
     _plural: 法人
+  language:
+    _plural: 言語
+    _singular: 言語
+  resource_and_archival_object:
+    _singular: リソースおよび/またはアーカイブオブジェクト
+    _plural: リソースおよび/またはアーカイブオブジェクト
+  top_container_linker_job:
+    _singular: トップコンテナリンカージョブ
+    filename: ファイル
+    content_type: ファイル形式
+    resource_id: リソースID
+    load_type: 荷重タイプ
+    type:
+      top_container_linker_job: トップコンテナリンカー
+  top_container_linker:
+    error:
+      ref_id_miss: 行％{row_num}のスプレッドシートに参照IDがありません。
+      ao_not_in_db: データベースの行％{row_num}にアーカイブオブジェクト％{ref_id}が見つかりません。
+      instance_type_miss: '行％{row_num}アーカイブオブジェクト％{ref_id}のスプレッドシートにインスタンスタイプがありません。 '
+      instance_type_does_not_exist: 'インスタンスタイプ％{instance_type}はデータベースに存在しません（行％{row_num}アーカイブオブジェクト％{ref_id}を参照）。 '
+      tc_indicator_and_record_no_miss: 行％{row_num}の％{ref_id}には、トップコンテナインジケータまたはTCレコード番号のいずれかが存在する必要があります。
+      tc_indicator_and_record_no_exist: 行％{row_num}の％{ref_id}には、トップコンテナインジケータまたはTCレコード番号のみを表示できます。
+      tc_barcode_exists: トップコンテナバーコード％{barcode}はデータベースにすでに存在します（行％{row_num}の％{ref_id}を参照）。
+      tc_barcode_differs: トップコンテナバーコード％{barcode}は、スプレッドシートの％{type}％{indicator}の別のエントリとは異なります（行％{row_num}の％{ref_id}を参照）。
+      tc_ind_ct_exists: トップコンテナインジケータとコンテナタイプのコンボ％{tc_type}％{indicator}は、リソース％{ead_id}のAOのデータベースにすでに存在します（行％{row_num}の％{ref_id}を参照）。
+      sc_barcode_exists: 子バーコード％{barcode}はデータベースにすでに存在します（行％{row_num}の％{ref_id}を参照）。
+      sc_barcode_differs: 子バーコード％{barcode}は、スプレッドシートの％{type}％{indicator}の別のエントリとは異なります（行％{row_num}の％{ref_id}を参照）。
+      loc_not_in_db: 指定されたロケーションID％{loc_id}がデータベースに見つかりません（行％{row_num}の％{ref_id}を参照）。
+      cp_not_in_db: 指定されたコンテナプロファイルID％{cp_id}がデータベースに見つかりません（行％{row_num}の％{ref_id}を参照）。
+      no_tc: トップコンテナを作成できません（行％{row_num}の％{ref_id}を参照）：[％{why}]
+      problem_adding_current_location: 現在の場所の追加で問題が発生しました（行％{row_num}の％{ref_id}を参照）：[％{why}]
+      problem_setting_container_profile: コンテナプロファイルの設定の問題（行％{row_num}の％{ref_id}を参照）：[％{why}]
+      error_linking_tc_to_ao: アーカイブオブジェクトとトップコンテナのリンクに問題がありました：％{why}
+      ead_id_miss: この行にはEADIDがありません:(行％{row_num}の％{ref_id}を参照）
+      tc_record_no_missing: トップコンテナIDが見つかりません：％{tc_id}（行％{row_num}の％{ref_id}を参照）
+      resource_not_in_db: 行％{row_num}のデータベースにリソース％{ead_id}が見つかりません
+      resources_do_not_match: スプレッドシート％{spreadsheet_resource}（EAD ID：％{ead_id}）のリソースが、行％{row_num}の現在のリソース％{current_resource}と一致しません
+      job_file_empty: トップコンテナリンクのために処理するファイルがありません
+    log_creating_linker: リポジトリ用の新しいトップコンテナリンカーの作成：％{repo_id}
+    log_validate_only: 検証のみのオプションが有効になっているため、上位コンテナの作成とリンクをスキップします。
+    log_skipping_due_to_errors: エラーのため、トップコンテナの作成とリンクをスキップします。
+    log_validating: スプレッドシートデータの検証...
+    log_creating_and_linking: トップコンテナの作成とリンク...
+  metadata_rights_declaration:
+    license_tooltip: "<p>メタデータを使用および再利用できる条件を規定するライセンスの名前（存在する場合）。例：</p>\n<p>このレコードは、Universal 1.0 Public\
+      \ Domain Dedication CreativeCommonsライセンスの下で利用可能になります。</p>\n<p>このレコードは、Attribution-NonCommercial\
+      \ 4.0 International CreativeCommonsライセンスの下で利用可能になります。</p>\n<p>このレコードは、Attribution-NonCommercial-NoDerivatives\
+      \ 4.0 International CreativeCommonsライセンスの下で利用可能になります。</p>\n<p>このレコードは、Attribution-NoDerivatives\
+      \ 4.0 International CreativeCommonsライセンスの下で利用可能になります。</p>\n<p>このレコードは、Attribution-NonCommercial-ShareAlike\
+      \ 4.0 International CreativeCommonsライセンスの下で利用可能になります。</p>\n"
+    descriptive_note_tooltip: "<p>メタデータを使用および再利用できる条件に関する非構造化情報。例：</p>\n<p> i。 Copyright Smith College、1985\
+      \ </p>\n<p> ii。この発見支援は、あらゆる目的で複製することができます。</p>\n<p> iii。この作品はパブリックドメインに捧げられています。つまり、商業目的であっても、許可を求めることなく、作品をコピー、変更、配布、実行することができます。</p>\n\
+      <p> iv。経歴の著作権はTedSmith、2015年にあります。他のすべてのメタデータはCC BY4.0でライセンスされています。</p>\n"
+    file_uri_tooltip: "<p>ライセンスのオンラインロケーションのURI、またはメタデータを使用および再利用できる条件に関するその他の公開情報。例：https：//creativecommons.org/licenses/by/4.0/\
+      \ </p>\n"
+    file_version_xlink_actuate_attribute_tooltip: "<p>エージェントレコードがレンダリングされるときに、関連付けられたURIを解決する必要があるかどうかを示します。</p>\n"
+    file_version_xlink_show_attribute_tooltip: "<p>関連するURIでリンクされているリモートリソースをどこにレンダリングするかを示します。</p>\n"
+    xlink_title_attribute_tooltip: "<p>関連付けられたURIにリンクされているリモートリソースのタイトル。キャプションとして使用できます。</p>\n"
+    xlink_role_attribute_tooltip: "<p>関連するURIにリンクされているリモートリソースのタイプまたは性質。</p>\n"
+    xlink_arcrole_attribute_tooltip: "<p>関連するURIにリンクされているリモートリソースのタイプまたは性質。</p>\n"
+    last_verified_date_tooltip: "<p>関連付けられたURIでリンクされたリンクされたリソースが検証された最後の日付または日時。</p>\n"
+  ratings:
+    _plural: 評価
+  conservation_issues:
+    _plural: 保存問題
+  surveyed_by:
+    _plural: 調査者
+  reviewer:
+    _plural: レビューア
+  formats:
+    _plural: フォーマット
+  creator:
+    _plural: クリエイター
+  owner_repo:
+    _plural: 予約済み
+  created_by: によって作成された
+  last_modified_by: 最終更新者
+  create_time: 作成した
+  user_mtime: 更新日
+  groups:
+    _plural: グループ
