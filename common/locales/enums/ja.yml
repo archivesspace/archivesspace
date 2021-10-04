@@ -102,6 +102,7 @@ ja:
     user_defined_enum_3: ユーザー定義列挙型3
     user_defined_enum_4: ユーザー定義列挙型4
 
+    metadata_license: メタデータライセンス
   enumerations:
     accession_acquisition_type:
       deposit: 保証金
@@ -1946,8 +1947,7 @@ ja:
       Xpeo: Old Persian
       Xsux: Cuneiform, Sumero-Akkadian
       Yiii: Yi
-      Zanb: Zanabazar Square (Zanabazarin Dörböljin Useg, Xewtee Dörböljin Bicig,
-        Horizontal Square Script)
+      Zanb: Zanabazar Square (Zanabazarin Dörböljin Useg, Xewtee Dörböljin Bicig, Horizontal Square Script)
       Zinh: Code for inherited script
       Zmth: Mathematical notation
       Zsye: Symbols (Emoji variant)
@@ -1995,3 +1995,12 @@ ja:
       novalue: 値が定義されていない
     user_defined_enum_4:
       novalue: 値が定義されていない
+    metadata_license:
+      no_derivatives: このレコードは、Attribution-NoDerivatives 4.0 International CreativeCommonsライセンスの下で利用可能になります。
+      non_commercial_share_a_like: このレコードは、Attribution-NonCommercial-ShareAlike 4.0 International CreativeCommonsライセンスの下で利用可能になります。
+      other: 不特定またはカスタムライセンス。
+      public_domain: このレコードは、Universal 1.0 Public Domain Dedication CreativeCommonsライセンスの下で利用可能になります。
+      non_commercial: このレコードは、Attribution-NonCommercial 4.0 International CreativeCommonsライセンスの下で利用可能になります。
+      non_commercial_no_derivatives: このレコードは、Attribution-NonCommercial-NoDerivatives 4.0 International
+        CreativeCommonsライセンスの下で利用可能になります。
+      share_a_like: このレコードは、Attribution-ShareAlike 4.0 International CreativeCommonsライセンスの下で利用可能になります。
