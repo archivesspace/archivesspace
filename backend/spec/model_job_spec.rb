@@ -4,13 +4,15 @@ describe 'Background jobs' do
 
   before(:all) do
 
-    JSONModel.create_model_for("nugatory_job",
-                               {
-                                 "$schema" => "http://www.archivesspace.org/archivesspace.json",
-                                 "version" => 1,
-                                 "type" => "object",
-                                 "properties" => {}
-                               })
+    ["nugatory_job", "plugin_job"].each do |j|
+      JSONModel.create_model_for(j,
+                                 {
+                                   "$schema" => "http://www.archivesspace.org/archivesspace.json",
+                                   "version" => 1,
+                                   "type" => "object",
+                                   "properties" => {}
+                                 })
+    end
 
 
     class NugatoryJobRunner < JobRunner
@@ -38,9 +40,20 @@ describe 'Background jobs' do
       end
     end
 
-
     class HiddenJobRunner < JobRunner
       register_for_job_type("hidden_job", :hidden => true)
+    end
+
+    class PluginJobRunner < JobRunner
+      register_for_job_type("plugin_job")
+
+      def run
+        2.times do |i|
+          "Run #{i} time"
+        end
+
+        self.success!
+      end
     end
 
     class ConcurrentJobRunner < JobRunner
@@ -73,6 +86,11 @@ describe 'Background jobs' do
       Job.create_from_json(json, :repo_id => $repo_id, :user => user)
     }
 
+    let(:inactive_plugin_job) {
+      user = create_nobody_user
+      json = JSONModel(:job).from_hash({:job => {'jsonmodel_type' => 'plugin_job'}})
+      Job.create_from_json(json, :repo_id => $repo_id, :user => user)
+    }
 
     it 'can get the status of a job' do
       expect(job.status).to eq('queued')
@@ -174,6 +192,16 @@ describe 'Background jobs' do
       job.record_modified_uris(["/foo/bar/1"])
       json = Job.to_jsonmodel(job.id)
       expect(json.has_modified_records).to be_truthy
+    end
+
+    it 'will gracefully handle missing job models' do
+      expect(Job.to_jsonmodel(inactive_plugin_job.id).inactive_record).to be_falsey
+
+      # Model is gone, likely because a plugin has been removed
+      JSONModel.destroy_model(:plugin_job)
+
+      expect(Job.to_jsonmodel(inactive_plugin_job.id).inactive_record).to be_truthy
+      expect(Job.to_jsonmodel(inactive_plugin_job.id).job).to eq('plugin_job')
     end
 
   end

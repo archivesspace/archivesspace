@@ -95,7 +95,12 @@ class Job < Sequel::Model(:job)
   def self.sequel_to_jsonmodel(objs, opts = {})
     jsons = super
     jsons.zip(objs).each do |json, obj|
-      json.job = JSONModel(obj.type.intern).from_hash(obj.job)
+      begin
+        json.job = JSONModel(obj.type.intern).from_hash(obj.job)
+      rescue
+        json.job = obj.job_type
+        json.inactive_record = true
+      end
       json.owner = obj.owner.username
       json.has_modified_records = obj.modified_records.first || obj.created_records.first
       json.queue_position = obj.queue_position if obj.status === 'queued'
