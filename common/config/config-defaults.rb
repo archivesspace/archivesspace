@@ -687,10 +687,5 @@ AppConfig[:max_search_columns] = 7
 # specifies whether the "Load Digital Objects" button is available at the Resource Level
 AppConfig[:hide_do_load] = false
 
-# upper row limit for an excel spreadsheet
-AppConfig[:bulk_import_rows] = 1000
-# maximum size (in KiloBytes) for an excel spreadsheet
-AppConfig[:bulk_import_size] = 256
-
 # For Agents Export
 AppConfig[:export_eac_agency_code] = false
