@@ -121,7 +121,7 @@ class ArchivesSpaceBackup
 
     solr_snapshot_id = "backup-#{$$}-#{Time.now.to_i}"
     begin
-      SolrSnapshotter.snapshot(solr_snapshot_id) if AppConfig[:enable_solr]
+      SolrSnapshotter.snapshot(solr_snapshot_id)
     rescue
       puts "Solr snapshot failed (#{$!}).  Aborting!"
       return 1
@@ -137,7 +137,7 @@ class ArchivesSpaceBackup
 
       zipfile = java.util.zip.ZipOutputStream.new(java.io.FileOutputStream.new(output_file))
       begin
-        add_whole_directory(solr_snapshot, zipfile) if AppConfig[:enable_solr]
+        add_whole_directory(solr_snapshot, zipfile)
         add_whole_directory(demo_db_backups, zipfile) if Dir.exist?(demo_db_backups)
         add_whole_directory(config_dir, zipfile) if config_dir
         add_single_entry(File.dirname(mysql_dump), mysql_dump, zipfile, "mysqldump.sql") if mysql_dump
@@ -148,7 +148,7 @@ class ArchivesSpaceBackup
       mysql_tempfile.close
       mysql_tempfile.delete
       FileUtils.rm_rf(File.join(AppConfig[:solr_backup_directory],
-                                "solr.#{solr_snapshot_id}")) if AppConfig[:enable_solr]
+                                "solr.#{solr_snapshot_id}"))
     end
 
     0
