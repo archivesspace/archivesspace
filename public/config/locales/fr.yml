@@ -400,15 +400,19 @@ fr:
   agent_person:
     _singular: Personne
 
+    _plural: Personnes
   agent_family:
     _singular: Famille
 
+    _plural: Familles
   agent_corporate_entity:
     _singular: Personne morale
 
+    _plural: Organisations
   agent_software:
     _singular: Logiciel
 
+    _plural: Logiciel
   components: {}
   instance:
     _public: {}
