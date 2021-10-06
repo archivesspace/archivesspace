@@ -3,6 +3,7 @@
 <% sub_report_data.each do |item| %>
   <div class="sub-report-item">
     <% item.each do |key, value| %>
+      <% next if value.respond_to?(:empty?) && value.empty? %>
       <% if value.kind_of?(Array) %>
         <dt><%= t(key) %></dt>
         <br/>

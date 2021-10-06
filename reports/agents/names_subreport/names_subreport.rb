@@ -28,7 +28,7 @@ class NamesSubreport < AbstractSubreport
 
   def fix_row(row)
     ReportUtils.get_enum_values(row, [:source, :rules])
-    row[:use_dates] = DateSubreport.new(self, row[:id]).get_content
+    row[:use_dates] = StructuredDateSubreport.new(self, row[:id]).get_content
     row.delete(:id)
   end
 
