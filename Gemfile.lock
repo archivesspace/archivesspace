@@ -1,7 +1,7 @@
 GEM
   remote: https://rubygems.org/
   specs:
-    addressable (2.7.0)
+    addressable (2.8.0)
       public_suffix (>= 2.0.2, < 5.0)
     ast (2.4.2)
     descendants_tracker (0.0.4)
@@ -41,7 +41,7 @@ GEM
     rake (13.0.3)
     rchardet (1.8.0)
     regexp_parser (2.1.1)
-    rexml (3.2.4)
+    rexml (3.2.5)
     rubocop (1.12.0)
       parallel (~> 1.10)
       parser (>= 3.0.0.0)
