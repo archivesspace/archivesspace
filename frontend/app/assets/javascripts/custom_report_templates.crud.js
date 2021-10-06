@@ -22,7 +22,16 @@ $(function () {
 $(document).ready(function () {
   $('#check_all').on('click', function () {
     $(this).toggleClass('btn-success');
-    var checkboxes = $('.display input[type="checkbox"]');
+    $(this).toggleClass('btn-default');
+    var button = document.getElementById('check_all');
+    var checked = button.getAttribute('data-checked');
+    var unchecked = button.getAttribute('data-unchecked');
+    if (button.innerHTML === checked) {
+      button.innerHTML = unchecked;
+    } else {
+      button.innerHTML = checked;
+    }
+    var checkboxes = $('input[id*="_include"][type="checkbox"]');
     if (checkboxes.prop('checked')) {
       checkboxes.prop('checked', false);
     } else {
