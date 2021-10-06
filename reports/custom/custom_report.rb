@@ -319,7 +319,7 @@ class CustomReport < AbstractReport
 
 	def user_narrow(template, field_name)
 		return unless @possible_fields.include? field_name
-		values = template['fields'][field_name]['values']
+		values = [template['fields'][field_name]['values']].flatten
 		value_list = values.collect {|value| db.literal(value)}.join(', ')
 		@conditions.push("#{field_name} in (#{value_list})")
 		info[field_name] = values.join(', ')

@@ -1328,4 +1328,8 @@ module AspaceFormHelper
     [100, 500, 1000, 5000, 10000, 50000]
   end
 
+  def array_for_textarea(values)
+    return values unless values.is_a?(Array)
+    values.join("\n")
+  end
 end

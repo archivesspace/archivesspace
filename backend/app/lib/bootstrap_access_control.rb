@@ -296,8 +296,18 @@ class ArchivesSpaceService
                       :level => "repository")
 
     Permission.define("manage_assessment_attributes",
-                      "The ability to managae assessment attribute definitions",
+                      "The ability to manage assessment attribute definitions",
                       :level => "repository")
+
+    Permission.define("manage_custom_report_templates",
+                      "The ability to manage custom report templates",
+                      :level => "repository")
+
+    Group.each do |group|
+      next unless ["repository-managers", "repository-archivists"].include? group.group_code
+      group.grant "manage_custom_report_templates"
+      group.save
+    end
   end
 
 

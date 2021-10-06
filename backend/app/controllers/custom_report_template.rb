@@ -22,7 +22,7 @@ class ArchivesSpaceService < Sinatra::Base
           "http://localhost:8089/repositories/2/custom_report_templates"
       SHELL
     end
-    .permissions(['create_job'])
+    .permissions(['manage_custom_report_templates'])
     .returns([200, :created]) \
   do
     handle_create(CustomReportTemplate, params[:custom_report_template])
@@ -51,7 +51,7 @@ class ArchivesSpaceService < Sinatra::Base
           "http://localhost:8089/repositories/2/custom_report_templates/1"
       SHELL
     end
-    .permissions(['create_job'])
+    .permissions(['manage_custom_report_templates'])
     .returns([200, :updated]) \
   do
     handle_update(CustomReportTemplate, params[:id], params[:custom_report_template])
@@ -67,7 +67,7 @@ class ArchivesSpaceService < Sinatra::Base
       SHELL
     end
     .paginated(true)
-    .permissions(['create_job'])
+    .sufficient_permissions(['create_job', 'manage_custom_report_templates'])
     .returns([200, "[(:custom_report_template)]"]) \
   do
     handle_listing(CustomReportTemplate, params)
@@ -105,7 +105,7 @@ class ArchivesSpaceService < Sinatra::Base
           "http://localhost:8089/repositories/2/custom_report_templates/1"
       SHELL
     end
-    .permissions(['create_job'])
+    .permissions(['manage_custom_report_templates'])
     .returns([200, :deleted]) \
   do
     handle_delete(CustomReportTemplate, params[:id])

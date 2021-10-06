@@ -33,6 +33,7 @@ class CustomReportTemplate < Sequel::Model(:custom_report_template)
     unless has_included_fields(data_hash)
       errors.add(:field, 'custom report must include field or subreport')
     end
+
     data_hash['fields'].each do |field_name, info|
       if info['narrow_by']
         have_value = false
