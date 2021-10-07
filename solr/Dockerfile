@@ -1,4 +1,4 @@
-FROM solr:8.9
+FROM solr:8.10
 LABEL maintainer="ArchivesSpaceHome@lyrasis.org"
 
 COPY * /archivesspace/

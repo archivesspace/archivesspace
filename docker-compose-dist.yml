@@ -32,7 +32,7 @@ services:
     container_name: as_dist_solr
     build:
       context: ./solr
-    image: archivesspace/solr:8.9
+    image: archivesspace/solr:8.10
     command: solr-create -p 8983 -c archivesspace -d /archivesspace
     ports:
       - "8986:8983"
