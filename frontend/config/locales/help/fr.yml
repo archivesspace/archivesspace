@@ -157,3 +157,16 @@ fr:
       agent_alternate_sets: Aide sur les ensembles alternatifs d'agent
       agent_record_controls: Aide sur les contrôles d'enregistrement des agents
       preference: Aide sur les préférences
+      agent_required: Aide sur la modification des champs obligatoires
+      agent_identifiers: Aide sur les ID d'entité
+      agent_genders: Aide sur les genres
+      agent_place: Aide sur Google Adresses
+      agent_occupation: Aide sur les métiers
+      agent_function: Aide sur les fonctions
+      agent_topic: Aide sur les sujets
+      agent_used_language: Aide sur la langue utilisée
+      agent_external_documents: Aide sur Documents externes
+      agent_external_resources: Aide sur les ressources externes associées
+      agent_related_agents: Aide sur Agents associés
+      agent_merge: Aide sur la fusion d'agents
+      resource_load_via_spreadsheet: Aide sur le chargement via une feuille de calcul
