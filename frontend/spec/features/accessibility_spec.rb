@@ -254,4 +254,76 @@ describe 'Accessibility', js: true, db: 'accessibility' do
     end
 
   end
-end
+
+  describe "color contrast" do
+
+    # 518792, 520876, 522397, 519342, 522396, 519349
+    it "has acceptable color contrast in placeholders" do
+       # untestable: axe testing gem is not capable of choosing colors in CSS
+    end
+
+    # 519486, #519494
+    it "has acceptable color contrast in the datepicker" do
+      visit "/resources/1/edit"
+
+      date_field = find "input#resource_dates__0__begin_.date-field.initialised"
+      date_field.click
+
+      expect(page).to be_axe_clean.checking_only :'color-contrast'
+    end
+
+    # 521639, 521325, 523750, 519045, 518914, 523671, 520640, 519498, 523670
+    it "has acceptable color contrast for active menu dropdowns" do
+      visit "/resources/1/edit"
+
+      add_agent_button = find("section#resource_linked_agents_ button")
+      add_agent_button.click
+
+      within "section#resource_linked_agents_ div.subrecord-form-container" do
+        dropdown_button = find(".input-group-btn a")
+        dropdown_button.click
+
+        expect(page).to be_axe_clean.checking_only :'color-contrast'
+      end
+    end
+
+    # 523686, 523750, 523684,523683
+    it "has acceptable color contrast in the linkers" do
+      visit "/resources/1/edit"
+
+      add_agent_button = find("section#resource_linked_agents_ button")
+      add_agent_button.click
+
+      within "section#resource_linked_agents_ div.subrecord-form-container" do
+        field = find("#token-input-resource_linked_agents__0__ref_")
+        field.send_keys "a"
+        sleep 0.5
+
+        expect(page).to be_axe_clean.checking_only :'color-contrast'
+      end
+    end
+
+    # 523681
+    it "has acceptable color contrast for active textarea and input boxes" do
+      visit "/resources/1/edit"
+
+      date_field = find "textarea#resource_repository_processing_note_"
+      date_field.click
+
+      expect(page).to be_axe_clean.checking_only :'color-contrast'
+    end
+
+    # 523636, 523634, 523633, 523632, 523631, 523630, 523629, 523628, 523627, 523637, 523635
+    it "has acceptable color contrast in disabled buttons" do
+      visit "/enumerations?id=14"
+      expect(page).to be_axe_clean.checking_only :'color-contrast'
+    end
+
+    # 518955, 519449, 521318, 523762, 518915, 522650, 519400, 522670
+    # 523750, 523751, 519035, 523540, 523680, 522581, 519418, 523679
+    it "has acceptable color contrast for tree expand/collapse button, drag & drop image, form element borders and required field indicators" do
+      visit "/resources/1/edit"
+      expect(page).to be_axe_clean.checking_only :'color-contrast'
+    end
+  end
+end # of main describe
