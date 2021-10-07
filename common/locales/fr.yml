@@ -535,7 +535,7 @@ fr:
 
   name_person:
     <<: *agent_name_attributes
-  name_family:
+  name_family: &agent_family_attributes
     <<: *agent_name_attributes
     family_name: Nom de famille
     family_name_tooltip: |
@@ -548,7 +548,7 @@ fr:
       \ Exemples: Trigg County, Ky. (Pour Cunningham (Family: 1795-: Trigg County, Ky.)), Ambassade du\
       \ Canada, Tokyo (pour la Conférence de jumelage Canada-Japon (1991: Ambassade du Canada, Tokyo))</p>"
 
-  name_corporate_entity:
+  name_corporate_entity: &agent_corporate_entity_attributes
     <<: *agent_name_attributes
     jurisdiction: Juridiction?
     jurisdiction_tooltip: "<p>Indique si l'entité est une entrée de nom de juridiction légale.</p>"
@@ -570,7 +570,7 @@ fr:
     subordinate_name_2_tooltip: |
       <p>Une subdivision d'une entité collective nommée dans le champ "nom principal", inférieure à la subdivision nommée dans le champ "nom subordonné 1".</p>
 
-  name_software:
+  name_software: &agent_software_attributes
     <<: *agent_name_attributes
     software_name: Nom de logiciel
     software_name_tooltip: |
@@ -600,6 +600,19 @@ fr:
   name:
     _singular: Forme de nom
     _plural: Formes de noms
+
+  structured_date_label: &sdl_attributes
+    date_label_tooltip: "<p>Décrit le type d'activité que signifie la date</p>"
+    date_type_structured_tooltip: "<p>Indique le type des informations de date, une date unique ou une\
+      \ plage de dates.</p>"
+    date_certainty_tooltip: "<p>Le niveau de confiance pour les informations données dans une déclaration\
+      \ de date. Ces informations sont facultatives et ne doivent être ajoutées que lorsque les informations\
+      \ de date sont qualifiées de potentiellement incertaines en fonction de la description ou des règles\
+      \ de catalogage utilisées.</p>"
+    date_era_tooltip: <p>Période pendant laquelle les années sont numérotées et les dates calculées, comme
+      BC ou CE La valeur "ce" est la valeur par défaut.</p>
+    date_calendar_tooltip: <p>Système de calcul du temps, tel que le calendrier grégorien ou le calendrier
+      julien. La valeur "grégorien" est la valeur par défaut.</p>
 
   agent_contact:
     name: Contact
@@ -708,7 +721,7 @@ fr:
     type_tooltip: |
       <p>Le type de note pour le contenu. Les types de notes sont utilisés pour guider l'export des contenus de notes vers certains éléments dans des formats spécifiques de données.</p>
 
-  related_agent:
+  related_agent: &related_agent_attributes
     relationship_type: Type de relation
     _singular: Agent associé
     _plural: Agents associés
@@ -730,20 +743,28 @@ fr:
     relationship_uri_tooltip: Un URI qui pointe vers une entrée dans une ontologie ou une autre ressource
       pour les types de relations entre les agents. Principalement utilisé aux fins de l'EAC-CPF.
   agent_relationship_parentchild:
+    <<: *related_agent_attributes
     _singular: Relation parent/enfant
   agent_relationship_earlierlater:
+    <<: *related_agent_attributes
     _singular: Relation avant/après
   agent_relationship_subordinatesuperior:
+    <<: *related_agent_attributes
     _singular: Relation subordonné/supérieur
   agent_relationship_associative:
+    <<: *related_agent_attributes
     _singular: Relation associatif
   agent_relationship_identity:
+    <<: *related_agent_attributes
     _singular: Relation d'agent identifiée avec le parent
   agent_relationship_hierarchical:
+    <<: *related_agent_attributes
     _singular: Relateur hiérarchique de la relation d'agent
   agent_relationship_temporal:
+    <<: *related_agent_attributes
     _singular: Relateur temporel de la relation d'agent
   agent_relationship_family:
+    <<: *related_agent_attributes
     _singular: Relateur lié à la relation d'agent
   note:
     note_general_context: Contexte général
@@ -1198,7 +1219,7 @@ fr:
     <<: *date_attributes
 
   date_fields:
-    <<: *date_attributes
+    <<: [*date_attributes, *sdl_attributes]
 
   accession:
     <<: [*section_tooltips, *slug_attributes]
@@ -2710,12 +2731,16 @@ fr:
       find_tc: Impossible de trouver le conteneur supérieur avec les paramètres : %{where}.
       sc_barcode: Impossible de trouver un sous-conteneur avec ce code-barres enfant %{barcode}
   parallel_name_person:
+    <<: *agent_name_attributes
     _singular: Nom parallèle
     _plural: Noms parallèles
 
-  parallel_name_family: {}
-  parallel_name_corporate_entity: {}
-  parallel_name_software: {}
+  parallel_name_family:
+    <<: *agent_family_attributes
+  parallel_name_corporate_entity:
+    <<: *agent_corporate_entity_attributes
+  parallel_name_software:
+    <<: *agent_software_attributes
   agent_record_identifiers:
     identifier_type_tooltip: "<p>Indique le type ou le format de l'identifiant de la notice d'autorité.\
       \ Les valeurs de cette liste de valeurs contrôlées peuvent être modifiées.</p>"
@@ -2903,22 +2928,11 @@ fr:
   subrecord_subject_agent_resource_place:
     places_tooltip: "<p>Un emplacement géographique associé à la ressource liée.</p>"
 
-  structured_date_label:
-    date_label_tooltip: "<p>Décrit le type d'activité que signifie la date</p>"
-    date_type_structured_tooltip: "<p>Indique le type des informations de date, une date unique ou une\
-      \ plage de dates.</p>"
-    date_certainty_tooltip: "<p>Le niveau de confiance pour les informations données dans une déclaration\
-      \ de date. Ces informations sont facultatives et ne doivent être ajoutées que lorsque les informations\
-      \ de date sont qualifiées de potentiellement incertaines en fonction de la description ou des règles\
-      \ de catalogage utilisées.</p>"
-    date_era_tooltip: <p>Période pendant laquelle les années sont numérotées et les dates calculées, comme
-      BC ou CE La valeur "ce" est la valeur par défaut.</p>
-    date_calendar_tooltip: <p>Système de calcul du temps, tel que le calendrier grégorien ou le calendrier
-      julien. La valeur "grégorien" est la valeur par défaut.</p>
-
-  structured_date_label_existence: {}
-  structured_date_label_common_fields: {}
-  structured_date_single:
+  structured_date_label_existence:
+    <<: *sdl_attributes
+  structured_date_label_common_fields:
+    <<: *sdl_attributes
+  structured_date_single: &sds_attributes
     date_role_tooltip: "<p>Pour une seule date, utilisé pour indiquer si la date doit être comprise comme\
       \ une date de début ou une date de fin. La valeur par défaut est Begin.</p>"
     date_expression_tooltip: "<p>Une expression en langage naturel spécifiant la date ou la plage de dates.\
@@ -2928,7 +2942,7 @@ fr:
     date_standardized_type_tooltip: "<p>Utilisé pour indiquer si la date normalisée reflète la date réelle\
       \ ou une estimation du premier ou du dernier événement qui aurait pu se produire.</p>"
 
-  structured_date_range:
+  structured_date_range: &sdr_attributes
     begin_date_expression_tooltip: "<p>Une expression en langage naturel spécifiant le début d'une plage\
       \ de dates. Requis lorsqu'une date normalisée n'est pas enregistrée.</p>"
     begin_date_standardized_tooltip: "<p>Une date (au format AAAA, AAAA-MM ou AAAA-MM-JJ) représentant\
@@ -2942,26 +2956,34 @@ fr:
     end_date_standardized_type_tooltip: "<p>Utilisé pour indiquer si la date normalisée de fin reflète\
       \ la date réelle ou une estimation du premier ou du dernier événement qui aurait pu se produire.</p>"
 
-  structured_date_single_fields: {}
-  structured_date_range_fields: {}
+  structured_date_single_fields:
+    <<: *sds_attributes
+  structured_date_range_fields:
+    <<: *sdr_attributes
   note_contact_note:
+    <<: *note_attributes
     subnotes: Notes secondaires
     date_of_contact: Date de contact
     contact_notes: Notes de contact
 
     contact_notes_tooltip: "<p>Détails sur l'interaction avec le contact</p>\n"
     date_of_contact_tooltip: "<p>Utilisé pour enregistrer la date ou la période spécifique d'une interaction</p>\n"
-  related_agents: {}
+  related_agents:
+    <<: *related_agent_attributes
   note_general_context:
+    <<: *note_attributes
     subnotes: Notes secondaires
 
   note_mandate:
+    <<: *note_attributes
     subnotes: Notes secondaires
 
   note_legal_status:
+    <<: *note_attributes
     subnotes: Notes secondaires
 
   note_structure_or_genealogy:
+    <<: *note_attributes
     subnotes: Notes secondaires
   language:
     _plural: Langues
