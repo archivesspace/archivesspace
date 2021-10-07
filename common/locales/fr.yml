@@ -101,6 +101,7 @@ fr:
     user_defined_tooltip: |
       <p>Champs définis par l'utilisateur pour noter toute information utile n'entrant pas dans une autre rubrique de l'application.</p>
 
+    metadata_rights_declarations_tooltip: "<p>Basé sur DACS 8.2 et 13.11</p>\n"
   digital_object: &digital_object_attributes
     <<: [*section_tooltips, *slug_attributes]
     user_defined:
@@ -720,6 +721,14 @@ fr:
     dates: Rendez-vous
     ref: Agent associé
 
+    relationship_type_tooltip: Terme contrôlé décrivant, en termes généraux, la nature de la relation
+      entre l'agent principal et l'agent associé.
+    description_tooltip: Une description en texte libre de la nature de la relation.
+    related_agent_tooltip: La personne, la famille ou la personne morale liée à l'agent principal.
+    specific_relator_tooltip: Terme contrôlé décrivant plus spécifiquement la nature de la relation entre
+      l'agent principal et l'agent associé.
+    relationship_uri_tooltip: Un URI qui pointe vers une entrée dans une ontologie ou une autre ressource
+      pour les types de relations entre les agents. Principalement utilisé aux fins de l'EAC-CPF.
   agent_relationship_parentchild:
     _singular: Relation parent/enfant
   agent_relationship_earlierlater:
@@ -1331,6 +1340,10 @@ fr:
     _singular: Entrée
     _plural: Entrées
 
+    last_modified_by: Dernière modification par
+    created_by: Créé par
+    user_mtime: Modifié
+    create_time: Créé
   interrelated_accession:
     _plural: Entrées associées
     relationship_type: Type de relation
@@ -1686,6 +1699,10 @@ fr:
     _singular: Ressource
     _plural: Ressources
 
+    last_modified_by: Dernière modification par
+    user_mtime: Modifié
+    created_by: Créé par
+    create_time: Créé
   related_accession:
     _singular: Entrée associée
     _plural: Entrées associées
@@ -2136,6 +2153,8 @@ fr:
     sponsor_set_name_required: Le nom du sponsor est requis pour créer un sponsor OAI
     invalid_characters: Contient des caractères non valides
 
+    subrecord_not_allowed_for_agent_software: Les agents logiciels ne peuvent pas avoir de contrôle d'enregistrement
+      ou de sous-enregistrements de relation
   job:
     _singular: Tâche d'arrière-plan
     _plural: Tâches d'arrière-plan
@@ -2152,6 +2171,7 @@ fr:
       trim_whitespace_job: Couper les espaces
       unknown_job_type: Type de tâche inconnu
       bulk_import_job: Charger via une feuille de calcul
+      top_container_linker_job: Lien de conteneur supérieur
     status: Statut
     status_completed: Effectuée
     status_queued: Mise en attente
@@ -2547,6 +2567,8 @@ fr:
     _singular: Modèle de rapport personnalisé
     _plural: Modèles de rapports personnalisés
 
+    include: Comprendre
+    limit: Limite
   repository_oai:
     oai_is_disabled_tooltip: L'info-bulle OAI est désactivée
     oai_sets_available_tooltip: OAI définit l'info-bulle disponible
@@ -2685,6 +2707,8 @@ fr:
       dig_obj_unique: "ID d'objet numérique '%{id}' existe déjà."
       cannot: Impossible de continuer en raison d'erreurs précédentes
 
+      find_tc: Impossible de trouver le conteneur supérieur avec les paramètres : %{where}.
+      sc_barcode: Impossible de trouver un sous-conteneur avec ce code-barres enfant %{barcode}
   parallel_name_person:
     _singular: Nom parallèle
     _plural: Noms parallèles
@@ -2925,6 +2949,8 @@ fr:
     date_of_contact: Date de contact
     contact_notes: Notes de contact
 
+    contact_notes_tooltip: "<p>Détails sur l'interaction avec le contact</p>\n"
+    date_of_contact_tooltip: "<p>Utilisé pour enregistrer la date ou la période spécifique d'une interaction</p>\n"
   related_agents: {}
   note_general_context:
     subnotes: Notes secondaires
@@ -2937,3 +2963,118 @@ fr:
 
   note_structure_or_genealogy:
     subnotes: Notes secondaires
+  language:
+    _plural: Langues
+    _singular: Langue
+  top_container_linker_job:
+    content_type: Type de fichier
+    load_type: Type de charge
+    _singular: Meilleur emploi de l'éditeur de liens de conteneurs
+    filename: Déposer
+    resource_id: Identifiant de la ressource
+    type:
+      top_container_linker_job: Lien de conteneur supérieur
+  resource_and_archival_object:
+    _plural: Ressources et/ou objets d'archives
+    _singular: Ressource et/ou Objet d'archivage
+  creator:
+    _plural: Créateurs
+  groups:
+    _plural: Groupes
+  user_mtime: Modifié
+  top_container_linker:
+    error:
+      ref_id_miss: ID de référence manquant dans la feuille de calcul à la ligne %{row_num} .
+      tc_indicator_and_record_no_exist: Seul un indicateur de conteneur supérieur OU un numéro d'enregistrement
+        TC peut être présent pour %{ref_id} dans la ligne %{row_num}.
+      instance_type_does_not_exist: "Le type d'instance %{instance_type} n'existe pas dans la base de\
+        \ données (voir la ligne %{row_num} Archival Object %{ref_id}). "
+      tc_indicator_and_record_no_miss: Un indicateur de conteneur supérieur ou un numéro d’enregistrement
+        TC doit être présent pour %{ref_id} à la ligne %{row_num}.
+      sc_barcode_exists: Le code-barres enfant, %{barcode} existe déjà dans la base de données (voir %{ref_id}
+        à la ligne %{row_num}).
+      tc_record_no_missing: L'ID du conteneur supérieur est introuvable : %{tc_id} (voir %{ref_id} à la
+        ligne %{row_num})
+      resources_do_not_match: 'La ressource dans la feuille de calcul %{spreadsheet_resource} (ID EAD :
+        %{ead_id}) ne correspond pas à la ressource actuelle %{current_resource} dans la ligne %{row_num}'
+      tc_barcode_exists: Le Top Container Barcode, %{barcode} existe déjà dans la base de données (voir
+        %{ref_id} à la ligne %{row_num}).
+      tc_barcode_differs: Le code-barres du conteneur supérieur, %{barcode} est différent d'une autre
+        entrée de votre feuille de calcul pour %{type} %{indicator} (voir %{ref_id} à la ligne %{row_num}).
+      tc_ind_ct_exists: La combinaison Top Container Indicator et Container Type %{tc_type} %{indicator}
+        existe déjà dans la base de données pour un AO dans la ressource %{ead_id} (voir %{ref_id} dans
+        la ligne %{row_num}).
+      sc_barcode_differs: Le code-barres enfant, %{barcode} est différent d'une autre entrée de votre
+        feuille de calcul pour %{type} %{indicator} (voir %{ref_id} à la ligne %{row_num}).
+      loc_not_in_db: L'ID d'emplacement donné, %{loc_id} est introuvable dans la base de données (voir
+        %{ref_id} à la ligne %{row_num}).
+      cp_not_in_db: L'ID de profil de conteneur donné, %{cp_id} est introuvable dans la base de données
+        (voir %{ref_id} à la ligne %{row_num}).
+      problem_adding_current_location: 'Problème lors de l’ajout de l’emplacement actuel (voir %{ref_id}
+        dans la ligne %{row_num}) : [%{why}]'
+      problem_setting_container_profile: 'Problème de configuration du profil du conteneur (voir %{ref_id}
+        à la ligne %{row_num}) : [%{why}]'
+      no_tc: 'Impossible de créer le conteneur supérieur (voir %{ref_id} dans la ligne %{row_num}) : [%{why}]'
+      error_linking_tc_to_ao: "Un problème est survenu lors de l'association de l'objet d'archivage au\
+        \ conteneur supérieur : %{why}"
+      resource_not_in_db: Impossible de trouver la ressource %{ead_id} dans la base de données à la ligne
+        %{row_num}
+      job_file_empty: Aucun fichier à traiter pour la liaison du conteneur supérieur
+      ao_not_in_db: Impossible de trouver l’objet d’archivage %{ref_id} dans la base de données de la
+        ligne %{row_num}.
+      instance_type_miss: "Type d'instance manquant dans la feuille de calcul pour la ligne %{row_num}\
+        \ Objet d'archivage %{ref_id}. "
+      ead_id_miss: 'Il manque un ID EAD à cette ligne : (voir %{ref_id} dans la ligne %{row_num})'
+    log_validate_only: Ignorer la création et la liaison des conteneurs supérieurs puisque l'option de
+      validation uniquement est activée.
+    log_creating_linker: "Création d'un nouvel éditeur de liens de conteneur supérieur pour le référentiel :\
+      \ %{repo_id}"
+    log_validating: Validation des données de la feuille de calcul...
+    log_skipping_due_to_errors: Ignorer la création et la liaison des conteneurs supérieurs en raison
+      d'erreurs.
+    log_creating_and_linking: Créer et lier les meilleurs conteneurs...
+  metadata_rights_declaration:
+    license_tooltip: "<p>Nom de la licence (le cas échéant) qui régit les conditions dans lesquelles les\
+      \ métadonnées sont disponibles pour utilisation et réutilisation. Exemples :</p>\n<p>Cet enregistrement\
+      \ est disponible sous une licence Creative Commons Universal 1.0 Public Domain Dedication.</p>\n\
+      <p>Cet enregistrement est disponible sous une licence Creative Commons Internationale Attribution-NonCommercial\
+      \ 4.0.</p>\n<p>Cet enregistrement est disponible sous une licence Creative Commons Internationale\
+      \ Attribution-NonCommercial-NoDerivatives 4.0.</p>\n<p>Cet enregistrement est disponible sous une\
+      \ licence Creative Commons internationale Attribution-NoDerivatives 4.0.</p>\n<p>Cet enregistrement\
+      \ est disponible sous une licence Creative Commons internationale Attribution-NonCommercial-ShareAlike\
+      \ 4.0.</p>\n"
+    descriptive_note_tooltip: "<p>Informations non structurées sur les conditions dans lesquelles les\
+      \ métadonnées sont disponibles pour une utilisation et une réutilisation. Exemples :</p>\n<p>i.\
+      \ Droit d'auteur Smith College, 1985</p>\n<p>ii. Cet instrument de recherche peut être reproduit\
+      \ à n'importe quelle fin.</p>\n<p>iii. Cette œuvre a été dédiée au domaine public, ce qui signifie\
+      \ que vous pouvez copier, modifier, distribuer et exécuter l'œuvre, même à des fins commerciales,\
+      \ le tout sans demander l'autorisation.</p>\n<p>iv. La note biographique est copyright Ted Smith,\
+      \ 2015. Toutes les autres métadonnées sont sous licence CC BY 4.0.</p>\n"
+    file_version_xlink_actuate_attribute_tooltip: "<p>Indique si l'URI associé doit être résolu lorsque\
+      \ l'enregistrement de l'agent est rendu.</p>\n"
+    file_uri_tooltip: "<p>Un URI pour l'emplacement en ligne de la licence ou d'autres informations publiées\
+      \ sur les conditions dans lesquelles les métadonnées sont disponibles pour une utilisation et une\
+      \ réutilisation. Exemple : https://creativecommons.org/licenses/by/4.0/</p>\n"
+    file_version_xlink_show_attribute_tooltip: "<p>Indique où la ressource distante liée dans l'URI associé\
+      \ doit être rendue.</p>\n"
+    xlink_title_attribute_tooltip: "<p>Titre des ressources distantes liées dans l'URI associé, qui peut\
+      \ être utilisé comme légende.</p>\n"
+    xlink_role_attribute_tooltip: "<p>Type ou nature de la ressource distante liée dans l'URI associé.</p>\n"
+    xlink_arcrole_attribute_tooltip: "<p>Type ou nature de la ressource distante liée dans l'URI associé.</p>\n"
+    last_verified_date_tooltip: "<p>Dernière date ou date et heure auxquelles la ressource liée liée dans\
+      \ l'URI associé a été vérifiée.</p>\n"
+  ratings:
+    _plural: Évaluations
+  conservation_issues:
+    _plural: Problèmes de conservation
+  owner_repo:
+    _plural: Réservé pour
+  surveyed_by:
+    _plural: Sondé par
+  created_by: Créé par
+  reviewer:
+    _plural: Réviseurs
+  formats:
+    _plural: Formats
+  last_modified_by: Dernière modification par
+  create_time: Créé

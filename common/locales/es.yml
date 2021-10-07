@@ -94,6 +94,7 @@ es:
     user_defined_tooltip: |
       <p>Campos para el registro de información adicional no capturado en otras secciones de la aplicación definidos por el usuario.</p>
 
+    metadata_rights_declarations_tooltip: "<p> Basado en DACS 8.2 y 13.11 </p>\n"
   digital_object: &digital_object_attributes
     <<: [*section_tooltips, *slug_attributes]
     user_defined:
@@ -714,6 +715,14 @@ es:
     dates: fechas
     ref: Agente relacionado
 
+    relationship_type_tooltip: Término controlado que describe, en términos generales, la naturaleza de
+      la relación entre el agente primario y el agente relacionado.
+    specific_relator_tooltip: Término controlado que describe más específicamente la naturaleza de la
+      relación entre el agente primario y el agente relacionado.
+    relationship_uri_tooltip: Un URI que apunta a una entrada en una ontología u otro recurso para tipos
+      de relaciones entre agentes. Se utiliza principalmente para los fines de EAC-CPF.
+    description_tooltip: Una descripción de texto libre de la naturaleza de la relación.
+    related_agent_tooltip: La persona, familia o entidad corporativa relacionada con el agente principal.
   agent_relationship_parentchild:
     _singular: Relación padre/hijo
   agent_relationship_earlierlater:
@@ -1307,6 +1316,10 @@ es:
     _singular: Acta de ingreso
     _plural: Actas de ingreso
 
+    created_by: Creado por
+    last_modified_by: Ultima modificacion por
+    create_time: Creado
+    user_mtime: Modificado
   interrelated_accession:
     _plural: Actas de ingreso relacionadas
     relationship_type: Tipo de relación
@@ -1372,7 +1385,7 @@ es:
     is_user_tooltip: |
       <p>Si está presente, este registro de agente está vinculado a un usuario de la aplicación con el nombre de usuario proporcionado.</p>
     name: Nombre de autoridad
-    names:
+    names: Formularios de nombre
     names_tooltip: |
       <p>SUBRECORDO REQUERIDO: Registra diferentes formas del nombre de un Agente. Cada registro de agente debe tener al menos un subrecord de formulario de nombre.</p>
     agent_contacts: Detalles de contacto
@@ -1662,6 +1675,10 @@ es:
     _singular: Fondo
     _plural: Fondos
 
+    created_by: Creado por
+    last_modified_by: Ultima modificacion por
+    create_time: Creado
+    user_mtime: Modificado
   related_accession:
     _singular: Acta de ingreso relacionada
     _plural: Actas de ingreso relacionadas
@@ -2106,6 +2123,8 @@ es:
       de patrocinadores de OAI
     invalid_characters: Contiene caracteres invalidos
 
+    subrecord_not_allowed_for_agent_software: Los agentes de software no pueden tener control de registros
+      ni subregistros de relaciones
   job:
     _singular: Tarea en el background
     _plural: Tareas en el background
@@ -2122,6 +2141,7 @@ es:
       trim_whitespace_job: Recortar espacios en blanco
       unknown_job_type: Tipo de trabajo desconocido
       bulk_import_job: Cargar mediante hoja de cálculo
+      top_container_linker_job: Vinculador de contenedor superior
     status: Estado
     status_completed: Completado
     status_queued: Cola
@@ -2534,6 +2554,8 @@ es:
     _singular: Plantilla de informe personalizado
     _plural: Plantillas de informes personalizados
 
+    limit: Limite
+    include: Incluir
   repository_oai:
     oai_is_disabled_tooltip: OAI está inhabilitado información sobre herramientas
     oai_sets_available_tooltip: OAI establece información sobre herramientas disponible
@@ -2671,6 +2693,9 @@ es:
       dig_obj_unique: "ID de objeto digital '%{id}' ya existe."
       cannot: No se puede continuar debido a errores anteriores.
 
+      find_tc: No se puede encontrar el contenedor superior con los parámetros:% {where}.
+      sc_barcode: No se puede encontrar un contenedor secundario con este código de barras secundario%
+        {código de barras}
   dates_of_existence:
     _frontend:
       action:
@@ -2920,6 +2945,9 @@ es:
     date_of_contact: Fecha de contacto
     contact_notes: Notas de contacto
 
+    contact_notes_tooltip: "<p>Detalles sobre la interacción con el contacto</p>\n"
+    date_of_contact_tooltip: "<p>Se utiliza para registrar la fecha o el período de tiempo específicos\
+      \ de una interacción.</p>\n"
   related_agents: {}
   note_general_context:
     subnotes: Notas secundarias
@@ -2932,3 +2960,117 @@ es:
 
   note_structure_or_genealogy:
     subnotes: Notas secundarias
+  top_container_linker_job:
+    _singular: Trabajo del vinculador de contenedor superior
+    filename: Archivo
+    content_type: Tipo de archivo
+    resource_id: Recurso ID
+    load_type: Tipo de carga
+    type:
+      top_container_linker_job: Vinculador de contenedor superior
+  language:
+    _plural: Idiomas
+    _singular: Idioma
+  top_container_linker:
+    error:
+      ref_id_miss: Falta el ID de referencia en la hoja de cálculo en la fila% {row_num}.
+      ao_not_in_db: No se puede encontrar el objeto de archivo% {ref_id} en la base de datos en la fila%
+        {row_num}.
+      instance_type_miss: 'Falta el tipo de instancia en la hoja de cálculo para la fila% {row_num} Objeto
+        de archivo% {ref_id}. '
+      instance_type_does_not_exist: 'El tipo de instancia% {instance_type} no existe en la base de datos
+        (consulte la fila% {row_num} Objeto de archivo% {ref_id}). '
+      tc_indicator_and_record_no_miss: Debe estar presente un indicador de contenedor superior o un número
+        de registro TC para% {ref_id} en la fila% {row_num}.
+      tc_indicator_and_record_no_exist: Solo un indicador de contenedor superior O un número de registro
+        TC puede estar presente para% {ref_id} en la fila% {row_num}.
+      tc_barcode_exists: El código de barras del contenedor superior,% {código de barras} ya existe en
+        la base de datos (consulte% {ref_id} en la fila% {row_num}).
+      tc_barcode_differs: El código de barras del contenedor superior,% {código de barras} es diferente
+        de otra entrada en su hoja de cálculo para% {type}% {indicador} (consulte% {ref_id} en la fila%
+        {row_num}).
+      tc_ind_ct_exists: La combinación de indicador de contenedor superior y tipo de contenedor% {tc_type}%
+        {indicador} ya existe en la base de datos para un AO en el recurso% {ead_id} (consulte% {ref_id}
+        en la fila% {row_num}).
+      sc_barcode_exists: El código de barras secundario,% {código de barras} ya existe en la base de datos
+        (consulte% {ref_id} en la fila% {row_num}).
+      sc_barcode_differs: El código de barras secundario,% {código de barras} es diferente a otra entrada
+        en su hoja de cálculo para% {type}% {indicador} (vea% {ref_id} en la fila% {row_num}).
+      loc_not_in_db: El ID de ubicación proporcionado,% {loc_id} no se puede encontrar en la base de datos
+        (consulte% {ref_id} en la fila% {row_num}).
+      cp_not_in_db: El ID de perfil de contenedor proporcionado,% {cp_id}, no se puede encontrar en la
+        base de datos (consulte% {ref_id} en la fila% {row_num}).
+      no_tc: 'No se puede crear el contenedor superior (consulte% {ref_id} en la fila% {row_num}): [%
+        {why}]'
+      problem_adding_current_location: 'Problema al agregar la ubicación actual (ver% {ref_id} en la fila%
+        {row_num}): [% {why}]'
+      problem_setting_container_profile: 'Problema al configurar el perfil del contenedor (consulte% {ref_id}
+        en la fila% {row_num}): [% {why}]'
+      error_linking_tc_to_ao: Hubo un problema al vincular el objeto de archivo con el contenedor superior:%
+        {why}
+      ead_id_miss: 'A esta fila le falta un ID de EAD: (consulte% {ref_id} en la fila% {row_num})'
+      tc_record_no_missing: No se puede encontrar el ID del contenedor superior:% {tc_id} (consulte% {ref_id}
+        en la fila% {row_num})
+      resource_not_in_db: No se puede encontrar el recurso% {ead_id} en la base de datos en la fila% {row_num}
+      resources_do_not_match: El recurso en la hoja de cálculo% {spreadsheet_resource} (ID de EAD:% {ead_id})
+        no coincide con el recurso actual% {current_resource} en la fila% {row_num}
+      job_file_empty: No hay archivo para procesar para la vinculación del contenedor superior
+    log_creating_linker: Creando un nuevo vinculador de contenedor superior para el repositorio:% {repo_id}
+    log_validate_only: Omitir la creación y vinculación de contenedores superiores ya que la opción de
+      validación única está habilitada.
+    log_skipping_due_to_errors: Omitir creación y vinculación de contenedores superiores debido a errores.
+    log_validating: Validando datos de la hoja de cálculo ...
+    log_creating_and_linking: Creación y vinculación de contenedores superiores ...
+  metadata_rights_declaration:
+    license_tooltip: "<p> Nombre de la licencia (si corresponde) que rige las condiciones bajo las cuales\
+      \ los metadatos están disponibles para su uso y reutilización. Ejemplos: </p>\n<p> Este registro\
+      \ está disponible bajo una licencia Creative Commons de Dedicación de dominio público universal\
+      \ 1.0. </p>\n<p> Este registro está disponible bajo una licencia Creative Commons de Reconocimiento-No\
+      \ Comercial 4.0 Internacional. </p>\n<p> Este registro está disponible bajo una licencia Creative\
+      \ Commons de Reconocimiento-NoComercial-Sin Derivados 4.0 Internacional. </p>\n<p> Este registro\
+      \ está disponible bajo una licencia Creative Commons de Reconocimiento-Sin Derivadas 4.0 Internacional.\
+      \ </p>\n<p> Este registro está disponible bajo una licencia Creative Commons de Reconocimiento-NoComercial-CompartirIgual\
+      \ 4.0 Internacional. </p>\n"
+    descriptive_note_tooltip: "<p> Información no estructurada sobre las condiciones bajo las cuales los\
+      \ metadatos están disponibles para su uso y reutilización. Ejemplos: </p>\n<p> i. Copyright Smith\
+      \ College, 1985 </p>\n<p> ii. Esta ayuda de búsqueda puede reproducirse para cualquier propósito.\
+      \ </p>\n<p> iii. Este trabajo ha sido dedicado al dominio público, lo que significa que puede copiar,\
+      \ modificar, distribuir y realizar el trabajo, incluso con fines comerciales, todo sin pedir permiso.\
+      \ </p>\n<p> iv. La nota biográfica tiene los derechos de autor de Ted Smith, 2015. Todos los demás\
+      \ metadatos tienen licencia CC BY 4.0. </p>\n"
+    file_uri_tooltip: "<p> Un URI para la ubicación en línea de la licencia u otra información publicada\
+      \ sobre las condiciones bajo las cuales los metadatos están disponibles para su uso y reutilización.\
+      \ Ejemplo: https://creativecommons.org/licenses/by/4.0/</p>\n"
+    file_version_xlink_actuate_attribute_tooltip: "<p>Indica si el URI asociado debe resolverse cuando\
+      \ se procesa el registro del agente.</p>\n"
+    file_version_xlink_show_attribute_tooltip: "<p>Indica dónde se debe representar el recurso remoto\
+      \ vinculado en el URI asociado.</p>\n"
+    xlink_title_attribute_tooltip: "<p>Título de los recursos remotos vinculados en el URI asociado, que\
+      \ puede usarse como título.</p>\n"
+    xlink_role_attribute_tooltip: "<p>Tipo o naturaleza del recurso remoto vinculado en el URI asociado.</p>\n"
+    xlink_arcrole_attribute_tooltip: "<p>Tipo o naturaleza del recurso remoto vinculado en el URI asociado.</p>\n"
+    last_verified_date_tooltip: "<p>Última fecha o fecha y hora en que se verificó el recurso vinculado\
+      \ vinculado en el URI asociado.</p>\n"
+  ratings:
+    _plural: Calificaciones
+  conservation_issues:
+    _plural: Problemas de conservación
+  surveyed_by:
+    _plural: Encuestados por
+  reviewer:
+    _plural: Revisores
+  formats:
+    _plural: Formatos
+  creator:
+    _plural: Creadores
+  owner_repo:
+    _plural: Reservado para
+  groups:
+    _plural: Grupos
+  created_by: Creado por
+  last_modified_by: Ultima modificacion por
+  create_time: Creado
+  user_mtime: Modificado
+  resource_and_archival_object:
+    _singular: Recurso y / u objeto de archivo
+    _plural: Recursos y / u objetos de archivo
