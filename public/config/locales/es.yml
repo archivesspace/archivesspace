@@ -78,7 +78,7 @@ es:
     results_head: "Mostrando %{type}: %{start} - %{end} of %{total}"
     result: Resultado
     results: Resultados
-    search_for: "Buscar  %{type} donde %{conditions}"
+    search_for: "Buscar %{type} donde %{conditions}"
     keyword_contain: "<strong>palabra(s)</strong>: <span class='searchterm'>%{kw}</span>"
     title_contain: "the <strong>título</strong> contiene  <span class='searchterm'>%{kw}</span>"
     notes_contain: "the <strong>nota</strong> contiene  <span class='searchterm'>%{kw}</span>"
