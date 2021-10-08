@@ -60,6 +60,7 @@ require_relative "../../common/jsonmodel_translatable.rb"
 ASpaceEnvironment.init(:unit_test)
 
 AppConfig[:search_user_secret] = "abc123"
+AppConfig[:solr_verify_checksums] = false
 
 DB.connect
 puts "Running backend tests using database type: #{DB.open { |db| db.database_type }}"

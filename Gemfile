@@ -3,6 +3,7 @@
 source 'https://rubygems.org'
 
 # Gemfile for supporting rake tasks
+gem 'http'
 gem 'git'
 gem 'github_api'
 gem 'json'

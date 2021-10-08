@@ -142,7 +142,14 @@ class ArchivesSpaceService < Sinatra::Base
             raise "Schema Info Mismatch. Expected #{required_schema_info}, received #{schema_info} for ASPACE version #{ASConstants.VERSION}. "
           end
         end
+      end
 
+      require_relative "model/solr"
+      if AppConfig[:solr_verify_checksums]
+        Solr.verify_checksums!
+        Log.info('Solr config checksum verification ok.')
+      else
+        Log.warn('Solr config checksum verification disabled.')
       end
 
       ordered_plugin_backend_dirs = ASUtils.order_plugins(ASUtils.find_local_directories('backend'))
