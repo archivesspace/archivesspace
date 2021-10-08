@@ -16,6 +16,21 @@ module ASConstants
   end
 
 
+  module Solr
+
+    # bundle exec rake http:checksum:solr["http://localhost:8983/solr/archivesspace","schema"]
+    def self.SCHEMA
+      '9f607fc5968c26fd69d247b1b314db3285eeb7a4430d45b62281482b9ba64fd6'
+    end
+
+    # bundle exec rake http:checksum:solr["http://localhost:8983/solr/archivesspace","config"]
+    def self.SOLRCONFIG
+      'a30987c15d987c5f56d4048e6d447a76792e7fd944cf305fc78591d891da293e'
+    end
+
+  end
+
+
   def self.VERSION
     return @VERSION if @VERSION
 

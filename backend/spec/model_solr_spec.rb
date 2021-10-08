@@ -208,4 +208,30 @@ describe 'Solr model' do
 
   end
 
+  describe 'Checksums' do
+    let(:schema) { Solr::Schema.new(AppConfig[:solr_url]) }
+    let(:solrconfig) { Solr::Solrconfig.new(AppConfig[:solr_url]) }
+
+    it 'will be valid when the internal and external checksums match' do
+      expect(schema.checksum_valid?).to be true
+      expect(solrconfig.checksum_valid?).to be true
+    end
+
+    it 'will be invalid when the external checksums do not match' do
+      allow(schema).to receive(:external_checksum) { 'nope' }
+      allow(solrconfig).to receive(:external_checksum) { "this_aint'it" }
+
+      expect(schema.checksum_valid?).to be false
+      expect(solrconfig.checksum_valid?).to be false
+    end
+
+    it 'will be invalid when the internal checksums do not match' do
+      allow(schema).to receive(:internal_checksum) { 'nope' }
+      allow(solrconfig).to receive(:internal_checksum) { "this_aint'it" }
+
+      expect(schema.checksum_valid?).to be false
+      expect(solrconfig.checksum_valid?).to be false
+    end
+  end
+
 end

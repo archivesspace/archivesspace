@@ -2,7 +2,9 @@
 
 # Rakefile for build / release supporting tasks
 require 'date'
+require 'digest'
 require 'git'
+require 'http'
 require 'json'
 require 'yaml'
 require_relative 'scripts/tasks/check'
@@ -55,5 +57,31 @@ namespace :release_notes do
       log: log,
       old_milestone: old_milestone,
       style: style).process
+  end
+end
+
+namespace :http do
+  namespace :checksum do
+    # bundle exec rake http:checksum:solr["http://localhost:8983/solr/archivesspace","schema"]
+    task :solr, [:base_url, :path] do |_t, args|
+      path = args[:path]
+      raise 'Invalid path' unless ['schema', 'config'].include? path
+
+      name = path == 'config' ? 'solrconfig' : 'schema'
+      asconstants = File.join('common', 'asconstants.rb')
+      url = URI(File.join(args[:base_url], path))
+      checksum = Digest::SHA2.hexdigest(
+        JSON.parse(HTTP.get(url))[path].to_json
+      )
+      constants = File.read(asconstants)
+      current_checksum = constants.match(/#{name.upcase}.*\n.*\'(.*)\'/)[1].strip
+
+      if current_checksum != checksum
+        constants = constants.sub(current_checksum, checksum)
+        File.open(asconstants, 'w') {|f| f.puts constants }
+      end
+
+      puts checksum
+    end
   end
 end

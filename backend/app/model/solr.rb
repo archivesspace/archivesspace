@@ -3,6 +3,59 @@ require 'net/http'
 require 'advanced_search'
 
 class Solr
+  module Checksums
+    def checksum_valid?
+      internal_checksum == external_checksum
+    end
+
+    def external_checksum
+      @external_checksum || lookup_external_checksum
+    end
+
+    def internal_checksum
+      @internal_checksum || lookup_internal_checksum
+    end
+
+    private
+
+    def lookup_external_checksum
+      url = URI(File.join(@url, @path))
+      @external_checksum = Digest::SHA2.hexdigest(JSON.parse(Net::HTTP.get_response(url).body)[@path].to_json)
+    end
+
+    def lookup_internal_checksum
+      ASConstants::Solr.send(@name.upcase.intern)
+    end
+  end
+
+  class Config
+    include Checksums
+    attr_reader :name
+
+    def initialize(url, name = nil)
+      @external_checksum = nil
+      @internal_checksum = nil
+      @name = name
+      @path = nil
+      @url = url
+    end
+  end
+
+  class Schema < Config
+    def initialize(url)
+      super(url)
+      @name = 'schema'
+      @path = 'schema'
+    end
+  end
+
+  class Solrconfig < Config
+    def initialize(url)
+      super(url)
+      @name = 'solrconfig'
+      @path = 'config'
+    end
+  end
 
   @@search_hooks ||= []
 
@@ -15,6 +68,16 @@ class Solr
     @@search_hooks
   end
 
+  def self.verify_checksums!
+    verify_checksum!(Solr::Schema.new(AppConfig[:solr_url]))
+    verify_checksum!(Solr::Solrconfig.new(AppConfig[:solr_url]))
+  end
+
+  def self.verify_checksum!(config)
+    return true if config.checksum_valid?
+
+    raise "Solr checksum verification failed (#{config.name}): expected [#{config.internal_checksum}] got [#{config.external_checksum}]"
+  end
 
   class Query
 
