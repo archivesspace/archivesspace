@@ -183,6 +183,9 @@ es:
       están vinculados a otros registros de nivel superior en este repositorio y no
       se pueden transferir hasta que esos vínculos se corten
     container_template: Descargar plantilla de contenedor
+    run: Huir
+    check_all: Comprobar todo
+    uncheck_all: Desmarcar todos
   database_warning:
     message: "<p><strong>Advertencia de base de datos:</strong> Estas utilizando la\
       \ base de datos (Apache Derby) habilitada para pruebas. Le recomendamos utilizar\

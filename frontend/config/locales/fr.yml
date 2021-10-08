@@ -185,6 +185,9 @@ fr:
       liés à d'autres enregistrements de niveau supérieur dans ce référentiel et ne
       peuvent pas être transférés tant que ces liens ne sont pas rompus
     container_template: Télécharger le modèle de conteneur
+    run: Fuite
+    check_all: Vérifie tout
+    uncheck_all: Tout décocher
   database_warning:
     message: "<p><strong>Avertissement!</strong> Vous utilisez actuellement la base\
       \ de données Apache Derby, embarquée uniquement à des fins de tests/démonstrations.\
