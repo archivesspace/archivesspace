@@ -4,7 +4,7 @@
   <lib dir="/opt/solr/contrib/analysis-extras/lucene-libs" regex="lucene-analyzers-icu-.*\.jar" />
   <lib dir="/opt/solr/contrib/analysis-extras/lib/" regex="icu4j-*.*\.jar" />
   <schemaFactory class="ClassicIndexSchemaFactory"/>
-  <luceneMatchVersion>8.9.0</luceneMatchVersion>
+  <luceneMatchVersion>8.10</luceneMatchVersion>
   <dataDir>${solr.data.dir:}</dataDir>
   <directoryFactory name="DirectoryFactory" class="${solr.directoryFactory:solr.NRTCachingDirectoryFactory}" />
   <updateHandler class="solr.DirectUpdateHandler2">
