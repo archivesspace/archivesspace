@@ -1,1 +1,127 @@
-brand: {}
+brand:
+  actions:
+    backup_abbr: Voltar
+    numeric: Inventário de Contentores
+    clipboard: Copiar para área de transferência
+    search_add_row: Adicionar uma linha de pesquisa
+    search_remove_row: Remova a linha abaixo
+    staff_link: Somente pessoal autorizado
+    close: Fechar
+    search_in: Pesquisar %{tipo}
+    refine_search: Refinar Pesquisa
+    print: Imprimir
+    search_header: Pesquisar nos Arquivos
+    search: Procurar
+    search_within: Pesquisar dentro de resultados
+    new_search: Nova Pesquisa
+    backup: Retorne à página anterior
+    cite: Citação
+    cite_item: Citar Item
+    hierarch: Organização da Coleta
+    cite_item_description: Citar Item Descrição
+    request: Solicitação
+    print-generating: Gerando
+    collection_overview: Visão Geral da Coleção
+  search_results:
+    filter:
+      years: Anos
+      to: Para
+      head: Resultados do filtro
+      add: Filtros adicionais
+      form: Pesquisando dentro dos resultados
+      show_fewer: Mostrar menos
+      show_more: Mostrar mais
+      query: Texto
+      creators: Criador
+      fullrecord: Palavra-chave
+      classification_uri: Classificação
+      linked_agent_roles: Função
+      from_year: A partir do ano
+      creators_text: Criador
+      source: Origem
+      repository: Repositório
+      notes: Notas
+      scope: Alcance
+      agents_text: Nomes
+      published_agents: Nomes
+      title: Título
+      subjects_text: Assunto
+      subjects: Assunto
+      primary_type: Tipo
+      used_within_published_repository: Repositório
+      identifier: Identificador
+      to_year: Para o ano
+      years_include: Anos para incluir
+      year_now: agora
+      year_begin: o início
+      from: A partir de
+      from_to: 'Anos: %{começar} a %{fim}'
+    page_title: Encontrado %{contar} Resultados
+    in_repository: ' em <strong>%{nome}</strong>'
+    anything: '*'
+    search_term: Termo de pesquisa
+    error: Sua pesquisa não pôde ser concluída devido a um erro inesperado
+    no_results: Sem Registros Encontrados
+    filter_by: Filtrar por
+    filtered_by: Filtrado por
+    remove_filter: Remova esse filtro
+    more_facets: mais
+    fewer_facets: menos
+    op:
+      AND: e
+      OR: ou
+      NOT: e não
+    op_first_row:
+      NOT: não
+    results: Resultados
+    results_head: 'Mostrando %{tipo}: %{início} - %{fim} de %{total}'
+    result: Resultado
+    identifier_contain: o <strong>identificador</strong> contém <span class='searchterm'>%{kw}</span>
+    subjects_text_contain: o <strong>assunto</strong> contém <span class='searchterm'>%{kw}</span>
+    search_for: Pesquisa %{tipo} onde %{condições}
+    creators_text_contain: o <strong>criador</strong> contém <span class='searchterm'>%{kw}</span>
+    keyword_contain: "<strong>palavra-chave(s)</strong>: <span class='searchterm'>%{kw}</span>"
+    title_contain: o <strong>título</strong> contém <span class='searchterm'>%{kw}</span>
+    notes_contain: a <strong>nota</strong> contém <span class='searchterm'>%{kw}</span>
+    four_part_id_contain: o <strong>identificador</strong> contém <span class='searchterm'>%{kw}</span>
+  brand:
+    welcome_head: Bem-vindo ao ArchivesSpace
+    title_link_text: Retorne à página inicial do ArchivesSpace
+    title: Interface pública do ArchivesSpace
+    welcome_page_title: Interface pública do ArchivesSpace
+    welcome_message: "<p> Pesquisar nas nossas colecções, materiais digitais, e muito mais. </p>\n"
+  page_actions: Ações da página
+  request:
+    email_header: Obrigado por seu solicitação
+    user_name: Seu nome
+    user_email: O seu endereço de e-mail
+    date: Data prevista de chegada
+    note: Nota para o pessoal
+    visit: Enviar um pedido para visitar %{repo_nome} para ver <strong>%{objeto_de_arquivo}</strong>
+    submit: Enviar solicitação
+    submitted: Obrigado, seu solicitação foi apresentado. Em breve você receberá um e-mail com uma cópia
+      de sua solicitação.
+    errors:
+      name: Por favor introduza o seu nome
+      email: Por favor introduza um endereço de e-mail válido
+    email:
+      subject: Solicitação de %{título}
+    required: necessário
+  search-button:
+    label: Procurar
+  search-limit: Limite a %{limite}
+  search-limiting: limitado a %{limite}
+  search-limits:
+    all: todos os tipos de registro
+    repository: repositórios
+    repositories: repositórios
+    resource: coleções
+    resources: coleções
+    digital: materiais digitais
+    digital_object: materiais digitais
+    objects: registros de arquivo ou digitais
+    subject: assunto
+    agent: criador de conteúdo
+    agents: criadores de conteúdo
+  search-field: Campo de pesquisa
+  searched-field: pesquisando% {campo}
