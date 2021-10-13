@@ -162,6 +162,7 @@ describe 'Accessibility', js: true, db: 'accessibility' do
 
     # 519100, #519357
     it "supports aria-expanded for event and merge dropdowns" do
+      pending
       visit "/resources/1"
       page.has_css? "div.record-toolbar"
 
@@ -236,6 +237,7 @@ describe 'Accessibility', js: true, db: 'accessibility' do
     end
 
     it "has role and aria attributes for the merge dropdown combobox" do
+      pending
       visit "/resources/1"
 
       within "div#merge-dropdown" do
