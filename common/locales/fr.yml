@@ -2141,7 +2141,6 @@ fr:
     custom_report_template_name_not_unique: Le nom du modèle de rapport personnalisé doit être unique.
     custom_report_must_include_field_or_subreport: Le modèle de rapport personnalisé doit inclure au moins
       un champ ou sous-rapport.
-    missing_filter_values: Sélectionné pour filtrer les résultats par champ mais aucune valeur donnée
     must_be_a_valid_email_address: Le champ d'adresse email doit contenir une adresse valide
     repo_set_desc_required: La description d'un ensemble de référentiels est requise pour créer un ensemble
       de référentiels OAI
@@ -2556,7 +2555,6 @@ fr:
     description: Description
     record_type: Type de notice ou de sous-notice
     display: Afficher?
-    narrow_by: Affiner par?
     values: Valeurs
     value: Valeur
     "true": "Oui"
