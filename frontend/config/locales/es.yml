@@ -3193,7 +3193,7 @@ es:
     contact_notes_tooltip: "<p>Detalles sobre la interacción con el contacto</p>"
     date_of_contact_tooltip: "<p>Se utiliza para registrar la fecha o el período de\
       \ tiempo específicos de una interacción.</p>"
-  metadata_rights_declaration:
+  metadata_rights_declaration: &metadata_rights_declaration_attributes
     descriptive_note: Nota descriptiva
     file_uri: URI Archivo
     xlink_title_attribute: Atributo de título de Xlink
@@ -3208,3 +3208,15 @@ es:
       action:
         add: Agregar declaración de derechos de metadatos
     license: Licencia
+
+  metadata_rights_declarations:
+    <<: *metadata_rights_declaration_attributes
+
+  metadata_rights_declaration_required:
+    <<: *metadata_rights_declaration_attributes
+
+  metadata_rights_declaration_merge_target:
+    <<: *metadata_rights_declaration_attributes
+
+  metadata_rights_declaration_merge_victim:
+    <<: *metadata_rights_declaration_attributes

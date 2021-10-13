@@ -3209,7 +3209,7 @@ fr:
     contact_notes_tooltip: "<p>Détails sur l'interaction avec le contact</p>\n"
     date_of_contact_tooltip: "<p>Utilisé pour enregistrer la date ou la période spécifique\
       \ d'une interaction</p>\n"
-  metadata_rights_declaration:
+  metadata_rights_declaration: &metadata_rights_declaration_attributes
     file_version_xlink_actuate_attribute: Attribut Xlink Actuate
     file_version_xlink_show_attribute: Attribut Xlink Show
     last_verified_date: Dernière date de vérification
@@ -3224,3 +3224,15 @@ fr:
     xlink_title_attribute: Attribut de titre Xlink
     xlink_role_attribute: Attribut de rôle Xlink
     xlink_arcrole_attribute: Attribut Xlink Arcrole
+
+  metadata_rights_declarations:
+    <<: *metadata_rights_declaration_attributes
+
+  metadata_rights_declaration_required:
+    <<: *metadata_rights_declaration_attributes
+
+  metadata_rights_declaration_merge_target:
+    <<: *metadata_rights_declaration_attributes
+
+  metadata_rights_declaration_merge_victim:
+    <<: *metadata_rights_declaration_attributes

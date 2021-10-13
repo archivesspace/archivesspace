@@ -1,5 +1,6 @@
 .DS_Store
 _site
+bin
 build/*.jar
 build/solr_backups/*
 *.war

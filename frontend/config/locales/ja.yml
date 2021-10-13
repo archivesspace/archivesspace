@@ -2898,7 +2898,7 @@ ja:
   note_contact_note:
     contact_notes_tooltip: "<p>連絡先とのやり取りに関する詳細</p>"
     date_of_contact_tooltip: "<p>インタラクションの特定の日付または時間枠を記録するために使用されます</p>"
-  metadata_rights_declaration:
+  metadata_rights_declaration: &metadata_rights_declaration_attributes
     _plural: メタデータの権利宣言
     _singular: メタデータの権利宣言
     _frontend:
@@ -2913,3 +2913,15 @@ ja:
     file_version_xlink_show_attribute: Xlinkの属性を表示
     last_verified_date: 最終確認日
     xlink_arcrole_attribute: XlinkArcrole属性
+
+  metadata_rights_declarations:
+    <<: *metadata_rights_declaration_attributes
+
+  metadata_rights_declaration_required:
+    <<: *metadata_rights_declaration_attributes
+
+  metadata_rights_declaration_merge_target:
+    <<: *metadata_rights_declaration_attributes
+
+  metadata_rights_declaration_merge_victim:
+    <<: *metadata_rights_declaration_attributes
