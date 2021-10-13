@@ -57,13 +57,14 @@ module JSONModel
     end
   end
 
+  class ModelNotFound < StandardError; end
 
   def self.JSONModel(source)
     if !@@models.has_key?(source.to_s)
       load_schema(source.to_s)
     end
 
-    @@models[source.to_s] or raise "JSONModel not found for #{source}"
+    @@models[source.to_s] or raise ModelNotFound.new("JSONModel not found for #{source}")
   end
 
 

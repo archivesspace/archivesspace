@@ -97,7 +97,7 @@ class Job < Sequel::Model(:job)
     jsons.zip(objs).each do |json, obj|
       begin
         json.job = JSONModel(obj.type.intern).from_hash(obj.job)
-      rescue
+      rescue JSONModel::ModelNotFound => e
         json.job = obj.job_type
         json.inactive_record = true
       end
