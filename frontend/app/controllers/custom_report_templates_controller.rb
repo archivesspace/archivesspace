@@ -1,6 +1,6 @@
 class CustomReportTemplatesController < ApplicationController
 
-  set_access_control "create_job" => [:new, :edit, :index, :create, :update,
+  set_access_control "manage_custom_report_templates" => [:new, :edit, :index, :create, :update,
     :delete, :show, :copy]
 
   def new
@@ -87,6 +87,13 @@ class CustomReportTemplatesController < ApplicationController
     data = params['custom_report_template']['data'][record_type]
       .to_unsafe_h.to_hash
     data['custom_record_type'] = record_type
+    data['fields'].each do |name, defn|
+      next unless defn.is_a?(Hash) && defn["values"]
+      #raise defn["values"] if defn["values"].match(/busche/)
+      if defn.has_key? "values"
+        defn["values"] = defn["values"].gsub("\r\n", "\n").split("\n")
+      end
+    end
     params['custom_report_template']['data'] = ASUtils.to_json(data)
   end
 

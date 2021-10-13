@@ -186,6 +186,9 @@ ja:
       NOT: NOT
     nav_switcher: {}
     index_switcher: {}
+    limit_label: レコードタイプによる制限
+    add_row: 行を追加
+    remove_row: 行を削除
   contains: "%{count} %{type}含みます%{type}"
   found: "%{count} %{type}見つかりました"
   coll_obj:
@@ -342,12 +345,16 @@ ja:
         related_agent_dates: 日付
   agent_person:
     _singular: 人
+    _plural: 人々
   agent_family:
     _singular: 家族
+    _plural: 家族
   agent_corporate_entity:
     _singular: 組織
+    _plural: 組織
   agent_software:
     _singular: ソフトウェア
+    _plural: ソフトウェア
   components: {}
   instance:
     _public: {}
@@ -454,3 +461,15 @@ ja:
     note_mandate: 委任
     note_structure_or_genealogy: 構造または系図
     note_text: 注意
+  metadata_rights_declaration:
+    file_version_xlink_show_attribute: Xlinkの属性を表示
+    last_verified_date: 最終確認日
+    _plural: メタデータの権利宣言
+    _singular: メタデータの権利宣言
+    license: ライセンス
+    descriptive_note: 注釈
+    file_uri: ファイルURI
+    xlink_title_attribute: Xlinkタイトル属性
+    xlink_role_attribute: Xlinkロール属性
+    xlink_arcrole_attribute: XlinkArcrole属性
+    file_version_xlink_actuate_attribute: XlinkActuate属性

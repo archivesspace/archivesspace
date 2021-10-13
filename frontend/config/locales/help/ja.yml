@@ -137,3 +137,16 @@ ja:
       user: ユーザーの管理に関するヘルプ
       enumeration: 制御された値リストのヘルプ
       preference: 設定に関するヘルプ
+      agent_place: 場所のヘルプ
+      agent_occupation: 職業に関するヘルプ
+      agent_function: 関数に関するヘルプ
+      agent_topic: トピックに関するヘルプ
+      agent_used_language: 使用言語に関するヘルプ
+      agent_external_documents: 外部ドキュメントのヘルプ
+      agent_external_resources: 関連する外部リソースに関するヘルプ
+      agent_related_agents: 関連エージェントに関するヘルプ
+      agent_required: 必須フィールドの編集に関するヘルプ
+      agent_merge: エージェントのマージに関するヘルプ
+      resource_load_via_spreadsheet: スプレッドシートを介したロードに関するヘルプ
+      agent_identifiers: エンティティIDに関するヘルプ
+      agent_genders: ジェンダーに関するヘルプ

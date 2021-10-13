@@ -380,15 +380,19 @@ es:
   agent_person:
     _singular: Persona
 
+    _plural: Persona
   agent_family:
     _singular: Familia
 
+    _plural: Familias
   agent_corporate_entity:
     _singular: Entidad corporativa
 
+    _plural: Organizaciones
   agent_software:
     _singular: Software
 
+    _plural: Programa
   components: {}
   instance:
     _public: {}

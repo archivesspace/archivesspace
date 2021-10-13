@@ -160,3 +160,11 @@ en:
       width: Width
       template_name: Template Name
       template_description: Template Description
+      date_type: Date Type
+      label:  Label
+      expression: Date Expression
+      standardized_type: Standardized Type
+      begin_expression: Begin Date Expression
+      begin_standardized_type: Begin Date Standardized Type
+      end_expression: End Date Expression
+      end_standardized_type: End Date Standardized Type

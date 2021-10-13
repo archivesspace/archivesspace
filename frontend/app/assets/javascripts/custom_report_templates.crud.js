@@ -17,12 +17,67 @@ $(function () {
   };
 
   initCustomReportTemplateForm();
+
+  // Don't fire a request for *every* keystroke.  Wait until they stop
+  // typing for a moment.
+  var username_typeahead = AS.delayedTypeAhead(function (query, callback) {
+    $.ajax({
+      url: AS.app_prefix('users/complete'),
+      data: { query: query },
+      type: 'GET',
+      success: function (usernames) {
+        callback(usernames);
+      },
+      error: function () {
+        callback([]);
+      },
+    });
+  });
+
+  function extractor(query) {
+    var result = /([^,]+)$/.exec(query);
+    if (result && result[1]) return result[1].trim();
+    return '';
+  }
+
+  $('.user-field').typeahead({
+    source: username_typeahead.handle,
+    updater: function (item) {
+      $text_area = $('#' + this.$element.attr('id').replace(/_control$/, ''));
+      console.log(item + ' *');
+      values = $text_area.val().split('\n');
+      values.push(item);
+      set = new Set(values);
+      console.log(set);
+      deduped_values = [];
+      set.forEach(function (value) {
+        if (value.length > 0) {
+          deduped_values.push(value);
+        }
+      });
+      $text_area.val(deduped_values.join('\n'));
+      return '';
+    },
+  });
+
+  $('.user-field-clear-button').click(function (e) {
+    $(this).siblings('textarea').val('');
+  });
 });
 
 $(document).ready(function () {
   $('#check_all').on('click', function () {
     $(this).toggleClass('btn-success');
-    var checkboxes = $('.display input[type="checkbox"]');
+    $(this).toggleClass('btn-default');
+    var button = document.getElementById('check_all');
+    var checked = button.getAttribute('data-checked');
+    var unchecked = button.getAttribute('data-unchecked');
+    if (button.innerHTML === checked) {
+      button.innerHTML = unchecked;
+    } else {
+      button.innerHTML = checked;
+    }
+    var checkboxes = $('input[id*="_include"][type="checkbox"]');
     if (checkboxes.prop('checked')) {
       checkboxes.prop('checked', false);
     } else {

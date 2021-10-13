@@ -18,27 +18,17 @@
   <property name="jruby_rack_file" value="jruby-rack-${jruby_rack_version}.jar" />
   <property name="jruby_rack_url" value="https://as-public-shared-files.s3-us-west-2.amazonaws.com/jruby-rack-${jruby_rack_version}_rack-${rack_version}.jar" />
 
-  <property name="solr_url" value="https://repo1.maven.org/maven2/org/apache/solr/solr/4.10.4/solr-4.10.4.war" />
-  <property name="solr_file" value="solr-4.10.4.war" />
-
   <property name="jettyrunner_url" value="https://repo1.maven.org/maven2/org/eclipse/jetty/jetty-runner/9.2.30.v20200428/jetty-runner-9.2.30.v20200428.jar" />
   <property name="jettyrunner_file" value="jetty-runner-9.2.30.v20200428.jar" />
-
-  <property name="icu4j_url" value="https://repo1.maven.org/maven2/com/ibm/icu/icu4j/65.1/icu4j-65.1.jar" />
-  <property name="icu4j_file" value="icu4j-65.1.jar" />
-
-  <property name="luceneicu_url" value="https://repo1.maven.org/maven2/org/apache/lucene/lucene-analyzers-icu/4.10.4/lucene-analyzers-icu-4.10.4.jar" />
-  <property name="luceneicu_file" value="lucene-analyzers-icu-4.10.4.jar" />
-
-  <property name="solrextras_url" value="https://repo1.maven.org/maven2/org/apache/solr/solr-analysis-extras/4.10.0/solr-analysis-extras-4.10.0.jar" />
-  <property name="solrextras_file" value="solr-analysis-extras-4.10.4.jar" />
 
   <property name="gem_home" location="gems" />
   <property name="aspace.backend.port" value="4567" />
   <property name="aspace.frontend.port" value="3000" />
   <property name="aspace.public.port" value="3001" />
-  <property name="aspace.solr.port" value="2999" />
-  <property name="aspace.solr.url" value="http://localhost:${aspace.solr.port}" />
+  <property name="aspace.db_url.dev" value="jdbc:mysql://127.0.0.1:3306/archivesspace?useUnicode=true&amp;characterEncoding=UTF-8&amp;user=as&amp;password=as123&amp;useSSL=false&amp;allowPublicKeyRetrieval=true" />
+  <property name="aspace.db_url.test" value="jdbc:mysql://127.0.0.1:3307/archivesspace?useUnicode=true&amp;characterEncoding=UTF-8&amp;user=as&amp;password=as123&amp;useSSL=false&amp;allowPublicKeyRetrieval=true" />
+  <property name="aspace.solr_url.dev" value="http://127.0.0.1:8983/solr/archivesspace" />
+  <property name="aspace.solr_url.test" value="http://127.0.0.1:8984/solr/archivesspace" />
   <property name="aspace.data_directory.dev" value="${basedir}/../build/dev" />
   <property name="aspace.data_directory.test" value="${basedir}/../build/test" />
 
@@ -48,10 +38,10 @@
   -->
   <property name="env.JAVA_OPTS" value="" />
   <!-- Setup defaults for MySQL and Solr dev / test environment -->
-  <property name="env.APPCONFIG_DB_URL" value="jdbc:derby:${aspace.data_directory.dev}/archivesspace_demo_db;create=true;aspacedemo=true" />
-  <property name="env.APPCONFIG_SOLR_URL" value="${aspace.solr.url}" />
-  <property name="env.ASPACE_TEST_DB_URL" value="jdbc:derby:${aspace.data_directory.test}/archivesspace_demo_db;create=true;aspacedemo=true" />
-  <property name="env.ASPACE_TEST_SOLR_URL" value="${aspace.solr.url}" />
+  <property name="env.APPCONFIG_DB_URL" value="${aspace.db_url.dev}" />
+  <property name="env.APPCONFIG_SOLR_URL" value="${aspace.solr_url.dev}" />
+  <property name="env.ASPACE_TEST_DB_URL" value="${aspace.db_url.test}" />
+  <property name="env.ASPACE_TEST_SOLR_URL" value="${aspace.solr_url.test}" />
 
   <property name="default_java_options" value="-Djava.security.egd=file:/dev/./urandom -Xmx2048m -Xss2m -Dfile.encoding=UTF-8 -Djavax.accessibility.assistive_technologies='' -Daspace.config.search_user_secret=devserver -Daspace.config.public_user_secret=devserver -Daspace.config.staff_user_secret=devserver -Daspace.devserver=true -Daspace.config.frontend_cookie_secret=devserver -Daspace.config.public_cookie_secret=devserver" />
 
@@ -85,26 +75,13 @@
   <target name="backend:coverage" depends="set-classpath, backend:test" description="Generate coverage reports for the backend">
   </target>
 
-  <target name="backend:devserver" depends="set-classpath, setup-solr" description="Start an instance of the ArchivesSpace backend development server">
+  <target name="backend:devserver" depends="set-classpath" description="Start an instance of the ArchivesSpace backend development server">
     <delete dir="${java.io.tmpdir}/jettyrunner.${user.name}" />
     <mkdir dir="${java.io.tmpdir}/jettyrunner.${user.name}" />
-    <!-- TODO: when embedded solr removed delete these actions, see also: setup-integration -->
-    <mkdir dir="${aspace.data_directory.dev}/solr_home/collection1/conf" />
-    <mkdir dir="${aspace.data_directory.dev}/solr_home/collection1/lib" />
-    <copy todir="${aspace.data_directory.dev}/solr_home/collection1/lib">
-      <fileset dir="../solr/lib" />
-    </copy>
     <parallel>
-      <!-- TODO: when embedded solr removed delete this (and other embedded solr pieces) -->
-      <daemons>
-        <java classpath="${jettyrunner_file}:../solr:../common/lib/*" classname="org.eclipse.jetty.runner.Runner" fork="true">
-          <jvmarg line="${default_java_options} ${solr.properties} -Djava.io.tmpdir=${java.io.tmpdir}/jettyrunner.${user.name}" />
-          <arg line="--port ${aspace.solr.port} ${solr_file}" />
-        </java>
-      </daemons>
       <record name="backend_test_log.out" action="start" />
       <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true" failonerror="true" dir="../backend">
-        <jvmarg line="-Daspace.service=backend -Daspace.config.backend_url=http://localhost:${aspace.backend.port} -Daspace.config.ignore_schema_info_check=true ${default_java_options} ${env.JAVA_OPTS} ${solr.properties}"/>
+        <jvmarg line="-Daspace.service=backend -Daspace.config.backend_url=http://localhost:${aspace.backend.port} -Daspace.config.ignore_schema_info_check=true ${default_java_options} ${env.JAVA_OPTS}"/>
         <env key="GEM_HOME" value="${gem_home}" />
         <env key="GEM_PATH" value="" />
         <env key="BUNDLE_PATH" value="${gem_home}" />
@@ -257,12 +234,8 @@
       <fileset dir="." includes="jruby-complete*.jar" excludes="${jruby_file}" />
     </delete>
     <get src="${jruby_url}" dest="${jruby_file}" skipexisting="true" verbose="true" usetimestamp="true" />
-    <get src="${solr_url}" dest="${solr_file}" skipexisting="true" verbose="true" usetimestamp="true" />
     <get src="${jettyrunner_url}" dest="${jettyrunner_file}" skipexisting="true" verbose="true" usetimestamp="true" />
     <get src="${jruby_rack_url}" dest="${jruby_rack_file}" skipexisting="true" verbose="true" usetimestamp="true" />
-    <get src="${icu4j_url}" dest="../solr/lib/${icu4j_file}" skipexisting="true" verbose="true" usetimestamp="true" />
-    <get src="${luceneicu_url}" dest="../solr/lib/${luceneicu_file}" skipexisting="true" verbose="true" usetimestamp="true" />
-    <get src="${solrextras_url}" dest="../solr/lib/${solrextras_file}" skipexisting="true" verbose="true" usetimestamp="true" />
   </target>
 
   <!-- BUILD -->
@@ -285,9 +258,6 @@
         <param name="excluded-gem-groups" value="test development doc" />
       </antcall>
       <antcall target="public:war">
-        <param name="excluded-gem-groups" value="test development doc" />
-      </antcall>
-      <antcall target="solr:war">
         <param name="excluded-gem-groups" value="test development doc" />
       </antcall>
     </parallel>
@@ -344,7 +314,6 @@
     <copy todir="target/archivesspace/lib">
       <fileset dir="../common/lib" />
     </copy>
-    <copy file="solr.war" todir="target/archivesspace/wars" />
     <copy file="../backend/backend.war" todir="target/archivesspace/wars" />
     <copy file="../frontend/frontend.war" todir="target/archivesspace/wars" />
     <copy file="../public/public.war" tofile="target/archivesspace/wars/public.war" />
@@ -616,15 +585,11 @@
   <target name="indexer:coverage" depends="set-classpath, indexer:test" description="Generate coverage reports for the indexer">
   </target>
 
-  <target name="indexer:test" depends="set-classpath" description="Run the unit test suite for the indexer">
+  <target name="indexer:test" depends="set-classpath, setup-integration" description="Run the unit test suite for the indexer">
     <property name="spec" value=""/>
     <condition property="example-arg" value="-e &quot;${example}&quot;" else="">
       <isset property="example"/>
     </condition>
-        <antcall target="rspec">
-      <param name="dir" value="../backend" />
-      <param name="extra-spec-paths" value="${plugin-spec-dirs}"/>
-    </antcall>
     <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true" failonerror="true" dir="../indexer">
       <jvmarg line="${default_java_options} ${env.JAVA_OPTS}"/>
       <env key="GEM_HOME" value="${gem_home}" />
@@ -867,28 +832,6 @@
 
   <!-- Prepares all tests to be run -->
   <target name="setup-integration" depends="db:nuke:test, db:migrate:test, solr:reset:test" description="Prepare to run integration tests">
-    <!-- TODO: when embedded solr is removed these actions can be deleted, see also: backend:devserver -->
-    <antcall target="solr:setup:test" />
-  </target>
-
-  <target name="solr:setup:test" description="Make solr directories and copy in config">
-    <delete dir="${aspace.data_directory.test}/solr_home" />
-    <delete dir="${aspace.data_directory.test}/solr_index" />
-    <mkdir dir="${aspace.data_directory.test}/solr_home/collection1/conf" />
-    <mkdir dir="${aspace.data_directory.test}/solr_home/collection1/lib" />
-    <copy todir="${aspace.data_directory.test}/solr_home/collection1/lib">
-      <fileset dir="../solr/lib" />
-    </copy>
-  </target>
-
-  <!-- TODO: when embedded solr is removed this (whole) task can be deleted -->
-  <target name="setup-solr" description="Set Solr system properties">
-    <!-- EMBEDDED TEST SOLR -->
-    <condition property="solr.properties" value="-Dsolr.solr.home=${aspace.data_directory.test}/solr_home -Dsolr.data.dir=${aspace.data_directory.test}/solr_index">
-      <matches pattern="true" string="${aspace.integration}" />
-    </condition>
-    <!-- EMBEDDED DEV SOLR -->
-    <property name="solr.properties" value="-Dsolr.solr.home=${aspace.data_directory.dev}/solr_home -Dsolr.data.dir=${aspace.data_directory.dev}/solr_index" />
   </target>
 
   <target name="solr:reset" description="Delete all documents from Solr">
@@ -897,7 +840,6 @@
     </exec>
     <delete dir="${aspace.data_directory.dev}/indexer_state" />
     <delete dir="${aspace.data_directory.dev}/indexer_pui_state" />
-    <delete dir="${aspace.data_directory.dev}/solr_index" />
   </target>
 
   <target name="solr:reset:test" description="Delete all documents from Solr">
@@ -906,17 +848,5 @@
     </exec>
     <delete dir="${aspace.data_directory.test}/indexer_state" />
     <delete dir="${aspace.data_directory.test}/indexer_pui_state" />
-    <delete dir="${aspace.data_directory.test}/solr_index" />
-  </target>
-
-  <target name="solr:war" depends="set-classpath, bootstrap-downloads" description="Repack the Solr .war file with our configs">
-    <copy file="${solr_file}" tofile="solr.war" overwrite="true" />
-    <war destfile="solr.war" update="true">
-      <zipfileset dir="../solr" includes="schema.xml" prefix="WEB-INF/classes"/>
-      <zipfileset dir="../solr" includes="solrconfig.xml" prefix="WEB-INF/classes"/>
-      <zipfileset dir="../solr" includes="stopwords.txt" prefix="WEB-INF/classes"/>
-      <zipfileset dir="../solr" includes="synonyms.txt" prefix="WEB-INF/classes"/>
-      <zipfileset dir="../solr/lib" prefix="WEB-INF/lib"/>
-    </war>
   </target>
 </project>

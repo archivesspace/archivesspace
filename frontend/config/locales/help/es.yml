@@ -16,8 +16,7 @@ es:
       accession_rights_statements: Ayuda sobre las declaraciones de derechos
       accession_deaccessions: Ayuda en expurgos
       accession_instances: Ayuda en las representaciones de
-      accession_collection_management: Ayuda en la gestión de la colección de acta
-        de ingreso
+      accession_collection_management: Ayuda en la gestión de la colección de acta de ingreso
       accession_classification: Ayuda sobre clasificaciones
       accession_user_defined: Ayuda sobre definidos por el usuario
       # Resource help tooltips
@@ -51,8 +50,7 @@ es:
       archival_object_rights_statements: Ayuda sobre las declaraciones de derechos
       archival_object_instances: Ayuda en las instancias de
       archival_object_deaccessions: Ayuda en expurgo de objetos de archivo
-      archival_object_collection_management: Ayuda en la gestión de la colección de
-        objetos de archivo
+      archival_object_collection_management: Ayuda en la gestión de la colección de objetos de archivo
       archival_object_classification: Ayuda sobre clasificaciones
       archival_object_user_defined: Ayuda sobre definidos por el usuario
       # Digital Object help tooltips
@@ -69,29 +67,25 @@ es:
       digital_object_rights_statements: Ayuda sobre las declaraciones de derechos
       digital_object_instances: Ayuda en las representaciones de
       digital_object_deaccessions: Ayuda en expurgo de objetos digitales
-      digital_object_collection_management: Ayuda en la gestión de la colección de
-        objetos digitales
+      digital_object_collection_management: Ayuda en la gestión de la colección de objetos digitales
       digital_object_classification: Ayuda sobre clasificaciones
       digital_object_user_defined: Ayuda sobre definidos por el usuario
       # Digital Object Component help tooltips
       digital_object_component: Ayuda sobre los componentes del objeto Digital
       digital_object_component_basic_information: Ayuda sobre información básica
       digital_object_component_dates: Ayuda en las fechas
-      digital_object_component_extents: Ayuda en cantidad de componentes de objetos
-        digitales
+      digital_object_component_extents: Ayuda en cantidad de componentes de objetos digitales
       digital_object_component_finding_aid: Ayudar en la búsqueda de ayuda
       digital_object_component_related_accessions: Ayuda sobre acta de ingreso relacionadas
       digital_object_component_linked_agents: Ayuda sobre autoridad enlaces
       digital_object_component_subjects: Ayuda sobre materias
       digital_object_component_notes: Ayuda sobre notas
       digital_object_component_external_documents: Ayuda sobre documentos externos
-      digital_object_component_rights_statements: Ayuda sobre las declaraciones de
-        derechos
+      digital_object_component_rights_statements: Ayuda sobre las declaraciones de derechos
       digital_object_component_instances: Ayuda en las instancias de
-      digital_object_component_deaccessions: Ayuda en expurgo de componentes de objetos
-        digitales
-      digital_object_component_collection_management: Ayuda en la gestión de la colección
-        de componentes de objetos digitales
+      digital_object_component_deaccessions: Ayuda en expurgo de componentes de objetos digitales
+      digital_object_component_collection_management: Ayuda en la gestión de la colección de componentes
+        de objetos digitales
       digital_object_component_classification: Ayuda sobre clasificaciones
       digital_object_component_user_defined: Ayuda sobre definidos por el usuario
       # Subjects
@@ -158,11 +152,9 @@ es:
       enumeration: Ayuda sobre listas de valor controlado
       agent_sources: Ayuda sobre fuentes de agentes
       agent_record_identifiers: Ayuda sobre identificadores de registros de agentes
-      agent_maintenance_histories: Ayuda sobre los historiales de mantenimiento de
-        los agentes
+      agent_maintenance_histories: Ayuda sobre los historiales de mantenimiento de los agentes
       agent_other_agency_codes: Ayuda sobre otros códigos de agencia
-      agent_conventions_declarations: Ayuda sobre declaraciones de convenciones de
-        agentes
+      agent_conventions_declarations: Ayuda sobre declaraciones de convenciones de agentes
       agent_alternate_sets: Ayuda sobre conjuntos alternativos de agentes
       agent_record_controls: Ayuda sobre los controles de registros de agentes
       preference: Ayuda sobre preferencias
@@ -178,3 +170,4 @@ es:
       agent_place: Ayuda sobre lugares
       agent_genders: Ayuda sobre géneros
       agent_identifiers: Ayuda sobre los ID de entidad
+      resource_load_via_spreadsheet: Ayuda sobre la carga mediante hoja de cálculo

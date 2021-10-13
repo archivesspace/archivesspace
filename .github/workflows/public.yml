@@ -27,8 +27,12 @@ jobs:
           MYSQL_USER: as
           MYSQL_PASSWORD: as123
         ports:
-          - 3306/tcp
+          - 3307:3306
         options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+      solr:
+        image: archivesspace/solr:8.10
+        ports:
+          - 8984:8983
 
     steps:
     - uses: actions/checkout@v2
@@ -38,9 +42,15 @@ jobs:
 
     - name: Allow ArchivesSpace functions for app db user
       env:
-        DB_PORT: ${{ job.services.db.ports[3306] }}
+        DB_PORT: "3307"
       run: |
         mysql --host 127.0.0.1 --port $DB_PORT -uroot -proot -e "SET GLOBAL log_bin_trust_function_creators = 1;"
+
+    - name: Create ArchivesSpace Solr core
+      env:
+        SOLR_ID: ${{ job.services.solr.id }}
+      run: |
+        docker exec --tty $SOLR_ID solr create_core -p 8983 -c archivesspace -d /archivesspace
 
     - name: Bootstrap ArchivesSpace
       run: |
@@ -48,7 +58,5 @@ jobs:
         wget -P ./common/lib https://repo1.maven.org/maven2/mysql/mysql-connector-java/8.0.23/mysql-connector-java-8.0.23.jar
 
     - name: Run Public tests
-      env:
-        ASPACE_TEST_DB_URL: jdbc:mysql://127.0.0.1:${{ job.services.db.ports[3306] }}/archivesspace?useUnicode=true&characterEncoding=UTF-8&user=as&password=as123&useSSL=false&allowPublicKeyRetrieval=true
       run: |
         ./build/run public:test

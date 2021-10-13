@@ -175,6 +175,17 @@ es:
     reorder_active: Deshabilitar el modo de reorden
     copy: Dupdo
 
+    transfer_failed_barcodes_in_use: Los siguientes contenedores superiores utilizan
+      códigos de barras que se utilizan en el repositorio de destino y no se pueden
+      transferir hasta que se solucionen esos conflictos
+    add_event_event_type: Tipo
+    transfer_failed_top_containers_in_use: Los siguientes contenedores superiores
+      están vinculados a otros registros de nivel superior en este repositorio y no
+      se pueden transferir hasta que esos vínculos se corten
+    container_template: Descargar plantilla de contenedor
+    run: Huir
+    check_all: Comprobar todo
+    uncheck_all: Desmarcar todos
   database_warning:
     message: "<p><strong>Advertencia de base de datos:</strong> Estas utilizando la\
       \ base de datos (Apache Derby) habilitada para pruebas. Le recomendamos utilizar\
@@ -732,6 +743,10 @@ es:
     linked_to_assessment: El registro no se puede eliminar ya que está vinculado a
       una evaluación
 
+    merge_denied_relationship: Estos agentes tienen una relación. Elimine la relación
+      antes de continuar con la fusión.
+    cannot_delete_repository_agent: Este agente está vinculado a un repositorio y
+      no se puede eliminar.
   accession:
     _frontend:
       messages:
@@ -1162,6 +1177,10 @@ es:
         apply_note_order: Aplicar el orden de notas estandar
         add_for_contact_note: Agregar nota de contacto
 
+      note_outline:
+        placeholder: Agregar texto de nota
+        empty_level: 'Nivel vacío: use los botones de arriba para agregar nuevos elementos
+          o subniveles'
   related_accession:
     _frontend:
       action:
@@ -1288,6 +1307,7 @@ es:
         merged: La(s) materia(s) se fusionaron
         merge_description: Seleccione materias abajo para fusionar en
         please_select_a_subject_to_merge: Por favor, seleccione un materia
+        delete_conflict: 'No se pudo eliminar el asunto: <pre>% {error} </pre>'
       section:
         basic_information: Información básica
         terms: Descriptores
@@ -1328,6 +1348,10 @@ es:
         deactivate_user: Desactivar
         activate_user: Activar
 
+        edit: Editar usuario
+        show_active: Mostrar usuarios activos
+    active: 'true'
+    inactive: falso
   user_defined:
     _frontend:
       action:
@@ -1961,6 +1985,7 @@ es:
       messages:
         created: Plantilla de informe personalizado creado
         updated: Plantilla de informe personalizado actualizada
+        copied: Plantilla de informe personalizada copiada
   oai_config:
     title: Configuraciones OAI-PMH
     title_repo_section: Configuraciones por repositorio OAI-PMH
@@ -2006,6 +2031,7 @@ es:
         drag_drop: Arrastrar y archivo de la gota aquí
         clip_btn: Copiar al portapapeles
         only_validate: Validar solo
+        link_top_containers: Enlazar contenedores superiores
       messages:
         missing_file: No ha añadido un archivo
         not_excel: El archivo que ha elegido no es una hoja de cálculo de Excel
@@ -3167,3 +3193,18 @@ es:
     contact_notes_tooltip: "<p>Detalles sobre la interacción con el contacto</p>"
     date_of_contact_tooltip: "<p>Se utiliza para registrar la fecha o el período de\
       \ tiempo específicos de una interacción.</p>"
+  metadata_rights_declaration:
+    descriptive_note: Nota descriptiva
+    file_uri: URI Archivo
+    xlink_title_attribute: Atributo de título de Xlink
+    xlink_role_attribute: Atributo de título de Xlink
+    xlink_arcrole_attribute: Atributo de Xlink Arcrole
+    file_version_xlink_actuate_attribute: Accionar atributo XLink
+    file_version_xlink_show_attribute: Mostrar atributo XLink
+    last_verified_date: Última fecha de verificación
+    _plural: Declaraciones de derechos de metadatos
+    _singular: Declaraciones de derechos de metadatos
+    _frontend:
+      action:
+        add: Agregar declaración de derechos de metadatos
+    license: Licencia

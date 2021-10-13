@@ -10,6 +10,8 @@ en:
     bulk_import_job: Load via Spreadsheet
     download_bulk_import_report: Download report
     cancel: Cancel
+    check_all: Check All
+    uncheck_all: Uncheck All
     close: Close
     continue: Continue
     confirm: Confirm
@@ -133,6 +135,7 @@ en:
     enable_reorder: Enable Reorder Mode
     reorder_active: Disable Reorder Mode
     copy: Copy
+    run: Run
 
   database_warning:
     message: "<p><strong>Database Warning:</strong> You are currently using the embedded database (Apache Derby). The embedded database is for testing/demo purposes only. You should use MySQL for any data intended for production, including data in a test instance that you intend to move over to a production instance.</p>"

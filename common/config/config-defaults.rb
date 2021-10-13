@@ -37,7 +37,7 @@ AppConfig[:oai_url] = "http://localhost:8082"
 
 # The ArchivesSpace Solr index listens on port 8090 by default.  You can
 # set it to something else below.
-AppConfig[:solr_url] = "http://localhost:8090"
+AppConfig[:solr_url] = "http://localhost:8983/solr/archivesspace"
 
 # The ArchivesSpace indexer listens on port 8091 by default.  You can
 # set it to something else below.
@@ -224,7 +224,6 @@ AppConfig[:public_proxy_prefix] = proc { "#{URI(AppConfig[:public_proxy_url]).pa
 AppConfig[:enable_backend] = true
 AppConfig[:enable_frontend] = true
 AppConfig[:enable_public] = true
-AppConfig[:enable_solr] = true
 AppConfig[:enable_indexer] = true
 AppConfig[:enable_docs] = true
 AppConfig[:enable_oai] = true
@@ -686,11 +685,6 @@ AppConfig[:max_search_columns] = 7
 # For Bulk Import:
 # specifies whether the "Load Digital Objects" button is available at the Resource Level
 AppConfig[:hide_do_load] = false
-
-# upper row limit for an excel spreadsheet
-AppConfig[:bulk_import_rows] = 1000
-# maximum size (in KiloBytes) for an excel spreadsheet
-AppConfig[:bulk_import_size] = 256
 
 # For Agents Export
 AppConfig[:export_eac_agency_code] = false

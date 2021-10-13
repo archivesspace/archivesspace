@@ -94,8 +94,53 @@ var init = function () {
       $('#format').hide();
       $('.btn-primary:submit').addClass('disabled');
       $('.report-title').removeClass('disabled');
-      $('#archivesSpaceSidebar li').toggle();
+      // we're going back, remove any extra params
+      window.history.replaceState(
+        null,
+        null,
+        window.location.pathname + '?job_type=report_job'
+      );
     });
+
+    // select a report if params are available
+    const urlParams = new URLSearchParams(window.location.search);
+    const reportType = urlParams.get('report_type');
+
+    if (reportType) {
+      $('#' + reportType + ' .select-report').click();
+
+      // lets try all of our params to see if there's a matching form element
+      urlParams.forEach(function (value, key) {
+        var paramSelector = '#job_job_params_' + key + '_';
+
+        // move along if there's no matching form element for this param
+        if (!$(paramSelector).length) {
+          return true;
+        }
+
+        var tag = $(paramSelector).get(0).tagName;
+        switch (tag) {
+          case 'INPUT':
+            var type = $(paramSelector).get(0).type;
+            if (type == 'checkbox') {
+              $(paramSelector).prop('checked', Boolean(parseInt(value)));
+            } else {
+              $(paramSelector).val(value);
+            }
+            break;
+          case 'SELECT':
+            paramSelector = paramSelector + ' option';
+            $(paramSelector)
+              .filter(function (i, e) {
+                return $(e).text() == value;
+              })
+              .prop('selected', true);
+            break;
+          default:
+            console.log('Unhandled [key, value, tag]', key, value, tag);
+        }
+      });
+    }
   };
 
   var initSourceJobForm = function () {

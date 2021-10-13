@@ -19,7 +19,6 @@
 
 		<div class="form-group">
 			<%= form.label 'record_type', :class => "col-sm-2 control-label", :for => "custom_record_type" %>
-			
 			<div class="col-sm-9">
 				<%= select_tag "custom_report_template[data][custom_record_type]", options_for_select(record_types.collect {|record_type| [I18n.t("#{record_type}._plural"), record_type]}, data['custom_record_type']), {:id => "custom_record_type", :class => "form-control"} %>
 			</div>
@@ -27,12 +26,6 @@
 	</div>
 
 	<% enums = JSONModel(:enumeration).all %>
-
-	<% users = [] %>
-	<% JSONModel::HTTP::get_json("/users", :all_ids => true).each do |id| %>
-		<% user = JSONModel(:user).find(id) %>
-		<% users.push([user.name, user.username]) %>
-	<% end %>
 
 	<% record_types.each do |record_type| %>
 
@@ -85,7 +78,7 @@
 									</div>
 								</div>
 							<% end %>
-								
+
 							<% if field['data_type'] == "Boolean" %>
 								<div class="form-group">
 									<%= form.label "value", :class => "col-sm-2 control-label", :for =>  "custom_report_template_data_#{record_type}_fields_#{field_name}_value" %>
@@ -94,7 +87,7 @@
 									</div>
 								</div>
 							<% end %>
-								
+
 							<% if field['data_type'] == "Enum" %>
 								<% enum_name = field['enum_name'] || "#{record_type}_#{field_name}" %>
 								<% enum = enums.find {|obj| obj.name == enum_name} %>
@@ -109,16 +102,21 @@
 									</div>
 								<% end %>
 							<% end %>
-								
+
 							<% if field['data_type'] == "User" %>
 								<div class="form-group">
-									<%= form.label 'values', :class => 'col-sm-2 control-label', :for =>  "custom_report_template_data_#{record_type}_fields_#{field_name}_values" %>
-									<div class="col-sm-9">
-										<%= select_tag "custom_report_template[data][#{record_type}][fields][#{field_name}][values]", options_for_select(users, field_data['values']), :multiple => true, :style => "width: auto; max-with: 100%;", :class=>"form-control" %>
+
+									    <%= form.label 'values', :class => 'col-sm-2 control-label', :for => "custom_report_template_data_#{record_type}_fields_#{field_name}_values" %>
+								    <div class="col-sm-9">
+									<%= text_field_tag "custom_report_template[data][#{record_type}][fields][#{field_name}][values]_control", nil,  :class => 'user-field form-control', :"data-label" => User, :"autocomplete" => "off" %>
+                                                                        <div class="textarea-with-button">
+                                                                        <%= text_area_tag "custom_report_template[data][#{record_type}][fields][#{field_name}][values]", array_for_textarea(field_data["values"]), :value => field_data['values'], :readonly => true %>
+                                                                            <input type="button" value="Clear" class="user-field-clear-button">
+                                                                            </div>
 									</div>
 								</div>
 							<% end %>
-							
+
 						</div>
 					</div>
 				<% end %>

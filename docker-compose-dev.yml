@@ -1,6 +1,5 @@
 # docker-compose -f docker-compose-dev.yml build
 # docker-compose -f docker-compose-dev.yml up --detach
-# TO CFG THE ENVIRONMENT: source .env.dev
 
 version: '3.8'
 services:
@@ -24,7 +23,7 @@ services:
     container_name: as_dev_solr
     build:
       context: ./solr
-    image: archivesspace/solr:8.8
+    image: archivesspace/solr:8.10
     command: solr-create -p 8983 -c archivesspace -d /archivesspace
     ports:
       - "8983:8983"
@@ -32,7 +31,7 @@ services:
     container_name: as_test_solr
     build:
       context: ./solr
-    image: archivesspace/solr:8.8
+    image: archivesspace/solr:8.10
     command: solr-create -p 8983 -c archivesspace -d /archivesspace
     ports:
       - "8984:8983"

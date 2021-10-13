@@ -33,6 +33,7 @@ class CustomReportTemplate < Sequel::Model(:custom_report_template)
     unless has_included_fields(data_hash)
       errors.add(:field, 'custom report must include field or subreport')
     end
+
     data_hash['fields'].each do |field_name, info|
       if !missing(info['range_start']) && missing(info['range_end'])
         errors.add(:"data_#{data_hash['custom_record_type']}_fields_#{field_name}_range_end", 'missing end filter date')

@@ -217,6 +217,15 @@ module RESTHelpers
       self
     end
 
+    # useful in cases where a permission presupposes another
+    # created earlier and not necessarily propagated to existing repos
+    def sufficient_permissions(permissions)
+      @has_permissions = true
+
+      @preconditions << proc { |request| permissions.any? { |permission| current_user.can?(permission) } }
+
+      self
+    end
 
     def permissions(permissions)
       @has_permissions = true

@@ -1259,4 +1259,10 @@ FactoryBot.define do
     last_verified_date { "2021-05-19" }
   end
 
+  factory :json_custom_report_template, class: JSONModel(:custom_report_template) do
+    name { "template" }
+    description { "good template" }
+    data { {fields: {foo: {include: 1}} }.to_json }
+    limit { 10 }
+  end
 end

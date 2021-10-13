@@ -7,7 +7,7 @@ require 'selenium-webdriver'
 require_relative 'selenium/common/webdriver'
 require 'aspace_helper'
 
-CHROME_OPTS  = ENV.fetch('CHROME_OPTS', '--headless,--disable-gpu,--window-size=1920x1080').split(',')
+CHROME_OPTS  = ENV.fetch('CHROME_OPTS', '--headless,--disable-gpu,--window-size=1920x1080,--no-sandbox,--disable-dev-shm-usage,--remote-debugging-port=9222').split(',')
 FIREFOX_OPTS = ENV.fetch('FIREFOX_OPTS', '-headless').split(',')
 # https://github.com/mozilla/geckodriver/issues/1354
 ENV['MOZ_HEADLESS_WIDTH'] = ENV.fetch('MOZ_HEADLESS_WIDTH', '1920')
