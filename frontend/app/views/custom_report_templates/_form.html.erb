@@ -59,19 +59,13 @@
 								<%= form.label_and_boolean 'display', { :label_opts => {:for => "custom_report_template_data_#{record_type}_fields_#{field_name}_include"}, :id => "custom_report_template_data_#{record_type}_fields_#{field_name}_include", :name => "custom_report_template[data][#{record_type}][fields][#{field_name}][include]", :checked => field_data['include'] } %>
 							</div>
 
-							<% if ["Date", "AgentType", "Boolean", "Enum", "User"].include?(field['data_type']) %>
-								<div class="form-group">
-									<%= form.label_and_boolean 'narrow_by', { :label_opts => {:for => "custom_report_template_data_#{record_type}_fields_#{field_name}_narrow_by"}, :id => "custom_report_template_data_#{record_type}_fields_#{field_name}_narrow_by", :name => "custom_report_template[data][#{record_type}][fields][#{field_name}][narrow_by]", :checked => field_data['narrow_by'] } %>
-								</div>
-							<% end %>
-
 							<% if field['data_type'] == "Date" %>
 								<div class="form-group">
-									<%= form.label_and_date "start_date", { :label_opts => {:for => "custom_report_template_data_#{record_type}_fields_#{field_name}_range_start"}, :field_opts => { :id => "custom_report_template_data_#{record_type}_fields_#{field_name}_range_start", :name => "custom_report_template[data][#{record_type}][fields][#{field_name}][range_start]", :value => field_data['range_start'] }} %>
+									<%= form.label_and_date "start_date", { :label_opts => {:for => "custom_report_template_data_#{record_type}_fields_#{field_name}_range_start_"}, :field_opts => { :id => "custom_report_template_data_#{record_type}_fields_#{field_name}_range_start_", :name => "custom_report_template[data][#{record_type}][fields][#{field_name}][range_start]", :value => field_data['range_start'] }} %>
 								</div>
 
 								<div class="form-group">
-									<%= form.label_and_date "end_date", { :label_opts => {:for => "custom_report_template_data_#{record_type}_fields_#{field_name}_range_end"}, :field_opts => { :id => "custom_report_template_data_#{record_type}_fields_#{field_name}_range_end", :name => "custom_report_template[data][#{record_type}][fields][#{field_name}][range_end]", :value => field_data['range_end'] }} %>
+									<%= form.label_and_date "end_date", { :label_opts => {:for => "custom_report_template_data_#{record_type}_fields_#{field_name}_range_end_"}, :field_opts => { :id => "custom_report_template_data_#{record_type}_fields_#{field_name}_range_end_", :name => "custom_report_template[data][#{record_type}][fields][#{field_name}][range_end]", :value => field_data['range_end'] }} %>
 								</div>
 							<% end %>
 
@@ -89,7 +83,7 @@
 								<div class="form-group">
 									<%= form.label "value", :class => "col-sm-2 control-label", :for =>  "custom_report_template_data_#{record_type}_fields_#{field_name}_value" %>
 									<div class="col-sm-9">
-										<%= select_tag "custom_report_template[data][#{record_type}][fields][#{field_name}][value]", options_for_select([[I18n.t('custom_report_template.true'), true], [I18n.t('custom_report_template.false'), false]], field_data['value']), :style => "width: auto; max-with: 100%;", :class=>"form-control" %>
+										<%= select_tag "custom_report_template[data][#{record_type}][fields][#{field_name}][value]", options_for_select([["", nil], [I18n.t('custom_report_template.true'), true], [I18n.t('custom_report_template.false'), false]], field_data['value']), :style => "width: auto; max-with: 100%;", :class=>"form-control" %>
 									</div>
 								</div>
 							<% end %>
