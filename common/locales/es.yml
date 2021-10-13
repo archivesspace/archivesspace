@@ -2109,7 +2109,6 @@ es:
       único.
     custom_report_must_include_field_or_subreport: La plantilla de informe personalizado debe incluir
       al menos un campo o subinforme.
-    missing_filter_values: Seleccionado para filtrar los resultados por campo, pero sin valor(es) dado
     must_be_a_valid_email_address: El campo de dirección de correo electrónico debe contener una dirección
       válida
     repo_set_desc_required: La descripción del conjunto de repositorios es necesaria para crear un conjunto
@@ -2543,7 +2542,6 @@ es:
     description: Descripción
     record_type: Tipo de recuerdo
     display: ¿Monitor?
-    narrow_by: ¿Estrecho por?
     values: Valor
     value: Valores
     "true": "Si"

@@ -1529,7 +1529,6 @@ ja:
     short_name_already_in_use: リポジトリのショートネームは、このArchivesSpace内で一意でなければなりません
     custom_report_template_name_not_unique: カスタムレポートテンプレートの名前は一意である必要があります。
     custom_report_must_include_field_or_subreport: カスタムレポートテンプレートには、少なくとも1つのフィールドまたはサブレポートが含まれている必要があります。
-    missing_filter_values: フィールドで結果をフィルタリングするために選択された値は指定されていません
     repo_set_desc_required: OAIリポジトリセットを作成するには、リポジトリセットの説明が必要です。
     repo_set_name_required: OAIリポジトリセットを作成するにはリポジトリセット名が必要です
     is_not_present: 必須フィールドがありません
@@ -1850,7 +1849,6 @@ ja:
     description: 説明
     record_type: レコードタイプ
     display: 表示？
-    narrow_by: 狭い？
     values: 値
     value: 値
     "true": "はい"
