@@ -162,7 +162,6 @@ describe 'Accessibility', js: true, db: 'accessibility' do
 
     # 519100, #519357
     it "supports aria-expanded for event and merge dropdowns" do
-      pending
       visit "/resources/1"
       page.has_css? "div.record-toolbar"
 
@@ -237,7 +236,6 @@ describe 'Accessibility', js: true, db: 'accessibility' do
     end
 
     it "has role and aria attributes for the merge dropdown combobox" do
-      pending
       visit "/resources/1"
 
       within "div#merge-dropdown" do
@@ -279,6 +277,7 @@ describe 'Accessibility', js: true, db: 'accessibility' do
       visit "/resources/1/edit"
 
       add_agent_button = find("section#resource_linked_agents_ button")
+      sleep 0.5
       add_agent_button.click
 
       within "section#resource_linked_agents_ div.subrecord-form-container" do
@@ -294,6 +293,7 @@ describe 'Accessibility', js: true, db: 'accessibility' do
       visit "/resources/1/edit"
 
       add_agent_button = find("section#resource_linked_agents_ button")
+      sleep 0.5
       add_agent_button.click
 
       within "section#resource_linked_agents_ div.subrecord-form-container" do
