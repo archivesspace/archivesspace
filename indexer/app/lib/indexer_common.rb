@@ -482,6 +482,7 @@ class IndexerCommon
       if doc['primary_type'] == 'digital_object_component'
         doc['digital_object'] = record['record']['digital_object']['ref']
         doc['digital_object_id'] = record['record']['component_id']
+        doc['identifier'] = record['record']['component_id']
         doc['title'] = record['record']['display_string']
         doc['slug'] = record['record']['slug']
         doc['is_slug_auto'] = record['record']['is_slug_auto']
@@ -513,6 +514,7 @@ class IndexerCommon
         doc['digital_object_type'] = record['record']['digital_object_type']
 
         doc['digital_object_id'] = record['record']['digital_object_id']
+        doc['identifier'] = record['record']['digital_object_id']
         doc['level'] = record['record']['level']
         doc['restrictions'] = record['record']['restrictions']
         doc['slug'] = record['record']['slug']
