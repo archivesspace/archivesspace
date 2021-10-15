@@ -5,4 +5,8 @@ class DigitalObjectComponent < DigitalObject
     json.fetch('digital_object').fetch('ref')
   end
 
+  def parse_identifier
+    json['component_id']
+  end
+
 end

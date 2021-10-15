@@ -98,4 +98,75 @@ describe "periodic indexer" do
       expect(doc.fetch('publish')).to be_falsey
     end
   end
+
+  describe "identifiers" do
+    it "indexes concatenated four part ids as identifiers" do
+      records = []
+
+      ['accession', 'resource'].each do |t|
+        records << build(:"json_#{t}",
+                       'uri' => "/repositories/2/#{t}s/1",
+                       'title' => "Test #{t}",
+                       'repository' => {
+                         'ref' => '/repositories/2',
+                         '_resolved' => {
+                           'repo_code' => 'test',
+                         },
+                       },
+                       'id_0' => '0',
+                       'id_1' => '1',
+                       'id_2' => '2',
+                       'id_3' => '3')
+      end
+
+      indexer.prepare_docs(records)
+
+      doc = indexer.records
+      doc.each do |d|
+        expect(d.fetch('identifier')).to eq('0-1-2-3')
+      end
+    end
+
+    it "indexes component unique ids as identifiers" do
+      records = []
+
+      ['archival_object', 'digital_object_component'].each do |t|
+        records << build(:"json_#{t}",
+                       'uri' => "/repositories/2/#{t}s/1",
+                       'title' => "Test #{t}",
+                       'repository' => {
+                         'ref' => '/repositories/2',
+                         '_resolved' => {
+                           'repo_code' => 'test',
+                         },
+                       },
+                       'component_id' => '0123')
+      end
+
+      indexer.prepare_docs(records)
+
+      doc = indexer.records
+      doc.each do |d|
+        expect(d.fetch('identifier')).to eq('0123')
+      end
+    end
+
+    it "indexes digital object id as identifier" do
+      digital_object = build(:json_digital_object,
+                     'uri' => "/repositories/2/digital_objects/1",
+                     'title' => "Test Digital Object",
+                     'repository' => {
+                       'ref' => '/repositories/2',
+                       '_resolved' => {
+                         'repo_code' => 'test',
+                       },
+                     },
+                     'digital_object_id' => '0123')
+
+      indexer.prepare_docs([digital_object])
+
+      doc = indexer.records[0]
+      expect(doc.fetch('identifier')).to eq('0123')
+    end
+  end
 end

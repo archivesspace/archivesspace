@@ -187,6 +187,7 @@ module AspaceFactories
       factory :digital_object_component, class: JSONModel(:digital_object_component) do
         component_id { generate(:alphanumstr) }
         title { generate :digital_object_component_title }
+        digital_object { {'ref' => create(:digital_object).uri} }
       end
 
       factory :instance_digital, class: JSONModel(:instance) do

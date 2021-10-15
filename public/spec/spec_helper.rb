@@ -64,7 +64,7 @@ def setup_test_data
 
   digi_obj = create(:digital_object, title: 'Born digital', publish: true)
 
-  subject = create(:subject, title: 'Subject')
+  subject = create(:subject, terms: [build(:term, term: 'Term 1')])
 
   create(:agent_person,
          names: [build(:name_person,
@@ -154,6 +154,10 @@ def setup_test_data
     create(:archival_object,
            resource: { 'ref' => resource_with_scope.uri }, publish: true)
   end
+
+  create(:digital_object_component,
+         publish: true,
+         component_id: '12345')
 end
 
 RSpec.configure do |config|

@@ -105,8 +105,6 @@ en:
       \ <span class='searchterm'>%{kw}</span>"
     identifier_contain: "the <strong>identifier</strong> contains\
       \ <span class='searchterm'>%{kw}</span>"
-    four_part_id_contain: "the <strong>identifier</strong> contains\
-      \ <span class='searchterm'>%{kw}</span>"
     in_repository: " in <strong>%{name}</strong>"
     anything: "*"
     search_term: Search term
