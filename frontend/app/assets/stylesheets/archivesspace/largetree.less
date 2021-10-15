@@ -303,14 +303,14 @@
       border: none;
       font-size: 8px;
       right: 0;
-      top: 0px;
+      top: 0;
       padding: 0 20px;
       cursor: pointer;
       background-color: #919191;
       line-height: 8px;
       color: #fff;
 
-      &:before {
+      &::before {
         content: '\e113';
       }
 
@@ -321,7 +321,7 @@
 
     &.maximized {
       .tree-resize-toggle {
-        &:before {
+        &::before {
           content: '\e113';
         }
       }
