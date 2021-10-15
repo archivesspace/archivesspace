@@ -16,14 +16,25 @@ module ASpaceHelpers
     within "form.login" do
       fill_in "username", with: "admin"
       fill_in "password", with: "admin"
-
       click_button "Sign In"
     end
+
+    page.has_no_xpath? "//input[@id='login']"
   end
 
   def select_repository(repo)
     click_link "Select Repository"
     select repo.repo_code, from: "id"
     click_button "Select Repository"
+  end
+
+  def wait_for_ajax
+    Timeout.timeout(Capybara.default_max_wait_time) do
+      loop until finished_all_ajax_requests?
+    end
+  end
+
+  def finished_all_ajax_requests?
+    page.evaluate_script('jQuery.active').zero?
   end
 end

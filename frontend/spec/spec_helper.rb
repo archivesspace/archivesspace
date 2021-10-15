@@ -103,4 +103,9 @@ RSpec.configure do |config|
     # quit.
     Rack::Handler.get('mizuno').instance_variable_get(:@server) ? Rack::Handler.get('mizuno').instance_variable_get(:@server).stop : next
   end
+
+  config.verbose_retry = true
+  config.around :each, :js do |ex|
+    ex.run_with_retry retry: 3
+  end
 end
