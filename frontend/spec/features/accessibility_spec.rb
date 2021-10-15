@@ -258,7 +258,7 @@ describe 'Accessibility', js: true, db: 'accessibility' do
   describe "color contrast" do
 
     # 518792, 520876, 522397, 519342, 522396, 519349
-    it "has acceptable color contrast in placeholders" do
+    xit "has acceptable color contrast in placeholders" do
        # untestable: axe testing gem is not capable of choosing colors in CSS
     end
 
@@ -275,33 +275,36 @@ describe 'Accessibility', js: true, db: 'accessibility' do
     # 521639, 521325, 523750, 519045, 518914, 523671, 520640, 519498, 523670
     it "has acceptable color contrast for active menu dropdowns" do
       visit "/resources/1/edit"
-
-      add_agent_button = find("section#resource_linked_agents_ button")
-      sleep 0.5
-      add_agent_button.click
-
-      within "section#resource_linked_agents_ div.subrecord-form-container" do
-        dropdown_button = find(".input-group-btn a")
-        dropdown_button.click
-
-        expect(page).to be_axe_clean.checking_only :'color-contrast'
+      page.has_css? ".sidebar-entry-resource_linked_agents_"
+      find(".sidebar-entry-resource_linked_agents_ a").click
+      within "#resource_linked_agents_" do
+        find(".alert-too-many").click
+        click_link "Add Agent Link"
+        agent_subrecords = find_all("li.linked_agent_initialised")
+        within agent_subrecords.last do
+          dropdown_button = find(".input-group-btn a")
+          dropdown_button.click
+          expect(page).to be_axe_clean.checking_only :'color-contrast'
+        end
       end
     end
 
     # 523686, 523750, 523684,523683
     it "has acceptable color contrast in the linkers" do
       visit "/resources/1/edit"
-
-      add_agent_button = find("section#resource_linked_agents_ button")
-      sleep 0.5
-      add_agent_button.click
-
-      within "section#resource_linked_agents_ div.subrecord-form-container" do
-        field = find("#token-input-resource_linked_agents__0__ref_")
-        field.send_keys "a"
-        sleep 0.5
-
-        expect(page).to be_axe_clean.checking_only :'color-contrast'
+      page.has_css? ".sidebar-entry-resource_linked_agents_"
+      find(".sidebar-entry-resource_linked_agents_ a").click
+      within "#resource_linked_agents_" do
+        find(".alert-too-many").click
+        click_link "Add Agent Link"
+        agent_subrecords = find_all("li.linked_agent_initialised")
+        within agent_subrecords.last do
+          field = find("input[role='searchbox']")
+          field.send_keys "a"
+          within "ul[role='listbox']" do
+            expect(page).to be_axe_clean.checking_only :'color-contrast'
+          end
+        end
       end
     end
 
