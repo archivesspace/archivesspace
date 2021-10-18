@@ -58,6 +58,12 @@
         "default" => false,
         "readonly" => true
       },
+
+      "inactive_record" => {
+        "type" => "boolean",
+        "default" => false,
+        "readonly" => true
+      },
     },
   },
 }

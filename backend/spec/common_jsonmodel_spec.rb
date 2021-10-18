@@ -171,7 +171,7 @@ describe 'JSON model' do
 
 
   it "returns false if you ask for a model that doesn't exist" do
-    expect { JSONModel(:not_a_real_model) }.to raise_error(RuntimeError)
+    expect { JSONModel(:not_a_real_model) }.to raise_error(JSONModel::ModelNotFound)
   end
 
 

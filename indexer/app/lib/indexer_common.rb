@@ -638,8 +638,10 @@ class IndexerCommon
           filename = filenames.shift
           doc['job_data'] << (filename ? "input_file --- #{filename}" : "output_file --- #{link}")
         end
-        record['record']['job'].reject { |k, _v| ['jsonmodel_type', 'filenames', 'report_type'].include? k }.each do |k, v|
-          doc['job_data'] << "#{k} --- #{v}"
+        unless record['record']['job'].is_a? String
+          record['record']['job'].reject { |k, _v| ['jsonmodel_type', 'filenames', 'report_type'].include? k }.each do |k, v|
+            doc['job_data'] << "#{k} --- #{v}"
+          end
         end
         doc['queue_position'] = record['record']['queue_position']
       end
