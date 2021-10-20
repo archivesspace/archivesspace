@@ -16,10 +16,6 @@ module AspaceFactories
       return true
     end
 
-    JSONModel::init(:client_mode => true,
-                    :url => AppConfig[:backend_url],
-                    :priority => :high)
-
     FactoryBot.define do
 
       to_create {|instance|
@@ -49,10 +45,6 @@ module AspaceFactories
         end
       }
 
-      sequence(:generic_description) {|n| "Description: #{n}"}
-      sequence(:yyyy_mm_dd) { Time.at(rand * Time.now.to_i).to_s.sub(/\s.*/, '') }
-
-      sequence(:username) {|n| "testuser_#{n}_#{Time.now.to_i}"}
       sequence(:user_name) {|n| "Test User #{n}_#{Time.now.to_i}"}
 
       sequence(:repo_code) {|n| "testrepo_#{n}_#{Time.now.to_i}"}
@@ -103,22 +95,6 @@ module AspaceFactories
         ref { create(:accession).uri }
         relator_type { "part" }
         relator { "has_part" }
-      end
-
-      factory :json_date_single, class: JSONModel(:date) do
-        date_type { 'single' }
-        label { 'creation' }
-        self.begin { generate(:yyyy_mm_dd) }
-        self.certainty { 'inferred' }
-        self.era { 'ce' }
-        self.calendar { 'gregorian' }
-        expression { generate(:alphanumstr) }
-      end
-
-      factory :json_deaccession, class: JSONModel(:deaccession) do
-        scope { "whole" }
-        description { generate(:generic_description) }
-        date { build(:json_date_single) }
       end
 
       factory :accession_with_deaccession, class: JSONModel(:accession) do
@@ -250,16 +226,6 @@ module AspaceFactories
         } }
       end
 
-      factory :json_note_multipart, class: JSONModel(:note_multipart) do
-        type { 'scopecontent' }
-        subnotes { [ build(:json_note_text, :publish => true) ] }
-        publish { true }
-      end
-
-      factory :json_note_text, class: JSONModel(:note_text) do
-        content { generate(:alphanumstr) }
-      end
-
       factory :name_person, class: JSONModel(:name_person) do
         rules { generate(:name_rule) }
         source { generate(:name_source) }
@@ -333,22 +299,6 @@ module AspaceFactories
         software_name { generate(:generic_name) }
         sort_name { generate(:sort_name) }
         sort_name_auto_generate { true }
-      end
-
-      factory :json_structured_date_label, class: JSONModel(:structured_date_label) do
-        date_type_structured { "single" }
-        date_label { 'existence' }
-        structured_date_single { build(:json_structured_date_single) }
-        date_certainty { "approximate" }
-        date_era { "ce" }
-        date_calendar { "gregorian" }
-      end
-
-      factory :json_structured_date_single, class: JSONModel(:structured_date_single) do
-        date_role { "begin" }
-        date_expression { "Yesterday" }
-        date_standardized { "2019-06-01" }
-        date_standardized_type { "standard" }
       end
 
       factory :subject, class: JSONModel(:subject) do

@@ -771,8 +771,9 @@ FactoryBot.define do
   end
 
   factory :json_note_multipart, class: JSONModel(:note_multipart) do
-    type { generate(:multipart_note_type)}
+    type { 'scopecontent' }
     subnotes { [ build(:json_note_text, :publish => true) ] }
+    publish { true }
   end
 
   factory :json_note_multipart_gone_wilde, class: JSONModel(:note_multipart) do

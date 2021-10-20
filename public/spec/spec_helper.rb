@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require_relative 'factories'
-
 require 'ashttp'
 require "uri"
 require "json"
@@ -182,6 +180,11 @@ RSpec.configure do |config|
     end
     ArchivesSpaceClient.init
     $admin = BackendClientMethods::ASpaceUser.new('admin', 'admin')
+    JSONModel::init(:client_mode => true,
+                    :url => AppConfig[:backend_url],
+                    :priority => :high)
+
+    require_relative 'factories'
     AspaceFactories.init
     setup_test_data unless ENV['ASPACE_TEST_SKIP_FIXTURES']
     PeriodicIndexer.new($backend).run_index_round
