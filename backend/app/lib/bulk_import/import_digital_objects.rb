@@ -110,18 +110,6 @@ class ImportDigitalObjects < BulkImportParser
       errs << I18n.t("bulk_import.error.bad_ao", :errs => result[:errs])
     else
       @report.add_archival_object(ao)
-      if ao.instances
-        digs = []
-        ao.instances.each { |instance| digs.append(1) if instance["instance_type"] == "digital_object" }
-        if !digs.empty?
-          err = I18n.t("bulk_import.error.has_dig_obj")
-          if @validate_only
-            errs << err
-          else
-            errs << I18n.t("bulk_import.row_error", :row => @counter, :errs => err)
-          end
-        end
-      end
     end
     ao
   end
