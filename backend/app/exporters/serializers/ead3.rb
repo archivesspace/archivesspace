@@ -484,6 +484,8 @@ class EAD3Serializer < EADSerializer
 
               xml.unitid (0..3).map { |i| data.send("id_#{i}") }.compact.join('.')
 
+              handle_arks(data, xml)
+
               unless data.repo.nil? || data.repo.name.nil?
                 xml.repository {
                   xml.corpname {
@@ -515,7 +517,6 @@ class EAD3Serializer < EADSerializer
                   xml.unitid ({ "audience" => "internal", "type" => exid['source'], "identifier" => exid['external_id']}) { xml.text exid['external_id']}
                 end
               end
-
 
               EADSerializer.run_serialize_step(data, xml, @fragments, :did)
 
@@ -581,9 +582,11 @@ class EAD3Serializer < EADSerializer
     }.reject {|k, v| v.nil? || v.empty? || v == "null"}
 
     xml.control(control_atts) {
-      ark_url = AppConfig[:arks_enabled] ? ArkName::get_ark_url(data.id, :resource) : nil
+      ins_url = data.ead_location
 
-      ins_url = ark_url.nil? ? data.ead_location : ark_url
+      if AppConfig[:arks_enabled] && data.ark_name && (current_ark = data.ark_name.fetch('current', nil))
+        ins_url = current_ark
+      end
 
       recordid_atts = {
         instanceurl: ins_url
@@ -1159,18 +1162,7 @@ class EAD3Serializer < EADSerializer
             xml.unittitle { sanitize_mixed_content( val, xml, fragments) }
           end
 
-          if AppConfig[:arks_enabled]
-            ark_url = ArkName::get_ark_url(data.id, :archival_object)
-            if ark_url
-              # <unitid><ref href=”ARK” show="new" actuate="onload">ARK</ref></unitid>
-              xml.unitid {
-                            xml.ref ({"href" => ark_url,
-                                      "actuate" => "onload",
-                                      "show" => "new"
-                                      }) { xml.text 'Archival Resource Key' }
-                          }
-            end
-          end
+          handle_arks(data, xml)
 
           if !data.component_id.nil? && !data.component_id.empty?
             xml.unitid data.component_id
@@ -1223,6 +1215,34 @@ class EAD3Serializer < EADSerializer
 
                 MESSAGE: #{e.message.inspect}  \n
                 TRACE: #{e.backtrace.inspect} \n "
+    end
+  end
+
+
+  def handle_arks(data, xml)
+    return unless AppConfig[:arks_enabled]
+    return unless data.ark_name
+
+    if current_ark = data.ark_name.fetch('current', nil)
+      xml.unitid ({
+                    "localtype" => "ark",
+                  }) {
+        xml.ref ({"href" => current_ark,
+                  "actuate" => "onload",
+                  "show" => "new",
+                 }) { xml.text 'Archival Resource Key' }
+      }
+    end
+
+    data.ark_name.fetch('previous', []).each do |old_ark_url|
+      xml.unitid ({
+        "localtype" => "ark-superseded",
+      }) {
+        xml.ref ({"href" => old_ark_url,
+                  "actuate" => "onload",
+                  "show" => "new",
+        }) { xml.text 'Previous Archival Resource Key' }
+      }
     end
   end
 

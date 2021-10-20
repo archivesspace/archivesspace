@@ -29,16 +29,10 @@ class OAIDCMapper
           xml['dc'].identifier(merged_identifier)
         end
 
-        if AppConfig[:arks_enabled]
-          ark_url = ""
-          if jsonmodel['jsonmodel_type'] == 'resource'
-            ark_url = ArkName::get_ark_url(jsonmodel.id, :resource)
-          elsif jsonmodel['jsonmodel_type'] == 'archival_object'
-            ark_url = ArkName::get_ark_url(jsonmodel.id, :archival_object)
-          end
-          unless ark_url.nil? || ark_url.empty?
-            xml['dc'].identifier(ark_url)
-          end
+        if AppConfig[:arks_enabled] && jsonmodel['ark_name']
+          ark_url = jsonmodel['ark_name']['current']
+
+          xml['dc'].identifier(ark_url) if ark_url
         end
 
         # And a second identifier containing the public url - if public is running

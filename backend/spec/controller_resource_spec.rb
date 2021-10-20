@@ -603,13 +603,21 @@ describe 'Resources controller' do
 
   end
 
-  it "includes the ARK name in the resource's JSON" do
-    AppConfig[:arks_enabled] = true
-    resource = create(:json_resource)
-    ArkName.create_from_resource(resource)
-    uri = JSONModel(:resource).uri_for(resource.id)
-    json = JSONModel::HTTP.get_json(uri)
-    expect(json['ark_name']).to_not be_nil
-    expect(json['ark_name']['id']).to_not be_nil
+  describe "ARKs" do
+
+    before(:all) do
+      AppConfig[:arks_enabled] = true
+    end
+
+    it "includes the ARK name in the resource's JSON" do
+      resource = create(:json_resource)
+
+      uri = JSONModel(:resource).uri_for(resource.id)
+      json = JSONModel::HTTP.get_json(uri)
+
+      expect(json['ark_name']).to_not be_nil
+      expect(json['ark_name']['current']).to_not be_nil
+    end
+
   end
 end

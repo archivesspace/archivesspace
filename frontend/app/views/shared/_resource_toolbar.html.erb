@@ -98,6 +98,11 @@
                   <li><%= link_to I18n.t('assessment._frontend.action.create_for_record'), {:controller => :assessments, :action => :new, :record_uri => record.uri} %></li>
                 <% end %>
               <% end %>
+
+              <% if user_can?('administer_system') && AppConfig[:arks_enabled] && record['ark_name'] %>
+                <li><%= render_aspace_partial :partial => "shared/ark_editor", :locals => {:record => record} %>
+              <% end %>
+
             </ul>
 
             <% if other_shown %><script>$('#other-dropdown').show();</script><% end %>

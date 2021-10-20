@@ -3,71 +3,63 @@ class GenerateArksRunner < JobRunner
                         {:create_permissions => :administer_system,
                          :cancel_permissions => :administer_system})
 
+  def underlined_msg(s)
+    @job.write_output("#{s}\n#{'=' * s.length}")
+  end
+
+
   def run
-    begin
-      # RESOURCES
-      @job.write_output("Generating ARKs for Resources")
-      @job.write_output("================================")
-
-      count_res = 0
-      Resource.any_repo.each do |r|
-        begin
-          if ArkName.count == 0 || ArkName.first(resource_id: r[:id]).nil?
-            @job.write_output("Generating ARK for resource id: #{r[:id]}")
-            ArkName.insert(:archival_object_id => nil,
-                           :resource_id        => r[:id],
-                           :created_by         => 'admin',
-                           :last_modified_by   => 'admin',
-                           :create_time        => Time.now,
-                           :system_mtime       => Time.now,
-                           :user_mtime         => Time.now,
-                           :lock_version       => 0)
-            count_res += 1
-          end
-        rescue => e
-          @job.write_output(" -> Error generating ARK for id: #{r[:id]} => #{e.message}")
-        end
-      end
-
-      if count_res == 0
-        @job.write_output("No Resource ARKs were generated because all Resource records already have ARKs")
-        @job.write_output("================================")
-      end
-
-      # Archival Object
-      @job.write_output("Generating ARKs for Archival Objects")
-      @job.write_output("================================")
-
-      count_aos = 0
-      ArchivalObject.any_repo.each do |r|
-        begin
-          if ArkName.count == 0 || ArkName.first(archival_object_id: r[:id]).nil?
-            @job.write_output("Generating ARK for Archival Object id: #{r[:id]}")
-            ArkName.insert(:archival_object_id => r[:id],
-                           :resource_id        => nil,
-                           :created_by         => 'admin',
-                           :last_modified_by   => 'admin',
-                           :create_time        => Time.now,
-                           :system_mtime       => Time.now,
-                           :user_mtime         => Time.now,
-                           :lock_version       => 0)
-            count_aos += 1
-          end
-        rescue => e
-          @job.write_output(" -> Error generating ARK for id: #{r[:id]} => #{e.message}")
-        end
-      end
-
-      if count_aos == 0
-        @job.write_output("No Archival Object ARKs were generated because all Archival Object records already have ARKs")
-        @job.write_output("================================")
-      end
-
-      self.success!
-    rescue Exception => e
-      @job.write_output(e.message)
-      @job.write_output(e.backtrace)
-      raise e
+    DB.open do
+      ArkName.run_housekeeping!
     end
+
+    Repository.each do |repo|
+      RequestContext.open(:repo_id => repo.id) do
+        ASModel.all_models.select {|model| model.included_modules.include?(Arks)}.each do |model|
+
+          underlined_msg("Repository #{repo.repo_code}: Generating ARKs for #{model} records")
+
+          created_arks = 0
+          model.this_repo.each_slice(512) do |objs|
+            DB.open do
+              fk = ArkName.fk_for_class(model)
+
+              # Retain any existing external URL values
+              external_ark_lookup = ArkName.filter(fk => objs.map(&:id),
+                                                   :is_current => 1,
+                                                   :is_external_url => 1)
+                                      .select(fk, :ark_value)
+                                      .map {|row| [row[fk], row[:ark_value]] }
+                                      .to_h
+
+              records_to_reindex = []
+              objs.each do |obj|
+                begin
+                  if ArkName.ensure_ark_for_record(obj, external_ark_lookup.fetch(obj.id, nil))
+                    created_arks += 1
+                    records_to_reindex << obj.id
+                  end
+                rescue => e
+                  @job.write_output(" -> Error generating ARK for #{model} #{obj.id} => #{e.message}")
+                end
+              end
+
+              model.update_mtime_for_ids(records_to_reindex)
+            end
+          end
+
+          if created_arks == 0
+            underlined_msg("Repository #{repo.repo_code}: ARKs for #{model} records were already up-to-date")
+          else
+            underlined_msg("Repository #{repo.repo_code}: Generated #{created_arks} ARKs for #{model} records")
+          end
+        end
+      end
+    end
+  rescue
+    @job.write_output("Caught an error during run: #{$!}")
+    Log.error($!)
+
+    raise $!
   end
 end

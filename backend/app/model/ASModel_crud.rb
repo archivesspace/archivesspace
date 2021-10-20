@@ -215,10 +215,6 @@ module ASModel
 
       self.class.fire_update(json, self)
 
-      if AppConfig[:arks_enabled] && !ArkName.ark_name_exists?(id, self.class)
-        self.create_ark_name
-      end
-
       self
     end
 
@@ -232,10 +228,6 @@ module ASModel
 
       successfully_deleted_models = []
       last_error = nil
-
-      #delete ARK Name (if exists) first
-      self.delete_ark_name
-
       while true
         progressed = false
         object_graph.each do |model, ids_to_delete|
@@ -254,10 +246,7 @@ module ASModel
             ids_to_delete.each do |id|
               deleted_model = model.my_jsonmodel(true)
 
-              # ArkNames don't have URIs, so they are deleted above
-              unless model == ArkName
-                deleted_uri = deleted_model.uri_for(id, :repo_id => model.active_repository)
-              end
+              deleted_uri = deleted_model.uri_for(id, :repo_id => model.active_repository)
 
               if deleted_uri
                 deleted_uris << deleted_uri
@@ -326,26 +315,6 @@ module ASModel
       @system_modified = true
     end
 
-    def create_ark_name
-      if self.class == Resource
-        ArkName.create_from_resource(self)
-      end
-
-      if self.class == ArchivalObject
-        ArkName.create_from_archival_object(self)
-      end
-    end
-
-    def delete_ark_name
-      if self.class == Resource
-        ArkName.first(:resource_id => self.id).delete unless ArkName.first(:resource_id => self.id).nil?
-      end
-
-      if self.class == ArchivalObject
-        ArkName.first(:archival_object_id => self.id).delete unless ArkName.first(:archival_object_id => self.id).nil?
-      end
-    end
-
     module ClassMethods
 
       # Create a new record instance from the JSONModel 'json'.  Also creates any
@@ -368,7 +337,6 @@ module ASModel
         fire_update(json, obj)
 
         obj.refresh
-        obj.create_ark_name if AppConfig[:arks_enabled]
         obj
       end
 

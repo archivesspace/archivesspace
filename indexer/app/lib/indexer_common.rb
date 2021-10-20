@@ -345,6 +345,18 @@ class IndexerCommon
     @enum_fields = enum_fields.uniq
   end
 
+  def trim_ark_value(s)
+    s.gsub(/\A.*ark:/, 'ark:')
+  end
+
+  def add_arks(doc, record)
+    return unless AppConfig[:arks_enabled]
+
+    if arks = record['record']['ark_name']
+      doc['ark_name'] = ([arks.fetch('current', nil)] + arks.fetch('previous')).compact.map {|s| trim_ark_value(s)}
+    end
+  end
+
 
   def configure_doc_rules
 
@@ -395,6 +407,7 @@ class IndexerCommon
       add_level(doc, record)
       add_summary(doc, record)
       add_extents(doc, record)
+      add_arks(doc, record)
     }
 
     add_document_prepare_hook {|doc, record|

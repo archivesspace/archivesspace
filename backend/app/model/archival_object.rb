@@ -27,6 +27,7 @@ class ArchivalObject < Sequel::Model(:archival_object)
   include RepresentativeImages
   include Assessments::LinkedRecord
   include TouchRecords
+  include Arks
 
   enable_suppression
 

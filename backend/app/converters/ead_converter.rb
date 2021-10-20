@@ -120,30 +120,57 @@ class EADConverter < Converter
 
 
     with 'unitid' do |node|
-      ancestor(:note_multipart, :resource, :archival_object) do |obj|
-        case obj.class.record_type
-        when 'resource'
-          # inner_xml.split(/[\/_\-\.\s]/).each_with_index do |id, i|
-          #   set receiver, "id_#{i}".to_sym, id
-          # end
-          set obj, :id_0, inner_xml if obj.id_0.nil? || obj.id_0.empty?
-          if node.attribute( "type")
-            make :external_id, {
+
+      extract_ark = proc do |s|
+        if s.start_with?('<extref')
+          Nokogiri::XML::DocumentFragment.parse(s)
+            .children[0]
+            .attribute('xlink:href')
+            .value
+        elsif s.start_with?('<ref')
+          Nokogiri::XML::DocumentFragment.parse(s)
+            .children[0]
+            .attribute('href')
+            .value
+        else
+          s
+        end
+      end
+
+      if 'ark' == node.attribute('type') || 'ark' == node.attribute('localtype')
+        ancestor(:resource, :archival_object) do |obj|
+          set obj, :import_current_ark, extract_ark.call(inner_xml.strip)
+        end
+      elsif 'ark-superseded' == node.attribute('type') || 'ark-superseded' == node.attribute('localtype')
+        ancestor(:resource, :archival_object) do |obj|
+          set obj, :import_previous_arks, extract_ark.call(inner_xml.strip)
+        end
+      else
+        ancestor(:note_multipart, :resource, :archival_object) do |obj|
+          case obj.class.record_type
+          when 'resource'
+            # inner_xml.split(/[\/_\-\.\s]/).each_with_index do |id, i|
+            #   set receiver, "id_#{i}".to_sym, id
+            # end
+            set obj, :id_0, inner_xml if obj.id_0.nil? || obj.id_0.empty?
+            if node.attribute( "type")
+              make :external_id, {
                 :source => node.attribute( "type"),
                 :external_id => inner_xml
-            } do |ext_id|
-              set ancestor(:resource ), :external_ids, ext_id
+              } do |ext_id|
+                set ancestor(:resource ), :external_ids, ext_id
+              end
             end
-          end
-        when 'archival_object'
-          set obj, :component_id, inner_xml if obj.component_id.nil? || obj.component_id.empty?
-          if node.attribute( "type" )
-            make :external_id, {
+          when 'archival_object'
+            set obj, :component_id, inner_xml if obj.component_id.nil? || obj.component_id.empty?
+            if node.attribute( "type" )
+              make :external_id, {
                 :source => node.attribute( "type" ),
                 :external_id => inner_xml
-            } do |ext_id|
+              } do |ext_id|
                 set ancestor(:resource, :archival_object), :external_ids, ext_id
               end
+            end
           end
         end
       end

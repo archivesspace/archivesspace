@@ -1492,5 +1492,89 @@ describe 'EAD converter' do
     end
   end
 
+  describe "ARKs" do
+    def test_doc
+      src = <<~ANEAD
+        <?xml version="1.0" encoding="utf-8"?>
+        <ead xmlns="urn:isbn:1-931666-22-9" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:isbn:1-931666-22-9 http://www.loc.gov/ead/ead.xsd">
+            <eadheader countryencoding="iso3166-1" dateencoding="iso8601" langencoding="iso639-2b" repositoryencoding="iso15511">
+                <eadid url="http://archivesspace.org/ark:/12345/96944aa7-7d78-4be3-b013-9d196d7e8725">Testing</eadid>
+            </eadheader>
+            <archdesc level="collection">
+                <did>
+                    <langmaterial>
+                        <language langcode="eng">English</language>
+                    </langmaterial>
+                    <repository>
+                        <corpname>My Special Collections</corpname>
+                    </repository>
+                    <unittitle>ARK test resource</unittitle>
+                    <unitid>arktestrecord12345</unitid>
+                    <unitid type="ark">
+                        <extref xlink:href="http://archivesspace.org/ark:/12345/96944aa7-7d78-4be3-b013-9d196d7e8725"/>
+                    </unitid>
+                    <unitid type="ark-superseded">
+                        <extref xlink:href="http://archivesspace.org/ark:/12345/3e578efe-a432-4d12-8c40-fd62c9e6e3e9"/>
+                    </unitid>
+                    <physdesc altrender="whole">
+                        <extent altrender="materialtype spaceoccupied">1 Cassettes</extent>
+                    </physdesc>
+                    <unitdate normal="2021-09-14/2021-09-30">2021-09-14</unitdate>
+                </did>
+                <dsc>
+                    <c id="1" level="file">
+                        <unittitle>a thing</unittitle>
+                        <unitid type="ark">
+                            <extref xlink:href="http://archivesspace.org/ark:/12345/11256ebb-4377-4ad2-aa9f-6a1638bef028"/>
+                        </unitid>
+                        <unitid type="ark-superseded">
+                            <extref xlink:href="http://archivesspace.org/ark:/12345/b4a11bcc-0b1e-4a83-b8f7-cac7a821e1e8"/>
+                        </unitid>
+                    </c>
+                </dsc>
+            </archdesc>
+        </ead>
+      ANEAD
+
+      get_tempfile_path(src)
+    end
+
+    before(:all) do
+      @pre_arks_enabled = AppConfig[:arks_enabled]
+      @pre_arks_allow_external_arks = AppConfig[:arks_allow_external_arks]
+
+      AppConfig[:arks_enabled] = true
+      AppConfig[:arks_allow_external_arks] = true
+
+      parsed = convert(test_doc)
+      @resource = parsed.select {|r| r['jsonmodel_type'] == 'resource' }.first
+      @child = parsed.select {|r| r['level'] == 'file' }.first
+    end
+
+    after(:all) do
+      AppConfig[:arks_enabled] = @pre_arks_enabled
+      AppConfig[:arks_allow_external_arks] = @pre_arks_allow_external_arks
+    end
+
+    it "imported to resource" do
+      expect(@resource['import_current_ark']).to eq('http://archivesspace.org/ark:/12345/96944aa7-7d78-4be3-b013-9d196d7e8725')
+      expect(@resource['import_previous_arks']).to eq(['http://archivesspace.org/ark:/12345/3e578efe-a432-4d12-8c40-fd62c9e6e3e9'])
+    end
+
+    it "imported to archival object" do
+      expect(@child['import_current_ark']).to eq('http://archivesspace.org/ark:/12345/11256ebb-4377-4ad2-aa9f-6a1638bef028')
+      expect(@child['import_previous_arks']).to eq(['http://archivesspace.org/ark:/12345/b4a11bcc-0b1e-4a83-b8f7-cac7a821e1e8'])
+    end
+
+    it "should not be included as an external id" do
+      expect(@resource['external_ids']).to be_empty
+      expect(@child['external_ids']).to be_empty
+    end
+
+    it "should not be included as the component_id" do
+      expect(@resource['component_id']).to_not eq('http://archivesspace.org/ark:/12345/96944aa7-7d78-4be3-b013-9d196d7e8725')
+      expect(@child['component_id']).to_not eq('http://archivesspace.org/ark:/12345/11256ebb-4377-4ad2-aa9f-6a1638bef028')
+    end
+  end
 
 end

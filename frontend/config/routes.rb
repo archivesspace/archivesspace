@@ -301,6 +301,7 @@ ArchivesSpace::Application.routes.draw do
       match('custom_report_templates/:id' => 'custom_report_templates#show', :via => [:get])
     end
 
+    match 'ark_update' => 'ark_update#update', :via => [:post]
 
 
     if Plugins.system_menu_items?

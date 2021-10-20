@@ -676,6 +676,28 @@ AppConfig[:ark_naan] = "99999"
 # In most cases this will be the same as the PUI URL.
 AppConfig[:ark_url_prefix] = proc { AppConfig[:public_proxy_url] }
 
+# The implementation of ArkMinter used to generate new ARKs.  See
+# `ark_minter.rb` for documentation on how to implement your own ARK minter.
+#
+# Out of the box, you can choose between:
+#
+#  :archivesspace_ark_minter -- ArchivesSpace ARK minter based on a numeric sequence.
+#
+#  :smithsonian_ark_minter -- An ARK minter, used by the Smithsonian
+#    Institution, based on random UUIDs.
+AppConfig[:ark_minter] = :archivesspace_ark_minter
+
+# Enables a field on each Repository record that is inserted after the NAAN in
+# each ARK generated.
+AppConfig[:ark_enable_repository_shoulder] = false
+
+# If set, this string is included to separate the ARK shoulder from the unique generated value.
+AppConfig[:ark_shoulder_delimiter] = ''
+
+# If true, adds a field to each Resource/Archival Object record that allows the
+# ARK URL to be manually set.
+AppConfig[:arks_allow_external_arks] = true
+
 # Specifies if the fields that show up in csv should be limited to those in search results
 AppConfig[:limit_csv_fields] = true
 
@@ -688,3 +710,7 @@ AppConfig[:hide_do_load] = false
 
 # For Agents Export
 AppConfig[:export_eac_agency_code] = false
+
+# Disable logged warnings when changing config settings that have already been set
+# This might be useful when running tests that need to fiddle with config
+AppConfig[:disable_config_changed_warning] = false

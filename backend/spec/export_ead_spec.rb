@@ -97,22 +97,6 @@ describe "EAD export mappings" do
                       )
 
     @resource = JSONModel(:resource).find(resource.id, 'resolve[]' => 'top_container')
-
-    AppConfig[:arks_enabled] = true
-    ark_resource = create(:json_resource,
-                      :linked_agents => build_linked_agents(@agents),
-                      :notes => build_archival_object_notes(30) + [@mixed_subnotes_tracer, @another_note_tracer],
-                      :subjects => @subjects.map {|ref, s| {:ref => ref}},
-                      :instances => instances,
-                      :finding_aid_status => %w(completed in_progress under_revision unprocessed).sample,
-                      :finding_aid_filing_title => "this is a filing title",
-                      :finding_aid_series_statement => "here is the series statement",
-                      :publish => true,
-                      )
-
-    @resource_with_ark = JSONModel(:resource).find(ark_resource.id, 'resolve[]' => 'top_container')
-    AppConfig[:arks_enabled] = true
-
     @archival_objects = {}
 
     10.times {
@@ -231,14 +215,8 @@ describe "EAD export mappings" do
 
         as_test_user("admin", true) do
           load_export_fixtures
-          AppConfig[:arks_enabled] = true
           @doc = get_xml("/repositories/#{$repo_id}/resource_descriptions/#{@resource.id}.xml?include_unpublished=true&include_daos=true")
-          @doc_with_ark = get_xml("/repositories/#{$repo_id}/resource_descriptions/#{@resource_with_ark.id}.xml?include_unpublished=true&include_daos=true")
           @doc_unpub = get_xml("/repositories/#{$repo_id}/resource_descriptions/#{@resource.id}.xml?include_daos=true")
-
-          AppConfig[:arks_enabled] = false
-          @doc_ark_disabled = get_xml("/repositories/#{$repo_id}/resource_descriptions/#{@resource.id}.xml?include_unpublished=true&include_daos=true")
-          AppConfig[:arks_enabled] = true
 
           @doc_nsless = Nokogiri::XML::Document.parse(@doc.to_xml)
           @doc_nsless.remove_namespaces!
@@ -835,12 +813,6 @@ describe "EAD export mappings" do
       mt(data, "eadheader/eadid", 'mainagencycode')
     end
 
-    it "maps resource.ead_location to eadid/@url" do
-      if !AppConfig[:arks_enabled]
-        mt(@resource.ead_location, "eadheader/eadid", 'url')
-      end
-    end
-
     it "maps resource.ead_id to eadid" do
       mt(@resource.ead_id, "eadheader/eadid")
     end
@@ -1030,18 +1002,6 @@ describe "EAD export mappings" do
         expected_label = origination_label.content.capitalize
         expect(origination_label.content).to eq(expected_label)
       end
-    end
-  end
-
-  describe "ARK URLs" do
-    it "maps ARK URL to eadid/@url if ARK URLs are enabled" do
-      expect(@doc_with_ark.to_s).to match(/<eadid.*url=\"http.*\/ark:/)
-    end
-    it "does not map ARK URL to eadid/@url if ARK URLs are disabled" do
-      expect(@doc_ark_disabled.to_s).to_not match(/<eadid.*url=\"http.*\/ark:/)
-    end
-    it "maps resource.ead_location to eadid/@url if ARK URLs are disabled" do
-      expect(@doc_ark_disabled.to_s).to match(/<eadid.*url=\"#{@resource.ead_location}/)
     end
   end
 
@@ -1520,6 +1480,102 @@ describe "EAD export mappings" do
       subrecord = @resource.metadata_rights_declarations[0]
       license_translation = I18n.t("enumerations.metadata_license.#{subrecord['license']}")
       expect(@doc).to have_tag("eadheader/filedesc/publicationstmt/p[text() = '#{license_translation}']")
+    end
+  end
+
+  describe "ARKs" do
+    def get_xml_doc
+      as_test_user("admin") do
+        DB.open(true) do
+          doc_for_resource = get_xml("/repositories/#{$repo_id}/resource_descriptions/#{@resource.id}.xml?include_unpublished=true&include_daos=true", true)
+
+          doc_nsless_for_resource = Nokogiri::XML::Document.parse(doc_for_resource)
+          doc_nsless_for_resource.remove_namespaces!
+
+          return doc_nsless_for_resource
+        end
+      end
+    end
+
+    before(:all) do
+      @pre_arks_enabled = AppConfig[:arks_enabled]
+
+      AppConfig[:arks_enabled] = true
+      RequestContext.open(:repo_id => $repo_id) do
+        as_test_user('admin', true) do
+          RSpec::Mocks.with_temporary_scope do
+            # EAD export normally tries the search index first, but for the tests we'll
+            # skip that since Solr isn't running.
+            allow(Search).to receive(:records_for_uris) do |*|
+              {'results' => []}
+            end
+
+            @resource = create(:json_resource)
+            @child = create(:json_archival_object_normal, :resource => {:ref => @resource.uri})
+
+            # Change the ARK-naan to populate a second ARK for the records
+            # and create a "historic" ARK
+            pre_ark_naan = AppConfig[:ark_naan]
+            AppConfig[:ark_naan] = SecureRandom.hex
+            ArkName.ensure_ark_for_record(Resource[@resource.id], nil)
+            ArkName.ensure_ark_for_record(ArchivalObject[@child.id], nil)
+            AppConfig[:ark_naan] = pre_ark_naan
+
+            @xml_with_arks_enabled = get_xml_doc
+
+            @resource_json = Resource.to_jsonmodel(@resource.id)
+            @child_json = ArchivalObject.to_jsonmodel(@child.id)
+
+            AppConfig[:arks_enabled] = false
+            @xml_with_arks_disabled = get_xml_doc
+
+            raise Sequel::Rollback
+          end
+        end
+      end
+    end
+
+    after(:all) do
+      AppConfig[:arks_enabled] = @pre_arks_enabled
+    end
+
+    describe("when enabled") do
+      it "maps ARK URL to eadid/@url" do
+        expect(@xml_with_arks_enabled.xpath('//eadheader/eadid').first.get_attribute('url')).to eq(@resource_json.ark_name['current'])
+      end
+
+      it "includes current ARK as unitid for resource" do
+        expect(@xml_with_arks_enabled.xpath('//archdesc/did/unitid[@type="ark"]').length).to eq(1)
+        expect(@xml_with_arks_enabled.xpath('//archdesc/did/unitid[@type="ark"]/extref').first.get_attribute('href')).to eq(@resource_json.ark_name['current'])
+      end
+
+      it "includes previous ARK as unitid for resource" do
+        expect(@xml_with_arks_enabled.xpath('//archdesc/did/unitid[@type="ark-superseded"]').length).to eq(1)
+        expect(@xml_with_arks_enabled.xpath('//archdesc/did/unitid[@type="ark-superseded"]/extref').first.get_attribute('href')).to eq(@resource_json.ark_name['previous'].first)
+      end
+
+      it "includes current ARK as unitid for archival object" do
+        expect(@xml_with_arks_enabled.xpath('//archdesc/dsc/c/did/unitid[@type="ark"]').length).to eq(1)
+        expect(@xml_with_arks_enabled.xpath('//archdesc/dsc/c/did/unitid[@type="ark"]/extref').first.get_attribute('href')).to eq(@child_json.ark_name['current'])
+      end
+
+      it "includes previous ARK as unitid for archival object" do
+        expect(@xml_with_arks_enabled.xpath('//archdesc/dsc/c/did/unitid[@type="ark-superseded"]').length).to eq(1)
+        expect(@xml_with_arks_enabled.xpath('//archdesc/dsc/c/did/unitid[@type="ark-superseded"]/extref').first.get_attribute('href')).to eq(@child_json.ark_name['previous'].first)
+      end
+    end
+
+    describe("when disabled") do
+      it "maps resource.ead_location to eadid/@url" do
+        expect(@xml_with_arks_disabled.xpath('//eadheader/eadid').first.get_attribute('url')).to eq(@resource_json.ead_location)
+      end
+
+      it "doesn't include any unitid/@type of 'ark' or 'ark-superseded'" do
+        expect(@xml_with_arks_disabled.xpath('//archdesc/did/unitid[@type="ark"]').length).to eq(0)
+        expect(@xml_with_arks_disabled.xpath('//archdesc/did/unitid[@type="ark-superseded"]').length).to eq(0)
+        expect(@xml_with_arks_disabled.xpath('//archdesc/dsc/c/did/unitid[@type="ark"]').length).to eq(0)
+        expect(@xml_with_arks_disabled.xpath('//archdesc/dsc/c/did/unitid[@type="ark-superseded"]').length).to eq(0)
+      end
     end
   end
 end

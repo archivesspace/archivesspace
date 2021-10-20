@@ -8,19 +8,24 @@ class ArkNameController < ApplicationController
   private
 
   def resolve_ark_url(params)
-    uri = "/ark:/#{params[:naan]}/#{params[:id]}"
+    ark = "ark:/#{params[:ark_id]}"
 
-    json_response = send_ark_request(uri)
-    redirect_to_entity_url(json_response, uri)
+    json_response = send_ark_request(ark)
+    redirect_to_entity_url(json_response, ark)
   end
 
 
-  def send_ark_request(uri)
-    url = URI("#{JSONModel::HTTP.backend_url}#{uri}")
-    response = JSONModel::HTTP.get_response(url)
+  def send_ark_request(ark)
+    criteria = {:aq => AdvancedQueryBuilder
+                         .new
+                         .and('ark_name', ark, 'text', true, false)
+                         .build
+                         .to_json}
 
-    if response
-      return JSON.parse(response.body)
+    results = archivesspace.advanced_search('/search', page = 1, criteria)
+
+    if results.records.length == 1
+      results.first.json
     else
       return {"type" => "not_found"}
     end
@@ -28,15 +33,18 @@ class ArkNameController < ApplicationController
 
 
   def redirect_to_entity_url(json_response, uri)
-    case json_response["type"]
-    when "external"
-      redirect_to json_response["external_url"]
-    when "Resource"
-      redirect_to "/repositories/" + json_response["repo_id"].to_s + "/resources/" + json_response["id"].to_s
-    when "ArchivalObject"
-      redirect_to "/repositories/" + json_response["repo_id"].to_s + "/archival_objects/" + json_response["id"].to_s
-    else
+    if json_response['type'] == 'not_found'
       ark_not_resolved(uri)
+    else
+      if is_external?(json_response['external_ark_url'])
+        redirect_to json_response['external_ark_url']
+      else
+        redirect_to PrefixHelper.app_prefix(json_response['uri'])
+      end
     end
+  end
+
+  def is_external?(ark)
+    AppConfig[:arks_allow_external_arks] && ark && !ark.start_with?(AppConfig[:public_proxy_url])
   end
 end
