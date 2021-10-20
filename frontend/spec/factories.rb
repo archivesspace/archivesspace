@@ -79,15 +79,6 @@ module Factories
         finding_aid_script { 'Latn' }
       end
 
-      factory :json_lang_material, class: JSONModel(:lang_material) do
-        language_and_script { build(:json_language_and_script) }
-      end
-
-      factory :json_language_and_script, class: JSONModel(:language_and_script) do
-        language { 'eng' }
-        script { 'Latn' }
-      end
-
       factory :extent, class: JSONModel(:extent) do
         portion { 'whole' }
         number { '1' }

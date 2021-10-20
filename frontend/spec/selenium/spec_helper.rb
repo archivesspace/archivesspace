@@ -1,7 +1,5 @@
 # frozen_string_literal: true
-
-require_relative 'factories'
-
+require 'factory_bot'
 require_relative 'common'
 require_relative '../../../indexer/app/lib/realtime_indexer'
 require_relative '../../../indexer/app/lib/periodic_indexer'
@@ -48,6 +46,11 @@ RSpec.configure do |config|
   config.before(:suite) do
     selenium_init($backend_start_fn, $frontend_start_fn)
     $admin = BackendClientMethods::ASpaceUser.new('admin', 'admin')
+    JSONModel.init(client_mode: true,
+                   url: AppConfig[:backend_url],
+                   priority: :high)
+
+    require_relative 'factories'
     SeleniumFactories.init
     # runs indexers in the same thread as the tests
     $indexer = RealtimeIndexer.new($backend, nil)

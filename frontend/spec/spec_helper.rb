@@ -29,6 +29,10 @@ backend = ENV['ASPACE_TEST_BACKEND_URL'] || "http://localhost:#{backend_port}"
 test_db_url = ENV['ASPACE_TEST_DB_URL'] || AppConfig[:db_url]
 AppConfig[:backend_url] = backend
 
+JSONModel::init(:client_mode => true,
+                :url => AppConfig[:backend_url],
+                :priority => :high)
+
 require_relative 'factories'
 
 include FactoryBot::Syntax::Methods
@@ -88,9 +92,6 @@ RSpec.configure do |config|
     end
     $indexer = RealtimeIndexer.new(AppConfig[:backend_url], nil)
 
-    JSONModel::init(:client_mode => true,
-                    :url => AppConfig[:backend_url],
-                    :priority => :high)
     Factories.init
     setup_test_data
   end

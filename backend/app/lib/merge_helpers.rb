@@ -38,6 +38,7 @@ module MergeHelpers
         end
       when Hash then parse_selections(v, path, all_values)
       when Array then v.each_with_index do |v2, index|
+          next if v2.is_a? String
           path << index
           parse_selections(v2, path, all_values)
         end
