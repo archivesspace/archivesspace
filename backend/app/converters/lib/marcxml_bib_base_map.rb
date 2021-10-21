@@ -456,7 +456,7 @@ module MarcXMLBibBaseMap
       agent['_terms'] ||= []
       make(:term) do |term|
         term.term_type = term_type
-        term.term = "#{prefix}: #{node.inner_text}"
+        term.term = "#{node.inner_text}"
         term.vocabulary = '/vocabularies/1'
         agent['_terms'] << term
       end
