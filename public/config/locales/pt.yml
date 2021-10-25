@@ -83,7 +83,6 @@ brand:
     keyword_contain: "<strong>palavra-chave(s)</strong>: <span class='searchterm'>%{kw}</span>"
     title_contain: o <strong>título</strong> contém <span class='searchterm'>%{kw}</span>
     notes_contain: a <strong>nota</strong> contém <span class='searchterm'>%{kw}</span>
-    four_part_id_contain: o <strong>identificador</strong> contém <span class='searchterm'>%{kw}</span>
   brand:
     welcome_head: Bem-vindo ao ArchivesSpace
     title_link_text: Retorne à página inicial do ArchivesSpace
