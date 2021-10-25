@@ -8,7 +8,7 @@ class SearchController < ApplicationController
     'resolve[]' => ['repository:id', 'resource:id@compact_resource', 'ancestors:id@compact_resource', 'top_container_uri_u_sstr:id'],
     'facet.mincount' => 1
   }
-  DEFAULT_TYPES = %w{archival_object digital_object agent resource repository accession classification subject}
+  DEFAULT_TYPES = %w{archival_object digital_object digital_object_component agent resource repository accession classification subject}
 
 
   def search

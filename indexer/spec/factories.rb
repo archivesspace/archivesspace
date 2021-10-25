@@ -7,7 +7,7 @@ FactoryBot.define do
     JSONModel::JSONModel(key)
   end
 
-  to_create{|instance| instance.save}
+  to_create {|instance| instance.save}
 
   sequence(:generic_title) { |n| "Title: #{n}"}
   sequence(:html_title) { |n| "Title: <emph render='italic'>#{n}</emph>"}
@@ -88,9 +88,29 @@ FactoryBot.define do
     script { generate(:script) }
   end
 
+  factory :json_accession, class: JSONModel(:accession) do
+    id_0 { generate(:alphanumstr) }
+    title { "Accession #{generate(:html_title)}" }
+    repository { build(:json_repository) }
+  end
+
+  factory :json_digital_object, class: JSONModel(:digital_object) do
+    title { "Digital Object #{generate(:html_title)}" }
+    digital_object_id { generate(:alphanumstr) }
+    repository { build(:json_repository) }
+  end
+
+  factory :json_digital_object_component, class: JSONModel(:digital_object_component) do
+    component_id { generate(:alphanumstr) }
+    title { "Digital Object Component #{generate(:html_title)}" }
+    digital_object { {'ref' => create(:json_digital_object).uri} }
+    repository { build(:json_repository) }
+  end
+
   factory :json_resource, class: JSONModel(:resource) do
     title { "Resource #{generate(:html_title)}" }
     id_0 { generate(:alphanumstr) }
+    repository { build(:json_repository) }
     extents { [build(:json_extent)] }
     level { generate(:archival_record_level) }
     lang_materials { [build(:json_lang_material)] }
@@ -99,18 +119,19 @@ FactoryBot.define do
     ead_id { nil_or_whatever }
     finding_aid_date { generate(:alphanumstr) }
     finding_aid_series_statement { generate(:alphanumstr) }
-    finding_aid_language {  [generate(:finding_aid_language)].sample  }
-    finding_aid_script {  [generate(:finding_aid_script)].sample  }
+    finding_aid_language { [generate(:finding_aid_language)].sample }
+    finding_aid_script { [generate(:finding_aid_script)].sample }
     finding_aid_language_note { nil_or_whatever }
     finding_aid_note { generate(:alphanumstr) }
     ead_location { generate(:alphanumstr) }
     instances { [ build(:json_instance) ] }
-    revision_statements {  [build(:json_revision_statement)]  }
+    revision_statements { [build(:json_revision_statement)] }
   end
 
   factory :json_repository, class: JSONModel(:repository) do
     repo_code { generate(:alphanumstr) }
     name { generate(:alphanumstr) }
+    publish { true }
   end
 
   factory :json_revision_statement, class: JSONModel(:revision_statement) do
@@ -133,7 +154,7 @@ FactoryBot.define do
     email_signature { [nil, generate(:alphanumstr)].sample }
     notes { [build(:json_note_contact_note)] }
   end
-  
+
   factory :json_note_contact_note, class: JSONModel(:note_contact_note) do
     date_of_contact { generate(:alphanumstr) }
     contact_notes { generate(:alphanumstr) }
@@ -141,7 +162,7 @@ FactoryBot.define do
 
   factory :json_telephone, class: JSONModel(:telephone) do
     number_type { [nil, 'business', 'home', 'cell', 'fax'].sample }
-    number {  generate(:phone_number) }
+    number { generate(:phone_number) }
     ext { [nil, generate(:alphanumstr)].sample }
   end
 
