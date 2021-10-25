@@ -293,6 +293,7 @@
     <mkdir dir="target/archivesspace/plugins/local/public/locales" />
     <mkdir dir="target/archivesspace/locales" />
     <mkdir dir="target/archivesspace/locales/public" />
+    <mkdir dir="target/archivesspace/solr" />
     <tstamp />
     <property name="version" value="${DSTAMP}-${TSTAMP}"/>
     <delete file="../common/ARCHIVESSPACE_VERSION" />
@@ -360,6 +361,9 @@
     </copy>
     <copy todir="target/archivesspace/plugins/lcnaf">
       <fileset dir="../plugins/lcnaf"/>
+    </copy>
+    <copy todir="target/archivesspace/solr">
+      <fileset dir="../solr" excludes="Dockerfile,delete*" />
     </copy>
     <copy todir="target/archivesspace/stylesheets">
       <fileset dir="../stylesheets"/>
