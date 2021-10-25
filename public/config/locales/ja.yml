@@ -77,7 +77,6 @@ ja:
     creators_text_contain: "<strong>作成者</strong>に<span class='searchterm'>%{kw}</span>"
     subjects_text_contain: "<strong>被写体に</strong>は<span class='searchterm'>%{kw}</span>"
     identifier_contain: "<strong>識別子に</strong>は<span class='searchterm'>%{kw}</span>"
-    four_part_id_contain: "<strong>識別子に</strong>は<span class='searchterm'>%{kw}</span>"
     in_repository: "<strong>%{name}</strong>"
     anything: "*"
     search_term: 検索語

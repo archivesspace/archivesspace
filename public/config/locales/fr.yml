@@ -104,7 +104,6 @@ fr:
     creators_text_contain: "le <strong>producteur</strong> contient <span class='searchterm'>%{kw}</span>"
     subjects_text_contain: "le <strong>sujet</strong> contient <span class='searchterm'>%{kw}</span>"
     identifier_contain: "L'<strong>identifiant</strong> contient <span class='searchterm'>%{kw}</span>"
-    four_part_id_contain: "L'<strong>identifiant</strong> contient <span class='searchterm'>%{kw}</span>"
     in_repository: " dans <strong>%{name}</strong>"
     anything: "*"
     search_term: Terme à chercher
