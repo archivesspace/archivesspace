@@ -1,4 +1,4 @@
-FROM nginx:1.13
+FROM nginx:1.21
 LABEL maintainer="ArchivesSpaceHome@lyrasis.org"
 
 # EMBED THE DEFAULT CONFIG, THAT'S ALL FOLKS
