@@ -363,7 +363,7 @@
       <fileset dir="../plugins/lcnaf"/>
     </copy>
     <copy todir="target/archivesspace/solr">
-      <fileset dir="../solr" excludes="Dockerfile,delete*" />
+      <fileset dir="../solr" excludes=".dockerignore,Dockerfile,delete*" />
     </copy>
     <copy todir="target/archivesspace/stylesheets">
       <fileset dir="../stylesheets"/>
