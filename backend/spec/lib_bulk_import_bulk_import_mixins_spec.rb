@@ -188,6 +188,37 @@ describe "Bulk Import Mixins" do
     expect(date['label']).to eq('creation')
   end
 
+  it "will import a date begin and end for accessrestrict note" do
+    ao = create(:json_archival_object)
+    ao.save
+    hash = {"n_accessrestrict"=>"Access Restriction note", "p_accessrestrict"=>"1", "b_accessrestrict"=>"2021-10-01", "e_accessrestrict"=>"2021-10-31"}
+    handle_notes(ao, hash, false)
+    expect(ao['notes']).not_to be_nil
+    note = ao['notes'][0]
+    expect(note).to have_key('rights_restriction')
+    expect(note['rights_restriction']['begin']).to eq('2021-10-01')
+    expect(note['rights_restriction']['end']).to eq('2021-10-31')
+  end
+
+  it "will not import an accessrestrict note date begin that comes after a date end" do
+    ao = create(:json_archival_object)
+    ao.save
+    hash = {"n_accessrestrict"=>"Access Restriction note", "p_accessrestrict"=>"1", "b_accessrestrict"=>"2021-10-31", "e_accessrestrict"=>"2021-10-01"}
+    expect {
+      handle_notes(ao, hash, false)
+    }.to raise_error(JSONModel::ValidationException)
+  end
+
+  it "will not import a date begin and end for a non-accessrestrict note" do
+    ao = create(:json_archival_object)
+    ao.save
+    hash = {"n_prefercite"=>"Preferred Citation note", "p_prefercite"=>"1", "b_prefercite"=>"2021-10-01", "e_prefercite"=>"2021-10-31"}
+    handle_notes(ao, hash, false)
+    expect(ao['notes']).not_to be_nil
+    note = ao['notes'][0]
+    expect(note).not_to have_key('rights_restriction')
+  end
+
   after(:each) do
     @no_ead_json.delete
     @resource_json.delete
