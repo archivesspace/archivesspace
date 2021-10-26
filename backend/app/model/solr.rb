@@ -20,7 +20,7 @@ class Solr
 
     def lookup_external_checksum
       url = URI(File.join(@url, @path))
-      @external_checksum = Digest::SHA2.hexdigest(JSON.parse(Net::HTTP.get_response(url).body)[@path].to_json)
+      @external_checksum = Digest::SHA2.hexdigest(Net::HTTP.get_response(url).body)
     end
 
     def lookup_internal_checksum
@@ -45,7 +45,7 @@ class Solr
     def initialize(url)
       super(url)
       @name = 'schema'
-      @path = 'schema'
+      @path = 'admin/file?file=schema.xml&contentType=text%2Fxml%3Bcharset%3Dutf-8'
     end
   end
 
@@ -53,7 +53,7 @@ class Solr
     def initialize(url)
       super(url)
       @name = 'solrconfig'
-      @path = 'config'
+      @path = 'admin/file?file=solrconfig.xml&contentType=text%2Fxml%3Bcharset%3Dutf-8'
     end
   end
 

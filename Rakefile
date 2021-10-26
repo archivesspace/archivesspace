@@ -62,26 +62,21 @@ end
 
 namespace :http do
   namespace :checksum do
-    # bundle exec rake http:checksum:solr["http://localhost:8983/solr/archivesspace","schema"]
-    task :solr, [:base_url, :path] do |_t, args|
-      path = args[:path]
-      raise 'Invalid path' unless ['schema', 'config'].include? path
+    # bundle exec rake http:checksum:solr["http://localhost:8983/solr/archivesspace","schema.xml"]
+    task :solr, [:base_url, :file] do |_t, args|
+      file = args[:file]
+      raise 'Invalid file' unless ['schema.xml', 'solrconfig.xml'].include? file
 
-      name = path == 'config' ? 'solrconfig' : 'schema'
-      asconstants = File.join('common', 'asconstants.rb')
+      path = "admin/file?file=#{file}&contentType=text%2Fxml%3Bcharset%3Dutf-8"
       url = URI(File.join(args[:base_url], path))
-      checksum = Digest::SHA2.hexdigest(
-        JSON.parse(HTTP.get(url))[path].to_json
-      )
-      constants = File.read(asconstants)
-      current_checksum = constants.match(/#{name.upcase}.*\n.*\'(.*)\'/)[1].strip
+      internal_checksum = Digest::SHA2.hexdigest(File.read(File.join('solr', file)))
+      external_checksum = Digest::SHA2.hexdigest(Net::HTTP.get_response(url).body)
 
-      if current_checksum != checksum
-        constants = constants.sub(current_checksum, checksum)
-        File.open(asconstants, 'w') {|f| f.puts constants }
+      if internal_checksum != external_checksum
+        raise 'Solr checksums do not match. Check configuration and try again.'
       end
 
-      puts checksum
+      puts internal_checksum
     end
   end
 end
