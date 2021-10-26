@@ -60,9 +60,9 @@ en:
     linked_event_archival_record_roles: Linked Event Archival Record Roles
     location_function_type: Location Function Type
     location_temporary: Location Temporary
-    maintenance_agent_type: Record Control Maintenence Agent Type
-    maintenance_event_type: Record Control Maintenence Event Type
-    maintenance_status: Record Control Maintenence Status
+    maintenance_agent_type: Record Control Maintenance Agent Type
+    maintenance_event_type: Record Control Maintenance Event Type
+    maintenance_status: Record Control Maintenance Status
     metadata_license: Metadata License
     modified_record: Record Control Modified Type
     name_person_name_order: Name Person Name Order
