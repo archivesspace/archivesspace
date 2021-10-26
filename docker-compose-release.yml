@@ -34,7 +34,7 @@ services:
     container_name: as_release_proxy
     build:
       context: ./proxy
-    image: archivesspace/proxy:1.13
+    image: archivesspace/proxy:1.21
     ports:
       - "80:80"
     depends_on:
