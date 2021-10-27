@@ -16,6 +16,23 @@ module ASConstants
   end
 
 
+  module Solr
+
+    def self.SCHEMA
+      checksum 'schema.xml'
+    end
+
+    def self.SOLRCONFIG
+      checksum 'solrconfig.xml'
+    end
+
+    def self.checksum(file)
+      Digest::SHA2.hexdigest(File.read(File.join(*[ ASUtils.find_base_directory, 'solr', file])))
+    end
+
+  end
+
+
   def self.VERSION
     return @VERSION if @VERSION
 
