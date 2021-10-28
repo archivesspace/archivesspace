@@ -33,8 +33,10 @@ services:
   web:
     container_name: as_release_proxy
     build:
+      args:
+        default: default.conf.release
       context: ./proxy
-    image: archivesspace/proxy:1.21
+    image: archivesspace/proxy-release:1.21
     ports:
       - "80:80"
     depends_on:

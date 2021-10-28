@@ -1,17 +1,17 @@
 upstream app_api {
-  server localhost:8089;
+  server app:8089;
 }
 
 upstream app_oai {
-  server localhost:8082;
+  server app:8082;
 }
 
 upstream app_public {
-  server localhost:8081;
+  server app:8081;
 }
 
 upstream app_staff {
-  server localhost:8080;
+  server app:8080;
 }
 
 server {
