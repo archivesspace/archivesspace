@@ -153,8 +153,6 @@ class JobsController < ApplicationController
   def stream_file(request_uri, params = {})
     filename = params[:filename] ? "#{params[:filename]}.#{params[:format]}" : "ead.pdf"
 
-
-
     respond_to do |format|
       format.html {
         self.response.headers["Content-Type"] = "application/#{params[:format]}" if params[:format]
@@ -169,7 +167,4 @@ class JobsController < ApplicationController
       }
     end
   end
-
-
-
 end

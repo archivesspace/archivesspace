@@ -109,6 +109,7 @@
                       <% end %>
                     </ul>
                   </li>
+
                 <% end %>
               </ul>
             </li>
@@ -166,7 +167,8 @@
                         <li class="divider"></li>
                       <% end %>
                       <% if user_can?('create_job') %>
-                        <li><%= link_to I18n.t("job._plural"), :controller => :jobs, :action => :index %></li>
+                         <li><%= link_to I18n.t("job._plural"), :controller => :jobs, :action => :index %></li>
+                         <li><%= link_to I18n.t("bulk_import.templates"), :controller => :bulk_import_templates, :action => :index %></li>
                         <li class="divider"></li>
                       <% end %>
 
