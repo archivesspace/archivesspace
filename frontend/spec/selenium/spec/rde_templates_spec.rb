@@ -150,9 +150,11 @@ describe 'RDE Templates' do
     @driver.find_element(link: 'Rapid Data Entry').click
     @driver.wait_for_ajax
 
-    first = @driver.find_element(css: "#rde_select_template option:nth-child(1)").text
+    @driver.find_element(css: "button[data-id='rde_select_template']").click
 
-    second = @driver.find_element(css: "#rde_select_template option:nth-child(2)").text
+    first = @driver.find_element(css: ".dropdown-menu.open ul li:nth-child(2) span").text
+
+    second = @driver.find_element(css: ".dropdown-menu.open ul li:nth-child(3) span").text
 
     expect(first <=> second).to eq(-1)
   end
