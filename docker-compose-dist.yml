@@ -39,8 +39,10 @@ services:
   web:
     container_name: as_dist_proxy
     build:
+      args:
+        default: default.conf.dist
       context: ./proxy
-    image: archivesspace/proxy:1.21
+    image: archivesspace/proxy-dist:1.21
     ports:
       - "80:80"
     depends_on:
