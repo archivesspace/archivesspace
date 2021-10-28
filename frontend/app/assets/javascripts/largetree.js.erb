@@ -169,7 +169,7 @@
 
             $(nodes).each(function (idx, elt) {
                 var level = $(elt).data('level');
-                var node_parent_uri = $(elt).prevAll('.indent-level-' + (level - 1) + ':first').data('uri');
+                var node_parent_uri = $(elt).parent('.table-row-group').prevAll('.indent-level-' + (level - 1) + ':first').data('uri');
 
                 if (!node_parent_uri) {
                     node_parent_uri = self.root_uri;
@@ -198,7 +198,7 @@
         /* Reopen the parent of any nodes we dragged from */
         $(nodes).each(function (idx, elt) {
             var level = $(elt).data('level');
-            var parent_uri = $(elt).prevAll('.indent-level-' + (level - 1) + ':first').data('uri');
+            var parent_uri = $(elt).parent('.table-row-group').prevAll('.indent-level-' + (level - 1) + ':first').data('uri');
 
             if (parent_uri) {
                 uris_to_reopen.push(parent_uri);
