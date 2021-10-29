@@ -302,6 +302,8 @@ ArchivesSpace::Application.routes.draw do
     end
 
     match 'ark_update' => 'ark_update#update', :via => [:post]
+    match 'bulk_import_templates' => 'bulk_import_templates#index', via: [:get]
+    match 'bulk_import_templates/download' => 'bulk_import_templates#download', via: [:get]
 
 
     if Plugins.system_menu_items?
