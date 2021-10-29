@@ -18,8 +18,10 @@
   <property name="jruby_rack_file" value="jruby-rack-${jruby_rack_version}.jar" />
   <property name="jruby_rack_url" value="https://as-public-shared-files.s3-us-west-2.amazonaws.com/jruby-rack-${jruby_rack_version}_rack-${rack_version}.jar" />
 
-  <property name="jettyrunner_url" value="https://repo1.maven.org/maven2/org/eclipse/jetty/jetty-runner/9.2.30.v20200428/jetty-runner-9.2.30.v20200428.jar" />
-  <property name="jettyrunner_file" value="jetty-runner-9.2.30.v20200428.jar" />
+  <property name="jettyrunner_url" value="https://repo1.maven.org/maven2/org/eclipse/jetty/jetty-runner/9.4.44.v20210927/jetty-runner-9.4.44.v20210927.jar" />
+  <property name="jettyrunner_file" value="jetty-runner-9.4.44.v20210927.jar" />
+  <property name="jettywebapp_url" value="https://repo1.maven.org/maven2/org/eclipse/jetty/jetty-webapp/9.4.44.v20210927/jetty-webapp-9.4.44.v20210927.jar" />
+  <property name="jettywebapp_file" value="jetty-webapp-9.4.44.v20210927.jar" />
 
   <property name="gem_home" location="gems" />
   <property name="aspace.backend.port" value="4567" />
@@ -233,9 +235,14 @@
     <delete>
       <fileset dir="." includes="jruby-complete*.jar" excludes="${jruby_file}" />
     </delete>
+    <mkdir dir="../launcher/lib" />
+    <delete>
+      <fileset dir="../launcher/lib" includes="*.jar" excludes="${jettyrunner_file},#{jettywebapp_file}" />
+    </delete>
     <get src="${jruby_url}" dest="${jruby_file}" skipexisting="true" verbose="true" usetimestamp="true" />
-    <get src="${jettyrunner_url}" dest="${jettyrunner_file}" skipexisting="true" verbose="true" usetimestamp="true" />
     <get src="${jruby_rack_url}" dest="${jruby_rack_file}" skipexisting="true" verbose="true" usetimestamp="true" />
+    <get src="${jettyrunner_url}" dest="../launcher/lib/${jettyrunner_file}" skipexisting="true" verbose="true" usetimestamp="true" />
+    <get src="${jettywebapp_url}" dest="../launcher/lib/${jettywebapp_file}" skipexisting="true" verbose="true" usetimestamp="true" />
   </target>
 
   <!-- BUILD -->
