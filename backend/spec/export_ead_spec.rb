@@ -157,13 +157,12 @@ describe "EAD export mappings" do
     end
   end
 
-
-  def build_archival_object_notes(max = 5)
-    note_types = %w(odd dimensions physdesc materialspec physloc phystech physfacet processinfo separatedmaterial arrangement fileplan accessrestrict abstract scopecontent prefercite acqinfo bibliography index altformavail originalsloc userestrict legalstatus relatedmaterial custodhist appraisal accruals bioghist)
+  def build_multipart_notes(max = 5)
+    note_types = %w(odd dimensions phystech processinfo separatedmaterial arrangement fileplan accessrestrict scopecontent prefercite acqinfo altformavail originalsloc userestrict legalstatus relatedmaterial custodhist appraisal accruals bioghist)
     notes = []
     brake = 0
     while !(note_types - notes.map {|note| note['type']}).empty? && brake < max do
-      notes << build("json_note_#{['singlepart', 'multipart', 'multipart_gone_wilde', 'index', 'bibliography'].sample}".intern, {
+      notes << build("json_note_#{['multipart', 'multipart_gone_wilde'].sample}".intern, {
                        :publish => true,
                        :label => generate(:alphanumstr),
                        :persistent_id => [nil, generate(:alphanumstr)].sample
@@ -171,6 +170,37 @@ describe "EAD export mappings" do
       brake += 1
     end
 
+    notes
+  end
+
+  def build_singlepart_notes(max = 5)
+    note_types = %w(physdesc materialspec physloc physfacet abstract)
+    notes = []
+    brake = 0
+    while !(note_types - notes.map {|note| note['type']}).empty? && brake < max do
+      notes << build(:json_note_singlepart, {
+                       :publish => true,
+                       :label => generate(:alphanumstr),
+                       :persistent_id => [nil, generate(:alphanumstr)].sample
+                     })
+      brake += 1
+    end
+
+    notes
+  end
+
+  def build_archival_object_notes(max = 2)
+    note_types = %w(bibliography index)
+    notes = []
+    note_types.each do |note_type|
+      notes << build("json_note_#{note_type}".intern, {
+                       :publish => true,
+                       :label => generate(:alphanumstr),
+                       :persistent_id => [nil, generate(:alphanumstr)].sample
+                     })
+    end
+
+    notes = notes + build_singlepart_notes(max) + build_multipart_notes(max)
     notes
   end
 
@@ -608,6 +638,8 @@ describe "EAD export mappings" do
           else
             mt(nil, path, "id")
           end
+
+          mt(note['label'], path, "label")
         end
       end
 
@@ -634,7 +666,7 @@ describe "EAD export mappings" do
             mt(nil, path, "id")
           end
 
-          mt(note['label'], path, "label") if note['label']
+          mt(note['label'], path, "label")
         end
       end
 
@@ -686,7 +718,8 @@ describe "EAD export mappings" do
           path += id ? "[@id='#{id}']" : "[p[contains(text(), #{content})]]"
           full_path = "#{desc_path}/#{path}"
           mt(content, full_path)
-          mt(note['label'], full_path, "label") if note['label']
+
+          mt(note['label'], full_path, "label")
         end
       end
 
