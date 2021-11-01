@@ -11,7 +11,7 @@ Warbler::Config.new do |config|
   config.features = []
 
   # Application directories to be included in the webapp.
-  config.dirs = %w(app config lib log vendor tmp .bundle public)
+  config.dirs = %w(app config lib log vendor tmp .bundle docs)
 
   # Additional files/directories to include, above those in config.dirs
   #
@@ -110,7 +110,6 @@ Warbler::Config.new do |config|
   # Files to be included in the root of the webapp.  Note that files in public
   # will have the leading 'public/' part of the path stripped during staging.
   # config.public_html = FileList["public/**/*", "doc/**/*"]
-  config.public_html = FileList["public/bulk_import_templates/*"]
 
   # Pathmaps for controlling how public HTML files are copied into the .war
   # config.pathmaps.public_html = ["%{public/,}p"]

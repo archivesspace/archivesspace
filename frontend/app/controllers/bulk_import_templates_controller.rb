@@ -40,6 +40,6 @@ class BulkImportTemplatesController < ApplicationController
   end
 
   def download
-    send_file "#{Rails.root}/public/bulk_import_templates/#{params['filename']}", status: 202
+    send_file "#{Rails.root}/docs/#{params['filename']}", status: 202
   end
 end
