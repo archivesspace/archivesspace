@@ -19,7 +19,7 @@ class JobRunner
   #     register_for_job_type('my_job')
   #     ...
   #
-  # This can be called many times if your runner can handle ore than one job type.
+  # This can be called many times if your runner can handle more than one job type.
   # The type is the jsonmodel_type of the defined schema for the job type.
   #
   # If another runner has already registered for the type an exception will be thrown.

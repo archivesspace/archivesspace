@@ -214,7 +214,9 @@ class ImportArchivalObjects < BulkImportParser
     dig_instance = nil
     unless [@row_hash["digital_object_title"], @row_hash["thumbnail"], @row_hash["digital_object_link"], @row_hash["digital_object_id"]].reject(&:nil?).empty?
       begin
-        dig_instance = @doh.create(@row_hash["digital_object_title"], @row_hash["thumbnail"], @row_hash["digital_object_link"], @row_hash["digital_object_id"], @row_hash["publish"], ao, @report)
+        normalize_publish_column(@row_hash, 'digital_object_link_publish')
+        normalize_publish_column(@row_hash, 'thumbnail_publish')
+        dig_instance = @doh.create(@row_hash["digital_object_title"], @row_hash["thumbnail"], @row_hash["digital_object_link"], @row_hash["digital_object_id"], @row_hash["publish"], ao, @report, @row_hash['digital_object_link_publish'], @row_hash['thumbnail_publish'])
       rescue Exception => e
         @report.add_errors(e.message)
       end
