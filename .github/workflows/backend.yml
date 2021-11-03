@@ -60,3 +60,5 @@ jobs:
     - name: Run Backend tests
       run: |
         ./build/run backend:test
+      env:
+        ARCHIVESSPACE_VERSION: ${{ github.ref }}
