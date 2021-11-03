@@ -47,6 +47,55 @@
         margin: 0.5em 0;
     }
 
+  .title {
+    width: 46%;
+  }
+  .resource-level {
+    width: 8%;
+  }
+  .resource-type {
+    width: 18%;
+  }
+  .resource-container {
+    width: 28%;
+  }
+
+  .digital-object-type {
+    width: 12%;
+  }
+  .file-uri-summary {
+    width: 42%;
+  }
+
+  td,
+  .table-cell {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    box-sizing: border-box;
+
+    // Don't change this without also changing largetree.js.erb ->
+    // appendWaypoints to match.
+    //
+    // We rely on rows having heights known in advance to do our
+    // height calculations.
+    height: 2em;
+    line-height: 2em;
+  }
+
+  .expandme-icon.expanded {
+    transform: rotate(90deg);
+    transition: transform 100ms ease-out;
+  }
+
+  .current {
+    outline: 1px solid #0a6aa1;
+
+    td,
+    .table-cell {
+      background-color: #effaff;
+    }
+
     .waypoint.populated {
         display: none;
     }
