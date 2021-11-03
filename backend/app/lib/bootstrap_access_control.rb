@@ -303,9 +303,20 @@ class ArchivesSpaceService
                       "The ability to manage custom report templates",
                       :level => "repository")
 
+    # Permissions that are added to standard-issue groups will not apply
+    # to existing repositories in legacy databases unless we do something about
+    # it. Doing it here is much simpler than writing up a migration, but of course
+    # it is a bit redundant and could be factored out one day, assuming enough
+    # time has passed. See app/models/repository.rb for initial group definitions.
     Group.each do |group|
       next unless ["repository-managers", "repository-archivists"].include? group.group_code
       group.grant "manage_custom_report_templates"
+      group.save
+    end
+
+    Group.each do |group|
+      next unless ["repository-managers"].include? group.group_code
+      group.grant "delete_event_record"
       group.save
     end
   end

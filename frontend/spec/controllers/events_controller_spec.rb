@@ -32,5 +32,6 @@ describe EventsController, type: :controller do
     controller.send(:load_repository_list)
     post :delete, params: {id: event.id}
     expect(JSONModel(:event).find(event.id).uri).to eq(event.uri)
+    expect(response.code).to eq "403"
   end
 end
