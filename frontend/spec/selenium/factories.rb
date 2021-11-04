@@ -15,10 +15,6 @@ module SeleniumFactories
 
     return true if @@inited
 
-    JSONModel.init(client_mode: true,
-                   url: AppConfig[:backend_url],
-                   priority: :high)
-
     FactoryBot.define do
       to_create do |instance|
         try_again = true
@@ -47,7 +43,6 @@ module SeleniumFactories
         end
       end
 
-      sequence(:username) { |n| "testuser_#{n}_#{Time.now.to_i}" }
       sequence(:user_name) { |n| "Test User #{n}_#{Time.now.to_i}" }
 
       sequence(:repo_code) { |n| "testrepo_#{n}_#{Time.now.to_i}" }
@@ -71,7 +66,6 @@ module SeleniumFactories
       sequence(:top_container_indicator) { |n| "Container #{n}" }
       sequence(:building) { |n| "Maggie's #{n}th Farm_#{Time.now.to_i}" }
 
-      sequence(:yyyy_mm_dd) { Time.at(rand * Time.now.to_i).to_s.sub(/\s.*/, '') }
       sequence(:phone_number) { (3..5).to_a[rand(3)].times.map { (3..5).to_a[rand(3)].times.map { rand(9) }.join }.join(' ') }
       sequence(:hh_mm) { t = Time.now; "#{t.hour}:#{t.min}" }
 
@@ -169,15 +163,6 @@ module SeleniumFactories
         expression { '1900s' }
       end
 
-      factory :json_lang_material, class: JSONModel(:lang_material) do
-        language_and_script { build(:json_language_and_script) }
-      end
-
-      factory :json_language_and_script, class: JSONModel(:language_and_script) do
-        language { generate(:language) }
-        script { generate(:script) }
-      end
-
       factory :rde_template, class: JSONModel(:rde_template) do
         record_type { 'archival_object' }
         name { generate(:rde_template_name) }
@@ -215,108 +200,11 @@ module SeleniumFactories
         agent_contacts { [build(:json_agent_contact)] }
       end
 
-      factory :json_agent_person_full_subrec, class: JSONModel(:agent_person) do
-        agent_type { 'agent_person' }
-        names { [build(:json_name_person)] }
-        dates_of_existence { [build(:json_structured_date_label)] }
-        agent_record_controls { [build(:agent_record_control)] }
-        agent_alternate_sets { [build(:agent_alternate_set)] }
-        agent_conventions_declarations { [build(:agent_conventions_declaration)] }
-        agent_sources { [build(:agent_sources)] }
-        agent_other_agency_codes { [build(:agent_other_agency_codes)] }
-        agent_maintenance_histories { [build(:agent_maintenance_history)] }
-        agent_record_identifiers { [build(:agent_record_identifier)] }
-        agent_places { [build(:json_agent_place)] }
-        agent_occupations { [build(:json_agent_occupation)] }
-        agent_functions { [build(:json_agent_function)] }
-        agent_topics { [build(:json_agent_topic)] }
-        agent_identifiers { [build(:json_agent_identifier)] }
-        agent_resources { [build(:json_agent_resource)] }
-        agent_genders { [build(:json_agent_gender)] }
-        used_languages { [build(:json_used_language)] }
-      end
-
       factory :agent_corporate_entity, class: JSONModel(:agent_corporate_entity) do
         agent_type { 'agent_corporate_entity' }
         names { [build(:json_name_corporate_entity)] }
         agent_contacts { [build(:json_agent_contact)] }
         dates_of_existence { [build(:json_structured_date_label)] }
-      end
-
-      factory :json_agent_corporate_entity_full_subrec, class: JSONModel(:agent_corporate_entity) do
-        agent_type { 'agent_corporate_entity' }
-        names { [build(:json_name_corporate_entity)] }
-        agent_contacts { [build(:json_agent_contact)] }
-        dates_of_existence { [build(:json_structured_date_label)] }
-        agent_record_controls { [build(:agent_record_control)] }
-        agent_alternate_sets { [build(:agent_alternate_set)] }
-        agent_conventions_declarations { [build(:agent_conventions_declaration)] }
-        agent_sources { [build(:agent_sources)] }
-        agent_other_agency_codes { [build(:agent_other_agency_codes)] }
-        agent_maintenance_histories { [build(:agent_maintenance_history)] }
-        agent_record_identifiers { [build(:agent_record_identifier)] }
-        agent_places { [build(:json_agent_place)] }
-        agent_occupations { [build(:json_agent_occupation)] }
-        agent_functions { [build(:json_agent_function)] }
-        agent_topics { [build(:json_agent_topic)] }
-        agent_identifiers { [build(:json_agent_identifier)] }
-        used_languages { [build(:json_used_language)] }
-        agent_resources { [build(:json_agent_resource)] }
-        notes { [build(:json_note_bioghist),
-                 build(:json_note_legal_status),
-                 build(:json_note_mandate),
-                 build(:json_note_structure_or_genealogy),
-                 build(:json_note_general_context)]}
-      end
-
-      factory :json_structured_date_label, class: JSONModel(:structured_date_label) do
-        date_type_structured { "single" }
-        date_label { 'existence' }
-        structured_date_single { build(:json_structured_date_single) }
-        date_certainty { "approximate" }
-        date_era { "ce" }
-        date_calendar { "gregorian" }
-      end
-
-      factory :json_structured_date_single, class: JSONModel(:structured_date_single) do
-        date_role { "begin" }
-        date_expression { "Yesterday" }
-        date_standardized { "2019-06-01" }
-        date_standardized_type { "standard" }
-      end
-
-      factory :json_name_person, class: JSONModel(:name_person) do
-        rules { generate(:name_rule) }
-        source { generate(:name_source) }
-        primary_name { generate(:generic_name) }
-        sort_name { generate(:sort_name) }
-        name_order { %w(direct inverted).sample }
-        number { generate(:alphanumstr) }
-        sort_name_auto_generate { true }
-        use_dates { [build(:json_structured_date_label)] }
-        dates { generate(:alphanumstr) }
-        qualifier { generate(:alphanumstr) }
-        fuller_form { generate(:alphanumstr) }
-        prefix { generate(:alphanumstr) }
-        title { generate(:alphanumstr) }
-        suffix { generate(:alphanumstr) }
-        rest_of_name { generate(:alphanumstr) }
-        authority_id { generate(:url) }
-      end
-
-      factory :json_name_corporate_entity, class: JSONModel(:name_corporate_entity) do
-        rules { generate(:name_rule) }
-        primary_name { generate(:generic_name) }
-        subordinate_name_1 { generate(:alphanumstr) }
-        subordinate_name_2 { generate(:alphanumstr) }
-        number { generate(:alphanumstr) }
-        sort_name { generate(:sort_name) }
-        sort_name_auto_generate { true }
-        qualifier { generate(:alphanumstr) }
-        use_dates { [build(:json_structured_date_label)] }
-        dates { generate(:alphanumstr) }
-        authority_id { generate(:url) }
-        source { generate(:name_source) }
       end
 
       factory :agent_record_control, class: JSONModel(:agent_record_control) do
@@ -439,87 +327,6 @@ module SeleniumFactories
       factory :json_agent_identifier, class: JSONModel(:agent_identifier) do
         entity_identifier { generate(:alphanumstr) }
         identifier_type { "loc"}
-      end
-
-      factory :json_used_language, class: JSONModel(:used_language) do
-        language { generate(:language) }
-        script { generate(:script) }
-        notes { [build(:json_note_text)] }
-      end
-
-      factory :json_note_text, class: JSONModel(:note_text) do
-        content { generate(:alphanumstr) }
-      end
-
-      factory :json_subject, class: JSONModel(:subject) do
-        terms { [build(:json_term)] }
-        vocabulary { create(:json_vocabulary).uri }
-        authority_id { generate(:url) }
-        scope_note { generate(:alphanumstr) }
-        source { generate(:subject_source) }
-      end
-
-      factory :json_term, class: JSONModel(:term) do
-        term { generate(:term) }
-        term_type { generate(:term_type) }
-        vocabulary { create(:json_vocabulary).uri }
-      end
-
-      factory :json_vocabulary, class: JSONModel(:vocabulary) do
-        name { generate(:vocab_name) }
-        ref_id { generate(:vocab_refid) }
-      end
-
-      factory :json_agent_contact, class: JSONModel(:agent_contact) do
-        name { generate(:generic_name) }
-        telephones { [build(:json_telephone)] }
-        address_1 { [nil, generate(:alphanumstr)].sample }
-        address_2 { [nil, generate(:alphanumstr)].sample }
-        address_3 { [nil, generate(:alphanumstr)].sample }
-        city { [nil, generate(:alphanumstr)].sample }
-        region { [nil, generate(:alphanumstr)].sample }
-        country { [nil, generate(:alphanumstr)].sample }
-        post_code { [nil, generate(:alphanumstr)].sample }
-        fax { [nil, generate(:alphanumstr)].sample }
-        email { [nil, generate(:alphanumstr)].sample }
-        email_signature { [nil, generate(:alphanumstr)].sample }
-        notes { [build(:json_note_contact_note)] }
-      end
-
-      factory :json_note_bioghist, class: JSONModel(:note_bioghist) do
-        label { generate(:alphanumstr) }
-        subnotes { [ build(:json_note_text), build(:json_note_text) ] }
-      end
-
-      factory :json_note_general_context, class: JSONModel(:note_general_context) do
-        label { generate(:alphanumstr) }
-        subnotes { [ build(:json_note_text) ] }
-      end
-
-      factory :json_note_mandate, class: JSONModel(:note_mandate) do
-        label { generate(:alphanumstr) }
-        subnotes { [ build(:json_note_text) ] }
-      end
-
-      factory :json_note_legal_status, class: JSONModel(:note_legal_status) do
-        label { generate(:alphanumstr) }
-        subnotes { [ build(:json_note_text) ] }
-      end
-
-      factory :json_note_structure_or_genealogy, class: JSONModel(:note_structure_or_genealogy) do
-        label { generate(:alphanumstr) }
-        subnotes { [ build(:json_note_text) ] }
-      end
-
-      factory :json_note_contact_note, class: JSONModel(:note_contact_note) do
-        date_of_contact { generate(:alphanumstr) }
-        contact_notes { generate(:alphanumstr) }
-      end
-
-      factory :json_telephone, class: JSONModel(:telephone) do
-        number_type { [nil, 'business', 'home', 'cell', 'fax'].sample }
-        number { generate(:phone_number) }
-        ext { [nil, generate(:alphanumstr)].sample }
       end
 
       factory :subject, class: JSONModel(:subject) do
