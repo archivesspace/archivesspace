@@ -382,7 +382,7 @@
     };
 
     LargeTree.prototype.deleteWaypoints = function (parent) {
-        var waypoint = parent.next().find('.waypoint').first();
+        var waypoint = parent.nextUntil('.table-row').find('.waypoint').first();
 
         if (!waypoint.hasClass('waypoint')) {
             /* Nothing left to burn */
