@@ -170,7 +170,7 @@ $(function () {
         }
         $this.data('form_changed', true);
         $('.record-toolbar', $this).addClass('formchanged');
-        $('.record-toolbar .btn-toolbar .btn', $this)
+        $('.record-toolbar .btn-toolbar .btn:not(.no-change-tracking)', $this)
           .addClass('disabled')
           .attr('disabled', 'disabled');
       });
