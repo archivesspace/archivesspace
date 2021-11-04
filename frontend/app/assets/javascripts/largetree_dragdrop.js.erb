@@ -470,7 +470,7 @@
         });
 
         function getParent(node) {
-            return node.prevAll('.indent-level-'+(node.data('level') - 1) + ':first');
+            return node.parent('.table-row-group').prevAll('.indent-level-'+(node.data('level') - 1) + ':first');
         }
 
         self.menu.on('click', '.add-items-before', function() {
