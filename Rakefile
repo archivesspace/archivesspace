@@ -2,7 +2,9 @@
 
 # Rakefile for build / release supporting tasks
 require 'date'
+require 'digest'
 require 'git'
+require 'http'
 require 'json'
 require 'yaml'
 require_relative 'scripts/tasks/check'
@@ -55,5 +57,26 @@ namespace :release_notes do
       log: log,
       old_milestone: old_milestone,
       style: style).process
+  end
+end
+
+namespace :http do
+  namespace :checksum do
+    # bundle exec rake http:checksum:solr["http://localhost:8983/solr/archivesspace","schema.xml"]
+    task :solr, [:base_url, :file] do |_t, args|
+      file = args[:file]
+      raise 'Invalid file' unless ['schema.xml', 'solrconfig.xml'].include? file
+
+      path = "admin/file?file=#{file}&contentType=text%2Fxml%3Bcharset%3Dutf-8"
+      url = URI(File.join(args[:base_url], path))
+      internal_checksum = Digest::SHA2.hexdigest(File.read(File.join('solr', file)))
+      external_checksum = Digest::SHA2.hexdigest(Net::HTTP.get_response(url).body)
+
+      if internal_checksum != external_checksum
+        raise 'Solr checksums do not match. Check configuration and try again.'
+      end
+
+      puts internal_checksum
+    end
   end
 end

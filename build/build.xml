@@ -293,14 +293,12 @@
     <mkdir dir="target/archivesspace/plugins/local/public/locales" />
     <mkdir dir="target/archivesspace/locales" />
     <mkdir dir="target/archivesspace/locales/public" />
+    <mkdir dir="target/archivesspace/solr" />
     <tstamp />
     <property name="version" value="${DSTAMP}-${TSTAMP}"/>
     <delete file="../common/ARCHIVESSPACE_VERSION" />
     <echo file="../common/ARCHIVESSPACE_VERSION">${version}</echo>
     <echo>Building version: ${version}</echo>
-    <!-- Some servlet containers (tomcat) have a hard time finding teh version
-         file. so we can add this as a fallback -->
-    <replaceregexp byline='true' flags='g' file="../common/asconstants.rb" match='fallback_version = "(.*)"' replace='fallback_version = "${version}.a"'/>
     <!-- This checks the schema_info -->
     <!-- count all the rb files in migrations, minus the utils.rb -->
     <resourcecount property="schema_info">
@@ -361,6 +359,9 @@
     <copy todir="target/archivesspace/plugins/lcnaf">
       <fileset dir="../plugins/lcnaf"/>
     </copy>
+    <copy todir="target/archivesspace/solr">
+      <fileset dir="../solr" excludes=".dockerignore,Dockerfile,delete*" />
+    </copy>
     <copy todir="target/archivesspace/stylesheets">
       <fileset dir="../stylesheets"/>
     </copy>
@@ -374,9 +375,9 @@
     <zip zipfile="../archivesspace-${version}.zip" level="9">
       <zipfileset dir="target" excludes="**/mysql-connector-java*.jar" />
       <zipfileset dir=".." includes="README.md" prefix="archivesspace" filemode="644" />
-      <zipfileset dir=".." includes="UPGRADING.md" prefix="archivesspace" filemode="644" />
       <zipfileset dir=".." includes="COPYING" prefix="archivesspace" filemode="644" />
       <zipfileset dir=".." includes="launcher_rc.rb" prefix="archivesspace" filemode="644" />
+      <zipfileset dir="../common" includes="ARCHIVESSPACE_VERSION" prefix="archivesspace" filemode="644" />
       <zipfileset dir="../clustering" prefix="archivesspace/clustering" filemode="755" />
       <zipfileset dir="../reports" prefix="archivesspace/reports" filemode="755" />
       <zipfileset dir="../launcher" includes="archivesspace.sh" prefix="archivesspace" filemode="755" />

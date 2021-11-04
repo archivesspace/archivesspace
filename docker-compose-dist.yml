@@ -33,14 +33,16 @@ services:
     build:
       context: ./solr
     image: archivesspace/solr:8.10
-    command: solr-create -p 8983 -c archivesspace -d /archivesspace
+    command: solr-create -p 8983 -c archivesspace -d archivesspace
     ports:
       - "8986:8983"
   web:
     container_name: as_dist_proxy
     build:
+      args:
+        default: default.conf.dist
       context: ./proxy
-    image: archivesspace/proxy:1.13
+    image: archivesspace/proxy-dist:1.21
     ports:
       - "80:80"
     depends_on:

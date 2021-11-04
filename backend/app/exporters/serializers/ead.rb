@@ -642,7 +642,7 @@ class EADSerializer < ASpaceExport::Serializer
             sanitize_mixed_content( content, xml, fragments, ASpaceExport::Utils.include_p?(note['type']) )
           }
         }
-      when 'physdesc'
+      when 'physdesc', 'abstract'
         att[:label] = note['label'] if note['label']
         xml.send(note['type'], att.merge(audatt)) {
           sanitize_mixed_content(content, xml, fragments, ASpaceExport::Utils.include_p?(note['type']))

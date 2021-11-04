@@ -85,7 +85,6 @@ es:
     creators_text_contain: "the <strong>autor</strong> contiene <span class='searchterm'>%{kw}</span>"
     subjects_text_contain: "the <strong>sujeto</strong> contiene <span class='searchterm'>%{kw}</span>"
     identifier_contain: "the <strong>identificador</strong> contiene <span class='searchterm'>%{kw}</span>"
-    four_part_id_contain: "the <strong>identificador</strong> contiene <span class='searchterm'>%{kw}</span>"
     in_repository: " in <strong>%{name}</strong>"
     anything: "*"
     search_term: Término de búsqueda

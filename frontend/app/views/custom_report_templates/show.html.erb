@@ -5,6 +5,7 @@
     <%= render_aspace_partial :partial => "sidebar" %>
   </div>
   <div class="col-md-9">
+    <%= render_aspace_partial :partial => "toolbar" %>
     <div class="record-pane">
       <%= link_to_help :topic => "custom_report_template" %>
       <h2><%= @custom_report_template['name'] %></h2>
@@ -34,12 +35,6 @@
 
           <% enums = JSONModel(:enumeration).all %>
 
-          <% users = [] %>
-          <% JSONModel::HTTP::get_json("/users", :all_ids => true).each do |id| %>
-            <% user = JSONModel(:user).find(id) %>
-            <% users.push([user.name, user.username]) %>
-          <% end %>
-
           <% record_types.each do |record_type| %>
 
             <% record_data = record_type == data['custom_record_type'] ? data : {} %>
@@ -67,7 +62,12 @@
                       <div class="form-group">
                         <%= readonly.label 'display', :class => "col-sm-2 control-label" %>
                         <div class="col-sm-9 label-only">
-                          <%= I18n.t("boolean.true") %>
+                          <% if field[1]['include'] == '1' %>
+                            <% display = true %>
+                            <%= I18n.t("boolean.true") %>
+                          <% else %>
+                            <%= I18n.t("boolean.false") %>
+                          <% end %>
                         </div>
                       </div>
 
@@ -75,64 +75,78 @@
 
                     <% if (field[0] == 'created_by' || field[0] == 'last_modified_by') %>
                       <% if field[1].has_key? 'values' %>
-                        <% u_array = [] %>
-                        <% field[1]['values'].each do |u_val| %>
-                          <% user = users.find { |u| u[1] == u_val } %>
-                          <% u_array.push(user[0]) %>
+                        <% unless field[1]['values'].empty? %>
+                          <div class="form-group">
+                            <%= readonly.label "values", :class => "col-sm-2 control-label" %>
+                            <div class="col-sm-9 label-only">
+                              <%= text_area_tag "values", array_for_textarea(field[1]['values']), :readonly => true %>
+                            </div>
+                          </div>
                         <% end %>
+                      <% end %>
+                    <% elsif field[1].has_key? 'range_start' %>
+                      <% unless field[1]['range_start'].empty? %>
                         <div class="form-group">
-                          <%= readonly.label "narrow_by", :class => "col-sm-2 control-label" %>
+                          <%= readonly.label "start_date", :class => "col-sm-2 control-label" %>
                           <div class="col-sm-9 label-only">
-                            <%= u_array %>
+                            <%= field[1]['range_start'] %>
                           </div>
                         </div>
                       <% end %>
-                    <% elsif field[1].has_key? 'range_start' && !field[1]['range_start'].nil? %>
-                      <div class="form-group">
-                        <%= readonly.label "narrow_by", :class => "col-sm-2 control-label" %>
-                        <div class="col-sm-9 label-only">
-                          <%= "#{field[1]['range_start']}" %>
-                          <%= " to #{field[1]['range_end']}" %>
+                      <% unless field[1]['range_end'].empty? %>
+                        <div class="form-group">
+                          <%= readonly.label "end_date", :class => "col-sm-2 control-label" %>
+                          <div class="col-sm-9 label-only">
+                            <%= field[1]['range_end'] %>
+                          </div>
                         </div>
-                      </div>
+                      <% end %>
                     <% elsif field[1].has_key? 'value' %>
-                      <div class="form-group">
-                        <%= readonly.label "narrow_by", :class => "col-sm-2 control-label" %>
-                        <div class="col-sm-9 label-only">
-                          <%= I18n.t("custom_report_template.#{field[1]['value']}") %>
+                      <% unless field[1]['value'].empty? %>
+                        <div class="form-group">
+                          <%= readonly.label "value", :class => "col-sm-2 control-label" %>
+                          <div class="col-sm-9 label-only">
+                            <%= I18n.t("custom_report_template.#{field[1]['value']}") %>
+                          </div>
                         </div>
-                      </div>
+                      <% end %>
                     <% elsif field[1].has_key? 'values' %>
-                      <% if record_type == 'agent' %>
-                        <div class="form-group">
-                          <%= readonly.label "narrow_by", :class => "col-sm-2 control-label" %>
-                          <div class="col-sm-9 label-only">
-                            <% val_array = [] %>
-                            <% field[1]['values'].each do |f_val| %>
-                              <% val_array.push(I18n.t("#{record_type}.#{record_type}_#{field[0]}.#{f_val}")) %>
-                            <% end %>
-                            <%= val_array %>
+                      <% unless field[1]['values'].empty? %>
+                        <% if record_type == 'agent' %>
+                          <div class="form-group">
+                            <%= readonly.label "values", :class => "col-sm-2 control-label" %>
+                            <div class="col-sm-9 label-only">
+                              <% val_array = [] %>
+                              <% field[1]['values'].each do |f_val| %>
+                                <% val_array.push(I18n.t("#{record_type}.#{record_type}_#{field[0]}.#{f_val}")) %>
+                              <% end %>
+                              <% val_array.each do |v| %>
+                                <%= v %><br/>
+                              <% end %>
+                            </div>
                           </div>
-                        </div>
-                      <% else %>
-                        <% if (record_type == 'resource' || record_type == 'archival_object') && field[0] == 'level' %>
-                          <% enum_name = "archival_record_level" %>
                         <% else %>
-                          <% enum_name = "#{record_type}_#{field[0]}" %>
-                        <% end %>
-                        <% enum = enums.find {|obj| obj.name == enum_name} if enum_name%>
+                          <% if (record_type == 'resource' || record_type == 'archival_object') && field[0] == 'level' %>
+                            <% enum_name = "archival_record_level" %>
+                          <% else %>
+                            <% enum_name = "#{record_type}_#{field[0]}" %>
+                          <% end %>
+                          <% enum = enums.find {|obj| obj.name == enum_name} if enum_name%>
 
-                        <div class="form-group">
-                          <%= readonly.label "narrow_by", :class => "col-sm-2 control-label" %>
-                          <div class="col-sm-9 label-only">
-                            <% val_array = [] %>
-                            <% field[1]['values'].each do |f_val| %>
-                              <% val = enum['enumeration_values'].find { |h| h['id'] == f_val.to_i } if enum %>
-                              <% val_array.push(I18n.t("enumerations.#{enum_name}.#{val['value']}")) if val %>
-                            <% end %>
-                            <%= val_array %>
+                          <div class="form-group">
+                            <%= readonly.label "values", :class => "col-sm-2 control-label" %>
+                            <div class="col-sm-9 label-only">
+                              <% val_array = [] %>
+                              <% field[1]['values'].each do |f_val| %>
+                                <% val = enum['enumeration_values'].find { |h| h['id'] == f_val.to_i } if enum %>
+                                <% val_array.push(I18n.t("enumerations.#{enum_name}.#{val['value']}")) if val %>
+                              <% end %>
+                              <% val_array.each do |v| %>
+                                <%= v %><br/>
+                              <% end %>
+                            </div>
                           </div>
-                        </div>
+                        <% end %>
                       <% end %>
                     <% end %>
                   </div>

@@ -1,0 +1,63 @@
+user_defined:
+  text_2: Testo 2
+  text_3: Testo 3
+  text_4: Testo 4
+  text_5: Testo 5
+  date_1: Data 1
+  date_1_inline_help: ad es. AAAA-MM-GG
+  date_2: Data 2
+  date_2_inline_help: ad es. AAAA-MM-GG
+  date_3: Data 3
+  date_3_inline_help: ad es. AAAA-MM-GG
+  enum_1: Valore controllato 1
+  enum_2: Valore controllato 2
+  enum_3: Valore controllato 3
+  enum_4: Valore controllato 4
+  boolean_2: Booleano 2
+  real_1: Reale 1
+  real_2: Reale 2
+  boolean_1: Booleano 1
+  boolean_3: Booleano 3
+  integer_1: Intero 1
+  integer_2: Intero 2
+  integer_3: Intero 3
+  real_3: Reale 3
+  string_1: Stringa 1
+  string_2: Stringa 2
+  string_3: Stringa 3
+  text_1: Testo 1
+  string_4: Stringa 4
+  _singular: Definito dall'utente
+  _plural: Definito dall'utente
+boolean:
+  "true": Vero
+  "false": Falso
+states:
+  suppressed: Soppresso
+  deleted: Cancellato
+  auto_generated: Generato dal sistema al salvataggio
+section_tooltips:
+  lang_materials_tooltip: "<p>Le lingue e l'alfabeto rappresentati nel/i materiale/i descritto/i.</p>\n\
+    <p>Vedi DACS 4.5</p>\n"
+slug:
+  is_slug_auto_tooltip: "<p>Se questo campo è selezionato, lo slug per questo record sarà generato automaticamente\
+    \ quando il record viene salvato in base alle impostazioni di configurazione per gli URL leggibili\
+    \ dall'uomo nel file config.rb sul server.</p>\n"
+  public_url_tooltip: "<p>Se questo record è pubblicato o aggiornato per essere pubblicato, l'URL completo\
+    \ per questo record nell'interfaccia utente pubblica. Se si stanno usando URL leggibili all'uomo,\
+    \ la fine dell'URL sarà lo slug.</p>\n<p>Sia che vengano usati URL leggibili dall'uomo o meno, l'URI\
+    \ originale di questo record rimane sempre valido.</p>\n"
+  is_slug_auto: Generare automaticamente lo slug?
+  autogen_repo_slug: Poiché una slug non è stata immessa manualmente, la slug del repository è stata generata
+    automaticamente utilizzando il nome breve del repository
+  slug: Slug
+  slug_tooltip: "<p>Quando si usano URL leggibili dall'uomo, l'ultima parte dell'URL pubblico per questo\
+    \ record nell'interfaccia pubblica di ArchivesSpace. Lo slug può essere aggiunto o aggiornato manualmente,\
+    \ o generato automaticamente in base alle impostazioni di configurazione per gli URL leggibili dall'uomo\
+    \ nel file config.rb sul server.</p>\n"
+  public_url: URL pubblico
+  autogen_disabled: Non è possibile generare automaticamente uno slug dai dati forniti in base alle impostazioni
+    di configurazione correnti
+content_items:
+  content: Contenuto
+  content_tooltip: "<p>Il contenuto della nota.</p>\n"

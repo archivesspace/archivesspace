@@ -12,7 +12,7 @@ class ArchivesSpaceService < Sinatra::Base
                 "lock_version": 0,
                 "name": "A New Custom Template",
                 "description": "A custom report template returning old accessions sorted by title.",
-                "data": "{\"fields\":{\"access_restrictions\":{\"value\":\"true\"},\"accession_date\":{\"include\":\"1\",\"narrow_by\":\"1\",\"range_start\":\"2011-01-01\",\"range_end\":\"2019-12-31\"},\"publish\":{\"value\":\"true\"},\"restrictions_apply\":{\"value\":\"true\"},\"title\":{\"include\":\"1\"},\"use_restrictions\":{\"value\":\"true\"},\"create_time\":{\"range_start\":\"\",\"range_end\":\"\"},\"user_mtime\":{\"range_start\":\"\",\"range_end\":\"\"}},\"sort_by\":\"title\",\"custom_record_type\":\"accession\"}",
+                "data": "{\"fields\":{\"access_restrictions\":{\"value\":\"true\"},\"accession_date\":{\"include\":\"1\",\"range_start\":\"2011-01-01\",\"range_end\":\"2019-12-31\"},\"publish\":{\"value\":\"true\"},\"restrictions_apply\":{\"value\":\"true\"},\"title\":{\"include\":\"1\"},\"use_restrictions\":{\"value\":\"true\"},\"create_time\":{\"range_start\":\"\",\"range_end\":\"\"},\"user_mtime\":{\"range_start\":\"\",\"range_end\":\"\"}},\"sort_by\":\"title\",\"custom_record_type\":\"accession\"}",
                 "limit": 100,
                 "jsonmodel_type": "custom_report_template",
                 "repository": {
@@ -41,7 +41,7 @@ class ArchivesSpaceService < Sinatra::Base
                 "lock_version": 0,
                 "name": "A Newer Custom Template",
                 "description": "A custom report template returning old accessions sorted by title.",
-                "data": "{\"fields\":{\"access_restrictions\":{\"value\":\"true\"},\"accession_date\":{\"include\":\"1\",\"narrow_by\":\"1\",\"range_start\":\"2011-01-01\",\"range_end\":\"2019-12-31\"},\"publish\":{\"value\":\"true\"},\"restrictions_apply\":{\"value\":\"true\"},\"title\":{\"include\":\"1\"},\"use_restrictions\":{\"value\":\"true\"},\"create_time\":{\"range_start\":\"\",\"range_end\":\"\"},\"user_mtime\":{\"range_start\":\"\",\"range_end\":\"\"}},\"sort_by\":\"title\",\"custom_record_type\":\"accession\"}",
+                "data": "{\"fields\":{\"access_restrictions\":{\"value\":\"true\"},\"accession_date\":{\"include\":\"1\",\"range_start\":\"2011-01-01\",\"range_end\":\"2019-12-31\"},\"publish\":{\"value\":\"true\"},\"restrictions_apply\":{\"value\":\"true\"},\"title\":{\"include\":\"1\"},\"use_restrictions\":{\"value\":\"true\"},\"create_time\":{\"range_start\":\"\",\"range_end\":\"\"},\"user_mtime\":{\"range_start\":\"\",\"range_end\":\"\"}},\"sort_by\":\"title\",\"custom_record_type\":\"accession\"}",
                 "limit": 100,
                 "jsonmodel_type": "custom_report_template",
                 "repository": {

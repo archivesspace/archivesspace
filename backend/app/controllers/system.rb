@@ -8,6 +8,15 @@ class ArchivesSpaceService < Sinatra::Base
   do
     sys_info = ASUtils.get_diagnostics.reject { |k, v| k == :exception }
     sys_info[:db_info]= DB.sysinfo.merge({ "archivesSpaceVersion" => ASConstants.VERSION})
+
+    schema = Solr::Schema.new(AppConfig[:solr_url])
+    config = Solr::Solrconfig.new(AppConfig[:solr_url])
+    sys_info[:solr_info] = {
+      schema_checksum_internal: schema.internal_checksum,
+      schema_checksum_external: schema.external_checksum,
+      solrconfig_checksum_internal: config.internal_checksum,
+      solrconfig_checksum_external: config.external_checksum,
+    }
     json_response(sys_info)
   end
 

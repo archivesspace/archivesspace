@@ -220,18 +220,24 @@ module BulkImportMixins
   # The following methods assume @report is defined, and is a BulkImportReport object
   def create_date(dates_label, date_begin, date_end, date_type, expression, date_certainty)
     date_str = "(Date: type:#{date_type}, label: #{dates_label}, begin: #{date_begin}, end: #{date_end}, expression: #{expression})"
+    date = {}
+
     begin
-      date_type = @date_types.value(date_type || "inclusive")
+      date['date_type'] = @date_types.value(date_type || "inclusive")
     rescue Exception => e
-      @report.add_errors(I18n.t("bulk_import.error.date_type", :what => date_type, :date_str => date_str))
+      @report.add_errors(I18n.t("bulk_import.error.date_type",
+                                :what => date_type,
+                                :date_str => date_str))
+
+      return nil
     end
     begin
-      date = { "date_type" => date_type,
-               "label" => @date_labels.value(dates_label || "creation") }
+      date['label'] = @date_labels.value(dates_label || "creation")
     rescue Exception => e
       @report.add_errors(I18n.t("bulk_import.error.date_label",
-                                :what => dates_label, :date_str => date_str))
-      #don't bother processsing if the label mis-matches
+                                :what => dates_label,
+                                :date_str => date_str))
+
       return nil
     end
 
@@ -242,6 +248,7 @@ module BulkImportMixins
         @report.add_errors(I18n.t("bulk_import.error.certainty", :what => e.message, :date_str => date_str))
       end
     end
+
     date["begin"] = date_begin if date_begin
     date["end"] = date_end if date_end
     date["expression"] = expression if expression
@@ -270,6 +277,10 @@ module BulkImportMixins
         unless hash[key].nil?
           content = hash[key]
           type = key.match(/n_(.+)$/)[1]
+          if type == 'accessrestrict'
+            b_date = hash['b_accessrestrict']
+            e_date = hash['e_accessrestrict']
+          end
           pubnote = hash["p_#{type}"]
           if pubnote.nil?
             pubnote = publish
@@ -277,7 +288,7 @@ module BulkImportMixins
             pubnote = (pubnote == "1")
           end
           begin
-            note = @nh.create_note(type, content, pubnote, dig_obj)
+            note = @nh.create_note(type, content, pubnote, dig_obj, b_date, e_date)
             ao.notes.push(note) if !note.nil?
           rescue BulkImportException => bei
             errs.push([bei.message])

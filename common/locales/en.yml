@@ -2497,6 +2497,10 @@ en:
     import_type_ead_xml: EAD
     import_type_assessment_csv: Assessment CSV
     import_type_accession_csv: Accession CSV
+    bulk_import_csv: Bulk Import CSV
+    bulk_import_xlsx: Bulk Import XLSX
+    bulk_import_DO_csv: Bulk Import DO CSV
+    bulk_import_DO_xlsx: Bulk Import DO XLSX
     import_type_digital_object_csv: Digital Object CSV
     import_type_eac_xml: EAC-CPF
     import_type_location_csv: Location CSV
@@ -2765,6 +2769,10 @@ en:
     _singular: Custom Report Template
     _plural: Custom Report Templates
 
+  bulk_import_template:
+    _singular: Bulk Import Template
+    _plural: Bulk Import Templates
+
   repository_oai:
     oai_is_disabled_tooltip: OAI is disabled tooltip
     oai_sets_available_tooltip: OAI sets available tooltip
@@ -2781,6 +2789,7 @@ en:
     sponsor_set_description_tooltip: Sponsor set description tooltip
 
   bulk_import:
+    templates: Bulk Import Templates
     row: "Row %{row}"
     processing_row: "Processing row %{row}"
     dig_assoc: Digital object added to archival object
