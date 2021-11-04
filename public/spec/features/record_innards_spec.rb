@@ -34,9 +34,7 @@ describe 'Record innards', js: true do
     resource = first("a[class='record-title']", text: 'Resource with child inheriting title')
 
     visit(resource['href'])
-
     click_link 'Collection Organization'
-    
     finished_all_ajax_requests?
     first_ao = first("div[id='record-number-1']")
     first_ao_href = first_ao.first("a")['href']
