@@ -1789,6 +1789,7 @@ es:
     publish_tooltip: |
       <p>Determina si este Repositorio y cualquier registro que contenga se publicarán en interfaces públicas (usuarios).</p>
 
+    ark_shoulder_tooltip: Cadena por repositorio que se incluirá en las ARK generadas
   term:
     # tooltips not displaying:
     term: Término
@@ -2144,6 +2145,10 @@ es:
 
     subrecord_not_allowed_for_agent_software: Los agentes de software no pueden tener control de registros
       ni subregistros de relaciones
+    missing_end_filter_date: Las fechas de inicio y finalización son necesarias para filtrar por fecha.
+      Indique una fecha de finalización.
+    missing_start_filter_date: Las fechas de inicio y finalización son necesarias para filtrar por fecha.
+      Proporcione una fecha de inicio.
   job:
     _singular: Tarea en el background
     _plural: Tareas en el background
