@@ -86,7 +86,7 @@ class Record
   def parse_full_title(infinite_item = false)
     ft = process_mixed_content(json['display_string'] || json['title'], :preserve_newlines => true)
     unless infinite_item || json['title_inherited'].blank? || (json['display_string'] || '') == json['title']
-      ft = I18n.t('inherited', :title => process_mixed_content(json['title'], :preserve_newlines => true), :display => ft)
+      ft = I18n.t('inherit.inherited', :level => raw['level'], :title => process_mixed_content(json['title'], :preserve_newlines => true), :display => ft)
     end
     ft
   end
