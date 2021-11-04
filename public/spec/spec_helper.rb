@@ -154,6 +154,9 @@ def setup_test_data
     create(:archival_object,
            resource: { 'ref' => resource_with_scope.uri }, publish: true)
   end
+
+  resource_with_title_inheritance = create(:resource, title: "Resource with child inheriting title", publish: true)
+  create(:archival_object, resource: {'ref' => resource_with_title_inheritance.uri}, 'title' => "", 'dates' => [build(:date)], :publish => true)
 end
 
 RSpec.configure do |config|

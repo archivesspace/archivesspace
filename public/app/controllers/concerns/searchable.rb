@@ -393,7 +393,7 @@ module Searchable
   def full_title(json)
     ft = strip_mixed_content(json['display_string'] || json['title'])
     unless json['title_inherited'].blank? || (json['display_string'] || '') == json['title']
-      ft = I18n.t('inherited', :title => strip_mixed_content(json['title']), :display => ft)
+      ft = I18n.t('inherit.inherited', :level => raw['level'], :title => strip_mixed_content(json['title']), :display => ft)
     end
     ft
   end
