@@ -62,7 +62,7 @@ describe 'MARCXML Bib converter' do
                           <subfield code="x">SF XII</subfield>
                           <subfield code="3">SF 3</subfield>
                       </datafield>
-        
+
                   </record>
              </collection>
       END
@@ -115,7 +115,7 @@ describe 'MARCXML Bib converter' do
 
 
       def convert_test_file
-        test_file = File.expand_path("../app/exporters/examples/marc/at-tracer-marc-1.xml", File.dirname(__FILE__))
+        test_file = File.expand_path("./examples/marc/at-tracer-marc-1.xml", File.dirname(__FILE__))
         parsed = convert(test_file)
 
         @corps = parsed.select {|rec| rec['jsonmodel_type'] == 'agent_corporate_entity'}
@@ -371,7 +371,7 @@ describe 'MARCXML Bib converter' do
   describe "Importing Name Authority Files" do
     it "can import a name authority record" do
       pending "updates to MARC imports for new agents module"
-      john_davis = File.expand_path("../app/exporters/examples/marc/authority_john_davis.xml",
+      john_davis = File.expand_path("./examples/marc/authority_john_davis.xml",
                                     File.dirname(__FILE__))
 
       converter = MarcXMLBibConverter.for_subjects_and_agents_only(john_davis)
@@ -418,7 +418,7 @@ describe 'MARCXML Bib converter' do
 
   describe "Importing Subject Authority Files" do
     it "can import a subject authority record" do
-      cyberpunk_file = File.expand_path("../app/exporters/examples/marc/authority_cyberpunk.xml",
+      cyberpunk_file = File.expand_path("./examples/marc/authority_cyberpunk.xml",
                                     File.dirname(__FILE__))
 
       converter = MarcXMLBibConverter.for_subjects_and_agents_only(cyberpunk_file)
@@ -437,7 +437,7 @@ describe 'MARCXML Bib converter' do
     end
 
     it "can import a subject authority record with lcgft source" do
-      lcgft_file = File.expand_path("../app/exporters/examples/marc/gf2014026450.xml",
+      lcgft_file = File.expand_path("./examples/marc/gf2014026450.xml",
                                     File.dirname(__FILE__))
 
       converter = MarcXMLBibConverter.for_subjects_and_agents_only(lcgft_file)
@@ -459,20 +459,20 @@ describe 'MARCXML Bib converter' do
         <marc:record><marc:leader>00943nasaa2200253Ia 4500</marc:leader>
         <marc:controlfield tag="001">32415731</marc:controlfield>
         <marc:controlfield tag="008">950503s1934    fr                  fre d</marc:controlfield>
-        
+
         <marc:datafield tag="245" ind1="1" ind2="0">
         <marc:subfield code="a">Letters :</marc:subfield>
         <marc:subfield code="b">Paris, to Kelver Hartley, Paris,</marc:subfield>
         <marc:subfield code="f">1934 Nov. 1-Dec. 25 </marc:subfield>
         </marc:datafield>
-        
+
         <marc:datafield tag="300" ind1=" " ind2=" ">
         <marc:subfield code="a">2 items (2 leaves) ;</marc:subfield>
         <marc:subfield code="c">20 cm. and smaller </marc:subfield>
         </marc:datafield>
         </marc:record>
         </marc:collection>
-        
+
       marc
       get_tempfile_path(src)
     }
@@ -493,7 +493,7 @@ describe 'MARCXML Bib converter' do
           <record>
             <leader>00000npc a2200000 u 4500</leader>
             <controlfield tag="008">130109i19601970xx                  eng d</controlfield>
-        
+
             <datafield tag="100" ind1="1">
               <subfield code="a">a1, foo</subfield>
               <subfield code="b">b1</subfield>

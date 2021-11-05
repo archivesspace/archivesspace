@@ -633,6 +633,12 @@
     <mkdir dir="../frontend/public/assets/00-do-not-put-things-here" />
   </target>
 
+  <target name="frontend:copy:templates">
+    <copy todir="../frontend/docs" overwrite="true">
+      <fileset dir="../templates" includes="*.csv *.xlsx" />
+    </copy>
+  </target>
+
   <target name="frontend:console" depends="set-classpath" description="Run the rails console">
     <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true" failonerror="true" dir="../frontend">
       <jvmarg line="${default_java_options} ${env.JAVA_OPTS}"/>
@@ -643,24 +649,12 @@
     </java>
   </target>
 
-  <target name="frontend:cop" depends="set-classpath" description="Run rubocop against staff interface">
-    <property name="build.home" location="."/>
-    <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true" failonerror="true">
-      <jvmarg line="${default_java_options} ${env.JAVA_OPTS}"/>
-      <env key="GEM_HOME" value="${gem_home}" />
-      <env key="GEM_PATH" value="" />
-      <env key="BUNDLE_PATH" value="${gem_home}" />
-      <env key="HOME" value="${build.home}" />
-      <arg line="${jruby_build_bin_path}/rubocop --safe-auto-correct ../frontend" />
-    </java>
-  </target>
-
   <!-- Note: Selenium tests for frontend are not currently included
    in coverage reports -->
   <target name="frontend:coverage" depends="set-classpath, frontend:clean, frontend:test" description="Generate coverage reports for the frontend">
   </target>
 
-  <target name="frontend:devserver" depends="set-classpath, frontend:clean" description="Start an instance of the ArchivesSpace frontend development server">
+  <target name="frontend:devserver" depends="set-classpath, frontend:clean, frontend:copy:templates" description="Start an instance of the ArchivesSpace frontend development server">
     <condition property="rails.env" value="test" else="development">
       <matches pattern="true" string="${aspace.integration}" />
     </condition>
@@ -725,7 +719,7 @@
     </java>
   </target>
 
-  <target name="frontend:war" depends="set-classpath, frontend:clean" description="Deploy the frontend application as a .war file">
+  <target name="frontend:war" depends="set-classpath, frontend:clean, frontend:copy:templates" description="Deploy the frontend application as a .war file">
     <echo message="Precompiling Rails assets (this can take a little while...)" />
     <delete failonerror="false" dir="../frontend/tmp" />
     <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true" failonerror="true" dir="../frontend">

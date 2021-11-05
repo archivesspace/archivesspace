@@ -9,32 +9,32 @@ describe 'MARCXML Auth Agent converter' do
   end
 
   let(:person_agent_1) do
-    File.expand_path('../app/exporters/examples/marc/authority_john_davis.xml',
+    File.expand_path('./examples/marc/authority_john_davis.xml',
                      File.dirname(__FILE__))
   end
 
   let(:person_agent_2) do
-    File.expand_path('../app/exporters/examples/marc/authority_john_davis_2.xml',
+    File.expand_path('./examples/marc/authority_john_davis_2.xml',
                      File.dirname(__FILE__))
   end
 
   let(:corporate_agent_1) do
-    File.expand_path('../app/exporters/examples/marc/IAS.xml',
+    File.expand_path('./examples/marc/IAS.xml',
                      File.dirname(__FILE__))
   end
 
   let(:corporate_agent_2) do
-    File.expand_path('../app/exporters/examples/marc/IAS_2.xml',
+    File.expand_path('./examples/marc/IAS_2.xml',
                      File.dirname(__FILE__))
   end
 
   let(:family_agent_1) do
-    File.expand_path('../app/exporters/examples/marc/Wood.xml',
+    File.expand_path('./examples/marc/Wood.xml',
                      File.dirname(__FILE__))
   end
 
   let(:agent_collection) do
-    File.expand_path('../app/exporters/examples/marc/marcxml_collection_with_multiple_records.xml',
+    File.expand_path('./examples/marc/marcxml_collection_with_multiple_records.xml',
                      File.dirname(__FILE__))
   end
 
