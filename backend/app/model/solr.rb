@@ -74,6 +74,10 @@ class Solr
   end
 
   def self.verify_checksum!(config)
+    if AppConfig[:skip_solr_schema_check]
+      Log.warn("Ignoring invalid Solr schema checksum!") unless config.checksum_valid?
+      return true
+    end
     return true if config.checksum_valid?
 
     raise "Solr checksum verification failed (#{config.name}): expected [#{config.internal_checksum}] got [#{config.external_checksum}]"

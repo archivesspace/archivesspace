@@ -39,6 +39,10 @@ AppConfig[:oai_url] = "http://localhost:8082"
 # set it to something else below.
 AppConfig[:solr_url] = "http://localhost:8983/solr/archivesspace"
 
+# ArchivesSpace checks the solr schema to make sure it matches the current
+# data model and indexing jobs. Leave this alone in production, development only!
+AppConfig[:skip_solr_schema_check] = false
+
 # The ArchivesSpace indexer listens on port 8091 by default.  You can
 # set it to something else below.
 AppConfig[:indexer_url] = "http://localhost:8091"
