@@ -193,6 +193,7 @@ class ArchivesSpaceService < Sinatra::Base
 
   Endpoint.get('/repositories/:repo_id/resources/:id/tree/root')
     .description("Fetch tree information for the top-level resource record")
+    .documentation("Includes the first set of immediate children, which are grouped into 'waypoints'. Additional API requests may be required to retrieve all children if there are too many to include in the first response. See Returns below for details.")
     .params(["id", :id],
             ["repo_id", :repo_id],
             ["published_only", BooleanParam, "Whether to restrict to published/unsuppressed items", :default => false])

@@ -5,16 +5,33 @@ class TreeDocs
 
   ROOT_DOCS = <<~EOS.strip
     Returns a JSON object describing enough information about this tree's root record to render the rest.  Includes:
-    
-      * title -- the collection title
-    
-      * uri -- the collection URI
-    
-      * child_count -- the number of immediate children
-    
-      * waypoints -- the number of "waypoints" those children are grouped into
-    
-      * waypoint_size -- the number of children in each waypoint
+
+      * child_count (Integer) -- Number of immediate children of the root record
+
+      * waypoints (Integer) -- Number of "waypoints" those children are grouped into. The first waypoint is precomputed and included in the response (see precomputed_wayoints below). Additional waypoints can be retireved via `/repositories/:repo_id/:record_type/:id/tree/waypoint`
+
+      * waypoint_size (Integer) -- The limit to the number of children included in each waypoint
+
+      * title (String) -- Record title
+
+      * uri (String) -- Record URI
+
+      * precomputed_waypoints (JSON) -- A nested JSON object containing the first "waypoint" (set of children), limited to `waypoint_size`. The JSON object is structured as follows: `{ "": { "0": [<JSON Object>] }`.  `precomputed_waypoints[''][0]` is an array of JSON objects representing immediate children of the root record. The format of this object is similar to the object returned by: `/repositories/:repo_id/:record_type/:id/tree/node` but without its own precomputed_waypoints.
+
+      **Resource records** only:
+
+      * level (String) -- Level of arrangement (e.g. collection)
+
+      **Resource and Classification records** only:
+
+      * identifier (String) -- The root record identifier
+
+      **Digital Object records** only:
+
+      * digital_object_type (String) -- Type of the digital object (e.g. still_image)
+
+      * file_uri_summary (String) -- The file uri of the root digital object
+
   EOS
 
   WAYPOINT_DOCS = <<~EOS.strip
