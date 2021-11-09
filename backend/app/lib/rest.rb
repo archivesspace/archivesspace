@@ -114,6 +114,7 @@ module RESTHelpers
           {
             :uri => @uri,
             :description => @description,
+            :permissions => @permissions,
             :documentation => @documentation,
             :deprecated => @deprecated,
             :deprecated_description => @deprecated_description,
@@ -221,6 +222,7 @@ module RESTHelpers
     # created earlier and not necessarily propagated to existing repos
     def sufficient_permissions(permissions)
       @has_permissions = true
+      @permissions += permissions
 
       @preconditions << proc { |request| permissions.any? { |permission| current_user.can?(permission) } }
 
@@ -229,6 +231,7 @@ module RESTHelpers
 
     def permissions(permissions)
       @has_permissions = true
+      @permissions += permissions
 
       permissions.each do |permission|
         @preconditions << proc { |request| current_user.can?(permission) }

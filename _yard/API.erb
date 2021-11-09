@@ -497,6 +497,19 @@ __Description__
 <%= e[:documentation] %>
 <% end %>
 
+__Permissions__
+
+<% if e[:permissions] == [] %>
+  <p>This endpoint does not require authentication.</p>
+<% else %>
+  <p>This endpoint requires an authenticated user with at least one of the following permissions:</p>
+  <% e[:permissions].each do |perm| %>
+  <ul>
+    <li><%= perm %></li>
+  </ul>
+  <% end %>
+<% end %>
+
 <% @payload = [] %>
 <% e[:params].each do |p| %>
   <% next if p.is_a? String %>
