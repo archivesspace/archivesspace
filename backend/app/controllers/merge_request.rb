@@ -11,6 +11,27 @@ class ArchivesSpaceService < Sinatra::Base
              JSONModel(:merge_request), "A merge request",
              :body => true])
     .permissions([:merge_subject_record])
+    .example('shell') do
+      <<~SHELL
+        curl -H 'Content-Type: application/json' \\
+            -H "X-ArchivesSpace-Session: $SESSION" \\
+            -d '{"uri": "merge_requests/subject", "target": {"ref": "/subjects/1"}, "victims": [{"ref": "/subjects/2"}]}' \\
+            "http://localhost:8089/merge_requests/subject"
+      SHELL
+    end
+    .example('python') do
+      <<~PYTHON
+        from asnake.client import ASnakeClient
+        client = ASnakeClient(baseurl=as_api, username=as_un, password=as_pw)
+        client.authorize()
+
+        updated_json = {'uri': 'merge_requests/subject',
+                        'target': {'ref': subject_merge},
+                        'victims': [{'ref': subject_uri}]}
+        merge_response = client.post('merge_requests/subject', json=updated_json)
+        print(merge_response.json())
+      PYTHON
+    end
     .returns([200, :updated]) \
   do
     target, victims = parse_references(params[:merge_request])
