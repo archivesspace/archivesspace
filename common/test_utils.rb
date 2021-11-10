@@ -60,11 +60,6 @@ module TestUtils
     ' ' + java_opts
   end
 
-  def self.java_build_args(build_args)
-    build_args << "-Dgem_home=#{ENV['GEM_HOME']}" if ENV['GEM_HOME']
-    build_args
-  end
-
   def self.find_ant
     fullpath = ''
     [nil, '..', '../..'].each do |root|
@@ -80,10 +75,13 @@ module TestUtils
     java_opts = build_config_string(config)
     java_opts += " -Daspace.config=#{config_file}" if config_file
 
-    build_args = java_build_args(['backend:devserver:integration',
-                                  "-Daspace.backend.port=#{port}",
-                                  '-Daspace_integration_test=1',
-                                  "-Daspace.config.db_url=#{db_url}"])
+    # although we are testing, we need to pass the db we are using
+    # through as aspace.db_url.dev because the backend:devserver
+    # ant task is harcoded to used that build arg
+    build_args = ['backend:devserver:integration',
+                  "-Daspace.backend.port=#{port}",
+                  '-Daspace_integration_test=1',
+                  "-Daspace.db_url.dev=#{db_url}"]
     java_opts += ' -Xmx1024m'
 
     puts "Spawning backend with opts: #{java_opts}"
@@ -101,8 +99,8 @@ module TestUtils
     java_opts += build_config_string(config)
     java_opts += " -Daspace.config=#{config_file}" if config_file
 
-    build_args = java_build_args(['frontend:devserver:integration',
-                                  "-Daspace.frontend.port=#{port}"])
+    build_args = ['frontend:devserver:integration',
+                  "-Daspace.frontend.port=#{port}"]
     java_opts += ' -Xmx1512m'
 
     puts "Spawning frontend with opts: #{java_opts}"
