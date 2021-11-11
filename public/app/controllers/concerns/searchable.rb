@@ -233,7 +233,6 @@ module Searchable
     results.each do |result|
       if !result['json'].blank?
         result['json'] = ASUtils.json_parse(result['json']) || {}
-#        Pry::ColorPrinter.pp(result['json'])
       end
       result['json']['display_string'] = full_title(result['json'])
       html_notes(result['json'], full)

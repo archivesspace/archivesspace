@@ -155,9 +155,6 @@ def setup_test_data
            resource: { 'ref' => resource_with_scope.uri }, publish: true)
   end
 
-  resource_with_title_inheritance = create(:resource, title: "Resource with child inheriting title", publish: true)
-  create(:archival_object, resource: {'ref' => resource_with_title_inheritance.uri}, 'title' => "", 'dates' => [build(:date)], :publish => true)
-
   create(:digital_object_component,
          publish: true,
          component_id: '12345')
@@ -172,7 +169,7 @@ RSpec.configure do |config|
   # show retry status in spec process
   config.verbose_retry = true
   # Try thrice (retry twice)
-  config.default_retry_count = 3
+  config.default_retry_count = ENV['ASPACE_TEST_RETRY_COUNT'] || 3
 
   [:controller, :view, :request].each do |type|
     config.include ::Rails::Controller::Testing::TestProcess, :type => type
@@ -191,8 +188,10 @@ RSpec.configure do |config|
     $admin = BackendClientMethods::ASpaceUser.new('admin', 'admin')
     AspaceFactories.init
     setup_test_data unless ENV['ASPACE_TEST_SKIP_FIXTURES']
-    PeriodicIndexer.new($backend).run_index_round
-    PUIIndexer.new($backend).run_index_round
+    unless ENV['ASPACE_TEST_SKIP_INDEXING']
+      PeriodicIndexer.new($backend).run_index_round
+      PUIIndexer.new($backend).run_index_round
+    end
   end
 
   config.after(:suite) do
@@ -204,3 +203,5 @@ RSpec.configure do |config|
     Rack::Handler.get('mizuno').instance_variable_get(:@server) ? Rack::Handler.get('mizuno').instance_variable_get(:@server).stop : next
   end
 end
+
+FIXTURES_DIR = File.join(File.dirname(__FILE__), "fixtures")

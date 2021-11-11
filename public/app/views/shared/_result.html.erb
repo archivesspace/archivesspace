@@ -1,6 +1,5 @@
  <%# any result that is going to be presented in a list %>
- <%# Pry::ColorPrinter.pp(result['json'])%>
- <% if !props.fetch(:full,false) %>
+  <% if !props.fetch(:full,false) %>
    <div class="recordrow" style="clear:both" data-uri="<%= result.uri %>">
      <% end %>
      <%= render partial: 'shared/idbadge', locals: {:result => result, :props => props } %>
