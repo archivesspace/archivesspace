@@ -233,7 +233,6 @@ module Searchable
     results.each do |result|
       if !result['json'].blank?
         result['json'] = ASUtils.json_parse(result['json']) || {}
-#        Pry::ColorPrinter.pp(result['json'])
       end
       result['json']['display_string'] = full_title(result['json'])
       html_notes(result['json'], full)
@@ -393,7 +392,7 @@ module Searchable
   def full_title(json)
     ft = strip_mixed_content(json['display_string'] || json['title'])
     unless json['title_inherited'].blank? || (json['display_string'] || '') == json['title']
-      ft = I18n.t('inherited', :title => strip_mixed_content(json['title']), :display => ft)
+      ft = I18n.t('inherit.inherited', :level => raw['level'], :title => strip_mixed_content(json['title']), :display => ft)
     end
     ft
   end

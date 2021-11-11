@@ -167,7 +167,7 @@ RSpec.configure do |config|
   # show retry status in spec process
   config.verbose_retry = true
   # Try thrice (retry twice)
-  config.default_retry_count = 3
+  config.default_retry_count = ENV['ASPACE_TEST_RETRY_COUNT'] || 3
 
   [:controller, :view, :request].each do |type|
     config.include ::Rails::Controller::Testing::TestProcess, :type => type
@@ -191,8 +191,10 @@ RSpec.configure do |config|
     require_relative 'factories'
     AspaceFactories.init
     setup_test_data unless ENV['ASPACE_TEST_SKIP_FIXTURES']
-    PeriodicIndexer.new($backend).run_index_round
-    PUIIndexer.new($backend).run_index_round
+    unless ENV['ASPACE_TEST_SKIP_INDEXING']
+      PeriodicIndexer.new($backend).run_index_round
+      PUIIndexer.new($backend).run_index_round
+    end
   end
 
   config.after(:suite) do
@@ -204,3 +206,5 @@ RSpec.configure do |config|
     Rack::Handler.get('mizuno').instance_variable_get(:@server) ? Rack::Handler.get('mizuno').instance_variable_get(:@server).stop : next
   end
 end
+
+FIXTURES_DIR = File.join(File.dirname(__FILE__), "fixtures")

@@ -24,7 +24,5 @@ describe 'Record innards', js: true do
     within '.upper-record-details' do
       expect(page).to have_css(".note-content", text: "From the")
     end
-
   end
-
 end

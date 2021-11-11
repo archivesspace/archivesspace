@@ -1,0 +1,58 @@
+{
+  "id": "/repositories/2/archival_objects/19#pui",
+  "uri": "/repositories/2/archival_objects/19",
+  "title": "Resource with child inheriting title",
+  "primary_type": "archival_object",
+  "types": [
+    "archival_object",
+    "pui",
+    "pui_archival_object",
+    "pui_record",
+    "pui_only"
+  ],
+  "suppressed": false,
+  "publish": true,
+  "system_generated": false,
+  "repository": "/repositories/2",
+  "level_enum_s": [
+    "item",
+    "collection",
+    "Collection"
+  ],
+  "date_type_enum_s": [
+    "bulk"
+  ],
+  "label_enum_s": [
+    "creation"
+  ],
+  "resource": "/repositories/2/resources/8",
+  "ref_id": "aspace_22",
+  "is_slug_auto": true,
+  "created_by": "admin",
+  "last_modified_by": "admin",
+  "user_mtime": "2021-11-11T10:54:26Z",
+  "system_mtime": "2021-11-11T10:54:26Z",
+  "create_time": "2021-11-11T10:54:26Z",
+  "notes": "",
+  "dates": [
+    "1900s"
+  ],
+  "level": "item",
+  "ancestors": [
+    "/repositories/2/resources/8"
+  ],
+  "pui_parent_id": "/repositories/2/archival_objects/19",
+  "json": "{\"lock_version\":0,\"position\":0,\"publish\":true,\"ref_id\":\"aspace_22\",\"display_string\":\"bulk: 1900s\",\"restrictions_apply\":false,\"created_by\":\"admin\",\"last_modified_by\":\"admin\",\"create_time\":\"2021-11-11T10:54:26Z\",\"system_mtime\":\"2021-11-11T10:54:26Z\",\"user_mtime\":\"2021-11-11T10:54:26Z\",\"suppressed\":false,\"is_slug_auto\":true,\"level\":\"item\",\"jsonmodel_type\":\"archival_object\",\"extents\":[{\"lock_version\":0,\"number\":\"1\",\"created_by\":\"admin\",\"last_modified_by\":\"admin\",\"create_time\":\"2021-11-11T10:54:25Z\",\"system_mtime\":\"2021-11-11T10:54:25Z\",\"user_mtime\":\"2021-11-11T10:54:25Z\",\"portion\":\"whole\",\"extent_type\":\"linear_feet\",\"jsonmodel_type\":\"extent\",\"_inherited\":{\"ref\":\"/repositories/2/resources/8\",\"level\":\"Collection\",\"direct\":false}}],\"lang_materials\":[{\"lock_version\":0,\"created_by\":\"admin\",\"last_modified_by\":\"admin\",\"create_time\":\"2021-11-11T10:54:25Z\",\"system_mtime\":\"2021-11-11T10:54:25Z\",\"user_mtime\":\"2021-11-11T10:54:25Z\",\"jsonmodel_type\":\"lang_material\",\"notes\":[],\"language_and_script\":{\"lock_version\":0,\"created_by\":\"admin\",\"last_modified_by\":\"admin\",\"create_time\":\"2021-11-11T10:54:25Z\",\"system_mtime\":\"2021-11-11T10:54:25Z\",\"user_mtime\":\"2021-11-11T10:54:25Z\",\"language\":\"sam\",\"script\":\"Hanb\",\"jsonmodel_type\":\"language_and_script\"},\"_inherited\":{\"ref\":\"/repositories/2/resources/8\",\"level\":\"Collection\",\"direct\":false}}],\"dates\":[{\"lock_version\":0,\"expression\":\"1900s\",\"begin\":\"1900-01-01\",\"end\":\"1999-12-31\",\"created_by\":\"admin\",\"last_modified_by\":\"admin\",\"create_time\":\"2021-11-11T10:54:26Z\",\"system_mtime\":\"2021-11-11T10:54:26Z\",\"user_mtime\":\"2021-11-11T10:54:26Z\",\"date_type\":\"bulk\",\"label\":\"creation\",\"jsonmodel_type\":\"date\"}],\"external_documents\":[],\"rights_statements\":[],\"uri\":\"/repositories/2/archival_objects/19\",\"repository\":{\"ref\":\"/repositories/2\",\"_resolved\":{\"lock_version\":0,\"repo_code\":\"test_1636628050\",\"name\":\"Test Repo 1\",\"org_code\":\"123\",\"url\":\"http://foo.com\",\"image_url\":\"http://foo.com/bar\",\"created_by\":\"admin\",\"last_modified_by\":\"admin\",\"create_time\":\"2021-11-11T10:54:11Z\",\"system_mtime\":\"2021-11-11T10:54:11Z\",\"user_mtime\":\"2021-11-11T10:54:11Z\",\"publish\":true,\"oai_is_disabled\":false,\"slug\":\"test_1636628050\",\"is_slug_auto\":true,\"jsonmodel_type\":\"repository\",\"uri\":\"/repositories/2\",\"display_string\":\"Test Repo 1 (test_1636628050)\",\"agent_representation\":{\"ref\":\"/agents/corporate_entities/1\",\"_resolved\":{\"lock_version\":0,\"publish\":false,\"created_by\":\"admin\",\"last_modified_by\":\"admin\",\"create_time\":\"2021-11-11T10:54:11Z\",\"system_mtime\":\"2021-11-11T10:54:11Z\",\"user_mtime\":\"2021-11-11T10:54:11Z\",\"is_slug_auto\":true,\"jsonmodel_type\":\"agent_corporate_entity\",\"agent_contacts\":[{\"lock_version\":0,\"name\":\"test_1636628050\",\"created_by\":\"admin\",\"last_modified_by\":\"admin\",\"create_time\":\"2021-11-11T10:54:11Z\",\"system_mtime\":\"2021-11-11T10:54:11Z\",\"user_mtime\":\"2021-11-11T10:54:11Z\",\"jsonmodel_type\":\"agent_contact\",\"telephones\":[],\"notes\":[],\"is_representative\":false}],\"agent_record_controls\":[],\"agent_alternate_sets\":[],\"agent_conventions_declarations\":[],\"agent_other_agency_codes\":[],\"agent_maintenance_histories\":[],\"agent_record_identifiers\":[],\"agent_identifiers\":[],\"agent_sources\":[],\"agent_places\":[],\"agent_occupations\":[],\"agent_functions\":[],\"agent_topics\":[],\"agent_resources\":[],\"linked_agent_roles\":[],\"external_documents\":[],\"notes\":[],\"used_within_repositories\":[],\"used_within_published_repositories\":[],\"dates_of_existence\":[],\"used_languages\":[],\"metadata_rights_declarations\":[],\"names\":[{\"lock_version\":0,\"primary_name\":\"test_1636628050\",\"sort_name\":\"test_1636628050\",\"sort_name_auto_generate\":true,\"created_by\":\"admin\",\"last_modified_by\":\"admin\",\"create_time\":\"2021-11-11T10:54:11Z\",\"system_mtime\":\"2021-11-11T10:54:11Z\",\"user_mtime\":\"2021-11-11T10:54:11Z\",\"authorized\":true,\"is_display_name\":true,\"jurisdiction\":false,\"conference_meeting\":false,\"source\":\"local\",\"jsonmodel_type\":\"name_corporate_entity\",\"use_dates\":[],\"parallel_names\":[]}],\"related_agents\":[],\"uri\":\"/agents/corporate_entities/1\",\"agent_type\":\"agent_corporate_entity\",\"is_linked_to_published_record\":false,\"display_name\":{\"lock_version\":0,\"primary_name\":\"test_1636628050\",\"sort_name\":\"test_1636628050\",\"sort_name_auto_generate\":true,\"created_by\":\"admin\",\"last_modified_by\":\"admin\",\"create_time\":\"2021-11-11T10:54:11Z\",\"system_mtime\":\"2021-11-11T10:54:11Z\",\"user_mtime\":\"2021-11-11T10:54:11Z\",\"authorized\":true,\"is_display_name\":true,\"jurisdiction\":false,\"conference_meeting\":false,\"source\":\"local\",\"jsonmodel_type\":\"name_corporate_entity\",\"use_dates\":[],\"parallel_names\":[]},\"title\":\"test_1636628050\",\"is_repo_agent\":\"Test Repo 1\"}}}},\"resource\":{\"ref\":\"/repositories/2/resources/8\"},\"has_unpublished_ancestor\":false,\"title\":\"Resource with child inheriting title\",\"title_inherited\":{\"ref\":\"/repositories/2/resources/8\",\"level\":\"Collection\",\"direct\":true}}",
+  "jsonmodel_type": "archival_object",
+  "_resolved_resource": {
+    "/repositories/2/resources/8": [
+      {
+        "title": "Resource with child inheriting title",
+        "publish": true,
+        "id_0": "1636628065_8",
+        "level": "collection",
+        "uri": "/repositories/2/resources/8"
+      }
+    ]
+  }
+}
