@@ -1,46 +1,149 @@
-/* colors and icons for your institution */
+:root {
+  /* colors and icons for your institution */
+  --black: #000;
+  --darkest: #00171f;
+  --white: #fff;
+  --darkblue: #041c2f;
+  --midblue: #006e99;
+  --lightblue: #007cad;
+  --darkshade: #888;
+  --shade: #ccc;
+  --lightshade: #eee;
+  --highlight: #f7d309;
+  --dark-against-shade: #004f6f; /* for contrast against lightshade */
 
-$black: #000;
-$darkest: #00171f;
-$white: #fff;
-$darkblue: #041c2f;
-$midblue: #006e99;
-$lightblue: #007cad;
-$darkshade: #888;
-$shade: #ccc;
-$lightshade: #eee;
-$highlight: #f7d309;
-$dark_against_shade: #004f6f; /* for contrast against lightshade */
+  /* this is where you can change colors for your institution */
+  --primary-color: var(--lightblue);
+  --secondary-color: var(--midblue);
+  --accent-color: var(--darkblue);
+  --border-accent: var(--darkblue);
+  --border: var(--shade);
+  --image-background: var(--shade);
+  --row-background: var(--lightshade);
+  --button-background: var(--lightblue);
+  --alt-button-background: var(--lightshade);
+  --alt-button-color: var(--darkshade);
+  --light-neutral: var(--lightshade);
+  --breadcrumb-link: var(--darkblue);
 
-/* this is where you can change colors for your institution */
+  /* this is for the top horizontal nav bar */
+  --nvBgDefault: var(--light-neutral);
+  --nvBgHighlight: var(--light-neutral);
+  --nvColDefault: var(--dark-against-shade);
+  --nvColHighlight: var(--border-accent);
 
-$primary-color: $lightblue;
-$secondary-color: $midblue;
-$accent-color: $darkblue;
-$border-accent: $darkblue;
-$border: $shade;
-$image-background: $shade;
-$row-background: $lightshade;
-$button-background: $lightblue;
-$alt-button-background: $lightshade;
-$alt-button-color: $darkshade;
-$light-neutral: $lightshade;
-$breadcrumb-link: $darkblue;
+  --collection-color: #e01919;
+  --subject-color: #941c9a;
+  --container-color: #0b5a14;
+  --agent-color: #3b52ff;
+  --record-color: #0b5a14;
+  --repository-color: #7608b5;
+  --classification-color: #015189;
+  --accession-color: var(--collection-color);
+  --digital-object-color: var(--collection-color);
+  --archival-object-color: #457141;
+  --folder-color: #009fcf;
+}
 
-/* this is for the top horizontal nav bar */
-$nvBgDefault: $light-neutral;
-$nvBgHighlight: $light-neutral;
-$nvColDefault: $dark_against_shade;
-$nvColHighlight: $border-accent;
+@media (prefers-color-scheme: dark) {
+  :root {
+    // Dark theme primitives
+    --blue-100: #6bd0f1;
+    --blue-200: #1ab7ea;
+    --blue-300: #0092cb;
+    --blue-400: #007fb0;
+    --blue-500: #1e73be;
+    --blue-600: #0e6cb6;
+    --blue-700: #002a5c;
 
-$collection-color: #e01919;
-$subject-color: #941c9a;
-$container-color: #0b5a14;
-$agent-color: #3b52ff;
-$record-color: #0b5a14;
-$repository-color: #7608b5;
-$classification-color: #015189;
-$accession-color: $collection-color;
-$digital-object-color: $collection-color;
-$archival-object-color: #457141;
-$folder-color: #009fcf;
+    --gray-100: #e1e1e1;
+    --gray-200: #cfcfcf;
+    --gray-300: #b1b1b1;
+    --gray-400: #9e9e9e;
+    --gray-500: #7e7e7e;
+    --gray-600: #626262;
+    --gray-700: #515151;
+    --gray-800: #3b3b3b;
+    --gray-900: #222;
+
+    /* this is where you can change colors for your institution */
+    // Dark theme base
+    --primary-color: var(--blue-200);
+    --secondary-color: var(--blue-300);
+
+    --primary-text-color: var(--gray-100);
+    --secondary-text-color: var(--gray-200);
+    --disabled-text-color: var(--gray-400);
+
+    --primary-bg-color: var(--gray-900);
+    --secondary-bg-color: var(--gray-800);
+    --tertiary-bg-color: var(--gray-700);
+
+    --primary-border-color: var(--gray-200);
+    --secondary-border-color: var(--gray-400);
+
+    // Dark theme specific UI overrides
+    --link-color: var(--blue-100);
+    --link-hover-color: var(--secondary-color);
+
+    --btn-text-color: var(--white);
+
+    --btn-default-bg-color: transparent;
+    --btn-default-border-color: var(--secondary-border-color);
+    --btn-default-hover-bg-color: var(--gray-600);
+    --btn-default-active-bg-color: var(--secondary-bg-color);
+
+    --btn-primary-bg-color: var(--blue-400);
+    --btn-primary-border-color: var(--blue-400);
+    --btn-primary-hover-bg-color: var(--blue-300);
+    --btn-primary-hover-border-color: var(--blue-300);
+
+    --alert-danger-color: #f49b9b;
+    --alert-danger-bg-color: #842029;
+    --alert-danger-border-color: var(--collection-color);
+
+    --alert-info-color: var(--blue-100);
+    --alert-info-bg-color: var(--dark-against-shade);
+    --alert-info-border-color: var(--secondary-color);
+
+    --alert-success-color: #a1d9ae;
+    --alert-success-bg-color: #186429;
+    --alert-success-border-color: var(--archival-object-color);
+
+    --alert-warning-color: #110c00;
+    --alert-warning-bg-color: #997404;
+    --alert-warning-border-color: #f6e05e;
+    --alert-warning-link-color: var(--white);
+
+    --resizable-sidebar-handle-bg-color: var(--gray-600);
+
+    --accent-color: var(--gray-500);
+    --border-accent: var(--gray-100);
+    --border: var(--primary-border-color);
+    --image-background: var(--gray-200);
+    --row-background: var(--gray-700);
+    --button-background: var(--lightblue);
+    --alt-button-background: var(--lightshade);
+    --alt-button-color: var(--darkshade);
+    --light-neutral: var(--lightshade);
+    --breadcrumb-link: var(--primary-color);
+
+    /* this is for the top horizontal nav bar */
+    --nvBgDefault: var(--gray-700);
+    --nvBgHighlight: var(--gray-700);
+    --nvColDefault: var(--white);
+    --nvColHighlight: var(--gray-100);
+
+    --collection-color: #ec5454;
+    --subject-color: #d74bde;
+    --container-color: #139e23;
+    --agent-color: #6a7cff;
+    --record-color: var(--container-color);
+    --repository-color: #be58f8;
+    --classification-color: #028cec;
+    --accession-color: var(--collection-color);
+    --digital-object-color: var(--collection-color);
+    --archival-object-color: #5b9656;
+    --folder-color: #009fcf;
+  }
+}

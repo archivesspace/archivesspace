@@ -23,6 +23,8 @@
 // "bootstrap-sprockets" must be imported before "bootstrap" and "bootstrap/variables"
 @import 'bootstrap-sprockets';
 @import 'bootstrap';
+@import 'bootstrap-dark/bootstrap-dark';
+@import 'archivesspace/bootstrap-dark-overrides.scss';
 
 //font-awesome
 @import 'font-awesome-sprockets';
@@ -31,10 +33,13 @@
 // @import "load-awesome/line-spin-clockwise-fade.css";
 @import 'foundation/_functions.scss';
 @import 'archivesspace/aspace';
+@import 'archivesspace/aspace-dark';
 @import 'archivesspace/record-type-badge';
 
 @import 'archivesspace/infinite-scroll';
+@import 'archivesspace/infinite-scroll-dark.scss';
 @import 'archivesspace/largetree';
+@import 'archivesspace/largetree-dark.scss';
 @import 'archivesspace/mixed-content';
 
 @import 'archivesspace/helpers.scss';

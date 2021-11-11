@@ -1,0 +1,45 @@
+// Note! This file only overrides some colors from
+// public/vendor/assets/stylesheets/archivesspace/largetree.scss,
+// and is not related to the frontend use of largetree.less.
+
+@media (prefers-color-scheme: dark) {
+  .largetree-container {
+    background-color: var(--primary-bg-color);
+
+    button.expandme {
+      background: none;
+      color: var(--primary-text-color);
+    }
+
+    .current {
+      outline: 1px solid var(--primary-color);
+
+      td,
+      .table-cell {
+        background-color: var(--dark-against-shade);
+      }
+    }
+
+    .indentor {
+      background-color: var(--tertiary-bg-color);
+      background-image: repeating-linear-gradient(
+        90deg,
+        transparent,
+        transparent 23px,
+        var(--primary-bg-color) 24px
+      );
+    }
+
+    .table.root {
+      div.table-row {
+        background-color: var(--primary-bg-color);
+      }
+      div.table-row:nth-of-type(odd) {
+        background-color: var(--secondary-bg-color);
+      }
+      div.table-row:first-child {
+        background-color: var(--tertiary-bg-color);
+      }
+    }
+  }
+}

@@ -1,0 +1,246 @@
+@media (prefers-color-scheme: dark) {
+  // buttons
+  .btn,
+  .btn:hover,
+  .btn:focus,
+  .btn.focus {
+    color: var(--btn-text-color);
+  }
+
+  .btn.disabled,
+  .btn:disabled {
+    opacity: 0.8;
+  }
+
+  .btn-default {
+    color: var(--btn-text-color);
+    background-color: var(--btn-default-bg-color);
+    border-color: var(--btn-default-border-color);
+  }
+  .btn-default:hover,
+  .btn-default:focus,
+  .btn-default.focus {
+    color: var(--btn-text-color);
+    background-color: var(--btn-default-hover-bg-color);
+    border-color: var(--btn-default-border-color);
+  }
+  .btn-default:active,
+  .btn-default.active,
+  .btn-default:active:hover,
+  .btn-default:active:focus,
+  .btn-default:active.focus,
+  .btn-default.active:hover,
+  .btn-default.active:focus,
+  .btn-default.active.focus {
+    color: var(--btn-text-color);
+    background-color: var(--btn-default-active-bg-color);
+    border-color: var(--btn-default-border-color);
+  }
+  .btn-default.disabled:hover,
+  .btn-default.disabled:focus,
+  .btn-default.disabled.focus,
+  .btn-default[disabled]:hover,
+  .btn-default[disabled]:focus,
+  .btn-default[disabled].focus,
+  fieldset[disabled] .btn-default:hover,
+  fieldset[disabled] .btn-default:focus,
+  fieldset[disabled] .btn-default.focus {
+    background-color: var(--btn-default-hover-bg-color);
+    border-color: var(--btn-default-border-color);
+  }
+
+  .btn-primary {
+    color: var(--btn-text-color);
+    background-color: var(--btn-primary-bg-color);
+    border-color: var(--btn-primary-border-color);
+  }
+
+  .btn-primary:hover,
+  .btn-primary:focus,
+  .btn-primary.focus,
+  .btn-primary:not(:disabled):not(.disabled):active,
+  .btn-primary:not(:disabled):not(.disabled).active,
+  .show > .btn-primary.dropdown-toggle {
+    background-color: var(--btn-primary-hover-bg-color);
+    border-color: var(--btn-primary-hover-border-color);
+  }
+
+  .close {
+    opacity: 1;
+  }
+
+  .close:hover,
+  .close:focus {
+    opacity: 0.6;
+    color: inherit;
+  }
+
+  // .navbar
+  .navbar {
+    border-radius: 0;
+  }
+
+  // .form-control
+  .form-control {
+    color: var(--primary-text-color);
+    background-color: var(--secondary-bg-color);
+    border: 1px solid var(--secondary-border-color);
+  }
+
+  .form-control:focus {
+    color: var(--primary-text-color);
+    border-color: var(--primary-color);
+  }
+
+  .form-control::placeholder {
+    color: var(--secondary-text-color);
+  }
+
+  .input-group-addon {
+    color: var(--primary-text-color);
+    background-color: var(--primary-bg-color);
+    border: 1px solid var(--secondary-border-color);
+  }
+
+  .has-error .input-group-addon {
+    background-color: var(--primary-bg-color);
+  }
+
+  // Bootstrap v4 replaced panels with cards, so bootstrap-dark doesn't
+  // style the panels used from Bootstrap v3. Some of following panel styles
+  // come from bootstrap-dark card styles.
+
+  .panel-default {
+    border-color: var(--primary-border-color);
+  }
+
+  .panel {
+    background-color: transparent;
+    box-shadow: none;
+  }
+
+  .panel-default > .panel-heading {
+    color: var(--primary-text-color);
+    background-color: var(--secondary-bg-color);
+    border-bottom: 1px solid var(--primary-border-color);
+  }
+
+  .panel-group .panel-heading + .panel-collapse > .panel-body {
+    // 'expand/collapse all' panel bodies
+    border-top-color: transparent;
+  }
+
+  // modal
+  .modal-content {
+    background-color: var(--primary-bg-color);
+    border: 1px solid var(--secondary-border-color);
+  }
+
+  .modal-header {
+    border-bottom: 1px solid var(--secondary-border-color);
+  }
+
+  .modal-footer {
+    border-top: 1px solid var(--secondary-border-color);
+  }
+
+  // main app footer, not expand-all panels
+  footer.panel-footer {
+    background-color: var(--tertiary-bg-color);
+    border-top: 1px solid var(--primary-border-color);
+  }
+
+  // alerts
+  .alert-danger {
+    color: var(--alert-danger-color);
+    background-color: var(--alert-danger-bg-color);
+    border-color: var(--alert-danger-border-color);
+  }
+  .alert-danger hr {
+    border-top-color: var(--alert-danger-border-color);
+  }
+  .alert-danger .alert-link {
+    color: var(--secondary-text-color);
+  }
+
+  .alert-info {
+    color: var(--alert-info-color);
+    background-color: var(--alert-info-bg-color);
+    border-color: var(--alert-info-border-color);
+  }
+  .alert-info hr {
+    border-top-color: var(--primary-color);
+  }
+  .alert-info .alert-link {
+    color: var(--secondary-text-color);
+  }
+
+  .alert-success {
+    color: var(--alert-success-color);
+    background-color: var(--alert-success-bg-color);
+    border-color: var(--alert-success-border-color);
+  }
+  .alert-success hr {
+    border-top-color: var(--alert-success-border-color);
+  }
+  .alert-success .alert-link {
+    color: var(--secondary-text-color);
+  }
+
+  .alert-warning {
+    color: var(--alert-warning-color);
+    background-color: var(--alert-warning-bg-color);
+    border-color: var(--alert-warning-border-color);
+  }
+  .alert-warning hr {
+    border-top-color: var(--alert-warning-border-color);
+  }
+  .alert-warning .alert-link {
+    color: var(--alert-warning-link-color);
+  }
+
+  // thumbnail
+  .thumbnail {
+    background-color: var(--primary-bg-color);
+    border: 1px solid var(--primary-border-color);
+  }
+
+  // pagination, Bootstrap v4 broke v3's `.pagination` component
+  .pagination > li > a,
+  .pagination > li > span {
+    color: var(--primary-text-color);
+    background-color: var(--primary-bg-color);
+    border: 1px solid var(--primary-border-color);
+  }
+
+  .pagination > li > a:hover,
+  .pagination > li > a:focus,
+  .pagination > li > span:hover,
+  .pagination > li > span:focus {
+    color: var(--primary-text-color);
+    background-color: var(--tertiary-bg-color);
+    border-color: var(--primary-border-color);
+  }
+
+  .pagination > .active > a,
+  .pagination > .active > a:hover,
+  .pagination > .active > a:focus,
+  .pagination > .active > span,
+  .pagination > .active > span:hover,
+  .pagination > .active > span:focus {
+    color: var(--btn-text-color);
+    background-color: var(--btn-primary-bg-color);
+    border-color: var(--btn-primary-border-color);
+  }
+
+  .pagination > .disabled > span,
+  .pagination > .disabled > span:hover,
+  .pagination > .disabled > span:focus,
+  .pagination > .disabled > a,
+  .pagination > .disabled > a:hover,
+  .pagination > .disabled > a:focus {
+    color: var(--disabled-text-color);
+    background-color: var(--primary-bg-color);
+    border-color: var(--primary-border-color);
+  }
+}

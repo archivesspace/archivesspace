@@ -1,0 +1,22 @@
+@media (prefers-color-scheme: dark) {
+  .infinite-record-record {
+    background-image: repeating-linear-gradient(
+      90deg,
+      transparent,
+      transparent ($indent-width - 1),
+      var(--primary-color) $indent-width
+    );
+  }
+  .infinite-item {
+    background-color: var(--primary-bg-color);
+  }
+
+  .waypoint:last-child {
+    .infinite-record-record:last-child {
+      &::after {
+        border-bottom: 5px solid var(--secondary-border-color);
+        background: var(--primary-bg-color);
+      }
+    }
+  }
+}
