@@ -25,7 +25,7 @@ describe 'Record inheritance' do
   }
 
   let(:do_parent) {
-    create(:json_digital_object_component, 
+    create(:json_digital_object_component,
            :digital_object => { :ref =>digital_object.uri } )
   }
 

@@ -21,7 +21,7 @@ class AncestorListing
         else
           json['ancestors'] << {'ref' => parent.uri}
         end
-        
+
         current = parent
       end
 
