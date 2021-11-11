@@ -3,6 +3,7 @@ require 'spec_helper'
 describe 'Record inheritance' do
 
   let(:resource) { create(:json_resource) }
+  let(:digital_object) { create(:json_digital_object) }
 
   let(:parent) {
     create(:json_archival_object,
@@ -21,6 +22,23 @@ describe 'Record inheritance' do
     create(:json_archival_object,
            :resource => {:ref => resource.uri},
            :parent => {:ref => child.uri})
+  }
+
+  let(:do_parent) {
+    create(:json_digital_object_component, 
+           :digital_object => { :ref =>digital_object.uri } )
+  }
+
+  let(:do_child) {
+    create(:json_digital_object_component,
+           :digital_object => { :ref =>digital_object.uri },
+           :parent => {:ref => do_parent.uri} )
+  }
+
+  let(:do_grandchild) {
+    create(:json_digital_object_component,
+           :digital_object => { :ref =>digital_object.uri },
+           :parent => {:ref => do_child.uri})
   }
 
   let(:config) do
@@ -121,6 +139,22 @@ describe 'Record inheritance' do
                                   {
                                     'ref' => resource.uri,
                                     'level' => resource.level,
+                                  },
+                                ])
+  end
+
+  it "provides refs to a record's ancestors for digital object components" do
+    json = DigitalObjectComponent.to_jsonmodel(do_grandchild.id)
+
+    expect(json['ancestors']).to eq([
+                                  {
+                                    'ref' => do_child.uri,
+                                  },
+                                  {
+                                    'ref' => do_parent.uri,
+                                  },
+                                  {
+                                    'ref' => digital_object.uri,
                                   },
                                 ])
   end

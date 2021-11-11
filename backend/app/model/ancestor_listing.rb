@@ -14,16 +14,27 @@ class AncestorListing
 
       current = obj
       while (parent = ancestors.parent_of(current.id))
-        json['ancestors'] << {'ref' => parent.uri,
+
+        if AncestorListing::has_level?(obj.class)
+          json['ancestors'] << {'ref' => parent.uri,
                               'level' => parent.level}
+        else
+          json['ancestors'] << {'ref' => parent.uri}
+        end
+        
         current = parent
       end
 
       root = ancestors.root_record(obj[:root_record_id])
-      json['ancestors'] << {
-        'ref' => root.uri,
-        'level' => root.level
-      }
+
+      if AncestorListing::has_level?(obj.class)
+        json['ancestors'] << {
+          'ref' => root.uri,
+          'level' => root.level
+        }
+      else
+        json['ancestors'] << { 'ref' => root.uri }
+      end
     end
   end
 
@@ -32,14 +43,26 @@ class AncestorListing
     @node_model = node_class
     @root_model = node_class.root_model
 
+    if AncestorListing::has_level?(@node_model)
+      @has_level = true
+    else
+      @has_level = false
+    end
+
     @ancestors = {}
     @root_records = {}
 
     objs.each do |obj|
-      @ancestors[obj.id] = {:id => obj.id,
-                            :level => level_value(obj.level, obj.other_level),
-                            :parent_id => obj.parent_id,
-                            :root_record_id => obj.root_record_id}
+      if @has_level
+        @ancestors[obj.id] = {:id => obj.id,
+                              :level => level_value(obj.level, obj.other_level),
+                              :parent_id => obj.parent_id,
+                              :root_record_id => obj.root_record_id}
+      else
+        @ancestors[obj.id] = {:id => obj.id,
+                              :parent_id => obj.parent_id,
+                              :root_record_id => obj.root_record_id}
+      end
     end
 
     build_ancestor_links
@@ -52,9 +75,15 @@ class AncestorListing
     if parent_id
       ancestor = @ancestors.fetch(parent_id)
 
-      Ancestor.new(ancestor[:id],
+      if @has_level
+        Ancestor.new(ancestor[:id],
+                     @node_model.uri_for(@node_model.my_jsonmodel.record_type, ancestor[:id]),
+                     ancestor[:level])
+      else
+        Ancestor.new(ancestor[:id],
                    @node_model.uri_for(@node_model.my_jsonmodel.record_type, ancestor[:id]),
-                   ancestor[:level])
+                   nil)
+      end
     end
   end
 
@@ -62,9 +91,19 @@ class AncestorListing
   def root_record(root_record_id)
     root_record = @root_records.fetch(root_record_id)
 
-    Ancestor.new(root_record[:id],
+    if @has_level
+      Ancestor.new(root_record[:id],
                  @root_model.uri_for(@root_model.my_jsonmodel.record_type, root_record[:id]),
                  root_record[:level])
+    else
+      Ancestor.new(root_record[:id],
+                 @root_model.uri_for(@root_model.my_jsonmodel.record_type, root_record[:id]),
+                 nil)
+    end
+  end
+
+  def self.has_level?(root_model)
+    root_model != DigitalObjectComponent
   end
 
   private
@@ -83,7 +122,8 @@ class AncestorListing
       # Done!
       break if parent_ids_to_fetch.empty?
 
-      @node_model
+      if @has_level
+        @node_model
         .join(:enumeration_value, :enumeration_value__id => Sequel.qualify(@node_model.table_name, :level_id))
         .filter(Sequel.qualify(@node_model.table_name, :id) => parent_ids_to_fetch)
         .select(Sequel.qualify(@node_model.table_name, :id),
@@ -91,30 +131,52 @@ class AncestorListing
                 :root_record_id,
                 Sequel.as(:enumeration_value__value, :level),
                 :other_level).each do |row|
-        @ancestors[row[:id]] = {
-          :id => row[:id],
-          :level => level_value(row[:level], row[:other_level]),
-          :parent_id => row[:parent_id],
-          :root_record_id => row[:root_record_id]
-        }
-      end
-    end
+                  @ancestors[row[:id]] = {
+                     :id => row[:id],
+                     :level => level_value(row[:level], row[:other_level]),
+                     :parent_id => row[:parent_id],
+                     :root_record_id => row[:root_record_id]
+                  }
+                end
+      else
+        @node_model
+        .filter(Sequel.qualify(@node_model.table_name, :id) => parent_ids_to_fetch)
+        .select(Sequel.qualify(@node_model.table_name, :id),
+                :parent_id,
+                :root_record_id).each do |row|
+                  @ancestors[row[:id]] = {
+                     :id => row[:id],
+                     :parent_id => row[:parent_id],
+                     :root_record_id => row[:root_record_id]
+                  }
+                end
+      end #of if
+    end # of while
 
     # Now fetch the root record for each chain of record nodes
     root_record_ids = @ancestors.map {|_, ancestor| ancestor[:root_record_id]}.compact.uniq
 
-    @root_model
+    if @has_level
+      @root_model
       .join(:enumeration_value, :enumeration_value__id => Sequel.qualify(@root_model.table_name, :level_id))
       .filter(Sequel.qualify(@root_model.table_name, :id) => root_record_ids)
       .select(Sequel.qualify(@root_model.table_name, :id),
               Sequel.as(:enumeration_value__value, :level),
               :other_level).each do |row|
-      @root_records[row[:id]] = {
-          :id => row[:id],
-          :level => level_value(row[:level], row[:other_level]),
-      }
-    end
-  end
+                @root_records[row[:id]] = {
+                    :id => row[:id],
+                    :level => level_value(row[:level], row[:other_level]),
+                }
+              end
+    else
+      @root_model
+      .filter(Sequel.qualify(@root_model.table_name, :id) => root_record_ids)
+      .select(Sequel.qualify(@root_model.table_name, :id))
+      .each do |row|
+        @root_records[row[:id]] = { :id => row[:id] }
+      end
+    end # of if
+  end # of method
 
   Ancestor = Struct.new(:id, :uri, :level)
 
