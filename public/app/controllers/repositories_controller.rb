@@ -139,14 +139,12 @@ class RepositoriesController < ApplicationController
     resources = {}
     query = "(id:\"#{uri}\" AND publish:true)"
     @counts = get_counts("/repositories/#{params[:id]}")
-    #  Pry::ColorPrinter.pp(counts)
     @criteria = {}
     @criteria[:page_size] = 1
     @data = archivesspace.search(query, 1, @criteria) || {}
     if !@data['results'].blank?
       @result = ASUtils.json_parse(@data['results'][0]['json'])
       @badges = Repository.badge_list(@result['repo_code'].downcase)
-      # Pry::ColorPrinter.pp @badges
       # make the repository details easier to get at in the view
       if @result['agent_representation']['_resolved'] && @result['agent_representation']['_resolved']['jsonmodel_type'] == 'agent_corporate_entity'
         @result['repo_info'] = process_repo_info(@result)

@@ -134,7 +134,6 @@ class ResourcesController < ApplicationController
         @sort_opts.push(all_sorts[type])
       end
       @no_statement = true
-# Pry::ColorPrinter.pp @results['results'][0]['_resolved_resource']['json']
       render 'search/search_results'
     end
   end

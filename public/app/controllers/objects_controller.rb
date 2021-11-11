@@ -96,23 +96,19 @@ class ObjectsController < ApplicationController
         @has_children = tree_root && tree_root['child_count'] > 0
       end
 
-      begin
-        @repo_info =  @result.repository_information
-        @page_title = @result.display_string
-        @context = [
-          {:uri => @repo_info['top']['uri'], :crumb => @repo_info['top']['name'], :type => 'repository'}
-        ].concat(@result.breadcrumb)
-        fill_request_info
-        if @result['primary_type'] == 'digital_object' || @result['primary_type'] == 'digital_object_component'
-          @dig = process_digital(@result['json'])
-        else
-          @dig = process_digital_instance(@result['json']['instances'])
-          process_extents(@result['json'])
-        end
-      rescue Exception => error
-        Pry::ColorPrinter.pp error.backtrace
-        raise error
+      @repo_info =  @result.repository_information
+      @page_title = @result.display_string
+      @context = [
+        {:uri => @repo_info['top']['uri'], :crumb => @repo_info['top']['name'], :type => 'repository'}
+      ].concat(@result.breadcrumb)
+      fill_request_info
+      if @result['primary_type'] == 'digital_object' || @result['primary_type'] == 'digital_object_component'
+        @dig = process_digital(@result['json'])
+      else
+        @dig = process_digital_instance(@result['json']['instances'])
+        process_extents(@result['json'])
       end
+
       render
     rescue RecordNotFound
       type = "#{(params[:obj_type] == 'archival_objects' ? 'archival' : 'digital')}_object"
