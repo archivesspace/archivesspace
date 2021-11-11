@@ -398,15 +398,17 @@ As of <%= @time.inspect %> the following REST endpoints exist in the master bran
   <% url_param_examples = [] %>
   <% url_params.each do |param| %>
     <% if param == "resolve" %>
-      <% url_param_examples << "#{param}[]=[record_types, to_resolve]" %>
-    <% elsif example[param] %>
+      <% url_param_examples << "#{param}[]=record_type_to_resolve" %>
+    <% elsif example[param] || example["#{param}[]"] %>
       <% if example[param] == "BooleanParam" %>
         <% url_param_examples << "#{param}=true" %>
+      <% elsif ep = example["#{param}[]"] %>
+        <% url_param_examples << "#{param}[]=#{ep}" %>
       <% else %>
         <% url_param_examples << "#{param}=#{example[param]}" %>
       <% end %>
-        <% elsif param.is_a? String %>
-          <% url_param_examples << "#{param}=#{param}" %>
+    <% elsif param.is_a? String %>
+      <% url_param_examples << "#{param}=#{param}" %>
     <% end %>
   <% end %>
   <% request_uri += "?#{url_param_examples.join("&")}" %>
