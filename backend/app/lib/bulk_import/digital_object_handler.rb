@@ -14,9 +14,12 @@ class DigitalObjectHandler < Handler
     ret = ret.nil?
   end
 
-  def create(title, thumb, link, id, publish, archival_object, report)
+  def create(title, thumb, link, id, publish, archival_object, report, link_publish=nil, thumb_publish=nil)
     dig_o = nil
     dig_instance = nil
+    link_publish = publish if link_publish.nil?
+    thumb_publish = publish if thumb_publish.nil?
+
     # might as well check the dig_id first
     if @validate_only
       if archival_object.nil?
@@ -40,7 +43,7 @@ class DigitalObjectHandler < Handler
     if !link.nil? && link.start_with?("http")
       fv = JSONModel(:file_version).new._always_valid!
       fv.file_uri = link
-      fv.publish = publish
+      fv.publish = link_publish
       fv.xlink_actuate_attribute = "onRequest"
       fv.xlink_show_attribute = "new"
       files.push fv
@@ -48,7 +51,7 @@ class DigitalObjectHandler < Handler
     if !thumb.nil? && thumb.start_with?("http")
       fv = JSONModel(:file_version).new._always_valid!
       fv.file_uri = thumb
-      fv.publish = publish
+      fv.publish = thumb_publish
       fv.xlink_actuate_attribute = "onLoad"
       fv.xlink_show_attribute = "embed"
       fv.is_representative = true

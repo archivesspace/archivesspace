@@ -13,7 +13,7 @@ describe 'Assessment converter' do
   let (:test_user) { 'admin' }
 
   def with_sample_csv_file
-    rows = CSV.parse(File.read(File.join(File.dirname(__FILE__), "../app/exporters/examples/assessment/aspace_assessment_import_template.csv")))
+    rows = CSV.parse(File.read(File.join(File.dirname(__FILE__), "../../templates/aspace_assessment_import_template.csv")))
 
     headers = rows[1]
     data = rows[2..-1]

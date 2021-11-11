@@ -1,3 +1,4 @@
+# coding: utf-8
 require 'spec_helper'
 require 'converter_spec_helper'
 
@@ -9,37 +10,37 @@ describe 'EAC converter' do
   end
 
   let(:person_agent_1) do
-    File.expand_path('../app/exporters/examples/eac/feynman-richard-phillips-1918-1988-cr.xml',
+    File.expand_path('./examples/eac/feynman-richard-phillips-1918-1988-cr.xml',
                      File.dirname(__FILE__))
   end
 
   let(:person_agent_2) do
-    File.expand_path('../app/exporters/examples/eac/MMeT-C_2012_RCR00751.xml',
+    File.expand_path('./examples/eac/MMeT-C_2012_RCR00751.xml',
                      File.dirname(__FILE__))
   end
 
   let(:person_agent_3) do
-    File.expand_path('../app/exporters/examples/eac/xmleac.xml',
+    File.expand_path('./examples/eac/xmleac.xml',
                      File.dirname(__FILE__))
   end
 
   let(:corp_agent_1) do
-    File.expand_path('../app/exporters/examples/eac/SIA_NMAH_EACAmericanHistory.xml',
+    File.expand_path('./examples/eac/SIA_NMAH_EACAmericanHistory.xml',
                      File.dirname(__FILE__))
   end
 
   let(:corp_agent_2) do
-    File.expand_path('../app/exporters/examples/eac/SIA_NMAH_EACAmericanHistory_modified.xml',
+    File.expand_path('./examples/eac/SIA_NMAH_EACAmericanHistory_modified.xml',
                      File.dirname(__FILE__))
   end
 
   let(:family_agent_1) do
-    File.expand_path('../app/exporters/examples/eac/US-CtY-BR_2012_Boswell.xml',
+    File.expand_path('./examples/eac/US-CtY-BR_2012_Boswell.xml',
                      File.dirname(__FILE__))
   end
 
   let(:family_agent_2) do
-    File.expand_path('../app/exporters/examples/eac/US-CtY-BR_2012_Boswell_modified.xml',
+    File.expand_path('./examples/eac/US-CtY-BR_2012_Boswell_modified.xml',
                      File.dirname(__FILE__))
   end
 

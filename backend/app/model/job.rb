@@ -83,11 +83,11 @@ class Job < Sequel::Model(:job)
     # force a validation on the job
     job = JSONModel(json.job['jsonmodel_type'].intern).from_hash(json.job)
 
+    opts = opts.merge(:job_params => ASUtils.to_json(json.job_params)) unless json.job_params.nil?
     super(json, opts.merge(:time_submitted => Time.now,
                            :owner_id => opts.fetch(:user).id,
                            :job_type => json.job['jsonmodel_type'],
-                           :job_blob => ASUtils.to_json(json.job),
-                           :job_params => ASUtils.to_json(json.job_params)
+                           :job_blob => ASUtils.to_json(json.job)
                           ))
   end
 

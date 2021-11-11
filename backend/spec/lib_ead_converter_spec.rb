@@ -105,7 +105,7 @@ describe 'EAD converter' do
 
   describe "EAD Import Mappings" do
     def test_file
-      File.expand_path("../app/exporters/examples/ead/at-tracer.xml", File.dirname(__FILE__))
+      File.expand_path("./examples/ead/at-tracer.xml", File.dirname(__FILE__))
     end
 
     before(:all) do
@@ -1088,7 +1088,7 @@ describe 'EAD converter' do
   describe "DAO and DAOGROUPS" do
 
      before(:all) do
-       test_file = File.expand_path("../app/exporters/examples/ead/ead-dao-test.xml", File.dirname(__FILE__))
+       test_file = File.expand_path("./examples/ead/ead-dao-test.xml", File.dirname(__FILE__))
        parsed = convert(test_file)
 
        @digital_objects = parsed.select {|rec| rec['jsonmodel_type'] == 'digital_object'}
@@ -1125,7 +1125,7 @@ describe 'EAD converter' do
   describe "EAD With frontpage" do
 
     before(:all) do
-      test_file = File.expand_path("../app/exporters/examples/ead/vmi.xml", File.dirname(__FILE__))
+      test_file = File.expand_path("./examples/ead/vmi.xml", File.dirname(__FILE__))
 
       @parsed = convert(test_file)
       @resource = @parsed.select {|rec| rec['jsonmodel_type'] == 'resource'}.last
@@ -1333,7 +1333,7 @@ describe 'EAD converter' do
                  <p>Arragement note text</p>
               </arrangement>
               <dsc>
-        
+
                  <c01 level="series">
                     <did>
                        <unitid>1</unitid>

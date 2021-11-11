@@ -15,7 +15,7 @@ class ImportDigitalObjects < BulkImportParser
     dig_instance = nil
     begin
       dig_instance = @doh.create(@row_hash["digital_object_title"],
-                                 @row_hash["thumbnail"], @row_hash["digital_object_link"], @row_hash["digital_object_id"], @row_hash["publish"], ao, @report)
+                                 @row_hash["thumbnail"], @row_hash["digital_object_link"], @row_hash["digital_object_id"], @row_hash["publish"], ao, @report, @row_hash['digital_object_link_publish'], @row_hash['thumbnail_publish'])
     rescue Exception => e
       @report.add_errors(e.message)
     end
@@ -93,8 +93,9 @@ class ImportDigitalObjects < BulkImportParser
       thumb = @row_hash["thumbnail"] || @row_hash["Thumbnail"]
       err_arr.push I18n.t("bulk_import.error.dig_info_miss") if @row_hash["digital_object_link"].nil? && thumb.nil?
     end
-    v = @row_hash["publish"]
-    @row_hash["publish"] = (v == "1")
+    normalize_publish_column(@row_hash)
+    normalize_publish_column(@row_hash, 'digital_object_link_publish')
+    normalize_publish_column(@row_hash, 'thumbnail_publish')
     err_arr.join("; ")
   end
 
