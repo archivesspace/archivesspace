@@ -42,10 +42,15 @@ describe "Generate REST Documentation" do
           else
             record = generate(klass.name.downcase.to_sym)
           end
+
           if p.is_a? String
             output[e[:uri]][e[:method]][p] = record
           else
-            output[e[:uri]][e[:method]][p[0]] = record
+            if p[1].is_a?(Array)
+              output[e[:uri]][e[:method]]["#{p[0]}[]"] = record
+            else
+              output[e[:uri]][e[:method]][p[0]] = record
+            end
           end
         rescue => err
           problems << { :class => klass, :backtrace => err.backtrace, :message => err.message }
