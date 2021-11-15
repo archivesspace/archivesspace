@@ -23,6 +23,22 @@
   display: none;
 }
 
+.btn-default.dropdown-toggle.last {
+  &:hover,
+  &:active {
+    background-color: #6e6e6e;
+    color: #fff;
+  }
+}
+
+.btn-group > .btn-xs {
+  &.disabled,
+  &[disabled] {
+    color: #000;
+    background-color: #aaa;
+  }
+}
+
 .btn.busy .btn-busy-label {
   display: inline;
 }
