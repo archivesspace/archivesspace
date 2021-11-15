@@ -226,7 +226,7 @@
     width: 384px;
   }
 
-  tr#new {
+  div.table-row#new {
     .indentor,
     .new-title {
       float: left;
@@ -244,8 +244,8 @@
     }
   }
 
-  tr.cut {
-    td {
+  div.table-row.cut {
+    div.table-cell {
       background-color: #ccc;
       box-shadow: inset 0 1px 2px #999;
     }
@@ -354,15 +354,15 @@
 }
 
 .largetree-container.drag-enabled {
-  tr.drag-drop-over {
+  .drag-drop-over {
     outline: 1px solid rgb(2, 132, 130);
-    td {
+    .table-cell {
       background-color: #f0fff0;
     }
   }
-  tr.drag-drop-over-disallowed {
+  .drag-drop-over-disallowed {
     outline: 1px solid #c82829;
-    td {
+    .table-cell {
       background-color: #fff0f0;
     }
   }
