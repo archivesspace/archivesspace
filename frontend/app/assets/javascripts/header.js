@@ -218,3 +218,11 @@ $(function() {
     });
   }
 });
+
+function processKey(e) {
+  if (null == e) e = window.event;
+  if (e.keyCode == 13) {
+    document.getElementById('advanced-search-btn').click();
+    return false;
+  }
+}
