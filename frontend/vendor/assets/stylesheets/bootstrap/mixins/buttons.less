@@ -22,8 +22,6 @@
   &.active,
   .open > .dropdown-toggle& {
     background-image: none;
-    background-color: #6e6e6e;
-    color: #fff;
   }
   &.disabled,
   &[disabled],
@@ -34,9 +32,8 @@
     &.focus,
     &:active,
     &.active {
-      color: #000;
-      background-color: #aaa;
-          border-color: @border;
+      background-color: @background;
+      border-color: @border;
     }
   }
 
