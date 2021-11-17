@@ -288,7 +288,8 @@ describe "Exported MODS metadata" do
     end
 
     it "does not create a language/languageTerm tag if language is not specified" do
-      digital_object = create(:json_digital_object_no_lang,
+      digital_object = create(:json_digital_object,
+                              :lang_materials => nil,
                               :digital_object_type => "notated_music")
 
       mods = get_mods(digital_object)

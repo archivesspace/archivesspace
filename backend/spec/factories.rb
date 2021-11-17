@@ -11,22 +11,9 @@ FactoryBot.define do
 
   to_create {|instance| instance.save}
 
-  sequence(:repo_code) {|n| "ASPACE REPO #{n} -- #{rand(1000000)}"}
-
-  sequence(:good_markup) { "<p>I'm</p><p>GOOD</p><p>#{ FactoryBot.generate(:alphanumstr)}</p>" }
-  sequence(:whack_markup) { "I'm <p><br/>WACK " + FactoryBot.generate(:alphanumstr) }
-  sequence(:wild_markup) { "<p> I AM \n WILD \n ! \n ! " + FactoryBot.generate(:alphanumstr) + "</p>" }
-  sequence(:string) { FactoryBot.generate(:alphanumstr) }
-  sequence(:html_title) { |n| "Title: <emph render='italic'>#{n}</emph>"}
-  sequence(:container_type) {|n| 'box'}
-
-  sequence(:phone_number) { (3..5).to_a[rand(3)].times.map { (3..5).to_a[rand(3)].times.map { rand(9) }.join }.join(' ') }
-
   sequence(:hh_mm) { t = Time.now; "#{t.hour}:#{t.min}" }
   sequence(:barcode) { 20.times.map { rand(2)}.join }
   sequence(:indicator) { (2+rand(3)).times.map { (2+rand(3)).times.map {rand(9)}.join }.join('-') }
-
-  sequence(:level) { %w(series subseries item)[rand(3)] }
 
 
   # AS Models
@@ -174,60 +161,6 @@ FactoryBot.define do
       primary_identifier { true }
       record_identifier { generate(:alphanumstr) }
       source { "naf"}
-      identifier_type { "loc"}
-    end
-
-    factory :json_agent_place, class: JSONModel(:agent_place) do
-      place_role { "place_of_birth" }
-      dates { [build(:json_structured_date_label)] }
-      notes { [build(:json_note_text)] }
-      subjects { [{'ref' => create(:json_subject).uri}] }
-    end
-
-    factory :json_agent_occupation, class: JSONModel(:agent_occupation) do
-      dates { [build(:json_structured_date_label)] }
-      notes { [build(:json_note_text)] }
-      subjects { [{'ref' => create(:json_subject).uri}] }
-      places { [{'ref' => create(:json_subject).uri}] }
-    end
-
-    factory :json_agent_function, class: JSONModel(:agent_function) do
-      dates { [build(:json_structured_date_label)] }
-      notes { [build(:json_note_text)] }
-      subjects { [{'ref' => create(:json_subject).uri}] }
-      places { [{'ref' => create(:json_subject).uri}] }
-    end
-
-    factory :json_agent_topic, class: JSONModel(:agent_topic) do
-      dates { [build(:json_structured_date_label)] }
-      notes { [build(:json_note_text)] }
-      subjects { [{'ref' => create(:json_subject).uri}] }
-      places { [{'ref' => create(:json_subject).uri}] }
-    end
-
-    factory :json_agent_resource, class: JSONModel(:agent_resource) do
-      dates { [build(:json_structured_date_label)] }
-      places { [{'ref' => create(:json_subject).uri}] }
-      file_version_xlink_actuate_attribute { "other"}
-      file_version_xlink_show_attribute { "other" }
-      xlink_title_attribute { generate(:alphanumstr) }
-      xlink_role_attribute { generate(:alphanumstr) }
-      xlink_arcrole_attribute { generate(:alphanumstr) }
-      linked_resource { generate(:alphanumstr) }
-      linked_resource_description { generate(:alphanumstr) }
-      file_uri { generate(:alphanumstr) }
-      linked_agent_role { "creator" }
-    end
-
-    # NOTE: using this factory will fail unless values are added manually to the gender enum list. See agent_spec_helper.rb#add_gender_values
-    factory :json_agent_gender, class: JSONModel(:agent_gender) do
-      dates { [build(:json_structured_date_label)] }
-      gender { "not_specified" }
-      notes { [build(:json_note_text)] }
-    end
-
-    factory :json_agent_identifier, class: JSONModel(:agent_identifier) do
-      entity_identifier { generate(:alphanumstr) }
       identifier_type { "loc"}
     end
 

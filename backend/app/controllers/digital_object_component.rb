@@ -32,6 +32,7 @@ class ArchivesSpaceService < Sinatra::Base
             ["position", Integer, "The position of this node in the tree", :optional => true],
             ["repo_id", :repo_id])
     .permissions([:update_digital_object_record])
+    .no_data(true)
     .returns([200, :updated],
              [400, :error]) \
   do

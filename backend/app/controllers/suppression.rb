@@ -6,6 +6,7 @@ class ArchivesSpaceService < Sinatra::Base
           ["suppressed", BooleanParam, "Suppression state"],
           ["repo_id", :repo_id])
   .permissions([:suppress_archival_record])
+  .no_data(true)
   .returns([200, :suppressed]) \
   do
     sup_state = Accession.get_or_die(params[:id]).set_suppressed(params[:suppressed])
@@ -20,6 +21,7 @@ class ArchivesSpaceService < Sinatra::Base
           ["suppressed", BooleanParam, "Suppression state"],
           ["repo_id", :repo_id])
   .permissions([:suppress_archival_record])
+  .no_data(true)
   .returns([200, :suppressed]) \
   do
     sup_state = Resource.get_or_die(params[:id]).set_suppressed(params[:suppressed])
@@ -34,6 +36,7 @@ class ArchivesSpaceService < Sinatra::Base
           ["suppressed", BooleanParam, "Suppression state"],
           ["repo_id", :repo_id])
   .permissions([:suppress_archival_record])
+  .no_data(true)
   .returns([200, :suppressed]) \
   do
     sup_state = ArchivalObject.get_or_die(params[:id]).set_suppressed(params[:suppressed])
@@ -48,6 +51,7 @@ class ArchivesSpaceService < Sinatra::Base
           ["suppressed", BooleanParam, "Suppression state"],
           ["repo_id", :repo_id])
   .permissions([:suppress_archival_record])
+  .no_data(true)
   .returns([200, :suppressed]) \
   do
     sup_state = DigitalObject.get_or_die(params[:id]).set_suppressed(params[:suppressed])
@@ -62,6 +66,7 @@ class ArchivesSpaceService < Sinatra::Base
           ["suppressed", BooleanParam, "Suppression state"],
           ["repo_id", :repo_id])
   .permissions([:suppress_archival_record])
+  .no_data(true)
   .returns([200, :suppressed]) \
   do
     sup_state = DigitalObjectComponent.get_or_die(params[:id]).set_suppressed(params[:suppressed])

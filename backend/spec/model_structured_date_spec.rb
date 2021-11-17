@@ -145,7 +145,9 @@ describe 'Structured Date model' do
   describe "agent sort name updating from dates_of_existence" do
     before :each do
       @agent = build(:json_agent_person_full_subrec,
-                      :names => [ build(:json_name_person_no_date) ])
+                      :names => [ build(:json_name_person,
+                                        :use_dates => [],
+                                        :dates => nil) ])
       @agent.save
 
     end

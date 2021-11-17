@@ -176,7 +176,7 @@ describe 'MARC Export' do
                 :date_type => type,
                 :begin => range[0],
                 :end => range[1],
-                :expression => [true, false].sample ? generate(:string) : nil
+                :expression => [true, false].sample ? generate(:alphanumstr) : nil
                 )
         }
 
@@ -425,7 +425,7 @@ describe 'MARC Export' do
                 :date_type => type,
                 :begin => range[0],
                 :end => range[1],
-                :expression => [true, false].sample ? generate(:string) : nil
+                :expression => [true, false].sample ? generate(:alphanumstr) : nil
                 )
         }
 
@@ -458,7 +458,8 @@ describe 'MARC Export' do
   describe "record leader mappings - country not defined in repo" do
     before(:all) do
       as_test_user('admin') do
-        @repo_nc = create(:json_repository_without_country)
+        @repo_nc = create(:json_repository,
+                          :country => nil)
 
         $another_repo_id = $repo_id
         $repo_id = @repo_nc.id
@@ -490,7 +491,8 @@ describe 'MARC Export' do
   describe "record leader mappings - US is country defined" do
     before(:all) do
       as_test_user('admin', true) do
-        @repo_us = create(:json_repository_us)
+        @repo_us = create(:json_repository,
+                          :country => 'US')
 
         $another_repo_id = $repo_id
         $repo_id = @repo_us.id
@@ -516,7 +518,8 @@ describe 'MARC Export' do
   describe "record leader mappings - country defined - NOT US" do
     before(:all) do
       as_test_user('admin', true) do
-        @repo_not_us = create(:json_repository_not_us)
+        @repo_not_us = create(:json_repository,
+                              :country => 'TH')
 
         $another_repo_id = $repo_id
         $repo_id = @repo_not_us.id
@@ -541,7 +544,8 @@ describe 'MARC Export' do
   describe "record leader mappings - parent_org_defined" do
     before(:all) do
       as_test_user('admin', true) do
-        @repo_parent = create(:json_repository_parent_org)
+        @repo_parent = create(:json_repository,
+                              :parent_institution_name => generate(:alphanumstr))
 
         @parent_institution_name = @repo_parent.parent_institution_name
         @name = @repo_parent.name
@@ -571,7 +575,8 @@ describe 'MARC Export' do
   describe "record leader mappings - NO org_code defined" do
     before(:all) do
       as_test_user('admin', true) do
-        @repo_no_org_code = create(:json_repository_no_org_code)
+        @repo_no_org_code = create(:json_repository,
+                                   :org_code => nil)
 
         @name = @repo_no_org_code.name
 
@@ -1325,7 +1330,8 @@ describe 'MARC Export' do
       end
 
       it "maps ARK url to df 856 ('4', '2'), sf u if ead_location is blank and ARKs are enabled" do
-        resource = create(:json_resource_blank_ead_location)
+        resource = create(:json_resource,
+                          :ead_location => nil)
         marc = get_marc(resource)
 
         ark_url = resource['ark_name']['current']
@@ -1345,7 +1351,8 @@ describe 'MARC Export' do
       end
 
       it "does not map ARK url to df 856 ('4', '2'), sf u if ead_location is blank and ARKs are disabled" do
-        resource = create(:json_resource_blank_ead_location)
+        resource = create(:json_resource,
+                          :ead_location => nil)
         marc = get_marc(resource)
 
         expect(resource['ark_name']).to be_nil

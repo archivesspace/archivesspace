@@ -279,7 +279,7 @@ describe 'Resources controller' do
 
   it "supports resolving subjects" do
 
-    test_subject_term = generate(:term)
+    test_subject_term = generate(:generic_term)
 
     vocab = create(:json_vocabulary)
 
@@ -524,8 +524,10 @@ describe 'Resources controller' do
   it "allows posting of array of children" do
     resource = create(:json_resource)
 
-    archival_object_1 = build(:json_archival_object)
-    archival_object_2 = build(:json_archival_object)
+    archival_object_1 = build(:json_archival_object,
+                              :dates => [])
+    archival_object_2 = build(:json_archival_object,
+                              :dates => [])
 
     children = JSONModel(:archival_record_children).from_hash({
                                                                 "children" => [archival_object_1, archival_object_2]
@@ -547,10 +549,18 @@ describe 'Resources controller' do
 
   it "accepts move of multiple children" do
     resource = create(:json_resource)
-    ao = create(:json_archival_object, :resource => {:ref => resource.uri})
+    ao = create(:json_archival_object,
+                :dates => [],
+                :resource => {:ref => resource.uri})
 
-    child_1 = create(:json_archival_object, :resource => {:ref => resource.uri}, :parent => {:ref => ao.uri})
-    child_2 = create(:json_archival_object, :resource => {:ref => resource.uri}, :parent => {:ref => ao.uri})
+    child_1 = create(:json_archival_object,
+                     :dates => [],
+                     :resource => {:ref => resource.uri},
+                     :parent => {:ref => ao.uri})
+    child_2 = create(:json_archival_object,
+                     :dates => [],
+                     :resource => {:ref => resource.uri},
+                     :parent => {:ref => ao.uri})
 
     response = JSONModel::HTTP::post_form("#{resource.uri}/accept_children", {"children[]" => [child_1.uri, child_2.uri], "position" => 0})
     json_response = ASUtils.json_parse(response.body)

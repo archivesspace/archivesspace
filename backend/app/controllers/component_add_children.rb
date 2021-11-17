@@ -172,6 +172,7 @@ class ArchivesSpaceService < Sinatra::Base
           ["position", Integer, "The index for the first child to be moved to"],
           ["repo_id", :repo_id])
   .permissions([:update_resource_record])
+  .no_data(true)
   .returns([200, :created],
            [400, :error],
            [409, :error]) \
@@ -187,6 +188,7 @@ class ArchivesSpaceService < Sinatra::Base
           ["position", Integer, "The index for the first child to be moved to"],
           ["repo_id", :repo_id])
   .permissions([:update_resource_record])
+  .no_data(true)
   .returns([200, :created],
            [400, :error],
            [409, :error]) \
@@ -202,6 +204,7 @@ class ArchivesSpaceService < Sinatra::Base
           ["position", Integer, "The index for the first child to be moved to"],
           ["repo_id", :repo_id])
   .permissions([:update_digital_object_record])
+  .no_data(true)
   .returns([200, :created],
            [400, :error],
            [409, :error]) \
@@ -217,6 +220,7 @@ class ArchivesSpaceService < Sinatra::Base
           ["position", Integer, "The index for the first child to be moved to"],
           ["repo_id", :repo_id])
   .permissions([:update_digital_object_record])
+  .no_data(true)
   .returns([200, :created],
            [400, :error],
            [409, :error]) \
@@ -232,6 +236,7 @@ class ArchivesSpaceService < Sinatra::Base
           ["position", Integer, "The index for the first child to be moved to"],
           ["repo_id", :repo_id])
   .permissions([:update_classification_record])
+  .no_data(true)
   .returns([200, :created],
            [400, :error],
            [409, :error]) \
@@ -247,6 +252,7 @@ class ArchivesSpaceService < Sinatra::Base
           ["position", Integer, "The index for the first child to be moved to"],
           ["repo_id", :repo_id])
   .permissions([:update_classification_record])
+  .no_data(true)
   .returns([200, :created],
            [400, :error],
            [409, :error]) \

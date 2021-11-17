@@ -52,7 +52,9 @@ describe BulkImportReport do
   it "identifies an archival object" do
     resource = create(:json_resource)
     resource.save
-    ao = create(:json_archival_object, { :title => "archival object: Hi There" })
+    ao = create(:json_archival_object,
+                :dates => [],
+                :title => "archival object: Hi There")
     ao.resource = { :ref => resource.uri }
     ao.save
     report = BulkImportReport.new

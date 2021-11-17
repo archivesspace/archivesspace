@@ -4,6 +4,7 @@ class ArchivesSpaceService < Sinatra::Base
   .description("Carry out delete requests against a list of records")
   .params(["record_uris", [String], "A list of record uris"])
   .permissions([])
+  .no_data(true)
   .returns([200, :deleted]) \
   do
     results = []

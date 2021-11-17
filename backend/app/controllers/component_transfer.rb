@@ -8,6 +8,7 @@ class ArchivesSpaceService < Sinatra::Base
             ["component", String, "The URI of the archival object to transfer"],
             ["repo_id", :repo_id])
     .permissions([:update_resource_record])
+    .no_data(true)
     .returns([200, :created],
              [400, :error],
              [409, :error]) \

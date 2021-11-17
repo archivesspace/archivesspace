@@ -105,7 +105,8 @@ class ArchivesSpaceService < Sinatra::Base
             ["groups", [String], "Array of groups URIs to assign the user to", :optional => true],
             ["remove_groups", BooleanParam, "Remove all groups from the user for the current repo_id if true"],
             ["repo_id", Integer, "The Repository groups to clear"])
-    .permissions([])            # permissions are enforced in the body for this one
+    .permissions([]) # permissions are enforced in the body for this one
+    .no_data(true)
     .returns([200, :updated],
              [400, :error]) \
   do
@@ -178,6 +179,7 @@ class ArchivesSpaceService < Sinatra::Base
              " name is unfortunate, but we're keeping it for backward-compatibility.",
              :default => true])
     .permissions([])
+    .no_data(true)
     .returns([200, "Login accepted"],
              [403, "Login failed"]) \
   do
@@ -202,6 +204,7 @@ class ArchivesSpaceService < Sinatra::Base
     .description("Become a different user")
     .params(["username", Username, "The username to become"])
     .permissions([:become_user])
+    .no_data(true)
     .returns([200, "Accepted"],
              [404, "User not found"]) \
   do
@@ -256,6 +259,7 @@ class ArchivesSpaceService < Sinatra::Base
   Endpoint.post('/logout')
     .description("Log out the current session")
     .permissions([])
+    .no_data(true)
     .returns([200, "Session logged out"]) \
   do
     if session

@@ -30,6 +30,8 @@ describe 'ASModel Object Graph' do
 
     count.times do
       ArchivalObject.create_from_json(build(:json_archival_object,
+                                            :dates => [],
+                                            :extents => [],
                                             :resource => {'ref' => resource.uri},
                                             :parent => {'ref' => top_ao.uri}))
     end

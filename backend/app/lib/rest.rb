@@ -96,6 +96,7 @@ module RESTHelpers
       @required_params = []
       @paginated = false
       @paged = false
+      @no_data = false
       @use_transaction = :unspecified
       @returns = []
       @request_context_keyvals = {}
@@ -124,6 +125,7 @@ module RESTHelpers
             :params => @required_params,
             :paginated => @paginated,
             :paged => @paged,
+            :no_data => @no_data,
             :returns => @returns
           }
         end
@@ -284,6 +286,11 @@ module RESTHelpers
       self
     end
 
+    def no_data(val)
+      @no_data = val
+
+      self
+    end
 
     def use_transaction(val)
       @use_transaction = val

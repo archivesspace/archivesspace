@@ -135,10 +135,12 @@ describe 'Record transfers' do
 
     ao1 = create(:json_archival_object,
                  :title => "hello",
+                 :dates => [],
                  :resource => {'ref' => resource.uri})
 
     ao2 = create(:json_archival_object,
                  :title => "world",
+                 :dates => [],
                  :resource => {'ref' => resource.uri},
                  :parent => {'ref' => ao1.uri})
 

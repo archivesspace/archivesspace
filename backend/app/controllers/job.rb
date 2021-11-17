@@ -44,6 +44,7 @@ class ArchivesSpaceService < Sinatra::Base
     .params(["job", JSONModel(:job)],
             ["files", [UploadFile]],
             ["repo_id", :repo_id])
+    .no_data(true)
     .permissions([:create_job])
     .returns([200, :updated]) \
   do
@@ -87,6 +88,7 @@ class ArchivesSpaceService < Sinatra::Base
     .params(["id", :id],
             ["repo_id", :repo_id])
     .permissions([:cancel_job])
+    .no_data(true)
     .returns([200, :updated]) \
   do
     can_cancel_or_raise(Job.to_jsonmodel(params[:id]))
