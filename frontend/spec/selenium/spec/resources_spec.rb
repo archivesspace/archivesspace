@@ -633,6 +633,16 @@ describe 'Resources and archival objects' do
     end
   end
 
+  it 'sets include unpublished option based on user preference' do
+
+    @driver.navigate.to($frontend + "/preferences/0/edit")
+    @driver.find_element(:css, "#preference_defaults__include_unpublished_").click
+    @driver.click_and_wait_until_gone(css: "form#new_preference button[type='submit']")
+
+    @driver.get_edit_page(@resource)
+    @driver.find_element(:link, 'Export').click
+  end
+
   it 'shows component id in browse view for archival objects' do
     @driver.find_element(:link, 'Browse').click
     @driver.wait_for_dropdown
