@@ -566,9 +566,12 @@ module MarcXMLBibBaseMap
 
   def appends_subordinate_name_2
     -> name, node {
+      STDERR.puts "++++++++++++++++++++++++++++++"
+      STDERR.puts "RUNNING"
       name.subordinate_name_2 ||= ""
       name.subordinate_name_2 += ". " unless name.subordinate_name_2.empty?
       name.subordinate_name_2 += node.inner_text.chomp(".")
+      name.conference_meeting = true
     }
   end
 
