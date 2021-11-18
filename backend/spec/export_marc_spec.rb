@@ -413,6 +413,12 @@ describe 'MARC Export' do
 
       expect(xmlnotes.length).to eq(@subjects.length)
     end
+
+    it "maps authority_id to $0" do
+      @subjects.each do |s|
+        expect(@marc).to have_tag "subfield[@code='0']" => "#{s['authority_id']}"
+      end
+    end
   end
 
   describe "strips mixed content" do
