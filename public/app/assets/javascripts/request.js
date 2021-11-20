@@ -14,6 +14,7 @@ function setupRequest(modalId, text) {
     btn = x;
   }
   $(btn.not('.noscript')).attr('id', 'request_btn');
+  $(btn).attr('aria-label', text);
   $(btn).html(text);
   $(btn).click(function (e) {
     $('#request_form').submit();

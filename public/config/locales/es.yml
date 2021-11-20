@@ -30,6 +30,8 @@ es:
     hierarch: Organización de la colección
     numeric: Inventario de contenedores
     clipboard: Copiar al portapapeles
+    cilpboard_cite_item: Copiar la cita del elemento al portapapeles
+    cilpboard_cite_item_description: Copiar la cita de la descripción del artículo al portapapeles
     search_add_row: Agregar una fila de búsqueda
     search_remove_row: Eliminar la fila de abajo
     staff_link: Sólo Personal

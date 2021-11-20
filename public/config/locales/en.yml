@@ -48,6 +48,8 @@ en:
     hierarch: Collection Organization
     numeric: Container Inventory
     clipboard: Copy to clipboard
+    cilpboard_cite_item: Copy item citation to clipboard
+    cilpboard_cite_item_description: Copy item description citation to clipboard
     search_add_row: Add a search row
     search_remove_row: Remove the row below
     staff_link: Staff Only
