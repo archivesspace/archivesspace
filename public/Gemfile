@@ -15,7 +15,6 @@ gem 'nokogiri', '>= 1.10.8'
 gem 'sprockets-rails', '2.3.3'
 
 gem 'atomic', '= 1.0.1'
-gem 'mizuno', '0.6.11'
 
 # use bootstrap's sass
 gem 'bootstrap-sass', '>= 3.4.1'
@@ -55,6 +54,7 @@ group :development, :test do
   gem 'pry', '~> 0.12.2'
   gem 'pry-nav'
   gem 'pry-rails'
+  gem 'mizuno', git: "https://github.com/archivesspace/mizuno", branch: "master"
 end
 
 group :test do
