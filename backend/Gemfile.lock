@@ -1,9 +1,9 @@
 GIT
-  remote: https://github.com/quoideneuf/mizuno
-  revision: 43b9eecae66fcd7d6df3bbe8b003c0b778cb23c3
+  remote: https://github.com/archivesspace/mizuno
+  revision: d5c963a70c3ea6144df941801975179b03dfaa5c
   branch: master
   specs:
-    mizuno (0.6.11)
+    mizuno (9.4.44)
       childprocess (>= 0.2.6)
       choice (>= 0.1.0)
       ffi (>= 1.0.0)
