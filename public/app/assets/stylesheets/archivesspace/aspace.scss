@@ -430,38 +430,44 @@ h1,
   color: $primary-color;
 }
 
-h1 {
+h1,
+.h1 {
   font-size: rem-calc(24);
 }
 
 /* we want to shrink the font size of h1 in smaller sizes */
 
 @media (max-width: $screen-xs-max) {
-  h1 {
+  h1,
+  .h1 {
     font-size: rem-calc(22);
   }
 }
 
-h2 {
+h2,
+.h2 {
   font-family: $sans-font;
   font-size: rem-calc(24);
   font-weight: bold;
   color: $primary-color;
 }
 
-h3 {
+h3,
+.h3 {
   font-family: $sans-font;
   font-size: rem-calc(20);
   font-weight: bold;
   color: $secondary-color;
 }
 
-h4 {
+h4,
+.h4 {
   font-size: rem-calc(18);
   font-family: $serif-font;
 }
 
-h5 {
+h5,
+.h5 {
   font-weight: bold;
 }
 

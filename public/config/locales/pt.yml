@@ -3,6 +3,8 @@ brand:
     backup_abbr: Voltar
     numeric: Inventário de Contentores
     clipboard: Copiar para área de transferência
+    cilpboard_cite_item: Copiar citação do item para a área de transferência
+    cilpboard_cite_item_description: Copiar citação da descrição do item para a área de transferência
     search_add_row: Adicionar uma linha de pesquisa
     search_remove_row: Remova a linha abaixo
     staff_link: Somente pessoal autorizado

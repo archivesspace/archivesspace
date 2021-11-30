@@ -49,6 +49,8 @@ fr:
     hierarch: Organisation des collections
     numeric: Description du conditionnement
     clipboard: Copier dans le presse-papier
+    cilpboard_cite_item: Copier la citation de l'élément dans le presse-papiers
+    cilpboard_cite_item_description: Copier la citation de la description de l'article dans le presse-papiers
     search_add_row: Ajouter une ligne
     search_remove_row: Supprimer une ligne dessous
     staff_link: Réservé au personnel

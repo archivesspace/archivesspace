@@ -27,6 +27,8 @@ ja:
     hierarch: 収集組織
     numeric: コンテナインベントリ
     clipboard: クリップボードにコピー
+    cilpboard_cite_item: アイテムの引用をクリップボードにコピーする
+    cilpboard_cite_item_description: アイテムの説明の引用をクリップボードにコピーする
     search_add_row: 検索行を追加する
     search_remove_row: 下の行を削除
     staff_link: 関係者以外立ち入り禁止
