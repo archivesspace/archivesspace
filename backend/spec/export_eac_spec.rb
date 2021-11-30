@@ -103,7 +103,7 @@ describe 'EAC Export' do
     it 'wraps names with parallel names in a nameEntryParallel tag' do
       r = create(:json_agent_person_full_subrec,
                  names: [build(:json_name_person,
-                               parallel_names: [build(:json_name_person_parallel)])])
+                               parallel_names: [build(:json_parallel_name_person)])])
 
       eac = get_eac(r)
       n = r['names'].first

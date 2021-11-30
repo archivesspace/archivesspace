@@ -8,18 +8,21 @@ describe 'Date Calculator model' do
 
     grandparent = create(:json_archival_object,
                          {
+                           :dates => [],
                            :resource => {"ref" => resource.uri},
                            :level => "series", :component_id => SecureRandom.hex
                          }.merge(opts.fetch(:grandparent_properties, {})))
 
     parent = create(:json_archival_object,
                     {
+                      :dates => [],
                       :resource => {"ref" => resource.uri},
                       :parent => {"ref" => grandparent.uri}
                     }.merge(opts.fetch(:parent_properties, {})))
 
     child = create(:json_archival_object,
                    {
+                     :dates => [],
                      :resource => {"ref" => resource.uri},
                      :parent => {"ref" => parent.uri},
                    }.merge(opts.fetch(:child_properties, {})))

@@ -47,7 +47,6 @@ module AspaceFactories
 
       sequence(:user_name) {|n| "Test User #{n}_#{Time.now.to_i}"}
 
-      sequence(:repo_code) {|n| "testrepo_#{n}_#{Time.now.to_i}"}
       sequence(:repo_name) {|n| "Test Repo #{n}"}
       sequence(:accession_id) {|n| "#{n}" }
 
@@ -311,7 +310,7 @@ module AspaceFactories
       end
 
       factory :term, class: JSONModel(:term) do
-        term { generate(:term) }
+        term { generate(:generic_term) }
         term_type { generate(:term_type) }
         vocabulary { create(:vocab).uri }
       end

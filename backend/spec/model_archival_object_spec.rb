@@ -142,9 +142,9 @@ describe 'ArchivalObject model' do
     title = "Just a title"
 
     ao = ArchivalObject.create_from_json(
-          build(:json_archival_object, {
-            :title => title
-          }),
+          build(:json_archival_object,
+                :dates => [],
+                :title => title),
           :repo_id => $repo_id)
 
     expect(ArchivalObject[ao[:id]].display_string).to eq(title)

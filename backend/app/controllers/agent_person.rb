@@ -66,6 +66,7 @@ class ArchivesSpaceService < Sinatra::Base
     .description("Publish an agent person and all its sub-records")
     .params(["id", :id])
     .permissions([:update_agent_record])
+    .no_data(true)
     .returns([200, :updated],
              [400, :error]) \
   do

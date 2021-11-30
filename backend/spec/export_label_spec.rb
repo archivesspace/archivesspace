@@ -27,7 +27,7 @@ describe 'Export Labels Mappings' do
 
     10.times {
        parent = [true, false].sample ? @archival_objects.keys[rand(@archival_objects.keys.length)] : nil
-       a = create(:json_archival_object_normal, :resource => {:ref => @resource.uri},
+       a = create(:json_archival_object, :resource => {:ref => @resource.uri},
                   :parent => parent ? {:ref => parent} : nil,
                   :instances => [ build(:json_instance)]
                   )
@@ -39,7 +39,7 @@ describe 'Export Labels Mappings' do
 
     3.times {
        parent = [true, false].sample ? @archival_objects.keys[rand(@archival_objects.keys.length)] : nil
-       a = create(:json_archival_object_normal, :resource => {:ref => @resource.uri},
+       a = create(:json_archival_object, :resource => {:ref => @resource.uri},
                   :parent => parent ? {:ref => parent} : nil,
                   :instances => [ build(:json_instance) ])
        a = JSONModel(:archival_object).find(a.id)
@@ -48,7 +48,7 @@ describe 'Export Labels Mappings' do
 
     3.times {
        parent = [true, false].sample ? @archival_objects.keys[rand(@archival_objects.keys.length)] : nil
-       a = create(:json_archival_object_normal, :resource => {:ref => @resource.uri},
+       a = create(:json_archival_object, :resource => {:ref => @resource.uri},
                   :parent => parent ? {:ref => parent} : nil,
                   :instances => [ build(:json_instance) ])
        a = JSONModel(:archival_object).find(a.id)

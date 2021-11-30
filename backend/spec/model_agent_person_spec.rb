@@ -420,7 +420,9 @@ describe 'Agent model' do
                        build(:json_name_person, :authority_id => nil)],
             :agent_contacts => [build(:json_agent_contact)],
             :external_documents => [build(:json_external_document)],
-            :notes => [build(:json_note_bioghist)]
+            :notes => [build(:json_note_bioghist,
+                             :subnotes => [ build(:json_note_outline),
+                                            build(:json_note_text) ])]
             )
     }
 

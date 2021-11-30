@@ -44,7 +44,7 @@ describe "agents merge" do
     target_value = @second_agent['agent_record_identifiers'][0]['record_identifier']
     id = "agent_corporate_entity_agent_record_identifier_accordion"
 
-    @driver.find_element(:css, "##{id} div.panel:nth-child(2) span").click
+    @driver.find_element(:xpath, "//div[@id='#{id}']/div[last()]").click
     @driver.find_element_with_text("//div[@id='#{id}']//div", /#{target_value}/)
 
     @driver.find_element(class: 'close').click
@@ -54,11 +54,12 @@ describe "agents merge" do
     @driver.find_element(id: 'agent_agent_places__0__append_').click
     @driver.find_element(:class, 'preview-merge').click
 
-    target_value = "Place of Birth"
-    id = "agent_corporate_entity_agent_place_accordion"
+    target_value = @second_agent['agent_places'][0]['place_role']
+    target_value = I18n.t("enumerations.place_role.#{target_value}")
+    id = "agent_corporate_entity_agent_place"
 
-    @driver.find_element(:css, "##{id} div.panel:nth-child(2) span").click
-    @driver.find_element_with_text("//div[@id='#{id}']//div", /#{target_value}/)
+    @driver.find_element(:xpath, "//li[contains(@id,'#{id}')][last()]/div").click
+    @driver.find_element_with_text("//div[contains(@id,'#{id}')]//div", /#{target_value}/)
 
     @driver.find_element(class: 'close').click
   end
@@ -70,7 +71,7 @@ describe "agents merge" do
     target_value = @second_agent['names'][0]['primary_name']
     id = "agent_name_accordion"
 
-    @driver.find_element(:css, "##{id} div.panel:nth-child(2) span").click
+    @driver.find_element(:xpath, "//div[@id='#{id}']/div[last()]").click
     @driver.find_element_with_text("//div[@id='#{id}']//div", /#{target_value}/)
 
     @driver.find_element(class: 'close').click

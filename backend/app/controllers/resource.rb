@@ -148,6 +148,7 @@ class ArchivesSpaceService < Sinatra::Base
   .params(["id", :id],
           ["repo_id", :repo_id])
   .permissions([:update_resource_record])
+  .no_data(true)
   .returns([200, :updated],
            [400, :error]) \
   do
@@ -163,6 +164,7 @@ class ArchivesSpaceService < Sinatra::Base
   .params(["id", :id],
           ["repo_id", :repo_id])
   .permissions([:update_resource_record])
+  .no_data(true)
   .returns([200, :updated],
            [400, :error]) \
   do

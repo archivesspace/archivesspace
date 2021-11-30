@@ -131,6 +131,7 @@ class ArchivesSpaceService < Sinatra::Base
     .params(["enum_val_id", Integer, "The ID of the enumeration value to update"],
             ["position", Integer, "The target position in the value list"])
     .permissions([:update_enumeration_record])
+    .no_data(true)
     .returns([200, :updated],
              [400, :error]) \
   do
@@ -144,6 +145,7 @@ class ArchivesSpaceService < Sinatra::Base
     .params(["enum_val_id", Integer, "The ID of the enumeration value to update"],
             ["suppressed", BooleanParam, "Suppression state"])
     .permissions([:update_enumeration_record])
+    .no_data(true)
     .returns([200, :suppressed],
              [400, :error]) \
   do

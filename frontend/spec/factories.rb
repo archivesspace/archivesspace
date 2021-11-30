@@ -43,7 +43,6 @@ module Factories
         end
       end
 
-      sequence(:repo_code) {|n| "ASPACE REPO #{n} -- #{rand(1000000)}"}
       sequence(:repo_name) { |n| "Test Repo #{n}" }
       sequence(:generic_id) { |n| n.to_s }
       sequence(:accession_title) { |n| "Accession #{n}" }

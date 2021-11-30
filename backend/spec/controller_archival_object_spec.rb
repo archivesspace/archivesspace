@@ -34,9 +34,18 @@ describe 'Archival Object controller' do
   it "lets you reorder sibling archival objects" do
     resource = create(:json_resource)
 
-    ao_1 = create(:json_archival_object, :resource => {:ref => resource.uri}, :title => "AO1")
-    ao_2 = create(:json_archival_object, :resource => {:ref => resource.uri}, :title => "AO2")
-    ao_3 = create(:json_archival_object, :resource => {:ref => resource.uri}, :title => "AO3")
+    ao_1 = create(:json_archival_object,
+                  :dates => [],
+                  :resource => {:ref => resource.uri},
+                  :title => "AO1")
+    ao_2 = create(:json_archival_object,
+                  :dates => [],
+                  :resource => {:ref => resource.uri},
+                  :title => "AO2")
+    ao_3 = create(:json_archival_object,
+                  :dates => [],
+                  :resource => {:ref => resource.uri},
+                  :title => "AO3")
 
     tree = JSONModel(:resource_tree).find(nil, :resource_id => resource.id)
 
@@ -59,9 +68,19 @@ describe 'Archival Object controller' do
   it "lets you specify your tree position on creation" do
     resource = create(:json_resource)
 
-    ao_1 = create(:json_archival_object, :resource => {:ref => resource.uri}, :title => "AO1")
-    ao_2 = create(:json_archival_object, :resource => {:ref => resource.uri}, :title => "AO2")
-    ao_3 = create(:json_archival_object, :resource => {:ref => resource.uri}, :title => "AO3", :position => 1)
+    ao_1 = create(:json_archival_object,
+                  :dates => [],
+                  :resource => {:ref => resource.uri},
+                  :title => "AO1")
+    ao_2 = create(:json_archival_object,
+                  :dates => [],
+                  :resource => {:ref => resource.uri},
+                  :title => "AO2")
+    ao_3 = create(:json_archival_object,
+                  :dates => [],
+                  :resource => {:ref => resource.uri},
+                  :title => "AO3",
+                  :position => 1)
 
     tree = JSONModel(:resource_tree).find(nil, :resource_id => resource.id)
 
@@ -74,8 +93,15 @@ describe 'Archival Object controller' do
   it "doesn't mind if your specified position is greater than the existing max position" do
     resource = create(:json_resource)
 
-    ao_1 = create(:json_archival_object, :resource => {:ref => resource.uri}, :title => "AO1", :position => 1)
-    ao_2 = create(:json_archival_object, :resource => {:ref => resource.uri}, :title => "AO2")
+    ao_1 = create(:json_archival_object,
+                  :dates => [],
+                  :resource => {:ref => resource.uri},
+                  :title => "AO1",
+                  :position => 1)
+    ao_2 = create(:json_archival_object,
+                  :dates => [],
+                  :resource => {:ref => resource.uri},
+                  :title => "AO2")
 
     tree = JSONModel(:resource_tree).find(nil, :resource_id => resource.id)
 
@@ -130,7 +156,7 @@ describe 'Archival Object controller' do
   it "can resolve subjects for you" do
     vocab = create(:json_vocabulary)
 
-    opts = {:term => generate(:term)}
+    opts = {:term => generate(:generic_term)}
 
     subject = create(:json_subject, {:terms =>
                                         [build(
@@ -212,7 +238,7 @@ describe 'Archival Object controller' do
 
   it "will re-resolve the subrecords upon refetch" do
     vocab = create(:json_vocabulary)
-    opts = {:term => generate(:term)}
+    opts = {:term => generate(:generic_term)}
     subject = create(:json_subject, {:terms =>
                                        [build(
                                           :json_term,
@@ -285,10 +311,14 @@ describe 'Archival Object controller' do
 
   it "allows posting of array of children" do
     resource = create(:json_resource)
-    parent_archival_object = create(:json_archival_object, :resource => {:ref => resource.uri})
+    parent_archival_object = create(:json_archival_object,
+                                    :dates => [],
+                                    :resource => {:ref => resource.uri})
 
-    archival_object_1 = build(:json_archival_object)
-    archival_object_2 = build(:json_archival_object)
+    archival_object_1 = build(:json_archival_object,
+                              :dates => [])
+    archival_object_2 = build(:json_archival_object,
+                              :dates => [])
 
     children = JSONModel(:archival_record_children).from_hash({
       "children" => [archival_object_1, archival_object_2]
@@ -343,10 +373,16 @@ describe 'Archival Object controller' do
 
   it "accepts move of multiple children" do
     resource = create(:json_resource)
-    target = create(:json_archival_object, :resource => {:ref => resource.uri})
+    target = create(:json_archival_object,
+                    :dates => [],
+                    :resource => {:ref => resource.uri})
 
-    sibling_1 = create(:json_archival_object, :resource => {:ref => resource.uri})
-    sibling_2 = create(:json_archival_object, :resource => {:ref => resource.uri})
+    sibling_1 = create(:json_archival_object,
+                       :dates => [],
+                       :resource => {:ref => resource.uri})
+    sibling_2 = create(:json_archival_object,
+                       :dates => [],
+                       :resource => {:ref => resource.uri})
 
     response = JSONModel::HTTP::post_form("#{target.uri}/accept_children", {"children[]" => [sibling_1.uri, sibling_2.uri], "position" => 0})
     json_response = ASUtils.json_parse(response.body)

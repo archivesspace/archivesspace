@@ -80,6 +80,7 @@ class ArchivesSpaceService < Sinatra::Base
   .params(["id", :id],
           ["repo_id", :repo_id])
   .permissions([:update_digital_object_record])
+  .no_data(true)
   .returns([200, :updated],
            [400, :error]) \
   do

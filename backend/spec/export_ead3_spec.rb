@@ -93,7 +93,7 @@ describe "EAD3 export mappings" do
 
     10.times {
       parent = [true, false].sample ? @archival_objects.keys[rand(@archival_objects.keys.length)] : nil
-      a = create(:json_archival_object_normal, :resource => {:ref => @resource.uri},
+      a = create(:json_archival_object, :resource => {:ref => @resource.uri},
                  :parent => parent ? {:ref => parent} : nil,
                  :notes => build_archival_object_notes(5),
                  :linked_agents => build_linked_agents(@agents),
@@ -1408,11 +1408,11 @@ describe "EAD3 export mappings" do
 
           @unpublished_resource_jsonmodel = JSONModel(:resource).find(unpublished_resource.id)
 
-          @published_archival_object = create(:json_archival_object_normal,
+          @published_archival_object = create(:json_archival_object,
                                               :resource => {:ref => @unpublished_resource_jsonmodel.uri},
                                               :publish => true)
 
-          @unpublished_archival_object = create(:json_archival_object_normal,
+          @unpublished_archival_object = create(:json_archival_object,
                                                 :resource => {:ref => @unpublished_resource_jsonmodel.uri},
                                                 :publish => false)
 
@@ -1506,29 +1506,29 @@ describe "EAD3 export mappings" do
 
           @resource_jsonmodel = JSONModel(:resource).find(resource.id)
 
-          @suppressed_series = create(:json_archival_object_normal,
+          @suppressed_series = create(:json_archival_object,
                                       :resource => {:ref => @resource_jsonmodel.uri},
                                       :publish => true,
                                       :suppressed => true)
 
-          @unsuppressed_series = create(:json_archival_object_normal,
+          @unsuppressed_series = create(:json_archival_object,
                                         :resource => {:ref => @resource_jsonmodel.uri},
                                         :publish => true,
                                         :suppressed => false)
 
-          @suppressed_series_unsuppressedchild = create(:json_archival_object_normal,
+          @suppressed_series_unsuppressedchild = create(:json_archival_object,
                                                         :resource => {:ref => @resource_jsonmodel.uri},
                                                         :parent => {:ref => @suppressed_series.uri},
                                                         :publish => true,
                                                         :suppressed => false)
 
-          @unsuppressed_series_unsuppressed_child = create(:json_archival_object_normal,
+          @unsuppressed_series_unsuppressed_child = create(:json_archival_object,
                                                            :resource => {:ref => @resource_jsonmodel.uri},
                                                            :parent => {:ref => @unsuppressed_series.uri},
                                                            :publish => true,
                                                            :suppressed => false)
 
-          @unsuppressed_series_suppressed_child = create(:json_archival_object_normal,
+          @unsuppressed_series_suppressed_child = create(:json_archival_object,
                                                          :resource => {:ref => @resource_jsonmodel.uri},
                                                          :parent => {:ref => @unsuppressed_series.uri},
                                                          :publish => true,
@@ -1600,7 +1600,7 @@ describe "EAD3 export mappings" do
             end
 
             @resource = create(:json_resource)
-            @child = create(:json_archival_object_normal, :resource => {:ref => @resource.uri})
+            @child = create(:json_archival_object, :resource => {:ref => @resource.uri})
 
             # Change the ARK-naan to populate a second ARK for the records
             # and create a "historic" ARK

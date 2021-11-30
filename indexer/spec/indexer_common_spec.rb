@@ -427,7 +427,8 @@ describe "indexer common" do
   end
   describe "sanitize_json method" do
     it "removes agent_contact data when indexing agent_person" do
-      agent = build(:json_agent_person)
+      agent = build(:json_agent_person,
+                    :agent_contacts =>  [build(:json_agent_contact)] )
 
       expect(agent["agent_contacts"].length).to_not eq(0)
       sanitized_agent = @ic.sanitize_json(agent)
@@ -436,7 +437,8 @@ describe "indexer common" do
     end
 
     it "removes agent_contact data when indexing agent_family" do
-      agent = build(:json_agent_family)
+      agent = build(:json_agent_family,
+                    :agent_contacts =>  [build(:json_agent_contact)] )
 
       expect(agent["agent_contacts"].length).to_not eq(0)
       sanitized_agent = @ic.sanitize_json(agent)
@@ -445,7 +447,8 @@ describe "indexer common" do
     end
 
     it "removes agent_contact data when indexing agent_corporate_entity" do
-      agent = build(:json_agent_corporate_entity)
+      agent = build(:json_agent_corporate_entity,
+                    :agent_contacts =>  [build(:json_agent_contact)] )
 
       expect(agent["agent_contacts"].length).to_not eq(0)
       sanitized_agent = @ic.sanitize_json(agent)
@@ -454,7 +457,8 @@ describe "indexer common" do
     end
 
     it "removes agent_contact data when indexing agent_software" do
-      agent = build(:json_agent_software)
+      agent = build(:json_agent_software,
+                    :agent_contacts =>  [build(:json_agent_contact)] )
 
       expect(agent["agent_contacts"].length).to_not eq(0)
       sanitized_agent = @ic.sanitize_json(agent)

@@ -251,9 +251,12 @@ describe "Batch Import Controller" do
     resource = build(:json_resource)
     resource.uri = resource.class.uri_for(rand(100000), {:repo_id => $repo_id})
 
-    a1 = build(:json_archival_object)
-    a2 = build(:json_archival_object)
-    a3 = build(:json_archival_object)
+    a1 = build(:json_archival_object,
+               :dates => [])
+    a2 = build(:json_archival_object,
+               :dates => [])
+    a3 = build(:json_archival_object,
+               :dates => [])
 
     a1.position = 1
     a2.position = 2
@@ -289,7 +292,8 @@ describe "Batch Import Controller" do
     resource.uri = resource.class.uri_for(123, {:repo_id => $repo_id})
     archival_objects = []
     (0..10).each do  |i|
-      a = build(:json_archival_object)
+      a = build(:json_archival_object,
+                :dates => [])
       a.title = "AO #{i}"
       a.uri = a.class.uri_for(i, {:repo_id => $repo_id})
       a.resource = {:ref => resource.uri}

@@ -452,6 +452,9 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 curl -H "X-ArchivesSpace-Session: $SESSION" \
   "<%= request_uri %>"
 <% end %>
+<% elsif e[:method] == [:post] && e[:no_data] %>
+curl -H "X-ArchivesSpace-Session: $SESSION" \
+  "<%= request_uri %>"
 <% elsif e[:method] == [:post] %>
 curl -H "X-ArchivesSpace-Session: $SESSION" \
   -d '<%= data_example %>' \

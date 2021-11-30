@@ -45,7 +45,6 @@ module SeleniumFactories
 
       sequence(:user_name) { |n| "Test User #{n}_#{Time.now.to_i}" }
 
-      sequence(:repo_code) { |n| "testrepo_#{n}_#{Time.now.to_i}" }
       sequence(:repo_name) { |n| "Test Repo #{n}" }
       sequence(:accession_id) { |n| n.to_s }
 
@@ -66,7 +65,6 @@ module SeleniumFactories
       sequence(:top_container_indicator) { |n| "Container #{n}" }
       sequence(:building) { |n| "Maggie's #{n}th Farm_#{Time.now.to_i}" }
 
-      sequence(:phone_number) { (3..5).to_a[rand(3)].times.map { (3..5).to_a[rand(3)].times.map { rand(9) }.join }.join(' ') }
       sequence(:hh_mm) { t = Time.now; "#{t.hour}:#{t.min}" }
 
       factory :repo, class: JSONModel(:repository) do
@@ -275,60 +273,6 @@ module SeleniumFactories
         identifier_type { "loc"}
       end
 
-      factory :json_agent_place, class: JSONModel(:agent_place) do
-        place_role { "place_of_birth" }
-        dates { [build(:json_structured_date_label)] }
-        notes { [build(:json_note_text)] }
-        subjects { [{'ref' => create(:json_subject).uri}] }
-      end
-
-      factory :json_agent_occupation, class: JSONModel(:agent_occupation) do
-        dates { [build(:json_structured_date_label)] }
-        notes { [build(:json_note_text)] }
-        subjects { [{'ref' => create(:json_subject).uri}] }
-        places { [{'ref' => create(:json_subject).uri}] }
-      end
-
-      factory :json_agent_function, class: JSONModel(:agent_function) do
-        dates { [build(:json_structured_date_label)] }
-        notes { [build(:json_note_text)] }
-        subjects { [{'ref' => create(:json_subject).uri}] }
-        places { [{'ref' => create(:json_subject).uri}] }
-      end
-
-      factory :json_agent_topic, class: JSONModel(:agent_topic) do
-        dates { [build(:json_structured_date_label)] }
-        notes { [build(:json_note_text)] }
-        subjects { [{'ref' => create(:json_subject).uri}] }
-        places { [{'ref' => create(:json_subject).uri}] }
-      end
-
-      factory :json_agent_resource, class: JSONModel(:agent_resource) do
-        dates { [build(:json_structured_date_label)] }
-        places { [{'ref' => create(:json_subject).uri}] }
-        file_version_xlink_actuate_attribute { "other"}
-        file_version_xlink_show_attribute { "other" }
-        xlink_title_attribute { generate(:alphanumstr) }
-        xlink_role_attribute { generate(:alphanumstr) }
-        xlink_arcrole_attribute { generate(:alphanumstr) }
-        linked_resource { generate(:alphanumstr) }
-        linked_resource_description { generate(:alphanumstr) }
-        file_uri { generate(:alphanumstr) }
-        linked_agent_role { "creator" }
-      end
-
-      # NOTE: using this factory will fail unless values are added manually to the gender enum list. See agent_spec_helper.rb#add_gender_values
-      factory :json_agent_gender, class: JSONModel(:agent_gender) do
-        dates { [build(:json_structured_date_label)] }
-        gender { "not_specified" }
-        notes { [build(:json_note_text)] }
-      end
-
-      factory :json_agent_identifier, class: JSONModel(:agent_identifier) do
-        entity_identifier { generate(:alphanumstr) }
-        identifier_type { "loc"}
-      end
-
       factory :subject, class: JSONModel(:subject) do
         terms { [build(:term)] }
         vocabulary { create(:vocab).uri }
@@ -338,7 +282,7 @@ module SeleniumFactories
       end
 
       factory :term, class: JSONModel(:term) do
-        term { generate(:term) }
+        term { generate(:generic_term) }
         term_type { generate(:term_type) }
         vocabulary { create(:vocab).uri }
       end
