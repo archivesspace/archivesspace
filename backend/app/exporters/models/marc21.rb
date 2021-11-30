@@ -325,6 +325,8 @@ class MARCModel < ASpaceExport::ExportModel
         sfs << ['2', subject['source']]
       end
 
+      sfs << ['0', subject['authority_id']]
+
       ind1 = code == '630' ? "0" : " "
       df!(code, ind1, ind2).with_sfs(*sfs)
     end
