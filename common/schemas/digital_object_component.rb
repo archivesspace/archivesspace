@@ -54,6 +54,21 @@
 
       "has_unpublished_ancestor" => {"type" => "boolean", "readonly" => "true"},
 
+      "ancestors" => {
+        "type" => "array",
+        "items" => {
+          "type" => "object",
+          "subtype" => "ref",
+          "properties" => {
+            "ref" => {"type" => [{"type" => "JSONModel(:digital_object) uri"},
+                                 {"type" => "JSONModel(:digital_object_component) uri"}]},
+            "_resolved" => {
+              "type" => "object",
+              "readonly" => "true"
+            }
+          }
+        }
+      },
     },
   },
 }
