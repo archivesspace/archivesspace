@@ -373,6 +373,7 @@ module MarcXMLBibBaseMap
       :map => {
         "self::datafield" => {
           :map => {
+            "subfield" => sets_conference_meeting,
             "subfield[@code='e'][0]" => trim('subordinate_name_1', '.'),
             "subfield[@code='e'][1]" => trim('subordinate_name_2', '.'),
             "subfield[@code='e'][2]" => appends_subordinate_name_2,
@@ -566,11 +567,14 @@ module MarcXMLBibBaseMap
 
   def appends_subordinate_name_2
     -> name, node {
-      STDERR.puts "++++++++++++++++++++++++++++++"
-      STDERR.puts "RUNNING"
       name.subordinate_name_2 ||= ""
       name.subordinate_name_2 += ". " unless name.subordinate_name_2.empty?
       name.subordinate_name_2 += node.inner_text.chomp(".")
+    }
+  end
+
+  def sets_conference_meeting
+    -> name, node {
       name.conference_meeting = true
     }
   end
