@@ -3,7 +3,14 @@
 var expand_text = '';
 var collapse_text = '';
 /* we don't provide a button if there's only one panel; neither do we collapse that one panel */
-function initialize_accordion(what, ex_text, col_text) {
+
+/**
+ * @param {string} what accordion panels selector
+ * @param {string} ex_text 'expand text' i18n
+ * @param {string} col_text 'collapse text' i18n
+ * @param {boolean} expand_all
+ */
+function initialize_accordion(what, ex_text, col_text, expand_all) {
   expand_text = ex_text;
   collapse_text = col_text;
   if ($(what).size() > 1 && $(what).parents('.acc_holder').size() === 1) {
@@ -14,21 +21,33 @@ function initialize_accordion(what, ex_text, col_text) {
           "<a  class='btn btn-primary btn-sm acc_button' role='button' ></a>"
         );
     }
-    collapse_all(what, true);
+    expandAllByDefault(what, expand_all);
   }
 }
-function collapse_all(what, expand) {
+
+/**
+ * @param {string} what accordion panels selector
+ * @param {boolean} expand to expand or not
+ */
+function expandAllByDefault(what, expand) {
   $(what).each(function () {
     $(this).collapse(expand ? 'show' : 'hide');
   });
   set_button(what, !expand);
 }
 
+/**
+ * @param {string} what accordion panels selector
+ * @param {boolean} expand to expand or not
+ */
 function set_button(what, expand) {
   $holder = $(what).parents('.acc_holder');
   $btn = $holder.children('.acc_button');
   if ($btn.size() === 1) {
     $btn.text(expand ? expand_text : collapse_text);
-    $btn.attr('href', "javascript:collapse_all('" + what + "'," + expand + ')');
+    $btn.attr(
+      'href',
+      "javascript:expandAllByDefault('" + what + "'," + expand + ')'
+    );
   }
 }
