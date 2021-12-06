@@ -1,1 +1,4 @@
-{}
+actions:
+  close: Schließen
+search_results:
+  filtered_by: Gefiltert nach
