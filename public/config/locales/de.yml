@@ -69,7 +69,7 @@ search_results:
   title_contain: der <strong>Titel</strong> enthält  <span class='searchterm'>%{kw}</span>
   notes_contain: die <strong>Notiz</strong> enthält  <span class='searchterm'>%{kw}</span>
   subjects_text_contain: das <strong>Thema</strong> enthält <span class='searchterm'>%{kw}</span>
-  identifier_contain: der <strong>Bezeichner</strong> enthält <span class='searchterm'>%{kw}</span>
+  identifier_contain: der <strong>Signatur</strong> enthält <span class='searchterm'>%{kw}</span>
   anything: '*'
   search_term: Suchbegriff
   error: Die Suche konnte wegen eines unerwarteten Fehlers nicht durchgeführt werden
@@ -90,7 +90,7 @@ search_results:
     creators_text: Ersteller
     scope: Umfang
     notes: Notizen
-    identifier: Bezeichner
+    identifier: Signatur
     source: Quelle
     published_agents: Namen
     agents_text: Namen
@@ -139,10 +139,10 @@ search_sorting:
   desc: (absteigend)
   relevance: Relevanz
   title_sort: Titel
-  identifier: Bezeichner
+  identifier: Signatur
   year_sort: Jahr
   sorting: '%{type} %{direction}'
-  classification_identifier: Bezeichner
+  classification_identifier: Signatur
 inherit:
   inherited: 'Vom %{level}:'
   collection: Sammlung
@@ -150,11 +150,11 @@ inherit:
   sub-series: Sub-Serie
   class: Klasse
   file: Datei
-  fonds: Bestände
+  fonds: Bestand
   item: Element
   otherlevel: Andere Ebene
   recordgrp: Aufzeichnungs-Gruppe
-  subfonds: Sub-Bestand
+  subfonds: Teilbestand
   subgrp: Sub-Gruppe
 errors:
   error_404_message: Die %{type} Aufzeichnung, die Sie aufrufen wollten, existiert nicht oder wurde entfernt.
@@ -182,17 +182,17 @@ advanced_search:
 multiple_containers: Mehrfache Behältnisse
 extent_number_type: '%{number} %{type}'
 accessed: Zugegriffen
-related_accessions: Verwandte unbearbeitete Inhalte
+related_accessions: Verwandte unbearbeitete Materialien
 linked_digital_objects: Digitale Inhalte
 context: Gefunden in
 bulk:
-  _singular: Mehrheit der Inhalte gefunden in %{dates}
-  _plural: Mehrheit der Inhalte gefunden in %{dates}
+  _singular: Mehrheit der Materialien gefunden in %{dates}
+  _plural: Mehrheit der Materialien gefunden in %{dates}
 archive:
   _singular: Das Archiv
   _plural: Die Archive
 accession:
-  _plural: Unbearbeitete Inhalte
+  _plural: Unbearbeitete Materialien
   _public:
     section:
       acquisition_type: Beschaffungs-Art
@@ -206,11 +206,11 @@ accession:
       inventory: Bestandsverzeichnis
       content_description: Inhalts-Beschreibung
     related_accessions:
-      accessions: Verwandte unbearbeitete Inhalte
-      deaccessions: Abgegebene Inhalte
+      accessions: Verwandte unbearbeitete Materialien
+      deaccessions: Abgegangene Materialien
       forms_part_of: Teil-Verwandtschaft
       sibling_of: Geschwister-Verwandtschaft
-  _singular: Unbearbeiteter Inhalt
+  _singular: Unbearbeitetes Material
 repository:
   _plural: Aufbewahrungsorte
   what: Was befindet sich in diesem Aufbewahrungsort?
@@ -219,15 +219,35 @@ repository:
   _singular: Aufbewahrungsort
 resource:
   _public:
-    identifier: Bezeichner
+    identifier: Signatur
     extent: Ausmaß
     dates: Daten
-    lang: Sprache der Inhalte
+    lang: Sprache der Materialien
     script: Schrift
     digital_object: Digitales Objekt
     physdesc: Physische Beschreibung
     additional: Zusätzliche Beschreibung
     storage: Behältnis-Information
+    finding_aid:
+      head: Findmittel & Administrative Informationen
+      title: Titel
+      subtitle: Sub-Titel
+      status: Status
+      author: Autor
+      date: Datum
+      description_rules: Beschreibungs-Regeln
+      identifier: Signatur
+      language: Sprache der Beschreibung
+      script: Schrift der Beschreibung
+      language_note: Sprache der Beschreibungs-Notiz
+      sponsor: Sponsor
+      note: Notiz
+      revision: Überarbeitungs-Bezeichnung
+      series_statement: Serien-Bezeichnung
+      edition_statement: Ausgaben-Bezeichnung
+    related_accessions:
+      accessions: Eingangs-Aufzeichnung
+      deaccessions: Abgangs-Aufzeichnung
   _plural: Sammlungen
   identifier_separator: ':'
   _singular: Sammlung
@@ -253,10 +273,175 @@ list: '%{type} Liste'
 archival_object:
   _public:
     header:
-      ref_id: Referenz-Bezeichner
+      ref_id: Referenz-Signatur
 context_delimiter: /
 more_about: Mehr über
 dig_cont_arr: Struktur des digitalen Objekts
 cont_arr: Sammlungs-Struktur
 linked_instances: Verlinkte Aufzeichnungen
 containers: Physische Aufbewahrungs-Information
+top_container:
+  _plural: Behältnisse
+  _singular: Behältnis
+digital_object:
+  _singular: Digitale Aufzeichnung
+  _public:
+    thumbnail: Vorschaubild
+    link: Verweis zu digitalem Objekt
+    badge_label: Digital %{level}
+  _plural: Digitale Inhalte
+subject:
+  _singular: Thema
+  _plural: Themen
+classification:
+  _plural: Aufzeichnungs-Gruppen
+  creator: Ersteller
+  _public:
+    actions:
+      show_subgroups: Untergruppen anzeigen
+  _singular: Aufzeichnungs-Gruppe
+  identifier_separator: .
+classification_term:
+  _singular: Begriff der Aufzeichnungs-Gruppe
+  _plural: Begriffe der Aufzeichnungs-Gruppe
+  identifier_separator: /
+an_agent: Name
+pui_agent:
+  _plural: Namen
+  parallel: Alternative Namen
+  related: Verwandte Namen
+  also_known_as: Auch bekannt unter den folgenden Namen
+  _singular: Name
+record:
+  _singular: Aufzeichnung
+  _plural: Aufzeichnungen
+record_group:
+  _plural: Aufzeichnungs-Gruppen
+  _singular: Aufzeichnungs-Gruppe
+agent:
+  _singular: Name
+  _plural: Namen
+  _public:
+    section:
+      related_agents: Verwandte Namen
+      dates: Daten
+      related_agent_dates: Daten
+      related_agent_description: Beschreibung
+      other_names: Namensformen
+agent_person:
+  _plural: Personen
+  _singular: Person
+agent_family:
+  _singular: Familie
+  _plural: Familien
+agent_software:
+  _singular: Software
+  _plural: Software
+agent_function:
+  _singular: Funktion
+  _plural: Funktionen
+agent_gender:
+  _singular: Geschlecht
+  _plural: Geschlechter
+agent_place:
+  _singular: Ort
+  _plural: Orte
+agent_resource:
+  _singular: Verwandte externe Ressource
+  _plural: Verwandte externe Ressourcen
+agent_occupation:
+  _singular: Beruf
+  _plural: Berufe
+contact: Kontakt
+number_of: 'Anzahl von %{type}:'
+parent_inst: Übergeordnete Institution
+email: E-Mail senden
+pdf_reports:
+  collection_inventory: Sammlungs-Verzeichnis
+  summary_information: Zusammengefasste Informationen
+  table_of_contents: Inhalt
+  publication_statement: Veröffentlichungs-Bezeichnung
+  controlled_access_headings: Überschriften für geregelten Zugang
+  finding_aid_date_prefix: Dieses Findmittel wurde erstellt mit ArchivesSpace am
+  finding_aid_written_in: Findmittel geschrieben in
+  your_finding_aid_pdf: Ihr Findmittel PDF für "%{title}"
+  your_finding_aid_is_attached: Das angeforderte Findmittel ist angehängt.
+  administrative_information: Administrative Informationen
+readmore:
+  see_more: Mehr anzeigen
+  see_less: Weniger anzeigen
+agent_record_identifier:
+  identifier_type: Signatur-Typ
+  source: Quelle
+  primary_identifier: Haupt-Signatur?
+  record_identifier: Aufzeichnungs-Signatur
+  snac: Social Networks and Archival Context (SNAC) Bezeichner
+agent_identifier:
+  identifier_type: Signatur-Typ
+  entity_identifier: Entitäts-Bezeichner
+agent_contact:
+  fax: Fax
+  email: E-Mail
+  address_1: Adresse 1
+  city: Ort
+  address_3: Adresse 3
+  name: Kontakt-Name
+  salutation: Anrede
+  address_2: Adresse 2
+  region: Bundesland/Region
+  country: Land
+  post_code: Postleitzahl
+telephone:
+  _plural: Telefonnummern
+  number_type: Nummern-Typ
+  number: Nummer
+  ext: Durchwahl
+agent_notes:
+  _singular: Notiz
+  note_bioghist: Biografie
+  note_general_context: Allgemeiner Kontext
+  note_legal_status: Rechtsstellung
+  note_mandate: Auftrag
+  note_structure_or_genealogy: Struktur oder Genealogie
+  note_text: Notiz
+  persistent_id: Persistenter Bezeichner
+  type: Notiz-Typ
+  content: Inhalt
+  note_citation: Zitierung
+  _plural: Notizen
+metadata_rights_declaration:
+  _plural: Rechte-Deklarationen von Metadaten
+  _singular: Rechte-Deklaration von Metadaten
+  license: Lizenz
+  descriptive_note: Beschreibende Notiz
+  file_uri: Datei-URI
+  xlink_title_attribute: Xlink Title Attribut
+  xlink_role_attribute: Xlink Role Attribut
+  xlink_arcrole_attribute: Xlink Arcrole Attribut
+  file_version_xlink_actuate_attribute: Xlink Actuate Attribut
+  file_version_xlink_show_attribute: Xlink Show Attribut
+  last_verified_date: Datum der letzten Verifizierung
+agent_topic:
+  _plural: Themen
+  _singular: Thema
+description: Über
+date_label:
+  usage: Verwendung
+  existence: Existenz
+agent_corporate_entity:
+  _singular: Organisation
+  _plural: Organisationen
+fax: Fax
+skipnav:
+  search: Zur Suche springen
+  main_content: Zum Inhalt springen
+  search_results: Zum Suchergebnis springen
+use_date:
+  _singular: Verwendungs-Datum
+  _plural: Verwendungs-Daten
+search_tab: Suche %{target}
+used_language:
+  _plural: Verwendete Sprachen
+  _singular: Verwendete Sprache
+structured_date_label:
+  date: Datum
