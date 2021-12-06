@@ -1,0 +1,13 @@
+actions:
+  close: Schließen
+search_results:
+  filtered_by: Gefiltert nach
+advanced_search:
+  operator:
+    AND: Und
+    NOT: Nicht
+    OR: Oder
+search_sorting:
+  sort_by: 'Sortieren nach:'
+navbar:
+  toggle_navigation: Navigation umschalten
