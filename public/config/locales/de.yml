@@ -1,1 +1,128 @@
-{}
+brand:
+  title: ArchivesSpace Öffentliche Oberfläche
+  title_link_text: Zurück zur ArchivesSpace Startseite
+  welcome_head: Willkommen zu ArchivesSpace
+  welcome_message: "<p>Suchen Sie in unseren Sammlungen, digitalen Inhalten und mehr.</p>\n"
+  welcome_page_title: ArchivesSpace Öffentliche Oberfläche
+actions:
+  search: Suchen
+  search_header: In den Archiven suchen
+  search_within: In Ergebnissen suchen
+  backup: Zurück zur vorherigen Seite
+  cite: Zitierung
+  cite_item: Element zitieren
+  cite_item_description: Element-Beschreibung zitieren
+  print: Drucken
+  print-generating: Erzeugen
+  collection_overview: Sammlungs-Übersicht
+  hierarch: Gliederung der Sammlung
+  numeric: Behältnis-Verzeichnis
+  clipboard: In die Zwischenablage kopieren
+  cilpboard_cite_item: Element-Zitierung in die Zwischenablage kopieren
+  cilpboard_cite_item_description: Element-Beschreibungs-Zitierung in die Zwischenablage kopieren
+  search_add_row: Eine Suchzeile hinzufügen
+  request: Anfrage
+  staff_link: Nur für Mitarbeitende
+  search_in: '%{type} suchen'
+  new_search: Neue Suche
+  close: Schließen
+  refine_search: Suche verfeinern
+  backup_abbr: Zurück gehen
+  search_remove_row: Die Reihe unten entfernen
+request:
+  required: erforderlich
+  user_name: Ihr Name
+  user_email: Ihre E-Mail-Adresse
+  note: Anmerkungen für Mitarbeitende
+  submit: Anfrage absenden
+  date: Erwartetes Ankunftsdatum
+  submitted: Vielen Dank, Ihre Anfrage wurde gesendet.  Sie erhalten in Kürze eine E-Mail mit einer Kopie
+    Ihrer Anfrage.
+  errors:
+    name: Bitte geben Sie Ihren Namen ein
+    email: Bitte geben Sie eine gültige E-Mail-Adresse ein
+  email:
+    subject: Anfrage für %{title}
+  visit: Stellen Sie eine Anfrage zum Besuch von %{repo_name}, um <strong>%{archival_object}</strong>
+    einzusehen
+  email_header: Danke für Ihre Anfrage
+search-limit: Einschränken auf %{limit}
+search-limiting: eingeschränkt auft %{limit}
+search-limits:
+  all: Alle Aufzeichnungs-Typen
+  repository: Aufbewahrungsorte
+  repositories: Aufbewahrungsorte
+  resource: Sammlungen
+  resources: Sammlungen
+  digital: Digitale Inhalte
+  digital_object: Digitale Inhalte
+  objects: Archivarische oder Digitale Aufzeichnungen
+  agents: Ersteller des Inhalts
+  subject: Thema
+  agent: Ersteller des Inhalts
+searched-field: '%{field} suchen'
+search_results:
+  result: Ergebnis
+  results: Ergebnisse
+  search_for: Suche %{type} wobei %{conditions}
+  keyword_contain: "<strong>Schlagwörter</strong>: <span class='searchterm'>%{kw}</span>"
+  title_contain: der <strong>Titel</strong> enthält  <span class='searchterm'>%{kw}</span>
+  notes_contain: die <strong>Notiz</strong> enthält  <span class='searchterm'>%{kw}</span>
+  subjects_text_contain: das <strong>Thema</strong> enthält <span class='searchterm'>%{kw}</span>
+  identifier_contain: der <strong>Bezeichner</strong> enthält <span class='searchterm'>%{kw}</span>
+  anything: '*'
+  search_term: Suchbegriff
+  error: Die Suche konnte wegen eines unerwarteten Fehlers nicht durchgeführt werden
+  no_results: Keine Aufzeichnungen gefunden
+  filter_by: Filtern nach
+  filtered_by: Gefiltert nach
+  filter:
+    form: In Ergebnissen suchen
+    show_fewer: Weniger anzeigen
+    show_more: Mehr anzeigen
+    query: Text
+    subjects: Thema
+    primary_type: Typ
+    repository: Aufbewahrungsort
+    used_within_published_repository: Aufbewahrungsort
+    creators: Ersteller
+    title: Titel
+    creators_text: Ersteller
+    scope: Umfang
+    notes: Notizen
+    identifier: Bezeichner
+    source: Quelle
+    published_agents: Namen
+    agents_text: Namen
+    linked_agent_roles: Rolle
+    from_year: Von Jahr
+    to_year: Bis Jahr
+    years: Jahre
+    from: Von
+    year_now: Jetzt
+    from_to: 'Jahre: %{begin} bis %{end}'
+    classification_uri: Klassifizierung
+    year_begin: Der Anfang
+    fullrecord: Schlagwort
+    subjects_text: Thema
+    to: Bis
+    head: Filter-Ergebnisse
+    add: Weitere Filter
+    years_include: Jahre einzubeziehen
+  creators_text_contain: der <strong>Ersteller</strong> enthält <span class='searchterm'>%{kw}</span>
+  fewer_facets: weniger
+  op:
+    OR: oder
+    AND: und
+    NOT: und nicht
+  op_first_row:
+    NOT: nicht
+  page_title: '%{count} Ergebnisse gefunden'
+  results_head: 'Zeige %{type}: %{start} - %{end} von %{total}'
+  in_repository: ' in <strong>%{name}</strong>'
+  more_facets: mehr
+  remove_filter: Diesen Filter entfernen
+page_actions: Seiten-Aktionen
+search-button:
+  label: Suchen
+search-field: Suchfeld
