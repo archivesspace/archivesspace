@@ -12,7 +12,7 @@ if [[ -v ASPACE_DEPLOY_PKG_URL ]]; then
     unzip -o /archivesspace/deploy_pkg.zip -d /archivesspace/tmp
     cp /archivesspace/tmp/config/config.rb /archivesspace/config/config.rb || true
     cp -r /archivesspace/tmp/plugins/* /archivesspace/plugins/ || true
-    cp /archivesspace/tmp/stylesheets/* /archivesspace/stylesheets/ || true
+    cp -r /archivesspace/tmp/stylesheets/* /archivesspace/stylesheets/ || true
   fi
 fi
 
