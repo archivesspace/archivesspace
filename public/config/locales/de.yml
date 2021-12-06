@@ -109,6 +109,12 @@ search_results:
     head: Filter-Ergebnisse
     add: Weitere Filter
     years_include: Jahre einzubeziehen
+    child_container_u_sstr: Kind-Behältnis
+    grand_child_container_u_sstr: Enkel-Behältnis
+    instance_type_enum_s: Exemplar-Typ
+    langcode: Sprache
+    type_enum_s: Typ
+    published_series_title_u_sstr: Serie
   creators_text_contain: der <strong>Ersteller</strong> enthält <span class='searchterm'>%{kw}</span>
   fewer_facets: weniger
   op:
@@ -126,3 +132,131 @@ page_actions: Seiten-Aktionen
 search-button:
   label: Suchen
 search-field: Suchfeld
+search_sorting:
+  sort_by: 'Sortieren nach:'
+  sort: Sortieren
+  asc: (aufsteigend)
+  desc: (absteigend)
+  relevance: Relevanz
+  title_sort: Titel
+  identifier: Bezeichner
+  year_sort: Jahr
+  sorting: '%{type} %{direction}'
+  classification_identifier: Bezeichner
+inherit:
+  inherited: 'Vom %{level}:'
+  collection: Sammlung
+  series: Serie
+  sub-series: Sub-Serie
+  class: Klasse
+  file: Datei
+  fonds: Bestände
+  item: Element
+  otherlevel: Andere Ebene
+  recordgrp: Aufzeichnungs-Gruppe
+  subfonds: Sub-Bestand
+  subgrp: Sub-Gruppe
+errors:
+  error_404_message: Die %{type} Aufzeichnung, die Sie aufrufen wollten, existiert nicht oder wurde entfernt.
+  backend_down_message: ArchivesSpace hat technische Schwierigkeiten. Wir entschuldigen uns für die Unannehmlichkeiten.
+    Bitte versuchen Sie es später noch einmal.
+  backend_down: Konnte nicht mit der Datenbank verbinden
+  unexpected_error: Ihre Anfrage konnte wegen einem unerwartetem Fehler nicht abgeschlossen werden
+  error_404: '%{type} Aufzeichnung nicht gefunden'
+boolean:
+  "true": Ja
+  "false": Nein
+navbar:
+  error_no_term: Kein(e) Suchbegriff(e) eingegeben.
+  search_placeholder: Geben Sie Ihre Suchbegriffe ein
+  toggle_navigation: Navigation umschalten
+advanced_search:
+  operator_label: Verknüpfer
+  operator:
+    AND: Und
+    NOT: Nicht
+    OR: Oder
+  limit_label: Nach Aufzeichnungs-Typ einschränken
+  add_row: Zeile hinzufügen
+  remove_row: Zeile entfernen
+multiple_containers: Mehrfache Behältnisse
+extent_number_type: '%{number} %{type}'
+accessed: Zugegriffen
+related_accessions: Verwandte unbearbeitete Inhalte
+linked_digital_objects: Digitale Inhalte
+context: Gefunden in
+bulk:
+  _singular: Mehrheit der Inhalte gefunden in %{dates}
+  _plural: Mehrheit der Inhalte gefunden in %{dates}
+archive:
+  _singular: Das Archiv
+  _plural: Die Archive
+accession:
+  _plural: Unbearbeitete Inhalte
+  _public:
+    section:
+      acquisition_type: Beschaffungs-Art
+      provenance: Provenienz
+      language: Sprache der Beschreibung
+      script: Schrift der Beschreibung
+      access_restrictions: Zugangsbeschränkungen
+      access_restrictions_apply: Zugangsbeschränkungen gelten
+      use_restrictions: Verwendungsbeschränkungen
+      use_restrictions_apply: Verwendungsbeschänkungen gelten
+      inventory: Bestandsverzeichnis
+      content_description: Inhalts-Beschreibung
+    related_accessions:
+      accessions: Verwandte unbearbeitete Inhalte
+      deaccessions: Abgegebene Inhalte
+      forms_part_of: Teil-Verwandtschaft
+      sibling_of: Geschwister-Verwandtschaft
+  _singular: Unbearbeiteter Inhalt
+repository:
+  _plural: Aufbewahrungsorte
+  what: Was befindet sich in diesem Aufbewahrungsort?
+  details: Details des Aufbewahrungsorts
+  part: Teil des
+  _singular: Aufbewahrungsort
+resource:
+  _public:
+    identifier: Bezeichner
+    extent: Ausmaß
+    dates: Daten
+    lang: Sprache der Inhalte
+    script: Schrift
+    digital_object: Digitales Objekt
+    physdesc: Physische Beschreibung
+    additional: Zusätzliche Beschreibung
+    storage: Behältnis-Information
+  _plural: Sammlungen
+  identifier_separator: ':'
+  _singular: Sammlung
+internal_links:
+  main: Inhalt
+  filter: Filter-Ergebnisse
+  search_collection: In der Sammlung suchen
+coll_obj:
+  _singular: Sammlung oder Aufzeichnung
+  _plural: Sammlungen und/oder Aufzeichnungen
+extent_phys_details: ' : %{deets}'
+extent_dims: ' ; %{dimensions}'
+subgroups: Sub-Gruppen
+related_resources: Verwandte Sammlungen
+accordion:
+  expand: Alle ausklappen
+  collapse: Alle einklappen
+contains: Enthält %{count} %{type}
+found: Gefunden in %{count} %{type}
+scope_note: Umfangs-Notiz
+external_docs: Externe Dokumente
+list: '%{type} Liste'
+archival_object:
+  _public:
+    header:
+      ref_id: Referenz-Bezeichner
+context_delimiter: /
+more_about: Mehr über
+dig_cont_arr: Struktur des digitalen Objekts
+cont_arr: Sammlungs-Struktur
+linked_instances: Verlinkte Aufzeichnungen
+containers: Physische Aufbewahrungs-Information
