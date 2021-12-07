@@ -1,0 +1,34 @@
+repository:
+  agent_person:
+    _plural: Personen
+    _singular: Person
+  agent_software:
+    _singular: Software
+    _plural: Software
+  subject:
+    _singular: Thema
+    _plural: Themen
+  repository:
+    _singular: Aufbewahrungsort
+  agent_family:
+    _singular: Familie
+    _plural: Familien
+  classification:
+    creator: Ersteller
+  agent_contact:
+    address_1: Adresse 1
+    city: Ort
+    address_3: Adresse 3
+    name: Kontakt-Name
+    salutation: Anrede
+    address_2: Adresse 2
+    region: Bundesland/Region
+    country: Land
+    post_code: Postleitzahl
+    fax: Fax
+    email: E-Mail
+  telephone:
+    _plural: Telefonnummern
+    number_type: Nummern-Typ
+    number: Nummer
+    ext: Durchwahl
