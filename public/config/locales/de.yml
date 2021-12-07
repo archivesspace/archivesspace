@@ -75,7 +75,7 @@ search_results:
   error: Die Suche konnte wegen eines unerwarteten Fehlers nicht durchgeführt werden
   no_results: Keine Aufzeichnungen gefunden
   filter_by: Filtern nach
-  filtered_by: Gefiltert nach
+  filtered_by: Gefiltert durch
   filter:
     form: In Ergebnissen suchen
     show_fewer: Weniger anzeigen
@@ -183,7 +183,7 @@ multiple_containers: Mehrfache Behältnisse
 extent_number_type: '%{number} %{type}'
 accessed: Zugegriffen
 related_accessions: Verwandte unbearbeitete Materialien
-linked_digital_objects: Digitale Inhalte
+linked_digital_objects: Digitaler Inhalt
 context: Gefunden in
 bulk:
   _singular: Mehrheit der Materialien gefunden in %{dates}
