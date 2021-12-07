@@ -46,8 +46,6 @@ class AuthenticationManager
             # We'll swallow these because they only really mean that the user
             # logged in twice simultaneously.  As long as one of the updates
             # succeeded it doesn't really matter.
-            Log.warn("Got an optimistic locking error when updating user: #{e}")
-
             user = User.find(:username => username)
           end
         else
