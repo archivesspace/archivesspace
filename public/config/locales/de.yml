@@ -2,7 +2,7 @@ brand:
   title: ArchivesSpace Öffentliche Oberfläche
   title_link_text: Zurück zur ArchivesSpace Startseite
   welcome_head: Willkommen zu ArchivesSpace
-  welcome_message: "<p>Suchen Sie in unseren Sammlungen, digitalen Inhalten und mehr.</p>\n"
+  welcome_message: "<p>Suchen Sie in unseren Sammlungen, digitalem Archivgut und mehr.</p>\n"
   welcome_page_title: ArchivesSpace Öffentliche Oberfläche
 actions:
   search: Suchen
@@ -54,12 +54,12 @@ search-limits:
   repositories: Aufbewahrungsorte
   resource: Sammlungen
   resources: Sammlungen
-  digital: Digitale Inhalte
-  digital_object: Digitale Inhalte
+  digital: Digitales Archivgut
+  digital_object: Digitales Archivgut
   objects: Archivarische oder Digitale Aufzeichnungen
-  agents: Ersteller des Inhalts
+  agents: Urheber des Inhalts
   subject: Thema
-  agent: Ersteller des Inhalts
+  agent: Urheber des Inhalts
 searched-field: '%{field} suchen'
 search_results:
   result: Ergebnis
@@ -85,9 +85,9 @@ search_results:
     primary_type: Typ
     repository: Aufbewahrungsort
     used_within_published_repository: Aufbewahrungsort
-    creators: Ersteller
+    creators: Urheber
     title: Titel
-    creators_text: Ersteller
+    creators_text: Urheber
     scope: Umfang
     notes: Notizen
     identifier: Signatur
@@ -115,7 +115,7 @@ search_results:
     langcode: Sprache
     type_enum_s: Typ
     published_series_title_u_sstr: Serie
-  creators_text_contain: der <strong>Ersteller</strong> enthält <span class='searchterm'>%{kw}</span>
+  creators_text_contain: der <strong>Urheber</strong> enthält <span class='searchterm'>%{kw}</span>
   fewer_facets: weniger
   op:
     OR: oder
@@ -182,17 +182,17 @@ advanced_search:
 multiple_containers: Mehrfache Behältnisse
 extent_number_type: '%{number} %{type}'
 accessed: Zugegriffen
-related_accessions: Verwandte unbearbeitete Materialien
-linked_digital_objects: Digitaler Inhalt
+related_accessions: Verwandtes unbearbeitetes Archivgut
+linked_digital_objects: Digitales Archivgut
 context: Gefunden in
 bulk:
-  _singular: Mehrheit der Materialien gefunden in %{dates}
-  _plural: Mehrheit der Materialien gefunden in %{dates}
+  _singular: Mehrheit des Archivguts gefunden in %{dates}
+  _plural: Mehrheit des Archivguts gefunden in %{dates}
 archive:
   _singular: Das Archiv
   _plural: Die Archive
 accession:
-  _plural: Unbearbeitete Materialien
+  _plural: Unbearbeitetes Archivgut
   _public:
     section:
       acquisition_type: Beschaffungs-Art
@@ -206,11 +206,11 @@ accession:
       inventory: Bestandsverzeichnis
       content_description: Inhalts-Beschreibung
     related_accessions:
-      accessions: Verwandte unbearbeitete Materialien
-      deaccessions: Abgegangene Materialien
+      accessions: Verwandtes unbearbeitetes Archivgut
+      deaccessions: Abgegangenes Archivgut
       forms_part_of: Teil-Verwandtschaft
       sibling_of: Geschwister-Verwandtschaft
-  _singular: Unbearbeitetes Material
+  _singular: Unbearbeitetes Archivgut
 repository:
   _plural: Aufbewahrungsorte
   what: Was befindet sich in diesem Aufbewahrungsort?
@@ -222,7 +222,7 @@ resource:
     identifier: Signatur
     extent: Ausmaß
     dates: Daten
-    lang: Sprache der Materialien
+    lang: Sprache des Archivguts
     script: Schrift
     digital_object: Digitales Objekt
     physdesc: Physische Beschreibung
@@ -231,7 +231,7 @@ resource:
     finding_aid:
       head: Findmittel & Administrative Informationen
       title: Titel
-      subtitle: Sub-Titel
+      subtitle: Untertitel
       status: Status
       author: Autor
       date: Datum
@@ -289,13 +289,13 @@ digital_object:
     thumbnail: Vorschaubild
     link: Verweis zu digitalem Objekt
     badge_label: Digital %{level}
-  _plural: Digitale Inhalte
+  _plural: Digitales Archivgut
 subject:
   _singular: Thema
   _plural: Themen
 classification:
   _plural: Aufzeichnungs-Gruppen
-  creator: Ersteller
+  creator: Urheber
   _public:
     actions:
       show_subgroups: Untergruppen anzeigen
