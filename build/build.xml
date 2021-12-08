@@ -538,14 +538,11 @@
   </target>
 
   <!-- DOCS -->
-  <target name="doc:build" depends="set-classpath" description="Generate the full YARD documentation">
-    <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true" failonerror="true" dir="../_yard">
-      <jvmarg line="${default_java_options} ${env.JAVA_OPTS}"/>
-      <env key="GEM_HOME" value="${gem_home}" />
-      <env key="GEM_PATH" value="" />
-      <env key="BUNDLE_PATH" value="${gem_home}" />
-      <arg line="-S rake doc:gen" />
-    </java>
+  <target name="doc:build" depends="set-classpath" description="Generate content for API and YARD documentation">
+    <antcall target="thor">
+      <param name="task" value="doc:api" />
+    </antcall>
+    <antcall target="doc:yardoc" />
   </target>
 
   <target name="doc:yardoc" depends="set-classpath" description="Run the yardoc command">
@@ -847,4 +844,25 @@
     <delete dir="${aspace.data_directory.test}/indexer_state" />
     <delete dir="${aspace.data_directory.test}/indexer_pui_state" />
   </target>
+
+    <!-- THOR -->
+  <target name="thor" depends="set-classpath, bootstrap-jruby" description="Run thor tasks">
+    <property name="build.home" location="."/>
+    <property name="task" value="list" />
+
+    <antcall target="bundler">
+      <param name="gemfile" value="../Gemfile" />
+      <param name="included-gem-groups" value="thor default" />
+    </antcall>
+    <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true" failonerror="true" dir="../">
+      <jvmarg line="${default_java_options} ${env.JAVA_OPTS}"/>
+      <env key="GEM_HOME" value="${gem_home}" />
+      <env key="GEM_PATH" value="" />
+      <env key="BUNDLE_PATH" value="${gem_home}" />
+      <env key="HOME" value="${build.home}" />
+      <env key="ASPACE_INTEGRATION" value="true" />
+      <arg line="./build/${jruby_build_bin_path}/thor ${task}" />
+    </java>
+  </target>
+
 </project>

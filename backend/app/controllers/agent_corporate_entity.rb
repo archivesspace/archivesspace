@@ -65,7 +65,8 @@ class ArchivesSpaceService < Sinatra::Base
     .description("Publish a corporate entity agent and all its sub-records")
     .example("shell") do
       <<~SHELL
-        curl -H "X-ArchivesSpace-Session: $SESSION" \
+        curl -H "X-ArchivesSpace-Session: $SESSION" \\
+        -X POST \\
         "http://localhost:8089/agents/corporate_entities/1/publish"
       SHELL
     end

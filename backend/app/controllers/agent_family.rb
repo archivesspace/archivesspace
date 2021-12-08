@@ -43,7 +43,7 @@ class ArchivesSpaceService < Sinatra::Base
     .params(["id", Integer, "ID of the family agent"],
             ["resolve", :resolve])
     .permissions([])
-    .returns([200, "(:agent)"],
+    .returns([200, "(:agent_family)"],
              [404, "Not found"]) \
   do
     opts = {:calculate_linked_repositories => current_user.can?(:index_system)}
