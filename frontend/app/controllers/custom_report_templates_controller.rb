@@ -20,7 +20,12 @@ class CustomReportTemplatesController < ApplicationController
   end
 
   def index
-    @search_data = JSONModel(:custom_report_template).all(:page => selected_page)
+    @search_data = JSONModel(:custom_report_template).all(
+      page: selected_page,
+      page_size: 50,
+      sort_field: params.fetch(:sort, :name),
+      sort_direction: params.fetch(:direction, :asc)
+    )
   end
 
   def copy
