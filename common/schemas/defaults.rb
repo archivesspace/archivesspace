@@ -42,6 +42,12 @@ end
         "default" => false
       },
 
+      "rde_sort_alpha" => {
+        "type" => "boolean",
+        "required" => false,
+        "default" => true
+      },
+
       "locale" => {
         "type" => "string",
         "enum" => locale_enum,

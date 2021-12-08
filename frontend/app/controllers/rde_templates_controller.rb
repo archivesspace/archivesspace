@@ -27,6 +27,7 @@ class RdeTemplatesController < ApplicationController
       }
     end
 
+    templates.sort_by! {|h| h[:name]} if user_prefs['rde_sort_alpha']
     render :json => templates
   end
 

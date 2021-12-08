@@ -32,7 +32,7 @@ class ArchivesSpaceService < Sinatra::Base
     .permissions([])
     .returns([200, "[(:rde_template)]"]) \
   do
-    handle_unlimited_listing(RdeTemplate, {}, :name)
+    handle_unlimited_listing(RdeTemplate)
   end
 
 

@@ -22,7 +22,7 @@ module CrudHelpers
   end
 
 
-  def self.scoped_dataset(model, where_clause, order = nil)
+  def self.scoped_dataset(model, where_clause)
     dataset = (model.model_scope == :repository) ? model.this_repo : model
 
     if where_clause.is_a?(Hash) && where_clause.has_key?(:exclude)
@@ -34,16 +34,12 @@ module CrudHelpers
       dataset = dataset.filter(where_clause)
     end
 
-    if order
-      dataset = dataset.order(order)
-    end
-
     dataset
   end
 
 
-  def handle_unlimited_listing(model, where = {}, order = nil)
-    dataset = CrudHelpers.scoped_dataset(model, where, order)
+  def handle_unlimited_listing(model, where = {})
+    dataset = CrudHelpers.scoped_dataset(model, where)
 
     listing_response(dataset, model)
   end
