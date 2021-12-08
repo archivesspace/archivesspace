@@ -522,7 +522,7 @@ module JSONModel
         @enumerations.fetch(name)
       end
 
-      def default_value_for
+      def default_value_for(name)
         @enumerations[:defaults].fetch(name)
       end
 

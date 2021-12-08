@@ -225,113 +225,6 @@ FactoryBot.define do
   sequence(:user_defined_enum_3) { sample(JSONModel(:user_defined).schema['properties']['enum_3']) }
   sequence(:user_defined_enum_4) { sample(JSONModel(:user_defined).schema['properties']['enum_4']) }
 
-  # JSON Models:
-  # NOTE: these factories are used to generate example objects
-  #       for the API docs - those docs currently rely on there
-  #       being a factory named: "json_#{name_of_jsonmodel}",
-  #       e.g. json_repository -> repository, json_term -> term
-  #
-  #       There can be additional factories per type which you can
-  #       name whatever you want
-
-  factory :json_abstract_agent_relationship, class: JSONModel(:abstract_agent_relationship) do
-    relationship_uri { generate(:alphanumstr) }
-    ref { create(:json_agent_family).uri }
-    specific_relator { generate(:abstract_agent_relationship_specific_relator) }
-    description { nil_or_whatever }
-    dates { build(:json_structured_date_label) }
-  end
-
-  factory :json_abstract_agent, class: JSONModel(:abstract_agent) do
-    agent_type { ['agent_corporate_entity', 'agent_family', 'agent_person', 'agent_software'].sample }
-    agent_contacts { few_or_none(:json_agent_contact) }
-    agent_record_controls { few_or_none(:json_agent_record_control) }
-    agent_alternate_sets { few_or_none(:json_agent_alternate_set) }
-    agent_conventions_declarations { few_or_none(:json_agent_conventions_declaration) }
-    agent_other_agency_codes { few_or_none(:json_agent_other_agency_codes) }
-    agent_maintenance_histories { few_or_none(:json_agent_maintenance_history) }
-    agent_record_identifiers { few_or_none(:json_agent_record_identifier) }
-    agent_identifiers { few_or_none(:json_agent_identifier) }
-    agent_sources { few_or_none(:json_agent_sources) }
-    agent_places { few_or_none(:json_agent_place) }
-    agent_occupations { few_or_none(:json_agent_occupation) }
-    agent_functions { few_or_none(:json_agent_function) }
-    agent_topics { few_or_none(:json_agent_topic) }
-    agent_resources { few_or_none(:json_agent_resource) }
-    external_documents { few_or_none(:json_external_document) }
-    notes { few_or_none(:json_note_bioghist) }
-    dates_of_existence { few_or_none(:json_structured_date_label) }
-    used_languages { few_or_none(:json_used_language) }
-    publish { true }
-    metadata_rights_declarations { few_or_none(:json_metadata_rights_declaration) }
-  end
-
-  factory :json_abstract_archival_object, class: JSONModel(:abstract_archival_object) do
-    external_ids { few_or_none(:json_external_id) }
-    title { generate(:generic_title) }
-    publish { true }
-    subjects { [ ] }
-    extents { few_or_none(:json_extent) }
-    lang_materials { few_or_none(:json_lang_material) }
-    dates { few_or_none(:json_date) }
-    external_documents { few_or_none(:json_external_document) }
-    rights_statements { few_or_none(:json_rights_statement) }
-    linked_agents { [{
-      'role' => generate(:resource_agent_role),
-      'terms' => [build(:json_term).uri],
-      'relator' => generate(:relator),
-      'title' => generate(:generic_title),
-      'ref' => create(:json_agent_person).uri
-      }] }
-  end
-
-  factory :json_abstract_classification, class: JSONModel(:abstract_classification) do
-    identifier { generate(:alphanumstr) }
-    title { generate(:alphanumstr) }
-    description { nil_or_whatever }
-    linked_records { [{
-      'ref' => create(:json_accession).uri
-      }] }
-    creator { {
-      'ref' => create(:json_agent_family).uri
-      } }
-  end
-
-  factory :json_abstract_name, class: JSONModel(:abstract_name) do
-    authority_id { nil_or_whatever }
-    dates { nil_or_whatever }
-    use_dates { few_or_none(:json_structured_date_label) }
-    qualifier { nil_or_whatever }
-    source { [nil, generate(:name_source)].sample }
-    rules { [nil, generate(:name_rule)].sample }
-    authorized { generate(:boolean_or_nil) }
-    is_display_name { generate(:boolean_or_nil) }
-    language { [nil, generate(:language)].sample }
-    script { [nil, generate(:script)].sample }
-    transliteration { [nil, generate(:transliteration)].sample }
-    sort_name { [nil, generate(:sort_name)].sample }
-    sort_name_auto_generate { generate(:boolean_or_nil) }
-  end
-
-  factory :json_abstract_note, class: JSONModel(:abstract_note) do
-    label { nil_or_whatever }
-    publish { generate(:boolean_or_nil) }
-    ingest_problem { nil_or_whatever }
-  end
-
-  factory :json_abstract_parallel_name, class: JSONModel(:abstract_parallel_name) do
-    dates { nil_or_whatever }
-    use_dates { few_or_none(:json_structured_date_label) }
-    qualifier { nil_or_whatever }
-    source { [nil, generate(:name_source)].sample }
-    rules { [nil, generate(:name_rule)].sample }
-    language { [nil, generate(:language)].sample }
-    script { [nil, generate(:script)].sample }
-    transliteration { [nil, generate(:transliteration)].sample }
-    sort_name { [nil, generate(:sort_name)].sample }
-    sort_name_auto_generate { generate(:boolean_or_nil) }
-  end
-
   factory :json_accession_parts_relationship, class: JSONModel(:accession_parts_relationship) do
     relator { generate(:accession_parts_relator) }
     relator_type { generate(:accession_parts_relator_type) }
@@ -365,7 +258,7 @@ FactoryBot.define do
   end
 
   factory :json_advanced_query, class: JSONModel(:advanced_query) do
-    query { build([:json_boolean_query, :json_field_query, :json_boolean_field_query, :json_date_field_query, :json_range_query].sample) }
+    query { build(:json_boolean_query) }
   end
 
   factory :json_agent_alternate_set, class: JSONModel(:agent_alternate_set) do
@@ -666,8 +559,8 @@ FactoryBot.define do
   end
 
   factory :json_boolean_query, class: JSONModel(:boolean_query) do
-    op { ['AND', 'OR', 'NOT'].sample }
-    subqueries { build([:json_boolean_query, :json_field_query, :json_boolean_field_query, :json_date_field_query, :json_range_query].sample) }
+    op { 'AND' }
+    subqueries { [build(:json_date_field_query)] }
   end
 
   factory :json_bulk_import_job, class: JSONModel(:bulk_import_job) do

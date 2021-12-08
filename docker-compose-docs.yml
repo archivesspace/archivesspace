@@ -1,0 +1,15 @@
+# docker-compose -f docker-compose-docs.yml build
+# docker-compose -f docker-compose-docs.yml up --detach
+# docker-compose -f docker-compose-dev.yml -f docker-compose-docs.yml up --detach
+
+version: '3.8'
+services:
+  slate:
+    container_name: as_api_docs
+    image: slatedocs/slate
+    command: serve
+    ports:
+      - "4568:4567"
+    volumes:
+      - ./docs/slate/build:/srv/slate/build
+      - ./docs/slate/source:/srv/slate/source
