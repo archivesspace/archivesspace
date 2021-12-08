@@ -14,7 +14,7 @@ repository:
     _singular: Familie
     _plural: Familien
   classification:
-    creator: Ersteller
+    creator: Urheber
   agent_contact:
     address_1: Adresse 1
     city: Ort
@@ -32,3 +32,11 @@ repository:
     number_type: Nummern-Typ
     number: Nummer
     ext: Durchwahl
+  states:
+    auto_generated: Wird vom System beim Speichern erzeugt
+  dates_of_existence:
+    _frontend:
+      action:
+        add: Datum hinzufügen
+  lang_material:
+    _plural: Sprachen
