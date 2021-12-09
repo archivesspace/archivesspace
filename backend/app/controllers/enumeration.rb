@@ -99,6 +99,12 @@ class ArchivesSpaceService < Sinatra::Base
 
   Endpoint.get('/config/enumerations/names/:enum_name')
     .description("Get an Enumeration by Name")
+    .example("shell") do
+      <<~SHELL
+        curl -H "X-ArchivesSpace-Session: $SESSION" \
+        "http://localhost:8089/config/enumerations/names/date_type"
+      SHELL
+    end
     .params(["enum_name", String, "The name of the enumeration to retrieve"])
     .permissions([])
     .returns([200, "(:enumeration)"]) \
