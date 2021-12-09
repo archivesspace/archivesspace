@@ -27,14 +27,22 @@ describe 'Citation dialog modal', js: true do
     cite_item_btn.click
     item_input = page.find('#tempItemInput')
     item_input.click
-    item_input.send_keys([:control, 'v'])# linux/windows
+    if page.driver.browser.capabilities.platform == 'mac'
+      item_input.send_keys([:command, 'v'])
+    else
+      item_input.send_keys([:control, 'v'])
+    end
     expect(item_input.value).to eq(item_text)
 
     cite_item_desc_btn = page.find('#copy_item_description_citation')
     cite_item_desc_btn.click
     item_desc_input = page.find('#tempItemDescInput')
     item_desc_input.click
-    item_desc_input.send_keys([:control, 'v'])# linux/windows
+    if page.driver.browser.capabilities.platform == 'mac'
+      item_desc_input.send_keys([:command, 'v'])
+    else
+      item_desc_input.send_keys([:control, 'v'])
+    end
     expect(item_desc_input.value).to eq(item_description_text)
   end
 
