@@ -62,7 +62,17 @@ describe 'MARCXML Bib converter' do
                           <subfield code="x">SF XII</subfield>
                           <subfield code="3">SF 3</subfield>
                       </datafield>
-
+                      <datafield ind1="1" ind2=" " tag="111">
+                        <subfield code="a">111_sub_a_ind1_1_ind2_zero</subfield>
+                      </datafield>
+                      <datafield ind1="1" ind2=" " tag="611">
+                        <subfield code="a">611_sub_a_ind1_1_ind2_zero</subfield>
+                      </datafield>
+                      <datafield ind1="1" ind2=" " tag="711">
+                        <subfield code="a">711_sub_a_ind1_1_ind2_zero</subfield>
+                        <subfield code="c">711_sub_c</subfield>
+                        <subfield code="q">711_sub_q</subfield>
+                      </datafield>
                   </record>
              </collection>
       END
@@ -75,6 +85,7 @@ describe 'MARCXML Bib converter' do
       parsed = convert(test_doc_1)
       @resource = parsed.last
       @subjects = parsed.select {|r| r['jsonmodel_type'] == 'subject'}
+      @corps    = parsed.select {|r| r['jsonmodel_type'] == 'agent_corporate_entity'}
     end
 
 
@@ -108,6 +119,14 @@ describe 'MARCXML Bib converter' do
 
     it "maps field 040 subfield e to resource.finding_aid_description_rules" do
       expect(@resource['finding_aid_description_rules']).to eq("dacs")
+    end
+
+    it "sets conference_meeting = true for 111, 611 and 711 tags" do
+      @corps.each do |c|
+        c['names'].each do |n|
+          expect(n['conference_meeting']).to eq(true)
+        end
+      end
     end
 
 
