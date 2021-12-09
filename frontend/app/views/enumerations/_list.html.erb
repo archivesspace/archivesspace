@@ -56,8 +56,14 @@
           </td>
           <td>
             <div class="btn-group">
+              <% if enum_value['suppressed'] %>
+                <% disable_set_default = true %>
+              <% else %>
+                <% disable_set_default = false %>
+              <% end %>
+
               <% if enum_value['value'] != @enumeration['default_value'] %>
-                <%= link_to I18n.t("actions.set_default"), {:controller => :enumerations, :action => :set_default, :id => JSONModel(:enumeration).id_for(@enumeration["uri"]), :value => enum_value["value"]}, :method => :post, :class=> "btn btn-xs btn-default" %>
+                <%= link_to I18n.t("actions.set_default"), {:controller => :enumerations, :action => :set_default, :id => JSONModel(:enumeration).id_for(@enumeration["uri"]), :value => enum_value["value"]}, :method => :post, :class=> "btn btn-xs btn-default", :disabled => disable_set_default %>
               <% else %>
                 <%= link_to I18n.t("actions.unset_default"), {:controller => :enumerations, :action => :set_default, :id => JSONModel(:enumeration).id_for(@enumeration["uri"]), :value => nil}, :method => :post, :class=> "btn btn-xs btn-default" %>
               <% end%>
