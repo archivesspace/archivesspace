@@ -149,3 +149,6 @@ topics:
 
   # Preferences
   preference: '892239901/Setting+Preferences+as+of+v2.8.1'
+
+  # Bulk Import Templates
+  bulk_import_templates: '894566467/Importing+Records+Overview'
