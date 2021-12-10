@@ -4,11 +4,11 @@
   <!-- This section contains configuration used by the build tasks -->
 
   <!-- Don't forget to change any jruby versions in any Gemfiles! -->
-  <property name="jruby_url" value="https://repo1.maven.org/maven2/org/jruby/jruby-complete/9.2.12.0/jruby-complete-9.2.12.0.jar" />
-  <property name="jruby_file" value="jruby-complete-9.2.12.0.jar" />
+  <property name="jruby_url" value="https://repo1.maven.org/maven2/org/jruby/jruby-complete/9.3.2.0/jruby-complete-9.3.2.0.jar" />
+  <property name="jruby_file" value="jruby-complete-9.3.2.0.jar" />
   <!-- This needs to match version installed by bundler 2.x: `./build/run bootstrap` -->
   <!-- Then find version at: build/gems/jruby/$version -->
-  <property name="jruby_build_version" value="2.5.0" />
+  <property name="jruby_build_version" value="2.6.8" />
   <!-- Path to jruby bin directory relative to aspace ./build -->
   <property name="jruby_build_bin_path" value="./gems/jruby/${jruby_build_version}/bin" />
   <!-- Properties for ArchivesSpace build of the JRuby Rack jar -->
@@ -178,8 +178,8 @@
     <delete dir="gems/gems" />
     <delete dir="gems/bin" />
     <delete dir="gems/specifications" />
-    <!-- Delete any bundler configs to avoid exclude groups sticking
-         around between runs. -->
+    <!-- Delete any bundler configs to avoid exclude groups sticking -->
+    <!-- around between runs. -->
     <delete>
       <fileset dir=".." includes="*/.bundle/config" />
     </delete>
@@ -191,7 +191,7 @@
       <env key="GEM_PATH" value="" />
       <env key="BUNDLE_PATH" value="${gem_home}" />
       <env key="HOME" value="${build.home}" />
-      <arg line="-S gem install bundler -v 2.1.4" />
+      <arg line="-S gem install bundler -v 2.2.33" />
     </java>
     <antcall target="bundler">
       <param name="gemfile" value="../backend/Gemfile" />
@@ -458,7 +458,7 @@
       <env key="APPCONFIG_DATA_DIRECTORY" value="${aspace.data_directory.test}" />
       <env key="APPCONFIG_DB_URL" value="${env.ASPACE_TEST_DB_URL}" />
       <env key="APPCONFIG_SOLR_URL" value="${env.ASPACE_TEST_SOLR_URL}" />
-      <arg line="../build/${jruby_build_bin_path}/rspec -b --format d ${pattern-arg} ${tag-arg} ${order-arg} ${example-arg} ${spec-arg} ${extra-spec-paths}" />
+      <arg line="../build/gems/bin/bundle exec rspec -b --format d ${pattern-arg} ${tag-arg} ${order-arg} ${example-arg} ${spec-arg} ${extra-spec-paths}" />
     </java>
   </target>
 
@@ -790,7 +790,7 @@
       <env key="APPCONFIG_DATA_DIRECTORY" value="${aspace.data_directory.dev}" />
       <env key="APPCONFIG_DB_URL" value="${env.APPCONFIG_DB_URL}" />
       <env key="APPCONFIG_SOLR_URL" value="${env.APPCONFIG_SOLR_URL}" />
-      <arg line="bin/rails s mizuno -b 0.0.0.0 --port=${aspace.public.port}" />
+      <arg line="bin/rackup -s mizuno -o 0.0.0.0 -p ${aspace.public.port}" />
     </java>
   </target>
 

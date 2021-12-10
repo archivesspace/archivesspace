@@ -45,7 +45,7 @@ Rails.application.configure do
   config.assets.debug = true
 
   # Suppress logger output for asset requests.
-  config.assets.quiet = true
+  config.assets.quiet = false
 
   # If we're running with a prefix, write our on-the-fly compiled assets to the
   # right spot.  NOTE: Don't enable this for production, as it's handled

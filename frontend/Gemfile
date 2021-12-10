@@ -1,22 +1,14 @@
 # frozen_string_literal: true
 
-source 'https://rubygems.org'
-
-gem 'rails', '5.2.5'
-
-gem 'i18n', '0.9.1'
-gem 'loofah', '>= 2.2.3'
-gem 'sprockets-rails', '2.3.3'
-
-# Windows does not include zoneinfo files, so bundle the tzinfo-data gem
-gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby]
+require 'asutils'
+ASUtils.load_common_gems(self)
+common_rails_gems
 
 # Gems used only for assets and not required
 # in production environments by default.
 gem 'coffee-rails', '4.2.2'
 gem 'coffee-script'
 gem 'coffee-script-source'
-gem 'sass-rails', '~> 5.0', '>= 5.0.6'
 gem 'therubyrhino'
 gem 'uglifier', '3.0.4'
 
@@ -24,54 +16,10 @@ gem 'less-rails-bootstrap'
 
 gem 'jquery-rails'
 gem 'jquery-ui-rails'
-gem 'json', '2.3.0'
-gem 'json-schema', '1.0.10'
-
-gem 'atomic', '= 1.0.1'
-gem 'jruby-jars', '= 9.2.12.0'
-
-group :test do
-  gem 'axe-core-rspec'
-  gem 'dumb_delegator', '~> 0.8'
-  gem 'rspec', '~> 3.6.0'
-  # For performance testing
-  gem 'rspec-benchmark'
-  gem 'rspec-rails'
-  gem 'simplecov', '0.7.1'
-
-  # selenium stuff
-  gem 'factory_bot_rails', '~> 4.11', '>= 4.11.1'
-  gem 'mechanize'
-  gem 'parallel_tests', '~> 2.14.0'
-  gem 'rspec-retry'
-  gem 'selenium-webdriver', '~> 3.142', '>= 3.142.3'
-
-  gem 'capybara', '3.15.1'
-  # need access to ActiveSupport for helpers
-  gem 'activesupport', '5.2.5'
-end
-
-group :development, :test do
-  gem 'pry-debugger-jruby', '>= 1.2.2'
-  gem 'pry-nav'
-  gem 'pry-rails'
-  gem 'mizuno', git: "https://github.com/archivesspace/mizuno", branch: "master"
-end
-
-group :development do
-  gem 'web-console'
-end
 
 gem 'multi_json', '~> 1.15.0'
-gem 'multipart-post', '1.2.0'
-gem 'net-http-persistent', '2.8'
 
-gem 'rubyzip', '>= 1.3.0'
 gem 'zip-zip', '0.3'
-
-gem 'nokogiri', '>= 1.10.8'
-
-require 'asutils'
 
 # Allow plugins to provide their own Gemfiles too.
 ASUtils.load_plugin_gems(self)

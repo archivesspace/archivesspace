@@ -1,0 +1,50 @@
+# frozen_string_literal: true
+
+source 'https://rubygems.org'
+
+gem 'jruby-jars', '= 9.3.2.0'
+gem 'nokogiri'
+gem 'loofah'
+gem 'i18n', '<= 1.8.7' # See https://github.com/jruby/jruby/issues/6547
+gem 'atomic'
+gem 'rubyzip'
+
+gem 'json'
+gem 'json-schema'
+
+gem 'multipart-post'
+gem 'net-http-persistent'
+
+gem 'activesupport'
+
+group :test do
+  gem 'rspec'
+  gem 'rspec-core'
+  gem 'rspec-retry'
+  gem 'simplecov'
+  gem 'factory_bot'
+end
+
+gem 'mizuno', git: "https://github.com/archivesspace/mizuno", branch: "master", :group => [:development, :test]
+
+# Windows does not include zoneinfo files, so bundle the tzinfo-data gem
+gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
+
+def common_rails_gems
+  gem 'rails', '6.1.4'
+  gem 'clipboard-rails'
+  gem 'sprockets-rails'
+  gem 'sass-rails'
+
+  group :test do
+    gem 'rspec-rails'
+    gem 'capybara'
+    gem 'factory_bot_rails'
+    gem 'fog-aws', '2.0.0', require: false
+    gem 'launchy'
+    gem 'rails-controller-testing'
+    gem 'selenium-webdriver'
+    gem 'axe-core-rspec'
+    gem 'rspec-benchmark'
+  end
+end

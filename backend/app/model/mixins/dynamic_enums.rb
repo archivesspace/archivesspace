@@ -58,7 +58,7 @@ module DynamicEnums
 
 
         define_method(:values) do
-          values = super
+          values = super()
           values = values.clone
 
           definitions.each do |definition|

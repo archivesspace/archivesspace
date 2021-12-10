@@ -4,7 +4,7 @@ require 'date'
 # depending on its value.
 class IfMissingAttribute < JSON::Schema::PropertiesAttribute
 
-  def self.validate(current_schema, data, fragments, validator, options = {})
+  def self.validate(current_schema, data, fragments, validator, processor, options = {})
     super
 
     if data.is_a?(Hash)
@@ -52,7 +52,7 @@ class ArchivesSpaceTypeAttribute < JSON::Schema::TypeAttribute
   end
 
 
-  def self.validate(current_schema, data, fragments, validator, options = {})
+  def self.validate(current_schema, data, fragments, processor, validator, options = {})
     types = current_schema.schema['type']
 
     if types == 'date'
@@ -120,7 +120,7 @@ end
 
 class ArchivesSpaceSubTypeAttribute < JSON::Schema::TypeAttribute
 
-  def self.validate(current_schema, data, fragments, validator, options = {})
+  def self.validate(current_schema, data, fragments, processor, validator, options = {})
     if data.is_a?(Hash) && !data.has_key?('ref')
       message = "ERROR: The property '#{build_fragment(fragments)}' did not contain a required property of 'ref'"
       validation_error(message, fragments, current_schema, self, options[:record_errors])
@@ -177,7 +177,7 @@ class ArchivesSpaceSchema < JSON::Schema::Validator
   end
 
 
-  def validate(current_schema, data, fragments, options = {})
+  def validate(current_schema, data, fragments, processor, options = {})
     super
 
     # Run any custom validations if we've made it this far with no errors

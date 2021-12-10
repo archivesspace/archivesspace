@@ -252,6 +252,14 @@ ERRMSG
     end
   end
 
+  def self.load_common_gems(context)
+    gemfile = File.join(self.find_base_directory('common'), 'Gemfile')
+    if File.exist?(gemfile)
+      # only load Gemfiles we find
+      context.instance_eval(File.read(gemfile), gemfile, 1)
+    end
+  end
+
   # Borrowed from:activesupport/lib/active_support/core_ext/array/wrap.rb:36
   def self.wrap(object)
     if object.nil?
