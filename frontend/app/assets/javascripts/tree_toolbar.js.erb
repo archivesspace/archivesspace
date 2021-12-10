@@ -323,7 +323,7 @@ var TreeToolbarConfiguration = {
             onToolbarRendered: function(btn, toolbarRenderer) {
                 $(btn).addClass('disabled');
                 $(btn).after(AS.renderTemplate('template_load_via_spreadsheet_help_icon'));
-                $(btn).siblings("a").hover(function() {
+                $(btn).next("a").hover(function() {
                     $('#tt_load_via_spreadsheet').toggle();
                 })
             },
@@ -410,7 +410,7 @@ var TreeToolbarConfiguration = {
             onToolbarRendered: function(btn, toolbarRenderer) {
                 $(btn).addClass('disabled');
                 $(btn).after(AS.renderTemplate('template_load_via_spreadsheet_help_icon'));
-                $(btn).siblings("a").hover(function() {
+                $(btn).next("a").hover(function() {
                     $('#tt_load_via_spreadsheet').toggle();
                 })
             },
