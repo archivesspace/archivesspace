@@ -28,7 +28,7 @@ actions:
   close: Schließen
   refine_search: Suche verfeinern
   backup_abbr: Zurück gehen
-  search_remove_row: Die Reihe unten entfernen
+  search_remove_row: Die Zeile unten entfernen
 request:
   required: erforderlich
   user_name: Ihr Name
