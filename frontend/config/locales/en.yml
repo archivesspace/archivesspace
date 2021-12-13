@@ -2358,3 +2358,15 @@ en:
 
   metadata_rights_declaration_merge_victim:
     <<: *metadata_rights_declaration_attributes
+
+  bulk_import_templates:
+    overview: |
+      <p>These are templates for uploading spreadsheet data into ArchivesSpace using the different import options in the Background Jobs area. The data required for a successful import depends on the type of record being created. You do not have to fill out every row and column.</p><p>Each CSV template includes a row of sample data. Unless you want to create a record with the sample data, please delete the sample data before uploading your spreadsheet. <b>Do not delete the header row, add additional columns or rearrange existing columns.</b></p><p>The Excel templates include additional instructions for using the templates and validations for certain cells. Do not delete the instructions or validations.</p>
+    aspace_accession_import_template_csv: Accession CSV Create accession records and records linked to accessions like agents, subjects, and events.
+    aspace_digital_object_import_template_csv: Digital Objects CSV Create digital object records and records linked to digital objects like agents, subjects, and events.
+    bulk_import_template_csv: Bulk Import CSV Create archival objects attached to an existing resource. Includes option to create many different sub-records and linked records including dates, extents, notes, containers, and digital objects. The CSV format is for people who do not have access to Microsoft Excel.
+    bulk_import_template_xlsx: Bulk Import XLSX Create archival objects attached to an existing resource. Includes option to create many different sub-records and linked records including dates, extents, notes, containers, and digital objects. The XLSX format is for those who have access to Microsoft Excel.
+    bulk_import_DO_template_csv: Bulk Import DO CSV Create and link digital objects to existing archival objects in a resource. The CSV format is for people who do not have access to Microsoft Excel.
+    bulk_import_DO_template_xlsx: Bulk Import DO XLSX Create and link digital objects to existing archival objects in a resource. The XLSX format is for those who have access to Microsoft Excel.
+    aspace_location_import_template_csv: Location CSV Create new location records. Please note that this template is for creating the location records themselves, not linking materials to locations.
+    aspace_assessment_import_template_csv: Assessment CSV Create and link assessments to existing accessions, resources, archival objects, or digital objects.
