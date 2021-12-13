@@ -99,7 +99,7 @@ fr:
     results_head: "%{type} affichés: %{start} - %{end} de %{total}"
     result: Résultats
     results: Résultats
-    search_for: "Chercher  %{type} où %{conditions}"
+    search_for: "Chercher %{type} où %{conditions}"
     keyword_contain: "<strong>mot(s)-clé(s)</strong>: <span class='searchterm'>%{kw}</span>"
     title_contain: "l'<strong>intitulé</strong> contient  <span class='searchterm'>%{kw}</span>"
     notes_contain: "la <strong>note</strong> contient  <span class='searchterm'>%{kw}</span>"
@@ -254,7 +254,7 @@ fr:
   linked_digital_objects: Objets numériques
 
   accession:
-    _singular: Non traitée
+    _singular: Non traitée matériau
     _plural: Instances de matériel non traité
     _public:
       section:
