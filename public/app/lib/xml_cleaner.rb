@@ -38,11 +38,12 @@ class XMLCleaner
     File.open(file_path + ".tmp", "w") do |outfile|
       File.open(file_path) do |infile|
         infile.each_with_index do |line, index|
+          # The decode() method used below turns the five predefined XML entities into unescaped characters. That can
+          # create non-well-formed XHTML, which will break PDF generation, so first replace them with something that
+          # can be converted back safely afterwards.
+          line.gsub!(/&(amp|lt|gt|quot|apos);/, '~~\1~~')
           line = HTMLEntities.new.decode(line)
-          # decode turns &amp; into & so need to undo that here for PDF to work
-          if line.match(/&\s+/) || line.match(/&[A-Za-z]+[^;]/)
-            line.gsub!('&', '&amp;')
-          end
+          line.gsub!(/~~(amp|lt|gt|quot|apos)~~/, '&\1;')
           outfile.puts(line)
         end
       end
