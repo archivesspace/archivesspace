@@ -1,3 +1,4 @@
+require 'securerandom'
 require_relative "handler"
 require_relative "../../model/digital_object"
 
@@ -28,7 +29,7 @@ class DigitalObjectHandler < Handler
         archival_object.ref_id = "VAL#{rand(1000000)}"
       end
     end
-    osn = id || "#{archival_object.ref_id.to_s}d"
+    osn = id || SecureRandom.hex
     if !check_digital_id(osn)
 =begin
       if @validate_only
