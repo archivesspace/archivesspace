@@ -1,76 +1,39 @@
 help:
-  default_tooltip: ArchivesSpace Hilfe
   topics:
     accession_dates: Hilfe zu Daten
-    accession_subjects: Hilfe zu Themen
     accession_deaccessions: Hilfe zu Abgängen
-    accession_collection_management: Hilfe zur Sammlungs-Verwaltung
     resource: Hilfe zu Ressourcen
-    resource_extents: Hilfe zu Ausmaßen
     resource_related_accessions: Hilfe zu Verwandten Eingängen
-    resource_rights_statements: Hilfe zu Rechte-Bezeichnungen
     resource_deaccessions: Hilfe zu Abgängen
-    resource_user_defined: Hilfe zu Benutzerdefiniert
     archival_object: Hilfe zu Archiv-Objekten
-    archival_object_finding_aid: Hilfe zu Findmitteln
     resource_external_documents: Hilfe zu Externen Dokumenten
-    resource_linked_agents: Hilfe zu Beteiligten-Verknüpfungen
     archival_object_related_accessions: Hilfe zu Verwandten Eingängen
-    archival_object_basic_information: Hilfe zu Grundlegenden Informationen
     archival_object_instances: Hilfe zu Instanzen
-    archival_object_classification: Hilfe zu Klassifizierungen
     digital_object_extents: Hilfe zu Ausmaßen
-    digital_object_subjects: Hilfe zu Themen
     digital_object_rights_statements: Hilfe zu Rechte-Bezeichnungen
-    digital_object_collection_management: Hilfe zur Sammlungs-Verwaltung
     digital_object_user_defined: Hilfe zu Benutzerdefiniert
-    digital_object_component_extents: Hilfe zu Ausmaßen
     digital_object_component_subjects: Hilfe zu Themen
-    digital_object_external_documents: Hilfe zu Externen Dokumenten
     digital_object: Hilfe zu digitalem Objekt
-    digital_object_linked_agents: Hilfe zu Beteiligten-Verknüpfungen
     digital_object_related_accessions: Hilfe zu Verwandten Eingängen
-    digital_object_component_deaccessions: Hilfe zu Abgängen
     digital_object_component_classification: Hilfe zu Klassifizierungen
-    subject: Hilfe zu Themen
     agent_person_names: Hilfe zu Namen
-    agent_family_names: Hilfe zu Namen
     agent_family_notes: Hilfe zu Notizen
-    agent_corporate_entity_contact_details: Hilfe zu Kontaktdetails
     agent_software_contact_details: Hilfe zu Kontaktdetails
-    subject_external_documents: Hilfe zu Externen Dokumenten
     agent_person: Hilfe zu Personen (Beteiligter)
-    agent_family: Hilfe zu Familien (Beteiligter)
     agent_corporate_entity: Hilfe zu juristischer Person (Beteiligter)
-    agent_family_dates_of_existence: Hilfe zu Existenzdaten
     agent_software_dates_of_existence: Hilfe zu Existenzdaten
-    agent_genders: Hilfe zu Geschlechtern
     agent_external_resources: Hilfe zu Verwandten Externen Ressourcen
-    location: Hilfe zu Standorten
     event_date: Hilfe zu Datum/Zeit von Ereignissen
-    import: Hilfe zu Importieren von Daten
     repository_groups: Hilfe zu Verwalten von Gruppen
-    repository: Hilfe zu Verwalten von Aufbewahrungsorten
     preference: Hilfe zu Einstellungen
-    agent_external_documents: Hilfe zu Externen Dokumenten
     enumeration: Hilfe zu Festgelegte-Werte Listen
-    agent_sources: Hilfe zu Beteiligten-Quellen
     agent_conventions_declarations: Hilfe zu Beteiligten-Konventionserklärungen
-    agent_record_controls: Hilfe zu Beteiligten-Aufzeichnungssteuerung
     event_basic_information: Hilfe zu Grundlegenden Informationen
-    resource_classification: Hilfe zu Klassifizierungen
     archival_object_external_documents: Hilfe zu Externen Dokumenten
-    resource_subjects: Hilfe zu Themen
     archival_object_notes: Hilfe zu Notizen
-    digital_object_dates: Hilfe zu Daten
     digital_object_deaccessions: Hilfe zu Abgängen
-    subject_basic_information: Hilfe zu Grundlegenden Informationen
     digital_object_component_instances: Hilfe zu Instanzen
-    agent_corporate_entity_notes: Hilfe zu Notizen
     agent_function: Hilfe zu Funktionen
-    agent_topic: Hilfe zu Themen
     classification_term: Hilfe zu Klassifizierungen
-    event_linked_records: Hilfe zu Aufzeichnungs-Verknüpfungen
     agent_corporate_entity_related_agents: Hilfe zu Verwandten Beteiligten
-    archival_object_linked_agents: Hilfe zu Beteiligten-Verknüpfungen
     digital_object_component_basic_information: Hilfe zu Grundlegenden Informationen
