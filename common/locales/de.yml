@@ -40,3 +40,17 @@ repository:
         add: Datum hinzufügen
   lang_material:
     _plural: Sprachen
+  accession:
+    _singular: Eingang
+  digital_object:
+    _plural: Digitale Objekte
+  custom_report_template:
+    name: Name
+  rights_statement_external_document:
+    identifier_type: Signatur-Typ
+  agent:
+    _singular: Beteiligter
+  enumeration:
+    name: Name
+  classification_term:
+    _plural: Klassifizierungs-Begriffe
