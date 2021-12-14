@@ -275,8 +275,9 @@ describe 'Enumeration Management' do
     @driver.click_and_wait_until_element_gone(topical.find_element(:link, 'Suppress'))
 
     temporal = @driver.find_element_with_text('//tr', /temporal/)
+
     @driver.click_and_wait_until_element_gone(temporal.find_element(:link, 'Set as Default'))
 
-    temporal.find_element(:link, 'Unset Default')
+    @driver.find_element(:link, 'Unset Default')
   end
 end
