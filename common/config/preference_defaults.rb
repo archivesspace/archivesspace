@@ -7,6 +7,7 @@ module PreferenceConfig
     {
       'show_suppressed' => false,
       'publish' => false,
+      'rde_sort_alpha' => true,
       'accession_browse_column_1' => 'title',
       'accession_browse_column_2' => 'identifier',
       'accession_browse_column_3' => 'accession_date',

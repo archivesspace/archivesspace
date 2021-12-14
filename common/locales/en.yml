@@ -2323,6 +2323,7 @@ en:
     show_suppressed: Show Suppressed?
     show_suppressed_tooltip: Whether to show suppressed records that you have permission to see when browsing.
     publish: Publish?
+    rde_sort_alpha: Display RDE Templates Alphabetically?
     publish_tooltip: Whether to publish new records by default.
     default_values: Pre-populate Records?
     default_values_tooltip: Whether to pre-populate new Accession and Resource records with default values.

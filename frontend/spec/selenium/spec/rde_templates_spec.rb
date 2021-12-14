@@ -145,4 +145,17 @@ describe 'RDE Templates' do
       expect(@driver.find_elements(css: 'select#rde_select_template option').map { |x| x.attribute('value') }.include?(template.id)).to be_falsey
     end
   end
+
+  it 'can display RDE templates in alpha order' do
+    @driver.find_element(link: 'Rapid Data Entry').click
+    @driver.wait_for_ajax
+
+    @driver.find_element(css: "button[data-id='rde_select_template']").click
+
+    first = @driver.find_element(css: ".dropdown-menu.open ul li:nth-child(2) span").text
+
+    second = @driver.find_element(css: ".dropdown-menu.open ul li:nth-child(3) span").text
+
+    expect(first <=> second).to eq(-1)
+  end
 end
