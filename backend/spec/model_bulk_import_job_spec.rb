@@ -30,8 +30,8 @@ describe 'Bulk Import Jobs' do
 
       tmp = ASUtils.tempfile("bulk-import-digital-object-csv-#{Time.now.to_i}")
       tmp.write("ArchivesSpace digital object import field codes, collection_id, ead, ref_id, res_uri, ao_ref_id, ao_uri, digital_object_id, digital_object_title, publish,	digital_object_link, thumbnail,digital_object_link_publish,thumbnail_publish\n")
-      tmp.write(",,#{resource.ead_id},,,#{archival_object.ref_id},,blah,blah blah,t,http://blahblah.com,http://thumbnail.com,1,0\n")
-      tmp.write(",,#{resource.ead_id},,,#{archival_object.ref_id},,hideme,hide me,f,http://hideme.com,http://thumbnail.com,0,1\n")
+      tmp.write(",,#{resource.ead_id},,,#{archival_object.ref_id},,,blah blah,t,http://blahblah.com,http://thumbnail.com,1,0\n")
+      tmp.write(",,#{resource.ead_id},,,#{archival_object.ref_id},,,hide me,f,http://hideme.com,http://thumbnail.com,0,1\n")
       tmp.rewind
       user = create_nobody_user
       job = Job.create_from_json(json,
