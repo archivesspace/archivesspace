@@ -342,7 +342,7 @@ agent_function:
   _plural: Funktionen
 agent_gender:
   _singular: Geschlecht
-  _plural: Geschlechter
+  _plural: Geschlecht
 agent_place:
   _singular: Ort
   _plural: Orte
