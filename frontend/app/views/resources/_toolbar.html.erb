@@ -1,8 +1,4 @@
-<% if user_prefs['include_unpublished'] %>
-  <% unpublished_checked_string = "checked='checked'" %>
-<% else %>
-  <% unpublished_checked_string = "" %>
-<% end %>
+<% pref_include_unpublished = user_prefs['include_unpublished'] %>
 
 <% if user_can?('update_resource_record') %>
 
@@ -17,7 +13,7 @@
           <fieldset>
             <input type="hidden" name="id", value="<%= @resource.id %>" />
             <label class="checkbox" for="include-unpublished">
-              <input type="checkbox" id="include-unpublished" name="include_unpublished" <%= unpublished_checked_string %> />
+              <input type="checkbox" id="include-unpublished" name="include_unpublished" <% if pref_include_unpublished %> checked="checked" <% end %>/>
               <%= I18n.t("export_options.include_unpublished") %>&#160;
             </label>
             <label class="checkbox" for="include-daos">
@@ -44,7 +40,7 @@
           <fieldset>
             <input type="hidden" name="id", value="<%= @resource.id %>" />
             <label class="checkbox" for="include-unpublished-marc">
-              <input type="checkbox" id="include-unpublished-marc" name="include_unpublished_marc" <%= unpublished_checked_string %> />
+                <input type="checkbox" id="include-unpublished-marc" name="include_unpublished_marc" <% if pref_include_unpublished %> checked="checked" <% end %>/>
               <%= I18n.t("export_options.include_unpublished") %>&#160;
             </label>
             <%# END - MARC %>
@@ -63,7 +59,7 @@
             <div class="dropdown-menu">
               <fieldset>
                 <label class="checkbox" for="include-unpublished-pdf">
-                  <input type="checkbox" id="include-unpublished-pdf" onchange="$('#print-to-pdf-link').attr('href', '<%= url_for :controller => :exports,  :action => :print_to_pdf, :id => @resource.id %>?include_unpublished=' + $(this).prop('checked'))" <%= unpublished_checked_string %> />
+                    <input type="checkbox" id="include-unpublished-pdf" onchange="$('#print-to-pdf-link').attr('href', '<%= url_for :controller => :exports,  :action => :print_to_pdf, :id => @resource.id %>?include_unpublished=' + $(this).prop('checked'))" <% if pref_include_unpublished %> checked="checked" <% end %> />
                   <%= I18n.t("export_options.include_unpublished") %>&#160;
                 </label>
               </fieldset>

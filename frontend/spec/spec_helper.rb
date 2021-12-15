@@ -88,8 +88,8 @@ RSpec.configure do |config|
 
     Factories.init
 
-    repo = create(:repo, :repo_code => "test_#{Time.now.to_i}", publish: true)
-    set_repo repo
+    $repo = create(:repo, :repo_code => "test_#{Time.now.to_i}", publish: true)
+    set_repo $repo
     create(:accession)
     create(:resource)
     run_index_round
