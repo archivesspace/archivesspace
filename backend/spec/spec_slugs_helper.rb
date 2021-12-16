@@ -3,6 +3,16 @@ require 'pry'
 
 def clean_slug(slug)
   if slug
+    # remove all non-ASCII chars
+    encoding_options = {
+      :invalid           => :replace,
+      :undef             => :replace,
+      :replace           => '',
+      :universal_newline => true
+    }
+
+    slug = slug.encode(Encoding.find('ASCII'), encoding_options)
+
     # if the slug contains a slash, completely zero it out.
     # this is intended to revert an entity to use the URI if the ID or name the slug was generated from is a URL.
     slug = "" if slug =~ /\//
@@ -15,9 +25,6 @@ def clean_slug(slug)
 
     # remove double hypens
     slug = slug.gsub("--", "")
-
-    # remove en and em dashes
-    slug = slug.gsub(/[\u2013-\u2014]/, "")
 
     # remove single quotes
     slug = slug.gsub("'", "")

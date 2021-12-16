@@ -422,7 +422,7 @@ describe 'Resource model' do
           expect(resource[:slug]).to eq(expected_slug)
         end
         it "cleans slug" do
-          resource = Resource.create_from_json(build(:json_resource, :is_slug_auto => true, :id_0 => "Foo Bar Baz&&&&", :id_1 => "", :id_2 => "", :id_3 => ""))
+          resource = Resource.create_from_json(build(:json_resource, :is_slug_auto => true, :id_0 => "Foo“ Bar‟ Baz—&&&&", :id_1 => "", :id_2 => "", :id_3 => ""))
           expect(resource[:slug]).to eq("foo_bar_baz")
         end
         it "dedupes slug" do
