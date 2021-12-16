@@ -35,6 +35,7 @@ class DateCalculatorController < ApplicationController
 
   def create_date
     begin
+      ActionController::Parameters.permit_all_parameters = true
       date = JSONModel(:date).from_hash(params[:date].to_hash)
 
       record = JSONModel(params[:record_type].intern).find(params[:record_id])
