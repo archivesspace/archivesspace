@@ -48,6 +48,12 @@ end
         "default" => true
       },
 
+      "include_unpublished" => {
+        "type" => "boolean",
+        "required" => false,
+        "default" => false
+      },
+
       "locale" => {
         "type" => "string",
         "enum" => locale_enum,
