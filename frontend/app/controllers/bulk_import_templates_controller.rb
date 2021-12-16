@@ -36,7 +36,7 @@ class BulkImportTemplatesController < ApplicationController
         :name => I18n.t('import_job.import_type_assessment_csv'),
         :filename => "aspace_assessment_import_template.csv"
       },
-    ]
+    ].sort_by { |template| template[:name] }
   end
 
   def download

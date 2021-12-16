@@ -7,6 +7,7 @@ build/solr_backups/*
 build/gems
 derby.log
 frontend/doc
+frontend/docs
 backend/doc
 config/config.rb
 *.swp
