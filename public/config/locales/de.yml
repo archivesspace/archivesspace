@@ -1,9 +1,9 @@
 brand:
-  title: ArchivesSpace Öffentliche Oberfläche
+  title: ArchivesSpace Öffentliche Besucher-Oberfläche
   title_link_text: Zurück zur ArchivesSpace Startseite
   welcome_head: Willkommen zu ArchivesSpace
   welcome_message: "<p>Suchen Sie in unseren Sammlungen, digitalem Archivgut und mehr.</p>\n"
-  welcome_page_title: ArchivesSpace Öffentliche Oberfläche
+  welcome_page_title: ArchivesSpace Öffentliche Besucher-Oberfläche
 actions:
   search: Suchen
   search_header: In den Archiven suchen
@@ -67,7 +67,7 @@ search_results:
   search_for: Suche %{type} wobei %{conditions}
   keyword_contain: "<strong>Schlagwörter</strong>: <span class='searchterm'>%{kw}</span>"
   title_contain: der <strong>Titel</strong> enthält  <span class='searchterm'>%{kw}</span>
-  notes_contain: die <strong>Notiz</strong> enthält  <span class='searchterm'>%{kw}</span>
+  notes_contain: die <strong>Anmerkung</strong> enthält  <span class='searchterm'>%{kw}</span>
   subjects_text_contain: das <strong>Thema</strong> enthält <span class='searchterm'>%{kw}</span>
   identifier_contain: der <strong>Signatur</strong> enthält <span class='searchterm'>%{kw}</span>
   anything: '*'
@@ -89,7 +89,7 @@ search_results:
     title: Titel
     creators_text: Urheber
     scope: Umfang
-    notes: Notizen
+    notes: Anmerkungen
     identifier: Signatur
     source: Quelle
     published_agents: Namen
@@ -220,7 +220,7 @@ repository:
 resource:
   _public:
     identifier: Signatur
-    extent: Ausmaß
+    extent: Umfang
     dates: Daten
     lang: Sprache des Archivguts
     script: Schrift
@@ -239,9 +239,9 @@ resource:
       identifier: Signatur
       language: Sprache der Beschreibung
       script: Schrift der Beschreibung
-      language_note: Sprache der Beschreibungs-Notiz
+      language_note: Sprache der Beschreibungs-Anmerkung
       sponsor: Sponsor
-      note: Notiz
+      note: Anmerkung
       revision: Überarbeitungs-Bezeichnung
       series_statement: Serien-Bezeichnung
       edition_statement: Ausgaben-Bezeichnung
@@ -267,7 +267,7 @@ accordion:
   collapse: Alle einklappen
 contains: Enthält %{count} %{type}
 found: Gefunden in %{count} %{type}
-scope_note: Umfangs-Notiz
+scope_note: Anmerkung zum Geltungsbereich
 external_docs: Externe Dokumente
 list: '%{type} Liste'
 archival_object:
@@ -395,32 +395,32 @@ telephone:
   _plural: Telefonnummern
   number_type: Nummern-Typ
   number: Nummer
-  ext: Durchwahl
+  ext: Telefondurchwahl
 agent_notes:
-  _singular: Notiz
+  _singular: Anmerkung
   note_bioghist: Biografie
   note_general_context: Allgemeiner Kontext
   note_legal_status: Rechtsstellung
   note_mandate: Auftrag
   note_structure_or_genealogy: Struktur oder Genealogie
-  note_text: Notiz
-  persistent_id: Persistenter Bezeichner
-  type: Notiz-Typ
+  note_text: Anmerkung
+  persistent_id: Dauerhafte ID
+  type: Art der Anmerkung
   content: Inhalt
   note_citation: Zitierung
-  _plural: Notizen
+  _plural: Anmerkungen
 metadata_rights_declaration:
   _plural: Rechte-Deklarationen von Metadaten
   _singular: Rechte-Deklaration von Metadaten
   license: Lizenz
-  descriptive_note: Beschreibende Notiz
+  descriptive_note: Beschreibende Anmerkung
   file_uri: Datei-URI
-  xlink_title_attribute: Xlink Title Attribut
-  xlink_role_attribute: Xlink Role Attribut
-  xlink_arcrole_attribute: Xlink Arcrole Attribut
-  file_version_xlink_actuate_attribute: Xlink Actuate Attribut
-  file_version_xlink_show_attribute: Xlink Show Attribut
-  last_verified_date: Datum der letzten Verifizierung
+  xlink_title_attribute: Xlink Title-Attribut
+  xlink_role_attribute: Xlink Role-Attribut
+  xlink_arcrole_attribute: Xlink Arcrole-Attribut
+  file_version_xlink_actuate_attribute: Xlink Actuate-Attribut
+  file_version_xlink_show_attribute: Xlink Show-Attribut
+  last_verified_date: Datum der letzten Überprüfung
 agent_topic:
   _plural: Themen
   _singular: Thema
