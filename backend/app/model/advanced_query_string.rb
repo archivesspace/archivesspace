@@ -40,16 +40,17 @@ class AdvancedQueryString
 
   def value
     if date?
-      date_string = JSONModel::Validations.normalise_date(@query["value"])
-      base_time = Time.parse(date_string).utc.iso8601
+      comparator = @query["comparator"]
+      precision = @query["precision"].upcase
+      date = JSONModel::Validations.normalise_date(@query["value"])
+      time = Time.parse(date).utc.iso8601
 
-      if @query["comparator"] == "lesser_than"
-        "[* TO #{base_time}-1MILLISECOND]"
-      elsif @query["comparator"] == "greater_than"
-        "[#{base_time}+1DAY TO *]"
-      else # @query["comparator"] == "equal"
-        "[#{base_time} TO #{base_time}+1DAY-1MILLISECOND]"
+      case comparator
+      when "greater_than" then "[#{time}+1#{precision} TO *]"
+      when "lesser_than" then "[* TO #{time}-1MILLISECOND]"
+      when "equal" then "[#{time} TO #{time}+1#{precision}-1MILLISECOND]"
       end
+
     elsif @query["jsonmodel_type"] == "range_query"
       "[#{@query["from"] || '*'} TO #{@query["to"] || '*'}]"
     elsif @query["jsonmodel_type"] == "field_query" && (use_literal? || @query["literal"])

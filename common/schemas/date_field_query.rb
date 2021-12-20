@@ -9,7 +9,7 @@
       "field" => {"type" => "string", "ifmissing" => "error"},
       "value" => {"type" => "date"},
       "negated" => {"type" => "boolean", "default" => false},
-
+      "precision" => {"type" => "string", "enum" => ["day", "month", "year"]},
     },
   },
 }

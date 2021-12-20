@@ -118,6 +118,7 @@ describe 'Solr model' do
         "comparator" => "equal",
         "field" => "create_time",
         "value" => test_time.strftime('%Y-%m-%d'),
+        "precision": "day",
         "negated" => false
       }
     }
