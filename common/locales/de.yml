@@ -12,6 +12,23 @@ repository:
     authority_id_tooltip: "<p>Der eindeutige Bezeichner für den Datensatz innerhalb der Quelle, aus der\
       \ er bezogen wurde (z.B. eine LCSH-Nummer). Die Kennung kann als URI dargestellt werden.</p>\n"
     source: Quelle
+    subject_source: Quelle des Themas
+    source_tooltip: "<p>Das Vokabular, dem ein festgelegter Begriff entnommen ist.</p>\n<p>Werte in dieser\
+      \ Kontrollierte-Werte-Liste können bearbeitet werden.</p>\n<p>Beispiele:</p>\n<ul>\n<li>Medizinische\
+      \ Fachbegriffe (mesh)</li>\n<li>Library of Congress Schlagwörter (lcsh)</li>\n</ul>\n"
+    scope_note: Anmerkung zum Geltungsbereich
+    scope_note_tooltip: "<p>Eine Anmerkung, die erklärt und verdeutlicht, was in der Definition des Begriffs\
+      \ und in seiner Verwendung als Schlagwort gemeint ist und was nicht.</p>\n<p>Beispiele:</p>\n<ul>\n\
+      <li>Hier werden Werke über biologische Studien von Bakterien eingetragen. Werke über diese Wissenschaft\
+      \ sind unter der Rubrik Bakteriologie erfasst.</li>\n<li>\"Das Recht auf Sicherheit und Privatsphäre\
+      \ in der Wohnung eines Menschen'\" - Black, Rechtswörterbuch, 4. Aufl., 1951.</li>\n</ul>\n"
+    terms: Begriffe
+    terms_tooltip: "<p>ERFORDERLICHE TEILAUFZEICHNUNG. Dient zur Verwaltung jedes Begriffs oder jeder\
+      \ Unterteilung innerhalb eines bestimmten Schlagworts. Jeder Themenaufzeichnung muss mindestens\
+      \ ein Begriff zugeordnet sein.</p>\n"
+    external_documents_tooltip: "<p>Ermöglicht Verknüpfungen mit externer Dokumentation, z.B. wie eine\
+      \ bestimmtes Stichwort zu verwenden ist.</p>\n"
+    heading: Schlagwort
   repository:
     _singular: Aufbewahrungsort
     name: Name des Aufbewahrungsorts
@@ -74,6 +91,12 @@ repository:
     _plural: Familien
   classification:
     creator: Urheber
+    _singular: Klassifizierung
+    _plural: Klassifizierungen
+    identifier: Bezeichner
+    title: Titel
+    description: Beschreibung
+    id_separator: /
   agent_contact:
     address_1: Adresse 1
     city: Ort
@@ -339,8 +362,26 @@ repository:
       \ veröffentlicht wird (sofern verwendet)</p>\n"
   enumeration:
     name: Name
+    name_tooltip: "<p>Der Name der Kontrollierte-Werte-Liste, zu der Sie einen Wert hinzufügen möchten.</p>\n"
+    value: Wert
+    value_tooltip: "<p>Der Wert für die Kontrollierte-Werte-Liste, die Sie hinzufügen oder bearbeiten\
+      \ möchten.</p>\n<p>Wann immer möglich, sollten die Werte in Kleinbuchstaben und mit Unterstrichen\
+      \ (\"_\") anstelle von Leerzeichen angegeben werden. Übersetzungen für die Werte sollten der Locales-Datei\
+      \ hinzugefügt werden.</p>\n"
+    translation: Übersetzung
+    position: Position
+    suppress: Unterdrücken
+    unsuppress: Unterdrückung aufheben
+    merge_into: Zusammenführen
+    _singular: Kontrollierte-Werte-Liste
+    _plural: Kontrollierte-Werte-Listen
   classification_term:
     _plural: Klassifizierungs-Begriffe
+    _singular: Klassifizierungs-Begriff
+    identifier: Signatur
+    title: Titel
+    description: Beschreibung
+    creator: Urheber
   metadata_rights_declaration:
     xlink_arcrole_attribute_tooltip: "<p>Typ oder Art der im zugehörigen URI verknüpften entfernten Ressource.</p>\n"
     file_version_xlink_show_attribute_tooltip: "<p>Gibt an, wo die im zugehörigen URI verknüpfte entfernte\
@@ -1210,7 +1251,7 @@ repository:
     checksum_method_tooltip: "<p>Der zur Erzeugung von Prüfsummen verwendete Algorithmus.</p>\n<p>Werte\
       \ in dieser Kontrollierte-Werte-Liste können bearbeitet werden.</p>\n<p>Beispiele:</p>\n<ul>\n<li>MD5</li>\n\
       <li>CRC-32</li>\n<li>SHA-1</li>\n<li>SHA-256</li>\n</ul>\n"
-    identifier: Bezeichner
+    identifier: Signatur
     caption: Beschriftung
     is_representative: Repräsentativ
     checksum_tooltip: "<p>Eine digitale Signatur zur Überwachung der Integrität und Authentizität einer\
@@ -1308,7 +1349,7 @@ repository:
     determination_date_tooltip: "<p>Urheberrecht: Das Datum, an dem der im Urheberrechtsstatus erfasste\
       \ Urheberrechtsstatus festgelegt wurde.</p>\n<p>Gesetz: Das Datum, an dem festgestellt wurde, dass\
       \ das Gesetz die vermerkte Erlaubnis zulässt.</p>\n"
-    start_date: Beginndatum
+    start_date: Startdatum
     start_date_tooltip: "<p>Das Datum, an dem die Rechteerklärung in Kraft getreten ist.</p>\n"
     end_date: Enddatum
     end_date_tooltip: "<p>Das Datum, an dem die Rechteerklärung endet.</p>\n"
@@ -1636,6 +1677,47 @@ repository:
     places_tooltip: "<p>Ein geografischer Ort, welcher der verknüpften Ressource zugeordnet ist.</p>\n"
   defaults:
     publish: Veröffentlichen?
+    assessment_browse_section: Begutachtungs-Spalten beim Blättern
+    sort_direction: Standard-Sortierrichtung
+    general_section: Allgemeine Einstellungen
+    show_suppressed: Unterdrückte anzeigen?
+    include_unpublished: Unveröffentlichte Datensätze in Exporte einschließen?
+    default_values_tooltip: Ob neue Eingangs- und Ressourcenaufzeichnungen mit Standardwerten vorbefüllt
+      werden sollen.
+    sort_direction_tooltip: Standardrichtung zum Sortieren der Ergebnisse.
+    classification_browse_section: Klassifizerungs-Spalten beim Blättern
+    repositories_browse_section: Aufbewahrungsort-Spalten beim Blättern
+    locale: Sprachauswahl
+    search_browse_columns: Voreinstellungen für Spalten beim Suchen und Blättern
+    accession_browse_section: Eingangs-Spalten beim Blättern
+    collection_management_browse_section: Sammlungsverwaltung-Spalten beim Blättern
+    accept_default_message: '> Standard akzeptieren:'
+    no_value: '[kein Wert]'
+    rde_sort_alpha: RDE-Vorlagen alphabetisch anzeigen?
+    browse_column: Spalte %{num}
+    browse_column_tooltip: Das Feld, das in der Spalte %{num} angezeigt werden soll.
+    sort_column: Standard-Sortierspalte
+    sort_column_tooltip: Das Standardfeld zum Sortieren der Ergebnisse.
+    resource_browse_section: Ressourcen-Spalten beim Blättern
+    archival_object_browse_section: Archivobjekt-Spalten beim Blättern
+    digital_object_browse_section: Digitales Objekt-Spalten beim Blättern
+    digital_object_component_browse_section: Digitales-Objekt-Komponenten-Spalten beim Blättern
+    subject_browse_section: Themen-Spalten beim Blättern
+    agent_browse_section: Akteur-Spalten beim Blättern
+    location_browse_section: Standort-Spalten beim Blättern
+    event_browse_section: Ereignis-Spalten beim Blättern
+    top_container_browse_section: Haupt-Behältnis-Spalten beim Blättern
+    location_profile_browse_section: Standortprofil-Spalten beim Blättern
+    container_profile_browse_section: Behältnisprofil-Spalten beim Blättern
+    multi_browse_section: Suchspalten
+    job_browse_section: Spalten für Hintergrund-Aufgaben
+    note_order_section: Anmerkungsreihenfolge
+    _singular: Standardeinstellungen
+    _plural: Standardeinstellungen
+    publish_tooltip: Ob neue Datensätze standardmäßig veröffentlicht werden sollen.
+    show_suppressed_tooltip: Ob unterdrückte Aufzeichnungen, die Sie beim Blättern sehen können, angezeigt
+      werden sollen.
+    default_values: Datensätze vorbefüllen?
   agent_relationship_family:
     _singular: Familiäre Beziehung
   advanced_search:
@@ -1655,3 +1737,146 @@ repository:
     barcode: Strichcode
   date_type_bulk:
     bulk: Großteil
+  collection_management:
+    rights_determined_false: Nein
+    processing_hours_total: Bearbeitungsstunden insgesamt
+    rights_determined_tooltip: "<p>Gibt an, ob die Rechte für eine Archiveinheit (Eingang, Ressource oder\
+      \ digitales Objekt) bestimmt wurden und eine Rechteaufzeichnung erstellt und mit der Archiveinheit\
+      \ verknüpft wurde.</p>\n"
+    processing_total_extent_type_: --
+    processing_hours_total_short: Stunden insgesamt
+    processing_plan_tooltip: "<p>Zur Aufzeichnung eines Plans für die Bearbeitung der Archiveinheit. Der\
+      \ Plan kann eine Übersicht über die Anordnung der Archiveinheit sowie Anweisungen für die Behandlung\
+      \ bestimmter Objekte in der Archiveinheit enthalten.  Der Plan kann auch verschiedene Aufgaben für\
+      \ verschiedene Mitarbeiter des Archivs festlegen.</p>\n<p>Beispiele:</p>\n<ul>\n<li>Sachdateien\
+      \ alphabetisch und Projektdateien chronologisch ordnen.</li>\n<li>Margaret's Schüler werden beschreibende\
+      \ Aufzeichnungen erstellen.</li>\n<li>Der Projektleiter wird das kodierte Findmittel überprüfen,\
+      \ ausgeben und laden.</li>\n</ul>\n"
+    processing_status_tooltip: "<p>Zur Angabe des aktuellen Bearbeitungsstatus einer Archiveinheit (Eingang,\
+      \ Ressource oder digitales Objekt).</p>\n<p>Werte in dieser Kontrollierte-Werte-Liste können bearbeitet\
+      \ werden.</p>\n<p>Beispiele:</p>\n<ul>\n<li>Neu</li>\n<li>In Bearbeitung</li>\n<li>Erledigt</li>\n\
+      </ul>\n"
+    cataloged_note: Katalogisierte Anmerkung
+    cataloged_note_tooltip: "<p>Ein Hinweis auf die Katalogisierung der Archiveinheit (Eingang, Ressource,\
+      \ digitales Objekt), einschließlich der Angabe von Katalogisierungsbezeichnern.</p>\n<p>Beispiele:</p>\n\
+      <ul>\n<li>Katalogeintragsnummer: 21345672</li>\n</ul>\n"
+    processing_hours_per_foot_estimate_tooltip: "<p>Die Zeit, die ein Aufbewahrungsort schätzt, um eine\
+      \ Einheit von Archivgut zu bearbeiten (z. B. ein Laufmeter oder ein Objekt im Fall von digitalen\
+      \ Objekten).  Bei der Schätzung kann die Erstellung von Findmitteln, Katalogen und anderen Zugangsprodukten\
+      \ berücksichtigt werden oder nicht.</p>\n"
+    processing_hours_per_foot_estimate: Geschätzte Bearbeitungsstunden/Einheit
+    processing_total_extent_tooltip: "<p>Ein numerischer Ausdruck für den bearbeiteten Gesamtumfang (Kubikmeter,\
+      \ Laufmeter, Gegenstände usw.). In Verbindung mit diesem Feld muss ein Umfangstyp angegeben werden.</p>\n"
+    processing_total_extent_type: Umfangstyp
+    processing_total_extent_type_tooltip: "<p> ERFORDERLICHES FELD: Ein Begriff, der die Art der Einheit\
+      \ angibt, die zur Messung des Umfangs des beschriebenen Archivguts verwendet wird.</p>\n<p>Werte\
+      \ in dieser Kontrollierte-Werte-Liste können bearbeitet werden.</p>\n<p>Siehe DACS 2.5, ISAD(G)\
+      \ 3.1.5</p>\n"
+    processing_hours_total_tooltip: "<p>Das numerische Ergebnis der Multiplikation von \"Geschätzte Bearbeitungsstunden\
+      \ pro Meter\" mit \"Gesamtumfang der Bearbeitung\". Der Wert kann überschrieben werden, um die tatsächliche\
+      \ Bearbeitungszeit wiederzugeben und nicht einen Wert, der auf dem geschätzten Wert Bearbeitungsstunden/Einheit\
+      \ basiert.</p>\n"
+    processing_total_extent: Gesamtumfang der Bearbeitung
+    processing_plan: Bearbeitungsplan
+    processing_priority: Bearbeitungspriorität
+    processing_priority_tooltip: "<p>Gibt die Priorität an, die der Bearbeitung einer Archiveinheit zugewiesen\
+      \ ist.</p>\n<p>Werte in dieser Kontrollierte-Werte-Liste können bearbeitet werden.</p>\n<p>Beispiele:</p>\n\
+      <ul>\n<li>Hoch</li>\n<li>Mittel</li>\n<li>Niedrig</li>\n</ul>\n"
+    processing_started_date: Startdatum der Bearbeitung
+    processing_status: Bearbeitungs-Status
+    processing_funding_source: Quelle der Finanzierung
+    processing_funding_source_tooltip: "<p>Dient zur Angabe der Finanzierungsquelle für die Bearbeitung\
+      \ der beschriebenen Materialien.</p>\n"
+    processors: Bearbeiter
+    processors_tooltip: "<p>Für die Auflistung der Mitarbeiter, denen die Bearbeitung der Archiveinheit\
+      \ (Eingang, Ressource oder digitale Objekte) übertragen wurde.</p>\n"
+    rights_determined: Rechte festgelegt?
+    rights_determined_true: Ja
+    parent: Elternteil
+    _singular: Sammlungsverwaltung
+    _plural: Sammlungsverwaltung
+  preference:
+    _plural: Einstellungen
+    defaults: Standardwerte
+    global: Globale Voreinstellungen
+    global_message: Bearbeiten Sie diese Werte, um systemweite Voreinstellungen für die Benutzereinstellungen
+      festzulegen. Diese Werte können durch Aufbewahrungsort-Standardwerte oder die eigenen Einstellungen
+      eines Benutzers überschrieben werden.
+    repo: Aufbewahrungsort-Einstellungen
+    repo_message: Bearbeiten Sie diese Werte, um Einstellungen für den aktuelle Aufbewahrungsort festzulegen.
+      Diese Werte können von den eigenen Einstellungen eines Benutzers überschrieben werden.
+    user_global: Globale Einstellungen
+    user_global_message: Bearbeiten Sie diese Werte, um Ihre Benutzereinstellungen festzulegen. Diese
+      Werte können durch Aufbewahrungsort-Standardwerte oder durch Ihre eigenen Einstellungen für einen
+      Aufbewahrungsort überschrieben werden.
+    user_repo: Benutzereinstellungen
+    user_repo_message: Bearbeiten Sie diese Werte, um Ihre Einstellungen für diesen Aufbewahrungsort festzulegen.
+      Diese Werte können nicht überschrieben werden.
+    _singular: Einstellungen
+  user:
+    first_name: Vorname
+    telephone_tooltip: "<p>Die Telefonnummer des Benutzers.</p>\n"
+    _singular: Benutzer
+    email_tooltip: "<p>Die E-Mail-Adresse des Benutzers.</p>\n"
+    password: Kennwort
+    is_admin_tooltip: "<p>Gibt an, ob der Benutzer volle administrative Rechte für die Anwendung haben\
+      \ soll.</p>\n"
+    user_mtime: Aktualisiert
+    _plural: Benutzer
+    additional_contact_tooltip: "<p>Zusätzliche Kontaktinformationen für den Benutzer oder Informationen\
+      \ wie der Arbeitsplan des Benutzers.</p>\n"
+    create_time: Erstellt
+    admin: Administrator
+    is_admin: Erteilen von Systemadministrator-Berechtigungen
+    username: Benutzername
+    username_tooltip: "<p> ERFORDERLICHES FELD. Der Benutzername für das Konto, das der Benutzer zur Authentifizierung\
+      \ in der Anwendung verwendet. Zulässige Zeichen sind a-z, A-Z, @, Zahlen, Trennstrich, Bindestrich\
+      \ und Punkt.</p>\n"
+    name: Vollständiger Name
+    name_tooltip: "<p>ERFORDERLICHES FELD. Der vollständige Name des durch den Benutzernamen bezeichneten\
+      \ Benutzers.</p>\n"
+    password_tooltip: "<p>Das Kennwort, das zusammen mit dem Benutzernamen zur Authentifizierung in der\
+      \ Anwendung verwendet wird.</p>\n"
+    confirm_password: Passwort bestätigen
+    confirm_password_tooltip: "<p>Ein zweites Feld zur Bestätigung einer Übereinstimmung mit dem in das\
+      \ erste Feld eingegebenen Kennwort.</p>\n"
+    email: E-Mail
+    first_name_tooltip: "<p>Der Vorname des Benutzers.</p>\n"
+    last_name: Nachname
+    last_name_tooltip: "<p>Der Nachname des Benutzers.</p>\n"
+    telephone: Telefon
+    title: Titel
+    title_tooltip: "<p>Die Berufsbezeichnung des Benutzers.</p>\n"
+    department: Abteilung
+    department_tooltip: "<p>Die Abteilung des Benutzers.</p>\n"
+    additional_contact: Zusätzliche Kontaktinformationen
+  reports:
+    formats:
+      json: JSON
+      csv: CSV
+      pdf: PDF
+      html: HTML
+      rtf: RTF
+    parameters:
+      locations: Standorte
+      scope_by_date: Geltungsbereich nach Datum
+      template: Vorlage
+      from: Von
+      to: Zu
+  validation_errors:
+    missing_required_property: Eigenschaft ist erforderlich, fehlte aber
+    must_not_be_before_begin: darf nicht vor Beginn sein
+    is_required_unless_an_expression_or_a_begin_date_is_given: ist erforderlich, es sei denn, es wird
+      ein Ausdruck oder ein Beginndatum angegeben
+    subject_heading_identifier_must_be_unique_within_source: Schlagwortbezeichner muss innerhalb der Quelle
+      eindeutig sein
+    must_be_in_yyyy-mm-dd_format: Datum muss im Format JJJJ-MM-TT vorliegen
+    is_required_unless_a_begin_or_end_date_is_given: ist erforderlich, es sei denn, es wird ein Anfangs-
+      oder Enddatum angegeben
+    is_required_unless_an_expression_or_an_end_date_is_given: ist erforderlich, es sei denn, es wird ein
+      Ausdruck oder ein Enddatum angegeben
+    must_specify_either_a_date_or_a_timestamp: muss entweder ein Datum oder einen Zeitstempel angeben
+    not_a_valid_date: Kein gültiges Datum
+    subject_must_be_unique: Themenaufzeichnungen dürfen nicht identisch sein
+    agent_must_be_unique: Akteuraufzeichnungen dürfen nicht identisch sein
+    missing_property: Eigenschaft fehlte
