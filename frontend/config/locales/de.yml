@@ -1651,23 +1651,22 @@ user_defined:
     action:
       add: Benutzerdefinierte Felder hinzufügen
 bulk_import_templates:
-  bulk_import_DO_template_csv: Massen-Import-DO-CSV Erstellen und verknüpfen Sie digitale
-    Objekte mit bestehenden Archiv-Objekten in einer Ressource. Das CSV-Format ist
-    für Menschen geeignet, die keinen Zugang zu Microsoft Excel haben.
-  bulk_import_DO_template_xlsx: Massen-Import-DO-XLSX Erstellen und verknüpfen Sie
-    digitale Objekte mit bestehenden Archiv-Objekten in einer Ressource. Das XLSX-Format
-    ist jene, die Zugang zu Microsoft Excel haben.
-  aspace_location_import_template_csv: Standort-CSV Erstellen Sie neue Standort-Aufzeichnungen.
+  bulk_import_DO_template_csv: Erstellen und verknüpfen Sie digitale Objekte mit bestehenden
+    Archiv-Objekten in einer Ressource. Das CSV-Format ist für Menschen geeignet,
+    die keinen Zugang zu Microsoft Excel haben.
+  bulk_import_DO_template_xlsx: Erstellen und verknüpfen Sie digitale Objekte mit
+    bestehenden Archiv-Objekten in einer Ressource. Das XLSX-Format ist jene, die
+    Zugang zu Microsoft Excel haben.
+  aspace_location_import_template_csv: Erstellen Sie neue Standort-Aufzeichnungen.
     Bitte beachten Sie, dass diese Vorlage für die Erstellung von Standort-Aufzeichnungen
     selbst ist und nicht zum Verknüpfen von Archivgut mit Standorten.
-  aspace_accession_import_template_csv: Eingangs-CSV Erzeugen Sie Eingangs-Aufzeichnungen
-    und Aufzeichnungen, die mit Eingängen verknüpft werden, wie Akteuren, Themen und
-    Ereignisse.
-  bulk_import_template_csv: Massen-Import-CSV Erstellen Sie Archiv-Objekte, die an
-    eine bereits bestehende Ressource angehängt werden. Enthält eine Option, um viele
-    verschiedene Teilaufzeichnungen und verknüpfte Aufzeichnungen wie Daten, Umfang,
-    Anmerkungen, Behältnisse und digitale Objekte zu erstellen. Das CSV-Format ist
-    geeignet für Menschen, die keinen Zugang zu Microsoft Excel haben.
+  aspace_accession_import_template_csv: Erzeugen Sie Eingangs-Aufzeichnungen und Aufzeichnungen,
+    die mit Eingängen verknüpft werden, wie Akteuren, Themen und Ereignisse.
+  bulk_import_template_csv: Erstellen Sie Archiv-Objekte, die an eine bereits bestehende
+    Ressource angehängt werden. Enthält eine Option, um viele verschiedene Teilaufzeichnungen
+    und verknüpfte Aufzeichnungen wie Daten, Umfang, Anmerkungen, Behältnisse und
+    digitale Objekte zu erstellen. Das CSV-Format ist geeignet für Menschen, die keinen
+    Zugang zu Microsoft Excel haben.
   overview: "<p>Das sind Vorlagen, um Tabellen-Daten nach ArchivesSpace mittels der\
     \ verschiedenen Import-Optionen im Hintergrund-Aufgaben Bereich hochzuladen. Die\
     \ für einen erfolgreichen Import erforderlichen Daten hängen vom Typ der zu erstellenden\
@@ -1679,17 +1678,16 @@ bulk_import_templates:
     \ nicht um.</b></p><p>Die Excel-Vorlagen enthalten zusätzliche Hinweise zur Verwendung\
     \ der Vorlagen und Datenprüfungen für manche Zellen. Löschen Sie die Hinweise\
     \ und Datenprüfungen nicht.</p>\n"
-  aspace_digital_object_import_template_csv: Digitale Objekte-CSV Erzeugen Sie Aufzeichnungen
-    für digitale Objekte und Aufzeichnungen, die mit digitalen Objekten verknüpft
-    werden, wie Akteuren, Themen und Ereignisse.
-  aspace_assessment_import_template_csv: Begutachtung-CSV Erstellen und verknüpfen
-    Sie Begutachtungen mit bestehenden Eingängen, Ressourcen, Archiv-Objekten oder
-    digitalen Objekten.
-  bulk_import_template_xlsx: Massen-Import-XLSX Erstellen Sie Archiv-Objekte, die
-    an eine bereits bestehende Ressource angehängt werden. Enthält eine Option, um
-    viele verschiedene Teilaufzeichnungen und verknüpfte Aufzeichnungen wie Daten,
-    Umfang, Anmerkungen, Behältnisse und digitale Objekte zu erstellen. Das XLSX-Format
-    ist für jene geeignet, die Zugang zu Microsoft Excel haben.
+  aspace_digital_object_import_template_csv: Erzeugen Sie Aufzeichnungen für digitale
+    Objekte und Aufzeichnungen, die mit digitalen Objekten verknüpft werden, wie Akteuren,
+    Themen und Ereignisse.
+  aspace_assessment_import_template_csv: Erstellen und verknüpfen Sie Begutachtungen
+    mit bestehenden Eingängen, Ressourcen, Archiv-Objekten oder digitalen Objekten.
+  bulk_import_template_xlsx: Erstellen Sie Archiv-Objekte, die an eine bereits bestehende
+    Ressource angehängt werden. Enthält eine Option, um viele verschiedene Teilaufzeichnungen
+    und verknüpfte Aufzeichnungen wie Daten, Umfang, Anmerkungen, Behältnisse und
+    digitale Objekte zu erstellen. Das XLSX-Format ist für jene geeignet, die Zugang
+    zu Microsoft Excel haben.
 top_container:
   restricted: Eingeschränkt?
   managed_container_2_indicator_tooltip: "<p>Ein alphanumerischer Ausdruck, um den\
