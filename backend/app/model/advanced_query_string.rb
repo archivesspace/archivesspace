@@ -40,15 +40,30 @@ class AdvancedQueryString
 
   def value
     if date?
-      date_string = JSONModel::Validations.normalise_date(@query["value"])
-      base_time = Time.parse(date_string).utc.iso8601
+      query_comparator = @query["comparator"]
+      query_precision = @query["precision"]
+      query_date = JSONModel::Validations.normalise_date(@query["value"])
+      base_time = Time.parse(query_date).utc.iso8601
 
-      if @query["comparator"] == "lesser_than"
-        "[* TO #{base_time}-1MILLISECOND]"
-      elsif @query["comparator"] == "greater_than"
-        "[#{base_time}+1DAY TO *]"
-      else # @query["comparator"] == "equal"
-        "[#{base_time} TO #{base_time}+1DAY-1MILLISECOND]"
+      case query_precision
+      when "day"
+        case query_comparator
+        when "greater_than" then "[#{base_time}+1DAY TO *]"
+        when "lesser_than" then "[* TO #{base_time}-1MILLISECOND]"
+        when "equal" then "[#{base_time} TO #{base_time}+1DAY-1MILLISECOND]"
+        end
+      when "month"
+        case query_comparator
+        when "greater_than" then "[#{base_time}+1MONTH TO *]"
+        when "lesser_than" then "[* TO #{base_time}-1MILLISECOND]"
+        when "equal" then "[#{base_time} TO #{base_time}+1MONTH-1MILLISECOND]"
+        end
+      when "year"
+        case query_comparator
+        when "greater_than" then "[#{base_time}+1YEAR TO *]"
+        when "lesser_than" then "[* TO #{base_time}-1MILLISECOND]"
+        when "equal" then "[#{base_time} TO #{base_time}+1YEAR-1MILLISECOND]"
+        end
       end
     elsif @query["jsonmodel_type"] == "range_query"
       "[#{@query["from"] || '*'} TO #{@query["to"] || '*'}]"

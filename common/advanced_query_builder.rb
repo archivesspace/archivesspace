@@ -148,6 +148,13 @@ class AdvancedQueryBuilder
     if query_data.is_a?(JSONModelType)
       query_data
     elsif query_data['type'] == "date"
+      query_precision = query_data['value'].split('-').count
+      case query_precision
+      when 3 then query_data['precision'] = "day"
+      when 2 then query_data['precision'] = "month"
+      when 1 then query_data['precision'] = "year"
+      end
+
       query_data['value'] = JSONModel::Validations.normalise_date(query_data['value'])
       JSONModel::JSONModel(:date_field_query).from_hash(query_data)
     elsif query_data['type'] == "boolean"
