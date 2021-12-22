@@ -61,7 +61,7 @@
             <div class="controls">
               <%= render_aspace_partial :partial => "top_containers/bulk_operations/container_profile_linker" %>
             </div>
-            <div class='spacer'></div>
+            <div class='spacer1'></div>
           </div>
         </div>
     </div>
@@ -95,6 +95,7 @@
             <div class="controls">
               <%= render_aspace_partial :partial => "top_containers/bulk_operations/location_linker", :locals => { :show_create_link => true } %>
             </div>
+            <div class='spacer2'></div>
           </div>
         </div>
     </div>
@@ -135,6 +136,7 @@
           </tr>
         {/for}
         </table>
+        <div class='spacer2'></div>
     </div>
     <div class="modal-footer">
         <button type="submit" class="btn btn-primary"><%= I18n.t("top_container._frontend.bulk_operations.update_n_records", {:n => "${selection.length}"}) %></button>
