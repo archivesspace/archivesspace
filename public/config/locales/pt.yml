@@ -58,6 +58,8 @@ brand:
       year_begin: o início
       from: A partir de
       from_to: 'Anos: %{começar} a %{fim}'
+      child_container_u_sstr: Contentor criança
+      grand_child_container_u_sstr: Contentor neto
     page_title: Encontrado %{contar} Resultados
     in_repository: ' em <strong>%{nome}</strong>'
     anything: '*'
