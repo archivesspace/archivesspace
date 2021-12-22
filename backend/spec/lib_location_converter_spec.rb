@@ -11,7 +11,7 @@ describe 'Location converter' do
 
   before(:all) do
     test_file = File.expand_path(
-      '../../templates/aspace_location_import_template.csv',
+      '../../backend/spec/examples/aspace_location_import_template.csv',
       File.dirname(__FILE__)
     )
     @records = convert(test_file)
