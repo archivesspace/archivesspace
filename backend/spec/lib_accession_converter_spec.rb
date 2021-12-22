@@ -11,7 +11,7 @@ describe 'Accession converter' do
 
 
   before(:all) do
-    test_file = File.expand_path("../../templates/aspace_accession_import_template.csv",
+    test_file = File.expand_path("../../backend/spec/examples/aspace_accession_import_template.csv",
                                  File.dirname(__FILE__))
 
     @records = convert(test_file)
