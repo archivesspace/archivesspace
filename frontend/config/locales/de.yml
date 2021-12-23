@@ -2244,7 +2244,7 @@ de:
       action:
         add: Ereignis hinzufügen
     maintenance_event_type: Aufzeichnungs-Steuerung Wartungs-Ereignis-Typ
-    maintenance_agent_type: Aufzeichnungs-Steuerung Wartung Beteiligten-Typ
+    maintenance_agent_type: Aufzeichnungs-Steuerung Wartung Akteur-Typ
     event_date: Ereignis-Datum
     agent: Akteur
     descriptive_note: Beschreibende Anmerkung
