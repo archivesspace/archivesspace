@@ -294,6 +294,20 @@ de:
       \ können mit Hilfe von Anmerkungs-Teilaufzeichnungen für Hinweise oder Rechte erläutert werden.</p>\n"
   custom_report_template:
     name: Name
+    limit: Grenze
+    description: Beschreibung
+    "false": Nein
+    field: Feld
+    values: Nach Werten eingrenzen
+    display: Anzeigen?
+    start_date: Nach Beginndatum eingrenzen
+    _plural: Benutzerdefinierte Berichtsvorlagen
+    end_date: Nach Enddatum eingrenzen
+    include: Einschließen
+    _singular: Benutzerdefinierte Berichtsvorlage
+    record_type: Aufzeichnungs-Typ
+    value: Nach Wert eingrenzen
+    "true": Ja
   rights_statement_external_document:
     identifier_type: Signatur-Typ
     identifier_type_tooltip: "<p>Der Bezeichner-Typ gibt an, zu welchem Bereich das externe Dokument gehört.</p>\n"
@@ -388,6 +402,31 @@ de:
       \ Ressource angezeigt werden soll.</p>\n"
     last_verified_date_tooltip: "<p>Letztes Datum oder Datum und Uhrzeit der Überprüfung der im zugehörigen\
       \ URI verknüpften Ressource.</p>\n"
+    file_version_xlink_actuate_attribute_tooltip: "<p>Gibt an, ob der zugehörige URI beim Anzeigen der\
+      \ Akteur-Aufzeichnung aufgelöst werden soll.</p>\n"
+    xlink_role_attribute_tooltip: "<p>Typ oder Art der im zugehörigen URI verknüpften entfernten Ressource.</p>\n"
+    descriptive_note_tooltip: "<p>Unstrukturierte Informationen über die Bedingungen, unter denen die\
+      \ Metadaten zur Verwendung und Wiederverwendung zur Verfügung stehen.  Beispiele:</p>\n<p>i. Copyright\
+      \ Smith College, 1985</p>\n<p>ii. Dieses Findmittel darf für jeden Zweck vervielfältigt werden.</p>\n\
+      <p>iii. Dieses Werk ist gemeinfrei, d.h. Sie können es vervielfältigen, verändern, verbreiten und\
+      \ aufführen, auch zu kommerziellen Zwecken, ohne um Erlaubnis zu fragen.</p>\n<p>iv. Die biografische\
+      \ Notiz ist urheberrechtlich geschützt durch Ted Smith, 2015.  Alle anderen Metadaten sind unter\
+      \ CC BY 4.0 lizenziert.</p>\n"
+    file_uri_tooltip: "<p>Ein URI für den Online-Speicherort der Lizenz oder anderer veröffentlichter\
+      \ Informationen über die Bedingungen, unter denen die Metadaten für die Nutzung und Wiederverwendung\
+      \ verfügbar sind. Beispiel: https://creativecommons.org/licenses/by/4.0/</p>\n"
+    license_tooltip: "<p>Name der Lizenz (falls vorhanden), welche die Bedingungen regelt, unter denen\
+      \ die Metadaten zur Verwendung und Wiederverwendung zur Verfügung stehen.  Beispiele:</p>\n<p>Dieser\
+      \ Datensatz wird unter einer Universell 1.0 Public Domain Dedication Creative Commons Lizenz zur\
+      \ Verfügung gestellt.</p>\n<p>Dieser Datensatz wird unter einer Namensnennung - Nicht-kommerziell\
+      \ 4.0 International Creative Commons Lizenz zur Verfügung gestellt.</p>\n<p>Dieser Datensatz wird\
+      \ unter einer Namensnennung - Nicht-kommerziell - Keine Bearbeitung 4.0 International Creative Commons\
+      \ Lizenz zur Verfügung gestellt.</p>\n<p>Dieser Datensatz wird unter einer Namensnennung-Keine Bearbeitung\
+      \ 4.0 International Creative Commons Lizenz zur Verfügung gestellt.</p>\n<p>Dieser Datensatz wird\
+      \ unter einer Namensnennung - Nicht-kommerziell - Weitergabe unter gleichen Bedingungen 4.0 International\
+      \ Creative Commons Lizenz zur Verfügung gestellt.</p>\n"
+    xlink_title_attribute_tooltip: "<p>Titel der im zugehörigen URI verknüpften entfernten Ressource,\
+      \ der als Überschrift verwendet werden kann.</p>\n"
   ratings:
     _plural: Bewertungen
   conservation_issues:
@@ -644,7 +683,7 @@ de:
       agreement_signed: Vereinbarung unterzeichnet
       agreement_received: Vereinbarung erhalten
       agreement_sent: Vereinbarung gesendet
-      appraisal: Einschätzung
+      appraisal: Bewertung
       assessment: Begutachtung
       capture: Erfassen
       cataloged: Katalogisiert
@@ -1723,6 +1762,24 @@ de:
   advanced_search:
     text:
       notes: Anmerkungen
+      keyword: Schlagwort
+      created_by: Erstellt von
+      title: Titel
+      last_modified_by: Zuletzt geändert von
+      creators: Urheber
+      subjects: Thema
+      identifier: Signatur
+    type:
+      boolean: Boolean
+      controlled_value: Kontrollierter Wert
+      text: Text
+      date: Datum
+    date:
+      create_time: Erstellt
+      user_mtime: Aktualisiert
+    boolean:
+      published: Veröffentlicht?
+      suppressed: Unterdrückt?
   note_multipart:
     subnotes: Teilanmerkungen
     sub_notes: Teilanmerkungen
@@ -1880,3 +1937,699 @@ de:
     subject_must_be_unique: Themenaufzeichnungen dürfen nicht identisch sein
     agent_must_be_unique: Akteuraufzeichnungen dürfen nicht identisch sein
     missing_property: Eigenschaft fehlte
+    container_2_requires_both_a_type_and_indicator: Sie müssen einen Indikator angeben, wenn Sie einen
+      Typ angeben
+    container_profile_name_not_unique: Der Name des Behältnisprofils muss eindeutig sein
+    must_be_a_positive_integer: Muss eine positive ganze Zahl sein
+    length_must_be_within_the_range_set_in_configuration: Die Länge muss innerhalb des in der Konfiguration
+      festgelegten Bereichs liegen
+    is_required_if_status_is_previous: ist erforderlich, wenn 'Status' 'Vorheriger' ist
+    location_profile_name_not_unique: Standortprofilname muss eindeutig sein
+    custom_report_template_name_not_unique: Der Name der benutzerdefinierten Berichtsvorlage muss eindeutig
+      sein.
+    short_name_already_in_use: Der Kurzname des Aufbewahrungsortes muss innerhalb dieses ArchivesSpace
+      eindeutig sein
+    generic_validation_error: Validierungsfehler
+    did_not_match_regular_expression: Entspricht nicht dem erwarteten Pattern %{regexp}
+    too_few_characters: Muss mindestens %{min_length} Zeichen lang sein
+    too_many_characters: Muss %{max_length} Zeichen oder weniger sein
+    max_length_is_50_characters: Darf 50 Zeichen nicht überschreiten
+    too_few_items: Mindestens %{min_items} Elemente sind erforderlich
+    must_contain_at_least_one_subnote: Muss mindestens eine Teilanmerkungen enthalten
+    must_contain_at_least_one_language: Muss mindestens eine Sprache enthalten
+    invalid_value: Ungültiger Wert '%{value}'. Muss einer von '%{valid_set}' sein
+    wrong_type: Muss ein %{desired_type} sein (Sie haben einen %{actual_type} angegeben)
+    must_be_one_of: Muss einer der %{allowed_types} sein (Sie haben einen %{actual_type} angegeben)
+    id_already_in_use: Diese ID wird bereits verwendet
+    username_already_in_use: Der Benutzername '%{username}' wird bereits verwendet
+    cant_be_empty: darf nicht leer sein
+    password_did_not_match: Eingegebener Wert stimmt nicht mit dem Passwort überein
+    authority_id_must_be_unique: Autoritäts-ID wird bereits verwendet
+    either_type_1_or_barcode_is_required: Ein Behältnis muss einen Behältnis 1 Typ oder Strichcode enthalten.
+    must_be_a_number_with_no_more_than_nine_digits_and_five_decimal_places: Muss eine Zahl mit höchstens
+      neun Ziffern und fünf Dezimalstellen sein.
+    container_3_requires_both_a_type_and_indicator: Sie müssen einen Indikator angeben, wenn Sie einen
+      Typ angeben
+    container_2_is_required_if_container_3_is_provided: Sie müssen ein Kind-Behältnis angeben, wenn Sie
+      ein Enkel-Behältnis angeben
+    a_barcode_must_be_unique_within_a_repository: Ein Strichcode muss innerhalb eines Aufbewahrungsortes
+      eindeutig sein
+    must_be_unique_to_its_level_in_the_tree: Dieser Wert muss für diese Ebene der Hierarchie eindeutig
+      sein
+    repo_set_desc_required: Die Beschreibung der Aufbewahrungsort-Menge ist für die Erstellung eines OAI-Repository-Sets
+      erforderlich
+    repo_set_name_required: Der Name der Aufbewahrungsort-Menge ist für die Erstellung eines OAI-Repository-Sets
+      erforderlich
+    is_not_present: Erforderliches Feld fehlt
+    sponsor_set_desc_required: Die Beschreibung der Geber-Menge ist für die Erstellung eines OAI-Sponsor-Sets
+      erforderlich
+    invalid_characters: Enthält ungültige Zeichen
+    external_ark_collision: Externer ARK bereits im Einsatz
+    location_cannot_be_deleted_if_linked: Die Standort-Aufzeichnung ist derzeit mit einer oder mehreren
+      Instanz-Aufzeichnungen verknüpft und kann nicht gelöscht werden. Bitte verknüpfen Sie diese Instanzen
+      mit neuen Standorten, bevor Sie die Standort-Aufzeichnung löschen.
+    cannot_be_previous_if_location_is_not_temporary: Kann nicht auf den vorherigen übertragen werden,
+      wenn der Standort nicht vorübergehend ist.
+    is_required_if_there_is_an_authority_id: ist erforderlich, wenn es eine 'Autoritäts-ID' gibt
+    you_must_provide_a_label__title_or_date: Sie müssen eine Beschriftung, einen Titel oder ein Datum
+      angeben
+    location_fields_error: "Sie müssen entweder einen Strichcode, eine Klassifizierung oder sowohl eine\
+      \ Koordinate 1 Beschriftung als auch einen Koordinate 1 Indikator angeben.\n"
+    location_must_be_unique_within_a_record: Muss innerhalb einer Aufzeichnung eindeutig sein
+    one_or_more_required_(or_enter_a_title): ein oder mehrere erforderlich (oder geben Sie einen Titel
+      ein)
+    must_not_be_an_empty_string_(or_enter_a_date): darf keine leere Zeichenkette sein (oder ein Datum
+      eingeben)
+    is_required_when__source__is_blank: ist erforderlich, wenn 'Quelle' leer ist
+    is_required_when__rules__is_blank: ist erforderlich, wenn 'Regeln' leer ist
+    group_code_already_in_use: Der Gruppencode muss innerhalb eines Aufbewahrungsortes eindeutig sein
+    or_date_expression_is_required: Datumsangaben müssen mindestens einen Datumsausdruck enthalten
+    must_be_a_number_with_no_more_than_2_decimal_places: Muss eine Zahl mit nicht mehr als 2 Dezimalstellen
+      sein
+    missing_end_filter_date: Start- und Enddatum sind erforderlich, um nach Datum zu filtern. Bitte geben
+      Sie ein Enddatum an.
+    custom_report_must_include_field_or_subreport: Die benutzerdefinierte Berichtsvorlage muss mindestens
+      ein Feld oder einen Teilbericht enthalten.
+    missing_start_filter_date: Start- und Enddatum sind erforderlich, um nach Datum zu filtern. Bitte
+      geben Sie ein Startdatum an.
+    must_be_a_valid_email_address: Das Feld E-Mail-Adresse muss eine gültige Adresse enthalten
+    ark_collision: Bei der Erstellung eines ARK für diese Aufzeichnung ist ein Problem aufgetreten. Bitte
+      wenden Sie sich an Ihren Systemadministrator.
+    sponsor_set_name_required: Der Name der Geber-Menge ist für die Erstellung eines OAI-Sponsor-Sets
+      erforderlich
+    must_specify_either_a_single_or_ranged_date: Die Daten müssen entweder als Einzel- oder als Bereichsdatum
+      angegeben werden
+    requires_that_end_dates_are_after_begin_dates: Enddaten müssen nach den Anfangsdaten liegen
+    must_specify_a_primary_subject: 'Beschreibungsinformation: Aufzeichnung hat kein Hauptthema'
+    must_be_in_yyyy[yyy][yy][y]__yyyy[yyy][yy][y]-mm__or_yyyy-mm-dd_format: Standardisierte Daten müssen
+      in einem standardisierten Format vorliegen
+    conflicting_record: <a href='/resolve/readonly?uri=%{record_uri}' target='_blank'>Aufzeichnung mit
+      Konflikt anzeigen</a>
+    subrecord_not_allowed_for_agent_software: Software-Akteure können keine Aufzeichnungskontrolle- oder
+      Beziehungs-Teilaufzeichnungen besitzen
+    ark_format_error: Einer der eingegebenen ARKs war kein gültiger ARK.
+  import_job:
+    bulk_import_csv: Massenimport von AO-CSV
+    bulk_import_DO_xlsx: Massenimport von DO-XLSX
+    import_type_digital_object_csv: Digitales Objekt-CSV
+    import_type_eac_xml: EAC-CPF
+    bulk_import_DO_csv: Massenimport von DO-CSV
+    import_type_location_csv: Standort-CSV
+    import_type_marcxml: MarcXML Bibliografisch (Ressource)
+    import_type_marcxml_accession: MarcXML Bibliografisch (Eingang)
+    import_type_marcxml_subjects_and_agents: MarcXML Bibliografisch (nur Themen und Akteure)
+    import_type_marcxml_auth_agent: MarcXML-Autorität (Akteure)
+    import_type_marcxml_auth_subject: MarcXML-Autorität (Themen)
+    import_type: Importtyp
+    import_events: Wartungsereignisse importieren?
+    bulk_import_xlsx: Massenimport von AO-XLSX
+    filenames: Dateien
+    import_type_ead_xml: EAD
+    _singular: Importauftrag
+    import_type_assessment_csv: Begutachtungs-CSV
+    import_type_accession_csv: Eingangs-CSV
+  job:
+    job_type: Aufgabentyp
+    status_queued: In Warteschlange
+    status_running: Wird ausgeführt
+    status_failed: Fehlgeschlagen
+    status_canceled: Abgebrochen
+    owner: Besitzer
+    types:
+      container_labels_job: Behältnis-Beschriftungen
+      container_conversion_job: Bericht erstellen
+      import_job: Daten importieren
+      generate_slugs_job: Slugs in großen Mengen erzeugen
+      generate_arks_job: ARKs in großen Mengen erzeugen
+      find_and_replace_job: Stapelweises Suchen und Ersetzen (Beta)
+      trim_whitespace_job: Leeraum entfernen
+      unknown_job_type: Unbekannte Auftragsart
+      report_job: Bericht erstellen
+      print_to_pdf_job: PDF erzeugen
+      top_container_linker_job: Haupt-Behältnis-Verknüpfer
+      bulk_import_job: Mit Tabelle laden
+    status_completed: Abgeschlossen
+    time_submitted: Einreich-Zeitpunkt
+    time_started: Startzeitpunkt
+    show_description: Beschreibung anzeigen
+    input_file: Eingabe-Datei
+    output_file: Ausgabe-Datei
+    time_finished: Fertigstellungs-Zeitpunkt
+    status: Status
+    _singular: Hintergrund-Aufgabe
+    _plural: Hintergrund-Aufgaben
+  print_to_pdf_job:
+    source: Quelle
+    include_unpublished: Unveröffentlichte einschließen
+  top_container_linker_job:
+    _singular: Haupt-Behältnis-Verknüpfungs-Auftrag
+    content_type: Dateityp
+    resource_id: Ressourcen-ID
+    load_type: Ladetyp
+    filename: Datei
+    type:
+      top_container_linker_job: Haupt-Behältnis-Verknüpfer
+  system_info:
+    frontend: Frontend-Benutzeroberfläche
+    backend: Backend
+    frontend_info: Informationen zum Frontend-System
+    frontend_log: Frontend-Protokoll
+    backend_log: Backend-Protokoll
+    backend_info: Informationen zum Backend-System
+  rights_statement_act:
+    _plural: Handlungen
+    act_type_tooltip: "<p>Die Handlung, die diese Rechteerklärung erlaubt.</p>\n"
+    act_type: Art der Handlung
+    restriction: Einschränkung
+    restriction_tooltip: "<p>Eine Bedingung oder Einschränkung der Handlung.</p>\n<p>Beispiele:</p>\n\
+      <ul>\n  <li>Nicht mehr als drei</li>\n  <li>Erlaubt erst nach Ablauf der einjährigen Archivierungsfrist</li>\n\
+      \  <li>Rechteinhaber muss nach Abschluss der Handlung benachrichtigt werden</li>\n</ul>\n"
+    start_date: Beginndatum
+    start_date_tooltip: "<p>Das Datum, an dem die Handlung Wirksamkeit erlangte.</p>\n"
+    end_date: Enddatum
+    end_date_tooltip: "<p>Das Datum, an dem die Handlung endet.</p>\n"
+    _singular: Handlung
+  oai:
+    sample_page:
+      introduction: <p>Beispielanfragen unter Verwendung des Open Archives Initiative Protocol for Metadata
+        Harvesting (OAI-PMH v 2.0).</p>
+      form_header: Eine '%{verb}' Anfrage senden
+      form_submit: Senden
+      title: '%{oai_repository_name} - Beispiele für OAI-PMH-Anfragen'
+  assessment:
+    records: Aufzeichnungen
+    reviewer_tooltip: <p>Gibt an, wer die Überprüfung durchführen muss. Dieses Feld ist auf Personen mit
+      Benutzerdatensätzen in ArchivesSpace beschränkt.</p>
+    accession_report: Eingangs-Bericht
+    container_list: Box-/Behältnis-Liste
+    catalog_record: Katalogaufzeichnung (MARC)
+    collections: Sammlungen
+    control_file: Sammlungs-/Kontrolldatei
+    conservation_note: Anmerkung zur Bestandserhaltung
+    conservation_note_tooltip: <p> Gibt Bereiche an, die im Hinblick auf den Bestandserhaltungsbedarf
+      der Sammlung von besonderer Bedeutung sind.</p>
+    existing_description_notes_tooltip: <p>Weitere Informationen zur vorhandenen Beschreibung des Archivguts.</p>
+    finding_aid_ead: Findmittel (EAD-Kodierung)
+    finding_aid_online: Findmittel (online)
+    survey_end: Fertigstellungsdatum der Erhebung
+    survey_end_tooltip: <p>Das Datum, an dem die Erhebung beendet wurde, im Format JJJJ-MM-TT.</p>
+    surveyed_duration: Zeitaufwand für den Abschluss der Erhebung
+    surveyed_duration_tooltip: <p>Die Zeit, die zum Abschluss der Erhebung benötigt wurde, gemessen in
+      Stundenschritten.</p>
+    surveyed_extent_tooltip: <p>Der Umfang des untersuchten Archivguts in Einheiten wie Kubikmeter oder
+      Meter. </p>
+    related_eac_records: Zugehörige EAC-Aufzeichnung(en)
+    review_required: Überprüfung erforderlich?
+    review_required_true: Ja
+    review_required_false: Nein
+    review_note_tooltip: <p>Erläuterung des Ergebnisses einer etwaigen Sonderprüfung.</p>
+    reviewer: Wer überprüfen muss
+    purpose: Zweck der Begutachtung
+    scope: Umfang der Begutachtung
+    sensitive_material: Vertrauliches Archivgut?
+    sensitive_material_tooltip: <p>Gibt an, ob vertrauliches Archivgut vorhanden ist.</p>
+    sensitive_material_true: Ja
+    sensitive_material_false: Nein
+    special_format_note: Anmerkung zum Sonderformat
+    special_format_note_tooltip: <p>Zusätzliche oder erläuternde Informationen zu den vorhandenen Sonderformaten.</p>
+    exhibition_value_note: Anmerkung zum Ausstellungswert
+    exhibition_value_note_tooltip: <p>Gibt an, ob die Sammlung selbst oder einzelne in der Sammlung gefundene
+      Gegenstände für eine Ausstellung besonders geeignet sein könnten. In diesem Feld kann zum Beispiel
+      ein einzigartiges Artefakt, ein Brief oder eine Fotografie von historischer Bedeutung vermerkt sein.</p>
+    rating_attributes_value:
+      rating_none: Keine Bewertung
+      rating_1: '1'
+      rating_2: '2'
+      rating_3: '3'
+      rating_5: '5'
+      rating_4: '4'
+    _plural: Begutachtungen
+    finding_aid_word: Findmittel (Textdokument)
+    finding_aid_spreadsheet: Findmittel (Tabelle)
+    id: ICH WÜRDE
+    inactive: Inaktiv?
+    survey_begin: Beginndatum der Erhebung
+    monetary_value_note: Anmerkung zum Geldwert
+    monetary_value_note_tooltip: <p> Gibt an, wer den Geldwert, das Datum der Bewertung und andere relevante
+      Informationen zur Verfügung gestellt hat.</p>
+    surveyed_by: Erhoben von
+    surveyed_by_tooltip: "<p>ERFORDERLICHES FELD: Name(n) der Person(en), welche die Begutachtung durchgeführt\
+      \ haben. Dieses Feld ist auf Personen mit Benutzerdatensätzen in ArchivesSpace beschränkt.</p>\n"
+    survey_begin_tooltip: "<p>ERFORDERLICHES FELD: Das Datum des Beginns der Erhebung im Format JJJJ-MM-TT.</p>\n"
+    inactive_tooltip: <p>Gibt an, dass die Begutachtungsaufzeichnung nicht mehr als "aktiv" gilt und daher
+      nicht in Suchvorgängen oder Berichten berücksichtigt werden sollte.</p>
+    inactive_true: Ja
+    inactive_false: Nein
+    monetary_value: Geldwert
+    monetary_value_tooltip: <p>Bewerteter oder geschätzter Marktwert des begutachteten Archivguts (numerischer
+      Wert).</p>
+    records_tooltip: "<p>ERFORDERLICHES FELD: Eine Verknüpfung zu den Ressourcen, den Eingängen, den Archiv-Objekten\
+      \ oder den digitalen Objekten, die Gegenstand der Begutachtung sind.</p>\n"
+    deed_of_gift: Schenkungsurkunde
+    existing_description_notes: Anmerkungen zu vorhandener Beschreibung
+    finding_aid_paper: Findmittel (nur auf Papier)
+    appraisal: Bewertung
+    surveyed_extent: Erfasster Umfang
+    review_required_tooltip: <p>Gibt an, ob für die Sammlung aufgrund ihres Formats, ihres Gegenstands
+      oder ihrer Umstände eine Überprüfung erforderlich ist.</p>
+    scope_tooltip: "<p>Gibt den Umfang der Begutachtung an. Beispiele: 10 % Stichproben; Gesamtheit; ein\
+      \ bestimmtes Format oder Genre innerhalb einer Sammlung oder sammlungsübergreifend; oder andere\
+      \ Einschränkungen oder Bedingungen für Archivgut, die während einer Begutachtung aktiv geprüft werden.</p>\n"
+    research_value: Forschungswert
+    _singular: Begutachtung
+    research_value_tooltip: <p>Dieser Wert wird automatisch berechnet, indem der Wert im Feld Dokumentationsqualität
+      mit dem Wert im Feld Interesse addiert wird.</p>
+    general_assessment_note_tooltip: <p>Weitere Anmerkungen zu einer Begutachtung.</p>
+    rating_note: '{%label} Anmerkung'
+    review_note: Anmerkung zur Überprüfung
+    purpose_tooltip: "<p>Gibt den Grund für die Durchführung der Bewertung an. Beispiele: Prioritäten\
+      \ zur Bestandserhaltung; Prioritäten bei der Bearbeitung; Bewertung; usw.</p>\n"
+    general_assessment_note: Allgemeine Anmerkung zur Begutachtung
+  assessment_attribute:
+    rating:
+      "Intellectual Access (description)": Intellektueller Zugang (Beschreibung)
+      "Interest": Interesse
+      "Interest_values_tooltip": '<ul><li><b>Bewertung 1</b>: Vernachlässigbar</li><li><b>Bewert 2</b>:
+        Schwach</li><li><b>Bewertung 3</b>: Mäßig</li><li><b>Bewertung 4</b>: Hoch</li><li><b>Bewertung
+        5</b>: Sehr hoch</li></ul>'
+      "Reformatting Readiness": Bereitschaft zur Neuformatierung
+      "Reformatting Readiness_tooltip": <p>Eine Bewertung von 1 bis 5, die angibt, wie leicht Archivgut
+        umformatiert werden können.</p>
+      "Physical Access (arrangement)": Physischer Zugang (Anordnung)
+      "Intellectual Access (description)_tooltip": <p>Eine Bewertung von 1 bis 5, die sich auf die intellektuelle
+        Beschreibung einer Sammlung und die Zugänglichkeit dieser Beschreibung für die Benutzer bezieht.</p>
+      "Interest_tooltip": <p>Eine Bewertung von 1 bis 5, die das Interesse von Forschern, Gebern oder
+        lokalen Personen am Archivgut angibt. Interesse + Dokumentationsqualität ergeben den Wert des
+        "Forschungswert".</p>
+      "Documentation Quality": Dokumentationsqualität
+      "Documentation Quality_tooltip": <p>Eine Bewertung von 1 bis 5, die sich auf die Reichhaltigkeit
+        und Tiefe der in einer Sammlung verfügbaren Dokumentation bezieht. Interesse + Dokumentationsqualität
+        ergeben den Wert des "Forschungswert".</p>
+      "Documentation Quality_values_tooltip": '<ul><li><b>Bewertung 1</b>: Gering</li><li><b>Bewertung
+        2</b>: Zufällig wertvoll</li><li><b>Rating 3</b>: Mäßig reichhaltig</li><li><b>Bewertung 4</b>:
+        Reichhaltig</li><li><b>Bewertung 5</b>: Sehr reichhaltig</li></ul>'
+      "Reformatting Readiness_values_tooltip": '<ul><li><b>Bewertung 1</b>: Das Archivgut lässt sich nur
+        sehr schwer neu formatieren. Es könnte schwerwiegende bestandserhaltende Probleme aufweisen, in
+        einem extrem veralteten Format vorliegen oder aus Gründen des geistigen Eigentums nicht neu formatiert
+        werden können. Metadaten könnten fehlen oder unvollständig sein.</li><li><b>Bewertung 2</b>: Das
+        Archivgut lässt sich nur schwer neu formatieren. Es könnte Probleme mit der Bestandserhaltung
+        haben, in einem veralteten Format vorliegen oder Probleme mit dem geistigen Eigentum aufweisen.
+        Metadaten könnten fehlen oder unvollständig sein.</li><li><b>Bewertung 3</b>: Das Archivgut lässt
+        sich mäßig leicht neu formatieren. Es könnte einige Probleme mit der Bestandserhaltung haben,
+        in einem veralteten Format vorliegen oder minimale Probleme mit dem geistigen Eigentum aufweisen.
+        Metadaten sind vorhanden oder könnten leicht erstellt werden.</li><li><b>Bewertung 4</b>: Das
+        Archivgut lässt sich relativ leicht neu formatieren. Die Bestandserhaltungsprobleme sind gering,
+        die Formate sind nicht völlig veraltet, oder es bestehen nur minimale Bedenken hinsichtlich des
+        geistigen Eigentums. Metadaten sind vorhanden.</li><li><b>Bewertung 5</b>: Das Archivgut kann
+        ohne Schwierigkeiten neu formatiert werden. Es gibt keine bestandserhaltenden Probleme, die Formate
+        sind aktuell, und es bestehen keine Bedenken hinsichtlich des geistigen Eigentums. Die Metadaten
+        sind vorhanden und vollständig.</li></ul>'
+      "Documentation Quality_note_tooltip": Weitere Informationen über die Dokumentationsqualität des
+        Archivguts.
+      "Housing Quality_note_tooltip": Gibt Bereiche an, die in Bezug auf die Aufbewahrung der Sammlung
+        von besonderer Bedeutung sind.
+      "Intellectual Access_note_tooltip": Weitere Informationen über den intellektuellen Zugang zum Archivgut
+        und dessen Beschreibung.
+      "Interest_note_tooltip": Weitere Informationen über das Interesse am Archivgut.
+      "Housing Quality": Qualität der Aufbewahrung
+      "Physical Condition": Physischer Zustand
+      "Housing Quality_tooltip": <p>Eine Bewertung von 1 bis 5, welche die Gesamtqualität der Aufbewahrung
+        der Materialien in einer Sammlung beschreiben soll; Elemente oder Gruppen von Archivgut innerhalb
+        einer Sammlung können sich in einer besseren oder schlechteren Aufbewahrung befinden, als es die
+        Gesamtbewertung angibt.</p>
+      "Physical Condition_tooltip": <p>Eine Bewertung von 1 bis 5, die den Gesamtzustand des Archivguts
+        in einer Sammlung beschreiben soll; besonders problematische Objekte oder Materialgruppen werden
+        in der Bestanderhaltungs-Anmerkung angegeben.</p>
+      "Physical Access (arrangement)_tooltip": <p>Eine Bewertung von 1 bis 5 für die physische Anordnung
+        einer Sammlung unter Berücksichtigung der Komplexität und Größe der Sammlung. Zum Beispiel ist
+        eine kleine, relativ homogene Sammlung in grober Ordnung im Allgemeinen besser zugänglich als
+        eine große, heterogene Sammlung in grober Ordnung, und die Bewertungen spiegeln diese Tatsache
+        wider. (Beachten Sie, dass die Anordnung auf Artikelebene für viele Sammlungen nicht wünschenswert
+        ist; eine Bewertung von 4 kann die höchste Bewertung sein, die für eine Sammlung wünschenswert
+        ist.)</p>
+      "Housing Quality_values_tooltip": '<ul><li><b>Bewertung 1</b>: Die Sammlung ist in nicht archivtauglichen
+        Kartons untergebracht und kann lose im Regal liegen. Der Großteil des Archivguts befindet sich
+        nicht in Ordnern und/oder die Kartons sind überfüllt oder zu wenig befüllt. Bei gebundenen Bänden
+        ist der Einband in schlechtem Zustand, es fehlen die Pappen oder der Textblock ist anderweitig
+        beeinträchtigt.</li><li><b>Bewertung 2</b>: Die Sammlung ist in nicht archivtauglichen Kartons
+        und Ordnern untergebracht. Eine beträchtliche Anzahl von Kartons und Mappen enthält möglicherweise
+        eine unangemessene Menge an Archivgut oder hat nicht die richtige Größe und Art für das darin
+        enthaltene Archivgut. Bei gebundenen Bänden ist der Einband in mittelmäßigem Zustand (die Einbände
+        können sich lösen).</li><li><b>Bewertung 3</b>: Die Sammlung ist in nicht archivtauglichen Kartons
+        und Mappen untergebracht, die jedoch in gutem Zustand sind. Die meisten Kartons und Mappen enthalten
+        eine angemessene Menge an Archivgut. Die meisten Kartons und Mappen haben die richtige Größe und
+        Art für das darin enthaltene Archivgut. Bei den gebundenen Bänden ist der Einband in gutem Zustand
+        (etwas abgenutzt, aber intakt).</li><li><b>Bewertung 4</b>: Die Sammlung ist teilweise in säurefreien
+        Kartons und Mappen in gutem Zustand untergebracht. Die meisten Kartons und Mappen enthalten eine
+        angemessene Menge an Archivgut. Die meisten Kartons und Mappen haben die richtige Größe und Art
+        für das darin enthaltene Archivgut. Bei den gebundenen Bänden ist der Einband in sehr gutem Zustand
+        (erwartete Abnutzung).</li><li><b>Bewertung 5</b>: Die Sammlung ist vollständig in säurefreien
+        Kartons und Mappen in gutem Zustand untergebracht. Die Kartons und Mappen enthalten eine angemessene
+        Menge an Archivgut. Die Kartons und Mappen haben die richtige Größe und Art für das darin enthaltene
+        Archivgut. Bei gebundenen Bänden ist der Einband in ausgezeichnetem Zustand.</li></ul>'
+      "Physical Access (arrangement)_values_tooltip": '<ul><li><b>Bewertung 1</b>: Völlig ungeordnet;
+        viele, manchmal die meisten Dokumente noch nicht aus den Umschlägen entnommen, entfaltet und geglättet.
+        Völlig unzugänglich für den Forscher.</li><li><b>Bewertung 2</b>: Unvollständige oder oberflächliche
+        Anordnung und/oder uneinheitliche Aufbewahrung und Beschriftung erschweren die Benutzung, es sei
+        denn, die Mitarbeiter helfen.</li><li><b>Bewertung 3</b>: Grobe Gliederung nach Datum, Dokumententyp,
+        Funktion, Quelle oder anderen Merkmalen; Papiere wurden nicht gründlich gesichtet, sondern entfaltet
+        und geglättet; Serien nicht vollständig eingerichtet; Akten nicht vollständig eingerichtet; Forscher
+        müssen sich oft durch umfangreiches Fremdmaterial arbeiten, um relevante Elemente zu finden. Einzelne
+        Bände könnten mehr als eine Verwendung gehabt haben oder Gegenstände eingeklebt haben oder anderweitig
+        etwas unorganisiert sein.</li><li><b>Bewertung 4</b>: Anordnung in Serien auf Aktenebene. Die
+        Ordnung innerhalb der Akten ist im Allgemeinen gut. Einzelne Bände sind geordnet (z.B. ein Rechnungsbuch
+        in alphabetischer Reihenfolge oder ein ordentliches Sammelalbum in thematischer Reihenfolge).</li><li><b>Bewertung
+        5</b>: Vollständige Gliederung auf Artikelebene in Reihen und ggf. Teilreihen. Einzelne Bände
+        sind geordnet und indexiert (d.h. chronologische Auflistung mit einem Namensindex).</li></ul>'
+      "Physical Condition_values_tooltip": '<ul><li><b>Bewertung 1</b>: Schlecht: Erhebliche Beschädigung/Abnutzung,
+        welche die Nutzung der Sammlung erschwert.</li><li><b>Bewertung 2</b>: Befriedigend: Etwas schlechter
+        als erwartete Abnutzung, weitere Abnutzung möglich.</li><li><b>Bewertung 3</b>: Gut: Erwartete
+        Abnutzung, ein wenig weitere Abnutzung möglich.</li><li><b>Rating 4</b>: Sehr gut: Geringe Schäden,
+        wobei aufgrund der gemischten Qualität des Archivguts eine weitere Abnutzung möglich ist.</li><li><b>Bewertung
+        5</b>: Ausgezeichnet: Geringe Schäden und keine weitere Abnutzung zu erwarten, basierend auf der
+        hohen Qualität des Archivguts.</li></ul>'
+      "Reformatting Readiness_note_tooltip": 'Weist auf Bereiche hin, die im Hinblick auf eine mögliche
+        Digitalisierung oder andere Umformatierung des Archivguts bedenklich sind. '
+      "Intellectual Access (description)_values_tooltip": '<ul><li><b>Bewertung 1</b>: Der Forscher hat
+        keinen Zugang zur Sammlung: Interne Unterlagen wie z. B. eine Geber-/Kontrolldatei oder ein kurzes
+        oder unzugängliches Eingangsprotokoll dienen als einzige Beschreibung der Sammlung. Solche internen
+        Unterlagen können zwar in Quantität und Qualität variieren, sind aber naturgemäß für den Forscher
+        unzugänglich.</li><li><b>Bewertung 2</b>: Der Forscher hat schlechten Zugang zur Sammlung: Die
+        Sammlung hat kein oder ein mangelhaftes Findmittel. Die Sammlung verfügt über gedruckte Katalogkarten
+        oder eine andere Art der Offline-Beschreibung auf Sammlungsebene, aber keinen MARC-Datensatz auf
+        Sammlungsebene im OPAC oder einem nationalen bibliografischen Dienstprogramm. Die Sammlung hat
+        kein oder ein mangelhaftes Findmittel. Die Sammlung verfügt über einen MARC-Datensatz im OPAC
+        oder in einem nationalen bibliografischen Dienstprogramm, der jedoch keinen ausreichenden Zugang
+        bietet, da es sich um eine große oder komplexe Sammlung handelt. In beiden Fällen kann die Sammlung
+        in anderen Online- oder Offline-Quellen beschrieben sein, die den Forschern zur Verfügung stehen,
+        aber aufgrund der Komplexität der Sammlung oder der Unzulänglichkeit der Quellen bietet dies keinen
+        ausreichenden Zugang.</li><li><b>Bewertung 3</b>: Der Forscher hat einen mittelmäßigen Zugang
+        zur Sammlung: Das Findmittel ist mangelhaft oder es gibt kein Findmittel. Es gibt einen MARC-Datensatz
+        auf Sammlungsebene für die Sammlung im OPAC der Institution und/oder in einem nationalen bibliografischen
+        Dienstprogramm wie OCLC. Wenn kein vollständiger MARC-Datensatz vorhanden ist, gibt es eine andere
+        Art von Online-Beschreibung auf Sammlungsebene. Die Beschreibung auf Sammlungsebene in online
+        oder offline verfügbaren Quellen bietet den Forschern einen ausreichenden Zugang, da es sich um
+        eine kleine oder überschaubare Sammlung handelt.</li><li><b>Bewertung 4</b>: Der Forscher hat
+        guten Zugang zur Sammlung: Es gibt ein gutes Findmittel, das jedoch nicht online verfügbar ist.
+        Es gibt einen MARC-Eintrag auf Sammlungsebene für die Sammlung im OPAC der Institution und/oder
+        in einem nationalen bibliografischen Dienstprogramm wie OCLC. Es gibt ein gutes Findmittel, online
+        oder offline, aber es gibt keinen MARC-Eintrag auf Sammlungsebene für die Sammlung im OPAC der
+        Institution und/oder in einem nationalen bibliografischen Dienstprogramm wie OCLC. Angesichts
+        der Qualität des Findmittels bietet das Findmmittel allein einen guten Zugang. In beiden Fällen
+        kann die Sammlung auch in anderen Online- oder Offline-Quellen beschrieben werden, die den Forschern
+        zur Verfügung stehen.</li><li><b>Bewertung 5</b>: Der Forscher hat einen ausgezeichneten Zugang
+        zur Sammlung: Es gibt ein gutes Online-Findmittel (EAD, HTML, PDF oder anderes Format). Es gibt
+        einen MARC-Eintrag auf Sammlungsebene für die Sammlung im OPAC der Institution und/oder in einem
+        nationalen bibliografischen Dienstprogramm wie OCLC. Die Sammlung kann auch in anderen Online-
+        oder Offline-Quellen beschrieben sein, die den Forschern zur Verfügung stehen (z. B. in einem
+        gedruckten oder Online-Führer zu Sammlungen).</li></ul>'
+      "Physical Access_note_tooltip": Weitere Informationen über den physischen Zugang zum Archivgut und
+        dessen Anordnung.
+      "Physical Condition_note_tooltip": Gibt Bereiche an, die in Bezug auf den physischen Zustand der
+        Sammlung von besonderer Bedeutung sind.
+    format:
+      "Artifacts": Artefakte
+      "Audio Materials": Audio-Archivgut
+      "Biological Specimens": Biologische Präparate
+      "Botanical Specimens": Botanische Präparate
+      "Computer Storage Units": Computer-Speichereinheiten
+      "Film (negative, slide, or motion picture)": Film (Negativ, Dia oder Kinofilm)
+      "Glass": Glas
+      "Textiles": Textilien
+      "Vellum & Parchment": Vellum & Pergament
+      "Video Materials": Video-Archivgut
+      "Other": Andere
+      "Architectural Materials": Architektonischs Archivgut
+      "Art Originals": Kunst-Originale
+      "Photographs": Fotografien
+      "Scrapbooks": Sammelalben
+      "Technical Drawings & Schematics": Technische Zeichnungen & Schemata
+    conservation_issue:
+      "Potential Mold or Mold Damage": Möglicher Schimmel oder Schäden durch Schimmel
+      "Recent Pest Damage": Kürzliche Schädlingsschäden
+      "Deteriorating Film Base": Sich verschlechternde Filmbasis
+      "Brittle Paper": Brüchiges Papier
+      "Metal Fasteners": Metallbefestigungen
+      "Newspaper": Zeitung
+      "Tape": Band
+      "Heat-Sensitive Paper": Hitzeempfindliches Papier
+      "Water Damage": Wasserschäden
+  bulk_import:
+    processing_row: Verarbeite Zeile %{row}
+    max_file_info: '%{size}K und %{rows} Zeilen'
+    object_created: '%{what} erstellt'
+    error:
+      hier_wrong: Die Hierarchie kann nicht mehr als eine Ebene tiefer als die vorherige Zeile sein
+      extent_validation: 'Umfang (%{ext}) kann nicht validiert werden: %{msg}'
+      has_dig_obj: Archiv-Objekt hat bereits ein zugehöriges digitales Objekt
+      ao_validation: 'Validierungsfehler beim Versuch, ein Archiv-Objekt zu speichern: %{err}'
+      date_type: Datumstyp [%{what}] ungültig für %{date_str}. Das Datum wird nicht verarbeitet.
+      date_label: Datumsbeschriftung [%{what}] ungültig für %{date_str}. Das Datum wird nicht verarbeitet.
+      certainty: "Ungültige 'Datumssicherheit' ignoriert für %{date_str}: (%{what})"
+      below_bad_ao: Kann nicht verarbeitet werden, da es ein Kind des fehlerhaften Archiv-Objekts ist
+      enum: "NICHT GEFUNDEN: '%{label}' nicht in Liste %{which} gefunden"
+      error: 'FEHLER: Fehler erkannt: %{term}'
+      duplicates: 'Diese Tabelle enthält doppelte ArchivesSpace-Feldcodes: %{codes}'
+      uri_mismatch: Der URI der Eingaberessource [%{res_uri}] stimmt nicht mit dem URI der Zeile [%{row_uri}]
+        überein
+      title: Fehlender Titel
+      title_and_date: Fehlende Definition von Titel UND Definition des Gültigkeitsdatums
+      hier_miss: Fehlende Hierarchie -- muss eine Zahl größer als 0 sein
+      hier_zero: Hierarchie muss größer als 0 sein
+      hier_wrong_resource: Wollten Sie die Bearbeitung mit einem ausgewählten Archiv-Objekt starten?
+      hier_below_error_level: Das übergeordnete Archiv-Objekt wurde nicht erstellt
+      level: Fehlende gültige Beschreibungsebene
+      date: 'Datum muss mindestens eines der folgenden enthalten: Beginndatum; Enddatum; oder Datumsausdruck'
+      number: Fehlende Umfangsnummer
+      extent_type: Fehlender Umfangs-Typ
+      no_header: Keine Kopfzeile (Feldcodes) gefunden; verwenden Sie die richtige Vorlage?
+      no_agent: 'Akteur %{num} konnte nicht erstellt werden: [%{why}]'
+      find_tc: Das Haupt-Behältnis mit den Parametern %{where} konnte nicht gefunden werden.
+      no_tc: 'Haupt-Behältnis %{number} konnte nicht erstellt werden: [%{why}]'
+      missing_instance_type: Fehlender Behältnis-Instanz-Typ
+      no_ao: Kein Archiv-Objekt erstellt
+      relator_invalid: "Akteur-Verknüpfung kann aufgrund eines Problems mit Relator '%{label}' nicht erstellt\
+        \ werden: %{why}"
+      bad_role: "Akteur-Verknüpfung kann nicht erstellt werden: '%{label}' ist keine gültige Rolle"
+      dig_unassoc: 'Archiv-Objekt mit zugehörigem digitalen Objekt kann nicht gespeichert werden: %{msg}'
+      dig_validation: Das digitale Objekt kann nicht erstellt werden %{err}
+      validation_error: 'Kann %{what} nicht validieren: %{err}'
+      validated: '%{what} validiert'
+      lang_code: Sprache (%{lang}) kann nicht validiert werden
+      script_code: Schrift (%{script}) kann nicht validiert werden
+      process_error: 'Fehler bei der Verarbeitung von %{type} %{num}: %{why}'
+      bad_ao_uri: ' mit URI %{uri}'
+      bad_ao_ref_id: ' mit Ref-ID %{ref_id}'
+      bad_ao: Archiv-Objekt kann nicht gefunden werden %{errs}
+      wrong_file_type: Die Datei ist weder eine Excel-Tabelle noch eine CSV-Datei
+      dig_obj_unique: Die digitale Objekt-ID '%{id}' ist bereits vorhanden.
+      cannot: Kann aufgrund vorheriger Fehler nicht fortfahren
+      sc_barcode: Kann kein Teilbehältnis mit diesem untergeordneten Strichcode %{barcode} finden
+      file_name: Dateiname kann nicht ermittelt werden
+      system: Ein Systemfehler ist aufgetreten [%{msg}].
+      initialize: Die Verarbeitung wird beendet [%{msg}]
+      too_many: Mehr als eine Übereinstimmung in der Datenbank gefunden
+      invalid_date: Ungültige Datumsdefinition (%{what}) für %{date_str}. Das Datum wird nicht verarbeitet.
+      invalid_date_label: Ungültige Definition der Datumsbeschriftung im ersten Datum (%{what})
+      type_undef: Typ kann nicht ermittelt werden
+      stopped: Verarbeitung angehalten bei Zeile %{row} [%{msg}]
+      second_save_error: Fehler beim Versuch, ein Archiv-Objekt mit 'Instanzen' %{title} Position %{pos}
+        erneut zu speichern. Das bedeutet, dass das Archiv-Objekt zwar erstellt wurde, aber möglicherweise
+        nicht mit den zugehörigen Instanzen (digitales Objekt, Haupt-Behältnis, Thema usw.) verknüpft
+        ist [%{what}]
+      no_data: Keine verarbeitbaren Datenzeilen gefunden!
+      no_container_instance: 'Behältnis-Instanz %{number} konnte nicht erstellt werden: [%{why}]'
+      no_move: Die Archiv-Objekte können nicht vom Ende der Liste verschoben werden (Antwortcode %{code})
+      no_create: 'Kann nicht erstellt werden: [%{why}]'
+      bad_note: '%{type} Anmerkung ist nicht wohlgeformt: %{msg}'
+      role_invalid: "Akteur-Verknüpfung kann aufgrund eines Problems mit der Rolle '%{label}' nicht erstellt\
+        \ werden: %{why}"
+      no_uri_or_ref: Es wurde weder ein URI für ein Archiv-Objekt noch eine Ref-ID angegeben
+      row_missing_ead_uri: In dieser Zeile fehlen sowohl eine EAD-ID als auch eine URI
+      ead_mismatch: Die EAD-ID des Formulars [%{res_ead}] stimmt nicht mit der EAD-ID der Zeile überein
+        [%{row_ead}]
+      hier_wrong_resource_validation: 'WARNUNG: nichts unterhalb dieser Zeile wäre verarbeitet worden'
+      res_ead: In der Ressource dieses Formulars fehlt eine EAD-ID
+      row_ead: In dieser Zeile fehlt eine EAD-ID
+      ref_id_miss: Keine Ref-ID angegeben
+      spreadsheet: 'Fehler beim Parsen der Tabelle: %{errs}'
+      no_ao_be: Archiv-Objekt würde nicht erstellt werden
+      bad_note_type: Anmerkungs-Typ '%{type}' wird nicht unterstützt
+      bad_relator: "Akteur-Verknüpfung kann nicht erstellt werden: '%{label}' ist kein gültiger Relator"
+      dig_info_miss: Weder der URI des digitalen Objekts noch der URI der Miniaturansicht wurde angegeben
+      initial_save_error: Problem beim ersten Speichern von %{title} -- %{msg}
+      file_too_big: Diese Datei bei %{file_info} überschreitet die Größen- und/oder Zeilenanzahlgrenzen
+        von %{limits}
+    templates: Vorlagen für den Massenimport
+    row: Zeile %{row}
+    dig_assoc: Digitales Objekt zum Archiv-Objekt hinzugefügt
+    row_error: 'Zeile %{row} wird aufgrund von Fehlern nicht verarbeitet: %{errs}'
+    created: '%{what} erstellt: %{id}'
+    could_be: '%{what} würde erstellt werden'
+    updated: '%{what}: %{id}'
+    clip_btn: In die Zwischenablage kopieren
+    clip_created: "\t%{what} erstellt: \t%{nm} %{id} %{ref_id}"
+    clip_what: "\t%{what} : \t%{nm}\t%{id}\t%{ref_id}"
+    clip_info: "\t\t\t\t\t%{what}\n"
+    clip_err: "\t\t\t\t\tERROR: %{err}\n"
+    clip_header: "Zeile\tStatus\tTitel\tURI\tRef ID\tInfo oder Fehler"
+    log_complete: Import von %{file} abgeschlossen
+    log_validation: Validierung von %{Datei} abgeschlossen
+    log_created: '%{row}: Erstellt %{what}'
+    log_created_be: '%{row}: %{what} würde erstellt werden'
+    log_info: "%{row}:\t%{what}"
+    ref_id_notfound: Ref-ID %{refid} nicht gefunden
+    warn:
+      disamuse: Mehrere Übereinstimmungen für '%{which}' gefunden. Benutze bereits erstellte '%{name}'
+        zur Unterscheidung.
+      single_date_end: Einzeldatum %{date_str} hat ein Enddatum, das ignoriert wird.
+      disam: Mehrere Übereinstimmungen für '%{which}' gefunden. Erstelle '%{name}' zur Unterscheidung.
+      dup: Kontrollierte-Werte-Liste %{which} hat mehrere Instanzen für die Übersetzung '%{trans}'. '%{used}'
+        wird als Wert verwendet.
+    log_error: "%{row}:\tFEHLER %{what}"
+    unfound_id: '%{type} ID %{id} NICHT GEFUNDEN. Das ist ein PLATZHALTER'
+    log_results: Stelle Resultat-CSV-Datei zusammen
+    subj: Thema
+    agent: Akteur
+    date_type_default: Es wurde kein Datumstyp angegeben. Standardmäßig wird 'inklusiv' verwendet.
+    log_obj_be: "%{what} '%{nm}' "
+    object_not_created_be: '%{what} würde nicht erstellt werden'
+    log_obj: "%{what} '%{nm}' %{id} %{ref_id}"
+    ao: Archiv-Objekt
+    tc: Haupt-Behältnis
+    dig: Digitales Objekt
+    cont_inst: Behältnis-Instanz
+    processed: Die Datei wurde verarbeitet
+    object_created_be: '%{what} würde erstellt werden'
+    file_info: '%{size}K mit %{rows} Zeilen'
+  container_labels_job:
+    source: Quelle
+    format: Format
+  report_job:
+    report_type: Berichtstyp
+    format: Format
+  find_and_replace_job:
+    _singular: Auftrag suchen und ersetzen
+    find: Zu suchende Zeichenfolge
+    replace: Ersetzungs-Zeichenfolge
+    jsonmodel_type: Art der Aufzeichnung oder Teilaufzeichnung
+    record_type: Art der Aufzeichnung oder Teilaufzeichnung
+    property: Zieleigenschaft
+    base_record_uri: Basisaufzeichnungs-URI
+  bulk_import_job:
+    type:
+      csv: CSV
+      xlsx: Excel-Tabelle
+      ao: Archiv-Objekt laden
+      digital: Digitales Objekt laden
+    content_type: Tabellenart
+    load_type: Ladetyp
+    resource_uri: Ressourcen-URI
+    only_validate: Nur validieren
+  resource_component:
+    _singular: Ressourcenkomponente
+  largetree:
+    reparent_error:
+      title: Verschieben kann nicht durchgeführt werden
+      message: Das Verschieben wurde nicht durchgeführt, weil ein Elternteil nicht sein eigenes Kind werden
+        kann.
+  oai_config:
+    sponsor_set_description_tooltip: Sponsor Set Beschreibung Tooltip
+    repo_set_section_tooltip: Repo Set Abschnitt Tooltip
+    repo_set_description_tooltip: Repo Set Beschreibung Tooltip
+    sponsor_set_name_tooltip: Sponsor Set Name Tooltip
+    sponsor_set_names_tooltip: Sponsor Set Namen Tooltip
+    oai_repository_name_tooltip: OAI-Repository-Name Tooltip
+    oai_record_prefix_tooltip: OAI-Datensatz-Präfix-Tooltip
+    oai_admin_email_tooltip: OAI-Admin-E-Mail-Tooltip
+    repo_set_name_tooltip: Repo Set Name Tooltip
+  top_container_linker:
+    error:
+      ref_id_miss: Ref-ID fehlt in der Tabelle in Zeile %{row_num} .
+      ao_not_in_db: Das Archiv-Objekt %{ref_id} kann in der Datenbank in Zeile %{row_num} nicht gefunden
+        werden.
+      instance_type_miss: 'Instanztyp fehlt in der Tabelle für Zeile %{row_num} Archiv-Objekt %{ref_id}. '
+      instance_type_does_not_exist: 'Instanztyp %{instance_type} existiert nicht in der Datenbank (siehe
+        Zeile %{row_num} Archiv-Objekt %{ref_id}). '
+      tc_indicator_and_record_no_miss: Für %{ref_id} in Zeile %{row_num} muss entweder ein Haupt-Behältnis-Indikator
+        oder eine TC Aufzeichnungs-Nummer vorhanden sein.
+      tc_indicator_and_record_no_exist: Für %{ref_id} in Zeile %{row_num} kann nur ein Haupt-Behältnis-Indikator
+        ODER eine TC Aufzeichnungs-Nummer vorhanden sein.
+      tc_barcode_differs: Der Haupt-Behältnis-Strichcode, %{barcode}, unterscheidet sich von einem anderen
+        Eintrag in Ihrer Tabelle für %{type} %{indicator} (siehe %{ref_id} in Zeile %{row_num}).
+      sc_barcode_exists: Der untergeordnete Strichcode %{barcode} ist bereits in der Datenbank vorhanden
+        (siehe %{ref_id} in Zeile %{row_num}).
+      sc_barcode_differs: Der untergeordnete Strichcode %{barcode} unterscheidet sich von einem anderen
+        Eintrag in Ihrer Tabelle für %{type} %{indicator} (siehe %{ref_id} in Zeile %{row_num}).
+      no_tc: 'Haupt-Behältnis kann nicht erstellt werden (siehe %{ref_id} in Zeile %{row_num}): [%{why}]'
+      problem_adding_current_location: 'Problem beim Hinzufügen des aktuellen Standorts (siehe %{ref_id}
+        in Zeile %{row_num}): [%{why}]'
+      problem_setting_container_profile: 'Problem beim Setzen des Behältnisprofils (siehe %{ref_id} in
+        Zeile %{row_num}): [%{why}]'
+      error_linking_tc_to_ao: 'Es gab ein Problem bei der Verknüpfung des Archiv-Objekts mit dem Haupt-Behältnis:
+        %{why}'
+      tc_record_no_missing: 'Die Haupt-Behältnis-ID kann nicht gefunden werden: %{tc_id} (siehe %{ref_id}
+        in Zeile %{row_num})'
+      resource_not_in_db: Ressource %{ead_id} kann nicht in der Datenbank in Zeile %{row_num} gefunden
+        werden
+      job_file_empty: Keine zu verarbeitende Datei für Haupt-Behältnis-Verknüpfung
+      tc_barcode_exists: Der Haupt-Behältnis-Strichcode, %{barcode} existiert bereits in der Datenbank
+        (siehe  %{ref_id} in Zeile %{row_num}).
+      loc_not_in_db: Die angegebene Standort-ID %{loc_id} kann in der Datenbank nicht gefunden werden
+        (siehe %{ref_id} in Zeile %{row_num}).
+      tc_ind_ct_exists: Die Kombination aus Haupt-Behältnis-Indikator und Behältnisart %{tc_type} %{indicator}
+        existiert bereits in der Datenbank für ein AO in der Ressource %{ead_id} (siehe %{ref_id} in Zeile
+        %{row_num}).
+      cp_not_in_db: Die angegebene Behältnisprofil-ID, %{cp_id}, kann nicht in der Datenbank gefunden
+        werden (siehe %{ref_id} in Zeile %{row_num}).
+      resources_do_not_match: 'Die Ressource in der Tabelle %{spreadsheet_resource} (EAD-ID: %{ead_id})
+        stimmt nicht mit der aktuellen Ressource %{current_resource} in Zeile %{row_num} überein'
+      ead_id_miss: 'In dieser Zeile fehlt eine EAD-ID: (siehe %{ref_id} in Zeile %{row_num})'
+    log_creating_linker: 'Erstelle neuen Haupt-Behältnis-Verknüpfer für Aufbewahrungsort: %{repo_id}'
+    log_validate_only: Überspringen der Erstellung und Verknüpfung von Haupt-Behältnissen, da nur die
+      Option "Validieren" aktiviert ist.
+    log_skipping_due_to_errors: Überspringen der Erstellung und Verknüpfung von Haupt-Behältnissen aufgrund
+      von Fehlern.
+    log_validating: Validiere Tabellen-Daten...
+    log_creating_and_linking: Erstelle und verknüpfe Haupt-Behältnisse...
+  surveyed_by:
+    _plural: Erhoben von
+  reviewer:
+    _plural: Prüfer
+  formats:
+    _plural: Formate
+  created_by: Erstellt von
+  last_modified_by: Zuletzt geändert von
+  create_time: Erstellt
+  user_mtime: Geändert
+  arks:
+    ark: ARK
+    unsubmitted_input: Sie haben ungespeicherte Eingaben
+    only_current_ark_can_be_external: Der aktuelle ARK kann nicht ersetzt werden, solange er als extern
+      gekennzeichnet ist.
+    edit: ARKs bearbeiten
+    current: aktuell
+    remove_ark: Entfernen
+    add_new: Neuen ARK hinzufügen
+    set_current: Auf aktuell setzen
+    save: ARKs speichern
+    ark_editor_errors:
+      ark_collision: Eine der bereitgestellten ARKs ist bereits in Gebrauch.
+      ark_format_error: Einer der bereitgestellten ARKs war kein gültiger ARK.
+    no_changes: Keine Änderungen zu speichern
+    modal_title: ARKs für aktuelle Aufzeichnung bearbeiten
+  bulk_import_template:
+    _singular: Vorlage für den Massenimport
+    _plural: Vorlagen für den Massenimport
+  trim_whitespace_job:
+    description: Entfernt führenden und nachgestellten Leerraum aus den Titeln von Ressourcen, Eingängen,
+      digitalen Objekten, Archiv-Objekten und Komponenten von digitalen Objekten.
+  repository_oai:
+    oai_sets_available_tooltip: OAI-Sets verfügbar Tooltip
+    oai_is_disabled_tooltip: OAI ist deaktiviert Tooltip
+  creator:
+    _plural: Urheber
+  groups:
+    _plural: Gruppen
+  owner_repo:
+    _plural: Reserviert für
