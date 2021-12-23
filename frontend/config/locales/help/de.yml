@@ -10,15 +10,15 @@ de:
       resource_external_documents: Hilfe zu Externen Dokumenten
       archival_object_related_accessions: Hilfe zu Verwandten Eingängen
       archival_object_instances: Hilfe zu Instanzen
-      digital_object_extents: Hilfe zu Ausmaßen
-      digital_object_rights_statements: Hilfe zu Rechte-Bezeichnungen
+      digital_object_extents: Hilfe zu Umfängen
+      digital_object_rights_statements: Hilfe zu Rechteerklärungen
       digital_object_user_defined: Hilfe zu Benutzerdefiniert
       digital_object_component_subjects: Hilfe zu Themen
       digital_object: Hilfe zu digitalem Objekt
       digital_object_related_accessions: Hilfe zu Verwandten Eingängen
       digital_object_component_classification: Hilfe zu Klassifizierungen
       agent_person_names: Hilfe zu Namen
-      agent_family_notes: Hilfe zu Notizen
+      agent_family_notes: Hilfe zu Anmerkungen
       agent_software_contact_details: Hilfe zu Kontaktdetails
       agent_person: Hilfe zu Personen (Beteiligter)
       agent_corporate_entity: Hilfe zu juristischer Person (Beteiligter)
@@ -31,10 +31,122 @@ de:
       agent_conventions_declarations: Hilfe zu Beteiligten-Konventionserklärungen
       event_basic_information: Hilfe zu Grundlegenden Informationen
       archival_object_external_documents: Hilfe zu Externen Dokumenten
-      archival_object_notes: Hilfe zu Notizen
+      archival_object_notes: Hilfe zu Anmerkungen
       digital_object_deaccessions: Hilfe zu Abgängen
       digital_object_component_instances: Hilfe zu Instanzen
       agent_function: Hilfe zu Funktionen
       classification_term: Hilfe zu Klassifizierungen
-      agent_corporate_entity_related_agents: Hilfe zu Verwandten Beteiligten
+      agent_corporate_entity_related_agents: Hilfe zu Verwandten Akteuren
       digital_object_component_basic_information: Hilfe zu Grundlegenden Informationen
+      accession_linked_agents: Hilfe zu Akteur-Verknüpfungen
+      subject: Hilfe zu Themen
+      agent_corporate_entity_names: Hilfe zu Namen
+      agent_corporate_entity_contact_details: Hilfe zu Kontaktdetails
+      agent_software_names: Hilfe zu Namen
+      event: Hilfe zu Ereignissen
+      user: Hilfe zu Verwalten von Benutzern
+      accession_basic_information: Hilfe zu Grundlegenden Informationen
+      accession_related_resources: Hilfe zu Verwandten Ressourcen
+      accession_subjects: Hilfe zu Themen
+      accession_rights_statements: Hilfe zu Rechteerklärungen
+      accession_instances: Hilfe zu Instanzen
+      accession_collection_management: Hilfe zur Sammlungs-Verwaltung
+      accession_user_defined: Hilfe zu Benutzerdefiniert
+      resource_basic_information: Hilfe zu Grundlegenden Informationen
+      resource_dates: Hilfe zu Daten
+      resource_extents: Hilfe zu Umfängen
+      resource_finding_aid: Hilfe zu Findmitteln
+      resource_linked_agents: Hilfe zu Akteur-Verknüpfungen
+      resource_rights_statements: Hilfe zu Rechteerklärungen
+      resource_instances: Hilfe zu Instanzen
+      resource_collection_management: Hilfe zur Sammlungs-Verwaltung
+      resource_user_defined: Hilfe zu Benutzerdefiniert
+      resource_load_via_spreadsheet: Hilfe zu Mit Tabelle Laden
+      archival_object_basic_information: Hilfe zu Grundlegenden Informationen
+      archival_object_extents: Hilfe zu Umfängen
+      archival_object_finding_aid: Hilfe zu Findmitteln
+      archival_object_subjects: Hilfe zu Themen
+      archival_object_deaccessions: Hilfe zu Abgängen
+      digital_object_basic_information: Hilfe zu Grundlegenden Informationen
+      digital_object_dates: Hilfe zu Daten
+      digital_object_finding_aid: Hilfe zu Findmitteln
+      resource_notes: Hilfe zu Anmerkungen
+      digital_object_linked_agents: Hilfe zu Akteur-Verknüpfungen
+      digital_object_external_documents: Hilfe zu Externen Dokumenten
+      digital_object_instances: Hilfe zu Instanzen
+      digital_object_collection_management: Hilfe zur Sammlungs-Verwaltung
+      digital_object_classification: Hilfe zu Klassifizierungen
+      digital_object_component: Hilfe zu Komponenten von digitalen Objekten
+      digital_object_component_dates: Hilfe zu Daten
+      digital_object_component_finding_aid: Hilfe zu Findmitteln
+      digital_object_component_related_accessions: Hilfe zu Verwandten Eingängen
+      digital_object_component_linked_agents: Hilfe zu Akteur-Verknüpfungen
+      digital_object_component_notes: Hilfe zu Anmerkungen
+      digital_object_component_external_documents: Hilfe zu Externen Dokumenten
+      subject_basic_information: Hilfe zu Grundlegenden Informationen
+      agent_person_dates_of_existence: Hilfe zu Existenzdaten
+      agent_person_contact_details: Hilfe zu Kontaktdetails
+      agent_person_related_agents: Hilfe zu Verwandten Akteuren
+      agent_family: Hilfe zu Familien (Akteur)
+      agent_family_dates_of_existence: Hilfe zu Existenzdaten
+      agent_family_names: Hilfe zu Namen
+      agent_family_contact_details: Hilfe zu Kontaktdetails
+      agent_family_related_agents: Hilfe zu Verwandten Akteuren
+      agent_corporate_entity_dates_of_existence: Hilfe zu Existenzdaten
+      agent_corporate_entity_external_documents: Hilfe zu Externen Dokumenten
+      agent_software_notes: Hilfe zu Anmerkungen
+      agent_software_related_agents: Hilfe zu Verwandten Akteuren
+      agent_software_external_documents: Hilfe zu Externen Dokumenten
+      agent_sources: Hilfe zu Akteur-Quellen
+      agent_maintenance_histories: Hilfe zu Akteur-Wartungsverläufen
+      agent_other_agency_codes: Hilfe zu Weiteren Behördencodes
+      agent_alternate_sets: Hilfe zu Akteur-Alternativmengen
+      agent_record_controls: Hilfe zu Akteur-Aufzeichnungssteuerung
+      agent_external_documents: Hilfe zu Externen Dokumenten
+      agent_related_agents: Hilfe zu Verwandten Akteuren
+      agent_required: Hilfe zu Bearbeiten erforderlicher Felder
+      location: Hilfe zu Standorten
+      classification: Hilfe zu Klassifizierungen
+      import: Hilfe zu Importieren von Daten
+      repository: Hilfe zu Verwalten von Aufbewahrungsorten
+      accession_extents: Hilfe zu Umfängen
+      archival_object_rights_statements: Hilfe zu Rechteerklärungen
+      digital_object_subjects: Hilfe zu Themen
+      digital_object_component_deaccessions: Hilfe zu Abgängen
+      digital_object_component_collection_management: Hilfe zur Sammlungs-Verwaltung
+      digital_object_component_user_defined: Hilfe zu Benutzerdefiniert
+      agent_used_language: Hilfe zu Verwendeter Sprache
+      accession_classification: Hilfe zu Klassifizierungen
+      resource_classification: Hilfe zu Klassifizierungen
+      resource_subjects: Hilfe zu Themen
+      archival_object_dates: Hilfe zu Daten
+      agent_family_external_documents: Hilfe zu Externen Dokumenten
+      digital_object_component_rights_statements: Hilfe zu Rechteerklärungen
+      agent_person_notes: Hilfe zu Anmerkungen
+      agent_corporate_entity_notes: Hilfe zu Anmerkungen
+      agent_record_identifiers: Hilfe zu Akteur-Aufzeichnungs-Signaturen
+      agent_occupation: Hilfe zu Berufen
+      agent_topic: Hilfe zu Themen
+      agent_place: Hilfe zu Orten
+      agent_person_external_documents: Hilfe zu Externen Dokumenten
+      event_linked_records: Hilfe zu Aufzeichnungs-Verknüpfungen
+      event_linked_agents: Hilfe zu Akteur-Verknüpfungen
+      archival_object_linked_agents: Hilfe zu Akteur-Verknüpfungen
+      agent_merge: Hilfe zum Zusammenfügen von Akteuren
+      accession: Hilfe zu Eingängen
+      accession_external_documents: Hilfe zu Externen Dokumenten
+      archival_object_collection_management: Hilfe zur Sammlungs-Verwaltung
+      digital_object_notes: Hilfe zu Anmerkungen
+      digital_object_component_extents: Hilfe zu Umfängen
+      subject_terms: Hilfe zu Begriffen und Untereinheiten
+      archival_object_classification: Hilfe zu Klassifizierungen
+      archival_object_user_defined: Hilfe zu Benutzerdefiniert
+      subject_external_documents: Hilfe zu Externen Dokumenten
+      agent_software: Hilfe zu Software (Akteur)
+      agent_identifiers: Hilfe zu Entitäts-Bezeichnern
+      agent_genders: Hilfe zu Geschlechtern
+      search: Hilfe zu Suchen und Blättern
+      repository_users: Hilfe zu Nutzer-Gruppen-Zuordnung
+    help_center: ArchivesSpace Hilfe
+    default_tooltip: ArchivesSpace Hilfe
+    icon: <span class='context-help-icon glyphicon glyphicon-question-sign'></span>
