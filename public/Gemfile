@@ -54,7 +54,7 @@ group :development, :test do
   gem 'pry', '~> 0.12.2'
   gem 'pry-nav'
   gem 'pry-rails'
-  gem 'mizuno', git: "https://github.com/archivesspace/mizuno", branch: "master"
+  gem 'mizuno-aspace'
 end
 
 group :test do
