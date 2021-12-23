@@ -75,9 +75,9 @@ de:
     transfer_confirm_message: Die Aufzeichnung '%{target}' wird zum gewählten Aufbewahrungsort
       übertragen
     transfer_failed: Übertragung fehlgeschlagen
-    transfer_failed_digital_objects_linked_to_records: Dieses digitale Objekt ist mit
-      anderen Aufzeichnungen in diesem Aufbewahrungsort verknüpft. Um mit der Übertragung
-      fortzufahren, entfernen Sie die Verknüpfungen in folgenden Aufzeichnungen
+    transfer_failed_digital_objects_linked_to_records: Dieses digitale Objekt ist
+      mit anderen Aufzeichnungen in diesem Aufbewahrungsort verknüpft. Um mit der
+      Übertragung fortzufahren, entfernen Sie die Verknüpfungen in folgenden Aufzeichnungen
     transfer_failed_barcodes_in_use: Die folgenden Haupt-Behältnisse verwenden Strichcodes,
       die im Ziel-Aufbewahrungsort verwendet werden, und können nicht übertragen werden
       bis diese Konflikte behoben sind
@@ -85,9 +85,9 @@ de:
     delete_multiple_confirm_title: Aufzeichnungen löschen?
     reset: Vorgaben zurücksetzen
     reset_confirm_title: '%{preftype} auf Andwendungs-Vorgaben zurücksetzen?'
-    reset_confirm_message: <p>Bitte seien Sie sich bewusst, dass Sie <strong>diese Aktion
-      nicht rückgängig machen können</strong>.</p><p>Damit werden Voreinstellungen auf
-      Anwendungs-Vorgaben zurückgesetzt.</p>
+    reset_confirm_message: <p>Bitte seien Sie sich bewusst, dass Sie <strong>diese
+      Aktion nicht rückgängig machen können</strong>.</p><p>Damit werden Voreinstellungen
+      auf Anwendungs-Vorgaben zurückgesetzt.</p>
     edit_multiple: Aufzeichnungen bearbeiten
     edit_multiple_confirm_title: Aufzeichnungen bearbeiten?
     edit_multiple_confirm_message: <p>Damit werden mehrere Aufzeichnungen gleichzeitig
@@ -107,7 +107,8 @@ de:
       - Speichern oder Zurücksetzen, um auf die Werkzeugleiste und Aufzeichnungs-Baum
       zuzugreifen</span></small>
     publish_confirm_message: <p>Dies wird die Aufzeichnung, alle Teilaufzeichnungen
-      (externe Dokumente, Anmerkungen, etc) und alle Komponenten in der Hierarchie veröffentlichen.</p>
+      (externe Dokumente, Anmerkungen, etc) und alle Komponenten in der Hierarchie
+      veröffentlichen.</p>
     unpublish: Alle Veröffentlichungen aufheben
     unpublish_confirm_title: Veröffentlichung aufheben?
     unpublish_confirm_message: <p>Dies wird die Veröffentlichung dieser Aufzeichnung,
@@ -129,9 +130,10 @@ de:
     merge_subject_confirm_message: Das Thema '%{source}' wird mit den gewählten Aufzeichnungen
       zusammengeführt. Alle gewählten Aufzeichnungen werden gelöscht und jede verknüpfte
       Aufzeichnung wird neu mit diesem Thema verknüpft.
-    merge_container_profile_confirm_message: Das Behältnis-Profil '%{target}' wird mit
-      den gewählten Aufzeichnungen zusammengeführt. Alle gewählten Aufzeichnungen werden
-      gelöscht und jede verknüpfte Aufzeichnung wird neu mit dieser Ressource verknüpft.
+    merge_container_profile_confirm_message: Das Behältnis-Profil '%{target}' wird
+      mit den gewählten Aufzeichnungen zusammengeführt. Alle gewählten Aufzeichnungen
+      werden gelöscht und jede verknüpfte Aufzeichnung wird neu mit dieser Ressource
+      verknüpft.
     save_plus_one: '+1'
     add_event_event_type: Typ
     add_event: Ereignis hinzufügen
@@ -141,10 +143,10 @@ de:
     required: Erforderliche Felder
     merge_from_browse_confirm_title: Ausgewählte Aufzeichnungen zusammenführen?
     merge_agent_confirm_message: Der Akteur '%{source}' wird mit der gewählten Aufzeichnung
-      zusammengeführt. Die gewählte Aufzeichnung wird gelöscht und jede verknüpfte Aufzeichnung
-      wird neu mit diesem Akteur verknüpft. Mit Klick auf die "Akteure vergleichen"-Schaltfläche
-      können Sie auswählen, welche der Felder und Teilaufzeichnungen jeder Aufzeichnung
-      übernommen werden sollen.
+      zusammengeführt. Die gewählte Aufzeichnung wird gelöscht und jede verknüpfte
+      Aufzeichnung wird neu mit diesem Akteur verknüpft. Mit Klick auf die "Akteure
+      vergleichen"-Schaltfläche können Sie auswählen, welche der Felder und Teilaufzeichnungen
+      jeder Aufzeichnung übernommen werden sollen.
     merge_resource_confirm_message: Die Aufzeichnung '%{source}' wird mit den gewählten
       Aufzeichnungen zusammengeführt. Alle gewählten Aufzeichnungen werden gelöscht
       und jede verknüpfte Aufzeichnung wird neu mit dieser Aufzeichnung verknüpft.
@@ -152,8 +154,8 @@ de:
     save_anyway: Trotzdem Speichern
     unsuppress_confirm_title: Diese Aufzeichnung nicht mehr unterdrücken?
     transfer_failed_top_containers_in_use: Die folgenden Haupt-Behältnisse sind mit
-      anderen Haupt-Aufzeichnungen in diesem Aufbewahrungsort verknüpft und können nicht
-      übertragen werden, außer die Verknüpfung wird entfernt
+      anderen Haupt-Aufzeichnungen in diesem Aufbewahrungsort verknüpft und können
+      nicht übertragen werden, außer die Verknüpfung wird entfernt
     publish: Alle veröffentlichen
     container_template: Behältnis-Vorlage herunterladen
     merge: Zusammenführen
@@ -172,13 +174,13 @@ de:
     publish_confirm_title: Veröffentlichen?
     publish_archival_object: Alle veröffentlichen
     publish_archival_object_confirm_title: Veröffentlichen?
-    publish_archival_object_confirm_message: <p>Dies wird diese Aufzeichnung, alle Teilaufzeichnungen
-      (externe Dokumente, Anmerkungen etc) und alle Komponenten in der Hierarchie unter
-      dieser Aufzeichnung veröffentlichen.</p>
+    publish_archival_object_confirm_message: <p>Dies wird diese Aufzeichnung, alle
+      Teilaufzeichnungen (externe Dokumente, Anmerkungen etc) und alle Komponenten
+      in der Hierarchie unter dieser Aufzeichnung veröffentlichen.</p>
     unpublish_archival_object: Alle Veröffentlichungen aufheben
     unpublish_archival_object_confirm_message: <p>Dies wird die Veröffentlichung dieser
-      Aufzeichnung, aller Teilaufzeichnungen (externe Dokumente, Anmerkungen etc) und
-      aller Komponenten in der Hierarchie unter dieser Aufzeichnung aufheben.</p>
+      Aufzeichnung, aller Teilaufzeichnungen (externe Dokumente, Anmerkungen etc)
+      und aller Komponenten in der Hierarchie unter dieser Aufzeichnung aufheben.</p>
     transfer_failed_records_using_digital_objects: Die folgenden Aufzeichnungen sind
       mit digitalen Objekten verknüpft, die übertragen werden würden, aber das würde
       dazu führen, dass ihre Instanz-Verknüpfungen kaputtgehen würden
@@ -294,8 +296,9 @@ de:
           die manuell hinzugefügt wurden, werden nicht geändert, außer das Kontrollkästchen
           Slug automatisch generieren bei der Aufzeichnung wurde gesetzt, um so festzulegen,
           dass der Slug ersetzt werden soll.</em>
-        ark_generation: Diese Aufgabe erzeugt ARKs für alle <b>Ressourcen</b> und <b>Archiv-Objekte</b>,
-          die noch keinen ARK besitzen. <br /><br /><em>Externe ARKs werden nicht geändert.</em>
+        ark_generation: Diese Aufgabe erzeugt ARKs für alle <b>Ressourcen</b> und
+          <b>Archiv-Objekte</b>, die noch keinen ARK besitzen. <br /><br /><em>Externe
+          ARKs werden nicht geändert.</em>
         status_changed_running: Die Aufgabe wurde gestartet. Lade Seite neu...
         status_changed_completed: Die Aufgabe wurde abgeschlossen.
         status_changed_failed: Die Aufgabe ist fehlgeschlagen.
@@ -304,8 +307,8 @@ de:
         slug_config_id: Slugs werden mithilfe des Entitäts-Bezeichners erzeugt, wenn
           passend.
         slug_config_title: Slugs werden mithilfe des Entitäts-Namens oder Titel erzeugt.
-        slug_config_eadid: Slugs für <b>Ressourcen</b> werden mithilfe der EAD ID erzeugt,
-          wo passend.
+        slug_config_eadid: Slugs für <b>Ressourcen</b> werden mithilfe der EAD ID
+          erzeugt, wo passend.
         slug_config_cuid: Slugs für <b>Archiv-Objekte</b> werden mithilfe dem eindeutigen
           Komponenten-Bezeichner erzeugt, wo passend.
         no_active_jobs: Es gibt keine aktiven Aufgaben.
@@ -315,13 +318,13 @@ de:
         import_type_missing: Bitte wählen Sie einen Import-Typ
         queue_position_next: Diese Aufgabe ist die nächste in der Warteschlange.
         queue_position: Diese Aufgabe ist %{position} in der Warteschlange.
-        find_and_replace_instructions: Wählen Sie eine Basis-Aufzeichnung, um den Geltungsbereich
-          dieses Suchen-und-Ersetzen Vorgangs festzulegen. Wählen Sie dann einen Aufzeichnungstyp
-          als Ziel und einen Wert dieses Typs. Der Vorgang wird für jede Ziel-Aufzeichnung
-          im Baum der Basis-Aufzeichnung ausgeführt - oder in der Basis-Aufzeichnung
-          selbst, wenn der Ziel-Typ "Ressource" ist.
-        report_instructions: Wählen Sie einen Bericht zum Ausführen, indem Sie die <b>Auswählen</b>-Schaltfläche
-          benutzen.
+        find_and_replace_instructions: Wählen Sie eine Basis-Aufzeichnung, um den
+          Geltungsbereich dieses Suchen-und-Ersetzen Vorgangs festzulegen. Wählen
+          Sie dann einen Aufzeichnungstyp als Ziel und einen Wert dieses Typs. Der
+          Vorgang wird für jede Ziel-Aufzeichnung im Baum der Basis-Aufzeichnung ausgeführt
+          - oder in der Basis-Aufzeichnung selbst, wenn der Ziel-Typ "Ressource" ist.
+        report_instructions: Wählen Sie einen Bericht zum Ausführen, indem Sie die
+          <b>Auswählen</b>-Schaltfläche benutzen.
         slug_lost_warning: <b>VORSICHT! </b> Alle automatisch erzeugten Slugs werden
           neu erzeugt! Diese Aufgabe wirkt auf alle Aufzeichnungen in allen Aufbewahrungsorten.
         drag_and_drop_hint: Ziehen und legen Sie Dateien hier ab
@@ -349,19 +352,20 @@ de:
   sub_container:
     top_container: Haupt-Behältnis
     top_container_tooltip: "<p>ERFORDERLICHES FELD. Das Behältnis der obersten Ebene,\
-      \ in dem das beschriebene Archivgut aufbewahrt wird.</p>\n<p>Kann aus einer existierenden\
-      \ Liste von Haupt-Behältnissen gewählt werden, indem die Suchen- oder Blättern-Funktion\
-      \ verwendet wird, oder mit der Erstellen-Funktion erstellt werden.</p>\n"
+      \ in dem das beschriebene Archivgut aufbewahrt wird.</p>\n<p>Kann aus einer\
+      \ existierenden Liste von Haupt-Behältnissen gewählt werden, indem die Suchen-\
+      \ oder Blättern-Funktion verwendet wird, oder mit der Erstellen-Funktion erstellt\
+      \ werden.</p>\n"
     type_3: Enkel-Typ
     type_2: Kind-Typ
     type_2_tooltip: "<p>Der Typ des Behältnisses der zweiten Ebene, in dem das beschriebene\
       \ Archivgut aufbewahrt wird.</p>\n<p>Werte in dieser Kontrollierte-Werte-Liste\
       \ können geändert werden.</p>\n"
     indicator_2: Kind-Kennzeichnung
-    indicator_2_tooltip: "<p>Ein alphanumerischer Ausdruck, um den Bezeichner des Behältnisses\
-      \ der zweiten Ebene anzugeben, welcher auch die Position des Behältnisses der\
-      \ zweiten Ebene in einer Reihe solcher Behältnisse angeben kann. Bereiche solcher\
-      \ Behältnisse der zweiten Ebene sind auch erlaubt, z.B. Mappe 1-16.</p>\n"
+    indicator_2_tooltip: "<p>Ein alphanumerischer Ausdruck, um den Bezeichner des\
+      \ Behältnisses der zweiten Ebene anzugeben, welcher auch die Position des Behältnisses\
+      \ der zweiten Ebene in einer Reihe solcher Behältnisse angeben kann. Bereiche\
+      \ solcher Behältnisse der zweiten Ebene sind auch erlaubt, z.B. Mappe 1-16.</p>\n"
     barcode_2: Strichcode des Kind-Behältnisses
     barcode_2_tooltip: "<p>Ein Strichcode zur Kennzeichnung des Behältnisses der zweiten\
       \ Ebene, in dem das beschriebene Archivgut aufbewahrt wird.</p>\n"
@@ -369,10 +373,10 @@ de:
       \ Archivgut aufbewahrt wird.</p>\n<p>Werte in dieser Kontrollierte-Werte-Liste\
       \ können geändert werden.</p>\n"
     indicator_3: Enkel-Kennzeichnung
-    indicator_3_tooltip: "<p>Ein alphanumerischer Ausdruck, um den Bezeichner des Behältnisses\
-      \ der dritten Ebene anzugeben, welcher auch die Position des Behältnisses der\
-      \ dritten Ebene in einer Reihe solcher Behältnisse angeben kann. Bereiche solcher\
-      \ Behältnisse der dritten Ebene sind auch erlaubt, z.B. Mappe 1-16.</p>\n"
+    indicator_3_tooltip: "<p>Ein alphanumerischer Ausdruck, um den Bezeichner des\
+      \ Behältnisses der dritten Ebene anzugeben, welcher auch die Position des Behältnisses\
+      \ der dritten Ebene in einer Reihe solcher Behältnisse angeben kann. Bereiche\
+      \ solcher Behältnisse der dritten Ebene sind auch erlaubt, z.B. Mappe 1-16.</p>\n"
     _singular: Teil-Behältnis
     _plural: Teil-Behältnisse
     _frontend:
@@ -661,7 +665,7 @@ de:
       report_type: Berichtstyp
       job_report_type: Aufgabentyp
       time_started: Startzeitpunkt
-      time_finished: Fertigstellung-Zeitpunkt
+      time_finished: Fertigstellungs-Zeitpunkt
       time_submitted: Einreich-Zeitpunkt
       job_data: Aufgabeninformation
       audit_info: Prüfinformation
@@ -740,13 +744,14 @@ de:
     searching: Suche...
   mixed_content:
     wrap_prefix: 'Umschließen mit:'
-    help: Gemischter Inhalt aktiviert&#160;&#160;--&#160;&#160;Tippen Sie '<', um Elemente
-      zu sehen oder wählen Sie Text zum Umschließen aus
+    help: Gemischter Inhalt aktiviert&#160;&#160;--&#160;&#160;Tippen Sie '<', um
+      Elemente zu sehen oder wählen Sie Text zum Umschließen aus
   import:
     eac_title: Eine EAC-Datei importieren
     ead_title: Eine EAD-Datei importieren
     marcxml_title: Eine MARCXML-Datei importieren
-    marcxml_subjects_and_agents_title: Themen und Akteure von einer MARCXML-Datei importieren
+    marcxml_subjects_and_agents_title: Themen und Akteure von einer MARCXML-Datei
+      importieren
     accession_csv_title: Eingangs-Aufzeichnungen von einer CSV-Datei importieren
     import_report: Bericht importieren
     import_another: Eine andere Datei importieren
@@ -809,8 +814,8 @@ de:
       einem Eingang verknüpft ist
     cannot_delete_repository_agent: Dieser Akteur ist mit einem Aufbewahrungsort verknüpft
       und kann nicht entfernt werden.
-    error_403_message: Die aufgerufene Seite könnte nicht mehr existieren oder Sie haben
-      keine Rechte sie anzuzeigen.
+    error_403_message: Die aufgerufene Seite könnte nicht mehr existieren oder Sie
+      haben keine Rechte sie anzuzeigen.
     error_404: Aufzeichnung nicht gefunden
     merge_too_many_victims: Nur ein Akteur kann zum Zusammenführen ausgewählt werden.
     merge_conflict: 'Das Zusammenführen von Akteuren konnte nicht abgeschlossen werden:
@@ -900,11 +905,11 @@ de:
     external_ark_url_tooltip: Kurzinfo für Externe ARK URL
     _frontend:
       messages:
-        created: Archiv-Objekt <strong>%{archival_object.display_string}</strong> für
-          Aufzeichnung <strong>%{resource.title}</strong> erstellt
+        created: Archiv-Objekt <strong>%{archival_object.display_string}</strong>
+          für Aufzeichnung <strong>%{resource.title}</strong> erstellt
         created_with_parent: Archiv-Objekt <strong>%{archival_object.display_string}</strong>
-          als Kind von <strong>%{parent.display_string}</strong> für Aufzeichnung <strong>%{resource.title}</strong>
-          erstellt
+          als Kind von <strong>%{parent.display_string}</strong> für Aufzeichnung
+          <strong>%{resource.title}</strong> erstellt
         updated_with_parent: Archiv-Objekt <strong>%{archival_object.display_string}</strong>
           aktualisiert
         please_select_a_resource_for_transfer: Bitte eine Aufzeichnung auswählen
@@ -914,15 +919,17 @@ de:
           aufgehoben
         suppressed: Archiv-Objekt <strong>%{archival_object.title}</strong> unterdrückt
         suppressed_info: Archiv-Objekt ist unterdrückt und kann nicht bearbeitet werden
-        has_unpublished_ancestor: Seien Sie sich bewusst, dass diese Aufzeichnung einen
-          unveröffentlichten Vorfahren hat.
-        deleted: Archiv-Objekt <strong>%{archival_object.display_string}</strong> gelöscht
+        has_unpublished_ancestor: Seien Sie sich bewusst, dass diese Aufzeichnung
+          einen unveröffentlichten Vorfahren hat.
+        deleted: Archiv-Objekt <strong>%{archival_object.display_string}</strong>
+          gelöscht
         delete_conflict: 'Archiv-Objekt konnte nicht gelöscht werden: <pre>%{error}</pre>'
         unpublished: Die Veröffentlichung des Archiv-Objekts <strong>%{archival_object.title}</strong>,
           seiner Kinder, Teilaufzeichnungen und Komponenten wurde aufgehoben
-        updated: Archiv-Objekt <strong>%{archival_object.display_string}</strong> aktualisiert
-        transfer_error: 'Konnte das Archiv-Objekt wegen einem Fehler oder Konflikt nicht
-          übertragen: <pre>%{exception}</pre>'
+        updated: Archiv-Objekt <strong>%{archival_object.display_string}</strong>
+          aktualisiert
+        transfer_error: 'Konnte das Archiv-Objekt wegen einem Fehler oder Konflikt
+          nicht übertragen: <pre>%{exception}</pre>'
         transfer_success: Archiv-Objekt <strong>%{archival_object.display_string}</strong>
           erfolgreich zu Aufzeichnung <strong>%{resource.title}</strong> übertragen
       action:
@@ -1059,8 +1066,8 @@ de:
           wurde auf digitalem Objekt <strong>%{digital_object.title}</strong> erstellt
         unsuppressed: Unterdrückung der Komponente des digitalen Objekts <strong>%{digital_object_component.display_string}</strong>
           aufgehoben
-        suppressed_info: Komponente des digitalen Objekts ist unterdrückt und kann nicht
-          bearbeitet werden
+        suppressed_info: Komponente des digitalen Objekts ist unterdrückt und kann
+          nicht bearbeitet werden
         has_unpublished_ancestor: Bitte seien Sie sich bewusst, dass diese Aufzeichnung
           einen Vorfahren hat, der nicht veröffentlicht ist.
       action:
@@ -1076,8 +1083,8 @@ de:
       messages:
         deleted: Wert gelöscht
         delete_error: Löschen des Werts fehlgeschlagen
-        delete_conflict: Konnte den Wert nicht löschen, weil eine Aufzeichnung auf ihn
-          verweist
+        delete_conflict: Konnte den Wert nicht löschen, weil eine Aufzeichnung auf
+          ihn verweist
         default_set: Standardwerte-Menge
         created: Wert erstellt
         create_error: Konnte Wert nicht erstellen
@@ -1157,7 +1164,8 @@ de:
         single: Einzelstandort
         delete_confirm_message: <p>Bitte seien Sie sich bewusst, dass Sie <strong>diese
           Aktion nicht rückgängig machen können.</strong>.</p><p> Wenn dieser Standort
-          mit einer oder mehreren Instanzen verknüpft ist, kann er nicht gelöscht werden.</p>
+          mit einer oder mehreren Instanzen verknüpft ist, kann er nicht gelöscht
+          werden.</p>
         show_space_calculator: Suchen mit Platz-Rechner
         add_child: Teilkomponente hinzufügen
   location_batch:
@@ -1173,9 +1181,10 @@ de:
         number_to_create: Anzahl von Standorten
         warning: Abhängig vom Umfang der Bereiche kann der Vorgang ein paar Minuten
           bis zur Fertigstellung dauern.
-        ranges_info: Beachten Sie, dass jegliche Koordinaten-Felder, die in obigem <strong>Basis-Standort</strong>
-          eingegeben wurden, mit den Werten, die durch die Bereiche unten erzeugt wurden,
-          ersetzt werden.  Maximal %{max_range} Standorte werden erstellt werden.
+        ranges_info: Beachten Sie, dass jegliche Koordinaten-Felder, die in obigem
+          <strong>Basis-Standort</strong> eingegeben wurden, mit den Werten, die durch
+          die Bereiche unten erzeugt wurden, ersetzt werden.  Maximal %{max_range}
+          Standorte werden erstellt werden.
         updated: <strong>%{number_created} Standorte</strong> aktualisiert
       action:
         create: Standorte erstellen
@@ -1223,8 +1232,8 @@ de:
         note_definedlist_item: Element hinzufügen
       note_outline:
         placeholder: Anmerkungstext hinzufügen
-        empty_level: Leere Stufe -- Verwenden Sie die Schaltflächen oben, um neue Elemente
-          oder Teilstufen hinzuzufügen
+        empty_level: Leere Stufe -- Verwenden Sie die Schaltflächen oben, um neue
+          Elemente oder Teilstufen hinzuzufügen
   related_accession:
     _frontend:
       action:
@@ -1250,8 +1259,8 @@ de:
         updated: Aufbewahrungsort gespeichert
         deleted: Aufbewahrungsort gelöscht
         selected_short: Ausgewählt
-        changed: Der Aufbewahrungsort <strong>%{repository.repo_code}</strong> ist jetzt
-          aktiviert
+        changed: Der Aufbewahrungsort <strong>%{repository.repo_code}</strong> ist
+          jetzt aktiviert
         create_first_repository: Um Ihren ersten Aufbewahrungsort zu erstellen, klicken
           Sie auf das <strong>System</strong>-Menü oben und wählen dann <strong>Aufbewahrungsorte
           verwalten</strong>.
@@ -1310,8 +1319,8 @@ de:
         save: Ressource speichern
         delete_multiple: Ressourcen löschen
     external_ark_url_tooltip: Außerhalb von ArchivesSpace erzeugter Archival Resource
-      Key (ARK) Permanenter Bezeichner. Wenn dieses Feld einen Wert besitzt, wird dieser
-      gegenüber einem ARK, der innerhalb von ArchivesSpace erzeugt wurde, bevorzugt.
+      Key (ARK) Permanenter Bezeichner. Wenn dieses Feld einen Wert besitzt, wird
+      dieser gegenüber einem ARK, der innerhalb von ArchivesSpace erzeugt wurde, bevorzugt.
     external_ark_url: Externe ARK URL
   preference:
     _frontend:
@@ -1364,8 +1373,8 @@ de:
         deactivated: Nutzer deaktiviert
         error_activate: Nutzer nicht aktiviert
         error_deactivate: Nutzer nicht deaktiviert
-        group_not_required: Nutzer ist ein Administrator oder System-Benutzer. Die Gruppen-Auswahl
-          ist daher nicht erforderlich.
+        group_not_required: Nutzer ist ein Administrator oder System-Benutzer. Die
+          Gruppen-Auswahl ist daher nicht erforderlich.
         deleted: Nutzer gelöscht
         error_update: Nutzer nicht gespeichert
         error_create: Nutzer nicht gespeichert
@@ -1426,8 +1435,8 @@ de:
       sequence_summary: '%{count} Elemente in der Folge:'
       sequence_count_warning: Es gibt mehr Zeilen als Elemente in der Folge.
       sequence_from_required: Von ist erforderlich
-      sequence_summary_with_maxsize: 'Die %{count} Folgen-Werte für Ihre %{limit} Zeilen
-        sind:'
+      sequence_summary_with_maxsize: 'Die %{count} Folgen-Werte für Ihre %{limit}
+        Zeilen sind:'
     save_template:
       save_template: Vorlage speichern
       confirm_removal: Entfernen bestätigen
@@ -1444,39 +1453,39 @@ de:
       error_summary_header: 'Fehler in Zeile:'
       select_prompt: Eine RDE-Vorlage anwenden
       error_prefix: Zeile
-      rows_with_errors: '%{count} Zeile(n) mit einem Fehler - klicken Sie auf ein Feld
-        in der Zeile, um die Fehler für diese Zeile anzuzeigen'
+      rows_with_errors: '%{count} Zeile(n) mit einem Fehler - klicken Sie auf ein
+        Feld in der Zeile, um die Fehler für diese Zeile anzuzeigen'
     help:
       sticky_columns: "<div><strong>Angeheftete Spalten</strong></div>\n<div><small>Hervorgehobene\
         \ Spalten sind angeheftet und werden reproduziert, wenn neue Zeilen hinzugefügt\
         \ werden. Klicken Sie auf die zugehörige Überschrift, um 'Angeheftet' umzuschalten.</small></div>\n\
-        <div><small>Klick auf <strong>Zeile hinzufügen</strong> kopiert Werte der vorherigen\
-        \ Zeile; Die <strong>+</strong> Schaltfläche der Zeile kopiert Werte der derzeit\
-        \ ausgewählten Zeile.</small></div>\n"
+        <div><small>Klick auf <strong>Zeile hinzufügen</strong> kopiert Werte der\
+        \ vorherigen Zeile; Die <strong>+</strong> Schaltfläche der Zeile kopiert\
+        \ Werte der derzeit ausgewählten Zeile.</small></div>\n"
       resize_and_reorder_columns: "<div><strong>Spalten neu anordnen</strong></div>\n\
-        <div><small>Klicken Sie auf <strong>Spalten neu anordnen</strong>, wählen Sie\
-        \ die Zeile(n), die Sie neu anordnen möchten und verwenden die Rauf/Runter-Pfeil-Schaltflächen,\
+        <div><small>Klicken Sie auf <strong>Spalten neu anordnen</strong>, wählen\
+        \ Sie die Zeile(n), die Sie neu anordnen möchten und verwenden die Rauf/Runter-Pfeil-Schaltflächen,\
         \ um ihre Position in der Liste zu verändern. Wenn Sie mit Ihrer neuen Anordnung\
         \ zufrieden sind, klicken Sie <strong>Spalten-Reihenfolge anwenden</strong></small></div>\n"
       reset: "<div><strong>Formular zurücksetzen</strong></div>\n<div><small>Klicken\
         \ Sie <strong>Zurücksetzen</strong>, um das Formular zu leeren und die angehefteten,\
         \ sichtbaren Spalten sowie die Reihenfolge der Spalten auf die Standardwerte\
         \ zurückzusetzen..</small></div>\n"
-      keyboard_shortcuts: "<div><strong>Tastenkürzel</strong></div>\n<div class=\"row\"\
-        ><small><span class=\"span3\">Von Zelle zu Zelle springen:</span>Umschalt +\
-        \ Pfeiltasten</small></div>\n<div class=\"row\"><small><span class=\"span3\"\
+      keyboard_shortcuts: "<div><strong>Tastenkürzel</strong></div>\n<div class=\"\
+        row\"><small><span class=\"span3\">Von Zelle zu Zelle springen:</span>Umschalt\
+        \ + Pfeiltasten</small></div>\n<div class=\"row\"><small><span class=\"span3\"\
         >Eine neue Zeile (von vorheriger Zeile) erstellen:</span> Umschalt + Enter</small></div>\n"
       fill_column: "<div><strong>Spalte füllen - Grundlegend</strong></div>\n<div><small>Um\
         \ eine Spalte mit einem Einzelwert zu füllen, klicken Sie auf <strong>Spalte\
         \ füllen</strong> und wählen die Ziel-<strong>Spalte</strong> unter dem Reiter\
         \ <strong>Grundlegend</strong>, geben den gewünschten <strong>Füllwert</strong>\
-        \ ein und klicken auf <strong>Füllwert anwenden</strong>.</small></div>\n<br/>\n\
-        <div><strong>Spalte füllen - Folge</strong></div>\n<div><small>Um eine Folge\
-        \ auf eine Spalte anzuwenden, klicken Sie auf <strong>Spalte füllen</strong>,\
+        \ ein und klicken auf <strong>Füllwert anwenden</strong>.</small></div>\n\
+        <br/>\n<div><strong>Spalte füllen - Folge</strong></div>\n<div><small>Um eine\
+        \ Folge auf eine Spalte anzuwenden, klicken Sie auf <strong>Spalte füllen</strong>,\
         \ wählen die Ziel-<strong>Spalte</strong> unter dem Reiter <strong>Folge</strong>\
         \ und vervollständigen die Felder von <strong>Füllwert</strong>, um die gewünschte\
-        \ Folge zu erzeugen. Eine Warnung wird angezeigt, wenn die erzeugte Folge nicht\
-        \ zur Anzahl der Zeilen im Formular passt.</small></div>\n"
+        \ Folge zu erzeugen. Eine Warnung wird angezeigt, wenn die erzeugte Folge\
+        \ nicht zur Anzahl der Zeilen im Formular passt.</small></div>\n"
     default_template: Standard-Vorlage
   update_monitor:
     save_failed: <strong>Das Speichern Ihrer Änderung ist fehlgeschlagen</strong>
@@ -1485,9 +1494,10 @@ de:
     other_editors: 'Diese Aufzeichnung wird derzeit von einem anderen Nutzer bearbeitet.  Bitte
       kontaktieren Sie die folgenden Nutzer, um sicherzustellen, dass keine Konflikte
       auftreten: <strong>%{user_ids}</strong>'
-    repository_changed: Diese Aufzeichnung kann nicht gespeichert werden, weil Ihr aktiver
-      Aufbewahrungsort sich geändert hat. Um diese Aufzeichnung zu speichern, öffnen
-      Sie ein weiteres Fenster und setzen Sie Ihren aktiven Aufbewahrungsort zurück.
+    repository_changed: Diese Aufzeichnung kann nicht gespeichert werden, weil Ihr
+      aktiver Aufbewahrungsort sich geändert hat. Um diese Aufzeichnung zu speichern,
+      öffnen Sie ein weiteres Fenster und setzen Sie Ihren aktiven Aufbewahrungsort
+      zurück.
   instance_container:
     container: Behältnis
   used_language:
@@ -1618,8 +1628,8 @@ de:
   database_warning:
     message: <p><strong>Datenbank Warnung:</strong> Sie verwenden derzeit die eingebaute
       Datenbank (Apache Derby). Diese Datenbank ist nur für Tests und Demos geeignet.
-      Sie sollten MySQL für Daten in Produktion oder Daten einer Testinstanz, die Sie
-      auf eine Produktionsinstanz verschieben möchten, verwenden.</p>
+      Sie sollten MySQL für Daten in Produktion oder Daten einer Testinstanz, die
+      Sie auf eine Produktionsinstanz verschieben möchten, verwenden.</p>
   breadcrumb:
     home: Start
   structured_date_single:
@@ -1652,36 +1662,37 @@ de:
       action:
         add: Benutzerdefinierte Felder hinzufügen
   bulk_import_templates:
-    bulk_import_DO_template_csv: Erstellen und verknüpfen Sie digitale Objekte mit bestehenden
-      Archiv-Objekten in einer Ressource. Das CSV-Format ist für Menschen geeignet,
-      die keinen Zugang zu Microsoft Excel haben.
+    bulk_import_DO_template_csv: Erstellen und verknüpfen Sie digitale Objekte mit
+      bestehenden Archiv-Objekten in einer Ressource. Das CSV-Format ist für Menschen
+      geeignet, die keinen Zugang zu Microsoft Excel haben.
     bulk_import_DO_template_xlsx: Erstellen und verknüpfen Sie digitale Objekte mit
       bestehenden Archiv-Objekten in einer Ressource. Das XLSX-Format ist jene, die
       Zugang zu Microsoft Excel haben.
     aspace_location_import_template_csv: Erstellen Sie neue Standort-Aufzeichnungen.
       Bitte beachten Sie, dass diese Vorlage für die Erstellung von Standort-Aufzeichnungen
       selbst ist und nicht zum Verknüpfen von Archivgut mit Standorten.
-    aspace_accession_import_template_csv: Erzeugen Sie Eingangs-Aufzeichnungen und Aufzeichnungen,
-      die mit Eingängen verknüpft werden, wie Akteuren, Themen und Ereignisse.
+    aspace_accession_import_template_csv: Erzeugen Sie Eingangs-Aufzeichnungen und
+      Aufzeichnungen, die mit Eingängen verknüpft werden, wie Akteuren, Themen und
+      Ereignisse.
     bulk_import_template_csv: Erstellen Sie Archiv-Objekte, die an eine bereits bestehende
       Ressource angehängt werden. Enthält eine Option, um viele verschiedene Teilaufzeichnungen
       und verknüpfte Aufzeichnungen wie Daten, Umfang, Anmerkungen, Behältnisse und
-      digitale Objekte zu erstellen. Das CSV-Format ist geeignet für Menschen, die keinen
-      Zugang zu Microsoft Excel haben.
-    overview: "<p>Das sind Vorlagen, um Tabellen-Daten nach ArchivesSpace mittels der\
-      \ verschiedenen Import-Optionen im Hintergrund-Aufgaben Bereich hochzuladen. Die\
-      \ für einen erfolgreichen Import erforderlichen Daten hängen vom Typ der zu erstellenden\
-      \ Aufzeichnung ab. Sie müssen nicht jede Zeile und Spalte ausfüllen.</p><p>Jede\
+      digitale Objekte zu erstellen. Das CSV-Format ist geeignet für Menschen, die
+      keinen Zugang zu Microsoft Excel haben.
+    overview: "<p>Das sind Vorlagen, um Tabellen-Daten nach ArchivesSpace mittels\
+      \ der verschiedenen Import-Optionen im Hintergrund-Aufgaben Bereich hochzuladen.\
+      \ Die für einen erfolgreichen Import erforderlichen Daten hängen vom Typ der\
+      \ zu erstellenden Aufzeichnung ab. Sie müssen nicht jede Zeile und Spalte ausfüllen.</p><p>Jede\
       \ CSV-Vorlage enthält eine Zeile mit Beispieldaten. Sofern Sie keine Aufzeichnung\
       \ mit den Beispieldaten erstellen möchten, löschen Sie bitte die Beispieldaten\
       \ bevor Sie Ihre Tabelle hochladen. <b>Löschen Sie nicht die Kopfzeile, fügen\
       \ Sie keine zusätzlichen Spalten ein und sortieren Sie die verfügbaren Spalten\
-      \ nicht um.</b></p><p>Die Excel-Vorlagen enthalten zusätzliche Hinweise zur Verwendung\
-      \ der Vorlagen und Datenprüfungen für manche Zellen. Löschen Sie die Hinweise\
-      \ und Datenprüfungen nicht.</p>\n"
+      \ nicht um.</b></p><p>Die Excel-Vorlagen enthalten zusätzliche Hinweise zur\
+      \ Verwendung der Vorlagen und Datenprüfungen für manche Zellen. Löschen Sie\
+      \ die Hinweise und Datenprüfungen nicht.</p>\n"
     aspace_digital_object_import_template_csv: Erzeugen Sie Aufzeichnungen für digitale
-      Objekte und Aufzeichnungen, die mit digitalen Objekten verknüpft werden, wie Akteuren,
-      Themen und Ereignisse.
+      Objekte und Aufzeichnungen, die mit digitalen Objekten verknüpft werden, wie
+      Akteuren, Themen und Ereignisse.
     aspace_assessment_import_template_csv: Erstellen und verknüpfen Sie Begutachtungen
       mit bestehenden Eingängen, Ressourcen, Archiv-Objekten oder digitalen Objekten.
     bulk_import_template_xlsx: Erstellen Sie Archiv-Objekte, die an eine bereits bestehende
@@ -1692,10 +1703,10 @@ de:
   top_container:
     restricted: Eingeschränkt?
     managed_container_2_indicator_tooltip: "<p>Ein alphanumerischer Ausdruck, um den\
-      \ Bezeichner des Behältnisses der zweiten Ebene anzugeben, welcher auch die Position\
-      \ des Behältnisses der zweiten Ebene in einer Reihe solcher Behältnisse angeben\
-      \ kann. Bereiche solcher Behältnisse der zweiten Ebene sind auch erlaubt, z.B.\
-      \ Mappe 1-16.</p>\n"
+      \ Bezeichner des Behältnisses der zweiten Ebene anzugeben, welcher auch die\
+      \ Position des Behältnisses der zweiten Ebene in einer Reihe solcher Behältnisse\
+      \ angeben kann. Bereiche solcher Behältnisse der zweiten Ebene sind auch erlaubt,\
+      \ z.B. Mappe 1-16.</p>\n"
     _frontend:
       messages:
         bulk_selection_sort_help: Klicken Sie auf eine Spalte, um die Sortierreihenfolge
@@ -1704,8 +1715,8 @@ de:
         created: Haupt-Behältnis erstellt
         updated: Haupt-Behältnis aktualisiert
         filter_required: Bitte geben Sie einen Filter an
-        max_results_limit_reached: Nicht alle Ergebnisse wurden aufgelistet. Bitte verfeinern
-          Sie Ihre Suche.
+        max_results_limit_reached: Nicht alle Ergebnisse wurden aufgelistet. Bitte
+          verfeinern Sie Ihre Suche.
         max_results_limit_details: Zeige <strong>%{visible}</strong> von <strong>%{num_found}</strong>
           übereinstimmenden Ergebnissen
         results_summary: 'Übereinstimmende Ergebnisse: <strong>%{num_found}</strong>'
@@ -1722,9 +1733,9 @@ de:
         series: Serien
         update_locations_current_location: Aktueller Standort
         batch_delete: Haupt-Behältnisse löschen
-        update_ils_holding_ids_help: Geben Sie einen Wert für die IBS Bestands-ID für
-          alle gewählten Behältnisse ein.  Leer lassen, um den aktuellen Wert zu entfernen
-          ohne ihn mit einem anderen Wert zu ersetzen.
+        update_ils_holding_ids_help: Geben Sie einen Wert für die IBS Bestands-ID
+          für alle gewählten Behältnisse ein.  Leer lassen, um den aktuellen Wert
+          zu entfernen ohne ihn mit einem anderen Wert zu ersetzen.
         batch_merge_instructions: Wählen Sie das Haupt-Behältnis, welches mit allen
           anderen aufgelisteten Haupt-Behältnissen zusammengeführt wird. Verknüpfte
           Eingänge, Ressourcen, Komponenten von Ressourcen und Ereignisse werden mit
@@ -1750,8 +1761,8 @@ de:
           einem anderen Wert zu ersetzen.
         update_locations_singular: 'Standorte aktualisieren: Einzelner Standort'
         update_locations_singular_help: Wählen Sie einen Standort für alle gewählten
-          Behältnisse.  Leer lassen, um den aktuellen Wert zu entfernen, ohne ihn mit
-          einem anderen Wert zu ersetzen.
+          Behältnisse.  Leer lassen, um den aktuellen Wert zu entfernen, ohne ihn
+          mit einem anderen Wert zu ersetzen.
         update_locations_multiple: 'Standorte aktualisieren: Mehrere Standorte'
         update_locations_multiple_help: Wählen Sie einen Standort für jedes gewählte
           Behältnis.  Leer lassen, um den aktuellen Wert zu entfernen, ohne ihn mit
@@ -1768,8 +1779,8 @@ de:
           Haupt-Behältnisse zusammenführen möchten? Diese Aktion kann nicht rückgängig
           gemacht werden.
         batch_merge_container_profile_too_many_warning: Diese Haupt-Behältnisse haben
-          verschiedene Behältnis-Profile. Keines dieser Behältnis-Profile wird mit dem
-          Ziel-Behältnis zusammengeführt werden.
+          verschiedene Behältnis-Profile. Keines dieser Behältnis-Profile wird mit
+          dem Ziel-Behältnis zusammengeführt werden.
         batch_merge_container_profile_mismatch_warning: Diese Haupt-Behältnisse haben
           verschiedene vom Ziel-Behältnis verschiedene Behältnis-Profile. Das Behältnis-Profile
           wird nicht mit dem Ziel-Behältnis zusammengeführt werden.
@@ -1794,19 +1805,19 @@ de:
       \ in welchem das beschriebene Archivgut aufbewahrt wird.</p>\n<p>Werte in dieser\
       \ Kontrollierte-Werte-Liste können bearbeitet werden.</p>\n"
     managed_container_3_indicator_tooltip: "<p>Ein alphanumerischer Ausdruck, um den\
-      \ Bezeichner des Behältnisses der dritten Ebene anzugeben, welcher auch die Position\
-      \ des Behältnisses der dritten Ebene in einer Reihe solcher Behältnisse angeben\
-      \ kann. Bereiche solcher Behältnisse der dritten Ebene sind auch erlaubt, z.B.\
-      \ Mappe 1-16.</p>\n"
+      \ Bezeichner des Behältnisses der dritten Ebene anzugeben, welcher auch die\
+      \ Position des Behältnisses der dritten Ebene in einer Reihe solcher Behältnisse\
+      \ angeben kann. Bereiche solcher Behältnisse der dritten Ebene sind auch erlaubt,\
+      \ z.B. Mappe 1-16.</p>\n"
     container_profile: Behältnis-Profil
     container_profile_tooltip: "<p>Eine Beschreibung verschiedener Eigenschaften einer\
       \ speziellen Art von Behältnis inklusive Dimensionen.</p>\n"
     indicator: Kennzeichner
     barcode: Strichcode
-    barcode_tooltip: "<p>Wird verwendet, um den Strichcode anzugeben, welcher das Haupt-Behältnis\
-      \ eindeutig identifiziert.</p>\n"
-    indicator_tooltip: "<p>ERFORDERLICHES FELD. Ein alphanumerischer Ausdruck, um den\
-      \ Ort des Haupt-Behältnisses anzugeben, welcher auch die Position des Behältnisses\
+    barcode_tooltip: "<p>Wird verwendet, um den Strichcode anzugeben, welcher das\
+      \ Haupt-Behältnis eindeutig identifiziert.</p>\n"
+    indicator_tooltip: "<p>ERFORDERLICHES FELD. Ein alphanumerischer Ausdruck, um\
+      \ den Ort des Haupt-Behältnisses anzugeben, welcher auch die Position des Behältnisses\
       \ in einer Reihe solcher Behältnisse sein kann.</p>\n"
     type: Behältnis-Typ
     type_tooltip: "<p>Der Typ des Haupt-Behältnisses.</p>\n<p>Werte in dieser Kontrollierten-Werte-Liste\
@@ -1863,14 +1874,14 @@ de:
       section:
         basic_information: Grundlegende Informationen
     extent_dimension: Umfangs-Einheit
-    extent_dimension_width_tooltip: "<p>Numerischer Wert für die Breite (Abmessung von\
-      \ Seite zu Seite) des Behältnisses.</p>\n"
+    extent_dimension_width_tooltip: "<p>Numerischer Wert für die Breite (Abmessung\
+      \ von Seite zu Seite) des Behältnisses.</p>\n"
     height: Höhe
     url: URL
     dimension_units_tooltip: "<p>Maßeinheit für Abmessungen.</p>\n<p>Werte in dieser\
       \ Kontrollierte-Werte-Liste können bearbeitet werden.</p>\n"
-    extent_dimension_height_tooltip: "<p>Numerischer Wert für die Höhe (Abmessung der\
-      \ Ober- zur Unterseite) des Behältnisses.</p>\n"
+    extent_dimension_height_tooltip: "<p>Numerischer Wert für die Höhe (Abmessung\
+      \ der Ober- zur Unterseite) des Behältnisses.</p>\n"
     stacking_limit_tooltip: "<p>Die Anzahl von Behältnissen, die übereinander gestapelt\
       \ werden können. Leer lassen, wenn es keine Obergrenze gibt. Muss eine positive\
       \ Ganzzahl sein.</p>\n"
@@ -1881,8 +1892,8 @@ de:
       <li>Paige 15</li>\n<li>Ablagebox für Kärtchen</li>\n</ul>\n"
     url_tooltip: "<p>Ein Hyperlink für eine externe Beschreibung des Behältnisses.</p>\n"
     extent_dimension_depth: Tiefe
-    extent_dimension_depth_tooltip: "<p>Numerischer Wert für die Tiefe (Abmessung der\
-      \ Vorder- zur Rückseite) des Behältnisses.</p>\n"
+    extent_dimension_depth_tooltip: "<p>Numerischer Wert für die Tiefe (Abmessung\
+      \ der Vorder- zur Rückseite) des Behältnisses.</p>\n"
     dimension_units: Abmessungs-Einheiten
     extent_dimension_height: Höhe
     extent_dimension_width: Breite
@@ -1903,26 +1914,26 @@ de:
       gedrückt, um mehrere Optionen auszuwählen oder eine Option abzuwählen
     begin_tooltip: "<p>Für eine zeitabhängige Einschränkung das Beginn-Datum für eine\
       \ Zugriffsbeschränkung. Muss ein einzelnes Datum der Form JJJJ-MM-TT sein. Wird\
-      \ von den Behältnissen entfernt, wenn sie abgelaufen ist. Verwenden Sie den Anmerkungstext,\
-      \ um ein weniger genaues Datum oder einen Zeitraum anzugeben.</p>\n"
+      \ von den Behältnissen entfernt, wenn sie abgelaufen ist. Verwenden Sie den\
+      \ Anmerkungstext, um ein weniger genaues Datum oder einen Zeitraum anzugeben.</p>\n"
     begin: Beginn der Einschränkung
     end: Ende der Einschränkung
     local_access_restriction_type: Lokaler Zugriffsbeschränkungs-Typ
-    local_access_restriction_type_tooltip: "<p>Angabe des Grunds der Einschränkung für\
-      \ Einschränkungen, die nicht zeitbasiert sind.</p>\n<p>Werte in dieser Kontrollierten-Werte-Liste\
+    local_access_restriction_type_tooltip: "<p>Angabe des Grunds der Einschränkung\
+      \ für Einschränkungen, die nicht zeitbasiert sind.</p>\n<p>Werte in dieser Kontrollierten-Werte-Liste\
       \ können bearbeitet werden.</p>\n"
     linked_records: Verknüpfte Aufzeichnung
     restriction_note_type: Art der Anmerkung
     end_tooltip: "<p>Für eine zeitabhängige Einschränkung, das End-Datum der Zugriffsbeschränkung.\
       \ Muss ein einzelnes Datum der Form JJJJ-MM-TT sein. Wird vom Behältnis entfernt,\
-      \ wenn sie abgelaufen ist. Verwenden Sie den Anmerkungstext, um ein weniger genaues\
-      \ Datum oder einen Zeitraum anzugeben.</p>\n"
+      \ wenn sie abgelaufen ist. Verwenden Sie den Anmerkungstext, um ein weniger\
+      \ genaues Datum oder einen Zeitraum anzugeben.</p>\n"
   location_profile:
     _frontend:
       messages:
-        fields_required_for_calculator: 'Bitte beachten Sie: Abmessungs-Einheiten, Tiefe,
-          Höhe und Breite werden alle für den Platz-Rechner benötigt. Standorte werden
-          von den Ergebnissen ausgenommen, wenn irgendwelche dieser Werte fehlen.'
+        fields_required_for_calculator: 'Bitte beachten Sie: Abmessungs-Einheiten,
+          Tiefe, Höhe und Breite werden alle für den Platz-Rechner benötigt. Standorte
+          werden von den Ergebnissen ausgenommen, wenn irgendwelche dieser Werte fehlen.'
         created: Standort-Profil erstellt
         updated: Standort-Profil aktualisiert
       action:
@@ -1940,8 +1951,8 @@ de:
     height: Höhe
   extent_calculator:
     create_extent_record_message: Führen Sie den Umfangs-Rechner im Bearbeiten-Modus
-      aus, um die Möglichkeit zu haben, eine Umfang-Aufzeichnung basierend auf dem Bericht
-      zu erstellen.
+      aus, um die Möglichkeit zu haben, eine Umfang-Aufzeichnung basierend auf dem
+      Bericht zu erstellen.
     container_profile_header: Behältnis-Profil
     count_header: Anzahl
     no_profile: <span class="text-error">KEIN PROFIL</span>
@@ -1955,8 +1966,8 @@ de:
     create_extent: Umfang erstellen
     calculate_extent: Umfang berechnen
     waiting_for_report_message: Berechne Umfang ...
-    no_object_message: Bitte geben Sie ein Objekt an, auf dem der Umfangs-Rechner ausgeführt
-      werden soll.
+    no_object_message: Bitte geben Sie ein Objekt an, auf dem der Umfangs-Rechner
+      ausgeführt werden soll.
     report_title: Bericht für berechneten Umfang
   space_calculator:
     message_select_locations: 'Prüfen Sie den freien Platz in folgenden Standorten:'
@@ -1982,8 +1993,8 @@ de:
     message_no_locations_with_space: Keine Standorte mit freiem Platz gefunden
     message_total_spaces: 'Gesamtanzahl der verfügbaren Bereiche für diesen Behältnis-Typ:
       %{total_spaces}'
-    message_total_containers: 'Gesamtanzahl der Behältnisse dieses Typs an diesen Standorten:
-      %{total_containers}'
+    message_total_containers: 'Gesamtanzahl der Behältnisse dieses Typs an diesen
+      Standorten: %{total_containers}'
     message_loading: Lade...
     count: Freier Platz (nach Behältnis-Typ)
     calculate_space: Freien Platz überprüfen
@@ -2041,8 +2052,8 @@ de:
         created: Begutachtung erstellt
         updated: Begutachtung aktualisiert
         deleted: Begutachtung gelöscht
-        attributes_hint: Bitte kontaktieren Sie Ihren Administrator, damit dieser zusätzliche
-          %{attribute_type} hinzufügt
+        attributes_hint: Bitte kontaktieren Sie Ihren Administrator, damit dieser
+          zusätzliche %{attribute_type} hinzufügt
         manage_attributes_hint: Die zusätzlichen %{attribute_type} für diesen Aufbewahrungsort
           verwalten
       assessment_completed:
@@ -2244,16 +2255,16 @@ de:
     _plural: Alternative Namen
     use_dates: Verwendungs-Daten
   section_headings:
-    record_control_information_tooltip: "<p>Dieser Abschnitt enthält Informationen über\
-      \ die Aufzeichnung selbst, mit der Erwartung, dass er außerhalb von ArchivesSpace\
+    record_control_information_tooltip: "<p>Dieser Abschnitt enthält Informationen\
+      \ über die Aufzeichnung selbst, mit der Erwartung, dass er außerhalb von ArchivesSpace\
       \ entstanden ist oder mit einem von ArchivesSpace verschiedenen System geteilt\
       \ werden wird.</p>\n"
     identity_information_tooltip: "<p>Dieser Abschnitt enthält die wesentlichen Informationen\
       \ über den Akteur selbst. Eine Namensform ist die einzige verpflichtende Teilaufzeichnung\
       \ in einer Akteurs-Aufzeichnung.</p>\n"
-    description_information_tooltip: "<p>Dieser Abschnitt enthält die wesentlichen Informationen\
-      \ über den Akteur selbst. Eine Namensform ist die einzige verpflichtende Teilaufzeichnung\
-      \ in einer Akteurs-Aufzeichnung.</p>\n"
+    description_information_tooltip: "<p>Dieser Abschnitt enthält die wesentlichen\
+      \ Informationen über den Akteur selbst. Eine Namensform ist die einzige verpflichtende\
+      \ Teilaufzeichnung in einer Akteurs-Aufzeichnung.</p>\n"
     relation_information_tooltip: "<p>Dieser Abschnitt wird dazu verwendet, um Beziehungen\
       \ zu anderen Akteuren oder Archivgut innerhalb oder außerhalb von ArchivesSpace\
       \ anzugeben.</p>\n"
