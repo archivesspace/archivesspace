@@ -37,8 +37,8 @@ de:
     note: Anmerkungen für Mitarbeitende
     submit: Anfrage absenden
     date: Erwartetes Ankunftsdatum
-    submitted: Vielen Dank, Ihre Anfrage wurde gesendet.  Sie erhalten in Kürze eine E-Mail mit einer Kopie
-      Ihrer Anfrage.
+    submitted: Vielen Dank, Ihre Anfrage wurde gesendet.  Sie erhalten in Kürze eine E-Mail mit einer
+      Kopie Ihrer Anfrage.
     errors:
       name: Bitte geben Sie Ihren Namen ein
       email: Bitte geben Sie eine gültige E-Mail-Adresse ein
@@ -148,7 +148,7 @@ de:
     inherited: 'Vom %{level}:'
     collection: Sammlung
     series: Serie
-    sub-series: Sub-Serie
+    sub-series: Teilserie
     class: Klasse
     file: Datei
     fonds: Bestand
@@ -156,11 +156,12 @@ de:
     otherlevel: Andere Ebene
     recordgrp: Aufzeichnungs-Gruppe
     subfonds: Teilbestand
-    subgrp: Sub-Gruppe
+    subgrp: Teilgruppe
   errors:
-    error_404_message: Die %{type} Aufzeichnung, die Sie aufrufen wollten, existiert nicht oder wurde entfernt.
-    backend_down_message: ArchivesSpace hat technische Schwierigkeiten. Wir entschuldigen uns für die Unannehmlichkeiten.
-      Bitte versuchen Sie es später noch einmal.
+    error_404_message: Die %{type} Aufzeichnung, die Sie aufrufen wollten, existiert nicht oder wurde
+      entfernt.
+    backend_down_message: ArchivesSpace hat technische Schwierigkeiten. Wir entschuldigen uns für die
+      Unannehmlichkeiten. Bitte versuchen Sie es später noch einmal.
     backend_down: Konnte nicht mit der Datenbank verbinden
     unexpected_error: Ihre Anfrage konnte wegen einem unerwartetem Fehler nicht abgeschlossen werden
     error_404: '%{type} Aufzeichnung nicht gefunden'
