@@ -1015,7 +1015,7 @@ de:
     script_tooltip: "<p>Die dem Akteur zugeordnete Schrift. Beispiel: Lateinische Schrift.</p>\n"
   agent_gender:
     gender_tooltip: "<p>Geschlecht des Subjekts.</p></br><p>Werte für diese Liste können über das Menü\
-      \ System -> Kontrollierte-Wert-Listen verwalten hinzugefügt oder geändert werden.</p>\n"
+      \ System -> Kontrollierte-Werte-Listen verwalten hinzugefügt oder geändert werden.</p>\n"
   agent_resource:
     linked_resource_tooltip: "<p>Eine Ressource, die sich auf den Akteur/die Entität bezieht.</p>\n"
     file_version_xlink_actuate_attribute_tooltip: "<p>Gibt an, ob der zugehörige URI beim Anzeigen der\
