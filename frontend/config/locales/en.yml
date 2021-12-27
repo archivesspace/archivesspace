@@ -556,6 +556,11 @@ en:
   header:
     staff_interface: ArchivesSpace Staff Interface
 
+  footer:
+    public_interface: View <a href="%{public_url}">Public Interface</a>
+    archivesspace_home: Visit <a href='http://archivesspace.org'>ArchivesSpace.org</a>
+    feedback: <a id='aspaceFeedbackLink' href='%{feedback_url}' target='_blank'>Send Feedback or Report a Problem</a>
+
   session:
     gone: Your backend session was not found
     expired: Your session expired due to inactivity
