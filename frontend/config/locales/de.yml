@@ -83,8 +83,8 @@ de:
       bis diese Konflikte behoben sind
     delete_multiple: Aufzeichnungen löschen
     delete_multiple_confirm_title: Aufzeichnungen löschen?
-    reset: Vorgaben zurücksetzen
-    reset_confirm_title: '%{preftype} auf Andwendungs-Vorgaben zurücksetzen?'
+    reset: Auf Standardwerte zurücksetzen
+    reset_confirm_title: '%{preftype} auf Anwendungs-Standardwerte zurücksetzen?'
     reset_confirm_message: <p>Bitte seien Sie sich bewusst, dass Sie <strong>diese
       Aktion nicht rückgängig machen können</strong>.</p><p>Damit werden Voreinstellungen
       auf Anwendungs-Vorgaben zurückgesetzt.</p>
@@ -250,7 +250,7 @@ de:
     select: Auswählen
   navbar:
     toggle_navigation: Navigation umschalten
-    become-user: Als Nutzer ausgeben
+    become-user: Als Benutzer ausgeben
     brand: ArchivesSpace
     create: Erstellen
     import: Importieren
@@ -266,14 +266,14 @@ de:
     plugins: Zusatzmodule
     repositories_manage: Aufbewahrungsorte verwalten
     oai_config: OAI-PMH Einstellungen verwalten
-    manage_users: Nutzer verwalten
+    manage_users: Benutzer verwalten
     manage_container_profiles: Behältnis-Profile verwalten
     manage_location_profiles: Standort-Profile verwalten
-    manage_enumerations: Festgelegte-Werte Listen verwalten
+    manage_enumerations: Kontrollierte-Werte-Listen verwalten
     global_preferences: Globale Einstellungen
-    user_repo_preferences: Nutzer-Einstellungen
+    user_repo_preferences: Benutzer-Einstellungen
     repo_preferences: Aufbewahrungsort-Einstellungen
-    manage_user_access: Nutzerzugang verwalten
+    manage_user_access: Benutzerzugang verwalten
     logout: Abmelden
     register: Jetzt registrieren
     list_reports: Berichte
@@ -522,7 +522,7 @@ de:
       score: Relevanz
       primary_type: Typ des Akteurs
       publish: Veröffentlicht
-      is_user: Ist Nutzer?
+      is_user: Ist Benutzer?
       audit_info: Prüfinformation
       user_mtime: Geändert
       asc: Aufsteigend
@@ -694,9 +694,9 @@ de:
     blank_facet_query_fields:
       owner_repo_display_string_u_ssort: Aufbewahrungsort
   become-user:
-    success: Nutzer erfolgreich gewechselt
-    become-user: Als Nutzer ausgeben
-    failed: Konnte nicht zum angegebenen Nutzer wechseln
+    success: Benutzer erfolgreich gewechselt
+    become-user: Als Benutzer ausgeben
+    failed: Konnte nicht zum angegebenen Benutzer wechseln
   header:
     staff_interface: ArchivesSpace Verwaltungsoberfläche
   session:
@@ -807,7 +807,7 @@ de:
     error_tree_pane_ajax: Ein Fehler trat beim Laden dieses Formulars auf.
     merge_different_types: Die Akteure für das Zusammenführen müssen vom selben Typ
       sein.
-    merge_denied_for_system_user: Ein oder mehrere Akteure ist ein Benutzer.
+    merge_denied_for_system_user: Ein oder mehrere Akteure sind Benutzer.
     merge_denied_relationship: Diese Akteure haben eine Beziehung. Entfernen Sie die
       Beziehung bevor Sie mit dem Zusammenführen fortfahren.
     linked_to_assessment: Die Aufzeichnung kann nicht gelöscht werden, weil Sie mit
@@ -1091,9 +1091,9 @@ de:
         merged: Wert zusammengeführt
         merge_tip: Dieser Wert kann mit einem anderen zusammengeführt werden
         merge_error: Werte zusammenführen fehlgeschlagen
-        no_selection: Bitte wählen Sie eine Kontrollierte-Wert-Liste
+        no_selection: Bitte wählen Sie eine Kontrollierte-Werte-Liste
         name_selector: Listenname
-        name_selector_tooltip: "<p>Die Kontrollierte-Wert-Liste zum Bearbeiten.</p>\n"
+        name_selector_tooltip: "<p>Die Kontrollierte-Werte-Liste zum Bearbeiten.</p>\n"
         no_name_provided: Wählen Sie eine Werte-Liste bevor Sie einen neuen Wert erstellen
         value_updated: Wert aktualisiert
       action:
@@ -1330,7 +1330,7 @@ de:
         reset_error: 'Konnte Voreinstellungen wegen einem Fehler nicht zurücksetzen:
           %{exception}'
       action:
-        save: Voreinstellungen speichern
+        save: Einstellungen speichern
   rights_statement:
     _frontend:
       action:
@@ -1367,30 +1367,30 @@ de:
       messages:
         access_denied: Zugriff verweigert. Melden Sie sich als Administrator an, um
           diese Aktion durchzuführen.
-        created: Nutzer erstellt
-        updated: Nutzer gespeichert
-        activated: Nutzer aktiviert
-        deactivated: Nutzer deaktiviert
-        error_activate: Nutzer nicht aktiviert
-        error_deactivate: Nutzer nicht deaktiviert
-        group_not_required: Nutzer ist ein Administrator oder System-Benutzer. Die
+        created: Benutzer erstellt
+        updated: Benutzer gespeichert
+        activated: Benutzer aktiviert
+        deactivated: Benutzer deaktiviert
+        error_activate: Benutzer nicht aktiviert
+        error_deactivate: Benutzer nicht deaktiviert
+        group_not_required: Benutzer ist ein Administrator oder System-Benutzer. Die
           Gruppen-Auswahl ist daher nicht erforderlich.
-        deleted: Nutzer gelöscht
-        error_update: Nutzer nicht gespeichert
-        error_create: Nutzer nicht gespeichert
+        deleted: Benutzer gelöscht
+        error_update: Benutzer nicht gespeichert
+        error_create: Benutzer nicht gespeichert
       section:
-        manage_access: Nutzerzugriff verwalten
+        manage_access: Benutzerzugriff verwalten
         edit_account_submit: Benutzerkonto aktualisieren
         account: Benutzerkonto
         edit_account: Benutzerkonto bearbeiten
       action:
         create_account: Benutzerkonto erstellen
-        show_active: Aktive Nutzer anzeigen
-        show_inactive: Inaktive Nutzer anzeigen
+        show_active: Aktive Benutzer anzeigen
+        show_inactive: Inaktive Benutzer anzeigen
         deactivate_user: Deaktivieren
-        edit: Nutzer bearbeiten
+        edit: Benutzer bearbeiten
         update_account: Benutzerkonto aktualisieren
-        create: Nutzer erstellen
+        create: Benutzer erstellen
         activate_user: Aktivieren
   use_date:
     _frontend:
@@ -1489,10 +1489,10 @@ de:
     default_template: Standard-Vorlage
   update_monitor:
     save_failed: <strong>Das Speichern Ihrer Änderung ist fehlgeschlagen</strong>
-    stale_record: Diese Aufzeichnung wurde von einem anderen Nutzer bearbeitet. Bitte
-      laden Sie die Seite neu, um die neueste Version zu sehen.
-    other_editors: 'Diese Aufzeichnung wird derzeit von einem anderen Nutzer bearbeitet.  Bitte
-      kontaktieren Sie die folgenden Nutzer, um sicherzustellen, dass keine Konflikte
+    stale_record: Diese Aufzeichnung wurde von einem anderen Benutzer bearbeitet.
+      Bitte laden Sie die Seite neu, um die neueste Version zu sehen.
+    other_editors: 'Diese Aufzeichnung wird derzeit von einem anderen Benutzer bearbeitet.  Bitte
+      kontaktieren Sie die folgenden Benutzer, um sicherzustellen, dass keine Konflikte
       auftreten: <strong>%{user_ids}</strong>'
     repository_changed: Diese Aufzeichnung kann nicht gespeichert werden, weil Ihr
       aktiver Aufbewahrungsort sich geändert hat. Um diese Aufzeichnung zu speichern,
