@@ -1,14 +1,3 @@
-GIT
-  remote: https://github.com/archivesspace/mizuno
-  revision: d5c963a70c3ea6144df941801975179b03dfaa5c
-  branch: master
-  specs:
-    mizuno (9.4.44)
-      childprocess (>= 0.2.6)
-      choice (>= 0.1.0)
-      ffi (>= 1.0.0)
-      rack (>= 1.0.0)
-
 GEM
   remote: https://rubygems.org/
   specs:
@@ -161,6 +150,11 @@ GEM
     mime-types-data (3.2021.0704)
     mini_mime (1.1.0)
     minitest (5.14.4)
+    mizuno-aspace (9.4.44)
+      childprocess (>= 0.2.6)
+      choice (>= 0.1.0)
+      ffi (>= 1.0.0)
+      rack (>= 1.0.0)
     multi_json (1.15.0)
     multipart-post (1.2.0)
     net-http-digest_auth (1.4.1)
@@ -331,7 +325,7 @@ DEPENDENCIES
   less-rails-bootstrap
   loofah (>= 2.2.3)
   mechanize
-  mizuno!
+  mizuno-aspace
   multi_json (~> 1.15.0)
   multipart-post (= 1.2.0)
   net-http-persistent (= 2.8)
