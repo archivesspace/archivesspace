@@ -19,6 +19,8 @@
   end
 %>
 
+<% username = CGI::escapeHTML(session[:user]) %>
+
 <%= setup_context(:title => title) %>
 
 <%= form_for @preference, :as => "preference", :url => {:action => :update, :id => @preference.id}, :html => {:class => 'form-horizontal aspace-record-form'}.merge(update_monitor_params(@preference)) do |f| %>
@@ -43,7 +45,7 @@
         <%= render_aspace_partial :partial => "toolbar" %>
         <div class="record-pane">
           <%= link_to_help :topic => "preference" %>
-          <h2><%= title %></h2>
+          <h2><%= title + " (#{username})" %></h2>
           <div class="alert alert-info">
             <%= message.force_encoding("UTF-8") %>
           </div>
