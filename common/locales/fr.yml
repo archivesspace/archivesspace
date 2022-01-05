@@ -123,7 +123,7 @@ fr:
       <ul>
       <li>http://hdl.handle.net/1813/13524</li>
       </ul>
-    publish: Publier?
+    publish: Publier ?
     publish_tooltip: |
       <p>Détermine si cet objet numérique ou ce composant sera publié sur les interfaces publiques.</p>
     level: VRA Core Level
@@ -1815,6 +1815,8 @@ fr:
       <p>Détermine si ce service d'archives et les notices qu'il peut contenir seront publiés sur les interfaces publiques.</p>
 
 
+    ark_shoulder: ARK Shoulder (espace de noms local)
+    ark_shoulder_tooltip: Chaîne par référentiel à inclure dans les ARK générés
   term:
     # tooltips not displaying
     term: Terme
@@ -2065,6 +2067,8 @@ fr:
     _singular: Valeurs par défaut
     _plural: Valeurs par défaut
 
+    rde_sort_alpha: Afficher les modèles RDE par ordre alphabétique ?
+    include_unpublished: Inclure les enregistrements non publiés dans les exportations ?
   reports:
     parameters:
       from: Du
@@ -2175,6 +2179,14 @@ fr:
 
     subrecord_not_allowed_for_agent_software: Les agents logiciels ne peuvent pas avoir de contrôle d'enregistrement
       ou de sous-enregistrements de relation
+    ark_collision: Un problème est survenu lors de la génération d'une ARK pour cet enregistrement. Veuillez
+      contacter votre administrateur système.
+    external_ark_collision: ARK externe déjà utilisé
+    ark_format_error: L'une des ARK fournies n'était pas une ARK valide.
+    missing_start_filter_date: Les dates de début et de fin sont nécessaires pour filtrer par date. Veuillez
+      indiquer une date de début.
+    missing_end_filter_date: Les dates de début et de fin sont nécessaires pour filtrer par date. Veuillez
+      indiquer une date de fin.
   job:
     _singular: Tâche d'arrière-plan
     _plural: Tâches d'arrière-plan
@@ -2231,6 +2243,10 @@ fr:
     import_type_marcxml_accession: MarcXML (Entrée)
     import_type_marcxml_subjects_and_agents: MarcXML (sujets et agents uniquement)
 
+    bulk_import_csv: Importation en vrac AO CSV
+    bulk_import_xlsx: Importation en vrac AO XLSX
+    bulk_import_DO_xlsx: Importation en vrac DO XLSX
+    bulk_import_DO_csv: Importation en vrac DO CSV
   find_and_replace_job:
     _singular: Tâche chercher et remplacer
     find: Chaîne de caractères à trouver
@@ -2576,12 +2592,12 @@ fr:
     description: Description
     record_type: Type de notice ou de sous-notice
     display: Afficher?
-    values: Valeurs
-    value: Valeur
+    values: Affiner par valeurs
+    value: Affiner par valeur
     "true": "Oui"
     "false": "No"
-    start_date: Date de début
-    end_date: Date de fin
+    start_date: Affiner par date de début
+    end_date: Affiner par date de fin
     field: Champ
     _singular: Modèle de rapport personnalisé
     _plural: Modèles de rapports personnalisés
@@ -2728,6 +2744,7 @@ fr:
 
       find_tc: Impossible de trouver le conteneur supérieur avec les paramètres : %{where}.
       sc_barcode: Impossible de trouver un sous-conteneur avec ce code-barres enfant %{barcode}
+    templates: Modèles d'importation en bloc
   parallel_name_person:
     <<: *agent_name_attributes
     _singular: Nom parallèle
@@ -3098,3 +3115,22 @@ fr:
     _plural: Formats
   last_modified_by: Dernière modification par
   create_time: Créé
+  arks:
+    no_changes: Aucun changement à enregistrer
+    save: Enregistrer les ARKs
+    ark_editor_errors:
+      ark_collision: L'une des ARK fournies est déjà utilisée.
+      ark_format_error: L'une des ARK fournies n'était pas une ARK valide.
+    ark: ARK
+    edit: Editez ARKs
+    modal_title: Editez ARKs pour l'enregistrement actuel
+    current: Actuelle
+    remove_ark: Supprimer
+    add_new: Ajouter une nouvelle ARK
+    set_current: Définir sur actuel
+    unsubmitted_input: Vous avez une entrée non soumise
+    only_current_ark_can_be_external: L'ARK actuelle ne peut pas être remplacée tant qu'elle est marquée
+      comme externe.
+  bulk_import_template:
+    _singular: Modèle d'importation en bloc
+    _plural: Modèles d'importation en bloc
