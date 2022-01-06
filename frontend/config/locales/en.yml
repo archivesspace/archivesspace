@@ -547,7 +547,7 @@ en:
     manage_enumerations: Manage Controlled Value Lists
     global_preferences: Global Preferences
     global_settings: Global Settings
-    user_repo_preferences: User Preferences
+    user_repo_preferences: Repository Preferences
     repo_preferences: Repository Preferences
     manage_user_access: Manage User Access
     logout: Logout
