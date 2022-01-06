@@ -70,7 +70,7 @@
 
     var PGUP = 33;
     var PGDN = 34;
-    var SPC = 32;
+    var CTRL = 17;
 
     var DOWN = 40;
     var UP = 38;
@@ -78,10 +78,10 @@
     $(document).on('keydown', function (e) {
       var viewportHeight = self.wrapper.height();
 
-      if (e.keyCode == PGDN || (e.keyCode == SPC && !e.shiftKey)) {
+      if (e.keyCode == PGDN || (e.keyCode == CTRL && !e.shiftKey)) {
         self.scrollBy(viewportHeight);
         e.preventDefault();
-      } else if (e.keyCode == PGUP || (e.keyCode == SPC && e.shiftKey)) {
+      } else if (e.keyCode == PGUP || (e.keyCode == CTRL && e.shiftKey)) {
         self.scrollBy(0 - viewportHeight);
         e.preventDefault();
       } else if (e.keyCode == DOWN) {
