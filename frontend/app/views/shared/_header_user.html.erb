@@ -1,4 +1,4 @@
-<% username = CGI::escapeHTML(session[:user]) %>
+<% username = session[:user] ? CGI::escapeHTML(session[:user]) : "" %>
 
 <% if session[:user] %>
   <% if @repositories.length > 0 %>

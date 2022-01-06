@@ -19,7 +19,7 @@
   end
 %>
 
-<% username = CGI::escapeHTML(session[:user]) %>
+<% username = session[:user] ? CGI::escapeHTML(session[:user]) : "" %>
 
 <%= setup_context(:title => title) %>
 
