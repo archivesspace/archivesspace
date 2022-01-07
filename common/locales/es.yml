@@ -1790,6 +1790,7 @@ es:
       <p>Determina si este Repositorio y cualquier registro que contenga se publicarán en interfaces públicas (usuarios).</p>
 
     ark_shoulder_tooltip: Cadena por repositorio que se incluirá en las ARK generadas
+    ark_shoulder: ARK Shoulder (espacio de nombres local)
   term:
     # tooltips not displaying:
     term: Término
@@ -2037,6 +2038,8 @@ es:
     _singular: Valores predeterminados
     _plural: Valores predeterminados
 
+    include_unpublished: ¿Incluir registros no publicados en las exportaciones?
+    rde_sort_alpha: ¿Mostrar plantillas RDE alfabéticamente?
   reports:
     parameters:
       from: De
@@ -2149,6 +2152,10 @@ es:
       Indique una fecha de finalización.
     missing_start_filter_date: Las fechas de inicio y finalización son necesarias para filtrar por fecha.
       Proporcione una fecha de inicio.
+    ark_collision: Hubo un problema al generar un ARK para este registro. Por favor, póngase en contacto
+      con el administrador del sistema.
+    external_ark_collision: ARK externo ya en uso
+    ark_format_error: Uno de los ARK proporcionados no era un ARK válido.
   job:
     _singular: Tarea en el background
     _plural: Tareas en el background
@@ -2205,6 +2212,10 @@ es:
     import_type_marcxml_accession: MarcXML (adquisición)
     import_type_marcxml_subjects_and_agents: MarcXML (sujetos y autoridads solamente)
 
+    bulk_import_csv: Importación masiva AO CSV
+    bulk_import_DO_xlsx: Importación masiva DO XLSX
+    bulk_import_xlsx: Importación masiva AO XLSX
+    bulk_import_DO_csv: Importación masiva DO CSV
   find_and_replace_job:
     _singular: Tarea de búsqueda y reemplazo
     find: Cadena de caracteres a encontrar
@@ -2567,12 +2578,12 @@ es:
     description: Descripción
     record_type: Tipo de recuerdo
     display: ¿Monitor?
-    values: Valor
-    value: Valores
+    values: Limitar por valores
+    value: Limitar por valor
     "true": "Si"
     "false": "No"
-    start_date: Fecha de inicio
-    end_date: Fecha final
+    start_date: Limitar por fecha de inicio
+    end_date: Limitar por fecha de finalización
     field: Campo
     _singular: Plantilla de informe personalizado
     _plural: Plantillas de informes personalizados
@@ -2719,6 +2730,7 @@ es:
       find_tc: No se puede encontrar el contenedor superior con los parámetros:% {where}.
       sc_barcode: No se puede encontrar un contenedor secundario con este código de barras secundario%
         {código de barras}
+    templates: Plantillas de importación masiva
   dates_of_existence:
     _frontend:
       action:
@@ -3099,3 +3111,22 @@ es:
   resource_and_archival_object:
     _singular: Recurso y / u objeto de archivo
     _plural: Recursos y / u objetos de archivo
+  bulk_import_template:
+    _plural: Plantillas de importación masiva
+    _singular: Plantilla de importación masiva
+  arks:
+    ark_editor_errors:
+      ark_collision: Uno de los ARK proporcionados ya está en uso.
+      ark_format_error: Uno de los ARK proporcionados no era un ARK válido.
+    add_new: Agregar nuevo ARK
+    set_current: Establecer como actual
+    save: Guardar ARK
+    unsubmitted_input: Tienes una entrada no enviada
+    only_current_ark_can_be_external: El ARK actual no se puede reemplazar mientras esté marcado como
+      externo.
+    no_changes: No hay cambios para guardar
+    modal_title: Editar ARK para el registro actual
+    current: Actual
+    remove_ark: Eliminar
+    ark: ARK
+    edit: Editar ARK
