@@ -3237,3 +3237,43 @@ fr:
 
   metadata_rights_declaration_merge_victim:
     <<: *metadata_rights_declaration_attributes
+  bulk_import_templates:
+    aspace_accession_import_template_csv: Créez des enregistrements d'accession et
+      des enregistrements liés à des adhésions comme des agents, des sujets et des
+      événements.
+    bulk_import_DO_template_csv: Créez et liez des objets numériques à des objets
+      d'archives existants dans une ressource. Le format CSV est destiné aux personnes
+      n'ayant pas accès à Microsoft Excel.
+    bulk_import_DO_template_xlsx: Créez et liez des objets numériques à des objets
+      d'archives existants dans une ressource. Le format XLSX est destiné à ceux qui
+      ont accès à Microsoft Excel.
+    overview: "<p>Ce sont des modèles pour télécharger des données de feuille de calcul\
+      \ dans ArchivesSpace à l'aide des différentes options d'importation dans la\
+      \ zone Tâches en arrière-plan. Les données requises pour une importation réussie\
+      \ dépendent du type d'enregistrement créé. Vous n'avez pas besoin de remplir\
+      \ chaque ligne et colonne.</p><p>Chaque modèle CSV comprend une ligne d'exemples\
+      \ de données. À moins que vous ne souhaitiez créer un enregistrement avec les\
+      \ exemples de données, veuillez supprimer les exemples de données avant de télécharger\
+      \ votre feuille de calcul. <b>Ne supprimez pas la ligne d'en-tête, n'ajoutez\
+      \ pas de colonnes supplémentaires ou ne réorganisez pas les colonnes existantes.</b></p><p>Les\
+      \ modèles Excel incluent des instructions supplémentaires pour l'utilisation\
+      \ des modèles et des validations pour certaines cellules. Ne supprimez pas les\
+      \ instructions ou les validations.</p>\n"
+    aspace_digital_object_import_template_csv: Créez des enregistrements d'objets
+      numériques et des enregistrements liés à des objets numériques tels que des
+      agents, des sujets et des événements.
+    bulk_import_template_csv: Créez des objets d'archives attachés à une ressource
+      existante. Comprend une option pour créer de nombreux sous-enregistrements et
+      enregistrements liés différents, notamment des dates, des étendues, des notes,
+      des conteneurs et des objets numériques. Le format CSV est destiné aux personnes
+      n'ayant pas accès à Microsoft Excel.
+    bulk_import_template_xlsx: Créez des objets d'archives attachés à une ressource
+      existante. Comprend une option pour créer de nombreux sous-enregistrements et
+      enregistrements liés différents, notamment des dates, des étendues, des notes,
+      des conteneurs et des objets numériques. Le format XLSX est destiné à ceux qui
+      ont accès à Microsoft Excel.
+    aspace_location_import_template_csv: Créez de nouveaux enregistrements de localisation.
+      Veuillez noter que ce modèle sert à créer les enregistrements d'emplacement
+      eux-mêmes, et non à lier des matériaux à des emplacements.
+    aspace_assessment_import_template_csv: Créez et liez des évaluations à des acquisitions,
+      des ressources, des objets d'archives ou des objets numériques existants.
