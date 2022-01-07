@@ -11,21 +11,17 @@ es:
     agent_relationship_associative_relator: Agent Relationship Associative Relator
     agent_relationship_earlierlater_relator: Agent Relationship Earlierlater Relator
     agent_relationship_family_relator: Relación con el agente Relator familiar
-    agent_relationship_hierarchical_relator: Relator jerárquico de la relación del
-      agente
+    agent_relationship_hierarchical_relator: Relator jerárquico de la relación del agente
     agent_relationship_identity_relator: Relator de identidad de relación de agente
     agent_relationship_parentchild_relator: Agent Relationship Parentchild Relator
     agent_relationship_specific_relator: Relator específico de la relación del agente
-    agent_relationship_subordinatesuperior_relator: Agent Relationship Subordinatesuperior
-      Relator
+    agent_relationship_subordinatesuperior_relator: Agent Relationship Subordinatesuperior Relator
     agent_relationship_temporal_relator: Relator temporal de la relación del agente
     archival_record_level: Nivel de registro de archivo
     begin_date_standardized_type: Fecha de inicio Tipo estandarizado
     cataloging_source: Fuente de catalogación
-    collection_management_processing_priority: Prioridad de la tramitación de la gestión
-      de la colección
-    collection_management_processing_status: Estado de tramitación de la gestión de
-      la colección
+    collection_management_processing_priority: Prioridad de la tramitación de la gestión de la colección
+    collection_management_processing_status: Estado de tramitación de la gestión de la colección
     container_location_status: Estado de ubicación de contenedores
     container_type: Tipo de contenedor
     country_iso_3166: País ISO 3166
@@ -91,11 +87,10 @@ es:
     restriction_type: Tipos de restricciones de acceso loceles
     rights_statement_act_restriction: Ley de declaración de derechos de restricción
     rights_statement_act_type: Declaración de Derechos Tipo de Ley
-    rights_statement_external_document_identifier_type: Declaración de derechos Tipo
-      de identificador de documento externo
+    rights_statement_external_document_identifier_type: Declaración de derechos Tipo de identificador
+      de documento externo
     rights_statement_ip_status: Declaración de derechos IP Status
-    rights_statement_other_rights_basis: Declaración de derechos Otros derechos de
-      base
+    rights_statement_other_rights_basis: Declaración de derechos Otros derechos de base
     rights_statement_rights_type: Declaración de los derechos derechos tipo
     romanization: Romanización
     script_iso15924: Lenguaje Script ISO 15924
@@ -754,8 +749,7 @@ es:
       cho: Choctaw
       chp: Chipewyan; Dene Suline
       chr: Cherokee
-      chu: Iglesia eslava; Antiguo eslavo; Eslavo eclesiástico; Antiguo búlgaro; Antiguo
-        eslavo eclesiástico
+      chu: Iglesia eslava; Antiguo eslavo; Eslavo eclesiástico; Antiguo búlgaro; Antiguo eslavo eclesiástico
       chv: Chuvasio
       chy: Cheyenne
       cmc: Chamic languages
@@ -1493,8 +1487,8 @@ es:
       aacr: Reglas de catalogación angloamericanas
       ccr: Catalogación de recursos culturales
       dacs: "Describing Archives: A Content Standard"
-      isaar: Registro de autoridad de archivo estándar internacional para entidades
-        corporativas, personas y familias
+      isaar: Registro de autoridad de archivo estándar internacional para entidades corporativas, personas
+        y familias
       local: Reglas locales
       rad: Reglas para la descripción de archivos
       rda: Resource Description and Access
@@ -1640,15 +1634,13 @@ es:
       allmusic: "AllMusic"
       allocine: "AlloCiné"
       amnbo: "American National Biography Online"
-      ansi: "American National Standards Institute and National Information Standards\
-        \ Organisation number for an ANSI or ANSI/NISO standard"
+      ansi: "American National Standards Institute and National Information Standards Organisation number\
+        \ for an ANSI or ANSI/NISO standard"
       artsy: "Artsy"
-      bdusc: "Biographical Directory of the United States Congress (United States\
-        \ Congress)"
+      bdusc: "Biographical Directory of the United States Congress (United States Congress)"
       bfi: "BFI - British Film Institute"
       bnfcg: "BnF catalogue général (Paris: Bibliothèque nationale de France)"
-      cantic: "CANTIC (Catàleg d'autoritats de noms i títols de Catalunya) (Biblioteca\
-        \ de Catalunya)"
+      cantic: "CANTIC (Catàleg d'autoritats de noms i títols de Catalunya) (Biblioteca de Catalunya)"
       cgndb: "Canadian Geographical Names Database (Natural Resources Canada)"
       danacode: "Danacode (Bnei Brak, Israel: D.A.N.A. Systems)"
       datoses: "datos.bne.es (Biblioteca Nacional de España)"
@@ -1667,18 +1659,18 @@ es:
       gettytgn: "Getty Thesaurus of Geographic Names Online (J. Paul Getty Trust)"
       gettyulan: "Union List of Artist Names Online (J. Paul Getty Trust)"
       gnd: "Gemeinsame Normdatei (Leipzig, Frankfurt: Deutsche Nationalbibliothek)"
-      gnis: "Geographic Names Information System (GNIS) (United States Geological\
-        \ Survey, Board on Geographic Names)"
+      gnis: "Geographic Names Information System (GNIS) (United States Geological Survey, Board on Geographic\
+        \ Names)"
       gtin-14: "Global Trade Identification Number 14 (EAN/UCC-128 or ITF-14)"
       hdl: "Handle"
       ibdb: "IBDB - Internet Broadway Database"
-      idref: "IdRef: le referentiel des autorites Sudoc (L'agence bibliographique\
-        \ de l'enseignement superieur (ABES))"
+      idref: "IdRef: le referentiel des autorites Sudoc (L'agence bibliographique de l'enseignement superieur\
+        \ (ABES))"
       imdb: "IMDb - Internet Movie Database"
       isan: "International Standard Audiovisual Number"
       isbn: "International Standard Book Number"
-      isbn-a: "International Standard Book Number (the actionable ISBN) (International\
-        \ DOI Foundation (IDF))"
+      isbn-a: "International Standard Book Number (the actionable ISBN) (International DOI Foundation\
+        \ (IDF))"
       isbnre: "ISBN (International Standard Book Number) registrant element"
       isil: "ISIL (International Standard Identifier for Libraries and Related Organizations)"
       ismn: "International Standard Music Number"
@@ -1694,8 +1686,8 @@ es:
       kinopo: "КиноПоиск = KinoPoisk"
       lccn: "Library of Congress Control Number"
       lcmd: "Library of Congress Manuscript Division (Washington, DC: Library of Congress)"
-      lcmpt: "Library of Congress Medium of Performance Thesaurus for Music (LCMPT)\
-        \ (Washington, DC: Library of Congress)"
+      lcmpt: "Library of Congress Medium of Performance Thesaurus for Music (LCMPT) (Washington, DC: Library\
+        \ of Congress)"
       libaus: "Libraries Australia (National Library of Australia)"
       local: "Locally defined identifier"
       matrix-number: "Sound recording matrix number"
@@ -1714,20 +1706,20 @@ es:
       orcid: "Open Researcher and Contributor IDentifier"
       oxforddnb: "Oxford Biography Index"
       porthu: "PORT.hu"
-      rbmsbt: "RBMS Controlled Vocabularies: Binding Terms (Rare Books and Manuscripts\
+      rbmsbt: "RBMS Controlled Vocabularies: Binding Terms (Rare Books and Manuscripts Section, Association\
+        \ of College & Research Libraries)"
+      rbmsgt: "RBMS Controlled Vocabularies: Genre Terms (Rare Books and Manuscripts Section, Association\
+        \ of College & Research Libraries)"
+      rbmspe: "RBMS Controlled Vocabularies: Provenance Evidence (Rare Books and Manuscripts Section,\
+        \ Association of College & Research Libraries)"
+      rbmsppe: "RBMS Controlled Vocabularies: Printing and Publishing Evidence (Rare Books and Manuscripts\
         \ Section, Association of College & Research Libraries)"
-      rbmsgt: "RBMS Controlled Vocabularies: Genre Terms (Rare Books and Manuscripts\
-        \ Section, Association of College & Research Libraries)"
-      rbmspe: "RBMS Controlled Vocabularies: Provenance Evidence (Rare Books and Manuscripts\
-        \ Section, Association of College & Research Libraries)"
-      rbmsppe: "RBMS Controlled Vocabularies: Printing and Publishing Evidence (Rare\
-        \ Books and Manuscripts Section, Association of College & Research Libraries)"
-      rbmspt: "RBMS Controlled Vocabularies: Paper Terms (Rare Books and Manuscripts\
-        \ Section Association of College & Research Libraries)"
-      rbmsrd: "RBMS Controlled Vocabularies: Relationship Designators (Rare Books\
-        \ and Manuscripts Section, Association of College & Research Libraries)"
-      rbmste: "RBMS Controlled Vocabularies: Type Evidence (Rare Books and Manuscripts\
-        \ Section, Association of College & Research Libraries)"
+      rbmspt: "RBMS Controlled Vocabularies: Paper Terms (Rare Books and Manuscripts Section Association\
+        \ of College & Research Libraries)"
+      rbmsrd: "RBMS Controlled Vocabularies: Relationship Designators (Rare Books and Manuscripts Section,\
+        \ Association of College & Research Libraries)"
+      rbmste: "RBMS Controlled Vocabularies: Type Evidence (Rare Books and Manuscripts Section, Association\
+        \ of College & Research Libraries)"
       rid: "ResearcherID (Thomson Reuters)"
       rkda: "RKDartists& (Den Haag: Rijksbureau voor Kunsthistorische Documentatie)"
       saam: "Smithsonian American Art Museum (Washington DC: Smithsonian Institution)"
@@ -1769,8 +1761,8 @@ es:
       other: Otro
       statute: Estatuto
     romanization:
-      conv_rom_cat_agency: Romanización convencional o forma convencional de nombre
-        en el idioma de la agencia de catalogación
+      conv_rom_cat_agency: Romanización convencional o forma convencional de nombre en el idioma de la
+        agencia de catalogación
       int_std: Estándar internacional
       local_standard: Norma local
       nat_std: Norma nacional
@@ -1970,8 +1962,7 @@ es:
       Xpeo: Old Persian
       Xsux: Cuneiform, Sumero-Akkadian
       Yiii: Yi
-      Zanb: Zanabazar Square (Zanabazarin Dörböljin Useg, Xewtee Dörböljin Bicig,
-        Horizontal Square Script)
+      Zanb: Zanabazar Square (Zanabazarin Dörböljin Useg, Xewtee Dörböljin Bicig, Horizontal Square Script)
       Zinh: Code for inherited script
       Zmth: Mathematical notation
       Zsye: Symbols (Emoji variant)
@@ -2020,16 +2011,16 @@ es:
     user_defined_enum_4:
       novalue: Ningún valor definido
     metadata_license:
-      share_a_like: Este registro está disponible bajo una licencia Creative Commons
-        Attribution-ShareAlike 4.0 International.
-      public_domain: Este registro está disponible bajo una licencia Creative Commons
-        de Dedicación de dominio público universal 1.0.
+      share_a_like: Este registro está disponible bajo una licencia Creative Commons Attribution-ShareAlike
+        4.0 International.
+      public_domain: Este registro está disponible bajo una licencia Creative Commons de Dedicación de
+        dominio público universal 1.0.
       other: Licencia personalizada o no especificada.
-      non_commercial_share_a_like: Este registro está disponible bajo una licencia
-        Creative Commons de Reconocimiento-NoComercial-CompartirIgual 4.0 Internacional.
-      non_commercial_no_derivatives: Este registro está disponible bajo una licencia
-        Creative Commons de Reconocimiento-NoComercial-Sin Derivados 4.0 Internacional.
-      non_commercial: Este registro está disponible bajo una licencia Creative Commons
-        de Reconocimiento-No Comercial 4.0 Internacional.
-      no_derivatives: Este registro está disponible bajo una licencia Creative Commons
-        Attribution-NoDerivatives 4.0 International.
+      non_commercial_share_a_like: Este registro está disponible bajo una licencia Creative Commons de
+        Reconocimiento-NoComercial-CompartirIgual 4.0 Internacional.
+      non_commercial_no_derivatives: Este registro está disponible bajo una licencia Creative Commons
+        de Reconocimiento-NoComercial-Sin Derivados 4.0 Internacional.
+      non_commercial: Este registro está disponible bajo una licencia Creative Commons de Reconocimiento-No
+        Comercial 4.0 Internacional.
+      no_derivatives: Este registro está disponible bajo una licencia Creative Commons Attribution-NoDerivatives
+        4.0 International.
