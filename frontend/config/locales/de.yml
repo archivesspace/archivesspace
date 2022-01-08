@@ -63,7 +63,7 @@ de:
       verbleibt, wird sie für die meisten Nutzer versteckt und für die meisten Funktionen
       nicht verfügbar sein.
     unsuppress: Unterdrückung aufheben
-    unsuppress_confirm_message: falsch
+    unsuppress_confirm_message: Nein
     unable_to_move_message: Kann die Aufzeichnung nicht verschieben
     move_ordering_problem_message: Anordnungs-Problem beim Verschieben von Aufzeichnungen
     delete: Löschen
@@ -220,9 +220,9 @@ de:
       equal: ist gleich
       greater_than: größer als
     boolean_field:
-      boolean: Boolean
-      true_value: Wahr
-      false_value: Falsch
+      boolean: Boolescher Wert
+      true_value: Ja
+      false_value: Nein
     reset: Leeren
     index_switcher:
       show: Detailsuche anzeigen
@@ -269,7 +269,7 @@ de:
     manage_users: Benutzer verwalten
     manage_container_profiles: Behältnis-Profile verwalten
     manage_location_profiles: Standort-Profile verwalten
-    manage_enumerations: Kontrollierte-Werte-Listen verwalten
+    manage_enumerations: Aufzählungs-Listen verwalten
     global_preferences: Globale Einstellungen
     user_repo_preferences: Benutzer-Einstellungen
     repo_preferences: Aufbewahrungsort-Einstellungen
@@ -359,8 +359,8 @@ de:
     type_3: Enkel-Typ
     type_2: Kind-Typ
     type_2_tooltip: "<p>Der Typ des Behältnisses der zweiten Ebene, in dem das beschriebene\
-      \ Archivgut aufbewahrt wird.</p>\n<p>Werte in dieser Kontrollierte-Werte-Liste\
-      \ können geändert werden.</p>\n"
+      \ Archivgut aufbewahrt wird.</p>\n<p>Werte in dieser Aufzählungs-Liste können\
+      \ geändert werden.</p>\n"
     indicator_2: Kind-Kennzeichnung
     indicator_2_tooltip: "<p>Ein alphanumerischer Ausdruck, um den Bezeichner des\
       \ Behältnisses der zweiten Ebene anzugeben, welcher auch die Position des Behältnisses\
@@ -370,8 +370,8 @@ de:
     barcode_2_tooltip: "<p>Ein Strichcode zur Kennzeichnung des Behältnisses der zweiten\
       \ Ebene, in dem das beschriebene Archivgut aufbewahrt wird.</p>\n"
     type_3_tooltip: "<p>Der Typ des Behältnisses der dritten Ebene, in dem das beschriebene\
-      \ Archivgut aufbewahrt wird.</p>\n<p>Werte in dieser Kontrollierte-Werte-Liste\
-      \ können geändert werden.</p>\n"
+      \ Archivgut aufbewahrt wird.</p>\n<p>Werte in dieser Aufzählungs-Liste können\
+      \ geändert werden.</p>\n"
     indicator_3: Enkel-Kennzeichnung
     indicator_3_tooltip: "<p>Ein alphanumerischer Ausdruck, um den Bezeichner des\
       \ Behältnisses der dritten Ebene anzugeben, welcher auch die Position des Behältnisses\
@@ -546,7 +546,7 @@ de:
       location_holdings: Bestand für aktuellen Aufbewahrungsort
       audit_info: Prüfinformation
       location_profile_display_string_u_ssort: Standort-Profil
-      temporary: Temporär
+      temporary: Vorübergehend
       user_mtime: Geändert
       create_time: Erstellt
       desc: Absteigend
@@ -785,10 +785,10 @@ de:
       defaults_updated: Standardwerte aktualisiert
   required_fields:
     form_title:
-      agent_person: Erforderliche Felder für Akteurs-Aufzeichnungen (Person)
-      agent_family: Erforderliche Felder für Akteurs-Aufzeichnungen (Familie)
-      agent_corporate_entity: Erforderliche Felder für Akteurs-Aufzeichnungen (Körperschaft)
-      agent_software: Erforderliche Felder für Akteurs-Aufzeichnungen (Software)
+      agent_person: Erforderliche Felder für Akteur-Aufzeichnungen (Person)
+      agent_family: Erforderliche Felder für Akteur-Aufzeichnungen (Familie)
+      agent_corporate_entity: Erforderliche Felder für Akteur-Aufzeichnungen (Körperschaft)
+      agent_software: Erforderliche Felder für Akteur-Aufzeichnungen (Software)
     messages:
       required_fields_updated: Erforderliche Felder aktualisiert
   tree:
@@ -861,7 +861,7 @@ de:
         relation_information: Beziehungs-Information
         date_of_existence: Existenzdatum
         basic_information: Grundlegende Informationen
-        linked_via_rights_statement: Durch Rechte-Erklärung verknüpfte Aufzeichnungen
+        linked_via_rights_statement: Durch Rechteerklärung verknüpfte Aufzeichnungen
         target_record: Diese Aufzeichnung wird aktualisiert
         victim_record: Diese Aufzeichnung wird gelöscht
         structured_date_single_fields: Einzeldatum
@@ -981,7 +981,7 @@ de:
     _frontend:
       title_prefix: Verarbeite
       action:
-        add: Felder für Sammlungs-Verwaltung hinzufügen
+        add: Felder für Sammlungsverwaltung hinzufügen
   container:
     _frontend:
       action:
@@ -1091,9 +1091,9 @@ de:
         merged: Wert zusammengeführt
         merge_tip: Dieser Wert kann mit einem anderen zusammengeführt werden
         merge_error: Werte zusammenführen fehlgeschlagen
-        no_selection: Bitte wählen Sie eine Kontrollierte-Werte-Liste
+        no_selection: Bitte wählen Sie eine Aufzählungs-Liste
         name_selector: Listenname
-        name_selector_tooltip: "<p>Die Kontrollierte-Werte-Liste zum Bearbeiten.</p>\n"
+        name_selector_tooltip: "<p>Die Aufzählungs-Liste zum Bearbeiten.</p>\n"
         no_name_provided: Wählen Sie eine Werte-Liste bevor Sie einen neuen Wert erstellen
         value_updated: Wert aktualisiert
       action:
@@ -1114,7 +1114,7 @@ de:
       action:
         save: Ereignis speichern
         create: Ereignis erstellen
-    linked_agents: Akteurs-Verknüpfungen
+    linked_agents: Akteur-Verknüpfungen
   extent:
     _frontend:
       action:
@@ -1127,7 +1127,7 @@ de:
     _frontend:
       action:
         add: Dateiversion hinzufügen
-        make_representative: Kennzeichnend machen
+        make_representative: Repräsentativ machen
   group:
     _frontend:
       action:
@@ -1175,8 +1175,9 @@ de:
         location: Basis-Standort
       messages:
         created: <strong>%{number_created} Standorte</strong> erstellt
-        location_batch_info: Setzen Sie die Basiswerte, die auf alle, durch die <strong>Koordinaten-Bereiche</strong>
-          unten, erzeugten Standorte angewendet werden.
+        location_batch_info: Setzen Sie die Basiswerte, die auf alle Standorte angewendet
+          werden, die aus den unten stehenden <strong>Koordinaten-Bereichen</strong>
+          erzeugt werden.
         location_batch_update_info: Bitte geben Sie die zu setzenden Werte ein.
         number_to_create: Anzahl von Standorten
         warning: Abhängig vom Umfang der Bereiche kann der Vorgang ein paar Minuten
@@ -1223,7 +1224,7 @@ de:
         add_note_outline_level_item: Element hinzufügen
         expand: Ausklappen
         collapse: Einklappen
-        apply_note_order: Standard Anmerkungs-Reihung anwenden
+        apply_note_order: Standard Anmerkungsreihung anwenden
         add_for_contact_note: Kontakt-Anmerkung hinzufügen
         add_content_item: Kontakt-Element hinzufügen
         add_note_orderedlist: Element hinzufügen
@@ -1334,7 +1335,7 @@ de:
   rights_statement:
     _frontend:
       action:
-        add: Rechte-Erklärung hinzufügen
+        add: Rechteerklärung hinzufügen
   term:
     _frontend:
       messages:
@@ -1361,8 +1362,8 @@ de:
         add: Thema hinzufügen
   user:
     is_active_user: Aktiv
-    active: wahr
-    inactive: falsch
+    active: Ja
+    inactive: Nein
     _frontend:
       messages:
         access_denied: Zugriff verweigert. Melden Sie sich als Administrator an, um
@@ -1572,15 +1573,15 @@ de:
     source: Quelle
     record_identifier: Aufzeichnungs-Signatur
     primary_identifier: Haupt-Signatur?
-    _plural: Aufzeichnungs-Bezeichner
-    _singular: Aufzeichnungs-Bezeichner
+    _plural: Aufzeichnungs-Signatur
+    _singular: Aufzeichnungs-Signatur
     _frontend:
       action:
-        add: Aufzeichnungs-Bezeichner hinzufügen
+        add: Aufzeichnungs-Signatur hinzufügen
     identifier_type: Aufzeichnungs-Steuerung Signatur-Typ
     primary: Haupt
   metadata_rights_declaration:
-    _singular: Rechte-Deklaration von Metadaten
+    _singular: Rechteerklärungen von Metadaten
     descriptive_note: Beschreibende Anmerkung
     file_uri: Datei-URI
     xlink_title_attribute: Xlink Title-Attribut
@@ -1588,12 +1589,12 @@ de:
     file_version_xlink_actuate_attribute: Xlink Actuate-Attribut
     file_version_xlink_show_attribute: Xlink Show-Attribut
     last_verified_date: Datum der letzten Überprüfung
-    _plural: Rechte-Deklarationen von Metadaten
+    _plural: Rechteerklärungen von Metadaten
     license: Lizenz
     xlink_role_attribute: Xlink Role-Attribut
     _frontend:
       action:
-        add: Rechte-Deklaration von Metadaten hinzufügen
+        add: Rechteerklärung von Metadaten hinzufügen
   agent_gender:
     _singular: Geschlecht
     dates: Daten
@@ -1646,7 +1647,7 @@ de:
   linked_agent:
     _frontend:
       action:
-        add: Akteurs-Verknüpfung hinzufügen
+        add: Akteur-Verknüpfung hinzufügen
   linked_record:
     _frontend:
       action:
@@ -1730,7 +1731,7 @@ de:
         collection_resource_singular: Ressource
         collection_accession_singular: Eingang
         collection_resource_plural: Ressourcen
-        series: Serien
+        series: Serie
         update_locations_current_location: Aktueller Standort
         batch_delete: Haupt-Behältnisse löschen
         update_ils_holding_ids_help: Geben Sie einen Wert für die IBS Bestands-ID
@@ -1803,7 +1804,7 @@ de:
         save: Haupt-Behältnis speichern
     managed_container_2_type_tooltip: "<p>Der Typ des Behältnisses der zweiten Ebene,\
       \ in welchem das beschriebene Archivgut aufbewahrt wird.</p>\n<p>Werte in dieser\
-      \ Kontrollierte-Werte-Liste können bearbeitet werden.</p>\n"
+      \ Aufzählungs-Liste können bearbeitet werden.</p>\n"
     managed_container_3_indicator_tooltip: "<p>Ein alphanumerischer Ausdruck, um den\
       \ Bezeichner des Behältnisses der dritten Ebene anzugeben, welcher auch die\
       \ Position des Behältnisses der dritten Ebene in einer Reihe solcher Behältnisse\
@@ -1820,7 +1821,7 @@ de:
       \ den Ort des Haupt-Behältnisses anzugeben, welcher auch die Position des Behältnisses\
       \ in einer Reihe solcher Behältnisse sein kann.</p>\n"
     type: Behältnis-Typ
-    type_tooltip: "<p>Der Typ des Haupt-Behältnisses.</p>\n<p>Werte in dieser Kontrollierten-Werte-Liste\
+    type_tooltip: "<p>Der Typ des Haupt-Behältnisses.</p>\n<p>Werte in dieser Aufzählungs-Liste\
       \ können bearbeitet werden.</p>\n"
     ils_holding_id: IBS Bestands-ID
     ils_holding_id_tooltip: "<p>Bezeichner der zugehörigen Bestands-Aufzeichnung im\
@@ -1838,7 +1839,7 @@ de:
     managed_container_3_type: Enkel-Behältnis-Typ
     managed_container_3_type_tooltip: "<p>Der Typ des Behältnisses der dritten Ebene,\
       \ in welchem das beschriebene Archivgut aufbewahrt wird.</p>\n<p>Werte in dieser\
-      \ Kontrollierte-Werte-Liste können bearbeitet werden.</p>\n"
+      \ Aufzählungs-Liste können bearbeitet werden.</p>\n"
     managed_container_3_indicator: Enkel-Behältnis-Kennzeichnung
     barcode_length_for_this_repository: 'Strichcode-Länge für diesen Aufbewahrungsort:'
     characters: Zeichen
@@ -1879,7 +1880,7 @@ de:
     height: Höhe
     url: URL
     dimension_units_tooltip: "<p>Maßeinheit für Abmessungen.</p>\n<p>Werte in dieser\
-      \ Kontrollierte-Werte-Liste können bearbeitet werden.</p>\n"
+      \ Aufzählungs-Liste können bearbeitet werden.</p>\n"
     extent_dimension_height_tooltip: "<p>Numerischer Wert für die Höhe (Abmessung\
       \ der Ober- zur Unterseite) des Behältnisses.</p>\n"
     stacking_limit_tooltip: "<p>Die Anzahl von Behältnissen, die übereinander gestapelt\
@@ -1920,7 +1921,7 @@ de:
     end: Ende der Einschränkung
     local_access_restriction_type: Lokaler Zugriffsbeschränkungs-Typ
     local_access_restriction_type_tooltip: "<p>Angabe des Grunds der Einschränkung\
-      \ für Einschränkungen, die nicht zeitbasiert sind.</p>\n<p>Werte in dieser Kontrollierten-Werte-Liste\
+      \ für Einschränkungen, die nicht zeitbasiert sind.</p>\n<p>Werte in dieser Aufzählungs-Liste\
       \ können bearbeitet werden.</p>\n"
     linked_records: Verknüpfte Aufzeichnung
     restriction_note_type: Art der Anmerkung
@@ -2243,7 +2244,7 @@ de:
     _frontend:
       action:
         add: Ereignis hinzufügen
-    maintenance_event_type: Aufzeichnungs-Steuerung Wartungs-Ereignis-Typ
+    maintenance_event_type: Aufzeichnungs-Steuerung Typ des Wartungsereignisses
     maintenance_agent_type: Aufzeichnungs-Steuerung Wartung Akteur-Typ
     event_date: Ereignis-Datum
     agent: Akteur
@@ -2261,10 +2262,10 @@ de:
       \ werden wird.</p>\n"
     identity_information_tooltip: "<p>Dieser Abschnitt enthält die wesentlichen Informationen\
       \ über den Akteur selbst. Eine Namensform ist die einzige verpflichtende Teilaufzeichnung\
-      \ in einer Akteurs-Aufzeichnung.</p>\n"
+      \ in einer Akteur-Aufzeichnung.</p>\n"
     description_information_tooltip: "<p>Dieser Abschnitt enthält die wesentlichen\
       \ Informationen über den Akteur selbst. Eine Namensform ist die einzige verpflichtende\
-      \ Teilaufzeichnung in einer Akteurs-Aufzeichnung.</p>\n"
+      \ Teilaufzeichnung in einer Akteur-Aufzeichnung.</p>\n"
     relation_information_tooltip: "<p>Dieser Abschnitt wird dazu verwendet, um Beziehungen\
       \ zu anderen Akteuren oder Archivgut innerhalb oder außerhalb von ArchivesSpace\
       \ anzugeben.</p>\n"
