@@ -1325,6 +1325,7 @@ de:
         load_bulk: Mit Tabelle laden
         save: Ressource speichern
         delete_multiple: Ressourcen löschen
+      remove_subrecord: Teildatensatz entfernen
     external_ark_url_tooltip: Außerhalb von ArchivesSpace erzeugter Archival Resource
       Key (ARK) Permanenter Bezeichner. Wenn dieses Feld einen Wert besitzt, wird
       dieser gegenüber einem ARK, der innerhalb von ArchivesSpace erzeugt wurde, bevorzugt.
