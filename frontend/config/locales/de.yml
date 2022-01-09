@@ -265,6 +265,7 @@ de:
     hide_advanced_search_button_title: Detailsuche verbergen
     plugins: Zusatzmodule
     repositories_manage: Aufbewahrungsorte verwalten
+    repository_settings: Einstellungen für Aufbewahrungsorte
     oai_config: OAI-PMH Einstellungen verwalten
     manage_users: Benutzer verwalten
     manage_container_profiles: Behältnis-Profile verwalten

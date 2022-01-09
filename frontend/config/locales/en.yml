@@ -532,6 +532,7 @@ en:
     hide_advanced_search_button_title: Hide Advanced Search
     plugins: Plug-ins
     repositories_manage: Manage Repositories
+    repository_settings: Repository settings
     oai_config: Manage OAI-PMH Settings
     manage_groups: Manage Groups
     manage_users: Manage Users
