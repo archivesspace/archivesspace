@@ -1278,8 +1278,7 @@ de:
       license: Lizenz
       other: Andere
     romanization:
-      conv_rom_cat_agency: Konventionelle Romanisierung oder konventionelle Form des Namens in der Sprache
-        der\ \ Katalogisierungsagentur
+      conv_rom_cat_agency: Konventionelle Romanisierung oder konventionelle Form des Namens in der Sprache der Katalogisierungsagentur
       int_std: Internationale Norm
       not_applicable: Nicht zutreffend
       local_standard: Lokale Norm
