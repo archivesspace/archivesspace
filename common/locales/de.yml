@@ -864,7 +864,7 @@ de:
     number_tooltip: "<p>Eine Zahl, manchmal mit einem Begriff, die den Namen qualifiziert. Bei Personennamen\
       \ oft eine römische Zahl oder eine römische Zahl und ein nachfolgender Teil eines Vornamens. Bei\
       \ Firmennamen die Nummer eines Teils/Abteilung oder einer Sitzung;\n<p>Beispiele:</p>\n<ul>\n<li>II\
-      \ Komnenus <em>(für Johannes II Komnenus, Kaiser des Ostens</em>/li>\n<li>II <em>(für Johannes Paul\
+      \ Komnenus <em>(für Johannes II Komnenus, Kaiser des Ostens</em></li>\n<li>II <em>(für Johannes Paul\
       \ II)</em></li>\n<li>97., 2. Sitzung <em>(für Kongress der Vereinigten Staaten, 97., 2. Sitzung)</em></li>\n\
       </ul>\n"
     primary_name_tooltip: "<p>Der Hauptteil einer Namensform (z.B. Nachname oder Vorname einer Person).</p>\n\
