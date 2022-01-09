@@ -848,7 +848,7 @@ de:
         save: Eingang speichern
       section:
         basic_information: Grundlegende Informationen
-  agent:
+  agent: &agent_attributes
     _frontend:
       messages:
         created: Akteur erstellt
@@ -983,7 +983,7 @@ de:
         add_child: Kind hinzufügen
       tree:
         new_record_title: Neuer Klassifizierungs-Begriff
-  collection_management:
+  collection_management: &collection_management_attributes
     _frontend:
       title_prefix: Verarbeite
       action:
@@ -1011,12 +1011,17 @@ de:
     _frontend:
       action:
         add: Abgang hinzufügen
-  structured_date_label_common_fields:
+  structured_date_label_common_fields: &structured_date_label_attributes
     date_label: Beschriftung
     date_type_structured: Datumstyp
     date_era: Epoche
     date_calendar: Kalender
     date_certainty: Sicherheit
+  structured_date_label_existence:
+    <<: *structured_date_label_attributes
+
+  structured_date_label_usage:
+    <<: *structured_date_label_attributes
   structured_date_single_fields:
     date_standardized: Genormtes Datum
     date_standardized_type: Typ des genormten Datums
@@ -1508,7 +1513,7 @@ de:
       zurück.
   instance_container:
     container: Behältnis
-  used_language:
+  used_language: &used_language_attributes
     _plural: Verwendete Sprachen
     _singular: Verwendete Sprache
     _frontend:
@@ -1516,7 +1521,18 @@ de:
         add: Sprache hinzufügen
     language: Sprache
     script: Schrift
-  agent_function:
+  used_language_required:
+    <<: *used_language_attributes
+
+  used_languages:
+    <<: *used_language_attributes
+
+  used_language_merge_victim:
+    <<: *used_language_attributes
+
+  used_language_merge_target:
+    <<: *used_language_attributes
+  agent_function: &agent_function_attributes
     _singular: Funktion
     _plural: Funktionen
     _frontend:
@@ -1529,7 +1545,18 @@ de:
     places: Orte
     publish: Veröffentlicht
     text_note: Anmerkung
-  agent_place:
+  agent_function_required:
+    <<: *agent_function_attributes
+
+  agent_functions:
+    <<: *agent_function_attributes
+
+  agent_function_merge_target:
+    <<: *agent_function_attributes
+
+  agent_function_merge_victim:
+    <<: *agent_function_attributes
+  agent_place: &agent_place_attributes
     _singular: Ort
     _plural: Orte
     _frontend:
@@ -1542,7 +1569,18 @@ de:
     publish: Veröffentlicht
     place_role: Akteur Orts-Rolle
     text_note: Anmerkung
-  agent_occupation:
+  agent_place_required:
+    <<: *agent_place_attributes
+
+  agent_places:
+    <<: *agent_place_attributes
+
+  agent_place_merge_target:
+    <<: *agent_place_attributes
+
+  agent_place_merge_victim:
+    <<: *agent_place_attributes
+  agent_occupation: &agent_occupation_attributes
     _singular: Beruf
     _plural: Berufe
     section:
@@ -1555,7 +1593,18 @@ de:
     places: Orte
     publish: Veröffentlicht
     text_note: Anmerkung
-  agent_topic:
+  agent_occupation_required:
+    <<: *agent_occupation_attributes
+
+  agent_occupations:
+    <<: *agent_occupation_attributes
+
+  agent_occupation_merge_target:
+    <<: *agent_occupation_attributes
+
+  agent_occupation_merge_victim:
+    <<: *agent_occupation_attributes
+  agent_topic: &agent_topic_attributes
     _singular: Thema
     _plural: Themen
     _frontend:
@@ -1568,7 +1617,18 @@ de:
     places: Orte
     publish: Veröffentlicht
     text_note: Anmerkung
-  agent_identifier:
+  agent_topic_required:
+    <<: *agent_topic_attributes
+
+  agent_topics:
+    <<: *agent_topic_attributes
+
+  agent_topic_merge_target:
+    <<: *agent_topic_attributes
+
+  agent_topic_merge_victim:
+    <<: *agent_topic_attributes
+  agent_identifier: &agent_identifier_attributes
     identifier_type: Signatur-Typ
     entity_identifier: Entitäts-Bezeichner
     _plural: Entitäts-Bezeichner
@@ -1576,7 +1636,18 @@ de:
     _frontend:
       action:
         add: Entitäts-Bezeichner hinzufügen
-  agent_record_identifier:
+  agent_identifiers:
+    <<: *agent_identifier_attributes
+
+  agent_identifier_required:
+    <<: *agent_identifier_attributes
+
+  agent_identifier_merge_target:
+    <<: *agent_identifier_attributes
+
+  agent_identifier_merge_victim:
+    <<: *agent_identifier_attributes
+  agent_record_identifier: &agent_record_identifier_attributes
     source: Quelle
     record_identifier: Aufzeichnungs-Signatur
     primary_identifier: Haupt-Signatur?
@@ -1587,8 +1658,19 @@ de:
         add: Aufzeichnungs-Signatur hinzufügen
     identifier_type: Aufzeichnungs-Steuerung Signatur-Typ
     primary: Haupt
-  metadata_rights_declaration:
-    _singular: Rechteerklärungen von Metadaten
+  agent_record_identifiers:
+    <<: *agent_record_identifier_attributes
+
+  agent_record_identifier_required:
+    <<: *agent_record_identifier_attributes
+
+  agent_record_identifier_merge_target:
+    <<: *agent_record_identifier_attributes
+
+  agent_record_identifier_merge_victim:
+    <<: *agent_record_identifier_attributes
+  metadata_rights_declaration: &metadata_rights_declaration_attributes
+    _singular: Rechteerklärung von Metadaten
     descriptive_note: Beschreibende Anmerkung
     file_uri: Datei-URI
     xlink_title_attribute: Xlink Title-Attribut
@@ -1602,7 +1684,18 @@ de:
     _frontend:
       action:
         add: Rechteerklärung von Metadaten hinzufügen
-  agent_gender:
+  metadata_rights_declarations:
+    <<: *metadata_rights_declaration_attributes
+
+  metadata_rights_declaration_required:
+    <<: *metadata_rights_declaration_attributes
+
+  metadata_rights_declaration_merge_target:
+    <<: *metadata_rights_declaration_attributes
+
+  metadata_rights_declaration_merge_victim:
+    <<: *metadata_rights_declaration_attributes
+  agent_gender: &agent_gender_attributes
     _singular: Geschlecht
     dates: Daten
     gender: Geschlecht
@@ -1611,7 +1704,18 @@ de:
       action:
         add: Geschlecht hinzufügen
     note: Anmerkung
-  agent_resource:
+  agent_genders:
+    <<: *agent_gender_attributes
+
+  agent_gender_required:
+    <<: *agent_gender_attributes
+
+  agent_gender_merge_target:
+    <<: *agent_gender_attributes
+
+  agent_gender_merge_victim:
+    <<: *agent_gender_attributes
+  agent_resource: &agent_resource_attributes
     _singular: Verwandte externe Ressource
     _plural: Verwandte externe Ressourcen
     linked_resource_description: Beschreibung
@@ -1633,6 +1737,17 @@ de:
       action:
         add: Verwandte externe Ressource hinzufügen
     linked_agent_role: Verwandtschafts-Typ der Ressource
+  agent_resources:
+    <<: *agent_resource_attributes
+
+  agent_resource_required:
+    <<: *agent_resource_attributes
+
+  agent_resource_merge_victim:
+    <<: *agent_resource_attributes
+
+  agent_resource_merge_target:
+    <<: *agent_resource_attributes
   database_warning:
     message: <p><strong>Datenbank Warnung:</strong> Sie verwenden derzeit die eingebaute
       Datenbank (Apache Derby). Diese Datenbank ist nur für Tests und Demos geeignet.
@@ -2109,7 +2224,7 @@ de:
       title: Begutachtungs-Attribute
       global: Global %{type}
       repository: Aufbewahrungsort %{type}
-  agent_conventions_declaration:
+  agent_conventions_declaration: &agent_conventions_declaration_attributes
     xlink_title_attribute: Xlink Title-Attribut
     _plural: Konventions-Angaben
     _singular: Konventions-Angabe
@@ -2125,6 +2240,17 @@ de:
     file_version_xlink_show_attribute: Xlink Show-Attribut
     last_verified_date: Datum der letzten Überprüfung
     descriptive_note: Beschreibende Anmerkung
+  agent_conventions_declarations:
+    <<: *agent_conventions_declaration_attributes
+
+  agent_conventions_declaration_required:
+    <<: *agent_conventions_declaration_attributes
+
+  agent_conventions_declaration_merge_target:
+    <<: *agent_conventions_declaration_attributes
+
+  agent_conventions_declaration_merge_victim:
+    <<: *agent_conventions_declaration_attributes
   custom_report_template:
     _frontend:
       new_title: Neue benutzerdefinierte Berichtsvorlage
@@ -2175,7 +2301,7 @@ de:
     oai_leave_repo_form: Diese Optionen beeinflussen OAI-PHM nur für diesen Aufbewahrungsort.
       Klicken Sie unten, um globale OAI-Optionen anzuzeigen oder zu bearbeiten. Dies
       verlässt das aktuelle Formular ohne zu speichern.
-  agent_record_control:
+  agent_record_control: &agent_record_control_attributes
     language: Sprache
     cataloging_source: Aufzeichnungs-Steuerung Katalogisierungs-Quelle
     _plural: Aufzeichnungs-Info
@@ -2196,7 +2322,18 @@ de:
     script: Schrift
     maintenance_agency_note: Anmerkung über die Wartungs-Organisation
     language_note: Anmerkung über Sprache
-  agent_alternate_set:
+  agent_record_controls:
+    <<: *agent_record_control_attributes
+
+  agent_record_control_required:
+    <<: *agent_record_control_attributes
+
+  agent_record_control_merge_target:
+    <<: *agent_record_control_attributes
+
+  agent_record_control_merge_victim:
+    <<: *agent_record_control_attributes
+  agent_alternate_set: &agent_alternate_set_attributes
     file_version_xlink_actuate_attribute: Xlink Actuate-Attribut
     file_version_xlink_show_attribute: Xlink Show-Attribut
     _plural: Alternative Mengen
@@ -2211,7 +2348,18 @@ de:
     xlink_arcrole_attribute: Xlink Arcrole-Attribut
     xlink_role_attribute: Xlink Role-Attribut
     last_verified_date: Datum der letzten Überprüfung
-  agent_source:
+  agent_alternate_sets:
+    <<: *agent_alternate_set_attributes
+
+  agent_alternate_set_required:
+    <<: *agent_alternate_set_attributes
+
+  agent_alternate_set_merge_target:
+    <<: *agent_alternate_set_attributes
+
+  agent_alternate_set_merge_victim:
+    <<: *agent_alternate_set_attributes
+  agent_source: &agent_source_attributes
     _plural: Quellen
     xlink_role_attribute: Xlink Role-Attribut
     _frontend:
@@ -2226,6 +2374,17 @@ de:
     xlink_title_attribute: Xlink Title-Attribut
     last_verified_date: Datum der letzten Überprüfung
     descriptive_note: Beschreibende Anmerkung
+  agent_sources:
+    <<: *agent_source_attributes
+
+  agent_source_required:
+    <<: *agent_source_attributes
+
+  agent_source_merge_target:
+    <<: *agent_source_attributes
+
+  agent_source_merge_victim:
+    <<: *agent_source_attributes
   agent_name:
     use_dates: Verwendungs-Daten
   act:
@@ -2237,7 +2396,7 @@ de:
     _frontend:
       action:
         add: Ort hinzufügen
-  agent_other_agency_code:
+  agent_other_agency_code: &agent_other_agency_code_attributes
     _plural: Andere Organisations-Codes
     _singular: Anderer Organisations-Code
     _frontend:
@@ -2245,7 +2404,18 @@ de:
         add: Organisations-Code hinzufügen
     agency_code_type: Aufzeichnungs-Steuerung Organisations-Code-Typ
     maintenance_agency: Wartungs-Organisation
-  agent_maintenance_history:
+  agent_other_agency_codes:
+    <<: *agent_other_agency_code_attributes
+
+  agent_other_agency_code_required:
+    <<: *agent_other_agency_code_attributes
+
+  agent_other_agency_code_merge_target:
+    <<: *agent_other_agency_code_attributes
+
+  agent_other_agency_code_merge_victim:
+    <<: *agent_other_agency_code_attributes
+  agent_maintenance_history: &agent_maintenance_history_attributes
     _plural: Wartungsverlauf
     _singular: Beteiligter-Wartungsverlauf
     _frontend:
@@ -2256,6 +2426,17 @@ de:
     event_date: Ereignis-Datum
     agent: Akteur
     descriptive_note: Beschreibende Anmerkung
+  agent_maintenance_histories:
+    <<: *agent_maintenance_history_attributes
+
+  agent_maintenance_history_required:
+    <<: *agent_maintenance_history_attributes
+
+  agent_maintenance_history_merge_target:
+    <<: *agent_maintenance_history_attributes
+
+  agent_maintenance_history_merge_victim:
+    <<: *agent_maintenance_history_attributes
   subsections:
     dates: Daten
     notes: Anmerkungen
