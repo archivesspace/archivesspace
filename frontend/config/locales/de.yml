@@ -729,6 +729,10 @@ de:
     login_expired_link: Bitte %{link} erneut.
     login_fail: Anmeldeversuch ist fehlgeschlagen
     login_success: Anmeldung erfolgreich. Weiterleitung...
+    username_placeholder: Benutzername
+    password_placeholder: Passwort
+    username_aria_label: Benutzername des Benutzers
+    password_aria_label: Passwort des Benutzers
   save_changes_modal:
     body: Sie haben offene Änderungen. Bitte speichern oder verwerfen Sie diese Änderungen
       um fortzufahren.

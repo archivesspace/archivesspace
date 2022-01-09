@@ -589,6 +589,10 @@ en:
     login_expired_link: Please %{link} again.
     login_fail: Login attempt failed
     login_success: Login Successful. Redirecting...
+    username_placeholder: Username
+    password_placeholder: Password
+    username_aria_label: User Name
+    password_aria_label: User Password
 
   breadcrumb:
     home: Home
