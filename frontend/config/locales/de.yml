@@ -272,6 +272,7 @@ de:
     manage_location_profiles: Standort-Profile verwalten
     manage_enumerations: Aufzählungs-Listen verwalten
     global_preferences: Globale Einstellungen
+    global_settings: Globale Einstellungen
     user_repo_preferences: Benutzer-Einstellungen
     repo_preferences: Aufbewahrungsort-Einstellungen
     manage_user_access: Benutzerzugang verwalten
