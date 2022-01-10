@@ -1210,6 +1210,11 @@ de:
         use_date: Daten der Namensverwendung
         dates: Daten
         parallel_names: Alternative Namen
+        place_subject: Ort
+        topic_subject: Thema
+        name_subject: Name
+        function_subject: Funktion
+        occupation_subject: Beruf
       action:
         add: Namensform hinzufügen
         make_authorized: Zum autoritativen Namen machen

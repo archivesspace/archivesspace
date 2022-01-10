@@ -1085,6 +1085,11 @@ en:
         use_date: Date(s) of Name Use
         dates: Dates
         parallel_names: Parallel Names
+        place_subject: Place Subject
+        topic_subject: Topic Subject
+        name_subject: Name Subject
+        function_subject: Function Subject
+        occupation_subject: Occupation Subject
       action:
         add: Add Name Form
         make_authorized: Make Authoritive Name
