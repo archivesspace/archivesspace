@@ -241,6 +241,7 @@ de:
     search_date: Datum
     search_terms: Felder der Detailsuche %{number}
     remove_row: Felder der Detailsuche %{number} entfernen
+    add_row: Zeile hinzufügen
     button_text: Suche
   search_sorting:
     sort_by: 'Sortieren nach:'

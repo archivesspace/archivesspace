@@ -508,6 +508,7 @@ en:
     search_date: Date
     search_terms: Advanced Search Fields %{number}
     remove_row: Remove Advanced Search Fields %{number}
+    add_row: Add Row
 
   become-user:
     become-user: Become User
