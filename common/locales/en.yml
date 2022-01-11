@@ -1897,6 +1897,7 @@ en:
       delete_assessment_record: delete assessment records
       manage_assessment_attributes: create/update/delete repository assessment attributes definitions
       manage_enumeration_record: create/update/delete controlled value records
+      manage_custom_report_templates: manage custom report templates
     _singular: Group
     _plural: Groups
 
