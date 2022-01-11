@@ -250,7 +250,7 @@ class AgentsController < ApplicationController
       return
     end
 
-    relationship_uris = @victim['related_agents'].map {|ra| ra['ref']}
+    relationship_uris = @victim['related_agents'] ? @victim['related_agents'].map {|ra| ra['ref']} : []
     if relationship_uris.include?(@agent['uri'])
       flash[:error] = I18n.t('errors.merge_denied_relationship')
       redirect_to({ action: :show, id: params[:id] })
@@ -318,6 +318,7 @@ class AgentsController < ApplicationController
   def assign_types
     return unless params.key? 'agent_type'
 
+    params['agent_type'] = "agent_#{params['agent_type']}" if params['agent_type'] !~ /^agent_/
     @agent_type = :"#{params[:agent_type]}"
     @name_type = name_type_for_agent_type(@agent_type)
   end
