@@ -2369,6 +2369,8 @@ en:
       locations: Locations
       scope_by_date: Scope by Date
       template: Template
+      rating: Rating
+      values: Values
     formats:
       json: JSON
       csv: CSV

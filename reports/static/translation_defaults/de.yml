@@ -168,3 +168,5 @@ de:
       begin_standardized_type: Standardisierter Typ Beginn-Datum
       end_expression: Ausdruck End-Datum
       end_standardized_type: Standardisierter Typ End-Datum
+      select: Wählen
+      back: Zurück

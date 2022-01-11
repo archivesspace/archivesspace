@@ -2071,6 +2071,8 @@ de:
       template: Vorlage
       from: Von
       to: Bis
+      rating: Bewertung
+      values: Werte
   validation_errors:
     missing_required_property: Eigenschaft ist erforderlich, fehlte aber
     must_not_be_before_begin: darf nicht vor Beginn sein
