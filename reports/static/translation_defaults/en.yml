@@ -1,7 +1,7 @@
 en:
   reports:
     translation_defaults:
-      accession_processed_date: Acceccion Processed Date
+      accession_processed_date: Accession Processed Date
       access_restrictions_note: Access Restrictions Note
       access_restrictions: Access Restrictions?
       accession_date: Accession Date
@@ -104,7 +104,7 @@ en:
       resources: Resources
       records: Resources and Accessions
       retention_rule: Retention
-      restrictions_apply: Retrictions Apply?
+      restrictions_apply: Restrictions Apply?
       review_note: Review Note
       review_required: Review Required?
       reviewer: Reviewer

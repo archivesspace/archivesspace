@@ -1,0 +1,6 @@
+de:
+  reports:
+    assessment_list_report:
+      description: Alle erstellten Begutachtungs-Datensätze
+      title: Liste der Begutachtungs-Datensätze
+      identifier_prefix: Begutachtung

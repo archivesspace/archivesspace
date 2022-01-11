@@ -1,0 +1,8 @@
+de:
+  reports:
+    resource_deaccessions_list_report:
+      title: Ressourcen und Abgänge
+      description: Zeigt Ressourcen und verknüpfte Abgangs-Datensätze an. Der Bericht enthält den Titel, Ressourcen-Bezeichner, Stufe, Datumsbereich, verknüpfte Abgänge, Namen der Ersteller und Summen des physischen Umfangs.
+      total_extent: Gesamtumfang der Ressourcen
+      identifier_prefix: Ressource
+

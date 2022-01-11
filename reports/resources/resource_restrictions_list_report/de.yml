@@ -1,0 +1,8 @@
+de:
+  reports:
+    resource_restrictions_list_report:
+      title: Liste von Ressourcen mit Einschränkungen
+      description: Zeigt Ressourcen mit Einschränkungen und Standortinformationen an. Der Bericht enthält den Titel, Ressourcen-Bezeichner, Stufe, Datumsbereich und zugehörige Standorte.
+      total_count: Summe der Ressourcen mit Einschränkungen
+      total_extent: Gesamtumfang der Ressourcen mit Einschränkungen
+      identifier_prefix: Ressource

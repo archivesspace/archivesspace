@@ -1,0 +1,6 @@
+de:
+  reports:
+    accession_rights_transferred_report:
+      title: Eingänge mit übertragenen Rechten
+      description: Zeigt nur jene Eingänge an, für die Rechte übertragen wurden. Der Bericht enthält die Eingangs-Nummer, verknüpfte Ressourcen, Titel, Umfang, Katalogisiert, Datum der Bearbeitung, Zugangsbeschränkungen, Verwendungsbeschränkungen, übertragene Rechte und die Anzahl der Datensätze, die für die übertragenen Rechte ausgewählt wurden.
+      identifier_prefix: Eingang
