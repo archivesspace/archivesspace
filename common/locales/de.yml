@@ -14,8 +14,8 @@ de:
     source: Quelle
     subject_source: Quelle des Themas
     source_tooltip: "<p>Das Vokabular, dem ein festgelegter Begriff entnommen ist.</p>\n<p>Werte in dieser\
-      \ Kontrollierte-Werte-Liste können bearbeitet werden.</p>\n<p>Beispiele:</p>\n<ul>\n<li>Medizinische\
-      \ Fachbegriffe (mesh)</li>\n<li>Library of Congress Schlagwörter (lcsh)</li>\n</ul>\n"
+      \ Aufzählungs-Liste können bearbeitet werden.</p>\n<p>Beispiele:</p>\n<ul>\n<li>Medizinische Fachbegriffe\
+      \ (mesh)</li>\n<li>Library of Congress Schlagwörter (lcsh)</li>\n</ul>\n"
     scope_note: Anmerkung zum Geltungsbereich
     scope_note_tooltip: "<p>Eine Anmerkung, die erklärt und verdeutlicht, was in der Definition des Begriffs\
       \ und in seiner Verwendung als Schlagwort gemeint ist und was nicht.</p>\n<p>Beispiele:</p>\n<ul>\n\
@@ -112,8 +112,8 @@ de:
     name_tooltip: "<p>Name der Person, die in der Hauptaufzeichnung als Kontaktperson für die Entität\
       \ dient.</p>\n<p>Für Akteure von Körperschaften von Aufbewahrungsorten wird ein Name von der Anwendung\
       \ automatisch generiert, wenn er leer ist.</p>\n"
-    salutation_tooltip: "<p>Anrede für die Kontaktperson.</p>\n<p>Werte in dieser Kontrollierte-Werte-Liste\
-      \ können bearbeitet werden.</p>\n"
+    salutation_tooltip: "<p>Anrede für die Kontaktperson.</p>\n<p>Werte in dieser Aufzählungs-Liste können\
+      \ bearbeitet werden.</p>\n"
     address_1_tooltip: "<p>Adresse der Kontaktperson.</p>\n"
     city_tooltip: "<p>Stadt, in der sich die Kontaktperson befindet.</p>\n"
     region_tooltip: "<p>Bundesland oder Region, in der sich die Stadt befindet</p>\n"
@@ -181,7 +181,7 @@ de:
       \ referenziert werden. Der Verweis auf das externe Dokument kann hier oder in einer Teilaufzeichnung\
       \ für externe Dokumente erfasst werden.</p>\n<p>Beispiel:</p>\n<ul>\n<li>Karton 1:   Tagebücher</li>\n\
       <li>Karton 2:   Briefe an Mr. Smith's Familie</li>\n<li>Karton 3:   Persönliche Unterlagen für Angestellte\
-      \ der Ranch</li>\n<li>Karton 4:   Entwürfe von Karten der</li>\n</ul>\n"
+      \ der Ranch</li>\n<li>Karton 4:   Entwürfe von Karten der Ranch</li>\n</ul>\n"
     general_note_tooltip: "<p>Ein Feld für alle Informationen, die nicht in eines der spezifischeren Felder\
       \ passen.</p>\n"
     inventory: Bestandsverzeichnis
@@ -220,7 +220,7 @@ de:
       \ werden.</p>\n"
     acquisition_type: Bezugsart
     acquisition_type_tooltip: "<p>Ein kategorische Beschreibung für die Art des Erwerbs. Aufbewahrungsorte\n\
-      können die Liste der Datenwerte anpassen.</p>\n<p>Beispiele:</p>\n<ul>\n<li>Geschenk</li>\n<li>Kauf</li>\n\
+      können die Liste der Datenwerte anpassen.</p>\n<p>Beispiele:</p>\n<ul>\n<li>Schenkung</li>\n<li>Erwerb</li>\n\
       <li>Übertragung</li>\n</ul>\n"
     publish_help: Kreuzen Sie dies an, wenn Sie diesen Eingang veröffentlichen möchten.
     publish_tooltip: "<p>Legt fest, ob dieser Eingang auf öffentlichen Besucher-Schnittstellen veröffentlicht\
@@ -249,8 +249,8 @@ de:
       \ die\nfür alle Eingangs-Nummern gleich sind.</p>\n<p>Siehe DACS 5.2.5, ISAD(G) 3.2.4</p>\n"
     script: Schrift der Beschreibung
     resource_type_tooltip: "<p>Eine Liste von Begriffen, die von einem Aufbewahrungsort zur Kategorisierung\
-      \ seiner Ressourcen in Grundtypen verwendet werden.</p>\n<p>Werte in dieser Kontrollierte-Werte-Liste\
-      \ können bearbeitet werden.</p>\n"
+      \ seiner Ressourcen in Grundtypen verwendet werden.</p>\n<p>Werte in dieser Aufzählungs-Liste können\
+      \ bearbeitet werden.</p>\n"
     language_tooltip: "<p>Gibt alle Sprachen an, die in der aus der Eingangsbeschreibung erstellten Aufzeichnung\
       \ vorhanden sind.</p>\n"
     restrictions_tooltip: "<p>Angabe, ob Einschränkungen für den Eingang gelten.</p>\n<p>Siehe DACS 4.1.5\
@@ -350,7 +350,7 @@ de:
       \ die für die Erstellung oder Pflege einer Akteur-Aufzeichnung verantwortlich ist.</p>\n"
     agent_maintenance_histories_tooltip: "<p>Ereignisse im Zusammenhang mit der Erstellung oder Pflege\
       \ der Akteur-Aufzeichnung.</p>\n"
-    agent_record_identifiers_tooltip: "<p> Bezeichner, die der Akteur-Aufzeichnung zugeordnet sind. </p>\n"
+    agent_record_identifiers_tooltip: "<p>Signaturen, die der Akteur-Aufzeichnung zugeordnet sind.</p>\n"
     agent_sources_tooltip: "<p>Eine Quelle, die bei der Formulierung des Inhalts der Akteur-Aufzeichnung\
       \ verwendet wird.</p>\n"
     agent_genders_tooltip: Geschlecht des Subjekts.
@@ -376,19 +376,19 @@ de:
       \ veröffentlicht wird (sofern verwendet)</p>\n"
   enumeration:
     name: Name
-    name_tooltip: "<p>Der Name der Kontrollierte-Werte-Liste, zu der Sie einen Wert hinzufügen möchten.</p>\n"
+    name_tooltip: "<p>Der Name der Aufzählungs-Liste, zu der Sie einen Wert hinzufügen möchten.</p>\n"
     value: Wert
-    value_tooltip: "<p>Der Wert für die Kontrollierte-Werte-Liste, die Sie hinzufügen oder bearbeiten\
-      \ möchten.</p>\n<p>Wann immer möglich, sollten die Werte in Kleinbuchstaben und mit Unterstrichen\
-      \ (\"_\") anstelle von Leerzeichen angegeben werden. Übersetzungen für die Werte sollten der Locales-Datei\
-      \ hinzugefügt werden.</p>\n"
+    value_tooltip: "<p>Der Wert für die Aufzählungs-Liste, die Sie hinzufügen oder bearbeiten möchten.</p>\n\
+      <p>Wann immer möglich, sollten die Werte in Kleinbuchstaben und mit Unterstrichen (\"_\") anstelle\
+      \ von Leerzeichen angegeben werden. Übersetzungen für die Werte sollten der Locales-Datei hinzugefügt\
+      \ werden.</p>\n"
     translation: Übersetzung
     position: Position
     suppress: Unterdrücken
     unsuppress: Unterdrückung aufheben
     merge_into: Zusammenführen
-    _singular: Kontrollierte-Werte-Liste
-    _plural: Kontrollierte-Werte-Listen
+    _singular: Aufzählungs-Liste
+    _plural: Aufzählungs-Listen
   classification_term:
     _plural: Klassifizierungs-Begriffe
     _singular: Klassifizierungs-Begriff
@@ -432,8 +432,8 @@ de:
   conservation_issues:
     _plural: Probleme der Bestandserhaltung
   boolean:
-    "true": Wahr
-    "false": Falsch
+    "true": Ja
+    "false": Nein
   user_defined:
     boolean_1: Boolescher Wert 1
     boolean_2: Boolescher Wert 2
@@ -456,10 +456,10 @@ de:
     date_2_inline_help: z.B. JJJJ-MM-TT
     date_3: Datum 3
     date_3_inline_help: z.B. JJJJ-MM-TT
-    enum_1: Kontrollierter Wert 1
-    enum_2: Kontrollierter Wert 2
-    enum_3: Kontrollierter Wert 3
-    enum_4: Kontrollierter Wert 4
+    enum_1: Aufzählungswert 1
+    enum_2: Aufzählungswert 2
+    enum_3: Aufzählungswert 3
+    enum_4: Aufzählungswert 4
     _singular: Benutzerdefiniert
     _plural: Benutzerdefiniert
     text_4: Text 4
@@ -655,7 +655,7 @@ de:
     _singular: Akteur-Verknüpfung
     _plural: Akteur-Verknüpfungen
   event:
-    event_type_tooltip: "<p>Eine Kategorisierung der Art des Ereignisses.</p>\n<p>Werte in dieser Kontrollierte-Werte-Liste\
+    event_type_tooltip: "<p>Eine Kategorisierung der Art des Ereignisses.</p>\n<p>Werte in dieser Aufzählungs-Liste\
       \ können geändert werden.</p>\n<p>Siehe PREMIS eventType</p>\n"
     event_type: Typ
     outcome: Ergebnis
@@ -724,7 +724,7 @@ de:
       \ Teilerfolg oder Misserfolg. Es wird empfohlen, ein kontrolliertes Vokabular zu verwenden, auf\
       \ das ein System automatisch reagieren kann. Weitere Einzelheiten über das Ergebnis können in einer\
       \ Ergebnis-Anmerkung festgehalten werden. Es wird empfohlen, Ereignisse mit ausreichender Granularität\
-      \ zu definieren, so dass jedes Ereignis ein einziges Ergebnis hat.</p>\n<p>Werte in dieser Kontrollierte-Werte-Liste\
+      \ zu definieren, so dass jedes Ereignis ein einziges Ergebnis hat.</p>\n<p>Werte in dieser Aufzählungs-Liste\
       \ können bearbeitet werden.</p>\n"
   deaccession:
     scope: Teil
@@ -755,12 +755,12 @@ de:
     authority_id: Autoritäts-ID
     source: Quelle
     source_tooltip: "<p>BEDINGT ERFORDERLICHES FELD, wenn keine Namensregeln verwendet werden. Ein Indikator\
-      \ für die maßgebliche Quelle, aus welcher der Name entnommen wurde.</p>\n<p>Werte in dieser Kontrollierte-Werte-Liste\
+      \ für die maßgebliche Quelle, aus welcher der Name entnommen wurde.</p>\n<p>Werte in dieser Aufzählungs-Liste\
       \ können geändert werden.</p>\n"
     rules: Regeln
     rules_tooltip: "<p>BEDINGT ERFORDERLICHES FELD, wenn Namensquelle nicht verwendet wird. Eine Angabe\
       \ der Regeln, die zur Formulierung des Namenseintrags verwendet wurden.</p>\n<p>Werte in dieser\
-      \ Kontrollierte-Werte-Liste können geändert werden.</p>\n"
+      \ Aufzählungs-Liste können geändert werden.</p>\n"
     name_order: Namensreihenfolge
     name_order_tooltip: "<p>Gibt an, ob die Namensform in umgekehrter Reihenfolge (Nachname, Vorname)\
       \ oder in direkter Reihenfolge (Vorname Nachname) angezeigt werden soll.</p>\n"
@@ -780,7 +780,7 @@ de:
     number: Nummer
     dates: Daten
     dates_tooltip: "Verwenden Sie dieses Feld für den Abgleich mit MARC-Autoritätsdatensätzen. Diese Daten\
-      \ werden anstelle der Daten der Existenz dem Namenseintrag in der Anzeige hinzugefügt.</p>;\n<p>Daten\
+      \ werden anstelle der Daten der Existenz dem Namenseintrag in der Anzeige hinzugefügt.</p>\n<p>Daten\
       \ der Existenz für die benannte Entität.</p>\n<p>Beispiele:<p>\n<ul>\n<li>1886-1961 <em>(für H.D.,\
       \ Hilda Doolittle, 1886-1961)</em></li>\n</ul>\n"
     use_dates: Nutzungsdaten
@@ -885,13 +885,13 @@ de:
       </ul>\n"
   agent_record_identifiers:
     identifier_type_tooltip: "<p>Gibt den Typ oder das Format der Signatur der Autoritäts-Aufzeichnung\
-      \ an. Die Werte in dieser Kontrollierte-Werte-Liste können bearbeitet werden.</p>\n"
+      \ an. Die Werte in dieser Aufzählungs-Liste können bearbeitet werden.</p>\n"
     is_primary: Primär
-    record_identifier_tooltip: "<p>Die Signatur für die Akteurs-Aufzeichnung, die normalerweise aus einer\
+    record_identifier_tooltip: "<p>Die Signatur für die Akteur-Aufzeichnung, die normalerweise aus einer\
       \ eindeutigen alphanumerischen Zeichenfolge besteht. Die Signatur kann aus einer externen Autoritäts-Datei\
       \ stammen oder lokal erzeugt werden.</p>\n"
     source_tooltip: "<p>Gibt die Autoritäts-Datei einer zugehörigen Signatur an. Beispiel: NAF (für nr2003017069).\
-      \ Die Werte in dieser Kontrollierte-Werte-Liste können bearbeitet werden.</p>\n"
+      \ Die Werte in dieser Aufzählungs-Liste können bearbeitet werden.</p>\n"
   agent_record_control:
     maintenance_status_tooltip: "<p>Zeigt den aktuellen Status der Aufzeichnung an.</p>\n"
     publication_status_tooltip: "<p> Gibt an, ob eine Akteur-Aufzeichnung öffentlich verfügbar sein soll.\
@@ -920,7 +920,7 @@ de:
       \ Englisch.</p>\n"
     script_tooltip: "<p>Die Schrift, die bei der Erstellung der Akteurbeschreibung verwendet wird. Beispiel:\
       \ Lateinische Schrift.</p>\n"
-    maintenance_agency_note_tooltip: "<p>Der Inhalt der Anmerkung mit Angaben über die für die Akteurs-Aufzeichnung\
+    maintenance_agency_note_tooltip: "<p>Der Inhalt der Anmerkung mit Angaben über die für die Akteur-Aufzeichnung\
       \ zuständige Organisation.</p>\n"
     romanization_tooltip: "<p>Gibt an, ob die Haupt-Namensform aus einer nicht-lateinischen Schrift romanisiert\
       \ wurde, sowie die Art des Romanisierungsschemas. Beispiel: Standard der Nationalbibliothek oder\
@@ -1015,7 +1015,7 @@ de:
     script_tooltip: "<p>Die dem Akteur zugeordnete Schrift. Beispiel: Lateinische Schrift.</p>\n"
   agent_gender:
     gender_tooltip: "<p>Geschlecht des Subjekts.</p></br><p>Werte für diese Liste können über das Menü\
-      \ System -> Kontrollierte-Werte-Listen verwalten hinzugefügt oder geändert werden.</p>\n"
+      \ System -> Aufzählungs-Listen verwalten hinzugefügt oder geändert werden.</p>\n"
   agent_resource:
     linked_resource_tooltip: "<p>Eine Ressource, die sich auf den Akteur/die Entität bezieht.</p>\n"
     file_version_xlink_actuate_attribute_tooltip: "<p>Gibt an, ob der zugehörige URI beim Anzeigen der\
@@ -1236,8 +1236,8 @@ de:
     is_representative: Ist repräsentativ?
     instance_type_tooltip: "<p>Eine Bezeichnung der Manifestation für das beschriebene Archivgut. Die\
       \ Instanzbezeichnung ist optional, aber erforderlich, um eine Behältnis-Aufzeichnung für das beschriebene\
-      \ Archivgut zu eröffnen und zu vervollständigen.</p>\n<p>Werte in dieser Kontrollierte-Werte-Liste\
-      \ können bearbeitet werden.</p>\n"
+      \ Archivgut zu eröffnen und zu vervollständigen.</p>\n<p>Werte in dieser Aufzählungs-Liste können\
+      \ bearbeitet werden.</p>\n"
     digital_object: Digitales Objekt
     _plural: Instanzen
     _singular: Instanz
@@ -1273,7 +1273,7 @@ de:
       \ wird.</p>\n"
     use_statement: Verwendungs-Erklärung
     use_statement_tooltip: "<p>Ein Deskriptor, der den Verwendungszweck der digitalen Datei angibt (z.\
-      \ B. ein Miniaturbild).</p>\n<p>Werte in dieser Kontrollierte-Werte-Liste können bearbeitet werden.</p>\n"
+      \ B. ein Miniaturbild).</p>\n<p>Werte in dieser Aufzählungs-Liste können bearbeitet werden.</p>\n"
     xlink_actuate_attribute: XLink Actuate-Attribut
     xlink_show_attribute: XLink Show-Attribut
     xlink_show_attribute_tooltip: "<p>Ein XLink-Attribut, das beim Export verwendet wird, um anzugeben,\
@@ -1288,7 +1288,7 @@ de:
     checksum: Prüfsumme
     checksum_method: Prüfsummen-Methode
     checksum_method_tooltip: "<p>Der zur Erzeugung von Prüfsummen verwendete Algorithmus.</p>\n<p>Werte\
-      \ in dieser Kontrollierte-Werte-Liste können bearbeitet werden.</p>\n<p>Beispiele:</p>\n<ul>\n<li>MD5</li>\n\
+      \ in dieser Aufzählungs-Liste können bearbeitet werden.</p>\n<p>Beispiele:</p>\n<ul>\n<li>MD5</li>\n\
       <li>CRC-32</li>\n<li>SHA-1</li>\n<li>SHA-256</li>\n</ul>\n"
     identifier: Signatur
     caption: Beschriftung
@@ -1300,7 +1300,7 @@ de:
     xlink_actuate_attribute_tooltip: "<p>Ein XLink-Attribut, das beim Export verwendet wird, um anzugeben,\
       \ wie das digitale Objekt angezeigt werden soll (z.B. ob der Link automatisch erfolgt oder vom Benutzer\
       \ angefordert werden muss). Es wird in Verbindung mit dem XLink Show-Attribut verwendet.</p>\n"
-    file_format_name_tooltip: "<p>Der Name des Formats für den Dateityp.</p>\n<p>Werte in dieser Kontrollierte-Werte-Liste\
+    file_format_name_tooltip: "<p>Der Name des Formats für den Dateityp.</p>\n<p>Werte in dieser Aufzählungs-Liste\
       \ können bearbeitet werden.</p>\n<p>Beispiele:</p>\n<ul>\n<li>Audio Interchange File Format (aiff)</li>\n\
       <li>Audio/Video Interleaved Format (avi)</li>\n<li>JPEG File Interchange Format (jpeg)</li>\n<li>MPEG-Audio\
       \ Layer 3 (mp3)</li>\n<li>Portables Dokumentenformat (pdf)</li>\n</ul>\n"
@@ -1316,7 +1316,7 @@ de:
       \ in der Umfangsangabe, z. B. 5, 11,5, 245. Wird in Verbindung mit dem Umfangs-Typ verwendet, um\
       \ eine strukturierte Umfangsangabe zu liefern.</p>\n<p>Siehe DACS 2.5, ISAD(G) 3.1.5</p>\n"
     extent_type_tooltip: "<p> ERFORDERLICHES FELD: Ein Begriff, der die Art der Einheit angibt, die zur\
-      \ Messung des Umfangs des beschriebenen Archivguts verwendet wird.</p>\n<p>Werte in dieser Kontrollierte-Werte-Liste\
+      \ Messung des Umfangs des beschriebenen Archivguts verwendet wird.</p>\n<p>Werte in dieser Aufzählungs-Liste\
       \ können bearbeitet werden.</p>\n<p>Siehe DACS 2.5, ISAD(G) 3.1.5</p>\n"
     container_summary: Behältnis-Zusammenfassung
     physical_details: Physische Details
@@ -1565,7 +1565,7 @@ de:
       manage_subject_record: Themen-Aufzeichnungen erstellen/aktualisieren/löschen
       manage_agent_record: Akteur-Aufzeichnungen erstellen/aktualisieren/löschen
       manage_vocabulary_record: Vokabular-Aufzeichnungen erstellen/aktualisieren/löschen
-      import_records: Import-Aufträge einleiten
+      import_records: Import-Aufträge starten
       cancel_importer_job: einen Import-Auftrag abbrechen
       manage_container_record: Haupt-Behältnis-Aufzeichnungen löschen/massenhaft aktualisieren
       manage_container_profile_record: Behältnis-Profil-Aufzeichnungen erstellen/aktualisieren/löschen
@@ -1576,7 +1576,7 @@ de:
       delete_classification_record: Klassifizierungen und Klassifizierungsbegriffe löschen
       cancel_job: eine Hintergrund-Aufgabe abbrechen
       create_job: eine Hintergrund-Aufgabe erstellen und ausführen
-      manage_enumeration_record: Kontrollierte-Werte-Aufzeichnungen erstellen/aktualisieren/löschen
+      manage_enumeration_record: Aufzählungs-Datensätze erstellen/aktualisieren/löschen
       manage_rde_templates: RDE-Vorlagen verwalten
       update_container_record: Haupt-Behältnis-Aufzeichnungen erstellen/aktualisieren
     _singular: Gruppe
@@ -1615,8 +1615,7 @@ de:
       \ oder seiner Kodierung verantwortlich sind.</p>\n"
     finding_aid_description_rules: Beschreibungs-Regeln
     finding_aid_description_rules_tooltip: "<p>Gibt die beschreibenden Regeln an, die zur Beschreibung\
-      \ der Ressource verwendet werden.</p>\n<p>Werte in dieser Kontrollierte-Werte-Liste können bearbeitet\
-      \ werden.</p>\n"
+      \ der Ressource verwendet werden.</p>\n<p>Werte in dieser Aufzählungs-Liste können bearbeitet werden.</p>\n"
     finding_aid_language: Sprache der Beschreibung
     finding_aid_language_tooltip: "<p>Gibt alle Sprachen an, die in dem aus der Ressourcenbeschreibung\
       \ erzeugten Findmittel vorhanden sind.</p>\n"
@@ -1649,8 +1648,8 @@ de:
       <ul>\n<li>R.001 (Zwei Elemente \"R\" + \"001\")</li>\n<li>MSS 025 (Ein einzelnes Element)</li>\n\
       <li>Archiv.RSS.0333 (Drei Elemente \"Archiv\" + \"RSS\" + \"0333\")</li>\n</ul>\n"
     resource_type_tooltip: "<p>Eine Liste von Begriffen, die von einem Aufbewahrungsort zur Kategorisierung\
-      \ seiner Ressourcen in Grundtypen verwendet werden.</p>\n<p>Werte in dieser Kontrollierte-Werte-Liste\
-      \ können bearbeitet werden.</p>\n"
+      \ seiner Ressourcen in Grundtypen verwendet werden.</p>\n<p>Werte in dieser Aufzählungs-Liste können\
+      \ bearbeitet werden.</p>\n"
     restrictions_tooltip: "<p>Gibt an, ob das beschriebene Archivgut in irgendeiner Weise eingeschränkt\
       \ sind. Eine zusätzliche Beschreibung der Einschränkung sollte in den entsprechenden Anmerkungen\
       \ oder Rechteerklärungen für die Aufzeichnung, in dem die Einschränkung auftritt, gegeben werden.</p>\n\
@@ -1770,8 +1769,8 @@ de:
       subjects: Thema
       identifier: Signatur
     type:
-      boolean: Boolean
-      controlled_value: Kontrollierter Wert
+      boolean: Boolescher Wert
+      controlled_value: Aufzählungswert
       text: Text
       date: Datum
     date:
@@ -1810,7 +1809,7 @@ de:
       \ Aufzeichnungen erstellen.</li>\n<li>Der Projektleiter wird das kodierte Findmittel überprüfen,\
       \ ausgeben und laden.</li>\n</ul>\n"
     processing_status_tooltip: "<p>Zur Angabe des aktuellen Bearbeitungsstatus einer Archiveinheit (Eingang,\
-      \ Ressource oder digitales Objekt).</p>\n<p>Werte in dieser Kontrollierte-Werte-Liste können bearbeitet\
+      \ Ressource oder digitales Objekt).</p>\n<p>Werte in dieser Aufzählungs-Liste können bearbeitet\
       \ werden.</p>\n<p>Beispiele:</p>\n<ul>\n<li>Neu</li>\n<li>In Bearbeitung</li>\n<li>Erledigt</li>\n\
       </ul>\n"
     cataloged_note: Katalogisierte Anmerkung
@@ -1827,8 +1826,7 @@ de:
     processing_total_extent_type: Umfangstyp
     processing_total_extent_type_tooltip: "<p> ERFORDERLICHES FELD: Ein Begriff, der die Art der Einheit\
       \ angibt, die zur Messung des Umfangs des beschriebenen Archivguts verwendet wird.</p>\n<p>Werte\
-      \ in dieser Kontrollierte-Werte-Liste können bearbeitet werden.</p>\n<p>Siehe DACS 2.5, ISAD(G)\
-      \ 3.1.5</p>\n"
+      \ in dieser Aufzählungs-Liste können bearbeitet werden.</p>\n<p>Siehe DACS 2.5, ISAD(G) 3.1.5</p>\n"
     processing_hours_total_tooltip: "<p>Das numerische Ergebnis der Multiplikation von \"Geschätzte Bearbeitungsstunden\
       \ pro Meter\" mit \"Gesamtumfang der Bearbeitung\". Der Wert kann überschrieben werden, um die tatsächliche\
       \ Bearbeitungszeit wiederzugeben und nicht einen Wert, der auf dem geschätzten Wert Bearbeitungsstunden/Einheit\
@@ -1837,7 +1835,7 @@ de:
     processing_plan: Bearbeitungsplan
     processing_priority: Bearbeitungspriorität
     processing_priority_tooltip: "<p>Gibt die Priorität an, die der Bearbeitung einer Archiveinheit zugewiesen\
-      \ ist.</p>\n<p>Werte in dieser Kontrollierte-Werte-Liste können bearbeitet werden.</p>\n<p>Beispiele:</p>\n\
+      \ ist.</p>\n<p>Werte in dieser Aufzählungs-Liste können bearbeitet werden.</p>\n<p>Beispiele:</p>\n\
       <ul>\n<li>Hoch</li>\n<li>Mittel</li>\n<li>Niedrig</li>\n</ul>\n"
     processing_started_date: Startdatum der Bearbeitung
     processing_status: Bearbeitungs-Status
@@ -2212,9 +2210,9 @@ de:
       "Interest_values_tooltip": '<ul><li><b>Bewertung 1</b>: Vernachlässigbar</li><li><b>Bewert 2</b>:
         Schwach</li><li><b>Bewertung 3</b>: Mäßig</li><li><b>Bewertung 4</b>: Hoch</li><li><b>Bewertung
         5</b>: Sehr hoch</li></ul>'
-      "Reformatting Readiness": Bereitschaft zur Neuformatierung
+      "Reformatting Readiness": Möglichkeit zur Umformatierung
       "Reformatting Readiness_tooltip": <p>Eine Bewertung von 1 bis 5, die angibt, wie leicht Archivgut
-        umformatiert werden können.</p>
+        umformatiert werden kann.</p>
       "Physical Access (arrangement)": Physischer Zugang (Anordnung)
       "Intellectual Access (description)_tooltip": <p>Eine Bewertung von 1 bis 5, die sich auf die intellektuelle
         Beschreibung einer Sammlung und die Zugänglichkeit dieser Beschreibung für die Benutzer bezieht.</p>
@@ -2484,7 +2482,7 @@ de:
         zur Unterscheidung.
       single_date_end: Einzeldatum %{date_str} hat ein Enddatum, das ignoriert wird.
       disam: Mehrere Übereinstimmungen für '%{which}' gefunden. Erstelle '%{name}' zur Unterscheidung.
-      dup: Kontrollierte-Werte-Liste %{which} hat mehrere Instanzen für die Übersetzung '%{trans}'. '%{used}'
+      dup: Aufzählungs-Liste %{which} hat mehrere Instanzen für die Übersetzung '%{trans}'. '%{used}'
         wird als Wert verwendet.
     log_error: "%{row}:\tFEHLER %{what}"
     unfound_id: '%{type} ID %{id} NICHT GEFUNDEN. Das ist ein PLATZHALTER'
