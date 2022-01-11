@@ -279,5 +279,5 @@ describe 'Enumeration Management' do
     @driver.click_and_wait_until_gone(:css, '.modal-footer .btn-primary')
 
     @driver.find_element_with_text('//td', /^IMPORTANT\.$/)
-  end 
+  end
 end
