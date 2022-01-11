@@ -81,6 +81,7 @@ class Enumeration < Sequel::Model(:enumeration)
   def self.apply_values(obj, json, opts = {})
     # don't allow update of an non-editable enumeration
     # make sure the DB mapping has been converted.
+
     obj.reload
     is_editable = ( obj.editable === 1 or obj.editable == true )
 
@@ -101,6 +102,7 @@ class Enumeration < Sequel::Model(:enumeration)
     # Make sure we're not being asked to remove read-only values.
     if EnumerationValue.filter(:enumeration_id => obj.id,
                                :value => removed_values,
+                               :suppressed => 0,
                                :readonly => 1).count > 0
 
       raise AccessDeniedException.new("Can't remove read-only enumeration values")
