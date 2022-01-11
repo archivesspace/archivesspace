@@ -1,7 +1,9 @@
 require 'spec_helper'
 require 'rails_helper'
 
-describe 'Largetree toolbar tooltip', js: true do
+$help_link_id = '#load_via_spreadsheet_help_icon'
+
+describe 'Tree toolbar import help link', js: true do
   before(:each) do
     visit '/'
     page.has_xpath? '//input[@id="login"]'
@@ -14,42 +16,34 @@ describe 'Largetree toolbar tooltip', js: true do
     page.has_no_xpath? '//input[@id="login"]'
   end
 
-  it 'should be hidden on edit resource page load' do
+  it 'should be visible on edit resource page load' do
     click_link 'Browse'
     click_link 'Resources'
     find("#tabledSearchResults .btn-primary", match: :first).click
 
-    expect(page).to have_css('#tt_load_via_spreadsheet', visible: :hidden)
+    expect(page).to have_css($help_link_id, visible: true)
   end
 
-  it 'should be hidden on edit resource page when help button\'s neighboring buttons are hovered' do
+  it 'should display a tooltip above when hovered on edit resource page' do
     click_link 'Browse'
     click_link 'Resources'
     find("#tabledSearchResults .btn-primary", match: :first).click
 
-    find_link('Enable Reorder Mode').hover
-    expect(page).to have_css('#tt_load_via_spreadsheet', visible: :hidden)
-
-    find_link('Add Child').hover
-    expect(page).to have_css('#tt_load_via_spreadsheet', visible: :hidden)
-
-    find_link('Load via Spreadsheet').hover
-    expect(page).to have_css('#tt_load_via_spreadsheet', visible: :hidden)
-
-    find_link('Rapid Data Entry').hover
-    expect(page).to have_css('#tt_load_via_spreadsheet', visible: :hidden)
+    page.should have_no_css("#$help_link_id[aria-describedby*='tooltip']")
+    page.find($help_link_id).hover
+    page.should have_css("#$help_link_id[aria-describedby*='tooltip'][data-placement='top']")
   end
 
-  it 'should be visible on edit resource page when help button is hovered' do
+  it 'should be hidden when resource tree is in reorder mode' do
     click_link 'Browse'
     click_link 'Resources'
     find("#tabledSearchResults .btn-primary", match: :first).click
 
-    find('#load_via_spreadsheet_help_icon').hover
-    expect(page).to have_css('#tt_load_via_spreadsheet', visible: true)
+    click_on 'Enable Reorder Mode'
+    expect(page).to have_css($help_link_id, visible: :hidden)
   end
 
-  it 'should be hidden on edit archival object page load' do
+  it 'should be visible on edit archival object page load' do
     @resource = create(:json_resource)
     @parent = create(:json_archival_object,
                      :resource => {'ref' => @resource.uri},
@@ -71,10 +65,10 @@ describe 'Largetree toolbar tooltip', js: true do
       find("a.record-title").click
     end
 
-    expect(page).to have_css('#tt_load_via_spreadsheet', visible: :hidden)
+    expect(page).to have_css($help_link_id, visible: true)
   end
 
-  it 'should be hidden on edit archival object page when help button\'s neighboring buttons are hovered' do
+  it 'should display a tooltip above when hovered on edit archival object page' do
     @resource = create(:json_resource)
     @parent = create(:json_archival_object,
                      :resource => {'ref' => @resource.uri},
@@ -96,26 +90,12 @@ describe 'Largetree toolbar tooltip', js: true do
       find("a.record-title").click
     end
 
-    find_link('Enable Reorder Mode').hover
-    expect(page).to have_css('#tt_load_via_spreadsheet', visible: :hidden)
-
-    find_link('Add Child').hover
-    expect(page).to have_css('#tt_load_via_spreadsheet', visible: :hidden)
-
-    find_link('Add Sibling').hover
-    expect(page).to have_css('#tt_load_via_spreadsheet', visible: :hidden)
-
-    find_link('Load via Spreadsheet').hover
-    expect(page).to have_css('#tt_load_via_spreadsheet', visible: :hidden)
-
-    find_link('Transfer').hover
-    expect(page).to have_css('#tt_load_via_spreadsheet', visible: :hidden)
-
-    find_link('Rapid Data Entry').hover
-    expect(page).to have_css('#tt_load_via_spreadsheet', visible: :hidden)
+    page.should have_no_css("#$help_link_id[aria-describedby*='tooltip']")
+    page.find($help_link_id).hover
+    page.should have_css("#$help_link_id[aria-describedby*='tooltip'][data-placement='top']")
   end
 
-  it 'should be visible on edit archival object page when help button is hovered' do
+  it 'should be hidden when archival object tree is in reorder mode' do
     @resource = create(:json_resource)
     @parent = create(:json_archival_object,
                      :resource => {'ref' => @resource.uri},
@@ -137,8 +117,8 @@ describe 'Largetree toolbar tooltip', js: true do
       find("a.record-title").click
     end
 
-    find('#load_via_spreadsheet_help_icon').hover
-    expect(page).to have_css('#tt_load_via_spreadsheet', visible: true)
+    click_on 'Enable Reorder Mode'
+    expect(page).to have_css($help_link_id, visible: :hidden)
   end
 
 end

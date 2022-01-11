@@ -322,10 +322,18 @@ var TreeToolbarConfiguration = {
             },
             onToolbarRendered: function(btn, toolbarRenderer) {
                 $(btn).addClass('disabled');
-                $(btn).after(AS.renderTemplate('template_load_via_spreadsheet_help_icon'));
-                $(btn).next("a").hover(function() {
-                    $('#tt_load_via_spreadsheet').toggle();
-                })
+
+                const inReorderMode = $('#tree-container').hasClass('drag-enabled');
+
+                if (!inReorderMode) {
+                  $(btn).after(AS.renderTemplate('template_load_via_spreadsheet_help_icon'));
+
+                  const helpLinkID = '#load_via_spreadsheet_help_icon';
+                  $(helpLinkID).hover(
+                    () => $(helpLinkID).tooltip('show'),
+                    () => $(helpLinkID).tooltip('hide')
+                  );
+                }
             },
         },
         // RDE
@@ -409,10 +417,18 @@ var TreeToolbarConfiguration = {
             },
             onToolbarRendered: function(btn, toolbarRenderer) {
                 $(btn).addClass('disabled');
-                $(btn).after(AS.renderTemplate('template_load_via_spreadsheet_help_icon'));
-                $(btn).next("a").hover(function() {
-                    $('#tt_load_via_spreadsheet').toggle();
-                })
+
+                const inReorderMode = $('#tree-container').hasClass('drag-enabled');
+
+                if (!inReorderMode) {
+                  $(btn).after(AS.renderTemplate('template_load_via_spreadsheet_help_icon'));
+
+                  const helpLinkID = '#load_via_spreadsheet_help_icon';
+                  $(helpLinkID).hover(
+                    () => $(helpLinkID).tooltip('show'),
+                    () => $(helpLinkID).tooltip('hide')
+                  );
+                }
             },
         }
         ],

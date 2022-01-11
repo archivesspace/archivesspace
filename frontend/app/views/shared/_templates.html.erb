@@ -315,10 +315,7 @@
 --></div>
 
 <div id="template_load_via_spreadsheet_help_icon"><!--
-  <a target='_blank' aria-describedby='tt_load_via_spreadsheet' class='has-tooltip initialised' id='load_via_spreadsheet_help_icon' href="<%= ArchivesSpaceHelp.url_for_topic('resource_load_via_spreadsheet') %>">
+  <a target='_blank' class='has-tooltip initialised' id='load_via_spreadsheet_help_icon' href="<%= ArchivesSpaceHelp.url_for_topic('resource_load_via_spreadsheet') %>" data-toggle="tooltip" data-placement="top" title="<%= I18n.t("help.topics.resource_load_via_spreadsheet")%>" data-container="body">
     <span class='context-help-icon glyphicon glyphicon-question-sign'></span>
-    <div class='js-tooltip' id='tt_load_via_spreadsheet'>
-      <%= I18n.t("help.topics.resource_load_via_spreadsheet")%>
-    </div><div class='tooltip-arrow'></div>
   </a>
 --></div>
