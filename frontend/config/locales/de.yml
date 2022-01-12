@@ -700,6 +700,7 @@ de:
     success: Benutzer erfolgreich gewechselt
     become-user: Als Benutzer ausgeben
     failed: Konnte nicht zum angegebenen Benutzer wechseln
+    username: Benutzername
   header:
     staff_interface: ArchivesSpace Verwaltungsoberfläche
   session:
@@ -1108,6 +1109,9 @@ de:
         name_selector_tooltip: "<p>Die Aufzählungs-Liste zum Bearbeiten.</p>\n"
         no_name_provided: Wählen Sie eine Werte-Liste bevor Sie einen neuen Wert erstellen
         value_updated: Wert aktualisiert
+        not_used: Nicht verwendet.
+        one_related_item: 1 zugehöriges Element.
+        related_items: " zugehörige Elemente."
       action:
         create_value: Wert erstellen
         download_csv: CSV herunterladen
@@ -1402,6 +1406,7 @@ de:
         edit_account_submit: Benutzerkonto aktualisieren
         account: Benutzerkonto
         edit_account: Benutzerkonto bearbeiten
+        new_account: Neues Benutzerkonto
       action:
         create_account: Benutzerkonto erstellen
         show_active: Aktive Benutzer anzeigen

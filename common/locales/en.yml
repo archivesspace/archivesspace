@@ -2293,6 +2293,7 @@ en:
     merge_into: Merge Into
     _singular: Controlled Value List
     _plural: Controlled Value lists
+    default: Default
 
   classification:
     <<: *slug_attributes

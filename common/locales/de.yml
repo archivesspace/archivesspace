@@ -108,6 +108,7 @@ de:
     merge_into: Zusammenführen
     _singular: Aufzählungs-Liste
     _plural: Aufzählungs-Listen
+    default: Standard
   metadata_rights_declaration:
     xlink_arcrole_attribute_tooltip: "<p>Typ oder Art der im zugehörigen URI verknüpften entfernten Ressource.</p>\n"
     file_version_xlink_show_attribute_tooltip: "<p>Gibt an, wo die im zugehörigen URI verknüpfte entfernte\

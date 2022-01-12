@@ -514,6 +514,7 @@ en:
     become-user: Become User
     failed: Failed to switch to the specified user
     success: Successfully switched users
+    username: Username
 
   navbar:
     become-user: Become User
@@ -972,6 +973,9 @@ en:
         name_selector_tooltip: |
             <p>The Controlled Value List to edit.</p>
         no_name_provided: Select a Value List before creating a new value
+        not_used: Not Used.
+        one_related_item: 1 related item.
+        related_items: " related items."
       action:
         create_value: Create Value
         delete_value: Delete Value
@@ -1279,6 +1283,7 @@ en:
         account: Account
         edit_account: Edit Account
         edit_account_submit: Update Account
+        new_account: New Account
       action:
         create_account: Create Account
         update_account: Update Account
