@@ -1858,6 +1858,13 @@ en:
     member_usernames_tooltip: |
         <p>The members that are part of this group.</p>
     permissions: "Members can:"
+    default_group_names:
+      repository_managers: "Managers of the %{repo_code} repository"
+      repository_archivists: "Archivists of the %{repo_code} repository"
+      project_managers: "Project managers of the %{repo_code} repository"
+      advanced_data_entry: "Advanced Data Entry users of the %{repo_code} repository"
+      basic_data_entry: "Basic Data Entry users of the %{repo_code} repository"
+      repository_viewers: "Viewers of the %{repo_code} repository"
     permission_types:
       manage_repository: manage this repository (change groups and other settings)
       update_location_record: create/modify/delete location records in this repository

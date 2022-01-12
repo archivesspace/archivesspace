@@ -1667,6 +1667,13 @@ de:
     description: Beschreibung
     member_usernames: Mitglieder
     permissions: 'Mitglieder können:'
+    default_group_names:
+      repository_managers: "Verwalter des Aufbewahrungsorts %{repo_code}"
+      repository_archivists: "Archivare des Aufbewahrungsorts %{repo_code}"
+      project_managers: "Projektmanager des Aufbewahrungsorts %{repo_code}"
+      advanced_data_entry: "Fortgeschrittene Dateneingabe-Benutzer des Aufbewahrungsorts %{repo_code}"
+      basic_data_entry: "Basis-Dateneingabe-Benutzer des Aufbewahrungsorts %{repo_code}"
+      repository_viewers: "Betrachter des Aufbewahrungsorts %{repo_code}"
     permission_types:
       manage_repository: diesen Aufbewahrungsort verwalten (Gruppen und andere Einstellungen ändern)
       update_location_record: Orts-Aufzeichnungen in diesem Aufbewahrungsort erstellen/ändern/löschen
@@ -1706,6 +1713,7 @@ de:
       manage_enumeration_record: Aufzählungs-Datensätze erstellen/aktualisieren/löschen
       manage_rde_templates: RDE-Vorlagen verwalten
       update_container_record: Haupt-Behältnis-Aufzeichnungen erstellen/aktualisieren
+      manage_custom_report_templates: Benutzerdefinierte Berichtsvorlagen verwalten
     _singular: Gruppe
     _plural: Gruppen
     description_tooltip: "<p>Eine kurze textliche Beschreibung der Gruppe.</p>\n<p>Beispiele:\n<ul>\n\

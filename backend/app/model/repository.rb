@@ -51,7 +51,7 @@ class Repository < Sequel::Model(:repository)
 
     standard_groups = [{
                          :group_code => "repository-managers",
-                         :description => "Managers of the #{repo_code} repository",
+                         :description => I18n.t("group.default_group_names.repository_managers", :repo_code => repo_code),
                          :grants_permissions => ["manage_repository", "update_location_record", "update_subject_record",
                                                  "update_agent_record", "update_accession_record", "update_resource_record",
                                                  "update_digital_object_record", "update_event_record", "delete_event_record", "update_container_record",
@@ -66,7 +66,7 @@ class Repository < Sequel::Model(:repository)
                        },
                        {
                          :group_code => "repository-archivists",
-                         :description => "Archivists of the #{repo_code} repository",
+                         :description => I18n.t("group.default_group_names.repository_archivists", :repo_code => repo_code),
                          :grants_permissions => ["update_subject_record", "update_agent_record", "update_accession_record",
                                                  "update_resource_record", "update_digital_object_record", "update_event_record",
                                                  "update_container_record", "update_container_profile_record",
@@ -79,7 +79,7 @@ class Repository < Sequel::Model(:repository)
                        },
                        {
                          :group_code => "repository-project-managers",
-                         :description => "Project managers of the #{repo_code} repository",
+                         :description => I18n.t("group.default_group_names.project_managers", :repo_code => repo_code),
                          :grants_permissions => ["view_repository", "update_accession_record", "update_resource_record",
                                                  "update_digital_object_record", "update_event_record", "delete_event_record", "update_subject_record",
                                                  "update_agent_record", "update_container_record",
@@ -93,7 +93,7 @@ class Repository < Sequel::Model(:repository)
                        },
                        {
                          :group_code => "repository-advanced-data-entry",
-                         :description => "Advanced Data Entry users of the #{repo_code} repository",
+                         :description => I18n.t("group.default_group_names.advanced_data_entry", :repo_code => repo_code),
                          :grants_permissions => ["view_repository", "update_accession_record", "update_resource_record",
                                                  "update_digital_object_record", "update_event_record", "update_subject_record",
                                                  "update_agent_record", "update_container_record",
@@ -106,13 +106,13 @@ class Repository < Sequel::Model(:repository)
                        },
                        {
                          :group_code => "repository-basic-data-entry",
-                         :description => "Basic Data Entry users of the #{repo_code} repository",
+                         :description => I18n.t("group.default_group_names.basic_data_entry", :repo_code => repo_code),
                          :grants_permissions => ["view_repository", "update_accession_record", "update_resource_record",
                                                  "update_digital_object_record", "create_job"]
                        },
                        {
                          :group_code => "repository-viewers",
-                         :description => "Viewers of the #{repo_code} repository",
+                         :description => I18n.t("group.default_group_names.repository_viewers", :repo_code => repo_code),
                          :grants_permissions => ["view_repository"]
                        }]
 
