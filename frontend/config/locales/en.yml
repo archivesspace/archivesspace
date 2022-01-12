@@ -320,6 +320,9 @@ en:
       room: Room
       area: Area
       location_holdings: Holdings for Current Repository
+      location_no_holdings: No holdings for this repository.
+      location_one_top_container: 1 top container.
+      location_top_containers: " top containers."
       location_profile_display_string_u_ssort: Location Profile
       owner_repo_display_string_u_ssort: Repository
       none: None

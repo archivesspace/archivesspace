@@ -546,6 +546,9 @@ de:
       publish: Veröffentlicht
       score: Relevanz
       owner_repo_display_string_u_ssort: Aufbewahrungsort
+      location_no_holdings: Kein Bestand für diesen Aufbewahrungsort.
+      location_one_top_container: 1 Haupt-Behältnis.
+      location_top_containers: " Haupt-Behältnisse."
       location_holdings: Bestand für aktuellen Aufbewahrungsort
       audit_info: Prüfinformation
       location_profile_display_string_u_ssort: Standort-Profil

@@ -2216,6 +2216,7 @@ de:
     status_running: Wird ausgeführt
     status_failed: Fehlgeschlagen
     status_canceled: Abgebrochen
+    queue_position: "Nr. %{position}"
     owner: Besitzer
     types:
       container_labels_job: Behältnis-Beschriftungen
@@ -2797,3 +2798,5 @@ de:
     _plural: Gruppen
   owner_repo:
     _plural: Reserviert für
+  container_profile:
+    title: "%{name} [%{depth}t, %{height}h, %{width}b %{dimension_units}] Umfang gemessen durch %{extent_dimension}"

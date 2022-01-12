@@ -2486,6 +2486,7 @@ en:
     status_running: Running
     status_failed: Failed
     status_canceled: Canceled
+    queue_position: "Nr. %{position}"
     time_submitted: Time Submitted
     time_started: Time Started
     time_finished: Time Completed
@@ -3014,3 +3015,6 @@ en:
     ark_editor_errors:
       ark_collision: One of the ARKs provided is already in use.
       ark_format_error: One of the ARKs provided was not a valid ARK.
+
+  container_profile:
+    title: "%{name} [%{depth}d, %{height}h, %{width}w %{dimension_units}] extent measured by %{extent_dimension}"
