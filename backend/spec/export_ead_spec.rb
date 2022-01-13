@@ -538,7 +538,6 @@ describe "EAD export mappings" do
 
     describe "How {archival_object}.instances[].sub_container data is mapped." do
       let(:instances) { object.instances.reject {|i| i['sub_container'].nil? } }
-      let(:instances_no_type) { object.instances. {|i| i['sub_container'].nil? } }
 
       it "maps {archival_object}.instances[].sub_container to {desc_path}/did/container" do
         container_ix = 1
