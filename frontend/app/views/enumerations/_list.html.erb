@@ -2,7 +2,7 @@
 <% if @enumeration['editable']%>
 
   <div class="btn-group pull-right">
-    <%= link_to "#{I18n.t("actions.create")} #{I18n.t("enumeration.value")}", {:controller => :enumerations, :action => :new, :id => JSONModel(:enumeration).id_for(@enumeration["uri"])}, "data-toggle" => "modal-ajax", :class=> "btn btn-sm btn-default" %>
+    <%= link_to "#{I18n.t("enumeration._frontend.action.create_value")}", {:controller => :enumerations, :action => :new, :id => JSONModel(:enumeration).id_for(@enumeration["uri"])}, "data-toggle" => "modal-ajax", :class=> "btn btn-sm btn-default" %>
   </div>
   <br style="clear:both" /> <!-- So dirty! -->
 
