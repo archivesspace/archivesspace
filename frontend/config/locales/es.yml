@@ -186,6 +186,7 @@ es:
     run: Huir
     check_all: Comprobar todo
     uncheck_all: Desmarcar todos
+    download: Descargar
   database_warning:
     message: "<p><strong>Advertencia de base de datos:</strong> Estas utilizando la\
       \ base de datos (Apache Derby) habilitada para pruebas. Le recomendamos utilizar\
@@ -3220,3 +3221,38 @@ es:
 
   metadata_rights_declaration_merge_victim:
     <<: *metadata_rights_declaration_attributes
+  bulk_import_templates:
+    aspace_accession_import_template_csv: Cree registros de accesiones y registros
+      vinculados a accesiones como agentes, sujetos y eventos.
+    bulk_import_DO_template_xlsx: Cree y vincule objetos digitales a objetos de archivo
+      existentes en un recurso. El formato XLSX es para quienes tienen acceso a Microsoft
+      Excel.
+    overview: "<p> Estas son plantillas para cargar datos de hojas de cálculo en ArchivesSpace\
+      \ usando las diferentes opciones de importación en el área de Trabajos en segundo\
+      \ plano. Los datos necesarios para una importación exitosa dependen del tipo\
+      \ de registro que se está creando. No es necesario que complete todas las filas\
+      \ y columnas. </p> <p> Cada plantilla CSV incluye una fila de datos de muestra.\
+      \ A menos que desee crear un registro con los datos de muestra, elimine los\
+      \ datos de muestra antes de cargar su hoja de cálculo. <b> No elimine la fila\
+      \ de encabezado, agregue columnas adicionales o reorganice las columnas existentes.\
+      \ </b> </p> <p> Las plantillas de Excel incluyen instrucciones adicionales para\
+      \ usar las plantillas y validaciones para ciertas celdas. No elimine las instrucciones\
+      \ o validaciones. </p>\n"
+    aspace_digital_object_import_template_csv: Cree registros de objetos digitales
+      y registros vinculados a objetos digitales como agentes, sujetos y eventos.
+    bulk_import_template_xlsx: Crea objetos de archivo adjuntos a un recurso existente.
+      Incluye la opción de crear muchos subregistros diferentes y registros vinculados,
+      incluidas fechas, extensiones, notas, contenedores y objetos digitales. El formato
+      XLSX es para quienes tienen acceso a Microsoft Excel.
+    bulk_import_template_csv: Crea objetos de archivo adjuntos a un recurso existente.
+      Incluye la opción de crear muchos subregistros diferentes y registros vinculados,
+      incluidas fechas, extensiones, notas, contenedores y objetos digitales. El formato
+      CSV es para personas que no tienen acceso a Microsoft Excel.
+    bulk_import_DO_template_csv: Cree y vincule objetos digitales a objetos de archivo
+      existentes en un recurso. El formato CSV es para personas que no tienen acceso
+      a Microsoft Excel.
+    aspace_location_import_template_csv: Crea nuevos registros de ubicación. Tenga
+      en cuenta que esta plantilla es para crear los propios registros de ubicación,
+      no para vincular materiales a ubicaciones.
+    aspace_assessment_import_template_csv: Cree y vincule evaluaciones a accesiones,
+      recursos, objetos de archivo u objetos digitales existentes.
