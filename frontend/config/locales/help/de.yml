@@ -27,7 +27,7 @@ de:
       event_date: Hilfe zu Datum/Zeit von Ereignissen
       repository_groups: Hilfe zu Verwalten von Gruppen
       preference: Hilfe zu Einstellungen
-      enumeration: Hilfe zu Festgelegte-Werte Listen
+      enumeration: Hilfe zu Aufzählungs-Listen
       agent_conventions_declarations: Hilfe zu Beteiligten-Konventionserklärungen
       event_basic_information: Hilfe zu Grundlegenden Informationen
       archival_object_external_documents: Hilfe zu Externen Dokumenten
@@ -50,7 +50,7 @@ de:
       accession_subjects: Hilfe zu Themen
       accession_rights_statements: Hilfe zu Rechteerklärungen
       accession_instances: Hilfe zu Instanzen
-      accession_collection_management: Hilfe zur Sammlungs-Verwaltung
+      accession_collection_management: Hilfe zur Sammlungsverwaltung
       accession_user_defined: Hilfe zu Benutzerdefiniert
       resource_basic_information: Hilfe zu Grundlegenden Informationen
       resource_dates: Hilfe zu Daten
@@ -59,7 +59,7 @@ de:
       resource_linked_agents: Hilfe zu Akteur-Verknüpfungen
       resource_rights_statements: Hilfe zu Rechteerklärungen
       resource_instances: Hilfe zu Instanzen
-      resource_collection_management: Hilfe zur Sammlungs-Verwaltung
+      resource_collection_management: Hilfe zur Sammlungsverwaltung
       resource_user_defined: Hilfe zu Benutzerdefiniert
       resource_load_via_spreadsheet: Hilfe zu Mit Tabelle Laden
       archival_object_basic_information: Hilfe zu Grundlegenden Informationen
@@ -74,7 +74,7 @@ de:
       digital_object_linked_agents: Hilfe zu Akteur-Verknüpfungen
       digital_object_external_documents: Hilfe zu Externen Dokumenten
       digital_object_instances: Hilfe zu Instanzen
-      digital_object_collection_management: Hilfe zur Sammlungs-Verwaltung
+      digital_object_collection_management: Hilfe zur Sammlungsverwaltung
       digital_object_classification: Hilfe zu Klassifizierungen
       digital_object_component: Hilfe zu Komponenten von digitalen Objekten
       digital_object_component_dates: Hilfe zu Daten
@@ -113,7 +113,7 @@ de:
       archival_object_rights_statements: Hilfe zu Rechteerklärungen
       digital_object_subjects: Hilfe zu Themen
       digital_object_component_deaccessions: Hilfe zu Abgängen
-      digital_object_component_collection_management: Hilfe zur Sammlungs-Verwaltung
+      digital_object_component_collection_management: Hilfe zur Sammlungsverwaltung
       digital_object_component_user_defined: Hilfe zu Benutzerdefiniert
       agent_used_language: Hilfe zu Verwendeter Sprache
       accession_classification: Hilfe zu Klassifizierungen
@@ -135,7 +135,7 @@ de:
       agent_merge: Hilfe zum Zusammenfügen von Akteuren
       accession: Hilfe zu Eingängen
       accession_external_documents: Hilfe zu Externen Dokumenten
-      archival_object_collection_management: Hilfe zur Sammlungs-Verwaltung
+      archival_object_collection_management: Hilfe zur Sammlungsverwaltung
       digital_object_notes: Hilfe zu Anmerkungen
       digital_object_component_extents: Hilfe zu Umfängen
       subject_terms: Hilfe zu Begriffen und Untereinheiten
