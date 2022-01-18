@@ -245,7 +245,7 @@ de:
         sponsor: Sponsor
         note: Anmerkung
         revision: Überarbeitungs-Bezeichnung
-        series_statement: Serien-Bezeichnung
+        series_statement: Erklärung zur Serie
         edition_statement: Ausgaben-Bezeichnung
       related_accessions:
         accessions: Eingangs-Aufzeichnung
@@ -412,8 +412,8 @@ de:
     note_citation: Zitierung
     _plural: Anmerkungen
   metadata_rights_declaration:
-    _plural: Rechte-Deklarationen von Metadaten
-    _singular: Rechte-Deklaration von Metadaten
+    _plural: Rechteerklärungen von Metadaten
+    _singular: Rechteerklärungen von Metadaten
     license: Lizenz
     descriptive_note: Beschreibende Anmerkung
     file_uri: Datei-URI
