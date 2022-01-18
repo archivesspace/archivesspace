@@ -704,7 +704,7 @@ de:
       mtk: Protokollführer
       mus: Musiker
       opn: Gegner
-      org: Schöpfer
+      org: Urheber
       orm: Organisator der Sitzung
       osp: Moderator auf dem Bildschirm
       oth: Andere
@@ -1370,7 +1370,7 @@ de:
       item: Element
       otherlevel: Andere Ebene
       recordgrp: Aufzeichnungs-Gruppe
-      series: Serien
+      series: Serie
       subfonds: Teilbestand
       subgrp: Teilgruppe
       subseries: Teilserie
@@ -1666,10 +1666,10 @@ de:
       copyright: Urheberrecht
       creation: Erstellung
       deaccession: Abgang
-      digitized: Digitalisiert
+      digitized: Digitalisierung
       event: Ereignis
       existence: Existenz
-      issued: Ausgegeben
+      issued: Ausgabe
       modified: Geändert
       other: Andere
       publication: Veröffentlichung
@@ -1837,11 +1837,11 @@ de:
       preliminary: Vorläufig
       provisional: Provisorisch
     linked_agent_role:
-      creator: Schöpfer
+      creator: Urheber
       source: Quelle
       subject: Subjekt
     location_function_type:
-      arrivals: Ankünfte
+      arrivals: Eingänge
       av_materials: Audiovisuelle Materialien
       shared: Geteilt
     maintenance_agent_type:
@@ -1962,9 +1962,9 @@ de:
     linked_agent_role: Verknüpfter Akteur Rolle
     linked_event_archival_record_roles: Verknüpftes Ereignis Archiv-Aufzeichnungs-Rollen
     location_function_type: Standort Funktions-Typ
-    location_temporary: Standort Temporär
+    location_temporary: Standort Vorübergehend
     maintenance_agent_type: Aufzeichnungs-Steuerung Wartung Akteur-Typ
-    maintenance_event_type: Aufzeichnungs-Steuerung Wartungs-Ereignis-Typ
+    maintenance_event_type: Aufzeichnungs-Steuerung Typ des Wartungsereignisses
     metadata_license: Metadaten-Lizenz
     name_person_name_order: Name Personenname Reihenfolge
     name_source: Namensquelle
