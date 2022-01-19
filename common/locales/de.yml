@@ -153,7 +153,7 @@ de:
     _singular: Sprache
   accession:
     _singular: Eingang
-    accession_id_tooltip: "<p>Die interne Datenbanknummer für einen bestimmte Eingangs-Aufzeichnung.</p>\n"
+    accession_id_tooltip: "<p>Die interne Datenbanknummer für eine bestimmte Eingangs-Aufzeichnung.</p>\n"
     identifier: Signatur
     id_0: Signatur
     id_1: Signatur 2
@@ -1715,7 +1715,7 @@ de:
     places_tooltip: "<p>Ein geografischer Ort, welcher der verknüpften Ressource zugeordnet ist.</p>\n"
   defaults:
     publish: Veröffentlichen?
-    assessment_browse_section: Begutachtungs-Spalten beim Blättern
+    assessment_browse_section: Spalten der Begutachtungs beim Blättern
     sort_direction: Standard-Sortierrichtung
     general_section: Allgemeine Einstellungen
     show_suppressed: Unterdrückte anzeigen?
@@ -1723,12 +1723,12 @@ de:
     default_values_tooltip: Ob neue Eingangs- und Ressourcenaufzeichnungen mit Standardwerten vorbefüllt
       werden sollen.
     sort_direction_tooltip: Standardrichtung zum Sortieren der Ergebnisse.
-    classification_browse_section: Klassifizerungs-Spalten beim Blättern
-    repositories_browse_section: Aufbewahrungsort-Spalten beim Blättern
+    classification_browse_section: Spalten der Klassifizerung beim Blättern
+    repositories_browse_section: Spalten des Aufbewahrungsorts beim Blättern
     locale: Sprachauswahl
     search_browse_columns: Voreinstellungen für Spalten beim Suchen und Blättern
-    accession_browse_section: Eingangs-Spalten beim Blättern
-    collection_management_browse_section: Sammlungsverwaltung-Spalten beim Blättern
+    accession_browse_section: Spalten des Eingangs beim Blättern
+    collection_management_browse_section: Spalten der Sammlungsverwaltung beim Blättern
     accept_default_message: '> Standard akzeptieren:'
     no_value: '[kein Wert]'
     rde_sort_alpha: RDE-Vorlagen alphabetisch anzeigen?
@@ -1736,17 +1736,17 @@ de:
     browse_column_tooltip: Das Feld, das in der Spalte %{num} angezeigt werden soll.
     sort_column: Standard-Sortierspalte
     sort_column_tooltip: Das Standardfeld zum Sortieren der Ergebnisse.
-    resource_browse_section: Ressourcen-Spalten beim Blättern
-    archival_object_browse_section: Archivobjekt-Spalten beim Blättern
-    digital_object_browse_section: Digitales Objekt-Spalten beim Blättern
-    digital_object_component_browse_section: Digitales-Objekt-Komponenten-Spalten beim Blättern
-    subject_browse_section: Themen-Spalten beim Blättern
-    agent_browse_section: Akteur-Spalten beim Blättern
-    location_browse_section: Standort-Spalten beim Blättern
-    event_browse_section: Ereignis-Spalten beim Blättern
-    top_container_browse_section: Haupt-Behältnis-Spalten beim Blättern
-    location_profile_browse_section: Standortprofil-Spalten beim Blättern
-    container_profile_browse_section: Behältnisprofil-Spalten beim Blättern
+    resource_browse_section: Spalten der Ressource beim Blättern
+    archival_object_browse_section: Spalten des Archiv-Objekts beim Blättern
+    digital_object_browse_section: Spalten des digitalen Objekts beim Blättern
+    digital_object_component_browse_section: Spalten der Komponente des digitalen Objekts beim Blättern
+    subject_browse_section: Spalten des Themas beim Blättern
+    agent_browse_section: Spalten des Akteurs beim Blättern
+    location_browse_section: Spalten des Standorts beim Blättern
+    event_browse_section: Spalten des Ereignisses beim Blättern
+    top_container_browse_section: Spalten des Haupt-Behältnis beim Blättern
+    location_profile_browse_section: Spalten des Standortprofils beim Blättern
+    container_profile_browse_section: Spalten des Behältnisprofils beim Blättern
     multi_browse_section: Suchspalten
     job_browse_section: Spalten für Hintergrund-Aufgaben
     note_order_section: Anmerkungsreihenfolge
@@ -1917,7 +1917,7 @@ de:
       scope_by_date: Geltungsbereich nach Datum
       template: Vorlage
       from: Von
-      to: Zu
+      to: Bis
   validation_errors:
     missing_required_property: Eigenschaft ist erforderlich, fehlte aber
     must_not_be_before_begin: darf nicht vor Beginn sein
