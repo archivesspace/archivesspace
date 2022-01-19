@@ -2,6 +2,29 @@ require_relative 'utils'
 require 'digest'
 require 'json'
 
+def delete_zombies
+  # Resources
+  zombies = self[:ark_name]
+              .left_join(:resource, Sequel.qualify(:ark_name, :resource_id) => Sequel.qualify(:resource, :id))
+              .filter(Sequel.~(Sequel.qualify(:ark_name, :resource_id) => nil))
+              .filter(Sequel.qualify(:resource, :id) => nil)
+              .select(Sequel.qualify(:ark_name, :id))
+              .map {|row| row.fetch(:id)}
+
+  self[:ark_name].filter(:id => zombies).delete
+
+  # Archival Objects
+  zombies = self[:ark_name]
+              .left_join(:archival_object, Sequel.qualify(:ark_name, :archival_object_id) => Sequel.qualify(:archival_object, :id))
+              .filter(Sequel.~(Sequel.qualify(:ark_name, :archival_object_id) => nil))
+              .filter(Sequel.qualify(:archival_object, :id) => nil)
+              .select(Sequel.qualify(:ark_name, :id))
+              .map {|row| row.fetch(:id)}
+
+  self[:ark_name].filter(:id => zombies).delete
+end
+
+
 Sequel.migration do
   up do
     # New ArkName columns
@@ -24,6 +47,9 @@ Sequel.migration do
 
     # Migrate existing ARKs to the new layout
     self.transaction do
+
+      delete_zombies
+
       now = (Time.now.to_f * 1000).to_i
 
       self[:ark_name].update(:is_current => 0, :retired_at_epoch_ms => Sequel.lit("#{now} - id"))
@@ -87,26 +113,7 @@ Sequel.migration do
       drop_column(:external_ark_url)
     end
 
-    ## delete any unlinked arks
-    # Resources
-    zombies = self[:ark_name]
-                .left_join(:resource, Sequel.qualify(:ark_name, :resource_id) => Sequel.qualify(:resource, :id))
-                .filter(Sequel.~(Sequel.qualify(:ark_name, :resource_id) => nil))
-                .filter(Sequel.qualify(:resource, :id) => nil)
-                .select(Sequel.qualify(:ark_name, :id))
-                .map {|row| row.fetch(:id)}
-
-    self[:ark_name].filter(:id => zombies).delete
-
-    # Archival Objects
-    zombies = self[:ark_name]
-                .left_join(:archival_object, Sequel.qualify(:ark_name, :archival_object_id) => Sequel.qualify(:archival_object, :id))
-                .filter(Sequel.~(Sequel.qualify(:ark_name, :archival_object_id) => nil))
-                .filter(Sequel.qualify(:archival_object, :id) => nil)
-                .select(Sequel.qualify(:ark_name, :id))
-                .map {|row| row.fetch(:id)}
-
-    self[:ark_name].filter(:id => zombies).delete
+    delete_zombies
 
     # We can now safely introduce foreign keys
     alter_table(:ark_name) do
