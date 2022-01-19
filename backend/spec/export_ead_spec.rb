@@ -37,7 +37,6 @@ describe "EAD export mappings" do
     }
 
     instances = []
-
     @digital_objects.keys.each do |ref|
       instances << build(:json_instance_digital,
                          :instance_type => 'digital_object',
@@ -50,11 +49,6 @@ describe "EAD export mappings" do
                          :sub_container => build(:json_sub_container,
                                                  :top_container => {:ref => @top_container.uri}))
     }
-
-    @top_container_no_type = create(:json_top_container, :type => nil)
-    instances << build(:json_instance,
-                       :sub_container => build(:json_sub_container,
-                                               :top_container => {:ref => @top_container_no_type.uri}))
 
     # this tests that note order is preserved, even when it's a
     # text.text.list.text setup.
@@ -103,7 +97,6 @@ describe "EAD export mappings" do
                       )
 
     @resource = JSONModel(:resource).find(resource.id, 'resolve[]' => 'top_container')
-
     @archival_objects = {}
 
     10.times {

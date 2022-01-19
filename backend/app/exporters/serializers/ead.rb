@@ -503,7 +503,7 @@ class EADSerializer < ASpaceExport::Serializer
       atts[:parent] = last_id
       last_id = atts[:id]
 
-      atts[:type] = sub["type_#{n}"] unless (sub["type_#{n}"].nil? || sub["type_#{n}"].empty?)
+      atts[:type] = sub["type_#{n}"]
       text = sub["indicator_#{n}"]
 
       xml.container(atts) {
