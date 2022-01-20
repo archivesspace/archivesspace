@@ -24,9 +24,22 @@ def delete_zombies
   self[:ark_name].filter(:id => zombies).delete
 end
 
+def check_for_ambiguous_ark_links
+  bad_records = []
+  arks = self[:resource].group_and_count(:external_ark_url).having { count.function.* > 1 }.to_enum.map { |row| row[:external_ark_url] }.compact
+  resources = self[:resource].filter(:external_ark_url => arks).each do |row|
+    bad_records << "Resource #{row[:id]}: #{row[:title]} -- ARK: #{row[:external_ark_url]}"
+  end
+
+  unless bad_records.empty?
+    raise "These resources have duplicate ARK URLs. Please disambiguate before proceeding \n #{bad_records.join("\n")}"
+  end
+end
 
 Sequel.migration do
   up do
+    check_for_ambiguous_ark_links
+
     # New ArkName columns
     alter_table(:ark_name) do
       add_column(:ark_value, String, :null => true)
