@@ -738,4 +738,35 @@ describe 'Resources and archival objects' do
     @driver.wait_for_ajax
     expect(@driver.is_visible?(:css, ".linker-container .glyphicon-remove")).to be_falsey
   end
+
+  it 'adds the result for calculate extent to the correct subrecord' do
+    @driver.get_edit_page(@resource)
+
+    @driver.find_element(css: '#resource_deaccessions_ .subrecord-form-heading .btn:not(.show-all)').click
+
+    expect(@driver.find_element(id: 'resource_deaccessions__0__date__label_').get_select_value).to eq('deaccession')
+
+    @driver.clear_and_send_keys([:id, 'resource_deaccessions__0__description_'], 'Lalala describing the deaccession')
+    @driver.find_element(css: '#resource_deaccessions__0__date__date_type_').select_option('single')
+    @driver.clear_and_send_keys([:id, 'resource_deaccessions__0__date__begin_'], '2012-05-14')
+
+    @driver.find_element(css: '#resource_deaccessions__0__extents_ .subrecord-form-heading .btn:not(.show-all)').click
+
+    @driver.clear_and_send_keys([:id, 'resource_deaccessions__0__extents__0__number_'], '4')
+    @driver.find_element(id: 'resource_deaccessions__0__extents__0__extent_type_').select_option('cassettes')
+
+    @driver.find_element(css: "form#resource_form button[type='submit']").click
+
+    @driver.find_element(id: 'other-dropdown').click
+    @driver.wait_for_dropdown
+
+    @driver.find_element(:link, 'Calculate Extent').click
+    sleep 1
+
+    @driver.find_element(:link, 'Create Extent').click
+    sleep 1
+
+    @driver.find_element(xpath: '//section[@id="resource_extents_"]//li[@data-index="1"]')
+
+  end
 end

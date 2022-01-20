@@ -3,9 +3,15 @@ $(function () {
 
   ExtentCalculatorForm.prototype.init_form = function () {
     $('.create-extent-btn').on('click', function (event) {
-      $('[id$=_extents_] .subrecord-form-heading .btn').click();
+      var parent_id = ''
+      if ($('#resource_extents_').length) {
+        parent_id = '#resource_extents_';
+      } else if ($('#accession_extents_').length) {
+        parent_id = '#accession_extents_';
+      } 
+      $(parent_id + " .subrecord-form-heading .btn").click();
 
-      var extent_form = $('[id$=_extents_]')
+      var extent_form = $(parent_id)
         .find('.subrecord-form-fields')
         .last();
 
