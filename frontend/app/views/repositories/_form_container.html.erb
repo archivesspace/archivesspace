@@ -13,6 +13,10 @@
         <%= form.hidden_input "ark_shoulder" %>
       <% end %>
 
+      <% if AppConfig[:arks_enabled] && AppConfig[:ark_minter] == :noid_ark_minter %>
+        <%= form.label_and_textfield "ark_template" %>
+      <% end %>
+
       <%= render_aspace_partial :partial => "shared/slug", :locals => {:form => form, :record_type => @repository} if AppConfig[:use_human_readable_urls] %>
 
       <%= form.label_and_boolean "publish", {}, user_prefs["publish"] %>

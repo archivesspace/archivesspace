@@ -16,7 +16,7 @@ class ArchivesSpaceArkMinter < ArkMinter
 
   # True if the ARK has the right NAAN and has a number that falls within the
   # range that we have already minted.
-  def ark_recognized?(ark)
+  def ark_recognized?(ark, obj)
     if ark =~ %r{/ark:/#{AppConfig[:ark_naan]}/.*?(\d+)$}
       ark_number = Integer($1)
 

@@ -172,7 +172,7 @@ class ArkName < Sequel::Model(:ark_name)
                                    :retired_at_epoch_ms => 0,
                                    :version_key => EXTERNAL_ARK_VERSION_KEY))
         else
-          if ark_minter.ark_recognized?(ark_name['current'])
+          if ark_minter.ark_recognized?(ark_name['current'], obj)
             ArkName.insert(ark.merge(:ark_value => clean_ark_value(ark_name['current']),
                                      :is_external_url => 0,
                                      :is_current => 1,
@@ -191,7 +191,7 @@ class ArkName < Sequel::Model(:ark_name)
       now_i = (now.to_f * 1000).to_i
 
       ark_name['previous'].each_with_index do |prev, ix|
-        if ark_minter.ark_recognized?(prev)
+        if ark_minter.ark_recognized?(prev, obj)
           ArkName.insert(ark.merge(:ark_value => clean_ark_value(prev),
                                    :is_current => 0,
                                    :is_external_url => 0,

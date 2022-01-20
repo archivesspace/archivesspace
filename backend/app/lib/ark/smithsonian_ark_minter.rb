@@ -11,7 +11,7 @@ class SmithsonianArkMinter < ArkMinter
   end
 
   # Looks like an ARK that ends in a UUID.
-  def ark_recognized?(ark)
+  def ark_recognized?(ark, obj)
     ark =~ %r{/ark:/.*\h{8}-\h{4}-\h{4}-\h{4}-\h{12}$}
   end
 

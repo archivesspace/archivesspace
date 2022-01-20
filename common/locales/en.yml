@@ -2068,6 +2068,19 @@ en:
         </ul>
     ark_shoulder: ARK Shoulder (local namespace)
     ark_shoulder_tooltip: Per-repository string to be included in generated ARKs
+    ark_template: ARK Template
+    ark_template_tooltip: |
+      <p>A template string governing the layout of the minted ARK.
+      Different repositories can have different templates. The format is defined
+      by the noid software package (see <a href="https://metacpan.org/dist/Noid/view/noid#TEMPLATES" target="_blank">Noid Templates</a>).</p>
+      <p>Here it has to start with a dot (.) because any constant prefix or shoulder should be defined
+      separately in the ARK Shoulder field.</p>
+      <p>Examples:</p>
+      <ul>
+      <li>.zd <em>(for sequential numbers without limit, adding new digits as needed)</em></li>
+      <li>.zeee <em>(for unlimited sequential numbers with at least 3 extended-digits)</em></li>
+      <li>.sdeeedk <em>(5 sequential mixed digits plus final extended-digit check char)</em></li>
+      </ul>
     org_code: Organization / Agency Code
     org_code_tooltip: |
         <p>A code compliant with ISO/DIS 15511 Information and Documentation International Standard Identifier for Libraries and Related Organizations (ISIL). For United States institutions, this includes codes from the MARC Organization Code list.</p>

@@ -27,6 +27,7 @@
       "is_slug_auto" => {"type" => "boolean", "default" => true},
 
       "ark_shoulder" => {"type" => "string"},
+      "ark_template" => {"type" => "string", "ifmissing" => "error", "default" => ".zd", "pattern" => "\\A\\.[rsz][de]+k?\\z"},
 
       "agent_representation" => {
         "type" => "object",

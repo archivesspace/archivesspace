@@ -34,6 +34,19 @@ de:
     name: Name des Aufbewahrungsorts
     ark_shoulder: ARK Shoulder (lokaler Namensraum)
     ark_shoulder_tooltip: Zeichenkette pro Aufbewahrungsort, die in die erzeugten ARKs aufgenommen wird
+    ark_template: ARK Vorlage
+    ark_template_tooltip: |
+      <p>Eine Vorlagenzeichenkette, die das Layout des geprägten ARK bestimmt.
+      Verschiedene Aufbewahrungsorte können verschiedene Vorlagen haben. Das Format stammt
+      von der noid Software (siehe <a href="https://metacpan.org/dist/Noid/view/noid#TEMPLATES" target="_blank">Noid Templates</a>).</p>
+      <p>Hier muss es mit einem Punkt (.) beginnen, da jeglicher gleichbleibender Präfix oder "Shoulder" separat im ARK Shoulder Feld
+      definiert werden sollte.</p>
+      <p>Beispiele:</p>
+      <ul>
+      <li>.zd <em>(für aufeinanderfolgende Nummern ohne Limit, neue Ziffern werden hinzugefügt wenn nötig)</em></li>
+      <li>.zeee <em>(für aufeinanderfolgende Nummern ohne Limit mit wenigstens 3 erweiterten Ziffern [extended-digits])</em></li>
+      <li>.sdeeedk <em>(5 aufeinanderfolgende gemischte Ziffern mit abschließender Prüfziffer)</em></li>
+      </ul>
     org_code: Organisation / Agentur-Code
     parent_institution_name: Name der übergeordneten Einrichtung
     parent_institution_name_tooltip: "<p>Der Name der übergeordneten Einrichtung, zu welcher der Aufbewahrungsort\
