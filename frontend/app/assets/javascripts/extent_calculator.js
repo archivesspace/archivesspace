@@ -3,17 +3,15 @@ $(function () {
 
   ExtentCalculatorForm.prototype.init_form = function () {
     $('.create-extent-btn').on('click', function (event) {
-      var parent_id = ''
+      var parent_id = '';
       if ($('#resource_extents_').length) {
         parent_id = '#resource_extents_';
       } else if ($('#accession_extents_').length) {
         parent_id = '#accession_extents_';
-      } 
-      $(parent_id + " .subrecord-form-heading .btn").click();
+      }
+      $(parent_id + ' .subrecord-form-heading .btn').click();
 
-      var extent_form = $(parent_id)
-        .find('.subrecord-form-fields')
-        .last();
+      var extent_form = $(parent_id).find('.subrecord-form-fields').last();
 
       extent_form.find('[id$=__portion_]').val($('#extent_portion_').val());
       extent_form.find('[id$=__number_]').val($('#extent_number_').val());
