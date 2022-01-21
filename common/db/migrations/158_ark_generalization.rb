@@ -2,8 +2,44 @@ require_relative 'utils'
 require 'digest'
 require 'json'
 
+def delete_zombies
+  # Resources
+  zombies = self[:ark_name]
+              .left_join(:resource, Sequel.qualify(:ark_name, :resource_id) => Sequel.qualify(:resource, :id))
+              .filter(Sequel.~(Sequel.qualify(:ark_name, :resource_id) => nil))
+              .filter(Sequel.qualify(:resource, :id) => nil)
+              .select(Sequel.qualify(:ark_name, :id))
+              .map {|row| row.fetch(:id)}
+
+  self[:ark_name].filter(:id => zombies).delete
+
+  # Archival Objects
+  zombies = self[:ark_name]
+              .left_join(:archival_object, Sequel.qualify(:ark_name, :archival_object_id) => Sequel.qualify(:archival_object, :id))
+              .filter(Sequel.~(Sequel.qualify(:ark_name, :archival_object_id) => nil))
+              .filter(Sequel.qualify(:archival_object, :id) => nil)
+              .select(Sequel.qualify(:ark_name, :id))
+              .map {|row| row.fetch(:id)}
+
+  self[:ark_name].filter(:id => zombies).delete
+end
+
+def check_for_ambiguous_ark_links
+  bad_records = []
+  arks = self[:resource].group_and_count(:external_ark_url).having { count.function.* > 1 }.to_enum.map { |row| row[:external_ark_url] }.compact
+  resources = self[:resource].filter(:external_ark_url => arks).each do |row|
+    bad_records << "Resource #{row[:id]}: #{row[:title]} -- ARK: #{row[:external_ark_url]}"
+  end
+
+  unless bad_records.empty?
+    raise "These resources have duplicate ARK URLs. Please disambiguate before proceeding \n #{bad_records.join("\n")}"
+  end
+end
+
 Sequel.migration do
   up do
+    check_for_ambiguous_ark_links
+
     # New ArkName columns
     alter_table(:ark_name) do
       add_column(:ark_value, String, :null => true)
@@ -24,6 +60,9 @@ Sequel.migration do
 
     # Migrate existing ARKs to the new layout
     self.transaction do
+
+      delete_zombies
+
       now = (Time.now.to_f * 1000).to_i
 
       self[:ark_name].update(:is_current => 0, :retired_at_epoch_ms => Sequel.lit("#{now} - id"))
@@ -87,26 +126,7 @@ Sequel.migration do
       drop_column(:external_ark_url)
     end
 
-    ## delete any unlinked arks
-    # Resources
-    zombies = self[:ark_name]
-                .left_join(:resource, Sequel.qualify(:ark_name, :resource_id) => Sequel.qualify(:resource, :id))
-                .filter(Sequel.~(Sequel.qualify(:ark_name, :resource_id) => nil))
-                .filter(Sequel.qualify(:resource, :id) => nil)
-                .select(Sequel.qualify(:ark_name, :id))
-                .map {|row| row.fetch(:id)}
-
-    self[:ark_name].filter(:id => zombies).delete
-
-    # Archival Objects
-    zombies = self[:ark_name]
-                .left_join(:archival_object, Sequel.qualify(:ark_name, :archival_object_id) => Sequel.qualify(:archival_object, :id))
-                .filter(Sequel.~(Sequel.qualify(:ark_name, :archival_object_id) => nil))
-                .filter(Sequel.qualify(:archival_object, :id) => nil)
-                .select(Sequel.qualify(:ark_name, :id))
-                .map {|row| row.fetch(:id)}
-
-    self[:ark_name].filter(:id => zombies).delete
+    delete_zombies
 
     # We can now safely introduce foreign keys
     alter_table(:ark_name) do
