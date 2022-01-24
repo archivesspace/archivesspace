@@ -24,6 +24,7 @@ RUN cd /source && \
     ARCHIVESSPACE_VERSION=${SOURCE_BRANCH:-`git symbolic-ref -q --short HEAD || git describe --tags --match v*`} && \
     ARCHIVESSPACE_VERSION=${ARCHIVESSPACE_VERSION#"heads/"} && \
     echo "Using version: $ARCHIVESSPACE_VERSION" && \
+    ./build/run bootstrap && \
     ./scripts/build_release $ARCHIVESSPACE_VERSION && \
     mv ./*.zip / && \
     cd / && \
