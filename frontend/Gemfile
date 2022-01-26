@@ -49,6 +49,8 @@ group :test do
   gem 'capybara', '3.15.1'
   # need access to ActiveSupport for helpers
   gem 'activesupport', '5.2.5'
+  # if the indexer requires it, our test suite requires it
+  gem 'fog-aws', '2.0.0', require: false
 end
 
 group :development, :test do
