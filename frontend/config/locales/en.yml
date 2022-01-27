@@ -1301,6 +1301,7 @@ en:
         show_inactive: Show Inactive Users
         deactivate_user: Deactivate
         activate_user: Activate
+        update_self: Manage User Account
 
 
   user_defined:
