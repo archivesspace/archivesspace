@@ -320,6 +320,9 @@ en:
       room: Room
       area: Area
       location_holdings: Holdings for Current Repository
+      location_no_holdings: No holdings for this repository.
+      location_one_top_container: 1 top container.
+      location_top_containers: " top containers."
       location_profile_display_string_u_ssort: Location Profile
       owner_repo_display_string_u_ssort: Repository
       none: None
@@ -508,11 +511,13 @@ en:
     search_date: Date
     search_terms: Advanced Search Fields %{number}
     remove_row: Remove Advanced Search Fields %{number}
+    add_row: Add Row
 
   become-user:
     become-user: Become User
     failed: Failed to switch to the specified user
     success: Successfully switched users
+    username: Username
 
   navbar:
     become-user: Become User
@@ -532,6 +537,7 @@ en:
     hide_advanced_search_button_title: Hide Advanced Search
     plugins: Plug-ins
     repositories_manage: Manage Repositories
+    repository_settings: Repository settings
     oai_config: Manage OAI-PMH Settings
     manage_groups: Manage Groups
     manage_users: Manage Users
@@ -540,6 +546,7 @@ en:
     manage_top_containers: Manage Top Containers
     manage_enumerations: Manage Controlled Value Lists
     global_preferences: Global Preferences
+    global_preferences: Global settings
     user_repo_preferences: User Preferences
     repo_preferences: Repository Preferences
     manage_user_access: Manage User Access
@@ -594,6 +601,10 @@ en:
     login_expired_link: Please %{link} again.
     login_fail: Login attempt failed
     login_success: Login Successful. Redirecting...
+    username_placeholder: Username
+    password_placeholder: Password
+    username_aria_label: User Name
+    password_aria_label: User Password
 
   breadcrumb:
     home: Home
@@ -971,6 +982,9 @@ en:
         name_selector_tooltip: |
             <p>The Controlled Value List to edit.</p>
         no_name_provided: Select a Value List before creating a new value
+        not_used: Not Used.
+        one_related_item: 1 related item.
+        related_items: " related items."
       action:
         create_value: Create Value
         delete_value: Delete Value
@@ -1085,6 +1099,11 @@ en:
         use_date: Date(s) of Name Use
         dates: Dates
         parallel_names: Parallel Names
+        place_subject: Place Subject
+        topic_subject: Topic Subject
+        name_subject: Name Subject
+        function_subject: Function Subject
+        occupation_subject: Occupation Subject
       action:
         add: Add Name Form
         make_authorized: Make Authoritive Name
@@ -1204,6 +1223,7 @@ en:
         load_bulk: Load via Spreadsheet
         save: Save Resource
         delete_multiple: Delete Resources
+      remove_subrecord: Remove sub-record
     external_ark_url: External ARK URL
     external_ark_url_tooltip: Archival Resource Key (ARK) persistent identifier generated outside of ArchivesSpace. If this field has a value it takes precedence over an ARK generated within ArchivesSpace.
 
@@ -1272,6 +1292,7 @@ en:
         account: Account
         edit_account: Edit Account
         edit_account_submit: Update Account
+        new_account: New Account
       action:
         create_account: Create Account
         update_account: Update Account

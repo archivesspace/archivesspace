@@ -1,11 +1,11 @@
 <% define_template "agent_function", jsonmodel_definition(:agent_function) do |form| %>
   <div class="subrecord-form-fields">
     <div class="agent-record-control-container">
-			<%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "subjects", :template_erb => "subjects/template", :template => "subrecord_subject_agent_function", :heading_text => "Function Subject", :heading_size => "h4"} %>
+      <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "subjects", :template_erb => "subjects/template", :template => "subrecord_subject_agent_function", :heading_text => I18n.t("name._frontend.section.function_subject"), :heading_size => "h4"} %>
 
-			<%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "places", :template_erb => "subjects/template", :template => "subrecord_subject_agent_function_place", :heading_text => "Place Subject", :heading_size => "h4"} %>
-			
-	    <%= render_aspace_partial :partial => "notes/form", :locals => {:form => form, :all_note_types => note_types_for("agent_function"), :section_id => "agent_function_notes", :nested_note_jsonmodel => "agent_function", :header_size => "h4", :show_apply_note_order_action => false} %>
+      <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "places", :template_erb => "subjects/template", :template => "subrecord_subject_agent_function_place", :heading_text => I18n.t("name._frontend.section.place_subject"), :heading_size => "h4"} %>
+
+      <%= render_aspace_partial :partial => "notes/form", :locals => {:form => form, :all_note_types => note_types_for("agent_function"), :section_id => "agent_function_notes", :nested_note_jsonmodel => "agent_function", :header_size => "h4", :show_apply_note_order_action => false} %>
 
       <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "dates", :template_erb => "dates/template", :template => "structured_date_label_usage", :heading_text => I18n.t("name._frontend.section.dates"), :heading_size => "h4"} %>
     </div>

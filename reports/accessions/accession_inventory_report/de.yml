@@ -1,0 +1,7 @@
+de:
+  reports:
+    accession_inventory_report:
+      title: Eingänge mit Inventaren
+      description: Zeigt nur jene Eingangs-Datensätze an, die ein Inventar enthalten. Der Bericht enthält die Eingangs-Nummer, verknüpfte Ressourcen, Titel, Umfang, Eingangs-Datum, Behältnis-Zusammenfassung und Inventar an.
+      number_with_inventories: Eingänge mit Inventaren
+      identifier_prefix: Eingang

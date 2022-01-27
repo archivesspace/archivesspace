@@ -9,7 +9,7 @@
       <%= render_aspace_partial :partial => "shared/flash_messages" %>
 
       <%= form_tag({:action => :become_user}, {:class => 'form-horizontal', :id => 'new_become_user'}) do |f| %>
-        <input id="select-user" name="username" class="input-medium" type="text" autocomplete="off" placeholder="Username" />
+        <input id="select-user" name="username" class="input-medium" type="text" autocomplete="off" placeholder="<%= I18n.t("become-user.username") %>" />
         <input class="btn btn-primary" type="submit" value="<%= I18n.t("become-user.become-user") %>"/>
       <% end %>
     </div>

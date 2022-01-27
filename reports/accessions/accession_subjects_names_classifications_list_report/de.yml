@@ -1,0 +1,6 @@
+de:
+  reports:
+    accession_subjects_names_classifications_list_report:
+      title: Eingänge und verknüpfte Themen, Namen und Klassifizierungen
+      description: Zeigt Eingänge und die verknüpften Namen, Themen und Klassifizierungen an. Der Bericht enhält die Eingangs-Nummer, verknüpfte Ressourcen, Eingangs-Datum, Titel, Umfang, verknüpfte Namen und verknüpfte Themen.
+      identifier_prefix: Eingang

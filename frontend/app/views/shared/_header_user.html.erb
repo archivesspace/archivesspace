@@ -75,7 +75,7 @@
       </button>
 
       <div class="btn-group">
-        <a class="btn btn-default navbar-btn dropdown-toggle last" data-toggle="dropdown" href="#" title="Global settings" aria-label="Global settings"><span class="caret"></span></a>
+        <a class="btn btn-default navbar-btn dropdown-toggle last" data-toggle="dropdown" href="#" title="<%= I18n.t("navbar.global_settings") %>" aria-label="<%= I18n.t("navbar.global_settings") %>"><span class="caret"></span></a>
         <ul class="dropdown-menu pull-right">
 
           <% if user_can?('administer_system') %>

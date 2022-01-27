@@ -144,7 +144,7 @@
                     </span>
                   </a>
                   <div class="btn-group">
-                    <a class="btn btn-default navbar-btn dropdown-toggle last" data-toggle="dropdown" href="#" title="Repository settings" aria-label="Repository settings"><span class="glyphicon glyphicon-cog"></span> <span class="caret"></span></a>
+                    <a class="btn btn-default navbar-btn dropdown-toggle last" data-toggle="dropdown" href="#" title="<%= I18n.t("navbar.repository_settings") %>" aria-label="<%= I18n.t("navbar.repository_settings") %>"><span class="glyphicon glyphicon-cog"></span> <span class="caret"></span></a>
                     <ul class="dropdown-menu pull-right">
                       <% found_an_item = false %>
                       <% if user_can?('manage_repository') %>

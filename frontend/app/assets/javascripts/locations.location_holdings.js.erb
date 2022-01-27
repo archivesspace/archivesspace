@@ -12,11 +12,11 @@ $(function () {
       var output;
       itemCount = json['search_data']['total_hits'];
       if (itemCount == 1) {
-        output = '1 top container.';
+        output = '<%= I18n.t('search.location.location_one_top_container') %>';
       } else if (itemCount > 0) {
-        output = itemCount + ' top containers.';
+        output = itemCount + '<%= I18n.t('search.location.location_top_containers') %>';
       } else {
-        output = 'No holdings for this repository.';
+        output = '<%= I18n.t('search.location.location_no_holdings') %>';
       }
       $this.html('<span>' + output + '</span>');
     });

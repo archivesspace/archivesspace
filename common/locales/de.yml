@@ -1,10 +1,4 @@
 de:
-  agent_person:
-    _plural: Personen
-    _singular: Person
-  agent_software:
-    _singular: Software
-    _plural: Software
   subject:
     _singular: Thema
     _plural: Themen
@@ -29,7 +23,220 @@ de:
     external_documents_tooltip: "<p>Ermöglicht Verknüpfungen mit externer Dokumentation, z.B. wie eine\
       \ bestimmtes Stichwort zu verwenden ist.</p>\n"
     heading: Schlagwort
+  agent_contact: &agent_contact
+    address_1: Adresse 1
+    city: Ort
+    address_3: Adresse 3
+    name: Kontakt-Name
+    salutation: Anrede
+    address_2: Adresse 2
+    region: Bundesland/Region
+    country: Land
+    post_code: Postleitzahl
+    fax: Fax
+    email: E-Mail
+    name_tooltip: "<p>Name der Person, die in der Hauptaufzeichnung als Kontaktperson für die Entität\
+      \ dient.</p>\n<p>Für Akteure von Körperschaften von Aufbewahrungsorten wird ein Name von der Anwendung\
+      \ automatisch generiert, wenn er leer ist.</p>\n"
+    salutation_tooltip: "<p>Anrede für die Kontaktperson.</p>\n<p>Werte in dieser Aufzählungs-Liste können\
+      \ bearbeitet werden.</p>\n"
+    address_1_tooltip: "<p>Adresse der Kontaktperson.</p>\n"
+    city_tooltip: "<p>Stadt, in der sich die Kontaktperson befindet.</p>\n"
+    region_tooltip: "<p>Bundesland oder Region, in der sich die Stadt befindet</p>\n"
+    country_tooltip: "<p>Land, in dem sich die Kontaktperson befindet.</p>\n"
+    telephone: Telefon
+    telephone_ext: Telefondurchwahl
+    telephones: Telefonnummern
+    _plural: Kontaktdetails
+    note_tooltip: "<p>Zusätzliche Anmerkungen oder Kontaktinformationen für die Kontaktperson.</p>\n"
+    note: Anmerkungen zum Kontakt
+    address_2_tooltip: "<p>Eine Fortsetzung der Adresse der Kontaktperson.</p>\n"
+    address_3_tooltip: "<p>Eine Fortsetzung der Adresse der Kontaktperson.</p>\n"
+    fax_tooltip: "<p>Faxnummer der Kontaktperson.</p>\n"
+    email_signature: E-Mail-Signatur
+    _singular: Kontakt
+    post_code_tooltip: "<p>Postleitzahl für die Adresse der Kontaktperson.</p>\n"
+    email_tooltip: "<p>E-Mail-Adresse der Kontaktperson.</p>\n"
+    email_signature_tooltip: "<p>E-Mail-Signatur für die Kontaktperson.</p>\n"
+  telephone: &telephone
+    _plural: Telefonnummern
+    number_type: Nummern-Typ
+    number: Nummer
+    ext: Telefondurchwahl
+    number_tooltip: "<p>Telefonnummer der Kontaktperson.</p>\n"
+    ext_tooltip: "<p>Telefondurchwahl für die Kontaktperson.</p>\n"
+    number_type_tooltip: "<p>Gibt die Art der Telefonnummer an.</p>\n"
+  states:
+    auto_generated: Wird vom System beim Speichern erzeugt
+    suppressed: Unterdrückt
+    deleted: Gelöscht
+  dates_of_existence:
+    _frontend:
+      action:
+        add: Datum hinzufügen
+  lang_material: &lang_material_attributes
+    _plural: Sprachen
+    _singular: Sprache
+  custom_report_template:
+    name: Name
+    limit: Grenze
+    description: Beschreibung
+    "false": Nein
+    field: Feld
+    values: Nach Werten eingrenzen
+    display: Anzeigen?
+    start_date: Nach Beginndatum eingrenzen
+    _plural: Benutzerdefinierte Berichtsvorlagen
+    end_date: Nach Enddatum eingrenzen
+    include: Einschließen
+    _singular: Benutzerdefinierte Berichtsvorlage
+    record_type: Aufzeichnungs-Typ
+    value: Nach Wert eingrenzen
+    "true": Ja
+  enumeration:
+    name: Name
+    name_tooltip: "<p>Der Name der Aufzählungs-Liste, zu der Sie einen Wert hinzufügen möchten.</p>\n"
+    value: Wert
+    value_tooltip: "<p>Der Wert für die Aufzählungs-Liste, die Sie hinzufügen oder bearbeiten\
+      \ möchten.</p>\n<p>Wann immer möglich, sollten die Werte in Kleinbuchstaben und mit Unterstrichen\
+      \ (\"_\") anstelle von Leerzeichen angegeben werden. Übersetzungen für die Werte sollten der Locales-Datei\
+      \ hinzugefügt werden.</p>\n"
+    translation: Übersetzung
+    position: Position
+    suppress: Unterdrücken
+    unsuppress: Unterdrückung aufheben
+    merge_into: Zusammenführen
+    _singular: Aufzählungs-Liste
+    _plural: Aufzählungs-Listen
+    default: Standard
+  metadata_rights_declaration:
+    xlink_arcrole_attribute_tooltip: "<p>Typ oder Art der im zugehörigen URI verknüpften entfernten Ressource.</p>\n"
+    file_version_xlink_show_attribute_tooltip: "<p>Gibt an, wo die im zugehörigen URI verknüpfte entfernte\
+      \ Ressource angezeigt werden soll.</p>\n"
+    last_verified_date_tooltip: "<p>Letztes Datum oder Datum und Uhrzeit der Überprüfung der im zugehörigen\
+      \ URI verknüpften Ressource.</p>\n"
+    file_version_xlink_actuate_attribute_tooltip: "<p>Gibt an, ob der zugehörige URI beim Anzeigen der\
+      \ Akteur-Aufzeichnung aufgelöst werden soll.</p>\n"
+    xlink_role_attribute_tooltip: "<p>Typ oder Art der im zugehörigen URI verknüpften entfernten Ressource.</p>\n"
+    descriptive_note_tooltip: "<p>Unstrukturierte Informationen über die Bedingungen, unter denen die\
+      \ Metadaten zur Verwendung und Wiederverwendung zur Verfügung stehen.  Beispiele:</p>\n<p>i. Copyright\
+      \ Smith College, 1985</p>\n<p>ii. Dieses Findmittel darf für jeden Zweck vervielfältigt werden.</p>\n\
+      <p>iii. Dieses Werk ist gemeinfrei, d.h. Sie können es vervielfältigen, verändern, verbreiten und\
+      \ aufführen, auch zu kommerziellen Zwecken, ohne um Erlaubnis zu fragen.</p>\n<p>iv. Die biografische\
+      \ Notiz ist urheberrechtlich geschützt durch Ted Smith, 2015.  Alle anderen Metadaten sind unter\
+      \ CC BY 4.0 lizenziert.</p>\n"
+    file_uri_tooltip: "<p>Ein URI für den Online-Speicherort der Lizenz oder anderer veröffentlichter\
+      \ Informationen über die Bedingungen, unter denen die Metadaten für die Nutzung und Wiederverwendung\
+      \ verfügbar sind. Beispiel: https://creativecommons.org/licenses/by/4.0/</p>\n"
+    license_tooltip: "<p>Name der Lizenz (falls vorhanden), welche die Bedingungen regelt, unter denen\
+      \ die Metadaten zur Verwendung und Wiederverwendung zur Verfügung stehen.  Beispiele:</p>\n<p>Dieser\
+      \ Datensatz wird unter einer Universell 1.0 Public Domain Dedication Creative Commons Lizenz zur\
+      \ Verfügung gestellt.</p>\n<p>Dieser Datensatz wird unter einer Namensnennung - Nicht-kommerziell\
+      \ 4.0 International Creative Commons Lizenz zur Verfügung gestellt.</p>\n<p>Dieser Datensatz wird\
+      \ unter einer Namensnennung - Nicht-kommerziell - Keine Bearbeitung 4.0 International Creative Commons\
+      \ Lizenz zur Verfügung gestellt.</p>\n<p>Dieser Datensatz wird unter einer Namensnennung-Keine Bearbeitung\
+      \ 4.0 International Creative Commons Lizenz zur Verfügung gestellt.</p>\n<p>Dieser Datensatz wird\
+      \ unter einer Namensnennung - Nicht-kommerziell - Weitergabe unter gleichen Bedingungen 4.0 International\
+      \ Creative Commons Lizenz zur Verfügung gestellt.</p>\n"
+    xlink_title_attribute_tooltip: "<p>Titel der im zugehörigen URI verknüpften entfernten Ressource,\
+      \ der als Überschrift verwendet werden kann.</p>\n"
+  ratings:
+    _plural: Bewertungen
+  conservation_issues:
+    _plural: Probleme der Bestandserhaltung
+  boolean:
+    "true": Ja
+    "false": Nein
+  user_defined: &user_defined_attributes
+    boolean_1: Boolescher Wert 1
+    boolean_2: Boolescher Wert 2
+    boolean_3: Boolescher Wert 3
+    integer_1: Ganzzahl 1
+    integer_2: Ganzzahl 2
+    integer_3: Ganzzahl 3
+    real_1: Reelle Zahl 1
+    real_2: Reelle Zahl 2
+    real_3: Reelle Zahl 3
+    string_1: Zeichenfolge 1
+    string_2: Zeichenfolge 2
+    string_3: Zeichenfolge 3
+    string_4: Zeichenfolge 4
+    text_1: Text 1
+    text_2: Text 2
+    text_5: Text 5
+    date_1_inline_help: z.B. JJJJ-MM-TT
+    date_2: Datum 2
+    date_2_inline_help: z.B. JJJJ-MM-TT
+    date_3: Datum 3
+    date_3_inline_help: z.B. JJJJ-MM-TT
+    enum_1: Aufzählungswert 1
+    enum_2: Aufzählungswert 2
+    enum_3: Aufzählungswert 3
+    enum_4: Aufzählungswert 4
+    _singular: Benutzerdefiniert
+    _plural: Benutzerdefiniert
+    text_4: Text 4
+    date_1: Datum 1
+    text_3: Text 3
+  section_tooltips: &section_tooltips
+    lang_materials_tooltip: "<p>Die Sprachen und Schriften, die im beschriebenen Archivgut vertreten sind.</p>\n\
+      <p>Siehe DACS 4.5, ISAD(G) 3.4.3</p>\n"
+    subjects_tooltip: "<p>Wird verwendet, um Themen mit dem beschriebenen Archivgut zu verknüpfen.</p>\n"
+    extents_tooltip: "<p>Gibt den Umfang und physische Beschaffenheit des beschriebenen Archivguts an.</p>\n\
+      <p>Siehe DACS 2.5, ISAD(G) 3.1.5</p>\n"
+    notes_tooltip: "<p>Zusätzliche beschreibende Informationen über das beschriebene Archivgut, meist\
+      \ in der Form von Text oder strukturierten Listen.</p>\n"
+    linked_agents_tooltip: "<p>Ordnet Akteure als Urheber, Quelle oder Subjekt dem beschriebenen Archivgut\
+      \ zu, um Informationen über deren Kontext anzugeben.</p>\n"
+    rights_statements_tooltip: "<p>Informationen über den Rechte-Zustand des beschriebenen Archivguts\
+      \ und darüber, ob es bestimmte Einschränkungen oder Genehmigungen gibt, die angegeben wurden.</p>\n"
+    metadata_rights_declarations_tooltip: "<p>Basierend auf DACS 8.2 und 13.11</p>\n"
+    instances_tooltip: "<p>Verknüpft die Beschreibung mit Informationen über physische oder digitale Instanzen\
+      \ des Archivguts.</p>\n"
+    collection_management_tooltip: "<p>Zusätzliche rein interne Informationen über wie das beschriebene\
+      \ Archivgut bearbeitet wurde oder wird.</p>\n"
+    classification_tooltip: "<p>Dient der Verknüpfung des beschriebenen Archivguts mit einer Klassifikation\
+      \ oder einem Klassifikationsbegriff (z. B. einem Aufzeichnungsgruppen-System), der innerhalb der\
+      \ Anwendung verwaltet wird.</p>\n"
+    external_documents_tooltip: "<p>Verknüpfungen mit Informationen in anderen Beschreibungs- oder Verwaltungssystemen\
+      \ wie Geber-Daten, Bearbeitungspläne usw.</p>\n"
+    dates_tooltip: "<p>Identifiziert und erfasst das Datum/die Daten, die sich auf die Erstellung, Anordnung,\
+      \ Sammlung und/oder Wartung und Verwendung des beschriebenen Archivguts beziehen.</p>\n<p>Siehe\
+      \ DACS 2.4, ISAD(G) 3.1.3</p>\n"
+    user_defined_tooltip: "<p>Benutzerdefinierte Felder zur Erfassung zusätzlicher Informationen, die\
+      \ in anderen Abschnitten der Anwendung nicht erfasst werden.</p>\n"
+    deaccessions_tooltip: "<p>Erfasst Informationen über Archivgut, das möglicherweise ausgeschieden und\
+      \ verworfen, an einen Geber zurückgegeben oder an eine andere Einrichtung weitergegeben wurden.</p>\n"
+  slug: &slug_attributes
+    slug: Slug
+    public_url: Öffentliche URL
+    is_slug_auto: Slug automatisch erzeugen?
+    is_slug_auto_tooltip: "<p>Wird dieses Feld ausgewählt, dann wird der Slug für diese Aufzeichnung basierend\
+      \ auf den Konfigurationseinstellungen von für Menschen lesbaren URLs in der config.rb Datei am Server\
+      \ automatisch erzeugt, wenn die Aufzeichnung gespeichert wird.</p>\n"
+    autogen_disabled: Ein Slug kann aus den bereitgestellten Daten basierend auf den aktuellen Konfigurationseinstellungen
+      nicht erzeugt werden
+    autogen_repo_slug: Da kein Slug manuell eingegeben wurde, wurde der Aufbewahrungsort-Slug automatisch
+      aus dem Kurznamen des Aufbewahrungsort generiert
+    public_url_tooltip: "<p>Wenn diese Aufzeichnung veröffentlicht oder zur Veröffentlichung aktualisiert\
+      \ wird, dann ist das die vollständige URL für diesen Datensatz in der öffentlichen Besucher-Oberfläche.\
+      \ Wenn für Menschen lesbare URLs verwendet werden, wird das Ende der URL der Slug sein.</p>\n<p>Ob\
+      \ für Menschen lesbare URLs verwendet werden oder nicht, der ursprüngliche URI für diese Aufzeichnung\
+      \ bleibt immer gültig.</p>\n"
+    slug_tooltip: "<p>Bei der Verwendung von für Menschen lesbaren URLs ist das der letzte Teil der öffentlichen\
+      \ URL für diese Aufzeichnung in der öffentlichen Besucher-Oberfläche von ArchivesSpace. Der Slug\
+      \ kann manuell hinzugefügt oder aktualisiert werden oder automatisch auf der Grundlage der Konfigurationseinstellungen\
+      \ von für Menschen lesbarer URLs in der Datei config.rb auf dem Server erzeugt werden.</p>\n"
+  classification_term:
+    <<: *slug_attributes
+    _plural: Klassifizierungs-Begriffe
+    _singular: Klassifizierungs-Begriff
+    identifier: Signatur
+    title: Titel
+    description: Beschreibung
+    creator: Urheber
   repository:
+    <<: *slug_attributes
     _singular: Aufbewahrungsort
     name: Name des Aufbewahrungsorts
     ark_shoulder: ARK Shoulder (lokaler Namensraum)
@@ -86,10 +293,8 @@ de:
       \ Archivguts trägt und diese verwahrt.</p>\n<p>Siehe DACS 2.2</p>\n<p>Beispiele:</p>\n<ul>\n<li>Ihr\
       \ Name Hier Bibliothek für besondere Sammlungen</li>\n<li>Österreichische Nationalbibliothek</li>\n\
       <li>Geheimes Staatsarchiv Preußischer Kulturbesitz</li>\n</ul>\n"
-  agent_family:
-    _singular: Familie
-    _plural: Familien
   classification:
+    <<: *slug_attributes
     creator: Urheber
     _singular: Klassifizierung
     _plural: Klassifizierungen
@@ -97,61 +302,90 @@ de:
     title: Titel
     description: Beschreibung
     id_separator: /
-  agent_contact:
-    address_1: Adresse 1
-    city: Ort
-    address_3: Adresse 3
-    name: Kontakt-Name
-    salutation: Anrede
-    address_2: Adresse 2
-    region: Bundesland/Region
-    country: Land
-    post_code: Postleitzahl
-    fax: Fax
-    email: E-Mail
-    name_tooltip: "<p>Name der Person, die in der Hauptaufzeichnung als Kontaktperson für die Entität\
-      \ dient.</p>\n<p>Für Akteure von Körperschaften von Aufbewahrungsorten wird ein Name von der Anwendung\
-      \ automatisch generiert, wenn er leer ist.</p>\n"
-    salutation_tooltip: "<p>Anrede für die Kontaktperson.</p>\n<p>Werte in dieser Aufzählungs-Liste können\
-      \ bearbeitet werden.</p>\n"
-    address_1_tooltip: "<p>Adresse der Kontaktperson.</p>\n"
-    city_tooltip: "<p>Stadt, in der sich die Kontaktperson befindet.</p>\n"
-    region_tooltip: "<p>Bundesland oder Region, in der sich die Stadt befindet</p>\n"
-    country_tooltip: "<p>Land, in dem sich die Kontaktperson befindet.</p>\n"
-    telephone: Telefon
-    telephone_ext: Telefondurchwahl
-    telephones: Telefonnummern
-    _plural: Kontaktdetails
-    note_tooltip: "<p>Zusätzliche Anmerkungen oder Kontaktinformationen für die Kontaktperson.</p>\n"
-    note: Anmerkungen zum Kontakt
-    address_2_tooltip: "<p>Eine Fortsetzung der Adresse der Kontaktperson.</p>\n"
-    address_3_tooltip: "<p>Eine Fortsetzung der Adresse der Kontaktperson.</p>\n"
-    fax_tooltip: "<p>Faxnummer der Kontaktperson.</p>\n"
-    email_signature: E-Mail-Signatur
-    _singular: Kontakt
-    post_code_tooltip: "<p>Postleitzahl für die Adresse der Kontaktperson.</p>\n"
-    email_tooltip: "<p>E-Mail-Adresse der Kontaktperson.</p>\n"
-    email_signature_tooltip: "<p>E-Mail-Signatur für die Kontaktperson.</p>\n"
-  telephone:
-    _plural: Telefonnummern
-    number_type: Nummern-Typ
-    number: Nummer
-    ext: Telefondurchwahl
-    number_tooltip: "<p>Telefonnummer der Kontaktperson.</p>\n"
-    ext_tooltip: "<p>Telefondurchwahl für die Kontaktperson.</p>\n"
-    number_type_tooltip: "<p>Gibt die Art der Telefonnummer an.</p>\n"
-  states:
-    auto_generated: Wird vom System beim Speichern erzeugt
-    suppressed: Unterdrückt
-    deleted: Gelöscht
-  dates_of_existence:
-    _frontend:
-      action:
-        add: Datum hinzufügen
-  lang_material:
-    _plural: Sprachen
-    _singular: Sprache
+  agent: &agent_attributes
+    <<: *slug_attributes
+    _singular: Akteur
+    notes: Anmerkungen
+    type: Akteur-Typ
+    type_tooltip: "<p>Der Typ der Entität, die durch Die Akteur-Aufzeichnung repräsentiert wird.</p>\n\
+      <p>Siehe DACS 10.2 und PREMIS Agent-Entität</p>\n"
+    agent_type:
+      agent_family: Familie
+      agent_person: Person
+      agent_software: Software
+      agent_corporate_entity: Körperschaft
+    is_user: Benutzername
+    is_user_tooltip: "<p>Wenn vorhanden, wird diese Akteur-Aufzeichnung mit einem Applikationsbenutzer\
+      \ mit dem angegebenen Benutzernamen verknüpft.</p>\n"
+    name: Name des Akteurs
+    names: Namensformen
+    agent_contacts: Kontaktdetails
+    names_tooltip: "<p>ERFORDERLICHE TEILAUFZEICHNUNG: Erfasst verschiedene Formen des Namens eines Akteurs.\
+      \ Jede Akteur-Aufzeichnung muss mindestens eine Namensform-Teilaufzeichnung enthalten.</p>\n"
+    contacts_tooltip: "<p>Erfasst Kontaktinformationen zu einem bestimmten Akteur.</p>\n"
+    notes_tooltip: "<p>Erfasst zusätzliche beschreibende Informationen über einen Akteur, wie z. B. eine\
+      \ biografische Notiz oder eine Verwaltungsgeschichte.</p>\n"
+    agent_contact_notes_tooltip: "<p>Anmerkungen zu Interaktionen mit dem Akteur.</p>\n"
+    related_agents_tooltip: "<p>Ermöglicht Verknüpfungen von dieser Akteur-Aufzeichnung zu einer anderen\
+      \ in assoziativen, hierarchischen oder Eltern/Kind-Beziehungen.</p>\n"
+    dates_of_existence: Existenzdaten
+    external_documents_tooltip: "<p>Ermöglicht Verknüpfungen mit externer Dokumentation, z. B. biografische\
+      \ Dateien, Referenzwerke usw. über diesen Akteur.</p>\n"
+    dates_of_existence_tooltip: "<p>Daten, in denen der Akteur existierte.</p>\n"
+    publish: Veröffentlichen
+    _plural: Akteure
+    agent_record_controls_tooltip: "<p>Informationen über die Aufzeichnung, die den Akteur beschreibt.</p>\n"
+    agent_alternate_sets_tooltip: "<p> Wird verwendet, um auf verknüpfte Autoritäts-Aufzeichnungen zu\
+      \ verweisen, wenn zwei oder mehr Aufzeichnungen für dieselbe Entität von zwei oder mehr Autoritäts-Systemen\
+      \ abgeleitet wurden.</p>\n"
+    agent_other_agency_codes_tooltip: "<p>Informationen über alternative Codes für die Agentur oder Organisation,\
+      \ die für die Erstellung oder Pflege einer Akteur-Aufzeichnung verantwortlich ist.</p>\n"
+    agent_maintenance_histories_tooltip: "<p>Ereignisse im Zusammenhang mit der Erstellung oder Pflege\
+      \ der Akteur-Aufzeichnung.</p>\n"
+    agent_record_identifiers_tooltip: "<p>Signaturen, die der Akteur-Aufzeichnung zugeordnet sind.</p>\n"
+    agent_sources_tooltip: "<p>Eine Quelle, die bei der Formulierung des Inhalts der Akteur-Aufzeichnung\
+      \ verwendet wird.</p>\n"
+    agent_genders_tooltip: Geschlecht des Subjekts.
+    agent_occupations_tooltip: Dem Akteur zugeordnete Berufsinformationen.
+    agent_places_tooltip: Dem Akteur zugeordnete Ortsinformationen.
+    agent_functions_tooltip: Begriffe zur Identifizierung der Funktionen, Prozesse, Aufgaben, Aktivitäten
+      oder Transaktionen, die vom Akteur ausgeführt werden.
+    agent_topics_tooltip: Ein mit dem Akteur verbundenes Thema.
+    agent_contacts_tooltip: "<p>Kontaktinformationen für den Akteur oder einen Vertreter, der in seinem\
+      \ Namen handelt.</p>\n"
+    used_languages_tooltip: 'Die dem Akteur zugeordnete(n) Sprache(n). Beispiel: Englisch.'
+    agent_resources_tooltip: Ressourcen und andere mit dem Akteur verbundene Aufzeichnungen.
+    related_agent_tooltip: Wird verwendet, um andere Akteure mit einer Beziehung zum Akteur zu verknüpfen
+      und die Art der Beziehung anzugeben.
+    agent_conventions_declarations_tooltip: "<p>Ein Inhaltsstandard, der bei der Formulierung des Inhalts\
+      \ der Akteur-Aufzeichnung verwendet wird. Beispiel: ISAD(G) - Internationale Grundsätze für die\
+      \ archivische Verzeichnung. Diese Teilaufzeichnung kann anstelle von Regel-Eintragungen auf einzelnen\
+      \ Namensformen verwendet werden.</p>\n"
+    agent_identifiers_tooltip: "<p>Bezeichner, die mit einer Entität verbunden sind, wie z. B. rechtliche\
+      \ Bezeichner, die von einer maßgeblichen Stelle zugewiesen werden. Beispiele sind ein ORCID-Bezeichner\
+      \ für eine Person oder ein MARC Repository Code für eine Körperschaft.</p>\n"
+    publish_tooltip: "<p>Gibt an, ob der Akteur in Exporte eingeschlossen und auf der öffentlichen Besucher-Schnittstelle\
+      \ veröffentlicht wird (sofern verwendet)</p>\n"
+  agent_person:
+    <<: *agent_attributes
+    _plural: Personen
+    _singular: Person
+  agent_software:
+    <<: *agent_attributes
+    _singular: Software
+    _plural: Software
+  agent_family:
+    <<: *agent_attributes
+    _singular: Familie
+    _plural: Familien
+  agent_corporate_entity:
+    <<: *agent_attributes
+    _singular: Körperschaft
+    _plural: Körperschaften
   accession:
+    <<: [*section_tooltips, *slug_attributes]
+    user_defined:
+      <<: *user_defined_attributes
     _singular: Eingang
     accession_id_tooltip: "<p>Die interne Datenbanknummer für eine bestimmte Eingangs-Aufzeichnung.</p>\n"
     identifier: Signatur
@@ -259,7 +493,10 @@ de:
       \ nicht mit dem Titel der Ressource identisch sein. Außerdem muss ein Titel nicht\nfür die Eingangs-Aufzeichnung\
       \ angegeben werden, da er implizit\nvon der Ressourcen-Aufzeichnung geerbt wird, mit dem der Eingang\n\
       verknüpft ist.</p>\n<p>Siehe DACS 2.3.18-2.3.22, ISAD(G) 3.1.2</p>\n"
-  digital_object:
+  digital_object: &digital_object_attributes
+    <<: [*section_tooltips, *slug_attributes]
+    user_defined:
+      <<: *user_defined_attributes
     _plural: Digitale Objekte
     title: Titel
     digital_object_id: Signatur
@@ -292,232 +529,11 @@ de:
     restrictions: Einschränkungen?
     restrictions_tooltip: "<p>Ein Kontrollkästchen, das anzeigt, dass Einschränkungen gelten. Die Einschränkungen\
       \ können mit Hilfe von Anmerkungs-Teilaufzeichnungen für Hinweise oder Rechte erläutert werden.</p>\n"
-  custom_report_template:
-    name: Name
-    limit: Grenze
-    description: Beschreibung
-    "false": Nein
-    field: Feld
-    values: Nach Werten eingrenzen
-    display: Anzeigen?
-    start_date: Nach Beginndatum eingrenzen
-    _plural: Benutzerdefinierte Berichtsvorlagen
-    end_date: Nach Enddatum eingrenzen
-    include: Einschließen
-    _singular: Benutzerdefinierte Berichtsvorlage
-    record_type: Aufzeichnungs-Typ
-    value: Nach Wert eingrenzen
-    "true": Ja
-  rights_statement_external_document:
-    identifier_type: Signatur-Typ
-    identifier_type_tooltip: "<p>Der Bezeichner-Typ gibt an, zu welchem Bereich das externe Dokument gehört.</p>\n"
-  agent:
-    _singular: Akteur
-    notes: Anmerkungen
-    type: Akteur-Typ
-    type_tooltip: "<p>Der Typ der Entität, die durch Die Akteur-Aufzeichnung repräsentiert wird.</p>\n\
-      <p>Siehe DACS 10.2 und PREMIS Agent-Entität</p>\n"
-    agent_type:
-      agent_family: Familie
-      agent_person: Person
-      agent_software: Software
-      agent_corporate_entity: Körperschaft
-    is_user: Benutzername
-    is_user_tooltip: "<p>Wenn vorhanden, wird diese Akteur-Aufzeichnung mit einem Applikationsbenutzer\
-      \ mit dem angegebenen Benutzernamen verknüpft.</p>\n"
-    name: Name des Akteurs
-    names: Namensformen
-    agent_contacts: Kontaktdetails
-    names_tooltip: "<p>ERFORDERLICHE TEILAUFZEICHNUNG: Erfasst verschiedene Formen des Namens eines Akteurs.\
-      \ Jede Akteur-Aufzeichnung muss mindestens eine Namensform-Teilaufzeichnung enthalten.</p>\n"
-    contacts_tooltip: "<p>Erfasst Kontaktinformationen zu einem bestimmten Akteur.</p>\n"
-    notes_tooltip: "<p>Erfasst zusätzliche beschreibende Informationen über einen Akteur, wie z. B. eine\
-      \ biografische Notiz oder eine Verwaltungsgeschichte.</p>\n"
-    agent_contact_notes_tooltip: "<p>Anmerkungen zu Interaktionen mit dem Akteur.</p>\n"
-    related_agents_tooltip: "<p>Ermöglicht Verknüpfungen von dieser Akteur-Aufzeichnung zu einer anderen\
-      \ in assoziativen, hierarchischen oder Eltern/Kind-Beziehungen.</p>\n"
-    dates_of_existence: Existenzdaten
-    external_documents_tooltip: "<p>Ermöglicht Verknüpfungen mit externer Dokumentation, z. B. biografische\
-      \ Dateien, Referenzwerke usw. über diesen Akteur.</p>\n"
-    dates_of_existence_tooltip: "<p>Daten, in denen der Akteur existierte.</p>\n"
-    publish: Veröffentlichen
-    _plural: Akteure
-    agent_record_controls_tooltip: "<p>Informationen über die Aufzeichnung, die den Akteur beschreibt.</p>\n"
-    agent_alternate_sets_tooltip: "<p> Wird verwendet, um auf verknüpfte Autoritäts-Aufzeichnungen zu\
-      \ verweisen, wenn zwei oder mehr Aufzeichnungen für dieselbe Entität von zwei oder mehr Autoritäts-Systemen\
-      \ abgeleitet wurden.</p>\n"
-    agent_other_agency_codes_tooltip: "<p>Informationen über alternative Codes für die Agentur oder Organisation,\
-      \ die für die Erstellung oder Pflege einer Akteur-Aufzeichnung verantwortlich ist.</p>\n"
-    agent_maintenance_histories_tooltip: "<p>Ereignisse im Zusammenhang mit der Erstellung oder Pflege\
-      \ der Akteur-Aufzeichnung.</p>\n"
-    agent_record_identifiers_tooltip: "<p>Signaturen, die der Akteur-Aufzeichnung zugeordnet sind.</p>\n"
-    agent_sources_tooltip: "<p>Eine Quelle, die bei der Formulierung des Inhalts der Akteur-Aufzeichnung\
-      \ verwendet wird.</p>\n"
-    agent_genders_tooltip: Geschlecht des Subjekts.
-    agent_occupations_tooltip: Dem Akteur zugeordnete Berufsinformationen.
-    agent_places_tooltip: Dem Akteur zugeordnete Ortsinformationen.
-    agent_functions_tooltip: Begriffe zur Identifizierung der Funktionen, Prozesse, Aufgaben, Aktivitäten
-      oder Transaktionen, die vom Akteur ausgeführt werden.
-    agent_topics_tooltip: Ein mit dem Akteur verbundenes Thema.
-    agent_contacts_tooltip: "<p>Kontaktinformationen für den Akteur oder einen Vertreter, der in seinem\
-      \ Namen handelt.</p>\n"
-    used_languages_tooltip: 'Die dem Akteur zugeordnete(n) Sprache(n). Beispiel: Englisch.'
-    agent_resources_tooltip: Ressourcen und andere mit dem Akteur verbundene Aufzeichnungen.
-    related_agent_tooltip: Wird verwendet, um andere Akteure mit einer Beziehung zum Akteur zu verknüpfen
-      und die Art der Beziehung anzugeben.
-    agent_conventions_declarations_tooltip: "<p>Ein Inhaltsstandard, der bei der Formulierung des Inhalts\
-      \ der Akteur-Aufzeichnung verwendet wird. Beispiel: ISAD(G) - Internationale Grundsätze für die\
-      \ archivische Verzeichnung. Diese Teilaufzeichnung kann anstelle von Regel-Eintragungen auf einzelnen\
-      \ Namensformen verwendet werden.</p>\n"
-    agent_identifiers_tooltip: "<p>Bezeichner, die mit einer Entität verbunden sind, wie z. B. rechtliche\
-      \ Bezeichner, die von einer maßgeblichen Stelle zugewiesen werden. Beispiele sind ein ORCID-Bezeichner\
-      \ für eine Person oder ein MARC Repository Code für eine Körperschaft.</p>\n"
-    publish_tooltip: "<p>Gibt an, ob der Akteur in Exporte eingeschlossen und auf der öffentlichen Besucher-Schnittstelle\
-      \ veröffentlicht wird (sofern verwendet)</p>\n"
-  enumeration:
-    name: Name
-    name_tooltip: "<p>Der Name der Aufzählungs-Liste, zu der Sie einen Wert hinzufügen möchten.</p>\n"
-    value: Wert
-    value_tooltip: "<p>Der Wert für die Aufzählungs-Liste, die Sie hinzufügen oder bearbeiten möchten.</p>\n\
-      <p>Wann immer möglich, sollten die Werte in Kleinbuchstaben und mit Unterstrichen (\"_\") anstelle\
-      \ von Leerzeichen angegeben werden. Übersetzungen für die Werte sollten der Locales-Datei hinzugefügt\
-      \ werden.</p>\n"
-    translation: Übersetzung
-    position: Position
-    suppress: Unterdrücken
-    unsuppress: Unterdrückung aufheben
-    merge_into: Zusammenführen
-    _singular: Aufzählungs-Liste
-    _plural: Aufzählungs-Listen
-  classification_term:
-    _plural: Klassifizierungs-Begriffe
-    _singular: Klassifizierungs-Begriff
-    identifier: Signatur
-    title: Titel
-    description: Beschreibung
-    creator: Urheber
-  metadata_rights_declaration:
-    xlink_arcrole_attribute_tooltip: "<p>Typ oder Art der im zugehörigen URI verknüpften entfernten Ressource.</p>\n"
-    file_version_xlink_show_attribute_tooltip: "<p>Gibt an, wo die im zugehörigen URI verknüpfte entfernte\
-      \ Ressource angezeigt werden soll.</p>\n"
-    last_verified_date_tooltip: "<p>Letztes Datum oder Datum und Uhrzeit der Überprüfung der im zugehörigen\
-      \ URI verknüpften Ressource.</p>\n"
-    file_version_xlink_actuate_attribute_tooltip: "<p>Gibt an, ob der zugehörige URI beim Anzeigen der\
-      \ Akteur-Aufzeichnung aufgelöst werden soll.</p>\n"
-    xlink_role_attribute_tooltip: "<p>Typ oder Art der im zugehörigen URI verknüpften entfernten Ressource.</p>\n"
-    descriptive_note_tooltip: "<p>Unstrukturierte Informationen über die Bedingungen, unter denen die\
-      \ Metadaten zur Verwendung und Wiederverwendung zur Verfügung stehen.  Beispiele:</p>\n<p>i. Copyright\
-      \ Smith College, 1985</p>\n<p>ii. Dieses Findmittel darf für jeden Zweck vervielfältigt werden.</p>\n\
-      <p>iii. Dieses Werk ist gemeinfrei, d.h. Sie können es vervielfältigen, verändern, verbreiten und\
-      \ aufführen, auch zu kommerziellen Zwecken, ohne um Erlaubnis zu fragen.</p>\n<p>iv. Die biografische\
-      \ Notiz ist urheberrechtlich geschützt durch Ted Smith, 2015.  Alle anderen Metadaten sind unter\
-      \ CC BY 4.0 lizenziert.</p>\n"
-    file_uri_tooltip: "<p>Ein URI für den Online-Speicherort der Lizenz oder anderer veröffentlichter\
-      \ Informationen über die Bedingungen, unter denen die Metadaten für die Nutzung und Wiederverwendung\
-      \ verfügbar sind. Beispiel: https://creativecommons.org/licenses/by/4.0/</p>\n"
-    license_tooltip: "<p>Name der Lizenz (falls vorhanden), welche die Bedingungen regelt, unter denen\
-      \ die Metadaten zur Verwendung und Wiederverwendung zur Verfügung stehen.  Beispiele:</p>\n<p>Dieser\
-      \ Datensatz wird unter einer Universell 1.0 Public Domain Dedication Creative Commons Lizenz zur\
-      \ Verfügung gestellt.</p>\n<p>Dieser Datensatz wird unter einer Namensnennung - Nicht-kommerziell\
-      \ 4.0 International Creative Commons Lizenz zur Verfügung gestellt.</p>\n<p>Dieser Datensatz wird\
-      \ unter einer Namensnennung - Nicht-kommerziell - Keine Bearbeitung 4.0 International Creative Commons\
-      \ Lizenz zur Verfügung gestellt.</p>\n<p>Dieser Datensatz wird unter einer Namensnennung-Keine Bearbeitung\
-      \ 4.0 International Creative Commons Lizenz zur Verfügung gestellt.</p>\n<p>Dieser Datensatz wird\
-      \ unter einer Namensnennung - Nicht-kommerziell - Weitergabe unter gleichen Bedingungen 4.0 International\
-      \ Creative Commons Lizenz zur Verfügung gestellt.</p>\n"
-    xlink_title_attribute_tooltip: "<p>Titel der im zugehörigen URI verknüpften entfernten Ressource,\
-      \ der als Überschrift verwendet werden kann.</p>\n"
-  ratings:
-    _plural: Bewertungen
-  conservation_issues:
-    _plural: Probleme der Bestandserhaltung
-  boolean:
-    "true": Ja
-    "false": Nein
-  user_defined:
-    boolean_1: Boolescher Wert 1
-    boolean_2: Boolescher Wert 2
-    boolean_3: Boolescher Wert 3
-    integer_1: Ganzzahl 1
-    integer_2: Ganzzahl 2
-    integer_3: Ganzzahl 3
-    real_1: Reelle Zahl 1
-    real_2: Reelle Zahl 2
-    real_3: Reelle Zahl 3
-    string_1: Zeichenfolge 1
-    string_2: Zeichenfolge 2
-    string_3: Zeichenfolge 3
-    string_4: Zeichenfolge 4
-    text_1: Text 1
-    text_2: Text 2
-    text_5: Text 5
-    date_1_inline_help: z.B. JJJJ-MM-TT
-    date_2: Datum 2
-    date_2_inline_help: z.B. JJJJ-MM-TT
-    date_3: Datum 3
-    date_3_inline_help: z.B. JJJJ-MM-TT
-    enum_1: Aufzählungswert 1
-    enum_2: Aufzählungswert 2
-    enum_3: Aufzählungswert 3
-    enum_4: Aufzählungswert 4
-    _singular: Benutzerdefiniert
-    _plural: Benutzerdefiniert
-    text_4: Text 4
-    date_1: Datum 1
-    text_3: Text 3
-  slug:
-    slug: Slug
-    public_url: Öffentliche URL
-    is_slug_auto: Slug automatisch erzeugen?
-    is_slug_auto_tooltip: "<p>Wird dieses Feld ausgewählt, dann wird der Slug für diese Aufzeichnung basierend\
-      \ auf den Konfigurationseinstellungen von für Menschen lesbaren URLs in der config.rb Datei am Server\
-      \ automatisch erzeugt, wenn die Aufzeichnung gespeichert wird.</p>\n"
-    autogen_disabled: Ein Slug kann aus den bereitgestellten Daten basierend auf den aktuellen Konfigurationseinstellungen
-      nicht erzeugt werden
-    autogen_repo_slug: Da kein Slug manuell eingegeben wurde, wurde der Aufbewahrungsort-Slug automatisch
-      aus dem Kurznamen des Aufbewahrungsort generiert
-    public_url_tooltip: "<p>Wenn diese Aufzeichnung veröffentlicht oder zur Veröffentlichung aktualisiert\
-      \ wird, dann ist das die vollständige URL für diesen Datensatz in der öffentlichen Besucher-Oberfläche.\
-      \ Wenn für Menschen lesbare URLs verwendet werden, wird das Ende der URL der Slug sein.</p>\n<p>Ob\
-      \ für Menschen lesbare URLs verwendet werden oder nicht, der ursprüngliche URI für diese Aufzeichnung\
-      \ bleibt immer gültig.</p>\n"
-    slug_tooltip: "<p>Bei der Verwendung von für Menschen lesbaren URLs ist das der letzte Teil der öffentlichen\
-      \ URL für diese Aufzeichnung in der öffentlichen Besucher-Oberfläche von ArchivesSpace. Der Slug\
-      \ kann manuell hinzugefügt oder aktualisiert werden oder automatisch auf der Grundlage der Konfigurationseinstellungen\
-      \ von für Menschen lesbarer URLs in der Datei config.rb auf dem Server erzeugt werden.</p>\n"
   content_items:
     content: Inhalt
     content_tooltip: "<p>Der Inhalt der Anmerkung.</p>\n"
-  section_tooltips:
-    lang_materials_tooltip: "<p>Die Sprachen und Schriften, die im beschriebenen Archivgut vertreten sind.</p>\n\
-      <p>Siehe DACS 4.5, ISAD(G) 3.4.3</p>\n"
-    subjects_tooltip: "<p>Wird verwendet, um Themen mit dem beschriebenen Archivgut zu verknüpfen.</p>\n"
-    extents_tooltip: "<p>Gibt den Umfang und physische Beschaffenheit des beschriebenen Archivguts an.</p>\n\
-      <p>Siehe DACS 2.5, ISAD(G) 3.1.5</p>\n"
-    notes_tooltip: "<p>Zusätzliche beschreibende Informationen über das beschriebene Archivgut, meist\
-      \ in der Form von Text oder strukturierten Listen.</p>\n"
-    linked_agents_tooltip: "<p>Ordnet Akteure als Urheber, Quelle oder Subjekt dem beschriebenen Archivgut\
-      \ zu, um Informationen über deren Kontext anzugeben.</p>\n"
-    rights_statements_tooltip: "<p>Informationen über den Rechte-Zustand des beschriebenen Archivguts\
-      \ und darüber, ob es bestimmte Einschränkungen oder Genehmigungen gibt, die angegeben wurden.</p>\n"
-    metadata_rights_declarations_tooltip: "<p>Basierend auf DACS 8.2 und 13.11</p>\n"
-    instances_tooltip: "<p>Verknüpft die Beschreibung mit Informationen über physische oder digitale Instanzen\
-      \ des Archivguts.</p>\n"
-    collection_management_tooltip: "<p>Zusätzliche rein interne Informationen über wie das beschriebene\
-      \ Archivgut bearbeitet wurde oder wird.</p>\n"
-    classification_tooltip: "<p>Dient der Verknüpfung des beschriebenen Archivguts mit einer Klassifikation\
-      \ oder einem Klassifikationsbegriff (z. B. einem Aufzeichnungsgruppen-System), der innerhalb der\
-      \ Anwendung verwaltet wird.</p>\n"
-    external_documents_tooltip: "<p>Verknüpfungen mit Informationen in anderen Beschreibungs- oder Verwaltungssystemen\
-      \ wie Geber-Daten, Bearbeitungspläne usw.</p>\n"
-    dates_tooltip: "<p>Identifiziert und erfasst das Datum/die Daten, die sich auf die Erstellung, Anordnung,\
-      \ Sammlung und/oder Wartung und Verwendung des beschriebenen Archivguts beziehen.</p>\n<p>Siehe\
-      \ DACS 2.4, ISAD(G) 3.1.3</p>\n"
-    user_defined_tooltip: "<p>Benutzerdefinierte Felder zur Erfassung zusätzlicher Informationen, die\
-      \ in anderen Abschnitten der Anwendung nicht erfasst werden.</p>\n"
-    deaccessions_tooltip: "<p>Erfasst Informationen über Archivgut, das möglicherweise ausgeschieden und\
-      \ verworfen, an einen Geber zurückgegeben oder an eine andere Einrichtung weitergegeben wurden.</p>\n"
   digital_object_component:
+    <<: *digital_object_attributes
     label: Beschriftung
     component_id: Signatur
     component_id_tooltip: "<p>Ein eindeutiger Bezeichner für die Komponente des digitalen Objekts.</p>\n"
@@ -531,7 +547,7 @@ de:
       \ 1, Spur 1, Abschnitt 1, usw.</li>\n<li>Bild: Foto 1, Bild 1, usw.</li>\n<li>Text: Seite 1, Blatt\
       \ 1, erstes Blatt, Kapitel 1, Abschnitt 1, usw.</li>\n<li>Video:  Film 1, Teil 1, Abschnitt 1, usw.</li>\n\
       </ul>\n"
-  location:
+  location: &location_attributes
     title: Standort
     temporary_question: Vorübergehend?
     temporary: Vorübergehend
@@ -588,6 +604,7 @@ de:
       \ zur Erfassung einer Beschriftung (z. B. \"Regal\", \"Bereich\", \"Lade\") für einen bestimmten\
       \ Standort.</p>\n"
   location_batch:
+    <<: *location_attributes
     label: Beschriftung
     prefix: Präfix
     coordinate_3_range: Koordinatenbereich 3
@@ -633,7 +650,7 @@ de:
     ref_plural: Aufzeichnungen
     _singular: Aufzeichnungs-Verknüpfung
     _plural: Aufzeichnungs-Verknüpfungen
-  linked_agent:
+  linked_agent: &linked_agent_attributes
     role: Rolle
     relator: Relator
     terms: Begriffe
@@ -654,7 +671,25 @@ de:
       \ bei Bedarf erstellt werden.</p>\n"
     _singular: Akteur-Verknüpfung
     _plural: Akteur-Verknüpfungen
-  event:
+  accession_linked_agent:
+    <<: *linked_agent_attributes
+
+  event_linked_agent:
+    <<: *linked_agent_attributes
+
+  resource_linked_agent:
+    <<: *linked_agent_attributes
+
+  archival_object_linked_agent:
+    <<: *linked_agent_attributes
+
+  digital_object_linked_agent:
+    <<: *linked_agent_attributes
+
+  digital_object_component_linked_agent:
+    <<: *linked_agent_attributes
+  event: &event
+    <<: *section_tooltips
     event_type_tooltip: "<p>Eine Kategorisierung der Art des Ereignisses.</p>\n<p>Werte in dieser Aufzählungs-Liste\
       \ können geändert werden.</p>\n<p>Siehe PREMIS eventType</p>\n"
     event_type: Typ
@@ -726,7 +761,10 @@ de:
       \ Ergebnis-Anmerkung festgehalten werden. Es wird empfohlen, Ereignisse mit ausreichender Granularität\
       \ zu definieren, so dass jedes Ereignis ein einziges Ergebnis hat.</p>\n<p>Werte in dieser Aufzählungs-Liste\
       \ können bearbeitet werden.</p>\n"
+  linked_event:
+    <<: *event
   deaccession:
+    <<: *section_tooltips
     scope: Teil
     description: Beschreibung
     description_tooltip: "<p> ERFORDERLICHES FELD: Beschreibung des Archivguts, das ausgeschieden wurde.</p>\n\
@@ -747,11 +785,11 @@ de:
     disposition_tooltip: "<p>Eine Beschreibung, die angibt, was mit dem ausgeschiedenen Archivgut geschehen\
       \ ist.</p>\n<p>Beispiele:</p>\n<ul>\n<li>Finanzielle Unterlagen, die an die Familie zurückgegeben\
       \ wurden.</li>\n<li>Hundeausstellungspokale an die Frau des Geber zurückgegeben.</li>\n</ul>\n"
-  parallel_name:
+  parallel_name: &parallel_name_attributes
     _frontend:
       action:
         add: Alternativen Namen hinzufügen
-  agent_name:
+  agent_name: &agent_name_attributes
     authority_id: Autoritäts-ID
     source: Quelle
     source_tooltip: "<p>BEDINGT ERFORDERLICHES FELD, wenn keine Namensregeln verwendet werden. Ein Indikator\
@@ -827,7 +865,7 @@ de:
     number_tooltip: "<p>Eine Zahl, manchmal mit einem Begriff, die den Namen qualifiziert. Bei Personennamen\
       \ oft eine römische Zahl oder eine römische Zahl und ein nachfolgender Teil eines Vornamens. Bei\
       \ Firmennamen die Nummer eines Teils/Abteilung oder einer Sitzung;\n<p>Beispiele:</p>\n<ul>\n<li>II\
-      \ Komnenus <em>(für Johannes II Komnenus, Kaiser des Ostens</em>/li>\n<li>II <em>(für Johannes Paul\
+      \ Komnenus <em>(für Johannes II Komnenus, Kaiser des Ostens</em></li>\n<li>II <em>(für Johannes Paul\
       \ II)</em></li>\n<li>97., 2. Sitzung <em>(für Kongress der Vereinigten Staaten, 97., 2. Sitzung)</em></li>\n\
       </ul>\n"
     primary_name_tooltip: "<p>Der Hauptteil einer Namensform (z.B. Nachname oder Vorname einer Person).</p>\n\
@@ -835,10 +873,15 @@ de:
       <li>Black Foot <em>(für Black Foot, Chief, gest. 1877 [Person])</em></li>\n<li>International Business\
       \ Machines <em>(für International Business Machines. Mikroelektronik-Sparte [Körperschaft])</em></li>\n\
       </ul>\n"
+  name_person:
+    <<: *agent_name_attributes
+
   parallel_name_person:
+    <<: *agent_name_attributes
     _singular: Alternativer Name
     _plural: Alternative Namen
-  name_family:
+  name_family: &agent_family_attributes
+    <<: *agent_name_attributes
     family_name: Familienname
     family_name_tooltip: "<p>Der Nachname einer Familie, üblicherweise ergänzt durch den Begriff \"Familie\"\
       .</p>\n"
@@ -850,7 +893,10 @@ de:
       \ unterscheiden. Beispiele: Trigg County, Ky. (für Cunningham (Familie : 1795- : Trigg County, Ky.)),\
       \ Kanadische Botschaft, Tokio (für Kanada-Japan-Partnerschaftskonferenz (1991 : Kanadische Botschaft,\
       \ Tokio))</p>\n"
-  name_corporate_entity:
+  parallel_name_family:
+    <<: *agent_family_attributes
+  name_corporate_entity: &agent_corporate_entity_attributes
+    <<: *agent_name_attributes
     subordinate_name_1: Untergeordneter Name 1
     subordinate_name_2: Untergeordneter Name 2
     jurisdiction: Gerichtsbarkeit?
@@ -869,7 +915,10 @@ de:
       \ Mikroelektronik-Abteilung)</em></li>\n</ul>\n"
     conference_meeting_tooltip: "<p> Gibt an, ob es sich bei der Entität um eine normale Körperschaft\
       \ oder um eine Konferenz, ein Treffen oder eine andere benannte Veranstaltung handelt.</p>\n"
-  name_software:
+  parallel_name_corporate_entity:
+    <<: *agent_corporate_entity_attributes
+  name_software: &agent_software_attributes
+    <<: *agent_name_attributes
     software_name: Name der Software
     software_name_tooltip: "<p>Der Name eines Softwarepakets.</p>\n<p>Beispiele:</p>\n<ul>\n<li>Photoshop\
       \ <em>(für Adobe Photoshop CS3)</em></li>\n<li>ArchivesSpace <em>(für ArchivesSpace 3.1.1)</em></li>\n\
@@ -883,6 +932,8 @@ de:
       \ die Entwicklung oder die Wartung eines Softwarepakets.</p>\n<p>Beispiele</p>\n<ul>\n<li>Adobe\
       \ <em>(für Adobe Photoshop CS3)</em></li>\n<li>Lyrasis <em>(für ArchivesSpace 3.1.1)</em></li>\n\
       </ul>\n"
+  parallel_name_software:
+    <<: *agent_software_attributes
   agent_record_identifiers:
     identifier_type_tooltip: "<p>Gibt den Typ oder das Format der Signatur der Autoritäts-Aufzeichnung\
       \ an. Die Werte in dieser Aufzählungs-Liste können bearbeitet werden.</p>\n"
@@ -1049,7 +1100,7 @@ de:
   name:
     _singular: Namensform
     _plural: Namensformen
-  structured_date_label:
+  structured_date_label: &sdl_attributes
     date_label_tooltip: "<p>Beschreibt die Art der Aktivität, für die das Datum steht</p>\n"
     date_type_structured_tooltip: "<p>Gibt den Typ der Datumsinformation an, entweder ein einzelnes Datum\
       \ oder einen Datumsbereich.</p>\n"
@@ -1060,7 +1111,12 @@ de:
       \ BC (v. d. Z.) oder CE (n. d. Z.). Der Wert \"ce\" ist der Standardwert.</p>\n"
     date_calendar_tooltip: "<p>System der Zeitrechnung, z. B. Gregorianischer oder Julianischer Kalender.\
       \ Der Wert \"gregorian\" ist der Standardwert.</p>\n"
-  structured_date_single:
+  structured_date_label_existence:
+    <<: *sdl_attributes
+
+  structured_date_label_common_fields:
+    <<: *sdl_attributes
+  structured_date_single: &sds_attributes
     date_expression_tooltip: "<p>Ein Ausdruck in natürlicher Sprache, der das Datum oder den Datumsbereich\
       \ angibt. Erforderlich, wenn kein standardisiertes Datum erfasst wird.</p>\n"
     date_standardized_type_tooltip: "<p>Gibt an, ob das standardisierte Datum das tatsächliche Datum oder\
@@ -1069,7 +1125,7 @@ de:
       \ zu verstehen ist. Die Vorgabe ist Beginn.</p>\n"
     date_standardized_tooltip: "<p>Ein Ausdruck in natürlicher Sprache, der das Datum oder den Datumsbereich\
       \ angibt. Erforderlich, wenn kein standardisiertes Datum erfasst wird.</p>\n"
-  structured_date_range:
+  structured_date_range: &sdr_attributes
     begin_date_expression_tooltip: "<p>Ein Ausdruck in natürlicher Sprache, der den Beginn eines Datumsbereichs\
       \ angibt. Erforderlich, wenn kein standardisiertes Datum erfasst wird.</p>\n"
     begin_date_standardized_type_tooltip: "<p>Gibt an, ob das standardisierte Anfangsdatum das tatsächliche\
@@ -1084,28 +1140,33 @@ de:
       \ angibt. Erforderlich, wenn kein standardisiertes Datum erfasst wird.</p>\n"
     end_date_standardized_tooltip: "<p> Ein Datum (in der Form JJJJ, JJJJ-MM oder JJJJ-MM-TT), welches\
       \ das letzte Datum in einem Datumsbereich darstellt.</p>\n"
-  telephone_required:
+  structured_date_single_fields:
+    <<: *sds_attributes
+
+  structured_date_range_fields:
+    <<: *sdr_attributes
+  telephone_required: &telephone
     _plural: Telefonnummern
     number_type: Nummern-Typ
     number: Nummer
     number_tooltip: "<p>Telefonnummer der Kontaktperson.</p>\n"
     ext: Telefondurchwahl
     ext_tooltip: "<p>Telefondurchwahl für die Kontaktperson.</p>\n"
-  telephone_merge:
+  telephone_merge: &telephone
     _plural: Telefonnummern
     number_type: Nummern-Typ
     number: Nummer
     number_tooltip: "<p>Telefonnummer der Kontaktperson.</p>\n"
     ext: Telefondurchwahl
     ext_tooltip: "<p>Telefondurchwahl für die Kontaktperson.</p>\n"
-  telephone_merge_target:
+  telephone_merge_target: &telephone
     _plural: Telefonnummern
     number_type: Nummern-Typ
     number: Nummer
     number_tooltip: "<p>Telefonnummer der Kontaktperson.</p>\n"
     ext: Telefondurchwahl
     ext_tooltip: "<p>Telefondurchwahl für die Kontaktperson.</p>\n"
-  note_attributes:
+  note_attributes: &note_attributes
     persistent_id: Dauerhafte ID
     content: Inhalt
     content_tooltip: "<p>Der Inhalt der Anmerkung.</p>\n"
@@ -1123,7 +1184,7 @@ de:
       \ wird.</p>\n"
     label_tooltip: "<p>Eine Beschriftung oder Überschrift für die jeweilige Anmerkung. Wird keine Beschriftung\
       \ verwendet, wird bei Bedarf der Anmerkungstyp als Beschriftung verwendet.</p>\n"
-  related_agent:
+  related_agent: &related_agent_attributes
     relator: Richtungsabhängige Beziehungsart
     specific_relator: Spezifische Beziehungsart
     specific_relator_tooltip: Ein kontrollierter Begriff, der die Art der Beziehung zwischen dem Hauptakteur
@@ -1145,19 +1206,28 @@ de:
     description: Beschreibung
     _singular: Verwandter Akteur
     related_agent_tooltip: Die Person, Familie oder Körperschaft, die mit dem Hauptakteur verwandt ist.
+  related_agents:
+    <<: *related_agent_attributes
   agent_relationship_earlierlater:
+    <<: *related_agent_attributes
     _singular: Früher/Später-Beziehung
   agent_relationship_parentchild:
+    <<: *related_agent_attributes
     _singular: Eltern/Kind-Beziehung
   agent_relationship_subordinatesuperior:
+    <<: *related_agent_attributes
     _singular: Untergebener/Vorgesetzter-Beziehung
   agent_relationship_associative:
+    <<: *related_agent_attributes
     _singular: Assoziative Beziehung
   agent_relationship_identity:
+    <<: *related_agent_attributes
     _singular: Identiäts-Beziehung
   agent_relationship_hierarchical:
+    <<: *related_agent_attributes
     _singular: Hierarchische Beziehung
   agent_relationship_temporal:
+    <<: *related_agent_attributes
     _singular: Zeitliche Beziehung
   note:
     content_item: Inhaltselement
@@ -1198,8 +1268,10 @@ de:
     reference_tooltip: Das Ziel für das Indexelement.
     reference_text: Referenztext
   note_text:
+    <<: *note_attributes
     option: Text
   note_index:
+    <<: *note_attributes
     option: Index
   chronology_item:
     place: Ort des Ereignisses
@@ -1209,6 +1281,7 @@ de:
     events_tooltip: "<p>Eine Beschreibung eines Ereignisses, das dem Datumelement in der Chronologie entspricht.</p>\n"
     events_singular: Ereigniselement
   note_definedlist:
+    <<: *note_attributes
     option: Definierte Liste
   definedlist_item:
     label: Beschriftung
@@ -1231,7 +1304,7 @@ de:
     role: Role
     title: Title
     show: Show
-  instance:
+  instance: &instance_attributes
     instance_type: Typ
     is_representative: Ist repräsentativ?
     instance_type_tooltip: "<p>Eine Bezeichnung der Manifestation für das beschriebene Archivgut. Die\
@@ -1242,26 +1315,35 @@ de:
     _plural: Instanzen
     _singular: Instanz
   note_orderedlist:
+    <<: *note_attributes
     option: Geordnete Liste
     enumeration: Aufzählung
     enumeration_tooltip: "<p>Ein Attribut zur Angabe der Art der Nummerierung, die auf die Anmerkungselemente\
       \ angewandt werden soll</p>\n"
   note_bioghist:
+    <<: *note_attributes
     subnotes: Teilanmerkungen
   note_general_context:
+    <<: *note_attributes
     subnotes: Teilanmerkungen
   note_mandate:
+    <<: *note_attributes
     subnotes: Teilanmerkungen
   note_legal_status:
+    <<: *note_attributes
     subnotes: Teilanmerkungen
   note_structure_or_genealogy:
+    <<: *note_attributes
     subnotes: Teilanmerkungen
   note_abstract:
+    <<: *note_attributes
     option: Zusammenfassung
   note_citation:
+    <<: *note_attributes
     option: Zitat
     xlink: XLink
   note_outline:
+    <<: *note_attributes
     option: Gliederung
     levels: Ebenen
   file_version:
@@ -1305,7 +1387,7 @@ de:
       <li>Audio/Video Interleaved Format (avi)</li>\n<li>JPEG File Interchange Format (jpeg)</li>\n<li>MPEG-Audio\
       \ Layer 3 (mp3)</li>\n<li>Portables Dokumentenformat (pdf)</li>\n</ul>\n"
     _singular: Dateiversion
-  extent:
+  extent: &extent_attributes
     portion: Teil
     portion_tooltip: "<p> ERFORDERLICHES FELD: Gibt an, ob sich eine Umfangsangabe auf die Gesamtheit\
       \ oder einen Teil einer bestimmten beschriebenen Ansammlung oder Objekts bezieht.</p>\n<p>Siehe\
@@ -1315,9 +1397,11 @@ de:
     number_tooltip: "<p>ERFORDERLICHES FELD: Ein numerischer Wert zur Angabe der Anzahl der Einheiten\
       \ in der Umfangsangabe, z. B. 5, 11,5, 245. Wird in Verbindung mit dem Umfangs-Typ verwendet, um\
       \ eine strukturierte Umfangsangabe zu liefern.</p>\n<p>Siehe DACS 2.5, ISAD(G) 3.1.5</p>\n"
-    extent_type_tooltip: "<p> ERFORDERLICHES FELD: Ein Begriff, der die Art der Einheit angibt, die zur\
-      \ Messung des Umfangs des beschriebenen Archivguts verwendet wird.</p>\n<p>Werte in dieser Aufzählungs-Liste\
-      \ können bearbeitet werden.</p>\n<p>Siehe DACS 2.5, ISAD(G) 3.1.5</p>\n"
+    extent_type_tooltip: &extent_type_tooltip |
+      <p> ERFORDERLICHES FELD: Ein Begriff, der die Art der Einheit angibt, die zur
+      Messung des Umfangs des beschriebenen Archivguts verwendet wird.</p>
+      <p>Werte in dieser Aufzählungs-Liste können bearbeitet werden.</p>
+      <p>Siehe DACS 2.5, ISAD(G) 3.1.5</p>
     container_summary: Behältnis-Zusammenfassung
     physical_details: Physische Details
     physical_details_tooltip: "<p>Andere physische Details der beschriebenen Materialien, z.B. analog,\
@@ -1332,7 +1416,7 @@ de:
       \ beschriebene Archivgut enthalten.</p>\n<p>Beispiele:</p>\n<ul>\n<li>10 Aktenkartons, 6 Archivkartons,\
       \ 3 Überformatordner.</li>\n<li>12 Schuhkartons.</li>\n<li>4 Archivschachteln, 32 Röhren.</li>\n\
       </ul>\n"
-  external_document:
+  external_document: &external_document_attributes
     publish: Veröffentlichen?
     title: Titel
     title_tooltip: "<p>Der Titel eines externen Dokuments, auf das in der Aufzeichnung verwiesen wird.\
@@ -1347,23 +1431,32 @@ de:
     _singular: Externes Dokument
     location_tooltip: "<p>Der Speicherort der Datei, idealerweise ein auflösbarer URI.</p>\n<p>Beispiele:</p>\n\
       <ul>\n<li>http://www.archivesspace.org/</li>\n<li>file:///c:/pfad/zu/der%20datei.txt</li>\n</ul>\n"
+  rights_statement_external_document:
+    <<: *external_document_attributes
+    identifier_type: Signatur-Typ
+    identifier_type_tooltip: "<p>Der Bezeichner-Typ gibt an, zu welchem Bereich das externe Dokument gehört.</p>\n"
   language:
     _plural: Sprachen
     _singular: Sprache
   language_and_script:
+    <<: *lang_material_attributes
     script: Schrift
-    script_tooltip: "<p>Der in dem beschriebenen Archivgut dargestellte Schriftbegriff und Code. Die Codes\
-      \ stammen aus ISO 15924: Codes für die Darstellung von Namen von Schriften.</p>\n<p>Siehe DACS 4.5,\
-      \ ISAD(G) 3.4.3</p>\n"
-    language_tooltip: "<p> ERFORDERLICHES FELD: Der Sprachbegriff und der Code, der im beschriebenen Archivgut\
-      \ enthalten ist. Die Codes stammen aus ISO 639-2b: Codes für die Repräsentation von Namen von Sprachen.</p>\n"
+    script_tooltip: &language_language_tooltip |
+      <p>Der in dem beschriebenen Archivgut dargestellte Schriftbegriff und Code. Die Codes
+      stammen aus ISO 15924: Codes für die Darstellung von Namen von Schriften.</p>
+      <p>Siehe DACS 4.5, ISAD(G) 3.4.3</p>
+    language_tooltip: &language_script_tooltip |
+      <p> ERFORDERLICHES FELD: Der Sprachbegriff und der Code, der im beschriebenen Archivgut
+      enthalten ist. Die Codes stammen aus ISO 639-2b: Codes für die Repräsentation von Namen von Sprachen.</p>
     language: Sprache
+  language_note:
+    <<: *lang_material_attributes
   external_id:
     _plural: Externe IDs
     _singular: Externe ID
     source: Quelle
     external_id: Externe ID
-  rights_statement:
+  rights_statement: &rights_statement_attributes
     identifier: Signatur
     identifier_tooltip: "<p>Identifiziert die Rechteerklärung innerhalb der Aufbewahrungsort-Domäne eindeutig.\
       \ Die Bezeichner der Rechteerklärung werden in der Regel automatisch von der Anwendung erzeugt.</p>\n"
@@ -1414,7 +1507,18 @@ de:
       \ FERPA in den Vereinigten Staaten.  Sonstiges steht für institutionelle Richtlinien oder andere\
       \ Grundlagen als Urheberrecht, Lizenz und Gesetz.  Auch sie kann für Geber- und Kaufverträge verwendet\
       \ werden, wenn der Aufbewahrungsort dies wünscht.</p>\n"
-  date:
+  rights_type_copyright:
+    <<: *rights_statement_attributes
+
+  rights_type_license:
+    <<: *rights_statement_attributes
+
+  rights_type_statute:
+    <<: *rights_statement_attributes
+
+  rights_type_other:
+    <<: *rights_statement_attributes
+  date: &date_attributes
     date_type: Typ
     label: Beschriftung
     label_tooltip: "<p>ERFORDERLICHES FELD: Beschreibt die Art der Tätigkeit, die das Datum kennzeichnet.</p>\n\
@@ -1455,6 +1559,32 @@ de:
       \ Zahl ausgedrückt, z. B. -214 für 214 v. Chr./v. d. Z.</p>\n"
     _plural: Daten
     _singular: Datum
+  date_type_single:
+    <<: *date_attributes
+
+  date_type_inclusive:
+    <<: *date_attributes
+
+  date_type_range:
+    <<: *date_attributes
+
+  date_label:
+    <<: *date_attributes
+
+  existence_date:
+    <<: *date_attributes
+
+  usage_date:
+    <<: *date_attributes
+
+  event_date:
+    <<: *date_attributes
+
+  archival_record_date:
+    <<: *date_attributes
+
+  date_fields:
+    <<: [*date_attributes, *sdl_attributes]
   interrelated_accession:
     _plural: Verwandte Eingänge
     relationship_type: Art der Beziehung
@@ -1471,7 +1601,8 @@ de:
     forms_part_of: Ist Teil von
     has_part: Hat Teil
     relator_type: Relator-Typ
-  archival_object:
+  archival_object: &archival_object_attributes
+    <<: [*section_tooltips, *slug_attributes]
     publish: Veröffentlichen?
     title: Titel
     ref_id: Ref-ID
@@ -1523,9 +1654,6 @@ de:
       \ sind. Eine zusätzliche Beschreibung der Einschränkung sollte in den entsprechenden Anmerkungen\
       \ oder Rechteerklärungen für die Aufzeichnung, in dem die Einschränkung auftritt, gegeben werden.</p>\n\
       <p>Siehe DACS 4.1-4.4, ISAD(G) 3.4.1; 3.4.2; 3.4.4</p>\n"
-  agent_corporate_entity:
-    _singular: Körperschaft
-    _plural: Körperschaften
   related_agents_agent_person:
     related_agents: Verwandte Akteure
   related_agents_agent_family:
@@ -1540,6 +1668,13 @@ de:
     description: Beschreibung
     member_usernames: Mitglieder
     permissions: 'Mitglieder können:'
+    default_group_names:
+      repository_managers: "Verwalter des Aufbewahrungsorts %{repo_code}"
+      repository_archivists: "Archivare des Aufbewahrungsorts %{repo_code}"
+      project_managers: "Projektmanager des Aufbewahrungsorts %{repo_code}"
+      advanced_data_entry: "Fortgeschrittene Dateneingabe-Benutzer des Aufbewahrungsorts %{repo_code}"
+      basic_data_entry: "Basis-Dateneingabe-Benutzer des Aufbewahrungsorts %{repo_code}"
+      repository_viewers: "Betrachter des Aufbewahrungsorts %{repo_code}"
     permission_types:
       manage_repository: diesen Aufbewahrungsort verwalten (Gruppen und andere Einstellungen ändern)
       update_location_record: Orts-Aufzeichnungen in diesem Aufbewahrungsort erstellen/ändern/löschen
@@ -1579,12 +1714,16 @@ de:
       manage_enumeration_record: Aufzählungs-Datensätze erstellen/aktualisieren/löschen
       manage_rde_templates: RDE-Vorlagen verwalten
       update_container_record: Haupt-Behältnis-Aufzeichnungen erstellen/aktualisieren
+      manage_custom_report_templates: Benutzerdefinierte Berichtsvorlagen verwalten
     _singular: Gruppe
     _plural: Gruppen
     description_tooltip: "<p>Eine kurze textliche Beschreibung der Gruppe.</p>\n<p>Beispiele:\n<ul>\n\
       <li>Praktikanten im Sommer 2013</li>\n<li>Mitarbeiter der Sammlungsverwaltung</li>\n</ul>\n"
     member_usernames_tooltip: "<p>Die Mitglieder, die zu dieser Gruppe gehören.</p>\n"
   resource:
+    <<: [*archival_object_attributes, *section_tooltips]
+    user_defined:
+      <<: *user_defined_attributes
     id_0: Signatur
     id_1: Signatur 2
     id_2: Signatur 3
@@ -1696,7 +1835,7 @@ de:
   related_resource:
     _singular: Verwandte Ressource
     _plural: Verwandte Ressourcen
-  term:
+  term: &term_attributes
     term_type: Typ
     term: Begriff
     term_tooltip: "<p>ERFORDERLICHES FELD. Ein Deskriptor für einen Teil einer Themenüberschrift. Einer\
@@ -1713,7 +1852,7 @@ de:
     subjects_tooltip: "<p>Ein mit dem Akteur verbundenes Thema.</p>\n"
   subrecord_subject_agent_resource_place:
     places_tooltip: "<p>Ein geografischer Ort, welcher der verknüpften Ressource zugeordnet ist.</p>\n"
-  defaults:
+  defaults: &defaults_attributes
     publish: Veröffentlichen?
     assessment_browse_section: Spalten der Begutachtungs beim Blättern
     sort_direction: Standard-Sortierrichtung
@@ -1779,21 +1918,44 @@ de:
     boolean:
       published: Veröffentlicht?
       suppressed: Unterdrückt?
+  note_singlepart:
+    <<: *note_attributes
   note_multipart:
+    <<: *note_attributes
     subnotes: Teilanmerkungen
     sub_notes: Teilanmerkungen
     sub_notes_singular: Teilanmerkung
+  note_digital_object:
+    <<: *note_attributes
+
+  note_langmaterial:
+    <<: *note_attributes
+
+  note_rights_statement:
+    <<: *note_attributes
+
+  note_rights_statement_act:
+    <<: *note_attributes
+
+  note_agent_rights_statement:
+    <<: *note_attributes
   note_bibliography:
+    <<: *note_attributes
     option: Literaturverzeichnis
   note_chronology:
+    <<: *note_attributes
     title: Titel
     items: Ereignisse
     option: Chronologie
   instance_container:
+    <<: *instance_attributes
     barcode: Strichcode
+  instance_digital_object:
+    <<: *instance_attributes
   date_type_bulk:
+    <<: *date_attributes
     bulk: Großteil
-  collection_management:
+  collection_management: &collection_management_attributes
     rights_determined_false: Nein
     processing_hours_total: Bearbeitungsstunden insgesamt
     rights_determined_tooltip: "<p>Gibt an, ob die Rechte für eine Archiveinheit (Eingang, Ressource oder\
@@ -1850,7 +2012,7 @@ de:
     parent: Elternteil
     _singular: Sammlungsverwaltung
     _plural: Sammlungsverwaltung
-  preference:
+  preference: &preference_attributes
     _plural: Einstellungen
     defaults: Standardwerte
     global: Globale Voreinstellungen
@@ -1918,6 +2080,8 @@ de:
       template: Vorlage
       from: Von
       to: Bis
+      rating: Bewertung
+      values: Werte
   validation_errors:
     missing_required_property: Eigenschaft ist erforderlich, fehlte aber
     must_not_be_before_begin: darf nicht vor Beginn sein
@@ -2052,6 +2216,7 @@ de:
     status_running: Wird ausgeführt
     status_failed: Fehlgeschlagen
     status_canceled: Abgebrochen
+    queue_position: "Nr. %{position}"
     owner: Besitzer
     types:
       container_labels_job: Behältnis-Beschriftungen
@@ -2094,7 +2259,7 @@ de:
     frontend_log: Frontend-Protokoll
     backend_log: Backend-Protokoll
     backend_info: Informationen zum Backend-System
-  rights_statement_act:
+  rights_statement_act: &rights_statement_act_attributes
     _plural: Handlungen
     act_type_tooltip: "<p>Die Handlung, die diese Rechteerklärung erlaubt.</p>\n"
     act_type: Art der Handlung
@@ -2107,6 +2272,8 @@ de:
     end_date: Enddatum
     end_date_tooltip: "<p>Das Datum, an dem die Handlung endet.</p>\n"
     _singular: Handlung
+  act:
+    <<: *rights_statement_act_attributes
   oai:
     sample_page:
       introduction: <p>Beispielanfragen unter Verwendung des Open Archives Initiative Protocol for Metadata
@@ -2631,3 +2798,5 @@ de:
     _plural: Gruppen
   owner_repo:
     _plural: Reserviert für
+  container_profile:
+    title: "%{name} [%{depth}t, %{height}h, %{width}b %{dimension_units}] Umfang gemessen durch %{extent_dimension}"

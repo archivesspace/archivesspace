@@ -41,8 +41,8 @@
       <%= form.label_and_date "last_verified_date",
         :required => is_required_by_admin?(r, "agent_resources", "last_verified_date") %>
 
-			<%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "places", :template_erb => "subjects/template", :template => "subrecord_subject_agent_resource_place", :heading_text => "Place Subject", :heading_size => "h4"} %>
-			
+      <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "places", :template_erb => "subjects/template", :template => "subrecord_subject_agent_resource_place", :heading_text => I18n.t("name._frontend.section.place_subject"), :heading_size => "h4"} %>
+
       <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "dates", :template_erb => "dates/template", :template => "structured_date_label_usage", :heading_text => I18n.t("name._frontend.section.dates"), :heading_size => "h4"} %>
     </div>
   </div>
