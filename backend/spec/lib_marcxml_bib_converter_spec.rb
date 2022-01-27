@@ -210,10 +210,6 @@ describe 'MARCXML Bib converter' do
         expect(@families.select {|f| f['names'][0]['source'] == 'NACO Authority File'}.count).to eq(1)
       end
 
-      xit "maps datafield[@tag='600']/subfield[@code='v'] to agent_(family|person).subjects[].term" do
-        # pending implementation
-      end
-
       it "maps datafield[@tag='600' or @tag='700']/subfield[@code='b'] to agent_(family|person).names[].number" do
         expect(@people.select {|p| p['names'][0]['number'] == 'PName-Number-AT'}.count).to eq(3)
       end
