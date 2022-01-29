@@ -196,4 +196,10 @@ module RegisterCustomFields
   register_field('subject', 'authority_id', String, :sortable => true)
   register_field('subject', 'scope_note', String)
   register_field('subject', 'source', 'Enum', :sortable => true)
+
+  register_field('user', 'username', String, :sortable => true)
+  register_field('user', 'email', String, :sortable => true)
+  register_field('user', 'name', String, :sortable => true)
+  register_field('user', 'first_name', String, :sortable => true)
+  register_field('user', 'last_name', String, :sortable => true)
 end
