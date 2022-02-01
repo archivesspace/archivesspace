@@ -5,7 +5,9 @@ Rails.application.routes.draw do
 
     get '/welcome', to: 'welcome#show'
 
-    get '/ark:/*ark_id' => 'ark_name#show'
+    if AppConfig[:arks_enabled]
+      get '/ark:/*ark_id' => 'ark_name#show'
+    end
 
     # I don't think this is used anywhere...
     post '/cite', to: 'cite#show'

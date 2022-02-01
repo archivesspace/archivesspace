@@ -231,7 +231,7 @@ class TopContainer < Sequel::Model(:top_container)
                                          "cannot be previous if Location is not temporary")
                             end
 
-                            super
+                            super()
                           end
 
                         end

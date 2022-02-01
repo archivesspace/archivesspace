@@ -1776,8 +1776,7 @@ en:
       other: Other
       statute: Statute
     romanization:
-      conv_rom_cat_agency: Conventional romanization or conventional form of name in language of\
-        \ cataloging agency
+      conv_rom_cat_agency: Conventional romanization or conventional form of name in language of cataloging agency
       int_std: International standard
       local_standard: Local standard
       nat_std: National standard

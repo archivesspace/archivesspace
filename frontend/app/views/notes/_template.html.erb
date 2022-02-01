@@ -700,15 +700,15 @@
       <section class="subrecord-form">
         <h4 class="subrecord-form-heading">
           <%= I18n.t("note_definedlist.items") %>
-          <% if not form.readonly? %>
-            <button class="btn btn-xs btn-default pull-right add-item-btn"><%= I18n.t("note._frontend.action.note_definedlist_item") %></button>
-          <% end %>
         </h4>
         <div class="subrecord-form-container">
           <%= form.list_for(form["items"], "items[]") do |item| %>
             <% form.emit_template("definedlist_item", item) %>
           <% end %>
         </div>
+        <% if not form.readonly? %>
+          <button class="btn btn-xs btn-default add-item-btn add-item-btn-bottom"><%= I18n.t("note._frontend.action.note_definedlist_item") %></button>
+        <% end %>
       </section>
     </div>
   </div>

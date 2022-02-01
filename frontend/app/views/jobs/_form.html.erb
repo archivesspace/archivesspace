@@ -145,14 +145,14 @@
           </button>
 
           <button class="pull-right btn btn-primary select-report" for="<%= code %>" type="button">
-            Select
+            <%= I18n.t("reports.translation_defaults.select") %>
           </button>
           <div class="btn-group pull-right">
             <% if code === "custom_report" %>
               <%= link_to I18n.t("custom_report_template._frontend.action.create"), {:controller => :custom_report_templates, :action => :new}, :class => "btn btn-default create-report-template" %>
             <% end %>
             <button class="pull-right btn btn-primary unselect-report" for="<%= code %>" type="button">
-              Back
+            <%= I18n.t("reports.translation_defaults.back") %>
             </button>
           </div>
 

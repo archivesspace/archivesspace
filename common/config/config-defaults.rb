@@ -487,6 +487,10 @@ AppConfig[:record_inheritance] = {
 AppConfig[:pui_search_results_page_size] = 10
 AppConfig[:pui_branding_img] = 'archivesspace.small.png'
 AppConfig[:pui_branding_img_alt_text] = 'ArchivesSpace - a community served by Lyrasis.'
+
+AppConfig[:frontend_branding_img] = 'archivesspace/archivesspace.small.png'
+AppConfig[:frontend_branding_img_alt_text] = 'ArchivesSpace - a community served by Lyrasis.'
+
 AppConfig[:pui_block_referrer] = true # patron privacy; blocks full 'referrer' when going outside the domain
 
 # The number of PDFs that can be generated (in the background) at the same time.
@@ -528,6 +532,9 @@ AppConfig[:pui_display_identifiers_in_resource_tree] = false
 
 #The number of characters to truncate before showing the 'Read More' link on notes
 AppConfig[:pui_readmore_max_characters] = 450
+
+# Whether to expand all additional information blocks at the bottom of record pages by default. `true` expands all blocks, `false` collapses all blocks.
+AppConfig[:pui_expand_all] = true
 
 # Enable / disable PUI resource/archival object page actions
 AppConfig[:pui_page_actions_cite] = true

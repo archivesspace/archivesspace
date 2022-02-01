@@ -63,6 +63,12 @@ class ArchivesSpaceService < Sinatra::Base
 
   Endpoint.post('/agents/software/:id/publish')
     .description("Publish a software agent and all its sub-records")
+    .example("shell") do
+      <<~SHELL
+        curl -H "X-ArchivesSpace-Session: $SESSION" \
+        "http://localhost:8089/agents/software/1/publish"
+      SHELL
+    end
     .params(["id", :id])
     .permissions([:update_agent_record])
     .no_data(true)

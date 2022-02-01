@@ -94,7 +94,7 @@ class Enumeration < Sequel::Model(:enumeration)
 
     # if it's not editable, we cannot add or remove values, but we can set the
     # default...
-    if ( !is_editable and added_values.length > 0 ) or ( !is_editable and removed_values.length > 0 )
+    if (( !is_editable and added_values.length > 0 ) or ( !is_editable and removed_values.length > 0 )) and opts[:default_value].nil?
       raise AccessDeniedException.new("Cannot modify a non-editable enumeration: #{obj.name} with #{ json['values'].join(' , ') }. Only allowed values are : #{ obj.enumeration_value.join(' , ')} ")
     end
 

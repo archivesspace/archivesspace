@@ -1,0 +1,8 @@
+de:
+  reports:
+    accession_deaccessions_list_report:
+      title: Erworbene Eingänge und verknüpfte Abgangs-Datensätze
+      description: Zeigt eine Liste von Eingangs-Datensätzen und verknüpften Abgangs-Datensätzen an. Der Bericht enthält die Eingangsnummer, Titel, Umfang, Eingangs-Datum, Behältnis-Zusammenfassung, Katalogisiert, Datum der Bearbeitung, Übertragene Rechte, verknüpfte Abgänge und Gesamtumfang aller Abgänge an.
+      total_extent: Gesamtumfang von Eingängen
+      identifier_prefix: Eingang
+      

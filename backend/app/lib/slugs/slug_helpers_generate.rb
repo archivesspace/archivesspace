@@ -43,6 +43,15 @@ module SlugHelpers
   # eg. migration 129
   def self.clean_slug(slug)
     if slug
+      encoding_options = {
+        :invalid           => :replace,
+        :undef             => :replace,
+        :replace           => '',
+        :universal_newline => true
+      }
+
+      slug = slug.encode(Encoding.find('ASCII'), encoding_options)
+
       # if the slug contains two slashes (forward or backward) next to each other, completely zero it out.
       # this is intended to revert an entity to use the URI if the ID or name the slug was generated from is a URI.
       slug = "" if slug =~ /\/\// || slug =~ /\\/
@@ -58,9 +67,6 @@ module SlugHelpers
 
       # remove double hypens
       slug = slug.gsub("--", "")
-
-      # remove en and em dashes
-      slug = slug.gsub(/[\u2013-\u2014]/, "")
 
       # remove single quotes
       slug = slug.gsub("'", "")

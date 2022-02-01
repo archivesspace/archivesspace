@@ -257,4 +257,27 @@ describe 'Enumeration Management' do
 
     @driver.click_and_wait_until_gone(css: "form#delete_enumeration button[type='submit']")
   end
+
+  it 'lets you set a default value with another value suppressed' do
+    @driver.go_home
+    @driver.get($frontend)
+    @driver.find_element(:link, 'System').click
+    @driver.wait_for_dropdown
+    @driver.click_and_wait_until_gone(:link, 'Manage Controlled Value Lists')
+
+    enum_select = @driver.find_element(id: 'enum_selector')
+    enum_select.select_option_with_text('Record Control Level of Detail (level_of_detail)')
+
+    # Wait for the table of enumerations to load
+    @driver.find_element(:css, '.enumeration-list')
+
+    topical = @driver.find_element_with_text('//tr', /natc/)
+    @driver.click_and_wait_until_element_gone(topical.find_element(:link, 'Suppress'))
+
+    temporal = @driver.find_element_with_text('//tr', /not_applicable/)
+
+    @driver.click_and_wait_until_element_gone(temporal.find_element(:link, 'Set as Default'))
+
+    @driver.find_element(:link, 'Unset Default')
+  end
 end

@@ -1,0 +1,6 @@
+de:
+  reports:
+    shelflist_report:
+      title: Standortkatalog-Bericht
+      description: Der Standortkatalog-Bericht enthält eine Liste aller Standorte und ihrer zugeordneten Haupt-Behältnisse.
+      

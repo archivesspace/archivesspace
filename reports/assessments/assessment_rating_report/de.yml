@@ -1,0 +1,6 @@
+de:
+  reports:
+    assessment_rating_report:
+      title: Begutachtungsbewertungs-Bericht
+      description: Zeigt Informationen zu Begutachtungen mit einer gewählten Bewertung in einem gewählten Bereicht. Sie müssen wenigstens einen Wert auswählen; um alle Datensätze anzuzeigen, wählen Sie alle Werte aus.
+      identifier_prefix: Begutachtung

@@ -173,6 +173,29 @@ describe 'Repositories' do
     assert(5) { expect(@driver.find_element(css: 'div.alert.alert-success').text).to eq('Repository Deleted') }
   end
 
+  it 'strips out quotes from confirmation when deleting a repository' do
+    @deletable_repo2 = create(:repo, repo_code: "delete'me_#{Time.now.to_i}")
+
+    set_repo(@deletable_repo2)
+
+    run_all_indexers
+
+    escaped_repo_code       = @deletable_repo2.repo_code.gsub("'", "")
+    escaped_repo_code_xpath = "delete"
+
+    @driver.get("#{$frontend}/repositories")
+
+    row = @driver.find_paginated_element(xpath: "//tr[.//*[contains(text(), '#{escaped_repo_code_xpath}')]]")
+    @driver.click_and_wait_until_element_gone(row.find_element(:link, 'Edit'))
+
+    @driver.find_element(:css, '.delete-record.btn').click
+    @driver.clear_and_send_keys([:id, 'deleteRepoConfim'], escaped_repo_code)
+    @driver.wait_for_ajax
+
+    @driver.find_element(:css, '#confirmChangesModal #confirmButton').click
+    assert(5) { expect(@driver.find_element(css: 'div.alert.alert-success').text).to eq('Repository Deleted') }
+  end
+
   it 'can create a second repository' do
     @driver.get("#{$frontend}/repositories")
     @driver.click_and_wait_until_gone(:link, 'Create Repository')

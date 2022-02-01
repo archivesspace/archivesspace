@@ -16,7 +16,7 @@ class ContainerProfile < Sequel::Model(:container_profile)
 
 
   def display_string
-    "#{name} [#{depth}d, #{height}h, #{width}w #{dimension_units}] extent measured by #{extent_dimension}"
+    I18n.t("container_profile.title", :name => name, :depth => depth, :height => height, :width => width, :dimension_units => dimension_units, :extent_dimension => extent_dimension)
   end
 
 

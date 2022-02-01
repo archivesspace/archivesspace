@@ -63,7 +63,7 @@ de:
       verbleibt, wird sie für die meisten Nutzer versteckt und für die meisten Funktionen
       nicht verfügbar sein.
     unsuppress: Unterdrückung aufheben
-    unsuppress_confirm_message: falsch
+    unsuppress_confirm_message: Nein
     unable_to_move_message: Kann die Aufzeichnung nicht verschieben
     move_ordering_problem_message: Anordnungs-Problem beim Verschieben von Aufzeichnungen
     delete: Löschen
@@ -220,9 +220,9 @@ de:
       equal: ist gleich
       greater_than: größer als
     boolean_field:
-      boolean: Boolean
-      true_value: Wahr
-      false_value: Falsch
+      boolean: Boolescher Wert
+      true_value: Ja
+      false_value: Nein
     reset: Leeren
     index_switcher:
       show: Detailsuche anzeigen
@@ -241,6 +241,7 @@ de:
     search_date: Datum
     search_terms: Felder der Detailsuche %{number}
     remove_row: Felder der Detailsuche %{number} entfernen
+    add_row: Zeile hinzufügen
     button_text: Suche
   search_sorting:
     sort_by: 'Sortieren nach:'
@@ -265,12 +266,14 @@ de:
     hide_advanced_search_button_title: Detailsuche verbergen
     plugins: Zusatzmodule
     repositories_manage: Aufbewahrungsorte verwalten
+    repository_settings: Einstellungen für Aufbewahrungsorte
     oai_config: OAI-PMH Einstellungen verwalten
     manage_users: Benutzer verwalten
     manage_container_profiles: Behältnis-Profile verwalten
     manage_location_profiles: Standort-Profile verwalten
-    manage_enumerations: Kontrollierte-Werte-Listen verwalten
+    manage_enumerations: Aufzählungs-Listen verwalten
     global_preferences: Globale Einstellungen
+    global_settings: Globale Einstellungen
     user_repo_preferences: Benutzer-Einstellungen
     repo_preferences: Aufbewahrungsort-Einstellungen
     manage_user_access: Benutzerzugang verwalten
@@ -359,8 +362,8 @@ de:
     type_3: Enkel-Typ
     type_2: Kind-Typ
     type_2_tooltip: "<p>Der Typ des Behältnisses der zweiten Ebene, in dem das beschriebene\
-      \ Archivgut aufbewahrt wird.</p>\n<p>Werte in dieser Kontrollierte-Werte-Liste\
-      \ können geändert werden.</p>\n"
+      \ Archivgut aufbewahrt wird.</p>\n<p>Werte in dieser Aufzählungs-Liste können\
+      \ geändert werden.</p>\n"
     indicator_2: Kind-Kennzeichnung
     indicator_2_tooltip: "<p>Ein alphanumerischer Ausdruck, um den Bezeichner des\
       \ Behältnisses der zweiten Ebene anzugeben, welcher auch die Position des Behältnisses\
@@ -370,8 +373,8 @@ de:
     barcode_2_tooltip: "<p>Ein Strichcode zur Kennzeichnung des Behältnisses der zweiten\
       \ Ebene, in dem das beschriebene Archivgut aufbewahrt wird.</p>\n"
     type_3_tooltip: "<p>Der Typ des Behältnisses der dritten Ebene, in dem das beschriebene\
-      \ Archivgut aufbewahrt wird.</p>\n<p>Werte in dieser Kontrollierte-Werte-Liste\
-      \ können geändert werden.</p>\n"
+      \ Archivgut aufbewahrt wird.</p>\n<p>Werte in dieser Aufzählungs-Liste können\
+      \ geändert werden.</p>\n"
     indicator_3: Enkel-Kennzeichnung
     indicator_3_tooltip: "<p>Ein alphanumerischer Ausdruck, um den Bezeichner des\
       \ Behältnisses der dritten Ebene anzugeben, welcher auch die Position des Behältnisses\
@@ -543,10 +546,13 @@ de:
       publish: Veröffentlicht
       score: Relevanz
       owner_repo_display_string_u_ssort: Aufbewahrungsort
+      location_no_holdings: Kein Bestand für diesen Aufbewahrungsort.
+      location_one_top_container: 1 Haupt-Behältnis.
+      location_top_containers: " Haupt-Behältnisse."
       location_holdings: Bestand für aktuellen Aufbewahrungsort
       audit_info: Prüfinformation
       location_profile_display_string_u_ssort: Standort-Profil
-      temporary: Temporär
+      temporary: Vorübergehend
       user_mtime: Geändert
       create_time: Erstellt
       desc: Absteigend
@@ -697,6 +703,7 @@ de:
     success: Benutzer erfolgreich gewechselt
     become-user: Als Benutzer ausgeben
     failed: Konnte nicht zum angegebenen Benutzer wechseln
+    username: Benutzername
   header:
     staff_interface: ArchivesSpace Verwaltungsoberfläche
   session:
@@ -729,6 +736,10 @@ de:
     login_expired_link: Bitte %{link} erneut.
     login_fail: Anmeldeversuch ist fehlgeschlagen
     login_success: Anmeldung erfolgreich. Weiterleitung...
+    username_placeholder: Benutzername
+    password_placeholder: Passwort
+    username_aria_label: Benutzername des Benutzers
+    password_aria_label: Passwort des Benutzers
   save_changes_modal:
     body: Sie haben offene Änderungen. Bitte speichern oder verwerfen Sie diese Änderungen
       um fortzufahren.
@@ -785,10 +796,10 @@ de:
       defaults_updated: Standardwerte aktualisiert
   required_fields:
     form_title:
-      agent_person: Erforderliche Felder für Akteurs-Aufzeichnungen (Person)
-      agent_family: Erforderliche Felder für Akteurs-Aufzeichnungen (Familie)
-      agent_corporate_entity: Erforderliche Felder für Akteurs-Aufzeichnungen (Körperschaft)
-      agent_software: Erforderliche Felder für Akteurs-Aufzeichnungen (Software)
+      agent_person: Erforderliche Felder für Akteur-Aufzeichnungen (Person)
+      agent_family: Erforderliche Felder für Akteur-Aufzeichnungen (Familie)
+      agent_corporate_entity: Erforderliche Felder für Akteur-Aufzeichnungen (Körperschaft)
+      agent_software: Erforderliche Felder für Akteur-Aufzeichnungen (Software)
     messages:
       required_fields_updated: Erforderliche Felder aktualisiert
   tree:
@@ -842,7 +853,7 @@ de:
         save: Eingang speichern
       section:
         basic_information: Grundlegende Informationen
-  agent:
+  agent: &agent_attributes
     _frontend:
       messages:
         created: Akteur erstellt
@@ -861,7 +872,7 @@ de:
         relation_information: Beziehungs-Information
         date_of_existence: Existenzdatum
         basic_information: Grundlegende Informationen
-        linked_via_rights_statement: Durch Rechte-Erklärung verknüpfte Aufzeichnungen
+        linked_via_rights_statement: Durch Rechteerklärung verknüpfte Aufzeichnungen
         target_record: Diese Aufzeichnung wird aktualisiert
         victim_record: Diese Aufzeichnung wird gelöscht
         structured_date_single_fields: Einzeldatum
@@ -977,11 +988,11 @@ de:
         add_child: Kind hinzufügen
       tree:
         new_record_title: Neuer Klassifizierungs-Begriff
-  collection_management:
+  collection_management: &collection_management_attributes
     _frontend:
       title_prefix: Verarbeite
       action:
-        add: Felder für Sammlungs-Verwaltung hinzufügen
+        add: Felder für Sammlungsverwaltung hinzufügen
   container:
     _frontend:
       action:
@@ -1005,12 +1016,17 @@ de:
     _frontend:
       action:
         add: Abgang hinzufügen
-  structured_date_label_common_fields:
+  structured_date_label_common_fields: &structured_date_label_attributes
     date_label: Beschriftung
     date_type_structured: Datumstyp
     date_era: Epoche
     date_calendar: Kalender
     date_certainty: Sicherheit
+  structured_date_label_existence:
+    <<: *structured_date_label_attributes
+
+  structured_date_label_usage:
+    <<: *structured_date_label_attributes
   structured_date_single_fields:
     date_standardized: Genormtes Datum
     date_standardized_type: Typ des genormten Datums
@@ -1091,11 +1107,14 @@ de:
         merged: Wert zusammengeführt
         merge_tip: Dieser Wert kann mit einem anderen zusammengeführt werden
         merge_error: Werte zusammenführen fehlgeschlagen
-        no_selection: Bitte wählen Sie eine Kontrollierte-Werte-Liste
+        no_selection: Bitte wählen Sie eine Aufzählungs-Liste
         name_selector: Listenname
-        name_selector_tooltip: "<p>Die Kontrollierte-Werte-Liste zum Bearbeiten.</p>\n"
+        name_selector_tooltip: "<p>Die Aufzählungs-Liste zum Bearbeiten.</p>\n"
         no_name_provided: Wählen Sie eine Werte-Liste bevor Sie einen neuen Wert erstellen
         value_updated: Wert aktualisiert
+        not_used: Nicht verwendet.
+        one_related_item: 1 zugehöriges Element.
+        related_items: " zugehörige Elemente."
       action:
         create_value: Wert erstellen
         download_csv: CSV herunterladen
@@ -1114,7 +1133,7 @@ de:
       action:
         save: Ereignis speichern
         create: Ereignis erstellen
-    linked_agents: Akteurs-Verknüpfungen
+    linked_agents: Akteur-Verknüpfungen
   extent:
     _frontend:
       action:
@@ -1127,7 +1146,7 @@ de:
     _frontend:
       action:
         add: Dateiversion hinzufügen
-        make_representative: Kennzeichnend machen
+        make_representative: Repräsentativ machen
   group:
     _frontend:
       action:
@@ -1175,8 +1194,9 @@ de:
         location: Basis-Standort
       messages:
         created: <strong>%{number_created} Standorte</strong> erstellt
-        location_batch_info: Setzen Sie die Basiswerte, die auf alle, durch die <strong>Koordinaten-Bereiche</strong>
-          unten, erzeugten Standorte angewendet werden.
+        location_batch_info: Setzen Sie die Basiswerte, die auf alle Standorte angewendet
+          werden, die aus den unten stehenden <strong>Koordinaten-Bereichen</strong>
+          erzeugt werden.
         location_batch_update_info: Bitte geben Sie die zu setzenden Werte ein.
         number_to_create: Anzahl von Standorten
         warning: Abhängig vom Umfang der Bereiche kann der Vorgang ein paar Minuten
@@ -1198,6 +1218,11 @@ de:
         use_date: Daten der Namensverwendung
         dates: Daten
         parallel_names: Alternative Namen
+        place_subject: Ort
+        topic_subject: Thema
+        name_subject: Name
+        function_subject: Funktion
+        occupation_subject: Beruf
       action:
         add: Namensform hinzufügen
         make_authorized: Zum autoritativen Namen machen
@@ -1223,7 +1248,7 @@ de:
         add_note_outline_level_item: Element hinzufügen
         expand: Ausklappen
         collapse: Einklappen
-        apply_note_order: Standard Anmerkungs-Reihung anwenden
+        apply_note_order: Standard Anmerkungsreihung anwenden
         add_for_contact_note: Kontakt-Anmerkung hinzufügen
         add_content_item: Kontakt-Element hinzufügen
         add_note_orderedlist: Element hinzufügen
@@ -1318,6 +1343,7 @@ de:
         load_bulk: Mit Tabelle laden
         save: Ressource speichern
         delete_multiple: Ressourcen löschen
+      remove_subrecord: Teildatensatz entfernen
     external_ark_url_tooltip: Außerhalb von ArchivesSpace erzeugter Archival Resource
       Key (ARK) Permanenter Bezeichner. Wenn dieses Feld einen Wert besitzt, wird
       dieser gegenüber einem ARK, der innerhalb von ArchivesSpace erzeugt wurde, bevorzugt.
@@ -1334,7 +1360,7 @@ de:
   rights_statement:
     _frontend:
       action:
-        add: Rechte-Erklärung hinzufügen
+        add: Rechteerklärung hinzufügen
   term:
     _frontend:
       messages:
@@ -1361,8 +1387,8 @@ de:
         add: Thema hinzufügen
   user:
     is_active_user: Aktiv
-    active: wahr
-    inactive: falsch
+    active: Ja
+    inactive: Nein
     _frontend:
       messages:
         access_denied: Zugriff verweigert. Melden Sie sich als Administrator an, um
@@ -1383,6 +1409,7 @@ de:
         edit_account_submit: Benutzerkonto aktualisieren
         account: Benutzerkonto
         edit_account: Benutzerkonto bearbeiten
+        new_account: Neues Benutzerkonto
       action:
         create_account: Benutzerkonto erstellen
         show_active: Aktive Benutzer anzeigen
@@ -1500,7 +1527,7 @@ de:
       zurück.
   instance_container:
     container: Behältnis
-  used_language:
+  used_language: &used_language_attributes
     _plural: Verwendete Sprachen
     _singular: Verwendete Sprache
     _frontend:
@@ -1508,7 +1535,18 @@ de:
         add: Sprache hinzufügen
     language: Sprache
     script: Schrift
-  agent_function:
+  used_language_required:
+    <<: *used_language_attributes
+
+  used_languages:
+    <<: *used_language_attributes
+
+  used_language_merge_victim:
+    <<: *used_language_attributes
+
+  used_language_merge_target:
+    <<: *used_language_attributes
+  agent_function: &agent_function_attributes
     _singular: Funktion
     _plural: Funktionen
     _frontend:
@@ -1521,7 +1559,18 @@ de:
     places: Orte
     publish: Veröffentlicht
     text_note: Anmerkung
-  agent_place:
+  agent_function_required:
+    <<: *agent_function_attributes
+
+  agent_functions:
+    <<: *agent_function_attributes
+
+  agent_function_merge_target:
+    <<: *agent_function_attributes
+
+  agent_function_merge_victim:
+    <<: *agent_function_attributes
+  agent_place: &agent_place_attributes
     _singular: Ort
     _plural: Orte
     _frontend:
@@ -1534,7 +1583,18 @@ de:
     publish: Veröffentlicht
     place_role: Akteur Orts-Rolle
     text_note: Anmerkung
-  agent_occupation:
+  agent_place_required:
+    <<: *agent_place_attributes
+
+  agent_places:
+    <<: *agent_place_attributes
+
+  agent_place_merge_target:
+    <<: *agent_place_attributes
+
+  agent_place_merge_victim:
+    <<: *agent_place_attributes
+  agent_occupation: &agent_occupation_attributes
     _singular: Beruf
     _plural: Berufe
     section:
@@ -1547,7 +1607,18 @@ de:
     places: Orte
     publish: Veröffentlicht
     text_note: Anmerkung
-  agent_topic:
+  agent_occupation_required:
+    <<: *agent_occupation_attributes
+
+  agent_occupations:
+    <<: *agent_occupation_attributes
+
+  agent_occupation_merge_target:
+    <<: *agent_occupation_attributes
+
+  agent_occupation_merge_victim:
+    <<: *agent_occupation_attributes
+  agent_topic: &agent_topic_attributes
     _singular: Thema
     _plural: Themen
     _frontend:
@@ -1560,7 +1631,18 @@ de:
     places: Orte
     publish: Veröffentlicht
     text_note: Anmerkung
-  agent_identifier:
+  agent_topic_required:
+    <<: *agent_topic_attributes
+
+  agent_topics:
+    <<: *agent_topic_attributes
+
+  agent_topic_merge_target:
+    <<: *agent_topic_attributes
+
+  agent_topic_merge_victim:
+    <<: *agent_topic_attributes
+  agent_identifier: &agent_identifier_attributes
     identifier_type: Signatur-Typ
     entity_identifier: Entitäts-Bezeichner
     _plural: Entitäts-Bezeichner
@@ -1568,19 +1650,41 @@ de:
     _frontend:
       action:
         add: Entitäts-Bezeichner hinzufügen
-  agent_record_identifier:
+  agent_identifiers:
+    <<: *agent_identifier_attributes
+
+  agent_identifier_required:
+    <<: *agent_identifier_attributes
+
+  agent_identifier_merge_target:
+    <<: *agent_identifier_attributes
+
+  agent_identifier_merge_victim:
+    <<: *agent_identifier_attributes
+  agent_record_identifier: &agent_record_identifier_attributes
     source: Quelle
     record_identifier: Aufzeichnungs-Signatur
     primary_identifier: Haupt-Signatur?
-    _plural: Aufzeichnungs-Bezeichner
-    _singular: Aufzeichnungs-Bezeichner
+    _plural: Aufzeichnungs-Signatur
+    _singular: Aufzeichnungs-Signatur
     _frontend:
       action:
-        add: Aufzeichnungs-Bezeichner hinzufügen
+        add: Aufzeichnungs-Signatur hinzufügen
     identifier_type: Aufzeichnungs-Steuerung Signatur-Typ
     primary: Haupt
-  metadata_rights_declaration:
-    _singular: Rechte-Deklaration von Metadaten
+  agent_record_identifiers:
+    <<: *agent_record_identifier_attributes
+
+  agent_record_identifier_required:
+    <<: *agent_record_identifier_attributes
+
+  agent_record_identifier_merge_target:
+    <<: *agent_record_identifier_attributes
+
+  agent_record_identifier_merge_victim:
+    <<: *agent_record_identifier_attributes
+  metadata_rights_declaration: &metadata_rights_declaration_attributes
+    _singular: Rechteerklärung von Metadaten
     descriptive_note: Beschreibende Anmerkung
     file_uri: Datei-URI
     xlink_title_attribute: Xlink Title-Attribut
@@ -1588,13 +1692,24 @@ de:
     file_version_xlink_actuate_attribute: Xlink Actuate-Attribut
     file_version_xlink_show_attribute: Xlink Show-Attribut
     last_verified_date: Datum der letzten Überprüfung
-    _plural: Rechte-Deklarationen von Metadaten
+    _plural: Rechteerklärungen von Metadaten
     license: Lizenz
     xlink_role_attribute: Xlink Role-Attribut
     _frontend:
       action:
-        add: Rechte-Deklaration von Metadaten hinzufügen
-  agent_gender:
+        add: Rechteerklärung von Metadaten hinzufügen
+  metadata_rights_declarations:
+    <<: *metadata_rights_declaration_attributes
+
+  metadata_rights_declaration_required:
+    <<: *metadata_rights_declaration_attributes
+
+  metadata_rights_declaration_merge_target:
+    <<: *metadata_rights_declaration_attributes
+
+  metadata_rights_declaration_merge_victim:
+    <<: *metadata_rights_declaration_attributes
+  agent_gender: &agent_gender_attributes
     _singular: Geschlecht
     dates: Daten
     gender: Geschlecht
@@ -1603,7 +1718,18 @@ de:
       action:
         add: Geschlecht hinzufügen
     note: Anmerkung
-  agent_resource:
+  agent_genders:
+    <<: *agent_gender_attributes
+
+  agent_gender_required:
+    <<: *agent_gender_attributes
+
+  agent_gender_merge_target:
+    <<: *agent_gender_attributes
+
+  agent_gender_merge_victim:
+    <<: *agent_gender_attributes
+  agent_resource: &agent_resource_attributes
     _singular: Verwandte externe Ressource
     _plural: Verwandte externe Ressourcen
     linked_resource_description: Beschreibung
@@ -1625,6 +1751,17 @@ de:
       action:
         add: Verwandte externe Ressource hinzufügen
     linked_agent_role: Verwandtschafts-Typ der Ressource
+  agent_resources:
+    <<: *agent_resource_attributes
+
+  agent_resource_required:
+    <<: *agent_resource_attributes
+
+  agent_resource_merge_victim:
+    <<: *agent_resource_attributes
+
+  agent_resource_merge_target:
+    <<: *agent_resource_attributes
   database_warning:
     message: <p><strong>Datenbank Warnung:</strong> Sie verwenden derzeit die eingebaute
       Datenbank (Apache Derby). Diese Datenbank ist nur für Tests und Demos geeignet.
@@ -1646,7 +1783,7 @@ de:
   linked_agent:
     _frontend:
       action:
-        add: Akteurs-Verknüpfung hinzufügen
+        add: Akteur-Verknüpfung hinzufügen
   linked_record:
     _frontend:
       action:
@@ -1730,7 +1867,7 @@ de:
         collection_resource_singular: Ressource
         collection_accession_singular: Eingang
         collection_resource_plural: Ressourcen
-        series: Serien
+        series: Serie
         update_locations_current_location: Aktueller Standort
         batch_delete: Haupt-Behältnisse löschen
         update_ils_holding_ids_help: Geben Sie einen Wert für die IBS Bestands-ID
@@ -1803,7 +1940,7 @@ de:
         save: Haupt-Behältnis speichern
     managed_container_2_type_tooltip: "<p>Der Typ des Behältnisses der zweiten Ebene,\
       \ in welchem das beschriebene Archivgut aufbewahrt wird.</p>\n<p>Werte in dieser\
-      \ Kontrollierte-Werte-Liste können bearbeitet werden.</p>\n"
+      \ Aufzählungs-Liste können bearbeitet werden.</p>\n"
     managed_container_3_indicator_tooltip: "<p>Ein alphanumerischer Ausdruck, um den\
       \ Bezeichner des Behältnisses der dritten Ebene anzugeben, welcher auch die\
       \ Position des Behältnisses der dritten Ebene in einer Reihe solcher Behältnisse\
@@ -1820,7 +1957,7 @@ de:
       \ den Ort des Haupt-Behältnisses anzugeben, welcher auch die Position des Behältnisses\
       \ in einer Reihe solcher Behältnisse sein kann.</p>\n"
     type: Behältnis-Typ
-    type_tooltip: "<p>Der Typ des Haupt-Behältnisses.</p>\n<p>Werte in dieser Kontrollierten-Werte-Liste\
+    type_tooltip: "<p>Der Typ des Haupt-Behältnisses.</p>\n<p>Werte in dieser Aufzählungs-Liste\
       \ können bearbeitet werden.</p>\n"
     ils_holding_id: IBS Bestands-ID
     ils_holding_id_tooltip: "<p>Bezeichner der zugehörigen Bestands-Aufzeichnung im\
@@ -1838,7 +1975,7 @@ de:
     managed_container_3_type: Enkel-Behältnis-Typ
     managed_container_3_type_tooltip: "<p>Der Typ des Behältnisses der dritten Ebene,\
       \ in welchem das beschriebene Archivgut aufbewahrt wird.</p>\n<p>Werte in dieser\
-      \ Kontrollierte-Werte-Liste können bearbeitet werden.</p>\n"
+      \ Aufzählungs-Liste können bearbeitet werden.</p>\n"
     managed_container_3_indicator: Enkel-Behältnis-Kennzeichnung
     barcode_length_for_this_repository: 'Strichcode-Länge für diesen Aufbewahrungsort:'
     characters: Zeichen
@@ -1879,7 +2016,7 @@ de:
     height: Höhe
     url: URL
     dimension_units_tooltip: "<p>Maßeinheit für Abmessungen.</p>\n<p>Werte in dieser\
-      \ Kontrollierte-Werte-Liste können bearbeitet werden.</p>\n"
+      \ Aufzählungs-Liste können bearbeitet werden.</p>\n"
     extent_dimension_height_tooltip: "<p>Numerischer Wert für die Höhe (Abmessung\
       \ der Ober- zur Unterseite) des Behältnisses.</p>\n"
     stacking_limit_tooltip: "<p>Die Anzahl von Behältnissen, die übereinander gestapelt\
@@ -1920,7 +2057,7 @@ de:
     end: Ende der Einschränkung
     local_access_restriction_type: Lokaler Zugriffsbeschränkungs-Typ
     local_access_restriction_type_tooltip: "<p>Angabe des Grunds der Einschränkung\
-      \ für Einschränkungen, die nicht zeitbasiert sind.</p>\n<p>Werte in dieser Kontrollierten-Werte-Liste\
+      \ für Einschränkungen, die nicht zeitbasiert sind.</p>\n<p>Werte in dieser Aufzählungs-Liste\
       \ können bearbeitet werden.</p>\n"
     linked_records: Verknüpfte Aufzeichnung
     restriction_note_type: Art der Anmerkung
@@ -2101,7 +2238,7 @@ de:
       title: Begutachtungs-Attribute
       global: Global %{type}
       repository: Aufbewahrungsort %{type}
-  agent_conventions_declaration:
+  agent_conventions_declaration: &agent_conventions_declaration_attributes
     xlink_title_attribute: Xlink Title-Attribut
     _plural: Konventions-Angaben
     _singular: Konventions-Angabe
@@ -2117,6 +2254,17 @@ de:
     file_version_xlink_show_attribute: Xlink Show-Attribut
     last_verified_date: Datum der letzten Überprüfung
     descriptive_note: Beschreibende Anmerkung
+  agent_conventions_declarations:
+    <<: *agent_conventions_declaration_attributes
+
+  agent_conventions_declaration_required:
+    <<: *agent_conventions_declaration_attributes
+
+  agent_conventions_declaration_merge_target:
+    <<: *agent_conventions_declaration_attributes
+
+  agent_conventions_declaration_merge_victim:
+    <<: *agent_conventions_declaration_attributes
   custom_report_template:
     _frontend:
       new_title: Neue benutzerdefinierte Berichtsvorlage
@@ -2167,7 +2315,7 @@ de:
     oai_leave_repo_form: Diese Optionen beeinflussen OAI-PHM nur für diesen Aufbewahrungsort.
       Klicken Sie unten, um globale OAI-Optionen anzuzeigen oder zu bearbeiten. Dies
       verlässt das aktuelle Formular ohne zu speichern.
-  agent_record_control:
+  agent_record_control: &agent_record_control_attributes
     language: Sprache
     cataloging_source: Aufzeichnungs-Steuerung Katalogisierungs-Quelle
     _plural: Aufzeichnungs-Info
@@ -2188,7 +2336,18 @@ de:
     script: Schrift
     maintenance_agency_note: Anmerkung über die Wartungs-Organisation
     language_note: Anmerkung über Sprache
-  agent_alternate_set:
+  agent_record_controls:
+    <<: *agent_record_control_attributes
+
+  agent_record_control_required:
+    <<: *agent_record_control_attributes
+
+  agent_record_control_merge_target:
+    <<: *agent_record_control_attributes
+
+  agent_record_control_merge_victim:
+    <<: *agent_record_control_attributes
+  agent_alternate_set: &agent_alternate_set_attributes
     file_version_xlink_actuate_attribute: Xlink Actuate-Attribut
     file_version_xlink_show_attribute: Xlink Show-Attribut
     _plural: Alternative Mengen
@@ -2203,7 +2362,18 @@ de:
     xlink_arcrole_attribute: Xlink Arcrole-Attribut
     xlink_role_attribute: Xlink Role-Attribut
     last_verified_date: Datum der letzten Überprüfung
-  agent_source:
+  agent_alternate_sets:
+    <<: *agent_alternate_set_attributes
+
+  agent_alternate_set_required:
+    <<: *agent_alternate_set_attributes
+
+  agent_alternate_set_merge_target:
+    <<: *agent_alternate_set_attributes
+
+  agent_alternate_set_merge_victim:
+    <<: *agent_alternate_set_attributes
+  agent_source: &agent_source_attributes
     _plural: Quellen
     xlink_role_attribute: Xlink Role-Attribut
     _frontend:
@@ -2218,6 +2388,17 @@ de:
     xlink_title_attribute: Xlink Title-Attribut
     last_verified_date: Datum der letzten Überprüfung
     descriptive_note: Beschreibende Anmerkung
+  agent_sources:
+    <<: *agent_source_attributes
+
+  agent_source_required:
+    <<: *agent_source_attributes
+
+  agent_source_merge_target:
+    <<: *agent_source_attributes
+
+  agent_source_merge_victim:
+    <<: *agent_source_attributes
   agent_name:
     use_dates: Verwendungs-Daten
   act:
@@ -2229,7 +2410,7 @@ de:
     _frontend:
       action:
         add: Ort hinzufügen
-  agent_other_agency_code:
+  agent_other_agency_code: &agent_other_agency_code_attributes
     _plural: Andere Organisations-Codes
     _singular: Anderer Organisations-Code
     _frontend:
@@ -2237,17 +2418,39 @@ de:
         add: Organisations-Code hinzufügen
     agency_code_type: Aufzeichnungs-Steuerung Organisations-Code-Typ
     maintenance_agency: Wartungs-Organisation
-  agent_maintenance_history:
+  agent_other_agency_codes:
+    <<: *agent_other_agency_code_attributes
+
+  agent_other_agency_code_required:
+    <<: *agent_other_agency_code_attributes
+
+  agent_other_agency_code_merge_target:
+    <<: *agent_other_agency_code_attributes
+
+  agent_other_agency_code_merge_victim:
+    <<: *agent_other_agency_code_attributes
+  agent_maintenance_history: &agent_maintenance_history_attributes
     _plural: Wartungsverlauf
     _singular: Beteiligter-Wartungsverlauf
     _frontend:
       action:
         add: Ereignis hinzufügen
-    maintenance_event_type: Aufzeichnungs-Steuerung Wartungs-Ereignis-Typ
+    maintenance_event_type: Aufzeichnungs-Steuerung Typ des Wartungsereignisses
     maintenance_agent_type: Aufzeichnungs-Steuerung Wartung Akteur-Typ
     event_date: Ereignis-Datum
     agent: Akteur
     descriptive_note: Beschreibende Anmerkung
+  agent_maintenance_histories:
+    <<: *agent_maintenance_history_attributes
+
+  agent_maintenance_history_required:
+    <<: *agent_maintenance_history_attributes
+
+  agent_maintenance_history_merge_target:
+    <<: *agent_maintenance_history_attributes
+
+  agent_maintenance_history_merge_victim:
+    <<: *agent_maintenance_history_attributes
   subsections:
     dates: Daten
     notes: Anmerkungen
@@ -2261,10 +2464,10 @@ de:
       \ werden wird.</p>\n"
     identity_information_tooltip: "<p>Dieser Abschnitt enthält die wesentlichen Informationen\
       \ über den Akteur selbst. Eine Namensform ist die einzige verpflichtende Teilaufzeichnung\
-      \ in einer Akteurs-Aufzeichnung.</p>\n"
+      \ in einer Akteur-Aufzeichnung.</p>\n"
     description_information_tooltip: "<p>Dieser Abschnitt enthält die wesentlichen\
       \ Informationen über den Akteur selbst. Eine Namensform ist die einzige verpflichtende\
-      \ Teilaufzeichnung in einer Akteurs-Aufzeichnung.</p>\n"
+      \ Teilaufzeichnung in einer Akteur-Aufzeichnung.</p>\n"
     relation_information_tooltip: "<p>Dieser Abschnitt wird dazu verwendet, um Beziehungen\
       \ zu anderen Akteuren oder Archivgut innerhalb oder außerhalb von ArchivesSpace\
       \ anzugeben.</p>\n"

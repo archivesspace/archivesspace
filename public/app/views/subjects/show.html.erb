@@ -33,7 +33,7 @@
         </div>
       </div>
       <script type="text/javascript" >
-        initialize_accordion(".note_panel", "<%= t('accordion.expand') %>" , "<%= t('accordion.collapse') %>");
+        initialize_accordion(".note_panel", "<%= t('accordion.expand') %>" , "<%= t('accordion.collapse') %>", <%= AppConfig[:pui_expand_all] %>);
       </script>
       <% unless @results.blank? || @results['total_hits'] == 0 %>
         <%= render partial: 'shared/facets' %>

@@ -193,7 +193,11 @@ class ArchivesSpaceService < Sinatra::Base
       session = create_session_for(username, params[:expiring])
       json_user = User.to_jsonmodel(user)
       json_user.permissions = user.permissions
-      json_response({:session => session.id, :user => json_user})
+      if params[:expiring] == false
+        json_response({:session => session.id, :user => json_user, :expire_after_seconds => AppConfig[:session_nonexpirable_force_expire_after_seconds]})
+      else
+        json_response({:session => session.id, :user => json_user})
+      end
     else
       json_response({:error => "Login failed"}, 403)
     end

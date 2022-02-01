@@ -492,7 +492,7 @@ en:
         <p>A number, sometimes with a term, that qualifies the name. For personal names, often a roman numeral or a roman numeral and a subsequent part of a forename. For corporate names, the number of a part / section or meeting.</p>
         <p>Examples:</p>
         <ul>
-        <li>II Comnenus <em>(for John II Comnenus, Emperor of the East</em>/li>
+        <li>II Comnenus <em>(for John II Comnenus, Emperor of the East</em></li>
         <li>II <em>(for John Paul II)</em></li>
         <li>97th, 2nd session <em>(for United States Congress, 97th, 2nd session)</em></li>
         </ul>
@@ -1867,6 +1867,13 @@ en:
     member_usernames_tooltip: |
         <p>The members that are part of this group.</p>
     permissions: "Members can:"
+    default_group_names:
+      repository_managers: "Managers of the %{repo_code} repository"
+      repository_archivists: "Archivists of the %{repo_code} repository"
+      project_managers: "Project managers of the %{repo_code} repository"
+      advanced_data_entry: "Advanced Data Entry users of the %{repo_code} repository"
+      basic_data_entry: "Basic Data Entry users of the %{repo_code} repository"
+      repository_viewers: "Viewers of the %{repo_code} repository"
     permission_types:
       manage_repository: manage this repository (change groups and other settings)
       update_location_record: create/modify/delete location records in this repository
@@ -2298,6 +2305,7 @@ en:
     merge_into: Merge Into
     _singular: Controlled Value List
     _plural: Controlled Value lists
+    default: Default
 
   classification:
     <<: *slug_attributes
@@ -2382,6 +2390,8 @@ en:
       locations: Locations
       scope_by_date: Scope by Date
       template: Template
+      rating: Rating
+      values: Values
     formats:
       json: JSON
       csv: CSV
@@ -2490,6 +2500,7 @@ en:
     status_running: Running
     status_failed: Failed
     status_canceled: Canceled
+    queue_position: "Nr. %{position}"
     time_submitted: Time Submitted
     time_started: Time Started
     time_finished: Time Completed
@@ -3023,6 +3034,5 @@ en:
   container_profile:
     title: "%{name} [%{depth}d, %{height}h, %{width}w %{dimension_units}] extent measured by %{extent_dimension}"
     new_title: New Container Profile
-
   location_profile:
     new_title: New Location Profile
