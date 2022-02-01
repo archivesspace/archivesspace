@@ -74,7 +74,7 @@ module ApplicationHelper
           set_title("#{I18n.t("#{type}._plural")} | #{title}")
         end
       else # new object
-        breadcrumb_trail.push([options[:title] || "#{I18n.t("actions.new_prefix")} #{I18n.t("#{type}._singular")}"])
+        breadcrumb_trail.push([options[:title] || "#{I18n.t("#{type}.new_title")}"])
         set_title("#{I18n.t("#{controller.to_s.singularize}._plural")} | #{options[:title] || I18n.t("actions.new_prefix")}")
       end
     elsif options.has_key? :title

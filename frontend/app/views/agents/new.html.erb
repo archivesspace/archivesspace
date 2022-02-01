@@ -1,4 +1,4 @@
-<%= setup_context :object => @agent, :controller => :agents,  :agent_type => @agent.agent_type, :title => "#{I18n.t("actions.new_prefix")} #{I18n.t("agent.agent_type.#{@agent.agent_type}")}" %>
+<%= setup_context :object => @agent, :controller => :agents,  :agent_type => @agent.agent_type, :title => "#{I18n.t("agent.new_title.#{@agent.agent_type}")}" %>
 
 <%= form_for @agent, :as => "agent", :url => {:action => :create}, :html => {:class => 'form-horizontal aspace-record-form', :id => "agent_form"} do |f| %>
   <%= form_context :agent, @agent do |form| %>
@@ -10,7 +10,7 @@
         <%= render_aspace_partial :partial => "shared/toolbar_new_records" %>
         <div class="record-pane">
           <%= link_to_help :topic => "#{@agent.agent_type}" %>
-          <h2><%= "#{I18n.t("actions.new_prefix")} #{I18n.t("agent.agent_type.#{@agent.agent_type}")}" %>  <span class="label label-info"><%= I18n.t("agent._singular") %></span></h2>
+          <h2><%= "#{I18n.t("agent.new_title.#{@agent.agent_type}")}" %>  <span class="label label-info"><%= I18n.t("agent._singular") %></span></h2>
           <%= render_aspace_partial :partial => "agents/form", :locals => {:form => form} %>
           <div class="form-actions">
             <div class="btn-group">

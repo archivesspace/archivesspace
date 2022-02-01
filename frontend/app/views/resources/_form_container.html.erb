@@ -1,7 +1,7 @@
 <%= link_to_help :topic => "resource" %>
 
 <h2>
-   <%= @form_title ? @form_title : @resource.title.blank? ? "#{I18n.t("actions.new_prefix")} #{I18n.t("resource._singular")}" : clean_mixed_content( @resource.title)  %>  <span class="label label-info"><%= I18n.t("resource._singular") %></span>
+   <%= @form_title ? @form_title : @resource.title.blank? ? "#{I18n.t("resource.new_title")}" : clean_mixed_content( @resource.title)  %>  <span class="label label-info"><%= I18n.t("resource._singular") %></span>
 </h2>
 
 <%= render_aspace_partial :partial => "shared/form_messages", :locals => {:form => form} %>

@@ -129,6 +129,7 @@ en:
         <p>Links a digital object or digital object component to an associated content file, addressable by URI.</p>
     _singular: Digital Object
     _plural: Digital Objects
+    new_title: New Digital Object
 
   digital_object_component:
     <<: *digital_object_attributes
@@ -204,6 +205,7 @@ en:
     owner_repo_tooltip: A repository that has reserved this location
     _singular: Location
     _plural: Locations
+    new_title: New Location
 
   location_batch:
     <<: *location_attributes
@@ -371,6 +373,7 @@ en:
       virus_check: Virus Check
     _singular: Event
     _plural: Events
+    new_title: New Event
 
   linked_event:
     <<: *event
@@ -1659,6 +1662,7 @@ en:
     user_mtime: Modified
     _singular: Accession
     _plural: Accessions
+    new_title: New Accession
 
   interrelated_accession:
     _plural: Related Accessions
@@ -1716,6 +1720,11 @@ en:
     publish: Publish
     _singular: Agent
     _plural: Agents
+    new_title:
+      agent_family: New Family
+      agent_person: New Person
+      agent_corporate_entity: New Corporate Entity
+      agent_software: New Software
     agent_record_controls_tooltip: |
         <p>Information about the record describing the Agent.</p>
     agent_alternate_sets_tooltip: |
@@ -2026,6 +2035,7 @@ en:
     user_mtime: Modified
     _singular: Resource
     _plural: Resources
+    new_title: New Resource
 
   resource_and_archival_object:
     _singular: Resource and/or Archival Object
@@ -2119,6 +2129,7 @@ en:
         <p>A remote URL or path to a local file that contains a branding image (like a logo or seal) to be used in the repository's online finding aids. This image appears on the public side PDFs, staff side PDFs and on the repositories page.</p>
     _singular: Repository
     _plural: Repositories
+    new_title: New Repository
     publish: Publish?
     publish_tooltip: |
         <p>Determines whether this Repository and any record it contains will be published to public (patron) interfaces.</p>
@@ -2166,6 +2177,7 @@ en:
     heading: Subject Heading
     _singular: Subject
     _plural: Subjects
+    new_title: New Subject
 
   user:
     username: Username
@@ -2299,6 +2311,7 @@ en:
     <<: *slug_attributes
     _singular: Classification
     _plural: Classifications
+    new_title: New Classification
     identifier: Identifier
     title: Title
     description: Description
@@ -2466,6 +2479,7 @@ en:
   job:
     _singular: Background Job
     _plural: Background Jobs
+    new_title: New Background Job
     job_type: Job Type
     types:
       print_to_pdf_job: Generate PDF
@@ -2707,6 +2721,7 @@ en:
     rating_note: "%{label} Note"
     _singular: Assessment
     _plural: Assessments
+    new_title: New Assessment
 
   assessment_attribute:
     rating:
@@ -3018,3 +3033,6 @@ en:
 
   container_profile:
     title: "%{name} [%{depth}d, %{height}h, %{width}w %{dimension_units}] extent measured by %{extent_dimension}"
+    new_title: New Container Profile
+  location_profile:
+    new_title: New Location Profile
