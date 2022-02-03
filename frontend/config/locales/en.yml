@@ -546,7 +546,6 @@ en:
     manage_top_containers: Manage Top Containers
     manage_enumerations: Manage Controlled Value Lists
     global_preferences: Global Preferences
-    global_preferences: Global settings
     user_repo_preferences: User Preferences
     repo_preferences: Repository Preferences
     manage_user_access: Manage User Access
