@@ -49,7 +49,10 @@ GEM
     json (2.3.0-java)
     json-schema (1.0.10)
     ladle (0.2.0-java)
+    mail (2.7.1)
+      mini_mime (>= 0.1.1)
     method_source (0.9.2)
+    mini_mime (1.1.2)
     minitest (5.14.4)
     mizuno-aspace (9.4.44)
       childprocess (>= 0.2.6)
@@ -167,6 +170,7 @@ DEPENDENCIES
   json (= 2.3.0)
   json-schema (= 1.0.10)
   ladle (= 0.2.0)
+  mail
   mizuno-aspace
   multi_json (~> 1.15.0)
   multipart-post (= 1.2.0)

@@ -610,6 +610,13 @@ AppConfig[:pui_request_use_repo_email] = false
 #AppConfig[:pui_email_perform_deliveries] = true
 #AppConfig[:pui_email_raise_delivery_errors] = true
 
+# Same as above, but for backend mail (e.g., for password resets and other users)
+# AppConfig[:backend_email_delivery_method] = AppConfig[:pui_email_delivery_method]
+# AppConfig[:backend_email_sendmail_settings] = AppConfig[:pui_email_sendmail_settings]
+# AppConfig[:backend_email_smtp_settings] = AppConfig[:pui_email_smtp_settings]
+# AppConfig[:backend_request_email_fallback_from_address] = AppConfig[:pui_request_email_fallback_from_address]
+
+
 # Add page actions via the configuration
 AppConfig[:pui_page_custom_actions] = []
 # Examples:
