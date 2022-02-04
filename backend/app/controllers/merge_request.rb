@@ -21,15 +21,23 @@ class ArchivesSpaceService < Sinatra::Base
     end
     .example('python') do
       <<~PYTHON
-        from asnake.client import ASnakeClient
-        client = ASnakeClient(baseurl=as_api, username=as_un, password=as_pw)
-        client.authorize()
+        from asnake.client import ASnakeClient  # import the ArchivesSnake client
 
+        client = ASnakeClient(baseurl="http://localhost:8089", username="admin", password="admin")
+        # replace http://localhost:8089 with your ArchivesSpace API URL and admin for your username and password
+        
+        client.authorize()  # authorizes the client
+        
         updated_json = {'uri': 'merge_requests/subject',
-                        'target': {'ref': subject_merge},
-                        'victims': [{'ref': subject_uri}]}
+                        'target': {'ref': subject_merge_into},
+                        'victims': [{'ref': subject_uri_to_merge}]}
+        # replace subject_merge_into for the URI of the subject you want to merge into and subject_uri_to_merge with the 
+        # URI of the subject you want merged, i.e. subject_uri_to_merge >> subject_merge_into
+        
         merge_response = client.post('merge_requests/subject', json=updated_json)
-        print(merge_response.json())
+        # capture the response of the merge request
+        
+        print(merge_response.json())  # For error handling, you can print the response of the merge request
       PYTHON
     end
     .returns([200, :updated]) \
