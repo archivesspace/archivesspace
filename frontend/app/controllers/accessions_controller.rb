@@ -29,7 +29,9 @@ class AccessionsController < ApplicationController
   end
 
   def show
-    @accession = fetch_resolved(params[:id])
+    event_hits = fetch_linked_events_count(:accession, params[:id])
+    excludes = event_hits > AppConfig[:max_linked_events_to_resolve] ? ['linked_events', 'linked_events::linked_records'] : []
+    @accession = fetch_resolved(:accession, params[:id], excludes: excludes)
 
     @accession['accession_date'] = I18n.t('accession.accession_date_unknown') if @accession['accession_date'] == "9999-12-31"
 
@@ -90,7 +92,7 @@ class AccessionsController < ApplicationController
   end
 
   def edit
-    @accession = fetch_resolved(params[:id])
+    @accession = fetch_resolved(:accession, params[:id], excludes: ['linked_events', 'linked_events::linked_records'])
     @accession['accession_date'] = '' if @accession['accession_date'] == "9999-12-31"
 
     if @accession.suppressed
@@ -130,7 +132,7 @@ class AccessionsController < ApplicationController
   def update
     handle_crud(:instance => :accession,
                 :model => Accession,
-                :obj => fetch_resolved(params[:id]),
+                :obj => fetch_resolved(:accession, params[:id], excludes: ['linked_events', 'linked_events::linked_records']),
                 :on_invalid => ->() {
                   return render action: "edit"
                 },
@@ -177,28 +179,6 @@ class AccessionsController < ApplicationController
 
     flash[:success] = I18n.t("accession._frontend.messages.deleted", JSONModelI18nWrapper.new(:accession => accession))
     redirect_to(:controller => :accessions, :action => :index, :deleted_uri => accession.uri)
-  end
-
-
-  private
-
-  # refactoring note: suspiciously similar to resources_controller.rb
-  def fetch_resolved(id)
-    # We add this so that we can get a top container location to display with the instance view
-    new_find_opts = find_opts
-    new_find_opts["resolve[]"].push("top_container::container_locations")
-
-    accession = Accession.find(id, new_find_opts)
-
-    if accession['classifications']
-      accession['classifications'].each do |classification|
-        next unless classification['_resolved']
-        resolved = classification["_resolved"]
-        resolved['title'] = ClassificationHelper.format_classification(resolved['path_from_root'])
-      end
-    end
-
-    accession
   end
 
 

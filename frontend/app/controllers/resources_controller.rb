@@ -33,7 +33,9 @@ class ResourcesController < ApplicationController
     flash.keep
 
     if params[:inline]
-      @resource = fetch_resolved(params[:id])
+      event_hits = fetch_linked_events_count(:resource, params[:id])
+      excludes = event_hits > AppConfig[:max_linked_events_to_resolve] ? ['linked_events', 'linked_events::linked_records'] : []
+      @resource = fetch_resolved(:resource, params[:id], excludes: excludes)
 
       flash.now[:info] = I18n.t("resource._frontend.messages.suppressed_info", JSONModelI18nWrapper.new(:resource => @resource).enable_parse_mixed_content!(url_for(:root))) if @resource.suppressed
       return render_aspace_partial :partial => "resources/show_inline"
@@ -167,7 +169,7 @@ class ResourcesController < ApplicationController
 
     if params[:inline]
       # only fetch the fully resolved record when rendering the full form
-      @resource = fetch_resolved(params[:id])
+      @resource = fetch_resolved(:resource, params[:id], excludes: ['linked_events', 'linked_events::linked_records'])
 
       if @resource.suppressed
         return redirect_to(:action => :show, :id => params[:id], :inline => params[:inline])
@@ -209,7 +211,7 @@ class ResourcesController < ApplicationController
 
   def update
     handle_crud(:instance => :resource,
-                :obj => fetch_resolved(params[:id]),
+                :obj => fetch_resolved(:resource, params[:id], excludes: ['linked_events', 'linked_events::linked_records']),
                 :on_invalid => ->() {
                   render_aspace_partial :partial => "edit_inline"
                 },
@@ -385,26 +387,6 @@ class ResourcesController < ApplicationController
     end
 
     json
-  end
-
-
-# refactoring note: suspiciously similar to accessions_controller.rb
-  def fetch_resolved(id)
-    # We add this so that we can get a top container location to display with the instance view
-    new_find_opts = find_opts
-    new_find_opts["resolve[]"].push("top_container::container_locations")
-
-    resource = JSONModel(:resource).find(id, new_find_opts)
-
-    if resource['classifications']
-      resource['classifications'].each do |classification|
-        next unless classification['_resolved']
-        resolved = classification["_resolved"]
-        resolved['title'] = ClassificationHelper.format_classification(resolved['path_from_root'])
-      end
-    end
-
-    resource
   end
 
 
