@@ -53,7 +53,7 @@ describe 'Users and authentication' do
   it 'allows the admin user to become a different user' do
     @driver.login($admin)
 
-    @driver.find_element(:css, '.user-container a.btn').click
+    @driver.find_element(:css, '#user-menu-dropdown').click
     @driver.find_element(:link, 'Become User').click
     @driver.clear_and_send_keys([:id, 'select-user'], @user.username)
     @driver.find_element(:css, '#new_become_user .btn-primary').click
@@ -65,7 +65,7 @@ describe 'Users and authentication' do
   it 'prevents any user from becoming the global admin' do
     @driver.login($admin)
 
-    @driver.find_element(:css, '.user-container a.btn').click
+    @driver.find_element(:css, '#user-menu-dropdown').click
     @driver.find_element(:link, 'Become User').click
     @driver.clear_and_send_keys([:id, 'select-user'], 'admin')
     @driver.find_element(:css, '#new_become_user .btn-primary').click

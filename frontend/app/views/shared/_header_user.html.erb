@@ -68,11 +68,11 @@
 
   <li class="user-container">
     <div class="btn-group">
-      <% link_content = "<span class='glyphicon glyphicon-user'></span>&nbsp;#{session[:user]}" %>
+      <% link_content = "<span class='glyphicon glyphicon-user'></span>&nbsp;<span class='user-label'>#{session[:user]}</span>" %>
       <%= link_to(link_content.html_safe, {:controller => :users, :action => :edit_self}, {:class => 'btn btn-default navbar-btn'}) %>
 
       <div class="btn-group">
-        <a class="btn btn-default navbar-btn dropdown-toggle last" data-toggle="dropdown" href="#" title="<%= I18n.t("navbar.global_settings") %>" aria-label="<%= I18n.t("navbar.global_settings") %>"><span class="caret"></span></a>
+        <a class="btn btn-default navbar-btn dropdown-toggle last" id="user-menu-dropdown" data-toggle="dropdown" href="#" title="<%= I18n.t("navbar.global_settings") %>" aria-label="<%= I18n.t("navbar.global_settings") %>"><span class="caret"></span></a>
         <ul class="dropdown-menu pull-right">
 
           <% if user_can?('administer_system') %>
