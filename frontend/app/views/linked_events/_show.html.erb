@@ -28,9 +28,10 @@
               </td>
               <td>
                 <% record['linked_records'].each do |link| %>
-                  <div><%= I18n.t("enumerations.linked_event_archival_record_roles.#{link['role']}", :default => link['role']) %>:
-                    <%= link['_resolved']['display_string'] || link['_resolved']['title'] %>
-                  </div>
+                  <div>
+                    <%= I18n.t("enumerations.linked_event_archival_record_roles.#{link['role']}", :default => link['role']) %><% if link['_resolved'] %>:
+                    <%= link['_resolved']['display_string'] || link['_resolved']['title'] %><% end %>
+                  <div>
                 <% end %>
               </td>
               <td><%= display_audit_info(record, :format => 'compact') %></td>

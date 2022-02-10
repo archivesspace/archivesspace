@@ -717,3 +717,8 @@ AppConfig[:export_eac_agency_code] = false
 # Disable logged warnings when changing config settings that have already been set
 # This might be useful when running tests that need to fiddle with config
 AppConfig[:disable_config_changed_warning] = false
+
+# Resolving linked events can have a big impact on performance. If the number of linked
+# events surpasses the max then the events will not be resolved and a more abridged
+# record will be displayed to keep memory usage under control as the no. of events grows
+AppConfig[:max_linked_events_to_resolve] = 100
