@@ -39,10 +39,6 @@ class ArchivesSpaceOAIRepository < OAI::Provider::Model
   DELETES_PER_PAGE = 100
 
   RESOLVE = [
-    'ancestors',
-    'ancestors::linked_agents',
-    'ancestors::subjects',
-    'ancestors::instances::sub_container::top_container',
     'digital_object',
     'linked_agents',
     'repository',
@@ -50,7 +46,7 @@ class ArchivesSpaceOAIRepository < OAI::Provider::Model
     'subjects',
     'top_container',
     'top_container::container_profile'
-  ]
+  ] + AppConfig[:record_inheritance_resolves]
 
 
   def earliest

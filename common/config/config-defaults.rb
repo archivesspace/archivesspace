@@ -427,6 +427,14 @@ AppConfig[:record_inheritance] = {
   }
 }
 
+# record types resolved for record inheritance
+AppConfig[:record_inheritance_resolves] = [
+  'ancestors',
+  'ancestors::linked_agents',
+  'ancestors::subjects',
+  # 'ancestors::instances::sub_container::top_container',
+]
+
 # To enable composite identifiers - added to the merged record in a property _composite_identifier
 # The values for :include_level and :identifier_delimiter shown here are the defaults
 # If :include_level is set to true then level values (eg Series) will be included in _composite_identifier
