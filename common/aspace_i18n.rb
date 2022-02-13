@@ -25,7 +25,7 @@ module I18n
     'es' => 'spa',
     'fr' => 'fre',
     'ja' => 'jpn',
-    'de' => 'gem'
+    'de' => 'ger'
   }.sort_by { |_, v| v }.to_h.freeze
 
   def self.supported_locales
