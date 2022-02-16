@@ -398,7 +398,7 @@ class EADSerializer < ASpaceExport::Serializer
   end
 
   def serialize_controlaccess(data, xml, fragments)
-    if (data.controlaccess_subjects.length + data.controlaccess_linked_agents.length) > 0
+    if (data.controlaccess_subjects.length + data.controlaccess_linked_agents(@include_unpublished).length) > 0
       xml.controlaccess {
         data.controlaccess_subjects.each do |node_data|
           xml.send(node_data[:node_name], node_data[:atts]) {
@@ -406,7 +406,7 @@ class EADSerializer < ASpaceExport::Serializer
           }
         end
 
-        data.controlaccess_linked_agents.each do |node_data|
+        data.controlaccess_linked_agents(@include_unpublished).each do |node_data|
           xml.send(node_data[:node_name], node_data[:atts]) {
             sanitize_mixed_content( node_data[:content], xml, fragments, ASpaceExport::Utils.include_p?(node_data[:node_name]) )
           }
