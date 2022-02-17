@@ -86,6 +86,25 @@ describe 'Resource instances and containers' do
     @driver.click_and_wait_until_gone(css: '#bulk_operation_results tbody tr:first-child td:last-child a:first-child')
 
     expect(@driver.find_element(css: '.form-group:nth-child(3) div.label-only').text).to eq('xyzpdq')
+
+  end
+
+  it "performs bulk indicator update" do
+    @driver.navigate.to("#{$frontend}/top_containers")
+
+    @driver.find_element(:css, '#empty').select_option('yes')
+    @driver.find_element(:css, 'input.btn').click
+
+    @driver.wait_for_ajax
+
+    @driver.find_element(css: "#bulk_operation_results input[name='select_all']").click
+
+    @driver.find_element(css: '.bulk-operation-toolbar:first-child a.dropdown-toggle').click
+    @driver.wait_for_dropdown
+
+    @driver.find_element(id: 'showBulkActionRapidIndicatorEntry').click
+
+    modal = @driver.find_element(id: 'bulkActionIndicatorRapidEntryModal')
   end
 
 

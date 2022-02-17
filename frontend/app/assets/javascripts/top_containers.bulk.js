@@ -685,6 +685,103 @@ BulkActionBarcodeRapidEntry.prototype.setup_form_submission = function (
   });
 };
 
+
+/***************************************************************************
+ * BulkActionIndicatorRapidEntry - bulk action for indicator rapid entry
+ *
+ */
+
+function BulkActionIndicatorRapidEntry(bulkContainerSearch) {
+  this.TEMPLATE_DIALOG_ID = 'template_bulk_indicator_action_dialog';
+  this.MENU_ID = 'showBulkActionRapidIndicatorEntry';
+
+  this.bulkContainerSearch = bulkContainerSearch;
+
+  this.setup_menu_item();
+}
+
+BulkActionIndicatorRapidEntry.prototype.setup_menu_item = function () {
+  var self = this;
+
+  self.$menuItem = $('#' + self.MENU_ID, self.bulkContainerSearch.$toolbar);
+
+  self.$menuItem.on('click', function (event) {
+    self.show();
+  });
+};
+
+BulkActionIndicatorRapidEntry.prototype.show = function () {
+  var dialog_content = AS.renderTemplate(this.TEMPLATE_DIALOG_ID, {
+    selection: this.bulkContainerSearch.get_selection(),
+  });
+  var $modal = AS.openCustomModal(
+    'bulkActionIndicatorRapidEntryModal',
+    this.$menuItem[0].text,
+    dialog_content,
+    'full'
+  );
+
+  this.setup_keyboard_handling($modal);
+  this.setup_form_submission($modal);
+};
+
+BulkActionIndicatorRapidEntry.prototype.setup_keyboard_handling = function (
+  $modal
+) {
+  $modal.find('table :input:visible:first').focus().select();
+
+  $(':input', $modal)
+    .on('focus', function () {
+      $.scrollTo($(this), 0, {
+        offset: {
+          top: 400,
+        },
+      });
+    })
+    .on('keypress', function (event) {
+      if (event.keyCode == 13) {
+        event.stopPropagation();
+        event.preventDefault();
+
+        $(':input', $(this).closest('tr').next()).focus().select();
+        return false;
+      }
+    });
+};
+
+BulkActionIndicatorRapidEntry.prototype.setup_form_submission = function (
+  $modal
+) {
+  var self = this;
+  var $form = $modal.find('form');
+
+  $form.ajaxForm({
+    dataType: 'html',
+    type: 'POST',
+    beforeSubmit: function () {
+      $form.find(':submit').addClass('disabled').attr('disabled', 'disabled');
+      $form.find('.error').removeClass('error');
+    },
+    success: function (html) {
+      $form.replaceWith(html);
+      $modal.trigger('resize.modal');
+    },
+    error: function (jqXHR, textStatus, errorThrown) {
+      var error = $('<div>').attr('id', 'alertBucket').html(jqXHR.responseText);
+      $('#alertBucket').replaceWith(error);
+      var uri = $('.alert-danger:first', '#alertBucket').data('uri');
+      if (uri) {
+        $(":input[value='" + uri + "']", $form)
+          .closest('td')
+          .addClass('form-group')
+          .addClass('error');
+      }
+      $form.find(':submit').removeClass('disabled').removeAttr('disabled');
+    },
+  });
+};
+
+
 /***************************************************************************
  * BulkActionMerge - bulk action for merge
  *
@@ -831,6 +928,7 @@ $(function () {
   );
 
   new BulkActionBarcodeRapidEntry(bulkContainerSearch);
+  new BulkActionIndicatorRapidEntry(bulkContainerSearch);
   new BulkActionIlsHoldingUpdate(bulkContainerSearch);
   new BulkActionContainerProfileUpdate(bulkContainerSearch);
   new BulkActionLocationUpdate(bulkContainerSearch);

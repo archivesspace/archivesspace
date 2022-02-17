@@ -166,6 +166,23 @@ class ArchivesSpaceService < Sinatra::Base
   end
 
 
+  Endpoint.post('/repositories/:repo_id/top_containers/bulk/indicators')
+  .description("Bulk update indicators")
+  .params(["indicator_data", String, "JSON string containing indicator data {uri=>indicator}", :body => true],
+          ["repo_id", :repo_id])
+  .permissions([:manage_container_record])
+  .no_data(true)
+  .returns([200, :updated]) \
+  do
+    begin
+      updated = TopContainer.bulk_update_indicators(ASUtils.json_parse(params[:indicator_data]))
+      json_response(:updated => updated)
+    rescue Sequel::ValidationFailed => e
+      json_response({:error => e.errors, :uri => e.model.uri}, 400)
+    end
+  end
+
+
   Endpoint.post('/repositories/:repo_id/top_containers/bulk/locations')
   .description("Bulk update locations")
   .params(["location_data", String, "JSON string containing location data {container_uri=>location_uri}", :body => true],

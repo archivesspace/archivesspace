@@ -1579,6 +1579,9 @@ en:
         update_locations_singular_help: Choose a Location for all selected containers.  Leave this blank to remove the current value without replacing it with another value.
         update_locations_multiple: "Update Locations: Multiple Locations"
         update_locations_multiple_help: Choose a Location for each selected container.  Leave this blank to remove the current value without replacing it with another value.
+        rapid_indicator_entry: Rapid Indicator Entry
+        rapid_indicator_entry_new_indicator: New Indicator
+        rapid_indicator_entry_help: Enter an indicator for each selected container.  Leave the New Indicator field blank to leave it unchanged.
         rapid_barcode_entry: Rapid Barcode Entry
         rapid_barcode_entry_existing_barcode: Existing Barcode
         rapid_barcode_entry_new_barcode: New Barcode

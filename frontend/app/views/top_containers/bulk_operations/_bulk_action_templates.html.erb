@@ -203,6 +203,39 @@
   <% end %>
 --></div>
 
+<div id="template_bulk_indicator_action_dialog"><!--
+  <%= form_tag({:controller => :top_containers, :action => :update_indicators}, {:class => "form-horizontal", :id => "bulk_update_form" }) do |f| %>
+  <div class="modal-body">
+    <div class="alert alert-info" id="alertBucket"><%= I18n.t("top_container._frontend.bulk_operations.rapid_indicator_entry_help") %></div>
+    <table class="table table-striped table-bordered table-condensed table-hover">
+    <thead>
+      <tr>
+        <th><%= I18n.t("top_container._frontend.bulk_operations.collection_singular") %></th>
+        <th><%= I18n.t("top_container._frontend.bulk_operations.series") %></th>
+        <th><%= I18n.t("container_profile._singular") %></th>
+        <th><%= I18n.t("top_container.indicator") %></th>
+        <th><%= I18n.t("top_container._frontend.bulk_operations.rapid_indicator_entry_new_indicator") %></th>
+      </tr>
+    </thead>
+    {for container in selection}
+      <tr>
+        <td>${container.row.find(".top-container-collection").html()}</td>
+        <td>${container.row.find(".top-container-series").html()}</td>
+        <td>${container.row.find(".top-container-profile").html()}</td>
+        <td>${container.row.find(".top-container-indicator").html()}</td>
+        <td><input type="text" name="${container.uri}" value="" /><input type="hidden" name="update_uris[]" value="${container.uri}"/></td>
+      </tr>
+    {/for}
+    </table>
+  </div>
+  <div class="modal-footer">
+    <button type="submit" class="btn btn-primary"><%= I18n.t("top_container._frontend.bulk_operations.update_n_records", {:n => "${selection.length}"}) %></button>
+    <button class="btn btn-cancel btn-default" data-dismiss="modal"><%= I18n.t("actions.cancel") %></button>
+  </div>
+  <% end %>
+--></div>
+
+
 <div id="bulk_action_merge"><!--
   <%= form_tag({:controller => :top_containers}, {:class => "form-horizontal", :id => "batch_merge_form" }) do |f| %>
 
