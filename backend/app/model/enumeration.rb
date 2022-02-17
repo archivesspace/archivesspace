@@ -84,17 +84,18 @@ class Enumeration < Sequel::Model(:enumeration)
     obj.reload
     is_editable = ( obj.editable === 1 or obj.editable == true )
 
+    # remove suppressed values from existing list
+    existing_values = obj.enumeration_value.reject {|v| v[:suppressed] == 1}
+    existing_values = existing_values.map {|v| v[:value]}
 
-    incoming_values = Array(json['values'])
-    existing_values = obj.enumeration_value.map {|val| val[:value]}
-
+    incoming_values = Array(json['values']) 
 
     added_values = incoming_values - existing_values
     removed_values = existing_values - incoming_values
 
     # if it's not editable, we cannot add or remove values, but we can set the
     # default...
-    if (( !is_editable and added_values.length > 0 ) or ( !is_editable and removed_values.length > 0 )) and opts[:default_value].nil?
+    if ( !is_editable and added_values.length > 0 ) or ( !is_editable and removed_values.length > 0 )
       raise AccessDeniedException.new("Cannot modify a non-editable enumeration: #{obj.name} with #{ json['values'].join(' , ') }. Only allowed values are : #{ obj.enumeration_value.join(' , ')} ")
     end
 
