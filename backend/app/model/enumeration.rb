@@ -88,7 +88,7 @@ class Enumeration < Sequel::Model(:enumeration)
     existing_values = obj.enumeration_value.reject {|v| v[:suppressed] == 1}
     existing_values = existing_values.map {|v| v[:value]}
 
-    incoming_values = Array(json['values']) 
+    incoming_values = Array(json['values'])
 
     added_values = incoming_values - existing_values
     removed_values = existing_values - incoming_values
