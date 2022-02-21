@@ -86,8 +86,9 @@ class Enumeration < Sequel::Model(:enumeration)
 
 
     incoming_values = Array(json['values'])
-    existing_values = obj.enumeration_value.map {|val| val[:value]}
-
+    existing_values = obj.enumeration_value.select {|val| val[:suppressed] != 1 }.map {|val| val[:value] }
+    # we need to keep suppressed values in mind for positioning
+    existing_length = obj.enumeration_value.length
 
     added_values = incoming_values - existing_values
     removed_values = existing_values - incoming_values
@@ -108,7 +109,7 @@ class Enumeration < Sequel::Model(:enumeration)
 
 
     added_values.each_with_index do |value, i|
-      obj.add_enumeration_value(:value => value, :position => (existing_values.length + i + 1) )
+      obj.add_enumeration_value(:value => value, :position => (existing_length + i + 1) )
     end
 
     removed_values.each do |value|
@@ -175,7 +176,7 @@ class Enumeration < Sequel::Model(:enumeration)
       # we're keeping the values as just the not suppressed values.
       # enumeration_values are only needed in situations where we are
       # editing/updating the lists.
-      json['values'] = obj.enumeration_value.map {|v| v[:value] unless v[:suppressed] == 1 }
+      json['values'] = obj.enumeration_value.select {|v| v[:suppressed] != 1 }.map {|v| v[:value] }
       json['readonly_values'] = obj.enumeration_value.map {|v| v[:value] if ( v[:readonly] != 0 && v[:suppressed] != 1 )}.compact
       json['enumeration_values'] = EnumerationValue.sequel_to_jsonmodel(obj.enumeration_value)
       # this tells us where the enum is used.
