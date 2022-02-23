@@ -214,7 +214,6 @@ describe 'Enumeration Management' do
     @driver.click_and_wait_until_element_gone(foo.find_element(:link, 'Suppress'))
 
     expect(@driver.find_element_with_text('//tr', /fooman/).find_element(:link, 'Unsuppress')).not_to be_nil
-    expect(@driver.find_element_with_text('//tr', /fooman/).find_elements(:link, 'Delete').length).to eq(0)
 
     # now lets make sure it's there
     @driver.find_element(:link, 'Create').click
@@ -256,6 +255,34 @@ describe 'Enumeration Management' do
     foo.find_element(:link, 'Delete').click
 
     @driver.click_and_wait_until_gone(css: "form#delete_enumeration button[type='submit']")
+  end
+
+  it 'lets you delete a suppressed enumeration value' do
+    @driver.go_home
+    @driver.get($frontend)
+    @driver.find_element(:link, 'System').click
+    @driver.wait_for_dropdown
+    @driver.click_and_wait_until_gone(:link, 'Manage Controlled Value Lists')
+
+    enum_select = @driver.find_element(id: 'enum_selector')
+    enum_select.select_option_with_text('Collection Management Processing Priority (collection_management_processing_priority)')
+
+    @driver.find_element(:css, '.enumeration-list')
+
+    @driver.wait_for_dropdown
+    @driver.find_element(:link, 'Create Value').click
+
+    @driver.clear_and_send_keys([:id, 'enumeration_value_'], 'barman')
+    @driver.click_and_wait_until_gone(:css, '.modal-footer .btn-primary')
+
+    foo = @driver.find_element_with_text('//tr', /barman/)
+    @driver.click_and_wait_until_element_gone(foo.find_element(:link, 'Suppress'))
+
+    @driver.find_element_with_text('//tr', /barman/).find_element(:link, 'Delete').click
+    @driver.click_and_wait_until_gone(css: "form#delete_enumeration button[type='submit']")
+
+    @driver.find_element_with_text('//div', /Value Deleted/)
+    @driver.ensure_no_such_element(:xpath, "//td[contains(text(), \"barman\" )]")
   end
 
   it 'lets you set a default value with another value suppressed' do
