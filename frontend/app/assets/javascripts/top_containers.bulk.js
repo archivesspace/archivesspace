@@ -685,7 +685,6 @@ BulkActionBarcodeRapidEntry.prototype.setup_form_submission = function (
   });
 };
 
-
 /***************************************************************************
  * BulkActionIndicatorRapidEntry - bulk action for indicator rapid entry
  *
@@ -780,7 +779,6 @@ BulkActionIndicatorRapidEntry.prototype.setup_form_submission = function (
     },
   });
 };
-
 
 /***************************************************************************
  * BulkActionMerge - bulk action for merge

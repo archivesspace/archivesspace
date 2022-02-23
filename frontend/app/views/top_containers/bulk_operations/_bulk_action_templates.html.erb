@@ -214,6 +214,7 @@
         <th><%= I18n.t("top_container._frontend.bulk_operations.series") %></th>
         <th><%= I18n.t("container_profile._singular") %></th>
         <th><%= I18n.t("top_container.indicator") %></th>
+        <th><%= I18n.t("top_container._frontend.bulk_operations.rapid_barcode_entry_existing_barcode") %></th>
         <th><%= I18n.t("top_container._frontend.bulk_operations.rapid_indicator_entry_new_indicator") %></th>
       </tr>
     </thead>
@@ -223,6 +224,7 @@
         <td>${container.row.find(".top-container-series").html()}</td>
         <td>${container.row.find(".top-container-profile").html()}</td>
         <td>${container.row.find(".top-container-indicator").html()}</td>
+        <td>${container.row.find(".top-container-barcode").text().trim()}</td>
         <td><input type="text" name="${container.uri}" value="" /><input type="hidden" name="update_uris[]" value="${container.uri}"/></td>
       </tr>
     {/for}
