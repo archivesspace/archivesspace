@@ -27,4 +27,23 @@ class FileVersion < Sequel::Model(:file_version)
     jsons
   end
 
+  def validate
+    # Discuss: I was getting false negatives with just `if !self[:publish] && self[:is_representative]`, so taking more explicit approach:
+    is_published = false
+    if self[:publish] == true || self[:publish] == 1
+      is_published = true
+    end
+
+    is_representative = false
+    if self[:is_representative] == true || self[:is_representative] == 1
+      is_representative = true
+    end
+
+    if !is_published && is_representative
+      raise Sequel::ValidationFailed.new("File version must be published to be representative.")
+    end
+
+    super
+  end
+
 end

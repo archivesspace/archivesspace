@@ -19,6 +19,10 @@
       },
 
       "file_versions" => {"type" => "array", "items" => {"type" => "JSONModel(:file_version) object"}},
+      "representative_file_version" => {
+        "type" => "JSONModel(:file_version) object",
+        "readonly" => true
+      },
 
       "restrictions" => {"type" => "boolean", "default" => false},
       "tree" => {
