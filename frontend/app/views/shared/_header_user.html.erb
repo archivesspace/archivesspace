@@ -68,14 +68,11 @@
 
   <li class="user-container">
     <div class="btn-group">
-      <button class="btn btn-default navbar-btn">
-        <span class="user-label has-popover" data-trigger="hover" data-placement="bottom" data-html='true' data-title='<span class="glyphicon glyphicon-user"></span> <%= CGI::escapeHTML(session[:user]) %>'>
-        <span class="glyphicon glyphicon-user"></span><%= session[:user] %>
-        </span>
-      </button>
+      <% link_content = "<span class='glyphicon glyphicon-user'></span>&nbsp;<span class='user-label'>#{session[:user]}</span>" %>
+      <%= link_to(link_content.html_safe, {:controller => :users, :action => :edit_self}, {:class => 'btn btn-default navbar-btn'}) %>
 
       <div class="btn-group">
-        <a class="btn btn-default navbar-btn dropdown-toggle last" data-toggle="dropdown" href="#" title="<%= I18n.t("navbar.global_settings") %>" aria-label="<%= I18n.t("navbar.global_settings") %>"><span class="caret"></span></a>
+        <a class="btn btn-default navbar-btn dropdown-toggle last" id="user-menu-dropdown" data-toggle="dropdown" href="#" title="<%= I18n.t("navbar.global_settings") %>" aria-label="<%= I18n.t("navbar.global_settings") %>"><span class="caret"></span></a>
         <ul class="dropdown-menu pull-right">
 
           <% if user_can?('administer_system') %>
@@ -90,6 +87,7 @@
           <% if user_can?('become_user') %>
             <li><%= link_to I18n.t("navbar.become-user"), :controller => "session", :action => "select_user" %></li>
           <% end %>
+          <li><%= link_to(I18n.t('user._frontend.action.update_self'), {:controller => :users, :action => :edit_self}) %></li>
           <li><%= link_to I18n.t("navbar.logout"), :controller => "session",:action => "logout"%></li>
         </ul>
       </div>

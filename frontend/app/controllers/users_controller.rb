@@ -2,11 +2,11 @@ class UsersController < ApplicationController
 
   set_access_control "manage_users" => [:index, :edit, :update, :delete, :activate, :deactivate],
                     "manage_repository" => [:manage_access, :edit_groups, :update_groups],
-                    :public => [:new, :create, :complete]
+                    :public => [:new, :create, :complete, :edit_self, :update_self]
 
   before_action :account_self_service, :only => [:new, :create]
   before_action :user_needs_to_be_a_user_manager_or_new_user, :only => [:new, :create]
-  before_action :user_needs_to_be_a_user, :only => [:show, :complete]
+  before_action :user_needs_to_be_a_user, :only => [:show, :complete, :edit_self, :update_self]
 
 
   def index
@@ -65,6 +65,13 @@ class UsersController < ApplicationController
     render action: "edit"
   end
 
+  def edit_self
+    @user = JSONModel(:user).find('current-user')
+    @self_edit = true
+
+    render action: "edit_self"
+  end
+
   def edit_groups
     @user = JSONModel(:user).from_hash(JSONModel::HTTP::get_json("/repositories/#{session[:repo_id]}/users/#{params[:id]}"))
 
@@ -102,6 +109,26 @@ class UsersController < ApplicationController
                 :on_valid => ->(id) {
                   flash[:success] = I18n.t("user._frontend.messages.updated")
                   redirect_to :action => :index
+                })
+  end
+
+  def update_self
+    handle_crud(:instance => :user,
+                :obj => obj = JSONModel(:user).find('current-user'),
+                :params_check => ->(obj, params) {
+                  if params['user']['password'] || params['user']['confirm_password']
+                    if params['user']['password'] != params['user']['confirm_password']
+                      obj.add_error('confirm_password', "entered value didn't match password")
+                    end
+                  end
+                },
+                :on_invalid => ->() {
+                  flash[:error] = I18n.t("user._frontend.messages.error_update")
+                  render :action => "edit_self"
+                },
+                :on_valid => ->(id) {
+                  flash[:success] = I18n.t("user._frontend.messages.updated")
+                  redirect_to :action => "edit_self"
                 })
   end
 

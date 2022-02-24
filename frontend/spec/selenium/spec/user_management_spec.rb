@@ -91,4 +91,18 @@ describe 'User management' do
       expect(@driver.find_element(:id, 'user_username_').attribute('readonly')).to eq('true')
     end
   end
+
+  it "allows user to edit their own account" do
+    @driver.login(@test_user)
+
+    @driver.navigate.to("#{$frontend}/users/edit_self")
+
+    @driver.clear_and_send_keys([:id, 'user_name_'], "New Username")
+    @driver.clear_and_send_keys([:id, 'user_password_'], "newpassword123")
+    @driver.clear_and_send_keys([:id, 'user_confirm_password_'], "newpassword123")
+
+    @driver.find_element(:id, 'create_account').click
+
+    @driver.find_element_with_text('//div[contains(@class, "alert-success")]', /User Saved/)
+  end
 end

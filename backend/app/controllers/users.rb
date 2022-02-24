@@ -144,13 +144,26 @@ class ArchivesSpaceService < Sinatra::Base
     .returns([200, :updated],
              [400, :error]) \
   do
-    check_admin_access
-    user = User.get_or_die(params[:id])
+    # ANW-534: check for permissions only if updating a user that's not the logged in user
+    if params[:user].username == User.to_jsonmodel(current_user).username
+      user = User.get_or_die(params[:id])
 
-    # High security: update the user themselves.
-    raise AccessDeniedException.new if !current_user.can?(:manage_users)
+      # overwrite whatever is the params with the current admin and groups status
+      # to prevent a user from adding themselves to groups or giving themselves admin access
+      current_admin_setting  = user[:is_admin]
+      current_groups_setting = user[:groups]
 
-    params[:user].username = Username.value(params[:user].username)
+      params[:user][:is_admin] = current_admin_setting
+      params[:user][:groups]   = current_groups_setting
+    else
+      check_admin_access
+      user = User.get_or_die(params[:id])
+
+      # High security: update the user themselves.
+      raise AccessDeniedException.new if !current_user.can?(:manage_users)
+
+      params[:user].username = Username.value(params[:user].username)
+    end
 
     user.update_from_json(params[:user])
 

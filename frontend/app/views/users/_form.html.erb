@@ -21,10 +21,10 @@
      <%= form.label_and_boolean "is_admin" %>
    <% end %>
 
-   <% if user_can?('manage_users') %>
+   <% if user_can?('manage_users') && !@self_edit %>
      <%= form.label_and_boolean "is_active_user" %>
-   <% else %>
-     <%= form.hidden_input "is_active_user", 1 %>
    <% end %>
+
+   <%= form.hidden_input "is_active_user", 1 %>
 
 </fieldset>

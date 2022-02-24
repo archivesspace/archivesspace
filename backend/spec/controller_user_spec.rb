@@ -189,6 +189,44 @@ describe 'User controller' do
     expect(user.name).to eq("A New Name")
   end
 
+  it "can update self, even if not admin" do
+    user_id = build(:json_user).save('password' => '123')
+    non_admin_user = JSONModel(:user).find(user_id)
+
+    as_test_user(non_admin_user['username']) do
+      non_admin_user.name = "A New Name"
+      non_admin_user.save
+    end
+
+    user = JSONModel(:user).find(user_id)
+    expect(user.name).to eq("A New Name")
+  end
+
+  it "does not allow self update to change admin flag" do
+    user_id = build(:json_user).save('password' => '123')
+    non_admin_user = JSONModel(:user).find(user_id)
+
+    as_test_user(non_admin_user['username']) do
+      non_admin_user.is_admin = true
+      non_admin_user.save
+    end
+
+    user = JSONModel(:user).find(user_id)
+    expect(user.is_admin).to_not be_truthy
+  end
+
+  it "does not allow self update to change groups" do
+    user_id = build(:json_user).save('password' => '123')
+    non_admin_user = JSONModel(:user).find(user_id)
+    group = create(:json_group)
+
+    as_test_user(non_admin_user['username']) do
+      non_admin_user.save("groups[]" => [group.uri])
+    end
+
+    user = JSONModel(:user).find(user_id)
+    expect(user.groups).to eq([])
+  end
 
   it "can log out a session" do
     post '/users/test1/login', params = { "password" => "password", "expiring" => "false" }
