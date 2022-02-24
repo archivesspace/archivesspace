@@ -646,6 +646,7 @@ AppConfig[:pui_page_custom_actions] = []
 #   'erb_partial' => 'shared/my_special_action',
 # }
 
+AppConfig[:pui_display_facets_alpha] = false
 
 # Human-Readable URLs options
 # use_human_readable_urls: determines whether fields and options related to human-readable URLs appear in the staff interface
