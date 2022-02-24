@@ -63,6 +63,20 @@ Sequel.migration do
 
       delete_zombies
 
+      # Some legacy databases have redundant AKRs and we believe
+      # will only want the one with the lowest ID
+      if AppConfig[:prune_ark_name_table]
+        [:resource_id, :archival_object_id].each do |fk_col|
+          self[:ark_name]
+            .filter(Sequel.~(fk_col => nil))
+            .group_and_count(fk_col).having { count.function.* > 1 }
+            .select(fk_col, Sequel.as(Sequel.function(:min, :id), :lowest_id)).each do |row|
+
+            self[:ark_name].filter(fk_col => row[fk_col]).filter(Sequel.~(:id => row[:lowest_id])).delete
+          end
+        end
+      end
+
       now = (Time.now.to_f * 1000).to_i
 
       self[:ark_name].update(:is_current => 0, :retired_at_epoch_ms => Sequel.lit("#{now} - id"))
