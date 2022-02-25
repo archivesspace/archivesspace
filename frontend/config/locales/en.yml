@@ -1853,8 +1853,8 @@ en:
       translation: Translation
 
   custom_report_template:
+    new_title: New Custom Report Template
     _frontend:
-      new_title: New Custom Report Template
       section:
         template_information: Template Information
         basic_information_fields: Basic Information Fields
