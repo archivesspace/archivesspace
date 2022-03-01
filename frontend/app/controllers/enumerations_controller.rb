@@ -73,8 +73,13 @@ class EnumerationsController < ApplicationController
   def destroy
     @enumeration = JSONModel(:enumeration).find(params[:id])
     @value = params["enumeration"]["value"]
+    @enumeration_value = JSONModel(:enumeration_value).find( params["enumeration"]["enumeration_value_id"])
+
 
     begin
+      # ANW-1165: Unsuppress value before attempting to delete
+      @enumeration_value.set_suppressed(false) if @enumeration_value["suppressed"] == true
+
       @enumeration.values -= [@value]
       @enumeration.save
 

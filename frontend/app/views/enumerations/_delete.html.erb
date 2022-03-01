@@ -23,6 +23,7 @@
               <div class="controls label-only">
                 <%= @value %>
                 <%= form.hidden_input :value, @value %>
+                <%= form.hidden_input :enumeration_value_id, params["enumeration_value_id"] %>
               </div>
             </div>
           </fieldset>

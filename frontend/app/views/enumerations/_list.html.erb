@@ -72,9 +72,11 @@
               <% else %>
                 <%= link_to I18n.t("actions.suppress"), {:controller => :enumerations, :action => :update_value, :id => JSONModel(:enumeration).id_for(@enumeration["uri"]), :enumeration_value_id => enum_value["id"], :suppressed => 1 }, :method => :post, :class=> "btn btn-xs btn-warning", :disabled => 'disabled'  %>
               <% end%>
-              <% if @enumeration['editable'] && !Array(@enumeration['readonly_values']).include?(enum_value['value']) && !enum_value["suppressed"] %>
-                <%= link_to I18n.t("actions.merge"), {:controller => :enumerations, :action => :delete, :id => JSONModel(:enumeration).id_for(@enumeration["uri"]), :merge => true, :value => enum_value["value"]}, "data-toggle" => "modal-ajax", :class=> "btn btn-xs btn-info" %>
-                <%= link_to I18n.t("actions.delete"), {:controller => :enumerations, :action => :delete, :id => JSONModel(:enumeration).id_for(@enumeration["uri"]), :value => enum_value['value']}, "data-toggle" => "modal-ajax", :class=> "btn btn-xs btn-danger" %>
+              <% if @enumeration['editable'] && !Array(@enumeration['readonly_values']).include?(enum_value['value']) %>
+                <% unless enum_value["suppressed"] %>
+                  <%= link_to I18n.t("actions.merge"), {:controller => :enumerations, :action => :delete, :id => JSONModel(:enumeration).id_for(@enumeration["uri"]), :merge => true, :value => enum_value["value"]}, "data-toggle" => "modal-ajax", :class=> "btn btn-xs btn-info" %>
+                <% end %>
+                <%= link_to I18n.t("actions.delete"), {:controller => :enumerations, :action => :delete, :id => JSONModel(:enumeration).id_for(@enumeration["uri"]), :enumeration_value_id => enum_value["id"], :value => enum_value['value']}, "data-toggle" => "modal-ajax", :class=> "btn btn-xs btn-danger" %>
               <% end %>
             </div>
           </td>
