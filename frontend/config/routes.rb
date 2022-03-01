@@ -256,6 +256,7 @@ ArchivesSpace::Application.routes.draw do
     resources :container_profiles
     match('container_profiles/search/typeahead' => 'container_profiles#typeahead', :via => [:get])
     match('container_profiles/bulk_operations/update_barcodes' => 'top_containers#update_barcodes', :via => [:post])
+    match('container_profiles/bulk_operations/update_indicators' => 'top_containers#update_indicators', :via => [:post])
     match('container_profiles/bulk_operations/update_locations' => 'top_containers#update_locations', :via => [:post])
 
     match('container_profiles/:id' => 'container_profiles#update', :via => [:post])

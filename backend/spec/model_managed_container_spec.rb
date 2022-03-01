@@ -467,6 +467,22 @@ describe 'Managed Container model' do
 
 
   describe "bulk action" do
+    describe "indicators" do
+      it "can set multiple valid indicators" do
+        container1_json = create(:json_top_container)
+        container2_json = create(:json_top_container)
+
+        indicator_data = {}
+        indicator_data[container1_json.uri] = "987654321"
+        indicator_data[container2_json.uri] = "876543210"
+
+        results = TopContainer.bulk_update_indicators(indicator_data)
+        expect(results).to include(container1_json.id, container2_json.id)
+
+        expect(TopContainer[container1_json.id].indicator).to eq("987654321")
+        expect(TopContainer[container2_json.id].indicator).to eq("876543210")
+      end
+    end
 
     describe "barcodes" do
 

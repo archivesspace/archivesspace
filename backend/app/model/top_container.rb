@@ -422,6 +422,29 @@ class TopContainer < Sequel::Model(:top_container)
   end
 
 
+  def self.bulk_update_indicators(indicator_data)
+    updated = []
+
+    ids = indicator_data.map {|uri, _| my_jsonmodel.id_for(uri)}
+
+    indicator_data.each do |uri, indicator|
+      next unless indicator #skip any records where indicator is not specified
+
+      id = my_jsonmodel.id_for(uri)
+
+      top_container = TopContainer[id]
+      top_container.indicator = indicator
+      top_container.system_mtime = Time.now
+
+      top_container.save(:columns => [:indicator, :system_mtime])
+      updated << id
+    end
+
+    TopContainer.update_mtime_for_ids(ids)
+    updated
+  end
+
+
   def self.bulk_update_locations(location_data)
     out = {
       :records_ids_updated => []

@@ -6,7 +6,7 @@ class TopContainersController < ApplicationController
 
   set_access_control  'view_repository' => [:bulk_operations_browse, :bulk_operation_search, :index, :show, :typeahead],
                       'update_container_record' => [:new, :create, :edit, :update],
-                      'manage_container_record' => [:delete, :batch_delete, :batch_merge, :bulk_operations, :bulk_operation_update, :update_barcodes, :update_locations]
+                      'manage_container_record' => [:delete, :batch_delete, :batch_merge, :bulk_operations, :bulk_operation_update, :update_barcodes, :update_indicators, :update_locations]
 
   include ExportHelper
 
@@ -265,6 +265,24 @@ class TopContainersController < ApplicationController
     post_uri = "#{JSONModel::HTTP.backend_url}/repositories/#{session[:repo_id]}/top_containers/bulk/barcodes"
 
     response = JSONModel::HTTP::post_json(URI(post_uri), barcode_data.to_json)
+    result = ASUtils.json_parse(response.body)
+
+    if response.code =~ /^4/
+      return render_aspace_partial :partial => 'top_containers/bulk_operations/error_messages', :locals => {:exceptions => result, :jsonmodel => 'top_container'}, :status => 500
+    end
+
+    render_aspace_partial :partial => 'top_containers/bulk_operations/bulk_action_success', :locals => {:result => result}
+  end
+
+
+  def update_indicators
+    update_uris = params[:update_uris]
+    indicator_data = {}
+    update_uris.map {|uri| indicator_data[uri] = params[uri].blank? ? nil : params[uri]}
+
+    post_uri = "#{JSONModel::HTTP.backend_url}/repositories/#{session[:repo_id]}/top_containers/bulk/indicators"
+
+    response = JSONModel::HTTP::post_json(URI(post_uri), indicator_data.to_json)
     result = ASUtils.json_parse(response.body)
 
     if response.code =~ /^4/
