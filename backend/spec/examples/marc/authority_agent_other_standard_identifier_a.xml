@@ -1,0 +1,20 @@
+<marcxml:record xmlns="http://www.loc.gov/MARC21/slim" xmlns:marc="http://www.loc.gov/MARC21/slim" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.loc.gov/MARC21/slim http://www.loc.gov/standards/marcxml/schema/MARC21slim.xsd">
+  <marcxml:leader xmlns:streams="info:lc/streams#">02702cz  a2200337n  4500</marcxml:leader>
+  <marcxml:controlfield tag="001">n2009045056</marcxml:controlfield>
+  <marcxml:controlfield tag="003" xmlns:streams="info:lc/streams#">DLC</marcxml:controlfield>
+  <marcxml:controlfield tag="005" xmlns:streams="info:lc/streams#">20200801070648.0</marcxml:controlfield>
+  <marcxml:controlfield tag="008" xmlns:streams="info:lc/streams#">090721n| azannaabn          |a aaa      </marcxml:controlfield>
+  <marcxml:datafield tag="010" ind1=" " ind2=" " xmlns:streams="info:lc/streams#">
+    <marcxml:subfield code="a">n 2009045056</marcxml:subfield>
+  </marcxml:datafield>
+  <marcxml:datafield tag="024" ind1="8" ind2=" " xmlns:streams="info:lc/streams#">
+    <marcxml:subfield code="a">http://viaf.org/viaf/91053810</marcxml:subfield>
+  </marcxml:datafield>
+  <marcxml:datafield tag="100" ind1="1" ind2=" " xmlns:streams="info:lc/streams#">
+    <marcxml:subfield code="a">Harris, Kamala,</marcxml:subfield>
+    <marcxml:subfield code="d">1964-</marcxml:subfield>
+  </marcxml:datafield>
+  <marcxml:datafield tag="377" ind1=" " ind2=" " xmlns:streams="info:lc/streams#">
+    <marcxml:subfield code="a">eng</marcxml:subfield>
+  </marcxml:datafield>
+</marcxml:record>

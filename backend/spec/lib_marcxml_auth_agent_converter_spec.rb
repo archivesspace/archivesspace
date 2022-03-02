@@ -38,6 +38,21 @@ describe 'MARCXML Auth Agent converter' do
                      File.dirname(__FILE__))
   end
 
+  let(:authority_agent_other_standard_identifier_a) do
+    File.expand_path('./examples/marc/authority_agent_other_standard_identifier_a.xml',
+                     File.dirname(__FILE__))
+  end
+
+  let(:authority_agent_other_standard_identifier_0) do
+    File.expand_path('./examples/marc/authority_agent_other_standard_identifier_0.xml',
+                     File.dirname(__FILE__))
+  end
+
+  let(:authority_agent_other_standard_identifier_both) do
+    File.expand_path('./examples/marc/authority_agent_other_standard_identifier_both.xml',
+                     File.dirname(__FILE__))
+  end
+
   describe 'agent person' do
     before(:all) do
     end
@@ -204,6 +219,24 @@ describe 'MARCXML Auth Agent converter' do
       expect(record['agent_record_identifiers'][1]['identifier_type']).to eq('local')
       expect(record['agent_record_identifiers'][1]['source']).to eq('DLC')
       expect(record['agent_record_identifiers'][1]['primary_identifier']).to eq(false)
+    end
+
+    it 'imports authority_agent_other_standard_identifier_a to the correct agent' do
+      records = convert(authority_agent_other_standard_identifier_a).select { |r| r['jsonmodel_type'] == 'agent_person' }
+      expect(records[0]['agent_record_identifiers'][1]['record_identifier']).to eq('http://viaf.org/viaf/91053810')
+      expect(records[0]['agent_record_identifiers'][1]['primary_identifier']).to eq(false)
+    end
+
+    it 'imports authority_agent_other_standard_identifier_0 to the correct agent' do
+      records = convert(authority_agent_other_standard_identifier_0).select { |r| r['jsonmodel_type'] == 'agent_person' }
+      expect(records[0]['agent_record_identifiers'][1]['record_identifier']).to eq('viaf91053810')
+      expect(records[0]['agent_record_identifiers'][1]['primary_identifier']).to eq(false)
+    end
+
+    it 'imports authority_agent_other_standard_identifier_both to the correct agent' do
+      records = convert(authority_agent_other_standard_identifier_both).select { |r| r['jsonmodel_type'] == 'agent_person' }
+      expect(records[0]['agent_record_identifiers'][1]['record_identifier']).to eq('10.25555/uhhfdm.777')
+      expect(records[0]['agent_record_identifiers'][1]['primary_identifier']).to eq(false)
     end
 
     it 'imports agent_record_identifier from 035 prepended with (DLC) with proper source and type' do
