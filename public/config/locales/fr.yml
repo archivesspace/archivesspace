@@ -552,3 +552,7 @@ fr:
     license: Licence
     _singular: Déclaration des droits sur les métadonnées
     _plural: Déclarations de droits sur les métadonnées
+  footer:
+    archivesspace_home: Visitez <a href='http://archivesspace.org'>ArchivesSpace.org</a>
+    feedback: <a id='aspaceFeedbackLink' href='%{feedback_url}' target='_blank'>Envoyer des commentaires
+      ou signaler un problème</a>
