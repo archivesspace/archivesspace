@@ -385,6 +385,8 @@ fr:
       create_time: Créé
       asc: Ascendant
       desc: Descendant
+      location_one_top_container: 1 conteneur supérieur.
+      location_top_containers: ' conteneurs supérieurs.'
     event:
       score: Pertinence
       agents: Agent
@@ -566,11 +568,13 @@ fr:
     search_terms: Champs de recherche avancée %{number}
     remove_row: Supprimer les champs de recherche avancée %{number}
 
+    add_row: Ajouter rangée
   become-user:
     become-user: Passer utilisateur
     failed: Echec de changement d'utilisateur
     success: Changement d'utilisateur réussi
 
+    username: Nom d'utilisateur
   navbar:
     become-user: Passer utilisateur
     brand: ArchivesSpace
@@ -610,6 +614,8 @@ fr:
     manage_assessment_attributes: Gérer les attributs d'évaluation
     toggle_navigation: Basculer la navigation
 
+    repository_settings: Réglages de service d'archives
+    global_settings: Réglages globales
   header:
     staff_interface: ArchivesSpace Staff Interface
 
@@ -647,6 +653,10 @@ fr:
     login_fail: Echec de la tentative de connexion
     login_success: Connexion réussie. Redirection...
 
+    username_placeholder: Nom d'utilisateur
+    password_aria_label: Mot de passe
+    username_aria_label: Nom d'utilisateur
+    password_placeholder: Mot de passe
   breadcrumb:
     home: Page d'accueil
 
@@ -798,6 +808,7 @@ fr:
         date_of_existence: Date d'existence
         structured_date_single_fields: Date unique
         structured_date_range_fields: Date de la plage
+        events: Evénements
       action:
         create: Créer agent
         preview: Fusionner l'aperçu
@@ -1026,6 +1037,9 @@ fr:
           <p>La liste contrôlée à éditer.</p>
         no_name_provided: Sélectionner une liste de valeurs avant de créer une nouvelle
           valeur
+        related_items: ' articles connexes.'
+        not_used: Non utilisé.
+        one_related_item: 1 élément connexe.
       action:
         create_value: Créer valeur
         delete_value: Supprimer valeur
@@ -1148,6 +1162,11 @@ fr:
         use_date: Date(s) de pertinence de nom
         dates: Rendez-vous
         parallel_names: Noms parallèles
+        place_subject: Lieu Sujet
+        topic_subject: Sujet Sujet
+        name_subject: Nom Sujet
+        function_subject: Fonction Sujet
+        occupation_subject: Occupation Sujet
       action:
         add: Ajouter forme de nom
         make_authorized: Convertir en nom normatif
@@ -2002,6 +2021,7 @@ fr:
         created: Modèle de rapport personnalisé créé
         updated: Modèle de rapport personnalisé mis à jour
 
+    new_title: Nouveau Modèle de rapport personnalisé
   oai_config:
     title: Paramètres OAI-PMH
     title_repo_section: Paramètres OAI-PMH par référentiel
@@ -3277,3 +3297,8 @@ fr:
       eux-mêmes, et non à lier des matériaux à des emplacements.
     aspace_assessment_import_template_csv: Créez et liez des évaluations à des acquisitions,
       des ressources, des objets d'archives ou des objets numériques existants.
+  footer:
+    archivesspace_home: Visitez <a href='http://archivesspace.org'>ArchivesSpace.org</a>
+    feedback: <a id='aspaceFeedbackLink' href='%{feedback_url}' target='_blank'>Envoyer
+      des commentaires ou signaler un problème</a>
+    public_interface: Afficher <a href="%{public_url}">Interface publique</a>
