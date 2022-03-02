@@ -730,3 +730,12 @@ AppConfig[:disable_config_changed_warning] = false
 # events surpasses the max then the events will not be resolved and a more abridged
 # record will be displayed to keep memory usage under control as the no. of events grows
 AppConfig[:max_linked_events_to_resolve] = 100
+
+# Prior to 3.2.0, multiple ARKs may have been created without
+# the user intending to do so. Setting this to true will make
+# database upgrade 158 attempt to clean up unwanted extra ARKs.
+# When multiple rows in the ARK table reference the same resource
+# or archival object, the first one created will be kept
+# and the rest discarded.
+# Use with caution and test thoroughly.
+AppConfig[:prune_ark_name_table] = false
