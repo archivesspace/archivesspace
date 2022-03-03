@@ -51,7 +51,7 @@ module MarcXMLAuthAgentBaseMap
       "parent::record/controlfield[@tag='001'][not(following-sibling::controlfield[@tag='003']/text()='DLC' and following-sibling::datafield[@tag='010'])]" => agent_record_identifiers_base_map("//record/controlfield[@tag='001']"),
       "parent::record/datafield[@tag='010']" => agent_record_identifiers_base_map("parent::record/datafield[@tag='010']/subfield[@code='a']"),
       "parent::record/datafield[@tag='016']" => agent_record_identifiers_base_map("parent::record/datafield[@tag='016']/subfield[@code='a']"),
-      "parent::record/datafield[@tag='024']" => agent_record_identifiers_base_map("parent::record/datafield[@tag='024']/subfield[@code='a']"),
+      "parent::record/datafield[@tag='024']" => agent_record_identifiers_base_map("parent::record/datafield[@tag='024']/subfield[@code='a' or @code='0' or @code='1'][1]"),
       "parent::record/datafield[@tag='035']" => agent_record_identifiers_base_map("parent::record/datafield[@tag='035']/subfield[@code='a']"),
       "parent::record/datafield[@tag='040']/subfield[@code='e']" => convention_declaration_map,
       "parent::record/datafield[@tag='046']" => dates_map,
