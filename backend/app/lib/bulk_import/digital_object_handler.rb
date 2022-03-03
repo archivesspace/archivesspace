@@ -55,7 +55,7 @@ class DigitalObjectHandler < Handler
       fv.publish = thumb_publish
       fv.xlink_actuate_attribute = "onLoad"
       fv.xlink_show_attribute = "embed"
-      fv.is_representative = true
+      fv.is_representative = thumb_publish
       files.push fv
     end
     dig_o = JSONModel(:digital_object).new._always_valid!

@@ -28,7 +28,6 @@ class FileVersion < Sequel::Model(:file_version)
   end
 
   def validate
-    # Discuss: I was getting false negatives with just `if !self[:publish] && self[:is_representative]`, so taking more explicit approach:
     is_published = false
     if self[:publish] == true || self[:publish] == 1
       is_published = true
