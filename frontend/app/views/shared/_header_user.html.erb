@@ -1,4 +1,4 @@
-<% username = session[:user] ? CGI::escapeHTML(session[:user]) : "" %>
+<% username = session[:user] ? CGI::escapeHTML(session[:user]) : nil %>
 
 <% if session[:user] %>
   <% if @repositories.length > 0 %>
@@ -70,14 +70,9 @@
 
   <li class="user-container">
     <div class="btn-group">
+
       <% link_content = "<span class='glyphicon glyphicon-user'></span>&nbsp;<span class='user-label'>#{session[:user]}</span>" %>
       <%= link_to(link_content.html_safe, {:controller => :users, :action => :edit_self}, {:class => 'btn btn-default navbar-btn'}) %>
-
-      <button class="btn btn-default navbar-btn">
-        <span class="user-label has-popover" data-trigger="hover" data-placement="bottom" data-html='true' data-title='<span class="glyphicon glyphicon-user"></span> <%= username %>'>
-        <span class="glyphicon glyphicon-user"></span><%= session[:user] %>
-        </span>
-      </button>
 
       <div class="btn-group">
         <a class="btn btn-default navbar-btn dropdown-toggle last" id="user-menu-dropdown" data-toggle="dropdown" href="#" title="<%= I18n.t("navbar.global_settings") %>" aria-label="<%= I18n.t("navbar.global_settings") %>"><span class="caret"></span></a>
@@ -85,7 +80,7 @@
 
           <li><%= link_to I18n.t("navbar.global_preferences") + " (#{username})", :controller => :preferences, :action => :edit, :id => 0, :global => true %></li>
           <% if user_can?('administer_system') || user_can?('manage_repository') %>
-            <li><%= link_to I18n.t("navbar.repo_preferences"), :controller => :preferences, :action => :edit, :id => 0, :repo => true %></li>
+            <li><%= link_to I18n.t("navbar.repo_preferences") + " (#{username})", :controller => :preferences, :action => :edit, :id => 0, :repo => true %></li>
           <% end %>
           <li><%= link_to I18n.t("navbar.user_repo_preferences") + " (#{username})", :controller => :preferences, :action => :edit, :id => 0 %></li>
           <li class="divider"></li>
