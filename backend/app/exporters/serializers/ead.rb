@@ -479,7 +479,7 @@ class EADSerializer < ASpaceExport::Serializer
     atts[:id] = prefix_id(SecureRandom.hex)
     last_id = atts[:id]
 
-    atts[:type] = top['type']
+    atts[:type] = top['type'] unless (top['type'].nil? || top['type'].empty?)
     text = top['indicator']
 
     atts[:label] = I18n.t("enumerations.instance_instance_type.#{inst['instance_type']}",
