@@ -1,3 +1,4 @@
+<% username = session[:user] ? CGI::escapeHTML(session[:user]) : "" %>
 <%
   if params['global']
     if params['repo']
@@ -7,6 +8,7 @@
       title = I18n.t('preference.user_global')
       message = I18n.t('preference.user_global_message')
     end
+    title += " (#{username})"
   else
     if params['repo']
       title = I18n.t('preference.repo')
@@ -14,10 +16,12 @@
     else
       title = I18n.t('preference.user_repo')
       message = I18n.t('preference.user_repo_message')
+      title += " (#{username})"
     end
     title += " -- #{current_repo['repo_code']}"
   end
 %>
+
 
 <%= setup_context(:title => title) %>
 

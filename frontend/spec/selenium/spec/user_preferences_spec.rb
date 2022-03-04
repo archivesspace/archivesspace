@@ -82,3 +82,27 @@ describe 'User Preferences' do
     end.not_to raise_error
   end
 end
+
+describe 'User Preferences (unprivileged)' do
+  before(:all) do
+    @repo = create(:repo, repo_code: "user_pref_unpriv_test_#{Time.now.to_i}")
+    set_repo(@repo)
+
+    run_all_indexers
+
+    @driver = Driver.get
+
+    @viewer_user = create_user(@repo => ['repository-viewers'])
+    @driver.login_to_repo(@viewer_user, @repo)
+  end
+
+  after(:all) do
+    @driver ? @driver.quit : next
+  end
+
+  it "allows access to global preferences for unprivileged users" do
+    @driver.find_element(:css, '.user-container .btn.dropdown-toggle.last').click
+    @driver.wait_for_dropdown
+    @driver.find_element(:link, "Global Preferences (#{@viewer_user.username})").click
+  end
+end
