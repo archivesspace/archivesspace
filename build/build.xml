@@ -327,7 +327,6 @@
     <copy file="../indexer/indexer.war" todir="target/archivesspace/wars" />
     <copy file="../oai/oai.war" todir="target/archivesspace/wars" />
     <copy file="scripts/migrate_db.rb" todir="target/archivesspace/scripts/rb" />
-    <copy file="scripts/checkindex.rb" todir="target/archivesspace/scripts/rb" />
     <!-- bundler -->
     <copy todir="target/archivesspace/gems">
       <fileset dir="gems" excludes="jruby/**" />
@@ -400,8 +399,6 @@
       <zipfileset dir="../launcher/scripts" includes="find-base.sh" prefix="archivesspace/scripts" filemode="755" />
       <zipfileset dir="../launcher/scripts" includes="setup-database.sh" prefix="archivesspace/scripts" filemode="755" />
       <zipfileset dir="../launcher/scripts" includes="setup-database.bat" prefix="archivesspace/scripts" filemode="755" />
-      <zipfileset dir="../launcher/scripts" includes="checkindex.sh" prefix="archivesspace/scripts" filemode="755" />
-      <zipfileset dir="../launcher/scripts" includes="checkindex.bat" prefix="archivesspace/scripts" filemode="755" />
       <zipfileset dir="../launcher/plugin_gems" includes="initialize-plugin.sh" prefix="archivesspace/scripts" filemode="755" />
       <zipfileset dir="../launcher/plugin_gems" includes="initialize-plugin.bat" prefix="archivesspace/scripts" filemode="644" />
       <zipfileset dir="../launcher/password_reset" includes="password-reset.sh" prefix="archivesspace/scripts" filemode="755" />

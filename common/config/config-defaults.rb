@@ -35,8 +35,7 @@ AppConfig[:public_url] = "http://localhost:8081"
 # set it to something else below.
 AppConfig[:oai_url] = "http://localhost:8082"
 
-# The ArchivesSpace Solr index listens on port 8090 by default.  You can
-# set it to something else below.
+# The ArchivesSpace Solr index url default.  You can set it to something else below.
 AppConfig[:solr_url] = "http://localhost:8983/solr/archivesspace"
 
 # The ArchivesSpace indexer listens on port 8091 by default.  You can
@@ -74,7 +73,9 @@ AppConfig[:mysql_binlog] = false
 # By default, Solr backups will run at midnight.  See https://crontab.guru/ for
 # information about the schedule syntax.
 AppConfig[:solr_backup_schedule] = "0 0 * * *"
-AppConfig[:solr_backup_number_to_keep] = 1
+# By default no backups. If enabling (by setting > 0) then you must also ensure
+# that AppConfig[:solr_index_directory] is set to the correct path
+AppConfig[:solr_backup_number_to_keep] = 0
 AppConfig[:solr_backup_directory] = proc { File.join(AppConfig[:data_directory], "solr_backups") }
 # add default solr params, i.e. use AND for search: AppConfig[:solr_params] = { 'mm' => '100%' }
 # Another example below sets the boost query value (bq) to boost the relevancy for the query string in the title,
@@ -148,8 +149,10 @@ AppConfig[:default_admin_password] = "admin"
 AppConfig[:data_directory] = File.join(Dir.home, "ArchivesSpace")
 
 AppConfig[:backup_directory] = proc { File.join(AppConfig[:data_directory], "demo_db_backups") }
-AppConfig[:solr_index_directory] = proc { File.join(AppConfig[:data_directory], "solr_index") }
-AppConfig[:solr_home_directory] = proc { File.join(AppConfig[:data_directory], "solr_home") }
+# Set the path to the solr index for the external Solr instance.
+# This setting is used by the solr backups configuration but only
+# applies if the solr index directory is accessible to ArchivesSpace.
+AppConfig[:solr_index_directory] = File.join('', 'var', 'solr', 'data', 'archivesspace', 'data')
 AppConfig[:solr_indexing_frequency_seconds] = 30
 AppConfig[:solr_facet_limit] = 100
 
