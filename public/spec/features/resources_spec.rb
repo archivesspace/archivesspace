@@ -54,4 +54,21 @@ describe 'Resources', js: true do
     click_link 'Resource with Accession'
     expect(page).to have_content('Related Unprocessed Material')
   end
+
+  it 'can display facets in alphabetical order' do
+    visit('/')
+    click_link 'Collections'
+
+    prev = ""
+    page.all('dl#facets dd').each do |dd|
+      next if dd.find("a").text =~ /Term/
+
+      unless prev == ""
+        content = dd.find("a").text
+        expect(prev <=> content).to eq(-1)
+      end
+
+      prev = dd.find("a").text
+    end
+  end
 end

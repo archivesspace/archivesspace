@@ -19,6 +19,25 @@
 
   <% ordered_facet_types.each do |type| %>
     <% h = @facets.fetch(type, false) %>
+
+    <%# ANW-340: If we are sorting facets in alphabetical order, do the re-sort and facet name translation %>
+    <% if AppConfig[:pui_display_facets_alpha] %>
+      <% alpha_order = {} %>
+      <% h.each do |k, v| %>
+        <% alpha_order[get_pretty_facet_value(type, k)] = v %>
+      <% end %>
+
+      <% h = alpha_order.sort_by {|k, v| k}.to_h %>
+
+    <%# If not, just do the translation %>
+    <% else %>
+      <% translated = {} %>
+      <% h.each do |k, v| %>
+        <% translated[get_pretty_facet_value(type, k)] = v %>
+      <% end %>
+      <% h = translated %>
+    <% end %>
+
     <% next unless h %>
     <dt><%= t("search_results.filter.#{type}") %></dt>
     <% facet_count = 0 %>
@@ -32,8 +51,8 @@
       <dd>
         <a href="<%= app_prefix("#{@page_search}&filter_fields[]=#{type}&filter_values[]=#{CGI.escape(v)}") %>"
            rel="nofollow"
-           title="<%= t('search_results.filter_by')%> '<%= get_pretty_facet_value(type,v) %>'">
-          <%= get_pretty_facet_value(type,v) %>
+           title="<%= t('search_results.filter_by')%> '<%= v %>'">
+          <%= v %>
         </a>
         <span class="recordnumber"><%= ct %></span>
       </dd>
