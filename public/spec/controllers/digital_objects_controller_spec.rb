@@ -1,5 +1,7 @@
 require 'spec_helper'
 
+img_uri = 'http://foo.com/image.jpg'
+
 describe DigitalObjectsController, type: :controller do
   before(:all) do
     @repo = create(:repo, repo_code: "do_test_#{Time.now.to_i}",
@@ -82,4 +84,33 @@ describe DigitalObjectsController, type: :controller do
       expect(response.status).to eq(404)
     end
   end
+
+  describe "Digital Object" do
+    render_views
+
+    before(:all) do
+      @do2 = create(:digital_object, publish: true, :file_versions => [
+        build(:file_version, {
+          :publish => true,
+          :is_representative => true,
+          :file_uri => img_uri,
+          :use_statement => 'image-service'
+        })
+      ])
+
+      run_indexers
+    end
+
+    it 'should have a representative file version image when one is set' do
+      expect(JSONModel(:digital_object).find(@do2.id)["representative_file_version"]["file_uri"]).to eq(img_uri)
+    end
+
+    it 'should render the representative file version image when one is set' do
+      get(:tree_root, params: { rid: @repo.id, id: @do2.id })
+
+      expect(response.body).to match(img_uri)
+    end
+
+  end
+
 end

@@ -771,7 +771,7 @@ i.giant {
 
 /* record details */
 .objectimage {
-  width: 50%;
+  max-width: 50%;
   float: right;
   margin: 0 0 1em 1em;
 }
@@ -779,6 +779,12 @@ i.giant {
   margin: 0 auto;
   display: block;
   max-width: 100%;
+  border-top-right-radius: var(--bootstrap-rounded-corner-radius);
+  border-top-left-radius: var(--bootstrap-rounded-corner-radius);
+}
+
+.objectimage figcaption {
+  padding: 0.5rem;
 }
 
 .objectimage button[type='submit'] {

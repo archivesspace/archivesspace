@@ -1,0 +1,8 @@
+<figure>
+  <a href="<%= uri %>" target="new" title="<%= t('digital_object._public.link')%>">
+    <img src="<%= uri %>" alt="<%= caption.blank? ? '' : caption %>">
+  </a>
+  <% unless caption.blank? %>
+    <figcaption><%= caption %></figcaption>
+  <% end %>
+</figure>
