@@ -79,12 +79,11 @@
         <ul class="dropdown-menu pull-right">
 
           <li><%= link_to I18n.t("navbar.global_preferences") + " (#{username})", :controller => :preferences, :action => :edit, :id => 0, :global => true %></li>
-          <% if user_can?('administer_system') || user_can?('manage_repository') %>
-            <li><%= link_to I18n.t("navbar.repo_preferences") + " (#{username})", :controller => :preferences, :action => :edit, :id => 0, :repo => true %></li>
-          <% end %>
           <li><%= link_to I18n.t("navbar.user_repo_preferences") + " (#{username})", :controller => :preferences, :action => :edit, :id => 0 %></li>
+          <% if user_can?('administer_system') || user_can?('manage_repository') %>
+            <li><%= link_to I18n.t("navbar.repo_preferences"), :controller => :preferences, :action => :edit, :id => 0, :repo => true %></li>
+          <% end %>
           <li class="divider"></li>
-
           <% if user_can?('become_user') %>
             <li><%= link_to I18n.t("navbar.become-user"), :controller => "session", :action => "select_user" %></li>
           <% end %>
