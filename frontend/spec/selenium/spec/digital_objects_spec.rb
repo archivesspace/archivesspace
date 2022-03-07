@@ -78,6 +78,33 @@ describe 'Digital Objects' do
     @driver.click_and_wait_until_gone(:link, 'Edit')
   end
 
+  it "sets published when make representative is checked, and vice versa" do
+    @driver.find_element(:link, 'Create').click
+    @driver.click_and_wait_until_gone(:link, 'Digital Object')
+
+    @driver.clear_and_send_keys([:id, 'digital_object_title_'], digital_object_title)
+    @driver.clear_and_send_keys([:id, 'digital_object_digital_object_id_'], Digest::MD5.hexdigest(Time.now.to_s))
+
+    @driver.find_element(id: 'digital_object_digital_object_type_').select_option_with_text('Mixed Materials')
+
+    @driver.find_element(css: 'section#digital_object_file_versions_ > h3 > .btn:not(.show-all)').click
+
+    @driver.clear_and_send_keys([:id, 'digital_object_file_versions__0__file_uri_'], '/uri/for/this/file/version')
+    @driver.clear_and_send_keys([:id, 'digital_object_file_versions__0__file_size_bytes_'], '100')
+
+    @driver.click_and_wait_until_gone(css: "form#new_digital_object button[type='submit']")
+
+    # make sure publish is checked when is representative is checked
+    @driver.find_element(css: '.is-representative-toggle').click
+    publish_box = @driver.find_element(css: '.js-file-version-publish')
+    expect(publish_box.attribute('checked')).to_not be_nil
+
+    # make sure is representative is unchecked with publish is unchecked
+    publish_box.click
+    subform = @driver.find_element(id: 'digital_object_file_versions__0_')
+    expect(subform.attribute('class')).to_not include('is-representative')
+  end
+
   it 'reports errors if adding a child with no title to a Digital Object' do
     @driver.get_edit_page(@do2)
     @driver.find_element(:link, 'Add Child').click

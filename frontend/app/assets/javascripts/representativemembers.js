@@ -30,6 +30,22 @@ $(function () {
         var eventName =
           'newrepresentative' + object_name.replace(/_/, '') + '.aspace';
 
+        $subform.find('.js-file-version-publish').click(function (e) {
+          if (
+            $subform.hasClass('is-representative') &&
+            $(this).prop('checked', true)
+          ) {
+            handleRepresentativeChange($subform, false);
+            $(this).prop('checked', false);
+          }
+        });
+
+        $subform.find('.is-representative-toggle').click(function (e) {
+          var local_publish_button = $subform.find('.js-file-version-publish');
+
+          local_publish_button.prop('checked', true);
+        });
+
         if (isRepresentative) {
           $subform.addClass('is-representative');
         }
