@@ -26,9 +26,17 @@ $(function () {
         var $section = $subform.closest('section.subrecord-form');
         var isRepresentative =
           $(':input[name$="[is_representative]"]', $subform).val() === '1';
+        var local_publish_button = $subform.find('.js-file-version-publish');
+        var local_make_rep_button = $subform.find('.is-representative-toggle');
 
         var eventName =
           'newrepresentative' + object_name.replace(/_/, '') + '.aspace';
+
+        if(local_publish_button.prop('checked') == false) {
+            local_make_rep_button.prop('disabled', true)
+        } else {
+            local_make_rep_button.prop('disabled', false)
+        }
 
         $subform.find('.js-file-version-publish').click(function (e) {
           if (
@@ -38,11 +46,15 @@ $(function () {
             handleRepresentativeChange($subform, false);
             $(this).prop('checked', false);
           }
+
+          if($(this).prop('checked') == false) {
+            local_make_rep_button.prop('disabled', true)
+          } else {
+            local_make_rep_button.prop('disabled', false)
+          }
         });
 
         $subform.find('.is-representative-toggle').click(function (e) {
-          var local_publish_button = $subform.find('.js-file-version-publish');
-
           local_publish_button.prop('checked', true);
         });
 

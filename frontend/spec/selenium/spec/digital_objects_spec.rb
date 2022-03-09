@@ -78,7 +78,7 @@ describe 'Digital Objects' do
     @driver.click_and_wait_until_gone(:link, 'Edit')
   end
 
-  it "sets published when make representative is checked, and vice versa" do
+  it "make representative is disabled unless published is checked, and vice versa" do
     @driver.find_element(:link, 'Create').click
     @driver.click_and_wait_until_gone(:link, 'Digital Object')
 
@@ -94,15 +94,13 @@ describe 'Digital Objects' do
 
     @driver.click_and_wait_until_gone(css: "form#new_digital_object button[type='submit']")
 
-    # make sure publish is checked when is representative is checked
-    @driver.find_element(css: '.is-representative-toggle').click
-    publish_box = @driver.find_element(css: '.js-file-version-publish')
-    expect(publish_box.attribute('checked')).to_not be_nil
+    # make sure is representative is disabled with publish is unchecked
+    is_rep_button = @driver.find_element(css: '.is-representative-toggle')
+    expect(is_rep_button.attribute('disabled')).to eq("true")
 
-    # make sure is representative is unchecked with publish is unchecked
-    publish_box.click
-    subform = @driver.find_element(id: 'digital_object_file_versions__0_')
-    expect(subform.attribute('class')).to_not include('is-representative')
+    # make sure is representative is enabled when publish is checked 
+    @driver.find_element(css: '.js-file-version-publish').click
+    expect(is_rep_button.attribute('disabled')).to be_nil
   end
 
   it 'reports errors if adding a child with no title to a Digital Object' do
