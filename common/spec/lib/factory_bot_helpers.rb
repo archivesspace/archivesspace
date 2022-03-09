@@ -1216,6 +1216,9 @@ FactoryBot.define do
     source { create(:json_resource).uri }
   end
 
+  factory :json_mailer_job, class: JSONModel(:mailer_job) do
+  end
+
   factory :json_range_query, class: JSONModel(:range_query) do
     field { generate(:alphanumstr) }
     from { generate(:yyyy_mm_dd) }
