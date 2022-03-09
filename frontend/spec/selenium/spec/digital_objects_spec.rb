@@ -98,7 +98,7 @@ describe 'Digital Objects' do
     is_rep_button = @driver.find_element(css: '.is-representative-toggle')
     expect(is_rep_button.attribute('disabled')).to eq("true")
 
-    # make sure is representative is enabled when publish is checked 
+    # make sure is representative is enabled when publish is checked
     @driver.find_element(css: '.js-file-version-publish').click
     expect(is_rep_button.attribute('disabled')).to be_nil
   end
