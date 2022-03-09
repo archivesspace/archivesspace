@@ -32,10 +32,10 @@ $(function () {
         var eventName =
           'newrepresentative' + object_name.replace(/_/, '') + '.aspace';
 
-        if(local_publish_button.prop('checked') == false) {
-            local_make_rep_button.prop('disabled', true)
+        if (local_publish_button.prop('checked') == false) {
+          local_make_rep_button.prop('disabled', true);
         } else {
-            local_make_rep_button.prop('disabled', false)
+          local_make_rep_button.prop('disabled', false);
         }
 
         $subform.find('.js-file-version-publish').click(function (e) {
@@ -47,10 +47,10 @@ $(function () {
             $(this).prop('checked', false);
           }
 
-          if($(this).prop('checked') == false) {
-            local_make_rep_button.prop('disabled', true)
+          if ($(this).prop('checked') == false) {
+            local_make_rep_button.prop('disabled', true);
           } else {
-            local_make_rep_button.prop('disabled', false)
+            local_make_rep_button.prop('disabled', false);
           }
         });
 
