@@ -1402,6 +1402,7 @@ en:
   job:
     _frontend:
       audit_data: Audit Data
+      external_repo: Record belongs to a different repository
       actions:
         create: Create Job
         save: Start Job
