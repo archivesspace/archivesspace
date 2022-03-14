@@ -86,6 +86,11 @@ class SolrSnapshotter
 
 
   def self.do_snapshot(identifier = nil)
+    unless File.directory?(AppConfig[:solr_index_directory])
+      log(:info, "Skipping Solr snapshot, not a directory: #{AppConfig[:solr_index_directory]}")
+      return
+    end
+
     identifier ||= Time.now.to_i
 
     target = File.join(AppConfig[:solr_backup_directory], "solr.#{identifier}")
