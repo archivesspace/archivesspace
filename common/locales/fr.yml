@@ -140,6 +140,7 @@ fr:
     _singular: Objet numérique
     _plural: Objets numériques
 
+    new_title: Nouvel objet numérique
   digital_object_component:
     <<: *digital_object_attributes
     label: Label
@@ -215,6 +216,7 @@ fr:
     _singular: Localisation
     _plural: Localisations
 
+    new_title: Nouvel emplacement
   location_batch:
     <<: *location_attributes
     label: Label
@@ -377,6 +379,7 @@ fr:
     _singular: Evénement
     _plural: Evénements
 
+    new_title: Nouvel évènement
   linked_event:
     <<: *event
 
@@ -615,7 +618,7 @@ fr:
       julien. La valeur "grégorien" est la valeur par défaut.</p>
 
   agent_contact:
-    name: Contact
+    name: Nom du contact
     name_tooltip: |
       <p>Nom de la personne servant de contact avec l'entité de la notice principale.</p>
     salutation: Salutation
@@ -633,7 +636,7 @@ fr:
     region: Etat/région
     region_tooltip: |
       <p>Etat ou région où habite la personne à contacter.</p>
-    country: Pays
+    country: De campagne
     country_tooltip: |
       <p>Pays où habite la personne à contacter.</p>
     post_code: Code postal
@@ -644,7 +647,7 @@ fr:
     fax: Fax
     fax_tooltip: |
       <p>Numéro de fax du contact.</p>
-    email: Courriel
+    email: E-mail
     email_tooltip: |
       <p>Adresse de courriel du contact.</p>
     email_signature: Signature de courriel
@@ -665,7 +668,7 @@ fr:
     number: Numéro
     number_tooltip: |
       <p>Numéro de téléphone du contact.</p>
-    ext: Numéro de poste interne
+    ext: Extension téléphonique
     ext_tooltip: |
       <p>Numéro de poste interne du contact.</p>
     number_type_tooltip: "<p>Indique le type de numéro de téléphone.</p>"
@@ -1365,6 +1368,7 @@ fr:
     created_by: Créé par
     user_mtime: Modifié
     create_time: Créé
+    new_title: Nouvel entrée
   interrelated_accession:
     _plural: Entrées associées
     relationship_type: Type de relation
@@ -1450,6 +1454,11 @@ fr:
     _singular: Agent
     _plural: Agents
 
+    new_title:
+      agent_family: Nouvelle famille
+      agent_corporate_entity: Nouvelle personne morale
+      agent_person: Nouvelle personne
+      agent_software: Nouveau logiciel
   agent_person:
     <<: *agent_attributes
     _singular: Personne
@@ -1462,7 +1471,7 @@ fr:
   agent_software:
     <<: *agent_attributes
     _singular: Logiciel
-    _plural: Logiciels
+    _plural: Logiciel
   agent_corporate_entity:
     <<: *agent_attributes
     _singular: Personne morale
@@ -1724,6 +1733,7 @@ fr:
     user_mtime: Modifié
     created_by: Créé par
     create_time: Créé
+    new_title: Nouvelle ressource
   related_accession:
     _singular: Entrée associée
     _plural: Entrées associées
@@ -1817,6 +1827,7 @@ fr:
 
     ark_shoulder: ARK Shoulder (espace de noms local)
     ark_shoulder_tooltip: Chaîne par référentiel à inclure dans les ARK générés
+    new_title: Nouveau service d'archive
   term:
     # tooltips not displaying
     term: Terme
@@ -1860,6 +1871,7 @@ fr:
     _singular: Mot-matière
     _plural: Mots-matières
 
+    new_title: Nouveau sujet
   user:
     username: Nom d'utilisateur
     username_tooltip: |
@@ -1987,6 +1999,7 @@ fr:
     _singular: Liste contrôlée
     _plural: Listes contrôlées
 
+    default: Défaut
   classification:
     <<: *slug_attributes
     _singular: Classement
@@ -1994,9 +2007,10 @@ fr:
     identifier: Identifiant
     title: Titre
     description: Description
-    creator: Créateur
+    creator: Producteur
     id_separator: /
 
+    new_title: Nouveau classement
   classification_term:
     <<: *slug_attributes
     _singular: Terme de classement
@@ -2077,6 +2091,8 @@ fr:
       locations: Localisations
       scope_by_date: Portée par date
       template: Modèle
+      rating: Notation
+      values: Valeurs
     formats:
       json: JSON
       csv: CSV
@@ -2218,6 +2234,7 @@ fr:
     input_file: Fichier d'entrée
     output_file: Fichier de sortie
 
+    new_title: Nouveaux tâches d'arrière-plan
   container_labels_job:
     source: Source
     format: Format
@@ -2434,6 +2451,7 @@ fr:
     _singular: Evaluation
     _plural: Evaluations
 
+    new_title: Nouvelle évaluation
   assessment_attribute:
     rating:
       "Reformatting Readiness": Aptitude au reformatage
@@ -2558,7 +2576,7 @@ fr:
       "Physical Condition_note_tooltip": "Signale des zones particulièrement préoccupantes en ce qui concerne\
         \ l'état matériel de la collection."
       "Reformatting Readiness_note_tooltip": "Signale des zones particulièrement préoccupantes en ce qui\
-        \ concerne la numérisation ou le reformatage éventuel des documents."
+        \ concerne la numérisation ou le reformatage éventuel des documents. "
     format:
       "Architectural Materials": Documents d'architecture
       "Art Originals": Oeuvres d'art originales
@@ -2823,8 +2841,8 @@ fr:
       \ être utilisé comme légende.</p>"
     xlink_role_attribute_tooltip: "<p>Type ou nature de la ressource distante liée dans l'URI associé.</p>"
     xlink_arcrole_attribute_tooltip: "<p>Type ou nature de la ressource distante liée dans l'URI associé.</p>"
-    last_verified_date_tooltip: "<p>Dernière date ou date et heure auxquelles la ressource liée liée dans\
-      \ l'URI associé a été vérifiée.</p>"
+    last_verified_date_tooltip: "<p>Dernière date ou date et heure auxquelles la ressource liée  dans\
+      \ l'URI associé a été vérifiée.</p>\n"
 
   agent_conventions_declaration:
     name_rule_tooltip: "<p>Une norme de contenu utilisée dans la formulation du contenu de l'enregistrement\
@@ -2846,8 +2864,8 @@ fr:
       \ être utilisé comme légende.</p>"
     xlink_role_attribute_tooltip: "<p>Type ou nature de la ressource distante liée dans l'URI associé.</p>"
     xlink_arcrole_attribute_tooltip: "<p>Type ou nature de la ressource distante liée dans l'URI associé.</p>"
-    last_verified_date_tooltip: "<p>Dernière date ou date et heure auxquelles la ressource liée liée dans\
-      \ l'URI associé a été vérifiée.</p>"
+    last_verified_date_tooltip: "<p>Dernière date ou date et heure auxquelles la ressource liée dans l'URI\
+      \ associé a été vérifiée.</p>\n"
 
   agent_other_agency_codes:
     agency_code_type_tooltip: "<p>La source du code de l'agence de maintenance. Exemple: OCLC.</p>"
@@ -2881,8 +2899,8 @@ fr:
       \ être utilisé comme légende.</p>"
     xlink_role_attribute_tooltip: "<p>Type ou nature de la ressource distante liée dans l'URI associé.</p>"
     xlink_arcrole_attribute_tooltip: "<p>Type ou nature de la ressource distante liée dans l'URI associé.</p>"
-    last_verified_date_tooltip: "<p>Dernière date ou date et heure auxquelles la ressource liée liée dans\
-      \ l'URI associé a été vérifiée.</p>"
+    last_verified_date_tooltip: "<p>Dernière date ou date et heure auxquelles la ressource liée dans l'URI\
+      \ associé a été vérifiée.</p>\n"
 
   agent_identifiers:
     entity_identifier_tooltip: "<p>Enregistre les identifiants associés à une entité, tels que les identifiants\
@@ -2916,8 +2934,8 @@ fr:
       \ être utilisé comme légende.</p>"
     xlink_role_attribute_tooltip: "<p>Type ou nature de la ressource distante liée dans l'URI associé.</p>"
     xlink_arcrole_attribute_tooltip: "<p>Type ou nature de la ressource distante liée dans l'URI associé.</p>"
-    last_verified_date_tooltip: "<p>Dernière date ou date et heure auxquelles la ressource liée liée dans\
-      \ l'URI associé a été vérifiée.</p>"
+    last_verified_date_tooltip: "<p>Dernière date ou date et heure auxquelles la ressource liée dans l'URI\
+      \ associé a été vérifiée.</p>\n"
 
   subrecord_subject_agent_place:
     subjects_tooltip: "<p>Un emplacement géographique associé à l'agent.</p>"
@@ -3098,8 +3116,8 @@ fr:
       \ être utilisé comme légende.</p>\n"
     xlink_role_attribute_tooltip: "<p>Type ou nature de la ressource distante liée dans l'URI associé.</p>\n"
     xlink_arcrole_attribute_tooltip: "<p>Type ou nature de la ressource distante liée dans l'URI associé.</p>\n"
-    last_verified_date_tooltip: "<p>Dernière date ou date et heure auxquelles la ressource liée liée dans\
-      \ l'URI associé a été vérifiée.</p>\n"
+    last_verified_date_tooltip: "<p>Dernière date ou date et heure auxquelles la ressource liée dans l'URI\
+      \ associé a été vérifiée.</p>\n"
   ratings:
     _plural: Évaluations
   conservation_issues:
@@ -3134,3 +3152,7 @@ fr:
   bulk_import_template:
     _singular: Modèle d'importation en bloc
     _plural: Modèles d'importation en bloc
+  container_profile:
+    new_title: Nouvel profils de conditionnements
+  location_profile:
+    new_title: Nouvel profils de localisations
