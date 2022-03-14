@@ -244,7 +244,7 @@ fr:
 
 
   search_sorting:
-    sort_by: "Classer par"
+    sort_by: "Trier par :"
     and: "et"
     asc: Ascendant
     desc: Descendant
@@ -2952,7 +2952,7 @@ fr:
         add: Ajouter un ID d'enregistrement
     identifier_type: Type d'identifiant de contrôle d'enregistrement
     source: La source
-    primary_identifier: Est l'identifiant principal?
+    primary_identifier: Est l'identifiant principal ?
     primary: Primaire
     record_identifier: Identificateur d'enregistrement
 
@@ -3232,7 +3232,7 @@ fr:
       \ d'une interaction</p>\n"
   metadata_rights_declaration: &metadata_rights_declaration_attributes
     file_version_xlink_actuate_attribute: Attribut Xlink Actuate
-    file_version_xlink_show_attribute: Attribut Xlink Show
+    file_version_xlink_show_attribute: Attribut XLink Show
     last_verified_date: Dernière date de vérification
     _plural: Déclarations de droits sur les métadonnées
     _singular: Déclaration des droits sur les métadonnées
@@ -3244,7 +3244,7 @@ fr:
     file_uri: URI du fichier
     xlink_title_attribute: Attribut de titre Xlink
     xlink_role_attribute: Attribut de rôle Xlink
-    xlink_arcrole_attribute: Attribut Xlink Arcrole
+    xlink_arcrole_attribute: Attribut Arcrole Xlink
 
   metadata_rights_declarations:
     <<: *metadata_rights_declaration_attributes
