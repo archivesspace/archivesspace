@@ -2577,7 +2577,7 @@ en:
 
   ns2_remover_job:
       description: >
-        Archivists' Toolit-era EADs imported into ASpace may have vestigal "ns2" namespace references pre-pended to various EAD tag attributes inside note subrecords.
+        Archivists' Toolkit-era EADs imported into ASpace may have vestigal "ns2" namespace references pre-pended to various EAD tag attributes inside note subrecords.
         This may produce validation errors on EAD export from ArchivesSpace, as the root <ead> tag doesn't declare the "ns2" namespace.
         This job bulk deletes "ns2" references within Notes subrecords attached to resource, archival_object, digital_object, and digital_object_component
         records. As this job works across all repositories, it is restricted to users with <b>System Administrator permissions only</b>.
