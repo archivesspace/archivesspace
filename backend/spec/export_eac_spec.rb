@@ -40,6 +40,8 @@ describe 'EAC Export' do
                              "deletedSplit"
                            when "Deleted-Replaced"
                              "deletedReplaced"
+                           when "Deleted-Merged"
+                             "deletedMerged"
                            end
 
       expect(eac).to have_tag 'control/maintenanceStatus' => maint_status_value

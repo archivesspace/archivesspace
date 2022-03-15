@@ -1470,6 +1470,7 @@ en:
       cancelled_obsolete: Cancelled/Obsolete
       deleted: Deleted
       deleted_replaced: Deleted-Replaced
+      deleted_merged: Deleted-Merged
       deleted_split: Deleted-Split
       derived: Derived
       new: New

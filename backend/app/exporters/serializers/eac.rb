@@ -103,6 +103,8 @@ class EACSerializer < ASpaceExport::Serializer
                     "deletedSplit"
                   when "Deleted-Replaced"
                     "deletedReplaced"
+                  when "Deleted-Merged"
+                    "deletedMerged"
                   end
 
           create_node(
