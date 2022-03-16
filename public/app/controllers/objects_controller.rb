@@ -104,6 +104,7 @@ class ObjectsController < ApplicationController
       fill_request_info
       if @result['primary_type'] == 'digital_object' || @result['primary_type'] == 'digital_object_component'
         @dig = process_digital(@result['json'])
+        @rep_fv = @result['json']['representative_file_version']
       else
         @dig = process_digital_instance(@result['json']['instances'])
         process_extents(@result['json'])
