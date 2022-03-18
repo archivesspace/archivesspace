@@ -323,6 +323,7 @@ GEM
 
 PLATFORMS
   java
+  universal-java-11
 
 DEPENDENCIES
   activesupport (= 5.2.5)
@@ -370,4 +371,4 @@ DEPENDENCIES
   zip-zip (= 0.3)
 
 BUNDLED WITH
-   2.1.4
+   2.2.33

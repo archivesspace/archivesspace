@@ -44,7 +44,7 @@ GEM
       concurrent-ruby (~> 1.0)
     jdbc-derby (10.12.1.1)
     jdbc-mysql (8.0.17)
-    jruby-jars (9.2.20.1)
+    jruby-jars (9.3.2.0)
     jruby-rack (1.1.21)
     json (2.3.0-java)
     json-schema (1.0.10)
@@ -117,7 +117,7 @@ GEM
     saxerator (0.9.2)
       nokogiri (>= 1.4.0)
     saxon-rb (0.8.3-java)
-    sequel (5.9.0)
+    sequel (5.54.0)
     simplecov (0.7.1)
       multi_json (~> 1.0)
       simplecov-html (~> 0.7.1)
@@ -153,6 +153,7 @@ GEM
 
 PLATFORMS
   java
+  universal-java-11
 
 DEPENDENCIES
   activesupport (= 5.2.5)
@@ -163,7 +164,7 @@ DEPENDENCIES
   i18n (= 0.9.1)
   jdbc-derby (= 10.12.1.1)
   jdbc-mysql (>= 8.0)
-  jruby-jars (= 9.2.20.1)
+  jruby-jars (= 9.3.2.0)
   json (= 2.3.0)
   json-schema (= 1.0.10)
   ladle (= 0.2.0)
@@ -189,7 +190,7 @@ DEPENDENCIES
   rufus-scheduler (~> 2.0.24)
   saxerator (= 0.9.2)
   saxon-rb (~> 0.8.3)
-  sequel (~> 5.9.0)
+  sequel (>= 5.9.0)
   simplecov (= 0.7.1)
   sinatra (= 2.0.5)
   sinatra-contrib (= 2.0.5)
@@ -199,4 +200,4 @@ DEPENDENCIES
   zip-zip (= 0.3)
 
 BUNDLED WITH
-   2.1.4
+   2.2.33
