@@ -149,7 +149,7 @@ class ArchivesSpaceService < Sinatra::Base
         Solr.verify_checksums!
         Log.info('Solr config checksum verification ok.')
       else
-        Log.warn('Solr config checksum verification disabled.')
+        Log.warn('Solr config checksum verification disabled: Solr may be offline or misconfigured')
       end
 
       ordered_plugin_backend_dirs = ASUtils.order_plugins(ASUtils.find_local_directories('backend'))

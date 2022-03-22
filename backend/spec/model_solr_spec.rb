@@ -210,28 +210,40 @@ describe 'Solr model' do
   end
 
   describe 'Checksums' do
-    let(:schema) { Solr::Schema.new(AppConfig[:solr_url]) }
-    let(:solrconfig) { Solr::Solrconfig.new(AppConfig[:solr_url]) }
+    let(:response) { instance_double(Net::HTTPResponse) }
+
+    def solrfile(file)
+      File.read(File.join(*[ ASUtils.find_base_directory, 'solr', file]))
+    end
 
     it 'will be valid when the internal and external checksums match' do
-      expect(schema.checksum_valid?).to be true
-      expect(solrconfig.checksum_valid?).to be true
+      allow(response).to receive(:code).and_return('200')
+      allow(response).to receive(:body).and_return(solrfile('schema.xml'), solrfile('solrconfig.xml'))
+      allow(Net::HTTP).to receive(:get_response).and_return(response)
+      expect { Solr.verify_checksums! }.not_to raise_error
     end
 
-    it 'will be invalid when the external checksums do not match' do
-      allow(schema).to receive(:external_checksum) { 'nope' }
-      allow(solrconfig).to receive(:external_checksum) { "this_aint'it" }
-
-      expect(schema.checksum_valid?).to be false
-      expect(solrconfig.checksum_valid?).to be false
+    it 'will be invalid when the schema checksum does not match' do
+      allow(response).to receive(:code).and_return('200')
+      bad_schema = solrfile('schema.xml').sub('archivesspace', 'example')
+      allow(response).to receive(:body).and_return(bad_schema, solrfile('solrconfig.xml'))
+      allow(Net::HTTP).to receive(:get_response).and_return(response)
+      expect { Solr.verify_checksums! }.to raise_error(Solr::ChecksumMismatchError)
     end
 
-    it 'will be invalid when the internal checksums do not match' do
-      allow(schema).to receive(:internal_checksum) { 'nope' }
-      allow(solrconfig).to receive(:internal_checksum) { "this_aint'it" }
+    it 'will be invalid when the config checksum does not match' do
+      allow(response).to receive(:code).and_return('200')
+      bad_config = solrfile('solrconfig.xml').sub('solr', 'foobar')
+      allow(response).to receive(:body).and_return(solrfile('schema.xml'), bad_config)
+      allow(Net::HTTP).to receive(:get_response).and_return(response)
+      expect { Solr.verify_checksums! }.to raise_error(Solr::ChecksumMismatchError)
+    end
 
-      expect(schema.checksum_valid?).to be false
-      expect(solrconfig.checksum_valid?).to be false
+    it 'will raise an error when the solr server returns a 404' do
+      allow(response).to receive(:code).and_return('404')
+      allow(response).to receive(:body).and_return("NOT FOUND")
+      allow(Net::HTTP).to receive(:get_response).and_return(response)
+      expect { Solr.verify_checksums! }.to raise_error(Solr::NotFound)
     end
   end
 
