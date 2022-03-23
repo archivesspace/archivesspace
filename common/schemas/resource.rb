@@ -128,10 +128,6 @@
                                {"type" => "JSONModel(:note_singlepart) object"}]},
       },
 
-      "representative_image" => {
-        "type" => "JSONModel(:file_version) object",
-        "readonly" => true
-      },
       "ark_name" => {
         "type" => "JSONModel(:ark_name) object",
         "readonly" => true,
