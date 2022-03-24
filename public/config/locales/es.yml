@@ -533,3 +533,8 @@ es:
     license: Licencia
     _singular: Declaraciones de derechos de metadatos
     _plural: Declaraciones de derechos de metadatos
+  footer:
+    archivesspace_home: Visitar <a href='http://archivesspace.org'>ArchivesSpace.org</a>
+    feedback: <a id='aspaceFeedbackLink' href='%{feedback_url}' target='_blank'>Enviar comentarios o informar
+      un problema</a>
+    staff_interface: <a href="%{staff_url}">Interfaz de personal</a>
