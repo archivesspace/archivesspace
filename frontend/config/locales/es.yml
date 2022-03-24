@@ -382,6 +382,9 @@ es:
       create_time: Creado
       asc: Ascendente
       desc: Descendente
+      location_no_holdings: No hay existencias para este repositorio.
+      location_one_top_container: 1 contenedor superior.
+      location_top_containers: ' contenedores superiores.'
     event:
       score: Relevancia
       agents: Autoridades
@@ -563,11 +566,13 @@ es:
     search_terms: Campos de búsqueda avanzada %{number}
     remove_row: Eliminar campos de búsqueda avanzada %{number}
 
+    add_row: Agregar fila
   become-user:
     become-user: Convertirse en usuario
     failed: Error al cambiar al usuario especificado
     success: Usuarios con éxito conmutados
 
+    username: Nombre de usuario
   navbar:
     become-user: Convertirse en usuario
     brand: ArchivesSpace
@@ -607,8 +612,10 @@ es:
     manage_assessment_attributes: Gestionar atributos de evaluación
     toggle_navigation: Navegación de palanca
 
+    repository_settings: Configuración del repositorio
+    global_settings: Configuración global
   header:
-    staff_interface: ArchivesSpace Staff Interface
+    staff_interface: ArchivesSpace interfaz de personal
 
   session:
     gone: No se encontró su sesión backend
@@ -644,6 +651,10 @@ es:
     login_fail: Fallo de inicio de sesión
     login_success: Inicio de sesión correcto. Redireccionando...
 
+    username_placeholder: Nombre de usuario
+    password_placeholder: Contraseña
+    username_aria_label: Nombre de usuario
+    password_aria_label: Contraseña de usuario
   breadcrumb:
     home: Página de inicio
 
@@ -797,6 +808,7 @@ es:
         date_of_existence: Fecha de existencia
         structured_date_single_fields: Fecha única
         structured_date_range_fields: Fecha de rango
+        events: Eventos
       action:
         create: Crear autoridad
         preview: Vista previa de combinación
@@ -1022,6 +1034,9 @@ es:
           <p>La lista de valores controlada para editar.</p>
         no_name_provided: Seleccione una lista de valores antes de crear un nuevo
           valor
+        not_used: No utilizado.
+        one_related_item: 1 artículo relacionado.
+        related_items: ' artículos relacionados.'
       action:
         create_value: Crear valor
         delete_value: Eliminar valor
@@ -3256,3 +3271,8 @@ es:
       no para vincular materiales a ubicaciones.
     aspace_assessment_import_template_csv: Cree y vincule evaluaciones a accesiones,
       recursos, objetos de archivo u objetos digitales existentes.
+  footer:
+    archivesspace_home: Visitar <a href='http://archivesspace.org'>ArchivesSpace.org</a>
+    feedback: <a id='aspaceFeedbackLink' href='%{feedback_url}' target='_blank'>Enviar
+      comentarios o informar un problema</a>
+    public_interface: Vistar <a href="%{public_url}">Interfaz Pública</a>
