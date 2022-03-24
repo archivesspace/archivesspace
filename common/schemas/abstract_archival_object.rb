@@ -90,9 +90,11 @@
           }
         }
       },
-
       "suppressed" => {"type" => "boolean", "readonly" => "true"},
-
+      "representative_file_version" => {
+        "type" => "JSONModel(:file_version) object",
+        "readonly" => true
+      },
     },
   },
 }
