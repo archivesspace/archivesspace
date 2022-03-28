@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require_relative '../spec_helper'
+wait = Selenium::WebDriver::Wait.new(:timeout => 15)
 
 describe 'Jobs' do
   before(:all) do
@@ -111,5 +112,35 @@ describe 'Jobs' do
       @driver.find_element_with_text('//td', /Generate PDF/)
       @driver.find_element_with_text('//td', /Batch Find and Replace/)
     end.not_to raise_error
+  end
+
+  it 'can import accession and show type', :js => true do
+    run_index_round
+
+    parent_dir = File.expand_path("../", Dir.pwd)
+    file = File.expand_path("#{parent_dir}/backend/spec/examples/aspace_accession_import_template.csv", __FILE__)
+
+    @driver.find_element(:css, '.repo-container .btn.dropdown-toggle').click
+    @driver.wait_for_dropdown
+    @driver.click_and_wait_until_gone(:link, 'Background Jobs')
+
+    @driver.find_element(:link, 'Create Job').click
+    @driver.wait_for_dropdown
+    @driver.click_and_wait_until_gone(:link, 'Import Data')
+    @driver.execute_script("return $('#job_filenames_ > span > input')[0]").send_keys(file)
+    @driver.find_element(css: "form#job_form button[type='submit']").click
+    sleep(3)
+    import_job_type = @driver.execute_script("return $('#basic_information > div:nth-child(4) > div').text()")
+    expect(import_job_type).to eq('MarcXML Bibliographic (Accession)')
+
+    refresh_button = wait.until {
+      element = @driver.find_element(:xpath, '//*[@id="archivesSpaceSidebar"]/ul/li[4]/div/button')
+      element if element.displayed?
+    }
+    refresh_button.click
+
+    import_job_status = @driver.execute_script("return $('#job_status > div.job-status.form-group > div').text()")
+    puts 'import_job_status: ' + import_job_status
+    expect(import_job_status).to include('Completed')
   end
 end
