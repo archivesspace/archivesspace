@@ -78,6 +78,31 @@ describe 'Digital Objects' do
     @driver.click_and_wait_until_gone(:link, 'Edit')
   end
 
+  it "make representative is disabled unless published is checked, and vice versa" do
+    @driver.find_element(:link, 'Create').click
+    @driver.click_and_wait_until_gone(:link, 'Digital Object')
+
+    @driver.clear_and_send_keys([:id, 'digital_object_title_'], digital_object_title)
+    @driver.clear_and_send_keys([:id, 'digital_object_digital_object_id_'], Digest::MD5.hexdigest(Time.now.to_s))
+
+    @driver.find_element(id: 'digital_object_digital_object_type_').select_option_with_text('Mixed Materials')
+
+    @driver.find_element(css: 'section#digital_object_file_versions_ > h3 > .btn:not(.show-all)').click
+
+    @driver.clear_and_send_keys([:id, 'digital_object_file_versions__0__file_uri_'], '/uri/for/this/file/version')
+    @driver.clear_and_send_keys([:id, 'digital_object_file_versions__0__file_size_bytes_'], '100')
+
+    @driver.click_and_wait_until_gone(css: "form#new_digital_object button[type='submit']")
+
+    # make sure is representative is disabled with publish is unchecked
+    is_rep_button = @driver.find_element(css: '.is-representative-toggle')
+    expect(is_rep_button.attribute('disabled')).to eq("true")
+
+    # make sure is representative is enabled when publish is checked
+    @driver.find_element(css: '.js-file-version-publish').click
+    expect(is_rep_button.attribute('disabled')).to be_nil
+  end
+
   it 'reports errors if adding a child with no title to a Digital Object' do
     @driver.get_edit_page(@do2)
     @driver.find_element(:link, 'Add Child').click

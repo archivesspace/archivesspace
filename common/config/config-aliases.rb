@@ -8,5 +8,6 @@ AppConfig.add_alias(:option => :public_prefix,
 
 AppConfig.add_deprecated(:bulk_import_rows)
 AppConfig.add_deprecated(:bulk_import_size)
+AppConfig.add_deprecated(:solr_home_directory)
 
 # AppConfig.ensure_false(:enable_custom_reports)

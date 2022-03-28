@@ -10,7 +10,17 @@
          end
       %>
       <div>
-        <span class="asicon icon-<%= result["record"]["_resolved"]["jsonmodel_type"] %>" title="<%= I18n.t("#{result["record"]["_resolved"]["jsonmodel_type"]}._singular") %>"></span> <%= resolve_readonly_link_to record_title, result["record"]["ref"] %>
+        <span class="asicon icon-<%= result["record"]["_resolved"]["jsonmodel_type"] %>"
+              title="<%= I18n.t("#{result["record"]["_resolved"]["jsonmodel_type"]}._singular") %>">
+        </span>
+        <% if result["record"]["ref"].include?(current_repo.uri) %>
+         <%= resolve_readonly_link_to record_title, result["record"]["ref"] %>
+        <% else %>
+          <%= resolve_readonly_link_to "#{record_title} (#{result["record"]["ref"]})", result["record"]["ref"], false %>
+          <span class="label label-warning">
+            <%= I18n.t("job._frontend.external_repo") %>
+          </span>
+        <% end %>
       </div>
     <% end %>
   </div>

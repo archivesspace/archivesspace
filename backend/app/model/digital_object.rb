@@ -23,6 +23,7 @@ class DigitalObject < Sequel::Model(:digital_object)
   include Events
   include Publishable
   include Assessments::LinkedRecord
+  include RepresentativeFileVersion
 
   enable_suppression
 
@@ -81,25 +82,6 @@ class DigitalObject < Sequel::Model(:digital_object)
 
           json["linked_instances"].push({"ref" => uri})
         end
-      end
-    end
-
-    jsons.each do |json|
-      # Compute representative_file_version property, ANW-1493
-      fvs = json[:file_versions]
-
-      published_representative_fv = fvs.select { |fv| (fv["publish"] == true || fv["publish"] == 1) && (fv["is_representative"] == true || fv["is_representative"] == 1) }
-
-      published_image_thumbnail_fvs = fvs.select { |fv| (fv["publish"] == true || fv["publish"] == 1) && fv["is_representative"] != true && fv["is_representative"] != 1 && fv["use_statement"] == 'image-thumbnail' }
-
-      published_fvs = fvs.select { |fv| (fv["publish"] == true || fv["publish"] == 1) && fv["is_representative"] != true && fv["is_representative"] != 1 && fv["use_statement"] != 'image-thumbnail' }
-
-      if published_representative_fv.count > 0
-        json["representative_file_version"] = published_representative_fv.first
-      elsif published_image_thumbnail_fvs.count > 0
-        json["representative_file_version"] = published_image_thumbnail_fvs.first
-      elsif published_fvs.count > 0
-        json["representative_file_version"] = published_fvs.first
       end
     end
 

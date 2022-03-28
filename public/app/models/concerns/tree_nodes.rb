@@ -28,7 +28,15 @@ module TreeNodes
   def breadcrumb_identifier(record, type)
     case type
     when 'resource'
-      resolved_resource['id_0'] if resolved_resource
+      if resolved_resource
+        id_0 = resolved_resource['id_0']
+        id_1 = resolved_resource['id_1']
+        id_2 = resolved_resource['id_2']
+        id_3 = resolved_resource['id_3']
+
+        id_components = [id_0, id_1, id_2, id_3].reject {|i| i.nil? }
+        id_components.join("-")
+      end
     end
   end
 

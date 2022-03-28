@@ -642,7 +642,7 @@ es:
       ngo: Organización no gubernamental
       other: Otro
       provincial: Estado, provincial, territorial, dependiente, etc.
-      sac: Componente autónomo o semiautónomo.
+      sac: Componente autónomo o semiautónomo
       undetermined: Tipo de agencia gubernamental indeterminada
       unknown: Desconocido si el rumbo es agencia gubernamental
     identifier_type:
@@ -1767,7 +1767,7 @@ es:
       local_standard: Norma local
       nat_std: Norma nacional
       nl_assoc_std: Asociación nacional de bibliotecas estándar
-      nl_bib_agency_std: Biblioteca nacional o agencia bibliográfica estándar.
+      nl_bib_agency_std: Biblioteca nacional o agencia bibliográfica estándar
       not_applicable: No aplica
       unknown_standard: Estándar de origen desconocido
     script_iso15924:

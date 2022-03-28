@@ -1356,7 +1356,7 @@ class EAD3Serializer < EADSerializer
     # top container
     atts[:id] = prefix_id(SecureRandom.hex)
     last_id = atts[:id]
-    atts[:localtype] = top['type']
+    atts[:localtype] = top['type'] unless (top['type'].nil? || top['type'].empty?)
     text = top['indicator']
     atts[:label] = I18n.t("enumerations.instance_instance_type.#{inst['instance_type']}",
                           :default => inst['instance_type'])

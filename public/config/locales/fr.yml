@@ -96,11 +96,11 @@ fr:
   pagination: {}
   search_results:
     page_title: "%{count} résultats trouvés"
-    results_head: "%{type} affichés: %{start} - %{end} de %{total}"
+    results_head: "%{type} affichés : %{start} - %{end} de %{total}"
     result: Résultats
     results: Résultats
     search_for: "Chercher %{type} où %{conditions}"
-    keyword_contain: "<strong>mot(s)-clé(s)</strong>: <span class='searchterm'>%{kw}</span>"
+    keyword_contain: "<strong>mot(s)-clé(s)</strong> : <span class='searchterm'>%{kw}</span>"
     title_contain: "l'<strong>intitulé</strong> contient  <span class='searchterm'>%{kw}</span>"
     notes_contain: "la <strong>note</strong> contient  <span class='searchterm'>%{kw}</span>"
     creators_text_contain: "le <strong>producteur</strong> contient <span class='searchterm'>%{kw}</span>"
@@ -154,7 +154,7 @@ fr:
       years_include: Années à inclure
       year_now: maintenant
       year_begin: le début
-      from_to: "Années: %{begin} à %{end}"
+      from_to: "Années : %{begin} à %{end}"
       child_container_u_sstr: Conditionnement fils
       grand_child_container_u_sstr: Conditionnement petit-fils
       type_enum_s: Type
@@ -163,7 +163,7 @@ fr:
       langcode: Langue
 
   search_sorting:
-    sort_by: "Trier par:"
+    sort_by: "Trier par :"
     sort: Trier
     asc: ascendant
     desc: descendant
@@ -175,7 +175,7 @@ fr:
     classification_identifier: Identifiant
 
   inherit:
-    inherited: "Du %{level}:"
+    inherited: "Du %{level} :"
     collection: Collection
     series: Série
     sub-series: Sous-série
@@ -237,7 +237,7 @@ fr:
   multiple_containers: Conditionnements divers
   # adding the inherited title to the display string
   extent_number_type: "%{number} %{type}"
-  extent_phys_details: ": %{deets}"
+  extent_phys_details: " : %{deets}"
   extent_dims: " ; %{dimensions}"
 
   external_docs: Documents externes
@@ -286,9 +286,9 @@ fr:
     _plural: Les archives
 
   repository:
-    _singular: Service
+    _singular: Service d'archives
     _plural: Services
-    what: Qu'y a-t-il dans ce service d'archives?
+    what: Qu'y a-t-il dans ce service d'archives ?
     details: Détails du service d'archives
     part: Fait partie de
 
@@ -422,7 +422,7 @@ fr:
 
   contact: Contact
 
-  number_of: "Nombre de %{type}:"
+  number_of: "Nombre de %{type} :"
 
   parent_inst: Institution mère
 
@@ -481,7 +481,7 @@ fr:
       action: {}
     identifier_type: Type d'identifiant
     source: La source
-    primary_identifier: Est l'identifiant principal?
+    primary_identifier: Est l'identifiant principal ?
     record_identifier: Identificateur d'enregistrement
     snac: Identifiant des réseaux sociaux et du contexte d'archivage (SNAC)
 
@@ -552,3 +552,8 @@ fr:
     license: Licence
     _singular: Déclaration des droits sur les métadonnées
     _plural: Déclarations de droits sur les métadonnées
+  footer:
+    archivesspace_home: Visitez <a href='http://archivesspace.org'>ArchivesSpace.org</a>
+    feedback: <a id='aspaceFeedbackLink' href='%{feedback_url}' target='_blank'>Envoyer des commentaires
+      ou signaler un problème</a>
+    staff_interface: <a href="%{staff_url}">Interface personnel</a>

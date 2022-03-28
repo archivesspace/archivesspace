@@ -96,6 +96,16 @@
   <br/>
 <% end %>
 
+<% define_template("ns2_remover_job", jsonmodel_definition(:ns2_remover_job)) do |form| %>
+  <p><%= I18n.t("ns2_remover_job.description") %></p>
+
+  <div class="col-sm-9 checkbox">
+    <%= form.label_and_boolean "dry_run" %>
+  </div>
+  <br/>
+  <br/>
+<% end %>
+
 <% define_template("job", jsonmodel_definition(:job)) do |form| %>
 
   <input id="job_type" name="job[job_type]" type="hidden" value="<%= params['job_type'] %>">
@@ -186,7 +196,7 @@
 
 <%# Now create a template for all job types not handled above - eg from plugins %>
 <% job_types.keys.each do |type| %>
-  <% next if ['container_labels_job', 'find_and_replace_job', 'print_to_pdf_job', 'import_job', 'report_job', 'generate_slugs_job', 'generate_arks_job', 'bulk_import_job'].include?(type) %>
+  <% next if ['container_labels_job', 'find_and_replace_job', 'print_to_pdf_job', 'import_job', 'report_job', 'generate_slugs_job', 'generate_arks_job', 'ns2_remover_job', 'bulk_import_job'].include?(type) %>
 
   <% define_template(type, jsonmodel_definition(type.intern)) do |form| %>
 

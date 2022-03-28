@@ -23,7 +23,28 @@ describe 'EAC Export' do
       AppConfig[:export_eac_agency_code] = true
       eac = get_eac(r)
 
-      expect(eac).to have_tag 'control/maintenanceStatus' => I18n.t("enumerations.maintenance_status.#{arc['maintenance_status']}")
+      maint_status_value = case I18n.t("enumerations.maintenance_status.#{arc['maintenance_status']}")
+                           when "New"
+                             "new"
+                           when "Upgraded"
+                             "revised"
+                           when "Revised/Corrected"
+                             "revised"
+                           when "Derived"
+                             "derived"
+                           when "Deleted"
+                             "deleted"
+                           when "Cancelled/Obsolete"
+                             "cancelled"
+                           when "Deleted-Split"
+                             "deletedSplit"
+                           when "Deleted-Replaced"
+                             "deletedReplaced"
+                           when "Deleted-Merged"
+                             "deletedMerged"
+                           end
+
+      expect(eac).to have_tag 'control/maintenanceStatus' => maint_status_value
       expect(eac).to have_tag 'control/publicationStatus' => arc['publication_status']
       expect(eac).to have_tag 'control/maintenanceAgency/agencyName' => arc['agency_name']
       expect(eac).to have_tag 'control/maintenanceAgency/agencyCode' => arc['maintenance_agency']

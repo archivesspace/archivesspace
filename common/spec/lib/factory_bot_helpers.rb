@@ -890,6 +890,10 @@ FactoryBot.define do
     {}
   end
 
+  factory :json_ns2_remover_job, class: JSONModel(:ns2_remover_job) do
+    dry_run { false }
+  end
+
   factory :json_group, class: JSONModel(:group) do
     group_code { generate(:alphanumstr) }
     description { generate(:generic_description) }
