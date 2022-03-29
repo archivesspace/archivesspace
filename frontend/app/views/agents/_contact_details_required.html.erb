@@ -3,6 +3,7 @@
 
 <% define_template "agent_contact", jsonmodel_definition(:agent_contact) do |form| %>
   <div class="subrecord-form-fields">
+    <%= form.hidden_input "require_record", true %>
     <% field_names = ["name", "salutation", "address_1", "address_2", "address_3", "city", "region", "country", "post_code", "email", "note"] %>
     <% field_names.each do |field_name| %>
       <% if form.required?(field_name) %>

@@ -13,6 +13,7 @@
 <% end %>
 
 <% define_template "agent_topic_required", jsonmodel_definition(:agent_topic) do |form| %>
+    <%= form.hidden_input "require_record", true %>
     <%= form.label_and_disabled_checkbox "Topic" %>
     <%= form.label_and_disabled_checkbox "Place" %>
     <%= form.label_and_disabled_checkbox "Notes" %>

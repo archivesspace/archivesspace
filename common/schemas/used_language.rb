@@ -20,6 +20,10 @@
         "items" => {"type" => [{"type" => "JSONModel(:note_text) object"},
                                {"type" => "JSONModel(:note_citation) object"}]},
       },
+      "require_record" => {
+        "type" => "boolean",
+        "default" => true,
+      }
     },
   },
 }

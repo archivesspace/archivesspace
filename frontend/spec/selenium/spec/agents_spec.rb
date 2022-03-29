@@ -121,6 +121,36 @@ describe "disallows agents merge with related agents" do
   end
 end
 
+describe "agents custom required values" do
+  before(:all) do
+    @repo = create(:repo, repo_code: "agents_test_#{Time.now.to_i}")
+
+    @driver = Driver.get
+    @driver.login_to_repo($admin, @repo)
+
+    @hendrix = "Hendrix von #{Time.now.to_i}"
+
+    @other_agent = create(:agent_person)
+
+    run_all_indexers
+  end
+
+  after(:all) do
+    @driver ? @driver.quit : next
+  end
+
+  it "enforces manually required subrecord" do
+    @driver.navigate.to($frontend + "/agents/agent_person/required")
+
+    @driver.find_element(:css, '#agent_person_agent_record_identifier_required button').click
+
+    @driver.click_and_wait_until_gone(css: "form .record-pane button[type='submit']")
+
+    @driver.navigate.to($frontend + "/agents/agent_person/new")
+  end
+
+end
+
 describe "agents record CRUD" do
   before(:all) do
     @repo = create(:repo, repo_code: "agents_test_#{Time.now.to_i}")

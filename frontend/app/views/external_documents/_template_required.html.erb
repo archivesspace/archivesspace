@@ -1,5 +1,6 @@
 <% define_template "external_document", jsonmodel_definition(:external_document) do |form| %>
   <div class="subrecord-form-fields">
+    <%= form.hidden_input "require_record", true %>
     <%= form.label_and_readonly "title" %>
     <%= form.label_and_readonly "location" %>
     <% if form["location"] && form["location"].match(%r{\A[a-zA-Z]+://}) %>

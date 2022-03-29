@@ -36,6 +36,10 @@
           }
         }
       },
+      "require_record" => {
+        "type" => "boolean",
+        "default" => true,
+      }
     },
   },
 }

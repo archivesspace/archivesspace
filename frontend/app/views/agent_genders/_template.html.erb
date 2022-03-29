@@ -13,6 +13,7 @@
 <% end %>
 
 <% define_template "agent_gender_required", jsonmodel_definition(:agent_gender) do |form| %>
+  <%= form.hidden_input "require_record", true %>
   <% field_names = ["gender"] %>
   <% field_names.each do |field_name| %>
     <% if form.required?(field_name) %>

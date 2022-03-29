@@ -7,6 +7,7 @@
 
     <%= render_aspace_partial :partial => "agents/name_forms/authority_fields_required", :locals => {:form => form} %>
 
+    <%= form.hidden_input "require_record", true %>
     <% field_names = ["prefix", "family_name", "dates"] %>
     <% field_names.each do |field_name| %>
       <% if form.required?(field_name) %>

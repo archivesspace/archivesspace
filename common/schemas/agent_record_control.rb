@@ -64,6 +64,10 @@
       "maintenance_agency" => {"type" => "string", "maxLength" => 65000},
       "agency_name" => {"type" => "string", "maxLength" => 65000},
       "maintenance_agency_note" => {"type" => "string", "maxLength" => 65000},
+      "require_record" => {
+        "type" => "boolean",
+        "default" => true,
+      }
     }
   }
 }

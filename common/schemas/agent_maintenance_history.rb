@@ -19,6 +19,10 @@
       "event_date" => {"type" => "date-time", "ifmissing" => "error"},
       "agent" => {"type" => "string", "maxLength" => 65000, "ifmissing" => "error"},
       "descriptive_note" => {"type" => "string", "maxLength" => 65000, "default" => ""},
+      "require_record" => {
+        "type" => "boolean",
+        "default" => true,
+      }
     }
   }
 }

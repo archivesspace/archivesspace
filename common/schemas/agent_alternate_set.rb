@@ -25,6 +25,10 @@
         "type" => "date-time",
         "required" => false
       },
+      "require_record" => {
+        "type" => "boolean",
+        "default" => true,
+      }
     }
   }
 }

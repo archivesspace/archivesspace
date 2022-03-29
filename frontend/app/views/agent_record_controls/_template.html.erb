@@ -66,6 +66,7 @@
 <% end %>
 
 <% define_template "agent_record_control_required", jsonmodel_definition(:agent_record_control) do |form| %>
+  <%= form.hidden_input "require_record", true %>
   <% field_names = ["maintenance_status", "publication_status", "maintenance_agency", "agency_name", "maintenance_agency_note", "language", "script", "language_note", "romanization", "government_agency_type", "reference_evaluation", "name_type", "level_of_detail", "modified_record", "cataloging_source"] %>
   <% field_names.each do |field_name| %>
     <% if form.required?(field_name) %>

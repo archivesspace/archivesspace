@@ -40,6 +40,7 @@
 <% end %>
 
 <% define_template "metadata_rights_declaration_required", jsonmodel_definition(:metadata_rights_declaration) do |form| %>
+  <%= form.hidden_input "require_record", true %>
   <% field_names = ["license", "descriptive_note", "file_uri", "file_version_xlink_actuate_attribute", "file_version_xlink_show_attribute", "xlink_title_attribute", "xlink_role_attribute", "xlink_arcrole_attribute", "last_verified_date"] %>
   <% field_names.each do |field_name| %>
     <% if form.required?(field_name) %>

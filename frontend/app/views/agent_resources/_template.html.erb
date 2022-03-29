@@ -49,6 +49,7 @@
 <% end %>
 
 <% define_template "agent_resource_required", jsonmodel_definition(:agent_resource) do |form| %>
+  <%= form.hidden_input "require_record", true %>
   <% field_names = ["linked_agent_role", "linked_resource", "linked_resource_description","file_uri", "file_version_xlink_actuate_attribute", "file_version_xlink_show_attribute", "xlink_title_attribute", "xlink_role_attribute", "xlink_arcrole_attribute",  "last_verified_date"] %>
   <% field_names.each do |field_name| %>
     <% if form.required?(field_name) %>

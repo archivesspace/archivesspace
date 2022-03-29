@@ -15,6 +15,10 @@
           "maxLength" => 65000,
           "ifmissing" => "error",
       },
+      "require_record" => {
+        "type" => "boolean",
+        "default" => true,
+      }
     }
   }
 }

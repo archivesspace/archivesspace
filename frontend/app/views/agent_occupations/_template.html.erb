@@ -13,8 +13,8 @@
 <% end %>
 
 <% define_template "agent_occupation_required", jsonmodel_definition(:agent_occupation) do |form| %>
+    <%= form.hidden_input "require_record", true %>
     <%= form.label_and_disabled_checkbox "Occupation" %>
-    <%= form.label_and_disabled_checkbox "occupation" %>
     <%= form.label_and_disabled_checkbox "Notes" %>
     <%= form.label_and_disabled_checkbox "Dates" %>
 <% end %>

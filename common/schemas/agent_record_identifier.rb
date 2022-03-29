@@ -21,6 +21,10 @@
         "dynamic_enum" => "identifier_type",
         "required" => false
       },
+      "require_record" => {
+        "type" => "boolean",
+        "default" => true,
+      }
     }
   }
 }
