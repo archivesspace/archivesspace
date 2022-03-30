@@ -97,6 +97,11 @@
        <div class="classification-subgroups-tree largetree-container" style="display: none;"></div>
      </div>
      <% end %>
+     <% if result.representative_file_uri %>
+       <div class="representative">
+         <img src="<%= result.representative_file_uri %>">
+       </div>
+     <% end %>
    </div>
 
 <% if !props.fetch(:full,false) %>

@@ -10,7 +10,7 @@ class Record
               :resolved_resource, :resolved_top_container, :primary_type, :uri,
               :subjects, :agents, :extents, :repository_information,
               :identifier, :classifications, :level, :other_level, :linked_digital_objects,
-              :container_titles_and_uris
+              :container_titles_and_uris, :representative_file_uri
 
   attr_accessor :criteria
 
@@ -51,6 +51,8 @@ class Record
     @classifications = parse_classifications
     @agents = parse_agents(subjects)
     @extents = parse_extents
+
+    @representative_file_uri = raw['representative_file_uri']
   end
 
   def [](k)
