@@ -137,6 +137,7 @@
     <field name="files" type="string" indexed="true" stored="true" multiValued="true" />
     <field name="job_data" type="string" indexed="true" stored="true" multiValued="true" />
     <field name="queue_position" type="int" indexed="true" stored="true" multiValued="false" />
+    <field name="representative_file_uri" type="string" indexed="false" stored="true" multiValued="false" />
     <dynamicField name="*_enum_s" type="string" indexed="true" stored="true" multiValued="true" />
     <dynamicField name="*_u_ustr" type="string" indexed="true" stored="false" multiValued="true" />
     <dynamicField name="*_u_uint" type="int" indexed="true" stored="false" multiValued="true" />

@@ -357,6 +357,12 @@ class IndexerCommon
     end
   end
 
+  def add_representative_file_uri(doc, record)
+    if rep = record['record']['representative_file_version']
+      doc['representative_file_uri'] = record['record']['representative_file_version']['file_uri' ]
+    end
+  end
+
 
   def configure_doc_rules
 
@@ -408,6 +414,7 @@ class IndexerCommon
       add_summary(doc, record)
       add_extents(doc, record)
       add_arks(doc, record)
+      add_representative_file_uri(doc, record)
     }
 
     add_document_prepare_hook {|doc, record|
@@ -1104,7 +1111,7 @@ class IndexerCommon
   end
 
   # ANW-1065
-  # iterate through the do_not_index list and scrub out that part of the JSON tree 
+  # iterate through the do_not_index list and scrub out that part of the JSON tree
   def sanitize_json(json)
     IndexerCommonConfig::do_not_index.each do |k, v|
       if json["jsonmodel_type"] == k
