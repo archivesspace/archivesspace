@@ -147,6 +147,10 @@ describe "agents custom required values" do
     @driver.click_and_wait_until_gone(css: "form .record-pane button[type='submit']")
 
     @driver.navigate.to($frontend + "/agents/agent_person/new")
+    @driver.click_and_wait_until_gone(css: "form .record-pane button[type='submit']")
+
+    @driver.find_element_with_text('//div[contains(@class, "error")]', /Record Identifier - Property is required but was missing/)
+    @driver.find_element_with_text('//div[contains(@class, "error")]', /Source - Property is required but was missing/)
   end
 
 end
