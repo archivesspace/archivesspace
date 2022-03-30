@@ -561,9 +561,36 @@ class IndexerCommon
 
         authorized_name = record['record']['names'].find {|name| name['authorized']}
 
-        if authorized_name
+        has_conventions_dec = !record['record']['agent_conventions_declarations'].empty?
+        has_agent_record_id = !record['record']['agent_record_identifiers'].empty?
+
+        if has_agent_record_id
+          primary_record_id = record['record']['agent_record_identifiers'].select do |ari|
+            ari['primary_identifier'] == true
+          end
+
+          primary_record_id = primary_record_id.first
+        else
+          primary_record_id = nil
+        end
+
+        if has_conventions_dec
+          conventions_dec = record['record']['agent_conventions_declarations'].first
+        else
+          conventions_dec = nil
+        end
+
+        if primary_record_id
+          doc['authority_id'] = primary_record_id['record_identifier']
+          doc['source'] = primary_record_id['source']
+        elsif authorized_name
           doc['authority_id'] = authorized_name['authority_id']
           doc['source'] = authorized_name['source']
+        end
+
+        if conventions_dec && conventions_dec['name_rule']
+          doc['rules'] = conventions_dec['name_rule']
+        elsif authorized_name
           doc['rules'] = authorized_name['rules']
         end
 
