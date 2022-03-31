@@ -2,9 +2,9 @@
   <div class="subrecord-form-fields agent-name-form">
     <h3 class="subrecord-form-heading">
       <span class="badge badge-info is-authoritive-label"><%= I18n.t("name_person.authorized") %></span>
-      <button class="btn btn-small btn-authoritive-name-toggle"><%= I18n.t("name._frontend.action.make_authorized") %></button>
+      <%= form.button_with_tooltip(I18n.t("name._frontend.action.make_authorized"), I18n.t("name._frontend.action.make_authorized"), ["btn-authoritive-name-toggle"]) %>
       <span class="badge badge-info is-display-name-label"><%= I18n.t("name_person.is_display_name") %></span>
-      <button class="btn btn-small btn-display-name-toggle"><%= I18n.t("name._frontend.action.make_display_name") %></button>
+      <%= form.button_with_tooltip(I18n.t("name._frontend.action.make_display_name"), I18n.t("name._frontend.action.make_display_name"), ["btn-display-name-toggle"]) %>
     </h3>
 
     <%= render_aspace_partial :partial => "agents/name_forms/authority_fields", :locals => {:form => form} %>

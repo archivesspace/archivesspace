@@ -553,6 +553,19 @@ module AspaceFormHelper
       options
     end
 
+    def button_with_tooltip(tooltip, content, classes = [])
+      classes = classes + ["btn", "btn-small", "btn-with-tooltip"]
+
+      options = {:class => classes.join(' ')}
+      add_tooltip_options(tooltip, options)
+
+      attr_string = options.map {|k, v| '%s="%s"' % [CGI::escapeHTML(k.to_s),
+                                                     CGI::escapeHTML(v.to_s)]}
+                           .join(' ')
+
+      "<button #{attr_string}>#{content}</button>".html_safe
+    end
+
     def tooltip(name, prefix = '')
       I18n.t_raw("#{prefix}#{i18n_for(name)}_tooltip", :default => '')
     end

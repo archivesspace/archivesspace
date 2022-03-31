@@ -301,7 +301,8 @@ $(function () {
       var helpTooltips =
         $this.data('trigger') === 'manual' &&
         ($this.is('label.control-label') ||
-          $this.is('.subrecord-form-heading-label'));
+         $this.is('.btn-with-tooltip') ||
+         $this.is('.subrecord-form-heading-label'));
 
       // ANW-1325: Ensure tooltip content is focusable/hoverable by inserting in the DOM
       // right after the triggering element.  Skipping `helpTooltips`, since those are
