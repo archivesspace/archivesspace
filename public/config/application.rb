@@ -21,6 +21,7 @@ require 'aspace_logger'
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
+ASUtils.load_pry_aliases
 
 module ArchivesSpacePublic
   class Application < Rails::Application

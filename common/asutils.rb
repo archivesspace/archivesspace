@@ -419,4 +419,13 @@ ERRMSG
       ordered_plugins.index(plugin_name) or raise "Expected to find #{plugin_name} but didn't!"
     }
   end
+
+  def self.load_pry_aliases
+    if defined?(PryDebuggerJRuby)
+      Pry.commands.alias_command 'c', 'continue'
+      Pry.commands.alias_command 's', 'step'
+      Pry.commands.alias_command 'n', 'next'
+      Pry.commands.alias_command 'f', 'finish'
+    end
+  end
 end
