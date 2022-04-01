@@ -16,7 +16,7 @@
     <% if  defined?(comp_id) && !comp_id && !@result['json']['ref_id'].blank? %>
       <span class='ref_id'>[<%=  t('archival_object._public.header.ref_id') %>: <%= @result['json']['ref_id'] %>]</span>
     <% end %>
-    <%= render partial: 'shared/digital', locals: {:rep_fv => @rep_fv} %>
+    <%= render partial: 'shared/digital', locals: {:rep_file_uri => @result.representative_file_uri, :rep_file_caption => 'TODO'} %>
     <%= render partial: 'shared/record_innards' %>
    </div>
 

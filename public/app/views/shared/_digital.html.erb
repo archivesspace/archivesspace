@@ -1,10 +1,8 @@
-<%# expects 'rep_fv' as a file_version hash %>
-
-<% unless rep_fv.blank? %>
+<% unless rep_file_uri.blank? %>
 <div class="images">
   <div class="objectimage">
     <div class="panel panel-default">
-      <%= render partial: 'shared/representative_file_version', locals: {:uri => rep_fv['file_uri'], :caption => rep_fv['caption']} %>
+      <%= render partial: 'shared/representative_file_version', locals: {:uri => rep_file_uri, :caption => rep_file_caption} %>
     </div>
   </div>
 </div>
