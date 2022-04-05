@@ -135,6 +135,11 @@ def setup_test_data
   create(:digital_object, title: "Digital Object With Classification",
                           classifications: [{'ref' => classification.uri}])
 
+  create(:digital_object, title: "Digital Object With File Version",
+                          file_versions: [{:publish => true,
+                                           :file_uri => "#{AppConfig[:public_url]}/assets/archivesspace.small.png",
+                                           :is_representative => true}])
+
   aos = (0..5).map do
     create(:archival_object,
            title: "Published Archival Object", resource: { 'ref' => resource.uri }, publish: true)
