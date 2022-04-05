@@ -35,4 +35,11 @@ describe 'Digital Objects', js: true do
       expect(page).to have_content('Record Groups')
     end
   end
+
+  describe "Digital Object With Classification" do
+    it "should display image tag for digital object file version" do
+      visit_digital_object_page('Digital Object With File Version')
+      expect(page).to have_css('#objectimage img')
+    end
+  end
 end
