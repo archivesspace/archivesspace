@@ -60,3 +60,7 @@ plugins/*/Gemfile.lock
 plugins/*/gems/*
 docker-compose.override.yml
 launcher/lib/*
+archivesspace_demo_db/*
+plugins/local/public.zip
+build/mysql_db_fixtures/accessibility.sql
+frontend/docs/*
