@@ -22,7 +22,7 @@ class MARCModel < ASpaceExport::ExportModel
 
   @resource_map = {
     [:id_0, :id_1, :id_2, :id_3] => :handle_id,
-    [:ead_location] => :handle_ead_loc,
+    [:ead_location, :publish, :uri] => :handle_ead_loc,
     [:ark_name] => :handle_ark,
     :notes => :handle_notes,
     :finding_aid_description_rules => df_handler('fadr', '040', ' ', ' ', 'e')
@@ -591,7 +591,8 @@ class MARCModel < ASpaceExport::ExportModel
 
 
   # 3/28/18: Updated: ANW-318
-  def handle_ead_loc(ead_loc)
+  # 4/7/22: Updated: ANW-1071
+  def handle_ead_loc(ead_loc, publish, uri)
     # If there is EADlocation
     #<datafield tag="856" ind1="4" ind2="2">
     #  <subfield code="z">Finding aid online:</subfield>
@@ -601,6 +602,11 @@ class MARCModel < ASpaceExport::ExportModel
       df('856', '4', '2').with_sfs(
                                     ['z', "Finding aid online:"],
                                     ['u', ead_loc]
+                                  )
+    elsif AppConfig[:enable_public] && AppConfig[:include_pui_finding_aid_urls_in_marc_exports] && publish
+        df('856', '4', '2').with_sfs(
+                                    ['z', "Finding aid online:"],
+                                    ['u', AppConfig[:public_proxy_url] + uri]
                                   )
     end
   end
