@@ -53,6 +53,18 @@
       </div>
     <% end %>
 
+    <div class="staff-hidden hide">
+      <% if result['json'].has_key?('container_locations') %>
+        <% result['json']['container_locations'].each do |cl| %>
+          <p><h4><%= cl["_resolved"]['title'] %></h4></p>
+        <% end %>
+      <% end %>
+
+      <% if result['json'].has_key?('container_profile') %>
+        <p><h4><%= result['json']['container_profile']["_resolved"]['name'] %></h4></p>
+      <% end %>
+    </div>
+
     <% if result.resolved_repository %>
       <div class="result_context">
         <strong><%= t('context') %>: </strong>
