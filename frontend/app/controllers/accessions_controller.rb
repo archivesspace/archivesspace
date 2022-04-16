@@ -40,6 +40,8 @@ class AccessionsController < ApplicationController
 
   def new
     @accession = Accession.new({:accession_date => Date.today.strftime('%Y-%m-%d')})._always_valid!
+    defaults = user_defaults('accession')
+    @accession.update(defaults.values) if defaults
 
     if params[:accession_id]
       acc = Accession.find(params[:accession_id], find_opts)
@@ -48,13 +50,6 @@ class AccessionsController < ApplicationController
         @accession.populate_from_accession(acc)
         flash.now[:info] = I18n.t("accession._frontend.messages.spawned", JSONModelI18nWrapper.new(:accession => acc))
         flash[:spawned_from_accession] = acc.id
-      end
-
-    elsif user_prefs['default_values']
-      defaults = DefaultValues.get 'accession'
-
-      if defaults
-        @accession.update(defaults.values)
       end
     end
   end

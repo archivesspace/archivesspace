@@ -10,12 +10,23 @@ describe ResourcesController, type: :controller do
     set_repo($repo)
   end
 
+  let(:default_values) {
+    DefaultValues.new(
+      JSONModel(:default_values).from_hash({
+        'record_type': 'resource',
+        'defaults': {
+          'publish': true,
+          "extents": [{"portion": "whole"}],
+          "lang_materials": [{"language_and_script": {"language": "eng", "script": "Latn"}}]
+        }
+      })
+    )
+  }
+
   it "sets export menu's 'include unpublished' checkbox per user preferences" do
     resource = create(:json_resource, instances: [])
-    session = User.login('admin', 'admin')
-    User.establish_session(controller, session, 'admin')
-    controller.session[:repo_id] = JSONModel.repository
 
+    apply_session_to_controller(controller, 'admin', 'admin')
     # pretend preference is include_unpublished
     allow(controller).to receive(:user_prefs).and_return('include_unpublished' => true)
     get :edit, params: {id: resource.id, inline: true}
@@ -27,5 +38,39 @@ describe ResourcesController, type: :controller do
     get :edit, params: {id: resource.id, inline: true}
     expect(response.body).not_to match /id="include-unpublished"[^>]+checked/
     expect(response.body).not_to match /id="include-unpublished-marc"[^>]+checked/
+  end
+
+  it "applies default values to a new resource" do
+    apply_session_to_controller(controller, 'admin', 'admin')
+    allow(controller).to receive(:user_defaults).with('resource').and_return(default_values)
+    get :new
+    result = Capybara.string(response.body)
+    result.find(:css, '#resource_extents__0__portion_ option[@selected="selected"]') do |selected|
+      expect(selected.text).to eq('Whole')
+    end
+    result.find(:css,
+      '#resource_lang_materials__0__language_and_script__script_ option[@selected="selected"]'
+    ) do |selected|
+      expect(selected.text).to eq('Latin')
+    end
+  end
+
+  it "spawns a resource from an accession with default values" do
+    accession = create(:json_accession, extents: [ build(:json_extent, portion: 'part') ])
+
+    apply_session_to_controller(controller, 'admin', 'admin')
+    allow(controller).to receive(:user_defaults).with('resource').and_return(default_values)
+    get :new, params: {accession_id: accession.id, inline: true}
+    expect(response.body).to match /spawned from Accession/
+    result = Capybara.string(response.body)
+    result.find(:css, '#resource_extents__0__portion_ option[@selected="selected"]') do |selected|
+      expect(selected.text).not_to eq('Whole') # from defaults
+      expect(selected.text).to eq('Part') # from accession
+    end
+    result.find(:css,
+      '#resource_lang_materials__0__language_and_script__script_ option[@selected="selected"]'
+    ) do |selected|
+      expect(selected.text).to eq('Latin')
+    end
   end
 end

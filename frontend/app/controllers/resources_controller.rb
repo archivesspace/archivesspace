@@ -46,6 +46,11 @@ class ResourcesController < ApplicationController
 
   def new
     @resource = Resource.new(:title => I18n.t("resource.title_default", :default => ""))._always_valid!
+    defaults = user_defaults('resource')
+    if defaults
+      @resource.update(defaults.values)
+      @form_title = "#{I18n.t('actions.new_prefix')} #{I18n.t('resource._singular')}"
+    end
 
     if params[:accession_id]
       acc = Accession.find(params[:accession_id], find_opts)
@@ -55,15 +60,6 @@ class ResourcesController < ApplicationController
         flash.now[:info] = I18n.t("resource._frontend.messages.spawned", JSONModelI18nWrapper.new(:accession => acc).enable_parse_mixed_content!(url_for(:root)))
         flash[:spawned_from_accession] = acc.id
       end
-
-    elsif user_prefs['default_values']
-      defaults = DefaultValues.get 'resource'
-
-      if defaults
-        @resource.update(defaults.values)
-        @form_title = "#{I18n.t('actions.new_prefix')} #{I18n.t('resource._singular')}"
-      end
-
     end
 
     return render_aspace_partial :partial => "resources/new_inline" if params[:inline]

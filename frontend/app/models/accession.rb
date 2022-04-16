@@ -51,6 +51,7 @@ class Accession < JSONModel(:accession)
     values.delete('deaccessions')
     values.delete('collection_management')
     values.delete('classification')
+    values.delete_if { |k, v| v.respond_to?(:empty?) && v.empty? }
   end
 
 end
