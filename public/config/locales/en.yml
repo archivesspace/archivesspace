@@ -335,6 +335,7 @@ en:
   top_container:
     _singular: Container
     _plural: Containers
+    restricted: Restricted
 
   digital_object:
     _singular: Digital Record

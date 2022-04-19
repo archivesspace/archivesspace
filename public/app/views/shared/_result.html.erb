@@ -56,6 +56,10 @@
     <div class="staff-hidden hide">
       <% if result['json'].has_key?('container_locations') %>
         <% result['json']['container_locations'].each do |cl| %>
+
+          <% if result['json']['restricted'] %>
+            <p><h4 class='restricted'><%= I18n.t('top_container.restricted') %></h4></p>
+          <% end %>
           <p><h4><%= cl["_resolved"]['title'] %></h4></p>
         <% end %>
       <% end %>
