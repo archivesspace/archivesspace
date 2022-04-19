@@ -117,6 +117,38 @@ class ArchivesSpaceService < Sinatra::Base
 
   Endpoint.get('/repositories/:repo_id/find_by_id/digital_objects')
     .description("Find Digital Objects by digital_object_id")
+    .example("shell") do
+      <<~SHELL
+        curl -s -F password="admin" "http://localhost:8089/users/admin/login"
+        # Replace "admin" with your password and "http://localhost:8089/users/admin/login" with your ASpace API URL
+        # followed by "/users/{your_username}/login"
+    
+        set SESSION="session_id"
+        # If using Git Bash, replace set with export
+    
+        curl -H "X-ArchivesSpace-Session: $SESSION" //
+        "http://localhost:8089/repositories/2/find_by_id/digital_objects?digital_object_id[]=hello_im_a_digobj_id"
+        # Replace "http://localhost:8089" with your ASpace API URL, "2" with the repository ID, and 
+        # "hello_im_a_digobj_id" with the digital object ID you are searching for
+      SHELL
+    end
+    .example("python") do
+      <<~PYTHON
+        from asnake.client import ASnakeClient  # import the ArchivesSnake client
+        
+        client = ASnakeClient(baseurl="http://localhost:8089", username="admin", password="admin")
+        # Replace "http://localhost:8089" with your ArchivesSpace API URL and "admin" for your username and password
+        
+        client.authorize()  # authorizes the client
+        
+        find_do = client.get("repositories/2/find_by_id/digital_objects", 
+                             params={"digital_object_id[]": "hello_im_a_digobj_id"})
+        # Replace "2" with the repository ID and "im_a_digobj_id" with the digital object ID you are searching for
+  
+        print(find_do.json())
+        # Output (dict): {'digital_objects': [{'ref': '/repositories/2/digital_objects/1'}]}
+      PYTHON
+    end
     .params(["repo_id", :repo_id],
             ["digital_object_id", [String], "A digital object's digital object ID (param may be repeated)", :optional => true],
             ["resolve", :resolve])
