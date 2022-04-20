@@ -743,3 +743,7 @@ AppConfig[:max_linked_events_to_resolve] = 100
 # and the rest discarded.
 # Use with caution and test thoroughly.
 AppConfig[:prune_ark_name_table] = false
+
+# Displays container location in PUI to users logged into the staff interface.
+# Be aware that this data will be visible in the page source to all users, even if not logged in!
+AppConfig[:display_container_location_in_PUI] = false
