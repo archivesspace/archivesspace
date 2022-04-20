@@ -53,21 +53,23 @@
       </div>
     <% end %>
 
-    <div class="staff-hidden hide">
-      <% if result['json'].has_key?('container_locations') %>
-        <% result['json']['container_locations'].each do |cl| %>
+    <% if AppConfig[:display_container_location_in_PUI] %>
+      <div class="staff-hidden hide">
+        <% if result['json'].has_key?('container_locations') %>
+          <% result['json']['container_locations'].each do |cl| %>
 
-          <% if result['json']['restricted'] %>
-            <p><h4 class='restricted'><%= I18n.t('top_container.restricted') %></h4></p>
+            <% if result['json']['restricted'] %>
+              <p><h4 class='restricted'><%= I18n.t('top_container.restricted') %></h4></p>
+            <% end %>
+            <p><h4><%= cl["_resolved"]['title'] %></h4></p>
           <% end %>
-          <p><h4><%= cl["_resolved"]['title'] %></h4></p>
         <% end %>
-      <% end %>
 
-      <% if result['json'].has_key?('container_profile') %>
-        <p><h4><%= result['json']['container_profile']["_resolved"]['name'] %></h4></p>
-      <% end %>
-    </div>
+        <% if result['json'].has_key?('container_profile') %>
+          <p><h4><%= result['json']['container_profile']["_resolved"]['name'] %></h4></p>
+        <% end %>
+      </div>
+    <% end %>
 
     <% if result.resolved_repository %>
       <div class="result_context">

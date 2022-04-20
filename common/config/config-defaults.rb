@@ -753,3 +753,4 @@ AppConfig[:use_slug_finding_aid_urls_in_marc_exports] = false
 
 # Turns on representative file version features - still in development
 AppConfig[:enable_representative_file_version] = false
+

@@ -49,11 +49,6 @@ class SessionController < ApplicationController
     response.headers['Access-Control-Allow-Origin'] = AppConfig[:public_proxy_url]
     response.headers['Access-Control-Allow-Credentials'] = 'true'
 
-    STDERR.puts "++++++++++++++++++++++++++++++"
-    STDERR.puts params.inspect
-    STDERR.puts session[:session]
-    STDERR.puts user_can_edit?(params)
-
     if session[:session] && params[:uri]
       render json: user_can_edit?(params)
     else
