@@ -24,8 +24,13 @@ end
 AppConfig[:frontend_cookie_secret] = "shhhhh"
 AppConfig[:enable_custom_reports] = true
 
-backend_port = TestUtils.free_port_from(3636)
-backend = ENV['ASPACE_TEST_BACKEND_URL'] || "http://localhost:#{backend_port}"
+if ENV['ASPACE_TEST_BACKEND_URL']
+  backend = ENV['ASPACE_TEST_BACKEND_URL']
+else
+  backend_port = TestUtils.free_port_from(3636)
+  backend = "http://localhost:#{backend_port}"
+end
+
 test_db_url = ENV['ASPACE_TEST_DB_URL'] || AppConfig[:db_url]
 AppConfig[:backend_url] = backend
 

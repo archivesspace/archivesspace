@@ -1,0 +1,72 @@
+#!/bin/bash
+# Requires rbenv: https://github.com/rbenv/rbenv
+
+# SETUP / RESET
+# ./build/run db:nuke:test && ./build/run db:migrate:test && ./build/run solr:reset:test
+
+# RUN THE TEST SERVERS IF REQUIRED
+# ./astest backend:server # required for frontend / public tests
+# ./astest frontend:server # required by frontend selenium (in addition to backend:server)
+
+# RUN THE TESTS
+# ./astest backend
+# ./astest backend "rspec -e 'ASModel'"
+# ./astest backend "rspec -e 'knows if it is a top level model'"
+# ./astest frontend
+# ./astest frontend "rspec --pattern 'spec/*/*_spec.rb' --tag ~db -e 'ResourcesController'"
+# ./astest frontend:selenium
+# ./astest public
+# ./astest indexer
+
+cd "`dirname "$0"`"
+rbenv install -s
+
+APP=$1
+CMD=$2
+
+if [ -z "${APP}" ]; then
+  echo "App is required."
+  exit 1
+fi
+
+if [ -z "${CMD}" ]; then
+  case $APP in
+    backend)
+      CMD="rspec"
+      ;;
+    backend:server)
+      APP=backend
+      CMD="ruby ./app/main.rb 4568"
+      ;;
+    frontend)
+      CMD="rspec --pattern 'spec/*/*_spec.rb' --tag ~db"
+      ;;
+    # frontend:accessibility)
+    #   APP=frontend
+    #   CMD=""
+    #   ;;
+    frontend:selenium)
+      APP=frontend
+      CMD="rspec --pattern 'spec/selenium/spec/*_spec.rb' --order defined"
+      ;;
+    frontend:server)
+      APP=frontend
+      CMD="./script/rails s mizuno -p 3636 -b 0.0.0.0"
+      ;;
+    public)
+      CMD="rspec --tag ~db"
+      ;;
+    indexer)
+      CMD="rspec"
+      ;;
+    *)
+      echo "Unknown app: ${APP}"
+      exit 1
+      ;;
+  esac
+fi
+
+source .env.asdev
+source .env.astest
+cd $APP
+eval "bundle exec $CMD"

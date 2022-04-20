@@ -21,12 +21,15 @@ end
 
 require 'aspace_gems'
 
+if ENV['ASPACE_TEST_BACKEND_URL']
+  $backend = ENV['ASPACE_TEST_BACKEND_URL']
+else
+  $backend_port = TestUtils.free_port_from(3636)
+  $backend = "http://localhost:#{$backend_port}"
+end
+
 $server_pids = []
-$backend_port = TestUtils::free_port_from(3636)
-$frontend_port = TestUtils::free_port_from(4545)
-$backend = ENV['ASPACE_TEST_BACKEND_URL'] || "http://localhost:#{$backend_port}"
 $test_db_url = ENV['ASPACE_TEST_DB_URL'] || AppConfig[:db_url]
-$frontend = "http://localhost:#{$frontend_port}"
 $expire = 30000
 
 AppConfig[:backend_url] = $backend

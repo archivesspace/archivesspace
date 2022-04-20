@@ -5,29 +5,37 @@ require_relative '../../../indexer/app/lib/realtime_indexer'
 require_relative '../../../indexer/app/lib/periodic_indexer'
 require_relative '../../../indexer/app/lib/pui_indexer'
 
-$backend_port = TestUtils.free_port_from(3636)
-$frontend_port = TestUtils.free_port_from(4545)
-$backend = "http://localhost:#{$backend_port}"
-$frontend = "http://localhost:#{$frontend_port}"
+if ENV['ASPACE_TEST_BACKEND_URL']
+  $backend = ENV['ASPACE_TEST_BACKEND_URL']
+else
+  $backend_port = TestUtils.free_port_from(3636)
+  $backend = "http://localhost:#{$backend_port}"
+  $backend_start_fn = proc {
+    pid = TestUtils.start_backend($backend_port,
+                                  frontend_url: $frontend,
+                                  session_expire_after_seconds: $expire,
+                                  realtime_index_backlog_ms: 600_000,
+                                  db_url: AppConfig[:db_url])
+
+    pid
+  }
+end
+AppConfig[:backend_url] = $backend
+
+if ENV['ASPACE_TEST_FRONTEND_URL']
+  $frontend = ENV['ASPACE_TEST_FRONTEND_URL']
+else
+  $frontend_port = TestUtils.free_port_from(4545)
+  $frontend = "http://localhost:#{$frontend_port}"
+  $frontend_start_fn = proc {
+    pid = TestUtils.start_frontend($frontend_port, $backend)
+
+    pid
+  }
+end
+AppConfig[:frontend_url] = $frontend
+
 $expire = 30_000
-
-$backend_start_fn = proc {
-  pid = TestUtils.start_backend($backend_port,
-                                frontend_url: $frontend,
-                                session_expire_after_seconds: $expire,
-                                realtime_index_backlog_ms: 600_000,
-                                db_url: AppConfig[:db_url])
-
-  AppConfig[:backend_url] = $backend
-
-  pid
-}
-
-$frontend_start_fn = proc {
-  pid = TestUtils.start_frontend($frontend_port, $backend)
-
-  pid
-}
 
 include FactoryBot::Syntax::Methods
 
@@ -44,7 +52,10 @@ RSpec.configure do |config|
   config.verbose_retry = true
 
   config.before(:suite) do
-    selenium_init($backend_start_fn, $frontend_start_fn)
+    unless ENV['ASPACE_TEST_BACKEND_URL'] && ENV['ASPACE_TEST_FRONTEND_URL']
+      selenium_init($backend_start_fn, $frontend_start_fn)
+    end
+
     $admin = BackendClientMethods::ASpaceUser.new('admin', 'admin')
     JSONModel.init(client_mode: true,
                    url: AppConfig[:backend_url],
