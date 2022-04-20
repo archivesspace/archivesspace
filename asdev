@@ -1,0 +1,50 @@
+#!/bin/bash
+# Requires rbenv: https://github.com/rbenv/rbenv
+
+# SETUP / RESET
+# ./build/run db:nuke && ./build/run db:migrate && ./build/run solr:reset
+
+# RUN THE DEVSERVERS
+# ./asdev backend
+# ./asdev frontend
+# ./asdev public
+# ./asdev indexer
+
+# BACKEND PRY CONSOLE:
+# ./asdev backend "pry -r ./app/main.rb"
+
+cd "`dirname "$0"`"
+rbenv install -s
+
+APP=$1
+CMD=$2
+
+if [ -z "${APP}" ]; then
+  echo "App is required."
+  exit 1
+fi
+
+if [ -z "${CMD}" ]; then
+  case $APP in
+    backend)
+      CMD="ruby ./app/main.rb"
+      ;;
+    frontend)
+      CMD="./script/rails s mizuno -p 3000 -b 0.0.0.0"
+      ;;
+    public)
+      CMD="./bin/rails s mizuno -p 3001 -b 0.0.0.0"
+      ;;
+    indexer)
+      CMD="ruby ./app/main.rb"
+      ;;
+    *)
+      echo "Unknown app: ${APP}"
+      exit 1
+      ;;
+  esac
+fi
+
+source .env.asdev
+cd $APP
+eval "bundle exec $CMD"
