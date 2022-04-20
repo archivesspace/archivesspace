@@ -21,7 +21,6 @@ $(function () {
     },
   })
     .done(function (data) {
-      console.log(data);
       if (data === true) {
         var staff = $('#staff-link');
         link =
