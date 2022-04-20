@@ -313,8 +313,6 @@ class ResourcesController < ApplicationController
   def staff_access?(uri)
     staff_interface = URI(AppConfig[:frontend_url] + "/check_session?uri=#{uri}")
     response = Net::HTTP.get(staff_interface)
-    STDERR.puts "++++++++++++++++++++++++++++++"
-    STDERR.puts response.inspect
   end
 
 end
