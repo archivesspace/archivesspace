@@ -56,7 +56,7 @@
     <property name="correct" value="false" />
     <property name="dir" value="." />
     <condition property="correct-arg" value="--auto-correct" else="">
-      <istrue value="true" />
+      <istrue value="${correct}" />
     </condition>
     <antcall target="bundler">
       <param name="gemfile" value="../Gemfile" />
