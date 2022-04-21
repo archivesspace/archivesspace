@@ -125,6 +125,37 @@ def setup_test_data
                     instances: [build(:instance_digital)],
                     subjects: [{'ref' => subject.uri}])
 
+  STDERR.puts "++++++++++++++++++++++++++++++"
+  STDERR.puts "before loc"
+
+  location = create(:json_location, barcode: rand(10000).to_s)
+
+  STDERR.puts location.inspect
+  STDERR.puts location['uri']
+
+  STDERR.puts "before con_loc"
+  container_location = create(:json_container_location, :ref => location['uri'])
+
+  STDERR.puts container_location.inspect
+
+
+  STDERR.puts "before tc"
+  top_container = create(:json_top_container, 
+                          container_locations: [ container_location ]
+                        )
+
+  STDERR.puts top_container.inspect
+
+
+  resource_with_instance = create(:resource, title: "Published Resource With Instance",
+                             instances: [create(:json_instance, 
+                               sub_container: create(:json_sub_container,
+                                 top_container: {:ref => top_container.uri }
+                               )
+                             )
+                           ],
+                           publish: true)
+
   create(:resource, title: "Resource with Deaccession", publish: true,
     deaccessions: [build(:json_deaccession)])
 

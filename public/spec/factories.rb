@@ -40,6 +40,8 @@ module AspaceFactories
               raise "Authentication to backend failed: #{response.body}"
             end
           else
+            STDERR.puts "+++++++++"
+            STDERR.puts e.backtrace
             raise e
           end
         end
@@ -128,6 +130,19 @@ module AspaceFactories
         finding_aid_script { [generate(:finding_aid_script)].sample }
         finding_aid_language_note { nil_or_whatever }
         instances { [] }
+      end
+
+      factory :resource_with_instance, class: JSONModel(:resource) do
+        title { generate :resource_title }
+        id_0 { generate :id_0 }
+        extents { [build(:extent)] }
+        dates { [build(:date)] }
+        level { "collection" }
+        lang_materials { [build(:lang_material)] }
+        finding_aid_language { [generate(:finding_aid_language)].sample }
+        finding_aid_script { [generate(:finding_aid_script)].sample }
+        finding_aid_language_note { nil_or_whatever }
+        instances { [ build(:json_instance) ] }
       end
 
       factory :resource_with_scope, class: JSONModel(:resource) do
