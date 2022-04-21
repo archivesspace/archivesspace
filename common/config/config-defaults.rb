@@ -746,3 +746,6 @@ AppConfig[:prune_ark_name_table] = false
 
 # If the PUI is enabled, add resource finding aid URLs to MARC exports
 AppConfig[:include_pui_finding_aid_urls_in_marc_exports] = false
+
+# If enabled, use slugs instead of URIs in finding aid links (856 $u)
+AppConfig[:use_slug_finding_aid_urls_in_marc_exports] = false

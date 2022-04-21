@@ -1329,6 +1329,36 @@ describe 'MARC Export' do
       expect(df.sf_t('z')).to include("Finding aid online:")
     end
 
+    describe 'automatically include finding aids in marc exports enabled' do
+      before(:all) do
+        AppConfig[:include_pui_finding_aid_urls_in_marc_exports] = true
+      end
+
+      it "automatically includes PUI link in 856 $u" do
+        resource = create(:json_resource, :ead_location => nil, :publish => true)
+        marc = get_marc(resource)
+
+        df = marc.df('856', '4', '2')
+        df.sf_t('u').should match(/#{resource['uri']}/)
+      end
+    end
+
+    describe 'slugs and automatically include finding aids in marc exports enabled' do
+      before(:all) do
+        AppConfig[:include_pui_finding_aid_urls_in_marc_exports] = true
+        AppConfig[:use_human_readable_urls] = true
+        AppConfig[:use_slug_finding_aid_urls_in_marc_exports] = true
+      end
+
+      it "automatically includes slugged PUI link in 856 $u" do
+        resource = create(:json_resource, :ead_location => nil, :publish => true, :slug => "slugged_url")
+        marc = get_marc(resource)
+
+        df = marc.df('856', '4', '2')
+        df.sf_t('u').should match(/slugged_url/)
+      end
+    end
+
     describe 'ARKs enabled' do
 
       before(:all) do
