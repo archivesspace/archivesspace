@@ -9,14 +9,19 @@ class Search
     Search.all(repo_id, criteria)
   end
 
-
-  def self.all(repo_id, criteria)
+  # :context_criteria - added to criteria for building the query, but hidden from user
+  def self.all(repo_id, criteria, context_criteria = {})
+    context_criteria.each do |k, v|
+      raise "Not implemented" unless v.is_a? Array
+      criteria[k] ||= []
+      criteria[k] += v
+    end
     build_filters(criteria)
-
     criteria["page"] = 1 if not criteria.has_key?("page")
     criteria["sort"] ||= sort(criteria["type[]"] || (criteria["filter_term[]"] || []).collect { |term| ASUtils.json_parse(term)['primary_type'] }.compact)
 
     search_data = JSONModel::HTTP::get_json("/repositories/#{repo_id}/search", criteria)
+
     #If the criteria contains a 'blank_facet_query_fields' field,
     #we want to add a facet to filter on items WITHOUT an entry in the facet
     if (criteria.has_key?("blank_facet_query_fields"))
@@ -42,9 +47,7 @@ class Search
 
     end
 
-    search_data[:criteria] = criteria
-
-    SearchResultData.new(search_data)
+    SearchResultData.new(search_data, criteria, context_criteria)
   end
 
 
@@ -54,9 +57,8 @@ class Search
     criteria["page"] = 1 if not criteria.has_key?("page")
 
     search_data = JSONModel::HTTP::get_json("/search/#{type}", criteria)
-    search_data[:criteria] = criteria
     search_data[:type] = type
-    SearchResultData.new(search_data)
+    SearchResultData.new(search_data, criteria)
   end
 
   private
@@ -85,13 +87,19 @@ class Search
     sort_col = prefs["#{type}_sort_column"] || 'score'
     derived_sort_col = SearchAndBrowseColumnConfig.columns.dig(type, sort_col, :sort_by)
     sort_col = derived_sort_col if derived_sort_col
-    "#{sort_col} #{(prefs["#{type}_sort_direction"] || "desc")}"
+    direction = prefs["#{type}_sort_direction"] || "desc"
+    "#{sort_col} #{direction}"
   end
 
   def self.build_filters(criteria)
     queries = AdvancedQueryBuilder.new
 
     Array(criteria['filter_term[]']).each do |json_filter|
+      filter = ASUtils.json_parse(json_filter)
+      queries.and(filter.keys[0], filter.values[0])
+    end
+
+    Array(criteria['static_filter_term[]']).each do |json_filter|
       filter = ASUtils.json_parse(json_filter)
       queries.and(filter.keys[0], filter.values[0])
     end

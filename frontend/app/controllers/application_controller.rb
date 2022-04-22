@@ -706,12 +706,13 @@ class ApplicationController < ActionController::Base
   end
 
   def params_for_backend_search
-    params_for_search = params.select {|k, v| ["page", "q", "aq", "type", "sort", "exclude", "filter_term", "fields"].include?(k) and not v.blank?}
+    backend_search_params = ["page", "q", "aq", "type", "sort", "exclude", "filter_term", "fields"]
+    params_for_search = params.select {|k, v| backend_search_params.include?(k) and not v.blank?}
 
     params_for_search["page"] ||= 1
 
     if params_for_search["type"]
-      params_for_search["type[]"] = Array(params_for_search["type"]).reject {|v| v.blank?}
+      params_for_search["type[]"] = Array(params_for_search["type"]).reject {|v| v.blank?}.uniq
       params_for_search.delete("type")
     end
 
