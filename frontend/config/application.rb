@@ -18,6 +18,7 @@ if defined?(Bundler)
   Bundler.require(*Rails.groups(:assets => %w(development test)))
   # If you want your assets lazily compiled in production, use this line
   # Bundler.require(:default, :assets, Rails.env)
+  ASUtils.load_pry_aliases
 end
 
 module ArchivesSpace

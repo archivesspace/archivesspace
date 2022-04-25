@@ -9,6 +9,11 @@ if ENV['COVERAGE_REPORTS'] && ENV["ASPACE_INTEGRATION"] == "true"
   ASpaceCoverage.start('backend_integration')
 end
 
+if ENV["ASPACE_ENV"] == "development"
+  Bundler.require(:development)
+  ASUtils.load_pry_aliases
+end
+
 require_relative 'lib/bootstrap'
 ASpaceEnvironment.init
 
