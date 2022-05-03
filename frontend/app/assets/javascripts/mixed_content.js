@@ -100,8 +100,24 @@ $(function () {
       var onWrapActionChange = function (event) {
         if ($editor.somethingSelected() && $wrapWithActionSelect.val() != '') {
           var tag = $wrapWithActionSelect.val();
+
+          var attributes = '';
+
+          if (AS.mixedContentElements[tag].defaultAttributes) {
+            attributes = ` ${AS.mixedContentElements[tag].defaultAttributes}`;
+          }
+
+          tag = AS.mixedContentElements[tag].tag;
+
           $editor.replaceSelection(
-            '<' + tag + '>' + $editor.getSelection() + '</' + tag + '>'
+            '<' +
+              tag +
+              attributes +
+              '>' +
+              $editor.getSelection() +
+              '</' +
+              tag +
+              '>'
           );
           var cursorPosition = $editor.getCursor();
           $editor.setCursor({
@@ -176,10 +192,12 @@ $(function () {
     if (tagList) {
       CodeMirror.xmlHints['<'] = [];
       $.each(tagList, function (tag, def) {
-        CodeMirror.xmlHints['<'].push(tag);
-        CodeMirror.xmlHints['<' + tag + ' '] = def.attributes || [];
-        if (def.elements) {
-          addToPath('<' + def.tag + '><', def.elements);
+        if (!def.wraponly) {
+          CodeMirror.xmlHints['<'].push(tag);
+          CodeMirror.xmlHints['<' + tag + ' '] = def.attributes || [];
+          if (def.elements) {
+            addToPath('<' + def.tag + '><', def.elements);
+          }
         }
       });
     } else {
@@ -199,6 +217,16 @@ $(function () {
   $(document).bind('expandcontainer.aspace', function (event, $container) {
     $('textarea.mixed-content:not(.initialised)', $container).mixedContent();
   });
+
+  $(document).bind(
+    'loadedrecordform.aspace',
+    function (event, object_name, subform) {
+      $(
+        'textarea.mixed-content:not(.initialised):visible',
+        subform
+      ).mixedContent();
+    }
+  );
 
   // $("textarea.mixed-content:not(.initialised)").mixedContent();
 });
