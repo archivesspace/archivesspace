@@ -218,6 +218,7 @@ en:
       create_time: Created
       asc: Ascending
       desc: Descending
+      URI: URI
     resource:
       score: Relevance
       title: Title
@@ -240,6 +241,7 @@ en:
       create_time: Created
       asc: Ascending
       desc: Descending
+      URI: URI
     archival_object:
       score: Relevance
       title: Title
@@ -256,6 +258,7 @@ en:
       create_time: Created
       asc: Ascending
       desc: Descending
+      URI: URI
     subject:
       score: Relevance
       source: Source
@@ -267,6 +270,7 @@ en:
       create_time: Created
       asc: Ascending
       desc: Descending
+      URI: URI
     digital_object:
       score: Relevance
       title: Title
@@ -284,6 +288,7 @@ en:
       create_time: Created
       asc: Ascending
       desc: Descending
+      URI: URI
     digital_object_component:
       score: Relevance
       title: Title
@@ -297,6 +302,7 @@ en:
       create_time: Created
       asc: Ascending
       desc: Descending
+      URI: URI
     agent:
       score: Relevance
       title: Name
@@ -311,6 +317,7 @@ en:
       create_time: Created
       asc: Ascending
       desc: Descending
+      URI: URI
     location:
       score: Relevance
       title: Location
@@ -368,6 +375,7 @@ en:
       create_time: Created
       asc: Ascending
       desc: Descending
+      URI: URI
     assessment:
       score: Relevance
       assessment_id: Assessment ID
@@ -399,6 +407,7 @@ en:
       create_time: Created
       asc: Ascending
       desc: Descending
+      URI: URI
     top_container:
       score: Relevance
       title: Title
