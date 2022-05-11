@@ -40,8 +40,6 @@ module AspaceFactories
               raise "Authentication to backend failed: #{response.body}"
             end
           else
-            STDERR.puts "+++++++++"
-            STDERR.puts e.backtrace
             raise e
           end
         end
