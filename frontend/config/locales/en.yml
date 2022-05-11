@@ -548,7 +548,7 @@ en:
     global_preferences: Global Preferences
     global_settings: Global Settings
     user_repo_preferences: Repository Preferences
-    repo_preferences: Repository Preferences
+    repo_preferences: Default Repository Preferences
     manage_user_access: Manage User Access
     logout: Logout
     register: Register now
