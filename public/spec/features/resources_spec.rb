@@ -14,12 +14,6 @@ describe 'Resources', js: true do
     end
   end
 
-  it 'should show location info' do
-    visit('/')
-    click_link 'Collections'
-    sleep 300
-  end
-
   it 'should be able to properly navigate from Collection Organization back to Resource' do
     visit('/')
     click_link 'Collections'
