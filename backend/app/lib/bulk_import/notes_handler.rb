@@ -43,7 +43,7 @@ class NotesHandler < Handler
     note_types
   end
 
-  def create_note(type, note_label, content, publish, dig_obj = false, b_date = nil, e_date = nil)
+  def create_note(type, note_label, content, publish, dig_obj = false, b_date = nil, e_date = nil, local_restriction = nil)
     note_types = dig_obj ? @@do_note_types : @@ao_note_types
     note_type = note_types[type]
     if note_type.nil?
@@ -73,7 +73,8 @@ class NotesHandler < Handler
     if b_date || e_date
       note.rights_restriction = {
         'begin' => b_date,
-        'end' => e_date
+        'end' => e_date,
+        'local_access_restriction_type' => [local_restriction].compact,
       }
     end
     # For some reason, just having the JSONModel doesn't work; convert to hash

@@ -280,6 +280,7 @@ module BulkImportMixins
           if type == 'accessrestrict'
             b_date = hash['b_accessrestrict']
             e_date = hash['e_accessrestrict']
+            local_restriction = hash['t_accessrestrict']
           end
           pubnote = hash["p_#{type}"]
           if pubnote.nil?
@@ -289,7 +290,7 @@ module BulkImportMixins
           end
           note_label = hash["l_#{type}"]
           begin
-            note = @nh.create_note(type, note_label, content, pubnote, dig_obj, b_date, e_date)
+            note = @nh.create_note(type, note_label, content, pubnote, dig_obj, b_date, e_date, local_restriction)
             ao.notes.push(note) if !note.nil?
           rescue BulkImportException => bei
             errs.push([bei.message])
