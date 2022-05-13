@@ -3,6 +3,11 @@ require 'net/http'
 require 'advanced_search'
 
 class Solr
+
+  class ChecksumMismatchError < StandardError; end
+
+  class NotFound < StandardError; end
+
   module Checksums
     def checksum_valid?
       internal_checksum == external_checksum
@@ -20,7 +25,19 @@ class Solr
 
     def lookup_external_checksum
       url = URI(File.join(@url, @path))
-      @external_checksum = Digest::SHA2.hexdigest(Net::HTTP.get_response(url).body)
+      response = Net::HTTP.get_response(url)
+      if response.code == '200'
+        @external_checksum = Digest::SHA2.hexdigest(response.body)
+      else
+        # if we made it this far, solr (or another server) is probably there
+        # but cannot find the documents we want, most likely because the core
+        # has not been set up correctly.
+        message = "Status #{response.code} when trying to verify #{@url}"
+        if response.body
+          message += "Server response:\n#{response.body}"
+        end
+        raise NotFound.new(message)
+      end
     end
 
     def lookup_internal_checksum
@@ -76,7 +93,7 @@ class Solr
   def self.verify_checksum!(config)
     return true if config.checksum_valid?
 
-    raise "Solr checksum verification failed (#{config.name}): expected [#{config.internal_checksum}] got [#{config.external_checksum}]"
+    raise ChecksumMismatchError.new "Solr checksum verification failed (#{config.name}): expected [#{config.internal_checksum}] got [#{config.external_checksum}]"
   end
 
   class Query
