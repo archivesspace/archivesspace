@@ -195,6 +195,7 @@ $(function () {
 
         $currentRow.after($row);
         initOtherLevelHandler(current_row_index);
+        initRestrictionDatesHandler($row);
         return $row;
       };
 
@@ -407,6 +408,7 @@ $(function () {
         initFillFeature();
         initShowInlineErrors();
         initOtherLevelHandler();
+        initRestrictionDatesHandler();
       };
 
       var initShowInlineErrors = function () {
@@ -434,6 +436,43 @@ $(function () {
           }
         });
       };
+
+      var initRestrictionDatesHandler = function (elt = null) {
+        if (!elt) {
+          elt = $('#rdeTable');
+        }
+
+        function handleUpdate() {
+          var $select = $(this);
+
+          var id_base = $select.attr('id').replace(/_type_$/, '');
+
+          var restrictionsEnabled = ($select.val() === 'accessrestrict' || $select.val() === 'userestrict');
+
+          // Find the corresponding restriction begin + end fields and set their states to match the dropdown.
+          for (var range_type of ['begin', 'end', 'local_access_restriction_type[]']) {
+            var input = $('#' + id_base + '_rights_restriction__' + range_type.replace(/[\[\]]/g, '_') + '_');
+            input.attr('disabled', restrictionsEnabled ? null : 'disabled');
+
+            if (restrictionsEnabled) {
+              if (input.is('select') && !input.val()) {
+                // Select the first option by default
+                input.val(input.find('option:first').val());
+              }
+            } else {
+              // Clear the input
+              input.val('');
+            }
+          }
+        };
+
+        var selects = elt.find("td[data-col^='colNType'] select");
+
+        selects.change(handleUpdate);
+        selects.trigger('change');
+      }
+
+
 
       var initAutoValidateFeature = function () {
         // Validate row upon input change
@@ -565,7 +604,7 @@ $(function () {
               }
             } else {
               fillValue = $('#basicFillValue', $form).val();
-              $(':input:first', $targetCells).val(fillValue);
+              $(':input:first', $targetCells).val(fillValue).trigger('change');
             }
 
             $btnFillFormToggle.toggleClass('active');
@@ -710,6 +749,23 @@ $(function () {
         );
       };
 
+      // Remove elements from `a` that appear in `b`.
+      var setSubtract = function (a, b) {
+        const bSet = {};
+        for (const elt of b) {
+          bSet[elt] = true;
+        }
+
+        const result = [];
+        for (const elt of a) {
+          if (!bSet[elt]) {
+            result.push(elt);
+          }
+        }
+
+        return result;
+      }
+
       var applyColumnOrder = function (callback) {
         if (COLUMN_ORDER === null) {
           persistColumnOrder();
@@ -718,6 +774,21 @@ $(function () {
           var $row = $('tr.fieldset-labels', $table);
           var $sectionRow = $('tr.sections', $table);
           var $colgroup = $('colgroup', $table);
+
+          // If there are columns present that aren't in our order, RDE might
+          // have gained some new columns since we persisted our list.
+          //
+          // Keep everything working by inserting the missing columns at the end
+          // of the list, just before colActions.
+          var missing = setSubtract($('th', 'tr.fieldset-labels').map(function () { return $(this).attr('id'); }),
+                                    COLUMN_ORDER);
+
+          COLUMN_ORDER = COLUMN_ORDER.filter((elt) => elt !== 'colActions');
+          for (const elt of missing) {
+            COLUMN_ORDER.push(elt);
+          }
+
+          COLUMN_ORDER.push('colActions');
 
           $sectionRow.html('');
 
