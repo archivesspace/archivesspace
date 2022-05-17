@@ -43,13 +43,16 @@ class NotesHandler < Handler
     note_types
   end
 
-  def create_note(type, content, publish, dig_obj = false, b_date = nil, e_date = nil)
+  def create_note(type, note_label, content, publish, dig_obj = false, b_date = nil, e_date = nil)
     note_types = dig_obj ? @@do_note_types : @@ao_note_types
     note_type = note_types[type]
     if note_type.nil?
       raise BulkImportException.new(I18n.t("bulk_import.error.bad_note_type", :type => type))
     end
     note = JSONModel(note_type[:target]).new
+    unless (note_label = note_label.to_s.strip).empty?
+      note.label = note_label
+    end
     note.publish = publish
     note.type = note_type[:value]
     begin
