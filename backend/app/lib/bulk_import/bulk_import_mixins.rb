@@ -287,8 +287,9 @@ module BulkImportMixins
           else
             pubnote = (pubnote == "1")
           end
+          note_label = hash["l_#{type}"]
           begin
-            note = @nh.create_note(type, content, pubnote, dig_obj, b_date, e_date)
+            note = @nh.create_note(type, note_label, content, pubnote, dig_obj, b_date, e_date)
             ao.notes.push(note) if !note.nil?
           rescue BulkImportException => bei
             errs.push([bei.message])
