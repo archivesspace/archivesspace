@@ -295,6 +295,9 @@ describe "EAD export mappings" do
       end
     end
 
+    it "maps {archival_object}.uri to {desc_path}/did/unitid[@type='aspace_uri']" do
+      mt(object.uri, "#{desc_path}/did/unitid[@type='aspace_uri']")
+    end
 
     it "maps {archival_object}.lang_materials['language_and_script'] to {desc_path}/did/langmaterial/language" do
 
