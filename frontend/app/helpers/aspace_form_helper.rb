@@ -254,7 +254,8 @@ module AspaceFormHelper
 
 
     def id_for_javascript(name)
-      "#{form_top}#{name.split("/").collect {|a| "[#{a}]"}.join}".gsub(/[\[\]\/]/, "_")
+      path = name.split("/").collect {|a| "[#{a}]"}.join
+      "#{form_top}#{path}".gsub(/[\[\]\/]/, "_")
     end
 
 
@@ -333,12 +334,6 @@ module AspaceFormHelper
       opts[:col_size] = 1
       opts[:controls_class] = "checkbox"
       label_with_field(name, checkbox(name, opts, default, force_checked), opts)
-    end
-
-    def label_and_req_boolean(name, opts = {}, default = false, force_checked = false)
-      opts[:col_size] = 1
-      opts[:controls_class] = "req_checkbox"
-      label_with_field(name, req_checkbox(name, opts, default, force_checked), opts)
     end
 
     def label_and_readonly(name, default = "", opts = {})
@@ -670,13 +665,6 @@ module AspaceFormHelper
       return html.html_safe
     end
 
-    def req_checkbox(name, opts = {}, default = true, force_checked = false)
-      options = {:id => "#{id_for(name)}", :type => "checkbox", :name => path(name), :value => "REQ"}
-      options[:checked] = "checked" if force_checked or (obj[name] === true) or (obj[name].is_a? String and obj[name].start_with?("true")) or (obj[name] === "REQ") or (obj[name].nil? and default)
-
-      @forms.tag("input", options.merge(opts), false, false)
-    end
-
     def merge_checkbox(name, opts = {}, default = false, force_checked = false)
       options = {:id => "#{id_for(name)}", :type => "checkbox", :name => path(name), :value => "REPLACE"}
       options[:checked] = "checked" if force_checked or (obj[name] === true) or (obj[name].is_a? String and obj[name].start_with?("true")) or (obj[name] === "REPLACE") or (obj[name].nil? and default)
@@ -750,7 +738,7 @@ module AspaceFormHelper
       end
 
       control_group_classes << "required" if required == true
-      control_group_classes << "required" if obj[name].is_a? String and obj[name].end_with?("REQ")
+
       control_group_classes << "conditionally-required" if required == :conditionally
 
       control_group_classes << "#{opts[:control_class]}" if opts.has_key? :control_class
@@ -911,7 +899,9 @@ module AspaceFormHelper
         end
       end
       html << "<div class='form-group'>"
-      html << "<div class='control-label col-sm-2'>#{I18n.t("#{prefix}#{jsonmodel_type.to_s}.#{property}")}</div>"
+      html << "<div class='control-label col-sm-2'>"
+      html << I18n.t("#{prefix}#{jsonmodel_type.to_s}.#{property}")
+      html << "</div>"
       html << "<div class='label-only col-sm-8'>#{value}</div>"
       html << "</div>"
     end
@@ -1275,10 +1265,11 @@ module AspaceFormHelper
       end
 
       html << "<div class='form-group'>"
-      html << "<div class='control-label col-sm-2'>#{I18n.t("#{prefix}#{jsonmodel_type.to_s}.#{property}")}</div>"
+      html << "<div class='control-label col-sm-2'>"
+      html << I18n.t("#{prefix}#{jsonmodel_type.to_s}.#{property}")
+      html << "</div>"
       html << "<div class='label-only col-sm-8'>#{value}</div>"
       html << "</div>"
-
     end
 
     html << "</div>"

@@ -43,17 +43,6 @@
   </div>
 <% end %>
 
-<% define_template "agent_conventions_declaration_required", jsonmodel_definition(:agent_conventions_declaration) do |form| %>
-  <% field_names = ["name_rule", "citation", "descriptive_note", "file_uri", "file_version_xlink_actuate_attribute", "file_version_xlink_show_attribute", "xlink_title_attribute", "xlink_role_attribute", "xlink_arcrole_attribute", "last_verified_date"] %>
-  <% field_names.each do |field_name| %>
-    <% if form.required?(field_name) %>
-      <%= form.label_and_readonly field_name %>
-    <% else %>
-      <%= form.label_and_req_boolean field_name %>
-    <% end %>
-  <% end %>
-<% end %>
-
 <% define_template "agent_conventions_declaration_merge_target", jsonmodel_definition(:agent_conventions_declaration) do |form| %>
 
   <%= form.record_level_merge_controls(form, "agent_conventions_declaration", false) %>

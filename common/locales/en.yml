@@ -2404,6 +2404,7 @@ en:
     subject_must_be_unique: Subject records cannot be identical
     subject_heading_identifier_must_be_unique_within_source: Subject heading identifier must be unique within source
     missing_required_property: Property is required but was missing
+    missing_required_subrecord: Subrecord is required but was missing
     missing_property: Property was missing
     not_a_valid_date: Not a valid date
     must_not_be_before_begin: must not be before begin

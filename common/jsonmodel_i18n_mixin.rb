@@ -1,4 +1,3 @@
-
 module JSONModelI18nMixin
 
   def t(*args)
@@ -70,7 +69,7 @@ module JSONModelI18nMixin
                when /Username '(.*)' is already in use/
                  [:username_already_in_use, {:username => $1}]
                else
-                 [msg.downcase.gsub(/[\s,':]/, '_')]
+                 [msg.to_s.downcase.gsub(/[\s,':]/, '_')]
                end
 
     key, vars = *msg_data

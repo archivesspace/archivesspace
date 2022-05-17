@@ -7,7 +7,6 @@ class AgentsController < ApplicationController
                       'manage_repository' => [:defaults, :update_defaults, :required, :update_required]
 
   before_action :assign_types
-  before_action :set_structured_date_type, only: [:create, :update]
   before_action :get_required, only: [:new, :create, :required]
 
   include ExportHelper
@@ -42,9 +41,7 @@ class AgentsController < ApplicationController
     end
 
     begin
-      if @required.class == RequiredFields
-        @agent.update_concat(@required.values)
-      end
+      @agent.update_concat(@required.values)
     rescue Exception => e
       flash[:error] = e.message
       redirect_to controller: :agents, action: :required
@@ -66,20 +63,18 @@ class AgentsController < ApplicationController
   end
 
   def create
-    required_values = (@required.values if @required.class == RequiredFields)
+    required_values = @required.values
     handle_crud(instance: :agent,
                 model: JSONModel(@agent_type),
                 required: required_values,
                 find_opts: find_opts,
+                before_hooks: [method(:set_structured_date_type)],
                 on_invalid: lambda {
                   @required = RequiredFields.get @agent_type.to_s
-                  @required = {} if @required.nil?
-                  if @required.class == RequiredFields
-                    @agent.update_concat(@required.values)
-                  end
+                  @agent.update_concat(@required.values)
+
                   ensure_auth_and_display
                   return render_aspace_partial partial: 'agents/new' if inline?
-
                   return render action: :new
                 },
                 on_valid: lambda  { |id|
@@ -106,6 +101,7 @@ class AgentsController < ApplicationController
     handle_crud(instance: :agent,
                 model: JSONModel(@agent_type),
                 obj: JSONModel(@agent_type).find(params[:id], find_opts),
+                before_hooks: [method(:set_structured_date_type)],
                 on_invalid: lambda {
                   if @agent.names.empty?
                     @agent.names = [@name_type.new._always_valid!]
@@ -191,22 +187,34 @@ class AgentsController < ApplicationController
 
   def required
     @agent = JSONModel(@agent_type).new({ agent_type: @agent_type })._always_valid!
-
-    @agent.update(@required.form_values) if @required.class == RequiredFields
-
+    @agent.update(@required.form_values)
     render 'required'
   end
 
   def update_required
+    processed_params = cleanup_params_for_schema(
+      params['agent'],
+      JSONModel(@agent_type).schema
+    )
+
+    # this bears explanation: we want to infer subrecord requirement
+    # if a field on the subrecord is required. We look in the fields for
+    # the JSONModel type, which is what we now assign to any required field
+    # or to 'jsonmodel_type' to indicate the whole record ("REQ" is deprecated.)
+    # someday the required_fields table should be migrated to a more expressive
+    # format
+    processed_params.each do |key, defn|
+      next unless defn.is_a?(Array)
+      require_keys = defn.map { |h| h.keys }.flatten
+      likely_type = defn.map { |h| h.values }.flatten.reject { |v| v == "REQ"}.uniq
+      unless likely_type.empty? || require_keys.include?("jsonmodel_type")
+        defn << { "jsonmodel_type" => likely_type.first }
+      end
+    end
     RequiredFields.from_hash({
                                'record_type' => @agent_type.to_s,
                                'lock_version' => params['agent'].delete('lock_version'),
-                               'required' => cleanup_params_for_schema(
-                                 params['agent'],
-                                 JSONModel(@agent_type).schema
-                               )
-                             }).save
-
+                               'required' => processed_params}).save
     flash[:success] = I18n.t('required_fields.messages.required_fields_updated')
     redirect_to controller: :agents, action: :required
   rescue Exception => e
@@ -312,7 +320,6 @@ class AgentsController < ApplicationController
 
   def get_required
     @required = RequiredFields.get @agent_type.to_s
-    @required = {} if @required.nil?
   end
 
   def assign_types
@@ -323,8 +330,8 @@ class AgentsController < ApplicationController
     @name_type = name_type_for_agent_type(@agent_type)
   end
 
-  def set_structured_date_type
-    params['agent']['dates_of_existence']&.each do |_key, label|
+  def set_structured_date_type(agent_hash)
+    agent_hash['dates_of_existence']&.each do |label|
       if label['structured_date_single']
         label['date_type_structured'] = 'single'
       elsif label['structured_date_range']
@@ -333,11 +340,9 @@ class AgentsController < ApplicationController
         label['date_type_structured'] = 'Add or update either a single or ranged date subrecord to set'
       end
     end
-
-    params['agent']['names']&.each do |_key, name|
+    agent_hash['names']&.each do |name|
       next unless name['use_dates']
-
-      name['use_dates'].each do |_key, label|
+      name['use_dates'].each do |label|
         if label['structured_date_single']
           label['date_type_structured'] = 'single'
         elsif label['structured_date_range']
@@ -348,7 +353,7 @@ class AgentsController < ApplicationController
       end
     end
 
-    params['agent']['related_agents']&.each do |_key, rel|
+    agent_hash['related_agents']&.each do |rel|
       if rel['dates']
         if rel['dates']['structured_date_single']
           rel['dates']['date_type_structured'] = 'single'
