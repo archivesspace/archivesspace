@@ -9,6 +9,14 @@ $(function() {
 
   var selected_lccns = {};
 
+  $('#lcnaf_service_loc').click(function() {
+    $('#js-subjects-toggle').show();
+  })
+
+  $('#lcsh_service_loc').click(function() {
+    $('#js-subjects-toggle').hide();
+  })
+
   var renderResults = function(json) {
     decorateResults(json);
 
@@ -179,7 +187,6 @@ $(function() {
       $('.btn', '.lcnaf-result').prop('disabled', function(i, v) { return !v; });
     }
   });
-
 
   $(window).resize(resizeSelectedBox);
   resizeSelectedBox();

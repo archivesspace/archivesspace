@@ -56,6 +56,10 @@
     <div class="selected-container" data-spy="affix">
       <div class="alert alert-info"><%= I18n.t("plugins.lcnaf.messages.none_selected") %></div>
       <div id="selected"></div>
+      <div id="js-subjects-toggle">
+        <label class='control-label' for="import_subjects_select"><%= I18n.t("plugins.lcnaf.actions.import_subjects") %></label>
+        <input name="import_subjects" type="checkbox" id="import_subjects_select" value="1" checked> 
+      </div>
       <button id="import-selected" class="btn btn-primary btn-default" disabled="disabled">
         <%= image_tag "archivesspace/btn-busy.gif", :class=>"btn-busy-icon", :alt=>"Importing..." %>
         <%= I18n.t("plugins.lcnaf.actions.import") %>

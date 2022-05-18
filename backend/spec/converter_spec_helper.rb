@@ -1,13 +1,12 @@
 require 'spec_helper'
 
 
-def convert(path_to_some_xml, import_events = false)
+def convert(path_to_some_xml, import_events = false, import_subjects = true)
   converter = my_converter.new(path_to_some_xml)
 
-  if import_events
-    converter.set_import_events if converter.respond_to?(:set_import_events)
-  else
-    converter.unset_import_events if converter.respond_to?(:unset_import_events)
+  if converter.respond_to?(:set_import_options)
+    converter.set_import_options({:import_events   => import_events,
+                                  :import_subjects => import_subjects})
   end
 
   converter.run
