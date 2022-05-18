@@ -1,6 +1,12 @@
 module ASpaceHelpers
   include Capybara::DSL
 
+  def apply_session_to_controller(controller, username, password)
+    session = User.login(username, password)
+    User.establish_session(controller, session, username)
+    controller.session[:repo_id] = JSONModel.repository
+  end
+
   def resource_edit_url(resource)
     "#{resource.uri.sub(%r{/repositories/\d+}, '')}/edit"
   end

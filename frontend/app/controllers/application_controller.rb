@@ -365,6 +365,11 @@ class ApplicationController < ActionController::Base
     session[:preferences] || self.class.user_preferences(session)
   end
 
+  def user_defaults(record_type)
+    default_values = user_prefs['default_values']
+    DefaultValues.get(record_type) if default_values
+  end
+
   helper_method :browse_columns
   def browse_columns
     @browse_columns ||= if session[:repo_id]
