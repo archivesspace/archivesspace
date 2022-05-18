@@ -146,7 +146,7 @@ describe 'MARCXML Auth Agent converter' do
     end
 
     it 'does not import functions if subject import disabled' do
-      record = convert(family_agent_1 ,false, false).select { |r| r['jsonmodel_type'] == 'agent_family' }.first
+      record = convert(family_agent_1 , false, false).select { |r| r['jsonmodel_type'] == 'agent_family' }.first
 
       expect(record['agent_functions'].length).to eq(0)
     end
