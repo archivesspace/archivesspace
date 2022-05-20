@@ -3,6 +3,11 @@ require_relative 'spec_slugs_helper'
 
 describe 'Digital object model' do
 
+  before(:each) do
+    allow(AppConfig).to receive(:[]).and_call_original
+    allow(AppConfig).to receive(:[]).with(:enable_representative_file_version) { true }
+  end
+
   it "allows digital objects to be created" do
     json = build(:json_digital_object)
 
