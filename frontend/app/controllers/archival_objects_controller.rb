@@ -6,8 +6,6 @@ class ArchivalObjectsController < ApplicationController
                       "delete_archival_record" => [:delete],
                       "manage_repository" => [:defaults, :update_defaults]
 
-
-
   def new
     @archival_object = ArchivalObject.new._always_valid!
     @archival_object.parent = {'ref' => ArchivalObject.uri_for(params[:archival_object_id])} if params.has_key?(:archival_object_id)

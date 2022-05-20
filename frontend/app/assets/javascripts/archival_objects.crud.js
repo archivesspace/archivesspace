@@ -27,9 +27,6 @@ function SimpleLinkingModal(config) {
     {},
     this
   );
-  if (config.must_select) {
-    $('.modal-header a', self.$modal).hide();
-  }
   self.$container = $('.linker-container', self.$modal);
   self.reload_modal(self.config.url_html);
   self.init_click_handlers();
@@ -233,7 +230,6 @@ function validateResourceAndParent() {
       types: ['resource'],
       linker: true, //?
       multiplicity: 1,
-      must_select: true,
       onLink: function (resource_uri) {
         $resourceInput.attr('name', 'archival_object[resource][ref]');
         $resourceInput.val(resource_uri);

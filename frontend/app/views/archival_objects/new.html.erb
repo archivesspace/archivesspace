@@ -1,4 +1,4 @@
-<%= setup_context :object => @archival_object %>
+<%= setup_context :object => @archival_object, :controller => :resources %>
 
 <div id="object_container">
   <%= form_for @archival_object, :as => "archival_object", :url => {:action => :create}, :html => {:class => 'form-horizontal aspace-record-form', :id => "archival_object_form"} do |f| %>
