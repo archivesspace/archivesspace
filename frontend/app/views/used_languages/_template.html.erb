@@ -16,19 +16,6 @@
   </div>
 <% end %>
 
-<% define_template "used_language_required", jsonmodel_definition(:used_language) do |form| %>
-  <% field_names = ["language", "script"] %>
-  <% field_names.each do |field_name| %>
-    <% if form.required?(field_name) %>
-      <%= form.label_and_readonly field_name %>
-    <% else %>
-      <%= form.label_and_req_boolean field_name %>
-    <% end %>
-  <% end %>
-
-  <%= form.label_and_disabled_checkbox "Notes" %>
-<% end %>
-
 <% define_template "used_language_merge_target", jsonmodel_definition(:used_language) do |form| %>
 
   <%= form.record_level_merge_controls(form, "used_language", false) %>

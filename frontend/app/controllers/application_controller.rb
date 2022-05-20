@@ -101,6 +101,10 @@ class ApplicationController < ActionController::Base
 
       instance = cleanup_params_for_schema(params[opts[:instance]], model.schema)
 
+      if opts[:before_hooks]
+        opts[:before_hooks].each { |hook| hook.call(instance) }
+      end
+
       if opts[:replace] || opts[:replace].nil?
         obj.replace(instance)
       elsif opts[:copy]
@@ -112,15 +116,18 @@ class ApplicationController < ActionController::Base
 
       if opts[:required]
         required = opts[:required]
+        check_required_subrecords(required, obj)
         missing, min_items = compare(required, obj)
         #render :plain => missing
         if !missing.nil?
           missing.each do |field_name|
-            obj.add_error(field_name, "Property is required but was missing")
+            obj.add_error(field_name, :missing_required_property)
           end
         end
         if !min_items.nil?
           min_items.each do |item|
+            # Do not alter this! It mimics a built-in json-schema message and gets
+            # i18nized later on
             message = "At least #{item['num']} item(s) is required"
             obj.add_error(item['name'], message)
           end
@@ -290,10 +297,7 @@ class ApplicationController < ActionController::Base
     min_items = []
     required.keys.each do |key|
       if required[key].is_a? Array and obj[key].is_a? Array
-        if required[key].length > obj[key].length
-          min_items << {"name" => key, "num" => required[key].length}
-        elsif required[key].length === obj[key].length
-
+        if required[key].length === obj[key].length
           required[key].zip(obj[key]).each_with_index do |(required_a, obj_a), index|
             required_a.keys.each do |nested_key|
               if required_a[nested_key].is_a? Array and obj_a[nested_key].is_a? Array
@@ -695,7 +699,6 @@ class ApplicationController < ActionController::Base
       end
     end
 
-
     JSONSchemaUtils.map_hash_with_schema(params_hash,
                                          schema,
                                          [fix_arrays,
@@ -836,7 +839,15 @@ class ApplicationController < ActionController::Base
     self.method(:current_record).owner != ApplicationController
   end
 
+  def check_required_subrecords(required, obj)
+    required.each do |subrecord_field, requirements_defn|
+      next unless requirements_defn.is_a?(Array)
+      if obj[subrecord_field].empty?
+        obj.add_error(subrecord_field, :missing_required_subrecord)
+      end
+    end
+  end
+
   helper_method :current_record
   helper_method :'controller_supports_current_record?'
-
 end

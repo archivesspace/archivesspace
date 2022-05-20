@@ -31,6 +31,7 @@ en:
     edit_required_fields: Edit Required Fields
     edit_global_oai: View/Edit Global OAI Settings
     required: Required Fields
+    require_subrecord: Require Subrecord
     export: Export
     view: View
     spawn: Spawn

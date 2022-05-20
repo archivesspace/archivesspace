@@ -18,20 +18,6 @@
   </div>
 <% end %>
 
-<% define_template "agent_place_required", jsonmodel_definition(:agent_place) do |form| %>
-  <% field_names = ["place_role"] %>
-  <% field_names.each do |field_name| %>
-    <% if form.required?(field_name) %>
-      <%= form.label_and_readonly field_name %>
-    <% else %>
-      <%= form.label_and_req_boolean field_name %>
-    <% end %>
-
-    <%= form.label_and_disabled_checkbox "Notes" %>
-    <%= form.label_and_disabled_checkbox "Dates" %>
-  <% end %>
-<% end %>
-
 <% define_template "agent_place_merge_target", jsonmodel_definition(:agent_place) do |form| %>
 
   <%= form.record_level_merge_controls(form, "agent_places", false) %>

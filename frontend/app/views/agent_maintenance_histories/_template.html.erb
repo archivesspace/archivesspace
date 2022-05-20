@@ -15,17 +15,6 @@
   </div>
 <% end %>
 
-<% define_template "agent_maintenance_history_required", jsonmodel_definition(:agent_maintenance_history) do |form| %>
-  <% field_names = ["maintenance_event_type", "event_date", "agent", "maintenance_agent_type", "descriptive_note"] %>
-  <% field_names.each do |field_name| %>
-    <% if form.required?(field_name) %>
-      <%= form.label_and_readonly field_name %>
-    <% else %>
-      <%= form.label_and_req_boolean field_name %>
-    <% end %>
-  <% end %>
-<% end %>
-
 <% define_template "agent_maintenance_history_merge_target", jsonmodel_definition(:agent_maintenance_history) do |form| %>
 
   <%= form.record_level_merge_controls(form, "agent_maintenance_history", false) %>
