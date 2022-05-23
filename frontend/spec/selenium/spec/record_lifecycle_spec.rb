@@ -38,7 +38,7 @@ describe 'Record Lifecycle' do
   it 'can suppress an Accession' do
     # make sure we can see suppressed records
     @driver.find_element(:css, '.user-container .btn.dropdown-toggle.last').click
-    @driver.click_and_wait_until_gone(:link, 'Repository Preferences')
+    @driver.click_and_wait_until_gone(:link, 'Default Repository Preferences')
 
     elt = @driver.find_element(:xpath, '//input[@id="preference_defaults__show_suppressed_"]')
     unless elt.attribute('checked')

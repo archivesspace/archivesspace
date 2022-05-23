@@ -13,7 +13,7 @@ describe 'Default Form Values' do
 
     @driver.find_element(:css, '.user-container .btn.dropdown-toggle.last').click
     @driver.wait_for_dropdown
-    @driver.click_and_wait_until_gone(:link, 'Repository Preferences')
+    @driver.click_and_wait_until_gone(:link, 'Default Repository Preferences')
 
     checkbox = @driver.find_element(id: 'preference_defaults__default_values_')
 
