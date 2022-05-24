@@ -1,3 +1,24 @@
+## ApiDoc
+##
+# This is a utility for generating a markdown document that can be consumed by the
+# Slate api publishing tool. ApiDoc.generate_markdown_for_slate will output a
+# slate-ready markdown file to docs/slate/source/index.html.md. It works by building
+# a collection of ApiDoc::Example objects for each endpoint in the ArchivesSpace
+# backend, and then emitting them into the markdown document. There are three ways to
+# create an example:
+# 1) by editing files in `backend/controllers` and supplying handwritten examples.
+#
+# 2) by registering examples using this class. Example:
+#    ApiDoc.register_example "/search", :get, {
+#                             q: "important papers",
+#                             aq: build(:json_advanced_query),
+#                             page: 1,
+#                             page_size: 10
+#                           }, "basic search with 10 results per page"
+#
+# 3) by doing nothing and allowing ApiDoc to build examples using FactoryBot
+#    factories defined in `backend/spec/factories.rb`
+
 require 'factory_bot'
 require 'uri'
 require 'rack/test'
@@ -14,9 +35,7 @@ class ArchivesSpaceService
   def high_priority_request?
     false
   end
-
 end
-
 
 BACKEND_URL = ENV['ASPACE_BACKEND_URL'] || "http://localhost:8089"
 
@@ -211,7 +230,7 @@ include FactoryBot::Syntax::Methods
 
 
 # Use the test factories, or register a bespoke example, or provide
-# and example manually withing the backend/app/controller/*.rb files
+# an example manually withing the backend/app/controller/*.rb files
 ApiDoc.register_example "/search", :get, {
                           q: "important papers",
                           aq: build(:json_advanced_query),
