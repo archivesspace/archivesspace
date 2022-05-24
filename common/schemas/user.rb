@@ -9,6 +9,7 @@
 
       "username" => {"type" => "string", "maxLength" => 255, "ifmissing" => "error", "minLength" => 1},
       "name" => {"type" => "string", "maxLength" => 255, "ifmissing" => "error", "minLength" => 1},
+      "source" => {"type" => "string", "readonly" => true},
 
       "is_system_user" => {"type" => "boolean", "readonly" => true},
 
