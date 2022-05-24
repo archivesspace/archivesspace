@@ -60,7 +60,7 @@ module SearchAndBrowseColumnConfig
       "create_time" => {:field => "create_time", :sortable => true},
       "user_mtime" => {:field => "user_mtime", :sortable => true},
       "audit_info" => {:field => "audit_info", :sort_by => ["create_time", "user_mtime"]},
-      "URI" => {:field => "uri", :sortable => true}
+      "uri" => {:field => "uri", :sortable => true}
     },
     "resource" => {
       "title" => {:field => "title", :sortable => true, :sort_by => "title_sort"},
@@ -79,7 +79,7 @@ module SearchAndBrowseColumnConfig
       "create_time" => {:field => "create_time", :sortable => true},
       "user_mtime" => {:field => "user_mtime", :sortable => true},
       "audit_info" => {:field => "audit_info", :sort_by => ["create_time", "user_mtime"]},
-      "URI" => {:field => "uri", :sortable => true}
+      "uri" => {:field => "uri", :sortable => true}
     },
     "digital_object" => {
       "title" => {:field => "title", :sortable => true, :sort_by => "title_sort"},
@@ -94,7 +94,7 @@ module SearchAndBrowseColumnConfig
       "create_time" => {:field => "create_time", :sortable => true},
       "user_mtime" => {:field => "user_mtime", :sortable => true},
       "audit_info" => {:field => "audit_info", :sort_by => ["create_time", "user_mtime"]},
-      "URI" => {:field => "uri", :sortable => true}
+      "uri" => {:field => "uri", :sortable => true}
     },
     "multi" => {
       "primary_type" => {:field => "primary_type", :sortable => true},
@@ -130,7 +130,7 @@ module SearchAndBrowseColumnConfig
       "rules" => {:field => "rules", :sortable => true},
       "is_user" => {:field => "is_user", :sortable => true, :type => "boolean"},
       "audit_info" => {:field => "audit_info", :sort_by => ["create_time", "user_mtime"]},
-      "URI" => {:field => "uri", :sortable => true}
+      "uri" => {:field => "uri", :sortable => true}
     },
     "archival_object" => {
       "title" => {:field => "title", :sortable => true, :sort_by => "title_sort"},
@@ -143,7 +143,7 @@ module SearchAndBrowseColumnConfig
       "extents" => {:field => "extents"},
       "langcode" => {:field => "langcode", :sortable => false},
       "audit_info" => {:field => "audit_info", :sort_by => ["create_time", "user_mtime"]},
-      "URI" => {:field => "uri", :sortable => true}
+      "uri" => {:field => "uri", :sortable => true}
     },
     "assessment" => {
       "assessment_id" => {:field => "assessment_id", :sortable => true},
@@ -167,7 +167,7 @@ module SearchAndBrowseColumnConfig
       "has_classification_terms" => {:field => "has_classification_terms", :sortable => true, :type => "boolean"},
       "identifier" => {:field => "identifier", :sortable => true, :sort_by => "identifier_sort"},
       "audit_info" => {:field => "audit_info", :sort_by => ["create_time", "user_mtime"]},
-      "URI" => {:field => "uri", :sortable => true}
+      "uri" => {:field => "uri", :sortable => true}
     },
     "collection_management" => {
       "parent_title" => {:field => "parent_title", :sortable => true, :sort_by => "title_sort"},
@@ -195,7 +195,7 @@ module SearchAndBrowseColumnConfig
       "extents" => {:field => "extents"},
       "langcode" => {:field => "langcode", :sortable => false},
       "audit_info" => {:field => "audit_info", :sort_by => ["create_time", "user_mtime"]},
-      "URI" => {:field => "uri", :sortable => true}
+      "uri" => {:field => "uri", :sortable => true}
     },
     "event" => {
       "agents" => {:field => "agents"},
@@ -222,7 +222,7 @@ module SearchAndBrowseColumnConfig
       "source" => {:field => "source", :sortable => true},
       "first_term_type" => {:field => "first_term_type", :sortable => true},
       "audit_info" => {:field => "audit_info", :sort_by => ["create_time", "user_mtime"]},
-      "URI" => {:field => "uri", :sortable => true}
+      "uri" => {:field => "uri", :sortable => true}
     },
     "top_container" => {
       "title" => {:field => "title", :sortable => true, :sort_by => "title_sort"},
