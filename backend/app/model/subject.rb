@@ -141,7 +141,6 @@ class Subject < Sequel::Model(:subject)
   def self.handle_delete(ids_to_delete)
     self.db[:subject_term].filter(:subject_id => ids_to_delete).delete
     self.db[:subject_agent_subrecord_rlshp].filter(:subject_id => ids_to_delete).delete
-    self.db[:subject_agent_subrecord_place_rlshp].filter(:subject_id => ids_to_delete).delete
 
     super
   end
