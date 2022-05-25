@@ -538,10 +538,13 @@
   </target>
 
   <!-- DOCS -->
-  <target name="doc:build" depends="set-classpath" description="Generate content for API and YARD documentation">
+  <target name="doc:api" depends="set-classpath" description="Generate markdown for API documentation">
     <antcall target="thor">
       <param name="task" value="doc:api" />
     </antcall>
+  </target>
+
+  <target name="doc:build" depends="set-classpath" description="Generate YARD documentation">
     <antcall target="doc:yardoc" />
   </target>
 
@@ -700,7 +703,7 @@
       <isset property="example"/>
     </condition>
     <dirset id="plugins" dir="../..">
-      <include name="frontend/spec"/>
+      <include name="frontend/spec"/>gml
       <include name="archivesspace/plugins/**/frontend/spec"/>
     </dirset>
     <pathconvert pathsep=" " property="plugin-spec-dirs" refid="plugins"/>

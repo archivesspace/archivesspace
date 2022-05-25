@@ -1,4 +1,4 @@
-# docker-compose -f docker-compose-docs.yml build
+## Run a slate server to preview API (and Yard) docs
 # docker-compose -f docker-compose-docs.yml up --detach
 # docker-compose -f docker-compose-dev.yml -f docker-compose-docs.yml up --detach
 

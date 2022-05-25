@@ -55,7 +55,7 @@ class ApiDoc
 
   def self.generate_markdown_for_slate
     slate_erb = ERB.new(File.read(File.join(File.dirname(__FILE__), 'API.erb')), nil, '<>')
-    slate_md = File.join(File.dirname(__FILE__), 'slate', 'source', 'api', 'index.html.md')
+    slate_md = File.join(File.dirname(__FILE__), 'slate', 'source', 'index.html.md')
     endpoints = ArchivesSpaceService::Endpoint.all.sort{|a,b| a[:uri] <=> b[:uri]}.reject { |ep| ep[:uri] == '/slug' }
 
     endpoints.each do |endpoint|
