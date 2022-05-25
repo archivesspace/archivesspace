@@ -3,7 +3,7 @@
 --exclude build/gems
 --exclude build/target
 --exclude docs
---output-dir docs/slate/source/doc
+--output-dir docs/build/doc
 --legacy
 -e ./_yard/yard-aspace.rb
 '*.rb'
