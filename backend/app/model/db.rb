@@ -52,6 +52,18 @@ class DB
           end
 
           @pool = pool
+        rescue Sequel::DatabaseConnectionError
+          Log.error("DB connection failed: #{$!}")
+
+          exceptions = [$!.wrapped_exception].compact
+
+          while !exceptions.empty?
+            exception = exceptions.shift
+            Log.error("Additional DB info: #{exception.inspect}: #{exception}")
+            exceptions << exception.get_cause if exception.get_cause
+          end
+
+          raise
         rescue
           Log.error("DB connection failed: #{$!}")
           raise

@@ -54,6 +54,7 @@ group :development, :test do
   gem 'pry', '~> 0.12.2'
   gem 'pry-nav'
   gem 'pry-rails'
+  gem 'pry-debugger-jruby', '>= 1.2.2'
   gem 'mizuno-aspace'
 end
 

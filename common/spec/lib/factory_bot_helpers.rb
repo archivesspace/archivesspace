@@ -353,6 +353,7 @@ FactoryBot.define do
     content_description { generate(:generic_description) }
     condition_description { generate(:generic_description) }
     accession_date { generate(:yyyy_mm_dd) }
+    extents { [build(:json_extent)] }
   end
 
   factory :json_active_edits, class: JSONModel(:active_edits) do

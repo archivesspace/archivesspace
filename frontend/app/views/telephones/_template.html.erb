@@ -8,20 +8,6 @@
   </div>
 <% end %>
 
-<% define_template "telephone_required", jsonmodel_definition(:telephone) do |form| %>
-  <div class="subrecord-form-inline subrecord-form-fields">
-    <div class="row">
-      <% field_names = ["number_type", "number", "ext"] %>
-      <% field_names.each do |field_name| %>
-        <% if form.required?(field_name) %>
-          <%= form.label_and_readonly field_name %>
-        <% else %>
-          <%= form.label_and_req_boolean field_name %>
-        <% end %>
-      <% end %>
-    </div>
-  </div>
-<% end %>
 <% define_template "telephone_merge", jsonmodel_definition(:telephone) do |form| %>
   <div class="subrecord-form-inline subrecord-form-fields">
     <div class="row">

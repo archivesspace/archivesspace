@@ -11,10 +11,10 @@
     title += " (#{username})"
   else
     if params['repo']
-      title = I18n.t('preference.repo')
+      title = I18n.t('navbar.repo_preferences')
       message = I18n.t('preference.repo_message')
     else
-      title = I18n.t('preference.user_repo')
+      title = I18n.t('navbar.user_repo_preferences')
       message = I18n.t('preference.user_repo_message')
       title += " (#{username})"
     end

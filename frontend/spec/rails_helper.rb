@@ -3,6 +3,7 @@ require 'exceptions'
 require File.expand_path("../../config/environment", __FILE__)
 require 'rspec/rails'
 require 'capybara/rails'
+require 'rails-controller-testing'
 require 'selenium-webdriver'
 require_relative 'selenium/common/webdriver'
 require 'aspace_helper'
@@ -74,3 +75,4 @@ Capybara.default_max_wait_time = 10
 
 ActionController::Base.logger.level = Logger::ERROR
 Rails.logger.level = Logger::ERROR
+Rails::Controller::Testing.install

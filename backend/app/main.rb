@@ -9,6 +9,11 @@ if ENV['COVERAGE_REPORTS'] && ENV["ASPACE_INTEGRATION"] == "true"
   ASpaceCoverage.start('backend_integration')
 end
 
+if ENV["ASPACE_ENV"] == "development"
+  Bundler.require(:development)
+  ASUtils.load_pry_aliases
+end
+
 require_relative 'lib/bootstrap'
 ASpaceEnvironment.init
 
@@ -149,7 +154,7 @@ class ArchivesSpaceService < Sinatra::Base
         Solr.verify_checksums!
         Log.info('Solr config checksum verification ok.')
       else
-        Log.warn('Solr config checksum verification disabled.')
+        Log.warn('Solr config checksum verification disabled: Solr may be offline or misconfigured')
       end
 
       ordered_plugin_backend_dirs = ASUtils.order_plugins(ASUtils.find_local_directories('backend'))

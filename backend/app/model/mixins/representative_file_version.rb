@@ -12,6 +12,7 @@ module RepresentativeFileVersion
 
     def sequel_to_jsonmodel(objs, opts = {})
       jsons = super
+      return jsons unless AppConfig[:enable_representative_file_version]
       jsons.each do |json|
         case self.name
         when "Resource", "Accession", "ArchivalObject"

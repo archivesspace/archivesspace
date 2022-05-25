@@ -333,6 +333,34 @@ describe "agents record CRUD" do
       @driver.find_element(id: 'agent_agent_record_identifiers__0_')
     end
 
+    it 'uses agent record identifier subrecord for authority id and rules if preset' do
+      @driver.find_element(:link, 'Create').click
+      @driver.find_element(:link, 'Agent').click
+      @driver.click_and_wait_until_gone(:link, 'Person')
+
+      primary_name = rand(10000)
+
+      @driver.clear_and_send_keys([:id, 'agent_names__0__primary_name_'], primary_name)
+
+      @driver.find_element(css: '#agent_person_agent_record_identifier .btn:not(.show-all)').click
+
+      record_id = rand(10000)
+
+      @driver.clear_and_send_keys([:id, 'agent_agent_record_identifiers__0__record_identifier_'], record_id)
+
+      @driver.find_element(id: 'agent_agent_record_identifiers__0__source_').select_option('local')
+
+      @driver.click_and_wait_until_gone(css: "form .record-pane button[type='submit']")
+
+      run_index_round
+
+      @driver.find_element(:link, 'Browse').click
+      @driver.find_element(:link, 'Agents').click
+
+      @driver.find_element_with_text('//td', /#{record_id}/)
+      @driver.find_element_with_text('//td', /Local sources/)
+    end
+
     it 'can add a record control subrecord to an Agent' do
       @driver.find_element(:link, 'Create').click
       @driver.find_element(:link, 'Agent').click
@@ -380,6 +408,29 @@ describe "agents record CRUD" do
 
       # will fail here if subrecord not added correctly.
       @driver.find_element(id: 'agent_agent_conventions_declarations__0_')
+    end
+
+    it 'uses agent conventions declaration subrecord for rules if present' do
+      @driver.find_element(:link, 'Create').click
+      @driver.find_element(:link, 'Agent').click
+      @driver.click_and_wait_until_gone(:link, 'Person')
+
+      primary_name = rand(10000)
+
+      @driver.clear_and_send_keys([:id, 'agent_names__0__primary_name_'], primary_name)
+
+      @driver.find_element(css: '#agent_person_agent_conventions_declaration .btn:not(.show-all)').click
+
+      @driver.find_element(id: 'agent_agent_conventions_declarations__0__name_rule_').select_option('local')
+
+      @driver.click_and_wait_until_gone(css: "form .record-pane button[type='submit']")
+
+      run_index_round
+
+      @driver.find_element(:link, 'Browse').click
+      @driver.find_element(:link, 'Agents').click
+
+      @driver.find_element_with_text('//td', /Local rules/)
     end
 
     it 'can add maintenance history to an Agent' do

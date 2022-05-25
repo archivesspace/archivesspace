@@ -31,6 +31,7 @@ en:
     edit_required_fields: Edit Required Fields
     edit_global_oai: View/Edit Global OAI Settings
     required: Required Fields
+    require_subrecord: Require Subrecord
     export: Export
     view: View
     spawn: Spawn
@@ -218,6 +219,7 @@ en:
       create_time: Created
       asc: Ascending
       desc: Descending
+      uri: URI
     resource:
       score: Relevance
       title: Title
@@ -240,6 +242,7 @@ en:
       create_time: Created
       asc: Ascending
       desc: Descending
+      uri: URI
     archival_object:
       score: Relevance
       title: Title
@@ -256,6 +259,7 @@ en:
       create_time: Created
       asc: Ascending
       desc: Descending
+      uri: URI
     subject:
       score: Relevance
       source: Source
@@ -267,6 +271,7 @@ en:
       create_time: Created
       asc: Ascending
       desc: Descending
+      uri: URI
     digital_object:
       score: Relevance
       title: Title
@@ -284,6 +289,7 @@ en:
       create_time: Created
       asc: Ascending
       desc: Descending
+      uri: URI
     digital_object_component:
       score: Relevance
       title: Title
@@ -297,6 +303,7 @@ en:
       create_time: Created
       asc: Ascending
       desc: Descending
+      uri: URI
     agent:
       score: Relevance
       title: Name
@@ -311,6 +318,7 @@ en:
       create_time: Created
       asc: Ascending
       desc: Descending
+      uri: URI
     location:
       score: Relevance
       title: Location
@@ -368,6 +376,7 @@ en:
       create_time: Created
       asc: Ascending
       desc: Descending
+      uri: URI
     assessment:
       score: Relevance
       assessment_id: Assessment ID
@@ -399,6 +408,7 @@ en:
       create_time: Created
       asc: Ascending
       desc: Descending
+      uri: URI
     top_container:
       score: Relevance
       title: Title
@@ -548,7 +558,7 @@ en:
     global_preferences: Global Preferences
     global_settings: Global Settings
     user_repo_preferences: Repository Preferences
-    repo_preferences: Repository Preferences
+    repo_preferences: Default Repository Preferences
     manage_user_access: Manage User Access
     logout: Logout
     register: Register now

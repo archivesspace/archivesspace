@@ -22,7 +22,7 @@ describe 'User Preferences' do
   it 'allows you to configure browse columns' do
     @driver.find_element(:css, '.user-container .btn.dropdown-toggle.last').click
     @driver.wait_for_dropdown
-    @driver.find_element(:link, 'Repository Preferences').click
+    @driver.find_element(:link, 'Default Repository Preferences').click
 
     @driver.find_element(id: 'preference_defaults__accession_browse_column_1_').select_option_with_text('Title')
     @driver.find_element(id: 'preference_defaults__accession_browse_column_2_').select_option_with_text('Acquisition Type')
@@ -41,7 +41,7 @@ describe 'User Preferences' do
   it 'allows you to set default sort column and direction' do
     @driver.find_element(:css, '.user-container .btn.dropdown-toggle.last').click
     @driver.wait_for_dropdown
-    @driver.find_element(:link, 'Repository Preferences').click
+    @driver.find_element(:link, 'Default Repository Preferences').click
     @driver.find_element(id: 'preference_defaults__accession_sort_column_').select_option_with_text('Accession Date')
     @driver.find_element(id: 'preference_defaults__accession_sort_direction_').select_option_with_text('Descending')
     @driver.click_and_wait_until_gone(css: 'button[type="submit"]')
@@ -58,14 +58,14 @@ describe 'User Preferences' do
   it 'allows you to reset previously set preferences to defaults' do
     @driver.find_element(:css, '.user-container .btn.dropdown-toggle.last').click
     @driver.wait_for_dropdown
-    @driver.find_element(:link, 'Repository Preferences').click
+    @driver.find_element(:link, 'Default Repository Preferences').click
     @driver.find_element(:css, '.reset-prefs.btn').click
     @driver.click_and_wait_until_gone(:css, '#confirmChangesModal #confirmButton')
     @driver.find_element(css: '.alert-success')
 
     @driver.find_element(:css, '.user-container .btn.dropdown-toggle.last').click
     @driver.wait_for_dropdown
-    @driver.find_element(:link, 'Repository Preferences').click
+    @driver.find_element(:link, 'Default Repository Preferences').click
 
     # The default changes made above are now gone
     expect(@driver.find_element(id: 'preference_defaults__accession_browse_column_1_').text).to match(/Accept Default:/)
