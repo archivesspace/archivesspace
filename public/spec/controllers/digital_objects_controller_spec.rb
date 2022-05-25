@@ -101,11 +101,11 @@ describe DigitalObjectsController, type: :controller do
       run_indexers
     end
 
-    it 'should have a representative file version image when one is set' do
+    xit 'should have a representative file version image when one is set' do
       expect(JSONModel(:digital_object).find(@do2.id)["representative_file_version"]["file_uri"]).to eq(img_uri)
     end
 
-    it 'should render the representative file version image when one is set' do
+    xit 'should render the representative file version image when one is set' do
       get(:tree_root, params: { rid: @repo.id, id: @do2.id })
 
       expect(response.body).to match(img_uri)

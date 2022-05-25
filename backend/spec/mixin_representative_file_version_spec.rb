@@ -3,6 +3,11 @@ require 'spec_helper'
 # see https://archivesspace.atlassian.net/browse/ANW-1522
 describe 'Representative File Version mixin' do
 
+  before(:each) do
+    allow(AppConfig).to receive(:[]).and_call_original
+    allow(AppConfig).to receive(:[]).with(:enable_representative_file_version) { true }
+  end
+
   describe "Resource, Accession, and Archival Object representative file version" do
     it "If the record has an is_representative instance, and that instance refers to a digital object which has a representative_file_version (or one could be calculated),  use / copy the representative_file_version object on the linked digital object." do
 
