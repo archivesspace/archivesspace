@@ -8,11 +8,7 @@ class DigitalObjectFileVersionsReport < AbstractReport
   end
 
   def query_string
-    "select 
-      id,
-      digital_object_id as identifier,
-      title as record_title
-    from digital_object where repo_id = #{db.literal(@repo_id)}"
+    "select digital_object.id, digital_object.digital_object_id as identifier, title as record_title, file_uri as uri from digital_object join file_version on digital_object.id = file_version.digital_object_id where repo_id = #{db.literal(@repo_id)}"
   end
 
   def fix_row(row)
