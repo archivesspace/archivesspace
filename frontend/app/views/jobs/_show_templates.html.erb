@@ -51,12 +51,12 @@
       <div class="col-sm-9 controls label-only"><%= job.owner %></div>
     </div>
 
-    <% if job["import_type"] != '' %>
-      <div class="form-group">
-        <label class="col-sm-3 control-label"><%= job.job['jsonmodel_type'].titleize %></label>
-        <div class="col-sm-9 controls label-only"><%= I18n.t("import_job.import_type_#{job.job['import_type']}") %></div>
-      </div>
-    <% end %>
+    <% if job.job.key?('import_type') %>
+    <div class="form-group">
+      <label class="col-sm-3 control-label"><%= job.job['jsonmodel_type'].titleize %></label>
+      <div class="col-sm-9 controls label-only"><%= I18n.t("import_job.import_type_#{job.job['import_type']}") %></div>
+    </div>
+  <% end %>
 
     <% form.emit_template job.job['jsonmodel_type'], job.job %>
 
