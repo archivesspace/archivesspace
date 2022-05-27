@@ -5,3 +5,6 @@
 - `docker-compose up app`
 - Open ports 3001 for public, 3000 for frontend and 4567 for backend
 - To migrate the database use `docker-compose exec app -- ./build/run db:migrate`
+
+
+See https://archivesspace.github.io/tech-docs/development/dev.html for addtional info
