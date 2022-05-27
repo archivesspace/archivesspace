@@ -4,11 +4,11 @@
   <!-- This section contains configuration used by the build tasks -->
 
   <!-- Don't forget to change any jruby versions in any Gemfiles! -->
-  <property name="jruby_url" value="https://repo1.maven.org/maven2/org/jruby/jruby-complete/9.2.20.1/jruby-complete-9.2.20.1.jar" />
-  <property name="jruby_file" value="jruby-complete-9.2.20.1.jar" />
+  <property name="jruby_url" value="https://repo1.maven.org/maven2/org/jruby/jruby-complete/9.3.4.0/jruby-complete-9.3.4.0.jar" />
+  <property name="jruby_file" value="jruby-complete-9.3.4.0.jar" />
   <!-- This needs to match version installed by bundler 2.x: `./build/run bootstrap` -->
   <!-- Then find version at: build/gems/jruby/$version -->
-  <property name="jruby_build_version" value="2.5.0" />
+  <property name="jruby_build_version" value="2.6.0" />
   <!-- Path to jruby bin directory relative to aspace ./build -->
   <property name="jruby_build_bin_path" value="./gems/jruby/${jruby_build_version}/bin" />
   <!-- Properties for ArchivesSpace build of the JRuby Rack jar -->
