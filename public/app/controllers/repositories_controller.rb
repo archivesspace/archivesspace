@@ -10,7 +10,7 @@ class RepositoriesController < ApplicationController
   DEFAULT_SEARCH_FACET_TYPES = ['primary_type', 'subjects', 'published_agents']
   DEFAULT_REPO_SEARCH_OPTS = {
      'sort' => 'title_sort asc',
-    'resolve[]' => ['repository:id', 'resource:id@compact_resource', 'ancestors:id@compact_resource', 'top_container_uri_u_sstr:id'],
+    'resolve[]' => ['repository:id', 'resource:id@compact_resource', 'ancestors:id@compact_resource'],
     'facet.mincount' => 1
   }
   DEFAULT_TYPES = %w{archival_object digital_object agent resource accession}
