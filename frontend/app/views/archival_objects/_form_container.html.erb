@@ -31,7 +31,7 @@
                                    :form => form,
                                    :record => @archival_object) %>
 
-        <%= form.label_and_textarea("title", :required => :conditionally)%>
+        <%= form.label_and_textarea("title", :required => :conditionally, :field_opts => {:class => "form-control mixed-content"})%>
 
         <% if form.obj["ref_id"].blank? %>
           <%= form.label_and_readonly "ref_id", "<em>#{I18n.t("archival_object.ref_id_auto_generation_message")}</em>" %>
