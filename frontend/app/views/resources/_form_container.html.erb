@@ -23,7 +23,7 @@
                                  :form => form,
                                  :record => @resource) %>
 
-      <%= form.label_and_textarea "title" %>
+      <%= form.label_and_textarea "title", :field_opts => {:class => "form-control mixed-content"} %>
       <%= form.label_and_fourpartid %>
 
       <%= render_aspace_partial :partial => "shared/slug", :locals => {:form => form, :record_type => @resource} if AppConfig[:use_human_readable_urls] %>
@@ -57,8 +57,10 @@
           <%= form.label_and_textfield "ead_id" %>
           <%= form.label_and_textfield "ead_location" %>
           <hr/>
-          <%= form.label_and_textarea "finding_aid_title" %>
-          <%= form.label_and_textarea "finding_aid_subtitle" %>
+
+          <%= form.label_and_textarea "finding_aid_title", :field_opts => {:class => "mixed-content"} %>
+          <%= form.label_and_textarea "finding_aid_subtitle", :field_opts => {:class => "mixed-content"} %>
+
           <%= form.label_and_textarea "finding_aid_filing_title" %>
           <%= form.label_and_textfield "finding_aid_date" %>
           <%= form.label_and_textarea "finding_aid_author" %>
