@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require_relative '../spec_helper'
+
 wait = Selenium::WebDriver::Wait.new(:timeout => 15)
 
 describe 'Jobs' do
@@ -23,6 +24,7 @@ describe 'Jobs' do
   after(:all) do
     @driver ? @driver.quit : next
   end
+
 
   it 'can create a find and replace job' do
     run_index_round
@@ -114,7 +116,7 @@ describe 'Jobs' do
     end.not_to raise_error
   end
 
-  it 'can import accession and show type', :js => true do
+  it 'can import accession and display import type', :js => false do
     run_index_round
 
     parent_dir = File.expand_path("../", Dir.pwd)
@@ -130,8 +132,12 @@ describe 'Jobs' do
     @driver.execute_script("return $('#job_filenames_ > span > input')[0]").send_keys(file)
     @driver.find_element(css: "form#job_form button[type='submit']").click
     sleep(3)
-    import_job_type = @driver.execute_script("return $('#basic_information > div:nth-child(4) > div').text()")
-    expect(import_job_type).to eq('MarcXML Bibliographic (Accession)')
+
+    row_name = @driver.execute_script("return $('#basic_information > div:nth-child(4) > label').text()")
+    expect(row_name).to eq('Import Type')
+
+    row_value = @driver.execute_script("return $('#basic_information > div:nth-child(4) > div').text()")
+    expect(row_value).to eq("MarcXML Bibliographic (Accession)")
 
     refresh_button = wait.until {
       element = @driver.find_element(:xpath, '//*[@id="archivesSpaceSidebar"]/ul/li[4]/div/button')
@@ -140,7 +146,6 @@ describe 'Jobs' do
     refresh_button.click
 
     import_job_status = @driver.execute_script("return $('#job_status > div.job-status.form-group > div').text()")
-    puts 'import_job_status: ' + import_job_status
     expect(import_job_status).to include('Completed')
   end
 end
