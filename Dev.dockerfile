@@ -26,6 +26,6 @@ RUN mkdir -p /var/log/supervisor && \
     cd - && \
     ./build/run bootstrap
 
-EXPOSE 8080 8081 8089 8090 8092
+EXPOSE 3000 3001 4567
 
 CMD ["/usr/bin/supervisord", "-c", "/archivesspace/supervisord/archivesspace.conf"]
