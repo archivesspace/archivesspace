@@ -78,6 +78,10 @@
            <%= render_aspace_partial :partial => "related_resources/show", :locals => { :related_resources => @accession.related_resources, :section_id => "accession_related_resources_" } %>
          <% end %>
 
+         <% if @accession.component_links.length > 0 %>
+           <%= render_aspace_partial :partial => "component_links/show", :locals => { :component_links => @accession.component_links, :section_id => "accession_component_links_" } %>
+         <% end %>
+
          <% if @accession.related_accessions.length > 0 %>
            <%= render_aspace_partial :partial => "interrelated_accessions/show", :locals => { :related_accessions => @accession.related_accessions, :section_id => "accession_related_accessions_" } %>
          <% end %>

@@ -125,6 +125,25 @@
         }
       },
 
+      "component_links" => {
+           "type" => "array",
+           "items" => {
+             "type" => "object",
+             "subtype" => "ref",
+             "properties" => {
+               "ref" => {
+                 "type" => [{"type" => "JSONModel(:archival_object) uri"}],
+                 "ifmissing" => "error"
+               },
+               "_resolved" => {
+                 "type" => "object",
+                 "readonly" => "true"
+               }
+             }
+           }
+         },
+      
+
       "suppressed" => {"type" => "boolean", "readonly" => "true"},
 
       "acquisition_type" => {"type" => "string", "dynamic_enum" => "accession_acquisition_type"},

@@ -9,6 +9,7 @@ class Accession < Sequel::Model(:accession)
   include Dates
   include ExternalDocuments
   include RightsStatements
+  include AccessionComponentLinks
   include Deaccessions
   include Agents
   include DirectionalRelationships

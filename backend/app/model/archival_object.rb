@@ -10,6 +10,7 @@ class ArchivalObject < Sequel::Model(:archival_object)
   include Extents
   include LangMaterials
   include Dates
+  include ComponentAccessionLinks
   include ExternalDocuments
   include RightsStatements
   include Instances

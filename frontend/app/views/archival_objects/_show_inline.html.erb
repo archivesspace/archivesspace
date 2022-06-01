@@ -50,6 +50,10 @@
           <%= render_aspace_partial :partial => "linked_agents/show", :locals => { :linked_agents => archival_object.linked_agents, :section_id => "archival_object_linked_agents_" } %>
         <% end %>
 
+        <% if archival_object.accession_links.length > 0 %>
+        <%= render_aspace_partial :partial => "accession_links/show", :locals => { :accession_links => archival_object.accession_links, :section_id => "archival_object_accession_links_" } %>
+        <% end %>
+
         <% if not archival_object.subjects.blank? %>
           <%= render_aspace_partial :partial => "subjects/show_inline", :locals => {:subjects => archival_object.subjects, :section_id => "archival_object_subjects_"} %>
         <% end %>

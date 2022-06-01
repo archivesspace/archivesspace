@@ -1547,6 +1547,8 @@ en:
         <p>Default values may be used to populate the component parts that are
         the same across all accession numbers.</p>
         <p>See DACS 5.2.5</p>
+    component_link: Component
+    component_links: Components
     content_description: Content Description
     content_description_tooltip: |
         <p>A description of the document types and topical contents of the
@@ -1683,6 +1685,19 @@ en:
     has_part: Has Part
     relator_type: Relator Type
 
+  accession_link:
+    _plural: Accession Links
+    _singular: Accesssion Link
+    _frontend:
+      action:
+        add: Add Accession Link
+
+  component_link:
+    _plural: Component Links
+    _singular: Component Link
+    _frontend:
+      action:
+        add: Add Component Link
 
   agent: &agent_attributes
     <<: *slug_attributes
@@ -1808,6 +1823,8 @@ en:
     extents: Extents
     lang_materials: Languages
     ref_id_auto_generation_message: "-- auto-generated upon save --"
+    accession_link: Accession
+    accession_links: Accessions
     component_id: Component Unique Identifier
     component_id_tooltip: |
         <p>Expresses a unique ID, within the context of the resource description, for the component part.</p>

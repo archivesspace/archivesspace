@@ -1,0 +1,39 @@
+<%
+  if form.obj.empty?
+    selected_json = "{}"
+  else
+    selected_json = ASUtils.to_json(form.obj['_resolved'])
+  end
+
+  field_label ||= I18n.t("archival_object._singular")
+  linker_id ||= "component_links_"
+%>
+<div class="form-group required">
+  <label class="control-label col-sm-2"><%= field_label %></label>
+  <div class="controls col-sm-8">
+    <div class="input-group linker-wrapper">
+      <input type="text" class="linker"
+             id="<%= linker_id %>"
+             data-label="<%= I18n.t "accession.component_link" %>"
+             data-label_plural="<%= I18n.t "accession.component_links" %>"
+             data-path="<%= form.path %>"
+             data-name="ref"
+             data-url="<%= url_for :controller => :search, :action => :do_search, :format => :json %>"
+             data-browse-url="<%= url_for :controller => :search, :action => :do_search, :format => :js, :facets => SearchResultData.BASE_FACETS %>"
+             data-selected="<%= selected_json %>"
+             data-format_property="display_string"
+             data-multiplicity="one"
+             data-sortable="true"
+             data-types='["archival_object"]'
+             aria-label="Link to component"
+      />
+
+      <div class="input-group-btn">
+        <a class="btn btn-default dropdown-toggle last" data-toggle="dropdown" href="javascript:void(0);" aria-label="Link to record"><span class="caret"></span></a>
+        <ul class="dropdown-menu">
+          <li><a href="javascript:void(0);" class="linker-browse-btn"><%= I18n.t("actions.browse") %></a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
