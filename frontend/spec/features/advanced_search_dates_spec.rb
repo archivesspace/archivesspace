@@ -5,15 +5,7 @@ require 'rails_helper.rb'
 describe 'AdvancedSearchDates', js: true do
 
   before(:each) do
-    visit '/'
-    page.has_xpath? '//input[@id="login"]'
-
-    within "form.login" do
-      fill_in "username", with: "admin"
-      fill_in "password", with: "admin"
-
-      click_button "Sign In"
-    end
+    login_admin
 
     page.has_no_xpath? '//input[@id="login"]'
     page.has_css? 'button[title="Show Advanced Search"]'
