@@ -258,8 +258,8 @@ class ApplicationController < ActionController::Base
                       "revision_statements",
                       "container_locations", "digital_object", "classifications",
                       "related_agents", "resource", "parent", "creator",
-                      "linked_instances", "linked_records", "related_accessions",
-                      "linked_events", "linked_events::linked_records",
+                      "linked_instances", "linked_records", "related_accessions", "accession_links",
+                      "linked_events", "linked_events::linked_records", "component_links",
                       "linked_events::linked_agents",
                       "top_container", "container_profile", "location_profile",
                       "owner_repo", "places"] + Plugins.fields_to_resolve
