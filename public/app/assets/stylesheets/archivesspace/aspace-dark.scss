@@ -1,0 +1,129 @@
+/*
+ * This file overrides some color rules from aspace.scss for 
+ * users who prefer dark mode.
+ *
+ * Color changes in aspace.scss should be considered here as well.
+ */
+@media (prefers-color-scheme: dark) {
+  body {
+    color: var(--primary-text-color);
+    background-color: var(--primary-bg-color);
+  }
+
+  a {
+    color: var(--link-color);
+  }
+  a:hover,
+  a:focus {
+    color: var(--link-hover-color);
+  }
+
+  .tabbing.navbar-default {
+    background-color: var(--primary-bg-color);
+    border-color: transparent;
+  }
+
+  .more-facets {
+    .btn {
+      color: var(--secondary-text-color);
+    }
+  }
+
+  .tabbing.nav-pills > li > a {
+    background-color: var(--btn-primary-bg-color);
+  }
+
+  .tabbing.nav-pills > li > a.disabled-nav-pill:hover {
+    color: var(--disabled-text-color);
+  }
+
+  #sidebar {
+    border: 1px solid var(--secondary-border-color);
+  }
+
+  .recordrow {
+    h3 {
+      color: var(--primary-color);
+    }
+  }
+
+  h3,
+  .h3 {
+    color: var(--primary-color);
+  }
+
+  .searchterm {
+    color: var(--primary-bg-color);
+  }
+
+  button.accession {
+    color: var(--accession-color);
+  }
+  button.digital_object {
+    color: var(--collection-color);
+  }
+  button.object {
+    color: var(--collection-color);
+  }
+  button.collection,
+  button.resource {
+    color: var(--collection-color);
+  }
+  button.subject {
+    /* class subject also turns up in finding aid transforms */
+    color: var(--subject-color);
+  }
+  button.agent {
+    color: var(--agent-color);
+  }
+
+  button.person {
+    color: var(--agent-color);
+  }
+  button.record {
+    color: var(--record-color);
+  }
+  button.classification {
+    color: var(--repository-color);
+  }
+
+  .page_action {
+    color: var(--btn-text-color);
+    background-color: var(--btn-default-bg-color);
+    border: 1px solid var(--btn-default-border-color);
+  }
+  .page_action:hover,
+  .page_action:focus {
+    color: var(--btn-text-color);
+    background-color: var(--btn-default-hover-bg-color);
+    border-color: var(--btn-default-border-color);
+  }
+
+  span.required {
+    color: var(--highlight);
+  }
+
+  .breadcrumb > li + li::before {
+    color: var(--secondary-color);
+  }
+
+  .sorter select[name='sort'] {
+    background: var(--secondary-bg-color);
+    color: var(--secondary-text-color);
+    border: 1px solid var(--secondary-border-color);
+    border-radius: 4px;
+  }
+  .sorter select[name='sort']:focus {
+    color: var(--primary-text-color);
+    border-color: var(--primary-color);
+  }
+
+  @media (min-width: 992px) {
+    #sidebar.resizable-sidebar {
+      .resizable-sidebar-handle {
+        background-color: var(--resizable-sidebar-handle-bg-color);
+        border-right: 1px solid var(--secondary-border-color);
+      }
+    }
+  }
+}

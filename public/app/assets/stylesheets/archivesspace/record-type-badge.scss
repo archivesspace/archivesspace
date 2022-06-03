@@ -19,33 +19,33 @@
 }
 
 .record-type-badge.resource {
-  @include record-type-badge-colored($collection-color);
+  @include record-type-badge-colored(var(--collection-color));
 }
 
 .record-type-badge.archival_object {
-  @include record-type-badge-colored($archival-object-color);
+  @include record-type-badge-colored(var(--archival-object-color));
 }
 
 .record-type-badge.agent {
-  @include record-type-badge-colored($agent-color);
+  @include record-type-badge-colored(var(--agent-color));
 }
 
 .record-type-badge.accession {
-  @include record-type-badge-colored($accession-color);
+  @include record-type-badge-colored(var(--accession-color));
 }
 
 .record-type-badge.classification {
-  @include record-type-badge-colored($classification-color);
+  @include record-type-badge-colored(var(--classification-color));
 }
 
 .record-type-badge.digital_object {
-  @include record-type-badge-colored($digital-object-color);
+  @include record-type-badge-colored(var(--digital-object-color));
 }
 
 .record-type-badge.repository {
-  @include record-type-badge-colored($repository-color);
+  @include record-type-badge-colored(var(--repository-color));
 }
 
 .record-type-badge.subject {
-  @include record-type-badge-colored($subject-color);
+  @include record-type-badge-colored(var(--subject-color));
 }

@@ -4,14 +4,14 @@ html {
 }
 
 a {
-  color: $primary-color;
+  color: var(--primary-color);
   text-decoration: none;
   line-height: inherit;
   cursor: pointer;
 }
 a:hover,
 a:focus {
-  color: $dark_against_shade;
+  color: var(--dark-against-shade);
 }
 a img {
   border: 0;
@@ -24,7 +24,7 @@ a img {
     margin-right: 0;
     padding-left: rem-calc(30);
     padding-right: rem-calc(40);
-    border-bottom: rem-calc(4) solid $primary-color;
+    border-bottom: rem-calc(4) solid var(--primary-color);
     width: 100%;
     padding-bottom: rem-calc(1);
   }
@@ -55,9 +55,9 @@ a img {
 }
 
 .top-bar {
-  background: $nvBgDefault !important;
-  border-top: 1px solid $border-accent;
-  border-bottom: rem-calc(1) solid $border-accent;
+  background: var(--nvBgDefault) !important;
+  border-top: 1px solid var(--border-accent);
+  border-bottom: rem-calc(1) solid var(--border-accent);
   float: none !important;
 }
 
@@ -88,14 +88,14 @@ a img {
 
 /* for the "tabbing" effect */
 .tabbing.navbar-default {
-  background-color: $white;
-  border-color: $white;
+  background-color: var(--white);
+  border-color: var(--white);
 }
 
 .more-facets {
   .btn {
     padding-left: 20px;
-    color: $accent-color;
+    color: var(--accent-color);
   }
   .below-the-fold {
     display: none;
@@ -106,8 +106,8 @@ a img {
   margin-bottom: 0;
   margin-left: -10px;
   margin-right: 0;
-  background-color: $secondary-color;
-  color: $white;
+  background-color: var(--secondary-color);
+  color: var(--white);
   border-radius: 0;
 }
 .tabbing.nav-pills > li:first-child a {
@@ -120,8 +120,8 @@ a img {
 }
 
 .tabbing.nav-pills > li > a.active {
-  background-color: $accent-color;
-  color: $white;
+  background-color: var(--accent-color);
+  color: var(--white);
 }
 .tabbing-item li:first-child a {
   border-bottom-right-radius: 0;
@@ -147,26 +147,26 @@ a img {
 */
 
 .navbar-default {
-  background-color: $nvBgDefault;
-  border-color: $nvBgHighlight;
+  background-color: var(--nvBgDefault);
+  border-color: var(--nvBgHighlight);
   .navbar-brand {
-    color: $nvColDefault;
+    color: var(--nvColDefault);
     &:hover,
     &:focus {
-      color: $nvColHighlight;
+      color: var(--nvColHighlight);
     }
   }
   .navbar-text {
-    color: $nvColDefault;
+    color: var(--nvColDefault);
   }
   .navbar-nav {
     > li {
       > a {
-        color: $nvColDefault;
+        color: var(--nvColDefault);
         font-size: 1rem !important;
         &:hover,
         &:focus {
-          color: $nvColHighlight;
+          color: var(--nvColHighlight);
           text-decoration: underline;
         }
       }
@@ -175,8 +175,8 @@ a img {
       > a,
       > a:hover,
       > a:focus {
-        color: $nvColHighlight;
-        background-color: $nvBgHighlight;
+        color: var(--nvColHighlight);
+        background-color: var(--nvBgHighlight);
         text-decoration: underline;
       }
     }
@@ -184,31 +184,31 @@ a img {
       > a,
       > a:hover,
       > a:focus {
-        color: $nvColHighlight;
-        background-color: $nvBgHighlight;
+        color: var(--nvColHighlight);
+        background-color: var(--nvBgHighlight);
         text-decoration: underline;
       }
     }
   }
   .navbar-toggle {
-    border-color: $nvBgHighlight;
+    border-color: var(--nvBgHighlight);
     &:hover,
     &:focus {
-      background-color: $nvBgHighlight;
+      background-color: var(--nvBgHighlight);
     }
     .icon-bar {
-      background-color: $nvColDefault;
+      background-color: var(--nvColDefault);
     }
   }
   .navbar-collapse,
   .navbar-form {
-    border-color: $nvColDefault;
+    border-color: var(--nvColDefault);
   }
   .navbar-link {
-    color: $nvColDefault;
+    color: var(--nvColDefault);
     font-size: 1rem !important;
     &:hover {
-      color: $nvColHighlight;
+      color: var(--nvColHighlight);
       text-decoration: underline;
     }
   }
@@ -216,10 +216,10 @@ a img {
 @media (max-width: 767px) {
   .navbar-default .navbar-nav .open .dropdown-menu {
     > li > a {
-      color: $nvColDefault;
+      color: var(--nvColDefault);
       &:hover,
       &:focus {
-        color: $nvColHighlight;
+        color: var(--nvColHighlight);
         text-decoration: underline;
       }
     }
@@ -227,8 +227,8 @@ a img {
       > a,
       > a:hover,
       > a:focus {
-        color: $nvColHighlight;
-        background-color: $nvBgHighlight;
+        color: var(--nvColHighlight);
+        background-color: var(--nvBgHighlight);
         text-decoration: underline;
       }
     }
@@ -244,7 +244,7 @@ a img {
     width: $row-width;
 
     .small-12 {
-      border: 1px solid $border;
+      border: 1px solid var(--border);
     }
   }
 }
@@ -270,7 +270,7 @@ a img {
 }
 
 #sidebar {
-  border: 1px solid $border;
+  border: 1px solid var(--border);
   padding: rem-calc(10);
 }
 
@@ -279,13 +279,13 @@ a img {
   padding-bottom: rem-calc(20);
   padding-left: rem-calc(20);
   margin-bottom: rem-calc(10);
-  border: 1px solid $border;
+  border: 1px solid var(--border);
   > h3 {
     margin-top: 0;
     margin-left: rem-calc(-20);
-    background-color: $row-background;
-    color: $secondary-color;
-    border-bottom: 1px solid $border-accent;
+    background-color: var(--row-background);
+    color: var(--secondary-color);
+    border-bottom: 1px solid var(--border-accent);
     padding-top: rem-calc(10);
     padding-bottom: rem-calc(10);
     padding-left: rem-calc(10);
@@ -316,7 +316,7 @@ a img {
 
 .record-container.with-border {
   padding: rem-calc(20);
-  border: 1px solid $border;
+  border: 1px solid var(--border);
 }
 
 .record-header {
@@ -362,7 +362,7 @@ a img {
 .record-image {
   float: right;
   padding: rem-calc(20);
-  background-color: $image-background;
+  background-color: var(--image-background);
   text-align: center;
 
   p {
@@ -383,22 +383,22 @@ a img {
 
 .row.context-row {
   margin-top: rem-calc(10);
-  background-color: $row-background;
-  border: 1px solid $border;
+  background-color: var(--row-background);
+  border: 1px solid var(--border);
   padding-left: rem-calc(10);
 }
 
 .recordrow {
   padding: rem-calc(10);
-  border: 1px solid $border;
+  border: 1px solid var(--border);
   margin-bottom: rem-calc(10);
 
   &.featured {
-    background-color: $row-background;
+    background-color: var(--row-background);
   }
 
   h3 {
-    color: $darkest;
+    color: var(--darkest);
     margin-top: 0;
     margin-bottom: 0;
   }
@@ -415,7 +415,7 @@ a img {
 }
 
 a {
-  color: $secondary-color;
+  color: var(--secondary-color);
 }
 
 a:hover {
@@ -427,7 +427,7 @@ h1,
   font-family: $sans-font;
   font-size: rem-calc(30);
   font-weight: bold;
-  color: $primary-color;
+  color: var(--primary-color);
 }
 
 h1,
@@ -449,7 +449,7 @@ h2,
   font-family: $sans-font;
   font-size: rem-calc(24);
   font-weight: bold;
-  color: $primary-color;
+  color: var(--primary-color);
 }
 
 h3,
@@ -457,7 +457,7 @@ h3,
   font-family: $sans-font;
   font-size: rem-calc(20);
   font-weight: bold;
-  color: $secondary-color;
+  color: var(--secondary-color);
 }
 
 h4,
@@ -505,13 +505,13 @@ h5,
   background-color: #d5f7e9;
 }
 .searchterm {
-  background-color: $highlight;
+  background-color: var(--highlight);
 }
 #submit_search {
   width: 100%;
 }
 .searchstatement {
-  background-color: $row-background;
+  background-color: var(--row-background);
 }
 
 .facets h2 {
@@ -542,11 +542,11 @@ ul.no-bullets {
   margin-left: 0;
 
   li {
-    border-top: 1px solid $border;
+    border-top: 1px solid var(--border);
   }
 
   li:last-child {
-    border-bottom: 1px solid $border;
+    border-bottom: 1px solid var(--border);
   }
 
   li > a {
@@ -555,7 +555,7 @@ ul.no-bullets {
 
   li > .recordnumber {
     float: right;
-    color: $secondary-color;
+    color: var(--secondary-color);
 
     /* position: absolute; */
 
@@ -593,55 +593,58 @@ ul.no-bullets {
 .recordtype {
   margin-top: -0.75em;
 }
-.object {
-  color: $collection-color;
+.accession {
+  color: var(--accession-color);
+}
+.digital_object {
+  color: var(--collection-color);
 }
 .collection,
 .resource {
-  color: $collection-color;
+  color: var(--collection-color);
 }
 button.subject {
   /* class subject also turns up in finding aid transforms */
-  color: $subject-color;
+  color: var(--subject-color);
 }
 .agent {
-  color: $agent-color;
+  color: var(--agent-color);
 }
 
 .person {
-  color: $agent-color;
+  color: var(--agent-color);
 }
 .record {
-  color: $record-color;
+  color: var(--record-color);
 }
 .classification {
-  color: $repository-color;
+  color: var(--repository-color);
 }
 
 .page_action {
-  color: $darkest;
+  color: var(--darkest);
   text-decoration: none;
   line-height: inherit;
   cursor: pointer;
-  border: 1px solid $light-neutral;
+  border: 1px solid var(--light-neutral);
 }
 .page_action:hover,
 .page_action:focus {
-  color: $accent_color;
-  background-color: $light-neutral;
+  color: var(--accent-color);
+  background-color: var(--light-neutral);
 }
 
 .top_container {
-  color: $container-color;
+  color: var(--container-color);
 }
 .folder {
-  color: $folder-color;
+  color: var(--folder-color);
 }
 .recordtype.repository {
-  color: $repository-color;
+  color: var(--repository-color);
 }
 .recordtype.classification {
-  color: $classification-color;
+  color: var(--classification-color);
 }
 .digitized {
   float: right;
@@ -828,11 +831,11 @@ span.head {
 }
 
 .breadcrumb > li + li::before {
-  color: $darkest;
-  content: '\007C\00a0';
+  color: var(--darkest);
+  content: '|';
 }
 .breadcrumb * a {
-  color: $breadcrumb-link;
+  color: var(--breadcrumb-link);
 }
 .breadcrumb li br {
   display: none;
