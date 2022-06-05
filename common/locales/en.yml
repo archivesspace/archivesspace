@@ -133,6 +133,7 @@ en:
     linker:
       browse: Browse Digital Objects
       create: Create Digital Object
+      link_title: Link to digital object
 
   digital_object_component:
     <<: *digital_object_attributes
@@ -212,6 +213,7 @@ en:
     linker:
       browse: Browse Locations
       create: Create Location
+      link_title: Link to location
 
   location_batch:
     <<: *location_attributes
@@ -272,6 +274,7 @@ en:
     linker_ref:
       browse: Browse Records
       create: Create Record
+      link_title: Link to record
 
   linked_agent: &linked_agent_attributes
     role: Role
@@ -1675,6 +1678,7 @@ en:
     linker:
       browse: Browse Accessions
       create: Create Accession
+      link_title: Link to accession
 
   interrelated_accession:
     _plural: Related Accessions
@@ -1768,6 +1772,7 @@ en:
     linker:
       create: Create Agent
       browse: Browse Agents
+      link_title: Link to agent
 
   agent_person:
     <<: *agent_attributes
@@ -2151,6 +2156,7 @@ en:
     linker:
       browse: Browse Repositories
       create: Create Repository
+      link_title: Link to repository
 
 
   term: &term_attributes
@@ -2199,6 +2205,7 @@ en:
     linker:
       browse: Browse Subjects
       create: Create Subject
+      link_title: Link to subject
 
   user:
     username: Username
@@ -2341,6 +2348,7 @@ en:
     linker:
       browse: Browse Classifications
       create: Create Classification
+      link_title: Link to classification
 
   classification_term:
     <<: *slug_attributes
@@ -2353,6 +2361,7 @@ en:
     linker:
       browse: Browse Classification Terms
       create: Create Classification Term
+      link_title: Link to classification term
 
   preference: &preference_attributes
     defaults: Defaults
@@ -2760,6 +2769,8 @@ en:
     _singular: Assessment
     _plural: Assessments
     new_title: New Assessment
+    linker:
+      link_title: Link to record
 
   assessment_attribute:
     rating:

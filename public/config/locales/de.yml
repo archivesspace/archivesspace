@@ -172,6 +172,9 @@ de:
     error_no_term: Kein(e) Suchbegriff(e) eingegeben.
     search_placeholder: Geben Sie Ihre Suchbegriffe ein
     toggle_navigation: Navigation umschalten
+  navigation:
+    hierarchical: hierarchische Navigation
+    top_level: oberste Navigationsebene
   advanced_search:
     operator_label: Verknüpfer
     operator:

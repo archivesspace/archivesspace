@@ -1894,9 +1894,11 @@ de:
         collection_resource_linker:
           browse: Ressourcen durchsuchen
           create: Ressource erstellen
+          link_title: Verknüpfung mit Eingang
         collection_accession_linker:
           browse: Eingänge durchsuchen
           create: Eingang erstellen
+          link_title: Verknüpfung mit Eingang
         series: Serie
         update_locations_current_location: Aktueller Standort
         batch_delete: Haupt-Behältnisse löschen
@@ -2022,6 +2024,7 @@ de:
     linker:
       browse: Haupt-Behältnisse durchsuchen
       create: Haupt-Behältnis erstellen
+      link_title: Verknüpfung mit Haupt-Behältnis
   container_profile:
     name: Name
     _frontend:
@@ -2087,6 +2090,7 @@ de:
     linker:
       browse: Behältnis-Profile durchsuchen
       create: Behältnis-Profil erstellen
+      link_title: Verknüpfung mit Behältnis-Profil
   rights_restriction:
     local_access_restriction_type_inline_help: Halten Sie Strg (Windows) / Cmd (Mac)
       gedrückt, um mehrere Optionen auszuwählen oder eine Option abzuwählen
@@ -2130,6 +2134,7 @@ de:
     linker:
       browse: Standort-Profile durchsuchen
       create: Standort-Profil erstellen
+      link_title: Verknüpfung mit Standort-Profil
   extent_calculator:
     create_extent_record_message: Führen Sie den Umfangs-Rechner im Bearbeiten-Modus
       aus, um die Möglichkeit zu haben, eine Umfang-Aufzeichnung basierend auf dem

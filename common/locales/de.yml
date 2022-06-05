@@ -27,6 +27,7 @@ de:
     linker:
       browse: Themen durchsuchen
       create: Thema erstellen
+      link_title: Verknüpfung mit Thema
   agent_contact: &agent_contact
     address_1: Adresse 1
     city: Ort
@@ -242,6 +243,7 @@ de:
     linker:
       browse: Klassifizierungs-Begriffe durchsuchen
       create: Klassifizierungs-Begriff erstellen
+      link_title: Verknüpfung mit Klassifizierungs-Begriff
   repository:
     <<: *slug_attributes
     _singular: Aufbewahrungsort
@@ -304,6 +306,7 @@ de:
     linker:
       browse: Aufbewahrungsorte durchsuchen
       create: Aufbewahrungsort erstellen
+      link_title: Verknüpfung mit Aufbewahrungsort
   classification:
     <<: *slug_attributes
     creator: Urheber
@@ -317,6 +320,7 @@ de:
     linker:
       browse: Klassifizierungen durchsuchen
       create: Klassifizierung erstellen
+      link_title: Verknüpfung mit Klassifizierung
   agent: &agent_attributes
     <<: *slug_attributes
     _singular: Akteur
@@ -394,6 +398,7 @@ de:
     linker:
       browse: Akteure durchsuchen
       create: Akteur erstellen
+      link_title: Verknüpfung mit Akteur
   agent_person:
     <<: *agent_attributes
     _plural: Personen
@@ -525,6 +530,7 @@ de:
     linker:
       browse: Eingänge durchsuchen
       create: Eingang erstellen
+      link_title: Verknüpfung mit Eingang
   digital_object: &digital_object_attributes
     <<: [*section_tooltips, *slug_attributes]
     user_defined:
@@ -565,6 +571,7 @@ de:
     linker:
       browse: Digitale Objekte durchsuchen
       create: Digitales Objekt erstellen
+      link_title: Verknüpfung mit digitalem Objekt
   content_items:
     content: Inhalt
     content_tooltip: "<p>Der Inhalt der Anmerkung.</p>\n"
@@ -643,6 +650,7 @@ de:
     linker:
       browse: Standorte durchsuchen
       create: Standort erstellen
+      link_title: Verknüpfung mit Standort
   location_batch:
     <<: *location_attributes
     label: Beschriftung
@@ -693,6 +701,7 @@ de:
     linker_ref:
       browse: Aufzeichnungen durchsuchen
       create: Aufzeichnung erstellen
+      link_title: Verknüpfung mit Aufzeichnung
   linked_agent: &linked_agent_attributes
     role: Rolle
     relator: Relator
@@ -2419,6 +2428,8 @@ de:
     purpose_tooltip: "<p>Gibt den Grund für die Durchführung der Bewertung an. Beispiele: Prioritäten\
       \ zur Bestandserhaltung; Prioritäten bei der Bearbeitung; Bewertung; usw.</p>\n"
     general_assessment_note: Allgemeine Anmerkung zur Begutachtung
+    linker:
+      link_title: Verknüpfung mit Aufzeichnung
   assessment_attribute:
     rating:
       "Intellectual Access (description)": Intellektueller Zugang (Beschreibung)

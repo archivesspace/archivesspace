@@ -1605,9 +1605,11 @@ en:
         collection_resource_linker:
           browse: Browse Resources
           create: Create Resource
+          link_title: Link to resource
         collection_accession_linker:
           browse: Browse Accessions
           create: Create Accession
+          link_title: Link to accession
         series: Series
         current_location: Current Location
         keyword_criteria: Keyword
@@ -1654,6 +1656,7 @@ en:
     linker:
       browse: Browse Top Containers
       create: Create Top Container
+      link_title: Link to top container
 
   container_profile:
     _singular: Container Profile
@@ -1721,6 +1724,7 @@ en:
     linker:
       browse: Browse Container Profiles
       create: Create Container Profile
+      link_title: Link to container profile
 
   rights_restriction:
     begin: Restriction Begin
@@ -1777,6 +1781,7 @@ en:
     linker:
       browse: Browse Location Profiles
       create: Create Location Profile
+      link_title: Link to location profile
 
   space_calculator:
     modal_title: Space Calculator
