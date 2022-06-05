@@ -239,6 +239,7 @@ de:
       empty: ist leer
     enum_field:
       empty: nicht zugewiesen
+      label: Aufzählungen für die Detailsuche
     search_field: Suchfeld
     search_text: Suchtext
     search_date: Datum

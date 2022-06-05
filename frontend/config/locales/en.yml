@@ -518,6 +518,7 @@ en:
       empty: is empty
     enum_field:
       empty: unassigned
+      label: Advanced search enumerations
     search_field: Search Field
     search_text: Search Text
     search_date: Date

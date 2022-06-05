@@ -240,7 +240,7 @@
 
 <div id="template_advanced_search_enum_fields"><!--
   <div class="col-md-3">
-    <label for="f${index}">Advanced search enumerations</label>
+    <label for="f${index}"><%= I18n.t("advanced_search.enum_field.label") %></label>
     <select name="f${index}" id="f${index}" class="form-control" <% if values_for[:enum].length > AspaceFormHelper::COMBOBOX_MIN_LIMIT %> data-combobox="true"<% end %>>
       <% values_for[:enum].each do |op| %>
         <%= emit_option(op) %>
