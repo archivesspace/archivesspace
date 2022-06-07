@@ -230,6 +230,15 @@ function validateResourceAndParent() {
       linker: true, //?
       multiplicity: 1,
       onLink: function (resource_uri) {
+        let resource_id = resource_uri.replace(/.*\//, '');
+        let locationParams = location.href.split('?')[1];
+        locationParams = new URLSearchParams(locationParams);
+        locationParams.set('resource_id', resource_id);
+        history.replaceState(
+          {},
+          document.title,
+          location.href.split('?')[0] + '?' + locationParams.toString()
+        );
         $resourceInput.attr('name', 'archival_object[resource][ref]');
         $resourceInput.val(resource_uri);
         $('#archival_object_form')
@@ -262,6 +271,15 @@ function validateResourceAndParent() {
       linker: true,
       multiplicity: 1,
       onLink: function (parent_uri) {
+        let parent_id = parent_uri.replace(/.*\//, '');
+        let locationParams = location.href.split('?')[1];
+        locationParams = new URLSearchParams(locationParams);
+        locationParams.set('archival_object_id', parent_id);
+        history.replaceState(
+          {},
+          document.title,
+          location.href.split('?')[0] + '?' + locationParams.toString()
+        );
         $parentInput.attr('name', 'archival_object[parent][ref]');
         $parentInput.val(parent_uri);
         validateResourceAndParent();

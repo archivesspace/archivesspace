@@ -36,6 +36,8 @@ describe 'Spawning', js: true do
     find("#addSelectedButton").click
     find("input[value='#{@parent.uri}']").click
     find("#addSelectedButton").click
+    expect(page.evaluate_script("location.href")).to include("resource_id=#{@resource.id}")
+    expect(page.evaluate_script("location.href")).to include("archival_object_id=#{@parent.id}")
     expect(find("#archival_object_title_").value()).to eq "Spawned Accession"
     find("#archival_object_level_ option[value='class']").click
     find(".save-changes button[type='submit']").click

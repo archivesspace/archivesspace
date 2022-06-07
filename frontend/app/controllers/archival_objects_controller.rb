@@ -11,22 +11,16 @@ class ArchivalObjectsController < ApplicationController
     @archival_object.parent = {'ref' => ArchivalObject.uri_for(params[:archival_object_id])} if params.has_key?(:archival_object_id)
     @archival_object.resource = {'ref' => Resource.uri_for(params[:resource_id])} if params.has_key?(:resource_id)
     @archival_object.position = params[:position]
+    if defaults = user_defaults('archival_object')
+      @archival_object.update(defaults.values)
+    end
 
     if params[:accession_id]
       acc = Accession.find(params[:accession_id], find_opts)
-
-      if acc
-        @archival_object.populate_from_accession(acc)
-        flash.now[:info] = I18n.t("archival_object._frontend.messages.spawned", JSONModelI18nWrapper.new(:accession => acc).enable_parse_mixed_content!(url_for(:root)))
-        flash[:spawned_from_accession] = acc.id
-      end
-
-    elsif user_prefs['default_values']
-      defaults = DefaultValues.get 'archival_object'
-
-      @archival_object.update(defaults.values) if defaults
+      @archival_object.populate_from_accession(acc)
+      flash.now[:info] = I18n.t("archival_object._frontend.messages.spawned", JSONModelI18nWrapper.new(:accession => acc).enable_parse_mixed_content!(url_for(:root)))
+      flash[:spawned_from_accession] = acc.id
     end
-
 
     return render_aspace_partial :partial => "archival_objects/new_inline" if inline?
 

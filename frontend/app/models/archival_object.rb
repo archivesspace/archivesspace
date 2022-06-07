@@ -42,19 +42,5 @@ class ArchivalObject < JSONModel(:archival_object)
     self.rights_statements = Array(accession.rights_statements).map {|rights_statement|
       rights_statement.clone.tap {|r| r.delete('identifier')}
     }
-
-    if !self.extents || self.extents.empty?
-      self.extents = [JSONModel(:extent).new._always_valid!]
-    end
-
-    if !self.dates || self.dates.empty?
-      self.dates = [JSONModel(:date).new._always_valid!]
-    end
-
-    if !self.lang_materials || self.lang_materials.empty?
-      self.lang_materials = [JSONModel(:lang_material).new._always_valid!]
-    end
   end
-
-
 end
