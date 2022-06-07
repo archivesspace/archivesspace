@@ -1,0 +1,37 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup Java
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '11'
+
+      - name: Get the version
+        id: version
+        run: echo ::set-output name=VERSION::$(echo $GITHUB_REF | cut -d / -f 3)
+
+      - name: Get the release name
+        id: release_name
+        run: echo ::set-output name=RELEASE_NAME::$(echo $GITHUB_REF | cut -d / -f 3 | sed 's/v/V/')
+
+      - name: Build Dist
+        run: ./build/run build-dist -Dversion=${{ steps.version.outputs.VERSION }}
+
+      - name: Release
+        uses: softprops/action-gh-release@v1
+        with:
+          name: ${{ steps.release_name.outputs.RELEASE_NAME }}
+          body: Insert release notes here
+          files: archivesspace-${{ steps.version.outputs.VERSION }}.zip

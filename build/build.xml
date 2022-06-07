@@ -248,31 +248,25 @@
   <!-- BUILD -->
   <target name="build-dist" description="Build a standalone distribution zip of all components">
     <antcall target="set-classpath" />
-    <!-- run bootstrap as a standalone task if you need the build group gems (warbler) in your gem home:
-      In this-invocation, {APP_DIR}/.bundle/config files will determine what Bundler looks for at startup -->
     <antcall target="bootstrap">
+      <param name="excluded-gem-groups" value="test development doc" />
+    </antcall>
+    <!-- we want to use warbler for this build task, but since it is going to be filtered out
+         of the zip (see below), we don't want Bundler whining about it when Bundle.require
+         is invoked at runtime, so the next line is just about getting a new .bundle/config
+         file in the backend.war -->
+    <antcall target="bundler">
+      <param name="gemfile" value="../backend/Gemfile" />
       <param name="excluded-gem-groups" value="test development doc build" />
     </antcall>
     <parallel>
-      <antcall target="backend:war">
-        <param name="excluded-gem-groups" value="test development doc build" />
-      </antcall>
-      <antcall target="frontend:war">
-        <param name="excluded-gem-groups" value="test development doc build" />
-      </antcall>
-      <antcall target="indexer:war">
-        <param name="excluded-gem-groups" value="test development doc build" />
-      </antcall>
-      <antcall target="oai:war">
-        <param name="excluded-gem-groups" value="test development doc build" />
-      </antcall>
-      <antcall target="public:war">
-        <param name="excluded-gem-groups" value="test development doc build" />
-      </antcall>
+      <antcall target="backend:war" />
+      <antcall target="frontend:war" />
+      <antcall target="indexer:war" />
+      <antcall target="oai:war" />
+      <antcall target="public:war" />
     </parallel>
-    <antcall target="build-zip">
-      <param name="excluded-gem-groups" value="test development doc build" />
-    </antcall>
+    <antcall target="build-zip" />
   </target>
 
   <target name="build-zip" depends="set-classpath" description="Bundle everything up into a zip file">
@@ -332,7 +326,6 @@
       <fileset dir="gems" excludes="jruby/**" />
     </copy>
     <!-- jruby gems -->
-
     <copy todir="target/archivesspace/gems">
       <fileset dir="gems/jruby/${jruby_build_version}">
         <exclude name="cache/**" />
