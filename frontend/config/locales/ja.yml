@@ -2925,3 +2925,136 @@ ja:
 
   metadata_rights_declaration_merge_victim:
     <<: *metadata_rights_declaration_attributes
+
+  reports:
+    digital_object_list_table_report:
+      title: デジタルオブジェクトテーブル
+      description: デジタルオブジェクトを表形式で表示します。 レポートには、タイトル、デジタルオブジェクト識別子、オブジェクトタイプ、日付、およびリンクされたリソースのタイトルと識別子が含まれます。
+
+    digital_object_file_versions_report:
+      title: ファイルバージョンリスト
+      description: 選択したデジタルオブジェクトに関連付けられているファイルバージョンを表示します。
+
+    accession_inventory_report:
+      title: 在庫のあるアクセッション
+      description: インベントリを持つアクセッションレコードのみを表示します。 レポートには、アクセッション番号、リンクされたリソース、タイトル、エクステント、アクセッション日、コンテナの概要、およびインベントリが含まれます。
+      number_with_inventories: 在庫のあるアクセッション
+      identifier_prefix: アクセッション
+
+    accession_receipt_report:
+      title: アクセッションレシートレポート
+      description: 資料の受入を示す領収書を表示します。 レポートには、アクセッション番号、タイトル、エクステント、アクセッション日、およびリポジトリが含まれます。
+      identifier_prefix: アクセッション
+
+    created_accessions_report:
+      title: 作成されたアクセッション
+      description: 日付範囲内に作成されたアクセッションに関するレポート
+      identifier_prefix: アクセッション
+
+    accession_subjects_names_classifications_list_report:
+      title: アクセッションとリンクされた主題、名前と分類
+      description: アクセッションとそれらにリンクされた名前、サブジェクト、および分類を表示します。 レポートには、アクセッション番号、リンクされたリソース、アクセッション日、タイトル、範囲、リンクされた名前、およびリンクされた件名が含まれます。
+      identifier_prefix: アクセッション
+
+    accession_report:
+      title: アクセッションレポート
+      description: 特定のリポジトリのすべてのアクセッションを表示します。 レポートには、各アクセッションの基本情報フィールドに入力されたデータが含まれます。
+      identifier_prefix: アクセッション
+
+    accession_classifications_subreport:
+      test_value: test value
+
+    accession_unprocessed_report:
+      title: 未処理のアクセッション
+      description: 処理されていないアクセッションのみを表示します。 レポートには、アクセッション番号、リンクされたリソース、タイトル、エクステント、カタログ、処理日、処理日で選択されたレコード数のカウント、および完了日処理フィールドがないレコードのエクステント総数が含まれます。
+      total_count: アクセッション数
+      identifier_prefix: アクセッション
+      total_extent: 未処理の合計範囲
+
+    accession_deaccessions_list_report:
+      title: アクセッション取得およびリンクされたアクセス解除レコード
+      description: アクセッションレコードとリンクされたデアクセッションレコードのリストを表示します。 レポートには、アクセッション番号、タイトル、エクステント、アクセッション日、コンテナの概要、カタログ化、処理日、譲渡された権利、リンクされたアクセス解除、およびすべてのアクセス解除の合計範囲が含まれます。
+      total_extent: アクセッションの合計範囲
+      identifier_prefix: アクセッション
+
+    accession_rights_transferred_report:
+      title: 権利が譲渡されたアクセッション
+      description: 権利が譲渡されたアクセッションのみを表示します。 レポートには、アクセッション番号、リンクされたリソース、タイトル、範囲、カタログ、処理日、アクセス制限、使用制限、譲渡された権利、および譲渡された権利で選択されたレコード数のカウントが含まれます。
+      identifier_prefix: アクセッション
+
+    user_groups_report:
+      title:  ユーザーグループレポート
+      description: ユーザーとリポジトリアクセスグループを表示します。
+      name: 名
+      department: 部門
+      user_title: タイトル
+      groups: グループ
+      email: Eメール
+      telephone: 電話
+
+    resource_deaccessions_list_report:
+      title: リソースとアクセス解除
+      description: リソースとリンクされたアクセス解除レコードを表示します。 レポートには、タイトル、リソースID、レベル、日付範囲、リンクされたアクセス解除、作成者名、および物理エクステントの合計が含まれます.
+      total_extent: リソースの総量
+      identifier_prefix: 資源
+
+    resource_instances_list_report:
+      title: リソースとインスタンスのリスト
+      description: リソースと指定されたすべての場所情報を表示します。 レポートには、タイトル、リソースID、レベル、日付範囲、および割り当てられたコンテナーが含まれます。
+      total_extent: リソースの総量
+      identifier_prefix: 資源
+
+    resource_locations_list_report:
+      title: リソースと場所のリスト
+      description: リソースと指定されたすべての場所情報を表示します。 レポートには、タイトル、リソースID、レベル、日付範囲、および割り当てられた場所が含まれます。
+      total_extent: リソースの総量
+      identifier_prefix: 資源
+
+    resources_list_report:
+      title: リソースリストレポート
+      description: リソースリストレポートには、リソースレコードの基本情報、日付、および範囲が含まれています。
+
+    resource_restrictions_list_report:
+      title: Resources Restrictions List
+      description: Displays resources with restrictions and location information. Report contains title, resource identifier, level, date range, and assigned locations.
+      total_count: Total Resources with Restrictions
+      total_extent: Total Extent of Resources with Restrictions
+      identifier_prefix: Resource
+
+    assessment_rating_report:
+      title: 評価評価レポート
+      description: 指定された範囲の指定された評価を持つ評価の情報を表示します。 少なくとも1つの値を選択する必要があります。 すべてのレコードを表示するには、すべての値を選択します。
+      identifier_prefix: 評価
+
+    assessment_list_report:
+      description: 作成されたすべての評価レコード
+      title: 評価記録リスト
+      identifier_prefix: 評価
+
+    agent_list_report:
+      title: 名前レコードリスト
+      description: 選択した名前レコードを表示します。 レポートには、名前、名前の種類、および名前のソースが一覧表示されます。
+
+    location_report:
+      title: Location Report
+      description: Displays a list of locations, indicating any accessions or resources assigned to defined locations.
+      total_count: Number of Locations
+
+    location_holdings_report:
+      title: ロケーションホールディングス
+      identifier_prefix: ロケーション
+      description: 1つ以上の場所で棚上げされたコンテナに関するレポート
+      repository_report_type: リポジトリ
+      building_report_type: 建物
+      single_location_report_type: 単一の場所
+      location_range_report_type: 場所の範囲
+      start_range: 最初の場所
+      end_range: 最後の場所
+
+    shelflist_report:
+      title: Shelflist Report
+      description: The Shelflist Report includes a list of all locations and their associated top containers.
+      
+    subject_list_report:
+      title: 件名レコードリスト
+      description: 選択したサブジェクトレコードを表示します。 レポートには、主題用語、主題用語タイプ、および主題ソースが一覧表示されます.

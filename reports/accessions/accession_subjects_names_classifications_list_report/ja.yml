@@ -1,6 +1,0 @@
-ja:
-  reports:
-    accession_subjects_names_classifications_list_report:
-      title: アクセッションとリンクされた主題、名前と分類
-      description: アクセッションとそれらにリンクされた名前、サブジェクト、および分類を表示します。 レポートには、アクセッション番号、リンクされたリソース、アクセッション日、タイトル、範囲、リンクされた名前、およびリンクされた件名が含まれます。
-      identifier_prefix: アクセッション
