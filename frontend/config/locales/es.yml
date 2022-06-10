@@ -21,6 +21,7 @@ es:
     create: Crear
     cut: Cortar
     date_picker: Selector de fecha abierto
+    date_picker_toggle: Cambia el selector de fecha
     defaults: Valores por defecto
     edit: Editar
     edit_oai: Editar la configuración de OAI

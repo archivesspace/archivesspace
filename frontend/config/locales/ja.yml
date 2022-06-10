@@ -21,6 +21,7 @@ ja:
     create: 作成する
     cut: カット
     date_picker: オープン日付ピッカー
+    date_picker_toggle: 日付ピッカーを切り替えます
     defaults: デフォルト値
     edit: 編集
     edit_oai: OAI設定を編集する

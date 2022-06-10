@@ -21,6 +21,7 @@ en:
     create: Create
     cut: Cut
     date_picker: Open Date Picker
+    date_picker_toggle: Toggle the Date Picker
     defaults: Default Values
     edit: Edit
     edit_oai: Edit OAI Settings

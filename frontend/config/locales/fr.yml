@@ -19,6 +19,7 @@ fr:
     create: Créer
     cut: Couper
     date_picker: Sélecteur de date d'ouverture
+    date_picker_toggle: Basculez le sélecteur de date
     defaults: Valeurs par défaut
     edit: Editer
     edit_oai: Modifier les paramètres OAI
