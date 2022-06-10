@@ -32,7 +32,6 @@ $expire = 30000
 AppConfig[:backend_url] = $backend
 AppConfig[:pui_hide][:record_badge] = false # we want this for testing
 AppConfig[:arks_enabled] = true # ARKs have to be enabled to be able to test them
-AppConfig[:pui_display_facets_alpha] = true
 
 $backend_start_fn = proc {
   TestUtils::start_backend($backend_port,

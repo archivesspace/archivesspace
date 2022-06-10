@@ -189,11 +189,11 @@ module Searchable
     hits = Integer(@results['total_hits'])
     if !@results['facets'].blank?
       @results['facets']['facet_fields'].keys.each do |type|
-        facet_hash = strip_facets( @results['facets']['facet_fields'][type], 1, hits)
-        if facet_hash.present?
-          @facets[type] = facet_hash
+        facet_group = strip_facets( @results['facets']['facet_fields'][type], 1, type, hits)
+        if facet_group.present?
+          @facets[type] = facet_group
           if type == 'repository'
-            @facets['repository'].delete('global')
+            @facets['repository'].reject! { |f| f.key == 'global' }
           end
         end
       end
