@@ -62,4 +62,58 @@ describe SearchController, type: :controller do
     expect(result_data['total_hits']).to eq(1)
   end
 
+  describe 'facet sorting' do
+    it 'leaves facets in the order received (hit count) unless config says to sort by label' do
+      repos = class_double("Repository").
+                as_stubbed_const
+      allow(repos).to receive(:get_repos) {
+        {
+          "/repositories/3" => { "name" => "Alpha" },
+          "/repositories/2" => { "name" => "Beta" },
+          "/repositories/1" => { "name" => "Delta" }
+        }
+      }
+
+      as_client = instance_double("ArchivesSpaceClient")
+      allow(as_client).to receive(:advanced_search) { |base_search, page, criteria|
+        SolrResults.new({
+                          'total_hits' => 10,
+                          'results' => (0...10).map {|i| {
+                                                       'primary_type' => 'accession',
+                                                       'json' => {'title' => 'TITLE'},
+                                                       'uri' => "/accessions/#{i}"
+                                                     } },
+                          'facets' => {
+                            'facet_fields' => {
+                              'repository' => [
+                                '/repositories/2', 6, '/repositories/1', 3, '/repositories/3', 2
+                              ]
+                            }
+                          }
+                        })
+      }
+      allow(controller).to receive(:archivesspace).and_return(as_client)
+
+      response = get(:search, params: {
+                       :rid => 2,
+                       :q => ['foo'],
+                       :op => ['OR'],
+                       :field => ['']
+                     })
+      facets = assigns(:facets)
+      expect(facets["repository"].map { |f| f.key }).to eq(["/repositories/2", "/repositories/1", "/repositories/3"])
+
+      allow(AppConfig).to receive(:[]).and_call_original
+      allow(AppConfig).to receive(:[]).with(:pui_display_facets_alpha) { true }
+
+      response = get(:search, params: {
+                       :rid => 2,
+                       :q => ['foo'],
+                       :op => ['OR'],
+                       :field => ['']
+                     })
+      facets = assigns(:facets)
+      expect(facets["repository"].map { |f| f.key }).to eq(["/repositories/3", "/repositories/2", "/repositories/1"])
+    end
+  end
 end
