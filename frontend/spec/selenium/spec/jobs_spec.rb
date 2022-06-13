@@ -2,8 +2,6 @@
 
 require_relative '../spec_helper'
 
-wait = Selenium::WebDriver::Wait.new(:timeout => 15)
-
 describe 'Jobs' do
   before(:all) do
     @repo = create(:repo, repo_code: "jobs_test_#{Time.now.to_i}")
@@ -24,7 +22,6 @@ describe 'Jobs' do
   after(:all) do
     @driver ? @driver.quit : next
   end
-
 
   it 'can create a find and replace job' do
     run_index_round
@@ -139,6 +136,7 @@ describe 'Jobs' do
     row_value = @driver.execute_script("return $('#basic_information > div:nth-child(4) > div').text()")
     expect(row_value).to eq("MarcXML Bibliographic (Accession)")
 
+    wait = Selenium::WebDriver::Wait.new(:timeout => 15)
     refresh_button = wait.until {
       element = @driver.find_element(:xpath, '//*[@id="archivesSpaceSidebar"]/ul/li[4]/div/button')
       element if element.displayed?
