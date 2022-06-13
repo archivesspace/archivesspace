@@ -667,6 +667,8 @@
       <env key="ASPACE_INTEGRATION" value="${aspace.integration}" />
       <env key="APPCONFIG_DATA_DIRECTORY" value="${aspace.data_directory.dev}" />
       <env key="APPCONFIG_DB_URL" value="${env.APPCONFIG_DB_URL}" />
+      <env key="APPCONFIG_FRONTEND_PROXY_URL" value="http://localhost:3000" />
+      <env key="APPCONFIG_PUBLIC_PROXY_URL" value="http://localhost:3001" />
       <env key="APPCONFIG_SOLR_URL" value="${env.APPCONFIG_SOLR_URL}" />
       <arg line="script/rails s mizuno -b 0.0.0.0 --port=${aspace.frontend.port}" />
     </java>
@@ -781,6 +783,8 @@
       <env key="ASPACE_INTEGRATION" value="${aspace.integration}" />
       <env key="APPCONFIG_DATA_DIRECTORY" value="${aspace.data_directory.dev}" />
       <env key="APPCONFIG_DB_URL" value="${env.APPCONFIG_DB_URL}" />
+      <env key="APPCONFIG_FRONTEND_PROXY_URL" value="http://localhost:3000" />
+      <env key="APPCONFIG_PUBLIC_PROXY_URL" value="http://localhost:3001" />
       <env key="APPCONFIG_SOLR_URL" value="${env.APPCONFIG_SOLR_URL}" />
       <arg line="bin/rails s mizuno -b 0.0.0.0 --port=${aspace.public.port}" />
     </java>
