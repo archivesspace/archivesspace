@@ -1,5 +1,6 @@
 <% unless deleted(record) %>
   <div class="btn-group">
+    <% # we don't want to parse a whole JSON record here %>
     <% disabled = "disabled" if JSON.parse(record['json'])['inactive_record'] %>
     <%= link_to I18n.t("actions.view"), {:controller => :resolver, :action => :resolve_readonly, :uri => record["id"]}, :class => "btn btn-xs btn-default", :disabled => disabled %>
     <% if can_edit_search_result?(record) %>

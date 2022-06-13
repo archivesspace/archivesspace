@@ -8,9 +8,11 @@
   </div>
   <div class="col-md-9">
     <div class="record-toolbar">
+      <% unless @hide_csv_download %>
       <div class="btn-group pull-right">
         <%= link_to I18n.t("actions.export_csv"), request.parameters.merge({ :format => :csv, :fields => fields}), id: "searchExport",  class:  "btn btn-sm btn-info" %>
       </div>
+      <% end %>
       <br style="clear:both" />
     </div>
     <div class="record-pane">
@@ -18,9 +20,7 @@
       <% if !params[:linker] %>
         <h3><%= title %></h3>
       <% end %>
-
       <%= render_aspace_partial :partial => "search/listing" %>
-
     </div>
   </div>
 </div>

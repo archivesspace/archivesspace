@@ -6,20 +6,21 @@ class ArchivalObjectsController < ApplicationController
                       "delete_archival_record" => [:delete],
                       "manage_repository" => [:defaults, :update_defaults]
 
-
-
   def new
-    @archival_object = JSONModel(:archival_object).new._always_valid!
-    @archival_object.parent = {'ref' => JSONModel(:archival_object).uri_for(params[:archival_object_id])} if params.has_key?(:archival_object_id)
-    @archival_object.resource = {'ref' => JSONModel(:resource).uri_for(params[:resource_id])} if params.has_key?(:resource_id)
+    @archival_object = ArchivalObject.new._always_valid!
+    @archival_object.parent = {'ref' => ArchivalObject.uri_for(params[:archival_object_id])} if params.has_key?(:archival_object_id)
+    @archival_object.resource = {'ref' => Resource.uri_for(params[:resource_id])} if params.has_key?(:resource_id)
     @archival_object.position = params[:position]
-
-    if user_prefs['default_values']
-      defaults = DefaultValues.get 'archival_object'
-
-      @archival_object.update(defaults.values) if defaults
+    if defaults = user_defaults('archival_object')
+      @archival_object.update(defaults.values)
     end
 
+    if params[:accession_id]
+      acc = Accession.find(params[:accession_id], find_opts)
+      @archival_object.populate_from_accession(acc)
+      flash.now[:info] = I18n.t("archival_object._frontend.messages.spawned", JSONModelI18nWrapper.new(:accession => acc).enable_parse_mixed_content!(url_for(:root)))
+      flash[:spawned_from_accession] = acc.id
+    end
 
     return render_aspace_partial :partial => "archival_objects/new_inline" if inline?
 
@@ -43,7 +44,13 @@ class ArchivalObjectsController < ApplicationController
   def create
     handle_crud(:instance => :archival_object,
                 :find_opts => find_opts,
-                :on_invalid => ->() { render_aspace_partial :partial => "new_inline" },
+                :on_invalid => ->() {
+                  if inline?
+                    render_aspace_partial :partial => "new_inline"
+                  else
+                    render action: :new
+                  end
+                },
                 :on_valid => ->(id) {
 
                   success_message = @archival_object.parent ?
@@ -67,9 +74,13 @@ class ArchivalObjectsController < ApplicationController
                       flash.now[:warning] = I18n.t("slug.autogen_disabled")
                     end
                   end
-
-                  render_aspace_partial :partial => "archival_objects/edit_inline"
-
+                  if inline?
+                    render_aspace_partial :partial => "archival_objects/edit_inline"
+                  else
+                    id = ArchivalObject.id_for(@archival_object.uri)
+                    resource_id = Resource.id_for(@archival_object.resource['ref'])
+                    redirect_to controller: :resources, action: :edit, id: resource_id, anchor: "tree::archival_object_#{id}"
+                  end
                 })
   end
 

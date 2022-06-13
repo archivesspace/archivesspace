@@ -138,6 +138,7 @@ en:
     reorder_active: Disable Reorder Mode
     copy: Copy
     run: Run
+    select_resource: Select Resource
 
   database_warning:
     message: "<p><strong>Database Warning:</strong> You are currently using the embedded database (Apache Derby). The embedded database is for testing/demo purposes only. You should use MySQL for any data intended for production, including data in a test instance that you intend to move over to a production instance.</p>"
@@ -805,6 +806,7 @@ en:
   archival_object:
     external_ark_url: External ARK URL
     external_ark_url_tooltip: External ARK URL Tooltip
+    new_title: New Archival Object
     _frontend:
       messages:
         created: Archival Object <strong>%{archival_object.display_string}</strong> on Resource <strong>%{resource.title}</strong> created
@@ -821,6 +823,7 @@ en:
         suppressed: Archival Object <strong>%{archival_object.title}</strong> suppressed
         suppressed_info: Archival Object is suppressed and cannot be edited
         has_unpublished_ancestor: Please be aware this record has an ancestor that is unpublished.
+        spawned: "This Archival Object has been spawned from Accession <strong>%{accession.display_string}</strong>"
         delete_conflict: "Archival Object could not be deleted: <pre>%{error}</pre>"
       section:
         basic_information: Basic Information
@@ -829,6 +832,10 @@ en:
         add_sibling: Add Sibling
         save: Save Archival Object
         bulk_import: Load via Spreadsheet
+        select_resource: Select Resource
+        select_parent: Select Parent
+        leave_parent_empty: Close / Do not Assign Parent
+
       tree:
         new_record_title: New Archival Object
 

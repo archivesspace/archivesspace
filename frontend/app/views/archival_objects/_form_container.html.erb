@@ -11,9 +11,9 @@
 
 <%= render_aspace_partial :partial => "shared/form_messages", :locals => {:form => form} %>
 
+<%= form.hidden_input "parent", nil, {"data-base-name" => "archival_object[parent]", "class" => "hidden-parent-uri", "data-browse-url-html" => url_for(:controller => :search, :action => :do_search, :format => :js, :facets => SearchResultData.ARCHIVAL_OBJECT_FACETS), "data-browse-url-json" => url_for(:controller => :search, :action => :do_search, :format => :json, :facets => SearchResultData.ARCHIVAL_OBJECT_FACETS), "data-modal-title" => I18n.t('archival_object._frontend.action.select_parent'), "data-leave-empty" => I18n.t('archival_object._frontend.action.leave_parent_empty')} %>
+  <%= form.hidden_input "resource", nil, {"data-browse-url-html" => url_for(:controller => :search, :action => :do_search, :format => :js, :facets => SearchResultData.RESOURCE_FACETS), "data-browse-url-json" => url_for(:controller => :search, :action => :do_search, :format => :json, :facets => SearchResultData.RESOURCE_FACETS), "data-modal-title" => I18n.t('archival_object._frontend.action.select_resource')} %>
 
-  <%= form.hidden_input "parent", nil, {"data-base-name" => "archival_object[parent]", "class" => "hidden-parent-uri"} %>
-  <%= form.hidden_input "resource" %>
   <%= form.hidden_input "position" %>
 
   <%= hidden_field_tag "id", @archival_object.id %>
