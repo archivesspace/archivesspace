@@ -27,6 +27,9 @@ function SimpleLinkingModal(config) {
     this
   );
   self.$container = $('.linker-container', self.$modal);
+  if (self.config.url_html == undefined) {
+    throw 'Cannot load linking modal because the modal config is missing a url';
+  }
   self.reload_modal(self.config.url_html);
   self.init_click_handlers();
   self.init_radio_handlers();

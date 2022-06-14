@@ -33,7 +33,7 @@ class ArchivalObject < JSONModel(:archival_object)
                                                      :content => [accession.condition_description])
     end
 
-    # self.related_accessions = [{'ref' => accession.uri, '_resolved' => accession}]
+    self.accession_links = [{'ref' => accession.uri, '_resolved' => accession}]
 
     self.notes = notes
 

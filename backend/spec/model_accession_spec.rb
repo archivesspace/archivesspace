@@ -366,6 +366,13 @@ describe 'Accession model' do
     expect(Accession.to_jsonmodel(bert.id)['related_accessions'].first['ref']).to eq(ernie.uri)
   end
 
+  it "can link an accession and a resource component (archival object)" do
+    linked_component = create(:json_archival_object)
+    accession = create(:json_accession, component_links: [{'ref' => linked_component.uri}])
+    linked_component = ArchivalObject.to_jsonmodel(linked_component.id)
+    expect(linked_component['accession_links'][0]['ref']).to eq(accession.uri)
+  end
+
   describe "slug tests" do
     before(:all) do
       AppConfig[:use_human_readable_urls] = true

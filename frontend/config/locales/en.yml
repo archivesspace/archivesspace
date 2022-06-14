@@ -708,7 +708,23 @@ en:
     linked_to_assessment: Record cannot be deleted as it is linked to an assessment
     cannot_delete_repository_agent: This agent is linked to a repository and can't be removed.
 
+  component_link:
+    _plural: Component Links
+    _singular: Component Link
+    _frontend:
+      action:
+        add: Add Component Link
+
+  accession_link:
+    _plural: Accession Links
+    _singular: Accesssion Link
+    _frontend:
+      action:
+        add: Add Accession Link
+
   accession:
+    component_link: Linked Component
+    component_links: Linked Components
     _frontend:
       messages:
         created: Accession <strong>%{accession.display_string}</strong> created
