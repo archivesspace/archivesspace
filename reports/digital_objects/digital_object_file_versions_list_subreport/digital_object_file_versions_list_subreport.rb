@@ -9,9 +9,9 @@ class DigitalObjectFileVersionsListSubreport < AbstractSubreport
 
   def query_string
     "select
-      file_uri as uri,
-      digital_object.title as digital_object_title,
-      digital_object_component.title as digital_object_component_title
+      file_uri as 'file_uri',
+      digital_object.title as 'digital_object_title',
+      digital_object_component.title as 'digital_object_component_title'
     from file_version 
     left outer join digital_object
       on file_version.digital_object_id = digital_object.id
