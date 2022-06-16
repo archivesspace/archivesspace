@@ -17,8 +17,10 @@ services:
     depends_on:
       - db
       - solr
+      - db-test
+      - solr-test
     env_file:
-      - .env.docker.release
+      - .env.docker.dev
     volumes:
       - .:/archivesspace
       - build:/archivesspace/build
@@ -51,3 +53,19 @@ services:
 #      - "8080:80"
 #    depends_on:
 #      - app
+
+  db-test:
+    image: mysql:8.0-oracle
+    command: --character-set-server=UTF8MB4 --innodb_buffer_pool_size=2G --innodb_buffer_pool_instances=2 --log_bin_trust_function_creators=1
+    ports:
+      - "3307:3306"
+    env_file:
+      - .env.docker.db
+
+  solr-test:
+    build:
+      context: ./solr
+    image: archivesspace/solr:latest
+    command: solr-create -p 8983 -c archivesspace -d archivesspace
+    ports:
+      - "8984:8983"
