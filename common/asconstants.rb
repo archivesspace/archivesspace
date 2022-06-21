@@ -48,8 +48,8 @@ module ASConstants
     # give priority to env, if this is set there's a reason for it
     return ENV['ARCHIVESSPACE_VERSION'] if ENV['ARCHIVESSPACE_VERSION']
 
-    # should be safe to assume that if we're a devserver we have git and would prefer the branch ...
-    return `git symbolic-ref --short HEAD`.chomp if java.lang.System.get_property('aspace.devserver')
+    # should be safe to assume that if we're a devserver we have git and would prefer the branch or tag ...
+    return `git symbolic-ref -q --short HEAD || git describe --tags --exact-match`.chomp if java.lang.System.get_property('aspace.devserver')
 
     version = java.lang.ClassLoader.getSystemClassLoader.getResourceAsStream("ARCHIVESSPACE_VERSION")
     return version.to_io.read.strip if version
