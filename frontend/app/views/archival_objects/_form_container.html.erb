@@ -72,6 +72,7 @@
   <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "extents"} %>
 
   <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "linked_agents", :template => "archival_object_linked_agent"} %>
+  <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "accession_links", :template => "component_accession_links"} %>
   <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "subjects", :template => "subrecord_subject"} %>
 
   <%= render_aspace_partial :partial => "notes/form", :locals => {:form => form, :all_note_types => note_types_for(form['jsonmodel_type'])} %>

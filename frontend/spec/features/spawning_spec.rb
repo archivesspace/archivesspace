@@ -40,8 +40,14 @@ describe 'Spawning', js: true do
     expect(page.evaluate_script("location.href")).to include("archival_object_id=#{@parent.id}")
     expect(find("#archival_object_title_").value()).to eq "Spawned Accession"
     find("#archival_object_level_ option[value='class']").click
+    accession_link = find(:css, "form input[name='archival_object[accession_links][0][ref]']", :visible => false)
+    expect(accession_link.value).to eq(@accession.uri)
     find(".save-changes button[type='submit']").click
     expect(find("div.indent-level-1 div.title")['title']).to eq "Parent"
     expect(find("div.indent-level-2 div.title")['title']).to eq "Spawned Accession"
+    ref_id = find(".identifier-display").text
+    visit "/accessions/#{@accession.id}"
+    linked_component_ref_id = find("#accession_component_links_ table tbody tr td:nth-child(1)").text
+    expect(linked_component_ref_id).to eq(ref_id)
   end
 end
