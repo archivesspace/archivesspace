@@ -228,11 +228,11 @@ describe 'MARCXML Bib converter' do
       end
 
       it "maps datafield[@tag='110' or @tag='610' or @tag='710'] to agent_corporate_entity" do
-        expect(@corps.count).to eq(4)
+        expect(@corps.count).to eq(5)
       end
 
       it "maps datafield[@tag='110' or @tag='610' or @tag='710'] to agent_corporate_entity with source 'ingest'" do
-        expect(@corps.select {|f| f['names'][0]['source'] == 'ingest'}.count).to eq(3)
+        expect(@corps.select {|f| f['names'][0]['source'] == 'ingest'}.count).to eq(4)
       end
 
       it "maps datafield[@tag='610']/subfield[@code='2'] to agent_corporate_entity.names[].source" do
@@ -246,7 +246,7 @@ describe 'MARCXML Bib converter' do
 
       it "maps datafield[@tag='110'][subfield[@code='e']='Creator (cre)'] and datafield[@tag='710'][subfield[@code='e']='source'] or no $e/$4 to agent_corporate_entity linked as 'creator'" do
         links = @resource['linked_agents'].select {|a| @corps.map {|c| c['uri']}.include?(a['ref'])}
-        expect(links.select {|l| l['role'] == 'creator'}.count).to eq(3)
+        expect(links.select {|l| l['role'] == 'creator'}.count).to eq(4)
       end
 
       it "maps datafield[@tag='610' or @tag='110' or @tag='710']/subfield[@tag='a'] to agent_corporate_entity.names[].primary_name" do
@@ -383,6 +383,17 @@ describe 'MARCXML Bib converter' do
         expect(s.last['terms'][0]['term_type']).to eq('topical')
         expect(s.count).to eq(1)
         expect(s.last['source']).to eq('Local sources')
+      end
+
+      it "maps datafield[@tag='711'] $q to qualifier" do
+        has_qualifier = 0
+        @corps.each do |corp|
+          corp['names'].each do |name|
+            has_qualifier += 1 if name['qualifier'] == "Qualifier"
+          end
+        end
+
+        expect(has_qualifier).to eq(1)
       end
     end
   end

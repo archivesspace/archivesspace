@@ -378,7 +378,7 @@ module MarcXMLBibBaseMap
             "subfield[@code='e'][1]" => trim('subordinate_name_2', '.'),
             "subfield[@code='e'][2]" => appends_subordinate_name_2,
             "subfield[@code='e'][3]" => appends_subordinate_name_2,
-            "subfield[@code='q']" => adds_prefixed_qualifier(trim('qualifier', '.'))
+            "subfield[@code='q']" => trim('qualifier', '.')
           },
         }
       }
