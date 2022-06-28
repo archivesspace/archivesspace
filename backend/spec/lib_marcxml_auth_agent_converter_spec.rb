@@ -154,7 +154,7 @@ describe 'MARCXML Auth Agent converter' do
       expect(record['names'][0]['qualifier']).to eq('qualifier')
     end
 
-    it 'imports name (conference)' do
+    it 'imports name (conference) to qualifier for 111 tags' do
       record = convert(corporate_agent_2).select { |r| r['jsonmodel_type'] == 'agent_corporate_entity' }.first
 
       expect(record['names'][0]['primary_name']).to eq('Institute for Advanced Study (Princeton, N.J.)')
@@ -164,7 +164,7 @@ describe 'MARCXML Auth Agent converter' do
       expect(record['names'][0]['location']).to eq('Miami')
       expect(record['names'][0]['dates']).to eq('1999')
       expect(record['names'][0]['number']).to eq('3')
-      expect(record['names'][0]['subordinate_name_2']).to eq('sub name 2')
+      expect(record['names'][0]['qualifier']).to eq('sub name 2')
     end
 
     it 'imports parallel names' do
