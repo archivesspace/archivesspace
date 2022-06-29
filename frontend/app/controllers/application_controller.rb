@@ -114,24 +114,8 @@ class ApplicationController < ActionController::Base
         obj.update(instance)
       end
 
-      if opts[:required]
-        required = opts[:required]
-        check_required_subrecords(required, obj)
-        missing, min_items = compare(required, obj)
-        #render :plain => missing
-        if !missing.nil?
-          missing.each do |field_name|
-            obj.add_error(field_name, :missing_required_property)
-          end
-        end
-        if !min_items.nil?
-          min_items.each do |item|
-            # Do not alter this! It mimics a built-in json-schema message and gets
-            # i18nized later on
-            message = "At least #{item['num']} item(s) is required"
-            obj.add_error(item['name'], message)
-          end
-        end
+      if opts[:required_fields]
+        opts[:required_fields].add_errors(obj)
       end
 
       # Make the updated object available to templates
@@ -290,78 +274,6 @@ class ApplicationController < ActionController::Base
 
   def user_needs_to_be_global_admin
     unauthorised_access if not user_is_global_admin?
-  end
-
-  def compare(required, obj)
-    missing = []
-    min_items = []
-    required.keys.each do |key|
-      if required[key].is_a? Array and obj[key].is_a? Array
-        if required[key].length === obj[key].length
-          required[key].zip(obj[key]).each_with_index do |(required_a, obj_a), index|
-            required_a.keys.each do |nested_key|
-              if required_a[nested_key].is_a? Array and obj_a[nested_key].is_a? Array
-                missing2, min_items2 = compare_nested_arrays(required_a, obj_a, index, key, nested_key)
-                missing = missing.concat(missing2)
-                min_items = min_items.concat(min_items2)
-              elsif required_a[nested_key].is_a? Hash
-                if !obj_a.key?(nested_key)
-                  min_items << {"name" => "#{key}/#{index}/#{nested_key}", "num" => 1}
-                end
-                required_a[nested_key].keys.each do |nested_key2|
-                  if required_a[nested_key][nested_key2].is_a? String and obj_a.key?(nested_key)
-                    if required_a[nested_key][nested_key2] === "REQ" and obj_a[nested_key][nested_key2] === ""
-                      missing << "#{key}/#{index}/#{nested_key}/#{nested_key2}"
-                    end
-                  end
-                end
-              elsif required_a[nested_key].is_a? String
-                if required_a[nested_key] === "REQ" and obj_a[nested_key] === ""
-                  missing << "#{key}/#{index}/#{nested_key}"
-                end
-              end
-            end
-          end
-        end
-      end
-      if required[key].is_a? String
-        if required[key] === "REQ" and obj[key] === ""
-          missing << key
-        end
-      end
-    end
-    return missing, min_items
-  end
-
-  def compare_nested_arrays(required_a, obj_a, index, key, nested_key)
-    missing = []
-    min_items = []
-    if required_a[nested_key].length > obj_a[nested_key].length
-      min_items << {"name" => "#{key}/#{index}/#{nested_key}", "num" => required_a[nested_key].length}
-    elsif required_a[nested_key].length === obj_a[nested_key].length
-
-      required_a[nested_key].zip(obj_a[nested_key]).each_with_index do |(required_a2, obj_a2), index2|
-        required_a2.keys.each do |nested_key2|
-          if required_a2[nested_key2].is_a? Hash
-            if !obj_a2.key?(nested_key2)
-              min_items << {"name" => "#{key}/#{index}/#{nested_key}/#{index2}/#{nested_key2}", "num" => 1}
-            end
-            required_a2[nested_key2].keys.each do |nested_key3|
-              if required_a2[nested_key2][nested_key3].is_a? String and obj_a2[nested_key2].key?(nested_key3)
-                if required_a2[nested_key2][nested_key3] === "REQ" and obj_a2[nested_key2][nested_key3] === ""
-                  missing << "#{key}/#{index}/#{nested_key}/#{index2}/#{nested_key2}/#{nested_key3}"
-                end
-              end
-            end
-          elsif required_a2[nested_key2].is_a? String
-            if required_a2[nested_key2] === "REQ" and obj_a2[nested_key2] === ""
-              missing << "#{key}/#{index}/#{nested_key}/#{index2}/#{nested_key2}"
-            end
-          end
-        end
-      end
-    end
-    return missing, min_items
   end
 
   helper_method :user_prefs

@@ -1,5 +1,3 @@
-<% r = @required ? @required.values : [] %>
-
 <%= render_aspace_partial :partial => "telephones/template" %>
 
 
@@ -18,32 +16,23 @@
     <%= form.label_and_textfield "name", :required => @repository ? :conditionally : true %>
 
     <%= form.label_and_select "salutation",
-         form.possible_options_for('salutation', true),
-         :required => is_required_by_admin?(r, "agent_contacts", "salutation") %>
+         form.possible_options_for('salutation', true) %>
 
-    <%= form.label_and_textfield "address_1",
-        :required => is_required_by_admin?(r, "agent_contacts", "address_1") %>
+    <%= form.label_and_textfield "address_1" %>
 
-    <%= form.label_and_textfield "address_2",
-        :required => is_required_by_admin?(r, "agent_contacts", "address_2") %>
+    <%= form.label_and_textfield "address_2" %>
 
-    <%= form.label_and_textfield "address_3",
-        :required => is_required_by_admin?(r, "agent_contacts", "address_3") %>
+    <%= form.label_and_textfield "address_3" %>
 
-    <%= form.label_and_textfield "city",
-        :required => is_required_by_admin?(r, "agent_contacts", "city") %>
+    <%= form.label_and_textfield "city" %>
 
-    <%= form.label_and_textfield "region",
-        :required => is_required_by_admin?(r, "agent_contacts", "region") %>
+    <%= form.label_and_textfield "region" %>
 
-    <%= form.label_and_textfield "country",
-        :required => is_required_by_admin?(r, "agent_contacts", "country") %>
+    <%= form.label_and_textfield "country" %>
 
-    <%= form.label_and_textfield "post_code",
-        :required => is_required_by_admin?(r, "agent_contacts", "post_code") %>
+    <%= form.label_and_textfield "post_code" %>
 
-    <%= form.label_and_textfield "email",
-        :required => is_required_by_admin?(r, "agent_contacts", "email") %>
+    <%= form.label_and_textfield "email" %>
 
     <% if @repository %>
       <%= form.label_and_textfield "email_signature" %>

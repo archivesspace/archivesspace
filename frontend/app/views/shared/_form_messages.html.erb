@@ -5,7 +5,6 @@
 
        var setupErrorMessage = function(idx, elt, type) {
          var $matched;
-
          if ($("#" + elt).length) {
            $matched = $("#" + elt);
            $matched.closest(".form-group, td").addClass("has-"+type);
@@ -30,6 +29,8 @@
            // the first element.
            $matched = $("#" + elt + "_0_");
            $matched.closest(".form-group, td").addClass("has-"+type);
+         } else if ($("section." + elt.replace(/_$/, ''))) {
+           $matched = $("section." + elt.replace(/_$/, ''));
          }
          if ($matched && !$("." + type + "[data-target=" + elt + "]").hasClass("linked-to-field")) {
              var matchedTarget = $("." + type + "[data-target=" + elt + "]");
