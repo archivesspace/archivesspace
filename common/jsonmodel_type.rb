@@ -75,7 +75,7 @@ class JSONModelType
 
     # If we're running in client mode, leave 'readonly' properties in place,
     # since they're intended for use by clients.  Otherwise, we drop them.
-                                                drop_system_properties = !JSONModel.client_mode?
+    drop_system_properties = !JSONModel.client_mode?
 
     if trusted
       # We got this data from a trusted source (such as another JSONModel
@@ -148,7 +148,7 @@ class JSONModelType
     end
 
     pattern = self.schema['uri']
-    pattern = pattern.gsub(/\/:[a-zA-Z_]+\//, '/[^/ ]+/')
+    pattern = pattern.gsub(/\/:[a-zA-Z_]+(\/|$)/, '/[^/ ]+\1')
 
     if uri =~ /#{pattern}\/#{ID_REGEXP}(\#.*)?$/
       return id_to_int($1)
@@ -181,7 +181,6 @@ class JSONModelType
   end
 
 
-
   def initialize(params = {}, trusted = false)
     set_data(params)
 
@@ -200,7 +199,6 @@ class JSONModelType
 
 
   attr_reader :uri
-  attr_accessor :data
 
   def uri=(val)
     @uri = val
@@ -226,6 +224,7 @@ class JSONModelType
   def has_key?(key)
     @data.has_key?(key)
   end
+  alias :key? :has_key?
 
 
   # Validate the current JSONModel instance and return a list of exceptions
@@ -376,7 +375,6 @@ class JSONModelType
   # a ValidationException if there are any fatal validation problems, or if
   # strict mode is enabled and warnings were produced.
   def self.validate(hash, raise_errors = true)
-
     properties = JSONSchemaUtils.drop_unknown_properties(hash, self.schema)
     ValidatorCache.with_validator_for(self, properties) do |validator|
 
@@ -390,7 +388,7 @@ class JSONModelType
                                       :attribute_types => exceptions[:attribute_types])
       end
 
-      exceptions.reject{|k, v| v.empty?}
+      exceptions.reject {|k, v| v.empty?}
     end
   end
 
@@ -472,4 +470,8 @@ class JSONModelType
     @data = hash
   end
 
+
+  def self.properties_by_tag(tag)
+    @schema['properties'].find_all { |p, cfg| cfg.fetch('tags', []).include?(tag) }
+  end
 end

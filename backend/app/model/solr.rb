@@ -4,6 +4,76 @@ require 'advanced_search'
 
 class Solr
 
+  class ChecksumMismatchError < StandardError; end
+
+  class NotFound < StandardError; end
+
+  module Checksums
+    def checksum_valid?
+      internal_checksum == external_checksum
+    end
+
+    def external_checksum
+      @external_checksum || lookup_external_checksum
+    end
+
+    def internal_checksum
+      @internal_checksum || lookup_internal_checksum
+    end
+
+    private
+
+    def lookup_external_checksum
+      url = URI(File.join(@url, @path))
+      response = Net::HTTP.get_response(url)
+      if response.code == '200'
+        @external_checksum = Digest::SHA2.hexdigest(response.body)
+      else
+        # if we made it this far, solr (or another server) is probably there
+        # but cannot find the documents we want, most likely because the core
+        # has not been set up correctly.
+        message = "Status #{response.code} when trying to verify #{@url}"
+        if response.body
+          message += "Server response:\n#{response.body}"
+        end
+        raise NotFound.new(message)
+      end
+    end
+
+    def lookup_internal_checksum
+      ASConstants::Solr.send(@name.upcase.intern)
+    end
+  end
+
+  class Config
+    include Checksums
+    attr_reader :name
+
+    def initialize(url, name = nil)
+      @external_checksum = nil
+      @internal_checksum = nil
+      @name = name
+      @path = nil
+      @url = url
+    end
+  end
+
+  class Schema < Config
+    def initialize(url)
+      super(url)
+      @name = 'schema'
+      @path = 'admin/file?file=schema.xml&contentType=text%2Fxml%3Bcharset%3Dutf-8'
+    end
+  end
+
+  class Solrconfig < Config
+    def initialize(url)
+      super(url)
+      @name = 'solrconfig'
+      @path = 'admin/file?file=solrconfig.xml&contentType=text%2Fxml%3Bcharset%3Dutf-8'
+    end
+  end
+
   @@search_hooks ||= []
 
 
@@ -15,6 +85,16 @@ class Solr
     @@search_hooks
   end
 
+  def self.verify_checksums!
+    verify_checksum!(Solr::Schema.new(AppConfig[:solr_url]))
+    verify_checksum!(Solr::Solrconfig.new(AppConfig[:solr_url]))
+  end
+
+  def self.verify_checksum!(config)
+    return true if config.checksum_valid?
+
+    raise ChecksumMismatchError.new "Solr checksum verification failed (#{config.name}): expected [#{config.internal_checksum}] got [#{config.external_checksum}]"
+  end
 
   class Query
 
@@ -144,7 +224,7 @@ class Solr
 
     def set_record_types(record_types)
       if record_types
-        query =  Array(record_types).map { |type| "\"#{type}\"" }.join(' OR ')
+        query = Array(record_types).map { |type| "\"#{type}\"" }.join(' OR ')
         add_solr_param(:fq, "types:(#{query})")
       end
 
@@ -167,6 +247,14 @@ class Solr
         query_string = self.class.construct_advanced_query_string(advanced_query['query'],
                                                                   use_literal = true)
         add_solr_param(:fq, query_string)
+      end
+
+      self
+    end
+
+    def set_filter_queries(queries)
+      ASUtils.wrap(queries).each do |q|
+        add_solr_param(:fq, "{!type=edismax}#{q}")
       end
 
       self
@@ -303,9 +391,7 @@ class Solr
   end
 
 
-
   def self.search(query)
-
     url = query.to_solr_url
 
     req = Net::HTTP::Post.new(url.path)

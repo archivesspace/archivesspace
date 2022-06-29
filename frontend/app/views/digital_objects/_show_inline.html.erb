@@ -13,6 +13,10 @@
         <section id="basic_information">
           <h3><%= I18n.t("digital_object._frontend.section.basic_information") %></h3>
 
+          <%= render_plugin_partials("top_of_basic_information_digital_object",
+                                     :form => readonly,
+                                     :record => digital_object) %>
+
           <%= readonly.label_and_textarea "title" %>
           <%= readonly.label_and_textfield "digital_object_id" %>
 
@@ -22,6 +26,11 @@
           <%= readonly.label_and_select "level", readonly.possible_options_for("level") %>
           <%= readonly.label_and_select "digital_object_type", readonly.possible_options_for("digital_object_type") %>
           <%= readonly.label_and_boolean "restrictions" %>
+
+          <%= render_plugin_partials("basic_information_digital_object",
+                                     :form => readonly,
+                                     :record => digital_object) %>
+
           <%= display_audit_info(digital_object) %>
         </section>
 
@@ -88,6 +97,11 @@
           <%= render_aspace_partial :partial => "rights_statements/show", :locals => { :rights_statements => digital_object.rights_statements, :section_id => "digital_object_rights_statements_"  } %>
         <% end %>
 
+        <% if digital_object.metadata_rights_declarations.length > 0 %>
+            <%= render_aspace_partial :partial => "metadata_rights_declarations/show", :locals => { :metadata_rights_declarations => digital_object.metadata_rights_declarations, :section_id => "digital_object_metadata_rights_declarations_"  } %>
+        <% end %>
+
+
         <% if digital_object.collection_management %>
           <%= render_aspace_partial :partial => "collection_management/show", :locals => { :collection_management => digital_object.collection_management, :section_id => "digital_object_collection_management_"  } %>
         <% end %>
@@ -100,6 +114,11 @@
 
         <% if digital_object.external_ids.length > 0 && show_external_ids? %>
           <%= render_aspace_partial :partial => "external_ids/show", :locals => { :external_ids => digital_object.external_ids, :context => readonly, :section_id => "digital_object_external_ids_" } %>
+        <% end %>
+
+
+        <% if digital_object.classifications && !digital_object.classifications.empty? %>
+          <%= render_aspace_partial :partial => "classifications/show", :locals => { :classifications => digital_object.classifications, :context => readonly, :section_id => "digital_object_classifications_" } %>
         <% end %>
 
         <%= render_aspace_partial :partial => "assessments/embedded", :locals => { :record => digital_object, :filter_term => {"assessment_record_uris" => digital_object.uri}.to_json, :heading_text => I18n.t("assessment._frontend.linked_records.linked_via_assessment_records")} %>

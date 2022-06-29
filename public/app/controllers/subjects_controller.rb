@@ -1,9 +1,9 @@
-class SubjectsController <  ApplicationController
+class SubjectsController < ApplicationController
 
   include ResultInfo
 
-  skip_before_action  :verify_authenticity_token
-  DEFAULT_SUBJ_TYPES = %w{repository resource accession archival_object digital_object}
+  skip_before_action :verify_authenticity_token
+  DEFAULT_SUBJ_TYPES = %w{repository resource accession archival_object digital_object agent}
   DEFAULT_SUBJ_FACET_TYPES = %w{primary_type published_agents used_within_published_repository}
   DEFAULT_SUBJ_SEARCH_OPTS = {
     'sort' => 'title_sort asc',
@@ -20,17 +20,17 @@ class SubjectsController <  ApplicationController
   before_action(:only => [:show]) {
     process_slug_or_id(params)
   }
-  
+
   def index
     repo_id = params.fetch(:rid, nil)
     if !params.fetch(:q, nil)
       DEFAULT_SUBJ_SEARCH_PARAMS.each do |k, v|
-        params[k] = v unless params.fetch(k,nil)
+        params[k] = v unless params.fetch(k, nil)
       end
     end
     search_opts = default_search_opts(DEFAULT_SUBJ_SEARCH_OPTS)
     search_opts['fq'] = ["used_within_published_repository:\"/repositories/#{repo_id}\""] if repo_id
-    @base_search  =  repo_id ? "/repositories/#{repo_id}/subjects?" : '/subjects?'
+    @base_search = repo_id ? "/repositories/#{repo_id}/subjects?" : '/subjects?'
     default_facets = repo_id ? [] : ['used_within_published_repository']
     page = Integer(params.fetch(:page, "1"))
     begin
@@ -65,12 +65,12 @@ class SubjectsController <  ApplicationController
   end
 
   def search
-Rails.logger.debug("we hit search!")
+    Rails.logger.debug("we hit search!")
   # need at least q[]=WHATEVER&op[]=OR&field[]=title&from_year[]=&to_year[]=&limit=subject
-     @base_search  =  "/subjects/search?"
+    @base_search = "/subjects/search?"
     page = Integer(params.fetch(:page, "1"))
     begin
-      set_up_and_run_search(['subject'],DEFAULT_SUBJ_FACET_TYPES,DEFAULT_SUBJ_SEARCH_OPTS, params)
+      set_up_and_run_search(['subject'], DEFAULT_SUBJ_FACET_TYPES, DEFAULT_SUBJ_SEARCH_OPTS, params)
     rescue NoResultsError
       flash[:error] = I18n.t('search_results.no_results')
       redirect_back(fallback_location: '/') and return
@@ -93,13 +93,13 @@ Rails.logger.debug("we hit search!")
     sid = params.require(:id)
     uri = "/subjects/#{sid}"
     @criteria = {}
-    @criteria['resolve[]']  = ['repository:id', 'resource:id@compact_resource']
+    @criteria['resolve[]'] = ['repository:id', 'resource:id@compact_resource']
     begin
       @result =  archivesspace.get_record(uri, @criteria)
-      @results = fetch_subject_results(@result['title'],uri, params)
+      @results = fetch_subject_results(@result['title'], uri, params)
       if !@results.blank?
         params[:q] = '*'
-        @pager =  Pager.new(@base_search, @results['this_page'],@results['last_page'])
+        @pager = Pager.new(@base_search, @results['this_page'], @results['last_page'])
       else
         @pager = nil
       end
@@ -109,6 +109,7 @@ Rails.logger.debug("we hit search!")
       record_not_found(uri, 'subject')
     end
   end
+
   private
 
   def fetch_subject_results(title, uri, params)
@@ -121,7 +122,7 @@ Rails.logger.debug("we hit search!")
    # we do this to compensate for the way @base_search gets munged in the setup
     @base_search= @base_search.sub("q=#{qry}", '')
     page = Integer(params.fetch(:page, "1"))
-    @results =  archivesspace.search(@query,page, @criteria)
+    @results = archivesspace.search(@query, page, @criteria)
     if @results['total_hits'] > 0
       process_search_results(@base_search)
     else

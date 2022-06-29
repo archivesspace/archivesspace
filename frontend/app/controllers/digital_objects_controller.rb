@@ -25,6 +25,11 @@ class DigitalObjectsController < ApplicationController
   end
 
 
+  def current_record
+    @digital_object
+  end
+
+
   def show
     flash.keep if not flash.empty? # keep the notices so they display on the subsequent ajax call
 
@@ -82,7 +87,6 @@ class DigitalObjectsController < ApplicationController
 
 
   def update_defaults
-
     begin
       DefaultValues.from_hash({
                                 "record_type" => "digital_object",
@@ -100,9 +104,7 @@ class DigitalObjectsController < ApplicationController
       flash[:error] = e.message
       redirect_to :controller => :digital_objects, :action => :defaults
     end
-
   end
-
 
 
   def edit
@@ -125,17 +127,18 @@ class DigitalObjectsController < ApplicationController
 
   def create
     handle_crud(:instance => :digital_object,
-                :on_invalid => ->(){
+                :on_invalid => ->() {
                   return render_aspace_partial :partial => "new" if inline?
                   render :action => "new"
                 },
-                :on_valid => ->(id){
+                :on_valid => ->(id) {
                   flash[:success] = I18n.t("digital_object._frontend.messages.created", JSONModelI18nWrapper.new(:digital_object => @digital_object).enable_parse_mixed_content!(url_for(:root)))
 
                   if @digital_object["is_slug_auto"] == false &&
                      @digital_object["slug"] == nil &&
                      params["digital_object"] &&
                      params["digital_object"]["is_slug_auto"] == "1"
+
                     flash[:warning] = I18n.t("slug.autogen_disabled")
                   end
 
@@ -152,10 +155,10 @@ class DigitalObjectsController < ApplicationController
   def update
     handle_crud(:instance => :digital_object,
                 :obj => JSONModel(:digital_object).find(params[:id], find_opts),
-                :on_invalid => ->(){
+                :on_invalid => ->() {
                   render_aspace_partial :partial => "edit_inline"
                 },
-                :on_valid => ->(id){
+                :on_valid => ->(id) {
 
                   flash.now[:success] = I18n.t("digital_object._frontend.messages.updated", JSONModelI18nWrapper.new(:digital_object => @digital_object).enable_parse_mixed_content!(url_for(:root)))
 
@@ -163,6 +166,7 @@ class DigitalObjectsController < ApplicationController
                      @digital_object["slug"] == nil &&
                      params["digital_object"] &&
                      params["digital_object"]["is_slug_auto"] == "1"
+
                     flash.now[:warning] = I18n.t("slug.autogen_disabled")
                   end
 
@@ -207,7 +211,7 @@ class DigitalObjectsController < ApplicationController
 
 
   def merge
-    handle_merge(  params[:refs] ,
+    handle_merge( params[:refs] ,
                   JSONModel(:digital_object).uri_for(params[:id]),
                  'digital_object')
   end
@@ -248,9 +252,9 @@ class DigitalObjectsController < ApplicationController
         @children = DigitalObjectChildren.from_hash(children_data, false)
 
         if params["validate_only"] == "true"
-          @exceptions = @children.children.collect{|c| JSONModel(:digital_object_component).from_hash(c, false)._exceptions}
+          @exceptions = @children.children.collect {|c| JSONModel(:digital_object_component).from_hash(c, false)._exceptions}
 
-          error_count = @exceptions.select{|e| !e.empty?}.length
+          error_count = @exceptions.select {|e| !e.empty?}.length
           if error_count > 0
             flash.now[:error] = I18n.t("rde.messages.rows_with_errors", :count => error_count)
           else
@@ -266,13 +270,13 @@ class DigitalObjectsController < ApplicationController
       rescue JSONModel::ValidationException => e
         @exceptions = @children
                       .children
-                      .collect{|c| JSONModel(:digital_object_component).from_hash(c, false)._exceptions}
+                      .collect {|c| JSONModel(:digital_object_component).from_hash(c, false)._exceptions}
 
 
         if @exceptions.all?(&:blank?)
           e.errors.each { |key, vals| flash.now[:error] = "#{key} : #{vals.join('<br/>')}" }
         else
-          flash.now[:error] = I18n.t("rde.messages.rows_with_errors", :count => @exceptions.select{|e| !e.empty?}.length)
+          flash.now[:error] = I18n.t("rde.messages.rows_with_errors", :count => @exceptions.select {|e| !e.empty?}.length)
         end
       end
 
@@ -344,7 +348,7 @@ class DigitalObjectsController < ApplicationController
   def fetch_tree
     tree = {}
 
-    limit_to = if  params[:node_uri] && !params[:node_uri].include?("/digital_objects/")
+    limit_to = if params[:node_uri] && !params[:node_uri].include?("/digital_objects/")
                  params[:node_uri]
                else
                  "root"

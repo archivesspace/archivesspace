@@ -1,21 +1,10 @@
-
-$sans-font: 'PT Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+$sans-font: 'PT Sans', 'Helvetica Neue', helvetica, arial, sans-serif;
 $serif-font: 'Roboto Slab', serif;
-$font-family-sans-serif: $sans-font;
 $font-family-serif: $serif-font;
 
-$fi-path: "foundation-icon-fonts";
+$text-color: $darkest;
+$input-color-placeholder: #767676;
 
-/* Bootstrap icons only */
-$icon-font-path: "bootstrap-sass/";
-$icon-font-name: "glyphicons-halflings-regular";
-$icon-font-svg-id: "";
-$bootstrap-sass-asset-helper: false;
-
-
+$fi-path: 'foundation-icon-fonts';
 
 $row-width: 100%;
-
-$body-font-family: $sans-font;
-
-$text-color: $darkest;

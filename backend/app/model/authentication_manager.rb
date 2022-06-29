@@ -18,13 +18,15 @@ class AuthenticationManager
   # Attempt to authenticate `user' with the provided `password'.
   # Return a User object if successful, nil otherwise
   def self.authenticate(username, password)
-
     authentication_sources.each do |source|
       begin
         user = User.find(:username => username)
 
         # System users are only authenticated locally.
         next if (user && user.is_system_user == 1 && source != DBAuth)
+
+        #ANW-97: check if user is inactive
+        next if (user && user.is_active_user != 1)
 
         jsonmodel_user = source.authenticate(username, password)
 
@@ -44,8 +46,6 @@ class AuthenticationManager
             # We'll swallow these because they only really mean that the user
             # logged in twice simultaneously.  As long as one of the updates
             # succeeded it doesn't really matter.
-            Log.warn("Got an optimistic locking error when updating user: #{e}")
-
             user = User.find(:username => username)
           end
         else

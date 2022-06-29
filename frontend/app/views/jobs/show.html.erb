@@ -59,7 +59,7 @@
           </section>
         <% end %>
 
-        <% if @job.status === "completed" %>
+        <% if @job.status === "completed" && @job.has_modified_records %>
           <section id="generated_uris" class="subrecord-form-dummy" data-url="<%= url_for(:controller => :jobs, :action => :records, :id => @job.id, :page => 1) %>">
             <h3 class="subrecord-form-heading"><%= I18n.t("job._frontend.section.generated_uris") %></h3>
             <div class="subrecord-form-container">

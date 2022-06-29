@@ -1,6 +1,6 @@
 class BatchMergeController < ApplicationController
 
-  set_access_control  "manage_container_profile_record" => [:container_profiles]
+  set_access_control "manage_container_profile_record" => [:container_profiles]
 
   def container_profiles
     merge_records(params[:victims], params[:target], 'container_profile')

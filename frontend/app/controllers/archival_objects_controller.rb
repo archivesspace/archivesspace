@@ -1,30 +1,30 @@
 class ArchivalObjectsController < ApplicationController
 
-  set_access_control  "view_repository" => [:index, :show],
-                      "update_resource_record" => [:new, :edit, :create, :update, :transfer, :rde, :add_children, :accept_children, :validate_rows],
+  set_access_control  "view_repository" => [:index, :show, :models_in_graph],
+                      "update_resource_record" => [:new, :edit, :create, :update, :transfer, :rde, :add_children, :publish, :unpublish, :accept_children, :validate_rows],
                       "suppress_archival_record" => [:suppress, :unsuppress],
                       "delete_archival_record" => [:delete],
                       "manage_repository" => [:defaults, :update_defaults]
 
-
-
   def new
-    @archival_object = JSONModel(:archival_object).new._always_valid!
-    @archival_object.parent = {'ref' => JSONModel(:archival_object).uri_for(params[:archival_object_id])} if params.has_key?(:archival_object_id)
-    @archival_object.resource = {'ref' => JSONModel(:resource).uri_for(params[:resource_id])} if params.has_key?(:resource_id)
+    @archival_object = ArchivalObject.new._always_valid!
+    @archival_object.parent = {'ref' => ArchivalObject.uri_for(params[:archival_object_id])} if params.has_key?(:archival_object_id)
+    @archival_object.resource = {'ref' => Resource.uri_for(params[:resource_id])} if params.has_key?(:resource_id)
     @archival_object.position = params[:position]
-
-    if user_prefs['default_values']
-      defaults = DefaultValues.get 'archival_object'
-
-      @archival_object.update(defaults.values) if defaults
+    if defaults = user_defaults('archival_object')
+      @archival_object.update(defaults.values)
     end
 
+    if params[:accession_id]
+      acc = Accession.find(params[:accession_id], find_opts)
+      @archival_object.populate_from_accession(acc)
+      flash.now[:info] = I18n.t("archival_object._frontend.messages.spawned", JSONModelI18nWrapper.new(:accession => acc).enable_parse_mixed_content!(url_for(:root)))
+      flash[:spawned_from_accession] = acc.id
+    end
 
     return render_aspace_partial :partial => "archival_objects/new_inline" if inline?
 
     # render the full AO form
-
   end
 
   def edit
@@ -44,8 +44,14 @@ class ArchivalObjectsController < ApplicationController
   def create
     handle_crud(:instance => :archival_object,
                 :find_opts => find_opts,
-                :on_invalid => ->(){ render_aspace_partial :partial => "new_inline" },
-                :on_valid => ->(id){
+                :on_invalid => ->() {
+                  if inline?
+                    render_aspace_partial :partial => "new_inline"
+                  else
+                    render action: :new
+                  end
+                },
+                :on_valid => ->(id) {
 
                   success_message = @archival_object.parent ?
                                       I18n.t("archival_object._frontend.messages.created_with_parent", JSONModelI18nWrapper.new(:archival_object => @archival_object, :resource => @archival_object['resource']['_resolved'], :parent => @archival_object['parent']['_resolved']).enable_parse_mixed_content!(url_for(:root))) :
@@ -61,15 +67,20 @@ class ArchivalObjectsController < ApplicationController
                      @archival_object["slug"] == nil &&
                      params["archival_object"] &&
                      params["archival_object"]["is_slug_auto"] == "1"
-                     if params.has_key?(:plus_one)
-                       flash[:warning] = I18n.t("slug.autogen_disabled")
-                     else
-                       flash.now[:warning] = I18n.t("slug.autogen_disabled")
-                     end
+
+                    if params.has_key?(:plus_one)
+                      flash[:warning] = I18n.t("slug.autogen_disabled")
+                    else
+                      flash.now[:warning] = I18n.t("slug.autogen_disabled")
+                    end
                   end
-
-                  render_aspace_partial :partial => "archival_objects/edit_inline"
-
+                  if inline?
+                    render_aspace_partial :partial => "archival_objects/edit_inline"
+                  else
+                    id = ArchivalObject.id_for(@archival_object.uri)
+                    resource_id = Resource.id_for(@archival_object.resource['ref'])
+                    redirect_to controller: :resources, action: :edit, id: resource_id, anchor: "tree::archival_object_#{id}"
+                  end
                 })
   end
 
@@ -83,8 +94,8 @@ class ArchivalObjectsController < ApplicationController
 
     handle_crud(:instance => :archival_object,
                 :obj => @archival_object,
-                :on_invalid => ->(){ return render_aspace_partial :partial => "edit_inline" },
-                :on_valid => ->(id){
+                :on_invalid => ->() { return render_aspace_partial :partial => "edit_inline" },
+                :on_valid => ->(id) {
                   flash.now[:success] = parent ?
                     I18n.t("archival_object._frontend.messages.updated_with_parent", JSONModelI18nWrapper.new(:archival_object => @archival_object, :resource => @archival_object['resource']['_resolved'], :parent => parent).enable_parse_mixed_content!(url_for(:root))) :
                     I18n.t("archival_object._frontend.messages.updated", JSONModelI18nWrapper.new(:archival_object => @archival_object, :resource => @archival_object['resource']['_resolved']).enable_parse_mixed_content!(url_for(:root)))
@@ -93,6 +104,7 @@ class ArchivalObjectsController < ApplicationController
                      @archival_object["slug"] == nil &&
                      params["archival_object"] &&
                      params["archival_object"]["is_slug_auto"] == "1"
+
                     flash.now[:warning] = I18n.t("slug.autogen_disabled")
                   end
 
@@ -100,6 +112,9 @@ class ArchivalObjectsController < ApplicationController
                 })
   end
 
+  def current_record
+    @archival_object
+  end
 
   def show
     @resource_id = params['resource_id']
@@ -134,7 +149,6 @@ class ArchivalObjectsController < ApplicationController
 
 
   def update_defaults
-
     begin
       DefaultValues.from_hash({
                                 "record_type" => "archival_object",
@@ -151,7 +165,6 @@ class ArchivalObjectsController < ApplicationController
       flash[:error] = e.message
       redirect_to :controller => :archival_objects, :action => :defaults
     end
-
   end
 
 
@@ -231,9 +244,9 @@ class ArchivalObjectsController < ApplicationController
         @children = ArchivalObjectChildren.from_hash(children_data, false)
 
         if params["validate_only"] == "true"
-          @exceptions = @children.children.collect{|c| JSONModel(:archival_object).from_hash(c, false)._exceptions}
+          @exceptions = @children.children.collect {|c| JSONModel(:archival_object).from_hash(c, false)._exceptions}
 
-          error_count = @exceptions.select{|e| !e.empty?}.length
+          error_count = @exceptions.select {|e| !e.empty?}.length
           if error_count > 0
             flash.now[:error] = I18n.t("rde.messages.rows_with_errors", :count => error_count)
           else
@@ -247,19 +260,48 @@ class ArchivalObjectsController < ApplicationController
 
         return render :plain => I18n.t("rde.messages.success")
       rescue JSONModel::ValidationException => e
-        @exceptions = @children.children.collect{|c| JSONModel(:archival_object).from_hash(c, false)._exceptions}
-        
+        @exceptions = @children.children.collect {|c| JSONModel(:archival_object).from_hash(c, false)._exceptions}
+
         if @exceptions.all?(&:blank?)
           e.errors.each { |key, vals| flash.now[:error] = "#{key} : #{vals.join('<br/>')}" }
         else
-          flash.now[:error] = I18n.t("rde.messages.rows_with_errors", :count => @exceptions.select{|e| !e.empty?}.length)
+          flash.now[:error] = I18n.t("rde.messages.rows_with_errors", :count => @exceptions.select {|e| !e.empty?}.length)
         end
-
       end
 
     end
 
     render_aspace_partial :partial => "shared/rde"
+  end
+
+
+  def publish
+    @archival_object = JSONModel(:archival_object).find(params[:id], find_opts)
+
+    response = JSONModel::HTTP.post_form("#{@archival_object.uri}/publish")
+
+    if response.code == '200'
+      flash[:success] = I18n.t("archival_object._frontend.messages.published", JSONModelI18nWrapper.new(:archival_object => @archival_object).enable_parse_mixed_content!(url_for(:root)))
+    else
+      flash[:error] = ASUtils.json_parse(response.body)['error'].to_s
+    end
+
+    redirect_to "#{request.referer}#tree::archival_object_#{params[:id]}"
+  end
+
+
+  def unpublish
+    @archival_object = JSONModel(:archival_object).find(params[:id], find_opts)
+
+    response = JSONModel::HTTP.post_form("#{@archival_object.uri}/unpublish")
+
+    if response.code == '200'
+      flash[:success] = I18n.t("archival_object._frontend.messages.unpublished", JSONModelI18nWrapper.new(:archival_object => @archival_object).enable_parse_mixed_content!(url_for(:root)))
+    else
+      flash[:error] = ASUtils.json_parse(response.body)['error'].to_s
+    end
+
+    redirect_to "#{request.referer}#tree::archival_object_#{params[:id]}"
   end
 
 
@@ -270,7 +312,7 @@ class ArchivalObjectsController < ApplicationController
     aoc = ArchivalObjectChildren.from_hash(row_data, false, true)
 
     # validate each row individually (to avoid weird indexes in the error paths)
-    render :json => aoc.children.collect{|c| JSONModel(:archival_object).from_hash(c, false)._exceptions}
+    render :json => aoc.children.collect {|c| JSONModel(:archival_object).from_hash(c, false)._exceptions}
   end
 
 
@@ -291,4 +333,13 @@ class ArchivalObjectsController < ApplicationController
     redirect_to(:controller => :resources, :action => :show, :id => JSONModel(:resource).id_for(archival_object['resource']['ref']), :anchor => "tree::archival_object_#{params[:id]}")
   end
 
+
+  def models_in_graph
+    list_uri = JSONModel(:archival_object).uri_for(params[:id]) + "/models_in_graph"
+    list = JSONModel::HTTP.get_json(list_uri)
+
+    render :json => list.select { |type| type != "lang_material" }.map {|type|
+      [type, I18n.t("#{type == 'archival_object' ? 'resource_component' : type}._singular")]
+    }
+  end
 end

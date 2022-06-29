@@ -25,10 +25,7 @@ class BulkImportRunner < JobRunner
           @current_user = User.find(:username => @job.owner.username)
           @load_type = @json.job["load_type"]
           @validate_only = @json.job["only_validate"] == "true"
-          # I don't know why parsing the parameter string is so hard!!
-          param_string = @json.job_params[1..-2].delete('\\\\')
-          params = ASUtils.json_parse(param_string)
-          params = symbol_keys(params)
+          params = @json.job_params ? parse_job_params_string(@json.job_params) : {}
           params[:validate] = @validate_only
           ticker.log(("=" * 50) + "\n#{@json.job["filename"]}\n" + ("=" * 50))
           begin
@@ -38,7 +35,6 @@ class BulkImportRunner < JobRunner
               #               converter.run(@job[:job_blob])
               success = true
               importer = get_importer(@json.job["content_type"], params, ticker.method(:log))
-
               report = importer.run
               if !report.terminal_error.nil?
                 msg = I18n.t("bulk_import.error.error", :term => report.terminal_error)
@@ -152,16 +148,4 @@ class BulkImportRunner < JobRunner
     importer
   end
 
-  def symbol_keys(hash)
-    h = hash.map do |k, v|
-      v_sym = if v.instance_of? Hash
-          v = symbol_keys(v)
-        else
-          v
-        end
-
-      [k.to_sym, v_sym]
-    end
-    Hash[h]
-  end
 end

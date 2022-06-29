@@ -7,7 +7,6 @@ module RecordHelper
 
 
   def record_class_for_type(type)
-
     case type
     when 'resource'
       Resource
@@ -50,29 +49,37 @@ module RecordHelper
 
   def icon_for_type(primary_type)
     'fa ' + case primary_type
-              when 'repository'
+            when 'repository'
               'fa-home'
-              when  'resource'
+            when 'resource'
               'fa-archive'
-              when 'archival_object'
+            when 'archival_object'
               'fa-file-o'
-              when 'digital_object'
+            when 'digital_object'
               'fa-file-image-o'
-              when 'accession'
+            when 'digital_object_component'
+              'fa-file-image-o'
+            when 'accession'
               'fa-file-text-o'
-              when 'subject'
+            when 'subject'
               'fa-tag'
-              when  'agent_person'
+            when 'agent'
+              'fa-pencil'
+            when 'agent_person'
               'fa-user'
-              when 'agent_corporate_entity'
+            when 'agent_corporate_entity'
               'fa-university'
-              when 'agent_family'
+            when 'agent_family'
               'fa-users'
-              when 'classification'
+            when 'classification'
               'fa-share-alt'
-              when 'top_container'
+            when 'classification_term'
+              'fa-tag'
+            when 'top_container'
               'fa-archive'
-              else
+            when 'record'
+              'fa-folder'
+            else
               'fa-cog'
             end
   end

@@ -1,0 +1,8 @@
+<% if result.json['names'].reject { |n| n['is_display_name'] }.any? %>
+  <p><%= I18n.t('pui_agent.also_known_as') %>:</p>
+  <ul class="present_list">
+  <% result.json['names'].reject { |n| n['is_display_name'] }.each do |r| %>
+    <li><%= r['sort_name'] %></li>
+  <% end %>
+  </ul>
+<% end %>

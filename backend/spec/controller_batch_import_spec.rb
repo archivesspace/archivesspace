@@ -35,12 +35,12 @@ describe "Batch Import Controller" do
     expect_any_instance_of(ArchivalObject).not_to receive(:set_position_in_list)
     batch_array = []
 
-   resource = create(:json_resource)
+    resource = create(:json_resource)
 
     10.times do |i|
-	obj = build(:json_archival_object, :resource => {:ref => resource.uri}, :title => "A#{i.to_s}", :position => i )
-        obj.uri = obj.class.uri_for(rand(100000), {:repo_id => $repo_id})
-        batch_array << obj
+      obj = build(:json_archival_object, :resource => {:ref => resource.uri}, :title => "A#{i.to_s}", :position => i )
+      obj.uri = obj.class.uri_for(rand(100000), {:repo_id => $repo_id})
+      batch_array << obj
     end
 
     uri = "/repositories/#{$repo_id}/batch_imports?migration=true"
@@ -59,12 +59,12 @@ describe "Batch Import Controller" do
     expect_any_instance_of(ArchivalObject).to receive(:set_position_in_list).at_least(:once)
     batch_array = []
 
-   resource = create(:json_resource)
+    resource = create(:json_resource)
 
     1.times do |i|
-	    obj = build(:json_archival_object, :resource => {:ref => resource.uri}, :title => "B#{i.to_s}", :position => 1)
-        obj.uri = obj.class.uri_for(rand(100000), {:repo_id => $repo_id})
-        batch_array << obj
+      obj = build(:json_archival_object, :resource => {:ref => resource.uri}, :title => "B#{i.to_s}", :position => 1)
+      obj.uri = obj.class.uri_for(rand(100000), {:repo_id => $repo_id})
+      batch_array << obj
     end
 
     uri = "/repositories/#{$repo_id}/batch_imports"
@@ -251,9 +251,12 @@ describe "Batch Import Controller" do
     resource = build(:json_resource)
     resource.uri = resource.class.uri_for(rand(100000), {:repo_id => $repo_id})
 
-    a1 = build(:json_archival_object)
-    a2 = build(:json_archival_object)
-    a3 = build(:json_archival_object)
+    a1 = build(:json_archival_object,
+               :dates => [])
+    a2 = build(:json_archival_object,
+               :dates => [])
+    a3 = build(:json_archival_object,
+               :dates => [])
 
     a1.position = 1
     a2.position = 2
@@ -289,7 +292,8 @@ describe "Batch Import Controller" do
     resource.uri = resource.class.uri_for(123, {:repo_id => $repo_id})
     archival_objects = []
     (0..10).each do  |i|
-      a = build(:json_archival_object)
+      a = build(:json_archival_object,
+                :dates => [])
       a.title = "AO #{i}"
       a.uri = a.class.uri_for(i, {:repo_id => $repo_id})
       a.resource = {:ref => resource.uri}
@@ -297,7 +301,7 @@ describe "Batch Import Controller" do
       archival_objects[i] = a
     end
 
-    correct_order = archival_objects.map{ |a| a['title'] }
+    correct_order = archival_objects.map { |a| a['title'] }
 
     # simulate a double entry
     archival_objects[-3..-1].each do |a|

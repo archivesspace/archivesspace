@@ -35,6 +35,8 @@
       <div class="subrecord-form-container">
         <%= form.hidden_input(:jsonmodel_type, "#{relationship_type}") %>
         <%= form.label_and_select("relator", form.possible_options_for("relator")) %>
+        <%= form.label_and_select("specific_relator", form.possible_options_for("specific_relator", true)) %>
+        <%= form.label_and_textfield("relationship_uri") %>
         <% if opts[:readonly] %>
           <div class="token-list <%= form['_resolved']['agent_type'] %>">
             <%= form.label_with_field(:ref, render_token(:object => form,

@@ -4,8 +4,8 @@
     "version" => 1,
     "type" => "object",
     "properties" => {
-      "external_id" => {"type" => "string", "maxLength" => 255},
-      "source" => {"type" => "string", "maxLength" => 255},
+      "external_id" => {"type" => "string", "maxLength" => 255, "ifmissing" => "error"},
+      "source" => {"type" => "string", "maxLength" => 255, "ifmissing" => "error"},
     }
   },
 }

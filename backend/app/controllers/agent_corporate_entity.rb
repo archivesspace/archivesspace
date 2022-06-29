@@ -60,4 +60,25 @@ class ArchivesSpaceService < Sinatra::Base
     handle_delete(AgentCorporateEntity, params[:id])
   end
 
+
+  Endpoint.post('/agents/corporate_entities/:id/publish')
+    .description("Publish a corporate entity agent and all its sub-records")
+    .example("shell") do
+      <<~SHELL
+        curl -H "X-ArchivesSpace-Session: $SESSION" \
+        "http://localhost:8089/agents/corporate_entities/1/publish"
+      SHELL
+    end
+    .params(["id", :id])
+    .permissions([:update_agent_record])
+    .no_data(true)
+    .returns([200, :updated],
+             [400, :error]) \
+  do
+    agent = AgentCorporateEntity.get_or_die(params[:id])
+    agent.publish!
+
+    updated_response(agent)
+  end
+
 end

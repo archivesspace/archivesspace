@@ -60,11 +60,6 @@ module TestUtils
     ' ' + java_opts
   end
 
-  def self.java_build_args(build_args)
-    build_args << "-Dgem_home=#{ENV['GEM_HOME']}" if ENV['GEM_HOME']
-    build_args
-  end
-
   def self.find_ant
     fullpath = ''
     [nil, '..', '../..'].each do |root|
@@ -75,26 +70,18 @@ module TestUtils
     fullpath
   end
 
-  def self.add_solr(java_opts, build_args, config)
-    if config[:solr_port]
-      java_opts +=
-        " -Daspace.config.solr_url=http://localhost:#{config[:solr_port]}"
-      build_args.push("-Daspace.solr.port=#{config[:solr_port]}")
-    end
-    [java_opts, build_args]
-  end
-
   def self.start_backend(port, config = {}, config_file = nil)
     db_url = config.delete(:db_url)
     java_opts = build_config_string(config)
     java_opts += " -Daspace.config=#{config_file}" if config_file
 
-    build_args = java_build_args(['backend:devserver:integration',
-                                  "-Daspace.backend.port=#{port}",
-                                  '-Daspace_integration_test=1',
-                                  "-Daspace.config.db_url=#{db_url}"])
-
-    java_opts, build_args = add_solr(java_opts, build_args, config)
+    # although we are testing, we need to pass the db we are using
+    # through as aspace.db_url.dev because the backend:devserver
+    # ant task is harcoded to used that build arg
+    build_args = ['backend:devserver:integration',
+                  "-Daspace.backend.port=#{port}",
+                  '-Daspace_integration_test=1',
+                  "-Daspace.db_url.dev=#{db_url}"]
     java_opts += ' -Xmx1024m'
 
     puts "Spawning backend with opts: #{java_opts}"
@@ -107,16 +94,16 @@ module TestUtils
     pid
   end
 
-  def self.start_frontend(port, backend_url, config = {})
+  def self.start_frontend(port, backend_url, config = {}, config_file = nil)
     java_opts = "-Daspace.config.backend_url=#{backend_url}"
     java_opts += build_config_string(config)
+    java_opts += " -Daspace.config=#{config_file}" if config_file
 
-    build_args = java_build_args(['frontend:devserver:integration',
-                                  "-Daspace.frontend.port=#{port}"])
-
-    java_opts, build_args = add_solr(java_opts, build_args, config)
+    build_args = ['frontend:devserver:integration',
+                  "-Daspace.frontend.port=#{port}"]
     java_opts += ' -Xmx1512m'
 
+    puts "Spawning frontend with opts: #{java_opts}"
     pid = Process.spawn({ 'JAVA_OPTS' => java_opts, 'TEST_MODE' => 'true' },
                         find_ant, *build_args)
 

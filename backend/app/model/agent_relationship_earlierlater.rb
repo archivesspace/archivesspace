@@ -1,4 +1,4 @@
-class AgentRelationshipEarlierlater < Sequel::Model(:agent_relationship_earlierlater)
+class AgentRelationshipEarlierlater < Sequel::Model(:related_agents_rlshp)
 
   include ASModel
   corresponds_to JSONModel(:agent_relationship_earlierlater)

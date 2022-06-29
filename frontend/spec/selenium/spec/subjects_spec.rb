@@ -56,15 +56,28 @@ describe 'Subjects' do
 
     @driver.find_element(id: 'subject_source_').select_option('local')
 
-    @driver.clear_and_send_keys([:id, 'subject_terms__0__term_'], "just a term really #{now}")
+    @driver.clear_and_send_keys([:id, 'subject_terms__0__term_'], "0030")
     @driver.find_element(id: 'subject_terms__0__term_type_').select_option('cultural_context')
-    @driver.clear_and_send_keys([:id, 'subject_terms__1__term_'], 'really')
+    @driver.clear_and_send_keys([:id, 'subject_terms__1__term_'], '0040')
     @driver.find_element(id: 'subject_terms__1__term_type_').select_option('cultural_context')
 
     #sleep(10)
     @driver.click_and_wait_until_gone(css: "form .record-pane button[type='submit']")
     #sleep(10)
-    assert(5) { expect(@driver.find_element(css: '.record-pane h2').text).to eq("just a term really #{now} -- really Subject") }
+    assert(5) { expect(@driver.find_element(css: '.record-pane h2').text).to eq("0030 -- 0040 Subject") }
+  end
+
+  it 'can present a browse list of Subjects' do
+    @driver.get($frontend)
+
+    run_all_indexers
+
+    @driver.find_element(link: 'Browse').click
+    @driver.click_and_wait_until_gone(link: 'Subjects')
+
+    expect do
+      @driver.find_element_with_text('//tr', /0030/)
+    end.not_to raise_error
   end
 
   it 'can reorder the terms and have them maintain order' do
@@ -108,19 +121,6 @@ describe 'Subjects' do
     expect(target = @driver.find_element(css: '#subject_terms__1__term_').attribute('value')).to eq(first)
   end
 
-  it 'can present a browse list of Subjects' do
-    @driver.get($frontend)
-
-    run_all_indexers
-
-    @driver.find_element(link: 'Browse').click
-    @driver.click_and_wait_until_gone(link: 'Subjects')
-
-    expect do
-      @driver.find_element_with_text('//tr', /just a term really/)
-    end.not_to raise_error
-  end
-
   it 'can use plus+1 submit to quickly add another' do
     @driver.get($frontend)
 
@@ -148,7 +148,7 @@ describe 'Subjects' do
     @driver.download_file(el)
     sleep(1)
     assert(5) { expect(Dir.glob(File.join(Dir.tmpdir, '*.csv')).length).to eq(1) }
-    assert(5) { IO.read(Dir.glob(File.join(Dir.tmpdir, '*.csv')).first).include?(@repo.name)  }
-    assert(5) { IO.read(Dir.glob(File.join(Dir.tmpdir, '*.csv')).first).include?('just a term really') }
+    assert(5) { IO.read(Dir.glob(File.join(Dir.tmpdir, '*.csv')).first).include?(@repo.name) }
+    assert(5) { IO.read(Dir.glob(File.join(Dir.tmpdir, '*.csv')).first).include?('0030') }
   end
 end

@@ -6,15 +6,15 @@
 <title>
   Class: BulkImportReport
   
-    &mdash; Documentation by YARD 0.9.20
+    &mdash; Documentation by YARD 0.9.25
   
 </title>
 
-  <link rel="stylesheet" href="css/style.css" type="text/css" charset="utf-8" />
+  <link rel="stylesheet" href="css/style.css" type="text/css" />
 
-  <link rel="stylesheet" href="css/common.css" type="text/css" charset="utf-8" />
+  <link rel="stylesheet" href="css/common.css" type="text/css" />
 
-<script type="text/javascript" charset="utf-8">
+<script type="text/javascript">
   pathId = "BulkImportReport";
   relpath = '';
 </script>
@@ -312,7 +312,53 @@
         <li class="public ">
   <span class="summary_signature">
     
+      <a href="#current_row-instance_method" title="#current_row (instance method)">#<strong>current_row</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
       <a href="#end_row-instance_method" title="#end_row (instance method)">#<strong>end_row</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#in_errors-instance_method" title="#in_errors (instance method)">#<strong>in_errors</strong>(what)  &#x21d2; Object </a>
     
 
     
@@ -443,7 +489,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    <p>Returns a new instance of BulkImportReport</p>
+    <p>Returns a new instance of BulkImportReport.</p>
 
 
   </div>
@@ -515,12 +561,12 @@
       <pre class="lines">
 
 
-43
-44
-45</pre>
+47
+48
+49</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/bulk_import/bulk_import_report.rb', line 43</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/bulk_import/bulk_import_report.rb', line 47</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_file_name identifier id'>file_name</span>
   <span class='rubyid_@file_name ivar id'>@file_name</span>
@@ -558,12 +604,12 @@
       <pre class="lines">
 
 
-54
-55
-56</pre>
+62
+63
+64</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/bulk_import/bulk_import_report.rb', line 54</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/bulk_import/bulk_import_report.rb', line 62</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_rows identifier id'>rows</span>
   <span class='rubyid_@rows ivar id'>@rows</span>
@@ -601,12 +647,12 @@
       <pre class="lines">
 
 
-56
-57
-58</pre>
+64
+65
+66</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/bulk_import/bulk_import_report.rb', line 56</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/bulk_import/bulk_import_report.rb', line 64</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_terminal_error identifier id'>terminal_error</span>
   <span class='rubyid_@terminal_error ivar id'>@terminal_error</span>
@@ -771,6 +817,37 @@
 </div>
     
       <div class="method_details ">
+  <h3 class="signature " id="current_row-instance_method">
+  
+    #<strong>current_row</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+34
+35
+36</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/bulk_import/bulk_import_report.rb', line 34</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_current_row identifier id'>current_row</span>
+  <span class='rubyid_@current_row ivar id'>@current_row</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
   <h3 class="signature " id="end_row-instance_method">
   
     #<strong>end_row</strong>  &#x21d2; <tt>Object</tt> 
@@ -804,6 +881,37 @@
 </div>
     
       <div class="method_details ">
+  <h3 class="signature " id="in_errors-instance_method">
+  
+    #<strong>in_errors</strong>(what)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+43
+44
+45</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/bulk_import/bulk_import_report.rb', line 43</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_in_errors identifier id'>in_errors</span><span class='lparen token'>(</span><span class='rubyid_what identifier id'>what</span><span class='rparen token'>)</span>
+  <span class='rubyid_@current_row ivar id'>@current_row</span><span class='dot token'>.</span><span class='rubyid_errors identifier id'>errors</span><span class='dot token'>.</span><span class='rubyid_include? fid id'>include?</span><span class='lparen token'>(</span><span class='rubyid_what identifier id'>what</span><span class='rparen token'>)</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
   <h3 class="signature " id="new_row-instance_method">
   
     #<strong>new_row</strong>(row_number)  &#x21d2; <tt>Object</tt> 
@@ -818,13 +926,13 @@
       <pre class="lines">
 
 
-45
-46
-47
-48</pre>
+49
+50
+51
+52</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/bulk_import/bulk_import_report.rb', line 45</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/bulk_import/bulk_import_report.rb', line 49</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_new_row identifier id'>new_row</span><span class='lparen token'>(</span><span class='rubyid_row_number identifier id'>row_number</span><span class='rparen token'>)</span>
   <span class='rubyid_@rows ivar id'>@rows</span><span class='dot token'>.</span><span class='rubyid_push identifier id'>push</span> <span class='rubyid_@current_row ivar id'>@current_row</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_@current_row ivar id'>@current_row</span>
@@ -851,12 +959,12 @@
       <pre class="lines">
 
 
-34
-35
-36</pre>
+54
+55
+56</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/bulk_import/bulk_import_report.rb', line 34</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/bulk_import/bulk_import_report.rb', line 54</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_row_count identifier id'>row_count</span>
   <span class='rubyid_@rows ivar id'>@rows</span><span class='dot token'>.</span><span class='rubyid_length identifier id'>length</span>
@@ -882,12 +990,12 @@
       <pre class="lines">
 
 
-50
-51
-52</pre>
+58
+59
+60</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/bulk_import/bulk_import_report.rb', line 50</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/bulk_import/bulk_import_report.rb', line 58</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_set_file_name identifier id'>set_file_name</span><span class='lparen token'>(</span><span class='rubyid_file_name identifier id'>file_name</span><span class='rparen token'>)</span>
   <span class='rubyid_@file_name ivar id'>@file_name</span> <span class='assign token'>=</span> <span class='rubyid_file_name identifier id'>file_name</span> <span class='orop op'>||</span> <span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='string val'>&quot;bulk_import.error.file_name&quot;</span><span class='rparen token'>)</span>
@@ -903,9 +1011,9 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.8.0.a Documentation Generated on Thu Jul 16 10:07:15 2020 by
+  ArchivesSpace Version v2.8.1.a Documentation Generated on Wed Nov 11 13:22:08 2020 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.20.
+  0.9.25.
 </div>
 
     </div>

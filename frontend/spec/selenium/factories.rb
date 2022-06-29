@@ -15,10 +15,6 @@ module SeleniumFactories
 
     return true if @@inited
 
-    JSONModel.init(client_mode: true,
-                   url: AppConfig[:backend_url],
-                   priority: :high)
-
     FactoryBot.define do
       to_create do |instance|
         try_again = true
@@ -47,10 +43,8 @@ module SeleniumFactories
         end
       end
 
-      sequence(:username) { |n| "testuser_#{n}_#{Time.now.to_i}" }
       sequence(:user_name) { |n| "Test User #{n}_#{Time.now.to_i}" }
 
-      sequence(:repo_code) { |n| "testrepo_#{n}_#{Time.now.to_i}" }
       sequence(:repo_name) { |n| "Test Repo #{n}" }
       sequence(:accession_id) { |n| n.to_s }
 
@@ -70,6 +64,8 @@ module SeleniumFactories
 
       sequence(:top_container_indicator) { |n| "Container #{n}" }
       sequence(:building) { |n| "Maggie's #{n}th Farm_#{Time.now.to_i}" }
+
+      sequence(:hh_mm) { t = Time.now; "#{t.hour}:#{t.min}" }
 
       factory :repo, class: JSONModel(:repository) do
         repo_code { generate :repo_code }
@@ -165,15 +161,6 @@ module SeleniumFactories
         expression { '1900s' }
       end
 
-      factory :json_lang_material, class: JSONModel(:lang_material) do
-        language_and_script { build(:json_language_and_script) }
-      end
-
-      factory :json_language_and_script, class: JSONModel(:language_and_script) do
-        language { generate(:language) }
-        script { generate(:script) }
-      end
-
       factory :rde_template, class: JSONModel(:rde_template) do
         record_type { 'archival_object' }
         name { generate(:rde_template_name) }
@@ -190,8 +177,8 @@ module SeleniumFactories
       factory :name_person, class: JSONModel(:name_person) do
         rules { generate(:name_rule) }
         source { generate(:name_source) }
-        primary_name { generate(:generic_name) }
-        rest_of_name { generate(:generic_name) }
+        primary_name { generate(:alphanumstr) }
+        rest_of_name { generate(:alphanumstr) }
         sort_name { generate(:sort_name) }
         name_order { %w[direct inverted].sample }
         number { generate(:alphanumstr) }
@@ -200,10 +187,90 @@ module SeleniumFactories
         qualifier { generate(:alphanumstr) }
       end
 
+      factory :agent_contact, class: JSONModel(:agent_contact) do
+        name { generate(:generic_name) }
+      end
+
       factory :agent_person, class: JSONModel(:agent_person) do
         agent_type { 'agent_person' }
         names { [build(:name_person)] }
-        dates_of_existence { [build(:date, label: 'existence')] }
+        dates_of_existence { [build(:json_structured_date_label)] }
+        agent_contacts { [build(:json_agent_contact)] }
+      end
+
+      factory :agent_corporate_entity, class: JSONModel(:agent_corporate_entity) do
+        agent_type { 'agent_corporate_entity' }
+        names { [build(:json_name_corporate_entity)] }
+        agent_contacts { [build(:json_agent_contact)] }
+        dates_of_existence { [build(:json_structured_date_label)] }
+      end
+
+      factory :agent_record_control, class: JSONModel(:agent_record_control) do
+        maintenance_status { "new" }
+        publication_status { "approved" }
+        maintenance_agency { generate(:alphanumstr) }
+        agency_name { generate(:alphanumstr) }
+        maintenance_agency_note { generate(:alphanumstr) }
+        language { generate(:language) }
+        script { generate(:script) }
+        language_note { generate(:alphanumstr) }
+      end
+
+      factory :agent_alternate_set, class: JSONModel(:agent_alternate_set) do
+        file_version_xlink_actuate_attribute { "other"}
+        file_version_xlink_show_attribute { "other" }
+        set_component { generate(:alphanumstr) }
+        descriptive_note { generate(:alphanumstr) }
+        file_uri { generate(:alphanumstr) }
+        xlink_title_attribute { generate(:alphanumstr) }
+        xlink_role_attribute { generate(:alphanumstr) }
+        xlink_arcrole_attribute { generate(:alphanumstr) }
+        last_verified_date { generate(:yyyy_mm_dd) }
+      end
+
+      factory :agent_conventions_declaration, class: JSONModel(:agent_conventions_declaration) do
+        file_version_xlink_actuate_attribute { "other"}
+        file_version_xlink_show_attribute { "other" }
+        name_rule { "aacr" }
+        citation { generate(:alphanumstr) }
+        descriptive_note { generate(:alphanumstr) }
+        file_uri { generate(:alphanumstr) }
+        xlink_title_attribute { generate(:alphanumstr) }
+        xlink_role_attribute { generate(:alphanumstr) }
+        xlink_arcrole_attribute { generate(:alphanumstr) }
+        last_verified_date { generate(:yyyy_mm_dd) }
+      end
+
+      factory :agent_sources, class: JSONModel(:agent_sources) do
+        file_version_xlink_actuate_attribute { "other"}
+        file_version_xlink_show_attribute { "other" }
+        descriptive_note { generate(:alphanumstr) }
+        source_entry { generate(:alphanumstr) }
+        file_uri { generate(:alphanumstr) }
+        xlink_title_attribute { generate(:alphanumstr) }
+        xlink_role_attribute { generate(:alphanumstr) }
+        xlink_arcrole_attribute { generate(:alphanumstr) }
+        last_verified_date { generate(:yyyy_mm_dd) }
+      end
+
+      factory :agent_other_agency_codes, class: JSONModel(:agent_other_agency_codes) do
+        agency_code_type { "oclc"}
+        maintenance_agency { generate(:alphanumstr) }
+      end
+
+      factory :agent_maintenance_history, class: JSONModel(:agent_maintenance_history) do
+        maintenance_event_type { "created"}
+        maintenance_agent_type { "human"}
+        event_date { generate(:yyyy_mm_dd) }
+        agent { generate(:alphanumstr) }
+        descriptive_note { generate(:alphanumstr) }
+      end
+
+      factory :agent_record_identifier, class: JSONModel(:agent_record_identifier) do
+        primary_identifier { true }
+        record_identifier { generate(:alphanumstr) }
+        source { "naf"}
+        identifier_type { "loc"}
       end
 
       factory :subject, class: JSONModel(:subject) do
@@ -215,7 +282,7 @@ module SeleniumFactories
       end
 
       factory :term, class: JSONModel(:term) do
-        term { generate(:term) }
+        term { generate(:generic_term) }
         term_type { generate(:term_type) }
         vocabulary { create(:vocab).uri }
       end

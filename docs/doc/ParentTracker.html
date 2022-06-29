@@ -6,15 +6,15 @@
 <title>
   Class: ParentTracker
   
-    &mdash; Documentation by YARD 0.9.20
+    &mdash; Documentation by YARD 0.9.25
   
 </title>
 
-  <link rel="stylesheet" href="css/style.css" type="text/css" charset="utf-8" />
+  <link rel="stylesheet" href="css/style.css" type="text/css" />
 
-  <link rel="stylesheet" href="css/common.css" type="text/css" charset="utf-8" />
+  <link rel="stylesheet" href="css/common.css" type="text/css" />
 
-<script type="text/javascript" charset="utf-8">
+<script type="text/javascript">
   pathId = "ParentTracker";
   relpath = '';
 </script>
@@ -213,7 +213,7 @@
   <span class='comment val'># Level 1 parent may  be a resource record and therefore nil,</span>
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_hier identifier id'>hier</span> <span class='gt op'>&gt;</span> <span class='integer val'>0</span>
     <span class='rubyid_parent_level identifier id'>parent_level</span> <span class='assign token'>=</span> <span class='rubyid_hier identifier id'>hier</span> <span class='minus op'>-</span> <span class='integer val'>1</span>
-    <span class='rubyid_@current_hierarchy ivar id'>@current_hierarchy</span><span class='dot token'>.</span><span class='rubyid_fetch identifier id'>fetch</span><span class='lparen token'>(</span><span class='rubyid_parent_level identifier id'>parent_level</span><span class='rparen token'>)</span>
+    <span class='rubyid_@current_hierarchy ivar id'>@current_hierarchy</span><span class='dot token'>.</span><span class='rubyid_fetch identifier id'>fetch</span><span class='lparen token'>(</span><span class='rubyid_parent_level identifier id'>parent_level</span><span class='comma token'>,</span> <span class='rubyid_nil nil kw'>nil</span><span class='rparen token'>)</span>
   <span class='rubyid_else else kw'>else</span>
     <span class='rubyid_nil nil kw'>nil</span>
   <span class='rubyid_end end kw'>end</span>
@@ -276,9 +276,9 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.8.0.a Documentation Generated on Thu Jul 16 10:07:14 2020 by
+  ArchivesSpace Version v2.8.1.a Documentation Generated on Wed Nov 11 13:22:06 2020 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.20.
+  0.9.25.
 </div>
 
     </div>

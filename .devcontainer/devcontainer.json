@@ -1,0 +1,45 @@
+{
+  "name": "ArchivesSpace",
+  "remoteUser": "vscode",
+  "build": {
+    "dockerfile": "Dockerfile",
+    "context": "..",
+    "args": {
+      "GECKODRIVER_VERSION": "0.29.1",
+      "MYSQL_CONNECTOR_VERSION": "8.0.23",
+      "SOLR_VERSION": "8.10.0"
+    }
+  },
+  "settings": {
+    "terminal.integrated.inheritEnv": true
+  },
+  "remoteEnv": {
+    "REMOTE_DB_HOST": "${localEnv:REMOTE_DB_HOST}",
+    "REMOTE_DB_PORT": "${localEnv:REMOTE_DB_PORT}",
+    "REMOTE_DB_NAME": "${localEnv:REMOTE_DB_NAME}",
+    "REMOTE_DB_USER": "${localEnv:REMOTE_DB_USER}",
+    "REMOTE_DB_PASSWORD": "${localEnv:REMOTE_DB_PASSWORD}"
+  },
+  "mounts": [
+    "source=archivesspace-gems,target=${containerWorkspaceFolder}/build/gems,type=volume"
+  ],
+  "forwardPorts": [
+    3000,
+    3001,
+    3306,
+    4567,
+    8983
+  ],
+  "extensions": [
+    "donjayamanne.githistory",
+    "eamodio.gitlens",
+    "esbenp.prettier-vscode",
+    "misogi.ruby-rubocop",
+    "mutantdino.resourcemonitor",
+    "rebornix.Ruby",
+    "stylelint.vscode-stylelint",
+    "waderyan.gitblame",
+    "wingrunr21.vscode-ruby"
+  ],
+  "postCreateCommand": ".devcontainer/setup"
+}

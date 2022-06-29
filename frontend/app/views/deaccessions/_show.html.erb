@@ -29,7 +29,7 @@
             <div class="col-md-7">
               <% if !deaccession["extents"].blank? %>
                 <%= deaccession["extents"][0]['number'] %>
-                <%= I18n.t('enumerations.extent_extent_type.'+deaccession["extents"][0]['extent_type']) %>
+                <%= I18n.t('enumerations.extent_extent_type.'+deaccession["extents"][0]['extent_type'], :default => deaccession["extents"][0]['extent_type']) %>
               <% end %>
             </div>
           </div>

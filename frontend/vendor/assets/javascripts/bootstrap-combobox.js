@@ -105,6 +105,8 @@
     this.$element.attr('rel', this.$source.attr('rel'))
     this.$element.attr('title', this.$source.attr('title'))
     this.$element.attr('class', this.$source.attr('class'))
+    this.$element.attr('id', this.$source.attr('id'))
+    this.$source.attr('id', this.$source.attr('id') + '_list')  // Don't want duplicate ids.
     this.$element.attr('tabindex', this.$source.attr('tabindex'))
     this.$source.removeAttr('tabindex')
     if (this.$source.attr('disabled')!==undefined)
@@ -141,6 +143,7 @@
       $('.dropdown-menu').on('mousedown', $.proxy(this.scrollSafety, this));
 
       this.shown = true;
+      this.$element.attr('aria-expanded', true);
       return this;
     }
 
@@ -149,6 +152,7 @@
       $('.dropdown-menu').off('mousedown', $.proxy(this.scrollSafety, this));
       this.$element.on('blur', $.proxy(this.blur, this));
       this.shown = false;
+      this.$element.attr('aria-expanded', false)
       return this;
     }
 
@@ -177,7 +181,7 @@
       if (this.options.bsVersion == '2') {
         return '<div class="combobox-container"><input type="hidden" /> <div class="input-append"> <input type="text" autocomplete="off" /> <span class="add-on dropdown-toggle" data-dropdown="dropdown"> <span class="caret"/> <i class="icon-remove"/> </span> </div> </div>'
       } else {
-        return '<div class="combobox-container"> <input type="hidden" /> <div class="input-group"> <input type="text" autocomplete="off" /> <span class="input-group-addon dropdown-toggle" data-dropdown="dropdown"> <span class="caret" /> <span class="glyphicon glyphicon-remove" /> </span> </div> </div>'
+        return '<div class="combobox-container"> <input type="hidden" /> <div class="input-group"> <input type="text" autocomplete="off" role="combobox" aria-autocomplete="both" aria-haspopup="true" aria-controls="' + this.$source.attr('id') + '_list' + '" /> <span class="input-group-addon dropdown-toggle" data-dropdown="dropdown" role="button"> <span class="caret" /> <span class="glyphicon glyphicon-remove" /> </span> </div> </div>'
       }
     }
 
@@ -216,31 +220,31 @@
         return i[0];
       })
 
-      items.first().addClass('active');
+      items.first().addClass('active').attr('aria-selected', true);
       this.$menu.html(items);
       return this;
     }
 
   , next: function (event) {
-      var active = this.$menu.find('.active').removeClass('active')
+      var active = this.$menu.find('.active').removeClass('active').removeAttr('aria-selected')
         , next = active.next();
 
       if (!next.length) {
         next = $(this.$menu.find('li')[0]);
       }
 
-      next.addClass('active');
+      next.addClass('active').attr('aria-selected', true);
     }
 
   , prev: function (event) {
-      var active = this.$menu.find('.active').removeClass('active')
+      var active = this.$menu.find('.active').removeClass('active').removeAttr('aria-selected')
         , prev = active.prev();
 
       if (!prev.length) {
         prev = this.$menu.find('li').last();
       }
 
-      prev.addClass('active');
+      prev.addClass('active').attr('aria-selected', true);
     }
 
   , toggle: function () {
@@ -406,8 +410,8 @@
 
   , mouseenter: function (e) {
       this.mousedover = true;
-      this.$menu.find('.active').removeClass('active');
-      $(e.currentTarget).addClass('active');
+      this.$menu.find('.active').removeClass('active').removeAttr('aria-selected');
+      $(e.currentTarget).addClass('active').attr('aria-selected', true);
     }
 
   , mouseleave: function (e) {
@@ -429,8 +433,8 @@
 
   $.fn.combobox.defaults = {
     bsVersion: '3'
-  , menu: '<ul class="typeahead typeahead-long dropdown-menu"></ul>'
-  , item: '<li><a href="#"></a></li>'
+  , menu: '<ul class="typeahead typeahead-long dropdown-menu" role="listbox" ></ul>'
+  , item: '<li role="option"><a href="#"></a></li>'
   };
 
   $.fn.combobox.Constructor = Combobox;

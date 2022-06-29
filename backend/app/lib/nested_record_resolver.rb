@@ -56,7 +56,7 @@ class NestedRecordResolver
           nested_objs = Array(obj.send(nested_record[:association][:name]))
 
           unless nested_record[:association][:order]
-            nested_objs.sort_by!{ |rec| rec[:id] }
+            nested_objs.sort_by! { |rec| rec[:id] }
           end
 
           records = if nested_objs.empty?

@@ -15,6 +15,15 @@
       "id_3" => {"type" => "string", "maxLength" => 255},
       "external_ark_url" => {"type" => "string", "required" => false},
 
+      "import_current_ark" => {"type" => "string"},
+
+      "import_previous_arks" => {
+        "type" => "array",
+        "items" => {
+          "type" => "string",
+        }
+      },
+
       "level" => {"type" => "string", "ifmissing" => "error", "dynamic_enum" => "archival_record_level"},
       "other_level" => {"type" => "string", "maxLength" => 255},
 
@@ -119,16 +128,12 @@
                                {"type" => "JSONModel(:note_singlepart) object"}]},
       },
 
-      "representative_image" => {
-        "type" => "JSONModel(:file_version) object",
-        "readonly" => true
-      },
       "ark_name" => {
         "type" => "JSONModel(:ark_name) object",
         "readonly" => true,
         "required" => false
-      }
-
+      },
+      "metadata_rights_declarations" => {"type" => "array", "items" => {"type" => "JSONModel(:metadata_rights_declaration) object"}},
     },
   },
 }

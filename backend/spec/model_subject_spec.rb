@@ -79,15 +79,15 @@ describe 'Subject model' do
                                                      "vocabulary" => JSONModel(:vocabulary).uri_for(@vocab_id)
                                                    }))
     expect {
-      subject_b = Subject.create_from_json(JSONModel(:subject).
-                                           from_hash({
-                                                       "terms" => [
-                                                         JSONModel(:term).uri_for(term_id_0),
-                                                         JSONModel(:term).uri_for(term_id_1),
-                                                       ],
-                                                       "source" => "local",
-                                                       "vocabulary" => JSONModel(:vocabulary).uri_for(@vocab_id)
-                                                     }))
+       subject_b = Subject.create_from_json(JSONModel(:subject).
+                                            from_hash({
+                                                        "terms" => [
+                                                          JSONModel(:term).uri_for(term_id_0),
+                                                          JSONModel(:term).uri_for(term_id_1),
+                                                        ],
+                                                        "source" => "local",
+                                                        "vocabulary" => JSONModel(:vocabulary).uri_for(@vocab_id)
+                                                      }))
      }.to raise_error(Sequel::ValidationFailed)
 
   end
@@ -167,6 +167,20 @@ describe 'Subject model' do
 
     acc.publish = false
     acc.save
+    expect(JSONModel(:subject).find(subject.id).is_linked_to_published_record).to be_falsey
+  end
+
+  it "can derive a subject's publication status from linked agents (subrecords)" do
+    subject = create(:json_subject)
+    expect(JSONModel(:subject).find(subject.id).is_linked_to_published_record).to be_falsey
+
+    agent = create(:json_agent_person, 'agent_topics' => ['subjects' => [{'ref' => subject.uri}]], 'publish' => true)
+    expect(agent['agent_topics'][0]['publish']).to be_truthy
+    expect(JSONModel(:subject).find(subject.id).is_linked_to_published_record).to be_truthy
+
+    agent.publish = false
+    agent.save
+    expect(agent['agent_topics'][0]['publish']).to be_falsey
     expect(JSONModel(:subject).find(subject.id).is_linked_to_published_record).to be_falsey
   end
 

@@ -27,7 +27,6 @@ module BackendClientMethods
 
 
   def do_http_request(url, req)
-
     req['X-ArchivesSpace-Session'] = @current_session
 
     ASHTTP.start_uri(url) do |http|
@@ -36,55 +35,13 @@ module BackendClientMethods
     end
   end
 
-
   def run_index_round
-    if ENV['ASPACE_INDEXER_URL']
-      url = URI.parse(ENV['ASPACE_INDEXER_URL'] + "/run_index_round")
-
-      request = Net::HTTP::Post.new(url.request_uri)
-      request.content_length = 0
-
-      tries = 5
-
-      begin
-        response = do_http_request(url, request)
-        $stderr.puts("Indexer responded with status #{response.code}")
-        return response.code
-      rescue Timeout::Error
-        tries -= 1
-        $stderr.puts("#{Time.now}: Warning: Retrying index round - #{tries} tries remaining")
-        retry if tries > 0
-      end
-
-      $stderr.puts("#{Time.now}: Warning: Indexing round looks to have failed due to timeout")
-
-    else
-      $last_sequence ||= 0
-      $last_sequence = $indexer.run_index_round($last_sequence)
-    end
+    $last_sequence ||= 0
+    $last_sequence = $indexer.run_index_round($last_sequence)
   end
 
   def run_periodic_index
-    if ENV['ASPACE_INDEXER_URL']
-      url = URI.parse(ENV['ASPACE_INDEXER_URL'] + "/run_periodic_index")
-
-      request = Net::HTTP::Post.new(url.request_uri)
-      request.content_length = 0
-
-      tries = 5
-
-      begin
-        response = do_http_request(url, request)
-
-        response.code
-      rescue Timeout::Error
-        tries -= 1
-        retry if tries > 0
-      end
-
-    else
-      $period.run_index_round
-    end
+    $period.run_index_round
   end
 
 
@@ -114,13 +71,13 @@ module BackendClientMethods
   end
 
 
-  def create_user(roles = {})
-    user = "test user_#{SecureRandom.hex}"
+  def create_user(roles = {}, active = true)
+    user = "test_user_#{SecureRandom.hex}"
     pass = "pass_#{SecureRandom.hex}"
 
     req = Net::HTTP::Post.new("/users?password=#{pass}")
     req['Content-Type'] = 'text/json'
-    req.body = "{\"username\": \"#{user}\", \"name\": \"#{user}\"}"
+    req.body = "{\"username\": \"#{user}\", \"name\": \"#{user}\", \"is_active_user\": #{active}}"
 
     admin_backend_request(req)
 

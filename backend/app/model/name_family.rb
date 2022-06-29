@@ -4,42 +4,25 @@ class NameFamily < Sequel::Model(:name_family)
 
   include AgentNames
   include AutoGenerator
+  include Representative
 
-  def validate
-    if authorized
-      validates_unique([:authorized, :agent_family_id],
-                       :message => "An agent can only have one authorized name")
-      map_validation_to_json_property([:authorized, :agent_family_id], :authorized)
-    end
+  self.one_to_many :parallel_name_family, :class => "ParallelNameFamily"
 
-    if is_display_name
-      validates_unique([:is_display_name, :agent_family_id],
-                       :message => "An agent can only have one display name")
-      map_validation_to_json_property([:is_display_name, :agent_family_id], :is_display_name)
-    end
+  self.def_nested_record(:the_property => :parallel_names,
+                         :contains_records_of_type => :parallel_name_family,
+                         :corresponding_to_association => :parallel_name_family)
 
-
-    super
+  def representative_for_types
+    { authorized: [:agent_family], is_display_name: [:agent_family] }
   end
-
 
   def self.type_specific_hash_fields
     %w(family_name prefix qualifier)
   end
 
-  # NOTE: this code is duplicated in the merge_request preview_sort_name method
-  # If the code is changed here, please change it there as well
-  # Consider refactoring when continued work done on the agents model enhancements
   auto_generate :property => :sort_name,
-                :generator => proc  { |json|
-                  result = ""
-
-                  result << json["family_name"] if json["family_name"]
-                  result << ", #{json["prefix"]}" if json["prefix"]
-                  result << ", #{json["dates"]}" if json["dates"]
-                  result << " (#{json["qualifier"]})" if json["qualifier"]
-
-                  result.length > 255 ? result[0..254] : result
+                :generator => proc { |json|
+                  SortNameProcessor::Family.process(json)
                 },
                 :only_if => proc { |json| json["sort_name_auto_generate"] }
 end

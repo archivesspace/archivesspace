@@ -5,19 +5,19 @@ class ASpaceCompressor
 
   def initialize(flavour)
     @flavour = flavour
-    @initialized = false 
-    @disabled = false 
+    @initialized = false
+    @disabled = false
   end
 
 
   def do_init
-    return if @disabled 
+    return if @disabled
     yui = Dir.glob(File.join(File.absolute_path(File.dirname(__FILE__)), "yui-compressor*jar")).first
     begin
       classloader = java.net.URLClassLoader.new([java.net.URL.new("file:#{yui}")].to_java(java.net.URL))
-      @js_compressor = classloader.find_class("com.yahoo.platform.yui.compressor.JavaScriptCompressor")
-      @css_compressor = classloader.find_class("com.yahoo.platform.yui.compressor.CssCompressor")
-      @error_reporter = classloader.find_class("org.mozilla.javascript.ErrorReporter")
+      @js_compressor = classloader.load_class("com.yahoo.platform.yui.compressor.JavaScriptCompressor")
+      @css_compressor = classloader.load_class("com.yahoo.platform.yui.compressor.CssCompressor")
+      @error_reporter = classloader.load_class("org.mozilla.javascript.ErrorReporter")
       @initialized = true
     rescue ClassNotFoundException
       @disabled = true
@@ -37,10 +37,9 @@ class ASpaceCompressor
 
 
   def compress(s, opts = {})
-    
     do_init if !@initialized
-    return s if @disabled # simply return the asset if the compressor is not available 
-    
+    return s if @disabled # simply return the asset if the compressor is not available
+
 
     output = java.io.StringWriter.new
 

@@ -135,7 +135,7 @@ describe 'Enumerations model' do
     enum = Enumeration.create_from_json(JSONModel(:enumeration).from_hash(:name => 'readonly_thingy_enum_delete',
                                                                           :values => ["banana", "cherry"] ))
 
-	  $testdb[:enumeration].filter(:name => 'readonly_thingy_enum_delete').
+    $testdb[:enumeration].filter(:name => 'readonly_thingy_enum_delete').
                                 update(:editable => 0)
 
     expect {
@@ -178,6 +178,20 @@ describe 'Enumerations model' do
     expect(Enumeration.to_jsonmodel(enum)['readonly_values'].include?('readonly_apple')).to be_truthy
   end
 
+  it "can suppress a value and then add a new value" do
+    enum = Enumeration.find name: "event_event_type"
+    enum_val = EnumerationValue.find enumeration_id: enum.id, value: "request"
+    json = Enumeration.to_jsonmodel(enum.id)
+    expect(json.values).to include "request"
+
+    enum_val.suppressed = 1
+    enum_val.save
+    json = Enumeration.to_jsonmodel(enum.id)
+    expect(json.values).not_to include "request"
+
+    json.values << "new value"
+    expect { enum.update_from_json(json) }.not_to raise_error
+  end
 
   # TODO: Move these tests: These tests should go in a more generalized spec, but there doesn't seem to be a suitable spec yet.
   # These tests are here for now because the query by string functionality on models inheriting from ASModel is first used with Enumeration.

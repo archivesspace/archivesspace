@@ -14,7 +14,6 @@
 
 .form-context .form-overlay {
   opacity: 0.2;
-
 }
 
 #archives_form_overlay {
@@ -54,7 +53,7 @@ fieldset {
       margin-left: -180px;
       .accordion-inner {
         background-color: #fafafa;
-        border-bottom: 1px solid #E5E5E5;
+        border-bottom: 1px solid #e5e5e5;
       }
     }
   }
@@ -62,13 +61,25 @@ fieldset {
     color: #525252;
     font-style: normal;
   }
+
+  .note-outline-level {
+    min-height: 100px;
+
+    .note-outline-empty-level {
+      color: #aaa;
+      display: block;
+      margin-top: 10px;
+    }
+  }
+
   .note-outline-levels {
     .subrecord-form {
       .box-shadow(none);
+
       margin: 0;
     }
     .subrecord-form-fields {
-      background-color: #F6F6F6 !important;
+      background-color: #f6f6f6 !important;
       margin-bottom: 8px;
     }
     .subrecord-form-heading {
@@ -123,7 +134,7 @@ form .form-group {
 
   .control-label {
     &.has-tooltip {
-      border-bottom: 1px dotted #EEE;
+      border-bottom: 1px dotted #eee;
     }
   }
 }
@@ -139,9 +150,9 @@ form .form-group {
 
 .inline-subform {
   margin: 4px 0;
-  border-top: 1px solid #E5E5E5;
+  border-top: 1px solid #e5e5e5;
   background-color: #fafafa;
-  border-bottom: 1px solid #E5E5E5;
+  border-bottom: 1px solid #e5e5e5;
 }
 
 .form-group .inline-subform {
@@ -172,13 +183,16 @@ form .form-group {
 }
 
 .record-pane h3 {
-  background-color: #F6F6F6;
+  background-color: #f6f6f6;
   #gradient > .vertical(#F3F3F3, #EDEDED);
-  border-bottom: 1px solid #DDD;
+
+  border-bottom: 1px solid #ddd;
   padding-left: 10px;
   line-height: 1.4;
   overflow: auto;
+
   /* padding-top: 10px; */
+
   /* padding-bottom: 10px; */
 }
 
@@ -199,16 +213,11 @@ form .form-group {
   }
 }
 
-section h3 {
-  .dropdown-menu {
-
-  }
-}
-
 .record-pane section section h4 {
-  background-color: #F6F6F6;
+  background-color: #f6f6f6;
   #gradient > .vertical(#F3F3F3, #EDEDED);
-  border-bottom: 1px solid #DDD;
+
+  border-bottom: 1px solid #ddd;
   padding-left: 10px;
   line-height: 36px;
 }
@@ -226,24 +235,31 @@ section h3 {
   width: 100%;
 }
 
+.subrecord-form-section {
+  .subrecord-form-heading-label {
+    .has-tooltip {
+      cursor: pointer;
+      border-bottom: 1px dotted #ddd;
+    }
+  }
+}
 
 /* AGENT NAME Form styles */
 .subrecord-form-dummy,
 .subrecord-form {
   clear: both;
   margin: 20px 0;
-  background-color: #FAFAFA;
-  .box-shadow(~"1px 1px 3px rgba(0, 0, 0, 0.25)");
+  background-color: #fafafa;
+  .box-shadow(~'1px 1px 3px rgba(0, 0, 0, 0.25)');
 
   .subrecord-form-heading {
-    background-color: #F6F6F6;
+    background-color: #f6f6f6;
     #gradient > .vertical(#F3F3F3, #EDEDED);
-    border-bottom: 1px solid #DDD;
-    padding-left: 10px;
 
+    padding-left: 10px;
     min-height: 1.4em;
     margin: 0;
-    border-bottom: 1px solid #DDD;
+    border-bottom: 1px solid #ddd;
     .border-radius(4px 4px 0 0);
 
     .btn-group.pull-right {
@@ -253,7 +269,7 @@ section h3 {
     .subrecord-form-heading-label {
       &.has-tooltip {
         cursor: pointer;
-        border-bottom: 1px dotted #DDD;
+        border-bottom: 1px dotted #ddd;
       }
     }
   }
@@ -300,16 +316,16 @@ section h3 {
     }
 
     .subrecord-form-fields {
-      background-color: #FFF;
-      border: 1px solid #DDD;
+      background-color: #fff;
+      border: 1px solid #ddd;
       .border-radius(4px);
+
       margin-top: 10px;
       padding: 10px;
 
       > .subrecord-form-heading {
         line-height: 36px;
       }
-
     }
   }
 
@@ -331,6 +347,21 @@ section h3 {
   .subrecord-form-inline {
     margin-bottom: 8px;
   }
+
+  .chronology_item_list {
+    input {
+      width: 80%;
+      margin: 10px;
+    }
+  }
+}
+
+.sdl-subrecord-form {
+  padding-bottom: 10px;
+
+  .subrecord-form-fields {
+    margin-left: 40px;
+  }
 }
 
 form .subrecord-form .subrecord-form-container .subrecord-form-fields {
@@ -341,7 +372,6 @@ form #terms .subrecord-form-fields {
   padding: 10px;
 }
 
-
 ul.subrecord-form-list {
   margin: 0;
   -webkit-padding-start: 0;
@@ -350,7 +380,7 @@ ul.subrecord-form-list {
     position: relative;
   }
   .sortable-placeholder {
-    border: 1px dashed #CCC;
+    border: 1px dashed #ccc;
     margin: 10px 0;
   }
   .ui-sortable-helper {
@@ -384,7 +414,6 @@ ul.subrecord-form-list {
   border: none;
 }
 
-
 .dropdown-menu.subrecord-selector {
   li {
     padding: 10px;
@@ -410,6 +439,7 @@ ul.subrecord-form-list {
     .icon-chevron-down {
       vertical-align: top;
       .opacity(25);
+
       margin-left: 5px;
     }
     &:hover {
@@ -459,14 +489,17 @@ ul.subrecord-form-list {
 
 .CodeMirror {
   #font > .shorthand(@baseFontSize,normal,@baseLineHeight);
+
   margin-bottom: 9px;
   font-size: @baseFontSize;
   line-height: @baseLineHeight;
   color: @gray;
   .border-radius(4px);
+
   background-color: @inputBackground;
-  border: 1px solid @inputBorder;
-  .box-shadow(inset 0 1px 1px rgba(0,0,0,.075));
+  border: 1px solid @input-border;
+  .box-shadow(inset 0 1px 1px rgba(0,0,0,0.075));
+
   overflow: visible;
 
   .CodeMirror-scroll {
@@ -486,14 +519,13 @@ ul.subrecord-form-list {
   }
 
   .mixed-content-help {
-    background-color: #F6F6F6;
+    background-color: #f6f6f6;
     text-shadow: 1px 1px 1px white;
     padding: 0 10px;
     font-size: 0.9em;
-    border-top: 1px solid #CCC;
+    border-top: 1px solid #ccc;
     font-family: @baseFontFamily;
   }
-
 }
 
 .content-list {
@@ -506,11 +538,11 @@ ul.subrecord-form-list {
   }
 
   .subrecord-form-fields {
-    background-color: #F6F6F6 !important;
+    background-color: #f6f6f6 !important;
 
     > .CodeMirror {
       border: none;
-      border-top: 1px solid @inputBorder;
+      border-top: 1px solid @input-border;
       margin: 35px 0 0 0;
       .border-radius(0);
     }
@@ -518,16 +550,16 @@ ul.subrecord-form-list {
 }
 
 .CodeMirror-completions {
-  .box-shadow(0 5px 10px rgba(0,0,0,.2));
+  .box-shadow(0 5px 10px rgba(0,0,0,0.2));
+
   border: 1px solid #ccc;
-  border: 1px solid rgba(0,0,0,.2);
+  border: 1px solid rgba(0, 0, 0, 0.2);
 }
 
 /* Filter fields */
 .text-filter-field {
   width: 80%;
 }
-
 
 .content-list .CodeMirror {
   clear: both;
@@ -536,13 +568,13 @@ ul.subrecord-form-list {
 .group-member-control-group {
   .member-toolbar {
     float: left;
-    background-color: #F3F3F3;
+    background-color: #f3f3f3;
     padding: 4px;
     width: 300px;
     .border-radius(4px 4px 0 0);
-    border: 1px solid @inputBorder;
-    border-bottom: none;
 
+    border: 1px solid @input-border;
+    border-bottom: none;
 
     #new-member {
       padding: 2px 4px;
@@ -557,20 +589,24 @@ ul.subrecord-form-list {
 }
 
 .subrecord-add-as-you-go-actions {
-  @asyougotransition: opacity linear .4s 1s, height linear .4s 1s, padding linear .4s 1s;
+  @asyougotransition: opacity linear 0.4s 1s, height linear 0.4s 1s,
+    padding linear 0.4s 1s;
   .transition(@asyougotransition);
+
   text-align: center;
   width: 100%;
   .opacity(0);
+
   height: 30px;
   overflow: hidden;
   border-top: 1px solid transparent;
 
   a {
-    .transition(background-color linear .1s);
+    .transition(background-color linear 0.1s);
+
     font-size: 30px;
     display: inline-block;
-    text-shadow: 0px 1px 1px #666;
+    text-shadow: 0 1px 1px #666;
     opacity: 1;
     color: #525252;
     height: 30px;
@@ -580,11 +616,13 @@ ul.subrecord-form-list {
     &.has-label {
       font-size: 14px;
       color: #525252;
-      text-shadow: 0 1px 1px #FFF;
+      text-shadow: 0 1px 1px #fff;
     }
 
-    &:hover, &:focus {
-      .transition(background-color linear .1s);
+    &:hover,
+    &:focus {
+      .transition(background-color linear 0.1s);
+
       background-color: @btnBackgroundHighlight;
       #gradient > .vertical(@btnBackground, @btnBackgroundHighlight);
     }
@@ -592,18 +630,20 @@ ul.subrecord-form-list {
     &:active {
       background-image: none;
       outline: 0;
-      background-color: #EEE;
-      .box-shadow(~"inset 0 1px 2px rgba(0,0,0,.15), 0 1px 2px rgba(0,0,0,.05)");
+      background-color: #eee;
+      .box-shadow(~'inset 0 1px 2px rgba(0,0,0,.15), 0 1px 2px rgba(0,0,0,.05)');
     }
   }
 }
 
 .subrecord-form:hover .subrecord-add-as-you-go-actions,
 .focus .subrecord-add-as-you-go-actions {
-  @asyougotransition: opacity linear .2s, height linear .2s, padding linear .2s;
+  @asyougotransition: opacity linear 0.2s, height linear 0.2s,
+    padding linear 0.2s;
   .transition(@asyougotransition);
   .opacity(100);
-  border-top: 1px solid #EEE;
+
+  border-top: 1px solid #eee;
 }
 
 .subrecord-form-fields > .selected-container > .subrecord-form-fields {
@@ -617,7 +657,7 @@ ul.subrecord-form-list {
   }
 }
 
-//make date help appear inline
+// make date help appear inline
 
 .date-field {
   float: left;
@@ -628,17 +668,14 @@ ul.subrecord-form-list {
   white-space: nowrap;
 }
 
-
 label {
   font-weight: normal;
 }
 
-
-
 .identifier-display {
   .identifier-display-part {
-    border: 1px solid #F6F6F6;
-    background-color: #FCFCFC;
+    border: 1px solid #f6f6f6;
+    background-color: #fcfcfc;
     padding: 4px;
     margin-right: 4px;
     min-width: 60px;
@@ -646,9 +683,6 @@ label {
     height: @baseLineHeight;
     line-height: @baseLineHeight;
   }
-}
-
-.label-and-value .span3 {
 }
 
 .label-only .identifier-display-part {
@@ -663,15 +697,17 @@ label {
 }
 
 .audit-display-wide {
-  border: 1px solid #F6F6F6;
-  background-color: #F1F1F1;
+  border: 1px solid #f6f6f6;
+  background-color: #f1f1f1;
   padding: 4px;
   margin-right: 4px;
   float: right;
   line-height: @baseLineHeight;
 }
 
-.transfer-form, .merge-form, .add-event-form {
+.transfer-form,
+.merge-form,
+.add-event-form {
   padding: 10px;
 
   .controls {
@@ -680,7 +716,9 @@ label {
   }
   .control-label {
     /* width: 100%; */
+
     /* text-align: left; */
+
     /* margin-left: 0; */
   }
   form {
@@ -689,7 +727,9 @@ label {
   fieldset {
     width: 300px;
     padding: 10px;
-    #template { display:none;  }
+    #template {
+      display: none;
+    }
   }
   .form-actions {
     margin: 0;
@@ -750,6 +790,7 @@ label {
 // Name form styles
 .is-authoritive-label,
 .is-display-name-label,
+.is-primary-label,
 .is-representative-label {
   display: none;
 }
@@ -769,6 +810,14 @@ label {
     display: none;
   }
 }
+.primary-id {
+  .is-primary-label {
+    display: inline;
+  }
+  .btn-primary-id-toggle {
+    display: none;
+  }
+}
 
 .is-representative {
   .is-representative-label {
@@ -781,7 +830,10 @@ label {
 
 // four part id controls
 .form-group {
-  .id_0, .id_1, .id_2, .id_3 {
+  .id_0,
+  .id_1,
+  .id_2,
+  .id_3 {
     display: inline;
   }
 }
@@ -803,4 +855,46 @@ ul.checkbox-list {
   .checkbox label {
     padding-left: 10px;
   }
+}
+
+// hiding form elements for agents light
+
+.subrecord-form-invisible {
+  visibility: hidden !important;
+  position: absolute;
+}
+
+.note-content-raw {
+  white-space: pre-line;
+}
+
+#load_via_spreadsheet_help_icon {
+  margin-left: 5px;
+}
+
+.js-tooltip {
+  display: none;
+  background-color: #333;
+  color: #fff !important;
+  padding: 5px;
+  position: absolute;
+  border-radius: 5px;
+  font-size: 12px;
+  top: -5px;
+  left: -47px;
+  width: 175px;
+}
+
+.js-tooltip::after {
+  content: '';
+  display: block;
+  position: absolute;
+  left: 175px;
+  bottom: 8px;
+  width: 0;
+  height: 0;
+  border-bottom: 6px solid transparent;
+  border-left: 6px solid #333;
+  border-top: 6px solid transparent;
+  border-right: 6px solid transparent;
 }

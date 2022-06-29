@@ -18,7 +18,7 @@ class DigitalRecordChildren < JSONModel(:digital_record_children)
   def self.clean_file_versions(child)
     return unless child["file_versions"]
 
-    if child["file_versions"][0].reject{|k,v| (k == "publish" && v == true) || v.blank?}.empty?
+    if child["file_versions"][0].reject {|k, v| (k == "publish" && v == true) || v.blank?}.empty?
       child.delete("file_versions")
     end
   end

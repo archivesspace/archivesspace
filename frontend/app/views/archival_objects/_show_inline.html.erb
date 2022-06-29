@@ -10,6 +10,11 @@
         <%= render_aspace_partial :partial => "shared/flash_messages" %>
         <section id="basic_information">
           <h3><%= I18n.t("archival_object._frontend.section.basic_information") %></h3>
+
+          <%= render_plugin_partials("top_of_basic_information_archival_object",
+                                     :form => readonly,
+                                     :record => @archival_object) %>
+
           <%= readonly.label_and_textarea "title" , :field_opts => { :clean => true, :escape => false } %>
           <%= readonly.label_with_field "ref_id", "<div class='identifier-display'><div class='identifier-display-part'>#{readonly["ref_id"]}</div></div>" %>
           <%= readonly.label_and_textfield "component_id" %>
@@ -21,6 +26,11 @@
           <%= readonly.label_and_boolean "has_unpublished_ancestor" %>
           <%= readonly.label_and_boolean "restrictions_apply" %>
           <%= readonly.label_and_textarea "repository_processing_note" %>
+
+          <%= render_plugin_partials("basic_information_archival_object",
+                                     :form => readonly,
+                                     :record => @archival_object) %>
+
           <%= display_audit_info(@archival_object) %>
         </section>
 
@@ -38,6 +48,10 @@
 
         <% if archival_object.linked_agents.length > 0 %>
           <%= render_aspace_partial :partial => "linked_agents/show", :locals => { :linked_agents => archival_object.linked_agents, :section_id => "archival_object_linked_agents_" } %>
+        <% end %>
+
+        <% if archival_object.accession_links.length > 0 %>
+            <%= render_aspace_partial :partial => "accession_links/show", :locals => { :accession_links => archival_object.accession_links, :section_id => "archival_object_accession_links_" } %>
         <% end %>
 
         <% if not archival_object.subjects.blank? %>

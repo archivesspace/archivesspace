@@ -22,12 +22,20 @@ class SubjectsController < ApplicationController
     end
   end
 
+  def current_record
+    @subject
+  end
+
   def show
     @subject = JSONModel(:subject).find(params[:id])
   end
 
   def new
     @subject = JSONModel(:subject).new({:vocab_id => JSONModel(:vocabulary).id_for(current_vocabulary["uri"]), :terms => [{}]})._always_valid!
+
+    if params[:term_type]
+      @subject["terms"]= [JSONModel(:term).new({:term_type => params[:term_type]})]
+    end
 
     if user_prefs['default_values']
       defaults = DefaultValues.get 'subject'
@@ -45,11 +53,11 @@ class SubjectsController < ApplicationController
   def create
     handle_crud(:instance => :subject,
                 :model => JSONModel(:subject),
-                :on_invalid => ->(){
+                :on_invalid => ->() {
                   return render_aspace_partial :partial => "subjects/new" if inline?
                   return render :action => :new
                 },
-                :on_valid => ->(id){
+                :on_valid => ->(id) {
                   if inline?
                     render :json => @subject.to_hash if inline?
                   else
@@ -59,6 +67,7 @@ class SubjectsController < ApplicationController
                        @subject["slug"] == nil &&
                        params["subject"] &&
                        params["subject"]["is_slug_auto"] == "1"
+
                       flash[:warning] = I18n.t("slug.autogen_disabled")
                     end
 
@@ -72,14 +81,15 @@ class SubjectsController < ApplicationController
     handle_crud(:instance => :subject,
                 :model => JSONModel(:subject),
                 :obj => JSONModel(:subject).find(params[:id]),
-                :on_invalid => ->(){ return render :action => :edit },
-                :on_valid => ->(id){
+                :on_invalid => ->() { return render :action => :edit },
+                :on_valid => ->(id) {
                   flash[:success] = I18n.t("subject._frontend.messages.updated")
 
                   if @subject["is_slug_auto"] == false &&
                      @subject["slug"] == nil &&
                      params["subject"] &&
                      params["subject"]["is_slug_auto"] == "1"
+
                     flash[:warning] = I18n.t("slug.autogen_disabled")
                   end
 
@@ -98,7 +108,6 @@ class SubjectsController < ApplicationController
   end
 
   def update_defaults
-
     begin
       DefaultValues.from_hash({
                                 "record_type" => "subject",
@@ -124,7 +133,7 @@ class SubjectsController < ApplicationController
       begin
         results = JSONModel::HTTP::get_json("/terms", :q => params[:query])['results']
 
-        return render :json => results.map{|term|
+        return render :json => results.map {|term|
           term["_translated"] = {}
           term["_translated"]["term_type"] = I18n.t("enumerations.subject_term_type.#{term["term_type"]}")
           term
@@ -146,7 +155,12 @@ class SubjectsController < ApplicationController
 
   def delete
     subject = JSONModel(:subject).find(params[:id])
-    subject.delete
+    begin
+      subject.delete
+    rescue ConflictException => e
+      flash[:error] = I18n.t("subject._frontend.messages.delete_conflict", :error => I18n.t("errors.#{e.conflicts}", :default => e.message))
+      return redirect_to(:controller => :subjects, :action => :show, :id => subject.id)
+    end
 
     flash[:success] = I18n.t("subject._frontend.messages.deleted", JSONModelI18nWrapper.new(:subject => subject))
     redirect_to(:controller => :subjects, :action => :index, :deleted_uri => subject.uri)

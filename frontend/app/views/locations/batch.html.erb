@@ -1,4 +1,4 @@
-<%= setup_context :title => "Batch Locations", :trail => [[I18n.t("location._plural"), {:controller => :locations, :action => :index}]] %>
+<%= setup_context :title => I18n.t("location_batch._singular"), :trail => [[I18n.t("location._plural"), {:controller => :locations, :action => :index}]] %>
 
 <%= form_for @location_batch, :as => "location_batch", :url => {:action => :batch_create}, :html => {:class => 'form-horizontal aspace-record-form'} do |f| %>
   <%= form_context :location_batch, @location_batch do |form| %>
@@ -42,7 +42,7 @@
               <div class="alert alert-warning"><%= I18n.t("location_batch._frontend.messages.warning") %></div>
             <% end %>
             <button type="submit" class="btn btn-primary">
-              <%= image_tag "archivesspace/btn-busy.gif", :class=>"btn-busy-icon" %>
+              <%= image_tag "archivesspace/btn-busy.gif", :class=>"btn-busy-icon", :alt=>I18n.t("location_batch._frontend.action.creating") %>
               <span class="btn-label"><%= I18n.t("location_batch._frontend.action.#{@action}") %></span>
               <span class="btn-busy-label"><%= I18n.t("location_batch._frontend.action.creating") %></span>
             </button>

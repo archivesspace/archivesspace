@@ -1,3 +1,5 @@
+<% pref_include_unpublished = user_prefs['include_unpublished'] %>
+
 <% if user_can?('update_resource_record') %>
 
   <% unless content_for?(:exports) %>
@@ -11,7 +13,7 @@
           <fieldset>
             <input type="hidden" name="id", value="<%= @resource.id %>" />
             <label class="checkbox" for="include-unpublished">
-              <input type="checkbox" id="include-unpublished" name="include_unpublished" checked="checked"/>
+              <input type="checkbox" id="include-unpublished" name="include_unpublished" <% if pref_include_unpublished %> checked="checked" <% end %>/>
               <%= I18n.t("export_options.include_unpublished") %>&#160;
             </label>
             <label class="checkbox" for="include-daos">
@@ -38,7 +40,7 @@
           <fieldset>
             <input type="hidden" name="id", value="<%= @resource.id %>" />
             <label class="checkbox" for="include-unpublished-marc">
-              <input type="checkbox" id="include-unpublished-marc" name="include_unpublished_marc" checked="checked"/>
+                <input type="checkbox" id="include-unpublished-marc" name="include_unpublished_marc" <% if pref_include_unpublished %> checked="checked" <% end %>/>
               <%= I18n.t("export_options.include_unpublished") %>&#160;
             </label>
             <%# END - MARC %>
@@ -48,7 +50,7 @@
 
 
       <li><%= link_to I18n.t("actions.container_labels"), {:controller => :exports, :action => :container_labels, :id => @resource.id}, :id => 'container-labels-link', :target => "_blank" %></li>
-
+      <li><%= link_to I18n.t("actions.container_template"), {:controller => :exports, :action => :container_template, :id => @resource.id}, :id => 'container-template-link', :target => "_self" %></li>
       <% if user_can?('create_job') %>
         <% if job_types['print_to_pdf_job']['create_permissions'].reject{|perm| user_can?(perm)}.empty? %>
 
@@ -57,7 +59,7 @@
             <div class="dropdown-menu">
               <fieldset>
                 <label class="checkbox" for="include-unpublished-pdf">
-                  <input type="checkbox" id="include-unpublished-pdf" onchange="$('#print-to-pdf-link').attr('href', '<%= url_for :controller => :exports,  :action => :print_to_pdf, :id => @resource.id %>?include_unpublished=' + $(this).prop('checked'))" />
+                    <input type="checkbox" id="include-unpublished-pdf" onchange="$('#print-to-pdf-link').attr('href', '<%= url_for :controller => :exports,  :action => :print_to_pdf, :id => @resource.id %>?include_unpublished=' + $(this).prop('checked'))" <% if pref_include_unpublished %> checked="checked" <% end %> />
                   <%= I18n.t("export_options.include_unpublished") %>&#160;
                 </label>
               </fieldset>

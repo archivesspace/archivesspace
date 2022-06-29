@@ -21,8 +21,13 @@ class AppConfig
   def self.[]=(parameter, value)
     parameter = resolve_alias(parameter)
 
-    if changed?(parameter)
+    if changed?(parameter) && !self[:disable_config_changed_warning]
       $stderr.puts("WARNING: The parameter '#{parameter}' was already set")
+    end
+
+    if forced_off_parameters.include?(parameter) && value
+      $stderr.puts("WARNING: The parameter '#{parameter}' cannot be enabled in this version of ArchivesSpace")
+      return
     end
 
     @@changed_from_default[parameter] = true
@@ -31,16 +36,21 @@ class AppConfig
 
 
   def self.resolve_alias(parameter)
+    check_deprecated(parameter)
     if aliases[parameter]
-
-      if deprecated_parameters[parameter]
-        $stderr.puts("WARNING: The parameter '#{parameter}' is now deprecated.  Please use '#{aliases[parameter]}' instead.")
-      end
-
       aliases[parameter]
     else
       parameter
     end
+  end
+
+  def self.check_deprecated(parameter)
+    return unless deprecated_parameters[parameter]
+
+    message = "WARNING: The parameter '#{parameter}' is now deprecated."
+    message += " Please use '#{aliases[parameter]}' instead." if aliases[parameter]
+    deprecated_parameters.delete(parameter) # we don't need to repeat this message
+    $stderr.puts(message)
   end
 
 
@@ -53,6 +63,9 @@ class AppConfig
     @@deprecated_parameters ||= {}
   end
 
+  def self.forced_off_parameters
+    @@forced_off_parameters ||= []
+  end
 
   def self.has_key?(parameter)
     @@parameters.has_key?(resolve_alias(parameter))
@@ -105,12 +118,11 @@ class AppConfig
 
 
   def self.get_preferred_config_path
-
     if java.lang.System.getProperty("aspace.config")
       # Explicit Java property
       java.lang.System.getProperty("aspace.config")
     elsif ENV['ASPACE_CONFIG'] && File.exist?(ENV['ASPACE_CONFIG'])
-      # Setting a system config 
+      # Setting a system config
       ENV['ASPACE_CONFIG']
     elsif ENV['ASPACE_LAUNCHER_BASE'] && File.exist?(File.join(ENV['ASPACE_LAUNCHER_BASE'], "config", "config.rb"))
       File.join(ENV['ASPACE_LAUNCHER_BASE'], "config", "config.rb")
@@ -122,7 +134,6 @@ class AppConfig
     else
       File.join(Dir.home, ".aspace_config.rb")
     end
-
   end
 
   def self.get_devserver_base
@@ -199,6 +210,14 @@ class AppConfig
 
     aliases[alias_parameter] = target_parameter
     deprecated_parameters[alias_parameter] = options.fetch(:deprecated, false)
+  end
+
+  def self.add_deprecated(parameter)
+    deprecated_parameters[parameter] = true
+  end
+
+  def self.ensure_false(parameter)
+    forced_off_parameters << parameter
   end
 
   def self.parse_value(value)

@@ -77,7 +77,7 @@ class Driver
   def initialize(frontend = $frontend)
     @frontend = frontend
 
-    @chrome_opts  = ENV.fetch('CHROME_OPTS', '--headless,--disable-gpu,--window-size=1920x1080').split(',')
+    @chrome_opts  = ENV.fetch('CHROME_OPTS', '--headless,--disable-gpu,--window-size=800x600,--no-sandbox,--disable-dev-shm-usage,--remote-debugging-port=9222').split(',')
     @firefox_opts = ENV.fetch('FIREFOX_OPTS', '-headless').split(',')
 
     @driver = ff_or_chrome

@@ -106,6 +106,9 @@ module Transferable
     topcon_rlshp = SubContainer.find_relationship(:top_container_link)
     # now we get  all the relationships in this graph
     all_ids = graph.ids_for(topcon_rlshp)
+    # add any conflicts to this, then raise unless it is empty
+    error = TransferConstraintError.new
+    top_container_transferees = []
 
     DB.open do |db|
       # Find relationships that are in our set of IDs that haven't been
@@ -115,7 +118,12 @@ module Transferable
         .filter(:top_container_link_rlshp__id => all_ids)
         .filter(:top_container__repo_id => self.class.active_repository)
         .each do |tc_rel|
-        # lets get all the top_containers outside this graph
+
+        top_container = TopContainer.this_repo.filter(id: tc_rel[:top_container_id]).first
+        # Already transferred
+        next unless top_container
+
+        # lets get all this container's links outside transferred object's graph
         number_of_tc_links = db[:top_container_link_rlshp]
                              .join(:top_container, :id => :top_container_id)
                              .filter(:top_container__repo_id => self.class.active_repository)
@@ -123,28 +131,26 @@ module Transferable
                              .exclude(:top_container_link_rlshp__id => all_ids)
                              .count
 
-        if number_of_tc_links < 1
-          # this tc is only linked in this graph..so we transfer
-          top_container = TopContainer.this_repo.filter(id: tc_rel[:top_container_id]).first
-
-          if top_container
-            if top_container.barcode && TopContainer.any_repo[:barcode => top_container.barcode, :repo_id => repository.id]
-              # There's already a top container with our barcode in the target
-              # repository.  Not sure if merging them is the right strategy or
-              # not, so throwing an error for now
-              raise TransferConstraintError.new(top_container.uri => "Top Container barcode '#{top_container.barcode}' already in use in target repository")
-            end
-
-            top_container.transfer_to_repository(repository, transfer_group + [self]) # i guess we always add self just in case. dups are uniqed out.
-          else
-            # Already transferred
-          end
-        else
-          # something outside the graph is linked to it, add it to the list and we'll clone after transfer
-          tc_id = tc_rel[:top_container_id]
-          containers_to_clone[tc_id] ||= []
-          containers_to_clone[tc_id] <<  tc_rel[:sub_container_id]
+        # this tc linked beyond this graph..so it's an error
+        if number_of_tc_links > 0
+          # ANW-979
+          # Cancel transfer and let user know that they must unlink other top container
+          error.add_conflict(top_container.uri, message: "TOP_CONTAINER_IN_USE")
         end
+
+        if top_container.barcode && TopContainer.any_repo[:barcode => top_container.barcode, :repo_id => repository.id]
+          # There's already a top container with our barcode in the target
+          # repository.  Not sure if merging them is the right strategy or
+          # not, so throwing an error for now
+          error.add_conflict("#{top_container.uri}", message: "BARCODE_IN_USE")
+        end
+
+        top_container_transferees << top_container
+      end
+      raise error unless error.conflicts.empty?
+
+      top_container_transferees.each do |top_container|
+        top_container.transfer_to_repository(repository, transfer_group + [self]) # i guess we always add self just in case. dups are uniqed out.
       end
     end
 

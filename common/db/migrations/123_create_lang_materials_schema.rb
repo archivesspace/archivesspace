@@ -28,12 +28,11 @@ def create_language_record_from_language_id(record_type, dataset, language_id)
 end
 
 def migrate_langmaterial_notes
-
   # Find all langmaterial notes
   self[:note].each do |note_id|
     if note_id[:notes].lit.include?('langmaterial')
 
-      [ :resource_id, :archival_object_id, :digital_object_id, :digital_object_component_id  ].each do |obj|
+      [ :resource_id, :archival_object_id, :digital_object_id, :digital_object_component_id ].each do |obj|
         record_id = note_id[obj]
 
         unless record_id.nil?
@@ -52,61 +51,61 @@ def migrate_langmaterial_notes
           if note.lit.include?('<language')
 
               # grab just the xml from content
-              split = note.split(/.*"content":\["/)
-              split = split[1].tr("\"]}", "")
-              parsed = Nokogiri::XML::DocumentFragment.parse(split.to_s) rescue nil
-              languages = parsed.xpath('.//language') rescue nil
-              languages&.each do |language|
-                lang = language.attr('langcode')
-                if !lang.nil?
-                  enum = self[:enumeration].filter(:name => 'language_iso639_2').get(:id)
-                  langcode = self[:enumeration_value].filter(:value => lang, :enumeration_id => enum ).get(:id)
+            split = note.split(/.*"content":\["/)
+            split = split[1].tr("\"]}", "")
+            parsed = Nokogiri::XML::DocumentFragment.parse(split.to_s) rescue nil
+            languages = parsed.xpath('.//language') rescue nil
+            languages&.each do |language|
+              lang = language.attr('langcode')
+              if !lang.nil?
+                enum = self[:enumeration].filter(:name => 'language_iso639_2').get(:id)
+                langcode = self[:enumeration_value].filter(:value => lang, :enumeration_id => enum ).get(:id)
 
-                  puts "Updating language of material for #{obj} #{record_id}: #{lang} (#{langcode})"
-                  parsed_language_record = self[:lang_material].insert(
-                      :json_schema_version => 1,
-                      "#{obj}" => record_id,
-                      :create_time => Time.now,
-                      :system_mtime => Time.now,
-                      :user_mtime => Time.now
-                    )
-                  language_and_script = self[:language_and_script].insert(
-                      :json_schema_version => 1,
-                      :language_id => langcode,
-                      :lang_material_id => parsed_language_record,
-                      :create_time => Time.now,
-                      :system_mtime => Time.now,
-                      :user_mtime => Time.now
-                    )
-                end
-
-                script = language.attr('scriptcode') rescue nil
-                if !script.nil?
-                  enum = self[:enumeration].filter(:name => 'script_iso15924').get(:id)
-                  scriptcode = self[:enumeration_value].filter(:value => script, :enumeration_id => enum ).get(:id)
-
-                  puts "Updating script code for #{obj} #{record_id}: #{script} (#{scriptcode})"
-                  self[:language_and_script].filter(:id => language_and_script).update(
-                      :script_id => scriptcode,
-                    )
-                end
+                puts "Updating language of material for #{obj} #{record_id}: #{lang} (#{langcode})"
+                parsed_language_record = self[:lang_material].insert(
+                    :json_schema_version => 1,
+                    "#{obj}" => record_id,
+                    :create_time => Time.now,
+                    :system_mtime => Time.now,
+                    :user_mtime => Time.now
+                  )
+                language_and_script = self[:language_and_script].insert(
+                    :json_schema_version => 1,
+                    :language_id => langcode,
+                    :lang_material_id => parsed_language_record,
+                    :create_time => Time.now,
+                    :system_mtime => Time.now,
+                    :user_mtime => Time.now
+                  )
               end
 
+              script = language.attr('scriptcode') rescue nil
+              if !script.nil?
+                enum = self[:enumeration].filter(:name => 'script_iso15924').get(:id)
+                scriptcode = self[:enumeration_value].filter(:value => script, :enumeration_id => enum ).get(:id)
+
+                puts "Updating script code for #{obj} #{record_id}: #{script} (#{scriptcode})"
+                self[:language_and_script].filter(:id => language_and_script).update(
+                    :script_id => scriptcode,
+                  )
+              end
+            end
+
               # Strip inline markup from remaining note and migrate note
-              content = note.gsub(/(<language langcode=\\"[a-z]+\\" scriptcode=\\"[A-z]+\\">(.[^<>]*)<\/language>)|(<language langcode=\\"[a-z]+\\">(.[^<>]*)<\/language>)|(<language langcode=\\"[a-z]+\\"\/>)/, '\\2\\4')
+            content = note.gsub(/(<language langcode=\\"[a-z]+\\" scriptcode=\\"[A-z]+\\">(.[^<>]*)<\/language>)|(<language langcode=\\"[a-z]+\\">(.[^<>]*)<\/language>)|(<language langcode=\\"[a-z]+\\"\/>)/, '\\2\\4')
 
-              new_note = content.lit.gsub('note_singlepart', 'note_langmaterial')
+            new_note = content.lit.gsub('note_singlepart', 'note_langmaterial')
 
-              puts "Updating language of material note content for #{obj} #{record_id}"
-              puts "ORIGINAL CONTENT: #{JSON.parse(note)['content']}"
-              puts "NEW CONTENT: #{JSON.parse(new_note)['content']}"
+            puts "Updating language of material note content for #{obj} #{record_id}"
+            puts "ORIGINAL CONTENT: #{JSON.parse(note)['content']}"
+            puts "NEW CONTENT: #{JSON.parse(new_note)['content']}"
 
               # Switch note from linking to resource to linking to the new language record
-              self[:note].filter(:id => note_id[:id]).update(
-                :lang_material_id => language_record,
-                "#{obj}" => nil,
-                :notes => new_note.to_sequel_blob
-                )
+            self[:note].filter(:id => note_id[:id]).update(
+              :lang_material_id => language_record,
+              "#{obj}" => nil,
+              :notes => new_note.to_sequel_blob
+              )
           else
             new_note = note_id[:notes].lit.gsub('note_singlepart', 'note_langmaterial')
 
@@ -177,9 +176,9 @@ Sequel.migration do
       language_enum = self[:enumeration].filter(:name => 'language_iso639_2').get(:id)
       create_language_record_from_language_id(record, self[record].filter( Sequel.~(:language_id => nil)), self[:enumeration_value].filter( :enumeration_id => language_enum).get(:id))
       # Drop old language_id column
-        alter_table(record) do
-          drop_foreign_key(:language_id)
-        end
+      alter_table(record) do
+        drop_foreign_key(:language_id)
+      end
     end
 
     migrate_langmaterial_notes

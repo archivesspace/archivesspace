@@ -15,7 +15,6 @@ class RdeTemplatesController < ApplicationController
     id = template.save
 
     render :json => {id: id}
-
   end
 
 
@@ -28,8 +27,8 @@ class RdeTemplatesController < ApplicationController
       }
     end
 
+    templates.sort_by! {|h| h[:name]} if user_prefs['rde_sort_alpha']
     render :json => templates
-
   end
 
 
@@ -41,13 +40,11 @@ class RdeTemplatesController < ApplicationController
 
 
   def batch_delete
-
     params[:ids].each do |id|
       template = JSONModel(:rde_template).find(id)
       template.delete
     end
 
     redirect_to :action => 'index'
-    
   end
 end

@@ -1,10 +1,10 @@
-//= require linker 
+//= require linker
 $(function () {
 
   var init = function () {
-    
+
     $("#merge-dropdown .linker:not(.initialised)").linker();
-    
+
     $('.merge-form .btn-cancel').on('click', function () {
       $('.merge-action').trigger("click");
     });
@@ -23,9 +23,11 @@ $(function () {
       if ($(".merge-form")[0].style.display === "block") {
         // Hide it
         $(".merge-form").css("display", "");
+        $(this).attr('aria-expanded', 'false');
       } else {
         // Show it
         $(".merge-form").css("display", "block");
+        $(this).attr('aria-expanded', 'true');
       }
     });
 
@@ -38,16 +40,24 @@ $(function () {
     $(".merge-form .linker-wrapper .dropdown-toggle").on("click", function(event) {
       event.stopPropagation();
       $(this).parent().toggleClass("open");
+
+
+      if($(this).parent().hasClass("open")) {
+        $(this).attr('aria-expanded', true);
+      } 
+      else {
+        $(this).attr('aria-expanded', false);
+      }
     });
 
 
     $(".merge-form .merge-button").on("click", function(event) {
       var formvals = $(".merge-form").serializeObject();
-      
+
       if ( formvals["merge[ref]"] && !formvals["merge[ref][]"] ) {
-        formvals["merge[ref][]"] = formvals["merge[ref]"]; 
+        formvals["merge[ref][]"] = formvals["merge[ref]"];
       }
-      
+
       if (!formvals["merge[ref][]"]) {
         $(".missing-ref-message", ".merge-form").show();
         event.preventDefault();

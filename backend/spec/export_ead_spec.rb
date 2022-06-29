@@ -60,14 +60,14 @@ describe "EAD export mappings" do
                                                            :content => "note_text - The ship set ground on the shore of this uncharted desert isle"} ),
                                                    build(:json_note_text, { :publish => true,
                                                            :content => "<p id='whatisthisfoolishness' >note_text - With:</p>"}),
-                                                   build(:json_note_definedlist,{  :publish => true, :title => "note_definedlist",
+                                                   build(:json_note_definedlist, { :publish => true, :title => "note_definedlist",
                                                            :items => [
                                                                       {:label => "First Mate", :value => "<persname encodinganalog='600$a' source='lcnaf'>Gilligan</persname>" },
-                                                                      {:label => "Captain",:value => "The Skipper"},
+                                                                      {:label => "Captain", :value => "The Skipper"},
                                                                       {:label => "Etc.", :value => "The Professor and Mary Ann" }
                                                                      ]
                                                          }),
-                                                   build(:json_note_text,{   :content => "note_text - Here on Gillgian's Island", :publish => true}) ,
+                                                   build(:json_note_text, { :content => "note_text - Here on Gillgian's Island", :publish => true}) ,
                                                   ]
                                    })
 
@@ -87,36 +87,21 @@ describe "EAD export mappings" do
     resource = create(:json_resource,
                       :linked_agents => build_linked_agents(@agents),
                       :notes => build_archival_object_notes(30) + [@mixed_subnotes_tracer, @another_note_tracer],
-                      :subjects => @subjects.map{|ref, s| {:ref => ref}},
+                      :subjects => @subjects.map {|ref, s| {:ref => ref}},
                       :instances => instances,
                       :finding_aid_status => %w(completed in_progress under_revision unprocessed).sample,
                       :finding_aid_filing_title => "this is a filing title",
                       :finding_aid_series_statement => "here is the series statement",
                       :publish => true,
+                      :metadata_rights_declarations => [build(:json_metadata_rights_declaration)]
                       )
 
     @resource = JSONModel(:resource).find(resource.id, 'resolve[]' => 'top_container')
-
-    AppConfig[:arks_enabled] = true
-    ark_resource = create(:json_resource,
-                      :linked_agents => build_linked_agents(@agents),
-                      :notes => build_archival_object_notes(30) + [@mixed_subnotes_tracer, @another_note_tracer],
-                      :subjects => @subjects.map{|ref, s| {:ref => ref}},
-                      :instances => instances,
-                      :finding_aid_status => %w(completed in_progress under_revision unprocessed).sample,
-                      :finding_aid_filing_title => "this is a filing title",
-                      :finding_aid_series_statement => "here is the series statement",
-                      :publish => true,
-                      )
-
-    @resource_with_ark = JSONModel(:resource).find(ark_resource.id, 'resolve[]' => 'top_container')
-    AppConfig[:arks_enabled] = true
-
     @archival_objects = {}
 
     10.times {
       parent = [true, false].sample ? @archival_objects.keys[rand(@archival_objects.keys.length)] : nil
-      a = create(:json_archival_object_normal,  :resource => {:ref => @resource.uri},
+      a = create(:json_archival_object, :resource => {:ref => @resource.uri},
                  :parent => parent ? {:ref => parent} : nil,
                  :notes => build_archival_object_notes(5),
                  :linked_agents => build_linked_agents(@agents),
@@ -127,7 +112,7 @@ describe "EAD export mappings" do
                                       :sub_container => build(:json_sub_container,
                                                               :top_container => {:ref => @top_container.uri}))
                                ],
-                 :subjects => @subjects.map{|ref, s| {:ref => ref}}.shuffle,
+                 :subjects => @subjects.map {|ref, s| {:ref => ref}}.shuffle,
                  :publish => true,
                  )
 
@@ -146,7 +131,6 @@ describe "EAD export mappings" do
 
 
   def test_mapping_template(doc, data, path, trib=nil)
-
     case path.slice(0)
     when '/'
       path
@@ -173,13 +157,12 @@ describe "EAD export mappings" do
     end
   end
 
-
-  def build_archival_object_notes(max = 5)
-    note_types = %w(odd dimensions physdesc materialspec physloc phystech physfacet processinfo separatedmaterial arrangement fileplan accessrestrict abstract scopecontent prefercite acqinfo bibliography index altformavail originalsloc userestrict legalstatus relatedmaterial custodhist appraisal accruals bioghist)
+  def build_multipart_notes(max = 5)
+    note_types = %w(odd dimensions phystech processinfo separatedmaterial arrangement fileplan accessrestrict scopecontent prefercite acqinfo altformavail originalsloc userestrict legalstatus relatedmaterial custodhist appraisal accruals bioghist)
     notes = []
     brake = 0
     while !(note_types - notes.map {|note| note['type']}).empty? && brake < max do
-      notes << build("json_note_#{['singlepart', 'multipart', 'multipart_gone_wilde', 'index', 'bibliography'].sample}".intern, {
+      notes << build("json_note_#{['multipart', 'multipart_gone_wilde'].sample}".intern, {
                        :publish => true,
                        :label => generate(:alphanumstr),
                        :persistent_id => [nil, generate(:alphanumstr)].sample
@@ -190,9 +173,40 @@ describe "EAD export mappings" do
     notes
   end
 
+  def build_singlepart_notes(max = 5)
+    note_types = %w(physdesc materialspec physloc physfacet abstract)
+    notes = []
+    brake = 0
+    while !(note_types - notes.map {|note| note['type']}).empty? && brake < max do
+      notes << build(:json_note_singlepart, {
+                       :publish => true,
+                       :label => generate(:alphanumstr),
+                       :persistent_id => [nil, generate(:alphanumstr)].sample
+                     })
+      brake += 1
+    end
+
+    notes
+  end
+
+  def build_archival_object_notes(max = 2)
+    note_types = %w(bibliography index)
+    notes = []
+    note_types.each do |note_type|
+      notes << build("json_note_#{note_type}".intern, {
+                       :publish => true,
+                       :label => generate(:alphanumstr),
+                       :persistent_id => [nil, generate(:alphanumstr)].sample
+                     })
+    end
+
+    notes = notes + build_singlepart_notes(max) + build_multipart_notes(max)
+    notes
+  end
+
 
   def build_linked_agents(agents)
-    agents = agents.map{|ref, a| {
+    agents = agents.map {|ref, a| {
         :ref => ref,
         :role => (ref[-1].to_i % 2 == 0 ? 'creator' : 'subject'),
         :terms => [build(:json_term), build(:json_term)],
@@ -221,45 +235,34 @@ describe "EAD export mappings" do
   end
 
   before(:all) do
-    RSpec::Mocks.with_temporary_scope do
-      # EAD export normally tries the search index first, but for the tests we'll
-      # skip that since Solr isn't running.
-      allow(Search).to receive(:records_for_uris) do |*|
-        {'results' => []}
-      end
+    as_test_user('admin') do
+      RSpec::Mocks.with_temporary_scope do
+        # EAD export normally tries the search index first, but for the tests we'll
+        # skip that since Solr isn't running.
+        allow(Search).to receive(:records_for_uris) do |*|
+          {'results' => []}
+        end
 
-      as_test_user("admin") do
-        DB.open(true) do
+        as_test_user("admin", true) do
           load_export_fixtures
-          AppConfig[:arks_enabled] = true
           @doc = get_xml("/repositories/#{$repo_id}/resource_descriptions/#{@resource.id}.xml?include_unpublished=true&include_daos=true")
-          @doc_with_ark = get_xml("/repositories/#{$repo_id}/resource_descriptions/#{@resource_with_ark.id}.xml?include_unpublished=true&include_daos=true")
-
           @doc_unpub = get_xml("/repositories/#{$repo_id}/resource_descriptions/#{@resource.id}.xml?include_daos=true")
-
-          AppConfig[:arks_enabled] = false
-          @doc_ark_disabled = get_xml("/repositories/#{$repo_id}/resource_descriptions/#{@resource.id}.xml?include_unpublished=true&include_daos=true")
-          AppConfig[:arks_enabled] = true
 
           @doc_nsless = Nokogiri::XML::Document.parse(@doc.to_xml)
           @doc_nsless.remove_namespaces!
           raise Sequel::Rollback
         end
       end
+      expect(@doc.errors.length).to eq(0)
+
+      # if the word Nokogiri appears in the XML file, we'll assume something
+      # has gone wrong
+      expect(@doc.to_xml).not_to include("Nokogiri")
+      expect(@doc.to_xml).not_to include("#&amp;")
     end
-
-    expect(@doc.errors.length).to eq(0)
-
-    # if the word Nokogiri appears in the XML file, we'll assume something
-    # has gone wrong
-    expect(@doc.to_xml).not_to include("Nokogiri")
-    expect(@doc.to_xml).not_to include("#&amp;")
-    expect(@doc.to_xml).not_to include("ASPACE EXPORT ERROR")
   end
 
-
   let(:repo) { JSONModel(:repository).find($repo_id) }
-
 
   describe "indexing prerequisites" do
     it "resolves all required fields for the EAD model" do
@@ -319,7 +322,7 @@ describe "EAD export mappings" do
       end
 
       language_notes.pop
-      
+
     end
 
 
@@ -329,7 +332,7 @@ describe "EAD export mappings" do
       }
 
       it "maps note content to {desc_path}/NOTE_TAG" do
-        object.notes.select{|n| archdesc_note_types.include?(n['type'])}.each do |note|
+        object.notes.select {|n| archdesc_note_types.include?(n['type'])}.each do |note|
           head_text = note['label'] ? note['label'] : translate('enumerations._note_types', note['type'])
           id = "aspace_" + note['persistent_id']
           content = Nokogiri::XML::DocumentFragment.parse(note_content(note)).inner_text
@@ -354,7 +357,7 @@ describe "EAD export mappings" do
     describe "bibliography and index notes section: " do
       let(:bibliographies) { object.notes.select {|n| n['type'] == 'bibliography'} }
       let(:indexes) { object.notes.select {|n| n['type'] == 'index'} }
-      let(:index_item_type_map) {  {
+      let(:index_item_type_map) { {
           'corporate_entity'=> 'corpname',
           'genre_form'=> 'genreform',
           'name'=> 'name',
@@ -426,7 +429,7 @@ describe "EAD export mappings" do
       let(:archdesc_note_types) {
         %w(accruals appraisal arrangement bioghist accessrestrict userestrict custodhist altformavail originalsloc fileplan odd acqinfo otherfindaid phystech prefercite processinfo relatedmaterial scopecontent separatedmaterial)
       }
-      let(:multis) { object.notes.select{|n| n['subnotes'] && (archdesc_note_types).include?(n['type']) } }
+      let(:multis) { object.notes.select {|n| n['subnotes'] && (archdesc_note_types).include?(n['type']) } }
 
       let(:build_path) { Proc.new {|note|
           content = note_content(note)
@@ -497,7 +500,7 @@ describe "EAD export mappings" do
             mt(dl['title'], "#{dl_path}/head")
             dl['items'].each_with_index do |item, j|
               mt(item['label'], "#{dl_path}/defitem[#{j+1}]/label")
-              mt(item['value'], "#{dl_path}/defitem[#{j+1}]/item",  :markup)
+              mt(item['value'], "#{dl_path}/defitem[#{j+1}]/item", :markup)
             end
           end
         end
@@ -506,7 +509,7 @@ describe "EAD export mappings" do
       it "ensures subnotes[] order is respected, even if subnotes are of mixed types" do
 
         path = "//bioghist[@id = 'aspace_#{@mixed_subnotes_tracer['persistent_id']}']"
-        head_text = translate('enumerations._note_types',@mixed_subnotes_tracer['type'])
+        head_text = translate('enumerations._note_types', @mixed_subnotes_tracer['type'])
 
         mt(head_text, "#{path}/head")
         i = 2 # start at two since head is the first child
@@ -635,6 +638,8 @@ describe "EAD export mappings" do
           else
             mt(nil, path, "id")
           end
+
+          mt(note['label'], path, "label")
         end
       end
 
@@ -642,7 +647,7 @@ describe "EAD export mappings" do
       it "maps notes of type 'dimensions' to did/physdesc/dimensions" do
         notes.select {|n| n['type'] == 'dimensions'}.each_with_index do |note, i|
           id = "aspace_" + note['persistent_id']
-          content = note_content(note).gsub("<p>",'').gsub("</p>", "")
+          content = note_content(note).gsub("<p>", '').gsub("</p>", "")
           path = "did/physdesc[not(@altrender)][dimensions][#{i+1}]/dimensions"
           path += id ? "[@id='#{id}']" : "[p[contains(text(), #{content})]]"
           full_path = "#{desc_path}/#{path}"
@@ -661,7 +666,7 @@ describe "EAD export mappings" do
             mt(nil, path, "id")
           end
 
-          mt(note['label'], path, "label") if note['label']
+          mt(note['label'], path, "label")
         end
       end
 
@@ -713,7 +718,8 @@ describe "EAD export mappings" do
           path += id ? "[@id='#{id}']" : "[p[contains(text(), #{content})]]"
           full_path = "#{desc_path}/#{path}"
           mt(content, full_path)
-          mt(note['label'], full_path, "label") if note['label']
+
+          mt(note['label'], full_path, "label")
         end
       end
 
@@ -727,7 +733,7 @@ describe "EAD export mappings" do
         when 'function'; 'function'
         when 'genre_form', 'style_period';  'genreform'
         when 'geographic', 'cultural_context'; 'geogname'
-        when 'occupation';  'occupation'
+        when 'occupation'; 'occupation'
         when 'topical'; 'subject'
         when 'uniform_title'; 'title'
         else; nil
@@ -764,7 +770,7 @@ describe "EAD export mappings" do
 
           if terms.length > 0
             content << " -- "
-            content << terms.map{|t| t['term']}.join(' -- ')
+            content << terms.map {|t| t['term']}.join(' -- ')
           end
 
           path = "#{desc_path}/controlaccess/#{node_name}[contains(text(), '#{sort_name}')]"
@@ -805,7 +811,7 @@ describe "EAD export mappings" do
           node_name = node_name_for_term_type(subject.terms[0]['term_type'])
           next unless node_name
 
-          term_string = subject.terms.map{|t| t['term']}.join(' -- ')
+          term_string = subject.terms.map {|t| t['term']}.join(' -- ')
           path = "/ead/archdesc/controlaccess/#{node_name}[text() = '#{term_string}']"
 
           mt(term_string, path)
@@ -840,12 +846,6 @@ describe "EAD export mappings" do
       mt(data, "eadheader/eadid", 'mainagencycode')
     end
 
-    it "maps resource.ead_location to eadid/@url" do
-      if !AppConfig[:arks_enabled]
-        mt(@resource.ead_location, "eadheader/eadid", 'url')
-      end
-    end
-
     it "maps resource.ead_id to eadid" do
       mt(@resource.ead_id, "eadheader/eadid")
     end
@@ -859,7 +859,7 @@ describe "EAD export mappings" do
     end
 
     it "maps resource.(id_0|id_1|id_2|id_3) to filedesc/titlestmt/titleproper/num" do
-      mt((0..3).map{|i| @resource.send("id_#{i}")}.compact.join('.'), "eadheader/filedesc/titlestmt/titleproper/num")
+      mt((0..3).map {|i| @resource.send("id_#{i}")}.compact.join('.'), "eadheader/filedesc/titlestmt/titleproper/num")
     end
 
     it "maps resource.finding_aid_author to filedesc/titlestmt/author" do
@@ -887,8 +887,8 @@ describe "EAD export mappings" do
     describe "repository.agent.agent_contacts[0] to filedesc/publicationstmt/address/ mappings" do
       let(:path) { "eadheader/filedesc/publicationstmt/address/" }
       let(:contact) { JSONModel(:agent_corporate_entity).find(1).agent_contacts[0] }
-      let(:offset_1) { (1..3).map{|i| contact["address_#{i}"]}.compact.count + 1 }
-      let(:offset_2) { %w(city region post_code).map{|k| contact[k]}.compact.length > 0 ? 1 : 0 }
+      let(:offset_1) { (1..3).map {|i| contact["address_#{i}"]}.compact.count + 1 }
+      let(:offset_2) { %w(city region post_code).map {|k| contact[k]}.compact.length > 0 ? 1 : 0 }
 
       it "maps address_(1|2|3) to addressline" do
         j = 1
@@ -901,7 +901,7 @@ describe "EAD export mappings" do
       end
 
       it "maps city, region, post_code to addressline" do
-        line = %w(city region).map{|k| contact[k] }.compact.join(', ')
+        line = %w(city region).map {|k| contact[k] }.compact.join(', ')
         line += " #{contact['post_code']}"
         line.strip!
 
@@ -910,16 +910,22 @@ describe "EAD export mappings" do
         end
       end
 
-      it "maps 'telephone' to addressline" do
-        if (data = contact['telephone'])
-          mt(data, "#{path}addressline[#{offset_1 + offset_2}]")
+      it "maps each telephone in 'telephones' to addressline" do
+        if (data = contact['telephones'][0])
+          mt(/#{data['number']}/, "#{path}addressline[#{offset_1 + offset_2}]")
+          if data['number_type']
+            mt(/#{data['number_type'].capitalize}/, "#{path}addressline[#{offset_1 + offset_2}]")
+          end
+          if data['ext']
+            mt(/#{data['ext']}/, "#{path}addressline[#{offset_1 + offset_2}]")
+          end
         end
       end
 
       it "maps 'email' to addressline" do
-        offset_3 = contact['telephone'] ? 1 : 0
+        offset_3 = contact['telephones'] ? 1 : 0
         if (data = contact['email'])
-          mt(data, "#{path}addressline[#{offset_1 + offset_2 +  offset_3}]")
+          mt(data, "#{path}addressline[#{offset_1 + offset_2 + offset_3}]")
         end
       end
     end
@@ -1032,23 +1038,10 @@ describe "EAD export mappings" do
     end
   end
 
-  describe "ARK URLs" do
-    it "maps ARK URL to eadid/@url if ARK URLs are enabled" do
-      expect(@doc_with_ark.to_s).to match(/<eadid.*url=\"http.*\/ark:/)
-    end
-    it "does not map ARK URL to eadid/@url if ARK URLs are disabled" do
-      expect(@doc_ark_disabled.to_s).to_not match(/<eadid.*url=\"http.*\/ark:/)
-    end
-    it "maps resource.ead_location to eadid/@url if ARK URLs are disabled" do
-      expect(@doc_ark_disabled.to_s).to match(/<eadid.*url=\"#{@resource.ead_location}/)
-    end
-  end
-
   describe "How digital_objects are mapped to <dao> nodes >> " do
     let(:digital_objects) { @digital_objects.values }
 
     def description_content(obj)
-
       date = obj.dates[0] || {}
       content = ""
       content << "#{obj.title}" if obj.title
@@ -1081,12 +1074,12 @@ describe "EAD export mappings" do
             mt(content, "#{path}/xmlns:daodesc/xmlns:p")
           end
         else
-          href =  obj.digital_object_id
+          href = obj.digital_object_id
           path = "/xmlns:ead/xmlns:archdesc/xmlns:dao[@xlink:href='#{href}']"
           content = description_content(obj)
-          xlink_actuate_attribute =  'onRequest'
+          xlink_actuate_attribute = 'onRequest'
           mt(xlink_actuate_attribute, path, 'xlink:actuate')
-          xlink_show_attribute =  'new'
+          xlink_show_attribute = 'new'
           mt(xlink_show_attribute, path, 'xlink:show')
           mt(obj.title, path, 'xlink:title')
           mt(content, "#{path}/xmlns:daodesc/xmlns:p")
@@ -1262,18 +1255,18 @@ describe "EAD export mappings" do
     end
 
     it "adds xlink prefix to attributes in mixed content" do
-      expect(serializer.add_xlink_prefix(note_with_extref)).to eq("<extref xlink:linktype='simple' xlink:entityref='site' xlink:title='title' xlink:actuate='onrequest' xlink:show='new' xlink:href='http://duckduckgo.com'>A Good Search Engine</p>")
+      expect(serializer.add_xlink_prefix(note_with_extref)).to eq("<extref linktype='simple' entityref='site' xlink:title='title' xlink:actuate='onrequest' xlink:show='new' xlink:href='http://duckduckgo.com'>A Good Search Engine</p>")
       expect(serializer.add_xlink_prefix(note_with_archref)).to eq("<archref audience='external'/>")
       expect(serializer.add_xlink_prefix(note_with_bibref)).to eq("<bibref audience='internal'/>")
-      expect(serializer.add_xlink_prefix(note_with_extptr)).to eq("<extptr xlink:linktype='simple' xlink:entityref='entref' xlink:title='title' xlink:show='embed'/>")
+      expect(serializer.add_xlink_prefix(note_with_extptr)).to eq("<extptr linktype='simple' entityref='entref' xlink:title='title' xlink:show='embed'/>")
       expect(serializer.add_xlink_prefix(note_with_extptrloc)).to eq("<extptrloc xlink:href='http://www.example.com'/>")
       expect(serializer.add_xlink_prefix(note_with_extrefloc)).to eq("<extrefloc xlink:href='http://www.example.com'/>")
-      expect(serializer.add_xlink_prefix(note_with_linkgrp)).to eq("<linkgrp xlink:linktype='extended'><extrefloc xlink:href='http://www.someserver.edu/findaids/3270.xml'><archref>archref</archref></extrefloc><extrefloc xlink:href='http://www.someserver.edu/findaids/9248.xml'><archref>archref</archref></extrefloc></linkgrp>")
-      expect(serializer.add_xlink_prefix(note_with_ptr)).to eq("<ptr xlink:linktype='simple' xlink:actuate='onrequest' xlink:show='replace' xlink:target='mss1982-062_add2'/>")
+      expect(serializer.add_xlink_prefix(note_with_linkgrp)).to eq("<linkgrp linktype='extended'><extrefloc xlink:href='http://www.someserver.edu/findaids/3270.xml'><archref>archref</archref></extrefloc><extrefloc xlink:href='http://www.someserver.edu/findaids/9248.xml'><archref>archref</archref></extrefloc></linkgrp>")
+      expect(serializer.add_xlink_prefix(note_with_ptr)).to eq("<ptr linktype='simple' xlink:actuate='onrequest' xlink:show='replace' target='mss1982-062_add2'/>")
       expect(serializer.add_xlink_prefix(note_with_ptrloc)).to eq("<ptrloc audience='external'/>")
-      expect(serializer.add_xlink_prefix(note_with_ref)).to eq("<ref xlink:linktype='simple' xlink:target='NonC:21-2' xlink:show='replace' xlink:actuate='onrequest'>")
-      expect(serializer.add_xlink_prefix(note_with_refloc)).to eq("<refloc xlink:target='a9'></refloc>")
-      expect(serializer.add_xlink_prefix(note_with_resource)).to eq("<resource xlink:linktype='resource' label='start'/>")
+      expect(serializer.add_xlink_prefix(note_with_ref)).to eq("<ref linktype='simple' target='NonC:21-2' xlink:show='replace' xlink:actuate='onrequest'>")
+      expect(serializer.add_xlink_prefix(note_with_refloc)).to eq("<refloc target='a9'></refloc>")
+      expect(serializer.add_xlink_prefix(note_with_resource)).to eq("<resource linktype='resource' label='start'/>")
       expect(serializer.add_xlink_prefix(note_with_title)).to eq("<title render='italic'/>")
     end
 
@@ -1332,46 +1325,49 @@ describe "EAD export mappings" do
     end
 
     before(:all) {
-      RSpec::Mocks.with_temporary_scope do
-        # EAD export normally tries the search index first, but for the tests we'll
-        # skip that since Solr isn't running.
-        allow(Search).to receive(:records_for_uris) do |*|
-          {'results' => []}
-        end
+      as_test_user('admin', true) do
+        RSpec::Mocks.with_temporary_scope do
+          # EAD export normally tries the search index first, but for the tests we'll
+          # skip that since Solr isn't running.
+          allow(Search).to receive(:records_for_uris) do |*|
+            {'results' => []}
+          end
 
-        @unpublished_agent = create(:json_agent_person, :publish => false)
+          @unpublished_agent = create(:json_agent_person, :publish => false)
 
-        unpublished_resource = create(:json_resource,
-                                      :publish => false,
-                                      :linked_agents => [{
-                                        :ref => @unpublished_agent.uri,
-                                        :role => 'creator'
-                                      }],
-                                      :revision_statements => [
-                                        {
-                                          :date => 'some date',
-                                          :description => 'unpublished revision statement',
-                                          :publish => false
-                                        },
-                                        {
-                                          :date => 'some date',
-                                          :description => 'published revision statement',
-                                          :publish => true
-                                        }
-                                      ])
+          unpublished_resource = create(:json_resource,
+                                        :publish => false,
+                                        :linked_agents => [{
+                                          :ref => @unpublished_agent.uri,
+                                          :role => 'creator'
+                                        }],
+                                        :revision_statements => [
+                                          {
+                                            :date => 'some date',
+                                            :description => 'unpublished revision statement',
+                                            :publish => false
+                                          },
+                                          {
+                                            :date => 'some date',
+                                            :description => 'published revision statement',
+                                            :publish => true
+                                          }
+                                        ])
 
-        @unpublished_resource_jsonmodel = JSONModel(:resource).find(unpublished_resource.id)
+          @unpublished_resource_jsonmodel = JSONModel(:resource).find(unpublished_resource.id)
 
-        @published_archival_object = create(:json_archival_object_normal,
-                                            :resource => {:ref => @unpublished_resource_jsonmodel.uri},
-                                            :publish => true)
-
-        @unpublished_archival_object = create(:json_archival_object_normal,
+          @published_archival_object = create(:json_archival_object,
                                               :resource => {:ref => @unpublished_resource_jsonmodel.uri},
-                                              :publish => false)
+                                              :publish => true)
 
-        @xml_including_unpublished = get_xml_doc(include_unpublished = true)
-        @xml_not_including_unpublished = get_xml_doc(include_unpublished = false)
+          @unpublished_archival_object = create(:json_archival_object,
+                                                :resource => {:ref => @unpublished_resource_jsonmodel.uri},
+                                                :publish => false)
+
+          @xml_including_unpublished = get_xml_doc(include_unpublished = true)
+          @xml_not_including_unpublished = get_xml_doc(include_unpublished = false)
+          raise Sequel::Rollback
+        end
       end
     }
 
@@ -1457,47 +1453,50 @@ describe "EAD export mappings" do
 
 
     before(:all) {
-      RSpec::Mocks.with_temporary_scope do
-        # EAD export normally tries the search index first, but for the tests we'll
-        # skip that since Solr isn't running.
-        allow(Search).to receive(:records_for_uris) do |*|
-          {'results' => []}
-        end
+      as_test_user('admin', true) do
+        RSpec::Mocks.with_temporary_scope do
+          # EAD export normally tries the search index first, but for the tests we'll
+          # skip that since Solr isn't running.
+          allow(Search).to receive(:records_for_uris) do |*|
+            {'results' => []}
+          end
 
-        resource = create(:json_resource,
-                          :publish => false)
+          resource = create(:json_resource,
+                            :publish => false)
 
-        @resource_jsonmodel = JSONModel(:resource).find(resource.id)
+          @resource_jsonmodel = JSONModel(:resource).find(resource.id)
 
-        @suppressed_series = create(:json_archival_object_normal,
-                                    :resource => {:ref => @resource_jsonmodel.uri},
-                                    :publish => true,
-                                    :suppressed => true)
-
-        @unsuppressed_series = create(:json_archival_object_normal,
+          @suppressed_series = create(:json_archival_object,
                                       :resource => {:ref => @resource_jsonmodel.uri},
                                       :publish => true,
-                                      :suppressed => false)
+                                      :suppressed => true)
 
-        @suppressed_series_unsuppressedchild = create(:json_archival_object_normal,
-                                                      :resource => {:ref => @resource_jsonmodel.uri},
-                                                      :parent => {:ref => @suppressed_series.uri},
-                                                      :publish => true,
-                                                      :suppressed => false)
+          @unsuppressed_series = create(:json_archival_object,
+                                        :resource => {:ref => @resource_jsonmodel.uri},
+                                        :publish => true,
+                                        :suppressed => false)
 
-        @unsuppressed_series_unsuppressed_child = create(:json_archival_object_normal,
+          @suppressed_series_unsuppressedchild = create(:json_archival_object,
+                                                        :resource => {:ref => @resource_jsonmodel.uri},
+                                                        :parent => {:ref => @suppressed_series.uri},
+                                                        :publish => true,
+                                                        :suppressed => false)
+
+          @unsuppressed_series_unsuppressed_child = create(:json_archival_object,
+                                                           :resource => {:ref => @resource_jsonmodel.uri},
+                                                           :parent => {:ref => @unsuppressed_series.uri},
+                                                           :publish => true,
+                                                           :suppressed => false)
+
+          @unsuppressed_series_suppressed_child = create(:json_archival_object,
                                                          :resource => {:ref => @resource_jsonmodel.uri},
                                                          :parent => {:ref => @unsuppressed_series.uri},
                                                          :publish => true,
-                                                         :suppressed => false)
+                                                         :suppressed => true)
 
-        @unsuppressed_series_suppressed_child = create(:json_archival_object_normal,
-                                                       :resource => {:ref => @resource_jsonmodel.uri},
-                                                       :parent => {:ref => @unsuppressed_series.uri},
-                                                       :publish => true,
-                                                       :suppressed => true)
-
-        @xml = get_xml_doc
+          @xml = get_xml_doc
+          raise Sequel::Rollback
+        end
       end
     }
 
@@ -1505,6 +1504,111 @@ describe "EAD export mappings" do
       expect(@xml.xpath('//c').length).to eq(2)
       expect(@xml.xpath("//c[@id='aspace_#{@unsuppressed_series.ref_id}']").length).to eq(1)
       expect(@xml.xpath("//c[@id='aspace_#{@unsuppressed_series_unsuppressed_child.ref_id}']").length).to eq(1)
+    end
+  end
+
+  # See ANW-1282
+  describe "Metadata Rights Declaration mappings " do
+    it "maps all subrecords to ead/control/filedesc/publicationstmt" do
+      subrecord = @resource.metadata_rights_declarations[0]
+      license_translation = I18n.t("enumerations.metadata_license.#{subrecord['license']}")
+      expect(@doc).to have_tag("eadheader/filedesc/publicationstmt/p[text() = '#{license_translation}']")
+    end
+  end
+
+  describe "ARKs" do
+    def get_xml_doc
+      as_test_user("admin") do
+        DB.open(true) do
+          doc_for_resource = get_xml("/repositories/#{$repo_id}/resource_descriptions/#{@resource.id}.xml?include_unpublished=true&include_daos=true", true)
+
+          doc_nsless_for_resource = Nokogiri::XML::Document.parse(doc_for_resource)
+          doc_nsless_for_resource.remove_namespaces!
+
+          return doc_nsless_for_resource
+        end
+      end
+    end
+
+    before(:all) do
+      @pre_arks_enabled = AppConfig[:arks_enabled]
+
+      AppConfig[:arks_enabled] = true
+      RequestContext.open(:repo_id => $repo_id) do
+        as_test_user('admin', true) do
+          RSpec::Mocks.with_temporary_scope do
+            # EAD export normally tries the search index first, but for the tests we'll
+            # skip that since Solr isn't running.
+            allow(Search).to receive(:records_for_uris) do |*|
+              {'results' => []}
+            end
+
+            @resource = create(:json_resource)
+            @child = create(:json_archival_object, :resource => {:ref => @resource.uri})
+
+            # Change the ARK-naan to populate a second ARK for the records
+            # and create a "historic" ARK
+            pre_ark_naan = AppConfig[:ark_naan]
+            AppConfig[:ark_naan] = SecureRandom.hex
+            ArkName.ensure_ark_for_record(Resource[@resource.id], nil)
+            ArkName.ensure_ark_for_record(ArchivalObject[@child.id], nil)
+            AppConfig[:ark_naan] = pre_ark_naan
+
+            @xml_with_arks_enabled = get_xml_doc
+
+            @resource_json = Resource.to_jsonmodel(@resource.id)
+            @child_json = ArchivalObject.to_jsonmodel(@child.id)
+
+            AppConfig[:arks_enabled] = false
+            @xml_with_arks_disabled = get_xml_doc
+
+            raise Sequel::Rollback
+          end
+        end
+      end
+    end
+
+    after(:all) do
+      AppConfig[:arks_enabled] = @pre_arks_enabled
+    end
+
+    describe("when enabled") do
+      it "maps ARK URL to eadid/@url" do
+        expect(@xml_with_arks_enabled.xpath('//eadheader/eadid').first.get_attribute('url')).to eq(@resource_json.ark_name['current'])
+      end
+
+      it "includes current ARK as unitid for resource" do
+        expect(@xml_with_arks_enabled.xpath('//archdesc/did/unitid[@type="ark"]').length).to eq(1)
+        expect(@xml_with_arks_enabled.xpath('//archdesc/did/unitid[@type="ark"]/extref').first.get_attribute('href')).to eq(@resource_json.ark_name['current'])
+      end
+
+      it "includes previous ARK as unitid for resource" do
+        expect(@xml_with_arks_enabled.xpath('//archdesc/did/unitid[@type="ark-superseded"]').length).to eq(1)
+        expect(@xml_with_arks_enabled.xpath('//archdesc/did/unitid[@type="ark-superseded"]/extref').first.get_attribute('href')).to eq(@resource_json.ark_name['previous'].first)
+      end
+
+      it "includes current ARK as unitid for archival object" do
+        expect(@xml_with_arks_enabled.xpath('//archdesc/dsc/c/did/unitid[@type="ark"]').length).to eq(1)
+        expect(@xml_with_arks_enabled.xpath('//archdesc/dsc/c/did/unitid[@type="ark"]/extref').first.get_attribute('href')).to eq(@child_json.ark_name['current'])
+      end
+
+      it "includes previous ARK as unitid for archival object" do
+        expect(@xml_with_arks_enabled.xpath('//archdesc/dsc/c/did/unitid[@type="ark-superseded"]').length).to eq(1)
+        expect(@xml_with_arks_enabled.xpath('//archdesc/dsc/c/did/unitid[@type="ark-superseded"]/extref').first.get_attribute('href')).to eq(@child_json.ark_name['previous'].first)
+      end
+    end
+
+    describe("when disabled") do
+      it "maps resource.ead_location to eadid/@url" do
+        expect(@xml_with_arks_disabled.xpath('//eadheader/eadid').first.get_attribute('url')).to eq(@resource_json.ead_location)
+      end
+
+      it "doesn't include any unitid/@type of 'ark' or 'ark-superseded'" do
+        expect(@xml_with_arks_disabled.xpath('//archdesc/did/unitid[@type="ark"]').length).to eq(0)
+        expect(@xml_with_arks_disabled.xpath('//archdesc/did/unitid[@type="ark-superseded"]').length).to eq(0)
+        expect(@xml_with_arks_disabled.xpath('//archdesc/dsc/c/did/unitid[@type="ark"]').length).to eq(0)
+        expect(@xml_with_arks_disabled.xpath('//archdesc/dsc/c/did/unitid[@type="ark-superseded"]').length).to eq(0)
+      end
     end
   end
 end

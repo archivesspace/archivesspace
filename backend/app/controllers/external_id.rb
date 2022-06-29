@@ -2,6 +2,40 @@ class ArchivesSpaceService < Sinatra::Base
 
   Endpoint.get('/by-external-id')
     .description("List records by their external ID(s)")
+    .example("shell") do
+      <<~SHELL
+        curl -s -F password="admin" "http://localhost:8089/users/admin/login"
+        # Replace "admin" with your password and "http://localhost:8089/users/admin/login" with your ASpace API URL
+        # followed by "/users/{your_username}/login"
+  
+        set SESSION="session_id"
+        # If using Git Bash, replace set with export
+  
+        curl -H "X-ArchivesSpace-Session: $SESSION" "http://localhost:8089/by-external-id?eid='3854'&type[]=resource"
+        # Replace "http://localhost:8089" with your ASpace API URL, '3854' with the external id you are searching for, 
+        # and type[]=resource with the type of record you want to search for (optional)
+      SHELL
+    end
+    .example("python") do
+      <<~PYTHON
+        from asnake.client import ASnakeClient  # import the ArchivesSnake client
+        
+        client = ASnakeClient(baseurl="http://localhost:8089", username="admin", password="admin")
+        # Replace http://localhost:8089 with your ArchivesSpace API URL and admin for your username and password
+        
+        client.authorize()  # authorizes the client
+        
+        find_eid = client.get("by-external-id", params={"eid": "3854", "type[]": "resource"})
+        # Replace "3854" with the external id and "resource" with the type of record(s) you want to search - this is 
+        # optional
+        
+        print(find_eid.json())
+        # Output (dict): the JSON for the record returned. Other outputs include:
+        # 303 – A redirect to the URI named by the external ID (if there’s only one)
+        # 300 – A JSON-formatted list of URIs if there were multiple matches
+        # 404 – No external ID matched
+      PYTHON
+    end
     .permissions([:view_all_records])
     .params(["eid", String, "An external ID to find"],
             ["type",

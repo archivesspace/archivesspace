@@ -1,13 +1,134 @@
 AllCops:
+  TargetRubyVersion: 2.5
+  SuggestExtensions: false
+  DisabledByDefault: true
   Exclude:
     - build/**/*
     - docs/**/*
+  Include:
+    - common/**/*.rb
+    - backend/**/*.rb
+    - frontend/**/*.rb
+    - public/**/*.rb
+    - oai/**/*.rb
 
-Style/Documentation:
+Layout/AccessModifierIndentation:
+  Enabled: true
+
+Layout/BeginEndAlignment:
+  Enabled: true
+
+Layout/CaseIndentation:
+  Enabled: true
+
+Layout/ConditionPosition:
+  Enabled: true
+
+Layout/DefEndAlignment:
+  Enabled: true
+
+Layout/ElseAlignment:
+  Enabled: true
+
+Layout/EmptyComment:
+  Enabled: true
+
+Layout/EmptyLineAfterMultilineCondition:
+  Enabled: true
+
+Layout/EmptyLineBetweenDefs:
+  Enabled: true
+  NumberOfEmptyLines: [1,2]
+
+Layout/EmptyLinesAroundAccessModifier:
+  Enabled: true
+
+Layout/EmptyLinesAroundArguments:
+  Enabled: true
+
+Layout/EmptyLinesAroundAttributeAccessor:
+  Enabled: true
+
+Layout/EmptyLinesAroundBeginBody:
+  Enabled: true
+
+Layout/EmptyLinesAroundClassBody:
   Enabled: false
 
-Style/SymbolArray:
-  EnforcedStyle: brackets
+Layout/EmptyLinesAroundMethodBody:
+  Enabled: true
 
-Style/WordArray:
-  EnforcedStyle: brackets
+Layout/EndAlignment:
+  Enabled: true
+
+Layout/EndOfLine:
+  Enabled: true
+  EnforcedStyle: lf
+
+Layout/ExtraSpacing:
+  Enabled: true
+  AllowBeforeTrailingComments: true
+
+Layout/HeredocIndentation:
+  Enabled: true
+
+Layout/IndentationConsistency:
+  Enabled: true
+
+Layout/IndentationStyle:
+  Enabled: true
+
+Layout/IndentationWidth:
+  Enabled: true
+
+Layout/InitialIndentation:
+  Enabled: true
+
+Layout/RescueEnsureAlignment:
+  Enabled: true
+
+Layout/SpaceAfterColon:
+  Enabled: true
+
+Layout/SpaceAfterComma:
+  Enabled: true
+
+Layout/SpaceAfterSemicolon:
+  Enabled: true
+
+Layout/SpaceAroundBlockParameters:
+  Enabled: true
+
+Layout/SpaceAroundKeyword:
+  Enabled: true
+
+Layout/SpaceAroundMethodCallOperator:
+  Enabled: true
+
+Layout/SpaceBeforeBlockBraces:
+  Enabled: true
+
+Layout/SpaceInsideArrayPercentLiteral:
+  Enabled: true
+
+Layout/SpaceInsideRangeLiteral:
+  Enabled: true
+
+Layout/TrailingEmptyLines:
+  Enabled: true
+
+Layout/TrailingWhitespace:
+  Enabled: true
+  AllowInHeredoc: true
+
+Lint/Syntax:
+  Enabled: true
+
+Style/ArrayCoercion:
+  Enabled: true
+
+Style/CharacterLiteral:
+  Enabled: true
+
+Style/ClassCheck:
+  Enabled: true

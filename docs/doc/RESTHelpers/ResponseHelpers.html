@@ -6,15 +6,15 @@
 <title>
   Module: RESTHelpers::ResponseHelpers
   
-    &mdash; Documentation by YARD 0.9.20
+    &mdash; Documentation by YARD 0.9.25
   
 </title>
 
-  <link rel="stylesheet" href="../css/style.css" type="text/css" charset="utf-8" />
+  <link rel="stylesheet" href="../css/style.css" type="text/css" />
 
-  <link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8" />
+  <link rel="stylesheet" href="../css/common.css" type="text/css" />
 
-<script type="text/javascript" charset="utf-8">
+<script type="text/javascript">
   pathId = "RESTHelpers::ResponseHelpers";
   relpath = '../';
 </script>
@@ -153,6 +153,29 @@
   <span class="summary_signature">
     
       <a href="#json_response-instance_method" title="#json_response (instance method)">#<strong>json_response</strong>(obj, status = 200)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#merged_response-instance_method" title="#merged_response (instance method)">#<strong>merged_response</strong>(target, victims, selections = [])  &#x21d2; Object </a>
     
 
     
@@ -319,12 +342,12 @@
       <pre class="lines">
 
 
-34
-35
-36</pre>
+46
+47
+48</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/rest.rb', line 34</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/rest.rb', line 46</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_deleted_response identifier id'>deleted_response</span><span class='lparen token'>(</span><span class='rubyid_id identifier id'>id</span><span class='rparen token'>)</span>
   <span class='rubyid_json_response identifier id'>json_response</span><span class='lparen token'>(</span><span class='lbrace token'>{</span><span class='symbol val'>:status</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;Deleted&#39;</span><span class='comma token'>,</span> <span class='symbol val'>:id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_id identifier id'>id</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
@@ -359,6 +382,49 @@
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_json_response identifier id'>json_response</span><span class='lparen token'>(</span><span class='rubyid_obj identifier id'>obj</span><span class='comma token'>,</span> <span class='rubyid_status identifier id'>status</span> <span class='assign token'>=</span> <span class='integer val'>200</span><span class='rparen token'>)</span>
   <span class='lbrack token'>[</span><span class='rubyid_status identifier id'>status</span><span class='comma token'>,</span> <span class='lbrace token'>{</span><span class='string val'>&quot;Content-Type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;application/json&quot;</span><span class='rbrace token'>}</span><span class='comma token'>,</span> <span class='lbrack token'>[</span><span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_to_json identifier id'>to_json</span><span class='lparen token'>(</span><span class='symbol val'>:mode</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:trusted</span><span class='comma token'>,</span> <span class='symbol val'>:max_nesting</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_false false kw'>false</span><span class='rparen token'>)</span> <span class='plus op'>+</span> <span class='string val'>&quot;\n&quot;</span><span class='rbrack token'>]</span><span class='rbrack token'>]</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="merged_response-instance_method">
+  
+    #<strong>merged_response</strong>(target, victims, selections = [])  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+35
+36
+37
+38
+39
+40
+41
+42
+43</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/rest.rb', line 35</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_merged_response identifier id'>merged_response</span><span class='lparen token'>(</span><span class='rubyid_target identifier id'>target</span><span class='comma token'>,</span> <span class='rubyid_victims identifier id'>victims</span><span class='comma token'>,</span> <span class='rubyid_selections identifier id'>selections</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
+  <span class='rubyid_type identifier id'>type</span> <span class='assign token'>=</span> <span class='rubyid_target identifier id'>target</span><span class='lbrack token'>[</span><span class='symbol val'>:type</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_to_sym identifier id'>to_sym</span>
+  <span class='rubyid_response identifier id'>response</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='symbol val'>:status</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;Merged&#39;</span><span class='comma token'>,</span> <span class='symbol val'>:id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_target identifier id'>target</span><span class='lbrack token'>[</span><span class='symbol val'>:id</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='symbol val'>:selections</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_selections identifier id'>selections</span> <span class='rbrace token'>}</span>
+
+  <span class='rubyid_response identifier id'>response</span><span class='lbrack token'>[</span><span class='symbol val'>:target_uri</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='rubyid_type identifier id'>type</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_uri_for identifier id'>uri_for</span><span class='lparen token'>(</span><span class='rubyid_target identifier id'>target</span><span class='lbrack token'>[</span><span class='symbol val'>:id</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='symbol val'>:repo_id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:repo_id</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
+  <span class='rubyid_response identifier id'>response</span><span class='lbrack token'>[</span><span class='symbol val'>:deleted_uris</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_victims identifier id'>victims</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span> <span class='lbrace token'>{</span> <span class='bitor op'>|</span><span class='rubyid_v identifier id'>v</span><span class='bitor op'>|</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='rubyid_type identifier id'>type</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_uri_for identifier id'>uri_for</span><span class='lparen token'>(</span><span class='rubyid_v identifier id'>v</span><span class='lbrack token'>[</span><span class='symbol val'>:id</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='symbol val'>:repo_id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:repo_id</span><span class='rbrack token'>]</span><span class='rparen token'>)</span> <span class='rbrace token'>}</span>
+
+  <span class='rubyid_json_response identifier id'>json_response</span><span class='lparen token'>(</span><span class='rubyid_response identifier id'>response</span><span class='rparen token'>)</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -426,12 +492,12 @@
       <pre class="lines">
 
 
-44
-45
-46</pre>
+56
+57
+58</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/rest.rb', line 44</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/rest.rb', line 56</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_moved_response identifier id'>moved_response</span><span class='lparen token'>(</span><span class='rubyid_id identifier id'>id</span><span class='comma token'>,</span> <span class='rubyid_target identifier id'>target</span><span class='rparen token'>)</span>
   <span class='rubyid_json_response identifier id'>json_response</span><span class='lparen token'>(</span><span class='lbrace token'>{</span><span class='symbol val'>:status</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;Moved&#39;</span><span class='comma token'>,</span> <span class='symbol val'>:id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_id identifier id'>id</span><span class='comma token'>,</span> <span class='symbol val'>:target</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_target identifier id'>target</span><span class='dot token'>.</span><span class='rubyid_id identifier id'>id</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
@@ -457,12 +523,12 @@
       <pre class="lines">
 
 
-39
-40
-41</pre>
+51
+52
+53</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/rest.rb', line 39</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/rest.rb', line 51</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_suppressed_response identifier id'>suppressed_response</span><span class='lparen token'>(</span><span class='rubyid_id identifier id'>id</span><span class='comma token'>,</span> <span class='rubyid_state identifier id'>state</span><span class='rparen token'>)</span>
   <span class='rubyid_json_response identifier id'>json_response</span><span class='lparen token'>(</span><span class='lbrace token'>{</span><span class='symbol val'>:status</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;Suppressed&#39;</span><span class='comma token'>,</span> <span class='symbol val'>:id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_id identifier id'>id</span><span class='comma token'>,</span> <span class='symbol val'>:suppressed_state</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_state identifier id'>state</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
@@ -509,9 +575,9 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.8.0.a Documentation Generated on Thu Jul 16 10:06:49 2020 by
+  ArchivesSpace Version v2.8.1.a Documentation Generated on Wed Nov 11 13:21:20 2020 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.20.
+  0.9.25.
 </div>
 
     </div>

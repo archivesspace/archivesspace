@@ -1,5 +1,6 @@
 //= require tree
 //= require resources.crud
+//= require lang_materials.crud
 //= require dates.crud
 //= require agents.crud
 //= require subjects.crud
@@ -13,10 +14,6 @@
 //= require interrelated_accessions.crud
 //= require slug
 
-
 $(function () {
-
-  $(document).triggerHandler("loadedrecordform.aspace", [$("#form_accession")]);
-
-
+  $(document).triggerHandler('loadedrecordform.aspace', [$('#form_accession')]);
 });

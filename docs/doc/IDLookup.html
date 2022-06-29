@@ -6,15 +6,15 @@
 <title>
   Class: IDLookup
   
-    &mdash; Documentation by YARD 0.9.20
+    &mdash; Documentation by YARD 0.9.25
   
 </title>
 
-  <link rel="stylesheet" href="css/style.css" type="text/css" charset="utf-8" />
+  <link rel="stylesheet" href="css/style.css" type="text/css" />
 
-  <link rel="stylesheet" href="css/common.css" type="text/css" charset="utf-8" />
+  <link rel="stylesheet" href="css/common.css" type="text/css" />
 
-<script type="text/javascript" charset="utf-8">
+<script type="text/javascript">
   pathId = "IDLookup";
   relpath = '';
 </script>
@@ -190,15 +190,17 @@
 27
 28
 29
-30</pre>
+30
+31</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'backend/app/model/idlookup.rb', line 3</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_find_by_ids identifier id'>find_by_ids</span><span class='lparen token'>(</span><span class='rubyid_model identifier id'>model</span><span class='comma token'>,</span> <span class='rubyid_params identifier id'>params</span><span class='rparen token'>)</span>
-  <span class='rubyid_filters identifier id'>filters</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='symbol val'>:repo_id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:repo_id</span><span class='rbrack token'>]</span><span class='rbrace token'>}</span>
+  <span class='rubyid_filters identifier id'>filters</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span>
 
   <span class='rubyid_params identifier id'>params</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_key identifier id'>key</span><span class='comma token'>,</span> <span class='rubyid_values identifier id'>values</span><span class='bitor op'>|</span>
+    <span class='rubyid_key identifier id'>key</span> <span class='assign token'>=</span> <span class='rubyid_key identifier id'>key</span><span class='dot token'>.</span><span class='rubyid_intern identifier id'>intern</span>
     <span class='rubyid_unless unless kw'>unless</span> <span class='rubyid_key identifier id'>key</span> <span class='eq op'>==</span> <span class='symbol val'>:repo_id</span> <span class='orop op'>||</span> <span class='rubyid_key identifier id'>key</span> <span class='eq op'>==</span> <span class='symbol val'>:resolve</span>
       <span class='comment val'># The identifier for a resource needs to be massaged to match the db</span>
       <span class='rubyid_if if kw'>if</span> <span class='notop op'>!</span><span class='rubyid_Array constant id'>Array</span><span class='lparen token'>(</span><span class='rubyid_values identifier id'>values</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_empty? fid id'>empty?</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_key identifier id'>key</span> <span class='eq op'>==</span> <span class='symbol val'>:identifier</span>
@@ -219,7 +221,7 @@
 
   <span class='rubyid_return return kw'>return</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_filters identifier id'>filters</span><span class='dot token'>.</span><span class='rubyid_empty? fid id'>empty?</span>
 
-  <span class='rubyid_model identifier id'>model</span><span class='dot token'>.</span><span class='rubyid_filter identifier id'>filter</span><span class='lparen token'>(</span><span class='rubyid_filters identifier id'>filters</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_select identifier id'>select</span><span class='lparen token'>(</span><span class='symbol val'>:id</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_record identifier id'>record</span><span class='bitor op'>|</span>
+  <span class='rubyid_model identifier id'>model</span><span class='dot token'>.</span><span class='rubyid_this_repo identifier id'>this_repo</span><span class='dot token'>.</span><span class='rubyid_where identifier id'>where</span><span class='lparen token'>(</span><span class='rubyid_filters identifier id'>filters</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_select identifier id'>select</span><span class='lparen token'>(</span><span class='symbol val'>:id</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_record identifier id'>record</span><span class='bitor op'>|</span>
     <span class='lbrace token'>{</span><span class='string val'>&#39;ref&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_record identifier id'>record</span><span class='dot token'>.</span><span class='rubyid_uri identifier id'>uri</span><span class='rbrace token'>}</span>
   <span class='rbrace token'>}</span>
 <span class='rubyid_end end kw'>end</span>
@@ -234,9 +236,9 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.8.0.a Documentation Generated on Thu Jul 16 10:07:02 2020 by
+  ArchivesSpace Version v2.8.1.a Documentation Generated on Wed Nov 11 13:21:45 2020 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.20.
+  0.9.25.
 </div>
 
     </div>

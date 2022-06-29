@@ -4,7 +4,6 @@ class ArchivesSpaceService < Sinatra::Base
 
   include AuthHelpers
 
-
   Endpoint.post('/users')
     .description("Create a local user")
     .params(["password", String, "The user's password"],
@@ -16,6 +15,8 @@ class ArchivesSpaceService < Sinatra::Base
   do
     check_admin_access
     params[:user].username = Username.value(params[:user].username)
+
+    params[:user].is_active_user = true if params[:user]["is_active_user"].nil?
 
     user = User.create_from_json(params[:user], :source => "local")
     DBAuth.set_password(params[:user].username, params[:password])
@@ -104,7 +105,8 @@ class ArchivesSpaceService < Sinatra::Base
             ["groups", [String], "Array of groups URIs to assign the user to", :optional => true],
             ["remove_groups", BooleanParam, "Remove all groups from the user for the current repo_id if true"],
             ["repo_id", Integer, "The Repository groups to clear"])
-    .permissions([])            # permissions are enforced in the body for this one
+    .permissions([]) # permissions are enforced in the body for this one
+    .no_data(true)
     .returns([200, :updated],
              [400, :error]) \
   do
@@ -142,13 +144,26 @@ class ArchivesSpaceService < Sinatra::Base
     .returns([200, :updated],
              [400, :error]) \
   do
-    check_admin_access
-    user = User.get_or_die(params[:id])
+    # ANW-534: check for permissions only if updating a user that's not the logged in user
+    if params[:user].username == User.to_jsonmodel(current_user).username
+      user = User.get_or_die(params[:id])
 
-    # High security: update the user themselves.
-    raise AccessDeniedException.new if !current_user.can?(:manage_users)
+      # overwrite whatever is the params with the current admin and groups status
+      # to prevent a user from adding themselves to groups or giving themselves admin access
+      current_admin_setting  = user[:is_admin]
+      current_groups_setting = user[:groups]
 
-    params[:user].username = Username.value(params[:user].username)
+      params[:user][:is_admin] = current_admin_setting
+      params[:user][:groups]   = current_groups_setting
+    else
+      check_admin_access
+      user = User.get_or_die(params[:id])
+
+      # High security: update the user themselves.
+      raise AccessDeniedException.new if !current_user.can?(:manage_users)
+
+      params[:user].username = Username.value(params[:user].username)
+    end
 
     user.update_from_json(params[:user])
 
@@ -177,10 +192,13 @@ class ArchivesSpaceService < Sinatra::Base
              " name is unfortunate, but we're keeping it for backward-compatibility.",
              :default => true])
     .permissions([])
+    .no_data(true)
     .returns([200, "Login accepted"],
              [403, "Login failed"]) \
   do
     username = params[:username]
+
+    user = User.first(:username => username)
 
     user = AuthenticationManager.authenticate(username, params[:password])
 
@@ -188,7 +206,11 @@ class ArchivesSpaceService < Sinatra::Base
       session = create_session_for(username, params[:expiring])
       json_user = User.to_jsonmodel(user)
       json_user.permissions = user.permissions
-      json_response({:session => session.id, :user => json_user})
+      if params[:expiring] == false
+        json_response({:session => session.id, :user => json_user, :expire_after_seconds => AppConfig[:session_nonexpirable_force_expire_after_seconds]})
+      else
+        json_response({:session => session.id, :user => json_user})
+      end
     else
       json_response({:error => "Login failed"}, 403)
     end
@@ -199,6 +221,7 @@ class ArchivesSpaceService < Sinatra::Base
     .description("Become a different user")
     .params(["username", Username, "The username to become"])
     .permissions([:become_user])
+    .no_data(true)
     .returns([200, "Accepted"],
              [404, "User not found"]) \
   do
@@ -253,6 +276,7 @@ class ArchivesSpaceService < Sinatra::Base
   Endpoint.post('/logout')
     .description("Log out the current session")
     .permissions([])
+    .no_data(true)
     .returns([200, "Session logged out"]) \
   do
     if session
@@ -263,6 +287,41 @@ class ArchivesSpaceService < Sinatra::Base
     end
   end
 
+  Endpoint.get('/users/:id/activate')
+      .description("Set a user to be activated")
+      .params(["id", Integer, "The username id to fetch"])
+      .permissions([:manage_users])
+      .returns([200, "(:user)"]) \
+    do
+      user = User[params[:id]]
+
+      if user && user.is_system_user == 0
+        user.update( :is_active_user => 1 )
+        json = User.to_jsonmodel(user)
+        json.permissions = user.permissions
+        json_response(json)
+      else
+        raise NotFoundException.new("User wasn't found")
+      end
+    end
+
+  Endpoint.get('/users/:id/deactivate')
+     .description("Set a user to be deactivated")
+     .params(["id", Integer, "The username id to fetch"])
+     .permissions([:manage_users])
+     .returns([200, "(:user)"]) \
+   do
+     user = User[params[:id]]
+
+     if user && user.is_system_user == 0
+       user.update( :is_active_user => 0 )
+       json = User.to_jsonmodel(user)
+       json.permissions = user.permissions
+       json_response(json)
+     else
+       raise NotFoundException.new("User wasn't found")
+     end
+   end
 
   private
 

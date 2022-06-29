@@ -1,7 +1,6 @@
 module SlugHelpers
   # generate and return a string for a slug based on this thing's ID.
   def self.id_based_slug_for(entity, klass)
-
     if klass == Resource || klass == Accession
       if AppConfig[:generate_resource_slugs_with_eadid] && entity[:ead_id] && klass == Resource
         # use EADID if configured. Otherwise, use identifier.

@@ -2,7 +2,7 @@ class DateSubreport < AbstractSubreport
 
 	register_subreport('date', ['accession', 'deaccession',
 		'archival_object', 'resource', 'event', 'digital_object',
-		'digital_object_component', 'agent'])
+		'digital_object_component'])
 
 	def initialize(parent_custom_report, id)
 		super(parent_custom_report)

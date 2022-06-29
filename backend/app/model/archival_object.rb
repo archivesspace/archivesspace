@@ -24,9 +24,10 @@ class ArchivalObject < Sequel::Model(:archival_object)
   include Publishable
   include ReindexTopContainers
   include RightsRestrictionNotes
-  include RepresentativeImages
+  include RepresentativeFileVersion
   include Assessments::LinkedRecord
   include TouchRecords
+  include Arks
 
   enable_suppression
 
@@ -51,8 +52,8 @@ class ArchivalObject < Sequel::Model(:archival_object)
                 :generator => proc { |json|
                   if AppConfig[:use_human_readable_urls]
                     if json["is_slug_auto"]
-                      AppConfig[:auto_generate_slugs_with_id] ? 
-                        SlugHelpers.id_based_slug_for(json, ArchivalObject) : 
+                      AppConfig[:auto_generate_slugs_with_id] ?
+                        SlugHelpers.id_based_slug_for(json, ArchivalObject) :
                         SlugHelpers.name_based_slug_for(json, ArchivalObject)
                     else
                       json["slug"]
@@ -60,6 +61,10 @@ class ArchivalObject < Sequel::Model(:archival_object)
                   end
                 }
 
+  define_relationship(:name => :accession_component_links,
+                      :json_property => 'accession_links',
+                      :contains_references_to_types => proc {[Accession]},
+                      :is_array => true)
 
   def self.produce_display_string(json)
     display_string = json['title'] || ""

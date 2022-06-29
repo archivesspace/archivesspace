@@ -1,7 +1,7 @@
 class ExportsController < ApplicationController
 
-  set_access_control  "view_repository" => [:container_labels, :download_marc, :download_dc, :download_mods,
-                                            :download_mets, :download_ead, :download_eac]
+  set_access_control "view_repository" => [:container_labels, :download_marc, :download_dc, :download_mods,
+                                            :download_mets, :download_ead, :download_eac, :download_marc_auth, :container_template]
   set_access_control "create_job" => [:print_to_pdf]
 
   include ExportHelper
@@ -10,7 +10,7 @@ class ExportsController < ApplicationController
   def container_labels
     @resource = JSONModel(:resource).find(params[:id], find_opts)
     render :layout => false
-   end
+  end
 
 
   def download_marc
@@ -33,7 +33,6 @@ class ExportsController < ApplicationController
   end
 
 
-
   def download_mets
     download_export(
       "/repositories/#{JSONModel::repository}/digital_objects/mets/#{params[:id]}.xml", :dmd => params[:dmd_scheme])
@@ -41,7 +40,6 @@ class ExportsController < ApplicationController
 
 
   def download_ead
-
     if params[:print_pdf] == "true"
       url = "/repositories/#{JSONModel::repository}/resource_descriptions/#{params[:id]}.pdf"
     else
@@ -62,16 +60,24 @@ class ExportsController < ApplicationController
       "/repositories/#{JSONModel::repository}/archival_contexts/#{params[:type].sub(/^agent_/, '').pluralize}/#{params[:id]}.xml")
   end
 
+  def download_marc_auth
+    download_export(
+      "/repositories/#{JSONModel::repository}/agents/#{params[:type].sub(/^agent_/, '').pluralize}/marc21/#{params[:id]}.xml")
+  end
+
   def print_to_pdf
     @resource = JSONModel(:resource).find(params[:id], find_opts)
     render :layout => false
   end
 
+  def container_template
+    uri = "/repositories/#{JSONModel::repository}/resources/#{params[:id]}/templates/top_container_creation.csv"
+    csv_response(uri)
+  end
 
   private
 
   def download_export(request_uri, params = {})
-
     meta = JSONModel::HTTP::get_json("#{request_uri}/metadata")
 
     respond_to do |format|

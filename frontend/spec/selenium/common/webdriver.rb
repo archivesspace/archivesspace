@@ -124,6 +124,7 @@ module Selenium
         try = 0
         while (execute_script('return document.readyState') != 'complete') ||
               !execute_script('return window.$ == undefined || $.active == 0')
+
           if try > max_tries
             puts 'Retry limit hit on wait_for_ajax.  Going ahead anyway.'
             break
@@ -188,6 +189,22 @@ module Selenium
       end
 
       alias find_element_orig find_element
+
+      def is_visible?(locator, selector)
+        old_retries_number = $retries
+
+        begin
+          # drop the retries number down to 1 to speed things along
+          $retries = 1
+          find_element(locator, selector)
+          val = true
+        rescue => e
+          val = false
+        end
+
+        $retries = old_retries_number
+        return val
+      end
 
       def find_element(*selectors)
         wait_for_ajax

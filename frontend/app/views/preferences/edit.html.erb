@@ -1,3 +1,4 @@
+<% username = session[:user] ? CGI::escapeHTML(session[:user]) : "" %>
 <%
   if params['global']
     if params['repo']
@@ -7,17 +8,20 @@
       title = I18n.t('preference.user_global')
       message = I18n.t('preference.user_global_message')
     end
+    title += " (#{username})"
   else
     if params['repo']
-      title = I18n.t('preference.repo')
+      title = I18n.t('navbar.repo_preferences')
       message = I18n.t('preference.repo_message')
     else
-      title = I18n.t('preference.user_repo')
+      title = I18n.t('navbar.user_repo_preferences')
       message = I18n.t('preference.user_repo_message')
+      title += " (#{username})"
     end
     title += " -- #{current_repo['repo_code']}"
   end
 %>
+
 
 <%= setup_context(:title => title) %>
 
@@ -32,12 +36,17 @@
   <% end %>
 
   <%= form_context :preference, @preference do |form| %>
+    <% @types = SearchAndBrowseColumnConfig.columns.keys.sort_by{|k| I18n.t "defaults.#{k}_browse_section"} %>
+    <% @types.delete('repositories') if !user_can?('create_repository') %>
 
     <div class="row">
-      <div class="col-md-3"></div>
+      <div class="col-md-3">
+        <%= render_aspace_partial :partial => "sidebar", :locals => {:form => form, :types => @types} %>
+      </div>
       <div class="col-md-9">
         <%= render_aspace_partial :partial => "toolbar" %>
         <div class="record-pane">
+          <%= link_to_help :topic => "preference" %>
           <h2><%= title %></h2>
           <div class="alert alert-info">
             <%= message.force_encoding("UTF-8") %>
@@ -46,7 +55,7 @@
 
           <%= render_aspace_partial :partial => "shared/form_messages", :locals => {:form => form} %>
 
-          <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "defaults", :cardinality => :zero_to_one, :template => "defaults", :hidden => true} %>
+          <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "defaults", :cardinality => :zero_to_one, :template => "defaults", :types => @types, :hidden => true} %>
 
         </div>
       </div>

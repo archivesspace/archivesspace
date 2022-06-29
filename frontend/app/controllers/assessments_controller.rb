@@ -7,17 +7,22 @@ class AssessmentsController < ApplicationController
   include ExportHelper
 
   def index
-    respond_to do |format| 
-      format.html {   
+    respond_to do |format|
+      format.html {
         @search_data = Search.for_type(session[:repo_id], "assessment", params_for_backend_search.merge({"facet[]" => SearchResultData.ASSESSMENT_FACETS}))
       }
-      format.csv { 
+      format.csv {
         search_params = params_for_backend_search.merge({"facet[]" => SearchResultData.ASSESSMENT_FACETS})
-        search_params["type[]"] = "assessment" 
+        search_params["type[]"] = "assessment"
         uri = "/repositories/#{session[:repo_id]}/search"
         csv_response( uri, Search.build_filters(search_params), "#{I18n.t('assessment._plural').downcase}." )
       }
     end
+  end
+
+
+  def current_record
+    @assessment
   end
 
 
@@ -55,11 +60,11 @@ class AssessmentsController < ApplicationController
   def create
     handle_crud(:instance => :assessment,
                 :model => JSONModel(:assessment),
-                :on_invalid => ->(){
-                  @assessment_attribute_definitions = AssessmentAttributeDefinitions.find(nil) 
+                :on_invalid => ->() {
+                  @assessment_attribute_definitions = AssessmentAttributeDefinitions.find(nil)
                   render action: "new"
                 },
-                :on_valid => ->(id){
+                :on_valid => ->(id) {
                     flash[:success] = I18n.t("assessment._frontend.messages.created", JSONModelI18nWrapper.new(:assessment => @assessment))
                     redirect_to(:controller => :assessments,
                                 :action => :edit,
@@ -71,12 +76,12 @@ class AssessmentsController < ApplicationController
     handle_crud(:instance => :assessment,
                 :model => JSONModel(:assessment),
                 :obj => JSONModel(:assessment).find(params[:id]),
-                :on_invalid => ->(){
+                :on_invalid => ->() {
                   @assessment_attribute_definitions = AssessmentAttributeDefinitions.find(nil)
                   @assessment.display_string = params[:id]
                   return render action: "edit"
                 },
-                :on_valid => ->(id){
+                :on_valid => ->(id) {
                   flash[:success] = I18n.t("assessment._frontend.messages.updated", JSONModelI18nWrapper.new(:assessment => @assessment))
                   redirect_to :controller => :assessments, :action => :edit, :id => id
                 })

@@ -35,8 +35,8 @@ class ClassificationTerm < Sequel::Model(:classification_term)
                 :generator => proc { |json|
                   if AppConfig[:use_human_readable_urls]
                     if json["is_slug_auto"]
-                      AppConfig[:auto_generate_slugs_with_id] ? 
-                        SlugHelpers.id_based_slug_for(json, ClassificationTerm) : 
+                      AppConfig[:auto_generate_slugs_with_id] ?
+                        SlugHelpers.id_based_slug_for(json, ClassificationTerm) :
                         SlugHelpers.name_based_slug_for(json, ClassificationTerm)
                     else
                       json["slug"]

@@ -6,7 +6,7 @@
 %>
 
 <div id="archivesSpaceSidebar" class="sidebar">
-  <ul class="nav list-group as-nav-list">
+  <ul role='tablist' class="nav list-group as-nav-list">
     <% if @exceptions %>
       <li class="<% if @exceptions.has_key?(:errors)%>alert-danger<% end %>">
         <a href="#form_messages"><%= I18n.t("errors.sidebar_label") %>  <span class="glyphicon glyphicon-chevron-right"></span></a>
@@ -14,7 +14,7 @@
     <% end %>
 
     <% unless defined?(suppress_basic_information) && suppress_basic_information %>
-      <li>
+      <li role='tab' aria-selected="false">
         <a href="#basic_information">
           <%= I18n.t("#{record_type}._frontend.section.basic_information") %>
           <span class="glyphicon glyphicon-chevron-right"></span>
@@ -42,5 +42,11 @@
       <% end %>
     <% end %>
   </ul>
-</div>
 
+  <%=
+  render_plugin_partials("sidebar_footer",
+                         :record => record,
+                         :record_type => record_type)
+  %>
+
+</div>

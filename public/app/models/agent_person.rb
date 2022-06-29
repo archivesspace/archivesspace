@@ -7,7 +7,7 @@ class AgentPerson < Record
       '@id' => AppConfig[:public_proxy_url] + uri,
       'name' => json['display_name']['sort_name'],
       'sameAs' => raw['authority_id'],
-      'alternateName' => json['names'].select{|n| !n['is_display_name']}.map{|n| n['sort_name']}
+      'alternateName' => json['names'].select {|n| !n['is_display_name']}.map {|n| n['sort_name']}
     }
 
     if (dates = json['dates_of_existence'].first)
@@ -15,12 +15,12 @@ class AgentPerson < Record
       md['deathDate'] = dates['end'] if dates['end']
     end
 
-    md['description'] = json['notes'].select{|n| n['jsonmodel_type'] == 'note_bioghist'}.map{|note|
-                          strip_mixed_content(note['subnotes'].map{|s| s['content']}.join(' '))
+    md['description'] = json['notes'].select {|n| n['jsonmodel_type'] == 'note_bioghist'}.map {|note|
+                          strip_mixed_content(note['subnotes'].map {|s| s['content']}.join(' '))
                         }
     md['description'] = md['description'][0] if md['description'].length == 1
 
-    md['knows'] = json['related_agents'].select{|ra|
+    md['knows'] = json['related_agents'].select {|ra|
       ra['relator'] == 'is_associative_with' && ra['_resolved']['jsonmodel_type'] == json['jsonmodel_type']}.map do |ag|
       res = ag['_resolved']
 
@@ -44,7 +44,7 @@ class AgentPerson < Record
       out
     end
 
-    md['parent'] = json['related_agents'].select{|ra| ra['relator'] == 'is_child_of'}.map do |ag|
+    md['parent'] = json['related_agents'].select {|ra| ra['relator'] == 'is_child_of'}.map do |ag|
       res = ag['_resolved']
       out = {}
       out['@id'] = res['display_name']['authority_id'] if res['display_name']['authority_id']
@@ -54,7 +54,7 @@ class AgentPerson < Record
       out
     end
 
-    md['children'] = json['related_agents'].select{|ra| ra['relator'] == 'is_parent_of'}.map do |ag|
+    md['children'] = json['related_agents'].select {|ra| ra['relator'] == 'is_parent_of'}.map do |ag|
       res = ag['_resolved']
       out = {}
       out['@id'] = res['display_name']['authority_id'] if res['display_name']['authority_id']
@@ -64,7 +64,7 @@ class AgentPerson < Record
       out
     end
 
-    md['affiliation'] = json['related_agents'].select{|ra|
+    md['affiliation'] = json['related_agents'].select {|ra|
       ra['relator'] == 'is_associative_with' && ra['_resolved']['jsonmodel_type'] != json['jsonmodel_type']}.map do |ag|
       res = ag['_resolved']
       out = {}
@@ -75,12 +75,12 @@ class AgentPerson < Record
       out
     end
 
-    md.compact.delete_if { |key,value| value.empty? }
+    md.compact.delete_if { |key, value| value.empty? }
   end
 
 
   def related_agents
-    ASUtils.wrap(json['related_agents']).select{|rel|
+    ASUtils.wrap(json['related_agents']).select {|rel|
       rel['_resolved']['publish']
     }
   end

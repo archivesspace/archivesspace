@@ -59,7 +59,12 @@ class TransferConstraintError < StandardError
   end
 
   def add_conflict(uri, property)
-    @conflicts[uri] = property
+    if property.is_a? Hash
+      @conflicts[uri] ||= []
+      @conflicts[uri] << property
+    else
+      @conflicts[uri] = property
+    end
   end
 
   def to_s
@@ -107,8 +112,6 @@ class ImportException < StandardError
 end
 
 
-
-
 module Exceptions
 
   module ResponseMappings
@@ -134,6 +137,10 @@ module Exceptions
 
         error BadParamsException do
           json_response({:error => request.env['sinatra.error'].params}, 400)
+        end
+
+        error ReadOnlyException do
+          json_response({:error => request.env['sinatra.error']}, 409)
         end
 
         error UserNotFoundException do
@@ -224,7 +231,9 @@ module Exceptions
             Log.error('Unhandled exception!')
             Log.exception(request.env['sinatra.error'])
 
-            json_response({:error => ex.message}, 500)
+            message = ex.message + ": " + ex.backtrace.join("\n\t")
+
+            json_response({:error => message}, 500)
           end
         end
       end

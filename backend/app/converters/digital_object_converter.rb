@@ -173,7 +173,7 @@ class DigitalObjectConverter < Converter
       'file_version_file_size_bytes' => 'file_version.file_size_bytes',
       'file_version_checksum' => 'file_version.checksum',
       'file_version_checksum_method' => 'file_version.checksum_method',
-      
+
       # 2. Define data handlers
       #    :record_type of the schema (if other than the handler key)
       #    :defaults - hash which maps property keys to default values if nothing shows up in the source date
@@ -194,16 +194,16 @@ class DigitalObjectConverter < Converter
 
       :agent => {
         :record_type => Proc.new {|data|
-          @agent_type = data['agent_type']
+            @agent_type = data['agent_type']
           },
         :on_row_complete => Proc.new {|cache, agent|
-          digital_object = cache.find {|obj| obj.class.record_type == 'digital_object' }
+            digital_object = cache.find {|obj| obj.class.record_type == 'digital_object' }
 
-          if digital_object
-            digital_object.linked_agents[0]['ref'] = agent.uri
-          else
-            cache.reject! {|obj| obj.key == agent.key}
-          end
+            if digital_object
+              digital_object.linked_agents[0]['ref'] = agent.uri
+            else
+              cache.reject! {|obj| obj.key == agent.key}
+            end
           },
 
       },
@@ -338,7 +338,7 @@ class DigitalObjectConverter < Converter
           digital_object.user_defined = this
         }
       },
-      
+
       :file_version => {
         :on_row_complete => Proc.new {|cache, this|
           digital_object = cache.find {|obj| obj.class.record_type =~ /^digital_object/ }
@@ -431,7 +431,3 @@ class DigitalObjectConverter < Converter
     @to_int
   end
 end
-
-
-
-

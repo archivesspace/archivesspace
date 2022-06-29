@@ -85,6 +85,7 @@ module DirectionalRelationships
 
           if (relationship['relationship_target_record_type'] == ref[:type] &&
               relationship['relationship_target_id'] == ref[:id].to_i)
+
             # This means we're looking at the relationship from the other side.
             #
             # For example, if the relationship is "A is a parent of B", then we
@@ -107,7 +108,6 @@ module DirectionalRelationships
         end
       end
     end
-
 
 
     def create_from_json(json, opts = {})

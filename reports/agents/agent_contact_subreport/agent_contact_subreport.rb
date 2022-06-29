@@ -22,8 +22,7 @@ class AgentContactSubreport < AbstractSubreport
 			country,
 			post_code,
 			email,
-			email_signature,
-			note
+			email_signature
 		from agent_contact
 		where #{@id_type}_id = #{db.literal(@id)}"
 	end

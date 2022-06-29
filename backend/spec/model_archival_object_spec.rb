@@ -92,7 +92,7 @@ describe 'ArchivalObject model' do
   end
 
 
-  it "throws an error if 'level' is 'otherlevel' and 'other level' isn't provided, but only in strict mode" do
+  it "throws an error if 'level' is 'otherlevel' and 'other level' isn't provided" do
 
     opts = {:level => "otherlevel", :other_level => nil}
 
@@ -100,15 +100,6 @@ describe 'ArchivalObject model' do
                                 build(:json_archival_object, opts),
                                 :repo_id => $repo_id)
     }.to raise_error(JSONModel::ValidationException)
-
-    JSONModel::strict_mode(false)
-
-    expect { ArchivalObject.create_from_json(
-                                build(:json_archival_object, opts),
-                                :repo_id => $repo_id)
-    }.not_to raise_error
-
-    JSONModel::strict_mode(true)
 
   end
 
@@ -151,9 +142,9 @@ describe 'ArchivalObject model' do
     title = "Just a title"
 
     ao = ArchivalObject.create_from_json(
-          build(:json_archival_object, {
-            :title => title
-          }),
+          build(:json_archival_object,
+                :dates => [],
+                :title => title),
           :repo_id => $repo_id)
 
     expect(ArchivalObject[ao[:id]].display_string).to eq(title)
@@ -328,10 +319,10 @@ describe 'ArchivalObject model' do
     parent_in_resource_a = create(:json_archival_object, :resource => {:ref => resource_a.uri})
 
     expect {
-    create(:json_archival_object,
-           :parent => {:ref => parent_in_resource_a.uri},
-           # absurd!
-           :resource => {:ref => resource_b.uri})
+      create(:json_archival_object,
+             :parent => {:ref => parent_in_resource_a.uri},
+             # absurd!
+             :resource => {:ref => resource_b.uri})
     }.to raise_error(RuntimeError, /Consistency check failed/)
   end
 
@@ -443,6 +434,7 @@ describe 'ArchivalObject model' do
   end
 
   it "creates an ARK name with archival object" do
+    AppConfig[:arks_enabled] = true
     ao = ArchivalObject.create_from_json(
                                           build(
                                                 :json_archival_object,
@@ -451,9 +443,11 @@ describe 'ArchivalObject model' do
                                           :repo_id => $repo_id)
     expect(ArkName.first(:archival_object_id => ao.id)).to_not be_nil
     ao.delete
+    AppConfig[:arks_enabled] = false
   end
 
   it "deletes ARK Name when resource is deleted" do
+    AppConfig[:arks_enabled] = true
     ao = ArchivalObject.create_from_json(
                                           build(
                                                 :json_archival_object,
@@ -463,5 +457,6 @@ describe 'ArchivalObject model' do
     expect(ArkName.first(:archival_object_id => ao[:id])).to_not be_nil
     ao.delete
     expect(ArkName.first(:archival_object_id => ao[:id])).to be_nil
+    AppConfig[:arks_enabled] = false
   end
 end

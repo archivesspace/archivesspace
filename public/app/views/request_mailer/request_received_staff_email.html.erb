@@ -10,12 +10,11 @@
   <div>
     <%= (@request.note || "").gsub(/[\n\r]/,"<br>\n") %>
   </div>
-  
 </div>
 
 <div class="request">
   <h2>Record Requested</h2>
-  <%= @request.to_text_array(false).each do |info| %>
-    <%= info%><br>
+  <% @request.to_text_array(false).each do |info| %>
+    <%= info %><br>
   <% end %>
 </div>

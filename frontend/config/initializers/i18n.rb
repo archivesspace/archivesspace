@@ -24,7 +24,6 @@ module I18n
 
 
   def self.try_really_hard_to_find_a_key(exception, locale, key, opts)
-
     substitutions = [[/\[\]/, ""],
                      [/\/[0-9]+\//, "."],
                      [/\]/, ""],

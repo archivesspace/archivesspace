@@ -46,12 +46,10 @@ module CrudHelpers
 
 
   def handle_listing(model, pagination_data, where = {}, order = nil)
-
     dataset = CrudHelpers.scoped_dataset(model, where)
-
+    order = Sequel.send(pagination_data['sort_direction'], pagination_data['sort_field']) unless order
     modified_since_time = Time.at(pagination_data[:modified_since])
-    dataset = dataset.where { system_mtime >= modified_since_time }
-    dataset = order ? dataset.order(*order) : dataset.order(:id)
+    dataset = dataset.where { system_mtime >= modified_since_time }.order(*order)
 
     if pagination_data[:page]
       # Classic pagination mode
@@ -97,7 +95,6 @@ module CrudHelpers
   private
 
   def listing_response(dataset, model)
-
     objs = dataset.respond_to?(:all) ? dataset.all : dataset
 
     opts = {:calculate_linked_repositories => current_user.can?(:index_system)}

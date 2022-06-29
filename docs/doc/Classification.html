@@ -6,15 +6,15 @@
 <title>
   Class: Classification
   
-    &mdash; Documentation by YARD 0.9.20
+    &mdash; Documentation by YARD 0.9.25
   
 </title>
 
-  <link rel="stylesheet" href="css/style.css" type="text/css" charset="utf-8" />
+  <link rel="stylesheet" href="css/style.css" type="text/css" />
 
-  <link rel="stylesheet" href="css/common.css" type="text/css" charset="utf-8" />
+  <link rel="stylesheet" href="css/common.css" type="text/css" />
 
-<script type="text/javascript" charset="utf-8">
+<script type="text/javascript">
   pathId = "Classification";
   relpath = '';
 </script>
@@ -639,7 +639,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    <p>Returns a new instance of Classification</p>
+    <p>Returns a new instance of Classification.</p>
 
 
   </div>
@@ -914,7 +914,8 @@
 28
 29
 30
-31</pre>
+31
+32</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'public/app/models/classification.rb', line 24</span>
@@ -923,7 +924,8 @@
   <span class='lbrack token'>[</span>
     <span class='lbrace token'>{</span>
       <span class='symbol val'>:uri</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;&#39;</span><span class='comma token'>,</span>
-      <span class='symbol val'>:crumb</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_display_string identifier id'>display_string</span>
+      <span class='symbol val'>:crumb</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_display_string identifier id'>display_string</span><span class='comma token'>,</span>
+      <span class='symbol val'>:type</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;classification&#39;</span>
     <span class='rbrace token'>}</span>
   <span class='rbrack token'>]</span>
 <span class='rubyid_end end kw'>end</span>
@@ -971,12 +973,12 @@
       <pre class="lines">
 
 
-33
 34
-35</pre>
+35
+36</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'public/app/models/classification.rb', line 33</span>
+      <pre class="code"><span class="info file"># File 'public/app/models/classification.rb', line 34</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_classification_terms? fid id'>classification_terms?</span>
   <span class='rubyid_raw identifier id'>raw</span><span class='lbrack token'>[</span><span class='string val'>&#39;has_classification_terms&#39;</span><span class='rbrack token'>]</span> <span class='eq op'>==</span> <span class='rubyid_true true kw'>true</span>
@@ -1188,9 +1190,9 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.8.0.a Documentation Generated on Thu Jul 16 10:07:07 2020 by
+  ArchivesSpace Version v2.8.1.a Documentation Generated on Wed Nov 11 13:21:53 2020 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.20.
+  0.9.25.
 </div>
 
     </div>

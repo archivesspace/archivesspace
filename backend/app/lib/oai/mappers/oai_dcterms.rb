@@ -30,16 +30,10 @@ class OAIDCTermsMapper
           xml['dcterms'].identifier(merged_identifier)
         end
 
-        if AppConfig[:arks_enabled]
-          ark_url = ""
-          if jsonmodel['jsonmodel_type'] == 'resource'
-            ark_url = ArkName::get_ark_url(jsonmodel.id, :resource)
-          elsif jsonmodel['jsonmodel_type'] == 'archival_object'
-            ark_url = ArkName::get_ark_url(jsonmodel.id, :archival_object)
-          end
-          unless ark_url.nil? || ark_url.empty?
-            xml['dcterms'].identifier(ark_url)
-          end
+        if AppConfig[:arks_enabled] && jsonmodel['ark_name']
+          ark_url = jsonmodel['ark_name']['current']
+
+          xml['dcterms'].identifier(ark_url) if ark_url
         end
 
         # And a second identifier containing the public url - if public is running
@@ -51,7 +45,7 @@ class OAIDCTermsMapper
         Array(jsonmodel['linked_agents']).each do |link|
           next unless link['_resolved']['publish']
 
-          if link['role'] == 'creator' && !['ctb' ,'pbl'].include?(link['relator'])
+          if link['role'] == 'creator' && !['ctb' , 'pbl'].include?(link['relator'])
             xml['dcterms'].creator(link['_resolved']['title'])
           end
         end
@@ -117,7 +111,7 @@ class OAIDCTermsMapper
 
         # Languages
         if (lang_materials = Array(jsonmodel['lang_materials']))
-          language_vals = lang_materials.map{|l| l['language_and_script']}.compact
+          language_vals = lang_materials.map {|l| l['language_and_script']}.compact
           if !language_vals.empty?
             language_vals.each do |l|
               xml['dcterms'].language(l['language'])
@@ -126,7 +120,7 @@ class OAIDCTermsMapper
               end
             end
           end
-          language_notes = lang_materials.map {|l| l['notes']}.compact.reject {|e|  e == [] }.flatten
+          language_notes = lang_materials.map {|l| l['notes']}.compact.reject {|e| e == [] }.flatten
           if !language_notes.empty?
             language_notes.each do |note|
               OAIUtils.extract_published_note_content(note).each do |content|

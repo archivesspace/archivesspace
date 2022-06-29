@@ -12,14 +12,14 @@
         "type" => "string",
         "readonly" => true
       },
-   
+
       "job" => {
         "type" => "object"
       },
-   
-      "job_params" => { 
+
+      "job_params" => {
         "type" => "string",
-      }, 
+      },
 
       "time_submitted" => {
         "type" => "date-time",
@@ -51,7 +51,19 @@
       "queue_position" => {
         "type" => "number",
         "readonly" => true
-      }
+      },
+
+      "has_modified_records" => {
+        "type" => "boolean",
+        "default" => false,
+        "readonly" => true
+      },
+
+      "inactive_record" => {
+        "type" => "boolean",
+        "default" => false,
+        "readonly" => true
+      },
     },
   },
 }

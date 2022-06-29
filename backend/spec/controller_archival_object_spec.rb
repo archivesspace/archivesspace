@@ -34,9 +34,18 @@ describe 'Archival Object controller' do
   it "lets you reorder sibling archival objects" do
     resource = create(:json_resource)
 
-    ao_1 = create(:json_archival_object, :resource => {:ref => resource.uri}, :title => "AO1")
-    ao_2 = create(:json_archival_object, :resource => {:ref => resource.uri}, :title => "AO2")
-    ao_3 = create(:json_archival_object, :resource => {:ref => resource.uri}, :title => "AO3")
+    ao_1 = create(:json_archival_object,
+                  :dates => [],
+                  :resource => {:ref => resource.uri},
+                  :title => "AO1")
+    ao_2 = create(:json_archival_object,
+                  :dates => [],
+                  :resource => {:ref => resource.uri},
+                  :title => "AO2")
+    ao_3 = create(:json_archival_object,
+                  :dates => [],
+                  :resource => {:ref => resource.uri},
+                  :title => "AO3")
 
     tree = JSONModel(:resource_tree).find(nil, :resource_id => resource.id)
 
@@ -59,9 +68,19 @@ describe 'Archival Object controller' do
   it "lets you specify your tree position on creation" do
     resource = create(:json_resource)
 
-    ao_1 = create(:json_archival_object, :resource => {:ref => resource.uri}, :title => "AO1")
-    ao_2 = create(:json_archival_object, :resource => {:ref => resource.uri}, :title => "AO2")
-    ao_3 = create(:json_archival_object, :resource => {:ref => resource.uri}, :title => "AO3", :position => 1)
+    ao_1 = create(:json_archival_object,
+                  :dates => [],
+                  :resource => {:ref => resource.uri},
+                  :title => "AO1")
+    ao_2 = create(:json_archival_object,
+                  :dates => [],
+                  :resource => {:ref => resource.uri},
+                  :title => "AO2")
+    ao_3 = create(:json_archival_object,
+                  :dates => [],
+                  :resource => {:ref => resource.uri},
+                  :title => "AO3",
+                  :position => 1)
 
     tree = JSONModel(:resource_tree).find(nil, :resource_id => resource.id)
 
@@ -74,8 +93,15 @@ describe 'Archival Object controller' do
   it "doesn't mind if your specified position is greater than the existing max position" do
     resource = create(:json_resource)
 
-    ao_1 = create(:json_archival_object, :resource => {:ref => resource.uri}, :title => "AO1", :position => 1)
-    ao_2 = create(:json_archival_object, :resource => {:ref => resource.uri}, :title => "AO2")
+    ao_1 = create(:json_archival_object,
+                  :dates => [],
+                  :resource => {:ref => resource.uri},
+                  :title => "AO1",
+                  :position => 1)
+    ao_2 = create(:json_archival_object,
+                  :dates => [],
+                  :resource => {:ref => resource.uri},
+                  :title => "AO2")
 
     tree = JSONModel(:resource_tree).find(nil, :resource_id => resource.id)
 
@@ -130,7 +156,7 @@ describe 'Archival Object controller' do
   it "can resolve subjects for you" do
     vocab = create(:json_vocabulary)
 
-    opts = {:term => generate(:term)}
+    opts = {:term => generate(:generic_term)}
 
     subject = create(:json_subject, {:terms =>
                                         [build(
@@ -149,7 +175,7 @@ describe 'Archival Object controller' do
 
 
   it "will won't allow a ref_id to be changed upon update" do
-    created =  create(:json_archival_object, "ref_id" => nil)
+    created = create(:json_archival_object, "ref_id" => nil)
 
     ao = JSONModel(:archival_object).find(created.id)
     ref_id = ao.ref_id
@@ -212,7 +238,7 @@ describe 'Archival Object controller' do
 
   it "will re-resolve the subrecords upon refetch" do
     vocab = create(:json_vocabulary)
-    opts = {:term => generate(:term)}
+    opts = {:term => generate(:generic_term)}
     subject = create(:json_subject, {:terms =>
                                        [build(
                                           :json_term,
@@ -285,10 +311,14 @@ describe 'Archival Object controller' do
 
   it "allows posting of array of children" do
     resource = create(:json_resource)
-    parent_archival_object = create(:json_archival_object, :resource => {:ref => resource.uri})
+    parent_archival_object = create(:json_archival_object,
+                                    :dates => [],
+                                    :resource => {:ref => resource.uri})
 
-    archival_object_1 = build(:json_archival_object)
-    archival_object_2 = build(:json_archival_object)
+    archival_object_1 = build(:json_archival_object,
+                              :dates => [])
+    archival_object_2 = build(:json_archival_object,
+                              :dates => [])
 
     children = JSONModel(:archival_record_children).from_hash({
       "children" => [archival_object_1, archival_object_2]
@@ -343,10 +373,16 @@ describe 'Archival Object controller' do
 
   it "accepts move of multiple children" do
     resource = create(:json_resource)
-    target = create(:json_archival_object, :resource => {:ref => resource.uri})
+    target = create(:json_archival_object,
+                    :dates => [],
+                    :resource => {:ref => resource.uri})
 
-    sibling_1 = create(:json_archival_object, :resource => {:ref => resource.uri})
-    sibling_2 = create(:json_archival_object, :resource => {:ref => resource.uri})
+    sibling_1 = create(:json_archival_object,
+                       :dates => [],
+                       :resource => {:ref => resource.uri})
+    sibling_2 = create(:json_archival_object,
+                       :dates => [],
+                       :resource => {:ref => resource.uri})
 
     response = JSONModel::HTTP::post_form("#{target.uri}/accept_children", {"children[]" => [sibling_1.uri, sibling_2.uri], "position" => 0})
     json_response = ASUtils.json_parse(response.body)
@@ -373,7 +409,7 @@ describe 'Archival Object controller' do
     uri = JSONModel(:archival_object).uri_for(ao.id)
     json = JSONModel::HTTP.get_json(uri)
     expect(json['ark_name']).to_not be_nil
-    expect(json['ark_name']['id']).to_not be_nil
+    expect(json['ark_name']['current']).to_not be_nil
     AppConfig[:arks_enabled] = false
   end
 
@@ -387,6 +423,117 @@ describe 'Archival Object controller' do
 
     expect(JSONModel(:archival_object).find(archival_object.id).lang_materials[0]['language_and_script']['language'].length).to eq(3)
     expect(JSONModel(:archival_object).find(archival_object.id).lang_materials[0]['note']).to eq(nil)
+  end
+
+  it "publishes the archival object, subrecords and components when /publish is POSTed" do
+    resource = create(:json_resource, {
+      :publish => false,
+      :external_documents => [build(:json_external_document, {:publish => false})],
+      :notes => [build(:json_note_bibliography, {:publish => false})]
+    })
+
+
+    vocab = create(:json_vocabulary)
+    vocab_uri = JSONModel(:vocabulary).uri_for(vocab.id)
+
+    subject = create(:json_subject,
+                     :terms => [build(:json_term, :vocabulary => vocab_uri)],
+                     :vocabulary => vocab_uri)
+
+
+    top_level_archival_object = create(:json_archival_object, {
+      :publish => false,
+      :resource => {:ref => resource.uri},
+      :external_documents => [build(:json_external_document, {:publish => false})],
+      :notes => [build(:json_note_bibliography, {:publish => false})],
+      :subjects => [{:ref => subject.uri}]
+    })
+
+    lower_level_archival_object = create(:json_archival_object, {
+      :publish => false,
+      :resource => {:ref => resource.uri},
+      :parent => {:ref => top_level_archival_object.uri},
+      :external_documents => [build(:json_external_document, {:publish => false})],
+      :notes => [build(:json_note_bibliography, {:publish => false})],
+      :subjects => [{:ref => subject.uri}]
+    })
+
+    url = URI("#{JSONModel::HTTP.backend_url}#{top_level_archival_object.uri}/publish")
+
+    request = Net::HTTP::Post.new(url.request_uri)
+    response = JSONModel::HTTP.do_http_request(url, request)
+
+
+    resource = JSONModel(:resource).find(resource.id)
+    expect(resource.publish).to be_falsey
+    expect(resource.external_documents[0]["publish"]).to be_falsey
+    expect(resource.notes[0]["publish"]).to be_falsey
+
+    top_level_archival_object = JSONModel(:archival_object).find(top_level_archival_object.id)
+    expect(top_level_archival_object.publish).to be_truthy
+    expect(top_level_archival_object.external_documents[0]["publish"]).to be_truthy
+    expect(top_level_archival_object.notes[0]["publish"]).to be_truthy
+
+    lower_level_archival_object = JSONModel(:archival_object).find(lower_level_archival_object.id)
+    expect(lower_level_archival_object.publish).to be_truthy
+    expect(lower_level_archival_object.external_documents[0]["publish"]).to be_truthy
+    expect(lower_level_archival_object.notes[0]["publish"]).to be_truthy
+  end
+
+
+  it "unpublishes the archival object, subrecords and components when /unpublish is POSTed" do
+    resource = create(:json_resource, {
+      :publish => true,
+      :external_documents => [build(:json_external_document, {:publish => true})],
+      :notes => [build(:json_note_bibliography, {:publish => true})]
+    })
+
+
+    vocab = create(:json_vocabulary)
+    vocab_uri = JSONModel(:vocabulary).uri_for(vocab.id)
+
+    subject = create(:json_subject,
+                     :terms => [build(:json_term, :vocabulary => vocab_uri)],
+                     :vocabulary => vocab_uri)
+
+
+    top_level_archival_object = create(:json_archival_object, {
+      :publish => true,
+      :resource => {:ref => resource.uri},
+      :external_documents => [build(:json_external_document, {:publish => true})],
+      :notes => [build(:json_note_bibliography, {:publish => true})],
+      :subjects => [{:ref => subject.uri}]
+    })
+
+    lower_level_archival_object = create(:json_archival_object, {
+      :publish => true,
+      :resource => {:ref => resource.uri},
+      :parent => {:ref => top_level_archival_object.uri},
+      :external_documents => [build(:json_external_document, {:publish => true})],
+      :notes => [build(:json_note_bibliography, {:publish => true})],
+      :subjects => [{:ref => subject.uri}]
+    })
+
+    url = URI("#{JSONModel::HTTP.backend_url}#{top_level_archival_object.uri}/unpublish")
+
+    request = Net::HTTP::Post.new(url.request_uri)
+    response = JSONModel::HTTP.do_http_request(url, request)
+
+
+    resource = JSONModel(:resource).find(resource.id)
+    expect(resource.publish).to be_truthy
+    expect(resource.external_documents[0]["publish"]).to be_truthy
+    expect(resource.notes[0]["publish"]).to be_truthy
+
+    top_level_archival_object = JSONModel(:archival_object).find(top_level_archival_object.id)
+    expect(top_level_archival_object.publish).to be_falsey
+    expect(top_level_archival_object.external_documents[0]["publish"]).to be_falsey
+    expect(top_level_archival_object.notes[0]["publish"]).to be_falsey
+
+    lower_level_archival_object = JSONModel(:archival_object).find(lower_level_archival_object.id)
+    expect(lower_level_archival_object.publish).to be_falsey
+    expect(lower_level_archival_object.external_documents[0]["publish"]).to be_falsey
+    expect(lower_level_archival_object.notes[0]["publish"]).to be_falsey
   end
 
 end

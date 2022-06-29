@@ -7,7 +7,6 @@ module JSONModelTranslatable
 
 
   def to_hash_with_translated_enums(enums_to_translate, mode = nil)
-
     hash = self.to_hash(mode)
 
     if enums_to_translate
@@ -15,7 +14,6 @@ module JSONModelTranslatable
     end
 
     hash
-
   end
 
 
@@ -32,11 +30,11 @@ module JSONModelTranslatable
 
       elsif (definition['type'] == 'array') and (definition['items']['type'].is_a?(Array))
         result[property] = hash[property].map {|item|
-         if item['jsonmodel_type']
-           self.translate_hash(item, JSONModel(item['jsonmodel_type']).schema, enums_to_translate)
-         else
-           item
-         end
+          if item['jsonmodel_type']
+            self.translate_hash(item, JSONModel(item['jsonmodel_type']).schema, enums_to_translate)
+          else
+            item
+          end
         }
 
       elsif definition.has_key?("dynamic_enum")

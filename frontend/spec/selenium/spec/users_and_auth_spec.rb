@@ -6,6 +6,8 @@ require 'ostruct'
 describe 'Users and authentication' do
   before(:all) do
     @user = build(:user)
+    @inactive_user = create_user({}, false)
+
     @driver = Driver.get
   end
 
@@ -19,7 +21,13 @@ describe 'Users and authentication' do
                   expect_fail = true)
 
     expect(@driver.find_element(css: 'p.alert-danger').text).to eq('Login attempt failed')
+  end
 
+  it 'fails login when user is inactive' do
+    @driver.login(@inactive_user,
+                  expect_fail = true)
+
+    expect(@driver.find_element(css: 'p.alert-danger').text).to eq('Login attempt failed')
   end
 
   it 'can register a new user' do
@@ -45,7 +53,7 @@ describe 'Users and authentication' do
   it 'allows the admin user to become a different user' do
     @driver.login($admin)
 
-    @driver.find_element(:css, '.user-container a.btn').click
+    @driver.find_element(:css, '#user-menu-dropdown').click
     @driver.find_element(:link, 'Become User').click
     @driver.clear_and_send_keys([:id, 'select-user'], @user.username)
     @driver.find_element(:css, '#new_become_user .btn-primary').click
@@ -57,12 +65,26 @@ describe 'Users and authentication' do
   it 'prevents any user from becoming the global admin' do
     @driver.login($admin)
 
-    @driver.find_element(:css, '.user-container a.btn').click
+    @driver.find_element(:css, '#user-menu-dropdown').click
     @driver.find_element(:link, 'Become User').click
     @driver.clear_and_send_keys([:id, 'select-user'], 'admin')
     @driver.find_element(:css, '#new_become_user .btn-primary').click
     @driver.find_element_with_text('//div[contains(@class, "alert-danger")]', /Failed to switch/)
 
     @driver.logout
+  end
+
+  it 'can activate users' do
+    @driver.login($admin)
+
+    @driver.navigate.to("#{$frontend}/users")
+
+    @driver.find_element(:id, "activate_#{@inactive_user.username}").click
+
+    expect(@driver.find_element(css: 'div.alert-success').text).to eq('User activated')
+
+    @driver.find_element(:id, "deactivate_#{@inactive_user.username}").click
+
+    expect(@driver.find_element(css: 'div.alert-success').text).to eq('User deactivated')
   end
 end

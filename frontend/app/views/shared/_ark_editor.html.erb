@@ -1,0 +1,289 @@
+<a class="edit-arks-btn" href=""><%= I18n.t('arks.edit') %></a>
+
+<div id="edit_arks_modal_template" style="display: none">
+    <div class="modal-body edit-arks-form">
+        <div style="display: none" class="ark-error-ark_collision"><%= I18n.t("arks.ark_editor_errors.ark_collision") %></div>
+        <div style="display: none" class="ark-error-ark_format_error"><%= I18n.t("arks.ark_editor_errors.ark_format_error") %></div>
+
+
+        <div class="alert alert-danger ark-errors" style="display: none"></div>
+
+        <table class="table ark-table">
+            <tr><th><%= I18n.t('arks.ark') %></th><th><!-- actions --></th></tr>
+
+            <tr class="current-ark-value">
+                <td class="ark-value"></td>
+                <td class="ark-actions">
+                    <span class="badge"><%= I18n.t('arks.current') %></span>
+                    <label class="pull-right">
+                        <input
+                            class="current-ark-is-external"
+                            type="checkbox"
+                            name="is_external_ark"
+                            <% if record['ark_name']['current_is_external'] %>
+                            checked="checked"
+                            <% end %>
+                        />
+
+                        External?
+                    </label>
+                </td>
+            </tr>
+
+            <tr class="only-current-ark-external-msg" style="display: none">
+                <td colspan="2" style="text-align: right">
+                    <small class="text-muted"><%= I18n.t('arks.only_current_ark_can_be_external') %></small>
+                </td>
+            </tr>
+
+            <tr class="previous-ark-value-template" style="display: none">
+                <td class="ark-value"></td>
+                <td class="ark-actions">
+                    <button class="btn btn-sm set-ark-current"><%= I18n.t('arks.set_current') %></button>
+                    <button class="btn btn-sm btn-danger remove-ark"><%= I18n.t('arks.remove_ark') %></button>
+                </td>
+            </tr>
+        </table>
+
+        <div class="form-group">
+            <label for="new-ark-value"><%= I18n.t('arks.add_new') %></label>
+            <div class="row">
+                <div class="col-md-8">
+                    <input type="text" class="new-ark-value form-control" name="new_ark_value">
+                </div>
+                <div class="col-md-4">
+                    <button class="add-new-ark btn btn-primary"><%= I18n.t('arks.add_new') %></button>
+                </div>
+            </div>
+        </div>
+
+        <hr>
+
+        <div class="form-actions">
+            <div>
+                <div style="display: inline-block">
+                    <button class="btn btn-primary btn-save-arks"><%= I18n.t('arks.save') %></button>
+                    <div class="text-muted ark-no-changes"><small><%= I18n.t('arks.no_changes') %></small></div>
+                </div>
+
+                <button class="btn btn-default btn-cancel pull-right"><%= I18n.t('actions.cancel') %></button>
+            </div>
+            <div>
+                <small style="display: none" class="unsubmitted-input-msg text-muted"><%= I18n.t('arks.unsubmitted_input') %></small>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+ function EditArksForm(rootElt, saveCallback, cancelCallback) {
+     this.rootElt = rootElt;
+
+     this.saveCallback = saveCallback;
+     this.cancelCallback = cancelCallback;
+
+     this.currentArk = <%= record['ark_name']['current'].to_json.html_safe %>;
+
+     this.previousArks = <%= record['ark_name']['previous'].to_json.html_safe %>;
+
+     this.saveButton = this.rootElt.find('button.btn-save-arks');
+
+     this.error = '';
+
+     this.table = this.rootElt.find('.ark-table');
+
+     this.currentArkRow = this.rootElt.find('.current-ark-value');
+     this.previousArkTemplate = this.rootElt.find('.previous-ark-value-template');
+
+     this.newArkInput = this.rootElt.find('.new-ark-value');
+
+     this.initialFormState = this.serializeState();
+
+     this.addHandlers();
+     this.refreshTable();
+ }
+
+ EditArksForm.prototype.refreshTable = function() {
+     var self = this;
+
+     if (this.currentArk) {
+         this.currentArkRow.find('.ark-value').text(this.currentArk);
+         this.currentArkRow.show();
+     } else {
+         this.currentArkRow.hide();
+     }
+
+     if (this.rootElt.find('.current-ark-is-external').is(':checked')) {
+         this.rootElt.find('.set-ark-current').attr('disabled', 'disabled');
+         this.rootElt.find('.only-current-ark-external-msg').show();
+     } else {
+         this.rootElt.find('.set-ark-current').attr('disabled', null);
+         this.rootElt.find('.only-current-ark-external-msg').hide();
+     }
+
+     this.table.find('.previous_ark_row').remove();
+
+     $(this.previousArks).each(function (idx, ark) {
+         var row = self.previousArkTemplate.clone();
+         row.find('.ark-value').text(ark);
+
+         row.removeClass('previous-ark-value-template');
+         row.addClass('previous_ark_row');
+         row.show();
+
+         self.table.append(row);
+     });
+
+     if (self.error) {
+         this.rootElt.find('.ark-errors').text(self.error).show();
+     } else {
+         this.rootElt.find('.ark-errors').hide();
+     }
+
+     if (self.initialFormState === self.serializeState()) {
+         self.rootElt.find('.btn-save-arks').attr('disabled', 'disabled');
+         self.rootElt.find('.ark-no-changes').show();
+     } else {
+         self.rootElt.find('.btn-save-arks').attr('disabled', null);
+         self.rootElt.find('.ark-no-changes').hide();
+
+     }
+ };
+
+ EditArksForm.prototype.addNewArk = function(arkValue) {
+     this.previousArks.push(arkValue);
+     this.refreshTable();
+ };
+
+ EditArksForm.prototype.showError = function(msg) {
+     this.error = msg;
+     this.refreshTable();
+ };
+
+
+ EditArksForm.prototype.serializeState = function() {
+     return JSON.stringify({
+         current: this.currentArk,
+         current_is_external: this.rootElt.find('.current-ark-is-external').is(':checked'),
+         previous: this.previousArks,
+     })
+ };
+
+ EditArksForm.prototype.saveArks = function() {
+     var self = this;
+
+     $.ajax({
+         url: AS.app_prefix("/ark_update"),
+         data: {
+             uri: "<%= record['uri'] %>",
+             ark_name: self.serializeState(),
+         },
+         type: "post",
+         success: function(html) {
+             self.saveCallback();
+         },
+         error: function(jqXHR, textStatus, errorThrown) {
+             var errorShown = false;
+
+             if (jqXHR.responseText.startsWith("{")) {
+                 var jsonError = JSON.parse(jqXHR.responseText);
+
+                 var errorCode = jsonError['ark'][0];
+                 var message = errorCode ? self.rootElt.find('.ark-error-' + errorCode).text() : null;
+
+                 if (message) {
+                     self.showError(message);
+                     errorShown = true;
+                 }
+             }
+
+             if (!errorShown) {
+                 self.showError(jqXHR.responseText);
+             }
+         }
+     });
+ };
+
+ EditArksForm.prototype.maybeDisableSave = function() {
+     var self = this;
+
+     if (self.newArkInput.val().trim()) {
+         // Block save
+         self.saveButton.attr('disabled', true);
+         self.rootElt.find('.unsubmitted-input-msg').show();
+     } else {
+         // Save OK
+         self.saveButton.attr('disabled', null);
+         self.rootElt.find('.unsubmitted-input-msg').hide();
+     }
+ }
+
+ EditArksForm.prototype.addHandlers = function () {
+     var self = this;
+
+     var addArk = function() {
+         if (self.newArkInput.val().trim().length > 0) {
+             self.addNewArk(self.newArkInput.val().trim());
+             self.newArkInput.val('');
+             self.maybeDisableSave();
+         }
+     };
+
+     this.rootElt.find('button.add-new-ark').on('click', addArk);
+
+     self.newArkInput.on('keypress', function (e) {
+         if (e.keyCode == 13) {
+             addArk();
+         }
+     });
+
+     self.newArkInput.on('keyup', function (e) {
+         self.maybeDisableSave();
+     });
+
+     this.rootElt.on('click', 'button.remove-ark', function () {
+         var victim = $(this).closest('tr').find('.ark-value').text();
+
+         self.previousArks = self.previousArks.filter((v) => v !== victim);
+
+         self.refreshTable();
+     });
+
+     this.rootElt.on('click', 'button.set-ark-current', function () {
+         var promoted = $(this).closest('tr').find('.ark-value').text();
+
+         self.previousArks.push(self.currentArk);
+         self.previousArks = self.previousArks.filter((v) => v !== promoted);
+         self.currentArk = promoted;
+
+         self.refreshTable();
+     });
+
+     this.rootElt.on('click', 'button.btn-save-arks', function () {
+         self.saveArks();
+     });
+
+     this.rootElt.on('click', 'button.btn-cancel', function () {
+         self.cancelCallback();
+     });
+
+     this.currentArkRow.find('.current-ark-is-external').on('change', function () {
+         self.refreshTable();
+     });
+
+ };
+
+
+ $('.edit-arks-btn').on('click', function (event) {
+     event.preventDefault();
+     var dialog_content = AS.renderTemplate("edit_arks_modal_template");
+
+     $modal = AS.openCustomModal("editArksModal", "<%= I18n.t('arks.modal_title') %>", dialog_content, 'large');
+
+     new EditArksForm($modal.find('.edit-arks-form'),
+                      () => { window.location.reload(); },
+                      () => { $modal.modal('hide'); });
+
+     return false;
+ });
+</script>

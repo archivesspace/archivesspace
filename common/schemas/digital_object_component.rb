@@ -15,7 +15,7 @@
       "display_string" => {"type" => "string", "maxLength" => 8192, "readonly" => true},
 
       "file_versions" => {"type" => "array", "items" => {"type" => "JSONModel(:file_version) object"}},
-      
+
       "slug" => {"type" => "string"},
       "is_slug_auto" => {"type" => "boolean", "default" => true},
 
@@ -54,6 +54,21 @@
 
       "has_unpublished_ancestor" => {"type" => "boolean", "readonly" => "true"},
 
+      "ancestors" => {
+        "type" => "array",
+        "items" => {
+          "type" => "object",
+          "subtype" => "ref",
+          "properties" => {
+            "ref" => {"type" => [{"type" => "JSONModel(:digital_object) uri"},
+                                 {"type" => "JSONModel(:digital_object_component) uri"}]},
+            "_resolved" => {
+              "type" => "object",
+              "readonly" => "true"
+            }
+          }
+        }
+      },
     },
   },
 }

@@ -5,7 +5,7 @@ describe AccessionsController, type: :controller do
     it "returns results that include all published accessions" do
       expect(get :index).to have_http_status(200)
       results = assigns(:results)
-      expect( results['total_hits'] ).to eq(3)
+      expect( results['total_hits'] ).to eq(8)
       expect( results.records.first["title"] ).to eq("Accession for Phrase Search")
     end
 
@@ -22,7 +22,7 @@ describe AccessionsController, type: :controller do
         AppConfig[:pui_display_deaccessions] = false
         expect(get :index).to have_http_status(200)
         results = assigns(:results)
-        results.records.each do | rec |
+        results.records.each do |rec|
           expect(rec.deaccessions).to be_empty
         end
       end

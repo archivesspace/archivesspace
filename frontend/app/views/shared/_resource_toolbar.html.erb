@@ -33,6 +33,19 @@
                           :"data-confirm-btn-class" => "btn-primary",
                         }) %>
           </div>
+          <% if ['resource'].include?(record_type) %>
+            <div class="btn-group">
+              <%= button_confirm_action(I18n.t("actions.unpublish"),
+                                        url_for({:action => :unpublish, :id => record.id}),
+                                        {
+                                          :class => "btn btn-sm btn-default",
+                                          :"data-title" => I18n.t("actions.unpublish_confirm_title"),
+                                          :"data-message" => I18n.t("actions.unpublish_confirm_message"),
+                                          :"data-confirm-btn-label" => "#{I18n.t("actions.unpublish")}",
+                                          :"data-confirm-btn-class" => "btn-primary",
+                                        }) %>
+            </div>
+          <% end %>
           <% if AppConfig[:enable_public] %>
             <%= render_aspace_partial :partial => "shared/view_published_button", :locals => {:record => record} %>
           <% end %>
@@ -67,10 +80,10 @@
             %>
           <% end %>
           <div class="btn-group dropdown" id="other-dropdown" style="display: none">
-            <a class="btn btn-sm btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+            <button class="btn btn-sm btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
               <%= I18n.t('actions.more') %>
               <span class="caret"></span>
-            </a>
+            </button>
 
             <% other_shown = false %>
             <ul class="dropdown-menu">
@@ -85,6 +98,11 @@
                   <li><%= link_to I18n.t('assessment._frontend.action.create_for_record'), {:controller => :assessments, :action => :new, :record_uri => record.uri} %></li>
                 <% end %>
               <% end %>
+
+              <% if user_can?('administer_system') && AppConfig[:arks_enabled] && record['ark_name'] %>
+                <li><%= render_aspace_partial :partial => "shared/ark_editor", :locals => {:record => record} %>
+              <% end %>
+
             </ul>
 
             <% if other_shown %><script>$('#other-dropdown').show();</script><% end %>

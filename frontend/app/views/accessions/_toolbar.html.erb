@@ -29,7 +29,7 @@
               <%= render_aspace_partial :partial => "shared/event_dropdown", :locals => {:record => @accession } %>
             <% end %>
             <% if not @accession.suppressed %>
-              <div class="btn btn-inline-form">
+              <div id="spawn-dropdown" class="btn btn-inline-form">
                 <a class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown" href="javascript:void(0);">
                   <%= I18n.t "actions.spawn" %>
                   <span class="caret"></span>
@@ -40,6 +40,9 @@
                   </li>
                   <li>
                     <%= link_to "<span class='icomoon icon-resource'></span> #{I18n.t("resource._singular")}".html_safe, :controller => :resources, :action => :new, :accession_id => @accession.id %>
+                  </li>
+                  <li>
+                      <%= link_to "<span class='asicon icon-archival_object'></span> #{I18n.t("archival_object._singular")}".html_safe, :controller => :archival_objects, :action => :new, :accession_id => @accession.id %>
                   </li>
                 </ul>
               </div>

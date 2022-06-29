@@ -7,12 +7,7 @@ require 'set'
 
 class PUIIndexer < PeriodicIndexer
 
-  PUI_RESOLVES = [
-    'ancestors',
-    'ancestors::linked_agents',
-    'ancestors::subjects',
-    'ancestors::instances::sub_container::top_container'
-  ]
+  PUI_RESOLVES = AppConfig[:record_inheritance_resolves]
 
   def initialize(backend = nil, state = nil, name)
     state_class = AppConfig[:index_state_class].constantize

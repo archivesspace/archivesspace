@@ -2,7 +2,7 @@
 
 source 'https://rubygems.org'
 
-gem 'rails', '5.2.4.4'
+gem 'rails', '5.2.5'
 
 # For handling HTML enities when processing exports as XML
 gem 'htmlentities', '~> 4.3', '>= 4.3.4'
@@ -15,7 +15,6 @@ gem 'nokogiri', '>= 1.10.8'
 gem 'sprockets-rails', '2.3.3'
 
 gem 'atomic', '= 1.0.1'
-gem 'mizuno', '0.6.11'
 
 # use bootstrap's sass
 gem 'bootstrap-sass', '>= 3.4.1'
@@ -55,11 +54,12 @@ group :development, :test do
   gem 'pry', '~> 0.12.2'
   gem 'pry-nav'
   gem 'pry-rails'
-  gem 'rubocop', '~> 0.72.0', require: false
+  gem 'pry-debugger-jruby', '>= 1.2.2'
+  gem 'mizuno-aspace'
 end
 
 group :test do
-  gem 'axe-matchers', '~> 2.6'
+  gem 'axe-core-rspec'
   gem 'capybara', '3.15.1'
   gem 'dumb_delegator', '~> 0.8'
   gem 'factory_bot_rails', '~> 4.11', '>= 4.11.1'
@@ -72,3 +72,7 @@ group :test do
   gem 'selenium-webdriver', '~> 3.142', '>= 3.142.3'
   gem 'simplecov', '0.7.1'
 end
+
+# Allow plugins to provide their own Gemfiles too.
+require 'asutils'
+ASUtils.load_plugin_gems(self)

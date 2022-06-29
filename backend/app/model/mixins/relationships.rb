@@ -49,12 +49,12 @@ AbstractRelationship = Class.new(Sequel::Model) do
     columns = if obj1.class == obj2.class
       # If our two related objects are of the same type, we'll get back multiple
       # columns here anyway
-      raise ReferenceError.new("Can't relate an object to itself") if obj1.id == obj2.id
+                raise ReferenceError.new("Can't relate an object to itself") if obj1.id == obj2.id
 
-      self.reference_columns_for(obj1.class)
-    else
-      [self.reference_columns_for(obj1.class).first, self.reference_columns_for(obj2.class).first]
-    end
+                self.reference_columns_for(obj1.class)
+              else
+                [self.reference_columns_for(obj1.class).first, self.reference_columns_for(obj2.class).first]
+              end
 
     if columns.include?(nil)
       raise ("One of the relationship columns for #{obj1} and #{obj2} couldn't be found." +
@@ -71,7 +71,7 @@ AbstractRelationship = Class.new(Sequel::Model) do
     # some objects ( like events? ) seem to leak their ids into the mix.
     values.reject! { |key| key == :id or key == "id"  }
     if ( obj1.is_a?(Location) or obj2.is_a?(Location) )
-      values.reject! { |key| key == :jsonmodel_type or key == "jsonmodel_type"  }
+      values.reject! { |key| key == :jsonmodel_type or key == "jsonmodel_type" }
     end
     self.create(values)
   end
@@ -137,7 +137,7 @@ AbstractRelationship = Class.new(Sequel::Model) do
                     raise "Transfer would create a circular relationship!"
                   end
 
-                elsif relationship.is_a?(Relationships::SubContainerTopContainerLink)
+                elsif relationship.is_a?(Relationships::SubContainerTopContainerLink) && !find_by_participant(target).empty?
                   identify_duplicate_containers(target, relationship, target_col, dups)
 
                 elsif relationship.is_a?(Relationships::ContainerProfileTopContainerProfile)
@@ -171,16 +171,10 @@ AbstractRelationship = Class.new(Sequel::Model) do
 
     # Finally, reindex the target record for good measure (and, in the case of
     # top containers, to update the associated collections)
-    # We need to skip agents because the "replace" functionality does, in some
-    # cases actually lead to modifications to the target record that can lead
-    # to "record modified since" errors.
-    unless target.class.name.include?("Agent")
-      target[:system_mtime] = Time.now
-      target[:user_mtime] = Time.now
+    target[:system_mtime] = Time.now
+    target[:user_mtime] = Time.now
 
-      target.save
-    end
-
+    target.save
   end
 
 
@@ -314,14 +308,17 @@ AbstractRelationship = Class.new(Sequel::Model) do
 
   # Methods for defining relationships
   def self.set_json_property(property); @json_property = property; end
+
   def self.json_property; @json_property; end
 
 
   def self.set_participating_models(models); @participating_models = models; end
+
   def self.participating_models; @participating_models or raise "No participating models set"; end
 
 
   def self.set_wants_array(val); @wants_array = val; end
+
   def self.wants_array?; @wants_array; end
 
 
@@ -418,10 +415,25 @@ AbstractRelationship = Class.new(Sequel::Model) do
 
   # A list of all DB columns that might contain a foreign key reference to a
   # record of type 'model'.
+  MODEL_COLUMNS_CACHE = java.util.concurrent.ConcurrentHashMap.new(128)
+
   def self.reference_columns_for(model)
-    self.db_schema.keys.select { |column_name|
-      column_name.to_s.downcase =~ /\A#{model.table_name.downcase}_id(_[0-9]+)?\z/
-    }
+    key = [self, model]
+
+    if columns = MODEL_COLUMNS_CACHE.get(key)
+      columns
+    else
+      MODEL_COLUMNS_CACHE.put(key,
+                              self.db_schema.keys.select { |column_name|
+                                [
+                                  model.table_name.downcase.to_s + "_id",
+                                  model.table_name.downcase.to_s + "_id_0",
+                                  model.table_name.downcase.to_s + "_id_1",
+                                ].include?(column_name.to_s.downcase)
+                              })
+
+      MODEL_COLUMNS_CACHE.get(key)
+    end
   end
 
 
@@ -463,7 +475,6 @@ AbstractRelationship = Class.new(Sequel::Model) do
   end
 
 
-
   # The URI of the record referred to by the current relationship that isn't
   # 'obj'.
   def uri_for_other_referent_than(obj)
@@ -475,6 +486,8 @@ AbstractRelationship = Class.new(Sequel::Model) do
         end
       }
     }
+
+    raise "Failed to find a URI for other referent in #{self}: #{obj.id}"
   end
 
 
@@ -513,6 +526,7 @@ module Relationships
   # Store a list of the relationships that this object participates in.  Saves
   # looking up the DB for each one.
   attr_reader :cached_relationships
+
   def cache_relationships(relationship_defn, relationship_objects)
     @cached_relationships ||= {}
     @cached_relationships[relationship_defn] = relationship_objects
@@ -593,7 +607,7 @@ module Relationships
       # transfer_group)
       (referent.class.model_scope == :repository &&
        referent.repo_id != repository.id &&
-       !transfer_group.any?{|obj| obj.id == referent.id && obj.model == referent.model})
+       !transfer_group.any? {|obj| obj.id == referent.id && obj.model == referent.model})
     }
 
 
@@ -634,9 +648,9 @@ module Relationships
         .filter(:instance__id => instances)
         .select(Sequel.qualify(model.table_name, :id))
         .each do |row|
-        exception.add_conflict(model.my_jsonmodel.uri_for(row[:id], :repo_id => self.class.active_repository),
-                        {:json_property => 'instances',
-                         :message => "DIGITAL_OBJECT_HAS_LINK"})
+          exception.add_conflict(model.my_jsonmodel.uri_for(row[:id], :repo_id => self.class.active_repository),
+                          {:json_property => 'instances',
+                           :message => "DIGITAL_OBJECT_HAS_LINK"})
         end
     end
 
@@ -754,6 +768,7 @@ module Relationships
         if (relationship_defn.json_property &&
             (!self.my_jsonmodel.schema['properties'][relationship_defn.json_property] ||
              self.my_jsonmodel.schema['properties'][relationship_defn.json_property]['readonly'] === 'true'))
+
           # Don't delete instances of relationships that are read-only in this direction.
           next
         end
@@ -947,6 +962,7 @@ module Relationships
             if DB.supports_join_updates? &&
                self.table_name == :agent_software &&
                relationship_defn.table_name == :linked_agents_rlshp
+
               DB.open do |db|
                 id_str = Integer(obj.id).to_s
 

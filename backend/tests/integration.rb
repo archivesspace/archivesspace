@@ -12,7 +12,6 @@ require 'simplecov'
 require 'active_support/inflector'
 
 
-$solr_port = 2999
 $ldap_port = 3897
 $port = 3434
 $url = "http://localhost:#{$port}"
@@ -24,12 +23,13 @@ def url(uri)
 end
 
 
-def do_post(s, url, content_type = 'application/x-www-form-urlencoded')
+def do_post(s, url, content_type = 'application/x-www-form-urlencoded', high_priority = false)
   ASHTTP.start_uri(url) do |http|
     req = Net::HTTP::Post.new(url.request_uri)
     req.body = s
     req['Content-Type'] = content_type
     req["X-ARCHIVESSPACE-SESSION"] = @session if @session
+    req['X-ARCHIVESSPACE-PRIORITY'] = high_priority ? "high" : "low"
 
     r = http.request(req)
     {:body => JSON(r.body), :status => r.code}
@@ -61,7 +61,6 @@ def do_delete(url)
 end
 
 
-
 def fail(msg, response)
   raise "FAILURE: #{msg} (#{response.inspect})"
 end
@@ -78,9 +77,7 @@ def start_ldap
 end
 
 
-
 def run_tests(opts)
-
   test_user = "testuser_#{Time.now.to_i}_#{$$}"
 
   puts "Create a test user"
@@ -193,7 +190,7 @@ def run_tests(opts)
   r = do_post({
                 :title => "integration test resource #{$$}",
                 :id_0 => "abc123",
-                :dates => [ { "date_type" => "single", "label" => "creation", "expression" => "1492"   } ],
+                :dates => [ { "date_type" => "single", "label" => "creation", "expression" => "1492" } ],
                 :finding_aid_language => "eng",
                 :finding_aid_script => "Latn",
                 :subjects => [{"ref" => "/subjects/#{subject_id}"}],
@@ -294,6 +291,7 @@ def run_tests(opts)
   puts "Check that search indexing works"
   state = Object.new
   def state.set_last_mtime(*args); end
+
   def state.get_last_mtime(*args); 0; end
 
   AppConfig[:backend_url] = $url
@@ -341,6 +339,33 @@ def run_tests(opts)
   r = do_get(url("/repositories/#{repo_id}/groups"))
   (r[:body].count > 0) or fail("Groups should not be gone", r)
 
+
+  # Added to catch a bug where notes were missing from records indexed via real-time indexing
+  puts "Records from the update-feed are complete"
+  r = do_post({
+                :title => "integration test resource #{$$}",
+                :id_0 => "updatefeedtest",
+                :dates => [ { "date_type" => "single", "label" => "creation", "expression" => "1492" } ],
+                :subjects => [{"ref" => "/subjects/#{subject_id}"}],
+                :language => "eng",
+                :level => "collection",
+                :notes => [{"jsonmodel_type" => "note_singlepart", "content" => ["hello, world"], "type" => "physdesc"}],
+                :extents => [{"portion" => "whole", "number" => "5 or so", "extent_type" => "reels"}]
+              }.to_json,
+              url("/repositories/#{repo_id}/resources"),
+              'text/json',
+              high_priority = true)
+
+  r = do_get(url("/update-feed"))
+  if r[:body][0].nil?
+    fail("Update feed didn't return any records", r)
+  end
+
+  if r[:body][0]['record']['notes'].empty?
+    fail('Notes should not have been empty', r)
+  end
+
+
   puts "Create an expiring admin session"
   r = do_post(URI.encode_www_form(:password => "admin"),
               url("/users/admin/login"))
@@ -361,7 +386,6 @@ end
 
 
 def main
-
   standalone = true
 
   if ENV["ASPACE_BACKEND_URL"]
@@ -378,27 +402,27 @@ def main
 
     # Configure LDAP auth
     config = ASUtils.tempfile('aspace_integration_config')
-    config.write <<EOF
+    config.write <<~EOF
 
-AppConfig[:authentication_sources] = [
-                                      {
-                                        :model => 'LDAPAuth',
-                                        :hostname => 'localhost',
-                                        :port => 3897,
-                                        :base_dn => 'ou=people,dc=archivesspace,dc=org',
-                                        :username_attribute => 'uid',
-                                        :attribute_map => {:cn => :name}
-                                      }
-                                     ]
+      AppConfig[:authentication_sources] = [
+                                            {
+                                              :model => 'LDAPAuth',
+                                              :hostname => 'localhost',
+                                              :port => 3897,
+                                              :base_dn => 'ou=people,dc=archivesspace,dc=org',
+                                              :username_attribute => 'uid',
+                                              :attribute_map => {:cn => :name}
+                                            }
+                                           ]
 
-EOF
+    EOF
     config.close
 
     server = TestUtils::start_backend($port,
                                       {:session_expire_after_seconds => $expire},
                                       config.path)
 
-    TestUtils::wait_for_url("http://localhost:#{$solr_port}/")
+    TestUtils::wait_for_url(AppConfig[:solr_url])
   end
 
   status = 0

@@ -2,12 +2,12 @@ module AgentNames
 
   def self.included(base)
     base.set_model_scope :global
-    
-    base.one_to_many :date, :class => "ASDate"
-    
+
+    base.one_to_many :structured_date_label, :class => "StructuredDateLabel"
+
     base.def_nested_record(:the_property => :use_dates,
-                           :contains_records_of_type => :date,
-                           :corresponding_to_association => :date)
+                           :contains_records_of_type => :structured_date_label,
+                           :corresponding_to_association => :structured_date_label)
 
 
     base.one_to_one :name_authority_id
@@ -30,7 +30,6 @@ module AgentNames
     obj = super
     self.class.apply_authority_id(obj, json)
   end
-
 
 
   module ClassMethods
@@ -89,14 +88,8 @@ module AgentNames
       name_fields = %w(dates qualifier source rules) + type_specific_hash_fields
 
       name['use_dates'].each do |date|
-        hash_fields << [:date_type,
-                        :label, 
-                        :certainty,
-                        :expression, 
-                        :begin, 
-                        :end, 
-                        :era, 
-                        :calendar].map {|property|
+        hash_fields << [:date_type_structured,
+                        :date_label].map {|property|
           date[property.to_s] || ' '
         }.join('_')
       end
@@ -114,7 +107,6 @@ module AgentNames
       }.join('_')
 
       hash_fields
-
     end
   end
 

@@ -163,7 +163,7 @@ describe "indexer common" do
       doc['uri'] = "URI"
       doc['title'] =  "Test record 1"
       doc['arr'] = ['type 1', 'type 2']
-      expect(IndexerCommon.extract_string_values(doc)).to eq('ID URI Test record 1 type 1 type 2 ')
+      expect(IndexerCommon.extract_string_values(doc)).to eq('ID URI Test record 1 type 1 type 2')
     end
     it "extracts string values from hashes" do
       doc = {}
@@ -171,14 +171,14 @@ describe "indexer common" do
       doc['uri'] = "URI2"
       doc['title'] =  "Test record 2"
       doc['hsh'] = {'type1': '1', 'type2': '2'}
-      expect(IndexerCommon.extract_string_values(doc)).to eq('ID2 URI2 Test record 2 1 2 ')
+      expect(IndexerCommon.extract_string_values(doc)).to eq('ID2 URI2 Test record 2 1 2')
     end
     it "extracts string values from strings" do
       doc = {}
       doc['id'] = "ID3"
       doc['uri'] = "URI3"
       doc['title'] =  "Test record 3"
-      expect(IndexerCommon.extract_string_values(doc)).to eq('ID3 URI3 Test record 3 ')
+      expect(IndexerCommon.extract_string_values(doc)).to eq('ID3 URI3 Test record 3')
     end
   end
   describe "build_fullrecord" do
@@ -189,7 +189,7 @@ describe "indexer common" do
         rec['record']['id'] = "ID1"
         rec['record']['uri'] = "URI1"
         rec['record']['title'] =  "Test record 1"
-        expect(IndexerCommon.build_fullrecord(rec)).to eq('ID1 URI1 Test record 1 ')
+        expect(IndexerCommon.build_fullrecord(rec)).to eq('ID1 URI1 Test record 1')
       end
     end
     describe "record has finding_aid_subtitle" do
@@ -200,7 +200,7 @@ describe "indexer common" do
         rec['record']['uri'] = "URI3"
         rec['record']['title'] =  "Test record 3"
         rec['record']['finding_aid_subtitle'] = 'Finding Aid Subtitle 3'
-        expect(IndexerCommon.build_fullrecord(rec)).to eq('ID3 URI3 Test record 3 Finding Aid Subtitle 3 Finding Aid Subtitle 3 ')
+        expect(IndexerCommon.build_fullrecord(rec)).to eq('ID3 URI3 Test record 3 Finding Aid Subtitle 3 Finding Aid Subtitle 3')
       end
     end
     describe "record has finding_aid_author" do
@@ -211,7 +211,7 @@ describe "indexer common" do
         rec['record']['uri'] = "URI2"
         rec['record']['title'] =  "Test record 2"
         rec['record']['finding_aid_author'] = 'Finding Aid Author 2'
-        expect(IndexerCommon.build_fullrecord(rec)).to eq('ID2 URI2 Test record 2 Finding Aid Author 2 Finding Aid Author 2 ')
+        expect(IndexerCommon.build_fullrecord(rec)).to eq('ID2 URI2 Test record 2 Finding Aid Author 2 Finding Aid Author 2')
       end
     end
     describe "record has names" do
@@ -222,7 +222,7 @@ describe "indexer common" do
         rec['record']['uri'] = "URI2"
         rec['record']['title'] =  "Test record 2"
         rec['record']['names'] = {'name1': 'NAME1', 'name2': 'NAME2', 'name3': 'NAME3'}
-        expect(IndexerCommon.build_fullrecord(rec)).to eq('ID2 URI2 Test record 2 NAME1 NAME2 NAME3   ')
+        expect(IndexerCommon.build_fullrecord(rec)).to eq('ID2 URI2 Test record 2 NAME1 NAME2 NAME3')
       end
     end
     describe "record has finding_aid_subtitle, finding_aid_author, and names" do
@@ -235,7 +235,7 @@ describe "indexer common" do
         rec['record']['finding_aid_subtitle'] = 'Finding Aid Subtitle 1'
         rec['record']['finding_aid_author'] = 'Finding Aid Author 1'
         rec['record']['names'] = {'name1': 'NAME1', 'name2': 'NAME2', 'name3': 'NAME3'}
-        expect(IndexerCommon.build_fullrecord(rec)).to eq('ID1 URI1 Test record 1 Finding Aid Subtitle 1 Finding Aid Author 1 NAME1 NAME2 NAME3 Finding Aid Subtitle 1 Finding Aid Author 1   ')
+        expect(IndexerCommon.build_fullrecord(rec)).to eq('ID1 URI1 Test record 1 Finding Aid Subtitle 1 Finding Aid Author 1 NAME1 NAME2 NAME3 Finding Aid Subtitle 1 Finding Aid Author 1')
       end
     end
   end
@@ -427,7 +427,8 @@ describe "indexer common" do
   end
   describe "sanitize_json method" do
     it "removes agent_contact data when indexing agent_person" do
-      agent = build(:json_agent_person)
+      agent = build(:json_agent_person,
+                    :agent_contacts =>  [build(:json_agent_contact)] )
 
       expect(agent["agent_contacts"].length).to_not eq(0)
       sanitized_agent = @ic.sanitize_json(agent)
@@ -436,7 +437,8 @@ describe "indexer common" do
     end
 
     it "removes agent_contact data when indexing agent_family" do
-      agent = build(:json_agent_family)
+      agent = build(:json_agent_family,
+                    :agent_contacts =>  [build(:json_agent_contact)] )
 
       expect(agent["agent_contacts"].length).to_not eq(0)
       sanitized_agent = @ic.sanitize_json(agent)
@@ -445,7 +447,8 @@ describe "indexer common" do
     end
 
     it "removes agent_contact data when indexing agent_corporate_entity" do
-      agent = build(:json_agent_corporate_entity)
+      agent = build(:json_agent_corporate_entity,
+                    :agent_contacts =>  [build(:json_agent_contact)] )
 
       expect(agent["agent_contacts"].length).to_not eq(0)
       sanitized_agent = @ic.sanitize_json(agent)
@@ -454,7 +457,8 @@ describe "indexer common" do
     end
 
     it "removes agent_contact data when indexing agent_software" do
-      agent = build(:json_agent_software)
+      agent = build(:json_agent_software,
+                    :agent_contacts =>  [build(:json_agent_contact)] )
 
       expect(agent["agent_contacts"].length).to_not eq(0)
       sanitized_agent = @ic.sanitize_json(agent)

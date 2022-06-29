@@ -15,7 +15,7 @@ class AssessmentAttributeDefinitions
           .where { Sequel.~(:id => definitions.map {|d| d['id']}.compact) }
           .delete
       rescue Sequel::ForeignKeyConstraintViolation
-          raise ConflictException.new("RECORD_IN_USE")
+        raise ConflictException.new("RECORD_IN_USE")
       end
 
 

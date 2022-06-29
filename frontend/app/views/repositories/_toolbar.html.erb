@@ -19,11 +19,12 @@
                 {   :class => "btn btn-sm btn-danger delete-record delete-repository", 
                     :"data-confirm-btn-class" => "btn-danger repo-delete", 
                     :"data-title" => I18n.t("actions.delete_repository_confirm_title", :name => @repository["repository"]["name"]),
-                    :"data-message" => I18n.t("actions.delete_repository_confirm_message", :repository => @repository["repository"]["repo_code"] ) } %>
+                    :"data-message" => I18n.t("actions.delete_repository_confirm_message", :repository => @repository["repository"]["repo_code"].gsub("'", "").gsub('"', '') ) } %>
             </div>
           </div>
         <% end %>
       </div>
+      <div class="clearfix"></div>
     </div>
   </div>
 </div>

@@ -27,7 +27,6 @@ module ASpaceExport
 
   # Define or get a serializer
   def self.serializer(name, &block)
-
     if block_given?
       serializer = Class.new(Serializer, &block)
       serializer.instance_variable_set(:@serializer_for, name)
@@ -55,7 +54,6 @@ module ASpaceExport
 
   # Define or get an export model
   def self.model(name, &block)
-
     if block_given?
       model = Class.new(ExportModel, &block)
       model.instance_variable_set(:@model_for, name)
@@ -118,7 +116,7 @@ module ASpaceExport
     # use a serializer to embed wrapped data
     # for example, MODS data wrapped in METS
     def self.with_namespace(prefix, xml)
-      ns = xml.doc.root.namespace_definitions.find{|ns| ns.prefix == prefix}
+      ns = xml.doc.root.namespace_definitions.find {|ns| ns.prefix == prefix}
       xml.instance_variable_set(:@sticky_ns, ns)
       yield
       xml.instance_variable_set(:@sticky_ns, nil)
@@ -157,7 +155,7 @@ module ASpaceExport
         next if fieldable.empty?
 
         handler_args = fieldable.map {|f| obj.send(f) }
-        [handler].flatten.each {|h| self.send(h, *handler_args)  }
+        [handler].flatten.each {|h| self.send(h, *handler_args) }
       end
     end
   end
@@ -171,19 +169,7 @@ module ASpaceExport
     def method_missing(m, *args, &block)
       @sticky_ns ||= nil
       @ns = @sticky_ns if @sticky_ns
-      begin
-        old_method_missing(m, *args, &block)
-      rescue => e
-        # this is a bit odd, but i would be better if the end-user gets the
-        # error information in their export, rather than in their output.
-        node = @doc.create_element( "aspace_export_error" )
-        node.content = "ASPACE EXPORT ERROR : YOU HAVE A PROBLEM WITH YOUR EXPORT OF YOUR RESOURCE. THE FOLLOWING INFORMATION MAY HELP:
-        \n #{e.message} \n #{e.backtrace.inspect}"
-        @parent.add_child(node)
-      end
-
+      old_method_missing(m, *args, &block)
     end
   end
 end
-
-

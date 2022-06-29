@@ -12,17 +12,18 @@ class User < Sequel::Model(:user)
   def self.create_from_json(json, opts = {})
     if !opts[:is_hidden_user]
       agent = JSONModel(:agent_person).from_hash(
-                :publish => false,
+                {:publish => false,
+                :agent_sha1 => SecureRandom.hex,
                 :names => [{
                   :primary_name => json.name,
                   :source => 'local',
                   :rules => 'local',
                   :name_order => 'direct',
                   :sort_name_auto_generate => true
-              }])
+              }]}, raise_errors = true, trusted = true)
 
       CrudHelpers.with_record_conflict_reporting(AgentPerson, agent) do
-        agent_obj = AgentPerson.create_from_json(agent, :system_generated => true)
+        agent_obj = AgentPerson.create_from_json(agent, :system_generated => true, :skip_sha => true)
 
         opts['agent_record_type'] = :agent_person
         opts['agent_record_id'] = agent_obj.id
@@ -42,7 +43,6 @@ class User < Sequel::Model(:user)
 
 
   def self.make_admin_if_requested(obj, json)
-
     return if !RequestContext.get(:apply_admin_access)
 
     # Nothing to do if these already agree
@@ -113,7 +113,6 @@ class User < Sequel::Model(:user)
   def self.unlisted_user_ids
     @@unlisted_user_ids ||= User.filter(:is_hidden_user => 1).collect {|user| user.id}
   end
-
 
   def before_save
     super
@@ -213,7 +212,6 @@ class User < Sequel::Model(:user)
 
 
   def add_to_groups(groups, delete_all_for_repo_id = false)
-
     if delete_all_for_repo_id
       groups_ids = self.class.db[:group].where(:repo_id => delete_all_for_repo_id).select(:id)
       self.class.db[:group_user].where(:user_id => self.id, :group_id => groups_ids).delete
@@ -231,11 +229,11 @@ class User < Sequel::Model(:user)
     raise AccessDeniedException.new("Can't delete system user") if self.is_system_user == 1
 
     DBAuth.delete_user(self.username)
- 
+
     # transfer all import jobs to the admin user
     admin_user = User.select(:id).where( :username => "admin" ).first
     Job.filter(:owner_id => self.id).update( :owner_id => admin_user.id )
-    
+
     Preference.filter(:user_id => self.id).delete
     self.remove_all_group
 

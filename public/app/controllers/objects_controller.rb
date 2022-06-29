@@ -1,4 +1,4 @@
-class ObjectsController <  ApplicationController
+class ObjectsController < ApplicationController
   include ResultInfo
   helper_method :process_repo_info
   helper_method :process_subjects
@@ -21,9 +21,9 @@ class ObjectsController <  ApplicationController
 
   def index
     repo_id = params.fetch(:rid, nil)
-     if !params.fetch(:q,nil)
+    if !params.fetch(:q, nil)
       params[:q] = ['*']
-      params[:limit] = 'digital_object,archival_object' unless params.fetch(:limit,nil)
+      params[:limit] = 'digital_object,archival_object' unless params.fetch(:limit, nil)
       params[:op] = ['OR']
     end
     page = Integer(params.fetch(:page, "1"))
@@ -43,14 +43,14 @@ class ObjectsController <  ApplicationController
 
     @context = repo_context(repo_id, 'record')
     if @results['total_hits'] > 1
-      @search[:dates_within] = true if params.fetch(:filter_from_year,'').blank? && params.fetch(:filter_to_year,'').blank?
+      @search[:dates_within] = true if params.fetch(:filter_from_year, '').blank? && params.fetch(:filter_to_year, '').blank?
       @search[:text_within] = true
     end
     @sort_opts = []
     all_sorts = Search.get_sort_opts
     all_sorts.delete('relevance') unless params[:q].size > 1 || params[:q] != '*'
     all_sorts.keys.each do |type|
-       @sort_opts.push(all_sorts[type])
+      @sort_opts.push(all_sorts[type])
     end
 
     @page_title = I18n.t('record._plural')
@@ -60,10 +60,10 @@ class ObjectsController <  ApplicationController
   end
 
   def search
-    @base_search  =  "/objects/search?"
+    @base_search = "/objects/search?"
     page = Integer(params.fetch(:page, "1"))
     begin
-      set_up_and_run_search(%w(digital_object archival_object),DEFAULT_OBJ_FACET_TYPES,DEFAULT_OBJ_SEARCH_OPTS, params)
+      set_up_and_run_search(%w(digital_object archival_object), DEFAULT_OBJ_FACET_TYPES, DEFAULT_OBJ_SEARCH_OPTS, params)
     rescue NoResultsError
       flash[:error] = I18n.t('search_results.no_results')
       redirect_back(fallback_location: '/') and return
@@ -84,9 +84,9 @@ class ObjectsController <  ApplicationController
     if params[:obj_type] == 'archival_objects'
       url = uri += '#pui' if !uri.ends_with?('#pui')
     end
-    uri = uri.sub("\#pui",'')
+    uri = uri.sub("\#pui", '')
     @criteria = {}
-    @criteria['resolve[]']  = ['repository:id', 'resource:id@compact_resource', 'top_container_uri_u_sstr:id', 'linked_instance_uris:id', 'digital_object_uris:id']
+    @criteria['resolve[]'] = ['repository:id', 'resource:id@compact_resource', 'top_container_uri_u_sstr:id', 'linked_instance_uris:id', 'digital_object_uris:id']
 
     begin
       @result = archivesspace.get_record(url, @criteria)
@@ -96,23 +96,20 @@ class ObjectsController <  ApplicationController
         @has_children = tree_root && tree_root['child_count'] > 0
       end
 
-      begin
-        @repo_info =  @result.repository_information
-        @page_title = @result.display_string
-        @context = [
-          {:uri => @repo_info['top']['uri'], :crumb => @repo_info['top']['name'], :type => 'repository'}
-        ].concat(@result.breadcrumb)
-        fill_request_info
-        if @result['primary_type'] == 'digital_object' || @result['primary_type'] == 'digital_object_component'
-          @dig = process_digital(@result['json'])
-        else
-          @dig = process_digital_instance(@result['json']['instances'])
-          process_extents(@result['json'])
-        end
-      rescue Exception => error
-        Pry::ColorPrinter.pp error.backtrace
-        raise error
+      @repo_info =  @result.repository_information
+      @page_title = @result.display_string
+      @context = [
+        {:uri => @repo_info['top']['uri'], :crumb => @repo_info['top']['name'], :type => 'repository'}
+      ].concat(@result.breadcrumb)
+      fill_request_info
+      if @result['primary_type'] == 'digital_object' || @result['primary_type'] == 'digital_object_component'
+        @dig = process_digital(@result['json'])
+        @rep_fv = @result['json']['representative_file_version']
+      else
+        @dig = process_digital_instance(@result['json']['instances'])
+        process_extents(@result['json'])
       end
+
       render
     rescue RecordNotFound
       type = "#{(params[:obj_type] == 'archival_objects' ? 'archival' : 'digital')}_object"
@@ -121,10 +118,11 @@ class ObjectsController <  ApplicationController
   end
 
   private
+
   # return a single processed archival or digital object
   def object_result(url, criteria)
     begin
-     archivesspace.get_record(url, criteria)
+      archivesspace.get_record(url, criteria)
     rescue RecordNotFound
       {}
     end

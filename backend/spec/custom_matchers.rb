@@ -11,10 +11,10 @@ RSpec::Matchers.define :have_node do |path|
     while path.slice(0) == '/'
       prefix << path.slice!(0)
     end
-    root_frags = path.split('/').reject{|f| f.empty?}
+    root_frags = path.split('/').reject {|f| f.empty?}
     node_frags = []
     matched_node = nil
-    while(matched_node.nil? && root_frags.length > 1)
+    while (matched_node.nil? && root_frags.length > 1)
       node_frags.unshift(root_frags.pop)
       node_set = actual.xpath(prefix + root_frags.join('/'))
       unless node_set.empty?
@@ -77,12 +77,12 @@ RSpec::Matchers.define :have_inner_text do |expected|
 
   failure_message do |node|
     infinitive = regex_mode ? "match /#{expected}/" : "contain '#{expected}'"
-    name = node.is_a?(Nokogiri::XML::NodeSet) ? node.map{|n| n.name}.uniq.join(' | ') : node.name
+    name = node.is_a?(Nokogiri::XML::NodeSet) ? node.map {|n| n.name}.uniq.join(' | ') : node.name
     "Expected node '#{name}' to #{infinitive}. Found string: '#{node.inner_text}'."
   end
 
   failure_message_when_negated do |node|
-    name = node.is_a?(Nokogiri::XML::NodeSet) ? node.map{|n| n.name}.uniq.join(' | ') : node.name
+    name = node.is_a?(Nokogiri::XML::NodeSet) ? node.map {|n| n.name}.uniq.join(' | ') : node.name
     "Expected node '#{name}' to contain something other than '#{txt}'."
   end
 end
@@ -96,26 +96,28 @@ RSpec::Matchers.define :have_inner_markup do |expected|
     else
       markup = node.inner_html.strip.delete(' ').gsub("'", '"')
       expected_markup = expected.strip.delete(' ').gsub("'", '"')
-      markup == expected_markup 
+      markup == expected_markup
     end
   end
 
   failure_message do |node|
-      markup = node.inner_html.strip.delete(' ').gsub("'", '"')
-      expected_markup = expected.strip.delete(' ').gsub("'", '"')
+    markup = node.inner_html.strip.delete(' ').gsub("'", '"')
+    expected_markup = expected.strip.delete(' ').gsub("'", '"')
     infinitive = regex_mode ? "match /#{expected}/" : "contain '#{expected_markup}'"
-    name = node.is_a?(Nokogiri::XML::NodeSet) ? node.map{|n| n.name}.uniq.join(' | ') : node.name
+    name = node.is_a?(Nokogiri::XML::NodeSet) ? node.map {|n| n.name}.uniq.join(' | ') : node.name
     "Expected node '#{name}' to #{infinitive}. Found string: '#{markup}'."
   end
 
   failure_message_when_negated do |node|
-    name = node.is_a?(Nokogiri::XML::NodeSet) ? node.map{|n| n.name}.uniq.join(' | ') : node.name
+    name = node.is_a?(Nokogiri::XML::NodeSet) ? node.map {|n| n.name}.uniq.join(' | ') : node.name
     "Expected node '#{name}' to contain something other than '#{txt}'."
   end
 end
 
-
-RSpec::Matchers.define :have_tag do |expected|
+RSpec::Matchers.define :have_tag do |expected, attributes = {}|
+  raise "spec argument error" if expected.is_a?(Hash) && attributes.has_key?(:_text)
+  attributes[:_text] = expected.values[0] if expected.is_a?(Hash)
+  attributes_orig = attributes.dup
   tag = expected.is_a?(Hash) ? expected.keys[0] : expected
   nodeset = nil
 
@@ -127,41 +129,61 @@ RSpec::Matchers.define :have_tag do |expected|
                 path_root = tag_frags.shift
                 tag = path_root =~ /^[^\[]+:.+/ ? path_root : "xmlns:#{path_root}"
                 selector = false
-                
+
                 tag_frags.each do |frag|
-        					join = (selector || frag =~ /^[^\[]+:.+/) ? '/' : '/xmlns:'
-        					tag << "#{join}#{frag}"
-        					if frag =~ /\[[^\]]*$/
+                  join = (selector || frag =~ /^[^\[]+:.+/) ? '/' : '/xmlns:'
+                  tag << "#{join}#{frag}"
+                  if frag =~ /\[[^\]]*$/
                     selector = true
                   elsif frag =~ /\][^\[]*$/
                     selector = false
                   end
-					      end
+                end
                 doc.xpath("//#{tag}", doc.namespaces)
               end
-    
+
     if nodeset.empty?
       false
-    elsif expected.is_a?(Hash)
-      nodeset.any? {|node|
-        node.inner_text == expected.values[0]
-      }
     else
-      true
+      nodeset.any? {|node| check_node(node, attributes) }
     end
   end
 
   failure_message do |doc|
     if nodeset.nil? || nodeset.empty?
-      "Could find no #{tag} in #{doc.to_xml}"
+      outermost_missing_tag_message(doc, tag)
     else
-      "Could not find text '#{expected.values[0]}' in #{nodeset.to_xml}"
+      "Could not find text/attributes '#{attributes_orig.inspect}' in #{nodeset.to_xml}"
     end
   end
 
   failure_message_when_negated do |doc|
-    "Did not expect to find #{tag} in #{doc.to_xml}"
+    "Did not expect to find #{tag} in #{nodeset.to_xml}"
   end
+end
+
+def outermost_missing_tag_message(doc, tag, orig_tag=nil)
+  return outermost_missing_tag_message(doc, tag.split("/"), tag) unless tag.is_a? Array
+  return "Could not find any part of #{orig_tag} in document" if tag.empty?
+  search_path = (tag.length > 1) ? "//#{tag[0..-2].join('/')}" : "//#{tag[0]}"
+  nodeset_of_interest = doc.xpath(search_path)
+  if (nodeset_of_interest).empty? && tag.length > 1
+    outermost_missing_tag_message(doc, tag[0..-2], orig_tag)
+  else
+    xml_snippet = nodeset_of_interest.to_xml(:indent => 2)
+    return "Searching for #{orig_tag}\nCould not find #{tag[0..-1].join('/')} in\n#{xml_snippet}"
+  end
+end
+
+def check_node(node, attributes)
+  return node.inner_text == attributes if attributes.is_a?(String)
+
+  return false if attributes.has_key?(:_text) && node.inner_text != attributes[:_text]
+  attributes.reject! { |k, _| k == :_text }
+
+  return attributes.select { |k, v|
+    node.attributes.fetch(k.to_s)&.value == v
+  }.count == attributes.count
 end
 
 
@@ -197,4 +219,3 @@ RSpec::Matchers.define :have_namespaces do |expected|
     "Expected document to have namespaces #{expected.inspect}, not #{doc.namespaces.inspect}"
   end
 end
-

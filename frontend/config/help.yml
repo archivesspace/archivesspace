@@ -30,6 +30,7 @@ topics:
   resource_deaccessions: '895812081/Deaccessions+Sub-Record+-+Resources'
   resource_collection_management: '896172244/Collection+Management+Sub-Record+-+Resources'
   resource_classification: '895910283/Classifications+Sub-Record+-+Resources'
+  resource_load_via_spreadsheet: '1173913646/Import+Archival+Objects+from+Excel+or+CSV+File+from+v2.8.1)'
   resource_user_defined: '895812108/User+Defined+Fields+-+Resources'
   # Archival Objects
   archival_object: '894107902/Resource+Records+Components'
@@ -73,36 +74,50 @@ topics:
   subject_external_documents: '894435522/External+Document+Sub-Record'
   # Agent Persons
   agent_person: '890011751/Managing+Agents'
-  agent_person_dates_of_existence: '894533774/Agent+Record+Fields'
-  agent_person_names: '894533774/Agent+Record+Fields'
-  agent_person_contact_details: '894533774/Agent+Record+Fields'
-  agent_person_notes: '894533774/Agent+Record+Fields'
-  agent_person_related_agents: '894664846/Related+Agents+-+Linking+Agent+Record+s+to+an+Agent+Record'
-  agent_person_external_documents: '894435542/External+Document+Sub-Record+-+Agent+Records'
+  agent_person_dates_of_existence: '1942945864/Agent+Record+Fields+from+3.0'
+  agent_person_names: '1942945864/Agent+Record+Fields+from+3.0'
+  agent_person_contact_details: '1942945864/Agent+Record+Fields+from+3.0'
+  agent_person_notes: '1942945864/Agent+Record+Fields+from+3.0'
+
   # Agent Family
   agent_family: '890011751/Managing+Agents'
-  agent_family_dates_of_existence: '894533774/Agent+Record+Fields'
-  agent_family_names: '894533774/Agent+Record+Fields'
-  agent_family_contact_details: '894533774/Agent+Record+Fields'
-  agent_family_notes: '894533774/Agent+Record+Fields'
-  agent_family_related_agents: '894664846/Related+Agents+-+Linking+Agent+Record+s+to+an+Agent+Record'
-  agent_family_external_documents: '894435542/External+Document+Sub-Record+-+Agent+Records'
+  agent_family_dates_of_existence: '1942945864/Agent+Record+Fields+from+3.0'
+  agent_family_names: '1942945864/Agent+Record+Fields+from+3.0'
+  agent_family_contact_details: '1942945864/Agent+Record+Fields+from+3.0'
+  agent_family_notes: '1942945864/Agent+Record+Fields+from+3.0'
   # Agent Corporate Entity
   agent_corporate_entity: '890011751/Managing+Agents'
-  agent_corporate_entity_dates_of_existence: '894533774/Agent+Record+Fields'
-  agent_corporate_entity_names: '894533774/Agent+Record+Fields'
-  agent_corporate_entity_contact_details: '894533774/Agent+Record+Fields'
-  agent_corporate_entity_notes: '894533774/Agent+Record+Fields'
-  agent_corporate_entity_related_agents: '894664846/Related+Agents+-+Linking+Agent+Record+s+to+an+Agent+Record'
-  agent_corporate_entity_external_documents: '894435542/External+Document+Sub-Record+-+Agent+Records'
+  agent_corporate_entity_dates_of_existence: '1942945864/Agent+Record+Fields+from+3.0'
+  agent_corporate_entity_names: '1942945864/Agent+Record+Fields+from+3.0'
+  agent_corporate_entity_contact_details: '1942945864/Agent+Record+Fields+from+3.0'
+  agent_corporate_entity_notes: '1942945864/Agent+Record+Fields+from+3.0'
   # Agent Software
   agent_software: '890011751/Managing+Agents'
-  agent_software_dates_of_existence: '894533774/Agent+Record+Fields'
-  agent_software_names: '894533774/Agent+Record+Fields'
-  agent_software_contact_details: '894533774/Agent+Record+Fields'
-  agent_software_notes: '894533774/Agent+Record+Fields'
-  agent_software_related_agents: '894664846/Related+Agents+-+Linking+Agent+Record+s+to+an+Agent+Record'
-  agent_software_external_documents: '894435542/External+Document+Sub-Record+-+Agent+Records'
+  agent_software_dates_of_existence: '1942945864/Agent+Record+Fields+from+3.0'
+  agent_software_names: '1942945864/Agent+Record+Fields+from+3.0'
+  agent_software_contact_details: '1942945864/Agent+Record+Fields+from+3.0'
+  agent_software_notes: '1942945864/Agent+Record+Fields+from+3.0'
+  # Agent Shared
+  agent_sources: '1942945864/Agent+Record+Fields+from+3.0'
+  agent_record_identifiers: '1942945864/Agent+Record+Fields+from+3.0'
+  agent_maintenance_histories: '1942945864/Agent+Record+Fields+from+3.0'
+  agent_other_agency_codes: '1942945864/Agent+Record+Fields+from+3.0'
+  agent_conventions_declarations: '1942945864/Agent+Record+Fields+from+3.0'
+  agent_identifiers: '1942945864/Agent+Record+Fields+from+3.0'
+  agent_alternate_sets: '1942945864/Agent+Record+Fields+from+3.0'
+  agent_record_controls: '1942945864/Agent+Record+Fields+from+3.0'
+  agent_genders: '1942945864/Agent+Record+Fields+from+3.0'
+  agent_place: '1942945864/Agent+Record+Fields+from+3.0'
+  agent_occupation: '1942945864/Agent+Record+Fields+from+3.0'
+  agent_function: '1942945864/Agent+Record+Fields+from+3.0'
+  agent_topic: '1942945864/Agent+Record+Fields+from+3.0'
+  agent_used_language: '1942945864/Agent+Record+Fields+from+3.0'
+  agent_external_documents: '894435542/External+Document+Sub-Record+-+Agent+Records'
+  agent_external_resources: '1976631381/Relation+Information+-+Linking+Agent+Record+s+and+Related+External+Resources+to+an+Agent+Record+v.3.0.0'
+  agent_related_agents: '1976631381/Relation+Information+-+Linking+Agent+Record+s+and+Related+External+Resources+to+an+Agent+Record+v.3.0.0'
+  agent_required: '2209677336/Editing+Required+Fields+in+Agent+Records'
+  agent_merge: '1961197569/Merging+Agent+Records+from+v3.0'
+
   # Location
   location: '889946202/Managing+Locations'
   # Event
@@ -131,3 +146,9 @@ topics:
   enumeration: '890208293/Managing+Controlled+Value+Lists'
   # Assessments
   assessment: '894435657/Managing+Assessments'
+
+  # Preferences
+  preference: '892239901/Setting+Preferences+as+of+v2.8.1'
+
+  # Bulk Import Templates
+  bulk_import_templates: '894566467/Importing+Records+Overview'

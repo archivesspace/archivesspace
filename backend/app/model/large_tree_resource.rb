@@ -2,6 +2,7 @@ class LargeTreeResource
 
   def root(response, root_record)
     response['level'] = root_record.other_level || root_record.level
+    response['identifier'] = (0...4).map {|i| root_record["id_#{i}".to_sym]}.compact.join("-")
 
     # Collect all container data
     Instance
@@ -23,26 +24,27 @@ class LargeTreeResource
               Sequel.as(:type_3__value, :type_3),
               Sequel.as(:sub_container__indicator_3, :indicator_3))
     .each do |row|
-        response['containers'] ||= []
+      response['containers'] ||= []
 
-        container_data = {}
-        container_data['instance_type'] = row[:instance_type] if row[:instance_type]
-        container_data['top_container_type'] = row[:top_container_type] if row[:top_container_type]
-        container_data['top_container_indicator'] = row[:top_container_indicator] if row[:top_container_indicator]
-        container_data['top_container_barcode'] = row[:top_container_barcode] if row[:top_container_barcode]
-        container_data['type_2'] = row[:type_2] if row[:type_2]
-        container_data['indicator_2'] = row[:indicator_2] if row[:indicator_2]
-        container_data['barcode_2'] = row[:barcode_2] if row[:barcode_2]
-        container_data['type_3'] = row[:type_3] if row[:type_3]
-        container_data['indicator_3'] = row[:indicator_3] if row[:indicator_3]
+      container_data = {}
+      container_data['instance_type'] = row[:instance_type] if row[:instance_type]
+      container_data['top_container_type'] = row[:top_container_type] if row[:top_container_type]
+      container_data['top_container_indicator'] = row[:top_container_indicator] if row[:top_container_indicator]
+      container_data['top_container_barcode'] = row[:top_container_barcode] if row[:top_container_barcode]
+      container_data['type_2'] = row[:type_2] if row[:type_2]
+      container_data['indicator_2'] = row[:indicator_2] if row[:indicator_2]
+      container_data['barcode_2'] = row[:barcode_2] if row[:barcode_2]
+      container_data['type_3'] = row[:type_3] if row[:type_3]
+      container_data['indicator_3'] = row[:indicator_3] if row[:indicator_3]
 
-        response['containers'] << container_data
+      response['containers'] << container_data
     end
-    
+
     response
   end
 
   def node(response, node_record)
+    response['identifier'] = node_record.component_id
     response
   end
 
@@ -52,12 +54,14 @@ class LargeTreeResource
       .left_join(Sequel.as(:enumeration_value, :level_enum), :id => :archival_object__level_id)
       .filter(:archival_object__id => record_ids)
       .select(Sequel.as(:archival_object__id, :id),
+              Sequel.as(:archival_object__component_id, :component_id),
               Sequel.as(:level_enum__value, :level),
               Sequel.as(:archival_object__other_level, :other_level))
       .each do |row|
       id = row[:id]
       result_for_record = response.fetch(record_ids.index(id))
 
+      result_for_record['identifier'] = row[:component_id]
       result_for_record['level'] = row[:other_level] || row[:level]
     end
 

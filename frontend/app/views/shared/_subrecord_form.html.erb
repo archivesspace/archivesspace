@@ -2,6 +2,7 @@
   plugin = false if plugin.blank?
   i18n_prefix = plugin ? 'plugins.' : ''
   singular = name.singularize if singular.blank?
+  action_button_override = singular if action_button_override.blank?
   section_id = form.id_for(name) if section_id.blank?
   heading_size = "h3" if heading_size.blank?
   heading_text = I18n.t("#{i18n_prefix}#{singular}._plural") if heading_text.blank?
@@ -11,6 +12,7 @@
   custom_action_template = false if custom_action_template.blank?
   help_topic = form.help_path_for(name) if help_topic.blank?
   hidden = false if hidden.blank?
+  remove_disabled = false if remove_disabled.blank?
 
   section_classes = []
   if defined?(section_class)
@@ -18,15 +20,20 @@
   end
   section_classes << (hidden ? "subrecord-form-hidden" : "subrecord-form")
 
+  # invisible will still render the data to the DOM so existing data gets passed down and kept
+  section_classes << 'subrecord-form-invisible' if local_assigns[:invisible]
+  section_classes << 'lightmode_toggle' if local_assigns[:lightmode_toggle]
+
   required = form.required?(name) if required.blank?
 
   cardinality = :zero_to_many if cardinality.blank?
+
+  list_limited_to_one = false if list_limited_to_one.blank?
 %>
 
 <%= render_aspace_partial :partial => template_erb, :locals => {:form => form} %>
 
-
-<section id="<%= section_id %>" class="<%= section_classes.reject(&:blank?).join(' ') %><% if required == :conditionally %> conditionally-required<% elsif required %> required<% end %>" data-subrecord-form="true" data-object-name="<%= singular %>" data-template="<%= js_template_name %>" <% if custom_action_template %>data-custom-action="true"<% end %> data-cardinality="<%= cardinality %>">
+<section id="<%= section_id %>" class="<%= section_classes.reject(&:blank?).join(' ') %><% if required == :conditionally %> conditionally-required<% elsif required %> required<% end %>" data-subrecord-form="true" data-object-name="<%= singular %>" data-template="<%= js_template_name %>" <% if custom_action_template %>data-custom-action="true"<% end %> data-cardinality="<%= cardinality %>" <% if remove_disabled %>data-remove="disabled" <% end %>>
   <% unless hidden %>
   <<%= heading_size %> class="subrecord-form-heading">
     <%= wrap_with_tooltip(heading_text, "#{form.i18n_for(name)}_tooltip", "subrecord-form-heading-label") %>
@@ -36,7 +43,7 @@
      <% if custom_action_template %>
        <%= render :partial => custom_action_template %>
      <% else %>
-       <button class="btn btn-sm btn-default pull-right"><%= I18n.t("#{i18n_prefix}#{singular}._frontend.action.add") %></button>
+       <button class="btn btn-sm btn-default pull-right"><%= I18n.t("#{i18n_prefix}#{action_button_override}._frontend.action.add") %></button>
      <% end %>
     <% end %>
 
@@ -44,7 +51,7 @@
   <% end %>
 
   <div class="subrecord-form-container">
-    <% if cardinality === :zero_to_one %>
+    <% if cardinality === :zero_to_one && list_limited_to_one == false %>
       <%= form.list_for([form[name]].compact, name) do |item| %>
         <% form.emit_template(template, item) %>
       <% end %>

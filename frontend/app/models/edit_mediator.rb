@@ -10,7 +10,6 @@ class EditMediator
   @queue = Queue.new
 
   def self.record(user, uri, lock_version, last_report_time)
-
     # Check whether the lock version is out of date, or whether someone else is
     # editing.
     status = @active_edits.value[uri]
@@ -106,7 +105,6 @@ class EditMediator
     end
 
     def start
-
       # The main thread: respond to updates and manage the local editing state.
       Thread.new do
         while true
@@ -133,7 +131,6 @@ class EditMediator
           @queue << {:type => :sync}
         end
       end
-
     end
   end
 

@@ -9,115 +9,112 @@ require_relative 'export_spec_helper'
 describe "Exported MODS metadata" do
 
   before(:all) do
-    @repo_contact = build(:json_agent_contact)
-    @repo_agent = build(:json_agent_corporate_entity,
-                         :agent_contacts => [@repo_contact])
+    as_test_user('admin', true) do
+      @repo_contact = build(:json_agent_contact)
+      @repo_agent = build(:json_agent_corporate_entity,
+                           :agent_contacts => [@repo_contact])
 
-    @repo = build(:json_repository)
+      @repo = build(:json_repository)
 
-    @repo_with_agent = create(:json_repository_with_agent,
-                              :repository => @repo,
-                              :agent_representation => @repo_agent)
+      @repo_with_agent = create(:json_repository_with_agent,
+                                :repository => @repo,
+                                :agent_representation => @repo_agent)
 
-    $old_repo_id = $repo_id
-    $repo_id = @repo_with_agent.id
-    JSONModel.set_repository(@repo_with_agent.id)
+      $old_repo_id = $repo_id
+      $repo_id = @repo_with_agent.id
+      JSONModel.set_repository(@repo_with_agent.id)
 
-    names = (0..5).map { build(:json_name_person) }
-    @agent_person = create(:json_agent_person,
-                           :names => names)
+      names = (0..5).map { build(:json_name_person) }
+      @agent_person = create(:json_agent_person,
+                             :names => names)
 
-    @agent_corporation = create(:json_agent_corporate_entity,
-                                :names => [build(:json_name_corporate_entity,
-                                    :authority_id => rand(1000000).to_s
-                                  )]
-                                )
+      @agent_corporation = create(:json_agent_corporate_entity,
+                                  :names => [build(:json_name_corporate_entity,
+                                      :authority_id => rand(1000000).to_s
+                                    )]
+                                  )
 
-    @subject_person = create(:json_agent_person)
+      @subject_person = create(:json_agent_person)
 
-    @subjects = (0..7).map { create(:json_subject) }
+      @subjects = (0..7).map { create(:json_subject) }
 
-    # ensure at least one subject will be of type 'technique' and 'function'
-    @subjects[6]['term_type'] = 'technique'
-    @subjects[7]['term_type'] = 'function'
+      # ensure at least one subject will be of type 'technique' and 'function'
+      @subjects[6]['term_type'] = 'technique'
+      @subjects[7]['term_type'] = 'function'
 
-    linked_agents = [{
-                       :role => 'creator',
-                       :ref => @agent_person.uri
-                     },
-                     {
-                       :role => 'creator',
-                       :ref => @agent_corporation.uri
-                     },
-                     {
-                       :role => 'subject',
-                       :ref => @subject_person.uri
-                     }]
+      linked_agents = [{
+                         :role => 'creator',
+                         :ref => @agent_person.uri
+                       },
+                       {
+                         :role => 'creator',
+                         :ref => @agent_corporation.uri
+                       },
+                       {
+                         :role => 'subject',
+                         :ref => @subject_person.uri
+                       }]
 
-    linked_subjects = @subjects.map {|s| {:ref => s.uri} }
+      linked_subjects = @subjects.map {|s| {:ref => s.uri} }
 
-    notes = digital_object_note_set + [build(:json_note_bibliography)]
+      notes = digital_object_note_set + [build(:json_note_bibliography)]
 
-    dates = [
-      {"label" => "creation", "expression" => "1970s-ish", "certainty" => "questionable", "date_type" => "bulk"},
-      {"label" => "digitized", "begin" => "10-10-2018", "certainty" => "inferred", "date_type" => "bulk"},
-      {"label" => "copyright", "begin" => "10-10-1998", "end" => "10-10-2008", "certainty" => "approximate", "date_type" => "bulk"},
-      {"label" => "modified", "expression" => "Last week", "certainty" => "approximate", "date_type" => "bulk"},
-      {"label" => "broadcast", "begin" => "04-01-2018", "date_type" => "bulk"},
-      {"label" => "issued", "begin" => "05-01-2018", "date_type" => "bulk"},
-      {"label" => "publication", "begin" => "06-01-2018", "date_type" => "bulk"},
-      {"label" => "other", "begin" => "07-01-2018", "date_type" => "bulk"},
-    ]
+      dates = [
+        {"label" => "creation", "expression" => "1970s-ish", "certainty" => "questionable", "date_type" => "bulk"},
+        {"label" => "digitized", "begin" => "10-10-2018", "certainty" => "inferred", "date_type" => "bulk"},
+        {"label" => "copyright", "begin" => "10-10-1998", "end" => "10-10-2008", "certainty" => "approximate", "date_type" => "bulk"},
+        {"label" => "modified", "expression" => "Last week", "certainty" => "approximate", "date_type" => "bulk"},
+        {"label" => "broadcast", "begin" => "04-01-2018", "date_type" => "bulk"},
+        {"label" => "issued", "begin" => "05-01-2018", "date_type" => "bulk"},
+        {"label" => "publication", "begin" => "06-01-2018", "date_type" => "bulk"},
+        {"label" => "other", "begin" => "07-01-2018", "date_type" => "bulk"},
+      ]
 
-    @digital_object = create(:json_digital_object,
-                             :linked_agents => linked_agents,
-                             :subjects => linked_subjects,
-                             :digital_object_type => "notated_music",
-                             :lang_materials => [build(:json_lang_material),
-                                                 build(:json_lang_material),
-                                                 build(:json_lang_material_with_note)],
-                             :dates => dates,
-                             :notes => notes)
+      @digital_object = create(:json_digital_object,
+                               :linked_agents => linked_agents,
+                               :subjects => linked_subjects,
+                               :digital_object_type => "notated_music",
+                               :lang_materials => [build(:json_lang_material),
+                                                   build(:json_lang_material),
+                                                   build(:json_lang_material_with_note)],
+                               :dates => dates,
+                               :notes => notes)
 
-    use_statements = []
+      use_statements = []
 
-    10.times {
-      use_statements << generate(:use_statement)
-    }
+      10.times {
+        use_statements << generate(:use_statement)
+      }
 
-    # ensure one duplicate value
-    use_statements << use_statements.last.clone
+      # ensure one duplicate value
+      use_statements << use_statements.last.clone
 
-    @file_versions = use_statements.map {|us| build(:json_file_version, :use_statement => us)}
+      @file_versions = use_statements.map {|us| build(:json_file_version, :use_statement => us)}
 
-    @components = []
-    # a child with a file version
-    @components << create(:json_digital_object_component,
-                          :digital_object => {:ref => @digital_object.uri},
-                          :file_versions => @file_versions[6..7])
+      @components = []
+      # a child with a file version
+      @components << create(:json_digital_object_component,
+                            :digital_object => {:ref => @digital_object.uri},
+                            :file_versions => @file_versions[6..7])
 
-    # a grandchild with no file version
-    @components << create(:json_digital_object_component,
-                          :digital_object => {:ref => @digital_object.uri},
-                          :parent => {:ref => @components[0].uri},
-                          :file_versions => @file_versions[8..-1])
+      # a grandchild with no file version
+      @components << create(:json_digital_object_component,
+                            :digital_object => {:ref => @digital_object.uri},
+                            :parent => {:ref => @components[0].uri},
+                            :file_versions => @file_versions[8..-1])
 
 
-    @mods = get_mods(@digital_object)
-
-    # puts "SOURCE: #{@digital_object.inspect}\n"
-    # puts "RESULT: #{@mods.to_xml}\n"
+      @mods = get_mods(@digital_object)
+      raise Sequel::Rollback
+    end
   end
 
 
   after(:all) do
-    [@agent_person, @subject_person, @subjects, @components, @digital_object, @digital_object_unpub].flatten.each do |rec|
-      next if rec.nil?
-      rec.delete
+    as_test_user('admin') do
+      $repo_id = $old_repo_id
+      JSONModel.set_repository($repo_id)
     end
-
-    $repo_id = $old_repo_id
-    JSONModel.set_repository($repo_id)
   end
 
 
@@ -155,7 +152,7 @@ describe "Exported MODS metadata" do
 
     it "maps each subject to a subject tag" do
       @subjects.each do |subject|
-      expect(@mods).to have_tag "mods/subject[@authority='#{subject['source']}']"
+        expect(@mods).to have_tag "mods/subject[@authority='#{subject['source']}']"
         subject['terms'].each do |term|
           case term['term_type']
           when 'geographic', 'cultural_context'
@@ -251,7 +248,7 @@ describe "Exported MODS metadata" do
     end
 
     it "creates a language/languageTerm tag for each language term" do
-      language_vals = @digital_object.lang_materials.map{|l| l['language_and_script']}.compact
+      language_vals = @digital_object.lang_materials.map {|l| l['language_and_script']}.compact
       language_vals.each do |language|
         language = language['language']
         expect(@mods).to have_tag "language/languageTerm[@type='text'][@authority='iso639-2b']" => I18n.t("enumerations.language_iso639_2." + language)
@@ -259,7 +256,7 @@ describe "Exported MODS metadata" do
     end
 
     it "creates a language/languageTerm tag for each language code" do
-      language_vals = @digital_object.lang_materials.map{|l| l['language_and_script']}.compact
+      language_vals = @digital_object.lang_materials.map {|l| l['language_and_script']}.compact
       language_vals.each do |language|
         language = language['language']
         expect(@mods).to have_tag "language/languageTerm[@type='code'][@authority='iso639-2b']" => language
@@ -267,7 +264,7 @@ describe "Exported MODS metadata" do
     end
 
     it "creates a language/scriptTerm tag for each script term" do
-      language_vals = @digital_object.lang_materials.map{|l| l['language_and_script']}.compact
+      language_vals = @digital_object.lang_materials.map {|l| l['language_and_script']}.compact
       language_vals.each do |language|
         script = language['script']
         expect(@mods).to have_tag "language/scriptTerm[@type='text'][@authority='iso15924']" => I18n.t("enumerations.script_iso15924." + script)
@@ -275,7 +272,7 @@ describe "Exported MODS metadata" do
     end
 
     it "creates a language/scriptTerm tag for each script code" do
-      language_vals = @digital_object.lang_materials.map{|l| l['language_and_script']}.compact
+      language_vals = @digital_object.lang_materials.map {|l| l['language_and_script']}.compact
       language_vals.each do |language|
         script = language['script']
         expect(@mods).to have_tag "language/scriptTerm[@type='code'][@authority='iso15924']" => script
@@ -283,7 +280,7 @@ describe "Exported MODS metadata" do
     end
 
     it "creates a note tag for each language note" do
-      language_notes = @digital_object.lang_materials.map {|l| l['notes']}.compact.reject {|e|  e == [] }.flatten
+      language_notes = @digital_object.lang_materials.map {|l| l['notes']}.compact.reject {|e| e == [] }.flatten
       language_notes.each do |note|
         content = note_content(note)
         expect(@mods).to have_tag "note[@type='language']" => content
@@ -291,7 +288,8 @@ describe "Exported MODS metadata" do
     end
 
     it "does not create a language/languageTerm tag if language is not specified" do
-      digital_object = create(:json_digital_object_no_lang,
+      digital_object = create(:json_digital_object,
+                              :lang_materials => nil,
                               :digital_object_type => "notated_music")
 
       mods = get_mods(digital_object)
@@ -357,14 +355,23 @@ end
 
 describe "unpublished extent notes" do
   before(:all) do
-    notes = unpublished_extent_note_set
-    @dimension_note = notes.select {|n| n['type'] == 'dimensions' }
-    @physdesc_note = notes.select {|n| n['type'] == 'physdesc' }
+    as_test_user('admin') do
+      notes = unpublished_extent_note_set
+      @dimension_note = notes.select {|n| n['type'] == 'dimensions' }
+      @physdesc_note = notes.select {|n| n['type'] == 'physdesc' }
 
-    @digital_object_unpub = create(:json_digital_object,
-                                    :notes => notes)
+      @digital_object_unpub = create(:json_digital_object,
+                                      :notes => notes)
 
-    @mods = get_mods(@digital_object_unpub)
+      @mods = get_mods(@digital_object_unpub)
+    end
+  end
+
+  after(:all) do
+    as_test_user('admin') do
+      $repo_id = $old_repo_id
+      JSONModel.set_repository($repo_id)
+    end
   end
 
   it "should not export extent notes if unpublished" do

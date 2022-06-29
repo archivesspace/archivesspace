@@ -1,13 +1,12 @@
 require_relative 'utils'
 
 def create_event_from_collection_management(dataset, event_type)
-
   event_type_list_id = self[:enumeration].filter( :name => 'event_event_type' ).get(:id)
   cataloged = self[:enumeration_value].filter( :enumeration_id => event_type_list_id, :value => event_type ).get(:id)
   unless cataloged
     counter = self[:enumeration_value].filter( :enumeration_id => event_type_list_id ).count
     cataloged = self[:enumeration_value].insert( :enumeration_id => event_type_list_id, :value => event_type,
-                                                 :readonly => 0, :position => counter + 1  )
+                                                 :readonly => 0, :position => counter + 1 )
   end
 
   linked_agent_event_roles_list_id = self[:enumeration].filter(:name => "linked_agent_event_roles").get(:id)

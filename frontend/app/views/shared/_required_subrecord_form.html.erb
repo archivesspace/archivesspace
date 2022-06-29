@@ -1,0 +1,44 @@
+<%
+  plugin = false if plugin.blank?
+  i18n_prefix = plugin ? 'plugins.' : ''
+  singular = name.singularize if singular.blank?
+  action_button_override = singular if action_button_override.blank?
+  heading_size = "h3" if heading_size.blank?
+  heading_text = I18n.t("#{i18n_prefix}#{singular}._plural") if heading_text.blank?
+
+  section_classes = []
+  if defined?(section_class)
+    section_classes << section_class
+  end
+
+  definition = jsonmodel_definition(type)
+  i18n_type ||= type
+  property ||= name
+  section_id ||= "#{@agent.agent_type}_#{type.to_s}"
+%>
+
+<section id="<%= section_id %>" class="<%= section_classes.reject(&:blank?).join(' ') %>" data-subrecord-form="true" data-object-name="<%= singular %>" >
+  <<%= heading_size %> class="subrecord-form-heading">
+    <%= wrap_with_tooltip(heading_text, "#{form.i18n_for(name)}_tooltip", "subrecord-form-heading-label") %>
+    <%= link_to_help :topic => help_topic %>
+  </<%= heading_size %>>
+  <% form_name = "agent[#{property}][0][jsonmodel_type]" %>
+  <div class="subrecord-form-container">
+    <div class="form-group">
+      <label class="col-sm-2 control-label"><%= I18n.t("actions.require_subrecord") %></label>
+        <div class="col-sm-1 req_checkbox">
+          <input id="required_fields__<%= property %>" type="checkbox" name="<%= form_name %>" value="<%= type %>" <%= @required.required?(property, type) ? " checked=checked" : "" %>>
+        </div>
+    </div>
+    <% field_names.each do |field_name| %>
+      <% label = I18n.t("#{i18n_type}.#{field_name}") %>
+      <% form_name = "agent[#{property}][0][#{field_name}]" %>
+      <div class="form-group">
+        <label class="col-sm-2 control-label" for="agent_record_identifier_" plugin=""><%=  label %></label>
+        <div class="col-sm-9  label-only">
+          <input id="required_fields__<%= field_name %>_" type="checkbox" name="<%= form_name %>" value="<%= type %>" col_size="1" controls_class="req_checkbox"<%= definition.required?(field_name) ? ' disabled checked=checked' : '' %><%= @required.required?(property, type, field_name) ? " checked=checked" : "" %>>
+        </div>
+      </div>
+    <% end  %>
+   </div>
+</section>

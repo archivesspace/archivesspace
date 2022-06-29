@@ -6,6 +6,7 @@ class ArchivesSpaceService < Sinatra::Base
             ["target_repo", String, "The URI of the target repository"],
             ["repo_id", :repo_id])
     .permissions([:update_accession_record])
+    .no_data(true)
     .returns([200, :moved]) \
   do
     handle_transfer(Accession, params[:id], :update_accession_record)
@@ -18,6 +19,7 @@ class ArchivesSpaceService < Sinatra::Base
             ["target_repo", String, "The URI of the target repository"],
             ["repo_id", :repo_id])
     .permissions([:update_resource_record])
+    .no_data(true)
     .returns([200, :moved]) \
   do
     handle_transfer(Resource, params[:id], :update_resource_record)
@@ -30,6 +32,7 @@ class ArchivesSpaceService < Sinatra::Base
             ["target_repo", String, "The URI of the target repository"],
             ["repo_id", :repo_id])
     .permissions([:update_digital_object_record])
+    .no_data(true)
     .returns([200, :moved]) \
   do
     handle_transfer(DigitalObject, params[:id], :update_digital_object_record)
@@ -41,6 +44,7 @@ class ArchivesSpaceService < Sinatra::Base
     .params(["target_repo", String, "The URI of the target repository"],
             ["repo_id", :repo_id])
     .permissions([:transfer_repository])
+    .no_data(true)
     .returns([200, :moved]) \
   do
     target_id = JSONModel(:repository).id_for(params[:target_repo])
@@ -78,8 +82,5 @@ class ArchivesSpaceService < Sinatra::Base
     model.get_or_die(id).transfer_to_repository(target)
 
     moved_response(id, target)
-
   end
-
-
 end

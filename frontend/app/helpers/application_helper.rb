@@ -5,22 +5,22 @@ module ApplicationHelper
   def include_controller_js
     scripts = ""
 
-    scripts += javascript_include_tag "#{controller.controller_name}" if File.exist?("#{Rails.root}/app/assets/javascripts/#{controller_name}.js") ||  File.exist?("#{Rails.root}/app/assets/javascripts/#{controller_name}.js.erb")
+    scripts += javascript_include_tag "#{controller.controller_name}" if File.exist?("#{Rails.root}/app/assets/javascripts/#{controller_name}.js") || File.exist?("#{Rails.root}/app/assets/javascripts/#{controller_name}.js.erb")
 
-    scripts += javascript_include_tag "#{controller.controller_name}.#{controller.action_name}" if File.exist?("#{Rails.root}/app/assets/javascripts/#{controller_name}.#{controller.action_name}.js") ||  File.exist?("#{Rails.root}/app/assets/javascripts/#{controller_name}.#{controller.action_name}.js.erb")
+    scripts += javascript_include_tag "#{controller.controller_name}.#{controller.action_name}" if File.exist?("#{Rails.root}/app/assets/javascripts/#{controller_name}.#{controller.action_name}.js") || File.exist?("#{Rails.root}/app/assets/javascripts/#{controller_name}.#{controller.action_name}.js.erb")
 
     if ["new", "create", "edit", "update"].include?(controller.action_name)
-      scripts += javascript_include_tag "#{controller.controller_name}.crud" if File.exist?("#{Rails.root}/app/assets/javascripts/#{controller_name}.crud.js") ||  File.exist?("#{Rails.root}/app/assets/javascripts/#{controller_name}.crud.js.erb")
+      scripts += javascript_include_tag "#{controller.controller_name}.crud" if File.exist?("#{Rails.root}/app/assets/javascripts/#{controller_name}.crud.js") || File.exist?("#{Rails.root}/app/assets/javascripts/#{controller_name}.crud.js.erb")
     end
 
     if ["batch_create"].include?(controller.action_name)
-      scripts += javascript_include_tag "#{controller.controller_name}.batch" if File.exist?("#{Rails.root}/app/assets/javascripts/#{controller_name}.batch.js") ||  File.exist?("#{Rails.root}/app/assets/javascripts/#{controller_name}.batch.js.erb")
+      scripts += javascript_include_tag "#{controller.controller_name}.batch" if File.exist?("#{Rails.root}/app/assets/javascripts/#{controller_name}.batch.js") || File.exist?("#{Rails.root}/app/assets/javascripts/#{controller_name}.batch.js.erb")
     end
 
     if ["defaults", "update_defaults"].include?(controller.action_name)
       ctrl_name = controller.controller_name == 'archival_objects' ? 'resources' : controller.controller_name
 
-      scripts += javascript_include_tag "#{ctrl_name}.crud" if File.exist?("#{Rails.root}/app/assets/javascripts/#{ctrl_name}.crud.js") ||  File.exist?("#{Rails.root}/app/assets/javascripts/#{ctrl_name}.crud.js.erb")
+      scripts += javascript_include_tag "#{ctrl_name}.crud" if File.exist?("#{Rails.root}/app/assets/javascripts/#{ctrl_name}.crud.js") || File.exist?("#{Rails.root}/app/assets/javascripts/#{ctrl_name}.crud.js.erb")
     end
 
 
@@ -51,7 +51,6 @@ module ApplicationHelper
   end
 
   def setup_context(options)
-
     breadcrumb_trail = options[:trail] || []
 
     if options.has_key? :object
@@ -62,7 +61,7 @@ module ApplicationHelper
 
       title = (options[:title] || object["title"] || object["username"]).to_s
 
-      breadcrumb_trail.push(["#{I18n.t("#{controller.to_s.singularize}._plural")}", {:controller => controller, :action => :index}])
+      breadcrumb_trail.push([I18n.t("#{controller.to_s.singularize}._plural"), {:controller => controller, :action => :index}])
 
       if object.id
         breadcrumb_trail.push([title, {:controller => controller, :action => :show}])
@@ -75,12 +74,12 @@ module ApplicationHelper
           set_title("#{I18n.t("#{type}._plural")} | #{title}")
         end
       else # new object
-        breadcrumb_trail.push([options[:title] || "#{I18n.t("actions.new_prefix")} #{I18n.t("#{type}._singular")}"])
+        breadcrumb_trail.push([options[:title] || "#{I18n.t("#{type}.new_title")}"])
         set_title("#{I18n.t("#{controller.to_s.singularize}._plural")} | #{options[:title] || I18n.t("actions.new_prefix")}")
       end
     elsif options.has_key? :title
-        set_title(options[:title])
-        breadcrumb_trail.push([options[:title]])
+      set_title(options[:title])
+      breadcrumb_trail.push([options[:title]])
     end
 
     render_aspace_partial(:partial =>"shared/breadcrumb", :layout => false , :locals => { :trail => breadcrumb_trail }).to_s if options[:suppress_breadcrumb] != true
@@ -132,9 +131,12 @@ module ApplicationHelper
               :title => title,
               :class => "context-help has-tooltip",
               "data-placement" => "left",
-              "data-container" => "body",
             }.merge(opts[:link_opts] || {})
            )
+  end
+
+  def edit_mode?
+    ['edit', 'update'].include?(controller.action_name)
   end
 
   def inline?
@@ -149,7 +151,7 @@ module ApplicationHelper
     @current_repo = false
 
     MemoryLeak::Resources.get(:repository).each do |repo|
-       @current_repo = repo if repo['uri'] === session[:repo]
+      @current_repo = repo if repo['uri'] === session[:repo]
     end
 
     @current_repo
@@ -256,12 +258,14 @@ module ApplicationHelper
   def display_audit_info(hash, opts = {})
     fmt = opts[:format] || 'wide'
     ark_url = nil
-    if AppConfig[:arks_enabled]
-      if hash["external_ark_url"]
-        ark_url = hash["external_ark_url"]
-      elsif hash["ark_name"] && hash["ark_name"]["id"]
-        ark_url = "#{AppConfig[:ark_url_prefix]}/ark:/#{AppConfig[:ark_naan]}/#{hash['ark_name']['id']}"
-      end
+    if AppConfig[:arks_enabled] && hash['ark_name']
+      # watch out! hash might be from a jsonmodel or from a solr result
+      # don't blame me, i'm just trying to fit in around here
+      ark_url = if hash["ark_name"].is_a?(Array)
+                  hash["ark_name"].first
+                else
+                  hash["ark_name"]["current"]
+                end
     end
     html = "<div class='audit-display-#{fmt}'><small>"
     if hash['create_time'] and hash['user_mtime']
@@ -355,7 +359,6 @@ module ApplicationHelper
         csv << data
       end
     end
-
   end
 
   # Merge new_params into params and generate a link.
@@ -378,26 +381,26 @@ module ApplicationHelper
         term_type = obj['_resolved']['terms'][0]["term_type"] rescue nil
 
         case term_type
-          when "cultural_context"
-            return "subject_type_cultural_context"
-          when "function"
-            return "subject_type_function"
-          when "genre_form"
-            return "subject_type_genre_form"
-          when "geographic"
-            return "subject_type_geographic"
-          when "occupation"
-            return "subject_type_occupation"
-          when "style_period"
-            return "subject_type_style_period"
-          when "technique"
-            return "subject_type_technique"
-          when "temporal"
-            return "subject_type_temporal"
-          when "topical"
-            return "subject_type_topical"
-          when "uniform_title"
-            return "subject_type_uniform_title"
+        when "cultural_context"
+          return "subject_type_cultural_context"
+        when "function"
+          return "subject_type_function"
+        when "genre_form"
+          return "subject_type_genre_form"
+        when "geographic"
+          return "subject_type_geographic"
+        when "occupation"
+          return "subject_type_occupation"
+        when "style_period"
+          return "subject_type_style_period"
+        when "technique"
+          return "subject_type_technique"
+        when "temporal"
+          return "subject_type_temporal"
+        when "topical"
+          return "subject_type_topical"
+        when "uniform_title"
+          return "subject_type_uniform_title"
         end
       end
     end
@@ -410,6 +413,18 @@ module ApplicationHelper
   end
 
   def supported_locales_options
-    I18n.supported_locales.map{ |k, v| [t("enumerations.language_iso639_2.#{v}"), k] }
+    I18n.supported_locales.map { |k, v| [t("enumerations.language_iso639_2.#{v}"), k] }
+  end
+
+  def full_mode?
+    user_can?("show_full_agents") || user_can?("administer_system")
+  end
+
+  def has_agent_subrecords?(agent)
+    # agent_person has all agent subrecord types so is ideal for finding any potential subrecord
+    JSONModel(:agent_person).properties_by_tag('agent_subrecord').map(&:first).map(&:to_sym).find do |subrecord|
+      return unless agent.methods.include?(subrecord)
+      agent.send(subrecord).length.positive?
+    end
   end
 end

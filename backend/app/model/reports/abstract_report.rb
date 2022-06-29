@@ -74,7 +74,7 @@ class AbstractReport
   end
 
   def self.code
-    self.name.gsub(/(.)([A-Z])/,'\1_\2').downcase
+    self.name.gsub(/(.)([A-Z])/, '\1_\2').downcase
   end
 
   def identifier_field

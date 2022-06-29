@@ -32,12 +32,16 @@ module RESTHelpers
     end
 
 
-    def merged_response(target, victims, selections = [])
+    def merged_response(target, victims, selections = [], result = nil)
       type = target[:type].to_sym
       response = {:status => 'Merged', :id => target[:id], :selections => selections }
 
       response[:target_uri] = JSONModel(type).uri_for(target[:id], :repo_id => params[:repo_id])
       response[:deleted_uris] = victims.map { |v| JSONModel(type).uri_for(v[:id], :repo_id => params[:repo_id]) }
+
+      unless result.nil?
+        response[:result] = result
+      end
 
       json_response(response)
     end
@@ -67,7 +71,7 @@ module RESTHelpers
     @@param_types = {
       :repo_id => [Integer,
                    "The Repository ID",
-                   {:validation => ["The Repository must exist", ->(v){Repository.exists?(v)}]}],
+                   {:validation => ["The Repository must exist", ->(v) {Repository.exists?(v)}]}],
       :resolve => [[String], "A list of references to resolve and embed in the response",
                    :optional => true],
       :id => [Integer, "The ID of the record"]
@@ -92,6 +96,7 @@ module RESTHelpers
       @required_params = []
       @paginated = false
       @paged = false
+      @no_data = false
       @use_transaction = :unspecified
       @returns = []
       @request_context_keyvals = {}
@@ -110,6 +115,7 @@ module RESTHelpers
           {
             :uri => @uri,
             :description => @description,
+            :permissions => @permissions,
             :documentation => @documentation,
             :deprecated => @deprecated,
             :deprecated_description => @deprecated_description,
@@ -119,6 +125,7 @@ module RESTHelpers
             :params => @required_params,
             :paginated => @paginated,
             :paged => @paged,
+            :no_data => @no_data,
             :returns => @returns
           }
         end
@@ -127,9 +134,13 @@ module RESTHelpers
 
 
     def self.get(uri); self.method(:get).uri(uri); end
+
     def self.post(uri); self.method(:post).uri(uri); end
+
     def self.delete(uri); self.method(:delete).uri(uri); end
+
     def self.get_or_post(uri); self.method([:get, :post]).uri(uri); end
+
     def self.method(method); Endpoint.new(method); end
 
     # Helpers
@@ -143,7 +154,9 @@ module RESTHelpers
 
 
     def uri(uri); @uri = uri; self; end
+
     def description(description); @description = description; self; end
+
     def preconditions(*preconditions); @preconditions += preconditions; self; end
 
     # For the following methods (documentation, example),  content can be provided via either
@@ -207,9 +220,20 @@ module RESTHelpers
       self
     end
 
+    # useful in cases where a permission presupposes another
+    # created earlier and not necessarily propagated to existing repos
+    def sufficient_permissions(permissions)
+      @has_permissions = true
+      @permissions += permissions
+
+      @preconditions << proc { |request| permissions.any? { |permission| current_user.can?(permission) } }
+
+      self
+    end
 
     def permissions(permissions)
       @has_permissions = true
+      @permissions += permissions
 
       permissions.each do |permission|
         @preconditions << proc { |request| current_user.can?(permission) }
@@ -262,6 +286,11 @@ module RESTHelpers
       self
     end
 
+    def no_data(val)
+      @no_data = val
+
+      self
+    end
 
     def use_transaction(val)
       @use_transaction = val
@@ -271,7 +300,7 @@ module RESTHelpers
 
 
     def returns(*returns, &block)
-      raise "No .permissions declaration for endpoint #{@methods.map{|m|m.to_s.upcase}.join('|')} #{@uri}" if !@has_permissions
+      raise "No .permissions declaration for endpoint #{@methods.map {|m| m.to_s.upcase}.join('|')} #{@uri}" if !@has_permissions
 
       @returns = returns.map { |r| r[1] = @@return_types[r[1]] || r[1]; r }
 
@@ -445,7 +474,6 @@ module RESTHelpers
 
 
   def self.included(base)
-
     base.extend(JSONModel)
 
     base.helpers do
@@ -489,15 +517,24 @@ module RESTHelpers
 
       def process_pagination_params(params, known_params, errors, paged)
         known_params['resolve'] = known_params['modified_since'] = true
-
         params['modified_since'] = coerce_type((params[:modified_since] || '0'),
                                               NonNegativeInteger)
+
+        known_params['sort_field'] = true
+        known_params['sort_direction'] = true
+        params['sort_field'] = params.fetch('sort_field', 'id').to_sym
+        params['sort_direction'] = params.fetch('sort_direction', 'asc').to_sym
+
+        unless [:asc, :desc].include? params['sort_direction']
+          errors[:failed_validation] << {
+            name: 'sort_direction', validation: "must be either 'asc' or 'desc' but given: #{params['sort_direction']}"
+          }
+        end
 
         if params[:page]
           known_params['page_size'] = known_params['page'] = true
           params['page_size'] = coerce_type((params[:page_size] || AppConfig[:default_page_size]), PageSize)
           params['page'] = coerce_type(params[:page], NonNegativeInteger)
-
         elsif params[:id_set]
           known_params['id_set'] = true
           params['id_set'] = coerce_type(params[:id_set], IdSet)
@@ -615,6 +652,7 @@ module RESTHelpers
             if bad[:type].is_a?(Array) &&
                !provided_value.is_a?(Array) &&
                provided_value.is_a?(bad[:type][0])
+
               # The caller got the right type but didn't wrap it in an array.
               # Provide a more useful error message.
               msg << ".  Perhaps you meant to specify an array like: #{bad[:name]}[]=#{URI.escape(provided_value)}"

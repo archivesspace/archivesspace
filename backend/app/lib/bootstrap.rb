@@ -71,7 +71,6 @@ class ASpaceEnvironment
   end
 
   def self.download_demo_db
-
     if File.exist?(File.join(Dir.tmpdir, 'data'))
       puts "Data directory already exists at #{File.join(Dir.tmpdir, 'data')}."
       AppConfig[:data_directory] = File.join(Dir.tmpdir, 'data')
@@ -95,17 +94,15 @@ class ASpaceEnvironment
       end
       AppConfig[:data_directory] = File.join(Dir.tmpdir, 'data')
     else
-        puts <<EOF
-
-************************************************************************
-*
-*   WARNING: Unable to download demo data. Using database defined in config
-*
-************************************************************************
-EOF
+      puts <<~EOF
+        
+        ************************************************************************
+        *
+        *   WARNING: Unable to download demo data. Using database defined in config
+        *
+        ************************************************************************
+      EOF
     end
-
-
   end
 
   def self.prepare_database
@@ -127,18 +124,18 @@ EOF
           puts "All done."
         end
 
-        puts <<EOF
-
-************************************************************************
-***
-*** WARNING: Running against the demo database, which is not intended
-*** for production use.
-***
-*** Please see the README.md file for instructions on configuring MySQL.
-***
-************************************************************************
-
-EOF
+        puts <<~EOF
+          
+          ************************************************************************
+          ***
+          *** WARNING: Running against the demo database, which is not intended
+          *** for production use.
+          ***
+          *** Please see the README.md file for instructions on configuring MySQL.
+          ***
+          ************************************************************************
+          
+        EOF
       end
     end
   end

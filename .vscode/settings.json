@@ -1,0 +1,11 @@
+{
+  "editor.defaultFormatter": null,
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+  },
+  "prettier.configPath": ".prettierrc",
+  "stylelint.configFile": ".stylelintrc",
+  "[ruby]": {
+    "editor.defaultFormatter": "misogi.ruby-rubocop"
+  }
+}

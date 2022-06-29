@@ -1,7 +1,6 @@
 class AssessmentMaterialTypesFormatsSubreport < AbstractSubreport
 
-  register_subreport('formats', ['assessment'],
-    :translation => 'assessment._frontend.formats')
+  register_subreport('formats', ['assessment'])
 
   def initialize(parent_report, assessment_id)
     super(parent_report)

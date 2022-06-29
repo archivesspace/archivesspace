@@ -6,15 +6,15 @@
 <title>
   Module: RecordHelper
   
-    &mdash; Documentation by YARD 0.9.20
+    &mdash; Documentation by YARD 0.9.25
   
 </title>
 
-  <link rel="stylesheet" href="css/style.css" type="text/css" charset="utf-8" />
+  <link rel="stylesheet" href="css/style.css" type="text/css" />
 
-  <link rel="stylesheet" href="css/common.css" type="text/css" charset="utf-8" />
+  <link rel="stylesheet" href="css/common.css" type="text/css" />
 
-<script type="text/javascript" charset="utf-8">
+<script type="text/javascript">
   pathId = "RecordHelper";
   relpath = '';
 </script>
@@ -242,14 +242,14 @@
       <pre class="lines">
 
 
-80
-81
-82
-83
-84</pre>
+88
+89
+90
+91
+92</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'public/app/helpers/record_helper.rb', line 80</span>
+      <pre class="code"><span class="info file"># File 'public/app/helpers/record_helper.rb', line 88</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_badge_for_type identifier id'>badge_for_type</span><span class='lparen token'>(</span><span class='rubyid_primary_type identifier id'>primary_type</span><span class='rparen token'>)</span>
   <span class='dstring node'>&quot;&lt;span class=&#39;record-type-badge #{primary_type}&#39; aria-hidden=&#39;true&#39;&gt; \
@@ -304,7 +304,15 @@
 75
 76
 77
-78</pre>
+78
+79
+80
+81
+82
+83
+84
+85
+86</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'public/app/helpers/record_helper.rb', line 51</span>
@@ -319,11 +327,15 @@
             <span class='string val'>&#39;fa-file-o&#39;</span>
             <span class='rubyid_when when kw'>when</span> <span class='string val'>&#39;digital_object&#39;</span>
             <span class='string val'>&#39;fa-file-image-o&#39;</span>
+            <span class='rubyid_when when kw'>when</span> <span class='string val'>&#39;digital_object_component&#39;</span>
+            <span class='string val'>&#39;fa-file-image-o&#39;</span>
             <span class='rubyid_when when kw'>when</span> <span class='string val'>&#39;accession&#39;</span>
             <span class='string val'>&#39;fa-file-text-o&#39;</span>
             <span class='rubyid_when when kw'>when</span> <span class='string val'>&#39;subject&#39;</span>
             <span class='string val'>&#39;fa-tag&#39;</span>
-            <span class='rubyid_when when kw'>when</span>  <span class='string val'>&#39;agent_person&#39;</span>
+            <span class='rubyid_when when kw'>when</span> <span class='string val'>&#39;agent&#39;</span>
+            <span class='string val'>&#39;fa-pencil&#39;</span>
+            <span class='rubyid_when when kw'>when</span> <span class='string val'>&#39;agent_person&#39;</span>
             <span class='string val'>&#39;fa-user&#39;</span>
             <span class='rubyid_when when kw'>when</span> <span class='string val'>&#39;agent_corporate_entity&#39;</span>
             <span class='string val'>&#39;fa-university&#39;</span>
@@ -331,8 +343,12 @@
             <span class='string val'>&#39;fa-users&#39;</span>
             <span class='rubyid_when when kw'>when</span> <span class='string val'>&#39;classification&#39;</span>
             <span class='string val'>&#39;fa-share-alt&#39;</span>
+            <span class='rubyid_when when kw'>when</span> <span class='string val'>&#39;classification_term&#39;</span>
+            <span class='string val'>&#39;fa-tag&#39;</span>
             <span class='rubyid_when when kw'>when</span> <span class='string val'>&#39;top_container&#39;</span>
             <span class='string val'>&#39;fa-archive&#39;</span>
+            <span class='rubyid_when when kw'>when</span> <span class='string val'>&#39;record&#39;</span>
+            <span class='string val'>&#39;fa-folder&#39;</span>
             <span class='rubyid_else else kw'>else</span>
             <span class='string val'>&#39;fa-cog&#39;</span>
           <span class='rubyid_end end kw'>end</span>
@@ -511,9 +527,9 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.8.0.a Documentation Generated on Thu Jul 16 10:06:58 2020 by
+  ArchivesSpace Version v2.8.1.a Documentation Generated on Wed Nov 11 13:21:37 2020 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.20.
+  0.9.25.
 </div>
 
     </div>

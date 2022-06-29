@@ -6,9 +6,9 @@ Sequel.migration do
 
     self[:repository].all.each do |r|
 
-    	# repo_codes are already unique, so no need to de-dupe.
+      # repo_codes are already unique, so no need to de-dupe.
 
-    	# remove URL characters from slug
+      # remove URL characters from slug
       slug = r[:repo_code].gsub(" ", "_").gsub(/[&;?$<>#%{}|\\^~\[\]`\/@=:+,!.]/, "")
 
       if slug.match(/^(\d)+$/)

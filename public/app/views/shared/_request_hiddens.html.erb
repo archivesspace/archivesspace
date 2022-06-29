@@ -10,6 +10,10 @@
       <input type='hidden' name='<%= "#{attr.to_s}[]" %>' value='<%= sanitize v %>' />
     <% end %>
   <% else %>
-    <input type='hidden' name='<%= attr.to_s %>' value='<%= sanitize value %>' />
+	  <% val_str = sanitize(value) %>
+
+    <%# escape any quotes/tags that may break the HTML on the page %>
+	  <% val_str = CGI::escapeHTML(val_str) %>
+    <input type='hidden' name='<%= attr.to_s %>' value='<%= val_str %>' />
   <% end %>
 <% end %>

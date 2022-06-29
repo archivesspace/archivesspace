@@ -1,12 +1,13 @@
 <%# the "badges" for resources, records, etc.  Expects one local: type[ of badge]. @sublist_action, @counts, and @result carry through %>
 
 <li class="large-badge align-center <%= type %>">
-  <form id="coll_sub" action="<%= app_prefix(@sublist_action) %><%= type %>s" method="get">
+  <form action="<%= app_prefix(@sublist_action) %><%= type %>s" method="get">
     <button type="submit" class="btn btn-default <%= type %>" <%= @counts[type] == 0 ? 'disabled="disabled"' : '' %>  >
      <% case type %>
      <% when 'resource' %>
       <i class="fa fa-archive fa-4x"></i>
      <% when 'record' %>
+      <input type="hidden" name="limit" value="archival_object" />
       <i class="fa fa-files-o fa-4x"></i>
      <% when 'digital_object' %>
       <input type="hidden" name="limit" value="digital_object" />

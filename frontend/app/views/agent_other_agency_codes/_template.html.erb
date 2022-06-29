@@ -1,0 +1,34 @@
+<% r = @required ? @required.values : [] %>
+
+<% define_template "agent_other_agency_codes", jsonmodel_definition(:agent_other_agency_codes) do |form| %>
+  <div class="subrecord-form-fields">
+    <div class="agent-record-control-container">
+      <%= form.label_and_textfield "maintenance_agency",  {:field_opts => {:size => 30, :class => "form-control"} }%>
+      <%= form.label_and_select "agency_code_type", 
+        [""] + form.possible_options_for("agency_code_type", false), 
+        :required => is_required_by_admin?(r, "agent_other_agency_codes", "agency_code_type")%>
+    </div>
+  </div>
+<% end %>
+
+<% define_template "agent_other_agency_code_merge_target", jsonmodel_definition(:agent_other_agency_codes) do |form| %>
+
+  <%= form.record_level_merge_controls(form, "agent_other_agency_code", false) %>
+
+  <% field_names = ["maintenance_agency", "agency_code_type"] %>
+  <% field_names.each do |field_name| %>
+    <%= form.label_and_readonly field_name %>
+  <% end %>
+<% end %>
+
+<% define_template "agent_other_agency_code_merge_victim", jsonmodel_definition(:agent_other_agency_codes) do |form| %>
+
+  <% disable_replace = false %>
+
+  <%= form.record_level_merge_controls(form, "agent_other_agency_code", true, !disable_replace) %>
+
+  <%= form.label_and_readonly "maintenance_agency" %>
+  <%= form.label_and_readonly "agency_code_type" %>
+
+  <%= form.hidden_input "id", form.obj["id"] %>
+<% end %>

@@ -4,7 +4,7 @@ require_relative 'container_spec_helper'
 
 
 def create_archival_object_with_rights(top_container_json, dates = [])
-  rights_statements = dates.map{|date| build(:json_rights_statement, {
+  rights_statements = dates.map {|date| build(:json_rights_statement, {
                                                :restriction_start_date => date[0],
                                                :restriction_end_date => date[1]
                                              })}
@@ -16,13 +16,13 @@ end
 
 
 def build_container_location(location_uri, status = 'current')
-    hash = {
-      'status' => status,
-      'start_date' => '2000-01-01',
-      'ref' => location_uri
-    }
-    hash['end_date'] = '2010-01-01' if status == 'previous'
-    JSONModel(:container_location).from_hash(hash)
+  hash = {
+    'status' => status,
+    'start_date' => '2000-01-01',
+    'ref' => location_uri
+  }
+  hash['end_date'] = '2010-01-01' if status == 'previous'
+  JSONModel(:container_location).from_hash(hash)
 end
 
 
@@ -467,6 +467,22 @@ describe 'Managed Container model' do
 
 
   describe "bulk action" do
+    describe "indicators" do
+      it "can set multiple valid indicators" do
+        container1_json = create(:json_top_container)
+        container2_json = create(:json_top_container)
+
+        indicator_data = {}
+        indicator_data[container1_json.uri] = "987654321"
+        indicator_data[container2_json.uri] = "876543210"
+
+        results = TopContainer.bulk_update_indicators(indicator_data)
+        expect(results).to include(container1_json.id, container2_json.id)
+
+        expect(TopContainer[container1_json.id].indicator).to eq("987654321")
+        expect(TopContainer[container2_json.id].indicator).to eq("876543210")
+      end
+    end
 
     describe "barcodes" do
 
@@ -635,8 +651,8 @@ describe 'Managed Container model' do
 
         json = JSONModel(:top_container).find(container1.id)
         expect(json['container_locations'].length).to eq(2)
-        expect(json['container_locations'].map{|v| v['ref']}.include?(location2.uri)).to be_truthy
-        expect(json['container_locations'].map{|v| v['ref']}.include?(temp_location.uri)).to be_truthy
+        expect(json['container_locations'].map {|v| v['ref']}.include?(location2.uri)).to be_truthy
+        expect(json['container_locations'].map {|v| v['ref']}.include?(temp_location.uri)).to be_truthy
       end
 
       it "removes location if updated with a blank location" do
@@ -686,24 +702,24 @@ describe 'Managed Container model' do
   end
 
 
-    it "reindexes linked records when a top container is updated" do
-      box = create(:json_top_container)
+  it "reindexes linked records when a top container is updated" do
+    box = create(:json_top_container)
 
-      accessions = []
-      accessions << create_accession({"instances" => [build_instance(box)]})
-      accessions << create_accession({"instances" => [build_instance(box)]})
-      accessions << create_accession({"instances" => [build_instance(box)]})
+    accessions = []
+    accessions << create_accession({"instances" => [build_instance(box)]})
+    accessions << create_accession({"instances" => [build_instance(box)]})
+    accessions << create_accession({"instances" => [build_instance(box)]})
 
-      mtimes = accessions.map {|accession| accession.system_mtime}
-      ArchivesSpaceService.wait(:long)
+    mtimes = accessions.map {|accession| accession.system_mtime}
+    ArchivesSpaceService.wait(:long)
 
-      # Refresh our lock version
-      box = TopContainer.to_jsonmodel(box.id)
+    # Refresh our lock version
+    box = TopContainer.to_jsonmodel(box.id)
 
-      TopContainer[box.id].update_from_json(box)
+    TopContainer[box.id].update_from_json(box)
 
-      expect(mtimes).not_to eq(accessions.map {|accession| accession.refresh.system_mtime})
-    end
+    expect(mtimes).not_to eq(accessions.map {|accession| accession.refresh.system_mtime})
+  end
 
 
 end

@@ -1,0 +1,96 @@
+<div class='form-group'>
+  <div class='control-label col-sm-2'>
+        <%= I18n.t("metadata_rights_declaration.license") %>
+  </div>
+  <div class='label-only col-sm-8'>
+      <% license = metadata_rights_declaration['license'] || "other" %>
+      <%= I18n.t("enumerations.metadata_license.#{license}", :default => metadata_rights_declaration['license']) %>
+  </div>
+</div>
+
+<div class='form-group'>
+  <div class='control-label col-sm-2'>
+    <%= I18n.t("metadata_rights_declaration.descriptive_note") %>
+  </div>
+  <div class='label-only col-sm-8'>
+    <% if metadata_rights_declaration['descriptive_note'] %>
+      <%= metadata_rights_declaration['descriptive_note'] %>
+      <% end %>
+  </div>
+</div>
+
+<div class='form-group'>
+  <div class='control-label col-sm-2'>
+    <%= I18n.t("metadata_rights_declaration.file_uri") %>
+  </div>
+  <div class='label-only col-sm-8'>
+    <% if metadata_rights_declaration['file_uri'] %>
+      <%= metadata_rights_declaration['file_uri'] %>
+      <% end %>
+  </div>
+</div>
+
+<div class='form-group'>
+  <div class='control-label col-sm-2'>
+    <%= I18n.t("metadata_rights_declaration.file_version_xlink_actuate_attribute") %>
+  </div>
+  <div class='label-only col-sm-8'>
+    <%= I18n.t("enumerations.file_version_xlink_actuate_attribute.#{metadata_rights_declaration['file_version_xlink_actuate_attribute']}", :default => metadata_rights_declaration['file_version_xlink_actuate_attribute']) if metadata_rights_declaration['file_version_xlink_actuate_attribute'] %>
+  </div>
+</div>
+
+<div class='form-group'>
+  <div class='control-label col-sm-2'>
+    <%= I18n.t("metadata_rights_declaration.file_version_xlink_show_attribute") %>
+  </div>
+  <div class='label-only col-sm-8'>
+    <%= I18n.t("enumerations.file_version_xlink_show_attribute.#{metadata_rights_declaration['file_version_xlink_show_attribute']}", :default => metadata_rights_declaration['file_version_xlink_show_attribute']) if metadata_rights_declaration['file_version_xlink_show_attribute'] %>
+  </div>
+</div>
+
+
+<div class='form-group'>
+  <div class='control-label col-sm-2'>
+    <%= I18n.t("metadata_rights_declaration.xlink_title_attribute") %>
+  </div>
+  <div class='label-only col-sm-8'>
+    <% if metadata_rights_declaration['xlink_title_attribute'] %>
+      <%= metadata_rights_declaration['xlink_title_attribute'] %>
+      <% end %>
+  </div>
+</div>
+
+<div class='form-group'>
+  <div class='control-label col-sm-2'>
+    <%= I18n.t("metadata_rights_declaration.xlink_role_attribute") %>
+  </div>
+  <div class='label-only col-sm-8'>
+    <% if metadata_rights_declaration['xlink_role_attribute'] %>
+      <%= metadata_rights_declaration['xlink_role_attribute'] %>
+      <% end %>
+  </div>
+</div>
+
+
+<div class='form-group'>
+  <div class='control-label col-sm-2'>
+    <%= I18n.t("metadata_rights_declaration.xlink_arcrole_attribute") %>
+  </div>
+  <div class='label-only col-sm-8'>
+    <% if metadata_rights_declaration['xlink_arcrole_attribute'] %>
+      <%= metadata_rights_declaration['xlink_arcrole_attribute'] %>
+      <% end %>
+  </div>
+</div>
+
+
+<div class='form-group'>
+  <div class='control-label col-sm-2'>
+    <%= I18n.t("metadata_rights_declaration.last_verified_date") %>
+  </div>
+  <div class='label-only col-sm-8'>
+    <% if metadata_rights_declaration['last_verified_date'] %>
+      <%= metadata_rights_declaration['last_verified_date'] %>
+      <% end %>
+  </div>
+</div>

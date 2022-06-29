@@ -1,0 +1,44 @@
+<% define_template "agent_gender", jsonmodel_definition(:agent_gender) do |form| %>
+  <div class="subrecord-form-fields">
+    <div class="agent-record-control-container">
+      <%= form.label_and_select "gender", [""] + form.possible_options_for("gender", false) %>
+
+      <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "dates", :template_erb => "dates/template", :template => "structured_date_label_usage", :heading_text => I18n.t("name._frontend.section.dates"), :heading_size => "h4"} %>
+
+      <%= render_aspace_partial :partial => "notes/form", :locals => {:form => form, :all_note_types => note_types_for("agent_gender"), :section_id => "agent_contact_notes", :nested_note_jsonmodel => "agent_gender", :header_size => "h4", :show_apply_note_order_action => false} %>
+
+
+    </div>
+  </div>
+<% end %>
+
+<% define_template "agent_gender_merge_target", jsonmodel_definition(:agent_gender) do |form| %>
+
+  <%= form.record_level_merge_controls(form, "agent_gender", false) %>
+  <% field_names = ["gender"] %>
+  <% field_names.each do |field_name| %>
+    <%= form.label_and_readonly field_name %>
+  <% end %>
+  
+  <%= render_aspace_partial :partial => "structured_dates/show_inline", :locals => { :dates => form.obj["dates"], :section_title => I18n.t("agent_gender.dates"), :section_id => "target_gender_dates", :heading_size => "h4"} %>
+ 
+  <%= form.notes_preview %>
+ 
+<% end %>
+
+<% define_template "agent_gender_merge_victim", jsonmodel_definition(:agent_gender) do |form| %>
+  <% disable_replace = false %>
+
+  <%= form.record_level_merge_controls(form, "agent_gender", true, !disable_replace) %>
+  
+  <% field_names = ["gender"] %>
+  <% field_names.each do |field_name| %>
+    <%= form.label_and_readonly field_name %>
+  <% end %>
+  <%= form.hidden_input "id", form.obj["id"] %>
+
+  <%= render_aspace_partial :partial => "structured_dates/show_inline", :locals => { :dates => form.obj["dates"], :section_title => I18n.t("agent_gender.dates"), :section_id => "victim_gender_dates", :heading_size => "h4"} %>
+ 
+  <%= form.notes_preview %>
+   
+<% end %>

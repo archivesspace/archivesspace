@@ -3,7 +3,7 @@ require 'spec_helper'
 describe "Generate REST Documentation" do
 
   it "gets all the endpoints and makes something can write documentation for" do
-    endpoints = ArchivesSpaceService::Endpoint.all.sort{|a,b| a[:uri] <=> b[:uri]}
+    endpoints = ArchivesSpaceService::Endpoint.all.sort {|a, b| a[:uri] <=> b[:uri]}
     output = {}
     problems = []
 
@@ -42,13 +42,18 @@ describe "Generate REST Documentation" do
           else
             record = generate(klass.name.downcase.to_sym)
           end
+
           if p.is_a? String
             output[e[:uri]][e[:method]][p] = record
           else
-            output[e[:uri]][e[:method]][p[0]] = record
+            if p[1].is_a?(Array)
+              output[e[:uri]][e[:method]]["#{p[0]}[]"] = record
+            else
+              output[e[:uri]][e[:method]][p[0]] = record
+            end
           end
         rescue => err
-          problems << { :class => klass, :backtrace => err.backtrace,  :message => err.message }
+          problems << { :class => klass, :backtrace => err.backtrace, :message => err.message }
           next
         end
       end
@@ -57,8 +62,25 @@ describe "Generate REST Documentation" do
 
     file = File.join(File.dirname(__FILE__), '../../', "endpoint_examples.json")
     file_problems = File.join(File.dirname(__FILE__), '../../', "endpoint_examples_problems.json")
-    File.open(file, "w") {  |f| f << output.to_json }
-    File.open(file_problems, "w") {  |f| f << JSON.pretty_generate(problems) }
+    File.open(file, "w") { |f| f << output.to_json }
+    File.open(file_problems, "w") { |f| f << JSON.pretty_generate(problems) }
     $stderr.puts "example file put at #{file}. Problems logged in #{file_problems}"
+  end
+
+  it "alerts you when a factory_bot_helper example is missing for a JSONModel" do
+    # The API docs rely on examples being provided for all JSONModels in
+    # `common/spec/lib/factory_bot_helpers.rb`.  This test will fail if that is
+    # not the case.
+    missing = []
+    JSONModel.models.each_pair do |type, _|
+      begin
+        build("json_#{type}".to_sym)
+      rescue => err
+        missing << err.message if err.message.include?("Factory not registered")
+      end
+    end
+
+    missing = missing.uniq
+    expect(missing).to eq([])
   end
 end

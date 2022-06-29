@@ -1,0 +1,96 @@
+<div class='form-group'>
+  <div class='control-label col-sm-2'>
+  	<%= I18n.t("agent_alternate_set.set_component") %>
+  </div>
+  <div class='label-only col-sm-8'>
+  	<%= agent_alternate_set["set_component"] %>
+ 	</div>
+</div>
+
+<div class='form-group'>
+  <div class='control-label col-sm-2'>
+    <%= I18n.t("agent_alternate_set.descriptive_note") %>
+  </div>
+  <div class='label-only col-sm-8'>
+    <% if agent_alternate_set['descriptive_note'] %>
+      <%= agent_alternate_set['descriptive_note'] %>
+      <% end %>
+  </div>
+</div>
+
+<div class='form-group'>
+  <div class='control-label col-sm-2'>
+    <%= I18n.t("agent_alternate_set.file_uri") %>
+  </div>
+  <div class='label-only col-sm-8'>
+    <% if agent_alternate_set['file_uri'] %>
+      <%= agent_alternate_set['file_uri'] %>
+      <% end %>
+  </div>
+</div>
+
+<div class='form-group'>
+  <div class='control-label col-sm-2'>
+    <%= I18n.t("agent_alternate_set.file_version_xlink_actuate_attribute") %>
+  </div>
+  <div class='label-only col-sm-8'>
+    <%= I18n.t("enumerations.file_version_xlink_actuate_attribute.#{agent_alternate_set['file_version_xlink_actuate_attribute']}", :default => agent_alternate_set['file_version_xlink_actuate_attribute']) %>
+  </div>
+</div>
+
+<div class='form-group'>
+  <div class='control-label col-sm-2'>
+    <%= I18n.t("agent_alternate_set.file_version_xlink_show_attribute") %>
+  </div>
+  <div class='label-only col-sm-8'>
+    <%= I18n.t("enumerations.file_version_xlink_show_attribute.#{agent_alternate_set['file_version_xlink_show_attribute']}", :default => agent_alternate_set['file_version_xlink_show_attribute']) %>
+  </div>
+</div>
+
+
+<div class='form-group'>
+  <div class='control-label col-sm-2'>
+    <%= I18n.t("agent_alternate_set.xlink_title_attribute") %>
+  </div>
+  <div class='label-only col-sm-8'>
+    <% if agent_alternate_set['xlink_title_attribute'] %>
+      <%= agent_alternate_set['xlink_title_attribute'] %>
+      <% end %>
+  </div>
+</div>
+
+<div class='form-group'>
+  <div class='control-label col-sm-2'>
+    <%= I18n.t("agent_alternate_set.xlink_role_attribute") %>
+  </div>
+  <div class='label-only col-sm-8'>
+    <% if agent_alternate_set['xlink_role_attribute'] %>
+      <%= agent_alternate_set['xlink_role_attribute'] %>
+      <% end %>
+  </div>
+</div>
+
+<div class='form-group'>
+  <div class='control-label col-sm-2'>
+    <%= I18n.t("agent_alternate_set.xlink_arcrole_attribute") %>
+  </div>
+  <div class='label-only col-sm-8'>
+    <% if agent_alternate_set['xlink_arcrole_attribute'] %>
+      <%= agent_alternate_set['xlink_arcrole_attribute'] %>
+      <% end %>
+  </div>
+</div>
+
+<div class='form-group'>
+  <div class='control-label col-sm-2'>
+    <%= I18n.t("agent_alternate_set.last_verified_date") %>
+  </div>
+  <div class='label-only col-sm-8'>
+    <% if agent_alternate_set['last_verified_date'] %>
+      <%= agent_alternate_set['last_verified_date'] %>
+      <% end %>
+  </div>
+</div>
+
+
+

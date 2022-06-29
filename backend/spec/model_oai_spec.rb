@@ -10,6 +10,16 @@ describe 'OAI handler' do
 
   before(:all) do
     @oai_repo_id, @test_record_count, @test_resource_record, @test_archival_object_record = OAIHelper.load_oai_data
+    @test_resource_record_id = JSONModel(:resource).id_for(@test_resource_record)
+    @test_archival_object_record_id = JSONModel(:archival_object).id_for(@test_archival_object_record)
+
+    # Ensure an ARK is created for our test resource and archival object
+    AppConfig[:arks_enabled] = true
+    RequestContext.open(:repo_id => @oai_repo_id) do
+      ArkName.ensure_ark_for_record(Resource[@test_resource_record_id], nil)
+      ArkName.ensure_ark_for_record(ArchivalObject[@test_archival_object_record_id], nil)
+    end
+    AppConfig[:arks_enabled] = false
   end
 
   around(:each) do |example|
@@ -55,10 +65,6 @@ describe 'OAI handler' do
   ###
 
   describe "OAI protocol and mapping support" do
-
-    before (:all) do
-      AppConfig[:arks_enabled] = false
-    end
 
     RESOURCE_BASED_FORMATS = ['oai_ead']
     RESOURCE_AND_COMPONENT_BASED_FORMATS = ['oai_dc', 'oai_dcterms', 'oai_mods', 'oai_marc']
@@ -379,50 +385,69 @@ describe 'OAI handler' do
         expect(response.body).not_to match(/<dc:extent>physical description note<\/dc:extent>/)
         expect(response.body).not_to match(/<dc:extent>dimensions note<\/dc:extent>/)
       end
-      it "should output ARK name in identifer tag" do
-        uri = "/oai?verb=GetRecord&identifier=oai:archivesspace/#{@test_resource_record}&metadataPrefix=oai_dc"
-        response = get uri
-        resource_id = @test_resource_record.split("/")[4]
-        ark_url = ArkName.get_ark_url(resource_id.to_i, :resource)
-        expect(response.body).to match(/<dc:identifier.*>#{ark_url}<\/dc:identifier>/)
+      describe 'ARKs enabled' do
+        before(:all) do
+          AppConfig[:arks_enabled] = true
+        end
+        it "should output ARK name in identifier tag" do
+          uri = "/oai?verb=GetRecord&identifier=oai:archivesspace/#{@test_resource_record}&metadataPrefix=oai_dc"
+          response = get uri
+          resource_id = JSONModel(:resource).id_for(@test_resource_record)
+          ark_url = ArkName.first(:resource_id => resource_id.to_i).value
+          expect(response.body).to match(/<dc:identifier.*>#{ark_url}<\/dc:identifier>/)
+        end
       end
-      it "should not output ARK name in identifer tag if ARK output is disabled" do
-        AppConfig[:arks_enabled] = false
-        uri = "/oai?verb=GetRecord&identifier=oai:archivesspace/#{@test_resource_record}&metadataPrefix=oai_dcterms"
-        response = get uri
-        resource_id = @test_resource_record.split("/")[4]
-        ark_url = ArkName.get_ark_url(resource_id.to_i, :resource)
-        expect(response.body).to_not match(/<dc:identifer.*>#{ark_url}<\/dc:identifer>/)
-        AppConfig[:arks_enabled] = true
+      describe 'ARKs disabled' do
+        before(:all) do
+          AppConfig[:arks_enabled] = false
+        end
+        it "should not output ARK name in identifier tag if ARK output is disabled" do
+          uri = "/oai?verb=GetRecord&identifier=oai:archivesspace/#{@test_resource_record}&metadataPrefix=oai_dcterms"
+          response = get uri
+          resource_id = @test_resource_record.split("/")[4]
+          ark_url = ArkName.first(:resource_id => resource_id.to_i).value
+          expect(response.body).to_not match(/<dc:identifier.*>#{ark_url}<\/dc:identifier>/)
+        end
       end
     end
     describe 'DCTerms output' do
-      xit "should output ARK name in identifer tag" do
-        AppConfig[:arks_enabled] = true
-        uri = "/oai?verb=GetRecord&identifier=oai:archivesspace/#{@test_resource_record}&metadataPrefix=oai_dcterms"
-        response = get uri
-        resource_id = @test_resource_record.split("/")[4]
-        ark_url = ArkName.get_ark_url(resource_id.to_i, :resource)
-        expect(response.body).to match(/<dcterms:identifer.*>#{ark_url}<\/dcterms:identifer>/)
+      describe 'ARKs enabled' do
+        before(:all) do
+          AppConfig[:arks_enabled] = true
+        end
+        it "should output ARK name in identifier tag" do
+          uri = "/oai?verb=GetRecord&identifier=oai:archivesspace/#{@test_resource_record}&metadataPrefix=oai_dcterms"
+          response = get uri
+          resource_id = @test_resource_record.split("/")[4]
+          ark_url = ArkName.first(:resource_id => resource_id.to_i).value
+          expect(response.body).to match(/<dcterms:identifier.*>#{ark_url}<\/dcterms:identifier>/)
+        end
       end
-      it "should not output ARK name in identifer tag if ARK output is disabled" do
-        AppConfig[:arks_enabled] = false
-        uri = "/oai?verb=GetRecord&identifier=oai:archivesspace/#{@test_resource_record}&metadataPrefix=oai_dcterms"
-        response = get uri
-        resource_id = @test_resource_record.split("/")[4]
-        ark_url = ArkName.get_ark_url(resource_id.to_i, :resource)
-        expect(response.body).to_not match(/<dcterms:identifer.*>#{ark_url}<\/dcterms:identifer>/)
-        AppConfig[:arks_enabled] = true
+      describe 'ARKs disabled' do
+        before(:all) do
+          AppConfig[:arks_enabled] = false
+        end
+        it "should not output ARK name in identifier tag if ARK output is disabled" do
+          uri = "/oai?verb=GetRecord&identifier=oai:archivesspace/#{@test_resource_record}&metadataPrefix=oai_dcterms"
+          response = get uri
+          resource_id = @test_resource_record.split("/")[4]
+          ark_url = ArkName.first(:resource_id => resource_id.to_i).value
+          expect(response.body).to_not match(/<dcterms:identifier.*>#{ark_url}<\/dcterms:identifier>/)
+        end
       end
     end
     describe 'MODS output' do
-      it "should output ARK name in identifer tag" do
-        AppConfig[:arks_enabled] = true
-        uri = "/oai?verb=GetRecord&identifier=oai:archivesspace/#{@test_resource_record}&metadataPrefix=oai_mods"
-        response = get uri
-        resource_id = @test_resource_record.split("/")[4]
-        ark_url = ArkName.get_ark_url(resource_id.to_i, :resource)
-        expect(response.body).to match(/<identifier.*>#{ark_url}<\/identifier>/)
+      describe 'ARKs enabled' do
+        before(:all) do
+          AppConfig[:arks_enabled] = true
+        end
+        it "should output ARK name in identifier tag" do
+          uri = "/oai?verb=GetRecord&identifier=oai:archivesspace/#{@test_resource_record}&metadataPrefix=oai_mods"
+          response = get uri
+          resource_id = @test_resource_record.split("/")[4]
+          ark_url = ArkName.first(:resource_id => resource_id.to_i).value
+          expect(response.body).to match(/<identifier.*>#{ark_url}<\/identifier>/)
+        end
       end
     end
   end
@@ -468,22 +493,26 @@ describe 'OAI handler' do
 
   describe "respository with OAI harvesting disabled" do
     before(:all) do
-      @repo_disabled = create(:json_repository, :oai_is_disabled => true)
+      as_test_user('admin') do
+        @repo_disabled = create(:json_repository, :oai_is_disabled => true)
 
-      $another_repo_id = $repo_id
-      $repo_id = @repo_disabled.id
+        $another_repo_id = $repo_id
+        $repo_id = @repo_disabled.id
 
-      JSONModel.set_repository($repo_id)
+        JSONModel.set_repository($repo_id)
 
-      @resource = create(:json_resource,
-                          :level => 'collection')
+        @resource = create(:json_resource,
+                            :level => 'collection')
+      end
     end
 
     after(:all) do
-      @resource.delete
-      $repo_id = $another_repo_id
+      as_test_user('admin') do
+        @resource.delete
+        $repo_id = $another_repo_id
 
-      JSONModel.set_repository($repo_id)
+        JSONModel.set_repository($repo_id)
+      end
     end
 
     it "does not publish resources in a repository with OAI disabled" do
@@ -521,55 +550,55 @@ describe 'OAI handler' do
 
     it "returns an object if set included in OAI in repo" do
         # query explicitly for only fonds objects
-        uri = "/oai?verb=ListRecords&set=fonds&metadataPrefix=oai_dc"
-        response = get uri
-        doc = Nokogiri::XML(response.body)
+      uri = "/oai?verb=ListRecords&set=fonds&metadataPrefix=oai_dc"
+      response = get uri
+      doc = Nokogiri::XML(response.body)
 
         # should have at least 1 result in XML
-        expect(doc.xpath("//xmlns:header[not(@status='deleted')]").length > 0).to be true
+      expect(doc.xpath("//xmlns:header[not(@status='deleted')]").length > 0).to be true
     end
 
     it "does not list a set in ListSets if that set is not enabled for at least one repository" do
-        uri = "/oai?verb=ListSets"
-        response = get uri
-        doc = Nokogiri::XML(response.body)
+      uri = "/oai?verb=ListSets"
+      response = get uri
+      doc = Nokogiri::XML(response.body)
 
-        expect(doc.to_s).to match(/<set><setSpec>fonds<\/setSpec>/)
+      expect(doc.to_s).to match(/<set><setSpec>fonds<\/setSpec>/)
 
-        expect(doc.to_s).to_not match(/<set><setSpec>class<\/setSpec>/)
-        expect(doc.to_s).to_not match(/<set><setSpec>collection<\/setSpec>/)
-        expect(doc.to_s).to_not match(/<set><setSpec>file<\/setSpec>/)
-        expect(doc.to_s).to_not match(/<set><setSpec>item<\/setSpec>/)
-        expect(doc.to_s).to_not match(/<set><setSpec>otherlevel<\/setSpec>/)
-        expect(doc.to_s).to_not match(/<set><setSpec>recordgrp<\/setSpec>/)
-        expect(doc.to_s).to_not match(/<set><setSpec>series<\/setSpec>/)
-        expect(doc.to_s).to_not match(/<set><setSpec>subfonds<\/setSpec>/)
-        expect(doc.to_s).to_not match(/<set><setSpec>subgrp<\/setSpec>/)
-        expect(doc.to_s).to_not match(/<set><setSpec>subseries<\/setSpec>/)
+      expect(doc.to_s).to_not match(/<set><setSpec>class<\/setSpec>/)
+      expect(doc.to_s).to_not match(/<set><setSpec>collection<\/setSpec>/)
+      expect(doc.to_s).to_not match(/<set><setSpec>file<\/setSpec>/)
+      expect(doc.to_s).to_not match(/<set><setSpec>item<\/setSpec>/)
+      expect(doc.to_s).to_not match(/<set><setSpec>otherlevel<\/setSpec>/)
+      expect(doc.to_s).to_not match(/<set><setSpec>recordgrp<\/setSpec>/)
+      expect(doc.to_s).to_not match(/<set><setSpec>series<\/setSpec>/)
+      expect(doc.to_s).to_not match(/<set><setSpec>subfonds<\/setSpec>/)
+      expect(doc.to_s).to_not match(/<set><setSpec>subgrp<\/setSpec>/)
+      expect(doc.to_s).to_not match(/<set><setSpec>subseries<\/setSpec>/)
     end
   end
 
   describe "repository without sets disabled" do
     it "does list a set in ListSets if that set is enabled for at least one repository" do
-        Repository.all.each do |r|
-          r.update(:oai_sets_available => "[]")
-        end
+      Repository.all.each do |r|
+        r.update(:oai_sets_available => "[]")
+      end
 
-        uri = "/oai?verb=ListSets"
-        response = get uri
-        doc = Nokogiri::XML(response.body)
+      uri = "/oai?verb=ListSets"
+      response = get uri
+      doc = Nokogiri::XML(response.body)
 
-        expect(doc.to_s).to match(/<set><setSpec>fonds<\/setSpec>/)
-        expect(doc.to_s).to match(/<set><setSpec>class<\/setSpec>/)
-        expect(doc.to_s).to match(/<set><setSpec>collection<\/setSpec>/)
-        expect(doc.to_s).to match(/<set><setSpec>file<\/setSpec>/)
-        expect(doc.to_s).to match(/<set><setSpec>item<\/setSpec>/)
-        expect(doc.to_s).to match(/<set><setSpec>otherlevel<\/setSpec>/)
-        expect(doc.to_s).to match(/<set><setSpec>recordgrp<\/setSpec>/)
-        expect(doc.to_s).to match(/<set><setSpec>series<\/setSpec>/)
-        expect(doc.to_s).to match(/<set><setSpec>subfonds<\/setSpec>/)
-        expect(doc.to_s).to match(/<set><setSpec>subgrp<\/setSpec>/)
-        expect(doc.to_s).to match(/<set><setSpec>subseries<\/setSpec>/)
+      expect(doc.to_s).to match(/<set><setSpec>fonds<\/setSpec>/)
+      expect(doc.to_s).to match(/<set><setSpec>class<\/setSpec>/)
+      expect(doc.to_s).to match(/<set><setSpec>collection<\/setSpec>/)
+      expect(doc.to_s).to match(/<set><setSpec>file<\/setSpec>/)
+      expect(doc.to_s).to match(/<set><setSpec>item<\/setSpec>/)
+      expect(doc.to_s).to match(/<set><setSpec>otherlevel<\/setSpec>/)
+      expect(doc.to_s).to match(/<set><setSpec>recordgrp<\/setSpec>/)
+      expect(doc.to_s).to match(/<set><setSpec>series<\/setSpec>/)
+      expect(doc.to_s).to match(/<set><setSpec>subfonds<\/setSpec>/)
+      expect(doc.to_s).to match(/<set><setSpec>subgrp<\/setSpec>/)
+      expect(doc.to_s).to match(/<set><setSpec>subseries<\/setSpec>/)
     end
   end
 end

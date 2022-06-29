@@ -58,7 +58,7 @@ class LangHandler < Handler
           lang.notes.push note
           langs.push lang
         rescue Exception => e
-          report.add_errors(I18n.t("bulk_import.error.bad_note", :type => "langmaterial", :msg => CGI::escapeHTML(e.message)))
+          report.add_errors(I18n.t("bulk_import.error.bad_note", :type => "langmaterial", :msg => e.message))
         end
       end
     end

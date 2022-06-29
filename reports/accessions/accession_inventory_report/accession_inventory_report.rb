@@ -63,7 +63,8 @@ class AccessionInventoryReport < AbstractReport
       where date.date_type_id = enumeration_value.id and enumeration_value.value = 'bulk'
       group by accession_id) as bulk_date
 
-    where accession.repo_id = 2 and not accession.inventory is null"
+    where accession.repo_id = #{db.literal(@repo_id)} and not accession.inventory is null"
+        
   end
 
   def page_break

@@ -1,3 +1,4 @@
+<div class="search-listing-filter">
 <% if @search_data.filtered_terms? or @search_data.query? %>
   <div class="well">
     <h3>
@@ -8,14 +9,14 @@
       <% if @search_data.query? %>
         <% query_array = @search_data[:criteria]["q"].split(" AND ") %>
         <% query_array.each do | query | %>
-          <li>
+          <li class="facet-selected">
             <%= link_to "#{h(@search_data.facet_label_for_query(query))} <span class='glyphicon glyphicon-remove'></span>".html_safe, build_search_params({"q" => query_array.reject{ |k| k==query}.join(' AND ')}) %>
           </li>
         <% end %>
       <% end %>
       <% if @search_data.filtered_terms? %>
-        <% @search_data[:criteria]["filter_term[]"].each do | filter_term | %>
-          <li>
+        <% @search_data.user_filter_terms.each do | filter_term | %>
+          <li class="facet-selected">
             <%= link_to "#{h(@search_data.facet_label_for_filter(filter_term))} <span class='glyphicon glyphicon-remove'></span>".html_safe, build_search_params({"remove_filter_term" => filter_term}) %>
           </li>
         <% end %>
@@ -36,7 +37,7 @@
         <%= hidden_field_tag k, v %>
       <% end %>
     <% end %>
-    <div class="input-group" style="width:100%">
+    <div class="input-group search-filter" style="width:100%">
       <label for="filter-text" class="sr-only">Filter by text</label>
       <input class="text-filter-field form-control" type="text" placeholder="<%= I18n.t("search_results.text_placeholder") %>" name="q" value="<%= params[:q] %>" id="filter-text"/>
       <div class="input-group-btn">
@@ -50,7 +51,7 @@
   <h3><%= I18n.t("search.#{@search_data.get_type}.#{facet_group}", :default => I18n.t("search.multi.#{facet_group}", :default => facet_group)) %></h3>
   <ul>
     <% facets.each do |facet, facet_map| %>
-      <li>
+      <li class="facet">
       	<% if facet_map.has_key?(:q) %>
         	<% opts = {"q" => facet_map[:q]} %>
       	<% else %>
@@ -62,3 +63,4 @@
     <% end %>
   </ul>
 <% end %>
+</div>

@@ -3,16 +3,15 @@
 <div class="row">
    <div class="col-md-3"></div>
    <div class="col-md-9">
-     <% if not @manage_access %>
-
-       <div class="record-toolbar">
-         <div class="btn-group pull-right">
+     <div class="record-toolbar">
+       <div class="btn-group pull-right">
+         <% unless @manage_access %>
            <%= link_to I18n.t("user._frontend.action.create"), {:controller => :users, :action => :new}, :class => "btn btn-sm btn-default" %>
-         </div>
-         <br style="clear:both" /> <!-- So dirty! -->
+         <% end %>
        </div>
+       <br style="clear:both" /> <!-- So dirty! -->
+     </div>
 
-     <% end %>
 
     <div class="record-pane">
       <% if @manage_access %>
@@ -29,33 +28,79 @@
        <table class="table table-striped table-bordered table-condensed">
          <thead>
            <tr>
-             <th><%= I18n.t("user._singular") %></th>
-             <th width="70px"><!-- actions --></th>
+             <th>
+              <%= link_to I18n.t("user.username"), sort: :username, direction: sort_direction(:username, params, 'asc') %>
+              <%= sort_pointer(:username, params, '&#x25B2;').html_safe %>
+             </th>
+             <th><%= I18n.t("user.name") %></th>
+             <% unless @manage_access %>
+               <th>
+                <%= link_to I18n.t("user.create_time"), sort: :create_time, direction: sort_direction(:create_time, params, 'asc') %>
+                <%= sort_pointer(:create_time, params, '').html_safe %>
+               </th>
+               <th>
+                <%= link_to I18n.t("user.user_mtime"), sort: :user_mtime, direction: sort_direction(:user_mtime, params, 'desc') %>
+                <%= sort_pointer(:user_mtime, params, '').html_safe %>
+               </th>
+               <th><%= I18n.t("user.admin") %></th>
+               <th><%= I18n.t("user.is_active_user") %></th>
+             <% end %>
+             <th width="70px"><span class="sr-only"><%= I18n.t('search_results.actions') %></span></th>
            </tr>
          </thead>
          <tbody>
-          <% @search_data['results'].each do |user| %>
-             <tr>
-              <td><%= user.username %></td>
-              <td>
+           <% @search_data['results'].each do |user| %>
+             <% if user.is_active_user %>
+               <% active = I18n.t("user.active") %>
+               <% display_class = '' %>
+             <% else %>
+               <% active = I18n.t("user.inactive") %>
+               <% display_class = 'inactive' %>
+             <% end %>
+             <tr class='<%= display_class %>'>
+
+               <td><%= user.username %></td>
+               <td><%= user.name %></td>
+               <% unless @manage_access %>
+                 <td><%= Time.parse(user.create_time).getlocal %></td>
+                 <td><%= Time.parse(user.user_mtime).getlocal %></td>
+                 <td><%= user.is_admin %></td>
+                 <td>
+                   <%= active %>
+                 </td>
+               <% end %>
+               <td>
                  <div class="btn-group" style="float: right">
-                   <% if @manage_access; disabled = user.is_admin ? " disabled" : "" %>
-                      <%= link_to I18n.t("actions.edit_groups"), {:controller => :users, :action => :edit_groups, :id => user.id}, :class => "btn btn-xs btn-default".concat(disabled) %>
+                <div class="btn-group" style="float: right">
+                   <% disabled = (user.is_admin || user.is_system_user) ? " disabled" : "" %> 
+
+                   <% if @manage_access %>
+                     <%= link_to I18n.t("actions.edit_groups"), {:controller => :users, :action => :edit_groups, :id => user.id}, :class => "btn btn-xs btn-default".concat(disabled) %>
+
                    <% else %>
-                    <%= link_to I18n.t("actions.edit"), {:controller => :users, :action => :edit, :id => user.id}, :class => "btn btn-xs btn-primary" %>
+                     <%= link_to I18n.t("actions.edit"), {:controller => :users, :action => :edit, :id => user.id}, :class => "btn btn-xs btn-primary", :id => "edit_#{user.username}" %>
+
+                     <% if !user.is_active_user %>
+                        <%= link_to I18n.t("user._frontend.action.activate_user"), user_activate_path(user.id), :confirm => "Are you sure?", :class => "btn btn-xs btn-success", :id => "activate_#{user.username}" %>
+                     <% else %>
+                       <%= link_to I18n.t("user._frontend.action.deactivate_user"), user_deactivate_path(user.id), :confirm => "Are you sure?", :class => "btn btn-xs btn-danger".concat(disabled), :id => "deactivate_#{user.username}" %>
+                     <% end %>
                    <% end %>
+
+      
+                  
                  </div>
-              </td>
-            </tr>
-          <% end %>
+               </td>
+             </tr>           
+           <% end %>
          </tbody>
        </table>
        <%= render_aspace_partial :partial => "shared/pagination" %>
-      <% else %>
-         <p class="alert alert-info">
-            No Users.
-         </p>
-      <% end %>
+     <% else %>
+       <p class="alert alert-info">
+         No Users.
+       </p>
+     <% end %>
      </div>
    </div>
 </div>

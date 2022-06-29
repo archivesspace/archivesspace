@@ -7,8 +7,9 @@ describe ResourcesController, type: :controller do
     set_repo @repo
     @accession = create(:accession,
                         collection_management: build(:collection_management))
-
-    @resource = create(:resource, publish: true)
+    @digital_object = create(:digital_object)
+    @resource = create(:resource, publish: true,
+                       instances: [build(:instance_digital, digital_object: { ref: @digital_object.uri })])
     @unpublished_resource = create(:resource)
 
     @a1 = create(:archival_object,
@@ -34,13 +35,13 @@ describe ResourcesController, type: :controller do
       end
     end.flatten
 
-    run_all_indexers
+    run_indexers
   end
 
   it 'should show the published resources' do
     expect(get(:index)).to have_http_status(200)
     results = assigns(:results)
-    expect(results['total_hits']).to eq(5)
+    expect(results['total_hits']).to eq(7)
     expect(results.records.first['title']).to eq("Published Resource")
   end
 
@@ -81,7 +82,7 @@ describe ResourcesController, type: :controller do
 
     it 'should get the tree node from the root ' do
       get(:tree_node_from_root, params: { rid: @repo.id, id: @resource.id,
-                                          node_ids: [@a1,@a2,@a3].map(&:id) })
+                                          node_ids: [@a1, @a2, @a3].map(&:id) })
       expect(response.status).to eq(200)
     end
 
@@ -89,6 +90,14 @@ describe ResourcesController, type: :controller do
       get(:tree_node_from_root, params: { rid: @repo.id, id: @resource.id,
                                           node_ids: ['notaId'] })
       expect(response.status).to eq(404)
+    end
+  end
+
+  describe "show action" do
+    it "passes digital object instance data to the view" do
+      get(:show, params: { rid: @repo.id, id: @resource.id })
+      instance_data = controller.instance_variable_get(:@dig)
+      expect(instance_data[0]['caption']).to eq(@digital_object.title)
     end
   end
 end

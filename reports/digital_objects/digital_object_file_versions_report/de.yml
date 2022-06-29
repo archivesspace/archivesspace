@@ -1,0 +1,5 @@
+de:
+  reports:
+    digital_object_file_versions_report:
+      title: Liste von Dateiversionen
+      description: Zeigt jegliche Dateiversionen, die den gewählten digitalen Objekten zugeordnet sind.

@@ -8,6 +8,7 @@ describe 'Notes' do
     set_repo @repo
 
     @resource = create(:resource)
+    @resource2 = create(:resource)
     archivist_user = create_user(@repo => ['repository-archivists'])
 
     @driver = Driver.get
@@ -23,19 +24,19 @@ describe 'Notes' do
 
   it 'can attach notes to resources' do
     add_note = proc do |type|
-      @driver.find_element(css: '#notes .subrecord-form-heading .btn.add-note').click
-      @driver.find_last_element(css: '#notes select.top-level-note-type:last-of-type').select_option(type)
+      @driver.find_element(css: '#resource_notes_ .subrecord-form-heading .btn.add-note').click
+      @driver.find_last_element(css: '#resource_notes_ select.top-level-note-type:last-of-type').select_option(type)
     end
 
     3.times do
       add_note.call('note_multipart')
     end
 
-    expect(@driver.blocking_find_elements(css: '#notes > .subrecord-form-container > .subrecord-form-list > li').length).to eq(3)
+    expect(@driver.blocking_find_elements(css: '#resource_notes_ > .subrecord-form-container > .subrecord-form-list > li').length).to eq(3)
   end
 
   it 'confirms before removing a note entry' do
-    notes = @driver.blocking_find_elements(css: '#notes > .subrecord-form-container > .subrecord-form-list > li')
+    notes = @driver.blocking_find_elements(css: '#resource_notes_ > .subrecord-form-container > .subrecord-form-list > li')
 
     notes[0].find_element(css: '.subrecord-form-remove').click
 
@@ -56,7 +57,7 @@ describe 'Notes' do
     @driver.click_and_wait_until_gone(css: '.subrecord-form-removal-confirmation .btn-primary')
 
     # One left!
-    expect(@driver.blocking_find_elements(css: '#notes > .subrecord-form-container > .subrecord-form-list > li').length).to eq(1)
+    expect(@driver.blocking_find_elements(css: '#resource_notes_ > .subrecord-form-container > .subrecord-form-list > li').length).to eq(1)
 
     # Fill it out
     @driver.clear_and_send_keys([:id, 'resource_notes__2__label_'],
@@ -78,7 +79,7 @@ describe 'Notes' do
     end
 
 
-    notes = @driver.blocking_find_elements(css: '#notes .subrecord-form-fields')
+    notes = @driver.blocking_find_elements(css: '#resource_notes_ .subrecord-form-fields')
 
     # Add a sub note
     notes[0].find_element(css: '.collapse-subrecord-toggle').click
@@ -101,7 +102,7 @@ describe 'Notes' do
              .click
     end
 
-    [0, 1]. each do |i|
+    [0, 1].each do |i|
       %w[label value].each do |field|
         @driver.clear_and_send_keys([:id, "resource_notes__0__subnotes__2__items__#{i}__#{field}_"],
                                     'pogo')
@@ -122,12 +123,12 @@ describe 'Notes' do
     end
 
     # Add a multipart note
-    @driver.find_element(css: '#notes > .subrecord-form-heading .btn.add-note').click
+    @driver.find_element(css: '#resource_notes_ > .subrecord-form-heading .btn.add-note').click
     @driver.find_last_element(css: 'select.top-level-note-type').select_option('note_multipart')
     @driver.execute_script("$('#resource_notes__1__subnotes__0__content_').data('CodeMirror').setValue('Note Content')")
     @driver.execute_script("$('#resource_notes__1__subnotes__0__content_').data('CodeMirror').save()")
     @driver.execute_script("$('#resource_notes__1__subnotes__0__content_').data('CodeMirror').toTextArea()")
-    note = @driver.blocking_find_elements(css: '#notes .subrecord-form-fields')[1]
+    note = @driver.blocking_find_elements(css: '#resource_notes_ .subrecord-form-fields')[1]
 
     # Add a subnote with 4 ordered list items
     assert(5) { note.find_element(css: '.subrecord-form-heading .btn:not(.show-all)').click }
@@ -140,17 +141,17 @@ describe 'Notes' do
              .click
     end
 
-    [0, 1, 2, 3]. each do |i|
+    [0, 1, 2, 3].each do |i|
       @driver.clear_and_send_keys([:id, "resource_notes__1__subnotes__1__items__#{i}_"],
                                   "Item #{i+1}")
     end
 
     # Save the resource and confirm items are in proper position
     @driver.find_element(css: "form#resource_form button[type='submit']").click
-    @driver.find_element(css: '#notes #resource_notes__1_ .collapse-subrecord-toggle').click
+    @driver.find_element(css: '#resource_notes_ #resource_notes__1_ .collapse-subrecord-toggle').click
     @driver.wait_for_ajax
 
-    [0, 1, 2, 3]. each do |i|
+    [0, 1, 2, 3].each do |i|
       expect(@driver.find_element(css: "input#resource_notes__1__subnotes__1__items__#{i}_").attribute('value')).to eq("Item #{i+1}")
     end
 
@@ -162,17 +163,17 @@ describe 'Notes' do
              .click
     end
 
-    [4, 5]. each do |i|
+    [4, 5].each do |i|
       @driver.clear_and_send_keys([:id, "resource_notes__1__subnotes__1__items__#{i}_"],
                                   "Item #{i+1}")
     end
 
     # Save the resource and confirm all items are in proper position
     @driver.find_element(css: "form#resource_form button[type='submit']").click
-    @driver.find_element(css: '#notes #resource_notes__1_ .collapse-subrecord-toggle').click
+    @driver.find_element(css: '#resource_notes_ #resource_notes__1_ .collapse-subrecord-toggle').click
     @driver.wait_for_ajax
 
-    [0, 1, 2, 3, 4, 5]. each do |i|
+    [0, 1, 2, 3, 4, 5].each do |i|
       expect(@driver.find_element(css: "input#resource_notes__1__subnotes__1__items__#{i}_").attribute('value')).to eq("Item #{i+1}")
     end
   end
@@ -182,7 +183,7 @@ describe 'Notes' do
 
     bibliography_content = 'Top-level bibliography content'
 
-    @driver.find_element(css: '#notes > .subrecord-form-heading .btn.add-note').click
+    @driver.find_element(css: '#resource_notes_ > .subrecord-form-heading .btn.add-note').click
     @driver.find_last_element(css: 'select.top-level-note-type').select_option('note_bibliography')
 
     @driver.clear_and_send_keys([:id, 'resource_notes__2__label_'], 'Top-level bibliography label')
@@ -204,7 +205,7 @@ describe 'Notes' do
 
   it 'can wrap note content text with EAD mark up' do
     # expand the first note
-    @driver.find_element(css: '#notes .collapse-subrecord-toggle').click
+    @driver.find_element(css: '#resource_notes_ .collapse-subrecord-toggle').click
     @driver.wait_for_ajax
 
     @driver.find_element_orig(:css, '#resource_notes__0__subnotes__0__content_').wait_for_class('initialised')
@@ -323,7 +324,7 @@ describe 'Notes' do
     @driver.complete_4part_id('resource_id_%d_')
     @driver.find_element(:id, 'resource_level_').select_option('collection')
 
-    combo = @driver.find_element(xpath: '//*[@id="resource_lang_materials__0_"]/div[1]/div/div/div/div[1]/div/div/div/input[@type="text"]')
+    combo = @driver.find_element(xpath: '//*[@id="resource_lang_materials__0__language_and_script__language_"]')
     combo.clear
     combo.click
     combo.send_keys('eng')
@@ -335,13 +336,13 @@ describe 'Notes' do
     @driver.find_element(id: 'resource_dates__0__date_type_').select_option('single')
     @driver.clear_and_send_keys([:id, 'resource_dates__0__begin_'], '1978')
 
-    combo = @driver.find_element(xpath: '//*[@id="finding_aid"]/div/div/fieldset/div[@class="form-group required"]/div[@class="col-sm-9"]/div[@class="combobox-container"][following-sibling::select/@id="resource_finding_aid_language_"]//input[@type="text"]')
+    combo = @driver.find_element(xpath: '//*[@id="resource_finding_aid_language_"]')
     combo.clear
     combo.click
     combo.send_keys('eng')
     combo.send_keys(:tab)
 
-    combo = @driver.find_element(xpath: '//*[@id="finding_aid"]/div/div/fieldset/div[@class="form-group required"]/div[@class="col-sm-9"]/div[@class="combobox-container"][following-sibling::select/@id="resource_finding_aid_script_"]//input[@type="text"]')
+    combo = @driver.find_element(xpath: '//*[@id="resource_finding_aid_script_"]')
     combo.clear
     combo.click
     combo.send_keys('Latn')
@@ -392,5 +393,14 @@ describe 'Notes' do
     expect(@driver.find_element(id: 'digital_object_notes__0__content__0_').attribute('value')).to eq('Summary content')
 
     @driver.click_and_wait_until_gone(css: "form#new_digital_object button[type='submit']")
+  end
+
+  it 'shows a validation error when note content is empty' do
+    @driver.get_edit_page(@resource2)
+    @driver.find_element(css: '#resource_notes_ .subrecord-form-heading .btn.add-note').click
+    @driver.find_last_element(css: '#resource_notes_ select.top-level-note-type:last-of-type').select_option('note_singlepart')
+    # Save the resource
+    @driver.click_and_wait_until_gone(css: "form#resource_form button[type='submit']")
+    assert(5) { expect(@driver.find_element(css: 'div.alert.alert-danger').text).to eq('Content - At least 1 item(s) is required') }
   end
 end

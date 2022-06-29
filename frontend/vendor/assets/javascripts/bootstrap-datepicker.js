@@ -829,7 +829,7 @@
 			i = 0;
 			while (i < 12){
         var focused = localDate && localDate.getMonth() === i ? ' focused' : '';
-				html += '<span class="month' + focused + '">' + dates[this.o.language].monthsShort[i++]+'</span>';
+				html += '<span role="button" class="month' + focused + '">' + dates[this.o.language].monthsShort[i++]+'</span>';
 			}
 			this.picker.find('.datepicker-months td').html(html);
 		},
@@ -947,7 +947,7 @@
 					}
 				}
 
-				html += '<span class="' + classes.join(' ') + '"' + (tooltip ? ' title="' + tooltip + '"' : '') + '>' + thisYear + '</span>';
+				html += '<span role="button" class="' + classes.join(' ') + '"' + (tooltip ? ' title="' + tooltip + '"' : '') + '>' + thisYear + '</span>';
 				thisYear += step;
 			}
 			view.find('td').html(html);
@@ -1038,7 +1038,7 @@
 					clsName = $.unique(clsName);
 				}
 
-				html.push('<td class="'+clsName.join(' ')+'"' + (tooltip ? ' title="'+tooltip+'"' : '') + '>'+prevMonth.getUTCDate() + '</td>');
+				html.push('<td role="button" class="'+clsName.join(' ')+'"' + (tooltip ? ' title="'+tooltip+'"' : '') + '>'+prevMonth.getUTCDate() + '</td>');
 				tooltip = null;
 				if (prevMonth.getUTCDay() === this.o.weekEnd){
 					html.push('</tr>');
@@ -2006,9 +2006,9 @@
 			                '<th colspan="7" class="datepicker-title"></th>'+
 			              '</tr>'+
 							'<tr>'+
-								'<th class="prev">&laquo;</th>'+
+								'<th class="prev" role="button" aria-label="Previous">&laquo;</th>'+
 								'<th colspan="5" class="datepicker-switch"></th>'+
-								'<th class="next">&raquo;</th>'+
+								'<th class="next" role="button" aria-label="Next">&raquo;</th>'+
 							'</tr>'+
 						'</thead>',
 		contTemplate: '<tbody><tr><td colspan="7"></td></tr></tbody>',

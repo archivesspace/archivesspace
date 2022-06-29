@@ -2,7 +2,7 @@ require 'time'
 
 class AdvancedQueryString
   def initialize(query, use_literal)
-    @query = query
+    @query = query.transform_keys { |k| k.to_s }
     @use_literal = use_literal
   end
 
@@ -40,15 +40,17 @@ class AdvancedQueryString
 
   def value
     if date?
-      base_time = Time.parse(@query["value"]).utc.iso8601
+      comparator = @query["comparator"]
+      precision = @query["precision"].upcase
+      date = JSONModel::Validations.normalise_date(@query["value"])
+      time = Time.parse(date).utc.iso8601
 
-      if @query["comparator"] == "lesser_than"
-        "[* TO #{base_time}-1MILLISECOND]"
-      elsif @query["comparator"] == "greater_than"
-        "[#{base_time}+1DAY TO *]"
-      else # @query["comparator"] == "equal"
-        "[#{base_time} TO #{base_time}+1DAY-1MILLISECOND]"
+      case comparator
+      when "greater_than" then "[#{time}+1#{precision} TO *]"
+      when "lesser_than" then "[* TO #{time}-1MILLISECOND]"
+      when "equal" then "[#{time} TO #{time}+1#{precision}-1MILLISECOND]"
       end
+
     elsif @query["jsonmodel_type"] == "range_query"
       "[#{@query["from"] || '*'} TO #{@query["to"] || '*'}]"
     elsif @query["jsonmodel_type"] == "field_query" && (use_literal? || @query["literal"])
@@ -68,7 +70,7 @@ class AdvancedQueryString
     elsif @query["jsonmodel_type"] == "range_query"
       false
     else
-      raise "Unknown field query type: #{@query["jsonmodel_type"]}" 
+      raise "Unknown field query type: #{@query["jsonmodel_type"]}"
     end
   end
 

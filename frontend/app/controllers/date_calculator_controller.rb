@@ -30,13 +30,13 @@ class DateCalculatorController < ApplicationController
     else
       render_aspace_partial :partial => "date_calculator/no_object"
     end
-
   end
 
 
   def create_date
     begin
-      date = JSONModel(:date).from_hash(params[:date].to_hash)
+      date = params.require(:date).permit(JSONModel(:date).schema["properties"].keys).to_hash
+      date = JSONModel(:date).from_hash(date)
 
       record = JSONModel(params[:record_type].intern).find(params[:record_id])
 
@@ -51,4 +51,3 @@ class DateCalculatorController < ApplicationController
   end
 
 end
-

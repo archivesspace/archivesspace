@@ -8,6 +8,10 @@ class CollectionManagementRecordsController < ApplicationController
     @search_data = JSONModel(:collection_management).all(:page => 1)
   end
 
+  def current_record
+    @collection_management
+  end
+
   def show
     @collection_management = JSONModel(:collection_management).find(params[:id], "resolve[]" => ["linked_records"])
   end
@@ -23,10 +27,10 @@ class CollectionManagementRecordsController < ApplicationController
 
   def create
     handle_crud(:instance => :collection_management,
-                :on_invalid => ->(){
+                :on_invalid => ->() {
                   render :action => :new
                 },
-                :on_valid => ->(id){
+                :on_valid => ->(id) {
                   flash[:success] = I18n.t("collection_management._frontend.messages.created")
                   return redirect_to :controller => :collection_management_records, :action => :new if params.has_key?(:plus_one)
 
@@ -37,8 +41,8 @@ class CollectionManagementRecordsController < ApplicationController
   def update
     handle_crud(:instance => :collection_management,
                 :obj => JSONModel(:collection_management).find(params[:id]),
-                :on_invalid => ->(){ render :action => :edit },
-                :on_valid => ->(id){
+                :on_invalid => ->() { render :action => :edit },
+                :on_valid => ->(id) {
                   flash[:success] = I18n.t("collection_management._frontend.messages.updated")
                   redirect_to :controller => :collection_management_records, :action => :index
                 })

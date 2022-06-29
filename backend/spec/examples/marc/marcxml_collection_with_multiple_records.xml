@@ -1,0 +1,180 @@
+<?xml version="1.0"?>
+<collection>
+  <record>
+    <leader>01155cz  a2200253n  4500</leader>
+    <controlfield tag="001">n81147297</controlfield>
+    <controlfield tag="003">DLC</controlfield>
+    <controlfield tag="005">20200302130828.0</controlfield>
+    <controlfield tag="008">820126n| azannaabn          |a aaa      </controlfield>
+    <datafield ind1=" " ind2=" " tag="010">
+      <subfield code="a">n  81147297 </subfield>
+    </datafield>
+    <datafield ind1=" " ind2=" " tag="035">
+      <subfield code="a">(OCoLC)oca00692063</subfield>
+    </datafield>
+    <datafield ind1=" " ind2=" " tag="040">
+      <subfield code="a">DLC</subfield>
+      <subfield code="b">eng</subfield>
+      <subfield code="e">rda</subfield>
+      <subfield code="c">DLC</subfield>
+      <subfield code="d">OCoLC</subfield>
+      <subfield code="d">DLC</subfield>
+    </datafield>
+    <datafield ind1=" " ind2=" " tag="046">
+      <subfield code="f">1906</subfield>
+      <subfield code="g">1975</subfield>
+      <subfield code="2">edtf</subfield>
+    </datafield>
+    <datafield ind1="1" ind2=" " tag="100">
+      <subfield code="a">Roosevelt, Anna,</subfield>
+      <subfield code="d">1906-1975</subfield>
+    </datafield>
+    <datafield ind1=" " ind2=" " tag="377">
+      <subfield code="a">eng</subfield>
+    </datafield>
+    <datafield ind1="1" ind2=" " tag="400">
+      <subfield code="w">nna</subfield>
+      <subfield code="a">Roosevelt, Anna Eleanor,</subfield>
+      <subfield code="d">1906-1975</subfield>
+    </datafield>
+    <datafield ind1="1" ind2=" " tag="400">
+      <subfield code="a">Boettiger, Anna Roosevelt,</subfield>
+      <subfield code="d">1906-1975</subfield>
+    </datafield>
+    <datafield ind1="1" ind2=" " tag="400">
+      <subfield code="a">Dall, Anna Roosevelt,</subfield>
+      <subfield code="d">1906-1975</subfield>
+    </datafield>
+    <datafield ind1="1" ind2=" " tag="400">
+      <subfield code="a">Halsted, Anna Roosevelt,</subfield>
+      <subfield code="d">1906-1975</subfield>
+    </datafield>
+    <datafield ind1=" " ind2=" " tag="670">
+      <subfield code="a">Her Scamper ... c1934.</subfield>
+    </datafield>
+    <datafield ind1=" " ind2=" " tag="670">
+      <subfield code="a">Roosevelt, E. Mother and daughter, c1982:</subfield>
+      <subfield code="b">CIP t.p. (Anna Roosevelt) introd. (Anna Roosevelt's widower, Dr. James A. Halsted)</subfield>
+    </datafield>
+    <datafield ind1=" " ind2=" " tag="670">
+      <subfield code="a">The daughters of Yalta, 2020:</subfield>
+      <subfield code="b">CIP galley (Anna Roosevelt--President Roosevelt's daughter and aide-de-camp, also known as Anna Roosevelt Boettiger; at thirty-eight she had three children: a teenage daughter and son from her first marriage to a stockbroker named Curtis Dall, and a five-year-old son with John Boettiger; the White House in early 1944)</subfield>
+    </datafield>
+  </record>
+  <record>
+    <leader>01559cz  a2200301n  4500</leader>
+    <controlfield tag="001">n79144645</controlfield>
+    <controlfield tag="003">DLC</controlfield>
+    <controlfield tag="005">20201001120945.0</controlfield>
+    <controlfield tag="008">800310n| azannaabn          |b aaa      </controlfield>
+    <datafield ind1=" " ind2=" " tag="010">
+      <subfield code="a">n  79144645 </subfield>
+    </datafield>
+    <datafield ind1=" " ind2=" " tag="035">
+      <subfield code="a">(OCoLC)oca00375794</subfield>
+    </datafield>
+    <datafield ind1=" " ind2=" " tag="040">
+      <subfield code="a">DLC</subfield>
+      <subfield code="b">eng</subfield>
+      <subfield code="e">rda</subfield>
+      <subfield code="c">DLC</subfield>
+      <subfield code="d">DLC</subfield>
+      <subfield code="d">OCoLC</subfield>
+      <subfield code="d">DLC</subfield>
+      <subfield code="d">DNLM</subfield>
+      <subfield code="d">DLC</subfield>
+      <subfield code="d">DLC</subfield>
+    </datafield>
+    <datafield ind1=" " ind2=" " tag="046">
+      <subfield code="f">1884-10-11</subfield>
+      <subfield code="g">1962-11-07</subfield>
+      <subfield code="2">edtf</subfield>
+    </datafield>
+    <datafield ind1=" " ind2="0" tag="053">
+      <subfield code="a">PS3535.O5487</subfield>
+    </datafield>
+    <datafield ind1="1" ind2=" " tag="100">
+      <subfield code="a">Roosevelt, Eleanor,</subfield>
+      <subfield code="d">1884-1962</subfield>
+    </datafield>
+    <datafield ind1=" " ind2=" " tag="370">
+      <subfield code="a">New York (N.Y.)</subfield>
+      <subfield code="b">Manhattan (New York, N.Y.)</subfield>
+      <subfield code="2">naf</subfield>
+    </datafield>
+    <datafield ind1=" " ind2=" " tag="374">
+      <subfield code="a">Presidents' spouses</subfield>
+      <subfield code="2">lcsh</subfield>
+    </datafield>
+    <datafield ind1=" " ind2=" " tag="375">
+      <subfield code="a">female</subfield>
+    </datafield>
+    <datafield ind1=" " ind2=" " tag="377">
+      <subfield code="a">eng</subfield>
+    </datafield>
+    <datafield ind1="1" ind2=" " tag="400">
+      <subfield code="a">Roosevelt, Eleanor Roosevelt,</subfield>
+      <subfield code="d">1884-1962</subfield>
+    </datafield>
+    <datafield ind1="1" ind2=" " tag="400">
+      <subfield code="a">Roosevelt, Anna Eleanor Roosevelt,</subfield>
+      <subfield code="d">1884-1962</subfield>
+    </datafield>
+    <datafield ind1="1" ind2=" " tag="400">
+      <subfield code="a">Roosevelt, Franklin D.,</subfield>
+      <subfield code="c">Mrs.,</subfield>
+      <subfield code="d">1884-1962</subfield>
+    </datafield>
+    <datafield ind1="1" ind2=" " tag="400">
+      <subfield code="a">&#x5E8;&#x5D5;&#x5D6;&#x5D1;&#x5DC;&#x5D8;, &#x5D0;&#x5DC;&#x5D9;&#x5E0;&#x5D5;&#x5E8;</subfield>
+    </datafield>
+    <datafield ind1=" " ind2=" " tag="667">
+      <subfield code="a">Machine-derived non-Latin script reference project.</subfield>
+    </datafield>
+    <datafield ind1=" " ind2=" " tag="667">
+      <subfield code="a">Non-Latin script reference not evaluated.</subfield>
+    </datafield>
+    <datafield ind1=" " ind2=" " tag="670">
+      <subfield code="a">When you grow up to vote, 1932:</subfield>
+      <subfield code="b">t.p. (Eleanor Roosevelt (Mrs. Franklin D. Roosevelt))</subfield>
+    </datafield>
+    <datafield ind1=" " ind2=" " tag="670">
+      <subfield code="a">Wikipedia, July 21, 2010</subfield>
+      <subfield code="b">(Eleanor Roosevelt; Anna Eleanor Roosevelt; born Oct. 11, 1884 in New York City in Manhattan; died Nov. 7, 1962; was the First Lady of the United States from 1933 to 1945; she supported the New Deal policies of her husband, Franklin Delano Roosevelt, and became an advocate for civil rights. After her husband's death in 1945, Roosevelt continued to be an internationally prominent author, speaker, politician, and activist for the New Deal coalition)</subfield>
+      <subfield code="u">http://en.wikipedia.org/wiki/Eleanor_Roosevelt</subfield>
+    </datafield>
+  </record>
+  <record>
+    <leader>00690nz  a2200169n  4500</leader>
+    <controlfield tag="001">n97046493</controlfield>
+    <controlfield tag="003">DLC</controlfield>
+    <controlfield tag="005">19970502145748.6</controlfield>
+    <controlfield tag="008">970502n| acannaab           |a aaa      </controlfield>
+    <datafield ind1=" " ind2=" " tag="010">
+      <subfield code="a">n  97046493 </subfield>
+    </datafield>
+    <datafield ind1=" " ind2=" " tag="035">
+      <subfield code="a">(DLC)n  97046493</subfield>
+    </datafield>
+    <datafield ind1=" " ind2=" " tag="040">
+      <subfield code="a">DLC</subfield>
+      <subfield code="c">DLC</subfield>
+    </datafield>
+    <datafield ind1="1" ind2="0" tag="100">
+      <subfield code="a">Roosevelt, Eleanor Butler,</subfield>
+      <subfield code="d">1889-1960</subfield>
+    </datafield>
+    <datafield ind1="1" ind2="0" tag="400">
+      <subfield code="a">Alexander, Eleanor Butler,</subfield>
+      <subfield code="d">1889-1960</subfield>
+    </datafield>
+    <datafield ind1=" " ind2=" " tag="670">
+      <subfield code="a">Library of Congress Manuscript Division for Roosevelt, T., Jr. Papers, 1780-1962</subfield>
+      <subfield code="b">(Eleanor Butler Roosevelt; b. 1889; Eleanor Butler Alexander m. Theodore Roosevelt, Jr., in 1910; d. 1960)</subfield>
+    </datafield>
+    <datafield ind1=" " ind2=" " tag="670">
+      <subfield code="a">PREMARC file, Apr. 2, 1997</subfield>
+      <subfield code="b">(hdg: Roosevelt, Eleanor Butler (Alexander); auth. of book on T. Roosevelt, Jr.)</subfield>
+    </datafield>
+  </record>
+</collection>

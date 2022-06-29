@@ -51,7 +51,7 @@ describe 'REST interface' do
     too_many = nice_amount + 1
 
     too_many.times {
-       create(:json_accession)
+      create(:json_accession)
     }
 
     expect {
@@ -69,6 +69,14 @@ describe 'REST interface' do
     expect(JSONModel(:accession).all(:page => 1, :page_size => too_many)['results'].size).to eq(nice_amount)
 
     expect(JSONModel(:accession).all(:page => 10, :page_size => nice_amount)['results'].size).to eq(0)
+
+    expect {
+      JSONModel(:user).all(
+        page: 1,
+        sort_field: 'username',
+        sort_direction: 'downhill'
+      )
+    }.to raise_error(RuntimeError, /must be either 'asc' or 'desc'/)
   end
 
 
@@ -96,6 +104,18 @@ describe 'REST interface' do
     expect {
       JSONModel(:group).find('not an integer')
     }.to raise_error(RuntimeError)
+  end
+
+
+  it 'returns a list of sorted results' do
+    create(:user, :username => 'zzz')
+    create(:user, :username => 'aaa')
+    id_sort_user = JSONModel(:user).all(page: 1)['results'].first
+    username_asc_sort_user = JSONModel(:user).all(page: 1, sort_field: 'username')['results'].first
+    username_desc_sort_user = JSONModel(:user).all(page: 1, sort_field: 'username', sort_direction: 'desc')['results'].first
+    expect(id_sort_user.username).to eq 'admin'
+    expect(username_asc_sort_user.username).to eq 'aaa'
+    expect(username_desc_sort_user.username).to eq 'zzz'
   end
 
 

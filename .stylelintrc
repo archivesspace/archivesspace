@@ -1,0 +1,41 @@
+{
+  "extends": [
+    "stylelint-config-standard-scss",
+    "stylelint-config-prettier-scss"
+  ],
+  "overrides": [
+    {
+      "files": "{frontend,public}/**/*.less",
+      "customSyntax": "postcss-less"
+    }
+  ],
+  "rules": {
+    "alpha-value-notation": null,
+    "at-rule-no-unknown": null,
+    "color-function-notation": null,
+    "declaration-block-no-redundant-longhand-properties": null,
+    "font-family-no-missing-generic-family-keyword": [
+      true,
+      {
+        "ignoreFontFamilies": [
+          "Glyphicons Halflings",
+          "icomoon"
+        ]
+      }
+    ],
+    "no-descending-specificity": null,
+    "no-duplicate-selectors": null,
+    "property-no-vendor-prefix": null,
+    "rule-empty-line-before": null,
+    "selector-class-pattern": null,
+    "selector-id-pattern": null,
+    "shorthand-property-no-redundant-values": null,
+    "value-no-vendor-prefix": null,
+    "scss/at-import-partial-extension": null,
+    "scss/at-rule-no-unknown": true,
+    "scss/dollar-variable-empty-line-before": null,
+    "scss/dollar-variable-pattern": null,
+    "scss/double-slash-comment-empty-line-before": null,
+    "scss/no-global-function-names": null
+  }
+}

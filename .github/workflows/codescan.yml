@@ -1,0 +1,60 @@
+name: Code Scan
+
+on:
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  rubocop:
+    name: Rubocop
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-java@v1
+        with:
+          java-version: 11
+
+      - name: Run rubocop
+        run: |
+          ./build/run rubocop
+
+  eslint:
+    name: ESLint
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run ESLint on front ends
+        run: npm run eslint:ci
+
+  stylelint:
+    name: Stylelint
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run Stylelint on front ends
+        run: npm run stylelint:ci
+
+  prettier:
+    name: Prettier
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run Prettier on front ends
+        run: npm run prettier:ci

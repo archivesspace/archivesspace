@@ -25,6 +25,8 @@ class ArchivesSpaceService < Sinatra::Base
       :optional => true],
      ["filter", JSONModel(:advanced_query), "A json string containing the advanced query to filter by",
       :optional => true],
+     ["filter_query", [String], "Search queries to be applied as a filter to the results.",
+      :optional => true],
      ["exclude",
       [String],
       "A list of document IDs that should be excluded from results",

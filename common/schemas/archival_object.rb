@@ -15,11 +15,20 @@
       "other_level" => {"type" => "string", "maxLength" => 255},
       "external_ark_url" => {"type" => "string", "required" => false},
 
+      "import_current_ark" => {"type" => "string"},
+
+      "import_previous_arks" => {
+        "type" => "array",
+        "items" => {
+          "type" => "string",
+        }
+      },
+
       "title" => {"type" => "string", "maxLength" => 8192, "ifmissing" => nil},
 
       "slug" => {"type" => "string"},
       "is_slug_auto" => {"type" => "boolean", "default" => true},
-      
+
       "display_string" => {"type" => "string", "maxLength" => 8192, "readonly" => true},
 
       "restrictions_apply" => {"type" => "boolean", "default" => false},
@@ -49,7 +58,7 @@
         },
         "ifmissing" => "error"
       },
-      
+
       "ancestors" => {
         "type" => "array",
         "items" => {
@@ -93,16 +102,29 @@
 
       "has_unpublished_ancestor" => {"type" => "boolean", "readonly" => "true"},
 
-      "representative_image" => {
-        "type" => "JSONModel(:file_version) object",
-        "readonly" => true
-      },
       "ark_name" => {
         "type" => "JSONModel(:ark_name) object",
         "readonly" => true,
         "required" => false
-      }
+      },
 
+      "accession_links" => {
+        "type" => "array",
+        "items" => {
+          "type" => "object",
+          "subtype" => "ref",
+          "properties" => {
+            "ref" => {
+              "type" => [{"type" => "JSONModel(:accession) uri"}],
+              "ifmissing" => "error"
+            },
+            "_resolved" => {
+              "type" => "object",
+              "readonly" => "true"
+            }
+          }
+        }
+      }
     },
   },
 }

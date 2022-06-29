@@ -7,6 +7,7 @@ class DigitalObject < Sequel::Model(:digital_object)
   include Extents
   include LangMaterials
   include Dates
+  include Classifications
   include ExternalDocuments
   include Agents
   include Trees
@@ -16,11 +17,13 @@ class DigitalObject < Sequel::Model(:digital_object)
   include ExternalIDs
   include FileVersions
   include CollectionManagements
+  include MetadataRights
   include UserDefineds
   include ComponentsAddChildren
   include Events
   include Publishable
   include Assessments::LinkedRecord
+  include RepresentativeFileVersion
 
   enable_suppression
 
@@ -40,14 +43,14 @@ class DigitalObject < Sequel::Model(:digital_object)
                 :generator => proc { |json|
                   if AppConfig[:use_human_readable_urls]
                     if json["is_slug_auto"]
-                      AppConfig[:auto_generate_slugs_with_id] ? 
-                        SlugHelpers.id_based_slug_for(json, DigitalObject) : 
+                      AppConfig[:auto_generate_slugs_with_id] ?
+                        SlugHelpers.id_based_slug_for(json, DigitalObject) :
                         SlugHelpers.name_based_slug_for(json, DigitalObject)
                     else
                       json["slug"]
                     end
                   end
-                }               
+                }
 
 
   def self.sequel_to_jsonmodel(objs, opts = {})

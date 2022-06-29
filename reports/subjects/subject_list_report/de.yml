@@ -1,0 +1,5 @@
+de:
+  reports:
+    subject_list_report:
+      title: Listen von Themendatensätzen
+      description: Zeigt gewählte Themendatensätze an. Der Bericht enthält Themenbegriff, Typ des Themenbegriffs und Quelle des Themas.

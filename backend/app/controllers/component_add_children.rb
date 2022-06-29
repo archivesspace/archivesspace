@@ -2,6 +2,53 @@ class ArchivesSpaceService < Sinatra::Base
 
   Endpoint.post('/repositories/:repo_id/resources/:id/children')
   .description("Batch create several Archival Objects as children of an existing Resource")
+  .example("shell") do
+    <<~SHELL
+        curl -H "X-ArchivesSpace-Session: $SESSION" \
+        -d '{
+          "jsonmodel_type": "archival_record_children",
+          "children": [
+              { "jsonmodel_type":"archival_object",
+                  "external_ids":[],
+                  "subjects":[],
+                  "linked_events":[],
+                  "extents":[],
+                  "lang_materials":[],
+                  "dates":[],
+                  "external_documents":[],
+                  "rights_statements":[],
+                  "linked_agents":[],
+                  "is_slug_auto":true,
+                  "restrictions_apply":false,
+                  "ancestors":[],
+                  "instances":[],
+                  "notes":[],
+                  "level":"subseries",
+                  "title":"Archival Object Title: 1",
+                  "resource":{ "ref":"/repositories/2/resources/1"}},
+              { "jsonmodel_type":"archival_object",
+                  "external_ids":[],
+                  "subjects":[],
+                  "linked_events":[],
+                  "extents":[],
+                  "lang_materials":[],
+                  "dates":[],
+                  "external_documents":[],
+                  "rights_statements":[],
+                  "linked_agents":[],
+                  "is_slug_auto":true,
+                  "restrictions_apply":false,
+                  "ancestors":[],
+                  "instances":[],
+                  "notes":[],
+                  "level":"subseries",
+                  "title":"Archival Object Title: 2",
+                  "resource":{ "ref":"/repositories/2/resources/1"}}
+          ]
+      }' \
+          "http://localhost:8089/repositories/2/resources/1/children"
+    SHELL
+  end
   .params(["children", JSONModel(:archival_record_children), "The children to add to the resource", :body => true],
           ["id", :id],
           ["repo_id", :repo_id])
@@ -20,6 +67,53 @@ class ArchivesSpaceService < Sinatra::Base
 
   Endpoint.post('/repositories/:repo_id/archival_objects/:id/children')
   .description("Batch create several Archival Objects as children of an existing Archival Object")
+  .example("shell") do
+    <<~SHELL
+        curl -H "X-ArchivesSpace-Session: $SESSION" \
+        -d '{
+          "jsonmodel_type": "archival_record_children",
+          "children": [
+              { "jsonmodel_type":"archival_object",
+                  "external_ids":[],
+                  "subjects":[],
+                  "linked_events":[],
+                  "extents":[],
+                  "lang_materials":[],
+                  "dates":[],
+                  "external_documents":[],
+                  "rights_statements":[],
+                  "linked_agents":[],
+                  "is_slug_auto":true,
+                  "restrictions_apply":false,
+                  "ancestors":[],
+                  "instances":[],
+                  "notes":[],
+                  "level":"subseries",
+                  "title":"Archival Object Title: 1",
+                  "resource":{ "ref":"/repositories/2/resources/1"}},
+              { "jsonmodel_type":"archival_object",
+                  "external_ids":[],
+                  "subjects":[],
+                  "linked_events":[],
+                  "extents":[],
+                  "lang_materials":[],
+                  "dates":[],
+                  "external_documents":[],
+                  "rights_statements":[],
+                  "linked_agents":[],
+                  "is_slug_auto":true,
+                  "restrictions_apply":false,
+                  "ancestors":[],
+                  "instances":[],
+                  "notes":[],
+                  "level":"subseries",
+                  "title":"Archival Object Title: 2",
+                  "resource":{ "ref":"/repositories/2/resources/1"}}
+          ]
+      }' \
+          "http://localhost:8089/repositories/2/archival_objects/1/children"
+    SHELL
+  end
   .params(["children", JSONModel(:archival_record_children), "The children to add to the archival object", :body => true],
           ["id", Integer, "The ID of the archival object to add children to"],
           ["repo_id", :repo_id])
@@ -78,6 +172,7 @@ class ArchivesSpaceService < Sinatra::Base
           ["position", Integer, "The index for the first child to be moved to"],
           ["repo_id", :repo_id])
   .permissions([:update_resource_record])
+  .no_data(true)
   .returns([200, :created],
            [400, :error],
            [409, :error]) \
@@ -93,6 +188,7 @@ class ArchivesSpaceService < Sinatra::Base
           ["position", Integer, "The index for the first child to be moved to"],
           ["repo_id", :repo_id])
   .permissions([:update_resource_record])
+  .no_data(true)
   .returns([200, :created],
            [400, :error],
            [409, :error]) \
@@ -108,6 +204,7 @@ class ArchivesSpaceService < Sinatra::Base
           ["position", Integer, "The index for the first child to be moved to"],
           ["repo_id", :repo_id])
   .permissions([:update_digital_object_record])
+  .no_data(true)
   .returns([200, :created],
            [400, :error],
            [409, :error]) \
@@ -123,6 +220,7 @@ class ArchivesSpaceService < Sinatra::Base
           ["position", Integer, "The index for the first child to be moved to"],
           ["repo_id", :repo_id])
   .permissions([:update_digital_object_record])
+  .no_data(true)
   .returns([200, :created],
            [400, :error],
            [409, :error]) \
@@ -138,6 +236,7 @@ class ArchivesSpaceService < Sinatra::Base
           ["position", Integer, "The index for the first child to be moved to"],
           ["repo_id", :repo_id])
   .permissions([:update_classification_record])
+  .no_data(true)
   .returns([200, :created],
            [400, :error],
            [409, :error]) \
@@ -153,6 +252,7 @@ class ArchivesSpaceService < Sinatra::Base
           ["position", Integer, "The index for the first child to be moved to"],
           ["repo_id", :repo_id])
   .permissions([:update_classification_record])
+  .no_data(true)
   .returns([200, :created],
            [400, :error],
            [409, :error]) \
@@ -194,9 +294,9 @@ class ArchivesSpaceService < Sinatra::Base
       # ok, we are keeping it in the same parent and moving down the list, we
       # need to reverse to make sure the placement happens correctly.
       # If the first_obj doesn't have a parent_id, that means it's at the top
-      # of the food chain, so we can check if the target is a Tree, not a TreeNode. 
+      # of the food chain, so we can check if the target is a Tree, not a TreeNode.
       # Otherwise, we are moving into another parent.
-      if ( target.id == first_obj.parent_id || ( target.class.included_modules.include?(Trees) && first_obj.parent_id.nil? ) )  && first_obj.logical_position < position
+      if ( target.id == first_obj.parent_id || ( target.class.included_modules.include?(Trees) && first_obj.parent_id.nil? ) ) && first_obj.logical_position < position
         ordered = params[:children].each_with_index.to_a.reverse
       else
         ordered = params[:children].each_with_index

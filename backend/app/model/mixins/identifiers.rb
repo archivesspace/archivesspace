@@ -3,8 +3,11 @@ module Identifiers
   MAX_LENGTH = 50
 
   def id_0=(v); @id_0 = v; self.modified!; end
+
   def id_1=(v); @id_1 = v; self.modified!; end
+
   def id_2=(v); @id_2 = v; self.modified!; end
+
   def id_3=(v); @id_3 = v; self.modified!; end
 
 
@@ -45,8 +48,8 @@ module Identifiers
   def before_validation
     # Combine the identifier into a single string and remove the instance variables we added previously.
     values = (0...4).map {|i| instance_variable_get("@id_#{i}")}
-  
-    if (values.reject{|v| v.nil? || v.empty?}.empty?)
+
+    if (values.reject {|v| v.nil? || v.empty?}.empty?)
       # None of the id_* fields were set, so the whole identifier is NULL.
       self.identifier = nil
     else
@@ -78,11 +81,11 @@ module Identifiers
   # and convert it into this: "3422-345FD-3423ASDA"
   def format_multipart_identifier
     self[:identifier].gsub("null", '')
-                      .gsub!(/[\[\]]/,'')
+                      .gsub!(/[\[\]]/, '')
                       .gsub(",", '')
                       .split('"')
                       .select {|s| !s.empty?}
                       .join("-")
-  end 
+  end
 
 end

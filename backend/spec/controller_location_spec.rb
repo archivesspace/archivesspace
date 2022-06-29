@@ -92,11 +92,11 @@ describe 'Location controller' do
     expect(JSONModel(:location).all(:page => 1)['results'].count).to eq(4)
   end
 
- it "can update locations in batches" do
+  it "can update locations in batches" do
     make_test_repo('Batch Edit')
     locations = []
     3.times do
-      location =  create(:json_location)
+      location = create(:json_location)
       locations << location[:uri]
     end
 
@@ -111,6 +111,6 @@ describe 'Location controller' do
       expect(location[:building]).to eq("Batch Edited")
       expect(location[:floor]).to eq("13th")
     end
- end
+  end
 
 end

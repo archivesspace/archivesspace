@@ -5,7 +5,7 @@ CHROME_OPTS  = ENV.fetch('CHROME_OPTS', '--headless,--disable-gpu,--window-size=
 FIREFOX_OPTS = ENV.fetch('FIREFOX_OPTS', '-headless').split(',')
 # https://github.com/mozilla/geckodriver/issues/1354
 ENV['MOZ_HEADLESS_WIDTH'] = ENV.fetch('MOZ_HEADLESS_WIDTH', '1920')
-ENV['MOZ_HEADLESS_HEIGHT'] = ENV.fetch('MOZ_HEADLESS_WIDTH', '1080')
+ENV['MOZ_HEADLESS_HEIGHT'] = ENV.fetch('MOZ_HEADLESS_HEIGHT', '1080')
 
 # Chrome
 Capybara.register_driver(:chrome) do |app|

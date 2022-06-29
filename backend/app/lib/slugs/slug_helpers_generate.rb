@@ -42,8 +42,16 @@ module SlugHelpers
   # if the cleaning changes need to be done on repository slugs,
   # eg. migration 129
   def self.clean_slug(slug)
-
     if slug
+      encoding_options = {
+        :invalid           => :replace,
+        :undef             => :replace,
+        :replace           => '',
+        :universal_newline => true
+      }
+
+      slug = slug.encode(Encoding.find('ASCII'), encoding_options)
+
       # if the slug contains two slashes (forward or backward) next to each other, completely zero it out.
       # this is intended to revert an entity to use the URI if the ID or name the slug was generated from is a URI.
       slug = "" if slug =~ /\/\// || slug =~ /\\/
@@ -59,9 +67,6 @@ module SlugHelpers
 
       # remove double hypens
       slug = slug.gsub("--", "")
-
-      # remove en and em dashes
-      slug = slug.gsub(/[\u2013-\u2014]/, "")
 
       # remove single quotes
       slug = slug.gsub("'", "")
@@ -93,7 +98,6 @@ module SlugHelpers
 
   # runs dedupe if necessary
   def self.run_dedupe_slug(slug)
-
     # search for dupes
     if !slug.empty? && slug_in_use?(slug)
       slug = dedupe_slug(slug, 1)
@@ -119,12 +123,14 @@ module SlugHelpers
     # the base slug has changed if previous_slug is nil/empty but slug is not
     if (previous_slug.nil? || previous_slug.empty?) &&
        (!slug.nil? && !slug.empty?)
+
       return true
     end
 
     # the base slug has changed if slug is nil/empty but previous_slug is not
     if (slug.nil? || slug.empty?) &&
        (!previous_slug.nil? && !previous_slug.empty?)
+
       return true
     end
 
@@ -148,7 +154,6 @@ module SlugHelpers
   # given a slug, return true if slug is used by another entity.
   # return false otherwise.
   def self.slug_in_use?(slug)
-
     if job_running?
       cache.include? slug
     else
@@ -158,7 +163,6 @@ module SlugHelpers
 
   # dupe_slug is already in use.
   def self.dedupe_slug(dupe_slug, count)
-
     new_slug = "#{dupe_slug}_#{count}"
     loop do
       break unless slug_in_use?(new_slug)

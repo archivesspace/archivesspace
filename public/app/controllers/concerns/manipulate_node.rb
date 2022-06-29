@@ -26,8 +26,8 @@ module ManipulateNode
       .gsub("item>", "li>")
 
     unless opts[:preserve_newlines]
-      txt = txt.gsub(/\n\n/,"<br /><br />")
-              .gsub(/\r\n\r\n/,"<br /><br />")
+      txt = txt.gsub(/\n\n/, "<br /><br />")
+              .gsub(/\r\n\r\n/, "<br /><br />")
     end
 
     txt = txt.gsub(/&(?![A-Za-z]+;|#[0-9]+;)/, '&amp;')
@@ -92,7 +92,7 @@ module ManipulateNode
       newnode = process_render(newnode)
     elsif newnode.name.match(/ptr$/)
       newnode = process_pointer(newnode)
-    elsif  newnode.name.match(/^extref/)
+    elsif newnode.name.match(/^extref/)
       newnode = process_anchor(newnode)
     elsif newnode.name == 'blockquote'
       newnode.name = 'blockquote'
@@ -126,7 +126,7 @@ module ManipulateNode
         unless role.blank?
           newnode.remove_attribute('role')
         end
-        newnode['class']  = "#{newnode.name} #{clss} #{role}".strip
+        newnode['class'] = "#{newnode.name} #{clss} #{role}".strip
         newnode.name = newnode.name == 'accession' ? 'div' : 'span'
       end
     end
@@ -181,19 +181,19 @@ module ManipulateNode
   def process_render(node)
     name = node.name
     node.name = case node['render']
-             when /quote/
-              'q'
-             when /alt/
-              'q'
-             when /super/
-              'sup'
-              when /sub/
-              'sub'
-              when /underline/
-              'u'
-            else
-              'span'
-            end
+                when /quote/
+                  'q'
+                when /alt/
+                  'q'
+                when /super/
+                  'sup'
+                when /sub/
+                  'sub'
+                when /underline/
+                  'u'
+                else
+                  'span'
+                end
     clss = node['class'] || ""
     clss = "#{name} #{clss}"
     %w{altrender bold single italic smcaps nonproport}.each do |w|
@@ -204,5 +204,5 @@ module ManipulateNode
     node['class'] = clss.strip if !clss.blank?
     node.remove_attribute('render')
     return node
-   end
+  end
 end

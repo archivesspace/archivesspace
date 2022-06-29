@@ -6,7 +6,6 @@ module ASpaceCoverage
   require 'simplecov'
 
   def self.start(test_name, env = nil)
-
     SimpleCov.root(ASUtils.find_base_directory)
     SimpleCov.coverage_dir("coverage")
     SimpleCov.command_name test_name + ":#{Time.now.to_i}:#{$$}"

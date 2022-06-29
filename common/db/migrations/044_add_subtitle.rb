@@ -4,7 +4,7 @@ Sequel.migration do
 
   up do
     alter_table(:resource) do
-     TextField :finding_aid_subtitle 
+      TextField :finding_aid_subtitle
     end
   end
 
@@ -16,4 +16,3 @@ Sequel.migration do
   end
 
 end
-

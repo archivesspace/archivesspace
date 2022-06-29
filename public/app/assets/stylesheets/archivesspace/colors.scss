@@ -1,16 +1,17 @@
 /* colors and icons for your institution */
 
-$black: #000000;
+$black: #000;
 $darkest: #00171f;
-$white: #ffffff;
-$darkblue: #05538a;
-$midblue: #004f6f;
-$lightblue: #0f5670;
-$darkshade: #888888;
-$shade: #cccccc;
-$lightshade: #eeeeee;
+$white: #fff;
+$darkblue: #041c2f;
+$midblue: #006e99;
+$lightblue: #007cad;
+$darkshade: #888;
+$shade: #ccc;
+$lightshade: #eee;
 $highlight: #f7d309;
-$dark_against_shade: #004f6f;  /* for contrast against lightshade */
+$dark_against_shade: #004f6f; /* for contrast against lightshade */
+
 /* this is where you can change colors for your institution */
 
 $primary-color: $lightblue;
@@ -27,12 +28,10 @@ $light-neutral: $lightshade;
 $breadcrumb-link: $darkblue;
 
 /* this is for the top horizontal nav bar */
-$nvBgDefault      : $light-neutral;
-$nvBgHighlight    : $light-neutral;
-$nvColDefault     : $dark_against_shade;
-$nvColHighlight   : $border-accent;
-
-
+$nvBgDefault: $light-neutral;
+$nvBgHighlight: $light-neutral;
+$nvColDefault: $dark_against_shade;
+$nvColHighlight: $border-accent;
 
 $collection-color: #e01919;
 $subject-color: #941c9a;
@@ -45,6 +44,3 @@ $accession-color: $collection-color;
 $digital-object-color: $collection-color;
 $archival-object-color: #457141;
 $folder-color: #009fcf;
-
-
-

@@ -8,18 +8,21 @@ describe 'Date Calculator model' do
 
     grandparent = create(:json_archival_object,
                          {
+                           :dates => [],
                            :resource => {"ref" => resource.uri},
                            :level => "series", :component_id => SecureRandom.hex
                          }.merge(opts.fetch(:grandparent_properties, {})))
 
     parent = create(:json_archival_object,
                     {
+                      :dates => [],
                       :resource => {"ref" => resource.uri},
                       :parent => {"ref" => grandparent.uri}
                     }.merge(opts.fetch(:parent_properties, {})))
 
     child = create(:json_archival_object,
                    {
+                     :dates => [],
                      :resource => {"ref" => resource.uri},
                      :parent => {"ref" => parent.uri},
                    }.merge(opts.fetch(:child_properties, {})))
@@ -43,6 +46,19 @@ describe 'Date Calculator model' do
     expect(calculator.min_begin).to eq('1990-01-01')
     expect(calculator.max_end).to eq('2000-05-02')
   end
+
+  it "can accept dates without leading zeros" do
+    (resource, _, _, _) = create_tree({
+                                        :resource_properties => {
+                                          :dates => [build(:json_date, :label => 'existence', :begin => '1990-1-1', :end => '2000-5-2')]
+                                        }
+                                      })
+
+    calculator = DateCalculator.new(resource)
+    expect(calculator.min_begin).to eq('1990-1-1')
+    expect(calculator.max_end).to eq('2000-5-2')
+  end
+
 
   it "can calculate the date range for a resource, all date types and a bunch of dates" do
     (resource, _, _, _) = create_tree({

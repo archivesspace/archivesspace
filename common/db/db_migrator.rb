@@ -132,6 +132,14 @@ module SequelColumnTypes
     Integer :sort_name_auto_generate
   end
 
+  def apply_parallel_name_columns
+    String :dates, :null => true
+    TextField :qualifier, :null => true
+    DynamicEnum :source_id, :null => true
+    DynamicEnum :rules_id, :null => true
+    TextField :sort_name, :null => false
+    Integer :sort_name_auto_generate, :default => 1
+  end
 
   def apply_mtime_columns(create_time = true)
     String :created_by
@@ -165,10 +173,21 @@ end
 
 class DBMigrator
 
+  def self.order_plugins(plugins)
+    ordered_plugin_dirs = ASUtils.order_plugins(plugins.map {|p| File.join(ASUtils.plugin_base_directory, p)})
+
+    result = plugins.sort_by {|p|
+      ordered_plugin_dirs.index(File.absolute_path(File.join(ASUtils.plugin_base_directory, p)))
+    }
+
+    result
+  end
+
   MIGRATIONS_DIR = File.join(File.dirname(__FILE__), "migrations")
   PLUGIN_MIGRATIONS = []
   PLUGIN_MIGRATION_DIRS = {}
-  AppConfig[:plugins].each do |plugin|
+
+  order_plugins(AppConfig[:plugins]).each do |plugin|
     mig_dir = ASUtils.find_local_directories("migrations", plugin).shift
     if mig_dir && Dir.exist?(mig_dir)
       PLUGIN_MIGRATIONS << plugin
@@ -192,7 +211,7 @@ class DBMigrator
     rescue ContainerMigrationError
       raise $!
     rescue Exception => e
-     $stderr.puts <<EOF
+      $stderr.puts <<EOF
 
     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -204,9 +223,12 @@ class DBMigrator
     !!                                                                                                !!
     !!                                                                                                !!
     !!                                                Error:                                          !!
-    !!  #{e.inspect}                                                                                  !!
-    !!  #{e.message}                                                                                  !!
-    !!  #{e.backtrace.join("\n")}                                                                     !!
+EOF
+      e.message.split("\n").each do |line|
+        $stderr.puts "    !! #{line}"
+      end
+      $stderr.puts <<EOF
+    !!                                                                                                !!
     !!                                                                                                !!
     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -214,7 +236,7 @@ class DBMigrator
 
 EOF
 
-     raise e
+      raise e
     end
   end
 
@@ -234,42 +256,42 @@ EOF
     end
 
     if current_version && current_version > 0 && current_version < CONTAINER_MIGRATION_NUMBER
-      $stderr.puts <<EOM
+      $stderr.puts <<~EOM
 
-=======================================================================
-Important migration issue
-=======================================================================
+        =======================================================================
+        Important migration issue
+        =======================================================================
 
-Hello!
+        Hello!
 
-It appears that you are upgrading ArchivesSpace from version 1.4.2 or prior.  To
-complete this upgrade, there are some additional steps to follow.
+        It appears that you are upgrading ArchivesSpace from version 1.4.2 or prior.  To
+        complete this upgrade, there are some additional steps to follow.
 
-The 1.5 series of ArchivesSpace introduced a new data model for containers,
-along with a compatibility layer to provide a seamless transition between the
-old and new container models.  In ArchivesSpace version 2.1, this compatibility
-layer was removed in the interest of long-term maintainability and system
-performance.
+        The 1.5 series of ArchivesSpace introduced a new data model for containers,
+        along with a compatibility layer to provide a seamless transition between the
+        old and new container models.  In ArchivesSpace version 2.1, this compatibility
+        layer was removed in the interest of long-term maintainability and system
+        performance.
 
-To upgrade your ArchivesSpace installation, you will first need to upgrade to
-version 2.0.1.  This will upgrade your containers to the new model and clear the
-path for future upgrades.  Once you have done this, you can upgrade to the
-latest ArchivesSpace version as normal.
+        To upgrade your ArchivesSpace installation, you will first need to upgrade to
+        version 2.0.1.  This will upgrade your containers to the new model and clear the
+        path for future upgrades.  Once you have done this, you can upgrade to the
+        latest ArchivesSpace version as normal.
 
-For more information on upgrading to ArchivesSpace 2.0.1, please see the upgrade
-guide:
+        For more information on upgrading to ArchivesSpace 2.0.1, please see the upgrade
+        guide:
 
-  https://archivesspace.github.io/tech-docs/administration/upgrading.html
+          https://archivesspace.github.io/tech-docs/administration/upgrading.html
 
-The upgrade guide for version 1.5.0 also contains specific instructions for
-the container upgrade that you will be performing, and the steps in this guide
-apply equally to version 2.0.1.  You can find that guide here:
+        The upgrade guide for version 1.5.0 also contains specific instructions for
+        the container upgrade that you will be performing, and the steps in this guide
+        apply equally to version 2.0.1.  You can find that guide here:
 
-  https://github.com/archivesspace/archivesspace/blob/master/UPGRADING_1.5.0.md
+          https://github.com/archivesspace/archivesspace/blob/master/UPGRADING_1.5.0.md
 
-=======================================================================
+        =======================================================================
 
-EOM
+      EOM
 
       raise ContainerMigrationError.new
     end

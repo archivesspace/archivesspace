@@ -1,0 +1,16 @@
+<% notes = result.json['notes'].select{ |n| n['jsonmodel_type'] == note_type && n['publish'] == true} %>
+<% if notes.any? %>
+  <% notes.each_with_index do |note, idx| %>
+    <h3 class="<%= note_label.downcase %>"><%= note['label'] ? note['label'] : note_label %></h3>
+    <% n = NoteRenderer.for(note['jsonmodel_type']).render(note['jsonmodel_type'], note, {}) %>
+    <% if n.key?('subnotes') %>
+      <% n['subnotes'].each do |subnote| %>
+        <% if subnote['jsonmodel_type'] != 'note_text' %><h5><%= I18n.t("#{subnote['jsonmodel_type']}.option") %>: </h5><% end %>
+        <%= subnote['_title'] if subnote['_title'] %>
+        <%= subnote['_text'] %>
+      <% end %>
+    <% else %>
+      <%= n['note_text'] %>
+    <% end %>
+  <% end %>
+<% end %>

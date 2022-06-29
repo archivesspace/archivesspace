@@ -1,3 +1,5 @@
+require_relative 'ancestor_listing'
+
 class DigitalObjectComponent < Sequel::Model(:digital_object_component)
   include ASModel
   corresponds_to JSONModel(:digital_object_component)
@@ -18,6 +20,7 @@ class DigitalObjectComponent < Sequel::Model(:digital_object_component)
   include Events
   include Publishable
   include TouchRecords
+  include RepresentativeFileVersion
 
   enable_suppression
 
@@ -66,6 +69,12 @@ class DigitalObjectComponent < Sequel::Model(:digital_object_component)
     display_string += date_label if date_label
 
     display_string
+  end
+
+  def self.sequel_to_jsonmodel(objs, opts = {})
+    jsons = super
+    AncestorListing.add_ancestors(objs, jsons)
+    jsons
   end
 
   def validate

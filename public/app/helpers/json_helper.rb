@@ -31,7 +31,7 @@ module JsonHelper
 
     if note_2.has_key?('subnotes')
       note_1['subnotes'] ||= []
-      note_1['subnotes'] = note_1['subnotes'] + note_2['subnotes'].map{|sub|
+      note_1['subnotes'] = note_1['subnotes'] + note_2['subnotes'].map {|sub|
         sub_copy = sub.clone
         sub_copy['_inline_label'] = note_2['label']
         sub_copy
@@ -59,7 +59,7 @@ module JsonHelper
   def parse_date(date)
     label = date['label'].blank? ? '' : "#{date['label'].titlecase}: "
     label = '' if label == 'Creation: '
-    exp =  date['expression'] || ''
+    exp = date['expression'] || ''
     if exp.blank?
       exp = date['begin'] unless date['begin'].blank?
       unless date['end'].blank?
@@ -67,7 +67,7 @@ module JsonHelper
       end
     end
     if date['date_type'] == 'bulk'
-      exp = exp.sub('bulk','').sub('()', '').strip
+      exp = exp.sub('bulk', '').sub('()', '').strip
       exp = date['begin'] == date['end'] ? I18n.t('bulk._singular', :dates => exp) :
               I18n.t('bulk._plural', :dates => exp)
     end

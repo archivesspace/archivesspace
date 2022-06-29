@@ -76,6 +76,9 @@ class IndexerCommon
       end
     end
 
+    # Force load up front
+    self.enum_fields
+
     configure_doc_rules
 
     @@init_hooks.each do |hook|
@@ -118,27 +121,35 @@ class IndexerCommon
   end
 
 
+  EXCLUDED_STRING_VALUE_PROPERTIES = Set.new(%w(created_by last_modified_by system_mtime user_mtime json types create_time date_type jsonmodel_type publish extent_type language script system_generated suppressed source rules name_order))
+
   def self.extract_string_values(doc)
-    text = ""
-    doc.each do |key, val|
-      if %w(created_by last_modified_by system_mtime user_mtime json types create_time date_type jsonmodel_type publish extent_type language script system_generated suppressed source rules name_order).include?(key)
-      elsif key =~ /_enum_s$/
-      elsif val.is_a?(String)
-        text << "#{val} "
-      elsif val.is_a?(Hash)
-        text << self.extract_string_values(val)
-      elsif val.is_a?(Array)
-        val.each do |v|
-          if v.is_a?(String)
-            text << "#{v} "
-          elsif v.is_a?(Hash)
-            text << self.extract_string_values(v)
+    queue = [doc]
+    strings = []
+
+    while !queue.empty?
+      doc = queue.pop
+
+      doc.each do |key, val|
+        if EXCLUDED_STRING_VALUE_PROPERTIES.include?(key) || key =~ /_enum_s$/
+          # ignored
+        elsif val.is_a?(String)
+          strings.push(val)
+        elsif val.is_a?(Hash)
+          queue.push(val)
+        elsif val.is_a?(Array)
+          val.each do |v|
+            if v.is_a?(String)
+              strings.push(v)
+            elsif v.is_a?(Hash)
+              queue.push(v)
+            end
           end
         end
       end
     end
 
-    text
+    strings.join(' ').strip
   end
 
 
@@ -146,16 +157,16 @@ class IndexerCommon
     fullrecord = IndexerCommon.extract_string_values(record)
     %w(finding_aid_subtitle finding_aid_author).each do |field|
       if record['record'].has_key?(field)
-        fullrecord << "#{record['record'][field]} "
+        fullrecord << " #{record['record'][field]}"
       end
     end
 
     if record['record'].has_key?('names')
-      fullrecord << record['record']['names'].map {|name|
+      fullrecord << " " + record['record']['names'].map {|name|
         IndexerCommon.extract_string_values(name)
       }.join(" ")
     end
-    fullrecord
+    fullrecord.strip
   end
 
   # There's a problem with how translation paths get loaded when selenium tests are run
@@ -213,6 +224,21 @@ class IndexerCommon
     if record['record']['subjects']
       doc['subjects'] = record['record']['subjects'].map {|s| s['_resolved']['title']}.compact
       doc['subject_uris'] = record['record']['subjects'].collect{|link| link['ref']}
+    end
+  end
+
+
+  def add_subjects_subrecord(doc, record, subrecord, type = 'subjects')
+    doc['subjects'] ||= []
+    doc['subject_uris'] ||= []
+
+    if record['record'][subrecord]
+      record['record'][subrecord].each do |sr|
+        next unless sr[type]
+
+        doc['subjects'].concat(sr[type].map {|s| s['_resolved']['title']}.compact)
+        doc['subject_uris'].concat(sr[type].collect{|link| link['ref']})
+      end
     end
   end
 
@@ -280,6 +306,7 @@ class IndexerCommon
     end
   end
 
+
   def add_extents(doc, record)
     if record['record']['extents']
       extents = record['record']['extents']
@@ -292,15 +319,51 @@ class IndexerCommon
     end
   end
 
-  # TODO: We should fix this to read from the JSON schemas
-  HARDCODED_ENUM_FIELDS = ["relator", "type", "role", "source", "rules", "acquisition_type", "resource_type", "processing_priority", "processing_status", "era", "calendar", "digital_object_type", "level", "processing_total_extent_type", "extent_type", "language", "script", "event_type", "type_1", "type_2", "type_3", "salutation", "outcome", "finding_aid_description_rules", "finding_aid_status", "instance_type", "use_statement", "checksum_method", "date_type", "label", "certainty", "scope", "portion", "xlink_actuate_attribute", "xlink_show_attribute", "file_format_name", "temporary", "name_order", "country", "jurisdiction", "rights_type", "ip_status", "term_type", "enum_1", "enum_2", "enum_3", "enum_4", "relator_type", "job_type"]
+
+  def enum_fields
+    return @enum_fields if @enum_fields
+
+    enum_fields = []
+    queue = JSONModel.models.map {|_,model| model.schema['properties']}.flatten.uniq
+
+    while !queue.empty?
+      elt = queue.shift
+
+      if elt.is_a?(Hash)
+        elt.each do |k, v|
+          if v.is_a?(Hash)
+            enum_fields.push(k) if v['dynamic_enum'] || v.dig('items', 'dynamic_enum')
+          end
+          queue << v
+        end
+      elsif elt.is_a?(Array)
+        queue.concat(elt)
+      end
+    end
+
+    enum_fields.delete('items') # not an enum, creeps in through dynamic enum lists
+    @enum_fields = enum_fields.uniq
+  end
+
+  def trim_ark_value(s)
+    s.gsub(/\A.*ark:/, 'ark:')
+  end
+
+  def add_arks(doc, record)
+    return unless AppConfig[:arks_enabled]
+
+    if arks = record['record']['ark_name']
+      doc['ark_name'] = ([arks.fetch('current', nil)] + arks.fetch('previous')).compact.map {|s| trim_ark_value(s)}
+    end
+  end
+
 
   def configure_doc_rules
 
     add_document_prepare_hook {|doc, record|
       found_keys = Set.new
 
-      ASUtils.search_nested(record["record"], HARDCODED_ENUM_FIELDS, ['_resolved']) do |field, field_value|
+      ASUtils.search_nested(record["record"], enum_fields, ['_resolved']) do |field, field_value|
         key = "#{field}_enum_s"
 
         doc[key] ||= Set.new
@@ -319,7 +382,7 @@ class IndexerCommon
 
       # Turn our sets back into regular arrays so they serialize out to JSON correctly
       found_keys.each do |key|
-        doc[key] = doc[key].to_a
+        doc[key] = doc[key].to_a.flatten
       end
     }
 
@@ -344,6 +407,7 @@ class IndexerCommon
       add_level(doc, record)
       add_summary(doc, record)
       add_extents(doc, record)
+      add_arks(doc, record)
     }
 
     add_document_prepare_hook {|doc, record|
@@ -367,8 +431,13 @@ class IndexerCommon
         doc['access_restrictions'] = record['record']['access_restrictions']
         doc['use_restrictions'] = record['record']['use_restrictions']
         doc['related_resource_uris'] = record['record']['related_resources'].
-                                          collect{|resource| resource["ref"]}.
+                                          collect { |resource| resource["ref"] }.
                                           compact.uniq
+
+        doc['related_accession_uris'] = record['record']['related_accessions'].
+                                           collect { |accession| accession["ref"] }.
+                                           compact.uniq
+
         doc['slug'] = record['record']['slug']
         doc['is_slug_auto'] = record['record']['is_slug_auto']
         if cm = record['record']['collection_management']
@@ -426,6 +495,7 @@ class IndexerCommon
       if doc['primary_type'] == 'digital_object_component'
         doc['digital_object'] = record['record']['digital_object']['ref']
         doc['digital_object_id'] = record['record']['component_id']
+        doc['identifier'] = record['record']['component_id']
         doc['title'] = record['record']['display_string']
         doc['slug'] = record['record']['slug']
         doc['is_slug_auto'] = record['record']['is_slug_auto']
@@ -457,6 +527,7 @@ class IndexerCommon
         doc['digital_object_type'] = record['record']['digital_object_type']
 
         doc['digital_object_id'] = record['record']['digital_object_id']
+        doc['identifier'] = record['record']['digital_object_id']
         doc['level'] = record['record']['level']
         doc['restrictions'] = record['record']['restrictions']
         doc['slug'] = record['record']['slug']
@@ -490,9 +561,36 @@ class IndexerCommon
 
         authorized_name = record['record']['names'].find {|name| name['authorized']}
 
-        if authorized_name
+        has_conventions_dec = !record['record']['agent_conventions_declarations'].empty?
+        has_agent_record_id = !record['record']['agent_record_identifiers'].empty?
+
+        if has_agent_record_id
+          primary_record_id = record['record']['agent_record_identifiers'].select do |ari|
+            ari['primary_identifier'] == true
+          end
+
+          primary_record_id = primary_record_id.first
+        else
+          primary_record_id = nil
+        end
+
+        if has_conventions_dec
+          conventions_dec = record['record']['agent_conventions_declarations'].first
+        else
+          conventions_dec = nil
+        end
+
+        if primary_record_id
+          doc['authority_id'] = primary_record_id['record_identifier']
+          doc['source'] = primary_record_id['source']
+        elsif authorized_name
           doc['authority_id'] = authorized_name['authority_id']
           doc['source'] = authorized_name['source']
+        end
+
+        if conventions_dec && conventions_dec['name_rule']
+          doc['rules'] = conventions_dec['name_rule']
+        elsif authorized_name
           doc['rules'] = authorized_name['rules']
         end
 
@@ -508,6 +606,16 @@ class IndexerCommon
         else
           doc['is_user'] = false
         end
+
+        add_subjects_subrecord(doc, record, 'agent_functions')
+        add_subjects_subrecord(doc, record, 'agent_occupations')
+        add_subjects_subrecord(doc, record, 'agent_places')
+        add_subjects_subrecord(doc, record, 'agent_topics')
+
+        add_subjects_subrecord(doc, record, 'agent_functions', 'places')
+        add_subjects_subrecord(doc, record, 'agent_occupations', 'places')
+        add_subjects_subrecord(doc, record, 'agent_resources', 'places')
+        add_subjects_subrecord(doc, record, 'agent_topics', 'places')
 
         # Assign the additional type of 'agent'
         doc['types'] << 'agent'
@@ -572,8 +680,10 @@ class IndexerCommon
           filename = filenames.shift
           doc['job_data'] << (filename ? "input_file --- #{filename}" : "output_file --- #{link}")
         end
-        record['record']['job'].reject { |k, _v| ['jsonmodel_type', 'filenames', 'report_type'].include? k }.each do |k, v|
-          doc['job_data'] << "#{k} --- #{v}"
+        unless record['record']['job'].is_a? String
+          record['record']['job'].reject { |k, _v| ['jsonmodel_type', 'filenames', 'report_type'].include? k }.each do |k, v|
+            doc['job_data'] << "#{k} --- #{v}"
+          end
         end
         doc['queue_position'] = record['record']['queue_position']
       end
@@ -581,7 +691,7 @@ class IndexerCommon
 
 
     add_document_prepare_hook {|doc, record|
-      records_with_classifications = ['resource', 'accession']
+      records_with_classifications = ['resource', 'accession', 'digital_object']
 
       if records_with_classifications.include?(doc['primary_type']) && record['record']['classifications'].length > 0
         doc['classification_paths'] = record['record']['classifications'].map { |c| ASUtils.to_json(c['_resolved']['path_from_root']) }
@@ -772,13 +882,15 @@ class IndexerCommon
       cm = record['record']['collection_management']
       if cm
         parent_type = JSONModel.parse_reference(record['uri'])[:type]
+        title = record['record']['title'] || record['record']['display_string']
         docs << {
           'id' => cm['uri'],
           'uri' => cm['uri'],
           'parent_id' => record['uri'],
-          'parent_title' => record['record']['title'] || record['record']['display_string'],
+          'parent_title' => title,
           'parent_type' => parent_type,
-          'title' => record['record']['title'] || record['record']['display_string'],
+          'title' => title,
+          'title_sort' => clean_for_sort(title),
           'types' => ['collection_management'],
           'primary_type' => 'collection_management',
           'json' => cm.to_json(:max_nesting => false),
@@ -1010,6 +1122,7 @@ class IndexerCommon
 
 
   def clean_for_sort(value)
+    return nil if value.nil?
     out = value.gsub(/<[^>]+>/, '')
     out.gsub!(/-/, ' ')
     out.gsub!(/[^\w\s]/, '')
@@ -1122,11 +1235,9 @@ class IndexerCommon
 
     if !batch.empty?
       # For any record we're updating, delete any child records first (where applicable)
-      records_with_children = batch.map {|e|
-        if self.records_with_children.include?(e['primary_type'].to_s)
-          "\"#{e['id']}\""
-        end
-      }.compact
+      records_with_children = self.records_with_children.map {|record_type|
+        batch.record_info_for_type(record_type).map {|info| '"%s"' % [info[:id]]}
+      }.flatten
 
       if !records_with_children.empty?
         req = Net::HTTP::Post.new("#{solr_url.path}/update")

@@ -1,3 +1,5 @@
+<% json = @result.json %>
+
 <div id="main-content" class="agents">
 
   <div class="row" id="info_row">
@@ -9,59 +11,65 @@
     </div>
   </div>
 
+
 <div class="row">
   <div class="col-sm-9">
-    <% if !@result.dates.blank? %>
-      <h2><%= t('agent._public.section.dates_of_existence') %></h2>
-      <%= render partial: 'shared/dates', locals: {:dates => @result.dates} %>
-    <% end %>
-
-    <%= render partial: 'shared/display_notes' %>
-
- <% if !@results.blank? && @results['total_hits'] > 0 %>
-     <h2><%= t('found', {:count => @results['total_hits'], :type => @results['total_hits'] == 1? t('coll_obj._singular') : t('coll_obj._plural')}) %>:</h2>
-         <%= render partial: 'shared/pagination', locals: {:pager  => @pager}  %>
-         <% @results.records.each do |result| %>
-           <%= render partial: 'shared/result', locals: {:result => result, :props => {:full => false}} %>
-         <% end %>
-         <%= render partial: 'shared/pagination', locals: {:pager  => @pager}  %>
-
-   <% end %>
-
+    <%= render partial: 'dates', locals: {:result => @result} %>
+    <%= render partial: 'parallel_names', locals: {:result => @result} %>
+    <%= render partial: 'shared/notes', locals: {:result => @result, note_label: I18n.t('agent_notes.note_bioghist'), note_type: 'note_bioghist'} %>
+    <%= render partial: 'shared/notes', locals: {:result => @result, note_label: I18n.t('agent_notes.note_general_context'), note_type: 'note_general_context'} %>
+    <%= render partial: 'shared/notes', locals: {:result => @result, note_label: I18n.t('agent_notes.note_legal_status'), note_type: 'note_legal_status'} %>
+    <%= render partial: 'shared/notes', locals: {:result => @result, note_label: I18n.t('agent_notes.note_mandate'), note_type: 'note_mandate'} %>
+    <%= render partial: 'shared/notes', locals: {:result => @result, note_label: I18n.t('agent_notes.note_structure_or_genealogy'), note_type: 'note_structure_or_genealogy'} %>
+    <%= render partial: 'gender', locals: {:result => @result} %>
+    <%= render partial: 'subjects', locals: {:result => @result, subject_label: I18n.t('agent_function._plural'), subject_type: 'agent_functions'} %>
+    <%= render partial: 'subjects', locals: {:result => @result, subject_label: I18n.t('agent_occupation._plural'), subject_type: 'agent_occupations'} %>
+    <%= render partial: 'subjects', locals: {:result => @result, subject_label: I18n.t('agent_place._plural'), subject_type: 'agent_places'} %>
+    <%= render partial: 'subjects', locals: {:result => @result, subject_label: I18n.t('agent_topic._plural'), subject_type: 'agent_topics'} %>
+    <%= render partial: 'shared/languages', locals: {:result => @result} %>
+    <%= render partial: 'shared/metadata_rights_declarations', locals: {:result => @result} %>
+    <%= render partial: 'snac', locals: {:result => @result} %>
+    <%# FOUND IN SECTION %>
+    <%= render partial: 'shared/results', locals: {:results => @results, :pager => @pager} %>
   </div>
-  <div id="sidebar" class="col-sm-3 sidebar sidebar-container">
-    <% if @result.json['names'].length > 1 ||
-          (@result.respond_to?(:related_agents) && !ASUtils.wrap(@result.related_agents).empty?) ||
-          ASUtils.wrap(@result.external_documents).length > 0 %>
 
-    <h3><%= t('more_about') %> '<%= @result.display_string %>'</h3>
-    <div class="acc_holder clear" >
-      <div class="panel-group" id="agent_accordion">
-        <% if @result.json['names'].length > 1 %>
-          <% other_names = @result.json['names'].reject{|name| name['is_display_name']}.collect{|name| name['sort_name']} %>
-          <% x = "<p>#{t('agent._public.section.other_names_preamble')}</p>" %>
-          <% x += render partial: 'shared/present_list', locals: {:list =>  other_names, :list_clss => 'other_names'} %>
-          <%= render partial: 'shared/accordion_panel', locals: {:p_title => t('agent._public.section.other_names'), :p_id => 'other_names_list', :p_body => x.html_safe} %>
-        <% end %>
-        <% if @result.respond_to?(:related_agents) && !ASUtils.wrap(@result.related_agents).empty? %>
-          <% x = render partial: 'agents/related_agents', locals: {:related_agents => @result.related_agents, :list_clss => 'related_agents'} %>
-          <%= render partial: 'shared/accordion_panel', locals: {:p_title => t('agent._public.section.related_agents'), :p_id => 'related_agents_list', :p_body => x} %>
-        <% end %>
-        <% unless @result.external_documents.blank? %>
-          <% x = render partial: 'shared/present_list_external_docs', locals: {:list =>  @result.external_documents, :list_clss => 'external_docs'} %>
-          <%= render partial: 'shared/accordion_panel', locals: {:p_title => t('external_docs'), :p_id => 'ext_doc_list', :p_body => x} %>
-        <% end %>
+  <% if show_agents_sidebar?(@result) %>
+    <div id="sidebar" class="col-sm-3 sidebar sidebar-container">
+      <h3><%= t('more_about') %> '<%= @result.display_string %>'</h3>
+      <div class="acc_holder clear" >
+        <div class="panel-group" id="agent_accordion">
+
+          <% n = render partial: 'name', locals: {:result => @result} %>
+          <%= render partial: 'shared/accordion_panel', locals:
+            {:p_title =>  I18n.t('agent._public.section.other_names'),
+              :p_id => "names_panel",
+              :p_body => n } %>
+
+          <% if @result.respond_to?(:related_agents) && !ASUtils.wrap(@result.related_agents).empty? %>
+            <% x = render partial: 'agents/related_agents', locals: {:related_agents => @result.json['related_agents'], :list_clss => 'related_agents'} %>
+            <%= render partial: 'shared/accordion_panel', locals: {:p_title => t('agent._public.section.related_agents'), :p_id => 'related_agents_list', :p_body => x} %>
+          <% end %>
+
+          <% unless json['agent_resources'].blank? %>
+            <% x = render partial: 'shared/present_list_agent_resources', locals: {:list =>  json['agent_resources'], :list_clss => 'external_docs'} %>
+            <%= render partial: 'shared/accordion_panel', locals: {:p_title => t('agent_resource._plural'), :p_id => 'agent_resource_list', :p_body => x} %>
+          <% end %>
+
+
+          <% unless @result.external_documents.blank? %>
+            <% x = render partial: 'shared/present_list_external_docs', locals: {:list =>  @result.external_documents, :list_clss => 'external_docs'} %>
+            <%= render partial: 'shared/accordion_panel', locals: {:p_title => t('external_docs'), :p_id => 'ext_doc_list', :p_body => x} %>
+          <% end %>
+
+        </div>
       </div>
-    </div>
-    <script type="text/javascript" >
-        initialize_accordion("#agent_accordion .note_panel", "<%= t('accordion.expand') %>" , "<%= t('accordion.collapse') %>");
-    </script>
-
+      <script type="text/javascript" >
+          initialize_accordion("#agent_accordion .note_panel", "<%= t('accordion.expand') %>" , "<%= t('accordion.collapse') %>", <%= AppConfig[:pui_expand_all] %>);
+      </script>
   <% end %>
 
   <% if !@facets.blank? || !@filters.blank? %>
-  <%= render partial: 'shared/facets' %>
+    <%= render partial: 'shared/facets' %>
   <% end %>
   </div>
-</div>
 </div>

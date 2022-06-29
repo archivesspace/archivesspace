@@ -1,0 +1,54 @@
+<% result.each do |r| %>
+  <dl class="dl-horizontal">
+
+    <dt><%= I18n.t('name_person.name_order') %></dt>
+    <dd><%= r['name_order'] %></dd>
+
+    <dt><%= I18n.t('name_person.prefix') %></dt>
+    <dd><%= r['prefix'] %></dd>
+
+    <dt><%= I18n.t('name_person.title') %></dt>
+    <dd><%= r['title'] %></dd>
+
+    <dt><%= I18n.t('name_person.primary_name') %></dt>
+    <dd><%= r['primary_name'] %></dd>
+
+    <dt><%= I18n.t('name_person.rest_of_name') %></dt>
+    <dd><%= r['rest_of_name'] %></dd>
+
+    <dt><%= I18n.t('name_person.suffix') %></dt>
+    <dd><%= r['suffix'] %></dd>
+
+    <dt><%= I18n.t('name_person.fuller_form') %></dt>
+    <dd><%= r['fuller_form'] %></dd>
+
+    <dt><%= I18n.t('name_person.number') %></dt>
+    <dd><%= r['number'] %></dd>
+
+    <dt><%= I18n.t('name_person.dates') %></dt>
+    <dd><%= r['dates'] %></dd>
+
+    <dt><%= I18n.t('name_person.language') %></dt>
+    <dd><%= r['language'] %></dd>
+
+    <dt><%= I18n.t('name_person.script') %></dt>
+    <dd><%= r['script'] %></dd>
+
+    <dt><%= I18n.t('name_person.qualifier') %></dt>
+    <dd><%= r['qualifier'] %></dd>
+  </dl>
+
+  <% if r['use_dates'].any? %>
+
+			<% ud = "" %>	  	
+      <% r['use_dates'].each do |u| %>
+		  	<% ud += render partial: 'structured_date', locals: {:result => u} %>
+		  <% end %>
+
+    	<%= render partial: 'shared/accordion_panel', locals: 
+				{:p_title =>  I18n.t('use_date._plural'),
+		 		 :p_id => "parallel_use_dates_#{r['id']}",
+		 		 :p_body => ud.html_safe } %>
+	  <% end %>
+<% end %>
+

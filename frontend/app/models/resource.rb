@@ -6,7 +6,7 @@ class Resource < JSONModel(:resource)
     if !self.extents || self.extents.empty?
       self.extents = [JSONModel(:extent).new._always_valid!]
     end
-    
+
     if !self.dates || self.dates.empty?
       self.dates = [JSONModel(:date).new._always_valid!]
     end
@@ -56,8 +56,6 @@ class Resource < JSONModel(:resource)
 
     self.notes = notes
 
-    self.update(values)
-
     self.rights_statements = Array(accession.rights_statements).map {|rights_statement|
       rights_statement.clone.tap {|r| r.delete('identifier')}
     }
@@ -65,7 +63,7 @@ class Resource < JSONModel(:resource)
     if !self.extents || self.extents.empty?
       self.extents = [JSONModel(:extent).new._always_valid!]
     end
-    
+
     if !self.dates || self.dates.empty?
       self.dates = [JSONModel(:date).new._always_valid!]
     end
@@ -73,7 +71,15 @@ class Resource < JSONModel(:resource)
     if !self.lang_materials || self.lang_materials.empty?
       self.lang_materials = [JSONModel(:lang_material).new._always_valid!]
     end
+
+    prepare_for_clone(values)
+    self.update(values)
   end
 
+  private
+
+  def prepare_for_clone(values)
+    values.delete_if { |k, v| v.respond_to?(:empty?) && v.empty? }
+  end
 
 end

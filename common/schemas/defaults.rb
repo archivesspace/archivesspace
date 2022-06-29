@@ -12,7 +12,7 @@ column_opts.keys.each do |type|
   end
   browse_columns["#{type}_sort_column"] = {
     "type" => "string",
-    "enum" => (column_opts[type].collect { |col, opts| 
+    "enum" => (column_opts[type].collect { |col, opts|
       opts[:sortable] ? (!opts[:sort].is_a?(Array) ? col: opts[:sort]) : nil }.flatten.compact.unshift('score')),
     "required" => false
   }
@@ -42,6 +42,18 @@ end
         "default" => false
       },
 
+      "rde_sort_alpha" => {
+        "type" => "boolean",
+        "required" => false,
+        "default" => true
+      },
+
+      "include_unpublished" => {
+        "type" => "boolean",
+        "required" => false,
+        "default" => false
+      },
+
       "locale" => {
         "type" => "string",
         "enum" => locale_enum,
@@ -58,7 +70,6 @@ end
         "type" => "array",
         "items" => {"type" => "string"}
       }
-
     }.merge(browse_columns),
   },
 }

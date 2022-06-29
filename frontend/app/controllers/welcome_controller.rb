@@ -1,11 +1,10 @@
 class WelcomeController < ApplicationController
-  set_access_control  :public => [:index]
+  set_access_control :public => [:index]
 
   def index
-   
     info = JSONModel::HTTP::get_json('/')
-    view_context.database_warning( info ) 
-    
+    view_context.database_warning( info )
+
     if session[:user] && @repositories.length === 0
       if user_can?('create_repository')
         flash.now[:info] = I18n.t("repository._frontend.messages.create_first_repository")

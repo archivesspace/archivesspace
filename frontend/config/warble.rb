@@ -11,7 +11,7 @@ Warbler::Config.new do |config|
   config.features = []
 
   # Application directories to be included in the webapp.
-  config.dirs = %w(app config lib log vendor tmp .bundle)
+  config.dirs = %w(app config lib log vendor tmp .bundle docs)
 
   # Additional files/directories to include, above those in config.dirs
   #

@@ -1,4 +1,4 @@
-<%= setup_context :type => :user, :title => "New Account" %>
+<%= setup_context :type => :user, :title => I18n.t("user._frontend.section.new_account") %>
 
 <%= form_for @user, :as => "createuser", :url => {:action => :create}, :html => {:class => 'form-horizontal aspace-record-form public-form'} do |f| %>
 
@@ -7,7 +7,7 @@
      <%= render_aspace_partial :partial => "toolbar" %>
      <div class="record-pane">
        <% if session['user'] %><%= link_to_help :topic => "user" %><% end %>
-       <h2><%= I18n.t("actions.new_prefix") %> <%= I18n.t("user._frontend.section.account") %></h2>
+       <h2><%= I18n.t("user._frontend.section.new_account") %></h2>
        <%= form_context :user, @user do |form| %>
          <%= render_aspace_partial :partial => "users/form", :locals => {:form => form} %>
 

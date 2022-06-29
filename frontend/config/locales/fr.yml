@@ -1,5 +1,7 @@
 fr:
   actions:
+    lightmode_toggle: Mode lumière
+    export_marc_auth: Télécharger l'autorité MARCXML
     add: Ajouter
     add_event: Ajouter événement
     automate: Générer automatiquement
@@ -16,6 +18,7 @@ fr:
     container_labels: Télécharger labels de conditionnements
     create: Créer
     cut: Couper
+    date_picker: Sélecteur de date d'ouverture
     defaults: Valeurs par défaut
     edit: Editer
     edit_oai: Modifier les paramètres OAI
@@ -39,12 +42,27 @@ fr:
     merge_confirm_title: Fusionner avec cette notice?
     merge_agent_compare_agent_details: Comparer les agents
     merge_from_browse_confirm_title: Fusionner les enregistrements sélectionnés?
-    merge_subject_confirm_message: "Les notices sélectionnées seront fusionnées dans le sujet '%{source}'. Toutes les notices sélectionnées seront détruites et toute notice liée sera re-liée à ce sujet."
-    merge_agent_confirm_message: "Les notices sélectionnées seront fusionnées dans l'agent '%{source}'. Toutes les notices sélectionnées seront détruites et toute notice liée sera re-liée à cet agent. En cliquant sur le bouton Comparer les agents, un écran apparaît vous proposant de choisir les champs et sous-enregistrements à conserver dans chaque enregistrement."
-    merge_agent_from_browse_confirm_message: "Les premiers éléments sélectionnés seront fusionnés avec le premier agent sélectionné. Tous les enregistrements sélectionnés ultérieurement seront supprimés et tous les enregistrements liés seront liés au premier agent sélectionné."
-    merge_resource_confirm_message: "Les notices sélectionnées seront fusionnées dans la ressource '%{source}'. Toutes les notices sélectionnées seront détruites et toute notice liée sera réaffectée à cette ressource."
-    merge_container_profile_confirm_message: "The container profile '%{target}' will have the selected records merged into it. All selected records will be deleted and any linked records will be re-linked to this resource."
-    batch_merge: "Select the record into which all of the other listed record(s) will merge. Any linked records will be re-linked to this record and all information for the other record(s) will be deleted."
+    merge_subject_confirm_message: "Les notices sélectionnées seront fusionnées dans\
+      \ le sujet '%{source}'. Toutes les notices sélectionnées seront détruites et\
+      \ toute notice liée sera re-liée à ce sujet."
+    merge_agent_confirm_message: "Les notices sélectionnées seront fusionnées dans\
+      \ l'agent '%{source}'. Toutes les notices sélectionnées seront détruites et\
+      \ toute notice liée sera re-liée à cet agent. En cliquant sur le bouton Comparer\
+      \ les agents, un écran apparaît vous proposant de choisir les champs et sous-enregistrements\
+      \ à conserver dans chaque enregistrement."
+    merge_agent_from_browse_confirm_message: "Les premiers éléments sélectionnés seront\
+      \ fusionnés avec le premier agent sélectionné. Tous les enregistrements sélectionnés\
+      \ ultérieurement seront supprimés et tous les enregistrements liés seront liés\
+      \ au premier agent sélectionné."
+    merge_resource_confirm_message: "Les notices sélectionnées seront fusionnées dans\
+      \ la ressource '%{source}'. Toutes les notices sélectionnées seront détruites\
+      \ et toute notice liée sera réaffectée à cette ressource."
+    merge_container_profile_confirm_message: "The container profile '%{target}' will\
+      \ have the selected records merged into it. All selected records will be deleted\
+      \ and any linked records will be re-linked to this resource."
+    batch_merge: "Select the record into which all of the other listed record(s) will\
+      \ merge. Any linked records will be re-linked to this record and all information\
+      \ for the other record(s) will be deleted."
     merge_n_records: "Merge %{n} records"
     move: Déplacer
     move_up_a_level: Un niveau plus haut
@@ -62,31 +80,55 @@ fr:
     set_default: Définir comme défaut
     suppress: Bloquer
     suppress_confirm_title: Bloquer cette notice?
-    suppress_confirm_message: "Bien qu'une notice bloquée reste dans la base de données, elle devient cachée à la plupart des utilisateurs et indisponible à la plupart des fonctions."
+    suppress_confirm_message: "Bien qu'une notice bloquée reste dans la base de données,\
+      \ elle devient cachée à la plupart des utilisateurs et indisponible à la plupart\
+      \ des fonctions."
     transfer: Transférer
     transfer_confirm_title: Transférer cette notice?
-    transfer_confirm_message: "La notice '%{target}' sera transférée vers le service d'archives selectionné"
-    transfer_successful: Transfert réussi.  L'apparition des notices dans le service d'archives cible peut tarder, le temps qu'une réindexation ait lieu.
+    transfer_confirm_message: "La notice '%{target}' sera transférée vers le service\
+      \ d'archives selectionné"
+    transfer_successful: Transfert réussi.  L'apparition des notices dans le service
+      d'archives cible peut tarder, le temps qu'une réindexation ait lieu.
     transfer_failed: Echec du transfert
-    transfer_failed_records_using_digital_objects: "Les notices suivantes pointent vers des objets numériques qui pourraient être transférés, mais le faire briserait leurs liens d'instances"
-    transfer_failed_digital_objects_linked_to_records: "Cet objet numérique est lié à d'autres enregistrements de ce référentiel. Pour procéder à ce transfert, supprimez les liens des enregistrements suivants"
+    transfer_failed_records_using_digital_objects: "Les notices suivantes pointent\
+      \ vers des objets numériques qui pourraient être transférés, mais le faire briserait\
+      \ leurs liens d'instances"
+    transfer_failed_digital_objects_linked_to_records: "Cet objet numérique est lié\
+      \ à d'autres enregistrements de ce référentiel. Pour procéder à ce transfert,\
+      \ supprimez les liens des enregistrements suivants"
     unset_default: Désactiver défaut
     unsuppress: Débloquer
     unsuppress_confirm_title: Débloquer cette notice?
     unsuppress_confirm_message: "faux"
     unable_to_move_message: "La notice n'a pas pu être déplacée"
-    move_ordering_problem_message: "Problème de rangement occasionné par le déplacement de notice"
+    move_ordering_problem_message: "Problème de rangement occasionné par le déplacement\
+      \ de notice"
     delete: Supprimer
     delete_confirm_title: "Supprimer cette notice? %{title}"
-    delete_confirm_message: "<p>Attention! <strong>Cette opération ne peut être annulée</strong>.</p><p>Cette opération va supprimer la notice de la base de données, ainsi que toutes les références faites aux autres notices.</p>"
+    delete_confirm_message: "<p>Attention! <strong>Cette opération ne peut être annulée</strong>.</p><p>Cette\
+      \ opération va supprimer la notice de la base de données, ainsi que toutes les\
+      \ références faites aux autres notices.</p>"
     delete_repository_confirm_title: "Supprimer ce service d'archives? %{name}"
-    delete_repository_confirm_message: "<p>Attention! <strong>Cette opération ne peut être annulée</strong>.</p><p>Cette opération va supprimer de la base de données le <strong>service d'archives</strong> et toutes les notices associées, ainsi que toutes les références faites aux autres notices.</p><p>Pour continuer, veuillez entrer '%{repository}' ci-dessous:</p><p><input id='deleteRepoConfim' data-confirm-answer='%{repository}'></input></p>"
+    delete_repository_confirm_message: "<p>Attention! <strong>Cette opération ne peut\
+      \ être annulée</strong>.</p><p>Cette opération va supprimer de la base de données\
+      \ le <strong>service d'archives</strong> et toutes les notices associées, ainsi\
+      \ que toutes les références faites aux autres notices.</p><p>Pour continuer,\
+      \ veuillez entrer '%{repository}' ci-dessous:</p><p><input id='deleteRepoConfim'\
+      \ data-confirm-answer='%{repository}'></input></p>"
     delete_multiple: Supprimer notices
     delete_multiple_confirm_title: Supprimer notices?
-    delete_multiple_confirm_message: "<p>Attention! <strong>Cette opération ne peut être annulée</strong>.</p><p>Cette opération va supprimer les notices de la base de données, avec toutes les références faites aux autres notices.</p>"
+    delete_multiple_confirm_message: "<p>Attention! <strong>Cette opération ne peut\
+      \ être annulée</strong>.</p><p>Cette opération va supprimer les notices de la\
+      \ base de données, avec toutes les références faites aux autres notices.</p>"
+    reset: Réinitialiser par défaut
+    reset_confirm_title: "Réinitialiser %{preftype} aux valeurs par défaut de l'application?"
+    reset_confirm_message: "<p>Veuillez noter que <strong>vous ne pouvez pas annuler\
+      \ cette action</strong>.</p><p>Cette action réinitialisera les préférences aux\
+      \ valeurs par défaut de l'application.</p>"
     edit_multiple: Editer notices
     edit_multiple_confirm_title: Editer notices?
-    edit_multiple_confirm_message: "<p>Ceci va mettre à jour en masse de multitples notices.</p>"
+    edit_multiple_confirm_message: "<p>Ceci va mettre à jour en masse de multitples\
+      \ notices.</p>"
     export_eac: Télécharger EAC-CPF
     export_ead: Télécharger EAD
     export_mods: Télécharger MODS
@@ -98,11 +140,31 @@ fr:
     revert: Défaire les changements
     finish_editing: Fermer notice
     merge: Fusionner
-    form_changes_message: "<small><span class='muted'>Vous avez des modifications non enregistrées</span></small>"
-    toolbar_disabled_message: "<small><span class='muted'>Vous avez des modifications non enregistrées - Sauvegardez ou revenez à la barre d'outils Accès et à l'arborescence des notices</span></small>"
+    form_changes_message: "<small><span class='muted'>Vous avez des modifications\
+      \ non enregistrées</span></small>"
+    toolbar_disabled_message: "<small><span class='muted'>Vous avez des modifications\
+      \ non enregistrées - Sauvegardez ou revenez à la barre d'outils Accès et à l'arborescence\
+      \ des notices</span></small>"
     publish: Publier tout
     publish_confirm_title: Publier?
-    publish_confirm_message: "<p>Effectuer cette opération publiera cette notice, toutes les éventuelles sous-notices (Documents externes, notes, etc.) et tous les composants de la hiérarchie.</p>"
+    publish_confirm_message: "<p>Effectuer cette opération publiera cette notice,\
+      \ toutes les éventuelles sous-notices (Documents externes, notes, etc.) et tous\
+      \ les composants de la hiérarchie.</p>"
+    unpublish: Dépublier tout
+    unpublish_confirm_title: Dépublier?
+    unpublish_confirm_message: "<p>Effectuer cette opération dépubliera cette notice,\
+      \ toutes les éventuelles sous-notices (Documents externes, notes, etc.) et tous\
+      \ les composants de la hiérarchie.</p>"
+    publish_archival_object: Publier tout
+    publish_archival_object_confirm_title: Publier?
+    publish_archival_object_confirm_message: "<p>Effectuer cette opération publiera\
+      \ cette notice, toutes les éventuelles sous-notices (Documents externes, notes,\
+      \ etc.) et tous les composants situés à un niveau inférieur de la hiérarchie.</p>"
+    unpublish_archival_object: Dépublier tout
+    unpublish_archival_object_confirm_title: Dépublier?
+    unpublish_archival_object_confirm_message: "<p>Effectuer cette opération dépubliera\
+      \ cette notice, toutes les éventuelles sous-notices (Documents externes, notes,\
+      \ etc.) et tous les composants situés à un niveau inférieur de la hiérarchie.</p>"
     view_search_results: Aller aux résultats de la recherche
     view_published: Voir publiés
     print_to_pdf: Générer un PDF
@@ -113,9 +175,25 @@ fr:
     rapid_data_entry: Saisie rapide de données
     enable_reorder: Basculer en mode réordonner
     reorder_active: Mode réordonner activé
+    copy: Copie
 
+    transfer_failed_barcodes_in_use: Les principaux conteneurs suivants utilisent
+      des codes-barres qui sont utilisés dans le référentiel cible et ne peuvent pas
+      être transférés tant que ces conflits ne sont pas résolus
+    add_event_event_type: Type
+    transfer_failed_top_containers_in_use: Les conteneurs supérieurs suivants sont
+      liés à d'autres enregistrements de niveau supérieur dans ce référentiel et ne
+      peuvent pas être transférés tant que ces liens ne sont pas rompus
+    container_template: Télécharger le modèle de conteneur
+    run: Fuite
+    check_all: Vérifie tout
+    uncheck_all: Tout décocher
+    download: Télécharger
   database_warning:
-    message: "<p><strong>Avertissement!</strong> Vous utilisez actuellement la base de données Apache Derby, embarquée uniquement à des fins de tests/démonstrations. Vous devriez utiliser MySQL en production, y compris pour les données en phase de test susceptibles d'être mises en production.</p>"
+    message: "<p><strong>Avertissement!</strong> Vous utilisez actuellement la base\
+      \ de données Apache Derby, embarquée uniquement à des fins de tests/démonstrations.\
+      \ Vous devriez utiliser MySQL en production, y compris pour les données en phase\
+      \ de test susceptibles d'être mises en production.</p>"
 
   states:
     auto_generated: Généré automatiquement à la sauvegarde
@@ -160,11 +238,13 @@ fr:
     clear_all: Tout effacer
     component_switch: Montrer composants
     help:
-      row_selection: Cliquez sur une rangée pour la sélectionner en vue d'opérations en masse. Maintenir la touche alt pressée tout en cliquant une case à cocher pour sélectionner ou déselectionner plusieurs rangées précédentes.
+      row_selection: Cliquez sur une rangée pour la sélectionner en vue d'opérations
+        en masse. Maintenir la touche alt pressée tout en cliquant une case à cocher
+        pour sélectionner ou déselectionner plusieurs rangées précédentes.
 
 
   search_sorting:
-    sort_by: "Classer par"
+    sort_by: "Trier par :"
     and: "et"
     asc: Ascendant
     desc: Descendant
@@ -305,6 +385,8 @@ fr:
       create_time: Créé
       asc: Ascendant
       desc: Descendant
+      location_one_top_container: 1 conteneur supérieur.
+      location_top_containers: ' conteneurs supérieurs.'
     event:
       score: Pertinence
       agents: Agent
@@ -335,6 +417,7 @@ fr:
       title: Intitulé
       publish: Publié
       has_classification_terms: A des termes des classements?
+      identifier: Identifiant
       audit_info: Audit Information
       user_mtime: Modifié
       create_time: Créé
@@ -442,6 +525,7 @@ fr:
       create_time: Créé
       dates: Dates
       extents: Importance matérielle
+      langcode: Langue des matériaux
       asc: Ascendant
       desc: Descendant
     blank_facet_query_fields:
@@ -450,15 +534,18 @@ fr:
 
   advanced_search:
     operator:
+      operator: Opératrice
       AND: Et
       OR: Ou
       NOT: Pas
     date_operator:
+      comparator: Comparateur
       equal: égal à
       greater_than: plus grand que
       lesser_than: moins que
       empty: non assigné
     boolean_field:
+      boolean: Booléenne
       true_value: "Vrai"
       false_value: "Faux"
     button_text: Recherche
@@ -470,16 +557,24 @@ fr:
       show: Afficher Recherche avancée
       hide: Masquer Recherche avancée
     text_operator:
+      comparator: Comparateur
       contains: contient
       empty: est vide
     enum_field:
       empty: non attribué
+    search_field: Champ de recherche
+    search_text: Texte de recherche
+    search_date: Date
+    search_terms: Champs de recherche avancée %{number}
+    remove_row: Supprimer les champs de recherche avancée %{number}
 
+    add_row: Ajouter rangée
   become-user:
     become-user: Passer utilisateur
     failed: Echec de changement d'utilisateur
     success: Changement d'utilisateur réussi
 
+    username: Nom d'utilisateur
   navbar:
     become-user: Passer utilisateur
     brand: ArchivesSpace
@@ -519,6 +614,8 @@ fr:
     manage_assessment_attributes: Gérer les attributs d'évaluation
     toggle_navigation: Basculer la navigation
 
+    repository_settings: Réglages de service d'archives
+    global_settings: Réglages globales
   header:
     staff_interface: ArchivesSpace Staff Interface
 
@@ -556,11 +653,16 @@ fr:
     login_fail: Echec de la tentative de connexion
     login_success: Connexion réussie. Redirection...
 
+    username_placeholder: Nom d'utilisateur
+    password_aria_label: Mot de passe
+    username_aria_label: Nom d'utilisateur
+    password_placeholder: Mot de passe
   breadcrumb:
     home: Page d'accueil
 
   save_changes_modal:
-    body: Vous avez des modifications en cours.  Veuillez sauvegarder ou abandonner ces modifications pour continuer.
+    body: Vous avez des modifications en cours.  Veuillez sauvegarder ou abandonner
+      ces modifications pour continuer.
     save: Sauvegarder les modifications
     dismiss: Abandonner les modifications
 
@@ -575,15 +677,18 @@ fr:
 
   mixed_content:
     wrap_prefix: "Mettre en forme avec:"
-    help: "Contenu mixte activé&#160;&#160;--&#160;&#160;Tapez '<' pour des éléments ou surlignez du texte à mettre en forme"
+    help: "Contenu mixte activé&#160;&#160;--&#160;&#160;Tapez '<' pour des éléments\
+      \ ou surlignez du texte à mettre en forme"
 
   import:
     eac_title: Importer un fichier EAC
     ead_title: Importer un fichier EAD
     marcxml_title: Importer un fichier MARCXML
-    marcxml_subjects_and_agents_title: Importer sujets et agents à partir d'un fichier MARCXML
+    marcxml_subjects_and_agents_title: Importer sujets et agents à partir d'un fichier
+      MARCXML
     accession_csv_title: Importer des notices d'entrées à partir d'un fichier CSV
-    digital_object_csv_title: Importer des notices d'objets numériques à partir d'un fichier CSV
+    digital_object_csv_title: Importer des notices d'objets numériques à partir d'un
+      fichier CSV
     import_report: Importer un rapport
     import_another: Importer un autre fichier
     file_select: Sélectionnez un fichier à téléverser
@@ -628,20 +733,33 @@ fr:
       before: Ajouter items avant
       after: Ajouter items après
       as_child: Ajouter items comme fils
-    unexpected_failure: Oups! Impossible de récupérer cette arborescence. Veuillez rafraîchir la page.
+    unexpected_failure: Oups! Impossible de récupérer cette arborescence. Veuillez
+      rafraîchir la page.
+    resize: Développer/Réduire la zone de l'arborescence
 
   errors:
+    merge_denied_for_system_user: Un ou plusieurs agents est un utilisateur système.
+    merge_restricted_contact_details: La fusion ne peut pas être effectuée car un
+      ou plusieurs agents ont des coordonnées auxquelles vous n'êtes pas autorisé
+      à accéder.
     sidebar_label: Erreurs et avertissements
     error_403: Page inaccessible
-    error_403_message: "La page à laquelle vous avez tenté d'accéder n'existe plus, ou alors vous n'avez pas la permission de la voir."
+    error_403_message: "La page à laquelle vous avez tenté d'accéder n'existe plus,\
+      \ ou alors vous n'avez pas la permission de la voir."
     error_404: Notice introuvable
-    error_404_message: "La notice à laquelle vous avez tenté d'accéder n'existe plus, ou alors vous n'avez pas la permission de la voir."
+    error_404_message: "La notice à laquelle vous avez tenté d'accéder n'existe plus,\
+      \ ou alors vous n'avez pas la permission de la voir."
     error_tree_pane_ajax: Une erreur s'est produite en chargeant ce formulaire.
     merge_conflict: "La fusion des agents n'a pas réussi: %{message}"
     merge_too_many_victims: Un seul agent peut être sélectionné pour une fusion détaillée.
-    merge_different_types: Les agents sélectionnés pour la fusion détaillée doivent être du même type.
+    merge_different_types: Les agents sélectionnés pour la fusion détaillée doivent
+      être du même type.
     linked_to_assessment: Notice impossible à supprimer, car liée à une évaluation
 
+    merge_denied_relationship: Ces agents ont une relation. Supprimez la relation
+      avant de procéder à la fusion.
+    cannot_delete_repository_agent: Cet agent est lié à un référentiel et ne peut
+      pas être supprimé.
   accession:
     _frontend:
       messages:
@@ -652,7 +770,8 @@ fr:
         suppressed_info: Entrée bloquée, ne pouvant pas être éditée
         deleted: Entrée <strong>%{accession.display_string}</strong> supprimée
         transfer_description: Transférer cette entrée vers...
-        transfer_target: Sélectionnez un service d'archives vers lequel opérer le transfert
+        transfer_target: Sélectionnez un service d'archives vers lequel opérer le
+          transfert
         spawned: "Cette entrée a été générée à partir de l'entrée <strong>%{accession.display_string}</strong>"
         delete_conflict: "Entrée impossible à supprimer: <pre>%{error}</pre>"
       section:
@@ -661,12 +780,14 @@ fr:
         create: Créer entrée
         save: Sauvegarder entrée
 
-  agent: &agent_attributes
+  agent:
     _frontend:
       messages:
         created: Agent créé
         updated: Agent sauvegardé
         deleted: Agent supprimé
+        published: "L'agent <strong>%{agent.title}</strong>, ses sous-enregistrements\
+          \ et ses composants ont été publiés"
         delete_conflict: "Impossible de supprimer l'agent: <pre>%{error}</pre>"
         merge_description: Sélectionnez l'agent à fusionner
         merged: Agent(s) fusionné(s)
@@ -680,14 +801,25 @@ fr:
         linked_via_rights_statement: Notices liées via la mention de droits
         target_record: Cet enregistrement sera mis à jour
         victim_record: Cet enregistrement sera supprimé
+        record_control_information: Enregistrer les informations de contrôle
+        identity_information: Informations d'identité
+        description_information: Description Information
+        relation_information: Informations sur la relation
+        date_of_existence: Date d'existence
+        structured_date_single_fields: Date unique
+        structured_date_range_fields: Date de la plage
+        events: Evénements
       action:
         create: Créer agent
         preview: Fusionner l'aperçu
 
   agent_contact:
+    is_representative: Préféré
     _frontend:
       action:
         add: Ajouter agent
+        make_representative: Établir un contact privilégié
+    notes_tooltip: "<p>Notes supplémentaires ou autres informations sur le contact.</p>"
 
   telephone:
     _frontend:
@@ -719,18 +851,35 @@ fr:
     external_ark_url_tooltip: External ARK URL Tooltip
     _frontend:
       messages:
-        created: Document d'archives <strong>%{archival_object.display_string}</strong> de la ressource <strong>%{resource.title}</strong> créé
-        created_with_parent: Document d'archives <strong>%{archival_object.display_string}</strong> créé en tant que fils de <strong>%{parent.display_string}</strong> de la ressource <strong>%{resource.title}</strong>
-        updated: Document d'archives <strong>%{archival_object.display_string}</strong> actualisé
-        updated_with_parent: Document d'archives <strong>%{archival_object.display_string}</strong> actualisé
+        created: Document d'archives <strong>%{archival_object.display_string}</strong>
+          de la ressource <strong>%{resource.title}</strong> créé
+        created_with_parent: Document d'archives <strong>%{archival_object.display_string}</strong>
+          créé en tant que fils de <strong>%{parent.display_string}</strong> de la
+          ressource <strong>%{resource.title}</strong>
+        updated: Document d'archives <strong>%{archival_object.display_string}</strong>
+          actualisé
+        updated_with_parent: Document d'archives <strong>%{archival_object.display_string}</strong>
+          actualisé
         please_select_a_resource_for_transfer: Veuillez choisir une ressource
-        transfer_success: Document d'archives <strong>%{archival_object.display_string}</strong> transféré avec succès vers la ressource <strong>%{resource.title}</strong>
-        transfer_error: "Le transfert du document d'archives n'a pas pu se faire, en raison d'une erreur ou d'un conflit: <pre>%{exception}</pre>"
-        deleted: "Document d'archives <strong>%{archival_object.display_string}</strong> supprimé"
-        unsuppressed: Document d'archives <strong>%{archival_object.title}</strong> débloqué
-        suppressed: Document d'archives <strong>%{archival_object.title}</strong> bloqué
+        transfer_success: Document d'archives <strong>%{archival_object.display_string}</strong>
+          transféré avec succès vers la ressource <strong>%{resource.title}</strong>
+        transfer_error: "Le transfert du document d'archives n'a pas pu se faire,\
+          \ en raison d'une erreur ou d'un conflit: <pre>%{exception}</pre>"
+        deleted: "Document d'archives <strong>%{archival_object.display_string}</strong>\
+          \ supprimé"
+        published: "Document d'archives <strong>%{archival_object.title}</strong>,\
+          \ ses sous-notices et composants situés à un niveau inférieur de la hiérarchie\
+          \ ont été publiés"
+        unpublished: "Document d'archives <strong>%{archival_object.title}</strong>,\
+          \ ses sous-notices et composants situés à un niveau inférieur de la hiérarchie\
+          \ ont été dépubliés"
+        unsuppressed: Document d'archives <strong>%{archival_object.title}</strong>
+          débloqué
+        suppressed: Document d'archives <strong>%{archival_object.title}</strong>
+          bloqué
         suppressed_info: Document d'archives bloqué, ne peut être édité
-        has_unpublished_ancestor: Merci d'être attentif au fait que cette notice a un parent non publié.
+        has_unpublished_ancestor: Merci d'être attentif au fait que cette notice a
+          un parent non publié.
         delete_conflict: "Impossible de supprimer l'objet archivistique: <pre>%{error}</pre>"
       section:
         basic_information: Informations de base
@@ -760,11 +909,16 @@ fr:
   classification_term:
     _frontend:
       messages:
-        created: "Terme de classement <strong>%{classification_term.title}</strong> créé"
-        created_with_parent: "Terme de classement <strong>%{classification_term.title}</strong> créé"
-        updated: "Terme de classement <strong>%{classification_term.title}</strong> actualisé"
-        updated_with_parent: "Terme de classement <strong>%{classification_term.title}</strong> mis à jour"
-        deleted: "Terme de classement <strong>%{classification_term.title}</strong> supprimé"
+        created: "Terme de classement <strong>%{classification_term.title}</strong>\
+          \ créé"
+        created_with_parent: "Terme de classement <strong>%{classification_term.title}</strong>\
+          \ créé"
+        updated: "Terme de classement <strong>%{classification_term.title}</strong>\
+          \ actualisé"
+        updated_with_parent: "Terme de classement <strong>%{classification_term.title}</strong>\
+          \ mis à jour"
+        deleted: "Terme de classement <strong>%{classification_term.title}</strong>\
+          \ supprimé"
       section:
         basic_information: Informations de base
         search_embedded: Notices liées
@@ -775,7 +929,7 @@ fr:
       tree:
         new_record_title: Nouveau terme de classement
 
-  collection_management: &collection_management_attributes
+  collection_management:
     _frontend:
       title_prefix: Traitement
       action:
@@ -801,6 +955,8 @@ fr:
     _frontend:
       action:
         add: Ajouter date
+    _singular: Date d'existence
+    _plural: Dates d'existence
 
   deaccession:
     _frontend:
@@ -813,8 +969,10 @@ fr:
         created: "Objet numérique <strong>%{digital_object.title}</strong> créé"
         updated: "Objet numérique <strong>%{digital_object.title}</strong> actualisé"
         deleted: "Objet numérique <strong>%{digital_object.title}</strong> supprimé"
-        published: "L'objet numérique <strong>%{digital_object.title}</strong>, ses sous-notices et ses composants ont été publiés"
-        merge_description: Sélectionnez ci-dessous des objects numériques à fusionner dans
+        published: "L'objet numérique <strong>%{digital_object.title}</strong>, ses\
+          \ sous-notices et ses composants ont été publiés"
+        merge_description: Sélectionnez ci-dessous des objects numériques à fusionner
+          dans
         please_select_a_digital_object_to_merge: Veuillez sélectionner un objet numérique
         merged: Objet(s) numérique(s) fusionné(s)
         transfer_description: Transférer cette ressource dans...
@@ -833,13 +991,21 @@ fr:
   digital_object_component:
     _frontend:
       messages:
-        created_with_parent: Composant d'objet numérique <strong>%{digital_object_component.display_string}</strong> créé comme fils de <strong>%{parent.display_string}</strong> sur l'objet numérique <strong>%{digital_object.title}</strong>
-        created: Composant d'objet numérique <strong>%{digital_object_component.display_string}</strong> créé sur l'objet numérique <strong>%{digital_object.title}</strong>
-        updated_with_parent: Composant d'objet numérique <strong>%{digital_object_component.display_string}</strong> actualisé
-        updated: Composant d'objet numérique <strong>%{digital_object_component.display_string}</strong> actualisé
-        deleted: Composant d'objet numérique <strong>%{digital_object_component.display_string}</strong> supprimé
-        unsuppressed: Composant d'objet numérique <strong>%{digital_object_component.display_string}</strong> débloqué
-        suppressed: Composant d'objet numérique <strong>%{digital_object_component.display_string}</strong> bloqué
+        created_with_parent: Composant d'objet numérique <strong>%{digital_object_component.display_string}</strong>
+          créé comme fils de <strong>%{parent.display_string}</strong> sur l'objet
+          numérique <strong>%{digital_object.title}</strong>
+        created: Composant d'objet numérique <strong>%{digital_object_component.display_string}</strong>
+          créé sur l'objet numérique <strong>%{digital_object.title}</strong>
+        updated_with_parent: Composant d'objet numérique <strong>%{digital_object_component.display_string}</strong>
+          actualisé
+        updated: Composant d'objet numérique <strong>%{digital_object_component.display_string}</strong>
+          actualisé
+        deleted: Composant d'objet numérique <strong>%{digital_object_component.display_string}</strong>
+          supprimé
+        unsuppressed: Composant d'objet numérique <strong>%{digital_object_component.display_string}</strong>
+          débloqué
+        suppressed: Composant d'objet numérique <strong>%{digital_object_component.display_string}</strong>
+          bloqué
         suppressed_info: Composant d'objet numérique bloqué, ne pouvant être édité
         has_unpublished_ancestor: Attention! Cette notice a un ancêtre non publié.
       section:
@@ -857,7 +1023,8 @@ fr:
         value_updated: Valeur actualisée
         deleted: Valeur supprimée
         delete_error: Impossible de supprimer la valeur
-        delete_conflict: "La valeur étant actuellement référencée par une notice, elle ne peut être supprimée"
+        delete_conflict: "La valeur étant actuellement référencée par une notice,\
+          \ elle ne peut être supprimée"
         default_set: Ensemble de valeurs par défaut
         created: Valeur créée
         create_error: Echec de la création de valeur
@@ -867,8 +1034,12 @@ fr:
         no_selection: Veuillez sélectionner une liste de valeurs contrôlées
         name_selector: Nom de liste
         name_selector_tooltip: |
-            <p>La liste contrôlée à éditer.</p>
-        no_name_provided: Sélectionner une liste de valeurs avant de créer une nouvelle valeur
+          <p>La liste contrôlée à éditer.</p>
+        no_name_provided: Sélectionner une liste de valeurs avant de créer une nouvelle
+          valeur
+        related_items: ' articles connexes.'
+        not_used: Non utilisé.
+        one_related_item: 1 élément connexe.
       action:
         create_value: Créer valeur
         delete_value: Supprimer valeur
@@ -926,6 +1097,7 @@ fr:
       action:
         add: Ajouter une langue
         add_note: Ajouter une note de langue
+    _plural: Langues
 
   linked_agent:
     _frontend:
@@ -954,7 +1126,9 @@ fr:
         batch_edit: Editer lot de localisations
         save: Sauvegarder localisation
         single: Localisation unique
-        delete_confirm_message: "<p>Attention! <strong>Cette opération ne peut être annulée.</strong>.</p><p> Si cette localisation est actuellement liée à une ou plusieurs instance(s), elle ne peut être supprimée.</p>"
+        delete_confirm_message: "<p>Attention! <strong>Cette opération ne peut être\
+          \ annulée.</strong>.</p><p> Si cette localisation est actuellement liée\
+          \ à une ou plusieurs instance(s), elle ne peut être supprimée.</p>"
         show_space_calculator: Trouver avec le calculateur d'espace
 
   location_batch:
@@ -965,11 +1139,16 @@ fr:
       messages:
         created: "<strong>%{number_created} Localisation</strong> créée"
         updated: "<strong>%{number_created} Localisation</strong> actualisée"
-        location_batch_info: "Définir les valeurs de base qui seront appliquées à toutes les localisations générées à partir de la <strong>plage de coordonnées</strong> ci-dessous."
+        location_batch_info: "Définir les valeurs de base qui seront appliquées à\
+          \ toutes les localisations générées à partir de la <strong>plage de coordonnées</strong>\
+          \ ci-dessous."
         location_batch_update_info: "Veuillez saisir ci-dessous les valeurs souhaitées."
-        ranges_info: "Veuillez noter que tout champ de coordonnées saisi dans la <strong>localisation de base</strong> ci-dessus sera remplacé par les valeurs générées par la plage ci-dessous.  Un maximum de %{max_range} localisations sera créé."
+        ranges_info: "Veuillez noter que tout champ de coordonnées saisi dans la <strong>localisation\
+          \ de base</strong> ci-dessus sera remplacé par les valeurs générées par\
+          \ la plage ci-dessous.  Un maximum de %{max_range} localisations sera créé."
         number_to_create: Nombre de localisations
-        warning: En fonction de la taille de vos plages, ce processus peut prendre plusieurs minutes à s'effectuer.
+        warning: En fonction de la taille de vos plages, ce processus peut prendre
+          plusieurs minutes à s'effectuer.
       action:
         create: Créer localisations
         update: Actualiser localisations
@@ -981,14 +1160,23 @@ fr:
     _frontend:
       section:
         use_date: Date(s) de pertinence de nom
+        dates: Rendez-vous
+        parallel_names: Noms parallèles
+        place_subject: Lieu Sujet
+        topic_subject: Sujet Sujet
+        name_subject: Nom Sujet
+        function_subject: Fonction Sujet
+        occupation_subject: Occupation Sujet
       action:
         add: Ajouter forme de nom
         make_authorized: Convertir en nom normatif
         make_display_name: Convertir en nom d'affichage
+        make_primary: Rendre primaire
 
   note:
     _frontend:
       preview:
+        content: Teneur
         raw: Texte
         raw_title: Le contenu brut de la note
         parsed: Formaté
@@ -996,6 +1184,7 @@ fr:
       messages:
         select_a_note_type: "<em>Veuillez sélectionner un type de note</em>"
       action:
+        add_for_contact_note: Ajouter une note de contact
         add: Ajouter note
         add_content_item: Ajouter élément de contenu
         add_note_orderedlist: Ajouter élément
@@ -1011,6 +1200,10 @@ fr:
         collapse: Réduire
         apply_note_order: Appliquer l'ordre de notes standard
 
+      note_outline:
+        placeholder: Ajouter un texte de note
+        empty_level: Niveau vide -- Utilisez les boutons ci-dessus pour ajouter de
+          nouveaux éléments ou sous-niveaux
   related_accession:
     _frontend:
       action:
@@ -1022,6 +1215,7 @@ fr:
         select_a_type: "<em>Sélectionner un type de relation</em>"
       action:
         add: Ajouter agent associé
+    dates: Dates de la relation
 
   related_resource:
     _frontend:
@@ -1045,13 +1239,19 @@ fr:
         deleted: Service d'archives supprimé
         selected: Service d'archives actuellement sélectionné
         selected_short: Sélectionné
-        changed: Le service d'archives <strong>%{repository.repo_code}</strong> est maintenant activé
-        create_first_repository: "Pour créer votre premier service d'archives, cliquer dans le menu <strong>Système</strong> ci-dessus, puis <strong>Gérer services d'archives</strong>."
-        no_access_to_repositories: "<p>Vous n'avez accès à aucun service d'archives.</p><p>Veuillez contacter votre administrateur système pour une demande d'accès.</p>"
+        changed: Le service d'archives <strong>%{repository.repo_code}</strong> est
+          maintenant activé
+        create_first_repository: "Pour créer votre premier service d'archives, cliquer\
+          \ dans le menu <strong>Système</strong> ci-dessus, puis <strong>Gérer services\
+          \ d'archives</strong>."
+        no_access_to_repositories: "<p>Vous n'avez accès à aucun service d'archives.</p><p>Veuillez\
+          \ contacter votre administrateur système pour une demande d'accès.</p>"
         continue_with_transfer: Continuer avec le transfert?
         transfer_failed: Le transfert n'a pu être effectué en raison des erreurs suivantes
         transfer_target: Sélectionnez un service d'archives vers lequel transférer
-        transfer_warning: <strong>Avertissement:</strong> transférer ce service d'archives va déplacer <strong>toutes</strong> ses notices dans le service d'archives sélectionné.  <strong>Cette opération ne peut être annulée</strong>
+        transfer_warning: <strong>Avertissement:</strong> transférer ce service d'archives
+          va déplacer <strong>toutes</strong> ses notices dans le service d'archives
+          sélectionné.  <strong>Cette opération ne peut être annulée</strong>
         cannot_delete_nonempty: Suppression impossible - service d'archives non vide
       section:
         all_fields: Champs service d'archives
@@ -1073,12 +1273,16 @@ fr:
         updated: "Ressource <strong>%{resource.title}</strong> actualisée"
         spawned: "Une nouvelle ressource a été générée depuis Entrée <strong>%{accession.display_string}</strong>"
         deleted: "Ressource <strong>%{resource.title}</strong> supprimée"
-        published: "La ressource <strong>%{resource.title}</strong>, ses sous-notices et composants ont été publiés"
+        published: "La ressource <strong>%{resource.title}</strong>, ses sous-notices\
+          \ et composants ont été publiés"
+        unpublished: "La ressource <strong>%{resource.title}</strong>, ses sous-notices\
+          \ et composants ont été dépubliés"
         merge_description: Sélectionner ci-dessous les ressources à fusionner dans
         please_select_a_resource_to_merge: Veuillez sélectionner une ressource
         merged: Ressource(s) fusionnée(s)
         transfer_description: Transférer cette ressource vers...
-        transfer_target: Sélectionner un service d'archives vers lequel opérer le transfert
+        transfer_target: Sélectionner un service d'archives vers lequel opérer le
+          transfert
         unsuppressed: Ressource <strong>%{resource.title}</strong> débloquée
         suppressed: Ressource <strong>%{resource.title}</strong> bloquée
         suppressed_info: Ressource bloquée, non éditable
@@ -1093,11 +1297,18 @@ fr:
         save: Sauvegarder ressource
         delete_multiple: Supprimer ressources
     external_ark_url: External ARK URL
-    external_ark_url_tooltip: Identificateur persistant ARK (Archival Resource Key) généré en dehors d'ArchivesSpace. Si ce champ a une valeur, il est prioritaire sur une ARK générée dans ArchivesSpace.
+    external_ark_url_tooltip: Identificateur persistant ARK (Archival Resource Key)
+      généré en dehors d'ArchivesSpace. Si ce champ a une valeur, il est prioritaire
+      sur une ARK générée dans ArchivesSpace.
   preference:
     _frontend:
       messages:
-        updated: "Préférences actualisées"
+        updated: Préférences actualisées
+        reset: Préférences définies sur les valeurs par défaut de l'application
+        reset_error: "Impossible de réinitialiser les préférences en raison d'une\
+          \ erreur: %{exception}"
+      action:
+        save: Enregistrer les préférences
 
   rights_statement:
     _frontend:
@@ -1123,6 +1334,7 @@ fr:
         merged: Mot(s)-matière(s) fusionné(s)
         merge_description: Sélectionner ci-dessous mots-matières à fusionner dans
         please_select_a_subject_to_merge: Veuillez sélectionner un mot-matière
+        delete_conflict: 'Impossible de supprimer le sujet : <pre>%{error}</pre>'
       section:
         basic_information: Information de base
         terms: Termes et subdivisions
@@ -1133,6 +1345,7 @@ fr:
         add: Ajouter mot-matière
 
   user:
+    is_active_user: Utilisateur actif
     _frontend:
       messages:
         access_denied: Accès refusé. Passer administrateur pour accomplir cette opération.
@@ -1141,7 +1354,12 @@ fr:
         deleted: Utilisateur supprimé
         error_update: Utilisateur non sauvegardé
         error_create: Utilisateur non créé
-        group_not_required: L'utilisateur est un administrateur ou un utilisateur système, il n'est pas nécessaire de sélectionner un groupe.
+        group_not_required: L'utilisateur est un administrateur ou un utilisateur
+          système, il n'est pas nécessaire de sélectionner un groupe.
+        activated: Activé par l'utilisateur
+        deactivated: Utilisateur désactivé
+        error_activate: Utilisateur non activé
+        error_deactivate: Utilisateur non désactivé
       section:
         manage_access: Gérer accès utilisateur
         account: Compte
@@ -1151,7 +1369,15 @@ fr:
         create_account: Créer compte
         update_account: Actualiser compte
         create: Créer utilisateur
+        hide_inactive: Masquer les utilisateurs inactifs
+        show_inactive: Afficher les utilisateurs inactifs
+        deactivate_user: Désactiver
+        activate_user: Activer
 
+        show_active: Afficher les utilisateurs actifs
+        edit: Editer l'utilisateur
+    active: vrai
+    inactive: faux
   user_defined:
     _frontend:
       action:
@@ -1199,7 +1425,8 @@ fr:
       sequence_count_warning: Il y a plus de rangées que d'items dans la séquence.
       preview_sequence: Aperçu valeurs de séquence
       sequence_summary: "%{count} items dans la séquence:"
-      sequence_summary_with_maxsize: "Pour vos %{limit} rangées, les %{count} valeurs de séquence sont:"
+      sequence_summary_with_maxsize: "Pour vos %{limit} rangées, les %{count} valeurs\
+        \ de séquence sont:"
       sequence_from_required: Du est requis
       sequence_to_required: Au est requis
     reorder_columns:
@@ -1216,36 +1443,41 @@ fr:
       error_prefix: Rangée
       success: "<div class='alert alert-success'>Fils créé. Rafraîchissement en cours...</div>"
       no_rows: Veuillez saisir des valeurs pour au moins une rangée
-      rows_with_errors: "%{count} rangée(s) avec une erreur - cliquez sur un champ de rangée pour visualiser les erreurs pour cette rangée"
+      rows_with_errors: "%{count} rangée(s) avec une erreur - cliquez sur un champ\
+        \ de rangée pour visualiser les erreurs pour cette rangée"
       rows_no_errors: "Toutes les rangées sont valides"
       error_summary_header: "Erreurs dans rangée:"
       select_prompt: Appliquer un modèle RDE
     help:
       keyboard_shortcuts: |
-                 <div><strong>Raccourcis clavier</strong></div>
-                  <div class="row"><small><span class="span3">Passer d'une cellule à l'autre:</span> MAJ + touches flèches</small></div>
-                  <div class="row"><small><span class="span3">Créer une nouvelle rangée (à partir de la dernière):</span> MAJ + Entrée</small></div>
+        <div><strong>Raccourcis clavier</strong></div>
+         <div class="row"><small><span class="span3">Passer d'une cellule à l'autre:</span> MAJ + touches flèches</small></div>
+         <div class="row"><small><span class="span3">Créer une nouvelle rangée (à partir de la dernière):</span> MAJ + Entrée</small></div>
       sticky_columns: |
-                  <div><strong>Colonnes collantes</strong></div>
-                  <div><small>Les colonnes surlignées sont collantes et seront répliquées lors de l'ajout de nouvelles colonnes. Basculer 'collant' en cliquant sur les en-têtes de tableau correspondants.</small></div>
-                  <div><small>Cliquer <strong>Ajouter rangée</strong> copiera les valeurs de la dernière rangée; le bouton <strong>+</strong> copiera les valeurs de la rangée actuellement sous le curseur.</small></div>
+        <div><strong>Colonnes collantes</strong></div>
+        <div><small>Les colonnes surlignées sont collantes et seront répliquées lors de l'ajout de nouvelles colonnes. Basculer 'collant' en cliquant sur les en-têtes de tableau correspondants.</small></div>
+        <div><small>Cliquer <strong>Ajouter rangée</strong> copiera les valeurs de la dernière rangée; le bouton <strong>+</strong> copiera les valeurs de la rangée actuellement sous le curseur.</small></div>
       fill_column: |
-                  <div><strong>Remplir colonne - Basic</strong></div>
-                  <div><small>Pour remplir une colonne avec une même valeur, cliquer <strong>remplir colonne</strong> et sous l'onglet <strong>Basic</strong> sélectionner la <strong>colonne</strong> cible, entrer la <strong>valeur de remplissage</strong> souhaitée et cliquer <strong>appliquer remplir</strong>.</small></div>
-                  <br/>
-                  <div><strong>Remplir colonne - Séquence</strong></div>
-                  <div><small>Pour appliquer une séquence à une colonne, cliquer <strong>remplir colonne</strong> et sous l'onglet <strong>Séquence</strong> sélectionner la <strong>colonne</strong> cible et and compléter les champs <strong>remplir valeur</strong> pour générer la séquence souhaitée.  Un avertissement sera affiché si la séquence générée ne remplit pas le nombre de rangées dans le formulaire.</small></div>
+        <div><strong>Remplir colonne - Basic</strong></div>
+        <div><small>Pour remplir une colonne avec une même valeur, cliquer <strong>remplir colonne</strong> et sous l'onglet <strong>Basic</strong> sélectionner la <strong>colonne</strong> cible, entrer la <strong>valeur de remplissage</strong> souhaitée et cliquer <strong>appliquer remplir</strong>.</small></div>
+        <br/>
+        <div><strong>Remplir colonne - Séquence</strong></div>
+        <div><small>Pour appliquer une séquence à une colonne, cliquer <strong>remplir colonne</strong> et sous l'onglet <strong>Séquence</strong> sélectionner la <strong>colonne</strong> cible et and compléter les champs <strong>remplir valeur</strong> pour générer la séquence souhaitée.  Un avertissement sera affiché si la séquence générée ne remplit pas le nombre de rangées dans le formulaire.</small></div>
       resize_and_reorder_columns: |
-                  <div><strong>Réordonner colonnes</strong></div>
-                  <div><small>Cliquer <strong>Réordonner colonnes</strong>, sélectionner le(s) rangée(s) à réordonner et utiliser les boutons flèches haut/bas pour changer leur position dans la liste. Quand l'ordre souhaité est obtenu, cliquer <strong>Appliquer ordre de colonne</strong></small></div>
+        <div><strong>Réordonner colonnes</strong></div>
+        <div><small>Cliquer <strong>Réordonner colonnes</strong>, sélectionner le(s) rangée(s) à réordonner et utiliser les boutons flèches haut/bas pour changer leur position dans la liste. Quand l'ordre souhaité est obtenu, cliquer <strong>Appliquer ordre de colonne</strong></small></div>
       reset: |
-                  <div><strong>Réinitialiser formulaire</strong></div>
-                  <div><small>Cliquer <strong>Réinitialiser</strong> pour réinitialiser le formulaire et rendre aux colonnes leur comportement par défaut en terme d'ordre, de visibilité, etc.</small></div>
+        <div><strong>Réinitialiser formulaire</strong></div>
+        <div><small>Cliquer <strong>Réinitialiser</strong> pour réinitialiser le formulaire et rendre aux colonnes leur comportement par défaut en terme d'ordre, de visibilité, etc.</small></div>
   update_monitor:
     save_failed: <strong>Echec de l'enregistrement de vos modifications</strong>
-    stale_record: Cette notice a été mise à jour par un autre utilisateur. Veuillez rafraîchir la page pour accéder à la dernière version.
-    other_editors: "Cette notice est actuellement éditée par un autre utilisateur.  Veuillez contacter les utilisateurs suivant pour prévenir tout conflit: <strong>%{user_ids}</strong>"
-    repository_changed: "Cette notice ne peut être sauvegardée du fait que vous avez changé de service d'archives actif. Pour sauvegarder cette notice, ouvrez une nouvelle fenêtre et réactivez le bon service d'archives."
+    stale_record: Cette notice a été mise à jour par un autre utilisateur. Veuillez
+      rafraîchir la page pour accéder à la dernière version.
+    other_editors: "Cette notice est actuellement éditée par un autre utilisateur.\
+      \  Veuillez contacter les utilisateurs suivant pour prévenir tout conflit: <strong>%{user_ids}</strong>"
+    repository_changed: "Cette notice ne peut être sauvegardée du fait que vous avez\
+      \ changé de service d'archives actif. Pour sauvegarder cette notice, ouvrez\
+      \ une nouvelle fenêtre et réactivez le bon service d'archives."
   job:
     _frontend:
       audit_data: Audit Data
@@ -1277,17 +1509,42 @@ fr:
         queue_position_next: Cet import est le prochain dans la queue.
         queue_position: "Cet import est le %{position} dans queue."
         drag_and_drop_hint: Glissez-déplacez des fichiers ici
-        find_and_replace_warning: Chercher et remplacer des tâches provoquera de grands changements dans votre base de données. Nous vous recommandons <strong>fermement</strong> de sauvegarder votre base de données ET de lancer votre tâche dans une instance de test avant de procéder pour de bon. Il n'y a pas de "retour en arrière" possible.
-        find_and_replace_instructions: Choisissez une notice de base pour délimiter cette opération chercher-remplacer. Choisissez alors un type de notices cible et une propriété de ce type. Cette opération s'effectuera dans toutes les notices cibles dans l'arborescence de la notice de base, ou dans la notice de base elle-même si le type cible est "Ressource".
-        report_instructions: Choisissez un rapport à effectuer en utilisant le bouton <b>Sélectionner</b>.
-        slug_lost_warning: <b> AVERTISSEMENT! </b> Toutes les limaces générées automatiquement seront régénérées! Ce tâche s'applique à tous les enregistrements de tous les référentiels.
-        slug_generation: Ce travail génère des slugs et coche la case de génération automatique de slug pour tous les <b> ressources </b>, <b> objets d'archivage </b>, <b> objets numériques </b>, <b> composants d'objets numériques </b>, <b> Accessions </b>, <b> Classifications </b>, <b> agents </b>, <b> Sujets </b> et <b> Référentiels </b> qui n'ont pas déjà une limace. <br /> <em> Les slugs ajoutés manuellement ne seront pas modifiés, sauf si vous indiquez sur ces enregistrements qu'ils doivent être remplacés en cochant la case Génération automatique. </em>
-        slug_config_msg: <b> Selon vos paramètres de configuration dans config.rb </b>
-        slug_config_id: Des URL sémantiques vont être générées à partir de l'identifiant de l'entitée.
-        slug_config_title: Des URL sémantiques vont être générées à partir du nom ou de l'intitulé de l'entité.
-        slug_config_eadid: Des URL sémantiques pour <b>ressources</b> vont être générées à partir de l'identifiant EAD.
-        slug_config_cuid: Les slugs pour les <b> objets d'archives </b> seront générés à l'aide de l'ID de composant unique, le cas échéant.
-        ark_generation: Ce travail générera des ARK pour tous les <b> ressources </b> et <b> objets d'archivage </b> qui ne possèdent pas déjà d'ARK. <br/> <br/> <em> Les ARK externes ne seront pas modifiés. </em>
+        find_and_replace_warning: Chercher et remplacer des tâches provoquera de grands
+          changements dans votre base de données. Nous vous recommandons <strong>fermement</strong>
+          de sauvegarder votre base de données ET de lancer votre tâche dans une instance
+          de test avant de procéder pour de bon. Il n'y a pas de "retour en arrière"
+          possible.
+        find_and_replace_instructions: Choisissez une notice de base pour délimiter
+          cette opération chercher-remplacer. Choisissez alors un type de notices
+          cible et une propriété de ce type. Cette opération s'effectuera dans toutes
+          les notices cibles dans l'arborescence de la notice de base, ou dans la
+          notice de base elle-même si le type cible est "Ressource".
+        report_instructions: Choisissez un rapport à effectuer en utilisant le bouton
+          <b>Sélectionner</b>.
+        slug_lost_warning: <b> AVERTISSEMENT! </b> Toutes les limaces générées automatiquement
+          seront régénérées! Ce tâche s'applique à tous les enregistrements de tous
+          les référentiels.
+        slug_generation: Ce travail génère des slugs et coche la case de génération
+          automatique de slug pour tous les <b> ressources </b>, <b> objets d'archivage
+          </b>, <b> objets numériques </b>, <b> composants d'objets numériques </b>,
+          <b> Accessions </b>, <b> Classifications </b>, <b> agents </b>, <b> Sujets
+          </b> et <b> Référentiels </b> qui n'ont pas déjà une limace. <br /> <em>
+          Les slugs ajoutés manuellement ne seront pas modifiés, sauf si vous indiquez
+          sur ces enregistrements qu'ils doivent être remplacés en cochant la case
+          Génération automatique. </em>
+        slug_config_msg: <b> Selon vos paramètres de configuration dans config.rb
+          </b>
+        slug_config_id: Des URL sémantiques vont être générées à partir de l'identifiant
+          de l'entitée.
+        slug_config_title: Des URL sémantiques vont être générées à partir du nom
+          ou de l'intitulé de l'entité.
+        slug_config_eadid: Des URL sémantiques pour <b>ressources</b> vont être générées
+          à partir de l'identifiant EAD.
+        slug_config_cuid: Les slugs pour les <b> objets d'archives </b> seront générés
+          à l'aide de l'ID de composant unique, le cas échéant.
+        ark_generation: Ce travail générera des ARK pour tous les <b> ressources </b>
+          et <b> objets d'archivage </b> qui ne possèdent pas déjà d'ARK. <br/> <br/>
+          <em> Les ARK externes ne seront pas modifiés. </em>
 
   shortcuts:
     quick_reference_window: "Référence rapide: raccourcis clavier"
@@ -1306,25 +1563,25 @@ fr:
   sub_container:
     top_container: Conditionnement principal
     top_container_tooltip: |
-        <p>CHAMP OBLIGATOIRE. Le conditionnement de plus haut niveau renfermant le matériel décrit.</p>
-        <p>Peut être sélectionné dans une liste de conditionnements principaux, en utilisant le type ci-devant, ou des fonctions parcourir, ou créé en recourant à la fonction créer.</p>
+      <p>CHAMP OBLIGATOIRE. Le conditionnement de plus haut niveau renfermant le matériel décrit.</p>
+      <p>Peut être sélectionné dans une liste de conditionnements principaux, en utilisant le type ci-devant, ou des fonctions parcourir, ou créé en recourant à la fonction créer.</p>
     type_2: Type fils
     type_2_tooltip: |
-        <p>Le type de conditionnement de second niveau renfermant les documents décrits.</p>
-        <p>Les valeurs de cette liste contrôlée peuvent être modifiées.</p>
+      <p>Le type de conditionnement de second niveau renfermant les documents décrits.</p>
+      <p>Les valeurs de cette liste contrôlée peuvent être modifiées.</p>
     indicator_2: Indicateur fils
     indicator_2_tooltip: |
-        <p>Une expression alphanumérique indiquant l'identifiant du conditionnement de second niveau, pouvant aussi indiquer sa position dans une séquence de conditionnements de même type. Des plages de conditionnements de second niveau sont aussi permises, par ex. chemises 1-16.</p>
+      <p>Une expression alphanumérique indiquant l'identifiant du conditionnement de second niveau, pouvant aussi indiquer sa position dans une séquence de conditionnements de même type. Des plages de conditionnements de second niveau sont aussi permises, par ex. chemises 1-16.</p>
     barcode_2: Barcode Container enfant
     barcode_2_tooltip: |
-        <p>Un code à barres pour identifier le récipient de deuxième niveau, dans lequel le matériau décrit est logé.</p>"
+      <p>Un code à barres pour identifier le récipient de deuxième niveau, dans lequel le matériau décrit est logé.</p>"
     type_3: Type petit-fils
     type_3_tooltip: |
-        <p>Le type de conditionnement de niveau 3 renfermant les documents décrits.</p>
-        <p>Les valeurs de cette liste contrôlée peuvent être modifiées.</p>
+      <p>Le type de conditionnement de niveau 3 renfermant les documents décrits.</p>
+      <p>Les valeurs de cette liste contrôlée peuvent être modifiées.</p>
     indicator_3: Indicateur petit-fils
     indicator_3_tooltip: |
-        <p>Une expression alphanumérique indiquant l'identifiant du conditionnement de niveau 3, pouvant aussi indiquer sa position dans une séquence de condionnements de même type. Des plages de condionnements de niveau 3 sont aussi permises, par ex. chemises 1-16.</p>
+      <p>Une expression alphanumérique indiquant l'identifiant du conditionnement de niveau 3, pouvant aussi indiquer sa position dans une séquence de condionnements de même type. Des plages de condionnements de niveau 3 sont aussi permises, par ex. chemises 1-16.</p>
     _singular: Sous-conditionnement
     _plural: Sous-conditionnement
     _frontend:
@@ -1334,23 +1591,23 @@ fr:
   top_container:
     container_profile: Profil conditionnement
     container_profile_tooltip: |
-        <p>Une description des caractéristiques d'un certain type de conditionnement, y compris ses dimensions.</p>
+      <p>Une description des caractéristiques d'un certain type de conditionnement, y compris ses dimensions.</p>
     indicator: Indicateur
     indicator_tooltip: |
-        <p>CHAMP OBLIGATOIRE. Une expression alphanumérique indiquant la place du conditionnement de plus haut niveau, pouvant être aussi sa position dans une séquence de conditionnements.</p>
+      <p>CHAMP OBLIGATOIRE. Une expression alphanumérique indiquant la place du conditionnement de plus haut niveau, pouvant être aussi sa position dans une séquence de conditionnements.</p>
     barcode: Code-barres
     barcode_tooltip: |
       <p>Sert à enregistrer le code-barres identifiant de manière unique le conditionnement de plus haut niveau.</p>
     type: Type de conditionnement
     type_tooltip: |
-        <p>Le type de conditionnement de plus haut niveau.</p>
-        <p>Les valeurs de cette liste contrôlée peuvent être modifiées.</p>
+      <p>Le type de conditionnement de plus haut niveau.</p>
+      <p>Les valeurs de cette liste contrôlée peuvent être modifiées.</p>
     ils_holding_id: ILS Holding ID
     ils_holding_id_tooltip: |
-        <p>Identifier of associated holding record in the library ILS</p>
+      <p>Identifier of associated holding record in the library ILS</p>
     ils_item_id: ILS Item ID
     ils_item_id_tooltip: |
-        <p>Identifier, supplied by the API, for an associated item record in the library ILS (system field; cannot be edited manually)</p>
+      <p>Identifier, supplied by the API, for an associated item record in the library ILS (system field; cannot be edited manually)</p>
     exported_to_ils: Exporté vers ILS
     not_exported: Non exporté
     restricted: Soumis à des restrictions?
@@ -1359,15 +1616,15 @@ fr:
 
     managed_container_2_type: Type de conditionnement fils
     managed_container_2_type_tooltip: |
-        <p>Le type de conditionnement de niveau 2 renfermant les documents décrits.</p>
-        <p>Les valeurs de cette liste contrôlée peuvent être modifiées.</p>
+      <p>Le type de conditionnement de niveau 2 renfermant les documents décrits.</p>
+      <p>Les valeurs de cette liste contrôlée peuvent être modifiées.</p>
     managed_container_2_indicator: Indicateur de conditionnement fils
     managed_container_2_indicator_tooltip: |
-        <p>Une expression alpha numérique indiquant l'identifiant du conditionnement de niveau 2, pouvant aussi indiquer sa position dans une séquence de conditionnements identiques. Des plages de conditionnements sont aussi permises, par ex. chemises 1-16.</p>
+      <p>Une expression alpha numérique indiquant l'identifiant du conditionnement de niveau 2, pouvant aussi indiquer sa position dans une séquence de conditionnements identiques. Des plages de conditionnements sont aussi permises, par ex. chemises 1-16.</p>
     managed_container_3_type: Tye de conditionnement petit-fils
     managed_container_3_type_tooltip: |
-        <p>Le type de conditionnement de niveau 3 renfermant les documents décrits.</p>
-        <p>Les valeurs de cette liste contrôlée peuvent être modifiées.</p>
+      <p>Le type de conditionnement de niveau 3 renfermant les documents décrits.</p>
+      <p>Les valeurs de cette liste contrôlée peuvent être modifiées.</p>
     managed_container_3_indicator: Indicateur de conditionnement petit-fils
     managed_container_3_indicator_tooltip: |
       <p>Une expression alphanumérique indiquant l'identifiant du conditionnement de niveau 3, pouvant aussi indiquer sa position dans une séquence de conditionnements identiques. Des plages de conditionnements sont aussi permises, par ex. chemises 1-16.</p>
@@ -1394,13 +1651,17 @@ fr:
         created: Top conditionnement créé
         updated: Top conditionnement actualisé
         filter_required: Veuillez choisir un filtre
-        max_results_limit_reached: Tous les résultats ne sont pas listés. Veuillez affiner votre recherche.
-        max_results_limit_details: "<strong>%{visible}</strong> résulats correspondants affichés sur <strong>%{num_found}</strong>"
+        max_results_limit_reached: Tous les résultats ne sont pas listés. Veuillez
+          affiner votre recherche.
+        max_results_limit_details: "<strong>%{visible}</strong> résulats correspondants\
+          \ affichés sur <strong>%{num_found}</strong>"
         results_summary: "Résultats correspondants: <strong>%{num_found}</strong>"
-        bulk_selection_sort_help: Cliquez sur une colonne pour définir la méthode de tri.  Maintenir la touche Maj pressée pour trier par colonnes multiples.
+        bulk_selection_sort_help: Cliquez sur une colonne pour définir la méthode
+          de tri.  Maintenir la touche Maj pressée pour trier par colonnes multiples.
         merged: Top conteneur (s) fusionné
         bulk_action_success: Top conditionnements actualisés avec succès
-        bulk_action_success_info: Attention! Un certain temps peut s'écouler avant que les modifications ne soient répercutées dans les résultats de la recherche.
+        bulk_action_success_info: Attention! Un certain temps peut s'écouler avant
+          que les modifications ne soient répercutées dans les résultats de la recherche.
         no_active_restrictions: Pas de restrictions en vigueur
       bulk_operations:
         title: Opérations en masse
@@ -1421,23 +1682,43 @@ fr:
         empty_false: "Non"
         search: Recherche
         update_ils_holding_ids: Actualiser ILS Holding IDs
-        update_ils_holding_ids_help: Enter a value for ILS Holding ID for all selected containers.  Laissez ce champ vide pour supprimer la valeur actuelle sans la remplacer par une autre valeur.
+        update_ils_holding_ids_help: Enter a value for ILS Holding ID for all selected
+          containers.  Laissez ce champ vide pour supprimer la valeur actuelle sans
+          la remplacer par une autre valeur.
         update_container_profiles: Actualiser profils de conditionnements
-        update_container_profiles_help: Choisir un profil de conditionnement pour tous les conditionnements sélectionnés.  Laissez ce champ vide pour supprimer la valeur actuelle sans la remplacer par une autre valeur.
+        update_container_profiles_help: Choisir un profil de conditionnement pour
+          tous les conditionnements sélectionnés.  Laissez ce champ vide pour supprimer
+          la valeur actuelle sans la remplacer par une autre valeur.
         update_locations_singular: "Actualiser localisations: localisation unique"
-        update_locations_singular_help: Choisir une localisation pour tous les conditionnements sélectionnés.  Laissez ce champ vide pour supprimer la valeur actuelle sans la remplacer par une autre valeur.
+        update_locations_singular_help: Choisir une localisation pour tous les conditionnements
+          sélectionnés.  Laissez ce champ vide pour supprimer la valeur actuelle sans
+          la remplacer par une autre valeur.
         update_locations_multiple: "Actualiser localisations: localisations multiples"
-        update_locations_multiple_help: Choisir une localisation pour chaque conditionnement sélectionné.  Laissez ce champ vide pour supprimer la valeur actuelle sans la remplacer par une autre valeur.
+        update_locations_multiple_help: Choisir une localisation pour chaque conditionnement
+          sélectionné.  Laissez ce champ vide pour supprimer la valeur actuelle sans
+          la remplacer par une autre valeur.
         rapid_barcode_entry: Saisie rapide de code-barres
         rapid_barcode_entry_existing_barcode: Code-barres existant
         rapid_barcode_entry_new_barcode: Nouveau code-barres
-        rapid_barcode_entry_help: Entrez un code-barres pour chaque conteneur sélectionné. Laissez le champ Nouveau code-barres vide pour supprimer le code-barres actuel sans le remplacer par une nouvelle valeur.
+        rapid_barcode_entry_help: Entrez un code-barres pour chaque conteneur sélectionné.
+          Laissez le champ Nouveau code-barres vide pour supprimer le code-barres
+          actuel sans le remplacer par une nouvelle valeur.
         batch_merge: Fusionner les conteneurs
-        batch_merge_instructions: Sélectionnez le conteneur supérieur dans lequel tous les autres conteneurs répertoriés vont fusionner. Les accessions, ressources, composants de ressource et événements liés seront à nouveau liés à ce conteneur. Les profils de conteneur seront déplacés vers ce conteneur uniquement lorsqu'il n'en a pas déjà un. Les emplacements et toutes les autres informations des autres conteneurs supérieurs seront supprimés.
+        batch_merge_instructions: Sélectionnez le conteneur supérieur dans lequel
+          tous les autres conteneurs répertoriés vont fusionner. Les accessions, ressources,
+          composants de ressource et événements liés seront à nouveau liés à ce conteneur.
+          Les profils de conteneur seront déplacés vers ce conteneur uniquement lorsqu'il
+          n'en a pas déjà un. Les emplacements et toutes les autres informations des
+          autres conteneurs supérieurs seront supprimés.
         batch_merge_confirm: Confirmer la fusion des conteneurs supérieurs
-        batch_merge_confirm_question: Voulez-vous vraiment fusionner les conteneurs supérieurs comme indiqué ci-dessous? Cette action est irréversible.
-        batch_merge_container_profile_too_many_warning: Ces conteneurs haut ont des profils de conteneurs. Aucun de ces profils de conteneurs se fondre dans le conteneur cible.
-        batch_merge_container_profile_mismatch_warning: Ces conteneurs supérieurs ont un profil différent de récipient que le récipient supérieur du cadre. Le profil de conteneur ne fusionnera pas dans le conteneur cible.
+        batch_merge_confirm_question: Voulez-vous vraiment fusionner les conteneurs
+          supérieurs comme indiqué ci-dessous? Cette action est irréversible.
+        batch_merge_container_profile_too_many_warning: Ces conteneurs haut ont des
+          profils de conteneurs. Aucun de ces profils de conteneurs se fondre dans
+          le conteneur cible.
+        batch_merge_container_profile_mismatch_warning: Ces conteneurs supérieurs
+          ont un profil différent de récipient que le récipient supérieur du cadre.
+          Le profil de conteneur ne fusionnera pas dans le conteneur cible.
         batch_merge_confirm_victims: "Fusionner les conteneurs supérieurs suivants:"
         batch_merge_confirm_target: "Dans ce conteneur supérieur:"
         batch_delete: Supprimer Top conditionnements
@@ -1468,70 +1749,77 @@ fr:
         basic_information: Information de base
       bulk_operations:
         merge: Fusionner les profils de conteneur
-        merge_instructions: Sélectionnez le profil de conteneur dans lequel tous les autres profils de conteneur répertoriés fusionneront. Tous les enregistrements liés seront à nouveau liés à ce profil et toutes les informations des autres profils de conteneur seront supprimées.
+        merge_instructions: Sélectionnez le profil de conteneur dans lequel tous les
+          autres profils de conteneur répertoriés fusionneront. Tous les enregistrements
+          liés seront à nouveau liés à ce profil et toutes les informations des autres
+          profils de conteneur seront supprimées.
         merge_select_target: Sélectionner la cible de fusion
         confirm_merge: Confirmer les profils de conteneur de fusion
-        confirm_merge_question: Voulez-vous vraiment fusionner les profils de conteneur comme indiqué ci-dessous? Cette action est irréversible.
+        confirm_merge_question: Voulez-vous vraiment fusionner les profils de conteneur
+          comme indiqué ci-dessous? Cette action est irréversible.
         confirm_merge_victims: "Fusionner les profils de conteneur suivants:"
         confirm_merge_target: "Dans ce profil de conteneur:"
     name: Nom
     name_tooltip: |
-        <p>CHAMP OBLIGATOIRE. Le nom d'un profil de conditionnements. Peut être générique ou spécifique.</p>
-        <p>Exemples:</p>
-        <ul>
-        <li>Boîte d'archivage</li>
-        <li>Page 15</li>
-        <li>Petite boîte à fiches</li>
-        </ul>
+      <p>CHAMP OBLIGATOIRE. Le nom d'un profil de conditionnements. Peut être générique ou spécifique.</p>
+      <p>Exemples:</p>
+      <ul>
+      <li>Boîte d'archivage</li>
+      <li>Page 15</li>
+      <li>Petite boîte à fiches</li>
+      </ul>
     url: URL
     url_tooltip: |
-        <p>Un lien hypertexte vers une description externe du conditionnement.</p>
+      <p>Un lien hypertexte vers une description externe du conditionnement.</p>
     dimension_units: Unité de mesure
     dimension_units_tooltip: |
-        <p>Unité de mesure pour l'importance matérielle.</p>
-        <p>Les valeurs de cette liste contrôlée peuvent être modifiées.</p>
+      <p>Unité de mesure pour l'importance matérielle.</p>
+      <p>Les valeurs de cette liste contrôlée peuvent être modifiées.</p>
     extent_dimension: Dimensions physiques
     extent_dimension_tooltip: |
-        <p>La dimension utilisée pour calculer et formuler l'importance matérielle des documents dans le conditionnement. Aide à déterminer quelle dimension sera mesurée par le calculateur d'importance matérielle.</p>
+      <p>La dimension utilisée pour calculer et formuler l'importance matérielle des documents dans le conditionnement. Aide à déterminer quelle dimension sera mesurée par le calculateur d'importance matérielle.</p>
     extent_dimension_depth: Profondeur
     extent_dimension_depth_tooltip: |
-        <p>Une valeur numérique pour la profondeur de l'unité de conditionnement.</p>
+      <p>Une valeur numérique pour la profondeur de l'unité de conditionnement.</p>
     extent_dimension_height: Hauteur
     extent_dimension_height_tooltip: |
-        <p>Une valeur numérique pour la hauteur de l'unité de conditionnement.</p>
+      <p>Une valeur numérique pour la hauteur de l'unité de conditionnement.</p>
     extent_dimension_width: Largeur
     extent_dimension_width_tooltip: |
-        <p>Une valeur numérique pour la largeur de l'unité de conditionnement.</p>
+      <p>Une valeur numérique pour la largeur de l'unité de conditionnement.</p>
     depth: Profondeur
     depth_tooltip: |
-        <p>Une valeur numérique pour la profondeur de l'unité de conditionnement.</p>
+      <p>Une valeur numérique pour la profondeur de l'unité de conditionnement.</p>
     height: Hauteur
     height_tooltip: |
-        <p>Une valeur numérique pour la hauteur de l'unité de conditionnement.</p>
+      <p>Une valeur numérique pour la hauteur de l'unité de conditionnement.</p>
     width: Largeur
     width_tooltip: |
-        <p>Une valeur numérique pour la largeur de l'unité de conditionnement.</p>
+      <p>Une valeur numérique pour la largeur de l'unité de conditionnement.</p>
     stacking_limit: Limite d'empilement
     stacking_limit_tooltip: |
-        <p>Le nombre de ces conditionnements pouvant être empilés les uns sur les autres. Laisser blanc s'il n'y a pas de limite. Doit être un entier positif.</p>
+      <p>Le nombre de ces conditionnements pouvant être empilés les uns sur les autres. Laisser blanc s'il n'y a pas de limite. Doit être un entier positif.</p>
 
   rights_restriction:
     begin: Début de la restriction
     begin_tooltip: |
-        <p>Pour une restriction temporaire, date de début de la restriction d'accès. Sera dissociée des conditionnements à expiration.</p>
+      <p>Pour une restriction temporaire, date de début de la restriction d'accès. Sera dissociée des conditionnements à expiration.</p>
     end: Fin de la restriction
     end_tooltip: |
-        <p>Pour une restriction temporaire, date de fin de la restriction d'accès. Sera dissociée des conditionnements une fois expirée.</p>
+      <p>Pour une restriction temporaire, date de fin de la restriction d'accès. Sera dissociée des conditionnements une fois expirée.</p>
     local_access_restriction_type: Type de restriction de consultation locale
-    local_access_restriction_type_inline_help: "Maintenir pressé CTRL (Windows) / Command (Mac) pour sélectionner des options multiples ou pour déselectionner un option"
+    local_access_restriction_type_inline_help: "Maintenir pressé CTRL (Windows) /\
+      \ Command (Mac) pour sélectionner des options multiples ou pour déselectionner\
+      \ un option"
     local_access_restriction_type_tooltip: |
-        <p>Pour les restrictions indépendantes du temps, une indication de la raison de la restriction.</p>
-        <p>Les valeurs de cette liste contrôlée peuvent être modifiées.</p>
+      <p>Pour les restrictions indépendantes du temps, une indication de la raison de la restriction.</p>
+      <p>Les valeurs de cette liste contrôlée peuvent être modifiées.</p>
     linked_records: Notice liée
     restriction_note_type: Type de note
 
   extent_calculator:
-    no_object_message: Veuillez spécifier un objet sur lequel lancer le calculateur d'importance maltérielle.
+    no_object_message: Veuillez spécifier un objet sur lequel lancer le calculateur
+      d'importance maltérielle.
     report_title: Rapport de calcul d'importance matérielle
     container_profile_header: Profil de conditionnement
     count_header: Total
@@ -1542,7 +1830,8 @@ fr:
     extent_record_header: Notice d'importance matérielle
     create_extent: Créer importance matérielle
     calculate_extent: Calculer importance matérielle
-    create_extent_record_message: Lancer le calcul d'importance matérielle en mode édition pour avoir la possibilité de créer une notice mesure basée sur le rapport.
+    create_extent_record_message: Lancer le calcul d'importance matérielle en mode
+      édition pour avoir la possibilité de créer une notice mesure basée sur le rapport.
     waiting_for_report_message: Calculer importance matérielle...
     container_summary_type:
       _singular: conditionnement
@@ -1559,7 +1848,10 @@ fr:
       messages:
         created: Profil de localisation créé
         updated: Profil de localisation actualisé
-        fields_required_for_calculator: Attention! Unités de mesure, profondeur, hauteur et largeur doivent être impérativement renseignées pour pouvoir lancer le calculateur d'espace. Les localisations seront omises si l'une de ces valeurs vient à manquer.
+        fields_required_for_calculator: Attention! Unités de mesure, profondeur, hauteur
+          et largeur doivent être impérativement renseignées pour pouvoir lancer le
+          calculateur d'espace. Les localisations seront omises si l'une de ces valeurs
+          vient à manquer.
       section:
         basic_information: Information de base
     name: Nom
@@ -1571,12 +1863,17 @@ fr:
   space_calculator:
     modal_title: Calculateur d'espace
     modal_loading: Chargement en cours...
-    message_container_profile_required: Le caculateur d'espace nécessite qu'un profil de conditionnement soit défini.
-    message_locations_required: Le calculateur d'espace nécessite qu'une ou plusieurs localisations soient définies.
+    message_container_profile_required: Le caculateur d'espace nécessite qu'un profil
+      de conditionnement soit défini.
+    message_locations_required: Le calculateur d'espace nécessite qu'une ou plusieurs
+      localisations soient définies.
     message_select_locations: "Vérifier l'espace dans la ou les localisation(s) suivante(s):"
-    message_no_locations_with_space: Aucune localisation présentant de l'espace n'a été trouvée
-    message_total_spaces: "Nombre total d'espaces disponibles pour ce type de conditionnement: %{total_spaces}"
-    message_total_containers: "Nombre total de conditionnements de ce type trouvés dans ces localisations: %{total_containers}"
+    message_no_locations_with_space: Aucune localisation présentant de l'espace n'a
+      été trouvée
+    message_total_spaces: "Nombre total d'espaces disponibles pour ce type de conditionnement:\
+      \ %{total_spaces}"
+    message_total_containers: "Nombre total de conditionnements de ce type trouvés\
+      \ dans ces localisations: %{total_containers}"
     message_loading: Chargement en cours...
     count: Espace disponible (de type de conditionnement)
     calculate_space: Vérification de l'espace
@@ -1591,11 +1888,16 @@ fr:
     view_all_toggle: Afficher localisations sans espace
     reason:
       location_lacks_a_profile: Localisation manquant d'un profil
-      location_lacks_dimension_data: Profil de localisation manquant de données de dimensions
-      container_is_bigger: Conditionnement excédant la capacité de la localisation dans au moins une dimension
-      container_at_location_lacks_profile: Au moins un des conditionnements actuellement dans la localisation manque d'un profil
-      containers_at_location_dont_fit: Le conditionnement actuellement dans la localisation ne convient pas
-      location_cannot_fit_container: La localisation ne convient actuellement à aucun conditionnement de ce type
+      location_lacks_dimension_data: Profil de localisation manquant de données de
+        dimensions
+      container_is_bigger: Conditionnement excédant la capacité de la localisation
+        dans au moins une dimension
+      container_at_location_lacks_profile: Au moins un des conditionnements actuellement
+        dans la localisation manque d'un profil
+      containers_at_location_dont_fit: Le conditionnement actuellement dans la localisation
+        ne convient pas
+      location_cannot_fit_container: La localisation ne convient actuellement à aucun
+        conditionnement de ce type
 
   date_calculator:
     toolbar_button: Calculer dates
@@ -1644,7 +1946,8 @@ fr:
         created: Evaluation créée
         updated: Evaluation actualisée
         deleted: Evaluation supprimée
-        attributes_hint: Veuillez contacter votre administrateur pour ajouter d'autre %{attribute_type}
+        attributes_hint: Veuillez contacter votre administrateur pour ajouter d'autre
+          %{attribute_type}
         manage_attributes_hint: Gérer les %{attribute_type} additionnels pour ce dépôt
       assessment_review_required:
         true_value: "Oui"
@@ -1686,12 +1989,18 @@ fr:
         save: Sauvegarder les attributs d'évaluation
         add_type: Ajouter %{type}
         find_rating: Rechercher des enregistrements avec une note %{rating_type}
-        find_format: Rechercher des enregistrements avec un type / format de matériau %{format_type}
-        find_issue: Rechercher des enregistrements avec un problème de conservation %{issue_type}
+        find_format: Rechercher des enregistrements avec un type / format de matériau
+          %{format_type}
+        find_issue: Rechercher des enregistrements avec un problème de conservation
+          %{issue_type}
+        remove_rating: Supprimer la note %{rating_type}
+        remove_format: Supprimer le type / format de matériau %{format_type}
+        remove_issue: Supprimer le problème de conservation de %{issue_type}
       messages:
         updated: Attribut actualisés
         error: Erreur lors de l'actualisation
-        conflict: "Erreur lors de l'actualisation des attributs d'évaluation. Les labels suivants sont en conflit avec des entrées existantes: %{conflicts}"
+        conflict: "Erreur lors de l'actualisation des attributs d'évaluation. Les\
+          \ labels suivants sont en conflit avec des entrées existantes: %{conflicts}"
         attribute_in_use: Impossible de supprimer un attribut qui sert à une évaluation
       database_value: Valeur de la base de données
       translation: Traduction
@@ -1708,17 +2017,21 @@ fr:
         create: Créer un modèle
         save: Enregistrer le modèle
       messages:
+        copied: Modèle de rapport personnalisé copié
         created: Modèle de rapport personnalisé créé
         updated: Modèle de rapport personnalisé mis à jour
 
+    new_title: Nouveau Modèle de rapport personnalisé
   oai_config:
     title: Paramètres OAI-PMH
     title_repo_section: Paramètres OAI-PMH par référentiel
     general_section: Réglages généraux
     repo_set_section: Ensemble de référentiels
     sponsor_set_section: Ensemble de sponsors
-    repo_set_desc: Outre les ensembles basés sur le niveau de description, vous pouvez définir un ensemble OAI basé sur des référentiels.
-    sponsor_set_desc: Outre les ensembles basés sur le niveau de description, vous pouvez définir un ensemble OAI basé sur les noms de sponsor.
+    repo_set_desc: Outre les ensembles basés sur le niveau de description, vous pouvez
+      définir un ensemble OAI basé sur des référentiels.
+    sponsor_set_desc: Outre les ensembles basés sur le niveau de description, vous
+      pouvez définir un ensemble OAI basé sur les noms de sponsor.
     oai_record_prefix: Préfixe d'enregistrement OAI
     oai_admin_email: E-mail administrateur OAI
     oai_repository_name: Nom du référentiel OAI
@@ -1728,7 +2041,9 @@ fr:
     sponsor_set_name: Nom du sponsor
     sponsor_set_names: Noms de sponsors
     sponsor_set_description: Description de l'ensemble de sponsors
-    oai_leave_repo_form: Ces options affectent OAI-PMH pour ce référentiel uniquement. Cliquez ci-dessous pour afficher / modifier les options globales OAI. Cela laissera le formulaire actuel sans enregistrer les modifications.
+    oai_leave_repo_form: Ces options affectent OAI-PMH pour ce référentiel uniquement.
+      Cliquez ci-dessous pour afficher / modifier les options globales OAI. Cela laissera
+      le formulaire actuel sans enregistrer les modifications.
     _frontend:
       section:
         basic_information: Réglages généraux
@@ -1752,18 +2067,1238 @@ fr:
         drag_drop: Faites glisser et déposer le fichier ici
         clip_btn: Copier dans le presse-papier
         only_validate: Valider uniquement
+        link_top_containers: Lier les conteneurs supérieurs
       messages:
         missing_file: Vous n'avez pas ajouté un fichier
-        not_excel: Le fichier que vous avez choisi n'est pas une feuille de calcul Excel
-        not_excel_csv: Le fichier que vous avez choisi n’est ni une feuille de calcul Excel ni un fichier CSV
+        not_excel: Le fichier que vous avez choisi n'est pas une feuille de calcul
+          Excel
+        not_excel_csv: Le fichier que vous avez choisi n’est ni une feuille de calcul
+          Excel ni un fichier CSV
         processed: Le fichier a été traité
         error: "ERREUR: erreur (s) détecté:"
         copied: Copié!
         uncopied: Impossible de copier
-        submitted: "<p>La tâche a été soumis aux travaux d'arrière-plan. <br/> Cliquez sur «Fermer» pour actualiser cet écran.</p>"
+        submitted: "<p>La tâche a été soumis aux travaux d'arrière-plan. <br/> Cliquez\
+          \ sur «Fermer» pour actualiser cet écran.</p>"
   bulk_import_job:
-    active: "Une tâche d'importation groupée est active pour cet enregistrement, essayez de modifier plus tard: <a href ='%{url}'>%{uri}</a>"
+    active: "Une tâche d'importation groupée est active pour cet enregistrement, essayez\
+      \ de modifier plus tard: <a href ='%{url}'>%{uri}</a>"
     resource_id: Ressource ID
     format: Télécharger le format de fichier
     filename: Nom du fichier de feuille de calcul
-    not_direct: Pour le moment, ce travail ne peut être créé qu'à partir de l'enregistrement Ressource
+    not_direct: Pour le moment, ce travail ne peut être créé qu'à partir de l'enregistrement
+      Ressource
+
+  structured_date_single:
+    _frontend:
+      action:
+        add: Ajouter une date unique
+
+  structured_date_range:
+    _frontend:
+      action:
+        add: Ajouter une date de plage
+
+  structured_date_label_common_fields:
+    date_label: Étiqueter
+    date_type_structured: Type de date
+    date_certainty: Certitude
+    date_era: Ère
+    date_calendar: Calendrier
+
+  structured_date_label_existence:
+    date_label: Étiqueter
+    date_type_structured: Type de date
+    date_certainty: Certitude
+    date_era: Ère
+    date_calendar: Calendrier
+
+  structured_date_label_usage:
+    date_label: Étiqueter
+    date_type_structured: Type de date
+    date_certainty: Certitude
+    date_era: Ère
+    date_calendar: Calendrier
+
+  structured_date_single_fields:
+    date_role: Rôle de date
+    date_expression: Expression de la date
+    date_standardized: Date normalisée
+    date_standardized_type: Type de date normalisé
+
+  structured_date_range_fields:
+    begin_date_expression: Expression de la date de début
+    begin_date_standardized: Date de début normalisée
+    begin_date_standardized_type: Type de date de début standardisé
+    end_date_expression: Expression de la date de fin
+    end_date_standardized: Date normalisée de fin
+    end_date_standardized_type: Type de date standardisée de fin
+
+  date_type_structured:
+    single: Unique
+    range: Fourchette
+
+  agent_record_control:
+    _plural: Enregistrer les informations
+    _singular: Enregistrer les informations
+    _frontend:
+      action:
+        add: Ajouter des informations d'enregistrement
+    maintenance_status: État de la maintenance du contrôle des enregistrements
+    publication_status: État de la publication de contrôle des enregistrements
+    romanization: Romanisation
+    government_agency_type: Type d'agence gouvernementale de contrôle des enregistrements
+    reference_evaluation: Évaluation de la référence de contrôle des enregistrements
+    name_type: Type de nom de contrôle d'enregistrement
+    level_of_detail: Contrôle des enregistrements Niveau de détail
+    modified_record: Type modifié de contrôle d'enregistrement
+    cataloging_source: Source de catalogage de contrôle des enregistrements
+    maintenance_agency: Agence de maintenance
+    agency_name: Nom d'agence
+    maintenance_agency_note: Note de l'agence de maintenance
+    language: Langue
+    script: Scénario
+    language_note: Note de langue
+
+  agent_record_controls:
+    _plural: Enregistrer les informations
+    _singular: Enregistrer les informations
+    _frontend:
+      action:
+        add: Ajouter des informations d'enregistrement
+    maintenance_status: État de la maintenance du contrôle des enregistrements
+    publication_status: État de la publication de contrôle des enregistrements
+    romanization: Romanisation
+    government_agency_type: Type d'agence gouvernementale de contrôle des enregistrements
+    reference_evaluation: Évaluation de la référence de contrôle des enregistrements
+    name_type: Type de nom de contrôle d'enregistrement
+    level_of_detail: Contrôle des enregistrements Niveau de détail
+    modified_record: Type modifié de contrôle d'enregistrement
+    cataloging_source: Source de catalogage de contrôle des enregistrements
+    maintenance_agency: Agence de maintenance
+    agency_name: Nom d'agence
+    maintenance_agency_note: Note de l'agence de maintenance
+    language: Langue
+    script: Scénario
+    language_note: Note de langue
+
+  agent_record_control_required:
+    _plural: Enregistrer les informations
+    _singular: Enregistrer les informations
+    _frontend:
+      action:
+        add: Ajouter des informations d'enregistrement
+    maintenance_status: État de la maintenance du contrôle des enregistrements
+    publication_status: État de la publication de contrôle des enregistrements
+    romanization: Romanisation
+    government_agency_type: Type d'agence gouvernementale de contrôle des enregistrements
+    reference_evaluation: Évaluation de la référence de contrôle des enregistrements
+    name_type: Type de nom de contrôle d'enregistrement
+    level_of_detail: Contrôle des enregistrements Niveau de détail
+    modified_record: Type modifié de contrôle d'enregistrement
+    cataloging_source: Source de catalogage de contrôle des enregistrements
+    maintenance_agency: Agence de maintenance
+    agency_name: Nom d'agence
+    maintenance_agency_note: Note de l'agence de maintenance
+    language: Langue
+    script: Scénario
+    language_note: Note de langue
+
+  agent_record_control_merge_target:
+    _plural: Enregistrer les informations
+    _singular: Enregistrer les informations
+    _frontend:
+      action:
+        add: Ajouter des informations d'enregistrement
+    maintenance_status: État de la maintenance du contrôle des enregistrements
+    publication_status: État de la publication de contrôle des enregistrements
+    romanization: Romanisation
+    government_agency_type: Type d'agence gouvernementale de contrôle des enregistrements
+    reference_evaluation: Évaluation de la référence de contrôle des enregistrements
+    name_type: Type de nom de contrôle d'enregistrement
+    level_of_detail: Contrôle des enregistrements Niveau de détail
+    modified_record: Type modifié de contrôle d'enregistrement
+    cataloging_source: Source de catalogage de contrôle des enregistrements
+    maintenance_agency: Agence de maintenance
+    agency_name: Nom d'agence
+    maintenance_agency_note: Note de l'agence de maintenance
+    language: Langue
+    script: Scénario
+    language_note: Note de langue
+
+  agent_record_control_merge_victim:
+    _plural: Enregistrer les informations
+    _singular: Enregistrer les informations
+    _frontend:
+      action:
+        add: Ajouter des informations d'enregistrement
+    maintenance_status: État de la maintenance du contrôle des enregistrements
+    publication_status: État de la publication de contrôle des enregistrements
+    romanization: Romanisation
+    government_agency_type: Type d'agence gouvernementale de contrôle des enregistrements
+    reference_evaluation: Évaluation de la référence de contrôle des enregistrements
+    name_type: Type de nom de contrôle d'enregistrement
+    level_of_detail: Contrôle des enregistrements Niveau de détail
+    modified_record: Type modifié de contrôle d'enregistrement
+    cataloging_source: Source de catalogage de contrôle des enregistrements
+    maintenance_agency: Agence de maintenance
+    agency_name: Nom d'agence
+    maintenance_agency_note: Note de l'agence de maintenance
+    language: Langue
+    script: Scénario
+    language_note: Note de langue
+
+  agent_gender:
+    _plural: Les genres
+    _singular: Le sexe
+    _frontend:
+      action:
+        add: Ajouter le sexe
+    gender: Le sexe
+    note: Noter
+    dates: Rendez-vous
+
+  agent_genders:
+    _plural: Les genres
+    _singular: Le sexe
+    _frontend:
+      action:
+        add: Ajouter le sexe
+    gender: Le sexe
+    note: Noter
+    dates: Rendez-vous
+
+  agent_gender_required:
+    _plural: Les genres
+    _singular: Le sexe
+    _frontend:
+      action:
+        add: Ajouter le sexe
+    gender: Le sexe
+    note: Noter
+    dates: Rendez-vous
+
+  agent_gender_merge_target:
+    _plural: Les genres
+    _singular: Le sexe
+    _frontend:
+      action:
+        add: Ajouter le sexe
+    gender: Le sexe
+    note: Noter
+    dates: Rendez-vous
+
+  agent_gender_merge_victim:
+    _plural: Les genres
+    _singular: Le sexe
+    _frontend:
+      action:
+        add: Ajouter le sexe
+    gender: Le sexe
+    note: Noter
+    dates: Rendez-vous
+
+  used_language:
+    _plural: Langues utilisées
+    _singular: Langue utilisée
+    _frontend:
+      action:
+        add: Ajouter une langue
+    language: Langue
+    script: Scénario
+
+  used_language_required:
+    _plural: Langues utilisées
+    _singular: Langue utilisée
+    _frontend:
+      action:
+        add: Ajouter une langue
+    language: Langue
+    script: Scénario
+
+  used_languages:
+    _plural: Langues utilisées
+    _singular: Langue utilisée
+    _frontend:
+      action:
+        add: Ajouter une langue
+    language: Langue
+    script: Scénario
+
+  used_language_merge_victim:
+    _plural: Langues utilisées
+    _singular: Langue utilisée
+    _frontend:
+      action:
+        add: Ajouter une langue
+    language: Langue
+    script: Scénario
+
+  used_language_merge_target:
+    _plural: Langues utilisées
+    _singular: Langue utilisée
+    _frontend:
+      action:
+        add: Ajouter une langue
+    language: Langue
+    script: Scénario
+
+  agent_identifier:
+    _plural: ID d'entité
+    _singular: Identifiant
+    _frontend:
+      action:
+        add: Ajouter un ID d'entité
+    identifier_type: Type d'identifiant
+    entity_identifier: ID d'entité
+
+  agent_identifiers:
+    _plural: ID d'entité
+    _singular: Identifiant
+    _frontend:
+      action:
+        add: Ajouter un ID d'entité
+    identifier_type: Type d'identifiant
+    entity_identifier: ID d'entité
+
+  agent_identifier_required:
+    _plural: ID d'entité
+    _singular: Identifiant
+    _frontend:
+      action:
+        add: Ajouter un ID d'entité
+    identifier_type: Type d'identifiant
+    entity_identifier: ID d'entité
+
+  agent_identifier_merge_target:
+    _plural: ID d'entité
+    _singular: Identifiant
+    _frontend:
+      action:
+        add: Ajouter un ID d'entité
+    identifier_type: Type d'identifiant
+    entity_identifier: ID d'entité
+
+  agent_identifier_merge_victim:
+    _plural: ID d'entité
+    _singular: Identifiant
+    _frontend:
+      action:
+        add: Ajouter un ID d'entité
+    identifier_type: Type d'identifiant
+    entity_identifier: ID d'entité
+
+  agent_place:
+    _frontend:
+      action:
+        add: Ajouter un lieu
+    section:
+      dates: Rendez-vous
+    _plural: Des endroits
+    _singular: Lieu
+    place_role: Rôle de place d'agent
+    text_note: Noter
+    dates: Rendez-vous
+    subjects: Des endroits
+    publish: Publié
+
+  agent_place_required:
+    _frontend:
+      action:
+        add: Ajouter un lieu
+    section:
+      dates: Rendez-vous
+    _plural: Des endroits
+    _singular: Lieu
+    place_role: Rôle de place d'agent
+    text_note: Noter
+    dates: Rendez-vous
+    subjects: Des endroits
+    publish: Publié
+
+  agent_places:
+    _frontend:
+      action:
+        add: Ajouter un lieu
+    section:
+      dates: Rendez-vous
+    _plural: Des endroits
+    _singular: Lieu
+    place_role: Rôle de place d'agent
+    text_note: Noter
+    dates: Rendez-vous
+    subjects: Des endroits
+    publish: Publié
+
+  agent_place_merge_target:
+    _frontend:
+      action:
+        add: Ajouter un lieu
+    section:
+      dates: Rendez-vous
+    _plural: Des endroits
+    _singular: Lieu
+    place_role: Rôle de place d'agent
+    text_note: Noter
+    dates: Rendez-vous
+    subjects: Des endroits
+    publish: Publié
+
+  agent_place_merge_victim:
+    _frontend:
+      action:
+        add: Ajouter un lieu
+    section:
+      dates: Rendez-vous
+    _plural: Des endroits
+    _singular: Lieu
+    place_role: Rôle de place d'agent
+    text_note: Noter
+    dates: Rendez-vous
+    subjects: Des endroits
+    publish: Publié
+
+  agent_occupation:
+    _frontend:
+      action:
+        add: Ajouter une profession
+    section:
+      dates: Rendez-vous
+    _plural: Professions
+    _singular: Occupation
+    text_note: Noter
+    dates: Rendez-vous
+    subjects: Professions
+    places: Des endroits
+    publish: Publié
+
+  agent_occupation_required:
+    _frontend:
+      action:
+        add: Ajouter une profession
+    section:
+      dates: Rendez-vous
+    _plural: Professions
+    _singular: Occupation
+    text_note: Noter
+    dates: Rendez-vous
+    subjects: Professions
+    places: Des endroits
+    publish: Publié
+
+  agent_occupations:
+    _frontend:
+      action:
+        add: Ajouter une profession
+    section:
+      dates: Rendez-vous
+    _plural: Professions
+    _singular: Occupation
+    text_note: Noter
+    dates: Rendez-vous
+    subjects: Professions
+    places: Des endroits
+    publish: Publié
+
+  agent_occupation_merge_target:
+    _frontend:
+      action:
+        add: Ajouter une profession
+    section:
+      dates: Rendez-vous
+    _plural: Professions
+    _singular: Occupation
+    text_note: Noter
+    dates: Rendez-vous
+    subjects: Professions
+    places: Des endroits
+    publish: Publié
+
+  agent_occupation_merge_victim:
+    _frontend:
+      action:
+        add: Ajouter une profession
+    section:
+      dates: Rendez-vous
+    _plural: Professions
+    _singular: Occupation
+    text_note: Noter
+    dates: Rendez-vous
+    subjects: Professions
+    places: Des endroits
+    publish: Publié
+
+  agent_function:
+    _frontend:
+      action:
+        add: Ajouter une fonction
+    section:
+      dates: Rendez-vous
+    _plural: Les fonctions
+    _singular: Une fonction
+    text_note: Noter
+    dates: Rendez-vous
+    subjects: Les fonctions
+    places: Des endroits
+    publish: Publié
+
+  agent_function_required:
+    _frontend:
+      action:
+        add: Ajouter une fonction
+    section:
+      dates: Rendez-vous
+    _plural: Les fonctions
+    _singular: Une fonction
+    text_note: Noter
+    dates: Rendez-vous
+    subjects: Les fonctions
+    places: Des endroits
+    publish: Publié
+
+  agent_functions:
+    _frontend:
+      action:
+        add: Ajouter une fonction
+    section:
+      dates: Rendez-vous
+    _plural: Les fonctions
+    _singular: Une fonction
+    text_note: Noter
+    dates: Rendez-vous
+    subjects: Les fonctions
+    places: Des endroits
+    publish: Publié
+
+  agent_function_merge_target:
+    _frontend:
+      action:
+        add: Ajouter une fonction
+    section:
+      dates: Rendez-vous
+    _plural: Les fonctions
+    _singular: Une fonction
+    text_note: Noter
+    dates: Rendez-vous
+    subjects: Les fonctions
+    places: Des endroits
+    publish: Publié
+
+  agent_function_merge_victim:
+    _frontend:
+      action:
+        add: Ajouter une fonction
+    section:
+      dates: Rendez-vous
+    _plural: Les fonctions
+    _singular: Une fonction
+    text_note: Noter
+    dates: Rendez-vous
+    subjects: Les fonctions
+    places: Des endroits
+    publish: Publié
+
+  agent_topic:
+    _frontend:
+      action:
+        add: Ajouter un sujet
+    section:
+      dates: Rendez-vous
+    _plural: Les sujets
+    _singular: Sujet
+    text_note: Noter
+    dates: Rendez-vous
+    subjects: Les sujets
+    places: Des endroits
+    publish: Publié
+
+  agent_topic_required:
+    _frontend:
+      action:
+        add: Ajouter un sujet
+    section:
+      dates: Rendez-vous
+    _plural: Les sujets
+    _singular: Sujet
+    text_note: Noter
+    dates: Rendez-vous
+    subjects: Les sujets
+    places: Des endroits
+    publish: Publié
+
+  agent_topics:
+    _frontend:
+      action:
+        add: Ajouter un sujet
+    section:
+      dates: Rendez-vous
+    _plural: Les sujets
+    _singular: Sujet
+    text_note: Noter
+    dates: Rendez-vous
+    subjects: Les sujets
+    places: Des endroits
+    publish: Publié
+
+  agent_topic_merge_target:
+    _frontend:
+      action:
+        add: Ajouter un sujet
+    section:
+      dates: Rendez-vous
+    _plural: Les sujets
+    _singular: Sujet
+    text_note: Noter
+    dates: Rendez-vous
+    subjects: Les sujets
+    places: Des endroits
+    publish: Publié
+
+  agent_topic_merge_victim:
+    _frontend:
+      action:
+        add: Ajouter un sujet
+    section:
+      dates: Rendez-vous
+    _plural: Les sujets
+    _singular: Sujet
+    text_note: Noter
+    dates: Rendez-vous
+    subjects: Les sujets
+    places: Des endroits
+    publish: Publié
+
+  place:
+    _plural: Des endroits
+    _frontend:
+      action:
+        add: Ajouter un lieu
+
+  agent_alternate_set:
+    _plural: Ensembles alternatifs
+    _singular: Ensemble alternatif
+    _frontend:
+      action:
+        add: Ajouter un ensemble alternatif
+    set_component: Définir le composant
+    descriptive_note: Note descriptive
+    file_uri: URI du fichier
+    xlink_title_attribute: Attribut de titre Xlink
+    xlink_role_attribute: Attribut de rôle Xlink
+    xlink_arcrole_attribute: Attribut Xlink Arcrole
+    file_version_xlink_actuate_attribute: Attribut Xlink Actuate
+    file_version_xlink_show_attribute: Attribut Xlink Show
+    last_verified_date: Date de la dernière vérification
+
+  agent_alternate_sets:
+    _plural: Ensembles alternatifs
+    _singular: Ensemble alternatif
+    _frontend:
+      action:
+        add: Ajouter un ensemble alternatif
+    set_component: Définir le composant
+    descriptive_note: Note descriptive
+    file_uri: URI du fichier
+    xlink_title_attribute: Attribut de titre Xlink
+    xlink_role_attribute: Attribut de rôle Xlink
+    xlink_arcrole_attribute: Attribut Xlink Arcrole
+    file_version_xlink_actuate_attribute: Attribut Xlink Actuate
+    file_version_xlink_show_attribute: Attribut Xlink Show
+    last_verified_date: Date de la dernière vérification
+
+  agent_alternate_set_required:
+    _plural: Ensembles alternatifs
+    _singular: Ensemble alternatif
+    _frontend:
+      action:
+        add: Ajouter un ensemble alternatif
+    set_component: Définir le composant
+    descriptive_note: Note descriptive
+    file_uri: URI du fichier
+    xlink_title_attribute: Attribut de titre Xlink
+    xlink_role_attribute: Attribut de rôle Xlink
+    xlink_arcrole_attribute: Attribut Xlink Arcrole
+    file_version_xlink_actuate_attribute: Attribut Xlink Actuate
+    file_version_xlink_show_attribute: Attribut Xlink Show
+    last_verified_date: Date de la dernière vérification
+
+  agent_alternate_set_merge_target:
+    _plural: Ensembles alternatifs
+    _singular: Ensemble alternatif
+    _frontend:
+      action:
+        add: Ajouter un ensemble alternatif
+    set_component: Définir le composant
+    descriptive_note: Note descriptive
+    file_uri: URI du fichier
+    xlink_title_attribute: Attribut de titre Xlink
+    xlink_role_attribute: Attribut de rôle Xlink
+    xlink_arcrole_attribute: Attribut Xlink Arcrole
+    file_version_xlink_actuate_attribute: Attribut Xlink Actuate
+    file_version_xlink_show_attribute: Attribut Xlink Show
+    last_verified_date: Date de la dernière vérification
+
+  agent_alternate_set_merge_victim:
+    _plural: Ensembles alternatifs
+    _singular: Ensemble alternatif
+    _frontend:
+      action:
+        add: Ajouter un ensemble alternatif
+    set_component: Définir le composant
+    descriptive_note: Note descriptive
+    file_uri: URI du fichier
+    xlink_title_attribute: Attribut de titre Xlink
+    xlink_role_attribute: Attribut de rôle Xlink
+    xlink_arcrole_attribute: Attribut Xlink Arcrole
+    file_version_xlink_actuate_attribute: Attribut Xlink Actuate
+    file_version_xlink_show_attribute: Attribut Xlink Show
+    last_verified_date: Date de la dernière vérification
+
+  agent_conventions_declaration:
+    _plural: Déclarations de convention
+    _singular: Déclaration de convention
+    _frontend:
+      action:
+        add: Ajouter une déclaration de convention
+    name_rule: Convention
+    citation: Citation
+    descriptive_note: Note descriptive
+    file_uri: URI du fichier
+    xlink_title_attribute: Attribut de titre Xlink
+    xlink_role_attribute: Attribut de rôle Xlink
+    xlink_arcrole_attribute: Attribut Xlink Arcrole
+    file_version_xlink_actuate_attribute: Attribut Xlink Actuate
+    file_version_xlink_show_attribute: Attribut Xlink Show
+    last_verified_date: Date de la dernière vérification
+
+  agent_conventions_declarations:
+    _plural: Déclarations de convention
+    _singular: Déclaration de convention
+    _frontend:
+      action:
+        add: Ajouter une déclaration de convention
+    name_rule: Convention
+    citation: Citation
+    descriptive_note: Note descriptive
+    file_uri: URI du fichier
+    xlink_title_attribute: Attribut de titre Xlink
+    xlink_role_attribute: Attribut de rôle Xlink
+    xlink_arcrole_attribute: Attribut Xlink Arcrole
+    file_version_xlink_actuate_attribute: Attribut Xlink Actuate
+    file_version_xlink_show_attribute: Attribut Xlink Show
+    last_verified_date: Date de la dernière vérification
+
+  agent_conventions_declaration_required:
+    _plural: Déclarations de convention
+    _singular: Déclaration de convention
+    _frontend:
+      action:
+        add: Ajouter une déclaration de convention
+    name_rule: Convention
+    citation: Citation
+    descriptive_note: Note descriptive
+    file_uri: URI du fichier
+    xlink_title_attribute: Attribut de titre Xlink
+    xlink_role_attribute: Attribut de rôle Xlink
+    xlink_arcrole_attribute: Attribut Xlink Arcrole
+    file_version_xlink_actuate_attribute: Attribut Xlink Actuate
+    file_version_xlink_show_attribute: Attribut Xlink Show
+    last_verified_date: Date de la dernière vérification
+
+  agent_conventions_declaration_merge_target:
+    _plural: Déclarations de convention
+    _singular: Déclaration de convention
+    _frontend:
+      action:
+        add: Ajouter une déclaration de convention
+    name_rule: Convention
+    citation: Citation
+    descriptive_note: Note descriptive
+    file_uri: URI du fichier
+    xlink_title_attribute: Attribut de titre Xlink
+    xlink_role_attribute: Attribut de rôle Xlink
+    xlink_arcrole_attribute: Attribut Xlink Arcrole
+    file_version_xlink_actuate_attribute: Attribut Xlink Actuate
+    file_version_xlink_show_attribute: Attribut Xlink Show
+    last_verified_date: Date de la dernière vérification
+
+  agent_conventions_declaration_merge_victim:
+    _plural: Déclarations de convention
+    _singular: Déclaration de convention
+    _frontend:
+      action:
+        add: Ajouter une déclaration de convention
+    name_rule: Convention
+    citation: Citation
+    descriptive_note: Note descriptive
+    file_uri: URI du fichier
+    xlink_title_attribute: Attribut de titre Xlink
+    xlink_role_attribute: Attribut de rôle Xlink
+    xlink_arcrole_attribute: Attribut Xlink Arcrole
+    file_version_xlink_actuate_attribute: Attribut Xlink Actuate
+    file_version_xlink_show_attribute: Attribut Xlink Show
+    last_verified_date: Date de la dernière vérification
+
+  agent_other_agency_code:
+    _plural: Autres codes d'agence
+    _singular: Autre code d'agence
+    _frontend:
+      action:
+        add: Ajouter un code d'agence
+    agency_code_type: Type de code d'agence de contrôle des enregistrements
+    maintenance_agency: Agence de maintenance
+
+  agent_other_agency_codes:
+    _plural: Autres codes d'agence
+    _singular: Autre code d'agence
+    _frontend:
+      action:
+        add: Ajouter un code d'agence
+    agency_code_type: Type de code d'agence de contrôle des enregistrements
+    maintenance_agency: Agence de maintenance
+
+  agent_other_agency_code_required:
+    _plural: Autres codes d'agence
+    _singular: Autre code d'agence
+    _frontend:
+      action:
+        add: Ajouter un code d'agence
+    agency_code_type: Type de code d'agence de contrôle des enregistrements
+    maintenance_agency: Agence de maintenance
+
+  agent_other_agency_code_merge_target:
+    _plural: Autres codes d'agence
+    _singular: Autre code d'agence
+    _frontend:
+      action:
+        add: Ajouter un code d'agence
+    agency_code_type: Type de code d'agence de contrôle des enregistrements
+    maintenance_agency: Agence de maintenance
+
+  agent_other_agency_code_merge_victim:
+    _plural: Autres codes d'agence
+    _singular: Autre code d'agence
+    _frontend:
+      action:
+        add: Ajouter un code d'agence
+    agency_code_type: Type de code d'agence de contrôle des enregistrements
+    maintenance_agency: Agence de maintenance
+
+  agent_maintenance_history:
+    _plural: Historique de la maintenance
+    _singular: Historique de maintenance de l'agent
+    _frontend:
+      action:
+        add: Ajouter un évènement
+    maintenance_event_type: Type d'événement de maintenance de contrôle des enregistrements
+    maintenance_agent_type: Type d'agent de maintenance de contrôle des enregistrements
+    agent: Agent
+    descriptive_note: Note descriptive
+    event_date: Date de l'événement
+
+  agent_maintenance_histories:
+    _plural: Historique de la maintenance
+    _singular: Historique de maintenance de l'agent
+    _frontend:
+      action:
+        add: Ajouter un évènement
+    maintenance_event_type: Type d'événement de maintenance de contrôle des enregistrements
+    maintenance_agent_type: Type d'agent de maintenance de contrôle des enregistrements
+    agent: Agent
+    descriptive_note: Note descriptive
+    event_date: Date de l'événement
+
+  agent_maintenance_history_required:
+    _plural: Historique de la maintenance
+    _singular: Historique de maintenance de l'agent
+    _frontend:
+      action:
+        add: Ajouter un évènement
+    maintenance_event_type: Type d'événement de maintenance de contrôle des enregistrements
+    maintenance_agent_type: Type d'agent de maintenance de contrôle des enregistrements
+    agent: Agent
+    descriptive_note: Note descriptive
+    event_date: Date de l'événement
+
+  agent_maintenance_history_merge_target:
+    _plural: Historique de la maintenance
+    _singular: Historique de maintenance de l'agent
+    _frontend:
+      action:
+        add: Ajouter un évènement
+    maintenance_event_type: Type d'événement de maintenance de contrôle des enregistrements
+    maintenance_agent_type: Type d'agent de maintenance de contrôle des enregistrements
+    agent: Agent
+    descriptive_note: Note descriptive
+    event_date: Date de l'événement
+
+  agent_maintenance_history_merge_victim:
+    _plural: Historique de la maintenance
+    _singular: Historique de maintenance de l'agent
+    _frontend:
+      action:
+        add: Ajouter un évènement
+    maintenance_event_type: Type d'événement de maintenance de contrôle des enregistrements
+    maintenance_agent_type: Type d'agent de maintenance de contrôle des enregistrements
+    agent: Agent
+    descriptive_note: Note descriptive
+    event_date: Date de l'événement
+
+  agent_record_identifier:
+    _plural: ID d'enregistrement
+    _singular: ID d'enregistrement
+    _frontend:
+      action:
+        add: Ajouter un ID d'enregistrement
+    identifier_type: Type d'identifiant de contrôle d'enregistrement
+    source: La source
+    primary_identifier: Est l'identifiant principal ?
+    primary: Primaire
+    record_identifier: Identificateur d'enregistrement
+
+  agent_record_identifiers:
+    _plural: ID d'enregistrement
+    _singular: ID d'enregistrement
+    _frontend:
+      action:
+        add: Ajouter un ID d'enregistrement
+    identifier_type: Type d'identifiant de contrôle d'enregistrement
+    source: La source
+    primary_identifier: Est l'identifiant principal?
+    primary: Primaire
+    record_identifier: Identificateur d'enregistrement
+
+  agent_record_identifier_required:
+    _plural: ID d'enregistrement
+    _singular: ID d'enregistrement
+    _frontend:
+      action:
+        add: Ajouter un ID d'enregistrement
+    identifier_type: Type d'identifiant de contrôle d'enregistrement
+    source: La source
+    primary_identifier: Est l'identifiant principal?
+    primary: Primaire
+    record_identifier: Identificateur d'enregistrement
+
+  agent_record_identifier_merge_target:
+    _plural: ID d'enregistrement
+    _singular: ID d'enregistrement
+    _frontend:
+      action:
+        add: Ajouter un ID d'enregistrement
+    identifier_type: Type d'identifiant de contrôle d'enregistrement
+    source: La source
+    primary_identifier: Est l'identifiant principal?
+    primary: Primaire
+    record_identifier: Identificateur d'enregistrement
+
+  agent_record_identifier_merge_victim:
+    _plural: ID d'enregistrement
+    _singular: ID d'enregistrement
+    _frontend:
+      action:
+        add: Ajouter un ID d'enregistrement
+    identifier_type: Type d'identifiant de contrôle d'enregistrement
+    source: La source
+    primary_identifier: Est l'identifiant principal?
+    primary: Primaire
+    record_identifier: Identificateur d'enregistrement
+
+  agent_source:
+    _plural: Sources
+    _singular: Source de l'agent
+    _frontend:
+      action:
+        add: Ajouter une source
+    source_entry: Entrée source
+    descriptive_note: Note descriptive
+    file_uri: URI du fichier
+    xlink_title_attribute: Attribut de titre Xlink
+    xlink_role_attribute: Attribut de rôle Xlink
+    xlink_arcrole_attribute: Attribut Xlink Arcrole
+    file_version_xlink_actuate_attribute: Attribut Xlink Actuate
+    file_version_xlink_show_attribute: Attribut Xlink Show
+    last_verified_date: Date de la dernière vérification
+
+  agent_sources:
+    _plural: Sources
+    _singular: Source de l'agent
+    _frontend:
+      action:
+        add: Ajouter une source
+    source_entry: Entrée source
+    descriptive_note: Note descriptive
+    file_uri: URI du fichier
+    xlink_title_attribute: Attribut de titre Xlink
+    xlink_role_attribute: Attribut de rôle Xlink
+    xlink_arcrole_attribute: Attribut Xlink Arcrole
+    file_version_xlink_actuate_attribute: Attribut Xlink Actuate
+    file_version_xlink_show_attribute: Attribut Xlink Show
+    last_verified_date: Date de la dernière vérification
+
+  agent_source_required:
+    _plural: Sources
+    _singular: Source de l'agent
+    _frontend:
+      action:
+        add: Ajouter une source
+    source_entry: Entrée source
+    descriptive_note: Note descriptive
+    file_uri: URI du fichier
+    xlink_title_attribute: Attribut de titre Xlink
+    xlink_role_attribute: Attribut de rôle Xlink
+    xlink_arcrole_attribute: Attribut Xlink Arcrole
+    file_version_xlink_actuate_attribute: Attribut Xlink Actuate
+    file_version_xlink_show_attribute: Attribut Xlink Show
+    last_verified_date: Date de la dernière vérification
+
+  agent_source_merge_target:
+    _plural: Sources
+    _singular: Source de l'agent
+    _frontend:
+      action:
+        add: Ajouter une source
+    source_entry: Entrée source
+    descriptive_note: Note descriptive
+    file_uri: URI du fichier
+    xlink_title_attribute: Attribut de titre Xlink
+    xlink_role_attribute: Attribut de rôle Xlink
+    xlink_arcrole_attribute: Attribut Xlink Arcrole
+    file_version_xlink_actuate_attribute: Attribut Xlink Actuate
+    file_version_xlink_show_attribute: Attribut Xlink Show
+    last_verified_date: Date de la dernière vérification
+
+  agent_source_merge_victim:
+    _plural: Sources
+    _singular: Source de l'agent
+    _frontend:
+      action:
+        add: Ajouter une source
+    source_entry: Entrée source
+    descriptive_note: Note descriptive
+    file_uri: URI du fichier
+    xlink_title_attribute: Attribut de titre Xlink
+    xlink_role_attribute: Attribut de rôle Xlink
+    xlink_arcrole_attribute: Attribut Xlink Arcrole
+    file_version_xlink_actuate_attribute: Attribut Xlink Actuate
+    file_version_xlink_show_attribute: Attribut Xlink Show
+    last_verified_date: Date de la dernière vérification
+
+  agent_parallel_name:
+    _plural: Noms parallèles
+    use_dates: Utiliser des dates
+
+  agent_name:
+    use_dates: Utiliser des dates
+
+  agent_resource:
+    _frontend:
+      action:
+        add: Ajouter une ressource externe associée
+    section:
+      dates: Rendez-vous
+      places: Des endroits
+    _plural: Ressources externes connexes
+    _singular: Ressource externe associée
+    dates: Rendez-vous
+    places: Des endroits
+    publish: Publié
+    linked_agent_role: Type de relation de ressource
+    linked_resource: Ressource externe associée
+    linked_resource_description: La description
+    file_uri: URI du fichier
+    xlink_title_attribute: Attribut de titre Xlink
+    xlink_role_attribute: Attribut de rôle Xlink
+    xlink_arcrole_attribute: Attribut Xlink Arcrole
+    file_version_xlink_actuate_attribute: Attribut Xlink Actuate
+    file_version_xlink_show_attribute: Attribut Xlink Show
+    last_verified_date: Date de la dernière vérification
+
+  agent_resources:
+    _frontend:
+      action:
+        add: Ajouter une ressource externe associée
+    section:
+      dates: Rendez-vous
+      places: Des endroits
+    _plural: Ressources externes connexes
+    _singular: Ressource externe associée
+    dates: Rendez-vous
+    places: Des endroits
+    publish: Publié
+    linked_agent_role: Type de relation de ressource
+    linked_resource: Ressource externe associée
+    linked_resource_description: La description
+    file_uri: URI du fichier
+    xlink_title_attribute: Attribut de titre Xlink
+    xlink_role_attribute: Attribut de rôle Xlink
+    xlink_arcrole_attribute: Attribut Xlink Arcrole
+    file_version_xlink_actuate_attribute: Attribut Xlink Actuate
+    file_version_xlink_show_attribute: Attribut Xlink Show
+    last_verified_date: Date de la dernière vérification
+
+  agent_resource_required:
+    _frontend:
+      action:
+        add: Ajouter une ressource externe associée
+    section:
+      dates: Rendez-vous
+      places: Des endroits
+    _plural: Ressources externes connexes
+    _singular: Ressource externe associée
+    dates: Rendez-vous
+    places: Des endroits
+    publish: Publié
+    linked_agent_role: Type de relation de ressource
+    linked_resource: Ressource externe associée
+    linked_resource_description: La description
+    file_uri: URI du fichier
+    xlink_title_attribute: Attribut de titre Xlink
+    xlink_role_attribute: Attribut de rôle Xlink
+    xlink_arcrole_attribute: Attribut Xlink Arcrole
+    file_version_xlink_actuate_attribute: Attribut Xlink Actuate
+    file_version_xlink_show_attribute: Attribut Xlink Show
+    last_verified_date: Date de la dernière vérification
+
+  agent_resource_merge_victim:
+    _frontend:
+      action:
+        add: Ajouter une ressource externe associée
+    section:
+      dates: Rendez-vous
+      places: Des endroits
+    _plural: Ressources externes connexes
+    _singular: Ressource externe associée
+    dates: Rendez-vous
+    places: Des endroits
+    publish: Publié
+    linked_agent_role: Type de relation de ressource
+    linked_resource: Ressource externe associée
+    linked_resource_description: La description
+    file_uri: URI du fichier
+    xlink_title_attribute: Attribut de titre Xlink
+    xlink_role_attribute: Attribut de rôle Xlink
+    xlink_arcrole_attribute: Attribut Xlink Arcrole
+    file_version_xlink_actuate_attribute: Attribut Xlink Actuate
+    file_version_xlink_show_attribute: Attribut Xlink Show
+    last_verified_date: Date de la dernière vérification
+
+  agent_resource_merge_target:
+    _frontend:
+      action:
+        add: Ajouter une ressource externe associée
+    section:
+      dates: Rendez-vous
+      places: Des endroits
+    _plural: Ressources externes connexes
+    _singular: Ressource externe associée
+    dates: Rendez-vous
+    places: Des endroits
+    publish: Publié
+    linked_agent_role: Type de relation de ressource
+    linked_resource: Ressource externe associée
+    linked_resource_description: La description
+    file_uri: URI du fichier
+    xlink_title_attribute: Attribut de titre Xlink
+    xlink_role_attribute: Attribut de rôle Xlink
+    xlink_arcrole_attribute: Attribut Xlink Arcrole
+    file_version_xlink_actuate_attribute: Attribut Xlink Actuate
+    file_version_xlink_show_attribute: Attribut Xlink Show
+    last_verified_date: Date de la dernière vérification
+
+  subsections:
+    notes: Remarques
+    dates: Rendez-vous
+
+  section_headings:
+    basic_information_tooltip: "<p>Cette section indique le type d'agent et si l'agent\
+      \ est publié ou non.</p>"
+    record_control_information_tooltip: "<p>Cette section contient des informations\
+      \ sur l'enregistrement lui-même, avec l'espoir qu'il provient de l'extérieur\
+      \ d'ArchivesSpace ou qu'il va être partagé avec un système autre qu'ArchivesSpace.</p>"
+    identity_information_tooltip: "<p>Cette section contient les informations de base\
+      \ sur l'agent lui-même. Un formulaire de nom est le seul sous-enregistrement\
+      \ requis dans un enregistrement d'agent.</p>"
+    description_information_tooltip: "<p>Cette section contient les informations de\
+      \ base sur l'agent lui-même. Un formulaire de nom est le seul sous-enregistrement\
+      \ requis dans un enregistrement d'agent.</p>"
+    relation_information_tooltip: "<p>Cette section est utilisée pour indiquer les\
+      \ relations avec d'autres agents ou matériaux à l'intérieur ou à l'extérieur\
+      \ d'ArchivesSpace.</p>"
+
+  note_contact_note:
+    contact_notes_tooltip: "<p>Détails sur l'interaction avec le contact</p>\n"
+    date_of_contact_tooltip: "<p>Utilisé pour enregistrer la date ou la période spécifique\
+      \ d'une interaction</p>\n"
+  metadata_rights_declaration: &metadata_rights_declaration_attributes
+    file_version_xlink_actuate_attribute: Attribut Xlink Actuate
+    file_version_xlink_show_attribute: Attribut XLink Show
+    last_verified_date: Dernière date de vérification
+    _plural: Déclarations de droits sur les métadonnées
+    _singular: Déclaration des droits sur les métadonnées
+    _frontend:
+      action:
+        add: Ajouter une déclaration de droits sur les métadonnées
+    license: Licence
+    descriptive_note: Note descriptive
+    file_uri: URI du fichier
+    xlink_title_attribute: Attribut de titre Xlink
+    xlink_role_attribute: Attribut de rôle Xlink
+    xlink_arcrole_attribute: Attribut Arcrole Xlink
+
+  metadata_rights_declarations:
+    <<: *metadata_rights_declaration_attributes
+
+  metadata_rights_declaration_required:
+    <<: *metadata_rights_declaration_attributes
+
+  metadata_rights_declaration_merge_target:
+    <<: *metadata_rights_declaration_attributes
+
+  metadata_rights_declaration_merge_victim:
+    <<: *metadata_rights_declaration_attributes
+  bulk_import_templates:
+    aspace_accession_import_template_csv: Créez des enregistrements d'accession et
+      des enregistrements liés à des adhésions comme des agents, des sujets et des
+      événements.
+    bulk_import_DO_template_csv: Créez et liez des objets numériques à des objets
+      d'archives existants dans une ressource. Le format CSV est destiné aux personnes
+      n'ayant pas accès à Microsoft Excel.
+    bulk_import_DO_template_xlsx: Créez et liez des objets numériques à des objets
+      d'archives existants dans une ressource. Le format XLSX est destiné à ceux qui
+      ont accès à Microsoft Excel.
+    overview: "<p>Ce sont des modèles pour télécharger des données de feuille de calcul\
+      \ dans ArchivesSpace à l'aide des différentes options d'importation dans la\
+      \ zone Tâches en arrière-plan. Les données requises pour une importation réussie\
+      \ dépendent du type d'enregistrement créé. Vous n'avez pas besoin de remplir\
+      \ chaque ligne et colonne.</p><p>Chaque modèle CSV comprend une ligne d'exemples\
+      \ de données. À moins que vous ne souhaitiez créer un enregistrement avec les\
+      \ exemples de données, veuillez supprimer les exemples de données avant de télécharger\
+      \ votre feuille de calcul. <b>Ne supprimez pas la ligne d'en-tête, n'ajoutez\
+      \ pas de colonnes supplémentaires ou ne réorganisez pas les colonnes existantes.</b></p><p>Les\
+      \ modèles Excel incluent des instructions supplémentaires pour l'utilisation\
+      \ des modèles et des validations pour certaines cellules. Ne supprimez pas les\
+      \ instructions ou les validations.</p>\n"
+    aspace_digital_object_import_template_csv: Créez des enregistrements d'objets
+      numériques et des enregistrements liés à des objets numériques tels que des
+      agents, des sujets et des événements.
+    bulk_import_template_csv: Créez des objets d'archives attachés à une ressource
+      existante. Comprend une option pour créer de nombreux sous-enregistrements et
+      enregistrements liés différents, notamment des dates, des étendues, des notes,
+      des conteneurs et des objets numériques. Le format CSV est destiné aux personnes
+      n'ayant pas accès à Microsoft Excel.
+    bulk_import_template_xlsx: Créez des objets d'archives attachés à une ressource
+      existante. Comprend une option pour créer de nombreux sous-enregistrements et
+      enregistrements liés différents, notamment des dates, des étendues, des notes,
+      des conteneurs et des objets numériques. Le format XLSX est destiné à ceux qui
+      ont accès à Microsoft Excel.
+    aspace_location_import_template_csv: Créez de nouveaux enregistrements de localisation.
+      Veuillez noter que ce modèle sert à créer les enregistrements d'emplacement
+      eux-mêmes, et non à lier des matériaux à des emplacements.
+    aspace_assessment_import_template_csv: Créez et liez des évaluations à des acquisitions,
+      des ressources, des objets d'archives ou des objets numériques existants.
+  footer:
+    archivesspace_home: Visitez <a href='http://archivesspace.org'>ArchivesSpace.org</a>
+    feedback: <a id='aspaceFeedbackLink' href='%{feedback_url}' target='_blank'>Envoyer
+      des commentaires ou signaler un problème</a>
+    public_interface: Afficher <a href="%{public_url}">Interface publique</a>

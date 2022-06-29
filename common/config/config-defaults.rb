@@ -35,9 +35,8 @@ AppConfig[:public_url] = "http://localhost:8081"
 # set it to something else below.
 AppConfig[:oai_url] = "http://localhost:8082"
 
-# The ArchivesSpace Solr index listens on port 8090 by default.  You can
-# set it to something else below.
-AppConfig[:solr_url] = "http://localhost:8090"
+# The ArchivesSpace Solr index url default.  You can set it to something else below.
+AppConfig[:solr_url] = "http://localhost:8983/solr/archivesspace"
 
 # The ArchivesSpace indexer listens on port 8091 by default.  You can
 # set it to something else below.
@@ -74,7 +73,9 @@ AppConfig[:mysql_binlog] = false
 # By default, Solr backups will run at midnight.  See https://crontab.guru/ for
 # information about the schedule syntax.
 AppConfig[:solr_backup_schedule] = "0 0 * * *"
-AppConfig[:solr_backup_number_to_keep] = 1
+# By default no backups. If enabling (by setting > 0) then you must also ensure
+# that AppConfig[:solr_index_directory] is set to the correct path
+AppConfig[:solr_backup_number_to_keep] = 0
 AppConfig[:solr_backup_directory] = proc { File.join(AppConfig[:data_directory], "solr_backups") }
 # add default solr params, i.e. use AND for search: AppConfig[:solr_params] = { 'mm' => '100%' }
 # Another example below sets the boost query value (bq) to boost the relevancy for the query string in the title,
@@ -88,7 +89,8 @@ AppConfig[:solr_backup_directory] = proc { File.join(AppConfig[:data_directory],
 # For more information about solr parameters, please consult the solr documentation
 # here: https://lucene.apache.org/solr/
 # Configuring search operator to be AND by default - ANW-427
-AppConfig[:solr_params] = { 'mm' => '100%' }
+AppConfig[:solr_params] = { 'q.op' => 'AND' }
+AppConfig[:solr_verify_checksums] = true
 
 # Set the application's language (see the .yml files in
 # https://github.com/archivesspace/archivesspace/tree/master/common/locales for
@@ -96,7 +98,7 @@ AppConfig[:solr_params] = { 'mm' => '100%' }
 AppConfig[:locale] = :en
 
 # Plug-ins to load. They will load in the order specified
-AppConfig[:plugins] = ['local',  'lcnaf']
+AppConfig[:plugins] = ['local', 'lcnaf']
 
 # The number of concurrent threads available to run background jobs
 # Resist the urge to set this to a big number as it will affect performance
@@ -147,8 +149,10 @@ AppConfig[:default_admin_password] = "admin"
 AppConfig[:data_directory] = File.join(Dir.home, "ArchivesSpace")
 
 AppConfig[:backup_directory] = proc { File.join(AppConfig[:data_directory], "demo_db_backups") }
-AppConfig[:solr_index_directory] = proc { File.join(AppConfig[:data_directory], "solr_index") }
-AppConfig[:solr_home_directory] = proc { File.join(AppConfig[:data_directory], "solr_home") }
+# Set the path to the solr index for the external Solr instance.
+# This setting is used by the solr backups configuration but only
+# applies if the solr index directory is accessible to ArchivesSpace.
+AppConfig[:solr_index_directory] = File.join('', 'var', 'solr', 'data', 'archivesspace', 'data')
 AppConfig[:solr_indexing_frequency_seconds] = 30
 AppConfig[:solr_facet_limit] = 100
 
@@ -224,7 +228,6 @@ AppConfig[:public_proxy_prefix] = proc { "#{URI(AppConfig[:public_proxy_url]).pa
 AppConfig[:enable_backend] = true
 AppConfig[:enable_frontend] = true
 AppConfig[:enable_public] = true
-AppConfig[:enable_solr] = true
 AppConfig[:enable_indexer] = true
 AppConfig[:enable_docs] = true
 AppConfig[:enable_oai] = true
@@ -284,6 +287,10 @@ AppConfig[:report_page_layout] = "letter"
 AppConfig[:report_pdf_font_paths] = proc { ["#{AppConfig[:backend_url]}/reports/static/fonts/dejavu/DejaVuSans.ttf"] }
 AppConfig[:report_pdf_font_family] = "\"DejaVu Sans\", sans-serif"
 
+# option to enable custom reports
+# USE WITH CAUTION - running custom reports that are too complex may cause ASpace to crash
+AppConfig[:enable_custom_reports] = false
+
 # Path to system Java -- required when creating PDFs on Windows
 AppConfig[:path_to_java] = "java"
 
@@ -336,7 +343,9 @@ AppConfig[:demo_data_url] = ""
 # Expose external ids in the frontend
 AppConfig[:show_external_ids] = false
 
-#
+# Whether to display archival record identifiers in the frontend largetree container
+AppConfig[:display_identifiers_in_largetree_container] = false
+
 # This sets the allowed size of the request/response header that Jetty will accept (
 # anything bigger gets a 403 error ). Note if you want to jack this size up,
 # you will also have to configure your Nginx/Apache  as well if
@@ -421,6 +430,14 @@ AppConfig[:record_inheritance] = {
   }
 }
 
+# record types resolved for record inheritance
+AppConfig[:record_inheritance_resolves] = [
+  'ancestors',
+  'ancestors::linked_agents',
+  'ancestors::subjects',
+  # 'ancestors::instances::sub_container::top_container',
+]
+
 # To enable composite identifiers - added to the merged record in a property _composite_identifier
 # The values for :include_level and :identifier_delimiter shown here are the defaults
 # If :include_level is set to true then level values (eg Series) will be included in _composite_identifier
@@ -480,7 +497,11 @@ AppConfig[:record_inheritance] = {
 
 AppConfig[:pui_search_results_page_size] = 10
 AppConfig[:pui_branding_img] = 'archivesspace.small.png'
-AppConfig[:pui_branding_img_alt_text] = 'ArchivesSpace logo'
+AppConfig[:pui_branding_img_alt_text] = 'ArchivesSpace - a community served by Lyrasis.'
+
+AppConfig[:frontend_branding_img] = 'archivesspace/archivesspace.small.png'
+AppConfig[:frontend_branding_img_alt_text] = 'ArchivesSpace - a community served by Lyrasis.'
+
 AppConfig[:pui_block_referrer] = true # patron privacy; blocks full 'referrer' when going outside the domain
 
 # The number of PDFs that can be generated (in the background) at the same time.
@@ -502,7 +523,7 @@ AppConfig[:pui_hide][:agents] = false
 AppConfig[:pui_hide][:classifications] = false
 AppConfig[:pui_hide][:search_tab] = false
 # The following determine globally whether the various "badges" appear on the Repository page
-# can be overriden at repository level below (e.g.:  AppConfig[:pui_repos][{repo_code}][:hide][:counts] = true
+# can be overridden at repository level below (e.g.:  AppConfig[:pui_repos][{repo_code}][:hide][:counts] = true
 AppConfig[:pui_hide][:resource_badge] = false
 AppConfig[:pui_hide][:record_badge] = true # hide by default
 AppConfig[:pui_hide][:digital_object_badge] = false
@@ -514,21 +535,22 @@ AppConfig[:pui_hide][:counts] = false
 # The following determines globally whether the 'container inventory' navigation tab/pill is hidden on resource/collection page
 AppConfig[:pui_hide][:container_inventory] = false
 
-# Whether to display linked decaccessions
+# Whether to display linked deaccessions
 AppConfig[:pui_display_deaccessions] = true
+
+# Whether to display archival record identifiers in the PUI collection organization tree
+AppConfig[:pui_display_identifiers_in_resource_tree] = false
 
 #The number of characters to truncate before showing the 'Read More' link on notes
 AppConfig[:pui_readmore_max_characters] = 450
+
+# Whether to expand all additional information blocks at the bottom of record pages by default. `true` expands all blocks, `false` collapses all blocks.
+AppConfig[:pui_expand_all] = true
 
 # Enable / disable PUI resource/archival object page actions
 AppConfig[:pui_page_actions_cite] = true
 AppConfig[:pui_page_actions_request] = true
 AppConfig[:pui_page_actions_print] = true
-
-# Set default/active tab for PUI citation modal. If set to 'true' item citation
-# tab will be active by default; if 'false' item description tab will be active.
-# AppConfig[:pui_page_actions_cite] must be set to true for this to take effect.
-AppConfig[:pui_active_citation_tab_item] = true
 
 # Enable / disable search-in-collection form in sidebar when viewing records
 AppConfig[:pui_search_collection_from_archival_objects] = false
@@ -627,6 +649,7 @@ AppConfig[:pui_page_custom_actions] = []
 #   'erb_partial' => 'shared/my_special_action',
 # }
 
+AppConfig[:pui_display_facets_alpha] = false
 
 # Human-Readable URLs options
 # use_human_readable_urls: determines whether fields and options related to human-readable URLs appear in the staff interface
@@ -668,6 +691,28 @@ AppConfig[:ark_naan] = "99999"
 # In most cases this will be the same as the PUI URL.
 AppConfig[:ark_url_prefix] = proc { AppConfig[:public_proxy_url] }
 
+# The implementation of ArkMinter used to generate new ARKs.  See
+# `ark_minter.rb` for documentation on how to implement your own ARK minter.
+#
+# Out of the box, you can choose between:
+#
+#  :archivesspace_ark_minter -- ArchivesSpace ARK minter based on a numeric sequence.
+#
+#  :smithsonian_ark_minter -- An ARK minter, used by the Smithsonian
+#    Institution, based on random UUIDs.
+AppConfig[:ark_minter] = :archivesspace_ark_minter
+
+# Enables a field on each Repository record that is inserted after the NAAN in
+# each ARK generated.
+AppConfig[:ark_enable_repository_shoulder] = false
+
+# If set, this string is included to separate the ARK shoulder from the unique generated value.
+AppConfig[:ark_shoulder_delimiter] = ''
+
+# If true, adds a field to each Resource/Archival Object record that allows the
+# ARK URL to be manually set.
+AppConfig[:arks_allow_external_arks] = true
+
 # Specifies if the fields that show up in csv should be limited to those in search results
 AppConfig[:limit_csv_fields] = true
 
@@ -677,7 +722,33 @@ AppConfig[:max_search_columns] = 7
 # For Bulk Import:
 # specifies whether the "Load Digital Objects" button is available at the Resource Level
 AppConfig[:hide_do_load] = false
-# upper row limit for an excel spreadsheet
-AppConfig[:bulk_import_rows] = 1000
-# maximum size (in KiloBytes) for an excel spreadsheet
-AppConfig[:bulk_import_size] = 256
+
+# For Agents Export
+AppConfig[:export_eac_agency_code] = false
+
+# Disable logged warnings when changing config settings that have already been set
+# This might be useful when running tests that need to fiddle with config
+AppConfig[:disable_config_changed_warning] = false
+
+# Resolving linked events can have a big impact on performance. If the number of linked
+# events surpasses the max then the events will not be resolved and a more abridged
+# record will be displayed to keep memory usage under control as the no. of events grows
+AppConfig[:max_linked_events_to_resolve] = 100
+
+# Prior to 3.2.0, multiple ARKs may have been created without
+# the user intending to do so. Setting this to true will make
+# database upgrade 158 attempt to clean up unwanted extra ARKs.
+# When multiple rows in the ARK table reference the same resource
+# or archival object, the first one created will be kept
+# and the rest discarded.
+# Use with caution and test thoroughly.
+AppConfig[:prune_ark_name_table] = false
+
+# If the PUI is enabled, add resource finding aid URLs to MARC exports
+AppConfig[:include_pui_finding_aid_urls_in_marc_exports] = false
+
+# If enabled, use slugs instead of URIs in finding aid links (856 $u)
+AppConfig[:use_slug_finding_aid_urls_in_marc_exports] = false
+
+# Turns on representative file version features - still in development
+AppConfig[:enable_representative_file_version] = false

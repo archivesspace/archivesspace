@@ -26,7 +26,6 @@ describe 'Rights Statement model' do
     expect {
       RightsStatement.create_from_json(build(:json_rights_statement, opts), :repo_id => repo_one.id)
       RightsStatement.create_from_json(build(:json_rights_statement, opts), :repo_id => repo_one.id)
-
     }.not_to raise_error
 
     # No problems here

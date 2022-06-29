@@ -4,19 +4,18 @@ module JSONModel
 
   # it's possible for a node to have publish = true and at the same time have an ancestor with publish = false.
   # this method traverses a JSONModel and sets publish = false for any node that has an ancestor with publish = false.
-  def self.set_publish_flags!(jsonmodel) 
+  def self.set_publish_flags!(jsonmodel)
     # if the parameter is not a hash, then it's a JSONModel object and the data we want is in @data.
-    if(jsonmodel.is_a?(Hash))
+    if (jsonmodel.is_a?(Hash))
       traverse!(jsonmodel)
     else
-      traverse!(jsonmodel.data)
+      traverse!(jsonmodel.instance_variable_get(:@data))
     end
   end
 
   private
 
   def self.traverse!(ds, ancestor_publish = nil)
-
     # during traversal, if we encounter a hash with a "publish" key
     # if ancestor_publish is true
     #    set ancestor_publish to this value for the subtree

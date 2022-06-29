@@ -18,12 +18,17 @@
           <section id="basic_information">
             <h3><%= I18n.t "accession._frontend.section.basic_information" %></h3>
 
+            <%= render_plugin_partials("top_of_basic_information_accession",
+                                       :form => readonly,
+                                       :record => @accession) %>
+
             <%= readonly.label_and_textarea "title" %>
             <%= readonly.label_and_fourpartid %>
 
             <%= render_aspace_partial :partial => "shared/public_url", :locals => {:form_object => readonly} if AppConfig[:use_human_readable_urls] %>
 
             <%= readonly.label_and_date "accession_date" %>
+            <%= readonly.label_and_boolean "publish" %>
             <%= readonly.label_and_textarea "content_description" %>
             <%= readonly.label_and_textarea "condition_description" %>
             <%= readonly.label_and_textarea "disposition" %>
@@ -35,18 +40,27 @@
 
             <%= readonly.label_and_select "acquisition_type", readonly.possible_options_for("acquisition_type", true) %>
             <%= readonly.label_and_select "resource_type", readonly.possible_options_for("resource_type", true) %>
+            <%= readonly.label_and_select("language", readonly.possible_options_for("language", true)) %>
+            <%= readonly.label_and_select("script", readonly.possible_options_for("script", true)) %>
             <%= readonly.label_and_boolean "restrictions_apply" %>
-            <%= readonly.label_and_boolean "publish" %>
             <%= readonly.label_and_boolean "access_restrictions" %>
             <%= readonly.label_and_textarea "access_restrictions_note" %>
             <%= readonly.label_and_boolean "use_restrictions" %>
             <%= readonly.label_and_textarea "use_restrictions_note" %>
+
+            <%= render_plugin_partials("basic_information_accession",
+                                       :form => readonly,
+                                       :record => @accession) %>
 
             <%= display_audit_info(@accession) %>
           </section>
           <% end %>
 
           <% readonly.emit_template("accession") %>
+
+          <% if @accession.lang_materials.length > 0 %>
+            <%= render_aspace_partial :partial => "lang_materials/show", :locals => { :lang_materials => @accession.lang_materials, :section_id => "accession_lang_materials_" } %>
+          <% end %>
 
           <% if @accession.dates.length > 0 %>
             <%= render_aspace_partial :partial => "dates/show", :locals => { :dates => @accession.dates, :section_id => "accession_dates_" } %>
@@ -64,6 +78,10 @@
            <%= render_aspace_partial :partial => "related_resources/show", :locals => { :related_resources => @accession.related_resources, :section_id => "accession_related_resources_" } %>
          <% end %>
 
+         <% if @accession.component_links.length > 0 %>
+             <%= render_aspace_partial :partial => "component_links/show", :locals => { :component_links => @accession.component_links, :section_id => "accession_component_links_" } %>
+         <% end %>
+
          <% if @accession.related_accessions.length > 0 %>
            <%= render_aspace_partial :partial => "interrelated_accessions/show", :locals => { :related_accessions => @accession.related_accessions, :section_id => "accession_related_accessions_" } %>
          <% end %>
@@ -78,6 +96,10 @@
 
          <% if @accession.rights_statements.length > 0 %>
            <%= render_aspace_partial :partial => "rights_statements/show", :locals => { :rights_statements => @accession.rights_statements, :section_id => "accession_rights_statements_" } %>
+         <% end %>
+
+         <% if @accession.metadata_rights_declarations.length > 0 %>
+             <%= render_aspace_partial :partial => "metadata_rights_declarations/show", :locals => { :metadata_rights_declarations => @accession.metadata_rights_declarations, :section_id => "accession_metadata_rights_declarations_" } %>
          <% end %>
 
         <% if @accession.instances.length > 0 %>

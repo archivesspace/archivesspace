@@ -13,7 +13,7 @@
 
     <%=
       link_to_unless active || !enabled, text, url  do
-        link_to_if active, text, '#', :class => "active" do
+        link_to_if active, text, '#', :class => "active", :'aria-current' => 'page' do
           link_to text, "#"
         end
       end

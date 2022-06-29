@@ -2,7 +2,7 @@
 
 source 'https://rubygems.org'
 
-gem 'activesupport', '5.2.4.4'
+gem 'activesupport', '5.2.5'
 gem 'atomic', '= 1.0.1'
 gem 'excon', '>= 0.76.0'
 gem 'fog-aws', '2.0.0', require: false
@@ -14,3 +14,17 @@ gem 'nokogiri', '>= 1.10.8'
 gem 'rack-test', '~> 1.1.0'
 gem 'sinatra', '2.0.5', require: false
 gem 'sinatra-contrib', '2.0.5', require: false
+
+gem 'multi_json', '~> 1.15.0'
+gem 'multipart-post', '1.2.0'
+gem 'net-http-persistent', '2.8'
+gem 'json-schema', '1.0.10'
+
+group :test do
+  gem 'factory_bot', '~> 4.11', '>= 4.11.1'
+  gem 'ladle', '0.2.0'
+  gem 'rack-test', '~> 1.1.0'
+  gem 'rspec', '~> 3.6.0'
+  gem 'rspec-core'
+  gem 'simplecov', '0.7.1'
+end

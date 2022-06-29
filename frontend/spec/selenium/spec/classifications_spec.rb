@@ -31,6 +31,8 @@ describe 'Classifications' do
     @driver.clear_and_send_keys([:id, 'classification_title_'], test_classification)
 
     token_input = @driver.find_element(:id, 'token-input-classification_creator__ref_')
+
+    # generated name starts with "Name". For some reason, selenium is picking a different object when using the variable "@agent_sort_name"
     @driver.typeahead_and_select(token_input, @agent_sort_name)
 
     @driver.click_and_wait_until_gone(css: "form#classification_form button[type='submit']")
@@ -64,7 +66,7 @@ describe 'Classifications' do
     @driver.complete_4part_id('resource_id_%d_')
     @driver.find_element(:id, 'resource_level_').select_option('collection')
 
-    combo = @driver.find_element(xpath: '//*[@id="resource_lang_materials__0_"]/div[1]/div/div/div/div[1]/div/div/div/input[@type="text"]')
+    combo = @driver.find_element(xpath: '//*[@id="resource_lang_materials__0__language_and_script__language_"]')
     combo.clear
     combo.click
     combo.send_keys('eng')
@@ -76,13 +78,15 @@ describe 'Classifications' do
     @driver.find_element(id: 'resource_dates__0__date_type_').select_option('single')
     @driver.clear_and_send_keys([:id, 'resource_dates__0__begin_'], '1978')
 
-    combo = @driver.find_element(xpath: '//*[@id="finding_aid"]/div/div/fieldset/div[@class="form-group required"]/div[@class="col-sm-9"]/div[@class="combobox-container"][following-sibling::select/@id="resource_finding_aid_language_"]//input[@type="text"]')
+    sleep 2
+
+    combo = @driver.find_element(xpath: '//*[@id="resource_finding_aid_language_"]')
     combo.clear
     combo.click
     combo.send_keys('eng')
     combo.send_keys(:tab)
 
-    combo = @driver.find_element(xpath: '//*[@id="finding_aid"]/div/div/fieldset/div[@class="form-group required"]/div[@class="col-sm-9"]/div[@class="combobox-container"][following-sibling::select/@id="resource_finding_aid_script_"]//input[@type="text"]')
+    combo = @driver.find_element(xpath: '//*[@id="resource_finding_aid_script_"]')
     combo.clear
     combo.click
     combo.send_keys('Latn')
@@ -154,9 +158,10 @@ describe 'Classifications' do
     run_all_indexers
 
     @driver.get_view_page(a_classification)
-    expect(@driver.find_element(:css, '#search_embedded').text).to match(/#{a_resource.title}/)
+    expect(@driver.find_element(:css, '#classifications').text).to match(/#{a_resource.title}/)
+    sleep 30
     tree_click(tree_node(a_term))
     @driver.wait_for_ajax
-    expect(@driver.find_element(:css, '#search_embedded').text).to match(/#{an_accession.title}/)
+    expect(@driver.find_element(:css, '#classifications').text).to match(/#{an_accession.title}/)
   end
 end

@@ -5,7 +5,7 @@ class ArchivesSpaceService < Sinatra::Base
 
 
   # this is a leftover that's here for reports utility stuff
-  # Reports now live as Jobs. 
+  # Reports now live as Jobs.
 
   Endpoint.get('/reports')
   .description('List all reports')
@@ -29,13 +29,19 @@ class ArchivesSpaceService < Sinatra::Base
   end
 
 
-  # Endpoint.get('/reports/custom_data')
-  # .description('Get a list of availiable options for custom reports')
-  # .permissions([])
-  # .returns([200], "hash of availiable options") \
-  # do
-  #   json_response(CustomField.registered_fields)
-  # end
+  Endpoint.get('/reports/custom_data')
+  .description('Get a list of availiable options for custom reports')
+  .permissions([])
+  .example('shell') do
+    <<~SHELL
+      curl -H "X-ArchivesSpace-Session: $SESSION" \\
+        "http://localhost:8089/reports/custom_data"
+    SHELL
+  end
+  .returns([200], "hash of availiable options") \
+  do
+    json_response(CustomField.registered_fields)
+  end
 
 
 end

@@ -4,8 +4,14 @@ require_relative 'spec_slugs_helper'
 
 describe 'DigitalObjectComponent model' do
 
+  before(:each) do
+    allow(AppConfig).to receive(:[]).and_call_original
+    allow(AppConfig).to receive(:[]).with(:enable_representative_file_version) { true }
+  end
+
   it "Allows digital object components to be created" do
-    doc = create(:json_digital_object_component_unpub_ancestor)
+    doc = create(:json_digital_object_component,
+                 :has_unpublished_ancestor => true)
     bib_note = build(:json_note_bibliography)
     do_note = build(:json_note_digital_object)
     doc.notes = [bib_note, do_note]
@@ -25,6 +31,120 @@ describe 'DigitalObjectComponent model' do
       :repo_id => $repo_id)
 
     expect(DigitalObjectComponent[doc[:id]].display_string).to eq("#{title}, #{date1['expression']}, #{I18n.t("date_type_bulk.bulk")}: #{date2['expression']}")
+  end
+
+  it "doesn't allow an unpublished file_version to be representative" do
+    json = build(:json_digital_object_component, {
+                   :publish => true,
+                   :file_versions => [build(:json_file_version, {
+                                              :publish => false,
+                                              :is_representative => true,
+                                              :file_uri => 'http://foo.com/bar1',
+                                              :use_statement => 'image-service'
+                                            }),
+                                      build(:json_file_version, {
+                                              :publish => true,
+                                              :file_uri => 'http://foo.com/bar2',
+                                              :use_statement => 'image-service'
+                                            })
+                                     ]})
+
+    expect {
+      DigitalObjectComponent.create_from_json(json)
+    }.to raise_error(Sequel::ValidationFailed)
+
+    json = build(:json_digital_object_component, {
+                   :publish => true,
+                   :file_versions => [build(:json_file_version, {
+                                              :publish => true,
+                                              :is_representative => true,
+                                              :file_uri => 'http://foo.com/bar1',
+                                              :use_statement => 'image-service'
+                                            }),
+                                      build(:json_file_version, {
+                                              :publish => true,
+                                              :file_uri => 'http://foo.com/bar2',
+                                              :use_statement => 'image-service'
+                                            })
+                                     ]})
+
+    expect {
+      DigitalObjectComponent.create_from_json(json)
+    }.not_to raise_error
+  end
+
+  it "has a representative_file_version read-only value of the published file_version marked 'is_representative' if there is a file_version marked 'is_representative'" do
+    json = build(:json_digital_object_component, {
+                   :publish => true,
+                   :file_versions => [build(:json_file_version, {
+                                              :publish => true,
+                                              :file_uri => 'http://foo.com/bar1',
+                                              :use_statement => 'image-service'
+                                            }),
+                                      build(:json_file_version, {
+                                              :publish => true,
+                                              :is_representative => true,
+                                              :file_uri => 'http://foo.com/bar2',
+                                              :use_statement => 'image-service'
+                                            })
+                                     ]})
+
+    do1 = DigitalObjectComponent.create_from_json(json)
+    do1_json = DigitalObjectComponent.to_jsonmodel(do1.id)
+
+    expect(do1_json.representative_file_version).to eq(do1_json.file_versions[1])
+  end
+
+  it "has a representative_file_version read-only value of the first published file_version with a use-statement marked 'image-thumbnail' if there is no file_version marked 'is_representative'" do
+    json = build(:json_digital_object_component, {
+                   :publish => true,
+                   :file_versions => [build(:json_file_version, {
+                                              :publish => true,
+                                              :file_uri => 'http://foo.com/bar1',
+                                              :use_statement => 'image-service'
+                                            }),
+                                      build(:json_file_version, {
+                                              :publish => true,
+                                              :file_uri => 'http://foo.com/bar2',
+                                              :use_statement => 'image-thumbnail'
+                                            }),
+                                      build(:json_file_version, {
+                                              :publish => true,
+                                              :file_uri => 'http://foo.com/bar3',
+                                              :use_statement => 'image-thumbnail'
+                                            })
+                                     ]})
+
+    do1 = DigitalObjectComponent.create_from_json(json)
+    do1_json = DigitalObjectComponent.to_jsonmodel(do1.id)
+
+    expect(do1_json.representative_file_version).to eq(do1_json.file_versions[1])
+  end
+
+  it "has a representative_file_version read-only value of the first published file_version if there is no file_version marked 'is_representative' and there is no published file_version with a use-statement marked 'image-thumbnail'" do
+    json = build(:json_digital_object_component, {
+                   :publish => true,
+                   :file_versions => [build(:json_file_version, {
+                                              :publish => false,
+                                              :file_uri => 'http://foo.com/bar1',
+                                              :use_statement => 'image-service'
+                                            }),
+                                      build(:json_file_version, {
+                                              :publish => true,
+                                              :file_uri => 'http://foo.com/bar2',
+                                              :use_statement => 'image-service'
+                                            }),
+                                      build(:json_file_version, {
+                                              :publish => false,
+                                              :file_uri => 'http://foo.com/bar3',
+                                              :use_statement => 'image-thumbnail'
+                                            })
+                                     ]})
+
+    do1 = DigitalObjectComponent.create_from_json(json)
+    do1_json = DigitalObjectComponent.to_jsonmodel(do1.id)
+
+    expect(do1_json.representative_file_version).to eq(do1_json.file_versions[1])
   end
 
   describe "slug tests" do

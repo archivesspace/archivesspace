@@ -13,6 +13,13 @@
   hidden = false if hidden.blank?
   section_class = hidden ? "subrecord-form-hidden" : "subrecord-form"
 
+  if defined?(replace) && replace == true
+    replace_class = "merge-replace-enabled"
+  else
+    replace_class = "merge-replace-disabled" 
+  end
+
+
   required = form.required?(name) if required.blank?
 
   cardinality = :zero_to_many if cardinality.blank?
@@ -21,7 +28,7 @@
 <%= render_aspace_partial :partial => template_erb, :locals => {:form => form} %>
 
 
-<section id="<%= section_id %>" class="<%= section_class %><% if required == :conditionally %> conditionally-required<% elsif required %> required<% end %>" data-subrecord-form="true" data-object-name="<%= singular %>" data-template="<%= js_template_name %>" <% if custom_action_template %>data-custom-action="true"<% end %> data-cardinality="<%= cardinality %>">
+<section id="<%= section_id %>" class="<%= replace_class %> <%= section_class %><% if required == :conditionally %> conditionally-required<% elsif required %> required<% end %>" data-subrecord-form="true" data-object-name="<%= singular %>" data-template="<%= js_template_name %>" <% if custom_action_template %>data-custom-action="true"<% end %> data-cardinality="<%= cardinality %>">
 
   <div class="subrecord-form-container">
     <% if cardinality === :zero_to_one %>

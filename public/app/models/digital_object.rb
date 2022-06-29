@@ -1,6 +1,7 @@
 class DigitalObject < Record
 
   attr_reader :cite, :cite_item, :cite_item_description, :linked_instances
+
   def initialize(*args)
     super
 
@@ -44,12 +45,12 @@ class DigitalObject < Record
       for instance in json['linked_instances']
         uri = instance.dig('ref')
         record = linked_instance_for_uri(uri)
-        next if record.nil?
+        next if record.nil? || record['publish'].blank?
 
         results[uri] = record_for_type(record)
       end
     end
-    
+
     results
   end
 
@@ -61,11 +62,11 @@ class DigitalObject < Record
       cite = strip_mixed_content(display_string)
       cite += identifier.blank? ? '' : ", #{identifier}"
       cite += if container_display.blank? || container_display.length > 5
-        '.'
-      else
-        @citation_container_display ||= parse_container_display(:citation => true).join('; ')
-        ", #{@citation_container_display}."
-      end
+                '.'
+              else
+                @citation_container_display ||= parse_container_display(:citation => true).join('; ')
+                ", #{@citation_container_display}."
+              end
       unless repository_information['top']['name'].blank?
         cite += " #{ repository_information['top']['name']}."
       end
@@ -105,7 +106,7 @@ class DigitalObject < Record
       request[:restrict] = note['note_text']
     end
 
-    request[:hierarchy] = breadcrumb.reverse.drop(1).reverse.collect{|record| record[:crumb]}
+    request[:hierarchy] = breadcrumb.reverse.drop(1).reverse.collect {|record| record[:crumb]}
 
     request
   end

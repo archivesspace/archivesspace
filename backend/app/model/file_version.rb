@@ -3,27 +3,13 @@ require_relative 'mixins/publishable'
 class FileVersion < Sequel::Model(:file_version)
   include ASModel
   include Publishable
+  include Representative
 
   corresponds_to JSONModel(:file_version)
 
-  def before_validation
-    super
-
-    self.is_representative = nil if self.is_representative != 1
+  def representative_for_types
+    { is_representative: [:digital_object] }
   end
-
-
-  def validate
-    if is_representative
-      validates_unique([:is_representative, :digital_object_id],
-                       :message => "A digital object can only have one representative file version")
-      map_validation_to_json_property([:is_representative, :digital_object_id], :is_representative)
-
-    end
-
-    super
-  end
-
 
   def self.handle_publish_flag(ids, val)
     ASModel.update_publish_flag(self.filter(:id => ids), val)
@@ -39,6 +25,24 @@ class FileVersion < Sequel::Model(:file_version)
     end
 
     jsons
+  end
+
+  def validate
+    is_published = false
+    if self[:publish] == true || self[:publish] == 1
+      is_published = true
+    end
+
+    is_representative = false
+    if self[:is_representative] == true || self[:is_representative] == 1
+      is_representative = true
+    end
+
+    if !is_published && is_representative
+      raise Sequel::ValidationFailed.new("File version must be published to be representative.")
+    end
+
+    super
   end
 
 end

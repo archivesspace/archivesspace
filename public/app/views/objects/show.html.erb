@@ -16,8 +16,7 @@
     <% if  defined?(comp_id) && !comp_id && !@result['json']['ref_id'].blank? %>
       <span class='ref_id'>[<%=  t('archival_object._public.header.ref_id') %>: <%= @result['json']['ref_id'] %>]</span>
     <% end %>
-    <%= render partial: 'shared/digital', locals: {:dig_objs => @dig} %>
-
+    <%= render partial: 'shared/digital', locals: {:rep_fv => @rep_fv, :dig_objs => @dig} %>
     <%= render partial: 'shared/record_innards' %>
    </div>
 
@@ -30,7 +29,8 @@
           heading_text = t('cont_arr')
         end
       %>
-      <% if AppConfig[:pui_search_collection_from_archival_objects] %>
+
+      <% if AppConfig[:pui_search_collection_from_archival_objects] && @result.instance_of?(ArchivalObject) %>
         <%= render partial: 'shared/search_collection_form', :locals => {:resource_uri => @result.resource_uri, :action_text => "#{t('actions.search_in', :type => t('resource._singular'))}"} %>
       <% end %>
       <%= render partial: 'shared/children_tree', :locals => {:heading_text => heading_text, :root_node_uri => @result.root_node_uri, :current_node_uri => @result.uri} %>
@@ -39,4 +39,3 @@
   </div>
  <%= render partial: 'shared/modal_actions' %>
 </div>
-

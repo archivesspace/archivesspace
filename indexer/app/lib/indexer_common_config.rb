@@ -41,6 +41,7 @@ class IndexerCommonConfig
       'container_profile',
       'container_locations',
       'subjects',
+      'places',
 
       # EAD export depends on this
       'linked_agents',
@@ -66,8 +67,10 @@ class IndexerCommonConfig
       'collections',
       'surveyed_by',
       'reviewer',
+      'creator',
 
-      'creator'
+      #Accessions module depends on these
+      'related_accessions',
     ]
   end
 

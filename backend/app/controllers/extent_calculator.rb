@@ -1,7 +1,8 @@
 class ArchivesSpaceService < Sinatra::Base
 
   Endpoint.get('/extent_calculator')
-  .description("Calculate the extent of an archival object tree")
+  .description("Calculate the extent of an archival object tree. Allowed units include: inches, feet, centimeters,
+                meters.")
   .params(["record_uri", String, "The uri of the object"],
           ["unit", String, "The unit of measurement to use", :optional => true])
   .permissions([])

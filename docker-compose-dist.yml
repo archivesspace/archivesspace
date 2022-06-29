@@ -1,0 +1,50 @@
+# docker-compose -f docker-compose-dist.yml build
+# docker-compose -f docker-compose-dist.yml up -d db solr app # allow the migrations to run 1st or trouble
+# docker-compose -f docker-compose-dist.yml up # bring up everything else
+
+version: '3.8'
+services:
+  app:
+    image: archivesspace/archivesspace:latest
+    restart: on-failure
+    depends_on:
+      - db
+      - solr
+    env_file:
+      - .env.docker.release
+  app2:
+    image: archivesspace/archivesspace:latest
+    restart: on-failure
+    depends_on:
+      - db
+      - solr
+    env_file:
+      - .env.docker.release
+  db:
+    container_name: as_dist_db
+    image: mysql:8.0
+    command: --character-set-server=UTF8MB4 --innodb_buffer_pool_size=2G --innodb_buffer_pool_instances=2 --log_bin_trust_function_creators=1
+    ports:
+      - "3309:3306"
+    env_file:
+      - .env.docker.db
+  solr:
+    container_name: as_dist_solr
+    build:
+      context: ./solr
+    image: archivesspace/solr:latest
+    command: solr-create -p 8983 -c archivesspace -d archivesspace
+    ports:
+      - "8986:8983"
+  web:
+    container_name: as_dist_proxy
+    build:
+      args:
+        default: default.conf.dist
+      context: ./proxy
+    image: archivesspace/proxy-dist:1.21
+    ports:
+      - "80:80"
+    depends_on:
+      - app
+      - app2

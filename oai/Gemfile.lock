@@ -6,7 +6,7 @@ GEM
     rack (2.2.3)
     rack-protection (2.0.5)
       rack
-    ruby2_keywords (0.0.2)
+    ruby2_keywords (0.0.5)
     sinatra (2.0.5)
       mustermann (~> 1.0)
       rack (~> 2.0)

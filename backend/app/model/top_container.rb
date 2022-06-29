@@ -148,7 +148,7 @@ class TopContainer < Sequel::Model(:top_container)
   end
 
   def display_string
-    ["#{type ? type.capitalize : ''}", "#{indicator}:", series_label, format_barcode].compact.join(" ").gsub(/:\Z/,'')
+    ["#{type ? type.capitalize : ''}", "#{indicator}:", series_label, format_barcode].compact.join(" ").gsub(/:\Z/, '')
   end
 
 
@@ -159,7 +159,7 @@ class TopContainer < Sequel::Model(:top_container)
     location = related_records(:top_container_housed_at).first
     location &&= location.title
     resource = collections.first
-    resource &&= [Identifiers.format(Identifiers.parse(resource.identifier)),  resource.title].compact.join(", ")
+    resource &&= [Identifiers.format(Identifiers.parse(resource.identifier)), resource.title].compact.join(", ")
 
     # Long display string = container type container indicator [barcode: barcode], container profile name, location title, first resource/accession id, first resource/accession title, "series" label
     [container_bit, container_profile, location, resource, series_label].compact.join(", ")
@@ -231,7 +231,7 @@ class TopContainer < Sequel::Model(:top_container)
                                          "cannot be previous if Location is not temporary")
                             end
 
-                            super
+                            super()
                           end
 
                         end
@@ -362,7 +362,7 @@ class TopContainer < Sequel::Model(:top_container)
     relationship = TopContainer.find_relationship(:top_container_housed_at)
 
     begin
-      relationship.handle_delete(relationship.find_by_participant_ids(TopContainer, ids).select{|v| v.status == 'current'}.map(&:id))
+      relationship.handle_delete(relationship.find_by_participant_ids(TopContainer, ids).select {|v| v.status == 'current'}.map(&:id))
 
       unless location_uri.empty?
         location = Location[JSONModel(:location).id_for(location_uri)]
@@ -400,8 +400,8 @@ class TopContainer < Sequel::Model(:top_container)
   def self.bulk_update_barcodes(barcode_data)
     updated = []
 
-    ids = barcode_data.map{|uri,_| my_jsonmodel.id_for(uri)}
-    
+    ids = barcode_data.map {|uri, _| my_jsonmodel.id_for(uri)}
+
     # null out barcodes to avoid duplicate error as bulk updates are
     # applied
     TopContainer.filter(:id => ids).update(:barcode => nil)
@@ -419,7 +419,29 @@ class TopContainer < Sequel::Model(:top_container)
 
     TopContainer.update_mtime_for_ids(ids)
     updated
+  end
 
+
+  def self.bulk_update_indicators(indicator_data)
+    updated = []
+
+    ids = indicator_data.map {|uri, _| my_jsonmodel.id_for(uri)}
+
+    indicator_data.each do |uri, indicator|
+      next unless indicator #skip any records where indicator is not specified
+
+      id = my_jsonmodel.id_for(uri)
+
+      top_container = TopContainer[id]
+      top_container.indicator = indicator
+      top_container.system_mtime = Time.now
+
+      top_container.save(:columns => [:indicator, :system_mtime])
+      updated << id
+    end
+
+    TopContainer.update_mtime_for_ids(ids)
+    updated
   end
 
 
@@ -428,11 +450,11 @@ class TopContainer < Sequel::Model(:top_container)
       :records_ids_updated => []
     }
 
-    ids = location_data.map{|uri,_| my_jsonmodel.id_for(uri)}
+    ids = location_data.map {|uri, _| my_jsonmodel.id_for(uri)}
 
     # remove all 'current' locations
     relationship = TopContainer.find_relationship(:top_container_housed_at)
-    relationship.handle_delete(relationship.find_by_participant_ids(TopContainer, ids).select{|v| v.status == 'current'}.map(&:id))
+    relationship.handle_delete(relationship.find_by_participant_ids(TopContainer, ids).select {|v| v.status == 'current'}.map(&:id))
 
     now = Time.now
 
@@ -463,11 +485,11 @@ class TopContainer < Sequel::Model(:top_container)
     end
   end
 
-  TopContainer.update_mtime_for_ids(ids)
+    TopContainer.update_mtime_for_ids(ids)
 
-  out[:records_updated] = out[:records_ids_updated].length
+    out[:records_updated] = out[:records_ids_updated].length
 
-  out
+    out
   end
 
   def self.for_barcode(barcode)
@@ -485,7 +507,7 @@ class TopContainer < Sequel::Model(:top_container)
     # ... and all of their linked records
     ASModel.all_models.each do |model|
       next unless model.associations.include?(:instance)
-      association =  model.association_reflection(:instance)
+      association = model.association_reflection(:instance)
       key = association[:key]
       linked_ids = TopContainer.linked_instance_ds.
                    join(model.table_name, Sequel.qualify(model.table_name, :id) => Sequel.qualify(:instance, key)).
@@ -504,7 +526,7 @@ class TopContainer < Sequel::Model(:top_container)
      .filter(:top_container_link_rlshp__top_container_id => id)
      .select(:resource__id)
      .distinct
-     .all.map{|row| row[:id]}
+     .all.map {|row| row[:id]}
   end
 
   def self.resource_ids_linked_via_ao(id)
@@ -516,7 +538,7 @@ class TopContainer < Sequel::Model(:top_container)
      .filter(:top_container_link_rlshp__top_container_id => id)
      .select(:resource__id)
      .distinct
-     .all.map{|row| row[:id]}
+     .all.map {|row| row[:id]}
   end
 
   def self.touch_records(obj)

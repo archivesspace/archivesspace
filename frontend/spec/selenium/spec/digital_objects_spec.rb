@@ -8,6 +8,10 @@ describe 'Digital Objects' do
     set_repo @repo
 
     @do = create(:digital_object)
+    @cl = create(:classification)
+
+    run_all_indexers
+
     @do_child1 = create(:digital_object_component, digital_object: { ref: @do.uri })
     @do_child2 = create(:digital_object_component, digital_object: { ref: @do.uri })
 
@@ -55,7 +59,7 @@ describe 'Digital Objects' do
     @driver.click_and_wait_until_gone(css: "form#new_digital_object button[type='submit']")
 
     # The new Digital Object shows up on the tree
-    expect(@driver.find_element(css: 'tr.root-row .title').text.strip).to match(/#{digital_object_title}/)
+    expect(@driver.find_element(css: '.table-row.root-row .title').text.strip).to match(/#{digital_object_title}/)
   end
 
   it 'can handle multiple file versions and file system and network path types' do
@@ -72,6 +76,31 @@ describe 'Digital Objects' do
     @driver.find_element(:link, 'Close Record').click
     @driver.find_element_with_text('//h3', /File Versions/)
     @driver.click_and_wait_until_gone(:link, 'Edit')
+  end
+
+  it "make representative is disabled unless published is checked, and vice versa" do
+    @driver.find_element(:link, 'Create').click
+    @driver.click_and_wait_until_gone(:link, 'Digital Object')
+
+    @driver.clear_and_send_keys([:id, 'digital_object_title_'], digital_object_title)
+    @driver.clear_and_send_keys([:id, 'digital_object_digital_object_id_'], Digest::MD5.hexdigest(Time.now.to_s))
+
+    @driver.find_element(id: 'digital_object_digital_object_type_').select_option_with_text('Mixed Materials')
+
+    @driver.find_element(css: 'section#digital_object_file_versions_ > h3 > .btn:not(.show-all)').click
+
+    @driver.clear_and_send_keys([:id, 'digital_object_file_versions__0__file_uri_'], '/uri/for/this/file/version')
+    @driver.clear_and_send_keys([:id, 'digital_object_file_versions__0__file_size_bytes_'], '100')
+
+    @driver.click_and_wait_until_gone(css: "form#new_digital_object button[type='submit']")
+
+    # make sure is representative is disabled with publish is unchecked
+    is_rep_button = @driver.find_element(css: '.is-representative-toggle')
+    expect(is_rep_button.attribute('disabled')).to eq("true")
+
+    # make sure is representative is enabled when publish is checked
+    @driver.find_element(css: '.js-file-version-publish').click
+    expect(is_rep_button.attribute('disabled')).to be_nil
   end
 
   it 'reports errors if adding a child with no title to a Digital Object' do
@@ -177,6 +206,12 @@ describe 'Digital Objects' do
     expect(grand_child.attribute('class')).to include('indent-level-1')
   end
 
-  it 'can change default values' do
+  it 'can link a classification to digital object' do
+    @driver.get_edit_page(@do2)
+    @driver.find_element(css: '#digital_object_classifications_ button').click
+    token_input = @driver.find_element(:id, 'token-input-digital_object_classifications__0__ref_')
+    @driver.typeahead_and_select(token_input, @cl.title)
+    @driver.click_and_wait_until_gone(css: "form .record-pane button[type='submit']")
+    @driver.find_element(css: '#digital_object_classifications__0_')
   end
 end

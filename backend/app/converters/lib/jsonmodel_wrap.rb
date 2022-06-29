@@ -2,7 +2,6 @@ require 'jsonmodel'
 
 module ASpaceImport
   def self.JSONModel(type)
-
     @models ||= {}
     @models[type] ||= Class.new(JSONModel::JSONModel(type)) do
 
@@ -16,19 +15,17 @@ module ASpaceImport
         rescue JSONModel::ValidationException => e
 
           e.errors.reject! {|path, mssg|
-                            e.attribute_types &&
-                            e.attribute_types.has_key?(path) &&
-                            e.attribute_types[path] == 'ArchivesSpaceDynamicEnum'
+                              e.attribute_types &&
+                              e.attribute_types.has_key?(path) &&
+                              e.attribute_types[path] == 'ArchivesSpaceDynamicEnum'
                             }
 
           raise e unless e.errors.empty?
-
         end
       end
 
 
       def initialize(*args)
-
         super
 
         # Set a pre-save URI to be dereferenced by the backend
@@ -36,7 +33,6 @@ module ASpaceImport
           self.uri = self.class.uri_for(ASpaceImport::Utils.mint_id,
                                         :repo_id => "import")
         end
-
       end
 
       def key
@@ -50,6 +46,5 @@ module ASpaceImport
     end
 
     @models[type]
-
   end
 end

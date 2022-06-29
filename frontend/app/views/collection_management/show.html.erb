@@ -22,6 +22,10 @@
           <section id="basic_information">
             <h3><%= I18n.t("collection_management_record._frontend.section.basic_information") %></h3>
   
+            <%= render_plugin_partials("top_of_basic_information_collection_management",
+                                       :form => readonly,
+                                       :record => @collection_management) %>
+
             <div class="row label-and-value">
                <div class="col-md-3">Id</div>
                <div class="col-md-9"><%= @collection_management.id %></div>
@@ -72,6 +76,11 @@
                <div class="col-md-9"><%= @collection_management.rights_determined ? I18n.t("collection_management.rights_determined_true") : I18n.t("collection_management.rights_determined_false") %></div>
   
             </div>
+
+            <%= render_plugin_partials("basic_information_collection_management",
+                                       :form => readonly,
+                                       :record => @collection_management) %>
+
           </section>
   
           <section id="collection_management_linked_records_" class="subrecord-form-dummy">

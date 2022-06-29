@@ -86,7 +86,7 @@ class ImportArchivalObjects < BulkImportParser
     err_arr.join("; ")
   end
 
-  def process_row
+  def process_row(row_hash = nil)
     ao = nil
     ret_str = ""
     begin
@@ -184,6 +184,7 @@ class ImportArchivalObjects < BulkImportParser
       end
     end
     ao.resource = { "ref" => @resource["uri"] }
+    ao.ref_id = @row_hash['ref_id'] if @row_hash['ref_id']
     ao.component_id = @row_hash["unit_id"] if @row_hash["unit_id"]
     ao.repository_processing_note = @row_hash["processing_note"] if @row_hash["processing_note"]
 
@@ -208,11 +209,15 @@ class ImportArchivalObjects < BulkImportParser
       msg = I18n.t("bulk_import.error.initial_save_error", :title => ao.title, :msg => e.message)
       raise BulkImportException.new(msg)
     end
+
     ao.instances = create_top_container_instances
     dig_instance = nil
-    unless [@row_hash["digital_object_title"], @row_hash["digital_object_link"], @row_hash["thumbnail"], @row_hash["digital_object_id"]].reject(&:nil?).empty?
+    unless [@row_hash["digital_object_title"], @row_hash["thumbnail"], @row_hash["digital_object_link"], @row_hash["digital_object_id"]].reject(&:nil?).empty?
       begin
-        dig_instance = @doh.create(@row_hash["digital_object_title"], @row_hash["digital_object_link"], @row_hash["thumbnail"], @row_hash["digital_object_id"], @row_hash["publish"], ao, @report)
+        normalize_publish_column(@row_hash, 'digital_object_link_publish')
+        normalize_publish_column(@row_hash, 'thumbnail_publish')
+        normalize_publish_column(@row_hash, 'digital_object_publish')
+        dig_instance = @doh.create(@row_hash["digital_object_title"], @row_hash["thumbnail"], @row_hash["digital_object_link"], @row_hash["digital_object_id"], @row_hash["digital_object_publish"], ao, @report, @row_hash['digital_object_link_publish'], @row_hash['thumbnail_publish'])
       rescue Exception => e
         @report.add_errors(e.message)
       end

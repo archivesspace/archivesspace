@@ -63,7 +63,7 @@ describe 'User management' do
     @driver.find_element(:link, 'System').click
     @driver.click_and_wait_until_gone(:link, 'Manage Users')
 
-    @driver.find_paginated_element(xpath: "//td[contains(text(), '#{@test_user.username}')]/following-sibling::td/div/a").click
+    @driver.find_element(:id, "edit_#{@test_user.username}").click
 
     @user_props.each do |k, val|
       assert(5) { expect(@driver.find_element(css: "#user_#{k}_").attribute('value')).to match(val) }
@@ -90,5 +90,19 @@ describe 'User management' do
       @driver.navigate.to("#{$frontend}/users/1/edit")
       expect(@driver.find_element(:id, 'user_username_').attribute('readonly')).to eq('true')
     end
+  end
+
+  it "allows user to edit their own account" do
+    @driver.login(@test_user)
+
+    @driver.navigate.to("#{$frontend}/users/edit_self")
+
+    @driver.clear_and_send_keys([:id, 'user_name_'], "New Username")
+    @driver.clear_and_send_keys([:id, 'user_password_'], "newpassword123")
+    @driver.clear_and_send_keys([:id, 'user_confirm_password_'], "newpassword123")
+
+    @driver.find_element(:id, 'create_account').click
+
+    @driver.find_element_with_text('//div[contains(@class, "alert-success")]', /User Saved/)
   end
 end

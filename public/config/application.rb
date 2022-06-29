@@ -21,6 +21,7 @@ require 'aspace_logger'
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
+ASUtils.load_pry_aliases
 
 module ArchivesSpacePublic
   class Application < Rails::Application
@@ -35,20 +36,20 @@ module ArchivesSpacePublic
     config.action_controller.relative_url_root = AppConfig[:public_proxy_prefix].sub(/\/$/, '')
 
     # Load the shared 'locales'
-    ASUtils.find_locales_directories.map{|locales_directory| File.join(locales_directory)}.reject { |dir| !Dir.exist?(dir) }.each do |locales_directory|
+    ASUtils.find_locales_directories.map {|locales_directory| File.join(locales_directory)}.reject { |dir| !Dir.exist?(dir) }.each do |locales_directory|
       I18n.load_path += Dir[File.join(locales_directory, '**' , '*.{rb,yml}')].reject {|file| file =~ /public/}
     end
 
     I18n.load_path += Dir[Rails.root.join('config', 'locales', '**', '*.{rb,yml}')]
 
     # Load the PUI-specific locales to have them take priority over any others
-    ASUtils.find_locales_directories.map{|locales_directory| File.join(locales_directory)}.reject { |dir| !Dir.exist?(dir) }.each do |locales_directory|
+    ASUtils.find_locales_directories.map {|locales_directory| File.join(locales_directory)}.reject { |dir| !Dir.exist?(dir) }.each do |locales_directory|
       I18n.load_path += Dir[File.join(locales_directory, 'public', '**' , '*.{rb,yml}')]
     end
 
     # Allow overriding of the i18n locales via the 'local' folder(s)
     if not ASUtils.find_local_directories.blank?
-      ASUtils.find_local_directories.map{|local_dir| File.join(local_dir, 'public', 'locales')}.reject { |dir| !Dir.exist?(dir) }.each do |locales_override_directory|
+      ASUtils.find_local_directories.map {|local_dir| File.join(local_dir, 'public', 'locales')}.reject { |dir| !Dir.exist?(dir) }.each do |locales_override_directory|
         I18n.load_path += Dir[File.join(locales_override_directory, '**' , '*.{rb,yml}')]
       end
     end
@@ -57,21 +58,21 @@ module ArchivesSpacePublic
 
     # Add template static assets to the path
     if not ASUtils.find_local_directories.blank?
-      ASUtils.find_local_directories.map{|local_dir| File.join(local_dir, 'public', 'assets')}.reject { |dir| !Dir.exist?(dir) }.each do |static_directory|
+      ASUtils.find_local_directories.map {|local_dir| File.join(local_dir, 'public', 'assets')}.reject { |dir| !Dir.exist?(dir) }.each do |static_directory|
         config.assets.paths.unshift(static_directory)
       end
     end
 
     # add fonts to the asset path
     config.assets.paths << Rails.root.join("app", "assets", "fonts")
-    
-    # Logging 
+
+    # Logging
     config.log_formatter = ::Logger::Formatter.new
-    logger = if AppConfig.changed?(:pui_log) 
-                      ASpaceLogger.new(AppConfig[:pui_log]) 
-                    else 
-                      ASpaceLogger.new($stderr)
-                    end
+    logger = if AppConfig.changed?(:pui_log)
+               ASpaceLogger.new(AppConfig[:pui_log])
+             else
+               ASpaceLogger.new($stderr)
+             end
     logger.formatter = config.log_formatter
     config.logger = ActiveSupport::TaggedLogging.new(logger)
 
@@ -101,7 +102,7 @@ module ArchivesSpacePublic
 end
 
 # Load plugin init.rb files (if present)
-ASUtils.find_local_directories('public').each do |dir|
+ASUtils.order_plugins(ASUtils.find_local_directories('public')).each do |dir|
   init_file = File.join(dir, "plugin_init.rb")
   if File.exist?(init_file)
     load init_file

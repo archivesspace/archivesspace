@@ -15,7 +15,7 @@ class ImportDigitalObjects < BulkImportParser
     dig_instance = nil
     begin
       dig_instance = @doh.create(@row_hash["digital_object_title"],
-                                 @row_hash["thumbnail"], @row_hash["digital_object_link"], @row_hash["digital_object_id"], @row_hash["publish"], ao, @report)
+                                 @row_hash["thumbnail"], @row_hash["digital_object_link"], @row_hash["digital_object_id"], @row_hash["publish"], ao, @report, @row_hash['digital_object_link_publish'], @row_hash['thumbnail_publish'])
     rescue Exception => e
       @report.add_errors(e.message)
     end
@@ -90,8 +90,9 @@ class ImportDigitalObjects < BulkImportParser
         err_arr.push I18n.t("bulk_import.error.no_uri_or_ref")
       end
     end
-    v = @row_hash["publish"]
-    @row_hash["publish"] = (v == "1")
+    normalize_publish_column(@row_hash)
+    normalize_publish_column(@row_hash, 'digital_object_link_publish')
+    normalize_publish_column(@row_hash, 'thumbnail_publish')
     err_arr.join("; ")
   end
 
@@ -107,18 +108,6 @@ class ImportDigitalObjects < BulkImportParser
       errs << I18n.t("bulk_import.error.bad_ao", :errs => result[:errs])
     else
       @report.add_archival_object(ao)
-      if ao.instances
-        digs = []
-        ao.instances.each { |instance| digs.append(1) if instance["instance_type"] == "digital_object" }
-        if !digs.empty?
-          err = I18n.t("bulk_import.error.has_dig_obj")
-          if @validate_only
-            errs << err
-          else
-            errs << I18n.t("bulk_import.row_error", :row => @counter, :errs => err)
-          end
-        end
-      end
     end
     ao
   end

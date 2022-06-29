@@ -32,7 +32,6 @@ module SearchHelper
   end
 
   def build_search_params(opts = {})
-
     removing_record_type_filter = false
     Array(opts["remove_filter_term"]).each do |filter_term|
       removing_record_type_filter = true if ASUtils.json_parse(filter_term).keys.include? 'primary_type'
@@ -42,8 +41,8 @@ module SearchHelper
 
     search_params["filter_term"] = Array(opts["filter_term"] || params["filter_term"]).clone
     search_params["filter_term"].concat(Array(opts["add_filter_term"])) if opts["add_filter_term"]
-    search_params["filter_term"] = search_params["filter_term"].reject{|f| Array(opts["remove_filter_term"]).include?(f)} if opts["remove_filter_term"]
-    search_params["filter_term"] = search_params["filter_term"].select{|f| SearchResultData.BASE_FACETS.include?(ASUtils.json_parse(f).keys.first)} if removing_record_type_filter
+    search_params["filter_term"] = search_params["filter_term"].reject {|f| Array(opts["remove_filter_term"]).include?(f)} if opts["remove_filter_term"]
+    search_params["filter_term"] = search_params["filter_term"].select {|f| SearchResultData.BASE_FACETS.include?(ASUtils.json_parse(f).keys.first)} if removing_record_type_filter
 
     sort = (opts["sort"] || params["sort"] || (@search_data ? @search_data.sorted? : nil))
 
@@ -58,7 +57,7 @@ module SearchHelper
     if (opts["format"] || params["format"]).blank?
       search_params.delete("format")
     else
-      search_params["format"] =  opts["format"] || params["format"]
+      search_params["format"] = opts["format"] || params["format"]
     end
 
     search_params["multiplicity"] = params["multiplicity"] if params["multiplicity"]
@@ -83,7 +82,7 @@ module SearchHelper
       end
     end
 
-    search_params.reject{|k,v| k.blank? or v.blank?}
+    search_params.reject {|k, v| k.blank? or v.blank?}
   end
 
   def allow_multiselect?
@@ -91,6 +90,10 @@ module SearchHelper
   end
 
   def can_edit_search_result?(record)
+    Plugins.edit_roles.each do |edit_role|
+      return user_can?(edit_role.role, record['id']) if record['primary_type'] === edit_role.jsonmodel_type
+    end
+
     return user_can?('update_container_record', record['id']) if record['primary_type'] === "top_container"
     return user_can?('update_container_profile_record') if record['primary_type'] === "container_profile"
     return user_can?('manage_repository', record['id']) if record['primary_type'] === "repository"
@@ -103,6 +106,8 @@ module SearchHelper
     return user_can?('update_resource_record') if ["resource", "archival_object"].include?(record['primary_type'])
     return user_can?('update_digital_object_record') if ["digital_object", "digital_object_component"].include?(record['primary_type'])
     return user_can?('update_assessment_record') if record['primary_type'] === "assessment"
+    return user_can?('update_event_record') if record['primary_type'] === "event"
+    return user_can?('update_location_profile_record') if record['primary_type'] === "location_profile"
   end
 
   def can_delete_search_results?(record_type)
@@ -129,12 +134,10 @@ module SearchHelper
   def locales(model)
     case model
     when 'resource', 'archival_object'
-      {'level' => 'archival_record_level', 'language' => 'language_iso639_2',
+      {'level' => 'archival_record_level',
         'processing_priority' => 'collection_management_processing_priority'}
     when 'accession'
       {'processing_priority' => 'collection_management_processing_priority'}
-    when 'digital_object', 'digital_object_component'
-      {'language' => 'language_iso639_2'}
     when 'subject'
       {'source' => 'subject_source', 'first_term_type' => 'subject_term_type'}
     when 'agent'
@@ -157,24 +160,24 @@ module SearchHelper
 
   def add_column(label, opts = {}, block = nil)
     block ||= if opts[:template]
-      proc do |record|
-        render_aspace_partial :partial => opts[:template], :locals => {:record => record}
-      end
-    else
-      proc do |record|
-        v = Array(record[opts[:field]] || ASUtils.json_parse(record['json'])[opts[:field]])
-        if v.length > 1
-          content_tag('ul', :style => 'padding-left: 20px;') {
-            Array(v).collect { |i|
-              content_tag('li',
-                process(i, opts))
-            }.join.html_safe
-          }
-        elsif v.length == 1
-          process(v[0], opts)
-        end
-      end
-    end
+                proc do |record|
+                  render_aspace_partial :partial => opts[:template], :locals => {:record => record}
+                end
+              else
+                proc do |record|
+                  v = Array(record[opts[:field]] || ASUtils.json_parse(record['json'])[opts[:field]])
+                  if v.length > 1
+                    content_tag('ul', :style => 'padding-left: 20px;') {
+                      Array(v).collect { |i|
+                        content_tag('li',
+                          process(i, opts))
+                      }.join.html_safe
+                    }
+                  elsif v.length == 1
+                    process(v[0], opts)
+                  end
+                end
+              end
 
     @columns ||= []
 
@@ -219,7 +222,7 @@ module SearchHelper
   end
 
   def add_pref_columns(models)
-    models = [models] unless models.is_a? Array
+    models = Array(models) unless models.is_a? Array
     added = []
     skipped = []
     if models.length > 1
@@ -232,11 +235,15 @@ module SearchHelper
         prop = browse_columns["#{model}_browse_column_#{n}"]
         # we do not want to display a column for no value or the relevancy score
         next if added.include?(prop) || !prop || prop == 'no_value' || prop == 'score'
-
+        # we may not want to display context either, in cases like:
+        if prop === 'context' && model === 'archival_object' && params["context_filter_term"]
+          next if params["context_filter_term"].select {|ft| JSON.parse(ft).has_key?('resource')}
+        end
         opts = column_opts[model][prop]
         opts[:locale_key] ||= locales(model)[prop] || "#{model}_#{prop}"
         opts[:model] = model
         # opts[:type] ||= 'string'
+        opts[:class] ||= prop
 
         if opts.fetch(:condition, false)
           unless opts[:condition].call(self)
@@ -272,7 +279,7 @@ module SearchHelper
   end
 
   def add_actions_column
-    add_column(sr_only('Actions'), {:template => 'shared/actions',
+    add_column(sr_only(I18n.t('search_results.actions')), {:template => 'shared/actions',
       :class => 'actions table-record-actions'})
   end
 
@@ -362,7 +369,6 @@ module SearchHelper
     add_columns unless @columns
     @columns.collect { |col| col.field }.compact
   end
-
 
 
   class SearchColumn

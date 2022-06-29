@@ -62,10 +62,10 @@ describe 'Resources controller' do
 
 
   it "doesn't let you create a resource without at least one language" do
-    expect {
-      create(:json_resource,
-             :lang_materials => nil)
-    }.to raise_error(JSONModel::ValidationException)
+     expect {
+       create(:json_resource,
+              :lang_materials => nil)
+     }.to raise_error(JSONModel::ValidationException)
    end
 
 
@@ -279,7 +279,7 @@ describe 'Resources controller' do
 
   it "supports resolving subjects" do
 
-    test_subject_term = generate(:term)
+    test_subject_term = generate(:generic_term)
 
     vocab = create(:json_vocabulary)
 
@@ -479,11 +479,55 @@ describe 'Resources controller' do
   end
 
 
+  it "unpublishes the resource, subrecords and components when /unpublish is POSTed" do
+    resource = create(:json_resource, {
+      :publish => true,
+      :external_documents => [build(:json_external_document, {:publish => true})],
+      :notes => [build(:json_note_bibliography, {:publish => true})]
+    })
+
+
+    vocab = create(:json_vocabulary)
+    vocab_uri = JSONModel(:vocabulary).uri_for(vocab.id)
+
+    subject = create(:json_subject,
+                     :terms => [build(:json_term, :vocabulary => vocab_uri)],
+                     :vocabulary => vocab_uri)
+
+
+    archival_object = create(:json_archival_object, {
+      :publish => true,
+      :resource => {:ref => resource.uri},
+      :external_documents => [build(:json_external_document, {:publish => true})],
+      :notes => [build(:json_note_bibliography, {:publish => true})],
+      :subjects => [{:ref => subject.uri}]
+    })
+
+    url = URI("#{JSONModel::HTTP.backend_url}#{resource.uri}/unpublish")
+
+    request = Net::HTTP::Post.new(url.request_uri)
+    response = JSONModel::HTTP.do_http_request(url, request)
+
+
+    resource = JSONModel(:resource).find(resource.id)
+    expect(resource.publish).to be_falsey
+    expect(resource.external_documents[0]["publish"]).to be_falsey
+    expect(resource.notes[0]["publish"]).to be_falsey
+
+    archival_object = JSONModel(:archival_object).find(archival_object.id)
+    expect(archival_object.publish).to be_falsey
+    expect(archival_object.external_documents[0]["publish"]).to be_falsey
+    expect(archival_object.notes[0]["publish"]).to be_falsey
+  end
+
+
   it "allows posting of array of children" do
     resource = create(:json_resource)
 
-    archival_object_1 = build(:json_archival_object)
-    archival_object_2 = build(:json_archival_object)
+    archival_object_1 = build(:json_archival_object,
+                              :dates => [])
+    archival_object_2 = build(:json_archival_object,
+                              :dates => [])
 
     children = JSONModel(:archival_record_children).from_hash({
                                                                 "children" => [archival_object_1, archival_object_2]
@@ -505,10 +549,18 @@ describe 'Resources controller' do
 
   it "accepts move of multiple children" do
     resource = create(:json_resource)
-    ao = create(:json_archival_object, :resource => {:ref => resource.uri})
+    ao = create(:json_archival_object,
+                :dates => [],
+                :resource => {:ref => resource.uri})
 
-    child_1 = create(:json_archival_object, :resource => {:ref => resource.uri}, :parent => {:ref => ao.uri})
-    child_2 = create(:json_archival_object, :resource => {:ref => resource.uri}, :parent => {:ref => ao.uri})
+    child_1 = create(:json_archival_object,
+                     :dates => [],
+                     :resource => {:ref => resource.uri},
+                     :parent => {:ref => ao.uri})
+    child_2 = create(:json_archival_object,
+                     :dates => [],
+                     :resource => {:ref => resource.uri},
+                     :parent => {:ref => ao.uri})
 
     response = JSONModel::HTTP::post_form("#{resource.uri}/accept_children", {"children[]" => [child_1.uri, child_2.uri], "position" => 0})
     json_response = ASUtils.json_parse(response.body)
@@ -561,13 +613,21 @@ describe 'Resources controller' do
 
   end
 
-  it "includes the ARK name in the resource's JSON" do
-    AppConfig[:arks_enabled] = true
-    resource = create(:json_resource)
-    ArkName.create_from_resource(resource)
-    uri = JSONModel(:resource).uri_for(resource.id)
-    json = JSONModel::HTTP.get_json(uri)
-    expect(json['ark_name']).to_not be_nil
-    expect(json['ark_name']['id']).to_not be_nil
+  describe "ARKs" do
+
+    before(:all) do
+      AppConfig[:arks_enabled] = true
+    end
+
+    it "includes the ARK name in the resource's JSON" do
+      resource = create(:json_resource)
+
+      uri = JSONModel(:resource).uri_for(resource.id)
+      json = JSONModel::HTTP.get_json(uri)
+
+      expect(json['ark_name']).to_not be_nil
+      expect(json['ark_name']['current']).to_not be_nil
+    end
+
   end
 end

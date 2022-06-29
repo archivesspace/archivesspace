@@ -134,26 +134,25 @@ describe 'Accession model' do
                                         ]
                                        ),
                                 :repo_id => $repo_id)
-
     }.to raise_error(Sequel::ValidationFailed)
   end
 
   it "allows an accession created with external documents with same title duplicate locations" do
 
-     accession =  Accession.create_from_json(build(:json_accession,
-                                       :external_documents => [
-                                          {
-                                            "title" => "My external document",
-                                            "location" => "http://www.foobar.com",
-                                          },
-                                          {
-                                            "title" => "My duplicate external document",
-                                            "location" => "http://www.foobar.com",
-                                          },
-                                        ]
-                                       ),
-                                :repo_id => $repo_id)
-       expect(Accession[accession[:id]].external_document.length).to eq(2)
+    accession = Accession.create_from_json(build(:json_accession,
+                                      :external_documents => [
+                                         {
+                                           "title" => "My external document",
+                                           "location" => "http://www.foobar.com",
+                                         },
+                                         {
+                                           "title" => "My duplicate external document",
+                                           "location" => "http://www.foobar.com",
+                                         },
+                                       ]
+                                      ),
+                               :repo_id => $repo_id)
+    expect(Accession[accession[:id]].external_document.length).to eq(2)
   end
 
 
@@ -365,6 +364,13 @@ describe 'Accession model' do
 
     expect(Accession.to_jsonmodel(ernie.id)['related_accessions'].first['ref']).to eq(bert.uri)
     expect(Accession.to_jsonmodel(bert.id)['related_accessions'].first['ref']).to eq(ernie.uri)
+  end
+
+  it "can link an accession and a resource component (archival object)" do
+    linked_component = create(:json_archival_object)
+    accession = create(:json_accession, component_links: [{'ref' => linked_component.uri}])
+    linked_component = ArchivalObject.to_jsonmodel(linked_component.id)
+    expect(linked_component['accession_links'][0]['ref']).to eq(accession.uri)
   end
 
   describe "slug tests" do

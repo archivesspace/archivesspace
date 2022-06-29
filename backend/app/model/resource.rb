@@ -17,6 +17,7 @@ class Resource < Sequel::Model(:resource)
   include Notes
   include ExternalIDs
   include CollectionManagements
+  include MetadataRights
   include UserDefineds
   include ComponentsAddChildren
   include Classifications
@@ -27,8 +28,9 @@ class Resource < Sequel::Model(:resource)
   include RevisionStatements
   include ReindexTopContainers
   include RightsRestrictionNotes
-  include RepresentativeImages
+  include RepresentativeFileVersion
   include Assessments::LinkedRecord
+  include Arks
 
   enable_suppression
 
@@ -55,8 +57,8 @@ class Resource < Sequel::Model(:resource)
                 :generator => proc { |json|
                   if AppConfig[:use_human_readable_urls]
                     if json["is_slug_auto"]
-                      AppConfig[:auto_generate_slugs_with_id] ? 
-                        SlugHelpers.id_based_slug_for(json, Resource) : 
+                      AppConfig[:auto_generate_slugs_with_id] ?
+                        SlugHelpers.id_based_slug_for(json, Resource) :
                         SlugHelpers.name_based_slug_for(json, Resource)
                     else
                       json["slug"]

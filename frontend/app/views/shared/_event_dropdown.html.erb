@@ -3,14 +3,15 @@
 %>
 
   <div id="add-event-dropdown" class="btn-group dropdown" data-no-change-tracking="true" data-add-event-url="<%= add_new_event_url(record)  %>">
-    <a class="btn btn-sm btn-default dropdown-toggle add-event-action" data-toggle="dropdown" href="#" title="<%= I18n.t("actions.add_event") %>">
+    <button class="btn btn-sm btn-default dropdown-toggle add-event-action" data-toggle="dropdown" role="button" aria-expanded="false" title="<%= I18n.t("actions.add_event") %>">
       <%= I18n.t("actions.add_event") %> <span class="caret"></span>
-    </a>
+    </button>
     <ul class="dropdown-menu add-event-form open-aligned-right">
       <li>
         <%= form_context :add_event, {} do |form| %>
           <fieldset>
             <legend class="sr-only">Add event:</legend>
+            <label for="add_event_event_type"><%=  I18n.t("actions.add_event_event_type") %></label>
             <%= select_tag "add_event_event_type", options_for_select(event_types.map{|event_type| [I18n.t("enumerations.event_event_type.#{event_type}", :default => event_type), event_type]}), :'aria-labelledby' => "form_add_event" %>
           </fieldset>
           <div class="form-actions">
@@ -21,4 +22,3 @@
       </li>
     </ul>
   </div>
-

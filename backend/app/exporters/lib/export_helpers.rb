@@ -14,12 +14,12 @@ module ASpaceExport
 
 
     def bibliographies
-      self.notes.select{|n| n['jsonmodel_type'] == 'note_bibliography'}
+      self.notes.select {|n| n['jsonmodel_type'] == 'note_bibliography'}
     end
 
 
     def indexes
-      self.notes.select{|n| n['jsonmodel_type'] == 'note_index'}
+      self.notes.select {|n| n['jsonmodel_type'] == 'note_index'}
     end
 
 
@@ -38,12 +38,12 @@ module ASpaceExport
       }
     end
 
-    def controlaccess_linked_agents
+    def controlaccess_linked_agents(include_unpublished = false)
       unless @controlaccess_linked_agents
         results = []
         linked = self.linked_agents || []
         linked.each_with_index do |link, i|
-          next if link['role'] == 'creator' || (link['_resolved']['publish'] == false && !@include_unpublished)
+          next if link['role'] == 'creator' || (link['_resolved']['publish'] == false && !include_unpublished)
           role = link['relator'] ? link['relator'] : (link['role'] == 'source' ? 'fmo' : nil)
 
           agent = link['_resolved'].dup
@@ -55,7 +55,7 @@ module ASpaceExport
 
           if link['terms'].length > 0
             content << " -- "
-            content << link['terms'].map{|t| t['term']}.join(' -- ')
+            content << link['terms'].map {|t| t['term']}.join(' -- ')
           end
 
           node_name = case agent['agent_type']
@@ -93,7 +93,7 @@ module ASpaceExport
                       when 'function'; 'function'
                       when 'genre_form', 'style_period';  'genreform'
                       when 'geographic', 'cultural_context'; 'geogname'
-                      when 'occupation';  'occupation'
+                      when 'occupation'; 'occupation'
                       when 'topical'; 'subject'
                       when 'uniform_title'; 'title'
                       else; nil
@@ -101,7 +101,7 @@ module ASpaceExport
 
           next unless node_name
 
-          content = subject['terms'].map{|t| t['term']}.join(' -- ')
+          content = subject['terms'].map {|t| t['term']}.join(' -- ')
 
           atts = {}
           atts['source'] = subject['source'] if subject['source']
@@ -128,14 +128,14 @@ module ASpaceExport
             normal_suffix = (date['date_type'] == 'single' || date['end'].nil? || date['end'] == date['begin']) ? date['begin'] : date['end']
             normal += normal_suffix ? normal_suffix : ""
           end
-          type = ( date['date_type'] == 'inclusive' ) ? 'inclusive' :  ( ( date['date_type'] == 'single') ? nil : 'bulk')
+          type = ( date['date_type'] == 'inclusive' ) ? 'inclusive' : ( ( date['date_type'] == 'single') ? nil : 'bulk')
           content = if date['expression']
-                    date['expression']
-                  elsif date['end'].nil? || date['end'] == date['begin']
-                    date['begin']
-                  else
-                    "#{date['begin']}-#{date['end']}"
-                  end
+                      date['expression']
+                    elsif date['end'].nil? || date['end'] == date['begin']
+                      date['begin']
+                    else
+                      "#{date['begin']}-#{date['end']}"
+                    end
 
           atts = {}
           atts[:type] = type if type

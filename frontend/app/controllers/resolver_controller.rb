@@ -1,6 +1,6 @@
 class ResolverController < ApplicationController
 
-  set_access_control  :public => [:resolve_edit, :resolve_readonly]
+  set_access_control :public => [:resolve_edit, :resolve_readonly]
 
 
   def resolve_edit

@@ -76,18 +76,18 @@ class Job < Sequel::Model(:job)
 
 
   def self.create_from_json(json, opts = {})
-    if json.job_params == "null" 
+    if json.job_params == "null"
       json.job_params = ""
     end
 
     # force a validation on the job
     job = JSONModel(json.job['jsonmodel_type'].intern).from_hash(json.job)
 
+    opts = opts.merge(:job_params => ASUtils.to_json(json.job_params)) unless json.job_params.nil?
     super(json, opts.merge(:time_submitted => Time.now,
                            :owner_id => opts.fetch(:user).id,
                            :job_type => json.job['jsonmodel_type'],
-                           :job_blob => ASUtils.to_json(json.job),
-                           :job_params => ASUtils.to_json(json.job_params) 
+                           :job_blob => ASUtils.to_json(json.job)
                           ))
   end
 
@@ -95,8 +95,14 @@ class Job < Sequel::Model(:job)
   def self.sequel_to_jsonmodel(objs, opts = {})
     jsons = super
     jsons.zip(objs).each do |json, obj|
-      json.job = JSONModel(obj.type.intern).from_hash(obj.job)
+      begin
+        json.job = JSONModel(obj.type.intern).from_hash(obj.job)
+      rescue JSONModel::ModelNotFound => e
+        json.job = obj.job_type
+        json.inactive_record = true
+      end
       json.owner = obj.owner.username
+      json.has_modified_records = obj.modified_records.first || obj.created_records.first
       json.queue_position = obj.queue_position if obj.status === 'queued'
     end
 
@@ -115,7 +121,7 @@ class Job < Sequel::Model(:job)
 
 
   def self.running_jobs_untouched_since(time)
-    self.any_repo.filter(:status => "running").where { system_mtime < time } 
+    self.any_repo.filter(:status => "running").where { system_mtime < time }
   end
 
 
@@ -194,6 +200,12 @@ class Job < Sequel::Model(:job)
     self.status = [:canceled, :failed].include?(status) ? status.to_s : 'completed'
     self.time_finished = Time.now
     self.save
+  end
+
+
+  def running?
+    self.reload
+    self.status == 'running'
   end
 
 

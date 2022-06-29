@@ -1,7 +1,6 @@
 class AssessmentConservationIssuesSubreport < AbstractSubreport
 
-  register_subreport('conservation_issues', ['assessment'],
-    :translation => 'assessment._frontend.conservation_issues')
+  register_subreport('conservation_issues', ['assessment'])
 
   def initialize(parent_report, assessment_id)
     super(parent_report)

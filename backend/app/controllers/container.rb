@@ -92,6 +92,7 @@ class ArchivesSpaceService < Sinatra::Base
             ["ils_holding_id", String, "Value to set for ils_holding_id"],
             ["repo_id", :repo_id])
     .permissions([:manage_container_record])
+    .no_data(true)
     .returns([200, :updated]) \
   do
     result = TopContainer.batch_update(params[:ids], :ils_holding_id => params[:ils_holding_id])
@@ -105,6 +106,7 @@ class ArchivesSpaceService < Sinatra::Base
             ["container_profile_uri", String, "The uri of the container profile"],
             ["repo_id", :repo_id])
     .permissions([:manage_container_record])
+    .no_data(true)
     .returns([200, :updated]) \
   do
     result = TopContainer.bulk_update_container_profile(params[:ids], params[:container_profile_uri])
@@ -152,10 +154,28 @@ class ArchivesSpaceService < Sinatra::Base
   .params(["barcode_data", String, "JSON string containing barcode data {uri=>barcode}", :body => true],
           ["repo_id", :repo_id])
   .permissions([:manage_container_record])
+  .no_data(true)
   .returns([200, :updated]) \
   do
     begin
       updated = TopContainer.bulk_update_barcodes(ASUtils.json_parse(params[:barcode_data]))
+      json_response(:updated => updated)
+    rescue Sequel::ValidationFailed => e
+      json_response({:error => e.errors, :uri => e.model.uri}, 400)
+    end
+  end
+
+
+  Endpoint.post('/repositories/:repo_id/top_containers/bulk/indicators')
+  .description("Bulk update indicators")
+  .params(["indicator_data", String, "JSON string containing indicator data {uri=>indicator}", :body => true],
+          ["repo_id", :repo_id])
+  .permissions([:manage_container_record])
+  .no_data(true)
+  .returns([200, :updated]) \
+  do
+    begin
+      updated = TopContainer.bulk_update_indicators(ASUtils.json_parse(params[:indicator_data]))
       json_response(:updated => updated)
     rescue Sequel::ValidationFailed => e
       json_response({:error => e.errors, :uri => e.model.uri}, 400)
@@ -168,6 +188,7 @@ class ArchivesSpaceService < Sinatra::Base
   .params(["location_data", String, "JSON string containing location data {container_uri=>location_uri}", :body => true],
           ["repo_id", :repo_id])
   .permissions([:manage_container_record])
+  .no_data(true)
   .returns([200, :updated]) \
   do
     begin

@@ -19,7 +19,7 @@ class AgentCorporateEntity < Sequel::Model(:agent_corporate_entity)
 
   # This only runs when generating slugs by ID, since we have access to the authority_id in the JSON
   auto_generate :property => :slug,
-                :generator => proc { |json| 
+                :generator => proc { |json|
                   if AppConfig[:use_human_readable_urls]
                     if json["is_slug_auto"]
                       SlugHelpers.id_based_slug_for(json, AgentCorporateEntity) if AppConfig[:auto_generate_slugs_with_id]
@@ -27,7 +27,7 @@ class AgentCorporateEntity < Sequel::Model(:agent_corporate_entity)
                       json["slug"]
                     end
                   end
-                }               
+                }
 
 
   def delete

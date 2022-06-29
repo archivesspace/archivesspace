@@ -4,5 +4,5 @@
 //= require embedded_search
 
 $(function () {
-  $(document).triggerHandler("loadedrecordform.aspace", [$("#form_accession")]);
+  $(document).triggerHandler('loadedrecordform.aspace', [$('#form_accession')]);
 });

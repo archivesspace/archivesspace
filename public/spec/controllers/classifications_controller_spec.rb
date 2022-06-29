@@ -33,14 +33,19 @@ describe ClassificationsController, type: :controller do
       end
     end.flatten
 
-    run_all_indexers
+    run_indexers
   end
 
   it 'should show the published classification' do
     expect(get(:index)).to have_http_status(200)
     results = assigns(:results)
-    expect(results['total_hits']).to eq(1)
-    expect(results.records.first['title']).to eq(@classification['title'])
+    expect(results['total_hits']).to eq(2)
+
+    found = 0
+    results.records.each do |r|
+      found = 1 if r['title'] == @classification['title']
+    end
+    expect(found).to eq(1)
   end
 
   describe 'Tree Node Actions' do

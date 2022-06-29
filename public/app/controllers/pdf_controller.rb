@@ -1,6 +1,6 @@
 require 'java'
 
-class PdfController <  ApplicationController
+class PdfController < ApplicationController
 
   PDF_MUTEX = java.util.concurrent.Semaphore.new(AppConfig[:pui_max_concurrent_pdfs])
 

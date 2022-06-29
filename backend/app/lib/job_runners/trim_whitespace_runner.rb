@@ -3,7 +3,6 @@ class TrimWhitespaceRunner < JobRunner
 
   def run
     begin
-
       modified_records = []
 
       RequestContext.open(:repo_id => @job.repo_id) do

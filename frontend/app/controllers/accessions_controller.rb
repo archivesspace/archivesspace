@@ -24,9 +24,14 @@ class AccessionsController < ApplicationController
     end
   end
 
+  def current_record
+    @accession
+  end
 
   def show
-    @accession = fetch_resolved(params[:id])
+    event_hits = fetch_linked_events_count(:accession, params[:id])
+    excludes = event_hits > AppConfig[:max_linked_events_to_resolve] ? ['linked_events', 'linked_events::linked_records'] : []
+    @accession = fetch_resolved(:accession, params[:id], excludes: excludes)
 
     @accession['accession_date'] = I18n.t('accession.accession_date_unknown') if @accession['accession_date'] == "9999-12-31"
 
@@ -35,6 +40,8 @@ class AccessionsController < ApplicationController
 
   def new
     @accession = Accession.new({:accession_date => Date.today.strftime('%Y-%m-%d')})._always_valid!
+    defaults = user_defaults('accession')
+    @accession.update(defaults.values) if defaults
 
     if params[:accession_id]
       acc = Accession.find(params[:accession_id], find_opts)
@@ -44,17 +51,8 @@ class AccessionsController < ApplicationController
         flash.now[:info] = I18n.t("accession._frontend.messages.spawned", JSONModelI18nWrapper.new(:accession => acc))
         flash[:spawned_from_accession] = acc.id
       end
-
-    elsif user_prefs['default_values']
-      defaults = DefaultValues.get 'accession'
-
-      if defaults
-        @accession.update(defaults.values)
-      end
     end
-
   end
-
 
 
   def defaults
@@ -69,7 +67,6 @@ class AccessionsController < ApplicationController
 
 
   def update_defaults
-
     begin
       DefaultValues.from_hash({
                                 "record_type" => "accession",
@@ -87,11 +84,10 @@ class AccessionsController < ApplicationController
       flash[:error] = e.message
       redirect_to :controller => :accessions, :action => :defaults
     end
-
   end
 
   def edit
-    @accession = fetch_resolved(params[:id])
+    @accession = fetch_resolved(:accession, params[:id], excludes: ['linked_events', 'linked_events::linked_records'])
     @accession['accession_date'] = '' if @accession['accession_date'] == "9999-12-31"
 
     if @accession.suppressed
@@ -113,15 +109,16 @@ class AccessionsController < ApplicationController
   def create
     handle_crud(:instance => :accession,
                 :model => Accession,
-                :on_invalid => ->(){ render action: "new" },
-                :on_valid => ->(id){
+                :on_invalid => ->() { render action: "new" },
+                :on_valid => ->(id) {
                     flash[:success] = I18n.t("accession._frontend.messages.created", JSONModelI18nWrapper.new(:accession => @accession))
-                     if @accession["is_slug_auto"] == false &&
-                        @accession["slug"] == nil &&
-                        params["accession"] &&
-                        params["accession"]["is_slug_auto"] == "1"
-                       flash[:warning] = I18n.t("slug.autogen_disabled")
-                     end
+                    if @accession["is_slug_auto"] == false &&
+                       @accession["slug"] == nil &&
+                       params["accession"] &&
+                       params["accession"]["is_slug_auto"] == "1"
+
+                      flash[:warning] = I18n.t("slug.autogen_disabled")
+                    end
                     redirect_to(:controller => :accessions,
                                 :action => :edit,
                                 :id => id) })
@@ -130,16 +127,17 @@ class AccessionsController < ApplicationController
   def update
     handle_crud(:instance => :accession,
                 :model => Accession,
-                :obj => fetch_resolved(params[:id]),
-                :on_invalid => ->(){
+                :obj => fetch_resolved(:accession, params[:id], excludes: ['linked_events', 'linked_events::linked_records']),
+                :on_invalid => ->() {
                   return render action: "edit"
                 },
-                :on_valid => ->(id){
+                :on_valid => ->(id) {
                   flash[:success] = I18n.t("accession._frontend.messages.updated", JSONModelI18nWrapper.new(:accession => @accession))
                   if @accession["is_slug_auto"] == false &&
                      @accession["slug"] == nil &&
                      params["accession"] &&
                      params["accession"]["is_slug_auto"] == "1"
+
                     flash[:warning] = I18n.t("slug.autogen_disabled")
                   end
 
@@ -176,28 +174,6 @@ class AccessionsController < ApplicationController
 
     flash[:success] = I18n.t("accession._frontend.messages.deleted", JSONModelI18nWrapper.new(:accession => accession))
     redirect_to(:controller => :accessions, :action => :index, :deleted_uri => accession.uri)
-  end
-
-
-  private
-
-  # refactoring note: suspiciously similar to resources_controller.rb
-  def fetch_resolved(id)
-    # We add this so that we can get a top container location to display with the instance view
-    new_find_opts = find_opts
-    new_find_opts["resolve[]"].push("top_container::container_locations")
-
-    accession = Accession.find(id, new_find_opts)
-
-    if accession['classifications']
-      accession['classifications'].each do |classification|
-        next unless classification['_resolved']
-        resolved = classification["_resolved"]
-        resolved['title'] = ClassificationHelper.format_classification(resolved['path_from_root'])
-      end
-    end
-
-    accession
   end
 
 

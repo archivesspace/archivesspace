@@ -3,7 +3,6 @@ require_relative 'search_resolver'
 class Search
 
   def self.search(params, repo_id)
-
     show_suppressed = !RequestContext.get(:enforce_suppression)
     show_published_only = RequestContext.get(:current_username) === User.PUBLIC_USERNAME
 
@@ -24,6 +23,7 @@ class Search
       show_published_only(show_published_only).
       set_excluded_ids(params[:exclude]).
       set_filter(params[:filter]).
+      set_filter_queries(params[:filter_query]).
       set_facets(params[:facet], (params[:facet_mincount] || 0)).
       set_sort(params[:sort]).
       set_root_record(params[:root_record]).

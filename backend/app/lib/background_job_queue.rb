@@ -132,7 +132,7 @@ class BackgroundJobQueue
         # Mark the job as permanently canceled
         job.finish!(:canceled)
       else
-        unless job.success?
+        if job.running?
           # If the job didn't record success, mark it as finished ourselves.
           # This isn't really a problem, but it does mean that the job status
           # update is now happening in a separate DB transaction than the one
@@ -192,7 +192,7 @@ class BackgroundJobQueue
     rescue => e
       Log.error("Error trying to cancel old jobs: #{e.class} #{$!} #{$@}")
     end
-    
+
 
     queue = BackgroundJobQueue.new
     queue.start_background_threads

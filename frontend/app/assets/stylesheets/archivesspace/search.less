@@ -8,7 +8,7 @@
 
 #component_switch {
   border-bottom: 1px #eee solid;
-  padding: @baseLineHeight/2 0;
+  padding: @baseLineHeight / 2 0;
   margin-bottom: @baseLineHeight;
 
   #component_switch_checkbox {
@@ -17,16 +17,41 @@
 }
 
 .advanced-search-container {
-  padding-top: 10px;
+  padding: 10px 15px 0 15px;
+  margin-left: -15px;
   background-color: #f5f5f5;
   border-bottom: 1px solid #efefef;
-  .box-shadow(0 1px 4px rgba(0,0,0,.065));
+  border-top: 1px solid #efefef;
+  width: ~'calc(100vw - 32px)';
+  .box-shadow(0 1px 0 rgba(0,0,0,0.065));
 
   .row {
     padding-bottom: 10px;
+    padding-top: 10px;
+    border: 1px solid #efefef;
   }
+}
 
-  .advanced-search {
-    margin: 0;
+.advanced-search-row-container > .row > fieldset {
+  display: flex;
+  align-items: center;
+
+  legend {
+    margin-bottom: 0;
+    font-weight: @headings-font-weight;
+  }
+}
+
+.search-group {
+  width: 100%;
+
+  .search-comparator {
+    vertical-align: bottom;
+    padding-bottom: 12px;
+    width: 30%;
+  }
+  .search-value {
+    text-align: left;
+    width: 70%;
   }
 }

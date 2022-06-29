@@ -29,7 +29,30 @@
           <% if user_can?('update_event_record') && supports_events && ((suppressible && !record.suppressed) || !suppressible ) %>
             <%= render_aspace_partial :partial => "shared/event_dropdown", :locals => {:record => record} %>
           <% end %>
-
+          <% if ['archival_object'].include?(record.jsonmodel_type) %>
+            <div class="btn-group">
+              <%= button_confirm_action(I18n.t("actions.publish_archival_object"),
+                        url_for({:action => :publish, :id => record.id}),
+                        {
+                          :class => "btn btn-sm btn-default",
+                          :"data-title" => I18n.t("actions.publish_archival_object_confirm_title"),
+                          :"data-message" => I18n.t("actions.publish_archival_object_confirm_message"),
+                          :"data-confirm-btn-label" => "#{I18n.t("actions.publish_archival_object")}",
+                          :"data-confirm-btn-class" => "btn-primary",
+                        }) %>
+            </div>
+            <div class="btn-group">
+              <%= button_confirm_action(I18n.t("actions.unpublish_archival_object"),
+                        url_for({:action => :unpublish, :id => record.id}),
+                        {
+                          :class => "btn btn-sm btn-default",
+                          :"data-title" => I18n.t("actions.unpublish_archival_object_confirm_title"),
+                          :"data-message" => I18n.t("actions.unpublish_archival_object_confirm_message"),
+                          :"data-confirm-btn-label" => "#{I18n.t("actions.unpublish_archival_object")}",
+                          :"data-confirm-btn-class" => "btn-primary",
+                        }) %>
+            </div>
+          <% end %>
           <% if ['archival_object', 'digital_object_component'].include?(record.jsonmodel_type) %>
             <% if AppConfig[:enable_public] && !record.has_unpublished_ancestor %>
               <%= render_aspace_partial :partial => "shared/view_published_button", :locals => {:record => record} %>
@@ -51,6 +74,11 @@
                 <% if user_can?('update_assessment_record') %>
                   <li><%= link_to I18n.t('assessment._frontend.action.create_for_record'), {:controller => :assessments, :action => :new, :record_uri => record.uri} %></li>
                 <% end %>
+
+                <% if user_can?('administer_system') && AppConfig[:arks_enabled] && record['ark_name'] %>
+                  <li><%= render_aspace_partial :partial => "shared/ark_editor", :locals => {:record => record} %>
+                <% end %>
+
               <% end %>
 
             <% if other_shown %><script>$('#other-dropdown').show();</script><% end %>

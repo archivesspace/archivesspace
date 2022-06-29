@@ -6,15 +6,15 @@
 <title>
   Class: DBMigrator
   
-    &mdash; Documentation by YARD 0.9.20
+    &mdash; Documentation by YARD 0.9.25
   
 </title>
 
-  <link rel="stylesheet" href="css/style.css" type="text/css" charset="utf-8" />
+  <link rel="stylesheet" href="css/style.css" type="text/css" />
 
-  <link rel="stylesheet" href="css/common.css" type="text/css" charset="utf-8" />
+  <link rel="stylesheet" href="css/common.css" type="text/css" />
 
-<script type="text/javascript" charset="utf-8">
+<script type="text/javascript">
   pathId = "DBMigrator";
   relpath = '';
 </script>
@@ -302,7 +302,6 @@
       <pre class="lines">
 
 
-227
 228
 229
 230
@@ -316,10 +315,11 @@
 238
 239
 240
-241</pre>
+241
+242</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/db/db_migrator.rb', line 227</span>
+      <pre class="code"><span class="info file"># File 'common/db/db_migrator.rb', line 228</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_fail_if_managed_container_migration_needed! fid id'>fail_if_managed_container_migration_needed!</span><span class='lparen token'>(</span><span class='rubyid_db identifier id'>db</span><span class='rparen token'>)</span>
   <span class='comment val'># If brand new install with empty database, need to check</span>
@@ -357,7 +357,6 @@
       <pre class="lines">
 
 
-295
 296
 297
 298
@@ -370,10 +369,11 @@
 305
 306
 307
-308</pre>
+308
+309</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/db/db_migrator.rb', line 295</span>
+      <pre class="code"><span class="info file"># File 'common/db/db_migrator.rb', line 296</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_latest_migration_number identifier id'>latest_migration_number</span><span class='lparen token'>(</span><span class='rubyid_db identifier id'>db</span><span class='rparen token'>)</span>
   <span class='rubyid_migration_numbers identifier id'>migration_numbers</span> <span class='assign token'>=</span> <span class='rubyid_Dir constant id'>Dir</span><span class='dot token'>.</span><span class='rubyid_entries identifier id'>entries</span><span class='lparen token'>(</span><span class='rubyid_MIGRATIONS_DIR constant id'>MIGRATIONS_DIR</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_e identifier id'>e</span><span class='bitor op'>|</span>
@@ -433,16 +433,16 @@
       <pre class="lines">
 
 
-287
 288
 289
 290
 291
 292
-293</pre>
+293
+294</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/db/db_migrator.rb', line 287</span>
+      <pre class="code"><span class="info file"># File 'common/db/db_migrator.rb', line 288</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_needs_updating? fid id'>needs_updating?</span><span class='lparen token'>(</span><span class='rubyid_db identifier id'>db</span><span class='rparen token'>)</span>
   <span class='rubyid_$db_type gvar id'>$db_type</span> <span class='assign token'>=</span> <span class='rubyid_db identifier id'>db</span><span class='dot token'>.</span><span class='rubyid_database_type identifier id'>database_type</span>
@@ -472,15 +472,15 @@
       <pre class="lines">
 
 
-280
 281
 282
 283
 284
-285</pre>
+285
+286</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/db/db_migrator.rb', line 280</span>
+      <pre class="code"><span class="info file"># File 'common/db/db_migrator.rb', line 281</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_nuke_database identifier id'>nuke_database</span><span class='lparen token'>(</span><span class='rubyid_db identifier id'>db</span><span class='rparen token'>)</span>
   <span class='rubyid_$db_type gvar id'>$db_type</span> <span class='assign token'>=</span> <span class='rubyid_db identifier id'>db</span><span class='dot token'>.</span><span class='rubyid_database_type identifier id'>database_type</span>
@@ -509,6 +509,9 @@
       <pre class="lines">
 
 
+179
+180
+181
 182
 183
 184
@@ -525,14 +528,19 @@
 195
 196
 197
-198</pre>
+198
+199</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/db/db_migrator.rb', line 182</span>
+      <pre class="code"><span class="info file"># File 'common/db/db_migrator.rb', line 179</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_setup_database identifier id'>setup_database</span><span class='lparen token'>(</span><span class='rubyid_db identifier id'>db</span><span class='rparen token'>)</span>
   <span class='rubyid_begin begin kw'>begin</span>
     <span class='rubyid_$db_type gvar id'>$db_type</span> <span class='assign token'>=</span> <span class='rubyid_db identifier id'>db</span><span class='dot token'>.</span><span class='rubyid_database_type identifier id'>database_type</span>
+    <span class='rubyid_unless unless kw'>unless</span> <span class='rubyid_$db_type gvar id'>$db_type</span> <span class='eq op'>==</span> <span class='symbol val'>:derby</span>
+      <span class='rubyid_db identifier id'>db</span><span class='dot token'>.</span><span class='rubyid_default_engine identifier id'>default_engine</span> <span class='assign token'>=</span> <span class='string val'>&#39;InnoDB&#39;</span>
+      <span class='rubyid_db identifier id'>db</span><span class='dot token'>.</span><span class='rubyid_default_charset identifier id'>default_charset</span> <span class='assign token'>=</span> <span class='string val'>&#39;utf8&#39;</span>
+    <span class='rubyid_end end kw'>end</span>
 
     <span class='rubyid_fail_if_managed_container_migration_needed! fid id'>fail_if_managed_container_migration_needed!</span><span class='lparen token'>(</span><span class='rubyid_db identifier id'>db</span><span class='rparen token'>)</span>
 
@@ -558,9 +566,9 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.8.0.a Documentation Generated on Thu Jul 16 10:07:23 2020 by
+  ArchivesSpace Version v2.8.1.a Documentation Generated on Wed Nov 11 13:22:23 2020 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.20.
+  0.9.25.
 </div>
 
     </div>

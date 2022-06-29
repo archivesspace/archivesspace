@@ -47,6 +47,9 @@ describe 'Resource instances and containers' do
 
     @driver.wait_for_ajax
 
+    # the search param is added to the download csv button
+    expect(@driver.find_element(class: 'searchExport').attribute('href')).to match(/q=Letter/)
+
     results = @driver.find_element(id: 'bulk_operation_results')
 
     expect(results.find_elements(css: 'tbody tr').length).to eq(5)
@@ -83,6 +86,25 @@ describe 'Resource instances and containers' do
     @driver.click_and_wait_until_gone(css: '#bulk_operation_results tbody tr:first-child td:last-child a:first-child')
 
     expect(@driver.find_element(css: '.form-group:nth-child(3) div.label-only').text).to eq('xyzpdq')
+
+  end
+
+  it "performs bulk indicator update" do
+    @driver.navigate.to("#{$frontend}/top_containers")
+
+    @driver.find_element(:css, '#empty').select_option('yes')
+    @driver.find_element(:css, 'input.btn').click
+
+    @driver.wait_for_ajax
+
+    @driver.find_element(css: "#bulk_operation_results input[name='select_all']").click
+
+    @driver.find_element(css: '.bulk-operation-toolbar:first-child a.dropdown-toggle').click
+    @driver.wait_for_dropdown
+
+    @driver.find_element(id: 'showBulkActionRapidIndicatorEntry').click
+
+    modal = @driver.find_element(id: 'bulkActionIndicatorRapidEntryModal')
   end
 
 
@@ -119,6 +141,7 @@ describe 'Resource instances and containers' do
 
     # Should be redirected to surviving top container with success message
     expect do
+      @driver.find_element_with_text('//h3', /Top Containers/)
       @driver.find_element_with_text('//div[contains(@class, "alert-success")]', /Top .+ Merged/)
     end.not_to raise_error
 
@@ -152,6 +175,8 @@ describe 'Resource instances and containers' do
     @driver.navigate.refresh
 
     expect(target = @driver.find_element(css: '#q').attribute('value')).to eq('Letter')
+    # the search param is added to the download csv button
+    expect(@driver.find_element(class: 'searchExport').attribute('href')).to match(/q=Letter/)
 
     resultsAfterRefresh = @driver.find_element(id: 'bulk_operation_results')
     resultsAfterRefreshLength = resultsAfterRefresh.find_elements(css: 'tbody tr').length
@@ -191,7 +216,7 @@ describe 'Resource instances and containers' do
     # re-find our original modal
     modal = @driver.find_element(css: '#resource_instances__0__sub_container__top_container__ref__modal')
 
-    elt = modal.find_element(css: '#top_container_container_locations_')
+    elt = modal.find_element(css: '#container_locations')
     elt.find_element(css: 'h3 > button').click
 
     assert(5) do
@@ -261,7 +286,7 @@ describe 'Resource instances and containers' do
     modal.clear_and_send_keys([:css, '#top_container_indicator_'], 'oof')
     modal.clear_and_send_keys([:css, '#top_container_barcode_'], '987654321')
 
-    elt = modal.find_element(css: '#top_container_container_locations_')
+    elt = modal.find_element(css: '#container_locations')
     elt.find_element(css: 'h3 > button').click
 
     assert(5) do
@@ -320,7 +345,7 @@ describe 'Resource instances and containers' do
   it 'can add a location with a previous status to a top container' do
     @driver.navigate.to("#{$frontend}#{@container.uri.sub(%r{/repositories/\d+}, '')}/edit")
 
-    section = @driver.find_element(id: 'top_container_container_locations_')
+    section = @driver.find_element(id: 'container_locations')
     section.find_element(css: 'button.btn-sm:nth-child(1)').click
 
     new_loc = @driver.find_element(css: "li.sort-enabled[data-index='1']")
@@ -350,7 +375,7 @@ describe 'Resource instances and containers' do
 
   it 'can calculate extents' do
     @driver.navigate.to("#{$frontend}#{@resource.uri.sub(%r{/repositories/\d+}, '')}/edit")
-    @driver.find_element(:link, 'More').click
+    @driver.find_element(:css, '#other-dropdown button').click
     @driver.find_element(:link, 'Calculate Extent').click
 
     modal = @driver.find_element(id: 'extentCalculationModal')

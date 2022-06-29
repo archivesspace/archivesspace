@@ -16,12 +16,12 @@ module MixedContentParser
     # (seems like the API falls down when we do this directly...)
     d = org.jsoup.Jsoup.parse("")
     d.outputSettings.prettyPrint(opts[:pretty_print])
-   
+
     # archon does things differently.....
-    content.gsub!("\n\t", "\n\n") 
+    content.gsub!("\n\t", "\n\n")
 
     # transform blocks of text seperated by line breaks into <p> wrapped blocks
-    content = content.split("\n\n").inject("") { |c,n| c << "<p>#{n}</p>"  } if opts[:wrap_blocks]
+    content = content.split("\n\n").inject("") { |c, n| c << "<p>#{n}</p>" } if opts[:wrap_blocks]
 
     whitelist = org.jsoup.safety.Whitelist.relaxed
                                           .addTags("emph", "lb", "title", "unitdate")
@@ -39,8 +39,8 @@ module MixedContentParser
     document.select("lb").tagName("br")
 
     # tweak the emph tags
-    [ "emph", "title", "unitdate"  ].each do |tag| 
-      document.select(tag).each do | emph |
+    [ "emph", "title", "unitdate"  ].each do |tag|
+      document.select(tag).each do |emph|
         # make all emph's a span
         emph.tagName("span")
 

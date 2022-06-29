@@ -1,15 +1,20 @@
+<%
+   heading_size = 'h2' if heading_size.blank?
+   sub_heading_size = 'h3' if sub_heading_size.blank?
+%>
+
 <%  if !note_struct['note_text'].blank? %>
     <div class="<%= type %> single_note" >
      <% unless defined?(notitle) &&  notitle %>
-     <h3><%= note_struct['label'] %></h3>
+     <<%= heading_size %>><%= note_struct['label'] %></<%= heading_size %>>
      <% end %>
      <% if note_struct.has_key?('subnotes') %>
        <% note_struct['subnotes'].each do |subnote| %>
          <div class="subnote <%= 'well' if subnote['jsonmodel_type'] == 'note_citation' %>">
            <% if subnote['jsonmodel_type'] == 'note_citation' %>
-             <h4><%= t('actions.cite') %></h4>
+             <<%= sub_heading_size %>><%= t('actions.cite') %></<%= sub_heading_size %>>
            <% elsif subnote['_title'] %>
-             <h4><%= subnote['_title'] %></h4>
+             <<%= sub_heading_size %>><%= subnote['_title'] %></<%= sub_heading_size %>>
            <% elsif subnote['_inline_label'] %>
              <span class='inline-label'><%= subnote['_inline_label'] %></span>
            <% end %>

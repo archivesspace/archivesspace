@@ -6,15 +6,15 @@
 <title>
   File: release
   
-    &mdash; Documentation by YARD 0.9.20
+    &mdash; Documentation by YARD 0.9.25
   
 </title>
 
-  <link rel="stylesheet" href="css/style.css" type="text/css" charset="utf-8" />
+  <link rel="stylesheet" href="css/style.css" type="text/css" />
 
-  <link rel="stylesheet" href="css/common.css" type="text/css" charset="utf-8" />
+  <link rel="stylesheet" href="css/common.css" type="text/css" />
 
-<script type="text/javascript" charset="utf-8">
+<script type="text/javascript">
   pathId = "release";
   relpath = '';
 </script>
@@ -117,8 +117,8 @@ sidebar</a>.</p>
 </ol>
 
 <p><code>
-git checkout -b $version # $version = release tag to build (i.e. v2.8.0-rc1)
-</code></p>
+  git checkout -b $version # $version = release tag to build (i.e. v2.8.0-rc1)
+ </code></p>
 
 <ol>
   <li>
@@ -130,16 +130,16 @@ git checkout -b $version # $version = release tag to build (i.e. v2.8.0-rc1)
 </ol>
 
 <p><code>
-build/run bootstrap
-</code></p>
+  build/run bootstrap
+ </code></p>
 
 <ol>
   <li>The documentation spec file must be run to generate examples for the API docs</li>
 </ol>
 
 <p><code>
-build/run backend:test -Dspec='documentation_spec.rb'
-</code></p>
+  build/run backend:test -Dspec='documentation_spec.rb'
+ </code></p>
 
 <p>This runs through all the endpoints, generates factory bot fixture json, and spits it into a json file (endpoint_examples.json).</p>
 
@@ -148,16 +148,16 @@ build/run backend:test -Dspec='documentation_spec.rb'
 </ol>
 
 <p><code>
-fallback_version = "$version.a" # version should match branch name '.a' i.e. v2.8.0-rc1.a
-</code></p>
+  fallback_version = "$version.a" # version should match branch name '.a' i.e. v2.8.0-rc1.a
+ </code></p>
 
 <ol>
   <li>Rip apart the READMEs for content by running the doc:build ANT task</li>
 </ol>
 
 <p><code>
-build/run doc:build
-</code></p>
+  build/run doc:build
+ </code></p>
 
 <ol>
   <li>Build Slate/API docs (using a standard Ruby)
@@ -165,34 +165,34 @@ build/run doc:build
 </ol>
 
 <p><code>
-cd docs/slate
-gem install bundler --version '&lt; 2.0'
-bundle install --binstubs
-./bin/middleman build
-./bin/middleman server # optional if you want to have a look at the API docs only
-rm -r ../api
-mv build ../api
-</code></p>
+  cd docs/slate
+  gem install bundler --version '&lt; 2.0'
+  bundle install --binstubs
+  ./bin/middleman build
+  ./bin/middleman server # optional if you want to have a look at the API docs only
+  rm -r ../api
+  mv build ../api
+ </code></p>
 
 <ol>
   <li>Compile Jekyll</li>
 </ol>
 
 <p><code>
-cd docs
-gem install bundler
-bundle install --binstubs
-./bin/jekyll build
-</code></p>
+  cd docs
+  gem install bundler
+  bundle install --binstubs
+  ./bin/jekyll build
+ </code></p>
 
 <ol>
   <li>Preview the docs (optional)</li>
 </ol>
 
 <p><code>
-cd docs
-./bin/jekyll serve # to update bind-address add: -H 0.0.0.0
-</code></p>
+  cd docs
+  ./bin/jekyll serve # to update bind-address add: -H 0.0.0.0
+ </code></p>
 
 <ul>
   <li>http://localhost:4000/archivesspace/ # tech docs</li>
@@ -205,21 +205,25 @@ cd docs
 </ol>
 
 <p><code>
-cd ../ # go to top of the working tree
-git add # all files related to the docs that just got created/updated (eg. docs/*, index.html files, etc)
-git commit -m "Updating to vX.X.X"
-</code></p>
+  cd ../ # go to top of the working tree
+  git add # all files related to the docs that just got created/updated (eg. docs/*, index.html files, etc)
+  #the following warning, if received, can be ignored:
+  #The following paths are ignored by one of your .gitignore files:
+  #docs/_site
+  #Use -f if you really want to add them.
+  git commit -m "Updating to vX.X.X"
+ </code></p>
 
 <ol>
   <li>Push docs to the gh-pages branch (do not do this with release candidates)</li>
 </ol>
 
 <p><code>
-#SKIP THIS PUSH STEP FOR RELEASE CANDIDATES
-git subtree push --prefix docs origin gh-pages
-#or, if you get a FF error
-git push origin `git subtree split --prefix docs master`:gh-pages --force
-</code></p>
+  #SKIP THIS PUSH STEP FOR RELEASE CANDIDATES
+  git subtree push --prefix docs origin gh-pages
+  #or, if you get a FF error
+  git push origin `git subtree split --prefix docs master`:gh-pages --force
+ </code></p>
 
 <h2 id="building-a-release">Building a release</h2>
 
@@ -228,8 +232,8 @@ git push origin `git subtree split --prefix docs master`:gh-pages --force
 </ol>
 
 <p><code>
-./scripts/build_release vX.X.X
-</code></p>
+  ./scripts/build_release vX.X.X
+ </code></p>
 
 <p>Replace X.X.X with the version number. This will build and package a release in
 a zip file.</p>
@@ -245,15 +249,16 @@ not require a PR review (only in this case).</p>
 </ol>
 
 <p><code>shell
-git checkout master
-git pull --prune
-git tag vX.X.X
-git push --tags
-</code></p>
+  git checkout master
+  git pull --prune
+  git tag vX.X.X
+  git push --tags
+ </code></p>
 
 <ol>
-  <li>Delete the clone of ArchivesSpace used to build the release. This
-is optional but recommended.</li>
+  <li>Delete the clone of ArchivesSpace used to build the release (though be sure
+to retain the zip file you created above if you intend to continue to the
+following section). This step is optional but recommended.</li>
 </ol>
 
 <h2 id="upload-the-release-and-prepare-draft">Upload the release and prepare draft</h2>
@@ -361,6 +366,13 @@ cycle of development clicks into full gear:</p>
 <p>Review existing test servers, and request the removal of any that are no longer
 needed (e.g. feature branches that have been merged for the release).</p>
 
+<h3 id="github-issues">GitHub Issues</h3>
+
+<p>Review existing opening GH issues and close any that have been resolved by
+the new release (linking to a specific PR if possible).  For the remaining open
+issues, review if they are still a problem, apply labels, link to known JIRA
+issues, and add comments as necessary/relevant.</p>
+
 <h3 id="accessibility-scan">Accessibility Scan</h3>
 
 <p>Run accessibility scans for both the public and staff sites and file a ticket
@@ -389,9 +401,9 @@ suite passes.</p>
 </div></div>
 
       <div id="footer">
-  ArchivesSpace Version v2.8.0.a Documentation Generated on Thu Jul 16 10:06:47 2020 by
+  ArchivesSpace Version v2.8.1-rc1.a Documentation Generated on Mon Nov  2 14:25:12 2020 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.20.
+  0.9.25.
 </div>
 
     </div>

@@ -106,7 +106,7 @@ describe 'Assessments' do
     @driver.find_element(:id, 'assessment_review_required_').click
     token_input = @driver.find_element(:id, 'token-input-assessment_reviewer_')
     token_input.clear
-    token_input.send_keys(@manager_user.username)
+    token_input.send_keys(@archivist_user.username)
     @driver.find_element(:css, 'li.token-input-dropdown-item2').click
 
     # Save!
@@ -122,8 +122,10 @@ describe 'Assessments' do
     expect(@driver.find_element(:css, '.token-input-token .archival_object').text).to match(/Archival Object to assess/)
 
     linked_agents = @driver.find_elements(:css, '.token-input-token .agent_person')
+    sleep 4
+
     expect(linked_agents[0].text).to match(/#{@archivist_user.username}/)
-    expect(linked_agents[1].text).to match(/#{@manager_user.username}/)
+    expect(linked_agents[1].text).to match(/#{@archivist_user.username}/)
   end
 
   it 'shows up in the listing' do
@@ -221,7 +223,7 @@ describe 'Assessments' do
     # linked agents
     linked_agents = @driver.find_elements(:css, '.token.agent_person')
     expect(linked_agents[0].text).to match(/#{@archivist_user.username}/)
-    expect(linked_agents[1].text).to match(/#{@manager_user.username}/)
+    expect(linked_agents[1].text).to match(/#{@archivist_user.username}/)
 
     # ratings
     expect(@driver.execute_script("return $('#rating_attributes_table').find('td:contains(\"Documentation Quality\")').parent().find('td')[1].innerText")).to eq('1')
@@ -278,4 +280,21 @@ describe 'Assessments' do
     @driver.click_and_wait_until_element_gone(@driver.find_element_with_text('//tr', /assessments_test_/).find_element(:link, 'View'))
     expect(@driver.find_elements(:css, '#linked_assessments_surveyed_by').length).to eq(0)
   end
+
+  it 'can add an external document to an Assessment' do
+    @driver.find_element(:link, 'Browse').click
+    @driver.click_and_wait_until_gone(:link, 'Assessments')
+    @driver.click_and_wait_until_gone(:link, 'Edit')
+    @driver.find_element(css: '#assessment_external_documents_ .subrecord-form-heading .btn:not(.show-all)').click
+    @driver.clear_and_send_keys([:id, 'assessment_external_documents__0__title_'], 'My URI document')
+    @driver.clear_and_send_keys([:id, 'assessment_external_documents__0__location_'], 'http://archivesspace.org')
+
+    @driver.click_and_wait_until_gone(css: "form .record-pane button[type='submit']")
+
+    # check external documents
+    external_document_sections = @driver.blocking_find_elements(css: '#assessment_external_documents_ .subrecord-form-wrapper')
+    expect(external_document_sections.length).to eq 1
+    external_document_sections[0].find_element(link: 'http://archivesspace.org')
+  end
+
 end

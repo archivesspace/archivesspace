@@ -1,0 +1,27 @@
+/**
+ * Atomic/functional/utility classes, add as needed
+ */
+:root {
+  --bootstrap-horizontal-white-space-unit: 15px;
+  --bootstrap-rounded-corner-radius: 4px;
+}
+
+.flex {
+  display: flex;
+}
+.align-items-center {
+  align-items: center;
+}
+.flex-grow-1 {
+  flex-grow: 1;
+}
+
+.mt15px {
+  margin-top: var(--bootstrap-horizontal-white-space-unit);
+}
+.mr15px {
+  margin-right: var(--bootstrap-horizontal-white-space-unit);
+}
+.mb0 {
+  margin-bottom: 0;
+}

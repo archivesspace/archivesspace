@@ -4,7 +4,6 @@ class MODSSerializer < ASpaceExport::Serializer
   include JSONModel
 
   def serialize(mods, opts = {})
-
     builder = Nokogiri::XML::Builder.new(:encoding => "UTF-8") do |xml|
       serialize_mods(mods, xml)
     end
@@ -13,17 +12,15 @@ class MODSSerializer < ASpaceExport::Serializer
   end
 
   def serialize_mods(mods, xml)
-
     root_args = {'version' => '3.4'}
     root_args['xmlns'] = 'http://www.loc.gov/mods/v3'
 
-    xml.mods(root_args){
+    xml.mods(root_args) {
       serialize_mods_inner(mods, xml)
     }
   end
 
   def serialize_mods_inner(mods, xml)
-
     xml.titleInfo {
       xml.title mods.title
     }
@@ -66,7 +63,7 @@ class MODSSerializer < ASpaceExport::Serializer
       handle_date(xml, date)
     end
 
-    xml.physicalDescription{
+    xml.physicalDescription {
       mods.extents.each do |extent|
         xml.extent extent
       end
@@ -186,14 +183,14 @@ class MODSSerializer < ASpaceExport::Serializer
                   !date['expression'].empty?
 
     # if end specified, we need a point="end" tag.
-    has_end = date.has_key?('end') && 
-              !date['end'].nil? && 
+    has_end = date.has_key?('end') &&
+              !date['end'].nil? &&
               !date['end'].empty? &&
               !has_expression
 
     # if beginning specified, we need a point="start" tag.
-    has_begin = date.has_key?('begin') && 
-                !date['begin'].nil? && 
+    has_begin = date.has_key?('begin') &&
+                !date['begin'].nil? &&
                 !date['begin'].empty? &&
                 !has_expression
 
@@ -209,13 +206,13 @@ class MODSSerializer < ASpaceExport::Serializer
       type = "dateModified"
     when 'broadcast', 'issued', 'publication'
       type = "dateIssued"
-    else 
+    else
       type = "dateOther"
     end
 
     if has_expression
       xml.send(type, attrs) { xml.text(date['expression']) }
-    else 
+    else
       if has_begin
         attrs.merge!({"encoding" => "w3cdtf", "keyDate" => "yes", "point" => "start"})
         xml.send(type, attrs) { xml.text(date['begin']) }

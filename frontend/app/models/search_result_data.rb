@@ -1,7 +1,9 @@
 class SearchResultData
 
-  def initialize(search_data)
+  def initialize(search_data, criteria, context_criteria = {})
     @search_data = search_data
+    @criteria = criteria
+    @context_criteria = context_criteria
     @facet_data = {}
 
     self.class.run_result_hooks(search_data)
@@ -16,11 +18,11 @@ class SearchResultData
       facets.each_slice(2).each {|facet_and_count|
         next if facet_and_count[1] === 0
 
-        
+
         if (facet_and_count[0] == "none")
           query = facet_query_string(facet_group, facet_and_count[0])
-          if (@search_data[:criteria].has_key?('q'))
-            query = @search_data[:criteria]['q'] + ' AND ' + query
+          if (@criteria.has_key?('q'))
+            query = @criteria['q'] + ' AND ' + query
           end
           @facet_data[facet_group][facet_and_count[0]] = {
               :label => facet_label_string(facet_group, facet_and_count[0]),
@@ -43,7 +45,7 @@ class SearchResultData
 
   def init_sorts
     if sorted?
-      @sort_data = @search_data[:criteria]["sort"].split(", ").map {|s|
+      @sort_data = @criteria["sort"].split(", ").map {|s|
         matches = s.match(/(\S+)\s(asc|desc)/)
         {:field => matches[1], :direction => matches[2]}
       }
@@ -59,15 +61,22 @@ class SearchResultData
   end
 
   def [](key)
+    return @criteria if key.to_s == 'criteria'
     @search_data[key]
   end
 
   def []=(key, value)
+    raise "Can't modify criteria" if key.to_s == 'criteria'
     @search_data[key] = value
   end
 
   def filtered_terms?
-    @search_data[:criteria].has_key?("filter_term[]") and @search_data[:criteria]["filter_term[]"].reject{|f| f.empty?}.length > 0
+    return false unless @criteria["filter_term[]"]
+    user_filter_terms.reject {|f| f.empty?}.length > 0
+  end
+
+  def user_filter_terms
+    @criteria["filter_term[]"] - (@context_criteria["filter_term[]"] || [])
   end
 
   def facet_label_for_filter(filter)
@@ -85,7 +94,7 @@ class SearchResultData
   def facets_for_filter
     facet_data_for_filter = @facet_data.clone
     facet_data_for_filter.each {|facet_group, facets|
-      facets.delete_if{|facet, facet_map|
+      facets.delete_if {|facet, facet_map|
         facet_map[:count] === @search_data['total_hits']
       }
     }
@@ -112,6 +121,11 @@ class SearchResultData
   end
 
   def facet_label_string(facet_group, facet)
+    # Plugins can opt to tell us how facet values should be translated.
+    if plugin_key = Plugins.facet_i18n_key(facet_group, facet)
+      return I18n.t(plugin_key, :default => facet)
+    end
+
     return I18n.t("search.location.none") if facet == "none"
     return facet.upcase if facet_group == "owner_repo_display_string_u_ssort"
     return I18n.t("#{facet}._singular", :default => I18n.t("plugins.#{facet}._singular", :default => facet)) if facet_group === "primary_type"
@@ -135,11 +149,11 @@ class SearchResultData
     end
 
     if facet_group === "level"
-        if get_type.include? "digital_object"
-          return I18n.t("enumerations.digital_object_level.#{facet.to_s}", :default => facet)
-        else
-          return I18n.t("enumerations.archival_record_level.#{facet.to_s}", :default => facet)
-        end
+      if get_type.include? "digital_object"
+        return I18n.t("enumerations.digital_object_level.#{facet.to_s}", :default => facet)
+      else
+        return I18n.t("enumerations.archival_record_level.#{facet.to_s}", :default => facet)
+      end
     end
 
     # labels for collection management groups
@@ -191,7 +205,7 @@ class SearchResultData
   end
 
   def has_titles?
-    if @search_data[:criteria].has_key?("type[]") and (types - self.class.UNTITLED_TYPES).empty?
+    if @criteria.has_key?("type[]") and (types - self.class.UNTITLED_TYPES).empty?
       false
     else
       true
@@ -202,15 +216,15 @@ class SearchResultData
     type = 'multi'
     if @search_data[:type]
       type = @search_data[:type]
-    elsif (@search_data[:criteria]["type[]"] || []).length == 1
-      type = @search_data[:criteria]["type[]"][0]
-    elsif (types = @search_data[:criteria]["type[]"] || []).length == 2
+    elsif (@criteria["type[]"] || []).length == 1
+      type = @criteria["type[]"][0]
+    elsif (types = @criteria["type[]"] || []).length == 2
       if types.include?('resource') && types.include?('archival_object')
         type = 'resource'
       elsif types.include?('digital_object') && types.include?('digital_object_component')
         type = 'digital_object'
       end
-    elsif terms = @search_data[:criteria]['filter_term[]']
+    elsif terms = @criteria['filter_term[]']
       types = terms.collect { |term| ASUtils.json_parse(term)['primary_type'] }.compact
       type = types[0] if types.length == 1
     end
@@ -220,11 +234,11 @@ class SearchResultData
   end
 
   def types
-    @search_data[:criteria]["type[]"]
+    @criteria["type[]"]
   end
 
   def sorted?
-    @search_data[:criteria]["sort"]
+    @criteria["sort"]
   end
 
   def sorted_by(index = 0)
@@ -282,7 +296,7 @@ class SearchResultData
   end
 
   def query?
-    not @search_data[:criteria]["q"].blank?
+    not @criteria["q"].blank?
   end
 
   def facet_label_for_query(query)
@@ -299,39 +313,45 @@ class SearchResultData
   end
 
   def self.BASE_FACETS
-    ["primary_type","creators","subjects","langcode"]
+    ["primary_type", "creators", "subjects", "langcode"] + Plugins.search_facets_for_base
   end
 
   def self.AGENT_FACETS
-    ["primary_type", "source", "rules"]
+    extras = [:agent_person, :agent_family, :agent_corporate_entity, :agent_software]
+               .flat_map {|agent_type| Plugins.search_facets_for_type(agent_type)}
+    ["primary_type", "source", "rules"] + extras
   end
 
   def self.ACCESSION_FACETS
-    ["subjects", "accession_date_year", "creators"]
+    ["subjects", "accession_date_year", "creators"] + Plugins.search_facets_for_type(:accession)
   end
 
   def self.RESOURCE_FACETS
-    ["subjects", "publish", "level", "classification_path", "primary_type", "langcode"]
+    ["subjects", "publish", "level", "classification_path", "primary_type", "langcode"] + Plugins.search_facets_for_type(:resource)
+  end
+
+  def self.ARCHIVAL_OBJECT_FACETS
+    ["subjects", "publish", "level", "classification_path", "primary_type"] + Plugins.search_facets_for_type(:archival_object)
   end
 
   def self.DIGITAL_OBJECT_FACETS
-    ["subjects", "publish", "digital_object_type", "level", "primary_type", "langcode"]
+    ["subjects", "publish", "digital_object_type", "level", "primary_type", "langcode"] + Plugins.search_facets_for_type(:digital_object)
   end
 
   def self.CONTAINER_PROFILE_FACETS
-    ["container_profile_width_u_sstr", "container_profile_height_u_sstr", "container_profile_depth_u_sstr", "container_profile_dimension_units_u_sstr"]
+    ["container_profile_width_u_sstr", "container_profile_height_u_sstr", "container_profile_depth_u_sstr", "container_profile_dimension_units_u_sstr"] + Plugins.search_facets_for_type(:container_profile)
   end
 
   def self.LOCATION_FACETS
-    ["temporary", "owner_repo_display_string_u_ssort", "building", "floor", "room", "area", "location_profile_display_string_u_ssort"]
+    ["temporary", "owner_repo_display_string_u_ssort", "building", "floor", "room", "area", "location_profile_display_string_u_ssort"] + Plugins.search_facets_for_type(:location)
   end
 
   def self.SUBJECT_FACETS
-    ["source", "first_term_type"]
+    ["source", "first_term_type"] + Plugins.search_facets_for_type(:subject)
   end
 
   def self.EVENT_FACETS
-    ["event_type", "outcome"]
+    ["event_type", "outcome"] + Plugins.search_facets_for_type(:event)
   end
 
   def self.UNTITLED_TYPES
@@ -339,7 +359,7 @@ class SearchResultData
   end
 
   def self.CLASSIFICATION_FACETS
-    []
+    [] + Plugins.search_facets_for_type(:classification)
   end
 
   def self.TOP_CONTAINER_FACETS
@@ -347,7 +367,7 @@ class SearchResultData
   end
 
   def self.ASSESSMENT_FACETS
-    ['assessment_record_types', 'assessment_surveyors', 'assessment_review_required', 'assessment_reviewers', 'assessment_completed', 'assessment_inactive', 'assessment_survey_year', 'assessment_sensitive_material']
+    ['assessment_record_types', 'assessment_surveyors', 'assessment_review_required', 'assessment_reviewers', 'assessment_completed', 'assessment_inactive', 'assessment_survey_year', 'assessment_sensitive_material'] + Plugins.search_facets_for_type(:assessment)
   end
 
   def self.JOB_FACETS

@@ -10,7 +10,7 @@
 
   <%= form.hidden_input :base_record_uri, :class => 'translation-placeholder' %>
 
-  <%= render_aspace_partial :partial => "resources/linker", :locals => { :form => form, :field_label => 'Base Resource Record' }%>
+  <%= render_aspace_partial :partial => "resources/linker", :locals => { :form => form, :record_types => "resource_and_archival_object" }%>
 
   <%= form.label_and_select "record_type", [] %>
   <%= form.label_and_select "property", [] %>
@@ -48,6 +48,9 @@
   <section>
     <fieldset>
         <%= form.label_and_select "import_type", @import_types %>
+    </fieldset>
+    <fieldset id='js-import-events'>
+        <%= form.label_and_boolean "import_events" %>
     </fieldset>
   </section>
 
@@ -93,6 +96,16 @@
   <br/>
 <% end %>
 
+<% define_template("ns2_remover_job", jsonmodel_definition(:ns2_remover_job)) do |form| %>
+  <p><%= I18n.t("ns2_remover_job.description") %></p>
+
+  <div class="col-sm-9 checkbox">
+    <%= form.label_and_boolean "dry_run" %>
+  </div>
+  <br/>
+  <br/>
+<% end %>
+
 <% define_template("job", jsonmodel_definition(:job)) do |form| %>
 
   <input id="job_type" name="job[job_type]" type="hidden" value="<%= params['job_type'] %>">
@@ -113,7 +126,7 @@
         <label class="col-sm-2 control-label"><%= I18n.t("reports.parameters.#{param[0]}", :default => param[0]) %></label>
         <div class="col-sm-9">
           <% if param[1] === "Date" %>
-            <%= form.textfield param[0], nil,  :class => 'date-field form-control', :'data-format' => 'yyyy-mm-dd', :placeholder => 'yyyy-mm-dd'  %>
+            <%= form.textfield param[0], nil,  :class => 'date-field form-control', :'data-format' => 'yyyy-mm-dd', :placeholder => 'yyyy-mm-dd', :"data-label" => I18n.t("actions.date_picker") %>
           <% elsif param[1] === "Boolean" %>
             <%= form.checkbox param[0] %>
           <% else %>
@@ -142,11 +155,16 @@
           </button>
 
           <button class="pull-right btn btn-primary select-report" for="<%= code %>" type="button">
-            Select
+            <%= I18n.t("reports.translation_defaults.select") %>
           </button>
-          <button class="pull-right btn btn-primary unselect-report" for="<%= code %>" type="button">
-            Back
-          </button>
+          <div class="btn-group pull-right">
+            <% if code === "custom_report" && user_can?('manage_custom_report_templates') %>
+              <%= link_to I18n.t("custom_report_template._frontend.action.create"), {:controller => :custom_report_templates, :action => :new}, :class => "btn btn-default create-report-template" %>
+            <% end %>
+            <button class="pull-right btn btn-primary unselect-report" for="<%= code %>" type="button">
+            <%= I18n.t("reports.translation_defaults.back") %>
+            </button>
+          </div>
 
         </div>
 
@@ -178,7 +196,7 @@
 
 <%# Now create a template for all job types not handled above - eg from plugins %>
 <% job_types.keys.each do |type| %>
-  <% next if ['container_labels_job', 'find_and_replace_job', 'print_to_pdf_job', 'import_job', 'report_job', 'generate_slugs_job', 'generate_arks_job', 'bulk_import_job'].include?(type) %>
+  <% next if ['container_labels_job', 'find_and_replace_job', 'print_to_pdf_job', 'import_job', 'report_job', 'generate_slugs_job', 'generate_arks_job', 'ns2_remover_job', 'bulk_import_job'].include?(type) %>
 
   <% define_template(type, jsonmodel_definition(type.intern)) do |form| %>
 

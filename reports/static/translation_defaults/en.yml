@@ -1,7 +1,7 @@
 en:
   reports:
     translation_defaults:
-      accession_processed_date: Acceccion Processed Date
+      accession_processed_date: Accession Processed Date
       access_restrictions_note: Access Restrictions Note
       access_restrictions: Access Restrictions?
       accession_date: Accession Date
@@ -69,6 +69,7 @@ en:
       instance_type: Instance Type
       instances: Instances
       inventory: Inventory
+      language: Language
       level: Level
       linked_records: Linked Records
       linked_resources: Linked Resource(s)
@@ -103,7 +104,7 @@ en:
       resources: Resources
       records: Resources and Accessions
       retention_rule: Retention
-      restrictions_apply: Retrictions Apply?
+      restrictions_apply: Restrictions Apply?
       review_note: Review Note
       review_required: Review Required?
       reviewer: Reviewer
@@ -113,6 +114,7 @@ en:
       room: Room
       scope: Scope of Assessment
       scoped_by_rating: Scoped by Rating
+      script: Script
       sensitive_material: Sensitive Material?
       scoped_by_date_range: Showing records created between
       showing_values: Showing records with rating values
@@ -158,3 +160,13 @@ en:
       width: Width
       template_name: Template Name
       template_description: Template Description
+      date_type: Date Type
+      label:  Label
+      expression: Date Expression
+      standardized_type: Standardized Type
+      begin_expression: Begin Date Expression
+      begin_standardized_type: Begin Date Standardized Type
+      end_expression: End Date Expression
+      end_standardized_type: End Date Standardized Type
+      select: Select
+      back: Back

@@ -1,15 +1,67 @@
-@import "archivesspace/variables";
-@import "bootstrap/mixins";
+@import 'archivesspace/variables';
+@import 'bootstrap/mixins';
 
 #rde_form {
   .sections {
-    #gradient > .vertical(@navbarBackgroundHighlight, darken(@navbarBackgroundHighlight, 3%));
+    #gradient > .vertical(@navbarBackgroundHighlight, darken(@navbarBackgroundHighlight, 3%));;
     th {
       border-bottom-color: darken(@navbarBackgroundHighlight, 6%);
     }
   }
+
+  // Overwrite Bootstrap for sticky table header, ANW-919
+  table {
+    border-collapse: separate;
+    border-spacing: 0;
+  }
+
+  thead tr:first-child th {
+    position: sticky;
+    top: -16px; // 0 leaves visible space above row
+    border-top-width: 0;
+    border-right-width: 1px;
+    border-bottom-width: 1px;
+    border-left-width: 0;
+    background: #fafafa;
+  }
+  thead tr:first-child th:last-of-type {
+    border-right-width: 0;
+  }
+
+  thead tr:nth-child(2) th {
+    position: sticky;
+    top: 15px; // height of thead tr:first-child + thead tr:first-child th top
+    border-top-width: 1px;
+    border-right-width: 1px;
+    border-bottom-width: 1px;
+    border-left-width: 0;
+  }
+  thead tr:nth-child(2) th:last-of-type {
+    border-right-width: 0;
+  }
+  thead tr:nth-child(2) th.fieldset-label.kiketable-th:not(.sticky),
+  thead tr:nth-child(2) th[data-section='empty'] {
+    background: #fafafa;
+  }
+
+  thead tr:first-child th:first-of-type,
+  thead tr:first-child th:last-of-type,
+  thead tr:nth-child(2) th[data-section='empty'] {
+    z-index: 3;
+  }
+
+  tbody tr td {
+    border-top-width: 1px;
+    border-right-width: 1px;
+    border-bottom-width: 0;
+    border-left-width: 0;
+  }
+  tbody tr td:last-of-type {
+    border-right-width: 0;
+  }
+
   .fieldset-labels {
-    #gradient > .vertical(darken(@navbarBackgroundHighlight, 3%), darken(@navbarBackgroundHighlight, 6%));
+    #gradient > .vertical(darken(@navbarBackgroundHighlight, 3%), darken(@navbarBackgroundHighlight, 6%));;
 
     th {
       border-top-color: darken(@navbarBackgroundHighlight, 6%);
@@ -20,10 +72,11 @@
     background-color: transparent;
   }
 
-  .sections, .fieldset-labels {
+  .sections,
+  .fieldset-labels {
     th {
       &.required {
-        &:before {
+        &::before {
           // apply required icon to the inner kiketable container
           display: none;
         }
@@ -36,12 +89,14 @@
       }
 
       &.conditionally-required {
-        &:before {
+        &::before {
           // apply required icon to the inner kiketable container
           display: none;
         }
         .kiketable-th-text {
-          background-image: asset-url('archivesspace/conditionally_required.png');
+          background-image: asset-url(
+            'archivesspace/conditionally_required.png'
+          );
           background-repeat: no-repeat;
           background-position: 2px center;
           padding-left: 16px;
@@ -51,7 +106,6 @@
   }
 
   th {
-
     &.fieldset-label {
       cursor: pointer;
     }
@@ -87,12 +141,14 @@
         padding: 4px 1%;
         width: 98%;
       }
+
       overflow: auto;
     }
   }
   tr {
     td.status {
-      .valid, .invalid {
+      .valid,
+      .invalid {
         display: none;
         margin-top: 0.5em;
       }
@@ -117,7 +173,7 @@
     }
   }
   .add-rows-form {
-    padding:8px;
+    padding: 8px;
 
     button {
       margin-top: 4px;
@@ -126,7 +182,7 @@
   .rde-inline-form {
     border-bottom: 1px solid #ddd;
     border-top: 1px solid #ddd;
-    background-color: #FAFAFA;
+    background-color: #fafafa;
     margin-bottom: 10px;
     padding: 10px;
     position: relative;
@@ -165,8 +221,10 @@
   .error-summary {
     position: absolute;
     .opacity(90);
+
     z-index: 1;
     .box-shadow(1px 1px 3px #AAA);
+
     margin-left: -5px;
     border-top: none;
     background-color: @errorBackground;
@@ -194,7 +252,8 @@
       }
     }
 
-    .hide-error-summary, .error {
+    .hide-error-summary,
+    .error {
       display: none;
     }
 
@@ -252,14 +311,15 @@
         .border-bottom-radius(4px);
         .border-left-radius(4px);
 
-        .hide-error-summary, .error {
+        .hide-error-summary,
+        .error {
           display: block;
         }
         .show-error-summary {
           display: none;
         }
         .error-summary-header {
-          border-bottom: 1px dotted #AAA;
+          border-bottom: 1px dotted #aaa;
           margin-bottom: 10px;
           padding-bottom: 5px;
 

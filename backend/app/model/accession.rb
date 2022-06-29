@@ -4,6 +4,7 @@ class Accession < Sequel::Model(:accession)
 
   include Identifiers
   include Extents
+  include LangMaterials
   include Subjects
   include Dates
   include ExternalDocuments
@@ -13,6 +14,7 @@ class Accession < Sequel::Model(:accession)
   include DirectionalRelationships
   include ExternalIDs
   include CollectionManagements
+  include MetadataRights
   include Instances
   include UserDefineds
   include Classifications
@@ -22,6 +24,7 @@ class Accession < Sequel::Model(:accession)
   include Publishable
   include ReindexTopContainers
   include Assessments::LinkedRecord
+  include RepresentativeFileVersion
 
   agent_role_enum("linked_agent_role")
   agent_relator_enum("linked_agent_archival_record_relators")
@@ -33,6 +36,11 @@ class Accession < Sequel::Model(:accession)
   define_relationship(:name => :spawned,
                       :json_property => 'related_resources',
                       :contains_references_to_types => proc {[Resource]})
+
+  define_relationship(:name => :accession_component_links,
+                      :json_property => 'component_links',
+                      :contains_references_to_types => proc {[ArchivalObject]},
+                      :is_array => true)
 
 
   define_directional_relationship(:name => :related_accession,
@@ -57,21 +65,21 @@ class Accession < Sequel::Model(:accession)
                 :generator => lambda { |json|
                   return json["title"] if json["title"]
 
-                  %w(id_0 id_1 id_2 id_3).map{|p| json[p]}.compact.join("-")
+                  %w(id_0 id_1 id_2 id_3).map {|p| json[p]}.compact.join("-")
                 }
 
   auto_generate :property => :slug,
                 :generator => proc { |json|
                   if AppConfig[:use_human_readable_urls]
                     if json["is_slug_auto"]
-                      AppConfig[:auto_generate_slugs_with_id] ? 
-                        SlugHelpers.id_based_slug_for(json, Accession) : 
+                      AppConfig[:auto_generate_slugs_with_id] ?
+                        SlugHelpers.id_based_slug_for(json, Accession) :
                         SlugHelpers.name_based_slug_for(json, Accession)
                     else
                       json["slug"]
                     end
                   end
-                }               
+                }
 
 
 end

@@ -1,0 +1,6 @@
+de:
+  reports:
+    accession_receipt_report:
+      title: Eingangsbeleg-Bericht
+      description: Zeigt einen Beleg für den Eingang von Archivgut an. Der Bericht enthält die Eingangs-Nummer, Titel, Umfang, Eingangs-Datum und Aufbewahrungsort an.
+      identifier_prefix: Eingang

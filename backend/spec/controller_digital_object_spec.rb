@@ -183,7 +183,7 @@ describe 'Digital Objects controller' do
     tree = JSONModel(:digital_object_tree).find(nil, :digital_object_id => digital_object.id)
     expect(tree.children.length).to eq(2)
 
-    sorted_by_id = tree.children.sort_by{ |x| x["id"]}
+    sorted_by_id = tree.children.sort_by { |x| x["id"]}
 
     expect(sorted_by_id[0]["title"]).to eq(doc_1["title"])
     expect(sorted_by_id[1]["title"]).to eq(doc_2["title"])
@@ -191,48 +191,48 @@ describe 'Digital Objects controller' do
 
 
 
-    it "updates a parent record if a linked digital object is deleted" do
-      sacrificial_do = create(:json_digital_object)
+  it "updates a parent record if a linked digital object is deleted" do
+    sacrificial_do = create(:json_digital_object)
 
-      resource = create(:json_resource,
-                        :instances => [build(:json_instance_digital,
-                                             :digital_object => {:ref => sacrificial_do.uri})])
+    resource = create(:json_resource,
+                      :instances => [build(:json_instance_digital,
+                                           :digital_object => {:ref => sacrificial_do.uri})])
 
-      archival_object = create(:json_archival_object,
-                       :instances => [build(:json_instance_digital,
-                                            :digital_object => {:ref => sacrificial_do.uri})])
+    archival_object = create(:json_archival_object,
+                     :instances => [build(:json_instance_digital,
+                                          :digital_object => {:ref => sacrificial_do.uri})])
 
-      sacrificial_do = JSONModel(:digital_object).find(sacrificial_do.id)
-      sacrificial_do.linked_instances = [{'ref' => resource.uri}, {'ref' => archival_object.uri}]
-      sacrificial_do.save
+    sacrificial_do = JSONModel(:digital_object).find(sacrificial_do.id)
+    sacrificial_do.linked_instances = [{'ref' => resource.uri}, {'ref' => archival_object.uri}]
+    sacrificial_do.save
 
-      expect(sacrificial_do.linked_instances.count).to be(2)
+    expect(sacrificial_do.linked_instances.count).to be(2)
 
-      sacrificial_do.delete
+    sacrificial_do.delete
 
-      expect {
-        JSONModel(:digital_object).find(sacrificial_do.id)
-      }.to raise_error(RecordNotFound)
+    expect {
+      JSONModel(:digital_object).find(sacrificial_do.id)
+    }.to raise_error(RecordNotFound)
 
-      resource = JSONModel(:resource).find(resource.id)
-      expect(resource).not_to be_nil
-      expect(resource.instances.count).to be(0)
+    resource = JSONModel(:resource).find(resource.id)
+    expect(resource).not_to be_nil
+    expect(resource.instances.count).to be(0)
 
-      archival_object = JSONModel(:archival_object).find(archival_object.id)
-      expect(archival_object).not_to be_nil
-      expect(archival_object.instances.count).to be(0)
-    end
+    archival_object = JSONModel(:archival_object).find(archival_object.id)
+    expect(archival_object).not_to be_nil
+    expect(archival_object.instances.count).to be(0)
+  end
 
 
-    it "lets you create a digital object with a language" do
-      opts = {:language_and_script => {:language => generate(:language)}}
+  it "lets you create a digital object with a language" do
+    opts = {:language_and_script => {:language => generate(:language)}}
 
-      lang_materials = [build(:json_lang_material, opts)]
+    lang_materials = [build(:json_lang_material, opts)]
 
-      digital_object = create(:json_digital_object, :lang_materials => lang_materials)
+    digital_object = create(:json_digital_object, :lang_materials => lang_materials)
 
-      expect(JSONModel(:digital_object).find(digital_object.id).lang_materials[0]['language_and_script']['language'].length).to eq(3)
-      expect(JSONModel(:digital_object).find(digital_object.id).lang_materials[0]['note']).to eq(nil)
-    end
+    expect(JSONModel(:digital_object).find(digital_object.id).lang_materials[0]['language_and_script']['language'].length).to eq(3)
+    expect(JSONModel(:digital_object).find(digital_object.id).lang_materials[0]['note']).to eq(nil)
+  end
 
 end

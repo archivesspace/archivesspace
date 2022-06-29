@@ -4,6 +4,13 @@ ja:
     help_center: ArchivesSpaceヘルプセンター
     default_tooltip: ArchivesSpaceヘルプセンター
     topics:
+      agent_sources: エージェントソースに関するヘルプ
+      agent_record_identifiers: エージェントレコード識別子に関するヘルプ
+      agent_maintenance_histories: エージェントのメンテナンス履歴に関するヘルプ
+      agent_other_agency_codes: 他のエージェンシーコードに関するヘルプ
+      agent_conventions_declarations: エージェントコンベンション宣言に関するヘルプ
+      agent_alternate_sets: エージェント代替セットに関するヘルプ
+      agent_record_controls: エージェントレコード管理に関するヘルプ
       accession: アクセスのヘルプ
       accession_basic_information: 基本情報のヘルプ
       accession_extents: エクステントのヘルプ
@@ -129,3 +136,17 @@ ja:
       repository: リポジトリの管理に関するヘルプ
       user: ユーザーの管理に関するヘルプ
       enumeration: 制御された値リストのヘルプ
+      preference: 設定に関するヘルプ
+      agent_place: 場所のヘルプ
+      agent_occupation: 職業に関するヘルプ
+      agent_function: 関数に関するヘルプ
+      agent_topic: トピックに関するヘルプ
+      agent_used_language: 使用言語に関するヘルプ
+      agent_external_documents: 外部ドキュメントのヘルプ
+      agent_external_resources: 関連する外部リソースに関するヘルプ
+      agent_related_agents: 関連エージェントに関するヘルプ
+      agent_required: 必須フィールドの編集に関するヘルプ
+      agent_merge: エージェントのマージに関するヘルプ
+      resource_load_via_spreadsheet: スプレッドシートを介したロードに関するヘルプ
+      agent_identifiers: エンティティIDに関するヘルプ
+      agent_genders: ジェンダーに関するヘルプ

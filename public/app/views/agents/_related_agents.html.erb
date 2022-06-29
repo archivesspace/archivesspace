@@ -7,14 +7,16 @@
 %>
 
 <% grouped_relationships.each do |type, relationships| %>
-  <h3><%= I18n.t("#{type}._singular") %></h3>
   <ul class="present_list">
     <% relationships.each do |relationship| %>
       <% agent = relationship['_resolved'] %>
       <li>
         <%= link_to agent['display_name']['sort_name'], app_prefix(agent['uri']) %>
-        (<%= I18n.t("enumerations.#{type}_relator.#{relationship['relator']}", :default => relationship['relator']) %>,
-         <%= I18n.t("#{agent['jsonmodel_type']}._singular") %>)
+        <% if relationship['specific_relator'] %>
+          (<%= I18n.t("enumerations.specific_relator.#{relationship['specific_relator']}", :default => relationship['specific_relator']) %>)
+        <% else %>
+          (<%= I18n.t("enumerations.#{type}_relator.#{relationship['relator']}", :default => relationship['relator']) %>)
+        <% end %>
          <% if relationship['description'] || ASUtils.wrap(relationship['dates']).length > 0 %>
            <dl>
              <% if relationship['description'] %>
@@ -24,7 +26,7 @@
              <% if ASUtils.wrap(relationship['dates']).length > 0 %>
                <dt><%= t('agent._public.section.related_agent_dates') %></dt>
                <% ASUtils.wrap(relationship['dates']).each do |date| %>
-                <dd><%= parse_date(date).join %></dd>
+                <dd><%= render partial: 'structured_date', locals: {:date => date} %></dd>
                <% end %>
              <% end %>
            </dl>

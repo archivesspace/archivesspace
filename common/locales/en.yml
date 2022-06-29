@@ -79,6 +79,8 @@ en:
         <p>Links to information in other description or management systems, such as donor files, processing plans, etc.</p>
     rights_statements_tooltip: |
         <p>Information about the rights status of the materials described and whether there are specific restrictions or permissions that have been indicated.</p>
+    metadata_rights_declarations_tooltip: |
+        <p>Based on DACS 8.2 and 13.11</p>
     instances_tooltip: |
         <p>Links description to information about physical or digital instantiations of material.</p>
     deaccessions_tooltip: |
@@ -91,8 +93,7 @@ en:
         <p>User defined fields for recording additional information not captured in other sections of the application.</p>
 
   digital_object: &digital_object_attributes
-    <<: *section_tooltips
-    <<: *slug_attributes
+    <<: [*section_tooltips, *slug_attributes]
     user_defined:
       <<: *user_defined_attributes
     title: Title
@@ -128,10 +129,10 @@ en:
         <p>Links a digital object or digital object component to an associated content file, addressable by URI.</p>
     _singular: Digital Object
     _plural: Digital Objects
+    new_title: New Digital Object
 
   digital_object_component:
     <<: *digital_object_attributes
-    <<: *slug_attributes
     label: Label
     label_tooltip: |
         <p>A term used to describe the part and its position within the Digital Object being described. More often used for the component parts of the Digital Object than the top-level Digital Object record.</p>
@@ -204,6 +205,7 @@ en:
     owner_repo_tooltip: A repository that has reserved this location
     _singular: Location
     _plural: Locations
+    new_title: New Location
 
   location_batch:
     <<: *location_attributes
@@ -229,6 +231,11 @@ en:
     _frontend:
       action:
         add: Add Function
+
+  dates_of_existence:
+    _frontend:
+      action:
+        add: Add Date
 
   container_location:
     status: Status
@@ -366,6 +373,7 @@ en:
       virus_check: Virus Check
     _singular: Event
     _plural: Events
+    new_title: New Event
 
   linked_event:
     <<: *event
@@ -405,6 +413,10 @@ en:
     _plural: Deaccessions
     _singular: Deaccession
 
+  parallel_name: &parallel_name_attributes
+    _frontend:
+      action:
+        add: Add Parallel Name
   agent_name: &agent_name_attributes
     authority_id: Authority ID
     authority_id_tooltip: |
@@ -480,7 +492,7 @@ en:
         <p>A number, sometimes with a term, that qualifies the name. For personal names, often a roman numeral or a roman numeral and a subsequent part of a forename. For corporate names, the number of a part / section or meeting.</p>
         <p>Examples:</p>
         <ul>
-        <li>II Comnenus <em>(for John II Comnenus, Emperor of the East</em>/li>
+        <li>II Comnenus <em>(for John II Comnenus, Emperor of the East</em></li>
         <li>II <em>(for John Paul II)</em></li>
         <li>97th, 2nd session <em>(for United States Congress, 97th, 2nd session)</em></li>
         </ul>
@@ -495,6 +507,8 @@ en:
     use_dates: Usage Dates
     use_dates_tooltip: |
         <p>Dates in which this name was used for the agent.</p>
+    parallel_names_tooltip: |
+        <p>Can be used to record a parallel form of the name in different languages and/or scripts or transliterated forms of the name.</p>
     qualifier: Qualifier
     qualifier_tooltip: |
         <p>A term or phrase for distinguishing two name forms identical in all other respects but identifying two different entities.  The term may be a date, a place, or any other suitable descriptor.</p>
@@ -509,19 +523,42 @@ en:
         <p>The sort name may be edited by unchecking the "Automatically generate" checkbox and then entering the form of the sort name desired.</p>
     authorized: Authorized
     is_display_name: Display Name
-    _singular: Name
-    _plural: Names
+    language: Language
+    language_tooltip: |
+        <p>Indicates the language used in recording the name form. Example: Russian (for Каспаров, Г. К. (Гарри Кимович))</p>
+    script: Script
+    script_tooltip: |
+        <p>Indicates the script used in recording the name form. Example: Cyrillic (for Каспаров, Г. К. (Гарри Кимович))</p>
+    transliteration: Transliteration
+    transliteration_tooltip: |
+        <p>Indicates the transliteration scheme used in recording the name form.</p>
+    _singular: Name Form
+    _plural: Name Forms
 
   name_person:
     <<: *agent_name_attributes
 
-  name_family:
+  parallel_name_person:
+    <<: *agent_name_attributes
+    _singular: Parallel Name
+    _plural: Parallel Names
+
+  name_family: &agent_family_attributes
     <<: *agent_name_attributes
     family_name: Family Name
     family_name_tooltip: |
         <p>The last name, or surname, for a family, typically supplemented with the term "family".</p>
+    family_type: Family Type
+    family_type_tooltip: |
+        <p>Type of family used as a qualifier to distinguish similar name entries. Examples: Family, Dynasty, Royal house.</p>
+    location: Location
+    location_tooltip: |
+        <p>A location used as a qualifier to distinguish similar name entries. Examples: Trigg County, Ky. (for Cunningham (Family : 1795- : Trigg County, Ky.)), Canadian Embassy, Tokyo (for Canada-Japan Twinning Conference (1991 : Canadian Embassy, Tokyo))</p>
 
-  name_corporate_entity:
+  parallel_name_family:
+    <<: *agent_family_attributes
+
+  name_corporate_entity: &agent_corporate_entity_attributes
     <<: *agent_name_attributes
     subordinate_name_1: Subordinate Name 1
     subordinate_name_1_tooltip: |
@@ -534,7 +571,20 @@ en:
     subordinate_name_2_tooltip: |
         <p>A hierarchical unit with the corporate entity named in the Primary Name field and lower than the unit named in the Subordinate Name 1 field.</p>
 
-  name_software:
+    jurisdiction: Jurisdiction?
+    jurisdiction_tooltip: |
+        <p>Indicates whether the entity is a legal jurisdiction name entry.</p>
+    conference_meeting: Conference Meeting?
+    conference_meeting_tooltip: |
+        <p>Indicates whether the entity is a standard corporate body, or is a conference, meeting, or other named event.</p>
+    location: Location
+    location_tooltip: |
+        <p>A location used as a qualifier to distinguish similar name entries. Examples: Trigg County, Ky. (for Cunningham (Family : 1795- : Trigg County, Ky.)), Canadian Embassy, Tokyo (for Canada-Japan Twinning Conference (1991 : Canadian Embassy, Tokyo))</p>
+
+  parallel_name_corporate_entity:
+    <<: *agent_corporate_entity_attributes
+
+  name_software: &agent_software_attributes
     <<: *agent_name_attributes
     software_name: Software Name
     software_name_tooltip: |
@@ -561,14 +611,271 @@ en:
         <li>Library of Congress <em>(for Library of Congress Bagger 2.1.2)</em></li>
         </ul>
 
+  parallel_name_software:
+    <<: *agent_software_attributes
+
+  agent_record_identifiers:
+    identifier_type_tooltip: |
+        <p>Indicates the type or format of the authority record identifier. Values in this Controlled Value List may be modified.</p>
+    source_tooltip: |
+        <p>Indicates the originating authority file of an associated identifier. Example: NAF (for nr2003017069). Values in this Controlled Value List may be modified.</p>
+    record_identifier_tooltip: |
+        <p>The identifier for the Agent record, usually consisting of a unique alpha-numeric string. Identifier may originate in an external authority file, or be generated locally.</p>
+    is_primary: Primary
+
+  agent_record_control:
+    maintenance_status_tooltip: |
+        <p>Indicates the current state of the record.</p>
+    publication_status_tooltip: |
+        <p>Indicates whether an Agent record should be publicly available.</p>
+    romanization_tooltip: |
+        <p>Indicates whether the authorized name form was romanized from a non-Latin script, and the type of romanization scheme. Example: National library or bibliographic agency standard (for ALA-LC Romanization Table (e.g., Kasparov, G. K. (Garri Kimovich) for Каспаров, Г. К. (Гарри Кимович)).</p>
+    government_agency_type_tooltip: |
+        <p>Indicates the type of agency or jurisdiction represented by the authorized name form.</p>
+    reference_evaluation_tooltip: |
+        <p>Indicates the level of consistency between the authorized name form and other name forms in the Agent record. When there are no additional forms, the field should be recorded as "Not applicable".</p>
+    name_type_tooltip: |
+        <p>Indicates the uniqueness of the authorized name form within the Agents module. Unique name entries should be recorded as "Differentiated", while Agent records used to gather multiple Agents with identical names should be marked as "Undifferentiated".</p>
+    level_of_detail_tooltip: |
+        <p>Indicates the completeness of the Agent record according to consortial or local requirements.</p>
+    modified_record_tooltip: |
+        <p>Indicates whether an Agent record has been modified, and how it has been changed.</p>
+    cataloging_source_tooltip: |
+        <p>Indicates where an Agent record originated. Locally produced records not submitted to a cooperative cataloging program should be recorded as "Other".</p>
+    maintenance_agency_tooltip: |
+        <p>Code value for the agency or organization responsible for creating or maintaining an Agent record. Code value should be taken from a registry and be recorded using ISO 15511 conventions. Example: US-UPB (for Brigham Young University, using Library of Congress MARC Organization Code).</p>
+    agency_name_tooltip: |
+        <p>The name of the agency or organization responsible for creating or maintaining an Agent record. Name recorded should correspond with the name form associated in with the code value in the registry. Example: Brigham Young University, Harold B. Lee Library (for code value UPB, using Library of Congress MARC Organization Code).</p>
+    maintenance_agency_note_tooltip: |
+        <p>The content of the note, providing details about the maintenance agency responsible for the Agent description.</p>
+    language_tooltip: |
+        <p>The language used in the preparation of the Agent description. Example: English.</p>
+    script_tooltip: |
+        <p>The text script used in the preparation of the Agent description. Example: Latin.</p>
+    language_note_tooltip: |
+        <p>The content of the note, providing details about the language and scripts used in the preparation of the Agent description.</p>
+
+  agent_alternate_set:
+    set_component_tooltip: |
+        <p>A caption to provide identification and access to an equivalent linked authority record.</p>
+    descriptive_note_tooltip: |
+        <p>The content of the note, providing details about the linked authority record.</p>
+    file_uri_tooltip: |
+        <p>A URI for an equivalent record in an external authority file. Example: http://id.loc.gov/authorities/names/n80060393 (for Library of Congress Linked Data Serviceentry for Robert W. Service).</p>
+    file_version_xlink_actuate_attribute_tooltip: |
+        <p>Indicates whether associated URI should be resolved when the Agent record is rendered.</p>
+    file_version_xlink_show_attribute_tooltip: |
+        <p>Indicates where the remote resource linked in the associated URI should be rendered.</p>
+    xlink_title_attribute_tooltip: |
+        <p>Title of the remote resources linked in the associated URI, which may be used as a caption.</p>
+    xlink_role_attribute_tooltip: |
+        <p>Type or nature of the remote resource linked in the associated URI.</p>
+    xlink_arcrole_attribute_tooltip: |
+        <p>Type or nature of the remote resource linked in the associated URI.</p>
+    last_verified_date_tooltip: |
+        <p>Last date or date and time the linked resource linked in the associated URI was verified.</p>
+
+  agent_conventions_declaration:
+    name_rule_tooltip: |
+        <p>A content standard used in the formulation of the Agent record content. Example: Describing Archives: A Content Standard.</p>
+    citation_tooltip: |
+        <p>Bibliographic citation for a convention used in the formulation of the Agent record content. Example: Society of American Archivists. Describing Archives: A Content Standard (Chicago: Society of American Archivists, 2013).</p>
+    descriptive_note_tooltip: |
+        <p>The content of the note, providing details about the convention was used in the preparation of the Agent description. Example: Used for formulating biographical history note content. (for Describing Archives: A Content Standard).</p>
+    file_uri_tooltip: |
+        <p>A URI for the online location of the convention used in the preparation of the Agent description. Example: http://www2.archivists.org/standards/DACS/ (for Describing Archives: A Content Standard).</p>
+    file_version_xlink_actuate_attribute_tooltip: |
+        <p>Indicates whether associated URI should be resolved when the Agent record is rendered.</p>
+    file_version_xlink_show_attribute_tooltip: |
+        <p>Indicates where the remote resource linked in the associated URI should be rendered.</p>
+    xlink_title_attribute_tooltip: |
+        <p>Title of the remote resources linked in the associated URI, which may be used as a caption.</p>
+    xlink_role_attribute_tooltip: |
+        <p>Type or nature of the remote resource linked in the associated URI.</p>
+    xlink_arcrole_attribute_tooltip: |
+        <p>Type or nature of the remote resource linked in the associated URI.</p>
+    last_verified_date_tooltip: |
+        <p>Last date or date and time the linked resource linked in the associated URI was verified.</p>
+
+  agent_other_agency_codes:
+    agency_code_type_tooltip: |
+        <p>The source of the maintenance agency code. Example: OCLC.</p>
+    maintenance_agency_tooltip: |
+        <p>Alternative code values for the agency or organization responsible for creating or maintaining an Agent record. Code value should be taken from a registry and be recorded using ISO 15511 conventions. Example: OCLC-UBY (for United States, Brigham Young University, using the OCLC symbol).</p>
+
+
+  agent_maintenance_histories:
+    maintenance_event_type_tooltip: |
+        <p>Indicates the type of maintenance event.</p>
+    maintenance_agent_type_tooltip: |
+        <p>Indicates whether the maintenance event was performed by a person or by a software system.</p>
+    agent_tooltip: |
+        <p>Name of the person, agency, or software responsible for the maintenance event.</p>
+    event_date_tooltip: |
+        <p>Timestamp of the recording of the maintenance event.</p>
+    descriptive_note_tooltip: |
+        <p>The content of the note, providing details about the maintenance performed.</p>
+
+  agent_sources:
+    source_entry_tooltip: |
+        <p>Bibliographic citation for a source used in the formulation of the Agent record content. Example: Lockhart, G. W. On the trail of Robert Service (Edinburgh : Luath Press, 1991).</p>
+    descriptive_note_tooltip: |
+        <p>The content of the note, providing details about the content of the sources used in preparation of the Agent description.</p>
+    file_uri_tooltip: |
+        <p>A URI for the online location of the source used in the preparation of the Agent description. Example: http://www.findagrave.com/cgi-bin/fg.cgi?page=gr&GRid=8373 (for Find-A-Grave entry for Robert W. Service).</p>
+    file_version_xlink_actuate_attribute_tooltip: |
+        <p>Indicates whether associated URI should be resolved when the Agent record is rendered.</p>
+    file_version_xlink_show_attribute_tooltip: |
+        <p>Indicates where the remote resource linked in the associated URI should be rendered.</p>
+    xlink_title_attribute_tooltip: |
+        <p>Title of the remote resources linked in the associated URI, which may be used as a caption.</p>
+    xlink_role_attribute_tooltip: |
+        <p>Type or nature of the remote resource linked in the associated URI.</p>
+    xlink_arcrole_attribute_tooltip: |
+        <p>Type or nature of the remote resource linked in the associated URI.</p>
+    last_verified_date_tooltip: |
+        <p>Last date or date and time the linked resource linked in the associated URI was verified.</p>
+
+  agent_identifiers:
+    entity_identifier_tooltip: |
+        <p>Records identifiers associated with an entity, such as legal identifiers assigned by an authoritative agency.</p>
+    identifier_type_tooltip: |
+        <p>Indicates the type or source of the entity identifier recorded.</p>
+
+
+  used_language:
+    language_tooltip: |
+        <p>The language(s) associated with the agent. Example: English.</p>
+    script_tooltip: |
+        <p>The text script associated with the agent. Example: Latin.</p>
+
+  agent_gender:
+    gender_tooltip: |
+        <p>Gender of the subject.</p></br><p>Values for this list can be added or changed via the System -> Manage Controlled Value Lists menu.</p>
+
+  agent_place:
+    place_role_tooltip: |
+        <p>Indicates the relationship of the geographic location to the agent.</p>
+
+  agent_resource:
+    linked_agent_role_tooltip: |
+        <p>REQUIRED FIELD: The type of relation of entity being described to the resource.</p>
+    linked_resource_tooltip: |
+        <p>A resource related to the agent/entity.</p>
+    linked_resource_description_tooltip: |
+        <p>Free text field for recording bibliographic information, related collection information, etc.</p>
+    file_uri_tooltip: |
+        <p>A URI for the online location of the source used in the preparation of the Agent description. Example: http://www.findagrave.com/cgi-bin/fg.cgi?page=gr&GRid=8373 (for Find-A-Grave entry for Robert W. Service).</p>
+    file_version_xlink_actuate_attribute_tooltip: |
+        <p>Indicates whether associated URI should be resolved when the Agent record is rendered.</p>
+    file_version_xlink_show_attribute_tooltip: |
+        <p>Indicates where the remote resource linked in the associated URI should be rendered.</p>
+    xlink_title_attribute_tooltip: |
+        <p>Title of the remote resources linked in the associated URI, which may be used as a caption.</p>
+    xlink_role_attribute_tooltip: |
+        <p>Type or nature of the remote resource linked in the associated URI.</p>
+    xlink_arcrole_attribute_tooltip: |
+        <p>Type or nature of the remote resource linked in the associated URI.</p>
+    last_verified_date_tooltip: |
+        <p>Last date or date and time the linked resource linked in the associated URI was verified.</p>
+
+  subrecord_subject_agent_place:
+    subjects_tooltip: |
+        <p>A geographic location associated with the agent.</p>
+
+  subrecord_subject_agent_occupation:
+    subjects_tooltip: |
+        <p>The occupation of the agent.</p>
+
+  subrecord_subject_agent_occupation_place:
+    places_tooltip: |
+        <p>A geographic location associated with the occupations.</p>
+
+  subrecord_subject_agent_function:
+    subjects_tooltip: |
+        <p>Terms used to identify the functions, processes, tasks, activities or transactions performed by the agent.</p>
+
+  subrecord_subject_agent_function_place:
+    places_tooltip: |
+        <p>A geographic location associated with the functions.</p>
+
+  subrecord_subject_agent_topic:
+    subjects_tooltip: |
+        <p>A subject associated with the agent.</p>
+
+  subrecord_subject_agent_topic_place:
+    places_tooltip: |
+        <p>A geographic location associated with the subjects.</p>
+
+  subrecord_subject_agent_resource_place:
+    places_tooltip: |
+        <p>A geographic location associated with the linked resource.</p>
+
   name:
     _singular: Name Form
     _plural: Name Forms
+
+  structured_date_label: &sdl_attributes
+    date_label_tooltip: |
+        <p>Describes what type of activity the date signifies</p>
+    date_type_structured_tooltip: |
+        <p>Indicates the type for date information, either a single date or a date range.</p>
+    date_certainty_tooltip: |
+        <p>The level of confidence for the information given in a date statement. This information is optional and should only be added when qualifying date information as potentially uncertain based upon the description or cataloging rules in use.</p>
+    date_era_tooltip: |
+        <p>Period during which years are numbered and dates reckoned, such as B.C. or C.E. The value "ce" is the default.</p>
+    date_calendar_tooltip: |
+        <p>System of reckoning time, such as the Gregorian calendar or Julian calendar. The value "gregorian" is the default.</p>
+
+  structured_date_label_existence:
+    <<: *sdl_attributes
+
+  structured_date_label_common_fields:
+    <<: *sdl_attributes
+
+  structured_date_single: &sds_attributes
+    date_role_tooltip: |
+        <p>For a single date, used to indicate whether the date should be understood as a beginning date or an ending date. The default is Begin.</p>
+
+    date_expression_tooltip: |
+        <p>A natural language expression specifying the date or date range. Required when a standardized date is not recorded.</p>
+
+    date_standardized_tooltip: |
+        <p>A natural language expression specifying the date or date range. Required when a standardized date is not recorded.</p>
+
+    date_standardized_type_tooltip: |
+        <p>Used to indicate whether the standardized date reflects the actual date or an estimate of the earliest or latest something could have occurred.</p>
+
+  structured_date_range: &sdr_attributes
+    begin_date_expression_tooltip: |
+        <p>A natural language expression specifying the beginning of a date range. Required when a standardized date is not recorded.</p>
+
+    begin_date_standardized_tooltip: |
+        <p>A date (in the form YYYY, YYYY-MM, or YYYY-MM-DD) representing a single date or the first date in a date range.</p>
+
+    begin_date_standardized_type_tooltip: |
+        <p>Used to indicate whether the beginning standardized date reflects the actual date or an estimate of the earliest or latest something could have occurred.</p>
+
+    end_date_expression_tooltip: |
+        <p>A natural language expression specifying the end of a date range. Required when a standardized date is not recorded.</p>
+
+    end_date_standardized_tooltip: |
+        <p>A date (in the form YYYY, YYYY-MM, or YYYY-MM-DD) representing the last date in a date range.</p>
+
+    end_date_standardized_type_tooltip: |
+        <p>Used to indicate whether the ending standardized date reflects the actual date or an estimate of the earliest or latest something could have occurred.</p>
+
+  structured_date_single_fields:
+    <<: *sds_attributes
+
+  structured_date_range_fields:
+    <<: *sdr_attributes
 
   agent_contact: &agent_contact
     name: Contact Name
     name_tooltip: |
         <p>Name of the person serving as contact for the entity in the main record.</p>
+        <p>For repository corporate entity agents, a name will be auto-generated by the application when blank.</p>
     salutation: Salutation
     salutation_tooltip: |
         <p>Salutation for the contact person.</p>
@@ -576,6 +883,10 @@ en:
     address_1: Address 1
     address_1_tooltip: |
         <p>Address for the contact person.</p>
+    address_2_tooltip: |
+        <p>A continuation of the address for the contact person.</p>
+    address_3_tooltip: |
+        <p>A continuation of the address for the contact person.</p>
     address_2: Address 2
     address_3: Address 3
     city: City
@@ -617,6 +928,8 @@ en:
     ext: Telephone Extension
     ext_tooltip: |
         <p>Telephone number extension for the contact person.</p>
+    number_type_tooltip: |
+        <p>Indicates the type of telephone number.</p>
 
   telephone_required: &telephone
     _plural: Telephone Numbers
@@ -669,42 +982,58 @@ en:
     type_tooltip: |
       <p>The type of note for the content.  Note types are used for guiding export of note contents to certain elements in specific data formats.</p>
 
-  related_agent:
-    relationship_type: Relationship Type
+  related_agent: &related_agent_attributes
+    relationship_type: General Relationship Type
+    relationship_type_tooltip: A controlled term describing, in broad terms, the nature of the relationship between the primary agent and the related agent.
+    relator: Directional Relationship Type
+    specific_relator: Specific Relationship Type
+    specific_relator_tooltip: A controlled term more specifically describing the nature of the relationship between the primary agent and the related agent.
+    relationship_uri: Relationship URI
+    relationship_uri_tooltip: A URI that points to an entry in an ontology or other resource for types of relationships between agents. Primarily used for the purposes of EAC-CPF.
+    relator_tooltip: When a general relationship type is part of a pair with two possibilities for direction (such as Parent-Child), a controlled term indicating the direction of the relationship.
+    description: Description
+    description_tooltip: A free text description of the nature of the relationship.
+    date: Date
+    dates: Dates
+    ref: Related Agent
+    related_agent_tooltip: The person, family, or corporate entity related to the primary agent.
     _singular: Related Agent
     _plural: Related Agents
 
+  related_agents:
+    <<: *related_agent_attributes
+
   agent_relationship_parentchild:
-    relator: Relationship Type
-    description: Description
-    ref: Related Agent
-    date: Date
-    dates: Dates
+    <<: *related_agent_attributes
     _singular: Parent/Child Relationship
 
   agent_relationship_earlierlater:
-    relator: Relationship Type
-    description: Description
-    ref: Related Agent
-    date: Date
-    dates: Dates
+    <<: *related_agent_attributes
     _singular: Earlier/Later Relationship
 
   agent_relationship_subordinatesuperior:
-    relator: Relationship Type
-    description: Description
-    ref: Related Agent
-    date: Date
-    dates: Dates
+    <<: *related_agent_attributes
     _singular: Subordinate/Superior Relationship
 
   agent_relationship_associative:
-    relator: Relationship Type
-    description: Description
-    date: Date
-    dates: Dates
-    ref: Related Agent
+    <<: *related_agent_attributes
     _singular: Associative Relationship
+
+  agent_relationship_identity:
+    <<: *related_agent_attributes
+    _singular: Identity Relationship
+
+  agent_relationship_hierarchical:
+    <<: *related_agent_attributes
+    _singular: Hierarchical Relationship
+
+  agent_relationship_temporal:
+    <<: *related_agent_attributes
+    _singular: Temporal Relationship
+
+  agent_relationship_family:
+    <<: *related_agent_attributes
+    _singular: Family Relationship
 
   note:
     item: Item
@@ -727,6 +1056,11 @@ en:
     note_rights_statement: Rights Statement Note
     note_rights_statement_act: Act Note
     note_agent_rights_statement: Rights Statement Note (do not use)
+    note_general_context: General Context
+    note_mandate: Mandate
+    note_contact_note: Contact Note
+    note_legal_status: Legal Status
+    note_structure_or_genealogy: Structure Or Genealogy
     _singular: Note
     _plural: Notes
 
@@ -786,10 +1120,11 @@ en:
     event_date: Event Date
     event_date_tooltip: |
         <p>The date of an event in a chronology list.</p>
-    events: Events
+    events: Event Items
     events_tooltip: |
         <p>A description of an event corresponding to the chronology date item.</p>
-    events_singular: Event
+    events_singular: Event Item
+    place: Event Place
 
   note_definedlist:
     <<: *note_attributes
@@ -811,6 +1146,32 @@ en:
         <p>An attribute for indicating the type of numeration to be applied to the note items</p>
 
   note_bioghist:
+    <<: *note_attributes
+    subnotes: Sub Notes
+
+  note_general_context:
+    <<: *note_attributes
+    subnotes: Sub Notes
+
+  note_mandate:
+    <<: *note_attributes
+    subnotes: Sub Notes
+
+  note_contact_note:
+    <<: *note_attributes
+    subnotes: Sub Notes
+    date_of_contact: Date of Contact
+    contact_notes: Contact Notes
+    contact_notes_tooltip: |
+      <p>Details about the interaction with the contact</p>
+    date_of_contact_tooltip: |
+      <p>Used to record the specific date or timeframe of an interaction</p>
+
+  note_legal_status:
+    <<: *note_attributes
+    subnotes: Sub Notes
+
+  note_structure_or_genealogy:
     <<: *note_attributes
     subnotes: Sub Notes
 
@@ -955,6 +1316,10 @@ en:
     _singular: Extent
 
   lang_material: &lang_material_attributes
+    _plural: Languages
+    _singular: Language
+
+  language:
     _plural: Languages
     _singular: Language
 
@@ -1152,11 +1517,10 @@ en:
     <<: *date_attributes
 
   date_fields:
-    <<: *date_attributes
+    <<: [*date_attributes, *sdl_attributes]
 
   accession:
-    <<: *section_tooltips
-    <<: *slug_attributes
+    <<: [*section_tooltips, *slug_attributes]
     user_defined:
       <<: *user_defined_attributes
     accession_date: Accession Date
@@ -1237,6 +1601,12 @@ en:
     resource_type_tooltip: |
         <p>A list of terms used by a repository for categorizing its resources into basic types.</p>
         <p>Values in this Controlled Value List may be modified.</p>
+    language: Language of Description
+    language_tooltip: |
+        <p>Indicates all the languages present in the record generated from the accession description.</p>
+    script: Script of Description
+    script_tooltip: |
+        <p>Indicates all the scripts present in the record generated from the accession description.</p>
     access_restrictions: Access Restrictions?
     access_restrictions_tooltip: |
         <p>A checkbox for indicating access to the materials is restricted.</p>
@@ -1286,8 +1656,13 @@ en:
         <p>Used for linking associated Resources with this Accession.</p>
     relator: Relator
     relator_type: Relator Type
+    created_by: Created by
+    last_modified_by: Last modified by
+    create_time: Created
+    user_mtime: Modified
     _singular: Accession
     _plural: Accessions
+    new_title: New Accession
 
   interrelated_accession:
     _plural: Related Accessions
@@ -1320,6 +1695,9 @@ en:
       agent_person: Person
       agent_corporate_entity: Corporate Entity
       agent_software: Software
+    is_user: Username
+    is_user_tooltip: |
+        <p>If present, this agent record is linked to an application user with the given username.</p>
     name: Agent Name
     names: Name Forms
     names_tooltip: |
@@ -1330,6 +1708,8 @@ en:
     notes: Notes
     notes_tooltip: |
         <p>Records additional descriptive information about an Agent, such as a biographical note or an administrative history.</p>
+    agent_contact_notes_tooltip: |
+        <p>Notes about interactions with the agent.</p>
     related_agents_tooltip: |
         <p>Allows links from this Agent record to another in associative, hierarchical, or parent/child relationships.</p>
     external_documents_tooltip: |
@@ -1340,28 +1720,57 @@ en:
     publish: Publish
     _singular: Agent
     _plural: Agents
+    new_title:
+      agent_family: New Family
+      agent_person: New Person
+      agent_corporate_entity: New Corporate Entity
+      agent_software: New Software
+    agent_record_controls_tooltip: |
+        <p>Information about the record describing the Agent.</p>
+    agent_alternate_sets_tooltip: |
+        <p>Used to point to linked authority records when two or more records for the same entity were derived from two or more authority systems.</p>
+    agent_conventions_declarations_tooltip: |
+        <p>A content standard used in the formulation of the Agent record content. Example: Describing Archives: A Content Standard. This sub-record can be used instead of Rules entries on individual name forms.</p>
+    agent_other_agency_codes_tooltip: |
+        <p>Information on alternative codes for the agency or organization responsible for creating or maintaining an Agent record.</p>
+    agent_maintenance_histories_tooltip: |
+        <p>Events associated with the creation or maintenance of the Agent record.</p>
+    agent_record_identifiers_tooltip: |
+        <p>Identifiers associated with the Agent record.</p>
+    agent_sources_tooltip: |
+        <p>A source used in the formulation of the Agent record content.</p>
+    agent_identifiers_tooltip: |
+        <p>Identifiers associated with an entity, such as legal identifiers assigned by an authoritative agency. Examples include an ORCID identifier for a person or a MARC Repository Code for a corporate entity.</p>
+    agent_genders_tooltip: Gender of the subject.
+    agent_places_tooltip: Place information associated with the agent.
+    agent_occupations_tooltip: Occupation information associated with the agent.
+    agent_functions_tooltip: Terms used to identify the functions, processes, tasks, activities or transactions performed by the agent.
+    agent_topics_tooltip: A subject associated with the agent.
+    agent_contacts_tooltip: |
+        <p>Contact information for the agent or a representative working on the behalf.</p>
+    used_languages_tooltip: "The language(s) associated with the agent. Example: English."
+    agent_resources_tooltip: Resources and other records associated with the agent.
+    related_agent_tooltip: Used to link other agents with a relationship to the agent and indicate the nature of the relationship.
+    publish_tooltip: |
+      <p>Indicates whether or not the agent is included in exports and published to the public interface (if used)</p>
 
   agent_person:
     <<: *agent_attributes
-    <<: *slug_attributes
     _singular: Person
     _plural: People
 
   agent_family:
     <<: *agent_attributes
-    <<: *slug_attributes
     _singular: Family
     _plural: Families
 
   agent_software:
     <<: *agent_attributes
-    <<: *slug_attributes
     _singular: Software
     _plural: Software
 
   agent_corporate_entity:
     <<: *agent_attributes
-    <<: *slug_attributes
     _singular: Corporate Entity
     _plural: Corporate Entities
 
@@ -1375,8 +1784,7 @@ en:
     related_agents: Related Agents
 
   archival_object: &archival_object_attributes
-    <<: *section_tooltips
-    <<: *slug_attributes
+    <<: [*section_tooltips, *slug_attributes]
     title: Title
     title_tooltip: |
         <p>CONDITIONALLY REQUIRED FIELD: The title assigned to the materials described. An Archival Object must have either a Title or a Date subrecord.</p>
@@ -1459,12 +1867,20 @@ en:
     member_usernames_tooltip: |
         <p>The members that are part of this group.</p>
     permissions: "Members can:"
+    default_group_names:
+      repository_managers: "Managers of the %{repo_code} repository"
+      repository_archivists: "Archivists of the %{repo_code} repository"
+      project_managers: "Project managers of the %{repo_code} repository"
+      advanced_data_entry: "Advanced Data Entry users of the %{repo_code} repository"
+      basic_data_entry: "Basic Data Entry users of the %{repo_code} repository"
+      repository_viewers: "Viewers of the %{repo_code} repository"
     permission_types:
       manage_repository: manage this repository (change groups and other settings)
       update_location_record: create/modify/delete location records in this repository
       update_subject_record: create/update subject records
       update_agent_record: create/update agent records
       view_agent_contact_record: view contact details for agent records
+      show_full_agents: work with agents in full mode
       update_vocabulary_record: create/update vocabulary records
       update_accession_record: create/update accessions in this repository
       update_resource_record: create/update resources in this repository
@@ -1497,13 +1913,12 @@ en:
       delete_assessment_record: delete assessment records
       manage_assessment_attributes: create/update/delete repository assessment attributes definitions
       manage_enumeration_record: create/update/delete controlled value records
+      manage_custom_report_templates: manage custom report templates
     _singular: Group
     _plural: Groups
 
   resource:
-    <<: *archival_object_attributes
-    <<: *section_tooltips
-    <<: *slug_attributes
+    <<: [*archival_object_attributes, *section_tooltips]
     user_defined:
       <<: *user_defined_attributes
     id_0: Identifier
@@ -1592,6 +2007,7 @@ en:
     finding_aid_language: Language of Description
     finding_aid_language_tooltip: |
         <p>Indicates all the languages present in the finding aid generated from the resource description.</p>
+    finding_aid_langusage_label: "Description is written in: "
     finding_aid_script: Script of Description
     finding_aid_script_tooltip: |
         <p>Indicates all the scripts present in the finding aid generated from the resource description.</p>
@@ -1613,8 +2029,17 @@ en:
     finding_aid_note: Finding Aid Note
     finding_aid_note_tooltip: |
         <p>For recording any additional information about the finding aid (not the described Resource) not covered by the other finding aid data elements.</p>
+    created_by: Created by
+    last_modified_by: Last modified by
+    create_time: Created
+    user_mtime: Modified
     _singular: Resource
     _plural: Resources
+    new_title: New Resource
+
+  resource_and_archival_object:
+    _singular: Resource and/or Archival Object
+    _plural: Resources and/or Archival Objects
 
   related_accession:
     _singular: Related Accession
@@ -1658,6 +2083,8 @@ en:
         <li>Mandeville Special Collections Library</li>
         <li>Tamiment Library and Robert F. Wagner Labor Archives</li>
         </ul>
+    ark_shoulder: ARK Shoulder (local namespace)
+    ark_shoulder_tooltip: Per-repository string to be included in generated ARKs
     org_code: Organization / Agency Code
     org_code_tooltip: |
         <p>A code compliant with ISO/DIS 15511 Information and Documentation International Standard Identifier for Libraries and Related Organizations (ISIL). For United States institutions, this includes codes from the MARC Organization Code list.</p>
@@ -1702,6 +2129,7 @@ en:
         <p>A remote URL or path to a local file that contains a branding image (like a logo or seal) to be used in the repository's online finding aids. This image appears on the public side PDFs, staff side PDFs and on the repositories page.</p>
     _singular: Repository
     _plural: Repositories
+    new_title: New Repository
     publish: Publish?
     publish_tooltip: |
         <p>Determines whether this Repository and any record it contains will be published to public (patron) interfaces.</p>
@@ -1749,6 +2177,7 @@ en:
     heading: Subject Heading
     _singular: Subject
     _plural: Subjects
+    new_title: New Subject
 
   user:
     username: Username
@@ -1787,6 +2216,9 @@ en:
     is_admin: Grant system administrator permissions
     is_admin_tooltip: |
         <p>Used to indicate whether the user should have full administrative privileges to the application.</p>
+    create_time: Created
+    user_mtime: Updated
+    admin: Administrator
     _singular: User
     _plural: Users
 
@@ -1873,11 +2305,13 @@ en:
     merge_into: Merge Into
     _singular: Controlled Value List
     _plural: Controlled Value lists
+    default: Default
 
   classification:
     <<: *slug_attributes
     _singular: Classification
     _plural: Classifications
+    new_title: New Classification
     identifier: Identifier
     title: Title
     description: Description
@@ -1898,7 +2332,7 @@ en:
     global: Global Preference Defaults
     global_message: Edit these values to set system-wide user preference defaults. These values can be overridden by repository defaults or a user's own preferences.
     repo: Repository Preferences
-    repo_message: Edit these values to set preferences for the current repository. These values can be overridden by a user's own preferences.
+    repo_message: Edit these values to set preferences for all users in the current repository. These values can be overridden by a user's own preferences.
     user_global: Global Preferences
     user_global_message: Edit these values to set your user preferences. These values can be overridden by repository defaults or by your own preferences for a repository.
     user_repo: User Preferences
@@ -1909,8 +2343,10 @@ en:
   defaults: &defaults_attributes
     general_section: General Settings
     show_suppressed: Show Suppressed?
+    include_unpublished: Include Unpublished Records in Exports?
     show_suppressed_tooltip: Whether to show suppressed records that you have permission to see when browsing.
     publish: Publish?
+    rde_sort_alpha: Display RDE Templates Alphabetically?
     publish_tooltip: Whether to publish new records by default.
     default_values: Pre-populate Records?
     default_values_tooltip: Whether to pre-populate new Accession and Resource records with default values.
@@ -1921,6 +2357,7 @@ en:
     sort_direction: Default Sort Direction
     sort_direction_tooltip: Default direction to sort results.
     locale: Language Selection
+    search_browse_columns: Search and Browse Column Preferences
     accession_browse_section: Accession Browse Columns
     resource_browse_section: Resource Browse Columns
     archival_object_browse_section: Archival Object Browse Columns
@@ -1938,6 +2375,7 @@ en:
     location_profile_browse_section: Location Profile Browse Columns
     container_profile_browse_section: Container Profile Browse Columns
     multi_browse_section: Search Columns
+    job_browse_section: Background Jobs Columns
     note_order_section: Note Order
     accept_default_message: '> Accept Default:'
     no_value: '[no value]'
@@ -1952,6 +2390,8 @@ en:
       locations: Locations
       scope_by_date: Scope by Date
       template: Template
+      rating: Rating
+      values: Values
     formats:
       json: JSON
       csv: CSV
@@ -1963,16 +2403,17 @@ en:
     agent_must_be_unique: Agent records cannot be identical
     subject_must_be_unique: Subject records cannot be identical
     subject_heading_identifier_must_be_unique_within_source: Subject heading identifier must be unique within source
-    conflicting_record: Conflicting record
     missing_required_property: Property is required but was missing
+    missing_required_subrecord: Subrecord is required but was missing
     missing_property: Property was missing
     not_a_valid_date: Not a valid date
     must_not_be_before_begin: must not be before begin
+    must_be_in_yyyy-mm-dd_format: Date must be in a yyyy-mm-dd format
     is_required_unless_a_begin_or_end_date_is_given: is required unless a begin or end date is given
     is_required_unless_an_expression_or_an_end_date_is_given: is required unless an expression or an end date is given
     is_required_unless_an_expression_or_a_begin_date_is_given: is required unless an expression or a begin date is given
     must_specify_either_a_date_or_a_timestamp: must specify either a date or a timestamp
-    did_not_match_regular_expression: Did not match regular expression %{regexp}
+    did_not_match_regular_expression: Did not match expected pattern %{regexp}
     too_few_characters: Must be at least %{min_length} characters
     too_many_characters: Must be %{max_length} characters or fewer
     max_length_is_50_characters: Must not exceed 50 characters
@@ -2015,20 +2456,31 @@ en:
     short_name_already_in_use: The repository short name must be unique within this ArchivesSpace
     custom_report_template_name_not_unique: The custom report template's name must be unique.
     custom_report_must_include_field_or_subreport: The custom report template must include at least one field or subreport.
-    missing_filter_values: Selected to filter results by field but no value(s) given
+    missing_end_filter_date: Start and end dates are required to filter by date. Please provide an end date.
+    missing_start_filter_date: Start and end dates are required to filter by date. Please provide a start date.
     must_be_a_valid_email_address: Email address field must contain a valid address
     repo_set_desc_required: Repository set description is required for creating an OAI repository set
     repo_set_name_required: Repository set name is required for creating an OAI repository set
     is_not_present: Required field missing
-    must_be_a_valid_email_address: Must contain a valid address
     sponsor_set_desc_required: Sponsor set description is required for creating an OAI sponsor set
     sponsor_set_name_required: Sponsor set name is required for creating an OAI sponsor set
     invalid_characters: Contains invalid characters
-
+    conflicting_record: "<a href='/resolve/readonly?uri=%{record_uri}' target='_blank'>View conflicting record</a>"
+    or_date_expression_is_required: Dates must specify at least one date expression
+    must_specify_either_a_single_or_ranged_date: Dates must be specified as either Single or Ranged
+    must_be_in_yyyy[yyy][yy][y]__yyyy[yyy][yy][y]-mm__or_yyyy-mm-dd_format: Standardized dates must be in a standardized format
+    generic_validation_error: Validation Error
+    requires_that_end_dates_are_after_begin_dates: End Dates must be after Begin Dates
+    must_specify_a_primary_subject: "Description Information: Record is missing a primary subject"
+    subrecord_not_allowed_for_agent_software: "Software Agents cannot have record control or relation subrecords"
+    ark_collision: There was a problem while generating an ARK for this record. Please contact your system administrator.
+    external_ark_collision: External ARK already in use
+    ark_format_error: One of the ARKs provided was not a valid ARK.
 
   job:
     _singular: Background Job
     _plural: Background Jobs
+    new_title: New Background Job
     job_type: Job Type
     types:
       print_to_pdf_job: Generate PDF
@@ -2042,16 +2494,18 @@ en:
       trim_whitespace_job: Trim Whitespace
       unknown_job_type: Unknown job type
       bulk_import_job: Load via Spreadsheet
+      top_container_linker_job: Top Container Linker
+      ns2_remover_job: ns2 Namespace Remover
     status: Status
     status_completed: Completed
     status_queued: Queued
     status_running: Running
     status_failed: Failed
     status_canceled: Canceled
+    queue_position: "Nr. %{position}"
     time_submitted: Time Submitted
     time_started: Time Started
     time_finished: Time Completed
-    time_submitted: Time Submitted
     owner: Owner
     show_description: Show Description
     input_file: Input File
@@ -2067,17 +2521,24 @@ en:
 
   import_job:
     _singular: Import Job
+    import_events: Import Maintenance Events?
     filenames: Files
     import_type: Import Type
     import_type_ead_xml: EAD
     import_type_assessment_csv: Assessment CSV
     import_type_accession_csv: Accession CSV
+    bulk_import_csv: Bulk Import AO CSV
+    bulk_import_xlsx: Bulk Import AO XLSX
+    bulk_import_DO_csv: Bulk Import DO CSV
+    bulk_import_DO_xlsx: Bulk Import DO XLSX
     import_type_digital_object_csv: Digital Object CSV
-    import_type_eac_xml: EAC
+    import_type_eac_xml: EAC-CPF
     import_type_location_csv: Location CSV
-    import_type_marcxml: MarcXML (Resource)
-    import_type_marcxml_accession: MarcXML (Accession)
-    import_type_marcxml_subjects_and_agents: MarcXML (Subjects and Agents Only)
+    import_type_marcxml: MarcXML Bibliographic (Resource)
+    import_type_marcxml_accession: MarcXML Bibliographic (Accession)
+    import_type_marcxml_subjects_and_agents: MarcXML Bibliographic (Subjects and Agents Only)
+    import_type_marcxml_auth_agent: MarcXML Authority (Agents)
+    import_type_marcxml_auth_subject: MarcXML Authority (Subjects)
 
   find_and_replace_job:
     _singular: Find and Replace Job
@@ -2092,6 +2553,15 @@ en:
     include_unpublished: Include Unpublished
     source: Source
 
+  top_container_linker_job:
+    _singular: Top Container Linker Job
+    filename: File
+    content_type: File Type
+    resource_id: Resource ID
+    load_type: Load Type
+    type:
+      top_container_linker_job: Top Container Linker
+
   bulk_import_job:
     resource_uri: Resource URI
     content_type: Spreadsheet type
@@ -2105,6 +2575,14 @@ en:
 
   trim_whitespace_job:
     description: Removes leading and trailing whitespace from titles for resources, accessions, digital objects, archival objects, and digital object components.
+
+  ns2_remover_job:
+      description: >
+        Archivists' Toolit-era EADs imported into ASpace may have vestigal "ns2" namespace references pre-pended to various EAD tag attributes inside note subrecords.
+        This may produce validation errors on EAD export from ArchivesSpace, as the root <ead> tag doesn't declare the "ns2" namespace.
+        This job bulk deletes "ns2" references within Notes subrecords attached to resource, archival_object, digital_object, and digital_object_component
+        records. As this job works across all repositories, it is restricted to users with <b>System Administrator permissions only</b>.
+      dry_run: Dry run?
 
   advanced_search:
     type:
@@ -2253,6 +2731,7 @@ en:
     rating_note: "%{label} Note"
     _singular: Assessment
     _plural: Assessments
+    new_title: New Assessment
 
   assessment_attribute:
     rating:
@@ -2317,16 +2796,21 @@ en:
     description: Description
     record_type: Record Type
     display: Display?
-    narrow_by: Narrow By?
-    values: Values
-    value: Value
+    limit: Limit
+    values: Narrow by Values
+    value: Narrow by Value
     "true": "Yes"
     "false": "No"
-    start_date: Start Date
-    end_date: End Date
+    start_date: Narrow by Start Date
+    end_date: Narrow by End Date
     field: Field
+    include: Include
     _singular: Custom Report Template
     _plural: Custom Report Templates
+
+  bulk_import_template:
+    _singular: Bulk Import Template
+    _plural: Bulk Import Templates
 
   repository_oai:
     oai_is_disabled_tooltip: OAI is disabled tooltip
@@ -2344,6 +2828,7 @@ en:
     sponsor_set_description_tooltip: Sponsor set description tooltip
 
   bulk_import:
+    templates: Bulk Import Templates
     row: "Row %{row}"
     processing_row: "Processing row %{row}"
     dig_assoc: Digital object added to archival object
@@ -2352,13 +2837,13 @@ en:
     could_be: "%{what} would be created"
     updated: "%{what}: %{id}"
     clip_btn: Copy to Clipboard
-    clip_created:  "\t%{what} created: \t%{nm}\t%{id}\t%{ref_id}"
+    clip_created: "\t%{what} created: \t%{nm}\t%{id}\t%{ref_id}"
     clip_what: "\t%{what} : \t%{nm}\t%{id}\t%{ref_id}"
     clip_info: "\t\t\t\t\t%{what}\n"
     clip_err: "\t\t\t\t\tERROR: %{err}\n"
     clip_header: "Row\tStatus\tTitle\tURI\tRef ID\tInfo or Error"
     log_complete: "Completed import of %{file}"
-    log_validation: "Completed validate of %{file}"
+    log_validation: "Completed validation of %{file}"
     log_created: "%{row}: Created %{what}"
     log_created_be: "%{row}: %{what} would be created"
     log_info: "%{row}:\t%{what}"
@@ -2380,13 +2865,14 @@ en:
     object_created: "%{what} created"
     object_created_be: "%{what} would be created"
     object_not_created_be: "%{what} would not be created"
+    date_type_default: No date type was specified. Defaulting to 'inclusive'.
     warn:
       dup: "Managed Controlled Value List %{which} has multiple instances for the translation '%{trans}'. '%{used}' will be used as the value."
       disam: "Multiple match(es) found for '%{which}'. Creating '%{name}' for disabiguation."
       disamuse: "Multiple match(es) found for '%{which}'. Using already-created '%{name}' for disabiguation."
       single_date_end: "Single date %{date_str} has end date that will be ignored."
     error:
-      date_type: "Date type [%{what}] invalid for %{date_str}. Defaulting to 'inclusive'"
+      date_type: "Date type [%{what}] invalid for %{date_str}. The date will not be processed."
       date_label: "Date label [%{what}] invalid for %{date_str}. The date will not be processed."
       certainty: "Invalid 'date certainty' ignored for %{date_str}: (%{what})"
       below_bad_ao: Cannot process because it is a child of the bad archival object
@@ -2404,29 +2890,30 @@ en:
       res_ead: This form's resource is missing an EAD ID
       row_ead: This row is missing an EAD ID
       row_missing_ead_uri: This row is missing BOTH an EAD ID and URI
-      ead_mismatch:  "Form's EAD ID [%{res_ead}] does not match row's EAD ID [%{row_ead}]"
+      ead_mismatch: "Form's EAD ID [%{res_ead}] does not match row's EAD ID [%{row_ead}]"
       uri_mismatch: "Input resource's URI [%{res_uri}] does not match row's URI [%{row_uri}]"
       title: Missing title
       title_and_date: Missing Title AND Valid Date definition
       hier_miss: Missing hierachy -- must be a number greater than 0
       hier_zero: Hierarchy must be greater than 0
       hier_wrong: Hierarchy cannot not be more than one level deeper than the previous row
-      hier_wrong_resource:  Did you mean to start processing with an archival object selected?
-      hier_wrong_resource_validation:  "WARNING: nothing below this row would have been processed"
+      hier_wrong_resource: Did you mean to start processing with an archival object selected?
+      hier_wrong_resource_validation: "WARNING: nothing below this row would have been processed"
       hier_below_error_level: The parent archival object was not created
       level: Missing valid Description Level
       date: "Date must have at least one of: Date Begin; Date End; or Date Expression"
       number: Missing Extent Number
-      extent_type:  Missing Extent Type
+      extent_type: Missing Extent Type
       extent_validation: "Unable to validate Extent (%{ext}): %{msg}"
       no_header: No header (field codes) row found; are you using the correct template?
       no_data: No processible data rows found!
       spreadsheet: "Error(s) parsing spreadsheet: %{errs}"
       no_agent: "Unable to create Agent %{num}: [%{why}]"
+      find_tc: "Unable to find the Top Container with params: %{where}."
       no_tc: "Unable to create Top Container %{number}: [%{why}]"
-      missing_instance_type: Missing Container Instance Type
-      no_ao: No archival object created
-      no_ao_be: Archival object would not be created
+      missing_instance_type: Missing container instance type
+      no_ao: No Archival Object created
+      no_ao_be: Archival Object would not be created
       no_container_instance: "Unable to create Container Instance %{number}: [%{why}]"
       no_create: "Unable to create: [%{why}]"
       no_move: "Unable to move the archival objects from the end of the list (response code %{code})"
@@ -2457,3 +2944,105 @@ en:
       wrong_file_type: "The file is neither an Excel Spreadsheet nor a CSV file"
       dig_obj_unique: "Digital Object ID '%{id}' already exists."
       cannot: Cannot continue due to previous errors
+      sc_barcode: "Can not find a Sub Container with this Child Barcode %{barcode}"
+  top_container_linker:
+    error:
+      ref_id_miss: "Ref ID missing from spreadsheet in row %{row_num} ."
+      ao_not_in_db: "Can not find Archival Object %{ref_id} in the database in row %{row_num}."
+      instance_type_miss: "Instance Type missing from spreadsheet for row %{row_num} Archival Object %{ref_id}. "
+      instance_type_does_not_exist: "Instance Type %{instance_type} does not exist in the database (see row %{row_num} Archival Object %{ref_id}). "
+      tc_indicator_and_record_no_miss: "Either a Top Container Indicator or TC Record Number must be present for %{ref_id} in row %{row_num}."
+      tc_indicator_and_record_no_exist: "Only a Top Container Indicator OR TC Record Number can be present for %{ref_id} in row %{row_num}."
+      tc_barcode_exists: "The Top Container Barcode, %{barcode} already exists in the database (see  %{ref_id} in row %{row_num})."
+      tc_barcode_differs: "The Top Container Barcode, %{barcode} is different than another entry in your spreadsheet for %{type} %{indicator} (see  %{ref_id} in row %{row_num})."
+      tc_ind_ct_exists: "The Top Container Indicator and Container Type combo %{tc_type} %{indicator} already exists in the database for an AO in resource %{ead_id} (see  %{ref_id} in row %{row_num})."
+      sc_barcode_exists: "The Child Barcode, %{barcode} already exists in the database (see %{ref_id} in row %{row_num})."
+      sc_barcode_differs: "The Child Barcode, %{barcode} is different than another entry in your spreadsheet for %{type} %{indicator} (see  %{ref_id} in row %{row_num})."
+      loc_not_in_db: "The given Location ID, %{loc_id} cannot be found in the database (see %{ref_id} in row %{row_num})."
+      cp_not_in_db: "The given Container Profile ID, %{cp_id} cannot be found in the database (see %{ref_id} in row %{row_num})."
+      no_tc: "Unable to create Top Container (see %{ref_id} in row %{row_num}): [%{why}]"
+      problem_adding_current_location: "Problem adding the current location (see %{ref_id} in row %{row_num}): [%{why}]"
+      problem_setting_container_profile: "Problem setting the container profile (see %{ref_id} in row %{row_num}): [%{why}]"
+      error_linking_tc_to_ao: "There was a problem linking the Archival Object with the Top Container: %{why}"
+      ead_id_miss: "This row is missing an EAD ID: (see %{ref_id} in row %{row_num})"
+      tc_record_no_missing: "The Top Container ID cannot be found: %{tc_id} (see %{ref_id} in row %{row_num})"
+      resource_not_in_db: "Can not find Resource %{ead_id} in the database in row %{row_num}"
+      resources_do_not_match: "The resource in the spreadsheet %{spreadsheet_resource} (EAD ID: %{ead_id}) does not match the current resource %{current_resource} in row %{row_num}"
+      job_file_empty: "No file to process for top container linking"
+    log_creating_linker: "Creating new top container linker for repository: %{repo_id}"
+    log_validate_only: "Skipping creation and linking of top containers since validate only option is enabled."
+    log_skipping_due_to_errors: "Skipping creation and linking of top containers due to errors."
+    log_validating: "Validating spreadsheet data..."
+    log_creating_and_linking: "Creating and linking top containers..."
+
+  metadata_rights_declaration:
+    license_tooltip: |
+        <p>Name of the license (if any) that governs the conditions under which the metadata is available for use and reuse.  Examples:</p>
+        <p>This record is made available under an Universal 1.0 Public Domain Dedication Creative Commons license.</p>
+        <p>This record is made available under an Attribution-NonCommercial 4.0 International Creative Commons license.</p>
+        <p>This record is made available under an Attribution-NonCommercial-NoDerivatives 4.0 International Creative Commons license.</p>
+        <p>This record is made available under an Attribution-NoDerivatives 4.0 International Creative Commons license.</p>
+        <p>This record is made available under an Attribution-NonCommercial-ShareAlike 4.0 International Creative Commons license.</p>
+    descriptive_note_tooltip: |
+        <p>Unstructured information about the conditions under which the metadata is available for use and reuse.  Examples:</p>
+        <p>i. Copyright Smith College, 1985</p>
+        <p>ii. This finding aid may be reproduced for any purpose.</p>
+        <p>iii. This work has been dedicated to the public domain, meaning that you can copy, modify, distribute and perform the work, even for commercial purposes, all without asking permission.</p>
+        <p>iv. The biographical note is copyright Ted Smith, 2015.  All other metadata is licensed under CC BY 4.0.</p>
+    file_uri_tooltip: |
+        <p>A URI for the online location of the license or other published infomation about the conditions under which the metadata is available for use and reuse. Example: https://creativecommons.org/licenses/by/4.0/</p>
+    file_version_xlink_actuate_attribute_tooltip: |
+        <p>Indicates whether associated URI should be resolved when the Agent record is rendered.</p>
+    file_version_xlink_show_attribute_tooltip: |
+        <p>Indicates where the remote resource linked in the associated URI should be rendered.</p>
+    xlink_title_attribute_tooltip: |
+        <p>Title of the remote resources linked in the associated URI, which may be used as a caption.</p>
+    xlink_role_attribute_tooltip: |
+        <p>Type or nature of the remote resource linked in the associated URI.</p>
+    xlink_arcrole_attribute_tooltip: |
+        <p>Type or nature of the remote resource linked in the associated URI.</p>
+    last_verified_date_tooltip: |
+        <p>Last date or date and time the linked resource linked in the associated URI was verified.</p>
+
+  ratings:
+    _plural: Ratings
+  conservation_issues:
+    _plural: Conservation Issues
+  surveyed_by:
+    _plural: Surveyed By
+  reviewer:
+    _plural: Reviewers
+  formats:
+    _plural: Formats
+  creator:
+    _plural: Creators
+  owner_repo:
+    _plural: Reserved For
+  groups:
+    _plural: Groups
+  created_by: Created by
+  last_modified_by: Last modified by
+  create_time: Created
+  user_mtime: Modified
+
+  arks:
+    ark: ARK
+    edit: Edit ARKs
+    current: current
+    remove_ark: Remove
+    add_new: Add new ARK
+    set_current: Set to current
+    save: Save ARKs
+    no_changes: No changes to save
+    modal_title: Edit ARKs for current record
+    unsubmitted_input: You have unsubmitted input
+    only_current_ark_can_be_external: The current ARK cannot be replaced while it is marked as external.
+    ark_editor_errors:
+      ark_collision: One of the ARKs provided is already in use.
+      ark_format_error: One of the ARKs provided was not a valid ARK.
+
+  container_profile:
+    title: "%{name} [%{depth}d, %{height}h, %{width}w %{dimension_units}] extent measured by %{extent_dimension}"
+    new_title: New Container Profile
+  location_profile:
+    new_title: New Location Profile

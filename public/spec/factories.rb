@@ -2,6 +2,7 @@ require 'jsonmodel'
 require 'factory_bot'
 require 'spec/lib/factory_bot_helpers'
 
+require_relative '../../common/selenium/backend_client_mixin'
 
 include BackendClientMethods
 include JSONModel
@@ -9,21 +10,15 @@ include JSONModel
 module AspaceFactories
 
   def self.init
-
-
     @@inited ||= false
 
     if @@inited
       return true
     end
 
-    JSONModel::init(:client_mode => true,
-                    :url => AppConfig[:backend_url],
-                    :priority => :high)
-
     FactoryBot.define do
 
-      to_create{|instance|
+      to_create {|instance|
         try_again = true
         begin
           instance.save
@@ -50,21 +45,14 @@ module AspaceFactories
         end
       }
 
-      sequence(:generic_description) {|n| "Description: #{n}"}
-      sequence(:yyyy_mm_dd) { Time.at(rand * Time.now.to_i).to_s.sub(/\s.*/, '') }
-      sequence(:alphanumstr) { SecureRandom.hex }
-
-      sequence(:username) {|n| "testuser_#{n}_#{Time.now.to_i}"}
       sequence(:user_name) {|n| "Test User #{n}_#{Time.now.to_i}"}
 
-      sequence(:repo_code) {|n| "testrepo_#{n}_#{Time.now.to_i}"}
       sequence(:repo_name) {|n| "Test Repo #{n}"}
       sequence(:accession_id) {|n| "#{n}" }
 
       sequence(:ref_id) {|n| "aspace_#{n}"}
       sequence(:id_0) {|n| "#{Time.now.to_i}_#{n}"}
 
-      sequence(:number) { rand(1_000) }
       sequence(:accession_title) { |n| "Accession #{n}" }
       sequence(:resource_title) { |n| "Resource #{n}" }
       sequence(:archival_object_title) {|n| "Archival Object #{n}"}
@@ -73,41 +61,8 @@ module AspaceFactories
       sequence(:classification_title) {|n| "Classification #{n}"}
       sequence(:classification_term_title) {|n| "Classification Term #{n}"}
 
-      sequence(:use_statement) { ["application", "application-pdf", "audio-clip",
-                                  "audio-master", "audio-master-edited",
-                                  "audio-service", "image-master",
-                                  "image-master-edited","image-service",
-                                  "image-service-edited", "image-thumbnail",
-                                  "text-codebook","test-data",
-                                  "text-data_definition","text-georeference",
-                                  "text-ocr-edited","text-ocr-unedited",
-                                  "text-tei-transcripted","text-tei-translated",
-                                  "video-clip", "video-master",
-                                  "video-master-edited","video-service",
-                                  "video-streaming"].sample }
-      sequence(:checksum_method) { ["md5", "sha-1", "sha-256", "sha-384", "sha-512"].sample }
-      sequence(:xlink_actuate_attribute) {  ["none", "other", "onLoad", "onRequest"].sample }
-      sequence(:xlink_show_attribute) {  ["new", "replace", "embed", "other", "none"].sample }
-      sequence(:file_format) { %w[aiff avi gif jpeg mp3 pdf tiff txt].sample }
-
-      sequence(:language) { sample(JSONModel(:language_and_script).schema['properties']['language']) }
-      sequence(:script) { sample(JSONModel(:language_and_script).schema['properties']['script']) }
-
-      sequence(:finding_aid_language) { sample(JSONModel(:resource).schema['properties']['finding_aid_language']) }
-      sequence(:finding_aid_script) { sample(JSONModel(:resource).schema['properties']['finding_aid_script']) }
-
-      sequence(:name_rule) {  ["local", "aacr", "dacs", "rda"].sample }
-      sequence(:name_source) { ["local", "naf", "nad", "ulan"].sample }
-      sequence(:generic_name) { SecureRandom.hex }
-      sequence(:sort_name) { SecureRandom.hex }
-
-
-      sequence(:rde_template_name) {|n| "RDE Template #{n}_#{Time.now.to_i}"}
-      sequence(:four_part_id) { Digest::MD5.hexdigest("#{Time.now}#{SecureRandom.uuid}#{$$}").scan(/.{6}/)[0...1] }
-
       sequence(:top_container_indicator) {|n| "Container #{n}"}
       sequence(:building) {|n| "Maggie's #{n}th Farm_#{Time.now.to_i}" }
-      sequence(:url) { |n| "http://example#{n}.com" }
 
       factory :repo, class: JSONModel(:repository) do
         repo_code { generate :repo_code }
@@ -135,20 +90,10 @@ module AspaceFactories
         accession_date { "1990-01-01" }
       end
 
-      factory :json_date_single, class: JSONModel(:date) do
-        date_type { 'single' }
-        label { 'creation' }
-        self.begin { generate(:yyyy_mm_dd) }
-        self.certainty { 'inferred' }
-        self.era { 'ce' }
-        self.calendar { 'gregorian' }
-        expression { generate(:alphanumstr) }
-      end
-
-      factory :json_deaccession, class: JSONModel(:deaccession) do
-        scope { "whole" }
-        description { generate(:generic_description) }
-        date { build(:json_date_single) }
+      factory :accession_parts_relationship, class: JSONModel(:accession_parts_relationship) do
+        ref { create(:accession).uri }
+        relator_type { "part" }
+        relator { "has_part" }
       end
 
       factory :accession_with_deaccession, class: JSONModel(:accession) do
@@ -179,9 +124,10 @@ module AspaceFactories
         dates { [build(:date)] }
         level { "collection" }
         lang_materials { [build(:lang_material)] }
-        finding_aid_language {  [generate(:finding_aid_language)].sample  }
-        finding_aid_script {  [generate(:finding_aid_script)].sample  }
+        finding_aid_language { [generate(:finding_aid_language)].sample }
+        finding_aid_script { [generate(:finding_aid_script)].sample }
         finding_aid_language_note { nil_or_whatever }
+        instances { [] }
       end
 
       factory :resource_with_scope, class: JSONModel(:resource) do
@@ -191,8 +137,8 @@ module AspaceFactories
         dates { [build(:date)] }
         level { "collection" }
         lang_materials { [build(:lang_material)] }
-        finding_aid_language {  [generate(:finding_aid_language)].sample  }
-        finding_aid_script {  [generate(:finding_aid_script)].sample  }
+        finding_aid_language { [generate(:finding_aid_language)].sample }
+        finding_aid_script { [generate(:finding_aid_script)].sample }
         notes { [build(:json_note_multipart)] }
       end
 
@@ -210,11 +156,13 @@ module AspaceFactories
         extents { [build(:extent)] }
         file_versions { [build(:file_version)] }
         dates { few_or_none(:date) }
+        publish { true }
       end
 
       factory :digital_object_component, class: JSONModel(:digital_object_component) do
         component_id { generate(:alphanumstr) }
         title { generate :digital_object_component_title }
+        digital_object { {'ref' => create(:digital_object).uri} }
       end
 
       factory :instance_digital, class: JSONModel(:instance) do
@@ -227,7 +175,7 @@ module AspaceFactories
         use_statement { generate(:use_statement) }
         xlink_actuate_attribute { generate(:xlink_actuate_attribute) }
         xlink_show_attribute { generate(:xlink_show_attribute) }
-        file_format_name { generate(:file_format) }
+        file_format_name { generate(:file_format_name) }
         file_format_version { generate(:alphanumstr) }
         file_size_bytes { generate(:number).to_i }
         checksum { generate(:alphanumstr) }
@@ -239,7 +187,6 @@ module AspaceFactories
       end
 
       factory :lang_material_with_note, class: JSONModel(:lang_material) do
-        language_and_script { build(:language_and_script) }
         notes { [build(:note_langmaterial)] }
       end
 
@@ -249,8 +196,9 @@ module AspaceFactories
       end
 
       factory :note_langmaterial, class: JSONModel(:note_langmaterial) do
-        type { generate(:langmaterial_note_type)}
-        content { [ generate(:string), generate(:string) ] }
+        type { "langmaterial" }
+        content { [ generate(:alphanumstr), generate(:alphanumstr) ] }
+        publish { true }
       end
 
       factory :extent, class: JSONModel(:extent) do
@@ -260,7 +208,7 @@ module AspaceFactories
       end
 
       factory :date, class: JSONModel(:date) do
-        date_type { "inclusive" }
+        date_type { generate(:date_type) }
         label { 'creation' }
         self.begin { "1900-01-01" }
         self.end { "1999-12-31" }
@@ -276,16 +224,6 @@ module AspaceFactories
           "colTitle" => "DEFAULT TITLE",
           "colLevel" => "item"
         } }
-      end
-
-      factory :json_note_multipart, class: JSONModel(:note_multipart) do
-        type { 'scopecontent' }
-        subnotes { [ build(:json_note_text, :publish => true) ] }
-        publish { true }
-      end
-
-      factory :json_note_text, class: JSONModel(:note_text) do
-        content { generate(:alphanumstr) }
       end
 
       factory :name_person, class: JSONModel(:name_person) do
@@ -309,25 +247,25 @@ module AspaceFactories
       factory :agent_person, class: JSONModel(:agent_person) do
         agent_type { 'agent_person' }
         names { [build(:name_person)] }
-        dates_of_existence { [build(:date, :label => 'existence')] }
+        dates_of_existence { [build(:json_structured_date_label)] }
       end
 
       factory :agent_family, class: JSONModel(:agent_family) do
         agent_type { 'agent_family' }
         names { [build(:name_family)] }
-        dates_of_existence { [build(:json_date, :label => 'existence')] }
+        dates_of_existence { [build(:json_structured_date_label)] }
       end
 
       factory :agent_software, class: JSONModel(:agent_software) do
         agent_type { 'agent_software' }
         names { [build(:name_software)] }
-        dates_of_existence { [build(:json_date, :label => 'existence')] }
+        dates_of_existence { [build(:json_structured_date_label)] }
       end
 
       factory :agent_corporate_entity, class: JSONModel(:agent_corporate_entity) do
         agent_type { 'agent_corporate_entity' }
         names { [build(:name_corporate_entity)] }
-        dates_of_existence { [build(:json_date, :label => 'existence')] }
+        dates_of_existence { [build(:json_structured_date_label)] }
       end
 
       factory :name_corporate_entity, class: JSONModel(:name_corporate_entity) do
@@ -372,7 +310,7 @@ module AspaceFactories
       end
 
       factory :term, class: JSONModel(:term) do
-        term { generate(:term) }
+        term { generate(:generic_term) }
         term_type { generate(:term_type) }
         vocabulary { create(:vocab).uri }
       end

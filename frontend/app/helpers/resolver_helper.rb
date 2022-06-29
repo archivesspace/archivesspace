@@ -1,7 +1,7 @@
 module ResolverHelper
 
-  def resolve_readonly_link_to(label, uri)
-    link_to label, :controller => :resolver, :action => :resolve_readonly, :uri => uri
+  def resolve_readonly_link_to(label, uri, active = true)
+    link_to_if active, label, :controller => :resolver, :action => :resolve_readonly, :uri => uri
   end
 
 

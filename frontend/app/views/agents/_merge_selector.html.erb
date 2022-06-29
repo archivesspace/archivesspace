@@ -11,13 +11,14 @@
     <div class="record-pane">
       <%= form_for @agent, :as => "agent", :url => {:action => :merge_detail}, :html => {:class => 'form-horizontal aspace-record-form', :id => "agent_form"} do |f| %>
         <%= form_context :agent, @agent do |form| %>
-          <h2 class="title-group"><%= @agent.title %>  <span class="label label-info"><%= I18n.t("agent._singular") %></span></h2>
+          <div id="title_left">
+            <h2 class="merge-group"><%= @agent.title %>  <span class="label label-info"><%= I18n.t("agent._singular") %></span></h2>
+          </div>
 
           <%= render_aspace_partial :partial => "shared/flash_messages" %>
 
-          <section id="basic_information_left" class="basic-info-group">
-            <h3><%= I18n.t("agent._frontend.section.basic_information") %></h3>
-
+          <h3><%= I18n.t("agent._frontend.section.basic_information") %></h3>
+          <section id="basic_information_left" class="merge-group">
             <div class="form-group">
               <label class="col-sm-2 control-label"><%= I18n.t("agent.type") %></label>
               <div class="col-sm-9 label-only"><%= I18n.t("agent.agent_type.#{@agent.agent_type}") %></div>
@@ -25,88 +26,222 @@
             <%= display_audit_info(@agent) %>
           </section>
 
-          <section id="<%= @agent.agent_type %>_dates_of_existence_left" class="doe-group">
-            <h3><%= I18n.t("agent._frontend.section.dates_of_existence") %></h3>
-            <div id="agent_dates_wrapper_left">
-              <div id="date_of_existence_left">
-                <% if @agent.dates_of_existence.length > 0 %>
-                  <%= render_aspace_partial :partial => "shared/subrecord_form_merge", :locals => {:form => form, :name => "dates_of_existence", :section_id => "#{@agent.agent_type}_dates_of_existence", :template_erb => "dates/template_merge_target", :template => "existence_date", :heading_text => I18n.t("agent._frontend.section.dates_of_existence"), :heading_size => "h5", :help_topic => "#{@agent.agent_type}_dates_of_existence"} %>
-                <% end %>
-              </div>
-            </div>
-          </section>
+          <% if @agent.agent_record_identifiers.length > 0 || @victim.agent_record_identifiers.length > 0 %>
+            <h3><%= I18n.t("agent_record_identifiers._plural") %></h3>
+            <section id="agent_agent_record_identifier_left" class="merge-group merge-group-left">
+                  <% if @agent.agent_record_identifiers.length > 0 %>
+                    <%= render_aspace_partial :partial => "shared/subrecord_form_merge", :locals => {:form => form, :name => "agent_record_identifiers", :section_id => "#{@agent.agent_type}_agent_record_identifier", :template => "agent_record_identifier_merge_target", :heading_text => I18n.t("agent_record_identifiers._plural"), :heading_size => "h5", :help_topic => "#{@agent.agent_type}_agent_record_identifier"} %>
+                  <% end %>
+            </section>
+          <% end %>
 
-          <section id="<%= @agent.agent_type %>_names_left" class="names-group">
+          <% if @agent.agent_record_controls.length > 0 || @victim.agent_record_controls.length > 0 %>
+            <h3><%= I18n.t("agent_record_controls._plural") %></h3>
+            <section id="agent_agent_record_control_left" class="merge-group merge-group-left">
+                  <% if @agent.agent_record_controls.length > 0 %>
+                    <%= render_aspace_partial :partial => "shared/subrecord_form_merge", :locals => {:form => form, :name => "agent_record_controls", :section_id => "#{@agent.agent_type}_agent_record_control", :template => "agent_record_control_merge_target", :heading_text => I18n.t("agent_record_controls._plural"), :heading_size => "h5", :help_topic => "#{@agent.agent_type}_agent_record_control"} %>
+                  <% end %>
+            </section>
+          <% end %>
+
+          <% if @agent.agent_other_agency_codes.length > 0 || @victim.agent_other_agency_codes.length > 0 %>
+            <h3><%= I18n.t("agent_other_agency_codes._plural") %></h3>
+            <section id="agent_agent_other_agency_code_left" class="merge-group merge-group-left">
+                  <% if @agent.agent_other_agency_codes.length > 0 %>
+                    <%= render_aspace_partial :partial => "shared/subrecord_form_merge", :locals => {:form => form, :name => "agent_other_agency_codes", :section_id => "#{@agent.agent_type}_agent_other_agency_code", :template => "agent_other_agency_code_merge_target", :heading_text => I18n.t("agent_other_agency_codes._plural"), :heading_size => "h5", :help_topic => "#{@agent.agent_type}_agent_other_agency_code"} %>
+                  <% end %>
+            </section>
+          <% end %>
+
+          <% if @agent.agent_conventions_declarations.length > 0 || @victim.agent_conventions_declarations.length > 0 %>
+            <h3><%= I18n.t("agent_conventions_declarations._plural") %></h3>
+            <section id="agent_agent_conventions_declaration_left" class="merge-group merge-group-left">
+                  <% if @agent.agent_conventions_declarations.length > 0 %>
+                    <%= render_aspace_partial :partial => "shared/subrecord_form_merge", :locals => {:form => form, :name => "agent_conventions_declarations", :section_id => "#{@agent.agent_type}_agent_conventions_declaration", :template => "agent_conventions_declaration_merge_target", :heading_text => I18n.t("agent_conventions_declarations._plural"), :heading_size => "h5", :help_topic => "#{@agent.agent_type}_agent_conventions_declaration"} %>
+                  <% end %>
+            </section>
+          <% end %>
+
+          <% if @agent.agent_maintenance_histories.length > 0 || @victim.agent_maintenance_histories.length > 0 %>
+            <h3><%= I18n.t("agent_maintenance_histories._plural") %></h3>
+            <section id="agent_agent_maintenance_history_left" class="merge-group merge-group-left">
+                  <% if @agent.agent_maintenance_histories.length > 0 %>
+                    <%= render_aspace_partial :partial => "shared/subrecord_form_merge", :locals => {:form => form, :name => "agent_maintenance_histories", :section_id => "#{@agent.agent_type}_agent_maintenance_history", :template => "agent_maintenance_history_merge_target", :heading_text => I18n.t("agent_maintenance_histories._plural"), :heading_size => "h5", :help_topic => "#{@agent.agent_type}_agent_maintenance_history"} %>
+                  <% end %>
+            </section>
+          <% end %>
+
+          <% if @agent.agent_sources.length > 0 || @victim.agent_sources.length > 0 %>
+            <h3><%= I18n.t("agent_sources._plural") %></h3>
+            <section id="agent_agent_source_left" class="merge-group merge-group-left">
+                  <% if @agent.agent_sources.length > 0 %>
+                    <%= render_aspace_partial :partial => "shared/subrecord_form_merge", :locals => {:form => form, :name => "agent_sources", :section_id => "#{@agent.agent_type}_agent_source", :template => "agent_source_merge_target", :heading_text => I18n.t("agent_sources._plural"), :heading_size => "h5", :help_topic => "#{@agent.agent_type}_agent_source"} %>
+                  <% end %>
+            </section> 
+          <% end %>
+
+          <% if @agent.agent_alternate_sets.length > 0 || @victim.agent_alternate_sets.length > 0 %>
+            <h3><%= I18n.t("agent_alternate_sets._plural") %></h3>
+            <section id="agent_agent_alternate_set_left"   class="merge-group merge-group-left">
+                  <% if @agent.agent_alternate_sets.length > 0 %>
+                    <%= render_aspace_partial :partial => "shared/subrecord_form_merge", :locals => {:form => form, :name => "agent_alternate_sets", :section_id => "#{@agent.agent_type}_agent_alternate_set", :template => "agent_alternate_set_merge_target", :heading_text => I18n.t("agent_alternate_sets._plural"), :heading_size => "h5", :help_topic => "#{@agent.agent_type}_agent_alternate_set"} %>
+                  <% end %>
+            </section>
+          <% end %>
+
+          <% if @agent.agent_identifiers.length > 0 || @victim.agent_identifiers.length > 0 %>
+            <h3><%= I18n.t("agent_identifiers._plural") %></h3>
+            <section id="agent_agent_identifier_left" class="merge-group merge-group-left">
+                  <% if @agent.agent_identifiers.length > 0 %>
+                    <%= render_aspace_partial :partial => "shared/subrecord_form_merge", :locals => {:form => form, :name => "agent_identifiers", :section_id => "#{@agent.agent_type}_agent_identifier", :template => "agent_identifier_merge_target", :heading_text => I18n.t("agent_identifiers._plural"), :heading_size => "h5", :help_topic => "#{@agent.agent_type}_agent_identifier"} %>
+                  <% end %>
+            </section> 
+          <% end %>
+
+          <% if @agent.names.length > 0 || @victim.names.length > 0 %>
             <h3><%= I18n.t("agent_name._plural") %></h3>
-            <div id="agent_name_wrapper_left">
-              <div id="agent_name_left">
-                <%= render_aspace_partial :partial => "shared/subrecord_form_merge", :locals => {:form => form, :name => "names", :section_id => "#{@agent.agent_type}_names", :template_erb => "agents/name_forms/#{@agent.agent_type}_merge_target", :template => "name_#{@agent.agent_type.to_s.gsub("agent_","")}", :help_topic => "#{@agent.agent_type}_names"} %>
-              </div>
-            </div>
-          </section>
+            <section id="agent_names_left" class="merge-group merge-group-left">
+                  <%= render_aspace_partial :partial => "shared/subrecord_form_merge", :locals => {:form => form, :name => "names", :section_id => "#{@agent.agent_type}_names", :template_erb => "agents/name_forms/#{@agent.agent_type}_merge_target", :template => "name_#{@agent.agent_type.to_s.gsub("agent_","")}", :help_topic => "#{@agent.agent_type}_names"} %>
+            </section>
+          <% end %>
+ 
+          <% if @agent.dates_of_existence.length > 0 || @victim.dates_of_existence.length > 0 %>
+           <h3><%= I18n.t("agent._frontend.section.dates_of_existence") %></h3>
+            <section id="agent_dates_of_existence_left" class="merge-group merge-group-left">
+                  <% if @agent.dates_of_existence.length > 0 %>
+                    <%= render_aspace_partial :partial => "shared/subrecord_form_merge", :locals => {:form => form, :name => "dates_of_existence", :section_id => "#{@agent.agent_type}_dates_of_existence", :template_erb => "dates/template_merge_target", :template => "structured_date_label_existence", :heading_text => I18n.t("agent._frontend.section.dates_of_existence"), :heading_size => "h5", :help_topic => "#{@agent.agent_type}_dates_of_existence"} %>
+                  <% end %>
+            </section>
+          <% end %>
 
-          <section id="<%= @agent.agent_type %>_contact_details_left" class="contact-group">
+         
+          <% if @agent.agent_type == "agent_person" && (@agent.agent_genders.length > 0 || @victim.agent_genders.length > 0) %>
+            <h3><%= I18n.t("agent_genders._plural") %></h3>
+            <section id="agent_agent_gender_left" class="merge-group merge-group-left">
+                  <% if @agent.agent_genders.length > 0 %>
+                    <%= render_aspace_partial :partial => "shared/subrecord_form_merge", :locals => {:form => form, :name => "agent_genders", :section_id => "#{@agent.agent_type}_agent_gender_target", :template => "agent_gender_merge_target", :heading_text => I18n.t("agent_genders._plural"), :heading_size => "h5"} %>
+                  <% end %>
+            </section> 
+          <% end %>
+
+
+          <% if @agent.agent_places.length > 0 || @victim.agent_places.length > 0 %>
+            <h3><%= I18n.t("agent_places._plural") %></h3>
+            <section id="agent_agent_place_left" class="merge-group merge-group-left">
+                  <% if @agent.agent_places.length > 0 %>
+                    <%= render_aspace_partial :partial => "shared/subrecord_form_merge", :locals => {:form => form, :name => "agent_places", :section_id => "#{@agent.agent_type}_agent_place", :template => "agent_place_merge_target", :heading_text => I18n.t("agent_places._plural"), :heading_size => "h5", :help_topic => "#{@agent.agent_type}_agent_place"} %>
+                  <% end %>
+            </section> 
+          <% end %>
+
+          <% if @agent.agent_occupations.length > 0 || @victim.agent_occupations.length > 0 %>
+            <h3><%= I18n.t("agent_occupations._plural") %></h3>
+            <section id="agent_agent_occupation_left" class="merge-group merge-group-left">
+                  <% if @agent.agent_occupations.length > 0 %>
+                    <%= render_aspace_partial :partial => "shared/subrecord_form_merge", :locals => {:form => form, :name => "agent_occupations", :section_id => "#{@agent.agent_type}_agent_occupation", :template => "agent_occupation_merge_target", :heading_text => I18n.t("agent_occupations._plural"), :heading_size => "h5", :help_topic => "#{@agent.agent_type}_agent_occupation"} %>
+                  <% end %>
+            </section> 
+          <% end %>
+
+          <% if @agent.agent_functions.length > 0 || @victim.agent_functions.length > 0 %>
+            <h3><%= I18n.t("agent_functions._plural") %></h3>
+            <section id="agent_agent_function_left" class="merge-group merge-group-left">
+                  <% if @agent.agent_functions.length > 0 %>
+                    <%= render_aspace_partial :partial => "shared/subrecord_form_merge", :locals => {:form => form, :name => "agent_functions", :section_id => "#{@agent.agent_type}_agent_function", :template => "agent_function_merge_target", :heading_text => I18n.t("agent_functions._plural"), :heading_size => "h5", :help_topic => "#{@agent.agent_type}_agent_function"} %>
+                  <% end %>
+            </section> 
+          <% end %>
+
+          <% if @agent.agent_topics.length > 0 || @victim.agent_topics.length > 0 %>
+            <h3><%= I18n.t("agent_topics._plural") %></h3>
+            <section id="agent_agent_topic_left" class="merge-group merge-group-left">
+                  <% if @agent.agent_topics.length > 0 %>
+                    <%= render_aspace_partial :partial => "shared/subrecord_form_merge", :locals => {:form => form, :name => "agent_topics", :section_id => "#{@agent.agent_type}_agent_topic", :template => "agent_topic_merge_target", :heading_text => I18n.t("agent_topics._plural"), :heading_size => "h5", :help_topic => "#{@agent.agent_type}_agent_topic"} %>
+                  <% end %>
+            </section> 
+          <% end %>
+
+          <% if @agent.used_languages.length > 0 || @victim.used_languages.length > 0 %>
+            <h3><%= I18n.t("used_languages._plural") %></h3>
+            <section id="agent_used_language_left" class="merge-group merge-group-left">
+                  <% if @agent.used_languages.length > 0 %>
+                    <%= render_aspace_partial :partial => "shared/subrecord_form_merge", :locals => {:form => form, :name => "used_languages", :section_id => "#{@agent.agent_type}_used_language", :template => "used_language_merge_target", :heading_text => I18n.t("used_languages._plural"), :heading_size => "h5", :help_topic => "#{@agent.agent_type}_used_language"} %>
+                  <% end %>
+            </section> 
+          <% end %>
+ 
+         
+          <% if @agent.agent_contacts.length > 0 || @victim.agent_contacts.length > 0 %>
             <h3><%= I18n.t("agent_contact._plural") %></h3>
-            <div id="agent_contact_wrapper_left">
-              <div id="agent_contact_left">
-                <% if @agent.agent_contacts.length > 0 %>
-                  <%= render_aspace_partial :partial => "shared/subrecord_form_merge", :locals => {:form => form, :name => "agent_contacts", :section_id => "#{@agent.agent_type}_contact_details", :template_erb => "agents/contact_details_merge_target", :template => "agent_contact", :help_topic => "#{@agent.agent_type}_contact_details"} %>
-                <% end %>
-              </div>
-            </div>
-          </section>
+            <section id="agent_contact_details_left" class="merge-group merge-group-left">
+                  <% if @agent.agent_contacts.length > 0 %>
+                    <%= render_aspace_partial :partial => "shared/subrecord_form_merge", :locals => {:form => form, :name => "agent_contacts", :section_id => "#{@agent.agent_type}_contact_details", :template_erb => "agents/contact_details_merge_target", :template => "agent_contact", :help_topic => "#{@agent.agent_type}_contact_details"} %>
+                  <% end %>
+            </section>
+          <% end %>
 
-        <section id="<%= @agent.agent_type %>_notes_left" class="notes-group">
-          <h3><%= I18n.t("note._plural") %></h3>
-          <div id="agent_notes_wrapper_left">
-            <div id="agent_note_left">
-              <% if @agent.notes.length > 0 %>
-                <%= render_aspace_partial :partial => "notes/form_merge_target", :locals => {:form => form, :all_note_types => note_types_for(form['jsonmodel_type']), :section_id => "#{@agent.agent_type}_notes"} %>
+          <% if @agent.notes.length > 0 || @victim.notes.length > 0 %>
+            <h3><%= I18n.t("note._plural") %></h3>
+            <section id="agent_notes_left" class="merge-group merge-group-left merge-no-color">
+                  <% if @agent.notes.length > 0 %>
+                    <%= render_aspace_partial :partial => "notes/form_merge_target", :locals => {:form => form, :all_note_types => note_types_for(form['jsonmodel_type']), :section_id => "#{@agent.agent_type}_notes"} %>
+                  <% end %>
+            </section>
+          <% end %>
+
+          <% if @agent.agent_type != "agent_software" %>
+            <% if @agent.related_agents.length > 0 || @victim.related_agents.length > 0 %>
+              <h3><%= I18n.t("related_agent._plural") %></h3>
+              <section id="agent_related_agents_left" class="merge-group">
+                    <% if !@agent['related_agents'].blank? %>
+                      <%= render_aspace_partial :partial => "related_agents/show_merge_target", :locals => { :context => form } %>
+                    <% end %>
+              </section>
               <% end %>
-            </div>
-          </div>
-        </section>
+          <% end %>
 
-          <section id="<%= @agent.agent_type %>_related_agents_left" class="related-group">
-            <h3><%= I18n.t("related_agent._plural") %></h3>
-            <div id="agent_related_wrapper_left">
-              <div id="agent_related_left">
-                <% if !@agent['related_agents'].blank? %>
-                  <%= render_aspace_partial :partial => "related_agents/show_merge_target", :locals => { :context => form } %>
-                <% end %>
-              </div>
-            </div>
-          </section>
-
-
-          <section id="<%= @agent.agent_type %>_external_documents_left" class="ed-group">
+          <% if @agent.external_documents.length > 0 || @victim.external_documents.length > 0 %>
             <h3><%= I18n.t("external_document._plural") %></h3>
-            <div id="agent_external_document_wrapper_left">
-              <div id="agent_external_document_left">
-                <% if @agent.external_documents.length > 0 %>
-                  <%= render_aspace_partial :partial => "shared/subrecord_form_merge", :locals => {:form => form, :name => "external_documents", :section_id => "#{@agent.agent_type}_external_documents", :template_erb => "external_documents/template_merge_target"} %>
-                <% end %>
-              </div>
-            </div>
-          </section>
+            <section id="agent_external_documents_left" class="merge-group merge-group-left">
+                  <% if @agent.external_documents.length > 0 %>
+                    <%= render_aspace_partial :partial => "shared/subrecord_form_merge", :locals => {:form => form, :name => "external_documents", :section_id => "#{@agent.agent_type}_external_documents", :template_erb => "external_documents/template_merge_target"} %>
+                  <% end %>
+            </section>
+          <% end %>
+
+          <% if @agent.agent_resources.length > 0 || @victim.agent_resources.length > 0 %>
+            <h3><%= I18n.t("agent_resource._plural") %></h3>
+            <section id="agent_agent_resources_left" class="merge-group merge-group-left">
+                  <% if @agent.agent_resources.length > 0 %>
+                    <%= render_aspace_partial :partial => "shared/subrecord_form_merge", :locals => {:form => form, :name => "agent_resources", :section_id => "#{@agent.agent_type}_agent_resources", :template_erb => "agent_resources/template", :template => "agent_resource_merge_target"} %>
+                  <% end %>
+            </section>
+          <% end %>
 
         <% end %>
       <% end %>
     </div>
   </div>
+  <%# VICTIM SIDE %>
   <div class="col-md-6">
-    <h2><%= I18n.t("agent._frontend.section.victim_record") %></h2>
+    <h2>
+      <%= I18n.t("agent._frontend.section.victim_record") %>
+      <span class='pull-right'>
+        <%= link_to_help :topic => "agent_merge" %>
+      </span>
+    </h2>
     <div class="record-pane">
       <%= form_for @victim, :as => "agent", :url => {:action => :merge_detail}, :html => {:class => 'form-horizontal aspace-record-form', :id => "agent_form"} do |f| %>
         <%= form_context :agent, @victim do |form| %>
           <input type='hidden' name='victim_uri' value='<%= @victim.uri %>' />
-          <h2 class="title-group"><%= @victim.title %>  <span class="label label-info"><%= I18n.t("agent._singular") %></span></h2>
+          <div id='title_right'>
+            <h2 class="merge-group"><%= @victim.title %><span class="label label-info"><%= I18n.t("agent._singular") %></span></h2>
+          </div>
 
           <%= render_aspace_partial :partial => "shared/flash_messages" %>
 
-          <section id="basic_information_right" class="basic-info-group">
-            <h3><%= I18n.t("agent._frontend.section.basic_information") %></h3>
-
+          <h3><%= I18n.t("agent._frontend.section.basic_information") %></h3>
+          <section id="basic_information_right" class="merge-group merge-group-right">
             <div class="form-group">
               <label class="col-sm-2 control-label"><%= I18n.t("agent.type") %></label>
               <div class="col-sm-9 label-only"><%= I18n.t("agent.agent_type.#{@agent.agent_type}") %></div>
@@ -114,70 +249,197 @@
             <%= display_audit_info(@victim) %>
           </section>
 
-          <section id="<%= @victim.agent_type %>_dates_of_existence_right" class="doe-group">
-            <h3><%= I18n.t("agent._frontend.section.dates_of_existence") %></h3>
-            <div id="agent_dates_wrapper_right">
-              <div id="date_of_existence_right" >
-                <% if @victim.dates_of_existence.length > 0 %>
-                  <%= render_aspace_partial :partial => "shared/subrecord_form_merge", :locals => {:form => form, :name => "dates_of_existence", :section_id => "#{@agent.agent_type}_dates_of_existence", :template_erb => "dates/template_merge", :template => "existence_date", :heading_text => I18n.t("agent._frontend.section.dates_of_existence"), :heading_size => "h5", :help_topic => "#{@agent.agent_type}_dates_of_existence"} %>
-                <% end %>
-              </div>
-            </div>
-          </section>
 
-          <section id="<%= @victim.agent_type %>_names_right" class="names-group">
+          <% if @agent.agent_record_identifiers.length > 0 || @victim.agent_record_identifiers.length > 0 %>
+            <h3><%= I18n.t("agent_record_identifiers._plural") %></h3>
+            <section id="agent_agent_record_identifier_right" class="merge-group merge-group-right">
+                  <% if @victim.agent_record_identifiers.length > 0 %>
+                    <%= render_aspace_partial :partial => "shared/subrecord_form_merge", :locals => {:form => form, :name => "agent_record_identifiers", :section_id => "#{@victim.agent_type}_agent_record_identifier", :template => "agent_record_identifier_merge_victim", :heading_text => I18n.t("agent_record_identifiers._plural"), :heading_size => "h5", :help_topic => "#{@victim.agent_type}_agent_record_identifier", :replace => (@agent.agent_record_identifiers.length > 0)} %>
+                  <% end %>
+            </section>
+          <% end %>
+
+          <% if @agent.agent_record_controls.length > 0 || @victim.agent_record_controls.length > 0 %>
+            <h3><%= I18n.t("agent_record_controls._plural") %></h3>
+            <section id="agent_agent_record_control_right" class="merge-group merge-group-right">
+                  <% if @victim.agent_record_controls.length > 0 %>
+                    <%= render_aspace_partial :partial => "shared/subrecord_form_merge", :locals => {:form => form, :name => "agent_record_controls", :section_id => "#{@victim.agent_type}_agent_record_control", :template => "agent_record_control_merge_victim", :heading_text => I18n.t("agent_record_controls._plural"), :heading_size => "h5", :help_topic => "#{@victim.agent_type}_agent_record_control", :replace => (@agent.agent_record_controls.length > 0) } %>
+                  <% end %>
+            </section> 
+          <% end %>
+
+
+          <% if @agent.agent_other_agency_codes.length > 0 || @victim.agent_other_agency_codes.length > 0 %>
+            <h3><%= I18n.t("agent_other_agency_codes._plural") %></h3>
+            <section id="agent_agent_other_agency_code_right" class="merge-group merge-group-right">
+              <% if @victim.agent_other_agency_codes.length > 0 %>
+                <%= render_aspace_partial :partial => "shared/subrecord_form_merge", :locals => {:form => form, :name => "agent_other_agency_codes", :section_id => "#{@victim.agent_type}_agent_other_agency_code", :template => "agent_other_agency_code_merge_victim", :heading_text => I18n.t("agent_other_agency_codes._plural"), :heading_size => "h5", :help_topic => "#{@victim.agent_type}_agent_other_agency_code", :replace => (@agent.agent_other_agency_codes.length > 0)} %>
+              <% end %>
+            </section>
+          <% end %>
+
+          <% if @agent.agent_conventions_declarations.length > 0 || @victim.agent_conventions_declarations.length > 0 %>
+            <h3><%= I18n.t("agent_conventions_declarations._plural") %></h3>
+            <section id="agent_agent_conventions_declaration_right" class="merge-group merge-group-right">
+                  <% if @victim.agent_conventions_declarations.length > 0 %>
+                    <%= render_aspace_partial :partial => "shared/subrecord_form_merge", :locals => {:form => form, :name => "agent_conventions_declarations", :section_id => "#{@victim.agent_type}_agent_conventions_declaration", :template => "agent_conventions_declaration_merge_victim", :heading_text => I18n.t("agent_conventions_declarations._plural"), :heading_size => "h5", :help_topic => "#{@victim.agent_type}_agent_conventions_declaration", :replace => (@agent.agent_conventions_declarations.length > 0)} %>
+                  <% end %>
+            </section>
+          <% end %>
+
+          <% if @agent.agent_maintenance_histories.length > 0 || @victim.agent_maintenance_histories.length > 0 %>
+            <h3><%= I18n.t("agent_maintenance_histories._plural") %></h3>
+            <section id="agent_agent_maintenance_history_right" class="merge-group merge-group-right">
+                  <% if @victim.agent_maintenance_histories.length > 0 %>
+                    <%= render_aspace_partial :partial => "shared/subrecord_form_merge", :locals => {:form => form, :name => "agent_maintenance_histories", :section_id => "#{@victim.agent_type}_agent_maintenance_history", :template => "agent_maintenance_history_merge_victim", :heading_text => I18n.t("agent_maintenance_histories._plural"), :heading_size => "h5", :help_topic => "#{@victim.agent_type}_agent_maintenance_history", :replace => (@agent.agent_maintenance_histories.length > 0)} %>
+                  <% end %>
+            </section>
+          <% end %>
+
+          <% if @agent.agent_sources.length > 0 || @victim.agent_sources.length > 0 %>
+            <h3><%= I18n.t("agent_sources._plural") %></h3>
+            <section id="agent_agent_source_right" class="merge-group merge-group-right">
+                  <% if @victim.agent_sources.length > 0 %>
+                    <%= render_aspace_partial :partial => "shared/subrecord_form_merge", :locals => {:form => form, :name => "agent_sources", :section_id => "#{@victim.agent_type}_agent_source", :template => "agent_source_merge_victim", :heading_text => I18n.t("agent_sources._plural"), :heading_size => "h5", :help_topic => "#{@victim.agent_type}_agent_source", :replace => (@agent.agent_sources.length > 0)} %>
+                  <% end %>
+            </section>
+          <% end %>
+
+          <% if @agent.agent_alternate_sets.length > 0 || @victim.agent_sources.length > 0 %>
+            <h3><%= I18n.t("agent_alternate_sets._plural") %></h3>
+            <section id="agent_agent_alternate_set_right" class="merge-group merge-group-right">
+                  <% if @victim.agent_alternate_sets.length > 0 %>
+                    <%= render_aspace_partial :partial => "shared/subrecord_form_merge", :locals => {:form => form, :name => "agent_alternate_sets", :section_id => "#{@victim.agent_type}_agent_alternate_set", :template => "agent_alternate_set_merge_victim", :heading_text => I18n.t("agent_alternate_sets._plural"), :heading_size => "h5", :help_topic => "#{@victim.agent_type}_agent_alternate_set", :replace => (@agent.agent_alternate_sets.length > 0)} %>
+                  <% end %>
+            </section>
+          <% end %>
+
+          <% if @agent.agent_identifiers.length > 0 || @victim.agent_identifiers.length > 0 %>
+            <h3><%= I18n.t("agent_identifiers._plural") %></h3>
+            <section id="agent_agent_identifier_right" class="merge-group merge-group-right">
+                  <% if @victim.agent_identifiers.length > 0 %>
+                    <%= render_aspace_partial :partial => "shared/subrecord_form_merge", :locals => {:form => form, :name => "agent_identifiers", :section_id => "#{@victim.agent_type}_agent_identifier", :template => "agent_identifier_merge_victim", :heading_text => I18n.t("agent_identifiers._plural"), :heading_size => "h5", :help_topic => "#{@victim.agent_type}_agent_identifier"} %>
+                  <% end %>
+            </section> 
+          <% end %>
+
+          <% if @agent.names.length > 0 || @victim.names.length > 0 %>
             <h3><%= I18n.t("agent_name._plural") %></h3>
-            <div id="agent_name_wrapper_right">
-              <div id="agent_name_right">
-                <%= render_aspace_partial :partial => "shared/subrecord_form_merge", :locals => {:form => form, :name => "names", :section_id => "#{@agent.agent_type}_names", :template_erb => "agents/name_forms/#{@agent.agent_type}_merge", :template => "name_#{@agent.agent_type.to_s.gsub("agent_","")}", :help_topic => "#{@agent.agent_type}_names"} %>
-              </div>
-            </div>
-          </section>
+            <section id="agent_names_right" class="merge-group merge-group-right">
+                  <%= render_aspace_partial :partial => "shared/subrecord_form_merge", :locals => {:form => form, :name => "names", :section_id => "#{@agent.agent_type}_names", :template_erb => "agents/name_forms/#{@agent.agent_type}_merge", :template => "name_#{@agent.agent_type.to_s.gsub("agent_","")}", :help_topic => "#{@agent.agent_type}_names", :replace => (@agent.names.length > 0)} %>
+            </section>
+          <% end %>
+ 
 
-          <section id="<%= @victim.agent_type %>_contact_details_right" class="contact-group">
-            <h3><%= I18n.t("agent_contact._plural") %></h3>
-            <div id="agent_contact_wrapper_right">
-              <div id="agent_contact_right">
-                <% if @victim.agent_contacts.length > 0 %>
-                  <%= render_aspace_partial :partial => "shared/subrecord_form_merge", :locals => {:form => form, :name => "agent_contacts", :section_id => "#{@agent.agent_type}_contact_details", :template_erb => "agents/contact_details_merge", :template => "agent_contact", :help_topic => "#{@agent.agent_type}_contact_details"} %>
-                <% end %>
-              </div>
-            </div>
-          </section>
+          <% if @agent.dates_of_existence.length > 0 || @victim.dates_of_existence.length > 0 %>
+            <h3><%= I18n.t("agent._frontend.section.dates_of_existence") %></h3>
+            <section id="agent_dates_of_existence_right" class="merge-group merge-group-right">
+                  <% if @victim.dates_of_existence.length > 0 %>
+                    <%= render_aspace_partial :partial => "shared/subrecord_form_merge", :locals => {:form => form, :name => "dates_of_existence", :section_id => "#{@victim.agent_type}_dates_of_existence", :template_erb => "dates/template_merge", :template => "structured_date_label_existence", :heading_text => I18n.t("agent._frontend.section.dates_of_existence"), :heading_size => "h5", :help_topic => "#{@victim.agent_type}_dates_of_existence", :replace => (@agent.dates_of_existence.length > 0)} %>
+                  <% end %>
+            </section>
+          <% end %>
 
-          <section id="<%= @victim.agent_type %>_notes_right" class="notes-group">
-            <h3><%= I18n.t("note._plural") %></h3>
-            <div id="agent_notes_wrapper_right">
-              <div id="agent_note_right">
-                <% if @victim.notes.length > 0 %>
-                  <%= render_aspace_partial :partial => "notes/form_merge", :locals => {:form => form, :all_note_types => note_types_for(form['jsonmodel_type']), :section_id => "#{@agent.agent_type}_notes"} %>
-                <% end %>
-              </div>
-            </div>
-          </section>
+          <% if @agent.agent_type == "agent_person" && (@agent.agent_genders.length > 0 || @victim.agent_genders.length > 0) %>
+            <h3><%= I18n.t("agent_genders._plural") %></h3>
+            <section id="agent_agent_gender_right" class="merge-group merge-group-right">
+                  <% if @victim.agent_genders.length > 0 %>
+                    <%= render_aspace_partial :partial => "shared/subrecord_form_merge", :locals => {:form => form, :name => "agent_genders", :section_id => "#{@victim.agent_type}_agent_gender_victim", :template => "agent_gender_merge_victim", :heading_text => I18n.t("agent_genders._plural"), :heading_size => "h5", :help_topic => "#{@victim.agent_type}_agent_gender", :replace => (@agent.agent_genders.length > 0)} %>
+                  <% end %>
+            </section> 
+          <% end %>
 
-          <section id="<%= @victim.agent_type %>_related_agents_right" class="related-group">
-            <h3><%= I18n.t("related_agent._plural") %></h3>
-            <div id="agent_related_wrapper_right">
-              <div id="agent_related_right">
-                <% if !@victim['related_agents'].blank? %>
-                  <%= render_aspace_partial :partial => "related_agents/show_merge_target", :locals => { :context => form } %>
-                <% end %>
-              </div>
-            </div>
-          </section>
+          <% if @agent.agent_places.length > 0 || @victim.agent_places.length > 0 %>
+            <h3><%= I18n.t("agent_places._plural") %></h3>
+            <section id="agent_agent_place_right" class="merge-group merge-group-right">
+                  <% if @victim.agent_places.length > 0 %>
+                    <%= render_aspace_partial :partial => "shared/subrecord_form_merge", :locals => {:form => form, :name => "agent_places", :section_id => "#{@victim.agent_type}_agent_place", :template => "agent_place_merge_victim", :heading_text => I18n.t("agent_places._plural"), :heading_size => "h5", :help_topic => "#{@victim.agent_type}_agent_place", :replace => (@agent.agent_places.length > 0)} %>
+                  <% end %>
+            </section> 
+          <% end %>
 
+          <% if @agent.agent_occupations.length > 0 || @victim.agent_occupations.length > 0 %>
+            <h3><%= I18n.t("agent_occupations._plural") %></h3>
+            <section id="agent_agent_occupation_right" class="merge-group merge-group-right">
+                  <% if @victim.agent_occupations.length > 0 %>
+                    <%= render_aspace_partial :partial => "shared/subrecord_form_merge", :locals => {:form => form, :name => "agent_occupations", :section_id => "#{@victim.agent_type}_agent_occupation", :template => "agent_occupation_merge_victim", :heading_text => I18n.t("agent_occupations._plural"), :heading_size => "h5", :help_topic => "#{@victim.agent_type}_agent_occupation", :replace => (@agent.agent_occupations.length > 0)} %>
+                  <% end %>
+            </section> 
+          <% end %>
 
-          <section id="<%= @victim.agent_type %>_external_documents_right" class="ed-group">
+          <% if @agent.agent_functions.length > 0 || @victim.agent_functions.length > 0 %>
+            <h3><%= I18n.t("agent_functions._plural") %></h3>
+            <section id="agent_agent_function_right" class="merge-group merge-group-right">
+                  <% if @victim.agent_functions.length > 0 %>
+                    <%= render_aspace_partial :partial => "shared/subrecord_form_merge", :locals => {:form => form, :name => "agent_functions", :section_id => "#{@victim.agent_type}_agent_function", :template => "agent_function_merge_victim", :heading_text => I18n.t("agent_functions._plural"), :heading_size => "h5", :help_topic => "#{@victim.agent_type}_agent_function", :replace => (@agent.agent_functions.length > 0)} %>
+                  <% end %>
+            </section> 
+          <% end %>
+          
+          <% if @agent.agent_topics.length > 0 || @victim.agent_topics.length > 0 %>
+            <h3><%= I18n.t("agent_topics._plural") %></h3>
+            <section id="agent_agent_topic_right" class="merge-group merge-group-right">
+                  <% if @victim.agent_topics.length > 0 %>
+                    <%= render_aspace_partial :partial => "shared/subrecord_form_merge", :locals => {:form => form, :name => "agent_topics", :section_id => "#{@victim.agent_type}_agent_topic", :template => "agent_topic_merge_victim", :heading_text => I18n.t("agent_topics._plural"), :heading_size => "h5", :help_topic => "#{@victim.agent_type}_agent_topic", :replace => (@agent.agent_topics.length > 0)} %>
+                  <% end %>
+            </section> 
+          <% end %>
+
+          <% if @agent.used_languages.length > 0 || @victim.used_languages.length > 0 %>
+            <h3><%= I18n.t("used_languages._plural") %></h3>
+            <section id="agent_used_language_right" class="merge-group merge-group-right">
+                  <% if @victim.used_languages.length > 0 %>
+                    <%= render_aspace_partial :partial => "shared/subrecord_form_merge", :locals => {:form => form, :name => "used_languages", :section_id => "#{@victim.agent_type}_used_language", :template => "used_language_merge_victim", :heading_text => I18n.t("used_languages._plural"), :heading_size => "h5", :help_topic => "#{@victim.agent_type}_used_language", :replace => (@agent.used_languages.length > 0)} %>
+                  <% end %>
+            </section> 
+          <% end %>
+
+          <% if @agent.agent_contacts.length > 0 || @victim.agent_contacts.length > 0 %>
+           <h3><%= I18n.t("agent_contact._plural") %></h3>
+           <section id="agent_contact_details_right" class="merge-group merge-group-right">
+                 <% if @victim.agent_contacts.length > 0 %>
+                   <%= render_aspace_partial :partial => "shared/subrecord_form_merge", :locals => {:form => form, :name => "agent_contacts", :section_id => "#{@agent.agent_type}_contact_details", :template_erb => "agents/contact_details_merge", :template => "agent_contact", :help_topic => "#{@agent.agent_type}_contact_details", :replace => (@agent.agent_contacts.length > 0)} %>
+                 <% end %>
+           </section>
+          <% end %>
+
+          <% if @agent.notes.length > 0 || @victim.notes.length > 0 %>
+           <h3><%= I18n.t("note._plural") %></h3>
+           <section id="agent_notes_right" class="merge-group merge-group-right merge-no-color">
+                 <% if @victim.notes.length > 0 %>
+                   <%= render_aspace_partial :partial => "notes/form_merge", :locals => {:form => form, :all_note_types => note_types_for(form['jsonmodel_type']), :section_id => "#{@agent.agent_type}_notes", :replace => false} %>
+                 <% end %>
+           </section>
+          <% end %>
+
+          <% if @agent.agent_type != "agent_software" %>
+            <% if @agent.related_agents.length > 0 || @victim.related_agents.length > 0 %>
+              <h3><%= I18n.t("related_agent._plural") %></h3>
+              <section id="agent_related_agents_right" class="merge-group merge-group-right">
+                    <% if !@victim['related_agents'].blank? %>
+                      <%= render_aspace_partial :partial => "related_agents/show_merge", :locals => { :context => form } %>
+                    <% end %>
+              </section>
+            <% end %>
+          <% end %>
+
+          <% if @agent.external_documents.length > 0 || @victim.external_documents.length > 0 %>
             <h3><%= I18n.t("external_document._plural") %></h3>
-            <div id="agent_external_document_wrapper_right">
-              <div id="agent_external_document_right">
-                <% if @victim.external_documents.length > 0 %>
-                  <%= render_aspace_partial :partial => "shared/subrecord_form_merge", :locals => {:form => form, :name => "external_documents", :section_id => "#{@agent.agent_type}_external_documents", :template_erb => "external_documents/template_merge"} %>
-                <% end %>
-              </div>
-            </div>
-          </section>
+            <section id="agent_external_documents_right" class="merge-group merge-group-right">
+                  <% if @victim.external_documents.length > 0 %>
+                    <%= render_aspace_partial :partial => "shared/subrecord_form_merge", :locals => {:form => form, :name => "external_documents", :section_id => "#{@agent.agent_type}_external_documents", :template_erb => "external_documents/template_merge", :replace => (@agent.external_documents.length > 0)} %>
+                  <% end %>
+            </section>
+          <% end %>
+
+          <% if @agent.agent_resources.length > 0 || @victim.agent_resources.length > 0 %>
+            <h3><%= I18n.t("agent_resource._plural") %></h3>
+            <section id="agent_agent_resources_right" class="merge-group merge-group-right">
+                  <% if @victim.agent_resources.length > 0 %>
+                    <%= render_aspace_partial :partial => "shared/subrecord_form_merge", :locals => {:form => form, :name => "agent_resources", :section_id => "#{@agent.agent_type}_agent_resources", :template_erb => "agent_resources/template", :template => "agent_resource_merge_victim", :replace => (@agent.agent_resources.length > 0)} %>
+                  <% end %>
+            </section>
+          <% end %>
 
         <% end %>
       <% end %>
