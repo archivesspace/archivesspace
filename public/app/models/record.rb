@@ -183,7 +183,10 @@ class Record
     #adding the date label & type below so that it'll be easy to figure out which dates to include in other mappings, such as the schema.org mappings
     (json['dates'] || json['dates_of_existence']).each do |date|
       label, exp = parse_date(date)
-      dates.push({'final_expression' => label + exp, '_inherited' => date.dig('_inherited'), 'label' => date['label'], 'date_type' => date['date_type']})
+
+      label_string = I18n.t("enumerations.date_label.#{date['label']}", :default => date['label'])
+
+      dates.push({'final_expression' => label_string + ": " + exp, '_inherited' => date.dig('_inherited'), 'label' => date['label'], 'date_type' => date['date_type']})
     end
 
     dates
