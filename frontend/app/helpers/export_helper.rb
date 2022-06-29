@@ -20,20 +20,22 @@ module ExportHelper
     params["dt"] = "csv"
 
     body = ""
-    headers = search_result_data["results"].first.keys.reject { |key| key == "jsonmodel_type"}
-    body << headers.join(',') + "\n"
+    if search_result_data["results"].any?
+      headers = search_result_data["results"].first.keys.reject { |key| key == "jsonmodel_type"}
+      body << headers.join(',') + "\n"
 
-    search_result_data["results"].each do |row|
-      values = row.values
-      values.map! do |v|
-        if v.is_a?(Array)
-          v.join("; ")
-        else
-          v
+      search_result_data["results"].each do |row|
+        values = row.values
+        values.map! do |v|
+          if v.is_a?(Array)
+            v.join("; ")
+          else
+            v
+          end
         end
-      end
 
-      body << values.join(',') + "\n"
+        body << values.join(',') + "\n"
+      end
     end
 
     self.response_body = body
