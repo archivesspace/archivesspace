@@ -110,4 +110,14 @@ describe 'Collection Management' do
       @driver.find_element_with_text('//div[contains(@class, "error")]', /Processing Total Extent - Must be a number with no more than nine digits and five decimal places\./, false, true)
     end.to raise_error(Selenium::WebDriver::Error::NoSuchElementError)
   end
+
+  it 'can export a list of jobs to CSV' do
+    @driver.navigate.to("#{$frontend}/collection_management")
+
+    el = @driver.find_element(link: 'Download CSV')
+    @driver.download_file(el)
+
+    sleep(1)
+    assert(5) { expect(Dir.glob(File.join(Dir.tmpdir, '*.csv')).length).to eq(1) }
+  end
 end

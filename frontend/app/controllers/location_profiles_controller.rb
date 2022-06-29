@@ -1,5 +1,7 @@
 class LocationProfilesController < ApplicationController
 
+  include ExportHelper
+
   set_access_control  "view_repository" => [:show, :typeahead],
                       "manage_location_profile_record" => [:new, :index, :edit, :create, :update, :delete]
 
@@ -18,7 +20,17 @@ class LocationProfilesController < ApplicationController
 
 
   def index
-    @search_data = Search.global(params_for_backend_search.merge({"facet[]" => FACETS}), "location_profile")
+    respond_to do |format|
+      format.html {
+        @search_data = Search.global(params_for_backend_search.merge({"facet[]" => FACETS}), "location_profile")
+      }
+
+      format.csv {
+        search_data_csv = Search.global(params_for_backend_search.merge({"facet[]" => FACETS, "page_size" => "2147483647"}), "location_profile")
+
+        csv_response_from_search_result_data(search_data_csv, "location_profile")
+      }
+    end
   end
 
 

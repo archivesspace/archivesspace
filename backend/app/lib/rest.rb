@@ -424,7 +424,8 @@ module RESTHelpers
         raise ArgumentError.new("Invalid non-negative integer value: #{s}")
       end
 
-      if val > AppConfig[:max_page_size].to_i
+      # ANW-1364: 2147483647 is a special value intended to bypass AppConfig[:max_page_size] for the purpose of downloading a CSV, which should include all rows.
+      if val > AppConfig[:max_page_size].to_i && val != 2147483647
         Log.warn("Requested page size of #{val} exceeds the maximum allowable of #{AppConfig[:max_page_size]}." +
                  "  It has been reduced to the maximum.")
 
