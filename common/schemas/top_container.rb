@@ -21,6 +21,7 @@
       "ils_holding_id" => {"type" => "string", "maxLength" => 255, "required" => false},
       "ils_item_id" => {"type" => "string", "maxLength" => 255, "required" => false},
       "exported_to_ils" => {"type" => "string", "required" => false},
+      "internal_note" => {"type" => "string", "required" => false},
 
       "restricted" => {
         "type" => "boolean",
