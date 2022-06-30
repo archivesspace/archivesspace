@@ -1538,6 +1538,10 @@ en:
     ils_item_id: ILS Item ID
     ils_item_id_tooltip: |
         <p>Identifier, supplied by the API, for an associated item record in the library ILS (system field; cannot be edited manually)</p>
+
+    internal_note: Internal Note
+    internal_note_tooltip: |
+        <p>Notes for internal use. Only visible in staff interface.</p>
     exported_to_ils: Exported to ILS
     not_exported: Not exported
     restricted: Restricted?
