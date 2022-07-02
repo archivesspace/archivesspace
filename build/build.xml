@@ -432,6 +432,33 @@
     </java>
   </target>
 
+    <target name="bundler:update" depends="set-classpath" description="Run bundler against a gemfile">
+    <property name="build.home" location="."/>
+    <property name="excluded-gem-groups" value="" />
+    <property name="included-gem-groups" value="" />
+    <condition property="bundle-without-option" value="--without '${excluded-gem-groups}'" else="">
+      <matches pattern="^.+$" string="${excluded-gem-groups}"/>
+    </condition>
+    <condition property="bundle-with-option" value="--with '${included-gem-groups}'" else="">
+      <matches pattern="^.+$" string="${included-gem-groups}"/>
+    </condition>
+    <echo message="Fetching gems for ${gemfile}" />
+    <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true" failonerror="true">
+      <jvmarg line="${default_java_options} ${env.JAVA_OPTS}"/>
+      <env key="GEM_HOME" value="${gem_home}" />
+      <env key="GEM_PATH" value="" />
+      <env key="BUNDLE_PATH" value="${gem_home}" />
+      <env key="HOME" value="${build.home}" />
+      <arg line="gems/bin/bundle update --jobs=8 --gemfile='${gemfile}' ${bundle-without-option} ${bundle-with-option}" />
+    </java>
+  </target>
+
+  <target name="bundle:frontend" depends="set-classpath"  description="Bundle just the frontend">
+    <antcall target="bundler">
+      <param name="gemfile" value="../frontend/Gemfile" />
+    </antcall>
+  </target>
+
   <!-- RSPEC -->
   <target name="rspec" depends="set-classpath" description="Run rspec">
     <property name="dir" value="../build/null"/><!--must be set by calling task or command -->
@@ -675,7 +702,7 @@
       <env key="APPCONFIG_DATA_DIRECTORY" value="${aspace.data_directory.dev}" />
       <env key="APPCONFIG_DB_URL" value="${env.APPCONFIG_DB_URL}" />
       <env key="APPCONFIG_SOLR_URL" value="${env.APPCONFIG_SOLR_URL}" />
-      <arg line="script/rails s mizuno -b 0.0.0.0 --port=${aspace.frontend.port}" />
+      <arg line="script/rails s -u mizuno -b 0.0.0.0 --port=${aspace.frontend.port}" />
     </java>
     <record name="frontend_test_log.out" action="stop" />
   </target>
@@ -789,7 +816,7 @@
       <env key="APPCONFIG_DATA_DIRECTORY" value="${aspace.data_directory.dev}" />
       <env key="APPCONFIG_DB_URL" value="${env.APPCONFIG_DB_URL}" />
       <env key="APPCONFIG_SOLR_URL" value="${env.APPCONFIG_SOLR_URL}" />
-      <arg line="bin/rails s mizuno -b 0.0.0.0 --port=${aspace.public.port}" />
+      <arg line="bin/rails s -u mizuno -b 0.0.0.0 --port=${aspace.public.port}" />
     </java>
   </target>
 
