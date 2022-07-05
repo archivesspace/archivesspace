@@ -1,0 +1,67 @@
+#bulk_operation_results .table-sortable th.tablesorter-header {
+  cursor: pointer;
+}
+#bulk_operation_results
+  .table-sortable
+  th.tablesorter-header.tablesorter-headerAsc,
+#bulk_operation_results
+  .table-sortable
+  th.tablesorter-header.tablesorter-headerDesc {
+  padding-right: 20px;
+  position: relative;
+  background-color: #e8f5fa;
+  background-image: -moz-linear-gradient(top, #f0f7fa, #dcf1fa);
+  background-image: -webkit-gradient(
+    linear,
+    0 0,
+    0 100%,
+    from(#f0f7fa),
+    to(#dcf1fa)
+  );
+  background-image: -webkit-linear-gradient(top, #f0f7fa, #dcf1fa);
+  background-image: -o-linear-gradient(top, #f0f7fa, #dcf1fa);
+  background-image: linear-gradient(to bottom, #f0f7fa, #dcf1fa);
+}
+#bulk_operation_results
+  .table-sortable
+  th.tablesorter-header.tablesorter-headerAsc::after,
+#bulk_operation_results
+  .table-sortable
+  th.tablesorter-header.tablesorter-headerDesc::after {
+  content: '';
+  position: absolute;
+  right: 5px;
+  top: 1em;
+  border-width: 0 4px 4px;
+  border-style: solid;
+  border-color: #000 transparent;
+}
+#bulk_operation_results
+  .table-sortable
+  th.tablesorter-header.tablesorter-headerAsc::after {
+  border-bottom: none !important;
+  border-left: 4px solid transparent !important;
+  border-right: 4px solid transparent !important;
+  border-top: 4px solid #000 !important;
+}
+.selected-record-list {
+  max-height: 180px;
+  overflow: auto;
+}
+
+.selected-record-list input:checked ~ span {
+  font-weight: bold;
+}
+
+#bulk_operation_results .linked-records-listing,
+#bulkActionBarcodeRapidEntryModal .linked-records-listing {
+  margin: 0;
+  list-style-position: inside;
+}
+
+.tablesorter-header-inner {
+  padding: 0 !important;
+}
+.spacer {
+  height: 60px;
+}

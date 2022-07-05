@@ -1,0 +1,159 @@
+@import 'archivesspace/variables';
+
+// Listing styles
+.table-import-jobs {
+  .filenames {
+    width: 40%;
+  }
+}
+
+// Form styles
+.fileinput-wrapper {
+  height: 100px;
+  border: 2px dashed #eee;
+}
+
+.fileinput-button {
+  position: relative;
+  overflow: hidden;
+}
+.fileinput-button input {
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin: 0;
+  opacity: 0;
+  -ms-filter: 'alpha(opacity=0)';
+  font-size: 200px;
+  direction: ltr;
+  cursor: pointer;
+}
+
+#files {
+  margin-top: 10px;
+  min-height: 100px;
+  border: 2px dashed #f3f3f3;
+
+  .hint {
+    width: 300px;
+    margin: 40px auto;
+    font-size: 1.4em;
+    color: #ddd;
+
+    .plus {
+      font-size: 1.4em;
+    }
+  }
+
+  &.incoming {
+    border: 2px dashed #7df;
+  }
+
+  &.active {
+    border: 2px solid #7df;
+  }
+
+  .import-file {
+    display: block;
+    border-top: 1px solid #f3f3f3;
+    padding: 10px;
+
+    input {
+      display: none;
+    }
+  }
+
+  .import-file:nth-child(2n-1) {
+    background-color: #fafafa;
+  }
+
+  .import-file:last-child {
+    border-bottom: 1px solid #f3f3f3;
+  }
+
+  .btn-remove-file {
+    float: right;
+  }
+}
+
+#job_filenames_.error {
+  #files {
+    border-color: $errorBackground;
+  }
+}
+
+// Details styles
+.job-status {
+  font-weight: bold;
+  font-size: 1.2em;
+}
+.job-status-completed {
+  .job-status {
+    .controls {
+      color: $successText;
+    }
+  }
+}
+.job-status-queued {
+  .job-status {
+    .controls {
+      color: $warningText;
+    }
+  }
+}
+.job-status-running {
+  .job-status {
+    .controls {
+      color: $infoText;
+    }
+  }
+}
+.job-status-failed {
+  .job-status {
+    .controls {
+      color: $errorText;
+    }
+  }
+}
+#logSpool {
+  background-color: #333;
+  color: #3e3;
+  font-family: monospace;
+  height: 300px;
+  overflow: auto;
+  padding: 4px 10px;
+  margin-top: 10px;
+}
+
+#jobRecordsSpool {
+  min-height: 270px;
+  .pagination {
+    margin-top: 10px;
+  }
+}
+
+.report-list {
+  margin: 15px;
+  border-top: 1px solid lightgray;
+  .report-listing {
+    color: #606060;
+    border-bottom: 1px solid lightgray;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    .heading {
+      padding-bottom: 10px;
+      .report-title {
+        font-weight: bold;
+        font-size: large;
+        padding: 0;
+      }
+      .report-title.disabled {
+        opacity: 1;
+      }
+      .select-report,
+      .unselect-report .create-report-template {
+        margin-top: -6px;
+      }
+    }
+  }
+}
