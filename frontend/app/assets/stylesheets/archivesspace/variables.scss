@@ -1,8 +1,8 @@
 // import bootstrap variables
-@import 'bootstrap/variables';
+@import '../bootstrap/variables';
 
 // updated vars
-
+$white: white;
 $input-border: #878787;
 $btn-default-border: $input-border;
 
@@ -20,13 +20,13 @@ $warningText: #c09853;
 $inputBackground: $white;
 $btnBackground: $white;
 $btnBackgroundHighlight: darken($white, 10%);
+$linkColor: #08c;
 $btnPrimaryBackground: $linkColor;
 $tableBackgroundHover: #f5f5f5; // for hover
 $baseLineHeight: 20px;
 $baseFontSize: 14px;
-$baseFontFamily: $sansFontFamily;
 $sansFontFamily: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-$linkColor: #08c;
+$baseFontFamily: $sansFontFamily;
 
 // Grays
 // -------------------------

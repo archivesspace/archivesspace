@@ -12,3 +12,6 @@ gem 'rake'
 group :rubocop do
   gem 'rubocop'
 end
+
+# Convert LESS to SCSS
+gem 'less2sass'

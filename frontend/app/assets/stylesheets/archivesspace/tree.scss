@@ -7,7 +7,9 @@
   padding: 10px 0 10px 0;
   position: relative;
   background-color: #f3f3f3;
-  #gradient > @include vertical(#F3F3F3, #EDEDED);
+  #gradient {
+    @include vertical(#F3F3F3, #EDEDED);
+  }
 
   border-top: 1px solid #eee;
   border-bottom: 1px solid #fff;
@@ -126,7 +128,7 @@
   max-width: 400px;
 }
 
-@-webkit-keyframes spin2 {
+@-webkit-keyframes spin {
   from {
     -webkit-transform: rotate(0deg);
   }

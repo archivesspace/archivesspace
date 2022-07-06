@@ -30,10 +30,6 @@
   <%= javascript_include_tag "application" %>
   <%= include_controller_js %>
 
-  <!--[if lt IE 9]>
-  <%= javascript_include_tag "html5shiv" %>
-  <![endif]-->
-
   <% ASUtils.order_plugins(ASUtils.find_local_directories('frontend/views/layout_head.html.erb')).each do |layout| %>
     <% if File.exist?(layout) %>
       <!-- Begin plugin layout -->
