@@ -31,6 +31,22 @@
   *margin-right: 0.3em;
 }
 
+@mixin vertical($primaryColor, $secondaryColor){
+  background-image: linear-gradient(to right, $primaryColor, $secondaryColor)
+}
+
+// Gradient Bar Colors for buttons and alerts
+@mixin gradientBar($primaryColor, $secondaryColor, $textColor: #fff, $textShadow: 0 -1px 0 rgba(0,0,0,0.25)){
+  color: $textColor;
+  text-shadow: $textShadow;
+  #gradient {
+    @include vertical($primaryColor, $secondaryColor);
+  }
+  border-color: $secondaryColor $secondaryColor darken($secondaryColor, 15%);
+  border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1)
+    fadein(rgba(0, 0, 0, 0.1), 15%);
+}
+
 @mixin buttonBackground($startColor, $endColor, $textColor: #fff, $textShadow: 0 -1px 0 rgba(0,0,0,0.25))
 {
   // gradientBar will set the background to a pleasing blend of these, to support IE<=9
@@ -58,18 +74,10 @@
   }
 }
 
-@mixin vertical ($primaryColor, $secondaryColor){
-  background-image: linear-gradient(to right, $primaryColor, $secondaryColor)
-}
-
-// Gradient Bar Colors for buttons and alerts
-@mixin gradientBar($primaryColor, $secondaryColor, $textColor: #fff, $textShadow: 0 -1px 0 rgba(0,0,0,0.25)){
-  color: $textColor;
-  text-shadow: $textShadow;
-  #gradient {
-    @include vertical($primaryColor, $secondaryColor);
-  }
-  border-color: $secondaryColor $secondaryColor darken($secondaryColor, 15%);
-  border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1)
-    fadein(rgba(0, 0, 0, 0.1), 15%);
+//bootstrap <= 3 mixins that were being utilized, but have been removed in the new version of Bootstrap
+// Border Radius
+@mixin border-radius($radius) {
+  -webkit-border-radius: $radius;
+  -moz-border-radius: $radius;
+  border-radius: $radius;
 }
