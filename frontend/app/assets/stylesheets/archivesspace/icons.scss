@@ -39,20 +39,17 @@
   -moz-osx-font-smoothing: grayscale;
 
   &.icon-resource::before {
-    .alt-icomoon;
-
+    @include alt-icomoon;
     content: '\ea71';
   }
 
   &.icon-accession::before {
-    .alt-icomoon;
-
+    @include alt-icomoon;
     content: '\e99f';
   }
 
   &.icon-repository::before {
-    .alt-icomoon;
-
+    @include alt-icomoon;
     content: '\e921';
   }
 
@@ -73,7 +70,7 @@
   }
 
   &.icon-agent_family::before {
-    .alt-icomoon;
+    @include alt-icomoon;
 
     content: '\e972';
   }

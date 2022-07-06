@@ -22,6 +22,7 @@
 //= require utils
 //= require header
 //= require linker
+//= require bootstrap
 //= require bootstrap-select
 //= require bootstrap3-typeahead
 //= require bootstrap-tagsinput

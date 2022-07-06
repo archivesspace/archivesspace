@@ -184,7 +184,9 @@ form .form-group {
 
 .record-pane h3 {
   background-color: #f6f6f6;
-  #gradient > @include vertical(#F3F3F3, #EDEDED);
+  #gradient {
+    @include vertical(#F3F3F3, #EDEDED);
+  }
 
   border-bottom: 1px solid #ddd;
   padding-left: 10px;
@@ -215,8 +217,8 @@ form .form-group {
 
 .record-pane section section h4 {
   background-color: #f6f6f6;
-  #gradient > @include vertical(#F3F3F3, #EDEDED);
-
+  #gradient {@include vertical(#F3F3F3, #EDEDED);
+  }
   border-bottom: 1px solid #ddd;
   padding-left: 10px;
   line-height: 36px;
@@ -250,12 +252,13 @@ form .form-group {
   clear: both;
   margin: 20px 0;
   background-color: #fafafa;
-  @include box-shadow(~'1px 1px 3px rgba(0, 0, 0, 0.25)');
+  @include box-shadow(1px 1px 3px rgba(0, 0, 0, 0.25));
 
   .subrecord-form-heading {
     background-color: #f6f6f6;
-    #gradient > @include vertical(#F3F3F3, #EDEDED);
-
+    #gradient {
+      @include vertical(#F3F3F3, #EDEDED);
+    }
     padding-left: 10px;
     min-height: 1.4em;
     margin: 0;
@@ -488,7 +491,9 @@ ul.subrecord-form-list {
 }
 
 .CodeMirror {
-  #font > @include shorthand($baseFontSize,normal,$baseLineHeight);
+  #font {
+    @include shorthand($baseFontSize,normal,$baseLineHeight);
+  }
 
   margin-bottom: 9px;
   font-size: $baseFontSize;
@@ -624,14 +629,16 @@ ul.subrecord-form-list {
       @include transition(background-color linear 0.1s);
 
       background-color: $btnBackgroundHighlight;
-      #gradient > @include vertical($btnBackground, $btnBackgroundHighlight);
+      #gradient {
+        @include vertical($btnBackground, $btnBackgroundHighlight);
+      }
     }
 
     &:active {
       background-image: none;
       outline: 0;
       background-color: #eee;
-      @include box-shadow(~'inset 0 1px 2px rgba(0,0,0,.15), 0 1px 2px rgba(0,0,0,.05)');
+      @include box-shadow(inset 0 1px 2px rgba(0,0,0,.15), 0 1px 2px rgba(0,0,0,.05));
     }
   }
 }
@@ -714,13 +721,13 @@ label {
     /* margin-left: 0; */
     clear: both;
   }
-  .control-label {
-    /* width: 100%; */
+  // .control-label {
+  //   /* width: 100%; */
 
-    /* text-align: left; */
+  //   /* text-align: left; */
 
-    /* margin-left: 0; */
-  }
+  //   /* margin-left: 0; */
+  // }
   form {
     margin: 0;
   }

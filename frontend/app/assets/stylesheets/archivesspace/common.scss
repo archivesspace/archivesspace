@@ -95,29 +95,28 @@ td .btn-group {
 
 #font {
   #family {
-    @mixin serif()
-{
+    @mixin serif(){
       font-family: $serifFontFamily;
     }
-    @mixin sans-serif()
-{
+    @mixin sans-serif(){
       font-family: $sansFontFamily;
     }
-    @mixin monospace()
-{
+    @mixin monospace(){
       font-family: $monoFontFamily;
     }
   }
-  @mixin shorthand($size: $baseFontSize, $weight: normal, $lineHeight: $baseLineHeight)
-{
+  @mixin shorthand($size: $baseFontSize, $weight: normal, $lineHeight: $baseLineHeight){
     font-size: $size;
     font-weight: $weight;
     line-height: $lineHeight;
   }
-  @mixin sans-serif($size: $baseFontSize, $weight: normal, $lineHeight: $baseLineHeight)
-{
-    #font > #family > .sans-serif;
-    #font > @include shorthand($size, $weight, $lineHeight);
+  @mixin sans-serif($size: $baseFontSize, $weight: normal, $lineHeight: $baseLineHeight) {
+    #font > #family {
+      @include sans-serif()
+    }
+    #font {
+      @include shorthand($size, $weight, $lineHeight);
+    }
   }
 }
 

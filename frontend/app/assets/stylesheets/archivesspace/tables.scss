@@ -1,10 +1,13 @@
 /* Styles to support sortable tables */
 table {
   thead {
-    #gradient > @include vertical($navbarBackgroundHighlight, $navbarBackground);
+    #gradient{
+      @include vertical($navbarBackgroundHighlight, $navbarBackground);
+    }
     th {
       &.highlighted {
-        #gradient > @include vertical(#f0f7fa, #dcf1fa);
+        #gradient {@include vertical(#f0f7fa, #dcf1fa);
+        }
       }
 
       &.required {
@@ -101,7 +104,9 @@ table.table-sortable {
       }
     }
     th.sort-desc {
-      #gradient > @include vertical(#f0f7fa, #dcf1fa);
+      #gradient {
+        @include vertical(#f0f7fa, #dcf1fa);
+      }
 
       > a {
         padding-right: 15px;
@@ -112,7 +117,9 @@ table.table-sortable {
       }
     }
     th.sort-asc {
-      #gradient > @include vertical(#f0f7fa, #dcf1fa);
+      #gradient {
+        @include vertical(#f0f7fa, #dcf1fa);
+      }
 
       > a {
         padding-right: 20px;
