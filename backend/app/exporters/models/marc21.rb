@@ -628,7 +628,7 @@ class MARCModel < ASpaceExport::ExportModel
                                   ['u', link]
                                 )
       end
-    end   
+    end
   end
 
   def handle_ark(ark_name)
