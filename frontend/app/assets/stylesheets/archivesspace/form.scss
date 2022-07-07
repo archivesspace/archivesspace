@@ -491,9 +491,9 @@ ul.subrecord-form-list {
 }
 
 .CodeMirror {
-  #font {
-    @include shorthand($baseFontSize,normal,$baseLineHeight);
-  }
+  // #font {
+  //   @include shorthand($baseFontSize,normal,$baseLineHeight);
+  // }
 
   margin-bottom: 9px;
   font-size: $baseFontSize;
