@@ -15,6 +15,7 @@ class ArchivalObject < JSONModel(:archival_object)
     # We'll replace this with our own relationship, linking us back to the
     # accession we were spawned from.
     # values.delete('related_accessions')
+    self.accession_links = [{'ref' => accession.uri, '_resolved' => accession}]
 
     notes ||= []
 
@@ -33,14 +34,12 @@ class ArchivalObject < JSONModel(:archival_object)
                                                      :content => [accession.condition_description])
     end
 
-    self.accession_links = [{'ref' => accession.uri, '_resolved' => accession}]
-
-    self.notes = notes
-
-    self.update(values)
+    self.notes.concat(notes)
 
     self.rights_statements = Array(accession.rights_statements).map {|rights_statement|
       rights_statement.clone.tap {|r| r.delete('identifier')}
     }
+
+    self.update(values)
   end
 end
