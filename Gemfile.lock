@@ -38,6 +38,7 @@ GEM
     json (2.5.1)
     json (2.5.1-java)
     jwt (2.2.2)
+    less2sass (1.2.0)
     llhttp-ffi (0.3.1)
       ffi-compiler (~> 1.0)
       rake (~> 13.0)
@@ -90,8 +91,9 @@ DEPENDENCIES
   github_api
   http
   json
+  less2sass
   rake
   rubocop
 
 BUNDLED WITH
-   2.1.4
+   2.3.15
