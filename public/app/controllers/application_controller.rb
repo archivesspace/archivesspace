@@ -158,5 +158,5 @@ class ApplicationController < ActionController::Base
     staff_interface = URI(AppConfig[:frontend_url] + "/check_session?uri=#{uri}")
     response = Net::HTTP.get(staff_interface)
   end
-  
+
 end
