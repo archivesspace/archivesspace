@@ -154,4 +154,9 @@ class ApplicationController < ActionController::Base
     render 'shared/not_found', :status => 404
   end
 
+  def check_staff_access(uri)
+    staff_interface = URI(AppConfig[:frontend_url] + "/check_session?uri=#{uri}")
+    response = Net::HTTP.get(staff_interface)
+  end
+  
 end
