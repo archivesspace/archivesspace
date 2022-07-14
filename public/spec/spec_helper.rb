@@ -147,6 +147,27 @@ def setup_test_data
   create(:resource, title: "Resource for Phrase Search", publish: true)
   create(:resource, title: "Search as Phrase Resource", publish: true)
 
+
+  linked_agent_1 = create(:agent_person,
+         names: [build(:name_person,
+                       primary_name: "Linked Agent 1",
+                       sort_name: "Linked Agent 1")],
+         publish: true)
+
+  linked_agent_2 = create(:agent_person,
+         names: [build(:name_person,
+                       primary_name: "Linked Agent 2",
+                       sort_name: "Linked Agent 2")],
+         publish: true)
+
+
+  create(:resource, title: "Resource with Agents", publish: true, linked_agents:
+    [
+      {'role' => 'creator', 'ref' => linked_agent_1.uri},
+      {'role' => 'source', 'ref' => linked_agent_2.uri}
+    ]
+  )
+
   resource_with_scope = create(:resource_with_scope, title: "Resource with scope note", publish: true)
   aos = (0..5).map do
     create(:archival_object,

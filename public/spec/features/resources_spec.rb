@@ -7,7 +7,7 @@ describe 'Resources', js: true do
     click_link 'Collections'
     expect(current_path).to eq ('/repositories/resources')
     within all('.col-sm-12')[0] do
-      expect(page).to have_content("Showing Collections: 1 - 6 of 6")
+      expect(page).to have_content("Showing Collections: 1 - 7 of 7")
     end
     within all('.col-sm-12')[1] do
       expect(page.all("a[class='record-title']", text: 'Published Resource').length).to eq 1
@@ -53,5 +53,15 @@ describe 'Resources', js: true do
     click_link 'Collections'
     click_link 'Resource with Accession'
     expect(page).to have_content('Related Unprocessed Material')
+  end
+
+  it 'displays linked agents on show page, with creators in top section but not in related names' do
+    visit('/')
+    click_link 'Collections'
+    click_link 'Resource with Agents'
+
+    expect(page).to have_content('Linked Agent 1')
+    expect(page).to have_css('#agent_list', text: 'Linked Agent 2')
+    expect(page).to_not have_css('#agent_list', text: 'Linked Agent 1')
   end
 end
