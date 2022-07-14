@@ -822,6 +822,7 @@ class IndexerCommon
       if doc['primary_type'] == 'container_profile'
         doc['title'] = record['record']['display_string']
         doc['display_string'] = record['record']['display_string']
+        doc['note'] = record['record']['note']
 
         ['width', 'height', 'depth'].each do |property|
           doc["container_profile_#{property}_u_sstr"] = record['record'][property]
