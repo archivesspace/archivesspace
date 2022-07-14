@@ -1,5 +1,3 @@
-<% r = @required ? @required.values : [] %>
-
 <% define_template "agent_resource", jsonmodel_definition(:agent_resource) do |form| %>
   <div class="subrecord-form-fields">
     <div class="agent-record-control-container">
@@ -7,39 +5,28 @@
 
       <%= form.label_and_textfield "linked_resource",  {:field_opts => {:size => 30, :class => "form-control"} }%>
 
-      <%= form.label_and_textarea "linked_resource_description",  
-        {:field_opts => {:size => 30, :class => "form-control"},
-         :required => is_required_by_admin?(r, "agent_resources", "linked_resource_description")
-        }%>
+      <%= form.label_and_textarea "linked_resource_description",
+        {:field_opts => {:size => 30, :class => "form-control"} }%>
 
-      <%= form.label_and_textfield "file_uri",  
-        {:field_opts => {:size => 30, :class => "form-control"},
-         :required => is_required_by_admin?(r, "agent_resources", "file_uri") }%>
+      <%= form.label_and_textfield "file_uri",
+        {:field_opts => {:size => 30, :class => "form-control"} }%>
 
-      <%= form.label_and_select "file_version_xlink_actuate_attribute", 
-        [""] + form.possible_options_for("file_version_xlink_actuate_attribute", false),
-        :required => is_required_by_admin?(r, "agent_resources", "file_version_xlink_actuate_attribute") %>
+      <%= form.label_and_select "file_version_xlink_actuate_attribute",
+        [""] + form.possible_options_for("file_version_xlink_actuate_attribute", false) %>
 
-      <%= form.label_and_select "file_version_xlink_show_attribute", 
-        [""] + form.possible_options_for("file_version_xlink_show_attribute", false),
-        :required => is_required_by_admin?(r, "agent_resources", "file_version_xlink_show_attribute") %>
+      <%= form.label_and_select "file_version_xlink_show_attribute",
+        [""] + form.possible_options_for("file_version_xlink_show_attribute", false) %>
 
-      <%= form.label_and_textfield "xlink_title_attribute",  
-        {:field_opts => {:size => 30, :class => "form-control"},
-         :required => is_required_by_admin?(r, "agent_resources", "xlink_title_attribute") }%>
+      <%= form.label_and_textfield "xlink_title_attribute",
+        {:field_opts => {:size => 30, :class => "form-control"} }%>
 
-      <%= form.label_and_textfield "xlink_role_attribute",  
-        {:field_opts => {:size => 30, :class => "form-control"},
-         :required => is_required_by_admin?(r, "agent_resources", "xlink_role_attribute") 
-         }%>
-         
-      <%= form.label_and_textfield "xlink_arcrole_attribute",  
-        {:field_opts => {:size => 30, :class => "form-control"},
-         :required => is_required_by_admin?(r, "agent_resources", "xlink_arcrole_attribute") 
-         }%>
+      <%= form.label_and_textfield "xlink_role_attribute",
+        {:field_opts => {:size => 30, :class => "form-control"} }%>
 
-      <%= form.label_and_date "last_verified_date",
-        :required => is_required_by_admin?(r, "agent_resources", "last_verified_date") %>
+      <%= form.label_and_textfield "xlink_arcrole_attribute",
+        {:field_opts => {:size => 30, :class => "form-control"} }%>
+
+      <%= form.label_and_date "last_verified_date" %>
 
       <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "places", :template_erb => "subjects/template", :template => "subrecord_subject_agent_resource_place", :heading_text => I18n.t("name._frontend.section.place_subject"), :heading_size => "h4"} %>
 
@@ -67,9 +54,9 @@
   <% disable_replace = false %>
 
   <%= form.record_level_merge_controls(form, "agent_resource", true, !disable_replace) %>
-  
+
   <%= form.hidden_input "id", form.obj["id"] %>
- 
+
   <% field_names = ["linked_agent_role", "linked_resource", "linked_resource_description","file_uri", "file_version_xlink_actuate_attribute", "file_version_xlink_show_attribute", "xlink_title_attribute", "xlink_role_attribute", "xlink_arcrole_attribute",  "last_verified_date"] %>
   <% field_names.each do |field_name| %>
     <%= form.label_and_readonly field_name %>

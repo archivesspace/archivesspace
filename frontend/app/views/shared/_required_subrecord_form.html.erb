@@ -27,7 +27,8 @@
     <div class="form-group">
       <label class="col-sm-2 control-label"><%= I18n.t("actions.require_subrecord") %></label>
         <div class="col-sm-1 req_checkbox">
-          <input id="required_fields__<%= property %>" type="checkbox" name="<%= form_name %>" value="<%= type %>" <%= @required.required?(property, type) ? " checked=checked" : "" %>>
+          <input id="required_fields__<%= property %>" type="hidden" name="<%= form_name %>" value="<%= type %>" >
+          <input id="required_fields__<%= property %>__required" type="checkbox" name="agent[<%= property %>][0][required]" value="true" <%= @required_fields.required?(property, type) ? " checked=checked" : "" %>>
         </div>
     </div>
     <% field_names.each do |field_name| %>
@@ -36,7 +37,7 @@
       <div class="form-group">
         <label class="col-sm-2 control-label" for="agent_record_identifier_" plugin=""><%=  label %></label>
         <div class="col-sm-9  label-only">
-          <input id="required_fields__<%= field_name %>_" type="checkbox" name="<%= form_name %>" value="<%= type %>" col_size="1" controls_class="req_checkbox"<%= definition.required?(field_name) ? ' disabled checked=checked' : '' %><%= @required.required?(property, type, field_name) ? " checked=checked" : "" %>>
+          <input id="required_fields__<%= field_name %>_" type="checkbox" name="<%= form_name %>" value="<%= type %>" col_size="1" controls_class="req_checkbox"<%= definition.required?(field_name) ? ' disabled checked=checked' : '' %><%= @required_fields.required?(property, type, field_name) ? " checked=checked" : "" %>>
         </div>
       </div>
     <% end  %>

@@ -326,7 +326,13 @@ module SearchHelper
   end
 
   def get_ancestor_title(field)
-    field_json = JSONModel::HTTP.get_json(field)
+    begin
+      field_json = JSONModel::HTTP.get_json(field)
+    # one record might be "found in" another that is suppressed
+    # so we will just ignore the error.
+    rescue RecordNotFound
+      return nil
+    end
     unless field_json.nil?
       if field.include?('resources') || field.include?('digital_objects')
         clean_mixed_content(field_json['title'])
@@ -409,7 +415,7 @@ module SearchHelper
       @sort_by
     end
 
-
+    # let's rename this method?
     def class
       @classes << " sortable" if sortable?
       @classes << " sort-#{@search_data.current_sort_direction}" if sortable? && @search_data.sorted_by === @sort_by
