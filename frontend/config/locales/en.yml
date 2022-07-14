@@ -438,6 +438,7 @@ en:
       create_time: Created
       asc: Ascending
       desc: Descending
+      note: Note
     location_profile:
       score: Relevance
       title: Title
@@ -1668,6 +1669,9 @@ en:
         confirm_merge_question: Are you sure you want to merge the container profiles as listed below? This action is irreversible.
         confirm_merge_victims: "Merge the following container profile(s):"
         confirm_merge_target: "Into this container profile:"
+    note: Note
+    note_tooltip: |
+      <p>A note for miscellaneous information/metadata.</p>
     name: Name
     name_tooltip: |
         <p>REQUIRED FIELD. The name of the container profile. May be generic or specific.</p>

@@ -21,6 +21,8 @@
       "stacking_limit" => {"type" => "string", "required" => false},
 
       "display_string" => {"type" => "string", "readonly" => true},
+
+      "note" => {"type" => "string"},
     },
   },
 }
