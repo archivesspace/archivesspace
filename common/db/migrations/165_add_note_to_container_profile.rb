@@ -9,7 +9,7 @@ Sequel.migration do
       add_column(:note, String)
     end
   end
-  
+
   down do
   end
 end
