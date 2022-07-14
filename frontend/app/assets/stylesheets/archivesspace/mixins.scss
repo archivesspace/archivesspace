@@ -1,3 +1,70 @@
+//bootstrap <= 3 mixins that were being utilized, but have been removed in the new version of Bootstrap
+// Border Radius
+@mixin border-radius($radius) {
+  -webkit-border-radius: $radius;
+  -moz-border-radius: $radius;
+  border-radius: $radius;
+}
+@mixin serif(){
+  font-family: $serifFontFamily;
+}
+@mixin sans-serif-fam(){
+  font-family: $sansFontFamily;
+}
+@mixin monospace(){
+  font-family: $monoFontFamily;
+}
+@mixin shorthand($size: $baseFontSize, $weight: normal, $lineHeight: $baseLineHeight){
+  font-size: $size;
+  font-weight: $weight;
+  line-height: $lineHeight;
+}
+@mixin sans-serif($size: $baseFontSize, $weight: normal, $lineHeight: $baseLineHeight) {
+  #font > #family {
+    @include sans-serif-fam()
+  }
+  #font {
+    @include shorthand($size, $weight, $lineHeight);
+  }
+}
+// Opacity
+
+@mixin opacity($opacity) {
+  $opacity-ie: ($opacity * 100);  // IE8 filter
+  filter: alpha(opacity=$opacity-ie);
+  opacity: $opacity;
+}
+
+// Transitions
+
+@mixin transition($transition...) {
+  -webkit-transition: $transition;
+       -o-transition: $transition;
+          transition: $transition;
+}
+@mixin transition-property($transition-property...) {
+  -webkit-transition-property: $transition-property;
+          transition-property: $transition-property;
+}
+@mixin transition-delay($transition-delay) {
+  -webkit-transition-delay: $transition-delay;
+          transition-delay: $transition-delay;
+}
+@mixin transition-duration($transition-duration...) {
+  -webkit-transition-duration: $transition-duration;
+          transition-duration: $transition-duration;
+}
+@mixin transition-timing-function($timing-function) {
+  -webkit-transition-timing-function: $timing-function;
+          transition-timing-function: $timing-function;
+}
+@mixin transition-transform($transition...) {
+  -webkit-transition: -webkit-transform $transition;
+     -moz-transition: -moz-transform $transition;
+       -o-transition: -o-transform $transition;
+          transition: transform $transition;
+}
+
 @mixin icon($fontFamily: 'Glyphicons Halflings')
 {
   font-family: $fontFamily;
@@ -74,33 +141,5 @@
   }
 }
 
-//bootstrap <= 3 mixins that were being utilized, but have been removed in the new version of Bootstrap
-// Border Radius
-@mixin border-radius($radius) {
-  -webkit-border-radius: $radius;
-  -moz-border-radius: $radius;
-  border-radius: $radius;
-}
-@mixin serif(){
-  font-family: $serifFontFamily;
-}
-@mixin sans-serif-fam(){
-  font-family: $sansFontFamily;
-}
-@mixin monospace(){
-  font-family: $monoFontFamily;
-}
-@mixin shorthand($size: $baseFontSize, $weight: normal, $lineHeight: $baseLineHeight){
-  font-size: $size;
-  font-weight: $weight;
-  line-height: $lineHeight;
-}
-@mixin sans-serif($size: $baseFontSize, $weight: normal, $lineHeight: $baseLineHeight) {
-  #font > #family {
-    @include sans-serif-fam()
-  }
-  #font {
-    @include shorthand($size, $weight, $lineHeight);
-  }
-}
+
 
