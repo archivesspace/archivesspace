@@ -17,10 +17,10 @@ gem 'coffee-rails'
 gem 'coffee-script'
 gem 'coffee-script-source'
 gem 'sass-rails'
-gem 'therubyrhino'
+gem 'execjs'
 gem 'uglifier'
 
-# gem 'less-rails-bootstrap'
+gem 'bootstrap','~> 4.2.1'
 
 gem 'jquery-rails'
 gem 'jquery-ui-rails'
