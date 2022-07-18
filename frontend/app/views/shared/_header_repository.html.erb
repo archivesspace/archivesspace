@@ -21,7 +21,7 @@
               <li><%= link_to I18n.t("accession._plural"), :controller => :accessions, :action => :index %></li>
               <li><%= link_to I18n.t("resource._plural"), :controller => :resources, :action => :index %></li>
               <li><%= link_to I18n.t("digital_object._plural"), :controller => :digital_objects, :action => :index %></li>
-              <li class="divider"></li>
+              <li class="dropdown-divider"></li>
               <li><%= link_to I18n.t("subject._plural"), :controller => :subjects, :action => :index %></li>
               <li><%= link_to I18n.t("agent._plural"), :controller => :agents, :action => :index %></li>
               <li><%= link_to I18n.t("container_profile._plural"), :controller => :container_profiles, :action => :index %></li>
@@ -30,7 +30,7 @@
               <li><%= link_to I18n.t("collection_management._plural"), :controller => :collection_management, :action => :index %></li>
               <li><%= link_to I18n.t("classification._plural"), :controller => :classifications, :action => :index %></li>
               <li><%= link_to I18n.t("assessment._plural"), :controller => :assessments, :action => :index %></li>
-              <li class="divider"></li>
+              <li class="dropdown-divider"></li>
               <li><%= link_to I18n.t("job._plural"), :controller => :jobs, :action => :index %></li>
             </ul>
           </li>
@@ -53,7 +53,7 @@
 
                   <% if ['update_subject_record', 'update_event_record',
                          'update_agent_record', 'update_location_record', 'update_container_profile'].find {|p| user_can?(p)} %>
-                    <li class="divider"></li>
+                    <li class="dropdown-divider"></li>
                   <% end %>
                 <% end %>
                 <% if user_can?('update_subject_record') %>
@@ -93,7 +93,7 @@
                 <% end %>
 
                 <% if user_can?('create_job') %>
-                  <li class="divider"></li>
+                  <li class="dropdown-divider"></li>
 
                   <li class="dropdown-submenu">
                     <a href="javascript:void(0);"><%= I18n.t("job._singular") %></a>
@@ -121,7 +121,7 @@
                 <input id="global-search-box" type="text" class="col-md-2 form-control" placeholder="<%= I18n.t("navbar.search_placeholder") %>" name="q" value="<%= params[:q] %>"/>
                 <div class="input-group-btn">
                   <button id="global-search-button" class="btn btn-default" title="<%= I18n.t("navbar.search_button_title") %>" aria-label="<%= I18n.t("navbar.search_button_title") %>"><span class="glyphicon glyphicon-search"></span></button>
-                  <button class="btn btn-default search-switcher last" title="<%= I18n.t("navbar.show_advanced_search_button_title") %>" aria-label="<%= I18n.t("navbar.show_advanced_search_button_title") %>" aria-expanded="false" <% if params["advanced"] %>style="display:none"<% end %>><span class='glyphicon glyphicon-chevron-down'></span></button>
+                  <button class="btn btn-default search-switcher last" title="<%= I18n.t("navbar.show_advanced_search_button_title") %>" aria-label="<%= I18n.t("navbar.show_advanced_search_button_title") %>" aria-expanded="false" <% if params["advanced"] %>style="display:none"<% end %>><span class="glyphicon glyphicon-chevron-down"></span></button>
                 </div>
               </div>
             <% end %>
@@ -131,21 +131,21 @@
               <%= render_aspace_partial :partial => "shared/advanced_search" %>
             </div>
           </li>
-          <li class="pull-right navbar-nav-right">
+          <li class="float-xs-right navbar-nav-right">
             <ul class="nav navbar-nav">
               <li class="repo-container">
                 <div class="btn-group">
-                  <a href="<%= url_for :controller => :repositories, :action => :show, :id => session[:repo_id] %>" class="btn btn-default navbar-btn">
-                    <span class="repository-label has-popover" tabindex="0" data-trigger="focus hover" data-placement="bottom" data-html='true' data-toggle='popover' data-title="<span class='icomoon icon-repository'>&#160;</span><%= CGI::escapeHTML(current_repo['repo_code']) %>" data-content="<%= CGI::escapeHTML(current_repo['name']) %>">
+                  <a href="<%= url_for :controller => :repositories, :action => :show, :id => session[:repo_id] %>" class="btn btn-secondary navbar-btn">
+                    <span class="repository-label has-popover" tabindex="0" data-trigger="focus hover" data-placement="bottom" data-html='true' data-toggle='popover' data-title="<span class="icomoon icon-repository">&#160;</span><%= CGI::escapeHTML(current_repo['repo_code']) %>" data-content="<%= CGI::escapeHTML(current_repo['name']) %>">
                       <span class="icomoon icon-repository"></span><span class="current-repository-id"><% if current_repo %><%= current_repo['repo_code'] %><% end %></span>
                       <% unless current_repo.publish %>
-                        <span class="label label-warning"><%= I18n.t("navbar.unpublished") %></span>
+                        <span class="tag label-warning"><%= I18n.t("navbar.unpublished") %></span>
                       <% end %>
                     </span>
                   </a>
                   <div class="btn-group">
                     <a class="btn btn-default navbar-btn dropdown-toggle last" data-toggle="dropdown" href="#" title="<%= I18n.t("navbar.repository_settings") %>" aria-label="<%= I18n.t("navbar.repository_settings") %>"><span class="glyphicon glyphicon-cog"></span> <span class="caret"></span></a>
-                    <ul class="dropdown-menu pull-right">
+                    <ul class="dropdown-menu float-xs-right">
                       <% found_an_item = false %>
                       <% if user_can?('manage_repository') %>
                         <% found_an_item = true %>
@@ -160,16 +160,16 @@
                         <li><%= link_to I18n.t("navbar.manage_top_containers"), :controller => :top_containers, :action => :index %></li>
                       <% end %>
                       <% if found_an_item %>
-                        <li class="divider"></li>
+                        <li class="dropdown-divider"></li>
                       <% end %>
                       <% if user_can?('transfer_repository') && @repositories.length > 1 %>
                         <li><%= link_to I18n.t("repository._frontend.section.transfer"), :controller => :repositories, :action => :transfer, :id => session[:repo_id] %></li>
-                        <li class="divider"></li>
+                        <li class="dropdown-divider"></li>
                       <% end %>
                       <% if user_can?('create_job') %>
                          <li><%= link_to I18n.t("job._plural"), :controller => :jobs, :action => :index %></li>
                          <li><%= link_to I18n.t("bulk_import.templates"), :controller => :bulk_import_templates, :action => :index %></li>
-                        <li class="divider"></li>
+                        <li class="dropdown-divider"></li>
                       <% end %>
 
                       <li><%= link_to I18n.t("navbar.list_reports"), :controller => :jobs, :action => :new, :job_type => 'report_job' %></li>
@@ -178,7 +178,7 @@
                       <% end %>
 
                       <% if Plugins.repository_menu_items.any? {|plugin| has_permission_for_controller?(session, plugin)} %>
-                        <li class="dropdown-submenu pull-left">
+                        <li class="dropdown-submenu float-xs-left">
                           <a href="javascript:void(0);"><%= I18n.t("navbar.plugins") %></a>
                           <ul class="dropdown-menu">
                             <% Plugins.repository_menu_items.each do |plugin| %>
@@ -205,3 +205,4 @@
 </nav>
 
 </div>
+

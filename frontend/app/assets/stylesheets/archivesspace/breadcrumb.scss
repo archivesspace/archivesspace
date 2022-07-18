@@ -7,7 +7,7 @@
   // patch to fix inline-block issue in IE8
   // https://github.com/twitter/bootstrap/issues/5455
   li {
-    margin-right: 1px;
+    margin-right: 10px;
   }
 
   @include box-shadow(
