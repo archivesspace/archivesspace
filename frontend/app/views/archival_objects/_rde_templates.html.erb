@@ -4,7 +4,7 @@
   <th data-id="date" class="section-date" colspan="5" class="conditionally-required"><%= I18n.t("rde.sections.date") %></th>
   <th data-id="extent" class="section-extent" colspan="6" class="conditionally-required"><%= I18n.t("rde.sections.extent") %></th>
   <th data-id="instance" class="section-instance" colspan="6"><%= I18n.t("rde.sections.instance") %></th>
-  <th data-id="note" class="section-note" colspan="18"><%= I18n.t("rde.sections.notes") %></th>
+  <th data-id="note" class="section-note" colspan="21"><%= I18n.t("rde.sections.notes") %></th>
 <% end %>
 
 <% define_template "rde_archival_object_headers" do |form| %>
@@ -36,24 +36,28 @@
   <th id="colCInd2" class="fieldset-label" data-section="instance"><%= I18n.t("sub_container.indicator_2") %></th>
   <th id="colCType3" class="fieldset-label" data-section="instance"><%= I18n.t("sub_container.type_3") %></th>
   <th id="colCInd3" class="fieldset-label" data-section="instance"><%= I18n.t("sub_container.indicator_3") %></th>
+
   <th id="colNType1" class="fieldset-label" data-section="note"><%= I18n.t("note._singular") %> 1</th>
   <th id="colNLabel1" class="fieldset-label" data-section="note"><%= I18n.t("note_attributes.label") %> 1</th>
   <th id="colNBeginRestriction1" class="fieldset-label" data-section="note"><%= I18n.t("rights_restriction.begin") %> 1</th>
   <th id="colNEndRestriction1" class="fieldset-label" data-section="note"><%= I18n.t("rights_restriction.end") %> 1</th>
   <th id="colNRestrictionType1" class="fieldset-label" data-section="note"><%= I18n.t("rights_restriction.local_access_restriction_type") %> 1</th>
   <th id="colNCont1" class="fieldset-label" data-section="note"><%= I18n.t("note_attributes.content") %> 1</th>
+  <th id="colNPub1" class="fieldset-label" data-section="note"><%= I18n.t("note_attributes.publish") %> 1</th>
   <th id="colNType2" class="fieldset-label" data-section="note"><%= I18n.t("note._singular") %> 2</th>
   <th id="colNLabel2" class="fieldset-label" data-section="note"><%= I18n.t("note_attributes.label") %> 2</th>
   <th id="colNBeginRestriction2" class="fieldset-label" data-section="note"><%= I18n.t("rights_restriction.begin") %> 2</th>
   <th id="colNEndRestriction2" class="fieldset-label" data-section="note"><%= I18n.t("rights_restriction.end") %> 2</th>
   <th id="colNRestrictionType2" class="fieldset-label" data-section="note"><%= I18n.t("rights_restriction.local_access_restriction_type") %> 2</th>
   <th id="colNCont2" class="fieldset-label" data-section="note"><%= I18n.t("note_attributes.content") %> 2</th>
+  <th id="colNPub2" class="fieldset-label" data-section="note"><%= I18n.t("note_attributes.publish") %> 2</th>
   <th id="colNType3" class="fieldset-label" data-section="note"><%= I18n.t("note._singular") %> 3</th>
   <th id="colNLabel3" class="fieldset-label" data-section="note"><%= I18n.t("note_attributes.label") %> 3</th>
   <th id="colNBeginRestriction3" class="fieldset-label" data-section="note"><%= I18n.t("rights_restriction.begin") %> 3</th>
   <th id="colNEndRestriction3" class="fieldset-label" data-section="note"><%= I18n.t("rights_restriction.end") %> 3</th>
   <th id="colNRestrictionType3" class="fieldset-label" data-section="note"><%= I18n.t("rights_restriction.local_access_restriction_type") %> 3</th>
   <th id="colNCont3" class="fieldset-label" data-section="note"><%= I18n.t("note_attributes.content") %> 3</th>
+  <th id="colNPub3" class="fieldset-label" data-section="note"><%= I18n.t("note_attributes.publish") %> 3</th>
 <% end %>
 
 <% define_template "rde_archival_object_cols" do |form| %>
@@ -87,20 +91,21 @@
   <col class="fieldset-col" data-default-width='150' />
   <col class="fieldset-col" data-default-width='150' />
   <col class="fieldset-col" data-default-width='150' />
+  <col class="fieldset-col" data-default-width='90' />
   <col class="fieldset-col" data-default-width='150' />
   <col class="fieldset-col" data-default-width='150' />
   <col class="fieldset-col" data-default-width='150' />
   <col class="fieldset-col" data-default-width='150' />
   <col class="fieldset-col" data-default-width='150' />
   <col class="fieldset-col" data-default-width='150' />
+  <col class="fieldset-col" data-default-width='90' />
   <col class="fieldset-col" data-default-width='150' />
   <col class="fieldset-col" data-default-width='150' />
   <col class="fieldset-col" data-default-width='150' />
   <col class="fieldset-col" data-default-width='150' />
   <col class="fieldset-col" data-default-width='150' />
   <col class="fieldset-col" data-default-width='150' />
-  <col class="fieldset-col" data-default-width='150' />
-  <col class="fieldset-col" data-default-width='150' />
+  <col class="fieldset-col" data-default-width='90' />
 <% end %>
 
 <% define_template "rde_archival_object_row", jsonmodel_definition(:archival_object) do |form, archival_object| %>
@@ -298,6 +303,11 @@
         <% end %>
       <% end %>
     </td>
+    <td data-col="colNPub1" class="form-group">
+      <% form.push(form.set_index("notes[]", 0), begin archival_object["notes"][0] || {} rescue {} end) do %>
+        <%= form.checkbox "publish", {}, false %>
+      <% end %>
+    </td>
     <td data-col="colNType2" class="form-group">
       <% form.push(form.set_index("notes[]", 1), begin archival_object["notes"][1] || {} rescue {} end) do %>
         <%= form.select("type", [""].concat(note_types_for(:archival_object).map {|value, hash| [hash[:i18n], value]}.sort{|a, b| a[0] <=> b[0]})) %>
@@ -349,6 +359,11 @@
         <% end %>
       <% end %>
     </td>
+    <td data-col="colNPub2" class="form-group">
+      <% form.push(form.set_index("notes[]", 1), begin archival_object["notes"][1] || {} rescue {} end) do %>
+        <%= form.checkbox "publish", {}, false %>
+      <% end %>
+    </td>
     <td data-col="colNType3" class="form-group">
       <% form.push(form.set_index("notes[]", 2), begin archival_object["notes"][2] || {} rescue {} end) do %>
         <%= form.select("type", [""].concat(note_types_for(:archival_object).map {|value, hash| [hash[:i18n], value]}.sort{|a, b| a[0] <=> b[0]})) %>
@@ -398,6 +413,11 @@
         <% form.push(form.set_index("subnotes[]", 0), []) do %>
           <span id="<%= form.id_for("content") %>"></span>
         <% end %>
+      <% end %>
+    </td>
+    <td data-col="colNPub3" class="form-group">
+      <% form.push(form.set_index("notes[]", 2), begin archival_object["notes"][2] || {} rescue {} end) do %>
+        <%= form.checkbox "publish", {}, false %>
       <% end %>
     </td>
     <td data-col="actions" class="form-group">
