@@ -24,11 +24,12 @@
 @import 'bootstrap-sprockets';
 @import 'bootstrap';
 
-//font-awesome
+// font-awesome
 @import 'font-awesome-sprockets';
 @import 'font-awesome';
 // @import "bootstrap-sass/_glyphicons.scss";
 // @import "load-awesome/line-spin-clockwise-fade.css";
+/* stylelint-disable-next-line scss/at-import-no-partial-leading-underscore */
 @import 'foundation/_functions.scss';
 @import 'archivesspace/aspace';
 @import 'archivesspace/record-type-badge';

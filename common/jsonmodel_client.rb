@@ -185,8 +185,12 @@ module JSONModel
 
       if response.is_a?(Net::HTTPSuccess) || response.code == '200'
         ASUtils.json_parse(response.body)
+      elsif response.code == '403'
+        raise AccessDeniedException.new
+      elsif response.code == '404'
+        raise RecordNotFound.new
       else
-        nil
+        raise response.body
       end
     end
 
@@ -491,6 +495,10 @@ module JSONModel
         end
       end
 
+      def fetch(uri)
+        hash = JSONModel::HTTP.get_json(uri)
+        self.new(hash)
+      end
     end
 
 

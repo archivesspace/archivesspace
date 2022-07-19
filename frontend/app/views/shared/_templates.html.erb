@@ -64,11 +64,11 @@
         <li>${target.display_string}</li>
       </ul>
       <div class="selected-record-list" id="mergeList">
-      
+
         {for profile in mergeList}
           <input type="hidden" name="victims[]" value="${profile.uri}">
         {/for}
-        
+
         <input type="hidden" name="target[]" value="${target.uri}">
       </div>
     </div>
@@ -111,14 +111,22 @@
   </div>
 --></div>
 
-
 <div id="linker_browsemodal_template"><!--
    <div class="modal-body linker-container">
       <div class="linker-list"></div>
    </div>
    <div class="modal-footer">
-      <button id="addSelectedButton" class="btn btn-primary"><%= I18n.t "linker.link_to_prefix" %> ${label_plural}</button>
-      <button class="btn btn-cancel btn-default" data-dismiss="modal"><%= I18n.t "actions.cancel" %></button>
+     {if defined('primary_button_text')}
+     <button id="addSelectedButton" class="btn btn-primary">${primary_button_text}</button>
+     {else}
+     <button id="addSelectedButton" class="btn btn-primary"><%= I18n.t "linker.link_to_prefix" %> ${label_plural}</button>
+     {/if}
+     {if defined('must_select') && must_select}
+     {elseif defined('cancel_button_text')}
+     <button class="btn btn-cancel btn-default" data-dismiss="modal">${cancel_button_text}</button>
+     {else}
+     <button class="btn btn-cancel btn-default" data-dismiss="modal"><%= I18n.t "actions.cancel" %></button>
+     {/if}
    </div>
 --></div>
 <div id="linker_createmodal_template"><!--
@@ -188,6 +196,18 @@
     <div class="alert alert-info"><%= I18n.t("search_results.no_results") %></div>
   {/if}
 --></div>
+<div id ="linker_browse_row_template"><!--
+  <tr>
+     <td class="col">
+       <input type="radio" name="linker-item" value="${uri}" />
+     </td>
+     <td class="col  sortable sort-asc sortable sort-asc sortable sort-asc sortable sort-asc sortable sort-asc">${title}</td>
+     <td class="col  sortable sortable sortable sortable sortable">${identifier}</td>
+     <td class="col  sortable sortable sortable sortable sortable">${level}</td>
+     <td class="col  sortable sortable sortable sortable sortable">${dates}</td>
+     <td class="col  sortable sortable sortable sortable sortable">${extents[0]}</td>
+  </tr>
+ --></div>
 <div id="linker_selectedtoken_template"><!--
    <li id="${item.id.replace(/\//g,'_')}">
       <input type="hidden" name="${config.path}[_resolved]{if config.multiplicity != 'one'}[]{/if}" />

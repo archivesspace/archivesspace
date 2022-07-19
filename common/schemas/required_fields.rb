@@ -7,7 +7,10 @@
     "properties" => {
       "uri" => {"type" => "string", "required" => false},
       "record_type" => {"type" => "string", "ifmissing" => "error", "enum" => ['archival_object', 'digital_object_component', 'resource', 'accession', 'subject', 'digital_object', 'agent_person', 'agent_family', 'agent_software', 'agent_corporate_entity', 'event', 'location', 'classification', 'classification_term']},
-      "required" => {"type" => "object"},
+      "subrecord_requirements" => {
+        "type" => "array",
+        "items" => {"type" => "JSONModel(:subrecord_requirement) object"},
+      },
     },
   },
 }

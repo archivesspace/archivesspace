@@ -1125,7 +1125,7 @@ class IndexerCommon
     return nil if value.nil?
     out = value.gsub(/<[^>]+>/, '')
     out.gsub!(/-/, ' ')
-    out.gsub!(/[^\w\s]/, '')
+    out.gsub!(/[^\p{L}\d\s_]/, '')
     out.gsub!(/\s+/, ' ')
     out.strip
   end
