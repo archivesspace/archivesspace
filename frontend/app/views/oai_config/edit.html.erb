@@ -4,7 +4,7 @@
 
   <% form_context :oai_config, @oai_config do |form| %>
     <div class="row">
-      <div class='col-md-3'>
+      <div class="col-md-3">
 
         <%= render(:layout => '/shared/sidebar',
                   :locals => {
@@ -81,7 +81,7 @@
           <hr />
           <a name='repo_settings'></a>
           <h2><%= I18n.t("oai_config.title_repo_section") %></h2>
-          <table class="table table-striped table-bordered table-condensed">
+          <table class="table table-striped table-bordered table-sm">
             <thead>
               <th>Name</th>
               <th><span class="sr-only"><%= I18n.t('search_results.actions') %></span></th>
@@ -90,8 +90,8 @@
               <% @repositories.each do |r| %>
                 <tr>
                   <td><%= r[:name] %>
-                  <td class='table-record-actions'>
-                    <div class='btn-group'>
+                  <td class="table-record-actions">
+                    <div class="btn-group">
                       <a class="btn btn-xs btn-primary" href="<%= AppConfig[:frontend_proxy_url] + r[:uri] + "/edit#oai_settings" %>" ><%= I18n.t('actions.edit_oai') %></a>
                     </div>
                   </td>
