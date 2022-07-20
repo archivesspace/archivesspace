@@ -17,6 +17,7 @@
 //= require jquery.form
 //= require jquery.scrollto
 //= require jquery.hotkeys
+//= require popper
 //= require utils
 //= require header
 //= require linker

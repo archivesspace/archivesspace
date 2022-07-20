@@ -1,5 +1,8 @@
 // overrides to bring frontend custom styles into alignment after bootstrap upgrade
 @import url("//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css");
+@import "bootstrap/functions";
+@import 'bootstrap/variables';
+@import 'bootstrap/mixins';
 
 .navbar {
   padding: 0;
@@ -40,4 +43,19 @@ body {
   background-color: #f2dede;
   color: #a94442;
   border-color: darken(adjust-hue(#f2dede, -10), 7%)
+}
+
+.dropdown-toggle {
+  font-size: 14px;
+  color: #595959;
+}
+.dropdown-item {
+  &:active, &.active {
+    background-color: $gray-200;
+  }
+    a {
+    font-size: 14px;
+    color: #595959;
+    padding: 0;
+  }
 }

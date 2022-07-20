@@ -3,7 +3,7 @@
 <% if session[:user] %>
   <% if @repositories.length > 0 %>
     <li class="dropdown select-a-repository">
-      <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown"><%= I18n.t("repository._frontend.action.select") %> <b class="caret"></b></a>
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown"><%= I18n.t("repository._frontend.action.select") %> <b class="caret"></b></a>
       <ul class="dropdown-menu" style="padding: 15px;">
         <li class='dropdown-item'>
           <%= form_tag({:controller => :repositories, :action => :select}) do |f| %>
