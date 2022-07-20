@@ -14,3 +14,4 @@ See https://archivesspace.github.io/tech-docs/development/dev.html for addtional
 1. Copy the demo db into the db docker container: `docker cp demo.sql archivesspace_db_1:/`
 2. bash into the container for db: `dc exec db sh`
 3. import the database: `mysql -p archivesspace < demo.sql`
+4. password is 123456
