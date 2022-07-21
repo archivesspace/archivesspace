@@ -589,7 +589,6 @@ class MARCModel < ASpaceExport::ExportModel
     end
   end
 
-
   # 3/28/18: Updated: ANW-318
   # 4/7/22: Updated: ANW-1071
   def handle_ead_loc(ead_loc, publish, uri, slug)
@@ -598,13 +597,21 @@ class MARCModel < ASpaceExport::ExportModel
     #  <subfield code="z">Finding aid online:</subfield>
     #  <subfield code="u">EADlocation</subfield>
     #</datafield>
+    # if config option is set, output a second 856 with slugged (or not) PUI URL as long as it's not the same as the EADLocation
+
+    #<datafield tag="856" ind1="4" ind2="2">
+    #  <subfield code="z">Finding aid online:</subfield>
+    #  <subfield code="u">slugged URL</subfield>
+    #</datafield>
 
     if ead_loc && !ead_loc.empty?
       df('856', '4', '2').with_sfs(
                                     ['z', "Finding aid online:"],
                                     ['u', ead_loc]
                                   )
-    elsif AppConfig[:enable_public] && AppConfig[:include_pui_finding_aid_urls_in_marc_exports] && publish
+    end
+
+    if AppConfig[:enable_public] && AppConfig[:include_pui_finding_aid_urls_in_marc_exports] && publish
 
       if AppConfig[:use_human_readable_urls] &&
          AppConfig[:use_slug_finding_aid_urls_in_marc_exports]
@@ -613,12 +620,14 @@ class MARCModel < ASpaceExport::ExportModel
         link = AppConfig[:public_proxy_url] + "/#{rec_type}/#{slug}"
       else
         link = AppConfig[:public_proxy_url] + uri
-
       end
-      df('856', '4', '2').with_sfs(
+
+      unless link == ead_loc
+        df!('856', '4', '2').with_sfs(
                                   ['z', "Finding aid online:"],
                                   ['u', link]
                                 )
+      end
     end
   end
 
