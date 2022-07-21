@@ -81,7 +81,9 @@
                                                            :p_id => 'classifications_list', :p_body => x} %>
   <% end %>
 	<% unless @result.agents.blank? %>
-	  <% x= render partial: 'shared/agents_list', locals: {:list => @result.agents} %>
+  <%# ANW-1095: don't show creators in related names section since it is redundant %>
+  <% not_creators = @result.agents.except("creator") %>
+	  <% x= render partial: 'shared/agents_list', locals: {:list => not_creators} %>
 	   <%= render partial: 'shared/accordion_panel', locals: {:p_title =>  t('pui_agent.related'),
 	     :p_id => 'agent_list', :p_body => x} %>
         <% end %>
