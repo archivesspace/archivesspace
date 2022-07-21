@@ -9,6 +9,233 @@
 //= require rights_statements.crud
 //= require form
 
+//= require ajaxtree
+//= require tree_renderers
+//= require tree_toolbar
+//= require tree_resizer
+//= require largetree
+
+function ParentPickingRenderer() {
+  ResourceRenderer.call(this);
+
+  this.nodeTemplate = $(
+    '<div class="table-row"> ' +
+      '  <div class="table-cell no-drag-handle"></div>' +
+      '  <div class="table-cell title"><span class="indentor"><button class="expandme" aria-expanded="false"><i class="expandme-icon glyphicon glyphicon-chevron-right" /></button></span> </div>' +
+      '  <div class="table-cell resource-level"></div>' +
+      '  <div class="table-cell resource-type"></div>' +
+      '  <div class="table-cell resource-container"></div>' +
+      '  <div class="table-cell resource-identifier"></div>' +
+      '</div>'
+  );
+
+  this.newNodeTemplate = $(
+    '<div class="table-row"> ' +
+      '  <div class="table-cell no-drag-handle"></div>' +
+      '  <div class="table-cell title"><span class="indentor"><button class="expandme" aria-expanded="false"><i class="expandme-icon glyphicon glyphicon-chevron-right" /></button></span> </div>' +
+      '  <div class="table-cell resource-level"></div>' +
+      '  <div class="table-cell resource-type"></div>' +
+      '  <div class="table-cell resource-container"></div>' +
+      '  <div class="table-cell resource-identifier"></div>' +
+      '</div>'
+  );
+}
+
+ParentPickingRenderer.prototype = Object.create(ResourceRenderer.prototype);
+
+ParentPickingRenderer.prototype.get_new_node_template = function () {
+  return this.newNodeTemplate.clone(false);
+};
+
+function TreeLinkingModal(config) {
+  var self = this;
+  self.config = config;
+  self.$modal = AS.openCustomModal(
+    'linkResourceModal',
+    config.title,
+    AS.renderTemplate('linker_browsemodal_template', config),
+    'large',
+    {},
+    this
+  );
+  self.$modal.find('#addSelectedButton').addClass('disabled');
+  self.position = 0;
+  let datasource_url =
+    '/resources/' + config.root_record_uri.replace(/.*\//, '') + '/tree';
+  self.datasource = new TreeDataSource(datasource_url);
+  self.renderer = new ParentPickingRenderer();
+  self.$container = $('.linker-container');
+  self.$container.addClass('largetree-container');
+  self.large_tree = new LargeTree(
+    self.datasource,
+    self.$container,
+    config.root_record_uri,
+    true,
+    self.renderer,
+    function () {
+      self.$container.on('click', '.expandme', function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        self.$modal.trigger('resize');
+      });
+      self.$container.on('click', '.table-row.largetree-node', function (e) {
+        e.preventDefault();
+        self.selected_row = $(this);
+        if (self.menu) {
+          self.menu.remove();
+        }
+        self.menu = $('<ul>').addClass('dropdown-menu largetree-dropdown-menu');
+        self.menu.append(
+          $(
+            '<li><a href="javascript:void(0)" class="add-items-before">' +
+              SPAWN_MENU_ITEMS.before +
+              '</a></li>'
+          )
+        );
+        self.menu.append(
+          $(
+            '<li><a href="javascript:void(0)" class="add-items-as-children">' +
+              SPAWN_MENU_ITEMS.child +
+              '</a></li>'
+          )
+        );
+        self.menu.append(
+          $(
+            '<li><a href="javascript:void(0)" class="add-items-after">' +
+              SPAWN_MENU_ITEMS.after +
+              '</a></li>'
+          )
+        );
+        self.$modal.append(self.menu);
+        self.menu.css('position', 'absolute');
+        self.menu.css(
+          'top',
+          self.selected_row.offset().top + self.selected_row.height()
+        );
+        self.menu.css(
+          'left',
+          self.selected_row.offset().left +
+            Number(self.selected_row.data('level')) * 24
+        );
+        self.menu.css('z-index', 1000);
+        self.menu.show();
+        self.menu.find('a:first').focus();
+
+        self.menu.on('keydown', function (event) {
+          if (event.keyCode == 27) {
+            //escape
+            self.menu.remove();
+            event.stopPropagation();
+            event.preventDefault();
+            return false;
+          } else if (event.keyCode == 38) {
+            //up arrow
+            if ($(event.target).closest('li').prev().length > 0) {
+              $(event.target).closest('li').prev().find('a').focus();
+            }
+            return false;
+          } else if (event.keyCode == 40) {
+            //down arrow
+            if ($(event.target).closest('li').next().length > 0) {
+              $(event.target).closest('li').next().find('a').focus();
+            }
+            return false;
+          }
+
+          return true;
+        });
+
+        function menuSelectHandler(level) {
+          // remove any existing placeholder row
+          if (self.inserted_row != undefined) {
+            self.inserted_row.remove();
+          }
+          inserted_row = self.renderer.get_new_node_template();
+          inserted_row.addClass('largetree-node indent-level-' + level);
+          inserted_row.addClass('spawn-placeholder');
+          inserted_row.addClass('current');
+          inserted_row.find('button.expandme').css('visibility', 'hidden');
+          inserted_row.find('.title').append($(SPAWN_PLACEHOLDER_TEXT));
+          self.inserted_row = inserted_row;
+          self.$modal.find('#addSelectedButton').removeClass('disabled');
+          self.menu.remove();
+        }
+
+        self.menu.on('click', '.add-items-before', function () {
+          console.log('add items before');
+          menuSelectHandler(self.selected_row.data('level'));
+          self.selected_row.before(self.inserted_row);
+          if (
+            self.inserted_row.closest('.table-row-group').prev('.root-row')
+              .length > 0
+          ) {
+            self.parent_uri = self.inserted_row
+              .closest('.table-row-group')
+              .prev('.root-row')
+              .data('uri');
+          } else {
+            self.parent_uri = self.inserted_row
+              .closest('.table-row-group')
+              .prev('.largetree-node')
+              .data('uri');
+          }
+          self.position = self.selected_row.data('position');
+        });
+        self.menu.on('click', '.add-items-as-children', function () {
+          self.large_tree.expandNode(self.selected_row, function () {
+            menuSelectHandler(self.selected_row.data('level') + 1);
+            if (
+              self.selected_row.next() &&
+              self.selected_row.next().hasClass('table-row-group')
+            ) {
+              // the selected parent has children, so insert as their sibling
+              self.selected_row
+                .next()
+                .find('.largetree-node')
+                .first()
+                .before(self.inserted_row);
+            } else {
+              // this would be an only child of the parent
+              self.selected_row.after(self.inserted_row);
+            }
+            self.parent_uri = self.selected_row.data('uri');
+            self.position = 0;
+          });
+        });
+
+        self.menu.on('click', '.add-items-after', function () {
+          menuSelectHandler(self.selected_row.data('level'));
+          if (
+            self.selected_row.next() &&
+            self.selected_row.next().hasClass('table-row-group')
+          ) {
+            // the selected predecessor has children, so insert after them
+            self.selected_row.next().after(self.inserted_row);
+          } else {
+            // this would be an only child of the parent
+            self.selected_row.after(self.inserted_row);
+          }
+          self.parent_uri = self.inserted_row
+            .closest('.table-row-group')
+            .prev('.largetree-node')
+            .data('uri');
+          self.position = self.selected_row.data('position') + 1;
+        });
+
+        return true;
+      });
+    }
+  );
+
+  self.$modal.on('click', '#addSelectedButton', function (event) {
+    event.preventDefault();
+    self.config.onLink(self.parent_uri, self.position);
+    // closing this way to get proper focus back in main window
+    $('.modal-header a', self.$modal).trigger('click');
+    return false;
+  });
+}
+
 function SimpleLinkingModal(config) {
   var self = this;
   self.config = config;
@@ -31,6 +258,7 @@ function SimpleLinkingModal(config) {
     throw 'Cannot load linking modal because the modal config is missing a url';
   }
   self.reload_modal(self.config.url_html);
+  self.$modal.trigger('resize');
   self.init_click_handlers();
   self.init_radio_handlers();
 }
@@ -218,6 +446,9 @@ function validateResourceAndParent() {
   var $parentInput = $('#archival_object_form').find(
     'input[name="archival_object[parent]"]'
   );
+  var $positionInput = $('#archival_object_form').find(
+    'input[name="archival_object[position]"]'
+  );
   if ($resourceInput.val() !== undefined && $resourceInput.val().length < 1) {
     $('#archival_object_form')
       .find('.save-changes :submit')
@@ -259,21 +490,11 @@ function validateResourceAndParent() {
     var $resourceURI = $('#archival_object_form')
       .find('input[name="archival_object[resource][ref]"]')
       .val();
-    new SimpleLinkingModal({
-      url_html: $parentInput.data('browse-url-html'),
-      url_json: $parentInput.data('browse-url-json'),
+    new TreeLinkingModal({
+      root_record_uri: $resourceURI,
       title: $parentInput.data('modal-title'),
       primary_button_text: $parentInput.data('modal-title'),
-      cancel_button_text: $parentInput.data('leave-empty'),
-      types: ['archival_object'],
-      context_filter_term: [
-        {
-          resource: $resourceURI,
-        },
-      ],
-      linker: true,
-      multiplicity: 1,
-      onLink: function (parent_uri) {
+      onLink: function (parent_uri, position) {
         let parent_id = parent_uri.replace(/.*\//, '');
         let locationParams = location.href.split('?')[1];
         locationParams = new URLSearchParams(locationParams);
@@ -285,6 +506,8 @@ function validateResourceAndParent() {
         );
         $parentInput.attr('name', 'archival_object[parent][ref]');
         $parentInput.val(parent_uri);
+        $positionInput.val(position);
+
         validateResourceAndParent();
       },
     });
