@@ -447,3 +447,8 @@ de:
     _singular: Verwendete Sprache
   structured_date_label:
     date: Datum
+  footer:
+    staff_interface: <a href="%{staff_url}">Verwaltungsoberfläche</a>
+    archivesspace_home: Besuchen Sie <a href='http://archivesspace.org'>ArchivesSpace.org</a>
+    feedback: <a id='aspaceFeedbackLink' href='%{feedback_url}' target='_blank'>Rückmeldung geben oder
+      ein Problem melden</a>
