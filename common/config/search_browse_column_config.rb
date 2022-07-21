@@ -185,7 +185,8 @@ module SearchAndBrowseColumnConfig
       "container_profile_height_u_sstr" => {:field => "container_profile_height_u_sstr"},
       "container_profile_depth_u_sstr" => {:field => "container_profile_depth_u_sstr"},
       "container_profile_dimension_units_u_sstr" => {:field => "container_profile_dimension_units_u_sstr"},
-      "audit_info" => {:field => "audit_info", :sort_by => ["create_time", "user_mtime"]}
+      "audit_info" => {:field => "audit_info", :sort_by => ["create_time", "user_mtime"]},
+      "note" => {:field => "note"}
     },
     "digital_object_component" => {
       "title" => {:field => "title", :sortable => true, :sort_by => "title_sort"},
