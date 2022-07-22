@@ -34,6 +34,7 @@ class Resource < JSONModel(:resource)
     # We'll replace this with our own relationship, linking us back to the
     # accession we were spawned from.
     values.delete('related_accessions')
+    self.related_accessions = [{'ref' => accession.uri, '_resolved' => accession}]
 
     notes ||= []
 
@@ -52,9 +53,7 @@ class Resource < JSONModel(:resource)
                                                      :content => [accession.condition_description])
     end
 
-    self.related_accessions = [{'ref' => accession.uri, '_resolved' => accession}]
-
-    self.notes = notes
+    self.notes.concat(notes)
 
     self.rights_statements = Array(accession.rights_statements).map {|rights_statement|
       rights_statement.clone.tap {|r| r.delete('identifier')}

@@ -17,7 +17,10 @@ describe ResourcesController, type: :controller do
         'defaults': {
           'publish': true,
           "extents": [{"portion": "whole"}],
-          "lang_materials": [{"language_and_script": {"language": "eng", "script": "Latn"}}]
+          "lang_materials": [{"language_and_script": {"language": "eng", "script": "Latn"}}],
+          "notes": [{"jsonmodel_type": "note_multipart", "type": "scopecontent", "publish": true, "subnotes": [
+            {"jsonmodel_type": "note_text", "content": "Scope and content!", "publish": true}]}
+          ]
         }
       })
     )
@@ -71,6 +74,11 @@ describe ResourcesController, type: :controller do
       '#resource_lang_materials__0__language_and_script__script_ option[@selected="selected"]'
     ) do |selected|
       expect(selected.text).to eq('Latin')
+    end
+    # we should have 3 notes (scope, content, condition)
+    expect(result.find_all(:css, '#resource_notes_ li[data-object-name="note"]').count).to eq 3
+    result.find(:css, '#resource_notes__0_') do |selected|
+      expect(selected.text).to match /Scope and content!/
     end
   end
 end
