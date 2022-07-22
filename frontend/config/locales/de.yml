@@ -187,6 +187,8 @@ de:
     transfer_successful: Übertragung erfolgreich.  Aufzeichnung benötigen möglicherweise
       einen Moment, bevor sie im Ziel-Aufbewahrungsort nach der Re-Indexierung angezeigt
       werden.
+    require_subrecord: Teilaufzeichnung erfordern
+    select_resource: Ressource auswählen
   search_results:
     filtered_by: Gefiltert durch
     title: Suchergebnisse
@@ -274,8 +276,8 @@ de:
     manage_enumerations: Aufzählungs-Listen verwalten
     global_preferences: Globale Einstellungen
     global_settings: Globale Einstellungen
-    user_repo_preferences: Benutzer-Einstellungen
-    repo_preferences: Aufbewahrungsort-Einstellungen
+    user_repo_preferences: Aufzeichnungsort-Einstellungen
+    repo_preferences: Standard Aufbewahrungsort-Einstellungen
     manage_user_access: Benutzerzugang verwalten
     logout: Abmelden
     register: Jetzt registrieren
@@ -352,6 +354,7 @@ de:
         active_jobs: Aktive Aufgaben
         archived_jobs: Archivierte Aufgaben
         files: Dateien
+      external_repo: Die Aufzeichnung gehört zu einem anderen Aufbewahrungsort
   sub_container:
     top_container: Haupt-Behältnis
     top_container_tooltip: "<p>ERFORDERLICHES FELD. Das Behältnis der obersten Ebene,\
@@ -442,6 +445,7 @@ de:
       desc: Absteigend
       accession_date_year: Eingangsdatum
       extents: Umfang
+      uri: URI
     resource:
       score: Relevanz
       title: Titel
@@ -464,6 +468,7 @@ de:
       classification_path: Klassifizierungs-Pfad
       subjects: Thema
       extents: Umfang
+      uri: URI
     archival_object:
       score: Relevanz
       title: Titel
@@ -480,6 +485,7 @@ de:
       create_time: Erstellt
       asc: Aufsteigend
       desc: Absteigend
+      uri: URI
     subject:
       score: Relevanz
       source: Quelle
@@ -491,6 +497,7 @@ de:
       create_time: Erstellt
       desc: Absteigend
       asc: Aufsteigend
+      uri: URI
     digital_object:
       title: Titel
       subjects: Thema
@@ -508,6 +515,7 @@ de:
       create_time: Erstellt
       asc: Aufsteigend
       desc: Absteigend
+      uri: URI
     digital_object_component:
       score: Relevanz
       title: Titel
@@ -521,6 +529,7 @@ de:
       asc: Aufsteigend
       desc: Absteigend
       publish: Veröffentlicht
+      uri: URI
     agent:
       score: Relevanz
       primary_type: Typ des Akteurs
@@ -535,6 +544,7 @@ de:
       source: Quelle
       rules: Regeln
       create_time: Erstellt
+      uri: URI
     location:
       floor: Stockwerk
       none: Kein
@@ -592,6 +602,7 @@ de:
       desc: Absteigend
       asc: Aufsteigend
       score: Relevanz
+      uri: URI
     assessment:
       score: Relevanz
       assessment_records: Aufzeichnung
@@ -623,6 +634,7 @@ de:
       create_time: Erstellt
       asc: Aufsteigend
       desc: Absteigend
+      uri: URI
     top_container:
       score: Relevanz
       publish: Veröffentlicht
@@ -853,7 +865,9 @@ de:
         save: Eingang speichern
       section:
         basic_information: Grundlegende Informationen
-  agent: &agent_attributes
+    component_link: Verknüpfte Komponente
+    component_links: Verknüpfte Komponenten
+  agent:
     _frontend:
       messages:
         created: Akteur erstellt
@@ -881,6 +895,7 @@ de:
         name: Namensformen
         contacts: Kontaktdetails
         search_embedded: Verknüpfte Aufzeichnungen
+        events: Ereignisse
       action:
         create: Akteur erstellen
         preview: Zusammenführungs-Vorschau
@@ -943,15 +958,21 @@ de:
           nicht übertragen: <pre>%{exception}</pre>'
         transfer_success: Archiv-Objekt <strong>%{archival_object.display_string}</strong>
           erfolgreich zu Aufzeichnung <strong>%{resource.title}</strong> übertragen
+        spawned: Dieses Archiv-Objekt wurde aus dem Eingang <strong>%{accession.display_string}</strong>
+          erzeugt
       action:
         add_sibling: Geschwister hinzufügen
         save: Archiv-Objekt speichern
         bulk_import: Mit Tabelle laden
         add_child: Kind hinzufügen
+        select_resource: Ressource auswählen
+        select_parent: Übergeordnetes Element auswählen
+        leave_parent_empty: Schließen / Übergeordnetes Element nicht zuweisen
       tree:
         new_record_title: Neues Archiv-Objekt
       section:
         basic_information: Grundlegende Informationen
+    new_title: Neues Archiv-Objekt
   classification:
     _frontend:
       messages:
@@ -988,7 +1009,7 @@ de:
         add_child: Kind hinzufügen
       tree:
         new_record_title: Neuer Klassifizierungs-Begriff
-  collection_management: &collection_management_attributes
+  collection_management:
     _frontend:
       title_prefix: Verarbeite
       action:
@@ -1419,6 +1440,7 @@ de:
         update_account: Benutzerkonto aktualisieren
         create: Benutzer erstellen
         activate_user: Aktivieren
+        update_self: Benutzerkonto verwalten
   use_date:
     _frontend:
       action:
@@ -1930,6 +1952,11 @@ de:
         update_locations_new_location: Neuer Standort
         has_location_true: Ja
         has_location_false: Nein
+        rapid_indicator_entry_new_indicator: Neuer Indikator
+        rapid_indicator_entry: Indikatoren aktualisieren
+        rapid_indicator_entry_help: Geben Sie für jedes ausgewählte Behältnis einen
+          Indikator ein.  Lassen Sie das Feld Neuer Indikator leer, um es unverändert
+          zu lassen.
       section:
         active_restrictions: Aktive Einschränkungen
         linked_records: Verknüpfte Aufzeichnungen
@@ -2280,6 +2307,7 @@ de:
         copied: Benutzerdefinierte Berichtsvorlage kopiert
         created: Benutzerdefinierte Berichtsvorlage erstellt
         updated: Benutzerdefinierte Berichtsvorlage aktualisiert
+    new_title: Neue benutzerdefinierte Berichtsvorlage
   oai_config:
     _frontend:
       section:
@@ -2507,3 +2535,20 @@ de:
     contact_notes_tooltip: "<p>Details zur Interaktion mit dem Kontakt</p>\n"
     date_of_contact_tooltip: "<p>Verwendet, um die spezifischen Daten oder Zeiträume\
       \ einer Interaktion aufzuzeichnen</p>\n"
+  component_link:
+    _plural: Komponenten-Verknüpfungen
+    _singular: Komponenten-Verknüpfung
+    _frontend:
+      action:
+        add: Komponenten-Verknüpfung hinzufügen
+  accession_link:
+    _plural: Eingangs-Verknüpfungen
+    _frontend:
+      action:
+        add: Eingangs-Verknüpfung hinzufügen
+    _singular: Eingangs-Verknüpfung
+  footer:
+    public_interface: <a href="%{public_url}">Zum öffentlichen Katalog</a>
+    feedback: <a id='aspaceFeedbackLink' href='%{feedback_url}' target='_blank'>Rückmeldung
+      geben oder ein Problem melden</a>
+    archivesspace_home: Besuchen Sie <a href='http://archivesspace.org'>ArchivesSpace.org</a>
