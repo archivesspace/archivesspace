@@ -8,44 +8,45 @@ Pre-reqs:
 - Docker
 - Git
 
-## [Use with a local repository (local files)](https://code.visualstudio.com/docs/remote/containers#_quick-start-open-an-existing-folder-in-a-container)
+When you run an ArchivesSpace devcontainer for the first time VS code will
+download the required container images so the initial setup will take a few
+minutes to complete. It should be fast to start anytime after that.
+
+Whenever a _new_ container is started there are some preliminary setup steps
+run to start the database server and Solr and bootstrap ArchivesSpace. When
+this is done the first time it will also take a couple of minutes to complete,
+however it will likewise be faster on subsequent runs (particularly if using a
+local repository). In every case gems are persisted in a Docker volume to
+speed up bootstrapping (`archivesspace-gems`).
+
+If you restart a stopped container the setup steps are not rerun. There is an
+alias command `srv` that can be used to restart the database and Solr servers.
+
+## [Use with a local repository](https://code.visualstudio.com/docs/remote/containers#_quick-start-open-an-existing-folder-in-a-container)
 
 This method uses a locally cloned copy of ArchivesSpace. Running this way will
 sync files between the host and container filesystems so your mileage may vary
 on performance.
 
-Recommended for:
+Good for:
 
 - Linux (Ubuntu etc.)
+- Mac OS
 
 Not recommneded for:
 
-- Mac OS (although faster Intel Macs may be ok?)
-- Windows (there'll be filesystem issues)
+- Windows (there'll be filesystem issues -- TODO: check if those have been fixed)
 
-## [Use with a remote repository (volumes)](https://code.visualstudio.com/docs/remote/containers#_quick-start-open-a-git-repository-or-github-pr-in-an-isolated-container-volume)
+## [Use with a remote repository](https://code.visualstudio.com/docs/remote/containers#_quick-start-open-a-git-repository-or-github-pr-in-an-isolated-container-volume)
 
-This method uses a fresh clone of ArchivesSpace and Docker volumes. Using volumes
-avoids filesystem issues but bootstrapping will be slower because the repository
-has to be cloned.
+This method uses a fresh clone of ArchivesSpace and is a fully self contained
+environment that does not require a local copy of the ArchivesSpace source
+repository. This avoids filesystem issues but bootstrapping will be slower
+because the repository has to be cloned in addition to the other setup steps
+that are performed.
 
-Recommended for:
+This is currently the only way to develop using Windows OS.
 
-- All (x86)
+Good for:
 
-## Secrets
-
-Variables supported:
-
-- REMOTE_DB_HOST
-- REMOTE_DB_PORT
-- REMOTE_DB_NAME
-- REMOTE_DB_USER
-- REMOTE_DB_PASSWORD
-
-There are two ways to use them:
-
-1. Create a file `.devcontainer/secrets` with variables to be exported. __Note: this
-only works with a local repository container.__
-2. Define them as locally available environment variables. __Note: these must be
-available when vscode starts, they are not picked up through integrated terminals.__
+- All

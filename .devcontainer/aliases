@@ -1,17 +1,16 @@
-## ARCHIVESSPACE BUILD
+## BUILD
 alias api="supervisord -c supervisord/api.conf"
-alias br="build/run"
 alias brb="build/run bootstrap"
+alias brm="build/run db:migrate"
+alias brr="build/run solr:reset"
 alias run="supervisord -c supervisord/archivesspace.conf"
-# database migrate
-alias brdm="build/run db:migrate"
-# solr reset
-alias brsr="build/run solr:reset"
 ## GIT
 alias gdc="git diff --cached"
 alias gdf="git diff"
+alias gfa="git fetch --all"
 alias gst="git status"
 ## MYSQL
-alias myasd="mycli --user=as --password=as123 --database=asdev --auto-vertical-output"
-alias myast="mycli --user=as --password=as123 --database=astest --auto-vertical-output"
-alias restore='mysqldump -h $REMOTE_DB_HOST -u $REMOTE_DB_USER -p"$REMOTE_DB_PASSWORD" $REMOTE_DB_NAME | mysql -h 127.0.0.1 --user=as --password=as123 asdev'
+alias myd="mycli --user=as --password=as123 --database=asdev --auto-vertical-output"
+alias myt="mycli --user=as --password=as123 --database=astest --auto-vertical-output"
+## SERVICES
+alias srv="sudo service mariadb start && sudo service solr start"
