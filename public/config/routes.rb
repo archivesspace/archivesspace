@@ -102,5 +102,7 @@ Rails.application.routes.draw do
     post 'fill_request' => 'requests#make_request'
 
     get '/search', to: 'search#search'
+
+    post '/locale', to: 'locales#locale'
   end
 end
