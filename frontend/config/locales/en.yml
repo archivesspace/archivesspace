@@ -841,6 +841,10 @@ en:
         has_unpublished_ancestor: Please be aware this record has an ancestor that is unpublished.
         spawned: "This Archival Object has been spawned from Accession <strong>%{accession.display_string}</strong>"
         delete_conflict: "Archival Object could not be deleted: <pre>%{error}</pre>"
+        spawn_placeholder: "<em>Spawned component will be inserted here</em>"
+        spawn_menu_before: Insert spawned component before
+        spawn_menu_child: Insert spawned component as child
+        spawn_menu_after: Insert spawned component after
       section:
         basic_information: Basic Information
       action:
@@ -849,7 +853,7 @@ en:
         save: Save Archival Object
         bulk_import: Load via Spreadsheet
         select_resource: Select Resource
-        select_parent: Select Parent
+        select_parent_and_position: Select Component Position
         leave_parent_empty: Close / Do not Assign Parent
 
       tree:

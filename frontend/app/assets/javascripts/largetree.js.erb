@@ -457,7 +457,7 @@
                 self.appendWaypoints(row, row.data('uri'), node.waypoints, node.waypoint_size, row.data('level') + 1);
 
                 if (done_callback) {
-                    done_callback();
+                    setTimeout(done_callback, 100);
                 }
             })
             .fail(function () {
