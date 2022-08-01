@@ -47,6 +47,12 @@ ParentPickingRenderer.prototype.get_new_node_template = function () {
   return this.newNodeTemplate.clone(false);
 };
 
+ParentPickingRenderer.prototype.add_node_columns = function (row, node) {
+  ResourceRenderer.prototype.add_node_columns.call(this, row, node);
+  // undo the TreeIDs hash fragment inserted when the row was rendered
+  row.find('.record-title').attr('href', '#');
+}
+
 function TreeLinkingModal(config) {
   var self = this;
   self.config = config;
@@ -61,7 +67,7 @@ function TreeLinkingModal(config) {
   self.$modal.find('#addSelectedButton').addClass('disabled');
   self.position = 0;
   let datasource_url =
-    '/resources/' + config.root_record_uri.replace(/.*\//, '') + '/tree';
+    RESOURCES_URL + '/' + config.root_record_uri.replace(/.*\//, '') + '/tree';
   self.datasource = new TreeDataSource(datasource_url);
   self.renderer = new ParentPickingRenderer();
   self.$container = $('.linker-container');
@@ -72,7 +78,31 @@ function TreeLinkingModal(config) {
     config.root_record_uri,
     true,
     self.renderer,
-    function () {
+    function (rootNode) {
+      self.$container.find('.record-title').attr('href', '#')
+      function menuSelectHandler(level) {
+        // remove any existing placeholder row
+        if (self.inserted_row != undefined) {
+          self.inserted_row.remove();
+        }
+        inserted_row = self.renderer.get_new_node_template();
+        inserted_row.addClass('largetree-node indent-level-' + level);
+        inserted_row.addClass('spawn-placeholder');
+        inserted_row.addClass('current');
+        inserted_row.find('button.expandme').css('visibility', 'hidden');
+        inserted_row.find('.title').append($(SPAWN_PLACEHOLDER_TEXT));
+        self.inserted_row = inserted_row;
+        self.$modal.find('#addSelectedButton').removeClass('disabled');
+        if (self.menu) {
+          self.menu.remove();
+        }
+      }
+      if (rootNode.child_count == 0) {
+        // this will be an only child of the root record, so no need to choose anything
+        menuSelectHandler(1);
+        self.$container.find('.root-row').after(self.inserted_row);
+        return;
+      }
       self.$container.on('click', '.expandme', function (e) {
         e.preventDefault();
         e.stopPropagation();
@@ -145,24 +175,7 @@ function TreeLinkingModal(config) {
           return true;
         });
 
-        function menuSelectHandler(level) {
-          // remove any existing placeholder row
-          if (self.inserted_row != undefined) {
-            self.inserted_row.remove();
-          }
-          inserted_row = self.renderer.get_new_node_template();
-          inserted_row.addClass('largetree-node indent-level-' + level);
-          inserted_row.addClass('spawn-placeholder');
-          inserted_row.addClass('current');
-          inserted_row.find('button.expandme').css('visibility', 'hidden');
-          inserted_row.find('.title').append($(SPAWN_PLACEHOLDER_TEXT));
-          self.inserted_row = inserted_row;
-          self.$modal.find('#addSelectedButton').removeClass('disabled');
-          self.menu.remove();
-        }
-
         self.menu.on('click', '.add-items-before', function () {
-          console.log('add items before');
           menuSelectHandler(self.selected_row.data('level'));
           self.selected_row.before(self.inserted_row);
           if (
@@ -229,6 +242,7 @@ function TreeLinkingModal(config) {
 
   self.$modal.on('click', '#addSelectedButton', function (event) {
     event.preventDefault();
+    // parent_uri may be undef but position should always be an int
     self.config.onLink(self.parent_uri, self.position);
     // closing this way to get proper focus back in main window
     $('.modal-header a', self.$modal).trigger('click');
@@ -495,6 +509,10 @@ function validateResourceAndParent() {
       title: $parentInput.data('modal-title'),
       primary_button_text: $parentInput.data('modal-title'),
       onLink: function (parent_uri, position) {
+        $positionInput.val(position);
+        if (parent_uri == undefined) {
+          return;
+        }
         let parent_id = parent_uri.replace(/.*\//, '');
         let locationParams = location.href.split('?')[1];
         locationParams = new URLSearchParams(locationParams);
@@ -506,9 +524,6 @@ function validateResourceAndParent() {
         );
         $parentInput.attr('name', 'archival_object[parent][ref]');
         $parentInput.val(parent_uri);
-        $positionInput.val(position);
-
-        validateResourceAndParent();
       },
     });
   }
