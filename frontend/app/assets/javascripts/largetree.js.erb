@@ -80,8 +80,8 @@
         this.errorHandler = $.noop;
 
         this.initEventHandlers();
-        this.renderRoot(function () {
-            tree_loaded_callback();
+        this.renderRoot(function (rootNode) {
+            tree_loaded_callback(rootNode);
         });
     }
 
@@ -581,14 +581,14 @@
 
             rootList.append(row);
             self.appendWaypoints(row, null, rootNode.waypoints, rootNode.waypoint_size, 1);
-
             /* Remove any existing table */
             self.elt.find('div.root').remove();
 
             self.elt.prepend(rootList);
             self.renderer.add_root_columns(row, rootNode);
             if (done_callback) {
-                done_callback();
+                /* Note that this will fire before the waypoint nodes are loaded */
+                done_callback(rootNode);
             }
         });
     };
