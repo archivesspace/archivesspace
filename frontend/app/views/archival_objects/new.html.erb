@@ -16,9 +16,9 @@
     end
   %>
 
-  var ENUMERATION_TRANSLATIONS = <%== translations.to_json %>;
+  const ENUMERATION_TRANSLATIONS = <%== translations.to_json %>;
 
-  var EnumerationTranslations = {
+  const EnumerationTranslations = {
     t : function(enumeration, enumeration_value) {
       if (ENUMERATION_TRANSLATIONS.hasOwnProperty(enumeration)) {
           if (ENUMERATION_TRANSLATIONS[enumeration].hasOwnProperty(enumeration_value)) {
@@ -31,7 +31,9 @@
     }
   };
 
- var SPAWN_PLACEHOLDER_TEXT = <%== I18n.t("archival_object._frontend.messages.spawn_placeholder").to_json %>;
+ const SPAWN_PLACEHOLDER_TEXT = <%== I18n.t("archival_object._frontend.messages.spawn_placeholder").to_json %>;
+
+ const RESOURCES_URL = '<%= url_for(:controller => :resources, :action => :index) %>';
 
  <%
  spawn_menu = {
