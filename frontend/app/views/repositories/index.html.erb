@@ -7,7 +7,7 @@
     </div>
   </div>
   <div class="col-md-9">
-    <% if user_can?('manage_repository') %>
+    <% if user_can?('create_repository') %>
       <div class="record-toolbar">
         <div class="btn-group pull-right">
           <%= link_to I18n.t("repository._frontend.action.create"), {:controller => :repositories, :action => :new}, :class => "btn btn-sm btn-default" %>

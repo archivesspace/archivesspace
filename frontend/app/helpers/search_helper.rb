@@ -96,7 +96,7 @@ module SearchHelper
 
     return user_can?('update_container_record', record['id']) if record['primary_type'] === "top_container"
     return user_can?('update_container_profile_record') if record['primary_type'] === "container_profile"
-    return user_can?('manage_repository', record['id']) if record['primary_type'] === "repository"
+    return user_can?('create_repository', record['id']) if record['primary_type'] === "repository"
     return user_can?('update_location_record') if record['primary_type'] === "location"
     return user_can?('update_subject_record') if record['primary_type'] === "subject"
     return user_can?('update_classification_record') if ["classification", "classification_term"].include?(record['primary_type'])
