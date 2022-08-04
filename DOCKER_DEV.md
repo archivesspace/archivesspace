@@ -10,7 +10,7 @@
 See https://archivesspace.github.io/tech-docs/development/dev.html for addtional info
 # Troubleshooting
 
-### Steps to bash into your container & bundle archivesspace frontend
+## Steps to bash into your container & bundle archivesspace frontend
 
 1. Make sure the services section of `docker-compose.yml` looks like this:
 ```
@@ -45,6 +45,7 @@ services:
 7. run the individual command to start the front end only: `./build/run frontend:devserver`
 
 # How to use demo data in dev
+(You will have to do this on each new branch)
 
 1. Copy the demo db into the db docker container: `docker cp demo.sql archivesspace_db_1:/`
 2. bash into the container for db: `dc exec db sh`
