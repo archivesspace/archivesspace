@@ -17,7 +17,7 @@ See https://archivesspace.github.io/tech-docs/development/dev.html for addtional
 4. password is 123456
 # Troubleshooting
 
-### Steps to bash into your container & bundle archivesspace frontend
+## Steps to bash into your container & bundle archivesspace frontend
 
 1. Make sure the services section of `docker-compose.yml` looks like this:
 ```
