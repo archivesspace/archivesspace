@@ -43,3 +43,10 @@ services:
 5. inside the container still- run the individual command to start the back end: `./build/run backend:devserver`
 6. new tab- bash into the container again: `dc exec app bash`
 7. run the individual command to start the front end only: `./build/run frontend:devserver`
+
+# How to use demo data in dev
+
+1. Copy the demo db into the db docker container: `docker cp demo.sql archivesspace_db_1:/`
+2. bash into the container for db: `dc exec db sh`
+3. import the database: `mysql -p archivesspace < demo.sql`
+4. password is 123456
