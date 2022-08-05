@@ -735,7 +735,7 @@ en:
         deleted: Accession <strong>%{accession.display_string}</strong> deleted
         transfer_description: Transfer this accession to...
         transfer_target: Select a repository to transfer into
-        spawned: "This Accession has been spawned from Accession <strong>%{accession.display_string}</strong>"
+        spawned: "This Accession has been spawned from Accession <strong>%{accession.display_string}</strong>. This record is unsaved. You must click Save for the record to be created in the system."
         delete_conflict: "Accession could not be deleted: <pre>%{error}</pre>"
       section:
         basic_information: Basic Information
@@ -839,7 +839,7 @@ en:
         suppressed: Archival Object <strong>%{archival_object.title}</strong> suppressed
         suppressed_info: Archival Object is suppressed and cannot be edited
         has_unpublished_ancestor: Please be aware this record has an ancestor that is unpublished.
-        spawned: "This Archival Object has been spawned from Accession <strong>%{accession.display_string}</strong>"
+        spawned: "This Archival Object has been spawned from Accession <strong>%{accession.display_string}</strong>. This record is unsaved. You must click Save for the record to be created in the system."
         delete_conflict: "Archival Object could not be deleted: <pre>%{error}</pre>"
         spawn_placeholder: "<em>Spawned component will be inserted here</em>"
         spawn_menu_before: Insert spawned component before
@@ -1238,7 +1238,7 @@ en:
       messages:
         created: "Resource <strong>%{resource.title}</strong> created"
         updated: "Resource <strong>%{resource.title}</strong> updated"
-        spawned: "A new Resource has been spawned from Accession <strong>%{accession.display_string}</strong>"
+        spawned: "A new Resource has been spawned from Accession <strong>%{accession.display_string}</strong>. This record is unsaved. You must click Save for the record to be created in the system."
         deleted: "Resource <strong>%{resource.title}</strong> deleted"
         published: "The Resource <strong>%{resource.title}</strong>, its subrecords and components have been published"
         unpublished: "The Resource <strong>%{resource.title}</strong>, its children, subrecords and components have been unpublished"
