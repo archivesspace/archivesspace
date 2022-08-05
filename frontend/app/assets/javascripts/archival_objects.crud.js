@@ -166,14 +166,9 @@ function TreeLinkingModal(config) {
           menuSelectHandler(self.selected_row.data('level'));
           self.selected_row.before(self.inserted_row);
           if (
-            self.inserted_row.closest('.table-row-group').prev('.root-row')
+            !self.inserted_row.closest('.table-row-group').prev('.root-row')
               .length > 0
           ) {
-            self.parent_uri = self.inserted_row
-              .closest('.table-row-group')
-              .prev('.root-row')
-              .data('uri');
-          } else {
             self.parent_uri = self.inserted_row
               .closest('.table-row-group')
               .prev('.largetree-node')
