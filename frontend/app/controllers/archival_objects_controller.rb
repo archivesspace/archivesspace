@@ -196,8 +196,11 @@ class ArchivalObjectsController < ApplicationController
   def delete
     archival_object = JSONModel(:archival_object).find(params[:id])
 
-    previous_record = JSONModel::HTTP.get_json("#{archival_object['uri']}/previous")
-
+    previous_record = begin
+      JSONModel::HTTP.get_json("#{archival_object['uri']}/previous")
+    rescue RecordNotFound
+      nil
+    end
     begin
       archival_object.delete
     rescue ConflictException => e

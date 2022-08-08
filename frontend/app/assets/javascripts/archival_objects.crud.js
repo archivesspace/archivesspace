@@ -180,13 +180,8 @@ function TreeLinkingModal(config) {
           self.selected_row.before(self.inserted_row);
           if (
             self.inserted_row.closest('.table-row-group').prev('.root-row')
-              .length > 0
+              .length < 1
           ) {
-            self.parent_uri = self.inserted_row
-              .closest('.table-row-group')
-              .prev('.root-row')
-              .data('uri');
-          } else {
             self.parent_uri = self.inserted_row
               .closest('.table-row-group')
               .prev('.largetree-node')
