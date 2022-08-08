@@ -46,20 +46,18 @@
       <%= render "shared/header_global" %>
     </header>
 
-   <div class="content-pane container-fluid">
-     <% if current_repo %>
-       <div class="row">
-         <%= render "shared/header_repository" %>
-       </div>
-     <% end %>
-     <%= yield %>
-   </div>
+  <div class="content-pane container-fluid">
+  <% if current_repo %>
+    <%= render "shared/header_repository" %>
+  <% end %>
+  <%= yield %>
+  </div>
 
-   <footer>
-      <%= render "site/footer" %>
-   </footer>
+  <footer>
+    <%= render "site/footer" %>
+  </footer>
 
-   <%= render "shared/templates" %>
+  <%= render "shared/templates" %>
 
   </div>
 </body>
