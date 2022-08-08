@@ -4,7 +4,9 @@
 - `cp docker-compose-dev-full.yml docker-compose.yml`
 - `docker-compose up app`
 - Open ports 3001 for public, 3000 for frontend and 4567 for backend
-- You will need to migrate the database to see the app run: `docker-compose exec app -- ./build/run db:migrate`
+- Visit localhost:3000/staff to see the frontend home page
+- To sign into the staff interface username and password are both: admin 
+- You will need to migrate the database to see the app run: `docker-compose exec app ./build/run db:migrate`
 
 
 See https://archivesspace.github.io/tech-docs/development/dev.html for addtional info
@@ -37,17 +39,17 @@ services:
       - 4567:4567
 ```
 
-2. start the containers: `dc up app`
-3. bash into the container: `dc exec app bash`
+2. start the containers: `docker-compose up app`
+3. bash into the container: `docker-compose exec app bash`
 4. bundle the frontend `./build/run bundle:frontend`
 5. inside the container still- run the individual command to start the back end: `./build/run backend:devserver`
-6. new tab- bash into the container again: `dc exec app bash`
+6. new tab- bash into the container again: `docker-compose exec app bash`
 7. run the individual command to start the front end only: `./build/run frontend:devserver`
 
 # How to use demo data in dev
 (You will have to do this on each new branch)
 
 1. Copy the demo db into the db docker container: `docker cp demo.sql archivesspace_db_1:/`
-2. bash into the container for db: `dc exec db sh`
+2. bash into the container for db: `docker-compose exec db sh`
 3. import the database: `mysql -p archivesspace < demo.sql`
 4. password is 123456
