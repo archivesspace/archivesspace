@@ -92,10 +92,10 @@
 
         <% if show_edit_actions %>
         <td>
-          <div class="btn-group pull-right">
-            <%= link_to I18n.t("actions.view"), {:controller => :resolver, :action => :resolve_readonly, :uri => container_json["uri"]}, :class => "btn btn-xs btn-default" %>
+          <div class="btn-group ml-auto bg-white border rounded">
+            <%= link_to I18n.t("actions.view"), {:controller => :resolver, :action => :resolve_readonly, :uri => container_json["uri"]}, :class => "btn" %>
             <% if can_edit %>
-              <%= link_to I18n.t("actions.edit"), {:controller => :resolver, :action => :resolve_edit, :uri => container_json["uri"]}, :class => "btn btn-xs btn-primary" %>
+              <%= link_to I18n.t("actions.edit"), {:controller => :resolver, :action => :resolve_edit, :uri => container_json["uri"]}, :class => "btn btn-primary" %>
             <% end %>
           </div>
         </td>

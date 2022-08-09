@@ -17,7 +17,7 @@
                 <%= I18n.t("actions.edit_default_values") %>
                 <span class="caret"></span>
               </a>
-              <ul class="dropdown-menu open-aligned-right">
+              <ul class="dropdown-menu dropdown-menu-right">
                 <li><%= link_to I18n.t("resource._singular"), {:controller => :resources, :action => :defaults} %></li>
                 <li> <%= link_to I18n.t("resource_component._singular"), {:controller => :archival_objects, :action => :defaults} %></li>
               </ul>

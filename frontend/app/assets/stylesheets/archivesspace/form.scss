@@ -747,6 +747,10 @@ label {
   .form-actions {
     margin: 0;
   }
+
+  &:hover {
+    display: block;
+  }
 }
 
 /* fix typeahead not displaying above modal blockout */
