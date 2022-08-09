@@ -80,7 +80,7 @@ GEM
     benchmark-perf (0.6.0)
     benchmark-trend (0.4.0)
     bindex (0.8.1)
-    bootstrap (4.2.1)
+    bootstrap (4.3.1)
       autoprefixer-rails (>= 9.1.0)
       popper_js (>= 1.14.3, < 2)
       sassc-rails (>= 2.0.0)
@@ -344,7 +344,7 @@ DEPENDENCIES
   activesupport
   atomic (= 1.0.1)
   axe-core-rspec
-  bootstrap (~> 4.2.1)
+  bootstrap (~> 4.3.0)
   capybara
   coffee-rails
   coffee-script

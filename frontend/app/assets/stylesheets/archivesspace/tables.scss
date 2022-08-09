@@ -204,3 +204,7 @@ table.table-spreadsheet {
 .inactive {
   background-color: #ffe6e6 !important;
 }
+
+table .col {
+  width: unset;
+}
