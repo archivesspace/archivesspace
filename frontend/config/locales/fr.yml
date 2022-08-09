@@ -274,6 +274,7 @@ fr:
       create_time: Créé
       asc: Ascendant
       desc: Descendant
+      uri: URI
     resource:
       score: Pertinence
       title: Intitulé
@@ -296,6 +297,7 @@ fr:
       create_time: Créé
       asc: Ascendant
       desc: Descendant
+      uri: URI
     archival_object:
       score: Pertinence
       title: Intitulé
@@ -312,6 +314,7 @@ fr:
       create_time: Créé
       asc: Ascendant
       desc: Descendant
+      uri: URI
     subject:
       score: Pertinence
       source: Source
@@ -323,6 +326,7 @@ fr:
       create_time: Créé
       asc: Ascendant
       desc: Descendant
+      uri: URI
     digital_object:
       score: Pertinence
       title: Intitulé
@@ -340,6 +344,7 @@ fr:
       create_time: Créé
       asc: Ascendant
       desc: Descendant
+      uri: URI
     digital_object_component:
       score: Pertinence
       title: Intitulé
@@ -353,6 +358,7 @@ fr:
       create_time: Créé
       asc: Ascendant
       desc: Descendant
+      uri: URI
     agent:
       score: Pertinence
       title: Nom
@@ -367,6 +373,7 @@ fr:
       create_time: Créé
       asc: Ascendant
       desc: Descendant
+      uri: URI
     location:
       score: Pertinence
       title: Localisation
@@ -423,6 +430,7 @@ fr:
       create_time: Créé
       asc: Ascendant
       desc: Descendant
+      uri: URI
     assessment:
       score: Pertinence
       assessment_id: ID
@@ -454,6 +462,7 @@ fr:
       create_time: Créé
       asc: Ascendant
       desc: Descendant
+      uri: URI
     top_container:
       score: Pertinence
       title: Intitulé
