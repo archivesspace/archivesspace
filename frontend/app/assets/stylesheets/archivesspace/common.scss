@@ -8,6 +8,10 @@ h2 > .label {
   margin-top: $baseLineHeight / 2;
   vertical-align: top;
   font-size: 40%;
+  &.badge {
+    margin-top: 0;
+    color: white;
+  }
 }
 
 .tab-content {
