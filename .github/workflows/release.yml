@@ -7,7 +7,16 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    name: Build ArchivesSpace Release
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        include:
+          - os: ubuntu-latest
+            file_ext: zip
+          - os: windows-latest
+            file_ext: windows.zip
+
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -26,12 +35,20 @@ jobs:
         id: release_name
         run: echo ::set-output name=RELEASE_NAME::$(echo $GITHUB_REF | cut -d / -f 3 | sed 's/v/V/')
 
+      - name: Install compiler
+        uses: rlalik/setup-cpp-compiler@v1
+        with:
+          compiler: latest
+
       - name: Build Dist
         run: ./build/run build-dist -Dversion=${{ steps.version.outputs.VERSION }}
+        env:
+          CC: ${{ steps.install_cc.outputs.cc }}
+          CXX: ${{ steps.install_cc.outputs.cxx }}
 
-      - name: Release
-        uses: softprops/action-gh-release@v1
+      - name: Upload Binaries to Release
+        uses: svenstaro/upload-release-action@v2
         with:
-          name: ${{ steps.release_name.outputs.RELEASE_NAME }}
+          release_name: ${{ steps.release_name.outputs.RELEASE_NAME }}
           body: Insert release notes here
-          files: archivesspace-${{ steps.version.outputs.VERSION }}.zip
+          file: archivesspace-${{ steps.version.outputs.VERSION }}TEST.${{ matrix.file_ext }}
