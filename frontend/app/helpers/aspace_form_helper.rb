@@ -723,7 +723,7 @@ module AspaceFormHelper
 
       control_group_classes,
       label_classes,
-      controls_classes = %w(form-group), [], []
+      controls_classes = %w(form-group row), [], []
 
       unless opts[:layout] && opts[:layout] == 'stacked'
         label_classes << "col-sm-#{opts[:label_opts].fetch(:col_size, 2)}"
@@ -902,7 +902,7 @@ module AspaceFormHelper
       html << "<div class='control-label col-sm-2'>"
       html << I18n.t("#{prefix}#{jsonmodel_type.to_s}.#{property}")
       html << "</div>"
-      html << "<div class='label-only col-sm-8'>#{value}</div>"
+      html << "<div class='col-sm-8'>#{value}</div>"
       html << "</div>"
     end
     html << "</div>"
@@ -957,7 +957,7 @@ module AspaceFormHelper
 
     def label_with_field(name, field_html, opts = {})
       return "" if field_html.blank?
-      super(name, field_html, opts.merge({:controls_class => "label-only"}))
+      super(name, field_html, opts.merge({:controls_class => ""}))
     end
 
     def label_and_fourpartid
@@ -1264,11 +1264,11 @@ module AspaceFormHelper
         end
       end
 
-      html << "<div class='form-group'>"
+      html << "<div class='form-group row'>"
       html << "<div class='control-label col-sm-2'>"
       html << I18n.t("#{prefix}#{jsonmodel_type.to_s}.#{property}")
       html << "</div>"
-      html << "<div class='label-only col-sm-8'>#{value}</div>"
+      html << "<div class='col-sm-8'>#{value}</div>"
       html << "</div>"
     end
 

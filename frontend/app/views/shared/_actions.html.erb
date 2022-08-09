@@ -1,9 +1,9 @@
 <% unless deleted(record) %>
-  <div class="btn-group">
+  <div class="btn-group rounded bg-white border">
     <% disabled = "disabled" if JSON.parse(record['json'])['inactive_record'] %>
-    <%= link_to I18n.t("actions.view"), {:controller => :resolver, :action => :resolve_readonly, :uri => record["id"]}, :class => "btn btn-xs btn-default", :disabled => disabled %>
+    <%= link_to I18n.t("actions.view"), {:controller => :resolver, :action => :resolve_readonly, :uri => record["id"]}, :class => "btn", :disabled => disabled %>
     <% if can_edit_search_result?(record) %>
-      <%= link_to I18n.t("actions.edit"), {:controller => :resolver, :action => :resolve_edit, :uri => record["id"]}, :class => "btn btn-xs btn-primary" %>
+      <%= link_to I18n.t("actions.edit"), {:controller => :resolver, :action => :resolve_edit, :uri => record["id"]}, :class => "btn btn-primary" %>
     <% end %>
   </div>
   <% if record['primary_type'] === "repository" and @repositories.any?{|r| r['uri'] === record['id']} %>
