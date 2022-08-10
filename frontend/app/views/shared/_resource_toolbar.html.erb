@@ -1,7 +1,7 @@
-    <div class="record-toolbar">
+    <div class="record-toolbar d-flex align-items-center">
       <% if !record.suppressed %>
         <% if !['edit', 'update', 'create'].include?(controller.action_name) %>
-          <div class="btn-group pull-left">
+          <div class="btn-group">
             <%= link_to I18n.t("actions.edit"), {:action => :edit, :id => record.id, :anchor => "tree::#{record_type}_#{record.id}"}, :class => "btn btn-sm btn-primary" %>
           </div>
         <% end %>
