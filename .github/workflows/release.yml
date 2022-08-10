@@ -36,7 +36,7 @@ jobs:
         run: echo ::set-output name=RELEASE_NAME::$(echo $GITHUB_REF | cut -d / -f 3 | sed 's/v/V/')
 
       - name: Install compiler
-        uses: rlalik/setup-cpp-compiler@v1
+        uses: rlalik/setup-cpp-compiler@v1.1
         with:
           compiler: latest
 
