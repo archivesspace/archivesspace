@@ -12,8 +12,8 @@ jobs:
     strategy:
       matrix:
         include:
-          - os: ubuntu-latest
-            file_ext: zip
+          # - os: ubuntu-latest
+          #   file_ext: zip
           - os: windows-latest
             file_ext: windows.zip
 
@@ -41,7 +41,8 @@ jobs:
           compiler: latest
 
       - name: Build Dist
-        run: ./build/run build-dist -Dversion=${{ steps.version.outputs.VERSION }}
+        # run: ./build/run build-dist -Dversion=${{ steps.version.outputs.VERSION }}
+        run: ./build/run build-dist -Dversion=v9.9.9
         env:
           CC: ${{ steps.install_cc.outputs.cc }}
           CXX: ${{ steps.install_cc.outputs.cxx }}
