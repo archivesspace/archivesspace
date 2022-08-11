@@ -452,3 +452,11 @@ de:
     archivesspace_home: Besuchen Sie <a href='http://archivesspace.org'>ArchivesSpace.org</a>
     feedback: <a id='aspaceFeedbackLink' href='%{feedback_url}' target='_blank'>Rückmeldung geben oder
       ein Problem melden</a>
+
+  languages:
+    select: Sprache auswählen
+    en: Englisch
+    es: Spanisch
+    fr: Französisch
+    de: Deutsch
+    ja: Japanisch

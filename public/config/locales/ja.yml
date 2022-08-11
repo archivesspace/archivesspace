@@ -474,3 +474,12 @@ ja:
     xlink_role_attribute: Xlinkロール属性
     xlink_arcrole_attribute: XlinkArcrole属性
     file_version_xlink_actuate_attribute: XlinkActuate属性
+
+
+  languages:
+    select: 言語を選択する
+    en: 英語
+    es: スペイン語
+    fr: フランス語
+    de: ドイツ人
+    ja: 日本

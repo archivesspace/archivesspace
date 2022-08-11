@@ -532,3 +532,11 @@ en:
     staff_interface: <a href="%{staff_url}">Staff Interface</a>
     archivesspace_home: Visit <a href='http://archivesspace.org'>ArchivesSpace.org</a>
     feedback: <a id='aspaceFeedbackLink' href='%{feedback_url}' target='_blank'>Send Feedback or Report a Problem</a>
+
+  languages:
+    select: Select Language
+    en: English
+    es: Spanish
+    fr: French
+    de: German
+    ja: Japanese

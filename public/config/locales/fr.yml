@@ -557,3 +557,11 @@ fr:
     feedback: <a id='aspaceFeedbackLink' href='%{feedback_url}' target='_blank'>Envoyer des commentaires
       ou signaler un problème</a>
     staff_interface: <a href="%{staff_url}">Interface personnel</a>
+
+  languages:
+    select: Choisir la langue
+    en: Anglais
+    es: Espagnol
+    fr: Français
+    de: Allemand
+    ja: Japonais
