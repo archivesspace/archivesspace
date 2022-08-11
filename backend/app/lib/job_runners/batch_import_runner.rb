@@ -25,7 +25,8 @@ class BatchImportRunner < JobRunner
     success = false
 
     filenames = @json.job['filenames'] || []
-    import_maint_events = @json.job["import_events"] || false
+    import_maint_events = @json.job["import_events"]   == "1" ? true : false
+    import_subjects     = @json.job["import_subjects"] == "1" ? true : false
 
     # Wrap the import in a transaction if the DB supports MVCC
     begin
@@ -35,7 +36,7 @@ class BatchImportRunner < JobRunner
         begin
           @job.job_files.each_with_index do |input_file, i|
             ticker.log(("=" * 50) + "\n#{filenames[i]}\n" + ("=" * 50)) if filenames[i]
-            converter = Converter.for(@json.job['import_type'], input_file.full_file_path, {:import_events => import_maint_events})
+            converter = Converter.for(@json.job['import_type'], input_file.full_file_path, {:import_events => import_maint_events, :import_subjects => import_subjects})
             begin
               RequestContext.open(:create_enums => true,
                                   :current_username => @job.owner.username,

@@ -11,6 +11,7 @@ en:
         import: Import
         select: Select
         show_record: Show Record 
+        import_subjects: Import Related Subjects?
       messages:
         none_selected: No Results Selected
         no_results: No Results For Query

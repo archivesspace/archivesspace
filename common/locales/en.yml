@@ -2522,6 +2522,7 @@ en:
   import_job:
     _singular: Import Job
     import_events: Import Maintenance Events?
+    import_subjects: Import and Link related Subjects?
     filenames: Files
     import_type: Import Type
     import_type_ead_xml: EAD

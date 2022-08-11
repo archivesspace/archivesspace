@@ -24,6 +24,10 @@
         "type" => "string"
       },
 
+      "import_subjects" => {
+        "type" => "string"
+      },
+
     }
   }
 }

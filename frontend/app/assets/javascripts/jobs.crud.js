@@ -473,6 +473,18 @@ var init = function () {
     });
   };
 
+  var hideImportSubjectsOption = function () {
+    $('#js-import-subjects').hide();
+
+    $('#job_import_type_').change(function () {
+      if ($('#job_import_type_').val() == 'marcxml_auth_agent') {
+        $('#js-import-subjects').show();
+      } else {
+        $('#js-import-subjects').hide();
+      }
+    });
+  };
+
   var type = $('#job_type').val();
 
   $('.linker:not(.initialised)').linker();
@@ -493,6 +505,7 @@ var init = function () {
   }
 
   hideImportEventsOption();
+  hideImportSubjectsOption();
 };
 
 $(init);
