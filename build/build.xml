@@ -193,25 +193,25 @@
       <env key="HOME" value="${build.home}" />
       <arg line="-S gem install bundler -v 2.1.4" />
     </java>
-    <!-- <antcall target="bundler"> -->
-    <!--   <param name="gemfile" value="../backend/Gemfile" /> -->
-    <!--   <param name="excluded-gem-groups" value="${excluded-gem-groups}" /> -->
-    <!-- </antcall> -->
-    <!-- <antcall target="bundler"> -->
-    <!--   <param name="gemfile" value="../frontend/Gemfile" /> -->
-    <!-- </antcall> -->
-    <!-- <antcall target="bundler"> -->
-    <!--   <param name="gemfile" value="../_yard/Gemfile" /> -->
-    <!-- </antcall> -->
+    <antcall target="bundler">
+      <param name="gemfile" value="../backend/Gemfile" />
+      <param name="excluded-gem-groups" value="${excluded-gem-groups}" />
+    </antcall>
+    <antcall target="bundler">
+      <param name="gemfile" value="../frontend/Gemfile" />
+    </antcall>
+    <antcall target="bundler">
+      <param name="gemfile" value="../_yard/Gemfile" />
+    </antcall>
     <antcall target="bundler">
       <param name="gemfile" value="../public/Gemfile" />
     </antcall>
-    <!-- <antcall target="bundler"> -->
-    <!--   <param name="gemfile" value="../indexer/Gemfile" /> -->
-    <!-- </antcall> -->
-    <!-- <antcall target="bundler"> -->
-    <!--   <param name="gemfile" value="../oai/Gemfile" /> -->
-    <!-- </antcall> -->
+    <antcall target="bundler">
+      <param name="gemfile" value="../indexer/Gemfile" />
+    </antcall>
+    <antcall target="bundler">
+      <param name="gemfile" value="../oai/Gemfile" />
+    </antcall>
   </target>
 
   <target name="bootstrap-jruby" description="Just jruby and bundler for jobs that do not run the apps">
