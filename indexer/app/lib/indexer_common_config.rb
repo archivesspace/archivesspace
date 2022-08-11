@@ -73,7 +73,7 @@ class IndexerCommonConfig
       'related_accessions',
 
       #Container profile depends on this
-      'note',
+      'notes',
     ]
   end
 

@@ -22,7 +22,7 @@
 
       "display_string" => {"type" => "string", "readonly" => true},
 
-      "note" => {"type" => "string"},
+      "notes" => {"type" => "string"},
     },
   },
 }

@@ -252,7 +252,11 @@ class IndexerCommon
 
   def add_notes(doc, record)
     if record['record']['notes']
-      doc['notes'] = record['record']['notes'].map {|note| IndexerCommon.extract_string_values(note) }.join(" ");
+      if record['record']['notes'].respond_to?(:map)
+        doc['notes'] = record['record']['notes'].map {|note| IndexerCommon.extract_string_values(note) }.join(" ");
+      else
+        doc['notes'] = record['record']['notes']
+      end
     end
   end
 

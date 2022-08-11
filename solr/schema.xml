@@ -26,7 +26,6 @@
     <field name="published_agent_uris" type="string" indexed="true" stored="true" multiValued="true" />
     <field name="related_agent_uris" type="string" indexed="true" stored="true" multiValued="true" />
     <field name="notes" type="text_general" indexed="true" stored="true" multiValued="false" />
-    <field name="note" type="string" indexed="true" stored="true" multiValued="true" />
     <field name="years" type="int" indexed="true" stored="false" multiValued="true" />
     <field name="year_sort" type="sort_string" indexed="true" stored="false" multiValued="false" />
     <field name="dates" type="text_general" indexed="true" stored="true" multiValued="true" />
