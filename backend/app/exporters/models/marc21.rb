@@ -278,8 +278,12 @@ class MARCModel < ASpaceExport::ExportModel
     end
 
     df('852', ' ', ' ').with_sfs(*subfields_852)
+
     df('040', ' ', ' ').with_sfs(['a', repo['org_code']], ['b', finding_aid_language[0]], ['c', repo['org_code']])
-    df('049', ' ', ' ').with_sfs(['a', repo['org_code']])
+
+    if repo['org_code']
+      df('049', ' ', ' ').with_sfs(['a', repo['org_code']])
+    end
   end
 
   def source_to_code(source)
