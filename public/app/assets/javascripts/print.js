@@ -29,3 +29,24 @@ $(function () {
     return false;
   });
 });
+
+// Browser printing ANW-950
+window.addEventListener('beforeprint', addPageLocationMsg);
+window.addEventListener('afterprint', removePageLocationMsg);
+
+function addPageLocationMsg() {
+  const contentEl = document.querySelector('#content');
+  const locationEl = document.createElement('p');
+  locationEl.classList.add('page-location-for-printing');
+  locationEl.innerHTML = `<i>Printed from</i> ${location}`;
+
+  contentEl.insertAdjacentElement('beforebegin', locationEl);
+}
+
+function removePageLocationMsg() {
+  const locationEl = document.querySelector(
+    'body p.page-location-for-printing'
+  );
+
+  if (locationEl) locationEl.remove();
+}
