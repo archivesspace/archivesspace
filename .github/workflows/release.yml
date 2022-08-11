@@ -26,19 +26,19 @@ jobs:
           distribution: 'temurin'
           java-version: '11'
 
-      - name: Get the version
-        id: version
-        run: echo ::set-output name=VERSION::$(echo $GITHUB_REF)
+      # - name: Get the version
+      #   id: version
+      #   run: echo ::set-output name=VERSION::$(echo $GITHUB_REF)
 
-      - name: Get the release name
-        id: release_name
-        run: echo ::set-output name=RELEASE_NAME::$(echo $GITHUB_REF)
+      # - name: Get the release name
+      #   id: release_name
+      #   run: echo ::set-output name=RELEASE_NAME::$(echo $GITHUB_REF)
 
       - name: Install compiler
         id: install_cc
         uses: rlalik/setup-cpp-compiler@v1.1
         with:
-          compiler: latest
+          compiler: clang
 
       - name: Build Dist
         # run: ./build/run build-dist -Dversion=${{ github.ref }}
