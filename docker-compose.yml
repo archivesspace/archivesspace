@@ -14,7 +14,7 @@ services:
     build:
       context: .
       dockerfile: Dev.dockerfile
-    command: bash -l -c "tail -f /dev/null"
+    # command: bash -l -c "tail -f /dev/null"
     depends_on:
       - db
       - solr
