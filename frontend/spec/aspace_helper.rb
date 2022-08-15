@@ -28,10 +28,28 @@ module ASpaceHelpers
     page.has_no_xpath? "//input[@id='login']"
   end
 
+  def login_user(user)
+    visit '/'
+    page.has_xpath? '//input[@id="login"]'
+
+    within "form.login" do
+      fill_in "username", with: user.username
+      fill_in "password", with: user.password
+      click_button "Sign In"
+    end
+
+    page.has_no_xpath? "//input[@id='login']"
+  end
+
   def select_repository(repo)
-    click_link "Select Repository"
-    select repo.repo_code, from: "id"
-    click_button "Select Repository"
+    click_link 'Select Repository'
+    if repo.respond_to? :repo_code
+      select repo.repo_code, from: 'id'
+    else
+      select repo, from: 'id'
+    end
+
+    click_button 'Select Repository'
   end
 
   def wait_for_ajax
