@@ -4,7 +4,7 @@
     <%= I18n.t "pagination.summary_prefix" %> <strong><%= @search_data["offset_first"] %></strong> <%= I18n.t "pagination.summary_offset_connector" %> <strong><%= @search_data["offset_last"] %></strong> <%= I18n.t "pagination.summary_total_connector" %> <strong><%= @search_data["total_hits"] %></strong> <%= I18n.t "pagination.summary_suffix" %>
   </div>
   <div class="d-inline-block">
-    <span class="btn-group align-items-start">
+    <span class="btn-group align-items-baseline">
       <label>,&#160;<%= I18n.t("search_sorting.sort_by") %>&#160;</label>
       <div class="btn-group align-items-center">
         <a class="dropdown-toggle border bg-white rounded d-flex align-items-center pr-3" data-toggle="dropdown" href="#">
@@ -30,7 +30,7 @@
 
   <% if @search_data.sorted? && !@search_data.sorted_by?('score') %>
     <div class="d-inline-block">
-      <span class="btn-group align-items-start">
+      <span class="btn-group align-items-baseline">
         <label>&#160;<%= I18n.t("search_sorting.and") %>&#160;</label>
         <div class="btn-group">
           <a class="dropdown-toggle border bg-white rounded d-flex align-items-center pr-3" data-toggle="dropdown" href="#">
