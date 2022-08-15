@@ -44,4 +44,4 @@ describe 'Default Form Values', js: true do
         visit '/accessions'
         expect(page).not_to have_content('Edit Default Values')
     end
-end 
+end
