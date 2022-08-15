@@ -4,9 +4,9 @@
    <div class="col-md-3"></div>
    <div class="col-md-9">
      <div class="record-toolbar">
-       <div class="btn-group pull-right">
+       <div class="btn-group float-right">
          <% unless @manage_access %>
-           <%= link_to I18n.t("user._frontend.action.create"), {:controller => :users, :action => :new}, :class => "btn btn-sm btn-default" %>
+           <%= link_to I18n.t("user._frontend.action.create"), {:controller => :users, :action => :new}, :class => "btn btn-sm btn-light btn-default" %>
          <% end %>
        </div>
        <br style="clear:both" /> <!-- So dirty! -->
