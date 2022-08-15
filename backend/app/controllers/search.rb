@@ -122,19 +122,6 @@ class ArchivesSpaceService < Sinatra::Base
   end
 
 
-  Endpoint.get_or_post('/search/subjects')
-    .description("Search across subjects")
-    .deprecated("Deprecated in favor of calling the general search endpoint with an " +
-                " optional type parameter. For example: /repositories/:repo_id/search?type[]=subject")
-    .params(*BASE_SEARCH_PARAMS)
-    .permissions([])
-    .paged(true)
-    .returns([200, ""]) \
-  do
-    json_response(Search.search(params.merge(:type => ['subject']), nil))
-  end
-
-
   Endpoint.get('/search/published_tree')
   .description("Find the tree view for a particular archival record")
   .params(["node_uri", String, "The URI of the archival record to find the tree view for"])

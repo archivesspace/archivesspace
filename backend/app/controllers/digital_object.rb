@@ -49,20 +49,6 @@ class ArchivesSpaceService < Sinatra::Base
     handle_listing(DigitalObject, params)
   end
 
-  Endpoint.get('/repositories/:repo_id/digital_objects/:id/tree')
-    .description("Get a Digital Object tree")
-    .deprecated("Call the */tree/{root,waypoint,node} endpoints to traverse record trees." +
-               "  See backend/app/model/large_tree.rb for further information.")
-    .params(["id", :id],
-            ["repo_id", :repo_id])
-    .permissions([:view_repository])
-    .returns([200, "OK"]) \
-  do
-    digital_object = DigitalObject.get_or_die(params[:id])
-
-    json_response(digital_object.tree)
-  end
-
 
   Endpoint.delete('/repositories/:repo_id/digital_objects/:id')
     .description("Delete a Digital Object")

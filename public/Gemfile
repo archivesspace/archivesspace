@@ -16,8 +16,9 @@ gem 'sprockets-rails', '2.3.3'
 
 gem 'atomic', '= 1.0.1'
 
-# use bootstrap's sass
-gem 'bootstrap-sass', '>= 3.4.1'
+# use bootstrap's sass - lockdown to pre-sassc version
+# because https://github.com/rails/rails/issues/38492
+gem 'bootstrap-sass', '= 3.3.7'
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 5.0', '>= 5.0.6'
 # Use Uglifier as compressor for JavaScript assets
