@@ -51,10 +51,10 @@ describe 'Digital Objects controller' do
       docs << doc
     end
 
-    tree = JSONModel(:digital_object_tree).find(nil, :digital_object_id => id).to_hash
-
-    expect(tree['children'][0]['record_uri']).to eq(docs[0].uri)
-    expect(tree['children'][0]['children'][0]['record_uri']).to eq(docs[1].uri)
+    tree = JSONModel::HTTP.get_json("#{digital_object.uri}/tree/root")
+    expect(tree["precomputed_waypoints"][""]["0"][0]['uri']).to eq(docs[0].uri)
+    subtree = JSONModel::HTTP.get_json("#{digital_object.uri}/tree/node", node_uri: docs[0].uri)
+    expect(subtree["precomputed_waypoints"][docs[0].uri]["0"][0]["uri"]).to eq(docs[1].uri)
   end
 
 
@@ -70,8 +70,8 @@ describe 'Digital Objects controller' do
     doc1.save
     doc2.save
 
-    tree = JSONModel(:digital_object_tree).find(nil, :digital_object_id => digital_object.id)
-    expect(tree.children.length).to eq(2)
+    tree = JSONModel::HTTP.get_json("#{digital_object.uri}/tree/root")
+    expect(tree['child_count']).to eq(2)
   end
 
 
@@ -150,17 +150,16 @@ describe 'Digital Objects controller' do
 
     expect(json_response["status"]).to eq("Updated")
 
-    tree = JSONModel(:digital_object_tree).find(nil, :digital_object_id => digital_object.id)
+    tree = JSONModel::HTTP.get_json("#{digital_object.uri}/tree/root")
+    expect(tree['child_count']).to eq(3)
+    expect(tree["precomputed_waypoints"][""]["0"][0]["title"]).to eq(child_1["title"])
+    expect(tree["precomputed_waypoints"][""]["0"][0]["uri"]).to eq(child_1.uri)
 
-    expect(tree.children.length).to eq(3)
-    expect(tree.children[0]["title"]).to eq(child_1["title"])
-    expect(tree.children[0]["record_uri"]).to eq(child_1.uri)
+    expect(tree["precomputed_waypoints"][""]["0"][1]["title"]).to eq(child_2["title"])
+    expect(tree["precomputed_waypoints"][""]["0"][1]["uri"]).to eq(child_2.uri)
 
-    expect(tree.children[1]["title"]).to eq(child_2["title"])
-    expect(tree.children[1]["record_uri"]).to eq(child_2.uri)
-
-    expect(tree.children[2]["title"]).to eq(doc["title"])
-    expect(tree.children[2]["record_uri"]).to eq(doc.uri)
+    expect(tree["precomputed_waypoints"][""]["0"][2]["title"]).to eq(doc["title"])
+    expect(tree["precomputed_waypoints"][""]["0"][2]["uri"]).to eq(doc.uri)
   end
 
 
@@ -180,10 +179,10 @@ describe 'Digital Objects controller' do
 
     expect(json_response["status"]).to eq("Updated")
 
-    tree = JSONModel(:digital_object_tree).find(nil, :digital_object_id => digital_object.id)
-    expect(tree.children.length).to eq(2)
+    tree = JSONModel::HTTP.get_json("#{digital_object.uri}/tree/root")
+    expect(tree['child_count']).to eq(2)
 
-    sorted_by_id = tree.children.sort_by { |x| x["id"]}
+    sorted_by_id = tree["precomputed_waypoints"][""]["0"].sort_by { |x| x["id"]}
 
     expect(sorted_by_id[0]["title"]).to eq(doc_1["title"])
     expect(sorted_by_id[1]["title"]).to eq(doc_2["title"])

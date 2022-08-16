@@ -54,19 +54,17 @@ describe 'Digital Object Component controller' do
     doc_1 = create(:json_digital_object_component, :digital_object => {:ref => digital_object.uri}, :title=> "DOC1", :position => 0)
     doc_2 = create(:json_digital_object_component, :digital_object => {:ref => digital_object.uri}, :title=> "DOC2", :position => 1)
 
-    tree = JSONModel(:digital_object_tree).find(nil, :digital_object_id => digital_object.id)
-
-    expect(tree.children[0]["title"]).to eq("DOC1")
-    expect(tree.children[1]["title"]).to eq("DOC2")
+    tree = JSONModel::HTTP.get_json("#{digital_object.uri}/tree/root")
+    expect(tree["precomputed_waypoints"][""]["0"][0]['title']).to eq("DOC1")
+    expect(tree["precomputed_waypoints"][""]["0"][1]['title']).to eq("DOC2")
 
     doc_1 = JSONModel(:digital_object_component).find(doc_1.id)
     doc_1.position = 1
     doc_1.save
 
-    tree = JSONModel(:digital_object_tree).find(nil, :digital_object_id => digital_object.id)
-
-    expect(tree.children[0]["title"]).to eq("DOC2")
-    expect(tree.children[1]["title"]).to eq("DOC1")
+    tree = JSONModel::HTTP.get_json("#{digital_object.uri}/tree/root")
+    expect(tree["precomputed_waypoints"][""]["0"][0]['title']).to eq("DOC2")
+    expect(tree["precomputed_waypoints"][""]["0"][1]['title']).to eq("DOC1")
   end
 
 

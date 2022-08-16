@@ -47,21 +47,19 @@ describe 'Archival Object controller' do
                   :resource => {:ref => resource.uri},
                   :title => "AO3")
 
-    tree = JSONModel(:resource_tree).find(nil, :resource_id => resource.id)
-
-    expect(tree.children[0]["title"]).to eq("AO1")
-    expect(tree.children[1]["title"]).to eq("AO2")
-    expect(tree.children[2]["title"]).to eq("AO3")
+    tree = JSONModel::HTTP.get_json("#{resource.uri}/tree/root")
+    expect(tree["precomputed_waypoints"][""]["0"][0]["title"]).to eq("AO1")
+    expect(tree["precomputed_waypoints"][""]["0"][1]["title"]).to eq("AO2")
+    expect(tree["precomputed_waypoints"][""]["0"][2]["title"]).to eq("AO3")
 
     ao_1 = JSONModel(:archival_object).find(ao_1.id)
     ao_1.position = 1  # the second position
     ao_1.save
 
-    tree = JSONModel(:resource_tree).find(nil, :resource_id => resource.id)
-
-    expect(tree.children[0]["title"]).to eq("AO2")
-    expect(tree.children[1]["title"]).to eq("AO1")
-    expect(tree.children[2]["title"]).to eq("AO3")
+    tree = JSONModel::HTTP.get_json("#{resource.uri}/tree/root")
+    expect(tree["precomputed_waypoints"][""]["0"][0]["title"]).to eq("AO2")
+    expect(tree["precomputed_waypoints"][""]["0"][1]["title"]).to eq("AO1")
+    expect(tree["precomputed_waypoints"][""]["0"][2]["title"]).to eq("AO3")
   end
 
 
@@ -82,11 +80,10 @@ describe 'Archival Object controller' do
                   :title => "AO3",
                   :position => 1)
 
-    tree = JSONModel(:resource_tree).find(nil, :resource_id => resource.id)
-
-    expect(tree.children[0]["title"]).to eq("AO1")
-    expect(tree.children[1]["title"]).to eq("AO3")
-    expect(tree.children[2]["title"]).to eq("AO2")
+    tree = JSONModel::HTTP.get_json("#{resource.uri}/tree/root")
+    expect(tree["precomputed_waypoints"][""]["0"][0]["title"]).to eq("AO1")
+    expect(tree["precomputed_waypoints"][""]["0"][1]["title"]).to eq("AO3")
+    expect(tree["precomputed_waypoints"][""]["0"][2]["title"]).to eq("AO2")
   end
 
 
@@ -103,10 +100,9 @@ describe 'Archival Object controller' do
                   :resource => {:ref => resource.uri},
                   :title => "AO2")
 
-    tree = JSONModel(:resource_tree).find(nil, :resource_id => resource.id)
-
-    expect(tree.children[0]["title"]).to eq("AO1")
-    expect(tree.children[1]["title"]).to eq("AO2")
+    tree = JSONModel::HTTP.get_json("#{resource.uri}/tree/root")
+    expect(tree["precomputed_waypoints"][""]["0"][0]["title"]).to eq("AO1")
+    expect(tree["precomputed_waypoints"][""]["0"][1]["title"]).to eq("AO2")
   end
 
 
