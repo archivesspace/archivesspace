@@ -104,9 +104,8 @@ describe 'Resources controller' do
   it "can handle asking for the tree of an empty resource" do
     resource = create(:json_resource)
 
-    tree = JSONModel(:resource_tree).find(nil, :resource_id => resource.id)
-
-    expect(tree.children.length).to eq(0)
+    tree = JSONModel::HTTP.get_json("#{resource.uri}/tree/root")
+    expect(tree['child_count']).to eq(0)
   end
 
 
@@ -128,10 +127,10 @@ describe 'Resources controller' do
       aos << ao
     end
 
-    tree = JSONModel(:resource_tree).find(nil, :resource_id => resource.id).to_hash
-
-    expect(tree['children'][0]['record_uri']).to eq(aos[0].uri)
-    expect(tree['children'][0]['children'][0]['record_uri']).to eq(aos[1].uri)
+    tree = JSONModel::HTTP.get_json("#{resource.uri}/tree/root")
+    expect(tree["precomputed_waypoints"][""]["0"][0]['uri']).to eq(aos[0].uri)
+    subtree = JSONModel::HTTP.get_json("#{resource.uri}/tree/node", node_uri: aos[0].uri)
+    expect(subtree["precomputed_waypoints"][aos[0].uri]["0"][0]['uri']).to eq(aos[1].uri)
   end
 
 
@@ -334,8 +333,8 @@ describe 'Resources controller' do
     ao1.save
     ao2.save
 
-    tree = JSONModel(:resource_tree).find(nil, :resource_id => resource.id)
-    expect(tree.children.length).to eq(2)
+    tree = JSONModel::HTTP.get_json("#{resource.uri}/tree/root")
+    expect(tree['child_count']).to eq(2)
   end
 
 
@@ -539,11 +538,11 @@ describe 'Resources controller' do
 
     expect(json_response["status"]).to eq("Updated")
 
-    tree = JSONModel(:resource_tree).find(nil, :resource_id => resource.id)
-    expect(tree.children.length).to eq(2)
+    tree = JSONModel::HTTP.get_json("#{resource.uri}/tree/root")
+    expect(tree['child_count']).to eq(2)
 
-    expect(tree.children[0]["title"]).to eq(archival_object_1["title"])
-    expect(tree.children[1]["title"]).to eq(archival_object_2["title"])
+    expect(tree["precomputed_waypoints"][""]["0"][0]['title']).to eq(archival_object_1["title"])
+    expect(tree["precomputed_waypoints"][""]["0"][1]['title']).to eq(archival_object_2["title"])
   end
 
 
@@ -567,17 +566,17 @@ describe 'Resources controller' do
 
     expect(json_response["status"]).to eq("Updated")
 
-    tree = JSONModel(:resource_tree).find(nil, :resource_id => resource.id)
+    tree = JSONModel::HTTP.get_json("#{resource.uri}/tree/root")
 
-    expect(tree.children.length).to eq(3)
-    expect(tree.children[0]["title"]).to eq(child_1["title"])
-    expect(tree.children[0]["record_uri"]).to eq(child_1.uri)
+    expect(tree['child_count']).to eq(3)
+    expect(tree["precomputed_waypoints"][""]["0"][0]['title']).to eq(child_1["title"])
+    expect(tree["precomputed_waypoints"][""]["0"][0]['uri']).to eq(child_1.uri)
 
-    expect(tree.children[1]["title"]).to eq(child_2["title"])
-    expect(tree.children[1]["record_uri"]).to eq(child_2.uri)
+    expect(tree["precomputed_waypoints"][""]["0"][1]['title']).to eq(child_2["title"])
+    expect(tree["precomputed_waypoints"][""]["0"][1]['uri']).to eq(child_2.uri)
 
-    expect(tree.children[2]["title"]).to eq(ao["title"])
-    expect(tree.children[2]["record_uri"]).to eq(ao.uri)
+    expect(tree["precomputed_waypoints"][""]["0"][2]['title']).to eq(ao["title"])
+    expect(tree["precomputed_waypoints"][""]["0"][2]['uri']).to eq(ao.uri)
   end
 
 

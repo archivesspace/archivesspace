@@ -34,8 +34,8 @@ describe "Resource Component Transfer Endpoint" do
 
     expect(refreshed_object.resource['ref']).to eq(@resource_beta.uri)
 
-    expect(JSONModel(:resource_tree).find(nil, :resource_id => @resource_beta.id).children.length).to eq(1)
-
+    tree = JSONModel::HTTP.get_json("#{@resource_beta.uri}/tree/root")
+    expect(tree['child_count']).to eq(1)
   end
 
 
@@ -85,9 +85,8 @@ describe "Resource Component Transfer Endpoint" do
 
     expect(JSONModel(:archival_object).find(child.id).resource['ref']).to eq(@resource_beta.uri)
 
-    tree = JSONModel(:resource_tree).find(nil, :resource_id => @resource_beta.id)
-
-    expect(tree.children.length).to eq(1)
+    tree = JSONModel::HTTP.get_json("#{@resource_beta.uri}/tree/root")
+    expect(tree['child_count']).to eq(1)
   end
 
   it "can move objects to the next available spot in the tree" do
@@ -98,9 +97,8 @@ describe "Resource Component Transfer Endpoint" do
     expect(transfer(@resource_beta, child).code).to eq('200')
     expect(transfer(@resource_beta, parent).code).to eq('200')
 
-    tree = JSONModel(:resource_tree).find(nil, :resource_id => @resource_beta.id)
-
-    expect(tree.children.length).to eq(2)
+    tree = JSONModel::HTTP.get_json("#{@resource_beta.uri}/tree/root")
+    expect(tree['child_count']).to eq(2)
   end
 
 
