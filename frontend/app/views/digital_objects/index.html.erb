@@ -12,8 +12,8 @@
       <div class="record-toolbar d-flex">
         <div class="btn-group pull-right ml-auto align-items-center">
           <% if user_can?('manage_repository') %>
-            <div class="btn-group">
-              <a class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown" href="javascript:void(0);">
+            <div class="btn-group border">
+              <a class="btn btn-sm dropdown-toggle bg-white" data-toggle="dropdown" href="javascript:void(0);">
                 <%= I18n.t("actions.edit_default_values") %>
                 <span class="caret"></span>
               </a>
