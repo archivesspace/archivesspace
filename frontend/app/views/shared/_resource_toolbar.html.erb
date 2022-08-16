@@ -1,4 +1,4 @@
-    <div class="record-toolbar d-flex align-items-center">
+    <div class="record-toolbar d-flex align-items-center justify-content-end">
       <% if !record.suppressed %>
         <% if !['edit', 'update', 'create'].include?(controller.action_name) %>
           <div class="btn-group">
@@ -7,22 +7,24 @@
         <% end %>
       <% end %>
       <% if ['new', 'create', 'edit', 'update'].include?(controller.action_name) %>
-        <div class="pull-left save-changes">
+        <div class="save-changes">
           <button type="submit" class="btn btn-primary btn-sm"><%= I18n.t("actions.save_prefix") %></button>
         </div>
       <% end %>
       <% if ['edit', 'update'].include?(controller.action_name) %>
         <div class="pull-left revert-changes">
-          <%= link_to I18n.t("actions.revert"), {:action => :edit, :id => record.id}, :class => "btn btn-sm btn-default" %>
+          <%= link_to I18n.t("actions.revert"), {:action => :edit, :id => record.id}, :class => "btn btn-sm btn-default border" %>
           <%= I18n.t("actions.toolbar_disabled_message") %>
         </div>
       <% end %>
-      <div class="btn-toolbar pull-right">
+      <div class="btn-toolbar bg-white ml-auto">
         <div class="btn-group">
           <% if user_can?('update_event_record') && !record.suppressed %>
-            <%= render_aspace_partial :partial => "shared/event_dropdown", :locals => {:record => record} %>
+            <div class="border d-flex">
+              <%= render_aspace_partial :partial => "shared/event_dropdown", :locals => {:record => record} %>
+            </div>
           <% end %>
-          <div class="btn-group">
+          <div class="btn-group border">
             <%= button_confirm_action(I18n.t("actions.publish"),
                         url_for({:action => :publish, :id => record.id}),
                         {
@@ -34,7 +36,7 @@
                         }) %>
           </div>
           <% if ['resource'].include?(record_type) %>
-            <div class="btn-group">
+            <div class="btn-group border">
               <%= button_confirm_action(I18n.t("actions.unpublish"),
                                         url_for({:action => :unpublish, :id => record.id}),
                                         {
@@ -47,29 +49,34 @@
             </div>
           <% end %>
           <% if AppConfig[:enable_public] %>
-            <%= render_aspace_partial :partial => "shared/view_published_button", :locals => {:record => record} %>
+            <div class="border d-flex">
+              <%= render_aspace_partial :partial => "shared/view_published_button", :locals => {:record => record} %>
+            </div>
           <% end %>
-          <div class="btn-group">
+          <div class="btn-group border">
             <a class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown" href="javascript:void(0);">
               <%= I18n.t("actions.export") %>
               <span class="caret"></span>
             </a>
-            <ul class="dropdown-menu dropdown-menu-rightt">
+            <ul class="dropdown-menu dropdown-menu-right">
               <%= yield :exports %>
             </ul>
           </div>
           <% if user_can?('merge_archival_record') %>
-            <%=
-                render_aspace_partial :partial => "shared/merge_dropdown",
-                       :locals => {:record => record,
-                                   :multiplicity => "one",
-                                   :controller => controller.controller_name,
-                                   :confirmation_title => I18n.t("actions.merge_confirm_title"),
-                                   :confirmation_msg => I18n.t("actions.merge_resource_confirm_message",
-                                                               :source => record.title)}
-            %>
+            <div class="border d-flex">
+              <%=
+                  render_aspace_partial :partial => "shared/merge_dropdown",
+                        :locals => {:record => record,
+                                    :multiplicity => "one",
+                                    :controller => controller.controller_name,
+                                    :confirmation_title => I18n.t("actions.merge_confirm_title"),
+                                    :confirmation_msg => I18n.t("actions.merge_resource_confirm_message",
+                                                                :source => record.title)}
+              %>
+            </div>
           <% end %>
           <% if user_can?('transfer_archival_record') %>
+            <div class="border d-flex">
             <%=
                render_aspace_partial :partial => "shared/transfer_dropdown",
                       :locals => {:record => record,
@@ -78,8 +85,9 @@
                                   :confirmation_msg => I18n.t("actions.transfer_confirm_message",
                                                               :target => record.title)}
             %>
+            </div>
           <% end %>
-          <div class="btn-group dropdown" id="other-dropdown" style="display: none">
+          <div class="btn-group dropdown border" id="other-dropdown" style="display: none">
             <button class="btn btn-sm btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
               <%= I18n.t('actions.more') %>
               <span class="caret"></span>
@@ -108,20 +116,13 @@
             <% if other_shown %><script>$('#other-dropdown').show();</script><% end %>
           </div>
 
-          <% if user_can?('suppress_archival_record') || user_can?('delete_archival_record') %>
-            <div class="btn-group">
-              <div class="toolbar-spacer" />
-            </div>
-
-          <% end %>
-
           <% if user_can?('suppress_archival_record') %>
 
             <% if record.suppressed %>
               <%= button_confirm_action I18n.t("actions.unsuppress"),
               url_for(:action => :unsuppress, :id => record.id),
                 {
-                :class => "btn btn-sm btn-default unsuppress-record",
+                :class => "btn btn-sm btn-default borderunsuppress-record",
                   :"data-title" => I18n.t("actions.unsuppress_confirm_title"),
                   :"data-message" => I18n.t("actions.unsuppress_confirm_message"),
                   :"data-confirm-btn-label" => "#{I18n.t("actions.unsuppress")}"

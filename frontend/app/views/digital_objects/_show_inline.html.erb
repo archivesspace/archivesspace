@@ -30,8 +30,9 @@
           <%= render_plugin_partials("basic_information_digital_object",
                                      :form => readonly,
                                      :record => digital_object) %>
-
-          <%= display_audit_info(digital_object) %>
+          <div class="pb-4">
+            <%= display_audit_info(digital_object) %>
+          </div>
         </section>
 
         <% if digital_object.file_versions.length > 0 %>
