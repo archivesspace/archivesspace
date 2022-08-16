@@ -525,7 +525,7 @@ module AspaceFormHelper
       prefix << "#{opts[:contextual]}." if opts[:contextual]
       prefix << 'plugins.' if opts[:plugin]
 
-      classes << 'control-label'
+      classes << 'control-label text-right'
 
       options = {:class => classes.join(' '), :for => id_for(name)}
 
@@ -618,7 +618,7 @@ module AspaceFormHelper
 
       html = ""
 
-      html << "<div class='form-group'>"
+      html << "<div class='form-group row'>"
       html << label("repo_set_section", {}, ["control-label", "col-sm-2"])
       html << "<div class='col-sm-9'>"
       html << "<ul class='checkbox-list'>"
@@ -655,7 +655,7 @@ module AspaceFormHelper
 
       html = ""
 
-      html << "<div class='form-group'>"
+      html << "<div class='form-group row'>"
       html << label("sponsor_set_names", {}, ["control-label", "col-sm-2"])
       html << "<div class='col-sm-9'>"
       html << "<input id='oai_config_sponsor_set_names_' type='text' value='#{value}' name='oai_config[sponsor_set_names]' class='form-control js-taggable' datarole='tagsinput'>"
