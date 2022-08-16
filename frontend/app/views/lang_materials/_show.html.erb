@@ -6,8 +6,8 @@
   <h3><%= I18n.t('lang_material._plural') %></h3>
   <div class="accordion details" id="lang_materials_accordion">
     <% lang_materials.each_with_index do | lang_material, index | %>
-      <div class="panel panel-default">
-        <div class="panel-heading">
+      <div class="card border">
+        <div class="panel-heading card-header">
           <% if lang_material["language_and_script"] and lang_material["language_and_script"].length > 0 %>
             <div class="row collapsed accordion-toggle" data-toggle="collapse" data-parent="#lang_materials_accordion" href="#lang_material_<%= index %>">
               <div class="col-md-1">
