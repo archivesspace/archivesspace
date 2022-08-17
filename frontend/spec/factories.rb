@@ -45,6 +45,7 @@ module Factories
 
       sequence(:repo_name) { |n| "Test Repo #{n}" }
       sequence(:generic_id) { |n| n.to_s }
+      sequence(:resource_title) { |n| "Resource #{n}" }
       sequence(:accession_title) { |n| "Accession #{n}" }
       sequence(:ref_id) { |n| "aspace_#{n}" }
 
@@ -67,9 +68,9 @@ module Factories
       end
 
       factory :resource, class: JSONModel(:resource) do
+        title { generate(:resource_title) }
         id_0 { generate(:generic_id) }
         id_1 { generate(:generic_id) }
-        title { 'Generic Resource'}
         extents { [build(:extent)] }
         dates { [build(:date)] }
         level { 'collection' }
