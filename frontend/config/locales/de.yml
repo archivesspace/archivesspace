@@ -15,6 +15,7 @@ de:
     create: Erzeugen
     cut: Ausschneiden
     date_picker: Datumsauswahl öffnen
+    date_picker_toggle: Schalten Sie die Datumsauswahl um
     defaults: Standardwerte
     edit: Bearbeiten
     edit_oai: OAI Einstellungen bearbeiten

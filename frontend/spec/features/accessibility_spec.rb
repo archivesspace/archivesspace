@@ -43,8 +43,8 @@ describe 'Accessibility', js: true, db: 'accessibility' do
 
       page.has_no_css? ".datepicker"
 
-      date_field = find "input#resource_dates__0__begin_.date-field.initialised"
-      date_field.click
+      datepicker_toggle = find "input#resource_dates__0__begin_.date-field.initialised + .input-group-btn button"
+      datepicker_toggle.click
 
       page.has_css? ".datepicker"
 
@@ -62,8 +62,8 @@ describe 'Accessibility', js: true, db: 'accessibility' do
 
       page.has_no_css? ".datepicker"
 
-      date_field = find "input#resource_dates__0__begin_.date-field.initialised"
-      date_field.click
+      datepicker_toggle = find "input#resource_dates__0__begin_.date-field.initialised + .input-group-btn button"
+      datepicker_toggle.click
 
       page.has_css? ".datepicker"
 
@@ -83,6 +83,17 @@ describe 'Accessibility', js: true, db: 'accessibility' do
         current_year = find "span.year.active"
         expect(current_year).to have_xpath "self::span[@role='button']"
       end
+    end
+
+    it 'should open via keyboard' do
+      visit "/resources/1/edit#tree::resource_1"
+
+      page.has_no_css? ".datepicker"
+
+      datepicker_toggle = find "input#resource_dates__0__begin_.date-field.initialised + .input-group-btn button"
+      datepicker_toggle.native.send_keys(:return)
+
+      page.has_css? ".datepicker"
     end
   end
 
@@ -266,8 +277,8 @@ describe 'Accessibility', js: true, db: 'accessibility' do
     it "has acceptable color contrast in the datepicker" do
       visit "/resources/1/edit"
 
-      date_field = find "input#resource_dates__0__begin_.date-field.initialised"
-      date_field.click
+      datepicker_toggle = find "input#resource_dates__0__begin_.date-field.initialised + .input-group-btn button"
+      datepicker_toggle.click
 
       expect(page).to be_axe_clean.checking_only :'color-contrast'
     end
