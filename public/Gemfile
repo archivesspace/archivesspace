@@ -16,10 +16,10 @@ gem 'sprockets-rails'
 
 gem 'atomic', '= 1.0.1'
 
-# use bootstrap's sass
-gem 'bootstrap-sass'
 # Use SCSS for stylesheets
 gem 'sass-rails'
+# use bootstrap's sass
+gem 'bootstrap','~> 4.3.0'
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier'
 # Use font-awesome icons
