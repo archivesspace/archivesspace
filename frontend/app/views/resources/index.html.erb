@@ -9,17 +9,16 @@
    </div>
    <div class="col-md-9">
      <% if user_can?('update_resource_record') %>
-       <div class="record-toolbar">
-         <div class="btn-group pull-right">
+       <div class="record-toolbar d-flex">
+         <div class="btn-group ml-auto bg-white border">
           <% if user_can?('manage_repository') %>
             <div class="btn-group">
               <a class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown" href="javascript:void(0);">
                 <%= I18n.t("actions.edit_default_values") %>
-                <span class="caret"></span>
               </a>
               <ul class="dropdown-menu dropdown-menu-right">
-                <li><%= link_to I18n.t("resource._singular"), {:controller => :resources, :action => :defaults} %></li>
-                <li> <%= link_to I18n.t("resource_component._singular"), {:controller => :archival_objects, :action => :defaults} %></li>
+                <li class='dropdown-item'><%= link_to I18n.t("resource._singular"), {:controller => :resources, :action => :defaults} %></li>
+                <li class='dropdown-item'> <%= link_to I18n.t("resource_component._singular"), {:controller => :archival_objects, :action => :defaults} %></li>
               </ul>
             </div>
           <% end %>

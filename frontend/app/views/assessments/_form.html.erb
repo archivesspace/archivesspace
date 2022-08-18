@@ -155,7 +155,7 @@
       <hr>
 
       <% if form.readonly? %>
-        <div class="form-group">
+        <div class="form-group d-flex">
           <div class="control-label col-sm-2"><%= I18n.t("assessment.surveyed_by") %></div>
           <div class="controls token-list col-sm-10">
             <% form['surveyed_by'].each do |surveyed_by| %>
@@ -186,7 +186,7 @@
 
       <%= form.label_and_boolean 'review_required' %>
       <% if form.readonly? %>
-        <div class="form-group">
+        <div class="form-group d-flex">
           <div class="control-label col-sm-2"><%= I18n.t("assessment.reviewer") %></div>
           <div class="controls token-list col-sm-10">
             <% form['reviewer'].each do |reviewer| %>
