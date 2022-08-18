@@ -138,13 +138,13 @@ describe 'MARC Export' do
     before(:each) do
       as_test_user('admin') do
         @name = build(:json_name_corporate_entity)
-        agent = create(:json_agent_corporate_entity,
+        @agent = create(:json_agent_corporate_entity_full_subrec,
                       :names => [@name])
         @resource = create(:json_resource,
                            :linked_agents => [
                                               {
                                                 'role' => 'creator',
-                                                'ref' => agent.uri
+                                                'ref' => @agent.uri
                                               }
                                              ]
                            )
@@ -162,6 +162,11 @@ describe 'MARC Export' do
 
     it "maps primary_name to subfield 'a'" do
       expect(@marc).to have_tag "datafield[@tag='110']/subfield[@code='a']" => @name.primary_name + "." || @name.primary_name + ","
+    end
+
+    it "maps primary agent_record_identifier to subfield '0'" do
+      primary_agent_record_identifier = @agent['agent_record_identifiers'].first['record_identifier']
+      expect(@marc).to have_tag "datafield[@tag='110']/subfield[@code='0']" => primary_agent_record_identifier
     end
   end
 

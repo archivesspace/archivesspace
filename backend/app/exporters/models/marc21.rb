@@ -729,6 +729,17 @@ class MARCModel < ASpaceExport::ExportModel
     return name_fields
   end
 
+  def get_primary_agent_record_identifier(agent)
+    # ANW-1414: add primary agent_record_identifier if present
+    primary_identifier_record = agent['agent_record_identifiers'].first {|ari| ari['primary_identifier'] == true }
+
+    if primary_identifier_record
+      return primary_identifier_record['record_identifier']
+    else
+      return nil
+    end
+  end
+
 
   def gather_agent_person_subfield_mappings(name, role_info, agent, terms=nil)
     joint = name['name_order'] == 'direct' ? ' ' : ', '
@@ -740,8 +751,10 @@ class MARCModel < ASpaceExport::ExportModel
     dates       = name['dates'] rescue nil
     qualifier   = name['qualifier'] rescue nil
     fuller_form = name['fuller_form'] rescue nil
+    primary_identifier = get_primary_agent_record_identifier(agent)
 
     name_fields = [
+                   ["0", primary_identifier],
                    ["a", name_parts],
                    ["b", number],
                    ["c", extras],
@@ -797,8 +810,10 @@ class MARCModel < ASpaceExport::ExportModel
     family_name = name['family_name'] rescue nil
     qualifier   = name['qualifier'] rescue nil
     dates       = name['dates'] rescue nil
+    primary_identifier = get_primary_agent_record_identifier(agent)
 
     name_fields = [
+                    ["0", primary_identifier],
                     ['a', family_name],
                     ['d', dates],
                     ['c', qualifier],
@@ -900,7 +915,10 @@ class MARCModel < ASpaceExport::ExportModel
       subfield_b_2 = sub_name2
     end
 
+    primary_identifier = get_primary_agent_record_identifier(agent)
+
     name_fields = [
+                    ["0", primary_identifier],
                     ['a', primary_name],
                     ['b', subfield_b_1],
                     ['b', subfield_b_2],
