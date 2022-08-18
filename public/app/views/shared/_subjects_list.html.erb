@@ -22,7 +22,8 @@
     <% subjects_list.each do |subject| %>
     	<% first_term = subject['terms'].first %>
       <li>
-      	<a href="<%= subject['uri'] %>"><%= first_term['term'] %></a>
+        <% terms = subject['terms'].map {|t| t['term']} %>
+      	<a href="<%= subject['uri'] %>"><%= terms.join(" -- ") %></a>
       </li>
     <% end %>
   </ul>

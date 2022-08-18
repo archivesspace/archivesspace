@@ -6,7 +6,7 @@ describe 'Subjects', js: true do
     visit('/')
     click_link 'Subjects'
     within all('.col-sm-12')[0] do
-      expect(page).to have_content("Showing Subjects: 1 - 1 of 1")
+      expect(page).to have_content("Showing Subjects: 1 - 2 of 2")
     end
   end
 
