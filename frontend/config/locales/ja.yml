@@ -602,7 +602,7 @@ ja:
   login:
     login: サインイン
     login_please: サインインしてください
-    login_expired_link: "%{link}してください。"
+    login_expired_link: "サインインしてください。"
     login_fail: ログイン試行に失敗しました
     login_success: ログイン成功。リダイレクト中...
 

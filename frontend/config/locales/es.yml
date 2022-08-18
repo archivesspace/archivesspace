@@ -648,7 +648,7 @@ es:
   login:
     login: Registrarse
     login_please: Por favor, registrese
-    login_expired_link: Por favor %{link} otra vez.
+    login_expired_link: Por favor, <a href ='%{link}'>inicie sesión de nuevo</a>.
     login_fail: Fallo de inicio de sesión
     login_success: Inicio de sesión correcto. Redireccionando...
 

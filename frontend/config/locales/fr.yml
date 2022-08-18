@@ -659,7 +659,7 @@ fr:
   login:
     login: Connexion
     login_please: Veuillez vous connecter
-    login_expired_link: Svp %{link} de nouveau.
+    login_expired_link: Svp <a href ='%{link}'>veuillez vous reconnecter</a>.
     login_fail: Echec de la tentative de connexion
     login_success: Connexion réussie. Redirection...
 

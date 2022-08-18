@@ -746,7 +746,7 @@ de:
   login:
     login: Anmelden
     login_please: Bitte melden Sie sich an
-    login_expired_link: Bitte %{link} erneut.
+    login_expired_link: Bitte <a href ='%{link}'>melden Sie sich erneut an</a>.
     login_fail: Anmeldeversuch ist fehlgeschlagen
     login_success: Anmeldung erfolgreich. Weiterleitung...
     username_placeholder: Benutzername
@@ -888,6 +888,7 @@ de:
         date_of_existence: Existenzdatum
         basic_information: Grundlegende Informationen
         linked_via_rights_statement: Durch Rechteerklärung verknüpfte Aufzeichnungen
+        events: Ereignisse
         target_record: Diese Aufzeichnung wird aktualisiert
         victim_record: Diese Aufzeichnung wird gelöscht
         structured_date_single_fields: Einzeldatum

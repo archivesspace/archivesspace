@@ -337,6 +337,11 @@ de:
     dates_of_existence_tooltip: "<p>Daten, in denen der Akteur existierte.</p>\n"
     publish: Veröffentlichen
     _plural: Akteure
+    new_title:
+      agent_family: Neue Familie
+      agent_person: Neue Person
+      agent_corporate_entity: Neue Körperschaft
+      agent_software: Neue Software
     agent_record_controls_tooltip: "<p>Informationen über die Aufzeichnung, die den Akteur beschreibt.</p>\n"
     agent_alternate_sets_tooltip: "<p> Wird verwendet, um auf verknüpfte Autoritäts-Aufzeichnungen zu\
       \ verweisen, wenn zwei oder mehr Aufzeichnungen für dieselbe Entität von zwei oder mehr Autoritäts-Systemen\
