@@ -25,8 +25,10 @@
   input_atts = {}
 
   input_atts['id'] = form.id_for("ref")
-  input_atts['data-label'] = I18n.t("agent._singular")
-  input_atts['data-label-plural'] = I18n.t("agent._plural")
+  input_atts['data-label_create'] = I18n.t("agent.linker.create")
+  input_atts['data-label_browse'] = I18n.t("agent.linker.browse")
+  input_atts['data-label_link'] = "link"
+  input_atts['data-label_create_and_link'] = "create and link"
   input_atts['data-path'] = form.path
   input_atts['data-url'] = url_for :controller => :search, :action => :do_search, :format => :json
   input_atts['data-browse-url'] = url_for :controller => :search, :action => :do_search, :format => :js, :facets => SearchResultData.AGENT_FACETS, :sort => "title_sort asc"
@@ -53,8 +55,10 @@
              aria-autocomplete="both"
              aria-controls="<%= form.id_for("ref") %>_listbox"
              aria-labelledby="<%= form.id_for("ref") %>_label"
-             data-label="<%= I18n.t("agent._singular") %>"
-             data-label_plural="<%= I18n.t("agent._plural") %>"
+             data-label_create="<%= I18n.t("agent.linker.create") %>"
+             data-label_browse="<%= I18n.t("agent.linker.browse") %>"
+             data-label_link="<%= I18n.t("linker.link") %>"
+             data-label_create_and_link="<%= I18n.t("linker.create_and_link") %>"
              data-name="ref"
              data-path="<%= form.path %>"
              data-url="<%= url_for :controller => :search, :action => :do_search, :format => :json %>"

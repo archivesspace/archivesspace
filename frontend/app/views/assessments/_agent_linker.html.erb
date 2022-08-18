@@ -15,8 +15,10 @@
   <div class="input-group linker-wrapper">
     <input type="text" class="linker"
            id="<%= linker_id %>"
-           data-label="<%= label %>"
-           data-label_plural="<%= label_plural %>"
+           data-label_create="<%= label %>"
+           data-label_browse="<%= label_plural %>"
+           data-label_link="<%= I18n.t("linker.link") %>"
+           data-label_create_and_link="<%= I18n.t("linker.create_and_link") %>"
            data-path="<%= form.path %>"
            data-name="ref"
            data-url="<%= url_for :controller => :search, :action => :do_search, :format => :json %>"

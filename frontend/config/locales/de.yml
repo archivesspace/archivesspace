@@ -12,7 +12,7 @@ de:
     confirm: Bestätigen
     confirm_removal: Entfernen bestätigen
     container_labels: Behältnis-Beschriftungen herunterladen
-    create: Erzeugen
+    create: Erstellen
     cut: Ausschneiden
     date_picker: Datumsauswahl öffnen
     date_picker_toggle: Schalten Sie die Datumsauswahl um
@@ -41,7 +41,7 @@ de:
       weiteren gewählten Aufzeichnungen zusammengeführt. Alle weiteren gewählten Aufzeichnungen
       werden gelöscht und jede verknüpfte Aufzeichnung wird neu mit dem ersten gewählten
       Akteur verknüpft.
-    browse: Blättern
+    browse: Durchsuchen
     transfer_record: Übertragen
     batch_merge: Wählen Sie die Aufzeichnung, die mit allen anderen gelisteten Aufzeichnungen
       zusammengeführt wird. Jede verknüpfte Aufzeichnung wird neu mit dieser Aufzeichnung
@@ -397,7 +397,7 @@ de:
       close_modal: Ein Dialogfenster schließen (z.B. dieses hier)
       save_record: Die derzeit bearbeitete Aufzeichnung speichern
       close_record: Eine gerade bearbeitete Aufzeichnung schließen
-      open_browse: Blättern-Menu öffnen
+      open_browse: Durchsuchen-Menu öffnen
     quick_reference_window: 'Kurzanleitung: Tastenkürzel'
   states:
     auto_generated: Wird vom System beim Speichern erzeugt
@@ -759,8 +759,8 @@ de:
     save: Änderungen speichern
     dismiss: Änderungen verwerfen
   linker:
-    link_to_prefix: Verknüpfen mit
-    create_and_link_to_prefix: Erstellen und Verknüpfen mit
+    link: Verknüpfen
+    create_and_link: Erstellen und Verknüpfen
     hint_text: Tippen, um verfügbare Aufzeichnungen zu durchsuchen..
     placeholder: Tippen, um verfügbare Aufzeichnungen zu durchsuchen..
     delete: '&times;'
@@ -1891,6 +1891,12 @@ de:
         collection_resource_singular: Ressource
         collection_accession_singular: Eingang
         collection_resource_plural: Ressourcen
+        collection_resource_linker:
+          browse: Ressourcen durchsuchen
+          create: Ressource erstellen
+        collection_accession_linker:
+          browse: Eingänge durchsuchen
+          create: Eingang erstellen
         series: Serie
         update_locations_current_location: Aktueller Standort
         batch_delete: Haupt-Behältnisse löschen
@@ -2013,6 +2019,9 @@ de:
       error: Es gab ein Problem beim Löschen der Haupt-Behältnisse
     _singular: Haupt-Behältnis
     _plural: Haupt-Behältnisse
+    linker:
+      browse: Haupt-Behältnisse durchsuchen
+      create: Haupt-Behältnis erstellen
   container_profile:
     name: Name
     _frontend:
@@ -2075,6 +2084,9 @@ de:
     extent_dimension_tooltip: "<p>Die Einheit, um die Umfangs-Einheit des Archivguts\
       \ im Behältnis zu berechnen und anzugeben. Das hilft zu ermitteln welche Einheit\
       \ vom Umfang-Rechner gemessen wird.</p>\n"
+    linker:
+      browse: Behältnis-Profile durchsuchen
+      create: Behältnis-Profil erstellen
   rights_restriction:
     local_access_restriction_type_inline_help: Halten Sie Strg (Windows) / Cmd (Mac)
       gedrückt, um mehrere Optionen auszuwählen oder eine Option abzuwählen
@@ -2110,11 +2122,14 @@ de:
         basic_information: Grundlegende Informationen
     width: Breite
     _singular: Standort-Profil
-    _plural: Standorte-Profile
+    _plural: Standort-Profile
     name: Name
     dimension_units: Abmessungs-Einheiten
     depth: Tiefe
     height: Höhe
+    linker:
+      browse: Standort-Profile durchsuchen
+      create: Standort-Profil erstellen
   extent_calculator:
     create_extent_record_message: Führen Sie den Umfangs-Rechner im Bearbeiten-Modus
       aus, um die Möglichkeit zu haben, eine Umfang-Aufzeichnung basierend auf dem

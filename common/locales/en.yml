@@ -130,6 +130,9 @@ en:
     _singular: Digital Object
     _plural: Digital Objects
     new_title: New Digital Object
+    linker:
+      browse: Browse Digital Objects
+      create: Create Digital Object
 
   digital_object_component:
     <<: *digital_object_attributes
@@ -206,6 +209,9 @@ en:
     _singular: Location
     _plural: Locations
     new_title: New Location
+    linker:
+      browse: Browse Locations
+      create: Create Location
 
   location_batch:
     <<: *location_attributes
@@ -263,6 +269,9 @@ en:
     ref_plural: Records
     _singular: Record Link
     _plural: Record Links
+    linker_ref:
+      browse: Browse Records
+      create: Create Record
 
   linked_agent: &linked_agent_attributes
     role: Role
@@ -1663,6 +1672,9 @@ en:
     _singular: Accession
     _plural: Accessions
     new_title: New Accession
+    linker:
+      browse: Browse Accessions
+      create: Create Accession
 
   interrelated_accession:
     _plural: Related Accessions
@@ -1753,6 +1765,9 @@ en:
     related_agent_tooltip: Used to link other agents with a relationship to the agent and indicate the nature of the relationship.
     publish_tooltip: |
       <p>Indicates whether or not the agent is included in exports and published to the public interface (if used)</p>
+    linker:
+      create: Create Agent
+      browse: Browse Agents
 
   agent_person:
     <<: *agent_attributes
@@ -2133,6 +2148,9 @@ en:
     publish: Publish?
     publish_tooltip: |
         <p>Determines whether this Repository and any record it contains will be published to public (patron) interfaces.</p>
+    linker:
+      browse: Browse Repositories
+      create: Create Repository
 
 
   term: &term_attributes
@@ -2178,6 +2196,9 @@ en:
     _singular: Subject
     _plural: Subjects
     new_title: New Subject
+    linker:
+      browse: Browse Subjects
+      create: Create Subject
 
   user:
     username: Username
@@ -2317,6 +2338,9 @@ en:
     description: Description
     creator: Creator
     id_separator: /
+    linker:
+      browse: Browse Classifications
+      create: Create Classification
 
   classification_term:
     <<: *slug_attributes
@@ -2326,6 +2350,9 @@ en:
     title: Title
     description: Description
     creator: Creator
+    linker:
+      browse: Browse Classification Terms
+      create: Create Classification Term
 
   preference: &preference_attributes
     defaults: Defaults

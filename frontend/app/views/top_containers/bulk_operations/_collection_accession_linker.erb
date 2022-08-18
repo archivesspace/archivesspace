@@ -11,8 +11,10 @@
 <div class="input-group linker-wrapper">
   <input type="text" class="linker"
          id="collection_accession"
-         data-label="<%= I18n.t("top_container._frontend.bulk_operations.collection_accession_singular") %>"
-         data-label_plural="<%= I18n.t("top_container._frontend.bulk_operations.collection_accession_plural") %>"
+         data-label_create="<%= I18n.t("top_container._frontend.bulk_operations.collection_accession.create") %>"
+         data-label_browse="<%= I18n.t("top_container._frontend.bulk_operations.collection_accession.browse") %>"
+         data-label_link="<%= I18n.t("linker.link") %>"
+         data-label_create_and_link="<%= I18n.t("linker.create_and_link") %>"
          data-name="ref"
          data-path="collection_accession"
          data-url="<%= url_for  :controller => :search, :action => :do_search, :format => :json %>"

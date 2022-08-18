@@ -32,8 +32,10 @@ $(function () {
         path: $this.data('path'),
         name: $this.data('name'),
         multiplicity: $this.data('multiplicity') || 'many',
-        label: $this.data('label'),
-        label_plural: $this.data('label_plural'),
+        label_create: $this.data('label_create'),
+        label_browse: $this.data('label_browse'),
+        label_link: $this.data('label_link'),
+        label_create_and_link: $this.data('label_create_and_link'),
         modal_id: $this.data('modal_id') || $this.attr('id') + '_modal',
         sortable: $this.data('sortable') === true,
         types: $this.data('types'),
@@ -105,7 +107,7 @@ $(function () {
 
         AS.openCustomModal(
           config.modal_id,
-          'Create ' + config.label,
+          config.label_create,
           AS.renderTemplate('linker_createmodal_template', config),
           'large',
           {},
@@ -260,7 +262,7 @@ $(function () {
 
         AS.openCustomModal(
           config.modal_id,
-          'Browse ' + config.label_plural,
+          config.label_browse,
           AS.renderTemplate('linker_browsemodal_template', config),
           'large',
           {},

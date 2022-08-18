@@ -665,8 +665,8 @@ es:
     dismiss: Descartar cambios
 
   linker:
-    link_to_prefix: Enlace a
-    create_and_link_to_prefix: Crear y vincular
+    link: Enlace
+    create_and_link: Crear y vincular
     hint_text: Empieza a escribir para buscar registros disponibles...
     placeholder: Empieza a escribir para buscar registros disponibles...
     no_results: No hay resultados coincidentes.  Trate de 'Examinar'.

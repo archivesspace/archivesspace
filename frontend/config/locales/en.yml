@@ -627,8 +627,8 @@ en:
     dismiss: Dismiss Changes
 
   linker:
-    link_to_prefix: Link to
-    create_and_link_to_prefix: Create and Link to
+    link: Link
+    create_and_link: Create and Link
     hint_text: Type to search available records..
     placeholder: Type to search available records..
     no_results: No matching results.  Try 'Browse'.
@@ -1602,6 +1602,12 @@ en:
         collection_resource_plural: Resources
         collection_accession_singular: Accession
         collection_accession_plural: Accessions
+        collection_resource_linker:
+          browse: Browse Resources
+          create: Create Resource
+        collection_accession_linker:
+          browse: Browse Accessions
+          create: Create Accession
         series: Series
         current_location: Current Location
         keyword_criteria: Keyword
@@ -1645,6 +1651,9 @@ en:
         update_locations_new_location: New Location
         has_location_true: "Yes"
         has_location_false: "No"
+    linker:
+      browse: Browse Top Containers
+      create: Create Top Container
 
   container_profile:
     _singular: Container Profile
@@ -1709,6 +1718,9 @@ en:
     stacking_limit: Stacking Limit
     stacking_limit_tooltip: |
         <p>The number of these containers that can be stacked on top of one another. Leave blank if there is no limit. Must be a positive integer.</p>
+    linker:
+      browse: Browse Container Profiles
+      create: Create Container Profile
 
   rights_restriction:
     begin: Restriction Begin
@@ -1762,6 +1774,9 @@ en:
     depth: Depth
     height: Height
     width: Width
+    linker:
+      browse: Browse Location Profiles
+      create: Create Location Profile
 
   space_calculator:
     modal_title: Space Calculator
