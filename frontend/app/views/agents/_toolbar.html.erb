@@ -1,5 +1,5 @@
 <% if user_can?('update_agent_record') %>
-  <div class="record-toolbar">
+  <div class="record-toolbar d-flex align-items-center">
     <% if !edit_mode? %>
       <div class="btn-group pull-left">
         <%= link_to I18n.t("actions.edit"), {:controller => :agents, :action => :edit, :id => @agent.id, :agent_type => @agent.agent_type}, :class => "btn btn-sm btn-primary" %>

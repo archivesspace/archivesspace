@@ -1,7 +1,7 @@
 <% if user_can?('update_subject_record') %>
-  <div class="record-toolbar d-flex">
+  <div class="record-toolbar d-flex align-items-center">
     <% if ['new', 'create', 'edit', 'update'].include?(controller.action_name) %>
-      <div class="pull-left save-changes">
+      <div class="save-changes">
         <button type="submit" class="btn btn-primary btn-sm"><%= I18n.t("actions.save_prefix") %></button>
       </div>
     <% else %>
@@ -11,7 +11,7 @@
     <% end %>
 
     <% if ['edit', 'update'].include?(controller.action_name) %>
-      <div class="pull-left revert-changes">
+      <div class="prevert-changes">
         <%= link_to I18n.t("actions.revert"), {:controller => :subjects, :action => :edit, :id => @subject.id}, :class => "btn btn-sm btn-default" %>
         <%= I18n.t("actions.toolbar_disabled_message") %>
       </div>

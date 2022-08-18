@@ -1,8 +1,8 @@
 <% if user_can?('delete_event_record') %>
-  <div class="record-toolbar d-flex">
+  <div class="record-toolbar d-flex align-items-center">
     <% if not @event.suppressed %>
       <% if !['edit', 'update'].include?(controller.action_name) %>
-        <div class="btn-group float-left">
+        <div class="btn-group">
           <%= link_to I18n.t("actions.edit"), {:controller => :events, :action => :edit, :id => @event.id}, :class => "btn btn-sm btn-primary" %>
         </div>
       <% end %>

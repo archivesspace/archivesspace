@@ -8,8 +8,8 @@
   </div>
   <div class="col-md-9">
     <% if user_can?('update_assessment_record') %>
-      <div class="record-toolbar d-flex">
-        <div class="btn-group ml-auto">
+      <div class="record-toolbar d-flex align-items-center">
+        <div class="btn-group ml-auto bg-white border">
           <%= link_to I18n.t("actions.export_csv"), request.parameters.merge({ :format => :csv,
             :fields => fields}), id: "searchExport",  class:  "btn btn-sm btn-info" %>
           <% if user_can?("update_assessment_record") %>

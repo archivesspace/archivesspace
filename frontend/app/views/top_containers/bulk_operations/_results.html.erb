@@ -20,7 +20,7 @@
   <small><%= I18n.t("search_results.help.row_selection") %></small>
 </p>
 
-<table class="table table-striped table-bordered table-condensed table-hover table-sortable table-search-results">
+<table class="table table-striped table-bordered table-condensed table-hover table-sortable table-search-results table-responsive">
   <thead>
     <tr class="sortable-columns">
       <th><% if multiselect %><label for="select_all" class="sr-only"><%= I18n.t("search_results.selected") %></label><%= check_box_tag "select_all" %><% end %></th>
