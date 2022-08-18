@@ -76,9 +76,10 @@ GEM
       descendants_tracker (~> 0.0.4)
       ice_nine (~> 0.11.0)
       thread_safe (~> 0.3, >= 0.3.1)
-    bootstrap-sass (3.4.1)
-      autoprefixer-rails (>= 5.2.1)
-      sassc (>= 2.0.0)
+    bootstrap (4.3.1)
+      autoprefixer-rails (>= 9.1.0)
+      popper_js (>= 1.14.3, < 2)
+      sassc-rails (>= 2.0.0)
     builder (3.2.4)
     capybara (3.36.0)
       addressable
@@ -175,6 +176,7 @@ GEM
     nio4r (2.5.8-java)
     nokogiri (1.13.6-java)
       racc (~> 1.4)
+    popper_js (1.16.0)
     pry (0.14.1-java)
       coderay (~> 1.1)
       method_source (~> 1.0)
@@ -318,7 +320,7 @@ PLATFORMS
 DEPENDENCIES
   atomic (= 1.0.1)
   axe-core-rspec
-  bootstrap-sass
+  bootstrap (~> 4.3.0)
   capybara (= 3.36.0)
   clipboard-rails
   coffee-rails

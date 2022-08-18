@@ -41,10 +41,11 @@ services:
 
 2. start the containers: `docker-compose up app`
 3. bash into the container: `docker-compose exec app bash`
-4. bundle the frontend `./build/run bundle:frontend`
-5. inside the container still- run the individual command to start the back end: `./build/run backend:devserver`
-6. new tab- bash into the container again: `docker-compose exec app bash`
-7. run the individual command to start the front end only: `./build/run frontend:devserver`
+4. if you need to bundle the frontend (staff interface): `./build/run bundle:frontend`
+5. if you need to bundle the public interface: `./build/run bundle:public`
+6. inside the container still- run the individual command to start the back end: `./build/run backend:devserver`
+7. new tab- bash into the container again: `docker-compose exec app bash`
+8. run the individual command to start the front end only: `./build/run frontend:devserver`
 
 # How to use demo data in dev
 (You will have to do this on each new branch)
