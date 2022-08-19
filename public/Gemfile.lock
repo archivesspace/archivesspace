@@ -60,15 +60,15 @@ GEM
       minitest (>= 5.1)
       tzinfo (~> 2.0)
       zeitwerk (~> 2.3)
-    addressable (2.8.0)
-      public_suffix (>= 2.0.2, < 5.0)
+    addressable (2.8.1)
+      public_suffix (>= 2.0.2, < 6.0)
     atomic (1.0.1-java)
     autoprefixer-rails (10.4.7.0)
       execjs (~> 2)
-    axe-core-api (4.4.0)
+    axe-core-api (4.4.1)
       dumb_delegator
       virtus
-    axe-core-rspec (4.4.0)
+    axe-core-rspec (4.4.1)
       axe-core-api
       dumb_delegator
       virtus
@@ -110,8 +110,8 @@ GEM
     diff-lcs (1.5.0)
     docile (1.4.0)
     dumb_delegator (1.0.0)
-    erubi (1.10.0)
-    excon (0.92.3)
+    erubi (1.11.0)
+    excon (0.92.4)
     execjs (2.8.1)
     factory_bot (6.2.1)
       activesupport (>= 5.0.0)
@@ -140,7 +140,7 @@ GEM
     globalid (1.0.0)
       activesupport (>= 5.0)
     htmlentities (4.3.4)
-    i18n (1.10.0)
+    i18n (1.12.0)
       concurrent-ruby (~> 1.0)
     ice_nine (0.11.2)
     ipaddress (0.8.3)
@@ -164,7 +164,7 @@ GEM
     matrix (0.4.2)
     method_source (1.0.0)
     mini_mime (1.1.2)
-    minitest (5.16.0)
+    minitest (5.16.3)
     mizuno-aspace (9.4.44)
       childprocess (>= 0.2.6)
       choice (>= 0.1.0)
@@ -174,7 +174,7 @@ GEM
     multipart-post (1.2.0)
     net-http-persistent (2.8)
     nio4r (2.5.8-java)
-    nokogiri (1.13.6-java)
+    nokogiri (1.13.8-java)
       racc (~> 1.4)
     popper_js (1.16.0)
     pry (0.14.1-java)
@@ -188,11 +188,11 @@ GEM
       pry (>= 0.9.10, < 0.15)
     pry-rails (0.3.9)
       pry (>= 0.10.4)
-    public_suffix (4.0.7)
+    public_suffix (5.0.0)
     racc (1.6.0-java)
-    rack (2.2.3.1)
-    rack-test (1.1.0)
-      rack (>= 1.0, < 3)
+    rack (2.2.4)
+    rack-test (2.0.2)
+      rack (>= 1.3)
     rails (6.1.6)
       actioncable (= 6.1.6)
       actionmailbox (= 6.1.6)
@@ -281,25 +281,22 @@ GEM
     simplecov_json_formatter (0.1.4)
     spoon (0.0.6)
       ffi
-    sprockets (4.0.3)
+    sprockets (4.1.1)
       concurrent-ruby (~> 1.0)
       rack (> 1, < 3)
     sprockets-rails (3.4.2)
       actionpack (>= 5.2)
       activesupport (>= 5.2)
       sprockets (>= 3.0.0)
-    therubyrhino (2.1.2)
-      therubyrhino_jar (>= 1.7.4, < 1.7.9)
-    therubyrhino_jar (1.7.8)
     thor (1.2.1)
     thread_safe (0.3.6-java)
-    tilt (2.0.10)
+    tilt (2.0.11)
     turbolinks (5.2.1)
       turbolinks-source (~> 5.2)
     turbolinks-source (5.2.0)
-    tzinfo (2.0.4)
+    tzinfo (2.0.5)
       concurrent-ruby (~> 1.0)
-    tzinfo-data (1.2022.1)
+    tzinfo-data (1.2022.3)
       tzinfo (>= 1.0.0)
     uglifier (4.2.0)
       execjs (>= 0.3.0, < 3)
@@ -326,6 +323,7 @@ DEPENDENCIES
   coffee-rails
   dumb_delegator
   excon (>= 0.76.0)
+  execjs
   factory_bot_rails
   fog-aws (= 2.0.0)
   font-awesome-sass (= 4.7.0)
@@ -355,7 +353,6 @@ DEPENDENCIES
   selenium-webdriver (= 4.1.0)
   simplecov
   sprockets-rails
-  therubyrhino
   turbolinks
   tzinfo-data
   uglifier
