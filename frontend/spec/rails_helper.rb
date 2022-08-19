@@ -76,3 +76,19 @@ Capybara.default_max_wait_time = 10
 ActionController::Base.logger.level = Logger::ERROR
 Rails.logger.level = Logger::ERROR
 Rails::Controller::Testing.install
+
+def wait_for_job_to_complete(page)
+  job_id = page.current_path.sub(/^[^\d]*/, '')
+  sanity_counter = 0
+  complete = false
+  while (sanity_counter < 100 && !complete) do
+    begin
+      job = JSONModel(:job).find(job_id)
+      complete = ["completed", "failed"].include?(job.status)
+    rescue
+    end
+    return if complete
+    sleep 1
+    sanity_counter += 1
+  end
+end
