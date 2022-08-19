@@ -43,6 +43,7 @@ services:
 3. bash into the container: `docker-compose exec app bash`
 4. if you need to bundle the frontend (staff interface): `./build/run bundle:frontend`
 5. if you need to bundle the public interface: `./build/run bundle:public`
+5. if you need to update an individual gem in the public interface: `./build/run bundle:public:update -Donly-gem=GEM-NAME-HERE`
 6. inside the container still- run the individual command to start the back end: `./build/run backend:devserver`
 7. new tab- bash into the container again: `docker-compose exec app bash`
 8. run the individual command to start the front end only: `./build/run frontend:devserver`
