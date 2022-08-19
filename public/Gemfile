@@ -28,7 +28,7 @@ gem 'font-awesome-sass', '4.7.0'
 # Use CoffeeScript for .coffee assets and views
 gem 'coffee-rails'
 # See https://github.com/rails/execjs#readme for more supported runtimes
-gem 'therubyrhino'
+gem 'execjs'
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
 
