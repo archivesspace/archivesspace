@@ -124,15 +124,6 @@ $(function () {
 
   var initSidebar = function () {
     $('#archivesSpaceSidebar:not(.initialised)').each(function () {
-      $(this).affix({
-        offset: {
-          top: function () {
-            return $('#archivesSpaceSidebar').parent().offset().top;
-          },
-          bottom: 100,
-        },
-      });
-
       $('a', $(this)).click(function (e) {
         clearSelected();
         $(this).parent().attr('aria-selected', 'true');
