@@ -44,7 +44,9 @@ describe 'Spawning', js: true do
     accession_link = find(:css, "form input[name='archival_object[accession_links][0][ref]']", :visible => false)
     expect(accession_link.value).to eq(@accession.uri)
     find(".save-changes button[type='submit']").click
-    sleep 1
+    # wait for the form and tree container to load
+    find("#tree-container")
+    find(".record-pane")
     expect(find("div.indent-level-1 div.title")['title']).to eq "Parent"
     expect(find("div.indent-level-2 div.title")['title']).to eq "Spawned Accession"
     ref_id = find(".identifier-display").text
