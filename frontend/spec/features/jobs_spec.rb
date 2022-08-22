@@ -35,7 +35,7 @@ describe 'Jobs', js: true do
     fill_in('String to find', with: 'abc')
     fill_in('Replacement string', with: 'def')
     click_button('Start Job')
-
+    wait_for_job_to_complete(page)
     expect(page).to have_content('Find and Replace Job')
     click_button('Refresh Page')
     expect(page).to have_content('Completed')
@@ -55,7 +55,7 @@ describe 'Jobs', js: true do
     fill_in('token-input-job_source_', with: resource.title)
     find(:css, 'li.token-input-dropdown-item2').click
     click_button('Start Job')
-
+    wait_for_job_to_complete(page)
     expect(page).to have_content('print_to_pdf_job')
     click_button('Refresh Page')
     sleep 1.seconds
@@ -74,7 +74,7 @@ describe 'Jobs', js: true do
     end
     select('CSV', from: 'Format')
     click_button('Start Job')
-
+    wait_for_job_to_complete(page)
     expect(page).to have_content('report_job')
     click_button('Refresh Page')
     sleep 1.seconds
@@ -91,7 +91,7 @@ describe 'Jobs', js: true do
     end
     click_button('Accession Report')
     click_button('Start Job')
-
+    wait_for_job_to_complete(page)
     expect(page).to have_content('report_job')
     click_button('Refresh Page')
     sleep 1.seconds
@@ -106,7 +106,7 @@ describe 'Jobs', js: true do
 
   it 'can import an accession and display import type' do
     template_file = File.expand_path(
-      '../backend/spec/examples/aspace_accession_import_template.csv')
+      '../../../../backend/spec/examples/aspace_accession_import_template.csv', __FILE__)
 
     click_link('Repository settings')
     click_link('Background Jobs')
@@ -118,7 +118,7 @@ describe 'Jobs', js: true do
     # can this be done without calling the javascript directly?
     execute_script("return $('#job_filenames_ > span > input')[0]").send_keys(template_file)
     click_button('Start Job')
-
+    wait_for_job_to_complete(page)
     expect(page).to have_content('Import Job')
     click_button('Refresh Page')
     sleep 1.seconds
