@@ -2,6 +2,7 @@
 # handles character entities and namespaces
 class XMLCleaner < Nokogiri::XML::SAX::Document
   attr_accessor :file
+
   def initialize(file)
     @file = file
   end
