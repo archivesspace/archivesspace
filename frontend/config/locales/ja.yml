@@ -602,7 +602,7 @@ ja:
   login:
     login: サインイン
     login_please: サインインしてください
-    login_expired_link: "%{link}してください。"
+    login_expired_link: "サインインしてください。"
     login_fail: ログイン試行に失敗しました
     login_success: ログイン成功。リダイレクト中...
 
@@ -615,8 +615,8 @@ ja:
     dismiss: 変更を閉じる
 
   linker:
-    link_to_prefix: リンク先
-    create_and_link_to_prefix: 作成してリンクする
+    link: リンク先
+    create_and_link: 作成してリンクする
     hint_text: 利用可能なレコードを検索するために入力してください..
     placeholder: 利用可能なレコードを検索するために入力してください..
     no_results: 一致する結果はありません。 「ブラウズ」を試みてください。

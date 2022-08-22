@@ -15,8 +15,10 @@
   <div class="input-group linker-wrapper">
     <input type="text" class="linker"
            id="<%= linker_id %>"
-           data-label="<%= label %>"
-           data-label_plural="<%= label_plural %>"
+           data-label_create="<%= label %>"
+           data-label_browse="<%= label_plural %>"
+           data-label_link="<%= I18n.t("linker.link") %>"
+           data-label_create_and_link="<%= I18n.t("linker.create_and_link") %>"
            data-path="<%= form.path %>"
            data-name="ref"
            data-url="<%= url_for :controller => :search, :action => :do_search, :format => :json %>"
@@ -25,11 +27,11 @@
            data-format_property="display_string"
            data-multiplicity="many"
            data-types='["agent_with_user"]'
-           aria-label="Link to agent"
+           aria-label="<%= I18n.t('agent.linker.link_title') %>"
     />
 
     <div class="input-group-btn">
-      <a class="btn btn-default dropdown-toggle last" data-toggle="dropdown" href="javascript:void(0);" aria-label="Link to agent"><span class="caret"></span></a>
+      <a class="btn btn-default dropdown-toggle last" data-toggle="dropdown" href="javascript:void(0);" aria-label="<%= I18n.t('agent.linker.link_title') %>"><span class="caret"></span></a>
       <ul class="dropdown-menu">
         <li><a href="javascript:void(0);" class="linker-browse-btn"><%= I18n.t("actions.browse") %></a></li>
       </ul>
