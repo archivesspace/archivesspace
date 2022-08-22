@@ -64,6 +64,8 @@ def setup_test_data
 
   subject = create(:subject, terms: [build(:term, term: 'Term 1')])
 
+  subject2 = create(:subject, terms: [build(:term, {term: 'Term 1', term_type: 'temporal'}), build(:term, term: 'Term 2')])
+
   create(:agent_person,
          names: [build(:name_person,
                        name_order: 'direct',
@@ -167,6 +169,12 @@ def setup_test_data
       {'role' => 'source', 'ref' => linked_agent_2.uri}
     ]
   )
+
+  create(:resource, title: "Resource with Subject",
+                    publish: true,
+                    instances: [build(:instance_digital)],
+                    subjects: [{'ref' => subject2.uri}])
+
 
   resource_with_scope = create(:resource_with_scope, title: "Resource with scope note", publish: true)
   aos = (0..5).map do

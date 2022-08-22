@@ -296,12 +296,8 @@ class Record
 
         role = relationship['role']
 
-        if role == 'subject'
-          subjects_arr.push(relationship['_resolved'].merge('_relator' => relationship['relator'], '_terms' => relationship['terms']))
-        else
-          agents_h[role] ||= []
-          agents_h[role] << relationship
-        end
+        agents_h[role] ||= []
+        agents_h[role] << relationship
       end
     end
 
