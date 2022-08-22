@@ -390,11 +390,6 @@ de:
       \ für eine Person oder ein MARC Repository Code für eine Körperschaft.</p>\n"
     publish_tooltip: "<p>Gibt an, ob der Akteur in Exporte eingeschlossen und auf der öffentlichen Besucher-Schnittstelle\
       \ veröffentlicht wird (sofern verwendet)</p>\n"
-    new_title:
-      agent_corporate_entity: Neue Körperschaft
-      agent_person: Neue Person
-      agent_software: Neue Software
-      agent_family: Neue Familie
     linker:
       browse: Akteure durchsuchen
       create: Akteur erstellen
