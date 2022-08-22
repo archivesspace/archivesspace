@@ -219,6 +219,7 @@ form .form-group {
   background-color: #f6f6f6;
   #gradient {@include vertical(#F3F3F3, #EDEDED);
   }
+
   border-bottom: 1px solid #ddd;
   padding-left: 10px;
   line-height: 36px;
@@ -259,6 +260,7 @@ form .form-group {
     #gradient {
       @include vertical(#F3F3F3, #EDEDED);
     }
+
     padding-left: 10px;
     min-height: 1.4em;
     margin: 0;
@@ -664,7 +666,7 @@ ul.subrecord-form-list {
   }
 }
 
-//make date help appear inline
+// make date help appear inline
 
 .date-field {
   float: left;

@@ -85,6 +85,7 @@ GEM
 PLATFORMS
   java
   ruby
+  universal-java-11
 
 DEPENDENCIES
   git

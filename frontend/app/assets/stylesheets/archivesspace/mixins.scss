@@ -1,4 +1,4 @@
-//bootstrap <= 3 mixins that were being utilized, but have been removed in the new version of Bootstrap
+// bootstrap <= 3 mixins that were being utilized, but have been removed in the new version of Bootstrap
 // Border Radius
 @mixin border-radius($radius) {
   -webkit-border-radius: $radius;
@@ -21,7 +21,7 @@
 }
 @mixin sans-serif($size: $baseFontSize, $weight: normal, $lineHeight: $baseLineHeight) {
   #font > #family {
-    @include sans-serif-fam()
+    @include sans-serif-fam
   }
   #font {
     @include shorthand($size, $weight, $lineHeight);
@@ -37,6 +37,7 @@
 
 @mixin opacity($opacity) {
   $opacity-ie: ($opacity * 100);  // IE8 filter
+
   filter: alpha(opacity=$opacity-ie);
   opacity: $opacity;
 }
@@ -82,7 +83,7 @@
 
 @mixin alt-icomoon()
 {
-  font-family: 'icomoon';
+  font-family: icomoon;
   margin: 0 4px 0 0;
 }
 
@@ -91,13 +92,6 @@
 /* break ASpace if they are removed. Goal is to clear these  */
 
 /* out at some point */
-
-@mixin border-radius($radius)
-{
-  -webkit-border-radius: $radius;
-  -moz-border-radius: $radius;
-  border-radius: $radius;
-}
 
 @mixin ie7-restore-right-whitespace()
 {
@@ -109,24 +103,25 @@
 }
 
 // Gradient Bar Colors for buttons and alerts
+/* stylelint-disable scss/at-mixin-pattern */
 @mixin gradientBar($primaryColor, $secondaryColor, $textColor: #fff, $textShadow: 0 -1px 0 rgba(0,0,0,0.25)){
   color: $textColor;
   text-shadow: $textShadow;
   #gradient {
     @include vertical($primaryColor, $secondaryColor);
   }
+
   border-color: $secondaryColor $secondaryColor darken($secondaryColor, 15%);
   border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1)
     fadein(rgba(0, 0, 0, 0.1), 15%);
 }
-
 @mixin buttonBackground($startColor, $endColor, $textColor: #fff, $textShadow: 0 -1px 0 rgba(0,0,0,0.25))
 {
   // gradientBar will set the background to a pleasing blend of these, to support IE<=9
   @include gradientBar($startColor, $endColor, $textColor, $textShadow);
 
   *background-color: $endColor; /* Darken IE7 buttons by default so they stand out more given they won\'t have borders */
-  @include reset-filter();
+  @include reset-filter;
 
   // in these cases the gradient won\'t cover the background, so we override
   &:hover,
@@ -146,6 +141,4 @@
     background-color: darken($endColor, 10%) e('\9');
   }
 }
-
-
-
+/* stylelint-enable scss/at-mixin-pattern */

@@ -1,5 +1,5 @@
 @font-face {
-  font-family: 'icomoon';
+  font-family: icomoon;
   src: asset-url('icomoon/icomoon.eot?-z7cehr');
   src: asset-url('icomoon/icomoon.eot?#iefix-z7cehr')
       format('embedded-opentype'),
@@ -40,16 +40,19 @@
 
   &.icon-resource::before {
     @include alt-icomoon;
+
     content: '\ea71';
   }
 
   &.icon-accession::before {
     @include alt-icomoon;
+
     content: '\e99f';
   }
 
   &.icon-repository::before {
     @include alt-icomoon;
+
     content: '\e921';
   }
 

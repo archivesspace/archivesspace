@@ -819,6 +819,10 @@
 
   <target name="public:test" depends="set-classpath, setup-integration, public:copy-shared-resources" description="Run the unit test suite">
     <property name="tag" value="~db"/>
+    <antcall target="bundler">
+      <param name="gemfile" value="../public/Gemfile" />
+    </antcall>
+
     <antcall target="rspec">
       <param name="dir" value="../public" />
       <param name="tag" value="${tag}" />

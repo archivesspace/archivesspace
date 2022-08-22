@@ -9,7 +9,7 @@ $btn-default-border: $input-border;
 // deprecated bootstrap 2.x vars
 // lets phase these out
 
-$navbarBackgroundHighlight: #ffffff;
+$navbarBackgroundHighlight: #fff;
 $navbarBackground: darken($navbarBackgroundHighlight, 5%);
 $errorBackground: #f2dede;
 $successBackground: #dff0d8;
@@ -25,7 +25,7 @@ $btnPrimaryBackground: $linkColor;
 $tableBackgroundHover: #f5f5f5; // for hover
 $baseLineHeight: 20px;
 $baseFontSize: 14px;
-$sansFontFamily: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+$sansFontFamily: 'Helvetica Neue', helvetica, arial, sans-serif;
 $baseFontFamily: $sansFontFamily;
 
 // Grays

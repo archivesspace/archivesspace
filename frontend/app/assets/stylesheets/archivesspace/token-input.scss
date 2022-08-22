@@ -75,6 +75,7 @@ li.token-input-token {
   #gradient {
     @include vertical(#005980, #0081bd);
   }
+
   border: 1px solid #99defd;
   padding: 2px;
   color: #fff;
@@ -284,11 +285,13 @@ div.token-input-dropdown ul li.token-input-selected-dropdown-item {
 
   .agent_family .icon-token::before {
     @include alt-icomoon;
+
     content: '\e972';
   }
 
   .resource .icon-token::before {
     @include alt-icomoon;
+
     content: '\ea71';
   }
 
@@ -306,6 +309,7 @@ div.token-input-dropdown ul li.token-input-selected-dropdown-item {
 
   .accession .icon-token::before {
     @include alt-icomoon;
+
     content: '\e99f';
   }
 

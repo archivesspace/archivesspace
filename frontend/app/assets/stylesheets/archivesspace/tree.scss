@@ -128,6 +128,7 @@
   max-width: 400px;
 }
 
+/* stylelint-disable at-rule-no-vendor-prefix */
 @-webkit-keyframes spin {
   from {
     -webkit-transform: rotate(0deg);
@@ -136,6 +137,7 @@
     -webkit-transform: rotate(360deg);
   }
 }
+/* stylelint-enable at-rule-no-vendor-prefix */
 
 @keyframes spin {
   from {
