@@ -5,23 +5,31 @@
   -moz-border-radius: $radius;
   border-radius: $radius;
 }
-@mixin serif(){
+@mixin serif() {
   font-family: $serifFontFamily;
 }
-@mixin sans-serif-fam(){
+@mixin sans-serif-fam() {
   font-family: $sansFontFamily;
 }
-@mixin monospace(){
+@mixin monospace() {
   font-family: $monoFontFamily;
 }
-@mixin shorthand($size: $baseFontSize, $weight: normal, $lineHeight: $baseLineHeight){
+@mixin shorthand(
+  $size: $baseFontSize,
+  $weight: normal,
+  $lineHeight: $baseLineHeight
+) {
   font-size: $size;
   font-weight: $weight;
   line-height: $lineHeight;
 }
-@mixin sans-serif($size: $baseFontSize, $weight: normal, $lineHeight: $baseLineHeight) {
+@mixin sans-serif(
+  $size: $baseFontSize,
+  $weight: normal,
+  $lineHeight: $baseLineHeight
+) {
   #font > #family {
-    @include sans-serif-fam
+    @include sans-serif-fam;
   }
   #font {
     @include shorthand($size, $weight, $lineHeight);
@@ -36,7 +44,7 @@
 // Opacity
 
 @mixin opacity($opacity) {
-  $opacity-ie: ($opacity * 100);  // IE8 filter
+  $opacity-ie: ($opacity * 100); // IE8 filter
 
   filter: alpha(opacity=$opacity-ie);
   opacity: $opacity;
@@ -46,34 +54,33 @@
 
 @mixin transition($transition...) {
   -webkit-transition: $transition;
-       -o-transition: $transition;
-          transition: $transition;
+  -o-transition: $transition;
+  transition: $transition;
 }
 @mixin transition-property($transition-property...) {
   -webkit-transition-property: $transition-property;
-          transition-property: $transition-property;
+  transition-property: $transition-property;
 }
 @mixin transition-delay($transition-delay) {
   -webkit-transition-delay: $transition-delay;
-          transition-delay: $transition-delay;
+  transition-delay: $transition-delay;
 }
 @mixin transition-duration($transition-duration...) {
   -webkit-transition-duration: $transition-duration;
-          transition-duration: $transition-duration;
+  transition-duration: $transition-duration;
 }
 @mixin transition-timing-function($timing-function) {
   -webkit-transition-timing-function: $timing-function;
-          transition-timing-function: $timing-function;
+  transition-timing-function: $timing-function;
 }
 @mixin transition-transform($transition...) {
   -webkit-transition: -webkit-transform $transition;
-     -moz-transition: -moz-transform $transition;
-       -o-transition: -o-transform $transition;
-          transition: transform $transition;
+  -moz-transition: -moz-transform $transition;
+  -o-transition: -o-transform $transition;
+  transition: transform $transition;
 }
 
-@mixin icon($fontFamily: 'Glyphicons Halflings')
-{
+@mixin icon($fontFamily: 'Glyphicons Halflings') {
   font-family: $fontFamily;
   float: left;
   @include opacity(75);
@@ -81,8 +88,7 @@
   margin: 2px 4px 0 0;
 }
 
-@mixin alt-icomoon()
-{
+@mixin alt-icomoon() {
   font-family: icomoon;
   margin: 0 4px 0 0;
 }
@@ -93,18 +99,22 @@
 
 /* out at some point */
 
-@mixin ie7-restore-right-whitespace()
-{
+@mixin ie7-restore-right-whitespace() {
   *margin-right: 0.3em;
 }
 
-@mixin vertical($primaryColor, $secondaryColor){
-  background-image: linear-gradient(to right, $primaryColor, $secondaryColor)
+@mixin vertical($primaryColor, $secondaryColor) {
+  background-image: linear-gradient(to right, $primaryColor, $secondaryColor);
 }
 
 // Gradient Bar Colors for buttons and alerts
 /* stylelint-disable scss/at-mixin-pattern */
-@mixin gradientBar($primaryColor, $secondaryColor, $textColor: #fff, $textShadow: 0 -1px 0 rgba(0,0,0,0.25)){
+@mixin gradientBar(
+  $primaryColor,
+  $secondaryColor,
+  $textColor: #fff,
+  $textShadow: 0 -1px 0 rgba(0, 0, 0, 0.25)
+) {
   color: $textColor;
   text-shadow: $textShadow;
   #gradient {
@@ -115,8 +125,12 @@
   border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1)
     fadein(rgba(0, 0, 0, 0.1), 15%);
 }
-@mixin buttonBackground($startColor, $endColor, $textColor: #fff, $textShadow: 0 -1px 0 rgba(0,0,0,0.25))
-{
+@mixin buttonBackground(
+  $startColor,
+  $endColor,
+  $textColor: #fff,
+  $textShadow: 0 -1px 0 rgba(0, 0, 0, 0.25)
+) {
   // gradientBar will set the background to a pleasing blend of these, to support IE<=9
   @include gradientBar($startColor, $endColor, $textColor, $textShadow);
 

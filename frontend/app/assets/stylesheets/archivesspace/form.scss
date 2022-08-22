@@ -185,7 +185,7 @@ form .form-group {
 .record-pane h3 {
   background-color: #f6f6f6;
   #gradient {
-    @include vertical(#F3F3F3, #EDEDED);
+    @include vertical(#f3f3f3, #ededed);
   }
 
   border-bottom: 1px solid #ddd;
@@ -217,7 +217,8 @@ form .form-group {
 
 .record-pane section section h4 {
   background-color: #f6f6f6;
-  #gradient {@include vertical(#F3F3F3, #EDEDED);
+  #gradient {
+    @include vertical(#f3f3f3, #ededed);
   }
 
   border-bottom: 1px solid #ddd;
@@ -258,7 +259,7 @@ form .form-group {
   .subrecord-form-heading {
     background-color: #f6f6f6;
     #gradient {
-      @include vertical(#F3F3F3, #EDEDED);
+      @include vertical(#f3f3f3, #ededed);
     }
 
     padding-left: 10px;
@@ -505,7 +506,7 @@ ul.subrecord-form-list {
 
   background-color: $inputBackground;
   border: 1px solid $input-border;
-  @include box-shadow(inset 0 1px 1px rgba(0,0,0,0.075));
+  @include box-shadow(inset 0 1px 1px rgba(0, 0, 0, 0.075));
 
   overflow: visible;
 
@@ -557,7 +558,7 @@ ul.subrecord-form-list {
 }
 
 .CodeMirror-completions {
-  @include box-shadow(0 5px 10px rgba(0,0,0,0.2));
+  @include box-shadow(0 5px 10px rgba(0, 0, 0, 0.2));
 
   border: 1px solid #ccc;
   border: 1px solid rgba(0, 0, 0, 0.2);
@@ -640,7 +641,10 @@ ul.subrecord-form-list {
       background-image: none;
       outline: 0;
       background-color: #eee;
-      @include box-shadow(inset 0 1px 2px rgba(0,0,0,.15), 0 1px 2px rgba(0,0,0,.05));
+      @include box-shadow(
+        inset 0 1px 2px rgba(0, 0, 0, 0.15),
+        0 1px 2px rgba(0, 0, 0, 0.05)
+      );
     }
   }
 }

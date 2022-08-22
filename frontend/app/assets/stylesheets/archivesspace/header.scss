@@ -12,7 +12,7 @@
 
   .navbar-default {
     @include border-radius(0 0 4px 4px);
-    @include box-shadow(0 1px 4px rgba(0,0,0,0.065));
+    @include box-shadow(0 1px 4px rgba(0, 0, 0, 0.065));
   }
 }
 
@@ -179,7 +179,10 @@ header .inset-label {
   padding: 0 10px;
   display: inline-block;
   margin: 5px 0 -5px !important;
-  @include box-shadow(inset 0 1px 2px rgba(0,0,0,.1), 0 1px 0 rgba(255,255,255,.15));
+  @include box-shadow(
+    inset 0 1px 2px rgba(0, 0, 0, 0.1),
+    0 1px 0 rgba(255, 255, 255, 0.15)
+  );
   #font {
     @include sans-serif(13px, normal, 30px);
   }

@@ -4,7 +4,10 @@
 #rde_form {
   .sections {
     #gradient {
-      @include vertical($navbarBackgroundHighlight, darken($navbarBackgroundHighlight, 3%));
+      @include vertical(
+        $navbarBackgroundHighlight,
+        darken($navbarBackgroundHighlight, 3%)
+      );
     }
     th {
       border-bottom-color: darken($navbarBackgroundHighlight, 6%);
@@ -64,9 +67,11 @@
 
   .fieldset-labels {
     #gradient {
-      @include vertical(darken($navbarBackgroundHighlight, 3%), darken($navbarBackgroundHighlight, 6%));
+      @include vertical(
+        darken($navbarBackgroundHighlight, 3%),
+        darken($navbarBackgroundHighlight, 6%)
+      );
     }
-
 
     th {
       border-top-color: darken($navbarBackgroundHighlight, 6%);
@@ -230,7 +235,7 @@
     @include opacity(90);
 
     z-index: 1;
-    @include box-shadow(1px 1px 3px #AAA);
+    @include box-shadow(1px 1px 3px #aaa);
 
     margin-left: -5px;
     border-top: none;
