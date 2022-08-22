@@ -16,8 +16,8 @@ gem 'sprockets-rails'
 
 gem 'atomic', '= 1.0.1'
 
-# use bootstrap's sass - lockdown to pre-sassc version
-# because https://github.com/rails/rails/issues/38492
+
+# use bootstrap's sass
 gem 'bootstrap-sass'
 # Use SCSS for stylesheets
 gem 'sass-rails'
