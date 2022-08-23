@@ -4,8 +4,8 @@
    extra_params = {} if extra_params.blank?
 %>
 
-  <div id="merge-dropdown" class="btn-group dropdown bg-white border rounded" data-no-change-tracking="true">
-    <button class="btn btn-sm btn-default dropdown-toggle merge-action btn-outline-secondary" data-toggle="dropdown" role="button" aria-expanded="false" title="<%= I18n.t("actions.merge") %>">
+  <div id="merge-dropdown" class="btn-group dropdown" data-no-change-tracking="true">
+    <button class="btn btn-sm btn-default dropdown-toggle merge-action" data-toggle="dropdown" role="button" aria-expanded="false" title="<%= I18n.t("actions.merge") %>">
       <%= I18n.t("actions.merge") %> <span class="caret"></span>
     </button>
     <ul class="dropdown-menu merge-form dropdown-menu-right" role="none">
