@@ -46,9 +46,12 @@ class FindingAidPDF
     has_children = @ordered_records.entries.length > 1
 
     out_html = Tempfile.new
-    out_html.write(renderer.render_to_string partial: 'header', layout: false, :locals => {:record => @resource})
 
-    out_html.write(renderer.render_to_string partial: 'titlepage', layout: false, :locals => {:record => @resource})
+    # Use a NokogiriPushParser-based
+    writer = Nokogiri::XML::SAX::PushParser.new(XMLCleaner.new(out_html))
+    writer.write(renderer.render_to_string partial: 'header', layout: false, :locals => {:record => @resource})
+
+    writer.write(renderer.render_to_string partial: 'titlepage', layout: false, :locals => {:record => @resource})
 
     # Drop the resource and filter the AOs
     toc_aos = @ordered_records.entries.drop(1).select {|entry|
@@ -61,9 +64,9 @@ class FindingAidPDF
       end
     }
 
-    out_html.write(renderer.render_to_string partial: 'toc', layout: false, :locals => {:resource => @resource, :has_children => has_children, :ordered_aos => toc_aos})
+    writer.write(renderer.render_to_string partial: 'toc', layout: false, :locals => {:resource => @resource, :has_children => has_children, :ordered_aos => toc_aos})
 
-    out_html.write(renderer.render_to_string partial: 'resource', layout: false, :locals => {:record => @resource, :has_children => has_children})
+    writer.write(renderer.render_to_string partial: 'resource', layout: false, :locals => {:record => @resource, :has_children => has_children})
 
     page_size = 50
 
@@ -78,11 +81,11 @@ class FindingAidPDF
       record_set.zip(entry_set).each do |record, entry|
         next unless record.is_a?(ArchivalObject)
 
-        out_html.write(renderer.render_to_string partial: 'archival_object', layout: false, :locals => {:record => record, :level => entry.depth})
+        writer.write(renderer.render_to_string partial: 'archival_object', layout: false, :locals => {:record => record, :level => entry.depth})
       end
     end
 
-    out_html.write(renderer.render_to_string partial: 'footer', layout: false, :locals => {:record => @resource})
+    writer.write(renderer.render_to_string partial: 'footer', layout: false, :locals => {:record => @resource})
     out_html.close
 
     out_html
@@ -90,8 +93,6 @@ class FindingAidPDF
 
   def generate
     out_html = source_file
-
-    XMLCleaner.new.clean(out_html.path)
 
     pdf_file = Tempfile.new
     pdf_file.close
