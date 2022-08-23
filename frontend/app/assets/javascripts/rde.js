@@ -447,11 +447,23 @@ $(function () {
 
           var id_base = $select.attr('id').replace(/_type_$/, '');
 
-          var restrictionsEnabled = ($select.val() === 'accessrestrict' || $select.val() === 'userestrict');
+          var restrictionsEnabled =
+            $select.val() === 'accessrestrict' ||
+            $select.val() === 'userestrict';
 
           // Find the corresponding restriction begin + end fields and set their states to match the dropdown.
-          for (var range_type of ['begin', 'end', 'local_access_restriction_type[]']) {
-            var input = $('#' + id_base + '_rights_restriction__' + range_type.replace(/[\[\]]/g, '_') + '_');
+          for (var range_type of [
+            'begin',
+            'end',
+            'local_access_restriction_type[]',
+          ]) {
+            var input = $(
+              '#' +
+                id_base +
+                '_rights_restriction__' +
+                range_type.replace(/[[\]]/g, '_') +
+                '_'
+            );
             input.attr('disabled', restrictionsEnabled ? null : 'disabled');
 
             if (restrictionsEnabled) {
@@ -464,15 +476,13 @@ $(function () {
               input.val('');
             }
           }
-        };
+        }
 
         var selects = elt.find("td[data-col^='colNType'] select");
 
         selects.change(handleUpdate);
         selects.trigger('change');
-      }
-
-
+      };
 
       var initAutoValidateFeature = function () {
         // Validate row upon input change
@@ -764,7 +774,7 @@ $(function () {
         }
 
         return result;
-      }
+      };
 
       var applyColumnOrder = function (callback) {
         if (COLUMN_ORDER === null) {
@@ -780,10 +790,14 @@ $(function () {
           //
           // Keep everything working by inserting the missing columns at the end
           // of the list, just before colActions.
-          var missing = setSubtract($('th', 'tr.fieldset-labels').map(function () { return $(this).attr('id'); }),
-                                    COLUMN_ORDER);
+          var missing = setSubtract(
+            $('th', 'tr.fieldset-labels').map(function () {
+              return $(this).attr('id');
+            }),
+            COLUMN_ORDER
+          );
 
-          COLUMN_ORDER = COLUMN_ORDER.filter((elt) => elt !== 'colActions');
+          COLUMN_ORDER = COLUMN_ORDER.filter(elt => elt !== 'colActions');
           for (const elt of missing) {
             COLUMN_ORDER.push(elt);
           }
