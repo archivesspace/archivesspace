@@ -1,12 +1,9 @@
-<% r = @required ? @required.values : [] %>
-
 <% define_template "agent_other_agency_codes", jsonmodel_definition(:agent_other_agency_codes) do |form| %>
   <div class="subrecord-form-fields">
     <div class="agent-record-control-container">
       <%= form.label_and_textfield "maintenance_agency",  {:field_opts => {:size => 30, :class => "form-control"} }%>
-      <%= form.label_and_select "agency_code_type", 
-        [""] + form.possible_options_for("agency_code_type", false), 
-        :required => is_required_by_admin?(r, "agent_other_agency_codes", "agency_code_type")%>
+      <%= form.label_and_select "agency_code_type",
+        [""] + form.possible_options_for("agency_code_type", false) %>
     </div>
   </div>
 <% end %>

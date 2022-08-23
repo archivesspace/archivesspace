@@ -1,5 +1,3 @@
-<% r = @required ? @required.values : [] %>
-
 <% define_template "agent_record_identifiers", jsonmodel_definition(:agent_record_identifier) do |form| %>
   <div class="subrecord-form-fields agent_record_identifier_form">
     <h3 class="subrecord-form-heading">
@@ -9,13 +7,12 @@
 
       <%= form.hidden_input "primary_identifier", form["primary_identifier"] ? 1 : 0 %>
     </h3>
- 
+
     <div class="agent-record-control-container">
       <%= form.label_and_textfield "record_identifier",  {:field_opts => {:size => 30, :class => "form-control"} }%>
       <%= form.label_and_select "source", [""] + form.possible_options_for("source", false) %>
-      <%= form.label_and_select "identifier_type", 
-          [""] + form.possible_options_for("identifier_type", false),
-          :required => is_required_by_admin?(r, "agent_record_identifiers", "identifier_type") %>
+      <%= form.label_and_select "identifier_type",
+          [""] + form.possible_options_for("identifier_type", false) %>
     </div>
   </div>
 <% end %>
@@ -23,7 +20,7 @@
 <% define_template "agent_record_identifier_merge_target", jsonmodel_definition(:agent_record_identifier) do |form| %>
 
   <%= form.record_level_merge_controls(form, "agent_record_identifier", false) %>
-  
+
   <% if form.obj['primary_identifier'] %><span class="badge"><%= I18n.t("agent_record_identifier.primary") %></span><% end %>
 
   <% field_names = ["record_identifier", "source", "identifier_type"] %>

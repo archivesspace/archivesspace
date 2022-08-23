@@ -14,7 +14,7 @@ de:
     cite_item: Element zitieren
     cite_item_description: Element-Beschreibung zitieren
     print: Drucken
-    print-generating: Erzeugen
+    print-generating: Erstellen
     collection_overview: Sammlungs-Übersicht
     hierarch: Gliederung der Sammlung
     numeric: Behältnis-Verzeichnis
@@ -172,6 +172,9 @@ de:
     error_no_term: Kein(e) Suchbegriff(e) eingegeben.
     search_placeholder: Geben Sie Ihre Suchbegriffe ein
     toggle_navigation: Navigation umschalten
+  navigation:
+    hierarchical: hierarchische Navigation
+    top_level: oberste Navigationsebene
   advanced_search:
     operator_label: Verknüpfer
     operator:
@@ -280,7 +283,7 @@ de:
   more_about: Mehr über
   dig_cont_arr: Struktur des digitalen Objekts
   cont_arr: Sammlungs-Struktur
-  linked_instances: Verlinkte Aufzeichnungen
+  linked_instances: Verknüpfte Aufzeichnungen
   containers: Physische Aufbewahrungs-Information
   top_container:
     _plural: Behältnisse
@@ -447,3 +450,8 @@ de:
     _singular: Verwendete Sprache
   structured_date_label:
     date: Datum
+  footer:
+    staff_interface: <a href="%{staff_url}">Verwaltungsoberfläche</a>
+    archivesspace_home: Besuchen Sie <a href='http://archivesspace.org'>ArchivesSpace.org</a>
+    feedback: <a id='aspaceFeedbackLink' href='%{feedback_url}' target='_blank'>Rückmeldung geben oder
+      ein Problem melden</a>

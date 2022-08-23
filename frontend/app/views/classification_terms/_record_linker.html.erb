@@ -21,8 +21,10 @@
              aria-autocomplete="both"
              aria-controls="<%= form.id_for("ref") %>_listbox"
              aria-labelledby="<%= form.id_for("ref") %>_label"
-             data-label="<%= I18n.t("linked_record.ref") %>"
-             data-label_plural="<%= I18n.t("linked_record.ref_plural") %>"
+             data-label_create="<%= I18n.t("linked_record.linker_ref.create") %>"
+             data-label_browse="<%= I18n.t("linked_record.linker_ref.browse") %>"
+             data-label_link="<%= I18n.t("linker.link") %>"
+             data-label_create_and_link="<%= I18n.t("linker.create_and_link") %>"
              data-name="ref"
              data-path="<%= form.path %>"
              data-url="<%= url_for :controller => :search, :action => :do_search, :format => :json %>"
@@ -48,7 +50,7 @@
       <% end %>
 
       <div class="input-group-btn">
-        <a class="btn btn-default dropdown-toggle last" data-toggle="dropdown" href="javascript:void(0);" aria-label="Link to record"><span class="caret"></span></a>
+        <a class="btn btn-default dropdown-toggle last" data-toggle="dropdown" href="javascript:void(0);" aria-label="<%= I18n.t("linked_record.linker_ref.link_title") %>"><span class="caret"></span></a>
         <ul class="dropdown-menu">
           <li><a href="javascript:void(0);" class="linker-browse-btn"><%= I18n.t("actions.browse") %></a></li>
         </ul>

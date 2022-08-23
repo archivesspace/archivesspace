@@ -1,15 +1,11 @@
-<% r = @required ? @required.values : [] %>
-
 <% define_template "used_language", jsonmodel_definition(:used_language) do |form| %>
   <div class="subrecord-form-fields">
     <div class="used-language-container">
-      <%= form.label_and_select "language", 
-        [""] + form.possible_options_for("language", false),
-        :required => is_required_by_admin?(r, "used_languages", "language") %>
+      <%= form.label_and_select "language",
+        [""] + form.possible_options_for("language", false) %>
 
-      <%= form.label_and_select "script", 
-        [""] + form.possible_options_for("script", false),
-        :required => is_required_by_admin?(r, "used_languages", "script") %>
+      <%= form.label_and_select "script",
+        [""] + form.possible_options_for("script", false) %>
 
       <%= render_aspace_partial :partial => "notes/form", :locals => {:form => form, :all_note_types => note_types_for("used_language"), :section_id => "used_language_notes", :nested_note_jsonmodel => "used_language", :header_size => "h4", :show_apply_note_order_action => false} %>
     </div>
@@ -32,7 +28,7 @@
 
   <%= form.record_level_merge_controls(form, "used_language", true, !disable_replace) %>
   <%= form.hidden_input "id", form.obj["id"] %>
- 
+
   <% field_names = ["language", "script"] %>
   <% field_names.each do |field_name| %>
     <%= form.label_and_readonly field_name %>

@@ -27,9 +27,13 @@ class LcnafController < ApplicationController
       # agents are processed by MarcXMLAuthAgentConverter introduced in ANW-429
       if parse_results[:agents][:count] > 0
         marcxml_file = parse_results[:agents][:file]
+
+        import_subjects = params[:import_subjects] ? "1" : nil
+
         agents_job = Job.new("import_job", {
                              "import_type" => "marcxml_auth_agent",
-                             "jsonmodel_type" => "import_job"
+                             "jsonmodel_type" => "import_job",
+                             "import_subjects" => import_subjects
                             },
                       {"lcnaf_import_#{SecureRandom.uuid}" => marcxml_file})
 

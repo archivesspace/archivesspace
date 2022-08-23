@@ -57,8 +57,16 @@ module JsonHelper
   end
 
   def parse_date(date)
-    label = date['label'].blank? ? '' : "#{date['label'].titlecase}: "
-    label = '' if label == 'Creation: '
+    label_value = date['label']
+    if !label_value.blank?
+      if label_value == 'creation'
+        label = ''
+      else
+        label = "#{I18n.t('enumerations.date_label.' + label_value)}: "
+      end
+    else
+      label = ''
+    end
     exp = date['expression'] || ''
     if exp.blank?
       exp = date['begin'] unless date['begin'].blank?

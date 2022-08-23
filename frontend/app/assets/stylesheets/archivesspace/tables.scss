@@ -1,12 +1,13 @@
 /* Styles to support sortable tables */
 table {
   thead {
-    #gradient{
+    #gradient {
       @include vertical($navbarBackgroundHighlight, $navbarBackground);
     }
     th {
       &.highlighted {
-        #gradient {@include vertical(#f0f7fa, #dcf1fa);
+        #gradient {
+          @include vertical(#f0f7fa, #dcf1fa);
         }
       }
 

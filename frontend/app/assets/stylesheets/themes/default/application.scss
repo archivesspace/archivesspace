@@ -1,17 +1,17 @@
-//@import 'bootstrap/mixins';
+// @import 'bootstrap/mixins';
 @import 'archivesspace/variables';
 
 // archives space styles
 // @import 'archivesspace';
 
-/* // twitter bootstrap */
+// twitter bootstrap
 
-@import "../../bootstrap/*";
+@import '../../bootstrap/*';
 
-/* // archives space styles */
+// archives space styles
 
-@import "archivesspace";
+@import 'archivesspace';
 
-/* // default skin */
+// default skin
 
-@import "themes/default/default";
+@import 'themes/default/default';

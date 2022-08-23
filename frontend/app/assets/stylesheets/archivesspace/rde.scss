@@ -3,7 +3,12 @@
 
 #rde_form {
   .sections {
-    #gradient > @include vertical($navbarBackgroundHighlight, darken($navbarBackgroundHighlight, 3%));;
+    #gradient {
+      @include vertical(
+        $navbarBackgroundHighlight,
+        darken($navbarBackgroundHighlight, 3%)
+      );
+    }
     th {
       border-bottom-color: darken($navbarBackgroundHighlight, 6%);
     }
@@ -61,7 +66,12 @@
   }
 
   .fieldset-labels {
-    #gradient > @include vertical(darken($navbarBackgroundHighlight, 3%), darken($navbarBackgroundHighlight, 6%));;
+    #gradient {
+      @include vertical(
+        darken($navbarBackgroundHighlight, 3%),
+        darken($navbarBackgroundHighlight, 6%)
+      );
+    }
 
     th {
       border-top-color: darken($navbarBackgroundHighlight, 6%);
@@ -111,7 +121,9 @@
     }
 
     &.sticky {
-      #gradient > @include vertical(#dcf1fa, #caecfa);
+      #gradient {
+        @include vertical(#dcf1fa, #caecfa);
+      }
     }
 
     /* Fix https://archivesspace.atlassian.net/browse/AR-1211 */
@@ -201,7 +213,7 @@
       @include border-top-radius(0);
       @include border-right-radius(0);
       @include border-bottom-radius(4px);
-      @include border-left-radius(0px);
+      @include border-left-radius(0);
     }
     .btn-cancel {
       float: none;
@@ -223,7 +235,7 @@
     @include opacity(90);
 
     z-index: 1;
-    @include box-shadow(1px 1px 3px #AAA);
+    @include box-shadow(1px 1px 3px #aaa);
 
     margin-left: -5px;
     border-top: none;
@@ -292,7 +304,7 @@
       @include border-top-radius(0);
       @include border-right-radius(0);
       @include border-bottom-radius(4px);
-      @include border-left-radius(0px);
+      @include border-left-radius(0);
 
       .show-error-summary {
         padding: 4px;

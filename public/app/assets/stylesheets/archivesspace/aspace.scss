@@ -958,20 +958,6 @@ span.head {
   position: absolute;
 }
 
-@media print {
-  a[href]::after {
-    display: none;
-  }
-  div {
-    #paging_bottom {
-      display: none;
-    }
-    #paging {
-      display: none;
-    }
-  }
-}
-
 // Specific styling for Finding Aid Information to override label truncation.
 .dl-horizontal-fa {
   @media (min-width: 768px) {

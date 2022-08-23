@@ -1262,11 +1262,6 @@ FactoryBot.define do
     country { 'US' }
   end
 
-  factory :json_required_fields, class: JSONModel(:required_fields) do
-    record_type { ['archival_object', 'digital_object_component', 'resource', 'accession', 'subject', 'digital_object', 'agent_person', 'agent_family', 'agent_software', 'agent_corporate_entity', 'event', 'location', 'classification', 'classification_term'].sample }
-    required {}
-  end
-
   factory :json_resource_ordered_records, class: JSONModel(:resource_ordered_records) do
     uris { [{
       'ref' => create(:json_resource).uri
@@ -1735,5 +1730,17 @@ FactoryBot.define do
   factory :json_sub_list_job, class: JSONModel(:report_job) do
     report_type { 'SubjectListReport' }
     format { 'json' }
+  end
+
+  factory :json_subrecord_requirement, class: JSONModel(:subrecord_requirement) do
+    property { 'metadata_rights_declarations' }
+    record_type { 'metadata_rights_declaration' }
+    required_fields { %w(descriptive_note) }
+    required { true }
+  end
+
+  factory :json_required_fields, class: JSONModel(:required_fields) do
+    record_type { 'archival_object' }
+    subrecord_requirements { build(:json_subrecord_requirement) }
   end
 end

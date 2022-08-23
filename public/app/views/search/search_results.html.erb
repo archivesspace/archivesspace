@@ -80,7 +80,7 @@
     <%= render partial: 'shared/pagination', locals: {:pager  => @pager, :pager_id => 'paging_bottom'}  %>
     </div></div>
   </div>
-  <div class="col-sm-3">
+  <div id="filter-sidebar" class="col-sm-3">
     <a name="filter" title="<%= t('internal_links.filter') %>"></a>
     <%= render partial: 'shared/facets' %>
   </div>

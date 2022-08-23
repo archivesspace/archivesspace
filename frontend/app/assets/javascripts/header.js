@@ -210,9 +210,7 @@ $(function () {
     $advancedSearchRowContainer.append($row);
 
     if (type == 'date') {
-      $('#v' + index, $row).on('change', function (event) {
-        $(this).parents('.input-group').removeClass('has-error');
-
+      $('#v' + index, $row).on('change input', function (event) {
         var dop = $('#dop' + index, $row);
         if (dop.val() == 'empty') {
           enableAdvancedSearch();
@@ -265,9 +263,14 @@ $(function () {
         }
 
         if (isValidDate($(this).val())) {
+          $(this).parents().removeClass('has-error');
           enableAdvancedSearch();
         } else {
-          $(this).closest('.input-group').addClass('has-error');
+          if (!$(this).hasClass('initialised')) {
+            $(this).parent().addClass('has-error');
+          } else {
+            $(this).closest('.input-group').addClass('has-error');
+          }
           disableAdvancedSearch();
         }
       });

@@ -25,9 +25,9 @@ AppConfig[:frontend_cookie_secret] = "shhhhh"
 AppConfig[:enable_custom_reports] = true
 
 backend_port = TestUtils.free_port_from(3636)
-backend = ENV['ASPACE_TEST_BACKEND_URL'] || "http://localhost:#{backend_port}"
+$backend = ENV['ASPACE_TEST_BACKEND_URL'] || "http://localhost:#{backend_port}"
 test_db_url = ENV['ASPACE_TEST_DB_URL'] || AppConfig[:db_url]
-AppConfig[:backend_url] = backend
+AppConfig[:backend_url] = $backend
 
 require 'factory_bot'
 include FactoryBot::Syntax::Methods

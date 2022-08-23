@@ -57,7 +57,7 @@
           <% end %>
 
           <% readonly.emit_template("accession") %>
-          
+
           <% if @accession.lang_materials.length > 0 %>
             <%= render_aspace_partial :partial => "lang_materials/show", :locals => { :lang_materials => @accession.lang_materials, :section_id => "accession_lang_materials_" } %>
           <% end %>
@@ -76,6 +76,10 @@
 
          <% if @accession.related_resources.length > 0 %>
            <%= render_aspace_partial :partial => "related_resources/show", :locals => { :related_resources => @accession.related_resources, :section_id => "accession_related_resources_" } %>
+         <% end %>
+
+         <% if @accession.component_links.length > 0 %>
+             <%= render_aspace_partial :partial => "component_links/show", :locals => { :component_links => @accession.component_links, :section_id => "accession_component_links_" } %>
          <% end %>
 
          <% if @accession.related_accessions.length > 0 %>

@@ -24,6 +24,10 @@ de:
     external_documents_tooltip: "<p>Ermöglicht Verknüpfungen mit externer Dokumentation, z.B. wie eine\
       \ bestimmtes Stichwort zu verwenden ist.</p>\n"
     heading: Schlagwort
+    linker:
+      browse: Themen durchsuchen
+      create: Thema erstellen
+      link_title: Verknüpfung mit Thema
   agent_contact: &agent_contact
     address_1: Adresse 1
     city: Ort
@@ -59,7 +63,7 @@ de:
     post_code_tooltip: "<p>Postleitzahl für die Adresse der Kontaktperson.</p>\n"
     email_tooltip: "<p>E-Mail-Adresse der Kontaktperson.</p>\n"
     email_signature_tooltip: "<p>E-Mail-Signatur für die Kontaktperson.</p>\n"
-  telephone: &telephone
+  telephone:
     _plural: Telefonnummern
     number_type: Nummern-Typ
     number: Nummer
@@ -98,10 +102,10 @@ de:
     name: Name
     name_tooltip: "<p>Der Name der Aufzählungs-Liste, zu der Sie einen Wert hinzufügen möchten.</p>\n"
     value: Wert
-    value_tooltip: "<p>Der Wert für die Aufzählungs-Liste, die Sie hinzufügen oder bearbeiten\
-      \ möchten.</p>\n<p>Wann immer möglich, sollten die Werte in Kleinbuchstaben und mit Unterstrichen\
-      \ (\"_\") anstelle von Leerzeichen angegeben werden. Übersetzungen für die Werte sollten der Locales-Datei\
-      \ hinzugefügt werden.</p>\n"
+    value_tooltip: "<p>Der Wert für die Aufzählungs-Liste, die Sie hinzufügen oder bearbeiten möchten.</p>\n\
+      <p>Wann immer möglich, sollten die Werte in Kleinbuchstaben und mit Unterstrichen (\"_\") anstelle\
+      \ von Leerzeichen angegeben werden. Übersetzungen für die Werte sollten der Locales-Datei hinzugefügt\
+      \ werden.</p>\n"
     translation: Übersetzung
     position: Position
     suppress: Unterdrücken
@@ -236,6 +240,10 @@ de:
     title: Titel
     description: Beschreibung
     creator: Urheber
+    linker:
+      browse: Klassifizierungs-Begriffe durchsuchen
+      create: Klassifizierungs-Begriff erstellen
+      link_title: Verknüpfung mit Klassifizierungs-Begriff
   repository:
     <<: *slug_attributes
     _singular: Aufbewahrungsort
@@ -295,6 +303,10 @@ de:
       \ Archivguts trägt und diese verwahrt.</p>\n<p>Siehe DACS 2.2</p>\n<p>Beispiele:</p>\n<ul>\n<li>Ihr\
       \ Name Hier Bibliothek für besondere Sammlungen</li>\n<li>Österreichische Nationalbibliothek</li>\n\
       <li>Geheimes Staatsarchiv Preußischer Kulturbesitz</li>\n</ul>\n"
+    linker:
+      browse: Aufbewahrungsorte durchsuchen
+      create: Aufbewahrungsort erstellen
+      link_title: Verknüpfung mit Aufbewahrungsort
   classification:
     <<: *slug_attributes
     creator: Urheber
@@ -305,6 +317,10 @@ de:
     title: Titel
     description: Beschreibung
     id_separator: /
+    linker:
+      browse: Klassifizierungen durchsuchen
+      create: Klassifizierung erstellen
+      link_title: Verknüpfung mit Klassifizierung
   agent: &agent_attributes
     <<: *slug_attributes
     _singular: Akteur
@@ -337,6 +353,11 @@ de:
     dates_of_existence_tooltip: "<p>Daten, in denen der Akteur existierte.</p>\n"
     publish: Veröffentlichen
     _plural: Akteure
+    new_title:
+      agent_family: Neue Familie
+      agent_person: Neue Person
+      agent_corporate_entity: Neue Körperschaft
+      agent_software: Neue Software
     agent_record_controls_tooltip: "<p>Informationen über die Aufzeichnung, die den Akteur beschreibt.</p>\n"
     agent_alternate_sets_tooltip: "<p> Wird verwendet, um auf verknüpfte Autoritäts-Aufzeichnungen zu\
       \ verweisen, wenn zwei oder mehr Aufzeichnungen für dieselbe Entität von zwei oder mehr Autoritäts-Systemen\
@@ -369,6 +390,10 @@ de:
       \ für eine Person oder ein MARC Repository Code für eine Körperschaft.</p>\n"
     publish_tooltip: "<p>Gibt an, ob der Akteur in Exporte eingeschlossen und auf der öffentlichen Besucher-Schnittstelle\
       \ veröffentlicht wird (sofern verwendet)</p>\n"
+    linker:
+      browse: Akteure durchsuchen
+      create: Akteur erstellen
+      link_title: Verknüpfung mit Akteur
   agent_person:
     <<: *agent_attributes
     _plural: Personen
@@ -497,6 +522,10 @@ de:
       \ nicht mit dem Titel der Ressource identisch sein. Außerdem muss ein Titel nicht\nfür die Eingangs-Aufzeichnung\
       \ angegeben werden, da er implizit\nvon der Ressourcen-Aufzeichnung geerbt wird, mit dem der Eingang\n\
       verknüpft ist.</p>\n<p>Siehe DACS 2.3.18-2.3.22, ISAD(G) 3.1.2</p>\n"
+    linker:
+      browse: Eingänge durchsuchen
+      create: Eingang erstellen
+      link_title: Verknüpfung mit Eingang
   digital_object: &digital_object_attributes
     <<: [*section_tooltips, *slug_attributes]
     user_defined:
@@ -534,6 +563,10 @@ de:
     restrictions: Einschränkungen?
     restrictions_tooltip: "<p>Ein Kontrollkästchen, das anzeigt, dass Einschränkungen gelten. Die Einschränkungen\
       \ können mit Hilfe von Anmerkungs-Teilaufzeichnungen für Hinweise oder Rechte erläutert werden.</p>\n"
+    linker:
+      browse: Digitale Objekte durchsuchen
+      create: Digitales Objekt erstellen
+      link_title: Verknüpfung mit digitalem Objekt
   content_items:
     content: Inhalt
     content_tooltip: "<p>Der Inhalt der Anmerkung.</p>\n"
@@ -609,6 +642,10 @@ de:
       \ oder Koordinate 1 Beschriftung und Koordinate 1 Indikator müssen Daten enthalten.</p>\n<p>Dient\
       \ zur Erfassung einer Beschriftung (z. B. \"Regal\", \"Bereich\", \"Lade\") für einen bestimmten\
       \ Standort.</p>\n"
+    linker:
+      browse: Standorte durchsuchen
+      create: Standort erstellen
+      link_title: Verknüpfung mit Standort
   location_batch:
     <<: *location_attributes
     label: Beschriftung
@@ -656,6 +693,10 @@ de:
     ref_plural: Aufzeichnungen
     _singular: Aufzeichnungs-Verknüpfung
     _plural: Aufzeichnungs-Verknüpfungen
+    linker_ref:
+      browse: Aufzeichnungen durchsuchen
+      create: Aufzeichnung erstellen
+      link_title: Verknüpfung mit Aufzeichnung
   linked_agent: &linked_agent_attributes
     role: Rolle
     relator: Relator
@@ -792,7 +833,7 @@ de:
     disposition_tooltip: "<p>Eine Beschreibung, die angibt, was mit dem ausgeschiedenen Archivgut geschehen\
       \ ist.</p>\n<p>Beispiele:</p>\n<ul>\n<li>Finanzielle Unterlagen, die an die Familie zurückgegeben\
       \ wurden.</li>\n<li>Hundeausstellungspokale an die Frau des Geber zurückgegeben.</li>\n</ul>\n"
-  parallel_name: &parallel_name_attributes
+  parallel_name:
     _frontend:
       action:
         add: Alternativen Namen hinzufügen
@@ -872,8 +913,8 @@ de:
     number_tooltip: "<p>Eine Zahl, manchmal mit einem Begriff, die den Namen qualifiziert. Bei Personennamen\
       \ oft eine römische Zahl oder eine römische Zahl und ein nachfolgender Teil eines Vornamens. Bei\
       \ Firmennamen die Nummer eines Teils/Abteilung oder einer Sitzung;\n<p>Beispiele:</p>\n<ul>\n<li>II\
-      \ Komnenus <em>(für Johannes II Komnenus, Kaiser des Ostens</em></li>\n<li>II <em>(für Johannes Paul\
-      \ II)</em></li>\n<li>97., 2. Sitzung <em>(für Kongress der Vereinigten Staaten, 97., 2. Sitzung)</em></li>\n\
+      \ Komnenus <em>(für Johannes II Komnenus, Kaiser des Ostens</em></li>\n<li>II <em>(für Johannes\
+      \ Paul II)</em></li>\n<li>97., 2. Sitzung <em>(für Kongress der Vereinigten Staaten, 97., 2. Sitzung)</em></li>\n\
       </ul>\n"
     primary_name_tooltip: "<p>Der Hauptteil einer Namensform (z.B. Nachname oder Vorname einer Person).</p>\n\
       <p>Beispiele:</p>\n<ul>\n<li>Churchill <em>(für Churchill, Winston, Sir, 1874-1965 [Person])</em></i>\n\
@@ -1152,21 +1193,21 @@ de:
 
   structured_date_range_fields:
     <<: *sdr_attributes
-  telephone_required: &telephone
+  telephone_required:
     _plural: Telefonnummern
     number_type: Nummern-Typ
     number: Nummer
     number_tooltip: "<p>Telefonnummer der Kontaktperson.</p>\n"
     ext: Telefondurchwahl
     ext_tooltip: "<p>Telefondurchwahl für die Kontaktperson.</p>\n"
-  telephone_merge: &telephone
+  telephone_merge:
     _plural: Telefonnummern
     number_type: Nummern-Typ
     number: Nummer
     number_tooltip: "<p>Telefonnummer der Kontaktperson.</p>\n"
     ext: Telefondurchwahl
     ext_tooltip: "<p>Telefondurchwahl für die Kontaktperson.</p>\n"
-  telephone_merge_target: &telephone
+  telephone_merge_target:
     _plural: Telefonnummern
     number_type: Nummern-Typ
     number: Nummer
@@ -1394,7 +1435,7 @@ de:
       <li>Audio/Video Interleaved Format (avi)</li>\n<li>JPEG File Interchange Format (jpeg)</li>\n<li>MPEG-Audio\
       \ Layer 3 (mp3)</li>\n<li>Portables Dokumentenformat (pdf)</li>\n</ul>\n"
     _singular: Dateiversion
-  extent: &extent_attributes
+  extent:
     portion: Teil
     portion_tooltip: "<p> ERFORDERLICHES FELD: Gibt an, ob sich eine Umfangsangabe auf die Gesamtheit\
       \ oder einen Teil einer bestimmten beschriebenen Ansammlung oder Objekts bezieht.</p>\n<p>Siehe\
@@ -1843,7 +1884,7 @@ de:
   related_resource:
     _singular: Verwandte Ressource
     _plural: Verwandte Ressourcen
-  term: &term_attributes
+  term:
     term_type: Typ
     term: Begriff
     term_tooltip: "<p>ERFORDERLICHES FELD. Ein Deskriptor für einen Teil einer Themenüberschrift. Einer\
@@ -1860,7 +1901,7 @@ de:
     subjects_tooltip: "<p>Ein mit dem Akteur verbundenes Thema.</p>\n"
   subrecord_subject_agent_resource_place:
     places_tooltip: "<p>Ein geografischer Ort, welcher der verknüpften Ressource zugeordnet ist.</p>\n"
-  defaults: &defaults_attributes
+  defaults:
     publish: Veröffentlichen?
     assessment_browse_section: Spalten der Begutachtungs beim Blättern
     sort_direction: Standard-Sortierrichtung
@@ -1963,7 +2004,7 @@ de:
   date_type_bulk:
     <<: *date_attributes
     bulk: Großteil
-  collection_management: &collection_management_attributes
+  collection_management:
     rights_determined_false: Nein
     processing_hours_total: Bearbeitungsstunden insgesamt
     rights_determined_tooltip: "<p>Gibt an, ob die Rechte für eine Archiveinheit (Eingang, Ressource oder\
@@ -2020,7 +2061,7 @@ de:
     parent: Elternteil
     _singular: Sammlungsverwaltung
     _plural: Sammlungsverwaltung
-  preference: &preference_attributes
+  preference:
     _plural: Einstellungen
     defaults: Standardwerte
     global: Globale Voreinstellungen
@@ -2028,8 +2069,8 @@ de:
       festzulegen. Diese Werte können durch Aufbewahrungsort-Standardwerte oder die eigenen Einstellungen
       eines Benutzers überschrieben werden.
     repo: Aufbewahrungsort-Einstellungen
-    repo_message: Bearbeiten Sie diese Werte, um Einstellungen für den aktuelle Aufbewahrungsort festzulegen.
-      Diese Werte können von den eigenen Einstellungen eines Benutzers überschrieben werden.
+    repo_message: Bearbeiten Sie diese Werte, um Einstellungen für alle Nutzer des aktuellen Aufbewahrungsorts
+      festzulegen. Diese Werte können von den eigenen Einstellungen eines Benutzers überschrieben werden.
     user_global: Globale Einstellungen
     user_global_message: Bearbeiten Sie diese Werte, um Ihre Benutzereinstellungen festzulegen. Diese
       Werte können durch Aufbewahrungsort-Standardwerte oder durch Ihre eigenen Einstellungen für einen
@@ -2198,6 +2239,7 @@ de:
     subrecord_not_allowed_for_agent_software: Software-Akteure können keine Aufzeichnungskontrolle- oder
       Beziehungs-Teilaufzeichnungen besitzen
     ark_format_error: Einer der eingegebenen ARKs war kein gültiger ARK.
+    missing_required_subrecord: Unteraufzeichnung ist erforderlich, fehlte aber
   import_job:
     bulk_import_csv: Massenimport von AO-CSV
     bulk_import_DO_xlsx: Massenimport von DO-XLSX
@@ -2239,6 +2281,7 @@ de:
       print_to_pdf_job: PDF erzeugen
       top_container_linker_job: Haupt-Behältnis-Verknüpfer
       bulk_import_job: Mit Tabelle laden
+      ns2_remover_job: ns2 Namespace-Entferner
     status_completed: Abgeschlossen
     time_submitted: Einreich-Zeitpunkt
     time_started: Startzeitpunkt
@@ -2380,6 +2423,8 @@ de:
     purpose_tooltip: "<p>Gibt den Grund für die Durchführung der Bewertung an. Beispiele: Prioritäten\
       \ zur Bestandserhaltung; Prioritäten bei der Bearbeitung; Bewertung; usw.</p>\n"
     general_assessment_note: Allgemeine Anmerkung zur Begutachtung
+    linker:
+      link_title: Verknüpfung mit Aufzeichnung
   assessment_attribute:
     rating:
       "Intellectual Access (description)": Intellektueller Zugang (Beschreibung)
@@ -2813,3 +2858,13 @@ de:
     new_title: Neues Behältnis-Profil
   location_profile:
     new_title: Neues Standort-Profil
+  ns2_remover_job:
+    description: "EADs aus der Archivists' Toolkit-Ära, die in ASpace importiert werden, können verbleibende\
+      \ \"ns2\" Namespace-Referenzen aufweisen, die verschiedenen EAD-Tag-Attributen innerhalb von Notiz-Teilaufzeichnungen\
+      \ vorangestellt sind. Dies kann zu Validierungsfehlern beim EAD-Export aus ArchivesSpace führen,\
+      \ da das <ead> Root-Element den \"ns2\" Namespace nicht deklariert. Dieser Job löscht massenhaft\
+      \ \"ns2\" Referenzen innerhalb von Notizen-Teilaufzeichnungen, die an resource-, archival_object-,\
+      \ digital_object- und digital_object_component-Aufzeichnungen angehängt sind. Da dieser Job über\
+      \ alle Aufbewahrungsorte hinweg funktioniert, ist er auf Benutzer mit <b>nur Systemadministratorrechten</b>\
+      \ beschränkt.\n"
+    dry_run: Probelauf?

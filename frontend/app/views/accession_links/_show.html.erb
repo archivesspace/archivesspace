@@ -1,0 +1,34 @@
+<%
+   section_id = "archival_object_accession_links" if section_id.blank?
+%>
+
+<section id="<%= section_id %>" class="subrecord-form-dummy">
+  <h3><%= I18n.t("accession_link._plural") %></h3>
+
+  <div class="subrecord-form-container">
+    <div class="subrecord-form-fields">
+      <table class="table table-striped table-bordered table-condensed table-hover token-list">
+        <thead>
+          <tr>
+            <td><%= I18n.t("accession.id_0") %></td>
+            <td><%= I18n.t("accession.title") %></td>
+          </tr>
+        </thead>
+        <tbody>
+          <% accession_links.each_with_index do | acc, index | %>
+            <tr>
+              <td><%= (0..3).map{|i| acc["_resolved"]["id_#{i}"]}.compact.join("-") %></td>
+              <td>
+                <%= render_token :object => acc["_resolved"],
+                                 :label => acc["_resolved"]["display_string"],
+                                 :type => "accession",
+                                 :uri => acc["ref"] %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</section>

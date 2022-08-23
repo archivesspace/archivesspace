@@ -1,3 +1,3 @@
 <% templates = JSONModel::HTTP.get_json(JSONModel(:custom_report_template).uri_for, :all_ids => true).collect {|id| [JSONModel(:custom_report_template).find(id).name, id]} %>
-<% templates = templates.sort %>
+<% templates = templates.sort_by {|a| a[0].downcase } %>
 <%= form.select :template, options_for_select(templates) %>

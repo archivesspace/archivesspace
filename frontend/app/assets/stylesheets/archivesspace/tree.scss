@@ -8,7 +8,7 @@
   position: relative;
   background-color: #f3f3f3;
   #gradient {
-    @include vertical(#F3F3F3, #EDEDED);
+    @include vertical(#f3f3f3, #ededed);
   }
 
   border-top: 1px solid #eee;
@@ -128,6 +128,7 @@
   max-width: 400px;
 }
 
+/* stylelint-disable at-rule-no-vendor-prefix */
 @-webkit-keyframes spin {
   from {
     -webkit-transform: rotate(0deg);
@@ -136,6 +137,7 @@
     -webkit-transform: rotate(360deg);
   }
 }
+/* stylelint-enable at-rule-no-vendor-prefix */
 
 @keyframes spin {
   from {

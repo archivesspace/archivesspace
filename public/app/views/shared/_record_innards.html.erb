@@ -71,7 +71,7 @@
           <%= render partial: 'shared/accordion_panel', locals: {:p_title => t('deaccessions'), :p_id => 'deaccessions_list', :p_body => x} %>
         <% end %>
         <% unless @result.subjects.blank? %>
-	   <% x= render partial: 'shared/present_list', locals: {:list => @result.subjects, :list_clss => 'subjects_list'} %>
+	   <% x= render partial: 'shared/subjects_list', locals: {:list => @result.subjects} %>
 	   <%= render partial: 'shared/accordion_panel', locals: {:p_title =>  t('subject._plural'),
 	      :p_id => 'subj_list', :p_body => x} %>
 	<% end %>
@@ -81,7 +81,9 @@
                                                            :p_id => 'classifications_list', :p_body => x} %>
   <% end %>
 	<% unless @result.agents.blank? %>
-	  <% x= render partial: 'shared/agents_list', locals: {:list => @result.agents} %>
+  <%# ANW-1095: don't show creators in related names section since it is redundant %>
+  <% not_creators = @result.agents.except("creator") %>
+	  <% x= render partial: 'shared/agents_list', locals: {:list => not_creators} %>
 	   <%= render partial: 'shared/accordion_panel', locals: {:p_title =>  t('pui_agent.related'),
 	     :p_id => 'agent_list', :p_body => x} %>
         <% end %>

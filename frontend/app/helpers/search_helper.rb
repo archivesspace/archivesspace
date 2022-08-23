@@ -235,11 +235,15 @@ module SearchHelper
         prop = browse_columns["#{model}_browse_column_#{n}"]
         # we do not want to display a column for no value or the relevancy score
         next if added.include?(prop) || !prop || prop == 'no_value' || prop == 'score'
-
+        # we may not want to display context either, in cases like:
+        if prop === 'context' && model === 'archival_object' && params["context_filter_term"]
+          next if params["context_filter_term"].select {|ft| JSON.parse(ft).has_key?('resource')}
+        end
         opts = column_opts[model][prop]
         opts[:locale_key] ||= locales(model)[prop] || "#{model}_#{prop}"
         opts[:model] = model
         # opts[:type] ||= 'string'
+        opts[:class] ||= prop
 
         if opts.fetch(:condition, false)
           unless opts[:condition].call(self)
@@ -322,7 +326,13 @@ module SearchHelper
   end
 
   def get_ancestor_title(field)
-    field_json = JSONModel::HTTP.get_json(field)
+    begin
+      field_json = JSONModel::HTTP.get_json(field)
+    # one record might be "found in" another that is suppressed
+    # so we will just ignore the error.
+    rescue RecordNotFound
+      return nil
+    end
     unless field_json.nil?
       if field.include?('resources') || field.include?('digital_objects')
         clean_mixed_content(field_json['title'])
@@ -405,7 +415,7 @@ module SearchHelper
       @sort_by
     end
 
-
+    # let's rename this method?
     def class
       @classes << " sortable" if sortable?
       @classes << " sort-#{@search_data.current_sort_direction}" if sortable? && @search_data.sorted_by === @sort_by

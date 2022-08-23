@@ -16,6 +16,7 @@ gem 'sprockets-rails'
 
 gem 'atomic', '= 1.0.1'
 
+
 # use bootstrap's sass
 gem 'bootstrap-sass'
 # Use SCSS for stylesheets

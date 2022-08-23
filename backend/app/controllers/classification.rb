@@ -28,21 +28,6 @@ class ArchivesSpaceService < Sinatra::Base
   end
 
 
-  Endpoint.get('/repositories/:repo_id/classifications/:id/tree')
-    .description("Get a Classification tree")
-    .deprecated("Call the */tree/{root,waypoint,node} endpoints to traverse record trees." +
-               "  See backend/app/model/large_tree.rb for further information.")
-    .params(["id", :id],
-            ["repo_id", :repo_id])
-    .permissions([:view_repository])
-    .returns([200, "OK"]) \
-  do
-    classification = Classification.get_or_die(params[:id])
-
-    json_response(classification.tree)
-  end
-
-
   Endpoint.post('/repositories/:repo_id/classifications/:id')
     .description("Update a Classification")
     .params(["id", :id],

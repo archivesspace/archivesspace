@@ -30,21 +30,19 @@ describe 'Classification controllers' do
     term = create_classification_term(classification)
     expect(term.title).to eq("classification A")
 
-    tree = JSONModel(:classification_tree).find(nil,
-                                                :classification_id => classification.id)
-
-    expect(tree['children'].count).to eq(1)
-    expect(tree['children'].first['title']).to eq(term.title)
-    expect(tree['children'].first['record_uri']).to eq(term.uri)
+    tree = JSONModel::HTTP.get_json("#{classification.uri}/tree/root")
+    expect(tree['child_count']).to eq(1)
+    expect(tree["precomputed_waypoints"][""]["0"][0]['title']).to eq(term.title)
+    expect(tree["precomputed_waypoints"][""]["0"][0]['uri']).to eq(term.uri)
 
     second_term = create_classification_term(classification,
                                              :title => "child of the last term",
                                              :identifier => "another",
                                              :parent => {'ref' => term.uri})
 
-    tree = JSONModel(:classification_tree).find(nil, :classification_id => classification.id)
+    tree = JSONModel::HTTP.get_json("#{classification.uri}/tree/node", node_uri: term.uri)
 
-    expect(tree['children'][0]['children'][0]['title']).to eq(second_term.title)
+    expect(tree["precomputed_waypoints"][term.uri]["0"][0]['title']).to eq(second_term.title)
   end
 
 
@@ -73,19 +71,19 @@ describe 'Classification controllers' do
     term_1 = create(:json_classification_term, :classification => {:ref => classification.uri}, :title=> "TERM1", :position => 0)
     create(:json_classification_term, :classification => {:ref => classification.uri}, :title=> "TERM2", :position => 1)
 
-    tree = JSONModel(:classification_tree).find(nil, :classification_id => classification.id)
+    tree = JSONModel::HTTP.get_json("#{classification.uri}/tree/root")
 
-    expect(tree.children[0]["title"]).to eq("TERM1")
-    expect(tree.children[1]["title"]).to eq("TERM2")
+    expect(tree["precomputed_waypoints"][""]["0"][0]['title']).to eq("TERM1")
+    expect(tree["precomputed_waypoints"][""]["0"][1]['title']).to eq("TERM2")
 
     term_1 = JSONModel(:classification_term).find(term_1.id)
     term_1.position = 1
     term_1.save
 
-    tree = JSONModel(:classification_tree).find(nil, :classification_id => classification.id)
+    tree = JSONModel::HTTP.get_json("#{classification.uri}/tree/root")
 
-    expect(tree.children[0]["title"]).to eq("TERM2")
-    expect(tree.children[1]["title"]).to eq("TERM1")
+    expect(tree["precomputed_waypoints"][""]["0"][0]['title']).to eq("TERM2")
+    expect(tree["precomputed_waypoints"][""]["0"][1]['title']).to eq("TERM1")
   end
 
 end

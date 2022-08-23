@@ -1,0 +1,73 @@
+<%= setup_context :object => @archival_object, :controller => :resources %>
+
+
+<script>
+  <%
+    translations = {}
+
+    ['instance_instance_type', 'container_type', 'resource_resource_type',
+     'archival_record_level', 'digital_object_digital_object_type'
+    ].each do |enumeration_name|
+      translations[enumeration_name] ||= {}
+
+      JSONModel.enum_values(enumeration_name).each do |enumeration_value|
+        translations[enumeration_name][enumeration_value] = I18n.t("enumerations.#{enumeration_name}.#{enumeration_value}", :default => enumeration_value)
+      end
+    end
+  %>
+
+  const ENUMERATION_TRANSLATIONS = <%== translations.to_json %>;
+
+  const EnumerationTranslations = {
+    t : function(enumeration, enumeration_value) {
+      if (ENUMERATION_TRANSLATIONS.hasOwnProperty(enumeration)) {
+          if (ENUMERATION_TRANSLATIONS[enumeration].hasOwnProperty(enumeration_value)) {
+              return ENUMERATION_TRANSLATIONS[enumeration][enumeration_value];
+          } else if (enumeration == 'archival_record_level'){
+              return enumeration_value;
+          }
+      }
+      return null;
+    }
+  };
+
+ const SPAWN_PLACEHOLDER_TEXT = <%== I18n.t("archival_object._frontend.messages.spawn_placeholder").to_json %>;
+
+ const RESOURCES_URL = '<%= url_for(:controller => :resources, :action => :index) %>';
+
+ <%
+ spawn_menu = {
+     before: I18n.t("archival_object._frontend.messages.spawn_menu_before"),
+     child: I18n.t("archival_object._frontend.messages.spawn_menu_child"),
+     after: I18n.t("archival_object._frontend.messages.spawn_menu_after")
+ }
+ %>
+ var SPAWN_MENU_ITEMS = <%== spawn_menu.to_json %>
+
+</script>
+
+
+<%= stylesheet_link_tag "archivesspace/largetree" %>
+
+<div id="object_container">
+  <%= form_for @archival_object, :as => "archival_object", :url => {:action => :create}, :html => {:class => 'form-horizontal aspace-record-form', :id => "archival_object_form"} do |f| %>
+    <%= form_context :archival_object, @archival_object do |form| %>
+      <div class="row">
+         <div class="col-md-3">
+            <%= render_aspace_partial :partial => "archival_objects/sidebar" %>
+         </div> <!-- col-md-3 -->
+         <div class="col-md-9">
+           <%= render_aspace_partial :partial => "archival_objects/toolbar_new_records" %>
+           <div class="record-pane">
+             <%= render_aspace_partial :partial => "archival_objects/form_container", :locals => {:form => form} %>
+
+             <div class="form-actions">
+                <button type="submit" class="btn btn-primary"><%= I18n.t("archival_object._frontend.action.save") %></button>
+                <%= link_to I18n.t("actions.cancel"), :back, :class => "btn btn-cancel btn-default" %>
+             </div>
+           </div>
+         </div>
+      </div>
+    <% end %>
+  <% end %>
+</div>

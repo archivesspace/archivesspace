@@ -83,14 +83,15 @@ describe "Import Archival Objects" do
     expect(report.rows[0].errors).to eq([])
     expect(report.rows[0].archival_object_display).to eq("The first series, bulk: 2010 - 2020, 2020")
     expect(report.rows[1].archival_object_display).to eq("A subseries, 2010 - 2011")
-    tree = JSONModel(:resource_tree).find(nil, :resource_id => @resource.id).to_hash
-    children = tree["children"]
-    children.each_with_index do |child, index|
-      expect(child["record_uri"]).to eq(report.rows[index].archival_object_id)
-    end
-    child = JSONModel(:archival_object).find(children[0]['id'])
+
+    tree = JSONModel::HTTP.get_json("#{@resource.uri}/tree/root")
+    expect(tree["precomputed_waypoints"][""]["0"][0]["uri"]).to eq(report.rows[0].archival_object_id)
+    subtree = JSONModel::HTTP.get_json("#{@resource.uri}/tree/node", {node_uri: report.rows[0].archival_object_id})
+    expect(subtree["precomputed_waypoints"][report.rows[0].archival_object_id]["0"][0]["uri"]).to eq(report.rows[1].archival_object_id)
     dig_obj = JSONModel(:digital_object).find(
-      JSONModel(:digital_object).id_for(child.instances[0]['digital_object']['ref'])
+      JSONModel(:digital_object).id_for(
+        JSONModel::HTTP.get_json(report.rows[0].archival_object_id)["instances"][0]["digital_object"]["ref"]
+      )
     )
     expect(dig_obj.publish).to be false
   end
@@ -111,13 +112,9 @@ describe "Import Archival Objects" do
     expect(report.rows[0].errors).to eq([])
     expect(report.rows[0].archival_object_display).to eq("The first series, bulk: 2010 - 2020, 2020")
     expect(report.rows[1].archival_object_display).to eq("A subseries, 2010 - 2011")
-    tree = JSONModel(:resource_tree).find(nil, :resource_id => @resource.id).to_hash
-    children = tree["children"]
-    #    aos = []
-    children.each_with_index do |child, index|
-      expect(child["record_uri"]).to eq(report.rows[index].archival_object_id)
-      #      ao = JSONModel(:archival_object).find_by_uri(child["record_uri"]).to_hash
-      #      aos << ao
-    end
+    tree = JSONModel::HTTP.get_json("#{@resource.uri}/tree/root")
+    expect(tree["precomputed_waypoints"][""]["0"][0]["uri"]).to eq(report.rows[0].archival_object_id)
+    subtree = JSONModel::HTTP.get_json("#{@resource.uri}/tree/node", {node_uri: report.rows[0].archival_object_id})
+    expect(subtree["precomputed_waypoints"][report.rows[0].archival_object_id]["0"][0]["uri"]).to eq(report.rows[1].archival_object_id)
   end
 end

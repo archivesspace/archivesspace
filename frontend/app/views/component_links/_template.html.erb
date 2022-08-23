@@ -1,0 +1,5 @@
+<% define_template("accession_component_links",  jsonmodel_definition(:accession)) do |form| %>
+  <div class="subrecord-form-fields">
+    <%= render_aspace_partial :partial => "component_links/component_linker", :locals => { :form => form }%>
+  </div>
+<% end %>

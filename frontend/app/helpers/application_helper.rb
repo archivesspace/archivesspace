@@ -61,7 +61,7 @@ module ApplicationHelper
 
       title = (options[:title] || object["title"] || object["username"]).to_s
 
-      breadcrumb_trail.push(["#{I18n.t("#{controller.to_s.singularize}._plural")}", {:controller => controller, :action => :index}])
+      breadcrumb_trail.push([I18n.t("#{controller.to_s.singularize}._plural"), {:controller => controller, :action => :index}])
 
       if object.id
         breadcrumb_trail.push([title, {:controller => controller, :action => :show}])
