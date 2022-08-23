@@ -2,7 +2,7 @@ class ArchivesSpaceService < Sinatra::Base
 
   Endpoint.get('/repositories/:repo_id/find_by_id/resources')
     .description("Find Resources by their identifiers")
-    .example("shell") do ||
+    .example("shell") do
       <<~SHELL
         curl -s -F password="admin" "http://localhost:8089/users/admin/login"
         # Replace "admin" with your password and "http://localhost:8089/users/admin/login" with your ASpace API URL
@@ -37,7 +37,7 @@ class ArchivesSpaceService < Sinatra::Base
         # Finding multiple resources using identifier fields
         
         curl -H "X-ArchivesSpace-Session: $SESSION" //
-        -G http://aspace-staging-uga.galib.uga.edu:8089/repositories/2/find_by_id/resources //
+        -G http://http://localhost:8089/repositories/2/find_by_id/resources //
         --data-urlencode 'identifier[]=["test","1234","abcd","5678"]' --data-urlencode 'identifier[]=["your_id_here"]' //
         --data-urlencode 'resolve[]=resources'
         # Replace "http://localhost:8089" with your ASpace API URL, :repo_id: with the repository ID, 
