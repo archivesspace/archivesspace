@@ -175,6 +175,7 @@ RSpec.configure do |config|
 
   config.expect_with(:rspec) do |c|
     c.syntax = [:should, :expect]
+    c.max_formatted_output_length = 100000
   end
 
   # inclusions not in effect here
