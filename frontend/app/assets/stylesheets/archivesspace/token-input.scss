@@ -139,6 +139,10 @@ li.token-input-selected-token span {
   color: #bbb;
 }
 
+#merge-dropdown .token-input-dropdown {
+  left: -225px !important;
+}
+
 div.token-input-dropdown {
   position: absolute;
   width: 380px;

@@ -3,8 +3,8 @@
      <div class="modal-dialog {if dialogClass} ${dialogClass}{/if}">
        <div class="modal-content">
          {if defined("title") && title.length > 0}
-           <div class="modal-header">
-             <a class="close" data-dismiss="modal">×</a>
+           <div class="modal-header align-items-center">
+             <a class="close m-0 mr-auto" data-dismiss="modal">×</a>
              <h3>${title|h}</h3>
            </div>
          {/if}
@@ -18,7 +18,7 @@
   <div class="modal-body">
     ${message}
   </div>
-  <div class="modal-footer">
+  <div class="modal-footer justify-content-between">
     <button class="btn btn-default" data-dismiss="modal"><%= I18n.t "actions.continue" %></button>
   </div>
 --></div>
@@ -97,9 +97,9 @@
         ${message}
       {/if}
    </div>
-   <div class="modal-footer">
-      <button id="confirmButton" class="btn btn-default {if defined('confirm_class') && confirm_class} ${confirm_class}{/if}">{if defined('confirm_label') && confirm_label}${confirm_label}{else}<%= I18n.t "actions.confirm" %>{/if}</button>
-      <button class="btn btn-cancel btn-default" data-dismiss="modal"><%= I18n.t "actions.cancel" %></button>
+   <div class="modal-footer justify-content-between">
+      <button id="confirmButton" class="btn btn-default btn-outline-secondary {if defined('confirm_class') && confirm_class} ${confirm_class}{/if}">{if defined('confirm_label') && confirm_label}${confirm_label}{else}<%= I18n.t "actions.confirm" %>{/if}</button>
+      <button class="btn btn-cancel btn-default btn-danger" data-dismiss="modal"><%= I18n.t "actions.cancel" %></button>
    </div>
 --></div>
 
