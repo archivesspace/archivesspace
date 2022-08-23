@@ -449,5 +449,5 @@
 <div class="form-actions row">
   <button type="button" class="btn preview-merge"><%= I18n.t("agent._frontend.action.preview") %></button>
   <button type="button" class="btn btn-primary do-merge"><%= I18n.t("actions.merge") %></button>
-  <%= link_to I18n.t("actions.cancel"), {:controller => :agents, :action => :show, :id => @agent.id}, :class => "btn btn-cancel btn-default pull-right" %>
+  <%= link_to I18n.t("actions.cancel"), {:controller => :agents, :action => :show, :id => @agent.id}, :class => "btn btn-cancel btn-default pull-right ml-auto" %>
 </div>

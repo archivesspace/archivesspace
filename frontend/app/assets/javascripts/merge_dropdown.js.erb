@@ -31,6 +31,17 @@ $(function () {
       }
     });
 
+    // add back the bootstrap show class for the merge-actions dropdown inside the merge dropdown
+    $("#dropdownMenuSubjectsToggle").on("click", function(event) {
+      var element = document.getElementById("dropdownMenuSubjects");
+      element.classList.toggle("show");
+    });
+
+    $("#dropdownMenuSubjects li a").on("click", function(event) {
+      var element = document.getElementById("dropdownMenuSubjects");
+      element.classList.toggle("show");
+    });
+
     // Stop the modal from being hidden by clicks within the form
     $(".merge-form").on("click", function(event) {
       event.stopPropagation();
