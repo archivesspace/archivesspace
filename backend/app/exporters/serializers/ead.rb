@@ -585,6 +585,7 @@ class EADSerializer < ASpaceExport::Serializer
         end
       }
     end
+    EADSerializer.run_serialize_step(digital_object, xml, fragments, :dao)
   end
 
 
