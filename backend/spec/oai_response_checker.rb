@@ -65,8 +65,16 @@ class OAIResponseChecker
       end
 
     elsif ours.is_a?(Nokogiri::XML::Text)
-      unless ours.text.strip == theirs.text.strip
-        raise MismatchError.new("String mismatch", ours, theirs, path)
+
+      # don't worry about database ids when comparing uris with fixture
+      if [ours, theirs].all? { |node| node.text.strip.match(/^\/repositories\/\d+/) }
+        unless ours.text.strip.gsub(/\/\d+/, "/0") == theirs.text.strip.gsub(/\/\d+/, "/0")
+          raise MismatchError.new("String mismatch", ours, theirs, path)
+        end
+      else
+        unless ours.text.strip == theirs.text.strip
+          raise MismatchError.new("String mismatch", ours, theirs, path)
+        end
       end
 
     else
