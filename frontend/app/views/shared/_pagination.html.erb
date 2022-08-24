@@ -10,7 +10,7 @@
 <% if @search_data %>
 
   <div class="pagination-centered">
-    <ul class="pagination pagination-sm justify-content-center">
+    <ul class="pagination pagination-sm justify-content-center align-items-center">
       <% if not page_range.cover?(1) %>
         <li class='page-item'>
             <%= link_to_merge_params I18n.t("pagination.first"), :page => 1, :class => 'page-link' %>
@@ -50,7 +50,7 @@
         <li class="disabled page-item"><a href="#" class='page-link'><%= I18n.t("pagination.next").html_safe %></a></li>
       <% end %>
       <% if not page_range.cover?(@search_data['last_page']) %>
-        <li class='page-item'>
+        <li class='page-item px-2'>
             <%= link_to_merge_params I18n.t("pagination.last"), :page => @search_data['last_page'], :class => 'page-link' %>
         </li>
       <% end %>

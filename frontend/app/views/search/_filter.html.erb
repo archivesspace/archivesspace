@@ -1,9 +1,9 @@
 <div class="search-listing-filter">
 <% if @search_data.filtered_terms? or @search_data.query? %>
   <div class="well">
-    <h3>
+    <h3 class="d-flex">
       <%= I18n.t "search_results.filtered_by" %>
-      <%= link_to I18n.t("search_results.clear_all"), build_search_params({"q" => "", "filter_term" => []}), :class => "btn btn-xs pull-right" %>
+      <%= link_to I18n.t("search_results.clear_all"), build_search_params({"q" => "", "filter_term" => []}), :class => "btn btn-xs pull-right bg-white border ml-auto" %>
     </h3>
     <ul>
       <% if @search_data.query? %>
