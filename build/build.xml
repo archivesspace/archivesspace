@@ -793,7 +793,7 @@
       <header trimleading="yes">
         <!-- DON'T EDIT THIS FILE: the canonical version is under the frontend project -->
       </header>
-      <fileset file="../frontend/app/assets/stylesheets/archivesspace/largetree.less" />
+      <fileset file="../frontend/app/assets/stylesheets/archivesspace/largetree.scss" />
     </concat>
   </target>
 
@@ -819,10 +819,6 @@
 
   <target name="public:test" depends="set-classpath, setup-integration, public:copy-shared-resources" description="Run the unit test suite">
     <property name="tag" value="~db"/>
-    <antcall target="bundler">
-      <param name="gemfile" value="../public/Gemfile" />
-    </antcall>
-
     <antcall target="rspec">
       <param name="dir" value="../public" />
       <param name="tag" value="${tag}" />
