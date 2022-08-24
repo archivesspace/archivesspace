@@ -1,3 +1,7 @@
+# Git flow
+- This project uses rebases instead of merges. It is important to make sure you are following the correct git flow to keep the branches consistent.
+- [Playbook article here](http://playbook-staging.notch8.com/en/git/rebasing) describing how to rebase for this project
+
 # Full Dev Env in Docker
 
 - Pull down the code
