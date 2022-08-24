@@ -1443,6 +1443,7 @@ class EAD3Serializer < EADSerializer
         }
       end
     end
+    EAD3Serializer.run_serialize_step(digital_object, xml, fragments, :dao)
   end
 
 
