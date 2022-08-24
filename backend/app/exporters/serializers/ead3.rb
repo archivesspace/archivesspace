@@ -518,7 +518,7 @@ class EAD3Serializer < EADSerializer
                 end
               end
 
-              EADSerializer.run_serialize_step(data, xml, @fragments, :did)
+              EAD3Serializer.run_serialize_step(data, xml, @fragments, :did)
 
               # Change from EAD 2002: dao must be children of did in EAD3, not archdesc
               data.digital_objects.each do |dob|
@@ -535,7 +535,7 @@ class EAD3Serializer < EADSerializer
 
             serialize_controlaccess(data, xml, @fragments)
 
-            EADSerializer.run_serialize_step(data, xml, @fragments, :archdesc)
+            EAD3Serializer.run_serialize_step(data, xml, @fragments, :archdesc)
 
             xml.dsc {
 
@@ -1183,7 +1183,7 @@ class EAD3Serializer < EADSerializer
             serialize_languages(languages, xml, fragments)
           end
 
-          EADSerializer.run_serialize_step(data, xml, fragments, :did)
+          EAD3Serializer.run_serialize_step(data, xml, fragments, :did)
 
           data.instances_with_sub_containers.each do |instance|
             serialize_container(instance, xml, @fragments)
@@ -1200,7 +1200,7 @@ class EAD3Serializer < EADSerializer
         serialize_bibliographies(data, xml, fragments)
         serialize_indexes(data, xml, fragments)
         serialize_controlaccess(data, xml, fragments)
-        EADSerializer.run_serialize_step(data, xml, fragments, :archdesc)
+        EAD3Serializer.run_serialize_step(data, xml, fragments, :archdesc)
 
         data.children_indexes.each do |i|
           xml.text(
