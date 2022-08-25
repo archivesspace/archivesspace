@@ -9,9 +9,9 @@
   <div class="col-md-9">
     <% if user_can?('update_agent_record') %>
       <div class="record-toolbar d-flex align-items-center">
-        <div class="btn-group ml-auto">
+        <div class="btn-group ml-auto bg-white border">
           <% if user_can?('manage_repository') %>
-            <div class="btn-group">
+            <div class="btn-group border-right">
               <a class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown" href="javascript:void(0);">
                 <%= I18n.t("actions.edit_required_fields") %>
               </a>

@@ -9,7 +9,7 @@
     <div class="record-pane">
       <section id="basic_information">
       <%= readonly_context :top_container, @top_container do |readonly| %>
-        <h2><%= @top_container.display_string %> <span class="label label-info"><%= I18n.t("top_container._singular") %></span></h2>
+        <h2><%= @top_container.display_string %> <span class="label label-info badge"><%= I18n.t("top_container._singular") %></span></h2>
 
         <%= render_aspace_partial :partial => "shared/flash_messages" %>
 

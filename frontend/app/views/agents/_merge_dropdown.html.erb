@@ -2,7 +2,7 @@
    multiplicity ||= "many"
    singular = "#{controller}".singularize
    extra_params = {} if extra_params.blank?
-%>s
+%>
 
   <div id="merge-dropdown" class="btn-group dropdown" data-no-change-tracking="true">
     <a class="btn btn-sm btn-default dropdown-toggle merge-action" data-toggle="dropdown" href="#" title="<%= I18n.t("actions.merge") %>">
