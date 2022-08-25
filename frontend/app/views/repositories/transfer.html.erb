@@ -43,7 +43,7 @@
           <br/>
           <br/>
 
-          <div class="form-actions">
+          <div class="form-actions d-flex">
             <div class="btn-group">
             <%= button_confirm_action(I18n.t("actions.transfer"),
                                      url_for({:action => :transfer, :id => @repository.id}),
@@ -57,7 +57,7 @@
             %>
             </div>
 
-            <%= link_to I18n.t("actions.cancel"), :back, :class => "btn btn-cancel btn-default pull-right" %>
+            <%= link_to I18n.t("actions.cancel"), :back, :class => "btn btn-cancel btn-default pull-right ml-auto border bg-white" %>
           </div>
         <% end %>
       </section>

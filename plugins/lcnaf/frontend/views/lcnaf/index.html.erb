@@ -83,8 +83,8 @@
       <div class="col-md-12">
         <div class='alert alert-info'>${record.title}
           <span class="float-right alert alert-success btn-sm d-none"><%= I18n.t("plugins.lcnaf.messages.selected") %></span>
-          <button class="float-right btn btn-default d-none bg-white border select-record" data-lccn="${record.lccn}"><%= I18n.t("plugins.lcnaf.actions.select") %></button>
-          <button class="float-right btn btn-default d-none bg-white border show-record" ><%= I18n.t("plugins.lcnaf.actions.show_record") %></button>
+          <button class="float-right btn btn-default d-none bg-white border mx-1 select-record" data-lccn="${record.lccn}"><%= I18n.t("plugins.lcnaf.actions.select") %></button>
+          <button class="float-right btn btn-default d-none bg-white border show-record mx-1" ><%= I18n.t("plugins.lcnaf.actions.show_record") %></button>
           <div class="col-md-12 lcnaf-marc d-none"><pre><code>${record.xml|h}</code></pre></div> 
         </div> 
       </div>   

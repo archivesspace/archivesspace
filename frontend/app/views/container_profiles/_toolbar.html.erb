@@ -16,9 +16,9 @@
     <% end %>
   <% end %>
   <% if !['new', 'create'].include?(controller.action_name) %>
-      <div class="btn-toolbar ml-auto">
+      <div class="btn-toolbar">
         <div class="btn-group">
-          <button id="showSpaceCalculator" class="btn btn-sm btn-default"
+          <button id="showSpaceCalculator" class="btn btn-sm btn-default bg-white border mx-1"
                   data-calculator-url="<%= url_for :controller => :space_calculator, :action => :show, :inline => true %>"
                   data-modal-content="<%= I18n.t("space_calculator.modal_loading") %>"
                   data-selectable="false"

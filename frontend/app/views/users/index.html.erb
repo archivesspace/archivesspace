@@ -6,7 +6,7 @@
      <div class="record-toolbar d-flex align-items-center">
        <div class="btn-group ml-auto">
          <% unless @manage_access %>
-           <%= link_to I18n.t("user._frontend.action.create"), {:controller => :users, :action => :new}, :class => "btn btn-sm btn-light" %>
+           <%= link_to I18n.t("user._frontend.action.create"), {:controller => :users, :action => :new}, :class => "btn btn-sm btn-light border" %>
          <% end %>
        </div>
      </div>
