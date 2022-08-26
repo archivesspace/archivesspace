@@ -53,8 +53,6 @@ services:
 8. run the individual command to start the front end only: `./build/run frontend:devserver`
 
 # How to use demo data in dev
-(You will have to do this on each new branch)
-
 1. Copy the demo db into the db docker container: `docker cp demo.sql archivesspace_db_1:/`
 2. bash into the container for db: `docker-compose exec db sh`
 3. import the database: `mysql -p archivesspace < demo.sql`
