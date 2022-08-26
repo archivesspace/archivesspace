@@ -1,21 +1,18 @@
 <section id="navigation">
-  <nav class="navbar navbar-default" aria-label="<%= I18n.t("navigation.top_level") %>">
-    <div class="container-fluid navbar-header top-bar">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#collapsemenu"
-              aria-expanded="false">
-        <span class="sr-only"><%= I18n.t("navbar.toggle_navigation") %></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
+  <nav class="navbar navbar-expand-lg navbar-light navbar-default bg-light p-0" aria-label="<%= I18n.t("navigation.top_level") %>">
+      <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#collapsemenu" aria-expanded="false">
+        <span><%= I18n.t("navbar.toggle_navigation") %></span>
       </button>
-      <div class="collapse navbar-collapse" id="collapsemenu">
-        <ul class="nav nav navbar-nav">
+      <div class="collapse navbar-collapse top-bar pl-4" id="collapsemenu">
+        <ul class="navbar-nav mr-auto">
           <%# TODO: add class="active" if we're on that page %>
           <% $MAIN_MENU.each do |link| %>
-            <li><a href="<%= app_prefix(link[0]) %>"><%= t(link[1]) %></a></li>
+            <li class="nav-item p-2">
+              <a class="nav-link" href="<%= app_prefix(link[0]) %>"><%= t(link[1]) %></a>
+            </li>
           <% end %>
           <% unless AppConfig[:pui_hide][:search_tab] %>
-            <li><a href="<%=  app_prefix('/search?reset=true') %>" title="<%= I18n.t('search_tab', :target => t('archive._plural'))%>">
+            <li class="nav-item p-2"><a class="nav-link" href="<%=  app_prefix('/search?reset=true') %>" title="<%= I18n.t('search_tab', :target => t('archive._plural'))%>">
                 <span class="fa fa-search" aria-hidden="true"></span>
                 <span class="sr-only"><%= I18n.t('search_tab', :target => t('archive._plural')) %></span>
               </a>
@@ -23,6 +20,5 @@
           <% end %>
         </ul>
       </div>
-    </div>
   </nav>
 </section>
