@@ -94,7 +94,8 @@ class LargeTree
                                                       "uri" => @root_record.uri,
                                                       "slugged_url" => SlugHelpers.get_slugged_url_for_largetree(@root_record.class.to_s, @root_record.repo_id, @root_record.slug),
                                                       "jsonmodel_type" => @root_table.to_s,
-                                                      "parsed_title" => MixedContentParser.parse(@root_record.title, '/'))
+                                                      "parsed_title" => MixedContentParser.parse(@root_record.title, '/'),
+                                                      "suppressed" => @root_record.suppressed)
       @decorators.each do |decorator|
         response = decorator.root(response, @root_record)
       end
@@ -240,7 +241,7 @@ class LargeTree
                 :parent_id => parent_id)
         .filter(published_filter)
         .order(:position)
-        .select(:id, :repo_id, :title, :position, :slug)
+        .select(:id, :repo_id, :title, :position, :slug, :suppressed)
         .offset(offset * WAYPOINT_SIZE)
         .limit(WAYPOINT_SIZE)
         .each do |row|
@@ -267,6 +268,7 @@ class LargeTree
                                              "uri" => JSONModel(@node_type).uri_for(row[:id], :repo_id => row[:repo_id]),
                                              "position" => (offset * WAYPOINT_SIZE) + idx,
                                              "parent_id" => parent_id,
+                                             "suppressed" => row[:suppressed],
                                              "jsonmodel_type" => @node_type.to_s)
 
       end
