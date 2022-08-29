@@ -75,6 +75,7 @@ h2 > .label {
 .alert {
   &.with-hide-alert {
     position: relative;
+    padding-right: 3rem;
   }
   .hide-alert {
     position: absolute;
