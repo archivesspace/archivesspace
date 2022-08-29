@@ -597,10 +597,7 @@ ul.subrecord-form-list {
 }
 
 .subrecord-add-as-you-go-actions {
-  $asyougotransition: opacity linear 0.4s 1s, height linear 0.4s 1s,
-    padding linear 0.4s 1s;
-  @include transition($asyougotransition);
-
+  @include transition(opacity linear 0.4s 1s, height linear 0.4s 1s, padding linear 0.4s 1s);
   text-align: center;
   width: 100%;
   @include opacity(0);
@@ -651,9 +648,7 @@ ul.subrecord-form-list {
 
 .subrecord-form:hover .subrecord-add-as-you-go-actions,
 .focus .subrecord-add-as-you-go-actions {
-  $asyougotransition: opacity linear 0.2s, height linear 0.2s,
-    padding linear 0.2s;
-  @include transition($asyougotransition);
+  @include transition(opacity linear 0.2s, height linear 0.2s, padding linear 0.2s);
   @include opacity(100);
 
   border-top: 1px solid #eee;
