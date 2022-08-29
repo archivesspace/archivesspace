@@ -486,6 +486,8 @@ class EAD3Serializer < EADSerializer
 
               handle_arks(data, xml)
 
+              serialize_aspace_uri(data, xml)
+
               unless data.repo.nil? || data.repo.name.nil?
                 xml.repository {
                   xml.corpname {
@@ -1164,6 +1166,8 @@ class EAD3Serializer < EADSerializer
 
           handle_arks(data, xml)
 
+          serialize_aspace_uri(data, xml)
+
           if !data.component_id.nil? && !data.component_id.empty?
             xml.unitid data.component_id
           end
@@ -1218,6 +1222,9 @@ class EAD3Serializer < EADSerializer
     end
   end
 
+  def serialize_aspace_uri(data, xml)
+    xml.unitid ({ 'localtype' => 'aspace_uri' }) { xml.text data.uri }
+  end
 
   def handle_arks(data, xml)
     return unless AppConfig[:arks_enabled]

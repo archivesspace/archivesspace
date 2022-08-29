@@ -42,8 +42,8 @@ describe "Import Archival Objects" do
     xlsx_fixture = RubyXL::Parser.parse(xlsx_fixture)
     xlsx_template = RubyXL::Parser.parse(xlsx_template)
 
-    fixture_keys = xlsx_fixture.worksheets[0][3].cells.map { |c| c.value }
-    template_keys = xlsx_template.worksheets[0][3].cells.map { |c| c.value }
+    fixture_keys = xlsx_fixture.worksheets[0][3].cells.map { |c| c.value }.compact
+    template_keys = xlsx_template.worksheets[0][3].cells.map { |c| c.value }.compact
     expect(template_keys - fixture_keys).to be_empty
     expect(fixture_keys - template_keys).to be_empty
 

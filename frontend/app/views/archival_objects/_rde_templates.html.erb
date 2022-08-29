@@ -3,8 +3,8 @@
   <th data-id="language" class="section-language" colspan="2"><%= I18n.t("rde.sections.language") %></th>
   <th data-id="date" class="section-date" colspan="5" class="conditionally-required"><%= I18n.t("rde.sections.date") %></th>
   <th data-id="extent" class="section-extent" colspan="6" class="conditionally-required"><%= I18n.t("rde.sections.extent") %></th>
-  <th data-id="instance" class="section-instance" colspan="8"><%= I18n.t("rde.sections.instance") %></th>
-  <th data-id="note" class="section-note" colspan="9"><%= I18n.t("rde.sections.notes") %></th>
+  <th data-id="instance" class="section-instance" colspan="6"><%= I18n.t("rde.sections.instance") %></th>
+  <th data-id="note" class="section-note" colspan="18"><%= I18n.t("rde.sections.notes") %></th>
 <% end %>
 
 <% define_template "rde_archival_object_headers" do |form| %>
@@ -38,12 +38,21 @@
   <th id="colCInd3" class="fieldset-label" data-section="instance"><%= I18n.t("sub_container.indicator_3") %></th>
   <th id="colNType1" class="fieldset-label" data-section="note"><%= I18n.t("note._singular") %> 1</th>
   <th id="colNLabel1" class="fieldset-label" data-section="note"><%= I18n.t("note_attributes.label") %> 1</th>
+  <th id="colNBeginRestriction1" class="fieldset-label" data-section="note"><%= I18n.t("rights_restriction.begin") %> 1</th>
+  <th id="colNEndRestriction1" class="fieldset-label" data-section="note"><%= I18n.t("rights_restriction.end") %> 1</th>
+  <th id="colNRestrictionType1" class="fieldset-label" data-section="note"><%= I18n.t("rights_restriction.local_access_restriction_type") %> 1</th>
   <th id="colNCont1" class="fieldset-label" data-section="note"><%= I18n.t("note_attributes.content") %> 1</th>
   <th id="colNType2" class="fieldset-label" data-section="note"><%= I18n.t("note._singular") %> 2</th>
   <th id="colNLabel2" class="fieldset-label" data-section="note"><%= I18n.t("note_attributes.label") %> 2</th>
+  <th id="colNBeginRestriction2" class="fieldset-label" data-section="note"><%= I18n.t("rights_restriction.begin") %> 2</th>
+  <th id="colNEndRestriction2" class="fieldset-label" data-section="note"><%= I18n.t("rights_restriction.end") %> 2</th>
+  <th id="colNRestrictionType2" class="fieldset-label" data-section="note"><%= I18n.t("rights_restriction.local_access_restriction_type") %> 2</th>
   <th id="colNCont2" class="fieldset-label" data-section="note"><%= I18n.t("note_attributes.content") %> 2</th>
   <th id="colNType3" class="fieldset-label" data-section="note"><%= I18n.t("note._singular") %> 3</th>
   <th id="colNLabel3" class="fieldset-label" data-section="note"><%= I18n.t("note_attributes.label") %> 3</th>
+  <th id="colNBeginRestriction3" class="fieldset-label" data-section="note"><%= I18n.t("rights_restriction.begin") %> 3</th>
+  <th id="colNEndRestriction3" class="fieldset-label" data-section="note"><%= I18n.t("rights_restriction.end") %> 3</th>
+  <th id="colNRestrictionType3" class="fieldset-label" data-section="note"><%= I18n.t("rights_restriction.local_access_restriction_type") %> 3</th>
   <th id="colNCont3" class="fieldset-label" data-section="note"><%= I18n.t("note_attributes.content") %> 3</th>
 <% end %>
 
@@ -51,6 +60,15 @@
   <col class="fieldset-col" data-default-width='150' />
   <col class="fieldset-col" data-default-width='150' />
   <col class="fieldset-col" data-default-width='70' />
+  <col class="fieldset-col" data-default-width='150' />
+  <col class="fieldset-col" data-default-width='150' />
+  <col class="fieldset-col" data-default-width='150' />
+  <col class="fieldset-col" data-default-width='150' />
+  <col class="fieldset-col" data-default-width='150' />
+  <col class="fieldset-col" data-default-width='150' />
+  <col class="fieldset-col" data-default-width='150' />
+  <col class="fieldset-col" data-default-width='150' />
+  <col class="fieldset-col" data-default-width='150' />
   <col class="fieldset-col" data-default-width='150' />
   <col class="fieldset-col" data-default-width='150' />
   <col class="fieldset-col" data-default-width='150' />
@@ -240,6 +258,31 @@
           <%= form.textfield "label" %>
       <% end %>
     </td>
+    <td data-col="colNBeginRestriction1" class="form-group">
+      <% form.push(form.set_index("notes[]", 0), begin archival_object["notes"][0] || {} rescue {} end) do %>
+        <% form.push("rights_restriction", form["rights_restriction"] || {}) do %>
+          <%= form.textfield "begin" %>
+        <% end %>
+      <% end %>
+    </td>
+    <td data-col="colNEndRestriction1" class="form-group">
+      <% form.push(form.set_index("notes[]", 0), begin archival_object["notes"][0] || {} rescue {} end) do %>
+        <% form.push("rights_restriction", form["rights_restriction"] || {}) do %>
+          <%= form.textfield "end" %>
+        <% end %>
+      <% end %>
+    </td>
+    <td data-col="colNRestrictionType1" class="form-group">
+      <% form.push(form.set_index("notes[]", 0), begin archival_object["notes"][0] || {} rescue {} end) do %>
+        <% form.push("rights_restriction", form["rights_restriction"] || {}) do %>
+          <%=
+          form.select("local_access_restriction_type[]",
+                      [["", ""]] + JSONModel.enum_values('restriction_type').map {|value| [I18n.t("enumerations.restriction_type.#{value}", value), value] },
+                      :default => form['local_access_restriction_type'])
+          %>
+        <% end %>
+      <% end %>
+    </td>
     <td data-col="colNCont1" class="form-group">
       <% content = begin archival_object["notes"][0]["jsonmodel_type"] == "note_multipart" ? archival_object["notes"][0]["subnotes"][0]['content'] : archival_object["notes"][0]["content"][0] rescue "" end %>
 
@@ -266,6 +309,31 @@
           <%= form.textfield "label" %>
       <% end %>
     </td>
+    <td data-col="colNBeginRestriction2" class="form-group">
+      <% form.push(form.set_index("notes[]", 1), begin archival_object["notes"][1] || {} rescue {} end) do %>
+        <% form.push("rights_restriction", form["rights_restriction"] || {}) do %>
+          <%= form.textfield "begin" %>
+        <% end %>
+      <% end %>
+    </td>
+    <td data-col="colNEndRestriction2" class="form-group">
+      <% form.push(form.set_index("notes[]", 1), begin archival_object["notes"][1] || {} rescue {} end) do %>
+        <% form.push("rights_restriction", form["rights_restriction"] || {}) do %>
+          <%= form.textfield "end" %>
+        <% end %>
+      <% end %>
+    </td>
+    <td data-col="colNRestrictionType2" class="form-group">
+      <% form.push(form.set_index("notes[]", 1), begin archival_object["notes"][1] || {} rescue {} end) do %>
+        <% form.push("rights_restriction", form["rights_restriction"] || {}) do %>
+          <%=
+          form.select("local_access_restriction_type[]",
+                      [["", ""]] + JSONModel.enum_values('restriction_type').map {|value| [I18n.t("enumerations.restriction_type.#{value}", value), value] },
+                      :default => form['local_access_restriction_type'])
+          %>
+        <% end %>
+      <% end %>
+    </td>
     <td data-col="colNCont2" class="form-group">
       <% content = begin archival_object["notes"][1]["jsonmodel_type"] == "note_multipart" ? archival_object["notes"][1]["subnotes"][0]['content'] : archival_object["notes"][1]["content"][0] rescue "" end %>
 
@@ -290,6 +358,31 @@
     <td data-col="colNLabel3" class="form-group">
       <% form.push(form.set_index("notes[]", 2), begin archival_object["notes"][2] || {} rescue {} end) do %>
           <%= form.textfield "label" %>
+      <% end %>
+    </td>
+    <td data-col="colNBeginRestriction3" class="form-group">
+      <% form.push(form.set_index("notes[]", 2), begin archival_object["notes"][2] || {} rescue {} end) do %>
+        <% form.push("rights_restriction", form["rights_restriction"] || {}) do %>
+          <%= form.textfield "begin" %>
+        <% end %>
+      <% end %>
+    </td>
+    <td data-col="colNEndRestriction3" class="form-group">
+      <% form.push(form.set_index("notes[]", 2), begin archival_object["notes"][2] || {} rescue {} end) do %>
+        <% form.push("rights_restriction", form["rights_restriction"] || {}) do %>
+          <%= form.textfield "end" %>
+        <% end %>
+      <% end %>
+    </td>
+    <td data-col="colNRestrictionType3" class="form-group">
+      <% form.push(form.set_index("notes[]", 2), begin archival_object["notes"][2] || {} rescue {} end) do %>
+        <% form.push("rights_restriction", form["rights_restriction"] || {}) do %>
+          <%=
+          form.select("local_access_restriction_type[]",
+                      [["", ""]] + JSONModel.enum_values('restriction_type').map {|value| [I18n.t("enumerations.restriction_type.#{value}", value), value] },
+                      :default => form['local_access_restriction_type'])
+          %>
+        <% end %>
       <% end %>
     </td>
     <td data-col="colNCont3" class="form-group">

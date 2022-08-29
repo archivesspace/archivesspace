@@ -107,7 +107,7 @@ describe 'RDE Templates' do
     @driver.wait_for_ajax
 
     multiselector_selected_cols = @driver.execute_script('return $("#rde_hidden_columns").data("multiselect").getSelected().length;')
-    expect(multiselector_selected_cols).to eq 33
+    expect(multiselector_selected_cols).to eq 42
 
     @driver.find_element(css: "button[data-id='rde_select_template']").click
     @driver.wait_for_ajax
