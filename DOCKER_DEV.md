@@ -4,21 +4,20 @@
 
 # Full Dev Env in Docker
 
-- Pull down the code
-- `cp docker-compose-dev-full.yml docker-compose.yml`
-- `docker-compose up app`
-- Open ports 3001 for public, 3000 for frontend and 4567 for backend
-- Visit localhost:3000/staff to see the frontend home page
-- To sign into the staff interface username and password are both: admin 
+- Pull down the code: `https://github.com/notch8/archivesspace`
+- If its the first time you are working on this project, `cd` into the project and run `cp docker-compose-dev-full.yml docker-compose.yml`
+- To run the project: `docker compose up app`
 - You will need to migrate the database to see the app run: `docker-compose exec app ./build/run db:migrate`
+- Open ports 3001 for `public`, 3000 for `frontend` and 4567 for `backend`
+- To sign into the staff interface username and password are both: admin 
 
 
-See https://archivesspace.github.io/tech-docs/development/dev.html for addtional info
+See https://archivesspace.github.io/tech-docs/development/dev.html for additional info
 # Troubleshooting
 
 ## Steps to bash into your container & bundle archivesspace frontend
 
-1. Make sure the services section of `docker-compose.yml` looks like this:
+1. Make sure the services section of `docker-compose.yml` looks like this (the "command" needs to be uncommented):
 ```
 services:
   app:
@@ -53,7 +52,8 @@ services:
 8. run the individual command to start the front end only: `./build/run frontend:devserver`
 
 # How to use demo data in dev
-1. Copy the demo db into the db docker container: `docker cp demo.sql archivesspace_db_1:/`
+1. Copy the demo db into the db docker container: `docker cp demo.sql archivesspace_db_1:/` or `docker cp demo.sql archivesspace-db-1:/` depending on the name of your docker container
+  - run `docker ps` to see the name of your db container
 2. bash into the container for db: `docker-compose exec db sh`
 3. import the database: `mysql -p archivesspace < demo.sql`
 4. password is 123456
