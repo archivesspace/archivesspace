@@ -11,7 +11,7 @@
   <% end %>
   <% if ['edit', 'update'].include?(controller.action_name) %>
     <div class="revert-changes">
-    <%= link_to I18n.t("actions.revert"), {:controller => :custom_report_templates, :action => :edit, :id => @custom_report_template.id}, :class => "btn btn-sm btn-default" %>
+    <%= link_to I18n.t("actions.revert"), {:controller => :custom_report_templates, :action => :edit, :id => @custom_report_template.id}, :class => "btn btn-sm btn-default bg-white border" %>
     <%= I18n.t("actions.toolbar_disabled_message") %>
     </div>
   <% end %>
