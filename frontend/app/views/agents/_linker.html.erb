@@ -21,13 +21,13 @@
     linker_label = (multiplicity === "many") ? I18n.t("agent._plural") : I18n.t("agent._singular")
   end
 %>
-<div class="form-group <% if required %> required <% end %>">
-  <label class="control-label"
+<div class="form-group <% if required %> required <% end %> row">
+  <label class="control-label col-sm-2 text-right"
          id="<%= form.id_for("ref") %>_label"
          for="<%= form.id_for("ref") %>">
     <%= wrap_with_tooltip(linker_label, "related_agent.related_agent_tooltip", "control-label initialised") %>
   </label>
-  <div class="controls">
+  <div class="controls col-sm-9">
     <div class="input-group linker-wrapper"
          role="combobox"
          aria-owns="<%= form.id_for("ref") %>_listbox"
@@ -79,11 +79,11 @@
             </a>
           </li>
           <% if user_can?('update_agent_record') && !hide_create && user_can?('update_agent_record') %>
-            <li class="dropdown-submenu pull-left dropdown-item">
+            <li class="dropdown-submenu dropdown-item">
               <a href="javascript:void(0);"><%= I18n.t("actions.create") %></a>
               <ul class="dropdown-menu">
                 <% creatable_types.each do |agent_type| %>
-                  <li>
+                  <li class="dropdown-item">
                     <a href="javascript:void(0);" data-target="<%= url_for :controller => :agents, :action => :new, :agent_type => agent_type.intern, :inline => true %>" class="linker-create-btn">
                       <%= I18n.t("#{agent_type}._singular") %>
                     </a>

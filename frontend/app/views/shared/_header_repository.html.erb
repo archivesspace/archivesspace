@@ -172,7 +172,7 @@
                     <% end %>
 
                     <% if Plugins.repository_menu_items.any? {|plugin| has_permission_for_controller?(session, plugin)} %>
-                      <li class="dropdown-submenu pull-left dropdown-item">
+                      <li class="dropdown-submenu dropdown-item">
                         <a href="javascript:void(0);"><%= I18n.t("navbar.plugins") %></a>
                         <ul class="dropdown-menu">
                           <% Plugins.repository_menu_items.each do |plugin| %>

@@ -10,7 +10,7 @@
         <%= render_aspace_partial :partial => "shared/toolbar_new_records" %>
         <div class="record-pane">
           <%= link_to_help :topic => "agent_required" %>
-          <h2><%= "#{I18n.t("required_fields.form_title.#{@agent.agent_type}")}" %>  <span class="label label-info"><%= I18n.t("agent._singular") %></span></h2>
+          <h2><%= "#{I18n.t("required_fields.form_title.#{@agent.agent_type}")}" %>  <span class="label label-info badge"><%= I18n.t("agent._singular") %></span></h2>
           <%= render_aspace_partial :partial => "agents/form_required", :locals => {:form => form} %>
           <div class="form-actions">
             <div class="btn-group">
