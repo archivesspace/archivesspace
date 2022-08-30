@@ -315,7 +315,7 @@ form .form-group {
 
     .subrecord-form-removal-confirmation,
     .subrecord-form-remove {
-      margin: 6px 6px 0 0;
+      margin-top: 10px;
       .btn-group .btn {
         z-index: 10;
       }
@@ -396,7 +396,7 @@ ul.subrecord-form-list {
   }
   .drag-handle {
     position: absolute;
-    left: 5px;
+    left: 97%;
     top: 5px;
     height: 30px;
     width: 30px;
