@@ -79,11 +79,11 @@
             </a>
           </li>
           <% if user_can?('update_agent_record') && !hide_create && user_can?('update_agent_record') %>
-            <li class="dropdown-submenu pull-left dropdown-item">
+            <li class="dropdown-submenu dropdown-item">
               <a href="javascript:void(0);"><%= I18n.t("actions.create") %></a>
               <ul class="dropdown-menu">
                 <% creatable_types.each do |agent_type| %>
-                  <li>
+                  <li class="dropdown-item">
                     <a href="javascript:void(0);" data-target="<%= url_for :controller => :agents, :action => :new, :agent_type => agent_type.intern, :inline => true %>" class="linker-create-btn">
                       <%= I18n.t("#{agent_type}._singular") %>
                     </a>
