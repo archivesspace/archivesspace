@@ -19,7 +19,7 @@ Capybara.register_driver(:chrome) do |app|
   Capybara::Selenium::Driver.new(
     app,
     browser: :chrome,
-    capabilities: CHROME_OPTS
+    options: Selenium::WebDriver::Chrome::Options.new(args: CHROME_OPTS)
   ).extend DriverMixin
 end
 
@@ -28,7 +28,7 @@ Capybara.register_driver :firefox do |app|
   Capybara::Selenium::Driver.new(
     app,
     browser: :firefox,
-    capabilities: FIREFOX_OPTS
+    options: Selenium::WebDriver::Firefox::Options.new(args: FIREFOX_OPTS)
   ).extend DriverMixin
 end
 
