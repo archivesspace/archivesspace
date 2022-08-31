@@ -71,6 +71,9 @@ class IndexerCommonConfig
 
       #Accessions module depends on these
       'related_accessions',
+
+      #Container profile depends on this
+      'notes',
     ]
   end
 

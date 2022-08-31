@@ -30,6 +30,7 @@ describe 'Container Profiles' do
     @driver.clear_and_send_keys([:id, 'container_profile_depth_'], 1)
     @driver.clear_and_send_keys([:id, 'container_profile_height_'], 1)
     @driver.clear_and_send_keys([:id, 'container_profile_width_'], 0.2)
+    @driver.clear_and_send_keys([:id, 'container_profile_notes_'], "A handy note.")
 
     @driver.click_and_wait_until_gone(:css, 'form#new_container_profile .btn-primary')
 

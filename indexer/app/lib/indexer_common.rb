@@ -252,7 +252,11 @@ class IndexerCommon
 
   def add_notes(doc, record)
     if record['record']['notes']
-      doc['notes'] = record['record']['notes'].map {|note| IndexerCommon.extract_string_values(note) }.join(" ");
+      if record['record']['notes'].respond_to?(:map)
+        doc['notes'] = record['record']['notes'].map {|note| IndexerCommon.extract_string_values(note) }.join(" ");
+      else
+        doc['notes'] = record['record']['notes']
+      end
     end
   end
 
@@ -822,6 +826,7 @@ class IndexerCommon
       if doc['primary_type'] == 'container_profile'
         doc['title'] = record['record']['display_string']
         doc['display_string'] = record['record']['display_string']
+        doc['note'] = record['record']['note']
 
         ['width', 'height', 'depth'].each do |property|
           doc["container_profile_#{property}_u_sstr"] = record['record'][property]
