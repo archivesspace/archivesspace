@@ -320,7 +320,7 @@ describe 'Accessibility', js: true, db: 'accessibility' do
     end
 
     # 523681
-    it "has acceptable color contrast for active textarea and input boxes", :skip => "UPGRADE waiting on bootstrap fixes"  do
+    it "has acceptable color contrast for active textarea and input boxes", :skip => "UPGRADE waiting on bootstrap fixes" do
       visit "/resources/1/edit"
 
       date_field = find "textarea#resource_repository_processing_note_"
@@ -330,14 +330,14 @@ describe 'Accessibility', js: true, db: 'accessibility' do
     end
 
     # 523636, 523634, 523633, 523632, 523631, 523630, 523629, 523628, 523627, 523637, 523635
-    it "has acceptable color contrast in disabled buttons", :skip => "UPGRADE waiting on bootstrap fixes"  do
+    it "has acceptable color contrast in disabled buttons", :skip => "UPGRADE waiting on bootstrap fixes" do
       visit "/enumerations?id=14"
       expect(page).to be_axe_clean.checking_only :'color-contrast'
     end
 
     # 518955, 519449, 521318, 523762, 518915, 522650, 519400, 522670
     # 523750, 523751, 519035, 523540, 523680, 522581, 519418, 523679
-    it "has acceptable color contrast for tree expand/collapse button, drag & drop image, form element borders and required field indicators", :skip => "UPGRADE waiting on bootstrap fixes"  do
+    it "has acceptable color contrast for tree expand/collapse button, drag & drop image, form element borders and required field indicators", :skip => "UPGRADE waiting on bootstrap fixes" do
       visit "/resources/1/edit"
       expect(page).to be_axe_clean.checking_only :'color-contrast'
     end
