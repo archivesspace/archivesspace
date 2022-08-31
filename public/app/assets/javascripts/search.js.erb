@@ -55,7 +55,7 @@ function initialize_search() {
         }
     });
     $template.find(".norepeat").each(function() {$(this).addClass("d-none"); });
-    $template.find(".hidden").each(function() {$(this).removeClass("hidden"); });
+    $template.find(".d-none.options-for-select").each(function() {$(this).removeClass("d-none"); });
     $template.find("#op0").removeProp("disabled"); /* the disabled boolean operator */
     $template.find("#op0").val('AND');
     $template.find("#op_").remove();

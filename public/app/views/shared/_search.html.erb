@@ -14,7 +14,7 @@
     <div class="row search_row align-items-end pt-1" id="search_row_<%= i %>">
       <div class="col-sm-6 col-md-4 col-xl-1 bool form-group search-operator-field">
         <%= label_tag("op#{i}", t('advanced_search.operator_label'), :class => 'font-weight-bold') %>
-        <%= select_tag('op[]', options_for_select(Search.get_boolean_opts, @search[:op][i]), disabled: (i == 0), :id => "op#{i}",:class=> 'form-control' + (i == 0 ? ' hidden' : '')) %>
+        <%= select_tag('op[]', options_for_select(Search.get_boolean_opts, @search[:op][i]), disabled: (i == 0), :id => "op#{i}",:class=> 'form-control' + (i == 0 ? ' d-none' : '') + ' options-for-select') %>
         <%= hidden_field_tag('op[]','', :id => 'op_') if i == 0 %>
       </div>
       <div class="col-xl-3 col-lg-6 form-group">
