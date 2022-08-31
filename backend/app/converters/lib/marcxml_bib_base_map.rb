@@ -494,19 +494,18 @@ module MarcXMLBibBaseMap
     }
   end
 
-
-  def sets_name_order_from_ind1
+  def sets_jurisdiction_from_ind1
     -> name, node {
       name['jurisdiction'] = case node.value
-                           when '1'
-                             true
-                           when '0'
-                             false
-                           end
+                             when '1'
+                               true
+                             when '0'
+                               false
+                             end
     }
   end
 
-  def sets_jurisdiction_from_ind1
+  def sets_name_order_from_ind1
     -> name, node {
       name['name_order'] = case node.value
                            when '1'
