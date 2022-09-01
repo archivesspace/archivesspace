@@ -860,7 +860,9 @@ de:
         transfer_description: Diesen Eingang übertragen nach...
         suppressed: Eingang <strong>%{accession.display_string}</strong> unterdrückt
         created: Eingang <strong>%{accession.display_string}</strong> angelegt
-        spawned: Dieser Eingang wurde abgeleitet vom Eingang <strong>%{accession.display_string}</strong>
+        spawned: Dieser Eingang wurde vom Eingang <strong>%{accession.display_string}</strong>
+          abgeleitet. Diese Aufzeichnung wurde noch nicht gespeichert. Sie müssen
+          auf Speichern klicken, damit die Aufzeichnung im System erstellt wird.
         transfer_target: Wählen Sie einen Aufbewahrungsort zum Übertragen
       action:
         create: Eingang erstellen
@@ -961,7 +963,12 @@ de:
         transfer_success: Archiv-Objekt <strong>%{archival_object.display_string}</strong>
           erfolgreich zu Aufzeichnung <strong>%{resource.title}</strong> übertragen
         spawned: Dieses Archiv-Objekt wurde aus dem Eingang <strong>%{accession.display_string}</strong>
-          erzeugt
+          abgeleitet. Diese Aufzeichnung wurde noch nicht gespeichert. Sie müssen
+          auf Speichern klicken, damit die Aufzeichnung im System erstellt wird.
+        spawn_placeholder: <em>Abgeleitete Komponente wird hier eingefügt werden</em>
+        spawn_menu_before: Abgeleitete Komponente davor einfügen
+        spawn_menu_child: Abgeleitete Komponente als Kind einfügen
+        spawn_menu_after: Abgeleitete Komponente danach einfügen
       action:
         add_sibling: Geschwister hinzufügen
         save: Archiv-Objekt speichern
@@ -970,6 +977,7 @@ de:
         select_resource: Ressource auswählen
         select_parent: Übergeordnetes Element auswählen
         leave_parent_empty: Schließen / Übergeordnetes Element nicht zuweisen
+        select_parent_and_position: Position der Komponente auswählen
       tree:
         new_record_title: Neues Archiv-Objekt
       section:
@@ -1350,7 +1358,8 @@ de:
         transfer_target: Wählen Sie einen Aufbewahrungsort zum Übertragen
         suppressed_info: Ressource ist unterdrückt und kann nicht bearbeitet werden
         spawned: Eine neue Ressource wurde vom Eingang <strong>%{accession.display_string}</strong>
-          abgeleitet
+          abgeleitet. Diese Aufzeichnung wurde noch nicht gespeichert. Sie müssen
+          auf Speichern klicken, damit die Aufzeichnung im System erstellt wird.
         published: Die Ressource <strong>%{resource.title}</strong>, ihre Teilaufzeichnungen
           und Komponenten wurden veröffentlicht
         unsuppressed: Unterdrückung der Ressource <strong>%{resource.title}</strong>
