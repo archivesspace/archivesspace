@@ -507,7 +507,6 @@ class MARCModel < ASpaceExport::ExportModel
 
   def handle_notes(notes)
     notes.each do |note|
-
       prefix =  case note['type']
                 when 'dimensions'; "Dimensions"
                 when 'physdesc'; "Physical Description note"
@@ -573,6 +572,23 @@ class MARCModel < ASpaceExport::ExportModel
         end
       end
 
+      # ANW-1350: Export bibliography notes to 581
+      # Bibliography notes have a different structure than the notes handled above, so they are processed separately
+
+      if note['jsonmodel_type'] == "note_bibliography"
+        if note['publish'] || @include_unpublished
+          values = []
+          note['content'].each do |c|
+            values.push(['a', c])
+          end
+
+          note['items'].each do |i|
+            values.push(['a', i])
+          end
+
+          df('581', ' ', ' ').with_sfs(*values)
+        end
+      end
     end
   end
 
