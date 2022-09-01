@@ -243,7 +243,6 @@ class ResourcesController < ApplicationController
 
   def inventory
     uri = "/repositories/#{params[:rid]}/resources/#{params[:id]}"
-    check_staff_access(uri)
     tree_root = archivesspace.get_raw_record(uri + '/tree/root') rescue nil
     @has_children = tree_root && tree_root['child_count'] > 0
     # stuff for the collection bits
