@@ -94,7 +94,6 @@ a img {
 
 .more-facets {
   .btn {
-    padding-left: 20px;
     color: $accent-color;
   }
   .below-the-fold {
@@ -854,35 +853,6 @@ span.head {
 #sidebar form {
   max-width: 85%;
   margin: 0 auto;
-}
-
-#sidebar .year_from {
-  padding: 0;
-  padding-right: 0.2rem;
-}
-
-#sidebar .year_to {
-  padding: 0;
-  padding-left: 0.2rem;
-}
-
-.filter_more form {
-  max-width: 90%;
-  margin: 0 auto;
-}
-
-.filter_more .year_from {
-  padding: 0;
-  padding-right: 0.2rem;
-}
-
-.filter_more .year_to {
-  padding: 0;
-  padding-left: 0.2rem;
-}
-
-.sorter {
-  margin-top: 20px;
 }
 
 .panel-heading {
