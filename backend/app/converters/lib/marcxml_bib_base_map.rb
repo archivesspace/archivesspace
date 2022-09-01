@@ -947,16 +947,30 @@ module MarcXMLBibBaseMap
           :rel => :extents,
           :map => {
             "self::datafield" => -> extent, node {
-              ex = node.xpath('.//subfield[@code="a"]')
-              if ex.length > 0
-                ext = ex.first.text
+              a_content = node.xpath('.//subfield[@code="a"]')
+              f_content = node.xpath('.//subfield[@code="f"]')
+
+              # only $a present
+              if a_content && !f_content
+                if a_content.length > 0
+                ext = a_content.first.text
                 if ext =~ /^([0-9\.,]+)+\s+(.*)$/
                   extent.number = $1
                   extent.extent_type = $2
                 elsif ext =~ /^([0-9\.,]+)/
                   extent.number = $1
+                else
+                  raise "The extent field (300) could not be parsed."
                 end
               end
+
+              # $a and $f present
+              elsif a_content && f_content
+                
+              end
+                
+
+              
 
               extent.container_summary = subfield_template("{$3: }{$a }{$b, }{$c }({$e, }{$f, }{$g})", node)
             }
