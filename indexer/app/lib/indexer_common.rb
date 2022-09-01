@@ -733,7 +733,7 @@ class IndexerCommon
         doc['title'] = record['record']['long_display_string']
         doc['display_string'] = record['record']['display_string']
         doc['type_u_ssort'] = record['record']['type']
-        doc['internal_note'] = record['record']['internal_note']
+        doc['notes'] = record['record']['internal_note']
 
         if record['record']['series']
           doc['series_uri_u_sstr'] = record['record']['series'].map {|series| series['ref']}
