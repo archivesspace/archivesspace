@@ -267,10 +267,6 @@ a img {
 }
 
 #whats-in-container {
-  margin-top: rem-calc(20);
-  padding-bottom: rem-calc(20);
-  padding-left: rem-calc(20);
-  margin-bottom: rem-calc(10);
   border: 1px solid $border;
   > h3 {
     margin-top: 0;
@@ -477,8 +473,8 @@ h5,
   }
 }
 
-.only-display-if-0 {
-  display: block !important;
+.navbar-toggler {
+  border: 0;
 }
 
 .spacer {
