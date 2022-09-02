@@ -36,7 +36,7 @@
           </li>
           <% if ['update_accession_record', 'update_resource_record', 'update_digital_object_record',
                  'update_subject_record', 'update_event_record',
-                 'update_agent_record', 'update_location_record', 'update_container_profile'].find {|p| user_can?(p)} %>
+                 'update_agent_record', 'update_location_record', 'update_container_profile', 'create_job'].find {|p| user_can?(p)} %>
             <li class="dropdown create-container">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown"><%= I18n.t("navbar.create") %> <b class="caret"></b></a>
               <ul class="dropdown-menu">

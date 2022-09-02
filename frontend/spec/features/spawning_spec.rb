@@ -34,7 +34,8 @@ describe 'Spawning', js: true do
     find("#spawn-dropdown li:nth-of-type(3)").click
     find("input[value='#{@resource.uri}']").click
     find("#addSelectedButton").click
-    find("input[value='#{@parent.uri}']").click
+    click_link find("#archival_object_#{@parent.id} .title").text
+    find("ul.largetree-dropdown-menu li:nth-of-type(2)").click
     find("#addSelectedButton").click
     expect(page.evaluate_script("location.href")).to include("resource_id=#{@resource.id}")
     expect(page.evaluate_script("location.href")).to include("archival_object_id=#{@parent.id}")
@@ -43,6 +44,9 @@ describe 'Spawning', js: true do
     accession_link = find(:css, "form input[name='archival_object[accession_links][0][ref]']", :visible => false)
     expect(accession_link.value).to eq(@accession.uri)
     find(".save-changes button[type='submit']").click
+    # wait for the form and tree container to load
+    find("#tree-container")
+    find(".record-pane")
     expect(find("div.indent-level-1 div.title")['title']).to eq "Parent"
     expect(find("div.indent-level-2 div.title")['title']).to eq "Spawned Accession"
     ref_id = find(".identifier-display").text

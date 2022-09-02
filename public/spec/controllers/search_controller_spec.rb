@@ -16,7 +16,7 @@ describe SearchController, type: :controller do
 
     expect(response).to have_http_status(200)
     expect(response).to render_template('search/search_results')
-    expect(result_data['total_hits']).to eq(34)
+    expect(result_data['total_hits']).to eq(36)
   end
 
   it 'should return all digital objects when filtered' do
@@ -31,7 +31,7 @@ describe SearchController, type: :controller do
 
     expect(response).to have_http_status(200)
     expect(response).to render_template('search/search_results')
-    expect(result_data['total_hits']).to eq(4)
+    expect(result_data['total_hits']).to eq(5)
   end
 
   it 'should return digital object component with identifier search' do
@@ -59,7 +59,7 @@ describe SearchController, type: :controller do
 
     expect(response).to have_http_status(200)
     expect(response).to render_template('search/search_results')
-    expect(result_data['total_hits']).to eq(1)
+    expect(result_data['total_hits']).to eq(2)
   end
 
   describe 'facet sorting' do

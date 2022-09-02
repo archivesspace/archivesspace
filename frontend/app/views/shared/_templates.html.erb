@@ -119,7 +119,7 @@
      {if defined('primary_button_text')}
      <button id="addSelectedButton" class="btn btn-primary">${primary_button_text}</button>
      {else}
-     <button id="addSelectedButton" class="btn btn-primary"><%= I18n.t "linker.link_to_prefix" %> ${label_plural}</button>
+     <button id="addSelectedButton" class="btn btn-primary">${label_link}</button>
      {/if}
      {if defined('must_select') && must_select}
      {elseif defined('cancel_button_text')}
@@ -132,7 +132,7 @@
 <div id="linker_createmodal_template"><!--
    <div class="modal-body linker-container"></div>
    <div class="modal-footer">
-      <button id="createAndLinkButton" class="btn btn-primary"><%= I18n.t "linker.create_and_link_to_prefix" %> ${label}</button>
+      <button id="createAndLinkButton" class="btn btn-primary">${label_create_and_link}</button>
       <button class="btn btn-cancel btn-default" data-dismiss="modal"><%= I18n.t "actions.cancel" %></button>
    </div>
 --></div>

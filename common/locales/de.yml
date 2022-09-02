@@ -24,7 +24,11 @@ de:
     external_documents_tooltip: "<p>Ermöglicht Verknüpfungen mit externer Dokumentation, z.B. wie eine\
       \ bestimmtes Stichwort zu verwenden ist.</p>\n"
     heading: Schlagwort
-  agent_contact:
+    linker:
+      browse: Themen durchsuchen
+      create: Thema erstellen
+      link_title: Verknüpfung mit Thema
+  agent_contact: &agent_contact
     address_1: Adresse 1
     city: Ort
     address_3: Adresse 3
@@ -236,6 +240,10 @@ de:
     title: Titel
     description: Beschreibung
     creator: Urheber
+    linker:
+      browse: Klassifizierungs-Begriffe durchsuchen
+      create: Klassifizierungs-Begriff erstellen
+      link_title: Verknüpfung mit Klassifizierungs-Begriff
   repository:
     <<: *slug_attributes
     _singular: Aufbewahrungsort
@@ -295,6 +303,10 @@ de:
       \ Archivguts trägt und diese verwahrt.</p>\n<p>Siehe DACS 2.2</p>\n<p>Beispiele:</p>\n<ul>\n<li>Ihr\
       \ Name Hier Bibliothek für besondere Sammlungen</li>\n<li>Österreichische Nationalbibliothek</li>\n\
       <li>Geheimes Staatsarchiv Preußischer Kulturbesitz</li>\n</ul>\n"
+    linker:
+      browse: Aufbewahrungsorte durchsuchen
+      create: Aufbewahrungsort erstellen
+      link_title: Verknüpfung mit Aufbewahrungsort
   classification:
     <<: *slug_attributes
     creator: Urheber
@@ -305,6 +317,10 @@ de:
     title: Titel
     description: Beschreibung
     id_separator: /
+    linker:
+      browse: Klassifizierungen durchsuchen
+      create: Klassifizierung erstellen
+      link_title: Verknüpfung mit Klassifizierung
   agent: &agent_attributes
     <<: *slug_attributes
     _singular: Akteur
@@ -337,6 +353,11 @@ de:
     dates_of_existence_tooltip: "<p>Daten, in denen der Akteur existierte.</p>\n"
     publish: Veröffentlichen
     _plural: Akteure
+    new_title:
+      agent_family: Neue Familie
+      agent_person: Neue Person
+      agent_corporate_entity: Neue Körperschaft
+      agent_software: Neue Software
     agent_record_controls_tooltip: "<p>Informationen über die Aufzeichnung, die den Akteur beschreibt.</p>\n"
     agent_alternate_sets_tooltip: "<p> Wird verwendet, um auf verknüpfte Autoritäts-Aufzeichnungen zu\
       \ verweisen, wenn zwei oder mehr Aufzeichnungen für dieselbe Entität von zwei oder mehr Autoritäts-Systemen\
@@ -369,11 +390,10 @@ de:
       \ für eine Person oder ein MARC Repository Code für eine Körperschaft.</p>\n"
     publish_tooltip: "<p>Gibt an, ob der Akteur in Exporte eingeschlossen und auf der öffentlichen Besucher-Schnittstelle\
       \ veröffentlicht wird (sofern verwendet)</p>\n"
-    new_title:
-      agent_corporate_entity: Neue Körperschaft
-      agent_person: Neue Person
-      agent_software: Neue Software
-      agent_family: Neue Familie
+    linker:
+      browse: Akteure durchsuchen
+      create: Akteur erstellen
+      link_title: Verknüpfung mit Akteur
   agent_person:
     <<: *agent_attributes
     _plural: Personen
@@ -502,6 +522,10 @@ de:
       \ nicht mit dem Titel der Ressource identisch sein. Außerdem muss ein Titel nicht\nfür die Eingangs-Aufzeichnung\
       \ angegeben werden, da er implizit\nvon der Ressourcen-Aufzeichnung geerbt wird, mit dem der Eingang\n\
       verknüpft ist.</p>\n<p>Siehe DACS 2.3.18-2.3.22, ISAD(G) 3.1.2</p>\n"
+    linker:
+      browse: Eingänge durchsuchen
+      create: Eingang erstellen
+      link_title: Verknüpfung mit Eingang
   digital_object: &digital_object_attributes
     <<: [*section_tooltips, *slug_attributes]
     user_defined:
@@ -539,6 +563,10 @@ de:
     restrictions: Einschränkungen?
     restrictions_tooltip: "<p>Ein Kontrollkästchen, das anzeigt, dass Einschränkungen gelten. Die Einschränkungen\
       \ können mit Hilfe von Anmerkungs-Teilaufzeichnungen für Hinweise oder Rechte erläutert werden.</p>\n"
+    linker:
+      browse: Digitale Objekte durchsuchen
+      create: Digitales Objekt erstellen
+      link_title: Verknüpfung mit digitalem Objekt
   content_items:
     content: Inhalt
     content_tooltip: "<p>Der Inhalt der Anmerkung.</p>\n"
@@ -614,6 +642,10 @@ de:
       \ oder Koordinate 1 Beschriftung und Koordinate 1 Indikator müssen Daten enthalten.</p>\n<p>Dient\
       \ zur Erfassung einer Beschriftung (z. B. \"Regal\", \"Bereich\", \"Lade\") für einen bestimmten\
       \ Standort.</p>\n"
+    linker:
+      browse: Standorte durchsuchen
+      create: Standort erstellen
+      link_title: Verknüpfung mit Standort
   location_batch:
     <<: *location_attributes
     label: Beschriftung
@@ -661,6 +693,10 @@ de:
     ref_plural: Aufzeichnungen
     _singular: Aufzeichnungs-Verknüpfung
     _plural: Aufzeichnungs-Verknüpfungen
+    linker_ref:
+      browse: Aufzeichnungen durchsuchen
+      create: Aufzeichnung erstellen
+      link_title: Verknüpfung mit Aufzeichnung
   linked_agent: &linked_agent_attributes
     role: Rolle
     relator: Relator
@@ -2387,6 +2423,8 @@ de:
     purpose_tooltip: "<p>Gibt den Grund für die Durchführung der Bewertung an. Beispiele: Prioritäten\
       \ zur Bestandserhaltung; Prioritäten bei der Bearbeitung; Bewertung; usw.</p>\n"
     general_assessment_note: Allgemeine Anmerkung zur Begutachtung
+    linker:
+      link_title: Verknüpfung mit Aufzeichnung
   assessment_attribute:
     rating:
       "Intellectual Access (description)": Intellektueller Zugang (Beschreibung)

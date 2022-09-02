@@ -11,6 +11,8 @@ services:
       - "3306:3306"
     env_file:
       - .env.docker.db
+    volumes:
+      - ./build/mysql_db_fixtures:/docker-entrypoint-initdb.d
   db2:
     container_name: as_test_db
     image: mysql:8.0

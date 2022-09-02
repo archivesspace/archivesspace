@@ -122,15 +122,31 @@ class Converter
     Array(@converters).each do |converter|
       converter = converter.instance_for(type, input_file)
 
-      if converter && converter.respond_to?(:set_import_events)
-        if opts[:import_events]
-          converter.set_import_events
-        else
-          converter.unset_import_events
-        end
-      end
+      if converter
+        if converter.respond_to?(:set_import_options)
+          import_events   = nil
+          import_subjects = nil
 
-      return converter if converter
+          if opts[:import_events]
+            import_events = true
+          else
+            import_events = false
+          end
+
+          if opts[:import_subjects]
+            import_subjects = true
+          else
+            import_subjects = false
+          end
+
+          unless import_events == nil && import_subjects == nil
+            converter.set_import_options({:import_events   => import_events,
+                                          :import_subjects => import_subjects})
+          end
+        end
+
+        return converter
+      end
     end
 
     raise ConverterNotFound.new("No suitable converter found for #{type}")

@@ -24,7 +24,7 @@ RUN apt-get update && \
         curl \
         firefox-esr \
         git \
-        libmariadbclient-dev \
+        libmariadb-dev \
         mariadb-server \
         mycli \
         python3-pkg-resources \
@@ -32,9 +32,8 @@ RUN apt-get update && \
         ruby-dev \
         shared-mime-info \
         supervisor \
-        vim \
         wget && \
-    gem install rubocop && \
+    gem install bundler rubocop solargraph && \
     # DOWNLOAD & INSTALL SOLR
     wget https://dlcdn.apache.org/lucene/solr/$SOLR_VERSION/solr-$SOLR_VERSION.tgz && \
     tar xzf solr-$SOLR_VERSION.tgz solr-$SOLR_VERSION/bin/install_solr_service.sh --strip-components=2 && \
@@ -43,14 +42,3 @@ RUN apt-get update && \
     wget https://github.com/mozilla/geckodriver/releases/download/v$GECKODRIVER_VERSION/geckodriver-v$GECKODRIVER_VERSION-linux64.tar.gz && \
     tar -zxvf geckodriver-v$GECKODRIVER_VERSION-linux64.tar.gz && \
     mv geckodriver /usr/local/bin
-
-# TODO: evaluate pros/cons of pre-bootstrapping
-# GRAB MASTER BRANCH FOR AN INITIAL BOOTSTRAP TO SPEEDUP ./setup ?
-# RUN git clone --branch master --single-branch https://github.com/archivesspace/archivesspace.git /tmp/archivesspace && \
-# WORKDIR /tmp/archivesspace
-# RUN ./build/run bootstrap && \
-#     mkdir /tmp/build && \
-#     cp -r ./build/gems/ /tmp/build/ && \
-#     cp ./build/*.jar /tmp/build/ && \
-#     cp ./build/*.war /tmp/build/ && \
-#     rm -rf /tmp/archivesspace

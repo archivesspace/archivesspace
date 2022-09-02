@@ -280,7 +280,7 @@ module AspaceFormHelper
           :"data-date" => Date.today.strftime('%Y-%m-%d'),
           :"data-autoclose" => true,
           :"data-force-parse" => false,
-          :"data-label" => I18n.t("actions.date_picker")
+          :"data-label" => I18n.t("actions.date_picker_toggle")
       })
 
       if obj[name].blank? && opts[:default]
@@ -1281,7 +1281,7 @@ module AspaceFormHelper
         elsif schema["properties"][property].has_key?("enum")
           value = I18n.t("#{prefix}#{jsonmodel_type.to_s}.#{property}_#{value}", :default => value)
         elsif schema["properties"][property]["type"] === "boolean"
-          value = value === true ? "True" : "False"
+          value = value === true ? I18n.t('boolean.true') : I18n.t('boolean.false')
         elsif schema["properties"][property]["type"] === "date"
           value = value.blank? ? "" : Date.strptime(value, "%Y-%m-%d")
         elsif schema["properties"][property]["type"] === "integer"

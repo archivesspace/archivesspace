@@ -36,8 +36,10 @@
             aria-autocomplete="both"
             aria-controls="<%= form.id_for("ref") %>_listbox"
             aria-labelledby="<%= form.id_for("ref") %>_label"
-            data-label="<%= I18n.t("classification._singular") %>"
-            data-label_plural="<%= I18n.t("classification._plural") %>"
+            data-label_create="<%= I18n.t("classification.linker.create") %>"
+            data-label_browse="<%= I18n.t("classification.linker.browse") %>"
+            data-label_link="<%= I18n.t("linker.link") %>"
+            data-label_create_and_link="<%= I18n.t("linker.create_and_link") %>"
             data-path="<%= form.path %>"
             data-name="ref"
             data-url="<%= url_for :controller => :search, :action => :do_search, :format => :json %>"
@@ -65,7 +67,7 @@
           <% end %>
           
         <div class="input-group-btn">
-           <a class="btn btn-default dropdown-toggle last" data-toggle="dropdown" href="javascript:void(0);" title="Link to classification" aria-label="Link to classification"><span class="caret"></span></a>
+           <a class="btn btn-default dropdown-toggle last" data-toggle="dropdown" href="javascript:void(0);" title="<%= I18n.t("classification.linker.link_title") %>" aria-label="<%= I18n.t("classification.linker.link_title") %>"><span class="caret"></span></a>
            <ul class="dropdown-menu">
              <li><a href="javascript:void(0);" class="linker-browse-btn"><%= I18n.t("actions.browse") %></a></li>
            </ul>

@@ -35,7 +35,7 @@ group :test do
   gem 'factory_bot', '~> 4.11', '>= 4.11.1'
   gem 'ladle', '0.2.0'
   gem 'rack-test', '~> 1.1.0'
-  gem 'rspec', '~> 3.6.0'
+  gem 'rspec', '~> 3.11.0'
   gem 'rspec-core'
   gem 'simplecov', '0.7.1'
 end

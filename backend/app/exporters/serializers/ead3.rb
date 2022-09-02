@@ -486,6 +486,8 @@ class EAD3Serializer < EADSerializer
 
               handle_arks(data, xml)
 
+              serialize_aspace_uri(data, xml)
+
               unless data.repo.nil? || data.repo.name.nil?
                 xml.repository {
                   xml.corpname {
@@ -518,7 +520,7 @@ class EAD3Serializer < EADSerializer
                 end
               end
 
-              EADSerializer.run_serialize_step(data, xml, @fragments, :did)
+              EAD3Serializer.run_serialize_step(data, xml, @fragments, :did)
 
               # Change from EAD 2002: dao must be children of did in EAD3, not archdesc
               data.digital_objects.each do |dob|
@@ -535,7 +537,7 @@ class EAD3Serializer < EADSerializer
 
             serialize_controlaccess(data, xml, @fragments)
 
-            EADSerializer.run_serialize_step(data, xml, @fragments, :archdesc)
+            EAD3Serializer.run_serialize_step(data, xml, @fragments, :archdesc)
 
             xml.dsc {
 
@@ -1164,6 +1166,8 @@ class EAD3Serializer < EADSerializer
 
           handle_arks(data, xml)
 
+          serialize_aspace_uri(data, xml)
+
           if !data.component_id.nil? && !data.component_id.empty?
             xml.unitid data.component_id
           end
@@ -1183,7 +1187,7 @@ class EAD3Serializer < EADSerializer
             serialize_languages(languages, xml, fragments)
           end
 
-          EADSerializer.run_serialize_step(data, xml, fragments, :did)
+          EAD3Serializer.run_serialize_step(data, xml, fragments, :did)
 
           data.instances_with_sub_containers.each do |instance|
             serialize_container(instance, xml, @fragments)
@@ -1200,7 +1204,7 @@ class EAD3Serializer < EADSerializer
         serialize_bibliographies(data, xml, fragments)
         serialize_indexes(data, xml, fragments)
         serialize_controlaccess(data, xml, fragments)
-        EADSerializer.run_serialize_step(data, xml, fragments, :archdesc)
+        EAD3Serializer.run_serialize_step(data, xml, fragments, :archdesc)
 
         data.children_indexes.each do |i|
           xml.text(
@@ -1218,6 +1222,9 @@ class EAD3Serializer < EADSerializer
     end
   end
 
+  def serialize_aspace_uri(data, xml)
+    xml.unitid ({ 'localtype' => 'aspace_uri' }) { xml.text data.uri }
+  end
 
   def handle_arks(data, xml)
     return unless AppConfig[:arks_enabled]
@@ -1443,6 +1450,7 @@ class EAD3Serializer < EADSerializer
         }
       end
     end
+    EAD3Serializer.run_serialize_step(digital_object, xml, fragments, :dao)
   end
 
 

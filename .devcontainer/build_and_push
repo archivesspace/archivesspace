@@ -1,0 +1,10 @@
+#!/bin/bash
+
+# docker buildx create --name builder --use --bootstrap
+docker buildx build --push \
+  --platform linux/amd64,linux/arm64 \
+  --build-arg GECKODRIVER_VERSION=0.29.1 \
+  --build-arg MYSQL_CONNECTOR_VERSION=8.0.23 \
+  --build-arg SOLR_VERSION=8.11.2 \
+  -f ./Dockerfile \
+  -t archivesspace/devcontainer:latest ..

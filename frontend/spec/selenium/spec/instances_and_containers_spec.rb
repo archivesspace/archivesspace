@@ -240,10 +240,10 @@ describe 'Resource instances and containers' do
     loc_modal.clear_and_send_keys([:id, 'location_coordinate_1_label_'], 'Box XYZ')
     loc_modal.clear_and_send_keys([:id, 'location_coordinate_1_indicator_'], 'XYZ0001')
 
-    @driver.find_element_with_text('//button', /Create and Link to Location/).click
+    loc_modal.find_element(id: 'createAndLinkButton').click
 
     # re-find our original modal
-    @driver.scroll_into_view(@driver.find_element_with_text('//button', /Create and Link to Top Container/)).click
+    @driver.scroll_into_view(modal.find_element(id: 'createAndLinkButton')).click
 
     #add a subcontainer_barcode
     @driver.clear_and_send_keys([:css, '#resource_instances__0__sub_container__barcode_2_'], 'test_child_container_barcode')

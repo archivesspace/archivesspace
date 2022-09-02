@@ -138,13 +138,13 @@ describe 'MARC Export' do
     before(:each) do
       as_test_user('admin') do
         @name = build(:json_name_corporate_entity)
-        agent = create(:json_agent_corporate_entity,
+        @agent = create(:json_agent_corporate_entity_full_subrec,
                       :names => [@name])
         @resource = create(:json_resource,
                            :linked_agents => [
                                               {
                                                 'role' => 'creator',
-                                                'ref' => agent.uri
+                                                'ref' => @agent.uri
                                               }
                                              ]
                            )
@@ -162,6 +162,11 @@ describe 'MARC Export' do
 
     it "maps primary_name to subfield 'a'" do
       expect(@marc).to have_tag "datafield[@tag='110']/subfield[@code='a']" => @name.primary_name + "." || @name.primary_name + ","
+    end
+
+    it "maps primary agent_record_identifier to subfield '0'" do
+      primary_agent_record_identifier = @agent['agent_record_identifiers'].first['record_identifier']
+      expect(@marc).to have_tag "datafield[@tag='110']/subfield[@code='0']" => primary_agent_record_identifier
     end
   end
 
@@ -1318,6 +1323,11 @@ describe 'MARC Export' do
     end
 
 
+    it "maps notes of type 'bibliography' to df 581 (' ', ' '), sf a" do
+      note_test(@resource, @marc, %w(note_bibliography), ['581', ' ', ' '], 'a')
+    end
+
+
     it "maps notes of type 'bioghist' to df 545 (' ', ' '), sf a" do
       note_test(@resource, @marc, %w(bioghist), ['545', ' ', ' '], 'a')
     end
@@ -1339,7 +1349,11 @@ describe 'MARC Export' do
         marc = get_marc(resource)
 
         df = marc.df('856', '4', '2')
-        df.sf_t('u').should match(/#{resource['uri']}/)
+
+        matches_uri      = df.sf_t('u') =~ /#{resource['uri']}/
+        matches_pui_link = df.sf_t('u') =~ /#{AppConfig[:public_url]}/
+
+        expect(matches_uri != nil || matches_pui_link != nil).to eq(true)
       end
     end
 

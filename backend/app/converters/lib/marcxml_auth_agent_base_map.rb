@@ -1,51 +1,76 @@
 module MarcXMLAuthAgentBaseMap
   # import_events determines whether maintenance events are imported
-  def BASE_RECORD_MAP(import_events = false)
+  # import_subjects determines whether subjects are imported
+  def BASE_RECORD_MAP(opts = {:import_events => false, :import_subjects => false})
+    import_events   = opts[:import_events]
+    import_subjects = opts[:import_subjects]
+
     {
       # AGENT PERSON
       "//datafield[@tag='100' and (@ind1='1' or @ind1='0')]" => {
         :obj => :agent_person,
-        :map => agent_person_base(import_events)
+        :map => agent_person_base(import_events, import_subjects)
       },
       # AGENT CORPORATE ENTITY
       "//datafield[@tag='110' or @tag='111']" => {
         :obj => :agent_corporate_entity,
-        :map => agent_corporate_entity_base(import_events)
+        :map => agent_corporate_entity_base(import_events, import_subjects)
       },
       # AGENT FAMILY
       "//datafield[@tag='100' and @ind1='3']" => {
         :obj => :agent_family,
-        :map => agent_family_base(import_events)
+        :map => agent_family_base(import_events, import_subjects)
       }
     }
   end
 
-  def agent_person_base(import_events)
-    {
+  def agent_person_base(import_events, import_subjects)
+    p = {
       'self::datafield' => agent_person_name_map(:name_person, :names),
       "parent::record/datafield[@tag='400' and (@ind1='1' or @ind1='0')]" => agent_person_name_map(:name_person, :names),
-      "parent::record/datafield[@tag='372']/subfield[@code='a']" => agent_topic_map,
       "parent::record/datafield[@tag='375']/subfield[@code='a']" => agent_gender_map
-    }.merge(shared_subrecord_map(import_events))
+    }.merge(shared_subrecord_map(import_events, import_subjects))
+
+    if import_subjects
+      p.merge!({
+        "parent::record/datafield[@tag='372']/subfield[@code='a']" => agent_topic_map
+      })
+    end
+
+    p
   end
 
-  def agent_corporate_entity_base(import_events)
-    {
+  def agent_corporate_entity_base(import_events, import_subjects)
+    c = {
       'self::datafield' => agent_corporate_entity_name_map(:name_corporate_entity, :names),
-      "parent::record/datafield[@tag='410' or @tag='411']" => agent_corporate_entity_name_map(:name_corporate_entity, :names),
-      "parent::record/datafield[@tag='372']/subfield[@code='a']" => agent_function_map
-    }.merge(shared_subrecord_map(import_events))
+      "parent::record/datafield[@tag='410' or @tag='411']" => agent_corporate_entity_name_map(:name_corporate_entity, :names)
+    }.merge(shared_subrecord_map(import_events, import_subjects))
+
+    if import_subjects
+      c.merge!({
+        "parent::record/datafield[@tag='372']/subfield[@code='a']" => agent_function_map
+      })
+    end
+
+    c
   end
 
-  def agent_family_base(import_events)
-    {
+  def agent_family_base(import_events, import_subjects)
+    f = {
       'self::datafield' => agent_family_name_map(:name_family, :names),
-      "parent::record/datafield[@tag='400' and @ind1='3']" => agent_family_name_map(:name_family, :names),
-      "parent::record/datafield[@tag='372']/subfield[@code='a']" => agent_function_map
-    }.merge(shared_subrecord_map(import_events))
+      "parent::record/datafield[@tag='400' and @ind1='3']" => agent_family_name_map(:name_family, :names)
+    }.merge(shared_subrecord_map(import_events, import_subjects))
+
+    if import_subjects
+      f.merge!({
+        "parent::record/datafield[@tag='372']/subfield[@code='a']" => agent_function_map
+      })
+    end
+
+    f
   end
 
-  def shared_subrecord_map(import_events)
+  def shared_subrecord_map(import_events, import_subjects)
     h = {
       'parent::record/leader' => agent_record_control_map,
       "parent::record/controlfield[@tag='001'][not(following-sibling::controlfield[@tag='003']/text()='DLC' and following-sibling::datafield[@tag='010'])]" => agent_record_identifiers_base_map("//record/controlfield[@tag='001']"),
@@ -55,12 +80,7 @@ module MarcXMLAuthAgentBaseMap
       "parent::record/datafield[@tag='035']" => agent_record_identifiers_base_map("parent::record/datafield[@tag='035']/subfield[@code='a']"),
       "parent::record/datafield[@tag='040']/subfield[@code='e']" => convention_declaration_map,
       "parent::record/datafield[@tag='046']" => dates_map,
-      "parent::record/datafield[@tag='370']/subfield[@code='a']" => place_of_birth_map,
-      "parent::record/datafield[@tag='370']/subfield[@code='b']" => place_of_death_map,
-      "parent::record/datafield[@tag='370']/subfield[@code='c']" => associated_country_map,
-      "parent::record/datafield[@tag='370']/subfield[@code='e']" => place_of_residence_map,
-      "parent::record/datafield[@tag='370']/subfield[@code='f']" => other_associated_place_map,
-      "parent::record/datafield[@tag='374']/subfield[@code='a']" => agent_occupation_map,
+
       "parent::record/datafield[@tag='377']" => used_language_map,
       "parent::record/datafield[@tag='500'][not(@ind1='3')]" => related_agent_map('person'),
       "parent::record/datafield[@tag='500'][@ind1='3']" => related_agent_map('family'),
@@ -88,6 +108,17 @@ module MarcXMLAuthAgentBaseMap
     if import_events
       h.merge!({
         "parent::record/controlfield[@tag='005']" => maintenance_history_map
+      })
+    end
+
+    if import_subjects
+      h.merge!({
+        "parent::record/datafield[@tag='374']/subfield[@code='a']" => agent_occupation_map,
+        "parent::record/datafield[@tag='370']/subfield[@code='a']" => place_of_birth_map,
+        "parent::record/datafield[@tag='370']/subfield[@code='b']" => place_of_death_map,
+        "parent::record/datafield[@tag='370']/subfield[@code='c']" => associated_country_map,
+        "parent::record/datafield[@tag='370']/subfield[@code='e']" => place_of_residence_map,
+        "parent::record/datafield[@tag='370']/subfield[@code='f']" => other_associated_place_map
       })
     end
 

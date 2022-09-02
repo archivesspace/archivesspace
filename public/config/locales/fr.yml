@@ -23,7 +23,7 @@ fr:
   brand:
     title: ASpace Interface publique
     title_link_text: Retourner à la page d'accueil ArchivesSpace
-    welcome_head: Bienvenue dans la nouvelle interface publique d'ArchivesSpace
+    welcome_head: Bienvenue sur l'interface publique d'ArchivesSpace
     welcome_message: |
       <p>Faites des recherches croisées dans nos collections, objets numériques et autres.</p>
 

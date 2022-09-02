@@ -27,14 +27,14 @@ describe 'Component Add Children controllers' do
     json_response = ASUtils.json_parse(response.body)
     expect(json_response["status"]).to eq("Updated")
 
-    tree = JSONModel(:resource_tree).find(nil, :resource_id => resource.id)
-    expect(tree.children.length).to eq(4)
+    tree = JSONModel::HTTP.get_json("#{resource.uri}/tree/root")
+    expect(tree['child_count']).to eq(4)
 
     # we've moved the children up a level to be with their original parent.
     children << ao.uri
 
-    tree.children.each_with_index do |child, i|
-      expect(child["record_uri"]).to eq children[i]
+    tree["precomputed_waypoints"][""]["0"].each_with_index do |child, i|
+      expect(child["uri"]).to eq children[i]
     end
 
   end

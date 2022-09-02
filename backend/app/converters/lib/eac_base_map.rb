@@ -1,5 +1,7 @@
 module EACBaseMap
-  def EAC_BASE_MAP(import_events = false)
+  def EAC_BASE_MAP(opts = {:import_events => false})
+    import_events = opts[:import_events]
+
     {
       # AGENT PERSON
       "//eac-cpf//cpfDescription[child::identity/child::entityType='person']" => {

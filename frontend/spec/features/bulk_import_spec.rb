@@ -36,7 +36,9 @@ describe 'Bulk Import', js: true do
     sleep 5
     visit "/jobs"
     expect(page).to have_text "Load via Spreadsheet"
-    click_link "View"
+    first(:link, "View").click
+    wait_for_job_to_complete(page)
+    visit current_path
     expect(page).to have_link "A subseries"
     expect(page).to have_link "The first series"
   end

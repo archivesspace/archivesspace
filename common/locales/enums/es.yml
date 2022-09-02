@@ -1475,6 +1475,7 @@ es:
       new: Nuevo
       revised_corrected: Revisado / Corregido
       upgraded: Actualizado
+      deleted_merged: Eliminado-Fusionado
     modified_record:
       missing_characters: Personajes desaparecidos
       natc: Ningún intento de codificar

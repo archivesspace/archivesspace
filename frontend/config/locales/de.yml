@@ -12,9 +12,10 @@ de:
     confirm: Bestätigen
     confirm_removal: Entfernen bestätigen
     container_labels: Behältnis-Beschriftungen herunterladen
-    create: Erzeugen
+    create: Erstellen
     cut: Ausschneiden
     date_picker: Datumsauswahl öffnen
+    date_picker_toggle: Schalten Sie die Datumsauswahl um
     defaults: Standardwerte
     edit: Bearbeiten
     edit_oai: OAI Einstellungen bearbeiten
@@ -40,7 +41,7 @@ de:
       weiteren gewählten Aufzeichnungen zusammengeführt. Alle weiteren gewählten Aufzeichnungen
       werden gelöscht und jede verknüpfte Aufzeichnung wird neu mit dem ersten gewählten
       Akteur verknüpft.
-    browse: Blättern
+    browse: Durchsuchen
     transfer_record: Übertragen
     batch_merge: Wählen Sie die Aufzeichnung, die mit allen anderen gelisteten Aufzeichnungen
       zusammengeführt wird. Jede verknüpfte Aufzeichnung wird neu mit dieser Aufzeichnung
@@ -238,6 +239,7 @@ de:
       empty: ist leer
     enum_field:
       empty: nicht zugewiesen
+      label: Aufzählungen für die Detailsuche
     search_field: Suchfeld
     search_text: Suchtext
     search_date: Datum
@@ -396,7 +398,7 @@ de:
       close_modal: Ein Dialogfenster schließen (z.B. dieses hier)
       save_record: Die derzeit bearbeitete Aufzeichnung speichern
       close_record: Eine gerade bearbeitete Aufzeichnung schließen
-      open_browse: Blättern-Menu öffnen
+      open_browse: Durchsuchen-Menu öffnen
     quick_reference_window: 'Kurzanleitung: Tastenkürzel'
   states:
     auto_generated: Wird vom System beim Speichern erzeugt
@@ -745,7 +747,7 @@ de:
   login:
     login: Anmelden
     login_please: Bitte melden Sie sich an
-    login_expired_link: Bitte %{link} erneut.
+    login_expired_link: Bitte <a href ='%{link}'>melden Sie sich erneut an</a>.
     login_fail: Anmeldeversuch ist fehlgeschlagen
     login_success: Anmeldung erfolgreich. Weiterleitung...
     username_placeholder: Benutzername
@@ -758,8 +760,8 @@ de:
     save: Änderungen speichern
     dismiss: Änderungen verwerfen
   linker:
-    link_to_prefix: Verknüpfen mit
-    create_and_link_to_prefix: Erstellen und Verknüpfen mit
+    link: Verknüpfen
+    create_and_link: Erstellen und Verknüpfen
     hint_text: Tippen, um verfügbare Aufzeichnungen zu durchsuchen..
     placeholder: Tippen, um verfügbare Aufzeichnungen zu durchsuchen..
     delete: '&times;'
@@ -858,7 +860,9 @@ de:
         transfer_description: Diesen Eingang übertragen nach...
         suppressed: Eingang <strong>%{accession.display_string}</strong> unterdrückt
         created: Eingang <strong>%{accession.display_string}</strong> angelegt
-        spawned: Dieser Eingang wurde abgeleitet vom Eingang <strong>%{accession.display_string}</strong>
+        spawned: Dieser Eingang wurde vom Eingang <strong>%{accession.display_string}</strong>
+          abgeleitet. Diese Aufzeichnung wurde noch nicht gespeichert. Sie müssen
+          auf Speichern klicken, damit die Aufzeichnung im System erstellt wird.
         transfer_target: Wählen Sie einen Aufbewahrungsort zum Übertragen
       action:
         create: Eingang erstellen
@@ -887,6 +891,7 @@ de:
         date_of_existence: Existenzdatum
         basic_information: Grundlegende Informationen
         linked_via_rights_statement: Durch Rechteerklärung verknüpfte Aufzeichnungen
+        events: Ereignisse
         target_record: Diese Aufzeichnung wird aktualisiert
         victim_record: Diese Aufzeichnung wird gelöscht
         structured_date_single_fields: Einzeldatum
@@ -895,7 +900,6 @@ de:
         name: Namensformen
         contacts: Kontaktdetails
         search_embedded: Verknüpfte Aufzeichnungen
-        events: Ereignisse
       action:
         create: Akteur erstellen
         preview: Zusammenführungs-Vorschau
@@ -959,7 +963,12 @@ de:
         transfer_success: Archiv-Objekt <strong>%{archival_object.display_string}</strong>
           erfolgreich zu Aufzeichnung <strong>%{resource.title}</strong> übertragen
         spawned: Dieses Archiv-Objekt wurde aus dem Eingang <strong>%{accession.display_string}</strong>
-          erzeugt
+          abgeleitet. Diese Aufzeichnung wurde noch nicht gespeichert. Sie müssen
+          auf Speichern klicken, damit die Aufzeichnung im System erstellt wird.
+        spawn_placeholder: <em>Abgeleitete Komponente wird hier eingefügt werden</em>
+        spawn_menu_before: Abgeleitete Komponente davor einfügen
+        spawn_menu_child: Abgeleitete Komponente als Kind einfügen
+        spawn_menu_after: Abgeleitete Komponente danach einfügen
       action:
         add_sibling: Geschwister hinzufügen
         save: Archiv-Objekt speichern
@@ -968,6 +977,7 @@ de:
         select_resource: Ressource auswählen
         select_parent: Übergeordnetes Element auswählen
         leave_parent_empty: Schließen / Übergeordnetes Element nicht zuweisen
+        select_parent_and_position: Position der Komponente auswählen
       tree:
         new_record_title: Neues Archiv-Objekt
       section:
@@ -1348,7 +1358,8 @@ de:
         transfer_target: Wählen Sie einen Aufbewahrungsort zum Übertragen
         suppressed_info: Ressource ist unterdrückt und kann nicht bearbeitet werden
         spawned: Eine neue Ressource wurde vom Eingang <strong>%{accession.display_string}</strong>
-          abgeleitet
+          abgeleitet. Diese Aufzeichnung wurde noch nicht gespeichert. Sie müssen
+          auf Speichern klicken, damit die Aufzeichnung im System erstellt wird.
         published: Die Ressource <strong>%{resource.title}</strong>, ihre Teilaufzeichnungen
           und Komponenten wurden veröffentlicht
         unsuppressed: Unterdrückung der Ressource <strong>%{resource.title}</strong>
@@ -1889,6 +1900,14 @@ de:
         collection_resource_singular: Ressource
         collection_accession_singular: Eingang
         collection_resource_plural: Ressourcen
+        collection_resource_linker:
+          browse: Ressourcen durchsuchen
+          create: Ressource erstellen
+          link_title: Verknüpfung mit Eingang
+        collection_accession_linker:
+          browse: Eingänge durchsuchen
+          create: Eingang erstellen
+          link_title: Verknüpfung mit Eingang
         series: Serie
         update_locations_current_location: Aktueller Standort
         batch_delete: Haupt-Behältnisse löschen
@@ -2011,6 +2030,10 @@ de:
       error: Es gab ein Problem beim Löschen der Haupt-Behältnisse
     _singular: Haupt-Behältnis
     _plural: Haupt-Behältnisse
+    linker:
+      browse: Haupt-Behältnisse durchsuchen
+      create: Haupt-Behältnis erstellen
+      link_title: Verknüpfung mit Haupt-Behältnis
   container_profile:
     name: Name
     _frontend:
@@ -2073,6 +2096,10 @@ de:
     extent_dimension_tooltip: "<p>Die Einheit, um die Umfangs-Einheit des Archivguts\
       \ im Behältnis zu berechnen und anzugeben. Das hilft zu ermitteln welche Einheit\
       \ vom Umfang-Rechner gemessen wird.</p>\n"
+    linker:
+      browse: Behältnis-Profile durchsuchen
+      create: Behältnis-Profil erstellen
+      link_title: Verknüpfung mit Behältnis-Profil
   rights_restriction:
     local_access_restriction_type_inline_help: Halten Sie Strg (Windows) / Cmd (Mac)
       gedrückt, um mehrere Optionen auszuwählen oder eine Option abzuwählen
@@ -2108,11 +2135,15 @@ de:
         basic_information: Grundlegende Informationen
     width: Breite
     _singular: Standort-Profil
-    _plural: Standorte-Profile
+    _plural: Standort-Profile
     name: Name
     dimension_units: Abmessungs-Einheiten
     depth: Tiefe
     height: Höhe
+    linker:
+      browse: Standort-Profile durchsuchen
+      create: Standort-Profil erstellen
+      link_title: Verknüpfung mit Standort-Profil
   extent_calculator:
     create_extent_record_message: Führen Sie den Umfangs-Rechner im Bearbeiten-Modus
       aus, um die Möglichkeit zu haben, eine Umfang-Aufzeichnung basierend auf dem

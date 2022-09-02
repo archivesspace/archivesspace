@@ -207,6 +207,10 @@ en:
     error_no_term: No search term(s) entered.
     toggle_navigation: Toggle Navigation
 
+  navigation:
+    hierarchical: hierarchical navigation
+    top_level: top-level navigation
+
   internal_links:
     main: Main Content
     filter: Filter Results

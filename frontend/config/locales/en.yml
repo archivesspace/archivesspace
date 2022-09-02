@@ -21,6 +21,7 @@ en:
     create: Create
     cut: Cut
     date_picker: Open Date Picker
+    date_picker_toggle: Toggle the Date Picker
     defaults: Default Values
     edit: Edit
     edit_oai: Edit OAI Settings
@@ -438,6 +439,7 @@ en:
       create_time: Created
       asc: Ascending
       desc: Descending
+      notes: Note
     location_profile:
       score: Relevance
       title: Title
@@ -517,6 +519,7 @@ en:
       empty: is empty
     enum_field:
       empty: unassigned
+      label: Advanced search enumerations
     search_field: Search Field
     search_text: Search Text
     search_date: Date
@@ -609,7 +612,7 @@ en:
   login:
     login: Sign In
     login_please: Please Sign In
-    login_expired_link: Please %{link} again.
+    login_expired_link: Please <a href ='%{link}'>sign in again</a>.
     login_fail: Login attempt failed
     login_success: Login Successful. Redirecting...
     username_placeholder: Username
@@ -626,8 +629,8 @@ en:
     dismiss: Dismiss Changes
 
   linker:
-    link_to_prefix: Link to
-    create_and_link_to_prefix: Create and Link to
+    link: Link
+    create_and_link: Create and Link
     hint_text: Type to search available records..
     placeholder: Type to search available records..
     no_results: No matching results.  Try 'Browse'.
@@ -735,7 +738,7 @@ en:
         deleted: Accession <strong>%{accession.display_string}</strong> deleted
         transfer_description: Transfer this accession to...
         transfer_target: Select a repository to transfer into
-        spawned: "This Accession has been spawned from Accession <strong>%{accession.display_string}</strong>"
+        spawned: "This Accession has been spawned from Accession <strong>%{accession.display_string}</strong>. This record is unsaved. You must click Save for the record to be created in the system."
         delete_conflict: "Accession could not be deleted: <pre>%{error}</pre>"
       section:
         basic_information: Basic Information
@@ -839,8 +842,12 @@ en:
         suppressed: Archival Object <strong>%{archival_object.title}</strong> suppressed
         suppressed_info: Archival Object is suppressed and cannot be edited
         has_unpublished_ancestor: Please be aware this record has an ancestor that is unpublished.
-        spawned: "This Archival Object has been spawned from Accession <strong>%{accession.display_string}</strong>"
+        spawned: "This Archival Object has been spawned from Accession <strong>%{accession.display_string}</strong>. This record is unsaved. You must click Save for the record to be created in the system."
         delete_conflict: "Archival Object could not be deleted: <pre>%{error}</pre>"
+        spawn_placeholder: "<em>Spawned component will be inserted here</em>"
+        spawn_menu_before: Insert spawned component before
+        spawn_menu_child: Insert spawned component as child
+        spawn_menu_after: Insert spawned component after
       section:
         basic_information: Basic Information
       action:
@@ -849,7 +856,7 @@ en:
         save: Save Archival Object
         bulk_import: Load via Spreadsheet
         select_resource: Select Resource
-        select_parent: Select Parent
+        select_parent_and_position: Select Component Position
         leave_parent_empty: Close / Do not Assign Parent
 
       tree:
@@ -1234,7 +1241,7 @@ en:
       messages:
         created: "Resource <strong>%{resource.title}</strong> created"
         updated: "Resource <strong>%{resource.title}</strong> updated"
-        spawned: "A new Resource has been spawned from Accession <strong>%{accession.display_string}</strong>"
+        spawned: "A new Resource has been spawned from Accession <strong>%{accession.display_string}</strong>. This record is unsaved. You must click Save for the record to be created in the system."
         deleted: "Resource <strong>%{resource.title}</strong> deleted"
         published: "The Resource <strong>%{resource.title}</strong>, its subrecords and components have been published"
         unpublished: "The Resource <strong>%{resource.title}</strong>, its children, subrecords and components have been unpublished"
@@ -1597,6 +1604,14 @@ en:
         collection_resource_plural: Resources
         collection_accession_singular: Accession
         collection_accession_plural: Accessions
+        collection_resource_linker:
+          browse: Browse Resources
+          create: Create Resource
+          link_title: Link to resource
+        collection_accession_linker:
+          browse: Browse Accessions
+          create: Create Accession
+          link_title: Link to accession
         series: Series
         current_location: Current Location
         keyword_criteria: Keyword
@@ -1640,6 +1655,10 @@ en:
         update_locations_new_location: New Location
         has_location_true: "Yes"
         has_location_false: "No"
+    linker:
+      browse: Browse Top Containers
+      create: Create Top Container
+      link_title: Link to top container
 
   container_profile:
     _singular: Container Profile
@@ -1664,6 +1683,9 @@ en:
         confirm_merge_question: Are you sure you want to merge the container profiles as listed below? This action is irreversible.
         confirm_merge_victims: "Merge the following container profile(s):"
         confirm_merge_target: "Into this container profile:"
+    notes: Note
+    notes_tooltip: |
+      <p>A note for miscellaneous information/metadata.</p>
     name: Name
     name_tooltip: |
         <p>REQUIRED FIELD. The name of the container profile. May be generic or specific.</p>
@@ -1704,6 +1726,10 @@ en:
     stacking_limit: Stacking Limit
     stacking_limit_tooltip: |
         <p>The number of these containers that can be stacked on top of one another. Leave blank if there is no limit. Must be a positive integer.</p>
+    linker:
+      browse: Browse Container Profiles
+      create: Create Container Profile
+      link_title: Link to container profile
 
   rights_restriction:
     begin: Restriction Begin
@@ -1757,6 +1783,10 @@ en:
     depth: Depth
     height: Height
     width: Width
+    linker:
+      browse: Browse Location Profiles
+      create: Create Location Profile
+      link_title: Link to location profile
 
   space_calculator:
     modal_title: Space Calculator

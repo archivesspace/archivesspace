@@ -1,6 +1,6 @@
 <%
    section_id = "dates" if section_id.blank?
-   section_title = "Dates" if section_title.blank?
+   section_title = I18n.t('date._plural') if section_title.blank?
 %>
 
 <section id="<%= section_id %>">
