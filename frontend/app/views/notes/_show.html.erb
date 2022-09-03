@@ -35,7 +35,7 @@
 <%= render_aspace_partial :partial => "notes/template" %>
 
 <section id="<%= section_id %>" class="subrecord-form">
-  <<%= heading_size %> class="subrecord-form-heading"><%= I18n.t("note._plural") %></<%= heading_size %>>
+  <<%= heading_size %> class="subrecord-form-heading"><%= t("note._plural") %></<%= heading_size %>>
   <div class="subrecord-form-container">
     <%= context.list_for(context["notes"], "notes[]") do |note| %>
       <% context.emit_template(note["jsonmodel_type"]) %>

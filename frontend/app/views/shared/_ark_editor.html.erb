@@ -1,20 +1,20 @@
-<a class="edit-arks-btn" href=""><%= I18n.t('arks.edit') %></a>
+<a class="edit-arks-btn" href=""><%= t('arks.edit') %></a>
 
 <div id="edit_arks_modal_template" style="display: none">
     <div class="modal-body edit-arks-form">
-        <div style="display: none" class="ark-error-ark_collision"><%= I18n.t("arks.ark_editor_errors.ark_collision") %></div>
-        <div style="display: none" class="ark-error-ark_format_error"><%= I18n.t("arks.ark_editor_errors.ark_format_error") %></div>
+        <div style="display: none" class="ark-error-ark_collision"><%= t("arks.ark_editor_errors.ark_collision") %></div>
+        <div style="display: none" class="ark-error-ark_format_error"><%= t("arks.ark_editor_errors.ark_format_error") %></div>
 
 
         <div class="alert alert-danger ark-errors" style="display: none"></div>
 
         <table class="table ark-table">
-            <tr><th><%= I18n.t('arks.ark') %></th><th><!-- actions --></th></tr>
+            <tr><th><%= t('arks.ark') %></th><th><!-- actions --></th></tr>
 
             <tr class="current-ark-value">
                 <td class="ark-value"></td>
                 <td class="ark-actions">
-                    <span class="badge"><%= I18n.t('arks.current') %></span>
+                    <span class="badge"><%= t('arks.current') %></span>
                     <label class="pull-right">
                         <input
                             class="current-ark-is-external"
@@ -32,27 +32,27 @@
 
             <tr class="only-current-ark-external-msg" style="display: none">
                 <td colspan="2" style="text-align: right">
-                    <small class="text-muted"><%= I18n.t('arks.only_current_ark_can_be_external') %></small>
+                    <small class="text-muted"><%= t('arks.only_current_ark_can_be_external') %></small>
                 </td>
             </tr>
 
             <tr class="previous-ark-value-template" style="display: none">
                 <td class="ark-value"></td>
                 <td class="ark-actions">
-                    <button class="btn btn-sm set-ark-current"><%= I18n.t('arks.set_current') %></button>
-                    <button class="btn btn-sm btn-danger remove-ark"><%= I18n.t('arks.remove_ark') %></button>
+                    <button class="btn btn-sm set-ark-current"><%= t('arks.set_current') %></button>
+                    <button class="btn btn-sm btn-danger remove-ark"><%= t('arks.remove_ark') %></button>
                 </td>
             </tr>
         </table>
 
         <div class="form-group">
-            <label for="new-ark-value"><%= I18n.t('arks.add_new') %></label>
+            <label for="new-ark-value"><%= t('arks.add_new') %></label>
             <div class="row">
                 <div class="col-md-8">
                     <input type="text" class="new-ark-value form-control" name="new_ark_value">
                 </div>
                 <div class="col-md-4">
-                    <button class="add-new-ark btn btn-primary"><%= I18n.t('arks.add_new') %></button>
+                    <button class="add-new-ark btn btn-primary"><%= t('arks.add_new') %></button>
                 </div>
             </div>
         </div>
@@ -62,14 +62,14 @@
         <div class="form-actions">
             <div>
                 <div style="display: inline-block">
-                    <button class="btn btn-primary btn-save-arks"><%= I18n.t('arks.save') %></button>
-                    <div class="text-muted ark-no-changes"><small><%= I18n.t('arks.no_changes') %></small></div>
+                    <button class="btn btn-primary btn-save-arks"><%= t('arks.save') %></button>
+                    <div class="text-muted ark-no-changes"><small><%= t('arks.no_changes') %></small></div>
                 </div>
 
-                <button class="btn btn-default btn-cancel pull-right"><%= I18n.t('actions.cancel') %></button>
+                <button class="btn btn-default btn-cancel pull-right"><%= t('actions.cancel') %></button>
             </div>
             <div>
-                <small style="display: none" class="unsubmitted-input-msg text-muted"><%= I18n.t('arks.unsubmitted_input') %></small>
+                <small style="display: none" class="unsubmitted-input-msg text-muted"><%= t('arks.unsubmitted_input') %></small>
             </div>
         </div>
     </div>
@@ -278,7 +278,7 @@
      event.preventDefault();
      var dialog_content = AS.renderTemplate("edit_arks_modal_template");
 
-     $modal = AS.openCustomModal("editArksModal", "<%= I18n.t('arks.modal_title') %>", dialog_content, 'large');
+     $modal = AS.openCustomModal("editArksModal", "<%= t('arks.modal_title') %>", dialog_content, 'large');
 
      new EditArksForm($modal.find('.edit-arks-form'),
                       () => { window.location.reload(); },

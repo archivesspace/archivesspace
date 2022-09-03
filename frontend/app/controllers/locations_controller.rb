@@ -17,7 +17,7 @@ class LocationsController < ApplicationController
         search_params = params_for_backend_search.merge({"facet[]" => SearchResultData.LOCATION_FACETS, "blank_facet_query_fields" => ["owner_repo_display_string_u_ssort"]})
         search_params["type[]"] = "location"
         uri = "/repositories/#{session[:repo_id]}/search"
-        csv_response( uri, Search.build_filters(search_params), "#{I18n.t('location._plural').downcase}." )
+        csv_response( uri, Search.build_filters(search_params), "#{t('location._plural').downcase}." )
       }
     end
   end
@@ -63,7 +63,7 @@ class LocationsController < ApplicationController
                 :on_valid => ->(id) {
                   return render :json => @location.to_hash if inline?
 
-                  flash[:success] = I18n.t("location._frontend.messages.created")
+                  flash[:success] = t("location._frontend.messages.created")
                   if params.has_key?(:plus_one)
                     sticky_params = { :controller => :locations, :action => :new}
                     @location.to_hash.each_pair do |k, v|
@@ -84,7 +84,7 @@ class LocationsController < ApplicationController
                 :obj => obj,
                 :on_invalid => ->() { return render :action => :edit },
                 :on_valid => ->(id) {
-                  flash[:success] = I18n.t("location._frontend.messages.updated")
+                  flash[:success] = t("location._frontend.messages.updated")
                   redirect_to :controller => :locations, :action => :edit, :id => id
                 })
   end
@@ -119,7 +119,7 @@ class LocationsController < ApplicationController
                                                                         JSONModel(:location).schema)
                               }).save
 
-      flash[:success] = I18n.t("default_values.messages.defaults_updated")
+      flash[:success] = t("default_values.messages.defaults_updated")
       redirect_to :controller => :locations, :action => :defaults
     rescue Exception => e
       flash[:error] = e.message
@@ -184,9 +184,9 @@ class LocationsController < ApplicationController
 
         # we want 'created' or 'updated' messages displayed
         if @location_batch.jsonmodel_type == "location_batch_update"
-          flash[:success] = I18n.t("location_batch._frontend.messages.updated", :number_created => batch_response.length)
+          flash[:success] = t("location_batch._frontend.messages.updated", :number_created => batch_response.length)
         else
-          flash[:success] = I18n.t("location_batch._frontend.messages.created", :number_created => batch_response.length)
+          flash[:success] = t("location_batch._frontend.messages.created", :number_created => batch_response.length)
         end
 
         if params.has_key?(:plus_one)
@@ -216,7 +216,7 @@ class LocationsController < ApplicationController
       return redirect_to(:controller => :locations, :action => :show, :id => location.id)
     end
 
-    flash[:success] = I18n.t("location._frontend.messages.deleted", JSONModelI18nWrapper.new(:location => location))
+    flash[:success] = t("location._frontend.messages.deleted", JSONModelI18nWrapper.new(:location => location))
     redirect_to(:controller => :locations, :action => :index, :deleted_uri => location.uri)
   end
 end

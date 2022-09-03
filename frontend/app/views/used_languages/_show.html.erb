@@ -15,9 +15,9 @@
             </div>
             <div class="col-md-6">
               <% if !used_language["language"].blank? %>
-                <%= I18n.t("enumerations.language_iso639_2.#{used_language['language']}", :default => used_language['language']) %>
+                <%= t("enumerations.language_iso639_2.#{used_language['language']}", :default => used_language['language']) %>
               <% else %>
-                <%= I18n.t("used_language._singular") %>
+                <%= t("used_language._singular") %>
               <% end %>
             </div>
           </div>

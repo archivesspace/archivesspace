@@ -32,10 +32,6 @@ module I18n
     LOCALES
   end
 
-  def self.t(*args)
-    self.t_raw(*args)
-  end
-
   def self.prioritize_plugins!
     self.load_path = self.load_path.reject { |p| p.match /plugins\// } + self.load_path.reject { |p| !p.match /plugins\// }
   end

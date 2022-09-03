@@ -1,14 +1,14 @@
 <%= render_aspace_partial :partial => "related_agents/template" %>
 
 <section id="related_agents" class="subrecord-form">
-  <h3 class="subrecord-form-heading"><%= I18n.t("related_agent._plural") %></h3>
+  <h3 class="subrecord-form-heading"><%= t("related_agent._plural") %></h3>
   <div class="subrecord-form-container">
     <%= context.list_for(context["related_agents"], "related_agents[]") do |related_agent| %>
       <% context.emit_template(related_agent["jsonmodel_type"], :readonly => true) %>
       <% if !related_agent["dates"].blank? %>
         <% dates = [] %>
         <% dates << related_agent["dates"] %>
-        <%= render_aspace_partial :partial => "structured_dates/show", :locals => { :dates => dates, :section_id => "related_agent_dates", :section_title => I18n.t("related_agent.dates"), :heading_size => "h4"} %>
+        <%= render_aspace_partial :partial => "structured_dates/show", :locals => { :dates => dates, :section_id => "related_agent_dates", :section_title => t("related_agent.dates"), :heading_size => "h4"} %>
       <% end %>
     <% end %>
   </div>

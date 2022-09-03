@@ -17,7 +17,7 @@ class EventsController < ApplicationController
         search_params = params_for_backend_search.merge({"facet[]" => SearchResultData.EVENT_FACETS})
         search_params["type[]"] = "event"
         uri = "/repositories/#{session[:repo_id]}/search"
-        csv_response( uri, Search.build_filters(search_params), "#{I18n.t('event._plural').downcase}." )
+        csv_response( uri, Search.build_filters(search_params), "#{t('event._plural').downcase}." )
       }
     end
   end
@@ -29,7 +29,7 @@ class EventsController < ApplicationController
   def show
     @event = JSONModel(:event).find(params[:id], find_opts)
 
-    flash.now[:info] = I18n.t("event._frontend.messages.suppressed_info") if @event.suppressed
+    flash.now[:info] = t("event._frontend.messages.suppressed_info") if @event.suppressed
   end
 
   def new
@@ -77,7 +77,7 @@ class EventsController < ApplicationController
                   render :action => :new
                 },
                 :on_valid => ->(id) {
-                  flash[:success] = I18n.t("event._frontend.messages.created")
+                  flash[:success] = t("event._frontend.messages.created")
                   return redirect_to :controller => :events, :action => :new if params.has_key?(:plus_one)
 
                   # we parse the reference as a simple sanity check here...
@@ -103,7 +103,7 @@ class EventsController < ApplicationController
                 :obj => JSONModel(:event).find(params[:id]),
                 :on_invalid => ->() { render :action => :edit },
                 :on_valid => ->(id) {
-                  flash[:success] = I18n.t("event._frontend.messages.updated")
+                  flash[:success] = t("event._frontend.messages.updated")
                   redirect_to :controller => :events, :action => :edit, :id => id
                 })
   end
@@ -113,7 +113,7 @@ class EventsController < ApplicationController
     event = JSONModel(:event).find(params[:id])
     event.delete
 
-    flash[:success] = I18n.t("event._frontend.messages.deleted", JSONModelI18nWrapper.new(:event => event))
+    flash[:success] = t("event._frontend.messages.deleted", JSONModelI18nWrapper.new(:event => event))
     redirect_to(:controller => :events, :action => :index, :deleted_uri => event.uri)
   end
 
@@ -138,7 +138,7 @@ class EventsController < ApplicationController
                                                                         JSONModel(:event).schema)
                               }).save
 
-      flash[:success] = I18n.t("default_values.messages.defaults_updated")
+      flash[:success] = t("default_values.messages.defaults_updated")
       redirect_to :controller => :events, :action => :defaults
     rescue Exception => e
       flash[:error] = e.message
