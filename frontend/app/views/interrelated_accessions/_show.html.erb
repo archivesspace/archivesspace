@@ -3,7 +3,7 @@
 %>
 
 <section id="<%= section_id %>" class="subrecord-form-dummy">
-  <h3><%= I18n.t("related_accession._plural") %></h3>
+  <h3><%= t("related_accession._plural") %></h3>
 
 
   <div class="subrecord-form-container">
@@ -11,16 +11,16 @@
       <table class="table table-striped table-bordered table-condensed table-hover token-list">
         <thead>
           <tr>
-            <td><%= I18n.t("accession.relator") %></td>
-            <td><%= I18n.t("accession.relator_type") %></td>
-            <td><%= I18n.t("accession._singular") %></td>
+            <td><%= t("accession.relator") %></td>
+            <td><%= t("accession.relator_type") %></td>
+            <td><%= t("accession._singular") %></td>
           </tr>
         </thead>
         <tbody>
           <% related_accessions.each_with_index do | accession, index | %>
             <tr>
-              <td><%= I18n.t("#{accession['jsonmodel_type']}.#{accession['relator']}") %></td>
-              <td><%= I18n.t("#{accession['jsonmodel_type']}.#{accession['relator_type']}") %></td>
+              <td><%= t("#{accession['jsonmodel_type']}.#{accession['relator']}") %></td>
+              <td><%= t("#{accession['jsonmodel_type']}.#{accession['relator_type']}") %></td>
               <td>
                 <%= render_token :object => accession["_resolved"],
                                  :label => accession["_resolved"]["display_string"],

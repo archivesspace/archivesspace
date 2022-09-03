@@ -6,7 +6,7 @@
 %>
 
 <section id="<%= section_title + rand(1000000).to_s %>">
-  <h4><%= I18n.t("agent_parallel_name._plural") %></h4>
+  <h4><%= t("agent_parallel_name._plural") %></h4>
   <div class="panel-group details" id="agent_parallel_name_accordion_<%= parent_index %>">
     <% names.each_with_index do | name, index | %>
       <div class="panel panel-default">
@@ -29,7 +29,7 @@
         <div id="agent_parallel_name_<%= parent_index %>_<%= index %>" class="accordion-body collapse">
           <%= read_only_view(name.to_hash) %>
           <% if name['use_dates'].length > 0 %>
-            <%= render_aspace_partial :partial => "structured_dates/show", :locals => { :dates => name['use_dates'], :section_id => "name_use_dates_parallel_#{parent_index}_#{index}", :section_title => I18n.t("agent_parallel_name.use_dates"), :heading_size => "h4"} %>
+            <%= render_aspace_partial :partial => "structured_dates/show", :locals => { :dates => name['use_dates'], :section_id => "name_use_dates_parallel_#{parent_index}_#{index}", :section_title => t("agent_parallel_name.use_dates"), :heading_size => "h4"} %>
           <% end %>
         </div>
       </div>

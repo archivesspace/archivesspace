@@ -1,16 +1,16 @@
 <%= form.label_and_textfield "description", :required => true %>
 
 <div class="form-group group-member-form-group">
-  <label for="group_member_usernames_" class="control-label col-xs-2"><%= I18n.t("group.member_usernames") %></label>
+  <label for="group_member_usernames_" class="control-label col-xs-2"><%= t("group.member_usernames") %></label>
     <div class="member-toolbar col-xs-10">
       <div class="form-group">
         <div class="input-group col-xs-6">
-          <label for="new-member" class="sr-only"><%= I18n.t("user.username") %> </label>
-          <input id="new-member" class="form-control" type="text" autocomplete="off" placeholder="<%= I18n.t("user.username") %>" />
+          <label for="new-member" class="sr-only"><%= t("user.username") %> </label>
+          <input id="new-member" class="form-control" type="text" autocomplete="off" placeholder="<%= t("user.username") %>" />
           <span class="input-group-btn">
-            <button id="add-new-member" class="btn btn-default"><%= I18n.t("actions.add") %></button>
+            <button id="add-new-member" class="btn btn-default"><%= t("actions.add") %></button>
 
-            <button id="remove-member" class="btn btn-default" disabled="disabled"><%= I18n.t("actions.remove") %></button>
+            <button id="remove-member" class="btn btn-default" disabled="disabled"><%= t("actions.remove") %></button>
 
           </span>
         </div>
@@ -27,7 +27,7 @@
 
 <div class="form-group">
   <fieldset>
-    <legend class="control-label col-xs-2"><%= I18n.t("group.permissions") %></legend>
+    <legend class="control-label col-xs-2"><%= t("group.permissions") %></legend>
     <div class="col-xs-10">
       <% JSONModel(:permission).all(:level => "repository").each do |permission| %>
         <div class="input-group">
@@ -41,7 +41,7 @@
                    value="<%= permission.permission_code %>" />
           </span>
           <label class="form-control" for="<%= permission.permission_code %>" disabled>
-            <%= I18n.t("group.permission_types.#{permission.permission_code}", :default => permission.permission_code) %>
+            <%= t("group.permission_types.#{permission.permission_code}", :default => permission.permission_code) %>
           </label>
         </div>
       <% end %>
@@ -52,10 +52,10 @@
 <div class="form-actions">
   <button type="submit" class="btn btn-primary">
     <% if @group.id.blank? %>
-      <%= I18n.t("group._frontend.action.create") %>
+      <%= t("group._frontend.action.create") %>
     <% else %>
-      <%= I18n.t("group._frontend.action.save") %>
+      <%= t("group._frontend.action.save") %>
     <% end %>
   </button>
-  <%= link_to I18n.t("actions.cancel"), {:controller => :groups, :action => :index}, :class => "btn btn-secondary btn-cancel btn-default" %>
+  <%= link_to t("actions.cancel"), {:controller => :groups, :action => :index}, :class => "btn btn-secondary btn-cancel btn-default" %>
 </div>

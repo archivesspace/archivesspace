@@ -729,15 +729,15 @@ en:
     component_links: Linked Components
     _frontend:
       messages:
-        created: Accession <strong>%{accession.display_string}</strong> created
-        unsuppressed: Accession <strong>%{accession.display_string}</strong> unsuppressed
-        updated: Accession <strong>%{accession.display_string}</strong> updated
-        suppressed: Accession <strong>%{accession.display_string}</strong> suppressed
+        created: Accession <strong>%{accession_display_string}</strong> created
+        unsuppressed: Accession <strong>%{accession_display_string}</strong> unsuppressed
+        updated: Accession <strong>%{accession_display_string}</strong> updated
+        suppressed: Accession <strong>%{accession_display_string}</strong> suppressed
         suppressed_info: Accession is suppressed and cannot be edited
-        deleted: Accession <strong>%{accession.display_string}</strong> deleted
+        deleted: Accession <strong>%{accession_display_string}</strong> deleted
         transfer_description: Transfer this accession to...
         transfer_target: Select a repository to transfer into
-        spawned: "This Accession has been spawned from Accession <strong>%{accession.display_string}</strong>. This record is unsaved. You must click Save for the record to be created in the system."
+        spawned: "This Accession has been spawned from Accession <strong>%{accession_display_string}</strong>. This record is unsaved. You must click Save for the record to be created in the system."
         delete_conflict: "Accession could not be deleted: <pre>%{error}</pre>"
       section:
         basic_information: Basic Information
@@ -751,7 +751,7 @@ en:
         created: Agent Created
         updated: Agent Saved
         deleted: Agent Deleted
-        published: "The Agent <strong>%{agent.title}</strong>, its subrecords and components have been published"
+        published: "The Agent <strong>%{agent_title}</strong>, its subrecords and components have been published"
         delete_conflict: "Agent could not be deleted: <pre>%{error}</pre>"
         merge_description: Select the agent to merge into
         merged: Agent(s) Merged
@@ -827,21 +827,21 @@ en:
     new_title: New Archival Object
     _frontend:
       messages:
-        created: Archival Object <strong>%{archival_object.display_string}</strong> on Resource <strong>%{resource.title}</strong> created
-        created_with_parent: Archival Object <strong>%{archival_object.display_string}</strong> created as child of <strong>%{parent.display_string}</strong> on Resource <strong>%{resource.title}</strong>
-        updated: Archival Object <strong>%{archival_object.display_string}</strong> updated
-        updated_with_parent: Archival Object <strong>%{archival_object.display_string}</strong> updated
+        created: Archival Object <strong>%{archival_object_display_string}</strong> on Resource <strong>%{resource_title}</strong> created
+        created_with_parent: Archival Object <strong>%{archival_object_display_string}</strong> created as child of <strong>%{parent_display_string}</strong> on Resource <strong>%{resource_title}</strong>
+        updated: Archival Object <strong>%{archival_object_display_string}</strong> updated
+        updated_with_parent: Archival Object <strong>%{archival_object_display_string}</strong> updated
         please_select_a_resource_for_transfer: Please choose a Resource
-        transfer_success: Successfully transferred Archival Object <strong>%{archival_object.display_string}</strong> to Resource <strong>%{resource.title}</strong>
+        transfer_success: Successfully transferred Archival Object <strong>%{archival_object_display_string}</strong> to Resource <strong>%{resource_title}</strong>
         transfer_error: "Unable to transfer Archival Object due to an error or conflict: <pre>%{exception}</pre>"
-        deleted: "Archival Object <strong>%{archival_object.display_string}</strong> deleted"
-        published: "The Archival Object <strong>%{archival_object.title}</strong>, its children, subrecords and components have been published"
-        unpublished: "The Archival Object <strong>%{archival_object.title}</strong>, its children, subrecords and components have been unpublished"
-        unsuppressed: Archival Object <strong>%{archival_object.title}</strong> unsuppressed
-        suppressed: Archival Object <strong>%{archival_object.title}</strong> suppressed
+        deleted: "Archival Object <strong>%{archival_object_display_string}</strong> deleted"
+        published: "The Archival Object <strong>%{archival_object_title}</strong>, its children, subrecords and components have been published"
+        unpublished: "The Archival Object <strong>%{archival_object_title}</strong>, its children, subrecords and components have been unpublished"
+        unsuppressed: Archival Object <strong>%{archival_object_title}</strong> unsuppressed
+        suppressed: Archival Object <strong>%{archival_object_title}</strong> suppressed
         suppressed_info: Archival Object is suppressed and cannot be edited
         has_unpublished_ancestor: Please be aware this record has an ancestor that is unpublished.
-        spawned: "This Archival Object has been spawned from Accession <strong>%{accession.display_string}</strong>. This record is unsaved. You must click Save for the record to be created in the system."
+        spawned: "This Archival Object has been spawned from Accession <strong>%{accession_display_string}</strong>. This record is unsaved. You must click Save for the record to be created in the system."
         delete_conflict: "Archival Object could not be deleted: <pre>%{error}</pre>"
         spawn_placeholder: "<em>Spawned component will be inserted here</em>"
         spawn_menu_before: Insert spawned component before
@@ -864,9 +864,9 @@ en:
   classification:
     _frontend:
       messages:
-        created: "Classification <strong>%{classification.title}</strong> created"
-        updated: "Classification <strong>%{classification.title}</strong> updated"
-        deleted: "Classification <strong>%{classification.title}</strong> deleted"
+        created: "Classification <strong>%{classification_title}</strong> created"
+        updated: "Classification <strong>%{classification_title}</strong> updated"
+        deleted: "Classification <strong>%{classification_title}</strong> deleted"
       section:
         basic_information: Basic Information
         search_embedded: Linked Records
@@ -879,11 +879,11 @@ en:
   classification_term:
     _frontend:
       messages:
-        created: "Classification Term <strong>%{classification_term.title}</strong> created"
-        created_with_parent: "Classification Term <strong>%{classification_term.title}</strong> created"
-        updated: "Classification Term <strong>%{classification_term.title}</strong> updated"
-        updated_with_parent: "Classification Term <strong>%{classification_term.title}</strong> updated"
-        deleted: "Classification Term <strong>%{classification_term.title}</strong> deleted"
+        created: "Classification Term <strong>%{classification_term_title}</strong> created"
+        created_with_parent: "Classification Term <strong>%{classification_term_title}</strong> created"
+        updated: "Classification Term <strong>%{classification_term_title}</strong> updated"
+        updated_with_parent: "Classification Term <strong>%{classification_term_title}</strong> updated"
+        deleted: "Classification Term <strong>%{classification_term_title}</strong> deleted"
       section:
         basic_information: Basic Information
         search_embedded: Linked Records
@@ -962,17 +962,17 @@ en:
   digital_object:
     _frontend:
       messages:
-        created: "Digital Object <strong>%{digital_object.title}</strong> Created"
-        updated: "Digital Object <strong>%{digital_object.title}</strong> Updated"
-        deleted: "Digital Object <strong>%{digital_object.title}</strong> Deleted"
-        published: "The Digital Object <strong>%{digital_object.title}</strong>, its subrecords and components have been published"
+        created: "Digital Object <strong>%{digital_object_title}</strong> Created"
+        updated: "Digital Object <strong>%{digital_object_title}</strong> Updated"
+        deleted: "Digital Object <strong>%{digital_object_title}</strong> Deleted"
+        published: "The Digital Object <strong>%{digital_object_title}</strong>, its subrecords and components have been published"
         merge_description: Select digital objects below to merge into
         please_select_a_digital_object_to_merge: Please select a digital object
         merged: Digital object(s) Merged
         transfer_description: Transfer this resource to...
         transfer_target: Select a repository to transfer into
-        unsuppressed: Digital Object <strong>%{digital_object.title}</strong> unsuppressed
-        suppressed: Digital Object <strong>%{digital_object.title}</strong> suppressed
+        unsuppressed: Digital Object <strong>%{digital_object_title}</strong> unsuppressed
+        suppressed: Digital Object <strong>%{digital_object_title}</strong> suppressed
         suppressed_info: Digital Object is suppressed and cannot be edited
         delete_conflict: "Digital Object could not be deleted: <pre>%{error}</pre>"
       section:
@@ -985,13 +985,13 @@ en:
   digital_object_component:
     _frontend:
       messages:
-        created_with_parent: Digital Object Component <strong>%{digital_object_component.display_string}</strong> created as child of <strong>%{parent.display_string}</strong> on Digital Object <strong>%{digital_object.title}</strong>
-        created: Digital Object Component <strong>%{digital_object_component.display_string}</strong> created on Digital Object <strong>%{digital_object.title}</strong>
-        updated_with_parent: Digital Object Component <strong>%{digital_object_component.display_string}</strong> updated
-        updated: Digital Object Component <strong>%{digital_object_component.display_string}</strong> updated
-        deleted: Digital Object Component <strong>%{digital_object_component.display_string}</strong> deleted
-        unsuppressed: Digital Object Component <strong>%{digital_object_component.display_string}</strong> unsuppressed
-        suppressed: Digital Object Component <strong>%{digital_object_component.display_string}</strong> suppressed
+        created_with_parent: Digital Object Component <strong>%{digital_object_component_display_string}</strong> created as child of <strong>%{parent_display_string}</strong> on Digital Object <strong>%{digital_object_title}</strong>
+        created: Digital Object Component <strong>%{digital_object_component_display_string}</strong> created on Digital Object <strong>%{digital_object_title}</strong>
+        updated_with_parent: Digital Object Component <strong>%{digital_object_component_display_string}</strong> updated
+        updated: Digital Object Component <strong>%{digital_object_component_display_string}</strong> updated
+        deleted: Digital Object Component <strong>%{digital_object_component_display_string}</strong> deleted
+        unsuppressed: Digital Object Component <strong>%{digital_object_component_display_string}</strong> unsuppressed
+        suppressed: Digital Object Component <strong>%{digital_object_component_display_string}</strong> suppressed
         suppressed_info: Digital Object Component is suppressed and cannot be edited
         has_unpublished_ancestor: Please be aware this record has an ancestor that is unpublished.
       section:
@@ -1214,7 +1214,7 @@ en:
         deleted: Repository Deleted
         selected: Repository is Currently Selected
         selected_short: Selected
-        changed: The Repository <strong>%{repository.repo_code}</strong> is now active
+        changed: The Repository <strong>%{repository_repo_code}</strong> is now active
         create_first_repository: "To create your first Repository, click the <strong>System</strong> menu above and then <strong>Manage Repositories</strong>."
         no_access_to_repositories: "<p>You do not have access to any Repositories.</p><p>Please contact your System Administrator to request access.</p>"
         continue_with_transfer: Continue with transfer?
@@ -1238,19 +1238,19 @@ en:
   resource:
     _frontend:
       messages:
-        created: "Resource <strong>%{resource.title}</strong> created"
-        updated: "Resource <strong>%{resource.title}</strong> updated"
-        spawned: "A new Resource has been spawned from Accession <strong>%{accession.display_string}</strong>. This record is unsaved. You must click Save for the record to be created in the system."
-        deleted: "Resource <strong>%{resource.title}</strong> deleted"
-        published: "The Resource <strong>%{resource.title}</strong>, its subrecords and components have been published"
-        unpublished: "The Resource <strong>%{resource.title}</strong>, its children, subrecords and components have been unpublished"
+        created: "Resource <strong>%{resource_title}</strong> created"
+        updated: "Resource <strong>%{resource_title}</strong> updated"
+        spawned: "A new Resource has been spawned from Accession <strong>%{accession_display_string}</strong>. This record is unsaved. You must click Save for the record to be created in the system."
+        deleted: "Resource <strong>%{resource_title}</strong> deleted"
+        published: "The Resource <strong>%{resource_title}</strong>, its subrecords and components have been published"
+        unpublished: "The Resource <strong>%{resource_title}</strong>, its children, subrecords and components have been unpublished"
         merge_description: Select resources below to merge into
         please_select_a_resource_to_merge: Please select a resource
         merged: Resource(s) Merged
         transfer_description: Transfer this resource to...
         transfer_target: Select a repository to transfer into
-        unsuppressed: Resource <strong>%{resource.title}</strong> unsuppressed
-        suppressed: Resource <strong>%{resource.title}</strong> suppressed
+        unsuppressed: Resource <strong>%{resource_title}</strong> unsuppressed
+        suppressed: Resource <strong>%{resource_title}</strong> suppressed
         suppressed_info: Resource is suppressed and cannot be edited
         delete_conflict: "Resource could not be deleted: <pre>%{error}</pre>"
       section:

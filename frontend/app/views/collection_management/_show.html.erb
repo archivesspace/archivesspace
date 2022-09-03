@@ -3,7 +3,7 @@
 %>
 
 <section id="<%= section_id %>">
-  <h3><%= I18n.t("collection_management._singular") %></h3>
+  <h3><%= t("collection_management._singular") %></h3>
   <div class="accordion details" id="<%= section_id %>_accordian">
     <div class="panel panel-default">
       <div class="panel-heading">
@@ -14,13 +14,13 @@
           <%# 
           I'm sure we'll see this again very soon but for now... 
           <div class="col-md-4">
-            <%= I18n.t("collection_management.processing_status") >:
-            <strong><%= I18n.t("enumerations.collection_management_processing_status.#{collection_management['processing_status'] || 'none'}", :default => collection_management['processing_status']) > </strong>
+            <%= t("collection_management.processing_status") >:
+            <strong><%= t("enumerations.collection_management_processing_status.#{collection_management['processing_status'] || 'none'}", :default => collection_management['processing_status']) > </strong>
           </div>
           %>
           <div class="col-md-4">
-            <%= I18n.t("collection_management.processing_priority") %>:
-            <strong><%= I18n.t("enumerations.collection_management_processing_priority.#{collection_management['processing_priority'] || 'none'}", :default => collection_management['processing_priority']) %></strong>
+            <%= t("collection_management.processing_priority") %>:
+            <strong><%= t("enumerations.collection_management_processing_priority.#{collection_management['processing_priority'] || 'none'}", :default => collection_management['processing_priority']) %></strong>
           </div>
         </div>
       </div>

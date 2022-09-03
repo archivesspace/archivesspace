@@ -56,14 +56,14 @@ class RepositoriesController < ApplicationController
 
                   return render :json => @repository.to_hash if inline?
 
-                  flash[:success] = I18n.t("repository._frontend.messages.created", JSONModelI18nWrapper.new(:repository => @repository))
+                  flash[:success] = t("repository._frontend.messages.created", JSONModelI18nWrapper.new(:repository => @repository))
 
                   if AppConfig[:use_human_readable_urls] && params["repository"]["repository"] &&
                      (params["repository"]["repository"]["slug"].nil? ||
                       params["repository"]["repository"]["slug"].empty?)  &&
                      !params["repository"]["repository"]["is_slug_auto"]
 
-                    flash[:success] = I18n.t("slug.autogen_repo_slug")
+                    flash[:success] = t("slug.autogen_repo_slug")
                   end
 
                   return redirect_to :controller => :repositories, :action => :new, :last_repo_id => id if params.has_key?(:plus_one)
@@ -88,14 +88,14 @@ class RepositoriesController < ApplicationController
                 :on_valid => ->(id) {
                   MemoryLeak::Resources.refresh(:repository)
 
-                  flash[:success] = I18n.t("repository._frontend.messages.updated", JSONModelI18nWrapper.new(:repository => @repository))
+                  flash[:success] = t("repository._frontend.messages.updated", JSONModelI18nWrapper.new(:repository => @repository))
 
                   if AppConfig[:use_human_readable_urls] && params["repository"]["repository"] &&
                      (params["repository"]["repository"]["slug"].nil? ||
                       params["repository"]["repository"]["slug"].empty?)  &&
                      !params["repository"]["repository"]["is_slug_auto"]
 
-                    flash[:warning] = I18n.t("slug.autogen_repo_slug")
+                    flash[:warning] = t("slug.autogen_repo_slug")
                   end
 
                   redirect_to :controller => :repositories, :action => :show, :id => id
@@ -108,7 +108,7 @@ class RepositoriesController < ApplicationController
 
   def show
     @repository = JSONModel(:repository_with_agent).find(params[:id])
-    flash.now[:info] = I18n.t("repository._frontend.messages.selected") if @repository.id === session[:repo_id]
+    flash.now[:info] = t("repository._frontend.messages.selected") if @repository.id === session[:repo_id]
     @enum = JSONModel(:enumeration).find("/names/archival_record_level")
   end
 
@@ -120,7 +120,7 @@ class RepositoriesController < ApplicationController
     self.class.session_repo(session, selected.uri, selected.slug)
     set_user_repository_cookie selected.uri
 
-    flash[:success] = I18n.t("repository._frontend.messages.changed", JSONModelI18nWrapper.new(:repository => selected))
+    flash[:success] = t("repository._frontend.messages.changed", JSONModelI18nWrapper.new(:repository => selected))
 
     redirect_to :root
   end
@@ -130,13 +130,13 @@ class RepositoriesController < ApplicationController
     begin
       repository.delete
     rescue ConflictException => e
-      flash[:error] = I18n.t("repository._frontend.messages.cannot_delete_nonempty")
+      flash[:error] = t("repository._frontend.messages.cannot_delete_nonempty")
       return redirect_to(:controller => :repositories, :action => :show, :id => params[:id])
     end
 
     MemoryLeak::Resources.refresh(:repository)
 
-    flash[:success] = I18n.t("repository._frontend.messages.deleted", JSONModelI18nWrapper.new(:repository => repository))
+    flash[:success] = t("repository._frontend.messages.deleted", JSONModelI18nWrapper.new(:repository => repository))
     redirect_to(:controller => :repositories, :action => :index, :deleted_uri => repository.uri)
   end
 
@@ -153,7 +153,7 @@ class RepositoriesController < ApplicationController
                                          "target_repo" => params[:ref])
 
     if response.code == '200'
-      flash[:success] = I18n.t("actions.transfer_successful")
+      flash[:success] = t("actions.transfer_successful")
       redirect_to(:action => :index)
     else
       @transfer_errors = ASUtils.json_parse(response.body)['error']

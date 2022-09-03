@@ -25,10 +25,10 @@
     <div class="input-group linker-wrapper">
       <input type="text" class="linker"
              id="<%= form.id_for("ref") %>"
-             data-label_create="<%= I18n.t("top_container.linker.create") %>"
-             data-label_browse="<%= I18n.t("top_container.linker.browse") %>"
-             data-label_link="<%= I18n.t("linker.link") %>"
-             data-label_create_and_link="<%= I18n.t("linker.create_and_link") %>"
+             data-label_create="<%= t("top_container.linker.create") %>"
+             data-label_browse="<%= t("top_container.linker.browse") %>"
+             data-label_link="<%= t("linker.link") %>"
+             data-label_create_and_link="<%= t("linker.create_and_link") %>"
              data-name="ref"
              data-path="<%= form.path %>"
              data-url="<%= build_typeahead_url.call %>"
@@ -56,7 +56,7 @@
       <% if allow_create && user_can?('update_container_record') %>
 
         <div class="input-group-btn">
-          <a data-target="<%= url_for :controller => :top_containers, :action => :new, :small => true, :inline => true, :created_for_collection => self.instance_variable_get(:"@resource_uri") %>" class="btn btn-default linker-create-btn"><%= I18n.t("actions.create") %></a>
+          <a data-target="<%= url_for :controller => :top_containers, :action => :new, :small => true, :inline => true, :created_for_collection => self.instance_variable_get(:"@resource_uri") %>" class="btn btn-default linker-create-btn"><%= t("actions.create") %></a>
         </div>
 
       <% end %>

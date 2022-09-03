@@ -58,7 +58,7 @@ class UsersController < ApplicationController
     @user = JSONModel(:user).find(params[:id])
 
     if @user.is_system_user and not user_is_global_admin?
-      flash[:error] = I18n.t("user._frontend.messages.access_denied", JSONModelI18nWrapper.new(:user => @user))
+      flash[:error] = t("user._frontend.messages.access_denied", JSONModelI18nWrapper.new(:user => @user))
       redirect_to(:controller => :users, :action => :index) and return
     end
 
@@ -76,7 +76,7 @@ class UsersController < ApplicationController
     @user = JSONModel(:user).from_hash(JSONModel::HTTP::get_json("/repositories/#{session[:repo_id]}/users/#{params[:id]}"))
 
     if @user.is_system_user or @user.is_admin
-      flash[:error] = I18n.t("user._frontend.messages.group_not_required", JSONModelI18nWrapper.new(:user => @user))
+      flash[:error] = t("user._frontend.messages.group_not_required", JSONModelI18nWrapper.new(:user => @user))
       redirect_to(:controller => :users, :action => :index) and return
     end
 
@@ -88,7 +88,7 @@ class UsersController < ApplicationController
     user = JSONModel(:user).find(params[:id])
     user.delete
 
-    flash[:success] = I18n.t("user._frontend.messages.deleted", JSONModelI18nWrapper.new(:user => user))
+    flash[:success] = t("user._frontend.messages.deleted", JSONModelI18nWrapper.new(:user => user))
     redirect_to(:controller => :users, :action => :index, :deleted_uri => user.uri)
   end
 
@@ -103,11 +103,11 @@ class UsersController < ApplicationController
                   end
                 },
                 :on_invalid => ->() {
-                  flash[:error] = I18n.t("user._frontend.messages.error_update")
+                  flash[:error] = t("user._frontend.messages.error_update")
                   render :action => "edit"
                 },
                 :on_valid => ->(id) {
-                  flash[:success] = I18n.t("user._frontend.messages.updated")
+                  flash[:success] = t("user._frontend.messages.updated")
                   redirect_to :action => :index
                 })
   end
@@ -123,11 +123,11 @@ class UsersController < ApplicationController
                   end
                 },
                 :on_invalid => ->() {
-                  flash[:error] = I18n.t("user._frontend.messages.error_update")
+                  flash[:error] = t("user._frontend.messages.error_update")
                   render :action => "edit_self"
                 },
                 :on_valid => ->(id) {
-                  flash[:success] = I18n.t("user._frontend.messages.updated")
+                  flash[:success] = t("user._frontend.messages.updated")
                   redirect_to :action => "edit_self"
                 })
   end
@@ -143,10 +143,10 @@ class UsersController < ApplicationController
                                          )
 
     if response.code === '200'
-      flash[:success] = I18n.t("user._frontend.messages.updated")
+      flash[:success] = t("user._frontend.messages.updated")
       redirect_to :action => :index
     else
-      flash[:error] = I18n.t("user._frontend.messages.error_update")
+      flash[:error] = t("user._frontend.messages.error_update")
       @groups = JSONModel(:group).all if user_can?('manage_repository')
 
       render :action => :edit_groups
@@ -173,12 +173,12 @@ class UsersController < ApplicationController
                   end
                 },
                 :on_invalid => ->() {
-                  flash[:error] = I18n.t("user._frontend.messages.error_create")
+                  flash[:error] = t("user._frontend.messages.error_create")
                   render :action => "new"
                 },
                 :on_valid => ->(id) {
                   if session[:user]
-                    flash[:success] = "#{I18n.t("user._frontend.messages.created")}: #{params['user']['username']}"
+                    flash[:success] = "#{t("user._frontend.messages.created")}: #{params['user']['username']}"
                     redirect_to :controller => :users, :action => :index
                   else
                     backend_session = User.login(params['user']['username'],
@@ -194,18 +194,18 @@ class UsersController < ApplicationController
 
   def activate
     if JSONModel::HTTP::get_json("/users/#{params[:id]}/activate")
-      flash[:success] = I18n.t("user._frontend.messages.activated")
+      flash[:success] = t("user._frontend.messages.activated")
     else
-      flash[:error] = I18n.t("user._frontend.messages.error_activate")
+      flash[:error] = t("user._frontend.messages.error_activate")
     end
     redirect_to :action => :index
   end
 
   def deactivate
     if JSONModel::HTTP::get_json("/users/#{params[:id]}/deactivate")
-      flash[:success] = I18n.t("user._frontend.messages.deactivated")
+      flash[:success] = t("user._frontend.messages.deactivated")
     else
-      flash[:error] = I18n.t("user._frontend.messages.error_deactivate")
+      flash[:error] = t("user._frontend.messages.error_deactivate")
     end
     redirect_to :action => :index
   end
