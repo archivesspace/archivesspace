@@ -18,4 +18,8 @@ class JSONModelI18nWrapper < Hash
   def initialize(args)
     super
   end
+
+  def enable_parse_mixed_content!(path = '/')
+    true
+  end
 end

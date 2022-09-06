@@ -113,7 +113,7 @@ class EventsController < ApplicationController
     event = JSONModel(:event).find(params[:id])
     event.delete
 
-    flash[:success] = t("event._frontend.messages.deleted", JSONModelI18nWrapper.new(:event => event))
+    flash[:success] = t("event._frontend.messages.deleted") # TODO JSONModelI18nWrapper.new(:event => event))
     redirect_to(:controller => :events, :action => :index, :deleted_uri => event.uri)
   end
 
