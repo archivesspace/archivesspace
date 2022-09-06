@@ -8,7 +8,7 @@
     <%= render_aspace_partial :partial => "assessments/toolbar" %>
     <div class="record-pane">
       <%= readonly_context :assessment, @assessment do |readonly| %>
-        <h2><%= I18n.t('assessment._frontend.form_header', :display_string => @assessment.display_string) %> <span class="label label-info label-default"><%= I18n.t("assessment._singular") %></span></h2>
+        <h2><%= I18n.t('assessment._frontend.form_header', :display_string => @assessment.display_string) %> <span class="label badge badge-primary"><%= I18n.t("assessment._singular") %></span></h2>
 
         <%= render_aspace_partial :partial => "assessments/form", :locals => {:form => readonly} %>
 

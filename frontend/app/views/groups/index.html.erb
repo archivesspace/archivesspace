@@ -5,8 +5,8 @@
    </div>
 
   <div class="col-md-9">
-    <div class="record-toolbar">
-      <div class="btn-group pull-right">
+    <div class="record-toolbar d-flex align-items-center">
+      <div class="btn-group ml-auto bg-white border">
         <%= link_to I18n.t("group._frontend.action.create"), {:controller => :groups, :action => :new}, :class => "btn btn-sm btn-default" %>
       </div>
       <br style="clear:both" /> <!-- So dirty! -->
@@ -17,11 +17,11 @@
 
      <h2><%= I18n.t("group._plural") %></h2>
 
-     <table class="table table-striped table-bordered table-condensed">
+     <table class="table table-striped table-bordered table-condensed table-responsive d-block d-md-table">
        <thead>
          <tr>
            <th><%= I18n.t('group.group_code') %></th>
-           <th width="1px"><span class="sr-only"><%= I18n.t('search_results.actions') %></span></th>
+           <th><span class="sr-only"><%= I18n.t('search_results.actions') %></span></th>
          </tr>
        </thead>
        <tbody>

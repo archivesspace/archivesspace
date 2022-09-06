@@ -3,17 +3,18 @@
 
 version: '3.8'
 
-x-app: &app
+x-app: &app 
 
 volumes:
   build:
+
 
 services:
   app:
     build:
       context: .
       dockerfile: Dev.dockerfile
-    command: bash -l -c "tail -f /dev/null"
+    # command: bash -l -c "tail -f /dev/null"
     depends_on:
       - db
       - solr
@@ -44,16 +45,16 @@ services:
     command: solr-create -p 8983 -c archivesspace -d archivesspace
     ports:
       - "8985:8983"
-#  web:
-#    build:
-#      args:
-#        default: default.conf.release
-#      context: ./proxy
-#    image: archivesspace/proxy-release:1.21
-#    ports:
-#      - "8080:80"
-#    depends_on:
-#      - app
+  #  web:
+  #    build:
+  #      args:
+  #        default: default.conf.release
+  #      context: ./proxy
+  #    image: archivesspace/proxy-release:1.21
+  #    ports:
+  #      - "8080:80"
+  #    depends_on:
+  #      - app
 
   db-test:
     image: mysql:8.0-oracle

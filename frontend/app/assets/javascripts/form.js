@@ -120,13 +120,14 @@ $(function () {
       $this.data('form_changed', $this.data('form_changed') || false);
       $this.data('changedDetectionEnabled', true);
 
-      // this is the overlay we can use to lock the form.
-      $('> .form-context > .row > .col-md-9', $this).prepend(
-        '<div id="archives_form_overlay"><div class="modal-backdrop in form-overlay"></div></div>'
-      );
-      $('> .form-context > .row > .col-md-3 .form-actions', $this).prepend(
-        '<div id="archives_form_actions_overlay" class="modal-backdrop in form-overlay"></div>'
-      );
+      // // Temporarily commenting out this functionality to unblock bootstrap 4 upgrade. The overlay is appearing with no modal currently on several pages.
+      // // this is the overlay we can use to lock the form.
+      // $('> .form-context > .row > .col-md-9', $this).prepend(
+      //   '<div id="archives_form_overlay"><div class="modal-backdrop in form-overlay"></div></div>'
+      // );
+      // $('> .form-context > .row > .col-md-3 .form-actions', $this).prepend(
+      //   '<div id="archives_form_actions_overlay" class="modal-backdrop in form-overlay"></div>'
+      // );
 
       var onFormElementChange = function (event) {
         if (

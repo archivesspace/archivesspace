@@ -8,8 +8,8 @@
   </div>
   <div class="col-md-9">
     <% if user_can?('update_accession_record') %>
-      <div class="record-toolbar">
-        <div class="btn-group pull-right">
+      <div class="record-toolbar d-flex align-items-center">
+        <div class="btn-group ml-auto border bg-white">
           <% if user_can?('manage_repository') %>
               <%= link_to I18n.t("actions.edit_default_values"), {:controller => :accessions, :action => :defaults}, :class => "btn btn-sm btn-default" %>
           <% end %>

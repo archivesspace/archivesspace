@@ -7,7 +7,7 @@
     <div class="record-pane">
       <%= readonly_context :resource, @resource do |readonly| %>
 
-        <h2><%= clean_mixed_content(@resource.title) %> <span class="label label-info"><%= I18n.t("resource._singular") %></span></h2>
+        <h2><%= clean_mixed_content(@resource.title) %> <span class="label label-info badge"><%= I18n.t("resource._singular") %></span></h2>
 
         <%= render_aspace_partial :partial => "shared/form_messages", :locals => {:form => readonly} %>
 
@@ -33,8 +33,9 @@
             <%= render_plugin_partials("basic_information_resource",
                                        :form => readonly,
                                        :record => @resource) %>
-
-            <%= display_audit_info(@resource) %>
+            <div class="pb-4">
+              <%= display_audit_info(@resource) %>
+            </div>
           </section>
 
           <% if @resource.lang_materials.length > 0 %>

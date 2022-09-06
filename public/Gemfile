@@ -16,11 +16,10 @@ gem 'sprockets-rails'
 
 gem 'atomic', '= 1.0.1'
 
-
-# use bootstrap's sass
-gem 'bootstrap-sass'
 # Use SCSS for stylesheets
 gem 'sass-rails'
+# use bootstrap's sass
+gem 'bootstrap','~> 4.3.0'
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier'
 # Use font-awesome icons
@@ -29,7 +28,7 @@ gem 'font-awesome-sass', '4.7.0'
 # Use CoffeeScript for .coffee assets and views
 gem 'coffee-rails'
 # See https://github.com/rails/execjs#readme for more supported runtimes
-gem 'therubyrhino'
+gem 'execjs'
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
 
@@ -57,6 +56,7 @@ group :development, :test do
   gem 'pry-rails'
   gem 'pry-debugger-jruby'
   gem 'mizuno-aspace'
+  gem 'web-console'
 end
 
 group :test do

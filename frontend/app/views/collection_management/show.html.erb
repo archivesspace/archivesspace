@@ -15,7 +15,7 @@
     <%= render_aspace_partial :partial => "toolbar" %>
     <div class="record-pane">
       <%= readonly_context :collection_management, @collection_management do |readonly| %>
-         <h2><%= I18n.t("collection_management_record._frontend.title_prefix") %> <%= title %> <span class="label label-info"><%= I18n.t("collection_management_record._singular") %></span></h2>
+         <h2><%= I18n.t("collection_management_record._frontend.title_prefix") %> <%= title %> <span class="label label-info badge"><%= I18n.t("collection_management_record._singular") %></span></h2>
   
          <%= render_aspace_partial :partial => "shared/flash_messages" %>
   

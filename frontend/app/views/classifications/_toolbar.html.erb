@@ -1,22 +1,22 @@
 <% if user_can?('update_classification_record') %>
-  <div class="record-toolbar">
+  <div class="record-toolbar d-flex align-items-center">
     <% if !['edit', 'update', 'create'].include?(controller.action_name) %>
-      <div class="btn-group pull-left">
+      <div class="btn-group bg-white border">
         <%= link_to I18n.t("actions.edit"), {:controller => :classifications, :action => :edit, :id => @classification.id, :anchor => "classification_#{@classification.id}"}, :class => "btn btn-sm btn-primary" %>
       </div>
     <% end %>
     <% if ['new', 'create', 'edit', 'update'].include?(controller.action_name) %>
-      <div class="pull-left save-changes">
+      <div class="save-changes">
         <button type="submit" class="btn btn-primary btn-sm"><%= I18n.t("actions.save_prefix") %></button>
       </div>
     <% end %>
     <% if ['edit', 'update'].include?(controller.action_name) %>
-      <div class="pull-left revert-changes">
-        <%= link_to I18n.t("actions.revert"), {:controller => :classifications, :action => :edit, :id => @classification.id}, :class => "btn btn-sm btn-default" %>
+      <div class="revert-changes">
+        <%= link_to I18n.t("actions.revert"), {:controller => :classifications, :action => :edit, :id => @classification.id}, :class => "btn btn-sm btn-default bg-white border" %>
         <%= I18n.t("actions.toolbar_disabled_message") %>
       </div>
     <% end %>
-    <div class="btn-toolbar pull-right">
+    <div class="btn-toolbar ml-auto">
       <% if user_can?('delete_classification_record') %>
         <div class="btn-group">
           <div class="btn btn-inline-form">

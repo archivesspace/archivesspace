@@ -3,3 +3,4 @@
 //= link_directory ../stylesheets .scss
 //= link application.css
 //= link_directory ../../../vendor/assets/javascripts
+//= link archivesspace/largetree.css

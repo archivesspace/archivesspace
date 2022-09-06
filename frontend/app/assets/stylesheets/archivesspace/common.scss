@@ -8,6 +8,10 @@ h2 > .label {
   margin-top: $baseLineHeight / 2;
   vertical-align: top;
   font-size: 40%;
+  &.badge {
+    margin-top: 0;
+    color: white;
+  }
 }
 
 .tab-content {
@@ -71,6 +75,7 @@ h2 > .label {
 .alert {
   &.with-hide-alert {
     position: relative;
+    padding-right: 3rem;
   }
   .hide-alert {
     position: absolute;
@@ -166,13 +171,6 @@ td .btn-group {
   .xs-py15px {
     padding-right: 15px;
     padding-left: 15px;
-  }
-}
-
-@media (min-width: 768px) {
-  .sm-mxn15px {
-    margin-right: -15px;
-    margin-left: -15px;
   }
 }
 

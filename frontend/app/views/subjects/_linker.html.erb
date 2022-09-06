@@ -1,3 +1,4 @@
+
 <%
   plugin = false if plugin.blank?
   name = "" if name.nil?
@@ -48,13 +49,13 @@
         <%= linker_label %>
       </label>
    <% else %>
-     <label class="control-label col-sm-2"
+     <label class="control-label"
             id="<%= form.id_for(data_name) %>_label"
             for="<%= form.id_for(data_name) %>">
         <%= linker_label %>
       </label>
    <% end %>
-   <div class="controls col-sm-8">
+   <div class="controls">
        <div class="input-group linker-wrapper"
             role="combobox"
             aria-owns="<%= form.id_for(data_name) %>_listbox"
@@ -96,14 +97,18 @@
           <% end %>
           
           <div class="input-group-btn">
-             <a class="btn btn-default dropdown-toggle last" data-toggle="dropdown" href="javascript:void(0);" title="<%= I18n.t("subject.linker.link_title") %>" aria-label="<%= I18n.t("subject.linker.link_title") %>"><span class="caret"></span></a>
-              <ul class="dropdown-menu">
-                 <li><a href="javascript:void(0);" class="linker-browse-btn"><%= I18n.t("actions.browse") %></a></li>
+             <a class="btn btn-default dropdown-toggle last d-flex align-items-center border-dark border-left-0"  href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" title="Link to subject" id="dropdownMenuSubjectsToggle">
+            </a>
+              <ul class="dropdown-menu dropdown-menu-right" id='dropdownMenuSubjects' aria-labelledby="#dropdownMenuSubjects">
+                 <li class='dropdown-item'>
+                  <a href="javascript:void(0);" class="linker-browse-btn"><%= I18n.t("actions.browse") %></a>
+                </li>
               <% if !hide_create && user_can?('update_subject_record') %>
-                 <li><a href="javascript:void(0);" data-target="<%= url_for :controller => :subjects, :action => :new, :inline => true, :term_type => term_type_filter %>" class="linker-create-btn"><%= I18n.t("actions.create") %></a></li>
+                <li class='dropdown-item'>
+                  <a href="javascript:void(0);" data-target="<%= url_for :controller => :subjects, :action => :new, :inline => true, :term_type => term_type_filter %>" class="linker-create-btn"><%= I18n.t("actions.create") %></a>
+                </li>
               <% end %>
               </ul>
           </div>
-       </div>
-   </div>
+
 </div>

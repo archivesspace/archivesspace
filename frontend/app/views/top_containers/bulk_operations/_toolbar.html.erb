@@ -1,14 +1,14 @@
-<div class="record-toolbar bulk-operation-toolbar">
-  <div class="btn-toolbar pull-right">
+<div class="record-toolbar bulk-operation-toolbar d-flex align-items-center">
+  <div class="btn-toolbar ml-auto">
     <%= link_to I18n.t("actions.export_csv"), request.parameters.merge({ :format => :csv, :fields =>
-        fields }), class: "searchExport btn btn-sm btn-info pull-right" %>
-    <div class="bulk-actions pull-right" class="btn-group">
+        fields }), class: "searchExport btn btn-sm btn-info ml-auto" %>
+    <div class="bulk-actions ml-auto" class="btn-group">
       <% if user_can?('manage_container_record') %>
       <a class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown" href="#">
         <%= I18n.t("top_container._frontend.bulk_operations.title") %>
         <span class="caret"></span>
       </a>
-      <ul class="dropdown-menu pull-right">
+      <ul class="dropdown-menu ml-auto">
         <li><a id="bulkActionUpdateIlsHolding" href="javascript:void(0)"><%= I18n.t("top_container._frontend.bulk_operations.update_ils_holding_ids")%></a></li>
         <li><a id="bulkActionUpdateContainerProfile" href="javascript:void(0)"><%= I18n.t("top_container._frontend.bulk_operations.update_container_profiles")%></a></li>
         <li><a id="bulkActionUpdateLocation" href="javascript:void(0)"><%= I18n.t("top_container._frontend.bulk_operations.update_locations_singular")%></a></li>

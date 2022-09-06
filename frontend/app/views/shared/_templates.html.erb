@@ -3,8 +3,8 @@
      <div class="modal-dialog {if dialogClass} ${dialogClass}{/if}">
        <div class="modal-content">
          {if defined("title") && title.length > 0}
-           <div class="modal-header">
-             <a class="close" data-dismiss="modal">×</a>
+           <div class="modal-header align-items-center">
+             <a class="close m-0 mr-auto" data-dismiss="modal">×</a>
              <h3>${title|h}</h3>
            </div>
          {/if}
@@ -18,8 +18,8 @@
   <div class="modal-body">
     ${message}
   </div>
-  <div class="modal-footer">
-    <button class="btn btn-default" data-dismiss="modal"><%= I18n.t "actions.continue" %></button>
+  <div class="modal-footer justify-content-between">
+    <button class="btn btn-default border bg-white" data-dismiss="modal"><%= I18n.t "actions.continue" %></button>
   </div>
 --></div>
 
@@ -97,9 +97,9 @@
         ${message}
       {/if}
    </div>
-   <div class="modal-footer">
-      <button id="confirmButton" class="btn btn-default {if defined('confirm_class') && confirm_class} ${confirm_class}{/if}">{if defined('confirm_label') && confirm_label}${confirm_label}{else}<%= I18n.t "actions.confirm" %>{/if}</button>
-      <button class="btn btn-cancel btn-default" data-dismiss="modal"><%= I18n.t "actions.cancel" %></button>
+   <div class="modal-footer justify-content-between">
+      <button id="confirmButton" class="btn btn-default btn-outline-secondary {if defined('confirm_class') && confirm_class} ${confirm_class}{/if}">{if defined('confirm_label') && confirm_label}${confirm_label}{else}<%= I18n.t "actions.confirm" %>{/if}</button>
+      <button class="btn btn-cancel btn-default btn-danger" data-dismiss="modal"><%= I18n.t "actions.cancel" %></button>
    </div>
 --></div>
 
@@ -123,9 +123,9 @@
      {/if}
      {if defined('must_select') && must_select}
      {elseif defined('cancel_button_text')}
-     <button class="btn btn-cancel btn-default" data-dismiss="modal">${cancel_button_text}</button>
+     <button class="btn btn-cancel btn-default border" data-dismiss="modal">${cancel_button_text}</button>
      {else}
-     <button class="btn btn-cancel btn-default" data-dismiss="modal"><%= I18n.t "actions.cancel" %></button>
+     <button class="btn btn-cancel btn-default border" data-dismiss="modal"><%= I18n.t "actions.cancel" %></button>
      {/if}
    </div>
 --></div>
@@ -233,7 +233,7 @@
 <div id="subform_remove_confirmation_template"><!--
    <div class="pull-right subrecord-form-removal-confirmation">
     <div class="btn-group">
-      <button class="btn btn-xs btn-default cancel-removal"><%= I18n.t "actions.cancel" %></button>
+      <button class="btn btn-xs btn-default cancel-removal border bg-white"><%= I18n.t "actions.cancel" %></button>
       <button class="btn btn-xs btn-primary confirm-removal"><%= I18n.t "actions.confirm_removal" %></button>
      </div>
    </div>
@@ -294,7 +294,7 @@
 --></div>
 
 <div id="template_subrecord_collapse_action"><!--
-  <button class="btn btn-xs pull-right collapse-subrecord-toggle">
+  <button class="btn btn-xs pull-right ml-auto collapse-subrecord-toggle">
     <span class="expand"><%= I18n.t("note._frontend.action.expand")%></span>
     <span class="collapse"><%= I18n.t("note._frontend.action.collapse")%></span>
   </button>

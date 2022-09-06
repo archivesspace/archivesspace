@@ -23,7 +23,7 @@
       font-size: 12px;
       overflow: hidden;
       background-color: #fff;
-      @include transition($background-color: 0.5s);
+      @include transition(background-color 0.5s);
 
       &:hover {
         background-color: #f5f5f5;
@@ -38,7 +38,7 @@
         margin-top: 2px;
         margin-right: -6px;
         color: #eee;
-        @include transition($color: 0.5s);
+        @include transition(color 0.5s);
       }
     }
 
@@ -77,7 +77,7 @@
   }
 
   .alert-error a {
-    @include transition($background-color: 1s, $color: 1s);
+    @include transition(background-color 1s, color 1s);
   }
 
   .alert {
@@ -136,7 +136,7 @@
   }
 
   a {
-    @include transition($opacity: 0.5s, $background-color: 0.5s);
+    @include transition(opacity 0.5s, background-color 0.5s);
 
     width: 6px;
     height: 6px;
@@ -149,7 +149,7 @@
   }
 
   a:hover {
-    @include transition($background-color: 0.5s);
+    @include transition(background-color 0.5s);
 
     background-color: #aaa;
   }

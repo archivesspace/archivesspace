@@ -6,14 +6,14 @@
   </div>
 </div>
 
-<div class="row">
+<div class="row py-5">
   <div class="col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-0 col-lg-4 lg-min-w-450px p30px">
     <h2><%= I18n.t "welcome.heading" %></h2>
     <%= welcome_message %>
   </div>
   <% if !session[:user] %>
-  <div class="col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-0 col-lg-4 md-mt20px p30px">
-    <main class="well" id="login-form-wrapper">
+  <div class="col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-0 col-lg-4 md-mt20px p30px card bg-light">
+    <main id="login-form-wrapper">
       <h3 class="mt0"><%= I18n.t "login.login_please" %></h3>
       <%= render_aspace_partial :partial => "shared/login" %>
       <% if AppConfig[:allow_user_registration] %>
