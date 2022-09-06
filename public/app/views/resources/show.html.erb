@@ -6,11 +6,11 @@
   <% end %>
   </div>
   <%# <div class="row align-items-center pl-2"> %>
-    <div class="information col-8 p-0">
+    <div class="information col-6 p-0">
         <%= render partial: 'shared/idbadge', locals: {:result => @result, :props => { :full => true} } %>
     </div>
   <%# </div> %>
-  <div class="page_actions ml-auto col-4 p-0">
+  <div class="page_actions ml-auto col-xl-6 col-lg-5 col-sm-4 p-0">
     <%= render partial: 'shared/page_actions', locals: {:record => @result, :title =>  @result.display_string, :url => request.fullpath, :cite => @result.cite } %>
   </div>
 </div>
@@ -20,7 +20,7 @@
 
 <%= render partial: 'resources/resource_alltabs' %>
 
-<div class="row" id="notes_row">
+<div class="row mt-5" id="notes_row">
   <div class="col-sm-9">
     <%= render partial: 'shared/digital', locals: {:rep_fv => @rep_fv, :dig_objs => @dig} %>
     <%= render partial: 'shared/record_innards' %>
