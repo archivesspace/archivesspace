@@ -216,7 +216,7 @@ class LocationsController < ApplicationController
       return redirect_to(:controller => :locations, :action => :show, :id => location.id)
     end
 
-    flash[:success] = t("location._frontend.messages.deleted", JSONModelI18nWrapper.new(:location => location))
+    flash[:success] = t("location._frontend.messages.deleted") # TODO JSONModelI18nWrapper.new(:location => location))
     redirect_to(:controller => :locations, :action => :index, :deleted_uri => location.uri)
   end
 end

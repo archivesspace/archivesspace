@@ -33,11 +33,11 @@ class ClassificationTermsController < ApplicationController
                 :find_opts => find_opts,
                 :on_invalid => ->() { render_aspace_partial :partial => "new_inline" },
                 :on_valid => ->(id) {
-
+                  # TODO JSONModelI18nWrapper.new(:classification_term => @classification_term, :classification => @classification_term['classification']['_resolved'], :parent => @classification_term['parent']['_resolved']))
+                  # TODO JSONModelI18nWrapper.new(:classification_term => @classification_term, :classification => @classification_term['classification']['_resolved']))
                   success_message = @classification_term.parent ?
-                                      t("classification_term._frontend.messages.created_with_parent", JSONModelI18nWrapper.new(:classification_term => @classification_term, :classification => @classification_term['classification']['_resolved'], :parent => @classification_term['parent']['_resolved'])) :
-                                      t("classification_term._frontend.messages.created", JSONModelI18nWrapper.new(:classification_term => @classification_term, :classification => @classification_term['classification']['_resolved']))
-
+                                      t("classification_term._frontend.messages.created_with_parent", classification_term_title: @classification_term.title) :
+                                      t("classification_term._frontend.messages.created", classification_term_title: @classification_term.title)
                   if params.has_key?(:plus_one)
                     flash[:success] = success_message
                   else
@@ -72,10 +72,11 @@ class ClassificationTermsController < ApplicationController
                 :obj => @classification_term,
                 :on_invalid => ->() { return render_aspace_partial :partial => "edit_inline" },
                 :on_valid => ->(id) {
+                  # TODO JSONModelI18nWrapper.new(:classification_term => @classification_term, :classification => @classification_term['classification']['_resolved'], :parent => parent))
+                  # TODO JSONModelI18nWrapper.new(:classification_term => @classification_term, :classification => @classification_term['classification']['_resolved']))
                   success_message = parent ?
-                    t("classification_term._frontend.messages.updated_with_parent", JSONModelI18nWrapper.new(:classification_term => @classification_term, :classification => @classification_term['classification']['_resolved'], :parent => parent)) :
-                    t("classification_term._frontend.messages.updated", JSONModelI18nWrapper.new(:classification_term => @classification_term, :classification => @classification_term['classification']['_resolved']))
-
+                    t("classification_term._frontend.messages.updated_with_parent") :
+                    t("classification_term._frontend.messages.updated")
                   flash.now[:success] = success_message
 
                   if @classification_term["is_slug_auto"] == false &&
@@ -114,7 +115,7 @@ class ClassificationTermsController < ApplicationController
     classification_term = JSONModel(:classification_term).find(params[:id])
     classification_term.delete
 
-    flash[:success] = t("classification_term._frontend.messages.deleted", JSONModelI18nWrapper.new(:classification_term => classification_term))
+    flash[:success] = t("classification_term._frontend.messages.deleted") # TODO JSONModelI18nWrapper.new(:classification_term => classification_term))
 
     resolver = Resolver.new(classification_term['classification']['ref'])
     redirect_to resolver.view_uri
