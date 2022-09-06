@@ -1,7 +1,7 @@
 <div title="<%= t('page_actions')%>">
- <div class="d-flex flex-wrap justify-content-end">
+ <div class="row float-lg-right">
     <% ASUtils.wrap($RECORD_PAGE_ACTIONS[record.primary_type]).each do |page_action| %>
-      <div class="large-badge align-center resource border p-2 my-2 mx-2 ml-0">
+      <div class="col-6 col-md-3 large-badge text-center resource p-1">
         <% if page_action.has_key?('erb_partial') %>
           <%= render :partial => page_action.fetch('erb_partial'), :locals => { :record => record } %>
         <% else %>

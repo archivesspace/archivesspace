@@ -1,20 +1,18 @@
 <a name="main" title="<%= t('internal_links.main') %>"></a>
-<div id="main-content" class="d-flex align-items-center resources">
+<div id="main-content" class="row">
   <div id="info_row">
   <% unless defined?(@no_statement) || !defined?(@search) %>
   <div class="searchstatement"><%= @search[:search_statement].html_safe %></div>
   <% end %>
   </div>
-  <%# <div class="row align-items-center pl-2"> %>
-    <div class="information col-6 p-0">
+    <div class="information col-12 col-lg-6">
         <%= render partial: 'shared/idbadge', locals: {:result => @result, :props => { :full => true} } %>
     </div>
-  <%# </div> %>
-  <div class="page_actions ml-auto col-xl-6 col-lg-5 col-sm-4 p-0">
+  <div class="page_actions col-12 col-lg-6">
     <%= render partial: 'shared/page_actions', locals: {:record => @result, :title =>  @result.display_string, :url => request.fullpath, :cite => @result.cite } %>
   </div>
 </div>
-<div class="container-fluid p-0">
+<div class="row">
     <%= render partial: 'shared/breadcrumbs' %>
 </div>
 
