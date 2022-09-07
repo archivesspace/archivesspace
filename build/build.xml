@@ -483,6 +483,7 @@
       <env key="APPCONFIG_DATA_DIRECTORY" value="${aspace.data_directory.test}" />
       <env key="APPCONFIG_DB_URL" value="${env.ASPACE_TEST_DB_URL}" />
       <env key="APPCONFIG_SOLR_URL" value="${env.ASPACE_TEST_SOLR_URL}" />
+      <env key="APPCONFIG_FRONTEND_PROXY_URL" value="http://localhost:3000" />
       <arg line="../build/gems/bin/bundler exec rspec -b --format d ${pattern-arg} ${tag-arg} ${order-arg} ${example-arg} ${spec-arg} ${extra-spec-paths}" />
     </java>
   </target>

@@ -33,7 +33,7 @@ ArchivesSpace::Application.configure do
 
   # Raise exception on mass assignment protection for Active Record models
   # config.active_record.mass_assignment_sanitizer = :strict
-
+  config.hosts << "www.example.com"
   # Print deprecation notices to the stderr
   config.active_support.deprecation = :stderr
 end

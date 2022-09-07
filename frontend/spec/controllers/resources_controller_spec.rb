@@ -49,12 +49,12 @@ describe ResourcesController, type: :controller do
     get :new
     result = Capybara.string(response.body)
     result.find(:css, '#resource_extents__0__portion_ option[@selected="selected"]') do |selected|
-      expect(selected.text).to eq('Whole')
+      expect(selected.text).to eq('whole')
     end
     result.find(:css,
       '#resource_lang_materials__0__language_and_script__script_ option[@selected="selected"]'
     ) do |selected|
-      expect(selected.text).to eq('Latin')
+      expect(selected.text).to eq('Latn')
     end
   end
 
@@ -67,13 +67,13 @@ describe ResourcesController, type: :controller do
     expect(response.body).to match /spawned from Accession/
     result = Capybara.string(response.body)
     result.find(:css, '#resource_extents__0__portion_ option[@selected="selected"]') do |selected|
-      expect(selected.text).not_to eq('Whole') # from defaults
-      expect(selected.text).to eq('Part') # from accession
+      expect(selected.text).not_to eq('whole') # from defaults
+      expect(selected.text).to eq('part') # from accession
     end
     result.find(:css,
       '#resource_lang_materials__0__language_and_script__script_ option[@selected="selected"]'
     ) do |selected|
-      expect(selected.text).to eq('Latin')
+      expect(selected.text).to eq('Latn')
     end
     # we should have 3 notes (scope, content, condition)
     expect(result.find_all(:css, '#resource_notes_ li[data-object-name="note"]').count).to eq 3

@@ -37,7 +37,7 @@ class DigitalObjectsController < ApplicationController
       # only fetch the fully resolved record when rendering the full form
       @digital_object = JSONModel(:digital_object).find(params[:id], find_opts)
 
-      flash.now[:info] = t("digital_object._frontend.messages.suppressed_info") # TODO JSONModelI18nWrapper.new(:digital_object => @digital_object).enable_parse_mixed_content!(url_for(:root))) if @digital_object.suppressed
+      flash.now[:info] = t("digital_object._frontend.messages.suppressed_info") if @digital_object.suppressed
 
       return render_aspace_partial :partial => "digital_objects/show_inline"
     end
@@ -160,8 +160,7 @@ class DigitalObjectsController < ApplicationController
                 },
                 :on_valid => ->(id) {
 
-                  flash.now[:success] = t("digital_object._frontend.messages.updated") # TODO JSONModelI18nWrapper.new(:digital_object => @digital_object).enable_parse_mixed_content!(url_for(:root)))
-
+                  flash.now[:success] = t("digital_object._frontend.messages.updated", digital_object_title: @digital_object.title)
                   if @digital_object["is_slug_auto"] == false &&
                      @digital_object["slug"] == nil &&
                      params["digital_object"] &&

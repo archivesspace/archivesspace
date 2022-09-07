@@ -67,6 +67,7 @@ end
 
 # We use the Mizuno server.
 Capybara.register_server :mizuno do |app, port, host|
+  AppConfig[:frontend_proxy_url] = ENV['APPCONFIG_FRONTEND_PROXY_URL'] = ENV['APPCONFIG_FRONTEND_PROXY_URL'].gsub('3000', port.to_s)
   require 'rack/handler/mizuno'
   Rack::Handler.get('mizuno').run(app, port: port, host: host)
 end
