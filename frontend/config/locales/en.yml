@@ -2465,3 +2465,346 @@ en:
     bulk_import_DO_template_xlsx: Create and link digital objects to existing archival objects in a resource. The XLSX format is for those who have access to Microsoft Excel.
     aspace_location_import_template_csv: Create new location records. Please note that this template is for creating the location records themselves, not linking materials to locations.
     aspace_assessment_import_template_csv: Create and link assessments to existing accessions, resources, archival objects, or digital objects.
+
+  reports:
+    location_holdings_report:
+      title: Location Holdings
+      identifier_prefix: Location
+      description: Report on containers shelved at one or more locations
+      repository_report_type: Repository
+      building_report_type: Building
+      single_location_report_type: Single Location
+      location_range_report_type: Range of Locations
+      start_range: First location
+      end_range: Last location
+
+    digital_object_list_table_report:
+      title: Digital Object table
+      description: Displays digital object(s) in table format.  Report contains title, digital object identifier, object type, dates and the title and identifier of linked resources.
+
+    digital_object_file_versions_report:
+      title: File Version List
+      description: Displays any file versions associated with the selected digital objects.
+
+    digital_object_file_versions_list_subreport:
+      test_value: test value
+
+    accession_locations_subreport:
+      test_value: test value
+
+    accession_subjects_subreport:
+      test_value: test value
+
+    accession_inventory_report:
+      title: Accessions with Inventories
+      description: Displays only those accession records with an inventory.  Report contains accession number, linked resources, title, extent, accession date, container summary, and inventory.
+      number_with_inventories: Accessions with Inventories
+      identifier_prefix: Accession
+
+    accession_receipt_report:
+      title: Accession Receipt Report
+      description: Displays a receipt indicating accessioning of materials. Report contains accession number, title, extent, accession date, and repository.
+      identifier_prefix: Accession
+
+    created_accessions_report:
+      title: Created Accessions
+      description: Report on accessions created within a date range
+      identifier_prefix: Accession
+
+    accession_subjects_names_classifications_list_report:
+      title: Accessions and Linked Subjects, Names and Classifications
+      description: Displays accessions and their linked names, subjects, and classifications. Report contains accession number, linked resources, accession date, title, extent, linked names, and linked subjects.
+      identifier_prefix: Accession
+
+    accession_report:
+      title: Accession Report
+      description: Displays all accessions for a given repository. Report includes data entered into basic information fields for each accession.
+      identifier_prefix: Accession
+
+    accession_classifications_subreport:
+      test_value: test value
+
+    accession_names_subreport:
+      test_value: test value
+
+    accession_unprocessed_report:
+      title: Unprocessed Accessions
+      description: Displays only those accession(s) that have not been processed. Report contains accession number, linked resources, title, extent, cataloged, date processed, a count of the number of records selected with date processed, and the total extent number for those records without a completed date processed field.
+      total_count: Number of Accessions
+      identifier_prefix: Accession
+      total_extent: Total Extent Unprocessed
+
+    accession_deaccessions_list_report:
+      title: Accessions Acquired and Linked Deaccession Records
+      description: Displays a list of accession record(s) and linked deaccession record(s). Report contains accession number, title, extent, accession date, container summary, cataloged, date processed, rights transferred, linked deaccessions and total extent of all deaccessions.
+      total_extent: Total Extent of Accessions
+      identifier_prefix: Accession
+ 
+    accession_deaccessions_subreport:
+      test_value: test value
+
+    accession_resources_subreport:
+      test_value: test value
+
+    accession_rights_transferred_report:
+      title: Accessions with rights transferred
+      description: "Displays only those accession(s) for which rights have been transferred. Report contains accession number, linked resources, title, extent, cataloged, date processed, access restrictions, use restrictions, rights transferred and a count of the number of records selected with rights transferred."
+      identifier_prefix: Accession
+
+    custom_report:
+      title: Custom Report
+      description: Custom report templates bring together data based on selected options for record type, data fields, and linked records. Create your report template first, then select it from the drop-down list when you're ready to run the report.
+
+    user_groups_report:
+      title:  User Groups Report
+      description: Displays users and repository access groups
+      name: Name
+      department: Department
+      user_title: Title
+      groups: Groups
+      email: Email
+      telephone: Telephone
+
+    resource_deaccessions_list_report:
+      title: Resources and Deaccession(s)
+      description: Displays resource(s) and linked deaccession record(s). Report contains title, resource identifier, level, date range, linked deaccessions, creator names, and physical extent totals.
+      total_extent: Total Extent of Resources
+      identifier_prefix: Resource
+
+    resource_instances_list_report:
+      title: Resources and Instances List
+      description: Displays resource(s) and all specified location information. Report contains title, resource identifier, level, date range, and assigned containers.
+      total_extent: Total Extent of Resources
+      identifier_prefix: Resource
+
+    resource_deaccessions_subreport:
+      test_value: test value
+
+    resource_locations_list_report:
+      title: Resources and Locations List
+      description: Displays resource(s) and all specified location information. Report contains title, resource identifier, level, date range, and assigned locations.
+      total_extent: Total Extent of Resources
+      identifier_prefix: Resource
+
+    resources_list_report:
+      title: Resources List Report
+      description: The Resources List Report includes basic information, dates, and extents for resource records.
+
+    resource_instances_subreport:
+      test_value: test value
+
+    resource_restrictions_list_report:
+      title: Resources Restrictions List
+      description: Displays resources with restrictions and location information. Report contains title, resource identifier, level, date range, and assigned locations.
+      total_count: Total Resources with Restrictions
+      total_extent: Total Extent of Resources with Restrictions
+      identifier_prefix: Resource
+
+    assessment_rating_report:
+      title: Assessment Rating Report
+      description: Shows information for assessments with a specified rating in a specified range. You must select at least one value; to display all records select all of the values. 
+      identifier_prefix: Assessment
+
+    assessment_list_report:
+      description: All Created Assessment Records
+      title: Assessment Record List
+      identifier_prefix: Assessment
+
+    agent_list_report:
+      title: Name Records List
+      description: Displays selected name record(s). Report lists name, name type, and name source.
+
+    location_containers_subreport:
+      test_value: test value
+
+    location_resources_subreport:
+      test_value: test value
+
+    container_resources_accessions_subreport:
+      test_value: test value
+
+    location_report:
+      title: Location Report
+      description: Displays a list of locations, indicating any accessions or resources assigned to defined locations.
+      total_count: Number of Locations
+
+    location_accessions_subreport:
+
+    shelflist_report:
+      title: Shelflist Report
+      description: The Shelflist Report includes a list of all locations and their associated top containers.
+
+    translation_defaults:
+      accession_processed_date: Accession Processed Date
+      access_restrictions_note: Access Restrictions Note
+      access_restrictions: Access Restrictions?
+      accession_date: Accession Date
+      accession_number: Accession Number
+      accession_processed: Accession Processed?
+      accession_report: Accession Report
+      total_transferred: Accessions with Rights Transferred
+      acknowledgement_sent: Acknowledgement Sent?
+      acquisition_type: Acquisition Type
+      appraisal: Appraisal
+      area: Area
+      barcode: Barcode
+      begin_date: Begin Date
+      container_list: Box/Container List
+      building: Building
+      bulk_begin_date: Bulk Begin Date
+      bulk_end_date: Bulk End Date
+      catalog_record: Catalog Record (MARC)
+      cataloged: Cataloged
+      classification_number: Classification number
+      classifications: Classifications
+      control_file: Collection/Control File
+      component_identifier: Component Identifer
+      component_title: Component Title
+      condition_note: Condition
+      conservation_issues: Conservation Issues
+      conservation_note: Conservation Note
+      container: Container
+      container_2: Container 2
+      container_3: Container 3
+      container_profile: Container Profile
+      container_summary: Container Summary
+      containers: Containers
+      date: Date
+      date_expression: Date Expression
+      survey_end: Date Survey Ended
+      survey_begin: Date Survey Started
+      dates: Dates
+      deaccessions: Deaccessions
+      deed_of_gift: Deed Of Gift
+      description: Description
+      description_note: Description
+      disposition_note: Disposition
+      end_date: End Date
+      exhibition_value_note: Exhibition Value Note
+      existing_description_notes: Existing Description Notes
+      extent: Extent
+      surveyed_extent: Extent Surveyed
+      field: Field
+      file_versions: File Version(s)
+      finding_aid_ead: Finding Aid (EAD-encoding)
+      finding_aid_online: Finding Aid (Online)
+      finding_aid_paper: Finding Aid (paper only)
+      finding_aid_spreadsheet: Finding Aid (spreadsheet)
+      finding_aid_word: Finding Aid (word processing document)
+      floor: Floor
+      function: Function
+      general_assessment_note: General Assessment Note
+      general_note: General Note
+      id: ID
+      identifier: Identifier
+      ils_holding_id: ILD Holding ID
+      ils_item_id: ILS Item ID
+      inactive: Inactive
+      instance_type: Instance Type
+      instances: Instances
+      inventory: Inventory
+      language: Language
+      level: Level
+      linked_records: Linked Records
+      linked_resources: Linked Resource(s)
+      formats: List of Material Types / Formats
+      location: Location
+      location_barcode: Location Barcode
+      location_in_room: Location in Room
+      location_profile: Location Profile
+      location_url: Location URL
+      locations: Locations
+      monetary_value: Monetary Value
+      monetary_value_note: Monetary Value Note
+      name: Name
+      name_source: Name Source
+      name_type: Name Type
+      names: Names
+      note: Note
+      notification_sent: Notification Sent
+      number_of_accessions: Number of accessions
+      total_count: Number of Records
+      number_with_inventories: Number with Inventories
+      object_type: Object Type
+      provenance: Provenance
+      purpose: Purpose of Assessment
+      rating: Rating
+      ratings: Ratings
+      record_id: Record ID
+      linked_record_type: Record Type
+      related_eac_records: Related EAC Record(s)
+      repository: Repository
+      resource_identifier: Resource Identifier
+      resources: Resources
+      records: Resources and Accessions
+      retention_rule: Retention
+      restrictions_apply: Restrictions Apply?
+      review_note: Review Note
+      review_required: Review Required?
+      reviewer: Reviewer
+      rights_transferred_note: Rights Transferred Note
+      rights_transferred: Rights Transferred?
+      role: Role
+      room: Room
+      scope: Scope of Assessment
+      scoped_by_rating: Scoped by Rating
+      script: Script
+      sensitive_material: Sensitive Material?
+      scoped_by_date_range: Showing records created between
+      showing_values: Showing records with rating values
+      sort_name: Sort Name
+      source: Source
+      special_format_note: Special Format Note
+      subjects: Subjects
+      surveyed_by: Surveyed By
+      term: Term
+      surveyed_duration: Time it took to Complete Survey
+      record_title: Title
+      title: Title
+      top_container_barcode: Top Container Barcode
+      top_container_indicator: Top Container Indicator
+      total_deaccessions_extent: Total Extent of Deaccessions
+      total_extent: Total Extent of Records
+      type: Type
+      total_unprocessed: Unprocessed Accessions
+      uri: URI
+      use_restrictions_note: Use Restrictions Note
+      use_restrictions: Use Restrictions?
+      use_statement: Use Statement
+      accessions: Accessions
+      deaccession_date: Deaccession Date
+      rating_note: Rating Note
+      temporary_location: Temporary Location
+      rights_statements: Rights Statements
+      rights_type: Rights Type
+      statute_citation: Statute Citation
+      jurisdiction: Jurisdiction
+      status: Status
+      determination_date: Determination Date
+      license_terms: License Terms
+      other_rights_basis: Other Rights Basis
+      custom_record_type: Custom Report For
+      digital_object: Digital Object
+      is_representative: Is Representative?
+      sorted_by: Sorted By
+      root_record: Root Record
+      dimension_units: Dimension Units
+      depth: Depth
+      height: Height
+      width: Width
+      template_name: Template Name
+      template_description: Template Description
+      date_type: Date Type
+      label:  Label
+      expression: Date Expression
+      standardized_type: Standardized Type
+      begin_expression: Begin Date Expression
+      begin_standardized_type: Begin Date Standardized Type
+      end_expression: End Date Expression
+      end_standardized_type: End Date Standardized Type
+      select: Select
+      back: Back
+
+    subject_list_report:
+      title: Subject Records List
+      description: Displays selected subject record(s). Report lists subject term, subject term type, and subject source.
