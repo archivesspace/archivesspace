@@ -14,18 +14,18 @@
     <div class="btn-toolbar ml-auto bg-white border">
       <div class="btn-group align-items-center">
         <% if edit_mode? && full_mode? %>
-          <div class="border-right">
+          <div class="border-end">
             <%= render_aspace_partial :partial => "shared/lightmode_toggle", :locals => {:type => 'agents'} %>
           </div>
         <% end %>
 
         <% if user_can?('update_event_record')  %>
-          <div class="btn-group border-right">
+          <div class="btn-group border-end">
             <%= render_aspace_partial :partial => "shared/event_dropdown", :locals => {:record => @agent} %>
           </div>
         <% end %>
 
-        <div class="btn-group right border-right">
+        <div class="btn-group right border-end">
           <%= button_confirm_action(I18n.t("actions.publish"),
                       url_for({:action => :publish, :id => @agent.id}),
                       {
@@ -38,17 +38,17 @@
         </div>
 
         <% if AppConfig[:enable_public] %>
-          <div class="border-right">
+          <div class="border-end">
             <%= render_aspace_partial :partial => "shared/view_published_button", :locals => {:record => @agent} %>
           </div>
         <% end %>
 
         <% unless @agent.agent_type.to_s == "agent_software" %>
-          <div class="btn btn-inline-form border-right">
+          <div class="btn btn-inline-form border-end">
             <%= link_to I18n.t("actions.export_eac"), {:controller => :exports, :action => :download_eac, :id => @agent.id, :type => @agent.  agent_type}, :class => "btn btn-sm btn-default" %>
           </div>
 
-          <div class="btn btn-inline-form border-right">
+          <div class="btn btn-inline-form border-end">
             <%= link_to I18n.t("actions.export_marc_auth"), {:controller => :exports, :action => :download_marc_auth, :id => @agent.id, :type => @agent.agent_type}, :class => "btn btn-sm btn-default" %>
           </div>
         <% end %>

@@ -16,7 +16,7 @@
         <%= link_to I18n.t("actions.export_csv"), request.parameters.merge({ :format => :csv, :fields =>
           fields }), id: "searchExport", class: "btn btn-sm btn-info" %>
         <% if user_can?('update_container_profile_record') %>
-          <%= link_to I18n.t("container_profile._frontend.action.create"), {:controller => :container_profiles, :action => :new}, :class => "btn btn-sm border-right" %>
+          <%= link_to I18n.t("container_profile._frontend.action.create"), {:controller => :container_profiles, :action => :new}, :class => "btn btn-sm border-end" %>
         <% end %>
         <% if user_can?('manage_container_profile_record') %>
           <button id="batchMerge" class="btn btn-sm multiselect-enabled" disabled="disabled" data-multiselect="#tabledSearchResults"><%= I18n.t("actions.merge")%></button>
