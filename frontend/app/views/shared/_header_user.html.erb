@@ -72,7 +72,7 @@
     <div class="btn-group bg-white align-items-center border rounded">
       <% link_content = "<span class='glyphicon glyphicon-user'></span>&nbsp;<span class='user-label'>#{session[:user]}</span>" %>
       <%= link_to(link_content.html_safe, {:controller => :users, :action => :edit_self}, {:class => 'btn navbar-btn'}) %>
-      <a class="btn btn-default navbar-btn border-left dropdown-toggle last" id="user-menu-dropdown" data-bs-toggle="dropdown" href="#" title="<%= I18n.t("navbar.global_settings") %>" aria-label="<%= I18n.t("navbar.global_settings") %>"><span class="caret"></span></a>
+      <a class="btn btn-default navbar-btn border-start dropdown-toggle last" id="user-menu-dropdown" data-bs-toggle="dropdown" href="#" title="<%= I18n.t("navbar.global_settings") %>" aria-label="<%= I18n.t("navbar.global_settings") %>"><span class="caret"></span></a>
       <ul class="dropdown-menu dropdown-menu-right float-xs-right">
         <li class='dropdown-item'><%= link_to I18n.t("navbar.global_preferences") + " (#{username})", :controller => :preferences, :action => :edit, :id => 0, :global => true %></li>
         <li class='dropdown-item'><%= link_to I18n.t("navbar.user_repo_preferences") + " (#{username})", :controller => :preferences, :action => :edit, :id => 0 %></li>

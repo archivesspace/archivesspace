@@ -112,10 +112,10 @@
             <%= form_tag(url_for(:controller => :search, :action => :do_search), :method => :get, :class => "navbar-form pull-left") do %>
               <div class="input-group bg-white border rounded">
                 <label for="global-search-box" class="sr-only sr-only-focusable"><%= I18n.t("navbar.search_placeholder") %></label>
-                <input id="global-search-box" type="text" class="form-control border-left-0 border-top-0 border-bottom-0" placeholder="<%= I18n.t("navbar.search_placeholder") %>" name="q" value="<%= params[:q] %>"/>
+                <input id="global-search-box" type="text" class="form-control border-start-0 border-top-0 border-bottom-0" placeholder="<%= I18n.t("navbar.search_placeholder") %>" name="q" value="<%= params[:q] %>"/>
                 <div class="input-group-append">
                   <button id="global-search-button" class="btn btn-default" title="<%= I18n.t("navbar.search_button_title") %>" aria-label="<%= I18n.t("navbar.search_button_title") %>"><span class="glyphicon glyphicon-search"></span></button>
-                  <button class="btn btn-default search-switcher last border-left" title="<%= I18n.t("navbar.show_advanced_search_button_title") %>" aria-label="<%= I18n.t("navbar.show_advanced_search_button_title") %>" aria-expanded="false" <% if params["advanced"] %>style="display:none"<% end %>><span class='glyphicon glyphicon-chevron-down'></span></button>
+                  <button class="btn btn-default search-switcher last border-start" title="<%= I18n.t("navbar.show_advanced_search_button_title") %>" aria-label="<%= I18n.t("navbar.show_advanced_search_button_title") %>" aria-expanded="false" <% if params["advanced"] %>style="display:none"<% end %>><span class='glyphicon glyphicon-chevron-down'></span></button>
                 </div>
               </div>
             <% end %>
@@ -137,7 +137,7 @@
                     <% end %>
                   </span>
                 </a>
-                <div class="btn-group border-left">
+                <div class="btn-group border-start">
                   <a class="btn btn-default navbar-btn dropdown-toggle last" data-bs-toggle="dropdown" href="#" title="<%= I18n.t("navbar.repository_settings") %>" aria-label="<%= I18n.t("navbar.repository_settings") %>"><span class="glyphicon glyphicon-cog"></span> <span class="caret"></span></a>
                   <ul class="dropdown-menu dropdown-menu-right">
                     <% found_an_item = false %>

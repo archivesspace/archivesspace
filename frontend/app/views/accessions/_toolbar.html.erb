@@ -29,7 +29,7 @@
               <%= render_aspace_partial :partial => "shared/event_dropdown", :locals => {:record => @accession } %>
             <% end %>
             <% if not @accession.suppressed %>
-              <div id="spawn-dropdown" class="btn btn-inline-form border-left">
+              <div id="spawn-dropdown" class="btn btn-inline-form border-start">
                 <a class="btn btn-sm btn-default dropdown-toggle" data-bs-toggle="dropdown" href="javascript:void(0);">
                   <%= I18n.t "actions.spawn" %>
                   <span class="caret"></span>
@@ -47,7 +47,7 @@
                 </ul>
               </div>
             <% end %>
-            <div class='border-left'>
+            <div class='border-start'>
               <% if user_can?('transfer_archival_record') %>
                 <%=
                   render_aspace_partial :partial => "shared/transfer_dropdown",
@@ -59,7 +59,7 @@
                 %>
               <% end %>
             </div>
-            <div class="btn-group dropdown border-left" id="other-dropdown">
+            <div class="btn-group dropdown border-start" id="other-dropdown">
               <a class="btn btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                 <%= I18n.t('actions.more') %>
                 <span class="caret"></span>
