@@ -9,13 +9,13 @@
   <div class="col-md-9">
     <% if user_can?('update_location_record') %>
       <div class="record-toolbar d-flex align-items-center">
-        <div class="btn-group ml-auto bg-white border rounded">
+        <div class="btn-group ms-auto bg-white border rounded">
           <% if user_can?('manage_repository') %>
               <%= link_to I18n.t("actions.edit_default_values"), {:controller => :locations, :action => :defaults}, :class => "btn btn-sm" %>
           <% end %>
           <%= link_to I18n.t("actions.export_csv"), request.parameters.merge({ :format => :csv, :fields => fields}), id: "searchExport",  class:  "btn btn-sm btn-info" %>
-          <%= link_to I18n.t("location._frontend.action.create"), {:controller => :locations, :action => :new}, :class => "btn btn-sm border-right" %>
-          <%= link_to I18n.t("location._frontend.action.batch"), {:controller => :locations, :action => :batch}, :class => "btn btn-sm border-right" %>
+          <%= link_to I18n.t("location._frontend.action.create"), {:controller => :locations, :action => :new}, :class => "btn btn-sm border-end" %>
+          <%= link_to I18n.t("location._frontend.action.batch"), {:controller => :locations, :action => :batch}, :class => "btn btn-sm border-end" %>
           <%= button_edit_multiple_action(:locations) %>
           <% if user_can?("administer_system") %>
              <%= button_delete_multiple_action(:locations) %>

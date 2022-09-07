@@ -10,14 +10,14 @@
   <div class="col-md-9">
     <% if user_can?('update_digital_object_record') %>
       <div class="record-toolbar d-flex">
-        <div class="btn-group pull-right ml-auto align-items-center">
+        <div class="btn-group pull-right ms-auto align-items-center">
           <% if user_can?('manage_repository') %>
             <div class="btn-group border">
-              <a class="btn btn-sm dropdown-toggle bg-white" data-toggle="dropdown" href="javascript:void(0);">
+              <a class="btn btn-sm dropdown-toggle bg-white" data-bs-toggle="dropdown" href="javascript:void(0);">
                 <%= I18n.t("actions.edit_default_values") %>
                 <span class="caret"></span>
               </a>
-              <ul class="dropdown-menu dropdown-menu-right">
+              <ul class="dropdown-menu dropdown-menu-end">
                 <li class='dropdown-item'><%= link_to I18n.t("digital_object._singular"), {:controller => :digital_objects, :action => :defaults} %></li>
                 <li class='dropdown-item'> <%= link_to I18n.t("digital_object_component._singular"), {:controller => :digital_object_components, :action => :defaults} %></li>
               </ul>

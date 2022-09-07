@@ -23,7 +23,7 @@
 <table class="table table-striped table-bordered table-condensed table-hover table-sortable table-search-results table-responsive">
   <thead>
     <tr class="sortable-columns">
-      <th><% if multiselect %><label for="select_all" class="sr-only"><%= I18n.t("search_results.selected") %></label><%= check_box_tag "select_all" %><% end %></th>
+      <th><% if multiselect %><label for="select_all" class="visually-hidden"><%= I18n.t("search_results.selected") %></label><%= check_box_tag "select_all" %><% end %></th>
       <th><%= I18n.t("top_container._frontend.bulk_operations.collection_singular") %></th>
       <th><%= I18n.t("top_container._frontend.bulk_operations.series") %></th>
       <th><%= I18n.t("container_profile._singular") %></th>
@@ -34,7 +34,7 @@
       <th><%= I18n.t("top_container.ils_holding_id") %></th>
       <th><%= I18n.t("top_container.restricted") %></th>
       <th><%= I18n.t("top_container.exported_to_ils") %></th>
-      <% if show_edit_actions %><th class="col actions"><span class="sr-only"><%= I18n.t("search_results.actions") %></span><!-- Actions --></th><% end %>
+      <% if show_edit_actions %><th class="col actions"><span class="visually-hidden"><%= I18n.t("search_results.actions") %></span><!-- Actions --></th><% end %>
     </tr>
   </thead>
   <tbody>
@@ -44,7 +44,7 @@
         <td>
           <% if multiselect %>
           <label>
-            <span class="sr-only"><%= I18n.t("search_results.selected") %></span>
+            <span class="visually-hidden"><%= I18n.t("search_results.selected") %></span>
             <%= check_box_tag "uri", container_json['uri'], false, :"data-display-string" => doc['title'], :"data-container-profile-uri" => doc['container_profile_uri_u_sstr'] %>
           </label>
           <% else %>
@@ -92,7 +92,7 @@
 
         <% if show_edit_actions %>
         <td>
-          <div class="btn-group ml-auto bg-white border rounded">
+          <div class="btn-group ms-auto bg-white border rounded">
             <%= link_to I18n.t("actions.view"), {:controller => :resolver, :action => :resolve_readonly, :uri => container_json["uri"]}, :class => "btn" %>
             <% if can_edit %>
               <%= link_to I18n.t("actions.edit"), {:controller => :resolver, :action => :resolve_edit, :uri => container_json["uri"]}, :class => "btn btn-primary" %>

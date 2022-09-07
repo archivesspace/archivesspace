@@ -2,9 +2,9 @@
 
 <div class="form-actions row mb-3">
   <div class='col d-flex'>
-    <button type="button" class="btn preview-merge btn bg-white border mr-2"><%= I18n.t("agent._frontend.action.preview") %></button>
+    <button type="button" class="btn preview-merge btn bg-white border me-2"><%= I18n.t("agent._frontend.action.preview") %></button>
     <button type="button" class="btn btn-primary do-merge"><%= I18n.t("actions.merge") %></button>
-    <%= link_to I18n.t("actions.cancel"), {:controller => :agents, :action => :show, :id => @agent.id}, :class => "btn btn-cancel btn-default ml-auto bg-white border" %>
+    <%= link_to I18n.t("actions.cancel"), {:controller => :agents, :action => :show, :id => @agent.id}, :class => "btn btn-cancel btn-default ms-auto bg-white border" %>
   </div>
 </div>
 <div id="merge-selector-root" class="row">
@@ -451,5 +451,5 @@
 <div class="form-actions row p-3">
   <button type="button" class="btn preview-merge"><%= I18n.t("agent._frontend.action.preview") %></button>
   <button type="button" class="btn btn-primary do-merge"><%= I18n.t("actions.merge") %></button>
-  <%= link_to I18n.t("actions.cancel"), {:controller => :agents, :action => :show, :id => @agent.id}, :class => "btn btn-cancel btn-default pull-right ml-auto border bg-white" %>
+  <%= link_to I18n.t("actions.cancel"), {:controller => :agents, :action => :show, :id => @agent.id}, :class => "btn btn-cancel btn-default pull-right ms-auto border bg-white" %>
 </div>

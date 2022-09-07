@@ -738,7 +738,7 @@
                 var title = row.find('.title');
                 var strippedTitle = $("<div>").html(node.title).text();
                 title.append($('<a class="record-title" />').prop('href', TreeIds.link_url(node.uri)).text(node.title));
-                button.append($('<span class="sr-only" />').text(strippedTitle));
+                button.append($('<span class="visually-hidden" />').text(strippedTitle));
                 title.attr('title', strippedTitle);
 
                 var ex = row.find('.expandme');

@@ -7,10 +7,10 @@
       <% if session[:user] and session[:repo_id] %>
         <ul class="nav navbar-nav">
           <li class="px-4"<% if controller_name === "welcome" %>class="active px-4"<% end %>>
-            <%= link_to raw('<span class="glyphicon glyphicon-home"></span><span class="sr-only">' + I18n.t("breadcrumb.home") + '</span>'), :controller => :welcome, :action => :index %>
+            <%= link_to raw('<span class="glyphicon glyphicon-home"></span><span class="visually-hidden">' + I18n.t("breadcrumb.home") + '</span>'), :controller => :welcome, :action => :index %>
           </li>
           <li class="dropdown browse-container px-4">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><%= I18n.t("actions.browse") %> <b class="caret"></b></a>
+            <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown"><%= I18n.t("actions.browse") %> <b class="caret"></b></a>
             <ul class="dropdown-menu">
               <li class='dropdown-item'><%= link_to I18n.t("accession._plural"), :controller => :accessions, :action => :index %></li>
               <li class='dropdown-item'><%= link_to I18n.t("resource._plural"), :controller => :resources, :action => :index %></li>
@@ -32,7 +32,7 @@
                   'update_subject_record', 'update_event_record',
                   'update_agent_record', 'update_location_record', 'update_container_profile'].find {|p| user_can?(p)} %>
             <li class="dropdown create-container px-4">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown"><%= I18n.t("navbar.create") %> <b class="caret"></b></a>
+              <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown"><%= I18n.t("navbar.create") %> <b class="caret"></b></a>
               <ul class="dropdown-menu">
                 <% if ['update_accession_record', 'update_resource_record', 'update_digital_object_record'].find {|p| user_can?(p)} %>
                   <% if user_can?('update_accession_record') %>
@@ -111,12 +111,10 @@
           <li class="px-4">
             <%= form_tag(url_for(:controller => :search, :action => :do_search), :method => :get, :class => "navbar-form pull-left") do %>
               <div class="input-group bg-white border rounded">
-                <label for="global-search-box" class="sr-only sr-only-focusable"><%= I18n.t("navbar.search_placeholder") %></label>
-                <input id="global-search-box" type="text" class="form-control border-left-0 border-top-0 border-bottom-0" placeholder="<%= I18n.t("navbar.search_placeholder") %>" name="q" value="<%= params[:q] %>"/>
-                <div class="input-group-append">
-                  <button id="global-search-button" class="btn btn-default" title="<%= I18n.t("navbar.search_button_title") %>" aria-label="<%= I18n.t("navbar.search_button_title") %>"><span class="glyphicon glyphicon-search"></span></button>
-                  <button class="btn btn-default search-switcher last border-left" title="<%= I18n.t("navbar.show_advanced_search_button_title") %>" aria-label="<%= I18n.t("navbar.show_advanced_search_button_title") %>" aria-expanded="false" <% if params["advanced"] %>style="display:none"<% end %>><span class='glyphicon glyphicon-chevron-down'></span></button>
-                </div>
+                <label for="global-search-box" class="visually-hidden visually-hidden-focusable"><%= I18n.t("navbar.search_placeholder") %></label>
+                <input id="global-search-box" type="text" class="form-control rounded-start border-top-0 border-bottom-0" placeholder="<%= I18n.t("navbar.search_placeholder") %>" name="q" value="<%= params[:q] %>"/>
+                <button id="global-search-button" class="btn btn-default" title="<%= I18n.t("navbar.search_button_title") %>" aria-label="<%= I18n.t("navbar.search_button_title") %>"><span class="glyphicon glyphicon-search"></span></button>
+                <button class="btn btn-default search-switcher last border-start" title="<%= I18n.t("navbar.show_advanced_search_button_title") %>" aria-label="<%= I18n.t("navbar.show_advanced_search_button_title") %>" aria-expanded="false" <% if params["advanced"] %>style="display:none"<% end %>><span class='glyphicon glyphicon-chevron-down'></span></button>
               </div>
             <% end %>
           </li>
@@ -126,20 +124,20 @@
             </div>
           </li>
         </ul>
-          <ul class="nav navbar-nav ml-auto">
+          <ul class="nav navbar-nav ms-auto">
             <li class="repo-container">
               <div class="btn-group bg-white border rounded align-items-center">
                 <a href="<%= url_for :controller => :repositories, :action => :show, :id => session[:repo_id] %>" class="btn btn-default navbar-btn">
-                  <span class="repository-label has-popover" tabindex="0" data-trigger="focus hover" data-placement="bottom" data-html='true' data-toggle='popover' data-title="<span class='icomoon icon-repository'>&#160;</span><%= CGI::escapeHTML(current_repo['repo_code']) %>" data-content="<%= CGI::escapeHTML(current_repo['name']) %>">
+                  <span class="repository-label has-popover" tabindex="0" data-trigger="focus hover" data-placement="bottom" data-html='true' data-bs-toggle='popover' data-title="<span class='icomoon icon-repository'>&#160;</span><%= CGI::escapeHTML(current_repo['repo_code']) %>" data-content="<%= CGI::escapeHTML(current_repo['name']) %>">
                     <span class="icomoon icon-repository"></span><span class="current-repository-id"><% if current_repo %><%= current_repo['repo_code'] %><% end %></span>
                     <% unless current_repo.publish %>
                       <span class="label label-warning"><%= I18n.t("navbar.unpublished") %></span>
                     <% end %>
                   </span>
                 </a>
-                <div class="btn-group border-left">
-                  <a class="btn btn-default navbar-btn dropdown-toggle last" data-toggle="dropdown" href="#" title="<%= I18n.t("navbar.repository_settings") %>" aria-label="<%= I18n.t("navbar.repository_settings") %>"><span class="glyphicon glyphicon-cog"></span> <span class="caret"></span></a>
-                  <ul class="dropdown-menu dropdown-menu-right">
+                <div class="btn-group border-start">
+                  <a class="btn btn-default navbar-btn dropdown-toggle last" data-bs-toggle="dropdown" href="#" title="<%= I18n.t("navbar.repository_settings") %>" aria-label="<%= I18n.t("navbar.repository_settings") %>"><span class="glyphicon glyphicon-cog"></span> <span class="caret"></span></a>
+                  <ul class="dropdown-menu dropdown-menu-end">
                     <% found_an_item = false %>
                     <% if user_can?('manage_repository') %>
                       <% found_an_item = true %>

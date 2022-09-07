@@ -3,7 +3,7 @@
   <div class="well">
     <h3 class="d-flex">
       <%= I18n.t "search_results.filtered_by" %>
-      <%= link_to I18n.t("search_results.clear_all"), build_search_params({"q" => "", "filter_term" => []}), :class => "btn btn-xs pull-right bg-white border ml-auto" %>
+      <%= link_to I18n.t("search_results.clear_all"), build_search_params({"q" => "", "filter_term" => []}), :class => "btn btn-xs pull-right bg-white border ms-auto" %>
     </h3>
     <ul>
       <% if @search_data.query? %>
@@ -38,7 +38,7 @@
       <% end %>
     <% end %>
     <div class="input-group w-100">
-      <label for="filter-text" class="sr-only">Filter by text</label>
+      <label for="filter-text" class="visually-hidden">Filter by text</label>
       <input class="text-filter-field form-control" type="text" placeholder="<%= I18n.t("search_results.text_placeholder") %>" name="q" value="<%= params[:q] %>" id="filter-text"/>
       <div class="input-group-btn">
         <button class="btn btn-default" title="<%= I18n.t("search_results.text_placeholder") %>" aria-label="<%= I18n.t("search_results.text_placeholder") %>"><span class="glyphicon glyphicon-search"></span></button>

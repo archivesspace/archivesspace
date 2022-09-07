@@ -75,7 +75,7 @@ var init = function () {
       initListing(code);
       $('.select-report').hide();
       $('.unselect-report').show();
-      $('.unselect-report-group').addClass('ml-auto');
+      $('.unselect-report-group').addClass('ms-auto');
       $('.create-report-template').show();
       $('.report-listing:not(#' + code + ')').hide();
       $('#format').show();
@@ -90,7 +90,7 @@ var init = function () {
       $('#report-fields').empty();
       $('.select-report').show();
       $('.unselect-report').hide();
-      $('.unselect-report-group').removeClass('ml-auto');
+      $('.unselect-report-group').removeClass('ms-auto');
       $('.create-report-template').hide();
       $('.report-listing').show();
       $('#format').hide();

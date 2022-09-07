@@ -9,7 +9,7 @@
   <div class="col-md-9">
     <div class="record-toolbar  d-flex align-items-center">
       <% unless @hide_csv_download %>
-        <div class="btn-group ml-auto">
+        <div class="btn-group ms-auto">
           <%= link_to I18n.t("actions.export_csv"), request.parameters.merge({ :format => :csv, :fields => fields}), id: "searchExport",  class:  "btn btn-sm btn-info" %>
         </div>
       <% end %>

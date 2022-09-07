@@ -183,7 +183,7 @@
           <option value="empty" {if query.empty}selected{/if}><%= I18n.t("advanced_search.text_operator.empty") %></option>
         </select>
       </div>
-      <div class="input-group-addon search-value ml-4">
+      <div class="input-group-addon search-value ms-4">
         <label for="v${index}"><%= I18n.t "advanced_search.search_text" %></label>
         <%= text_field_tag "v${index}", "${query.value}", :id => "v${index}", :class => 'form-control', :onkeydown => "return processKey(event)" %>
       </div>
@@ -210,7 +210,7 @@
           <% end %>
         </select>
       </div>
-      <div class="input-group-addon search-value ml-4">
+      <div class="input-group-addon search-value ms-4">
         <label for="v${index}"><%= I18n.t "advanced_search.search_date" %></label>
                                                     <%= text_field_tag "v${index}", "${query.value}", :id => "v${index}", :class => "date-field form-control", :"data-format" => "yyyy-mm-dd", :"data-date" => Date.today.strftime('%Y-%m-%d'), :"data-label" => I18n.t("actions.date_picker_toggle"), :"data-force-parse" => false %>
       </div>
@@ -264,7 +264,7 @@
     </div>
     <div class="col-md-1">
       <div>
-        <button class="btn btn-success advanced-search-add-row-dropdown" data-toggle="dropdown" title="<%= I18n.t("advanced_search.add_row") %>" aria-label="<%= I18n.t("advanced_search.add_row") %>">
+        <button class="btn btn-success advanced-search-add-row-dropdown" data-bs-toggle="dropdown" title="<%= I18n.t("advanced_search.add_row") %>" aria-label="<%= I18n.t("advanced_search.add_row") %>">
           <span class="glyphicon glyphicon-plus glyphicon-white"></span>
           <span class="caret"></span>
         </button>

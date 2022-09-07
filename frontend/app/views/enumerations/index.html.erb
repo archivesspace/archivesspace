@@ -3,7 +3,7 @@
 <div class="row">
   <div class="col-md-12">
     <div class="record-toolbar d-flex align-items-center">
-      <div class="ml-auto btn-light btn-group">
+      <div class="ms-auto btn-light btn-group">
         <%= link_to I18n.t('enumeration._frontend.action.download_csv'), {:controller => 'enumerations', :action => 'csv'}, :class => 'btn btn-sm' %>
       </div>
       <div class="clearfix"></div>
@@ -17,7 +17,7 @@
       <div>
         <fieldset>
           <div class="form-group row required">
-            <label class="col-form-label col-md-3 text-right" for="enum_selector"><%= I18n.t("enumeration._frontend.messages.name_selector") %></label>
+            <label class="col-form-label col-md-3 text-end" for="enum_selector"><%= I18n.t("enumeration._frontend.messages.name_selector") %></label>
             <div class="controls">
               <%
                 enum_options = @enumerations.map {|e|

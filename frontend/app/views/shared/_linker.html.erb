@@ -86,7 +86,7 @@
       <% end %>
 
       <div class="input-group-btn">
-        <a class="btn btn-default dropdown-toggle last" data-toggle="dropdown" href="javascript:void(0);" aria-label="<%= I18n.t("agent.linker.link_title") %>"><span class="caret"></span></a>
+        <a class="btn btn-default dropdown-toggle last" data-bs-toggle="dropdown" href="javascript:void(0);" aria-label="<%= I18n.t("agent.linker.link_title") %>"><span class="caret"></span></a>
         <ul class="dropdown-menu">
           <li><a href="javascript:void(0);" class="linker-browse-btn"><%= I18n.t("actions.browse") %></a></li>
           <% if user_can?('update_agent_record') %>

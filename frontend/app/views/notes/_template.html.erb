@@ -118,7 +118,7 @@
       </ul>
     </div>
   <% else %>
-    <label class="sr-only" for="<%= form.id_for(nil) %>"><%= I18n.t("content_items.content") %></label>
+    <label class="visually-hidden" for="<%= form.id_for(nil) %>"><%= I18n.t("content_items.content") %></label>
     <%= form.textarea(nil, item, :class => "mixed-content") %>
   <% end %>
   </div>

@@ -48,7 +48,7 @@
       <%= I18n.t "assessment._frontend.section.basic_information" %>
     </h3>
     <fieldset>
-      <legend class='sr-only'><%= I18n.t "assessment._frontend.section.basic_information" %></legend>
+      <legend class='visually-hidden'><%= I18n.t "assessment._frontend.section.basic_information" %></legend>
 
       <%= render_plugin_partials("top_of_basic_information_assessments",
                                  :form => form,
@@ -232,7 +232,7 @@
       <%= I18n.t "assessment._frontend.section.rating_attributes" %>
     </h3>
     <fieldset>
-      <legend class='sr-only'><%= I18n.t "assessment._frontend.section.rating_attributes" %></legend>
+      <legend class='visually-hidden'><%= I18n.t "assessment._frontend.section.rating_attributes" %></legend>
       <div class="subrecord-form-container">
         <div class="subrecord-form-fields">
           <%= form.label_and_textarea 'general_assessment_note' %>
@@ -266,14 +266,14 @@
             <table id="rating_attributes_table" class="table table-bordered table-hover">
               <thead>
                 <tr>
-                  <th class="col-sm-5"><span class="sr-only">Condition</span></th>
+                  <th class="col-sm-5"><span class="visually-hidden">Condition</span></th>
                   <th class="col-sm-1 text-center"><%= I18n.t('assessment.rating_attributes_value.rating_none') %></th>
                   <th class="col-sm-1 text-center"><%= I18n.t('assessment.rating_attributes_value.rating_1') %></th>
                   <th class="col-sm-1 text-center"><%= I18n.t('assessment.rating_attributes_value.rating_2') %></th>
                   <th class="col-sm-1 text-center"><%= I18n.t('assessment.rating_attributes_value.rating_3') %></th>
                   <th class="col-sm-1 text-center"><%= I18n.t('assessment.rating_attributes_value.rating_4') %></th>
                   <th class="col-sm-1 text-center"><%= I18n.t('assessment.rating_attributes_value.rating_5') %></th>
-                  <th><span class="sr-only">Add attribute note?</span></th>
+                  <th><span class="visually-hidden">Add attribute note?</span></th>
                 </tr>
               </thead>
               <tbody>
@@ -296,44 +296,44 @@
                                  data-html="true"
                                  title="<%= rating_values_tooltip %>"
                                  data-template='<div class="tooltip ratings-value-tooltip" role="tooltip"><div class="tooltip-arrow"></div><div class="tooltip-inner"></div></div>'>
-                                <span class='sr-only'><%= i18n_rating(rating.fetch('label')) %></span>
+                                <span class='visually-hidden'><%= i18n_rating(rating.fetch('label')) %></span>
                           </label>
                         <% end %>
                       </td>
                         <td class="text-center">
                           <label>
                             <%= form.radio('value', nil) %>
-                            <span class='sr-only'><%= I18n.t('assessment.rating_attributes_value.rating_none') %></span>
+                            <span class='visually-hidden'><%= I18n.t('assessment.rating_attributes_value.rating_none') %></span>
                           </label>
                         </td>
                         <td class="text-center">
                           <label>
                             <%= form.radio('value', '1') %>
-                            <span class='sr-only'><%= I18n.t('assessment.rating_attributes_value.rating_1') %></span>
+                            <span class='visually-hidden'><%= I18n.t('assessment.rating_attributes_value.rating_1') %></span>
                           </label>
                         </td>
                         <td class="text-center">
                           <label>
                             <%= form.radio('value', '2') %>
-                            <span class='sr-only'><%= I18n.t('assessment.rating_attributes_value.rating_2') %></span>
+                            <span class='visually-hidden'><%= I18n.t('assessment.rating_attributes_value.rating_2') %></span>
                           </label>
                         </td>
                         <td class="text-center">
                           <label>
                             <%= form.radio('value', '3') %>
-                            <span class='sr-only'><%= I18n.t('assessment.rating_attributes_value.rating_3') %></span>
+                            <span class='visually-hidden'><%= I18n.t('assessment.rating_attributes_value.rating_3') %></span>
                           </label>
                         </td>
                         <td class="text-center">
                           <label>
                             <%= form.radio('value', '4') %>
-                            <span class='sr-only'><%= I18n.t('assessment.rating_attributes_value.rating_4') %></span>
+                            <span class='visually-hidden'><%= I18n.t('assessment.rating_attributes_value.rating_4') %></span>
                           </label>
                         </td>
                         <td class="text-center">
                           <label>
                             <%= form.radio('value', '5') %>
-                            <span class='sr-only'><%= I18n.t('assessment.rating_attributes_value.rating_5') %></span>
+                            <span class='visually-hidden'><%= I18n.t('assessment.rating_attributes_value.rating_5') %></span>
                           </label>
                         </td>
                         <td>
@@ -403,44 +403,44 @@
                                    data-html="true"
                                    title="<%= rating_values_tooltip %>"
                                    data-template='<div class="tooltip ratings-value-tooltip" role="tooltip"><div class="tooltip-arrow"></div><div class="tooltip-inner"></div></div>'>
-                                   <span class='sr-only'><%= i18n_rating(rating.fetch('label')) %></span>
+                                   <span class='visually-hidden'><%= i18n_rating(rating.fetch('label')) %></span>
                             </label>
                           <% end %>
                         </td>
                           <td class="text-center">
                             <label>
                               <%= form.radio('value', nil) %>
-                              <span class='sr-only'><%= I18n.t('assessment.rating_attributes_value.rating_none') %></span>
+                              <span class='visually-hidden'><%= I18n.t('assessment.rating_attributes_value.rating_none') %></span>
                             </label>
                           </td>
                           <td class="text-center">
                             <label>
                               <%= form.radio('value', '1') %>
-                              <span class='sr-only'><%= I18n.t('assessment.rating_attributes_value.rating_1') %></span>
+                              <span class='visually-hidden'><%= I18n.t('assessment.rating_attributes_value.rating_1') %></span>
                             </label>
                           </td>
                           <td class="text-center">
                             <label>
                               <%= form.radio('value', '2') %>
-                              <span class='sr-only'><%= I18n.t('assessment.rating_attributes_value.rating_2') %></span>
+                              <span class='visually-hidden'><%= I18n.t('assessment.rating_attributes_value.rating_2') %></span>
                             </label>
                           </td>
                           <td class="text-center">
                             <label>
                               <%= form.radio('value', '3') %>
-                              <span class='sr-only'><%= I18n.t('assessment.rating_attributes_value.rating_3') %></span>
+                              <span class='visually-hidden'><%= I18n.t('assessment.rating_attributes_value.rating_3') %></span>
                             </label>
                           </td>
                           <td class="text-center">
                             <label>
                               <%= form.radio('value', '4') %>
-                              <span class='sr-only'><%= I18n.t('assessment.rating_attributes_value.rating_4') %></span>
+                              <span class='visually-hidden'><%= I18n.t('assessment.rating_attributes_value.rating_4') %></span>
                             </label>
                           </td>
                           <td class="text-center">
                             <label>
                               <%= form.radio('value', '5') %>
-                              <span class='sr-only'><%= I18n.t('assessment.rating_attributes_value.rating_5') %></span>
+                              <span class='visually-hidden'><%= I18n.t('assessment.rating_attributes_value.rating_5') %></span>
                             </label>
                           </td>
                           <td>
@@ -488,7 +488,7 @@
       <%= I18n.t "assessment._frontend.section.format_attributes" %>
     </h3>
     <fieldset>
-      <legend class='sr-only'><%= I18n.t "assessment._frontend.section.format_attributes" %></legend>
+      <legend class='visually-hidden'><%= I18n.t "assessment._frontend.section.format_attributes" %></legend>
       <div class="subrecord-form-container">
         <div class="subrecord-form-fields">
           <% if form.readonly? %>
@@ -599,7 +599,7 @@
       <%= I18n.t "assessment._frontend.section.conservation_issue_attributes" %>
     </h3>
     <fieldset>
-      <legend class='sr-only'><%= I18n.t "assessment._frontend.section.conservation_issue_attributes" %></legend>
+      <legend class='visually-hidden'><%= I18n.t "assessment._frontend.section.conservation_issue_attributes" %></legend>
       <div class="subrecord-form-container">
         <div class="subrecord-form-fields">
           <% if form.readonly? %>

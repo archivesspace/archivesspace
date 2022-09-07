@@ -139,7 +139,7 @@
 
     // Templates.
     templates: {
-      button: '<button type="button" class="multiselect dropdown-toggle" data-toggle="dropdown"></button>',
+      button: '<button type="button" class="multiselect dropdown-toggle" data-bs-toggle="dropdown"></button>',
       ul: '<ul class="multiselect-container dropdown-menu"></ul>',
       filter: '<div class="input-group"><span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span><input class="form-control multiselect-search" type="text"></div>',
       li: '<li><a href="javascript:void(0);"><label></label></a></li>',

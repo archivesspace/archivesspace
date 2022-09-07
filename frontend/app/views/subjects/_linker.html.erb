@@ -43,7 +43,7 @@
 <div class="form-group required">
    <% if !name.blank? %>
      <%= wrap_with_tooltip(linker_label, "#{form.i18n_for(name)}_tooltip", "subrecord-form-heading-label control-label col-sm-2") %>
-     <label class="sr-only"
+     <label class="visually-hidden"
             id="<%= form.id_for(data_name) %>_label"
             for="<%= form.id_for(data_name) %>">
         <%= linker_label %>
@@ -97,9 +97,9 @@
           <% end %>
           
           <div class="input-group-btn">
-             <a class="btn btn-default dropdown-toggle last d-flex align-items-center border-dark border-left-0"  href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" title="Link to subject" id="dropdownMenuSubjectsToggle">
+             <a class="btn btn-default dropdown-toggle last d-flex align-items-center border-dark border-start-0"  href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" title="Link to subject" id="dropdownMenuSubjectsToggle">
             </a>
-              <ul class="dropdown-menu dropdown-menu-right" id='dropdownMenuSubjects' aria-labelledby="#dropdownMenuSubjects">
+              <ul class="dropdown-menu dropdown-menu-end" id='dropdownMenuSubjects' aria-labelledby="#dropdownMenuSubjects">
                  <li class='dropdown-item'>
                   <a href="javascript:void(0);" class="linker-browse-btn"><%= I18n.t("actions.browse") %></a>
                 </li>

@@ -4,7 +4,7 @@
    <div class="col-md-3"></div>
    <div class="col-md-9">
      <div class="record-toolbar d-flex align-items-center">
-       <div class="btn-group ml-auto">
+       <div class="btn-group ms-auto">
          <% unless @manage_access %>
            <%= link_to I18n.t("user._frontend.action.create"), {:controller => :users, :action => :new}, :class => "btn btn-sm btn-light border" %>
          <% end %>
@@ -44,7 +44,7 @@
                <th><%= I18n.t("user.admin") %></th>
                <th><%= I18n.t("user.is_active_user") %></th>
              <% end %>
-             <th width="70px"><span class="sr-only"><%= I18n.t('search_results.actions') %></span></th>
+             <th width="70px"><span class="visually-hidden"><%= I18n.t('search_results.actions') %></span></th>
            </tr>
          </thead>
          <tbody>

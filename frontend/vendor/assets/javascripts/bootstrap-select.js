@@ -288,7 +288,7 @@
       this.$searchbox = this.$menu.find('input');
 
       if (this.options.dropdownAlignRight)
-        this.$menu.addClass('dropdown-menu-right');
+        this.$menu.addClass('dropdown-menu-end');
 
       if (typeof id !== 'undefined') {
         this.$button.attr('data-id', id);
@@ -348,7 +348,7 @@
           : '';
       var drop =
           '<div class="btn-group bootstrap-select' + multiple + inputGroup + '">' +
-          '<button type="button" class="btn dropdown-toggle" data-toggle="dropdown"' + autofocus + '>' +
+          '<button type="button" class="btn dropdown-toggle" data-bs-toggle="dropdown"' + autofocus + '>' +
           '<span class="filter-option pull-left"></span>&nbsp;' +
           '<span class="caret"></span>' +
           '</button>' +

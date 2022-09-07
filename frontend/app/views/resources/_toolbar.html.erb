@@ -8,7 +8,7 @@
         :action => :download_ead, :id => @resource.id, :include_unpublished => "${include_unpublished}",
         :include_daos => "${include_daos}", :numbered_cs => "${numbered_cs}", :print_pdf => "${print_pdf}",
         :ead3 => "${ead3}" )%>">
-        <a href="#" data-toggle="dropdown" class="menu-with-options download-ead-action" title="<%= I18n.t("actions.export_ead") %>"><%= I18n.t("actions.export_ead") %></a>
+        <a href="#" data-bs-toggle="dropdown" class="menu-with-options download-ead-action" title="<%= I18n.t("actions.export_ead") %>"><%= I18n.t("actions.export_ead") %></a>
         <div class="dropdown-menu" id="form_download_ead">
           <fieldset>
             <input type="hidden" name="id", value="<%= @resource.id %>" />
@@ -35,7 +35,7 @@
       </li>
 
       <li class="dropdown-submenu" id="download-marc-dropdown" data-download-marc-url="<%= url_for(:controller => :exports, :action => :download_marc, :id => @resource.id, :include_unpublished_marc => "${include_unpublished_marc}")%>">
-        <a href="#" data-toggle="dropdown" class="menu-with-options download-marc-action" title="<%= I18n.t("actions.export_marc") %>"><%= I18n.t("actions.export_marc") %></a>
+        <a href="#" data-bs-toggle="dropdown" class="menu-with-options download-marc-action" title="<%= I18n.t("actions.export_marc") %>"><%= I18n.t("actions.export_marc") %></a>
         <div class="dropdown-menu" id="form_download_marc">
           <fieldset>
             <input type="hidden" name="id", value="<%= @resource.id %>" />

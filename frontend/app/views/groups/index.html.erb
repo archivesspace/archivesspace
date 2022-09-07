@@ -6,7 +6,7 @@
 
   <div class="col-md-9">
     <div class="record-toolbar d-flex align-items-center">
-      <div class="btn-group ml-auto bg-white border">
+      <div class="btn-group ms-auto bg-white border">
         <%= link_to I18n.t("group._frontend.action.create"), {:controller => :groups, :action => :new}, :class => "btn btn-sm btn-default" %>
       </div>
       <br style="clear:both" /> <!-- So dirty! -->
@@ -21,7 +21,7 @@
        <thead>
          <tr>
            <th><%= I18n.t('group.group_code') %></th>
-           <th><span class="sr-only"><%= I18n.t('search_results.actions') %></span></th>
+           <th><span class="visually-hidden"><%= I18n.t('search_results.actions') %></span></th>
          </tr>
        </thead>
        <tbody>

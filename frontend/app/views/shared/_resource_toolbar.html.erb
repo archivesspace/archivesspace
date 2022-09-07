@@ -17,7 +17,7 @@
           <%= I18n.t("actions.toolbar_disabled_message") %>
         </div>
       <% end %>
-      <div class="btn-toolbar bg-white ml-auto">
+      <div class="btn-toolbar bg-white ms-auto">
         <div class="btn-group">
           <% if user_can?('update_event_record') && !record.suppressed %>
             <div class="border d-flex">
@@ -54,11 +54,11 @@
             </div>
           <% end %>
           <div class="btn-group border">
-            <a class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown" href="javascript:void(0);">
+            <a class="btn btn-sm btn-default dropdown-toggle" data-bs-toggle="dropdown" href="javascript:void(0);">
               <%= I18n.t("actions.export") %>
               <span class="caret"></span>
             </a>
-            <ul class="dropdown-menu dropdown-menu-right">
+            <ul class="dropdown-menu dropdown-menu-end">
               <%= yield :exports %>
             </ul>
           </div>
@@ -88,7 +88,7 @@
             </div>
           <% end %>
           <div class="btn-group dropdown border" id="other-dropdown" style="display: none">
-            <button class="btn btn-sm btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+            <button class="btn btn-sm btn-default dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
               <%= I18n.t('actions.more') %>
               <span class="caret"></span>
             </button>

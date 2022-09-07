@@ -213,7 +213,7 @@ module SearchHelper
 
   def add_multiselect_column
     @allow_multiselect = true
-    header = ('<label for="select_all" class="sr-only">' +
+    header = ('<label for="select_all" class="visually-hidden">' +
       I18n.t("search_results.selected") + '</label>' +
       check_box_tag("select_all", 1, false, "autocomplete" => "off")).html_safe
 
@@ -295,7 +295,7 @@ module SearchHelper
   end
 
   def sr_only(text)
-    ('<span class="sr-only">' + text + '</span>').html_safe
+    ('<span class="visually-hidden">' + text + '</span>').html_safe
   end
 
   def add_columns

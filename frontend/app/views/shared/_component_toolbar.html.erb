@@ -24,7 +24,7 @@
           </div>
         <% end %>
       <% end %>
-      <div class="btn-toolbar ml-auto">
+      <div class="btn-toolbar ms-auto">
         <div class="btn-group">
           <% if user_can?('update_event_record') && supports_events && ((suppressible && !record.suppressed) || !suppressible ) %>
             <%= render_aspace_partial :partial => "shared/event_dropdown", :locals => {:record => record} %>
@@ -60,7 +60,7 @@
           <% end %>
 
           <div class="btn-group dropdown" id="other-dropdown" style="display: none">
-            <a class="btn btn-sm  dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+            <a class="btn btn-sm  dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
               <%= I18n.t('actions.more') %>
               <span class="caret"></span>
             </a>

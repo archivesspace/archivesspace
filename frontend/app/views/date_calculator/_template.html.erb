@@ -12,7 +12,7 @@
       <%= hidden_field_tag 'record_uri', record.uri %>
       <div class="row">
         <div class="col-sm-6">
-        <%= label_tag 'label', I18n.t('date.label'), :class => 'col-sm-2 control-label sr-only' %>
+        <%= label_tag 'label', I18n.t('date.label'), :class => 'col-sm-2 control-label visually-hidden' %>
           <%= select_tag 'label', options_for_select(label_options, 'creation'), :class => 'form-control' %>
         </div>
         <div class="col-sm-6">

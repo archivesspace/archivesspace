@@ -9,7 +9,7 @@
   <div class="col-md-9">
     <% if user_can?('manage_repository') %>
       <div class="record-toolbar">
-        <div class="btn-group float-right">
+        <div class="btn-group float-end">
           <%= link_to I18n.t("repository._frontend.action.create"), {:controller => :repositories, :action => :new}, :class => "btn btn-sm btn-light btn-default" %>
         </div>
         <br style="clear:both" /> <!-- So dirty! -->

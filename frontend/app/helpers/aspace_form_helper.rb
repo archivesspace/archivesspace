@@ -525,7 +525,7 @@ module AspaceFormHelper
       prefix << "#{opts[:contextual]}." if opts[:contextual]
       prefix << 'plugins.' if opts[:plugin]
 
-      classes << 'control-label text-right'
+      classes << 'control-label text-end'
 
       options = {:class => classes.join(' '), :for => id_for(name)}
 
