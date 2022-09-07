@@ -4,7 +4,6 @@
 require 'date'
 require 'digest'
 require 'git'
-require 'http'
 require 'json'
 require 'yaml'
 require_relative 'scripts/tasks/check'
@@ -34,6 +33,7 @@ namespace :check do
   end
 end
 
+# This is a legacy task, see the newer thor task for updated version
 namespace :release_notes do
   # Requires setting ENV["REL_NOTES_TOKEN"] in the form of:
   # export REL_NOTES_TOKEN="github-user-name:personal-access-token"

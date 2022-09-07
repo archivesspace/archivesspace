@@ -1634,6 +1634,6 @@ FactoryBot.define do
 
   factory :json_required_fields, class: JSONModel(:required_fields) do
     record_type { 'archival_object' }
-    subrecord_requirements { build(:json_subrecord_requirement) }
+    subrecord_requirements { [build(:json_subrecord_requirement)] }
   end
 end
