@@ -14,7 +14,7 @@
       <%= I18n.t("actions.toolbar_disabled_message") %>
     </div>
   <% end %>
-  <div class="btn-toolbar ml-auto">
+  <div class="btn-toolbar ms-auto">
     <% if @user.id && !@user.is_system_user && @user.username.downcase != current_user.downcase %>
       <div class="btn-group">
         <div class="btn btn-inline-form">

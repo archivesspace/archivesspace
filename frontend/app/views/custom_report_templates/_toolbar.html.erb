@@ -15,7 +15,7 @@
     <%= I18n.t("actions.toolbar_disabled_message") %>
     </div>
   <% end %>
-    <div class="btn-toolbar ml-auto">
+    <div class="btn-toolbar ms-auto">
       <div class="btn-group">
         <% if ['edit', 'update', 'new', 'create'].include?(controller.action_name) %>
           <button class="btn btn-sm btn-success no-change-tracking" type="button" id="check_all" data-checked="<%= I18n.t("actions.check_all") %>" data-unchecked="<%= I18n.t("actions.uncheck_all") %>"><%= I18n.t("actions.check_all") %></button>

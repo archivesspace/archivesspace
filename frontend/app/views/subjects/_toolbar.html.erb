@@ -5,7 +5,7 @@
         <button type="submit" class="btn btn-primary btn-sm"><%= I18n.t("actions.save_prefix") %></button>
       </div>
     <% else %>
-      <div class="btn-group mr-auto">
+      <div class="btn-group me-auto">
         <%= link_to I18n.t("actions.edit"), {:controller => :subjects, :action => :edit, :id => @subject.id}, :class => "btn btn-sm btn-primary" %>
       </div>
     <% end %>
@@ -17,7 +17,7 @@
       </div>
     <% end %>
 
-    <div class="btn-group btn-toolbar ml-auto align-items-center bg-white border rounded">
+    <div class="btn-group btn-toolbar ms-auto align-items-center bg-white border rounded">
       <% if user_can?('merge_subject_record') %>
         <%=
         render_aspace_partial :partial => "shared/merge_dropdown",

@@ -24,7 +24,7 @@
           </div>
         <% end %>
       <% end %>
-      <div class="btn-toolbar ml-auto">
+      <div class="btn-toolbar ms-auto">
         <div class="btn-group">
           <% if user_can?('update_event_record') && supports_events && ((suppressible && !record.suppressed) || !suppressible ) %>
             <%= render_aspace_partial :partial => "shared/event_dropdown", :locals => {:record => record} %>

@@ -4,7 +4,7 @@
        <div class="modal-content">
          {if defined("title") && title.length > 0}
            <div class="modal-header align-items-center">
-             <a class="close m-0 mr-auto" data-dismiss="modal">×</a>
+             <a class="close m-0 me-auto" data-dismiss="modal">×</a>
              <h3>${title|h}</h3>
            </div>
          {/if}
@@ -294,7 +294,7 @@
 --></div>
 
 <div id="template_subrecord_collapse_action"><!--
-  <button class="btn btn-xs pull-right ml-auto collapse-subrecord-toggle">
+  <button class="btn btn-xs pull-right ms-auto collapse-subrecord-toggle">
     <span class="expand"><%= I18n.t("note._frontend.action.expand")%></span>
     <span class="collapse"><%= I18n.t("note._frontend.action.collapse")%></span>
   </button>

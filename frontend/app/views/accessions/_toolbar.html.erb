@@ -20,7 +20,7 @@
             <%= I18n.t("actions.toolbar_disabled_message") %>
           </div>
         <% end %>
-        <div class="d-flex ml-auto">
+        <div class="d-flex ms-auto">
           <div class="btn-group align-items-center bg-white rounded border">
             <% if AppConfig[:enable_public] %>
               <%= render_aspace_partial :partial => "shared/view_published_button", :locals => {:record => @accession} %>
@@ -109,7 +109,7 @@
               <% end %>
             </div>
           <% end %>
-        </div><!-- btn-toolbar ml-auto -->
+        </div><!-- btn-toolbar ms-auto -->
         <div class="clearfix"></div>
       </div><!-- record-toolbar -->
     </div><!-- col-md-12 -->

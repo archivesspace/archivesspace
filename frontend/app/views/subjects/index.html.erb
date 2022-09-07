@@ -9,7 +9,7 @@
   <div class="col-md-9">
     <% if user_can?('update_subject_record') %>
       <div class="record-toolbar d-flex align-items-center">
-        <div class="btn-group ml-auto bg-white border rounded">
+        <div class="btn-group ms-auto bg-white border rounded">
           <% if user_can?('manage_repository') %>
               <%= link_to I18n.t("actions.edit_default_values"), {:controller => :subjects, :action => :defaults}, :class => "btn btn-sm btn-default" %>
           <% end %>
