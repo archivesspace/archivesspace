@@ -14,7 +14,7 @@
             <%= I18n.t("job._frontend.actions.create") %>
             <span class="caret"></span>
           </a>
-          <ul class="dropdown-menu dropdown-menu-right">
+          <ul class="dropdown-menu dropdown-menu-end">
             <% job_types.each do |type, perms| %>
               <% next if type == 'generate_slugs_job' && !AppConfig[:use_human_readable_urls] %>
               <% next if type == 'generate_arks_job' && !AppConfig[:arks_enabled] %>

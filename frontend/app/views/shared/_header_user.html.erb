@@ -20,7 +20,7 @@
   <% end %>
   <li class="dropdown system-menu px-4">
     <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown"><%= I18n.t("navbar.global_admin") %> <b class="caret"></b></a>
-    <ul class="dropdown-menu dropdown-menu-right">
+    <ul class="dropdown-menu dropdown-menu-end">
       <% if user_can?('update_enumeration_record') %>
         <li class='dropdown-item'><%= link_to I18n.t("navbar.manage_enumerations"), :controller => :enumerations, :action => :index %></li>
       <% end %>
@@ -58,7 +58,7 @@
   <% if Plugins.system_menu_items.any? {|plugin| has_permission_for_controller?(session, plugin)} %>
     <li class="dropdown plugin-container">
       <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown"><%= I18n.t("navbar.plugins") %> <b class="caret"></b></a>
-      <ul class="dropdown-menu dropdown-menu-right">
+      <ul class="dropdown-menu dropdown-menu-end">
         <% Plugins.system_menu_items.each do |plugin| %>
           <% if has_permission_for_controller?(session, plugin) %>
             <li class='dropdown-item'><%= link_to I18n.t("plugins.#{plugin}.label"), :controller => plugin.intern, :action => :index %></li>
@@ -73,7 +73,7 @@
       <% link_content = "<span class='glyphicon glyphicon-user'></span>&nbsp;<span class='user-label'>#{session[:user]}</span>" %>
       <%= link_to(link_content.html_safe, {:controller => :users, :action => :edit_self}, {:class => 'btn navbar-btn'}) %>
       <a class="btn btn-default navbar-btn border-start dropdown-toggle last" id="user-menu-dropdown" data-bs-toggle="dropdown" href="#" title="<%= I18n.t("navbar.global_settings") %>" aria-label="<%= I18n.t("navbar.global_settings") %>"><span class="caret"></span></a>
-      <ul class="dropdown-menu dropdown-menu-right float-xs-right">
+      <ul class="dropdown-menu dropdown-menu-end float-xs-right">
         <li class='dropdown-item'><%= link_to I18n.t("navbar.global_preferences") + " (#{username})", :controller => :preferences, :action => :edit, :id => 0, :global => true %></li>
         <li class='dropdown-item'><%= link_to I18n.t("navbar.user_repo_preferences") + " (#{username})", :controller => :preferences, :action => :edit, :id => 0 %></li>
         <% if user_can?('administer_system') || user_can?('manage_repository') %>

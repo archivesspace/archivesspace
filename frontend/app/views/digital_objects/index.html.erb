@@ -17,7 +17,7 @@
                 <%= I18n.t("actions.edit_default_values") %>
                 <span class="caret"></span>
               </a>
-              <ul class="dropdown-menu dropdown-menu-right">
+              <ul class="dropdown-menu dropdown-menu-end">
                 <li class='dropdown-item'><%= link_to I18n.t("digital_object._singular"), {:controller => :digital_objects, :action => :defaults} %></li>
                 <li class='dropdown-item'> <%= link_to I18n.t("digital_object_component._singular"), {:controller => :digital_object_components, :action => :defaults} %></li>
               </ul>

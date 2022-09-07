@@ -16,7 +16,7 @@
               <a class="btn btn-sm btn-default dropdown-toggle" data-bs-toggle="dropdown" href="javascript:void(0);">
                 <%= I18n.t("actions.edit_default_values") %>
               </a>
-              <ul class="dropdown-menu dropdown-menu-right">
+              <ul class="dropdown-menu dropdown-menu-end">
                 <li class='dropdown-item'><%= link_to I18n.t("resource._singular"), {:controller => :resources, :action => :defaults} %></li>
                 <li class='dropdown-item'> <%= link_to I18n.t("resource_component._singular"), {:controller => :archival_objects, :action => :defaults} %></li>
               </ul>

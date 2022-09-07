@@ -288,7 +288,7 @@
       this.$searchbox = this.$menu.find('input');
 
       if (this.options.dropdownAlignRight)
-        this.$menu.addClass('dropdown-menu-right');
+        this.$menu.addClass('dropdown-menu-end');
 
       if (typeof id !== 'undefined') {
         this.$button.attr('data-id', id);
