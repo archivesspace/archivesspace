@@ -8,7 +8,7 @@
       <span class="btn-group align-items-baseline">
         <label>,&#160;<%= I18n.t("search_sorting.sort_by") %>&#160;</label>
         <div class="btn-group align-items-center">
-          <a class="dropdown-toggle border bg-white rounded d-flex align-items-center pr-3" data-toggle="dropdown" href="#">
+          <a class="dropdown-toggle border bg-white rounded d-flex align-items-center pr-3" data-bs-toggle="dropdown" href="#">
             <span class="btn"><%= @search_data.sorted_by_label %></span>
           </a>
           <ul class="dropdown-menu">
@@ -34,7 +34,7 @@
       <span class="btn-group align-items-baseline">
         <label>&#160;<%= I18n.t("search_sorting.and") %>&#160;</label>
         <div class="btn-group">
-          <a class="dropdown-toggle border bg-white rounded d-flex align-items-center pr-3" data-toggle="dropdown" href="#">
+          <a class="dropdown-toggle border bg-white rounded d-flex align-items-center pr-3" data-bs-toggle="dropdown" href="#">
               <span class="btn"><%= @search_data.sorted_by_label(1) %></span>
           </a>
           <ul class="dropdown-menu">

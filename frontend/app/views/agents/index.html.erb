@@ -12,7 +12,7 @@
         <div class="btn-group ml-auto bg-white border">
           <% if user_can?('manage_repository') %>
             <div class="btn-group border-right">
-              <a class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown" href="javascript:void(0);">
+              <a class="btn btn-sm btn-default dropdown-toggle" data-bs-toggle="dropdown" href="javascript:void(0);">
                 <%= I18n.t("actions.edit_required_fields") %>
               </a>
               <ul class="dropdown-menu">
@@ -24,7 +24,7 @@
               </ul>
             </div>
             <div class="btn-group">
-              <a class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown" href="javascript:void(0);">
+              <a class="btn btn-sm btn-default dropdown-toggle" data-bs-toggle="dropdown" href="javascript:void(0);">
                 <%= I18n.t("actions.edit_default_values") %>
               </a>
               <ul class="dropdown-menu">
@@ -38,7 +38,7 @@
 
           <div class="btn-group">
             <%= link_to I18n.t("actions.export_csv"), request.parameters.merge({ :format => :csv, :fields => fields}), id: "searchExport",  class:  "btn btn-sm btn-info" %>
-            <a class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown" href="#">
+            <a class="btn btn-sm btn-default dropdown-toggle" data-bs-toggle="dropdown" href="#">
               <%= I18n.t("agent._frontend.action.create") %>
             </a>
             <ul class="dropdown-menu">

@@ -5,7 +5,7 @@
       <li><%= link_to I18n.t("actions.export_mods"), {:controller => :exports, :action => :download_mods, :id => @digital_object.id} %></li>
 
       <li class="dropdown-submenu" id="download-mets-dropdown" data-download-mets-url="<%= url_for(:controller => :exports, :action => :download_mets, :id => @digital_object.id, :dmd_scheme => "${dmd_scheme}")%>">
-         <a href="#" data-toggle="dropdown" class="menu-with-options download-mets-action" title="<%= I18n.t("actions.export_mets") %>"><%= I18n.t("actions.export_mets") %></a>
+         <a href="#" data-bs-toggle="dropdown" class="menu-with-options download-mets-action" title="<%= I18n.t("actions.export_mets") %>"><%= I18n.t("actions.export_mets") %></a>
          <div class="dropdown-menu" id="form_download_mets">
            <fieldset>
              <input type="hidden" name="id", value="<%= @digital_object.id %>" />

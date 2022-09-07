@@ -10,7 +10,7 @@
             <%= link_to raw('<span class="glyphicon glyphicon-home"></span><span class="sr-only">' + I18n.t("breadcrumb.home") + '</span>'), :controller => :welcome, :action => :index %>
           </li>
           <li class="dropdown browse-container px-4">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><%= I18n.t("actions.browse") %> <b class="caret"></b></a>
+            <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown"><%= I18n.t("actions.browse") %> <b class="caret"></b></a>
             <ul class="dropdown-menu">
               <li class='dropdown-item'><%= link_to I18n.t("accession._plural"), :controller => :accessions, :action => :index %></li>
               <li class='dropdown-item'><%= link_to I18n.t("resource._plural"), :controller => :resources, :action => :index %></li>
@@ -32,7 +32,7 @@
                   'update_subject_record', 'update_event_record',
                   'update_agent_record', 'update_location_record', 'update_container_profile'].find {|p| user_can?(p)} %>
             <li class="dropdown create-container px-4">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown"><%= I18n.t("navbar.create") %> <b class="caret"></b></a>
+              <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown"><%= I18n.t("navbar.create") %> <b class="caret"></b></a>
               <ul class="dropdown-menu">
                 <% if ['update_accession_record', 'update_resource_record', 'update_digital_object_record'].find {|p| user_can?(p)} %>
                   <% if user_can?('update_accession_record') %>
@@ -130,7 +130,7 @@
             <li class="repo-container">
               <div class="btn-group bg-white border rounded align-items-center">
                 <a href="<%= url_for :controller => :repositories, :action => :show, :id => session[:repo_id] %>" class="btn btn-default navbar-btn">
-                  <span class="repository-label has-popover" tabindex="0" data-trigger="focus hover" data-placement="bottom" data-html='true' data-toggle='popover' data-title="<span class='icomoon icon-repository'>&#160;</span><%= CGI::escapeHTML(current_repo['repo_code']) %>" data-content="<%= CGI::escapeHTML(current_repo['name']) %>">
+                  <span class="repository-label has-popover" tabindex="0" data-trigger="focus hover" data-placement="bottom" data-html='true' data-bs-toggle='popover' data-title="<span class='icomoon icon-repository'>&#160;</span><%= CGI::escapeHTML(current_repo['repo_code']) %>" data-content="<%= CGI::escapeHTML(current_repo['name']) %>">
                     <span class="icomoon icon-repository"></span><span class="current-repository-id"><% if current_repo %><%= current_repo['repo_code'] %><% end %></span>
                     <% unless current_repo.publish %>
                       <span class="label label-warning"><%= I18n.t("navbar.unpublished") %></span>
@@ -138,7 +138,7 @@
                   </span>
                 </a>
                 <div class="btn-group border-left">
-                  <a class="btn btn-default navbar-btn dropdown-toggle last" data-toggle="dropdown" href="#" title="<%= I18n.t("navbar.repository_settings") %>" aria-label="<%= I18n.t("navbar.repository_settings") %>"><span class="glyphicon glyphicon-cog"></span> <span class="caret"></span></a>
+                  <a class="btn btn-default navbar-btn dropdown-toggle last" data-bs-toggle="dropdown" href="#" title="<%= I18n.t("navbar.repository_settings") %>" aria-label="<%= I18n.t("navbar.repository_settings") %>"><span class="glyphicon glyphicon-cog"></span> <span class="caret"></span></a>
                   <ul class="dropdown-menu dropdown-menu-right">
                     <% found_an_item = false %>
                     <% if user_can?('manage_repository') %>

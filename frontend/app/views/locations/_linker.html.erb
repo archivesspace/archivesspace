@@ -54,7 +54,7 @@
           <% end %>
           
           <div class="input-group-btn">
-            <a class="btn btn-default dropdown-toggle last locations" data-toggle="dropdown" href="javascript:void(0);" title="<%= I18n.t("location.linker.link_title") %>" aria-label="<%= I18n.t("location.linker.link_title") %>"><span class="caret"></span></a>
+            <a class="btn btn-default dropdown-toggle last locations" data-bs-toggle="dropdown" href="javascript:void(0);" title="<%= I18n.t("location.linker.link_title") %>" aria-label="<%= I18n.t("location.linker.link_title") %>"><span class="caret"></span></a>
             <ul class="dropdown-menu">
               <% if enable_space_calculator %>
                 <li><a href="javascript:void(0);" class="show-space-calculator-btn" data-calculator-url="<%= url_for :controller => :space_calculator, :action => :show, :inline => true %>" data-modal-title="<%= I18n.t("space_calculator.modal_title") %>" data-modal-content="<%= I18n.t("space_calculator.modal_loading") %>"><%= I18n.t("location._frontend.action.show_space_calculator") %></a></li>

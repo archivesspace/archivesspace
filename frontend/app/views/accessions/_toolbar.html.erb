@@ -30,7 +30,7 @@
             <% end %>
             <% if not @accession.suppressed %>
               <div id="spawn-dropdown" class="btn btn-inline-form border-left">
-                <a class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown" href="javascript:void(0);">
+                <a class="btn btn-sm btn-default dropdown-toggle" data-bs-toggle="dropdown" href="javascript:void(0);">
                   <%= I18n.t "actions.spawn" %>
                   <span class="caret"></span>
                 </a>
@@ -60,7 +60,7 @@
               <% end %>
             </div>
             <div class="btn-group dropdown border-left" id="other-dropdown">
-              <a class="btn btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+              <a class="btn btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                 <%= I18n.t('actions.more') %>
                 <span class="caret"></span>
               </a>
