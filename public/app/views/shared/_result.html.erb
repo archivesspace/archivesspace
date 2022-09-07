@@ -53,6 +53,12 @@
       </div>
     <% end %>
 
+    <div class="staff-hidden hide">
+      <% if result['json']['restricted'] %>
+        <p><h4 class='restricted'><%= I18n.t('top_container.restricted') %></h4></p>
+      <% end %>
+    </div>
+
     <% if result.resolved_repository %>
       <div class="result_context">
         <strong><%= t('context') %>: </strong>

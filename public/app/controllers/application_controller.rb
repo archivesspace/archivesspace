@@ -165,5 +165,4 @@ class ApplicationController < ActionController::Base
     @back_url = request.referer || ''
     render 'shared/not_found', :status => 404
   end
-
 end

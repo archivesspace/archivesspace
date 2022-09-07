@@ -32,6 +32,9 @@ $(function () {
           '&autoselect_repo=true';
         staff.attr('href', link);
         staff.removeClass('hide');
+
+        var staff_hidden = $('.staff-hidden');
+        staff_hidden.removeClass('hide');
       }
     })
     .fail(function () {
