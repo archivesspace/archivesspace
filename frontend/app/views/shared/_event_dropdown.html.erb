@@ -10,7 +10,7 @@
       <li class=dropdown-item'>
         <%= form_context :add_event, {} do |form| %>
           <fieldset>
-            <legend class="sr-only">Add event:</legend>
+            <legend class="visually-hidden">Add event:</legend>
             <label for="add_event_event_type"><%=  I18n.t("actions.add_event_event_type") %></label>
             <%= select_tag "add_event_event_type", options_for_select(event_types.map{|event_type| [I18n.t("enumerations.event_event_type.#{event_type}", :default => event_type), event_type]}), :'aria-labelledby' => "form_add_event"%>
           </fieldset>

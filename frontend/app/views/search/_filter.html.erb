@@ -38,7 +38,7 @@
       <% end %>
     <% end %>
     <div class="input-group w-100">
-      <label for="filter-text" class="sr-only">Filter by text</label>
+      <label for="filter-text" class="visually-hidden">Filter by text</label>
       <input class="text-filter-field form-control" type="text" placeholder="<%= I18n.t("search_results.text_placeholder") %>" name="q" value="<%= params[:q] %>" id="filter-text"/>
       <div class="input-group-btn">
         <button class="btn btn-default" title="<%= I18n.t("search_results.text_placeholder") %>" aria-label="<%= I18n.t("search_results.text_placeholder") %>"><span class="glyphicon glyphicon-search"></span></button>

@@ -7,7 +7,7 @@
       <% if session[:user] and session[:repo_id] %>
         <ul class="nav navbar-nav">
           <li class="px-4"<% if controller_name === "welcome" %>class="active px-4"<% end %>>
-            <%= link_to raw('<span class="glyphicon glyphicon-home"></span><span class="sr-only">' + I18n.t("breadcrumb.home") + '</span>'), :controller => :welcome, :action => :index %>
+            <%= link_to raw('<span class="glyphicon glyphicon-home"></span><span class="visually-hidden">' + I18n.t("breadcrumb.home") + '</span>'), :controller => :welcome, :action => :index %>
           </li>
           <li class="dropdown browse-container px-4">
             <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown"><%= I18n.t("actions.browse") %> <b class="caret"></b></a>
@@ -111,7 +111,7 @@
           <li class="px-4">
             <%= form_tag(url_for(:controller => :search, :action => :do_search), :method => :get, :class => "navbar-form pull-left") do %>
               <div class="input-group bg-white border rounded">
-                <label for="global-search-box" class="sr-only sr-only-focusable"><%= I18n.t("navbar.search_placeholder") %></label>
+                <label for="global-search-box" class="visually-hidden visually-hidden-focusable"><%= I18n.t("navbar.search_placeholder") %></label>
                 <input id="global-search-box" type="text" class="form-control border-start-0 border-top-0 border-bottom-0" placeholder="<%= I18n.t("navbar.search_placeholder") %>" name="q" value="<%= params[:q] %>"/>
                 <div class="input-group-append">
                   <button id="global-search-button" class="btn btn-default" title="<%= I18n.t("navbar.search_button_title") %>" aria-label="<%= I18n.t("navbar.search_button_title") %>"><span class="glyphicon glyphicon-search"></span></button>

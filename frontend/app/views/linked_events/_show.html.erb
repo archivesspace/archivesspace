@@ -11,8 +11,8 @@
             <th><%= I18n.t("event.outcome") %></th>
             <th><%= I18n.t("linked_agent._plural") %></th>
             <th><%= I18n.t("linked_record._plural") %></th>
-            <th><span class="sr-only">Audit information</span></th>
-            <th><span class="sr-only"><%= I18n.t("search_results.actions") %></span></th>
+            <th><span class="visually-hidden">Audit information</span></th>
+            <th><span class="visually-hidden"><%= I18n.t("search_results.actions") %></span></th>
           </tr>
           <% linked_events.each do |event| %>
             <% record = event['_resolved'] %>

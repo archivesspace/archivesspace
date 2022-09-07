@@ -15,7 +15,7 @@
         <p><%= I18n.t("#{singular}._frontend.messages.transfer_description") %></p>
         <%= form_context :transfer, {} do |form| %>
         <fieldset>
-          <legend class="sr-only">Transfer to this repository:</legend>
+          <legend class="visually-hidden">Transfer to this repository:</legend>
           <div class="alert alert-danger missing-ref-message" style="display: none;"><%= I18n.t "#{singular}._frontend.messages.transfer_target" %></div>
           <%= form.label_and_select "ref", other_repositories, :layout => 'stacked' %>
         </fieldset>
