@@ -1,7 +1,9 @@
 class SearchResultData
 
-  def initialize(search_data)
+  def initialize(search_data, criteria, context_criteria = {})
     @search_data = search_data
+    @criteria = criteria
+    @context_criteria = context_criteria
     @facet_data = {}
 
     self.class.run_result_hooks(search_data)
@@ -19,8 +21,8 @@ class SearchResultData
 
         if (facet_and_count[0] == "none")
           query = facet_query_string(facet_group, facet_and_count[0])
-          if (@search_data[:criteria].has_key?('q'))
-            query = @search_data[:criteria]['q'] + ' AND ' + query
+          if (@criteria.has_key?('q'))
+            query = @criteria['q'] + ' AND ' + query
           end
           @facet_data[facet_group][facet_and_count[0]] = {
               :label => facet_label_string(facet_group, facet_and_count[0]),
@@ -43,7 +45,7 @@ class SearchResultData
 
   def init_sorts
     if sorted?
-      @sort_data = @search_data[:criteria]["sort"].split(", ").map {|s|
+      @sort_data = @criteria["sort"].split(", ").map {|s|
         matches = s.match(/(\S+)\s(asc|desc)/)
         {:field => matches[1], :direction => matches[2]}
       }
@@ -59,15 +61,22 @@ class SearchResultData
   end
 
   def [](key)
+    return @criteria if key.to_s == 'criteria'
     @search_data[key]
   end
 
   def []=(key, value)
+    raise "Can't modify criteria" if key.to_s == 'criteria'
     @search_data[key] = value
   end
 
   def filtered_terms?
-    @search_data[:criteria].has_key?("filter_term[]") and @search_data[:criteria]["filter_term[]"].reject {|f| f.empty?}.length > 0
+    return false unless @criteria["filter_term[]"]
+    user_filter_terms.reject {|f| f.empty?}.length > 0
+  end
+
+  def user_filter_terms
+    @criteria["filter_term[]"] - (@context_criteria["filter_term[]"] || [])
   end
 
   def facet_label_for_filter(filter)
@@ -196,7 +205,7 @@ class SearchResultData
   end
 
   def has_titles?
-    if @search_data[:criteria].has_key?("type[]") and (types - self.class.UNTITLED_TYPES).empty?
+    if @criteria.has_key?("type[]") and (types - self.class.UNTITLED_TYPES).empty?
       false
     else
       true
@@ -207,15 +216,15 @@ class SearchResultData
     type = 'multi'
     if @search_data[:type]
       type = @search_data[:type]
-    elsif (@search_data[:criteria]["type[]"] || []).length == 1
-      type = @search_data[:criteria]["type[]"][0]
-    elsif (types = @search_data[:criteria]["type[]"] || []).length == 2
+    elsif (@criteria["type[]"] || []).length == 1
+      type = @criteria["type[]"][0]
+    elsif (types = @criteria["type[]"] || []).length == 2
       if types.include?('resource') && types.include?('archival_object')
         type = 'resource'
       elsif types.include?('digital_object') && types.include?('digital_object_component')
         type = 'digital_object'
       end
-    elsif terms = @search_data[:criteria]['filter_term[]']
+    elsif terms = @criteria['filter_term[]']
       types = terms.collect { |term| ASUtils.json_parse(term)['primary_type'] }.compact
       type = types[0] if types.length == 1
     end
@@ -225,11 +234,11 @@ class SearchResultData
   end
 
   def types
-    @search_data[:criteria]["type[]"]
+    @criteria["type[]"]
   end
 
   def sorted?
-    @search_data[:criteria]["sort"]
+    @criteria["sort"]
   end
 
   def sorted_by(index = 0)
@@ -287,7 +296,7 @@ class SearchResultData
   end
 
   def query?
-    not @search_data[:criteria]["q"].blank?
+    not @criteria["q"].blank?
   end
 
   def facet_label_for_query(query)

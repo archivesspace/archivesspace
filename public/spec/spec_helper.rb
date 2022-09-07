@@ -32,7 +32,6 @@ $expire = 30000
 AppConfig[:backend_url] = $backend
 AppConfig[:pui_hide][:record_badge] = false # we want this for testing
 AppConfig[:arks_enabled] = true # ARKs have to be enabled to be able to test them
-AppConfig[:pui_display_facets_alpha] = true
 
 $backend_start_fn = proc {
   TestUtils::start_backend($backend_port,
@@ -64,6 +63,8 @@ def setup_test_data
   digi_obj = create(:digital_object, title: 'Born digital', publish: true)
 
   subject = create(:subject, terms: [build(:term, term: 'Term 1')])
+
+  subject2 = create(:subject, terms: [build(:term, {term: 'Term 1', term_type: 'temporal'}), build(:term, term: 'Term 2')])
 
   create(:agent_person,
          names: [build(:name_person,
@@ -147,6 +148,33 @@ def setup_test_data
   end
   create(:resource, title: "Resource for Phrase Search", publish: true)
   create(:resource, title: "Search as Phrase Resource", publish: true)
+
+
+  linked_agent_1 = create(:agent_person,
+         names: [build(:name_person,
+                       primary_name: "Linked Agent 1",
+                       sort_name: "Linked Agent 1")],
+         publish: true)
+
+  linked_agent_2 = create(:agent_person,
+         names: [build(:name_person,
+                       primary_name: "Linked Agent 2",
+                       sort_name: "Linked Agent 2")],
+         publish: true)
+
+
+  create(:resource, title: "Resource with Agents", publish: true, linked_agents:
+    [
+      {'role' => 'creator', 'ref' => linked_agent_1.uri},
+      {'role' => 'source', 'ref' => linked_agent_2.uri}
+    ]
+  )
+
+  create(:resource, title: "Resource with Subject",
+                    publish: true,
+                    instances: [build(:instance_digital)],
+                    subjects: [{'ref' => subject2.uri}])
+
 
   resource_with_scope = create(:resource_with_scope, title: "Resource with scope note", publish: true)
   aos = (0..5).map do

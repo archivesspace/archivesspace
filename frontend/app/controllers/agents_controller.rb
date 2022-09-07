@@ -40,11 +40,8 @@ class AgentsController < ApplicationController
       @agent.update(defaults.values) if defaults
     end
 
-    begin
-      @agent.update_concat(@required.values)
-    rescue Exception => e
-      flash[:error] = e.message
-      redirect_to controller: :agents, action: :required
+    @required_fields.each_required_subrecord do |property, stub_record|
+      @agent[property] << stub_record if @agent[property].empty?
     end
 
     if @agent.names.empty?
@@ -63,16 +60,12 @@ class AgentsController < ApplicationController
   end
 
   def create
-    required_values = @required.values
     handle_crud(instance: :agent,
                 model: JSONModel(@agent_type),
-                required: required_values,
+                required_fields: @required_fields,
                 find_opts: find_opts,
                 before_hooks: [method(:set_structured_date_type)],
                 on_invalid: lambda {
-                  @required = RequiredFields.get @agent_type.to_s
-                  @agent.update_concat(@required.values)
-
                   ensure_auth_and_display
                   return render_aspace_partial partial: 'agents/new' if inline?
                   return render action: :new
@@ -187,7 +180,8 @@ class AgentsController < ApplicationController
 
   def required
     @agent = JSONModel(@agent_type).new({ agent_type: @agent_type })._always_valid!
-    @agent.update(@required.form_values)
+    # we are pretending this is an agent form but it's really a RequiredFields form
+    @agent.lock_version = @required_fields.lock_version
     render 'required'
   end
 
@@ -196,25 +190,23 @@ class AgentsController < ApplicationController
       params['agent'],
       JSONModel(@agent_type).schema
     )
+    subrecord_requirements = []
 
-    # this bears explanation: we want to infer subrecord requirement
-    # if a field on the subrecord is required. We look in the fields for
-    # the JSONModel type, which is what we now assign to any required field
-    # or to 'jsonmodel_type' to indicate the whole record ("REQ" is deprecated.)
-    # someday the required_fields table should be migrated to a more expressive
-    # format
     processed_params.each do |key, defn|
-      next unless defn.is_a?(Array)
-      require_keys = defn.map { |h| h.keys }.flatten
-      likely_type = defn.map { |h| h.values }.flatten.reject { |v| v == "REQ"}.uniq
-      unless likely_type.empty? || require_keys.include?("jsonmodel_type")
-        defn << { "jsonmodel_type" => likely_type.first }
-      end
+      next unless defn.is_a?(Array) && defn.size == 1
+      # we aren't interested in booleans
+      defn[0].reject! {|k, v| [false, true].include? (v) }
+      subrecord_requirements << {
+        property: key,
+        record_type: defn[0]['jsonmodel_type'],
+        required: (defn[0]['required'] == 'true'),
+        required_fields: defn[0].keys.reject { |k| ['jsonmodel_type', 'required'].include?(k) }
+      }
     end
     RequiredFields.from_hash({
+                               'lock_version' => processed_params['lock_version'],
                                'record_type' => @agent_type.to_s,
-                               'lock_version' => params['agent'].delete('lock_version'),
-                               'required' => processed_params}).save
+                               'subrecord_requirements' => subrecord_requirements}).save
     flash[:success] = I18n.t('required_fields.messages.required_fields_updated')
     redirect_to controller: :agents, action: :required
   rescue Exception => e
@@ -319,7 +311,7 @@ class AgentsController < ApplicationController
   end
 
   def get_required
-    @required = RequiredFields.get @agent_type.to_s
+    @required_fields = RequiredFields.get @agent_type.to_s
   end
 
   def assign_types

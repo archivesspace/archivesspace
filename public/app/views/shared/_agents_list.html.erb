@@ -12,7 +12,15 @@
         <% unless relationship['_inherited'].blank? %>
           <%= inheritance(relationship['_inherited']).html_safe %>
         <% end %>
-        <%= link_to agent['title'], app_prefix(agent['uri']) %>
+
+        <% terms = relationship['terms'].map {|t| t['term']} %>
+        <% if role == "subject" && terms.length > 0 %>
+          <% title = agent['title'] + " -- " + terms.join(" -- ") %>
+        <% else %>
+          <% title = agent['title'] %>
+        <% end %>
+
+        <%= link_to title, app_prefix(agent['uri']) %>
         (<%= [relator, I18n.t("#{agent['jsonmodel_type']}._singular")].compact.join(', ') %>)
       </li>
     <% end %>

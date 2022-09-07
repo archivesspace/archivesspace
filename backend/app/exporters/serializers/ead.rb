@@ -193,6 +193,8 @@ class EADSerializer < ASpaceExport::Serializer
 
             handle_arks(data, xml)
 
+            serialize_aspace_uri(data, xml)
+
             serialize_extents(data, xml, @fragments)
 
             serialize_dates(data, xml, @fragments)
@@ -243,6 +245,10 @@ class EADSerializer < ASpaceExport::Serializer
     Enumerator.new do |y|
       @stream_handler.stream_out(doc, @fragments, y)
     end
+  end
+
+  def serialize_aspace_uri(data, xml)
+    xml.unitid ({ 'type' => 'aspace_uri' }) { xml.text data.uri }
   end
 
   def handle_arks(data, xml)
@@ -312,6 +318,8 @@ class EADSerializer < ASpaceExport::Serializer
         end
 
         handle_arks(data, xml)
+
+        serialize_aspace_uri(data, xml)
 
         if @include_unpublished
           data.external_ids.each do |exid|
@@ -585,6 +593,7 @@ class EADSerializer < ASpaceExport::Serializer
         end
       }
     end
+    EADSerializer.run_serialize_step(digital_object, xml, fragments, :dao)
   end
 
 

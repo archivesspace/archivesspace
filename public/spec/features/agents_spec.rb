@@ -6,7 +6,7 @@ describe 'Agents', js: true do
     visit('/')
     click_link 'Names'
     within all('.col-sm-12')[0] do
-      expect(page).to have_content("Showing Names: 1 - 1 of 1")
+      expect(page).to have_content("Showing Names: 1 - 3 of 3")
     end
   end
 

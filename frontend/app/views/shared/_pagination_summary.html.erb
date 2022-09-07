@@ -4,6 +4,7 @@
     <%= I18n.t "pagination.summary_prefix" %> <strong><%= @search_data["offset_first"] %></strong> <%= I18n.t "pagination.summary_offset_connector" %> <strong><%= @search_data["offset_last"] %></strong> <%= I18n.t "pagination.summary_total_connector" %> <strong><%= @search_data["total_hits"] %></strong> <%= I18n.t "pagination.summary_suffix" %>
   </div>
 
+  <% unless @hide_sort_options %>
   <div class="pull-left" style="position: relative">
     <span class="btn-group">
       <label style="float: left;">,&#160;<%= I18n.t("search_sorting.sort_by") %>&#160;</label>
@@ -29,7 +30,6 @@
       </ul>
     </span>
   </div>
-
   <% if @search_data.sorted? && !@search_data.sorted_by?('score') %>
     <div class="pull-left" style="position: relative">
       <span class="btn-group">
@@ -55,5 +55,6 @@
         </ul>
       </span>
     </div>
+  <% end %>
   <% end %>
 <% end %>

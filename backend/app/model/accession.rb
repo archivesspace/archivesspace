@@ -37,6 +37,11 @@ class Accession < Sequel::Model(:accession)
                       :json_property => 'related_resources',
                       :contains_references_to_types => proc {[Resource]})
 
+  define_relationship(:name => :accession_component_links,
+                      :json_property => 'component_links',
+                      :contains_references_to_types => proc {[ArchivalObject]},
+                      :is_array => true)
+
 
   define_directional_relationship(:name => :related_accession,
                                   :json_property => 'related_accessions',

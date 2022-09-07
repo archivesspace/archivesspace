@@ -106,6 +106,12 @@ describe 'MARCXML Auth Agent converter' do
 
       expect(record['agent_topics'].length).to eq(1)
     end
+
+    it 'does not import topics if subject import disabled' do
+      record = convert(person_agent_1, false, false).select { |r| r['jsonmodel_type'] == 'agent_person' }.first
+
+      expect(record['agent_topics'].length).to eq(0)
+    end
   end
 
   describe 'agent family' do
@@ -137,6 +143,12 @@ describe 'MARCXML Auth Agent converter' do
       record = convert(family_agent_1).select { |r| r['jsonmodel_type'] == 'agent_family' }.first
 
       expect(record['agent_functions'].length).to eq(1)
+    end
+
+    it 'does not import functions if subject import disabled' do
+      record = convert(family_agent_1 , false, false).select { |r| r['jsonmodel_type'] == 'agent_family' }.first
+
+      expect(record['agent_functions'].length).to eq(0)
     end
   end
 
@@ -186,6 +198,12 @@ describe 'MARCXML Auth Agent converter' do
       record = convert(corporate_agent_1).select { |r| r['jsonmodel_type'] == 'agent_corporate_entity' }.first
 
       expect(record['agent_functions'].length).to eq(1)
+    end
+
+    it 'does not import functions if subject import disabled' do
+      record = convert(corporate_agent_1, false, false).select { |r| r['jsonmodel_type'] == 'agent_corporate_entity' }.first
+
+      expect(record['agent_functions'].length).to eq(0)
     end
   end
 

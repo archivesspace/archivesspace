@@ -61,6 +61,10 @@ class ArchivalObject < Sequel::Model(:archival_object)
                   end
                 }
 
+  define_relationship(:name => :accession_component_links,
+                      :json_property => 'accession_links',
+                      :contains_references_to_types => proc {[Accession]},
+                      :is_array => true)
 
   def self.produce_display_string(json)
     display_string = json['title'] || ""

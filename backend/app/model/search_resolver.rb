@@ -2,6 +2,7 @@ class SearchResolver
 
   # Theoretically someone might resolve a field that matches an unbounded number
   # of records, and this could cause an OOM.  Set an upper bound.
+  MAX_BOOLEAN_QUERIES = AppConfig[:max_boolean_queries]
   MAX_RESOLVE_RESULTS = AppConfig[:max_page_size] * 2
 
   def initialize(resolve_definitions)
@@ -30,10 +31,15 @@ class SearchResolver
 
         query = JSONModel.JSONModel(:advanced_query).from_hash('query' => boolean_query)
 
+        if query['query']['subqueries'].size > MAX_BOOLEAN_QUERIES
+          query['query']['subqueries'] = query['query']['subqueries'].take(MAX_BOOLEAN_QUERIES)
+          Log.warn("Query subqueries hit MAX_BOOLEAN_QUERIES. Result set may be incomplete: #{query.to_hash.inspect}")
+        end
+
         resolved_results = Solr.search(Solr::Query.create_advanced_search(query).pagination(1, MAX_RESOLVE_RESULTS))
 
         if resolved_results['total_hits'] > MAX_RESOLVE_RESULTS
-          Log.warn("Resolve query hit MAX_RESOLVE_RESULTS.  Result set may be incomplete: #{query.to_hash.inspect}")
+          Log.warn("Resolve query hit MAX_RESOLVE_RESULTS. Result set may be incomplete: #{query.to_hash.inspect}")
         end
 
         # Insert the resolved records into our original result set.

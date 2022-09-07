@@ -182,17 +182,33 @@ $(function () {
 
       $dateInput.addClass('initialised');
 
-      var $addon = $(
-        "<span class='input-group-addon' role='button' aria-label='" +
-          $(this).data('label') +
-          "'><i class='glyphicon glyphicon-calendar'></i></span>"
-      );
-      $dateInput.after($addon);
+      // ANW-170, ANW-490: Opt-in to datepicker
+      var $datepickerToggle = $(`
+        <span class="input-group-btn">
+          <button
+            class="btn btn-default"
+            type="button"
+            title="${$(this).data('label')}"
+          >
+            <i class='glyphicon glyphicon-calendar'></i>
+          </button>
+        </span>
+      `);
 
-      $dateInput.datepicker($dateInput.data());
+      $dateInput.after($datepickerToggle);
 
-      $addon.on('click', function () {
-        $dateInput.focus().select();
+      let enableDatepicker = false;
+
+      $datepickerToggle.on('click', function () {
+        enableDatepicker = !enableDatepicker;
+        if (enableDatepicker) {
+          $(this).addClass('datepicker-enabled');
+          $dateInput.datepicker($dateInput.data());
+          $dateInput.trigger('focus').trigger('select');
+        } else {
+          $(this).removeClass('datepicker-enabled');
+          $dateInput.datepicker('destroy');
+        }
       });
     });
   };

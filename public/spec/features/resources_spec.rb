@@ -7,7 +7,7 @@ describe 'Resources', js: true do
     click_link 'Collections'
     expect(current_path).to eq ('/repositories/resources')
     within all('.col-sm-12')[0] do
-      expect(page).to have_content("Showing Collections: 1 - 6 of 6")
+      expect(page).to have_content("Showing Collections: 1 - 8 of 8")
     end
     within all('.col-sm-12')[1] do
       expect(page.all("a[class='record-title']", text: 'Published Resource').length).to eq 1
@@ -55,20 +55,13 @@ describe 'Resources', js: true do
     expect(page).to have_content('Related Unprocessed Material')
   end
 
-  it 'can display facets in alphabetical order' do
+  it 'displays linked agents on show page, with creators in top section but not in related names' do
     visit('/')
     click_link 'Collections'
+    click_link 'Resource with Agents'
 
-    prev = ""
-    page.all('dl#facets dd').each do |dd|
-      next if dd.find("a").text =~ /Term/
-
-      unless prev == ""
-        content = dd.find("a").text
-        expect(prev <=> content).to eq(-1)
-      end
-
-      prev = dd.find("a").text
-    end
+    expect(page).to have_content('Linked Agent 1')
+    expect(page).to have_css('#agent_list', text: 'Linked Agent 2')
+    expect(page).to_not have_css('#agent_list', text: 'Linked Agent 1')
   end
 end

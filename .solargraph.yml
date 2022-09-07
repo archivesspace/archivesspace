@@ -1,0 +1,20 @@
+include:
+  - "**/*.rb"
+exclude:
+  - "_yard/**/*"
+  - ".bundle/**/*"
+  - ".devcontainer/*"
+  - "**/spec/**/*"
+  - "build/**/*"
+  - "clustering/**/*"
+  - "contribution_files/*"
+  - "docs/**/*"
+  - "jmeter/*"
+  - "proxy/*"
+  - "reports/**/*"
+  - "scripts/**/*"
+  - "solr/*"
+  - "stylesheets/*"
+  - "supervisord/*"
+  - "templates/*"
+# max_files: 0

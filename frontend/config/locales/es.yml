@@ -21,6 +21,7 @@ es:
     create: Crear
     cut: Cortar
     date_picker: Selector de fecha abierto
+    date_picker_toggle: Cambia el selector de fecha
     defaults: Valores por defecto
     edit: Editar
     edit_oai: Editar la configuración de OAI
@@ -647,7 +648,7 @@ es:
   login:
     login: Registrarse
     login_please: Por favor, registrese
-    login_expired_link: Por favor %{link} otra vez.
+    login_expired_link: Por favor, <a href ='%{link}'>inicie sesión de nuevo</a>.
     login_fail: Fallo de inicio de sesión
     login_success: Inicio de sesión correcto. Redireccionando...
 
@@ -664,8 +665,8 @@ es:
     dismiss: Descartar cambios
 
   linker:
-    link_to_prefix: Enlace a
-    create_and_link_to_prefix: Crear y vincular
+    link: Enlace
+    create_and_link: Crear y vincular
     hint_text: Empieza a escribir para buscar registros disponibles...
     placeholder: Empieza a escribir para buscar registros disponibles...
     no_results: No hay resultados coincidentes.  Trate de 'Examinar'.

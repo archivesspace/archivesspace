@@ -11,7 +11,7 @@ class AgentsController < ApplicationController
   DEFAULT_AG_FACET_TYPES = %w{primary_type subjects}
   DEFAULT_AG_SEARCH_OPTS = {
     'sort' => 'title_sort asc',
-    'resolve[]' => ['repository:id', 'resource:id@compact_resource', 'ancestors:id@compact_resource', 'top_container_uri_u_sstr:id'],
+    'resolve[]' => ['repository:id', 'resource:id@compact_resource', 'ancestors:id@compact_resource'],
     'facet.mincount' => 1
   }
 

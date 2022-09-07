@@ -415,6 +415,9 @@ describe "EAD3 export mappings" do
       mt(object.title, "#{desc_path}/did/unittitle", :markup)
     end
 
+    it "maps {archival_object}.uri to {desc_path}/did/unitid[@localtype='aspace_uri']" do
+      mt(object.uri, "#{desc_path}/did/unitid[@localtype='aspace_uri']")
+    end
 
     it "maps {archival_object}.(id_[0-3]|component_id) to {desc_path}/did/unitid" do
       if !unitid_src.nil? && !unitid_src.empty?

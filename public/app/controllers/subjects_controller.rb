@@ -89,6 +89,8 @@ class SubjectsController < ApplicationController
     render 'search/search_results'
   end
 
+  RETAINED_PARAMETERS = ['filter_fields', 'filter_values']
+
   def show
     sid = params.require(:id)
     uri = "/subjects/#{sid}"
@@ -98,8 +100,14 @@ class SubjectsController < ApplicationController
       @result =  archivesspace.get_record(uri, @criteria)
       @results = fetch_subject_results(@result['title'], uri, params)
       if !@results.blank?
-        params[:q] = '*'
-        @pager = Pager.new(@base_search, @results['this_page'], @results['last_page'])
+
+        extra_params = Hash[RETAINED_PARAMETERS.map {|f|
+          if params[f]
+            [f, params[f]]
+          end
+        }.compact].to_query
+
+        @pager = Pager.new("#{uri}?#{extra_params}", @results['this_page'], @results['last_page'])
       else
         @pager = nil
       end

@@ -111,7 +111,7 @@ fr:
       transfer: Versement
     accession_parts_relator:
       forms_part_of: Fait partie de
-      has_part: Has Part
+      has_part: A Une Partie
     accession_parts_relator_type:
       part: "Relation de \"Partie\""
     accession_resource_type:
@@ -287,13 +287,13 @@ fr:
       GP: Guadeloupe
       GQ: Guinée équatoriale
       GR: Grèce
-      GS: South Georgia and the South Sandwich Islands
+      GS: Géorgie du Sud et îles Sandwich du Sud
       GT: Guatemala
       GU: Guam
       GW: Guinée-Bissau
       GY: Guyane
       HK: Hong Kong
-      HM: Heard Island and Mcdonald Islands
+      HM: Île Heard et Îles Mcdonald
       HN: Honduras
       HR: Croatie
       HT: Haïti
@@ -346,7 +346,7 @@ fr:
       MM: Myanmar
       MN: Mongolie
       MO: Macao
-      MP: Northern Mariana Islands
+      MP: Îles Mariannes du Nord
       MQ: Martinique
       MR: Mauritanie
       MS: Montserrat
@@ -411,7 +411,7 @@ fr:
       SX: Saint Martin (partie néerlandaise)
       SY: République arabe de Syrie
       SZ: Swaziland
-      TC: Turks and Caicos Islands
+      TC: îles Turques-et-Caïques
       TD: Tchad
       TF: Territoires français du Sud
       TG: Togo
@@ -429,7 +429,7 @@ fr:
       TZ: "Tanzanie, République unie de"
       UA: Ukraine
       UG: Ouganda
-      UM: United States Minor Outlying Islands
+      UM: Îles mineures éloignées des États-Unis
       US: Etats-Unis
       UY: Uruguay
       UZ: Ouzbekistan
@@ -507,7 +507,7 @@ fr:
     dimension_units:
       centimeters: Centimètres
       feet: Feet
-      inches: Inches
+      inches: Pouces
       meters: Mètres
       millimeters: Millimètres
       yards: Yards
@@ -1474,6 +1474,7 @@ fr:
       new: Nouveau
       revised_corrected: Révisé / corrigé
       upgraded: Mis à niveau
+      deleted_merged: Supprimé-Fusionné
     modified_record:
       missing_characters: Caractères manquants
       natc: Aucune tentative de codage
@@ -1685,8 +1686,8 @@ fr:
       kinopo: "КиноПоиск = KinoPoisk"
       lccn: "Library of Congress Control Number"
       lcmd: "Library of Congress Manuscript Division (Washington, DC: Library of Congress)"
-      lcmpt: "Library of Congress Medium of Performance Thesaurus for Music (LCMPT) (Washington, DC: Library\
-        \ of Congress)"
+      lcmpt: "Library of Congress Medium of Performance Thesaurus for Music (LCMPT) (Washington, DC :\
+        \ Library of Congress)"
       libaus: "Libraries Australia (National Library of Australia)"
       local: "Locally defined identifier"
       matrix-number: "Sound recording matrix number"

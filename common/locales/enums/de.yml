@@ -813,7 +813,8 @@ de:
       new: Neu
       revised_corrected: Überarbeitet/Korrigiert
       upgraded: Aktualisiert
-    _note_types:
+      deleted_merged: Gelöscht-Zusammengeführt
+    _note_types: &note_type_definitions
       phystech: Physische Eigenschaften und technische Anforderungen
       appraisal: Bewertung
       arrangement: Anordnung
@@ -835,7 +836,7 @@ de:
       prefercite: Bevorzugte Zitierweise
       otherfindaid: Andere Findmittel
       summary: Zusammenfassung
-      abstract: Abstrakt
+      abstract: Kurzfassung
       accessrestrict: Bedingungen für den Zugang
       accruals: Rückstellungen
       acqinfo: Unmittelbare Beschaffungsquelle
@@ -855,6 +856,14 @@ de:
       separatedmaterial: Abgetrenntes Archivgut
       structure_or_genealogy: Struktur oder Genealogie
       userestrict: Bedingungen für die Nutzung
+    note_digital_object_type:
+      <<: *note_type_definitions
+    note_langmaterial_type:
+      <<: *note_type_definitions
+    note_multipart_type:
+      <<: *note_type_definitions
+    note_singlepart_type:
+      <<: *note_type_definitions
     metadata_license:
       other: Nicht spezifizierte oder benutzerdefinierte Lizenz.
       share_a_like: Diese Aufzeichnung wird unter einer Namensnennung-Weitergabe unter gleichen Bedingungen
@@ -1278,7 +1287,8 @@ de:
       license: Lizenz
       other: Andere
     romanization:
-      conv_rom_cat_agency: Konventionelle Romanisierung oder konventionelle Form des Namens in der Sprache der Katalogisierungsagentur
+      conv_rom_cat_agency: Konventionelle Romanisierung oder konventionelle Form des Namens in der Sprache
+        der Katalogisierungsagentur
       int_std: Internationale Norm
       not_applicable: Nicht zutreffend
       local_standard: Lokale Norm

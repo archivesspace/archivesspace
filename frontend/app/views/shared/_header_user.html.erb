@@ -8,7 +8,7 @@
         <li>
           <%= form_tag({:controller => :repositories, :action => :select}) do |f| %>
             <fieldset>
-              <label for="id" class="sr-only">Select Repository</label>
+              <label for="id" class="sr-only"><%= I18n.t('repository._frontend.action.select') %></label>
               <%= select_tag "id", options_for_select(@repositories.map {|repo| [repo.repo_code, repo.id]}, session[:repo_id]), :class=>"form-control" %>
             </fieldset>
             <br />

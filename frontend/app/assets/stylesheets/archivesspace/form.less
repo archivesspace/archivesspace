@@ -657,7 +657,7 @@ ul.subrecord-form-list {
   }
 }
 
-//make date help appear inline
+// make date help appear inline
 
 .date-field {
   float: left;
@@ -855,6 +855,17 @@ ul.checkbox-list {
   .checkbox label {
     padding-left: 10px;
   }
+}
+
+// Improve Bootstrap's checkbox focus via their .form-control:focus
+// TODO investigate if the above .checkbox class needs these :focus styles
+input[type='checkbox']:focus {
+  border-color: #1f86db;
+  outline: 0;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075),
+    0 0 8px rgba(31, 134, 219, 0.6);
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075),
+    0 0 8px rgba(31, 134, 219, 0.6);
 }
 
 // hiding form elements for agents light

@@ -268,8 +268,10 @@ describe 'Merge request controller' do
     }.to raise_error(RecordNotFound)
 
     # The children were moved
-    merged_tree = JSONModel(:resource_tree).find(nil, :resource_id => target.id)
-    expect(merged_tree.children.any? {|child| child['record_uri'] == victim_ao.uri}).to be_truthy
+    tree_uri = "#{target.uri}/tree/root"
+    tree = JSONModel::HTTP.get_json(tree_uri)
+    expect(tree['child_count']).to eq(1)
+    expect(tree['precomputed_waypoints'][""]["0"][0]["uri"]).to eq(victim_ao.uri)
 
     # An event was created
     expect(Event.this_repo.all.any? {|event|
@@ -297,8 +299,10 @@ describe 'Merge request controller' do
     }.to raise_error(RecordNotFound)
 
     # The children were moved
-    merged_tree = JSONModel(:digital_object_tree).find(nil, :digital_object_id => target.id)
-    expect(merged_tree.children.any? {|child| child['record_uri'] == victim_doc.uri}).to be_truthy
+    tree_uri = "#{target.uri}/tree/root"
+    tree = JSONModel::HTTP.get_json(tree_uri)
+    expect(tree['child_count']).to eq(1)
+    expect(tree['precomputed_waypoints'][""]["0"][0]["uri"]).to eq(victim_doc.uri)
 
     # An event was created
     expect(Event.this_repo.all.any? {|event|

@@ -1,0 +1,219 @@
+@media print {
+  /* Reset vertical whitespace with print units */
+  * {
+    margin-top: 0 !important;
+    margin-bottom: 2pt !important;
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+  }
+
+  /* Reset all fonts but icons */
+  *:not(.fa) {
+    font-family: Georgia, 'Times New Roman', serif !important;
+  }
+
+  /* Base elements */
+  body {
+    font-size: 12pt !important;
+  }
+
+  h1 {
+    font-size: 1.3em !important;
+  }
+  h2 {
+    font-size: 1.2em !important;
+  }
+  h3 {
+    font-size: 1.1em !important;
+  }
+  h4 {
+    font-size: 1em !important;
+  }
+  h5 {
+    font-size: 0.9em !important;
+  }
+  h6 {
+    font-size: 0.8em !important;
+  }
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    break-after: avoid !important;
+  }
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    margin-top: 10pt !important;
+  }
+
+  /* Extend bootstrap/_print.scss anchors */
+  a[href]:not([href^='#']):not([href^='javascript:']) {
+    color: blue !important;
+    text-decoration: underline !important;
+  }
+
+  figure,
+  img,
+  ul {
+    break-inside: avoid !important;
+  }
+
+  /* Branding header */
+  #header > .row {
+    height: auto !important;
+    padding-right: 0 !important;
+    padding-left: 0 !important;
+  }
+
+  #header h1 > a {
+    color: #000 !important;
+    text-decoration: none !important;
+  }
+  #header h1 > a::after {
+    content: '' !important;
+  }
+
+  /* Brand logo */
+  #header .logo, 
+  /* Main navigation */
+  #navigation, 
+  /* Cite/Request/Print button container */
+  .page_actions, 
+  /* Tree sidebar */
+  #sidebar, 
+  /* Facet filter sidebar */
+  #filter-sidebar, 
+  /* All btns except repo details */
+  .btn:not(#whats-in-container .btn), 
+  #whats-in-container button > .fa,
+  #whats-in-container button > span,
+  #whats-in-container button > br,
+  /* Search results sorter */
+  .sorter, 
+  /* Search results pagination */
+  #paging, 
+  #paging_bottom,  
+  /* Main footer */
+  .panel-footer {
+    display: none !important;
+  }
+
+  /* Containers */
+  #content {
+    margin-right: 0 !important;
+    margin-left: 0 !important;
+  }
+
+  .breadcrumb,
+  #main-content,
+  .panel-heading,
+  .panel-body {
+    padding-right: 0 !important;
+    padding-left: 0 !important;
+  }
+
+  /* Bootstrap grid overrides */
+  .container-fluid {
+    padding-right: 0 !important;
+    padding-left: 0 !important;
+  }
+
+  .row {
+    margin-right: 0 !important;
+    margin-left: 0 !important;
+  }
+
+  .col-xs-1,
+  .col-sm-1,
+  .col-md-1,
+  .col-lg-1,
+  .col-xs-2,
+  .col-sm-2,
+  .col-md-2,
+  .col-lg-2,
+  .col-xs-3,
+  .col-sm-3,
+  .col-md-3,
+  .col-lg-3,
+  .col-xs-4,
+  .col-sm-4,
+  .col-md-4,
+  .col-lg-4,
+  .col-xs-5,
+  .col-sm-5,
+  .col-md-5,
+  .col-lg-5,
+  .col-xs-6,
+  .col-sm-6,
+  .col-md-6,
+  .col-lg-6,
+  .col-xs-7,
+  .col-sm-7,
+  .col-md-7,
+  .col-lg-7,
+  .col-xs-8,
+  .col-sm-8,
+  .col-md-8,
+  .col-lg-8,
+  .col-xs-9,
+  .col-sm-9,
+  .col-md-9,
+  .col-lg-9,
+  .col-xs-10,
+  .col-sm-10,
+  .col-md-10,
+  .col-lg-10,
+  .col-xs-11,
+  .col-sm-11,
+  .col-md-11,
+  .col-lg-11,
+  .col-xs-12,
+  .col-sm-12,
+  .col-md-12,
+  .col-lg-12 {
+    padding-right: 0 !important;
+    padding-left: 0 !important;
+  }
+
+  /* Decrease whitespace between breadcrumb and record type */
+  .badge-and-identifier {
+    overflow: initial !important;
+  }
+
+  /* Expand accordion panels, via Bodleian */
+  .collapse {
+    display: initial !important;
+  }
+
+  /* Show all infinite records, via Bodleian */
+  .infinite-record-wrapper {
+    height: auto !important;
+  }
+
+  /* Decrease whitespace between repo details and infinite records */
+  .infinite-record-wrapper div.infinite-record-record:first-of-type h3 {
+    margin-top: 0 !important;
+  }
+
+  /* Applied by print.js */
+  .page-location-for-printing {
+    padding: 2px;
+    border: 1px dashed black;
+    font-size: 10px;
+  }
+
+  /* Utility class */
+  .print-hide {
+    display: none !important;
+  }
+
+  /* Print margins */
+  @page {
+    margin: 1cm;
+  }
+}

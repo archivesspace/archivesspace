@@ -2,35 +2,83 @@ class ArchivesSpaceService < Sinatra::Base
 
   Endpoint.get('/repositories/:repo_id/find_by_id/resources')
     .description("Find Resources by their identifiers")
+    .example("shell") do
+      <<~SHELL
+        curl -s -F password="admin" "http://localhost:8089/users/admin/login"
+        # Replace "admin" with your password and "http://localhost:8089/users/admin/login" with your ASpace API URL
+        # followed by "/users/{your_username}/login"
+  
+        set SESSION="session_id"
+        # If using Git Bash, replace set with export
+  
+        # Finding resources with one identifier field
+  
+        curl -H "X-ArchivesSpace-Session: $SESSION" //
+        -G http://localhost:8089/repositories/:repo_id:/find_by_id/resources //
+        --data-urlencode 'identifier[]=["your_id_here"]' --data-urlencode 'resolve[]=resources'
+        # Replace "http://localhost:8089" with your ASpace API URL, :repo_id: with the repository ID, 
+        # "your_id_here" with the ID you are searching for, and only add --data-urlencode 'resolve[]=resources' if you 
+        # want the JSON for the returned record - otherwise, it will return the record URI only
+  
+        # Output: {"resources":[{"ref":"/repositories/2/resources/476","_resolved":{"lock_version":0,"title":...}
+  
+        # Finding resources with multiple identifier fields
+  
+        curl -H "X-ArchivesSpace-Session: $SESSION" //
+        -G http://localhost:8089/repositories/:repo_id:/find_by_id/resources //
+        --data-urlencode 'identifier[]=["test","1234","abcd","5678"]' --data-urlencode 'resolve[]=resources'
+        # Replace "http://localhost:8089" with your ASpace API URL, :repo_id: with the repository ID, 
+        # "test", "1234", "abcd", and "5678" with the ID you are searching for, and only add 
+        # --data-urlencode 'resolve[]=resources' if you want the JSON for the returned record - otherwise, it will return 
+        # the record URI only
+  
+        # Output: {"resources":[{"ref":"/repositories/2/resources/476","_resolved":{"lock_version":0,"title":...}
+  
+        # Finding multiple resources using identifier fields
+        
+        curl -H "X-ArchivesSpace-Session: $SESSION" //
+        -G http://http://localhost:8089/repositories/2/find_by_id/resources //
+        --data-urlencode 'identifier[]=["test","1234","abcd","5678"]' --data-urlencode 'identifier[]=["your_id_here"]' //
+        --data-urlencode 'resolve[]=resources'
+        # Replace "http://localhost:8089" with your ASpace API URL, :repo_id: with the repository ID, 
+        # "test", "1234", "abcd", "5678", and "your_id_here" with the ID you are searching for, and only add 
+        # --data-urlencode 'resolve[]=resources' if you want the JSON for the returned record - otherwise, it will return 
+        # the record URI only
+  
+        # Output: {"resources":[{"ref":"/repositories/2/resources/455"},{"ref":"/repositories/2/resources/456"}]}
+      SHELL
+    end
     .example("python") do
       <<~PYTHON
         from asnake.client import ASnakeClient  # import the ArchivesSnake client
-        import urllib.parse  # import the urllib.parse package for parsing the URL passed to the API
-        
+  
         client = ASnakeClient(baseurl="http://localhost:8089", username="admin", password="admin")
         # Replace "http://localhost:8089" with your ArchivesSpace API URL and "admin" for your username and password
-        
+  
         client.authorize()  # authorizes the client
-        
+  
         # Finding resources with one identifier field
-        resource_id = urllib.parse.quote("my_resource_id")  # replace "my_resource_id" with the ID you're searching for
-        find_res_id = client.get(f'repositories/:repo_id:/find_by_id/resources?identifier[]=["{identifier}"];resolve[]=resources')
-        # Replace :repo_id: with the repository ID the resource is in and only add ";resolve[]=resources" if you want
-        # the JSON for the returned record - otherwise, it will return the record URI only
-
-        print(find_res_id.json())
+  
+        find_single_resid = client.get('repositories/:repo_id:/find_by_id/resources', params={'identifier[]': 
+                                                                                                  ['["your_id_here"]'], 
+                                                                                              'resolve[]': 'resources'})
+        # Replace :repo_id: with the repository ID the resource is in, "your_id_here" with the ID you are searching for,
+        # and only add 'resolve[]': 'resources' if you want the JSON for the returned record - otherwise, it will return 
+        # the record URI only
+  
+        print(find_single_resid.json())
         # Output (dict): {'resources': [{'ref': '/repositories/2/resources/407', '_resolved':  {'lock_version': 0,...}
-    
+  
         # Finding resources with multiple identifier fields
-        id_0 = urllib.parse.quote("test")  # replace "test" with the first identifier value
-        id_1 = urllib.parse.quote("1234")  # replace "1234" with the second identifier value
-        id_2 = urllib.parse.quote("abcd")  # replace "abcd" with the third identifier value
-        id_3 = urllib.parse.quote("5678")  # replace "5678" with the fourth identifier value
-        find_mult_res_id = client.get(f'repositories/:repo_id:/find_by_id/resources?identifier[]=["{id_0}", "{id_1}", "{id_2}", "{id_3}"];resolve[]=resources')
-        # Replace :repo_id: with the repository ID the resource is in and only add ";resolve[]=resources" if you want
-        # the JSON for the returned record - otherwise, it will return the record URI only
-
-        print(find_mult_res_id.json())
+  
+        find_multi_resid = client.get('repositories/:repo_id:/find_by_id/resources', params={'identifier[]': 
+                                                                                                 ['["test", "1234", "abcd", "5678"]'], 
+                                                                                             'resolve[]': 'resources'})
+        # Replace :repo_id: with the repository ID the resource is in, "test", "1234", "abcd", and "5678" with the ID 
+        # you are searching for, and only add 'resolve[]': 'resources' if you want the JSON for the returned record - 
+        # otherwise, it will return the record URI only
+  
+        print(find_multi_resid.json())
         # Output (dict): {'resources': [{'ref': '/repositories/2/resources/407', '_resolved':  {'lock_version': 0,...}
       PYTHON
     end
@@ -52,17 +100,17 @@ class ArchivesSpaceService < Sinatra::Base
         curl -s -F password="admin" "http://localhost:8089/users/admin/login"
         # Replace "admin" with your password and "http://localhost:8089/users/admin/login" with your ASpace API URL
         # followed by "/users/{your_username}/login"
-    
+  
         set SESSION="session_id"
         # If using Git Bash, replace set with export
-    
+  
         curl -H "X-ArchivesSpace-Session: $SESSION" //
         "http://localhost:8089/repositories/:repo_id:/find_by_id/archival_objects?component_id[]=hello_im_a_component_id;resolve[]=archival_objects"
         # Replace "http://localhost:8089" with your ASpace API URL, :repo_id: with the repository ID, 
         # "hello_im_a_component_id" with the component ID you are searching for, and only add 
         # "resolve[]=archival_objects" if you want the JSON for the returned record - otherwise, it will return the 
         # record URI only
-
+  
         curl -H "X-ArchivesSpace-Session: $SESSION" //
         "http://localhost:8089/repositories/:repo_id:/find_by_id/archival_objects?ref_id[]=hello_im_a_ref_id;resolve[]=archival_objects"
         # Replace "http://localhost:8089" with your ASpace API URL, :repo_id: with the repository ID, 
@@ -74,29 +122,29 @@ class ArchivesSpaceService < Sinatra::Base
     .example("python") do
       <<~PYTHON
         from asnake.client import ASnakeClient  # import the ArchivesSnake client
-        
+  
         client = ASnakeClient(baseurl="http://localhost:8089", username="admin", password="admin")
         # Replace "http://localhost:8089" with your ArchivesSpace API URL and "admin" for your username and password
-        
+  
         client.authorize()  # authorizes the client
-        
+  
         find_ao_compid = client.get("repositories/:repo_id:/find_by_id/archival_objects", 
                                     params={"component_id[]": "hello_im_a_component_id",
                                     "resolve[]": "archival_objects"})
         # Replace :repo_id: with the repository ID, "hello_im_a_component_id" with the component ID you are searching for, and
         # only add "resolve[]": "archival_objects" if you want the JSON for the returned record - otherwise, it will 
         # return the record URI only
-
+  
         print(find_ao_compid.json())
         # Output (dict): {'archival_objects': [{'ref': '/repositories/2/archival_objects/708425', '_resolved':...}]}
-
+  
         find_ao_refid = client.get("repositories/:repo_id:/find_by_id/archival_objects", 
                                    params={"ref_id[]": "hello_im_a_ref_id"
                                    "resolve[]": "archival_objects"})
         # Replace :repo_id: with the repository ID, "hello_im_a_ref_id" with the ref ID you are searching for, and only add 
         # "resolve[]": "archival_objects" if you want the JSON for the returned record - otherwise, it will return the 
         # record URI only
-        
+  
         print(find_ao_refid.json())
         # Output (dict): {'archival_objects': [{'ref': '/repositories/2/archival_objects/708425', '_resolved':...}]}
       PYTHON
@@ -120,10 +168,10 @@ class ArchivesSpaceService < Sinatra::Base
         curl -s -F password="admin" "http://localhost:8089/users/admin/login"
         # Replace "admin" with your password and "http://localhost:8089/users/admin/login" with your ASpace API URL
         # followed by "/users/{your_username}/login"
-    
+  
         set SESSION="session_id"
         # If using Git Bash, replace set with export
-    
+  
         curl -H "X-ArchivesSpace-Session: $SESSION" //
         "http://localhost:8089/repositories/:repo_id:/find_by_id/digital_object_components?component_id[]=im_a_do_component_id;resolve[]=digital_object_components"
         # Replace "http://localhost:8089" with your ASpace API URL, :repo_id: with the repository ID, 
@@ -135,12 +183,12 @@ class ArchivesSpaceService < Sinatra::Base
     .example("python") do
       <<~PYTHON
         from asnake.client import ASnakeClient  # import the ArchivesSnake client
-        
+  
         client = ASnakeClient(baseurl="http://localhost:8089", username="admin", password="admin")
         # Replace "http://localhost:8089" with your ArchivesSpace API URL and "admin" for your username and password
-        
+  
         client.authorize()  # authorizes the client
-        
+  
         find_do_comp = client.get("repositories/:repo_id:/find_by_id/digital_object_components", 
                                   params={"component_id[]": "im_a_do_component_id"
                                   "resolve[]": "digital_object_components"})
@@ -169,10 +217,10 @@ class ArchivesSpaceService < Sinatra::Base
         curl -s -F password="admin" "http://localhost:8089/users/admin/login"
         # Replace "admin" with your password and "http://localhost:8089/users/admin/login" with your ASpace API URL
         # followed by "/users/{your_username}/login"
-    
+  
         set SESSION="session_id"
         # If using Git Bash, replace set with export
-    
+  
         curl -H "X-ArchivesSpace-Session: $SESSION" //
         "http://localhost:8089/repositories/:repo_id:/find_by_id/digital_objects?digital_object_id[]=hello_im_a_digobj_id;resolve[]=digital_objects"
         # Replace "http://localhost:8089" with your ASpace API URL, :repo_id: with the repository ID, 
@@ -184,12 +232,12 @@ class ArchivesSpaceService < Sinatra::Base
     .example("python") do
       <<~PYTHON
         from asnake.client import ASnakeClient  # import the ArchivesSnake client
-        
+  
         client = ASnakeClient(baseurl="http://localhost:8089", username="admin", password="admin")
         # Replace "http://localhost:8089" with your ArchivesSpace API URL and "admin" for your username and password
-        
+  
         client.authorize()  # authorizes the client
-        
+  
         find_do = client.get("repositories/:repo_id:/find_by_id/digital_objects", 
                              params={"digital_object_id[]": "hello_im_a_digobj_id", 
                                      "resolve[]": "digital_objects"})

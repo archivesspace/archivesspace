@@ -40,7 +40,7 @@ class ArchivesSpaceService < Sinatra::Base
 
 
   Endpoint.post('/repositories/:repo_id/transfer')
-    .description("Transfer this record to a different repository")
+    .description("Transfer all records to a different repository")
     .params(["target_repo", String, "The URI of the target repository"],
             ["repo_id", :repo_id])
     .permissions([:transfer_repository])

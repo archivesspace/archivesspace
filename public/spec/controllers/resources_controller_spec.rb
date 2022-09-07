@@ -41,7 +41,7 @@ describe ResourcesController, type: :controller do
   it 'should show the published resources' do
     expect(get(:index)).to have_http_status(200)
     results = assigns(:results)
-    expect(results['total_hits']).to eq(7)
+    expect(results['total_hits']).to eq(9)
     expect(results.records.first['title']).to eq("Published Resource")
   end
 

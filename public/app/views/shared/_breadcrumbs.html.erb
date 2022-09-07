@@ -1,6 +1,6 @@
 <% if defined?(@context) && !@context.blank? %>
 <div class="clear">
-    <nav aria-label="hierarchical navigation">
+    <nav aria-label="<%= I18n.t('navigation.hierarchical') %>">
       <ul class="breadcrumb">
 	<% @context.each do |bread| %>
 	<% if bread[:crumb]; crumb = bread[:crumb]; crumb += " (#{bread[:identifier]})" if bread[:identifier] %>

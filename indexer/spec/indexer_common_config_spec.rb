@@ -54,7 +54,7 @@ describe "indexer common config" do
   end
   describe "resolved_attributes" do
     it "has the correct number of resolved_attributes" do
-      expect(@resolved_attributes.length).to eq(22)
+      expect(@resolved_attributes.length).to eq(23)
     end
     it "has the correct resolved_attributes" do
       attrs = %w( location_profile container_profile container_locations subjects

@@ -280,7 +280,7 @@ module AspaceFormHelper
           :"data-date" => Date.today.strftime('%Y-%m-%d'),
           :"data-autoclose" => true,
           :"data-force-parse" => false,
-          :"data-label" => I18n.t("actions.date_picker")
+          :"data-label" => I18n.t("actions.date_picker_toggle")
       })
 
       if obj[name].blank? && opts[:default]
@@ -737,6 +737,17 @@ module AspaceFormHelper
         required = required?(name)
       end
 
+      # additional admin-defined requirements
+      unless required || @required_fields.nil?
+        type = @record_type || @context.last[1]["jsonmodel_type"]
+        # ideally we would send along the property as well,
+        # and be really sure that this field is required on
+        # this type of record in such and such context. A possible
+        # refactor would be to have all or some of  the marking up
+        # of required fields happen on demand (in JavaScript).
+        required = @required_fields.required?(nil, type, name)
+      end
+
       control_group_classes << "required" if required == true
 
       control_group_classes << "conditionally-required" if required == :conditionally
@@ -750,7 +761,6 @@ module AspaceFormHelper
 
       # ANW-429: add JS classes to structured date fields
       control_group_classes << "js-structured_date_select" if name == "date_type_structured"
-
 
       controls_classes << "#{opts[:controls_class]}" if opts.has_key? :controls_class
 
@@ -982,6 +992,15 @@ module AspaceFormHelper
 
     env = self.request.env
     env['form_context_depth'] ||= 0
+    context.instance_variable_set(:@form_context_depth, env['form_context_depth'])
+    # Only fetch required values at the top-level
+    if env['form_context_depth'] == 0
+      begin
+        required_fields = RequiredFields.get(values_from.jsonmodel_type)
+        context.instance_variable_set(:@required_fields, required_fields)
+      rescue
+      end
+    end
 
     s = "<div class=\"form-context\" id=\"form_#{name}\">".html_safe
     s << context.hidden_input("lock_version", values_from["lock_version"])
@@ -1014,6 +1033,10 @@ module AspaceFormHelper
   class BaseDefinition
     def required?(name)
       false
+    end
+
+    def record_type
+      nil
     end
   end
 
@@ -1096,6 +1119,9 @@ module AspaceFormHelper
       options
     end
 
+    def record_type
+      @jsonmodel.record_type
+    end
 
     private
 
@@ -1141,12 +1167,16 @@ module AspaceFormHelper
 
   end
 
-
+  # we expect the template to be defined in a view context
+  # that will have the @required_fields object if applicable.
+  # We add it to the template hash because the object will
+  # be out of scope when the JS templates are emitted.
   def define_template(name, definition = nil, &block)
     @templates ||= {}
     @templates[name] = {
       :block => block,
       :definition => (definition || BaseDefinition.new),
+      :requirements => @required_fields
     }
   end
 
@@ -1162,7 +1192,6 @@ module AspaceFormHelper
 
     templates_to_process = @templates.clone
     templates_processed = []
-
     # As processing a template may register further templates that hadn't been
     # registered previously, keep looping until we have no more templates to
     # process.
@@ -1182,6 +1211,8 @@ module AspaceFormHelper
 
         context.instance_eval do
           @active_template = name
+          @record_type = template[:definition].record_type
+          @required_fields = template[:requirements]
         end
 
         result << "<div id=\"template_#{name}\"><!--"
@@ -1250,7 +1281,7 @@ module AspaceFormHelper
         elsif schema["properties"][property].has_key?("enum")
           value = I18n.t("#{prefix}#{jsonmodel_type.to_s}.#{property}_#{value}", :default => value)
         elsif schema["properties"][property]["type"] === "boolean"
-          value = value === true ? "True" : "False"
+          value = value === true ? I18n.t('boolean.true') : I18n.t('boolean.false')
         elsif schema["properties"][property]["type"] === "date"
           value = value.blank? ? "" : Date.strptime(value, "%Y-%m-%d")
         elsif schema["properties"][property]["type"] === "integer"
@@ -1297,22 +1328,6 @@ module AspaceFormHelper
     {
       :"data-form-errors" => (exceptions && exceptions.keys[0])
     }
-  end
-
-  # ANW-429: returns true if an admin has specified field_name as a custom require in record_name.
-  # This code is run inside the templates to ensure that these fields are required no matter how many copies of record_name are added to a form.
-  # required_values is generally queried from the DB once in the controller, and then passed in here from the view preventing multiple queries.
-  def is_required_by_admin?(required_values, record_name, field_name)
-    return false if required_values == [] || required_values.nil? || required_values[record_name].nil?
-
-    # need to call #first because it's possible to specify requires for multiple subrecords, so required_values[record_name] contains an array of hashes.
-    required_list_for_record = required_values[record_name].first
-
-    if required_list_for_record
-      required_list_for_record[field_name] == "REQ"
-    else
-      false
-    end
   end
 
   def custom_report_template_limit_options

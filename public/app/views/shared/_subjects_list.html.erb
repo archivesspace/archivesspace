@@ -1,0 +1,30 @@
+<%
+   heading_size = 'h3' if heading_size.blank?
+%>
+
+<% subject_types = {} %>
+<% list.each do |subject| %>
+	<% next unless subject['terms'] %>
+	<% term = subject['terms'].first['term_type'] %>
+
+	<% if subject_types[term].is_a?(Array) %>	
+		<% subject_types[term].push subject %>
+	<% else %>
+		<% subject_types[term] = [subject] %>
+	<% end %>
+<% end %>
+
+
+<% subject_types = subject_types.sort_by {|key| key}.to_h %>
+<% subject_types.each do |term_type, subjects_list| %>
+  <<%= heading_size %>><%= I18n.t("enumerations.subject_term_type.#{term_type}") %></<%= heading_size %>>
+  <ul class="present_list subjects_list">
+    <% subjects_list.each do |subject| %>
+    	<% first_term = subject['terms'].first %>
+      <li>
+        <% terms = subject['terms'].map {|t| t['term']} %>
+      	<a href="<%= subject['uri'] %>"><%= terms.join(" -- ") %></a>
+      </li>
+    <% end %>
+  </ul>
+<% end %>

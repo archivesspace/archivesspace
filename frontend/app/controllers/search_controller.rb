@@ -30,8 +30,6 @@ class SearchController < ApplicationController
       criteria['facet[]'] = SearchResultData.BASE_FACETS
     end
 
-
-
     respond_to do |format|
       format.json {
         @search_data = Search.all(session[:repo_id], criteria)
@@ -57,7 +55,11 @@ class SearchController < ApplicationController
   end
 
   def do_search
-    @search_data = Search.all(session[:repo_id], params_for_backend_search.merge({"facet[]" => SearchResultData.BASE_FACETS.concat(params[:facets]||[]).uniq}))
+    criteria = params_for_backend_search.merge({"facet[]" => SearchResultData.BASE_FACETS.concat(params[:facets]||[]).uniq})
+    context_criteria = params["context_filter_term"] ? {"filter_term[]" => params["context_filter_term"]} : {}
+    @search_data = Search.all(session[:repo_id], criteria, context_criteria)
+    @hide_sort_options = params[:hide_sort_options] == "true"
+    @hide_csv_download = params[:hide_csv_download] == "true"
 
     respond_to do |format|
       format.json {

@@ -1,0 +1,12 @@
+<% property = template_opts[:property] %>
+<% type = template_opts[:type] %>
+<% field_names = template_opts[:field_names] %>
+
+<%= render_aspace_partial :partial => "shared/required_subrecord_checkbox", :locals => {form: form, property: property, type: type} %>
+<% field_names.each do |field_name| %>
+  <% if form.required?(field_name) %>
+    <%= form.label_and_readonly field_name %>
+  <% else %>
+    <%= form.label_and_req_boolean field_name %>
+  <% end %>
+<% end %>

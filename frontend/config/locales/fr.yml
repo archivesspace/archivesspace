@@ -19,6 +19,7 @@ fr:
     create: Créer
     cut: Couper
     date_picker: Sélecteur de date d'ouverture
+    date_picker_toggle: Basculez le sélecteur de date
     defaults: Valeurs par défaut
     edit: Editer
     edit_oai: Modifier les paramètres OAI
@@ -274,6 +275,7 @@ fr:
       create_time: Créé
       asc: Ascendant
       desc: Descendant
+      uri: URI
     resource:
       score: Pertinence
       title: Intitulé
@@ -296,6 +298,7 @@ fr:
       create_time: Créé
       asc: Ascendant
       desc: Descendant
+      uri: URI
     archival_object:
       score: Pertinence
       title: Intitulé
@@ -312,6 +315,7 @@ fr:
       create_time: Créé
       asc: Ascendant
       desc: Descendant
+      uri: URI
     subject:
       score: Pertinence
       source: Source
@@ -323,6 +327,7 @@ fr:
       create_time: Créé
       asc: Ascendant
       desc: Descendant
+      uri: URI
     digital_object:
       score: Pertinence
       title: Intitulé
@@ -340,6 +345,7 @@ fr:
       create_time: Créé
       asc: Ascendant
       desc: Descendant
+      uri: URI
     digital_object_component:
       score: Pertinence
       title: Intitulé
@@ -353,6 +359,7 @@ fr:
       create_time: Créé
       asc: Ascendant
       desc: Descendant
+      uri: URI
     agent:
       score: Pertinence
       title: Nom
@@ -367,6 +374,7 @@ fr:
       create_time: Créé
       asc: Ascendant
       desc: Descendant
+      uri: URI
     location:
       score: Pertinence
       title: Localisation
@@ -423,6 +431,7 @@ fr:
       create_time: Créé
       asc: Ascendant
       desc: Descendant
+      uri: URI
     assessment:
       score: Pertinence
       assessment_id: ID
@@ -454,6 +463,7 @@ fr:
       create_time: Créé
       asc: Ascendant
       desc: Descendant
+      uri: URI
     top_container:
       score: Pertinence
       title: Intitulé
@@ -649,7 +659,7 @@ fr:
   login:
     login: Connexion
     login_please: Veuillez vous connecter
-    login_expired_link: Svp %{link} de nouveau.
+    login_expired_link: Svp <a href ='%{link}'>veuillez vous reconnecter</a>.
     login_fail: Echec de la tentative de connexion
     login_success: Connexion réussie. Redirection...
 
@@ -667,8 +677,8 @@ fr:
     dismiss: Abandonner les modifications
 
   linker:
-    link_to_prefix: Lier à
-    create_and_link_to_prefix: Créer et lier à
+    link_to: Lier
+    create_and_link: Créer et lier
     hint_text: Tapez pour rechercher des notices disponibles...
     placeholder: Tapez pour rechercher des notices disponibles...
     no_results: Pas de résultats correspondants.  Essayez 'Parcourir'.

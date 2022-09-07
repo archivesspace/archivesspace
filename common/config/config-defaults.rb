@@ -157,6 +157,7 @@ AppConfig[:solr_indexing_frequency_seconds] = 30
 AppConfig[:solr_facet_limit] = 100
 
 AppConfig[:default_page_size] = 10
+AppConfig[:max_boolean_queries] = 1024 # ArchivesSpace Solr default
 AppConfig[:max_page_size] = 250
 
 # An option to change the length of the abstracts on the collections overview page
