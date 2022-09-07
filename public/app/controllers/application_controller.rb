@@ -24,6 +24,8 @@ class ApplicationController < ActionController::Base
   rescue_from RequestFailedException, :with => :render_backend_failure
   rescue_from NoResultsError, :with => :render_no_results_found
 
+  around_action :set_locale
+
 
   # Allow overriding of templates via the local folder(s)
   if not ASUtils.find_local_directories.blank?
@@ -74,6 +76,16 @@ class ApplicationController < ActionController::Base
 
       params.merge!(added_params)
     end
+  end
+
+  def set_locale(&action)
+    if session[:locale]
+      locale = session[:locale]
+    else
+      locale = I18n.default_locale
+    end
+
+    I18n.with_locale(locale, &action)
   end
 
   private
