@@ -2,7 +2,7 @@
 
 source 'https://rubygems.org'
 
-gem 'rails', '5.2.5'
+gem 'rails', '~> 5.2'
 
 # For handling HTML enities when processing exports as XML
 gem 'htmlentities', '~> 4.3', '>= 4.3.4'
