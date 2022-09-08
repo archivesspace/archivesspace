@@ -4,24 +4,18 @@
 @import 'bootstrap/variables';
 @import 'bootstrap/mixins';
 
-.navbar {
-  padding: 0;
-  align-items: stretch;
-}
-.navbar-nav {
-  flex-direction: row;
-  align-items: center;
-  .dropdown-menu {
-    position: absolute;
-    z-index: 1000;
-  }
-}
 
 body {
   font-size: 16px;
   // Bootstrap 5 adds underline on all links, this removes that to be consistent with aSpace styling
   a {
     text-decoration: none;
+  }
+}
+
+.btn-group.border, .input-group.border {
+  .btn, .btn:hover, .btn:active, .btn:focus {
+    --bs-btn-border-width: 0;
   }
 }
 
@@ -49,9 +43,24 @@ body {
   border-color: darken(adjust-hue(#f2dede, -10), 7%)
 }
 
+.navbar {
+  padding: 0;
+  align-items: stretch;
+}
+
+.navbar-nav {
+  flex-direction: row;
+  align-items: center;
+  .dropdown-menu {
+    position: absolute;
+    z-index: 1000;
+  }
+}
+
 .dropdown-toggle {
   color: #595959;
 }
+
 .dropdown-item {
   &:active, &.active {
     background-color: $gray-200;

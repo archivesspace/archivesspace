@@ -24,13 +24,6 @@
   display: none;
 }
 
-.btn-default.dropdown-toggle.last {
-  &:hover,
-  &:active {
-    background-color: $gray-200;
-  }
-}
-
 .btn-group > .btn-xs {
   &.disabled,
   &[disabled] {

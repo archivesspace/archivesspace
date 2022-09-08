@@ -5,7 +5,7 @@
     <li class="dropdown select-a-repository px-4">
       <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown"><%= I18n.t("repository._frontend.action.select") %> <b class="caret"></b></a>
       <ul class="dropdown-menu" style="padding: 15px;">
-        <li class='dropdown-item'>
+        <li>
           <%= form_tag({:controller => :repositories, :action => :select}) do |f| %>
             <fieldset>
               <label for="id" class="visually-hidden"><%= I18n.t('repository._frontend.action.select') %></label>

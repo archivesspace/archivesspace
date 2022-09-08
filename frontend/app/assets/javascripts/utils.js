@@ -295,13 +295,8 @@ $(function () {
         ($this.is('label.control-label') ||
           $this.is('.subrecord-form-heading-label'));
 
-      // ANW-1325: Ensure tooltip content is focusable/hoverable by inserting in the DOM
-      // right after the triggering element.  Skipping `helpTooltips`, since those are
-      // made sticky in the block below.
-      var tooltipOptions = {
-        container: !helpTooltips ? $this : 'body',
-      };
-      $this.tooltip(tooltipOptions).addClass('initialised');
+      // initializes all tooltips including help tooltips (updated for Bootstrap 5 compatibility)
+      $this.tooltip({container: 'body',}).addClass('initialised');
 
       // ANW-1325: hide popovers if escape key pressed
       $('.has-tooltip.initialised').on('show.bs.tooltip', function () {
@@ -373,14 +368,14 @@ $(function () {
     }
   );
 
-  $(document).bind('shown.bs.modal', function (events) {
-    $('.modal-content').delegate($('.has-tooltip'), 'mouseenter', function () {
-      initTooltips($(this));
-      $('a.has-tooltip', $(this)).on('click', function () {
-        window.open($(this).attr('href'));
-      });
-    });
-  });
+  // $(document).bind('shown.bs.modal', function (events) {
+  //   $('.modal-content').delegate($('.has-tooltip'), 'mouseenter', function () {
+  //     initTooltips($(this));
+  //     $('a.has-tooltip', $(this)).on('click', function () {
+  //       window.open($(this).attr('href'));
+  //     });
+  //   });
+  // });
 });
 
 // allow click of a submenu link

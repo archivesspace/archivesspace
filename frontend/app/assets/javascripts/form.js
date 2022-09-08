@@ -120,8 +120,7 @@ $(function () {
       $this.data('form_changed', $this.data('form_changed') || false);
       $this.data('changedDetectionEnabled', true);
 
-      // // Temporarily commenting out this functionality to unblock bootstrap 4 upgrade. The overlay is appearing with no modal currently on several pages.
-      // // this is the overlay we can use to lock the form.
+      // // Disabling this overlay since it does not serve a purpose. There used to be some functionality to "lock" forms but this has since been broken and unusable in newer versions of the application.
       // $('> .form-context > .row > .col-md-9', $this).prepend(
       //   '<div id="archives_form_overlay"><div class="modal-backdrop in form-overlay"></div></div>'
       // );
