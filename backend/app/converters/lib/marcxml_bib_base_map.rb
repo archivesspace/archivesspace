@@ -947,12 +947,12 @@ module MarcXMLBibBaseMap
           :rel => :extents,
           :map => {
             "self::datafield" => -> extent, node {
+              # ANW-1260
               a_content = node.xpath('.//subfield[@code="a"]')
               f_content = node.xpath('.//subfield[@code="f"]')
 
-              # only $a present
-              if a_content && !f_content
-                if a_content.length > 0
+              # only $a present - parse with existing method
+              if a_content.length > 0 && f_content.empty?
                 ext = a_content.first.text
                 if ext =~ /^([0-9\.,]+)+\s+(.*)$/
                   extent.number = $1
@@ -962,20 +962,34 @@ module MarcXMLBibBaseMap
                 else
                   raise "The extent field (300) could not be parsed."
                 end
+
+              # $a and $f present, a must be numeric, f must be an extent value that's present in the extent_extent_type enumeration
+              elsif a_content.length > 0 && f_content.length > 0
+
+                # $a must be numeric
+                if a_content.inner_text =~ /^[+-]?([0-9]+\.?[0-9]*|\.[0-9]+)$/
+                  extent.number = a_content.inner_text
+                else
+                  raise "No numeric value found in field 300, subfield a"
+                end
+
+                # remove punctuation and replace underscores with spaces to better match extent_type translation values
+                f_content_cleaned = f_content.inner_text.gsub(/[.,\/#!$%^&*;:{}=-_`~()]/, "").gsub("_", " ").downcase
+                extent_values = I18n.t('enumerations.extent_extent_type').values.map {|v| v.downcase }
+
+                if extent_values.include?(f_content_cleaned)
+                  extent.extent_type = f_content.inner_text
+                else
+                  raise "Extent type in field 300, subfield f is not found in the extent type controlled vocabulary."
+                end
               end
 
-              # $a and $f present
-              elsif a_content && f_content
-                
-              end
-                
+              # marc doesn't provide data for specifying part of an extent, so use whole by default
 
-              
-
+              extent.portion = "whole"
               extent.container_summary = subfield_template("{$3: }{$a }{$b, }{$c }({$e, }{$f, }{$g})", node)
             }
           },
-          :defaults => {:portion => 'whole', :number => '1', :extent_type => 'linear_feet'}
         },
 
         "datafield[@tag='306']" => singlepart_note('physdesc', 'Playing Time', "{$a}"),
