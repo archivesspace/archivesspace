@@ -8,7 +8,6 @@
 					path  = record['files'][i]
 					ext   = File.extname(filename)
 					param = ext.blank? ? nil : "?ext=#{ext}"
-          raise "url: #{url} path: #{path} params: #{param}"
 					link  = param ? URI.join(url, path, param) : URI.join(url, path)
 				%>
 				<%= t("job.#{type}") %>: <a href="<%= link.to_s %>"><%= filename %></a>
