@@ -648,6 +648,7 @@ class IndexerCommon
         doc['has_classification_terms'] = record['record']['has_classification_terms']
         doc['slug'] = record['record']['slug']
         doc['is_slug_auto'] = record['record']['is_slug_auto']
+        doc['identifier'] = record['record']['identifier']
       end
     }
 
