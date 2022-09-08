@@ -1,0 +1,23 @@
+```shell
+<% examples.each do |example| %>
+<% if example.comment -%>
+# <%= example.comment %>
+<% end -%>
+<% if example.get? -%>
+curl -H "X-ArchivesSpace-Session: $SESSION" \
+  "<%= example.request_url %>"
+<% elsif example.post? && example.data? -%>
+curl -H 'Content-Type: text/json' -H "X-ArchivesSpace-Session: $SESSION" \
+  "<%= example.request_url %>" \
+  -d '<%= example.form_payload %>'
+<% elsif example.post? -%>
+curl -H "X-ArchivesSpace-Session: $SESSION" \
+  -X POST
+  "<%= example.request_url %>"
+<% elsif example.delete? -%>
+curl -H "X-ArchivesSpace-Session: $SESSION" \
+  -X DELETE
+  "<%= example.request_url %>"
+<% end -%>
+<% end %>
+```

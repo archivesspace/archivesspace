@@ -538,14 +538,14 @@
   </target>
 
   <!-- DOCS -->
-  <target name="doc:build" depends="set-classpath" description="Generate the full YARD documentation">
-    <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true" failonerror="true" dir="../_yard">
-      <jvmarg line="${default_java_options} ${env.JAVA_OPTS}"/>
-      <env key="GEM_HOME" value="${gem_home}" />
-      <env key="GEM_PATH" value="" />
-      <env key="BUNDLE_PATH" value="${gem_home}" />
-      <arg line="-S rake doc:gen" />
-    </java>
+  <target name="doc:api" depends="set-classpath" description="Generate markdown for API documentation">
+    <antcall target="thor">
+      <param name="task" value="doc:api" />
+    </antcall>
+  </target>
+
+  <target name="doc:build" depends="set-classpath" description="Generate YARD documentation">
+    <antcall target="doc:yardoc" />
   </target>
 
   <target name="doc:yardoc" depends="set-classpath" description="Run the yardoc command">
@@ -563,6 +563,17 @@
       <env key="BUNDLE_PATH" value="${gem_home}" />
       <arg line="build/${jruby_build_bin_path}/yardoc -f txt" />
     </java>
+  </target>
+
+  <target name="doc:release_notes" depends="set-classpath" description="Generate markdown for API documentation">
+    <property name="current_tag" value=""/>
+    <property name="previous_tag" value=""/>
+    <property name="outfile" value="RELEASE_NOTES_${current_tag}.md" />
+    <property name="token" value=""/>
+    <antcall target="thor">
+      <param name="task" value="doc:release_notes" />
+      <param name="task_args" value="--current_tag=${current_tag} --previous_tag=${previous_tag} --out=${outfile} --token=${token}" />
+    </antcall>
   </target>
 
   <!-- HELP -->
@@ -703,7 +714,7 @@
       <isset property="example"/>
     </condition>
     <dirset id="plugins" dir="../..">
-      <include name="frontend/spec"/>
+      <include name="frontend/spec"/>gml
       <include name="archivesspace/plugins/**/frontend/spec"/>
     </dirset>
     <pathconvert pathsep=" " property="plugin-spec-dirs" refid="plugins"/>
@@ -847,4 +858,50 @@
     <delete dir="${aspace.data_directory.test}/indexer_state" />
     <delete dir="${aspace.data_directory.test}/indexer_pui_state" />
   </target>
+
+    <!-- THOR -->
+  <target name="thor" depends="set-classpath, bootstrap-jruby" description="Run project-level thor tasks">
+    <property name="build.home" location="."/>
+    <property name="task" value="list" />
+    <property name="task_args" value="" />
+
+    <antcall target="bundler">
+      <param name="gemfile" value="../Gemfile" />
+      <param name="included-gem-groups" value="thor default" />
+    </antcall>
+    <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true" failonerror="true" dir="../">
+      <jvmarg line="${default_java_options} ${env.JAVA_OPTS}"/>
+      <env key="GEM_HOME" value="${gem_home}" />
+      <env key="GEM_PATH" value="" />
+      <env key="BUNDLE_PATH" value="${gem_home}" />
+      <env key="HOME" value="${build.home}" />
+      <env key="ASPACE_INTEGRATION" value="true" />
+      <env key="APPCONFIG_DB_URL" value="${env.APPCONFIG_DB_URL}" />
+      <env key="APPCONFIG_SOLR_URL" value="${env.APPCONFIG_SOLR_URL}" />
+      <arg line="./build/${jruby_build_bin_path}/thor ${task} ${task_args}" />
+    </java>
+  </target>
+
+      <!-- RAKE -->
+  <target name="rake" depends="set-classpath, bootstrap-jruby" description="Run project-level rake tasks">
+    <property name="build.home" location="."/>
+    <property name="task" value="--tasks" />
+
+    <antcall target="bundler">
+      <param name="gemfile" value="../Gemfile" />
+      <param name="included-gem-groups" value="thor default" />
+    </antcall>
+    <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true" failonerror="true" dir="../">
+      <jvmarg line="${default_java_options} ${env.JAVA_OPTS}"/>
+      <env key="GEM_HOME" value="${gem_home}" />
+      <env key="GEM_PATH" value="" />
+      <env key="BUNDLE_PATH" value="${gem_home}" />
+      <env key="HOME" value="${build.home}" />
+      <env key="ASPACE_INTEGRATION" value="true" />
+      <env key="APPCONFIG_DB_URL" value="${env.APPCONFIG_DB_URL}" />
+      <env key="APPCONFIG_SOLR_URL" value="${env.APPCONFIG_SOLR_URL}" />
+      <arg line="./build/${jruby_build_bin_path}/rake ${task} ${task_args}" />
+    </java>
+  </target>
+
 </project>

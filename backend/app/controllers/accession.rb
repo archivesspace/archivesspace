@@ -54,7 +54,7 @@ class ArchivesSpaceService < Sinatra::Base
             ["repo_id", :repo_id],
             ["resolve", :resolve])
     .permissions([:view_repository])
-    .returns([200, "a list of linked top containers"],
+    .returns([200, "[(:top_container)]"],
              [404, "Not found"]) \
   do
     accession = Accession.to_jsonmodel(params[:id])
