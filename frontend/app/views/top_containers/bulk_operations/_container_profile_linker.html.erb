@@ -1,38 +1,32 @@
 <%
-  if params['container_profile'].blank? && !@top_container_previous_search["container_profile"]
-    selected_json = "{}"
-  elsif @top_container_previous_search["container_profile"]
-    selected_json = @top_container_previous_search["container_profile"].to_json
-  else
-    selected_json = params['container_profile']['_resolved']
-  end
-
-  linkable_types = ["container_profile"]
-  show_create_link = false if show_create_link.blank?
+   if params['collection_resource'].blank? && !@top_container_previous_search["resource"]
+     selected_json = "{}"
+   elsif @top_container_previous_search["resource"]
+     selected_json = @top_container_previous_search["resource"].to_json
+   else
+     selected_json = params['collection_resource']['_resolved']
+   end
 %>
 
 <div class="input-group linker-wrapper">
   <input type="text" class="linker"
-         id="container_profile"
-         data-label_create="<%= I18n.t("container_profile.linker.create") %>"
-         data-label_browse="<%= I18n.t("container_profile.linker.browse") %>"
+         id="collection_resource"
+         data-label_create="<%= I18n.t("top_container._frontend.bulk_operations.collection_resource.create") %>"
+         data-label_browse="<%= I18n.t("top_container._frontend.bulk_operations.collection_resource.browse") %>"
          data-label_link="<%= I18n.t("linker.link") %>"
          data-label_create_and_link="<%= I18n.t("linker.create_and_link") %>"
          data-name="ref"
-         data-path="container_profile"
+         data-path="collection_resource"
          data-url="<%= url_for  :controller => :search, :action => :do_search, :format => :json %>"
          data-browse-url="<%= url_for :controller => :search, :action => :do_search, :format => :js, :facets => [], :sort => "title_sort asc" %>"
          data-selected="<%= selected_json %>"
          data-multiplicity="one"
-         data-types='<%= linkable_types.to_json %>'
+         data-types='<%= ['resource'].to_json %>'
   />
   <div class="input-group-btn">
-    <a class="btn btn-default dropdown-toggle last border-dark bg-white border-left-0 d-flex align-items-center" data-toggle="dropdown" href="javascript:void(0);" title="<%= I18n.t("container_profile.linker.link_title") %>" aria-label="<%= I18n.t("container_profile.linker.link_title") %>"></a>
+    <a class="btn btn-default dropdown-toggle last border-dark bg-white border-left-0 d-flex align-items-center" data-toggle="dropdown" href="javascript:void(0);" title="<%= I18n.t("top_container._frontend.bulk_operations.collection_resource.link_title") %>" aria-label="<%= I18n.t("top_container._frontend.bulk_operations.collection_resource.create") %>"></span></a>
     <ul class="dropdown-menu">
       <li class='dropdown-item'><a href="javascript:void(0);" class="linker-browse-btn"><%= I18n.t("actions.browse") %></a></li>
-      <% if show_create_link && user_can?('update_container_profile_record') %>
-        <li class='dropdown-item'><a href="javascript:void(0);" data-target="<%= url_for :controller => :container_profiles, :action => :new, :inline => true %>" class="linker-create-btn"><%= I18n.t("actions.create") %></a></li>
-      <% end %>
     </ul>
   </div>
 </div>

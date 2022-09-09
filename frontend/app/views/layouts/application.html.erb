@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="<%= AppConfig[:locale] %>">
 <head>
-  <title><%= I18n.t("navbar.brand") %> | <% if @title %><%= @title %><% else %><%= controller.class.name %> >> <%= controller.action_name %><% end %></title>
+  <title><%= t("navbar.brand") %> | <% if @title %><%= @title %><% else %><%= controller.class.name %> >> <%= controller.action_name %><% end %></title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link href="<%= asset_path('favicon.ico') %>" rel="shortcut icon" type="image/x-icon" />
   <%# TODO broken? = include_theme_css %>

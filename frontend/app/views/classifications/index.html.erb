@@ -1,4 +1,4 @@
-<%= setup_context :title => I18n.t("classification._plural") %>
+<%= setup_context :title => t("classification._plural") %>
 
 <%
    @show_multiselect_column = user_can?("delete_classification_record")
@@ -38,7 +38,7 @@
      <div class="record-pane">
        <%= link_to_help :topic => "search" %>
 
-       <h2><%= I18n.t("classification._plural") %></h2>
+       <h2><%= t("classification._plural") %></h2>
 
        <%= render_aspace_partial :partial => "shared/flash_messages" %>
 

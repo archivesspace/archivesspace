@@ -1,6 +1,6 @@
 <%
    section_id = "agent_occupation" if section_id.blank?
-   section_title = I18n.t("agent_occupation._plural") if section_title.blank?
+   section_title = t("agent_occupation._plural") if section_title.blank?
    heading_size = "h3" if heading_size.blank?
 %>
 
@@ -21,15 +21,15 @@
         </div>
         <div id="<%= section_id %>_agent_occupation_<%= index %>" class="panel-collapse collapse">
           <% if agent_occupation["subjects"].length > 0 %>
-            <%= render_aspace_partial :partial => "subjects/show_inline", :locals => {:subjects => agent_occupation['subjects'], :section_id => "agent_occupation_subjects_", :section_title => I18n.t("agent_occupation.subjects"), :heading_size => "h4"} %>
+            <%= render_aspace_partial :partial => "subjects/show_inline", :locals => {:subjects => agent_occupation['subjects'], :section_id => "agent_occupation_subjects_", :section_title => t("agent_occupation.subjects"), :heading_size => "h4"} %>
           <% end %>
 
           <% if agent_occupation["places"].length > 0 %>
-            <%= render_aspace_partial :partial => "subjects/show_inline", :locals => {:subjects => agent_occupation['places'], :section_id => "agent_occupation_places_", :section_title => I18n.t("agent_occupation.places"), :heading_size => "h4"} %>
+            <%= render_aspace_partial :partial => "subjects/show_inline", :locals => {:subjects => agent_occupation['places'], :section_id => "agent_occupation_places_", :section_title => t("agent_occupation.places"), :heading_size => "h4"} %>
           <% end %>
 
           <% if agent_occupation["dates"].length > 0 %>
-            <%= render_aspace_partial :partial => "structured_dates/show", :locals => { :dates => agent_occupation['dates'], :section_id => "agent_occupation_dates", :section_title => I18n.t("agent_occupation.dates"), :heading_size => "h4"} %>
+            <%= render_aspace_partial :partial => "structured_dates/show", :locals => { :dates => agent_occupation['dates'], :section_id => "agent_occupation_dates", :section_title => t("agent_occupation.dates"), :heading_size => "h4"} %>
           <% end %>
 
           <% if agent_occupation["notes"].length > 0 %>

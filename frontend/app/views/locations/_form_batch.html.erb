@@ -18,10 +18,10 @@
                                  :record => @location) %>
 
       <% form.push("location_profile", form.obj["location_profile"] || {}) do %>
-        <%= render_aspace_partial :partial => "location_profiles/linker", :locals => {:form => form, :label => I18n.t("location_profile._singular")} %>
+        <%= render_aspace_partial :partial => "location_profiles/linker", :locals => {:form => form, :label => t("location_profile._singular")} %>
       <% end %>
       <% form.push("owner_repo", form.obj["owner_repo"] || {}) do %>
-    <%= render_aspace_partial :partial => "repositories/linker", :locals => {:form => form, :label => I18n.t("repository._singular")} %>
+    <%= render_aspace_partial :partial => "repositories/linker", :locals => {:form => form, :label => t("repository._singular")} %>
       <% end %>
       <% if @is_batch_update %> 
         <% @location_batch.record_uris.each do |uri| %> 

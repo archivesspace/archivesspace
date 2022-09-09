@@ -1,9 +1,9 @@
 <% define_template "agent_record_identifiers", jsonmodel_definition(:agent_record_identifier) do |form| %>
   <div class="subrecord-form-fields agent_record_identifier_form">
     <h3 class="subrecord-form-heading d-flex align-items-center justify-content-end">
-      <span class="badge badge-info is-primary-label m-2"><%= I18n.t("agent_record_identifiers.is_primary") %></span>
+      <span class="badge badge-info is-primary-label m-2"><%= t("agent_record_identifiers.is_primary") %></span>
 
-      <button class="btn btn-sm bg-white border btn-primary-id-toggle m-2"><%= I18n.t("name._frontend.action.make_primary") %></button>
+      <button class="btn btn-sm bg-white border btn-primary-id-toggle m-2"><%= t("name._frontend.action.make_primary") %></button>
 
       <%= form.hidden_input "primary_identifier", form["primary_identifier"] ? 1 : 0 %>
     </h3>
@@ -21,7 +21,7 @@
 
   <%= form.record_level_merge_controls(form, "agent_record_identifier", false) %>
 
-  <% if form.obj['primary_identifier'] %><span class="badge"><%= I18n.t("agent_record_identifier.primary") %></span><% end %>
+  <% if form.obj['primary_identifier'] %><span class="badge"><%= t("agent_record_identifier.primary") %></span><% end %>
 
   <% field_names = ["record_identifier", "source", "identifier_type"] %>
   <% field_names.each do |field_name| %>
@@ -35,7 +35,7 @@
 
   <%= form.record_level_merge_controls(form, "agent_record_identifier", true, !disable_replace) %>
 
-  <% if form.obj['primary_identifier'] %><span class="badge"><%= I18n.t("agent_record_identifier.primary") %></span><% end %>
+  <% if form.obj['primary_identifier'] %><span class="badge"><%= t("agent_record_identifier.primary") %></span><% end %>
 
   <%= form.label_and_readonly "record_identifier" %>
   <%= form.label_and_readonly "source" %>

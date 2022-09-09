@@ -3,7 +3,7 @@
     <div class="record-toolbar d-flex align-items-center">
       <div class="btn-group btn-toolbar ml-auto bg-white">
         <div class="btn btn-inline-form">
-          <%= button_confirm_action I18n.t("job._frontend.actions.cancel"), url_for(:controller => :jobs, :action => :cancel, :id => @job.id), {
+          <%= button_confirm_action t("job._frontend.actions.cancel"), url_for(:controller => :jobs, :action => :cancel, :id => @job.id), {
             :class => "btn btn-sm btn-danger"
               } %>
         </div>

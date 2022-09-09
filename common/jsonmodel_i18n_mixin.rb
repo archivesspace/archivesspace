@@ -1,7 +1,8 @@
 module JSONModelI18nMixin
 
+  # TODO this is broken and needs to be redone
   def t(*args)
-    JSONModel::init_args[:i18n_source].t(*args)
+    JSONModel::init_args[:i18n_source].t(args&.[](0))
   end
 
   def _exceptions

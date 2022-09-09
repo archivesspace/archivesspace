@@ -3,5 +3,5 @@
     <span class="sr-only">Show components?</span>
     <%= check_box_tag "component_switch_checkbox", params[:include_components], params[:include_components] === "true", :onclick => "location.href = $('#component_switch_link').attr('href');" %>
   </label>
-  <%= link_to I18n.t("search_results.component_switch"), build_search_params({"include_components" => !(params[:include_components]==="true")}), :id => "component_switch_link" %>
+  <%= link_to t("search_results.component_switch"), build_search_params({"include_components" => !(params[:include_components]==="true")}), :id => "component_switch_link" %>
 </p>

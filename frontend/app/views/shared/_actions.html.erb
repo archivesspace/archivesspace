@@ -10,7 +10,7 @@
 
     <% if current_repo['uri'] != record['id'] %>
       <%= form_tag({:action => :select, :id => JSONModel(:repository).id_for(record['id'])}, {:style => "display: inline;"}) do |f| %>
-        <button type="submit" class="btn btn-xs btn-success"><%= I18n.t("repository._frontend.action.select") %></button>
+        <button type="submit" class="btn btn-xs btn-success"><%= t("repository._frontend.action.select") %></button>
       <% end %>
     <% end %>
   <% end %>

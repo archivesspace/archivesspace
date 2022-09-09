@@ -3,7 +3,7 @@
 <% define_template("event", jsonmodel_definition(:event)) do |form| %>
   <section id="basic_information">
     <h3>
-      <%= I18n.t("event._frontend.section.basic_information") %>
+      <%= t("event._frontend.section.basic_information") %>
       <%= link_to_help :topic => "event_basic_information" %>
     </h3>
     <fieldset>
@@ -26,7 +26,7 @@
 
 <section id="event_date">
   <h3>
-    <%= I18n.t("event._frontend.section.date") %>
+    <%= t("event._frontend.section.date") %>
     <%= link_to_help :topic => "event_date" %>
   </h3>
   <% if form.readonly? %>
@@ -39,7 +39,7 @@
       <% end %>
     <% end %>
   <% else %>
-    <%= form.label_and_select "chronotype_label", ['subrecord', 'timestamp'].map{|t| [I18n.t("event.chronotype.#{t}"), t]}, 'required' => true %>
+    <%= form.label_and_select "chronotype_label", ['subrecord', 'timestamp'].map{|t| [t("event.chronotype.#{t}"), t]}, 'required' => true %>
     <div id="chronotype_timestamp" class="chronotype_form">
       <%= form.label_and_textfield "timestamp", :required => true %>
     </div>
@@ -54,7 +54,7 @@
 
 <% if form.readonly? %>
   <section id="event_linked_agents_">
-    <h3><%= I18n.t("linked_agent._plural") %></h3>
+    <h3><%= t("linked_agent._plural") %></h3>
 
     <div class="form-group row">
       <div class="control-label col-sm-2 text-right"><%= I18n.t("linked_agent._plural") %></div>
@@ -76,7 +76,7 @@
 
 <% if form.readonly? %>
   <section id="event_linked_records_">
-    <h3><%= I18n.t("linked_record._plural") %></h3>
+    <h3><%= t("linked_record._plural") %></h3>
 
     <div class="form-group row">
       <div class="control-label col-sm-2 text-right"><%= I18n.t("linked_record._plural") %></div>

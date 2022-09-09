@@ -3,7 +3,7 @@
     <%= javascript_include_tag "#{controller.controller_name}.show" if File.exist?("#{Rails.root}/app/assets/javascripts/#{controller_name}.show.js") ||  File.exist?("#{Rails.root}/app/assets/javascripts/#{controller_name}.show.js.erb") %>
     <% errors_by_message = transfer_errors_by_message(@transfer_errors) %>
     <div class="alert alert-danger">
-        <h3><%= I18n.t('actions.transfer_failed') %></h3>
+        <h3><%= t('actions.transfer_failed') %></h3>
         <% errors_by_message.each do |message, errors| %>
             <% inspect_error = false %>
             <p>

@@ -1,7 +1,7 @@
 <%
    subjects ||= []
    section_id = "subjects" if section_id.blank?
-   section_title = I18n.t("subject._plural") if section_title.blank?
+   section_title = t("subject._plural") if section_title.blank?
    heading_size = "h3" if heading_size.blank?
    auth_present = subjects.inject(false) {|memo, s| !s['_resolved']["authority_id"].blank? || memo }
 %>
@@ -11,8 +11,8 @@
   <div class="subrecord-form-container">
     <div class="subrecord-form-fields overflow-auto">
         <% if auth_present %>
-          <div class="col-md-3"><strong><%= I18n.t("subject.authority_id") %></strong></div>
-          <div class="col-md-8"><strong><%= I18n.t("subject.heading") %></strong></div>
+          <div class="col-md-3"><strong><%= t("subject.authority_id") %></strong></div>
+          <div class="col-md-8"><strong><%= t("subject.heading") %></strong></div>
         <% end %>
       <% subjects.each_with_index do | subject, index | %>
           <% if auth_present %>

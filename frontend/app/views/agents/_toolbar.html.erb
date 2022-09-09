@@ -2,12 +2,12 @@
   <div class="record-toolbar d-flex align-items-center flex-wrap">
     <% if !edit_mode? %>
       <div class="btn-group">
-        <%= link_to I18n.t("actions.edit"), {:controller => :agents, :action => :edit, :id => @agent.id, :agent_type => @agent.agent_type}, :class => "btn btn-sm btn-primary" %>
+        <%= link_to t("actions.edit"), {:controller => :agents, :action => :edit, :id => @agent.id, :agent_type => @agent.agent_type}, :class => "btn btn-sm btn-primary" %>
       </div>
     <% end %>
     <% if ['new', 'create', 'edit', 'update'].include?(controller.action_name) %>
       <div class="save-changes">
-        <button type="submit" class="btn btn-primary btn-sm"><%= I18n.t("actions.save_prefix") %></button>
+        <button type="submit" class="btn btn-primary btn-sm"><%= t("actions.save_prefix") %></button>
       </div>
     <% end %>
 
@@ -26,13 +26,13 @@
         <% end %>
 
         <div class="btn-group right border-right">
-          <%= button_confirm_action(I18n.t("actions.publish"),
+          <%= button_confirm_action(t("actions.publish"),
                       url_for({:action => :publish, :id => @agent.id}),
                       {
                         :class => "btn btn-sm btn-default",
-                        :"data-title" => I18n.t("actions.publish_confirm_title"),
-                        :"data-message" => I18n.t("actions.publish_confirm_message"),
-                        :"data-confirm-btn-label" => "#{I18n.t("actions.publish")}",
+                        :"data-title" => t("actions.publish_confirm_title"),
+                        :"data-message" => t("actions.publish_confirm_message"),
+                        :"data-confirm-btn-label" => "#{t("actions.publish")}",
                         :"data-confirm-btn-class" => "btn-primary",
                       }) %>
         </div>
@@ -45,11 +45,11 @@
 
         <% unless @agent.agent_type.to_s == "agent_software" %>
           <div class="btn btn-inline-form border-right">
-            <%= link_to I18n.t("actions.export_eac"), {:controller => :exports, :action => :download_eac, :id => @agent.id, :type => @agent.  agent_type}, :class => "btn btn-sm btn-default" %>
+            <%= link_to t("actions.export_eac"), {:controller => :exports, :action => :download_eac, :id => @agent.id, :type => @agent.  agent_type}, :class => "btn btn-sm btn-default" %>
           </div>
 
           <div class="btn btn-inline-form border-right">
-            <%= link_to I18n.t("actions.export_marc_auth"), {:controller => :exports, :action => :download_marc_auth, :id => @agent.id, :type => @agent.agent_type}, :class => "btn btn-sm btn-default" %>
+            <%= link_to t("actions.export_marc_auth"), {:controller => :exports, :action => :download_marc_auth, :id => @agent.id, :type => @agent.agent_type}, :class => "btn btn-sm btn-default" %>
           </div>
         <% end %>
 
@@ -59,14 +59,14 @@
           :locals => {:record => @agent,
                       :extra_params => {:agent_type => @agent.agent_type},
                       :controller => :agents,
-                      :confirmation_title => I18n.t("actions.merge_confirm_title"),
-                      :confirmation_msg => I18n.t("actions.merge_agent_confirm_message",
+                      :confirmation_title => t("actions.merge_confirm_title"),
+                      :confirmation_msg => t("actions.merge_agent_confirm_message",
                                                   :source => @agent.title)}
           %>
         <% end %>
         <% if user_can?('delete_agent_record') %>
           <div class="btn p-0">
-            <%= button_delete_action url_for(:controller => :agents, :action => :delete, :id => @agent.id), { :"data-title" => I18n.t("actions.delete_confirm_title", :title => @agent.title) } %>
+            <%= button_delete_action url_for(:controller => :agents, :action => :delete, :id => @agent.id), { :"data-title" => t("actions.delete_confirm_title", :title => @agent.title) } %>
           </div>
         <% end %>
       </div>
@@ -74,8 +74,8 @@
 
     <% if edit_mode? %>
       <div class="revert-changes">
-        <%= link_to I18n.t("actions.revert"), {:controller => :agents, :action => :edit, :id => @agent.id}, :class => "btn btn-sm btn-default border bg-white" %>
-        <%= I18n.t("actions.toolbar_disabled_message") %>
+        <%= link_to t("actions.revert"), {:controller => :agents, :action => :edit, :id => @agent.id}, :class => "btn btn-sm btn-default border bg-white" %>
+        <%= t("actions.toolbar_disabled_message") %>
       </div>
     <% end %>
   </div>
