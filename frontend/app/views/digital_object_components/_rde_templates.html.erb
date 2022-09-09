@@ -1,54 +1,54 @@
 <% define_template "rde_digital_object_component_sections" do |form| %>
-  <th data-id="basic" class="section-basic" colspan="4"><%= I18n.t("rde.sections.basic_information") %></th>
-  <th data-id="language" class="section-language" colspan="2"><%= I18n.t("rde.sections.language") %></th>
-  <th data-id="date" class="section-date" colspan="5" class="conditionally-required"><%= I18n.t("rde.sections.date") %></th>
-  <th data-id="extent" class="section-extent" colspan="6" class="conditionally-required"><%= I18n.t("rde.sections.extent") %></th>
-  <th data-id="file" class="section-file" colspan="10"><%= I18n.t("rde.sections.file_version") %></th>
-  <th data-id="note" class="section-note" colspan="9"><%= I18n.t("rde.sections.notes") %></th>
+  <th data-id="basic" class="section-basic" colspan="4"><%= t("rde.sections.basic_information") %></th>
+  <th data-id="language" class="section-language" colspan="2"><%= t("rde.sections.language") %></th>
+  <th data-id="date" class="section-date" colspan="5" class="conditionally-required"><%= t("rde.sections.date") %></th>
+  <th data-id="extent" class="section-extent" colspan="6" class="conditionally-required"><%= t("rde.sections.extent") %></th>
+  <th data-id="file" class="section-file" colspan="10"><%= t("rde.sections.file_version") %></th>
+  <th data-id="note" class="section-note" colspan="9"><%= t("rde.sections.notes") %></th>
 <% end %>
 
 <% define_template "rde_digital_object_component_headers" do |form| %>
-  <th id="colLabel" class="fieldset-label conditionally-required sticky" data-section="basic"><%= I18n.t("digital_object_component.label") %></th>
-  <th id="colTitle" class="fieldset-label conditionally-required sticky" data-section="basic"><%= I18n.t("digital_object_component.title") %></th>
-  <th id="colCompId" class="fieldset-label sticky" data-section="basic"><%= I18n.t("digital_object_component.component_id") %></th>
-  <th id="colPublish" class="fieldset-label sticky" data-section="basic"><%= I18n.t("digital_object_component.publish") %></th>
+  <th id="colLabel" class="fieldset-label conditionally-required sticky" data-section="basic"><%= t("digital_object_component.label") %></th>
+  <th id="colTitle" class="fieldset-label conditionally-required sticky" data-section="basic"><%= t("digital_object_component.title") %></th>
+  <th id="colCompId" class="fieldset-label sticky" data-section="basic"><%= t("digital_object_component.component_id") %></th>
+  <th id="colPublish" class="fieldset-label sticky" data-section="basic"><%= t("digital_object_component.publish") %></th>
 
-  <th id="colLanguage" class="fieldset-label sticky" data-section="language"><%= I18n.t("language_and_script.language") %></th>
-  <th id="colScript" class="fieldset-label sticky" data-section="language"><%= I18n.t("language_and_script.script") %></th>
+  <th id="colLanguage" class="fieldset-label sticky" data-section="language"><%= t("language_and_script.language") %></th>
+  <th id="colScript" class="fieldset-label sticky" data-section="language"><%= t("language_and_script.script") %></th>
 
-  <th id="colDLabel" class="fieldset-label sticky" data-section="date"><%= I18n.t("date.label") %></th>
-  <th id="colExpr" class="fieldset-label sticky" data-section="date"><%= I18n.t("date.expression") %></th>
-  <th id="colDType" class="fieldset-label sticky" data-section="date"><%= I18n.t("rde.date_type") %></th>
-  <th id="colDBegin" class="fieldset-label sticky" data-section="date"><%= I18n.t("date.begin") %></th>
-  <th id="colDEnd" class="fieldset-label sticky" data-section="date"><%= I18n.t("date.end") %></th>
+  <th id="colDLabel" class="fieldset-label sticky" data-section="date"><%= t("date.label") %></th>
+  <th id="colExpr" class="fieldset-label sticky" data-section="date"><%= t("date.expression") %></th>
+  <th id="colDType" class="fieldset-label sticky" data-section="date"><%= t("rde.date_type") %></th>
+  <th id="colDBegin" class="fieldset-label sticky" data-section="date"><%= t("date.begin") %></th>
+  <th id="colDEnd" class="fieldset-label sticky" data-section="date"><%= t("date.end") %></th>
 
-  <th id="colEPortion" class="fieldset-label sticky" data-section="extent"><%= I18n.t("extent.portion") %></th>
-  <th id="colENumber" class="fieldset-label sticky" data-section="extent"><%= I18n.t("extent.number") %></th>
-  <th id="colEType" class="fieldset-label sticky" data-section="extent"><%= I18n.t("extent.extent_type") %></th>
-  <th id="colEContainer" class="fieldset-label sticky" data-section="extent"><%= I18n.t("extent.container_summary") %></th>
-  <th id="colEPhysical" class="fieldset-label sticky" data-section="extent"><%= I18n.t("extent.physical_details") %></th>
-  <th id="colEDimensions" class="fieldset-label sticky" data-section="extent"><%= I18n.t("extent.dimensions") %></th>
+  <th id="colEPortion" class="fieldset-label sticky" data-section="extent"><%= t("extent.portion") %></th>
+  <th id="colENumber" class="fieldset-label sticky" data-section="extent"><%= t("extent.number") %></th>
+  <th id="colEType" class="fieldset-label sticky" data-section="extent"><%= t("extent.extent_type") %></th>
+  <th id="colEContainer" class="fieldset-label sticky" data-section="extent"><%= t("extent.container_summary") %></th>
+  <th id="colEPhysical" class="fieldset-label sticky" data-section="extent"><%= t("extent.physical_details") %></th>
+  <th id="colEDimensions" class="fieldset-label sticky" data-section="extent"><%= t("extent.dimensions") %></th>
 
-  <th id="colFUri" class="fieldset-label" data-section="file"><%= I18n.t("file_version.file_uri") %></th>
-  <th id="colFPublish" class="fieldset-label sticky" data-section="file"><%= I18n.t("file_version.publish") %></th>
-  <th id="colFUse" class="fieldset-label sticky" data-section="file"><%= I18n.t("file_version.use_statement") %></th>
-  <th id="colFActuate" class="fieldset-label sticky" data-section="file"><%= I18n.t("file_version.xlink_actuate_attribute") %></th>
-  <th id="colFShow" class="fieldset-label sticky" data-section="file"><%= I18n.t("file_version.xlink_show_attribute") %></th>
-  <th id="colFFormat" class="fieldset-label sticky" data-section="file"><%= I18n.t("file_version.file_format_name") %></th>
-  <th id="colFVersion" class="fieldset-label sticky" data-section="file"><%= I18n.t("file_version.file_format_version") %></th>
-  <th id="colFSize" class="fieldset-label" data-section="file"><%= I18n.t("file_version.file_size_bytes") %></th>
-  <th id="colFCSum" class="fieldset-label" data-section="file"><%= I18n.t("file_version.checksum") %></th>
-  <th id="colFCSumM" class="fieldset-label sticky" data-section="file"><%= I18n.t("file_version.checksum_method") %></th>
+  <th id="colFUri" class="fieldset-label" data-section="file"><%= t("file_version.file_uri") %></th>
+  <th id="colFPublish" class="fieldset-label sticky" data-section="file"><%= t("file_version.publish") %></th>
+  <th id="colFUse" class="fieldset-label sticky" data-section="file"><%= t("file_version.use_statement") %></th>
+  <th id="colFActuate" class="fieldset-label sticky" data-section="file"><%= t("file_version.xlink_actuate_attribute") %></th>
+  <th id="colFShow" class="fieldset-label sticky" data-section="file"><%= t("file_version.xlink_show_attribute") %></th>
+  <th id="colFFormat" class="fieldset-label sticky" data-section="file"><%= t("file_version.file_format_name") %></th>
+  <th id="colFVersion" class="fieldset-label sticky" data-section="file"><%= t("file_version.file_format_version") %></th>
+  <th id="colFSize" class="fieldset-label" data-section="file"><%= t("file_version.file_size_bytes") %></th>
+  <th id="colFCSum" class="fieldset-label" data-section="file"><%= t("file_version.checksum") %></th>
+  <th id="colFCSumM" class="fieldset-label sticky" data-section="file"><%= t("file_version.checksum_method") %></th>
 
-  <th id="colNType1" class="fieldset-label" data-section="note"><%= I18n.t("note._singular") %> 1</th>
-  <th id="colNLabel1" class="fieldset-label" data-section="note"><%= I18n.t("note_attributes.label") %> 1</th>
-  <th id="colNCont1" class="fieldset-label" data-section="note"><%= I18n.t("note_attributes.content") %> 1</th>
-  <th id="colNType2" class="fieldset-label" data-section="note"><%= I18n.t("note._singular") %> 2</th>
-  <th id="colNLabel2" class="fieldset-label" data-section="note"><%= I18n.t("note_attributes.label") %> 2</th>
-  <th id="colNCont2" class="fieldset-label" data-section="note"><%= I18n.t("note_attributes.content") %> 2</th>
-  <th id="colNType3" class="fieldset-label" data-section="note"><%= I18n.t("note._singular") %> 3</th>
-  <th id="colNLabel3" class="fieldset-label" data-section="note"><%= I18n.t("note_attributes.label") %> 3</th>
-  <th id="colNCont3" class="fieldset-label" data-section="note"><%= I18n.t("note_attributes.content") %> 3</th>
+  <th id="colNType1" class="fieldset-label" data-section="note"><%= t("note._singular") %> 1</th>
+  <th id="colNLabel1" class="fieldset-label" data-section="note"><%= t("note_attributes.label") %> 1</th>
+  <th id="colNCont1" class="fieldset-label" data-section="note"><%= t("note_attributes.content") %> 1</th>
+  <th id="colNType2" class="fieldset-label" data-section="note"><%= t("note._singular") %> 2</th>
+  <th id="colNLabel2" class="fieldset-label" data-section="note"><%= t("note_attributes.label") %> 2</th>
+  <th id="colNCont2" class="fieldset-label" data-section="note"><%= t("note_attributes.content") %> 2</th>
+  <th id="colNType3" class="fieldset-label" data-section="note"><%= t("note._singular") %> 3</th>
+  <th id="colNLabel3" class="fieldset-label" data-section="note"><%= t("note_attributes.label") %> 3</th>
+  <th id="colNCont3" class="fieldset-label" data-section="note"><%= t("note_attributes.content") %> 3</th>
 <% end %>
 
 <% define_template "rde_digital_object_component_cols" do |form| %>
@@ -98,7 +98,7 @@
       <span class="glyphicon glyphicon-ok valid"></span>
       <div class="error-summary">
         <div class="error-summary-header">
-          <span class="error-summary-header-text"><%= I18n.t("rde.messages.error_summary_header") %></span>
+          <span class="error-summary-header-text"><%= t("rde.messages.error_summary_header") %></span>
           <a href="javascript:void(0);" class="hide-error-summary"><span class='glyphicon glyphicon-chevron-up'></span></a>
           <a href="javascript:void(0);" class="show-error-summary"><span class='glyphicon glyphicon-chevron-down'></span></a>
         </div>

@@ -1,5 +1,5 @@
 <div class="form-group">
-  <div class="control-label col-sm-2"><%= I18n.t("file_version.file_uri") %></div>
+  <div class="control-label col-sm-2"><%= t("file_version.file_uri") %></div>
   <div class="controls label-only col-sm-8">
     <% if file_uri.respond_to?(:scheme) && FileEmbedHelper.supported_scheme?(file_uri.scheme) %>
   	<%= link_to file_uri.to_s, file_uri.to_s %>

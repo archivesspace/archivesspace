@@ -4,9 +4,9 @@
 
   if params.has_key?(:type) and not params[:type].blank?
     if params[:type].kind_of? String
-      title << " in #{I18n.t("#{params[:type]}._plural")}"
+      title << " in #{t("#{params[:type]}._plural")}"
     else # an array
-      title << " in #{params[:type].map{|t| I18n.t("#{t}._plural")}.join(",")}"
+      title << " in #{params[:type].map{|t| t("#{t}._plural")}.join(",")}"
     end
   end
 %>

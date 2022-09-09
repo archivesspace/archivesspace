@@ -45,7 +45,7 @@ class BatchDeleteController < ApplicationController
                                          })
 
     if response.code === "200"
-      flash[:success] = I18n.t("batch_delete.#{params[:action]}.success")
+      flash[:success] = t("batch_delete.#{params[:action]}.success")
       deleted_uri_param = params[:record_uris].map {|uri| "deleted_uri[]=#{uri}"}.join("&")
       redirect_to request.referrer.include?("?") ? "#{request.referrer}&#{deleted_uri_param}" : "#{request.referrer}?#{deleted_uri_param}"
     else
@@ -60,7 +60,7 @@ class BatchDeleteController < ApplicationController
         end
       end
 
-      error_title = I18n.t("batch_delete.#{params[:action]}.error")
+      error_title = t("batch_delete.#{params[:action]}.error")
       error_flash ||= ERB::Util.html_escape(response.body)
       flash[:error] = "#{error_title}<br/>#{error_flash}".html_safe
       redirect_to request.referrer
@@ -93,7 +93,7 @@ class BatchDeleteController < ApplicationController
         result += '<li>'
         result += "<a href=\"#{record_link}\">#{ERB::Util.html_escape(uri)}</a>"
         result += ' - '
-        result += ERB::Util.html_escape(I18n.t("errors.#{error}", :default => error))
+        result += ERB::Util.html_escape(t("errors.#{error}", :default => error))
         result += '</li>'
       end
 

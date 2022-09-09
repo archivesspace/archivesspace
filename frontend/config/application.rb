@@ -127,6 +127,7 @@ module ArchivesSpace
     #                               path =~ /archivesspace\/rde\.scss/ ||
     #                               path =~ /archivesspace\/largetree\.scss/)
     #                             end]
+
     if not ASUtils.find_local_directories.blank?
       ASUtils.find_local_directories.map {|local_dir| File.join(local_dir, 'frontend', 'assets')}.reject { |dir| !Dir.exist?(dir) }.each do |static_directory|
         config.assets.paths.unshift(static_directory)

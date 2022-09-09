@@ -3,7 +3,7 @@
 <% define_template("accession", jsonmodel_definition(:accession)) do |form| %>
   <section id="basic_information">
     <h3>
-      <%= I18n.t "accession._frontend.section.basic_information" %>
+      <%= t "accession._frontend.section.basic_information" %>
       <%= link_to_help :topic => "accession_basic_information" %>
     </h3>
     <fieldset>
@@ -68,6 +68,6 @@
 <%= form_plugins_for("accession", form) %>
 
 <div class="form-actions">
-  <button type="submit" class="btn btn-primary"><%= I18n.t("accession._frontend.action.save") %></button>
-  <%= link_to I18n.t("actions.cancel"), :back, :class => "btn btn-cancel btn-default" %>
+  <button type="submit" class="btn btn-primary"><%= t("accession._frontend.action.save") %></button>
+  <%= link_to t("actions.cancel"), :back, :class => "btn btn-cancel btn-default" %>
 </div>

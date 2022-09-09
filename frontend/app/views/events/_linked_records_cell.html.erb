@@ -1,5 +1,5 @@
 <% ASUtils.json_parse(record['json'])['linked_records'].each do |link| %>
 	<div>
-		<%= I18n.t("enumerations.linked_event_archival_record_roles.#{link['role']}", :default => link['role']) %>: <%= link['_resolved']['title'] %>
+		<%= t("enumerations.linked_event_archival_record_roles.#{link['role']}", :default => link['role']) %>: <%= link['_resolved']['title'] %>
 	</div>
 <% end %>

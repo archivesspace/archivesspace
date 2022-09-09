@@ -2,4 +2,11 @@
 //= link_directory ../javascripts .js
 //= link_directory ../stylesheets .scss
 //= link application.css
+//= link archivesspace/largetree.css
+//= link archivesspace/rde.css
+//= link_tree ../../../vendor/assets/fonts
 //= link_directory ../../../vendor/assets/javascripts
+//= link_tree ../stylesheets/themes .scss
+//= link codemirror/util/simple-hint.js
+//= link tablesorter/jquery.tablesorter.min.js
+//= link largetree.js

@@ -10,13 +10,13 @@
         <%= render_aspace_partial :partial => "shared/toolbar_new_records" %>
         <div class="record-pane">
           <%= link_to_help :topic => "top_container" %>
-          <h2><%= I18n.t("actions.new_prefix") %> <%= I18n.t("top_container._singular") %> <span class="label label-info"><%= I18n.t("top_container._singular") %></span></h2>
+          <h2><%= t("actions.new_prefix") %> <%= t("top_container._singular") %> <span class="label label-info"><%= t("top_container._singular") %></span></h2>
 
           <%= render_aspace_partial :partial => "form", :locals => {:form => form} %>
 
           <div class="form-actions">
-            <button type="submit" class="btn btn-primary"><%= I18n.t("top_container._frontend.action.save") %></button>
-            <%= link_to I18n.t("actions.cancel"), :back, :class => "btn btn-cancel btn-default" %>
+            <button type="submit" class="btn btn-primary"><%= t("top_container._frontend.action.save") %></button>
+            <%= link_to t("actions.cancel"), :back, :class => "btn btn-cancel btn-default" %>
           </div>
 
         </div>
