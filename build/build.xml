@@ -459,7 +459,7 @@
     </antcall>
   </target>
 
-    <target name="bundle:public:update" depends="set-classpath"  description="Bundle just the public interface">
+  <target name="bundle:public:update" depends="set-classpath"  description="Bundle just the public interface">
     <antcall target="bundler:update">
       <param name="gemfile" value="../public/Gemfile" />
     </antcall>

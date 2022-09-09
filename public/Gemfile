@@ -50,13 +50,16 @@ gem 'listen', group: :development
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
+group :development do
+  gem 'web-console'
+end
+
 group :development, :test do
   gem 'pry'
   gem 'pry-nav'
   gem 'pry-rails'
   gem 'pry-debugger-jruby'
   gem 'mizuno-aspace'
-  gem 'web-console'
 end
 
 group :test do
