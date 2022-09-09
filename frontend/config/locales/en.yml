@@ -730,12 +730,12 @@ en:
     component_links: Linked Components
     _frontend:
       messages:
-        created: Accession <strong>%{accession_display_string}</strong> created
-        unsuppressed: Accession <strong>%{accession_display_string}</strong> unsuppressed
-        updated: Accession <strong>%{accession_display_string}</strong> updated
-        suppressed: Accession <strong>%{accession_display_string}</strong> suppressed
+        created: Accession <strong>%{accession_title}</strong> created
+        unsuppressed: Accession <strong>%{accession_title}</strong> unsuppressed
+        updated: Accession <strong>%{accession_title}</strong> updated
+        suppressed: Accession <strong>%{accession_title}</strong> suppressed
         suppressed_info: Accession is suppressed and cannot be edited
-        deleted: Accession <strong>%{accession_display_string}</strong> deleted
+        deleted: Accession <strong>%{accession_title}</strong> deleted
         transfer_description: Transfer this accession to...
         transfer_target: Select a repository to transfer into
         spawned: "This Accession has been spawned from Accession <strong>%{accession_display_string}</strong>. This record is unsaved. You must click Save for the record to be created in the system."
@@ -828,21 +828,21 @@ en:
     new_title: New Archival Object
     _frontend:
       messages:
-        created: Archival Object <strong>%{archival_object_display_string}</strong> on Resource <strong>%{resource_title}</strong> created
-        created_with_parent: Archival Object <strong>%{archival_object_display_string}</strong> created as child of <strong>%{parent_display_string}</strong> on Resource <strong>%{resource_title}</strong>
-        updated: Archival Object <strong>%{archival_object_display_string}</strong> updated
-        updated_with_parent: Archival Object <strong>%{archival_object_display_string}</strong> updated
+        created: Archival Object <strong>%{archival_object_title}</strong> on Resource <strong>%{resource_title}</strong> created
+        created_with_parent: Archival Object <strong>%{archival_object_title}</strong> created as child of <strong>%{parent_title}</strong> on Resource <strong>%{resource_title}</strong>
+        updated: Archival Object <strong>%{archival_object_title}</strong> updated
+        updated_with_parent: Archival Object <strong>%{archival_object_title}</strong> updated
         please_select_a_resource_for_transfer: Please choose a Resource
-        transfer_success: Successfully transferred Archival Object <strong>%{archival_object_display_string}</strong> to Resource <strong>%{resource_title}</strong>
+        transfer_success: Successfully transferred Archival Object <strong>%{archival_object_title}</strong> to Resource <strong>%{resource_title}</strong>
         transfer_error: "Unable to transfer Archival Object due to an error or conflict: <pre>%{exception}</pre>"
-        deleted: "Archival Object <strong>%{archival_object_display_string}</strong> deleted"
+        deleted: "Archival Object <strong>%{archival_object_title}</strong> deleted"
         published: "The Archival Object <strong>%{archival_object_title}</strong>, its children, subrecords and components have been published"
         unpublished: "The Archival Object <strong>%{archival_object_title}</strong>, its children, subrecords and components have been unpublished"
         unsuppressed: Archival Object <strong>%{archival_object_title}</strong> unsuppressed
         suppressed: Archival Object <strong>%{archival_object_title}</strong> suppressed
         suppressed_info: Archival Object is suppressed and cannot be edited
         has_unpublished_ancestor: Please be aware this record has an ancestor that is unpublished.
-        spawned: "This Archival Object has been spawned from Accession <strong>%{accession_display_string}</strong>. This record is unsaved. You must click Save for the record to be created in the system."
+        spawned: "This Archival Object has been spawned from Accession <strong>%{accession_title}</strong>. This record is unsaved. You must click Save for the record to be created in the system."
         delete_conflict: "Archival Object could not be deleted: <pre>%{error}</pre>"
         spawn_placeholder: "<em>Spawned component will be inserted here</em>"
         spawn_menu_before: Insert spawned component before
@@ -986,13 +986,13 @@ en:
   digital_object_component:
     _frontend:
       messages:
-        created_with_parent: Digital Object Component <strong>%{digital_object_component_display_string}</strong> created as child of <strong>%{parent_display_string}</strong> on Digital Object <strong>%{digital_object_title}</strong>
-        created: Digital Object Component <strong>%{digital_object_component_display_string}</strong> created on Digital Object <strong>%{digital_object_title}</strong>
-        updated_with_parent: Digital Object Component <strong>%{digital_object_component_display_string}</strong> updated
-        updated: Digital Object Component <strong>%{digital_object_component_display_string}</strong> updated
-        deleted: Digital Object Component <strong>%{digital_object_component_display_string}</strong> deleted
-        unsuppressed: Digital Object Component <strong>%{digital_object_component_display_string}</strong> unsuppressed
-        suppressed: Digital Object Component <strong>%{digital_object_component_display_string}</strong> suppressed
+        created_with_parent: Digital Object Component <strong>%{digital_object_component_title}</strong> created as child of <strong>%{parent_title}</strong> on Digital Object <strong>%{digital_object_title}</strong>
+        created: Digital Object Component <strong>%{digital_object_component_title}</strong> created on Digital Object <strong>%{digital_object_title}</strong>
+        updated_with_parent: Digital Object Component <strong>%{digital_object_component_title}</strong> updated
+        updated: Digital Object Component <strong>%{digital_object_component_title}</strong> updated
+        deleted: Digital Object Component <strong>%{digital_object_component_title}</strong> deleted
+        unsuppressed: Digital Object Component <strong>%{digital_object_component_title}</strong> unsuppressed
+        suppressed: Digital Object Component <strong>%{digital_object_component_title}</strong> suppressed
         suppressed_info: Digital Object Component is suppressed and cannot be edited
         has_unpublished_ancestor: Please be aware this record has an ancestor that is unpublished.
       section:
