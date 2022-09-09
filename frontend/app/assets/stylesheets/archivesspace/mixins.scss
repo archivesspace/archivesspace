@@ -80,15 +80,9 @@
   transition: transform $transition;
 }
 
-// Box Shadow
-@mixin box-shadow($shadow...) {
-  -webkit-box-shadow: $shadow; // iOS <4.3 & Android <4.1
-          box-shadow: $shadow;
-}
 // END bootstrap related mixins from 3.4.1
 
-@mixin icon($fontFamily: 'Glyphicons Halflings')
-{
+@mixin icon($fontFamily: 'Glyphicons Halflings') {
   font-family: $fontFamily;
   float: left;
   @include opacity(75);

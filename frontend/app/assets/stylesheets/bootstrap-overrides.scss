@@ -1,6 +1,6 @@
 // overrides to bring frontend custom styles into alignment after bootstrap upgrade
-@import url("//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css");
-@import "bootstrap/functions";
+@import url('//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css');
+@import 'bootstrap/functions';
 @import 'bootstrap/variables';
 @import 'bootstrap/mixins';
 
@@ -24,35 +24,36 @@ body {
 .alert-info {
   background-color: #d9edf7;
   color: #31708f;
-  border-color: darken(adjust-hue(#d9edf7, -10), 7%)
+  border-color: darken(adjust-hue(#d9edf7, -10), 7%);
 }
 
 .alert-success {
   background-color: #dff0d8;
   color: #3c763d;
-  border-color: darken(adjust-hue(#dff0d8, -10), 7%)
+  border-color: darken(adjust-hue(#dff0d8, -10), 7%);
 }
 
 .alert-warning {
   background-color: #fcf8e3;
   color: #8a6d3b;
-  border-color: darken(adjust-hue(#fcf8e3, -10), 7%)
+  border-color: darken(adjust-hue(#fcf8e3, -10), 7%);
 }
 
 .alert-danger {
   background-color: #f2dede;
   color: #a94442;
-  border-color: darken(adjust-hue(#f2dede, -10), 7%)
+  border-color: darken(adjust-hue(#f2dede, -10), 7%);
 }
 
 .dropdown-toggle {
   color: #595959;
 }
 .dropdown-item {
-  &:active, &.active {
+  &:active,
+  &.active {
     background-color: $gray-200;
   }
-    a {
+  a {
     color: #595959;
     padding: 0;
   }

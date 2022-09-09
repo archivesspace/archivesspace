@@ -23,7 +23,7 @@
   border-bottom: 1px solid #efefef;
   border-top: 1px solid #efefef;
   font-size: smaller;
-  @include box-shadow(0 1px 0 rgba(0,0,0,0.065));
+  @include box-shadow(0 1px 0 rgba(0, 0, 0, 0.065));
 
   .row {
     padding-bottom: 10px;

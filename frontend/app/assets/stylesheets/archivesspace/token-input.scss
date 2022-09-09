@@ -74,7 +74,13 @@ li.token-input-token {
   height: auto !important;
   height: 1%;
   margin: 0 4px 4px 0;
-  @include gradient-y($start-color: #005980, $end-color: #0081bd, $start-percent: 0%, $end-percent: 100%);
+  @include gradient-y(
+    $start-color: #005980,
+    $end-color: #0081bd,
+    $start-percent: 0%,
+    $end-percent: 100%
+  );
+
   border: 1px solid #99defd;
   padding: 2px;
   color: #fff;
