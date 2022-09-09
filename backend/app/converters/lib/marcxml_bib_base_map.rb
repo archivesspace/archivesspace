@@ -271,6 +271,7 @@ module MarcXMLBibBaseMap
       "subfield[@code='s']" => adds_prefixed_qualifier('Version'),
       "subfield[@code='t']" => adds_prefixed_qualifier('Title of work'),
       "subfield[@code='u']" => adds_prefixed_qualifier('Affiliation'),
+      "@ind1" => sets_jurisdiction_from_ind1,
     }
   end
 
@@ -494,6 +495,16 @@ module MarcXMLBibBaseMap
     }
   end
 
+  def sets_jurisdiction_from_ind1
+    -> name, node {
+      name['jurisdiction'] = case node.value
+                             when '1'
+                               true
+                             when '0'
+                               false
+                             end
+    }
+  end
 
   def sets_name_order_from_ind1
     -> name, node {
@@ -505,7 +516,6 @@ module MarcXMLBibBaseMap
                            end
     }
   end
-
 
   def sets_name_source_from_code
     -> name, node {

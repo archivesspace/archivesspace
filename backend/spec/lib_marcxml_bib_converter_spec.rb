@@ -129,6 +129,15 @@ describe 'MARCXML Bib converter' do
       end
     end
 
+    it "sets jurisdiction = true based on ind1" do
+      @corps.each do |c|
+        c['names'].each do |n|
+          expect(n['jurisdiction']).to eq(true)
+        end
+      end
+    end
+
+
 
     describe "MARC import mappings" do
 
