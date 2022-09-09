@@ -93,7 +93,7 @@
     dropdownItem: 'token-input-dropdown-item',
     dropdownItem2: 'token-input-dropdown-item2',
     selectedDropdownItem: 'token-input-selected-dropdown-item',
-    inputToken: 'token-input-input-token',
+    inputToken: 'token-input-input-token d-flex align-items-center',
     focused: 'token-input-focused',
     disabled: 'token-input-disabled',
   };

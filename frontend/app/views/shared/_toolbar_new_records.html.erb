@@ -1,13 +1,12 @@
-<div class="record-toolbar">
-  <div class="pull-left save-changes">
+<div class="record-toolbar d-flex align-items-center">
+  <div class="save-changes">
     <button type="submit" class="btn btn-primary btn-sm"><%= t("actions.save_prefix") %></button>
   </div>
   <% if controller_name == "agents" && full_mode? %>
-    <div class="btn-toolbar pull-right">
+    <div class="btn-toolbar ml-auto">
       <div class="btn-group">
         <%= render_aspace_partial :partial => "shared/lightmode_toggle", :locals => {:type => 'agents'} %>
       </div>
     </div>
   <% end %>
-  <br style="clear:both" />
 </div>

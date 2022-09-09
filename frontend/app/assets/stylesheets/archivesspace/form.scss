@@ -262,7 +262,7 @@ form .form-group {
       @include vertical(#f3f3f3, #ededed);
     }
 
-    padding-left: 10px;
+    padding: 0 10px;
     min-height: 1.4em;
     margin: 0;
     border-bottom: 1px solid #ddd;
@@ -315,7 +315,6 @@ form .form-group {
 
     .subrecord-form-removal-confirmation,
     .subrecord-form-remove {
-      margin: 6px 6px 0 0;
       .btn-group .btn {
         z-index: 10;
       }
@@ -396,7 +395,7 @@ ul.subrecord-form-list {
   }
   .drag-handle {
     position: absolute;
-    left: 5px;
+    left: 1%;
     top: 5px;
     height: 30px;
     width: 30px;
@@ -750,6 +749,10 @@ label {
   }
   .form-actions {
     margin: 0;
+  }
+
+  &:hover {
+    display: block;
   }
 }
 

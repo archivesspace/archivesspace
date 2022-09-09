@@ -35,7 +35,7 @@
 
 <section id="<%= section_id %>" class="<%= section_classes.reject(&:blank?).join(' ') %><% if required == :conditionally %> conditionally-required<% elsif required %> required<% end %>" data-subrecord-form="true" data-object-name="<%= singular %>" data-template="<%= js_template_name %>" <% if custom_action_template %>data-custom-action="true"<% end %> data-cardinality="<%= cardinality %>" <% if remove_disabled %>data-remove="disabled" <% end %>>
   <% unless hidden %>
-  <<%= heading_size %> class="subrecord-form-heading">
+  <<%= heading_size %> class="subrecord-form-heading d-flex py-2">
     <%= wrap_with_tooltip(heading_text, "#{form.i18n_for(name)}_tooltip", "subrecord-form-heading-label") %>
 
     <% if !form.readonly? %>
@@ -43,7 +43,7 @@
      <% if custom_action_template %>
        <%= render :partial => custom_action_template %>
      <% else %>
-       <button class="btn btn-sm btn-default pull-right"><%= t("#{i18n_prefix}#{action_button_override}._frontend.action.add") %></button>
+       <button class="btn btn-sm btn-default float-right bg-white border mt-1 mr-1"><%= t("#{i18n_prefix}#{action_button_override}._frontend.action.add") %></button>
      <% end %>
     <% end %>
 

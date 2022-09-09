@@ -1,114 +1,25 @@
-<%= setup_context(:object => @top_container, :title => @top_container.display_string) %>
-
-<div class="row">
-  <div class="col-md-3">
-    <%= render_aspace_partial :partial => "sidebar" %>
-  </div>
-  <div class="col-md-9">
-    <%= render_aspace_partial :partial => "toolbar" %>
-    <div class="record-pane">
-      <section id="basic_information">
-      <%= readonly_context :top_container, @top_container do |readonly| %>
-        <h2><%= @top_container.display_string %> <span class="label label-info"><%= t("top_container._singular") %></span></h2>
-
-        <%= render_aspace_partial :partial => "shared/flash_messages" %>
-
-        <% define_template "top_container", jsonmodel_definition(:top_container) do |form| %>
-
-          <%= render_plugin_partials("top_of_basic_information_top_container",
-                                     :form => form,
-                                     :record => @top_container) %>
-
-          <% if @top_container.container_profile %>
-            <div class="form-group token-list">
-                <label class="control-label col-sm-2"><%= t("container_profile._singular") %></label>
-                <div class="controls col-sm-8">
-                    <%= render_token :object => @top_container["container_profile"]["_resolved"],
-                    :label => @top_container["container_profile"]["_resolved"]["name"],
-                    :type => "container_profile",
-                    :uri => @top_container["container_profile"]["ref"] %>
-                </div>
-            </div>
-          <% end %>
-
-          <%= readonly.label_and_textarea "type" %>
-          <%= readonly.label_and_textarea "indicator" %>
-
-          <%= readonly.label_and_textarea "barcode" %>
-
-          <%= readonly.label_and_textarea "ils_holding_id" %>
-          <%= readonly.label_and_textarea "ils_item_id" %>
-          <%= readonly.label_and_textarea "exported_to_ils", :default => t("top_container.not_exported") %>
-
-          <%= render_plugin_partials("basic_information_top_container",
-                                     :form => readonly,
-                                     :record => @top_container) %>
-
-
-          <% if @top_container["container_locations"].length > 0 %>
-            <hr>
-            <section id="container_locations">
-              <%= render_aspace_partial :partial => "container_locations/show", :locals => { :container_locations => @top_container["container_locations"]} %>
-            </section>
-          <% end %>
-
-          <section id="rights_restrictions">
-            <h3 class="subrecord-form-heading"><%= t("top_container._frontend.section.active_restrictions") %></h3>
-            <% if @top_container["active_restrictions"].length > 0 %>
-              <table class="table table-bordered table-striped">
-                <thead>
-                  <tr>
-                    <th><%= t("rights_restriction.linked_records") %></th>
-                    <th><%= t("rights_restriction.restriction_note_type") %></th>
-                    <th><%= t("rights_restriction.begin") %></th>
-                    <th><%= t("rights_restriction.end") %></th>
-                    <th><%= t("rights_restriction.local_access_restriction_type") %></th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <% @top_container["active_restrictions"].each do |restriction| %>
-                    <tr>
-                      <td>
-                        <div class="token-list">
-                          <%= render_token :object => restriction["linked_records"]["_resolved"],
-                                        :label => restriction["linked_records"]["_resolved"]["title"],
-                                        :type => restriction["linked_records"]["_resolved"]["jsonmodel_type"],
-                                        :uri => restriction["linked_records"]["ref"] %>
-                        </div>
-                      </td>
-                      <td><%= t("enumerations.note_multipart_type.#{restriction["restriction_note_type"]}", restriction["restriction_note_type"]) %></td>
-                      <td><%= restriction["begin"] %></td>
-                      <td><%= restriction["end"] %></td>
-                      <td>
-                        <ul>
-                          <% Array.wrap(restriction["local_access_restriction_type"]).
-                              map{|type| t("enumerations.restriction_type.#{type}",type)}.
-                              sort.each do |type| %>
-                            <li><%= type %></li>
-                          <% end %>
-                        </ul>
-                      </td>
-                    </tr>
-                  <% end %>
-                </tbody>
-              </table>
-            <% else %>
-              <div class="alert alert-info"><%= t("top_container._frontend.messages.no_active_restrictions") %></div>
-            <% end %>
-          </section>
-
-          <%= render_aspace_partial :partial => "search/embedded", :locals => {:record => @top_container, :section_id => "container_contents", :filter_term => {"top_container_uri_u_sstr" => @top_container.uri}.to_json, :heading_text => t("location._frontend.section.search_embedded")} %>
-
-          <%= show_plugins_for(@top_container, readonly) %>
-
-          <hr>
-          <%= display_audit_info(@top_container) %>
-        <% end %>
-
-        <% readonly.emit_template("top_container") %>
+<div class="record-toolbar bulk-operation-toolbar d-flex align-items-center">
+  <div class="btn-toolbar ml-auto">
+    <%= link_to I18n.t("actions.export_csv"), request.parameters.merge({ :format => :csv, :fields =>
+        fields }), class: "searchExport btn btn-sm btn-info ml-auto" %>
+    <div class="bulk-actions ml-auto" class="btn-group">
+      <% if user_can?('manage_container_record') %>
+      <a class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown" href="#">
+        <%= I18n.t("top_container._frontend.bulk_operations.title") %>
+        <span class="caret"></span>
+      </a>
+      <ul class="dropdown-menu ml-auto">
+        <li><a id="bulkActionUpdateIlsHolding" href="javascript:void(0)"><%= I18n.t("top_container._frontend.bulk_operations.update_ils_holding_ids")%></a></li>
+        <li><a id="bulkActionUpdateContainerProfile" href="javascript:void(0)"><%= I18n.t("top_container._frontend.bulk_operations.update_container_profiles")%></a></li>
+        <li><a id="bulkActionUpdateLocation" href="javascript:void(0)"><%= I18n.t("top_container._frontend.bulk_operations.update_locations_singular")%></a></li>
+        <li><a id="bulkActionUpdateMultipleLocation" href="javascript:void(0)"><%= I18n.t("top_container._frontend.bulk_operations.update_locations_multiple")%></a></li>
+        <li><a id="showBulkActionRapidBarcodeEntry" href="javascript:void(0);"><%= I18n.t("top_container._frontend.bulk_operations.rapid_barcode_entry")%></a></li>
+        <li><a id="showBulkActionRapidIndicatorEntry" href="javascript:void(0);"><%= I18n.t("top_container._frontend.bulk_operations.rapid_indicator_entry")%></a></li>
+        <li><a id="bulkActionMerge" href="javascript:void(0)"><%= I18n.t("top_container._frontend.bulk_operations.batch_merge")%></a></li>
+        <li><a id="bulkActionDelete" href="javascript:void(0)"><span class="text-error"><%= I18n.t("top_container._frontend.bulk_operations.batch_delete")%></a></li>
+      </ul>
       <% end %>
     </div>
   </div>
+  <div class="clearfix"></div>
 </div>
-
-<%= javascript_include_tag("embedded_search") %>

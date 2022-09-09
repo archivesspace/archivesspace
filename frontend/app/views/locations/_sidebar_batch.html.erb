@@ -31,7 +31,7 @@
 
       <div class="btn-group <% if ["new", "create", "batch_create"].include?(controller.action_name) %>btn-submit-group<% end %>">
         <% unless @is_batch_update %>
-          <button type="button" class="btn preview-locations" style="width: 90%;"><%= t("location_batch._frontend.action.preview_short") %></button>
+          <button type="button" class="btn preview-locations border bg-white" style="width: 90%;"><%= I18n.t("location_batch._frontend.action.preview_short") %></button>
         <% end %>
       </div>
     </li>

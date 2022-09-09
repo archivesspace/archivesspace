@@ -1,20 +1,10 @@
-.lcnaf-result .alert button { 
-  position: relative;
-  top: -7px;
-}
-
-.lcnaf-result .alert-success {
-  position: relative;
-  top: -16px;
-}
-
-
 .lcnaf-marc { 
     height: 200px;
     overflow: auto;
     margin-top: 1em; 
     margin-bottom: 1em;
-    border: 1px solid #ccc; // fallback for IE7-8
+    border: 1px solid #ccc;
+    /* fallback for IE7-8 */
     border: 1px solid rgba(0,0,0,.15);
 }
 

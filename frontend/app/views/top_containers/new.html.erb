@@ -1,41 +1,25 @@
-<%= setup_context(:object => @top_container, :controller => :top_containers, :type => :top_container) %>
-
-<%= form_for @top_container, :as => "top_container", :url => {:controller => :top_containers, :action => :create}, :html => {:class => 'form-horizontal aspace-record-form', :id => "new_top_container_form"} do |f| %>
-  <%= form_context :top_container, @top_container do |form| %>
-    <div class="row">
-      <div class="col-md-3">
-        <%= render_aspace_partial :partial => "sidebar" %>
-      </div>
-      <div class="col-md-9">
-        <%= render_aspace_partial :partial => "shared/toolbar_new_records" %>
-        <div class="record-pane">
-          <%= link_to_help :topic => "top_container" %>
-          <h2><%= t("actions.new_prefix") %> <%= t("top_container._singular") %> <span class="label label-info"><%= t("top_container._singular") %></span></h2>
-
-          <%= render_aspace_partial :partial => "form", :locals => {:form => form} %>
-
-          <div class="form-actions">
-            <button type="submit" class="btn btn-primary"><%= t("top_container._frontend.action.save") %></button>
-            <%= link_to t("actions.cancel"), :back, :class => "btn btn-cancel btn-default" %>
-          </div>
-
-        </div>
-      </div>
+<div class="record-toolbar bulk-operation-toolbar d-flex align-items-center">
+  <div class="btn-toolbar ml-auto">
+    <%= link_to I18n.t("actions.export_csv"), request.parameters.merge({ :format => :csv, :fields =>
+        fields }), class: "searchExport btn btn-sm btn-info ml-auto" %>
+    <div class="bulk-actions ml-auto" class="btn-group">
+      <% if user_can?('manage_container_record') %>
+      <a class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown" href="#">
+        <%= I18n.t("top_container._frontend.bulk_operations.title") %>
+        <span class="caret"></span>
+      </a>
+      <ul class="dropdown-menu ml-auto">
+        <li><a id="bulkActionUpdateIlsHolding" href="javascript:void(0)"><%= I18n.t("top_container._frontend.bulk_operations.update_ils_holding_ids")%></a></li>
+        <li><a id="bulkActionUpdateContainerProfile" href="javascript:void(0)"><%= I18n.t("top_container._frontend.bulk_operations.update_container_profiles")%></a></li>
+        <li><a id="bulkActionUpdateLocation" href="javascript:void(0)"><%= I18n.t("top_container._frontend.bulk_operations.update_locations_singular")%></a></li>
+        <li><a id="bulkActionUpdateMultipleLocation" href="javascript:void(0)"><%= I18n.t("top_container._frontend.bulk_operations.update_locations_multiple")%></a></li>
+        <li><a id="showBulkActionRapidBarcodeEntry" href="javascript:void(0);"><%= I18n.t("top_container._frontend.bulk_operations.rapid_barcode_entry")%></a></li>
+        <li><a id="showBulkActionRapidIndicatorEntry" href="javascript:void(0);"><%= I18n.t("top_container._frontend.bulk_operations.rapid_indicator_entry")%></a></li>
+        <li><a id="bulkActionMerge" href="javascript:void(0)"><%= I18n.t("top_container._frontend.bulk_operations.batch_merge")%></a></li>
+        <li><a id="bulkActionDelete" href="javascript:void(0)"><span class="text-error"><%= I18n.t("top_container._frontend.bulk_operations.batch_delete")%></a></li>
+      </ul>
+      <% end %>
     </div>
-  <% end %>
-<% end %>
-
-<%= javascript_include_tag("form.js") %>
-<script>
-  $(function() {
-        $(".linker:not(.initialised)", $("#new_top_container")).linker();
-
-  });
-</script>
-<%= javascript_include_tag("subrecord.crud") %>
-<%= javascript_include_tag("form") %>
-<script>
-  $(function() {
-      $(document).trigger("loadedrecordsubforms.aspace", [$("#new_top_container_form")]);
-  });
-</script>
+  </div>
+  <div class="clearfix"></div>
+</div>

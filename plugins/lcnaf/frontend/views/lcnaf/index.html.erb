@@ -6,7 +6,7 @@
 
     <%= render_aspace_partial :partial => "shared/flash_messages" %>
 
-    <%= form_tag({:controller => :lcnaf, :action => :search}, {:id => "lcnaf_search", :class => "form-search", :method => "GET"}) do |form| %>
+    <%= form_tag({:controller => :lcnaf, :action => :search}, {:id => "lcnaf_search", :class => "form-search mb-5", :method => "GET"}) do |form| %>
 
     <div class='control-group form-group required'>
       <fieldset>
@@ -82,10 +82,10 @@
     <div class="row">
       <div class="col-md-12">
         <div class='alert alert-info'>${record.title}
-          <span class="pull-right alert alert-success hide"><%= I18n.t("plugins.lcnaf.messages.selected") %></span>
-          <button class="pull-right btn btn-default hide select-record" data-lccn="${record.lccn}"><%= I18n.t("plugins.lcnaf.actions.select") %></button>
-          <button class="pull-right btn btn-default hide show-record" ><%= I18n.t("plugins.lcnaf.actions.show_record") %></button>
-          <div class="col-md-12 lcnaf-marc hide"><pre><code>${record.xml|h}</code></pre></div> 
+          <span class="float-right alert alert-success btn-sm d-none"><%= I18n.t("plugins.lcnaf.messages.selected") %></span>
+          <button class="float-right btn btn-default d-none bg-white border mx-1 select-record" data-lccn="${record.lccn}"><%= I18n.t("plugins.lcnaf.actions.select") %></button>
+          <button class="float-right btn btn-default d-none bg-white border show-record mx-1" ><%= I18n.t("plugins.lcnaf.actions.show_record") %></button>
+          <div class="col-md-12 lcnaf-marc d-none"><pre><code>${record.xml|h}</code></pre></div> 
         </div> 
       </div>   
     </div>

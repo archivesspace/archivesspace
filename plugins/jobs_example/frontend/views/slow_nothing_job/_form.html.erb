@@ -1,5 +1,5 @@
 <%# This gives an example of how to apply javascript to a custom background job form %>
-<%= javascript_include_tag "#{AppConfig[:frontend_prefix]}assets/javascripts/slow_nothing.js" %>
+<%= javascript_include_tag "#{AppConfig[:frontend_proxy_prefix]}assets/javascripts/slow_nothing.js" %>
 
 <%= form.label_and_boolean "multiple", :checked => true %>
 <%= form.label_and_textfield "times" %>

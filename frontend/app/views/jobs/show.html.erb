@@ -10,7 +10,7 @@
     <%= render_aspace_partial :partial => "toolbar" %>
     <div class="record-pane">
       <%= readonly_context :job, @job do |readonly| %>
-        <h2><%= t("#{@job['job_type']}._singular", :default => @job["job_type"]) %> [<%= @job.id %>] <span class="label label-info"><%= t("job._singular") %></span></h2>
+        <h2><%= I18n.t("#{@job['job_type']}._singular", :default => @job["job_type"]) %> [<%= @job.id %>] <span class="label label-info badge"><%= I18n.t("job._singular") %></span></h2>
 
         <%= render_aspace_partial :partial => "shared/flash_messages" %>
 

@@ -183,8 +183,8 @@
           <option value="empty" {if query.empty}selected{/if}><%= t("advanced_search.text_operator.empty") %></option>
         </select>
       </div>
-      <div class="input-group-addon search-value">
-        <label for="v${index}"><%= t "advanced_search.search_text" %></label>
+      <div class="input-group-addon search-value ml-4">
+        <label for="v${index}"><%= I18n.t "advanced_search.search_text" %></label>
         <%= text_field_tag "v${index}", "${query.value}", :id => "v${index}", :class => 'form-control', :onkeydown => "return processKey(event)" %>
       </div>
     </div>
@@ -210,8 +210,8 @@
           <% end %>
         </select>
       </div>
-      <div class="input-group-addon search-value">
-        <label for="v${index}"><%= t "advanced_search.search_date" %></label>
+      <div class="input-group-addon search-value ml-4">
+        <label for="v${index}"><%= I18n.t "advanced_search.search_date" %></label>
                                                     <%= text_field_tag "v${index}", "${query.value}", :id => "v${index}", :class => "date-field form-control", :"data-format" => "yyyy-mm-dd", :"data-date" => Date.today.strftime('%Y-%m-%d'), :"data-label" => t("actions.date_picker_toggle"), :"data-force-parse" => false %>
       </div>
     </div>

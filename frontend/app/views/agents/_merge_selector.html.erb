@@ -1,9 +1,11 @@
 <%= setup_context :object => @agent, :controller => :agents,  :agent_type => @agent.agent_type, :title => "#{t("actions.merge")} #{t("agent.agent_type.#{@agent.agent_type}")}" %>
 
-<div class="form-actions row">
-  <button type="button" class="btn preview-merge"><%= t("agent._frontend.action.preview") %></button>
-  <button type="button" class="btn btn-primary do-merge"><%= t("actions.merge") %></button>
-  <%= link_to t("actions.cancel"), {:controller => :agents, :action => :show, :id => @agent.id}, :class => "btn btn-cancel btn-default pull-right" %>
+<div class="form-actions row mb-3">
+  <div class='col d-flex'>
+    <button type="button" class="btn preview-merge btn bg-white border mr-2"><%= t("agent._frontend.action.preview") %></button>
+    <button type="button" class="btn btn-primary do-merge"><%= t("actions.merge") %></button>
+    <%= link_to t("actions.cancel"), {:controller => :agents, :action => :show, :id => @agent.id}, :class => "btn btn-cancel btn-default ml-auto bg-white border" %>
+  </div>
 </div>
 <div id="merge-selector-root" class="row">
   <div class="col-md-6">
@@ -11,8 +13,8 @@
     <div class="record-pane">
       <%= form_for @agent, :as => "agent", :url => {:action => :merge_detail}, :html => {:class => 'form-horizontal aspace-record-form', :id => "agent_form"} do |f| %>
         <%= form_context :agent, @agent do |form| %>
-          <div id="title_left">
-            <h2 class="merge-group"><%= @agent.title %>  <span class="label label-info"><%= t("agent._singular") %></span></h2>
+          <div id="title_left" class="pb-1">
+            <h2 class="merge-group"><%= @agent.title %>  <span class="label label-info badge"><%= t("agent._singular") %></span></h2>
           </div>
 
           <%= render_aspace_partial :partial => "shared/flash_messages" %>
@@ -235,7 +237,7 @@
         <%= form_context :agent, @victim do |form| %>
           <input type='hidden' name='victim_uri' value='<%= @victim.uri %>' />
           <div id='title_right'>
-            <h2 class="merge-group"><%= @victim.title %><span class="label label-info"><%= t("agent._singular") %></span></h2>
+            <h2 class="merge-group"><%= @victim.title %><span class="label label-info badge"><%= t("agent._singular") %></span></h2>
           </div>
 
           <%= render_aspace_partial :partial => "shared/flash_messages" %>
@@ -446,8 +448,8 @@
     </div>
   </div>
 </div>
-<div class="form-actions row">
+<div class="form-actions row p-3">
   <button type="button" class="btn preview-merge"><%= t("agent._frontend.action.preview") %></button>
   <button type="button" class="btn btn-primary do-merge"><%= t("actions.merge") %></button>
-  <%= link_to t("actions.cancel"), {:controller => :agents, :action => :show, :id => @agent.id}, :class => "btn btn-cancel btn-default pull-right" %>
+  <%= link_to t("actions.cancel"), {:controller => :agents, :action => :show, :id => @agent.id}, :class => "btn btn-cancel btn-default pull-right ml-auto border bg-white" %>
 </div>

@@ -21,9 +21,9 @@
     <%= link_to_help :topic => "#{form['jsonmodel_type']}_notes" %>
 
     <% if show_apply_note_order_action %>
-      <button class="btn btn-sm btn-default pull-right apply-note-order" disabled="disabled"><%= t("note._frontend.action.apply_note_order") %></button>
+      <button class="btn btn-sm btn-default float-right border bg-white mx-1 mt-1 apply-note-order" disabled="disabled"><%= I18n.t("note._frontend.action.apply_note_order") %></button>
     <% end %>
-    <button class="btn btn-sm btn-default pull-right add-note"><%= t(add_button_text) %></button>
+    <button class="btn btn-sm btn-default float-right border bg-white mx-1 mt-1 add-note"><%= I18n.t(add_button_text) %></button>
 
   </<%= header_size%>>
   <div class="subrecord-form-container mixed-content-anchor">

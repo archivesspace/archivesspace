@@ -5,8 +5,8 @@
   end
 %>
 
-<div id="archivesSpaceSidebar" class="sidebar">
-  <ul role='tablist' class="nav list-group as-nav-list">
+<div id="archivesSpaceSidebar" class="sidebar d-flex">
+  <ul role='tablist' class="nav list-group as-nav-list position-fixed">
     <% if @exceptions %>
       <li class="<% if @exceptions.has_key?(:errors)%>alert-danger<% end %>">
         <a href="#form_messages"><%= t("errors.sidebar_label") %>  <span class="glyphicon glyphicon-chevron-right"></span></a>

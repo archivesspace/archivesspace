@@ -1,23 +1,23 @@
 <% if user_can?('update_subject_record') %>
-  <div class="record-toolbar">
+  <div class="record-toolbar d-flex align-items-center">
     <% if ['new', 'create', 'edit', 'update'].include?(controller.action_name) %>
-      <div class="pull-left save-changes">
-        <button type="submit" class="btn btn-primary btn-sm"><%= t("actions.save_prefix") %></button>
+      <div class="save-changes">
+        <button type="submit" class="btn btn-primary btn-sm"><%= I18n.t("actions.save_prefix") %></button>
       </div>
     <% else %>
-      <div class="btn-group pull-left">
-        <%= link_to t("actions.edit"), {:controller => :subjects, :action => :edit, :id => @subject.id}, :class => "btn btn-sm btn-primary" %>
+      <div class="btn-group mr-auto">
+        <%= link_to I18n.t("actions.edit"), {:controller => :subjects, :action => :edit, :id => @subject.id}, :class => "btn btn-sm btn-primary" %>
       </div>
     <% end %>
 
     <% if ['edit', 'update'].include?(controller.action_name) %>
-      <div class="pull-left revert-changes">
-        <%= link_to t("actions.revert"), {:controller => :subjects, :action => :edit, :id => @subject.id}, :class => "btn btn-sm btn-default" %>
-        <%= t("actions.toolbar_disabled_message") %>
+      <div class="revert-changes">
+        <%= link_to I18n.t("actions.revert"), {:controller => :subjects, :action => :edit, :id => @subject.id}, :class => "btn btn-sm btn-default bg-white border" %>
+        <%= I18n.t("actions.toolbar_disabled_message") %>
       </div>
     <% end %>
 
-    <div class="btn-group btn-toolbar pull-right">
+    <div class="btn-group btn-toolbar ml-auto align-items-center bg-white border rounded">
       <% if user_can?('merge_subject_record') %>
         <%=
         render_aspace_partial :partial => "shared/merge_dropdown",

@@ -8,7 +8,7 @@
     <%= render_aspace_partial :partial => "toolbar" %>
     <div class="record-pane">
      <%= readonly_context :subject, @subject do |readonly| %>
-      <h2><%= @subject.title %>  <span class="label label-info"><%= t("subject._singular") %></span></h2>
+      <h2><%= @subject.title %>  <span class="badge badge-info label"><%= I18n.t("subject._singular") %></span></h2>
 
       <%= render_aspace_partial :partial => "shared/flash_messages" %>
 

@@ -37,7 +37,7 @@ a img {
 }
 
 #content {
-  margin: 0 rem-calc(30);
+  padding: rem-calc(40);
 }
 
 .panel-footer {
@@ -94,7 +94,6 @@ a img {
 
 .more-facets {
   .btn {
-    padding-left: 20px;
     color: $accent-color;
   }
   .below-the-fold {
@@ -161,7 +160,7 @@ a img {
   }
   .navbar-nav {
     > li {
-      > a {
+      > a.nav-link {
         color: $nvColDefault;
         font-size: 1rem !important;
         &:hover,
@@ -172,18 +171,18 @@ a img {
       }
     }
     > .active {
-      > a,
-      > a:hover,
-      > a:focus {
+      > a.nav-link,
+      > a.nav-link:hover,
+      > a.nav-link:focus {
         color: $nvColHighlight;
         background-color: $nvBgHighlight;
         text-decoration: underline;
       }
     }
     > .open {
-      > a,
-      > a:hover,
-      > a:focus {
+      > a.nav-link,
+      > a.nav-link:hover,
+      > a.nav-link:focus {
         color: $nvColHighlight;
         background-color: $nvBgHighlight;
         text-decoration: underline;
@@ -203,14 +202,6 @@ a img {
   .navbar-collapse,
   .navbar-form {
     border-color: $nvColDefault;
-  }
-  .navbar-link {
-    color: $nvColDefault;
-    font-size: 1rem !important;
-    &:hover {
-      color: $nvColHighlight;
-      text-decoration: underline;
-    }
   }
 }
 @media (max-width: 767px) {
@@ -275,10 +266,6 @@ a img {
 }
 
 #whats-in-container {
-  margin-top: rem-calc(20);
-  padding-bottom: rem-calc(20);
-  padding-left: rem-calc(20);
-  margin-bottom: rem-calc(10);
   border: 1px solid $border;
   > h3 {
     margin-top: 0;
@@ -437,9 +424,9 @@ h1,
 
 /* we want to shrink the font size of h1 in smaller sizes */
 
-@media (max-width: $screen-xs-max) {
-  h1,
-  .h1 {
+h1,
+.h1 {
+  @include media-breakpoint-down(sm) {
     font-size: rem-calc(22);
   }
 }
@@ -483,6 +470,10 @@ h5,
   > [class*='column'] + [class*='column']:last-child {
     float: none;
   }
+}
+
+.navbar-toggler {
+  border: 0;
 }
 
 .spacer {
@@ -803,7 +794,7 @@ span.title {
 
 span.required {
   font-variant: small-caps;
-  color: $alert-warning-text;
+  color: darken($warning, 60%);
 }
 .keywordscontext {
   .content {
@@ -862,35 +853,6 @@ span.head {
 #sidebar form {
   max-width: 85%;
   margin: 0 auto;
-}
-
-#sidebar .year_from {
-  padding: 0;
-  padding-right: 0.2rem;
-}
-
-#sidebar .year_to {
-  padding: 0;
-  padding-left: 0.2rem;
-}
-
-.filter_more form {
-  max-width: 90%;
-  margin: 0 auto;
-}
-
-.filter_more .year_from {
-  padding: 0;
-  padding-right: 0.2rem;
-}
-
-.filter_more .year_to {
-  padding: 0;
-  padding-left: 0.2rem;
-}
-
-.sorter {
-  margin-top: 20px;
 }
 
 .panel-heading {

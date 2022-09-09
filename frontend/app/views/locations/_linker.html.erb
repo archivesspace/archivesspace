@@ -61,7 +61,7 @@
               <% end %>
               <li><a href="javascript:void(0);" class="linker-browse-btn"><%= t("actions.browse") %></a></li>
               <% if user_can?('update_location_record') && !hide_create %>
-                <li><a href="javascript:void(0);" data-target="<%= url_for :controller => :locations, :action => :new, :inline => true %>" class="linker-create-btn"><%= t("actions.create") %></a></li>
+                <li><a href="javascript:void(0);" data-target="<%= url_for :controller => :locations, :action => :new, :inline => true %>" class="linker-create-btn dropdown-item"><%= I18n.t("actions.create") %></a></li>
               <% end %>
             </ul>
           </div>
