@@ -4,7 +4,7 @@
   name = "" if name.nil?
   singular = name.singularize if singular.blank?
   i18n_prefix = plugin ? 'plugins.' : ''
-  heading_text = I18n.t("#{i18n_prefix}#{singular}._plural") if heading_text.blank?
+  heading_text = t("#{i18n_prefix}#{singular}._plural") if heading_text.blank?
 
   # Allow multiple subjects to be linked if it's an empty linker
   multiplicity = "many" if multiplicity.blank?
@@ -25,7 +25,7 @@
   term_type_filter = "" if term_type_filter.blank?
 
   if !defined?(linker_label)
-    linker_label = (multiplicity === "many") ? I18n.t("subject._plural") : I18n.t("subject._singular")
+    linker_label = (multiplicity === "many") ? t("subject._plural") : t("subject._singular")
   end
 
   # ANW-429: For certain forms, we want to restrict the list of subjects to certain term types. This URL-encoded URL snippet gets appended to the generated URL so that the query used to generate terms to browse is limited to that scope.
@@ -65,10 +65,10 @@
             aria-autocomplete="both"
             aria-controls="<%= form.id_for(data_name) %>_listbox"
             aria-labelledby="<%= form.id_for(data_name) %>_label"
-            data-label_create="<%= I18n.t("subject.linker.create") %>"
-            data-label_browse="<%= I18n.t("subject.linker.browse") %>"
-            data-label_link="<%= I18n.t("linker.link") %>"
-            data-label_create_and_link="<%= I18n.t("linker.create_and_link") %>"
+            data-label_create="<%= t("subject.linker.create") %>"
+            data-label_browse="<%= t("subject.linker.browse") %>"
+            data-label_link="<%= t("linker.link") %>"
+            data-label_create_and_link="<%= t("linker.create_and_link") %>"
             data-path="<%= data_path %>"
             data-name="<%= data_name %>"
             data-url="<%= data_url %>"

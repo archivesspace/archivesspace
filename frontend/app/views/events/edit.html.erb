@@ -1,5 +1,5 @@
 <%
-  record_title = "#{I18n.t("enumerations.event_event_type.#{@event.event_type}")} (#{@event.id})"
+  record_title = "#{t("enumerations.event_event_type.#{@event.event_type}")} (#{@event.id})"
 %>
 
 <%= setup_context :object => @event, :title => record_title %>
@@ -18,8 +18,8 @@
 
           <%= render_aspace_partial :partial => "events/form", :locals => {:form => form} %>
           <div class="form-actions">
-            <button type="submit" class="btn btn-primary"><%= I18n.t("event._frontend.action.save") %></button>
-            <%= link_to I18n.t("actions.cancel"), :back, :class => "btn btn-cancel btn-default" %>
+            <button type="submit" class="btn btn-primary"><%= t("event._frontend.action.save") %></button>
+            <%= link_to t("actions.cancel"), :back, :class => "btn btn-cancel btn-default" %>
           </div>
         </div>
       </div>

@@ -2,14 +2,14 @@
   <% if user_can?('update_container_profile_record') %>
     <% if !['edit', 'update', 'new', 'create'].include?(controller.action_name) %>
       <div class="btn-group">
-        <%= link_to I18n.t("actions.edit"), {:controller => :container_profiles, :action => :edit, :id => @container_profile.id}, :class => "btn btn-sm btn-primary" %>
+        <%= link_to t("actions.edit"), {:controller => :container_profiles, :action => :edit, :id => @container_profile.id}, :class => "btn btn-sm btn-primary" %>
       </div>
     <% end %>
     <% if !['new', 'create'].include?(controller.action_name) %>
       <div class="btn-toolbar ml-auto">
         <div class="btn-group">
           <div class="btn btn-inline-form">
-            <%= button_delete_action url_for(:controller => :container_profiles, :action => :delete, :id => @container_profile.id ), { :"data-title" => I18n.t("actions.delete_confirm_title", :title => @container_profile.name) } unless @container_profile.id.nil? %>
+            <%= button_delete_action url_for(:controller => :container_profiles, :action => :delete, :id => @container_profile.id ), { :"data-title" => t("actions.delete_confirm_title", :title => @container_profile.name) } unless @container_profile.id.nil? %>
           </div>
         </div>
       </div>
@@ -20,10 +20,10 @@
         <div class="btn-group">
           <button id="showSpaceCalculator" class="btn btn-sm btn-default bg-white border mx-1"
                   data-calculator-url="<%= url_for :controller => :space_calculator, :action => :show, :inline => true %>"
-                  data-modal-content="<%= I18n.t("space_calculator.modal_loading") %>"
+                  data-modal-content="<%= t("space_calculator.modal_loading") %>"
                   data-selectable="false"
                   data-container-profile-uri="<%= @container_profile.uri %>">
-            <%=  I18n.t("container_profile._frontend.action.space_calculator") %>
+            <%=  t("container_profile._frontend.action.space_calculator") %>
           </button>
         </div>
       </div>

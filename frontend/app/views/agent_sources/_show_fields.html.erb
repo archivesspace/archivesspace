@@ -1,6 +1,6 @@
 <div class='form-group'>
   <div class='control-label col-sm-2'>
-  	<%= I18n.t("agent_sources.source_entry") %>
+  	<%= t("agent_sources.source_entry") %>
   </div>
   <div class='label-only col-sm-8'>
   	<%= agent_source["source_entry"] %>
@@ -9,7 +9,7 @@
 
 <div class='form-group'>
   <div class='control-label col-sm-2'>
-    <%= I18n.t("agent_sources.descriptive_note") %>
+    <%= t("agent_sources.descriptive_note") %>
   </div>
   <div class='label-only col-sm-8'>
     <% if agent_source['descriptive_note'] %>
@@ -20,7 +20,7 @@
 
 <div class='form-group'>
   <div class='control-label col-sm-2'>
-    <%= I18n.t("agent_sources.file_uri") %>
+    <%= t("agent_sources.file_uri") %>
   </div>
   <div class='label-only col-sm-8'>
     <% if agent_source['file_uri'] %>
@@ -31,26 +31,26 @@
 
 <div class='form-group'>
   <div class='control-label col-sm-2'>
-    <%= I18n.t("agent_sources.file_version_xlink_actuate_attribute") %>
+    <%= t("agent_sources.file_version_xlink_actuate_attribute") %>
   </div>
   <div class='label-only col-sm-8'>
-    <%= I18n.t("enumerations.file_version_xlink_actuate_attribute.#{agent_source['file_version_xlink_actuate_attribute']}", :default => agent_source['file_version_xlink_actuate_attribute']) if agent_source['file_version_xlink_actuate_attribute'] %>
+    <%= t("enumerations.file_version_xlink_actuate_attribute.#{agent_source['file_version_xlink_actuate_attribute']}", :default => agent_source['file_version_xlink_actuate_attribute']) if agent_source['file_version_xlink_actuate_attribute'] %>
   </div>
 </div>
 
 <div class='form-group'>
   <div class='control-label col-sm-2'>
-    <%= I18n.t("agent_sources.file_version_xlink_show_attribute") %>
+    <%= t("agent_sources.file_version_xlink_show_attribute") %>
   </div>
   <div class='label-only col-sm-8'>
-    <%= I18n.t("enumerations.file_version_xlink_show_attribute.#{agent_source['file_version_xlink_show_attribute']}", :default => agent_source['file_version_xlink_show_attribute']) if agent_source['file_version_xlink_show_attribute'] %>
+    <%= t("enumerations.file_version_xlink_show_attribute.#{agent_source['file_version_xlink_show_attribute']}", :default => agent_source['file_version_xlink_show_attribute']) if agent_source['file_version_xlink_show_attribute'] %>
   </div>
 </div>
 
 
 <div class='form-group'>
   <div class='control-label col-sm-2'>
-    <%= I18n.t("agent_sources.xlink_title_attribute") %>
+    <%= t("agent_sources.xlink_title_attribute") %>
   </div>
   <div class='label-only col-sm-8'>
     <% if agent_source['xlink_title_attribute'] %>
@@ -61,7 +61,7 @@
 
 <div class='form-group'>
   <div class='control-label col-sm-2'>
-    <%= I18n.t("agent_sources.xlink_role_attribute") %>
+    <%= t("agent_sources.xlink_role_attribute") %>
   </div>
   <div class='label-only col-sm-8'>
     <% if agent_source['xlink_role_attribute'] %>
@@ -72,7 +72,7 @@
 
 <div class='form-group'>
   <div class='control-label col-sm-2'>
-    <%= I18n.t("agent_sources.xlink_arcrole_attribute") %>
+    <%= t("agent_sources.xlink_arcrole_attribute") %>
   </div>
   <div class='label-only col-sm-8'>
     <% if agent_source['xlink_arcrole_attribute'] %>
@@ -83,7 +83,7 @@
 
 <div class='form-group'>
   <div class='control-label col-sm-2'>
-    <%= I18n.t("agent_sources.last_verified_date") %>
+    <%= t("agent_sources.last_verified_date") %>
   </div>
   <div class='label-only col-sm-8'>
     <% if agent_source['last_verified_date'] %>

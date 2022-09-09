@@ -1,11 +1,11 @@
 <% if !record['langcode'].nil? && record['langcode'].length > 1 %>
 	<ul style="padding-left: 20px;">
 		<% record['langcode'].each do |langcode| %>
-			<li><%= "#{I18n.t("enumerations.language_iso639_2.#{langcode}", :default => langcode)}" %></li>
+			<li><%= "#{t("enumerations.language_iso639_2.#{langcode}", :default => langcode)}" %></li>
 		<% end %>
 	</ul>
 <% else %>
 	<% (record['langcode'] || []).each do |langcode| %>
-		<%= "#{I18n.t("enumerations.language_iso639_2.#{langcode}", :default => langcode)}" %>
+		<%= "#{t("enumerations.language_iso639_2.#{langcode}", :default => langcode)}" %>
 	<% end %>
 <% end %>

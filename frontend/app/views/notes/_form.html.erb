@@ -17,7 +17,7 @@
          class="subrecord-form notes-form <%= "note-inline" if inline? %>"
          <%= "data-template=template_#{nested_note_jsonmodel}_note_type_selector_inline" if nested_note_jsonmodel %>>
   <<%= header_size%> class="subrecord-form-heading">
-    <%= wrap_with_tooltip(I18n.t("note._plural"), "#{form.i18n_for('notes')}_tooltip", "subrecord-form-heading-label") %>
+    <%= wrap_with_tooltip(t("note._plural"), "#{form.i18n_for('notes')}_tooltip", "subrecord-form-heading-label") %>
     <%= link_to_help :topic => "#{form['jsonmodel_type']}_notes" %>
 
     <% if show_apply_note_order_action %>

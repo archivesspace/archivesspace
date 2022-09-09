@@ -1,4 +1,4 @@
-<%= setup_context(:title => I18n.t("agent._plural")) %>
+<%= setup_context(:title => t("agent._plural")) %>
 
 <div class="row">
   <div class="col-md-3">
@@ -13,39 +13,39 @@
           <% if user_can?('manage_repository') %>
             <div class="btn-group border-right">
               <a class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown" href="javascript:void(0);">
-                <%= I18n.t("actions.edit_required_fields") %>
+                <%= t("actions.edit_required_fields") %>
               </a>
               <ul class="dropdown-menu">
-                <li class="dropdown-item"><%= link_to I18n.t("agent_person._singular"), {:controller => :agents, :action => :required, :agent_type => :agent_person} %></li>
-                <li class="dropdown-item"><%= link_to I18n.t("agent_family._singular"), {:controller => :agents, :action => :required, :agent_type => :agent_family} %></li>
-                <li class="dropdown-item"><%= link_to I18n.t("agent_corporate_entity._singular"), {:controller => :agents, :action => :required, :agent_type => :agent_corporate_entity} %></li>
-                <li class="dropdown-item"><%= link_to I18n.t("agent_software._singular"), {:controller => :agents, :action => :required, :agent_type => :agent_software} %></li>
+                <li class="dropdown-item"><%= link_to t("agent_person._singular"), {:controller => :agents, :action => :required, :agent_type => :agent_person} %></li>
+                <li class="dropdown-item"><%= link_to t("agent_family._singular"), {:controller => :agents, :action => :required, :agent_type => :agent_family} %></li>
+                <li class="dropdown-item"><%= link_to t("agent_corporate_entity._singular"), {:controller => :agents, :action => :required, :agent_type => :agent_corporate_entity} %></li>
+                <li class="dropdown-item"><%= link_to t("agent_software._singular"), {:controller => :agents, :action => :required, :agent_type => :agent_software} %></li>
 
               </ul>
             </div>
             <div class="btn-group">
               <a class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown" href="javascript:void(0);">
-                <%= I18n.t("actions.edit_default_values") %>
+                <%= t("actions.edit_default_values") %>
               </a>
               <ul class="dropdown-menu">
-                <li class="dropdown-item"><%= link_to I18n.t("agent_person._singular"), {:controller => :agents, :action => :defaults, :agent_type => :agent_person} %></li>
-                <li class="dropdown-item"><%= link_to I18n.t("agent_family._singular"), {:controller => :agents, :action => :defaults, :agent_type => :agent_family} %></li>
-                <li class="dropdown-item"><%= link_to I18n.t("agent_corporate_entity._singular"), {:controller => :agents, :action => :defaults, :agent_type => :agent_corporate_entity} %></li>
-                <li class="dropdown-item"><%= link_to I18n.t("agent_software._singular"), {:controller => :agents, :action => :defaults, :agent_type => :agent_software} %></li>
+                <li class="dropdown-item"><%= link_to t("agent_person._singular"), {:controller => :agents, :action => :defaults, :agent_type => :agent_person} %></li>
+                <li class="dropdown-item"><%= link_to t("agent_family._singular"), {:controller => :agents, :action => :defaults, :agent_type => :agent_family} %></li>
+                <li class="dropdown-item"><%= link_to t("agent_corporate_entity._singular"), {:controller => :agents, :action => :defaults, :agent_type => :agent_corporate_entity} %></li>
+                <li class="dropdown-item"><%= link_to t("agent_software._singular"), {:controller => :agents, :action => :defaults, :agent_type => :agent_software} %></li>
               </ul>
             </div>
           <% end %>
 
           <div class="btn-group">
-            <%= link_to I18n.t("actions.export_csv"), request.parameters.merge({ :format => :csv, :fields => fields}), id: "searchExport",  class:  "btn btn-sm btn-info" %>
+            <%= link_to t("actions.export_csv"), request.parameters.merge({ :format => :csv, :fields => fields}), id: "searchExport",  class:  "btn btn-sm btn-info" %>
             <a class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown" href="#">
-              <%= I18n.t("agent._frontend.action.create") %>
+              <%= t("agent._frontend.action.create") %>
             </a>
             <ul class="dropdown-menu">
-              <li class="dropdown-item"><%= link_to I18n.t("agent_person._singular"), :controller => :agents, :action => :new, :agent_type => :agent_person %></li>
-              <li class="dropdown-item"><%= link_to I18n.t("agent_family._singular"), :controller => :agents, :action => :new, :agent_type => :agent_family %></li>
-              <li class="dropdown-item"><%= link_to I18n.t("agent_corporate_entity._singular"), :controller => :agents, :action => :new, :agent_type => :agent_corporate_entity %></li>
-              <li class="dropdown-item"><%= link_to I18n.t("agent_software._singular"), :controller => :agents, :action => :new, :agent_type => :agent_software %></li>
+              <li class="dropdown-item"><%= link_to t("agent_person._singular"), :controller => :agents, :action => :new, :agent_type => :agent_person %></li>
+              <li class="dropdown-item"><%= link_to t("agent_family._singular"), :controller => :agents, :action => :new, :agent_type => :agent_family %></li>
+              <li class="dropdown-item"><%= link_to t("agent_corporate_entity._singular"), :controller => :agents, :action => :new, :agent_type => :agent_corporate_entity %></li>
+              <li class="dropdown-item"><%= link_to t("agent_software._singular"), :controller => :agents, :action => :new, :agent_type => :agent_software %></li>
             </ul>
           </div>
 
@@ -54,14 +54,14 @@
           <% end %>
           <%# if user_can?('merge_agent_record') %>
             <%#=
-               button_confirm_action(I18n.t("actions.merge"),
+               button_confirm_action(t("actions.merge"),
                 url_for({:controller => :agents, :action => :merge}),
                   {
                     :class => "btn btn-sm btn-default merge-button multiselect-enabled",
                     :"data-multiselect" => "#tabledSearchResults",
-                    :"data-title" => "#{I18n.t("actions.merge_from_browse_confirm_title")}",
-                    :"data-message" => "#{I18n.t("actions.merge_agent_from_browse_confirm_message")}",
-                    :"data-confirm-btn-label" => "#{I18n.t("actions.merge")}",
+                    :"data-title" => "#{t("actions.merge_from_browse_confirm_title")}",
+                    :"data-message" => "#{t("actions.merge_agent_from_browse_confirm_message")}",
+                    :"data-confirm-btn-label" => "#{t("actions.merge")}",
                     :"data-confirm-btn-class" => "btn btn-default"
                   })
             %>
@@ -73,7 +73,7 @@
     <div class="record-pane">
       <%= link_to_help :topic => "search" %>
 
-      <h2><%= I18n.t("agent._plural") %></h2>
+      <h2><%= t("agent._plural") %></h2>
 
       <%= render_aspace_partial :partial => "shared/flash_messages" %>
 

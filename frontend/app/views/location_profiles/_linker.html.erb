@@ -17,7 +17,7 @@
   <label class="control-label col-sm-2"
          id="<%= form.id_for("ref") %>_label"
          for="<%= form.id_for("ref") %>">
-    <%= I18n.t("location_profile._singular") %>
+    <%= t("location_profile._singular") %>
   </label>
   <div class="controls col-sm-8">
     <div class="input-group linker-wrapper"
@@ -29,10 +29,10 @@
              aria-autocomplete="both"
              aria-controls="<%= form.id_for("ref") %>_listbox"
              aria-labelledby="<%= form.id_for("ref") %>_label"
-             data-label_create="<%= I18n.t("location_profile.linker.create") %>"
-             data-label_browse="<%= I18n.t("location_profile.linker.browse") %>"
-             data-label_link="<%= I18n.t("linker.link") %>"
-             data-label_create_and_link="<%= I18n.t("linker.create_and_link") %>"
+             data-label_create="<%= t("location_profile.linker.create") %>"
+             data-label_browse="<%= t("location_profile.linker.browse") %>"
+             data-label_link="<%= t("linker.link") %>"
+             data-label_create_and_link="<%= t("linker.create_and_link") %>"
              data-name="ref"
              data-path="<%= form.path %>"
              data-url="<%= url_for :controller => :location_profiles, :action => :typeahead, :format => :json %>"
@@ -43,12 +43,12 @@
              data-exclude='<%= exclude_ids.to_json %>'
       />
       <div class="input-group-btn">
-        <a class="btn btn-default dropdown-toggle last border-dark border-left-0 d-flex align-items-center" data-toggle="dropdown" href="javascript:void(0);" aria-label="<%= I18n.t("location_profile.linker.link_title") %>"><span class="caret"></span></a>
+        <a class="btn btn-default dropdown-toggle last border-dark border-left-0 d-flex align-items-center" data-toggle="dropdown" href="javascript:void(0);" aria-label="<%= t("location_profile.linker.link_title") %>"><span class="caret"></span></a>
         <ul class="dropdown-menu">
-          <li><a href="javascript:void(0);" class="linker-browse-btn dropdown-item"><%= I18n.t("actions.browse") %></a></li>
+          <li><a href="javascript:void(0);" class="linker-browse-btn dropdown-item"><%= t("actions.browse") %></a></li>
           <% if allow_create && user_can?('update_location_profile_record') %>
             <li>
-              <a data-target="<%= url_for :controller => :location_profiles, :action => :new, :inline => true %>" class="linker-create-btn dropdown-item"><%= I18n.t("actions.create") %></a>
+              <a data-target="<%= url_for :controller => :location_profiles, :action => :new, :inline => true %>" class="linker-create-btn dropdown-item"><%= t("actions.create") %></a>
             </li>
           <% end %>
         </ul>

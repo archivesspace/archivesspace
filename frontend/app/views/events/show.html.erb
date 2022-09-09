@@ -1,5 +1,5 @@
 <%
-  record_title = "#{I18n.t("enumerations.event_event_type.#{@event.event_type}")} (#{@event.id})"
+  record_title = "#{t("enumerations.event_event_type.#{@event.event_type}")} (#{@event.id})"
 %>
 
 <%= setup_context :object => @event, :title => record_title %>

@@ -1,4 +1,4 @@
-<%= setup_context :object => @digital_object_component, :type => :digital_object_component, :title => I18n.t("actions.defaults") %>
+<%= setup_context :object => @digital_object_component, :type => :digital_object_component, :title => t("actions.defaults") %>
 
 <div id="object_container">
   <%= form_for @digital_object_component, :as => "digital_object_component", :url => {:action => :update_defaults}, :html => {:class => 'form-horizontal aspace-record-form'} do |f| %>
@@ -13,8 +13,8 @@
              <%= render_aspace_partial :partial => "digital_object_components/form_container", :locals => {:form => form} %>
 
              <div class="form-actions">
-               <button type="submit" class="btn btn-primary"><%= I18n.t("digital_object_component._frontend.action.save") %></button>
-                <%= link_to I18n.t("actions.cancel"), :back, :class => "btn btn-cancel btn-default" %>
+               <button type="submit" class="btn btn-primary"><%= t("digital_object_component._frontend.action.save") %></button>
+                <%= link_to t("actions.cancel"), :back, :class => "btn btn-cancel btn-default" %>
              </div>
            </div>
          </div>

@@ -2,7 +2,7 @@
    <div class="col-md-12">
       <ol class="breadcrumb">
          <li class="breadcrumb-item">
-            <%= link_to I18n.t("breadcrumb.home"), :controller => :welcome, :action => :index %>
+            <%= link_to t("breadcrumb.home"), :controller => :welcome, :action => :index %>
          </li>
          <% trail.each_with_index do |crumb, i| %>
             <% if i < trail.length - 1%>         

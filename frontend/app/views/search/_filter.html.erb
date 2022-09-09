@@ -39,16 +39,16 @@
     <% end %>
     <div class="input-group w-100">
       <label for="filter-text" class="sr-only">Filter by text</label>
-      <input class="text-filter-field form-control" type="text" placeholder="<%= I18n.t("search_results.text_placeholder") %>" name="q" value="<%= params[:q] %>" id="filter-text"/>
+      <input class="text-filter-field form-control" type="text" placeholder="<%= t("search_results.text_placeholder") %>" name="q" value="<%= params[:q] %>" id="filter-text"/>
       <div class="input-group-btn">
-        <button class="btn btn-default" title="<%= I18n.t("search_results.text_placeholder") %>" aria-label="<%= I18n.t("search_results.text_placeholder") %>"><span class="glyphicon glyphicon-search"></span></button>
+        <button class="btn btn-default" title="<%= t("search_results.text_placeholder") %>" aria-label="<%= t("search_results.text_placeholder") %>"><span class="glyphicon glyphicon-search"></span></button>
       </div>
     </div>
   <% end %>
 <% end %>
 
 <% @search_data.facets_for_filter.each do |facet_group, facets| %>
-  <h3><%= I18n.t("search.#{@search_data.get_type}.#{facet_group}", :default => I18n.t("search.multi.#{facet_group}", :default => facet_group)) %></h3>
+  <h3><%= t("search.#{@search_data.get_type}.#{facet_group}", :default => t("search.multi.#{facet_group}", :default => facet_group)) %></h3>
   <ul>
     <% facets.each do |facet, facet_map| %>
       <li class="facet">

@@ -5,9 +5,12 @@ require 'rails_helper'
 
 describe 'Default Form Values', js: true do
   before(:all) do
-    @repo = create(:repo, repo_code: "default_values_test_#{Time.now.to_i}")
+    @repo = create(:repo, repo_code: "default_values_test_#{Time.now.to_i}", publish: true)
     @archivist_user = create_user(@repo => ['repository-archivists'])
+    set_repo(@repo)
+  end
 
+  before(:each) do
     login_admin
 
     visit('/preferences/0/edit?repo=true')
@@ -16,10 +19,7 @@ describe 'Default Form Values', js: true do
 
     expect(page).to have_checked_field('preference[defaults][default_values]')
     expect(page).to have_content('Preferences updated')
-  end
 
-  before(:each) do
-    login_admin
     select_repository(@repo)
   end
 
