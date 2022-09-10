@@ -51,8 +51,8 @@ class DigitalObjectComponentsController < ApplicationController
                   parent = @digital_object_component['parent']? @digital_object_component['parent']['_resolved'] : false
                   
                   flash[:success] = @digital_object_component.parent ?
-                    t("digital_object_component._frontend.messages.created_with_parent", digital_object_component_title: @digital_object_component.title, digital_object_title: digital_object['title'], parent_title: parent['title']) :
-                    t("digital_object_component._frontend.messages.created", digital_object_component_title: @digital_object_component.title, digital_object_title: digital_object['title'])
+                    t("digital_object_component._frontend.messages.created_with_parent", digital_object_component_display_string: @digital_object_component.title, digital_object_title: digital_object['title'], parent_display_string: parent['title']) :
+                    t("digital_object_component._frontend.messages.created", digital_object_component_display_string: @digital_object_component.title, digital_object_title: digital_object['title'])
                     
                   if @digital_object_component["is_slug_auto"] == false &&
                      @digital_object_component["slug"] == nil &&
@@ -80,8 +80,8 @@ class DigitalObjectComponentsController < ApplicationController
                 :on_valid => ->(id) {
                  
                   flash.now[:success] = parent ?
-                    t("digital_object_component._frontend.messages.updated_with_parent", digital_object_component_title: @digital_object_component.title) :
-                    t("digital_object_component._frontend.messages.updated", digital_object_component_title: @digital_object_component.title)
+                    t("digital_object_component._frontend.messages.updated_with_parent", digital_object_component_display_string: @digital_object_component.title) :
+                    t("digital_object_component._frontend.messages.updated", digital_object_component_display_string: @digital_object_component.title)
                   if @digital_object_component["is_slug_auto"] == false &&
                      @digital_object_component["slug"] == nil &&
                      params["digital_object_component"] &&
@@ -114,7 +114,7 @@ class DigitalObjectComponentsController < ApplicationController
     digital_object_component = JSONModel(:digital_object_component).find(params[:id])
     digital_object_component.delete
 
-    flash[:success] = t("digital_object_component._frontend.messages.deleted", digital_object_component_title: digital_object_component.title) 
+    flash[:success] = t("digital_object_component._frontend.messages.deleted", digital_object_component_display_string: digital_object_component.title) 
 
     resolver = Resolver.new(digital_object_component['digital_object']['ref'])
     redirect_to resolver.view_uri
@@ -232,7 +232,7 @@ class DigitalObjectComponentsController < ApplicationController
     digital_object_component = JSONModel(:digital_object_component).find(params[:id])
     digital_object_component.set_suppressed(true)
 
-    flash[:success] = t("digital_object_component._frontend.messages.suppressed", digital_object_component_title: digital_object_component.title) 
+    flash[:success] = t("digital_object_component._frontend.messages.suppressed", digital_object_component_display_string: digital_object_component.title) 
     redirect_to(:controller => :digital_objects, :action => :show, :id => JSONModel(:digital_object).id_for(digital_object_component['digital_object']['ref']), :anchor => "tree::digital_object_component_#{params[:id]}")
   end
 
@@ -241,7 +241,7 @@ class DigitalObjectComponentsController < ApplicationController
     digital_object_component = JSONModel(:digital_object_component).find(params[:id])
     digital_object_component.set_suppressed(false)
 
-    flash[:success] = t("digital_object_component._frontend.messages.unsuppressed", digital_object_component_title: digital_object_component.title) 
+    flash[:success] = t("digital_object_component._frontend.messages.unsuppressed", digital_object_component_display_string: digital_object_component.title) 
     redirect_to(:controller => :digital_objects, :action => :show, :id => JSONModel(:digital_object).id_for(digital_object_component['digital_object']['ref']), :anchor => "tree::digital_object_component_#{params[:id]}")
   end
 
