@@ -56,7 +56,7 @@ class RepositoriesController < ApplicationController
 
                   return render :json => @repository.to_hash if inline?
 
-                  flash[:success] = t("repository._frontend.messages.created") # TODO JSONModelI18nWrapper.new(:repository => @repository))
+                  flash[:success] = t("repository._frontend.messages.created") 
 
                   if AppConfig[:use_human_readable_urls] && params["repository"]["repository"] &&
                      (params["repository"]["repository"]["slug"].nil? ||
@@ -88,7 +88,7 @@ class RepositoriesController < ApplicationController
                 :on_valid => ->(id) {
                   MemoryLeak::Resources.refresh(:repository)
 
-                  flash[:success] = t("repository._frontend.messages.updated") # TODO JSONModelI18nWrapper.new(:repository => @repository))
+                  flash[:success] = t("repository._frontend.messages.updated") 
 
                   if AppConfig[:use_human_readable_urls] && params["repository"]["repository"] &&
                      (params["repository"]["repository"]["slug"].nil? ||
@@ -120,7 +120,7 @@ class RepositoriesController < ApplicationController
     self.class.session_repo(session, selected.uri, selected.slug)
     set_user_repository_cookie selected.uri
 
-    flash[:success] = t("repository._frontend.messages.changed") # TODO JSONModelI18nWrapper.new(:repository => selected))
+    flash[:success] = t("repository._frontend.messages.changed", repository_repo_code: selected.repo_code)
 
     redirect_to :root
   end
@@ -136,7 +136,7 @@ class RepositoriesController < ApplicationController
 
     MemoryLeak::Resources.refresh(:repository)
 
-    flash[:success] = t("repository._frontend.messages.deleted") # TODO JSONModelI18nWrapper.new(:repository => repository))
+    flash[:success] = t("repository._frontend.messages.deleted") 
     redirect_to(:controller => :repositories, :action => :index, :deleted_uri => repository.uri)
   end
 
