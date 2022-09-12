@@ -836,10 +836,10 @@ en:
         transfer_success: Successfully transferred Archival Object <strong>%{archival_object_display_string}</strong> to Resource <strong>%{resource_title}</strong>
         transfer_error: "Unable to transfer Archival Object due to an error or conflict: <pre>%{exception}</pre>"
         deleted: "Archival Object <strong>%{archival_object_display_string}</strong> deleted"
-        published: "The Archival Object <strong>%{archival_object_display_string}</strong>, its children, subrecords and components have been published"
-        unpublished: "The Archival Object <strong>%{archival_object_display_string}</strong>, its children, subrecords and components have been unpublished"
-        unsuppressed: Archival Object <strong>%{archival_object_display_string}</strong> unsuppressed
-        suppressed: Archival Object <strong>%{archival_object_display_string}</strong> suppressed
+        published: "The Archival Object <strong>%{archival_object_title}</strong>, its children, subrecords and components have been published"
+        unpublished: "The Archival Object <strong>%{archival_object_title}</strong>, its children, subrecords and components have been unpublished"
+        unsuppressed: Archival Object <strong>%{archival_object_title}</strong> unsuppressed
+        suppressed: Archival Object <strong>%{archival_object_title}</strong> suppressed
         suppressed_info: Archival Object is suppressed and cannot be edited
         has_unpublished_ancestor: Please be aware this record has an ancestor that is unpublished.
         spawned: "This Archival Object has been spawned from Accession <strong>%{accession_display_string}</strong>. This record is unsaved. You must click Save for the record to be created in the system."

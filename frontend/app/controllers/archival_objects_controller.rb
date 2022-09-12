@@ -288,7 +288,7 @@ class ArchivalObjectsController < ApplicationController
     response = JSONModel::HTTP.post_form("#{@archival_object.uri}/publish")
 
     if response.code == '200'
-      flash[:success] = t("archival_object._frontend.messages.published", archival_object_display_string: @archival_object.title) 
+      flash[:success] = t("archival_object._frontend.messages.published", archival_object_title: @archival_object.title) 
     else
       flash[:error] = ASUtils.json_parse(response.body)['error'].to_s
     end
@@ -303,7 +303,7 @@ class ArchivalObjectsController < ApplicationController
     response = JSONModel::HTTP.post_form("#{@archival_object.uri}/unpublish")
 
     if response.code == '200'
-      flash[:success] = t("archival_object._frontend.messages.unpublished", archival_object_display_string: @archival_object.title) 
+      flash[:success] = t("archival_object._frontend.messages.unpublished", archival_object_title: @archival_object.title) 
     else
       flash[:error] = ASUtils.json_parse(response.body)['error'].to_s
     end
@@ -327,7 +327,7 @@ class ArchivalObjectsController < ApplicationController
     archival_object = JSONModel(:archival_object).find(params[:id])
     archival_object.set_suppressed(true)
 
-    flash[:success] = t("archival_object._frontend.messages.suppressed", archival_object_display_string: archival_object.title) 
+    flash[:success] = t("archival_object._frontend.messages.suppressed", archival_object_title: archival_object.title) 
     redirect_to(:controller => :resources, :action => :show, :id => JSONModel(:resource).id_for(archival_object['resource']['ref']), :anchor => "tree::archival_object_#{params[:id]}")
   end
 
@@ -336,7 +336,7 @@ class ArchivalObjectsController < ApplicationController
     archival_object = JSONModel(:archival_object).find(params[:id])
     archival_object.set_suppressed(false)
 
-    flash[:success] = t("archival_object._frontend.messages.unsuppressed", archival_object_display_string: archival_object.title) 
+    flash[:success] = t("archival_object._frontend.messages.unsuppressed", archival_object_title: archival_object.title) 
     redirect_to(:controller => :resources, :action => :show, :id => JSONModel(:resource).id_for(archival_object['resource']['ref']), :anchor => "tree::archival_object_#{params[:id]}")
   end
 
