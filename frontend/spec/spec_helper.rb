@@ -106,6 +106,6 @@ RSpec.configure do |config|
 
   config.verbose_retry = true
   config.around :each, :js do |ex|
-    ex.run_with_retry retry: 3
+    ex.run_with_retry retry: ENV.fetch('RSPEC_RETRIES', 3)
   end
 end
