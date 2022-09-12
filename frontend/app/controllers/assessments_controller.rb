@@ -65,7 +65,7 @@ class AssessmentsController < ApplicationController
                   render action: "new"
                 },
                 :on_valid => ->(id) {
-                    flash[:success] = t("assessment._frontend.messages.created") # TODO JSONModelI18nWrapper.new(:assessment => @assessment))
+                    flash[:success] = t("assessment._frontend.messages.created")
                     redirect_to(:controller => :assessments,
                                 :action => :edit,
                                 :id => id) })
@@ -82,7 +82,7 @@ class AssessmentsController < ApplicationController
                   return render action: "edit"
                 },
                 :on_valid => ->(id) {
-                  flash[:success] = t("assessment._frontend.messages.updated") # TODO JSONModelI18nWrapper.new(:assessment => @assessment))
+                  flash[:success] = t("assessment._frontend.messages.updated") 
                   redirect_to :controller => :assessments, :action => :edit, :id => id
                 })
   end
@@ -92,7 +92,7 @@ class AssessmentsController < ApplicationController
     assessment = JSONModel(:assessment).find(params[:id])
     assessment.delete
 
-    flash[:success] = t("assessment._frontend.messages.deleted") # TODO JSONModelI18nWrapper.new(:assessment => assessment))
+    flash[:success] = t("assessment._frontend.messages.deleted") 
     redirect_to(:controller => :assessments, :action => :index, :deleted_uri => assessment.uri)
   end
 
