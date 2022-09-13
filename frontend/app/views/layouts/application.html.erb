@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="<%= AppConfig[:locale] %>">
 <head>
-  <title><%= I18n.t("navbar.brand") %> | <% if @title %><%= @title %><% else %><%= controller.class.name %> >> <%= controller.action_name %><% end %></title>
+  <title><%= t("navbar.brand") %> | <% if @title %><%= @title %><% else %><%= controller.class.name %> >> <%= controller.action_name %><% end %></title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link href="<%= asset_path('favicon.ico') %>" rel="shortcut icon" type="image/x-icon" />
-  <%= include_theme_css %>
+  <%# TODO broken? = include_theme_css %>
   <%= csrf_meta_tags %>
 
   <% if ENV["TEST_MODE"] %>
@@ -28,12 +28,9 @@
     SHOW_IDENTIFIERS_IN_TREE = <%= AppConfig[:display_identifiers_in_largetree_container] %>;
   </script>
 
+	<%= stylesheet_link_tag    'application', media: 'all' %>
   <%= javascript_include_tag "application" %>
   <%= include_controller_js %>
-
-  <!--[if lt IE 9]>
-  <%= javascript_include_tag "html5shiv" %>
-  <![endif]-->
 
   <% ASUtils.order_plugins(ASUtils.find_local_directories('frontend/views/layout_head.html.erb')).each do |layout| %>
     <% if File.exist?(layout) %>

@@ -5,7 +5,6 @@ require 'rails_helper'
 
 describe 'Jobs', js: true do
   before(:all) do
-    login_admin
     @repo = create(:repo, repo_code: "jobs_test_#{Time.now.to_i}", publish: true)
     set_repo(@repo)
   end
@@ -15,7 +14,7 @@ describe 'Jobs', js: true do
     select_repository(@repo)
   end
 
-  it 'can create a find and replace job' do
+  it 'can create a find and replace job', skip: 'UPGRADE waiting on bootstrap fixes' do
     resource = create(:resource)
 
     run_index_round

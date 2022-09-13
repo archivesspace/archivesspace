@@ -40,4 +40,7 @@ ArchivesSpace::Application.configure do
   # right spot.  NOTE: Don't enable this for production, as it's handled
   # differently there due to precompilation.
   config.assets.prefix = AppConfig[:frontend_proxy_prefix] + "assets"
+
+  config.web_console.allowed_ips = ['172.18.0.0/16', '172.27.0.0/16', '0.0.0.0/0']
+
 end

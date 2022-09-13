@@ -1,6 +1,6 @@
 <%
    section_id = "dates" if section_id.blank?
-   section_title = I18n.t('date._plural') if section_title.blank?
+   section_title = t('date._plural') if section_title.blank?
 %>
 
 <section id="<%= section_id %>">
@@ -14,7 +14,7 @@
               <span class="glyphicon"></span>
             </div>
             <div class="col-md-2">
-              <%= I18n.t("enumerations.date_label.#{date['label']}", :default => date['label']) %>
+              <%= t("enumerations.date_label.#{date['label']}", :default => date['label']) %>
             </div>
             <div class="col-md-6">
               <!--https://www.pivotaltracker.com/story/show/41527633 -->
@@ -27,7 +27,7 @@
               <% end %>
             </div>
             <div class="col-md-3">
-              <% if date['certainty']%><%= I18n.t("enumerations.date_certainty.#{date['certainty']}", :default => date['certainty']) %><% end %>
+              <% if date['certainty']%><%= t("enumerations.date_certainty.#{date['certainty']}", :default => date['certainty']) %><% end %>
             </div>
           </div>
         </div>

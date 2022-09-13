@@ -28,9 +28,9 @@
 
       <%= form.label_and_date "last_verified_date" %>
 
-      <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "places", :template_erb => "subjects/template", :template => "subrecord_subject_agent_resource_place", :heading_text => I18n.t("name._frontend.section.place_subject"), :heading_size => "h4"} %>
+      <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "places", :template_erb => "subjects/template", :template => "subrecord_subject_agent_resource_place", :heading_text => t("name._frontend.section.place_subject"), :heading_size => "h4"} %>
 
-      <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "dates", :template_erb => "dates/template", :template => "structured_date_label_usage", :heading_text => I18n.t("name._frontend.section.dates"), :heading_size => "h4"} %>
+      <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "dates", :template_erb => "dates/template", :template => "structured_date_label_usage", :heading_text => t("name._frontend.section.dates"), :heading_size => "h4"} %>
     </div>
   </div>
 <% end %>
@@ -44,9 +44,9 @@
     <%= form.label_and_readonly field_name %>
   <% end %>
 
-  <%= render_aspace_partial :partial => "subjects/show_inline", :locals => {:subjects => form.obj['places'], :section_id => "victim_occupation_places_", :section_title => I18n.t("agent_occupation.places"), :heading_size => "h4"} %>
+  <%= render_aspace_partial :partial => "subjects/show_inline", :locals => {:subjects => form.obj['places'], :section_id => "victim_occupation_places_", :section_title => t("agent_occupation.places"), :heading_size => "h4"} %>
 
-  <%= render_aspace_partial :partial => "structured_dates/show_inline", :locals => { :dates => form.obj["dates"], :section_title => I18n.t("agent_occupation.dates"), :section_id => "victim_occupation_dates", :heading_size => "h4"} %>
+  <%= render_aspace_partial :partial => "structured_dates/show_inline", :locals => { :dates => form.obj["dates"], :section_title => t("agent_occupation.dates"), :section_id => "victim_occupation_dates", :heading_size => "h4"} %>
 <% end %>
 
 <% define_template "agent_resource_merge_victim", jsonmodel_definition(:agent_resource) do |form| %>
@@ -62,7 +62,7 @@
     <%= form.label_and_readonly field_name %>
   <% end %>
 
-  <%= render_aspace_partial :partial => "subjects/show_inline", :locals => {:subjects => form.obj['places'], :section_id => "victim_occupation_places_", :section_title => I18n.t("agent_occupation.places"), :heading_size => "h4"} %>
+  <%= render_aspace_partial :partial => "subjects/show_inline", :locals => {:subjects => form.obj['places'], :section_id => "victim_occupation_places_", :section_title => t("agent_occupation.places"), :heading_size => "h4"} %>
 
-  <%= render_aspace_partial :partial => "structured_dates/show_inline", :locals => { :dates => form.obj["dates"], :section_title => I18n.t("agent_occupation.dates"), :section_id => "victim_occupation_dates", :heading_size => "h4"} %>
+  <%= render_aspace_partial :partial => "structured_dates/show_inline", :locals => { :dates => form.obj["dates"], :section_title => t("agent_occupation.dates"), :section_id => "victim_occupation_dates", :heading_size => "h4"} %>
 <% end %>

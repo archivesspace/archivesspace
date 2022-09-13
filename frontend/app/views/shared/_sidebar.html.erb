@@ -1,7 +1,7 @@
 <%
   plusone = defined?(plusone) ? plusone : false
   if !defined?(save_button_text)
-    save_button_text = I18n.t("#{record_type}._frontend.action.save")
+    save_button_text = t("#{record_type}._frontend.action.save")
   end
 %>
 
@@ -9,14 +9,14 @@
   <ul role='tablist' class="nav list-group as-nav-list">
     <% if @exceptions %>
       <li class="<% if @exceptions.has_key?(:errors)%>alert-danger<% end %>">
-        <a href="#form_messages"><%= I18n.t("errors.sidebar_label") %>  <span class="glyphicon glyphicon-chevron-right"></span></a>
+        <a href="#form_messages"><%= t("errors.sidebar_label") %>  <span class="glyphicon glyphicon-chevron-right"></span></a>
       </li>
     <% end %>
 
     <% unless defined?(suppress_basic_information) && suppress_basic_information %>
       <li role='tab' aria-selected="false">
         <a href="#basic_information">
-          <%= I18n.t("#{record_type}._frontend.section.basic_information") %>
+          <%= t("#{record_type}._frontend.section.basic_information") %>
           <span class="glyphicon glyphicon-chevron-right"></span>
         </a>
       </li>
@@ -32,7 +32,7 @@
           <% if plusone && record.id.blank? %>
             <div class="btn-group btn-submit-group">
               <button type="submit" class="btn btn-primary"><%= save_button_text %></button>
-              <button type="#{plusone}" class="btn btn-primary btn-plus-one createPlusOneBtn"><%= I18n.t("actions.save_plus_one") %></button>
+              <button type="#{plusone}" class="btn btn-primary btn-plus-one createPlusOneBtn"><%= t("actions.save_plus_one") %></button>
             </div>
           <% else %>
             <button type="submit" class="btn btn-primary"><%= save_button_text %></button>

@@ -2,17 +2,17 @@
 
 <h2>
   <% if @archival_object.display_string.blank? %>
-    <%= I18n.t("archival_object._singular") %>
+    <%= t("archival_object._singular") %>
   <% else %>
     <%= clean_mixed_content(@archival_object.display_string) %>
   <% end %>
-  <span class="label label-info"><%= I18n.t("archival_object._singular") %></span>
+  <span class="label label-info"><%= t("archival_object._singular") %></span>
 </h2>
 
 <%= render_aspace_partial :partial => "shared/form_messages", :locals => {:form => form} %>
 
-  <%= form.hidden_input "parent", nil, {"data-base-name" => "archival_object[parent]", "class" => "hidden-parent-uri", "data-browse-url-html" => url_for(:controller => :search, :action => :do_search, :format => :js, :facets => SearchResultData.ARCHIVAL_OBJECT_FACETS), "data-browse-url-json" => url_for(:controller => :search, :action => :do_search, :format => :json, :facets => SearchResultData.ARCHIVAL_OBJECT_FACETS), "data-modal-title" => I18n.t('archival_object._frontend.action.select_parent_and_position'), "data-leave-empty" => I18n.t('archival_object._frontend.action.leave_parent_empty')} %>
-  <%= form.hidden_input "resource", nil, {"data-browse-url-html" => url_for(:controller => :search, :action => :do_search, :format => :js, :facets => SearchResultData.RESOURCE_FACETS), "data-browse-url-json" => url_for(:controller => :search, :action => :do_search, :format => :json, :facets => SearchResultData.RESOURCE_FACETS), "data-modal-title" => I18n.t('archival_object._frontend.action.select_resource')} %>
+  <%= form.hidden_input "parent", nil, {"data-base-name" => "archival_object[parent]", "class" => "hidden-parent-uri", "data-browse-url-html" => url_for(:controller => :search, :action => :do_search, :format => :js, :facets => SearchResultData.ARCHIVAL_OBJECT_FACETS), "data-browse-url-json" => url_for(:controller => :search, :action => :do_search, :format => :json, :facets => SearchResultData.ARCHIVAL_OBJECT_FACETS), "data-modal-title" => t('archival_object._frontend.action.select_parent_and_position'), "data-leave-empty" => t('archival_object._frontend.action.leave_parent_empty')} %>
+  <%= form.hidden_input "resource", nil, {"data-browse-url-html" => url_for(:controller => :search, :action => :do_search, :format => :js, :facets => SearchResultData.RESOURCE_FACETS), "data-browse-url-json" => url_for(:controller => :search, :action => :do_search, :format => :json, :facets => SearchResultData.RESOURCE_FACETS), "data-modal-title" => t('archival_object._frontend.action.select_resource')} %>
 
   <%= form.hidden_input "position" %>
 
@@ -22,7 +22,7 @@
   <% define_template("archival_object", jsonmodel_definition(:archival_object)) do |form| %>
     <section id="basic_information">
       <h3>
-        <%= I18n.t("archival_object._frontend.section.basic_information") %>
+        <%= t("archival_object._frontend.section.basic_information") %>
         <%= link_to_help :topic => "archival_object_basic_information" %>
       </h3>
 
@@ -36,7 +36,7 @@
         })%>
 
         <% if form.obj["ref_id"].blank? %>
-          <%= form.label_and_readonly "ref_id", "<em>#{I18n.t("archival_object.ref_id_auto_generation_message")}</em>" %>
+          <%= form.label_and_readonly "ref_id", "<em>#{t("archival_object.ref_id_auto_generation_message")}</em>" %>
         <% else %>
           <%= form.label_with_field "ref_id", form.hidden_input("ref_id") + "<span class='identifier-display'><span class='identifier-display-part'>#{form.obj["ref_id"]}</span></span>".html_safe %>
         <% end %>
@@ -53,7 +53,7 @@
           <div class="checkbox col-sm-9">
             <%= form.checkbox "publish", {}, user_prefs["publish"] %>
             <% if form.obj["has_unpublished_ancestor"] %>
-              <span class="help-inline"><span class="text-info"><%= I18n.t("archival_object._frontend.messages.has_unpublished_ancestor") %></span></span>
+              <span class="help-inline"><span class="text-info"><%= t("archival_object._frontend.messages.has_unpublished_ancestor") %></span></span>
             <% end %>
           </div>
         </div>

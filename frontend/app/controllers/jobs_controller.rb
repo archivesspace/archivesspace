@@ -110,7 +110,7 @@ class JobsController < ApplicationController
 
     if job.status === "queued"
       json[:queue_position] = job.queue_position
-      json[:queue_position_message] = job.queue_position === 0 ? I18n.t("job._frontend.messages.queue_position_next") : I18n.t("job._frontend.messages.queue_position", :position => (job.queue_position+1).ordinalize)
+      json[:queue_position_message] = job.queue_position === 0 ? t("job._frontend.messages.queue_position_next") : t("job._frontend.messages.queue_position", :position => (job.queue_position+1).ordinalize)
     end
 
     render :json => json
@@ -156,7 +156,7 @@ class JobsController < ApplicationController
 
 
   def import_types
-    Job.available_import_types.map {|e| [I18n.t("import_job.import_type_#{e['name']}", default: e['name'] ), e['name']]}
+    Job.available_import_types.map {|e| [t("import_job.import_type_#{e['name']}", default: e['name'] ), e['name']]}
   end
 
 

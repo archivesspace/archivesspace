@@ -3,7 +3,7 @@
              :record_type => 'agent',
              :record => @agent,
              :plusone => :submit,
-             :save_button_text => I18n.t("#{@agent.agent_type}._frontend.action.save")
+             :save_button_text => t("#{@agent.agent_type}._frontend.action.save")
            }) do |sidebar| %>
 
     <% unless @agent.agent_type.to_s == "agent_software" %>
@@ -220,14 +220,14 @@
         :anchor => 'linked_agents') %>
 
       <%= sidebar.render_for_view_only(
-        :title => I18n.t('agent._frontend.section.linked_via_rights_statement'),
+        :title => t('agent._frontend.section.linked_via_rights_statement'),
         :subrecord_type => 'search_embedded',
         :property => :none,
         :anchor => 'linked_via_rights_statements') %>
 
 
       <%= sidebar.render_for_view_only(
-        :title => I18n.t('agent._frontend.section.events'),
+        :title => t('agent._frontend.section.events'),
         :subrecord_type => 'event',
         :property => :none,
         :anchor => 'events') %>
@@ -235,13 +235,13 @@
 
       <% if @agent.agent_type.to_s == "agent_person" %>
         <%= sidebar.render_for_view_only(
-          :title => I18n.t('assessment._frontend.linked_records.linked_via_assessment_surveyed_by'),
+          :title => t('assessment._frontend.linked_records.linked_via_assessment_surveyed_by'),
           :subrecord_type => 'assessment',
           :property => :none,
           :anchor => 'linked_assessments_surveyed_by') %>
 
         <%= sidebar.render_for_view_only(
-          :title => I18n.t('assessment._frontend.linked_records.linked_via_assessment_reviewer'),
+          :title => t('assessment._frontend.linked_records.linked_via_assessment_reviewer'),
           :subrecord_type => 'assessment',
           :property => :none,
           :anchor => 'linked_assessments_reviewer') %>

@@ -3,7 +3,7 @@
 %>
 
 <section id="<%= section_id %>">
-  <h3><%= I18n.t("extent._plural") %></h3>
+  <h3><%= t("extent._plural") %></h3>
   <div class="panel-group details" id="<%= section_id %>_accordion">
     <% extents.each_with_index do | extent, index | %>
       <div class="panel panel-default">
@@ -14,7 +14,7 @@
             </div>
             <div class="col-md-4">
               <%= extent['number'] %> 
-              <%= I18n.t('enumerations.extent_extent_type.'+extent['extent_type'], :default => extent['extent_type']) %>
+              <%= t('enumerations.extent_extent_type.'+extent['extent_type'], :default => extent['extent_type']) %>
             </div>
             <div class="col-md-7">
               <%= extent['container_summary'] %>

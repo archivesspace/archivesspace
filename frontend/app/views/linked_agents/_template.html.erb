@@ -30,7 +30,7 @@
       <%= render_aspace_partial :partial => "agents/linker", :locals => {:form => form} %>
 
       <div class="agent-terms subrecord-form-container" style="display: none">
-        <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "terms", :heading_text => I18n.t("subject._frontend.section.terms")} %>
+        <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "terms", :heading_text => t("subject._frontend.section.terms")} %>
       </div>
 
       <%= form.hidden_input "is_primary", form["is_primary"] %>

@@ -8,7 +8,7 @@
    exclude_ids = [] if exclude_ids.blank?
    record_types ||= "resource"
    data_types = record_types == "resource" ? ["resource"] : ["resource", "archival_object"]
-   field_label ||= I18n.t("#{record_types}._singular")
+   field_label ||= t("#{record_types}._singular")
    layout ||= "horizontal"
 
 %>
@@ -28,10 +28,10 @@
             class="linker"
             id="<%= form.id_for("ref") %>"
             aria-autocomplete="both"
-            data-label_create="<%= I18n.t("#{record_types}.linker.create") %>"
-            data-label_browse="<%= I18n.t("#{record_types}.linker.browse") %>"
-            data-label_link="<%= I18n.t("linker.link") %>"
-            data-label_create_and_link="<%= I18n.t("linker.create_and_link") %>"
+            data-label_create="<%= t("#{record_types}.linker.create") %>"
+            data-label_browse="<%= t("#{record_types}.linker.browse") %>"
+            data-label_link="<%= t("linker.link") %>"
+            data-label_create_and_link="<%= t("linker.create_and_link") %>"
             data-path="<%= form.path %>"
             data-name="ref"
             data-url="<%= url_for :controller => :search, :action => :do_search, :format => :json, :linker => true %>"
@@ -57,9 +57,9 @@
 
          <% end %>
          <div class="input-group-btn">
-           <a class="btn btn-default dropdown-toggle last" data-toggle="dropdown" href="javascript:void(0);" title="<%= I18n.t("#{record_types}.linker.link_title") %>" aria-expanded="false" aria-label="<%= I18n.t("#{record_types}.linker.link_title") %>"><span class="caret"></span></a>
+           <a class="btn btn-default dropdown-toggle last" data-toggle="dropdown" href="javascript:void(0);" title="<%= t("#{record_types}.linker.link_title") %>" aria-expanded="false" aria-label="<%= t("#{record_types}.linker.link_title") %>"><span class="caret"></span></a>
            <ul class="dropdown-menu">
-             <li><a href="javascript:void(0);" class="linker-browse-btn"><%= I18n.t("actions.browse") %></a></li>
+             <li><a href="javascript:void(0);" class="linker-browse-btn"><%= t("actions.browse") %></a></li>
            </ul>
          </div>
        </div>

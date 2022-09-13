@@ -89,21 +89,21 @@ Rails.application.configure do
   # Do not dump schema after migrations.
   # DISABLED BY MST # config.active_record.dump_schema_after_migration = false
 
-  if AppConfig[:public_proxy_prefix] != "/"
-    require 'action_dispatch/middleware/static'
+  # if AppConfig[:public_proxy_prefix] != "/"
+  #   require 'action_dispatch/middleware/static'
 
-    # The default file handler doesn't know about asset prefixes and returns a 404.  Make it strip the prefix before looking for the path on disk.
-    module ActionDispatch
-      class FileHandler
-        alias :match_orig :match?
-        def match?(path)
-          prefix = AppConfig[:public_proxy_prefix]
-          modified_path = path.gsub(/^#{Regexp.quote(prefix)}/, "/")
-          match_orig(modified_path)
-        end
-      end
-    end
-  end
+  #   # The default file handler doesn't know about asset prefixes and returns a 404.  Make it strip the prefix before looking for the path on disk.
+  #   module ActionDispatch
+  #     class FileHandler
+  #       alias :match_orig :match?
+  #       def match?(path)
+  #         prefix = AppConfig[:public_proxy_prefix]
+  #         modified_path = path.gsub(/^#{Regexp.quote(prefix)}/, "/")
+  #         match_orig(modified_path)
+  #       end
+  #     end
+  #   end
+  # end
 
   if AppConfig[:public_proxy_prefix] && AppConfig[:public_proxy_prefix].length > 1
     AssetPathRewriter.new.rewrite(AppConfig[:public_proxy_prefix], File.dirname(__FILE__))

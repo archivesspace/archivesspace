@@ -4,14 +4,14 @@
       <%
          record_title = result["record"]["_resolved"]["title"]
          if "event" == result["record"]["_resolved"]["jsonmodel_type"]
-           record_title = "#{I18n.t("event._singular")}: #{I18n.t("enumerations.event_event_type.#{result["record"]["_resolved"]["event_type"]}")}"
+           record_title = "#{t("event._singular")}: #{t("enumerations.event_event_type.#{result["record"]["_resolved"]["event_type"]}")}"
          elsif "collection_management" == result["record"]["_resolved"]["jsonmodel_type"]
-           record_title = "#{I18n.t("collection_management._singular")}"
+           record_title = "#{t("collection_management._singular")}"
          end
       %>
       <div>
         <span class="asicon icon-<%= result["record"]["_resolved"]["jsonmodel_type"] %>"
-              title="<%= I18n.t("#{result["record"]["_resolved"]["jsonmodel_type"]}._singular") %>">
+              title="<%= t("#{result["record"]["_resolved"]["jsonmodel_type"]}._singular") %>">
         </span>
         <%# ANW-1519: for agents and subjects, we don't need to check what repo they belong in %>
         <% if result["record"]["_resolved"]["jsonmodel_type"] =~ /agent/ ||
@@ -23,7 +23,7 @@
           <% else %>
             <%= resolve_readonly_link_to "#{record_title} (#{result["record"]["ref"]})", result["record"]["ref"], false %>
             <span class="label label-warning">
-             <%= I18n.t("job._frontend.external_repo") %>
+             <%= t("job._frontend.external_repo") %>
             </span>
           <% end %>
         <% end %>
