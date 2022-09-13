@@ -20,7 +20,7 @@ class AgentsController < ApplicationController
         search_params = params_for_backend_search.merge({ 'facet[]' => SearchResultData.AGENT_FACETS })
         search_params['type[]'] = 'agent'
         uri = "/repositories/#{session[:repo_id]}/search"
-        csv_response(uri, Search.build_filters(search_params), "#{I18n.t('agent._plural').downcase}.")
+        csv_response(uri, Search.build_filters(search_params), "#{t('agent._plural').downcase}.")
       end
     end
   end
@@ -71,14 +71,14 @@ class AgentsController < ApplicationController
                   return render action: :new
                 },
                 on_valid: lambda  { |id|
-                  flash[:success] = I18n.t('agent._frontend.messages.created')
+                  flash[:success] = t('agent._frontend.messages.created')
 
                   if @agent['is_slug_auto'] == false &&
                      @agent['slug'].nil? &&
                      params['agent'] &&
                      params['agent']['is_slug_auto'] == '1'
 
-                    flash[:warning] = I18n.t('slug.autogen_disabled')
+                    flash[:warning] = t('slug.autogen_disabled')
                   end
 
                   return render json: @agent.to_hash if inline?
@@ -103,13 +103,13 @@ class AgentsController < ApplicationController
                   return render action: :edit
                 },
                 on_valid: lambda  { |id|
-                  flash[:success] = I18n.t('agent._frontend.messages.updated')
+                  flash[:success] = t('agent._frontend.messages.updated')
                   if @agent['is_slug_auto'] == false &&
                      @agent['slug'].nil? &&
                      params['agent'] &&
                      params['agent']['is_slug_auto'] == '1'
 
-                    flash[:warning] = I18n.t('slug.autogen_disabled')
+                    flash[:warning] = t('slug.autogen_disabled')
                   end
 
                   redirect_to controller: :agents, action: :edit, id: id, agent_type: @agent_type
@@ -120,7 +120,7 @@ class AgentsController < ApplicationController
     agent = JSONModel(@agent_type).find(params[:id])
 
     if agent.key?('is_repo_agent')
-      flash[:error] = I18n.t('errors.cannot_delete_repository_agent')
+      flash[:error] = t('errors.cannot_delete_repository_agent')
       redirect_to(controller: :agents, action: :show, id: params[:id])
       return
     end
@@ -128,12 +128,12 @@ class AgentsController < ApplicationController
     begin
       agent.delete
     rescue ConflictException => e
-      flash[:error] = I18n.t('agent._frontend.messages.delete_conflict', error: I18n.t("errors.#{e.conflicts}", default: e.message))
+      flash[:error] = t('agent._frontend.messages.delete_conflict', error: t("errors.#{e.conflicts}", default: e.message))
       redirect_to(controller: :agents, action: :show, id: params[:id])
       return
     end
 
-    flash[:success] = I18n.t('agent._frontend.messages.deleted', JSONModelI18nWrapper.new(agent: agent))
+    flash[:success] = t('agent._frontend.messages.deleted', JSONModelI18nWrapper.new(agent: agent))
     redirect_to(controller: :agents, action: :index, deleted_uri: agent.uri)
   end
 
@@ -143,7 +143,7 @@ class AgentsController < ApplicationController
     response = JSONModel::HTTP.post_form("#{agent.uri}/publish")
 
     if response.code == '200'
-      flash[:success] = I18n.t('agent._frontend.messages.published', JSONModelI18nWrapper.new(agent: agent).enable_parse_mixed_content!(url_for(:root)))
+      flash[:success] = t('agent._frontend.messages.published', JSONModelI18nWrapper.new(agent: agent).enable_parse_mixed_content!(url_for(:root)))
     else
       flash[:error] = ASUtils.json_parse(response.body)['error'].to_s
     end
@@ -171,7 +171,7 @@ class AgentsController < ApplicationController
                               )
                             }).save
 
-    flash[:success] = I18n.t('default_values.messages.defaults_updated')
+    flash[:success] = t('default_values.messages.defaults_updated')
     redirect_to controller: :agents, action: :defaults
   rescue Exception => e
     flash[:error] = e.message
@@ -207,7 +207,7 @@ class AgentsController < ApplicationController
                                'lock_version' => processed_params['lock_version'],
                                'record_type' => @agent_type.to_s,
                                'subrecord_requirements' => subrecord_requirements}).save
-    flash[:success] = I18n.t('required_fields.messages.required_fields_updated')
+    flash[:success] = t('required_fields.messages.required_fields_updated')
     redirect_to controller: :agents, action: :required
   rescue Exception => e
     flash[:error] = e.message
@@ -230,7 +230,7 @@ class AgentsController < ApplicationController
     @agent = JSONModel(@agent_type).find(params[:id], find_opts)
 
     if params[:refs].is_a?(Array)
-      flash[:error] = I18n.t('errors.merge_too_many_victims')
+      flash[:error] = t('errors.merge_too_many_victims')
       redirect_to({ action: :show, id: params[:id] })
       return
     end
@@ -238,27 +238,27 @@ class AgentsController < ApplicationController
     victim_details = JSONModel.parse_reference(params[:refs])
     @victim_type = victim_details[:type].to_sym
     if @victim_type != @agent_type
-      flash[:error] = I18n.t('errors.merge_different_types')
+      flash[:error] = t('errors.merge_different_types')
       redirect_to({ action: :show, id: params[:id] })
       return
     end
 
     @victim = JSONModel(@victim_type).find(victim_details[:id], find_opts)
     if @agent.key?('is_user') || @victim.key?('is_user')
-      flash[:error] = I18n.t('errors.merge_denied_for_system_user')
+      flash[:error] = t('errors.merge_denied_for_system_user')
       redirect_to({ action: :show, id: params[:id] })
       return
     end
 
     relationship_uris = @victim['related_agents'] ? @victim['related_agents'].map {|ra| ra['ref']} : []
     if relationship_uris.include?(@agent['uri'])
-      flash[:error] = I18n.t('errors.merge_denied_relationship')
+      flash[:error] = t('errors.merge_denied_relationship')
       redirect_to({ action: :show, id: params[:id] })
       return
     end
 
     if !user_can?('view_agent_contact_record') && (@agent.agent_contacts.any? || @victim.agent_contacts.any?)
-      flash[:error] = I18n.t('errors.merge_restricted_contact_details')
+      flash[:error] = t('errors.merge_restricted_contact_details')
       redirect_to({ action: :show, id: params[:id] })
       return
     end
@@ -288,17 +288,17 @@ class AgentsController < ApplicationController
       begin
         response = JSONModel::HTTP.post_json(URI(uri), request.to_json)
 
-        flash[:success] = I18n.t('agent._frontend.messages.merged')
+        flash[:success] = t('agent._frontend.messages.merged')
         resolver = Resolver.new(request.target['ref'])
         redirect_to(resolver.view_uri)
       rescue ValidationException => e
         flash[:error] = e.errors.to_s
         redirect_to({ action: :show, id: params[:id] }.merge(extra_params))
       rescue ConflictException => e
-        flash[:error] = I18n.t('errors.merge_conflict', message: e.conflicts)
+        flash[:error] = t('errors.merge_conflict', message: e.conflicts)
         redirect_to({ action: :show, id: params[:id] }.merge(extra_params))
       rescue RecordNotFound => e
-        flash[:error] = I18n.t('errors.error_404')
+        flash[:error] = t('errors.error_404')
         redirect_to({ action: :show, id: params[:id] }.merge(extra_params))
       end
     end

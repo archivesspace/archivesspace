@@ -9,7 +9,7 @@ class DigitalObjectComponentsController < ApplicationController
 
   def new
     @digital_object_component = JSONModel(:digital_object_component).new._always_valid!
-    @digital_object_component.title = I18n.t("digital_object_component.title_default", :default => "")
+    @digital_object_component.title = t("digital_object_component.title_default", :default => "")
     @digital_object_component.parent = {'ref' => JSONModel(:digital_object_component).uri_for(params[:digital_object_component_id])} if params.has_key?(:digital_object_component_id)
     @digital_object_component.digital_object = {'ref' => JSONModel(:digital_object).uri_for(params[:digital_object_id])} if params.has_key?(:digital_object_id)
     @digital_object_component.position = params[:position]
@@ -18,7 +18,7 @@ class DigitalObjectComponentsController < ApplicationController
       defaults = DefaultValues.get 'digital_object_component'
 
       @digital_object_component.update(defaults.values) if defaults
-      @form_title = I18n.t("digital_object_component.title_default")
+      @form_title = t("digital_object_component.title_default")
     end
 
 
@@ -48,16 +48,18 @@ class DigitalObjectComponentsController < ApplicationController
                   # so need to do it manually)
                   @digital_object_component = JSONModel(:digital_object_component).find(id, find_opts)
 
+                  # TODO JSONModelI18nWrapper.new(:digital_object_component => @digital_object_component, :digital_object => @digital_object_component['digital_object']['_resolved'], :parent => @digital_object_component['parent']['_resolved']).enable_parse_mixed_content!(url_for(:root)))
+                  # TODO JSONModelI18nWrapper.new(:digital_object_component => @digital_object_component, :digital_object => @digital_object_component['digital_object']['_resolved']).enable_parse_mixed_content!(url_for(:root)))
                   flash[:success] = @digital_object_component.parent ?
-                    I18n.t("digital_object_component._frontend.messages.created_with_parent", JSONModelI18nWrapper.new(:digital_object_component => @digital_object_component, :digital_object => @digital_object_component['digital_object']['_resolved'], :parent => @digital_object_component['parent']['_resolved']).enable_parse_mixed_content!(url_for(:root))) :
-                    I18n.t("digital_object_component._frontend.messages.created", JSONModelI18nWrapper.new(:digital_object_component => @digital_object_component, :digital_object => @digital_object_component['digital_object']['_resolved']).enable_parse_mixed_content!(url_for(:root)))
+                    t("digital_object_component._frontend.messages.created_with_parent") :
+                    t("digital_object_component._frontend.messages.created")
 
                   if @digital_object_component["is_slug_auto"] == false &&
                      @digital_object_component["slug"] == nil &&
                      params["digital_object_component"] &&
                      params["digital_object_component"]["is_slug_auto"] == "1"
 
-                    flash[:warning] = I18n.t("slug.autogen_disabled")
+                    flash[:warning] = t("slug.autogen_disabled")
                   end
 
                   render_aspace_partial :partial => "digital_object_components/edit_inline"
@@ -76,16 +78,17 @@ class DigitalObjectComponentsController < ApplicationController
                 :obj => @digital_object_component,
                 :on_invalid => ->() { return render_aspace_partial :partial => "edit_inline" },
                 :on_valid => ->(id) {
+                  # TODO JSONModelI18nWrapper.new(:digital_object_component => @digital_object_component, :digital_object => digital_object, :parent => parent).enable_parse_mixed_content!(url_for(:root))) :
+                  # TODO JSONModelI18nWrapper.new(:digital_object_component => @digital_object_component, :digital_object => digital_object).enable_parse_mixed_content!(url_for(:root)))
                   flash.now[:success] = parent ?
-                    I18n.t("digital_object_component._frontend.messages.updated_with_parent", JSONModelI18nWrapper.new(:digital_object_component => @digital_object_component, :digital_object => digital_object, :parent => parent).enable_parse_mixed_content!(url_for(:root))) :
-                    I18n.t("digital_object_component._frontend.messages.updated", JSONModelI18nWrapper.new(:digital_object_component => @digital_object_component, :digital_object => digital_object).enable_parse_mixed_content!(url_for(:root)))
-
+                    t("digital_object_component._frontend.messages.updated_with_parent") :
+                    t("digital_object_component._frontend.messages.updated")
                   if @digital_object_component["is_slug_auto"] == false &&
                      @digital_object_component["slug"] == nil &&
                      params["digital_object_component"] &&
                      params["digital_object_component"]["is_slug_auto"] == "1"
 
-                    flash.now[:warning] = I18n.t("slug.autogen_disabled")
+                    flash.now[:warning] = t("slug.autogen_disabled")
                   end
 
                   render_aspace_partial :partial => "edit_inline"
@@ -102,7 +105,7 @@ class DigitalObjectComponentsController < ApplicationController
     @digital_object_id = params['digital_object_id']
     @digital_object_component = JSONModel(:digital_object_component).find(params[:id], find_opts)
 
-    flash.now[:info] = I18n.t("digital_object_component._frontend.messages.suppressed_info", JSONModelI18nWrapper.new(:digital_object_component => @digital_object_component).enable_parse_mixed_content!(url_for(:root))) if @digital_object_component.suppressed
+    flash.now[:info] = t("digital_object_component._frontend.messages.suppressed_info") # TODO JSONModelI18nWrapper.new(:digital_object_component => @digital_object_component).enable_parse_mixed_content!(url_for(:root))) if @digital_object_component.suppressed
 
     render_aspace_partial :partial => "digital_object_components/show_inline" if inline?
   end
@@ -112,7 +115,7 @@ class DigitalObjectComponentsController < ApplicationController
     digital_object_component = JSONModel(:digital_object_component).find(params[:id])
     digital_object_component.delete
 
-    flash[:success] = I18n.t("digital_object_component._frontend.messages.deleted", JSONModelI18nWrapper.new(:digital_object_component => digital_object_component).enable_parse_mixed_content!(url_for(:root)))
+    flash[:success] = t("digital_object_component._frontend.messages.deleted") # TODO JSONModelI18nWrapper.new(:digital_object_component => digital_object_component).enable_parse_mixed_content!(url_for(:root)))
 
     resolver = Resolver.new(digital_object_component['digital_object']['ref'])
     redirect_to resolver.view_uri
@@ -130,7 +133,7 @@ class DigitalObjectComponentsController < ApplicationController
 
     @digital_object_component = JSONModel(:digital_object_component).new(values)._always_valid!
 
-    @digital_object_component.display_string = I18n.t("default_values.form_title.digital_object_component")
+    @digital_object_component.display_string = t("default_values.form_title.digital_object_component")
 
     render "defaults"
   end
@@ -147,7 +150,7 @@ class DigitalObjectComponentsController < ApplicationController
                                                                         )
                               }).save
 
-      flash[:success] = I18n.t("default_values.messages.defaults_updated")
+      flash[:success] = t("default_values.messages.defaults_updated")
 
       redirect_to :controller => :digital_object_components, :action => :defaults
     rescue Exception => e
@@ -186,7 +189,7 @@ class DigitalObjectComponentsController < ApplicationController
     if params[:digital_record_children].blank? or params[:digital_record_children]["children"].blank?
 
       @children = DigitalObjectComponentChildren.new
-      flash.now[:error] = I18n.t("rde.messages.no_rows")
+      flash.now[:error] = t("rde.messages.no_rows")
 
     else
       children_data = cleanup_params_for_schema(params[:digital_record_children], JSONModel(:digital_record_children).schema)
@@ -199,9 +202,9 @@ class DigitalObjectComponentsController < ApplicationController
 
           error_count = @exceptions.select {|e| !e.empty?}.length
           if error_count > 0
-            flash.now[:error] = I18n.t("rde.messages.rows_with_errors", :count => error_count)
+            flash.now[:error] = t("rde.messages.rows_with_errors", :count => error_count)
           else
-            flash.now[:success] = I18n.t("rde.messages.rows_no_errors")
+            flash.now[:success] = t("rde.messages.rows_no_errors")
           end
 
           return render_aspace_partial :partial => "shared/rde"
@@ -209,14 +212,14 @@ class DigitalObjectComponentsController < ApplicationController
           @children.save(:digital_object_component_id => @parent.id)
         end
 
-        return render :plain => I18n.t("rde.messages.success")
+        return render :plain => t("rde.messages.success")
       rescue JSONModel::ValidationException => e
         @exceptions = @children.children.collect {|c| JSONModel(:digital_object_component).from_hash(c, false)._exceptions}
 
         if @exceptions.all?(&:blank?)
           e.errors.each { |key, vals| flash.now[:error] = "#{key} : #{vals.join('<br/>')}" }
         else
-          flash.now[:error] = I18n.t("rde.messages.rows_with_errors", :count => @exceptions.select {|e| !e.empty?}.length)
+          flash.now[:error] = t("rde.messages.rows_with_errors", :count => @exceptions.select {|e| !e.empty?}.length)
         end
       end
 
@@ -230,7 +233,7 @@ class DigitalObjectComponentsController < ApplicationController
     digital_object_component = JSONModel(:digital_object_component).find(params[:id])
     digital_object_component.set_suppressed(true)
 
-    flash[:success] = I18n.t("digital_object_component._frontend.messages.suppressed", JSONModelI18nWrapper.new(:digital_object_component => digital_object_component).enable_parse_mixed_content!(url_for(:root)))
+    flash[:success] = t("digital_object_component._frontend.messages.suppressed") # TODO JSONModelI18nWrapper.new(:digital_object_component => digital_object_component).enable_parse_mixed_content!(url_for(:root)))
     redirect_to(:controller => :digital_objects, :action => :show, :id => JSONModel(:digital_object).id_for(digital_object_component['digital_object']['ref']), :anchor => "tree::digital_object_component_#{params[:id]}")
   end
 
@@ -239,7 +242,7 @@ class DigitalObjectComponentsController < ApplicationController
     digital_object_component = JSONModel(:digital_object_component).find(params[:id])
     digital_object_component.set_suppressed(false)
 
-    flash[:success] = I18n.t("digital_object_component._frontend.messages.unsuppressed", JSONModelI18nWrapper.new(:digital_object_component => digital_object_component).enable_parse_mixed_content!(url_for(:root)))
+    flash[:success] = t("digital_object_component._frontend.messages.unsuppressed") # TODO JSONModelI18nWrapper.new(:digital_object_component => digital_object_component).enable_parse_mixed_content!(url_for(:root)))
     redirect_to(:controller => :digital_objects, :action => :show, :id => JSONModel(:digital_object).id_for(digital_object_component['digital_object']['ref']), :anchor => "tree::digital_object_component_#{params[:id]}")
   end
 

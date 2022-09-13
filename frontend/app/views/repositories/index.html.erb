@@ -1,4 +1,4 @@
-<%= setup_context(:title => I18n.t("repository._plural")) %>
+<%= setup_context(:title => t("repository._plural")) %>
 
 <div class="row">
   <div class="col-md-3">
@@ -10,7 +10,7 @@
     <% if user_can?('create_repository') %>
       <div class="record-toolbar">
         <div class="btn-group pull-right">
-          <%= link_to I18n.t("repository._frontend.action.create"), {:controller => :repositories, :action => :new}, :class => "btn btn-sm btn-default" %>
+          <%= link_to t("repository._frontend.action.create"), {:controller => :repositories, :action => :new}, :class => "btn btn-sm btn-default" %>
         </div>
         <br style="clear:both" /> <!-- So dirty! -->
       </div>
@@ -19,7 +19,7 @@
     <div class="record-pane">
       <%= link_to_help :topic => "repository" %>
 
-      <h2><%= I18n.t("repository._plural") %></h2>
+      <h2><%= t("repository._plural") %></h2>
 
       <%= render_aspace_partial :partial => "shared/flash_messages" %>
 

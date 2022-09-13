@@ -14,15 +14,15 @@
 //= require jquery-ui
 //= require jquery_ujs
 //= require jquery.browser
-//= require twitter/bootstrap
-//= require bootstrap_overrides
 //= require jquery.form
 //= require jquery.scrollto
 //= require jquery.hotkeys
 //= require utils
 //= require header
 //= require linker
+//= require bootstrap-sprockets
 //= require bootstrap-select
 //= require bootstrap3-typeahead
 //= require bootstrap-tagsinput
+//= require bootstrap_overrides
 //= require jquery.matchHeight

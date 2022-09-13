@@ -15,9 +15,9 @@
             </div>
             <div class="col-md-6">
               <% if agent_gender['gender'] %>
-                <%= I18n.t("enumerations.gender.#{agent_gender['gender']}", :default => agent_gender['gender']) %>
+                <%= t("enumerations.gender.#{agent_gender['gender']}", :default => agent_gender['gender']) %>
               <% else %>
-                <%= I18n.t("agent_gender._singular") %>
+                <%= t("agent_gender._singular") %>
               <% end %>
             </div>
           </div>
@@ -25,7 +25,7 @@
         <div id="<%= section_id %>_agent_gender_<%= index %>" class="panel-collapse collapse">
           <%= read_only_view(agent_gender) %>
           <% if agent_gender['dates'].length > 0 %>
-            <%= render_aspace_partial :partial => "structured_dates/show", :locals => { :dates => agent_gender['dates'], :section_id => "agent_gender_dates_#{index}", :section_title => I18n.t("agent_gender.dates"), :heading_size => "h4"} %>
+            <%= render_aspace_partial :partial => "structured_dates/show", :locals => { :dates => agent_gender['dates'], :section_id => "agent_gender_dates_#{index}", :section_title => t("agent_gender.dates"), :heading_size => "h4"} %>
           <% end %>
           <% if agent_gender['notes'].length > 0 %>
             <%= render_aspace_partial :partial => "notes/show", :locals => { :notes => agent_gender['notes'], :section_id => "#{@agent.agent_type}_agent_gender__#{index}__notes_", :context => context, :heading_size => "h4" } %>

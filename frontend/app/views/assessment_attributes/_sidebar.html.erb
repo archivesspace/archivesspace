@@ -5,8 +5,8 @@
              :suppress_basic_information => true,
            }) do |sidebar| %>
 
-    <%= sidebar.render_for_view_and_edit(:title=> I18n.t('assessment_attribute_definitions._frontend.section.ratings'),:property => :none, :subrecord_type => :ratings, :anchor => 'ratings') %>
-    <%= sidebar.render_for_view_and_edit(:title=> I18n.t('assessment_attribute_definitions._frontend.section.formats'),:property => :none, :subrecord_type => :formats, :anchor => 'formats') %>
-    <%= sidebar.render_for_view_and_edit(:title=> I18n.t('assessment_attribute_definitions._frontend.section.conservation_issues'),:property => :none, :subrecord_type => :conservation_issues, :anchor => 'conservation_issues') %>
+    <%= sidebar.render_for_view_and_edit(:title=> t('assessment_attribute_definitions._frontend.section.ratings'),:property => :none, :subrecord_type => :ratings, :anchor => 'ratings') %>
+    <%= sidebar.render_for_view_and_edit(:title=> t('assessment_attribute_definitions._frontend.section.formats'),:property => :none, :subrecord_type => :formats, :anchor => 'formats') %>
+    <%= sidebar.render_for_view_and_edit(:title=> t('assessment_attribute_definitions._frontend.section.conservation_issues'),:property => :none, :subrecord_type => :conservation_issues, :anchor => 'conservation_issues') %>
 
 <% end %>

@@ -4,11 +4,11 @@
   <!-- This section contains configuration used by the build tasks -->
 
   <!-- Don't forget to change any jruby versions in any Gemfiles! -->
-  <property name="jruby_url" value="https://repo1.maven.org/maven2/org/jruby/jruby-complete/9.2.20.1/jruby-complete-9.2.20.1.jar" />
-  <property name="jruby_file" value="jruby-complete-9.2.20.1.jar" />
+  <property name="jruby_url" value="https://repo1.maven.org/maven2/org/jruby/jruby-complete/9.3.4.0/jruby-complete-9.3.4.0.jar" />
+  <property name="jruby_file" value="jruby-complete-9.3.4.0.jar" />
   <!-- This needs to match version installed by bundler 2.x: `./build/run bootstrap` -->
   <!-- Then find version at: build/gems/jruby/$version -->
-  <property name="jruby_build_version" value="2.5.0" />
+  <property name="jruby_build_version" value="2.6.0" />
   <!-- Path to jruby bin directory relative to aspace ./build -->
   <property name="jruby_build_bin_path" value="./gems/jruby/${jruby_build_version}/bin" />
   <!-- Properties for ArchivesSpace build of the JRuby Rack jar -->
@@ -425,6 +425,33 @@
     </java>
   </target>
 
+    <target name="bundler:update" depends="set-classpath" description="Run bundler against a gemfile">
+    <property name="build.home" location="."/>
+    <property name="excluded-gem-groups" value="" />
+    <property name="included-gem-groups" value="" />
+    <condition property="bundle-without-option" value="--without '${excluded-gem-groups}'" else="">
+      <matches pattern="^.+$" string="${excluded-gem-groups}"/>
+    </condition>
+    <condition property="bundle-with-option" value="--with '${included-gem-groups}'" else="">
+      <matches pattern="^.+$" string="${included-gem-groups}"/>
+    </condition>
+    <echo message="Fetching gems for ${gemfile}" />
+    <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true" failonerror="true">
+      <jvmarg line="${default_java_options} ${env.JAVA_OPTS}"/>
+      <env key="GEM_HOME" value="${gem_home}" />
+      <env key="GEM_PATH" value="" />
+      <env key="BUNDLE_PATH" value="${gem_home}" />
+      <env key="HOME" value="${build.home}" />
+      <arg line="gems/bin/bundle update --jobs=8 --gemfile='${gemfile}' ${bundle-without-option} ${bundle-with-option}" />
+    </java>
+  </target>
+
+  <target name="bundle:frontend" depends="set-classpath"  description="Bundle just the frontend">
+    <antcall target="bundler">
+      <param name="gemfile" value="../frontend/Gemfile" />
+    </antcall>
+  </target>
+
   <!-- RSPEC -->
   <target name="rspec" depends="set-classpath" description="Run rspec">
     <property name="dir" value="../build/null"/><!--must be set by calling task or command -->
@@ -681,7 +708,7 @@
       <env key="APPCONFIG_FRONTEND_PROXY_URL" value="http://localhost:3000" />
       <env key="APPCONFIG_PUBLIC_PROXY_URL" value="http://localhost:3001" />
       <env key="APPCONFIG_SOLR_URL" value="${env.APPCONFIG_SOLR_URL}" />
-      <arg line="script/rails s mizuno -b 0.0.0.0 --port=${aspace.frontend.port}" />
+      <arg line="script/rails s -u mizuno -b 0.0.0.0 --port=${aspace.frontend.port}" />
     </java>
     <record name="frontend_test_log.out" action="stop" />
   </target>
@@ -777,7 +804,7 @@
       <header trimleading="yes">
         <!-- DON'T EDIT THIS FILE: the canonical version is under the frontend project -->
       </header>
-      <fileset file="../frontend/app/assets/stylesheets/archivesspace/largetree.less" />
+      <fileset file="../frontend/app/assets/stylesheets/archivesspace/largetree.scss" />
     </concat>
   </target>
 
@@ -797,7 +824,7 @@
       <env key="APPCONFIG_FRONTEND_PROXY_URL" value="http://localhost:3000" />
       <env key="APPCONFIG_PUBLIC_PROXY_URL" value="http://localhost:3001" />
       <env key="APPCONFIG_SOLR_URL" value="${env.APPCONFIG_SOLR_URL}" />
-      <arg line="bin/rails s mizuno -b 0.0.0.0 --port=${aspace.public.port}" />
+      <arg line="bin/rails s -u mizuno -b 0.0.0.0 --port=${aspace.public.port}" />
     </java>
   </target>
 

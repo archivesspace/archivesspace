@@ -15,7 +15,7 @@
 %>
 <% order_of_types.each do |type| %>
   <% unless (record_titles = records_by_type.fetch(type, [])).empty? %>
-    <div class="assessment-search-result-record-type"><%= I18n.t("#{type}._singular", :default => type) %></div>
+    <div class="assessment-search-result-record-type"><%= t("#{type}._singular", :default => type) %></div>
     <ul class="assessment-search-result-listing">
       <% record_titles.uniq.sort.each do |title| %>
         <li>

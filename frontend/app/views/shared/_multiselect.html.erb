@@ -1,4 +1,4 @@
 <label>
-  <span class="sr-only"><%= I18n.t("search_results.selected") %></span>
+  <span class="sr-only"><%= t("search_results.selected") %></span>
   <%= check_box_tag "multiselect-item", record["id"], false, "autocomplete" => "off", "data-display-string" => "#{clean_mixed_content(record["title"]).html_safe || clean_mixed_content(record['display_string']).html_safe}" %>
 </label>

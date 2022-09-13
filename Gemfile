@@ -21,3 +21,6 @@ if File.exist?(backend_gemfile)
 else
   raise "Cannot find backend Gemfile"
 end
+
+# Convert LESS to SCSS
+gem 'less2sass'

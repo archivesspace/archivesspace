@@ -3,7 +3,7 @@
 %>
 
 <section id="<%= section_id %>">
-  <h3><%= I18n.t('lang_material._plural') %></h3>
+  <h3><%= t('lang_material._plural') %></h3>
   <div class="accordion details" id="lang_materials_accordion">
     <% lang_materials.each_with_index do | lang_material, index | %>
       <div class="panel panel-default">
@@ -14,9 +14,9 @@
                 <span class="glyphicon"></span>
               </div>
               <div class="col-md-4">
-                  <%= I18n.t('enumerations.language_iso639_2.'+lang_material["language_and_script"]['language'], :default => lang_material["language_and_script"]['language'])%>
+                  <%= t('enumerations.language_iso639_2.'+lang_material["language_and_script"]['language'], :default => lang_material["language_and_script"]['language'])%>
                   <% if lang_material["language_and_script"]['script'] %>
-                    <%= "(" + I18n.t('enumerations.script_iso15924.'+lang_material["language_and_script"]['script'], :default => lang_material["language_and_script"]['script']) + " script)" %>
+                    <%= "(" + t('enumerations.script_iso15924.'+lang_material["language_and_script"]['script'], :default => lang_material["language_and_script"]['script']) + " script)" %>
                   <% end %>
               </div>
             </div>

@@ -6,12 +6,12 @@
     <%= render_aspace_partial :partial => "toolbar" %>
     <div class="record-pane">
       <% define_template "digital_object", jsonmodel_definition(:digital_object) do |readonly, digital_object| %>
-        <h2><%= clean_mixed_content(digital_object.title) %> <span class="label label-info"><%= I18n.t("digital_object._singular") %></span></h2>
+        <h2><%= clean_mixed_content(digital_object.title) %> <span class="label label-info"><%= t("digital_object._singular") %></span></h2>
 
         <%= render_aspace_partial :partial => "shared/form_messages", :locals => {:form => readonly} %>
 
         <section id="basic_information">
-          <h3><%= I18n.t("digital_object._frontend.section.basic_information") %></h3>
+          <h3><%= t("digital_object._frontend.section.basic_information") %></h3>
 
           <%= render_plugin_partials("top_of_basic_information_digital_object",
                                      :form => readonly,
@@ -56,15 +56,15 @@
 
         <% if digital_object.linked_instances.length > 0 %>
           <section id="digital_object_linked_instances" class="subrecord-form-dummy">
-            <h3><%= I18n.t("linked_record._plural") %></h3>
+            <h3><%= t("linked_record._plural") %></h3>
             <div class="subrecord-form-container">
               <div class="subrecord-form-fields">
                 <div class="row label-and-value">
                   <div class="col-md-3">
                     <% if digital_object.linked_instances.length > 1 %>
-                      <%= I18n.t("linked_record.ref_plural") %>
+                      <%= t("linked_record.ref_plural") %>
                     <% else %>
-                      <%= I18n.t("linked_record.ref") %>
+                      <%= t("linked_record.ref") %>
                     <% end %>
                   </div>
                   <div class="col-md-9 token-list">
@@ -121,7 +121,7 @@
           <%= render_aspace_partial :partial => "classifications/show", :locals => { :classifications => digital_object.classifications, :context => readonly, :section_id => "digital_object_classifications_" } %>
         <% end %>
 
-        <%= render_aspace_partial :partial => "assessments/embedded", :locals => { :record => digital_object, :filter_term => {"assessment_record_uris" => digital_object.uri}.to_json, :heading_text => I18n.t("assessment._frontend.linked_records.linked_via_assessment_records")} %>
+        <%= render_aspace_partial :partial => "assessments/embedded", :locals => { :record => digital_object, :filter_term => {"assessment_record_uris" => digital_object.uri}.to_json, :heading_text => t("assessment._frontend.linked_records.linked_via_assessment_records")} %>
 
         <%= show_plugins_for(@digital_object, readonly) %>
       <% end %>
