@@ -13,9 +13,10 @@
 
 
 See https://archivesspace.github.io/tech-docs/development/dev.html for additional info
+
 # Troubleshooting
 
-## Steps to bash into your container & bundle archivesspace frontend
+## Steps to bash into your container & bundle
 
 1. Make sure the services section of `docker-compose.yml` looks like this (the "command" needs to be uncommented):
 ```
@@ -47,9 +48,12 @@ services:
 4. if you need to bundle the frontend (staff interface): `./build/run bundle:frontend`
 5. if you need to bundle the public interface: `./build/run bundle:public`
 5. if you need to update an individual gem in the public interface: `./build/run bundle:public:update -Donly-gem=GEM-NAME-HERE`
-6. inside the container still- run the individual command to start the back end: `./build/run backend:devserver`
-7. new tab- bash into the container again: `docker-compose exec app bash`
-8. run the individual command to start the front end only: `./build/run frontend:devserver`
+
+## To start the containers separately: 
+1. new tab- bash into the container: `docker-compose exec app bash`
+2. run the individual command to start the back end: `./build/run backend:devserver`
+3. new tab- bash into the container again: `docker-compose exec app bash`
+4. run the individual command to start the front end only: `./build/run frontend:devserver`
 
 # How to use demo data in dev
 1. Copy the demo db into the db docker container: `docker cp demo.sql archivesspace_db_1:/` or `docker cp demo.sql archivesspace-db-1:/` depending on the name of your docker container
@@ -57,3 +61,21 @@ services:
 2. bash into the container for db: `docker-compose exec db sh`
 3. import the database: `mysql -p archivesspace < demo.sql`
 4. password is 123456
+
+# Running the test suite
+1. Bash into the container: `docker compose exec app bash`
+2. Unset frontend proxy URL: `unset APPCONFIG_FRONTEND_PROXY_URL`
+  - you will need to run this each time you open a new terminal/shell
+
+## The following commands will run the full set of tests for each aSpace app:
+- Frontend: `./build/run frontend:test` or `./build/run frontend:selenium`
+- Public: `./build/run public:test`
+- Indexer: `./build/run indexer:test`
+- Backend: `./build/run backend:test`
+
+## Other useful commands for testing
+- Run a single test file (you will replace the path at the end of the file or the command as needed):
+    - `./build/run frontend:test -Dpattern=features/repositories_spec.rb`
+- Run test set for accessibility (separate commands for frontend & public)
+    - `./build/run rspec -Ddir="../public" -Dtag="db:accessibility" -Dspec="features" -Dorder="defined"`
+    - `./build/run rspec -Ddir="../frontend" -Dtag="db:accessibility" -Dspec="features" -Dorder="defined"`
