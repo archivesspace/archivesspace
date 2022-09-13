@@ -1,7 +1,7 @@
 <%= link_to_help :topic => "resource" %>
 
 <h2>
-   <%= @form_title ? @form_title : @resource.title.blank? ? "#{I18n.t("resource.new_title")}" : clean_mixed_content( @resource.title)  %>  <span class="label label-info"><%= I18n.t("resource._singular") %></span>
+   <%= @form_title ? @form_title : @resource.title.blank? ? "#{t("resource.new_title")}" : clean_mixed_content( @resource.title)  %>  <span class="label label-info"><%= t("resource._singular") %></span>
 </h2>
 
 <%= render_aspace_partial :partial => "shared/form_messages", :locals => {:form => form} %>
@@ -14,7 +14,7 @@
 
   <section id="basic_information">
     <h3>
-      <%= I18n.t("resource._frontend.section.basic_information") %>
+      <%= t("resource._frontend.section.basic_information") %>
       <%= link_to_help :topic => "resource_basic_information" %>
     </h3>
 
@@ -48,7 +48,7 @@
 
   <section id="finding_aid" class="subrecord-form-dummy">
     <h3>
-      <%= I18n.t("resource._frontend.section.finding_aid") %>
+      <%= t("resource._frontend.section.finding_aid") %>
       <%= link_to_help :topic => "resource_finding_aid" %>
     </h3>
     <div class="subrecord-form-container">

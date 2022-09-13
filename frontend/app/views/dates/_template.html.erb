@@ -29,7 +29,7 @@
   <div class="inline-subform date-type-subform">
     <div class="form-group">
       <div class="control-label col-sm-2"></div>
-      <div class="controls col-sm-6"><em><%= I18n.t("date.date_type_message") %></em></div>
+      <div class="controls col-sm-6"><em><%= t("date.date_type_message") %></em></div>
     </div>
   </div>
 <% end %>
@@ -79,7 +79,7 @@
 <% define_template "structured_date_single_fields", jsonmodel_definition(:structured_date_single) do |form| %>
     <section class="subrecord-form sdl-subrecord-form">
       <h4 class="subrecord-form-heading">
-        <%= I18n.t("agent._frontend.section.structured_date_single_fields") %>
+        <%= t("agent._frontend.section.structured_date_single_fields") %>
       </h4>
       <div class="subrecord-form-fields subrecord-form-container">
         <div class="structured-date-container">
@@ -97,7 +97,7 @@
 
   <section class="subrecord-form sdl-subrecord-form">
     <h4 class="subrecord-form-heading">
-      <%= I18n.t("agent._frontend.section.structured_date_range_fields") %>
+      <%= t("agent._frontend.section.structured_date_range_fields") %>
     </h4>
     <div class="subrecord-form-fields subrecord-form-container">
       <div class="structured-date-container">
@@ -119,7 +119,7 @@
   <div class="subrecord-form-fields">
     <div class="date-container">
       <%= form.label_and_select "label", form.possible_options_for("label", false, :include => ["usage"]) %>
-      <%= form.label_and_textarea "expression", {:field_opts => {:placeholder => I18n.t('date._frontend.expression_placeholder', "Describe the date or date range")}, :required => :conditionally} %>
+      <%= form.label_and_textarea "expression", {:field_opts => {:placeholder => t('date._frontend.expression_placeholder')}, :required => :conditionally} %>
                         <%= form.label_and_select "date_type", form.possible_options_for("date_type", true, :exclude => ["bulk", "inclusive"]), :required => true %>
       <%form.emit_template("date_fields") %>
     </div>
@@ -131,7 +131,7 @@
   <div class="subrecord-form-fields">
     <div class="date-container">
       <%= form.label_and_select "label", form.possible_options_for("label") %>
-      <%= form.label_and_textarea "expression", {:field_opts => {:placeholder => I18n.t('date._frontend.expression_placeholder', "Describe the date or date range")}, :required => :conditionally} %>
+      <%= form.label_and_textarea "expression", {:field_opts => {:placeholder => t('date._frontend.expression_placeholder')}, :required => :conditionally} %>
         <%= form.label_and_select "date_type", form.possible_options_for("date_type", true, :exclude => ["bulk", "inclusive"]), :required => true %>
       <%form.emit_template("date_fields") %>
     </div>
@@ -143,7 +143,7 @@
   <div class="subrecord-form-fields">
     <div class="date-container">
       <%= form.label_and_select "label", form.possible_options_for("label"), :field_opts => {:default => "creation"} %>
-        <%= form.label_and_textarea "expression", {:field_opts => {:placeholder => I18n.t('date._frontend.expression_placeholder', "Describe the date or date range")}, :required => :conditionally} %>
+        <%= form.label_and_textarea "expression", {:field_opts => {:placeholder => t('date._frontend.expression_placeholder')}, :required => :conditionally} %>
         <%= form.label_and_select "date_type", form.possible_options_for("date_type", true, :exclude => ["range"] ), :required => true %>
       <%form.emit_template("date_fields") %>
     </div>
@@ -155,7 +155,7 @@
   <div class="subrecord-form-fields">
     <div class="date-container">
       <%= form.label_and_select "label", form.possible_options_for("label") %>
-      <%= form.label_and_textarea "expression", {:field_opts => {:placeholder => I18n.t('date._frontend.expression_placeholder', "Describe the date or date range")}, :required => :conditionally} %>
+      <%= form.label_and_textarea "expression", {:field_opts => {:placeholder => t('date._frontend.expression_placeholder')}, :required => :conditionally} %>
         <%= form.label_and_select "date_type", form.possible_options_for("date_type", true, :exclude => (exclude ||= [])), :required => true %>
       <%form.emit_template("date_fields") %>
     </div>

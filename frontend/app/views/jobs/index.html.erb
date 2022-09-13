@@ -1,4 +1,4 @@
-<%= setup_context(:title => I18n.t("job._plural")) %>
+<%= setup_context(:title => t("job._plural")) %>
 
 <div class="row">
   <div class="col-md-3">
@@ -16,7 +16,7 @@
          :fields => fields}
            ), id: "searchExport",  class:  "btn btn-sm btn-info" %>
             <a class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown" href="javascript:void(0);">
-              <%= I18n.t("job._frontend.actions.create") %>
+              <%= t("job._frontend.actions.create") %>
               <span class="caret"></span>
             </a>
             <ul class="dropdown-menu open-aligned-right">
@@ -27,7 +27,7 @@
                 <% next if type == 'bulk_import_job' %>
                 <% if perms['create_permissions'].reject{|perm| user_can?(perm)}.empty? %>
                   <li>
-                    <%= link_to I18n.t("job.types.#{type}", :default => type), :controller => :jobs, :action => :new, :job_type => type %>
+                    <%= link_to t("job.types.#{type}", :default => type), :controller => :jobs, :action => :new, :job_type => type %>
                   </li>
                 <% end %>
               <% end %>
@@ -41,7 +41,7 @@
     <div class="record-pane">
       <%= link_to_help :topic => "search" %>
 
-      <h2><%= I18n.t("job._plural") %></h2>
+      <h2><%= t("job._plural") %></h2>
 
       <%= render_aspace_partial :partial => "shared/flash_messages" %>
 

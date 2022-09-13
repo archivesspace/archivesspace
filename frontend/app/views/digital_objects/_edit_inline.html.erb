@@ -10,16 +10,16 @@
           <%= link_to_help :topic => "digital_object" %>
           <h2>
             <% if @digital_object.title.blank? %>
-              <%= I18n.t("digital_object._singular") %>
+              <%= t("digital_object._singular") %>
             <% else %>
               <%= clean_mixed_content(@digital_object.title) %>
             <% end %>
-            <span class="label label-info"><%= I18n.t("digital_object._singular") %></span>
+            <span class="label label-info"><%= t("digital_object._singular") %></span>
           </h2>
           <%= render_aspace_partial :partial => "digital_objects/form_container", :locals => {:form => form} %>
            <div class="form-actions">
-             <button type="submit" class="btn btn-primary"><%= I18n.t("digital_object._frontend.action.save") %></button>
-              <%= link_to I18n.t("actions.cancel"), :back, :class => "btn btn-cancel btn-default" %>
+             <button type="submit" class="btn btn-primary"><%= t("digital_object._frontend.action.save") %></button>
+              <%= link_to t("actions.cancel"), :back, :class => "btn btn-cancel btn-default" %>
            </div>
          </div>
       </div>

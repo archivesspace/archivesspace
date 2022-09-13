@@ -17,7 +17,7 @@ class OaiConfigController < ApplicationController
                 :obj => @oai_config,
                 :on_invalid => ->() { return render :action => :edit },
                 :on_valid => ->(id) {
-                  flash[:success] = I18n.t("oai_config._frontend.action.updated")
+                  flash[:success] = t("oai_config._frontend.action.updated")
                   redirect_to :controller => :oai_config, :action => :edit
                 })
   end
