@@ -75,6 +75,13 @@ describe 'MARCXML Bib converter' do
                         <subfield code="c">711_sub_c</subfield>
                         <subfield code="q">711_sub_q</subfield>
                       </datafield>
+                      <datafield ind1="1" ind2=" " tag="852">
+                        <subfield code="k">Call number prefix</subfield>
+                        <subfield code="h">Classification part</subfield>
+                        <subfield code="i">Item part</subfield>
+                        <subfield code="j">Shelving control number</subfield>
+                        <subfield code="m">Call number suffix</subfield>
+                      </datafield>
                   </record>
              </collection>
       END
@@ -147,6 +154,9 @@ describe 'MARCXML Bib converter' do
       end
     end
 
+    it "maps datafield[@tag='852'] $k, $h, $i, $j, $m to id_0" do
+      expect(@resource['id_0']).to eq("Call number prefix_Classification part_Item part_Shelving control number_Call number suffix")
+    end
 
 
     describe "MARC import mappings" do

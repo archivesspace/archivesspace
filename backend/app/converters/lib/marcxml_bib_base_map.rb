@@ -752,7 +752,7 @@ module MarcXMLBibBaseMap
 
         # ID_0, ID_1, ID_2, ID_3
         "datafield[@tag='852']" => -> resource, node {
-          id = concatenate_subfields(%w(k h i m), node, '_')
+          id = concatenate_subfields(%w(k h i j m), node, '_')
           resource.id_0 = id unless id.empty?
         },
 
