@@ -282,7 +282,7 @@
         <% form.push("rights_restriction", form["rights_restriction"] || {}) do %>
           <%=
           form.select("local_access_restriction_type[]",
-                      [["", ""]] + JSONModel.enum_values('restriction_type').map {|value| [I18n.t("enumerations.restriction_type.#{value}", value), value] },
+                      [["", ""]] + JSONModel.enum_values('restriction_type').map {|value| [t("enumerations.restriction_type.#{value}"), value] },
                       :default => form['local_access_restriction_type'])
           %>
         <% end %>
@@ -338,7 +338,7 @@
         <% form.push("rights_restriction", form["rights_restriction"] || {}) do %>
           <%=
           form.select("local_access_restriction_type[]",
-                      [["", ""]] + JSONModel.enum_values('restriction_type').map {|value| [I18n.t("enumerations.restriction_type.#{value}", value), value] },
+                      [["", ""]] + JSONModel.enum_values('restriction_type').map {|value| [t("enumerations.restriction_type.#{value}"), value] },
                       :default => form['local_access_restriction_type'])
           %>
         <% end %>
@@ -394,7 +394,7 @@
         <% form.push("rights_restriction", form["rights_restriction"] || {}) do %>
           <%=
           form.select("local_access_restriction_type[]",
-                      [["", ""]] + JSONModel.enum_values('restriction_type').map {|value| [I18n.t("enumerations.restriction_type.#{value}", value), value] },
+                      [["", ""]] + JSONModel.enum_values('restriction_type').map {|value| [t("enumerations.restriction_type.#{value}"), value] },
                       :default => form['local_access_restriction_type'])
           %>
         <% end %>
