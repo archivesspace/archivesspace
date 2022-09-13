@@ -10,7 +10,7 @@
 	<% record_types.delete('global') %>
 
 	<div id="template_information">
-		<h3><%= I18n.t "custom_report_template._frontend.section.template_information" %>
+		<h3><%= t "custom_report_template._frontend.section.template_information" %>
 		<%= link_to_help :topic => "accession_basic_information" %></h3>
 
 		<%= form.label_and_textfield "name", :required => true %>
@@ -20,7 +20,7 @@
 		<div class="form-group">
 			<%= form.label 'record_type', :class => "col-sm-2 control-label", :for => "custom_record_type" %>
 			<div class="col-sm-9">
-				<%= select_tag "custom_report_template[data][custom_record_type]", options_for_select(record_types.collect {|record_type| [I18n.t("#{record_type}._plural"), record_type]}, data['custom_record_type']), {:id => "custom_record_type", :class => "form-control"} %>
+				<%= select_tag "custom_report_template[data][custom_record_type]", options_for_select(record_types.collect {|record_type| [t("#{record_type}._plural"), record_type]}, data['custom_record_type']), {:id => "custom_record_type", :class => "form-control"} %>
 			</div>
 		</div>
 	</div>
@@ -36,7 +36,7 @@
 
 			<div id="<%= record_type %>_basic_information_fields">
 
-				<h3><%= I18n.t "custom_report_template._frontend.section.basic_information_fields" %></h3>
+				<h3><%= t "custom_report_template._frontend.section.basic_information_fields" %></h3>
 
 				<% fields.each do |field| %>
 					<% translation_scope = field['translation_scope'] || record_type %>
@@ -51,7 +51,7 @@
 					<div class="panel panel-default">
 
 						<div class="panel-heading">
-							<%= I18n.t("#{translation_scope}.#{field['alias'] || field_name}", :default => field_name) %>
+							<%= t("#{translation_scope}.#{field['alias'] || field_name}", :default => field_name) %>
 						</div>
 
 						<div style="padding-bottom: 10px;">
@@ -74,7 +74,7 @@
 									<%= form.label 'values', :class => 'col-sm-2 control-label', :for => "custom_report_template_data_agent_fields_type_values" %>
 									<% agent_types = ['agent_family', 'agent_person', 'agent_corporate_entity', 'agent_software'] %>
 									<div class="col-sm-9">
-										<%= select_tag "custom_report_template[data][#{record_type}][fields][#{field_name}][values]", options_for_select(agent_types.collect {|agent_type| [I18n.t("agent.agent_type.#{agent_type}"), agent_type]}, field_data['values']), :multiple => true, :style => "width: auto; max-with: 100%;", :class=>"form-control" %>
+										<%= select_tag "custom_report_template[data][#{record_type}][fields][#{field_name}][values]", options_for_select(agent_types.collect {|agent_type| [t("agent.agent_type.#{agent_type}"), agent_type]}, field_data['values']), :multiple => true, :style => "width: auto; max-with: 100%;", :class=>"form-control" %>
 									</div>
 								</div>
 							<% end %>
@@ -83,7 +83,7 @@
 								<div class="form-group">
 									<%= form.label "value", :class => "col-sm-2 control-label", :for =>  "custom_report_template_data_#{record_type}_fields_#{field_name}_value" %>
 									<div class="col-sm-9">
-										<%= select_tag "custom_report_template[data][#{record_type}][fields][#{field_name}][value]", options_for_select([["", nil], [I18n.t('custom_report_template.true'), true], [I18n.t('custom_report_template.false'), false]], field_data['value']), :style => "width: auto; max-with: 100%;", :class=>"form-control" %>
+										<%= select_tag "custom_report_template[data][#{record_type}][fields][#{field_name}][value]", options_for_select([["", nil], [t('custom_report_template.true'), true], [t('custom_report_template.false'), false]], field_data['value']), :style => "width: auto; max-with: 100%;", :class=>"form-control" %>
 									</div>
 								</div>
 							<% end %>
@@ -97,7 +97,7 @@
 									<div class="form-group">
 										<%= form.label 'values', :class => 'col-sm-2 control-label', :for =>  "custom_report_template_data_#{record_type}_fields_#{field_name}_values" %>
 										<div class="col-sm-9">
-											<%= select_tag "custom_report_template[data][#{record_type}][fields][#{field_name}][values]", options_for_select(options.collect {|value| [I18n.t("enumerations.#{enum_name}.#{value['value']}", :default => value['value']), value['id']]}, field_data['values']), :multiple => true, :style => "width: auto; max-with: 100%;", :class=>"form-control" %>
+											<%= select_tag "custom_report_template[data][#{record_type}][fields][#{field_name}][values]", options_for_select(options.collect {|value| [t("enumerations.#{enum_name}.#{value['value']}", :default => value['value']), value['id']]}, field_data['values']), :multiple => true, :style => "width: auto; max-with: 100%;", :class=>"form-control" %>
 										</div>
 									</div>
 								<% end %>
@@ -123,7 +123,7 @@
 			</div>
 
 			<div id="<%= record_type %>_linked_records">
-				<h3><%= I18n.t "custom_report_template._frontend.section.linked_records" %></h3>
+				<h3><%= t "custom_report_template._frontend.section.linked_records" %></h3>
 
 				<% custom_data[record_type]['subreports'].each do |subreport| %>
 					<% field_name = subreport['name'] %>
@@ -142,13 +142,13 @@
 			</div>
 
 			<div id="<%= record_type %>_sort_by">
-				<h3><%= I18n.t "custom_report_template._frontend.section.sort_by" %></h3>
+				<h3><%= t "custom_report_template._frontend.section.sort_by" %></h3>
 
 				<% sortable_fields = [] %>
 				<% fields.each do |field| %>
 					<% if field['sortable'] %>
 						<% translation_scope = field['translation_scope'] || record_type %>
-						<% sortable_fields.push([I18n.t("#{translation_scope}.#{field['alias'] ||field['name']}"), field['name']]) %>
+						<% sortable_fields.push([t("#{translation_scope}.#{field['alias'] ||field['name']}"), field['name']]) %>
 					<% end %>
 				<% end %>
 

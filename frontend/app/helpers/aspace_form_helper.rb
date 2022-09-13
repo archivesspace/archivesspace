@@ -333,7 +333,7 @@ module AspaceFormHelper
     def label_and_boolean(name, opts = {}, default = false, force_checked = false)
       opts[:col_size] = 1
       opts[:controls_class] = "checkbox"
-      label_with_field(name, checkbox(name, opts, default, force_checked), opts)
+      label_with_field(name, checkbox(name, opts.except(:label_opts), default, force_checked), opts)
     end
 
     def label_and_readonly(name, default = "", opts = {})

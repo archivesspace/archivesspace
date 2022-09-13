@@ -6,11 +6,11 @@
       <h2>Reports</h2>
 
       <div class="accordion" id="reportListing">
-        <% @report_data["reports"].values.sort {|x,y| I18n.t("reports.#{x['code']}.title") <=> I18n.t("reports.#{y['code']}.title") }.each do | report | %>
+        <% @report_data["reports"].values.sort {|x,y| t("reports.#{x['code']}.title") <=> t("reports.#{y['code']}.title") }.each do | report | %>
           <div class="panel panel-default">
             <div class="panel-heading">
               <a class="accordion-toggle" data-toggle="collapse" data-parent="#reportListing" href="#reportListing_<%= report["code"] %>">
-                <%= I18n.t("reports.#{report["code"]}.title", :default => report["code"]) %>
+                <%= t("reports.#{report["code"]}.title", :default => report["code"]) %>
               </a>
             </div>
             <div id="reportListing_<%= report["code"] %>" class="accordion-body collapse <% if @report_errors && @report && report['model'] === @report['model'] %>in<% end %>">
@@ -20,7 +20,7 @@
               <% if @report_errors && @report["code"] === report["code"] %>
                 <div class="alert alert-danger">
                   <% @report_errors['error'].each do | field, msgs |%>
-                  <div><%= I18n.t("reports.parameters.#{field}", :default => field) %> - <%= msgs.join(", ") %></div>
+                  <div><%= t("reports.parameters.#{field}", :default => field) %> - <%= msgs.join(", ") %></div>
                   <% end %>
                 </div>
               <% end %>
@@ -36,15 +36,15 @@
                       <% report_params.each do | param | %>
                        <%= @report_params.inspect %> 
                         <div class="form-group <% if @report_errors &&  @report["code"] === report["code"] && @report_errors['error'].has_key?(param[0]) %>error<% end %>">
-                          <label class="col-sm-2 control-label"><%= I18n.t("reports.parameters.#{param[0]}", :default => param[0]) %></label>
+                          <label class="col-sm-2 control-label"><%= t("reports.parameters.#{param[0]}", :default => param[0]) %></label>
                           <div class="col-sm-9">
                             <%= @report_params[param[0]].inspect %> 
                             <% if param[1] === "Date" %>
-                              <%= form.textfield param[0].intern, @report_params[param[0]], :class => 'date-field form-control', :'data-format' => 'yyyy-mm-dd', :placeholder => 'yyyy-mm-dd', :"data-label" => I18n.t("actions.date_picker_toggle") %>
+                              <%= form.textfield param[0].intern, @report_params[param[0]], :class => 'date-field form-control', :'data-format' => 'yyyy-mm-dd', :placeholder => 'yyyy-mm-dd', :"data-label" => t("actions.date_picker_toggle") %>
                             <% elsif param[1] === "String" && param.length > 3 && param[3].has_key?("enumeration") %>
                               <%= form.select(param[0].intern,
                                               options_for_select(
-                                                JSONModel.enum_values(param[3]["enumeration"]).map{|v| [I18n.t("enumerations.#{param[3]["enumeration"]}.#{v}", :default => v), v]},
+                                                JSONModel.enum_values(param[3]["enumeration"]).map{|v| [t("enumerations.#{param[3]["enumeration"]}.#{v}", :default => v), v]},
                                                 @report_params[param[0]]
                                               )) %>
                             <% else %>
@@ -57,7 +57,7 @@
                     <div class="form-group">
                       <label class="col-sm-2 control-label">Format</label>
                       <div class="col-sm-9">
-                        <%= form.select("format", options_for_select(@report_data["formats"].map{|format| [I18n.t("reports.formats.#{format}", :default => format), format]}, @report_params["format"]), :class => 'form-control') %>
+                        <%= form.select("format", options_for_select(@report_data["formats"].map{|format| [t("reports.formats.#{format}", :default => format), format]}, @report_params["format"]), :class => 'form-control') %>
                       </div>
                     </div>
                   <% end %>

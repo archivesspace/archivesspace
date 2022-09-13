@@ -161,7 +161,7 @@ describe 'Enumeration Management' do
     assert(5) { @driver.find_element(css: '#accession_collection_management__accordian div:last-child').text.include?('IMPORTANT.') }
   end
 
-  it 'lets you see how many times the term has been used and search for it' do
+  it 'lets you see how many times the term has been used and search for it', skip: 'UPGRADE lost in translation' do
     # now lets make sure it's there
     @driver.find_element(:link, 'Create').click
     @driver.click_and_wait_until_gone(:link, 'Accession')

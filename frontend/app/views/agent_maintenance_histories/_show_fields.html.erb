@@ -1,15 +1,15 @@
 <div class='form-group'>
   <div class='control-label col-sm-2'>
-    <%= I18n.t("agent_maintenance_history.maintenance_event_type") %>
+    <%= t("agent_maintenance_history.maintenance_event_type") %>
   </div>
   <div class='label-only col-sm-8'>
-    <%= I18n.t("enumerations.maintenance_event_type.#{agent_maintenance_history['maintenance_event_type']}", :default => agent_maintenance_history['maintenance_event_type']) %>
+    <%= t("enumerations.maintenance_event_type.#{agent_maintenance_history['maintenance_event_type']}", :default => agent_maintenance_history['maintenance_event_type']) %>
   </div>
 </div>
 
 <div class='form-group'>
   <div class='control-label col-sm-2'>
-    <%= I18n.t("agent_maintenance_history.event_date") %>
+    <%= t("agent_maintenance_history.event_date") %>
   </div>
   <div class='label-only col-sm-8'>
     <% if agent_maintenance_history['event_date'] %>
@@ -20,7 +20,7 @@
 
 <div class='form-group'>
   <div class='control-label col-sm-2'>
-    <%= I18n.t("agent_maintenance_history.agent") %>
+    <%= t("agent_maintenance_history.agent") %>
   </div>
   <div class='label-only col-sm-8'>
     <% if agent_maintenance_history['agent'] %>
@@ -31,16 +31,16 @@
 
 <div class='form-group'>
   <div class='control-label col-sm-2'>
-    <%= I18n.t("agent_maintenance_history.maintenance_agent_type") %>
+    <%= t("agent_maintenance_history.maintenance_agent_type") %>
   </div>
   <div class='label-only col-sm-8'>
-    <%= I18n.t("enumerations.maintenance_agent_type.#{agent_maintenance_history['maintenance_agent_type']}", :default => agent_maintenance_history['maintenance_agent_type']) %>
+    <%= t("enumerations.maintenance_agent_type.#{agent_maintenance_history['maintenance_agent_type']}", :default => agent_maintenance_history['maintenance_agent_type']) %>
   </div>
 </div>
 
 <div class='form-group'>
   <div class='control-label col-sm-2'>
-    <%= I18n.t("agent_maintenance_history.descriptive_note") %>
+    <%= t("agent_maintenance_history.descriptive_note") %>
   </div>
   <div class='label-only col-sm-8'>
     <% if agent_maintenance_history['descriptive_note'] %>

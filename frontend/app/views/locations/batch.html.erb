@@ -1,4 +1,4 @@
-<%= setup_context :title => I18n.t("location_batch._singular"), :trail => [[I18n.t("location._plural"), {:controller => :locations, :action => :index}]] %>
+<%= setup_context :title => t("location_batch._singular"), :trail => [[t("location._plural"), {:controller => :locations, :action => :index}]] %>
 
 <%= form_for @location_batch, :as => "location_batch", :url => {:action => :batch_create}, :html => {:class => 'form-horizontal aspace-record-form'} do |f| %>
   <%= form_context :location_batch, @location_batch do |form| %>
@@ -9,13 +9,13 @@
       <div class="col-md-9">
         <div class="record-pane">
 
-          <h2><%= I18n.t("location_batch._singular") %></h2>
+          <h2><%= t("location_batch._singular") %></h2>
 
           <section class="subrecord-form-dummy" id="location">
-            <h3 class="subrecord-heading"><%= I18n.t("location_batch._frontend.section.location") %></h3>
+            <h3 class="subrecord-heading"><%= t("location_batch._frontend.section.location") %></h3>
             <div class="subrecord-form-container">
               <p class="alert alert-info">
-              <%= I18n.t("location_batch._frontend.messages.#{@location_batch.jsonmodel_type}_info") %>
+              <%= t("location_batch._frontend.messages.#{@location_batch.jsonmodel_type}_info") %>
               </p>
               <div class="subrecord-form-fields">
                 <%= render_aspace_partial :partial => "locations/form_batch", :locals => {:form => form} %>
@@ -25,10 +25,10 @@
 
           <% unless @is_batch_update %>
             <section class="subrecord-form-dummy" id="ranges">
-              <h3 class="subrecord-heading"><%= I18n.t("location_batch._frontend.section.ranges") %></h3>
+              <h3 class="subrecord-heading"><%= t("location_batch._frontend.section.ranges") %></h3>
               <div class="subrecord-form-container">
                 <p class="alert alert-info">
-                  <%= I18n.t("location_batch._frontend.messages.ranges_info", :max_range => AppConfig[:max_location_range].to_s) %>
+                  <%= t("location_batch._frontend.messages.ranges_info", :max_range => AppConfig[:max_location_range].to_s) %>
                 </p>
                 <div class="subrecord-form-fields">
                   <%= render_aspace_partial :partial => "locations/batch_form", :locals => {:form => form} %>
@@ -38,18 +38,18 @@
           <% end %>
           
           <div class="form-actions">
-            <% if !@is_batch_update  &&  !(I18n.t("location_batch._frontend.messages.warning", :default => "").blank?) %>
-              <div class="alert alert-warning"><%= I18n.t("location_batch._frontend.messages.warning") %></div>
+            <% if !@is_batch_update  &&  !(t("location_batch._frontend.messages.warning", :default => "").blank?) %>
+              <div class="alert alert-warning"><%= t("location_batch._frontend.messages.warning") %></div>
             <% end %>
             <button type="submit" class="btn btn-primary">
-              <%= image_tag "archivesspace/btn-busy.gif", :class=>"btn-busy-icon", :alt=>I18n.t("location_batch._frontend.action.creating") %>
-              <span class="btn-label"><%= I18n.t("location_batch._frontend.action.#{@action}") %></span>
-              <span class="btn-busy-label"><%= I18n.t("location_batch._frontend.action.creating") %></span>
+              <%= image_tag "archivesspace/btn-busy.gif", :class=>"btn-busy-icon", :alt=>t("location_batch._frontend.action.creating") %>
+              <span class="btn-label"><%= t("location_batch._frontend.action.#{@action}") %></span>
+              <span class="btn-busy-label"><%= t("location_batch._frontend.action.creating") %></span>
             </button>
             <% if !@is_batch_update %> 
-              <button type="button" class="btn preview-locations"><%= I18n.t("location_batch._frontend.action.preview") %></button>
+              <button type="button" class="btn preview-locations"><%= t("location_batch._frontend.action.preview") %></button>
             <% end %>   
-            <%= link_to I18n.t("actions.cancel"), :back, :class => "btn btn-cancel btn-default" %>
+            <%= link_to t("actions.cancel"), :back, :class => "btn btn-cancel btn-default" %>
           </div>
         </div>
       </div>

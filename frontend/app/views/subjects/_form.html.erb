@@ -7,7 +7,7 @@
   <% define_template "subject", jsonmodel_definition(:subject) do |form| %>
     <section id="basic_information">
       <h3>
-        <%= I18n.t("subject._frontend.section.basic_information") %>
+        <%= t("subject._frontend.section.basic_information") %>
         <%= link_to_help :topic => "subject_basic_information" %>
       </h3>
 
@@ -29,7 +29,7 @@
 
   <% form.emit_template("subject") %>
 
-  <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "terms", :required => true, :heading_text => I18n.t("subject._frontend.section.terms")} %>
+  <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "terms", :required => true, :heading_text => t("subject._frontend.section.terms")} %>
   <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "external_documents"} %>
   <%= render_aspace_partial :partial => "external_ids/edit", :locals => {:form => form, :section_id => "external_ids"} %>
   <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "metadata_rights_declarations"} %>

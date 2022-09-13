@@ -15,8 +15,8 @@ class ExtentCalculatorController < ApplicationController
                    extent.extent_type = units
                  end
                  container_cardinality = results['container_count'] == 1 ?
-                                           I18n.t('extent_calculator.container_summary_type._singular') :
-                                           I18n.t('extent_calculator.container_summary_type._plural')
+                                           t('extent_calculator.container_summary_type._singular') :
+                                           t('extent_calculator.container_summary_type._plural')
                  extent.container_summary = "(#{results['container_count']} #{container_cardinality})"
                  extent
                end

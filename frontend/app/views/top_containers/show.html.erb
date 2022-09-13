@@ -9,7 +9,7 @@
     <div class="record-pane">
       <section id="basic_information">
       <%= readonly_context :top_container, @top_container do |readonly| %>
-        <h2><%= @top_container.display_string %> <span class="label label-info"><%= I18n.t("top_container._singular") %></span></h2>
+        <h2><%= @top_container.display_string %> <span class="label label-info"><%= t("top_container._singular") %></span></h2>
 
         <%= render_aspace_partial :partial => "shared/flash_messages" %>
 
@@ -21,7 +21,7 @@
 
           <% if @top_container.container_profile %>
             <div class="form-group token-list">
-                <label class="control-label col-sm-2"><%= I18n.t("container_profile._singular") %></label>
+                <label class="control-label col-sm-2"><%= t("container_profile._singular") %></label>
                 <div class="controls col-sm-8">
                     <%= render_token :object => @top_container["container_profile"]["_resolved"],
                     :label => @top_container["container_profile"]["_resolved"]["name"],
@@ -39,7 +39,7 @@
 
           <%= readonly.label_and_textarea "ils_holding_id" %>
           <%= readonly.label_and_textarea "ils_item_id" %>
-          <%= readonly.label_and_textarea "exported_to_ils", :default => I18n.t("top_container.not_exported") %>
+          <%= readonly.label_and_textarea "exported_to_ils", :default => t("top_container.not_exported") %>
 
           <%= render_plugin_partials("basic_information_top_container",
                                      :form => readonly,
@@ -54,16 +54,16 @@
           <% end %>
 
           <section id="rights_restrictions">
-            <h3 class="subrecord-form-heading"><%= I18n.t("top_container._frontend.section.active_restrictions") %></h3>
+            <h3 class="subrecord-form-heading"><%= t("top_container._frontend.section.active_restrictions") %></h3>
             <% if @top_container["active_restrictions"].length > 0 %>
               <table class="table table-bordered table-striped">
                 <thead>
                   <tr>
-                    <th><%= I18n.t("rights_restriction.linked_records") %></th>
-                    <th><%= I18n.t("rights_restriction.restriction_note_type") %></th>
-                    <th><%= I18n.t("rights_restriction.begin") %></th>
-                    <th><%= I18n.t("rights_restriction.end") %></th>
-                    <th><%= I18n.t("rights_restriction.local_access_restriction_type") %></th>
+                    <th><%= t("rights_restriction.linked_records") %></th>
+                    <th><%= t("rights_restriction.restriction_note_type") %></th>
+                    <th><%= t("rights_restriction.begin") %></th>
+                    <th><%= t("rights_restriction.end") %></th>
+                    <th><%= t("rights_restriction.local_access_restriction_type") %></th>
                   </tr>
                 </thead>
                 <tbody>
@@ -77,13 +77,13 @@
                                         :uri => restriction["linked_records"]["ref"] %>
                         </div>
                       </td>
-                      <td><%= I18n.t("enumerations.note_multipart_type.#{restriction["restriction_note_type"]}", restriction["restriction_note_type"]) %></td>
+                      <td><%= t("enumerations.note_multipart_type.#{restriction["restriction_note_type"]}", restriction["restriction_note_type"]) %></td>
                       <td><%= restriction["begin"] %></td>
                       <td><%= restriction["end"] %></td>
                       <td>
                         <ul>
                           <% Array.wrap(restriction["local_access_restriction_type"]).
-                              map{|type| I18n.t("enumerations.restriction_type.#{type}",type)}.
+                              map{|type| t("enumerations.restriction_type.#{type}",type)}.
                               sort.each do |type| %>
                             <li><%= type %></li>
                           <% end %>
@@ -94,11 +94,11 @@
                 </tbody>
               </table>
             <% else %>
-              <div class="alert alert-info"><%= I18n.t("top_container._frontend.messages.no_active_restrictions") %></div>
+              <div class="alert alert-info"><%= t("top_container._frontend.messages.no_active_restrictions") %></div>
             <% end %>
           </section>
 
-          <%= render_aspace_partial :partial => "search/embedded", :locals => {:record => @top_container, :section_id => "container_contents", :filter_term => {"top_container_uri_u_sstr" => @top_container.uri}.to_json, :heading_text => I18n.t("location._frontend.section.search_embedded")} %>
+          <%= render_aspace_partial :partial => "search/embedded", :locals => {:record => @top_container, :section_id => "container_contents", :filter_term => {"top_container_uri_u_sstr" => @top_container.uri}.to_json, :heading_text => t("location._frontend.section.search_embedded")} %>
 
           <%= show_plugins_for(@top_container, readonly) %>
 

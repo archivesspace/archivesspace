@@ -62,7 +62,7 @@ class LocationProfilesController < ApplicationController
                     @location_profile.refetch
                     render :json => @location_profile.to_hash if inline?
                   else
-                    flash[:success] = I18n.t("location_profile._frontend.messages.created")
+                    flash[:success] = t("location_profile._frontend.messages.created")
                     return redirect_to :controller => :location_profiles, :action => :new if params.has_key?(:plus_one)
                     redirect_to(:controller => :location_profiles, :action => :show, :id => id)
                   end

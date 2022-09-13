@@ -80,6 +80,21 @@ GEM
       choice (>= 0.1.0)
       ffi (>= 1.0.0)
       rack (>= 1.0.0)
+    http (5.0.1)
+      addressable (~> 2.3)
+      http-cookie (~> 1.0)
+      http-form_data (~> 2.2)
+      llhttp-ffi (~> 0.3.0)
+    http-cookie (1.0.4)
+      domain_name (~> 0.5)
+    http-form_data (2.3.0)
+    json (2.5.1)
+    json (2.5.1-java)
+    jwt (2.2.2)
+    less2sass (1.2.0)
+    llhttp-ffi (0.3.1)
+      ffi-compiler (~> 1.0)
+      rake (~> 13.0)
     multi_json (1.15.0)
     multi_xml (0.6.0)
     multipart-post (1.2.0)
@@ -206,6 +221,9 @@ GEM
 
 PLATFORMS
   java
+  ruby
+  universal-java-11
+
 
 DEPENDENCIES
   activesupport (< 6.0)
@@ -233,7 +251,11 @@ DEPENDENCIES
   pry
   pry-debugger-jruby
   pry-nav
+  rack-session-sequel (= 0.0.1)
   rack-test
+  http
+  json
+  less2sass
   rake
   rjack-jackson (= 1.8.11.0)
   rrtf
@@ -256,4 +278,4 @@ DEPENDENCIES
   yard
 
 BUNDLED WITH
-   2.1.4
+   2.3.15

@@ -3,7 +3,7 @@
     <% if not @event.suppressed %>
       <% if !['edit', 'update'].include?(controller.action_name) %>
         <div class="btn-group pull-left">
-          <%= link_to I18n.t("actions.edit"), {:controller => :events, :action => :edit, :id => @event.id}, :class => "btn btn-sm btn-primary" %>
+          <%= link_to t("actions.edit"), {:controller => :events, :action => :edit, :id => @event.id}, :class => "btn btn-sm btn-primary" %>
         </div>
       <% end %>
     <% end %>
@@ -11,7 +11,7 @@
     <div class="btn-toolbar pull-right">
       <div class="btn-group">
         <div class="btn btn-inline-form">
-          <%= button_delete_action url_for(:controller => :events, :action => :delete, :id => @event.id), { :"data-title" => I18n.t("actions.delete_confirm_title", :title => record_title) } %>
+          <%= button_delete_action url_for(:controller => :events, :action => :delete, :id => @event.id), { :"data-title" => t("actions.delete_confirm_title", :title => record_title) } %>
         </div>
       </div>
     </div>

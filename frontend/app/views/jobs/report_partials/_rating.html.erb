@@ -3,5 +3,5 @@ definitions = JSONModel(:assessment_attribute_definitions).find(nil)
 ratings = definitions.definitions.select {|definition| definition['type'] == 'rating' && (definition['global'] || definition['repo_id'] == @repo_id)}
 %>
 
-<%= form.select :rating, ratings.collect { |rating| [I18n.t("assessment_attribute.#{rating['type']}.#{rating['label']}", :default => rating['label']), rating['id']] }, :id => "assessment_ratings_report_rating_selection" %>
+<%= form.select :rating, ratings.collect { |rating| [t("assessment_attribute.#{rating['type']}.#{rating['label']}", :default => rating['label']), rating['id']] }, :id => "assessment_ratings_report_rating_selection" %>
 
