@@ -195,7 +195,7 @@
       <env key="GEM_PATH" value="" />
       <env key="BUNDLE_PATH" value="${gem_home}" />
       <env key="HOME" value="${build.home}" />
-      <arg line="-S gem install bundler -v 2.1.4" />
+      <arg line="-S gem install bundler -v 2.3.15" />
     </java>
     <antcall target="bundler">
       <param name="gemfile" value="../backend/Gemfile" />
@@ -231,7 +231,7 @@
       <env key="GEM_PATH" value="" />
       <env key="BUNDLE_PATH" value="${gem_home}" />
       <env key="HOME" value="${build.home}" />
-      <arg line="-S gem install bundler -v 2.1.4 --conservative" />
+      <arg line="-S gem install bundler -v 2.3.15 --conservative" />
     </java>
   </target>
 
