@@ -1061,7 +1061,7 @@ en:
       action:
         add: Add File Version
         make_representative: Make Representative
-        make_representative_tooltip: Make Representative Tooltip
+        make_representative_tooltip: Use to indicate that this image should be displayed when there are multiple file versions associated with the record.
 
   group:
     _frontend:
@@ -1148,9 +1148,9 @@ en:
       action:
         add: Add Name Form
         make_authorized: Make Authoritive Name
-        make_authorized_tooltip: Make Authoritive Name Tooltip
+        make_authorized_tooltip: Use to indicate the name form is the authoritative version of the name.
         make_display_name: Make Display Name
-        make_display_name_tooltip: Make Display Name Tooltip
+        make_display_name_tooltip: Use to indicate that this form of the name should be used for displays when there are multiple name forms associated with the agent record.
         make_primary: Make Primary
 
   note:
