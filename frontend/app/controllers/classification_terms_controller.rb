@@ -33,7 +33,7 @@ class ClassificationTermsController < ApplicationController
                 :find_opts => find_opts,
                 :on_invalid => ->() { render_aspace_partial :partial => "new_inline" },
                 :on_valid => ->(id) {
-                 
+
                   success_message = @classification_term.parent ?
                                       t("classification_term._frontend.messages.created_with_parent", classification_term_title: @classification_term.title) :
                                       t("classification_term._frontend.messages.created", classification_term_title: @classification_term.title)
@@ -113,7 +113,7 @@ class ClassificationTermsController < ApplicationController
     classification_term = JSONModel(:classification_term).find(params[:id])
     classification_term.delete
 
-    flash[:success] = t("classification_term._frontend.messages.deleted", classification_term_title: classification_term.title) 
+    flash[:success] = t("classification_term._frontend.messages.deleted", classification_term_title: classification_term.title)
 
     resolver = Resolver.new(classification_term['classification']['ref'])
     redirect_to resolver.view_uri
