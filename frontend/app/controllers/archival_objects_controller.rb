@@ -18,7 +18,7 @@ class ArchivalObjectsController < ApplicationController
     if params[:accession_id]
       acc = Accession.find(params[:accession_id], find_opts)
       @archival_object.populate_from_accession(acc)
-      flash.now[:info] = t("archival_object._frontend.messages.spawned", accession_display_string: @accession.parent) 
+      flash.now[:info] = t("archival_object._frontend.messages.spawned", accession_display_string: @archival_object.parent) 
       flash[:spawned_from_accession] = acc.id
     end
 
