@@ -159,7 +159,7 @@ describe 'Enumeration Management' do
     assert(5) { @driver.find_element(css: '#accession_collection_management__accordian div:last-child').text.include?('IMPORTANT.') }
   end
 
-  it 'lets you see how many times the term has been used and search for it', skip: 'UPGRADE lost in translation' do
+  it 'lets you see how many times the term has been used and search for it' do
     # now lets make sure it's there
     @driver.find_element(:link, 'Create').click
     @driver.click_and_wait_until_gone(:link, 'Accession')
@@ -174,7 +174,7 @@ describe 'Enumeration Management' do
     # now add collection management
     @driver.find_element(css: '#accession_collection_management_ .subrecord-form-heading .btn:not(.show-all)').click
 
-    @driver.find_element(id: 'accession_collection_management__processing_priority_').select_option_with_text('High')
+    @driver.find_element(id: 'accession_collection_management__processing_priority_').select_option_with_text('high')
     @driver.click_and_wait_until_gone(css: "form#accession_form button[type='submit']")
 
     @driver.click_and_wait_until_gone(link: cm_accession_title)
