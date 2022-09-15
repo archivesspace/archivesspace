@@ -18,7 +18,7 @@
     <div class="btn-toolbar ml-auto">
       <div class="btn-group">
         <% if ['edit', 'update', 'new', 'create'].include?(controller.action_name) %>
-          <button class="btn btn-sm btn-success no-change-tracking" type="button" id="check_all" data-checked="<%= t("actions.check_all") %>" data-unchecked="<%= t("actions.uncheck_all") %>"><%= t("actions.check_all") %></button>
+          <button class="btn btn-sm border btn-success no-change-tracking" type="button" id="check_all" data-checked="<%= t("actions.check_all") %>" data-unchecked="<%= t("actions.uncheck_all") %>"><%= t("actions.check_all") %></button>
         <% end %>
         <% if controller.action_name == 'edit' %>
           <%= link_to t("actions.run"),
