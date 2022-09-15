@@ -257,7 +257,7 @@ module MarcXMLBibBaseMap
       "subfield[@code='b'][2]" => trim('subordinate_name_2', '.'),
       "subfield[@code='b'][3]" => appends_subordinate_name_2,
       "subfield[@code='b'][4]" => appends_subordinate_name_2,
-      "subfield[@code='c']" => adds_prefixed_qualifier('Location of meeting'),
+      "subfield[@code='c']" => trim('location', '.'),
       "subfield[@code='d']" => adds_prefixed_qualifier('Date of meeting or treaty signing'),
       "subfield[@code='f']" => adds_prefixed_qualifier('Date of work'),
       "subfield[@code='n']" => trim('number', '.', ['(', ')', ':']),
