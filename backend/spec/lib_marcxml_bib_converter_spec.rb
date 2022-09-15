@@ -398,11 +398,11 @@ describe 'MARCXML Bib converter' do
         has_qualifier = 0
         @corps.each do |corp|
           corp['names'].each do |name|
-            has_qualifier += 1 if name['qualifier'] == "Qualifier"
+            has_qualifier += 1 if name['qualifier'] =~ /Qualifier/
           end
         end
 
-        expect(has_qualifier).to eq(1)
+        expect(has_qualifier).to eq(5)
       end
     end
   end
