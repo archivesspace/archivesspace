@@ -722,7 +722,7 @@
     <pathconvert pathsep=" " property="plugin-selenium-dirs" refid="plugins"/>
     <antcall target="rspec">
       <param name="dir" value="../frontend" />
-      <param name="pattern" value="selenium/spec/**/*_spec.rb" />
+      <param name="spec" value="selenium/spec" />
       <param name="order" value="defined" />
       <param name="extra-spec-paths" value="${plugin-selenium-dirs}"/>
     </antcall>
@@ -844,7 +844,6 @@
     <property name="tag" value="~db"/>
     <antcall target="rspec">
       <param name="dir" value="../public" />
-      <param name="pattern" value="spec/**/*_spec.rb" />
       <param name="tag" value="${tag}" />
     </antcall>
   </target>
