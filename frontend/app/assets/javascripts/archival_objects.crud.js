@@ -117,21 +117,21 @@ function TreeLinkingModal(config) {
         self.menu = $('<ul>').addClass('dropdown-menu largetree-dropdown-menu');
         self.menu.append(
           $(
-            '<li><a href="javascript:void(0)" class="add-items-before">' +
+            '<li class="dropdown-item"><a href="javascript:void(0)" class="add-items-before">' +
               SPAWN_MENU_ITEMS.before +
               '</a></li>'
           )
         );
         self.menu.append(
           $(
-            '<li><a href="javascript:void(0)" class="add-items-as-children">' +
+            '<li class="dropdown-item"><a href="javascript:void(0)" class="add-items-as-children">' +
               SPAWN_MENU_ITEMS.child +
               '</a></li>'
           )
         );
         self.menu.append(
           $(
-            '<li><a href="javascript:void(0)" class="add-items-after">' +
+            '<li class="dropdown-item"><a href="javascript:void(0)" class="add-items-after">' +
               SPAWN_MENU_ITEMS.after +
               '</a></li>'
           )

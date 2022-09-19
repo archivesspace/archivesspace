@@ -433,10 +433,10 @@
             self.menu.append($('<li class="dropdown-item"><a href="javascript:void(0)" class="add-items-before"><%= I18n.t('tree.drag_and_drop_actions.before') %></a></li>'));
         }
 
-        self.menu.append($('<li><a href="javascript:void(0)" class="add-items-as-children"><%= I18n.t('tree.drag_and_drop_actions.as_child') %></a></li>'));
+        self.menu.append($('<li class="dropdown-item"><a href="javascript:void(0)" class="add-items-as-children"><%= I18n.t('tree.drag_and_drop_actions.as_child') %></a></li>'));
 
         if (!dropTarget.is('.root-row')) {
-            self.menu.append($('<li><a href="javascript:void(0)" class="add-items-after"><%= I18n.t('tree.drag_and_drop_actions.after') %></a></li>'));
+            self.menu.append($('<li class="dropdown-item"><a href="javascript:void(0)" class="add-items-after"><%= I18n.t('tree.drag_and_drop_actions.after') %></a></li>'));
         }
 
         $(document.body).append(self.menu);
