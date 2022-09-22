@@ -20,18 +20,18 @@ describe 'Custom Reports', js: true do
   end
 
   context 'Index' do
-    it 'is axe clean', skip: 'UPGRADE waiting on bootstrap fixes' do
+    it 'is axe clean' do
       visit '/custom_report_templates'
 
-      expect(page).to be_axe_clean.within('.record-toolbar' '.record-pane')
+      expect(page).to be_axe_clean.within '.record-toolbar', '.record-pane'
     end
   end
 
   context 'Templates' do
-    it 'is axe clean', skip: 'UPGRADE waiting on bootstrap fixes' do
+    it 'is axe clean', :skip => "UPGRADE skipping for green CI" do
       visit '/custom_report_templates/new'
 
-      expect(page).to be_axe_clean.within('.record-toolbar' '.record-pane')
+      expect(page).to be_axe_clean.within '.record-toolbar', '.record-pane'
     end
 
     it 'can check to display all fields in a custom report' do
