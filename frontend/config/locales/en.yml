@@ -140,6 +140,9 @@ en:
     copy: Copy
     run: Run
     select_resource: Select Resource
+    expand_tree_mode_on: Enable Expand Mode
+    expand_tree_mode_off: Disable Expand Mode
+    collapse_tree: Collapse Tree
 
   database_warning:
     message: "<p><strong>Database Warning:</strong> You are currently using the embedded database (Apache Derby). The embedded database is for testing/demo purposes only. You should use MySQL for any data intended for production, including data in a test instance that you intend to move over to a production instance.</p>"

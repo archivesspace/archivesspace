@@ -507,6 +507,9 @@
 
                     self.considerPopulatingWaypoint(function () {
                         currentlyExpanding = false;
+                        if (self.elt.is('.expand-all')) {
+                            self.considerExpandingRow();
+                        }
                     });
                 }
             };
@@ -679,7 +682,7 @@
             var waypointWasVisible = evaluateWaypointFn(waypoint);
 
             if (!waypointWasVisible) {
-                /* No point considering waypoints even further up in the DOM */
+                /* No point considering waypoints even further down in the DOM */
                 break;
             }
         }
@@ -784,6 +787,100 @@
             done_callback();
         });
     };
+
+    LargeTree.prototype.considerExpandingRow = function (done_callback) {
+        var self = this;
+
+        if (!done_callback) {
+            done_callback = $.noop;
+        }
+
+        var emHeight = parseFloat($("body").css("font-size"));
+        var threshold_px = emHeight * THRESHOLD_EMS;
+        var containerTop = this.elt.offset().top;
+        var containerHeight = this.elt.outerHeight();
+
+        /* Pick a reasonable guess at which row we might want to expand
+           (based on our scroll position) */
+        let allExpandables = self.elt.find('.expandme').not('[aria-expanded="true"]').not('[aria-hidden="true"]');
+        if (allExpandables.length == 0) {
+            done_callback();
+            return;
+        }
+
+        var scrollPercent = self.elt.scrollTop() / self.elt.find('div.root').height();
+        var startIdx = Math.floor(scrollPercent * allExpandables.length);
+        var rowToExpand;
+        var evaluateExpandableFn = function (elt) {
+            /* The element's top is measured from the top of the page, but we
+               want it relative to the top of the container.  Adjust as
+               appropriate. */
+            var eltTop = elt.offset().top - containerTop;
+            var eltBottom = eltTop + elt.height();
+
+            var btnVisible = (Math.abs(eltTop) <= (containerHeight + threshold_px)) ||
+                             (Math.abs(eltBottom) <= (containerHeight + threshold_px)) ||
+                             (eltTop < 0 && eltBottom > 0);
+
+            if (btnVisible) {
+                var candidate = {
+                    elt: elt,
+                    top: eltTop,
+                };
+
+                if (!rowToExpand) {
+                    rowToExpand = candidate;
+                } else {
+                    if (rowToExpand.top > candidate.top) {
+                        rowToExpand = candidate;
+                    }
+                }
+
+                return true;
+            } else {
+                return false;
+            }
+        };
+
+        /* Search for an expandable row by scanning backwards */
+        for (var i = startIdx; i >= 0; i--) {
+            var expandable = $(allExpandables[i]);
+
+            var expandableWasVisible = evaluateExpandableFn(expandable);
+
+            if (!expandableWasVisible && i < startIdx) {
+                /* No point considering expand buttons even further up in the DOM */
+                break;
+            }
+        }
+
+        /* Now scan forwards */
+        for (var i = startIdx + 1; i < allExpandables.length; i++) {
+            var expandable = $(allExpandables[i]);
+
+            if (expandable.attr('aria-expanded') == 'true') {
+                /* nothing to do for this one */
+                continue;
+            }
+
+            var expandableWasVisible = evaluateExpandableFn(expandable);
+
+            if (!expandableWasVisible) {
+                /* No point considering rows even further down in the DOM */
+                break;
+            }
+        }
+
+        if (rowToExpand) {
+            self.expandNode(rowToExpand.elt.closest('.table-row'), function() {
+                $('.expandme').addClass('disabled').attr('disabled', 'disabled').attr('aria-disabled', 'true');
+                self.considerExpandingRow(done_callback);
+            })
+        } else {
+            done_callback();
+        }
+    };
+
 
     /*********************************************************************************/
     /* Data source */

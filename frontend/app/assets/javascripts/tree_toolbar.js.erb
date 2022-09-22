@@ -283,8 +283,102 @@ var SHARED_TOOLBAR_ACTIONS = [
     },
 ];
 
+var EXPAND_MODE_ACTIONS = [
+    // enable auto-expanding of the tree
+    {
+        label: '<%= I18n.t('actions.expand_tree_mode_on') %>',
+        cssClasses: 'btn-default btn-expand-tree-mode',
+        onClick: function(event, btn, node, tree, toolbarRenderer) {
+            $(tree.large_tree.elt).toggleClass('expand-all');
+            $(event.target).toggleClass('btn-success');
+
+            if ($(tree.large_tree.elt).is('.expand-all')) {
+                $(btn).text('<%= I18n.t('actions.expand_tree_mode_off') %>');
+                $('.expandme').addClass('disabled').attr('disabled', 'disabled').attr('aria-disabled', 'true');
+                $(btn).blur();
+                $(btn).addClass('disabled').attr('disabled', 'disabled').attr('aria-disabled', 'true');
+                tree.large_tree.considerExpandingRow(() => {
+                    setTimeout(() => $(btn).removeClass('disabled').removeAttr('disabled').removeAttr('aria-disabled'), 100);
+                });
+
+            } else {
+                $(btn).text('<%= I18n.t('actions.expand_tree_mode_on') %>');
+                $('.expandme').removeAttr('disabled').removeAttr('aria-disabled').removeClass('disabled');
+                $(btn).blur();
+            }
+
+        },
+        isEnabled: function(node, tree, toolbarRenderer) {
+            return true;
+        },
+        isVisible: function(node, tree, toolbarRenderer) {
+            return !tree.large_tree.read_only;
+        },
+        onFormChanged: function(btn, form, tree, toolbarRenderer) {
+        },
+        onFormLoaded: function(btn, form, tree, toolbarRenderer) {
+        },
+    },
+
+    // collapse all open nodes and turn off expand mode
+    {
+        label: '<%= I18n.t('actions.collapse_tree') %>',
+        cssClasses: 'btn-default',
+        onClick: function(event, btn, node, tree, toolbarRenderer) {
+            if ($(tree.large_tree.elt).is('.expand-all')) {
+                // turn off expand mode if it is on
+                $('.btn-expand-tree-mode', '#tree-toolbar').trigger('click');
+                $('.btn-expand-tree-mode', '#tree-toolbar').blur();
+                $('.btn-expand-tree-mode', '#tree-toolbar').removeClass('active');
+            }
+
+            $(btn).blur();
+            // tree needs to be collapsed from bottom up;
+            const collapsibles = tree.large_tree.elt.find('.expandme')
+                                   .not('[aria-hidden="true"]')
+                                   .not(':not([aria-expanded="true"])')
+            let count = collapsibles.length;
+
+            if (count == 0) {
+                return;
+            }
+            $('.btn-expand-tree-mode', '#tree-toolbar').addClass('disabled').attr('disabled', 'disabled').attr('aria-disabled', 'true');
+
+            const ticker = (() => {
+                count = count - 1
+                if (count == 0) {
+                    $('.btn-expand-tree-mode', '#tree-toolbar').removeClass('disabled').removeAttr('disabled').removeAttr('aria-disabled');
+                    $('.btn-expand-tree-mode', '#tree-toolbar').blur();
+                    $('.btn-expand-tree-mode', '#tree-toolbar').removeClass('active');
+                }
+            });
+
+            collapsibles.toArray().forEach((collapsible) => {
+                let row = $(collapsible.closest('.table-row'));
+                let timeout = 600 - (50 * row.data('level'));
+                setTimeout(() => {
+                    $(collapsible).trigger("click");
+                    ticker();
+                    }, timeout)
+            });
+
+        },
+        isEnabled: function(node, tree, toolbarRenderer) {
+            return true;
+        },
+        isVisible: function(node, tree, toolbarRenderer) {
+            return !tree.large_tree.read_only;
+        },
+        onFormChanged: function(btn, form, tree, toolbarRenderer) {
+        },
+        onFormLoaded: function(btn, form, tree, toolbarRenderer) {
+        },
+    },
+];
+
+
 var TreeToolbarConfiguration = {
-    resource: [].concat(SHARED_TOOLBAR_ACTIONS).concat([
+    resource: [].concat(SHARED_TOOLBAR_ACTIONS).concat(EXPAND_MODE_ACTIONS).concat([
         {
             label: '<%= I18n.t("resource._frontend.action.add_child") %>',
             cssClasses: 'btn-default',
@@ -358,7 +452,7 @@ var TreeToolbarConfiguration = {
         }
     ]),
 
-    archival_object: [].concat(SHARED_TOOLBAR_ACTIONS).concat([
+    archival_object: [].concat(SHARED_TOOLBAR_ACTIONS).concat(EXPAND_MODE_ACTIONS).concat([
         [
             {
                 label: '<%= I18n.t("archival_object._frontend.action.add_child") %>',
