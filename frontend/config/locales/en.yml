@@ -486,6 +486,7 @@ en:
       langcode: Language of Materials
       asc: Ascending
       desc: Descending
+      uri: URI
     blank_facet_query_fields:
       owner_repo_display_string_u_ssort: Repository
 
