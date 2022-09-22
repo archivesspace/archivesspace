@@ -88,22 +88,27 @@ if defined?(ExecJS) && system('which node >/dev/null 2>/dev/null')
   ExecJS.runtime = ExecJS::Runtimes::Node
 end
 
-# TODO this method no longer exists at all
-# if AppConfig[:frontend_proxy_prefix] != "/"
-#   require 'action_dispatch/middleware/static'
+# until RoR capitulates to our very normal use case
+# we will have to continue doing stuff like this
+if (AppConfig[:frontend_proxy_prefix].length > 1)
+  require 'action_dispatch/middleware/static'
+  module ActionDispatch
+    class FileHandler
+      private
+      def find_file(path_info, accept_encoding:)
+        prefix = AppConfig[:frontend_proxy_prefix]
+        each_candidate_filepath(path_info) do |filepath, content_type|
+          filepath = filepath.gsub(/^#{Regexp.quote(prefix)}/, "/")
+          if response = try_files(filepath, content_type, accept_encoding: accept_encoding)
+            return response
+          end
+        end
+      end
+    end
+  end
+end
 
-#   # The default file handler doesn't know about asset prefixes and returns a 404.  Make it strip the prefix before looking for the path on disk.
-#   module ActionDispatch
-#     class FileHandler
-#       alias :match_orig :match?
-#       def match?(path)
-#         prefix = AppConfig[:frontend_proxy_prefix]
-#         modified_path = path.gsub(/^#{Regexp.quote(prefix)}/, "/")
-#         match_orig(modified_path)
-#       end
-#     end
-#   end
-# end
+
 
 if AppConfig[:frontend_proxy_prefix] && AppConfig[:frontend_proxy_prefix].length > 1
   AssetPathRewriter.new.rewrite(AppConfig[:frontend_proxy_prefix], File.dirname(__FILE__))
