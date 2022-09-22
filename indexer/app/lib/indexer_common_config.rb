@@ -77,9 +77,39 @@ class IndexerCommonConfig
     ]
   end
 
+  # #build_fullrecord uses this to exclude indexing of the record property from the fullrecord field
+  # this means these properties (including any embedded / sub properties) do not influence search via
+  # fullrecord for the record that is being indexed
+  def self.fullrecord_excludes
+    [
+      "created_by",
+      "last_modified_by",
+      "system_mtime",
+      "user_mtime",
+      "json",
+      "types",
+      "create_time",
+      "date_type",
+      "jsonmodel_type",
+      "publish",
+      "extent_type",
+      "language",
+      "script",
+      "system_generated",
+      "suppressed",
+      "source",
+      "rules",
+      "name_order",
+      "repository",
+      "top_container"
+    ]
+  end
+
   def self.do_not_index
     # ANW-1065
-    # #sanitize_json uses this hash to clean up sensitive data, preventing it from being indexed in the json field in the indexer doc.
+    # #sanitize_json uses this hash to clean up sensitive data, preventing it from being indexed.
+    # It does this by mutating the record being indexed, removing the data so it is not available
+    # in the json field or to the fullrecord field when that is built
     {
         "agent_person"           => {:location => [],
                                      :to_clean => "agent_contacts"},
