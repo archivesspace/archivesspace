@@ -1,8 +1,10 @@
 //= require jquery.event.drag-1.4.min
 //= require jquery.kiketable.colsizable-1.1
 //= require jquery.columnmanager.min
+//= require bootstrap-select
 //= require bootstrap-multiselect
 //= require linker
+
 
 $(function () {
   $.fn.init_rapid_data_entry_form = function ($modal, uri) {

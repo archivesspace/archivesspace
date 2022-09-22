@@ -21,7 +21,7 @@ describe 'Subjects' do
     @driver ? @driver.quit : next
   end
 
-  it 'reports errors and warnings when creating an invalid Subject', skip: 'UPGRADE lost in translation' do
+  it 'reports errors and warnings when creating an invalid Subject' do #, skip: 'UPGRADE lost in translation'
     @driver.get($frontend)
 
     @driver.find_element(link: 'Create').click
@@ -34,7 +34,7 @@ describe 'Subjects' do
     @driver.find_element(css: '#subject_terms_ .subrecord-form-remove').click
     @driver.find_element(css: '#subject_terms_ .confirm-removal').click
 
-    @driver.find_element(css: "form .record-pane button[type='submit']").click
+    @driver.find_element(css: " .content-pane button[type='submit']").click
 
     # check messages
     expect do
@@ -62,7 +62,7 @@ describe 'Subjects' do
     @driver.find_element(id: 'subject_terms__1__term_type_').select_option('cultural_context')
 
     #sleep(10)
-    @driver.click_and_wait_until_gone(css: "form .record-pane button[type='submit']")
+    @driver.click_and_wait_until_gone(css: " .content-pane button[type='submit']")
     #sleep(10)
     assert(5) { expect(@driver.find_element(css: '.record-pane h2').text).to eq("0030 -- 0040 Subject") }
   end
@@ -81,11 +81,11 @@ describe 'Subjects' do
   end
 
   it 'can reorder the terms and have them maintain order' do
-    @driver.get($frontend)
-
     first = "first_#{SecureRandom.hex}"
     second = "second_#{SecureRandom.hex}"
 
+    @driver.get($frontend)
+    run_all_indexers
     @driver.find_element(link: 'Create').click
     @driver.click_and_wait_until_gone(link: 'Subject')
 
@@ -97,7 +97,7 @@ describe 'Subjects' do
     @driver.clear_and_send_keys([:id, 'subject_terms__1__term_'], second)
     @driver.find_element(id: 'subject_terms__0__term_type_').select_option('cultural_context')
     @driver.find_element(id: 'subject_terms__1__term_type_').select_option('cultural_context')
-    @driver.click_and_wait_until_gone(css: "form .record-pane button[type='submit']")
+    @driver.click_and_wait_until_gone(css: "form .content-pane button[type='submit']")
     assert(5) { expect(@driver.find_element(css: '.record-pane h2').text).to eq("#{first} -- #{second} Subject") }
 
     # drag to become sibling of parent
