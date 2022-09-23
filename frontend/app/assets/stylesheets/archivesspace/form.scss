@@ -198,13 +198,13 @@ form .form-group {
   /* padding-bottom: 10px; */
 }
 
-.record-pane section h3 .btn.pull-right,
-.modal section h3 .btn.pull-right {
+.record-pane section h3 .btn.float-right,
+.modal section h3 .btn.float-right {
   margin: 6px 6px 6px 0;
   font-weight: normal;
 }
 
-.record-pane section section h4 .btn.pull-right {
+.record-pane section section h4 .btn.float-right {
   margin: 2px 6px 0 0;
   font-weight: normal;
 }
@@ -268,7 +268,7 @@ form .form-group {
     border-bottom: 1px solid #ddd;
     @include border-radius(4px 4px 0 0);
 
-    .btn-group.pull-right {
+    .btn-group.float-right {
       margin: 6px 6px 6px 0;
     }
 
@@ -749,10 +749,6 @@ label {
   }
   .form-actions {
     margin: 0;
-  }
-
-  &:hover {
-    display: block;
   }
 }
 

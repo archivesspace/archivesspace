@@ -4,6 +4,11 @@ require 'rails_helper.rb'
 
 describe 'AdvancedSearchDates', js: true do
 
+  before(:all) do
+    @repo = create(:repo, repo_code: "advanced_search_dates_test_#{Time.now.to_i}")
+    set_repo(@repo)
+  end
+
   before(:each) do
     visit '/'
     page.has_xpath? '//input[@id="login"]'

@@ -1,4 +1,5 @@
 //= require form
+//= require bootstrap3-typeahead
 
 $(function () {
   var selected_record_type = $('#custom_record_type').val();

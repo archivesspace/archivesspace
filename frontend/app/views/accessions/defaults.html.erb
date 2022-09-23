@@ -11,7 +11,7 @@
         <%= render_aspace_partial :partial => "shared/toolbar_new_records" %>
         <div class="record-pane">
           <%= link_to_help :topic => "accession" %>
-          <h2><%= t("accession._singular") %> <%= t("actions.defaults") %> <span class="label label-info"><%= t("accession._singular") %></span></h2>
+          <h2><%= t("accession._singular") %> <%= t("actions.defaults") %> <span class="label label-info badge"><%= t("accession._singular") %></span></h2>
           <%= render_aspace_partial :partial => "accessions/form", :locals => {:form => form} %>
         </div>
       </div>

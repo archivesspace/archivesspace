@@ -14,7 +14,7 @@
             <% end %>
          <% end %>
         <% if flash.key? :spawned_from_accession %>
-          <li class="return-to-search pull-right breadcrumb-item">
+          <li class="return-to-search float-right breadcrumb-item">
             <%= link_to "Return to Accession", {:controller => :accessions, :action => :show, :id => flash[:spawned_from_accession]}, :class => "btn btn-sm" %>
           </li>
         <% end %>

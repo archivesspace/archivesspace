@@ -12,15 +12,15 @@ describe 'Default Form Values', js: true do
 
   before(:each) do
     login_admin
-
+    select_repository(@repo)
+  end
+  
+  it 'will let an admin change default values' do
     visit('/preferences/0/edit?repo=true')
     check('preference[defaults][default_values]')
     click_button('Save')
-
     expect(page).to have_checked_field('preference[defaults][default_values]')
     expect(page).to have_content('Preferences updated')
-
-    select_repository(@repo)
   end
 
   xit 'will let an admin create default accession values' do

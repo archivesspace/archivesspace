@@ -41,7 +41,7 @@
                   <li class='dropdown-item'>
                     <%= link_to "<span class='icomoon icon-resource'></span> #{t("resource._singular")}".html_safe, :controller => :resources, :action => :new, :accession_id => @accession.id %>
                   </li>
-                  <li>
+                  <li class="dropdown-item">
                       <%= link_to "<span class='asicon icon-archival_object'></span> #{t("archival_object._singular")}".html_safe, :controller => :archival_objects, :action => :new, :accession_id => @accession.id %>
                   </li>
                 </ul>
