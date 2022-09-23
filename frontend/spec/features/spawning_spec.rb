@@ -19,7 +19,7 @@ describe 'Spawning', js: true do
   end
 
   # This functionality is working in the UI, but the spec is still failing. It is possible to spawn a resource from an accession, but this is failing because the navigation within the test is working incorrectly- in the modal, the resource is not being added as a child, even though i have no issue doing this in the UI.
-  it "can spawn a resource component from an accession", :skip => "UPGRADE skipping for green CI"  do
+  it "can spawn a resource component from an accession", :skip => "UPGRADE skipping for green CI" do
     @accession = create(:json_accession,
                         title: "Spawned Accession",
                         extents: [build(:json_extent)],

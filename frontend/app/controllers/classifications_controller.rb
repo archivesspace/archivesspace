@@ -70,7 +70,7 @@ class ClassificationsController < ApplicationController
     },
       :on_valid => ->(id) {
 
-      flash[:success] = t("classification._frontend.messages.created", classification_title: @classification.title) 
+      flash[:success] = t("classification._frontend.messages.created", classification_title: @classification.title)
 
       if @classification["is_slug_auto"] == false &&
           @classification["slug"] == nil &&
@@ -96,7 +96,7 @@ class ClassificationsController < ApplicationController
       render_aspace_partial :partial => "edit_inline"
     },
       :on_valid => ->(id) {
-      flash.now[:success] = t("classification._frontend.messages.updated", classification_title: @classification.title) 
+      flash.now[:success] = t("classification._frontend.messages.updated", classification_title: @classification.title)
 
       if @classification["is_slug_auto"] == false &&
           @classification["slug"] == nil &&
@@ -115,7 +115,7 @@ class ClassificationsController < ApplicationController
     classification = JSONModel(:classification).find(params[:id])
     classification.delete
 
-    flash[:success] = t("classification._frontend.messages.deleted", classification_title: classification.title) 
+    flash[:success] = t("classification._frontend.messages.deleted", classification_title: classification.title)
     redirect_to(:controller => :classifications, :action => :index, :deleted_uri => classification.uri)
   end
 
