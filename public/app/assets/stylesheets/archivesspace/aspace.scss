@@ -9,10 +9,12 @@ a {
   line-height: inherit;
   cursor: pointer;
 }
+
 a:hover,
 a:focus {
   color: $dark_against_shade;
 }
+
 a img {
   border: 0;
 }
@@ -258,12 +260,6 @@ a img {
 #main-content.accessions,
 #main-content.objects {
   padding: 0 1em;
-}
-
-.sidebar sidebar-container col-sm-3 resizable-sidebar infinite-tree-sidebar-wrapper{
-  display: flex;
-  width: 100%;
-  align-items: stretch;
 }
 
 #sidebar {

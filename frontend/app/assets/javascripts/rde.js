@@ -5,7 +5,6 @@
 //= require bootstrap-multiselect
 //= require linker
 
-
 $(function () {
   $.fn.init_rapid_data_entry_form = function ($modal, uri) {
     $(this).each(function () {
