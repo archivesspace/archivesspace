@@ -50,7 +50,7 @@ describe "agents merge" do
     @driver.find_element(class: 'close').click
   end
 
-  it "merges agent places" do, skip: 'UPGRADE lost in translation'
+  it "merges agent places", skip: 'UPGRADE lost in translation' do
     it "merges agent places" do
     @driver.find_element(id: 'agent_agent_places__0__append_').click
     @driver.find_element(:class, 'preview-merge').click
