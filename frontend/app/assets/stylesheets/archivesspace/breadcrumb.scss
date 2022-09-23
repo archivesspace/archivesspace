@@ -18,4 +18,9 @@
   .return-to-search {
     margin-top: -4px;
   }
+  &.active {
+    li {
+      color: #555 !important;
+    }
+  }
 }

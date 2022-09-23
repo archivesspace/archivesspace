@@ -260,6 +260,12 @@ a img {
   padding: 0 1em;
 }
 
+.sidebar sidebar-container col-sm-3 resizable-sidebar infinite-tree-sidebar-wrapper{
+  display: flex;
+  width: 100%;
+  align-items: stretch;
+}
+
 #sidebar {
   border: 1px solid $border;
   padding: rem-calc(10);
@@ -500,6 +506,8 @@ h5,
 }
 #submit_search {
   width: 100%;
+  font-size: 16px;
+  background-color: 006f9b;
 }
 .searchstatement {
   background-color: $row-background;
