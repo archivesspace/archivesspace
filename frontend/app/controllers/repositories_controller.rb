@@ -56,7 +56,7 @@ class RepositoriesController < ApplicationController
 
                   return render :json => @repository.to_hash if inline?
 
-                  flash[:success] = t("repository._frontend.messages.created") 
+                  flash[:success] = t("repository._frontend.messages.created")
 
                   if AppConfig[:use_human_readable_urls] && params["repository"]["repository"] &&
                      (params["repository"]["repository"]["slug"].nil? ||
@@ -88,7 +88,7 @@ class RepositoriesController < ApplicationController
                 :on_valid => ->(id) {
                   MemoryLeak::Resources.refresh(:repository)
 
-                  flash[:success] = t("repository._frontend.messages.updated") 
+                  flash[:success] = t("repository._frontend.messages.updated")
 
                   if AppConfig[:use_human_readable_urls] && params["repository"]["repository"] &&
                      (params["repository"]["repository"]["slug"].nil? ||
@@ -136,7 +136,7 @@ class RepositoriesController < ApplicationController
 
     MemoryLeak::Resources.refresh(:repository)
 
-    flash[:success] = t("repository._frontend.messages.deleted") 
+    flash[:success] = t("repository._frontend.messages.deleted")
     redirect_to(:controller => :repositories, :action => :index, :deleted_uri => repository.uri)
   end
 

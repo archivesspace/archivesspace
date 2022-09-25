@@ -162,7 +162,7 @@ class SubjectsController < ApplicationController
       return redirect_to(:controller => :subjects, :action => :show, :id => subject.id)
     end
 
-    flash[:success] = t("subject._frontend.messages.deleted") 
+    flash[:success] = t("subject._frontend.messages.deleted")
     redirect_to(:controller => :subjects, :action => :index, :deleted_uri => subject.uri)
   end
 

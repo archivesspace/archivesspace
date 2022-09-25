@@ -14,7 +14,7 @@ describe 'Default Form Values', js: true do
     login_admin
     select_repository(@repo)
   end
-  
+
   it 'will let an admin change default values' do
     visit('/preferences/0/edit?repo=true')
     check('preference[defaults][default_values]')
