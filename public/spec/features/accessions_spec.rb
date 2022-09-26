@@ -46,10 +46,9 @@ describe 'Accessions', js: true do
     it 'displays an related accessions on the show page' do
       visit '/accessions'
       click_link 'Accession with Relationship'
-      save_and_open_page
-      #expect(page).to have_css('#related_accessions_list div ul li a', text: 'Published Accession')
+
       expect(page).to have_css('.related-accession', :text => 'Published Accession', :visible => false)
-      expect(page).not_to have_link('Unpublished Accession')
+      expect(page).to have_css('.related-accession', :text => 'Unpublished Accession', :visible => false)
     end
 
     it 'displays deaccessions on show page' do
