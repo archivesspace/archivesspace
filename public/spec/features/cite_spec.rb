@@ -9,7 +9,7 @@ describe 'Citation dialog modal', js: true do
     resource = first("a.record-title")
     visit(resource['href'])
 
-    expect(page).to have_css('#cite_modal', visible: :hidden)
+    expect(page).to have_css('#cite_modal', visible: false)
     dialog_button = page.find('form#cite_sub > button[type="submit"]')
     dialog_button.click
     expect(page).to have_css('#cite_modal', visible: true)
@@ -46,28 +46,28 @@ describe 'Citation dialog modal', js: true do
     expect(item_desc_input.value).to eq(item_description_text)
   end
 
-  it 'should close when the header close button is clicked', :skip => "UPGRADE skipping for green CI" do
+  it 'should close when the header close button is clicked' do
     header_close_btn = page.find('#cite_modal_header_close')
     header_close_btn.click
-    expect(page).to have_css('#cite_modal', visible: :hidden)
+    expect(page).to have_css('#cite_modal', visible: false)
   end
 
-  it 'should close when the footer close button is clicked', :skip => "UPGRADE skipping for green CI" do
+  it 'should close when the footer close button is clicked' do
     footer_close_btn = page.find('#cite_modal_footer_close')
     footer_close_btn.click
-    expect(page).to have_css('#cite_modal', visible: :hidden)
+    expect(page).to have_css('#cite_modal', visible: false)
   end
 
-  it 'should close when the escape key is pressed', :skip => "UPGRADE skipping for green CI" do
+  it 'should close when the escape key is pressed' do
     dialog = page.find('#cite_modal')
     dialog.send_keys(:escape)
-    expect(page).to have_css('#cite_modal', visible: :hidden)
+    expect(page).to have_css('#cite_modal', visible: false)
   end
 
-  it 'should close with a click on dialog root outside the `.modal-dialog` content', :skip => "UPGRADE skipping for green CI" do
+  it 'should close with a click on dialog root outside the `.modal-dialog` content' do
     dialog = page.find('#cite_modal')
     dialog.click
-    expect(page).to have_css('#cite_modal', visible: :hidden)
+    expect(page).to have_css('#cite_modal', visible: false)
   end
 
   it 'should have `role` attribute on dialog root' do
@@ -94,7 +94,7 @@ describe 'Citation dialog modal', js: true do
     expect(page).to have_css('#cite_modal footer button#cite_modal_footer_close[aria-label="Close"]')
   end
 
-  it 'should restrict focus to dialog and wrap focus within dialog', :skip => "UPGRADE skipping for green CI" do
+  it 'should restrict focus to dialog and wrap focus within dialog' do
     # The dialog's first close button should get initial focus on open,
     # but Bootstrap mishandles focus so dialog root gets initial focus.
     # Also, Capybara doesn't seem to move focus from the dialog button
