@@ -114,23 +114,23 @@ describe 'Citation dialog modal', js: true do
     body.send_keys(:tab)
     expect(page.evaluate_script("document.activeElement.id")).to eq(dialog_id)
 
-    body.send_keys(:tab)
+    find('#cite_modal').send_keys(:tab)
     expect(page.evaluate_script("document.activeElement.id")).to eq(header_close_btn_id)
 
-    body.send_keys(:tab)
+    find('#cite_modal_header_close').send_keys(:tab)
     expect(page.evaluate_script("document.activeElement.id")).to eq(copy_item_btn_id)
 
-    body.send_keys(:tab)
+    find('#copy_item_citation').send_keys(:tab)
     expect(page.evaluate_script("document.activeElement.id")).to eq(copy_item_desc_btn_id)
 
-    body.send_keys(:tab)
+    find('#copy_item_description_citation').send_keys(:tab)
     expect(page.evaluate_script("document.activeElement.id")).to eq(footer_close_btn_id)
 
-    body.send_keys(:tab)
-    expect(page.evaluate_script("document.activeElement.id")).to eq(header_close_btn_id)
+    find('#cite_modal_footer_close').send_keys(:tab)
+    expect(page.evaluate_script("document.activeElement.id")).to eq(dialog_id)
 
-    body.send_keys(:tab)
-    expect(page.evaluate_script("document.activeElement.id")).to eq(copy_item_btn_id)
+    find('#cite_modal').send_keys(:tab)
+    expect(page.evaluate_script("document.activeElement.id")).to eq(header_close_btn_id)
   end
 
 end
