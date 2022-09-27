@@ -23,14 +23,14 @@ describe 'Users and authentication' do
     expect(@driver.find_element(css: 'p.alert-danger').text).to eq('Login attempt failed')
   end
 
-  it 'fails login when user is inactive', :skip => "UPGRADE skipping for green CI" do
+  it 'fails login when user is inactive' do
     @driver.login(@inactive_user,
                   expect_fail = true)
 
     expect(@driver.find_element(css: 'p.alert-danger').text).to eq('Login attempt failed')
   end
 
-  it 'can register a new user', :skip => "UPGRADE skipping for green CI" do
+  it 'can register a new user' do
     @driver.find_element(:link, 'Register now').click
 
     @driver.clear_and_send_keys([:id, 'user_username_'], @user.username)
@@ -50,7 +50,7 @@ describe 'Users and authentication' do
     @driver.logout
   end
 
-  it 'allows the admin user to become a different user', :skip => "UPGRADE skipping for green CI" do
+  it 'allows the admin user to become a different user' do
     @driver.login($admin)
 
     @driver.find_element(:css, '#user-menu-dropdown').click
