@@ -16,7 +16,7 @@
       <div class="btn-toolbar ml-auto">
         <div class="btn-group">
           <div class="btn btn-inline-form">
-            <%= button_delete_action url_for(:controller => :top_containers, :action => :delete, :id => @top_container.id ), { :"data-title" => I18n.t("actions.delete_confirm_title", :title => @top_container.display_string) } unless @top_container.id.nil? %> 
+            <%= button_delete_action url_for(:controller => :top_containers, :action => :delete, :id => @top_container.id ), { :"data-title" => t("actions.delete_confirm_title", :title => @top_container.display_string) } unless @top_container.id.nil? %> 
           </div>
         </div>
       </div>

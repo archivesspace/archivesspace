@@ -1,7 +1,7 @@
-<div title="<%= t('page_actions')%>" class="text-right">
- <ul class="list-inline">
+<div title="<%= t('page_actions')%>">
+ <div class="row float-lg-right">
     <% ASUtils.wrap($RECORD_PAGE_ACTIONS[record.primary_type]).each do |page_action| %>
-      <li class="large-badge  align-center">
+      <div class="col-6 col-md-3 large-badge text-center resource p-1">
         <% if page_action.has_key?('erb_partial') %>
           <%= render :partial => page_action.fetch('erb_partial'), :locals => { :record => record } %>
         <% else %>
@@ -28,7 +28,7 @@
             <!-- Nothing we can do for this action -->
           <% end %>
         <% end %>
-      </li>
+      </div>
     <% end %>
- </ul>
+ </div>
 </div>
