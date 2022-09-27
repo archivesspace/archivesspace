@@ -28,7 +28,7 @@ describe 'Custom Reports', js: true do
   end
 
   context 'Templates' do
-    it 'is axe clean', :skip => "UPGRADE skipping for green CI" do
+    it 'is axe clean' do
       visit '/custom_report_templates/new'
 
       expect(page).to be_axe_clean.within '.record-toolbar', '.record-pane'

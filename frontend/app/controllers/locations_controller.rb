@@ -216,7 +216,7 @@ class LocationsController < ApplicationController
       return redirect_to(:controller => :locations, :action => :show, :id => location.id)
     end
 
-    flash[:success] = t("location._frontend.messages.deleted") 
+    flash[:success] = t("location._frontend.messages.deleted")
     redirect_to(:controller => :locations, :action => :index, :deleted_uri => location.uri)
   end
 end

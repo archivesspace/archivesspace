@@ -21,7 +21,7 @@ describe 'Subjects' do
     @driver ? @driver.quit : next
   end
 
-  it 'reports errors and warnings when creating an invalid Subject', skip: 'UPGRADE lost in translation' do 
+  it 'reports errors and warnings when creating an invalid Subject', skip: 'UPGRADE lost in translation' do
     @driver.get($frontend)
 
     @driver.find_element(link: 'Create').click
@@ -42,7 +42,7 @@ describe 'Subjects' do
     end.not_to raise_error
   end
 
-  it 'can create a new Subject', :skip => "UPGRADE skipping for green CI" do 
+  it 'can create a new Subject', :skip => "UPGRADE skipping for green CI" do
     now = "#{$$}.#{Time.now.to_i}"
 
     @driver.get($frontend)
