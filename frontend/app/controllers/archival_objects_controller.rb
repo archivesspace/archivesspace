@@ -18,7 +18,7 @@ class ArchivalObjectsController < ApplicationController
     if params[:accession_id]
       acc = Accession.find(params[:accession_id], find_opts)
       @archival_object.populate_from_accession(acc)
-      flash.now[:info] = t("archival_object._frontend.messages.spawned", accession_display_string: @archival_object.parent) 
+      flash.now[:info] = t("archival_object._frontend.messages.spawned", accession_display_string: acc.title) 
       flash[:spawned_from_accession] = acc.id
     end
 
@@ -42,9 +42,7 @@ class ArchivalObjectsController < ApplicationController
 
 
   def create
-    @archival_object = JSONModel(:archival_object).find(params[:id], find_opts)
-    resource = @archival_object['resource']['_resolved']
-    parent = @archival_object['parent'] ? @archival_object['parent']['_resolved'] : false
+    
     handle_crud(:instance => :archival_object,
                 :find_opts => find_opts,
                 :on_invalid => ->() {
@@ -55,11 +53,12 @@ class ArchivalObjectsController < ApplicationController
                   end
                 },
                 :on_valid => ->(id) {
-                  
+                  resource = @archival_object['resource']['_resolved']
+                  parent = @archival_object['parent'] ? @archival_object['parent']['_resolved'] : false
                   # TODO JSONModelI18nWrapper.new(:archival_object => @archival_object, :resource => @archival_object['resource']['_resolved'], :parent => @archival_object['parent']['_resolved']).enable_parse_mixed_content!(url_for(:root)))
                   # TODO JSONModelI18nWrapper.new(:archival_object => @archival_object, :resource => @archival_object['resource']['_resolved']).enable_parse_mixed_content!(url_for(:root)))
                   success_message = @archival_object.parent ?
-                                      t("archival_object._frontend.messages.created_with_parent", archival_object_display_string: @archival_object.title, resource_title: resource['title'], parent_display_string: parent['title']) :
+                                      t("archival_object._frontend.messages.created_with_parent", archival_object_display_string: @archival_object.title, parent_display_string: parent['title'], resource_title: resource['title']) :
                                       t("archival_object._frontend.messages.created", archival_object_display_string: @archival_object.title, resource_title: resource['title'])
                   if params.has_key?(:plus_one)
                     flash[:success] = success_message
