@@ -43,12 +43,12 @@ describe 'Accessions', js: true do
       expect(page).to have_content('Script of Description')
     end
 
-    it 'displays an related accessions on the show page', :skip => "UPGRADE skipping for green CI" do
+    it 'displays an related accessions on the show page' do
       visit '/accessions'
       click_link 'Accession with Relationship'
 
-      expect(page).to have_content('Published Accession')
-      expect(page).to_not have_content('Unpublished Accession')
+      expect(page).to have_css('.related-accession', :text => 'Published Accession', :visible => false)
+      expect(page).not_to have_css('.related-accession', :text => 'Unpublished Accession', :visible => false)
     end
 
     it 'displays deaccessions on show page' do
