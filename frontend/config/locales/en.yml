@@ -140,8 +140,8 @@ en:
     copy: Copy
     run: Run
     select_resource: Select Resource
-    expand_tree_mode_on: Enable Expand Mode
-    expand_tree_mode_off: Disable Expand Mode
+    expand_tree_mode_on: Auto-Expand All
+    expand_tree_mode_off: Disable Auto-Expand
     collapse_tree: Collapse Tree
 
   database_warning:
