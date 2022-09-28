@@ -62,7 +62,7 @@ describe 'Users and authentication' do
     @driver.logout
   end
 
-  it 'prevents any user from becoming the global admin', :skip => "UPGRADE skipping for green CI" do
+  it 'prevents any user from becoming the global admin' do
     @driver.login($admin)
 
     @driver.find_element(:css, '#user-menu-dropdown').click
