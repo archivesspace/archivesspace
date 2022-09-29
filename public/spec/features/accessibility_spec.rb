@@ -16,7 +16,7 @@ describe 'Accessibility', js: true, db: 'accessibility' do
       expect(page).to have_xpath("//img[@class='logo' and @alt='ArchivesSpace - a community served by Lyrasis.']")
     end
 
-    it "has skip links that pass color contrast", :db => 'accessibility', :skip => "UPGRADE skipping for green CI" do
+    it "has skip links that pass color contrast", :db => 'accessibility' do
       visit "/"
       page.has_css? 'div.skipnav'
 
