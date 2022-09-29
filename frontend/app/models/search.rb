@@ -10,7 +10,8 @@ class Search
   end
 
   # :context_criteria - added to criteria for building the query, but hidden from user
-  def self.all(repo_id, criteria, context_criteria = {})
+  # :sorting - ignore repo preferences and use provided sort for results (i.e. for typeaheads)
+  def self.all(repo_id, criteria, context_criteria = {}, sorting = nil)
     context_criteria.each do |k, v|
       raise "Not implemented" unless v.is_a? Array
       criteria[k] ||= []
@@ -18,7 +19,14 @@ class Search
     end
     build_filters(criteria)
     criteria["page"] = 1 if not criteria.has_key?("page")
-    criteria["sort"] ||= sort(criteria["type[]"] || (criteria["filter_term[]"] || []).collect { |term| ASUtils.json_parse(term)['primary_type'] }.compact)
+
+    if sorting
+      criteria["sort"] = sorting
+    else
+      criteria["sort"] ||= sort(criteria["type[]"] || (criteria["filter_term[]"] || []).collect { |term| ASUtils.json_parse(term)['primary_type'] }.compact)
+    end
+
+    Rails.logger.debug("sort criteria: #{criteria['sort']}")
 
     search_data = JSONModel::HTTP::get_json("/repositories/#{repo_id}/search", criteria)
 

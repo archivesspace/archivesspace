@@ -57,13 +57,11 @@ class SearchController < ApplicationController
   def do_search
     criteria = params_for_backend_search.merge({"facet[]" => SearchResultData.BASE_FACETS.concat(params[:facets]||[]).uniq})
 
-    # linker typeaheads should only search title (maybe)
-    if params['linker']
-      criteria['q'] = "title:#{criteria['q']}"
-    end
+    # linker typeaheads should always sort by score
+    sorting = params['linker'] ? "score desc" : nil
 
     context_criteria = params["context_filter_term"] ? {"filter_term[]" => params["context_filter_term"]} : {}
-    @search_data = Search.all(session[:repo_id], criteria, context_criteria)
+    @search_data = Search.all(session[:repo_id], criteria, context_criteria, sorting)
     @hide_sort_options = params[:hide_sort_options] == "true"
     @hide_csv_download = params[:hide_csv_download] == "true"
 
