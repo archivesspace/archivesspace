@@ -756,13 +756,10 @@ module MarcXMLBibBaseMap
           resource.id_0 = id unless id.empty?
         },
 
-        # local LC-style identifer
-        "datafield[@tag='090']" => -> resource, node {
-          if resource.id_0.nil? or resource.id_0.empty?
-            id = concatenate_subfields(('a'..'z'), node, '_')
-            resource.id_0 = id unless id.empty?
-          end
-        },
+        # ANW-440: adding additional support for call numbers
+        # order of priority is:
+        # 099, 090, 092, 096, 098, 050, 082
+        # e.g., a value in 099 would be used over a value in 092, etc
 
         # local non-LC identifier
         "datafield[@tag='099']" => -> resource, node {
@@ -770,7 +767,69 @@ module MarcXMLBibBaseMap
             id = concatenate_subfields(('a'..'z'), node, '_')
             resource.id_0 = id unless id.empty?
           end
+
         },
+
+        # local LC-style identifer
+        "datafield[@tag='090']" => -> resource, node {
+          id = concatenate_subfields(('a'..'z'), node, '_')
+
+          if resource.id_0.nil? or resource.id_0.empty?
+            resource.id_0 = id unless id.empty?
+          end
+        },
+
+        "datafield[@tag='090']" => multipart_note('odd', "local LC-style identifer:", "{$a }"),
+
+        # Locally Assigned Dewey Call Number
+        "datafield[@tag='092']" => -> resource, node {
+          if resource.id_0.nil? or resource.id_0.empty?
+            id = concatenate_subfields(('a'..'z'), node, '_')
+            resource.id_0 = id unless id.empty?
+          end
+        },
+
+        "datafield[@tag='092']" => multipart_note('odd', "Locally Assigned Dewey Call Number:", "{$a }"),
+
+        # Locally NLM-type Call Number
+        "datafield[@tag='096']" => -> resource, node {
+          if resource.id_0.nil? or resource.id_0.empty?
+            id = concatenate_subfields(('a'..'z'), node, '_')
+            resource.id_0 = id unless id.empty?
+          end
+        },
+
+        "datafield[@tag='096']" => multipart_note('odd', "Locally NLM-type Call Number:", "{$a }"),
+
+        #  Other Classification Schemes
+        "datafield[@tag='098']" => -> resource, node {
+          if resource.id_0.nil? or resource.id_0.empty?
+            id = concatenate_subfields(('a'..'z'), node, '_')
+            resource.id_0 = id unless id.empty?
+          end
+        },
+
+        "datafield[@tag='098']" => multipart_note('odd', "Other Classification Schemes:", "{$a }"),
+
+        # Library of Congress Call Number
+        "datafield[@tag='050']" => -> resource, node {
+          if resource.id_0.nil? or resource.id_0.empty?
+            id = concatenate_subfields(('a'..'z'), node, '_')
+            resource.id_0 = id unless id.empty?
+          end
+        },
+
+        "datafield[@tag='050']" => multipart_note('odd', "Library of Congress Call Number:", "{$a }"),
+
+        # Dewey Classification Number
+        "datafield[@tag='082']" => -> resource, node {
+          if resource.id_0.nil? or resource.id_0.empty?
+            id = concatenate_subfields(('a'..'z'), node, '_')
+            resource.id_0 = id unless id.empty?
+          end
+        },
+
+        #"datafield[@tag='082']" => multipart_note('odd', "Dewey Classification Number:", "{$a }"),
 
         # description rules
         "datafield[@tag='040']/subfield[@code='e']" => :finding_aid_description_rules,
