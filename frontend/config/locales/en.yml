@@ -341,6 +341,7 @@ en:
       create_time: Created
       asc: Ascending
       desc: Descending
+      uri: URI
     event:
       score: Relevance
       agents: Agent
@@ -352,6 +353,7 @@ en:
       create_time: Created
       asc: Ascending
       desc: Descending
+      uri: URI
     collection_management:
       score: Relevance
       parent_title: Title
@@ -366,6 +368,7 @@ en:
       create_time: Created
       asc: Ascending
       desc: Descending
+      uri: URI
     classification:
       score: Relevance
       title: Title
@@ -400,6 +403,7 @@ en:
       create_time: Created
       asc: Ascending
       desc: Descending
+      uri: URI
     repositories:
       score: Relevance
       title: Title
@@ -425,6 +429,7 @@ en:
       create_time: Created
       asc: Ascending
       desc: Descending
+      uri: URI
     container_profile:
       score: Relevance
       title: Title
@@ -438,6 +443,9 @@ en:
       create_time: Created
       asc: Ascending
       desc: Descending
+      notes: Note
+      uri: URI
+
     location_profile:
       score: Relevance
       title: Title
@@ -451,6 +459,7 @@ en:
       create_time: Created
       asc: Ascending
       desc: Descending
+      uri: URI
     job:
       score: Relevance
       status: Status
@@ -466,6 +475,7 @@ en:
       create_time: Created
       asc: Ascending
       desc: Descending
+      uri: URI
     multi:
       score: Relevance
       primary_type: Record Type
