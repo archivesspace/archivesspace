@@ -22,7 +22,7 @@ gem 'bootstrap-sass', '= 3.3.7'
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 5.0', '>= 5.0.6'
 # Use Uglifier as compressor for JavaScript assets
-gem 'uglifier', '3.0.4'
+gem 'uglifier'
 # Use font-awesome icons
 gem 'font-awesome-sass', '4.7.0'
 
