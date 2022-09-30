@@ -2157,7 +2157,7 @@ en:
       browse: Browse Repositories
       create: Create Repository
       link_title: Link to repository
-
+    position: Position
 
   term: &term_attributes
     # tooltips not displaying

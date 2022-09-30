@@ -143,6 +143,7 @@ en:
     expand_tree_mode_on: Auto-Expand All
     expand_tree_mode_off: Disable Auto-Expand
     collapse_tree: Collapse Tree
+    reorder_successful: Repositories successfully reordered
 
   database_warning:
     message: "<p><strong>Database Warning:</strong> You are currently using the embedded database (Apache Derby). The embedded database is for testing/demo purposes only. You should use MySQL for any data intended for production, including data in a test instance that you intend to move over to a production instance.</p>"
@@ -1236,6 +1237,7 @@ en:
         select: Select Repository
         save: Save Repository
         create: Create Repository
+        order_for_pui: Set Order in Public Interface
     _sidebar:
       oai_settings:
         _plural: OAI Harvest Settings
@@ -2611,7 +2613,7 @@ en:
 
     assessment_rating_report:
       title: Assessment Rating Report
-      description: Shows information for assessments with a specified rating in a specified range. You must select at least one value; to display all records select all of the values. 
+      description: Shows information for assessments with a specified rating in a specified range. You must select at least one value; to display all records select all of the values.
       identifier_prefix: Assessment
 
     assessment_list_report:

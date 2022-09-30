@@ -10,6 +10,9 @@
     <% if user_can?('create_repository') %>
       <div class="record-toolbar">
         <div class="btn-group pull-right">
+          <% if user_can?('administer_system') %>
+            <%= link_to I18n.t("repository._frontend.action.order_for_pui"), {:controller => :repositories, :action => :reorder}, :class => "btn btn-sm btn-default" %>
+          <% end %>
           <%= link_to I18n.t("repository._frontend.action.create"), {:controller => :repositories, :action => :new}, :class => "btn btn-sm btn-default" %>
         </div>
         <br style="clear:both" /> <!-- So dirty! -->

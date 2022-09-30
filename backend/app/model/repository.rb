@@ -42,6 +42,10 @@ class Repository < Sequel::Model(:repository)
     ASConstants::Repository.GLOBAL
   end
 
+  def before_create
+    self.position = (self.class.max(:position) || -1) + 1
+    super
+  end
 
   def after_create
     if self.repo_code == Repository.GLOBAL
@@ -198,4 +202,14 @@ class Repository < Sequel::Model(:repository)
     Classification.update_mtime_for_repo_id(self.id)
   end
 
+  def update_position_only(target_position )
+    current_position = self.position
+    sibling = self.class.dataset.filter( position: target_position ).first
+    if sibling
+      self.class.dataset.filter( position: target_position ).update( position: Sequel.lit('position + 9999' ) )
+    end
+    self.class.dataset.filter( id: self.id ).update( position: target_position, system_mtime: Time.now )
+    self.class.dataset.filter( id: sibling.id ).update( position: current_position, system_mtime: Time.now ) if sibling
+    target_position
+  end
 end

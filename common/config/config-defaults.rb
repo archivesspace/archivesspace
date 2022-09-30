@@ -756,3 +756,6 @@ AppConfig[:enable_representative_file_version] = false
 
 # Enables Language Selection in PUI
 AppConfig[:allow_pui_language_selection] = true
+
+# How repositories should be sorted in the PUI. Options are :display_string or :position
+AppConfig[:pui_repositories_sort] = :display_string
