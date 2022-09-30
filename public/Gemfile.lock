@@ -269,7 +269,7 @@ GEM
       thread_safe (~> 0.1)
     tzinfo-data (1.2022.3)
       tzinfo (>= 1.0.0)
-    uglifier (3.0.4)
+    uglifier (4.2.0)
       execjs (>= 0.3.0, < 3)
     virtus (2.0.0)
       axiom-types (~> 0.1)
@@ -325,7 +325,7 @@ DEPENDENCIES
   therubyrhino
   turbolinks (~> 5)
   tzinfo-data
-  uglifier (= 3.0.4)
+  uglifier
 
 BUNDLED WITH
    2.1.4
