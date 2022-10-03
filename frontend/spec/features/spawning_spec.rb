@@ -20,7 +20,7 @@ describe 'Spawning', js: true do
 
   # This functionality is working in the UI, but the spec is still failing. It is possible to spawn a resource from an accession, but this is failing because the navigation within the test is working incorrectly- in the modal, the resource is not being added as a child, even though i have no issue doing this in the UI.
 
-  it "can spawn a resource component from an accession"  do
+  it "can spawn a resource component from an accession" do
 
     @accession = create(:json_accession,
                         title: "Spawned Accession",
@@ -50,7 +50,7 @@ describe 'Spawning', js: true do
     # wait for the form and tree container to load
     find("#tree-container")
     find(".record-pane")
-    
+
     expect(find("#archival_object_#{@parent.id}  a.record-title ").text).to include "#{@parent.title}"
     expect(find("#archival_object_#{@accession.id}  a.record-title ").text).to include "#{@accession.title}"
     ref_id = find(".identifier-display").text

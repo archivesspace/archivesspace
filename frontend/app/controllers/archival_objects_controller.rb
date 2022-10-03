@@ -19,7 +19,7 @@ class ArchivalObjectsController < ApplicationController
       acc = Accession.find(params[:accession_id], find_opts)
       @archival_object.populate_from_accession(acc)
 
-      flash.now[:info] = t("archival_object._frontend.messages.spawned", accession_display_string: acc.title) 
+      flash.now[:info] = t("archival_object._frontend.messages.spawned", accession_display_string: acc.title)
 
       flash[:spawned_from_accession] = acc.id
     end
@@ -44,7 +44,6 @@ class ArchivalObjectsController < ApplicationController
 
 
   def create
-    
     handle_crud(:instance => :archival_object,
                 :find_opts => find_opts,
                 :on_invalid => ->() {
