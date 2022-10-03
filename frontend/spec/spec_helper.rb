@@ -17,6 +17,9 @@ require 'jsonmodel'
 require_relative '../../indexer/app/lib/realtime_indexer'
 require_relative '../../indexer/app/lib/periodic_indexer'
 
+require 'factory_bot'
+include FactoryBot::Syntax::Methods
+
 if ENV['COVERAGE_REPORTS'] == 'true'
   require 'aspace_coverage'
   ASpaceCoverage.start('frontend:test', 'rails')
@@ -29,8 +32,6 @@ $backend = ENV['ASPACE_TEST_BACKEND_URL'] || "http://localhost:#{backend_port}"
 test_db_url = ENV['ASPACE_TEST_DB_URL'] || AppConfig[:db_url]
 AppConfig[:backend_url] = $backend
 
-require 'factory_bot'
-include FactoryBot::Syntax::Methods
 
 RSpec.configure do |config|
   # rspec-expectations config goes here. You can use an alternate
