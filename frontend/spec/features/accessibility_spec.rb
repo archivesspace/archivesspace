@@ -16,7 +16,7 @@ describe 'Accessibility', js: true, db: 'accessibility' do
     Capybara.reset_sessions!
   end
 
-  it 'sets the selected state on sidebar elements', :skip => "UPGRADE skipping for green CI" do
+  it 'sets the selected state on sidebar elements' do
     visit "/resources/1"
 
     page.has_css? "div#archivesSpaceSidebar"
@@ -227,7 +227,7 @@ describe 'Accessibility', js: true, db: 'accessibility' do
     end
 
     # 519396
-    it "sets role as none for ul element in merge dropdown", :skip => "UPGRADE skipping for green CI" do
+    it "sets role as none for ul element in merge dropdown" do
       visit "/resources/1"
 
       within "#merge-dropdown" do
@@ -273,7 +273,7 @@ describe 'Accessibility', js: true, db: 'accessibility' do
        # untestable: axe testing gem is not capable of choosing colors in CSS
     end
 
-    # 519486, #519494, :skip => "UPGRADE skipping for green CI"
+    # 519486, #519494
     it "has acceptable color contrast in the datepicker" do
       visit "/resources/1/edit"
 
