@@ -46,7 +46,7 @@ body {
 }
 
 .dropdown-toggle {
-  color: #595959;
+  color: #212529
 }
 .dropdown-item {
   &:active,
@@ -54,7 +54,7 @@ body {
     background-color: $gray-200;
   }
   a {
-    color: #595959;
+    color: #212529;
     padding: 0;
   }
 }

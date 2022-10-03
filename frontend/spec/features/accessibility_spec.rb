@@ -214,7 +214,7 @@ describe 'Accessibility', js: true, db: 'accessibility' do
     # also see: https://github.com/archivesspace/archivesspace/commit/9bcb1a8884c2a9f8d4d82a67b114b016fa3d0c2c
 
     # 519344
-    it "has visual labels for add event dropdown", :skip => "UPGRADE skipping for green CI" do
+    it "has visual labels for add event dropdown" do
       visit "/resources/1"
       page.has_css? "div.record-toolbar"
 
@@ -273,8 +273,8 @@ describe 'Accessibility', js: true, db: 'accessibility' do
        # untestable: axe testing gem is not capable of choosing colors in CSS
     end
 
-    # 519486, #519494
-    it "has acceptable color contrast in the datepicker", :skip => "UPGRADE skipping for green CI" do
+    # 519486, #519494, :skip => "UPGRADE skipping for green CI"
+    it "has acceptable color contrast in the datepicker" do
       visit "/resources/1/edit"
 
       datepicker_toggle = find "input#resource_dates__0__begin_.date-field.initialised + .input-group-btn button"
