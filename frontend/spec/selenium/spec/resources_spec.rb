@@ -110,7 +110,7 @@ describe 'Resources and archival objects' , :skip => "UPGRADE skipping for green
     @driver.click_and_wait_until_gone(:css, 'a.btn.btn-cancel')
   end
 
-  it 'prepopulates the top container modal with search for current resource when linking on the resource edit page', skip: 'UPGRADE lost in translation' do
+  it 'prepopulates the top container modal with search for current resource when linking on the resource edit page', skip: 'UPGRADE skipping for green CI / lost in translation' do
     # Create some top containers
     location = create(:location)
     container_location = build(:container_location,
@@ -553,7 +553,7 @@ describe 'Resources and archival objects' , :skip => "UPGRADE skipping for green
     @driver.click_and_wait_until_gone(:id, 'dismissChangesButton')
   end
 
-  it 'can update an existing Archival Object', skip: 'UPGRADE lost in translation' do
+  it 'can update an existing Archival Object', skip: 'UPGRADE skipping for green CI / lost in translation' do
     @driver.get_edit_page(@archival_object)
 
     # Wait for the form to load in
@@ -604,7 +604,7 @@ describe 'Resources and archival objects' , :skip => "UPGRADE skipping for green
     assert(5) { expect(@driver.find_element(:css, '#archival_object_subjects_ ul.token-input-list').text).to match(/#{$$}FooTerm456/) }
   end
 
-  it 'can view a read only Archival Object', skip: 'UPGRADE lost in translation' do
+  it 'can view a read only Archival Object', skip: 'UPGRADE skipping for green CI / lost in translation' do
     @driver.get_edit_page(@archival_object)
 
     @driver.find_element(:link, 'Close Record').click

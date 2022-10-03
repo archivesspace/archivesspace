@@ -33,9 +33,10 @@ describe 'Accessions' do
     @driver ? @driver.quit : next
   end
 
-  it 'can spawn an accession from an existing accession', skip: 'UPGRADE lost in translation' do
+  it 'can spawn an accession from an existing accession' do
     @driver.find_element(:link, 'Create').click
-    @driver.click_and_wait_until_gone(:link, 'Accession')
+    @driver.find_element(:link, 'Accession').click
+    sleep(10)
 
     @driver.clear_and_send_keys([:id, 'accession_title_'], "Charles Darwin's paperclip collection")
     @driver.complete_4part_id('accession_id_%d_')
@@ -103,9 +104,9 @@ describe 'Accessions' do
     @driver.ensure_no_such_element(:id, 'accession_external_documents_')
   end
 
-  it 'can create an Accession', :skip => "UPGRADE skipping for green CI" do
+  it 'can create an Accession' do
     @driver.find_element(:link, 'Create').click
-    @driver.click_and_wait_until_gone(:link, 'Accession')
+    @driver.find_element(:link, 'Accession').click
     @driver.clear_and_send_keys([:id, 'accession_title_'], @accession_title)
     @driver.complete_4part_id('accession_id_%d_', @shared_4partid)
     @driver.clear_and_send_keys([:id, 'accession_accession_date_'], '2012-01-01')
@@ -129,7 +130,7 @@ describe 'Accessions' do
     assert(5) { expect(@driver.find_element(css: 'body').text).to match(/Here is a description of this accession/) }
   end
 
-  it 'reports errors when updating an Accession with invalid data', :skip => "UPGRADE skipping for green CI" do
+  it 'reports errors when updating an Accession with invalid data' do
     @driver.click_and_wait_until_gone(:link, 'Edit')
     @driver.clear_and_send_keys([:id, 'accession_id_0_'], '')
     @driver.find_element(css: "form#accession_form button[type='submit']").click
