@@ -29,7 +29,7 @@ jobs:
           - 3307:3306
         options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
       solr:
-        image: archivesspace/solr:latest
+        image: solr:8.11
         ports:
           - 8984:8983
 
@@ -45,11 +45,17 @@ jobs:
       run: |
         gzip -dc ./build/mysql_db_fixtures/accessibility.sql.gz | mysql --host 127.0.0.1 --port $DB_PORT -uroot -proot accessibility
 
+    - name: Copy solr config from workspace to solr service
+      env:
+        SOLR_ID: ${{ job.services.solr.id }}
+      run: |
+        docker cp solr $SOLR_ID:/solr_conf_from_repo
+
     - name: Create ArchivesSpace Solr core
       env:
         SOLR_ID: ${{ job.services.solr.id }}
       run: |
-        docker exec --tty $SOLR_ID solr create_core -p 8983 -c archivesspace -d /archivesspace
+        docker exec --tty $SOLR_ID solr create_core -p 8983 -c archivesspace -d /solr_conf_from_repo
 
     - name: Bootstrap ArchivesSpace
       run: |
