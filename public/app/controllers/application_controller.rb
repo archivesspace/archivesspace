@@ -14,6 +14,7 @@ class ApplicationController < ActionController::Base
   helper_method :process_search_results
   helper_method :handle_results
   helper_method :process_results
+  helper_method :repositories_sort_by
 
   include JsonHelper
   helper_method :process_json_notes
