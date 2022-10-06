@@ -681,6 +681,27 @@ module MarcXMLBibBaseMap
     }
   end
 
+  def id_from_call_number
+    {
+      :rel => -> resource, obj {
+
+        STDERR.puts "++++++++++++++++++++++++++++++"
+        STDERR.puts obj.inspect
+
+        #id = concatenate_subfields(('a'..'z'), obj, '_')
+        #id = obj["content"]
+        if resource['id_0'].nil? || resource['id_0'].empty?
+          resource['id_0'] = obj.subnotes[0]["content"] 
+        end
+
+        #STDERR.puts resource.id_0.inspect
+        #if resource.id_0.nil? or resource.id_0.empty?
+        #  resource.id_0 = id unless id.empty?
+        #end
+      }
+    }
+  end
+
 
   # this should be called 'build_base_map'
   # because the extending class calls it
@@ -761,76 +782,79 @@ module MarcXMLBibBaseMap
         # 099, 090, 092, 096, 098, 050, 082
         # e.g., a value in 099 would be used over a value in 092, etc
 
-        # local non-LC identifier
-        "datafield[@tag='099']" => -> resource, node {
-          if resource.id_0.nil? or resource.id_0.empty?
-            id = concatenate_subfields(('a'..'z'), node, '_')
-            resource.id_0 = id unless id.empty?
-          end
+        # "datafield[@tag='099']" => -> resource, node {
+        #  id = concatenate_subfields(('a'..'z'), node, '_')
 
-        },
+         # resource.id_0 = id
+         # STDERR.puts "++++++++++++++++++++++++++++++"
+         # STDERR.puts id
+
+
+
+          #if resource.id_0.nil? or resource.id_0.empty?
+          #  resource.id_0 = id unless id.empty?
+          #end
+       # },
+
+        # local non-LC identifier
+        "datafield[@tag='099']" => mix(multipart_note('odd', "local non-LC identifier:", "{$a }"), id_from_call_number),
 
         # local LC-style identifer
-        "datafield[@tag='090']" => -> resource, node {
+        "datafield[@tag='090']" => mix(multipart_note('odd', "local LC-style identifer:", "{$a }"), id_from_call_number),
+
+      #  "datafield[@tag='090']" => mix(multipart_note('odd', "local LC-style identifer:", "{$a }"), "self::datafield" => -> resource, node {
+      #    id = concatenate_subfields(('a'..'z'), node, '_')
+
+      #    if resource.id_0.nil? or resource.id_0.empty?
+      #      resource.id_0 = id unless id.empty?
+      #    end
+      #  }),
+
+        # Locally Assigned Dewey Call Number
+        "datafield[@tag='092']" => mix(multipart_note('odd', "Locally Assigned Dewey Call Number:", "{$a }"), "self::datafield" => -> resource, node {
           id = concatenate_subfields(('a'..'z'), node, '_')
 
           if resource.id_0.nil? or resource.id_0.empty?
             resource.id_0 = id unless id.empty?
           end
-        },
-
-        "datafield[@tag='090']" => multipart_note('odd', "local LC-style identifer:", "{$a }"),
-
-        # Locally Assigned Dewey Call Number
-        "datafield[@tag='092']" => -> resource, node {
-          if resource.id_0.nil? or resource.id_0.empty?
-            id = concatenate_subfields(('a'..'z'), node, '_')
-            resource.id_0 = id unless id.empty?
-          end
-        },
-
-        "datafield[@tag='092']" => multipart_note('odd', "Locally Assigned Dewey Call Number:", "{$a }"),
+        }),
 
         # Locally NLM-type Call Number
-        "datafield[@tag='096']" => -> resource, node {
+        "datafield[@tag='096']" => mix(multipart_note('odd', "Locally NLM-type Call Number:", "{$a }"), "self::datafield" => -> resource, node {
+          id = concatenate_subfields(('a'..'z'), node, '_')
+
           if resource.id_0.nil? or resource.id_0.empty?
-            id = concatenate_subfields(('a'..'z'), node, '_')
             resource.id_0 = id unless id.empty?
           end
-        },
-
-        "datafield[@tag='096']" => multipart_note('odd', "Locally NLM-type Call Number:", "{$a }"),
+        }),
 
         #  Other Classification Schemes
-        "datafield[@tag='098']" => -> resource, node {
+        "datafield[@tag='098']" => mix(multipart_note('odd', "Other Classification Schemes:", "{$a }"), "self::datafield" => -> resource, node {
+          id = concatenate_subfields(('a'..'z'), node, '_')
+
           if resource.id_0.nil? or resource.id_0.empty?
-            id = concatenate_subfields(('a'..'z'), node, '_')
             resource.id_0 = id unless id.empty?
           end
-        },
-
-        "datafield[@tag='098']" => multipart_note('odd', "Other Classification Schemes:", "{$a }"),
+        }),
 
         # Library of Congress Call Number
-        "datafield[@tag='050']" => -> resource, node {
+        "datafield[@tag='050']" => mix(multipart_note('odd', "Library of Congress Call Number:", "{$a }"), "self::datafield" => -> resource, node {
+          id = concatenate_subfields(('a'..'z'), node, '_')
+
           if resource.id_0.nil? or resource.id_0.empty?
-            id = concatenate_subfields(('a'..'z'), node, '_')
             resource.id_0 = id unless id.empty?
           end
-        },
-
-        "datafield[@tag='050']" => multipart_note('odd', "Library of Congress Call Number:", "{$a }"),
+        }),
 
         # Dewey Classification Number
-        "datafield[@tag='082']" => -> resource, node {
+        "datafield[@tag='082']" => mix(multipart_note('odd', "Dewey Classification Number:", "{$a }"), "self::datafield" => -> resource, node {
+          id = concatenate_subfields(('a'..'z'), node, '_')
+
           if resource.id_0.nil? or resource.id_0.empty?
-            id = concatenate_subfields(('a'..'z'), node, '_')
             resource.id_0 = id unless id.empty?
           end
-        },
-
-        #"datafield[@tag='082']" => multipart_note('odd', "Dewey Classification Number:", "{$a }"),
-
+        }),
+      
         # description rules
         "datafield[@tag='040']/subfield[@code='e']" => :finding_aid_description_rules,
 
