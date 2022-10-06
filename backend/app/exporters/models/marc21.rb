@@ -773,7 +773,7 @@ class MARCModel < ASpaceExport::ExportModel
                    ["d", dates],
                    subfield_e,
                    ["g", qualifier],
-                   ["q", fuller_form]
+                   ["q", fuller_form],
                    ["0", primary_identifier],
                   ].compact.reject {|a| a[1].nil? || a[1].empty?}
 
@@ -936,7 +936,7 @@ class MARCModel < ASpaceExport::ExportModel
                     ['b', subfield_b_2],
                     subfield_e,
                     ['n', number],
-                    ['g', qualifier]
+                    ['g', qualifier],
                     ["0", primary_identifier],
                   ].compact.reject {|a| a[1].nil? || a[1].empty?}
 
