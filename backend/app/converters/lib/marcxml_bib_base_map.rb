@@ -948,14 +948,12 @@ module MarcXMLBibBaseMap
 
         "datafield[@tag='260']" => mix(multipart_note('odd', 'Publication Date', "{$c}"), {
                                          "self::datafield" => -> resource, node {
-                                           if resource['_needs_date']
                                              make(:date) do |date|
                                                date.label = 'publication'
                                                date.date_type = 'single'
                                                date.expression = node.xpath("subfield[@code='c']")
                                                resource.dates << date
                                              end
-                                           end
                                          }
                                        }),
 
