@@ -250,7 +250,7 @@ module MarcXMLAuthAgentBaseMap
 
                                              name[:subordinate_name_2] = val if node.parent.attr('tag') == '411' || node.parent.attr('tag') == '511'
 
-                                             name[:qualifier] = val if node.parent.attr('tag') == '111'
+                                             name[:qualifier] = "Name of meeting following jurisdiction name entry element: " + val if node.parent.attr('tag') == '111'
                                            }
     }
   end
