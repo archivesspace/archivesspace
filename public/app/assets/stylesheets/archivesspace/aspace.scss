@@ -875,51 +875,6 @@ span.head {
   overflow: auto;
 }
 
-@media (min-width: 992px) {
-  #sidebar.resizable-sidebar {
-    position: relative;
-    padding-left: 12px;
-
-    .resizable-sidebar-handle {
-      background-color: #eee;
-      position: absolute;
-      height: 100%;
-      width: 8px;
-      top: 0;
-      left: 0;
-      cursor: ew-resize;
-      background-image: asset-url('sidebar_drag_handle.png');
-      background-repeat: no-repeat;
-      background-position: 1px center;
-      border-right: 1px solid #ccc;
-      appearance: none;
-      -webkit-appearance: none;
-      -moz-appearance: none;
-    }
-
-    .resizable-sidebar-handle::-webkit-slider-thumb {
-      -webkit-appearance: none;
-      appearance: none;
-    }
-
-    .resizable-sidebar-handle::-moz-range-thumb {
-      -moz-appearance: none;
-      appearance: none;
-      background: none;
-      border: none;
-    }
-  }
-}
-
-@media (max-width: 991px) {
-  .row.has-resizable-content {
-    > .col-sm-9,
-    > .resizable-sidebar {
-      width: inherit !important;
-    }
-  }
-}
-
 .skipnav a:focus {
   position: absolute;
 }
@@ -954,4 +909,55 @@ span.head {
 .honeypot {
   position: absolute;
   left: -9999px;
+}
+
+//Bootstrap 4+ uses flex for its col classes. This overrides the flex behaviors in the public app wherever there is a resizable sidebar to enable custom JS
+.row.has-resizable-content {
+  flex-wrap: nowrap;
+  .col-sm-3.resizable-sidebar {
+    flex: unset;
+    max-width: unset;
+  }
+  .resizable-sidebar {
+    width: 25%;
+  }
+  .resizable-content-pane {
+    width: 75%;
+    @media (min-width: 992px){
+      flex: 1;
+    }
+  }
+}
+
+@media (min-width: 992px) {
+  #sidebar.resizable-sidebar {
+    .resizable-sidebar-handle {
+      background-color: #eee;
+      position: absolute;
+      height: 100%;
+      width: 8px;
+      top: 0;
+      left: 0;
+      cursor: ew-resize;
+      background-image: asset-url('sidebar_drag_handle.png');
+      background-repeat: no-repeat;
+      background-position: 1px center;
+      border-right: 1px solid #ccc;
+      appearance: none;
+      -webkit-appearance: none;
+      -moz-appearance: none;
+    }
+
+    .resizable-sidebar-handle::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+    }
+
+    .resizable-sidebar-handle::-moz-range-thumb {
+      -moz-appearance: none;
+      appearance: none;
+      background: none;
+      border: none;
+    }
+  }
 }

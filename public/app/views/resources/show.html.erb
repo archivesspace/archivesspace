@@ -19,11 +19,11 @@
 <%= render partial: 'resources/resource_alltabs' %>
 
 <div class="row mt-5" id="notes_row">
-  <div class="col-sm-9">
+  <div class="resizable-content-pane">
     <%= render partial: 'shared/digital', locals: {:rep_fv => @rep_fv, :dig_objs => @dig} %>
     <%= render partial: 'shared/record_innards' %>
   </div>
-  <div id="sidebar" class="col-sm-3 sidebar sidebar-container resizable-sidebar" <% unless @has_children %>style="display: none"<% end %>>
+  <div id="sidebar" class="col-sm-3 sidebar sidebar-container resizable-sidebar">
     <% if defined?(@filters) && defined?(@search) %>
     <%= render partial: 'shared/facets' %>
    <% end %>
