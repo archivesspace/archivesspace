@@ -911,7 +911,7 @@ span.head {
   left: -9999px;
 }
 
-//Bootstrap 4+ uses flex for its col classes. This overrides the flex behaviors in the public app wherever there is a resizable sidebar to enable custom JS
+// Bootstrap 4+ uses flex for its col classes. This overrides the flex behaviors in the public app wherever there is a resizable sidebar to enable custom JS
 .row.has-resizable-content {
   flex-wrap: nowrap;
   .col-sm-3.resizable-sidebar {
