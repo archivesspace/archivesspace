@@ -8,8 +8,11 @@ class AdvancedQueryString
 
   def to_solr_s
     return empty_solr_s if empty_search?
-
-    "#{prefix}#{field}:#{value}"
+    if field.nil?
+      "#{prefix}#{value}"
+    else
+      "#{prefix}#{field}:#{value}"
+    end
   end
 
   private

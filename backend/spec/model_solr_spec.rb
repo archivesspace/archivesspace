@@ -155,7 +155,7 @@ describe 'Solr model' do
     it "constructs advanced query containing Boolean NOT without adding a match-all clause" do
       query_string = Solr::Query.construct_advanced_query_string(canned_query)
 
-      expect(query_string).to eq("((-title:(tennis)) AND ((fullrecord:(golf))))")
+      expect(query_string).to eq("((-title:(tennis)) AND (((golf))))")
     end
 
   end
