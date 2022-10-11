@@ -76,9 +76,9 @@ services:
 ## Other useful commands for testing
 - Run a single test file (you will replace the path at the end of the file or the command as needed):
     - `./build/run frontend:test -Dpattern=features/repositories_spec.rb`
-- Run test set for accessibility (separate commands for frontend & public)
-    - `./build/run rspec -Ddir="../public" -Dtag="db:accessibility" -Dspec="features" -Dorder="defined"`
-    - `ASPACE_TEST_BACKEND_URL=http://localhost:4567 ./build/run rspec -Ddir="../frontend" -Dtag="db:accessibility" -Dspec="features" -Dorder="defined"`
+- Run test set for accessibility (separate commands for frontend & public) - set the ASPACE_TEST_SKIP_FIXTURES to make sure that it skips the spec helper and clears the db
+    - `ASPACE_TEST_SKIP_FIXTURES=1 ./build/run rspec -Ddir="../public" -Dtag="db:accessibility" -Dspec="features" -Dorder="defined"`
+    - `ASPACE_TEST_SKIP_FIXTURES=1 ./build/run rspec -Ddir="../frontend" -Dtag="db:accessibility" -Dspec="features" -Dorder="defined"`
 
 # How to run accessibility tests
 - To run the accessibility tests, the current volumes need to be removed and rebuilt with the correct database

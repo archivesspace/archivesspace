@@ -247,7 +247,7 @@ describe 'Accessibility', js: true, db: 'accessibility' do
         expect(page).to be_axe_clean.checking_only :'duplicate-id'
       end
 
-      it "marks visual lists as such", :skip => "UPGRADE skipping for green CI" do
+      it "marks visual lists as such" do
         visit "/repositories/5/resources/22"
         page.has_css? "div#tree-container"
         within "div#tree-container" do
