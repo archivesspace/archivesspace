@@ -18,9 +18,8 @@
   .return-to-search {
     margin-top: -4px;
   }
-  &.active {
-    li {
-      color: #555 !important;
-    }
+  // fix accessibility contrast
+  .breadcrumb-item.active {
+    color: #5f5f5f;
   }
 }

@@ -65,7 +65,7 @@ services:
 # Running the test suite
 1. Bash into the container: `docker compose exec app bash`
 2. Unset frontend proxy URL: `unset APPCONFIG_FRONTEND_PROXY_URL`
-  - you will need to run this each time you open a new terminal/shell
+  - you will need to run this each time you open a new terminal/shell, and are running frontend and Selenium specs
 
 ## The following commands will run the full set of tests for each aSpace app:
 - Frontend: `./build/run frontend:test` or `./build/run frontend:selenium`
@@ -78,4 +78,19 @@ services:
     - `./build/run frontend:test -Dpattern=features/repositories_spec.rb`
 - Run test set for accessibility (separate commands for frontend & public)
     - `./build/run rspec -Ddir="../public" -Dtag="db:accessibility" -Dspec="features" -Dorder="defined"`
-    - `./build/run rspec -Ddir="../frontend" -Dtag="db:accessibility" -Dspec="features" -Dorder="defined"`
+    - `ASPACE_TEST_BACKEND_URL=http://localhost:4567 ./build/run rspec -Ddir="../frontend" -Dtag="db:accessibility" -Dspec="features" -Dorder="defined"`
+
+# How to run accessibility tests
+- To run the accessibility tests, the current volumes need to be removed and rebuilt with the correct database
+- Run `docker compose down -v`
+- Run `cp docker-compose-dev-full.yml docker-compose.yml`
+- Run the project: `docker compose up app`
+- You will need to migrate the database: `docker-compose exec app ./build/run db:migrate`
+
+## How to use demo data in accessibility tests
+1. Copy the demo db into the db docker container: `docker cp build/mysql_db_fixtures/accessibility.sql.gz archivesspace_db_1:/` or `docker cp build/mysql_db_fixtures/accessibility.sql.gz archivesspace-db-1:/` depending on the name of your docker container
+  - run `docker ps` to see the name of your db container
+2. Bash into the container for db: `docker-compose exec db sh`
+3. Unzip sql file: `gzip -d < accessibility.sql.gz > accessibility.sql`
+4. Import the database: `mysql -p archivesspace < accessibility.sql`
+5. Password is 123456
