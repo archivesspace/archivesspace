@@ -271,6 +271,8 @@ AppConfig[:public_username] = "public_anonymous"
 AppConfig[:staff_username] = "staff_system"
 
 AppConfig[:authentication_sources] = []
+# When 'true' restrict authentication attempts to only the source already set for the user
+AppConfig[:authentication_restricted_by_source] = false # default: allow any source
 
 AppConfig[:realtime_index_backlog_ms] = 60000
 
