@@ -64,9 +64,11 @@ describe 'MARCXML Bib converter' do
                       </datafield>
                       <datafield ind1="1" ind2=" " tag="111">
                         <subfield code="a">111_sub_a_ind1_1_ind2_zero</subfield>
+                        <subfield code="c">111_sub_c</subfield>
                       </datafield>
                       <datafield ind1="1" ind2=" " tag="611">
                         <subfield code="a">611_sub_a_ind1_1_ind2_zero</subfield>
+                        <subfield code="c">611_sub_c</subfield>
                       </datafield>
                       <datafield ind1="1" ind2=" " tag="711">
                         <subfield code="a">711_sub_a_ind1_1_ind2_zero</subfield>
@@ -125,6 +127,14 @@ describe 'MARCXML Bib converter' do
       @corps.each do |c|
         c['names'].each do |n|
           expect(n['conference_meeting']).to eq(true)
+        end
+      end
+    end
+
+    it "sets location = $c for 111, 611 and 711 tags" do
+      @corps.each do |c|
+        c['names'].each do |n|
+          expect(n['location']).to match(/sub_c/)
         end
       end
     end
