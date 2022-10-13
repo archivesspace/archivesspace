@@ -681,28 +681,6 @@ module MarcXMLBibBaseMap
     }
   end
 
-  def id_from_call_number
-    {
-      :rel => -> resource, obj {
-
-        STDERR.puts "++++++++++++++++++++++++++++++"
-        STDERR.puts obj.inspect
-
-        #id = concatenate_subfields(('a'..'z'), obj, '_')
-        #id = obj["content"]
-        if resource['id_0'].nil? || resource['id_0'].empty?
-          resource['id_0'] = obj.subnotes[0]["content"] 
-        end
-
-        #STDERR.puts resource.id_0.inspect
-        #if resource.id_0.nil? or resource.id_0.empty?
-        #  resource.id_0 = id unless id.empty?
-        #end
-      }
-    }
-  end
-
-
   # this should be called 'build_base_map'
   # because the extending class calls it
   # when it is configuring itself, and the
@@ -782,33 +760,24 @@ module MarcXMLBibBaseMap
         # 099, 090, 092, 096, 098, 050, 082
         # e.g., a value in 099 would be used over a value in 092, etc
 
-        # "datafield[@tag='099']" => -> resource, node {
-        #  id = concatenate_subfields(('a'..'z'), node, '_')
-
-         # resource.id_0 = id
-         # STDERR.puts "++++++++++++++++++++++++++++++"
-         # STDERR.puts id
-
-
-
-          #if resource.id_0.nil? or resource.id_0.empty?
-          #  resource.id_0 = id unless id.empty?
-          #end
-       # },
-
         # local non-LC identifier
-        "datafield[@tag='099']" => mix(multipart_note('odd', "local non-LC identifier:", "{$a }"), id_from_call_number),
+        "datafield[@tag='099']" => mix(multipart_note('odd', "local non-LC identifier:", "{$a }"), {"self::datafield" => -> resource, node {
+          id = concatenate_subfields(('a'..'z'), node, '_')
+
+          if resource.id_0.nil? or resource.id_0.empty?
+            resource.id_0 = id unless id.empty?
+          end
+        }}),
+
 
         # local LC-style identifer
-        "datafield[@tag='090']" => mix(multipart_note('odd', "local LC-style identifer:", "{$a }"), id_from_call_number),
+        "datafield[@tag='090']" => mix(multipart_note('odd', "local LC-style identifer:", "{$a }"), {"self::datafield" => -> resource, node {
+          id = concatenate_subfields(('a'..'z'), node, '_')
 
-      #  "datafield[@tag='090']" => mix(multipart_note('odd', "local LC-style identifer:", "{$a }"), "self::datafield" => -> resource, node {
-      #    id = concatenate_subfields(('a'..'z'), node, '_')
-
-      #    if resource.id_0.nil? or resource.id_0.empty?
-      #      resource.id_0 = id unless id.empty?
-      #    end
-      #  }),
+          if resource.id_0.nil? or resource.id_0.empty?
+            resource.id_0 = id unless id.empty?
+          end
+        }}),
 
         # Locally Assigned Dewey Call Number
         "datafield[@tag='092']" => mix(multipart_note('odd', "Locally Assigned Dewey Call Number:", "{$a }"), "self::datafield" => -> resource, node {
