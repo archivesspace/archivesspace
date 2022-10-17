@@ -997,3 +997,7 @@ span.head {
 #language_select {
   text-align: right;
 }
+
+.no-shadow {
+  @include box-shadow(none);
+}

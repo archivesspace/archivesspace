@@ -10,6 +10,12 @@
   i {
     margin-right: rem-calc(2);
   }
+
+  .view-online-link {
+    font-weight: normal;
+    color: $lightblue;
+    font-family: $sans-font;
+  }
 }
 
 .badge-and-identifier {
@@ -40,6 +46,8 @@
 
 .record-type-badge.digital_object {
   @include record-type-badge-colored($digital-object-color);
+
+  border: none;
 }
 
 .record-type-badge.repository {

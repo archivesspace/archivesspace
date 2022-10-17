@@ -5,7 +5,8 @@
   "scripts": {
     "eslint:ci": "eslint frontend/ public/",
     "stylelint:ci": "stylelint '{frontend,public}/**/*.{css,less,scss}' -f verbose",
-    "prettier:ci": "prettier --check frontend/ public/"
+    "prettier:ci": "prettier --check frontend/ public/",
+    "stylelint:fix": "stylelint '{frontend,public}/**/*.{css,less,scss}' -f verbose --fix"
   },
   "devDependencies": {
     "eslint": "^8.14.0",
