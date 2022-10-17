@@ -185,17 +185,33 @@
     overflow: initial !important;
   }
 
-  /* Expand accordion panels, via Bodleian */
+  /* Expand accordion panels */
   .collapse {
     display: initial !important;
   }
 
-  /* Show all infinite records, via Bodleian */
+  /* Hide panel borders */
+  .panel,
+  .panel-default,
+  .panel-heading,
+  .panel-body {
+    border-color: white !important;
+  }
+
+  /* Expand 'See more' sections, hide expander */
+  .readmore .more {
+    visibility: visible !important;
+    display: inline !important;
+  }
+  .readmore span.elipses,
+  .readmore a.expander {
+    display: none;
+  }
+
+  /* Show all infinite records, tighten whitespace */
   .infinite-record-wrapper {
     height: auto !important;
   }
-
-  /* Decrease whitespace between repo details and infinite records */
   .infinite-record-wrapper div.infinite-record-record:first-of-type h3 {
     margin-top: 0 !important;
   }
@@ -203,7 +219,6 @@
   /* Applied by print.js */
   .page-location-for-printing {
     padding: 2px;
-    border: 1px dashed black;
     font-size: 10px;
   }
 
