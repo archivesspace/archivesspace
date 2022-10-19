@@ -101,7 +101,7 @@ ResizableSidebar.prototype.bind_events = function () {
 
 $(function () {
   $('.resizable-sidebar').each(function () {
-    $(document).off('keydown.bs.dropdown.data-api')
+    $(document).off('keydown.bs.dropdown.data-api');
     new ResizableSidebar($(this));
   });
 });
