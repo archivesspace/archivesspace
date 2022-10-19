@@ -190,7 +190,7 @@ describe 'Resources controller' do
 
 
   it "lets you create a resource with an instance linked to a digital object" do
-    digital_object = create(:json_digital_object)
+    digital_object = create(:json_digital_object, publish: true)
 
     opts = {:instance_type => "digital_object",
             :digital_object => {:ref => digital_object.uri}
@@ -204,6 +204,9 @@ describe 'Resources controller' do
     expect(resource.instances.length).to eq(1)
     expect(resource.instances[0]["instance_type"]).to eq(opts[:instance_type])
     expect(resource.instances[0]["digital_object"]["ref"]).to eq(opts[:digital_object][:ref])
+
+    tree = JSONModel::HTTP.get_json("#{resource.uri}/tree/root")
+    expect(tree['has_digital_instance']).to be_truthy
 
     digital_object = JSONModel(:digital_object).find(digital_object.id)
     expect(digital_object.linked_instances[0]["ref"]).to eq(resource.uri)

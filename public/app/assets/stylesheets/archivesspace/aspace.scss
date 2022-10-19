@@ -913,6 +913,10 @@ span.head {
   overflow: auto;
 }
 
+.has_digital_instance {
+  margin-right: 0.5rem;
+}
+
 @media (min-width: 992px) {
   #sidebar.resizable-sidebar {
     position: relative;

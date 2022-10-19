@@ -366,6 +366,29 @@ describe 'Archival Object controller' do
     expect(loc["_resolved"]["building"]).to eq(location.building)
   end
 
+  it "lets you create an archival object with an instance linked to a digital object" do
+    digital_object = create(:json_digital_object, publish: true)
+    opts = {:instance_type => "digital_object",
+      :digital_object => {:ref => digital_object.uri}
+    }
+
+    resource = create(:json_resource)
+    archival_object = create(:json_archival_object,
+                                    :dates => [],
+                                    :resource => {:ref => resource.uri},
+                                    :instances => [build(:json_instance, opts)])
+
+    expect(archival_object.instances.length).to eq(1)
+    expect(archival_object.instances[0]["instance_type"]).to eq(opts[:instance_type])
+    expect(archival_object.instances[0]["digital_object"]["ref"]).to eq(opts[:digital_object][:ref])
+
+    resource = JSONModel(:resource).find(resource.id)
+    subtree = JSONModel::HTTP.get_json("#{resource.uri}/tree/node", node_uri: archival_object.uri)
+    expect(subtree['has_digital_instance']).to be_truthy
+
+    digital_object = JSONModel(:digital_object).find(digital_object.id)
+    expect(digital_object.linked_instances[0]["ref"]).to eq(archival_object.uri)
+  end
 
   it "accepts move of multiple children" do
     resource = create(:json_resource)
