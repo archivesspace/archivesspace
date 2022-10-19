@@ -71,7 +71,6 @@ ResizableSidebar.prototype.bind_events = function () {
       if (!self.isResizing) {
         return;
       }
-
       var content_width = document.getElementById('content').offsetWidth;
       var slider = document.getElementById('accessible_slider').value;
 
@@ -102,6 +101,7 @@ ResizableSidebar.prototype.bind_events = function () {
 
 $(function () {
   $('.resizable-sidebar').each(function () {
+    $(document).off('keydown.bs.dropdown.data-api')
     new ResizableSidebar($(this));
   });
 });
