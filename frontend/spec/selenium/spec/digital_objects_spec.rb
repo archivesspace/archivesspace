@@ -214,4 +214,53 @@ describe 'Digital Objects' do
     @driver.click_and_wait_until_gone(css: "form .record-pane button[type='submit']")
     @driver.find_element(css: '#digital_object_classifications__0_')
   end
+
+  it 'provides alt text for Digital Object and Digital Object Component file version images with and without captions' do
+    alt_do_title = 'File version alt text test'
+    alt_doc_title = 'Child of file version alt text test'
+    alt_uri = 'https://www.archivesspace.org/demos/Congreave%20E-2/ms292_003_page002.jpg'
+    alt_format = 'jpeg'
+    alt_caption = 'This is the caption'
+
+    @alt_do = create(
+      :digital_object,
+      title: alt_do_title,
+      file_versions: [
+        {
+          file_uri: alt_uri,
+          file_format_name: alt_format,
+          caption: alt_caption
+        },
+        {
+          file_uri: alt_uri,
+          file_format_name: alt_format
+        }
+      ]
+    )
+    @alt_doc = create(
+      :digital_object_component,
+      digital_object: { ref: @alt_do.uri },
+      title: alt_doc_title,
+      file_versions: [
+        {
+          file_uri: alt_uri,
+          file_format_name: alt_format,
+          caption: alt_caption
+        },
+        {
+          file_uri: alt_uri,
+          file_format_name: alt_format
+        }
+      ]
+    )
+    run_all_indexers
+
+    @driver.get_view_page(@alt_do)
+    expect(@driver.find_hidden_element(css: "section#digital_object_file_versions_ #digital_object_file_versions__file_version_0 img[alt='#{alt_caption}']"))
+    expect(@driver.find_hidden_element(css: "section#digital_object_file_versions_ #digital_object_file_versions__file_version_1 img[alt='#{alt_do_title}']"))
+
+    @driver.find_element(:link, alt_doc_title).click
+    expect(@driver.find_hidden_element(css: "section#digital_object_component_file_versions_ #digital_object_component_file_versions__file_version_0 img[alt='#{alt_caption}']"))
+    expect(@driver.find_hidden_element(css: "section#digital_object_component_file_versions_ #digital_object_component_file_versions__file_version_1 img[alt='#{alt_doc_title}']"))
+  end
 end
