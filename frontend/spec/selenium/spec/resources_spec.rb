@@ -2,7 +2,7 @@
 
 require_relative '../spec_helper'
 
-describe 'Resources and archival objects' , :skip => "UPGRADE skipping for green CI" do
+describe 'Resources and archival objects' do
   before(:all) do
     @repo = create(:repo, repo_code: "resources_test_#{Time.now.to_i}")
     set_repo @repo
@@ -110,7 +110,7 @@ describe 'Resources and archival objects' , :skip => "UPGRADE skipping for green
     @driver.click_and_wait_until_gone(:css, 'a.btn.btn-cancel')
   end
 
-  it 'prepopulates the top container modal with search for current resource when linking on the resource edit page', skip: 'UPGRADE skipping for green CI / lost in translation' do
+  it 'prepopulates the top container modal with search for current resource when linking on the resource edit page' do
     # Create some top containers
     location = create(:location)
     container_location = build(:container_location,
@@ -190,7 +190,7 @@ describe 'Resources and archival objects' , :skip => "UPGRADE skipping for green
     run_periodic_index
   end
 
-  it 'can add a rights statement with linked agent to a Resource', :skip => "UPGRADE skipping for green CI" do
+  it 'can add a rights statement with linked agent to a Resource' do
     @driver.find_element(:link, 'Browse').click
     @driver.wait_for_dropdown
     @driver.click_and_wait_until_gone(:link, 'Resources')
@@ -296,7 +296,7 @@ describe 'Resources and archival objects' , :skip => "UPGRADE skipping for green
     @driver.click_and_wait_until_gone(:css, 'a.btn.btn-cancel')
   end
 
-  it 'reports errors if adding an empty child to a Resource', :skip => "UPGRADE skipping for green CI" do
+  it 'reports errors if adding an empty child to a Resource' do
     @driver.get_edit_page(@resource)
 
     @driver.find_element(:link, 'Add Child').click
@@ -316,7 +316,7 @@ describe 'Resources and archival objects' , :skip => "UPGRADE skipping for green
     @driver.click_and_wait_until_gone(:id, 'dismissChangesButton')
   end
 
-  it 'reports error if title is empty and no date is provided', :skip => "UPGRADE skipping for green CI" do
+  it 'reports error if title is empty and no date is provided' do
     @driver.get("#{$frontend}#{@resource.uri.sub(%r{/repositories/\d+}, '')}/edit")
 
     @driver.find_element(:link, 'Add Child').click
@@ -452,7 +452,7 @@ describe 'Resources and archival objects' , :skip => "UPGRADE skipping for green
     @driver.click_and_wait_until_gone(:css, '#confirmChangesModal #confirmButton')
   end
 
-  it 'can edit a Resource, add a second Extent, then remove it', :skip => "UPGRADE skipping for green CI" do
+  it 'can edit a Resource, add a second Extent, then remove it' do
     @driver.get_edit_page(@resource)
 
     @driver.find_element(css: '#resource_extents_ .subrecord-form-heading .btn:not(.show-all)').click
@@ -553,7 +553,7 @@ describe 'Resources and archival objects' , :skip => "UPGRADE skipping for green
     @driver.click_and_wait_until_gone(:id, 'dismissChangesButton')
   end
 
-  it 'can update an existing Archival Object', skip: 'UPGRADE skipping for green CI / lost in translation' do
+  it 'can update an existing Archival Object' do
     @driver.get_edit_page(@archival_object)
 
     # Wait for the form to load in
@@ -604,7 +604,7 @@ describe 'Resources and archival objects' , :skip => "UPGRADE skipping for green
     assert(5) { expect(@driver.find_element(:css, '#archival_object_subjects_ ul.token-input-list').text).to match(/#{$$}FooTerm456/) }
   end
 
-  it 'can view a read only Archival Object', skip: 'UPGRADE skipping for green CI / lost in translation' do
+  it 'can view a read only Archival Object' do
     @driver.get_edit_page(@archival_object)
 
     @driver.find_element(:link, 'Close Record').click

@@ -2,7 +2,7 @@
 
 require_relative '../spec_helper'
 
-describe 'Resource instances and containers', :skip => "UPGRADE skipping for green CI" do
+describe 'Resource instances and containers' do
   before(:all) do
     @repo = create(:repo, repo_code: "instances_test_#{Time.now.to_i}")
     set_repo @repo
@@ -39,7 +39,7 @@ describe 'Resource instances and containers', :skip => "UPGRADE skipping for gre
     @driver ? @driver.quit : next
   end
 
-  it 'searches containers and performs bulk operations' do
+  it 'searches containers and performs bulk operations', skip: 'UPGRADE skipping for green CI' do
     @driver.navigate.to("#{$frontend}/top_containers")
 
     @driver.find_element(id: 'q').send_keys('Letter')
@@ -342,7 +342,7 @@ describe 'Resource instances and containers', :skip => "UPGRADE skipping for gre
     end.to raise_error(Selenium::WebDriver::Error::NoSuchElementError)
   end
 
-  it 'can add a location with a previous status to a top container', skip: 'UPGRADE skipping for green CI / lost in translation' do
+  it 'can add a location with a previous status to a top container' do
     @driver.navigate.to("#{$frontend}#{@container.uri.sub(%r{/repositories/\d+}, '')}/edit")
 
     section = @driver.find_element(id: 'container_locations')

@@ -20,7 +20,7 @@ describe "agents merge" do
     @driver ? @driver.quit : next
   end
 
-  it 'displays the full merge page without any errors', :skip => "UPGRADE skipping for green CI" do
+  it 'displays the full merge page without any errors' do
     @driver.clear_and_send_keys([:id, 'global-search-box'], @first_agent['names'][0]['primary_name'])
     @driver.find_element(id: 'global-search-button').click
     @driver.click_and_wait_until_element_gone(
@@ -37,7 +37,7 @@ describe "agents merge" do
     assert { expect(@driver.find_element(css: 'h2').text).to eq('This record will be updated') }
   end
 
-  it "merges record ids", :skip => "UPGRADE skipping for green CI" do
+  it "merges record ids" do
     @driver.find_element(id: 'agent_agent_record_identifiers__0__append_').click
     @driver.find_element(:class, 'preview-merge').click
 
@@ -50,7 +50,7 @@ describe "agents merge" do
     @driver.find_element(class: 'close').click
   end
 
-  it "merges agent places", skip: 'UPGRADE skipping for green CI / lost in translation' do
+  it "merges agent places" do
     @driver.find_element(id: 'agent_agent_places__0__append_').click
     @driver.find_element(:class, 'preview-merge').click
 
@@ -64,7 +64,7 @@ describe "agents merge" do
     @driver.find_element(class: 'close').click
   end
 
-  it "merges names", skip: 'UPGRADE skipping for green CI / lost in translation' do
+  it "merges names" do
     @driver.find_element(id: 'agent_names__0__append_').click
     @driver.find_element(:class, 'preview-merge').click
 
@@ -1079,7 +1079,7 @@ describe "agents record CRUD" do
       @driver.find_element(id: 'agent_agent_topics__0__dates__0_')
     end
 
-    it 'can add a note to an agent_topic', :skip => "UPGRADE skipping for green CI" do
+    it 'can add a note to an agent_topic' do
       # create subject
       @driver.find_element(:link, 'Create').click
       @driver.click_and_wait_until_gone(:link, 'Subject')
@@ -1123,7 +1123,7 @@ describe "agents record CRUD" do
       @driver.find_element(id: 'agent_agent_topics__0__notes__0_')
     end
 
-    it 'can add a Biog/Hist note to an Agent', :skip => "UPGRADE skipping for green CI" do
+    it 'can add a Biog/Hist note to an Agent', skip: 'UPGRADE skipping for green CI' do
       @driver.find_element(css: '#agent_person_notes .subrecord-form-heading .btn.add-note').click
       note_select = @driver.find_element(css: '.top-level-note-type')
       note_select.select_option('Biographical / Historical')
@@ -1142,7 +1142,7 @@ describe "agents record CRUD" do
       @driver.find_element(id: 'agent_notes__0_')
     end
 
-    it 'can add a General Context note to an Agent', :skip => "UPGRADE skipping for green CI" do
+    it 'can add a General Context note to an Agent', skip: 'UPGRADE skipping for green CI' do
       #@driver.click_and_wait_until_gone(:link, 'Edit')
       @driver.find_element(css: '#agent_person_notes .subrecord-form-heading .btn.add-note').click
       note_select = @driver.find_element(css: '.top-level-note-type')

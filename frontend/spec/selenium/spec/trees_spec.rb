@@ -2,7 +2,7 @@
 
 require_relative '../spec_helper'
 
-describe 'Tree UI', :skip => "UPGRADE skipping for green CI" do
+describe 'Tree UI' do
   before(:all) do
     @repo = create(:repo, repo_code: "trees_test_#{Time.now.to_i}")
     set_repo @repo

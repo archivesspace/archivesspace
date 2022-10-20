@@ -119,7 +119,7 @@ describe 'Accessions' do
     assert(5) { expect(@driver.find_element(css: '.record-pane h2').text).to eq("#{@accession_title} Accession") }
   end
 
-  it 'is presented an Accession edit form', :skip => "UPGRADE skipping for green CI" do
+  it 'is presented an Accession edit form' do
     @driver.click_and_wait_until_gone(:link, 'Edit')
     @driver.clear_and_send_keys([:id, 'accession_content_description_'], 'Here is a description of this accession.')
     @driver.clear_and_send_keys([:id, 'accession_condition_description_'], 'Here we note the condition of this accession.')
@@ -142,7 +142,7 @@ describe 'Accessions' do
     @driver.click_and_wait_until_gone(link: 'Cancel')
   end
 
-  it 'can edit an Accession and two Extents', :skip => "UPGRADE skipping for green CI" do
+  it 'can edit an Accession and two Extents' do
     # add the first extent
     @driver.find_element(css: '#accession_extents_ .subrecord-form-heading .btn:not(.show-all)').click
     @driver.find_element(id: 'accession_extents__0__extent_type_').select_option('volumes')
@@ -160,7 +160,7 @@ describe 'Accessions' do
     assert(5) { expect(@driver.find_element(css: '.record-pane h2').text).to eq("#{@accession_title} Accession") }
   end
 
-  it 'can see two extents on the saved Accession', :skip => "UPGRADE skipping for green CI" do
+  it 'can see two extents on the saved Accession' do
     extent_headings = @driver.blocking_find_elements(css: '#accession_extents_ .panel-heading')
 
     expect(extent_headings.length).to eq 2
@@ -169,7 +169,7 @@ describe 'Accessions' do
     assert(5) { expect(extent_headings[1].text).to eq '10 Cassettes' }
   end
 
-  it 'can remove an extent when editing an Accession', :skip => "UPGRADE skipping for green CI" do
+  it 'can remove an extent when editing an Accession' do
     @driver.click_and_wait_until_gone(:link, 'Edit')
     @driver.blocking_find_elements(css: '#accession_extents_ .subrecord-form-remove')[0].click
     @driver.find_element(css: '#accession_extents_ .confirm-removal').click
@@ -183,7 +183,7 @@ describe 'Accessions' do
     assert(5) { expect(extent_headings[0].text).to eq '10 Cassettes' }
   end
 
-  it 'can link an accession to an agent as a subject', :skip => "UPGRADE skipping for green CI" do
+  it 'can link an accession to an agent as a subject' do
     create(:agent_person,
            names: [build(:name_person,
                          name_order: 'inverted',
@@ -216,7 +216,7 @@ describe 'Accessions' do
     expect(@driver.find_element(id: 'accession_linked_agents_').text).to match(/LinkedAgentTerm/)
   end
 
-  it 'shows an error if you try to reuse an identifier', :skip => "UPGRADE skipping for green CI" do
+  it 'shows an error if you try to reuse an identifier' do
     @driver.find_element(:link, 'Create').click
     @driver.click_and_wait_until_gone(:link, 'Accession')
     @driver.clear_and_send_keys([:id, 'accession_title_'], @accession_title)
@@ -231,7 +231,7 @@ describe 'Accessions' do
     @driver.click_and_wait_until_gone(link: 'Cancel')
   end
 
-  it 'can add a rights statement with linked agent to an Accession', :skip => "UPGRADE skipping for green CI" do
+  it 'can add a rights statement with linked agent to an Accession' do
     @driver.find_element(:link, 'Browse').click
     @driver.wait_for_dropdown
     @driver.click_and_wait_until_gone(:link, 'Accessions')
@@ -530,7 +530,7 @@ describe 'Accessions' do
     @driver.find_element_with_text('//td', /#{@other_accession.title}/)
   end
 
-  it 'can show a browse list of Accessions', :skip => "UPGRADE skipping for green CI" do
+  it 'can show a browse list of Accessions' do
     run_index_round
 
     @driver.find_element(:link, 'Browse').click
@@ -542,7 +542,7 @@ describe 'Accessions' do
     end.not_to raise_error
   end
 
-  it 'can define a second level sort for a browse list of Accessions', :skip => "UPGRADE skipping for green CI" do
+  it 'can define a second level sort for a browse list of Accessions' do
     @driver.go_home
     @driver.find_element(:link, 'Browse').click
     @driver.click_and_wait_until_gone(:link, 'Accessions')
