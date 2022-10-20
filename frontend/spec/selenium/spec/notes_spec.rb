@@ -72,7 +72,7 @@ describe 'Notes' do
     @driver.find_element(:link, 'Close Record').click
   end
 
-  it 'can edit an existing resource note to add subparts after saving'do
+  it 'can edit an existing resource note to add subparts after saving' do
     @driver.attempt(10) do |driver|
       driver.get("#{$frontend}#{@resource.uri.sub(%r{/repositories/\d+}, '')}/edit")
       driver.find_element(:id, 'resource_title_')
