@@ -21,7 +21,7 @@ describe 'Subjects' do
     @driver ? @driver.quit : next
   end
 
-  it 'reports errors and warnings when creating an invalid Subject', skip: 'UPGRADE lost in translation' do
+  it 'reports errors and warnings when creating an invalid Subject', skip: 'UPGRADE skipping for green CI' do
     @driver.get($frontend)
 
     @driver.find_element(link: 'Create').click
@@ -37,12 +37,13 @@ describe 'Subjects' do
     @driver.find_element(css: " .content-pane button[type='submit']").click
 
     # check messages
+    # this is failing because the 1 in the message is not being translated correctly. the variable is in line in the file instead of the desired number
     expect do
       @driver.find_element_with_text('//div[contains(@class, "error")]', /Terms and Subdivisions - At least 1 item\(s\) is required/)
     end.not_to raise_error
   end
 
-  it 'can create a new Subject', :skip => "UPGRADE skipping for green CI" do
+  it 'can create a new Subject' do
     now = "#{$$}.#{Time.now.to_i}"
 
     @driver.get($frontend)
@@ -67,7 +68,7 @@ describe 'Subjects' do
     assert(5) { expect(@driver.find_element(css: '.record-pane h2').text).to eq("0030 -- 0040 Subject") }
   end
 
-  it 'can present a browse list of Subjects', :skip => "UPGRADE skipping for green CI" do
+  it 'can present a browse list of Subjects' do
     @driver.get($frontend)
 
     run_all_indexers
@@ -80,7 +81,7 @@ describe 'Subjects' do
     end.not_to raise_error
   end
 
-  it 'can reorder the terms and have them maintain order', :skip => "UPGRADE skipping for green CI" do
+  it 'can reorder the terms and have them maintain order', :skip => "UPGRADE skipping for green CI - when this is unskipped it causes 2 other specs in this file to fail" do
     first = "first_#{SecureRandom.hex}"
     second = "second_#{SecureRandom.hex}"
 
@@ -121,7 +122,7 @@ describe 'Subjects' do
     expect(target = @driver.find_element(css: '#subject_terms__1__term_').attribute('value')).to eq(first)
   end
 
-  it 'can use plus+1 submit to quickly add another', :skip => "UPGRADE skipping for green CI" do
+  it 'can use plus+1 submit to quickly add another' do
     @driver.get($frontend)
 
     now = "#{$$}.#{Time.now.to_i}"

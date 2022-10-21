@@ -299,7 +299,9 @@ module SearchHelper
   end
 
   def add_columns
+    return if @search_data
     return if @columns
+
     type = @search_data.get_type
     type = 'agent' if type.include? 'agent'
     type = 'classification' if type == 'classification_term'
