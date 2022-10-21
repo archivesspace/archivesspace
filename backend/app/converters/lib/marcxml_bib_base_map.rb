@@ -1146,6 +1146,9 @@ module MarcXMLBibBaseMap
 
         "datafield[@tag='581']" => bibliography_note_template('Publications About Described Materials', "{$3: }{$a }{($z)}."),
 
+        "datafield[@tag='584']" => multipart_note('accruals', 'Accruals', %q|
+                                            {Accumulation: $a}{--Frequency of use: $b}{--Materials specified: $3}{--Institution: $5}.|),
+
         "datafield[starts-with(@tag, '59')]" => multipart_note('odd', 'Local Note'),
 
         # LINKED AGENTS (PERSON)
