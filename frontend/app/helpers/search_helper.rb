@@ -307,7 +307,7 @@ module SearchHelper
 
       add_multiselect_column if can_delete_search_results?(type) && !(request.path =~ /\/(advanced_)*search/)
       add_linker_column if params[:linker]==='true'
-      
+
       if params[:include_components]
         case type
         when 'resource'
