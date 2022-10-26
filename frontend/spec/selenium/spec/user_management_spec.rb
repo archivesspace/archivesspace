@@ -28,7 +28,7 @@ describe 'User management' do
     @driver ? @driver.quit : next
   end
 
-  it 'can create a user account', :skip => "UPGRADE skipping for green CI" do
+  it 'can create a user account' do
     @driver.login($admin)
 
     @driver.find_element(:link, 'System').click
@@ -52,7 +52,7 @@ describe 'User management' do
     @driver.find_element_with_text('//div[contains(@class, "alert-success")]', /User Created: /)
   end
 
-  it "doesn't delete user information after the new user logins", :skip => "UPGRADE skipping for green CI" do
+  it "doesn't delete user information after the new user logins" do
     run_index_round
     @driver.login(@test_user)
 
@@ -72,7 +72,7 @@ describe 'User management' do
     expect(@driver.find_element(:id, 'user_is_admin_').attribute('checked')).to be_truthy
   end
 
-  it "doesn't allow another user to edit the global admin or a system account", :skip => "UPGRADE skipping for green CI" do
+  it "doesn't allow another user to edit the global admin or a system account" do
     @driver.login(@test_user)
 
     %w[1 2].each do |user_id|
@@ -83,7 +83,7 @@ describe 'User management' do
     end
   end
 
-  it "doesn't allow you to edit the user short names", :skip => "UPGRADE skipping for green CI" do
+  it "doesn't allow you to edit the user short names" do
     @driver.login($admin)
 
     assert (5) do
@@ -92,7 +92,7 @@ describe 'User management' do
     end
   end
 
-  it "allows user to edit their own account", :skip => "UPGRADE skipping for green CI" do
+  it "allows user to edit their own account" do
     @driver.login(@test_user)
 
     @driver.navigate.to("#{$frontend}/users/edit_self")
