@@ -10,6 +10,8 @@ class CvList
   @which = ""
   @current_user
 
+  attr_reader :which
+
   def initialize(which, current_user)
     @which = which
     @current_user = current_user
@@ -22,7 +24,7 @@ class CvList
     elsif @list.index(label)
       v = label
     end
-    raise Exception.new(I18n.t("bulk_import.error.enum", :label => label, :which => @which)) if !v
+    #raise Exception.new(I18n.t("bulk_import.error.enum", :label => label, :which => @which)) if !v
     v
   end
 

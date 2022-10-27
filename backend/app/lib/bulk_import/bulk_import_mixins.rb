@@ -211,6 +211,27 @@ module BulkImportMixins
     ret_val = nil
     begin
       ret_val = cvlist.value(value)
+      STDERR.puts "++++++++++++++++++++++++++++++"
+      STDERR.puts "++++++++++++++++++++++++++++++"
+      STDERR.puts "++++++++++++++++++++++++++++++"
+      STDERR.puts "++++++++++++++++++++++++++++++"
+      STDERR.puts "WHAT"
+      STDERR.puts ret_val.to_s
+
+      # ANW-1296: if the enum is editable, but value being checked is not present, add it
+
+      if ret_val != value
+        enum = Enumeration.find(:name => cvlist.which)
+
+        if enum.editable === 1 || enum.editable == true
+          unless @validate_only
+            new_position = enum.enumeration_value.length + 1
+            enum.add_enumeration_value(:value => value, :position => new_position)
+          end
+
+          ret_val = value
+        end
+      end
     rescue Exception => ex
       errs << ex.message
     end
