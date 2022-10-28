@@ -149,7 +149,7 @@ li.token-input-selected-token span {
 }
 
 div.token-input-dropdown {
-  position: absolute;
+  position: static !important;
   width: 380px;
   background-color: #fff;
   overflow: hidden;
@@ -160,6 +160,10 @@ div.token-input-dropdown {
   font-size: 12px;
   font-family: Verdana, sans-serif;
   z-index: 1001;
+}
+
+.linker-wrapper section {
+  order: 3;
 }
 
 div.token-input-dropdown p {
