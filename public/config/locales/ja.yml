@@ -299,6 +299,7 @@ ja:
       thumbnail: サムネイル
       link: デジタルオブジェクトへのリンク
       badge_label: デジタル%{level}
+      go: ファイルに移動
       section: {}
       messages: {}
   digital_object_component:

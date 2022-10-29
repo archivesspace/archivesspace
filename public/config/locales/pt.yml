@@ -128,3 +128,12 @@ pt:
     agents: criadores de conteúdo
   search-field: Campo de pesquisa
   searched-field: pesquisando% {campo}
+
+  digital_object:
+    _singular: Registro Digital
+    _plural: Materiais Digitais
+    _public:
+      thumbnail: miniatura
+      link: Link para objeto digital
+      badge_label: Digital %{level}
+      go: Ir para o arquivo
