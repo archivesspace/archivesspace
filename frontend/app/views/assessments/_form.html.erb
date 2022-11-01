@@ -524,13 +524,13 @@
                 i18n_format(a.fetch('label')) <=> i18n_format(b.fetch('label'))
               end
             }.each_slice((@assessment_attribute_definitions.global_formats.length.to_f / 2).ceil).each do |group| %>
-              <div class="col-md-6">
+              <div class="col-md-8">
                 <% group.each do |format| %>
                   <% form.push(form.set_index("formats[]", formats_index), ASUtils.wrap(form.obj['formats']).find{|r| r['definition_id'] == format['id']} || {}) do %>
-                    <div class="form-group">
+                    <div class="form-group row">
                       <%= form.hidden_input('definition_id', format.fetch('id'), :disabled => form.obj['value'].nil?) %>
-                      <%= label_tag form.id_for('value'), i18n_format(format.fetch('label')), :class => 'col-sm-6 control-label' %>
-                      <div class="col-sm-1 checkbox">
+                      <%= label_tag form.id_for('value'), i18n_format(format.fetch('label')), :class => 'col-10 control-label' %>
+                      <div class="col-2 checkbox">
                         <%= form.checkbox('value', {:value => 'true'}, false, form.obj['value'] == 'true') %>
                       </div>
                     </div>
