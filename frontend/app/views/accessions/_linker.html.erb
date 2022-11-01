@@ -56,7 +56,7 @@
           <div class="input-group-btn">
            <a class="btn btn-default dropdown-toggle last border-dark bg-white border-left-0 d-flex align-items-center" data-toggle="dropdown" href="javascript:void(0);" title="<%= t('accession.linker.link_title') %>" aria-label="<%= t('accession.linker.link_title') %>"><span class="caret"></span></a>
            <ul class="dropdown-menu">
-             <li class='dropdown-toggle'><a href="javascript:void(0);" class="linker-browse-btn"><%= t("actions.browse") %></a></li>
+             <li class='dropdown-toggle'><a href="javascript:void(0);" class="linker-browse-btn dropdown-item"><%= t("actions.browse") %></a></li>
            </ul>
          </div>
          <% if form.obj.has_key?('_resolved') %>
