@@ -268,7 +268,7 @@
           <span class="glyphicon glyphicon-plus glyphicon-white"></span>
           <span class="caret"></span>
         </button>
-        <ul class="dropdown-menu float-right">
+        <ul class="dropdown-menu ml-auto">
           <li><%= link_to t("advanced_search.type.text"), "javascript:void(0)", :class => "advanced-search-add-row advanced-search-add-text-row", "data-type" => "text" %></li>
           <li><%= link_to t("advanced_search.type.date"), "javascript:void(0)", :class => "advanced-search-add-row advanced-search-add-date-row", "data-type" => "date" %></li>
           <li><%= link_to t("advanced_search.type.boolean"), "javascript:void(0)", :class => "advanced-search-add-row advanced-search-add-bool-row", "data-type" => "boolean" %></li>
@@ -291,10 +291,10 @@
       <div class="col-md-1"></div>
     <% else %>
       <div class="col-md-4">
-        <%= link_to t("advanced_search.reset"), {:controller => :search, :action => :do_search, :advanced => true}, :class => "btn btn-default reset-advanced-search float-right float-right" %>
+        <%= link_to t("advanced_search.reset"), {:controller => :search, :action => :do_search, :advanced => true}, :class => "btn btn-default reset-advanced-search ml-auto ml-auto" %>
       </div>
       <div class="col-md-1">
-        <button class="btn btn-primary float-right" id="advanced-search-btn"><%= t("advanced_search.button_text") %></button>
+        <button class="btn btn-primary ml-auto" id="advanced-search-btn"><%= t("advanced_search.button_text") %></button>
       </div>
       <div class="col-md-1"></div>
     <% end %>

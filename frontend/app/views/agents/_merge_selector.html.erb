@@ -228,7 +228,7 @@
   <div class="col-md-6">
     <h2>
       <%= t("agent._frontend.section.victim_record") %>
-      <span class='float-right'>
+      <span class='ml-auto'>
         <%= link_to_help :topic => "agent_merge" %>
       </span>
     </h2>
@@ -451,5 +451,5 @@
 <div class="form-actions row p-3">
   <button type="button" class="btn preview-merge"><%= t("agent._frontend.action.preview") %></button>
   <button type="button" class="btn btn-primary do-merge"><%= t("actions.merge") %></button>
-  <%= link_to t("actions.cancel"), {:controller => :agents, :action => :show, :id => @agent.id}, :class => "btn btn-cancel btn-default float-right ml-auto border bg-white" %>
+  <%= link_to t("actions.cancel"), {:controller => :agents, :action => :show, :id => @agent.id}, :class => "btn btn-cancel btn-default ml-auto ml-auto border bg-white" %>
 </div>
