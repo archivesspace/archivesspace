@@ -44,7 +44,7 @@
 <% end %>
 
 <% define_template "rights_statement", jsonmodel_definition(:rights_statement) do |form| %>
-  <div class="subrecord-form-fields">
+  <div class="subrecord-form-fields pt-5">
     <% if form.obj["identifier"].blank? %>
       <%= form.label_and_readonly "identifier", "<em>#{t("rights_statement.identifier_auto_generate_message")}</em>" %>
     <% else %>
