@@ -556,8 +556,6 @@
                 </h4>
               </div>
             </div>
-            <div class="row">
-
               <% if @assessment_attribute_definitions.repo_formats.length > 0 %>
                 <% @assessment_attribute_definitions.repo_formats.each do |format| %>
                   <% form.push(form.set_index("formats[]", formats_index), ASUtils.wrap(form.obj['formats']).find{|r| r['definition_id'] == format['id']} || {}) do %>
@@ -572,9 +570,8 @@
                     </div>
                   <% end %>
                   <% formats_index += 1 %>
-                <% end %>
-              </div>
-            <% end %>
+                  <% end %>
+              <% end %>
           <% end %>
 
           <% unless form.readonly? %>
