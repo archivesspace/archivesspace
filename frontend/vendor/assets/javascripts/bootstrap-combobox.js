@@ -181,7 +181,7 @@
       if (this.options.bsVersion == '2') {
         return '<div class="combobox-container"><input type="hidden" /> <div class="input-append"> <input type="text" autocomplete="off" /> <span class="add-on dropdown-toggle" data-dropdown="dropdown"> <span class="caret"/> <i class="icon-remove"/> </span> </div> </div>'
       } else {
-        return '<div class="combobox-container"> <input type="hidden" /> <div class="input-group"> <input type="text" autocomplete="off" role="combobox" aria-autocomplete="both" aria-haspopup="true" aria-controls="' + this.$source.attr('id') + '_list' + '" /> <span class="input-group-addon dropdown-toggle" data-dropdown="dropdown" role="button"> <span class="caret" /> <span class="glyphicon glyphicon-remove" /> </span> </div> </div>'
+        return '<div class="combobox-container"> <input type="hidden" /> <div class="input-group"> <input type="text" autocomplete="off" role="combobox" aria-autocomplete="both" aria-haspopup="true" aria-controls="' + this.$source.attr('id') + '_list' + '" /> <span class="input-group-append btn-group align-items-center rounded-right dropdown-toggle px-2 border" data-dropdown="dropdown" role="button"> <span class="caret" /> <span class="glyphicon glyphicon-remove btn pt-1 border-right" /> </span> </div> </div>'
       }
     }
 
@@ -434,7 +434,7 @@
   $.fn.combobox.defaults = {
     bsVersion: '3'
   , menu: '<ul class="typeahead typeahead-long dropdown-menu" role="listbox" ></ul>'
-  , item: '<li role="option"><a href="#"></a></li>'
+  , item: '<li role="option" class="dropdown-item"><a href="#"></a></li>'
   };
 
   $.fn.combobox.Constructor = Combobox;
