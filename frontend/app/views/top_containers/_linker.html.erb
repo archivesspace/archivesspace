@@ -36,8 +36,8 @@
 
 %>
 
-<div class="form-group <% if required %>required<% end %>">
-  <label class="control-label col-sm-2"
+<div class="form-group row <% if required %>required<% end %>">
+  <label class="control-label col-sm-3 text-right"
          id="<%= form.id_for("ref") %>_label"
          for="<%= form.id_for("ref") %>">
     <%= t("top_container._singular") %>
@@ -85,9 +85,9 @@
       <div class="input-group-btn">
         <a class="btn btn-default dropdown-toggle last border-dark bg-white border-left-0 d-flex align-items-center" data-toggle="dropdown" href="javascript:void(0);" title="<%= t("top_container.linker.link_title") %>" aria-label="<%= t("top_container.linker.link_title") %>"><span class="caret"></span></a>
         <ul class="dropdown-menu">
-          <li><a href="javascript:void(0);" class="linker-browse-btn"><%= t("actions.browse") %></a></li>
+          <li class="dropdown-item"><a href="javascript:void(0);" class="linker-browse-btn"><%= t("actions.browse") %></a></li>
           <% if allow_create && user_can?('update_container_record') %>
-            <li>
+            <li class="dropdown-item">
               <a data-target="<%= url_for :controller => :top_containers, :action => :new, :inline => true, :created_for_collection => find_scope_uri.call %>" class="linker-create-btn"><%= t("actions.create") %></a>
             </li>
           <% end %>
