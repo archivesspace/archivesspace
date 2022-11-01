@@ -9,8 +9,8 @@
   hide_create = false if hide_create.nil?
 %>
 <hr/>
-<div class="form-group required">
-   <label class="control-label col-sm-2"
+<div class="form-group row required">
+   <label class="control-label text-right col-sm-3"
           id="<%= form.id_for("ref") %>_label"
           for="<%= form.id_for("ref") %>">
      <%= t("location._singular") %>
@@ -54,14 +54,14 @@
           <% end %>
           
           <div class="input-group-btn">
-            <a class="btn btn-default dropdown-toggle last locations" data-toggle="dropdown" href="javascript:void(0);" title="<%= t("location.linker.link_title") %>" aria-label="<%= t("location.linker.link_title") %>"><span class="caret"></span></a>
+            <a class="btn btn-default dropdown-toggle last locations border-dark border-left-0 align-items-center" data-toggle="dropdown" href="javascript:void(0);" title="<%= t("location.linker.link_title") %>" aria-label="<%= t("location.linker.link_title") %>"><span class="caret"></span></a>
             <ul class="dropdown-menu">
               <% if enable_space_calculator %>
-                <li><a href="javascript:void(0);" class="show-space-calculator-btn" data-calculator-url="<%= url_for :controller => :space_calculator, :action => :show, :inline => true %>" data-modal-title="<%= t("space_calculator.modal_title") %>" data-modal-content="<%= t("space_calculator.modal_loading") %>"><%= t("location._frontend.action.show_space_calculator") %></a></li>
+                <li class="dropdown-item"><a href="javascript:void(0);" class="show-space-calculator-btn" data-calculator-url="<%= url_for :controller => :space_calculator, :action => :show, :inline => true %>" data-modal-title="<%= t("space_calculator.modal_title") %>" data-modal-content="<%= t("space_calculator.modal_loading") %>"><%= t("location._frontend.action.show_space_calculator") %></a></li>
               <% end %>
-              <li><a href="javascript:void(0);" class="linker-browse-btn"><%= t("actions.browse") %></a></li>
+              <li class="dropdown-item"><a href="javascript:void(0);" class="linker-browse-btn"><%= t("actions.browse") %></a></li>
               <% if user_can?('update_location_record') && !hide_create %>
-                <li><a href="javascript:void(0);" data-target="<%= url_for :controller => :locations, :action => :new, :inline => true %>" class="linker-create-btn dropdown-item"><%= I18n.t("actions.create") %></a></li>
+                <li class="dropdown-item"><a href="javascript:void(0);" data-target="<%= url_for :controller => :locations, :action => :new, :inline => true %>" class="linker-create-btn dropdown-item"><%= I18n.t("actions.create") %></a></li>
               <% end %>
             </ul>
           </div>

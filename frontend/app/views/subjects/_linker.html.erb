@@ -40,7 +40,7 @@
   data_url = url_for(:controller => :search, :action => :do_search, :format => :json, :facets => SearchResultData.SUBJECT_FACETS).to_s + term_type_filter_query
 %>
 
-<div class="form-group required">
+<div class="form-group row required">
    <% if !name.blank? %>
      <%= wrap_with_tooltip(linker_label, "#{form.i18n_for(name)}_tooltip", "subrecord-form-heading-label control-label col-sm-2") %>
      <label class="sr-only"
@@ -49,13 +49,13 @@
         <%= linker_label %>
       </label>
    <% else %>
-     <label class="control-label"
+     <label class="control-label col-sm-3"
             id="<%= form.id_for(data_name) %>_label"
             for="<%= form.id_for(data_name) %>">
         <%= linker_label %>
       </label>
    <% end %>
-   <div class="controls">
+   <div class="controls col-sm-8">
        <div class="input-group linker-wrapper"
             role="combobox"
             aria-owns="<%= form.id_for(data_name) %>_listbox"
