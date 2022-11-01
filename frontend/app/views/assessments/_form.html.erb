@@ -197,7 +197,7 @@
         </div>
       <% else %>
         <% form.push("reviewer", form.obj["reviewer"] || []) do %>
-          <div class="form-group">
+          <div class="form-group row">
             <%= form.label('reviewer', {:for => 'token-input-assessment_reviewer_'}, ['col-sm-2']) %>
             <div class="col-sm-9">
               <%= render_aspace_partial :partial => "assessments/agent_linker", :locals => {:form => form, :label => t('assessment._frontend.browse_reviewers'), :linker_id => 'assessment_reviewer_'} %>
