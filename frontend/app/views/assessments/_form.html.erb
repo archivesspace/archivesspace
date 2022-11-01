@@ -98,9 +98,9 @@
         </div>
       <% else %>
         <% form.push("records", form.obj["records"] || []) do %>
-          <div class="form-group required">
-            <%= form.label('records', {:for => 'token-input-assessment_records_'}, ['col-sm-2']) %>
-            <div class="col-sm-9">
+          <div class="form-group row required">
+            <%= form.label('records', {:for => 'token-input-assessment_records_'}, ['col-sm-3']) %>
+            <div class="col-sm-8">
               <%= render_aspace_partial :partial => "assessments/records_linker", :locals => {:form => form} %>
             </div>
           </div>
