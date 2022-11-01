@@ -166,7 +166,7 @@
         </div>
       <% else %>
         <% form.push("surveyed_by", form.obj["surveyed_by"] || []) do %>
-          <div class="form-group required">
+          <div class="form-group row required">
             <%= form.label('surveyed_by', {:for => 'token-input-assessment_surveyed_by_'}, ['col-sm-2']) %>
             <div class="col-sm-9">
               <%= render_aspace_partial :partial => "assessments/agent_linker", :locals => {:form => form, :linker_id => 'assessment_surveyed_by_'} %>
