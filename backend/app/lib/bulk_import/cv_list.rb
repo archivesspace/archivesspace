@@ -5,6 +5,7 @@ require_relative "bulk_import_mixins"
 class CvList
   include CrudHelpers
 
+
   # for these enums, don't throw an error if values are referenced
   CREATE_NEW_VALUES_FOR = ["instance_instance_type"]
 
