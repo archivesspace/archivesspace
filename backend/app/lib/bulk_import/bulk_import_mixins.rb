@@ -208,28 +208,28 @@ module BulkImportMixins
   end
 
   def value_check(cvlist, value, errs)
+    # reload cvlist in case it has been modified by processing a previous row
+    cvlist_reloaded = CvList.new(cvlist.which, @current_user)
+    list_name = cvlist_reloaded.which.to_s
+
     ret_val = nil
+
     begin
-      ret_val = cvlist.value(value)
-      STDERR.puts "++++++++++++++++++++++++++++++"
-      STDERR.puts "++++++++++++++++++++++++++++++"
-      STDERR.puts "++++++++++++++++++++++++++++++"
-      STDERR.puts "++++++++++++++++++++++++++++++"
-      STDERR.puts "WHAT"
-      STDERR.puts ret_val.to_s
+      ret_val = cvlist_reloaded.value(value)
 
-      # ANW-1296: if the enum is editable, but value being checked is not present, add it
+      # ANW-1296: for instance_instance_type enums, add value to list if it's not present
+      if CvList::CREATE_NEW_VALUES_FOR.include?(list_name)
+        if ret_val != value
+          enum = Enumeration.find(:name => cvlist_reloaded.which)
 
-      if ret_val != value
-        enum = Enumeration.find(:name => cvlist.which)
+          if enum.editable === 1 || enum.editable == true
+            unless @validate_only
+              new_position = enum.enumeration_value.length + 1
+              enum.add_enumeration_value(:value => value, :position => new_position)
+            end
 
-        if enum.editable === 1 || enum.editable == true
-          unless @validate_only
-            new_position = enum.enumeration_value.length + 1
-            enum.add_enumeration_value(:value => value, :position => new_position)
+            ret_val = value
           end
-
-          ret_val = value
         end
       end
     rescue Exception => ex
