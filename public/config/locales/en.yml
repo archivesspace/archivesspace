@@ -41,6 +41,7 @@ en:
     cite: Citation
     cite_item: Cite Item
     cite_item_description: Cite Item Description
+    digitized: View Digital Material
     request: Request
     print: Print
     print-generating: Generating
@@ -162,6 +163,8 @@ en:
       published_series_title_u_sstr: Series
       instance_type_enum_s: Instance type
       langcode: Language
+      digital_object_type_enum_s: Type
+      extent_type_enum_s: Extent
 
   search_sorting:
     sort_by: "Sort by:"

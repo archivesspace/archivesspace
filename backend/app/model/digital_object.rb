@@ -64,6 +64,7 @@ class DigitalObject < Sequel::Model(:digital_object)
                                     }]
 
     jsons.zip(objs).each do |json, obj|
+      json["collection"] = []
       json["linked_instances"] = []
 
       relationships.each do |relationship|
@@ -80,9 +81,19 @@ class DigitalObject < Sequel::Model(:digital_object)
             raise "Digital Object Instance not linked to either a resource, archival object or accession"
           end
 
+          if link[:archival_object_id]
+            json["collection"] << {"ref" => self.uri_for(
+              :resource, ArchivalObject.find(id: link[:archival_object_id]).root_record_id
+            )}
+          else
+            json["collection"] << {"ref" => uri}
+          end
+
           json["linked_instances"].push({"ref" => uri})
         end
       end
+
+      json["collection"].uniq!
     end
 
     jsons
