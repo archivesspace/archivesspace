@@ -140,8 +140,6 @@ describe 'MARCXML Bib converter' do
 
 
     describe "MARC import mappings" do
-
-
       def convert_test_file
         test_file = File.expand_path("./examples/marc/at-tracer-marc-1.xml", File.dirname(__FILE__))
         parsed = convert(test_file)
@@ -403,6 +401,33 @@ describe 'MARCXML Bib converter' do
         end
 
         expect(has_qualifier).to eq(1)
+      end
+    end
+
+    describe "MARC import mappings, call number identifiers" do
+      def convert_test_file(filename)
+        test_file = File.expand_path("./examples/marc/#{filename}", File.dirname(__FILE__))
+        parsed = convert(test_file)
+
+        @resource = parsed.select {|rec| rec['jsonmodel_type'] == 'resource'}.last
+      end
+
+      it "maps call numbers to ID, 99 first" do
+        convert_test_file("american-communist-all-call.xml")
+
+        expect(@resource['id_0']).to eq('TAM.99')
+      end
+
+      it "maps call numbers to ID, 92 first" do
+        convert_test_file("american-communist-92.xml")
+
+        expect(@resource['id_0']).to eq('TAM.92')
+      end
+
+      it "maps call numbers to ID, 82 first" do
+        convert_test_file("american-communist-82.xml")
+
+        expect(@resource['id_0']).to eq('TAM.82')
       end
     end
   end

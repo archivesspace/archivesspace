@@ -761,69 +761,68 @@ module MarcXMLBibBaseMap
         # e.g., a value in 099 would be used over a value in 092, etc
 
         # local non-LC identifier
-        "datafield[@tag='099']" => mix(multipart_note('odd', "local non-LC identifier:", "{$a }"), {"self::datafield" => -> resource, node {
+        "datafield[@tag='099']" => -> resource, node {
           id = concatenate_subfields(('a'..'z'), node, '_')
 
           if resource.id_0.nil? or resource.id_0.empty?
             resource.id_0 = id unless id.empty?
           end
-        }}),
-
+        },
 
         # local LC-style identifer
-        "datafield[@tag='090']" => mix(multipart_note('odd', "local LC-style identifer:", "{$a }"), {"self::datafield" => -> resource, node {
+        "datafield[@tag='090']" => -> resource, node {
           id = concatenate_subfields(('a'..'z'), node, '_')
 
           if resource.id_0.nil? or resource.id_0.empty?
             resource.id_0 = id unless id.empty?
           end
-        }}),
+        },
 
         # Locally Assigned Dewey Call Number
-        "datafield[@tag='092']" => mix(multipart_note('odd', "Locally Assigned Dewey Call Number:", "{$a }"), "self::datafield" => -> resource, node {
+        "datafield[@tag='092']" => -> resource, node {
           id = concatenate_subfields(('a'..'z'), node, '_')
 
           if resource.id_0.nil? or resource.id_0.empty?
             resource.id_0 = id unless id.empty?
           end
-        }),
+        },
 
         # Locally NLM-type Call Number
-        "datafield[@tag='096']" => mix(multipart_note('odd', "Locally NLM-type Call Number:", "{$a }"), "self::datafield" => -> resource, node {
+        "datafield[@tag='096']" => -> resource, node {
           id = concatenate_subfields(('a'..'z'), node, '_')
 
           if resource.id_0.nil? or resource.id_0.empty?
             resource.id_0 = id unless id.empty?
           end
-        }),
+        },
 
         #  Other Classification Schemes
-        "datafield[@tag='098']" => mix(multipart_note('odd', "Other Classification Schemes:", "{$a }"), "self::datafield" => -> resource, node {
+        "datafield[@tag='098']" => -> resource, node {
           id = concatenate_subfields(('a'..'z'), node, '_')
 
           if resource.id_0.nil? or resource.id_0.empty?
             resource.id_0 = id unless id.empty?
           end
-        }),
+        },
 
         # Library of Congress Call Number
-        "datafield[@tag='050']" => mix(multipart_note('odd', "Library of Congress Call Number:", "{$a }"), "self::datafield" => -> resource, node {
+        "datafield[@tag='050']" => -> resource, node {
           id = concatenate_subfields(('a'..'z'), node, '_')
 
           if resource.id_0.nil? or resource.id_0.empty?
             resource.id_0 = id unless id.empty?
           end
-        }),
+        },
 
         # Dewey Classification Number
-        "datafield[@tag='082']" => mix(multipart_note('odd', "Dewey Classification Number:", "{$a }"), "self::datafield" => -> resource, node {
+        "datafield[@tag='082']" => -> resource, node {
           id = concatenate_subfields(('a'..'z'), node, '_')
 
           if resource.id_0.nil? or resource.id_0.empty?
             resource.id_0 = id unless id.empty?
           end
-        }),
-      
+        },
+
         # description rules
         "datafield[@tag='040']/subfield[@code='e']" => :finding_aid_description_rules,
 
