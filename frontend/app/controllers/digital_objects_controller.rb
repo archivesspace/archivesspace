@@ -9,6 +9,8 @@ class DigitalObjectsController < ApplicationController
                       "manage_repository" => [:defaults, :update_defaults]
 
   include ExportHelper
+  include NotesHelper
+  include DigitalObjectHelper
 
   def index
     respond_to do |format|
@@ -67,6 +69,12 @@ class DigitalObjectsController < ApplicationController
         @digital_object.update(defaults.values)
         @form_title = "#{I18n.t('actions.new_prefix')} #{I18n.t('digital_object._singular')}"
       end
+    end
+
+    if user_prefs['digital_object_spawn_description'] and params[:spawn_from_resource_id]
+      inherited_resource = Resource.find(params[:spawn_from_resource_id], find_opts)
+      updates = map_resource_fields(inherited_resource)
+      @digital_object.update(updates)
     end
 
     return render_aspace_partial :partial => "digital_objects/new" if params[:inline]
