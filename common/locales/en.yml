@@ -2386,7 +2386,7 @@ en:
     publish_tooltip: Whether to publish new records by default.
     default_values: Pre-populate Records?
     default_values_tooltip: Whether to pre-populate new Accession and Resource records with default values.
-    digital_object_spawn_description: Spawn description for Digital Object instances from Resource?
+    digital_object_spawn_description: Spawn description for Digital Object instances from linked Resource/Accession?
     browse_column: Column %{num}
     browse_column_tooltip: The field to show in column %{num}.
     sort_column: Default Sort Column
