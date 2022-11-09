@@ -743,6 +743,9 @@
                 title.append($('<a class="record-title" />').prop('href', TreeIds.link_url(node.uri)).text(node.title));
                 button.append($('<span class="sr-only" />').text(strippedTitle));
                 title.attr('title', strippedTitle);
+                if(node.has_digital_instance) {
+                    title.find('a').before($('<i class="has_digital_instance fa fa-file-image-o" aria-hidden="true"></i>'));
+                }
 
                 var ex = row.find('.expandme');
                 if (node.child_count === 0) {
