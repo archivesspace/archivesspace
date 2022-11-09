@@ -71,9 +71,16 @@ class DigitalObjectsController < ApplicationController
       end
     end
 
-    if user_prefs['digital_object_spawn_description'] and params[:spawn_from_resource_id]
-      inherited_resource = Resource.find(params[:spawn_from_resource_id], find_opts)
-      updates = map_resource_fields(inherited_resource)
+    if user_prefs['digital_object_spawn_description']
+      if params[:spawn_from_resource_id]
+        copy_from_record = Resource.find(params[:spawn_from_resource_id], find_opts)
+      elsif params[:spawn_from_accession_id]
+        copy_from_record = Accession.find(params[:spawn_from_accession_id], find_opts)
+      end
+      raise ArgumentError.new("valid Resource or Accession not provided") unless copy_from_record
+
+      updates = map_record_fields_to_digital_object(copy_from_record)
+      Rails.logger.debug("UPDATES #{updates}")
       @digital_object.update(updates)
     end
 
