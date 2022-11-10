@@ -1132,6 +1132,8 @@ module MarcXMLBibBaseMap
 
         },
 
+        "datafield[@tag='555']" => multipart_note('otherfindaid', 'Other Finding Aid', "{$a}{; $b}{; $c}{; $d}{; $u}{; $3}."),
+
         "datafield[@tag='561']" => multipart_note('custodhist', 'Ownership and Custodial History', "{$3: }{$a}."),
 
         "datafield[@tag='562']" => multipart_note('relatedmaterial', 'Copy and Version Identification', %q|

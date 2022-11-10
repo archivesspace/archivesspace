@@ -387,6 +387,10 @@ describe 'MARCXML Bib converter' do
         expect(@lang_materials_notes).to include('Resource-LanguageMaterials-AT.')
       end
 
+      it "maps datafield[@tag='555'] to resource.notes[] using template '$a; $b; $c; $d; $u; $3.'" do
+        expect(@notes).to include('Finding Aid Available Online:; Resource-EAD-Location-AT.')
+      end
+
       it "maps datafield[@tag='561'] to resource.notes[] using template '$3: $a.'" do
         expect(@notes).to include('Resource--CustodialHistory-AT.')
       end
