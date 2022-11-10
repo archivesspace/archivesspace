@@ -1146,6 +1146,13 @@ module MarcXMLBibBaseMap
 
         "datafield[@tag='581']" => bibliography_note_template('Publications About Described Materials', "{$3: }{$a }{($z)}."),
 
+        "datafield[@tag='583']" => multipart_note('processinfo', 'Processing Note', %q|
+                                            {Action: $a}{--Action Identification: $b}{--Time/Date of Action: $c}{--Action interval: $d}
+                                            {--Action interval: $d}{--Contingency for Action: $e}{--Authorization: $f}{--Jurisdiction: $h}
+                                            {--Method of action: $i}{--Site of Action: $j}{--Action agent: $k}{--Status: $l}{--Extent: $n}
+                                            {--Type of unit: $o}{--URI: $u}{--Non-public note: $x}{--Public note: $z}{--Materials specified: $3}
+                                            {--Institution: $5}.|),
+                                            
         "datafield[@tag='584']" => multipart_note('accruals', 'Accruals', %q|
                                             {Accumulation: $a}{--Frequency of use: $b}{--Materials specified: $3}{--Institution: $5}.|),
 

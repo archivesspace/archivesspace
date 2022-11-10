@@ -391,6 +391,13 @@ describe 'MARCXML Bib converter' do
         expect(@notes).to include('Resource--CustodialHistory-AT.')
       end
 
+      it "maps datafield[@tag='583'] to resource.notes[] using template 'Action: $a--Action Identification: $b
+         --Time/Date of Action: $c--Action interval: $d--Contingency for Action: $e--Authorization: $f--Jurisdiction: $h
+         --Method of action: $j--Site of Action: $j--Action agent: $k--Status: $l--Extent: $n--Type of unit: $o--URI: $u
+         --Non-public note: $x--Public note: $z--Materials specified: $3--Institution: $5.'" do
+        expect(@notes).to include('Action: Resource-Appraisal-AT.')
+      end
+      
       it "maps datafield[@tag='584'] to resource.notes[] using template 'Accumulation: $a--Frequency of use: $b--Materials specified: $3--Institution: $5'" do
         expect(@notes).to include('Accumulation: Resource-Accruals-AT.')
       end
