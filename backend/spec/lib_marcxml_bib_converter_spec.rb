@@ -398,6 +398,10 @@ describe 'MARCXML Bib converter' do
         expect(@notes).to include('Action: Resource-Appraisal-AT.')
       end
 
+      it "maps datafield[@tag='584'] to resource.notes[] using template 'Accumulation: $a--Frequency of use: $b--Materials specified: $3--Institution: $5'" do
+        expect(@notes).to include('Accumulation: Resource-Accruals-AT.')
+      end
+
       it "maps datafield[@tag='630'] to subject" do
         s = @subjects.select {|s| s['terms'][0]['term'] == 'Subjects--Uniform Title--AT'}
         expect(s.count).to eq(1)

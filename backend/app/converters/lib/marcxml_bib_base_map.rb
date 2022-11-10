@@ -1153,6 +1153,9 @@ module MarcXMLBibBaseMap
                                             {--Type of unit: $o}{--URI: $u}{--Non-public note: $x}{--Public note: $z}{--Materials specified: $3}
                                             {--Institution: $5}.|),
 
+        "datafield[@tag='584']" => multipart_note('accruals', 'Accruals', %q|
+                                            {Accumulation: $a}{--Frequency of use: $b}{--Materials specified: $3}{--Institution: $5}.|),
+
         "datafield[starts-with(@tag, '59')]" => multipart_note('odd', 'Local Note'),
 
         # LINKED AGENTS (PERSON)
