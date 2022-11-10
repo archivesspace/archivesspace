@@ -1152,7 +1152,7 @@ module MarcXMLBibBaseMap
                                             {--Method of action: $i}{--Site of Action: $j}{--Action agent: $k}{--Status: $l}{--Extent: $n}
                                             {--Type of unit: $o}{--URI: $u}{--Non-public note: $x}{--Public note: $z}{--Materials specified: $3}
                                             {--Institution: $5}.|),
-                                            
+
         "datafield[@tag='584']" => multipart_note('accruals', 'Accruals', %q|
                                             {Accumulation: $a}{--Frequency of use: $b}{--Materials specified: $3}{--Institution: $5}.|),
 

@@ -397,7 +397,7 @@ describe 'MARCXML Bib converter' do
          --Non-public note: $x--Public note: $z--Materials specified: $3--Institution: $5.'" do
         expect(@notes).to include('Action: Resource-Appraisal-AT.')
       end
-      
+
       it "maps datafield[@tag='584'] to resource.notes[] using template 'Accumulation: $a--Frequency of use: $b--Materials specified: $3--Institution: $5'" do
         expect(@notes).to include('Accumulation: Resource-Accruals-AT.')
       end
