@@ -3,7 +3,7 @@
   otherwise expects to-be-deprecated 'dig_objs' as an array of hashes
 <!-- /comment --><% end  %>
 <% if AppConfig[:enable_representative_file_version] && rep_fv.present? %>
-<div class="images">
+<div class="available-digital-objects">
   <div class="objectimage">
     <div class="panel panel-default">
       <%= render partial: 'shared/representative_file_version', locals: {:uri => rep_fv['file_uri'], :caption => rep_fv['caption']} %>
@@ -11,24 +11,32 @@
   </div>
 </div>
 <% elsif dig_objs.present? %>
-<div class="images">
+<div class="available-digital-objects">
   <% dig_objs.each do |d_file| %>
     <% if !d_file['out'].blank? %>
       <% if d_file['thumb'].blank? %>
         <div class="objectimage">
-          <div class="panel panel-default">
-            <a class="btn btn-default record-type-badge digital_object" style="width: 100%" href="<%= d_file['out'] %>" target="new" title="<%= t('digital_object._public.link')%>">
+          <a
+            class="external-digital-object__link record-type-badge digital_object"
+            href="<%= d_file['out'] %>"
+            target="new"
+            title="<%= t('digital_object._public.link')%>"
+          >
+            <div class="external-digital-object__content-container">
               <i class="fa <%= { '(moving_image)' => 'fa-file-video-o' ,
                           '(sound_recording)' => 'fa-file-audio-o',
                           '(sound_recording_musical)' => 'fa-file-audio-o',
                           '(sound_recording_nonmusical)' => 'fa-file-audio-o' ,
                           '(still_image)' => 'fa-file-image-o' ,
-                          '(text)' =>  'fa-file-text'}.fetch( d_file['material'], 'fa-file-o' ) %> fa-4x"></i><br/>
-              <div class="panel-heading">
+                          '(text)' =>  'fa-file-text-o'}.fetch( d_file['material'], 'fa-file-o' ) %> fa-4x"></i>
+              <h5 class="ws-normal">
                 <%= d_file['caption'].blank? ? "#{t('enumerations.instance_instance_type.digital_object')} #{d_file['material']}" : d_file['caption'].html_safe %>
-              </div>
-            </a>
-          </div>
+              </h5>
+              <p class="external-digital-object__content-btn">
+                <%= t('digital_object._public.go')%> <i class="fa fa-external-link" aria-hidden="true"></i>
+              </p>
+            </div>
+          </a>
         </div>
       <% else %>
         <div class="objectimage">

@@ -344,6 +344,7 @@ en:
       thumbnail: thumbnail
       link: Link to digital object
       badge_label: Digital %{level}
+      go: Go to file
 
   subject:
     _singular: Subject
