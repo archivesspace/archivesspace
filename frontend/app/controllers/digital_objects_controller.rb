@@ -80,7 +80,6 @@ class DigitalObjectsController < ApplicationController
       raise ArgumentError.new("valid Resource or Accession not provided") unless copy_from_record
 
       updates = map_record_fields_to_digital_object(copy_from_record)
-      Rails.logger.debug("UPDATES #{updates}")
       @digital_object.update(updates)
     end
 
