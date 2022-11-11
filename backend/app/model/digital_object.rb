@@ -52,6 +52,9 @@ class DigitalObject < Sequel::Model(:digital_object)
                   end
                 }
 
+  repo_unique_constraint(:digital_object_id,
+                         :message => "Must be unique",
+                         :json_property => :digital_object_id)
 
   def self.sequel_to_jsonmodel(objs, opts = {})
     jsons = super
@@ -99,14 +102,24 @@ class DigitalObject < Sequel::Model(:digital_object)
     jsons
   end
 
+  def self.instance_owners_root_records(id)
+    relationships = self.find_relationship(:instance_do_link).find_by_participant(self[id])
+    resource_ids = Instance.inner_join(:archival_object, archival_object__id: :instance__archival_object_id)
+                     .filter(instance__id: relationships.map {|relationship| relationship[:instance_id]})
+                     .map { |row| row[:root_record_id] }
+    resource_ids
+  end
+
   def delete
+    affected_resource_ids = self.class.instance_owners_root_records(self[:id])
     related_records(:instance_do_link).map {|sub| sub.delete }
+    Resource.update_mtime_for_ids(affected_resource_ids)
     super
   end
 
-
-  repo_unique_constraint(:digital_object_id,
-                         :message => "Must be unique",
-                         :json_property => :digital_object_id)
-
+  def update_from_json(json, opts = {}, apply_nested_records = true)
+    affected_resource_ids = self.class.instance_owners_root_records(self[:id])
+    Resource.update_mtime_for_ids(affected_resource_ids)
+    super
+  end
 end

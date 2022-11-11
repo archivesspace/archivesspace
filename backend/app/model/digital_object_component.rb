@@ -88,4 +88,15 @@ class DigitalObjectComponent < Sequel::Model(:digital_object_component)
     [{ type: DigitalObject, ids: [obj.root_record_id] }]
   end
 
+  def delete
+    affected_resource_ids = DigitalObject.instance_owners_root_records(self[:root_record_id])
+    Resource.update_mtime_for_ids(affected_resource_ids)
+    super
+  end
+
+  def update_from_json(json, opts = {}, apply_nested_records = true)
+    affected_resource_ids = DigitalObject.instance_owners_root_records(self[:root_record_id])
+    Resource.update_mtime_for_ids(affected_resource_ids)
+    super
+  end
 end
