@@ -62,6 +62,8 @@
               <a href="javascript:void(0);" data-target="<%= url_for :controller => :digital_objects, :action => :new, :inline => true, :spawn_from_resource_id => @resource.id %>" class="linker-create-btn"><%= I18n.t("actions.create") %></a>
             <% elsif @accession %>
                <a href="javascript:void(0);" data-target="<%= url_for :controller => :digital_objects, :action => :new, :inline => true, :spawn_from_accession_id => @accession.id %>" class="linker-create-btn"><%= I18n.t("actions.create") %></a>           
+            <% elsif @archival_object %>
+               <a href="javascript:void(0);" data-target="<%= url_for :controller => :digital_objects, :action => :new, :inline => true, :spawn_from_archival_object_id => @archival_object.id %>" class="linker-create-btn"><%= I18n.t("actions.create") %></a>           
             <% else %>
               <a href="javascript:void(0);" data-target="<%= url_for :controller => :digital_objects, :action => :new, :inline => true %>" class="linker-create-btn"><%= I18n.t("actions.create") %></a>
             <% end %>

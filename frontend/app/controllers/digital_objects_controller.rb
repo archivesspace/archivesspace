@@ -73,11 +73,13 @@ class DigitalObjectsController < ApplicationController
 
     if user_prefs['digital_object_spawn_description']
       if params[:spawn_from_resource_id]
-        copy_from_record = Resource.find(params[:spawn_from_resource_id], find_opts)
+        copy_from_record = Resource.find(params[:spawn_from_resource_id])
       elsif params[:spawn_from_accession_id]
-        copy_from_record = Accession.find(params[:spawn_from_accession_id], find_opts)
+        copy_from_record = Accession.find(params[:spawn_from_accession_id])
+      elsif params[:spawn_from_archival_object_id]
+        copy_from_record = ArchivalObject.find(params[:spawn_from_accession_id])
       end
-      raise ArgumentError.new("valid Resource or Accession not provided") unless copy_from_record
+      raise ArgumentError.new("valid Resource, Resource Component, or Accession not provided") unless copy_from_record
 
       updates = map_record_fields_to_digital_object(copy_from_record)
       @digital_object.update(updates)

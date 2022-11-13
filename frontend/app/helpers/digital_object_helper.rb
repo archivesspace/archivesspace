@@ -12,16 +12,7 @@ module DigitalObjectHelper
 
     copy_fields = ['title', 'dates', 'lang_materials']
     processed_fields = record_hash.clone.keep_if {|k, v| copy_fields.include? k }
-    def cleanup!(data)
-      if data.is_a? Array
-        data.each {|item| cleanup!(item)}
-      end
-      if data.is_a? Hash
-        delete_fields = ['lock_version', 'created_by', 'last_modified_by', 'create_time', 'system_mtime', 'user_mtime']
-        data.delete_if {|k, v| delete_fields.include? k }
-        data.each_value {|v| cleanup!(v)}
-      end
-    end
+
     cleanup!(processed_fields)
 
     # many resource note types will map exactly
@@ -65,6 +56,19 @@ module DigitalObjectHelper
     end
 
     return processed_fields
+  end
+
+  private
+
+  def cleanup!(data)
+    if data.is_a? Array
+      data.each {|item| cleanup!(item)}
+    end
+    if data.is_a? Hash
+      delete_fields = ['lock_version', 'created_by', 'last_modified_by', 'create_time', 'system_mtime', 'user_mtime']
+      data.delete_if {|k, v| delete_fields.include? k }
+      data.each_value {|v| cleanup!(v)}
+    end
   end
 
 end
