@@ -104,7 +104,11 @@ class ObjectsController < ApplicationController
       fill_request_info
       if @result['primary_type'] == 'digital_object' || @result['primary_type'] == 'digital_object_component'
         @dig = process_digital(@result['json'])
-        @rep_fv = @result['json']['representative_file_version']
+        if @result['json']['representative_file_version'] &&
+           ['image-thumbnail', 'image-service'].include?(@result['json']['representative_file_version']['use_statement'])
+
+          @rep_fv = @result['json']['representative_file_version']
+        end
       else
         @dig = process_digital_instance(@result['json']['instances'])
         process_extents(@result['json'])

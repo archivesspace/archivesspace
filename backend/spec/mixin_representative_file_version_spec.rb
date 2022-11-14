@@ -16,11 +16,6 @@ require 'spec_helper'
 # see https://archivesspace.atlassian.net/browse/ANW-1522
 describe 'Representative File Version mixin' do
 
-  before(:each) do
-    allow(AppConfig).to receive(:[]).and_call_original
-    allow(AppConfig).to receive(:[]).with(:enable_representative_file_version) { true }
-  end
-
   10.times { |i|
     let(:"file_version_#{i}") {
       build(:json_file_version, {

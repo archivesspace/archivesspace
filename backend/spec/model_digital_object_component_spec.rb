@@ -4,11 +4,6 @@ require_relative 'spec_slugs_helper'
 
 describe 'DigitalObjectComponent model' do
 
-  before(:each) do
-    allow(AppConfig).to receive(:[]).and_call_original
-    allow(AppConfig).to receive(:[]).with(:enable_representative_file_version) { true }
-  end
-
   it "Allows digital object components to be created" do
     doc = create(:json_digital_object_component,
                  :has_unpublished_ancestor => true)
