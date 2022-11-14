@@ -34,9 +34,10 @@ jobs:
           - 8984:8983
 
     steps:
-    - uses: actions/checkout@v2
-    - uses: actions/setup-java@v1
+    - uses: actions/checkout@v3
+    - uses: actions/setup-java@v3
       with:
+        distribution: 'temurin'
         java-version: ${{ matrix.java }}
 
     - name: Load accessibility database

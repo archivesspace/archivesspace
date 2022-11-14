@@ -20,11 +20,11 @@ jobs:
 
       - name: Get the version
         id: version
-        run: echo ::set-output name=VERSION::$(echo $GITHUB_REF | cut -d / -f 3)
+        run: echo 'VERSION=$(echo $GITHUB_REF | cut -d / -f 3)' >> $GITHUB_OUTPUT
 
       - name: Get the release name
         id: release_name
-        run: echo ::set-output name=RELEASE_NAME::$(echo $GITHUB_REF | cut -d / -f 3 | sed 's/v/V/')
+        run: echo 'RELEASE_NAME=$(echo $GITHUB_REF | cut -d / -f 3 | sed 's/v/V/')' >> $GITHUB_OUTPUT
 
       - name: Build Dist
         run: ./build/run build-dist -Dversion=${{ steps.version.outputs.VERSION }}
