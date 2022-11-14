@@ -77,7 +77,7 @@ class DigitalObjectsController < ApplicationController
       elsif params[:spawn_from_accession_id]
         copy_from_record = Accession.find(params[:spawn_from_accession_id])
       elsif params[:spawn_from_archival_object_id]
-        copy_from_record = ArchivalObject.find(params[:spawn_from_accession_id])
+        copy_from_record = ArchivalObject.find(params[:spawn_from_archival_object_id])
       end
       raise ArgumentError.new("valid Resource, Resource Component, or Accession not provided") unless copy_from_record
 

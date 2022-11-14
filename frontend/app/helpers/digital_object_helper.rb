@@ -1,13 +1,13 @@
-# Maps desired resource fields to new digital object instance fields as specified in ANW-1615
+# Maps desired resource/archival object/accession fields to new digital object instance fields as specified in ANW-1615
 module DigitalObjectHelper
 
   def map_record_fields_to_digital_object(record)
-    if (record['jsonmodel_type'] == 'resource' or record['jsonmodel_type'] == 'accession')
+    if ['resource', 'accession', 'archival_object'].include? record['jsonmodel_type']
       record_hash = (record.class == Hash ? record : record.to_hash)
     end
 
     if not record_hash
-      raise ArgumentError.new("not a valid resource or accession JSONModel or hash")
+      raise ArgumentError.new("not a valid resource/accession/archival_object JSONModel or hash")
     end
 
     copy_fields = ['title', 'dates', 'lang_materials']
