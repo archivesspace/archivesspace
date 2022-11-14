@@ -536,6 +536,7 @@ class IndexerCommon
         doc['slug'] = record['record']['slug']
         doc['is_slug_auto'] = record['record']['is_slug_auto']
 
+        doc['collection_uri_u_sstr'] = record['record']['collection'].map {|collection| collection['ref']}
         doc['linked_instance_uris'] = record['record']['linked_instances'].
                                          collect{|instance| instance["ref"]}.
                                          compact.uniq
