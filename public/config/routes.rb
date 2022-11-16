@@ -20,6 +20,7 @@ Rails.application.routes.draw do
     get  "repositories/:repo_id/resources/:id/search" => 'resources#search'
     get  "repositories/:rid/resources/:id" => 'resources#show'
     post "repositories/:rid/resources/:id/pdf" => 'pdf#resource'
+    get  "repositories/:rid/resources/:id/digitized" => 'resources#digitized'
     get  "repositories/:rid/resources/:id/inventory" => 'resources#inventory'
     get  'repositories/:rid/resources/:id/resolve/:ref_id' => 'resources#resolve'
     get  "repositories/:rid/resources" => 'resources#index'

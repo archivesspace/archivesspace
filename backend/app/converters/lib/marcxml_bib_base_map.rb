@@ -681,7 +681,6 @@ module MarcXMLBibBaseMap
     }
   end
 
-
   # this should be called 'build_base_map'
   # because the extending class calls it
   # when it is configuring itself, and the
@@ -756,18 +755,70 @@ module MarcXMLBibBaseMap
           resource.id_0 = id unless id.empty?
         },
 
-        # local LC-style identifer
-        "datafield[@tag='090']" => -> resource, node {
+        # ANW-440: adding additional support for call numbers
+        # order of priority is:
+        # 099, 090, 092, 096, 098, 050, 082
+        # e.g., a value in 099 would be used over a value in 092, etc
+
+        # local non-LC identifier
+        "datafield[@tag='099']" => -> resource, node {
+          id = concatenate_subfields(('a'..'z'), node, '_')
+
           if resource.id_0.nil? or resource.id_0.empty?
-            id = concatenate_subfields(('a'..'z'), node, '_')
             resource.id_0 = id unless id.empty?
           end
         },
 
-        # local non-LC identifier
-        "datafield[@tag='099']" => -> resource, node {
+        # local LC-style identifer
+        "datafield[@tag='090']" => -> resource, node {
+          id = concatenate_subfields(('a'..'z'), node, '_')
+
           if resource.id_0.nil? or resource.id_0.empty?
-            id = concatenate_subfields(('a'..'z'), node, '_')
+            resource.id_0 = id unless id.empty?
+          end
+        },
+
+        # Locally Assigned Dewey Call Number
+        "datafield[@tag='092']" => -> resource, node {
+          id = concatenate_subfields(('a'..'z'), node, '_')
+
+          if resource.id_0.nil? or resource.id_0.empty?
+            resource.id_0 = id unless id.empty?
+          end
+        },
+
+        # Locally NLM-type Call Number
+        "datafield[@tag='096']" => -> resource, node {
+          id = concatenate_subfields(('a'..'z'), node, '_')
+
+          if resource.id_0.nil? or resource.id_0.empty?
+            resource.id_0 = id unless id.empty?
+          end
+        },
+
+        #  Other Classification Schemes
+        "datafield[@tag='098']" => -> resource, node {
+          id = concatenate_subfields(('a'..'z'), node, '_')
+
+          if resource.id_0.nil? or resource.id_0.empty?
+            resource.id_0 = id unless id.empty?
+          end
+        },
+
+        # Library of Congress Call Number
+        "datafield[@tag='050']" => -> resource, node {
+          id = concatenate_subfields(('a'..'z'), node, '_')
+
+          if resource.id_0.nil? or resource.id_0.empty?
+            resource.id_0 = id unless id.empty?
+          end
+        },
+
+        # Dewey Classification Number
+        "datafield[@tag='082']" => -> resource, node {
+          id = concatenate_subfields(('a'..'z'), node, '_')
+
+          if resource.id_0.nil? or resource.id_0.empty?
             resource.id_0 = id unless id.empty?
           end
         },
@@ -872,9 +923,22 @@ module MarcXMLBibBaseMap
                                                date.expression = node.xpath("subfield[@code='c']")
                                                resource.dates << date
                                              end
+                                           else
+                                             resource['_needs_date'] = true
                                            end
                                          }
                                        }),
+
+        "datafield[@tag='264']/subfield[@code='c']" => -> resource, node {
+                                          if resource['_needs_date']
+                                            make(:date) do |date|
+                                              date.label = 'publication'
+                                              date.date_type = 'single'
+                                              date.expression = node.inner_text
+                                              resource.dates << date
+                                            end
+                                          end
+                                        },
 
         # 300s
         # EXTENTS
@@ -1132,6 +1196,8 @@ module MarcXMLBibBaseMap
 
         },
 
+        "datafield[@tag='555']" => multipart_note('otherfindaid', 'Other Finding Aid', "{$a}{; $b}{; $c}{; $d}{; $u}{; $3}."),
+
         "datafield[@tag='561']" => multipart_note('custodhist', 'Ownership and Custodial History', "{$3: }{$a}."),
 
         "datafield[@tag='562']" => multipart_note('relatedmaterial', 'Copy and Version Identification', %q|
@@ -1145,6 +1211,16 @@ module MarcXMLBibBaseMap
                                             {Unit of analysis--$c; }{Universe of data--$d; }{Filing scheme or code--$e}.|),
 
         "datafield[@tag='581']" => bibliography_note_template('Publications About Described Materials', "{$3: }{$a }{($z)}."),
+
+        "datafield[@tag='583']" => multipart_note('processinfo', 'Processing Note', %q|
+                                            {Action: $a}{--Action Identification: $b}{--Time/Date of Action: $c}{--Action interval: $d}
+                                            {--Action interval: $d}{--Contingency for Action: $e}{--Authorization: $f}{--Jurisdiction: $h}
+                                            {--Method of action: $i}{--Site of Action: $j}{--Action agent: $k}{--Status: $l}{--Extent: $n}
+                                            {--Type of unit: $o}{--URI: $u}{--Non-public note: $x}{--Public note: $z}{--Materials specified: $3}
+                                            {--Institution: $5}.|),
+
+        "datafield[@tag='584']" => multipart_note('accruals', 'Accruals', %q|
+                                            {Accumulation: $a}{--Frequency of use: $b}{--Materials specified: $3}{--Institution: $5}.|),
 
         "datafield[starts-with(@tag, '59')]" => multipart_note('odd', 'Local Note'),
 

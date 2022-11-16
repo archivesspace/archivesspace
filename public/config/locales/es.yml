@@ -327,6 +327,7 @@ es:
       thumbnail: Miniatura
       link: Enlace al objeto digital
       badge_label: Digital %{level}
+      go: Ir al archivo
       section: {}
       messages: {}
   digital_object_component:

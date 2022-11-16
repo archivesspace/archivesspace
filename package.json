@@ -4,8 +4,11 @@
   "description": "Check front end files for lint errors during CI",
   "scripts": {
     "eslint:ci": "eslint frontend/ public/",
+    "eslint:fix": "eslint --fix frontend/ public/",
     "stylelint:ci": "stylelint '{frontend,public}/**/*.{css,less,scss}' -f verbose",
-    "prettier:ci": "prettier --check frontend/ public/"
+    "stylelint:fix": "stylelint '{frontend,public}/**/*.{css,less,scss}' -f verbose --fix",
+    "prettier:ci": "prettier --check frontend/ public/",
+    "prettier:fix": "prettier --write frontend/ public/"
   },
   "devDependencies": {
     "eslint": "^8.14.0",

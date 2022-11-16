@@ -29,22 +29,52 @@ describe 'Digital object model' do
 
   it "can link a digital object to an accession" do
     digital_object = create(:json_digital_object)
-    acc = create(:json_accession,
+    create(:json_accession,
                  :instances => [build(:json_instance_digital,
                                       :digital_object => {'ref' => digital_object.uri})])
 
     digital_object = JSONModel(:digital_object).find(digital_object.id)
+    expect(digital_object.collection.count).to eq(1)
     expect(digital_object.linked_instances.count).to eq(1)
   end
 
   it "can link a digital object to a classification" do
     digital_object = create(:json_digital_object)
-    classification = create(:json_classification,
+    create(:json_classification,
                             :linked_records => [{'ref' => digital_object.uri}]
     )
 
     digital_object = JSONModel(:digital_object).find(digital_object.id)
     expect(digital_object.classifications.count).to eq(1)
+  end
+
+  it "can link a digital object to a resource" do
+    digital_object = create(:json_digital_object)
+    create(:json_resource,
+                 :instances => [build(:json_instance_digital,
+                                      :digital_object => {'ref' => digital_object.uri})])
+
+    digital_object = JSONModel(:digital_object).find(digital_object.id)
+    expect(digital_object.collection.count).to eq(1)
+    expect(digital_object.linked_instances.count).to eq(1)
+  end
+
+  it "can link a digital object to multiple records types as collections and instances" do
+    digital_object = create(:json_digital_object)
+    resource = create(:json_resource,
+                 :instances => [build(:json_instance_digital,
+                                      :digital_object => {'ref' => digital_object.uri})])
+    create(:json_accession,
+                 :instances => [build(:json_instance_digital,
+                                      :digital_object => {'ref' => digital_object.uri})])
+    create(:json_archival_object,
+                 :instances => [build(:json_instance_digital,
+                                      :digital_object => {'ref' => digital_object.uri})],
+                 :resource => {:ref => resource.uri})
+
+    digital_object = JSONModel(:digital_object).find(digital_object.id)
+    expect(digital_object.collection.count).to eq(2)
+    expect(digital_object.linked_instances.count).to eq(3)
   end
 
 

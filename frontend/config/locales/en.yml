@@ -1280,6 +1280,9 @@ en:
       remove_subrecord: Remove sub-record
     external_ark_url: External ARK URL
     external_ark_url_tooltip: Archival Resource Key (ARK) persistent identifier generated outside of ArchivesSpace. If this field has a value it takes precedence over an ARK generated within ArchivesSpace.
+    linker:
+      browse:
+        Browse Resources
 
   preference:
     _frontend:
