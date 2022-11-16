@@ -577,16 +577,13 @@ class MARCModel < ASpaceExport::ExportModel
 
       if note['jsonmodel_type'] == "note_bibliography"
         if note['publish'] || @include_unpublished
-          values = []
           note['content'].each do |c|
-            values.push(['a', c])
+            df!('581', ' ', ' ').with_sfs(['a', c])
           end
 
           note['items'].each do |i|
-            values.push(['a', i])
+            df!('581', ' ', ' ').with_sfs(['a', i])
           end
-
-          df('581', ' ', ' ').with_sfs(*values)
         end
       end
     end
