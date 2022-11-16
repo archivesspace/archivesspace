@@ -681,7 +681,6 @@ module MarcXMLBibBaseMap
     }
   end
 
-
   # this should be called 'build_base_map'
   # because the extending class calls it
   # when it is configuring itself, and the
@@ -756,18 +755,70 @@ module MarcXMLBibBaseMap
           resource.id_0 = id unless id.empty?
         },
 
-        # local LC-style identifer
-        "datafield[@tag='090']" => -> resource, node {
+        # ANW-440: adding additional support for call numbers
+        # order of priority is:
+        # 099, 090, 092, 096, 098, 050, 082
+        # e.g., a value in 099 would be used over a value in 092, etc
+
+        # local non-LC identifier
+        "datafield[@tag='099']" => -> resource, node {
+          id = concatenate_subfields(('a'..'z'), node, '_')
+
           if resource.id_0.nil? or resource.id_0.empty?
-            id = concatenate_subfields(('a'..'z'), node, '_')
             resource.id_0 = id unless id.empty?
           end
         },
 
-        # local non-LC identifier
-        "datafield[@tag='099']" => -> resource, node {
+        # local LC-style identifer
+        "datafield[@tag='090']" => -> resource, node {
+          id = concatenate_subfields(('a'..'z'), node, '_')
+
           if resource.id_0.nil? or resource.id_0.empty?
-            id = concatenate_subfields(('a'..'z'), node, '_')
+            resource.id_0 = id unless id.empty?
+          end
+        },
+
+        # Locally Assigned Dewey Call Number
+        "datafield[@tag='092']" => -> resource, node {
+          id = concatenate_subfields(('a'..'z'), node, '_')
+
+          if resource.id_0.nil? or resource.id_0.empty?
+            resource.id_0 = id unless id.empty?
+          end
+        },
+
+        # Locally NLM-type Call Number
+        "datafield[@tag='096']" => -> resource, node {
+          id = concatenate_subfields(('a'..'z'), node, '_')
+
+          if resource.id_0.nil? or resource.id_0.empty?
+            resource.id_0 = id unless id.empty?
+          end
+        },
+
+        #  Other Classification Schemes
+        "datafield[@tag='098']" => -> resource, node {
+          id = concatenate_subfields(('a'..'z'), node, '_')
+
+          if resource.id_0.nil? or resource.id_0.empty?
+            resource.id_0 = id unless id.empty?
+          end
+        },
+
+        # Library of Congress Call Number
+        "datafield[@tag='050']" => -> resource, node {
+          id = concatenate_subfields(('a'..'z'), node, '_')
+
+          if resource.id_0.nil? or resource.id_0.empty?
+            resource.id_0 = id unless id.empty?
+          end
+        },
+
+        # Dewey Classification Number
+        "datafield[@tag='082']" => -> resource, node {
+          id = concatenate_subfields(('a'..'z'), node, '_')
+
+          if resource.id_0.nil? or resource.id_0.empty?
             resource.id_0 = id unless id.empty?
           end
         },
