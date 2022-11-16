@@ -2984,6 +2984,7 @@ en:
       dig_obj_unique: "Digital Object ID '%{id}' already exists."
       cannot: Cannot continue due to previous errors
       sc_barcode: "Can not find a Sub Container with this Child Barcode %{barcode}"
+      utf8: "This spreadsheet has some invalid or corrupt text that cannot be processed."
   top_container_linker:
     error:
       ref_id_miss: "Ref ID missing from spreadsheet in row %{row_num} ."
