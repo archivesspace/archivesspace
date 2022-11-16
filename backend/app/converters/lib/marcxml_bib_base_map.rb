@@ -872,9 +872,22 @@ module MarcXMLBibBaseMap
                                                date.expression = node.xpath("subfield[@code='c']")
                                                resource.dates << date
                                              end
+                                           else
+                                             resource['_needs_date'] = true
                                            end
                                          }
                                        }),
+
+        "datafield[@tag='264']/subfield[@code='c']" => -> resource, node {
+                                          if resource['_needs_date']
+                                            make(:date) do |date|
+                                              date.label = 'publication'
+                                              date.date_type = 'single'
+                                              date.expression = node.inner_text
+                                              resource.dates << date
+                                            end
+                                          end
+                                        },
 
         # 300s
         # EXTENTS

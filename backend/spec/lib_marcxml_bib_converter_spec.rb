@@ -147,7 +147,36 @@ describe 'MARCXML Bib converter' do
       end
     end
 
+    context 'when controlfield positions 7-10, 245$f, 245$g, and 260$c are not present' do
+      let (:test_doc) {
+        src = <<~MARC
+          <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+          <collection xsi:schemaLocation="http://www.loc.gov/MARC21/slim http://www.loc.gov/standards/marcxml/schema/MARC21slim.xsd" xmlns="http://www.loc.gov/MARC21/slim" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+              <record>
+                  <leader>00000npc a2200000 u 4500</leader>
+                  <controlfield tag="008">130109         xx                  eng d</controlfield>
+                  <datafield tag="245" ind1="1" ind2="0">
+                      <subfield code="a">Resource with Publication Date</subfield>
+                  </datafield>
+                  <datafield tag="300" ind1=" " ind2=" ">
+                      <subfield code="a">1 item</subfield>
+                  </datafield>
+                  <datafield tag="264" ind2=" " ind1=" ">
+                      <subfield code="c">264$c date expression</subfield>
+                  </datafield>
+              </record>
+          </collection>
+        MARC
+        get_tempfile_path(src)
+      }
+      let(:resource) { (convert(test_doc)).last }
 
+      it "maps datafield[@tag='264']/subfield[@code='c'] to resources.dates[]" do
+        expect(resource['dates'][0]['expression']).to eq("264$c date expression")
+        expect(resource['dates'][0]['label']).to eq("publication")
+        expect(resource['dates'][0]['date_type']).to eq("single")
+      end
+    end
 
     describe "MARC import mappings" do
 
