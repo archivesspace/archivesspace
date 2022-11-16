@@ -68,7 +68,7 @@
                      app_prefix(repository_base_url(
                       "uri" => result.resolved_repository.fetch('uri'),
                       "slug" => result.resolved_repository.fetch('slug') {|s| nil })) %>
-          <% if result.kind_of?(DigitalObject) %>
+          <% if result.is_a?(DigitalObject) %>
             <% resolved_instances_record = 
                  ArchivesSpaceClient.instance.get_record(result.uri, {'resolve[]' => ['linked_instance_uris:id']}) %>
             <% resolved_instances_record.linked_instances.each do |uri, instance_record| %>
