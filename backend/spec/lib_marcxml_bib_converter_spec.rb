@@ -158,10 +158,38 @@ describe 'MARCXML Bib converter' do
       expect(@resource['id_0']).to eq("Call number prefix_Classification part_Item part_Shelving control number_Call number suffix")
     end
 
+    context 'when controlfield positions 7-10, 245$f, 245$g, and 260$c are not present' do
+      let (:test_doc) {
+        src = <<~MARC
+          <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+          <collection xsi:schemaLocation="http://www.loc.gov/MARC21/slim http://www.loc.gov/standards/marcxml/schema/MARC21slim.xsd" xmlns="http://www.loc.gov/MARC21/slim" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+              <record>
+                  <leader>00000npc a2200000 u 4500</leader>
+                  <controlfield tag="008">130109         xx                  eng d</controlfield>
+                  <datafield tag="245" ind1="1" ind2="0">
+                      <subfield code="a">Resource with Publication Date</subfield>
+                  </datafield>
+                  <datafield tag="300" ind1=" " ind2=" ">
+                      <subfield code="a">1 item</subfield>
+                  </datafield>
+                  <datafield tag="264" ind2=" " ind1=" ">
+                      <subfield code="c">264$c date expression</subfield>
+                  </datafield>
+              </record>
+          </collection>
+        MARC
+        get_tempfile_path(src)
+      }
+      let(:resource) { (convert(test_doc)).last }
+
+      it "maps datafield[@tag='264']/subfield[@code='c'] to resources.dates[]" do
+        expect(resource['dates'][0]['expression']).to eq("264$c date expression")
+        expect(resource['dates'][0]['label']).to eq("publication")
+        expect(resource['dates'][0]['date_type']).to eq("single")
+      end
+    end
 
     describe "MARC import mappings" do
-
-
       def convert_test_file
         test_file = File.expand_path("./examples/marc/at-tracer-marc-1.xml", File.dirname(__FILE__))
         parsed = convert(test_file)
@@ -397,8 +425,23 @@ describe 'MARCXML Bib converter' do
         expect(@lang_materials_notes).to include('Resource-LanguageMaterials-AT.')
       end
 
+      it "maps datafield[@tag='555'] to resource.notes[] using template '$a; $b; $c; $d; $u; $3.'" do
+        expect(@notes).to include('Finding Aid Available Online:; Resource-EAD-Location-AT.')
+      end
+
       it "maps datafield[@tag='561'] to resource.notes[] using template '$3: $a.'" do
         expect(@notes).to include('Resource--CustodialHistory-AT.')
+      end
+
+      it "maps datafield[@tag='583'] to resource.notes[] using template 'Action: $a--Action Identification: $b
+         --Time/Date of Action: $c--Action interval: $d--Contingency for Action: $e--Authorization: $f--Jurisdiction: $h
+         --Method of action: $j--Site of Action: $j--Action agent: $k--Status: $l--Extent: $n--Type of unit: $o--URI: $u
+         --Non-public note: $x--Public note: $z--Materials specified: $3--Institution: $5.'" do
+        expect(@notes).to include('Action: Resource-Appraisal-AT.')
+      end
+
+      it "maps datafield[@tag='584'] to resource.notes[] using template 'Accumulation: $a--Frequency of use: $b--Materials specified: $3--Institution: $5'" do
+        expect(@notes).to include('Accumulation: Resource-Accruals-AT.')
       end
 
       it "maps datafield[@tag='630'] to subject" do
@@ -423,6 +466,33 @@ describe 'MARCXML Bib converter' do
         end
 
         expect(has_qualifier).to eq(5)
+      end
+    end
+
+    describe "MARC import mappings, call number identifiers" do
+      def convert_test_file(filename)
+        test_file = File.expand_path("./examples/marc/#{filename}", File.dirname(__FILE__))
+        parsed = convert(test_file)
+
+        @resource = parsed.select {|rec| rec['jsonmodel_type'] == 'resource'}.last
+      end
+
+      it "maps call numbers to ID, 99 first" do
+        convert_test_file("american-communist-all-call.xml")
+
+        expect(@resource['id_0']).to eq('TAM.99')
+      end
+
+      it "maps call numbers to ID, 92 first" do
+        convert_test_file("american-communist-92.xml")
+
+        expect(@resource['id_0']).to eq('TAM.92')
+      end
+
+      it "maps call numbers to ID, 82 first" do
+        convert_test_file("american-communist-82.xml")
+
+        expect(@resource['id_0']).to eq('TAM.82')
       end
     end
   end

@@ -347,6 +347,7 @@ fr:
       thumbnail: miniature
       link: Lien vers objet numérique
       badge_label: Numérique %{level}
+      go: Aller au dossier
       section: {}
       messages: {}
   digital_object_component:

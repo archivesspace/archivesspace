@@ -294,6 +294,7 @@ de:
       thumbnail: Vorschaubild
       link: Verweis zu digitalem Objekt
       badge_label: Digital %{level}
+      go: Gehen Sie zur Datei
     _plural: Digitales Archivgut
   subject:
     _singular: Thema

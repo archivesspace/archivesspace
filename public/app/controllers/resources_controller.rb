@@ -148,6 +148,7 @@ class ResourcesController < ApplicationController
       tree_root = archivesspace.get_raw_record(uri + '/tree/root') rescue nil
       @has_children = tree_root && tree_root['child_count'] > 0
       @has_containers = has_containers?(uri)
+      @has_digital_objects = has_digital_objects?
 
       @result =  archivesspace.get_record(uri, @criteria)
       @repo_info = @result.repository_information
@@ -189,6 +190,7 @@ class ResourcesController < ApplicationController
       @criteria['resolve[]'] = ['repository:id', 'resource:id@compact_resource', 'top_container_uri_u_sstr:id', 'related_accession_uris:id']
       @result = archivesspace.get_record(@root_uri, @criteria)
       @has_containers = has_containers?(@root_uri)
+      @has_digital_objects = has_digital_objects?
 
       @repo_info = @result.repository_information
       @page_title = "#{I18n.t('resource._singular')}: #{strip_mixed_content(@result.display_string)}"
@@ -245,6 +247,7 @@ class ResourcesController < ApplicationController
     uri = "/repositories/#{params[:rid]}/resources/#{params[:id]}"
     tree_root = archivesspace.get_raw_record(uri + '/tree/root') rescue nil
     @has_children = tree_root && tree_root['child_count'] > 0
+    @has_digital_objects = has_digital_objects?
     # stuff for the collection bits
     @criteria = {}
     @criteria['resolve[]'] = ['repository:id', 'resource:id@compact_resource', 'top_container_uri_u_sstr:id', 'related_accession_uris:id']
@@ -257,7 +260,96 @@ class ResourcesController < ApplicationController
 
     # top container stuff ... sets @records
     fetch_containers(uri, "#{uri}/inventory", params)
+    set_pager(params)
+  rescue RecordNotFound
+    record_not_found(uri, 'resource')
+  end
 
+  def digitized
+    ### BEGIN BOILERPLATE -- many of these controllers are doing the same setup, refactor eventually
+    uri     = "/repositories/#{params[:rid]}/resources/#{params[:id]}"
+    @result = archivesspace.get_record(uri, {})
+    @repo_info = @result.repository_information
+    @context = [{:uri => @repo_info['top']['uri'], :crumb => @repo_info['top']['name'], type: 'repository'},
+      {:uri => nil, :crumb => process_mixed_content(@result.display_string), type: @result.primary_type}]
+    fill_request_info # enable request button in this context
+
+    @has_containers = has_containers?(uri) # enable inventory link
+    tree_root = archivesspace.get_raw_record(uri + '/tree/root') rescue nil
+    @has_children = tree_root && tree_root['child_count'] > 0 # enable collection organization link
+    ### END BOILERPLATE
+
+    # digital material stuff ... sets @records
+    fetch_digital_objects(uri, "#{uri}/digitized", params)
+    set_pager(params)
+  rescue RecordNotFound
+    record_not_found(uri, 'resource')
+  end
+
+  private
+
+  CONTAINER_QUERY = "types:pui AND types:pui_container"
+  DIGITAL_QUERY   = "types:pui AND types:pui_digital_object"
+
+  def has_containers?(resource_uri)
+    qry = "collection_uri_u_sstr:\"#{resource_uri}\" AND (#{CONTAINER_QUERY})"
+
+    !archivesspace.search(qry, 1).records.empty?
+  end
+
+  def has_digital_objects?
+    uri = "/repositories/#{params[:rid]}/resources/#{params[:id]}"
+    qry = "collection_uri_u_sstr:\"#{uri}\" AND (#{DIGITAL_QUERY})"
+
+    archivesspace.search(qry, 1).records.any?
+  end
+
+  def fetch(resource_uri, page_uri, params, query, sort, type, enums = [])
+    qry = "collection_uri_u_sstr:\"#{resource_uri}\" AND (#{query})"
+    @base_search = "#{page_uri}?"
+    search_opts =  default_search_opts({
+      'sort' => sort,
+      'facet.mincount' => 1
+    })
+    search_opts['fq']=[qry]
+    set_up_search([type], enums, search_opts, params, qry)
+    @base_search= @base_search.sub("q=#{qry}", '')
+    page = Integer(params.fetch(:page, "1"))
+
+    @results = archivesspace.search(@query, page, @criteria)
+
+    if @results['total_hits'] > 0
+      process_search_results(@base_search)
+    else
+      @results = []
+    end
+  end
+
+  def fetch_containers(resource_uri, page_uri, params)
+    fetch(
+      resource_uri,
+      page_uri,
+      params,
+      CONTAINER_QUERY,
+      'top_container_u_icusort asc',
+      'pui_container',
+      ['type_enum_s', 'published_series_title_u_sstr']
+    )
+  end
+
+  def fetch_digital_objects(resource_uri, page_uri, params)
+    fetch(
+      resource_uri,
+      page_uri,
+      params,
+      DIGITAL_QUERY,
+      'title_sort asc',
+      'pui_digital_object',
+      ['digital_object_type_enum_s', 'extent_type_enum_s', 'subjects', 'published_agents', 'langcode']
+    )
+  end
+
+  def set_pager(params)
     if !@results.blank?
       params[:q] = '*'
 
@@ -272,40 +364,6 @@ class ResourcesController < ApplicationController
       @pager = Pager.new(search_uri, @results['this_page'], @results['last_page'])
     else
       @pager = nil
-    end
-
-  rescue RecordNotFound
-    record_not_found(uri, 'resource')
-  end
-
-  private
-
-  CONTAINER_QUERY = "types:pui AND types:pui_container"
-
-  def has_containers?(resource_uri)
-    qry = "collection_uri_u_sstr:\"#{resource_uri}\" AND (#{CONTAINER_QUERY})"
-
-    !archivesspace.search(qry, 1).records.empty?
-  end
-
-  def fetch_containers(resource_uri, page_uri, params)
-    qry = "collection_uri_u_sstr:\"#{resource_uri}\" AND (#{CONTAINER_QUERY})"
-    @base_search = "#{page_uri}?"
-    search_opts =  default_search_opts({
-      'sort' => 'top_container_u_icusort asc',
-      'facet.mincount' => 1
-    })
-    search_opts['fq']=[qry]
-    set_up_search(['pui_container'], ['type_enum_s', 'published_series_title_u_sstr'], search_opts, params, qry)
-    @base_search= @base_search.sub("q=#{qry}", '')
-    page = Integer(params.fetch(:page, "1"))
-
-    @results = archivesspace.search(@query, page, @criteria)
-
-    if @results['total_hits'] > 0
-      process_search_results(@base_search)
-    else
-      @results = []
     end
   end
 
