@@ -12,7 +12,7 @@ topics:
   accession_deaccessions: '894206022/Deaccessions+Sub-Record+-+Accessions'
   accession_instances: '894205992/Instances+Sub-Record+%28as+of+v1.5.0%29+-+Accessions'
   accession_collection_management: '893878417/Collection+Management+Sub-Record+-+Accessions'
-  accession_classification: '893878432/Classifications+Sub-Record+-+Accessions'
+  accession_classifications: '893878432/Classifications+Sub-Record+-+Accessions'
   accession_user_defined: '893976727/User+Defined+Fields+-+Accessions'
   # Resource Topics
   resource: '890142825/Managing+Resources'
@@ -29,7 +29,7 @@ topics:
   resource_instances: '896204987/Instances+Sub-Record+as+of+v1.5.0+-+Resources'
   resource_deaccessions: '895812081/Deaccessions+Sub-Record+-+Resources'
   resource_collection_management: '896172244/Collection+Management+Sub-Record+-+Resources'
-  resource_classification: '895910283/Classifications+Sub-Record+-+Resources'
+  resource_classifications: '895910283/Classifications+Sub-Record+-+Resources'
   resource_load_via_spreadsheet: '1173913646/Import+Archival+Objects+from+Excel+or+CSV+File+from+v2.8.1)'
   resource_user_defined: '895812108/User+Defined+Fields+-+Resources'
   # Archival Objects
@@ -52,6 +52,7 @@ topics:
   digital_object_linked_agents: '896762114/Agent+Links+-+Digital+Objects'
   digital_object_subjects: '896925788/Subject+Links+-+Digital+Objects'
   digital_object_notes: '896958538/Notes+Sub-Records+for+Digital+Objects'
+  digital_object_classifications: '894435606/Linking+Classifications+to+Other+Records'
   digital_object_external_documents: '896696508/External+Documents+Sub-Record+-+Digital+Objects'
   digital_object_rights_statements: '896958557/Rights+Statements+Sub-Record+v2.1.0+-+Digital+Objects'
   digital_object_collection_management: '894566807/Collection+Management+Sub-Record+-+Digital+Objects'

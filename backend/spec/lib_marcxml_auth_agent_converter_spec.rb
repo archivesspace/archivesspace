@@ -176,7 +176,7 @@ describe 'MARCXML Auth Agent converter' do
       expect(record['names'][0]['location']).to eq('Miami')
       expect(record['names'][0]['dates']).to eq('1999')
       expect(record['names'][0]['number']).to eq('3')
-      expect(record['names'][0]['qualifier']).to eq('sub name 2')
+      expect(record['names'][0]['qualifier']).to eq('Name of meeting following jurisdiction name entry element: sub name 2')
     end
 
     it 'imports parallel names' do

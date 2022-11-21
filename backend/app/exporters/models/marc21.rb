@@ -577,16 +577,13 @@ class MARCModel < ASpaceExport::ExportModel
 
       if note['jsonmodel_type'] == "note_bibliography"
         if note['publish'] || @include_unpublished
-          values = []
           note['content'].each do |c|
-            values.push(['a', c])
+            df!('581', ' ', ' ').with_sfs(['a', c])
           end
 
           note['items'].each do |i|
-            values.push(['a', i])
+            df!('581', ' ', ' ').with_sfs(['a', i])
           end
-
-          df('581', ' ', ' ').with_sfs(*values)
         end
       end
     end
@@ -767,14 +764,14 @@ class MARCModel < ASpaceExport::ExportModel
     primary_identifier = get_primary_agent_record_identifier(agent)
 
     name_fields = [
-                   ["0", primary_identifier],
                    ["a", name_parts],
                    ["b", number],
                    ["c", extras],
                    ["d", dates],
                    subfield_e,
                    ["g", qualifier],
-                   ["q", fuller_form]
+                   ["q", fuller_form],
+                   ["0", primary_identifier],
                   ].compact.reject {|a| a[1].nil? || a[1].empty?}
 
     unless terms.nil?
@@ -826,11 +823,11 @@ class MARCModel < ASpaceExport::ExportModel
     primary_identifier = get_primary_agent_record_identifier(agent)
 
     name_fields = [
-                    ["0", primary_identifier],
                     ['a', family_name],
                     ['d', dates],
                     ['c', qualifier],
                     subfield_e,
+                    ['0', primary_identifier],
                   ].compact.reject {|a| a[1].nil? || a[1].empty?}
 
     unless terms.nil?
@@ -931,13 +928,13 @@ class MARCModel < ASpaceExport::ExportModel
     primary_identifier = get_primary_agent_record_identifier(agent)
 
     name_fields = [
-                    ["0", primary_identifier],
                     ['a', primary_name],
                     ['b', subfield_b_1],
                     ['b', subfield_b_2],
                     subfield_e,
                     ['n', number],
-                    ['g', qualifier]
+                    ['g', qualifier],
+                    ["0", primary_identifier],
                   ].compact.reject {|a| a[1].nil? || a[1].empty?}
 
     unless terms.nil?

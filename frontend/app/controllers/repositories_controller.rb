@@ -3,7 +3,9 @@ class RepositoriesController < ApplicationController
   set_access_control  "view_repository" => [:select, :index, :show, :typeahead],
                       "manage_repository" => [:new, :create, :edit, :update],
                       "transfer_repository" => [:transfer, :run_transfer],
-                      "delete_repository" => [:delete]
+                      "delete_repository" => [:delete],
+                      "administer_system" => [:reorder, :run_reorder]
+
 
   before_action :refresh_repo_list, :only => [:show, :new]
 
@@ -11,6 +13,21 @@ class RepositoriesController < ApplicationController
   def index
     @search_data = Search.global(params_for_backend_search.merge({"facet[]" => []}),
                                  "repositories")
+  end
+
+  def reorder
+    @repositories = JSONModel(:repository).all.sort_by {|r| r.position }
+  end
+
+  def run_reorder
+    response = JSONModel::HTTP.post_form("#{JSONModel(:repository).uri_for(params[:id])}/position",
+                                         :position => params[:position])
+    if response.code == '200'
+      flash[:success] = I18n.t("actions.reorder_successful")
+    else
+      flash[:error] = ASUtils.json_parse(response.body)['error']
+    end
+    redirect_to(:action => :reorder)
   end
 
   def new

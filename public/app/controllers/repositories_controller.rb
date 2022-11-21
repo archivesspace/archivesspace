@@ -19,7 +19,7 @@ class RepositoriesController < ApplicationController
   # TODO: get this somehow in line with using the Searchable module
   def index
     @criteria = {}
-    @criteria['sort'] = "repo_sort asc"  # per James Bullen
+    @criteria['sort'] = repositories_sort_by
     # let's not include any 0-collection repositories unless specified
     # include_zero = (!params.blank? && params['include_empty'])
     # ok, page sizing is kind of complicated if not including zero counts
@@ -30,7 +30,6 @@ class RepositoriesController < ApplicationController
     page = params['page'] || 1 if !params.blank?
     @criteria['page_size'] = 100
     @search_data = archivesspace.search(query, page, @criteria) || {}
-    Rails.logger.debug("TOTAL HITS: #{@search_data['total_hits']}, last_page: #{@search_data['last_page']}")
     @json = []
 
     if !@search_data['results'].blank?
@@ -43,11 +42,9 @@ class RepositoriesController < ApplicationController
           @json.push(hash)
         end
       end
-      Rails.logger.debug("First hash: #{@json[0]}")
     else
       raise NoResultsError.new("No repository records found!")
     end
-    @json.sort_by! {|h| h['display_string'].upcase}
     @page_title = I18n.t('list', {:type => (@json.length > 1 ? I18n.t('repository._plural') : I18n.t('repository._singular'))})
     render
   end

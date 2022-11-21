@@ -297,7 +297,7 @@ GEM
       thread_safe (~> 0.1)
     tzinfo-data (1.2022.3)
       tzinfo (>= 1.0.0)
-    uglifier (3.0.4)
+    uglifier (4.2.0)
       execjs (>= 0.3.0, < 3)
     unf (0.1.4-java)
     virtus (2.0.0)
@@ -364,7 +364,7 @@ DEPENDENCIES
   sprockets-rails (= 2.3.3)
   therubyrhino
   tzinfo-data
-  uglifier (= 3.0.4)
+  uglifier
   web-console
   zip-zip (= 0.3)
 

@@ -10,7 +10,7 @@ describe 'Default Form Values', js: true do
 
     login_admin
 
-    visit('/preferences/0/edit?repo=true')
+    visit('/preferences/0/edit?global=true')
     check('preference[defaults][default_values]')
     click_button('Save')
 
@@ -23,10 +23,9 @@ describe 'Default Form Values', js: true do
     select_repository(@repo)
   end
 
-  xit 'will let an admin create default accession values' do
+  it 'will let an admin create default accession values' do
     visit '/accessions'
 
-    # TODO: this currently triggers a "Record Not Found" error page... bug?
     click_link('Edit Default Values')
     expect(page).to have_field('accession[title]')
 
@@ -35,7 +34,7 @@ describe 'Default Form Values', js: true do
     expect(page).to have_content('Defaults Updated')
 
     visit('/accessions/new')
-    expect(find('accession[title]')).to have_content('DEFAULT_TITLE')
+    expect(page).to have_content('DEFAULT TITLE')
   end
 
   it "won't let a regular archivist edit default accession values" do

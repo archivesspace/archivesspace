@@ -121,8 +121,6 @@ class IndexerCommon
   end
 
 
-  EXCLUDED_STRING_VALUE_PROPERTIES = Set.new(%w(created_by last_modified_by system_mtime user_mtime json types create_time date_type jsonmodel_type publish extent_type language script system_generated suppressed source rules name_order))
-
   def self.extract_string_values(doc)
     queue = [doc]
     strings = []
@@ -131,8 +129,8 @@ class IndexerCommon
       doc = queue.pop
 
       doc.each do |key, val|
-        if EXCLUDED_STRING_VALUE_PROPERTIES.include?(key) || key =~ /_enum_s$/
-          # ignored
+        if IndexerCommonConfig.fullrecord_excludes.include?(key) || key =~ /_enum_s$/
+          next # ignored
         elsif val.is_a?(String)
           strings.push(val)
         elsif val.is_a?(Hash)
@@ -475,6 +473,7 @@ class IndexerCommon
         doc['repo_sort'] = record['record']['display_string']
         doc['slug'] = record['record']['slug']
         doc['is_slug_auto'] = record['record']['is_slug_auto']
+        doc['position_int_sort'] = record['record']['position']
       end
     }
 
@@ -537,6 +536,7 @@ class IndexerCommon
         doc['slug'] = record['record']['slug']
         doc['is_slug_auto'] = record['record']['is_slug_auto']
 
+        doc['collection_uri_u_sstr'] = record['record']['collection'].map {|collection| collection['ref']}
         doc['linked_instance_uris'] = record['record']['linked_instances'].
                                          collect{|instance| instance["ref"]}.
                                          compact.uniq
@@ -1138,9 +1138,9 @@ class IndexerCommon
   end
 
   # ANW-1065
-  # iterate through the do_not_index list and scrub out that part of the JSON tree 
+  # iterate through the do_not_index list and scrub out that part of the JSON tree
   def sanitize_json(json)
-    IndexerCommonConfig::do_not_index.each do |k, v|
+    IndexerCommonConfig.do_not_index.each do |k, v|
       if json["jsonmodel_type"] == k
         # subrec is a reference used to navigate inside of the JSON as specified by the v[:location] to find the part of the tree to sanitize
         subrec = json

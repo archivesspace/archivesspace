@@ -2157,7 +2157,7 @@ en:
       browse: Browse Repositories
       create: Create Repository
       link_title: Link to repository
-
+    position: Position
 
   term: &term_attributes
     # tooltips not displaying
@@ -2386,6 +2386,7 @@ en:
     publish_tooltip: Whether to publish new records by default.
     default_values: Pre-populate Records?
     default_values_tooltip: Whether to pre-populate new Accession and Resource records with default values.
+    digital_object_spawn_description: Spawn description for Digital Object instances from linked Resource/Accession?
     browse_column: Column %{num}
     browse_column_tooltip: The field to show in column %{num}.
     sort_column: Default Sort Column
@@ -2984,6 +2985,7 @@ en:
       dig_obj_unique: "Digital Object ID '%{id}' already exists."
       cannot: Cannot continue due to previous errors
       sc_barcode: "Can not find a Sub Container with this Child Barcode %{barcode}"
+      utf8: "This spreadsheet has some invalid or corrupt text that cannot be processed."
   top_container_linker:
     error:
       ref_id_miss: "Ref ID missing from spreadsheet in row %{row_num} ."

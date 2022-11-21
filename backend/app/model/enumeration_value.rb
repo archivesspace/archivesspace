@@ -31,6 +31,12 @@ class EnumerationValue < Sequel::Model(:enumeration_value)
     obj
   end
 
+  def before_save
+    super
+
+    self.value = self.value.strip
+  end
+
   def update_position_only(target_position )
     # we need to swap places with what we're trying to replace.
     current_position = self.position

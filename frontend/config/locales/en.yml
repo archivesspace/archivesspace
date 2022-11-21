@@ -140,6 +140,10 @@ en:
     copy: Copy
     run: Run
     select_resource: Select Resource
+    expand_tree_mode_on: Auto-Expand All
+    expand_tree_mode_off: Disable Auto-Expand
+    collapse_tree: Collapse Tree
+    reorder_successful: Repositories successfully reordered
 
   database_warning:
     message: "<p><strong>Database Warning:</strong> You are currently using the embedded database (Apache Derby). The embedded database is for testing/demo purposes only. You should use MySQL for any data intended for production, including data in a test instance that you intend to move over to a production instance.</p>"
@@ -342,6 +346,7 @@ en:
       create_time: Created
       asc: Ascending
       desc: Descending
+      uri: URI
     event:
       score: Relevance
       agents: Agent
@@ -353,6 +358,7 @@ en:
       create_time: Created
       asc: Ascending
       desc: Descending
+      uri: URI
     collection_management:
       score: Relevance
       parent_title: Title
@@ -367,6 +373,7 @@ en:
       create_time: Created
       asc: Ascending
       desc: Descending
+      uri: URI
     classification:
       score: Relevance
       title: Title
@@ -401,6 +408,7 @@ en:
       create_time: Created
       asc: Ascending
       desc: Descending
+      uri: URI
     repositories:
       score: Relevance
       title: Title
@@ -426,6 +434,7 @@ en:
       create_time: Created
       asc: Ascending
       desc: Descending
+      uri: URI
     container_profile:
       score: Relevance
       title: Title
@@ -440,6 +449,7 @@ en:
       asc: Ascending
       desc: Descending
       notes: Note
+      uri: URI
     location_profile:
       score: Relevance
       title: Title
@@ -453,6 +463,7 @@ en:
       create_time: Created
       asc: Ascending
       desc: Descending
+      uri: URI
     job:
       score: Relevance
       status: Status
@@ -468,6 +479,7 @@ en:
       create_time: Created
       asc: Ascending
       desc: Descending
+      uri: URI
     multi:
       score: Relevance
       primary_type: Record Type
@@ -486,6 +498,7 @@ en:
       langcode: Language of Materials
       asc: Ascending
       desc: Descending
+      uri: URI
     blank_facet_query_fields:
       owner_repo_display_string_u_ssort: Repository
 
@@ -1232,6 +1245,7 @@ en:
         select: Select Repository
         save: Save Repository
         create: Create Repository
+        order_for_pui: Set Order in Public Interface
     _sidebar:
       oai_settings:
         _plural: OAI Harvest Settings
@@ -1266,6 +1280,9 @@ en:
       remove_subrecord: Remove sub-record
     external_ark_url: External ARK URL
     external_ark_url_tooltip: Archival Resource Key (ARK) persistent identifier generated outside of ArchivesSpace. If this field has a value it takes precedence over an ARK generated within ArchivesSpace.
+    linker:
+      browse:
+        Browse Resources
 
   preference:
     _frontend:
@@ -1314,6 +1331,7 @@ en:
     is_active_user: Active
     active: "true"
     inactive: "false"
+    source: Authentication
     _frontend:
       messages:
         access_denied: Access denied. Login as the admin user to perform this action.
@@ -2607,7 +2625,7 @@ en:
 
     assessment_rating_report:
       title: Assessment Rating Report
-      description: Shows information for assessments with a specified rating in a specified range. You must select at least one value; to display all records select all of the values. 
+      description: Shows information for assessments with a specified rating in a specified range. You must select at least one value; to display all records select all of the values.
       identifier_prefix: Assessment
 
     assessment_list_report:
