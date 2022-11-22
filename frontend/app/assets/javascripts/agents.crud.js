@@ -106,6 +106,7 @@ $(function () {
 
     $('.btn-authoritive-name-toggle', $subform).click(function (event) {
       event.preventDefault();
+      $(this).parent().off('click');
 
       $section.triggerHandler('newauthorizedname.aspace', [$subform]);
     });
@@ -119,6 +120,7 @@ $(function () {
 
     $('.btn-display-name-toggle', $subform).click(function (event) {
       event.preventDefault();
+      $(this).parent().off('click');
 
       $section.triggerHandler('newdisplayname.aspace', [$subform]);
     });

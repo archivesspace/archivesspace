@@ -64,6 +64,7 @@ $(function () {
 
         $('.is-representative-toggle', $subform).click(function (e) {
           e.preventDefault();
+          $(this).parent().off('click');
 
           $section.triggerHandler(eventName, [$subform]);
         });
@@ -73,6 +74,7 @@ $(function () {
             $subform,
             representative_subform == $subform
           );
+          $('.tooltip').tooltip('hide');
         });
       }
     }
