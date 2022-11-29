@@ -3,6 +3,7 @@ class Preference < Sequel::Model(:preference)
   corresponds_to JSONModel(:preference)
 
   set_model_scope :repository
+  allow_in_global_repo
 
   def self.init
     defaults = PreferenceConfig.defaults

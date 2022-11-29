@@ -12,6 +12,7 @@ class Event < Sequel::Model(:event)
   agent_role_enum("linked_agent_event_roles")
 
   set_model_scope :repository
+  allow_in_global_repo
 
   enable_suppression
 

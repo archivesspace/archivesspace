@@ -174,6 +174,16 @@ module ASModel
       end
 
 
+      def allow_in_global_repo
+        @allowed_in_global_repo = true
+      end
+
+
+      def allowed_in_global_repo
+        @allowed_in_global_repo || false
+      end
+
+
       # Like JSONModel.parse_reference, but enforce repository restrictions
       def parse_reference(uri, opts)
         ref = JSONModel.parse_reference(uri, opts)
