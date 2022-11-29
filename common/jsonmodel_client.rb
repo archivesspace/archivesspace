@@ -218,7 +218,7 @@ module JSONModel
 
 
     def self.http_conn
-      @http ||= Net::HTTP::Persistent.new 'jsonmodel_client'
+      @http ||= Net::HTTP::Persistent.new name: 'jsonmodel_client'
       @http.read_timeout = 1200
       @http
     end
