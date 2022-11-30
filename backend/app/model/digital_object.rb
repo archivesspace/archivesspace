@@ -24,6 +24,7 @@ class DigitalObject < Sequel::Model(:digital_object)
   include Publishable
   include Assessments::LinkedRecord
   include RepresentativeFileVersion
+  include TouchRecords
 
   enable_suppression
 
@@ -110,16 +111,15 @@ class DigitalObject < Sequel::Model(:digital_object)
     resource_ids
   end
 
-  def delete
-    affected_resource_ids = self.class.instance_owners_root_records(self[:id])
-    related_records(:instance_do_link).map {|sub| sub.delete }
-    Resource.update_mtime_for_ids(affected_resource_ids)
-    super
+  def self.touch_records(obj)
+    [
+      { type: Resource, ids: DigitalObject.instance_owners_root_records(obj.id) }
+    ]
   end
 
-  def update_from_json(json, opts = {}, apply_nested_records = true)
-    affected_resource_ids = self.class.instance_owners_root_records(self[:id])
-    Resource.update_mtime_for_ids(affected_resource_ids)
+  def delete
+    instance_subrecords = related_records(:instance_do_link)
     super
+    instance_subrecords.each {|sub| sub.delete }
   end
 end

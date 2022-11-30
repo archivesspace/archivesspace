@@ -1,9 +1,9 @@
 # This module calculates and applies if possible a read-only #representative_file_version
 # property to the following Record Types: DigitalObject, DigitalObjectComponent, Accession,
 # Resource and ArchivalObject. It is intended to encapsulate all the logic for how
-# representations are selected and displayed per this document:
+# representations are selected and displayed per the specification referenced here:
 #
-# https://docs.google.com/document/d/1-fi-1jpE7GqWc0zWxWsRO9zgRmR1vFFygp6jGnKh23k/edit?usp=sharing
+# https://archivesspace.atlassian.net/browse/ANW-1209
 #
 # The key fields for determining whether a file_version can appear as a representative_file_version
 # of a parent DigitalObject or DigitalObjectComponent are:
