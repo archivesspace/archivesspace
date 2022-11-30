@@ -60,47 +60,95 @@
     </div>
 
     <% if result.resolved_repository %>
-      <div class="result_context">
-        <strong><%= t('context') %>: </strong>
-        <span  class="repo_name">
-          <%= badge_for_type('repository') %>
-          <%= link_to result.resolved_repository.fetch('name'),
-                     app_prefix(repository_base_url(
-                      "uri" => result.resolved_repository.fetch('uri'),
-                      "slug" => result.resolved_repository.fetch('slug') {|s| nil })) %>
-          <% if result.is_a?(DigitalObject) %>
-            <% resolved_instances_record = 
-                 ArchivesSpaceClient.instance.get_record(result.uri, {'resolve[]' => ['linked_instance_uris:id']}) %>
-            <% resolved_instances_record.linked_instances.each do |uri, instance_record| %>
-              <% if instance_record.primary_type == 'archival_object' %>
-                  <% instance_record.breadcrumb.each do |crumb| %>
-                    <% next if crumb[:uri].blank? %>
-                    <%= t('context_delimiter') %>
-                    <%= badge_for_type(crumb[:type]) %> <%= link_to crumb[:crumb], app_prefix(crumb[:uri]) %>
-                  <% end %>
-              <% end %>
+      <% if !result.is_a?(DigitalObject) %>
+        <div class="result_context">
+          <strong><%= t('context') %>: </strong>
+          <span  class="repo_name">
+            <%= badge_for_type('repository') %>
+            <%= link_to result.resolved_repository.fetch('name'),
+                      app_prefix(repository_base_url(
+                        "uri" => result.resolved_repository.fetch('uri'),
+                        "slug" => result.resolved_repository.fetch('slug') {|s| nil })) %>
+          </span>
+
+          <% if result.respond_to?(:ancestors) && result.ancestors %>
+            <% result.ancestors.each do |ancestor| %>
+              <%= t('context_delimiter') %>
+              <span class="ancestor">
+              <% identifier = ancestor.has_key?('id_0') ? (0..3).collect { |i| ancestor["id_#{i}"] }.compact.join('-') : nil %>
+              <% title = process_mixed_content(ancestor.fetch('title', "[#{ ancestor.fetch('level', 'untitled')}]" )).html_safe %>
+              <%= link_to (identifier.blank? ? title : "#{identifier}, #{title}"), app_prefix(ancestor.fetch('uri')) %>
+              </span>
+            <% end %>
+          <% else %>
+            <% unless props.fetch(:no_res, false) || result.resolved_resource.blank? %>
+              <%= t('context_delimiter') %>
+              <span class="resource_name">
+                <%= link_to process_mixed_content(result.resolved_resource.fetch('title')).html_safe, app_prefix(result.resolved_resource.fetch('uri')) %>
+              </span>
             <% end %>
           <% end %>
-        </span>
+        </div>
+      <% else %>
+        <% resolved_instances_record = 
+            ArchivesSpaceClient.instance.get_record(result.uri, {'resolve[]' => ['linked_instance_uris:id']}) %>
+        <ol class="result_context" style="margin-bottom: 0; padding-left: 0; list-style: none;">
+          <% if resolved_instances_record.linked_instances.length == 0 %>
+            <li>
+              <strong><%= t('context') %>: </strong>
+              <span  class="repo_name">
+                <%= badge_for_type('repository') %>
+                <%= link_to result.resolved_repository.fetch('name'),
+                          app_prefix(repository_base_url(
+                            "uri" => result.resolved_repository.fetch('uri'),
+                            "slug" => result.resolved_repository.fetch('slug') {|s| nil })) %>
+              </span>
+            </li>
+          <% elsif resolved_instances_record.linked_instances.length > 0 %>
+            <% resolved_instances_record.linked_instances.each do |uri, instance_record| %>
+              <li>
+                <strong><%= t('context') %>: </strong>
+                <span  class="repo_name">
+                  <%= badge_for_type('repository') %>
+                  <%= link_to result.resolved_repository.fetch('name'),
+                            app_prefix(repository_base_url(
+                              "uri" => result.resolved_repository.fetch('uri'),
+                              "slug" => result.resolved_repository.fetch('slug') {|s| nil })) %>
 
-        <% if result.respond_to?(:ancestors) && result.ancestors %>
-          <% result.ancestors.each do |ancestor| %>
-            <%= t('context_delimiter') %>
-            <span class="ancestor">
-            <% identifier = ancestor.has_key?('id_0') ? (0..3).collect { |i| ancestor["id_#{i}"] }.compact.join('-') : nil %>
-            <% title = process_mixed_content(ancestor.fetch('title', "[#{ ancestor.fetch('level', 'untitled')}]" )).html_safe %>
-            <%= link_to (identifier.blank? ? title : "#{identifier}, #{title}"), app_prefix(ancestor.fetch('uri')) %>
-            </span>
+                  <% if instance_record.primary_type == 'resource' %>
+                    <%= t('context_delimiter') %>
+                    <%= badge_for_type('resource') %> <%= link_to instance_record.breadcrumb[0][:crumb], app_prefix(uri) %>
+                  <% elsif instance_record.primary_type == 'archival_object' %>
+                    <% instance_record.breadcrumb.each do |crumb| %>
+                      <% next if crumb[:uri].blank? %>
+                      <%= t('context_delimiter') %>
+                      <%= badge_for_type(crumb[:type]) %> <%= link_to crumb[:crumb], app_prefix(crumb[:uri]) %>
+                    <% end %>
+                  <% end %>
+                </span>
+
+                <% if result.respond_to?(:ancestors) && result.ancestors %>
+                  <% result.ancestors.each do |ancestor| %>
+                    <%= t('context_delimiter') %>
+                    <span class="ancestor">
+                    <% identifier = ancestor.has_key?('id_0') ? (0..3).collect { |i| ancestor["id_#{i}"] }.compact.join('-') : nil %>
+                    <% title = process_mixed_content(ancestor.fetch('title', "[#{ ancestor.fetch('level', 'untitled')}]" )).html_safe %>
+                    <%= link_to (identifier.blank? ? title : "#{identifier}, #{title}"), app_prefix(ancestor.fetch('uri')) %>
+                    </span>
+                  <% end %>
+                <% else %>
+                  <% unless props.fetch(:no_res, false) || result.resolved_resource.blank? %>
+                    <%= t('context_delimiter') %>
+                    <span class="resource_name">
+                      <%= link_to process_mixed_content(result.resolved_resource.fetch('title')).html_safe, app_prefix(result.resolved_resource.fetch('uri')) %>
+                    </span>
+                  <% end %>
+                <% end %>
+              </li>
+            <% end %>
           <% end %>
-        <% else %>
-          <% unless props.fetch(:no_res, false) || result.resolved_resource.blank? %>
-            <%= t('context_delimiter') %>
-            <span class="resource_name">
-              <%= link_to process_mixed_content(result.resolved_resource.fetch('title')).html_safe, app_prefix(result.resolved_resource.fetch('uri')) %>
-            </span>
-          <% end %>
-        <% end %>
-      </div>
+        </ol>
+      <% end %>
     <% end %>
 
 
