@@ -10,12 +10,17 @@ class Search
   end
 
   # :context_criteria - added to criteria for building the query, but hidden from user
+  # :sorting - ignore repo preferences and use provided sort for results (i.e. for typeaheads)
   def self.all(repo_id, criteria, context_criteria = {})
     context_criteria.each do |k, v|
-      raise "Not implemented" unless v.is_a? Array
-      criteria[k] ||= []
-      criteria[k] += v
+      if v.is_a? Array
+        criteria[k] ||= []
+        criteria[k] += v
+      else
+        criteria[k] = v
+      end
     end
+
     build_filters(criteria)
     criteria["page"] = 1 if not criteria.has_key?("page")
     criteria["sort"] ||= sort(criteria["type[]"] || (criteria["filter_term[]"] || []).collect { |term| ASUtils.json_parse(term)['primary_type'] }.compact)
@@ -26,7 +31,6 @@ class Search
     #we want to add a facet to filter on items WITHOUT an entry in the facet
     if (criteria.has_key?("blank_facet_query_fields"))
       blank_facet_query = ""
-      delimiter = ""
       criteria["blank_facet_query_fields"].each {|query_field|
         blank_facet_query = "-" + query_field + ":*"
         sub_criteria = criteria.clone

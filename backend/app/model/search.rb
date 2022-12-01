@@ -6,7 +6,7 @@ class Search
     show_suppressed = !RequestContext.get(:enforce_suppression)
     show_published_only = RequestContext.get(:current_username) === User.PUBLIC_USERNAME
 
-    Log.debug(params.inspect)
+    Log.debug("backend search received params: #{params.inspect}")
 
     query = if params[:q]
               Solr::Query.create_keyword_search(params[:q])
