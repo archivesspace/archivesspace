@@ -36,7 +36,7 @@
         <xsl:attribute name="margin-bottom">8pt</xsl:attribute>
     </xsl:attribute-set>
     <xsl:attribute-set name="h2">
-        <xsl:attribute name="font-size">16pt</xsl:attribute>
+        <xsl:attribute name="font-size">14pt</xsl:attribute>
         <xsl:attribute name="font-weight">bold</xsl:attribute>
         <xsl:attribute name="border-top">4pt solid #333</xsl:attribute>
         <xsl:attribute name="border-bottom">1pt dotted #333</xsl:attribute>
@@ -47,14 +47,14 @@
         <xsl:attribute name="keep-with-next.within-page">always</xsl:attribute>
     </xsl:attribute-set>
     <xsl:attribute-set name="h3">
-        <xsl:attribute name="font-size">14pt</xsl:attribute>
+        <xsl:attribute name="font-size">12pt</xsl:attribute>
         <xsl:attribute name="font-weight">bold</xsl:attribute>
         <xsl:attribute name="margin-bottom">4pt</xsl:attribute>
         <xsl:attribute name="padding-bottom">0</xsl:attribute>
         <xsl:attribute name="keep-with-next.within-page">always</xsl:attribute>
     </xsl:attribute-set>
     <xsl:attribute-set name="h4">
-        <xsl:attribute name="font-size">12pt</xsl:attribute>
+        <xsl:attribute name="font-size">10pt</xsl:attribute>
         <xsl:attribute name="font-weight">bold</xsl:attribute>
         <xsl:attribute name="margin-bottom">4pt</xsl:attribute>
         <xsl:attribute name="padding-bottom">0</xsl:attribute>
@@ -638,7 +638,7 @@
     <!-- Formats archdesc did -->
     <xsl:template match="ead:archdesc/ead:did">
         <fo:block xsl:use-attribute-sets="section">
-        <fo:block xsl:use-attribute-sets="h2ID">Summary Information</fo:block>
+        <fo:block xsl:use-attribute-sets="h3ID">Summary Information</fo:block>
                 <!--
                     Determines the order in wich elements from the archdesc did appear,
                     to change the order of appearance change the order of the following
@@ -728,7 +728,7 @@
     <xsl:template match="ead:bibliography | ead:odd | ead:phystech | ead:otherfindaid |
         ead:bioghist | ead:scopecontent | ead:arrangement | ead:fileplan">
         <fo:block xsl:use-attribute-sets="section">
-            <fo:block xsl:use-attribute-sets="h2ID"><xsl:value-of select="local:tagName(.)"/></fo:block>
+            <fo:block xsl:use-attribute-sets="h3ID"><xsl:value-of select="local:tagName(.)"/></fo:block>
                 <xsl:apply-templates/>
             <xsl:call-template name="toc"/>
         </fo:block>
@@ -791,7 +791,7 @@
     <!-- Formats controlled access terms -->
     <xsl:template match="ead:controlaccess">
         <fo:block xsl:use-attribute-sets="section">
-            <fo:block xsl:use-attribute-sets="h2ID"><xsl:value-of select="local:tagName(.)"/></fo:block>
+            <fo:block xsl:use-attribute-sets="h3ID"><xsl:value-of select="local:tagName(.)"/></fo:block>
             <fo:list-block xsl:use-attribute-sets="smp">
                 <xsl:apply-templates/>
             </fo:list-block>
@@ -813,7 +813,7 @@
     <!-- Formats index and child elements, groups indexentry elements by type (i.e. corpname, subject...) -->
     <xsl:template match="ead:index">
         <fo:block xsl:use-attribute-sets="section">
-            <fo:block xsl:use-attribute-sets="h2ID"><xsl:value-of select="local:tagName(.)"/></fo:block>
+            <fo:block xsl:use-attribute-sets="h3ID"><xsl:value-of select="local:tagName(.)"/></fo:block>
             <xsl:apply-templates select="child::*[not(self::ead:indexentry)]"/>
             <fo:list-block xsl:use-attribute-sets="smp">
             <xsl:apply-templates select="ead:indexentry"/>
@@ -1290,7 +1290,7 @@
     <xsl:template match="ead:archdesc/ead:dsc">
         <xsl:if test="count(child::*) >= 1">
 		<fo:block xsl:use-attribute-sets="section">
-		    <fo:block xsl:use-attribute-sets="h2ID"><xsl:value-of select="local:tagName(.)"/></fo:block>
+		    <fo:block xsl:use-attribute-sets="h3ID"><xsl:value-of select="local:tagName(.)"/></fo:block>
 		    <fo:table table-layout="fixed" space-after="12pt" width="100%" font-size="10pt">
 			<fo:table-column column-number="1" column-width="4in"/>
 			<fo:table-column column-number="2" column-width="1in"/>
