@@ -1,6 +1,5 @@
 require_relative 'converter'
 class SubjectConverter < Converter
-
   require_relative 'lib/csv_converter'
   include ASpaceImport::CSVConvert
 
