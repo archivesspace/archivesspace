@@ -38,7 +38,6 @@ describe 'MARCXML Bib Accession converter' do
                       </datafield>
                       <datafield tag="300" ind2=" " ind1=" ">
                           <subfield code="a">5.0 Linear feet</subfield>
-                          <subfield code="f">Resource-ContainerSummary-AT</subfield>
                       </datafield>
                       <datafield tag="342" ind2="5" ind1="1">
                           <subfield code="i">SF I</subfield>
@@ -115,7 +114,6 @@ describe 'MARCXML Bib Accession converter' do
                       </datafield>
                       <datafield tag="300" ind2=" " ind1=" ">
                           <subfield code="a">5.0 Linear feet</subfield>
-                          <subfield code="f">Resource-ContainerSummary-AT</subfield>
                       </datafield>
                       <datafield tag="342" ind2="5" ind1="1">
                           <subfield code="i">SF I</subfield>

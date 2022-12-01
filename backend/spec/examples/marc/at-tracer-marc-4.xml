@@ -34,7 +34,8 @@
           <subfield code="c">1889-1945</subfield>
         </datafield> 
         <datafield tag="300" ind2=" " ind1=" ">
-            <subfield code="a">5.0 Linear feet</subfield>
+            <subfield code="a">5.0</subfield>
+            <subfield code="f">5.0 Linear feet</subfield>
         </datafield>
         <datafield tag="351" ind2=" " ind1=" ">
             <subfield code="b">Resource-Arrangement-Note</subfield>
