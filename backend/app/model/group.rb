@@ -4,6 +4,7 @@ class Group < Sequel::Model(:group)
 
 
   set_model_scope :repository
+  allow_in_global_repo
 
   many_to_many :user, :join_table => :group_user
   many_to_many :permission, :join_table => :group_permission
