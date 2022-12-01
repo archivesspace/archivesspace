@@ -42,6 +42,9 @@ class SubjectConverter < Converter
       'term_4' => 'term_4.term',
       'term_type_4' => 'term_4.term_type',
 
+      'term_5' => 'term_5.term',
+      'term_type_5' => 'term_5.term_type',
+
       'external_document_title' => 'external_document.title',
       'external_document_location' => 'external_document.location',
       'external_document_publish' => 'external_document.publish',
@@ -132,6 +135,18 @@ class SubjectConverter < Converter
       },
 
       :term_4 => {
+        :record_type => :term,
+        :on_create => Proc.new {|cache, obj|
+          obj.vocabulary = '/vocabularies/1'
+        },
+        :on_row_complete => Proc.new {|cache, term|
+          cache.select {|obj| obj.class.record_type == 'subject'}.each do |subject|
+            subject.terms << term
+          end
+        },
+      },
+        
+      :term_5 => {
         :record_type => :term,
         :on_create => Proc.new {|cache, obj|
           obj.vocabulary = '/vocabularies/1'
