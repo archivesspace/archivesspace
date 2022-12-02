@@ -1,0 +1,8 @@
+<strong><%= t('context') %>: </strong>
+<span class="repo_name">
+  <%= badge_for_type('repository') %>
+  <%= link_to result.resolved_repository.fetch('name'),
+            app_prefix(repository_base_url(
+              "uri" => result.resolved_repository.fetch('uri'),
+              "slug" => result.resolved_repository.fetch('slug') {|s| nil })) %>
+</span>
