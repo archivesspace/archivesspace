@@ -60,15 +60,12 @@
     </div>
 
     <% if result.resolved_repository %>
-      <% unless result.is_a?(DigitalObject) || result.is_a?(DigitalObjectComponent) %>
-        <%= render partial: 'shared/result_context', locals: {:result => result, :props => props } %>
-      <% else %>
-        <% resolved_instances_record = 
-            ArchivesSpaceClient.instance.get_record(result.uri, {'resolve[]' => ['linked_instance_uris:id']}) %>
-        <%= render partial: 'shared/result_context', locals: {:result => result, :props => props, :resolved_instances_record => resolved_instances_record } %>
-      <% end %>
+      <%= render partial: 'shared/result_context', locals: {
+        :result => result,
+        :props => props,
+        :resolved_instances_record => (result.is_a?(DigitalObject) || result.is_a?(DigitalObjectComponent)) ? ArchivesSpaceClient.instance.get_record(result.uri, {'resolve[]' => ['linked_instance_uris:id']}) : nil
+      } %>
     <% end %>
-
 
        <% if !props.fetch(:full,false)  && result['primary_type'] == 'repository' %>
        <div><strong><%= t('number_of', { :type => t('resource._plural') }) %></strong> <%= @counts[result.uri]['resource'] %></div>
