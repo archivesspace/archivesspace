@@ -34,7 +34,13 @@ class ArchivesSpaceOAIRecord
 
   def to_oai_marc
     RequestContext.open(:repo_id => @sequel_record.repo_id) do
-      marc = ASpaceExport.model(:marc21).from_resource(@jsonmodel_record)
+      marc = if @jsonmodel_record['jsonmodel_type'] == 'resource'
+               ASpaceExport.model(:marc21).from_resource(@jsonmodel_record)
+             elsif @jsonmodel_record['jsonmodel_type'] == 'archival_object'
+               ASpaceExport.model(:marc21).from_archival_object(@jsonmodel_record)
+             else
+               raise OAI::FormatException.new
+             end
       remove_xml_declaration(ASpaceExport::serialize(marc))
     end
   end
