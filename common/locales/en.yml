@@ -2565,11 +2565,13 @@ en:
     import_type_ead_xml: EAD
     import_type_assessment_csv: Assessment CSV
     import_type_accession_csv: Accession CSV
+    import_type_subject_csv: Subject CSV
     bulk_import_csv: Bulk Import AO CSV
     bulk_import_xlsx: Bulk Import AO XLSX
     bulk_import_DO_csv: Bulk Import DO CSV
     bulk_import_DO_xlsx: Bulk Import DO XLSX
     import_type_digital_object_csv: Digital Object CSV
+    import_subject_csv:  Subject CSV
     import_type_eac_xml: EAC-CPF
     import_type_location_csv: Location CSV
     import_type_marcxml: MarcXML Bibliographic (Resource)
