@@ -24,6 +24,7 @@ class DigitalObject < Sequel::Model(:digital_object)
   include Publishable
   include Assessments::LinkedRecord
   include RepresentativeFileVersion
+  include TouchRecords
 
   enable_suppression
 
@@ -52,6 +53,9 @@ class DigitalObject < Sequel::Model(:digital_object)
                   end
                 }
 
+  repo_unique_constraint(:digital_object_id,
+                         :message => "Must be unique",
+                         :json_property => :digital_object_id)
 
   def self.sequel_to_jsonmodel(objs, opts = {})
     jsons = super
@@ -99,14 +103,23 @@ class DigitalObject < Sequel::Model(:digital_object)
     jsons
   end
 
-  def delete
-    related_records(:instance_do_link).map {|sub| sub.delete }
-    super
+  def self.instance_owners_root_records(id)
+    relationships = self.find_relationship(:instance_do_link).find_by_participant(self[id])
+    resource_ids = Instance.inner_join(:archival_object, archival_object__id: :instance__archival_object_id)
+                     .filter(instance__id: relationships.map {|relationship| relationship[:instance_id]})
+                     .map { |row| row[:root_record_id] }
+    resource_ids
   end
 
+  def self.touch_records(obj)
+    [
+      { type: Resource, ids: DigitalObject.instance_owners_root_records(obj.id) }
+    ]
+  end
 
-  repo_unique_constraint(:digital_object_id,
-                         :message => "Must be unique",
-                         :json_property => :digital_object_id)
-
+  def delete
+    instance_subrecords = related_records(:instance_do_link)
+    super
+    instance_subrecords.each {|sub| sub.delete }
+  end
 end
