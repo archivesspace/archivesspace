@@ -28,9 +28,8 @@ class ObjectsController < ApplicationController
     end
     search_opts = default_search_opts(DEFAULT_OBJ_SEARCH_OPTS)
     search_opts['fq'] = ["repository:\"/repositories/#{repo_id}\""] if repo_id
-    @base_search = repo_id ? "/repositories/#{repo_id}/objects?" : '/objects?'
-
     search_opts['resolve[]'] = ['linked_instance_uris:id'] if params[:limit].include? 'digital_object'
+    @base_search = repo_id ? "/repositories/#{repo_id}/objects?" : '/objects?'
 
     begin
       set_up_and_run_search( params[:limit].split(","), DEFAULT_OBJ_FACET_TYPES, search_opts, params)
