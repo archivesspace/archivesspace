@@ -1,17 +1,18 @@
 <div class="title-page">
-    <div class="logo"><%= image_tag( record.resolved_repository['image_url'] || asset_path("archivesspace.small.png") ) %></div>
+    <% logo_url = record.resolved_repository['image_url'] || asset_path("archivesspace.small.png") %>
+    <div class="logo" style="background-image: url('<%= logo_url %>')"></div>
     <div class="title-block">
     <% if record.finding_aid['title'] %>
-        <h3 class="title"><%== process_mixed_content(record.finding_aid['title'], :preserve_newlines => true) %></h3>
+        <h1 class="title"><%== process_mixed_content(record.finding_aid['title'], :preserve_newlines => true) %></h1>
         <h4 class="subtitle"><%== if record.finding_aid['subtitle'] then process_mixed_content(record.finding_aid['subtitle'], :preserve_newlines => true) end %></h4>
     <% else %>
         <h3 class="title"><%== process_mixed_content(record.display_string, :preserve_newlines => true) %></h3>
     <% end %>
     </div>
 
-    <p><%= I18n.t('pdf_reports.finding_aid_date_prefix') %> <%= Date.today %></p>
+    <p><%= I18n.t('pdf_reports.finding_aid_date_prefix') %> <%= Date.today.strftime("%B %d, %Y") %></p>
     <% if record.finding_aid['language'] %>
-        <p><%= I18n.t('pdf_reports.finding_aid_written_in') %> <%= t('enumerations.language_iso639_2.' + record.finding_aid['language']) %></p>
+        <p><%= t('enumerations.language_iso639_2.' + record.finding_aid['language']) %></p>
     <% end %>
 
     <% if record.finding_aid['description_rules'] %>
@@ -19,13 +20,16 @@
     <% end %>
 
     <p><%= record.finding_aid['edition_statement'] %></p>
+    <div class="repository-name">
+
+    </div>
 
     <% ASUtils.find_local_directories('public/views/_pdf_titlepage.html.erb').each do |template| %>
         <%= render(:file => template, :locals => {:record => record}) if File.exists?(template) %>
     <% end %>
 
     <%= render(:partial => 'publication_statement', :locals => {
-        :repository_name => record.resolved_repository['name'],
+        :repository_name => record.resolved_repository,
         :repository_information => record.repository_information
     })
     %>
