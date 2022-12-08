@@ -1,15 +1,10 @@
 <div class="repository-information">
-    <div class="repository-name"><%= repository_name %></div>
+    <div class="repository-name"><%= repository_name['name'] %></div>
+    <div class="repository-name"><%= repository_name['agent_representation']['_resolved'] %></div>
+
 
     <div class="repository-address">
-        <% Array(repository_information['address']).each do |line| %>
-            <div class="repository-address-line"><%= line %></div>
-        <% end %>
-
-        <% address_properties = ['city', 'region', 'post_code'] %>
-        <% if address_properties.any? {|attr| repository_information[attr]} %>
-            <div class="repository-address-line"><%= address_properties.map {|attr| repository_information[attr]}.join(', ') %></div>
-        <% end %>
+        
     </div>
 
     <% if repository_information['email'] %>
@@ -17,7 +12,7 @@
     <% end %>
     <% if repository_information['top']['url'] %>
         <div class="repository-url">
-            <a href="<%= repository_information['top']['url'] %>"><%= repository_information['top']['url'] %></a>
+            URL: <a href="<%= repository_information['top']['url'] %>"><%= repository_information['top']['url'] %></a>
         </div>
     <% end %>
 </div>
