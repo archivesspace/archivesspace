@@ -10,7 +10,7 @@
         <ul class="nav pull-right navbar-nav navbar-login">
           <%= render "shared/header_user" %>
           <% if ArchivesSpaceHelp.enabled? %>
-            <li class="xs-py15px"><%= link_to_help :link_opts => {"data-placement" => (session[:user] ? "left" : "bottom")} %></li>
+            <li class="xs-py15px"><%= link_to_help %></li>
           <% end %>
         </ul>
       </div><!-- nav-collapse -->
