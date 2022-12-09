@@ -5,7 +5,7 @@
   list-style: none;
 }
 
-.result_linked_instances_tree:before {
+.result_linked_instances_tree::before {
   content: "";
   position: absolute;
   display: block;
@@ -22,7 +22,7 @@
   padding: 0 1rem;
 }
 
-.result_linked_instances_tree li:before {
+.result_linked_instances_tree li::before {
 content: "";
   position: absolute;
   display: block;
@@ -34,7 +34,7 @@ content: "";
   border-top: 1px solid;
 }
 
-.result_linked_instances_tree li:last-child:before {
+.result_linked_instances_tree li:last-child::before {
   bottom: 0;
   height: auto;
   background: white;
