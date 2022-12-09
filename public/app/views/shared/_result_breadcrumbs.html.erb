@@ -1,0 +1,36 @@
+<%
+  top_level_records = [Accession, Classification, Record, Resource]
+  can_have_linked_instances = [DigitalObject]
+  children_records = [ArchivalObject, DigitalObjectComponent]
+%>
+
+<% if top_level_records.include? result.class %>
+
+  <div class="result_context">
+    <%= render partial: 'shared/result_breadcrumbs_repo', locals: { :result => result } %>
+  </div>
+
+<% elsif can_have_linked_instances.include? result.class %>
+
+  <%= render partial: 'digital_objects/search_result_breadcrumbs', locals: {
+    :result => result,
+    :props => props
+  } %>
+
+<% elsif children_records.include? result.class %>
+
+  <div class="result_context">
+    <%= render partial: 'shared/result_breadcrumbs_repo', locals: { :result => result } %>
+    <% if result.respond_to?(:ancestors) && result.ancestors %>
+      <% result.ancestors.each do |ancestor| %>
+        <% ancestor_type = ancestor.fetch('uri').split('/')[3].chop %>
+        <%= render partial: 'shared/result_breadcrumbs_ancestor', locals: {
+          :span_class => "#{ancestor_type}_name",
+          :badge_type => ancestor_type,
+          :body => ancestor.fetch('title'),
+          :url => app_prefix(ancestor.fetch('uri')) } %>
+      <% end %>
+    <% end %>
+  </div>
+
+<% end %>
