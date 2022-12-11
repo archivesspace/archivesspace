@@ -20,9 +20,10 @@
     "donjayamanne.githistory",
     "eamodio.gitlens",
     "esbenp.prettier-vscode",
-    "misogi.ruby-rubocop",
+    "LoranKloeze.ruby-rubocop-revived",
     "mutantdino.resourcemonitor",
     "rebornix.Ruby",
+    "dbaeumer.vscode-eslint",
     "stylelint.vscode-stylelint",
     "waderyan.gitblame",
     "wingrunr21.vscode-ruby"
