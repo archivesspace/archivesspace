@@ -1,13 +1,14 @@
-<div class="container-fluid global-header">
+<div class="global-header">
   <span class="sr-only">
     <h1>
       <%= t("header.staff_interface") %>
     </h1>
   </span>
-  <nav class="navbar">
-    <div class="container-fluid sm-mxn15px">
-      <div class="navbar-collapse nav-global-collapse navbar-right navbar-default">
-        <ul class="nav pull-right navbar-nav navbar-login">
+  <nav class="navbar mb-5 mb-md-2">
+    <%= render "site/branding" %>
+    <div class='navbar-wrapper navbar-default'>
+      <div class="navbar-collapse nav-global-collapse navbar-right">
+        <ul class="nav float-xs-right navbar-nav navbar-login">
           <%= render "shared/header_user" %>
           <% if ArchivesSpaceHelp.enabled? %>
             <li class="xs-py15px"><%= link_to_help :link_opts => {"data-placement" => (session[:user] ? "left" : "bottom")} %></li>

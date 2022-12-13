@@ -8,14 +8,14 @@
   field_label ||= t("archival_object._singular")
   linker_id ||= "component_links_"
 %>
-<div class="form-group required">
-  <label class="control-label col-sm-2"><%= field_label %></label>
+<div class="form-group row required">
+  <label class="control-label col-sm-3 text-right"><%= field_label %></label>
   <div class="controls col-sm-8">
     <div class="input-group linker-wrapper">
       <input type="text" class="linker"
              id="<%= linker_id %>"
-             data-label="<%= t "accession.component_link" %>"
-             data-label_plural="<%= t "accession.component_links" %>"
+             data-label="<%= t("accession.component_link") %>"
+             data-label_plural="<%= t("accession.component_links") %>"
              data-path="<%= form.path %>"
              data-name="ref"
              data-url="<%= url_for :controller => :search, :action => :do_search, :format => :json %>"
@@ -29,9 +29,9 @@
       />
 
       <div class="input-group-btn">
-        <a class="btn btn-default dropdown-toggle last" data-toggle="dropdown" href="javascript:void(0);" aria-label="Link to record"><span class="caret"></span></a>
+        <a class="btn btn-default d-flex align-items-center dropdown-toggle last border-dark border-left-0" data-toggle="dropdown" href="javascript:void(0);" aria-label="Link to record"><span class="caret"></span></a>
         <ul class="dropdown-menu">
-          <li><a href="javascript:void(0);" class="linker-browse-btn"><%= t("actions.browse") %></a></li>
+          <li class="dropdown-item"><a href="javascript:void(0);" class="linker-browse-btn"><%= t("actions.browse") %></a></li>
         </ul>
       </div>
     </div>

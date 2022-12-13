@@ -6,7 +6,7 @@
     <%= render_aspace_partial :partial => "toolbar" %>
     <div class="record-pane">
       <%= readonly_context :classification_term, @classification_term do |readonly| %>
-        <h2><%= @classification_term.title %> <span class="label label-info"><%= t("classification_term._singular") %></span></h2>
+        <h2><%= @classification_term.title %> <span class="label label-info badge"><%= t("classification_term._singular") %></span></h2>
         <%= render_aspace_partial :partial => "shared/flash_messages" %>
         <% define_template "classification_term", jsonmodel_definition(:classification_term) do |form, classification_term| %>
         <section id="basic_information">

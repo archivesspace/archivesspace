@@ -16,9 +16,10 @@ GEM
 
 PLATFORMS
   java
+  universal-java-11
 
 DEPENDENCIES
   sinatra (= 2.0.5)
 
 BUNDLED WITH
-   2.1.4
+   2.2.29

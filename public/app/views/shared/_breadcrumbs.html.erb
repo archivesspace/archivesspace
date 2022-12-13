@@ -1,5 +1,5 @@
 <% if defined?(@context) && !@context.blank? %>
-<div class="clear">
+<div class="container-fluid p-0 clear">
     <nav aria-label="<%= I18n.t('navigation.hierarchical') %>">
       <ul class="breadcrumb">
 	<% @context.each do |bread| %>

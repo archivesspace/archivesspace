@@ -4,6 +4,11 @@ require 'rails_helper.rb'
 
 describe 'AdvancedSearchDates', js: true do
 
+  before(:all) do
+    @repo = create(:repo, repo_code: "advanced_search_dates_test_#{Time.now.to_i}")
+    set_repo(@repo)
+  end
+
   before(:each) do
     visit '/'
     page.has_xpath? '//input[@id="login"]'
@@ -17,7 +22,12 @@ describe 'AdvancedSearchDates', js: true do
 
     page.has_no_xpath? '//input[@id="login"]'
     page.has_css? 'button[title="Show Advanced Search"]'
-    first('button[title="Show Advanced Search"]').click
+
+    # Open the dropdown only if its not already open
+    if !page.has_css?('.advanced-search-add-row-dropdown')
+      first('button[title="Show Advanced Search"]').click
+    end
+
     first('.advanced-search-add-row-dropdown').click
     first('.advanced-search-add-date-row').click
     page.has_css? 'input#v1.date-field'

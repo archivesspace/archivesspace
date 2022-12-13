@@ -215,8 +215,7 @@ CC0: http://creativecommons.org/publicdomain/zero/1.0/
           }
         }, 150)
        })
-      .on('keydown.bs.dropdown.data-api', toggle + ', [role=menu]' , $.fn.dropdown.Constructor.prototype.keydown);
-
+      
   // Tab Extension
   // ===============================
   

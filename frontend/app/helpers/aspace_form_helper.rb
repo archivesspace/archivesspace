@@ -346,11 +346,13 @@ module AspaceFormHelper
         jsonmodel_type = obj["jsonmodel_type"]
         prefix = opts[:plugin] ? 'plugins.' : ''
         schema = JSONModel(jsonmodel_type).schema
-        if (schema["properties"][name].has_key?('dynamic_enum'))
-          value = I18n.t({:enumeration => schema["properties"][name]["dynamic_enum"], :value => value}, :default => value)
-        elsif schema["properties"][name].has_key?("enum")
-          value = I18n.t("#{prefix}#{jsonmodel_type.to_s}.#{property}_#{value}", :default => value)
+        if (schema["properties"][name]&.has_key?('dynamic_enum'))
+          value = I18n.t("enumerations.#{schema["properties"][name]["dynamic_enum"]}.#{value}", :default => value)
+        elsif schema["properties"][name]&.has_key?("enum")
+          property = schema["properties"][name]["enum"]
+          value = I18n.t("#{prefix}#{jsonmodel_type.to_s}.#{name}_#{value}", :default => value)
         end
+        value = "" unless value.is_a?(String)
       rescue
       end
       if opts.has_key? :controls_class
@@ -369,10 +371,11 @@ module AspaceFormHelper
         prefix = opts[:plugin] ? 'plugins.' : ''
         schema = JSONModel(jsonmodel_type).schema
         if (schema["properties"][name].has_key?('dynamic_enum'))
-          value = I18n.t({:enumeration => schema["properties"][name]["dynamic_enum"], :value => value}, :default => value)
+          value = I18n.t("enumerations.#{schema["properties"][name]["dynamic_enum"]}.#{value}", :default => value)
         elsif schema["properties"][name].has_key?("enum")
           value = I18n.t("#{prefix}#{jsonmodel_type.to_s}.#{property}_#{value}", :default => value)
         end
+        value = "" unless value.is_a?(String)
       rescue
       end
       if opts.has_key? :controls_class
@@ -525,7 +528,7 @@ module AspaceFormHelper
       prefix << "#{opts[:contextual]}." if opts[:contextual]
       prefix << 'plugins.' if opts[:plugin]
 
-      classes << 'control-label'
+      classes << 'control-label text-right'
 
       options = {:class => classes.join(' '), :for => id_for(name)}
 
@@ -618,7 +621,7 @@ module AspaceFormHelper
 
       html = ""
 
-      html << "<div class='form-group'>"
+      html << "<div class='form-group row'>"
       html << label("repo_set_section", {}, ["control-label", "col-sm-2"])
       html << "<div class='col-sm-9'>"
       html << "<ul class='checkbox-list'>"
@@ -655,7 +658,7 @@ module AspaceFormHelper
 
       html = ""
 
-      html << "<div class='form-group'>"
+      html << "<div class='form-group row'>"
       html << label("sponsor_set_names", {}, ["control-label", "col-sm-2"])
       html << "<div class='col-sm-9'>"
       html << "<input id='oai_config_sponsor_set_names_' type='text' value='#{value}' name='oai_config[sponsor_set_names]' class='form-control js-taggable' datarole='tagsinput'>"
@@ -723,7 +726,7 @@ module AspaceFormHelper
 
       control_group_classes,
       label_classes,
-      controls_classes = %w(form-group), [], []
+      controls_classes = %w(form-group row), [], []
 
       unless opts[:layout] && opts[:layout] == 'stacked'
         label_classes << "col-sm-#{opts[:label_opts].fetch(:col_size, 2)}"
@@ -893,7 +896,7 @@ module AspaceFormHelper
     hash.reject {|k, v| PROPERTIES_TO_EXCLUDE_FROM_READ_ONLY_VIEW.include?(k)}.each do |property, value|
       if schema and schema["properties"].has_key?(property)
         if (schema["properties"][property].has_key?('dynamic_enum'))
-          value = I18n.t({:enumeration => schema["properties"][property]["dynamic_enum"], :value => value}, :default => value)
+          value = I18n.t("enumerations.#{schema["properties"][property]["dynamic_enum"]}.#{value}", :default => value)
         elsif schema["properties"][property].has_key?("enum")
           value = I18n.t("#{prefix}#{jsonmodel_type.to_s}.#{property}_#{value}", :default => value)
         elsif schema["properties"][property]["type"] === "boolean"
@@ -908,11 +911,12 @@ module AspaceFormHelper
           next
         end
       end
+      value = "" unless value.is_a?(String)
       html << "<div class='form-group'>"
       html << "<div class='control-label col-sm-2'>"
       html << I18n.t("#{prefix}#{jsonmodel_type.to_s}.#{property}")
       html << "</div>"
-      html << "<div class='label-only col-sm-8'>#{value}</div>"
+      html << "<div class='col-sm-8'>#{value}</div>"
       html << "</div>"
     end
     html << "</div>"
@@ -967,7 +971,7 @@ module AspaceFormHelper
 
     def label_with_field(name, field_html, opts = {})
       return "" if field_html.blank?
-      super(name, field_html, opts.merge({:controls_class => "label-only"}))
+      super(name, field_html, opts.merge({:controls_class => ""}))
     end
 
     def label_and_fourpartid
@@ -1107,10 +1111,7 @@ module AspaceFormHelper
         elsif opts.has_key?(:i18n_prefix)
           i18n_path = "#{opts[:i18n_prefix]}.#{v}"
         elsif defn.has_key?('dynamic_enum')
-          i18n_path = {
-            :enumeration =>  defn['dynamic_enum'],
-            :value => v
-          }
+          i18n_path = "enumerations.#{defn['dynamic_enum']}.#{v}"
         else
           i18n_path = context.i18n_for("#{Array(property).last}_#{v}")
         end
@@ -1277,7 +1278,7 @@ module AspaceFormHelper
 
       if schema and schema["properties"].has_key?(property)
         if (schema["properties"][property].has_key?('dynamic_enum'))
-          value = I18n.t({:enumeration => schema["properties"][property]["dynamic_enum"], :value => value}, :default => value)
+          value = I18n.t("enumerations.#{schema["properties"][property]["dynamic_enum"]}.#{value}", :default => value)
         elsif schema["properties"][property].has_key?("enum")
           value = I18n.t("#{prefix}#{jsonmodel_type.to_s}.#{property}_#{value}", :default => value)
         elsif schema["properties"][property]["type"] === "boolean"
@@ -1293,13 +1294,14 @@ module AspaceFormHelper
           # can't display an object either
           next
         end
+        next unless value.is_a?(String)
       end
 
-      html << "<div class='form-group'>"
+      html << "<div class='form-group row'>"
       html << "<div class='control-label col-sm-2'>"
       html << I18n.t("#{prefix}#{jsonmodel_type.to_s}.#{property}")
       html << "</div>"
-      html << "<div class='label-only col-sm-8'>#{value}</div>"
+      html << "<div class='col-sm-8'>#{value}</div>"
       html << "</div>"
     end
 

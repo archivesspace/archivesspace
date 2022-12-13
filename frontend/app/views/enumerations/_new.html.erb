@@ -46,7 +46,7 @@
       }
     },
     error: function(obj, errorText, errorDesc) {
-      $(".btn-danger", 'form#new_enumeration').removeAttr("disabled");
+      $(".btn-danger", 'form#new_enumeration').attr('disabled', null);
     }
   });
 </script>

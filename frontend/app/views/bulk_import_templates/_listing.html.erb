@@ -16,7 +16,7 @@
                     <td><%= t("bulk_import_templates.#{template[:filename].sub('.', '_')}") %></td>
                     <td>
                         <div class="btn-group" style="float: right">
-                            <%= link_to t("actions.download"), {:controller => :bulk_import_templates, :action => :download, :filename => template[:filename]}, :class => "btn btn-xs btn-default" %>
+                            <%= link_to t("actions.download"), {:controller => :bulk_import_templates, :action => :download, :filename => template[:filename]}, :class => "btn btn-xs btn-default bg-white border" %>
                         </div>
                     </td>
                 </tr>

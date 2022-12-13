@@ -114,7 +114,7 @@ en:
     finish_editing: Close Record
     merge: Merge
     form_changes_message: "<small><span class='muted'>You have unsaved changes</span></small>"
-    toolbar_disabled_message: "<small><span class='muted'>You have unsaved changes - Save or Revert to access toolbar and record tree</span></small>"
+    toolbar_disabled_message: "<small><span class='muted small'>You have unsaved changes - Save or Revert to access toolbar and record tree</span></small>"
     publish: Publish All
     publish_confirm_title: Publish?
     publish_confirm_message: "<p>Performing this action will publish this record, any sub-records (External Documents, Notes, etc) and all components in the hierarchy.</p>"

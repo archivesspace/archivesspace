@@ -14,7 +14,7 @@
             <% else %>
               <%= clean_mixed_content(@digital_object.title) %>
             <% end %>
-            <span class="label label-info"><%= t("digital_object._singular") %></span>
+            <span class="label label-info badge"><%= t("digital_object._singular") %></span>
           </h2>
           <%= render_aspace_partial :partial => "digital_objects/form_container", :locals => {:form => form} %>
            <div class="form-actions">

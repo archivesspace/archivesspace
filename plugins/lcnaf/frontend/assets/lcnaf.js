@@ -25,9 +25,9 @@ $(function() {
     $.each(json.records, function(i, record) {
       var $result = $(AS.renderTemplate("template_lcnaf_result", {record: record, selected: selected_lccns}));
       if (selected_lccns[record.lccn]) {
-        $(".alert-success", $result).removeClass("hide");
+        $(".alert-success", $result).removeClass("d-none");
       } else {
-        $("button", $result).removeClass("hide");
+        $("button", $result).removeClass("d-none");
       }
       $results.append($result);
 
@@ -66,13 +66,13 @@ $(function() {
     $("[data-lccn="+lccn+"]", $selected).remove();
     var $result = $("[data-lccn="+lccn+"]", $results);
     if ($result.length > 0) {
-      $result.removeClass("hide");
+      $result.removeClass("d-none");
       $(".alert-success", $result).removeClass("alert-success").addClass("alert-info");
-      $result.siblings(".alert").addClass("hide");
+      $result.siblings(".alert").addClass("d-none");
     }
 
     if (selectedLCCNs().length === 0) {
-      $selected.siblings(".alert-info").removeClass("hide");
+      $selected.siblings(".alert-info").removeClass("d-none");
       $("#import-selected").attr("disabled", "disabled");
     }
   };
@@ -81,11 +81,11 @@ $(function() {
     selected_lccns[lccn] = true;
     $selected.append(AS.renderTemplate("template_lcnaf_selected", {lccn: lccn}))
 
-    $(".alert-success", $result).removeClass("hide");
-    $("button.select-record", $result).addClass("hide");
+    $(".alert-success", $result).removeClass("d-none");
+    $("button.select-record", $result).addClass("d-none");
     $(".alert-info", $result).removeClass("alert-info").addClass("alert-success");
 
-    $selected.siblings(".alert-info").addClass("hide");
+    $selected.siblings(".alert-info").addClass("d-none");
     $("#import-selected").removeAttr("disabled", "disabled");
   };
 
@@ -167,8 +167,8 @@ $(function() {
     }
   }).on("click", ".lcnaf-result button.show-record", function(e) {
          e.preventDefault();
-         $(this).siblings(".lcnaf-marc").removeClass("hide");
-         $(this).addClass("hide");     
+         $(this).siblings(".lcnaf-marc").removeClass("d-none");
+         $(this).addClass("d-none");     
   }); 
 
   $selected.on("click", ".remove-selected", function(event) {

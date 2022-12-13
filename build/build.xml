@@ -429,6 +429,7 @@
     <property name="build.home" location="."/>
     <property name="excluded-gem-groups" value="" />
     <property name="included-gem-groups" value="" />
+    <property name="only-gem" value="" />
     <condition property="bundle-without-option" value="--without '${excluded-gem-groups}'" else="">
       <matches pattern="^.+$" string="${excluded-gem-groups}"/>
     </condition>
@@ -442,13 +443,25 @@
       <env key="GEM_PATH" value="" />
       <env key="BUNDLE_PATH" value="${gem_home}" />
       <env key="HOME" value="${build.home}" />
-      <arg line="gems/bin/bundle update --jobs=8 --gemfile='${gemfile}' ${bundle-without-option} ${bundle-with-option}" />
+      <arg line="gems/bin/bundle update --jobs=8 --gemfile='${gemfile}' ${bundle-without-option} ${bundle-with-option} ${only-gem}" />
     </java>
   </target>
 
-  <target name="bundle:frontend" depends="set-classpath"  description="Bundle just the frontend">
+  <target name="bundle:frontend" depends="set-classpath"  description="Bundle just the frontend (staff interface)">
     <antcall target="bundler">
       <param name="gemfile" value="../frontend/Gemfile" />
+    </antcall>
+  </target>
+
+  <target name="bundle:public" depends="set-classpath"  description="Bundle just the public interface">
+    <antcall target="bundler">
+      <param name="gemfile" value="../public/Gemfile" />
+    </antcall>
+  </target>
+
+  <target name="bundle:public:update" depends="set-classpath"  description="Bundle just the public interface">
+    <antcall target="bundler:update">
+      <param name="gemfile" value="../public/Gemfile" />
     </antcall>
   </target>
 
@@ -741,7 +754,7 @@
       <isset property="example"/>
     </condition>
     <dirset id="plugins" dir="../..">
-      <include name="frontend/spec"/>gml
+      <include name="frontend/spec"/>
       <include name="archivesspace/plugins/**/frontend/spec"/>
     </dirset>
     <pathconvert pathsep=" " property="plugin-spec-dirs" refid="plugins"/>
@@ -783,6 +796,16 @@
     <delete dir="../public/public/assets" />
     <mkdir dir="../public/public/assets" />
     <mkdir dir="../public/public/assets/00-do-not-put-things-here" />
+  </target>
+
+  <target name="public:console" depends="set-classpath" description="Run the rails console">
+    <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true" failonerror="true" dir="../public">
+      <jvmarg line="${default_java_options} ${env.JAVA_OPTS}"/>
+      <env key="GEM_HOME" value="${gem_home}" />
+      <env key="GEM_PATH" value="" />
+      <env key="BUNDLE_PATH" value="${gem_home}" />
+      <arg line="bin/rails console" />
+    </java>
   </target>
 
   <target name="public:copy-shared-resources" description="Copy shared JS/CSS into the public application">
