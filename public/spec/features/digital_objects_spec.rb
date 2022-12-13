@@ -35,4 +35,12 @@ describe 'Digital Objects', js: true do
       expect(page).to have_content('Record Groups')
     end
   end
+
+  it 'displays breadcrumbs for items in the Digital Materials listing' do
+    visit '/'
+    click_link 'Digital Materials'
+    within find('div[data-uri="/repositories/2/digital_objects/5"') do
+      expect(page).to have_content('Resource with digital instance')
+    end
+  end
 end

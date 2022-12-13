@@ -54,6 +54,8 @@ en:
     search_add_row: Add a search row
     search_remove_row: Remove the row below
     staff_link: Staff Only
+    next: Next
+    previous: Previous
 
   page_actions: Page Actions
 
