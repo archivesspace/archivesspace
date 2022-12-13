@@ -8,7 +8,7 @@
     <button class="btn btn-sm btn-default dropdown-toggle merge-action" data-toggle="dropdown" role="button" aria-expanded="false" title="<%= t("actions.merge") %>">
       <%= t("actions.merge") %> <span class="caret"></span>
     </button>
-    <ul class="dropdown-menu merge-form open-aligned-right" role="none">
+    <ul class="dropdown-menu merge-form dropdown-menu-right" role="none">
       <li>
       <p><%= t("#{singular}._frontend.messages.merge_description") %>   <%= record.title %></p>
         <%= form_context :merge, {} do |form| %>
@@ -17,19 +17,19 @@
           <div class="alert alert-danger missing-ref-message" style="display: none;"><%= t "#{singular}._frontend.messages.please_select_a_#{singular}_to_merge" %></div>
           <%= render_aspace_partial :partial => "#{controller}/linker", :locals => { :form => form,  :exclude_ids => [record.uri], :hide_create => true, :multiplicity => multiplicity, :layout => 'stacked' }%>
         </fieldset>
-        <div class="form-actions">
+        <div class="form-actions d-flex">
           <%=
              button_confirm_action(t("actions.merge"),
                                    url_for({:controller => controller, :action => :merge, :id => record.id}.merge(extra_params)),
                                    {
-                                     :class => "btn pull-left merge-button btn-default",
+                                     :class => "btn pull-left merge-button btn-default btn-outline-secondary",
                                      :"data-title" => confirmation_title,
                                      :"data-message" => confirmation_msg,
                                      :"data-confirm-btn-label" => "#{t("actions.merge")}",
                                      :"data-confirm-btn-class" => "btn btn-default"
                                    })
           %>
-          <a class="btn btn-cancel btn-default pull-right" href="#"><%= t("actions.cancel") %></a>
+          <a class="btn btn-cancel btn-default ml-auto ml-auto btn-danger" href="#"><%= t("actions.cancel") %></a>
         </div>
         <% end %>
       </li>

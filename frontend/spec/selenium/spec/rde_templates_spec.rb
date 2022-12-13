@@ -73,7 +73,7 @@ describe 'RDE Templates' do
     @driver ? @driver.quit : next
   end
 
-  it 'can save an RDE template', skip: 'UPGRADE lost in translation' do
+  it 'can save an RDE template' do
     @driver.find_element(link: 'Rapid Data Entry').click
     @driver.wait_for_ajax
 
@@ -97,12 +97,10 @@ describe 'RDE Templates' do
     @driver.find_element(css: "button[data-id='rde_select_template']").click
     @driver.wait_for_ajax
 
-    expect do
-      @driver.find_element_with_text('//span', /MY TEMPLATE/)
-    end.not_to raise_error
+    expect(@driver.find_elements(css: 'span.text').map {|e| e.attribute('innerHTML')}).to include('MY TEMPLATE')
   end
 
-  it 'can load an RDE template', skip: 'UPGRADE lost in translation' do
+  it 'can load an RDE template' do
     @driver.find_element(link: 'Rapid Data Entry').click
     @driver.wait_for_ajax
 
@@ -111,6 +109,10 @@ describe 'RDE Templates' do
 
     @driver.find_element(css: "button[data-id='rde_select_template']").click
     @driver.wait_for_ajax
+
+    template_span = @driver.find_elements(css: 'span.text').detect {|e| e.attribute('innerHTML') == @template.name}
+    template_span.click
+
     @driver.find_element_with_text('//span', /#{@template.name}/).click
     @driver.wait_for_ajax
 
@@ -119,7 +121,7 @@ describe 'RDE Templates' do
     expect(multiselector_selected_cols).to eq 9
   end
 
-  it 'can delete an RDE template', skip: 'UPGRADE lost in translation' do
+  it 'can delete an RDE template' do
     template = create(:rde_template)
 
     @driver.find_element(link: 'Rapid Data Entry').click
@@ -146,7 +148,7 @@ describe 'RDE Templates' do
     end
   end
 
-  it 'can display RDE templates in alpha order', skip: 'UPGRADE lost in translation' do
+  it 'can display RDE templates in alpha order' do
     @driver.find_element(link: 'Rapid Data Entry').click
     @driver.wait_for_ajax
 

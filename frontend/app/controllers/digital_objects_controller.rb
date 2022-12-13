@@ -149,7 +149,7 @@ class DigitalObjectsController < ApplicationController
                   render :action => "new"
                 },
                 :on_valid => ->(id) {
-                  flash[:success] = t("digital_object._frontend.messages.created") # TODO JSONModelI18nWrapper.new(:digital_object => @digital_object).enable_parse_mixed_content!(url_for(:root)))
+                  flash[:success] = t("digital_object._frontend.messages.created", digital_object_title: @digital_object.title)
 
                   if @digital_object["is_slug_auto"] == false &&
                      @digital_object["slug"] == nil &&
@@ -201,7 +201,7 @@ class DigitalObjectsController < ApplicationController
       return redirect_to(:controller => :digital_objects, :action => :show, :id => params[:id])
     end
 
-    flash[:success] = t("digital_object._frontend.messages.deleted") # TODO JSONModelI18nWrapper.new(:digital_object => digital_object).enable_parse_mixed_content!(url_for(:root)))
+    flash[:success] = t("digital_object._frontend.messages.deleted", digital_object_title: digital_object.title)
     redirect_to(:controller => :digital_objects, :action => :index, :deleted_uri => digital_object.uri)
   end
 
@@ -212,7 +212,7 @@ class DigitalObjectsController < ApplicationController
     response = JSONModel::HTTP.post_form("#{digital_object.uri}/publish")
 
     if response.code == '200'
-      flash[:success] = t("digital_object._frontend.messages.published") # TODO JSONModelI18nWrapper.new(:digital_object => digital_object).enable_parse_mixed_content!(url_for(:root)))
+      flash[:success] = t("digital_object._frontend.messages.published", digital_object_title: digital_object.title)
     else
       flash[:error] = ASUtils.json_parse(response.body)['error'].to_s
     end
@@ -306,7 +306,7 @@ class DigitalObjectsController < ApplicationController
     digital_object = JSONModel(:digital_object).find(params[:id])
     digital_object.set_suppressed(true)
 
-    flash[:success] = t("digital_object._frontend.messages.suppressed") # TODO JSONModelI18nWrapper.new(:digital_object => digital_object).enable_parse_mixed_content!(url_for(:root)))
+    flash[:success] = t("digital_object._frontend.messages.suppressed", digital_object_title: digital_object.title)
     redirect_to(:controller => :digital_objects, :action => :show, :id => params[:id])
   end
 
@@ -315,7 +315,7 @@ class DigitalObjectsController < ApplicationController
     digital_object = JSONModel(:digital_object).find(params[:id])
     digital_object.set_suppressed(false)
 
-    flash[:success] = t("digital_object._frontend.messages.unsuppressed") # TODO JSONModelI18nWrapper.new(:digital_object => digital_object).enable_parse_mixed_content!(url_for(:root)))
+    flash[:success] = t("digital_object._frontend.messages.unsuppressed", digital_object_title: digital_object.title)
     redirect_to(:controller => :digital_objects, :action => :show, :id => params[:id])
   end
 

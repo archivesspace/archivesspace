@@ -90,7 +90,7 @@ describe 'Classifications' do
     combo = @driver.find_element(xpath: '//*[@id="resource_finding_aid_script_"]')
     combo.clear
     combo.click
-    combo.send_keys('Latn')
+    combo.send_keys('Latin')
     combo.send_keys(:tab)
 
     # Now add a classification
@@ -114,6 +114,7 @@ describe 'Classifications' do
     end
 
     @driver.click_and_wait_until_gone(css: "form#resource_form button[type='submit']")
+    sleep 1
     @driver.click_and_wait_until_gone(:link, 'Close Record')
 
     expect(@driver.find_element(css: 'div.token.classification').text).to match(/#{test_classification}/)

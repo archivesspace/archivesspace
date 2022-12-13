@@ -5,8 +5,8 @@
      selected_json =  form.obj['_resolved'].to_json
    end
 %>
-<div class="form-group required">
-  <label class="control-label col-sm-2"
+<div class="form-group required row">
+  <label class="control-label col-sm-3 text-right"
          id="<%= form.id_for("ref") %>_label"
          for="<%= form.id_for("ref") %>">
     <%= t("linked_record.ref") %>
@@ -51,9 +51,9 @@
       <% end %>
 
       <div class="input-group-btn">
-        <a class="btn btn-default dropdown-toggle last" data-toggle="dropdown" href="javascript:void(0);" aria-label="<%= t("linked_record.linker_ref.link_title") %>"><span class="caret"></span></a>
+        <a class="btn btn-default dropdown-toggle last border border-left-0 d-flex align-items-center" data-toggle="dropdown" href="javascript:void(0);" aria-label="<%= t("linked_record.linker_ref.link_title") %>"><span class="caret"></span></a>
         <ul class="dropdown-menu">
-          <li><a href="javascript:void(0);" class="linker-browse-btn"><%= t("actions.browse") %></a></li>
+          <li class="dropdown-item"><a href="javascript:void(0);" class="linker-browse-btn"><%= t("actions.browse") %></a></li>
         </ul>
       </div>
 

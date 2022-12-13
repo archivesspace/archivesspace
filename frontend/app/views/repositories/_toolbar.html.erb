@@ -1,12 +1,12 @@
 <div class="row">
   <div class="col-md-12">
-    <div class="record-toolbar">
+    <div class="record-toolbar d-flex align-items-center">
       <%  if user_can?('create_repository') && !['edit', 'update'].include?(controller.action_name) %>
         <div class="btn-group pull-left">
           <%= link_to t("actions.edit"), {:controller => :repositories, :action => :edit, :id => @repository.id}, :class => "btn btn-sm btn-primary" %>
         </div>
       <% end %>
-      <div class="pull-right">
+      <div class="ml-auto">
         <% if session[:repo_id] != @repository.id and @repositories.any?{|r| r['uri'] === @repository.uri} %>
           <%= form_for @repository, :as => "repository", :url => {:action => :select}, :html => {:style => "display: inline;"} do |f| %>
             <button type="submit" class="btn btn-sm btn-success"><%= t("repository._frontend.action.select") %></button>
@@ -24,7 +24,6 @@
           </div>
         <% end %>
       </div>
-      <div class="clearfix"></div>
     </div>
   </div>
 </div>

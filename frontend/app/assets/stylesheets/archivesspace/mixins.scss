@@ -80,6 +80,8 @@
   transition: transform $transition;
 }
 
+// END bootstrap related mixins from 3.4.1
+
 @mixin icon($fontFamily: 'Glyphicons Halflings') {
   font-family: $fontFamily;
   float: left;

@@ -63,6 +63,8 @@ GEM
     addressable (2.8.0)
       public_suffix (>= 2.0.2, < 5.0)
     atomic (1.0.1-java)
+    autoprefixer-rails (10.4.7.0)
+      execjs (~> 2)
     axe-core-api (4.6.0)
       dumb_delegator
       virtus
@@ -78,6 +80,10 @@ GEM
     benchmark-perf (0.6.0)
     benchmark-trend (0.4.0)
     bindex (0.8.1)
+    bootstrap (4.3.1)
+      autoprefixer-rails (>= 9.1.0)
+      popper_js (>= 1.14.3, < 2)
+      sassc-rails (>= 2.0.0)
     builder (3.2.4)
     capybara (3.36.0)
       addressable
@@ -141,7 +147,7 @@ GEM
       activesupport (>= 5.0)
     http-cookie (1.0.5)
       domain_name (~> 0.5)
-    i18n (1.10.0)
+    i18n (1.12.0)
       concurrent-ruby (~> 1.0)
     ice_nine (0.11.2)
     io-wait (0.3.0-java)
@@ -212,6 +218,7 @@ GEM
     parallel (1.22.1)
     parallel_tests (3.11.1)
       parallel
+    popper_js (1.16.0)
     pry (0.14.2-java)
       coderay (~> 1.1)
       method_source (~> 1.0)
@@ -322,9 +329,6 @@ GEM
       actionpack (>= 5.2)
       activesupport (>= 5.2)
       sprockets (>= 3.0.0)
-    therubyrhino (2.1.2)
-      therubyrhino_jar (>= 1.7.4, < 1.7.9)
-    therubyrhino_jar (1.7.8)
     thor (1.2.1)
     thread_safe (0.3.6-java)
     tilt (2.0.11)
@@ -361,11 +365,13 @@ DEPENDENCIES
   activesupport
   atomic (= 1.0.1)
   axe-core-rspec
+  bootstrap (~> 4.3.0)
   capybara
   coffee-rails
   coffee-script
   coffee-script-source
   dumb_delegator
+  execjs
   factory_bot_rails
   fog-aws (= 2.0.0)
   i18n
@@ -397,7 +403,6 @@ DEPENDENCIES
   selenium-webdriver
   simplecov
   sprockets-rails
-  therubyrhino
   tzinfo-data
   uglifier
   web-console

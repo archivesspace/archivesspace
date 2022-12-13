@@ -3,14 +3,14 @@
     <%= render partial: 'repositories/repository', locals: {:result => @result,  :full => true} %>
   </div>
 
-  <div id="whats-in-container">
-    <h2><%= t('repository.what') %> </h2>
+  <div id="whats-in-container" class="p-4 my-4">
+    <h2 class="text-center text-sm-left"><%= t('repository.what') %> </h2>
     <div>
-      <ul class="list-inline">
-	<% @badges.each do |type| %>
-	<%= render partial: 'repositories/badge', locals: {:type => type} %>
-	<% end %>
-      </ul>
+      <div class="list-inline d-flex flex-wrap justify-content-center justify-content-sm-start">
+        <% @badges.each do |type| %>
+          <%= render partial: 'repositories/badge', locals: {:type => type} %>
+        <% end %>
+      </div>
     </div>
 
   </div>

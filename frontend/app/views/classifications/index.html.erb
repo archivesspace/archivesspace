@@ -12,28 +12,25 @@
    </div>
    <div class="col-md-9">
      <% if user_can?('update_classification_record') %>
-       <div class="record-toolbar">
-         <div class="pull-right">
-           <div class="btn-group">
-             <% if user_can?('manage_repository') %>
-               <div class="btn-group">
-                 <a class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown" href="javascript:void(0);">
-                   <%= t("actions.edit_default_values") %>
-                   <span class="caret"></span>
-                 </a>
-                 <ul class="dropdown-menu open-aligned-right">
-                   <li><%= link_to t("classification._singular"), {:controller => :classifications, :action => :defaults} %></li>
-                   <li> <%= link_to t("classification_term._singular"), {:controller => :classification_terms, :action => :defaults} %></li>
-                 </ul>
-               </div>
-             <% end %>
-             <%= link_to t("actions.export_csv"), request.parameters.merge({ :format => :csv, :fields => fields}), id: "searchExport", class: "btn btn-sm btn-info" %>
-             <%= link_to t("classification._frontend.action.create"), {:controller => :classifications, :action => :new}, :class => "btn btn-sm btn-default" %>
-             <% if user_can?("delete_classification_record") %>
-               <%= button_delete_multiple_action(:classifications) %>
-             <% end %>
-           </div>
-         </div>
+       <div class="record-toolbar d-flex align-items-center">
+          <div class="btn-group align-items-baseline bg-white rounded border ml-auto">
+            <% if user_can?('manage_repository') %>
+              <div>
+                <a class="dropdown-toggle btn btn-sm px-2" data-toggle="dropdown" href="javascript:void(0);">
+                  <%= I18n.t("actions.edit_default_values") %>
+                </a>
+                <ul class="dropdown-menu pr-3">
+                  <li class="dropdown-item"><%= link_to I18n.t("classification._singular"), {:controller => :classifications, :action => :defaults} %></li>
+                  <li class="dropdown-item"> <%= link_to I18n.t("classification_term._singular"), {:controller => :classification_terms, :action => :defaults} %></li>
+                </ul>
+              </div>
+            <% end %>
+            <%= link_to I18n.t("actions.export_csv"), request.parameters.merge({ :format => :csv, :fields => fields}), id: "searchExport", class: "btn btn-sm btn-info" %>
+            <%= link_to I18n.t("classification._frontend.action.create"), {:controller => :classifications, :action => :new}, :class => "btn btn-sm btn-default" %>
+            <% if user_can?("delete_classification_record") %>
+              <%= button_delete_multiple_action(:classifications) %>
+            <% end %>
+          </div>
          <br style="clear:both" /> <!-- So dirty! -->
        </div>
      <% end %>

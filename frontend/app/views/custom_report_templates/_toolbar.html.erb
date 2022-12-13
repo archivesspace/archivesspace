@@ -1,24 +1,24 @@
-<div class="record-toolbar">
+<div class="record-toolbar d-flex align-items-center">
   <% if controller.action_name == 'show' %>
-    <div class="btn-group pull-left">
+    <div class="btn-group">
       <%= link_to t("actions.edit"), {:controller => :custom_report_templates, :action => :edit, :id => @custom_report_template.id}, :class => "btn btn-sm btn-primary" %>
     </div>
   <% end %>
   <% if ['new', 'create', 'edit', 'update'].include?(controller.action_name) %>
-    <div class="pull-left save-changes">
+    <div class="save-changes">
     <button type="submit" class="btn btn-primary btn-sm"><%= t("actions.save_prefix") %></button>
     </div>
   <% end %>
   <% if ['edit', 'update'].include?(controller.action_name) %>
-    <div class="pull-left revert-changes">
-    <%= link_to t("actions.revert"), {:controller => :custom_report_templates, :action => :edit, :id => @custom_report_template.id}, :class => "btn btn-sm btn-default" %>
+    <div class="revert-changes">
+    <%= link_to t("actions.revert"), {:controller => :custom_report_templates, :action => :edit, :id => @custom_report_template.id}, :class => "btn btn-sm btn-default bg-white border" %>
     <%= t("actions.toolbar_disabled_message") %>
     </div>
   <% end %>
-    <div class="btn-toolbar pull-right">
+    <div class="btn-toolbar ml-auto">
       <div class="btn-group">
         <% if ['edit', 'update', 'new', 'create'].include?(controller.action_name) %>
-          <button class="btn btn-sm btn-success no-change-tracking" type="button" id="check_all" data-checked="<%= t("actions.check_all") %>" data-unchecked="<%= t("actions.uncheck_all") %>"><%= t("actions.check_all") %></button>
+          <button class="btn btn-sm border btn-success no-change-tracking" type="button" id="check_all" data-checked="<%= t("actions.check_all") %>" data-unchecked="<%= t("actions.uncheck_all") %>"><%= t("actions.check_all") %></button>
         <% end %>
         <% if controller.action_name == 'edit' %>
           <%= link_to t("actions.run"),

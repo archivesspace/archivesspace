@@ -6,17 +6,17 @@
     <button class="btn btn-sm btn-default dropdown-toggle add-event-action" data-toggle="dropdown" role="button" aria-expanded="false" title="<%= t("actions.add_event") %>">
       <%= t("actions.add_event") %> <span class="caret"></span>
     </button>
-    <ul class="dropdown-menu add-event-form open-aligned-right">
-      <li>
+    <ul class="dropdown-menu add-event-form dropdown-menu-right">
+      <li class=dropdown-item'>
         <%= form_context :add_event, {} do |form| %>
           <fieldset>
             <legend class="sr-only">Add event:</legend>
             <label for="add_event_event_type"><%=  t("actions.add_event_event_type") %></label>
-            <%= select_tag "add_event_event_type", options_for_select(event_types.map{|event_type| [t("enumerations.event_event_type.#{event_type}", :default => event_type), event_type]}), :'aria-labelledby' => "form_add_event" %>
+            <%= select_tag "add_event_event_type", options_for_select(event_types.map{|event_type| [t("enumerations.event_event_type.#{event_type}", :default => event_type), event_type]}), :'aria-labelledby' => "form_add_event"%>
           </fieldset>
           <div class="form-actions">
-            <button class="btn add-event-button btn-default"><%= t("actions.add_event") %></button>
-            <a class="btn btn-close pull-right btn-default" href="#"><%= t("actions.cancel") %></a>
+            <button class="btn add-event-button border"><%= t("actions.add_event") %></button>
+            <a class="btn btn-close ml-auto btn-danger" href="#"><%= t("actions.cancel") %></a>
           </div>
         <% end %>
       </li>

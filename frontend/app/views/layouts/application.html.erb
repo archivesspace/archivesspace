@@ -44,14 +44,11 @@
   <div class="container-fluid center-block">
     <header>
       <%= render "shared/header_global" %>
-      <%= render "site/branding" %>
     </header>
 
    <div class="content-pane container-fluid">
      <% if current_repo %>
-       <div class="row">
          <%= render "shared/header_repository" %>
-       </div>
      <% end %>
      <%= yield %>
    </div>

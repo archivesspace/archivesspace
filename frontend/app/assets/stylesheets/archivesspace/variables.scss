@@ -1,5 +1,5 @@
-// import bootstrap variables
-@import '../bootstrap/variables';
+// bootstrap 3.4 variables not available in 4.2+
+$headings-font-weight: 500 !default;
 
 // updated vars
 $white: white;
@@ -40,11 +40,14 @@ $white: #fff;
 
 // Accent colors
 // -------------------------
-$blue: #049cdb;
+$blue: #006f9b;
 $blueDark: #0064cd;
-$green: #46a546;
+$green: #398439;
 $red: #9d261d;
 $yellow: #ffc40d;
 $orange: #f89406;
 $pink: #c3325f;
 $purple: #7a43b6;
+
+// override bootstrap for accessibility
+$info: #60c2ef;

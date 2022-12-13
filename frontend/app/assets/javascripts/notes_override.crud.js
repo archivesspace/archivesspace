@@ -8,14 +8,14 @@ $(document).ready(function () {
         var $restriction_fields = $('#notes_restriction', $subform);
 
         if (noteType == 'accessrestrict' || noteType == 'userestrict') {
-          $(':input', $restriction_fields).removeAttr('disabled');
+          $(':input', $restriction_fields).attr('disabled', null);
           $restriction_fields.show();
 
           var $restrictionTypeInput = $restriction_fields.find(
             "select[id*='_local_access_restriction_type_']"
           );
           if (noteType == 'accessrestrict') {
-            $restrictionTypeInput.removeAttr('disabled');
+            $restrictionTypeInput.attr('disabled', null);
             $restrictionTypeInput.closest('.control-group').show();
           } else {
             $restrictionTypeInput.closest('.control-group').hide();

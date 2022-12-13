@@ -26,7 +26,7 @@ describe ResourcesController, type: :controller do
     )
   }
 
-  it "sets export menu's 'include unpublished' checkbox per user preferences", skip: "UPGRADE Brian translation issue" do
+  it "sets export menu's 'include unpublished' checkbox per user preferences" do
     resource = create(:json_resource, instances: [])
 
     apply_session_to_controller(controller, 'admin', 'admin')
@@ -58,7 +58,7 @@ describe ResourcesController, type: :controller do
     end
   end
 
-  it "spawns a resource from an accession with default values", skip: "UPGRADE Brian translation issue" do
+  it "spawns a resource from an accession with default values" do
     accession = create(:json_accession, extents: [ build(:json_extent, portion: 'part') ])
 
     apply_session_to_controller(controller, 'admin', 'admin')
@@ -73,7 +73,7 @@ describe ResourcesController, type: :controller do
     result.find(:css,
       '#resource_lang_materials__0__language_and_script__script_ option[@selected="selected"]'
     ) do |selected|
-      expect(selected.text).to eq('Latn')
+      expect(selected.text).to eq('Latin')
     end
     # we should have 3 notes (scope, content, condition)
     expect(result.find_all(:css, '#resource_notes_ li[data-object-name="note"]').count).to eq 3

@@ -35,7 +35,7 @@ describe 'Record Lifecycle' do
     @driver ? @driver.quit : next
   end
 
-  it 'can suppress an Accession', skip: 'UPGRADE lost in translation' do
+  it 'can suppress an Accession' do
     # make sure we can see suppressed records
     @driver.find_element(:css, '.user-container .btn.dropdown-toggle.last').click
     @driver.click_and_wait_until_gone(:link, 'Default Repository Preferences')
@@ -63,7 +63,7 @@ describe 'Record Lifecycle' do
     expect(@driver.find_element(css: 'div.alert.alert-info').text).to eq('Accession is suppressed and cannot be edited')
   end
 
-  it "an archivist can't see a suppressed Accession", skip: 'UPGRADE lost in translation' do
+  it "an archivist can't see a suppressed Accession" do
     @driver.login_to_repo(@archivist_user, @repo)
     # check the listing
     @driver.find_element(:link, 'Browse').click
@@ -81,7 +81,7 @@ describe 'Record Lifecycle' do
     end.not_to raise_error
   end
 
-  it 'can unsuppress an Accession', skip: 'UPGRADE lost in translation' do
+  it 'can unsuppress an Accession' do
     @driver.login_to_repo(@manager_user, @repo)
 
     @driver.get_edit_page(@accession)
@@ -93,7 +93,7 @@ describe 'Record Lifecycle' do
     assert(5) { expect(@driver.find_element(css: 'div.alert.alert-success').text).to eq("Accession #{@accession.title} unsuppressed") }
   end
 
-  it 'can delete an Accession', skip: 'UPGRADE lost in translation' do
+  it 'can delete an Accession' do
     @driver.login_to_repo(@manager_user, @repo)
 
     @driver.get_edit_page(@accession)
@@ -122,7 +122,7 @@ describe 'Record Lifecycle' do
     @driver.go_home
   end
 
-  it 'can suppress a Digital Object', skip: 'UPGRADE lost in translation' do
+  it 'can suppress a Digital Object' do
     @driver.login_to_repo(@manager_user, @repo)
     # Navigate to the Digital Object
     @driver.get_edit_page(@do)

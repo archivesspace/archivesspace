@@ -1,3 +1,6 @@
+// This line imports the glyphicons from Bootstrap 3
+@import url('//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css');
+
 html {
   font-family: $serif-font;
   font-size: 100%;
@@ -9,10 +12,12 @@ a {
   line-height: inherit;
   cursor: pointer;
 }
+
 a:hover,
 a:focus {
   color: $dark_against_shade;
 }
+
 a img {
   border: 0;
 }
@@ -37,7 +42,7 @@ a img {
 }
 
 #content {
-  margin: 0 rem-calc(30);
+  padding: rem-calc(40);
 }
 
 .panel-footer {
@@ -94,7 +99,6 @@ a img {
 
 .more-facets {
   .btn {
-    padding-left: 20px;
     color: $accent-color;
   }
   .below-the-fold {
@@ -161,7 +165,7 @@ a img {
   }
   .navbar-nav {
     > li {
-      > a {
+      > a.nav-link {
         color: $nvColDefault;
         font-size: 1rem !important;
         &:hover,
@@ -172,18 +176,18 @@ a img {
       }
     }
     > .active {
-      > a,
-      > a:hover,
-      > a:focus {
+      > a.nav-link,
+      > a.nav-link:hover,
+      > a.nav-link:focus {
         color: $nvColHighlight;
         background-color: $nvBgHighlight;
         text-decoration: underline;
       }
     }
     > .open {
-      > a,
-      > a:hover,
-      > a:focus {
+      > a.nav-link,
+      > a.nav-link:hover,
+      > a.nav-link:focus {
         color: $nvColHighlight;
         background-color: $nvBgHighlight;
         text-decoration: underline;
@@ -203,14 +207,6 @@ a img {
   .navbar-collapse,
   .navbar-form {
     border-color: $nvColDefault;
-  }
-  .navbar-link {
-    color: $nvColDefault;
-    font-size: 1rem !important;
-    &:hover {
-      color: $nvColHighlight;
-      text-decoration: underline;
-    }
   }
 }
 @media (max-width: 767px) {
@@ -275,10 +271,6 @@ a img {
 }
 
 #whats-in-container {
-  margin-top: rem-calc(20);
-  padding-bottom: rem-calc(20);
-  padding-left: rem-calc(20);
-  margin-bottom: rem-calc(10);
   border: 1px solid $border;
   > h3 {
     margin-top: 0;
@@ -437,9 +429,9 @@ h1,
 
 /* we want to shrink the font size of h1 in smaller sizes */
 
-@media (max-width: $screen-xs-max) {
-  h1,
-  .h1 {
+h1,
+.h1 {
+  @include media-breakpoint-down(sm) {
     font-size: rem-calc(22);
   }
 }
@@ -489,6 +481,10 @@ h5,
   }
 }
 
+.navbar-toggler {
+  border: 0;
+}
+
 .spacer {
   padding-top: 3em;
 }
@@ -513,6 +509,8 @@ h5,
 }
 #submit_search {
   width: 100%;
+  font-size: 16px;
+  background-color: #006f9b;
 }
 .searchstatement {
   background-color: $row-background;
@@ -868,7 +866,7 @@ span.title {
 
 span.required {
   font-variant: small-caps;
-  color: $alert-warning-text;
+  color: darken($warning, 60%);
 }
 .keywordscontext {
   .content {
@@ -927,35 +925,6 @@ span.head {
 #sidebar form {
   max-width: 85%;
   margin: 0 auto;
-}
-
-#sidebar .year_from {
-  padding: 0;
-  padding-right: 0.2rem;
-}
-
-#sidebar .year_to {
-  padding: 0;
-  padding-left: 0.2rem;
-}
-
-.filter_more form {
-  max-width: 90%;
-  margin: 0 auto;
-}
-
-.filter_more .year_from {
-  padding: 0;
-  padding-right: 0.2rem;
-}
-
-.filter_more .year_to {
-  padding: 0;
-  padding-left: 0.2rem;
-}
-
-.sorter {
-  margin-top: 20px;
 }
 
 .panel-heading {
@@ -1061,4 +1030,55 @@ span.head {
 
 #language_select {
   text-align: right;
+}
+
+// Bootstrap 4+ uses flex for its col classes. This overrides the flex behaviors in the public app wherever there is a resizable sidebar to enable custom JS
+.row.has-resizable-content {
+  flex-wrap: nowrap;
+  .col-sm-3.resizable-sidebar {
+    flex: unset;
+    max-width: unset;
+  }
+  .resizable-sidebar {
+    width: 25%;
+  }
+  .resizable-content-pane {
+    width: 75%;
+    @media (min-width: 992px) {
+      flex: 1;
+    }
+  }
+}
+
+@media (min-width: 992px) {
+  #sidebar.resizable-sidebar {
+    .resizable-sidebar-handle {
+      background-color: #eee;
+      position: absolute;
+      height: 100%;
+      width: 8px;
+      top: 0;
+      left: 0;
+      cursor: ew-resize;
+      background-image: asset-url('sidebar_drag_handle.png');
+      background-repeat: no-repeat;
+      background-position: 1px center;
+      border-right: 1px solid #ccc;
+      appearance: none;
+      -webkit-appearance: none;
+      -moz-appearance: none;
+    }
+
+    .resizable-sidebar-handle::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+    }
+
+    .resizable-sidebar-handle::-moz-range-thumb {
+      -moz-appearance: none;
+      appearance: none;
+      background: none;
+      border: none;
+    }
+  }
 }

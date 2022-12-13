@@ -44,7 +44,7 @@ $(function () {
       if ($table.is($multiselectEffectedWidget.data('multiselect'))) {
         $table
           .on('multiselectselected.aspace', function () {
-            $multiselectEffectedWidget.removeAttr('disabled');
+            $multiselectEffectedWidget.attr('disabled', null);
             var selected_records = $.makeArray(
               $('td.multiselect-column :input:checked', $table).map(
                 function () {

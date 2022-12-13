@@ -20,7 +20,7 @@
   <small><%= t("search_results.help.row_selection") %></small>
 </p>
 
-<table class="table table-striped table-bordered table-condensed table-hover table-sortable table-search-results">
+<table class="table table-striped table-bordered table-condensed table-hover table-sortable table-search-results table-responsive">
   <thead>
     <tr class="sortable-columns">
       <th><% if multiselect %><label for="select_all" class="sr-only"><%= t("search_results.selected") %></label><%= check_box_tag "select_all" %><% end %></th>
@@ -94,10 +94,10 @@
 
         <% if show_edit_actions %>
         <td>
-          <div class="btn-group pull-right">
-            <%= link_to t("actions.view"), {:controller => :resolver, :action => :resolve_readonly, :uri => container_json["uri"]}, :class => "btn btn-xs btn-default" %>
+          <div class="btn-group ml-auto bg-white border rounded">
+            <%= link_to I18n.t("actions.view"), {:controller => :resolver, :action => :resolve_readonly, :uri => container_json["uri"]}, :class => "btn" %>
             <% if can_edit %>
-              <%= link_to t("actions.edit"), {:controller => :resolver, :action => :resolve_edit, :uri => container_json["uri"]}, :class => "btn btn-xs btn-primary" %>
+              <%= link_to I18n.t("actions.edit"), {:controller => :resolver, :action => :resolve_edit, :uri => container_json["uri"]}, :class => "btn btn-primary" %>
             <% end %>
           </div>
         </td>

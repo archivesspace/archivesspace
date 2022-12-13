@@ -183,8 +183,8 @@
           <option value="empty" {if query.empty}selected{/if}><%= t("advanced_search.text_operator.empty") %></option>
         </select>
       </div>
-      <div class="input-group-addon search-value">
-        <label for="v${index}"><%= t "advanced_search.search_text" %></label>
+      <div class="input-group-addon search-value ml-4">
+        <label for="v${index}"><%= I18n.t "advanced_search.search_text" %></label>
         <%= text_field_tag "v${index}", "${query.value}", :id => "v${index}", :class => 'form-control', :onkeydown => "return processKey(event)" %>
       </div>
     </div>
@@ -210,8 +210,8 @@
           <% end %>
         </select>
       </div>
-      <div class="input-group-addon search-value">
-        <label for="v${index}"><%= t "advanced_search.search_date" %></label>
+      <div class="input-group-addon search-value ml-4">
+        <label for="v${index}"><%= I18n.t "advanced_search.search_date" %></label>
                                                     <%= text_field_tag "v${index}", "${query.value}", :id => "v${index}", :class => "date-field form-control", :"data-format" => "yyyy-mm-dd", :"data-date" => Date.today.strftime('%Y-%m-%d'), :"data-label" => t("actions.date_picker_toggle"), :"data-force-parse" => false %>
       </div>
     </div>
@@ -268,7 +268,7 @@
           <span class="glyphicon glyphicon-plus glyphicon-white"></span>
           <span class="caret"></span>
         </button>
-        <ul class="dropdown-menu pull-right">
+        <ul class="dropdown-menu ml-auto">
           <li><%= link_to t("advanced_search.type.text"), "javascript:void(0)", :class => "advanced-search-add-row advanced-search-add-text-row", "data-type" => "text" %></li>
           <li><%= link_to t("advanced_search.type.date"), "javascript:void(0)", :class => "advanced-search-add-row advanced-search-add-date-row", "data-type" => "date" %></li>
           <li><%= link_to t("advanced_search.type.boolean"), "javascript:void(0)", :class => "advanced-search-add-row advanced-search-add-bool-row", "data-type" => "boolean" %></li>
@@ -291,10 +291,10 @@
       <div class="col-md-1"></div>
     <% else %>
       <div class="col-md-4">
-        <%= link_to t("advanced_search.reset"), {:controller => :search, :action => :do_search, :advanced => true}, :class => "btn btn-default reset-advanced-search pull-right pull-right" %>
+        <%= link_to t("advanced_search.reset"), {:controller => :search, :action => :do_search, :advanced => true}, :class => "btn btn-default reset-advanced-search ml-auto ml-auto" %>
       </div>
       <div class="col-md-1">
-        <button class="btn btn-primary pull-right" id="advanced-search-btn"><%= t("advanced_search.button_text") %></button>
+        <button class="btn btn-primary ml-auto" id="advanced-search-btn"><%= t("advanced_search.button_text") %></button>
       </div>
       <div class="col-md-1"></div>
     <% end %>
