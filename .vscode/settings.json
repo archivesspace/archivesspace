@@ -1,11 +1,40 @@
 {
+  "editor.codeActionsOnSave": {
+    "source.fixAll": true
+  },
   "editor.defaultFormatter": null,
+  "editor.formatOnSave": true,
+  "files.insertFinalNewline": true,
+  "prettier.configPath": ".prettierrc",
+  "ruby.rubocop.autocorrectOnSave": true,
+  "stylelint.snippet": [
+    "css",
+    "less",
+    "postcss",
+    "scss"
+  ],
+  "stylelint.validate": [
+    "css",
+    "less",
+    "postcss",
+    "scss"
+  ],
+  "[css]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[html]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
   "[javascript]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode",
   },
-  "prettier.configPath": ".prettierrc",
-  "stylelint.configFile": ".stylelintrc",
+  "[less]": {
+    "editor.defaultFormatter": "stylelint.vscode-stylelint"
+  },
   "[ruby]": {
-    "editor.defaultFormatter": "misogi.ruby-rubocop"
+    "editor.defaultFormatter": "LoranKloeze.ruby-rubocop-revived"
+  },
+  "[scss]": {
+    "editor.defaultFormatter": "stylelint.vscode-stylelint"
   }
 }
