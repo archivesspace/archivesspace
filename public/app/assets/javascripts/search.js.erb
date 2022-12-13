@@ -54,15 +54,15 @@ function initialize_search() {
             $(this).val(''); // empty all row values
         }
     });
-    $template.find(".norepeat").each(function() { $(this).empty(); });
-    $template.find(".hidden").each(function() {$(this).removeClass("hidden"); });
-    $template.find("#op0").removeProp("disabled"); /* the disabled boolean operator */
+    $template.find(".norepeat").each(function() {$(this).addClass("d-none"); });
+    $template.find(".d-none.options-for-select").each(function() {$(this).removeClass("d-none"); });
+    $template.find("#op0").prop('disabled', null); /* the disabled boolean operator */
     $template.find("#op0").val('AND');
     $template.find("#op_").remove();
     $(".js-search-box").keypress(submit_on_enter);
 
     // squash whitespace in rows
-    $first.find('> .col-sm-1:first').hide();
+    $first.find('> .search-operator-field:first').hide();
     $first.find('> .col-sm-3:first').addClass('col-sm-4').removeClass('col-sm-3');
     $template.find('> .col-sm-3.norepeat').remove();
     $template.find('> .col-sm-3:first').addClass('col-sm-6').removeClass('col-sm-3');
@@ -73,9 +73,9 @@ function initialize_search() {
 function new_button($row, show_add) {
     var $plus = $row.find(".plusminus");
     if (show_add) {
-        $plus.html("<button class='btn btn-default' title='" + plusText + "' aria-label='" + plusText + "'><i aria-hidden='true' class='" + plusFACss + "'></i></button>");
+        $plus.html("<button class='btn btn-light border' title='" + plusText + "' aria-label='" + plusText + "'><i aria-hidden='true' class='" + plusFACss + "'></i></button>");
     } else {
-        $plus.html("<button class='btn btn-default' title='" + minusText + "' aria-label='" + minusText + "'><i aria-hidden='true' class='" + minusFACss + "'></i></button>");
+        $plus.html("<button class='btn btn-light border' title='" + minusText + "' aria-label='" + minusText + "'><i aria-hidden='true' class='" + minusFACss + "'></i></button>");
     }
     $plus.find("button").click(fn_plusminus);
     return true;

@@ -11,8 +11,8 @@
 <div class="input-group linker-wrapper">
   <input type="text" class="linker"
          id="collection_resource"
-         data-label_create="<%= t("top_container._frontend.bulk_operations.collection_resource.create") %>"
-         data-label_browse="<%= t("top_container._frontend.bulk_operations.collection_resource.browse") %>"
+         data-label_create="<%= t("top_container._frontend.bulk_operations.collection_resource_linker.create") %>"
+         data-label_browse="<%= t("top_container._frontend.bulk_operations.collection_resource_linker.browse") %>"
          data-label_link="<%= t("linker.link") %>"
          data-label_create_and_link="<%= t("linker.create_and_link") %>"
          data-name="ref"
@@ -21,12 +21,16 @@
          data-browse-url="<%= url_for :controller => :search, :action => :do_search, :format => :js, :facets => [], :sort => "title_sort asc" %>"
          data-selected="<%= selected_json %>"
          data-multiplicity="one"
-         data-types='<%= ['resource'].to_json %>'
+         data-types="<%= ['resource'].to_json %>"
   />
   <div class="input-group-btn">
-    <a class="btn btn-default dropdown-toggle last" data-toggle="dropdown" href="javascript:void(0);" title="<%= t("top_container._frontend.bulk_operations.collection_resource.link_title") %>" aria-label="<%= t("top_container._frontend.bulk_operations.collection_resource.create") %>"><span class="caret"></span></a>
+    <a 
+      class="btn btn-default dropdown-toggle last border-dark bg-white border-left-0 d-flex align-items-center" 
+      data-toggle="dropdown" href="javascript:void(0);"
+      title="<%= t("top_container._frontend.bulk_operations.collection_resource_linker.link_title") %>"
+      aria-label="<%= t("top_container._frontend.bulk_operations.collection_resource_linker.link_title") %>"></a>
     <ul class="dropdown-menu">
-      <li><a href="javascript:void(0);" class="linker-browse-btn"><%= t("actions.browse") %></a></li>
+      <li class='dropdown-item'><a href="javascript:void(0);" class="linker-browse-btn"><%= t("actions.browse") %></a></li>
     </ul>
   </div>
 </div>

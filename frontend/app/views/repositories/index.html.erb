@@ -9,11 +9,11 @@
   <div class="col-md-9">
     <% if user_can?('create_repository') %>
       <div class="record-toolbar">
-        <div class="btn-group pull-right">
+        <div class="btn-group ml-auto">
           <% if user_can?('administer_system') %>
-            <%= link_to t("repository._frontend.action.order_for_pui"), {:controller => :repositories, :action => :reorder}, :class => "btn btn-sm btn-default" %>
+            <%= link_to t("repository._frontend.action.order_for_pui"), {:controller => :repositories, :action => :reorder}, :class => "btn btn-sm btn-light btn-default" %>
           <% end %>
-          <%= link_to t("repository._frontend.action.create"), {:controller => :repositories, :action => :new}, :class => "btn btn-sm btn-default" %>
+          <%= link_to t("repository._frontend.action.create"), {:controller => :repositories, :action => :new}, :class => "btn btn-sm btn-light btn-default" %>
         </div>
         <br style="clear:both" /> <!-- So dirty! -->
       </div>

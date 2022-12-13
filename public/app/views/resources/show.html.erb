@@ -1,14 +1,14 @@
 <a name="main" title="<%= t('internal_links.main') %>"></a>
-<div id="main-content" class="row resources">
-  <div class="row" id="info_row">
+<div id="main-content" class="row">
+  <div id="info_row">
   <% unless defined?(@no_statement) || !defined?(@search) %>
   <div class="searchstatement"><%= @search[:search_statement].html_safe %></div>
   <% end %>
   </div>
-  <div class="information col-sm-7">
-      <%= render partial: 'shared/idbadge', locals: {:result => @result, :props => { :full => true} } %>
-  </div>
-  <div class="page_actions col-sm-5 right">
+    <div class="information col-12 col-lg-6">
+        <%= render partial: 'shared/idbadge', locals: {:result => @result, :props => { :full => true} } %>
+    </div>
+  <div class="page_actions col-12 col-lg-6">
     <%= render partial: 'shared/page_actions', locals: {:record => @result, :title =>  @result.display_string, :url => request.fullpath, :cite => @result.cite } %>
   </div>
 </div>
@@ -18,8 +18,8 @@
 
 <%= render partial: 'resources/resource_alltabs' %>
 
-<div class="row" id="notes_row">
-  <div class="col-sm-9">
+<div class="row mt-5" id="notes_row">
+  <div class="resizable-content-pane">
     <%= render partial: 'shared/digital', locals: {
       :dig_objs => @dig,
       record: @result,

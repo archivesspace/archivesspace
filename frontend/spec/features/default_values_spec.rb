@@ -11,20 +11,18 @@ describe 'Default Form Values', js: true do
   end
 
   before(:each) do
-    login_admin
-
-    visit('/preferences/0/edit?global=true')
-    check('preference[defaults][default_values]')
-    click_button('Save')
-
-    expect(page).to have_checked_field('preference[defaults][default_values]')
-    expect(page).to have_content('Preferences updated')
-
-  before(:each) do
     allow(AppConfig).to receive(:[]).and_call_original
     allow(AppConfig).to receive(:[]).with(:allow_mixed_content_title_fields) { true }
     login_admin
     select_repository(@repo)
+  end
+
+  it 'will let an admin change default values' do
+    visit('/preferences/0/edit?global=true')
+    check('preference[defaults][default_values]')
+    click_button('Save')
+    expect(page).to have_checked_field('preference[defaults][default_values]')
+    expect(page).to have_content('Preferences updated')
   end
 
   it 'will let an admin create default accession values' do

@@ -35,7 +35,7 @@ class AccessionsController < ApplicationController
 
     @accession['accession_date'] = t('accession.accession_date_unknown') if @accession['accession_date'] == "9999-12-31"
 
-    flash[:info] = t("accession._frontend.messages.suppressed_info") # TODO JSONModelI18nWrapper.new(:accession => @accession)) if @accession.suppressed
+    flash[:info] = t("accession._frontend.messages.suppressed_info") if @accession.suppressed
   end
 
   def new
@@ -48,7 +48,7 @@ class AccessionsController < ApplicationController
 
       if acc
         @accession.populate_from_accession(acc)
-        flash.now[:info] = t("accession._frontend.messages.spawned") # TODO JSONModelI18nWrapper.new(:accession => acc))
+        flash.now[:info] = t("accession._frontend.messages.spawned", accession_display_string: acc.title)
         flash[:spawned_from_accession] = acc.id
       end
     end
@@ -111,7 +111,7 @@ class AccessionsController < ApplicationController
                 :model => Accession,
                 :on_invalid => ->() { render action: "new" },
                 :on_valid => ->(id) {
-                    flash[:success] = t("accession._frontend.messages.created") # TODO JSONModelI18nWrapper.new(:accession => @accession))
+                    flash[:success] = t("accession._frontend.messages.created", accession_display_string: @accession.title)
                     if @accession["is_slug_auto"] == false &&
                        @accession["slug"] == nil &&
                        params["accession"] &&
@@ -132,7 +132,7 @@ class AccessionsController < ApplicationController
                   return render action: "edit"
                 },
                 :on_valid => ->(id) {
-                  flash[:success] = t("accession._frontend.messages.updated") # TODO JSONModelI18nWrapper.new(:accession => @accession))
+                  flash[:success] = t("accession._frontend.messages.updated", accession_display_string: @accession.title)
                   if @accession["is_slug_auto"] == false &&
                      @accession["slug"] == nil &&
                      params["accession"] &&
@@ -149,7 +149,7 @@ class AccessionsController < ApplicationController
     accession = Accession.find(params[:id])
     accession.set_suppressed(true)
 
-    flash[:success] = t("accession._frontend.messages.suppressed") # TODO JSONModelI18nWrapper.new(:accession => accession))
+    flash[:success] = t("accession._frontend.messages.suppressed", accession_display_string: accession.title)
     redirect_to(:controller => :accessions, :action => :show, :id => params[:id])
   end
 
@@ -158,7 +158,7 @@ class AccessionsController < ApplicationController
     accession = Accession.find(params[:id])
     accession.set_suppressed(false)
 
-    flash[:success] = t("accession._frontend.messages.unsuppressed") # TODO JSONModelI18nWrapper.new(:accession => accession))
+    flash[:success] = t("accession._frontend.messages.unsuppressed", accession_display_string: accession.title)
     redirect_to(:controller => :accessions, :action => :show, :id => params[:id])
   end
 
@@ -172,7 +172,7 @@ class AccessionsController < ApplicationController
       return redirect_to(:controller => :accessions, :action => :show, :id => params[:id])
     end
 
-    flash[:success] = t("accession._frontend.messages.deleted") # TODO JSONModelI18nWrapper.new(:accession => accession))
+    flash[:success] = t("accession._frontend.messages.deleted", accession_display_string: accession.title)
     redirect_to(:controller => :accessions, :action => :index, :deleted_uri => accession.uri)
   end
 

@@ -1,15 +1,9 @@
 .global-header {
-  position: relative;
-  padding: 0 20px;
   .navbar {
-    position: absolute;
-    right: 0;
-
     .container {
       padding-right: 0;
     }
   }
-
   .navbar-default {
     @include border-radius(0 0 4px 4px);
     @include box-shadow(0 1px 4px rgba(0, 0, 0, 0.065));
@@ -18,20 +12,17 @@
 
 // header customisations
 
-.navbar {
-  margin-bottom: 0;
+.navbar-wrapper {
+  display: flex;
+  padding: 1rem;
+  background-color: $gray-100;
+  height: 50%;
 }
 
 .navbar-nav {
   > li:last-child {
     position: static; // Ensures toolbar tooltips are aligned properly on display
   }
-}
-
-.navbar-nav-right {
-  position: absolute !important;
-  right: 0;
-  padding-right: 15px;
 }
 
 .navbar-branding {
@@ -166,16 +157,6 @@ header .inset-label {
   .global-header,
   .repository-header {
     padding: 0;
-  }
-}
-@media (max-width: 767px) {
-  .global-header,
-  .repository-header {
-    padding: 0;
-    .navbar {
-      position: relative;
-      float: right;
-    }
   }
 }
 

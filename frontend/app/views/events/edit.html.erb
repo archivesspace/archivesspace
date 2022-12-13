@@ -14,7 +14,7 @@
         <%= render_aspace_partial :partial => "toolbar", :locals => { :record_title => record_title } %>
         <div class="record-pane">
           <%= link_to_help :topic => "event" %>
-          <h2><%= record_title %>  <span class="label label-info"><%= t("event._singular") %></span></h2>
+          <h2><%= record_title %>  <span class="label label-info badge"><%= I18n.t("event._singular") %></span></h2>
 
           <%= render_aspace_partial :partial => "events/form", :locals => {:form => form} %>
           <div class="form-actions">

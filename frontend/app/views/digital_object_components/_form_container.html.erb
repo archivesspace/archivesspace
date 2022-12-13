@@ -6,7 +6,7 @@
   <% else %>
     <%= clean_mixed_content(@digital_object_component.display_string) %>
   <% end %>
-  <span class="label label-info"><%= t("digital_object_component._singular") %></span>
+  <span class="label label-info badge"><%= t("digital_object_component._singular") %></span>
 </h2>
 
 <%= render_aspace_partial :partial => "shared/form_messages", :locals => {:form => form} %>

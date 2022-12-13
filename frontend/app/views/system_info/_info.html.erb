@@ -1,7 +1,7 @@
 <div class='row record-pane'>
   <div class='col-md-3'>
-    <div id='archivesSpaceSidebar'>
-      <ul class='nav nav-list as-nav-list affix-top'>
+    <div id='archivesSpaceSidebar' class="sidebar d-flex">
+      <ul class='nav list-group as-nav-list position-fixed'>
         <% @info.keys.each do |key|  %>
           <li><a href="#<%= key %>"><%= key.upcase %></a></li>
         <% end %>

@@ -17,6 +17,7 @@ require 'jsonmodel'
 require_relative '../../indexer/app/lib/realtime_indexer'
 require_relative '../../indexer/app/lib/periodic_indexer'
 
+
 if ENV['COVERAGE_REPORTS'] == 'true'
   require 'aspace_coverage'
   ASpaceCoverage.start('frontend:test', 'rails')
@@ -106,6 +107,6 @@ RSpec.configure do |config|
 
   config.verbose_retry = true
   config.around :each, :js do |ex|
-    ex.run_with_retry retry: 3
+    ex.run_with_retry retry: ENV.fetch('RSPEC_RETRIES', 3)
   end
 end

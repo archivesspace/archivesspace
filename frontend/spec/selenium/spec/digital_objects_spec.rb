@@ -82,7 +82,7 @@ describe 'Digital Objects' do
 
   digital_object_title = 'Pony Express Digital Image'
 
-  it 'can create a digital_object with one file version', skip: 'UPGRADE lost in translation' do
+  it 'can create a digital_object with one file version' do
     @driver.find_element(:link, 'Create').click
     @driver.click_and_wait_until_gone(:link, 'Digital Object')
 
@@ -104,7 +104,7 @@ describe 'Digital Objects' do
     expect(@driver.find_element(css: '.table-row.root-row .title').text.strip).to match(/#{digital_object_title}/)
   end
 
-  it 'can handle multiple file versions and file system and network path types', skip: 'UPGRADE lost in translation' do
+  it 'can handle multiple file versions and file system and network path types' do
     [
       '/root/top_secret.txt',
       'C:\Program Files\windows.exe',
@@ -120,7 +120,7 @@ describe 'Digital Objects' do
     @driver.click_and_wait_until_gone(:link, 'Edit')
   end
 
-  it "make representative is disabled unless published is checked, and vice versa", skip: 'UPGRADE lost in translation' do
+  it "make representative is disabled unless published is checked, and vice versa" do
     @driver.find_element(:link, 'Create').click
     @driver.click_and_wait_until_gone(:link, 'Digital Object')
 

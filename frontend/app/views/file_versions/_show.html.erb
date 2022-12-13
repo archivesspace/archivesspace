@@ -6,8 +6,8 @@
   <h3><%= t("file_version._plural") %></h3>
   <div class="accordion details" id="<%= section_id %>_accordion">
     <% file_versions.each_with_index do | file_version, index | %>
-      <div class="panel panel-default">
-        <div class="panel-heading">
+      <div class="card border">
+        <div class="panel-heading card-header">
           <div class="row accordion-toggle collapsed" data-toggle="collapse" data-parent="#<%= section_id %>_accordion" href="#<%= section_id %>_file_version_<%= index %>">
             <div class="col-md-1">
               <span class="glyphicon"></span>

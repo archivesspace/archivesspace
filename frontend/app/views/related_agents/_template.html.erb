@@ -2,8 +2,8 @@
 
 <% define_template "related_agents_selector" do |form| %>
   <div class="subrecord-form-fields">
-    <div class="form-group">
-      <label class="control-label col-sm-2">
+    <div class="form-group row">
+      <label class="control-label col-sm-5 text-right">
         <% label_value = t("related_agent.relationship_type") %>
         <%= wrap_with_tooltip(label_value, "related_agent.relationship_type_tooltip", "control-label initialised") %>
       </label>
@@ -35,7 +35,7 @@
 <% jsonmodel_definition(@agent.agent_type).allowable_types_for("related_agents").each do |relationship_type| %>
   <% define_template "#{relationship_type}", jsonmodel_definition(relationship_type.intern) do |form, opts = {}| %>
     <div class="subrecord-form-fields">
-      <h3 class="subrecord-form-heading"><%= t("#{relationship_type}._singular") %></h3>
+      <h3 class="subrecord-form-heading d-flex"><%= t("#{relationship_type}._singular") %></h3>
       <div class="subrecord-form-container">
         <%= form.hidden_input(:jsonmodel_type, "#{relationship_type}") %>
 
