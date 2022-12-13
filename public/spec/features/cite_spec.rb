@@ -9,7 +9,7 @@ describe 'Citation dialog modal', js: true do
     resource = first("a.record-title")
     visit(resource['href'])
 
-    expect(page).to have_css('#cite_modal', visible: :hidden)
+    expect(page).to have_css('#cite_modal', visible: false)
     dialog_button = page.find('form#cite_sub > button[type="submit"]')
     dialog_button.click
     expect(page).to have_css('#cite_modal', visible: true)
@@ -49,25 +49,25 @@ describe 'Citation dialog modal', js: true do
   it 'should close when the header close button is clicked' do
     header_close_btn = page.find('#cite_modal_header_close')
     header_close_btn.click
-    expect(page).to have_css('#cite_modal', visible: :hidden)
+    expect(page).to have_css('#cite_modal', visible: false)
   end
 
   it 'should close when the footer close button is clicked' do
     footer_close_btn = page.find('#cite_modal_footer_close')
     footer_close_btn.click
-    expect(page).to have_css('#cite_modal', visible: :hidden)
+    expect(page).to have_css('#cite_modal', visible: false)
   end
 
   it 'should close when the escape key is pressed' do
     dialog = page.find('#cite_modal')
     dialog.send_keys(:escape)
-    expect(page).to have_css('#cite_modal', visible: :hidden)
+    expect(page).to have_css('#cite_modal', visible: false)
   end
 
   it 'should close with a click on dialog root outside the `.modal-dialog` content' do
     dialog = page.find('#cite_modal')
     dialog.click
-    expect(page).to have_css('#cite_modal', visible: :hidden)
+    expect(page).to have_css('#cite_modal', visible: false)
   end
 
   it 'should have `role` attribute on dialog root' do
@@ -114,23 +114,23 @@ describe 'Citation dialog modal', js: true do
     body.send_keys(:tab)
     expect(page.evaluate_script("document.activeElement.id")).to eq(dialog_id)
 
-    body.send_keys(:tab)
+    find('#cite_modal').send_keys(:tab)
     expect(page.evaluate_script("document.activeElement.id")).to eq(header_close_btn_id)
 
-    body.send_keys(:tab)
+    find('#cite_modal_header_close').send_keys(:tab)
     expect(page.evaluate_script("document.activeElement.id")).to eq(copy_item_btn_id)
 
-    body.send_keys(:tab)
+    find('#copy_item_citation').send_keys(:tab)
     expect(page.evaluate_script("document.activeElement.id")).to eq(copy_item_desc_btn_id)
 
-    body.send_keys(:tab)
+    find('#copy_item_description_citation').send_keys(:tab)
     expect(page.evaluate_script("document.activeElement.id")).to eq(footer_close_btn_id)
 
-    body.send_keys(:tab)
-    expect(page.evaluate_script("document.activeElement.id")).to eq(header_close_btn_id)
+    find('#cite_modal_footer_close').send_keys(:tab)
+    expect(page.evaluate_script("document.activeElement.id")).to eq(dialog_id)
 
-    body.send_keys(:tab)
-    expect(page.evaluate_script("document.activeElement.id")).to eq(copy_item_btn_id)
+    find('#cite_modal').send_keys(:tab)
+    expect(page.evaluate_script("document.activeElement.id")).to eq(header_close_btn_id)
   end
 
 end

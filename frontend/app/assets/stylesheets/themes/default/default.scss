@@ -44,7 +44,12 @@ body {
 }
 
 .badge {
-  background-color: #337ab7;
+  background-color: #1b647f;
+  color: white;
+}
+
+.sidebar .badge {
+  border-radius: 20px;
 }
 
 @media print {

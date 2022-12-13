@@ -10,10 +10,11 @@ GEM
 
 PLATFORMS
   java
+  universal-java-11
 
 DEPENDENCIES
   kramdown
   yard (>= 0.9.20)
 
 BUNDLED WITH
-   2.1.4
+   2.2.29

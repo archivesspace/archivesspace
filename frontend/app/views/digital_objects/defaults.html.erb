@@ -13,7 +13,7 @@
             <%= link_to_help :topic => "digital_object" %>
             <h2>
               <%= @form_title ? @form_title : @digital_object.title.blank? ? t("digital_object._singular") : @digital_object.title %>
-              <span class="label label-info"><%= t("digital_object._singular") %></span>
+              <span class="label label-info badge"><%= t("digital_object._singular") %></span>
             </h2>
 
              <%= render_aspace_partial :partial => "digital_objects/form_container", :locals => {:form => form} %>

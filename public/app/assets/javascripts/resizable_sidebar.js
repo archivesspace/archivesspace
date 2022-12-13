@@ -2,7 +2,7 @@ function ResizableSidebar($sidebar) {
   this.$sidebar = $sidebar;
 
   this.$row = $sidebar.closest('.row');
-  this.$content_pane = this.$row.find('> .col-sm-9');
+  this.$content_pane = this.$row.find('> .resizable-content-pane');
 
   if (this.$content_pane.length == 0) {
     // only do things if there's a content pane and a sidebar
@@ -51,7 +51,7 @@ ResizableSidebar.prototype.bind_events = function () {
 
       self.$sidebar.css('width', 0);
       self.$content_pane.css('width', new_content_width);
-      self.$sidebar.css('width', self.$row.width() - new_content_width);
+      self.$sidebar.css('width', self.$row.width() - new_content_width - 20);
 
       // position the infinite scrollbar too, if it's about
       if ($('.infinite-record-scrollbar').length > 0) {
@@ -71,7 +71,6 @@ ResizableSidebar.prototype.bind_events = function () {
       if (!self.isResizing) {
         return;
       }
-
       var content_width = document.getElementById('content').offsetWidth;
       var slider = document.getElementById('accessible_slider').value;
 
@@ -102,6 +101,7 @@ ResizableSidebar.prototype.bind_events = function () {
 
 $(function () {
   $('.resizable-sidebar').each(function () {
+    $(document).off('keydown.bs.dropdown.data-api');
     new ResizableSidebar($(this));
   });
 });

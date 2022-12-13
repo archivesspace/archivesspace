@@ -75,6 +75,7 @@ var init = function () {
       initListing(code);
       $('.select-report').hide();
       $('.unselect-report').show();
+      $('.unselect-report-group').addClass('ml-auto');
       $('.create-report-template').show();
       $('.report-listing:not(#' + code + ')').hide();
       $('#format').show();
@@ -89,6 +90,7 @@ var init = function () {
       $('#report-fields').empty();
       $('.select-report').show();
       $('.unselect-report').hide();
+      $('.unselect-report-group').removeClass('ml-auto');
       $('.create-report-template').hide();
       $('.report-listing').show();
       $('#format').hide();
@@ -189,7 +191,7 @@ var init = function () {
 
               $selectRecordType.append($('<option>', opts).text(valAndText[1]));
             });
-            $selectRecordType.removeAttr('disabled');
+            $selectRecordType.attr('disabled', null);
             if (oldVal != $selectRecordType.val())
               $selectRecordType.triggerHandler('change');
           },
@@ -214,7 +216,7 @@ var init = function () {
             );
           });
 
-          $selectProperty.removeAttr('disabled');
+          $selectProperty.attr('disabled', null);
         },
       });
     });

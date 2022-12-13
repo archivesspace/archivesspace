@@ -5,26 +5,26 @@
 %>
 <div class="row">
   <div class="col-md-12">
-    <div class="record-toolbar">
+    <div class="record-toolbar d-flex align-items-center">
       <% if (suppressible && !record.suppressed) || !suppressible %>
         <% if !['edit', 'update', 'create'].include?(controller.action_name) %>
-          <div class="btn-group pull-left">
+          <div class="btn-group">
             <%= link_to t("actions.edit"), parent_link, :class => "btn btn-sm btn-primary" %>
           </div>
         <% end %>
         <% if ['new', 'create', 'edit', 'update'].include?(controller.action_name) %>
-          <div class="pull-left save-changes">
+          <div class="save-changes">
             <button type="submit" class="btn btn-primary btn-sm"><%= t("actions.save_prefix") %></button>
           </div>
         <% end %>
         <% if ['edit', 'update'].include?(controller.action_name) %>
-          <div class="pull-left revert-changes">
-            <%= link_to t("actions.revert"), parent_link, :class => "btn btn-sm btn-default" %>
+          <div class="revert-changes">
+            <%= link_to t("actions.revert"), parent_link, :class => "btn btn-sm bg-white border" %>
             <%= t("actions.toolbar_disabled_message") %>
           </div>
         <% end %>
       <% end %>
-      <div class="btn-toolbar pull-right">
+      <div class="btn-toolbar ml-auto">
         <div class="btn-group">
           <% if user_can?('update_event_record') && supports_events && ((suppressible && !record.suppressed) || !suppressible ) %>
             <%= render_aspace_partial :partial => "shared/event_dropdown", :locals => {:record => record} %>
@@ -34,7 +34,7 @@
               <%= button_confirm_action(t("actions.publish_archival_object"),
                         url_for({:action => :publish, :id => record.id}),
                         {
-                          :class => "btn btn-sm btn-default",
+                          :class => "btn btn-sm",
                           :"data-title" => t("actions.publish_archival_object_confirm_title"),
                           :"data-message" => t("actions.publish_archival_object_confirm_message"),
                           :"data-confirm-btn-label" => "#{t("actions.publish_archival_object")}",
@@ -45,7 +45,7 @@
               <%= button_confirm_action(t("actions.unpublish_archival_object"),
                         url_for({:action => :unpublish, :id => record.id}),
                         {
-                          :class => "btn btn-sm btn-default",
+                          :class => "btn btn-sm ",
                           :"data-title" => t("actions.unpublish_archival_object_confirm_title"),
                           :"data-message" => t("actions.unpublish_archival_object_confirm_message"),
                           :"data-confirm-btn-label" => "#{t("actions.unpublish_archival_object")}",
@@ -60,7 +60,7 @@
           <% end %>
 
           <div class="btn-group dropdown" id="other-dropdown" style="display: none">
-            <a class="btn btn-sm btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+            <a class="btn btn-sm  dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
               <%= t('actions.more') %>
               <span class="caret"></span>
             </a>

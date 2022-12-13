@@ -6,7 +6,7 @@
 
   <% has_thumbnails_enabled = false %>
 
-  <table id="tabledSearchResults" class="table table-striped table-bordered table-condensed table-hover table-sortable table-search-results" <%= 'data-multiselect="true"' if allow_multiselect? %>>
+  <table id="tabledSearchResults" class="table table-striped table-bordered table-condensed table-hover table-sortable table-search-results table-responsive d-block d-md-table" <%= 'data-multiselect="true"' if allow_multiselect? %>>
     <thead>
       <tr>
         <% @columns.each do |col| %>

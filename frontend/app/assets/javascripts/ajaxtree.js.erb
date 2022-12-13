@@ -175,7 +175,7 @@ AjaxTree.prototype.setup_ajax_form = function() {
             if ($form.find('.error').length > 0) {
                 self.$pane.triggerHandler(FORM_SUBMITTED_EVENT, {success: false});
                 self.on_form_changed();
-                $(".btn-primary, .btn-cancel", $form).removeAttr("disabled");
+                $(".btn-primary, .btn-cancel", $form).attr('disabled', null);
             } else {
                 self.$pane.triggerHandler(FORM_SUBMITTED_EVENT, {success: true});
                 $form.data(FORM_CHANGED_KEY, false);
@@ -204,7 +204,7 @@ AjaxTree.prototype.setup_ajax_form = function() {
         error: function(obj, errorText, errorDesc) {
             self.$pane.prepend("<div class='alert alert-error'><p><%= I18n.t('errors.error_tree_pane_ajax')%></p><pre>"+errorDesc+"</pre></div>");
             self.$pane.triggerHandler(FORM_SUBMITTED_EVENT, {success: false});
-            $(".btn-primary", $form).removeAttr("disabled");
+            $(".btn-primary", $form).attr('disabled', null);
         }
     });
 

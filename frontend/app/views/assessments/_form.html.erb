@@ -98,9 +98,9 @@
         </div>
       <% else %>
         <% form.push("records", form.obj["records"] || []) do %>
-          <div class="form-group required">
-            <%= form.label('records', {:for => 'token-input-assessment_records_'}, ['col-sm-2']) %>
-            <div class="col-sm-9">
+          <div class="form-group row required">
+            <%= form.label('records', {:for => 'token-input-assessment_records_'}, ['col-sm-3']) %>
+            <div class="col-sm-8">
               <%= render_aspace_partial :partial => "assessments/records_linker", :locals => {:form => form} %>
             </div>
           </div>
@@ -147,15 +147,12 @@
           <% end %>
         </div>
       </div>
-
-      <div class="row">
-        <%= form.label_and_textarea 'existing_description_notes' %>
-      </div>
+      <%= form.label_and_textarea 'existing_description_notes' %>
 
       <hr>
 
       <% if form.readonly? %>
-        <div class="form-group">
+        <div class="form-group d-flex">
           <div class="control-label col-sm-2"><%= t("assessment.surveyed_by") %></div>
           <div class="controls token-list col-sm-10">
             <% form['surveyed_by'].each do |surveyed_by| %>
@@ -169,7 +166,7 @@
         </div>
       <% else %>
         <% form.push("surveyed_by", form.obj["surveyed_by"] || []) do %>
-          <div class="form-group required">
+          <div class="form-group row required">
             <%= form.label('surveyed_by', {:for => 'token-input-assessment_surveyed_by_'}, ['col-sm-2']) %>
             <div class="col-sm-9">
               <%= render_aspace_partial :partial => "assessments/agent_linker", :locals => {:form => form, :linker_id => 'assessment_surveyed_by_'} %>
@@ -186,7 +183,7 @@
 
       <%= form.label_and_boolean 'review_required' %>
       <% if form.readonly? %>
-        <div class="form-group">
+        <div class="form-group d-flex">
           <div class="control-label col-sm-2"><%= t("assessment.reviewer") %></div>
           <div class="controls token-list col-sm-10">
             <% form['reviewer'].each do |reviewer| %>
@@ -200,7 +197,7 @@
         </div>
       <% else %>
         <% form.push("reviewer", form.obj["reviewer"] || []) do %>
-          <div class="form-group">
+          <div class="form-group row">
             <%= form.label('reviewer', {:for => 'token-input-assessment_reviewer_'}, ['col-sm-2']) %>
             <div class="col-sm-9">
               <%= render_aspace_partial :partial => "assessments/agent_linker", :locals => {:form => form, :label => t('assessment._frontend.browse_reviewers'), :linker_id => 'assessment_reviewer_'} %>
@@ -291,7 +288,7 @@
 
                         <% rating_values_tooltip = rating_values_tooltip(rating) %>
                         <% if rating_values_tooltip %>
-                          <label class="pull-right ratings-value-tooltip glyphicon glyphicon-question-sign has-tooltip control-label"
+                          <label class="ml-auto ratings-value-tooltip glyphicon glyphicon-question-sign has-tooltip control-label"
                                  data-trigger="manual"
                                  data-html="true"
                                  title="<%= rating_values_tooltip %>"
@@ -337,8 +334,8 @@
                           </label>
                         </td>
                         <td>
-                          <button class="btn btn-xs btn-default assessment-add-rating-note"><%= t('assessment._frontend.action.add_rating_note') %></button>
-                          <button class="btn btn-xs btn-default assessment-remove-rating-note" style="display:none;" aria-hidden="true"><%= t('assessment._frontend.action.remove_rating_note') %></button>
+                          <button class="btn btn-xs assessment-add-rating-note border"><%= t('assessment._frontend.action.add_rating_note') %></button>
+                          <button class="btn btn-xs assessment-remove-rating-note border" style="display:none;" aria-hidden="true"><%= t('assessment._frontend.action.remove_rating_note') %></button>
                         </td>
                     </tr>
                     <tr style="display:none">
@@ -398,7 +395,7 @@
 
                           <% rating_values_tooltip = rating_values_tooltip(rating) %>
                           <% if rating_values_tooltip %>
-                            <label class="pull-right ratings-value-tooltip glyphicon glyphicon-question-sign has-tooltip control-label"
+                            <label class="ml-auto ratings-value-tooltip glyphicon glyphicon-question-sign has-tooltip control-label"
                                    data-trigger="manual"
                                    data-html="true"
                                    title="<%= rating_values_tooltip %>"
@@ -524,13 +521,13 @@
                 i18n_format(a.fetch('label')) <=> i18n_format(b.fetch('label'))
               end
             }.each_slice((@assessment_attribute_definitions.global_formats.length.to_f / 2).ceil).each do |group| %>
-              <div class="col-md-6">
+              <div class="col-md-8">
                 <% group.each do |format| %>
                   <% form.push(form.set_index("formats[]", formats_index), ASUtils.wrap(form.obj['formats']).find{|r| r['definition_id'] == format['id']} || {}) do %>
-                    <div class="form-group">
+                    <div class="form-group row">
                       <%= form.hidden_input('definition_id', format.fetch('id'), :disabled => form.obj['value'].nil?) %>
-                      <%= label_tag form.id_for('value'), i18n_format(format.fetch('label')), :class => 'col-sm-6 control-label' %>
-                      <div class="col-sm-1 checkbox">
+                      <%= label_tag form.id_for('value'), i18n_format(format.fetch('label')), :class => 'col-10 control-label' %>
+                      <div class="col-2 checkbox">
                         <%= form.checkbox('value', {:value => 'true'}, false, form.obj['value'] == 'true') %>
                       </div>
                     </div>
@@ -556,8 +553,6 @@
                 </h4>
               </div>
             </div>
-            <div class="row">
-
               <% if @assessment_attribute_definitions.repo_formats.length > 0 %>
                 <% @assessment_attribute_definitions.repo_formats.each do |format| %>
                   <% form.push(form.set_index("formats[]", formats_index), ASUtils.wrap(form.obj['formats']).find{|r| r['definition_id'] == format['id']} || {}) do %>
@@ -572,9 +567,8 @@
                     </div>
                   <% end %>
                   <% formats_index += 1 %>
-                <% end %>
-              </div>
-            <% end %>
+                  <% end %>
+              <% end %>
           <% end %>
 
           <% unless form.readonly? %>

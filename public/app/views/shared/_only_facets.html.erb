@@ -21,11 +21,11 @@
     <% facet_group = @facets.fetch(type, false) %>
 
     <% next if facet_group.empty? %>
-    <dt><%= t("search_results.filter.#{type}") %></dt>
+    <dt class='mb-2 mt-3'><%= t("search_results.filter.#{type}") %></dt>
     <% facet_group.each_with_index do |facet, i| %>
-      <% if i == 5 %>
         <div class="more-facets">
-          <span class="more btn">&or; <%= t('search_results.more_facets') %></span>
+      <% if i == 5 %>
+          <span class="more btn border btn-sm">&#9663; <%= t('search_results.more_facets') %></span>
           <div class="below-the-fold">
       <% end %>
       <dd>
@@ -38,10 +38,9 @@
       </dd>
     <% end %>
     <% if facet_group.size > 5 %>
-+        <span class="less btn">&and; <%= t('search_results.fewer_facets') %></span>
+        <span class="less btn border btn-sm">&#9653;  <%= t('search_results.fewer_facets') %></span>
       </div>
     <% end %>
-    <span class="type-spacer">&nbsp;</span>
   <% end %>
 </dl>
 <% end %>

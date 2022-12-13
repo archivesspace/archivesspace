@@ -57,7 +57,7 @@ describe 'Resources and archival objects' do
     fa_script_combo = @driver.find_element(xpath: '//*[@id="resource_finding_aid_script_"]')
     fa_script_combo.clear
     fa_script_combo.click
-    fa_script_combo.send_keys('Latn')
+    fa_script_combo.send_keys('Latin')
     fa_script_combo.send_keys(:tab)
 
     # no collection managment
@@ -74,8 +74,8 @@ describe 'Resources and archival objects' do
 
     notes_toggle[1].click
     @driver.wait_for_ajax
-
-    expect(@driver.find_element(id: 'resource_notes__1__content__0_').text).to match(@accession.condition_description)
+    sleep 1
+    expect(@driver.find_element(id: 'resource_notes__1__content__0_').text).to include(@accession.condition_description)
 
     @driver.find_element(id: 'resource_dates__0__date_type_').select_option('single')
     @driver.clear_and_send_keys([:id, 'resource_dates__0__begin_'], '1978')
@@ -112,7 +112,7 @@ describe 'Resources and archival objects' do
     @driver.click_and_wait_until_gone(:css, 'a.btn.btn-cancel')
   end
 
-  it 'prepopulates the top container modal with search for current resource when linking on the resource edit page', skip: 'UPGRADE lost in translation' do
+  it 'prepopulates the top container modal with search for current resource when linking on the resource edit page', skip: 'UPGRADE skipping for green CI' do
     # Create some top containers
     location = create(:location)
     container_location = build(:container_location,
@@ -141,11 +141,11 @@ describe 'Resources and archival objects' do
     @driver.find_elements(:link, 'Browse')[1].click
 
     sleep 1
-
-    @driver.find_element(css: '.token-input-delete-token').click
+    @driver.find_element(css: '.modal-dialog .token-input-delete-token').click
     @driver.clear_and_send_keys([:css, '#q'], '*')
 
     inputs = @driver.find_element(css: '.modal-content').find_elements(css: 'input')
+
     inputs.each do |input|
       if input.attribute('value') == "Search"
         input.click
@@ -245,7 +245,7 @@ describe 'Resources and archival objects' do
     fa_script_combo = @driver.find_element(xpath: '//*[@id="resource_finding_aid_script_"]')
     fa_script_combo.clear
     fa_script_combo.click
-    fa_script_combo.send_keys('Latn')
+    fa_script_combo.send_keys('Latin')
     fa_script_combo.send_keys(:tab)
 
     @driver.find_element(id: 'resource_dates__0__date_type_').select_option('single')
@@ -545,7 +545,7 @@ describe 'Resources and archival objects' do
     @driver.click_and_wait_until_gone(:id, 'dismissChangesButton')
   end
 
-  it 'can update an existing Archival Object', skip: 'UPGRADE lost in translation' do
+  it 'can update an existing Archival Object' do
     @driver.get_edit_page(@archival_object)
 
     # Wait for the form to load in
@@ -598,7 +598,7 @@ describe 'Resources and archival objects' do
     assert(5) { expect(@driver.find_element(:css, '#archival_object_subjects_ ul.token-input-list').text).to match(/#{$$}FooTerm456/) }
   end
 
-  it 'can view a read only Archival Object', skip: 'UPGRADE lost in translation' do
+  it 'can view a read only Archival Object' do
     @driver.get_edit_page(@archival_object)
 
     @driver.find_element(:link, 'Close Record').click

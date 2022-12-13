@@ -1,12 +1,12 @@
 <div class="row">
   <div class="col-md-12">
-    <div class="record-toolbar">
-        <div class="btn-group pull-left">
-          <div class="pull-left save-changes">
-            <button type="submit" class="btn btn-primary btn-sm"><%= t("actions.save_prefix") %></button>
+    <div class="record-toolbar d-flex align-items-center">
+        <div class="btn-group bg-white border rounded">
+          <div class="save-changes">
+            <button type="submit" class="btn btn-primary btn-sm"><%= I18n.t("actions.save_prefix") %></button>
           </div>
         </div>
-      <div class="btn-toolbar pull-right">
+      <div class="btn-toolbar bg-white border rounded ml-auto">
         <div class="btn-group">
           <div class="btn btn-inline-form">
             <%= button_delete_action url_for(:controller => :groups, :action => :delete, :id => @group.id), { :"data-title" => t("actions.delete_confirm_title", :title => @group.description) } %>

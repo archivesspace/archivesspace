@@ -11,7 +11,7 @@ $(function () {
     function resetPrintBtn() {
       self.find('.generating-label').hide();
       self.find('.print-label').show();
-      self.removeAttr('disabled');
+      self.attr('disabled', null);
     }
 
     self.find('.print-label').hide();
@@ -38,7 +38,7 @@ function addPageLocationMsg() {
   const contentEl = document.querySelector('#content');
   const locationEl = document.createElement('p');
   locationEl.classList.add('page-location-for-printing');
-  locationEl.innerHTML = '<i>Printed from</i> ' + location;
+  locationEl.innerHTML = `<i>Printed from</i> ${location}`;
 
   contentEl.insertAdjacentElement('beforebegin', locationEl);
 }

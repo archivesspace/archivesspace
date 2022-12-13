@@ -58,7 +58,7 @@ class UsersController < ApplicationController
     @user = JSONModel(:user).find(params[:id])
 
     if @user.is_system_user and not user_is_global_admin?
-      flash[:error] = t("user._frontend.messages.access_denied") # TODO JSONModelI18nWrapper.new(:user => @user))
+      flash[:error] = t("user._frontend.messages.access_denied")
       redirect_to(:controller => :users, :action => :index) and return
     end
 
@@ -76,7 +76,7 @@ class UsersController < ApplicationController
     @user = JSONModel(:user).from_hash(JSONModel::HTTP::get_json("/repositories/#{session[:repo_id]}/users/#{params[:id]}"))
 
     if @user.is_system_user or @user.is_admin
-      flash[:error] = t("user._frontend.messages.group_not_required") # TODO JSONModelI18nWrapper.new(:user => @user))
+      flash[:error] = t("user._frontend.messages.group_not_required")
       redirect_to(:controller => :users, :action => :index) and return
     end
 
@@ -88,7 +88,7 @@ class UsersController < ApplicationController
     user = JSONModel(:user).find(params[:id])
     user.delete
 
-    flash[:success] = t("user._frontend.messages.deleted") # TODO JSONModelI18nWrapper.new(:user => user))
+    flash[:success] = t("user._frontend.messages.deleted")
     redirect_to(:controller => :users, :action => :index, :deleted_uri => user.uri)
   end
 

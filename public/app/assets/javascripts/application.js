@@ -1,4 +1,5 @@
-//= require jquery
+//= require jquery3
+//= require jquery-migrate
 //= require jquery_ujs
 //= require bootstrap-sprockets
 //= require jquery.scrollTo/jquery.scrollTo

@@ -9,7 +9,7 @@ $(document).ready(function () {
     $('.chronotype_form :input').attr('disabled', 'disabled');
 
     var activated = $(this).val();
-    $('#chronotype_' + activated + ' :input').removeAttr('disabled');
+    $('#chronotype_' + activated + ' :input').attr('disabled', null);
     $('#chronotype_' + activated).show();
   });
 

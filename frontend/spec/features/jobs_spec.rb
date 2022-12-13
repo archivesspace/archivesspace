@@ -14,7 +14,7 @@ describe 'Jobs', js: true do
     select_repository(@repo)
   end
 
-  it 'can create a find and replace job', skip: 'UPGRADE waiting on bootstrap fixes' do
+  it 'can create a find and replace job' do
     resource = create(:resource)
 
     run_index_round
@@ -114,8 +114,10 @@ describe 'Jobs', js: true do
       click_link('Import Data')
     end
 
-    # can this be done without calling the javascript directly?
-    execute_script("return $('#job_filenames_ > span > input')[0]").send_keys(template_file)
+    attach_file(template_file) do
+      find('.fileinput-button').click
+    end
+
     click_button('Start Job')
     wait_for_job_to_complete(page)
     expect(page).to have_content('Import Job')
