@@ -79,10 +79,11 @@ class DigitalObjectsController < ApplicationController
       elsif params[:spawn_from_archival_object_id]
         copy_from_record = ArchivalObject.find(params[:spawn_from_archival_object_id])
       end
-      raise ArgumentError.new("valid Resource, Resource Component, or Accession not provided") unless copy_from_record
 
-      updates = map_record_fields_to_digital_object(copy_from_record)
-      @digital_object.update(updates)
+      if copy_from_record
+        updates = map_record_fields_to_digital_object(copy_from_record)
+        @digital_object.update(updates)
+      end
     end
 
     return render_aspace_partial :partial => "digital_objects/new" if params[:inline]
