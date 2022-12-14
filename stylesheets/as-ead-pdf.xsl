@@ -167,7 +167,7 @@
                 </fo:static-content>
                 <!-- Page footer-->
                 <fo:static-content flow-name="xsl-region-after">
-                    <fo:block text-align="center" color="dimgray">
+                    <fo:block text-align="center" color="dimgray" font-size="10pt">
                         <xsl:text>- Page </xsl:text>
                         <fo:page-number/>
                         <xsl:text> -</xsl:text>
@@ -188,7 +188,7 @@
                 </fo:static-content>
                 <!-- Page footer-->
                 <fo:static-content flow-name="xsl-region-after">
-                    <fo:block text-align="center">
+                    <fo:block text-align="center" font-size="10pt" color="dimgray">
                         <xsl:text>- Page </xsl:text>
                         <fo:page-number/>
                         <xsl:text>- </xsl:text>
@@ -638,7 +638,7 @@
     <!-- Formats archdesc did -->
     <xsl:template match="ead:archdesc/ead:did">
         <fo:block xsl:use-attribute-sets="section">
-        <fo:block xsl:use-attribute-sets="h3ID">Summary Information</fo:block>
+        <fo:block xsl:use-attribute-sets="h2ID">Summary Information</fo:block>
                 <!--
                     Determines the order in wich elements from the archdesc did appear,
                     to change the order of appearance change the order of the following
@@ -728,7 +728,7 @@
     <xsl:template match="ead:bibliography | ead:odd | ead:phystech | ead:otherfindaid |
         ead:bioghist | ead:scopecontent | ead:arrangement | ead:fileplan">
         <fo:block xsl:use-attribute-sets="section">
-            <fo:block xsl:use-attribute-sets="h3ID"><xsl:value-of select="local:tagName(.)"/></fo:block>
+            <fo:block xsl:use-attribute-sets="h2ID"><xsl:value-of select="local:tagName(.)"/></fo:block>
                 <xsl:apply-templates/>
             <xsl:call-template name="toc"/>
         </fo:block>
@@ -791,7 +791,7 @@
     <!-- Formats controlled access terms -->
     <xsl:template match="ead:controlaccess">
         <fo:block xsl:use-attribute-sets="section">
-            <fo:block xsl:use-attribute-sets="h3ID"><xsl:value-of select="local:tagName(.)"/></fo:block>
+            <fo:block xsl:use-attribute-sets="h2ID"><xsl:value-of select="local:tagName(.)"/></fo:block>
             <fo:list-block xsl:use-attribute-sets="smp">
                 <xsl:apply-templates/>
             </fo:list-block>
@@ -813,7 +813,7 @@
     <!-- Formats index and child elements, groups indexentry elements by type (i.e. corpname, subject...) -->
     <xsl:template match="ead:index">
         <fo:block xsl:use-attribute-sets="section">
-            <fo:block xsl:use-attribute-sets="h3ID"><xsl:value-of select="local:tagName(.)"/></fo:block>
+            <fo:block xsl:use-attribute-sets="h2ID"><xsl:value-of select="local:tagName(.)"/></fo:block>
             <xsl:apply-templates select="child::*[not(self::ead:indexentry)]"/>
             <fo:list-block xsl:use-attribute-sets="smp">
             <xsl:apply-templates select="ead:indexentry"/>
@@ -1290,7 +1290,7 @@
     <xsl:template match="ead:archdesc/ead:dsc">
         <xsl:if test="count(child::*) >= 1">
 		<fo:block xsl:use-attribute-sets="section">
-		    <fo:block xsl:use-attribute-sets="h3ID"><xsl:value-of select="local:tagName(.)"/></fo:block>
+		    <fo:block xsl:use-attribute-sets="h2ID"><xsl:value-of select="local:tagName(.)"/></fo:block>
 		    <fo:table table-layout="fixed" space-after="12pt" width="100%" font-size="10pt">
 			<fo:table-column column-number="1" column-width="4in"/>
 			<fo:table-column column-number="2" column-width="1in"/>
@@ -1486,7 +1486,7 @@
 
     <!-- Series titles -->
     <xsl:template match="ead:did" mode="dscSeriesTitle">
-        <fo:block font-weight="bold" font-size="14" margin-bottom="0" margin-top="4" id="{local:buildID(parent::*)}">
+        <fo:block font-weight="bold" font-size="12" margin-bottom="0" margin-top="4" id="{local:buildID(parent::*)}">
             <!-- Uncomment the following to add 'Series' to series titles  -->
             <!--
             <xsl:if test="ead:unitid">
@@ -1602,8 +1602,7 @@
         </xsl:if>
     </xsl:template>
     <xsl:template match="ead:relatedmaterial | ead:separatedmaterial | ead:accessrestrict | ead:userestrict |
-        ead:custodhist | ead:accruals | ead:altformavail | ead:acqinfo |
-        ead:processinfo | ead:appraisal | ead:originalsloc" mode="dsc">
+        ead:custodhist | ead:accruals | ead:altformavail | ead:processinfo | ead:appraisal | ead:originalsloc" mode="dsc">
         <xsl:if test="child::*">
             <fo:block xsl:use-attribute-sets="smpDsc">
                 <fo:inline text-decoration="underline"><xsl:value-of select="local:tagName(.)"/>:</fo:inline>
