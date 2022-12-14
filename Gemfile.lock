@@ -206,6 +206,7 @@ GEM
 PLATFORMS
   java
   ruby
+  universal-java-1.8
   universal-java-11
 
 DEPENDENCIES
