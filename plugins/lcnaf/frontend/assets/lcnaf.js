@@ -63,8 +63,8 @@ $(function() {
 
   var removeSelected = function(lccn) {
     selected_lccns[lccn] = false;
-    $("[data-lccn="+lccn+"]", $selected).remove();
-    var $result = $("[data-lccn="+lccn+"]", $results);
+    $("[data-lccn='"+lccn+"']", $selected).remove();
+    var $result = $("[data-lccn='"+lccn+"']", $results);
     if ($result.length > 0) {
       $result.removeClass("hide");
       $(".alert-success", $result).removeClass("alert-success").addClass("alert-info");
@@ -121,7 +121,6 @@ $(function() {
     dataType: "json",
     type: "POST",
     beforeSubmit: function(data, $form, options) {
-
       data.push({
         name: 'lcnaf_service',
         value:   $("input[name='lcnaf_service']:checked").val(),
@@ -172,6 +171,7 @@ $(function() {
   }); 
 
   $selected.on("click", ".remove-selected", function(event) {
+    event.stopPropagation();
     var lccn = $(this).parent().data("lccn");
     removeSelected(lccn);
   });
