@@ -9,6 +9,51 @@ describe 'MARCXML Bib converter' do
     MarcXMLBibConverter
   end
 
+  def convert_test_file(file = "at-tracer-marc-1.xml")
+    test_file = File.expand_path("./examples/marc/#{file}", File.dirname(__FILE__))
+    parsed = convert(test_file)
+
+    @corps = parsed.select {|rec| rec['jsonmodel_type'] == 'agent_corporate_entity'}
+    @families = parsed.select {|rec| rec['jsonmodel_type'] == 'agent_family'}
+
+    @families.instance_eval do
+      def by_name(name)
+        self.select {|f| f['names'][0]['family_name'] == name}
+      end
+
+      def uris_for_name(name)
+        by_name(name).map {|f| f['uri']}
+      end
+    end
+
+    @people = parsed.select {|rec| rec['jsonmodel_type'] == 'agent_person'}
+    @people.instance_eval do
+      def by_name(name)
+        self.select {|p|
+          if name.match(/(.+),\s*(.+)/)
+            (p['names'][0]['primary_name'] == $1) && (p['names'][0]['rest_of_name'] == $2)
+          else
+            p['names'][0]['primary_name'] == name
+          end
+        }
+      end
+
+      def uris_for_name(name)
+        by_name(name).map {|f| f['uri']}
+      end
+
+      def by_num(id)
+        @people.find {|p| p['test_id'] == id}
+      end
+    end
+
+    @subjects = parsed.select {|rec| rec['jsonmodel_type'] == 'subject'}
+
+    @resource = parsed.select {|rec| rec['jsonmodel_type'] == 'resource'}.last
+    @notes = @resource['notes'].map { |note| note_content(note) }
+    @lang_materials_notes = @resource['lang_materials'].select {|n| n.include?('notes')}.reject {|e| e['notes'] == [] }[0]['notes'].map { |note| note_content(note) }
+  end
+
   describe "Basic MARCXML to ASPACE mappings" do
     def test_doc_1
       src = <<~END
@@ -37,7 +82,6 @@ describe 'MARCXML Bib converter' do
                       </datafield>
                       <datafield tag="300" ind2=" " ind1=" ">
                           <subfield code="a">5.0 Linear feet</subfield>
-                          <subfield code="f">Resource-ContainerSummary-AT</subfield>
                       </datafield>
                       <datafield tag="342" ind2="5" ind1="1">
                           <subfield code="i">SF I</subfield>
@@ -74,6 +118,13 @@ describe 'MARCXML Bib converter' do
                         <subfield code="a">711_sub_a_ind1_1_ind2_zero</subfield>
                         <subfield code="c">711_sub_c</subfield>
                         <subfield code="q">711_sub_q</subfield>
+                      </datafield>
+                      <datafield ind1="1" ind2=" " tag="852">
+                        <subfield code="k">Call number prefix</subfield>
+                        <subfield code="h">Classification part</subfield>
+                        <subfield code="i">Item part</subfield>
+                        <subfield code="j">Shelving control number</subfield>
+                        <subfield code="m">Call number suffix</subfield>
                       </datafield>
                   </record>
              </collection>
@@ -147,11 +198,42 @@ describe 'MARCXML Bib converter' do
       end
     end
 
+    it "maps datafield[@tag='852'] $k, $h, $i, $j, $m to id_0" do
+      expect(@resource['id_0']).to eq("Call number prefix_Classification part_Item part_Shelving control number_Call number suffix")
+    end
 
+    context 'when controlfield positions 7-10, 245$f, 245$g, and 260$c are not present' do
+      let (:test_doc) {
+        src = <<~MARC
+          <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+          <collection xsi:schemaLocation="http://www.loc.gov/MARC21/slim http://www.loc.gov/standards/marcxml/schema/MARC21slim.xsd" xmlns="http://www.loc.gov/MARC21/slim" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+              <record>
+                  <leader>00000npc a2200000 u 4500</leader>
+                  <controlfield tag="008">130109         xx                  eng d</controlfield>
+                  <datafield tag="245" ind1="1" ind2="0">
+                      <subfield code="a">Resource with Publication Date</subfield>
+                  </datafield>
+                  <datafield tag="300" ind1=" " ind2=" ">
+                      <subfield code="a">1 item</subfield>
+                  </datafield>
+                  <datafield tag="264" ind2=" " ind1=" ">
+                      <subfield code="c">264$c date expression</subfield>
+                  </datafield>
+              </record>
+          </collection>
+        MARC
+        get_tempfile_path(src)
+      }
+      let(:resource) { (convert(test_doc)).last }
+
+      it "maps datafield[@tag='264']/subfield[@code='c'] to resources.dates[]" do
+        expect(resource['dates'][0]['expression']).to eq("264$c date expression")
+        expect(resource['dates'][0]['label']).to eq("publication")
+        expect(resource['dates'][0]['date_type']).to eq("single")
+      end
+    end
 
     describe "MARC import mappings" do
-
-
       def convert_test_file
         test_file = File.expand_path("./examples/marc/at-tracer-marc-1.xml", File.dirname(__FILE__))
         parsed = convert(test_file)
@@ -312,7 +394,7 @@ describe 'MARCXML Bib converter' do
       end
 
       it "maps datafield[@tag='300'] to resource.extents[].container_summary using template '$3: $a ; $b, $c ($e, $f, $g)'" do
-        expect(@resource['extents'][0]['container_summary']).to eq("5.0 Linear feet (Resource-ContainerSummary-AT)")
+        expect(@resource['extents'][0]['container_summary']).to eq("5.0 Linear feet")
         expect(@resource['extents'][0]['number']).to eq("5.0")
         expect(@resource['extents'][0]['extent_type']).to eq("Linear feet")
       end
@@ -429,6 +511,53 @@ describe 'MARCXML Bib converter' do
 
         expect(has_qualifier).to eq(5)
       end
+    end
+
+    describe "MARC import mappings, call number identifiers" do
+      def convert_test_file(filename)
+        test_file = File.expand_path("./examples/marc/#{filename}", File.dirname(__FILE__))
+        parsed = convert(test_file)
+
+        @resource = parsed.select {|rec| rec['jsonmodel_type'] == 'resource'}.last
+      end
+
+      it "maps call numbers to ID, 99 first" do
+        convert_test_file("american-communist-all-call.xml")
+
+        expect(@resource['id_0']).to eq('TAM.99')
+      end
+
+      it "maps call numbers to ID, 92 first" do
+        convert_test_file("american-communist-92.xml")
+
+        expect(@resource['id_0']).to eq('TAM.92')
+      end
+
+      it "maps call numbers to ID, 82 first" do
+        convert_test_file("american-communist-82.xml")
+
+        expect(@resource['id_0']).to eq('TAM.82')
+      end
+    end
+  end
+
+  describe "300 tag with $a and $f defined" do
+    it "imports extent data from 300 when $a is numeric and $f is in controlled vocabulary" do
+      convert_test_file("at-tracer-marc-2.xml")
+      expect(@resource['extents'][0]['number']).to eq("5.0")
+      expect(@resource['extents'][0]['extent_type']).to eq("linear feet")
+    end
+  end
+
+  describe "300 tag with $a and $f defined, $a not numeric" do
+    it "fails with error message when $a is not numeric" do
+      expect { convert_test_file("at-tracer-marc-3.xml") }.to raise_error(StandardError, "No numeric value found in field 300, subfield a")
+    end
+  end
+
+  describe "300 tag with $a and $f defined, $f not in controlled vocabulary" do
+    it "fails with error message when $f is not in controlled vocabulary" do
+      expect { convert_test_file("at-tracer-marc-4.xml") }.to raise_error(StandardError, "Extent type in field 300, subfield f is not found in the extent type controlled vocabulary.")
     end
   end
 
@@ -698,7 +827,6 @@ describe 'MARCXML Bib converter' do
               </foo:datafield>
               <foo:datafield tag="300" ind2=" " ind1=" ">
                 <foo:subfield code="a">5.0 Linear feet</foo:subfield>
-                <foo:subfield code="f">Resource-ContainerSummary-AT</foo:subfield>
               </foo:datafield>
             </foo:record>
           </foo:collection>
@@ -718,7 +846,6 @@ describe 'MARCXML Bib converter' do
             </foo:datafield>
             <foo:datafield tag="300" ind2=" " ind1=" ">
               <foo:subfield code="a">5.0 Linear feet</foo:subfield>
-              <foo:subfield code="f">Resource-ContainerSummary-AT</foo:subfield>
             </foo:datafield>
           </foo:record>
       MARC

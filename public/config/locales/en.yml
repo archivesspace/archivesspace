@@ -41,6 +41,7 @@ en:
     cite: Citation
     cite_item: Cite Item
     cite_item_description: Cite Item Description
+    digitized: View Digital Material
     request: Request
     print: Print
     print-generating: Generating
@@ -53,6 +54,8 @@ en:
     search_add_row: Add a search row
     search_remove_row: Remove the row below
     staff_link: Staff Only
+    next: Next
+    previous: Previous
 
   page_actions: Page Actions
 
@@ -162,6 +165,8 @@ en:
       published_series_title_u_sstr: Series
       instance_type_enum_s: Instance type
       langcode: Language
+      digital_object_type_enum_s: Type
+      extent_type_enum_s: Extent
 
   search_sorting:
     sort_by: "Sort by:"

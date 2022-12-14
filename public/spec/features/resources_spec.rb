@@ -41,6 +41,14 @@ describe 'Resources', js: true do
     expect(page).to have_content(first_title)
   end
 
+  it "displays related digital objects" do
+    visit('/')
+    click_link 'Collections'
+    click_link 'Resource with digital instance'
+    click_link 'View Digital Material'
+    expect(page).to have_content('Digital Record')
+  end
+
   it 'displays deaccessions on show page' do
     visit('/')
     click_link 'Collections'

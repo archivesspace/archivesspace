@@ -1,0 +1,31 @@
+name: 'Bootstrap ArchivesSpace ci environment'
+description: 'Downloads gems and mysql connector and caches them'
+inputs:
+  mysql-connector-url:
+    description: 'URL for mysql connector'
+    required: true
+    default: 'https://repo1.maven.org/maven2/mysql/mysql-connector-java/8.0.23/mysql-connector-java-8.0.23.jar'
+runs:
+  using: "composite"
+  steps:
+    - name: Cache gems directory
+      id: cache-gems
+      uses: actions/cache@v3
+      with:
+        key: ${{ runner.os }}-java${{ matrix.java }}-gems-${{ hashFiles('**/Gemfile.lock') }}
+        path: |
+          ./build/gems/jruby
+
+    - name: Cache mysql connector
+      id: cache-mysql-connector
+      uses: actions/cache@v3
+      with:
+        key: ${{ inputs.mysql-connector-url }}
+        path: |
+          ./common/lib/mysql*.jar
+
+    - name: Bootstrap ArchivesSpace
+      shell: bash
+      run: |
+        ./build/run bootstrap
+        wget -P ./common/lib ${{ inputs.mysql-connector-url }}

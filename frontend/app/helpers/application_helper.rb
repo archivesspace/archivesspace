@@ -130,7 +130,7 @@ module ApplicationHelper
               :target => "_blank",
               :title => title,
               :class => "context-help has-tooltip",
-              "data-placement" => "left",
+              "data-placement" => "bottom",
             }.merge(opts[:link_opts] || {})
            )
   end

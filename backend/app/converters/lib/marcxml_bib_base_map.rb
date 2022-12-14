@@ -681,7 +681,6 @@ module MarcXMLBibBaseMap
     }
   end
 
-
   # this should be called 'build_base_map'
   # because the extending class calls it
   # when it is configuring itself, and the
@@ -752,22 +751,74 @@ module MarcXMLBibBaseMap
 
         # ID_0, ID_1, ID_2, ID_3
         "datafield[@tag='852']" => -> resource, node {
-          id = concatenate_subfields(%w(k h i m), node, '_')
+          id = concatenate_subfields(%w(k h i j m), node, '_')
           resource.id_0 = id unless id.empty?
         },
 
-        # local LC-style identifer
-        "datafield[@tag='090']" => -> resource, node {
+        # ANW-440: adding additional support for call numbers
+        # order of priority is:
+        # 099, 090, 092, 096, 098, 050, 082
+        # e.g., a value in 099 would be used over a value in 092, etc
+
+        # local non-LC identifier
+        "datafield[@tag='099']" => -> resource, node {
+          id = concatenate_subfields(('a'..'z'), node, '_')
+
           if resource.id_0.nil? or resource.id_0.empty?
-            id = concatenate_subfields(('a'..'z'), node, '_')
             resource.id_0 = id unless id.empty?
           end
         },
 
-        # local non-LC identifier
-        "datafield[@tag='099']" => -> resource, node {
+        # local LC-style identifer
+        "datafield[@tag='090']" => -> resource, node {
+          id = concatenate_subfields(('a'..'z'), node, '_')
+
           if resource.id_0.nil? or resource.id_0.empty?
-            id = concatenate_subfields(('a'..'z'), node, '_')
+            resource.id_0 = id unless id.empty?
+          end
+        },
+
+        # Locally Assigned Dewey Call Number
+        "datafield[@tag='092']" => -> resource, node {
+          id = concatenate_subfields(('a'..'z'), node, '_')
+
+          if resource.id_0.nil? or resource.id_0.empty?
+            resource.id_0 = id unless id.empty?
+          end
+        },
+
+        # Locally NLM-type Call Number
+        "datafield[@tag='096']" => -> resource, node {
+          id = concatenate_subfields(('a'..'z'), node, '_')
+
+          if resource.id_0.nil? or resource.id_0.empty?
+            resource.id_0 = id unless id.empty?
+          end
+        },
+
+        #  Other Classification Schemes
+        "datafield[@tag='098']" => -> resource, node {
+          id = concatenate_subfields(('a'..'z'), node, '_')
+
+          if resource.id_0.nil? or resource.id_0.empty?
+            resource.id_0 = id unless id.empty?
+          end
+        },
+
+        # Library of Congress Call Number
+        "datafield[@tag='050']" => -> resource, node {
+          id = concatenate_subfields(('a'..'z'), node, '_')
+
+          if resource.id_0.nil? or resource.id_0.empty?
+            resource.id_0 = id unless id.empty?
+          end
+        },
+
+        # Dewey Classification Number
+        "datafield[@tag='082']" => -> resource, node {
+          id = concatenate_subfields(('a'..'z'), node, '_')
+
+          if resource.id_0.nil? or resource.id_0.empty?
             resource.id_0 = id unless id.empty?
           end
         },
@@ -872,9 +923,22 @@ module MarcXMLBibBaseMap
                                                date.expression = node.xpath("subfield[@code='c']")
                                                resource.dates << date
                                              end
+                                           else
+                                             resource['_needs_date'] = true
                                            end
                                          }
                                        }),
+
+        "datafield[@tag='264']/subfield[@code='c']" => -> resource, node {
+                                          if resource['_needs_date']
+                                            make(:date) do |date|
+                                              date.label = 'publication'
+                                              date.date_type = 'single'
+                                              date.expression = node.inner_text
+                                              resource.dates << date
+                                            end
+                                          end
+                                        },
 
         # 300s
         # EXTENTS
@@ -883,21 +947,49 @@ module MarcXMLBibBaseMap
           :rel => :extents,
           :map => {
             "self::datafield" => -> extent, node {
-              ex = node.xpath('.//subfield[@code="a"]')
-              if ex.length > 0
-                ext = ex.first.text
+              # ANW-1260
+              a_content = node.xpath('.//subfield[@code="a"]')
+              f_content = node.xpath('.//subfield[@code="f"]')
+
+              # only $a present - parse with existing method
+              if a_content.length > 0 && f_content.empty?
+                ext = a_content.first.text
                 if ext =~ /^([0-9\.,]+)+\s+(.*)$/
                   extent.number = $1
                   extent.extent_type = $2
                 elsif ext =~ /^([0-9\.,]+)/
                   extent.number = $1
+                else
+                  raise "The extent field (300) could not be parsed."
+                end
+
+              # $a and $f present, a must be numeric, f must be an extent value that's present in the extent_extent_type enumeration
+              elsif a_content.length > 0 && f_content.length > 0
+
+                # $a must be numeric
+                if a_content.inner_text =~ /^[+-]?([0-9]+\.?[0-9]*|\.[0-9]+)$/
+                  extent.number = a_content.inner_text
+                else
+                  raise "No numeric value found in field 300, subfield a"
+                end
+
+                # remove punctuation and replace underscores with spaces to better match extent_type translation values
+                f_content_cleaned = f_content.inner_text.gsub(/[.,\/#!$%^&*;:{}=-_`~()]/, "").gsub("_", " ").downcase
+                extent_values = I18n.t('enumerations.extent_extent_type').values.map {|v| v.downcase }
+
+                if extent_values.include?(f_content_cleaned)
+                  extent.extent_type = f_content.inner_text
+                else
+                  raise "Extent type in field 300, subfield f is not found in the extent type controlled vocabulary."
                 end
               end
 
+              # marc doesn't provide data for specifying part of an extent, so use whole by default
+
+              extent.portion = "whole"
               extent.container_summary = subfield_template("{$3: }{$a }{$b, }{$c }({$e, }{$f, }{$g})", node)
             }
           },
-          :defaults => {:portion => 'whole', :number => '1', :extent_type => 'linear_feet'}
         },
 
         "datafield[@tag='306']" => singlepart_note('physdesc', 'Playing Time', "{$a}"),

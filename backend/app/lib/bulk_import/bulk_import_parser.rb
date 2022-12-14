@@ -92,6 +92,8 @@ class BulkImportParser
         @report.add_terminal_error(I18n.t("bulk_import.error.spreadsheet", :errs => e.message), @counter)
       elsif e.is_a?(StopIteration) && @headers.nil?
         @report.add_terminal_error(I18n.t("bulk_import.error.no_header"), @counter)
+      elsif e.is_a?(ArgumentError)
+        @report.add_terminal_error(I18n.t("bulk_import.error.utf8"), @counter)
       else # something else went wrong
         @report.add_terminal_error(I18n.t("bulk_import.error.system", :msg => e.message), @counter)
         Log.error("UNEXPECTED EXCEPTION on bulkimport load! #{e.message}")

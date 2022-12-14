@@ -29,12 +29,14 @@ class BackgroundJobQueue
     # This shouldn't really happen, but his replaces the concept of a stale job
     # used in an earlier implementation that was problematic because it could end up
     # calling the #run method on a job more than once.
+    unwatched_job_id = nil
     begin
       Job.running_jobs_untouched_since(Time.now - JOB_TIMEOUT_SECONDS).each do |job|
+        unwatched_job_id = job.id
         job.finish!(:canceled)
       end
     rescue Sequel::NoExistingObject
-      Log.debug("Another thread cancelled unwatched job #{job.id}, nothing to do on #{Thread.current[:name]}")
+      Log.debug("Another thread canceled unwatched job #{unwatched_job_id}, nothing to do on #{Thread.current[:name]}")
     rescue => e
       Log.error("Error trying to cancel unwatched jobs on #{Thread.current[:name]}: #{e.class} #{$!} #{$@}")
     end

@@ -40,6 +40,9 @@ jobs:
       with:
         distribution: 'temurin'
         java-version: ${{ matrix.java }}
+        distribution: temurin
+
+    - uses: './.github/actions/bootstrap'
 
     - name: Allow ArchivesSpace functions for app db user
       env:
@@ -58,11 +61,6 @@ jobs:
         SOLR_ID: ${{ job.services.solr.id }}
       run: |
         docker exec --tty $SOLR_ID solr create_core -p 8983 -c archivesspace -d /solr_conf_from_repo
-
-    - name: Bootstrap ArchivesSpace
-      run: |
-        ./build/run bootstrap
-        wget -P ./common/lib https://repo1.maven.org/maven2/mysql/mysql-connector-java/8.0.23/mysql-connector-java-8.0.23.jar
 
     - name: Run Frontend tests
       run: |

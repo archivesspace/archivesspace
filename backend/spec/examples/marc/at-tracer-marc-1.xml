@@ -35,7 +35,6 @@
         </datafield> 
         <datafield tag="300" ind2=" " ind1=" ">
             <subfield code="a">5.0 Linear feet</subfield>
-            <subfield code="f">Resource-ContainerSummary-AT</subfield>
         </datafield>
         <datafield tag="351" ind2=" " ind1=" ">
             <subfield code="b">Resource-Arrangement-Note</subfield>

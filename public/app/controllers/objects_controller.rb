@@ -26,9 +26,9 @@ class ObjectsController < ApplicationController
       params[:limit] = 'digital_object,archival_object' unless params.fetch(:limit, nil)
       params[:op] = ['OR']
     end
-    page = Integer(params.fetch(:page, "1"))
     search_opts = default_search_opts(DEFAULT_OBJ_SEARCH_OPTS)
     search_opts['fq'] = ["repository:\"/repositories/#{repo_id}\""] if repo_id
+    search_opts['resolve[]'] = ['linked_instance_uris:id'] if params[:limit].include? 'digital_object'
     @base_search = repo_id ? "/repositories/#{repo_id}/objects?" : '/objects?'
 
     begin
@@ -36,7 +36,7 @@ class ObjectsController < ApplicationController
     rescue NoResultsError
       flash[:error] = I18n.t('search_results.no_results')
       redirect_back(fallback_location: '/') and return
-    rescue Exception => error
+    rescue Exception
       flash[:error] = I18n.t('errors.unexpected_error')
       redirect_back(fallback_location: '/objects' ) and return
     end
@@ -104,7 +104,11 @@ class ObjectsController < ApplicationController
       fill_request_info
       if @result['primary_type'] == 'digital_object' || @result['primary_type'] == 'digital_object_component'
         @dig = process_digital(@result['json'])
-        @rep_fv = @result['json']['representative_file_version']
+        if @result['json']['representative_file_version'] &&
+           ['image-thumbnail', 'image-service'].include?(@result['json']['representative_file_version']['use_statement'])
+
+          @rep_fv = @result['json']['representative_file_version']
+        end
       else
         @dig = process_digital_instance(@result['json']['instances'])
         process_extents(@result['json'])

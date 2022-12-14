@@ -801,6 +801,7 @@ i.giant {
 .record-type-badge.digital_object.external-digital-object__link {
   width: 100%;
   padding: 0 !important;
+  color: $lightblue;
   text-decoration: none;
 }
 
@@ -810,7 +811,7 @@ i.giant {
   justify-content: center;
   margin-bottom: 20px;
   padding: var(--bootstrap-horizontal-white-space-unit);
-  border: 1px solid $digital-object-color;
+  border: 1px solid $lightblue;
   border-radius: var(--bootstrap-rounded-corner-radius);
   background-color: #fff;
   text-align: center;
@@ -825,7 +826,7 @@ i.giant {
   display: block;
   margin-bottom: 0;
   padding: 6px 12px;
-  border: 1px solid $digital-object-color;
+  border: 1px solid $lightblue;
   border-radius: var(--bootstrap-rounded-corner-radius);
   font-size: 14px;
   font-family: var(--bootstrap-sans);
@@ -833,11 +834,11 @@ i.giant {
   white-space: nowrap;
   text-align: center;
   color: #fff;
-  background-color: $digital-object-color;
+  background-color: $lightblue;
 }
 .external-digital-object__link:hover .external-digital-object__content-btn {
-  background-color: var(--bootstrap-danger-red-hover);
-  border-color: var(--bootstrap-danger-red-hover);
+  background-color: $midblue;
+  border-color: $midblue;
 }
 
 span.component {

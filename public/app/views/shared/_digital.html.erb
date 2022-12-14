@@ -1,8 +1,4 @@
-<% if false %><!-- comment -->
-  expects 'rep_fv' as a file_version hash when AppConfig[:enable_representative_file_version]
-  otherwise expects to-be-deprecated 'dig_objs' as an array of hashes
-<!-- /comment --><% end  %>
-<% if AppConfig[:enable_representative_file_version] && rep_fv.present? %>
+<% if rep_fv.present? %>
 <div class="available-digital-objects">
   <div class="objectimage">
     <div class="panel panel-default">
