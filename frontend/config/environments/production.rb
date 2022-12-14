@@ -95,6 +95,7 @@ if (AppConfig[:frontend_proxy_prefix].length > 1)
   module ActionDispatch
     class FileHandler
       private
+
       def find_file(path_info, accept_encoding:)
         prefix = AppConfig[:frontend_proxy_prefix]
         each_candidate_filepath(path_info) do |filepath, content_type|

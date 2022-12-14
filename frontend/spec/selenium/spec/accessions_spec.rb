@@ -414,9 +414,7 @@ describe 'Accessions' do
     # Browse works too
     @driver.find_element(css: '#accession_subjects_ .dropdown-toggle').click
     @driver.wait_for_dropdown
-    @driver.find_element(:css, 'a.linker-browse-btn').click
     @driver.find_element_with_text('//div', /#{@me}AccessionTermABC/)
-    @driver.find_element(:css, '.modal-footer > button.btn.btn-cancel').click
 
     @driver.click_and_wait_until_gone(css: "form#accession_form button[type='submit']")
 
