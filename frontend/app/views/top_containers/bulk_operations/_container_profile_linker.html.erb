@@ -14,10 +14,10 @@
 <div class="input-group linker-wrapper">
   <input type="text" class="linker"
          id="container_profile"
-         data-label_create="<%= t("container_profile.linker.create") %>"
-         data-label_browse="<%= t("container_profile.linker.browse") %>"
-         data-label_link="<%= t("linker.link") %>"
-         data-label_create_and_link="<%= t("linker.create_and_link") %>"
+         data-label_create="<%= I18n.t("container_profile.linker.create") %>"
+         data-label_browse="<%= I18n.t("container_profile.linker.browse") %>"
+         data-label_link="<%= I18n.t("linker.link") %>"
+         data-label_create_and_link="<%= I18n.t("linker.create_and_link") %>"
          data-name="ref"
          data-path="container_profile"
          data-url="<%= url_for  :controller => :search, :action => :do_search, :format => :json %>"
@@ -27,11 +27,11 @@
          data-types='<%= linkable_types.to_json %>'
   />
   <div class="input-group-btn">
-    <a class="btn bg-white border-dark border-left-0 dropdown-toggle last d-flex align-items-center" data-toggle="dropdown" href="javascript:void(0);" title="<%= t("container_profile.linker.link_title") %>" aria-label="<%= t("container_profile.linker.link_title") %>"><span class="caret"></span></a>
+    <a class="btn bg-white border-dark border-left-0 dropdown-toggle last d-flex align-items-center" data-toggle="dropdown" href="javascript:void(0);" title="<%= I18n.t("container_profile.linker.link_title") %>" aria-label="<%= I18n.t("container_profile.linker.link_title") %>"><span class="caret"></span></a>
     <ul class="dropdown-menu">
-      <li class="dropdown-item"><a href="javascript:void(0);" class="linker-browse-btn"><%= t("actions.browse") %></a></li>
+      <li class="dropdown-item"><a href="javascript:void(0);" class="linker-browse-btn"><%= I18n.t("actions.browse") %></a></li>
       <% if show_create_link && user_can?('update_container_profile_record') %>
-        <li class="dropdown-item"><a href="javascript:void(0);" data-target="<%= url_for :controller => :container_profiles, :action => :new, :inline => true %>" class="linker-create-btn"><%= t("actions.create") %></a></li>
+        <li class="dropdown-item"><a href="javascript:void(0);" data-target="<%= url_for :controller => :container_profiles, :action => :new, :inline => true %>" class="linker-create-btn"><%= I18n.t("actions.create") %></a></li>
       <% end %>
     </ul>
   </div>
