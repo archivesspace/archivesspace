@@ -1,5 +1,5 @@
-<div class="record-toolbar">
-  <div class="pull-left save-changes">
+<div class="record-toolbar d-flex align-items-center flex-wrap">
+  <div class="save-changes d-flex align-items-center order-0">
     <button type="submit" class="btn btn-primary btn-sm">
       <% if @user.id %>
         <%= t("user._frontend.action.update_account") %>
@@ -9,12 +9,8 @@
     </button>
   </div>
   <% if ['edit', 'update'].include?(controller.action_name) %>
-    <div class="pull-left revert-changes">
-      <%= link_to t("actions.revert"), {:controller => :users, :action => :edit, :id => @user.id}, :class => "btn btn-sm btn-default" %>
-      <%= t("actions.toolbar_disabled_message") %>
-    </div>
   <% end %>
-  <div class="btn-toolbar pull-right">
+  <div class="btn-toolbar ml-auto order-1 order-sm-2">
     <% if @user.id && !@user.is_system_user && @user.username.downcase != current_user.downcase %>
       <div class="btn-group">
         <div class="btn btn-inline-form">
@@ -23,6 +19,9 @@
       </div>
     <% end %>
   </div>
-  <br style="clear:both" /> <!-- So dirty! -->
+ <div class="revert-changes order-2 order-sm-1 mx-sm-2 mb-1">
+    <%= link_to t("actions.revert"), {:controller => :users, :action => :edit, :id => @user.id}, :class => "btn btn-sm border bg-white rounded mr-2" %>
+    <%= t("actions.toolbar_disabled_message") %>
+  </div>
 </div>
 
