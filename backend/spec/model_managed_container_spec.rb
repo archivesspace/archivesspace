@@ -36,6 +36,7 @@ describe 'Managed Container model' do
 
   it "supports all kinds of wonderful metadata" do
     barcode = '12345678'
+    internal_note = 'my note'
     ils_holding_id = '112358'
     ils_item_id = '853211'
     exported_to_ils = Time.at(1234567890).iso8601
@@ -44,7 +45,8 @@ describe 'Managed Container model' do
                                'barcode' => barcode,
                                'ils_holding_id' => ils_holding_id,
                                'ils_item_id' => ils_item_id,
-                               'exported_to_ils' => exported_to_ils
+                               'exported_to_ils' => exported_to_ils,
+                               'internal_note' => internal_note
                                )
 
     box_id = TopContainer.create_from_json(top_container, :repo_id => $repo_id).id
@@ -54,6 +56,7 @@ describe 'Managed Container model' do
     expect(box.ils_holding_id).to eq(ils_holding_id)
     expect(box.ils_item_id).to eq(ils_item_id)
     expect(box.exported_to_ils).to eq(exported_to_ils)
+    expect(box.internal_note).to eq(internal_note)
   end
 
 

@@ -25,8 +25,9 @@ module TouchRecords
   end
 
   def delete
-    self.class.touch(self)
-    super
+    self.class.touch(self) do
+      super
+    end
   end
 
   def update_from_json(json, opts = {}, apply_nested_records = true)
@@ -46,6 +47,7 @@ module TouchRecords
     def touch(obj)
       return unless obj.class.respond_to? :touch_records
       records = obj.class.touch_records(obj)
+      yield if block_given?
       return unless records.any?
       records.each do |record_set|
         record_set[:type].update_mtime_for_ids(record_set[:ids].compact)

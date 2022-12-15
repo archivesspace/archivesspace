@@ -377,4 +377,11 @@ describe 'Repository model' do
     end
   end
 
+  describe "position" do
+    it "enforces unique position " do
+      repo1 = Repository.create_from_json(build(:json_repository))
+      repo2 = Repository.create_from_json(build(:json_repository))
+      expect { repo2.update(position: repo1.position) }.to raise_error(Sequel::UniqueConstraintViolation)
+    end
+  end
 end

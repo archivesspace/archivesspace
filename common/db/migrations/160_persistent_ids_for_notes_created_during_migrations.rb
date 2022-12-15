@@ -23,6 +23,7 @@ Sequel.migration do
       notes = JSON.parse(row[:notes].to_s)
       next unless notes["persistent_id"]
       row.reject! { |k, v| v.nil? }
+      next unless row.keys.last.to_s =~ /_id$/
       parent_type = row.keys.last.to_s.sub(/_id$/, '')
       parent_id = row.values.last
       self[:note_persistent_id].insert(note_id: row[:id], persistent_id: notes["persistent_id"], parent_type: parent_type, parent_id: parent_id)

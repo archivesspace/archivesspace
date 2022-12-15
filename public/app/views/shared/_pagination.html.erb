@@ -4,8 +4,7 @@
   
   <ul class="pagination">
     <% if pager.need_prev %>
-      <li class="previous"><a href="<%= app_prefix(pager.link) %>&page=<%= pager.prev %>"><span aria-hidden="true">&larr;</span>Previous</a></li>
-    <% end %>
+      <li class="previous"><a href="<%= app_prefix(pager.link) %>&page=<%= pager.prev %>"><span aria-hidden="true">&larr;</span> <%= t 'actions.previous' %></a></li>    <% end %>
     <% pager.pages.each do |page| %>
       <% if page == pager.page %>
         <li class="active"><a href="#"><%= page %></a></li>
@@ -18,7 +17,7 @@
        <li><a href="<%= app_prefix(pager.link) %>&page=<%= pager.last_page %>"><%=  pager.last_page %></a></li>
     <% end %>
     <% if pager.need_next %>
-      <li class="next"><a href="<%= app_prefix(pager.link) %>&page=<%= pager.next %>"><span aria-hidden="true">&rarr;</span>Next</a></li>
+      <li class="next"><a href="<%= app_prefix(pager.link) %>&page=<%= pager.next %>"><%= t 'actions.next' %> <span aria-hidden="true">&rarr;</span></a></li>
     <% end %>
 </ul>
 </div>

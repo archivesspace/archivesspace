@@ -41,13 +41,11 @@ module RecordChildren
               end
             end
 
-            child["notes"][i]["publish"] = true
-
             # Multipart and biog/hist notes use a 'text' subnote type for their content.
             if ['note_multipart', 'note_bioghist'].include?(child["notes"][i]["jsonmodel_type"])
               child["notes"][i]["subnotes"] = [{"jsonmodel_type" => "note_text",
                                                 "content" => child["notes"][i]["content"].join(" "),
-                                                "publish" => true}]
+                                                "publish" => child["notes"][i]["publish"]}]
             end
 
           elsif child["notes"][i]["type"].blank? and child["notes"][i]["content"][0].blank?

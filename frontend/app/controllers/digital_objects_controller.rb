@@ -9,6 +9,8 @@ class DigitalObjectsController < ApplicationController
                       "manage_repository" => [:defaults, :update_defaults]
 
   include ExportHelper
+  include NotesHelper
+  include DigitalObjectHelper
 
   def index
     respond_to do |format|
@@ -66,6 +68,21 @@ class DigitalObjectsController < ApplicationController
       if defaults
         @digital_object.update(defaults.values)
         @form_title = "#{I18n.t('actions.new_prefix')} #{I18n.t('digital_object._singular')}"
+      end
+    end
+
+    if user_prefs['digital_object_spawn_description']
+      if params[:spawn_from_resource_id]
+        copy_from_record = Resource.find(params[:spawn_from_resource_id])
+      elsif params[:spawn_from_accession_id]
+        copy_from_record = Accession.find(params[:spawn_from_accession_id])
+      elsif params[:spawn_from_archival_object_id]
+        copy_from_record = ArchivalObject.find(params[:spawn_from_archival_object_id])
+      end
+
+      if copy_from_record
+        updates = map_record_fields_to_digital_object(copy_from_record)
+        @digital_object.update(updates)
       end
     end
 

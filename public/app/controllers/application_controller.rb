@@ -14,6 +14,7 @@ class ApplicationController < ActionController::Base
   helper_method :process_search_results
   helper_method :handle_results
   helper_method :process_results
+  helper_method :repositories_sort_by
 
   include JsonHelper
   helper_method :process_json_notes
@@ -23,6 +24,8 @@ class ApplicationController < ActionController::Base
   rescue_from LoginFailedException, :with => :render_backend_failure
   rescue_from RequestFailedException, :with => :render_backend_failure
   rescue_from NoResultsError, :with => :render_no_results_found
+
+  around_action :set_locale
 
 
   # Allow overriding of templates via the local folder(s)
@@ -74,6 +77,16 @@ class ApplicationController < ActionController::Base
 
       params.merge!(added_params)
     end
+  end
+
+  def set_locale(&action)
+    if session[:locale]
+      locale = session[:locale]
+    else
+      locale = I18n.default_locale
+    end
+
+    I18n.with_locale(locale, &action)
   end
 
   private
@@ -153,5 +166,4 @@ class ApplicationController < ActionController::Base
     @back_url = request.referer || ''
     render 'shared/not_found', :status => 404
   end
-
 end

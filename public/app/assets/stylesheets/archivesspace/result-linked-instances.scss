@@ -1,0 +1,41 @@
+.result_linked_instances_tree {
+  position: relative;
+  margin: 0 0 0 10px;
+  padding: 0;
+  list-style: none;
+}
+
+.result_linked_instances_tree::before {
+  content: '';
+  position: absolute;
+  display: block;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  border-left: 1px solid;
+}
+
+.result_linked_instances_tree li {
+  position: relative;
+  margin: 0;
+  padding: 0 1rem;
+}
+
+.result_linked_instances_tree li::before {
+  content: '';
+  position: absolute;
+  display: block;
+  top: 1rem;
+  left: 0;
+  width: 10px;
+  height: 0;
+  margin-top: -5px;
+  border-top: 1px solid;
+}
+
+.result_linked_instances_tree li:last-child::before {
+  bottom: 0;
+  height: auto;
+  background: white;
+}

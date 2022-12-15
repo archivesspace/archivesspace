@@ -19,7 +19,11 @@ class GenerateSlugsRunner < JobRunner
           SlugHelpers.name_based_slug_for(json_like_hash, thing.class)
       end
     end
-    puts "#{('Processed ' + slug).strip}: [#{thing.class}, #{thing[:id]}]\n#{elapsed}\n"
+    # silencing this for unit tests. Perhaps a more general solution for
+    # turning on benchmarking by environment would be better
+    unless [:unit_test].include? ASpaceEnvironment.environment
+      puts "#{('Processed ' + slug).strip}: [#{thing.class}, #{thing[:id]}]\n#{elapsed}\n"
+    end
     slug.parameterize
   end
 

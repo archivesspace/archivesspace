@@ -189,4 +189,20 @@ describe 'Repository controller' do
 
   end
 
+  it "can change positions of two repositories" do
+    repo1 = create(:json_repository)
+    repo2 = create(:json_repository)
+
+    repo1_original_position = JSONModel(:repository).find(repo1.id).position
+    repo2_original_position = JSONModel(:repository).find(repo2.id).position
+
+    expect(repo2_original_position).to eq (repo1_original_position + 1)
+
+    response = JSON.parse( JSONModel::HTTP.post_form("#{repo1.uri}/position", :position => repo2_original_position ).body )
+    expect(response["id"]).to eq(repo1.id)
+    expect(response["status"]).to eq("Updated")
+
+    expect(JSONModel(:repository).find(repo1.id).position).to eq repo2_original_position
+    expect(JSONModel(:repository).find(repo2.id).position).to eq repo1_original_position
+  end
 end

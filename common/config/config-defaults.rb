@@ -271,6 +271,8 @@ AppConfig[:public_username] = "public_anonymous"
 AppConfig[:staff_username] = "staff_system"
 
 AppConfig[:authentication_sources] = []
+# When 'true' restrict authentication attempts to only the source already set for the user
+AppConfig[:authentication_restricted_by_source] = false # default: allow any source
 
 AppConfig[:realtime_index_backlog_ms] = 60000
 
@@ -751,5 +753,8 @@ AppConfig[:include_pui_finding_aid_urls_in_marc_exports] = false
 # If enabled, use slugs instead of URIs in finding aid links (856 $u)
 AppConfig[:use_slug_finding_aid_urls_in_marc_exports] = false
 
-# Turns on representative file version features - still in development
-AppConfig[:enable_representative_file_version] = false
+# Enables Language Selection in PUI
+AppConfig[:allow_pui_language_selection] = true
+
+# How repositories should be sorted in the PUI. Options are :display_string or :position
+AppConfig[:pui_repositories_sort] = :display_string

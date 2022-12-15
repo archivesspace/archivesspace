@@ -215,4 +215,16 @@ describe 'Enumerations model' do
       expect(json['name']).to eq(@q_enum_name)
     end
   end
+
+  it "strips leading and trailing whitespace from new values" do
+    enum = Enumeration.create_from_json(JSONModel(:enumeration).from_hash(
+      :name => 'test_whitespace_stripping',
+      :values => ['   leading', 'trailing   ', '   both   ', '   new value   '])
+    )
+
+    expect(Enumeration.to_jsonmodel(enum)['values'].include?('leading')).to be_truthy
+    expect(Enumeration.to_jsonmodel(enum)['values'].include?('trailing')).to be_truthy
+    expect(Enumeration.to_jsonmodel(enum)['values'].include?('both')).to be_truthy
+    expect(Enumeration.to_jsonmodel(enum)['values'].include?('new value')).to be_truthy
+  end
 end

@@ -355,7 +355,7 @@ class Solr
       if @query_type == :edismax
         add_solr_param(:defType, "edismax")
         add_solr_param(:pf, "four_part_id^4")
-        add_solr_param(:qf, "four_part_id^3 title^2 finding_aid_filing_title^2 fullrecord")
+        add_solr_param(:qf, "identifier_ws^3 title_ws^2 finding_aid_filing_title^2 fullrecord")
       end
 
       # do it here so instance variables can be resolved

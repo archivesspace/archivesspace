@@ -1,0 +1,299 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<collection xsi:schemaLocation="http://www.loc.gov/MARC21/slim http://www.loc.gov/standards/marcxml/schema/MARC21slim.xsd" xmlns="http://www.loc.gov/MARC21/slim" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <record>
+        <leader>00000npc a2200000 u 4500</leader>
+        <controlfield tag="008">130109i19601970xx                  eng d</controlfield>
+        <datafield tag="040" ind2=" " ind1=" ">
+            <subfield code="a">Repositories.Agency Code-AT</subfield>
+            <subfield code="b">eng</subfield>
+            <subfield code="c">Repositories.Agency Code-AT</subfield>
+            <subfield code="e">dacs</subfield>
+        </datafield>
+        <datafield tag="041" ind2=" " ind1="0">
+            <subfield code="a">eng</subfield>
+        </datafield>
+        <datafield tag="099" ind2=" " ind1=" ">
+            <subfield code="a">Resource.ID.AT</subfield>
+        </datafield>
+        <datafield tag="110" ind2=" " ind1="2">
+            <subfield code="a">CNames-PrimaryName-AT</subfield>
+            <subfield code="b">CNames-Subordinate1-AT</subfield>
+            <subfield code="b">CNames-Subordiate2-AT</subfield>
+            <subfield code="n">CNames-Number-AT</subfield>
+            <subfield code="g">CNames-Qualifier-AT</subfield>
+            <subfield code="e">Creator (cre)</subfield>
+        </datafield>
+        <datafield tag="245" ind2=" " ind1="1">
+            <subfield code="a">Resource--Title-AT</subfield>
+            <subfield code="f">Resource-Date-Expression-AT-1960 - 1970</subfield>
+            <subfield code="g">Resource-Date-Expression-AT-1965 - 1968</subfield>
+        </datafield>
+        <datafield tag="260" ind1=" " ind2=" ">
+          <subfield code="a">[S.l. :</subfield>
+          <subfield code="b">s.n.],</subfield>
+          <subfield code="c">1889-1945</subfield>
+        </datafield> 
+        <datafield tag="300" ind2=" " ind1=" ">
+            <subfield code="a">5.0</subfield>
+            <subfield code="f">linear feet</subfield>
+        </datafield>
+        <datafield tag="351" ind2=" " ind1=" ">
+            <subfield code="b">Resource-Arrangement-Note</subfield>
+            <subfield code="b">Resource-FilePlan-AT</subfield>
+        </datafield>
+        <datafield tag="500" ind2=" " ind1=" ">
+            <subfield code="a">Dimensions: Resource-Dimensions-AT</subfield>
+        </datafield>
+        <datafield tag="500" ind2=" " ind1=" ">
+            <subfield code="a">Resource-GeneralNote-AT</subfield>
+        </datafield>
+        <datafield tag="500" ind2=" " ind1=" ">
+            <subfield code="a">Resource-GeneralNoteMULTIPARTContent-AT</subfield>
+        </datafield>
+        <datafield tag="500" ind2=" " ind1=" ">
+            <subfield code="a">Physical Description Note: Resource-GeneralPhysicalDescription-AT</subfield>
+        </datafield>
+        <datafield tag="500" ind2=" " ind1=" ">
+            <subfield code="a">Material Specific Details:Resource-MaterialSpecificDetails-AT</subfield>
+        </datafield>
+        <datafield tag="500" ind2=" " ind1=" ">
+            <subfield code="a">Location of resource: Resource-Location-AT</subfield>
+        </datafield>
+        <datafield tag="500" ind2=" " ind1=" ">
+            <subfield code="a">Physical Characteristics / Technical Requirements: Resource-PhysicalCharacteristicsTechnicalRequirements-AT</subfield>
+        </datafield>
+        <datafield tag="500" ind2=" " ind1=" ">
+            <subfield code="a">Physical Facet: Resource-PhysicalFacet-AT</subfield>
+        </datafield>
+        <datafield tag="500" ind2=" " ind1=" ">
+            <subfield code="a">Processing Information: Resource-ProcessingInformation-AT</subfield>
+        </datafield>
+        <datafield tag="500" ind2=" " ind1=" ">
+            <subfield code="a">Materials Separated from the Resource: Resource-SeparatedMaterials-AT</subfield>
+        </datafield>
+        <datafield tag="505" ind2=" " ind1=" ">
+          <subfield code="a">CumulativeIndexFindingAidsNote-AT</subfield>
+        </datafield>
+        <datafield tag="506" ind2=" " ind1=" ">
+            <subfield code="a">Resource-ConditionsGoverningAccess-AT</subfield>
+        </datafield>
+        <datafield tag="520" ind2=" " ind1=" ">
+            <subfield code="a">Resource-Odd-AT</subfield>
+        </datafield>
+        <datafield tag="520" ind2=" " ind1="8">
+            <subfield code="a">Resource-NoDisplay-AT</subfield>
+        </datafield>
+        <datafield tag="520" ind2=" " ind1="3">
+            <subfield code="a">Resource-Abstract-AT</subfield>
+        </datafield>
+        <datafield tag="520" ind2=" " ind1="2">
+            <subfield code="a">Resource-ScopeContents-AT
+
+Here is an example of wrap-in tag blockquotes:
+
+Blockquote 1: Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Nam liber tempor cum soluta nobis eleifend option congue nihil imperdiet doming id quod mazim placerat facer possim assum. 
+Blockquote 2: Typi non habent claritatem insitam; est usus legentis in iis qui facit eorum claritatem. Investigationes demonstraverunt lectores legere me lius quod ii legunt saepius. Claritas est etiam processus dynamicus, qui sequitur mutationem consuetudium lectorum. Mirum est notare quam littera gothica, quam nunc putamus parum claram, anteposuerit litterarum formas humanitatis per seacula quarta decima et quinta decima. Eodem modo typi, qui nunc nobis videntur parum clari, fiant sollemnes in futurum.
+
+Here is an example of a wrap-in-tag using corpname, with RULES="DACS": corpname
+
+Here is an example of a wrap-in-tag using famname, with RULES="DACS": famname
+
+Here is an example of a wrap-in-tag using function, with RULES="DACS": function
+
+Here is an example of a wrap-in-tag using genreform, with RULES="DACS": genreform
+
+Here is an example of a wrap-in-tag using geogname, with RULES="DACS": geogname
+
+Here is an example of a wrap-in-tag using name, with RULES="DACS": name
+
+Here is an example of a wrap-in-tag using occupation, with RULES="DACS": occupation
+
+Here is an example of a wrap-in-tag using persname, with RULES="DACS": persname
+
+Here is an example of a wrap-in-tag using subject, with RULES="DACS": subject
+
+Here is an example of a wrap-in-tag using title, with RENDER="BOLD": title
+
+Here is an example of a wrap-in tag using date, with CALENDAR="gregorian", ERA="CE", and NORMAL="1999": date
+
+Here is an example of a wrap-in tag using emph, with altrender: emph
+
+Here is an example of a wrap-in tag using emph, with bold: emph
+
+Here is an example of a wrap-in tag using emph, with bolddoublequote: emph
+
+Here is an example of a wrap-in tag using emph, with bolditalic: emph
+
+Here is an example of a wrap-in tag using emph, with boldsinglequote: emph
+
+Here is an example of a wrap-in tag using emph, with boldsmcaps: emph
+
+Here is an example of a wrap-in tag using emph, with boldunderline:  emph
+
+Here is an example of a wrap-in tag using emph, with doublequote: emph
+
+Here is an example of a wrap-in tag using emph, with italic: emph
+
+Here is an example of a wrap-in tag using emph, with nonproport: emph
+
+Here is an example of a wrap-in tag using emph, with singlequote: emph
+
+Here is an example of a wrap-in tag using emph, with smcaps: emph
+
+Here is an example of a wrap-in tag using emph, with subscript: emph
+
+Here is an example of a wrap-in tag using emph, with superscript: emph
+
+Here is an example of a wrap-in tag using emph, with underline: emph
+
+Here is an example of a wrap-in tag using extef, with SHOW and TITLE attributes: http://www.archivesspace.org
+
+Here is an example of a wrap-in tag using ref, targeting the Abstract note in the Resource record, with SHOW and TITLE attributes: http://www.archivesspace.org</subfield>
+        </datafield>
+        <datafield tag="524" ind2=" " ind1="8">
+            <subfield code="a">Resource-PreferredCitation-AT</subfield>
+        </datafield>
+        <datafield tag="535" ind2=" " ind1="1">
+            <subfield code="a">Resource-ExistenceLocationCopies-AT</subfield>
+        </datafield>
+        <datafield tag="535" ind2=" " ind1="1">
+            <subfield code="a">Resource-ExistenceLocationOriginals-AT</subfield>
+        </datafield>
+        <datafield tag="540" ind2=" " ind1="1">
+            <subfield code="a">Resource-ConditionsGoverningUse-AT</subfield>
+        </datafield>
+        <datafield tag="540" ind2=" " ind1="1">
+            <subfield code="a">Resource-LegalStatus-AT</subfield>
+        </datafield>
+        <datafield tag="541" ind2=" " ind1="1">
+            <subfield code="a">Resource-ImmediateSourceAcquisition</subfield>
+        </datafield>
+        <datafield tag="544" ind2=" " ind1=" ">
+            <subfield code="a">Resource-RelatedArchivalMaterials-AT</subfield>
+        </datafield>
+        <datafield tag="545" ind2=" " ind1=" ">
+            <subfield code="a">Resource-BiographicalHistorical-AT</subfield>
+        </datafield>
+        <datafield tag="555" ind2=" " ind1=" ">
+            <subfield code="a">Finding Aid Available Online: </subfield>
+            <subfield code="u">Resource-EAD-Location-AT</subfield>
+        </datafield>
+        <datafield tag="546" ind2=" " ind1=" ">
+            <subfield code="a">Resource-LanguageMaterials-AT</subfield>
+        </datafield>
+        <datafield tag="561" ind2=" " ind1="1">
+            <subfield code="a">Resource--CustodialHistory-AT</subfield>
+        </datafield>
+        <datafield tag="583" ind2=" " ind1="1">
+            <subfield code="a">Resource-Appraisal-AT</subfield>
+        </datafield>
+        <datafield tag="584" ind2=" " ind1=" ">
+            <subfield code="a">Resource-Accruals-AT</subfield>
+        </datafield>
+        <datafield tag="600" ind2="7" ind1="3">
+            <subfield code="a">FNames-FamilyName-AT</subfield>
+            <subfield code="c">FNames-Prefix-AT</subfield>
+            <subfield code="g">FNames-Qualifier-AT</subfield>
+            <subfield code="2">NACO Authority File</subfield>
+        </datafield>
+        <datafield tag="600" ind2="7" ind1="1">
+            <subfield code="a">PNames-Primary-AT, PNames-RestOfName-AT</subfield>
+            <subfield code="b">PName-Number-AT</subfield>
+            <subfield code="c">PNames-Prefix-AT, PNames-Title-AT, PNames-Suffix-AT</subfield>
+            <subfield code="d">PNames-Dates-AT</subfield>
+            <subfield code="q">PNames-FullerForm-AT</subfield>
+            <subfield code="g">PNames-Qualifier-AT</subfield>
+            <subfield code="2">Local Sources</subfield>
+        </datafield>
+        <datafield tag="610" ind2="7" ind1="2">
+            <subfield code="a">CNames-PrimaryName-AT</subfield>
+            <subfield code="b">CNames-Subordinate1-AT</subfield>
+            <subfield code="b">CNames-Subordiate2-AT</subfield>
+            <subfield code="n">CNames-Number-AT</subfield>
+            <subfield code="g">CNames-Qualifier-AT</subfield>
+            <subfield code="2">NACO Authority File</subfield>
+        </datafield>
+        <datafield tag="630" ind2="7" ind1=" ">
+            <subfield code="a">Subjects--Uniform Title--AT</subfield>
+            <subfield code="2">Local sources</subfield>
+        </datafield>
+        <datafield tag="650" ind2="7" ind1=" ">
+            <subfield code="a">Subjects--Topical Term--AT</subfield>
+            <subfield code="2">Local sources</subfield>
+        </datafield>
+        <datafield tag="651" ind2="7" ind1=" ">
+            <subfield code="a">Subjects--Geographic Name--AT</subfield>
+            <subfield code="2">Local sources</subfield>
+        </datafield>
+        <datafield tag="655" ind2="7" ind1=" ">
+            <subfield code="a">Subjects--GenreForm--AT</subfield>
+            <subfield code="2">Local sources</subfield>
+        </datafield>
+        <datafield tag="656" ind2="7" ind1=" ">
+            <subfield code="a">Subjects--Occupation--AT</subfield>
+            <subfield code="2">Local sources</subfield>
+        </datafield>
+        <datafield tag="657" ind2="7" ind1=" ">
+            <subfield code="a">Subjects--Function-AT</subfield>
+            <subfield code="2">Local sources</subfield>
+        </datafield>
+        <datafield tag="711" ind2=" " ind1="3">
+            <subfield code="a">Corp Name</subfield>
+            <subfield code="q">Qualifier</subfield>
+        </datafield>
+        <datafield tag="700" ind2=" " ind1="3">
+            <subfield code="a">FNames-FamilyName-AT</subfield>
+            <subfield code="c">FNames-Prefix-AT</subfield>
+            <subfield code="g">FNames-Qualifier-AT</subfield>
+            <subfield code="e">Creator (cre)</subfield>
+        </datafield>
+        <datafield tag="700" ind2=" " ind1="3">
+            <subfield code="a">FNames-FamilyName-AT</subfield>
+            <subfield code="c">FNames-Prefix-AT</subfield>
+            <subfield code="g">FNames-Qualifier-AT</subfield>
+            <subfield code="e">Donor (dnr)</subfield>
+        </datafield>
+        <datafield tag="700" ind2=" " ind1="1">
+            <subfield code="a">PNames-Primary-AT, PNames-RestOfName-AT</subfield>
+            <subfield code="b">PName-Number-AT</subfield>
+            <subfield code="c">PNames-Prefix-AT, PNames-Title-AT, PNames-Suffix-AT</subfield>
+            <subfield code="d">PNames-Dates-AT</subfield>
+            <subfield code="q">PNames-FullerForm-AT</subfield>
+            <subfield code="g">PNames-Qualifier-AT</subfield>
+            <subfield code="e">Creator (cre)</subfield>
+        </datafield>
+        <datafield tag="700" ind2=" " ind1="1">
+            <subfield code="a">PNames-Primary-AT, PNames-RestOfName-AT</subfield>
+            <subfield code="b">PName-Number-AT</subfield>
+            <subfield code="c">PNames-Prefix-AT, PNames-Title-AT, PNames-Suffix-AT</subfield>
+            <subfield code="d">PNames-Dates-AT</subfield>
+            <subfield code="q">PNames-FullerForm-AT</subfield>
+            <subfield code="g">PNames-Qualifier-AT</subfield>
+            <subfield code="e">Donor (dnr)</subfield>
+        </datafield>
+        <datafield tag="710" ind2=" " ind1="2">
+            <subfield code="a">CNames-PrimaryName-AT</subfield>
+            <subfield code="b">CNames-Subordinate1-AT</subfield>
+            <subfield code="b">CNames-Subordiate2-AT</subfield>
+            <subfield code="n">CNames-Number-AT</subfield>
+            <subfield code="g">CNames-Qualifier-AT</subfield>
+            <subfield code="e">source</subfield>
+        </datafield>
+        <datafield tag="710" ind2="2" ind1=" ">
+          <subfield code="a">DNames-PrimaryName-AT</subfield>
+          <subfield code="b">DNames-Subordinate1-AT</subfield>
+          <subfield code="b">DNames-Subordiate2-AT</subfield>
+          <subfield code="n">DNames-Number-AT</subfield>
+          <subfield code="g">DNames-Qualifier-AT</subfield>
+        </datafield>
+        <datafield tag="852" ind2=" " ind1=" ">
+            <subfield code="a">Repositories.Agency Code-AT</subfield>
+            <subfield code="b">Archivists' Toolkit Migration Tracer</subfield>
+            <subfield code="c">Resource.ID.AT</subfield>
+        </datafield>
+        <datafield tag="856" ind2="2" ind1="4">
+            <subfield code="z">Finding aid online:</subfield>
+            <subfield code="u">Resource-EAD-Location-AT</subfield>
+        </datafield>
+    </record>
+</collection>

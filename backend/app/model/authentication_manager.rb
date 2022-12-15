@@ -28,6 +28,16 @@ class AuthenticationManager
         #ANW-97: check if user is inactive
         next if (user && user.is_active_user != 1)
 
+        # If configured prevent authentication attempts for existing users via a
+        # different source. Use case: don't allow an LDAP user to authenticate via
+        # the database because they had a password set at some point
+        if AppConfig[:authentication_restricted_by_source] && user && user.source != 'local'
+          if user.source != source.name
+            Log.warn("Restricted source for #{user.username} [#{user.source}]: #{source.name}")
+            next
+          end
+        end
+
         jsonmodel_user = source.authenticate(username, password)
 
         if !jsonmodel_user

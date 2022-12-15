@@ -294,6 +294,7 @@ de:
       thumbnail: Vorschaubild
       link: Verweis zu digitalem Objekt
       badge_label: Digital %{level}
+      go: Gehen Sie zur Datei
     _plural: Digitales Archivgut
   subject:
     _singular: Thema
@@ -416,7 +417,7 @@ de:
     _plural: Anmerkungen
   metadata_rights_declaration:
     _plural: Rechteerklärungen von Metadaten
-    _singular: Rechteerklärungen von Metadaten
+    _singular: Rechteerklärung von Metadaten
     license: Lizenz
     descriptive_note: Beschreibende Anmerkung
     file_uri: Datei-URI
@@ -434,8 +435,8 @@ de:
     usage: Verwendung
     existence: Existenz
   agent_corporate_entity:
-    _singular: Organisation
-    _plural: Organisationen
+    _singular: Körperschaft
+    _plural: Körperschaften
   fax: Fax
   skipnav:
     search: Zur Suche springen
@@ -455,3 +456,11 @@ de:
     archivesspace_home: Besuchen Sie <a href='http://archivesspace.org'>ArchivesSpace.org</a>
     feedback: <a id='aspaceFeedbackLink' href='%{feedback_url}' target='_blank'>Rückmeldung geben oder
       ein Problem melden</a>
+
+  languages:
+    select: Sprache auswählen
+    en: Englisch
+    es: Spanisch
+    fr: Französisch
+    de: Deutsch
+    ja: Japanisch

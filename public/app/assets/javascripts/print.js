@@ -38,7 +38,7 @@ function addPageLocationMsg() {
   const contentEl = document.querySelector('#content');
   const locationEl = document.createElement('p');
   locationEl.classList.add('page-location-for-printing');
-  locationEl.innerHTML = `<i>Printed from</i> ${location}`;
+  locationEl.innerHTML = '<i>Printed from</i> ' + location;
 
   contentEl.insertAdjacentElement('beforebegin', locationEl);
 }

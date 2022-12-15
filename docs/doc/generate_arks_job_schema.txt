@@ -1,8 +1,0 @@
-JSON Schema: Generate_arks_job
-
-Properties
-
-
-
-
-

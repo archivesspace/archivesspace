@@ -23,6 +23,8 @@
   <%= form.hidden_input("ils_item_id") %>
   <%= form.label_and_readonly("exported_to_ils", I18n.t("top_container.not_exported")) %>
   <%= form.hidden_input("exported_to_ils") %>
+  <%= form.label_and_textarea("internal_note") %>
+
   <% if defined?(created_for_collection) %>
     <%= form.hidden_input("created_for_collection", created_for_collection) %>
   <% else %>

@@ -35,7 +35,7 @@
         </section>
 
         <% if digital_object.file_versions.length > 0 %>
-          <%= render_aspace_partial :partial => "file_versions/show", :locals => { :file_versions => digital_object.file_versions, :section_id => "digital_object_file_versions_" } %>
+          <%= render_aspace_partial :partial => "file_versions/show", :locals => { :file_versions => digital_object.file_versions, :section_id => "digital_object_file_versions_", :title => digital_object.title } %>
         <% end %>
 
         <% if digital_object.lang_materials.length > 0 %>
@@ -55,7 +55,7 @@
         <% end %>
 
         <% if digital_object.linked_instances.length > 0 %>
-          <section id="digital_object_linked_instances" class="subrecord-form-dummy">
+          <section id="digital_object_linked_instances_" class="subrecord-form-dummy">
             <h3><%= I18n.t("linked_record._plural") %></h3>
             <div class="subrecord-form-container">
               <div class="subrecord-form-fields">

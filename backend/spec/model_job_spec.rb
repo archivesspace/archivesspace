@@ -209,15 +209,13 @@ describe 'Background jobs' do
 
   describe "BackgroundJobQueue" do
 
-    let(:q) {
-      q = BackgroundJobQueue.new
+    let(:queue) {
+      queue = BackgroundJobQueue.new
     }
-
 
     before(:each) do
       @job = nil
     end
-
 
     after(:each) do
       as_test_user("admin") do
@@ -229,7 +227,6 @@ describe 'Background jobs' do
         end
       end
     end
-
 
     it "can find the next queued job and start it", :skip_db_open do
       json = JSONModel(:job).from_hash({
@@ -250,13 +247,12 @@ describe 'Background jobs' do
       job_id = @job.id
       expect(@job.status).to eq('queued')
 
-      q.run_pending_job
+      queue.run_pending_job
 
       sleep(0.5)
 
       expect(Job.any_repo[job_id].status).to eq('completed')
     end
-
 
     it "can stop a canceled job and finish it", :skip_db_open do
       NugatoryJobRunner.run_till_canceled!
@@ -284,7 +280,7 @@ describe 'Background jobs' do
         @job.cancel!
       end
 
-      q.run_pending_job
+      queue.run_pending_job
 
       cancel_thread.join
 
@@ -294,5 +290,39 @@ describe 'Background jobs' do
       expect(job.time_finished).not_to be_nil
       expect(job.time_finished).to be < Time.now
     end
+
+    it "quietly logs and swallows error when a stale job doesn't exist", :skip_db_open do
+        allow(Log).to receive(:debug)
+        NugatoryJobRunner.run_till_canceled!
+
+        json = JSONModel(:job).from_hash({:job => {'jsonmodel_type' => 'nugatory_job'}})
+
+        as_test_user("admin") do
+          RequestContext.open do
+            RequestContext.put(:repo_id, $repo_id)
+            RequestContext.put(:current_username, "admin")
+            user = create(:user, :username => "jobber")
+
+            @job = Job.create_from_json(json,
+                                        :repo_id => $repo_id,
+                                        :user => user)
+          end
+        end
+
+        allow(Job).to receive(:running_jobs_untouched_since).and_return [@job]
+
+
+        as_test_user("admin") do
+          RequestContext.open do
+            RequestContext.put(:repo_id, $repo_id)
+            RequestContext.put(:current_username, "admin")
+            Job.any_repo[@job.id].delete
+          end
+        end
+
+        queue = BackgroundJobQueue.new
+        expect { queue.run_pending_job }.not_to raise_error
+        expect(Log).to have_received(:debug).with(/^Another thread canceled unwatched/)
+      end
   end
 end

@@ -69,6 +69,8 @@
               <% end%>
               <% if enum_value['suppressed']  %>
                 <%= link_to I18n.t("actions.unsuppress"), {:controller => :enumerations, :action => :update_value, :id => JSONModel(:enumeration).id_for(@enumeration["uri"]), :enumeration_value_id => enum_value["id"], :suppressed => 0 }, :method => :post, :class=> "btn btn-xs btn-warning"%>
+              <% elsif @enumeration['relationships'].length == 0 %>
+                  <%= link_to I18n.t("actions.suppress"), {:controller => :enumerations, :action => :update_value, :id => JSONModel(:enumeration).id_for(@enumeration["uri"]), :enumeration_value_id => enum_value["id"], :suppressed => 1 }, :method => :post, :class=> "btn btn-xs btn-warning"%>
               <% else %>
                 <%= link_to I18n.t("actions.suppress"), {:controller => :enumerations, :action => :update_value, :id => JSONModel(:enumeration).id_for(@enumeration["uri"]), :enumeration_value_id => enum_value["id"], :suppressed => 1 }, :method => :post, :class=> "btn btn-xs btn-warning", :disabled => 'disabled'  %>
               <% end%>

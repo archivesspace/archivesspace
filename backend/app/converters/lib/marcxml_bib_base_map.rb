@@ -257,7 +257,7 @@ module MarcXMLBibBaseMap
       "subfield[@code='b'][2]" => trim('subordinate_name_2', '.'),
       "subfield[@code='b'][3]" => appends_subordinate_name_2,
       "subfield[@code='b'][4]" => appends_subordinate_name_2,
-      "subfield[@code='c']" => adds_prefixed_qualifier('Location of meeting'),
+      "subfield[@code='c']" => trim('location', '.'),
       "subfield[@code='d']" => adds_prefixed_qualifier('Date of meeting or treaty signing'),
       "subfield[@code='f']" => adds_prefixed_qualifier('Date of work'),
       "subfield[@code='n']" => trim('number', '.', ['(', ')', ':']),
@@ -271,6 +271,7 @@ module MarcXMLBibBaseMap
       "subfield[@code='s']" => adds_prefixed_qualifier('Version'),
       "subfield[@code='t']" => adds_prefixed_qualifier('Title of work'),
       "subfield[@code='u']" => adds_prefixed_qualifier('Affiliation'),
+      "@ind1" => sets_jurisdiction_from_ind1,
     }
   end
 
@@ -378,6 +379,7 @@ module MarcXMLBibBaseMap
             "subfield[@code='e'][1]" => trim('subordinate_name_2', '.'),
             "subfield[@code='e'][2]" => appends_subordinate_name_2,
             "subfield[@code='e'][3]" => appends_subordinate_name_2,
+            "subfield[@code='q']" => adds_prefixed_qualifier('Name of meeting following jurisdiction name entry element')
           },
         }
       }
@@ -493,6 +495,16 @@ module MarcXMLBibBaseMap
     }
   end
 
+  def sets_jurisdiction_from_ind1
+    -> name, node {
+      name['jurisdiction'] = case node.value
+                             when '1'
+                               true
+                             when '0'
+                               false
+                             end
+    }
+  end
 
   def sets_name_order_from_ind1
     -> name, node {
@@ -504,7 +516,6 @@ module MarcXMLBibBaseMap
                            end
     }
   end
-
 
   def sets_name_source_from_code
     -> name, node {
@@ -670,7 +681,6 @@ module MarcXMLBibBaseMap
     }
   end
 
-
   # this should be called 'build_base_map'
   # because the extending class calls it
   # when it is configuring itself, and the
@@ -741,22 +751,74 @@ module MarcXMLBibBaseMap
 
         # ID_0, ID_1, ID_2, ID_3
         "datafield[@tag='852']" => -> resource, node {
-          id = concatenate_subfields(%w(k h i m), node, '_')
+          id = concatenate_subfields(%w(k h i j m), node, '_')
           resource.id_0 = id unless id.empty?
         },
 
-        # local LC-style identifer
-        "datafield[@tag='090']" => -> resource, node {
+        # ANW-440: adding additional support for call numbers
+        # order of priority is:
+        # 099, 090, 092, 096, 098, 050, 082
+        # e.g., a value in 099 would be used over a value in 092, etc
+
+        # local non-LC identifier
+        "datafield[@tag='099']" => -> resource, node {
+          id = concatenate_subfields(('a'..'z'), node, '_')
+
           if resource.id_0.nil? or resource.id_0.empty?
-            id = concatenate_subfields(('a'..'z'), node, '_')
             resource.id_0 = id unless id.empty?
           end
         },
 
-        # local non-LC identifier
-        "datafield[@tag='099']" => -> resource, node {
+        # local LC-style identifer
+        "datafield[@tag='090']" => -> resource, node {
+          id = concatenate_subfields(('a'..'z'), node, '_')
+
           if resource.id_0.nil? or resource.id_0.empty?
-            id = concatenate_subfields(('a'..'z'), node, '_')
+            resource.id_0 = id unless id.empty?
+          end
+        },
+
+        # Locally Assigned Dewey Call Number
+        "datafield[@tag='092']" => -> resource, node {
+          id = concatenate_subfields(('a'..'z'), node, '_')
+
+          if resource.id_0.nil? or resource.id_0.empty?
+            resource.id_0 = id unless id.empty?
+          end
+        },
+
+        # Locally NLM-type Call Number
+        "datafield[@tag='096']" => -> resource, node {
+          id = concatenate_subfields(('a'..'z'), node, '_')
+
+          if resource.id_0.nil? or resource.id_0.empty?
+            resource.id_0 = id unless id.empty?
+          end
+        },
+
+        #  Other Classification Schemes
+        "datafield[@tag='098']" => -> resource, node {
+          id = concatenate_subfields(('a'..'z'), node, '_')
+
+          if resource.id_0.nil? or resource.id_0.empty?
+            resource.id_0 = id unless id.empty?
+          end
+        },
+
+        # Library of Congress Call Number
+        "datafield[@tag='050']" => -> resource, node {
+          id = concatenate_subfields(('a'..'z'), node, '_')
+
+          if resource.id_0.nil? or resource.id_0.empty?
+            resource.id_0 = id unless id.empty?
+          end
+        },
+
+        # Dewey Classification Number
+        "datafield[@tag='082']" => -> resource, node {
+          id = concatenate_subfields(('a'..'z'), node, '_')
+
+          if resource.id_0.nil? or resource.id_0.empty?
             resource.id_0 = id unless id.empty?
           end
         },
@@ -861,9 +923,22 @@ module MarcXMLBibBaseMap
                                                date.expression = node.xpath("subfield[@code='c']")
                                                resource.dates << date
                                              end
+                                           else
+                                             resource['_needs_date'] = true
                                            end
                                          }
                                        }),
+
+        "datafield[@tag='264']/subfield[@code='c']" => -> resource, node {
+                                          if resource['_needs_date']
+                                            make(:date) do |date|
+                                              date.label = 'publication'
+                                              date.date_type = 'single'
+                                              date.expression = node.inner_text
+                                              resource.dates << date
+                                            end
+                                          end
+                                        },
 
         # 300s
         # EXTENTS
@@ -872,21 +947,49 @@ module MarcXMLBibBaseMap
           :rel => :extents,
           :map => {
             "self::datafield" => -> extent, node {
-              ex = node.xpath('.//subfield[@code="a"]')
-              if ex.length > 0
-                ext = ex.first.text
+              # ANW-1260
+              a_content = node.xpath('.//subfield[@code="a"]')
+              f_content = node.xpath('.//subfield[@code="f"]')
+
+              # only $a present - parse with existing method
+              if a_content.length > 0 && f_content.empty?
+                ext = a_content.first.text
                 if ext =~ /^([0-9\.,]+)+\s+(.*)$/
                   extent.number = $1
                   extent.extent_type = $2
                 elsif ext =~ /^([0-9\.,]+)/
                   extent.number = $1
+                else
+                  raise "The extent field (300) could not be parsed."
+                end
+
+              # $a and $f present, a must be numeric, f must be an extent value that's present in the extent_extent_type enumeration
+              elsif a_content.length > 0 && f_content.length > 0
+
+                # $a must be numeric
+                if a_content.inner_text =~ /^[+-]?([0-9]+\.?[0-9]*|\.[0-9]+)$/
+                  extent.number = a_content.inner_text
+                else
+                  raise "No numeric value found in field 300, subfield a"
+                end
+
+                # remove punctuation and replace underscores with spaces to better match extent_type translation values
+                f_content_cleaned = f_content.inner_text.gsub(/[.,\/#!$%^&*;:{}=-_`~()]/, "").gsub("_", " ").downcase
+                extent_values = I18n.t('enumerations.extent_extent_type').values.map {|v| v.downcase }
+
+                if extent_values.include?(f_content_cleaned)
+                  extent.extent_type = f_content.inner_text
+                else
+                  raise "Extent type in field 300, subfield f is not found in the extent type controlled vocabulary."
                 end
               end
 
+              # marc doesn't provide data for specifying part of an extent, so use whole by default
+
+              extent.portion = "whole"
               extent.container_summary = subfield_template("{$3: }{$a }{$b, }{$c }({$e, }{$f, }{$g})", node)
             }
           },
-          :defaults => {:portion => 'whole', :number => '1', :extent_type => 'linear_feet'}
         },
 
         "datafield[@tag='306']" => singlepart_note('physdesc', 'Playing Time', "{$a}"),
@@ -1121,6 +1224,8 @@ module MarcXMLBibBaseMap
 
         },
 
+        "datafield[@tag='555']" => multipart_note('otherfindaid', 'Other Finding Aid', "{$a}{; $b}{; $c}{; $d}{; $u}{; $3}."),
+
         "datafield[@tag='561']" => multipart_note('custodhist', 'Ownership and Custodial History', "{$3: }{$a}."),
 
         "datafield[@tag='562']" => multipart_note('relatedmaterial', 'Copy and Version Identification', %q|
@@ -1134,6 +1239,16 @@ module MarcXMLBibBaseMap
                                             {Unit of analysis--$c; }{Universe of data--$d; }{Filing scheme or code--$e}.|),
 
         "datafield[@tag='581']" => bibliography_note_template('Publications About Described Materials', "{$3: }{$a }{($z)}."),
+
+        "datafield[@tag='583']" => multipart_note('processinfo', 'Processing Note', %q|
+                                            {Action: $a}{--Action Identification: $b}{--Time/Date of Action: $c}{--Action interval: $d}
+                                            {--Action interval: $d}{--Contingency for Action: $e}{--Authorization: $f}{--Jurisdiction: $h}
+                                            {--Method of action: $i}{--Site of Action: $j}{--Action agent: $k}{--Status: $l}{--Extent: $n}
+                                            {--Type of unit: $o}{--URI: $u}{--Non-public note: $x}{--Public note: $z}{--Materials specified: $3}
+                                            {--Institution: $5}.|),
+
+        "datafield[@tag='584']" => multipart_note('accruals', 'Accruals', %q|
+                                            {Accumulation: $a}{--Frequency of use: $b}{--Materials specified: $3}{--Institution: $5}.|),
 
         "datafield[starts-with(@tag, '59')]" => multipart_note('odd', 'Local Note'),
 

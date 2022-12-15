@@ -90,6 +90,20 @@ class PUIIndexer < PeriodicIndexer
         # special handling for fullrecord because we don't want the ancestors indexed.
         # we're now done with the ancestors, so we can just delete them from the record
         record['record'].delete('ancestors')
+        # we don't want container_profile or top_container notes indexed for the public either
+        if record['record']['instances']
+          record['record']['instances'].each do |instance|
+            if instance['sub_container'] && instance['sub_container']['top_container']
+              top_container = instance['sub_container']['top_container']
+              if top_container['_resolved']
+                top_container['_resolved'].delete('internal_note')
+                if top_container['_resolved']['container_profile'] && top_container['_resolved']['container_profile']['_resolved']
+                  top_container['_resolved']['container_profile']['_resolved'].delete('notes')
+                end
+              end
+            end
+          end
+        end
         doc['fullrecord'] = IndexerCommon.build_fullrecord(record)
       end
     }

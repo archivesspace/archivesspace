@@ -131,14 +131,22 @@ class Driver
 
   def get_edit_page(json_obj)
     if json_obj.jsonmodel_type == 'archival_object'
-      @driver.get("#{@frontend}#{json_obj.resource['ref'].sub(%r{/repositories/\d+}, '')}/edit#tree::archival_object_#{json_obj.uri.sub(%r{.*/}, '')}")
+      @driver.get("#{@frontend}#{json_obj.resource['ref'].sub(%r{/repositories/\d+}, '')}/edit#tree::archival_object_#{json_obj.id}")
+    elsif json_obj.jsonmodel_type == 'digital_object_component'
+      @driver.get("#{@frontend}#{json_obj.digital_object['ref'].sub(%r{/repositories/\d+}, '')}/edit#tree::digital_object_component_#{json_obj.id}")
     else
       @driver.get("#{@frontend}#{json_obj.uri.sub(%r{/repositories/\d+}, '')}/edit")
     end
   end
 
   def get_view_page(json_obj)
-    @driver.get("#{@frontend}#{json_obj.uri.sub(%r{/repositories/\d+}, '')}")
+    if json_obj.jsonmodel_type == 'archival_object'
+      @driver.get("#{@frontend}#{json_obj.resource['ref'].sub(%r{/repositories/\d+}, '')}#tree::archival_object_#{json_obj.id}")
+    elsif json_obj.jsonmodel_type == 'digital_object_component'
+      @driver.get("#{@frontend}#{json_obj.digital_object['ref'].sub(%r{/repositories/\d+}, '')}#tree::digital_object_component_#{json_obj.id}")
+    else
+      @driver.get("#{@frontend}#{json_obj.uri.sub(%r{/repositories/\d+}, '')}")
+    end
   end
 
   def select_repo(code)

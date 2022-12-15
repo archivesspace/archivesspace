@@ -14,6 +14,7 @@
 
    <hr/>
 
+   <%= form.label_and_textfield "source", { :field_opts => { :readonly => true } } %>
    <%= form.label_and_password "password", {:field_opts => {:size => 30, :class => "input-large"}, :required => @user.id ? :conditionally : true} %>
    <%= form.label_and_password "confirm_password", {:field_opts => {:size => 30, :class => "input-large"}, :required => @user.id ? :conditionally : true} %>
 

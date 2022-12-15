@@ -182,6 +182,20 @@ def setup_test_data
            resource: { 'ref' => resource_with_scope.uri }, publish: true)
   end
 
+  resource_with_tree = create(:resource, title: "Resource with digital instance", publish: true)
+  create(:archival_object,
+    title: "AO with DO",
+    resource: { 'ref' => resource_with_tree.uri },
+    instances: [build(:instance_digital)],
+    publish: true
+  )
+
+  create(:archival_object,
+    title: "AO without DO",
+    resource: { 'ref' => resource_with_tree.uri },
+    publish: true
+  )
+
   create(:digital_object_component,
          publish: true,
          component_id: '12345')

@@ -3,10 +3,9 @@ class DefaultValues
 
   def self.get(record_type)
     uri = "/repositories/#{JSONModel.repository}/default_values/#{record_type}"
-    result = JSONModel::HTTP.get_json(uri)
-    if result
-      self.new(JSONModel(:default_values).from_hash(result))
-    else
+    begin
+      self.new(JSONModel(:default_values).from_hash(JSONModel::HTTP.get_json(uri)))
+    rescue RecordNotFound
       nil
     end
   end

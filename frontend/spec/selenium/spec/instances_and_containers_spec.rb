@@ -107,7 +107,6 @@ describe 'Resource instances and containers' do
     modal = @driver.find_element(id: 'bulkActionIndicatorRapidEntryModal')
   end
 
-
   it 'searches containers and performs bulk container merge' do
     @driver.navigate.to("#{$frontend}/top_containers")
 
@@ -120,7 +119,8 @@ describe 'Resource instances and containers' do
 
     # Pre-merge baselines for number of rows and the target uri that will remain post merge
     row_count = @driver.all(:css, 'table tr').size
-    target_uri = @driver.find_element(xpath: '//*[@id="bulk_operation_results"]/table/tbody/tr[1]/td[12]/div/a[1]').attribute('href')
+
+    target_uri = @driver.find_element(xpath: '//*[@id="bulk_operation_results"]/table/tbody/tr[1]/td[13]/div/a[1]').attribute('href')
 
     # Now merge top containers
     @driver.find_element(css: '.bulk-operation-toolbar:first-child a.dropdown-toggle').click
@@ -157,9 +157,8 @@ describe 'Resource instances and containers' do
     # There should be fewer rows now
     expect(@driver.all(:css, 'table tr').size).not_to eq(row_count)
     # The target should remain
-    expect(@driver.find_element(xpath: '//*[@id="bulk_operation_results"]/table/tbody/tr[1]/td[12]/div/a[1]').attribute('href')).to eq(target_uri)
+    expect(@driver.find_element(xpath: '//*[@id="bulk_operation_results"]/table/tbody/tr[1]/td[13]/div/a[1]').attribute('href')).to eq(target_uri)
   end
-
 
   it 'remembers the search after leaving the page' do
     @driver.navigate.to("#{$frontend}/top_containers")

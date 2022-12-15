@@ -429,4 +429,13 @@ module Searchable
     end
     return unsanitized
   end
+
+  def repositories_sort_by
+    case AppConfig[:pui_repositories_sort]
+    when :display_string
+      'repo_sort asc'
+    when :position
+      'position_int_sort asc'
+    end
+  end
 end

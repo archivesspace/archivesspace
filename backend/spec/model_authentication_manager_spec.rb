@@ -31,14 +31,21 @@ end
 
 describe 'Authentication manager' do
 
+  let(:username) { "hello-#{Time.now.to_i}" }
   let(:auth_source) do
     {
       :model => 'MockAuthenticationSource',
       :users => {
-        'hello' => {:password => 'world'}
+        username => {:password => 'world'}
       }
     }
   end
+  let(:also_a_db_user) {
+    user = build(:json_user, username: username)
+    user.save(:password => 'backdoor')
+    User.find(username: username).update(source: "MockAuthenticationSource")
+    user
+  }
 
 
   context "Authentication" do
@@ -48,12 +55,31 @@ describe 'Authentication manager' do
 
 
     it "successfully logs in to a custom provider" do
-      expect(AuthenticationManager.authenticate("hello", "world")).not_to be_nil
+      expect(AuthenticationManager.authenticate(username, "world")).not_to be_nil
     end
 
 
     it "handles failed logins against a custom provider" do
-      expect(AuthenticationManager.authenticate("hello", "wrongpass")).to be_nil
+      expect(AuthenticationManager.authenticate(username, "wrongpass")).to be_nil
+    end
+
+
+    it "successfully logs a user in if any provider permits it" do
+      AppConfig[:authentication_restricted_by_source] = false
+      also_a_db_user
+      expect(AuthenticationManager.authenticate(username, "wrongpass")).to be_nil
+      expect(AuthenticationManager.authenticate(username, "backdoor")).not_to be_nil
+      expect(User.find(username: username).source).to eq('DBAuth')
+    end
+
+
+    it "prevents login from another provider if source restriction is enabled" do
+      AppConfig[:authentication_restricted_by_source] = true
+      also_a_db_user
+      expect(AuthenticationManager.authenticate(username, "wrongpass")).to be_nil
+      expect(AuthenticationManager.authenticate(username, "backdoor")).to be_nil
+      expect(AuthenticationManager.authenticate(username, "world")).not_to be_nil
+      expect(User.find(username: username).source).to eq('MockAuthenticationSource')
     end
 
 
@@ -66,12 +92,12 @@ describe 'Authentication manager' do
       # Otherwise we end up creating and locking the user row in the DB, which
       # cauess the tests to deadlock.
       Thread.new do
-        AuthenticationManager.authenticate("hello", "world")
+        AuthenticationManager.authenticate(username, "world")
       end.join
 
       threads = (0...4).map do
         Thread.new do
-          50.times.map { AuthenticationManager.authenticate("hello", "world") }
+          50.times.map { AuthenticationManager.authenticate(username, "world") }
         end
       end
 
@@ -88,7 +114,7 @@ describe 'Authentication manager' do
 
 
     it "can find a matching user" do
-      expect(AuthenticationManager.matching_usernames("hel")).to eq(["hello"])
+      expect(AuthenticationManager.matching_usernames("hel")).to eq([username])
     end
 
     it "can handle no matches" do
@@ -109,7 +135,7 @@ describe 'Authentication manager' do
                                             ]
 
       # Still fine
-      expect(AuthenticationManager.authenticate("hello", "world")).not_to be_nil
+      expect(AuthenticationManager.authenticate(username, "world")).not_to be_nil
     end
   end
 end

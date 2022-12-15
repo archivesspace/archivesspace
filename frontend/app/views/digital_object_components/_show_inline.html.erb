@@ -33,7 +33,7 @@
         </section>
 
         <% if digital_object_component.file_versions.length > 0 %>
-          <%= render_aspace_partial :partial => "file_versions/show", :locals => { :file_versions => digital_object_component.file_versions, :section_id => "digital_object_component_file_versions_" } %>
+          <%= render_aspace_partial :partial => "file_versions/show", :locals => { :file_versions => digital_object_component.file_versions, :section_id => "digital_object_component_file_versions_", :title => digital_object_component.display_string } %>
         <% end %>
 
         <% if digital_object_component.lang_materials.length > 0 %>

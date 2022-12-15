@@ -9,6 +9,13 @@
 </div>
 <div class="row">
   <div class="col-sm-9">
+
+    <div class="staff-hidden hide">
+      <% if @result['json']['restricted'] %>
+        <p><h4 class='restricted'><%= I18n.t('top_container.restricted') %></h4></p>
+      <% end %>
+    </div>
+
     <% unless @results.blank? || @results['total_hits'] == 0 %>
       <h2><%= t('contains', {:count => @results['total_hits'], :type => @results['total_hits'] == 1? t('search_results.result') : t('search_results.results')}) %>:</h2>
       <% @results.records.each do |result| %>

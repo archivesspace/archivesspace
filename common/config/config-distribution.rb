@@ -30,6 +30,10 @@ class AppConfig
       return
     end
 
+    if parameters_with_options[parameter] && !parameters_with_options[parameter].include?(value)
+      raise "Illegal option '#{value}' for AppConfig[:#{parameter}]. Must be one of #{parameters_with_options[parameter].join(', ')}"
+    end
+
     @@changed_from_default[parameter] = true
     @@parameters[parameter] = value
   end
@@ -65,6 +69,10 @@ class AppConfig
 
   def self.forced_off_parameters
     @@forced_off_parameters ||= []
+  end
+
+  def self.parameters_with_options
+    @@parameters_with_options ||= {}
   end
 
   def self.has_key?(parameter)
@@ -218,6 +226,11 @@ class AppConfig
 
   def self.ensure_false(parameter)
     forced_off_parameters << parameter
+  end
+
+  def self.set_options(parameter, options)
+    parameters_with_options[parameter] ||= []
+    parameters_with_options[parameter] += options
   end
 
   def self.parse_value(value)

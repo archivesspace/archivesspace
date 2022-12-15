@@ -61,6 +61,27 @@
       "collection_management" => {"type" => "JSONModel(:collection_management) object"},
       "user_defined" => {"type" => "JSONModel(:user_defined) object"},
 
+      "collection" => {
+        "readonly" => "true",
+        "type" => "array",
+        "items" => {
+          "type" => "object",
+          "subtype" => "ref",
+          "properties" => {
+            "ref" => {
+              "type" => [
+                {"type" => "JSONModel(:resource) uri"},
+                {"type" => "JSONModel(:accession) uri"}
+              ]
+            },
+            "_resolved" => {
+              "type" => "object",
+              "readonly" => "true"
+            }
+          }
+        }
+      },
+
       "linked_instances" => {
         "type" => "array",
         "readonly" => "true",

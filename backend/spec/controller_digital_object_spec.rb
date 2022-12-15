@@ -202,9 +202,6 @@ describe 'Digital Objects controller' do
                                           :digital_object => {:ref => sacrificial_do.uri})])
 
     sacrificial_do = JSONModel(:digital_object).find(sacrificial_do.id)
-    sacrificial_do.linked_instances = [{'ref' => resource.uri}, {'ref' => archival_object.uri}]
-    sacrificial_do.save
-
     expect(sacrificial_do.linked_instances.count).to be(2)
 
     sacrificial_do.delete
