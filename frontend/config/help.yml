@@ -12,6 +12,7 @@ topics:
   accession_deaccessions: '894206022/Deaccessions+Sub-Record+-+Accessions'
   accession_instances: '894205992/Instances+Sub-Record+%28as+of+v1.5.0%29+-+Accessions'
   accession_collection_management: '893878417/Collection+Management+Sub-Record+-+Accessions'
+  accession_metadata_rights_declarations: '3020455937/Metadata+Rights+Declarations+Sub-record+-+Accessions'
   accession_classifications: '893878432/Classifications+Sub-Record+-+Accessions'
   accession_user_defined: '893976727/User+Defined+Fields+-+Accessions'
   # Resource Topics
@@ -26,6 +27,7 @@ topics:
   resource_notes: '916947033/Notes+Sub-Records'
   resource_external_documents: '895910272/External+Documents+Sub-Record+-+Resources'
   resource_rights_statements: '896172159/Rights+Statements+Sub-Record+v2.1.0+-+Resources'
+  resource_metadata_rights_declarations: '3020128264/Metadata+Rights+Declarations+Sub-record+-+Resources'
   resource_instances: '896204987/Instances+Sub-Record+as+of+v1.5.0+-+Resources'
   resource_deaccessions: '895812081/Deaccessions+Sub-Record+-+Resources'
   resource_collection_management: '896172244/Collection+Management+Sub-Record+-+Resources'
@@ -64,6 +66,7 @@ topics:
   digital_object_component_dates: '896893121/Dates+Sub-Record+-+Digital+Objects'
   digital_object_component_extents: '896893148/Extents+Sub-Record+-+Digital+Objects'
   digital_object_component_linked_agents: '896762114/Agent+Links+-+Digital+Objects'
+  digital_object_metadata_rights_declarations: '3020521473/Metadata+Rights+Declarations+Sub-record+-+Digital+Objects'
   digital_object_component_subjects: '896925788/Subject+Links+-+Digital+Objects'
   digital_object_component_notes: '896958538/Notes+Sub-Records+for+Digital+Objects'
   digital_object_component_external_documents: '896696508/External+Documents+Sub-Record+-+Digital+Objects'
