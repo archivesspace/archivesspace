@@ -46,6 +46,17 @@ class ArchivesSpaceService < Sinatra::Base
         # the record URI only
   
         # Output: {"resources":[{"ref":"/repositories/2/resources/455"},{"ref":"/repositories/2/resources/456"}]}
+
+        # Finding resources with ARKs
+        
+        curl -H "X-ArchivesSpace-Session: $SESSION" //
+        -G http://http://localhost:8089/repositories/2/find_by_id/resources //
+        --data-urlencode 'ark[]=ark:/######/##/##' --data-urlencode 'resolve[]=resources'
+        # Replace "http://localhost:8089" with your ASpace API URL, :repo_id: with the repository ID, 
+        # ark:/######/##/## with the ARK you are searching for, and only add --data-urlencode 'resolve[]=resources' 
+        # if you want the JSON for the returned record - otherwise, it will return the record URI only
+  
+        # Output: {"resources":[{"ref":"/repositories/2/resources/455"},{"ref":"/repositories/2/resources/456"}]}
       SHELL
     end
     .example("python") do
@@ -79,6 +90,18 @@ class ArchivesSpaceService < Sinatra::Base
         # otherwise, it will return the record URI only
   
         print(find_multi_resid.json())
+        # Output (dict): {'resources': [{'ref': '/repositories/2/resources/407', '_resolved':  {'lock_version': 0,...}
+
+        # Finding resources with ARKs
+
+        find_res_ark = client.get("repositories/:repo_id:/find_by_id/resources", 
+                                  params={"ark[]": "ark:/######/##/##",
+                                  "resolve[]": "resources"})
+        # Replace :repo_id: with the repository ID, "ark:/######/##/##" with the ark ID you are searching for, and only 
+        # add "resolve[]": "resources" if you want the JSON for the returned record - otherwise, it will return 
+        # the record URI only
+  
+        print(find_res_ark.json())
         # Output (dict): {'resources': [{'ref': '/repositories/2/resources/407', '_resolved':  {'lock_version': 0,...}
       PYTHON
     end
