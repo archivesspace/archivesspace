@@ -176,5 +176,18 @@ class ArchivesSpaceService < Sinatra::Base
     end
   end
 
+  Endpoint.post('/repositories/:repo_id/position')
+    .description("Update the position of a Repository")
+    .params(["repo_id", :repo_id],
+            ["position", Integer, "The target position for the repository"])
+    .permissions([:administer_system])
+    .no_data(true)
+    .returns([200, :updated],
+             [400, :error]) \
+  do
+    obj = Repository.get_or_die(params[:repo_id])
+    obj.update_position_only(params[:position])
+    updated_response( obj.refresh )
+  end
 
 end

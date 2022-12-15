@@ -327,6 +327,7 @@ es:
       thumbnail: Miniatura
       link: Enlace al objeto digital
       badge_label: Digital %{level}
+      go: Ir al archivo
       section: {}
       messages: {}
   digital_object_component:
@@ -538,3 +539,11 @@ es:
     feedback: <a id='aspaceFeedbackLink' href='%{feedback_url}' target='_blank'>Enviar comentarios o informar
       un problema</a>
     staff_interface: <a href="%{staff_url}">Interfaz de personal</a>
+
+  languages:
+    select: Seleccione el idioma
+    en: Inglés
+    es: Español
+    fr: Francés
+    de: Alemán
+    ja: Japonés

@@ -121,8 +121,6 @@ class IndexerCommon
   end
 
 
-  EXCLUDED_STRING_VALUE_PROPERTIES = Set.new(%w(created_by last_modified_by system_mtime user_mtime json types create_time date_type jsonmodel_type publish extent_type language script system_generated suppressed source rules name_order))
-
   def self.extract_string_values(doc)
     queue = [doc]
     strings = []
@@ -131,8 +129,8 @@ class IndexerCommon
       doc = queue.pop
 
       doc.each do |key, val|
-        if EXCLUDED_STRING_VALUE_PROPERTIES.include?(key) || key =~ /_enum_s$/
-          # ignored
+        if IndexerCommonConfig.fullrecord_excludes.include?(key) || key =~ /_enum_s$/
+          next # ignored
         elsif val.is_a?(String)
           strings.push(val)
         elsif val.is_a?(Hash)
@@ -252,7 +250,11 @@ class IndexerCommon
 
   def add_notes(doc, record)
     if record['record']['notes']
-      doc['notes'] = record['record']['notes'].map {|note| IndexerCommon.extract_string_values(note) }.join(" ");
+      if record['record']['notes'].respond_to?(:map)
+        doc['notes'] = record['record']['notes'].map {|note| IndexerCommon.extract_string_values(note) }.join(" ");
+      else
+        doc['notes'] = record['record']['notes']
+      end
     end
   end
 
@@ -471,6 +473,7 @@ class IndexerCommon
         doc['repo_sort'] = record['record']['display_string']
         doc['slug'] = record['record']['slug']
         doc['is_slug_auto'] = record['record']['is_slug_auto']
+        doc['position_int_sort'] = record['record']['position']
       end
     }
 
@@ -533,6 +536,7 @@ class IndexerCommon
         doc['slug'] = record['record']['slug']
         doc['is_slug_auto'] = record['record']['is_slug_auto']
 
+        doc['collection_uri_u_sstr'] = record['record']['collection'].map {|collection| collection['ref']}
         doc['linked_instance_uris'] = record['record']['linked_instances'].
                                          collect{|instance| instance["ref"]}.
                                          compact.uniq
@@ -644,6 +648,7 @@ class IndexerCommon
         doc['has_classification_terms'] = record['record']['has_classification_terms']
         doc['slug'] = record['record']['slug']
         doc['is_slug_auto'] = record['record']['is_slug_auto']
+        doc['identifier'] = record['record']['identifier']
       end
     }
 
@@ -729,6 +734,7 @@ class IndexerCommon
         doc['title'] = record['record']['long_display_string']
         doc['display_string'] = record['record']['display_string']
         doc['type_u_ssort'] = record['record']['type']
+        doc['notes'] = record['record']['internal_note']
 
         if record['record']['series']
           doc['series_uri_u_sstr'] = record['record']['series'].map {|series| series['ref']}
@@ -822,6 +828,7 @@ class IndexerCommon
       if doc['primary_type'] == 'container_profile'
         doc['title'] = record['record']['display_string']
         doc['display_string'] = record['record']['display_string']
+        doc['note'] = record['record']['note']
 
         ['width', 'height', 'depth'].each do |property|
           doc["container_profile_#{property}_u_sstr"] = record['record'][property]
@@ -1131,9 +1138,9 @@ class IndexerCommon
   end
 
   # ANW-1065
-  # iterate through the do_not_index list and scrub out that part of the JSON tree 
+  # iterate through the do_not_index list and scrub out that part of the JSON tree
   def sanitize_json(json)
-    IndexerCommonConfig::do_not_index.each do |k, v|
+    IndexerCommonConfig.do_not_index.each do |k, v|
       if json["jsonmodel_type"] == k
         # subrec is a reference used to navigate inside of the JSON as specified by the v[:location] to find the part of the tree to sanitize
         subrec = json

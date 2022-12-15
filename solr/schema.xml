@@ -7,6 +7,8 @@
     <field name="pui_parent_id" type="string" indexed="true" stored="true" required="false" multiValued="false" />
     <field name="four_part_id" type="text_general" indexed="true" stored="true" multiValued="false" />
     <field name="title" type="text_general" indexed="true" stored="true" multiValued="false" />
+    <field name="title_ws" type="text_ws" indexed="true" stored="true" multiValued="false" />
+    <copyField source="title" dest="title_ws" />
     <field name="types" type="string" indexed="true" stored="true" multiValued="true" />
     <field name="primary_type" type="string" indexed="true" stored="true" multiValued="false" />
     <field name="repository" type="string" indexed="true" stored="true" multiValued="false" />
@@ -39,6 +41,8 @@
     <field name="langcode" type="string" indexed="true" stored="true" multiValued="true" />
     <field name="accession_date_year" type="int" indexed="true" stored="true" multiValued="false" />
     <field name="identifier" type="sort_icu" indexed="true" stored="true" multiValued="false" />
+    <field name="identifier_ws" type="text_ws" indexed="true" stored="true" multiValued="false" />
+    <copyField source="identifier" dest="identifier_ws" />
     <field name="acquisition_type" type="string" indexed="true" stored="true" multiValued="false" />
     <field name="accession_date" type="string" indexed="true" stored="true" multiValued="false" />
     <field name="resource_type" type="string" indexed="true" stored="true" multiValued="false" />
@@ -155,6 +159,7 @@
     <dynamicField name="*_u_sortdate" type="date" indexed="true" stored="false" multiValued="false" />
     <dynamicField name="*_u_ssortdate" type="date" indexed="true" stored="true" multiValued="false" />
     <dynamicField name="*_relator_sort" type="sort_string" indexed="true" stored="true" multiValued="false" />
+    <dynamicField name="*_int_sort" type="int" indexed="true" stored="false" multiValued="false" />
   </fields>
   <uniqueKey>id</uniqueKey>
   <types>
@@ -175,6 +180,7 @@
     <fieldType name="text_ws" class="solr.TextField" positionIncrementGap="100">
       <analyzer>
         <tokenizer class="solr.WhitespaceTokenizerFactory" />
+        <filter class="solr.LowerCaseFilterFactory" />
       </analyzer>
     </fieldType>
     <fieldType name="text_general" class="solr.TextField" positionIncrementGap="100">

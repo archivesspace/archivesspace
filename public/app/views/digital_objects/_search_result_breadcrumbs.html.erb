@@ -1,0 +1,64 @@
+<% if result.linked_instances.length == 0 %>
+
+  <div class="result_context">
+    <%= render partial: 'shared/result_breadcrumbs_repo', locals: { :result => result } %>
+  </div>
+
+<% elsif result.linked_instances.length == 1 %>
+
+  <div class="result_context">
+    <%= render partial: 'shared/result_breadcrumbs_repo', locals: { :result => result } %>
+    <% result.linked_instances.each do |uri, instance_record| %>
+      <% if instance_record.primary_type == 'resource' %>
+        <%= render partial: 'shared/result_breadcrumbs_ancestor', locals: {
+        :span_class => 'resource_name',
+        :badge_type => 'resource',
+        :body => instance_record.breadcrumb[0][:crumb],
+        :url => app_prefix(uri) } %>
+      <% elsif instance_record.primary_type == 'archival_object' %>
+        <% num_crumbs = instance_record.breadcrumb.length %>
+        <% instance_record.breadcrumb.each_with_index do |crumb, i| %>
+          <%= render partial: 'shared/result_breadcrumbs_ancestor', locals: {
+            :span_class => "#{crumb[:type]}_name",
+            :badge_type => crumb[:type],
+            :body => crumb[:crumb],
+            :url => i != num_crumbs - 1 ? app_prefix(crumb[:uri]) : app_prefix(uri) } %>
+        <% end %>
+      <% end %>
+    <% end %>
+  </div>
+
+<% else %>
+
+  <div class="result_context" style="display: flex">
+    <strong style="flex-shrink: 0"><%= t('context') %>: </strong>
+    <div>
+      <%= render partial: 'shared/result_breadcrumbs_repo', locals: { :result => result, :hide_label => true } %>
+      <ol class="result_linked_instances_tree">
+        <% result.linked_instances.each do |uri, instance_record| %>
+          <li>
+            <% if instance_record.primary_type == 'resource' %>
+              <%= render partial: 'shared/result_breadcrumbs_ancestor', locals: {
+                :span_class => 'resource_name',
+                :badge_type => 'resource',
+                :body => instance_record.breadcrumb[0][:crumb],
+                :url => app_prefix(uri),
+                :hide_delimiter => true } %>
+            <% elsif instance_record.primary_type == 'archival_object' %>
+              <% num_crumbs = instance_record.breadcrumb.length %>
+              <% instance_record.breadcrumb.each_with_index do |crumb, i| %>
+                <%= render partial: 'shared/result_breadcrumbs_ancestor', locals: {
+                  :span_class => "#{crumb[:type]}_name",
+                  :badge_type => crumb[:type],
+                  :body => crumb[:crumb],
+                  :url => i != num_crumbs - 1 ? app_prefix(crumb[:uri]) : app_prefix(uri),
+                  :hide_delimiter => i == 0 ? true : false } %>
+              <% end %>
+            <% end %>
+          </li>
+        <% end %>
+      </ol>
+    </div>
+  </div>
+
+<% end %>

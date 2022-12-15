@@ -523,10 +523,30 @@
 			else {
 				return;
 			}
-			this.setDate(dateString);
-			this.update();
-			evt.preventDefault();
-		},
+
+      // ANW-170: Allow pasting year, month, or day
+      const inputField = this.inputField['0'];
+      const pastePrecision = dateString.split('-').length;
+      const pasteFormatMap = {
+        1: { format: 'yyyy', minViewMode: 2 },
+        2: { format: 'yyyy-mm', minViewMode: 1 },
+        3: { format: 'yyyy-mm-dd', minViewMode: 0 }
+      };
+
+      const pasteHandler = () => {
+        const format = pasteFormatMap[pastePrecision].format;
+        const minViewMode = pasteFormatMap[pastePrecision].minViewMode;
+
+        $(inputField).datepicker('destroy');
+        $(inputField).datepicker({ format, minViewMode });
+        $(inputField).datepicker('setDate', dateString);
+        $(inputField).datepicker('upDate');
+        $(inputField).datepicker('show');
+      };
+
+      pasteHandler();
+      evt.preventDefault();
+    },
 
 		_utc_to_local: function(utc){
 			return utc && new Date(utc.getTime() + (utc.getTimezoneOffset()*60000));

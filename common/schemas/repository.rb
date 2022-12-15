@@ -18,6 +18,7 @@
       "contact_persons" => {"type" => "string", "maxLength" => 65000},
 
       "publish" => {"type" => "boolean"},
+      "position" => {"type" => "integer", "readonly" => "true"},
 
       "display_string" => {"type" => "string", "readonly" => true},
       "oai_is_disabled" => {"type" => "boolean"},

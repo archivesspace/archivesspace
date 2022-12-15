@@ -90,11 +90,14 @@ class LargeTree
 
 
       # ANW-617: generate a slugged URL for inclusion in the JSON for the root node that's being returned to the LargeTree JS so it can be used in place of the URIs if needed.
+      digital_instance = relates_digital_instance?(@root_type) ? has_digital_instance?(db, @root_table, @root_record.id) : false
       response = waypoint_response(child_count).merge("title" => @root_record.title,
                                                       "uri" => @root_record.uri,
                                                       "slugged_url" => SlugHelpers.get_slugged_url_for_largetree(@root_record.class.to_s, @root_record.repo_id, @root_record.slug),
                                                       "jsonmodel_type" => @root_table.to_s,
-                                                      "parsed_title" => MixedContentParser.parse(@root_record.title, '/'))
+                                                      "parsed_title" => MixedContentParser.parse(@root_record.title, '/'),
+                                                      "suppressed" => @root_record.suppressed,
+                                                      "has_digital_instance" => digital_instance)
       @decorators.each do |decorator|
         response = decorator.root(response, @root_record)
       end
@@ -122,10 +125,12 @@ class LargeTree
                       .where { position < my_position }
                       .count + 1
 
+      digital_instance = relates_digital_instance?(@node_type) ? has_digital_instance?(db, @node_table, node_record.id) : false
       response = waypoint_response(child_count).merge("title" => node_record.display_string,
                                                       "uri" => node_record.uri,
                                                       "position" => node_position,
-                                                      "jsonmodel_type" => @node_table.to_s)
+                                                      "jsonmodel_type" => @node_table.to_s,
+                                                      "has_digital_instance" => digital_instance)
 
       @decorators.each do |decorator|
         response = decorator.node(response, node_record)
@@ -240,7 +245,7 @@ class LargeTree
                 :parent_id => parent_id)
         .filter(published_filter)
         .order(:position)
-        .select(:id, :repo_id, :title, :position, :slug)
+        .select(:id, :repo_id, :title, :position, :slug, :suppressed)
         .offset(offset * WAYPOINT_SIZE)
         .limit(WAYPOINT_SIZE)
         .each do |row|
@@ -256,9 +261,16 @@ class LargeTree
                            .group_and_count(:parent_id)
                            .map {|row| [row[:parent_id], row[:count]]}]
 
+      child_digital_instances = []
+      if record_ids.any? && relates_digital_instance?(@node_type)
+        child_digital_instances = digital_instances(db, @node_table, record_ids)
+                                    .select_group("#{@node_table}_id".intern).map { |row| row["#{@node_table}_id".intern] }
+      end
+
       response = record_ids.each_with_index.map do |id, idx|
         row = records[id]
         child_count = child_counts.fetch(id, 0)
+        digital_instance = child_digital_instances.include?(id)
 
         # ANW-617: generate a slugged URL for inclusion in the JSON for the standard node that's being returned to the LargeTree JS so it can be used in place of the URIs if needed.
         waypoint_response(child_count).merge("title" => row[:title],
@@ -267,7 +279,9 @@ class LargeTree
                                              "uri" => JSONModel(@node_type).uri_for(row[:id], :repo_id => row[:repo_id]),
                                              "position" => (offset * WAYPOINT_SIZE) + idx,
                                              "parent_id" => parent_id,
-                                             "jsonmodel_type" => @node_type.to_s)
+                                             "suppressed" => row[:suppressed],
+                                             "jsonmodel_type" => @node_type.to_s,
+                                             "has_digital_instance" => digital_instance)
 
       end
 
@@ -280,6 +294,19 @@ class LargeTree
   end
 
   private
+
+  def digital_instances(db, table, ids)
+    published_filter = @published_only ? [1] : [0, 1]
+    db[:instance_do_link_rlshp]
+      .join(:instance, id: Sequel[:instance_do_link_rlshp][:instance_id])
+      .join(:digital_object, id: Sequel[:instance_do_link_rlshp][:digital_object_id])
+      .where(digital_object__publish: published_filter)
+      .where(Sequel.lit("#{table}_id IN ?", ids))
+  end
+
+  def has_digital_instance?(db, table, id)
+    digital_instances(db, table, [id]).any?
+  end
 
   # When we return a list of waypoints, the client will pretty much always
   # immediate ask us for the first one in the list.  So, let's have the option
@@ -296,6 +323,16 @@ class LargeTree
     end
 
     response
+  end
+
+  # TODO: would be better to not hard-code the list of supported record types
+  # record types that can have instances and be linked to digital objects
+  def relates_digital_instance?(record_type)
+    [
+      :accession,
+      :archival_object,
+      :resource,
+    ].include?(record_type)
   end
 
   def waypoint_response(child_count)

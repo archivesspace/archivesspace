@@ -66,13 +66,20 @@
 	<%= render partial: 'shared/accordion_panel', locals: {:p_title =>  t('resource._public.additional'),
 	      :p_id => 'add_desc', :p_body => x } %>
 	<% end %>
-        <% if (@result.kind_of?(Accession) || @result.kind_of?(Resource)) && !@result.deaccessions.blank? %>
-          <% x = render partial: 'shared/present_list', locals: {:list =>  @result.deaccessions.collect{|d| d.fetch('description')}, :list_clss => 'deaccessions'} %>
-          <%= render partial: 'shared/accordion_panel', locals: {:p_title => t('deaccessions'), :p_id => 'deaccessions_list', :p_body => x} %>
-        <% end %>
-        <% unless @result.subjects.blank? %>
-	   <% x= render partial: 'shared/subjects_list', locals: {:list => @result.subjects} %>
-	   <%= render partial: 'shared/accordion_panel', locals: {:p_title =>  t('subject._plural'),
+    <% unless @result.agents.blank? %>
+  <%# ANW-1095: don't show creators in related names section since it is redundant %>
+  <% not_creators = @result.agents.except("creator") %>
+  <% x= render partial: 'shared/agents_list', locals: {:list => not_creators} %>
+    <%= render partial: 'shared/accordion_panel', locals: {:p_title =>  t('pui_agent.related'),
+       :p_id => 'agent_list', :p_body => x} %>
+  <% end %>
+  <% if (@result.kind_of?(Accession) || @result.kind_of?(Resource)) && !@result.deaccessions.blank? %>
+    <% x = render partial: 'shared/present_list', locals: {:list =>  @result.deaccessions.collect{|d| d.fetch('description')}, :list_clss => 'deaccessions'} %>
+    <%= render partial: 'shared/accordion_panel', locals: {:p_title => t('deaccessions'), :p_id => 'deaccessions_list', :p_body => x} %>
+  <% end %>
+  <% unless @result.subjects.blank? %>
+	  <% x= render partial: 'shared/subjects_list', locals: {:list => @result.subjects} %>
+	  <%= render partial: 'shared/accordion_panel', locals: {:p_title =>  t('subject._plural'),
 	      :p_id => 'subj_list', :p_body => x} %>
 	<% end %>
   <% unless @result.classifications.blank? %>
@@ -80,13 +87,7 @@
     <%= render partial: 'shared/accordion_panel', locals: {:p_title =>  t('classification._plural'),
                                                            :p_id => 'classifications_list', :p_body => x} %>
   <% end %>
-	<% unless @result.agents.blank? %>
-  <%# ANW-1095: don't show creators in related names section since it is redundant %>
-  <% not_creators = @result.agents.except("creator") %>
-	  <% x= render partial: 'shared/agents_list', locals: {:list => not_creators} %>
-	   <%= render partial: 'shared/accordion_panel', locals: {:p_title =>  t('pui_agent.related'),
-	     :p_id => 'agent_list', :p_body => x} %>
-        <% end %>
+
 	<% unless @result.linked_digital_objects.blank? %>
 		<% x = render partial: 'resources/linked_digital_objects', locals: {:digital_objects => @result.linked_digital_objects} %>
 		<%= render partial: 'shared/accordion_panel', locals: {:p_title => t('linked_digital_objects'), :p_id => 'linked_digital_objects_list', :p_body => x} %>

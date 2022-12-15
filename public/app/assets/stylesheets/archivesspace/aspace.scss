@@ -466,6 +466,10 @@ h4,
   font-family: $serif-font;
 }
 
+h4.restricted {
+  color: #f00;
+}
+
 h5,
 .h5 {
   font-weight: bold;
@@ -770,9 +774,13 @@ i.giant {
 }
 
 /* record details */
-.objectimage {
-  max-width: 50%;
+.available-digital-objects {
   float: right;
+  max-width: 50%;
+}
+
+.objectimage {
+  display: block;
   margin: 0 0 1em 1em;
 }
 .objectimage img {
@@ -782,14 +790,55 @@ i.giant {
   border-top-right-radius: var(--bootstrap-rounded-corner-radius);
   border-top-left-radius: var(--bootstrap-rounded-corner-radius);
 }
-
 .objectimage figcaption {
   padding: 0.5rem;
 }
-
 .objectimage button[type='submit'] {
   width: 100%;
   white-space: normal;
+}
+
+.record-type-badge.digital_object.external-digital-object__link {
+  width: 100%;
+  padding: 0 !important;
+  color: $lightblue;
+  text-decoration: none;
+}
+
+.external-digital-object__content-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-bottom: 20px;
+  padding: var(--bootstrap-horizontal-white-space-unit);
+  border: 1px solid $lightblue;
+  border-radius: var(--bootstrap-rounded-corner-radius);
+  background-color: #fff;
+  text-align: center;
+}
+.external-digital-object__link:hover
+  .external-digital-object__content-container {
+  background-color: var(--bootstrap-default-white-hover);
+}
+
+.external-digital-object__content-btn {
+  /* bootstrap's .btn */
+  display: block;
+  margin-bottom: 0;
+  padding: 6px 12px;
+  border: 1px solid $lightblue;
+  border-radius: var(--bootstrap-rounded-corner-radius);
+  font-size: 14px;
+  font-family: var(--bootstrap-sans);
+  font-weight: normal;
+  white-space: nowrap;
+  text-align: center;
+  color: #fff;
+  background-color: $lightblue;
+}
+.external-digital-object__link:hover .external-digital-object__content-btn {
+  background-color: $midblue;
+  border-color: $midblue;
 }
 
 span.component {
@@ -909,6 +958,10 @@ span.head {
   overflow: auto;
 }
 
+.has_digital_instance {
+  margin-right: 0.5rem;
+}
+
 @media (min-width: 992px) {
   #sidebar.resizable-sidebar {
     position: relative;
@@ -988,4 +1041,8 @@ span.head {
 .honeypot {
   position: absolute;
   left: -9999px;
+}
+
+#language_select {
+  text-align: right;
 }

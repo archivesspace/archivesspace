@@ -1,0 +1,3 @@
+[submodule "docs/slate"]
+	path = docs/slate
+	url = https://github.com/archivesspace/slate

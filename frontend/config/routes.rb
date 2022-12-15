@@ -16,6 +16,8 @@ ArchivesSpace::Application.routes.draw do
     match 'check_session' => "session#check_session", :via => :get
     match 'has_session' => "session#has_session", :via => :get
 
+    match 'repositories/reorder' => 'repositories#reorder', :via => [:get]
+    match 'repositories/reorder' => 'repositories#run_reorder', :via => [:post]
     match 'repositories/select' => 'repositories#select', :via => [:post]
     match 'repositories/:id/transfer' => 'repositories#transfer', :via => [:get]
     match 'repositories/:id/transfer' => 'repositories#run_transfer', :via => [:post]

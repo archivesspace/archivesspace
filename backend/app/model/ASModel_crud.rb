@@ -327,6 +327,12 @@ module ASModel
           values["repo_id"] = active_repository
         end
 
+        if model_scope == :repository && values["repo_id"] == Repository.global_repo_id &&
+           !allowed_in_global_repo
+
+          raise BadParamsException.new("The global repository cannot contain archival records")
+        end
+
         values['created_by'] = RequestContext.get(:current_username)
 
         obj = self.create(prepare_for_db(json.class,

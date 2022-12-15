@@ -12,11 +12,18 @@ class TrimWhitespaceRunner < JobRunner
 
 
           count = 0
-          record_class.this_repo.each do |r|
-            if r[:title] && (trimmed = r[:title].strip) != r[:title]
-              count += 1
-              r.update(:title => trimmed)
-              modified_records << r.uri
+          RequestContext.open(:current_username => @job.owner.username, :repo_id => @job.repo_id) do
+            record_class.this_repo.extension(:pagination).each_page(25).each do |page_ds|
+              page_ds.each do |r|
+                if r[:title] && (trimmed = r[:title].strip) != r[:title]
+                  count += 1
+                  # update through the jsonmodel to fire off callbacks, hooks etc.
+                  json = record_class.to_jsonmodel(r)
+                  json['title'] = trimmed
+                  record_class[r.id].update_from_json(json)
+                  modified_records << r.uri
+                end
+              end
             end
           end
           @job.write_output("#{count} records modified.")

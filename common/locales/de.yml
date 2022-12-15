@@ -28,7 +28,7 @@ de:
       browse: Themen durchsuchen
       create: Thema erstellen
       link_title: Verknüpfung mit Thema
-  agent_contact: &agent_contact
+  agent_contact:
     address_1: Adresse 1
     city: Ort
     address_3: Adresse 3
@@ -912,8 +912,8 @@ de:
       </ul>\n"
     number_tooltip: "<p>Eine Zahl, manchmal mit einem Begriff, die den Namen qualifiziert. Bei Personennamen\
       \ oft eine römische Zahl oder eine römische Zahl und ein nachfolgender Teil eines Vornamens. Bei\
-      \ Firmennamen die Nummer eines Teils/Abteilung oder einer Sitzung;\n<p>Beispiele:</p>\n<ul>\n<li>II\
-      \ Komnenus <em>(für Johannes II Komnenus, Kaiser des Ostens</em></li>\n<li>II <em>(für Johannes\
+      \ Firmennamen die Nummer eines Teils / Abteilung oder einer Sitzung.</p>\n<p>Beispiele:</p>\n<ul>\n\
+      <li>II Komnenus <em>(für Johannes II Komnenus, Kaiser des Ostens</em></li>\n<li>II <em>(für Johannes\
       \ Paul II)</em></li>\n<li>97., 2. Sitzung <em>(für Kongress der Vereinigten Staaten, 97., 2. Sitzung)</em></li>\n\
       </ul>\n"
     primary_name_tooltip: "<p>Der Hauptteil einer Namensform (z.B. Nachname oder Vorname einer Person).</p>\n\
@@ -1445,9 +1445,8 @@ de:
     number_tooltip: "<p>ERFORDERLICHES FELD: Ein numerischer Wert zur Angabe der Anzahl der Einheiten\
       \ in der Umfangsangabe, z. B. 5, 11,5, 245. Wird in Verbindung mit dem Umfangs-Typ verwendet, um\
       \ eine strukturierte Umfangsangabe zu liefern.</p>\n<p>Siehe DACS 2.5, ISAD(G) 3.1.5</p>\n"
-    extent_type_tooltip: &extent_type_tooltip |
-      <p> ERFORDERLICHES FELD: Ein Begriff, der die Art der Einheit angibt, die zur
-      Messung des Umfangs des beschriebenen Archivguts verwendet wird.</p>
+    extent_type_tooltip: |
+      <p> ERFORDERLICHES FELD: Ein Begriff, der die Art der Einheit angibt, die zur Messung des Umfangs des beschriebenen Archivguts verwendet wird.</p>
       <p>Werte in dieser Aufzählungs-Liste können bearbeitet werden.</p>
       <p>Siehe DACS 2.5, ISAD(G) 3.1.5</p>
     container_summary: Behältnis-Zusammenfassung
@@ -1489,13 +1488,11 @@ de:
   language_and_script:
     <<: *lang_material_attributes
     script: Schrift
-    script_tooltip: &language_language_tooltip |
-      <p>Der in dem beschriebenen Archivgut dargestellte Schriftbegriff und Code. Die Codes
-      stammen aus ISO 15924: Codes für die Darstellung von Namen von Schriften.</p>
+    script_tooltip: |
+      <p>Der in dem beschriebenen Archivgut dargestellte Schriftbegriff und Code. Die Codes stammen aus ISO 15924: Codes für die Darstellung von Namen von Schriften.</p>
       <p>Siehe DACS 4.5, ISAD(G) 3.4.3</p>
-    language_tooltip: &language_script_tooltip |
-      <p> ERFORDERLICHES FELD: Der Sprachbegriff und der Code, der im beschriebenen Archivgut
-      enthalten ist. Die Codes stammen aus ISO 639-2b: Codes für die Repräsentation von Namen von Sprachen.</p>
+    language_tooltip: |
+      <p> ERFORDERLICHES FELD: Der Sprachbegriff und der Code, der im beschriebenen Archivgut enthalten ist. Die Codes stammen aus ISO 639-2b: Codes für die Repräsentation von Namen von Sprachen.</p>
     language: Sprache
   language_note:
     <<: *lang_material_attributes
@@ -2260,6 +2257,7 @@ de:
     _singular: Importauftrag
     import_type_assessment_csv: Begutachtungs-CSV
     import_type_accession_csv: Eingangs-CSV
+    import_subjects: Verwandte Themen importieren und verknüpfen?
   job:
     job_type: Aufgabentyp
     status_queued: In Warteschlange

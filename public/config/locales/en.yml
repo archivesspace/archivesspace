@@ -41,6 +41,7 @@ en:
     cite: Citation
     cite_item: Cite Item
     cite_item_description: Cite Item Description
+    digitized: View Digital Material
     request: Request
     print: Print
     print-generating: Generating
@@ -53,6 +54,8 @@ en:
     search_add_row: Add a search row
     search_remove_row: Remove the row below
     staff_link: Staff Only
+    next: Next
+    previous: Previous
 
   page_actions: Page Actions
 
@@ -162,6 +165,8 @@ en:
       published_series_title_u_sstr: Series
       instance_type_enum_s: Instance type
       langcode: Language
+      digital_object_type_enum_s: Type
+      extent_type_enum_s: Extent
 
   search_sorting:
     sort_by: "Sort by:"
@@ -335,6 +340,7 @@ en:
   top_container:
     _singular: Container
     _plural: Containers
+    restricted: Restricted
 
   digital_object:
     _singular: Digital Record
@@ -343,6 +349,7 @@ en:
       thumbnail: thumbnail
       link: Link to digital object
       badge_label: Digital %{level}
+      go: Go to file
 
   subject:
     _singular: Subject
@@ -536,3 +543,11 @@ en:
     staff_interface: <a href="%{staff_url}">Staff Interface</a>
     archivesspace_home: Visit <a href='http://archivesspace.org'>ArchivesSpace.org</a>
     feedback: <a id='aspaceFeedbackLink' href='%{feedback_url}' target='_blank'>Send Feedback or Report a Problem</a>
+
+  languages:
+    select: Select Language
+    en: English
+    es: Spanish
+    fr: French
+    de: German
+    ja: Japanese

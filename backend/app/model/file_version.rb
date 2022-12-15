@@ -39,7 +39,7 @@ class FileVersion < Sequel::Model(:file_version)
     end
 
     if !is_published && is_representative
-      raise Sequel::ValidationFailed.new("File version must be published to be representative.")
+      errors.add(:is_representative, 'representative_file_version_must_be_published')
     end
 
     super

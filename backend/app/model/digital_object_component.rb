@@ -85,7 +85,9 @@ class DigitalObjectComponent < Sequel::Model(:digital_object_component)
   end
 
   def self.touch_records(obj)
-    [{ type: DigitalObject, ids: [obj.root_record_id] }]
+    [
+      { type: DigitalObject, ids: [obj.root_record_id] },
+      { type: Resource, ids: DigitalObject.instance_owners_root_records(obj.root_record_id) }
+    ]
   end
-
 end

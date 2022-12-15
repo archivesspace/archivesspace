@@ -69,6 +69,12 @@ end
       "note_order" => {
         "type" => "array",
         "items" => {"type" => "string"}
+      },
+
+      "digital_object_spawn_description" => {
+        "type" => "boolean",
+        "required" => false,
+        "default" => false
       }
     }.merge(browse_columns),
   },

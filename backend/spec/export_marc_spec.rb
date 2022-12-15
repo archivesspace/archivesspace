@@ -1323,6 +1323,11 @@ describe 'MARC Export' do
     end
 
 
+    it "maps notes of type 'bibliography' to df 581 (' ', ' '), sf a" do
+      note_test(@resource, @marc, %w(note_bibliography), ['581', ' ', ' '], 'a')
+    end
+
+
     it "maps notes of type 'bioghist' to df 545 (' ', ' '), sf a" do
       note_test(@resource, @marc, %w(bioghist), ['545', ' ', ' '], 'a')
     end
@@ -1344,7 +1349,11 @@ describe 'MARC Export' do
         marc = get_marc(resource)
 
         df = marc.df('856', '4', '2')
-        df.sf_t('u').should match(/#{resource['uri']}/)
+
+        matches_uri      = df.sf_t('u') =~ /#{resource['uri']}/
+        matches_pui_link = df.sf_t('u') =~ /#{AppConfig[:public_url]}/
+
+        expect(matches_uri != nil || matches_pui_link != nil).to eq(true)
       end
     end
 

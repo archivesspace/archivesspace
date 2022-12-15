@@ -35,7 +35,6 @@
         </datafield> 
         <datafield tag="300" ind2=" " ind1=" ">
             <subfield code="a">5.0 Linear feet</subfield>
-            <subfield code="f">Resource-ContainerSummary-AT</subfield>
         </datafield>
         <datafield tag="351" ind2=" " ind1=" ">
             <subfield code="b">Resource-Arrangement-Note</subfield>
@@ -236,6 +235,10 @@ Here is an example of a wrap-in tag using ref, targeting the Abstract note in th
         <datafield tag="657" ind2="7" ind1=" ">
             <subfield code="a">Subjects--Function-AT</subfield>
             <subfield code="2">Local sources</subfield>
+        </datafield>
+        <datafield tag="711" ind2=" " ind1="3">
+            <subfield code="a">Corp Name</subfield>
+            <subfield code="q">Qualifier</subfield>
         </datafield>
         <datafield tag="700" ind2=" " ind1="3">
             <subfield code="a">FNames-FamilyName-AT</subfield>

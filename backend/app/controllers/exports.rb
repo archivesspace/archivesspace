@@ -121,8 +121,8 @@ class ArchivesSpaceService < Sinatra::Base
       <<~SHELL
         curl -s -F password="admin" "http://localhost:8089/users/admin/login"
         set SESSION="session_id"
-        curl -H "X-ArchivesSpace-Session: $SESSION" //
-        "http://localhost:8089/repositories/2/digital_objects/mets/48.:fmt/metadata"
+        curl -H "X-ArchivesSpace-Session: $SESSION" \\
+        "http://localhost:8089/repositories/2/digital_objects/mets/48.xml/metadata"
       SHELL
     end
     .example("python") do
@@ -159,7 +159,7 @@ class ArchivesSpaceService < Sinatra::Base
       <<~SHELL
         curl -s -F password="admin" "http://localhost:8089/users/admin/login"
         set SESSION="session_id"
-        curl -H "X-ArchivesSpace-Session: $SESSION" //
+        curl -H "X-ArchivesSpace-Session: $SESSION" \\
         "http://localhost:8089/repositories/2/digital_objects/mods/48.xml" --output do_mods.xml
       SHELL
     end
@@ -233,7 +233,7 @@ class ArchivesSpaceService < Sinatra::Base
       <<~SHELL
         curl -s -F password="admin" "http://localhost:8089/users/admin/login"
         set SESSION="session_id"
-        curl -H "X-ArchivesSpace-Session: $SESSION" //
+        curl -H "X-ArchivesSpace-Session: $SESSION" \\
         "http://localhost:8089/repositories/2/resources/marc21/577.xml?include_unpublished_marc=true;include_unpublished_notes=false" //
         --output marc21.xml
       SHELL
@@ -275,8 +275,8 @@ class ArchivesSpaceService < Sinatra::Base
       <<~SHELL
         curl -s -F password="admin" "http://localhost:8089/users/admin/login"
         set SESSION="session_id"
-        curl -H "X-ArchivesSpace-Session: $SESSION" //
-        "http://localhost:8089/repositories/2/resources/marc21/577.:fmt/metadata?include_unpublished_marc=true"
+        curl -H "X-ArchivesSpace-Session: $SESSION" \\
+        "http://localhost:8089/repositories/2/resources/marc21/577.xml/metadata?include_unpublished_marc=true"
       SHELL
     end
     .example("python") do
@@ -316,7 +316,7 @@ class ArchivesSpaceService < Sinatra::Base
       <<~SHELL
         curl -s -F password="admin" "http://localhost:8089/users/admin/login"
         set SESSION="session_id"
-        curl -H "X-ArchivesSpace-Session: $SESSION" //
+        curl -H "X-ArchivesSpace-Session: $SESSION" \\
         "http://localhost:8089/repositories/2/resource_descriptions/577.xml?include_unpublished=false&include_daos=true&numbered_cs=true&print_pdf=false&ead3=false" //
         --output ead.xml
       SHELL
@@ -378,7 +378,7 @@ class ArchivesSpaceService < Sinatra::Base
       <<~SHELL
         curl -s -F password="admin" "http://localhost:8089/users/admin/login"
         set SESSION="session_id"
-        curl -H "X-ArchivesSpace-Session: $SESSION" //
+        curl -H "X-ArchivesSpace-Session: $SESSION" \\
         "http://localhost:8089/repositories/2/resource_descriptions/577.pdf?include_unpublished=false&include_daos=true&numbered_cs=true&print_pdf=false&ead3=false" //
         --output ead.pdf
       SHELL
@@ -443,8 +443,8 @@ class ArchivesSpaceService < Sinatra::Base
       <<~SHELL
         curl -s -F password="admin" "http://localhost:8089/users/admin/login"
         set SESSION="session_id"
-        curl -H "X-ArchivesSpace-Session: $SESSION" //
-        "http://localhost:8089/repositories/2/resources/resource_descriptions/577.:fmt/metadata?fmt=864442169P755"
+        curl -H "X-ArchivesSpace-Session: $SESSION" \\
+        "http://localhost:8089/repositories/2/resources/resource_descriptions/577.xml/metadata"
       SHELL
     end
     .example("python") do
@@ -484,7 +484,7 @@ class ArchivesSpaceService < Sinatra::Base
       <<~SHELL
         curl -s -F password="admin" "http://localhost:8089/users/admin/login"
         set SESSION="session_id"
-        curl -H "X-ArchivesSpace-Session: $SESSION" //
+        curl -H "X-ArchivesSpace-Session: $SESSION" \\
         "http://localhost:8089/repositories/2/resource_labels/577.tsv" --output container_labels.tsv
       SHELL
     end
@@ -523,8 +523,8 @@ class ArchivesSpaceService < Sinatra::Base
       <<~SHELL
         curl -s -F password="admin" "http://localhost:8089/users/admin/login"
         set SESSION="session_id"
-        curl -H "X-ArchivesSpace-Session: $SESSION" //
-        "http://localhost:8089/repositories/2/resource_labels/577.:fmt/metadata" --output labels.fmt
+        curl -H "X-ArchivesSpace-Session: $SESSION" \\
+        "http://localhost:8089/repositories/2/resource_labels/577.xml/metadata" --output labels.fmt
       SHELL
     end
     .example("python") do
@@ -561,7 +561,7 @@ class ArchivesSpaceService < Sinatra::Base
       <<~SHELL
         curl -s -F password="admin" "http://localhost:8089/users/admin/login"
         set SESSION="session_id"
-        curl -H "X-ArchivesSpace-Session: $SESSION" //
+        curl -H "X-ArchivesSpace-Session: $SESSION" \\
         "http://localhost:8089/repositories/2/archival_contexts/people/159.xml" --output eac_cpf.xml
       SHELL
     end
@@ -599,8 +599,8 @@ class ArchivesSpaceService < Sinatra::Base
       <<~SHELL
         curl -s -F password="admin" "http://localhost:8089/users/admin/login"
         set SESSION="session_id"
-        curl -H "X-ArchivesSpace-Session: $SESSION" //
-        "http://localhost:8089/repositories/2/archival_contexts/people/159.:fmt/metadata"
+        curl -H "X-ArchivesSpace-Session: $SESSION" \\
+        "http://localhost:8089/repositories/2/archival_contexts/people/159.xml/metadata"
       SHELL
     end
     .example("python") do
@@ -639,7 +639,7 @@ class ArchivesSpaceService < Sinatra::Base
       <<~SHELL
         curl -s -F password="admin" "http://localhost:8089/users/admin/login"
         set SESSION="session_id"
-        curl -H "X-ArchivesSpace-Session: $SESSION" //
+        curl -H "X-ArchivesSpace-Session: $SESSION" \\
         "http://localhost:8089/repositories/2/archival_contexts/corporate_entities/1238.xml" --output eac_cpf_corp.xml
       SHELL
     end
@@ -677,8 +677,8 @@ class ArchivesSpaceService < Sinatra::Base
       <<~SHELL
         curl -s -F password="admin" "http://localhost:8089/users/admin/login"
         set SESSION="session_id"
-        curl -H "X-ArchivesSpace-Session: $SESSION" //
-        "http://localhost:8089/repositories/2/archival_contexts/corporate_entities/1238.:fmt/metadata"
+        curl -H "X-ArchivesSpace-Session: $SESSION" \\
+        "http://localhost:8089/repositories/2/archival_contexts/corporate_entities/1238.xml/metadata"
       SHELL
     end
     .example("python") do
@@ -717,7 +717,7 @@ class ArchivesSpaceService < Sinatra::Base
       <<~SHELL
         curl -s -F password="admin" "http://localhost:8089/users/admin/login"
         set SESSION="session_id"
-        curl -H "X-ArchivesSpace-Session: $SESSION" //
+        curl -H "X-ArchivesSpace-Session: $SESSION" \\
         "http://localhost:8089/repositories/2/archival_contexts/families/479.xml" --output eac_cpf_fam.xml
       SHELL
     end
@@ -755,7 +755,7 @@ class ArchivesSpaceService < Sinatra::Base
       <<~SHELL
         curl -s -F password="admin" "http://localhost:8089/users/admin/login"
         set SESSION="session_id"
-        curl -H "X-ArchivesSpace-Session: $SESSION" //
+        curl -H "X-ArchivesSpace-Session: $SESSION" \\
         "http://localhost:8089/repositories/2/archival_contexts/families/479.:fmt/metadata" --output eac_cpf_fam.fmt
       SHELL
     end

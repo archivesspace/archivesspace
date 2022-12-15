@@ -507,7 +507,6 @@ class MARCModel < ASpaceExport::ExportModel
 
   def handle_notes(notes)
     notes.each do |note|
-
       prefix =  case note['type']
                 when 'dimensions'; "Dimensions"
                 when 'physdesc'; "Physical Description note"
@@ -573,6 +572,20 @@ class MARCModel < ASpaceExport::ExportModel
         end
       end
 
+      # ANW-1350: Export bibliography notes to 581
+      # Bibliography notes have a different structure than the notes handled above, so they are processed separately
+
+      if note['jsonmodel_type'] == "note_bibliography"
+        if note['publish'] || @include_unpublished
+          note['content'].each do |c|
+            df!('581', ' ', ' ').with_sfs(['a', c])
+          end
+
+          note['items'].each do |i|
+            df!('581', ' ', ' ').with_sfs(['a', i])
+          end
+        end
+      end
     end
   end
 
@@ -751,14 +764,14 @@ class MARCModel < ASpaceExport::ExportModel
     primary_identifier = get_primary_agent_record_identifier(agent)
 
     name_fields = [
-                   ["0", primary_identifier],
                    ["a", name_parts],
                    ["b", number],
                    ["c", extras],
                    ["d", dates],
                    subfield_e,
                    ["g", qualifier],
-                   ["q", fuller_form]
+                   ["q", fuller_form],
+                   ["0", primary_identifier],
                   ].compact.reject {|a| a[1].nil? || a[1].empty?}
 
     unless terms.nil?
@@ -810,11 +823,11 @@ class MARCModel < ASpaceExport::ExportModel
     primary_identifier = get_primary_agent_record_identifier(agent)
 
     name_fields = [
-                    ["0", primary_identifier],
                     ['a', family_name],
                     ['d', dates],
                     ['c', qualifier],
                     subfield_e,
+                    ['0', primary_identifier],
                   ].compact.reject {|a| a[1].nil? || a[1].empty?}
 
     unless terms.nil?
@@ -915,13 +928,13 @@ class MARCModel < ASpaceExport::ExportModel
     primary_identifier = get_primary_agent_record_identifier(agent)
 
     name_fields = [
-                    ["0", primary_identifier],
                     ['a', primary_name],
                     ['b', subfield_b_1],
                     ['b', subfield_b_2],
                     subfield_e,
                     ['n', number],
-                    ['g', qualifier]
+                    ['g', qualifier],
+                    ["0", primary_identifier],
                   ].compact.reject {|a| a[1].nil? || a[1].empty?}
 
     unless terms.nil?
