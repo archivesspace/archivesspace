@@ -8,8 +8,6 @@
       <% end %>
     </button>
   </div>
-  <% if ['edit', 'update'].include?(controller.action_name) %>
-  <% end %>
   <div class="btn-toolbar ml-auto order-1 order-sm-2">
     <% if @user.id && !@user.is_system_user && @user.username.downcase != current_user.downcase %>
       <div class="btn-group">
@@ -19,9 +17,11 @@
       </div>
     <% end %>
   </div>
- <div class="revert-changes order-2 order-sm-1 mx-sm-2 mb-1">
-    <%= link_to t("actions.revert"), {:controller => :users, :action => :edit, :id => @user.id}, :class => "btn btn-sm border bg-white rounded mr-2" %>
-    <%= t("actions.toolbar_disabled_message") %>
-  </div>
+  <% if ['edit', 'update'].include?(controller.action_name) %>
+    <div class="revert-changes order-2 order-sm-1 mx-sm-2 mb-1">
+      <%= link_to t("actions.revert"), {:controller => :users, :action => :edit, :id => @user.id}, :class => "btn btn-sm border bg-white rounded mr-2" %>
+      <%= t("actions.toolbar_disabled_message") %>
+    </div>
+  <% end %>
 </div>
 
