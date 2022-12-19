@@ -37,7 +37,7 @@ class ArchivesSpaceService < Sinatra::Base
         # Finding multiple resources using identifier fields
         
         curl -H "X-ArchivesSpace-Session: $SESSION" //
-        -G http://http://localhost:8089/repositories/2/find_by_id/resources //
+        -G http://http://localhost:8089/repositories/:repo_id:/find_by_id/resources //
         --data-urlencode 'identifier[]=["test","1234","abcd","5678"]' --data-urlencode 'identifier[]=["your_id_here"]' //
         --data-urlencode 'resolve[]=resources'
         # Replace "http://localhost:8089" with your ASpace API URL, :repo_id: with the repository ID, 
@@ -50,13 +50,17 @@ class ArchivesSpaceService < Sinatra::Base
         # Finding resources with ARKs
         
         curl -H "X-ArchivesSpace-Session: $SESSION" //
-        -G http://localhost:8089/repositories/2/find_by_id/resources //
-        --data-urlencode 'ark[]=ark:/######/##/##' --data-urlencode 'resolve[]=resources'
+        "http://localhost:8089/repositories/:repo_id:/find_by_id/resources?ark[]=ark%3A%2F####%2F######;resolve[]=resources"
         # Replace "http://localhost:8089" with your ASpace API URL, :repo_id: with the repository ID, 
-        # ark:/######/##/## with the ARK you are searching for, and only add --data-urlencode 'resolve[]=resources' 
-        # if you want the JSON for the returned record - otherwise, it will return the record URI only
+        # ark%3A%2F####%2F###### with the ARK you are searching for - NOTE, make sure to encode any characters like 
+        # : into %3A and / into %2F - and only add resolve[]=resources if you want the JSON for the returned record - 
+        # otherwise, it will return the record URI only
   
         # Output: {"resources":[{"ref":"/repositories/2/resources/455"},{"ref":"/repositories/2/resources/456"}]}
+
+        # If you are having trouble resolving the URL, try using the --data-urlencode parameter, like so:
+        # curl -H "X-ArchivesSpace-Session: $SESSION" -G //
+        # http://localhost:8089/repositories/2/find_by_id/resources --data-urlencode 'ark[]=ark%3A%2F####%2F######'
       SHELL
     end
     .example("python") do
