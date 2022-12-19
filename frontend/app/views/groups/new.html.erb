@@ -5,7 +5,7 @@
 
   <div class="col-md-9">
     <div class="record-pane">
-      <h2><%= t("actions.new_prefix") %> <%= t("group._singular") %> <span class="label label-info"><%= t("group._singular") %></span></h2>
+      <h2><%= I18n.t("actions.new_prefix") %> <%= I18n.t("group._singular") %> <span class="label label-info badge"><%= I18n.t("group._singular") %></span></h2>
 
       <%= form_for @group, :as => "group", :url => {:action => :create}, :html => {:class => 'form-horizontal aspace-record-form'} do |f| %>
         <%= form_context :group, @group do |form| %>

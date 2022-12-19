@@ -1,60 +1,57 @@
 <% if @search_data %>
 
-  <div class="pull-left">
-    <%= t "pagination.summary_prefix" %> <strong><%= @search_data["offset_first"] %></strong> <%= t "pagination.summary_offset_connector" %> <strong><%= @search_data["offset_last"] %></strong> <%= t "pagination.summary_total_connector" %> <strong><%= @search_data["total_hits"] %></strong> <%= t "pagination.summary_suffix" %>
+  <div class="d-inline-block">
+    <%= I18n.t "pagination.summary_prefix" %> <strong><%= @search_data["offset_first"] %></strong> <%= I18n.t "pagination.summary_offset_connector" %> <strong><%= @search_data["offset_last"] %></strong> <%= I18n.t "pagination.summary_total_connector" %> <strong><%= @search_data["total_hits"] %></strong> <%= I18n.t "pagination.summary_suffix" %>
   </div>
-
   <% unless @hide_sort_options %>
-  <div class="pull-left" style="position: relative">
-    <span class="btn-group">
-      <label style="float: left;">,&#160;<%= t("search_sorting.sort_by") %>&#160;</label>
-      <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-        <div class="btn-group">
-          <span class="btn btn-default btn btn-xs"><%= @search_data.sorted_by_label %></span>
-          <span class="btn btn-xs btn-default last"><span class="caret"></span></span>
-        </div>
-      </a>
-      <ul class="dropdown-menu pull-right sort-opts">
-        <% @search_data.sort_fields.each do |field, label| %>
-          <% next if field == 'score' && @search_data.sorted_by?(field) %>
-          <li class="dropdown-submenu">
-            <%= link_to label, build_search_params("sort" => @search_data.sort_filter_for(field, "desc")) %>
-            <ul class="dropdown-menu">
-              <% unless field == 'score' %>
-                <li><%= link_to t("search_sorting.asc"), build_search_params("sort" => "#{field} asc") %></li>
-              <% end %>
-              <li><%= link_to t("search_sorting.desc"), build_search_params("sort" => "#{field} desc") %></li>
-            </ul>
-          </li>
-        <% end %>
-      </ul>
-    </span>
-  </div>
-  <% if @search_data.sorted? && !@search_data.sorted_by?('score') %>
-    <div class="pull-left" style="position: relative">
-      <span class="btn-group">
-        <label style="float: left;">&#160;<%= t("search_sorting.and") %>&#160;</label>
-        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-          <div class="btn-group">
-            <span class="btn btn-xs btn-default"><%= @search_data.sorted_by_label(1) %></span>
-            <span class="btn btn-xs btn-default last"><span class="caret"></span></span>
-          </div>
-        </a>
-        <ul class="dropdown-menu pull-right">
-          <% @search_data.sort_fields.each do |field, label| %>
-            <% if !@search_data.sorted_by?(field) && field != 'score' %>
-              <li class="dropdown-submenu">
-                <%= link_to label, build_search_params("sort2" => @search_data.sort_filter_for(field, "desc")) %>
+    <div class="d-inline-block">
+      <span class="btn-group align-items-baseline">
+        <label>,&#160;<%= t("search_sorting.sort_by") %>&#160;</label>
+        <div class="btn-group align-items-center">
+          <a class="dropdown-toggle border bg-white rounded d-flex align-items-center pr-3" data-toggle="dropdown" href="#">
+            <span class="btn"><%= @search_data.sorted_by_label %></span>
+          </a>
+          <ul class="dropdown-menu">
+            <% @search_data.sort_fields.each do |field, label| %>
+              <% next if field == 'score' && @search_data.sorted_by?(field) %>
+              <li class="dropdown-submenu dropdown-item">
+                <%= link_to label, build_search_params("sort" => @search_data.sort_filter_for(field, "desc")) %>
                 <ul class="dropdown-menu">
-                  <li><%= link_to t("search_sorting.asc"), build_search_params("sort2" => "#{field} asc") %></li>
-                  <li><%= link_to t("search_sorting.desc"), build_search_params("sort2" => "#{field} desc") %></li>
+                  <% unless field == 'score' %>
+                    <li class='dropdown-item'><%= link_to t("search_sorting.asc"), build_search_params("sort" => "#{field} asc") %></li>
+                  <% end %>
+                  <li class='dropdown-item'><%= link_to t("search_sorting.desc"), build_search_params("sort" => "#{field} desc") %></li>
                 </ul>
               </li>
             <% end %>
-          <% end %>
-        </ul>
+          </ul>
+        </div>
       </span>
     </div>
   <% end %>
+  <% if @search_data.sorted? && !@search_data.sorted_by?('score') %>
+    <div class="d-inline-block">
+      <span class="btn-group align-items-baseline">
+        <label>&#160;<%= t("search_sorting.and") %>&#160;</label>
+        <div class="btn-group">
+          <a class="dropdown-toggle border bg-white rounded d-flex align-items-center pr-3" data-toggle="dropdown" href="#">
+              <span class="btn"><%= @search_data.sorted_by_label(1) %></span>
+          </a>
+          <ul class="dropdown-menu">
+            <% @search_data.sort_fields.each do |field, label| %>
+              <% if !@search_data.sorted_by?(field) && field != 'score' %>
+                <li class="dropdown-submenu dropdown-item">
+                  <%= link_to label, build_search_params("sort2" => @search_data.sort_filter_for(field, "desc")) %>
+                  <ul class="dropdown-menu">
+                    <li class='dropdown-item'><%= link_to t("search_sorting.asc"), build_search_params("sort2" => "#{field} asc") %></li>
+                    <li class='dropdown-item'><%= link_to t("search_sorting.desc"), build_search_params("sort2" => "#{field} desc") %></li>
+                  </ul>
+                </li>
+              <% end %>
+            <% end %>
+          </ul>
+        </div>
+      </span>
+    </div>
   <% end %>
 <% end %>

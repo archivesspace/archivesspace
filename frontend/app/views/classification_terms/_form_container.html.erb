@@ -2,7 +2,7 @@
 
 <h2>
   <%= @form_title ? @form_title : @classification_term.title.blank? ? t("classification_term._singular") : @classification_term.title %>
-  <span class="label label-info"><%= t("classification_term._singular") %></span>
+  <span class="label label-info badge"><%= t("classification_term._singular") %></span>
 </h2>
 
 <%= render_aspace_partial :partial => "shared/form_messages", :locals => {:form => form} %>

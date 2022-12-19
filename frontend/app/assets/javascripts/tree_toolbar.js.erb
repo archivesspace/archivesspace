@@ -269,7 +269,7 @@ var SHARED_TOOLBAR_ACTIONS = [
     {
         label: '<%= I18n.t("actions.finish_editing") %>',
         cssClasses: 'btn-success finish-editing',
-        groupCssClasses: 'pull-right',
+        groupCssClasses: 'ml-auto',
         onRender: function(btn, node, tree, toolbarRenderer) {
             var readonlyPath = location.pathname.replace(/\/edit$/, '');
             btn.attr('href', readonlyPath + location.hash);

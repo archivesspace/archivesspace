@@ -144,10 +144,6 @@ form .form-group {
   background-color: #fafcff;
 }
 
-.form-group .label-only {
-  padding-top: 7px;
-}
-
 .inline-subform {
   margin: 4px 0;
   border-top: 1px solid #e5e5e5;
@@ -198,13 +194,13 @@ form .form-group {
   /* padding-bottom: 10px; */
 }
 
-.record-pane section h3 .btn.pull-right,
-.modal section h3 .btn.pull-right {
+.record-pane section h3 .btn.ml-auto,
+.modal section h3 .btn.ml-auto {
   margin: 6px 6px 6px 0;
   font-weight: normal;
 }
 
-.record-pane section section h4 .btn.pull-right {
+.record-pane section section h4 .btn.ml-auto {
   margin: 2px 6px 0 0;
   font-weight: normal;
 }
@@ -262,13 +258,13 @@ form .form-group {
       @include vertical(#f3f3f3, #ededed);
     }
 
-    padding-left: 10px;
+    padding: 0 10px;
     min-height: 1.4em;
     margin: 0;
     border-bottom: 1px solid #ddd;
     @include border-radius(4px 4px 0 0);
 
-    .btn-group.pull-right {
+    .btn-group.ml-auto {
       margin: 6px 6px 6px 0;
     }
 
@@ -315,7 +311,6 @@ form .form-group {
 
     .subrecord-form-removal-confirmation,
     .subrecord-form-remove {
-      margin: 6px 6px 0 0;
       .btn-group .btn {
         z-index: 10;
       }
@@ -396,7 +391,7 @@ ul.subrecord-form-list {
   }
   .drag-handle {
     position: absolute;
-    left: 5px;
+    left: 1%;
     top: 5px;
     height: 30px;
     width: 30px;
@@ -872,17 +867,6 @@ ul.checkbox-list {
   .checkbox label {
     padding-left: 10px;
   }
-}
-
-// Improve Bootstrap's checkbox focus via their .form-control:focus
-// TODO investigate if the above .checkbox class needs these :focus styles
-input[type='checkbox']:focus {
-  border-color: #1f86db;
-  outline: 0;
-  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075),
-    0 0 8px rgba(31, 134, 219, 0.6);
-  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075),
-    0 0 8px rgba(31, 134, 219, 0.6);
 }
 
 // hiding form elements for agents light

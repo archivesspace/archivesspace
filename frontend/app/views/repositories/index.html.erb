@@ -9,8 +9,8 @@
   <div class="col-md-9">
     <% if user_can?('create_repository') %>
       <div class="record-toolbar">
-        <div class="btn-group pull-right">
-          <%= link_to t("repository._frontend.action.create"), {:controller => :repositories, :action => :new}, :class => "btn btn-sm btn-default" %>
+        <div class="btn-group ml-auto">
+          <%= link_to t("repository._frontend.action.create"), {:controller => :repositories, :action => :new}, :class => "btn btn-sm btn-light btn-default" %>
         </div>
         <br style="clear:both" /> <!-- So dirty! -->
       </div>

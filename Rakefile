@@ -4,6 +4,7 @@
 require 'date'
 require 'digest'
 require 'git'
+require 'http'
 require 'json'
 require 'yaml'
 require_relative 'scripts/tasks/check'

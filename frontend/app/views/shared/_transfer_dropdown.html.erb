@@ -6,11 +6,11 @@
 %>
 
 <% if !other_repositories.empty? %>
-  <div id="transfer-dropdown" class="btn-group dropdown" data-no-change-tracking="true">
+  <div id="transfer-dropdown" class="btn-group dropdown d-flex" data-no-change-tracking="true">
     <button class="btn btn-sm btn-default dropdown-toggle transfer-action" data-toggle="dropdown" role="button" aria-expanded="false" title="<%= t("actions.transfer") %>">
       <%= t("actions.transfer") %> <span class="caret"></span>
     </button>
-    <ul class="dropdown-menu open-aligned-right transfer-form" role="none">
+    <ul class="dropdown-menu dropdown-menu-right transfer-form" role="none">
       <li>
         <p><%= t("#{singular}._frontend.messages.transfer_description") %></p>
         <%= form_context :transfer, {} do |form| %>
@@ -24,14 +24,14 @@
              button_confirm_action(t("actions.transfer"),
                                    url_for({:controller => controller, :action => :transfer, :id => record.id}.merge(extra_params)),
                                    {
-                                     :class => "btn pull-left btn-default transfer-button",
+                                     :class => "btn mr-auto transfer-button border",
                                      :"data-title" => confirmation_title,
                                      :"data-message" => confirmation_msg,
                                      :"data-confirm-btn-label" => "#{t("actions.transfer")}",
                                      :"data-confirm-btn-class" => "btn"
                                    })
           %>
-          <a class="btn pull-right btn-default btn-cancel" href="#"><%= t("actions.cancel") %></a>
+          <a class="btn ml-auto btn-danger" href="#"><%= t("actions.cancel") %></a>
         </div>
         <% end %>
       </li>

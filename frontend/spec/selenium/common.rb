@@ -19,7 +19,7 @@ require_relative 'common/driver'
 
 $server_pids = []
 $sleep_time = 0.0
-$retries = 200
+$retries = ENV.fetch('SELENIUM_RETRIES', 200).to_i
 
 module Selenium
   module Config

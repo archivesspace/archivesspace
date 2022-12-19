@@ -19,7 +19,7 @@ $(function () {
               event.preventDefault();
               event.stopImmediatePropagation();
 
-              $(":input[type='submit']", $form).removeAttr('disabled');
+              $(":input[type='submit']", $form).attr('disabled', null);
 
               // we might have gotten logged out while trying to save some data in a modal,
               // e.g., a linker
@@ -62,7 +62,7 @@ $(function () {
             }
           },
           error: function () {
-            $(":input[type='submit']", $form).removeAttr('disabled');
+            $(":input[type='submit']", $form).attr('disabled', null);
             return true;
           },
         });

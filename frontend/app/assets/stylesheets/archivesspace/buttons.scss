@@ -27,8 +27,7 @@
 .btn-default.dropdown-toggle.last {
   &:hover,
   &:active {
-    background-color: #6e6e6e;
-    color: #fff;
+    background-color: $gray-200;
   }
 }
 

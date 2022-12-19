@@ -8,7 +8,7 @@
     <%= render_aspace_partial :partial => "toolbar" %>
     <div class="record-pane">
      <%= readonly_context @agent.agent_type.intern, @agent do |readonly| %>
-        <h2><%= @agent.title %>  <span class="label label-info"><%= t("agent._singular") %></span></h2>
+        <h2><%= @agent.title %>  <span class="label label-info badge"><%= t("agent._singular") %></span></h2>
 
         <%= render_aspace_partial :partial => "shared/flash_messages" %>
 
@@ -36,8 +36,9 @@
           <%= render_plugin_partials("basic_information_#{@agent.agent_type}",
                                      :form => readonly,
                                      :record => @agent) %>
-
-          <%= display_audit_info(@agent) %>
+          <div class="py-4">
+            <%= display_audit_info(@agent) %>
+          </div>
         </section>
 
         <% if ![:agent_record_identifiers, :agent_record_controls, :agent_other_agency_codes, :agent_conventions_declarations, :agent_maintenance_histories, :agent_sources, :agent_alternate_sets, :metadata_rights_declarations].map {|k| @agent[k]}.flatten.compact.blank? %>

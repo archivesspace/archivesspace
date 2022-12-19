@@ -2,7 +2,7 @@
   <% accessions.each do |accession| %>
     <li>
       <% relator = accession['json']['related_accessions'].first['relator'] %>
-      <%= link_to accession.display_string, app_prefix(accession.uri) %>
+      <%= link_to accession.display_string, app_prefix(accession.uri), class: 'related-accession' %>
       (<%= (I18n.t("accession._public.related_accessions.#{relator}")) %>)
     </li>
   <% end %>

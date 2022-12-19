@@ -105,7 +105,6 @@
 
 							<% if field['data_type'] == "User" %>
 								<div class="form-group">
-
 									    <%= form.label 'values', :class => 'col-sm-2 control-label', :for => "custom_report_template_data_#{record_type}_fields_#{field_name}_values" %>
 								    <div class="col-sm-9">
 									<%= text_field_tag "custom_report_template[data][#{record_type}][fields][#{field_name}][values]_control", nil,  :class => 'user-field form-control', :"data-label" => User, :"autocomplete" => "off", :"aria-label" => I18n.t("custom_report_template._frontend.action.search_usernames") %>

@@ -48,8 +48,8 @@
       <% form.emit_template(item["jsonmodel_type"]) %>
     <% else %>
       <div class="subrecord-form-fields">
-        <div class="form-group required">
-          <label class="control-label col-sm-2"><%= t("note.note_type") %></label>
+        <div class="form-group row required">
+          <label class="control-label col-sm-4 text-right"><%= t("note.note_type") %></label>
           <div class="col-sm-4">
             <select class="form-control top-level-note-type">
               <% unless nested_in_jsonmodel == 'lang_material' %><option></option><% end %>
@@ -73,8 +73,8 @@
     <% form.emit_template(item["jsonmodel_type"]) %>
   <% else %>
     <div class="subrecord-form-fields">
-      <div class="form-group required">
-        <label class="control-label col-sm-2"><%= t("note.note_type") %></label>
+      <div class="form-group row required">
+        <label class="control-label col-sm-4 text-right"><%= t("note.note_type") %></label>
         <div class="col-sm-4">
           <select class="form-control top-level-note-type">
             <option></option>
@@ -113,8 +113,8 @@
         </div>
       </div>
       <ul class="nav nav-tabs">
-        <li class="active"><a href="#<%= form.id_for("item") %>_raw" data-toggle="tab" title="<%= t("note._frontend.preview.raw_title") %>"><%= t("note._frontend.preview.raw") %></a></li>
-        <li><a href="#<%= form.id_for("item") %>_parsed" data-toggle="tab" title="<%= t("note._frontend.preview.parsed_title") %>"><%= t("note._frontend.preview.parsed") %></a></li>
+        <li class="active nav-item"><a class="nav-link" href="#<%= form.id_for("item") %>_raw" data-toggle="tab" title="<%= I18n.t("note._frontend.preview.raw_title") %>"><%= I18n.t("note._frontend.preview.raw") %></a></li>
+        <li class="nav-item"><a class="nav-link" href="#<%= form.id_for("item") %>_parsed" data-toggle="tab" title="<%= I18n.t("note._frontend.preview.parsed_title") %>"><%= I18n.t("note._frontend.preview.parsed") %></a></li>
       </ul>
     </div>
   <% else %>
@@ -202,8 +202,8 @@
     <% form.emit_template(item["jsonmodel_type"]) %>
   <% else %>
     <div class="subrecord-form-fields">
-      <div class="form-group required">
-        <label class="control-label col-sm-2"><%= t("note.note_type") %></label>
+      <div class="form-group row required">
+        <label class="control-label col-sm-4 text-right"><%= t("note.note_type") %></label>
         <div class="controls col-sm-4">
           <select class="form-control multipart-note-type">
             <option></option>
@@ -253,7 +253,7 @@
         <h4 class="subrecord-form-heading">
           <%= t("note_multipart.sub_notes") %>
           <% if not form.readonly? %>
-            <button class="btn btn-sm btn-default add-sub-note-btn pull-right"><%= t("note._frontend.action.add_sub_note") %></button>
+            <button class="btn btn-sm btn-default add-sub-note-btn ml-auto bg-white border"><%= t("note._frontend.action.add_sub_note") %></button>
           <% end %>
         </h4>
         <div class="subrecord-form-container">
@@ -275,8 +275,8 @@
     <% form.emit_template(item["jsonmodel_type"]) %>
   <% else %>
     <div class="subrecord-form-fields">
-      <div class="form-group required">
-        <label class="control-label col-sm-2"><%= t("note.note_type") %></label>
+      <div class="form-group row required">
+        <label class="control-label col-sm-4 text-right"><%= t("note.note_type") %></label>
         <div class="controls col-sm-4">
           <select class="form-control bioghist-note-type">
             <option></option>
@@ -310,7 +310,7 @@
         <h4 class="subrecord-form-heading">
           <%= t("note_multipart.sub_notes") %>
           <% if not form.readonly? %>
-            <div class="btn-group pull-right">
+            <div class="btn-group ml-auto">
               <button class="btn btn-sm btn-default add-sub-note-btn"><%= t("note._frontend.action.add_sub_note") %></button>
             </div>
           <% end %>
@@ -331,8 +331,8 @@
     <% form.emit_template(item["jsonmodel_type"]) %>
   <% else %>
     <div class="subrecord-form-fields">
-      <div class="form-group required">
-        <label class="control-label col-sm-2"><%= t("note.note_type") %></label>
+      <div class="form-group row required">
+        <label class="control-label col-sm-4 text-right"><%= t("note.note_type") %></label>
         <div class="controls col-sm-4">
           <select class="form-control general_context-note-type">
             <option></option>
@@ -366,7 +366,7 @@
         <h4 class="subrecord-form-heading">
           <%= t("note_multipart.sub_notes") %>
           <% if not form.readonly? %>
-            <div class="btn-group pull-right">
+            <div class="btn-group ml-auto">
               <button class="btn btn-sm btn-default add-sub-note-btn"><%= t("note._frontend.action.add_sub_note") %></button>
             </div>
           <% end %>
@@ -386,8 +386,8 @@
     <% form.emit_template(item["jsonmodel_type"]) %>
   <% else %>
     <div class="subrecord-form-fields">
-      <div class="form-group required">
-        <label class="control-label col-sm-2"><%= t("note.note_type") %></label>
+      <div class="form-group row required">
+        <label class="control-label col-sm-4 text-right"><%= t("note.note_type") %></label>
         <div class="controls col-sm-4">
           <select class="form-control mandate-note-type">
             <option></option>
@@ -421,7 +421,7 @@
         <h4 class="subrecord-form-heading">
           <%= t("note_multipart.sub_notes") %>
           <% if not form.readonly? %>
-            <div class="btn-group pull-right">
+            <div class="btn-group ml-auto">
               <button class="btn btn-sm btn-default add-sub-note-btn"><%= t("note._frontend.action.add_sub_note") %></button>
             </div>
           <% end %>
@@ -457,8 +457,8 @@
     <% form.emit_template(item["jsonmodel_type"]) %>
   <% else %>
     <div class="subrecord-form-fields">
-      <div class="form-group required">
-        <label class="control-label col-sm-2"><%= t("note.note_type") %></label>
+      <div class="form-group row required">
+        <label class="control-label col-sm-4 text-right"><%= t("note.note_type") %></label>
         <div class="controls col-sm-4">
           <select class="form-control legal_status-note-type">
             <option></option>
@@ -492,7 +492,7 @@
         <h4 class="subrecord-form-heading">
           <%= t("note_multipart.sub_notes") %>
           <% if not form.readonly? %>
-            <div class="btn-group pull-right">
+            <div class="btn-group ml-auto">
               <button class="btn btn-sm btn-default add-sub-note-btn"><%= t("note._frontend.action.add_sub_note") %></button>
             </div>
           <% end %>
@@ -512,8 +512,8 @@
     <% form.emit_template(item["jsonmodel_type"]) %>
   <% else %>
     <div class="subrecord-form-fields">
-      <div class="form-group required">
-        <label class="control-label col-sm-2"><%= t("note.note_type") %></label>
+      <div class="form-group row required">
+        <label class="control-label col-sm-4 text-right"><%= t("note.note_type") %></label>
         <div class="controls col-sm-4">
           <select class="form-control structure_or_genealogy-note-type">
             <option></option>
@@ -547,7 +547,7 @@
         <h4 class="subrecord-form-heading">
           <%= t("note_multipart.sub_notes") %>
           <% if not form.readonly? %>
-            <div class="btn-group pull-right">
+            <div class="btn-group ml-auto">
               <button class="btn btn-sm btn-default add-sub-note-btn"><%= t("note._frontend.action.add_sub_note") %></button>
             </div>
           <% end %>
@@ -736,7 +736,7 @@
         <h4 class="subrecord-form-heading">
           <%= t("note_index.items") %>
           <% if not form.readonly? %>
-            <button class="btn btn-xs btn-default pull-right add-item-btn"><%= t("note._frontend.action.add_note_index_item") %></button>
+            <button class="btn btn-xs btn-default ml-auto add-item-btn"><%= t("note._frontend.action.add_note_index_item") %></button>
           <% end %>
         </h4>
         <div class="subrecord-form-container">
@@ -772,7 +772,7 @@
         <h4 class="subrecord-form-heading">
           <%= t("note_chronology.items") %>
           <% if not form.readonly? %>
-            <button class="btn btn-xs btn-default pull-right add-item-btn"><%= t("note._frontend.action.add_note_chronology_item") %></button>
+            <button class="btn btn-xs btn-default ml-auto add-item-btn"><%= t("note._frontend.action.add_note_chronology_item") %></button>
           <% end %>
         </h4>
         <div class="subrecord-form-container">
@@ -793,7 +793,7 @@
       <h5 class="subrecord-form-heading">
         <%= t("chronology_item.events") %>
         <% if not form.readonly? %>
-          <button class="btn btn-xs btn-default pull-right add-event-btn"><%= t("note._frontend.action.add_event") %></button>
+          <button class="btn btn-xs btn-default ml-auto add-event-btn"><%= t("note._frontend.action.add_event") %></button>
         <% end %>
       </h5>
       <div class="controls chronology_item_list">
@@ -911,8 +911,8 @@
               </div>
             </div>
             <ul class="nav nav-tabs">
-              <li class="active"><a href="#<%= form.id_for("content") %>_raw" data-toggle="tab" title="<%= t("note._frontend.preview.raw_title") %>"><%= t("note._frontend.preview.raw") %></a></li>
-              <li><a href="#<%= form.id_for("content") %>_parsed" data-toggle="tab" title="<%= t("note._frontend.preview.parsed_title") %>"><%= t("note._frontend.preview.parsed") %></a></li>
+              <li class="active nav-item"><a class="nav-link" href="#<%= form.id_for("content") %>_raw" data-toggle="tab" title="<%= I18n.t("note._frontend.preview.raw_title") %>"><%= I18n.t("note._frontend.preview.raw") %></a></li>
+              <li class="nav-item"><a class="nav-link" href="#<%= form.id_for("content") %>_parsed" data-toggle="tab" title="<%= I18n.t("note._frontend.preview.parsed_title") %>"><%= I18n.t("note._frontend.preview.parsed") %></a></li>
             </ul>
           </div>
         </div>

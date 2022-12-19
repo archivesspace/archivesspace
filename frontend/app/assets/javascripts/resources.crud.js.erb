@@ -37,7 +37,7 @@ $(function() {
 
       var handleLevelChange = function(initialising) {
         if ($levelSelect.val() === "otherlevel") {
-          $otherLevel.removeAttr("disabled");
+          $otherLevel.attr('disabled', null);
           if (initialising === true) {
             $otherLevel.closest(".form-group").show();
           } else {
