@@ -13,8 +13,8 @@ describe 'Agents', js: true do
   it 'displays agent page' do
     visit('/')
     click_link 'Names'
-    click_link 'Published Agent'
+    click_link 'Linked Agent 1' # prefer this agent because it's a "full" record
     expect(current_path).to match(/agents\/people\/\d+/)
-    expect(page).to have_content('Published Agent')
+    expect(page).to have_content('Linked Agent 1')
   end
 end

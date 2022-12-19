@@ -57,7 +57,10 @@ module JsonHelper
   end
 
   def parse_date(date)
-    label_value = date['label']
+    label_value = date.fetch('label', date['date_label'])
+    begin_date  = date.fetch('begin', date.fetch('structured_date_range', {})['begin_date_standardized'])
+    end_date    = date.fetch('end',   date.fetch('structured_date_range', {})['end_date_standardized'])
+
     if !label_value.blank?
       if label_value == 'creation'
         label = ''
@@ -67,19 +70,21 @@ module JsonHelper
     else
       label = ''
     end
+
     exp = date['expression'] || ''
     if exp.blank?
-      exp = date['begin'] unless date['begin'].blank?
-      unless date['end'].blank?
-        exp = (exp.blank? ? '' : exp + ' - ') + date['end']
+      exp = begin_date unless begin_date.blank?
+      unless end_date.blank?
+        exp = (exp.blank? ? '' : exp + ' - ') + end_date
       end
     end
+
     if date['date_type'] == 'bulk'
       exp = exp.sub('bulk', '').sub('()', '').strip
-      exp = date['begin'] == date['end'] ? I18n.t('bulk._singular', :dates => exp) :
+      exp = begin_date == end_date ? I18n.t('bulk._singular', :dates => exp) :
               I18n.t('bulk._plural', :dates => exp)
     end
 
-    [label, exp]
+    [label, exp, label_value]
   end
 end
