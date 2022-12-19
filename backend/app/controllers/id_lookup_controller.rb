@@ -50,7 +50,7 @@ class ArchivesSpaceService < Sinatra::Base
         # Finding resources with ARKs
         
         curl -H "X-ArchivesSpace-Session: $SESSION" //
-        -G http://http://localhost:8089/repositories/2/find_by_id/resources //
+        -G http://localhost:8089/repositories/2/find_by_id/resources //
         --data-urlencode 'ark[]=ark:/######/##/##' --data-urlencode 'resolve[]=resources'
         # Replace "http://localhost:8089" with your ASpace API URL, :repo_id: with the repository ID, 
         # ark:/######/##/## with the ARK you are searching for, and only add --data-urlencode 'resolve[]=resources' 
