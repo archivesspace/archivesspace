@@ -783,19 +783,31 @@ i.giant {
   display: block;
   margin: 0 0 1em 1em;
 }
-.objectimage img {
+.objectimage img,
+.additional-file-version img {
   margin: 0 auto;
   display: block;
   max-width: 100%;
   border-top-right-radius: var(--bootstrap-rounded-corner-radius);
   border-top-left-radius: var(--bootstrap-rounded-corner-radius);
 }
-.objectimage figcaption {
+.objectimage figcaption,
+.additional-file-version figcaption {
   padding: 0.5rem;
 }
 .objectimage button[type='submit'] {
   width: 100%;
   white-space: normal;
+}
+
+@media (min-width: 500px) {
+  .additional-file-version {
+    display: block;
+    max-width: 500px;
+  }
+}
+.additional-file-version + .additional-file-version {
+  margin-top: 1rem !important;
 }
 
 .record-type-badge.digital_object.external-digital-object__link {

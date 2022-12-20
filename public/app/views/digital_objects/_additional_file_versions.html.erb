@@ -1,0 +1,7 @@
+<ol class="list-unstyled mb0">
+  <% fvs.each do |fv| %>
+    <li class="panel panel-default additional-file-version">
+      <%= render partial: 'shared/representative_file_version', locals: {:uri => fv['file_uri'], :caption => fv['caption']} %>
+    </li>
+  <% end %>
+</ol>
