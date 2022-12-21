@@ -114,4 +114,63 @@ describe SearchController, type: :controller do
                                     }, format: :json
     end
   end
+
+  context 'representative file version column in search results' do
+
+    RECORD_TYPES = %w(digital_object digital_object_component resource accession archival_object)
+
+    before(:each) do
+      session = User.login('admin', 'admin')
+      User.establish_session(controller, session, 'admin')
+      controller.session[:repo_id] = 999
+
+      allow(JSONModel::HTTP).to receive(:get_json) do |endpoint, criteria|
+        record_types = criteria.has_key?("type[]") ? criteria["type[]"] : RECORD_TYPES
+        {
+          "page_size"=>10,
+          "first_page"=>1,
+          "last_page"=>90,
+          "this_page"=>1,
+          "offset_first"=>1,
+          "offset_last"=>10,
+          "total_hits"=>10,
+          "results"=> record_types.map { |type| {
+                                           "id" => "abc",
+                                           "title" => "Example",
+                                           "types" => [type],
+                                           "json" => {
+                                             "representative_file_version" => {
+                                               "file_uri" => "http://foo.com/bar.jpg"
+                                             }
+                                           }.to_json,
+                                           "resource" => "/repositories/999/resources/999",
+                                         }
+          },
+          "facets" => {
+            "facet_fields" => []
+          }
+        }
+      end
+
+      allow(JSONModel::HTTP).to receive(:get_json)
+                                  .with("/repositories/999/current_preferences")
+                                  .and_return({
+                                                "defaults" => Hash[RECORD_TYPES.map { |record_type|
+                                                                     ["#{record_type}_browse_column_1", "representative_file_version"]
+                                                                   }]})
+    end
+
+    RECORD_TYPES.each do |record_type|
+      it "shows the representative file version image when searching for #{record_type}" do
+        get :do_search, format: :js, params: {
+              "type[]" => record_type
+            }, xhr: true
+
+        body = Nokogiri::HTML.parse(response.body)
+        expect(body.xpath("//th[starts-with(@class, 'col representative_file_version')]").size).to eq 1
+        expect(body.xpath("//td[starts-with(@class, 'col representative_file_version')][1]").first.inner_html.strip)
+          .to eq "<img src=\"http://foo.com/bar.jpg\">"
+      end
+    end
+  end
 end

@@ -226,6 +226,7 @@ en:
       asc: Ascending
       desc: Descending
       uri: URI
+      representative_file_version: Thumbnail Image
     resource:
       score: Relevance
       title: Title
@@ -249,6 +250,7 @@ en:
       asc: Ascending
       desc: Descending
       uri: URI
+      representative_file_version: Thumbnail Image
     archival_object:
       score: Relevance
       title: Title
@@ -266,6 +268,7 @@ en:
       asc: Ascending
       desc: Descending
       uri: URI
+      representative_file_version: Thumbnail Image
     subject:
       score: Relevance
       source: Source
@@ -296,6 +299,7 @@ en:
       asc: Ascending
       desc: Descending
       uri: URI
+      representative_file_version: Thumbnail Image
     digital_object_component:
       score: Relevance
       title: Title
@@ -310,6 +314,7 @@ en:
       asc: Ascending
       desc: Descending
       uri: URI
+      representative_file_version: Thumbnail Image
     agent:
       score: Relevance
       title: Name

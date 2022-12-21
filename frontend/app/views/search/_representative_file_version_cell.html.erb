@@ -1,0 +1,8 @@
+<%
+  json = ASUtils.json_parse(record["json"])
+  file_uri = json['representative_file_version'] ? json['representative_file_version']['file_uri'] : nil
+%>
+
+<% if file_uri %>
+<img src="<%= file_uri %>"/>
+<% end %>
