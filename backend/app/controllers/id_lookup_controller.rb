@@ -37,7 +37,7 @@ class ArchivesSpaceService < Sinatra::Base
         # Finding multiple resources using identifier fields
         
         curl -H "X-ArchivesSpace-Session: $SESSION" //
-        -G http://http://localhost:8089/repositories/2/find_by_id/resources //
+        -G http://http://localhost:8089/repositories/:repo_id:/find_by_id/resources //
         --data-urlencode 'identifier[]=["test","1234","abcd","5678"]' --data-urlencode 'identifier[]=["your_id_here"]' //
         --data-urlencode 'resolve[]=resources'
         # Replace "http://localhost:8089" with your ASpace API URL, :repo_id: with the repository ID, 
@@ -46,6 +46,21 @@ class ArchivesSpaceService < Sinatra::Base
         # the record URI only
   
         # Output: {"resources":[{"ref":"/repositories/2/resources/455"},{"ref":"/repositories/2/resources/456"}]}
+
+        # Finding resources with ARKs
+        
+        curl -H "X-ArchivesSpace-Session: $SESSION" //
+        "http://localhost:8089/repositories/:repo_id:/find_by_id/resources?ark[]=ark%3A%2F####%2F######;resolve[]=resources"
+        # Replace "http://localhost:8089" with your ASpace API URL, :repo_id: with the repository ID, 
+        # ark%3A%2F####%2F###### with the ARK you are searching for - NOTE, make sure to encode any characters like 
+        # : into %3A and / into %2F - and only add resolve[]=resources if you want the JSON for the returned record - 
+        # otherwise, it will return the record URI only
+  
+        # Output: {"resources":[{"ref":"/repositories/2/resources/455"},{"ref":"/repositories/2/resources/456"}]}
+
+        # If you are having trouble resolving the URL, try using the --data-urlencode parameter, like so:
+        # curl -H "X-ArchivesSpace-Session: $SESSION" -G //
+        # http://localhost:8089/repositories/2/find_by_id/resources --data-urlencode 'ark[]=ark%3A%2F####%2F######'
       SHELL
     end
     .example("python") do
@@ -79,6 +94,18 @@ class ArchivesSpaceService < Sinatra::Base
         # otherwise, it will return the record URI only
   
         print(find_multi_resid.json())
+        # Output (dict): {'resources': [{'ref': '/repositories/2/resources/407', '_resolved':  {'lock_version': 0,...}
+
+        # Finding resources with ARKs
+
+        find_res_ark = client.get("repositories/:repo_id:/find_by_id/resources", 
+                                  params={"ark[]": "ark:/######/##/##",
+                                  "resolve[]": "resources"})
+        # Replace :repo_id: with the repository ID, "ark:/######/##/##" with the ark ID you are searching for, and only 
+        # add "resolve[]": "resources" if you want the JSON for the returned record - otherwise, it will return 
+        # the record URI only
+  
+        print(find_res_ark.json())
         # Output (dict): {'resources': [{'ref': '/repositories/2/resources/407', '_resolved':  {'lock_version': 0,...}
       PYTHON
     end
@@ -117,6 +144,17 @@ class ArchivesSpaceService < Sinatra::Base
         # "hello_im_a_ref_id" with the ref ID you are searching for, and only add 
         # "resolve[]=archival_objects" if you want the JSON for the returned record - otherwise, it will return the 
         # record URI only
+
+        curl -H "X-ArchivesSpace-Session: $SESSION" //
+        "http://localhost:8089/repositories/:repo_id:/find_by_id/archival_objects?ark[]=ark%3A%2F####%2F######;resolve[]=archival_objects"
+        # Replace "http://localhost:8089" with your ASpace API URL, :repo_id: with the repository ID, 
+        # "ark%3A%2F####%2F######" with the ark you are searching for - NOTE, make sure to encode any characters like 
+        # : into %3A and / into %2F - and only add "resolve[]=archival_objects" if you want the JSON for the returned 
+        # record - otherwise, it will return the record URI only
+
+        # If you are having trouble resolving the URL, try using the --data-urlencode parameter, like so:
+        # curl -H "X-ArchivesSpace-Session: $SESSION" -G //
+        # http://localhost:8089/repositories/2/find_by_id/archival_objects --data-urlencode 'ark[]=ark%3A%2F####%2F######'
       SHELL
     end
     .example("python") do
@@ -139,13 +177,23 @@ class ArchivesSpaceService < Sinatra::Base
         # Output (dict): {'archival_objects': [{'ref': '/repositories/2/archival_objects/708425', '_resolved':...}]}
   
         find_ao_refid = client.get("repositories/:repo_id:/find_by_id/archival_objects", 
-                                   params={"ref_id[]": "hello_im_a_ref_id"
+                                   params={"ref_id[]": "hello_im_a_ref_id",
                                    "resolve[]": "archival_objects"})
         # Replace :repo_id: with the repository ID, "hello_im_a_ref_id" with the ref ID you are searching for, and only add 
         # "resolve[]": "archival_objects" if you want the JSON for the returned record - otherwise, it will return the 
         # record URI only
   
         print(find_ao_refid.json())
+        # Output (dict): {'archival_objects': [{'ref': '/repositories/2/archival_objects/708425', '_resolved':...}]}
+
+        find_ao_ark = client.get("repositories/:repo_id:/find_by_id/archival_objects", 
+                                 params={"ark[]": "ark:/######/##/##",
+                                 "resolve[]": "archival_objects"})
+        # Replace :repo_id: with the repository ID, "ark:/######/##/##" with the ark ID you are searching for, and only 
+        # add "resolve[]": "archival_objects" if you want the JSON for the returned record - otherwise, it will return 
+        # the record URI only
+  
+        print(find_ao_ark.json())
         # Output (dict): {'archival_objects': [{'ref': '/repositories/2/archival_objects/708425', '_resolved':...}]}
       PYTHON
     end
@@ -190,7 +238,7 @@ class ArchivesSpaceService < Sinatra::Base
         client.authorize()  # authorizes the client
   
         find_do_comp = client.get("repositories/:repo_id:/find_by_id/digital_object_components", 
-                                  params={"component_id[]": "im_a_do_component_id"
+                                  params={"component_id[]": "im_a_do_component_id",
                                   "resolve[]": "digital_object_components"})
         # Replace :repo_id: with the repository ID, "im_a_do_component_id" with the component ID you are searching for, and
         # only add "resolve[]": "digital_object_components" if you want the JSON for the returned record - otherwise, it
