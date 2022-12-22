@@ -66,6 +66,17 @@
 	<%= render partial: 'shared/accordion_panel', locals: {:p_title =>  t('resource._public.additional'),
 	      :p_id => 'add_desc', :p_body => x } %>
 	<% end %>
+  <% if @rep_fv.present? && @result.json['file_versions'].length > 1 %>
+    <%
+      additional_file_versions = @result.json['file_versions'].select { |fv| fv['file_uri'] != @rep_fv['file_uri'] }
+      x = render partial: 'digital_objects/additional_file_versions', locals: { :fvs => additional_file_versions }
+    %>
+    <%= render partial: 'shared/accordion_panel', locals: {
+      :p_title => t('digital_object._public.additional'),
+      :p_id => 'additional_file_versions_list',
+      :p_body => x
+    } %>
+  <% end %>
     <% unless @result.agents.blank? %>
   <%# ANW-1095: don't show creators in related names section since it is redundant %>
   <% not_creators = @result.agents.except("creator") %>
