@@ -1,8 +1,9 @@
 //= require search
 $(function () {
+
   // this gets the location information from the solr backend.
   // borrowed from the embedded_search js
-  var init_locationHoldingsSearch = function () {
+  var getLocationHoldingsCount = function () {
     var $this = $(this);
     if ($(this).data('initialised')) return;
 
@@ -22,20 +23,23 @@ $(function () {
     });
   };
 
-  $('.location-holdings').each(init_locationHoldingsSearch);
-  $(document).bind('loadedrecordform.aspace', function (event, $container) {
-    $('.location-holdings', $container).each(init_locationHoldingsSearch);
+  // This bit is for the regular index page
+  // (the whole page reloads, so no MutationObserver is necessary)
+  $('.location-holdings').each(getLocationHoldingsCount);
+  $(document).on('loadedrecordform.aspace', function (event, $container) {
+    $('.location-holdings', $container).each(getLocationHoldingsCount);
   });
 
-  // GH-1920, listen for Browse Locations modal
-  var $locationBrowseBtn = $('input[data-label="Location"]')
-    .siblings()
-    .find('.linker-browse-btn');
-
-  $locationBrowseBtn.on('click', function () {
-    setTimeout(function () {
-      // Wait for appended modal DOM
-      $('.location-holdings').each(init_locationHoldingsSearch);
-    }, 300);
+  // A modal is dynamically appended when the Browse button is clicked, so it's not possible
+  // to fill in the holdings count for each location in the list until after that happens.
+  // This also needs to happen when new ones come up via pagination, so we watch for changes 
+  // in the linker container and do the same thing.
+  $('#container_locations').find('.linker-browse-btn').click( function () {
+    $('.location-holdings').each(getLocationHoldingsCount);
+    const modalObserver = new MutationObserver(function() {
+      $('.location-holdings').each(getLocationHoldingsCount);
+    });
+    modalObserver.observe($('.modal-body.linker-container')[0], {childList: true, subtree: true});  
   });
+
 });
