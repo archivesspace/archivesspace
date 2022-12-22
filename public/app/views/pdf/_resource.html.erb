@@ -42,6 +42,15 @@
         <% end %>
     <% end %>
 
+    <% record.notes.each do |note_type, note| %>
+        <% if note_type == 'abstract' %>
+            <a id="note-<%= note_type %>"></a>
+            <% note.each do |n| %>
+              <dt><%= I18n.t("enumerations._note_types.#{note_type}") %></dt><dd><%== process_mixed_content(n['note_text']) %></dd>
+            <% end %>
+        <% end %>
+    <% end %>
+
     <% if record.container_display && !record.container_display.empty? %>
         <dt><%= I18n.t('resource._public.storage') %></dt><dd><%= record.container_display.join(', ') %></dd>
     <% end %>
@@ -51,31 +60,94 @@
     }) %>
 </dl>
 
-<% record.notes.each do |note_type, note| %>
-    <% next if ['physdesc'].include?(note_type) %>
-    <a id="note-<%= note_type %>"></a>
-    <% note.each do |n| %>
-      <h3>
-        <% if n['label'] %>
-            <%== process_mixed_content(n['label']) %>
-        <% else %>
-            <%= I18n.t("enumerations._note_types.#{note_type}") %>
+    <% record.notes.each do |note_type, note| %>
+        <% if note_type == 'prefercite' %>
+            <a id="note-<%= note_type %>"></a>
+            <% note.each do |n| %>
+              <div id="note-prefercite">
+                <dl><dt><%= I18n.t("enumerations._note_types.#{note_type}") %></dt><dd><%== process_mixed_content(n['note_text']) %></dd></dl>
+              </div>
+            <% end %>
         <% end %>
-      </h3>
-      <p><%== process_mixed_content(n['note_text']) %></p>
     <% end %>
+
+
+
+
+<a id="note-bioghist"></a>
+<% record.notes['bioghist'].each do |n| %>
+  <h3>
+    <% if n['label'] %>
+        <%== process_mixed_content(n['label']) %>
+    <% else %>
+        <%= I18n.t("enumerations._note_types.bioghist") %>
+    <% end %>
+  </h3>
+  <p><%== process_mixed_content(n['note_text']) %></p>
 <% end %>
+
+
+<a id="note-scopecontent"></a>
+<% record.notes['scopecontent'].each do |n| %>
+  <h3>
+    <% if n['label'] %>
+        <%== process_mixed_content(n['label']) %>
+    <% else %>
+        <%= I18n.t("enumerations._note_types.scopecontent") %>
+    <% end %>
+  </h3>
+  <p><%== process_mixed_content(n['note_text']) %></p>
+<% end %>
+
+<a id="note-arrangement"></a>
+<% record.notes['arrangement'].each do |n| %>
+  <h3>
+    <% if n['label'] %>
+        <%== process_mixed_content(n['label']) %>
+    <% else %>
+        <%= I18n.t("enumerations._note_types.arrangement") %>
+    <% end %>
+  </h3>
+  <p><%== process_mixed_content(n['note_text']) %></p>
+<% end %>
+
 
 <a id="administrative-information"></a>
 <h3><%= I18n.t('pdf_reports.administrative_information') %></h3>
 
-<h3><%= I18n.t('pdf_reports.publication_statement') %></h3>
-
+<h4><%= I18n.t('pdf_reports.publication_statement') %></h4>
 <%= render(:partial => 'publication_statement', :locals => {
     :repository_name => record.resolved_repository['name'],
     :repository_information => record.repository_information
 }) %>
 
+<h4><%= I18n.t('pdf_reports.accessrestrict') %></h4>
+<% record.notes['accessrestrict'].each do |accessrestrict| %>
+    <% accessrestrict['subnotes'].each do |sn| %>
+    <p><%= sn['content'] %></p>
+    <% end %>
+<% end %>
+
+<h4><%= I18n.t('pdf_reports.userestrict') %></h4>
+<% record.notes['userestrict'].each do |userestrict| %>
+    <% userestrict['subnotes'].each do |sn| %>
+    <p><%= sn['content'] %></p>
+    <% end %>
+<% end %>
+
+<a id="note-relatedmaterial"></a>
+<% record.notes['relatedmaterial'].each do |n| %>
+  <h3>
+    <% if n['label'] %>
+        <%== process_mixed_content(n['label']) %>
+    <% else %>
+        <%= I18n.t("enumerations._note_types.relatedmaterial") %>
+    <% end %>
+  </h3>
+  <p><%== process_mixed_content(n['note_text']) %></p>
+<% end %>
+
+<a id="controlled-access-headings"></a>
 <h3><%= I18n.t('pdf_reports.controlled_access_headings') %></h3>
 
 <ul>

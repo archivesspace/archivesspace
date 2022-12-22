@@ -46,13 +46,13 @@ end
                 <% if note_type != 'physdesc' %>
                   <% note.each do |n| %>
                     <% if !n['is_inherited'] %>
-                      <h3>
+                      <h4>
                         <% if n['label'] %>
                             <%== process_mixed_content(n['label']) %>
                         <% else %>
                             <%= I18n.t("enumerations._note_types.#{note_type}") %>
                         <% end %>
-                      </h3>
+                      </h4>
                       <p><%== process_mixed_content(n['note_text']) %></p>
                     <% end %>
                   <% end %>
