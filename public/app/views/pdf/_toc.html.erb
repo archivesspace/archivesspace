@@ -9,24 +9,65 @@
             <li class="level-1"><a href="#administrative-information"><%= I18n.t("enumerations._note_types.#{note_type}") %></a></li>
         <% end %>
 
-        <% resource.notes.each do |note_type, note| %>
-            <% next if ['physdesc'].include?(note_type) %>
-            <li class="level-1">
-                <a href="#note-<%= note_type %>">
-                  <% labels = [] %>
-                  <% note.each do |n| %>
-                    <% if n['label'] %>
-                        <% labels << n['label'] %>
-                    <% else %>
-                        <% labels <<  I18n.t("enumerations._note_types.#{note_type}") %>
-                    <% end %>
-                  <% end %>
-                  <%== process_mixed_content(labels.uniq.join(", ")) %>
-                </a>
-            </li>
-        <% end %>
+        <li class="level-1">
+            <a href="#note-<%= "bioghist" %>">
+              <% labels = [] %>
+              <% resource.notes['bioghist'].each do |n| %>
+                <% if n['label'] %>
+                    <% labels << n['label'] %>
+                <% else %>
+                    <% labels <<  I18n.t("enumerations._note_types.bioghist") %>
+                <% end %>
+              <% end %>
+              <%== process_mixed_content(labels.uniq.join(", ")) %>
+            </a>
+        </li>
+
+        <li class="level-1">
+            <a href="#note-<%= "scopecontent" %>">
+              <% labels = [] %>
+              <% resource.notes['scopecontent'].each do |n| %>
+                <% if n['label'] %>
+                    <% labels << n['label'] %>
+                <% else %>
+                    <% labels <<  I18n.t("enumerations._note_types.scopecontent") %>
+                <% end %>
+              <% end %>
+              <%== process_mixed_content(labels.uniq.join(", ")) %>
+            </a>
+        </li>
+
+        <li class="level-1">
+            <a href="#note-<%= "arrangement" %>">
+              <% labels = [] %>
+              <% resource.notes['arrangement'].each do |n| %>
+                <% if n['label'] %>
+                    <% labels << n['label'] %>
+                <% else %>
+                    <% labels <<  I18n.t("enumerations._note_types.arrangement") %>
+                <% end %>
+              <% end %>
+              <%== process_mixed_content(labels.uniq.join(", ")) %>
+            </a>
+        </li>  
 
         <li class="level-1"><a href="#administrative-information"><%= I18n.t('pdf_reports.administrative_information') %></a></li>
+
+        <li class="level-1">
+            <a href="#note-<%= "relatedmaterial" %>">
+              <% labels = [] %>
+              <% resource.notes['relatedmaterial'].each do |n| %>
+                <% if n['label'] %>
+                    <% labels << n['label'] %>
+                <% else %>
+                    <% labels <<  I18n.t("enumerations._note_types.relatedmaterial") %>
+                <% end %>
+              <% end %>
+              <%== process_mixed_content(labels.uniq.join(", ")) %>
+            </a>
+        </li>  
+
+        <li class="level-1"><a href="#controlled-access-headings"><%= I18n.t('pdf_reports.controlled_access_headings') %></a></li>
 
         <% if has_children %>
             <li class="level-1"><a href="#collection-inventory"><%= I18n.t('pdf_reports.collection_inventory') %></a></li>
