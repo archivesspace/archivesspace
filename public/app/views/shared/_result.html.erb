@@ -45,7 +45,7 @@
       <div class="dates">
 
         <% dates = (result['json']['dates'] || result['json']['dates_of_existence']
-        ).collect {|date| parse_date(date)}.reject{|label, expression| expression.blank?} %>
+        ).collect {|date| parse_date(date)}.reject{|label, expression, _| expression.blank?} %>
         <% unless dates.empty? %>
           <strong><%= t('resource._public.dates') %>: </strong>
         <% end %>
