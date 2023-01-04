@@ -41,10 +41,10 @@ describe "Container Instance Handler" do
     expect(results).to eq(teststruct)
   end
 
-  it "rejects a bad container type" do
+  it "allows new container_type values " do
     expect {
       results = @cih.build("Boxes", "1", "2342")
-    }.to raise_error("NOT FOUND: 'Boxes' not found in list container_type")
+    }.to_not raise_error
   end
   it "creates an instance, first by creating it in the database" do
     create_top
@@ -52,12 +52,12 @@ describe "Container Instance Handler" do
     hsh = hash_it(results)
     expect(hsh["long_display_string"]).to eq("Box 1 [Barcode: 2342]")
     instances = @cih.create_container_instance("Audio", "Box", "1", "2342", @res_uri, @report)
-    expect(instances.instance_type).to eq("audio")
+    expect(instances.instance_type).to eq("Audio")
   end
-  it "tries to create an instance with an invalid instance type" do
+  it "allows new instance_instance_type values" do
     create_top
     expect {
       instances = @cih.create_container_instance("Phonograph", "Box", "1", "2342", @res_uri, @report)
-    }.to raise_error("NOT FOUND: 'Phonograph' not found in list instance_instance_type")
+    }.to_not raise_error
   end
 end

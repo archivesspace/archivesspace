@@ -7,7 +7,7 @@ class CvList
 
 
   # for these enums, don't throw an error if values are referenced
-  CREATE_NEW_VALUES_FOR = ["instance_instance_type"]
+  CREATE_NEW_VALUES_FOR = ["instance_instance_type", "container_type"]
 
   @list = []
   @list_hash = {}
