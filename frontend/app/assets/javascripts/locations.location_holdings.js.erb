@@ -1,8 +1,9 @@
 //= require search
 $(function () {
+
   // this gets the location information from the solr backend.
   // borrowed from the embedded_search js
-  var init_locationHoldingsSearch = function () {
+  var getLocationHoldingsCount = function () {
     var $this = $(this);
     if ($(this).data('initialised')) return;
 
@@ -22,20 +23,68 @@ $(function () {
     });
   };
 
-  $('.location-holdings').each(init_locationHoldingsSearch);
-  $(document).bind('loadedrecordform.aspace', function (event, $container) {
-    $('.location-holdings', $container).each(init_locationHoldingsSearch);
+  // This bit works for a regular index page
+  // (the whole page reloads, so no MutationObserver is necessary)
+  $('.location-holdings').each(getLocationHoldingsCount);
+  $(document).on('loadedrecordform.aspace', function (event, $container) {
+    $('.location-holdings', $container).each(getLocationHoldingsCount);
   });
 
-  // GH-1920, listen for Browse Locations modal
-  var $locationBrowseBtn = $('input[data-label="Location"]')
-    .siblings()
-    .find('.linker-browse-btn');
+  // allows us to use await/then to wait for an element with the selector to appear
+  async function waitForElement(selector) {
+    return new Promise(resolve => {
+      // if already existing, just resolve
+      const el = $(selector);
+      if (el.length) {
+          return resolve(el);
+      }
+      const observer = new MutationObserver(mutations => {
+        const el = $(selector);
+        if (el.length) {
+            resolve(el);
+            observer.disconnect();
+        }
+      });
+      observer.observe(document.body, {
+          childList: true,
+          subtree: true
+      });
+    });
+  }
 
-  $locationBrowseBtn.on('click', function () {
-    setTimeout(function () {
-      // Wait for appended modal DOM
-      $('.location-holdings').each(init_locationHoldingsSearch);
-    }, 300);
+  // The Browse Locations modal is dynamically appended when the Browse button is clicked, 
+  // so a click handler is used to set up monitoring.
+  const browseBtn = $('label').filter(function() {
+    return $(this).text().trim() === 'Location'; 
+  }).siblings().find('.linker-browse-btn');
+
+  browseBtn.click(function () {
+    // A MutationObserver is used to monitor the modal for changes to the location rows
+    // (will trigger on creation/pagination) and update their holdings counts
+    const modalObserver = new MutationObserver(function() {
+      $('.location-holdings').each(getLocationHoldingsCount);
+    });
+
+    // Selecting the correct linker container can be tricky depending on how we got there,
+    // and may not have been added to the DOM by the time this is evaluated, so we may need
+    // to wait for them.
+
+    // the id when coming from the Browse Top Containers modal is simple
+    waitForElement('#location_modal').then(function() {
+      modalObserver.observe(
+        $('#location_modal').find('.modal-body.linker-container')[0], 
+        {childList: true, subtree: true}
+      );  
+    });
+
+    // The ids for modals when coming from top container edit are a bit more complex
+    // (they are numbered by which subrecord container they spawned from)
+    waitForElement('[id^="top_container_container_locations_"]').then(function() {
+      modalObserver.observe(
+        $('[id^="top_container_container_locations_"]').find('.modal-body.linker-container')[0], 
+        {childList: true, subtree: true}
+      );
+    })
   });
+  
 });
