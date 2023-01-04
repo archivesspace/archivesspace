@@ -1291,6 +1291,7 @@ en:
     linker:
       browse:
         Browse Resources
+      link_title: Browse
 
   preference:
     _frontend:
