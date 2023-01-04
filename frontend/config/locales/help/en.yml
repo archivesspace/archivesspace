@@ -19,6 +19,7 @@ en:
       accession_collection_management: Help on Collection Management
       accession_classification: Help on Classifications
       accession_user_defined: Help on User Defined
+      accession_metadata_rights_declarations: Help on Metadata Rights Declarations
       # Resource help tooltips
       resource: Help on Resources
       resource_basic_information: Help on Basic Information
@@ -34,6 +35,7 @@ en:
       resource_instances: Help on Instances
       resource_deaccessions: Help on Deaccessions
       resource_collection_management: Help on Collection Management
+      resource_metadata_rights_declarations: Help on Metadata Rights Declarations
       resource_classification: Help on Classifications
       resource_user_defined: Help on User Defined
       resource_load_via_spreadsheet: Help on Load Via Spreadsheet
@@ -71,6 +73,7 @@ en:
       digital_object_collection_management: Help on Collection Management
       digital_object_classification: Help on Classifications
       digital_object_user_defined: Help on User Defined
+      digital_object_metadata_rights_declarations: Help on Metadata Rights Declarations
       # Digital Object Component help tooltips
       digital_object_component: Help on Digital Object Components
       digital_object_component_basic_information: Help on Basic Information
