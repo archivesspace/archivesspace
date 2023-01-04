@@ -827,7 +827,7 @@ class MARCModel < ASpaceExport::ExportModel
                     ['d', dates],
                     ['c', qualifier],
                     subfield_e,
-                    ['0', primary_identifier],
+                    ["0", primary_identifier],
                   ].compact.reject {|a| a[1].nil? || a[1].empty?}
 
     unless terms.nil?
@@ -925,7 +925,7 @@ class MARCModel < ASpaceExport::ExportModel
       subfield_b_2 = sub_name2
     end
 
-    primary_identifier = get_primary_agent_record_identifier(agent)
+    primary_identifier = get_primary_agent_record_identifier(agent) || find_authority_id(agent['names'])
 
     name_fields = [
                     ['a', primary_name],
@@ -934,7 +934,6 @@ class MARCModel < ASpaceExport::ExportModel
                     subfield_e,
                     ['n', number],
                     ['g', qualifier],
-                    ["0", primary_identifier],
                   ].compact.reject {|a| a[1].nil? || a[1].empty?}
 
     unless terms.nil?
@@ -942,11 +941,9 @@ class MARCModel < ASpaceExport::ExportModel
     end
 
     name_fields = handle_agent_corporate_punctuation(name_fields)
-    name_fields.push(subfield_4) unless subfield_4.nil?
 
-    authority_id = find_authority_id(agent['names'])
-    subfield_0 = authority_id ? [0, authority_id] : nil
-    name_fields.push(subfield_0) unless subfield_0.nil?
+    name_fields.push(subfield_4) unless subfield_4.nil?
+    name_fields.push(['0', primary_identifier]) unless primary_identifier.nil?
 
     return name_fields
   end
