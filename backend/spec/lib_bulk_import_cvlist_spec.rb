@@ -28,4 +28,12 @@ describe "Controlled Value List" do
       value = subject_sources.value("Universal sources")
     }.to raise_error(Exception)
   end
+
+  it "should not throw an exception for missing values for enums where new values should be created" do
+    expect {
+      current_user = User.find(:username => "admin")
+      subject_sources = CvList.new("instance_instance_type", current_user)
+      value = subject_sources.value("Bank Vault")
+    }.to_not raise_error(Exception)
+  end
 end

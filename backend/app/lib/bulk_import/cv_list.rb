@@ -5,10 +5,16 @@ require_relative "bulk_import_mixins"
 class CvList
   include CrudHelpers
 
+
+  # for these enums, don't throw an error if values are referenced
+  CREATE_NEW_VALUES_FOR = ["instance_instance_type", "container_type"]
+
   @list = []
   @list_hash = {}
   @which = ""
   @current_user
+
+  attr_reader :which
 
   def initialize(which, current_user)
     @which = which
@@ -22,7 +28,7 @@ class CvList
     elsif @list.index(label)
       v = label
     end
-    raise Exception.new(I18n.t("bulk_import.error.enum", :label => label, :which => @which)) if !v
+    raise Exception.new(I18n.t("bulk_import.error.enum", :label => label, :which => @which)) if !v and !CvList::CREATE_NEW_VALUES_FOR.include?(@which)
     v
   end
 
