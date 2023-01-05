@@ -14,7 +14,31 @@ end
 
 <div class="avoid-break">
     <div class="print-record-border print-record level-<%= level %>">
+      <% if level == 1 %>
+        <div class="ao-summary">
+      <% end %>
         <p><a class="record-title" id="<%= record.uri %>"><%== process_mixed_content(record.display_string) %></a></p>
+
+         <% record.notes.each do |note_type, note| %>
+           <% if note_type == 'scopecontent' %>
+             <% note.each do |n| %>
+               <% if !n['is_inherited'] %>
+                 <h4>
+                   <% if n['label'] %>
+                       <%== process_mixed_content(n['label']) %>
+                   <% else %>
+                       <%= I18n.t("enumerations._note_types.#{note_type}") %>
+                   <% end %>
+                 </h4>
+                 <p><%== process_mixed_content(n['note_text']) %></p>
+               <% end %>
+             <% end %>
+           <% end %>
+         <% end %>
+
+    <% if level == 1 %>
+      </div>
+    <% end %>
 
         <% Array(record.instances).each do |instance| %>
             <% if instance['sub_container'] %>
@@ -43,7 +67,7 @@ end
 
         <div class="indented">
             <% record.notes.each do |note_type, note| %>
-                <% if note_type != 'physdesc' %>
+                <% if note_type != 'physdesc' && note_type != 'scopecontent' %>
                   <% note.each do |n| %>
                     <% if !n['is_inherited'] %>
                       <h4>
