@@ -18,6 +18,9 @@
 
     <dt><%= I18n.t('resource._public.identifier') %></dt><dd><%= record.identifier %></dd>
 
+    <dt><%= I18n.t('resource._public.uri') %></dt>
+    <dd><%= record['uri'] %></dd>
+
     <% record.dates.each do |date| %>
         <dt><%= I18n.t('resource._public.finding_aid.date') %></dt><dd><%= date['final_expression'] %></dd>
     <% end %>
@@ -25,6 +28,9 @@
     <% record.extents.each do |extent| %>
         <dt><%= I18n.t('resource._public.physdesc') %></dt><dd><%= extent['display'] %></dd>
     <% end %>
+
+    <dt><%= I18n.t('resource._public.lang') %></dt>
+    <dd><%= record.finding_aid['language_note'] %></dd>
 
     <% unless record.notes.include?('langmaterial') || record.lang_materials.blank? %>
         <dt><%= t('resource._public.lang') %></dt>
@@ -71,9 +77,6 @@
         <% end %>
     <% end %>
 
-
-
-
 <a id="note-bioghist"></a>
 <% record.notes['bioghist'].each do |n| %>
   <h3>
@@ -83,7 +86,7 @@
         <%= I18n.t("enumerations._note_types.bioghist") %>
     <% end %>
   </h3>
-  <p><%== process_mixed_content(n['note_text']) %></p>
+  <p><%= n['note_text'].html_safe %></p>
 <% end %>
 
 
