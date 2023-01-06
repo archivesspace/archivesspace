@@ -71,6 +71,37 @@ describe 'Record transfers' do
   end
 
 
+  it "undoes deletions when transfers are reversed" do
+    allow(RealtimeIndexing).to receive(:record_delete).and_call_original
+
+    acc_id = create(:json_accession).id
+    source_repo = Repository[$repo_id]
+
+    old_uri = JSONModel(:accession).uri_for(acc_id, repo_id: source_repo.id)
+    new_uri = JSONModel(:accession).uri_for(acc_id, repo_id: @target_repo.id)
+
+    acc = Accession[acc_id]
+    acc.transfer_to_repository(@target_repo)
+    expect(RealtimeIndexing).to have_received(:record_delete).with(old_uri)
+    expect(Tombstone.filter(uri: old_uri).count).to eq(1)
+    expect(Tombstone.filter(uri: new_uri).count).to eq(0)
+
+    acc = Accession[acc_id]
+    acc.transfer_to_repository(source_repo)
+    expect(RealtimeIndexing).to have_received(:record_delete).with(new_uri)
+    expect(Tombstone.filter(uri: old_uri).count).to eq(0)
+    expect(Tombstone.filter(uri: new_uri).count).to eq(1)
+
+    # transfer_all
+    acc2_id = create(:json_accession).id
+    Accession.transfer_all(source_repo, @target_repo)
+    expect(Tombstone.filter(uri: Regexp.new(source_repo.uri+"/accessions")).count).to eq(2)
+    Accession.transfer_all(@target_repo, source_repo)
+    expect(Tombstone.filter(uri: Regexp.new(source_repo.uri+"/accessions")).count).to eq(0)
+    expect(Tombstone.filter(uri: Regexp.new(@target_repo.uri+"/accessions")).count).to eq(2)
+  end
+
+
   it "creates an event to record the transfer" do
     acc_id = create(:json_accession).id
 

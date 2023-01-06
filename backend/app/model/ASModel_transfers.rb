@@ -9,26 +9,30 @@ module ASModel
 
     def transfer_to_repository(target_repository, transfer_group = [])
       if self.class.columns.include?(:repo_id)
-        old_uri = self.uri
 
         source_repository = Repository[self.repo_id]
 
         # Do the update in the cheapest way possible (bypassing save hooks, etc.)
-        self.class.filter(:id => self.id).update(:repo_id => target_repository.id,
-                                                 :system_mtime => Time.now)
+        self.class.filter(id: self.id).update(repo_id: target_repository.id,
+                                                 system_mtime: Time.now)
 
-        # Mark the (now changed) URI as deleted
-        if old_uri
-          Tombstone.create(:uri => old_uri)
-          DB.after_commit do
-            RealtimeIndexing.record_delete(old_uri)
+        # Mark the old URI as deleted (if we can locate the source repo)
+        if source_repository
+          RequestContext.open(repo_id: source_repository.id) do
+            Tombstone.create(uri: self.uri)
+            DB.after_commit do
+              RealtimeIndexing.record_delete(self.uri)
+            end
           end
+        end
 
+        RequestContext.open(repo_id: target_repository.id) do
+          # if this record has been in the target_repository before, it might have
+          # an old tombstone lying around.
+          Tombstone.filter(uri: self.uri).delete
           # Create an event if this is the top-level record being transferred.
           if transfer_group.empty?
-            RequestContext.open(:repo_id => target_repository.id) do
-              Event.for_repository_transfer(source_repository, target_repository, self)
-            end
+            Event.for_repository_transfer(source_repository, target_repository, self)
           end
         end
       end
@@ -86,7 +90,8 @@ module ASModel
           if self.has_jsonmodel?
             jsonmodel = self.my_jsonmodel
             self.filter(:repo_id => source_repository.id).select(:id).each do |row|
-              Tombstone.create(:uri => jsonmodel.uri_for(row[:id], :repo_id => source_repository.id))
+              Tombstone.filter(uri: jsonmodel.uri_for(row[:id], repo_id: target_repository.id)).delete
+              Tombstone.create(uri: jsonmodel.uri_for(row[:id], repo_id: source_repository.id))
             end
           end
 
