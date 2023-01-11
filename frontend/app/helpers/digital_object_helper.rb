@@ -18,7 +18,7 @@ module DigitalObjectHelper
     # many resource note types will map exactly
     accept_resource_note_types = note_types_for('digital_object').keys
     # other note types will be mapped to a different digital object note type
-    accept_resource_note_types.concat(['abstract', 'scopecontent', 'materialspec', 'physfacet', 'phystech'])
+    accept_resource_note_types.concat(['abstract', 'scopecontent', 'materialspec', 'physfacet', 'phystech', 'odd'])
 
     if record_hash['notes']
       new_notes = []
@@ -41,6 +41,8 @@ module DigitalObjectHelper
                             'summary'
                           when 'materialspec', 'phystech', 'physfacet'
                             'physdesc'
+                          when 'odd'
+                            'note'
                           else
                             note_record['type']
                           end
