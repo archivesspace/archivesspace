@@ -43,15 +43,19 @@ end
 
 RSpec::Matchers.define :have_attribute do |att, val|
   match do |node|
-    if val
+    if node && val
       node.attr(att) && node.attr(att) == val
-    else
+    elsif node
       node.attr(att)
+    else
+      false
     end
   end
 
   failure_message do |node|
-    if val and node.attr(att)
+    if node.nil?
+      "Ooops - looks like we tried to check `nil` for an XML attribute! Check your XPath?"
+    elsif val and node.attr(att)
       "Expected '#{node.name}/@#{att}' to be '#{val}', not '#{node.attr(att)}'."
     else
       "Expected the node '#{node.name}' to have the attribute '#{att}'."

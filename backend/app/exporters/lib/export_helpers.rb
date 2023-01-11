@@ -153,6 +153,21 @@ module ASpaceExport
 
       @archdesc_dates
     end
+
+    def instances_with_digital_objects
+      instances = self.instances.select { |inst| inst['digital_object']}.compact
+      instances.each do |inst|
+        inst['digital_object']['_resolved']['_is_in_representative_instance'] = inst['is_representative']
+      end
+    end
+
+    def digital_objects
+      self.instances_with_digital_objects.map { |instance| instance['digital_object']['_resolved'] }
+    end
+
+    def instances_with_sub_containers
+      self.instances.select {|inst| inst['sub_container']}.compact
+    end
   end
 
 

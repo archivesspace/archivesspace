@@ -91,6 +91,12 @@ def get_eac(rec, repo_id = $repo_id)
   end
 end
 
+def get_ead(rec, opts={})
+  opts[:include_unpublished] ||= true
+  opts[:include_daos] ||= true
+  get_xml("/repositories/#{$repo_id}/resource_descriptions/#{rec.id}.xml?#{URI.encode_www_form(opts)}")
+end
+
 def multipart_note_set(publish = true)
   ['accruals', 'appraisal', 'arrangement', 'bioghist', 'accessrestrict', 'userestrict', 'custodhist', 'dimensions', 'altformavail', 'originalsloc', 'fileplan', 'odd', 'acqinfo', 'legalstatus', 'otherfindaid', 'phystech', 'prefercite', 'processinfo', 'relatedmaterial', 'scopecontent', 'separatedmaterial'].map do |type|
     build(:json_note_multipart, {
