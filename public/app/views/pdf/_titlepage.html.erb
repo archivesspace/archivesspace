@@ -8,8 +8,10 @@
     <% else %>
         <h3 class="title"><%== process_mixed_content(record.display_string, :preserve_newlines => true) %></h3>
     <% end %>
+    <hr />
     </div>
 
+    <div class="title-text-block">
     <p><%= I18n.t('pdf_reports.finding_aid_date_prefix') %> <%= Date.today.strftime("%B %d, %Y") %></p>
     <% if record.finding_aid['language'] %>
         <p><%= t('enumerations.language_iso639_2.' + record.finding_aid['language']) %></p>
@@ -20,6 +22,8 @@
     <% end %>
 
     <p><%= record.finding_aid['edition_statement'] %></p>
+    </div>
+    
     <div class="repository-name">
 
     </div>
