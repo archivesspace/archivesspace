@@ -25,14 +25,4 @@ describe 'Record innards', js: true do
       expect(page).to have_css(".note-content", text: "From the")
     end
   end
-
-  it 'should display subjects organized by type' do
-    visit('/')
-    click_link 'Collections'
-    expect(current_path).to eq ('/repositories/resources')
-    resource = first("a[class='record-title']", text: 'Resource with Subject')
-    visit(resource['href'])
-    expect(page).to have_content('Temporal')
-    expect(page).to have_content('Term 1 -- Term 2')
-  end
 end

@@ -157,15 +157,10 @@ class ResourcesController < ApplicationController
         {:uri => @repo_info['top']['uri'], :crumb => @repo_info['top']['name'], :type => 'repository'},
         {:uri => nil, :crumb => process_mixed_content(@result.display_string), :type => 'resource'}
       ]
-#      @rep_image = get_rep_image(@result['json']['instances'])
+
       fill_request_info
-      if @result['primary_type'] == 'digital_object' || @result['primary_type'] == 'digital_object_component'
-        @dig = process_digital(@result['json'])
-        @rep_fv = @result['json']['representative_file_version']
-      else
-        @dig = process_digital_instance(@result['json']['instances'])
-        process_extents(@result['json'])
-      end
+      @dig = process_digital_instance(@result['json']['instances'])
+      process_extents(@result['json'])
     rescue RecordNotFound
       record_not_found(uri, 'resource')
     end

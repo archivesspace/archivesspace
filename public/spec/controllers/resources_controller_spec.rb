@@ -1,16 +1,46 @@
 require 'spec_helper'
 
 describe ResourcesController, type: :controller do
+  render_views
+
   before(:all) do
+    @fv_uri = 'https://www.archivesspace.org/demos/Congreave%20E-4/ms292_008.jpg'
+    @fv_caption = 'digital_object_with_rep_file_ver caption'
+
     @repo = create(:repo, repo_code: "resources_test_#{Time.now.to_i}",
                           publish: true)
     set_repo @repo
     @accession = create(:accession,
                         collection_management: build(:collection_management))
     @digital_object = create(:digital_object)
+    @digital_object_with_rep_file_ver = create(:digital_object,
+      publish: true,
+      title: 'Digital object with representative file version',
+      :file_versions => [build(:file_version, {
+        :publish => true,
+        :is_representative => true,
+        :file_uri => @fv_uri,
+        :caption => @fv_caption,
+        :use_statement => 'image-service'
+      })]
+    )
     @resource = create(:resource, publish: true,
                        instances: [build(:instance_digital, digital_object: { ref: @digital_object.uri })])
+    @resource_with_rep_instance = create(:resource,
+      publish: true,
+      title: "Resource with representative file version",
+      instances: [build(:instance_digital,
+        digital_object: {'ref' => @digital_object_with_rep_file_ver.uri},
+        is_representative: true
+      )]
+    )
     @unpublished_resource = create(:resource)
+
+    subject = create(:subject, terms: [build(:term, {term: 'Term 1', term_type: 'temporal'}), build(:term, term: 'Term 2')])
+    @resource_with_subj = create(:resource, title: "Resource with Subject from Controller",
+                    publish: true,
+                    instances: [build(:instance_digital)],
+                    subjects: [{'ref' => subject.uri}])
 
     @a1 = create(:archival_object,
                  publish: true, resource: { ref: @resource.uri })
@@ -43,6 +73,13 @@ describe ResourcesController, type: :controller do
     results = assigns(:results)
     expect(results['total_hits']).to be > 5
     expect(results.records.first['title']).to eq("Published Resource")
+  end
+
+  it 'should display subjects organized by type' do
+    get(:show, params: {rid: @repo.id, id: @resource_with_subj.id})
+
+    expect(response.body).to match('Temporal')
+    expect(response.body).to match('Term 1 -- Term 2')
   end
 
   describe 'Tree Node Actions' do
@@ -98,6 +135,14 @@ describe ResourcesController, type: :controller do
       get(:show, params: { rid: @repo.id, id: @resource.id })
       instance_data = controller.instance_variable_get(:@dig)
       expect(instance_data[0]['caption']).to eq(@digital_object.title)
+    end
+
+    it 'displays a representative file version image and caption when set' do
+      get(:show, params: {rid: @repo.id, id: @resource_with_rep_instance.id})
+
+      expect(response).to render_template("shared/_representative_file_version")
+      expect(response.body).to have_css("figure img[src='#{@fv_uri}']")
+      expect(response.body).to match("<figcaption>#{@fv_caption}")
     end
   end
 end

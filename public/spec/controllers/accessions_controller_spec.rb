@@ -28,4 +28,48 @@ describe AccessionsController, type: :controller do
       end
     end
   end
+
+  describe 'show' do
+    render_views
+
+    before(:all) do
+      @fv_uri = 'https://www.archivesspace.org/demos/Congreave%20E-4/ms292_008.jpg'
+      @fv_caption = 'digi_obj_with_rep_file_ver caption'
+
+      @repo = create(:repo,
+        repo_code: "acc_show_test_#{Time.now.to_i}",
+        publish: true)
+      set_repo @repo
+
+      @digi_obj_with_rep_file_ver = create(:digital_object,
+        publish: true,
+        title: 'Digital object with representative file version',
+        :file_versions => [build(:file_version, {
+          :publish => true,
+          :is_representative => true,
+          :file_uri => @fv_uri,
+          :caption => @fv_caption,
+          :use_statement => 'image-service'
+        })]
+      )
+
+      @acc_with_rep_instance = create(:accession,
+        title: "Accession with representative file version",
+        publish: true,
+        instances: [build(:instance_digital,
+          digital_object: {'ref' => @digi_obj_with_rep_file_ver.uri},
+          is_representative: true
+        )]
+      )
+      run_indexers
+    end
+
+    it 'displays a representative file version image when set' do
+      get(:show, params: {rid: @repo.id, id: @acc_with_rep_instance.id})
+
+      expect(response).to render_template("shared/_representative_file_version")
+      expect(response.body).to have_css("figure img[src='#{@fv_uri}']")
+      expect(response.body).to match("<figcaption>#{@fv_caption}")
+    end
+  end
 end

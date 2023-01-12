@@ -13,7 +13,9 @@
 
   <div class="col-sm-9">
 
-  <br/>
+    <% if @result['json']['representative_file_version'].present? %>
+      <%= render partial: 'shared/digital' %>
+    <% end %>
 
   <% if @result.content_description %>
     <h2><%= t('accession._public.section.content_description') %></h2>
