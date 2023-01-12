@@ -29,6 +29,7 @@ $(function () {
 
     $('.btn-primary-id-toggle', $subform).click(function (event) {
       event.preventDefault();
+      $(this).parent().off('click');
 
       $primarySection.triggerHandler('isprimarytoggle.aspace', [$subform]);
     });

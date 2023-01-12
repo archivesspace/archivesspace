@@ -1152,6 +1152,7 @@ en:
         make_display_name: Make Display Name
         make_display_name_tooltip: Use to indicate that this form of the name should be used for displays when there are multiple name forms associated with the agent record.
         make_primary: Make Primary
+        make_primary_tooltip: Make Primary Tooltip
 
   note:
     _frontend:

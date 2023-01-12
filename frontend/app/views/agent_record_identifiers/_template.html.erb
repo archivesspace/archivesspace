@@ -3,7 +3,7 @@
     <h3 class="subrecord-form-heading">
       <span class="badge badge-info is-primary-label"><%= I18n.t("agent_record_identifiers.is_primary") %></span>
 
-      <button class="btn btn-small btn-primary-id-toggle"><%= I18n.t("name._frontend.action.make_primary") %></button>
+      <%= form.button_with_tooltip(I18n.t("name._frontend.action.make_primary_tooltip"), I18n.t("name._frontend.action.make_primary"), [], ["btn","btn-small", "btn-primary-id-toggle"]) %>
 
       <%= form.hidden_input "primary_identifier", form["primary_identifier"] ? 1 : 0 %>
     </h3>
