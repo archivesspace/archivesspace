@@ -12,8 +12,8 @@ gem 'mime-types'
 gem 'multi_json', '~> 1.15.0'
 gem 'nokogiri', '>= 1.10.8'
 gem 'rack-test', '~> 1.1.0'
-gem 'sinatra', '2.0.5', require: false
-gem 'sinatra-contrib', '2.0.5', require: false
+gem 'sinatra', '~> 2.2', require: false
+gem 'sinatra-contrib', '~> 2.2', require: false
 
 gem 'multi_json', '~> 1.15.0'
 gem 'multipart-post', '1.2.0'

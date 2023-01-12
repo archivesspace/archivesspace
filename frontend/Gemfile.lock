@@ -46,10 +46,10 @@ GEM
       public_suffix (>= 2.0.2, < 6.0)
     arel (9.0.0)
     atomic (1.0.1-java)
-    axe-core-api (4.4.1)
+    axe-core-api (4.5.1)
       dumb_delegator
       virtus
-    axe-core-rspec (4.4.1)
+    axe-core-rspec (4.5.1)
       axe-core-api
       dumb_delegator
       virtus
@@ -89,11 +89,12 @@ GEM
     descendants_tracker (0.0.4)
       thread_safe (~> 0.3, >= 0.3.1)
     diff-lcs (1.5.0)
+    digest (3.1.1-java)
     domain_name (0.5.20190701)
       unf (>= 0.0.5, < 1.0.0)
     dumb_delegator (0.8.1)
-    erubi (1.11.0)
-    excon (0.92.4)
+    erubi (1.12.0)
+    excon (0.97.1)
     execjs (2.8.1)
     factory_bot (4.11.1)
       activesupport (>= 3.0.0)
@@ -124,8 +125,9 @@ GEM
     i18n (0.9.1)
       concurrent-ruby (~> 1.0)
     ice_nine (0.11.2)
+    io-wait (0.3.0-java)
     ipaddress (0.8.3)
-    jquery-rails (4.5.0)
+    jquery-rails (4.5.1)
       rails-dom-testing (>= 1, < 3)
       railties (>= 4.2.0)
       thor (>= 0.14, < 2.0)
@@ -143,11 +145,14 @@ GEM
       tilt
     less-rails-bootstrap (3.3.5.0)
       less-rails (>= 2.6, <= 2.8)
-    loofah (2.18.0)
+    loofah (2.19.1)
       crass (~> 1.0.2)
       nokogiri (>= 1.5.9)
-    mail (2.7.1)
+    mail (2.8.0)
       mini_mime (>= 0.1.1)
+      net-imap
+      net-pop
+      net-smtp
     marcel (1.0.2)
     mechanize (2.8.5)
       addressable (~> 2.8)
@@ -176,17 +181,30 @@ GEM
     net-http-digest_auth (1.4.1)
     net-http-persistent (4.0.1)
       connection_pool (~> 2.2)
+    net-imap (0.2.2)
+      digest
+      net-protocol
+      strscan
+    net-pop (0.1.2)
+      net-protocol
+    net-protocol (0.1.2)
+      io-wait
+      timeout
+    net-smtp (0.3.0)
+      digest
+      net-protocol
+      timeout
     nio4r (2.5.8-java)
     nokogiri (1.12.5-java)
       racc (~> 1.4)
     parallel (1.22.1)
     parallel_tests (2.14.3)
       parallel
-    pry (0.14.1-java)
+    pry (0.14.2-java)
       coderay (~> 1.1)
       method_source (~> 1.0)
       spoon (~> 0.0)
-    pry-debugger-jruby (2.1.0-java)
+    pry-debugger-jruby (2.1.1-java)
       pry (>= 0.13, < 0.15)
       ruby-debug-base (>= 0.10.4, < 0.12)
     pry-nav (1.0.0)
@@ -194,8 +212,8 @@ GEM
     pry-rails (0.3.9)
       pry (>= 0.10.4)
     public_suffix (4.0.7)
-    racc (1.6.0-java)
-    rack (2.2.4)
+    racc (1.6.2-java)
+    rack (2.2.5)
     rack-test (2.0.2)
       rack (>= 1.3)
     rails (5.2.5)
@@ -218,8 +236,8 @@ GEM
     rails-dom-testing (2.0.3)
       activesupport (>= 4.2.0)
       nokogiri (>= 1.6)
-    rails-html-sanitizer (1.4.3)
-      loofah (~> 2.3)
+    rails-html-sanitizer (1.4.4)
+      loofah (~> 2.19, >= 2.19.1)
     railties (5.2.5)
       actionpack (= 5.2.5)
       activesupport (= 5.2.5)
@@ -289,15 +307,17 @@ GEM
       actionpack (>= 3.0)
       activesupport (>= 3.0)
       sprockets (>= 2.8, < 4.0)
+    strscan (3.0.5-java)
     therubyrhino (2.1.2)
       therubyrhino_jar (>= 1.7.4, < 1.7.9)
     therubyrhino_jar (1.7.8)
     thor (1.2.1)
     thread_safe (0.3.6-java)
     tilt (2.0.11)
+    timeout (0.3.1)
     tzinfo (1.2.10)
       thread_safe (~> 0.1)
-    tzinfo-data (1.2022.3)
+    tzinfo-data (1.2022.7)
       tzinfo (>= 1.0.0)
     uglifier (4.2.0)
       execjs (>= 0.3.0, < 3)
