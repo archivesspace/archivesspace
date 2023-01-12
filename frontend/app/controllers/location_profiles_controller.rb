@@ -26,9 +26,10 @@ class LocationProfilesController < ApplicationController
       }
 
       format.csv {
-        search_data_csv = Search.global(params_for_backend_search.merge({"facet[]" => FACETS, "page_size" => "2147483647"}), "location_profile")
-
-        csv_response_from_search_result_data(search_data_csv, "location_profile")
+        search_params = params_for_backend_search.merge({"facet[]" => FACETS})
+        search_params["type[]"] = "location_profile"
+        uri = "/repositories/#{session[:repo_id]}/search"
+        csv_response( uri, Search.build_filters(search_params), "#{I18n.t('location_profile._plural').downcase}." )
       }
     end
   end

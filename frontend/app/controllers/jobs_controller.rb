@@ -12,8 +12,10 @@ class JobsController < ApplicationController
         @search_data = Search.for_type(session[:repo_id], "job", params_for_backend_search.merge({"facet[]" => SearchResultData.JOB_FACETS}))
       }
       format.csv {
-        csv_search_data = Search.for_type(session[:repo_id], "job", params_for_backend_search.merge({"facet[]" => SearchResultData.JOB_FACETS, "page_size" => "2147483647"}))
-        csv_response_from_search_result_data(csv_search_data, "#{I18n.t('job._frontend.plural').downcase}.")
+        search_params = params_for_backend_search.merge({"facet[]" => SearchResultData.JOB_FACETS})
+        search_params["type[]"] = "job"
+        uri = "/repositories/#{session[:repo_id]}/search"
+        csv_response( uri, Search.build_filters(search_params), "#{I18n.t('job._plural').downcase}." )
       }
     end
   end

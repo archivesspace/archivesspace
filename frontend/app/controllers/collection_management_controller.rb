@@ -13,8 +13,10 @@ class CollectionManagementController < ApplicationController
         @search_data = Search.for_type(session[:repo_id], "collection_management", params_for_backend_search.merge({"facet[]" => facets}))
       }
       format.csv {
-        search_data_csv = Search.for_type(session[:repo_id], "collection_management", params_for_backend_search.merge({"facet[]" => facets, "page_size" => "2147483647"}))
-        csv_response_from_search_result_data(search_data_csv, "#{I18n.t('search.collection_management.name').downcase}.")
+        search_params = params_for_backend_search.merge({"facet[]" => facets})
+        search_params["type[]"] = "collection_management"
+        uri = "/repositories/#{session[:repo_id]}/search"
+        csv_response( uri, Search.build_filters(search_params), "#{I18n.t('collection_management._plural').downcase}." )
       }
     end
   end
