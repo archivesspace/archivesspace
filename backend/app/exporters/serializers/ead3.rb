@@ -1195,7 +1195,8 @@ class EAD3Serializer < EADSerializer
 
           if @include_daos
             data.instances_with_digital_objects.each do |instance|
-              serialize_digital_object(instance['digital_object']['_resolved'], xml, fragments)
+              digital_object = instance['digital_object']['_resolved']
+              serialize_digital_object(digital_object, xml, fragments)
             end
           end
         }
@@ -1400,6 +1401,17 @@ class EAD3Serializer < EADSerializer
 
 
   def serialize_digital_object(digital_object, xml, fragments)
+    if (digital_object['file_versions'].count > 1) && digital_object['_is_in_representative_instance']
+      xml.daoset(linkrole: "representative") {
+        serialize_digital_object_dao(digital_object, xml, fragments)
+      }
+    else
+      serialize_digital_object_dao(digital_object, xml, fragments)
+    end
+  end
+
+
+  def serialize_digital_object_dao(digital_object, xml, fragments)
     return if digital_object["publish"] === false && !@include_unpublished
     return if digital_object["suppressed"] === true
 
@@ -1445,6 +1457,9 @@ class EAD3Serializer < EADSerializer
         atts['show'] = (file_version['xlink_show_attribute'].respond_to?(:downcase) && file_version['xlink_show_attribute'].downcase) || 'new'
         atts['localtype'] = file_version['use_statement'] if file_version['use_statement']
         atts['audience'] = 'internal' unless is_digital_object_published?(digital_object, file_version)
+        if digital_object['_is_in_representative_instance']
+          atts['linkrole'] = [file_version['use_statement'], 'representative'].compact.join(" ")
+        end
         xml.dao(atts) {
           xml.descriptivenote { sanitize_mixed_content(content, xml, fragments, true) } if content
         }

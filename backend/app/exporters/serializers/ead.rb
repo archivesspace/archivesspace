@@ -213,8 +213,10 @@ class EADSerializer < ASpaceExport::Serializer
 
           }# </did>
 
-          data.digital_objects.each do |dob|
-            serialize_digital_object(dob, xml, @fragments)
+          if @include_daos
+            data.instances_with_digital_objects.each do |instance|
+              serialize_digital_object(instance['digital_object']['_resolved'], xml, @fragments)
+            end
           end
 
           serialize_nondid_notes(data, xml, @fragments)
@@ -539,7 +541,6 @@ class EADSerializer < ASpaceExport::Serializer
 
     title = digital_object['title']
     date = digital_object['dates'][0] || {}
-
     atts = {}
 
     content = ""
@@ -571,7 +572,11 @@ class EADSerializer < ASpaceExport::Serializer
       atts['xlink:type'] = 'simple'
       atts['xlink:actuate'] = file_version['xlink_actuate_attribute'] || 'onRequest'
       atts['xlink:show'] = file_version['xlink_show_attribute'] || 'new'
-      atts['xlink:role'] = file_version['use_statement'] if file_version['use_statement']
+      atts['xlink:role'] = if file_version['use_statement'] && digital_object['_is_in_representative_instance']
+                             [file_version['use_statement'], 'representative'].join(' ')
+                           elsif file_version['use_statement']
+                             file_version['use_statement']
+                           end
       atts['xlink:href'] = file_version['file_uri']
       atts['audience'] = 'internal' unless is_digital_object_published?(digital_object, file_version)
       xml.dao(atts) {
@@ -580,6 +585,9 @@ class EADSerializer < ASpaceExport::Serializer
     else
       atts['xlink:type'] = 'extended'
       atts['audience'] = 'internal' unless is_digital_object_published?(digital_object)
+      if digital_object['_is_in_representative_instance']
+        atts['xlink:role'] = 'representative'
+      end
       xml.daogrp( atts ) {
         xml.daodesc { sanitize_mixed_content(content, xml, fragments, true) } if content
         file_versions_to_display.each do |file_version|

@@ -105,7 +105,6 @@ class EADModel < ASpaceExport::ExportModel
 
     def initialize(tree, repo_id, prefetched_rec = nil)
       @repo_id = repo_id
-      # @tree = tree
       @children = tree ? tree['children'] : []
       @child_class = self.class
       @json = nil
@@ -128,15 +127,6 @@ class EADModel < ASpaceExport::ExportModel
       self.linked_agents.select {|link| ['creator', 'source'].include?(link['role']) }
     end
 
-
-    def instances_with_sub_containers
-      self.instances.select {|inst| inst['sub_container']}.compact
-    end
-
-
-    def instances_with_digital_objects
-      self.instances.select {|inst| inst['digital_object']}.compact
-    end
   end
 
 
@@ -290,28 +280,10 @@ class EADModel < ASpaceExport::ExportModel
   end
 
 
-  def instances_with_sub_containers
-    self.instances.select {|inst| inst['sub_container']}.compact
-  end
-
-
-  def instances_with_digital_objects
-    self.instances.select {|inst| inst['digital_object']}.compact
-  end
-
-
   def creators_and_sources
     self.linked_agents.select {|link| ['creator', 'source'].include?(link['role']) }
   end
 
-
-  def digital_objects
-    if @include_daos
-      self.instances.select {|inst| inst['digital_object']}.compact.map {|inst| inst['digital_object']['_resolved'] }.compact
-    else
-      []
-    end
-  end
 
   def metadata_rights_declaration_in_publicationstmt
     must_be_empty = %w(file_uri)
