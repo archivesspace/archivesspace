@@ -365,6 +365,7 @@ en:
       desc: Descending
       uri: URI
     collection_management:
+      name: Collection Management
       score: Relevance
       parent_title: Title
       parent_type: Record Type
@@ -1468,6 +1469,8 @@ en:
     repository_changed: "This record can't be saved, because your active repository has changed. To save this record, open another window and reset your active repository."
   job:
     _frontend:
+      singular: Job
+      plural: Jobs
       audit_data: Audit Data
       external_repo: Record belongs to a different repository
       actions:

@@ -147,7 +147,7 @@ describe 'Subjects' do
     el = @driver.find_element(link: 'Download CSV')
     @driver.download_file(el)
     sleep(1)
-    assert(5) { expect(Dir.glob(File.join(Dir.tmpdir, '*.csv')).length).to eq(1) }
+    assert(5) { expect(Dir.glob(File.join(Dir.tmpdir, '*.csv')).length).to eq(2) }
     assert(5) { IO.read(Dir.glob(File.join(Dir.tmpdir, '*.csv')).first).include?(@repo.name) }
     assert(5) { IO.read(Dir.glob(File.join(Dir.tmpdir, '*.csv')).first).include?('0030') }
   end

@@ -7,7 +7,17 @@ class JobsController < ApplicationController
   include ExportHelper
 
   def index
-    @search_data = Search.for_type(session[:repo_id], "job", params_for_backend_search.merge({"facet[]" => SearchResultData.JOB_FACETS}))
+    respond_to do |format|
+      format.html {
+        @search_data = Search.for_type(session[:repo_id], "job", params_for_backend_search.merge({"facet[]" => SearchResultData.JOB_FACETS}))
+      }
+      format.csv {
+        search_params = params_for_backend_search.merge({"facet[]" => SearchResultData.JOB_FACETS})
+        search_params["type[]"] = "job"
+        uri = "/repositories/#{session[:repo_id]}/search"
+        csv_response( uri, Search.build_filters(search_params), "#{I18n.t('job._plural').downcase}." )
+      }
+    end
   end
 
   def new
