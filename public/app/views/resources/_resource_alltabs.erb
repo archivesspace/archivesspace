@@ -8,7 +8,7 @@
       <%= render partial: 'resources/resource_tab', locals: {:action => :inventory, :text => t('actions.numeric'),
                                                              :enabled => @has_containers, :hidden => AppConfig[:pui_hide][:container_inventory] } %>
       <%= render partial: 'resources/resource_tab', locals: {:action => :digitized, :text => t('actions.digitized'),
-                                                             :enabled => @has_digital_objects, :hidden => false } %>
+                                                             :enabled => @has_digital_objects, :hidden => !@has_digital_objects } %>
     </ul>
   </div>
 </div>
