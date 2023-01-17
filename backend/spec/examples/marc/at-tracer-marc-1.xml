@@ -184,7 +184,25 @@ Here is an example of a wrap-in tag using ref, targeting the Abstract note in th
             <subfield code="a">Resource--CustodialHistory-AT</subfield>
         </datafield>
         <datafield tag="583" ind2=" " ind1="1">
-            <subfield code="a">Resource-Appraisal-AT</subfield>
+            <subfield code="a">condition reviewed</subfield>
+            <subfield code="b">classification</subfield>
+            <subfield code="c">19980207</subfield>
+            <subfield code="d">quinquennial</subfield>
+            <subfield code="e">at conclusion of court case</subfield>
+            <subfield code="f">Title IIC project</subfield>
+            <subfield code="h">Joe Smith</subfield>
+            <subfield code="i">microfilm</subfield>
+            <subfield code="j">Museum of Fine Arts</subfield>
+            <subfield code="k">AFD</subfield>
+            <subfield code="l">pages missing</subfield>
+            <subfield code="3">student case files</subfield>
+            <subfield code="n">2</subfield>
+            <subfield code="o">Linear Feet</subfield>
+            <subfield code="u">http://www.uflib.ufl.edu/pres/repro/db</subfield>
+            <subfield code="x">from secret FRD to confidential NSI</subfield>
+            <subfield code="2">Institute for Museum and Library Services grant</subfield>
+            <subfield code="5">DLC</subfield>
+            <subfield code="z">subfield z</subfield>
         </datafield>
         <datafield tag="584" ind2=" " ind1=" ">
             <subfield code="a">Resource-Accruals-AT</subfield>

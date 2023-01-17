@@ -596,9 +596,8 @@ module MarcXMLBibBaseMap
   # can be produced. A chain of sketcky substitutions at
   # the end attempts to keep the punctuation normal.
   def subfield_template(template, node, map=nil)
-    result = template.clone
+    result = template.dup
     section = /\{([^@${]*)([@$])(ind[0-9]|\S{1})([^}]*)\}/
-
     while result.match(section)
       if $2 == '@'
         val = node.attr("#{$3}")
@@ -1242,10 +1241,10 @@ module MarcXMLBibBaseMap
 
         "datafield[@tag='583']" => multipart_note('processinfo', 'Processing Note', %q|
                                             {Action: $a}{--Action Identification: $b}{--Time/Date of Action: $c}{--Action interval: $d}
-                                            {--Action interval: $d}{--Contingency for Action: $e}{--Authorization: $f}{--Jurisdiction: $h}
+                                            {--Contingency for Action: $e}{--Authorization: $f}{--Jurisdiction: $h}
                                             {--Method of action: $i}{--Site of Action: $j}{--Action agent: $k}{--Status: $l}{--Extent: $n}
                                             {--Type of unit: $o}{--URI: $u}{--Non-public note: $x}{--Public note: $z}{--Materials specified: $3}
-                                            {--Institution: $5}.|),
+                                            {--Institution: $5}|.split(/\n+/).map {|l| l.strip }.reject {|l| l.empty? }.join),
 
         "datafield[@tag='584']" => multipart_note('accruals', 'Accruals', %q|
                                             {Accumulation: $a}{--Frequency of use: $b}{--Materials specified: $3}{--Institution: $5}.|),
