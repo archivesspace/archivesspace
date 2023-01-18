@@ -481,7 +481,11 @@ describe 'MARCXML Bib converter' do
          --Time/Date of Action: $c--Action interval: $d--Contingency for Action: $e--Authorization: $f--Jurisdiction: $h
          --Method of action: $j--Site of Action: $j--Action agent: $k--Status: $l--Extent: $n--Type of unit: $o--URI: $u
          --Non-public note: $x--Public note: $z--Materials specified: $3--Institution: $5.'" do
-        expect(@notes).to include('Action: Resource-Appraisal-AT.')
+        expect(@notes[27]).to eq("Action: condition reviewed--Action Identification: classification--Time/Date of Action: 19980207\
+--Action interval: quinquennial--Contingency for Action: at conclusion of court case--Authorization: Title IIC project--Jurisdiction: Joe Smith\
+--Method of action: microfilm--Site of Action: Museum of Fine Arts--Action agent: AFD--Status: pages missing--Extent: 2\
+--Type of unit: Linear Feet--URI: http://www.uflib.ufl.edu/pres/repro/db--Non-public note: from secret FRD to confidential NSI--Public note: subfield z\
+--Materials specified: student case files--Institution: DLC")
       end
 
       it "maps datafield[@tag='584'] to resource.notes[] using template 'Accumulation: $a--Frequency of use: $b--Materials specified: $3--Institution: $5'" do
@@ -1024,4 +1028,36 @@ describe 'MARCXML Bib converter' do
 
     end
   end
+
+  describe "inner workings" do
+
+    class Subnode
+      def initialize(xpath)
+        @xpath = xpath
+      end
+
+      def inner_text
+        @xpath.gsub(/[\[\]@\']/, '_')
+      end
+    end
+
+    class Node
+      def xpath(xpath)
+        [Subnode.new(xpath)]
+      end
+    end
+
+    it "can pass a nokogiri node through a template" do
+      template = %q|{Action: $a}{--Action Identification: $b}{--Time/Date of Action: $c}{--Action interval: $d}
+                    {--Action interval: $d}{--Contingency for Action: $e}{--Authorization: $f}{--Jurisdiction: $h}
+                    {--Method of action: $i}{--Site of Action: $j}{--Action agent: $k}{--Status: $l}{--Extent: $n}
+                    {--Type of unit: $o}{--URI: $u}{--Non-public note: $x}{--Public note: $z}{--Materials specified: $3}
+                    {--Institution: $5}.|
+
+      node = Node.new
+      result = my_converter.subfield_template(template, node)
+      expect(result).to eq "Action: subfield__code=_a__--Action Identification: subfield__code=_b__--Time/Date of Action: subfield__code=_c__--Action interval: subfield__code=_d__ --Action interval: subfield__code=_d__--Contingency for Action: subfield__code=_e__--Authorization: subfield__code=_f__--Jurisdiction: subfield__code=_h__ --Method of action: subfield__code=_i__--Site of Action: subfield__code=_j__--Action agent: subfield__code=_k__--Status: subfield__code=_l__--Extent: subfield__code=_n__ --Type of unit: subfield__code=_o__--URI: subfield__code=_u__--Non-public note: subfield__code=_x__--Public note: subfield__code=_z__--Materials specified: subfield__code=_3__ --Institution: subfield__code=_5__."
+    end
+  end
+
 end
