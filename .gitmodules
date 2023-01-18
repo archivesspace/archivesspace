@@ -1,3 +1,6 @@
 [submodule "docs/slate"]
 	path = docs/slate
 	url = https://github.com/archivesspace/slate
+[submodule "plugins/lcnaf"]
+	path = plugins/lcnaf
+	url = https://github.com/archivesspace-plugins/lcnaf
