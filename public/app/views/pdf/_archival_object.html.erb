@@ -16,8 +16,6 @@ end
     <div class="print-record-border print-record level-<%= level %>">
       <% if level == 1 %>
         <div class="ao-summary">
- 
-
       <% end %>
         <p><a class="record-title" id="<%= record.uri %>"><%== process_mixed_content(record.display_string) %></a></p>
 
@@ -41,17 +39,16 @@ end
     <% if level == 1 %>
       </div>
 
+  <table class="collection-inventory-header">
+    <tr>
+      <td class="title">Title/Description</td>
+      <td class="instance">Instances</td>
+    </tr>
+  </table>
+
     <% end %>
         <% Array(record.instances).each do |instance| %>
             <% if instance['sub_container'] %>
-
-              <table class="collection-inventory-header">
-                <tr>
-                  <td class="title">Title/Description</td>
-                  <td class="instance">Instances</td>
-                </tr>
-              </table>
-
                 <div class="container-information">
                     <%
                     container_string = [

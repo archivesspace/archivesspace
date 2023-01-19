@@ -6,7 +6,7 @@
         <h1 class="title"><%== process_mixed_content(record.finding_aid['title'], :preserve_newlines => true) %></h1>
         <h4 class="subtitle"><%== if record.finding_aid['subtitle'] then process_mixed_content(record.finding_aid['subtitle'], :preserve_newlines => true) end %></h4>
     <% else %>
-        <h3 class="title"><%== process_mixed_content(record.display_string, :preserve_newlines => true) %></h3>
+        <h1 class="title"><%== process_mixed_content(record.display_string, :preserve_newlines => true) %></h1>
     <% end %>
     <hr />
     </div>
