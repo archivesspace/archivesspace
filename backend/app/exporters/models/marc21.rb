@@ -942,8 +942,8 @@ class MARCModel < ASpaceExport::ExportModel
 
     name_fields = handle_agent_corporate_punctuation(name_fields)
 
-    name_fields.push(subfield_4) unless subfield_4.nil?
     name_fields.push(['0', primary_identifier]) unless primary_identifier.nil?
+    name_fields.push(subfield_4) unless subfield_4.nil?
 
     return name_fields
   end
