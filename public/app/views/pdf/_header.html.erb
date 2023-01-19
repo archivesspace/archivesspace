@@ -240,10 +240,13 @@
  }
 
  @page {
-     <%
-     short_title = record.finding_aid.fetch('title', '')
-     short_title = short_title.gsub(/\n.*/, '').strip
-     %>
+    <% if record.finding_aid['title'] %>
+      <% short_title = record.finding_aid['title'] %>
+    <% else %>
+      <% short_title = record.display_string %>
+    <% end %>
+
+    <% short_title = short_title.gsub(/\n.*/, '').strip %>
 
      <% if short_title != '' %>
      @top-center {
@@ -267,4 +270,3 @@
         <% end %>
     </head>
     <body>
-
