@@ -145,7 +145,7 @@ class SubjectConverter < Converter
           end
         },
       },
-      
+
       :term_5 => {
         :record_type => :term,
         :on_create => Proc.new {|cache, obj|
