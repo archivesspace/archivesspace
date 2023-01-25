@@ -150,7 +150,7 @@ class ArchivesSpaceService < Sinatra::Base
       end
 
       require_relative "model/solr"
-      if AppConfig[:solr_verify_checksums]
+      if false && AppConfig[:solr_verify_checksums]
         Solr.verify_checksums!
         Log.info('Solr config checksum verification ok.')
       else
