@@ -22,51 +22,55 @@ $(function () {
         object_name === 'instance' ||
         object_name == 'agent_contact'
       ) {
-        var $subform = $(subform);
-        var $section = $subform.closest('section.subrecord-form');
-        var isRepresentative =
+        const $subform = $(subform);
+        const $section = $subform.closest('section.subrecord-form');
+        const isRepresentative =
           $(':input[name$="[is_representative]"]', $subform).val() === '1';
-        var local_publish_button = $subform.find('.js-file-version-publish');
-        var local_make_rep_button = $subform.find('.is-representative-toggle');
-
-        var eventName =
+        const $labelBtn = $subform.find('.is-representative-label');
+        const $repBtn = $subform.find('.is-representative-toggle');
+        const eventName =
           'newrepresentative' + object_name.replace(/_/, '') + '.aspace';
 
-        if (local_publish_button.prop('checked') == false) {
-          local_make_rep_button.prop('disabled', true);
-        } else {
-          local_make_rep_button.prop('disabled', false);
-        }
+        if (object_name === 'file_version') {
+          const $pubBox = $subform.find('.js-file-version-publish');
 
-        $subform.find('.js-file-version-publish').click(function (e) {
-          if (
-            $subform.hasClass('is-representative') &&
-            $(this).prop('checked', true)
-          ) {
-            handleRepresentativeChange($subform, false);
-            $(this).prop('checked', false);
-          }
-
-          if ($(this).prop('checked') == false) {
-            local_make_rep_button.prop('disabled', true);
+          if ($pubBox.prop('checked') == false) {
+            $repBtn.prop('disabled', true);
           } else {
-            local_make_rep_button.prop('disabled', false);
+            $repBtn.prop('disabled', false);
           }
-        });
 
-        $subform.find('.is-representative-toggle').click(function (e) {
-          local_publish_button.prop('checked', true);
-        });
+          $pubBox.click(function () {
+            if (
+              $subform.hasClass('is-representative') &&
+              $(this).prop('checked', true)
+            ) {
+              handleRepresentativeChange($subform, false);
+              $(this).prop('checked', false);
+            }
+
+            if ($(this).prop('checked') == false) {
+              $repBtn.prop('disabled', true);
+            } else {
+              $repBtn.prop('disabled', false);
+            }
+          });
+        }
 
         if (isRepresentative) {
           $subform.addClass('is-representative');
         }
 
-        $('.is-representative-toggle', $subform).click(function (e) {
+        $repBtn.click(function (e) {
           e.preventDefault();
           $(this).parent().off('click');
-
           $section.triggerHandler(eventName, [$subform]);
+        });
+
+        $labelBtn.click(function (e) {
+          e.preventDefault();
+          $(this).parent().off('click');
+          handleRepresentativeChange($subform, false);
         });
 
         $section.on(eventName, function (e, representative_subform) {
