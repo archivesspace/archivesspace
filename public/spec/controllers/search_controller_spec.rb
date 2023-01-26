@@ -122,4 +122,27 @@ describe SearchController, type: :controller do
       expect(facets["repository"].map { |f| f.key }).to eq(["/repositories/3", "/repositories/2", "/repositories/1"])
     end
   end
+
+  describe "search requests to api" do
+    it "does not convert & into the entity &amp; when preparing a search query" do
+      expect(ArchivesSpaceClient.instance).to receive(:do_http_request) do |request, http_opts|
+        query_to_backend = Rack::Utils.parse_query request.uri.query
+        advanced_query = JSON.parse(query_to_backend['aq'])
+        # that such a simple query gets nested so deeply seems strange
+        # perhaps the query building logic in this controller can be simplified
+        # without changing the result sets?
+        users_query_string = advanced_query['query']['subqueries'][1]['subqueries'][0]['subqueries'][0]['value']
+        expect(users_query_string).to eq("foo & bar")
+
+        Struct.new(:code, :body).new(200, "search results")
+      end
+
+      get(:search, params: {
+            :rid => 2,
+            :q => ['foo & bar'],
+            :op => ['OR'],
+            :field => ['']
+          })
+    end
+  end
 end
