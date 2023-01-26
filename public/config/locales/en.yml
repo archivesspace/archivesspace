@@ -288,6 +288,7 @@ en:
         accessions: Related Unprocessed Material
         deaccessions: Deaccessioned Material
         forms_part_of: Part Relationship
+        has_part: Part Relationship
         sibling_of: Sibling Relationship
 
   archival_object:
