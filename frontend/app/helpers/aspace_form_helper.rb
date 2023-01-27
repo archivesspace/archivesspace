@@ -553,9 +553,10 @@ module AspaceFormHelper
       options
     end
 
-    def button_with_tooltip(tooltip, content, div_classes = [], button_classes = [])
-      div_classes    = div_classes + ["btn-with-tooltip"]
-      button_classes = button_classes + ["btn", "btn-small"]
+    def button_with_tooltip(tooltip, content, div_classes = [], button_classes = [], use_default_btn_classes = true)
+      div_classes = div_classes + ["btn-with-tooltip"]
+
+      button_classes = use_default_btn_classes ? button_classes + ["btn", "btn-small"] : button_classes
 
       div_options = {:class => div_classes.join(' ')}
       add_tooltip_options(tooltip, div_options)

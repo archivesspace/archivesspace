@@ -1,7 +1,7 @@
 <% define_template "file_version", jsonmodel_definition(:file_version) do |form| %>
   <div class="subrecord-form-fields">
     <h3 class="subrecord-form-heading">
-      <span class="badge badge-info is-representative-label"><%= I18n.t("file_version.is_representative") %></span>
+      <%= form.button_with_tooltip(I18n.t("file_version._frontend.action.make_representative_tooltip"), I18n.t("file_version.is_representative"), [], ["badge badge-info is-representative-label"], false) %>
       <%= form.button_with_tooltip(I18n.t("file_version._frontend.action.make_representative_tooltip"), I18n.t("file_version._frontend.action.make_representative"), [], ["is-representative-toggle"]) %>
     </h3>
     <%= form.label_and_textarea("file_uri") %>
