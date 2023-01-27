@@ -1,7 +1,6 @@
 require 'cgi'
 require 'fileutils'
 require 'pathname'
-require 'solr_snapshotter'
 require 'config/config-distribution'
 require_relative '../../launcher_init'
 require_relative 'trollop'
@@ -114,20 +113,10 @@ class ArchivesSpaceBackup
     end
 
     puts "#{Time.now}: Writing backup to #{output_file}"
+    puts "NOTICE: Solr snapshotting is no longer supported as of version 3.2"
 
     demo_db_backups = AppConfig[:backup_directory]
-    solr_backups = AppConfig[:solr_backup_directory]
     config_dir = File.dirname(AppConfig.find_user_config) if AppConfig.find_user_config
-
-    solr_snapshot_id = "backup-#{$$}-#{Time.now.to_i}"
-    begin
-      SolrSnapshotter.snapshot(solr_snapshot_id)
-    rescue
-      puts "Solr snapshot failed (#{$!}).  Aborting!"
-      return 1
-    end
-
-    solr_snapshot = File.join(AppConfig[:solr_backup_directory], "solr.#{solr_snapshot_id}")
 
     mysql_tempfile = ASUtils.tempfile('mysqldump')
 
@@ -137,7 +126,6 @@ class ArchivesSpaceBackup
 
       zipfile = java.util.zip.ZipOutputStream.new(java.io.FileOutputStream.new(output_file))
       begin
-        add_whole_directory(solr_snapshot, zipfile)
         add_whole_directory(demo_db_backups, zipfile) if Dir.exist?(demo_db_backups)
         add_whole_directory(config_dir, zipfile) if config_dir
         add_single_entry(File.dirname(mysql_dump), mysql_dump, zipfile, "mysqldump.sql") if mysql_dump
@@ -147,8 +135,6 @@ class ArchivesSpaceBackup
     ensure
       mysql_tempfile.close
       mysql_tempfile.delete
-      FileUtils.rm_rf(File.join(AppConfig[:solr_backup_directory],
-                                "solr.#{solr_snapshot_id}"))
     end
 
     0
