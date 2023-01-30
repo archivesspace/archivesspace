@@ -35,8 +35,6 @@ require_relative 'lib/csv_template_generator'
 
 require_relative 'lib/ark/ark_minter'
 
-require 'solr_snapshotter'
-
 require 'barcode_check'
 require 'benchmark'
 require 'record_inheritance'
@@ -210,11 +208,7 @@ class ArchivesSpaceService < Sinatra::Base
         end
 
         if AppConfig[:solr_backup_schedule] && AppConfig[:solr_backup_number_to_keep] > 0
-          settings.scheduler.cron(AppConfig[:solr_backup_schedule],
-                                  :tags => 'solr_backup') do
-            Log.info("Creating snapshot of Solr index and indexer state")
-            SolrSnapshotter.snapshot
-          end
+          Log.warn("Solr snapshots are no longer supported.")
         end
       end
 
