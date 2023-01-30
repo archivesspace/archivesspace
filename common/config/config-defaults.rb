@@ -106,31 +106,6 @@ AppConfig[:job_thread_count] = 2
 
 AppConfig[:oai_proxy_url] = 'http://your-public-oai-url.example.com'
 
-# DEPRECATED OAI Settings: Moved to database in ANW-674
-# NOTE: As of release 2.5.2, these settings should be set in the Staff User interface
-# To change these settings, select Manage OAI-PMH Settings from the System menu in the staff interface
-# These three settings are at the top of the page in the General Settings section
-# These settings will be removed from the config file completely when version 2.6.0 is released
-AppConfig[:oai_admin_email] = 'admin@example.com'
-AppConfig[:oai_record_prefix] = 'oai:archivesspace'
-AppConfig[:oai_repository_name] = 'ArchivesSpace OAI Provider'
-
-
-# In addition to the sets based on level of description, you can define OAI Sets
-# based on repository codes and/or sponsors as follows
-#
-# AppConfig[:oai_sets] = {
-#   'repository_set' => {
-#     :repo_codes => ['hello626'],
-#     :description => "A set of one or more repositories",
-#   },
-#
-#   'sponsor_set' => {
-#     :sponsors => ['The_Sponsor'],
-#     :description => "A set of one or more sponsors",
-#   },
-# }
-
 AppConfig[:oai_ead_options] = {}
 # alternate example:  AppConfig[:oai_ead_options] = { :include_daos => true, :use_numbered_c_tags => true }
 
