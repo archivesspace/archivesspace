@@ -9,7 +9,7 @@ module PreferenceConfig
       'publish' => false,
       'rde_sort_alpha' => true,
       'include_unpublished' => false,
-      'digital_object_spawn_description' => false,
+      'digital_object_spawn' => false,
       'accession_browse_column_1' => 'title',
       'accession_browse_column_2' => 'identifier',
       'accession_browse_column_3' => 'accession_date',

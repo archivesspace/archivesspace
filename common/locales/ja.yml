@@ -1435,7 +1435,7 @@ ja:
     publish_tooltip: 既定で新しいレコードを発行するかどうか。
     default_values: レコードの事前入力？
     default_values_tooltip: 新しいAccessionレコードとResourceレコードに既定値をあらかじめ設定するかどうか。
-    digital_object_spawn_description: Resourceからディジタルオブジェクトのデータフィールドを書き込む？
+    digital_object_spawn: Resourceからディジタルオブジェクトのデータフィールドを書き込む？
     browse_column: 列%{num}
     browse_column_tooltip: 列%{num}に表示するフィールド。
     sort_column: デフォルトのソート列

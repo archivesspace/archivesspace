@@ -6,6 +6,15 @@ describe 'Spawning', js: true do
   before(:all) do
     @repo = create(:repo, repo_code: "spawning_test_#{Time.now.to_i}")
     set_repo(@repo)
+    @accession = create(:json_accession,
+      title: "Spawned Accession",
+      extents: [build(:json_extent)],
+      dates: [build(:json_date)]
+    )
+    # for some reason the date ends up without a required date_type?
+    d = @accession.dates
+    d[0]['date_type'] = 'single'
+    @accession.update({dates: d})
   end
 
   before(:each) do
@@ -19,11 +28,6 @@ describe 'Spawning', js: true do
   end
 
   it "can spawn a resource component from an accession" do
-    @accession = create(:json_accession,
-                        title: "Spawned Accession",
-                        extents: [build(:json_extent)],
-                        dates: [build(:json_date)]
-                       )
     @resource = create(:resource)
     @parent = create(:json_archival_object,
                      :resource => {'ref' => @resource.uri},
@@ -58,10 +62,10 @@ describe 'Spawning', js: true do
   it "can create a digital object from a resource" do
     # make sure to enable the preference!
     visit "/preferences/#{@repo.id}/edit"
-    find('#preference_defaults__digital_object_spawn_description_').check
+    find('#preference_defaults__digital_object_spawn_').check
     click_button('Save')
 
-    # this backend fixture seems like a good test
+    # this backend fixture seems like a good test for note types
     @test_resource = create(:resource)
     fixture_dir = File.join(File.dirname(__FILE__), '..', '..', '..', 'backend', 'spec', 'fixtures', 'oai')
     @test_resource.update(ASUtils.json_parse(File.read(File.join(fixture_dir, 'resource.json'))))
@@ -78,6 +82,7 @@ describe 'Spawning', js: true do
       find(class: 'dropdown-toggle').click
       click_link('Create')
     end
+    expect(page).to have_content('Create Digital Object')
     identifier = "do_test_#{Time.now}"
     fill_in('Identifier', with: identifier)
     click_button('Create and Link')
@@ -111,6 +116,32 @@ describe 'Spawning', js: true do
           expect(page).not_to have_content('Appraisal')
 
         end
+      end
+    end
+  end
+
+  it 'can spawn a digital object from an accession' do
+    # make sure to enable the preference!
+    visit "/preferences/#{@repo.id}/edit"
+    find('#preference_defaults__digital_object_spawn_').check
+    click_button('Save')
+
+    visit "/accessions/#{@accession.id}/edit"
+    click_button('Add Digital Object')
+    within(id: 'accession_instances_') do
+      find(class: 'dropdown-toggle').click
+      click_link('Create')
+    end
+    expect(page).to have_content('Create Digital Object')
+    identifier = "do_test_#{Time.now}"
+    fill_in('Identifier', with: identifier)
+    click_button('Create and Link')
+
+    within(id: 'accession_instances_') do
+      find('.digital_object').click
+      digital_object_tab = window_opened_by {click_link('View')}
+      within_window digital_object_tab do
+        expect(page).to have_content("Spawned Accession")
       end
     end
   end

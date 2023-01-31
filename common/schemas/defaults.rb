@@ -71,7 +71,7 @@ end
         "items" => {"type" => "string"}
       },
 
-      "digital_object_spawn_description" => {
+      "digital_object_spawn" => {
         "type" => "boolean",
         "required" => false,
         "default" => false

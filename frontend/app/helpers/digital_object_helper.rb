@@ -18,7 +18,7 @@ module DigitalObjectHelper
     # many resource note types will map exactly
     accept_resource_note_types = note_types_for('digital_object').keys
     # other note types will be mapped to a different digital object note type
-    accept_resource_note_types.concat(['abstract', 'scopecontent', 'materialspec', 'physfacet', 'phystech'])
+    accept_resource_note_types.concat(['abstract', 'scopecontent', 'materialspec', 'physfacet', 'phystech', 'odd'])
 
     if record_hash['notes']
       new_notes = []
@@ -34,20 +34,27 @@ module DigitalObjectHelper
                           when 'note_singlepart'
                             note_record['content']
                           when 'note_multipart'
-                            note_record['subnotes'].map {|sn| sn['content']}.compact
+                            # DO notes are not multipart so just grab any note text and add them
+                            # as content items (important to avoid the other complex types)
+                            note_record['subnotes'].map { |sn|
+                              sn['content'] if sn['jsonmodel_type'] == 'note_text'
+                            }.compact
                           end,
             'type'     => case note_record['type']
                           when 'abstract', 'scopecontent'
                             'summary'
                           when 'materialspec', 'phystech', 'physfacet'
                             'physdesc'
+                          when 'odd'
+                            'note'
                           else
                             note_record['type']
                           end
           }
 
-          # ensure that at least one content item is present
-          new_note_h['content'] = [''] if new_note_h['content'].length == 0
+          # notes with no content are invalid!
+          next unless new_note_h['content'].length > 0
+
           new_note = JSONModel(:note_digital_object).from_hash(new_note_h)
         end
         new_notes << new_note.to_hash
