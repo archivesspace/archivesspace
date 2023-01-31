@@ -111,4 +111,50 @@ describe ObjectsController, type: :controller do
 
   end
 
+  describe 'Archival Objects' do
+    render_views
+
+    before(:all) do
+      @fv_uri = 'https://www.archivesspace.org/demos/Congreave%20E-4/ms292_008.jpg'
+      @fv_caption = 'arch_obj_with_rep_file_ver caption'
+
+      @resource = create(:resource, publish: true, title: 'Resource with child')
+
+      @digital_object_with_rep_file_ver = create(:digital_object,
+        publish: true,
+        title: 'Digital object with representative file version',
+        :file_versions => [build(:file_version, {
+          :publish => true,
+          :is_representative => true,
+          :file_uri => @fv_uri,
+          :caption => @fv_caption,
+          :use_statement => 'image-service'
+        })]
+      )
+
+      @arch_obj_with_rep_file_ver = create(:archival_object,
+        title: "Archival Object with representative file version",
+        publish: true,
+        resource: {'ref' => @resource.uri},
+        instances: [build(:instance_digital,
+          digital_object: {'ref' => @digital_object_with_rep_file_ver.uri},
+          is_representative: true
+        )]
+      )
+
+      run_indexers
+    end
+
+    describe 'show action' do
+      it 'displays a representative file version image and caption when set' do
+        get(:show, params: {rid: @repo.id, obj_type: 'archival_objects', id: @arch_obj_with_rep_file_ver.id})
+
+        expect(response).to render_template("shared/_representative_file_version")
+        expect(response.body).to have_css("figure img[src='#{@fv_uri}']")
+        expect(response.body).to match("<figcaption>#{@fv_caption}")
+      end
+    end
+
+  end
+
 end
