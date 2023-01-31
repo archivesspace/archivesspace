@@ -206,10 +206,6 @@ class ArchivesSpaceService < Sinatra::Base
             Log.info("Backup of embedded demo database completed!")
           end
         end
-
-        if AppConfig[:solr_backup_schedule] && AppConfig[:solr_backup_number_to_keep] > 0
-          Log.warn("Solr snapshots are no longer supported.")
-        end
       end
 
       ANONYMOUS_USER = AnonymousUser.new
