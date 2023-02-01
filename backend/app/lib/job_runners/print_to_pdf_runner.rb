@@ -16,7 +16,7 @@ class PrintToPDFRunner < JobRunner
         @job.write_output("Generating PDF for #{resource_jsonmodel["title"]}  ")
 
         obj = URIResolver.resolve_references(resource_jsonmodel,
-                                             [ "repository", "linked_agents", "subjects", "digital_objects", 'top_container', 'top_container::container_profile'])
+                                             [ "repository", "linked_agents", "subjects", "digital_object", 'top_container', 'top_container::container_profile'])
         opts = {
           :include_unpublished => @json.job["include_unpublished"] || false,
           :include_daos => true,
