@@ -157,6 +157,7 @@ module ASpaceExport
     def instances_with_digital_objects
       instances = self.instances.select { |inst| inst['digital_object']}.compact
       instances.each do |inst|
+        next unless inst['digital_object']['_resolved']
         inst['digital_object']['_resolved']['_is_in_representative_instance'] = inst['is_representative']
       end
     end
