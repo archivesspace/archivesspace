@@ -6,7 +6,7 @@ on:
       - 'v*.*.*'
 
 jobs:
-  build:
+  build_release:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -14,26 +14,32 @@ jobs:
         with:
           submodules: true
 
+      - run: git fetch --tags
+
       - name: Setup Java
         uses: actions/setup-java@v3
         with:
           distribution: 'temurin'
           java-version: '11'
 
-      - name: Get the version
-        id: version
-        run: echo 'VERSION=$(echo $GITHUB_REF | cut -d / -f 3)' >> $GITHUB_OUTPUT
-
-      - name: Get the release name
-        id: release_name
-        run: echo 'RELEASE_NAME=$(echo $GITHUB_REF | cut -d / -f 3 | sed 's/v/V/')' >> $GITHUB_OUTPUT
+      - name: Prepare Release Metadata
+        id: release_metadata
+        run: |
+          VERSION=$(echo $GITHUB_REF | cut -d / -f 3)
+          echo "VERSION=$VERSION" >> $GITHUB_OUTPUT
+          echo "RELEASE_NAME=$(echo $VERSION | sed 's/v/V/')" >> $GITHUB_OUTPUT
+          ./build/run doc:release_notes -Dcurrent_tag=$VERSION -Doutfile=RELEASE_NOTES.md -Dtoken=${{ secrets.GITHUB_TOKEN }}
+          echo "RELEASE_NOTES<<EOF" >> $GITHUB_OUTPUT
+          cat RELEASE_NOTES.md >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
 
       - name: Build Dist
-        run: ./build/run build-dist -Dversion=${{ steps.version.outputs.VERSION }}
+        run: ./build/run build-dist -Dversion=${{ steps.release_metadata.outputs.VERSION }}
 
       - name: Release
         uses: softprops/action-gh-release@v1
         with:
-          name: ${{ steps.release_name.outputs.RELEASE_NAME }}
-          body: Insert release notes here
-          files: archivesspace-${{ steps.version.outputs.VERSION }}.zip
+          name: ${{ steps.release_metadata.outputs.RELEASE_NAME }}
+          body: ${{ steps.release_metadata.outputs.RELEASE_NOTES }}
+          files: archivesspace-${{ steps.release_metadata.outputs.VERSION }}.zip
+          draft: true

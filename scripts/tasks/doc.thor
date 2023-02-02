@@ -1,5 +1,4 @@
-require 'bundler'
-Bundler.require
+require 'thor'
 require_relative 'release_notes'
 
 def gh_client(token)
@@ -28,16 +27,20 @@ class Doc < Thor
   desc "release_notes", "generate release notes"
   option :token, :required => true
   option :current_tag, :required => true
-  option :previous_tag, :required => true
-  option :out, :required => true
+  option :previous_tag, :required => false
+  option :out, :required => false
   option :max_pr_pages, :required => false, :default => 20, type: :numeric
   def release_notes
-    old_version_tag = options[:previous_tag]
-    new_version_tag = options[:current_tag]
-    out = File.open(File.join(Dir.pwd, '/', options[:out]), 'w')
+    current_tag = options[:current_tag]
+    previous_tag = options[:previous_tag] || ReleaseNotes.find_previous_tag(current_tag)
+    out = if options[:out]
+            File.open(File.join(Dir.pwd, '/', options[:out]), 'w')
+          else
+            $stderr
+          end
     github = gh_client(options[:token])
     git = Git.open('./')
-    log = git.log('a').between(old_version_tag, new_version_tag).map do |log_entry|
+    log = git.log('a').between(previous_tag, current_tag).map do |log_entry|
       {
         author: log_entry.author.name,
         desc: log_entry.message.split("\n")[0],
@@ -66,9 +69,9 @@ class Doc < Thor
       pulls_page = pulls_page + 1
     end
     generator = ReleaseNotes::Generator.new(
-      current_tag: new_version_tag,
+      current_tag: current_tag,
       log: log,
-      previous_tag: old_version_tag,
+      previous_tag: previous_tag,
       style: "brief"
     )
     out << generator.process.to_s

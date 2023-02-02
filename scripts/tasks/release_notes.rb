@@ -1,4 +1,19 @@
+require 'git'
+require 'github_api'
+
 module ReleaseNotes
+
+  def self.find_previous_tag(current_tag)
+    current_tag = current_tag.sub(/-RC\d+$/, '')
+    git = Git.open('./')
+    vtags = git.tags.reject {|t| t.name !~ /^v\d\.\d\.\d(-RC\d)?$/}
+    matched = false
+    vtags.sort_by {|v| v.name}.map {|v| v.name}.reverse.each do |tag|
+      return tag if matched
+      matched = (tag.sub(/-RC\d+$/, '') == current_tag)
+    end
+  end
+
   class Generator
     attr_reader :contributors, :contributions, :doc, :log, :messages, :previous_tag, :style, :current_tag, :migrations
     ANW_URL = 'https://archivesspace.atlassian.net/browse'
@@ -6,9 +21,10 @@ module ReleaseNotes
     EXCLUDE_AUTHORS = [
       'Christine Di Bella',
       'Jessica Crouch',
-      'Laney McGlohon',
       'Brian Hoffman',
       'Mark Cooper',
+      'Brian Zelip',
+      'Donald Smith',
       'dependabot[bot]'
     ]
 
@@ -18,15 +34,15 @@ module ReleaseNotes
       @doc = []
       @log = log
       @messages = []
+      @current_tag = current_tag
       @previous_tag = previous_tag
       @style = style
-      @current_tag = current_tag
       @diff = Git.open('.').gtree("#{@previous_tag}").diff("#{@current_tag}")
       @migrations = OpenStruct.new
       all_changes = @diff.path('common/db/migrations').name_status
       relevant_changes = all_changes.select{ |_,d| d == 'A'}
       @migrations.count = relevant_changes.count
-      @migrations.schema_version = relevant_changes.to_a.last.map { |m| m[/\d+/]}.first
+      @migrations.schema_version = (@migrations.count>0) ? relevant_changes.to_a.last.map { |m| m[/\d+/] }.first : "UNCHANGED"
     end
 
     def process
