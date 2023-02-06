@@ -37,3 +37,12 @@
     <%= I18n.t("search_results.no_results") %>
   </p>
 <% end %>
+
+<script>
+const repImages = document.querySelectorAll(
+  "#tabledSearchResults td.representative_file_version > img"
+);
+repImages.forEach((img) => {
+  img.addEventListener("error", (e) => (e.target.style.display = "none"));
+});
+</script>
