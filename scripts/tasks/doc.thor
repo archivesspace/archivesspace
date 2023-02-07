@@ -1,15 +1,6 @@
 require 'thor'
 require_relative 'release_notes'
 
-def gh_client(token)
-  github = Github.new do |config|
-    config.basic_auth = token unless token.nil?
-    config.user = "archivesspace"
-    config.repo = "archivesspace"
-  end
-  github
-end
-
 class Doc < Thor
 
   desc "api", "generate docs/slate/source/index.html.md"
@@ -25,11 +16,12 @@ class Doc < Thor
   end
 
   desc "release_notes", "generate release notes"
-  option :token, :required => true
+  option :token, :required => false
   option :current_tag, :required => true
   option :previous_tag, :required => false
   option :out, :required => false
   option :max_pr_pages, :required => false, :default => 20, type: :numeric
+  option :gh_user, :required => false, :default => "archivesspace"
   def release_notes
     current_tag = options[:current_tag]
     previous_tag = options[:previous_tag] || ReleaseNotes.find_previous_tag(current_tag)
@@ -38,7 +30,14 @@ class Doc < Thor
           else
             $stderr
           end
-    github = gh_client(options[:token])
+    github = github = Github.new do |config|
+      if options[:token]
+        config.connection_options = {headers: {"authorization" => "Bearer #{options[:token]}"}}
+      end
+      config.user = options[:gh_user]
+      config.repo = "archivesspace"
+    end
+
     git = Git.open('./')
     log = git.log('a').between(previous_tag, current_tag).map do |log_entry|
       {
@@ -54,6 +53,7 @@ class Doc < Thor
       pulls = []
       puts "Fetch pulls page #{pulls_page}"
       pulls = github.pulls.all(state: "closed", page: pulls_page)
+      break if pulls.count == 0
       pulls.each do |pull|
         pull[:commits] = github.pulls.commits(number: pull[:number])
       end
@@ -75,6 +75,7 @@ class Doc < Thor
       style: "brief"
     )
     out << generator.process.to_s
+    out << "\n"
     out.close
   end
 end

@@ -5,6 +5,10 @@ on:
     tags:
       - 'v*.*.*'
 
+permissions:
+  pull-requests: read
+  contents: write
+
 jobs:
   build_release:
     runs-on: ubuntu-latest
@@ -28,7 +32,8 @@ jobs:
           VERSION=$(echo $GITHUB_REF | cut -d / -f 3)
           echo "VERSION=$VERSION" >> $GITHUB_OUTPUT
           echo "RELEASE_NAME=$(echo $VERSION | sed 's/v/V/')" >> $GITHUB_OUTPUT
-          ./build/run doc:release_notes -Dcurrent_tag=$VERSION -Doutfile=RELEASE_NOTES.md -Dtoken=${{ secrets.GITHUB_TOKEN }}
+          ./build/run doc:release_notes -Dcurrent_tag=$VERSION -Doutfile=RELEASE_NOTES.md -Dtoken=${{ secrets.ASPACE_PR_READING_TOKEN }}
+          cat RELEASE_NOTES.md
           echo "RELEASE_NOTES<<EOF" >> $GITHUB_OUTPUT
           cat RELEASE_NOTES.md >> $GITHUB_OUTPUT
           echo "EOF" >> $GITHUB_OUTPUT

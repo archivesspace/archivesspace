@@ -572,6 +572,7 @@
     <property name="current_tag" value=""/>
     <property name="outfile" value="RELEASE_NOTES_${current_tag}.md" />
     <property name="token" value=""/>
+    <property name="gh_user" value="archivesspace" />
     <antcall target="bundler">
       <param name="gemfile" value="../Gemfile" />
       <param name="included-gem-groups" value="thor release_notes" />
@@ -579,7 +580,7 @@
     </antcall>
     <antcall target="thor">
       <param name="task" value="doc:release_notes" />
-      <param name="task_args" value="--current_tag=${current_tag} --out=${outfile} --token=${token}" />
+      <param name="task_args" value="--current_tag=${current_tag} --out=${outfile} --token=${token} --gh_user=${gh_user}" />
     </antcall>
   </target>
 
