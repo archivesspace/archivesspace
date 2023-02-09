@@ -843,16 +843,18 @@
     <xsl:template match="ead:tgroup">
         <fo:table xsl:use-attribute-sets="tableBorder">
             <xsl:apply-templates/>
-            <fo:table-body>
+    <!--        <fo:table-body>
                 <xsl:apply-templates select="*[not(ead:colspec)]"/>
-            </fo:table-body>
+            </fo:table-body> -->
         </fo:table>
     </xsl:template>
     <xsl:template match="ead:colspec">
         <fo:table-column column-width="{@colwidth}"/>
     </xsl:template>
     <xsl:template match="ead:thead">
-        <xsl:apply-templates mode="thead"/>
+        <fo:table-header>
+            <xsl:apply-templates mode="thead"/>
+        </fo:table-header>
     </xsl:template>
     <xsl:template match="ead:tbody">
         <fo:table-body>
