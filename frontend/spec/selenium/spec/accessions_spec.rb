@@ -37,7 +37,8 @@ describe 'Accessions' do
     @driver.find_element(:link, 'Create').click
     @driver.click_and_wait_until_gone(:link, 'Accession')
 
-    @driver.clear_and_send_keys([:id, 'accession_title_'], "Charles Darwin's paperclip collection")
+    @driver.find_hidden_element(:css, '#accession_title_').wait_for_class('initialised')
+    @driver.execute_script("$('#accession_title_').data('CodeMirror').setValue(\"Charles Darwin's paperclip collection\")")
     @driver.complete_4part_id('accession_id_%d_')
     @driver.clear_and_send_keys([:id, 'accession_accession_date_'], '2012-01-01')
     @driver.clear_and_send_keys([:id, 'accession_content_description_'], 'Lots of paperclips')
@@ -82,7 +83,9 @@ describe 'Accessions' do
 
     @driver.find_element_with_text('//div', /This Accession has been spawned from/)
 
-    @driver.clear_and_send_keys([:id, 'accession_title_'], "Charles Darwin's second paperclip collection")
+    @driver.find_hidden_element(:css, '#accession_title_').wait_for_class('initialised')
+    @driver.execute_script("$('#accession_title_').data('CodeMirror').setValue(\"Charles Darwin's second paperclip collection\")")
+
     @driver.complete_4part_id('accession_id_%d_')
 
     @driver.find_element(css: "form#accession_form button[type='submit']").click
@@ -106,7 +109,9 @@ describe 'Accessions' do
   it 'can create an Accession' do
     @driver.find_element(:link, 'Create').click
     @driver.click_and_wait_until_gone(:link, 'Accession')
-    @driver.clear_and_send_keys([:id, 'accession_title_'], @accession_title)
+    @driver.find_hidden_element(:css, '#accession_title_').wait_for_class('initialised')
+    @driver.execute_script("$('#accession_title_').data('CodeMirror').setValue('#{@accession_title}')")
+
     @driver.complete_4part_id('accession_id_%d_', @shared_4partid)
     @driver.clear_and_send_keys([:id, 'accession_accession_date_'], '2012-01-01')
     @driver.clear_and_send_keys([:id, 'accession_content_description_'], 'A box containing our own universe')
@@ -218,7 +223,8 @@ describe 'Accessions' do
   it 'shows an error if you try to reuse an identifier' do
     @driver.find_element(:link, 'Create').click
     @driver.click_and_wait_until_gone(:link, 'Accession')
-    @driver.clear_and_send_keys([:id, 'accession_title_'], @accession_title)
+    @driver.find_hidden_element(:css, '#accession_title_').wait_for_class('initialised')
+    @driver.execute_script("$('#accession_title_').data('CodeMirror').setValue('#{@accession_title}')")
     @driver.complete_4part_id('accession_id_%d_', @shared_4partid)
     @driver.click_and_wait_until_gone(css: "form#accession_form button[type='submit']")
 
@@ -278,7 +284,8 @@ describe 'Accessions' do
     @driver.click_and_wait_until_gone(:link, 'Accession')
 
     # populate mandatory fields
-    @driver.clear_and_send_keys([:id, 'accession_title_'], @dates_accession_title)
+    @driver.find_hidden_element(:css, '#accession_title_').wait_for_class('initialised')
+    @driver.execute_script("$('#accession_title_').data('CodeMirror').setValue('#{@dates_accession_title}')")
 
     @driver.complete_4part_id('accession_id_%d_', @dates_4partid)
 
@@ -343,7 +350,8 @@ describe 'Accessions' do
     @driver.click_and_wait_until_gone(:link, 'Accession')
 
     # populate mandatory fields
-    @driver.clear_and_send_keys([:id, 'accession_title_'], @exdocs_accession_title)
+    @driver.find_hidden_element(:css, '#accession_title_').wait_for_class('initialised')
+    @driver.execute_script("$('#accession_title_').data('CodeMirror').setValue('#{@exdocs_accession_title}')")
 
     @driver.complete_4part_id('accession_id_%d_', @exdocs_4partid)
 
@@ -509,7 +517,8 @@ describe 'Accessions' do
     @driver.click_and_wait_until_gone(:link, 'Accession')
 
     # populate mandatory fields
-    @driver.clear_and_send_keys([:id, 'accession_title_'], "linked_accession_#{@me}")
+    @driver.find_hidden_element(:css, '#accession_title_').wait_for_class('initialised')
+    @driver.execute_script("$('#accession_title_').data('CodeMirror').setValue('linked_accession_#{@me}')")
 
     @driver.complete_4part_id('accession_id_%d_')
 

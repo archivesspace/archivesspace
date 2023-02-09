@@ -81,7 +81,9 @@ describe 'Collection Management' do
     @driver.click_and_wait_until_gone(:link, 'Accession')
     fourid = @driver.generate_4part_id
     @driver.complete_4part_id('accession_id_%d_', fourid)
-    @driver.clear_and_send_keys([:id, 'accession_title_'], @accession_title)
+    @driver.find_hidden_element(:css, '#accession_title_').wait_for_class('initialised')
+    @driver.execute_script("$('#accession_title_').data('CodeMirror').setValue('#{@accession_title}')")
+
     # add a collection management sub record
     @driver.find_element(css: '#accession_collection_management_ .subrecord-form-heading .btn:not(.show-all)').click
 
