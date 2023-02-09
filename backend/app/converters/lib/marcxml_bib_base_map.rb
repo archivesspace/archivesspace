@@ -959,7 +959,7 @@ module MarcXMLBibBaseMap
                 elsif ext =~ /^([0-9\.,]+)/
                   extent.number = $1
                 else
-                  raise "The extent field (300) could not be parsed."
+                  raise "The extent field (300, #{ext}) could not be parsed."
                 end
 
               # $a and $f present, a must be numeric, f must be an extent value that's present in the extent_extent_type enumeration
@@ -969,7 +969,7 @@ module MarcXMLBibBaseMap
                 if a_content.inner_text =~ /^[+-]?([0-9]+\.?[0-9]*|\.[0-9]+)$/
                   extent.number = a_content.inner_text
                 else
-                  raise "No numeric value found in field 300, subfield a"
+                  raise "No numeric value found in field 300, subfield a (#{a_content.inner_text})"
                 end
 
                 # remove punctuation and replace underscores with spaces to better match extent_type translation values
@@ -979,7 +979,7 @@ module MarcXMLBibBaseMap
                 if extent_values.include?(f_content_cleaned)
                   extent.extent_type = f_content.inner_text
                 else
-                  raise "Extent type in field 300, subfield f is not found in the extent type controlled vocabulary."
+                  raise "Extent type in field 300, subfield f (#{f_content.inner_text}) is not found in the extent type controlled vocabulary."
                 end
               end
 
