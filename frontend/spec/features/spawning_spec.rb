@@ -9,12 +9,8 @@ describe 'Spawning', js: true do
     @accession = create(:json_accession,
       title: "Spawned Accession",
       extents: [build(:json_extent)],
-      dates: [build(:json_date)]
+      dates: [build(:json_date, date_type: "single")]
     )
-    # for some reason the date ends up without a required date_type?
-    d = @accession.dates
-    d[0]['date_type'] = 'single'
-    @accession.update({dates: d})
   end
 
   before(:each) do
@@ -30,8 +26,10 @@ describe 'Spawning', js: true do
   it "can spawn a resource component from an accession" do
     @resource = create(:resource)
     @parent = create(:json_archival_object,
-                     :resource => {'ref' => @resource.uri},
-                     :title => "Parent")
+                     resource: {'ref' => @resource.uri},
+                     title: "Parent",
+                     dates: [build(:json_date, date_type: "single")]
+                    )
     PeriodicIndexer.new.run_index_round
     visit "/accessions/#{@accession.id}"
     find("#spawn-dropdown a").click
