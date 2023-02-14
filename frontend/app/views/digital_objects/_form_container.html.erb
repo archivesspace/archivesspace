@@ -15,7 +15,7 @@
                                  :form => form,
                                  :record => @digital_object) %>
 
-      <%= form.label_and_textarea "title" %>
+      <%= form.label_and_textarea "title", :field_opts => {:class => "form-control mixed-content"} %>
 
       <%= render_aspace_partial :partial => "shared/slug", :locals => {:form => form, :record_type => @digital_object} if AppConfig[:use_human_readable_urls] %>
 

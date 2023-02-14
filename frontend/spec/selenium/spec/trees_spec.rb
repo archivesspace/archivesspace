@@ -38,7 +38,9 @@ describe 'Tree UI' do
 
     tree_add_sibling
 
-    @driver.clear_and_send_keys([:id, 'archival_object_title_'], 'Sibling')
+    @driver.find_hidden_element(:css, '#archival_object_title_').wait_for_class('initialised')
+    @driver.execute_script("$('#archival_object_title_').data('CodeMirror').setValue('Sibling')")
+
     @driver.find_element(:id, 'archival_object_level_').select_option('item')
     @driver.click_and_wait_until_gone(:css, "form#archival_object_form button[type='submit']")
     @driver.wait_for_ajax

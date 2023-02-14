@@ -32,7 +32,7 @@
                                  :record => @digital_object_component) %>
 
       <%= form.label_and_textfield "label", :required => :conditionally %>
-      <%= form.label_and_textarea "title", :required => :conditionally %>
+      <%= form.label_and_textarea "title", :required => :conditionally, :field_opts => {:class => "form-control mixed-content"} %>
       <%= form.label_and_textfield "component_id" %>
 
       <%= render_aspace_partial :partial => "shared/slug", :locals => {:form => form, :record_type => @digital_object_component} if AppConfig[:use_human_readable_urls] %>
