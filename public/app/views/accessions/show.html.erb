@@ -14,7 +14,7 @@
   <div class="col-sm-9">
 
     <% if @result['json']['representative_file_version'].present? %>
-      <%= render partial: 'shared/digital' %>
+      <%= render partial: 'shared/digital', locals: {record: @result} %>
     <% end %>
 
   <% if @result.content_description %>
@@ -31,12 +31,12 @@
     <h2><%= t('accession._public.section.provenance') %></h2>
     <p><%= @result.provenance %></p>
   <% end %>
-  
+
   <% if @result.language %>
     <h2><%= t('accession._public.section.language') %></h2>
     <p><%= @result.language %></p>
   <% end %>
-  
+
   <% if @result.script %>
     <h2><%= t('accession._public.section.script') %></h2>
     <p><%= @result.script %></p>

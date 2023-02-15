@@ -37,6 +37,10 @@ module ViewHelper
     "(" + I18n.t("enumerations.#{type}.#{value}") + ")"
   end
 
+  def representative_link_to_digital_materials?(record)
+    record.primary_type == 'resource'
+  end
+
   def nl2ws(text)
     text = text.join(' ') if text.respond_to? :each
     sanitize(text).gsub(/\n/, ' ').html_safe
