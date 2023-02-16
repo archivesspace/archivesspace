@@ -22,30 +22,27 @@ end
 require 'aspace_gems'
 
 $server_pids = []
-$backend_port = TestUtils::free_port_from(3636)
-$frontend_port = TestUtils::free_port_from(4545)
-$backend = ENV['ASPACE_TEST_BACKEND_URL'] || "http://localhost:#{$backend_port}"
-$test_db_url = ENV['ASPACE_TEST_DB_URL'] || AppConfig[:db_url]
-$frontend = "http://localhost:#{$frontend_port}"
 $expire = 30000
+AppConfig[:backend_url] = ENV['ASPACE_TEST_BACKEND_URL'] || "http://localhost:#{TestUtils::free_port_from(3636)}"
+AppConfig[:db_url] = ENV['ASPACE_TEST_DB_URL'] || AppConfig[:db_url]
+AppConfig[:solr_url] = ENV['ASPACE_TEST_SOLR_URL'] || AppConfig[:solr_url]
+AppConfig[:pui_hide][:record_badge] = false
+AppConfig[:arks_enabled] = true
 
-AppConfig[:backend_url] = $backend
-AppConfig[:pui_hide][:record_badge] = false # we want this for testing
-AppConfig[:arks_enabled] = true # ARKs have to be enabled to be able to test them
 
 $backend_start_fn = proc {
-  TestUtils::start_backend($backend_port,
+  TestUtils::start_backend(URI(AppConfig[:backend_url]).port,
                            {
                              :session_expire_after_seconds => $expire,
                              :realtime_index_backlog_ms => 600000,
-                             :db_url => $test_db_url
+                             :db_url => AppConfig[:db_url]
                            })
 }
 
 module IndexTestRunner
   def run_indexers
-    @@period ||= PeriodicIndexer.new($backend)
-    @@pui ||= PUIIndexer.new($backend)
+    @@period ||= PeriodicIndexer.new(AppConfig[:backend_url])
+    @@pui ||= PUIIndexer.new(AppConfig[:backend_url])
     @@period.run_index_round
     @@pui.run_index_round
   end
@@ -55,6 +52,7 @@ ENV['RAILS_ENV'] ||= 'test'
 require File.expand_path('../../config/environment', __FILE__)
 require 'rspec/rails'
 include FactoryBot::Syntax::Methods
+include IndexTestRunner
 
 def setup_test_data
   repo = create(:repo, :repo_code => "test_#{Time.now.to_i}", publish: true)
@@ -70,7 +68,7 @@ def setup_test_data
          names: [build(:name_person,
                        name_order: 'direct',
                        primary_name: "Agent",
-                       rest_of_name: "Published",
+                       rest_of_name: "Published #{Time.now.to_i}",
                        sort_name: "Published Agent",
                        number: nil,
                        dates: nil,
@@ -220,9 +218,9 @@ RSpec.configure do |config|
 
   config.before(:suite) do
     if ENV['ASPACE_TEST_BACKEND_URL']
-      puts "Running tests against #{$backend}"
+      puts "Running tests against #{AppConfig[:backend_url]}"
     else
-      puts "Starting backend using #{$backend}"
+      puts "Starting backend using #{AppConfig[:backend_url]}"
       $server_pids << $backend_start_fn.call
     end
     ArchivesSpaceClient.init
@@ -233,11 +231,10 @@ RSpec.configure do |config|
 
     require_relative 'factories'
     AspaceFactories.init
-    setup_test_data unless ENV['ASPACE_TEST_SKIP_FIXTURES']
-    unless ENV['ASPACE_TEST_SKIP_INDEXING']
-      PeriodicIndexer.new($backend).run_index_round
-      PUIIndexer.new($backend).run_index_round
+    unless ENV['ASPACE_TEST_SKIP_FIXTURES']
+      setup_test_data
     end
+    run_indexers
   end
 
   config.after(:suite) do
