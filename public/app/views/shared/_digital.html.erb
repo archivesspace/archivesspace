@@ -1,11 +1,19 @@
-<% if @result['json']['representative_file_version'].present? %>
+<% if record['json']['representative_file_version'].present? %>
 <div class="available-digital-objects">
   <div class="objectimage">
     <div class="panel panel-default">
       <%= render partial: 'shared/representative_file_version', locals: {
-        :uri => @result['json']['representative_file_version']['file_uri'],
-        :caption => @result['json']['representative_file_version']['caption']
+        :uri => record['json']['representative_file_version']['file_uri'],
+        :caption => record['json']['representative_file_version']['caption']
       } %>
+      <% if representative_link_to_digital_materials?(record) %>
+        <p>
+          <%= link_to t('actions.digitized'),
+              app_prefix("/repositories/#{params[:rid]}/resources/#{params[:id]}/digitized"),
+              class: 'view-all'
+          %>
+        </p>
+      <% end %>
     </div>
   </div>
 </div>
