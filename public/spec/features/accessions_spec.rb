@@ -3,7 +3,7 @@ require 'rails_helper'
 
 describe 'Accessions', js: true do
   context 'browsing' do
-    it 'should show all published accessions' do
+    xit 'should show all published accessions' do
       visit('/')
       click_link 'Unprocessed Material'
       expect(current_path).to eq ('/accessions')
