@@ -2,7 +2,7 @@
 <div class="available-digital-objects">
   <div class="objectimage">
     <div class="panel panel-default">
-      <%= render partial: 'shared/representative_file_version', locals: {
+      <%= render partial: 'shared/representative_file_version_record', locals: {
         :uri => record['json']['representative_file_version']['file_uri'],
         :caption => record['json']['representative_file_version']['caption']
       } %>
