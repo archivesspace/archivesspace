@@ -302,6 +302,7 @@ ja:
       go: ファイルに移動
       section: {}
       messages: {}
+      browse_number_digital_objects_in_collection: コレクションの%{num}つのディジタルオブジェクトを閲覧する
   digital_object_component:
     _public:
       section: {}

@@ -161,6 +161,8 @@ class ResourcesController < ApplicationController
       fill_request_info
       @dig = process_digital_instance(@result['json']['instances'])
       process_extents(@result['json'])
+
+      @n_digital_objects = get_digital_object_count
     rescue RecordNotFound
       record_not_found(uri, 'resource')
     end
@@ -297,6 +299,13 @@ class ResourcesController < ApplicationController
     qry = "collection_uri_u_sstr:\"#{uri}\" AND (#{DIGITAL_QUERY})"
 
     archivesspace.search(qry, 1).records.any?
+  end
+
+  def get_digital_object_count
+    uri = "/repositories/#{params[:rid]}/resources/#{params[:id]}"
+    qry = "collection_uri_u_sstr:\"#{uri}\" AND (#{DIGITAL_QUERY})"
+
+    archivesspace.search(qry, 1, {:rows => 0})['total_hits']
   end
 
   def fetch(resource_uri, page_uri, params, query, sort, type, enums = [])

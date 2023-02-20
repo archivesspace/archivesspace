@@ -7,8 +7,12 @@
         :caption => record['json']['representative_file_version']['caption']
       } %>
       <% if representative_link_to_digital_materials?(record) %>
-        <p>
-          <%= link_to t('actions.digitized'),
+        <% digitized_link_text = t(
+          'digital_object._public.browse_number_digital_objects_in_collection',
+          num: n_digital_objects
+        ) %>
+        <p class="mb0 pb1 rounded-bottom bg-lightgray">
+          <%= link_to digitized_link_text,
               app_prefix("/repositories/#{params[:rid]}/resources/#{params[:id]}/digitized"),
               class: 'view-all'
           %>
