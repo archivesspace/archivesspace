@@ -555,13 +555,13 @@ describe 'MARCXML Bib converter' do
 
   describe "300 tag with $a and $f defined, $a not numeric" do
     it "fails with error message when $a is not numeric" do
-      expect { convert_test_file("at-tracer-marc-3.xml") }.to raise_error(StandardError, "No numeric value found in field 300, subfield a")
+      expect { convert_test_file("at-tracer-marc-3.xml") }.to raise_error(StandardError, "No numeric value found in field 300, subfield a (5.0 linear feet)")
     end
   end
 
   describe "300 tag with $a and $f defined, $f not in controlled vocabulary" do
     it "fails with error message when $f is not in controlled vocabulary" do
-      expect { convert_test_file("at-tracer-marc-4.xml") }.to raise_error(StandardError, "Extent type in field 300, subfield f is not found in the extent type controlled vocabulary.")
+      expect { convert_test_file("at-tracer-marc-4.xml") }.to raise_error(StandardError, "Extent type in field 300, subfield f (5.0 Linear feet) is not found in the extent type controlled vocabulary.")
     end
   end
 
