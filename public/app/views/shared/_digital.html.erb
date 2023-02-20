@@ -17,7 +17,7 @@
     </div>
   </div>
 </div>
-<% elsif dig_objs.present? %>
+<% elsif local_assigns[:dig_objs] && dig_objs.present? %>
 <div class="available-digital-objects">
   <% dig_objs.each do |d_file| %>
     <% if !d_file['out'].blank? %>
