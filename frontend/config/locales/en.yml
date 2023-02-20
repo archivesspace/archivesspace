@@ -1801,7 +1801,7 @@ en:
 
   location_profile:
     _singular: Location Profile
-    _plural: Locations Profiles
+    _plural: Location Profiles
     _frontend:
       action:
         save: Save Location Profile
