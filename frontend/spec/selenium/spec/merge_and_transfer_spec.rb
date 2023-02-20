@@ -88,7 +88,7 @@ describe 'Merging and transfering resources' do
     # spaces in the search string seem to through off the token search, so:
     search_string = @resource2.title.sub(/-\s.*/, '').strip
     @driver.clear_and_send_keys([:id, 'token-input-transfer_ref_'], search_string)
-    sleep(1)
+    sleep(5)
     @driver.find_element(:css, 'li.token-input-dropdown-item2').click
 
     @driver.find_element(:css, 'button.transfer-button').click

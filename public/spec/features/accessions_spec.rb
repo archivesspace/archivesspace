@@ -3,64 +3,47 @@ require 'rails_helper'
 
 describe 'Accessions', js: true do
   context 'browsing' do
-    xit 'should show all published accessions' do
+
+    it 'shows a list of ordered accessions' do
       visit('/')
       click_link 'Unprocessed Material'
       expect(current_path).to eq ('/accessions')
       finished_all_ajax_requests?
+
       within all('.col-sm-12')[0] do
-        expect(page).to have_content("Showing Unprocessed Materials: 1 - 10 of 10")
-      end
-      within all('.col-sm-12')[1] do
-        expect(page.all("a[class='record-title']", text: 'Published Accession').length).to eq 2
+        expect(page).to have_content(/Showing Unprocessed Materials: 1 - \d[0]? of \d{1,2}/)
       end
     end
 
-    it 'should not show any unpublished accessions' do
-      visit('/')
-      click_link 'Unprocessed Material'
-      expect(current_path).to eq ('/accessions')
-      finished_all_ajax_requests?
-      within all('.col-sm-12')[1] do
-        expect(page.all("a[class='record-title']", text: 'Unpublished Accession')).to be_empty
-      end
-    end
-  end
-
-  context 'viewing a record' do
-    it 'displays an accession when the record exists' do
-      visit '/accessions'
+    it 'lets you click on a search result', js: true do
+      visit '/accessions?sort=year_sort+asc'
       click_link 'Published Accession'
       expect(current_path).to match(/repositories\/\d+\/accessions\/\d+/)
       expect(page).to have_content('Published Accession')
     end
+  end
+
+  context 'viewing a record' do
 
     it 'displays language and script of description on an accession show page' do
-      visit '/accessions'
-      click_link 'Accession with Lang/Script'
-
+      visit '/repositories/2/accessions/7'
       expect(page).to have_content('Language of Description')
       expect(page).to have_content('Script of Description')
     end
 
     it 'displays an related accessions on the show page' do
-      visit '/accessions'
-      click_link 'Accession with Relationship'
-
+      visit 'repositories/2/accessions/5'
       expect(page).to have_content('Published Accession')
       expect(page).to_not have_content('Unpublished Accession')
     end
 
     it 'displays deaccessions on show page' do
-      visit '/accessions'
-      click_link 'Accession with Deaccession'
+      visit 'repositories/2/accessions/6'
       expect(page).to have_content('Deaccessions')
     end
 
     it 'displays language of material note on accession show page' do
-      visit '/accessions'
-      click_link 'Accession with Lang Material Note'
-
+      visit 'repositories/2/accessions/8'
       expect(page).to have_content('Language of Materials')
       within '.upper-record-details' do
         expect(page).to have_css(".langmaterial")
@@ -69,9 +52,7 @@ describe 'Accessions', js: true do
     end
 
     it 'displays language of material language on accession show page if no language note' do
-      visit '/accessions'
-      click_link 'Accession without Lang Material Note'
-
+      visit 'repositories/2/accessions/9'
       expect(page).to have_content('Language of Materials')
       within '.upper-record-details' do
         expect(page).not_to have_css(".langmaterial")

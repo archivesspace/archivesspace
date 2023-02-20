@@ -7,6 +7,7 @@ describe AccessionsController, type: :controller do
       results = assigns(:results)
       expect( results['total_hits'] ).to eq(8)
       expect( results.records.first["title"] ).to eq("Accession for Phrase Search")
+      expect( results.records.select { |record| record["title"] == "Unpublished Accession" } ).to be_empty
     end
 
     describe 'deaccessions in accession results' do
