@@ -1,0 +1,20 @@
+<%
+  alt_text = caption
+  max_figcap_chars = 42
+  if caption.present? && caption.length > max_figcap_chars
+    caption = caption.split('').first(max_figcap_chars).join('') + '...'
+  end
+%>
+
+<figure class="<%= figure_class %>" data-rep-file-version-wrapper>
+  <img
+    loading="lazy"
+    src="<%= uri %>"
+    alt="<%= alt_text.blank? ? '' : alt_text %>"
+    class="<%= img_class %>">
+  <% unless caption.blank? %>
+    <figcaption class="<%= figcaption_class %>">
+      <%= caption %>
+    </figcaption>
+  <% end %>
+</figure>

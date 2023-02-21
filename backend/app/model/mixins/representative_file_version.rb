@@ -62,10 +62,11 @@ module RepresentativeFileVersion
           elsif published_image_thumbnail_fvs.count > 0
             json["representative_file_version"] = published_image_thumbnail_fvs.first
           else
-            published_fvs = fvs.select { |fv| (fv["publish"] == true || fv["publish"] == 1) \
-              && fv["is_representative"] != 1 \
-              && (fv["use_statement"] == 'image-service' || %w(jpeg gif).include?(fv['file_format_name']))
-            }
+            # published_fvs = fvs.select { |fv| (fv["publish"] == true || fv["publish"] == 1) \
+            #   && fv["is_representative"] != 1 \
+            #   && (fv["use_statement"] == 'image-service' || %w(jpeg gif).include?(fv['file_format_name']))
+            # }
+            published_fvs = fvs.select { |fv| (fv["publish"] == true || fv["publish"] == 1) && fv["is_representative"] != 1 }
 
             json["representative_file_version"] = published_fvs.first
           end

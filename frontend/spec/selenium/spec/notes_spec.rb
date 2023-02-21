@@ -15,7 +15,7 @@ describe 'Notes' do
     @driver.login_to_repo(archivist_user, @repo)
 
     @driver.get_edit_page(@resource)
-    @driver.find_element(:id, 'resource_title_')
+    @driver.find_hidden_element(:css, '#resource_title_')
   end
 
   after(:all) do
@@ -75,7 +75,7 @@ describe 'Notes' do
   it 'can edit an existing resource note to add subparts after saving' do
     @driver.attempt(10) do |driver|
       driver.get("#{$frontend}#{@resource.uri.sub(%r{/repositories/\d+}, '')}/edit")
-      driver.find_element(:id, 'resource_title_')
+      driver.find_hidden_element(:css, '#resource_title_')
     end
 
 
@@ -119,7 +119,7 @@ describe 'Notes' do
   it 'can create an ordered list subnote and list items maintain proper order' do
     @driver.attempt(10) do |driver|
       driver.get("#{$frontend}#{@resource.uri.sub(%r{/repositories/\d+}, '')}/edit")
-      driver.find_element(:id, 'resource_title_')
+      driver.find_hidden_element(:css, '#resource_title_')
     end
 
     # Add a multipart note
@@ -320,7 +320,9 @@ describe 'Notes' do
     @driver.find_element(:link, 'Create').click
     @driver.click_and_wait_until_gone(:link, 'Resource')
 
-    @driver.clear_and_send_keys([:id, 'resource_title_'], 'a resource')
+    @driver.find_hidden_element(:css, '#resource_title_').wait_for_class('initialised')
+    @driver.execute_script("$('#resource_title_').data('CodeMirror').setValue('a resource')")
+
     @driver.complete_4part_id('resource_id_%d_')
     @driver.find_element(:id, 'resource_level_').select_option('collection')
 
@@ -354,7 +356,9 @@ describe 'Notes' do
     @driver.click_and_wait_until_gone(:link, 'Add Child')
     @driver.wait_for_ajax
 
-    @driver.clear_and_send_keys([:id, 'archival_object_title_'], 'An Archival Object with notes')
+    @driver.find_hidden_element(:css, '#archival_object_title_').wait_for_class('initialised')
+    @driver.execute_script("$('#archival_object_title_').data('CodeMirror').setValue('An Archival Object with notes')")
+
     @driver.find_element(:id, 'archival_object_level_').select_option('item')
 
     # Add some notes to it
@@ -378,7 +382,9 @@ describe 'Notes' do
     @driver.find_element(:link, 'Create').click
     @driver.click_and_wait_until_gone(:link, 'Digital Object')
 
-    @driver.clear_and_send_keys([:id, 'digital_object_title_'], 'A digital object with notes')
+    @driver.find_hidden_element(:css, '#digital_object_title_').wait_for_class('initialised')
+    @driver.execute_script("$('#digital_object_title_').data('CodeMirror').setValue('A digital object with notes')")
+
     @driver.clear_and_send_keys([:id, 'digital_object_digital_object_id_'], Digest::MD5.hexdigest(Time.now.to_s))
 
     # Add a Summary note

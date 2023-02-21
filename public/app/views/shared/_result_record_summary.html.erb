@@ -1,0 +1,81 @@
+<div class="recordsummary" style="clear:both">
+  <% if !result['parent_institution_name'].blank? %>
+    <div>
+      <strong><%= t('parent_inst') %>:</strong>
+      <%= result['parent_institution_name'] %>
+    </div>
+  <% end %>
+
+  <% 
+    note_struct = result.note('abstract')
+	  if note_struct.blank?
+      note_struct = result.note('scopecontent')
+    end
+	  if !note_struct['note_text'].blank?
+  %>
+    <div class="abstract single_note">
+      <span class='inline-label'><%= note_struct['label'] %></span>
+      <% unless note_struct['is_inherited'].blank? %>
+        <%= inheritance(note_struct['is_inherited']).html_safe %>
+      <% end %>
+      <% if note_struct['note_text'].length > AppConfig[:abstract_note_length] %>
+        <% truncated_note = note_struct['note_text'][0..AppConfig[:abstract_note_length]-1] %>
+        <% end_index = truncated_note.rindex(' ') || AppConfig[:abstract_note_length]-1 %>
+        <%= (strip_tags(truncated_note[0..end_index - 1]) + '...').html_safe %>
+      <% else %>
+        <%= note_struct['note_text'].html_safe %>
+      <% end %>
+    </div>
+  <% end %>
+  <% unless props.fetch(:no_repo, false) %>
+    <%
+      r_uri = nil
+      r_name = nil
+      if result['json']['repository'] && result['json']['repository']['_resolved'] && (!result['json']['repository']['ref'].blank? || !result['json']['repository']['_resolved']['name'].blank?)
+        r_uri = result['json']['repository']['ref'] || ''
+        r_name = result['json']['repository']['_resolved']['name'] || ''
+      elsif result['_resolved_repository'] && result['_resolved_repository']['json']
+        r_uri =  result['_resolved_repository']['json']['uri'] || ''
+        r_name = result['_resolved_repository']['json']['name'] || ''
+      end
+    %>
+  <% end %>
+
+  <% if result['json'].has_key?('dates') || result['json'].has_key?('dates_of_existence') %>
+    <div class="dates">
+      <% dates = (result['json']['dates'] || result['json']['dates_of_existence'])
+        .collect {|date| parse_date(date)}.reject{|label, expression, _| expression.blank?} %>
+      <% unless dates.empty? %>
+        <strong><%= t('resource._public.dates') %>: </strong>
+      <% end %>
+      <%= dates.collect {|label, expression| label.blank? ? expression : "#{label}#{expression}"}.join('; ') %>
+    </div>
+  <% end %>
+
+  <div class="staff-hidden hide">
+    <% if result['json']['restricted'] %>
+      <p><h4 class='restricted'><%= I18n.t('top_container.restricted') %></h4></p>
+    <% end %>
+  </div>
+
+  <% if result.resolved_repository %>
+    <%= render partial: 'shared/result_breadcrumbs', locals: {
+      :result => result,
+      :props => props
+    } %>
+  <% end %>
+
+  <% if !props.fetch(:full,false)  && result['primary_type'] == 'repository' %>
+    <div><strong><%= t('number_of', { :type => t('resource._plural') }) %></strong> <%= @counts[result.uri]['resource'] %></div>
+  <% end %>
+
+  <% if result.primary_type == 'classification' && result.classification_terms? %>
+    <div class="classification-subgroups">
+      <button class="btn btn-default btn-sm subgroup-toggle" aria-pressed="false">
+        <i aria-hidden="true" class="fa fa-plus"></i>
+        <%= t('classification._public.actions.show_subgroups') %>
+      </button>
+      <div class="classification-subgroups-tree largetree-container" style="display: none;"></div>
+    </div>
+  <% end %>
+</div>

@@ -6,10 +6,16 @@
   --bootstrap-rounded-corner-radius: 4px;
   --bootstrap-sans: 'Helvetica Neue', helvetica, arial, sans-serif;
   --bootstrap-default-white-hover: #eee;
+  --bootstrap-default-card-heading-bg-color: #f5f5f5;
+  --default-border-color: #ccc;
 }
 
 .flex {
   display: flex;
+}
+
+.items-start {
+  align-items: flex-start;
 }
 
 .align-items-center {

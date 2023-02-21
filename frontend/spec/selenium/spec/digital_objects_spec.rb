@@ -66,7 +66,9 @@ describe 'Digital Objects' do
   it 'reports errors and warnings when creating an invalid Digital Object' do
     @driver.find_element(:link, 'Create').click
     @driver.click_and_wait_until_gone(:link, 'Digital Object')
-    @driver.find_element(:id, 'digital_object_title_').clear
+    @driver.find_hidden_element(:css, '#digital_object_title_').wait_for_class('initialised')
+    @driver.execute_script("$('#digital_object_title_').data('CodeMirror').setValue('')")
+
     @driver.click_and_wait_until_gone(css: "form#new_digital_object button[type='submit']")
 
     @driver.find_element_with_text('//div[contains(@class, "error")]', /Identifier - Property is required but was missing/)
@@ -84,7 +86,9 @@ describe 'Digital Objects' do
     @driver.find_element(:link, 'Create').click
     @driver.click_and_wait_until_gone(:link, 'Digital Object')
 
-    @driver.clear_and_send_keys([:id, 'digital_object_title_'], digital_object_title)
+    @driver.find_hidden_element(:css, '#digital_object_title_').wait_for_class('initialised')
+    @driver.execute_script("$('#digital_object_title_').data('CodeMirror').setValue('#{digital_object_title}')")
+
     @driver.clear_and_send_keys([:id, 'digital_object_digital_object_id_'], Digest::MD5.hexdigest(Time.now.to_s))
 
     @driver.find_element(id: 'digital_object_digital_object_type_').select_option_with_text('Mixed Materials')
@@ -120,7 +124,9 @@ describe 'Digital Objects' do
     @driver.find_element(:link, 'Create').click
     @driver.click_and_wait_until_gone(:link, 'Digital Object')
 
-    @driver.clear_and_send_keys([:id, 'digital_object_title_'], digital_object_title)
+    @driver.find_hidden_element(:css, '#digital_object_title_').wait_for_class('initialised')
+    @driver.execute_script("$('#digital_object_title_').data('CodeMirror').setValue('#{digital_object_title}')")
+
     @driver.clear_and_send_keys([:id, 'digital_object_digital_object_id_'], Digest::MD5.hexdigest(Time.now.to_s))
 
     @driver.find_element(id: 'digital_object_digital_object_type_').select_option_with_text('Mixed Materials')
@@ -165,18 +171,17 @@ describe 'Digital Objects' do
     @driver.wait_for_ajax
     @driver.find_element(:id, 'digital_object_component_component_id_')
 
-    @driver.clear_and_send_keys([:id, 'digital_object_component_title_'], 'JPEG 2000 Verson of Image')
+    @driver.find_hidden_element(:css, '#digital_object_component_title_').wait_for_class('initialised')
+    @driver.execute_script("$('#digital_object_component_title_').data('CodeMirror').setValue('JPEG 2000 Verson of Image')")
+
     @driver.clear_and_send_keys([:id, 'digital_object_component_component_id_'], Digest::MD5.hexdigest(Time.now.to_s))
 
     @driver.click_and_wait_until_gone(id: 'createPlusOne')
 
     ['PNG format', 'GIF format', 'BMP format'].each_with_index do |thing, idx|
-      # Wait for the new empty form to be populated.  There's a tricky race
-      # condition here that I can't quite track down, so here's my blunt
-      # instrument fix.
-      @driver.find_element(:xpath, "//textarea[@id='digital_object_component_title_' and not(text())]")
-
-      @driver.clear_and_send_keys([:id, 'digital_object_component_title_'], thing)
+      sleep 5
+      @driver.find_hidden_element(:css, '#digital_object_component_title_').wait_for_class('initialised')
+      @driver.execute_script("$('#digital_object_component_title_').data('CodeMirror').setValue('#{thing}')")
       @driver.clear_and_send_keys([:id, 'digital_object_component_label_'], thing)
       @driver.clear_and_send_keys([:id, 'digital_object_component_component_id_'], Digest::MD5.hexdigest("#{thing}#{Time.now}"))
 
@@ -208,8 +213,9 @@ describe 'Digital Objects' do
     tree_add_child
 
     child_title = 'ICO'
+    @driver.find_hidden_element(:css, '#digital_object_component_title_').wait_for_class('initialised')
+    @driver.execute_script("$('#digital_object_component_title_').data('CodeMirror').setValue('#{child_title}')")
 
-    @driver.clear_and_send_keys([:id, 'digital_object_component_title_'], child_title)
     @driver.clear_and_send_keys([:id, 'digital_object_component_component_id_'], Digest::MD5.hexdigest(Time.now.to_s))
 
     @driver.click_and_wait_until_gone(css: "form#new_digital_object_component button[type='submit']")

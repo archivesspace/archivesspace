@@ -30,8 +30,4 @@ class SystemInfoController < ApplicationController
     render :plain => @log
   end
 
-  def reload_config
-    AppConfig.reload
-  end
-
 end

@@ -142,7 +142,9 @@ describe 'Enumeration Management' do
     @driver.click_and_wait_until_gone(:link, 'Accession')
 
     cm_accession_title = 'CM Punk TEST'
-    @driver.clear_and_send_keys([:id, 'accession_title_'], cm_accession_title)
+    @driver.find_hidden_element(:css, '#accession_title_').wait_for_class('initialised')
+    @driver.execute_script("$('#accession_title_').data('CodeMirror').setValue('#{cm_accession_title}')")
+
     @driver.complete_4part_id('accession_id_%d_', @driver.generate_4part_id)
     @driver.clear_and_send_keys([:id, 'accession_accession_date_'], '2012-01-01')
     @driver.clear_and_send_keys([:id, 'accession_content_description_'], 'STUFFZ')
@@ -165,7 +167,8 @@ describe 'Enumeration Management' do
     @driver.click_and_wait_until_gone(:link, 'Accession')
 
     cm_accession_title = SecureRandom.hex
-    @driver.clear_and_send_keys([:id, 'accession_title_'], cm_accession_title)
+    @driver.find_hidden_element(:css, '#accession_title_').wait_for_class('initialised')
+    @driver.execute_script("$('#accession_title_').data('CodeMirror').setValue('#{cm_accession_title}')")
     @driver.complete_4part_id('accession_id_%d_', @driver.generate_4part_id)
     @driver.clear_and_send_keys([:id, 'accession_accession_date_'], '2012-01-01')
     @driver.clear_and_send_keys([:id, 'accession_content_description_'], 'more stuff')
@@ -220,7 +223,9 @@ describe 'Enumeration Management' do
     @driver.click_and_wait_until_gone(:link, 'Accession')
 
     cm_accession_title = 'CM Punk TEST2'
-    @driver.clear_and_send_keys([:id, 'accession_title_'], cm_accession_title)
+    @driver.find_hidden_element(:css, '#accession_title_').wait_for_class('initialised')
+    @driver.execute_script("$('#accession_title_').data('CodeMirror').setValue('#{cm_accession_title}')")
+
     @driver.complete_4part_id('accession_id_%d_', @driver.generate_4part_id)
     @driver.clear_and_send_keys([:id, 'accession_accession_date_'], '2012-01-01')
     @driver.clear_and_send_keys([:id, 'accession_content_description_'], 'STUFFZ')

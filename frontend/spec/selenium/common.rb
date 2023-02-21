@@ -46,9 +46,9 @@ end
 def selenium_init(backend_fn, frontend_fn)
   standalone = true
 
-  if ENV["ASPACE_BACKEND_URL"] and ENV["ASPACE_FRONTEND_URL"]
-    $backend = ENV["ASPACE_BACKEND_URL"]
-    $frontend = ENV["ASPACE_FRONTEND_URL"]
+  if ENV["ASPACE_TEST_BACKEND_URL"] and ENV["ASPACE_TEST_FRONTEND_URL"]
+    $backend = ENV["ASPACE_TEST_BACKEND_URL"]
+    $frontend = ENV["ASPACE_TEST_FRONTEND_URL"]
 
     AppConfig[:help_enabled] = true
     AppConfig[:help_url] = "http://localhost:9999/help_stub"

@@ -27,9 +27,8 @@ describe 'Default Form Values', js: true do
     visit '/accessions'
 
     click_link('Edit Default Values')
-    expect(page).to have_field('accession[title]')
-
-    fill_in('accession[title]', with: 'DEFAULT TITLE')
+    expect(page).to have_css("#accession_title_", visible: false)
+    execute_script("$('#accession_title_').data('CodeMirror').setValue('DEFAULT TITLE')")
     click_on('Save')
     expect(page).to have_content('Defaults Updated')
 

@@ -137,12 +137,16 @@ describe ResourcesController, type: :controller do
       expect(instance_data[0]['caption']).to eq(@digital_object.title)
     end
 
-    it 'displays a representative file version image and caption when set' do
+    it 'displays a representative file version image, caption and link to view all digital objects when set' do
       get(:show, params: {rid: @repo.id, id: @resource_with_rep_instance.id})
 
-      expect(response).to render_template("shared/_representative_file_version")
-      expect(response.body).to have_css("figure img[src='#{@fv_uri}']")
-      expect(response.body).to match("<figcaption>#{@fv_caption}")
+      expect(response).to render_template("shared/_representative_file_version_record")
+      page = Capybara.string(response.body)
+      expect(page).to have_css("figure[data-rep-file-version-wrapper] img[src='#{@fv_uri}']")
+      page.find(:css, 'figure[data-rep-file-version-wrapper] figcaption') do |fc|
+        expect(fc.text).to have_content(@fv_caption)
+      end
+      expect(response.body).to have_css(".objectimage a[class='view-all']")
     end
   end
 end

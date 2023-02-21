@@ -9,12 +9,8 @@ describe 'Spawning', js: true do
     @accession = create(:json_accession,
       title: "Spawned Accession",
       extents: [build(:json_extent)],
-      dates: [build(:json_date)]
+      dates: [build(:json_date, date_type: "single")]
     )
-    # for some reason the date ends up without a required date_type?
-    d = @accession.dates
-    d[0]['date_type'] = 'single'
-    @accession.update({dates: d})
   end
 
   before(:each) do
@@ -30,8 +26,10 @@ describe 'Spawning', js: true do
   it "can spawn a resource component from an accession" do
     @resource = create(:resource)
     @parent = create(:json_archival_object,
-                     :resource => {'ref' => @resource.uri},
-                     :title => "Parent")
+                     resource: {'ref' => @resource.uri},
+                     title: "Parent",
+                     dates: [build(:json_date, date_type: "single")]
+                    )
     PeriodicIndexer.new.run_index_round
     visit "/accessions/#{@accession.id}"
     find("#spawn-dropdown a").click
@@ -43,7 +41,7 @@ describe 'Spawning', js: true do
     find("#addSelectedButton").click
     expect(page.evaluate_script("location.href")).to include("resource_id=#{@resource.id}")
     expect(page.evaluate_script("location.href")).to include("archival_object_id=#{@parent.id}")
-    expect(find("#archival_object_title_").value()).to eq "Spawned Accession"
+    expect(find("#archival_object_title_", visible: false).value()).to eq "Spawned Accession"
     find("#archival_object_level_ option[value='class']").click
     accession_link = find(:css, "form input[name='archival_object[accession_links][0][ref]']", :visible => false)
     expect(accession_link.value).to eq(@accession.uri)

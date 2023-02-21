@@ -83,7 +83,7 @@ describe 'RDE' do
 
     expect do
       assert(5) do
-        @driver.find_element(:id, 'archival_object_title_')
+        @driver.find_hidden_element(:css, '#archival_object_title_')
       end
     end.not_to raise_error
 
@@ -319,7 +319,7 @@ describe 'Digital Object RDE' do
     @driver.find_element(:css, '.table-row.largetree-node.indent-level-1 a.record-title').click
     @driver.wait_for_ajax
 
-    @driver.find_element(:id, 'digital_object_component_title_')
+    @driver.find_hidden_element(:css, '#digital_object_component_title_')
 
     @driver.find_element(:link, 'Rapid Data Entry').click
     @driver.find_element(id: 'rapidDataEntryModal')

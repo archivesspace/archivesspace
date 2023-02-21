@@ -7,6 +7,7 @@ describe AccessionsController, type: :controller do
       results = assigns(:results)
       expect( results['total_hits'] ).to eq(8)
       expect( results.records.first["title"] ).to eq("Accession for Phrase Search")
+      expect( results.records.select { |record| record["title"] == "Unpublished Accession" } ).to be_empty
     end
 
     describe 'deaccessions in accession results' do
@@ -67,9 +68,12 @@ describe AccessionsController, type: :controller do
     it 'displays a representative file version image when set' do
       get(:show, params: {rid: @repo.id, id: @acc_with_rep_instance.id})
 
-      expect(response).to render_template("shared/_representative_file_version")
-      expect(response.body).to have_css("figure img[src='#{@fv_uri}']")
-      expect(response.body).to match("<figcaption>#{@fv_caption}")
+      expect(response).to render_template("shared/_representative_file_version_record")
+      page = Capybara.string(response.body)
+      expect(page).to have_css("figure[data-rep-file-version-wrapper] img[src='#{@fv_uri}']")
+      page.find(:css, 'figure[data-rep-file-version-wrapper] figcaption') do |fc|
+        expect(fc.text).to have_content(@fv_caption)
+      end
     end
   end
 end

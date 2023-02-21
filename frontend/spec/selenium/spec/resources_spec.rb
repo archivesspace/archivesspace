@@ -73,6 +73,7 @@ describe 'Resources and archival objects' do
     assert(5) { expect(@driver.find_element(id: 'resource_notes__0__subnotes__0__content_').attribute('value')).to eq(@accession.content_description) }
 
     notes_toggle[1].click
+    @driver.wait_for_ajax
 
     expect(@driver.find_element(id: 'resource_notes__1__content__0_').text).to match(@accession.condition_description)
 
@@ -94,7 +95,8 @@ describe 'Resources and archival objects' do
   it 'reports errors and warnings when creating an invalid Resource' do
     @driver.find_element(:link, 'Create').click
     @driver.click_and_wait_until_gone(:link, 'Resource')
-    @driver.find_element(:id, 'resource_title_').clear
+    @driver.find_hidden_element(:css, '#resource_title_').wait_for_class('initialised')
+    @driver.execute_script("$('#resource_title_').data('CodeMirror').setValue('')")
     @driver.find_element(css: "form#resource_form button[type='submit']").click
 
     @driver.find_element_with_text('//div[contains(@class, "error")]', /Identifier - Property is required but was missing/)
@@ -241,7 +243,8 @@ describe 'Resources and archival objects' do
     @driver.find_element(:link, 'Create').click
     @driver.click_and_wait_until_gone(:link, 'Resource')
 
-    @driver.clear_and_send_keys([:id, 'resource_title_'], resource_title)
+    @driver.find_hidden_element(:css, '#resource_title_').wait_for_class('initialised')
+    @driver.execute_script("$('#resource_title_').data('CodeMirror').setValue('#{resource_title.gsub(/'/, '"')}')")
     @driver.complete_4part_id('resource_id_%d_')
 
     fa_lang_combo = @driver.find_element(xpath: '//*[@id="resource_finding_aid_language_"]')
@@ -280,8 +283,8 @@ describe 'Resources and archival objects' do
   it 'reports warnings when updating a Resource with invalid data' do
     @driver.get_edit_page(@resource)
 
-    @driver.find_element(:id, 'resource_title_')
-    @driver.clear_and_send_keys([:id, 'resource_title_'], '')
+    @driver.find_hidden_element(:css, '#resource_title_').wait_for_class('initialised')
+    @driver.execute_script("$('#resource_title_').data('CodeMirror').setValue('')")
 
     sleep(5)
     if @driver.find_element(css: "form#resource_form button[type='submit']").enabled?
@@ -301,7 +304,8 @@ describe 'Resources and archival objects' do
 
     @driver.find_element(:link, 'Add Child').click
     @driver.wait_for_ajax
-    @driver.clear_and_send_keys([:id, 'archival_object_title_'], ' ')
+    @driver.find_hidden_element(:css, '#archival_object_title_').wait_for_class('initialised')
+    @driver.execute_script("$('#archival_object_title_').data('CodeMirror').setValue('')")
     @driver.wait_for_ajax
 
     sleep(5) unless @driver.find_element(id: 'createPlusOne')
@@ -322,7 +326,8 @@ describe 'Resources and archival objects' do
     @driver.find_element(:link, 'Add Child').click
     @driver.wait_for_ajax
     @driver.find_element(:id, 'archival_object_level_').select_option('item')
-    @driver.clear_and_send_keys([:id, 'archival_object_title_'], '')
+    @driver.find_hidden_element(:css, '#archival_object_title_').wait_for_class('initialised')
+    @driver.execute_script("$('#archival_object_title_').data('CodeMirror').setValue('')")
     @driver.wait_for_ajax
 
     # False start: create an object without filling it out
@@ -353,7 +358,8 @@ describe 'Resources and archival objects' do
 
     modal = @driver.find_element(css: '#resource_instances__0__digital_object__ref__modal')
 
-    modal.clear_and_send_keys([:id, 'digital_object_title_'], 'digital_object_title')
+    @driver.find_hidden_element(:css, '#digital_object_title_.initialised')
+    @driver.execute_script("$('#digital_object_title_').data('CodeMirror').setValue('digital_object_title')")
     modal.clear_and_send_keys([:id, 'digital_object_digital_object_id_'], Digest::MD5.hexdigest(Time.now.to_s))
 
     @driver.execute_script("$('#digital_object_notes.initialised .subrecord-form-heading .btn.add-note').focus()")
@@ -494,21 +500,17 @@ describe 'Resources and archival objects' do
 
     @driver.find_element(:link, 'Add Child').click
 
-    @driver.clear_and_send_keys([:id, 'archival_object_title_'], 'Lost mail')
+    @driver.find_hidden_element(:css, '#archival_object_title_').wait_for_class('initialised')
+    @driver.execute_script("$('#archival_object_title_').data('CodeMirror').setValue('Lost mail')")
     @driver.find_element(:id, 'archival_object_level_').select_option('item')
 
     @driver.click_and_wait_until_gone(id: 'createPlusOne')
 
     %w[January February December].each do |month|
-      # Wait for the new empty form to be populated.  There's a tricky race
-      # condition here that I can't quite track down, so here's my blunt
-      # instrument fix.
-      @driver.find_element(:xpath, "//textarea[@id='archival_object_title_' and not(text())]")
-
-      @driver.clear_and_send_keys([:id, 'archival_object_title_'], month)
+      sleep 5
+      @driver.find_hidden_element(:css, '#archival_object_title_').wait_for_class('initialised')
+      @driver.execute_script("$('#archival_object_title_').data('CodeMirror').setValue('#{month}')")
       @driver.find_element(:id, 'archival_object_level_').select_option('item')
-
-      old_element = @driver.find_element(:id, 'archival_object_title_')
       @driver.click_and_wait_until_gone(id: 'createPlusOne')
     end
 
@@ -529,7 +531,7 @@ describe 'Resources and archival objects' do
     tree_click(tree_node(@archival_object))
     pane_resize_handle = @driver.find_element(css: '.ui-resizable-handle.ui-resizable-s')
 
-    @driver.clear_and_send_keys([:id, 'archival_object_title_'], 'unimportant change')
+    @driver.clear_and_send_keys([:id, 'archival_object_component_id_'], 'unimportant change')
 
     tree_click(tree_node(@resource))
     @driver.click_and_wait_until_gone(:id, 'dismissChangesButton')
@@ -543,7 +545,8 @@ describe 'Resources and archival objects' do
     @driver.find_element(css: "form#archival_object_form button[type='submit']")
 
     @driver.find_element(:id, 'archival_object_level_').select_option('item')
-    @driver.clear_and_send_keys([:id, 'archival_object_title_'], '')
+    @driver.find_hidden_element(:css, '#archival_object_title_').wait_for_class('initialised')
+    @driver.execute_script("$('#archival_object_title_').data('CodeMirror').setValue('')")
     @driver.click_and_wait_until_gone(css: "form .record-pane button[type='submit']")
 
     expect do
@@ -559,12 +562,14 @@ describe 'Resources and archival objects' do
     # Wait for the form to load in
     @driver.find_element(css: "form#archival_object_form button[type='submit']")
 
-    @driver.clear_and_send_keys([:id, 'archival_object_title_'], 'save this please')
+    @driver.find_hidden_element(:css, '#archival_object_title_').wait_for_class('initialised')
+    @driver.execute_script("$('#archival_object_title_').data('CodeMirror').setValue('save this please')")
     @driver.find_element(css: "form .record-pane button[type='submit']").click
     @driver.wait_for_ajax
     assert(5) { expect(@driver.find_element(:css, 'h2').text).to eq('save this please Archival Object') }
     assert(5) { expect(@driver.find_element(css: 'div.alert.alert-success').text).to eq('Archival Object save this please updated') }
-    @driver.clear_and_send_keys([:id, 'archival_object_title_'], @archival_object.title)
+    @driver.find_hidden_element(:css, '#archival_object_title_').wait_for_class('initialised')
+    @driver.execute_script("$('#archival_object_title_').data('CodeMirror').setValue('#{@archival_object.title}')")
     @driver.click_and_wait_until_gone(css: "form .save-changes button[type='submit']")
   end
 

@@ -11,7 +11,7 @@
                                  :form => form,
                                  :record => @accession) %>
 
-       <%= form.label_and_textarea "title" %>
+       <%= form.label_and_textarea "title", :field_opts => {:class => "form-control mixed-content"} %>
        <%= form.label_and_fourpartid %>
 
        <%= render_aspace_partial :partial => "shared/slug", :locals => {:form => form, :record_type => @accession} if AppConfig[:use_human_readable_urls] %>

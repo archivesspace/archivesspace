@@ -7,14 +7,4 @@ Sequel.migration do
     end
   end
 
-  down do
-    alter_table(:external_document) do
-      drop_constraint('event_external_document_fk')
-    end
-
-    if $db_type == :mysql
-      self.run("alter table external_document drop foreign key event_external_document_fk")
-    end
-  end
-
 end

@@ -62,7 +62,8 @@ describe 'Classifications' do
     @driver.find_element(:link, 'Create').click
     @driver.click_and_wait_until_gone(:link, 'Resource')
 
-    @driver.clear_and_send_keys([:id, 'resource_title_'], 'a resource')
+    @driver.find_hidden_element(:css, '#resource_title_').wait_for_class('initialised')
+    @driver.execute_script("$('#resource_title_').data('CodeMirror').setValue('a resource')")
     @driver.complete_4part_id('resource_id_%d_')
     @driver.find_element(:id, 'resource_level_').select_option('collection')
 
@@ -126,7 +127,9 @@ describe 'Classifications' do
     accession_title = "Tomorrow's Harvest"
     accession_4part_id = @driver.generate_4part_id
 
-    @driver.clear_and_send_keys([:id, 'accession_title_'], accession_title)
+    @driver.find_hidden_element(:css, '#accession_title_').wait_for_class('initialised')
+    @driver.execute_script("$('#accession_title_').data('CodeMirror').setValue(\"#{accession_title}\")")
+
     @driver.complete_4part_id('accession_id_%d_', accession_4part_id)
 
     @driver.clear_and_send_keys([:id, 'accession_accession_date_'], '2013-06-11')
