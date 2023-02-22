@@ -352,7 +352,8 @@ en:
       badge_label: Digital %{level}
       go: Go to file
       additional: Additional File Versions
-
+      browse_number_digital_objects_in_collection: Browse %{num} digital objects in collection
+      
   subject:
     _singular: Subject
     _plural: Subjects
