@@ -72,45 +72,108 @@ module RepresentativeFileVersion
           end
         end
 
-        if json["representative_file_version"].nil? && self.name == "DigitalObject"
-          file_version_set = DigitalObject
-                               .inner_join(:digital_object_component, root_record_id: :digital_object__id)
-                               .inner_join(:file_version, digital_object_component_id: :digital_object_component__id)
-                               .filter(root_record_id: json.id)
-                               .filter(file_version__publish: true)
-                               .filter(:file_version__id)
-                               .select(Sequel.as(:file_version__id, :file_version_id),
-                                       Sequel.as(:file_version__is_representative, :file_version_is_representative))
-          unless (file_version_set.empty?)
-            file_version_id = file_version_set
-                                .order(:file_version_is_representative)
-                                .reverse
-                                .first[:file_version_id]
-            json["representative_file_version"] = FileVersion.to_jsonmodel(file_version_id)
-          end
+        # if we still don't have a representative and are dealing with a record type
+        # that has a tree under it, we will now look in the tree
 
+        if json["representative_file_version"].nil? && self.name == "DigitalObject"
+
+          digital_object_component_set = DigitalObjectComponent
+                                           .left_join(:file_version, digital_object_component_id: :digital_object_component__id)
+                                           .filter(root_record_id: json.id)
+                                           .select(Sequel.as(:digital_object_component__id, :digital_object_component_id),
+                                                   Sequel.as(:digital_object_component__parent_id, :digital_object_component_parent_id),
+                                                   Sequel.as(:digital_object_component__position, :digital_object_component_position),
+                                                   Sequel.as(:file_version__id, :file_version_id),
+                                                   Sequel.as(:file_version__publish, :file_version_publish),
+                                                   Sequel.as(:file_version__use_statement_id, :file_version_use_statement_id),
+                                                   Sequel.as(:file_version__is_representative, :file_version_is_representative))
+                                           .order(:digital_object_component_position)
+
+          if (digital_object_component_id = find_representative_in_digital_object_tree(digital_object_component_set))
+            json["representative_file_version"] = DigitalObjectComponent.to_jsonmodel(digital_object_component_id, opts)['representative_file_version']
+          end
         end
 
         if json["representative_file_version"].nil? && self.name == "Resource"
-          digital_object_set = ArchivalObject
-                                 .inner_join(:instance, :archival_object_id => :archival_object__id)
-                                 .inner_join(:instance_do_link_rlshp, :instance_id => :instance__id)
-                                 .inner_join(:digital_object, :id => :instance_do_link_rlshp__digital_object_id)
-                                 .filter(root_record_id: json.id)
-                                 .filter(instance__is_representative: true)
-                                 .select(Sequel.as(:digital_object__id, :digital_object_id),
-                                         Sequel.as(:archival_object__position, :archival_object_position))
 
-          unless (digital_object_set.empty?)
-            digital_object_id = digital_object_set
+          archival_object_set = ArchivalObject
+                                  .left_join(:instance, :archival_object_id => :archival_object__id)
+                                  .left_join(:instance_do_link_rlshp, :instance_id => :instance__id)
+                                  .left_join(:digital_object, :id => :instance_do_link_rlshp__digital_object_id)
+                                  .filter(root_record_id: json.id)
+                                  .select(Sequel.as(:archival_object__id, :archival_object_id),
+                                          Sequel.as(:archival_object__position, :archival_object_position),
+                                          Sequel.as(:archival_object__parent_id, :archival_object_parent_id),
+                                          Sequel.as(:digital_object__id, :digital_object_id),
+                                          Sequel.as(:instance__is_representative, :digital_object_is_representative))
                                   .order(:archival_object_position)
-                                  .first[:digital_object_id]
 
+          if (digital_object_id = find_representative_in_resource_tree(archival_object_set))
             json["representative_file_version"] = DigitalObject.to_jsonmodel(digital_object_id, opts)['representative_file_version']
           end
         end
       end
       jsons
     end
+
+    private
+
+    def thumbnail_use_statement_id
+      use_statement_enum_id = Enumeration.find(name: "file_version_use_statement").id
+      thumbnail_use_statement_id = EnumerationValue.find(enumeration_id: use_statement_enum_id, value: "image-thumbnail").id
+      thumbnail_use_statement_id
+    end
+
+    # this is an expensive operation for large trees with no representative.
+    # perhaps there is a way to do this without iterating through query results?
+    def find_representative_in_resource_tree(record_set, parent_id = nil)
+      same_parent_set = record_set.filter(archival_object__parent_id: parent_id)
+      return nil if same_parent_set.count == 0
+
+      same_parent_set.each do |row|
+        # does this node have a representative?
+        if row[:digital_object_id] && row[:digital_object_is_representative]
+          return row[:digital_object_id]
+        end
+
+        # does this node have a descendent with a representative?
+        if (result = find_representative_in_resource_tree(record_set, row[:archival_object_id]))
+          return result
+        end
+      end
+
+      # we went through the tree and didn't find anything
+      return nil
+    end
+
+    def find_representative_in_digital_object_tree(record_set, parent_id = nil, pocket=[])
+      return nil if record_set.count == 0
+      same_parent_set = record_set.filter(digital_object_component__parent_id: parent_id)
+      return nil if same_parent_set.count == 0
+
+      same_parent_set.each do |row|
+        if row[:file_version_publish]
+          if row[:file_version_is_representative]
+            return row[:digital_object_component_id]
+          elsif (pocket.length < 2) && (row[:file_version_use_statement_id] == thumbnail_use_statement_id)
+            pocket << row[:digital_object_component_id]
+          elsif pocket.empty?
+            pocket << row[:digital_object_component_id]
+          end
+        end
+
+        if (result = find_representative_in_digital_object_tree(record_set, row[:digital_object_component_id], pocket))
+          return result
+        end
+      end
+
+      # fall back to any published thumbnail, or just anything published
+      if pocket.length > 0
+        return pocket.last
+      else
+        return nil
+      end
+    end
+
   end
 end
