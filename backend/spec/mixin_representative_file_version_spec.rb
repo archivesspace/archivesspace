@@ -166,6 +166,58 @@ describe 'Representative File Version mixin' do
         expect(json.representative_file_version['file_uri']).to eq(file_version_4.file_uri)
       end
     end
+
+    it "selects file versions in order from top to bottom through the expanded tree" do
+      file_version_1.use_statement = 'image-thumbnail'
+      file_version_2.use_statement = 'image-thumbnail'
+      file_version_3.publish = false
+      file_version_4.publish = false
+      file_version_5.publish = false
+
+      do1 = create(:json_digital_object, { publish: true, file_versions: [] })
+
+      do1_c1 = create(:json_digital_object_component, {
+                        publish: true,
+                        digital_object: { ref: do1.uri },
+                        position: 1000,
+                        file_versions: []
+                      })
+
+      do1_c2 = create(:json_digital_object_component, {
+                        publish: true,
+                        digital_object: { ref: do1.uri },
+                        position: 2000,
+                        file_versions: [ file_version_2 ]
+                      })
+
+      do1_c1_c1 = create(:json_digital_object_component, {
+                           publish: true,
+                           digital_object: { ref: do1.uri },
+                           parent: { ref: do1_c1.uri },
+                           position: 1000,
+                           file_versions: []
+                         })
+
+      do1_c1_c2 = create(:json_digital_object_component, {
+                           publish: true,
+                           digital_object: { ref: do1.uri },
+                           parent: { ref: do1_c1.uri },
+                           position: 2000,
+                           file_versions: [ file_version_5 ]
+                         })
+
+      do1_c1_c3 = create(:json_digital_object_component, {
+                           publish: true,
+                           digital_object: { ref: do1.uri },
+                           parent: { ref: do1_c1.uri },
+                           position: 3000,
+                           file_versions: [ file_version_3, file_version_1, file_version_4 ]
+                         })
+
+
+      do1 = DigitalObject.to_jsonmodel(do1.id)
+      expect(do1.representative_file_version['file_uri']).to eq(file_version_1.file_uri)
+    end
   end
 
 
@@ -264,7 +316,80 @@ describe 'Representative File Version mixin' do
       resource_mtime_6 = resource.system_mtime
       expect(resource.representative_file_version).to be_nil
       expect(resource_mtime_6).to be > resource_mtime_5
-
     end
+
+    it "selects the first object in the tree with a representative do instance, "\
+       " 'first' meaning first in absolute order if all tree nodes are expanded" do
+
+      # ^ = no representative instance; * = expected to be selected for resource
+      # - resource
+      #   - ao 1^
+      #     - ao 2^
+      #     - ao 3^
+      #     - ao 4*
+      #   - ao 5
+      #  (moves ao5 to top of tree)
+      # - resource
+      #   - ao 5*
+      #   - ao 1^
+      #     - ao 2^
+      #     - ao 3^
+      #     - ao 4
+
+      resource = create_resource
+      do4 = create(:json_digital_object, publish: true, file_versions: [file_version_4])
+      do5 = create(:json_digital_object, publish: true, file_versions: [file_version_5])
+
+      ao1 = create_archival_object({
+                                     resource: { ref: resource.uri},
+                                     position: 1000,
+                                     title: "ao1 #{Time.now.to_i}"
+                                   })
+
+      ao2 = create_archival_object({
+                                     resource: { ref: resource.uri},
+                                     position: 1000,
+                                     parent: {ref: ao1.uri},
+                                     title: "ao2 #{Time.now.to_i}"
+                                   })
+
+      ao3 = create_archival_object({
+                                     resource: { ref: resource.uri},
+                                     position: 2000,
+                                     parent: {ref: ao1.uri},
+                                     title: "ao3 #{Time.now.to_i}"
+                                   })
+
+      ao4 = create_archival_object({
+                                     resource: { ref: resource.uri},
+                                     position: 3000,
+                                     parent: {ref: ao1.uri},
+                                     title: "ao4 #{Time.now.to_i}",
+                                     instances: [build(:json_instance_digital, {
+                                                         digital_object: { ref: do4.uri },
+                                                         is_representative: true
+                                                       })]
+                                   })
+
+      ao5 = create_archival_object({
+                                     resource: { ref: resource.uri},
+                                     position: 2000,
+                                     title: "ao5 #{Time.now.to_i}",
+                                     instances: [build(:json_instance_digital, {
+                                                         digital_object: { ref: do5.uri },
+                                                         is_representative: true
+                                                       }) ]
+                                   })
+
+      resource = Resource.to_jsonmodel(resource.id)
+      expect(resource.representative_file_version['file_uri']).to eq(file_version_4.file_uri)
+
+      ao5.position = 0
+      ao5.save
+
+      resource = Resource.to_jsonmodel(resource.id)
+      expect(resource.representative_file_version['file_uri']).to eq(file_version_5.file_uri)
+    end
+
   end
 end
