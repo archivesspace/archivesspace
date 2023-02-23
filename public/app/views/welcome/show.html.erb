@@ -25,3 +25,6 @@
            ]
     } %>
 
+    <% ASUtils.find_local_directories('public/views/_welcome_addition.html.erb').each do |template| %>
+        <%= render(:file => template, :locals => {:record => record}) if File.exists?(template) %>
+    <% end %>
