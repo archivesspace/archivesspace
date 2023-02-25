@@ -2,86 +2,106 @@ require 'spec_helper'
 require 'rails_helper'
 
 describe 'Representative File Version', js: true do
-  describe 'search result thumbnail' do
-    before(:all) do
-      @img_1 = 'https://www.archivesspace.org/demos/Congreave%20E-4/ms292_008.jpg'
-      @img_2 = 'https://www.archivesspace.org/demos/Congreave%20E-1/ms292_001.jpg'
-      @caption_1 = 'This is caption 1'
-      @caption_2 = 'This is caption 2'
-      @long_caption = 'This is the long caption whose character count exceeds 56'
-      @max_caption_chars = 42
-      @dobj_with_repfv = create(
-        :digital_object,
-        publish: true,
-        title: 'Digital object with representative file version',
-        file_versions: [
-          {
-            publish: true,
-            is_representative: true,
-            file_uri: @img_1,
-            use_statement: 'image-thumbnail',
-            caption: @caption_1
-          }
-        ]
-      )
-      @dobjc_with_repfv = create(:digital_object_component,
-        publish: true,
+  before(:all) do
+    @img_1 = 'https://www.archivesspace.org/demos/Congreave%20E-4/ms292_008.jpg'
+    @img_2 = 'https://www.archivesspace.org/demos/Congreave%20E-1/ms292_001.jpg'
+    @caption_1 = 'This is caption 1'
+    @caption_2 = 'This is caption 2'
+    @long_caption = 'This is the long caption whose character count exceeds 56'
+    @max_caption_chars = 42
+    @dobj_with_repfv = create(
+      :digital_object,
+      publish: true,
+      title: 'Digital object with representative file version',
+      file_versions: [
+        {
+          publish: true,
+          is_representative: true,
+          file_uri: @img_1,
+          use_statement: 'image-thumbnail',
+          caption: @caption_1
+        }
+      ]
+    )
+    @dobjc_with_repfv = create(:digital_object_component,
+      publish: true,
+      digital_object: { ref: @dobj_with_repfv.uri },
+      title: 'Digital object component with representative file version',
+      file_versions: [
+        {
+          publish: true,
+          is_representative: true,
+          file_uri: @img_2,
+          use_statement: 'image-thumbnail',
+          caption: @caption_2
+        }
+      ]
+    )
+    @resource_with_repfv = create(:resource,
+      publish: true,
+      title: 'Resource with representative file version',
+      instances: [build(:instance_digital,
         digital_object: { ref: @dobj_with_repfv.uri },
-        title: 'Digital object component with representative file version',
-        file_versions: [
-          {
-            publish: true,
-            is_representative: true,
-            file_uri: @img_2,
-            use_statement: 'image-thumbnail',
-            caption: @caption_2
-          }
-        ]
-      )
-      @resource_with_repfv = create(:resource,
-        publish: true,
-        title: 'Resource with representative file version',
-        instances: [build(:instance_digital,
-          digital_object: { ref: @dobj_with_repfv.uri },
-          is_representative: true
-        )]
-      )
-      @aobj_with_repfv = create(:archival_object,
-        publish: true,
-        title: 'Archival Object with representative file version',
-        resource: {'ref' => @resource_with_repfv.uri},
-        instances: [build(:instance_digital,
-          digital_object: { ref: @dobj_with_repfv.uri },
-          is_representative: true
-        )]
-      )
-      @accession_with_repfv = create(:accession,
-        publish: true,
-        title: 'Accession with representative file version',
-        instances: [build(:instance_digital,
-          digital_object: { ref: @dobj_with_repfv.uri },
-          is_representative: true
-        )]
-      )
+        is_representative: true
+      )]
+    )
+    @aobj_with_repfv = create(:archival_object,
+      publish: true,
+      title: 'Archival Object with representative file version',
+      resource: {'ref' => @resource_with_repfv.uri},
+      instances: [build(:instance_digital,
+        digital_object: { ref: @dobj_with_repfv.uri },
+        is_representative: true
+      )]
+    )
+    @accession_with_repfv = create(:accession,
+      publish: true,
+      title: 'Accession with representative file version',
+      instances: [build(:instance_digital,
+        digital_object: { ref: @dobj_with_repfv.uri },
+        is_representative: true
+      )]
+    )
 
-      @dobj_with_repfv_long_caption = create(
-        :digital_object,
-        publish: true,
-        title: 'Digital object with representative file version and long caption',
-        file_versions: [
-          {
-            publish: true,
-            is_representative: true,
-            file_uri: @img_1,
-            use_statement: 'image-thumbnail',
-            caption: @long_caption
-          }
-        ]
-      )
+    @dobj_with_repfv_long_caption = create(
+      :digital_object,
+      publish: true,
+      title: 'Digital object with representative file version and long caption',
+      file_versions: [
+        {
+          publish: true,
+          is_representative: true,
+          file_uri: @img_1,
+          use_statement: 'image-thumbnail',
+          caption: @long_caption
+        }
+      ]
+    )
 
-      run_indexers
-    end
+    run_indexers
+  end
 
+  it 'links to its digital object record on Resource, Archival Object, and'\
+     ' Accession records' do
+    visit @resource_with_repfv.uri
+    expect(page).to have_css "figure[data-rep-file-version-wrapper] > a[href='#{@dobj_with_repfv.uri}']"
+
+    visit @aobj_with_repfv.uri
+    expect(page).to have_css "figure[data-rep-file-version-wrapper] > a[href='#{@dobj_with_repfv.uri}']"
+
+    visit @accession_with_repfv.uri
+    expect(page).to have_css "figure[data-rep-file-version-wrapper] > a[href='#{@dobj_with_repfv.uri}']"
+  end
+
+  it 'links to its own file uri on Digital Object and Digital Object Component records' do
+    visit @dobj_with_repfv.uri
+    expect(page).to have_css "figure[data-rep-file-version-wrapper] > a[href='#{@img_1}']"
+
+    visit @dobjc_with_repfv.uri
+    expect(page).to have_css "figure[data-rep-file-version-wrapper] > a[href='#{@img_2}']"
+  end
+
+  describe 'search result thumbnail' do
     it 'is shown for digital objects' do
       visit('/')
       page.fill_in 'Enter your search terms', with: @dobj_with_repfv.title

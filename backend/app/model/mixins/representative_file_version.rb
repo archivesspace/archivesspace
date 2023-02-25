@@ -45,7 +45,29 @@ module RepresentativeFileVersion
         when "Resource", "Accession", "ArchivalObject"
           if representative_instance = json.instances.select {|i| i["is_representative"] == true && i["instance_type"] == "digital_object" }.first
             id = JSONModel(:digital_object).id_for(representative_instance["digital_object"]["ref"])
-            json["representative_file_version"] = DigitalObject.to_jsonmodel(id, opts)["representative_file_version"]
+            digital_object = DigitalObject.to_jsonmodel(id, opts)
+            if digital_object["representative_file_version"]
+              json["representative_file_version"] = digital_object["representative_file_version"].merge("derived_from" => digital_object.uri)
+            else
+              digital_object_component_set = DigitalObjectComponent
+                                               .left_join(:file_version, digital_object_component_id: :digital_object_component__id)
+                                               .filter(root_record_id: digital_object.id)
+                                               .select(Sequel.as(:digital_object_component__id, :digital_object_component_id),
+                                                       Sequel.as(:digital_object_component__parent_id, :digital_object_component_parent_id),
+                                                       Sequel.as(:digital_object_component__position, :digital_object_component_position),
+                                                       Sequel.as(:file_version__id, :file_version_id),
+                                                       Sequel.as(:file_version__publish, :file_version_publish),
+                                                       Sequel.as(:file_version__use_statement_id, :file_version_use_statement_id),
+                                                       Sequel.as(:file_version__is_representative, :file_version_is_representative))
+                                               .order(:digital_object_component_position)
+
+              if (digital_object_component_id = find_representative_in_digital_object_tree(digital_object_component_set))
+                digital_object_component = DigitalObjectComponent.to_jsonmodel(digital_object_component_id, opts)
+                if digital_object_component['representative_file_version']
+                  json['representative_file_version'] = digital_object_component['representative_file_version'].merge("derived_from" => digital_object_component.uri)
+                end
+              end
+            end
           end
         when "DigitalObject", "DigitalObjectComponent"
           fvs = json[:file_versions]
@@ -72,28 +94,8 @@ module RepresentativeFileVersion
           end
         end
 
-        # if we still don't have a representative and are dealing with a record type
+        # if we still don't have a representative and are dealing with a Resource
         # that has a tree under it, we will now look in the tree
-
-        if json["representative_file_version"].nil? && self.name == "DigitalObject"
-
-          digital_object_component_set = DigitalObjectComponent
-                                           .left_join(:file_version, digital_object_component_id: :digital_object_component__id)
-                                           .filter(root_record_id: json.id)
-                                           .select(Sequel.as(:digital_object_component__id, :digital_object_component_id),
-                                                   Sequel.as(:digital_object_component__parent_id, :digital_object_component_parent_id),
-                                                   Sequel.as(:digital_object_component__position, :digital_object_component_position),
-                                                   Sequel.as(:file_version__id, :file_version_id),
-                                                   Sequel.as(:file_version__publish, :file_version_publish),
-                                                   Sequel.as(:file_version__use_statement_id, :file_version_use_statement_id),
-                                                   Sequel.as(:file_version__is_representative, :file_version_is_representative))
-                                           .order(:digital_object_component_position)
-
-          if (digital_object_component_id = find_representative_in_digital_object_tree(digital_object_component_set))
-            json["representative_file_version"] = DigitalObjectComponent.to_jsonmodel(digital_object_component_id, opts)['representative_file_version']
-          end
-        end
-
         if json["representative_file_version"].nil? && self.name == "Resource"
 
           archival_object_set = ArchivalObject
@@ -109,8 +111,31 @@ module RepresentativeFileVersion
                                   # .order(:archival_object_position)
 
           if (digital_object_id = find_representative_in_resource_tree(archival_object_set))
-            json["representative_file_version"] = DigitalObject.to_jsonmodel(digital_object_id, opts)['representative_file_version']
+            digital_object = DigitalObject.to_jsonmodel(digital_object_id, opts)
+            if digital_object["representative_file_version"]
+              json["representative_file_version"] = digital_object['representative_file_version'].merge("derived_from" => digital_object.uri)
+            else
+              digital_object_component_set = DigitalObjectComponent
+                                               .left_join(:file_version, digital_object_component_id: :digital_object_component__id)
+                                               .filter(root_record_id: digital_object.id)
+                                               .select(Sequel.as(:digital_object_component__id, :digital_object_component_id),
+                                                       Sequel.as(:digital_object_component__parent_id, :digital_object_component_parent_id),
+                                                       Sequel.as(:digital_object_component__position, :digital_object_component_position),
+                                                       Sequel.as(:file_version__id, :file_version_id),
+                                                       Sequel.as(:file_version__publish, :file_version_publish),
+                                                       Sequel.as(:file_version__use_statement_id, :file_version_use_statement_id),
+                                                       Sequel.as(:file_version__is_representative, :file_version_is_representative))
+                                               .order(:digital_object_component_position)
+
+              if (digital_object_component_id = find_representative_in_digital_object_tree(digital_object_component_set))
+                digital_object_component = DigitalObjectComponent.to_jsonmodel(digital_object_component_id, opts)
+                if digital_object_component['representative_file_version']
+                  json['representative_file_version'] = digital_object_component['representative_file_version'].merge("derived_from" => digital_object_component.uri)
+                end
+              end
+            end
           end
+
         end
       end
       jsons

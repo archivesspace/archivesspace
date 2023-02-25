@@ -125,13 +125,15 @@ describe 'Representative File Version mixin' do
 
         json = klass.to_jsonmodel(obj.id)
         expect(json.representative_file_version['file_uri']).to eq(file_version_3.file_uri)
+        expect(json.representative_file_version['derived_from']).to eq(do2.uri)
       end
     end
   end
 
   describe "Digital Object only" do
-    it "if rfv cannot be calculated for a digital object iterate through any digital object component records in the parent tree"\
-        " until one is found with a representative_file_version." do
+    it "if rfv cannot be calculated for a DigitalObject iterate through any DigitalObjectComponent records in the parent tree"\
+        " until one is found with a representative_file_version, but only do this if the representative file version"\
+         " is being invoked within the context of a Resource, Archival Object, or Accession" do
 
       file_version_1.publish = false
       do1 = create(:json_digital_object, { publish: true, file_versions: [file_version_1] })
@@ -152,7 +154,7 @@ describe 'Representative File Version mixin' do
                       })
 
       do1 = DigitalObject.to_jsonmodel(do1.id)
-      expect(do1.representative_file_version['file_uri']).to eq(file_version_4.file_uri)
+      expect(do1.representative_file_version).to be_nil
 
       # confirm that this is consistent for digobj-instance-havers
       [Resource, Accession, ArchivalObject].each do |klass|
@@ -214,9 +216,15 @@ describe 'Representative File Version mixin' do
                            file_versions: [ file_version_3, file_version_1, file_version_4 ]
                          })
 
+      accession = create(:json_accession, {
+                           instances: [
+                             build(:json_instance_digital, {
+                                     is_representative: true,
+                                     digital_object: { ref: do1.uri }
+                                   })]
+                         })
 
-      do1 = DigitalObject.to_jsonmodel(do1.id)
-      expect(do1.representative_file_version['file_uri']).to eq(file_version_1.file_uri)
+      expect(accession.representative_file_version['file_uri']).to eq(file_version_1.file_uri)
     end
   end
 
