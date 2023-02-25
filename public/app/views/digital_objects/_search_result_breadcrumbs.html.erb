@@ -1,5 +1,4 @@
 <% if result.linked_instances.length == 0 %>
-
   <div class="result_context">
     <%= render partial: 'shared/result_breadcrumbs_repo', locals: { :result => result } %>
   </div>
@@ -30,8 +29,8 @@
 
 <% else %>
 
-  <div class="result_context" style="display: flex">
-    <strong style="flex-shrink: 0"><%= t('context') %>: </strong>
+  <div class="flex result_context">
+    <strong class="flex-shrink-0"><%= t('context') %>: </strong>
     <div>
       <%= render partial: 'shared/result_breadcrumbs_repo', locals: { :result => result, :hide_label => true } %>
       <ol class="result_linked_instances_tree">
