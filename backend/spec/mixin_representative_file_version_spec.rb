@@ -125,6 +125,7 @@ describe 'Representative File Version mixin' do
 
         json = klass.to_jsonmodel(obj.id)
         expect(json.representative_file_version['file_uri']).to eq(file_version_3.file_uri)
+        expect(json.representative_file_version['digital_object']).to eq(do2.uri)
       end
     end
   end

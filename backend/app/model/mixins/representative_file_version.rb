@@ -45,7 +45,10 @@ module RepresentativeFileVersion
         when "Resource", "Accession", "ArchivalObject"
           if representative_instance = json.instances.select {|i| i["is_representative"] == true && i["instance_type"] == "digital_object" }.first
             id = JSONModel(:digital_object).id_for(representative_instance["digital_object"]["ref"])
-            json["representative_file_version"] = DigitalObject.to_jsonmodel(id, opts)["representative_file_version"]
+            digital_object = DigitalObject.to_jsonmodel(id, opts)
+            if digital_object["representative_file_version"]
+              json["representative_file_version"] = digital_object["representative_file_version"].merge({"digital_object" => digital_object.uri})
+            end
           end
         when "DigitalObject", "DigitalObjectComponent"
           fvs = json[:file_versions]
