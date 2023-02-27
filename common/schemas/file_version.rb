@@ -22,6 +22,7 @@
       "checksum" => {"type" => "string", "maxLength" => 255},
       "checksum_method" => {"type" => "string", "dynamic_enum" => "file_version_checksum_methods"},
       "caption" => {"type" => "string", "maxLength" => 16384},
+      "digital_object" => {"type" => "JSONModel(:digital_object) uri", "readonly" => true},
     },
   },
 }
