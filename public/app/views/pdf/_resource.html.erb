@@ -84,6 +84,10 @@
 <% end %>
 </ul>
 
+<% ASUtils.find_local_directories('public/views/_pdf_resource.html.erb').each do |template| %>
+    <%= render(:file => template, :locals => {:record => record}) if File.exists?(template) %>
+<% end %>
+
 <div class="collection-inventory">
 <% if has_children %>
     <a id="collection-inventory"></a>

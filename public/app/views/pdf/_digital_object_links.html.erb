@@ -9,4 +9,7 @@
           <% end %>
       <% end %>
     <% end %>
+    <% ASUtils.find_local_directories('public/views/_pdf_digital_object_links.html.erb').each do |template| %>
+        <%= render(:file => template, :locals => {:record => record}) if File.exists?(template) %>
+    <% end %>
 <% end %>

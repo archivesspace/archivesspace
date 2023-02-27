@@ -199,6 +199,9 @@
 
 
         </style>
+        <% ASUtils.find_local_directories('public/views/_pdf_header.html.erb').each do |template| %>
+            <%= render(:file => template, :locals => {:record => record}) if File.exists?(template) %>
+        <% end %>
     </head>
     <body>
 
