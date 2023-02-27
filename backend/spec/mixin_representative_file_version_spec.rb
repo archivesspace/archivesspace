@@ -51,41 +51,14 @@ describe 'Representative File Version mixin' do
       end
     end
 
-    it "has a representative_file_version read-only value of the first published file_version if there is no"\
-       " file_version marked 'is_representative' and there is no published file_version with a use-statement marked 'image-thumbnail'" do
+    it "has a representative_file_version read-only value of the first published file_version with a file_uri"\
+       " that starts with 'http' and a xlink_show_attribute value of 'embed' if there is no"\
+       " file_version marked 'is_representative' and there is no published file_version with a"\
+       " use-statement marked 'image-thumbnail'" do
       file_version_1.publish = false
       file_version_3.publish = false
       file_version_3.use_statement = 'image-thumbnail'
-      [DigitalObject, DigitalObjectComponent].each do |klass|
-        json = build(:"json_#{klass.name.underscore}", file_versions: [ file_version_1, file_version_2, file_version_3 ])
-        obj = klass.create_from_json(json)
-        json = klass.to_jsonmodel(obj)
-        expect(json.representative_file_version['file_uri']).to eq(file_version_2.file_uri)
-      end
-
-      # The sensible restrictions above what is specified are disabled,
-      # so expect something other than nil
-      file_version_2.use_statement = 'audio-master'
-      file_version_2.file_format_name = 'avi'
-      [DigitalObject, DigitalObjectComponent].each do |klass|
-        json = build(:"json_#{klass.name.underscore}", file_versions: [ file_version_1, file_version_2, file_version_3 ])
-        obj = klass.create_from_json(json)
-        json = klass.to_jsonmodel(obj)
-        expect(json.representative_file_version['file_uri']).to eq(file_version_2.file_uri)
-      end
-
-      # but if either use_statement or file_format_name is a reasonable value, proceed
-      file_version_2.use_statement = 'image-service'
-      file_version_2.file_format_name = 'avi'
-      [DigitalObject, DigitalObjectComponent].each do |klass|
-        json = build(:"json_#{klass.name.underscore}", file_versions: [ file_version_1, file_version_2, file_version_3 ])
-        obj = klass.create_from_json(json)
-        json = klass.to_jsonmodel(obj)
-        expect(json.representative_file_version['file_uri']).to eq(file_version_2.file_uri)
-      end
-
-      file_version_2.use_statement = 'audio-master'
-      file_version_2.file_format_name = 'gif'
+      file_version_2.xlink_show_attribute = 'embed'
       [DigitalObject, DigitalObjectComponent].each do |klass|
         json = build(:"json_#{klass.name.underscore}", file_versions: [ file_version_1, file_version_2, file_version_3 ])
         obj = klass.create_from_json(json)
@@ -103,6 +76,7 @@ describe 'Representative File Version mixin' do
 
       do1 = create(:json_digital_object, publish: true, file_versions: [file_version_1])
       file_version_2.publish = false
+      file_version_3.is_representative = true
       do2 = create(:json_digital_object, publish: true, file_versions: [file_version_2, file_version_3])
       create_args = { instances: [
                         build(:json_instance_digital, {
@@ -235,6 +209,9 @@ describe 'Representative File Version mixin' do
        " until one is found with a representative instance linking to a digital object representative_file_version." do
 
       resource = create_resource
+      file_version_1.xlink_show_attribute = 'embed'
+      file_version_2.is_representative = true
+      file_version_3.use_statement = 'image-thumbnail'
       do1 = create(:json_digital_object, publish: true, file_versions: [file_version_1])
       do2 = create(:json_digital_object, publish: true, file_versions: [file_version_2])
       do3 = create(:json_digital_object, publish: true, file_versions: [])
@@ -345,6 +322,8 @@ describe 'Representative File Version mixin' do
       #     - ao 4
 
       resource = create_resource
+      file_version_4.is_representative = true
+      file_version_5.xlink_show_attribute = 'embed'
       do4 = create(:json_digital_object, publish: true, file_versions: [file_version_4])
       do5 = create(:json_digital_object, publish: true, file_versions: [file_version_5])
 
