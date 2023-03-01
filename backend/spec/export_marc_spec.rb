@@ -821,36 +821,39 @@ describe 'MARC Export' do
         @agents = []
         [
           [:json_agent_person,
-           :names => [build(:json_name_person,
-                            :prefix => "MR")]
+           names: [ build(:json_name_person,
+                          source: "local",
+                          prefix: "MR") ]
           ],
           [:json_agent_corporate_entity, {}],
+          [:json_agent_family,
+           names: [ build(:json_name_family,
+                          source: "local") ]],
+          [:json_agent_person,
+           names: [ build(:json_name_person,
+                          source: "local",
+                          prefix: "MS") ]],
+          [:json_agent_person,
+           names: [ build(:json_name_person,
+                          source: "local",
+                          prefix: "QR") ]],
+          [:json_agent_person,
+           names: [ build(:json_name_person,
+                          source: "local",
+                          prefix: "FZ") ]],
           [:json_agent_family, {}],
           [:json_agent_person,
-           :names => [build(:json_name_person,
-                            :prefix => "MS")]
-          ],
-          [:json_agent_person,
-           :names => [build(:json_name_person,
-                            :prefix => "QR")]
-          ],
-          [:json_agent_person,
-           :names => [build(:json_name_person,
-                            :prefix => "FZ")]
-          ],
-          [:json_agent_family, {}],
-          [:json_agent_person,
-           :names => [build(:json_name_person,
-                            :prefix => "QM",
-                            :authority_id => nil)]
-          ],
+           names: [ build(:json_name_person,
+                         source: "local",
+                         prefix: "QM",
+                         authority_id: nil) ]],
           [:json_agent_corporate_entity,
-           :names => [build(:json_name_corporate_entity,
-                            :subordinate_name_1 => nil,
-                            :subordinate_name_2 => nil,
-                            :qualifier => nil,
-                            :number => nil)]
-          ]
+           names: [ build(:json_name_corporate_entity,
+                          source: "local",
+                          subordinate_name_1: nil,
+                          subordinate_name_2: nil,
+                          qualifier: nil,
+                          number: nil) ]]
         ].each do |type_and_opts|
           @agents << create(type_and_opts[0], type_and_opts[1])
         end
