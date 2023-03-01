@@ -106,7 +106,7 @@ module RepresentativeFileVersion
                                           Sequel.as(:archival_object__parent_id, :archival_object_parent_id),
                                           Sequel.as(:digital_object__id, :digital_object_id),
                                           Sequel.as(:instance__is_representative, :digital_object_is_representative))
-                                  .order(:archival_object_position)
+                                  # .order(:archival_object_position)
 
           if (digital_object_id = find_representative_in_resource_tree(archival_object_set))
             json["representative_file_version"] = DigitalObject.to_jsonmodel(digital_object_id, opts)['representative_file_version']
@@ -124,26 +124,38 @@ module RepresentativeFileVersion
       thumbnail_use_statement_id
     end
 
-    # this is an expensive operation for large trees with no representative.
-    # perhaps there is a way to do this without iterating through query results?
     def find_representative_in_resource_tree(record_set, parent_id = nil)
-      same_parent_set = record_set.filter(archival_object__parent_id: parent_id)
-      return nil if same_parent_set.count == 0
+      id_positions = {nil => 0}
+      id_depths = {nil => 0}
+      parent_to_child_id = {}
+      id_digital_objects = {}
 
-      same_parent_set.each do |row|
-        # does this node have a representative?
+      record_set.each do |row|
+        child_id = row[:archival_object_id]
+        position = row[:archival_object_position]
+        parent_id = row[:archival_object_parent_id]
+        id_positions[child_id] ||= position
+        parent_to_child_id[parent_id] ||= []
+        parent_to_child_id[parent_id] << child_id
         if row[:digital_object_id] && row[:digital_object_is_representative]
-          return row[:digital_object_id]
-        end
-
-        # does this node have a descendent with a representative?
-        if (result = find_representative_in_resource_tree(record_set, row[:archival_object_id]))
-          return result
+          id_digital_objects[child_id] = row[:digital_object_id]
         end
       end
 
-      # we went through the tree and didn't find anything
-      return nil
+      root_set = [nil]
+
+      while !root_set.empty?
+        next_rec = root_set.shift
+        if id_digital_objects[next_rec]
+          return id_digital_objects[next_rec]
+        end
+
+        children = parent_to_child_id.fetch(next_rec, []).uniq.sort_by {|child| id_positions[child]}
+        children.reverse.each do |child|
+          id_depths[child] = id_depths[next_rec] + 1
+          root_set.unshift(child)
+        end
+      end
     end
 
     def find_representative_in_digital_object_tree(record_set, parent_id = nil, pocket=[])
