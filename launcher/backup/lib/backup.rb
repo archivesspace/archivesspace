@@ -95,15 +95,6 @@ class ArchivesSpaceBackup
     nil
   end
 
-
-  def create_demodb_snapshot
-    if AppConfig[:db_url] == AppConfig.demo_db_url
-      File.write(AppConfig[:demodb_snapshot_flag], "")
-      ASHTTP.post_form(URI(URI.join(AppConfig[:backend_url], "/system/demo_db_snapshot")), {})
-    end
-  end
-
-
   def backup(output_file, do_mysqldump = false)
     output_file = File.absolute_path(output_file, ENV['ORIG_PWD'])
 
@@ -122,7 +113,6 @@ class ArchivesSpaceBackup
 
     begin
       mysql_dump = create_mysql_dump(mysql_tempfile) if do_mysqldump
-      create_demodb_snapshot
 
       zipfile = java.util.zip.ZipOutputStream.new(java.io.FileOutputStream.new(output_file))
       begin

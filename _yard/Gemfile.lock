@@ -1,10 +1,12 @@
 GEM
   remote: https://rubygems.org/
   specs:
-    kramdown (2.3.1)
+    kramdown (2.4.0)
       rexml
     rexml (3.2.5)
-    yard (0.9.26)
+    webrick (1.7.0)
+    yard (0.9.28)
+      webrick (~> 1.7.0)
 
 PLATFORMS
   java
