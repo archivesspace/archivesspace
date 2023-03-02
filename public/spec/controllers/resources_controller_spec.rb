@@ -34,6 +34,14 @@ describe ResourcesController, type: :controller do
         is_representative: true
       )]
     )
+    @resource_with_rep_instance_2 = create(:resource,
+      publish: true,
+      title: "Yet another Resource with representative file version",
+      instances: [build(:instance_digital,
+        digital_object: {'ref' => @digital_object_with_rep_file_ver.uri},
+        is_representative: true
+      )]
+    )
     @unpublished_resource = create(:resource)
 
     subject = create(:subject, terms: [build(:term, {term: 'Term 1', term_type: 'temporal'}), build(:term, term: 'Term 2')])
@@ -147,6 +155,22 @@ describe ResourcesController, type: :controller do
         expect(fc.text).to have_content(@fv_caption)
       end
       expect(response.body).to have_css(".objectimage a[class='view-all']")
+    end
+  end
+
+  describe 'digitized action' do
+    it 'displays tree breadcrumbs for digital objects linked to more than one Resource' do
+      get(:digitized, params: {rid: @repo.id, id: @resource_with_rep_instance.id})
+
+      page = Capybara.string(response.body)
+
+      page.find(:css, ".recordrow[data-uri='#{@digital_object_with_rep_file_ver.uri}'] ol.result_linked_instances_tree li:first-of-type span.resource_name") do |span|
+        expect(span).to have_content @resource_with_rep_instance.title
+      end
+
+      page.find(:css, ".recordrow[data-uri='#{@digital_object_with_rep_file_ver.uri}'] ol.result_linked_instances_tree li:last-of-type span.resource_name") do |span|
+        expect(span).to have_content @resource_with_rep_instance_2.title
+      end
     end
   end
 end

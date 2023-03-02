@@ -26,6 +26,10 @@
   flex-grow: 1;
 }
 
+.flex-shrink-0 {
+  flex-shrink: 0;
+}
+
 .mt15px {
   margin-top: var(--bootstrap-horizontal-white-space-unit);
 }

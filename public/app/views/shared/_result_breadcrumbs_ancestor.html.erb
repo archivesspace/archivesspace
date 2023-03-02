@@ -1,7 +1,7 @@
 <% if !local_assigns[:hide_delimiter] %>
   <%= t('context_delimiter') %>
 <% end %>
-<span class="#{span_class}">
+<span class="<%= span_class %>">
   <%= badge_for_type badge_type %>
   <%= link_to body, url %>
 </span>

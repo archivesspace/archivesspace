@@ -315,6 +315,13 @@ class ResourcesController < ApplicationController
       'sort' => sort,
       'facet.mincount' => 1
     })
+    if query == DIGITAL_QUERY
+      if search_opts.include? 'resolve[]'
+        search_opts['resolve[]'].append('linked_instance_uris:id')
+      else
+        search_opts['resolve[]'] = ['linked_instance_uris:id']
+      end
+    end
     search_opts['fq']=[qry]
     set_up_search([type], enums, search_opts, params, qry)
     @base_search= @base_search.sub("q=#{qry}", '')
