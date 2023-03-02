@@ -127,19 +127,8 @@ describe 'Resources and archival objects' do
 
     run_index_round
 
-    @driver.find_element(:link, 'Browse').click
-    @driver.wait_for_dropdown
-    @driver.click_and_wait_until_gone(:link, 'Resources')
+    @driver.get_edit_page(@resource)
 
-    table_rows = @driver.find_elements(css: "tr")
-    table_rows.each do |row|
-      if (row.text.include? "Resource 1")
-        table_rows[2].click_and_wait_until_gone(:link, 'Edit')
-        break
-      end
-    end
-
-    @driver.find_element(:link, 'Browse').click
     @driver.find_element_with_text('//button', /Add Container Instance/).click
 
     resource_title = @driver.find_element(css: 'h2').text[0...-9]

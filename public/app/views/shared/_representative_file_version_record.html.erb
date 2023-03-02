@@ -1,6 +1,6 @@
 <figure data-rep-file-version-wrapper>
-  <a href="<%= uri %>" target="new" title="<%= t('digital_object._public.link')%>">
-    <img src="<%= uri %>" alt="<%= caption.blank? ? '' : caption %>">
+  <a href="<%= a_uri %>" target="new" title="<%= t('digital_object._public.link')%>">
+    <img src="<%= img_uri %>" alt="<%= caption.blank? ? '' : caption %>">
   </a>
   <% unless caption.blank? %>
     <figcaption class="bg-lightgray"><%= caption %></figcaption>

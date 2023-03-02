@@ -2,9 +2,15 @@
 <div class="available-digital-objects">
   <div class="objectimage">
     <div class="panel panel-default">
+      <%
+        rfv = record['json']['representative_file_version']
+        img_uri = rfv['file_uri']
+        a_uri = rfv['derived_from'] || img_uri
+      %>
       <%= render partial: 'shared/representative_file_version_record', locals: {
-        :uri => record['json']['representative_file_version']['file_uri'],
-        :caption => record['json']['representative_file_version']['caption']
+        :a_uri => a_uri,
+        :img_uri => img_uri,
+        :caption => rfv['caption']
       } %>
       <% if representative_link_to_digital_materials?(record) %>
         <% digitized_link_text = t(
