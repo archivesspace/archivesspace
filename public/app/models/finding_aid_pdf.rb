@@ -92,12 +92,21 @@ class FindingAidPDF
   end
 
   def generate
+    java_import com.lowagie.text.pdf.BaseFont;
     out_html = source_file
 
     pdf_file = Tempfile.new
     pdf_file.close
 
     renderer = org.xhtmlrenderer.pdf.ITextRenderer.new
+    resolver = renderer.getFontResolver
+
+    resolver.addFont(
+      "/home/manny/code/LibraryHost/archivesspace/public/app/assets/fonts/ARIALUNI.TTF",
+      "Identity-H",
+      true
+    );
+
     renderer.set_document(java.io.File.new(out_html.path))
 
     # FIXME: We'll need to test this with a reverse proxy in front of it.
