@@ -144,15 +144,14 @@ class UsersController < ApplicationController
 
     if response.code === '200'
       flash[:success] = I18n.t("user._frontend.messages.updated")
-      redirect_to :action => :index
     else
       flash[:error] = I18n.t("user._frontend.messages.error_update")
-      @groups = JSONModel(:group).all if user_can?('manage_repository')
-
-      render :action => :edit_groups
     end
-  end
 
+    @user = JSONModel(:user).find(params[:id])
+    @groups = JSONModel(:group).all if user_can?('manage_repository')
+    render :action => :edit_groups
+  end
 
   def create
     handle_crud(:instance => :user,

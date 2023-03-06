@@ -1,5 +1,7 @@
 <%= setup_context :trail => [[I18n.t("user._frontend.section.manage_access"), {:controller => :users, :action => :manage_access}]], :title => @user.username %>
 
+<%= render_aspace_partial :partial => "shared/flash_messages" %>
+
 <div class="row">
   <div class="col-md-12">
     <div class="record-pane">
