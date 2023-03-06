@@ -123,4 +123,9 @@ class ArchivalObject < Sequel::Model(:archival_object)
     [{ type: Resource, ids: [obj.root_record_id] }]
   end
 
+  def publish!(setting = true)
+    super(setting)
+    Resource.update_mtime_for_ids([self.root_record_id])
+  end
+
 end
