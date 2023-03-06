@@ -189,6 +189,13 @@ def setup_test_data
   )
 
   create(:archival_object,
+    title: "AO with DO unpublished",
+    resource: { 'ref' => resource_with_tree.uri },
+    instances: [build(:instance_digital)],
+    publish: false
+  )
+
+  create(:archival_object,
     title: "AO without DO",
     resource: { 'ref' => resource_with_tree.uri },
     publish: true
