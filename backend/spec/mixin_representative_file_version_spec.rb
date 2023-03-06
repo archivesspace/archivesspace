@@ -223,6 +223,7 @@ describe 'Representative File Version mixin' do
 
       ao1 = create_archival_object({
                                      resource: { ref: resource.uri},
+                                     publish: true,
                                      position: 0,
                                      instances: [build(:json_instance_digital, {
                                                          digital_object: { ref: do1.uri },
@@ -231,6 +232,7 @@ describe 'Representative File Version mixin' do
                                    })
       ao2 = create_archival_object({
                                      resource: { ref: resource.uri},
+                                     publish: true,
                                      position: 1,
                                      instances: [build(:json_instance_digital, {
                                                          digital_object: { ref: do2.uri },
@@ -239,6 +241,7 @@ describe 'Representative File Version mixin' do
                                    })
       ao3 = create_archival_object({
                                      resource: { ref: resource.uri},
+                                     publish: true,
                                      position: 2,
                                      instances: [build(:json_instance_digital, {
                                                          digital_object: { ref: do3.uri },
@@ -329,12 +332,14 @@ describe 'Representative File Version mixin' do
 
       ao1 = create_archival_object({
                                      resource: { ref: resource.uri},
+                                     publish: true,
                                      position: 1000,
                                      title: "ao1 #{Time.now.to_i}"
                                    })
 
       ao2 = create_archival_object({
                                      resource: { ref: resource.uri},
+                                     publish: true,
                                      position: 1000,
                                      parent: {ref: ao1.uri},
                                      title: "ao2 #{Time.now.to_i}"
@@ -342,6 +347,7 @@ describe 'Representative File Version mixin' do
 
       ao3 = create_archival_object({
                                      resource: { ref: resource.uri},
+                                     publish: true,
                                      position: 2000,
                                      parent: {ref: ao1.uri},
                                      title: "ao3 #{Time.now.to_i}"
@@ -349,6 +355,7 @@ describe 'Representative File Version mixin' do
 
       ao4 = create_archival_object({
                                      resource: { ref: resource.uri},
+                                     publish: true,
                                      position: 3000,
                                      parent: {ref: ao1.uri},
                                      title: "ao4 #{Time.now.to_i}",
@@ -360,6 +367,7 @@ describe 'Representative File Version mixin' do
 
       ao5 = create_archival_object({
                                      resource: { ref: resource.uri},
+                                     publish: true,
                                      position: 2000,
                                      title: "ao5 #{Time.now.to_i}",
                                      instances: [build(:json_instance_digital, {
@@ -378,5 +386,42 @@ describe 'Representative File Version mixin' do
       expect(resource.representative_file_version['file_uri']).to eq(file_version_5.file_uri)
     end
 
+    it "ignores unpublished archival objects when searching a resource tree for a representative" do
+
+      resource = create_resource
+      file_version_1.is_representative = true
+      file_version_2.is_representative = true
+
+      do1 = create(:json_digital_object, publish: true, file_versions: [file_version_1])
+      do2 = create(:json_digital_object, publish: true, file_versions: [file_version_2])
+
+      ao1 = create_archival_object({
+                                     resource: { ref: resource.uri},
+                                     publish: false,
+                                     instances: [build(:json_instance_digital, {
+                                                         digital_object: { ref: do1.uri },
+                                                         is_representative: true
+                                                       })]})
+
+      ao2 = create_archival_object({
+                                     resource: { ref: resource.uri},
+                                     publish: true,
+                                     instances: [build(:json_instance_digital, {
+                                                         digital_object: { ref: do2.uri },
+                                                         is_representative: true
+                                                       })]})
+
+      resource = Resource.to_jsonmodel(resource.id)
+      resource_mtime_1 = resource.system_mtime
+      expect(resource.representative_file_version['file_uri']).to eq(file_version_2.file_uri)
+
+      ArchivesSpaceService.wait(:long)
+      ao1.publish!
+
+      resource = Resource.to_jsonmodel(resource.id)
+      resource_mtime_2 = resource.system_mtime
+      expect(resource.representative_file_version['file_uri']).to eq(file_version_1.file_uri)
+      expect(resource_mtime_2).to be > resource_mtime_1
+    end
   end
 end
