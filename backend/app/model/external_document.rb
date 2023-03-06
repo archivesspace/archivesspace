@@ -1,5 +1,4 @@
 require 'digest/sha1'
-require_relative 'mixins/publishable'
 
 class ExternalDocument < Sequel::Model(:external_document)
   include ASModel

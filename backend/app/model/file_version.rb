@@ -1,5 +1,3 @@
-require_relative 'mixins/publishable'
-
 class FileVersion < Sequel::Model(:file_version)
   include ASModel
   include Publishable
