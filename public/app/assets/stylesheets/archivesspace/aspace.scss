@@ -787,6 +787,7 @@ i.giant {
 .additional-file-version img {
   margin: 0 auto;
   display: block;
+  min-width: 200px;
   max-width: 100%;
   border-top-right-radius: var(--bootstrap-rounded-corner-radius);
   border-top-left-radius: var(--bootstrap-rounded-corner-radius);
