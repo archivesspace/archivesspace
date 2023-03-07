@@ -86,9 +86,12 @@ class DigitalObject < Sequel::Model(:digital_object)
           end
 
           if link[:archival_object_id]
-            json["collection"] << {"ref" => self.uri_for(
-              :resource, ArchivalObject.find(id: link[:archival_object_id]).root_record_id
-            )}
+            archival_object = ArchivalObject.find(id: link[:archival_object_id])
+
+            # ANW-1703: only include resource uri from AO if the AO is published. Publish will be 0|1
+            if archival_object.publish.positive?
+              json["collection"] << {"ref" => self.uri_for(:resource, archival_object.root_record_id)}
+            end
           else
             json["collection"] << {"ref" => uri}
           end
