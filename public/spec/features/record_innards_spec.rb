@@ -3,9 +3,7 @@ require 'rails_helper'
 
 describe 'Record innards', js: true do
   it 'should display when a scope note is inherited' do
-    visit('/')
-    click_link 'Collections'
-    expect(current_path).to eq ('/repositories/resources')
+    visit('/search?utf8=✓&op[]=&q[]="Resource+with+scope+note"&limit=resource&field[]=&from_year[]=&to_year[]=')
     resource = first("a[class='record-title']", text: 'Resource with scope note')
     visit(resource['href'])
     click_link 'Collection Organization'
