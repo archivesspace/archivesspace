@@ -1,0 +1,6 @@
+en:
+  reports:
+    created_accessions_report:
+      title: Created Accessions
+      description: Report on accessions created within a date range
+      identifier_prefix: Accession

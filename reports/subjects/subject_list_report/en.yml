@@ -1,0 +1,5 @@
+en:
+  reports:
+    subject_list_report:
+      title: Subject Records List
+      description: Displays selected subject record(s). Report lists subject term, subject term type, and subject source.

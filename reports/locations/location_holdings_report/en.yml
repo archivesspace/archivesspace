@@ -1,0 +1,12 @@
+en:
+  reports:
+    location_holdings_report:
+      title: Location Holdings
+      identifier_prefix: Location
+      description: Report on containers shelved at one or more locations
+      repository_report_type: Repository
+      building_report_type: Building
+      single_location_report_type: Single Location
+      location_range_report_type: Range of Locations
+      start_range: First location
+      end_range: Last location

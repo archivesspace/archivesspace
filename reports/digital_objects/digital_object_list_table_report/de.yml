@@ -1,0 +1,5 @@
+de:
+  reports:
+    digital_object_list_table_report:
+      title: Tabelle von digitalen Objekten
+      description: Zeigt digitale Objekte in Tabellenform an. Der Bericht enthält Titel, digitalen Objekt-Bezeichner, Objekttyp, Daten und die Titel und Signaturen verknüpfter Ressourcen.

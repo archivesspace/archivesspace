@@ -1,0 +1,8 @@
+fr:
+  reports:
+    resource_instances_list_report:
+      title: Liste de ressources et d'instances
+      description: Affiche les ressources et toute information de localisation spécifiée. Rapport comprenant intitulé, identifiant ressource, niveau, fourchette de dates et conditionnements assignés.
+      total_extent: Importance totale des ressources
+      identifier_prefix: Ressource
+

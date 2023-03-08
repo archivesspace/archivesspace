@@ -1,0 +1,8 @@
+fr:
+  reports:
+    resource_deaccessions_list_report:
+      title: Ressources et aliénation(s)
+      description: Affiche ressource(s) et notices d'aliénations liées. Rapport comprenant titre, identifiant ressource, niveau, fourchette de dates, aliénations liées, noms de créateurs et importance matérielle totale.
+      total_extent: Importance totale des ressources
+      identifier_prefix: Ressource
+

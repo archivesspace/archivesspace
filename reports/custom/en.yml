@@ -1,0 +1,7 @@
+en:
+  reports:
+    custom_report:
+      title: Custom Report
+      description: Custom report templates bring together data based on selected options for record type, data fields, and linked records. Create your report template first, then select it from the drop-down list when you're ready to run the report.
+
+

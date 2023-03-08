@@ -1,0 +1,5 @@
+en:
+  reports:
+    agent_list_report:
+      title: Name Records List
+      description: Displays selected name record(s). Report lists name, name type, and name source.

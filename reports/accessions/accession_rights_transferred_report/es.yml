@@ -1,0 +1,6 @@
+es:
+  reports:
+    accession_rights_transferred_report:
+      title: Adhesiónes con derechos transferidos
+      description: Muestra solo las adhesiónes para las que se han transferido derechos. El informe contiene el número de acceso, recursos vinculados, título, extensión, catalogado, fecha de procesamiento, restricciones de acceso, restricciones de uso, derechos transferidos y un recuento del número de registros seleccionados con derechos transferidos.
+      identifier_prefix: Adhesión

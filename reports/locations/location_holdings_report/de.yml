@@ -1,0 +1,12 @@
+de:
+  reports:
+    location_holdings_report:
+      title: Bestände eines Standorts
+      identifier_prefix: Standort
+      description: Bericht zu Behältnissen, die an einem oder mehreren Standorten gelagert werden
+      repository_report_type: Aufbewahrungsort
+      building_report_type: Gebäude
+      single_location_report_type: Einzelner Standort
+      location_range_report_type: Bereich von Standorten
+      start_range: Erster Standort
+      end_range: Letzter Standort

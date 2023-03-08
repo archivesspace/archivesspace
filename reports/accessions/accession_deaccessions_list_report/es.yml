@@ -1,0 +1,7 @@
+es:
+  reports:
+    accession_deaccessions_list_report:
+      title: Registros de adhesiónes adquiridas y bajas vinculadas
+      description: Muestra una lista de registros de adhesión y registros de bajas vinculados. El informe contiene el número de acceso, título, extensión, fecha de acceso, resumen del contenedor, catalogado, fecha de procesamiento, derechos transferidos, bajas vinculadas y alcance total de todas las bajas.
+      total_extent: Extensión total de adhesiónes
+      identifier_prefix: Adhesión

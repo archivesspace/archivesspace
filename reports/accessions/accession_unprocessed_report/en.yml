@@ -1,0 +1,8 @@
+en:
+  reports:
+    accession_unprocessed_report:
+      title: Unprocessed Accessions
+      description: Displays only those accession(s) that have not been processed. Report contains accession number, linked resources, title, extent, cataloged, date processed, a count of the number of records selected with date processed, and the total extent number for those records without a completed date processed field.
+      total_count: Number of Accessions
+      identifier_prefix: Accession
+      total_extent: Total Extent Unprocessed

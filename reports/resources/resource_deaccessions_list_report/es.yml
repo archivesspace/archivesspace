@@ -1,0 +1,7 @@
+es:
+  reports:
+    resource_deaccessions_list_report:
+      title: Recursos y Expurgo(s)
+      description: Muestra recursos y linked expurgo registro(s). El informe contiene título, identificador de recurso, nivel, rango de fechas, bajas vinculadas, nombres de creadores y totales de extensión física.
+      total_extent: Extensión total de recursos
+      identifier_prefix: Recurso

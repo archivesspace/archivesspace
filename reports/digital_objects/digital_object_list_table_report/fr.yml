@@ -1,0 +1,5 @@
+fr:
+  reports:
+    digital_object_list_table_report:
+      title: Tableau d'objets numériques
+      description: Affiche des objets numériques sous forme de tableau. Rapport comprenant intitulé, identifiant d'objet numérique, type d'objet, dates, ainsi que titre et identifiant des ressources liées.

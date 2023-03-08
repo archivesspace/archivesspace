@@ -1,0 +1,6 @@
+fr:
+  reports:
+    assessment_rating_report:
+      title: Rapport de notes d'évaluation
+      description: Affiche des informations pour les évaluations avec une note spécifiée dans une plage spécifiée. Vous devez sélectionner au moins une valeur; pour afficher tous les enregistrements, sélectionnez toutes les valeurs.
+      identifier_prefix: Évaluation 

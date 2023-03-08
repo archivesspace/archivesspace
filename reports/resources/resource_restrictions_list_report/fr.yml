@@ -1,0 +1,8 @@
+fr:
+  reports:
+    resource_restrictions_list_report:
+      title: Liste des ressources soumises à restrictions
+      description: Affiche ressource(s) et information de localisation. Rapport comprenant intitulé, identifiant ressource, niveau, fourchette de dates, et localisations assignées.
+      total_count: Nombre de notices
+      total_extent: Importance totale des ressources
+      identifier_prefix: Ressource

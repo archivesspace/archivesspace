@@ -1,0 +1,11 @@
+de:
+    reports:
+        user_groups_report:
+            title: Nutzergruppen-Bericht
+            description: Zeigt Nutzer und Zugangsgruppen spezifisch zu Aufbewahrungsorten an
+            name: Name
+            department: Abteilung
+            user_title: Titel
+            groups: Gruppen
+            email: E-Mail
+            telephone: Telefon

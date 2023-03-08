@@ -1,0 +1,7 @@
+de:
+  reports:
+    custom_report:
+      title: Benutzerdefinierter Bericht
+      description: Benutzerdefinierte Berichtsvorlagen führen Daten basierend auf gewählten Optionen für Datensatztyp, Datenfeldern und verknüpften Datensätzen zusammen. Erstellen Sie erst Ihre Berichtsvorlage und wählen Sie diese dann aus dem Auswahlfeld, wenn Sie bereit sind, um den Bericht auszuführen.
+
+

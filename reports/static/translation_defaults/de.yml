@@ -1,0 +1,172 @@
+de:
+  reports:
+    translation_defaults:
+      accession_processed_date: Datum der Bearbeitung des Eingangs
+      access_restrictions_note: Anmerkung zu Zugangsbeschränkungen
+      access_restrictions: Zugangsbeschränkungen?
+      accession_date: Eingangs-Datum
+      accession_number: Eingangs-Nummer
+      accession_processed: Eingang bearbeitet?
+      accession_report: Eingangs-Bericht
+      total_transferred: Eingänge mit übertragenen Rechten
+      acknowledgement_sent: Bestätigung gesendet?
+      acquisition_type: Erwerbstyp
+      appraisal: Bewertung
+      area: Bereicht
+      barcode: Strichcode
+      begin_date: Beginn-Datum
+      container_list: Box/Behältnis-Liste
+      building: Gebäude
+      bulk_begin_date: Massen-Beginn-Datum
+      bulk_end_date: Massen-End-Datum
+      catalog_record: Katalogdatensatz (MARC)
+      cataloged: Katalogisiert
+      classification_number: Klassifizierungs-Nummer
+      classifications: Klassifizierungen
+      control_file: Sammlungs/Kontroll-Datei
+      component_identifier: Komponenten-Bezeichner
+      component_title: Komponenten-Titel
+      condition_note: Bedingung
+      conservation_issues: Erhaltungsprobleme
+      conservation_note: Erhaltungs-Anmerkung
+      container: Behältnis
+      container_2: Behältnis 2
+      container_3: Behältnis 3
+      container_profile: Behältnisprofil
+      container_summary: Behältnis-Zusammenfassung
+      containers: Behältnisse
+      date: Datum
+      date_expression: Datumsausdruck
+      survey_end: End-Datum der Erhebung
+      survey_begin: Beginn-Datum der Erhebung
+      dates: Daten
+      deaccessions: Abgänge
+      deed_of_gift: Schenkungsurkunde
+      description: Beschreibung
+      description_note: Beschreibung
+      disposition_note: Disposition
+      end_date: End-Datum
+      exhibition_value_note: Anmerkung zum Ausstellungswert
+      existing_description_notes: Bestehende Beschreibungs-Anmerkungen
+      extent: Umfang
+      surveyed_extent: Erfasster Umfang
+      field: Feld
+      file_versions: Dateiversionen
+      finding_aid_ead: Findmittel (EAD-Enkodierung)
+      finding_aid_online: Findmittel (Online)
+      finding_aid_paper: Findmittel (Nur Papier)
+      finding_aid_spreadsheet: Findmittel (Tabelle)
+      finding_aid_word: Findmittel (Textdokument)
+      floor: Stockwerk
+      function: Funktion
+      general_assessment_note: Allgemeine Begutachtungs-Anmerkung
+      general_note: Allgemeine Anmerkung
+      id: ID
+      identifier: Bezeichner
+      ils_holding_id: ILD Bestands-ID
+      ils_item_id: ILS Element-ID
+      inactive: Inaktiv
+      instance_type: Instanztyp
+      instances: Instanzen
+      inventory: Bestandsverzeichnis
+      language: Sprache
+      level: Stufe
+      linked_records: Verknüpfte Datensätze
+      linked_resources: Verknüpfte Ressourcen
+      formats: Liste der Archivgut-Typen / Formate
+      location: Standort
+      location_barcode: Standort Strichcode
+      location_in_room: Standort im Raum
+      location_profile: Standortprofil
+      location_url: Standort-URL
+      locations: Standorte
+      monetary_value: Geldwert
+      monetary_value_note: Geldwert-Anmerkung
+      name: Name
+      name_source: Namensquelle
+      name_type: Namenstyp
+      names: Namen
+      note: Anmerkung
+      notification_sent: Benachrichtigung gesendet
+      number_of_accessions: Anzahl der Eingänge
+      total_count: Anzahl der Datensätze
+      number_with_inventories: Anzahl mit Bestandsverzeichnissen
+      object_type: Objket-Typ
+      provenance: Provenienz
+      purpose: Zweck der Begutachtung
+      rating: Bewertung
+      ratings: Rewertungen
+      record_id: Datensatz-ID
+      linked_record_type: Datensatztyp
+      related_eac_records: Verwandte EAC Datensätze
+      repository: Aufbewahrungsort
+      resource_identifier: Ressourcen-Bezeichner
+      resources: Ressourcen
+      records: Ressourcen und Eingänge
+      retention_rule: Vorhaltung
+      restrictions_apply: Gelten Einschränkungen?
+      review_note: Prüfungs-Anmerkung
+      review_required: Prüfung erforderlich?
+      reviewer: Prüfer
+      rights_transferred_note: Anmerkung zu übertragenen Rechten
+      rights_transferred: Rechte übertragen?
+      role: Rolle
+      room: Raum
+      scope: Umfang der Begutachtung
+      scoped_by_rating: Eingschränkt durch Bewertung
+      script: Schrift
+      sensitive_material: Sensitives Archivgut?
+      scoped_by_date_range: Zeige Datensätze erstellt zwischen
+      showing_values: Zeige Datensätze mit Bewertungen
+      sort_name: Sortiername
+      source: Quelle
+      special_format_note: Spezialformat-Anmerkung
+      subjects: Themen
+      surveyed_by: Erhoben von
+      term: Stichwort
+      surveyed_duration: Zeit zur Fertigstellung der Erhebung
+      record_title: Titel
+      title: Titel
+      top_container_barcode: Haupt-Behältnis Strichcode
+      top_container_indicator: Haupt-Behältnis Indikator
+      total_deaccessions_extent: Gesamtumfang der Abgänge
+      total_extent: Gesamtumfang von Datensätzen
+      type: Typ
+      total_unprocessed: Unbearbeitete Eingänge
+      uri: URI
+      use_restrictions_note: Anmerkung zu Nutzungsbeschränkungen
+      use_restrictions: Nutzungsbeschränkungen?
+      use_statement: Nutzungserklärung
+      accessions: Eingänge
+      deaccession_date: Abgangs-Datum
+      rating_note: Bewertungs-Anmerkung
+      temporary_location: Vorübergehender Standort
+      rights_statements: Rechteerklärungen
+      rights_type: Rechtetyp
+      statute_citation: Gesetz-Zitat
+      jurisdiction: Gerichtsbarkeit
+      status: Status
+      determination_date: Datum des Beschlusses
+      license_terms: Lizenzbedingungen
+      other_rights_basis: Sonstige Rechtsgrundlage
+      custom_record_type: Benutzerdefinierter Bericht für
+      digital_object: Digitales Objekt
+      is_representative: Ist repräsentativ?
+      sorted_by: Sortiert nach
+      root_record: Wurzeldatensatz
+      dimension_units: Abmessungs-Einheiten
+      depth: Tiefe
+      height: Höhe
+      width: Breite
+      template_name: Vorlagenname
+      template_description: Vorlagenbeschreibung
+      date_type: Datumstyp
+      label:  Beschriftung
+      expression: Datumsausdruck
+      standardized_type: Standardisierter Typ
+      begin_expression: Ausdruck Beginn-Datum
+      begin_standardized_type: Standardisierter Typ Beginn-Datum
+      end_expression: Ausdruck End-Datum
+      end_standardized_type: Standardisierter Typ End-Datum
+      select: Wählen
+      back: Zurück

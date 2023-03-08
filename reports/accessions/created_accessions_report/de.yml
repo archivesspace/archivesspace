@@ -1,0 +1,6 @@
+de:
+  reports:
+    created_accessions_report:
+      title: Erstellte Eingänge
+      description: Bericht für Eingänge, die in einem Datumsbereich erstellt wurden
+      identifier_prefix: Eingang
