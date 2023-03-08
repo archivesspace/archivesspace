@@ -101,8 +101,11 @@ class FindingAidPDF
     renderer = org.xhtmlrenderer.pdf.ITextRenderer.new
     resolver = renderer.getFontResolver
 
+    # ANW-1075: Use Noto Serif for open source compatibility and Unicode support for Latin, Cyrillic and Greek alphabets
+    font_path = Rails.root.to_s + "/app/assets/fonts/NotoSerif-Regular.ttf"
+
     resolver.addFont(
-      "/home/manny/code/LibraryHost/archivesspace/public/app/assets/fonts/ARIALUNI.TTF",
+      font_path,
       "Identity-H",
       true
     );
