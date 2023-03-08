@@ -183,10 +183,9 @@ class ReportGenerator
   end
 
   def template_path(file)
-    if File.exist?(File.join('app', 'views', 'reports', file))
-      return File.join('app', 'views', 'reports', file)
+    if File.exist?(File.join(File.dirname(__FILE__), '..', '..', 'views', 'reports', file))
+      return File.join(File.dirname(__FILE__), '..', '..', 'views', 'reports', file)
     end
-
     StaticAssetFinder.new('reports').find(file)
   end
 
