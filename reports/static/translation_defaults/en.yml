@@ -1,0 +1,172 @@
+en:
+  reports:
+    translation_defaults:
+      accession_processed_date: Accession Processed Date
+      access_restrictions_note: Access Restrictions Note
+      access_restrictions: Access Restrictions?
+      accession_date: Accession Date
+      accession_number: Accession Number
+      accession_processed: Accession Processed?
+      accession_report: Accession Report
+      total_transferred: Accessions with Rights Transferred
+      acknowledgement_sent: Acknowledgement Sent?
+      acquisition_type: Acquisition Type
+      appraisal: Appraisal
+      area: Area
+      barcode: Barcode
+      begin_date: Begin Date
+      container_list: Box/Container List
+      building: Building
+      bulk_begin_date: Bulk Begin Date
+      bulk_end_date: Bulk End Date
+      catalog_record: Catalog Record (MARC)
+      cataloged: Cataloged
+      classification_number: Classification number
+      classifications: Classifications
+      control_file: Collection/Control File
+      component_identifier: Component Identifer
+      component_title: Component Title
+      condition_note: Condition
+      conservation_issues: Conservation Issues
+      conservation_note: Conservation Note
+      container: Container
+      container_2: Container 2
+      container_3: Container 3
+      container_profile: Container Profile
+      container_summary: Container Summary
+      containers: Containers
+      date: Date
+      date_expression: Date Expression
+      survey_end: Date Survey Ended
+      survey_begin: Date Survey Started
+      dates: Dates
+      deaccessions: Deaccessions
+      deed_of_gift: Deed Of Gift
+      description: Description
+      description_note: Description
+      disposition_note: Disposition
+      end_date: End Date
+      exhibition_value_note: Exhibition Value Note
+      existing_description_notes: Existing Description Notes
+      extent: Extent
+      surveyed_extent: Extent Surveyed
+      field: Field
+      file_versions: File Version(s)
+      finding_aid_ead: Finding Aid (EAD-encoding)
+      finding_aid_online: Finding Aid (Online)
+      finding_aid_paper: Finding Aid (paper only)
+      finding_aid_spreadsheet: Finding Aid (spreadsheet)
+      finding_aid_word: Finding Aid (word processing document)
+      floor: Floor
+      function: Function
+      general_assessment_note: General Assessment Note
+      general_note: General Note
+      id: ID
+      identifier: Identifier
+      ils_holding_id: ILD Holding ID
+      ils_item_id: ILS Item ID
+      inactive: Inactive
+      instance_type: Instance Type
+      instances: Instances
+      inventory: Inventory
+      language: Language
+      level: Level
+      linked_records: Linked Records
+      linked_resources: Linked Resource(s)
+      formats: List of Material Types / Formats
+      location: Location
+      location_barcode: Location Barcode
+      location_in_room: Location in Room
+      location_profile: Location Profile
+      location_url: Location URL
+      locations: Locations
+      monetary_value: Monetary Value
+      monetary_value_note: Monetary Value Note
+      name: Name
+      name_source: Name Source
+      name_type: Name Type
+      names: Names
+      note: Note
+      notification_sent: Notification Sent
+      number_of_accessions: Number of accessions
+      total_count: Number of Records
+      number_with_inventories: Number with Inventories
+      object_type: Object Type
+      provenance: Provenance
+      purpose: Purpose of Assessment
+      rating: Rating
+      ratings: Ratings
+      record_id: Record ID
+      linked_record_type: Record Type
+      related_eac_records: Related EAC Record(s)
+      repository: Repository
+      resource_identifier: Resource Identifier
+      resources: Resources
+      records: Resources and Accessions
+      retention_rule: Retention
+      restrictions_apply: Restrictions Apply?
+      review_note: Review Note
+      review_required: Review Required?
+      reviewer: Reviewer
+      rights_transferred_note: Rights Transferred Note
+      rights_transferred: Rights Transferred?
+      role: Role
+      room: Room
+      scope: Scope of Assessment
+      scoped_by_rating: Scoped by Rating
+      script: Script
+      sensitive_material: Sensitive Material?
+      scoped_by_date_range: Showing records created between
+      showing_values: Showing records with rating values
+      sort_name: Sort Name
+      source: Source
+      special_format_note: Special Format Note
+      subjects: Subjects
+      surveyed_by: Surveyed By
+      term: Term
+      surveyed_duration: Time it took to Complete Survey
+      record_title: Title
+      title: Title
+      top_container_barcode: Top Container Barcode
+      top_container_indicator: Top Container Indicator
+      total_deaccessions_extent: Total Extent of Deaccessions
+      total_extent: Total Extent of Records
+      type: Type
+      total_unprocessed: Unprocessed Accessions
+      uri: URI
+      use_restrictions_note: Use Restrictions Note
+      use_restrictions: Use Restrictions?
+      use_statement: Use Statement
+      accessions: Accessions
+      deaccession_date: Deaccession Date
+      rating_note: Rating Note
+      temporary_location: Temporary Location
+      rights_statements: Rights Statements
+      rights_type: Rights Type
+      statute_citation: Statute Citation
+      jurisdiction: Jurisdiction
+      status: Status
+      determination_date: Determination Date
+      license_terms: License Terms
+      other_rights_basis: Other Rights Basis
+      custom_record_type: Custom Report For
+      digital_object: Digital Object
+      is_representative: Is Representative?
+      sorted_by: Sorted By
+      root_record: Root Record
+      dimension_units: Dimension Units
+      depth: Depth
+      height: Height
+      width: Width
+      template_name: Template Name
+      template_description: Template Description
+      date_type: Date Type
+      label:  Label
+      expression: Date Expression
+      standardized_type: Standardized Type
+      begin_expression: Begin Date Expression
+      begin_standardized_type: Begin Date Standardized Type
+      end_expression: End Date Expression
+      end_standardized_type: End Date Standardized Type
+      select: Select
+      back: Back

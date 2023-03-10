@@ -1,0 +1,8 @@
+en:
+  reports:
+    resource_deaccessions_list_report:
+      title: Resources and Deaccession(s)
+      description: Displays resource(s) and linked deaccession record(s). Report contains title, resource identifier, level, date range, linked deaccessions, creator names, and physical extent totals.
+      total_extent: Total Extent of Resources
+      identifier_prefix: Resource
+

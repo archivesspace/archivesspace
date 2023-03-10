@@ -1,0 +1,162 @@
+es:
+  reports:
+    translation_defaults:
+      accession_processed_date: Fecha de tratamiento
+      access_restrictions_note: Nota de las restricciones de acceso
+      access_restrictions: Restricciones de acceso
+      accession_date: Fecha de entrada
+      accession_number: Número de acta de ingreso
+      accession_processed: Procesado
+      accession_report: Accession Report
+      total_transferred: Accessions with Rights Transferred
+      acknowledgement_sent: Reconocimiento enviado
+      acquisition_type: Tipo de entrada
+      appraisal: Appraisal
+      area: Area
+      barcode: Código de barras
+      begin_date: Fecha de inicio
+      container_list: Box/Container List
+      building: Edificio
+      bulk_begin_date: Fecha de inicio de la parte principal
+      bulk_end_date: Fecha de finalización de la parte principal
+      catalog_record: Catalog Record (MARC)
+      cataloged: Catalogado
+      classification_number: Número de clasificación
+      classifications: Clasificaciones
+      control_file: Collection/Control File
+      component_identifier: Identificador de componente
+      component_title: Título de componente
+      condition_note: Descripción de la condición
+      conservation_issues: Conservation Issues
+      conservation_note: Conservation Note
+      container: Contenedor
+      container_2: Contenedor 2
+      container_3: Contenedor 3
+      container_profile: Perfil de contenedor
+      container_summary: Resumen de contenedor
+      containers: Contenedores
+      date: Fecha
+      date_expression: Expresión de fecha
+      survey_end: Date Survey Ended
+      survey_begin: Date Survey Started
+      dates: Fechas
+      deaccessions: Expurgos
+      deed_of_gift: Deed Of Gift
+      description: Descripción
+      description_note: Descripción
+      disposition_note: Disposición
+      end_date: Fecha de finalización
+      exhibition_value_note: Exhibition Value Note
+      existing_description_notes: Existing Description Notes
+      extent: Extensión
+      surveyed_extent: Extent Surveyed
+      field: Field
+      file_versions: Versiones del archivo
+      finding_aid_ead: Finding Aid (EAD-encoding)
+      finding_aid_online: Finding Aid (Online)
+      finding_aid_paper: Finding Aid (paper only)
+      finding_aid_spreadsheet: Finding Aid (spreadsheet)
+      finding_aid_word: Finding Aid (word processing document)
+      floor: Piso
+      function: Función
+      general_assessment_note: General Assessment Note
+      general_note: Nota general
+      id: ID
+      identifier: Identificador
+      ils_holding_id: ILD Holding ID
+      ils_item_id: ILS Item ID
+      inactive: Inactive
+      instance_type: Tipo de representación
+      instances: Representaciones
+      inventory: Inventario
+      language: Idioma
+      level: Nivel
+      linked_records: Registros vinculados
+      linked_resources: Recursos vinculados
+      formats: Lista de tipos de materiales / Formatos
+      location: Ubicación
+      location_barcode: Código de barras de ubicación
+      location_in_room: Ubicación en la habitación
+      location_profile: Perfil de ubicación
+      location_url: URL de ubicación
+      locations: Ubicaciones
+      monetary_value: Valor monetario
+      monetary_value_note: Nota de valor monetario
+      name: Nombre
+      name_source: Fuente de nombre
+      name_type: Tipo de nombre
+      names: Nombres
+      note: Nota
+      notification_sent: Notificación está enviado
+      number_of_accessions: Número de ingresos
+      total_count: Número de registros
+      number_with_inventories: Número con inventarios
+      object_type: Tipo de objeto
+      provenance: Procedencia
+      purpose: Propósito de la evaluación
+      rating: Clasificación
+      ratings: Calificaciones
+      record_id: ID de registro
+      linked_record_type: Tipo de registro
+      related_eac_records: Registro(s) de EAC relacionados
+      repository: Repositorio
+      resource_identifier: Identificador de recursos
+      resources: Recursos
+      records: Recursos y Accesiones
+      retention_rule: Retencion
+      restrictions_apply: ¿Se aplican restricciones?
+      review_note: Nota de revisión
+      review_required: Revisión requerida?
+      reviewer: Crítico
+      rights_transferred_note: Derechos transferidos Nota
+      rights_transferred: ¿Derechos transferidos?
+      role: Role
+      room: Sala
+      script: Texto
+      scope: Alcance de la evaluación
+      scoped_by_rating: Alcance por Calificación
+      sensitive_material: ¿Material sensible?
+      scoped_by_date_range: Mostrando registros creados entre
+      showing_values: Mostrando registros con valores de calificación
+      sort_name: Ordenar Nombre
+      source: Origen
+      special_format_note: Nota de formato especial
+      subjects: Asignaturas
+      surveyed_by: Encuestados por
+      term: Term
+      surveyed_duration: Tiempo que llevó completar la encuesta
+      record_title: Título
+      title: Título
+      top_container_barcode: Código de barras del contenedor superior
+      top_container_indicator: Indicador de contenedor superior
+      total_deaccessions_extent: Extensión total de desaccesiones
+      total_extent: Extensión total de los registros
+      type: Tipo
+      total_unprocessed: Accesiones sin procesar
+      uri: URI
+      use_restrictions_note: Nota de restricciones de uso
+      use_restrictions: Usar restricciones?
+      use_statement: Declaración de uso
+      accessions: Accesiones
+      deaccession_date: Fecha de salida
+      rating_note: Nota de Calificación
+      temporary_location: Ubicación temporal
+      rights_statements: Declaraciones de derechos
+      rights_type: Tipo de derechos
+      statute_citation: Citación del Estatuto
+      jurisdiction: Jurisdicción
+      status: Estado
+      determination_date: Fecha de determinación
+      license_terms: Condiciones de la licencia
+      other_rights_basis: Otras bases de derechos
+      custom_record_type: Informe personalizado para
+      digital_object: Objeto digital
+      is_representative: Es representativo?
+      sorted_by: Ordenado por
+      root_record: Registro raíz
+      dimension_units: Unidades de dimensión
+      depth: Depth
+      height: Height
+      width: Width
+      template_name: Nombre de la plantilla
+      template_description: Descripción de la plantilla

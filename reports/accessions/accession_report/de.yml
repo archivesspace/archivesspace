@@ -1,0 +1,6 @@
+de:
+  reports:
+    accession_report:
+      title: Eingangs-Bericht
+      description: Zeigt alle Eingänge für einen gegebenen Aufbewahrungsort an. Der Bericht enthält in die Felder für grundlegende Informationen eingegebenen Daten jedes Eingangs.
+      identifier_prefix: Eingang

@@ -1,0 +1,6 @@
+fr:
+  reports:
+    assessment_list_report:
+      description: Notices de toutes les évaluations créées
+      title: Liste de notices d'évaluation
+      identifier_prefix: Évaluation

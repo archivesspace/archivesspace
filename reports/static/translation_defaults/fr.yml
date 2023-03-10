@@ -1,0 +1,162 @@
+fr:
+  reports:
+    translation_defaults:
+      accession_processed_date: Date de traitement
+      access_restrictions_note: Note de restrictions de consultation
+      access_restrictions: Restrictions de communicabilité
+      accession_date: Date d'entrée
+      accession_number: Numéro d'accession
+      accession_processed: Traité
+      accession_report: Accession Report
+      total_transferred: Entrées avec droits transférés
+      acknowledgement_sent: Reçu envoyé
+      acquisition_type: Type d'acquisition
+      appraisal: Appraisal
+      area: Aire
+      barcode: Code-barres
+      begin_date: Date de début
+      container_list: Box/Container List
+      building: Bâtiment
+      bulk_begin_date: Date de début de la majeure partie
+      bulk_end_date: Date de fin de la majeure partie
+      catalog_record: Catalog Record (MARC)
+      cataloged: Cataloguée
+      classification_number: Numéro de classement
+      classifications: Classifications
+      control_file: Collection/Control File
+      component_identifier: Identifiant de composant
+      component_title: Intitulé de composant
+      condition_note: Etat de conservation
+      conservation_issues: Conservation Issues
+      conservation_note: Conservation Note
+      container: Conditionnement
+      container_2: Conditionnement 2
+      container_3: Conditionnement 3
+      container_profile: Conditionnement Profile
+      container_summary: Conditionnement Summary
+      containers: Conditionnements
+      date: Date
+      date_expression: Expression de date
+      survey_end: Date Survey Ended
+      survey_begin: Date Survey Started
+      dates: Dates
+      deaccessions: Aliénations
+      deed_of_gift: Acte de donation
+      description: Description
+      description_note: Description Note
+      disposition_note: Note de disposition
+      end_date: Date de fin
+      exhibition_value_note: Note sur la valeur d'exposition
+      existing_description_notes: Description existante Notes
+      extent: Importance
+      surveyed_extent: Étendue enquêtée
+      field: Field
+      file_versions: Version(s) de fichier
+      finding_aid_ead: Finding Aid (EAD-encoding)
+      finding_aid_online: Finding Aid (Online)
+      finding_aid_paper: Finding Aid (paper only)
+      finding_aid_spreadsheet: Finding Aid (spreadsheet)
+      finding_aid_word: Finding Aid (word processing document)
+      floor: Etage
+      function: Fonction
+      general_assessment_note: Note d'évaluation générale
+      general_note: Note générale
+      id: ID
+      identifier: Identifiant
+      ils_holding_id: ILD Holding ID
+      ils_item_id: ILS Item ID
+      inactive: Inactive
+      instance_type: Type d'instance
+      instances: Instances
+      inventory: Inventaire
+      language: Langue
+      level: Niveau
+      linked_records: Enregistrements liés
+      linked_resources: Ressource(s) liée(s)
+      formats: Liste des types de matériaux / formats
+      location: Localisation
+      location_barcode: Code-barres de localisation
+      location_in_room: Localisation dans la salle
+      location_profile: Profil de localisation
+      location_url: URL de localisation
+      locations: Localisations
+      monetary_value: Valeur monétaire
+      monetary_value_note: Note de valeur monétaire
+      name: Nom
+      name_source: Source de nom
+      name_type: Type de nom
+      names: Noms
+      note: Note
+      notification_sent: Notification envoyée
+      number_of_accessions: Nombre d'entrées
+      total_count: Nombre de notices passées en revue
+      number_with_inventories: Entrées avec inventaires
+      object_type: Type d'objet
+      provenance: Provenance
+      purpose: But de l'évaluation
+      rating: Évaluation
+      ratings: Évaluations
+      record_id: ID d'enregistrement
+      linked_record_type: Type d'enregistrement
+      related_eac_records: Enregistrement(s) connexe(s)
+      repository: Services d'archives
+      resource_identifier: Identifiant de ressource
+      resources: Ressources
+      records: Ressources et entrées
+      retention_rule: Règle de conservation
+      restrictions_apply: Des restrictions s'appliquent?
+      review_note: Note de révision
+      review_required: Examen requis?
+      reviewer: Reviewer
+      rights_transferred_note: Note de transfert de droits
+      rights_transferred: Droits transférés?
+      role: Rôle
+      room: Salle
+      scope: Portée de l'évaluation
+      scoped_by_rating: Portée par note
+      script: Scénario
+      sensitive_material: Matériau sensible?
+      scoped_by_date_range: Affichage des enregistrements créés entre
+      showing_values: Affichage des enregistrements avec des valeurs d'évaluation
+      sort_name: Nom de tri
+      source: Source
+      special_format_note: Note de format spécial
+      subjects: Sujets
+      surveyed_by: Sondé par
+      term: Terme
+      surveyed_duration: Temps qu'il a fallu pour terminer le sondage
+      record_title: Intitulé
+      title: Intitulé
+      top_container_barcode: Code-barres du top conditionnement
+      top_container_indicator: Indicateur du top conditionnement
+      total_deaccessions_extent: Importance totale des aliénations
+      total_extent: Importance totale
+      type: Type
+      total_unprocessed: Entrées non traitées
+      uri: URI
+      use_restrictions_note: Note de restrictions d'utilisation
+      use_restrictions: Restrictions d'utilisation
+      use_statement: Mention d'utilisation
+      accessions: Accessions
+      deaccession_date: Date de démission
+      rating_note: Note d'évaluation
+      temporary_location: Emplacement temporaire
+      rights_statements: Déclarations de droits
+      rights_type: Type de droits
+      statute_citation: Citation de la loi
+      jurisdiction: Juridiction
+      status: Statut
+      determination_date: Date de détermination
+      license_terms: Termes de la licence
+      other_rights_basis: Autres droits fondamentaux
+      custom_record_type: Rapport personnalisé pour
+      digital_object: Objet Digital
+      is_representative: Est représentant?
+      sorted_by: Trié par
+      root_record: Enregistrement racine
+      dimension_units: Unités de dimension
+      depth: Depth
+      height: Height
+      width: Width
+      template_name: Nom du modèle
+      template_description: Description du modèle

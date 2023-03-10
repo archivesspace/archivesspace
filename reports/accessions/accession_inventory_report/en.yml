@@ -1,0 +1,7 @@
+en:
+  reports:
+    accession_inventory_report:
+      title: Accessions with Inventories
+      description: Displays only those accession records with an inventory.  Report contains accession number, linked resources, title, extent, accession date, container summary, and inventory.
+      number_with_inventories: Accessions with Inventories
+      identifier_prefix: Accession

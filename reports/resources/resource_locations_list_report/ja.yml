@@ -1,0 +1,7 @@
+ja:
+  reports:
+    resource_locations_list_report:
+      title: リソースと場所のリスト
+      description: リソースと指定されたすべての場所情報を表示します。 レポートには、タイトル、リソースID、レベル、日付範囲、および割り当てられた場所が含まれます。
+      total_extent: リソースの総量
+      identifier_prefix: 資源

@@ -1,0 +1,6 @@
+es:
+  reports:
+    location_report:
+      title: Location Report
+      description: Displays a list of locations, indicating any accessions or resources assigned to defined locations.
+      total_count: Number of Locations

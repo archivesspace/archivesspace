@@ -1,0 +1,6 @@
+fr:
+  reports:
+    location_report:
+      title: Rapport de localisations
+      description: Affiche une liste de localisations, indiquant toute entrée ou ressource assignée aux localisations définies.
+      total_count: Nombre de résultats

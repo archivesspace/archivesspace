@@ -1,0 +1,5 @@
+fr:
+  reports:
+    agent_list_report:
+      title: Liste de notices de noms
+      description: Affiche les notices de noms spécifiées. Rapport comprenant nom des listes, type de noms et source de noms.

@@ -1,0 +1,5 @@
+de:
+  reports:
+    resources_list_report:
+      title: Ressourcen-Listen-Bericht
+      description: Der Ressourcen-Listen-Bericht enhält grundlegende Informationen, Daten und Umfänge für Ressourcen-Datensätze.

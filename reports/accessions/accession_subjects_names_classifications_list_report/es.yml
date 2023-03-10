@@ -1,0 +1,6 @@
+es:
+  reports:
+    accession_subjects_names_classifications_list_report:
+      title: Adhesiónes y materias vinculadas, nombres y clasificaciones
+      description: Muestra las adhesiónes y sus nombres vinculados, materias y clasificaciones. El informe contiene el número de acceso, los recursos vinculados, la fecha de adhesión, el título, la extensión, los nombres vinculados y los temas vinculados.
+      identifier_prefix: Adhesión

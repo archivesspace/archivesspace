@@ -1,0 +1,6 @@
+ja:
+  reports:
+    assessment_rating_report:
+      title: 評価評価レポート
+      description: 指定された範囲の指定された評価を持つ評価の情報を表示します。 少なくとも1つの値を選択する必要があります。 すべてのレコードを表示するには、すべての値を選択します。
+      identifier_prefix: 評価

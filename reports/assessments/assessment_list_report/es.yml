@@ -1,0 +1,6 @@
+es:
+  reports:
+    assessment_list_report:
+      description: Todos los registros de evaluación creados
+      title: Lista de registros de evaluación
+      identifier_prefix: Evaluación

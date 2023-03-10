@@ -1,0 +1,12 @@
+es:
+  reports:
+    location_holdings_report:
+      title: Posiciones de ubicación
+      identifier_prefix: Ubicación
+      description: Informar sobre contenedores en estantes en una o más ubicaciones
+      repository_report_type: Repositorio
+      building_report_type: Edificio
+      single_location_report_type: Única ubicación
+      location_range_report_type: Rango de ubicaciones
+      start_range: Primera ubicación
+      end_range: última ubicación

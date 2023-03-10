@@ -1,0 +1,7 @@
+en:
+  reports:
+    resource_locations_list_report:
+      title: Resources and Locations List
+      description: Displays resource(s) and all specified location information. Report contains title, resource identifier, level, date range, and assigned locations.
+      total_extent: Total Extent of Resources
+      identifier_prefix: Resource

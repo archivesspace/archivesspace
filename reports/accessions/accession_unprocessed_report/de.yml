@@ -1,0 +1,8 @@
+de:
+  reports:
+    accession_unprocessed_report:
+      title: Unbearbeitete Eingänge
+      description: Zeigt nur jene Eingänge an, die nicht bearbeitet wurden. Der Bericht enthält die Eingangs-Nummer, verknüpfte Ressourcen, Titel, Umfang, Katalogisiert, Datum der Bearbeitung, die Anzahl der Datensätze, die für das Datum der Bearbeitung ausgewählt wurden und den Gesamtumfang für jene Datensätze ohne abgeschlossenem Feld für das Datum der Bearbeitung.
+      total_count: Anzahl der Eingänge
+      identifier_prefix: Eingang
+      total_extent: Gesamtumfang unbearbeitet

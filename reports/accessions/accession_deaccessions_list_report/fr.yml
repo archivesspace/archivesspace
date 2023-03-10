@@ -1,0 +1,8 @@
+fr:
+  reports:
+    accession_deaccessions_list_report:
+      title: Entrées acquises et notices d'aliénation liées
+      description: Affiche une liste d'entrée(s) et de notice(s) d'aliénation liée(s). Rapport comprenant n° d'accession, intitulé, importance matérielle, date d'entrée, résumé contenant, catalogué, date de traitement, droits transférés, aliénations liées et importance totale de toutes les aliénations.
+      total_extent: Importance totale des entrées
+      identifier_prefix: Entrée
+      

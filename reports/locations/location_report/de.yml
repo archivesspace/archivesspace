@@ -1,0 +1,6 @@
+de:
+  reports:
+    location_report:
+      title: Standort-Bericht
+      description: Zeigt eine Liste von Standorten mit jeglichen Eingängen oder Ressourcen, die gewählten Standorten zugewiesen sind.
+      total_count: Anzahl der Standorte

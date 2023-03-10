@@ -1,0 +1,6 @@
+fr:
+  reports:
+    accession_rights_transferred_report:
+      title: Entrées avec transfert de droits
+      description: Affiche uniquement les entrées pour lesquelles les droits ont été transférés. Rapport comprenant n° d'entrée, ressources liées, intitulé, importance matérielle, catalogué, date de traitement, restrictions d'utilisation, droits transférés et compte du nombre de notices sélectionnées avec droits transférés.
+      identifier_prefix: Entrée

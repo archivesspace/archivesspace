@@ -1,0 +1,6 @@
+fr:
+  reports:
+    accession_report:
+      title: Rapport d'entrée
+      description: Affiche toutes les entrées pour un service d'archives donné. Rapport incluant, pour chaque entrée, les données saisies dans les champs d'informations de base.
+      identifier_prefix: Entrée

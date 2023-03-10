@@ -1,0 +1,7 @@
+ja:
+  reports:
+    accession_inventory_report:
+      title: 在庫のあるアクセッション
+      description: インベントリを持つアクセッションレコードのみを表示します。 レポートには、アクセッション番号、リンクされたリソース、タイトル、エクステント、アクセッション日、コンテナの概要、およびインベントリが含まれます。
+      number_with_inventories: 在庫のあるアクセッション
+      identifier_prefix: アクセッション

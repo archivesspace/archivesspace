@@ -1,0 +1,5 @@
+es:
+  reports:
+    agent_list_report:
+      title: Lista de registros de nombres
+      description: Muestra los registros de nombres seleccionados. El informe enumera el nombre, el tipo de nombre y la fuente del nombre.

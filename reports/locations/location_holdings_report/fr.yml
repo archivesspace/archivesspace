@@ -1,0 +1,12 @@
+fr:
+  reports:
+    location_holdings_report:
+      title: Contenus par localisation 
+      identifier_prefix: Localisation
+      description: Rapport sur les conditionnements entreposés dans une ou plusieurs localisations
+      repository_report_type: Service
+      building_report_type: Bâtiment
+      single_location_report_type: Localisation unique
+      location_range_report_type: Plage de localisations
+      start_range: Première localisation
+      end_range: Dernière localisation
