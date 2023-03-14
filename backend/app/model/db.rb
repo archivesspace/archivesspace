@@ -1,6 +1,10 @@
 require 'fileutils'
 require 'rbconfig'
 
+if AppConfig[:db_url] =~ /jdbc:mysql/
+  require "db/sequel_mysql_timezone_workaround"
+end
+
 class DB
 
   Sequel.database_timezone = :utc
