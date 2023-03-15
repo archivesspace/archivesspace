@@ -723,3 +723,7 @@ AppConfig[:allow_pui_language_selection] = true
 
 # How repositories should be sorted in the PUI. Options are :display_string or :position
 AppConfig[:pui_repositories_sort] = :display_string
+
+# Set the font used to generate PDFs in the PUI
+AppConfig[:pui_pdf_font_file] = "NotoSerif-Regular.ttf"
+AppConfig[:pui_pdf_font_name] = "Noto Serif"
