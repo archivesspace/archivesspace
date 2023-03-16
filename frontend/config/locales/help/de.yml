@@ -147,6 +147,9 @@ de:
       agent_genders: Hilfe zu Geschlechtern
       search: Hilfe zu Suchen und Blättern
       repository_users: Hilfe zu Nutzer-Gruppen-Zuordnung
+      accession_metadata_rights_declarations: Hilfe zu Rechteerklärungen von Metadaten
+      resource_metadata_rights_declarations: Hilfe zu Rechteerklärungen von Metadaten
+      digital_object_metadata_rights_declarations: Hilfe zu Rechteerklärungen von Metadaten
     help_center: ArchivesSpace Hilfe
     default_tooltip: ArchivesSpace Hilfe
     icon: <span class='context-help-icon glyphicon glyphicon-question-sign'></span>
