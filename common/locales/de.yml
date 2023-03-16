@@ -307,6 +307,7 @@ de:
       browse: Aufbewahrungsorte durchsuchen
       create: Aufbewahrungsort erstellen
       link_title: Verknüpfung mit Aufbewahrungsort
+    position: Position
   classification:
     <<: *slug_attributes
     creator: Urheber
@@ -1941,6 +1942,8 @@ de:
     show_suppressed_tooltip: Ob unterdrückte Aufzeichnungen, die Sie beim Blättern sehen können, angezeigt
       werden sollen.
     default_values: Datensätze vorbefüllen?
+    digital_object_spawn: Beschreibung für Instanzen des digitalen Objekts von verknüpfter Aufzeichnung
+      ableiten
   agent_relationship_family:
     _singular: Familiäre Beziehung
   advanced_search:
@@ -2258,6 +2261,8 @@ de:
     import_type_assessment_csv: Begutachtungs-CSV
     import_type_accession_csv: Eingangs-CSV
     import_subjects: Verwandte Themen importieren und verknüpfen?
+    import_type_subject_csv: Themen-CSV
+    import_subject_csv: Themen-CSV
   job:
     job_type: Aufgabentyp
     status_queued: In Warteschlange
@@ -2678,6 +2683,7 @@ de:
       initial_save_error: Problem beim ersten Speichern von %{title} -- %{msg}
       file_too_big: Diese Datei bei %{file_info} überschreitet die Größen- und/oder Zeilenanzahlgrenzen
         von %{limits}
+      utf8: Diese Tabelle enthält ungültigen oder fehlerhaften Text, der nicht verarbeitet werden kann.
     templates: Vorlagen für den Massenimport
     row: Zeile %{row}
     dig_assoc: Digitales Objekt zum Archiv-Objekt hinzugefügt
