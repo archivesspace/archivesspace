@@ -18,6 +18,11 @@
      page-break-after: always;
  }
 
+span.title {
+  font-style: italic;
+  font-variant: small-caps;
+}
+
  div.logo {
      display: block;
      width: 100%;
@@ -253,7 +258,7 @@
       <% short_title = record.display_string %>
     <% end %>
 
-    <% short_title = short_title.gsub(/\n.*/, '').strip %>
+    <% short_title = CGI.unescapeHTML(strip_tags(short_title.gsub(/\n.*/, '').strip)) %>
 
      <% if short_title != '' %>
      @top-center {
