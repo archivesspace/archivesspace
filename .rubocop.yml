@@ -124,6 +124,10 @@ Layout/TrailingWhitespace:
 Lint/Syntax:
   Enabled: true
 
+Metrics/MethodLength:
+  Enabled: false
+  Max: 100
+
 Style/ArrayCoercion:
   Enabled: true
 

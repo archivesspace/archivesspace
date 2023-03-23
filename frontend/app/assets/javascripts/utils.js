@@ -256,7 +256,7 @@ $(function () {
       // right after the triggering element.
       var popoverOptions = {
         delay: { show: 0, hide: 200 }, // if the popover contains a link, allow a few moments for that click to count
-        container: $this,
+        container: 'body',
       };
       $this.popover(popoverOptions).addClass('initialised');
 

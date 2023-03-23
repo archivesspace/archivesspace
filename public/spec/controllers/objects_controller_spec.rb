@@ -45,7 +45,7 @@ describe ObjectsController, type: :controller do
 
       page = response.body
 
-      additional_file_versions_accordion_css = '#res_accordion > .panel.panel-default > #additional_file_versions_list'
+      additional_file_versions_accordion_css = '#res_accordion > .card > #additional_file_versions_list'
       additional_file_version_css = '#additional_file_versions_list li.additional-file-version'
       additional_file_version_1_src = "#{additional_file_version_css} img[src='#{img_uri1}']"
       additional_file_version_2_src = "#{additional_file_version_css} img[src='#{img_uri3}']"
@@ -98,7 +98,7 @@ describe ObjectsController, type: :controller do
 
       page = response.body
 
-      additional_file_versions_accordion_css = '#res_accordion > .panel.panel-default > #additional_file_versions_list'
+      additional_file_versions_accordion_css = '#res_accordion > .card > #additional_file_versions_list'
       additional_file_version_css = '#additional_file_versions_list li.additional-file-version'
       additional_file_version_1_src = "#{additional_file_version_css} img[src='#{img_uri1}']"
       additional_file_version_2_src = "#{additional_file_version_css} img[src='#{img_uri3}']"
