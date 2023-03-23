@@ -86,10 +86,12 @@
     }
     .drag-handle {
       width: 2em;
-      background-image: asset-url('archivesspace/tree_drag_handle.gif');
-      background-repeat: no-repeat;
-      background-position: 4px 50%;
       cursor: move;
+    }
+    .drag-handle__span {
+      position: absolute;
+      height: 2em;
+      width: 2em;
     }
     .drag-handle.drag-disabled {
       visibility: hidden;
