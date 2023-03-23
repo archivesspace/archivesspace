@@ -86,20 +86,15 @@ module ApplicationHelper
   end
 
   def render_token(opts)
-    popover = "<div class='btn-group'>"
     link_opts = {:class => "btn btn-mini"}
     link_opts.merge!({:target => "_blank"}) if opts[:inside_token_editor] || opts[:inside_linker_browse]
     popover_url = url_for :controller => :resolver, :action => :resolve_readonly
-    # TrimPath templates break if Rails escapes ${VALUE} style tokens:
     popover_url += "?uri=#{opts[:uri]}"
-    popover += link_to I18n.t("actions.view"), popover_url, link_opts
-    popover += "</div>"
-
-    popover_template = "<div class='popover token-popover'><div class='arrow'></div><div class='popover-inner'><div class='popover-content'><p></p></div></div></div>"
+    popover_content = link_to I18n.t("actions.view"), popover_url, link_opts
 
     html = "<div class='"
     html += "token " if not opts[:inside_token_editor]
-    html += "#{opts[:type]} has-popover' data-trigger='#{opts[:trigger] || "custom"}' data-html='true' data-placement='#{opts[:placement] || "bottom"}' data-content=\"#{CGI.escape_html(popover)}\" data-template=\"#{popover_template}\" tabindex='1'>"
+    html += "#{opts[:type]} has-popover' data-toggle='popover' data-trigger='#{opts[:trigger] || "custom"}' data-html='true' data-placement='#{opts[:placement] || "bottom"}' data-content=\"#{CGI.escape_html(popover_content)}\" tabindex='1'>"
 
     if opts[:icon_class]
       html += "<span class='icon-token #{opts[:icon_class]}'></span>"

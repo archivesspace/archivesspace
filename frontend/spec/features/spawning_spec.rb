@@ -30,7 +30,7 @@ describe 'Spawning', js: true do
                      title: "Parent",
                      dates: [build(:json_date, date_type: "single")]
                     )
-    PeriodicIndexer.new.run_index_round
+    run_indexer
     visit "/accessions/#{@accession.id}"
     find("#spawn-dropdown a").click
     find("#spawn-dropdown li.dropdown-item:nth-of-type(3)").click
@@ -49,9 +49,9 @@ describe 'Spawning', js: true do
     # wait for the form and tree container to load
     find("#tree-container")
     find(".record-pane")
-
     expect(find("#archival_object_#{@parent.id}  a.record-title ").text).to include "#{@parent.title}"
-    expect(find("#archival_object_#{@accession.id}  a.record-title ").text).to include "#{@accession.title}"
+    spawned_archival_object_id = page.current_url.sub(/.*_/, "")
+    expect(find("#archival_object_#{spawned_archival_object_id}  a.record-title ").text).to include "#{@accession.title}"
     ref_id = find(".identifier-display").text
     visit "/accessions/#{@accession.id}"
     linked_component_ref_id = find("#accession_component_links_ table tbody tr td:nth-child(1)").text
@@ -88,33 +88,34 @@ describe 'Spawning', js: true do
 
     within(id: 'resource_instances_') do
       find('.digital_object').click
-      digital_object_tab = window_opened_by {click_link('View')}
-      within_window digital_object_tab do
-        expect(find('#resource_lang_materials_')).to have_content('Language of Materials Note')
-        within(id: 'notes') do
-          expect(page).to have_content('physical description note')
-          expect(page).to have_content('dimensions note')
-          expect(page).to have_content('bioghist note')
-          expect(page).to have_content('scope and contents note')
-          expect(page).to have_content('abstract note')
-          expect(page).to have_content('existence and location of originals note')
-          expect(page).to have_content('existence and location of copies note')
-          expect(page).to have_content('related materials note')
-          expect(page).to have_content('conditions governing access note')
-          expect(page).to have_content('conditions governing use note')
-          expect(page).to have_content('immediate source of acquisition note')
-          expect(page).to have_content('custodial history note')
-          expect(page).to have_content('physical characteristics and technical requirements note')
-          expect(page).to have_content('preferred citation note')
-          expect(page).to have_content('processing information note')
+    end
+    # make sure the "View" popover shows up
+    find('div.popover')
+    digital_object_tab = window_opened_by {click_link('View')}
+    within_window digital_object_tab do
+      expect(find('#resource_lang_materials_')).to have_content('Language of Materials Note')
+      within(id: 'notes') do
+        expect(page).to have_content('physical description note')
+        expect(page).to have_content('dimensions note')
+        expect(page).to have_content('bioghist note')
+        expect(page).to have_content('scope and contents note')
+        expect(page).to have_content('abstract note')
+        expect(page).to have_content('existence and location of originals note')
+        expect(page).to have_content('existence and location of copies note')
+        expect(page).to have_content('related materials note')
+        expect(page).to have_content('conditions governing access note')
+        expect(page).to have_content('conditions governing use note')
+        expect(page).to have_content('immediate source of acquisition note')
+        expect(page).to have_content('custodial history note')
+        expect(page).to have_content('physical characteristics and technical requirements note')
+        expect(page).to have_content('preferred citation note')
+        expect(page).to have_content('processing information note')
 
-          expect(page).not_to have_content('separated materials note')
-          expect(page).not_to have_content('arrangement note')
-          expect(page).not_to have_content('other finding aids note')
-          expect(page).not_to have_content('Accruals')
-          expect(page).not_to have_content('Appraisal')
-
-        end
+        expect(page).not_to have_content('separated materials note')
+        expect(page).not_to have_content('arrangement note')
+        expect(page).not_to have_content('other finding aids note')
+        expect(page).not_to have_content('Accruals')
+        expect(page).not_to have_content('Appraisal')
       end
     end
   end
@@ -138,10 +139,12 @@ describe 'Spawning', js: true do
 
     within(id: 'accession_instances_') do
       find('.digital_object.initialised').click
-      digital_object_tab = window_opened_by {click_link('View')}
-      within_window digital_object_tab do
-        expect(page).to have_content("Spawned Accession")
-      end
+    end
+    # make sure the "View" popover shows up
+    find('div.popover')
+    digital_object_tab = window_opened_by {click_link('View')}
+    within_window digital_object_tab do
+      expect(page).to have_content("Spawned Accession")
     end
   end
 

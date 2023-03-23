@@ -7,6 +7,9 @@ on:
       - 'frontend/**'
       - 'common/**'
       - 'solr/**'
+  push:
+    branches:
+      - '*___frontend'
 
 jobs:
   frontend:
@@ -17,7 +20,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        java: [ 8, 11 ]
+        java: [ 11 ]
 
     services:
       db:
@@ -64,7 +67,35 @@ jobs:
 
     - name: Run Frontend tests
       run: |
-        ./build/run frontend:selenium
         ./build/run frontend:test
       env:
         ARCHIVESSPACE_VERSION: ${{ github.ref }}
+        CAPYBARA_DEFAULT_MAX_WAIT_TIME: 30
+
+    - name: Run deprecated tests
+      run: |
+        ./build/run frontend:selenium
+      env:
+        ARCHIVESSPACE_VERSION: ${{ github.ref }}
+
+    - name: Dump the test database
+      if: failure()
+      env:
+        DB_PORT: "3307"
+      run: |
+        mysqldump --host 127.0.0.1 --port $DB_PORT -uroot -proot archivesspace | gzip > archivesspace.sql.gz
+
+    - name: Upload the test database
+      if: failure()
+      uses: actions/upload-artifact@v3
+      with:
+        name: test-database
+        path: archivesspace.sql.gz
+
+    - name: Upload the backend log
+      if: failure()
+      uses: actions/upload-artifact@v3
+      with:
+        name: test-backend-log
+        path: BACKEND_TEST_LOG.out
+

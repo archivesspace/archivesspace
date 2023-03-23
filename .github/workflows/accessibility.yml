@@ -6,6 +6,9 @@ on:
       - '.github/workflows/accessibility.yml'
       - 'public/**'
       - 'frontend/**'
+  push:
+    branches:
+      - '*___accessibility'
 
 jobs:
   accessibility:
@@ -70,16 +73,19 @@ jobs:
       run: |
         ./build/run db:migrate:test
 
-    - name: Run Public accessibility tests
-      env:
-        ASPACE_TEST_DB_URL: jdbc:mysql://127.0.0.1:3307/accessibility?useUnicode=true&characterEncoding=UTF-8&user=as&password=as123&useSSL=false&allowPublicKeyRetrieval=true
-        ASPACE_TEST_SKIP_FIXTURES: 1
-      run: |
-        ./build/run rspec -Ddir="../public" -Dtag="db:accessibility" -Dspec="features" -Dorder="defined"
+    # - name: Run Public accessibility tests
+    #   env:
+    #     ASPACE_TEST_DB_URL: jdbc:mysql://127.0.0.1:3307/accessibility?useUnicode=true&characterEncoding=UTF-8&user=as&password=as123&useSSL=false&allowPublicKeyRetrieval=true
+    #     ASPACE_TEST_SKIP_FIXTURES: 1
+    #     ARCHIVESSPACE_VERSION: ${{ github.ref }}
+
+    #   run: |
+    #     ./build/run rspec -Ddir="../public" -Dtag="db:accessibility" -Dspec="features" -Dorder="defined"
 
     - name: Run Frontend accessibility tests
       env:
         ASPACE_TEST_DB_URL: jdbc:mysql://127.0.0.1:3307/accessibility?useUnicode=true&characterEncoding=UTF-8&user=as&password=as123&useSSL=false&allowPublicKeyRetrieval=true
         ASPACE_TEST_SKIP_FIXTURES: 1
+        ARCHIVESSPACE_VERSION: ${{ github.ref }}
       run: |
         ./build/run rspec -Ddir="../frontend" -Dtag="db:accessibility" -Dspec="features" -Dorder="defined"

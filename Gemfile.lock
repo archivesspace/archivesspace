@@ -257,10 +257,7 @@ GEM
     yard (0.9.34)
 
 PLATFORMS
-  java
-  ruby
   universal-java-1.8
-  universal-java-11
 
 DEPENDENCIES
   actionmailer (~> 5.2)

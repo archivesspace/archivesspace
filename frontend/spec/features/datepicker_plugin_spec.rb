@@ -5,17 +5,8 @@ require 'rails_helper.rb'
 describe 'DatepickerPlugin', js: true do
 
   before(:each) do
-    visit '/'
-    page.has_xpath? '//input[@id="login"]'
-
-    within "form.login" do
-      fill_in "username", with: "admin"
-      fill_in "password", with: "admin"
-
-      click_button "Sign In"
-    end
-
-    page.has_no_xpath? '//input[@id="login"]'
+    login_admin
+    await_jquery
     page.has_css? 'button[title="Show Advanced Search"]'
     first('button[title="Show Advanced Search"]').click
     first('.advanced-search-add-row-dropdown').click
@@ -36,7 +27,7 @@ describe 'DatepickerPlugin', js: true do
     execute_script("navigator.clipboard.writeText('1999').catch(err => err);")
 
     @date_field.click
-    if page.driver.browser.capabilities.platform == 'mac'
+    if page.driver.browser.capabilities.platform =~ /^mac/
       @date_field.send_keys([:command, 'v'])
     else
       @date_field.send_keys([:control, 'v'])
@@ -49,7 +40,7 @@ describe 'DatepickerPlugin', js: true do
     execute_script("navigator.clipboard.writeText('1999-12').catch(err => err);")
 
     @date_field.click
-    if page.driver.browser.capabilities.platform == 'mac'
+    if page.driver.browser.capabilities.platform =~ /^mac/
       @date_field.send_keys([:command, 'v'])
     else
       @date_field.send_keys([:control, 'v'])

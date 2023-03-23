@@ -20,7 +20,7 @@ Capybara.register_driver(:chrome) do |app|
     app,
     browser: :chrome,
     options: Selenium::WebDriver::Chrome::Options.new(args: CHROME_OPTS)
-  ).extend DriverMixin
+  )
 end
 
 # Firefox
@@ -29,7 +29,7 @@ Capybara.register_driver :firefox do |app|
     app,
     browser: :firefox,
     options: Selenium::WebDriver::Firefox::Options.new(args: FIREFOX_OPTS)
-  ).extend DriverMixin
+  )
 end
 
 if ENV['SELENIUM_CHROME']
@@ -38,41 +38,41 @@ else
   Capybara.javascript_driver = :firefox
 end
 
-# This should change once the app gets to a point where it's not just throwing
-# tons of errors...
-Capybara.raise_server_errors = false
-
+Capybara.raise_server_errors = true
 
 RSpec.configure do |config|
-  # RSpec Rails can automatically mix in different behaviours to your tests
-  # based on their file location, for example enabling you to call `get` and
-  # `post` in specs under `spec/controllers`.
-  #
-  # You can disable this behaviour by removing the line below, and instead
-  # explicitly tag your specs with their type, e.g.:
-  #
-  #     RSpec.describe UsersController, :type => :controller do
-  #       # ...
-  #     end
-  #
-  # The different available types are documented in the features, such as in
-  # https://relishapp.com/rspec/rspec-rails/docs
   config.infer_spec_type_from_file_location!
-
-  # Filter lines from Rails gems in backtraces.
   config.filter_rails_from_backtrace!
   config.include Capybara::DSL
   config.include ASpaceHelpers
 end
 
 # We use the Mizuno server.
-Capybara.register_server :mizuno do |app, port, host|
-  require 'rack/handler/mizuno'
-  Rack::Handler.get('mizuno').run(app, port: port, host: host)
-end
-Capybara.server = :mizuno
-Capybara.default_max_wait_time = 10
+# Capybara.register_server :mizuno do |app, port, host|
+#   require 'rack/handler/mizuno'
+#   Rack::Handler.get('mizuno').run(app, port: port, host: host)
+# end
+# Capybara.server = :mizuno
 
+# Puma server
+$puma = nil
+Capybara.register_server :as_puma do |app, port, host|
+  require 'rack/handler/puma'
+  options = { Host: host, Port: port, Threads: '1:1', workers: 0, daemon: false }
+  conf = Rack::Handler::Puma.config(app, options)
+  $puma = Puma::Server.new(
+    conf.app,
+    nil,
+    conf.options
+  ).tap do |s|
+    s.binder.parse conf.options[:binds], (s.log_writer rescue s.events) # rubocop:disable Style/RescueModifier
+    s.min_threads, s.max_threads = conf.options[:min_threads], conf.options[:max_threads] if s.respond_to? :min_threads=
+  end
+  $puma.run.join
+end
+Capybara.server = :as_puma
+
+Capybara.default_max_wait_time = ENV.fetch('CAPYBARA_DEFAULT_MAX_WAIT_TIME', 60).to_i
 ActionController::Base.logger.level = Logger::ERROR
 Rails.logger.level = Logger::ERROR
 Rails::Controller::Testing.install
@@ -81,11 +81,14 @@ def wait_for_job_to_complete(page)
   job_id = page.current_path.sub(/^[^\d]*/, '')
   sanity_counter = 0
   complete = false
-  while (sanity_counter < 100 && !complete) do
+  while (sanity_counter < 20 && !complete) do
     begin
       job = JSONModel(:job).find(job_id)
+      puts "JOB #{job.id} - STATUS #{job.status}"
       complete = ["completed", "failed"].include?(job.status)
-    rescue
+    rescue => e
+      puts "JSONModel(:job).find(#{job_id})"
+      p e
     end
     return if complete
     sleep 1

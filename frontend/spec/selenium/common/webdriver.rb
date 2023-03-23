@@ -2,8 +2,6 @@
 
 require 'selenium-webdriver'
 
-require 'pry'
-
 module DriverMixin
   def click_and_wait_until_gone(*selector)
     element = find_element(*selector)

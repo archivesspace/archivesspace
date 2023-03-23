@@ -60,15 +60,15 @@ GEM
       minitest (>= 5.1)
       tzinfo (~> 2.0)
       zeitwerk (~> 2.3)
-    addressable (2.8.0)
-      public_suffix (>= 2.0.2, < 5.0)
+    addressable (2.8.4)
+      public_suffix (>= 2.0.2, < 6.0)
     atomic (1.0.1-java)
-    autoprefixer-rails (10.4.7.0)
+    autoprefixer-rails (10.4.13.0)
       execjs (~> 2)
-    axe-core-api (4.6.0)
+    axe-core-api (4.7.0)
       dumb_delegator
       virtus
-    axe-core-rspec (4.6.0)
+    axe-core-rspec (4.7.0)
       axe-core-api
       dumb_delegator
       virtus
@@ -107,19 +107,18 @@ GEM
       execjs
     coffee-script-source (1.12.2)
     concurrent-ruby (1.2.2)
-    connection_pool (2.3.0)
+    connection_pool (2.4.1)
     crass (1.0.6)
+    date (3.3.3-java)
     descendants_tracker (0.0.4)
       thread_safe (~> 0.3, >= 0.3.1)
     diff-lcs (1.5.0)
-    digest (3.1.1-java)
     docile (1.4.0)
     domain_name (0.5.20190701)
       unf (>= 0.0.5, < 1.0.0)
-    dumb_delegator (0.8.1)
+    dumb_delegator (1.0.0)
     erubi (1.12.0)
-    excon (0.99.0)
-    docile (1.4.0)
+    excon (0.100.0)
     execjs (2.8.1)
     factory_bot (6.2.1)
       activesupport (>= 5.0.0)
@@ -147,10 +146,9 @@ GEM
       activesupport (>= 5.0)
     http-cookie (1.0.5)
       domain_name (~> 0.5)
-    i18n (1.12.0)
+    i18n (1.14.1)
       concurrent-ruby (~> 1.0)
     ice_nine (0.11.2)
-    io-wait (0.3.0-java)
     ipaddress (0.8.3)
     jquery-rails (4.5.1)
       rails-dom-testing (>= 1, < 3)
@@ -158,13 +156,12 @@ GEM
       thor (>= 0.14, < 2.0)
     jquery-ui-rails (6.0.1)
       railties (>= 3.2.16)
-    jruby-jars (9.2.20.1)
     jruby-jars (9.3.4.0)
     json (2.6.3-java)
     json-schema (1.0.10)
-    loofah (2.19.1)
+    loofah (2.21.3)
       crass (~> 1.0.2)
-      nokogiri (>= 1.5.9)
+      nokogiri (>= 1.12.0)
     mail (2.8.1)
       mini_mime (>= 0.1.1)
       net-imap
@@ -172,7 +169,7 @@ GEM
       net-smtp
     marcel (1.0.2)
     matrix (0.4.2)
-    mechanize (2.8.5)
+    mechanize (2.9.1)
       addressable (~> 2.8)
       domain_name (~> 0.5, >= 0.5.20190701)
       http-cookie (~> 1.0, >= 1.0.3)
@@ -188,7 +185,7 @@ GEM
       mime-types-data (~> 3.2015)
     mime-types-data (3.2023.0218.1)
     mini_mime (1.1.2)
-    minitest (5.16.1)
+    minitest (5.18.0)
     mizuno-aspace (9.4.44)
       childprocess (>= 0.2.6)
       choice (>= 0.1.0)
@@ -197,28 +194,24 @@ GEM
     multi_json (1.15.0)
     multipart-post (1.2.0)
     net-http-digest_auth (1.4.1)
-    net-http-persistent (4.0.1)
+    net-http-persistent (4.0.2)
       connection_pool (~> 2.2)
-    net-imap (0.2.2)
-      digest
+    net-imap (0.3.4)
+      date
       net-protocol
-      strscan
     net-pop (0.1.2)
       net-protocol
-    net-protocol (0.1.2)
-      io-wait
+    net-protocol (0.2.1)
       timeout
-    net-smtp (0.3.0)
-      digest
+    net-smtp (0.3.3)
       net-protocol
-      timeout
-    nio4r (2.5.8-java)
-    nokogiri (1.13.6-java)
+    nio4r (2.5.9-java)
+    nokogiri (1.13.10-java)
       racc (~> 1.4)
-    parallel (1.22.1)
-    parallel_tests (3.11.1)
+    parallel (1.23.0)
+    parallel_tests (3.13.0)
       parallel
-    popper_js (1.16.0)
+    popper_js (1.16.1)
     pry (0.14.2-java)
       coderay (~> 1.1)
       method_source (~> 1.0)
@@ -230,10 +223,12 @@ GEM
       pry (>= 0.9.10, < 0.15)
     pry-rails (0.3.9)
       pry (>= 0.10.4)
-    public_suffix (4.0.7)
-    racc (1.6.2-java)
-    rack (2.2.6.2)
-    rack-test (2.0.2)
+    public_suffix (5.0.1)
+    puma (6.3.0-java)
+      nio4r (~> 2.0)
+    racc (1.7.0-java)
+    rack (2.2.7)
+    rack-test (2.1.0)
       rack (>= 1.3)
     rails (6.1.6)
       actioncable (= 6.1.6)
@@ -266,33 +261,33 @@ GEM
       rake (>= 12.2)
       thor (~> 1.0)
     rake (13.0.6)
-    regexp_parser (2.5.0)
+    regexp_parser (2.8.0)
     rexml (3.2.5)
-    rspec (3.11.0)
-      rspec-core (~> 3.11.0)
-      rspec-expectations (~> 3.11.0)
-      rspec-mocks (~> 3.11.0)
+    rspec (3.12.0)
+      rspec-core (~> 3.12.0)
+      rspec-expectations (~> 3.12.0)
+      rspec-mocks (~> 3.12.0)
     rspec-benchmark (0.6.0)
       benchmark-malloc (~> 0.2)
       benchmark-perf (~> 0.6)
       benchmark-trend (~> 0.4)
       rspec (>= 3.0)
-    rspec-core (3.11.0)
-      rspec-support (~> 3.11.0)
-    rspec-expectations (3.11.0)
+    rspec-core (3.12.2)
+      rspec-support (~> 3.12.0)
+    rspec-expectations (3.12.3)
       diff-lcs (>= 1.2.0, < 2.0)
-      rspec-support (~> 3.11.0)
-    rspec-mocks (3.11.1)
+      rspec-support (~> 3.12.0)
+    rspec-mocks (3.12.5)
       diff-lcs (>= 1.2.0, < 2.0)
-      rspec-support (~> 3.11.0)
-    rspec-rails (5.1.2)
-      actionpack (>= 5.2)
-      activesupport (>= 5.2)
-      railties (>= 5.2)
-      rspec-core (~> 3.10)
-      rspec-expectations (~> 3.10)
-      rspec-mocks (~> 3.10)
-      rspec-support (~> 3.10)
+      rspec-support (~> 3.12.0)
+    rspec-rails (6.0.3)
+      actionpack (>= 6.1)
+      activesupport (>= 6.1)
+      railties (>= 6.1)
+      rspec-core (~> 3.12)
+      rspec-expectations (~> 3.12)
+      rspec-mocks (~> 3.12)
+      rspec-support (~> 3.12)
     rspec-retry (0.6.2)
       rspec-core (> 3.3)
     rspec-support (3.12.0)
@@ -321,21 +316,20 @@ GEM
     simplecov_json_formatter (0.1.4)
     spoon (0.0.6)
       ffi
-    sprockets (4.1.1)
+    sprockets (4.2.0)
       concurrent-ruby (~> 1.0)
-      rack (> 1, < 3)
-    strscan (3.0.5-java)
+      rack (>= 2.2.4, < 4)
     sprockets-rails (3.4.2)
       actionpack (>= 5.2)
       activesupport (>= 5.2)
       sprockets (>= 3.0.0)
-    thor (1.2.1)
+    thor (1.2.2)
     thread_safe (0.3.6-java)
-    tilt (2.0.11)
-    timeout (0.3.1)
-    tzinfo (2.0.4)
+    tilt (2.2.0)
+    timeout (0.3.2)
+    tzinfo (2.0.6)
       concurrent-ruby (~> 1.0)
-    tzinfo-data (1.2022.1)
+    tzinfo-data (1.2023.3)
       tzinfo (>= 1.0.0)
     uglifier (4.2.0)
       execjs (>= 0.3.0, < 3)
@@ -349,18 +343,18 @@ GEM
       activemodel (>= 6.0.0)
       bindex (>= 0.4.0)
       railties (>= 6.0.0)
-    webrick (1.7.0)
+    webrick (1.8.1)
     webrobots (0.1.2)
     websocket-driver (0.7.5-java)
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.5)
     xpath (3.2.0)
       nokogiri (~> 1.8)
+    zeitwerk (2.6.8)
     zxcvbn-ruby (1.2.0)
 
 PLATFORMS
-  java
-  universal-java-11
+  universal-java-1.8
 
 DEPENDENCIES
   activesupport
@@ -379,7 +373,7 @@ DEPENDENCIES
   jquery-rails
   jquery-ui-rails
   jruby-jars (= 9.3.4.0)
-  json (= 2.3.0)
+  json
   json-schema (= 1.0.10)
   loofah
   mechanize
@@ -389,17 +383,16 @@ DEPENDENCIES
   net-http-persistent (>= 4.0.1)
   nokogiri
   parallel_tests
-  net-http-persistent (= 2.8)
   pry-debugger-jruby (>= 1.2.2)
   pry-nav
   pry-rails
+  puma (> 6.0)
   rails (= 6.1.6)
   rails-controller-testing
   rspec
   rspec-benchmark
   rspec-rails
   rspec-retry
-  rubyzip
   sass-rails
   selenium-webdriver
   simplecov
@@ -410,4 +403,4 @@ DEPENDENCIES
   zxcvbn-ruby (~> 1.2)
 
 BUNDLED WITH
-   2.2.29
+   2.3.15
