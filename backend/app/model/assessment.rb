@@ -296,7 +296,7 @@ class Assessment < Sequel::Model(:assessment)
 
   def self.prepare_monetary_value_for_save(json, opts)
     if json['monetary_value']
-      mv = BigDecimal.new(json['monetary_value']) rescue ''
+      mv = BigDecimal(json['monetary_value']) rescue ''
       opts['monetary_value'] = mv
     end
   end

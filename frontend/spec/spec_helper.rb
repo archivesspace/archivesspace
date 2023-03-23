@@ -100,9 +100,10 @@ RSpec.configure do |config|
     $server_pids.each do |pid|
       TestUtils.kill(pid)
     end
-    # For some reason we have to manually shutdown mizuno for the test suite to
-    # quit.
-    Rack::Handler.get('mizuno').instance_variable_get(:@server) ? Rack::Handler.get('mizuno').instance_variable_get(:@server).stop : next
+    # servers can hang after suite finishes, so:
+    ['puma', 'mizuno'].each do |s_type|
+      Rack::Handler.get(s_type).instance_variable_get(:@server) ? Rack::Handler.get(s_type).instance_variable_get(:@server).stop : next
+    end
   end
 
   config.verbose_retry = true

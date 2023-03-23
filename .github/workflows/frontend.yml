@@ -7,6 +7,9 @@ on:
       - 'frontend/**'
       - 'common/**'
       - 'solr/**'
+  push:
+    branches:
+      - '*___frontend'
 
 jobs:
   frontend:
@@ -63,8 +66,13 @@ jobs:
         docker exec --tty $SOLR_ID solr create_core -p 8983 -c archivesspace -d /solr_conf_from_repo
 
     - name: Run Frontend tests
+      env:
+        SELENIUM_CHROME: 1
+      run: |
+        ./build/run frontend:test
+
+    - name: Run deprecated tests
       run: |
         ./build/run frontend:selenium
-        ./build/run frontend:test
       env:
         ARCHIVESSPACE_VERSION: ${{ github.ref }}

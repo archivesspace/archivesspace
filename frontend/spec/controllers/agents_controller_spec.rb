@@ -6,18 +6,18 @@ describe AgentsController, type: :controller do
 
   before(:each) do
     set_repo($repo)
+    session = User.login('admin', 'admin')
+    User.establish_session(controller, session, 'admin')
+    controller.session[:repo_id] = JSONModel.repository
+    allow(RequiredFields).to receive(:get)
+                               .with("agent_person")
+                               .and_return(RequiredFields.from_hash(record_type: "agent_person"))
+
   end
 
   describe "create" do
 
     it "can create an agent" do
-      session = User.login('admin', 'admin')
-      User.establish_session(controller, session, 'admin')
-      controller.session[:repo_id] = JSONModel.repository
-      allow(RequiredFields).to receive(:get)
-                                 .with("agent_person")
-                                 .and_return(RequiredFields.from_hash(record_type: "agent_person"))
-
       agent = build(:json_agent_person)
       post :create, params: {
              agent_type: "agent_person",
@@ -52,9 +52,6 @@ describe AgentsController, type: :controller do
     }
 
     it "adds missing user-managed required subrecords and subrecord fields to object errors" do
-      session = User.login('admin', 'admin')
-      User.establish_session(controller, session, 'admin')
-      controller.session[:repo_id] = JSONModel.repository
       agent = build(:json_agent_person,
                     :agent_maintenance_histories => [
                       build(:json_agent_maintenance_history,
@@ -79,10 +76,6 @@ describe AgentsController, type: :controller do
     end
 
     it "can build a form for viewing and editing user-managed required fields and subrecords" do
-      session = User.login('admin', 'admin')
-      User.establish_session(controller, session, 'admin')
-      controller.session[:repo_id] = JSONModel.repository
-
       allow(RequiredFields).to receive(:get)
                                  .with("agent_person")
                                  .and_return(RequiredFields.new(json_required_fields))
@@ -97,5 +90,25 @@ describe AgentsController, type: :controller do
       # required subform fields are flagged on the schema property with a string that is the subrecord type
       assert_select("input[name='agent[agent_maintenance_histories][0][descriptive_note]'][value='agent_maintenance_history'][checked='checked']")
     end
+  end
+
+  describe "merge agent preview" do
+    it "redirects to agent record if victim is related" do
+      victim = create(:json_agent_person)
+      agent = create(:json_agent_person,
+                     related_agents: [
+                       JSONModel(:agent_relationship_parentchild).new({ :ref => victim.uri, :relator => 'is_child_of' }).to_hash
+                     ])
+
+      post :merge_selector, params: {
+             agent_type: "agent_person",
+             id: agent.id,
+             refs: victim.uri
+           }
+
+      expect(response).to redirect_to("/agents/agent_person/#{agent.id}")
+      expect(request.flash[:error]).to eq("These agents have a relationship. Remove relationship before proceeding with merge.")
+    end
+
   end
 end

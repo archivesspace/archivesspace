@@ -73,6 +73,7 @@ group :test do
   gem 'rspec-retry'
   gem 'selenium-webdriver', '4.1.0'
   gem 'simplecov'
+  gem 'puma', '< 6.0'
 end
 
 # Allow plugins to provide their own Gemfiles too.

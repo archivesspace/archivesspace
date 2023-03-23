@@ -120,7 +120,7 @@
               </div>
             <% end %>
           </li>
-                    <ul class="nav navbar-nav ml-auto">
+            <ul class="nav navbar-nav ml-auto">
             <li class="repo-container">
               <div class="btn-group bg-white border rounded align-items-center">
                 <a href="<%= url_for :controller => :repositories, :action => :show, :id => session[:repo_id] %>" class="btn btn-default navbar-btn">
@@ -182,80 +182,13 @@
               </div>
             </li>
             <% if ArchivesSpaceHelp.enabled? %>
-              <li><%= link_to_help :link_opts => {"data-placement" => (session[:user] ? "left" : "bottom")} %></li>
+              <li><%= link_to_help %></li>
             <% end %>
           </ul>
           <li class="px-4 w-100 mt-3">
             <div class="advanced-search-container" <% if params["advanced"].blank? or params["advanced"]  === 'false' %>style="display: none"<% end %>>
               <%= render_aspace_partial :partial => "shared/advanced_search" %>
             </div>
-          </li>
-          <li class="pull-right navbar-nav-right">
-            <ul class="nav navbar-nav">
-              <li class="repo-container">
-                <div class="btn-group">
-                  <a href="<%= url_for :controller => :repositories, :action => :show, :id => session[:repo_id] %>" class="btn btn-default navbar-btn">
-                    <span class="repository-label has-popover" tabindex="0" data-trigger="focus hover" data-placement="bottom" data-html='true' data-toggle='popover' data-title="<span class='icomoon icon-repository'>&#160;</span><%= CGI::escapeHTML(current_repo['repo_code']) %>" data-content="<%= CGI::escapeHTML(current_repo['name']) %>">
-                      <span class="icomoon icon-repository"></span><span class="current-repository-id"><% if current_repo %><%= current_repo['repo_code'] %><% end %></span>
-                      <% unless current_repo.publish %>
-                        <span class="label label-warning"><%= t("navbar.unpublished") %></span>
-                      <% end %>
-                    </span>
-                  </a>
-                  <div class="btn-group">
-                    <a class="btn btn-default navbar-btn dropdown-toggle last" data-toggle="dropdown" href="#" title="<%= t("navbar.repository_settings") %>" aria-label="<%= t("navbar.repository_settings") %>"><span class="glyphicon glyphicon-cog"></span> <span class="caret"></span></a>
-                    <ul class="dropdown-menu pull-right">
-                      <% found_an_item = false %>
-                      <% if user_can?('manage_repository') %>
-                        <% found_an_item = true %>
-                        <li><%= link_to t("navbar.manage_groups"), :controller => :groups, :action => :index %></li>
-                        <li><%= link_to t("user._frontend.section.manage_access"), :controller => :users, :action => :manage_access %></li>
-                      <% end %>
-                      <% if user_can?('manage_assessment_attributes') %>
-                        <li><%= link_to t("navbar.manage_assessment_attributes"), :controller => :assessment_attributes, :action => :edit %></li>
-                      <% end %>
-                      <% if user_can?('view_repository') %>
-                        <% found_an_item = true %>
-                        <li><%= link_to t("navbar.manage_top_containers"), :controller => :top_containers, :action => :index %></li>
-                      <% end %>
-                      <% if found_an_item %>
-                        <li class="divider"></li>
-                      <% end %>
-                      <% if user_can?('transfer_repository') && @repositories.length > 1 %>
-                        <li><%= link_to t("repository._frontend.section.transfer"), :controller => :repositories, :action => :transfer, :id => session[:repo_id] %></li>
-                        <li class="divider"></li>
-                      <% end %>
-                      <% if user_can?('create_job') %>
-                         <li><%= link_to t("job._plural"), :controller => :jobs, :action => :index %></li>
-                         <li><%= link_to t("bulk_import.templates"), :controller => :bulk_import_templates, :action => :index %></li>
-                        <li class="divider"></li>
-                      <% end %>
-
-                      <li><%= link_to t("navbar.list_reports"), :controller => :jobs, :action => :new, :job_type => 'report_job' %></li>
-                      <% if user_can?('manage_custom_report_templates') && AppConfig[:enable_custom_reports] %>
-                        <li><%= link_to t("custom_report_template._plural"), :controller => :custom_report_templates, :action => :index %></li>
-                      <% end %>
-
-                      <% if Plugins.repository_menu_items.any? {|plugin| has_permission_for_controller?(session, plugin)} %>
-                        <li class="dropdown-submenu pull-left">
-                          <a href="javascript:void(0);"><%= t("navbar.plugins") %></a>
-                          <ul class="dropdown-menu">
-                            <% Plugins.repository_menu_items.each do |plugin| %>
-                              <% if has_permission_for_controller?(session, plugin) %>
-                                <li><%= link_to t("plugins.#{plugin}.label"), :controller => plugin.intern, :action => :index %></li>
-                              <% end %>
-                            <% end %>
-                          </ul>
-                        </li>
-                      <% end %>
-                    </ul>
-                  </div>
-                </div>
-              </li>
-              <% if ArchivesSpaceHelp.enabled? %>
-                <li><%= link_to_help %></li>
-              <% end %>
-            </ul>
           </li>
         </ul>
       <% end %>

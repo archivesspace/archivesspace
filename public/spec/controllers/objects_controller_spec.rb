@@ -8,7 +8,7 @@ describe ObjectsController, type: :controller do
   img_uri5 = 'http://foo.com/image5.jpg'
   caption1 = 'caption1'
   caption2 = 'caption2'
-  additional_file_versions_accordion_css = '#res_accordion > .panel.panel-default > #additional_file_versions_list'
+  additional_file_versions_accordion_css = '#res_accordion > .card > #additional_file_versions_list'
   additional_file_version_css = '#additional_file_versions_list li[data-additional-file-version]'
 
   before(:all) do
@@ -175,7 +175,7 @@ describe ObjectsController, type: :controller do
 
       page = response.body
 
-      additional_file_versions_accordion_css = '#res_accordion > .panel.panel-default > #additional_file_versions_list'
+      additional_file_versions_accordion_css = '#res_accordion > .card > #additional_file_versions_list'
       additional_file_version_css = '#additional_file_versions_list li[data-additional-file-version]'
 
       expect(page).to have_css(additional_file_versions_accordion_css)

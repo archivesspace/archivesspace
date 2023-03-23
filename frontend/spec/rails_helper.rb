@@ -38,10 +38,7 @@ else
   Capybara.javascript_driver = :firefox
 end
 
-# This should change once the app gets to a point where it's not just throwing
-# tons of errors...
-Capybara.raise_server_errors = false
-
+Capybara.raise_server_errors = true
 
 RSpec.configure do |config|
   # RSpec Rails can automatically mix in different behaviours to your tests
@@ -65,12 +62,6 @@ RSpec.configure do |config|
   config.include ASpaceHelpers
 end
 
-# We use the Mizuno server.
-Capybara.register_server :mizuno do |app, port, host|
-  require 'rack/handler/mizuno'
-  Rack::Handler.get('mizuno').run(app, port: port, host: host)
-end
-Capybara.server = :mizuno
 Capybara.default_max_wait_time = 10
 
 ActionController::Base.logger.level = Logger::ERROR
