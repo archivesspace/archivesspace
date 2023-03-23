@@ -66,6 +66,10 @@ class ArchivesSpaceTypeAttribute < JSON::Schema::TypeAttribute
       end
     end
 
+    if types == 'object' && current_schema.schema['subtype'] == 'blob'
+      # don't bother vaidating bits we don't bother to schematize
+      return
+    end
 
     if types == 'object' && data.is_a?(Hash) && data.has_key?('ref') && current_schema.schema['subtype'] != 'ref'
       # Provide a helpful warning about potentially missing subtype definitions

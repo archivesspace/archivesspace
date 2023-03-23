@@ -44,7 +44,7 @@ function ResourceRenderer(config = {}) {
 
     this.nodeTemplate = $('<div class="table-row"> ' +
                           `  <div class="table-cell drag-handle">${dragHandleMarkup()}</div>` +
-                          '  <div class="table-cell title"><span class="indentor"><button class="expandme" aria-expanded="false"><i class="expandme-icon glyphicon glyphicon-chevron-right" /></button></span> </div>' +
+                          '  <div class="table-cell title"><span class="indentor"><button class="expandme" aria-expanded="false"><i class="expandme-icon glyphicon glyphicon-chevron-right"></i></button></span> </div>' +
                           '  <div class="table-cell resource-level"></div>' +
                           '  <div class="table-cell resource-type"></div>' +
                           '  <div class="table-cell resource-container"></div>' +
@@ -182,7 +182,7 @@ function DigitalObjectRenderer() {
 
     this.nodeTemplate = $('<div class="table-row"> ' +
                           `  <div class="table-cell drag-handle">${dragHandleMarkup()}</div>` +
-                          '  <div class="table-cell title"><span class="indentor"><button class="expandme" aria-expanded="false"><i class="expandme-icon glyphicon glyphicon-chevron-right" /></button></span> </div>' +
+                          '  <div class="table-cell title"><span class="indentor"><button class="expandme" aria-expanded="false"><i class="expandme-icon glyphicon glyphicon-chevron-right"></i></button></span> </div>' +
                           '  <div class="table-cell digital-object-type"></div>' +
                           '  <div class="table-cell file-uri-summary"></div>' +
                           '</div>');

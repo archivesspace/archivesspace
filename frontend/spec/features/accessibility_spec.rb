@@ -4,7 +4,7 @@ require 'rails_helper'
 describe 'Accessibility', js: true, db: 'accessibility' do
 
   before(:all) do
-    PeriodicIndexer.new.run_index_round
+    run_indexer
   end
 
   before(:each) do
@@ -152,13 +152,13 @@ describe 'Accessibility', js: true, db: 'accessibility' do
       page.has_css? "div.repository-header"
 
       within "div.repository-header" do
-        expect(page).not_to have_xpath("*//div[starts-with(@id,'popover')]")
+        expect(page).not_to have_xpath("*//span[starts-with(@aria-describedby,'popover')]")
         repo = find "span.repository-label"
         repo.send_keys ''
-        expect(page).to have_xpath("*//div[starts-with(@id,'popover')]")
+        expect(page).to have_xpath("*//span[starts-with(@aria-describedby,'popover')]")
 
         repo.send_keys :escape
-        expect(page).not_to have_xpath("*//div[starts-with(@id,'popover')]")
+        expect(page).not_to have_xpath("*//span[starts-with(@aria-describedby,'popover')]")
       end
     end
   end
@@ -181,12 +181,14 @@ describe 'Accessibility', js: true, db: 'accessibility' do
         ["#add-event-dropdown button.add-event-action",
          "#merge-dropdown button.merge-action",
          "#transfer-dropdown button.transfer-action"].each do |css|
-          dropdown_ctrl = find(css)
-          expect(dropdown_ctrl).to have_xpath("self::*[@aria-expanded='false']")
-          dropdown_ctrl.click
-          expect(dropdown_ctrl).to have_xpath("self::*[@aria-expanded='true']")
-          dropdown_ctrl.click
-          expect(dropdown_ctrl).to have_xpath("self::*[@aria-expanded='false']")
+          eval("expect(page).to have_css(\"#{css}[aria-expanded='false']\")")
+          sleep(1)
+          find(css).click
+          find("#{css}[aria-expanded='true']")
+          eval("expect(page).to have_css(\"#{css}[aria-expanded='true']\")")
+          find(css).click
+          find("#{css}[aria-expanded='false']")
+          eval("expect(page).to have_css(\"#{css}[aria-expanded='false']\")")
         end
 
         # #merge-dropdown a.dropdown-toggle is inside the merge menu, so we need to drop that down first so the target element is visible
@@ -240,6 +242,7 @@ describe 'Accessibility', js: true, db: 'accessibility' do
     # # 519396
     it "sets role as none for ul element in transfer dropdown" do
       visit "/resources/1"
+      await_jquery
 
       within "#transfer-dropdown" do
         find("button.transfer-action").click

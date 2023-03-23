@@ -77,7 +77,7 @@ module TestUtils
 
     # although we are testing, we need to pass the db we are using
     # through as aspace.db_url.dev because the backend:devserver
-    # ant task is harcoded to used that build arg
+    # ant task is hardcoded to used that build arg
     build_args = ['backend:devserver:integration',
                   "-Daspace.backend.port=#{port}",
                   '-Daspace_integration_test=1',
@@ -85,10 +85,11 @@ module TestUtils
     java_opts += ' -Xmx1024m'
 
     puts "Spawning backend with opts: #{java_opts}"
-    pid = Process.spawn({ 'JAVA_OPTS' => java_opts }, find_ant, *build_args)
-    out = File.join(find_ant.gsub(/run/, ''), 'backend_test_log.out')
+    logfile = File.join(ASUtils.find_base_directory, "BACKEND_TEST_LOG.out")
+    env = { 'JAVA_OPTS' => java_opts, 'APPCONFIG_BACKEND_LOG' => logfile }
+    pid = Process.spawn(env, find_ant, *build_args)
 
-    TestUtils.wait_for_url("http://localhost:#{port}", out)
+    TestUtils.wait_for_url("http://localhost:#{port}", logfile)
     puts "Backend started with pid: #{pid}"
 
     pid

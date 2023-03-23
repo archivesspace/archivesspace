@@ -30,8 +30,30 @@ $backend = ENV['ASPACE_TEST_BACKEND_URL'] || "http://localhost:#{backend_port}"
 test_db_url = ENV['ASPACE_TEST_DB_URL'] || AppConfig[:db_url]
 AppConfig[:backend_url] = $backend
 
+# the first time a factory is created, backend session will be set
+# rather than have the indexer login, use the same session
+module SpecIndexing
+  def self.get_indexer
+    @period ||= PeriodicIndexer.new(AppConfig[:backend_url]).instance_eval do
+      def login
+        @current_session = JSONModel::HTTP.current_backend_session
+        @current_session
+      end
+
+      self
+    end
+  end
+
+  module Methods
+    def run_indexer
+      SpecIndexing.get_indexer.run_index_round
+    end
+  end
+end
+
 require 'factory_bot'
 include FactoryBot::Syntax::Methods
+include SpecIndexing::Methods
 
 RSpec.configure do |config|
   # rspec-expectations config goes here. You can use an alternate
@@ -83,26 +105,25 @@ RSpec.configure do |config|
                     :url => AppConfig[:backend_url],
                     :priority => :high)
 
+
     require_relative 'factories'
 
-    $indexer = RealtimeIndexer.new(AppConfig[:backend_url], nil)
-
     Factories.init
-
     $repo = create(:repo, :repo_code => "test_#{Time.now.to_i}", publish: true)
     set_repo $repo
     create(:accession)
     create(:resource)
-    run_index_round
+    run_indexer
   end
 
   config.after(:suite) do
     $server_pids.each do |pid|
       TestUtils.kill(pid)
     end
-    # For some reason we have to manually shutdown mizuno for the test suite to
-    # quit.
-    Rack::Handler.get('mizuno').instance_variable_get(:@server) ? Rack::Handler.get('mizuno').instance_variable_get(:@server).stop : next
+    begin
+      $puma.halt
+    rescue
+    end
   end
 
   config.verbose_retry = true

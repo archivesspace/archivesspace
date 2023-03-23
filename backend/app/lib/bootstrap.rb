@@ -32,10 +32,10 @@ require_relative 'exceptions'
 require 'config/config-distribution'
 require_relative 'username'
 
-if AppConfig.changed?(:backend_log)
-  Log.logger(AppConfig[:backend_log])
-else
+if AppConfig[:backend_log] == 'default'
   Log.logger($stderr)
+else
+  Log.logger(AppConfig[:backend_log])
 end
 
 class ASpaceEnvironment

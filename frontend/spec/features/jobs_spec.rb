@@ -17,7 +17,7 @@ describe 'Jobs', js: true do
   it 'can create a find and replace job' do
     resource = create(:resource)
 
-    run_index_round
+    run_indexer
 
     sleep 5.seconds
 
@@ -43,7 +43,7 @@ describe 'Jobs', js: true do
   it 'can create a print to pdf job' do
     resource = create(:resource)
 
-    run_index_round
+    run_indexer
 
     click_link('Repository settings')
     click_link('Background Jobs')
@@ -97,7 +97,7 @@ describe 'Jobs', js: true do
     expect(page).to have_content('Completed')
 
     # don't forget to index or it won't show up!
-    run_index_round
+    run_indexer
     click_link('Background Jobs')
 
     expect(find(id: 'tabledSearchResults')).to have_content('Accession Report')

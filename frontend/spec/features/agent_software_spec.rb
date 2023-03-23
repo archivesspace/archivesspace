@@ -29,7 +29,7 @@ describe 'AgentSoftware', js: true do
         names: [ build(:json_name_software, { software_name: name2 }) ]
       )
 
-      $index.run_index_round
+      run_indexer
 
       visit agent1.uri
       page.has_xpath? '//div[@id="merge-dropdown"]'
@@ -37,7 +37,7 @@ describe 'AgentSoftware', js: true do
       # use the merge dropdown section
       find('div[id="merge-dropdown"]').click
       find('#token-input-merge_ref_').send_keys(name2)
-      sleep 0.5 # delay for autocomplete selection to appear
+      await_jquery
       find('#token-input-merge_ref_').send_keys :enter
       find('button.merge-button').click
 
@@ -51,7 +51,7 @@ describe 'AgentSoftware', js: true do
       expect(page).to have_text name1
 
       # reindex to remove deleted (merged away) record
-      $index.run_index_round
+      run_indexer
 
       click_link 'Browse'
       within('.dropdown-menu') do

@@ -31,21 +31,13 @@ else
   Capybara.javascript_driver = :firefox
 end
 
-# This should change once the app gets to a point where it's not just throwing
-# tons of errors...
-Capybara.raise_server_errors = false
+Capybara.raise_server_errors = true
 
 RSpec.configure do |config|
   config.infer_spec_type_from_file_location!
   config.include Capybara::DSL
+  config.filter_rails_from_backtrace!
 end
-
-# We use the Mizuno server.
-Capybara.register_server :mizuno do |app, port, host|
-  require 'rack/handler/mizuno'
-  Rack::Handler.get('mizuno').run(app, port: port, host: host)
-end
-Capybara.server = :mizuno
 
 def finished_all_ajax_requests?
   request_count = page.evaluate_script('$.active').to_i
