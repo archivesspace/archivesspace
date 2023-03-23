@@ -32,7 +32,7 @@
              data-selected="<%= selected_json %>"
              data-multiplicity="one"
              data-format_template="title"
-             data-types='["accession", "resource"]'
+             data-types='["accession", "resource", "digital_object"]'
              />
 
       <% if form.obj.has_key?('_resolved') %>
@@ -55,7 +55,7 @@
           <li><a href="javascript:void(0);" class="linker-browse-btn"><%= I18n.t("actions.browse") %></a></li>
         </ul>
       </div>
-      
+
     </div>
   </div>
 </div>
