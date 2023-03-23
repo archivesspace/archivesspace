@@ -955,17 +955,16 @@ class EADConverter < Converter
         set ancestor(:resource, :archival_object), :instances, instance
       end
 
-
       make :digital_object, {
              :digital_object_id => SecureRandom.uuid,
              :publish => att('audience') != 'internal',
-             :title => att('title')
+             :title => att('ns2:title')
            } do |obj|
         obj.file_versions << {
-          :use_statement => att('role'),
-          :file_uri => att('href'),
-          :xlink_actuate_attribute => att('actuate'),
-          :xlink_show_attribute => att('show'),
+          :use_statement => att('ns2:role'),
+          :file_uri => att('ns2:href'),
+          :xlink_actuate_attribute => att('ns2:actuate'),
+          :xlink_show_attribute => att('ns2:show'),
           :publish => att('audience') != 'internal',
         }
         set ancestor(:instance), :digital_object, obj

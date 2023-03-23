@@ -90,10 +90,10 @@ describe ObjectsController, type: :controller do
       page = response.body
       expect(page).to have_css(icon_css)
 
-      get(:show, params: { rid: @repo.id, obj_type: 'digital_objects', id: @do4.id })
-      icon_css_1 = '.external-digital-object__link[href="http"]'
-      page_1 = response.body
-      expect(page_1).to have_css(icon_css_1)
+      additional_file_versions_accordion_css = '#res_accordion > .card > #additional_file_versions_list'
+      additional_file_version_css = '#additional_file_versions_list li.additional-file-version'
+      additional_file_version_1_src = "#{additional_file_version_css} img[src='#{img_uri1}']"
+      additional_file_version_2_src = "#{additional_file_version_css} img[src='#{img_uri3}']"
 
       get(:show, params: { rid: @repo.id, obj_type: 'digital_objects', id: @do5.id })
       icon_css_2 = '.external-digital-object__link[href="not_http_or_data"]'
@@ -171,8 +171,10 @@ describe ObjectsController, type: :controller do
 
       page = response.body
 
-      additional_file_versions_accordion_css = '#res_accordion > .panel.panel-default > #additional_file_versions_list'
-      additional_file_version_css = '#additional_file_versions_list li[data-additional-file-version]'
+      additional_file_versions_accordion_css = '#res_accordion > .card > #additional_file_versions_list'
+      additional_file_version_css = '#additional_file_versions_list li.additional-file-version'
+      additional_file_version_1_src = "#{additional_file_version_css} img[src='#{img_uri1}']"
+      additional_file_version_2_src = "#{additional_file_version_css} img[src='#{img_uri3}']"
 
       expect(page).to have_css(additional_file_versions_accordion_css)
       expect(page).to have_css(additional_file_version_css, :count => 2)

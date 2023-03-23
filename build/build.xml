@@ -4,8 +4,8 @@
   <!-- This section contains configuration used by the build tasks -->
 
   <!-- Don't forget to change any jruby versions in any Gemfiles! -->
-  <property name="jruby_url" value="https://repo1.maven.org/maven2/org/jruby/jruby-complete/9.3.4.0/jruby-complete-9.3.4.0.jar" />
-  <property name="jruby_file" value="jruby-complete-9.3.4.0.jar" />
+  <property name="jruby_url" value="https://repo1.maven.org/maven2/org/jruby/jruby-complete/9.3.10.0/jruby-complete-9.3.10.0.jar" />
+  <property name="jruby_file" value="jruby-complete-9.3.10.0.jar" />
   <!-- This needs to match version installed by bundler 2.x: `./build/run bootstrap` -->
   <!-- Then find version at: build/gems/jruby/$version -->
   <property name="jruby_build_version" value="2.6.0" />
@@ -500,7 +500,7 @@
       <env key="APPCONFIG_DATA_DIRECTORY" value="${env.ASPACE_TEST_DATA_DIRECTORY}" />
       <env key="APPCONFIG_DB_URL" value="${env.ASPACE_TEST_DB_URL}" />
       <env key="APPCONFIG_SOLR_URL" value="${env.ASPACE_TEST_SOLR_URL}" />
-      <arg line="../build/gems/bin/bundler exec rspec -b --format d ${pattern-arg} ${tag-arg} ${order-arg} ${example-arg} ${spec-arg} ${extra-spec-paths}" />
+      <arg line="../build/gems/bin/bundle exec rspec -b --format d ${pattern-arg} ${tag-arg} ${order-arg} ${example-arg} ${spec-arg} ${extra-spec-paths}" />
     </java>
   </target>
 
@@ -935,7 +935,7 @@
       <env key="ASPACE_INTEGRATION" value="true" />
       <env key="APPCONFIG_DB_URL" value="${env.APPCONFIG_DB_URL}" />
       <env key="APPCONFIG_SOLR_URL" value="${env.APPCONFIG_SOLR_URL}" />
-      <arg line="./build/${jruby_build_bin_path}/thor ${task} ${task_args}" />
+      <arg line="./build/gems/bin/bundle exec thor ${task} ${task_args}" />
     </java>
   </target>
 

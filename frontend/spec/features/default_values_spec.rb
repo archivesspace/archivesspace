@@ -25,8 +25,11 @@ describe 'Default Form Values', js: true do
 
   it 'will let an admin create default accession values' do
     visit '/accessions'
-
     click_link('Edit Default Values')
+    loop do
+      sleep 1
+      break if page.evaluate_script("typeof jQuery != 'undefined' && (jQuery.active === 0) && $('#accession_title_').data != 'undefined'")
+    end
     expect(page).to have_css("#accession_title_", visible: false)
     execute_script("$('#accession_title_').data('CodeMirror').setValue('DEFAULT TITLE')")
     click_on('Save')
