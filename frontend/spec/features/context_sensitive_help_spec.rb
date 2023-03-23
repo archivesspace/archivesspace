@@ -12,6 +12,8 @@ describe 'Context Sensitive Help', js: true do
     visit('/accessions/new')
 
     find('label[for="accession_title_"]').hover
+    # wait for the tooltip to appear
+    find('.tooltip-inner')
     expect(page).to have_content('The title assigned')
 
     # hover somewhere else to make it disappear

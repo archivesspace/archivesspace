@@ -16,7 +16,7 @@ describe 'Repositories', js: true do
       publish: true)
     set_repo(@repo)
 
-    run_index_round
+    run_indexer
 
     @test_repo_code_1 = "repo_repositories_spec_test_create_#{Time.now.to_i}"
     @test_repo_name_1 = "test create repository 1 - #{Time.now.utc}"
@@ -25,7 +25,7 @@ describe 'Repositories', js: true do
   end
 
   before(:each) do
-    login_admin
+    login
   end
 
   after(:all) do
@@ -105,9 +105,8 @@ describe 'Repositories', js: true do
   end
 
   it 'will only display the first contact record if there are multiple' do
-    visit '/agents'
-    click_link('Corporate Agent') if page.has_link?(exact_text: 'Corporate Agent')
-    find('td', exact_text: @repo2.repo_code).ancestor('tr').find('a', exact_text: 'Edit').click
+    agent_id = JSONModel(:agent_corporate_entity).id_for @repo2['agent_representation']['ref']
+    visit "/agents/agent_corporate_entity/#{agent_id}/edit"
     click_button('Add Contact')
     field = find('#agent_corporate_entity_contact_details li:last-child input[id$="__name_"]')
     field.fill_in(with: 'This is not the contact you are looking for')
@@ -136,7 +135,7 @@ describe 'Repositories', js: true do
     create(:accession)
     create(:resource)
 
-    run_index_round
+    run_indexer
 
     visit("#{throwaway_repo.uri}/edit")
     click_button('Delete')

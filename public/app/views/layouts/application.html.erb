@@ -5,7 +5,7 @@
 	<meta charset="utf-8"/>
 	<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link href="<%= asset_path('favicon.ico') %>" rel="shortcut icon" type="image/x-icon" />
+	<link href="<%= asset_path('favicon.ico', skip_pipeline: true) %>" rel="shortcut icon" type="image/x-icon" />
 	<title><%=  (@page_title.blank? ? '' : "#{strip_mixed_content(@page_title)} | ") %><%= t('brand.title') %></title>
 	<%= csrf_meta_tags %>
 

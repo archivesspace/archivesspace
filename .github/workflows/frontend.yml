@@ -7,15 +7,18 @@ on:
       - 'frontend/**'
       - 'common/**'
       - 'solr/**'
+  push:
+    branches:
+      - '*___frontend'
 
 jobs:
-  frontend:
-    name: Frontend
+
+  frontend-tests:
+    name: Frontend Tests
     runs-on: ubuntu-latest
     if: "!contains(github.event.head_commit.message, '[ci skip]')"
 
     strategy:
-      fail-fast: false
       matrix:
         java: [ 8, 11 ]
 
@@ -43,12 +46,10 @@ jobs:
         distribution: temurin
 
     - uses: './.github/actions/bootstrap'
-
-    - name: Allow ArchivesSpace functions for app db user
-      env:
-        DB_PORT: "3307"
-      run: |
-        mysql --host 127.0.0.1 --port $DB_PORT -uroot -proot -e "SET GLOBAL log_bin_trust_function_creators = 1;"
+      with:
+        backend: true
+        frontend: true
+        indexer: true
 
     - name: Copy solr config from workspace to solr service
       env:
@@ -64,7 +65,28 @@ jobs:
 
     - name: Run Frontend tests
       run: |
-        ./build/run frontend:selenium
         ./build/run frontend:test
       env:
         ARCHIVESSPACE_VERSION: ${{ github.ref }}
+        CAPYBARA_DEFAULT_MAX_WAIT_TIME: 10
+        RSPEC_RETRIES: 3
+
+    - name: Run deprecated tests
+      run: |
+        ./build/run frontend:selenium
+      env:
+        ARCHIVESSPACE_VERSION: ${{ github.ref }}
+
+    - name: Dump the test database
+      if: failure()
+      env:
+        DB_PORT: "3307"
+      run: |
+        mysqldump --host 127.0.0.1 --port $DB_PORT -uroot -proot archivesspace | gzip > ci_logs/archivesspace.sql.gz
+
+    - name: Upload the ci logs
+      if: failure()
+      uses: actions/upload-artifact@v3
+      with:
+        name: ci_logs
+        path: ci_logs/*

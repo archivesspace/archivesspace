@@ -42,27 +42,26 @@ gem 'clipboard-rails'
 # Turbolinks makes navigating your web application faster. Read more: https://github.com/turbolinks/turbolinks
 gem 'turbolinks'
 
-# Enable support for `rails server`
-gem 'listen', group: :development
-
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
 group :development do
   gem 'web-console'
-end
-
-group :development, :test do
   gem 'pry'
   gem 'pry-nav'
   gem 'pry-rails'
   gem 'pry-debugger-jruby'
+  gem 'listen'
+end
+
+group :development, :test do
   gem 'mizuno-aspace'
 end
 
 group :test do
   gem 'axe-core-rspec'
   gem 'capybara'
+  gem 'capybara-screenshot'
   gem 'dumb_delegator'
   gem 'factory_bot_rails'
   gem 'fog-aws', '2.0.0', require: false
@@ -73,6 +72,7 @@ group :test do
   gem 'rspec-retry'
   gem 'selenium-webdriver', '4.1.0'
   gem 'simplecov'
+  gem 'puma', '< 6.0'
 end
 
 # Allow plugins to provide their own Gemfiles too.

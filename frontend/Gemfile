@@ -48,20 +48,22 @@ group :test do
   gem 'selenium-webdriver'
 
   gem 'capybara'
+  gem 'capybara-screenshot'
   # need access to ActiveSupport for helpers
   gem 'activesupport'
   # if the indexer requires it, our test suite requires it
   gem 'fog-aws', '2.0.0', require: false
+  gem 'puma', '> 6.0'
 end
 
 group :development, :test do
-  gem 'pry-debugger-jruby', '>= 1.2.2'
-  gem 'pry-nav'
-  gem 'pry-rails'
   gem 'mizuno-aspace'
 end
 
 group :development do
+  gem 'pry-debugger-jruby', '>= 1.2.2'
+  gem 'pry-nav'
+  gem 'pry-rails'
   gem 'web-console'
 end
 

@@ -3,6 +3,7 @@ require 'exceptions'
 require File.expand_path("../../config/environment", __FILE__)
 require 'rspec/rails'
 require 'capybara/rails'
+require 'capybara-screenshot/rspec'
 require 'rails-controller-testing'
 require 'selenium-webdriver'
 require_relative 'selenium/common/webdriver'
@@ -20,7 +21,7 @@ Capybara.register_driver(:chrome) do |app|
     app,
     browser: :chrome,
     options: Selenium::WebDriver::Chrome::Options.new(args: CHROME_OPTS)
-  ).extend DriverMixin
+  )
 end
 
 # Firefox
@@ -29,7 +30,7 @@ Capybara.register_driver :firefox do |app|
     app,
     browser: :firefox,
     options: Selenium::WebDriver::Firefox::Options.new(args: FIREFOX_OPTS)
-  ).extend DriverMixin
+  )
 end
 
 if ENV['SELENIUM_CHROME']
@@ -38,57 +39,69 @@ else
   Capybara.javascript_driver = :firefox
 end
 
-# This should change once the app gets to a point where it's not just throwing
-# tons of errors...
-Capybara.raise_server_errors = false
-
+Capybara.raise_server_errors = true
 
 RSpec.configure do |config|
-  # RSpec Rails can automatically mix in different behaviours to your tests
-  # based on their file location, for example enabling you to call `get` and
-  # `post` in specs under `spec/controllers`.
-  #
-  # You can disable this behaviour by removing the line below, and instead
-  # explicitly tag your specs with their type, e.g.:
-  #
-  #     RSpec.describe UsersController, :type => :controller do
-  #       # ...
-  #     end
-  #
-  # The different available types are documented in the features, such as in
-  # https://relishapp.com/rspec/rspec-rails/docs
   config.infer_spec_type_from_file_location!
-
-  # Filter lines from Rails gems in backtraces.
   config.filter_rails_from_backtrace!
   config.include Capybara::DSL
   config.include ASpaceHelpers
 end
 
 # We use the Mizuno server.
-Capybara.register_server :mizuno do |app, port, host|
-  require 'rack/handler/mizuno'
-  Rack::Handler.get('mizuno').run(app, port: port, host: host)
-end
-Capybara.server = :mizuno
-Capybara.default_max_wait_time = 10
+# Capybara.register_server :mizuno do |app, port, host|
+#   require 'rack/handler/mizuno'
+#   Rack::Handler.get('mizuno').run(app, port: port, host: host)
+# end
+# Capybara.server = :mizuno
 
+# Puma server
+$puma = nil
+Capybara.register_server :as_puma do |app, port, host|
+  require 'rack/handler/puma'
+  options = { Host: host, Port: port, Threads: '1:8', workers: 0, daemon: false }
+  conf = Rack::Handler::Puma.config(app, options)
+  $puma = Puma::Server.new(
+    conf.app,
+    nil,
+    conf.options
+  ).tap do |s|
+    s.binder.parse conf.options[:binds], (s.log_writer rescue s.events) # rubocop:disable Style/RescueModifier
+    s.min_threads, s.max_threads = conf.options[:min_threads], conf.options[:max_threads] if s.respond_to? :min_threads=
+  end
+  $puma.run.join
+end
+Capybara.server = :as_puma
+
+Capybara.default_max_wait_time = ENV.fetch('CAPYBARA_DEFAULT_MAX_WAIT_TIME', 5).to_i
 ActionController::Base.logger.level = Logger::ERROR
-Rails.logger.level = Logger::ERROR
+Rails.logger.level = Logger::DEBUG
 Rails::Controller::Testing.install
+
+Capybara.threadsafe = true
+Capybara.save_path = File.join(ASUtils.find_base_directory, "ci_logs")
+# Enables (in theory) viewing of HTML screenshots with assets (provided you run the frontend devserver)
+Capybara.asset_host = 'http://localhost:3000'
+
+Capybara::Screenshot.register_driver(:firefox) do |driver, path|
+  driver.browser.save_screenshot(path)
+end
+
 
 def wait_for_job_to_complete(page)
   job_id = page.current_path.sub(/^[^\d]*/, '')
   sanity_counter = 0
   complete = false
-  while (sanity_counter < 100 && !complete) do
+  while (!complete) do
     begin
       job = JSONModel(:job).find(job_id)
       complete = ["completed", "failed"].include?(job.status)
-    rescue
+    rescue => e
+      raise e if sanity_counter > 20
+    ensure
+      sanity_counter += 1
     end
     return if complete
     sleep 1
-    sanity_counter += 1
   end
 end

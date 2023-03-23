@@ -3,6 +3,9 @@ require 'socket'
 require 'ashttp'
 require 'asutils'
 require 'English'
+require File.expand_path('indexer/app/lib/periodic_indexer', ASUtils.find_base_directory)
+require File.expand_path('indexer/app/lib/pui_indexer', ASUtils.find_base_directory)
+
 
 # A set of utils to start/stop the various servers that make up Aspace.
 # Used for running tests.
@@ -23,7 +26,7 @@ module TestUtils
 
   # rubocop:disable Metrics/MethodLength
   def self.wait_for_url(url, out = nil)
-    100.times do |idx|
+    24.times do |idx|
       begin
         uri = URI(url)
         req = Net::HTTP::Get.new(uri.request_uri)
@@ -33,6 +36,7 @@ module TestUtils
         break
       rescue
         # Keep trying
+        raise "Giving up waiting for #{url}" if idx > 22
         puts "Waiting for #{url} (#{$ERROR_INFO.inspect})"
         if idx == 10 && !out.nil? && File.file?(out)
           puts "Server is taking a long time to startup, dumping last 50 lines of log:"
@@ -77,7 +81,7 @@ module TestUtils
 
     # although we are testing, we need to pass the db we are using
     # through as aspace.db_url.dev because the backend:devserver
-    # ant task is harcoded to used that build arg
+    # ant task is hardcoded to used that build arg
     build_args = ['backend:devserver:integration',
                   "-Daspace.backend.port=#{port}",
                   '-Daspace_integration_test=1',
@@ -85,10 +89,13 @@ module TestUtils
     java_opts += ' -Xmx1024m'
 
     puts "Spawning backend with opts: #{java_opts}"
-    pid = Process.spawn({ 'JAVA_OPTS' => java_opts }, find_ant, *build_args)
-    out = File.join(find_ant.gsub(/run/, ''), 'backend_test_log.out')
+    logfile = File.join(ASUtils.find_base_directory, "ci_logs", "backend_test_log.out")
+    process_log = File.join(ASUtils.find_base_directory, "ci_logs", "backend_process.out")
+    process_options = { :out => process_log, :err => process_log }
+    env = { 'JAVA_OPTS' => java_opts, 'APPCONFIG_BACKEND_LOG' => logfile, 'INTEGRATION_LOGFILE' => process_log }
+    pid = Process.spawn(env, find_ant, *build_args, process_options)
 
-    TestUtils.wait_for_url("http://localhost:#{port}", out)
+    TestUtils.wait_for_url("http://localhost:#{port}", logfile)
     puts "Backend started with pid: #{pid}"
 
     pid
@@ -136,5 +143,42 @@ module TestUtils
   rescue Errno::EADDRINUSE
     port += 1
     retry
+  end
+
+  # the first time a factory is created, backend session will be set;
+  # rather than have the indexer login, use the same session
+  module SpecIndexing
+    def self.get_indexer
+      @periodic ||= PeriodicIndexer.new(AppConfig[:backend_url]).instance_eval do
+        def login
+          @current_session = JSONModel::HTTP.current_backend_session
+          @current_session
+        end
+
+        self
+      end
+    end
+
+    def self.get_pui_indexer
+      @pui ||= PUIIndexer.new(AppConfig[:backend_url]).instance_eval do
+        def login
+          @current_session = JSONModel::HTTP.current_backend_session
+          @current_session
+        end
+
+        self
+      end
+    end
+
+    module Methods
+      def run_indexer
+        SpecIndexing.get_indexer.run_index_round
+      end
+
+      def run_indexers
+        SpecIndexing.get_indexer.run_index_round
+        SpecIndexing.get_pui_indexer.run_index_round
+      end
+    end
   end
 end
