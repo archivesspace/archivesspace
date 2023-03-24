@@ -190,6 +190,10 @@ de:
       werden.
     require_subrecord: Teilaufzeichnung erfordern
     select_resource: Ressource auswählen
+    reorder_successful: Aufbewahrungsorte erfolgreich neu geordnet
+    collapse_tree: Baum einklappen
+    expand_tree_mode_on: Alle automatisch Ausklappen
+    expand_tree_mode_off: Automatisches Ausklappen deaktivieren
   search_results:
     filtered_by: Gefiltert durch
     title: Suchergebnisse
@@ -357,6 +361,8 @@ de:
         archived_jobs: Archivierte Aufgaben
         files: Dateien
       external_repo: Die Aufzeichnung gehört zu einem anderen Aufbewahrungsort
+      plural: Aufgaben
+      singular: Aufgabe
   sub_container:
     top_container: Haupt-Behältnis
     top_container_tooltip: "<p>ERFORDERLICHES FELD. Das Behältnis der obersten Ebene,\
@@ -448,6 +454,7 @@ de:
       accession_date_year: Eingangsdatum
       extents: Umfang
       uri: URI
+      representative_file_version: Vorschaubild
     resource:
       score: Relevanz
       title: Titel
@@ -471,6 +478,7 @@ de:
       subjects: Thema
       extents: Umfang
       uri: URI
+      representative_file_version: Vorschaubild
     archival_object:
       score: Relevanz
       title: Titel
@@ -488,6 +496,7 @@ de:
       asc: Aufsteigend
       desc: Absteigend
       uri: URI
+      representative_file_version: Vorschaubild
     subject:
       score: Relevanz
       source: Quelle
@@ -518,6 +527,7 @@ de:
       asc: Aufsteigend
       desc: Absteigend
       uri: URI
+      representative_file_version: Vorschaubild
     digital_object_component:
       score: Relevanz
       title: Titel
@@ -532,6 +542,7 @@ de:
       desc: Absteigend
       publish: Veröffentlicht
       uri: URI
+      representative_file_version: Vorschaubild
     agent:
       score: Relevanz
       primary_type: Typ des Akteurs
@@ -568,6 +579,7 @@ de:
       user_mtime: Geändert
       create_time: Erstellt
       desc: Absteigend
+      uri: URI
     event:
       agents: Akteur
       event_type: Typ
@@ -579,6 +591,7 @@ de:
       asc: Aufsteigend
       desc: Absteigend
       score: Relevanz
+      uri: URI
     collection_management:
       score: Relevanz
       parent_title: Titel
@@ -593,6 +606,8 @@ de:
       processing_priority: Bearbeitungs-Priorität
       processing_status: Bearbeitungs-Status
       audit_info: Prüfinformation
+      name: Sammlungsverwaltung
+      uri: URI
     classification:
       title: Titel
       publish: Veröffentlicht
@@ -627,6 +642,7 @@ de:
       desc: Absteigend
       audit_info: Prüfinformation
       asc: Aufsteigend
+      uri: URI
     repositories:
       score: Relevanz
       title: Titel
@@ -652,6 +668,7 @@ de:
       title: Titel
       location_display_string_u_sstr: Standort
       create_time: Erstellt
+      uri: URI
     container_profile:
       score: Relevanz
       title: Titel
@@ -665,6 +682,8 @@ de:
       asc: Aufsteigend
       desc: Absteigend
       create_time: Erstellt
+      notes: Anmerkung
+      uri: URI
     location_profile:
       score: Relevanz
       title: Titel
@@ -678,6 +697,7 @@ de:
       desc: Absteigend
       create_time: Erstellt
       user_mtime: Geändert
+      uri: URI
     job:
       score: Relevanz
       status: Status
@@ -693,6 +713,7 @@ de:
       asc: Aufsteigend
       desc: Absteigend
       create_time: Erstellt
+      uri: URI
     multi:
       score: Relevanz
       primary_type: Aufzeichnungs-Typ
@@ -711,6 +732,7 @@ de:
       langcode: Sprache des Archivguts
       asc: Aufsteigend
       desc: Absteigend
+      uri: URI
     blank_facet_query_fields:
       owner_repo_display_string_u_ssort: Aufbewahrungsort
   become-user:
@@ -1178,6 +1200,8 @@ de:
       action:
         add: Dateiversion hinzufügen
         make_representative: Repräsentativ machen
+        make_representative_tooltip: Verwenden Sie diese Option, um dieses Bild anzuzeigen,
+          wenn der Aufzeichnung mehrere Dateiversionen zugeordnet sind.
   group:
     _frontend:
       action:
@@ -1259,6 +1283,12 @@ de:
         make_authorized: Zum autoritativen Namen machen
         make_display_name: Zum Anzeigenamen machen
         make_primary: Zum Primärnamen machen
+        make_display_name_tooltip: Verwenden Sie diese Option, um diese Namensform
+          anzuzeigen, wenn der Akteur-Aufzeichnung mehrere Namensformen zugeordnet
+          sind.
+        make_authorized_tooltip: Verwenden Sie diese Option, um diese Namensform zum
+          autoritativen Namen zu machen.
+        make_primary_tooltip: Zur Primär-Info machen
   note:
     _frontend:
       preview:
@@ -1340,6 +1370,7 @@ de:
         save: Aufbewahrungsort speichern
         create: Aufbewahrungsort erstellen
         select: Aufbewahrungsort auswählen
+        order_for_pui: Reihenfolge in der öffentlichen Besucher-Oberfläche festlegen
     _sidebar:
       oai_settings:
         _plural: Einstellungen OAI-Sammler
@@ -1380,6 +1411,9 @@ de:
       Key (ARK) Permanenter Bezeichner. Wenn dieses Feld einen Wert besitzt, wird
       dieser gegenüber einem ARK, der innerhalb von ArchivesSpace erzeugt wurde, bevorzugt.
     external_ark_url: Externe ARK URL
+    linker:
+      browse: Ressourcen durchsuchen
+      link_title: Durchsuchen
   preference:
     _frontend:
       messages:
@@ -1452,6 +1486,7 @@ de:
         create: Benutzer erstellen
         activate_user: Aktivieren
         update_self: Benutzerkonto verwalten
+    source: Authentifizierung
   use_date:
     _frontend:
       action:
@@ -1870,6 +1905,9 @@ de:
       und verknüpfte Aufzeichnungen wie Daten, Umfang, Anmerkungen, Behältnisse und
       digitale Objekte zu erstellen. Das XLSX-Format ist für jene geeignet, die Zugang
       zu Microsoft Excel haben.
+    aspace_subject_import_template_csv: Neue Themen-Aufzeichnungen erstellen. Beachten
+      Sie, dass diese Vorlage zum Erstellen der Standort-Aufzeichnungen selbst und
+      nicht zum Verknüpfen mit anderen Aufzeichnungen gedacht ist.
   top_container:
     restricted: Eingeschränkt?
     managed_container_2_indicator_tooltip: "<p>Ein alphanumerischer Ausdruck, um den\
@@ -2034,6 +2072,9 @@ de:
       browse: Haupt-Behältnisse durchsuchen
       create: Haupt-Behältnis erstellen
       link_title: Verknüpfung mit Haupt-Behältnis
+    internal_note: Interne Anmerkung
+    internal_note_tooltip: "<p>Anmerkungen zur internen Verwendung. Nur in der Verwaltungsoberfläche\
+      \ sichtbar.</p>\n"
   container_profile:
     name: Name
     _frontend:
@@ -2100,6 +2141,8 @@ de:
       browse: Behältnis-Profile durchsuchen
       create: Behältnis-Profil erstellen
       link_title: Verknüpfung mit Behältnis-Profil
+    notes: Anmerkung
+    notes_tooltip: "<p>Eine Anmerkung für sonstige Informationen/Metadaten.</p>\n"
   rights_restriction:
     local_access_restriction_type_inline_help: Halten Sie Strg (Windows) / Cmd (Mac)
       gedrückt, um mehrere Optionen auszuwählen oder eine Option abzuwählen
@@ -2334,6 +2377,7 @@ de:
       action:
         create: Vorlage erstellen
         save: Vorlage speichern
+        search_usernames: Nach Benutzernamen suchen
       messages:
         copied: Benutzerdefinierte Berichtsvorlage kopiert
         created: Benutzerdefinierte Berichtsvorlage erstellt
