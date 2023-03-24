@@ -181,7 +181,8 @@
             self.setDragHandleState();
         });
 
-        $(largetree.elt).on('mousedown', '.drag-handle', function (event) {
+        $(largetree.elt).on('mousedown', '.table-row.largetree-node', function (event) {
+            // ANW-1024 make whole row draggable not just .drag-handle
             var selection = $(this);
 
             if (self.isMultiSelectKeyHeld(event)) {

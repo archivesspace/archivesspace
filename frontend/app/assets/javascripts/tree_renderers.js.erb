@@ -44,7 +44,7 @@ function ResourceRenderer() {
                           '</div>');
 
     this.nodeTemplate = $('<div class="table-row"> ' +
-                          '  <div class="table-cell drag-handle"></div>' +
+                          `  <div class="table-cell drag-handle">${dragHandleMarkup()}</div>` +
                           '  <div class="table-cell title"><span class="indentor"><button class="expandme" aria-expanded="false"><i class="expandme-icon glyphicon glyphicon-chevron-right" /></button></span> </div>' +
                           '  <div class="table-cell resource-level"></div>' +
                           '  <div class="table-cell resource-type"></div>' +
@@ -175,7 +175,7 @@ function DigitalObjectRenderer() {
 
 
     this.nodeTemplate = $('<div class="table-row"> ' +
-                          '  <div class="table-cell drag-handle"></div>' +
+                          `  <div class="table-cell drag-handle">${dragHandleMarkup()}</div>` +
                           '  <div class="table-cell title"><span class="indentor"><button class="expandme" aria-expanded="false"><i class="expandme-icon glyphicon glyphicon-chevron-right" /></button></span> </div>' +
                           '  <div class="table-cell digital-object-type"></div>' +
                           '  <div class="table-cell file-uri-summary"></div>' +
@@ -285,4 +285,24 @@ function recordTitleHandler(suppressed, title) {
   const suppressedMarkup = `<span class="label label-info"><%= I18n.t("states.suppressed") %></span>`;
 
   return suppressed ? `${suppressedMarkup} ${title}` : title;
+}
+
+function dragHandleMarkup() {
+  const rows = [8, 12, 16, 20, 24];
+  const cols = [10, 14, 18, 22];
+
+  return `
+    <span class="drag-handle__span">
+      <svg role="presentation" viewBox="2 2 28 28">
+        <g fill="currentcolor" fill-rule="evenodd">
+          ${rows.reduce((acc, y) => {
+            cols.forEach((x) => {
+              acc += `<circle cx="${x}" cy="${y}" r="1"></circle>`;
+            });
+            return acc;
+          }, ``)}
+        </g>
+      </svg>
+    </span>
+  `;
 }
