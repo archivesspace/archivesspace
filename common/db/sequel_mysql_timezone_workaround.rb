@@ -29,7 +29,7 @@ if connector_version == :new
     jdbc_url += "&serverTimezone=UTC"
   end
 
-  AppConfig[:jdbc_url] = jdbc_url
+  AppConfig[:db_url] = jdbc_url
 end
 
 
