@@ -20,16 +20,18 @@ module TreeHelperMethods
   end
 
   def tree_drag_and_drop(source, target, where_to_drop)
-    unless ['Add Items Before', 'Add Items as Children', 'Add Items After'].include?(where_to_drop)
+    unless ['before', 'into', 'after'].include?(where_to_drop)
       raise 'Need to specify valid place to drop: "' + where_to_drop + '" not supported'
     end
 
     source_tree_id = source.attribute('id')
     target_tree_id = target.attribute('id')
 
-    @driver.execute_script("tree.dragdrop.simulate_drag_and_drop('#{source_tree_id}', '#{target_tree_id}');")
+    @driver.find_element(:link, 'Enable Reorder Mode').click
 
-    @driver.find_element(:link, where_to_drop).click
+    @driver.find_element(css: "label[for='drop-#{where_to_drop}']").click
+
+    @driver.execute_script("tree.dragdrop.simulate_drag_and_drop('#{source_tree_id}', '#{target_tree_id}');")
 
     tree_wait_for_spinner
   end

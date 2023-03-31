@@ -23,6 +23,9 @@ en:
     date_picker: Open Date Picker
     date_picker_toggle: Toggle the Date Picker
     defaults: Default Values
+    drop_before: Drop Before
+    drop_into: Drop as Child
+    drop_after: Drop After
     edit: Edit
     edit_oai: Edit OAI Settings
     edit_batch: Edit Batch
