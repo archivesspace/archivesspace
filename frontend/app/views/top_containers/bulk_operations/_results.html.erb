@@ -14,11 +14,13 @@
   <p><%= I18n.t("top_container._frontend.messages.results_summary", {:num_found => num_found}) %></p>
 <% end %>
 
-<p>
-  <small><%= I18n.t("top_container._frontend.messages.bulk_selection_sort_help") %></small>
-  <br/>
-  <small><%= I18n.t("search_results.help.row_selection") %></small>
-</p>
+<% if multiselect == true %>
+  <p>
+    <small><%= I18n.t("top_container._frontend.messages.bulk_selection_sort_help") %></small>
+    <br/>
+    <small><%= I18n.t("search_results.help.row_selection") %></small>
+  </p>
+<% end %>
 
 <table class="table table-striped table-bordered table-condensed table-hover table-sortable table-search-results">
   <thead>
