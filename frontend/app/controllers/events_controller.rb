@@ -16,6 +16,11 @@ class EventsController < ApplicationController
       format.csv {
         search_params = params_for_backend_search.merge({"facet[]" => SearchResultData.EVENT_FACETS})
         search_params["type[]"] = "event"
+
+        # ANW-1635: when outputting to CSV, use linked_record_titles instead of linked_records since that's where the linked record data is available in the solr schema
+        search_params["fields[]"].delete("linked_records")
+        search_params["fields[]"].push("linked_record_titles")
+
         uri = "/repositories/#{session[:repo_id]}/search"
         csv_response( uri, Search.build_filters(search_params), "#{I18n.t('event._plural').downcase}." )
       }
