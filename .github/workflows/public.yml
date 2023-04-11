@@ -64,3 +64,5 @@ jobs:
     - name: Run Public tests
       run: |
         ./build/run public:test
+      env:
+        ARCHIVESSPACE_VERSION: ${{ github.ref }}
