@@ -51,6 +51,7 @@ class EventsController < ApplicationController
     if params.has_key?(:record_uri)
       @last_linked_record_uri = params[:record_uri]
       @last_linked_record_type = params[:record_type]
+      @last_linked_record_path = params[:record_uri].match('\/\w+\/\d+$')[0]
 
       record = JSONModel(params[:record_type]).find_by_uri(params[:record_uri])
       @event.linked_records = []
