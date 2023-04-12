@@ -157,7 +157,7 @@ describe 'Authentication manager' do
       # now get one and wait 5 minutes
       token = AuthenticationManager.generate_token(username)
       time_now = Time.now
-      allow(Time).to receive(:now).and_return(time_now + 5*60)
+      allow(Time).to receive(:now).and_return(time_now + 30*60)
       expect(AuthenticationManager.authenticate_token(username, token)).to be_nil
       # now go back in time 5 seconds
       allow(Time).to receive(:now).and_return(time_now + (5*60)-5)
