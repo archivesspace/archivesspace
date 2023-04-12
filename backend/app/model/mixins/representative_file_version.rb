@@ -72,26 +72,13 @@ module RepresentativeFileVersion
         when "DigitalObject", "DigitalObjectComponent"
           fvs = json[:file_versions]
 
-          # ANW-1209 REQ-3
-          published_representative_fv = fvs.select { |fv| (fv["publish"] == true || fv["publish"] == 1) \
-            && (fv["is_representative"] == true || fv["is_representative"] == 1) }
+          rfv_index = fvs.index {|fv| file_version_is_representative?(fv)}
 
-          # ANW-1209 REQ-3.1
-          published_image_thumbnail_fvs = fvs.select { |fv| (fv["publish"] == true || fv["publish"] == 1) \
-            && fv["is_representative"] != true \
-            && fv["is_representative"] != 1 && fv["use_statement"] == 'image-thumbnail' }
-
-          # The older logic for selecting an image to show via `process_file_versions`
-          # in public/app/controllers/concerns/result_info.rb
-          published_valid_embed_fvs = fvs.select { |fv| (fv["publish"] == true || fv["publish"] == 1) \
-            && fv["file_uri"].start_with?('http') && fv["xlink_show_attribute"] == 'embed' }
-
-          if published_representative_fv.count > 0
-            json["representative_file_version"] = published_representative_fv.first
-          elsif published_image_thumbnail_fvs.count > 0
-            json["representative_file_version"] = published_image_thumbnail_fvs.first
-          elsif published_valid_embed_fvs.count > 0
-            json["representative_file_version"] = published_valid_embed_fvs.first
+          if rfv_index
+            json["representative_file_version"] = fvs[rfv_index]
+            if rfv_has_next_sibling?(fvs, rfv_index)
+              json["representative_file_version"]["link_uri"] = fvs[rfv_index + 1]["file_uri"]
+            end
           end
         end
 
@@ -144,6 +131,33 @@ module RepresentativeFileVersion
     end
 
     private
+
+    def rfv_has_next_sibling?(arr, _rfv_index)
+      arr.count >= _rfv_index
+    end
+
+    def file_version_is_representative?(fv)
+      is_marked_representative(fv) || is_marked_thumbnail(fv) || is_marked_embed(fv)
+    end
+
+    # ANW-1209 REQ-3
+    def is_marked_representative?(fv)
+      (fv["publish"] == true || fv["publish"] == 1) \
+      && (fv["is_representative"] == true || fv["is_representative"] == 1)
+    end
+
+    # ANW-1209 REQ-3.1
+    def is_marked_thumbnail?(fv)
+      (fv["publish"] == true || fv["publish"] == 1) \
+      && fv["use_statement"] == 'image-thumbnail'
+    end
+
+    # The older logic for selecting an image to show via `process_file_versions`
+    # in public/app/controllers/concerns/result_info.rb
+    def is_marked_embed?(fv)
+      (fv["publish"] == true || fv["publish"] == 1) \
+      && fv["xlink_show_attribute"] == 'embed'
+    end
 
     def thumbnail_use_statement_id
       use_statement_enum_id = Enumeration.find(name: "file_version_use_statement").id
