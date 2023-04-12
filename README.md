@@ -18,7 +18,7 @@ The latest technical documentation is managed in a separate GitHub repository [A
 
 # License
 
-ArchivesSpace is released under the [Educational Community License, version 2.0](http://opensource.org/licenses/ecl2.php). See the [COPYING](COPYING) file for more information.
+ArchivesSpace is released under the [Educational Community License, version 2.0](https://opensource.org/license/ecl-2-0/). See the [COPYING](COPYING) file for more information.
 
 # Credits
 
