@@ -47,7 +47,9 @@ module RepresentativeFileVersion
             id = JSONModel(:digital_object).id_for(representative_instance["digital_object"]["ref"])
             digital_object = DigitalObject.to_jsonmodel(id, opts)
             if digital_object["representative_file_version"]
-              json["representative_file_version"] = digital_object["representative_file_version"].merge("derived_from" => digital_object.uri)
+              json["representative_file_version"] = digital_object["representative_file_version"]
+                                                      .merge("derived_from" => digital_object.uri)
+                                                      .reject { |k, _| k == "link_uri" }
             else
               digital_object_component_set = DigitalObjectComponent
                                                .left_join(:file_version, digital_object_component_id: :digital_object_component__id)
@@ -71,28 +73,37 @@ module RepresentativeFileVersion
           end
         when "DigitalObject", "DigitalObjectComponent"
           fvs = json[:file_versions]
+          fv_pairs = []
+          last_pair = nil
+          fvs.each do |fv|
+            # all done if:
+            break if fv_pairs[0] && fv_pairs[0].size == 2
+            # ANW-1721 - if the fv in last_pair ends up being selected, this will be its link target
+            if (last_pair && last_pair.size == 1)
+              last_pair << fv
+            end
+            # ANW-1209 REQ-3
+            if fv_pairs[0].nil? && fv["publish"] && fv["is_representative"]
+              last_pair = fv_pairs[0] = [fv]
+            # ANW-1209 REQ-3.1
+            elsif fv_pairs[1].nil? && fv["publish"] && fv["use_statement"] == 'image-thumbnail'
+              last_pair = fv_pairs[1] = [fv]
+            # The older logic for selecting an image to show via `process_file_versions`
+            # in public/app/controllers/concerns/result_info.rb
+            elsif fv_pairs[2].nil? && fv["publish"] \
+              && fv["file_uri"].start_with?('http') && fv["xlink_show_attribute"] == 'embed'
 
-          # ANW-1209 REQ-3
-          published_representative_fv = fvs.select { |fv| (fv["publish"] == true || fv["publish"] == 1) \
-            && (fv["is_representative"] == true || fv["is_representative"] == 1) }
-
-          # ANW-1209 REQ-3.1
-          published_image_thumbnail_fvs = fvs.select { |fv| (fv["publish"] == true || fv["publish"] == 1) \
-            && fv["is_representative"] != true \
-            && fv["is_representative"] != 1 && fv["use_statement"] == 'image-thumbnail' }
-
-          # The older logic for selecting an image to show via `process_file_versions`
-          # in public/app/controllers/concerns/result_info.rb
-          published_valid_embed_fvs = fvs.select { |fv| (fv["publish"] == true || fv["publish"] == 1) \
-            && fv["file_uri"].start_with?('http') && fv["xlink_show_attribute"] == 'embed' }
-
-          if published_representative_fv.count > 0
-            json["representative_file_version"] = published_representative_fv.first
-          elsif published_image_thumbnail_fvs.count > 0
-            json["representative_file_version"] = published_image_thumbnail_fvs.first
-          elsif published_valid_embed_fvs.count > 0
-            json["representative_file_version"] = published_valid_embed_fvs.first
+              last_pair = fv_pairs[2] = [fv]
+            end
           end
+          # now we select the best candidate pair based on order
+          if (fvp = fv_pairs.compact.first)
+            json["representative_file_version"] = fvp[0]
+            if fvp[1] && fvp[1]["publish"]
+              json["representative_file_version"]["link_uri"] = fvp[1]["file_uri"]
+            end
+          end
+
         end
 
         # if we still don't have a representative and are dealing with a Resource
