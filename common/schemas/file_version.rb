@@ -25,6 +25,7 @@
       "derived_from" => {"type" => [{"type" => "JSONModel(:digital_object) uri"},
                                     {"type" => "JSONModel(:digital_object_component) uri"}],
                          "readonly" => true},
+      "link_uri" => {"type" => "string", "maxLength" => 16384, "readonly" => true},
     },
   },
 }

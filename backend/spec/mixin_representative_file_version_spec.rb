@@ -21,7 +21,8 @@ describe 'Representative File Version mixin' do
       build(:json_file_version, {
               :publish => true,
               :file_uri => "http://foo.com/bar#{i}",
-              :use_statement => 'image-service'
+              :use_statement => 'image-service',
+              :xlink_show_attribute => "embed"
             })
     }
   }
@@ -64,6 +65,30 @@ describe 'Representative File Version mixin' do
         obj = klass.create_from_json(json)
         json = klass.to_jsonmodel(obj)
         expect(json.representative_file_version['file_uri']).to eq(file_version_2.file_uri)
+      end
+    end
+
+    # https://archivesspace.atlassian.net/browse/ANW-1721
+    it "has a read-only 'link_uri' for the following published sibling file_version of the representative file" do
+      file_version_2.is_representative = true
+      [DigitalObject, DigitalObjectComponent].each do |klass|
+        json = build(:"json_#{klass.name.underscore}", file_versions: [ file_version_1, file_version_2, file_version_3 ])
+        obj = klass.create_from_json(json)
+        json = klass.to_jsonmodel(obj)
+        expect(json.representative_file_version['file_uri']).to eq(file_version_2.file_uri)
+        expect(json.representative_file_version['link_uri']).to eq(file_version_3.file_uri)
+      end
+    end
+
+    it "has no read-only 'link_uri' if the following file_version of the representative file is unpublished" do
+      file_version_2.is_representative = true
+      file_version_3.publish = false
+      [DigitalObject, DigitalObjectComponent].each do |klass|
+        json = build(:"json_#{klass.name.underscore}", file_versions: [ file_version_1, file_version_2, file_version_3, file_version_4 ])
+        obj = klass.create_from_json(json)
+        json = klass.to_jsonmodel(obj)
+        expect(json.representative_file_version['file_uri']).to eq(file_version_2.file_uri)
+        expect(json.representative_file_version['link_uri']).to be_nil
       end
     end
   end
@@ -199,6 +224,22 @@ describe 'Representative File Version mixin' do
                          })
 
       expect(accession.representative_file_version['file_uri']).to eq(file_version_1.file_uri)
+    end
+
+    it "has no read-only 'link_uri' since this field only matters in the context of a digital object record or component" do
+      do1 = create(:json_digital_object, { publish: true, file_versions: [file_version_1, file_version_2] })
+
+      [Resource, Accession, ArchivalObject].each do |klass|
+        obj = send("create_#{klass.name.underscore}", instances: [
+                     build(:json_instance_digital, {
+                             is_representative: true,
+                             digital_object: { ref: do1.uri }
+                           })])
+
+        json = klass.to_jsonmodel(obj.id)
+        expect(json.representative_file_version['file_uri']).to eq(file_version_1.file_uri)
+        expect(json.representative_file_version['link_uri']).to be_nil
+      end
     end
   end
 
