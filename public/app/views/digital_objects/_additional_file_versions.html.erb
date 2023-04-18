@@ -1,11 +1,16 @@
-<ol class="list-unstyled mb0">
+<ul>
   <% fvs.each do |fv| %>
-    <li class="panel panel-default additional-file-version">
-      <%= render partial: 'shared/representative_file_version_record', locals: {
-        :img_uri => fv['file_uri'],
-        :a_uri => fv['file_uri'],
-        :caption => fv['caption']
-      } %>
+    <%
+      # ANW-1722 additional file version display rules
+      fv_markup = "<a href='#{fv['file_uri']}'>#{fv['file_uri']}</a>"
+      if fv['caption'] && !fv['caption'].empty?
+        fv_markup = "<a href='#{fv['file_uri']}'>#{fv['caption']}</a>"
+      elsif fv['use_statement'] && !fv['use_statement'].empty?
+        fv_markup = "<a href='#{fv['file_uri']}'>#{fv['use_statement']}</a>"
+      end
+    %>
+    <li data-additional-file-version>
+      <%= fv_markup.html_safe %>
     </li>
   <% end %>
-</ol>
+</ul>
