@@ -60,19 +60,45 @@ describe ObjectsController, type: :controller do
         build(:file_version, {
           :publish => true,
           :is_representative => false,
-          :file_uri => 'not_http',
+          :file_uri => 'data:',
+        })
+      ])
+
+      @do4 = create(:digital_object, publish: true, :file_versions => [
+        build(:file_version, {
+          :publish => true,
+          :is_representative => false,
+          :file_uri => 'http',
+        })
+      ])
+
+      @do5 = create(:digital_object, publish: true, :file_versions => [
+        build(:file_version, {
+          :publish => true,
+          :is_representative => false,
+          :file_uri => 'not_http_or_data',
         })
       ])
 
       run_indexers
     end
 
-    it "shows a 'generic icon' if no representative file version is set and the "\
-       "file version is published, whether or not the file uri starts with 'http'" do
+    it "shows a 'generic icon' if no representative file version is set, the "\
+       "file version is published, and the file uri starts with 'http' or 'data:'" do
       get(:show, params: { rid: @repo.id, obj_type: 'digital_objects', id: @do3.id })
-      icon_css = '.external-digital-object__link[href="not_http"]'
+      icon_css = '.external-digital-object__link[href="data:"]'
       page = response.body
       expect(page).to have_css(icon_css)
+
+      get(:show, params: { rid: @repo.id, obj_type: 'digital_objects', id: @do4.id })
+      icon_css_1 = '.external-digital-object__link[href="http"]'
+      page_1 = response.body
+      expect(page_1).to have_css(icon_css_1)
+
+      get(:show, params: { rid: @repo.id, obj_type: 'digital_objects', id: @do5.id })
+      icon_css_2 = '.external-digital-object__link[href="not_http_or_data"]'
+      page_2 = response.body
+      expect(page_2).not_to have_css(icon_css_2)
     end
 
     describe 'additional file versions' do

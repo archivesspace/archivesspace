@@ -2,7 +2,9 @@
   <% fvs.each do |fv| %>
     <%
       # ANW-1722 additional file version display rules
-      fv_markup = "<a href='#{fv['file_uri']}'>#{fv['file_uri']}</a>"
+      data_url_text = t('digital_object._public.url_encoded_data')
+      uri_text = fv['file_uri'].starts_with?('data:') ? data_url_text : fv['file_uri']
+      fv_markup = "<a href='#{fv['file_uri']}'>#{uri_text}</a>"
       if fv['caption'] && !fv['caption'].empty?
         fv_markup = "<a href='#{fv['file_uri']}'>#{fv['caption']}</a>"
       elsif fv['use_statement'] && !fv['use_statement'].empty?
