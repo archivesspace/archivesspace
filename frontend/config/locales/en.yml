@@ -505,6 +505,7 @@ en:
       asc: Ascending
       desc: Descending
       uri: URI
+      representative_file_version: Thumbnail Image
     blank_facet_query_fields:
       owner_repo_display_string_u_ssort: Repository
 

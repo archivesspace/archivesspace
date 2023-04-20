@@ -110,7 +110,8 @@ module SearchAndBrowseColumnConfig
       "create_time" => {:field => "create_time", :sortable => true},
       "user_mtime" => {:field => "user_mtime", :sortable => true},
       "audit_info" => {:field => "audit_info", :sort_by => ["create_time", "user_mtime"]},
-      "uri" => {:field => "uri", :sortable => true}
+      "uri" => {:field => "uri", :sortable => true},
+      "representative_file_version" => {:field => "representative_file_version", :sortable => false}
     },
     "location" => {
       "title" => {:field => "title", :sortable => true, :sort_by => "title_sort"},
