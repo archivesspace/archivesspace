@@ -168,7 +168,9 @@ module ResultInfo
       rep_caption = ''
       json['file_versions'].each do |version|
         version['file_uri'].strip!
-        if version.dig('publish') != false
+        if version.dig('publish') != false && (version['file_uri'].start_with?('http') ||
+          version['file_uri'].start_with?('data:'))
+
           if version.dig('xlink_show_attribute') == 'embed'
             dig_f['thumb'] = version['file_uri']
             dig_f['represent'] = 'embed' if version['is_representative']
