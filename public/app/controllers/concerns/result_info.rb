@@ -147,7 +147,7 @@ module ResultInfo
         unless !instance.dig('digital_object', '_resolved')
           dig_f = {}
           it =  instance['digital_object']['_resolved']
-          unless it['file_versions'].blank?
+          unless !it['publish'] || it['file_versions'].blank?
             title = strip_mixed_content(it['title'])
             dig_f = process_file_versions(it)
             dig_f['caption'] = CGI::escapeHTML(title) if dig_f['caption'].blank? && !title.blank?
