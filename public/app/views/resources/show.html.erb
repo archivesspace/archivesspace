@@ -22,7 +22,7 @@
   <div class="resizable-content-pane">
     <% if @result['json']['representative_file_version'].present? %>
       <%= render partial: 'shared/digital', locals: {
-        dig_objs: @dig
+        dig_objs: @dig,
         record: @result,
         n_digital_objects: @n_digital_objects
       } %>
