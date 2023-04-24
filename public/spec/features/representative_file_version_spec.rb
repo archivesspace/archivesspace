@@ -5,6 +5,7 @@ describe 'Representative File Version', js: true do
   before(:all) do
     @img_1 = 'https://www.archivesspace.org/demos/Congreave%20E-4/ms292_008.jpg'
     @img_2 = 'https://www.archivesspace.org/demos/Congreave%20E-1/ms292_001.jpg'
+    @img_3 = 'https://www.archivesspace.org/demos/Congreave%20E-1/ms292_002.jpg'
     @caption_1 = 'This is caption 1'
     @caption_2 = 'This is caption 2'
     @long_caption = 'This is the long caption whose character count exceeds 56'
@@ -34,6 +35,80 @@ describe 'Representative File Version', js: true do
           file_uri: @img_2,
           use_statement: 'image-thumbnail',
           caption: @caption_2
+        }
+      ]
+    )
+    @dobj_with_repfv_02 = create(
+      :digital_object,
+      publish: true,
+      title: 'Digital object with representative file version 02',
+      file_versions: [
+        {
+          publish: true,
+          is_representative: true,
+          file_uri: @img_1,
+          use_statement: 'image-thumbnail',
+          caption: @caption_1
+        },
+        {
+          publish: true,
+          is_representative: false,
+          file_uri: @img_3,
+        }
+      ]
+    )
+    @dobj_with_repfv_03 = create(
+      :digital_object,
+      publish: true,
+      title: '03 Digital object with representative file version',
+      file_versions: [
+        {
+          publish: true,
+          is_representative: true,
+          file_uri: @img_1,
+          use_statement: 'image-thumbnail',
+          caption: @caption_1
+        },
+        {
+          publish: false,
+          file_uri: @img_3,
+        }
+      ]
+    )
+    @dobjc_with_repfv_02 = create(:digital_object_component,
+      publish: true,
+      digital_object: { ref: @dobj_with_repfv.uri },
+      title: 'Digital object component with representative file version 02',
+      file_versions: [
+        {
+          publish: true,
+          is_representative: true,
+          file_uri: @img_2,
+          use_statement: 'image-thumbnail',
+          caption: @caption_2
+        },
+        {
+          publish: true,
+          is_representative: false,
+          file_uri: @img_3,
+        }
+      ]
+    )
+    @dobjc_with_repfv_03 = create(:digital_object_component,
+      publish: true,
+      digital_object: { ref: @dobj_with_repfv.uri },
+      title: 'Digital object component with representative file version 03',
+      file_versions: [
+        {
+          publish: true,
+          is_representative: true,
+          file_uri: @img_2,
+          use_statement: 'image-thumbnail',
+          caption: @caption_2
+        },
+        {
+          publish: false,
+          file_uri: @img_3,
         }
       ]
     )
@@ -93,12 +168,21 @@ describe 'Representative File Version', js: true do
     expect(page).to have_css "figure[data-rep-file-version-wrapper] > a[href='#{@dobj_with_repfv.uri}']"
   end
 
-  it 'links to its own file uri on Digital Object and Digital Object Component records' do
-    visit @dobj_with_repfv.uri
-    expect(page).to have_css "figure[data-rep-file-version-wrapper] > a[href='#{@img_1}']"
+  it 'links to the file uri of the proceeding file version, if one exists and is published '\
+  'in the Digital Object or Digital Object Component, on DO/DOC/Resource/AO/Accession pages' do
+    link_css = ".objectimage figure[data-rep-file-version-wrapper] > a[href='#{@img_3}']"
 
-    visit @dobjc_with_repfv.uri
-    expect(page).to have_css "figure[data-rep-file-version-wrapper] > a[href='#{@img_2}']"
+    visit @dobj_with_repfv_02.uri
+    expect(page).to have_css link_css
+
+    visit @dobj_with_repfv_03.uri
+    expect(page).not_to have_css link_css
+
+    visit @dobjc_with_repfv_02.uri
+    expect(page).to have_css link_css
+
+    visit @dobjc_with_repfv_03.uri
+    expect(page).not_to have_css link_css
   end
 
   describe 'search result thumbnail' do

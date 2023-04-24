@@ -66,11 +66,15 @@
 	<%= render partial: 'shared/accordion_panel', locals: {:p_title =>  t('resource._public.additional'),
 	      :p_id => 'add_desc', :p_body => x } %>
 	<% end %>
-  <% have_additional_file_versions = @result['json']['representative_file_version'].present? && @result.json['file_versions'].present? && @result.json['file_versions'].length > 1 %>  
-  <% if have_additional_file_versions %>
+  <%
+    additional_published_fvs = []
+    if @result.json['file_versions'].present? && @result.json['representative_file_version'].present?
+      additional_published_fvs = @result.json['file_versions'].select { |fv| fv['publish'] && fv['file_uri'] != @result.json['representative_file_version']['file_uri'] }
+    end
+  %>
+  <% unless additional_published_fvs.empty? %>
     <%
-      additional_file_versions = @result.json['file_versions'].select { |fv| fv['file_uri'] != @result['json']['representative_file_version']['file_uri'] }
-      x = render partial: 'digital_objects/additional_file_versions', locals: { :fvs => additional_file_versions }
+      x = render partial: 'digital_objects/additional_file_versions', locals: { :fvs => additional_published_fvs }
     %>
     <%= render partial: 'shared/accordion_panel', locals: {
       :p_title => t('digital_object._public.additional'),

@@ -152,10 +152,11 @@ describe SearchController, type: :controller do
         }
       end
 
+      preference_prefixes = RECORD_TYPES + ['multi']
       allow(JSONModel::HTTP).to receive(:get_json)
                                   .with("/repositories/999/current_preferences")
                                   .and_return({
-                                                "defaults" => Hash[RECORD_TYPES.map { |record_type|
+                                                "defaults" => Hash[preference_prefixes.map { |record_type|
                                                                      ["#{record_type}_browse_column_1", "representative_file_version"]
                                                                    }]})
     end
@@ -171,6 +172,14 @@ describe SearchController, type: :controller do
         expect(body.xpath("//td[starts-with(@class, 'col representative_file_version')][1]").first.inner_html.strip)
           .to eq "<img src=\"http://foo.com/bar.jpg\">"
       end
+    end
+
+    it "shows the representative file version image when searching across types" do
+      get :do_search, format: :js, params: {}, xhr: true
+      body = Nokogiri::HTML.parse(response.body)
+      expect(body.xpath("//th[starts-with(@class, 'col representative_file_version')]").size).to eq 1
+      expect(body.xpath("//td[starts-with(@class, 'col representative_file_version')][1]").first.inner_html.strip)
+        .to eq "<img src=\"http://foo.com/bar.jpg\">"
     end
   end
 end

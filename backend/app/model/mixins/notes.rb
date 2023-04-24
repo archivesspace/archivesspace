@@ -1,5 +1,6 @@
 require 'securerandom'
 require_relative 'auto_generator'
+require_relative 'publishable'
 require_relative '../note'
 
 module Notes

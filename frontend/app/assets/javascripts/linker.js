@@ -1,7 +1,9 @@
 //= require jquery.tokeninput
 
 $(function () {
-  let resource_edit_path_regex = /^\/resources\/\d+\/edit$/;
+  let resource_edit_path_regex = new RegExp(
+    '^' + APP_PATH + 'resources/\\d+/edit$'
+  );
   let on_resource_edit_path = window.location.pathname.match(
     resource_edit_path_regex
   );
