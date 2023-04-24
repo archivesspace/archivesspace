@@ -5,12 +5,13 @@
 //= require largetree
 //= require largetree_dragdrop
 
-
 (function (exports) {
     "use strict";
 
     var renderers = {
-        resource: new ResourceRenderer(),
+        resource: new ResourceRenderer({
+            show_identifiers: SHOW_IDENTIFIERS_IN_TREE
+        }),
         digital_object: new DigitalObjectRenderer(),
         classification: new ClassificationRenderer(),
     };

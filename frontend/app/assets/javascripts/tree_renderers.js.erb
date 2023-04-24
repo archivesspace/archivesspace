@@ -31,16 +31,15 @@ BaseRenderer.prototype.i18n = function (enumeration, enumeration_value) {
 };
 
 
-function ResourceRenderer() {
+function ResourceRenderer(config = {}) {
     BaseRenderer.call(this);
-
+    this.config = config;
     this.rootTemplate = $('<div class="table-row"> ' +
                           '  <div class="table-cell no-drag-handle"></div>' +
                           '  <div class="table-cell title"></div>' +
                           '  <div class="table-cell resource-level"></div>' +
                           '  <div class="table-cell resource-type"></div>' +
                           '  <div class="table-cell resource-container"></div>' +
-                          '  <div class="table-cell resource-identifier"></div>' +
                           '</div>');
 
     this.nodeTemplate = $('<div class="table-row"> ' +
@@ -49,8 +48,15 @@ function ResourceRenderer() {
                           '  <div class="table-cell resource-level"></div>' +
                           '  <div class="table-cell resource-type"></div>' +
                           '  <div class="table-cell resource-container"></div>' +
-                          '  <div class="table-cell resource-identifier"></div>' +
                           '</div>');
+
+    if (config.show_identifiers) {
+        console.log("show identifiers");
+        this.rootTemplate.addClass("five-fields");
+        this.nodeTemplate.addClass("five-fields");
+        this.rootTemplate.append('<div class="table-cell resource-identifier"></div>');
+        this.nodeTemplate.append('<div class="table-cell resource-identifier"></div>');
+    }
 }
 
 ResourceRenderer.prototype = Object.create(BaseRenderer.prototype);
@@ -66,7 +72,7 @@ ResourceRenderer.prototype.add_root_columns = function (row, rootNode) {
         .html(() => recordTitleHandler(rootNode.suppressed, rootNode.parsed_title));
     }
 
-    if (<%= AppConfig[:display_identifiers_in_largetree_container] %> && rootNode.identifier) {
+    if (this.config.show_identifiers && rootNode.identifier) {
       row.find('.resource-identifier').text(rootNode.identifier).attr('title', rootNode.identifier);
     }
 
@@ -87,7 +93,7 @@ ResourceRenderer.prototype.add_node_columns = function (row, node) {
       .html(() => recordTitleHandler(node.suppressed, title))
       .attr('title', title);
 
-    if (<%= AppConfig[:display_identifiers_in_largetree_container] %> && node.identifier) {
+    if (this.config.show_identifiers && node.identifier) {
       row.find('.resource-identifier').text(node.identifier).attr('title', node.identifier);
     }
 

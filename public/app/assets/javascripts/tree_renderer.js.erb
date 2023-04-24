@@ -50,7 +50,7 @@
 
         if (rootNode.jsonmodel_type == 'classification') {
             $link.prepend(rootNode.identifier + '<%= I18n.t('classification.identifier_separator') %> ');
-        } else if (rootNode.jsonmodel_type == 'resource' && <%= AppConfig[:pui_display_identifiers_in_resource_tree] %> && rootNode.identifier) {
+        } else if (rootNode.jsonmodel_type == 'resource' && SHOW_IDENTIFIERS_IN_TREE && rootNode.identifier) {
             $link.prepend(rootNode.identifier + '<%= I18n.t('resource.identifier_separator') %> ');
         }
     }
@@ -65,9 +65,6 @@
         } else {
             var title = this.build_node_title(node);
             $link.html(title);
-            if (node.jsonmodel_type == 'archival_object' && <%= AppConfig[:pui_display_identifiers_in_resource_tree] %> && node.identifier) {
-                $link.prepend(node.identifier + '<%= I18n.t('resource.identifier_separator') %> ');
-            }
         }
 
         if (this.should_link_to_record) {
@@ -83,7 +80,9 @@
 
     SimpleRenderer.prototype.build_node_title = function (node) {
         var title_bits = [];
-        if (node.parsed_title) {
+        if (SHOW_IDENTIFIERS_IN_TREE && node.identifier && node.parsed_title) {
+            title_bits.push(node.identifier + '<%= I18n.t('resource.identifier_separator') %> ' + node.parsed_title)
+        } else if (node.parsed_title) {
             title_bits.push(node.parsed_title);
         }
 
