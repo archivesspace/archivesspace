@@ -61,6 +61,7 @@ describe ObjectsController, type: :controller do
           :publish => true,
           :is_representative => false,
           :file_uri => 'data:',
+          :xlink_show_attribute => "new", # can't be 'embed'!
         })
       ])
 
@@ -69,6 +70,7 @@ describe ObjectsController, type: :controller do
           :publish => true,
           :is_representative => false,
           :file_uri => 'http',
+          :xlink_show_attribute => "new", # can't be 'embed'!
         })
       ])
 
@@ -77,6 +79,7 @@ describe ObjectsController, type: :controller do
           :publish => true,
           :is_representative => false,
           :file_uri => 'not_http_or_data',
+          :xlink_show_attribute => "new",  # can't be 'embed'!
         })
       ])
 
@@ -85,6 +88,7 @@ describe ObjectsController, type: :controller do
 
     it "shows a 'generic icon' if no representative file version is set, the "\
        "file version is published, and the file uri starts with 'http' or 'data:'" do
+
       get(:show, params: { rid: @repo.id, obj_type: 'digital_objects', id: @do3.id })
       icon_css = '.external-digital-object__link[href="data:"]'
       page = response.body
