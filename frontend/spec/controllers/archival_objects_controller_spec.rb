@@ -87,5 +87,27 @@ describe ArchivalObjectsController, type: :controller do
         expect(form_input.value).to eq(accession.title)
       end
     end
+
+    describe 'record title field' do
+      before(:all) do
+        @resource = create(:json_resource)
+        @aobj = create(:json_archival_object, resource: {ref: @resource.uri})
+      end
+
+      before(:each) do
+        allow(AppConfig).to receive(:[]).and_call_original
+      end
+
+      it 'does not support mixed content by default' do
+        get :edit, params: {id: @aobj.id, inline: true}
+        expect(response.body).to have_css('#archival_object_title_.form-control:not(.mixed-content)')
+      end
+
+      it 'supports mixed content when enabled' do
+        allow(AppConfig).to receive(:[]).with(:allow_mixed_content_title_fields) { true }
+        get :edit, params: {id: @aobj.id, inline: true}
+        expect(response.body).to have_css('#archival_object_title_.form-control.mixed-content')
+      end
+    end
   end
 end
