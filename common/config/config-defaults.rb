@@ -314,6 +314,10 @@ AppConfig[:show_external_ids] = false
 # Whether to display archival record identifiers in the frontend largetree container
 AppConfig[:display_identifiers_in_largetree_container] = false
 
+# Allow mixed content in the title fields of resources, archival objects,
+# digital objects, digital object components, and accessions
+AppConfig[:allow_mixed_content_title_fields] = false
+
 # This sets the allowed size of the request/response header that Jetty will accept (
 # anything bigger gets a 403 error ). Note if you want to jack this size up,
 # you will also have to configure your Nginx/Apache  as well if
