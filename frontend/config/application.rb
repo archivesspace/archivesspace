@@ -178,3 +178,7 @@ if ENV['COVERAGE_REPORTS'] == 'true'
   require 'aspace_coverage'
   ASpaceCoverage.start('frontend:test', 'rails')
 end
+
+if ENV['TEST_MODE']
+  AppConfig[:allow_mixed_content_title_fields] = true
+end
