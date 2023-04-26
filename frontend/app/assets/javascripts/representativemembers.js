@@ -20,7 +20,8 @@ $(function () {
       if (
         object_name === 'file_version' ||
         object_name === 'instance' ||
-        object_name == 'agent_contact'
+        object_name == 'agent_contact' ||
+        object_name == 'linked_agent'
       ) {
         const $subform = $(subform);
         const $section = $subform.closest('section.subrecord-form');

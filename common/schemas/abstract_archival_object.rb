@@ -83,6 +83,9 @@
                                  {"type" => "JSONModel(:agent_person) uri"},
                                  {"type" => "JSONModel(:agent_software) uri"}],
               "ifmissing" => "error"},
+
+            "is_representative" => {"type" => "boolean", "default" => false},
+            
             "_resolved" => {
               "type" => "object",
               "readonly" => "true"

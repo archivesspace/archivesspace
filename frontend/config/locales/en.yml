@@ -1105,9 +1105,12 @@ en:
         add_note: Add Language Note
 
   linked_agent:
+    is_representative: Primary
     _frontend:
       action:
         add: Add Agent Link
+        is_representative_tooltip: Make Primary Tooltip
+        make_representative: Make Primary
 
   linked_record:
     _frontend:
