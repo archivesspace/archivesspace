@@ -12,6 +12,7 @@ describe DigitalObjectComponentsController, type: :controller do
 
   describe 'record title field' do
     before(:all) do
+      JSONModel.set_repository($repo.id)
       @do = create(:json_digital_object)
       @doc = create(:json_digital_object_component, digital_object: {ref: @do.uri})
     end

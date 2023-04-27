@@ -19,6 +19,8 @@ describe 'Default Form Values', js: true do
   end
 
   before(:each) do
+    allow(AppConfig).to receive(:[]).and_call_original
+    allow(AppConfig).to receive(:[]).with(:allow_mixed_content_title_fields) { true }
     login_admin
     select_repository(@repo)
   end
