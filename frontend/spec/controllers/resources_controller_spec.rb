@@ -81,4 +81,24 @@ describe ResourcesController, type: :controller do
       expect(selected.text).to match /Scope and content!/
     end
   end
+
+  describe 'record title field' do
+    before(:each) do
+      session = User.login('admin', 'admin')
+      User.establish_session(controller, session, 'admin')
+      controller.session[:repo_id] = JSONModel.repository
+      allow(AppConfig).to receive(:[]).and_call_original
+    end
+
+    it 'does not support mixed content by default' do
+      get :new
+      expect(response.body).to have_css('#resource_title_.form-control:not(.mixed-content)')
+    end
+
+    it 'supports mixed content when enabled' do
+      allow(AppConfig).to receive(:[]).with(:allow_mixed_content_title_fields) { true }
+      get :new
+      expect(response.body).to have_css('#resource_title_.form-control.mixed-content')
+    end
+  end
 end
