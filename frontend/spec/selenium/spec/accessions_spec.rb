@@ -220,6 +220,34 @@ describe 'Accessions' do
     expect(@driver.find_element(id: 'accession_linked_agents_').text).to match(/LinkedAgentTerm/)
   end
 
+  describe 'rfn' do
+  it 'can mark a linked_agent as primary' do
+    create(:agent_person,
+           names: [build(:name_person,
+                         name_order: 'inverted',
+                         primary_name: "Subject Agent #{@me}",
+                         rest_of_name: "Subject Agent #{@me}",
+                         sort_name: "Subject Agent #{@me}")])
+    run_index_round
+
+    @driver.click_and_wait_until_gone(:link, 'Edit')
+
+    @driver.find_element(css: '#accession_linked_agents_ .subrecord-form-heading .btn:not(.show-all)').click
+
+    @driver.find_element(id: 'accession_linked_agents__0__role_').select_option('subject')
+
+    token_input = @driver.find_element(:id, 'token-input-accession_linked_agents__0__ref_')
+    @driver.typeahead_and_select(token_input, 'Subject Agent')
+
+    @driver.click_and_wait_until_gone(css: "form#accession_form button[type='submit']")
+
+    sleep 20
+
+    @driver.click_and_wait_until_gone(link: @accession_title)
+  end
+end
+
+
   it 'shows an error if you try to reuse an identifier' do
     @driver.find_element(:link, 'Create').click
     @driver.click_and_wait_until_gone(:link, 'Accession')
