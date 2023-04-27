@@ -85,7 +85,7 @@
               "ifmissing" => "error"},
 
             "is_representative" => {"type" => "boolean", "default" => false},
-            
+
             "_resolved" => {
               "type" => "object",
               "readonly" => "true"

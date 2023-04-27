@@ -185,7 +185,7 @@
               "type" => "string",
               "dynamic_enum" => "linked_agent_archival_record_relators",
             },
-            
+
             "is_representative" => {"type" => "boolean", "default" => false},
 
             "ref" => {"type" => [{"type" => "JSONModel(:agent_corporate_entity) uri"},
