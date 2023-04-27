@@ -1,0 +1,11 @@
+fr:
+    reports:
+        user_groups_report:
+            title:  Rapport sur les groupes d'utilisateurs
+            description: Affiche les utilisateurs et les groupes d'accès au référentiel
+            name: Prénom
+            department: Département
+            user_title: Titre
+            groups: Groupes
+            email: Email
+            telephone: Téléphone

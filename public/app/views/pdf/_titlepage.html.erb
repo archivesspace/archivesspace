@@ -20,6 +20,10 @@
 
     <p><%= record.finding_aid['edition_statement'] %></p>
 
+    <% ASUtils.find_local_directories('public/views/_pdf_titlepage.html.erb').each do |template| %>
+        <%= render(:file => template, :locals => {:record => record}) if File.exists?(template) %>
+    <% end %>
+
     <%= render(:partial => 'publication_statement', :locals => {
         :repository_name => record.resolved_repository['name'],
         :repository_information => record.repository_information

@@ -1,0 +1,8 @@
+en:
+  reports:
+    accession_deaccessions_list_report:
+      title: Accessions Acquired and Linked Deaccession Records
+      description: Displays a list of accession record(s) and linked deaccession record(s). Report contains accession number, title, extent, accession date, container summary, cataloged, date processed, rights transferred, linked deaccessions and total extent of all deaccessions.
+      total_extent: Total Extent of Accessions
+      identifier_prefix: Accession
+      

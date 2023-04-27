@@ -144,7 +144,7 @@ class UsersController < ApplicationController
 
     if response.code === '200'
       flash[:success] = I18n.t("user._frontend.messages.updated")
-      redirect_to :action => :index
+      redirect_to :action => :manage_access
     else
       flash[:error] = I18n.t("user._frontend.messages.error_update")
       @groups = JSONModel(:group).all if user_can?('manage_repository')

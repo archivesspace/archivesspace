@@ -2,13 +2,23 @@
 <div class="available-digital-objects">
   <div class="objectimage">
     <div class="panel panel-default">
+      <%
+        rfv = record['json']['representative_file_version']
+        img_uri = rfv['file_uri']
+        a_uri = rfv['derived_from'] || rfv['link_uri']
+      %>
       <%= render partial: 'shared/representative_file_version_record', locals: {
-        :uri => record['json']['representative_file_version']['file_uri'],
-        :caption => record['json']['representative_file_version']['caption']
+        :a_uri => a_uri,
+        :img_uri => img_uri,
+        :caption => rfv['caption']
       } %>
       <% if representative_link_to_digital_materials?(record) %>
-        <p>
-          <%= link_to t('actions.digitized'),
+        <% digitized_link_text = t(
+          'digital_object._public.browse_number_digital_objects_in_collection',
+          num: n_digital_objects
+        ) %>
+        <p class="mb0 pb1 rounded-bottom bg-lightgray">
+          <%= link_to digitized_link_text,
               app_prefix("/repositories/#{params[:rid]}/resources/#{params[:id]}/digitized"),
               class: 'view-all'
           %>
@@ -17,7 +27,7 @@
     </div>
   </div>
 </div>
-<% elsif dig_objs.present? %>
+<% elsif local_assigns[:dig_objs] && dig_objs.present? %>
 <div class="available-digital-objects">
   <% dig_objs.each do |d_file| %>
     <% if !d_file['out'].blank? %>

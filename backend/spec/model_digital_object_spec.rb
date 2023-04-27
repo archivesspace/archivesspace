@@ -94,34 +94,6 @@ describe 'Digital object model' do
     expect {
       DigitalObject.create_from_json(json)
     }.to raise_error(Sequel::ValidationFailed)
-
-
-    json = build(:json_digital_object, {
-                   :publish => true,
-                   :file_versions => [build(:json_file_version, {
-                                              :publish => true,
-                                              :is_representative => true,
-                                              :file_uri => 'http://foo.com/bar1',
-                                              :use_statement => 'image-service'
-                                            }),
-                                      build(:json_file_version, {
-                                              :publish => true,
-                                              :file_uri => 'http://foo.com/bar2',
-                                              :use_statement => 'image-service'
-                                            }),
-                                      build(:json_file_version, {
-                                              :publish => true,
-                                              :file_uri => 'http://foo.com/bar3',
-                                              :use_statement => 'image-service'
-                                            })
-
-                                     ]})
-
-
-    expect {
-      DigitalObject.create_from_json(json)
-    }.not_to raise_error
-
   end
 
   it "doesn't allow an unpublished file_version to be representative" do
@@ -143,25 +115,6 @@ describe 'Digital object model' do
     expect {
       DigitalObject.create_from_json(json)
     }.to raise_error(Sequel::ValidationFailed)
-
-    json = build(:json_digital_object, {
-                   :publish => true,
-                   :file_versions => [build(:json_file_version, {
-                                              :publish => true,
-                                              :is_representative => true,
-                                              :file_uri => 'http://foo.com/bar1',
-                                              :use_statement => 'image-service'
-                                            }),
-                                      build(:json_file_version, {
-                                              :publish => true,
-                                              :file_uri => 'http://foo.com/bar2',
-                                              :use_statement => 'image-service'
-                                            })
-                                     ]})
-
-    expect {
-      DigitalObject.create_from_json(json)
-    }.not_to raise_error
   end
 
   it "supports optional captions for file versions" do

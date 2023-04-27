@@ -1,0 +1,11 @@
+jp:
+    reports:
+        user_groups_report:
+            title:  ユーザーグループレポート
+            description: ユーザーとリポジトリアクセスグループを表示します。
+            name: 名
+            department: 部門
+            user_title: タイトル
+            groups: グループ
+            email: Eメール
+            telephone: 電話

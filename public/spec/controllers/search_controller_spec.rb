@@ -145,4 +145,67 @@ describe SearchController, type: :controller do
           })
     end
   end
+
+  describe 'search action' do
+    render_views
+
+    before(:all) do
+      @do_linked_to_multiple_records = create(:digital_object,
+        title: 'Digital Object linked to multiple archival records',
+        publish: true)
+      @resource_with_common_linked_instance = create(:resource,
+        title: "Resource with common linked instance",
+        publish: true,
+        instances: [build(:instance_digital,
+          digital_object: {'ref' => @do_linked_to_multiple_records.uri})
+        ])
+      @ao_with_common_linked_instance = create(:archival_object,
+        title: "Archival Object with common linked instance",
+        resource: { 'ref' => @resource_with_common_linked_instance.uri },
+        publish: true,
+        instances: [build(:instance_digital,
+          digital_object: {'ref' => @do_linked_to_multiple_records.uri})
+        ])
+      @accession_with_common_linked_instance = create(:accession,
+        title: "Accession with common linked instance",
+        publish: true,
+        instances: [build(:instance_digital,
+          digital_object: {'ref' => @do_linked_to_multiple_records.uri})
+        ])
+      @unpublished_accession_with_common_linked_instance = create(:accession,
+        title: "Unpublished Accession with common linked instance",
+        publish: false,
+        instances: [build(:instance_digital,
+          digital_object: {'ref' => @do_linked_to_multiple_records.uri})
+        ])
+      run_indexers
+    end
+
+    it 'should show breadcrumbs for all published archival records linked to a digital object' do
+      get(:search, params: {
+        :q => [@do_linked_to_multiple_records.title],
+        :limit => 'digital_object',
+        :op => ['']
+      })
+
+      expect(response).to render_template("digital_objects/_search_result_breadcrumbs")
+
+      page = Capybara.string(response.body)
+      page.find(:css, ".recordrow[data-uri='#{@do_linked_to_multiple_records.uri}']") do |result|
+        result.find(:css, 'ol.result_linked_instances_tree li:first-of-type') do |crumb1|
+          expect(crumb1).to have_css ".resource_name a[href='#{@resource_with_common_linked_instance.uri}']"
+        end
+
+        result.find(:css, 'ol.result_linked_instances_tree li:nth-of-type(2)') do |crumb2|
+          expect(crumb2).to have_css ".resource_name + .archival_object_name a[href='#{@ao_with_common_linked_instance.uri}']"
+        end
+
+        result.find(:css, 'ol.result_linked_instances_tree li:last-of-type') do |crumb3|
+          expect(crumb3).to have_css ".accession_name a[href='#{@accession_with_common_linked_instance.uri}']"
+        end
+
+        expect(result).to have_css('ol.result_linked_instances_tree li', count: 3)
+      end
+    end
+  end
 end

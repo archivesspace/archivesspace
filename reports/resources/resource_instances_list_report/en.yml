@@ -1,0 +1,8 @@
+en:
+  reports:
+    resource_instances_list_report:
+      title: Resources and Instances List
+      description: Displays resource(s) and all specified location information. Report contains title, resource identifier, level, date range, and assigned containers.
+      total_extent: Total Extent of Resources
+      identifier_prefix: Resource
+

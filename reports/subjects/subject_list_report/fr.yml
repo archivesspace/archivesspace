@@ -1,0 +1,5 @@
+fr:
+  reports:
+    subject_list_report:
+      title: Liste de notices de mots-matières
+      description: Affiche les notices de mots-matières. Rapport listant mots-matières, types de mots-matières, et sources.

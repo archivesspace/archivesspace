@@ -1,0 +1,5 @@
+de:
+  reports:
+    agent_list_report:
+      title: Liste von Namens-Datensätzen
+      description: Zeigt ausgewählte Namens-Datensätze an. Der Bericht enthält Name, Namenstyp und Quelle des Namens.

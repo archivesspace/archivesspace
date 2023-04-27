@@ -190,6 +190,10 @@ de:
       werden.
     require_subrecord: Teilaufzeichnung erfordern
     select_resource: Ressource auswählen
+    reorder_successful: Aufbewahrungsorte erfolgreich neu geordnet
+    collapse_tree: Baum einklappen
+    expand_tree_mode_on: Alle automatisch Ausklappen
+    expand_tree_mode_off: Automatisches Ausklappen deaktivieren
   search_results:
     filtered_by: Gefiltert durch
     title: Suchergebnisse
@@ -357,6 +361,8 @@ de:
         archived_jobs: Archivierte Aufgaben
         files: Dateien
       external_repo: Die Aufzeichnung gehört zu einem anderen Aufbewahrungsort
+      plural: Aufgaben
+      singular: Aufgabe
   sub_container:
     top_container: Haupt-Behältnis
     top_container_tooltip: "<p>ERFORDERLICHES FELD. Das Behältnis der obersten Ebene,\
@@ -448,6 +454,7 @@ de:
       accession_date_year: Eingangsdatum
       extents: Umfang
       uri: URI
+      representative_file_version: Vorschaubild
     resource:
       score: Relevanz
       title: Titel
@@ -471,6 +478,7 @@ de:
       subjects: Thema
       extents: Umfang
       uri: URI
+      representative_file_version: Vorschaubild
     archival_object:
       score: Relevanz
       title: Titel
@@ -488,6 +496,7 @@ de:
       asc: Aufsteigend
       desc: Absteigend
       uri: URI
+      representative_file_version: Vorschaubild
     subject:
       score: Relevanz
       source: Quelle
@@ -518,6 +527,7 @@ de:
       asc: Aufsteigend
       desc: Absteigend
       uri: URI
+      representative_file_version: Vorschaubild
     digital_object_component:
       score: Relevanz
       title: Titel
@@ -532,6 +542,7 @@ de:
       desc: Absteigend
       publish: Veröffentlicht
       uri: URI
+      representative_file_version: Vorschaubild
     agent:
       score: Relevanz
       primary_type: Typ des Akteurs
@@ -568,6 +579,7 @@ de:
       user_mtime: Geändert
       create_time: Erstellt
       desc: Absteigend
+      uri: URI
     event:
       agents: Akteur
       event_type: Typ
@@ -579,6 +591,7 @@ de:
       asc: Aufsteigend
       desc: Absteigend
       score: Relevanz
+      uri: URI
     collection_management:
       score: Relevanz
       parent_title: Titel
@@ -593,6 +606,8 @@ de:
       processing_priority: Bearbeitungs-Priorität
       processing_status: Bearbeitungs-Status
       audit_info: Prüfinformation
+      name: Sammlungsverwaltung
+      uri: URI
     classification:
       title: Titel
       publish: Veröffentlicht
@@ -627,6 +642,7 @@ de:
       desc: Absteigend
       audit_info: Prüfinformation
       asc: Aufsteigend
+      uri: URI
     repositories:
       score: Relevanz
       title: Titel
@@ -652,6 +668,7 @@ de:
       title: Titel
       location_display_string_u_sstr: Standort
       create_time: Erstellt
+      uri: URI
     container_profile:
       score: Relevanz
       title: Titel
@@ -665,6 +682,8 @@ de:
       asc: Aufsteigend
       desc: Absteigend
       create_time: Erstellt
+      notes: Anmerkung
+      uri: URI
     location_profile:
       score: Relevanz
       title: Titel
@@ -678,6 +697,7 @@ de:
       desc: Absteigend
       create_time: Erstellt
       user_mtime: Geändert
+      uri: URI
     job:
       score: Relevanz
       status: Status
@@ -693,6 +713,7 @@ de:
       asc: Aufsteigend
       desc: Absteigend
       create_time: Erstellt
+      uri: URI
     multi:
       score: Relevanz
       primary_type: Aufzeichnungs-Typ
@@ -711,6 +732,7 @@ de:
       langcode: Sprache des Archivguts
       asc: Aufsteigend
       desc: Absteigend
+      uri: URI
     blank_facet_query_fields:
       owner_repo_display_string_u_ssort: Aufbewahrungsort
   become-user:
@@ -1178,6 +1200,8 @@ de:
       action:
         add: Dateiversion hinzufügen
         make_representative: Repräsentativ machen
+        make_representative_tooltip: Verwenden Sie diese Option, um dieses Bild anzuzeigen,
+          wenn der Aufzeichnung mehrere Dateiversionen zugeordnet sind.
   group:
     _frontend:
       action:
@@ -1259,6 +1283,12 @@ de:
         make_authorized: Zum autoritativen Namen machen
         make_display_name: Zum Anzeigenamen machen
         make_primary: Zum Primärnamen machen
+        make_display_name_tooltip: Verwenden Sie diese Option, um diese Namensform
+          anzuzeigen, wenn der Akteur-Aufzeichnung mehrere Namensformen zugeordnet
+          sind.
+        make_authorized_tooltip: Verwenden Sie diese Option, um diese Namensform zum
+          autoritativen Namen zu machen.
+        make_primary_tooltip: Zur Primär-Info machen
   note:
     _frontend:
       preview:
@@ -1340,6 +1370,7 @@ de:
         save: Aufbewahrungsort speichern
         create: Aufbewahrungsort erstellen
         select: Aufbewahrungsort auswählen
+        order_for_pui: Reihenfolge in der öffentlichen Besucher-Oberfläche festlegen
     _sidebar:
       oai_settings:
         _plural: Einstellungen OAI-Sammler
@@ -1380,6 +1411,9 @@ de:
       Key (ARK) Permanenter Bezeichner. Wenn dieses Feld einen Wert besitzt, wird
       dieser gegenüber einem ARK, der innerhalb von ArchivesSpace erzeugt wurde, bevorzugt.
     external_ark_url: Externe ARK URL
+    linker:
+      browse: Ressourcen durchsuchen
+      link_title: Durchsuchen
   preference:
     _frontend:
       messages:
@@ -1452,6 +1486,7 @@ de:
         create: Benutzer erstellen
         activate_user: Aktivieren
         update_self: Benutzerkonto verwalten
+    source: Authentifizierung
   use_date:
     _frontend:
       action:
@@ -1870,6 +1905,9 @@ de:
       und verknüpfte Aufzeichnungen wie Daten, Umfang, Anmerkungen, Behältnisse und
       digitale Objekte zu erstellen. Das XLSX-Format ist für jene geeignet, die Zugang
       zu Microsoft Excel haben.
+    aspace_subject_import_template_csv: Neue Themen-Aufzeichnungen erstellen. Beachten
+      Sie, dass diese Vorlage zum Erstellen der Standort-Aufzeichnungen selbst und
+      nicht zum Verknüpfen mit anderen Aufzeichnungen gedacht ist.
   top_container:
     restricted: Eingeschränkt?
     managed_container_2_indicator_tooltip: "<p>Ein alphanumerischer Ausdruck, um den\
@@ -2034,6 +2072,9 @@ de:
       browse: Haupt-Behältnisse durchsuchen
       create: Haupt-Behältnis erstellen
       link_title: Verknüpfung mit Haupt-Behältnis
+    internal_note: Interne Anmerkung
+    internal_note_tooltip: "<p>Anmerkungen zur internen Verwendung. Nur in der Verwaltungsoberfläche\
+      \ sichtbar.</p>\n"
   container_profile:
     name: Name
     _frontend:
@@ -2100,6 +2141,8 @@ de:
       browse: Behältnis-Profile durchsuchen
       create: Behältnis-Profil erstellen
       link_title: Verknüpfung mit Behältnis-Profil
+    notes: Anmerkung
+    notes_tooltip: "<p>Eine Anmerkung für sonstige Informationen/Metadaten.</p>\n"
   rights_restriction:
     local_access_restriction_type_inline_help: Halten Sie Strg (Windows) / Cmd (Mac)
       gedrückt, um mehrere Optionen auszuwählen oder eine Option abzuwählen
@@ -2334,6 +2377,7 @@ de:
       action:
         create: Vorlage erstellen
         save: Vorlage speichern
+        search_usernames: Nach Benutzernamen suchen
       messages:
         copied: Benutzerdefinierte Berichtsvorlage kopiert
         created: Benutzerdefinierte Berichtsvorlage erstellt
@@ -2566,7 +2610,6 @@ de:
     contact_notes_tooltip: "<p>Details zur Interaktion mit dem Kontakt</p>\n"
     date_of_contact_tooltip: "<p>Verwendet, um die spezifischen Daten oder Zeiträume\
       \ einer Interaktion aufzuzeichnen</p>\n"
-      
   component_link:
     _plural: Komponenten-Verknüpfungen
     _singular: Komponenten-Verknüpfung
@@ -2584,351 +2627,3 @@ de:
     feedback: <a id='aspaceFeedbackLink' href='%{feedback_url}' target='_blank'>Rückmeldung
       geben oder ein Problem melden</a>
     archivesspace_home: Besuchen Sie <a href='http://archivesspace.org'>ArchivesSpace.org</a>
-
-  reports:
-    digital_object_list_table_report:
-      title: Tabelle von digitalen Objekten
-      description: Zeigt digitale Objekte in Tabellenform an. Der Bericht enthält Titel, digitalen Objekt-Bezeichner, Objekttyp, Daten und die Titel und Signaturen verknüpfter Ressourcen.
-
-    digital_object_file_versions_report:
-      title: Liste von Dateiversionen
-      description: Zeigt jegliche Dateiversionen, die den gewählten digitalen Objekten zugeordnet sind.
-
-    digital_object_file_versions_list_subreport:
-      test_value: test value
-
-    accession_locations_subreport:
-      test_value: test value
-
-    accession_subjects_subreport:
-      test_value: test value
-
-    accession_inventory_report:
-      title: Eingänge mit Inventaren
-      description: Zeigt nur jene Eingangs-Datensätze an, die ein Inventar enthalten. Der Bericht enthält die Eingangs-Nummer, verknüpfte Ressourcen, Titel, Umfang, Eingangs-Datum, Behältnis-Zusammenfassung und Inventar an.
-      number_with_inventories: Eingänge mit Inventaren
-      identifier_prefix: Eingang
-
-    accession_receipt_report:
-      title: Eingangsbeleg-Bericht
-      description: Zeigt einen Beleg für den Eingang von Archivgut an. Der Bericht enthält die Eingangs-Nummer, Titel, Umfang, Eingangs-Datum und Aufbewahrungsort an.
-      identifier_prefix: Eingang
-
-    created_accessions_report:
-      title: Erstellte Eingänge
-      description: Bericht für Eingänge, die in einem Datumsbereich erstellt wurden
-      identifier_prefix: Eingang
-
-    accession_subjects_names_classifications_list_report:
-      title: Eingänge und verknüpfte Themen, Namen und Klassifizierungen
-      description: Zeigt Eingänge und die verknüpften Namen, Themen und Klassifizierungen an. Der Bericht enhält die Eingangs-Nummer, verknüpfte Ressourcen, Eingangs-Datum, Titel, Umfang, verknüpfte Namen und verknüpfte Themen.
-      identifier_prefix: Eingang
-
-    accession_report:
-      title: Eingangs-Bericht
-      description: Zeigt alle Eingänge für einen gegebenen Aufbewahrungsort an. Der Bericht enthält in die Felder für grundlegende Informationen eingegebenen Daten jedes Eingangs.
-      identifier_prefix: Eingang
-
-    accession_classifications_subreport:
-      test_value: test value
-
-    accession_names_subreport:
-      test_value: test value
-
-    accession_unprocessed_report:
-      title: Unbearbeitete Eingänge
-      description: Zeigt nur jene Eingänge an, die nicht bearbeitet wurden. Der Bericht enthält die Eingangs-Nummer, verknüpfte Ressourcen, Titel, Umfang, Katalogisiert, Datum der Bearbeitung, die Anzahl der Datensätze, die für das Datum der Bearbeitung ausgewählt wurden und den Gesamtumfang für jene Datensätze ohne abgeschlossenem Feld für das Datum der Bearbeitung.
-      total_count: Anzahl der Eingänge
-      identifier_prefix: Eingang
-      total_extent: Gesamtumfang unbearbeitet
-
-    accession_deaccessions_list_report:
-      title: Erworbene Eingänge und verknüpfte Abgangs-Datensätze
-      description: Zeigt eine Liste von Eingangs-Datensätzen und verknüpften Abgangs-Datensätzen an. Der Bericht enthält die Eingangsnummer, Titel, Umfang, Eingangs-Datum, Behältnis-Zusammenfassung, Katalogisiert, Datum der Bearbeitung, Übertragene Rechte, verknüpfte Abgänge und Gesamtumfang aller Abgänge an.
-      total_extent: Gesamtumfang von Eingängen
-      identifier_prefix: Eingang
-
-    accession_deaccessions_subreport:
-      test_value: test value
-
-    accession_resources_subreport:
-      test_value: test value
-
-    accession_rights_transferred_report:
-      title: Eingänge mit übertragenen Rechten
-      description: Zeigt nur jene Eingänge an, für die Rechte übertragen wurden. Der Bericht enthält die Eingangs-Nummer, verknüpfte Ressourcen, Titel, Umfang, Katalogisiert, Datum der Bearbeitung, Zugangsbeschränkungen, Verwendungsbeschränkungen, übertragene Rechte und die Anzahl der Datensätze, die für die übertragenen Rechte ausgewählt wurden.
-      identifier_prefix: Eingang
-
-    custom_report:
-      title: Benutzerdefinierter Bericht
-      description: Benutzerdefinierte Berichtsvorlagen führen Daten basierend auf gewählten Optionen für Datensatztyp, Datenfeldern und verknüpften Datensätzen zusammen. Erstellen Sie erst Ihre Berichtsvorlage und wählen Sie diese dann aus dem Auswahlfeld, wenn Sie bereit sind, um den Bericht auszuführen.
-
-    user_groups_report:
-      title: Nutzergruppen-Bericht
-      description: Zeigt Nutzer und Zugangsgruppen spezifisch zu Aufbewahrungsorten an
-      name: Name
-      department: Abteilung
-      user_title: Titel
-      groups: Gruppen
-      email: E-Mail
-      telephone: Telefon
-
-    resource_deaccessions_list_report:
-      title: Ressourcen und Abgänge
-      description: Zeigt Ressourcen und verknüpfte Abgangs-Datensätze an. Der Bericht enthält den Titel, Ressourcen-Bezeichner, Stufe, Datumsbereich, verknüpfte Abgänge, Namen der Ersteller und Summen des physischen Umfangs.
-      total_extent: Gesamtumfang der Ressourcen
-      identifier_prefix: Ressource
-
-    resource_instances_list_report:
-      title: Liste der Ressourcen und Instanzen
-      description: Zeigt Ressourcen und alle spezifizierten Informationen zu Standorten an. Der Bericht enhält den Titel, Ressourcen-Bezeichner, Stufe, Datumsbereich und zugehörige Behältnisse.
-      total_extent: Gesamtumfang der Ressourcen
-      identifier_prefix: Ressource
-
-    resource_locations_subreport:
-      test_value: test value
-
-    resource_deaccessions_subreport:
-      test_value: test value
-
-    resource_locations_list_report:
-      title: Liste der Ressourcen und Standorte
-      description: Zeigt Ressourcen und alle spezifizierten Informationen zu Standorten an. Der Bericht enhält den Titel, Ressourcen-Bezeichner, Stufe, Datumsbereich und zugehörige Standorte.
-      total_extent: Gesamtumfang der Ressourcen
-      identifier_prefix: Ressource
-
-    resources_list_report:
-      title: Ressourcen-Listen-Bericht
-      description: Der Ressourcen-Listen-Bericht enhält grundlegende Informationen, Daten und Umfänge für Ressourcen-Datensätze.
-
-    resource_instances_subreport:
-      test_value: test value
-
-    resource_restrictions_list_report:
-      title: Liste von Ressourcen mit Einschränkungen
-      description: Zeigt Ressourcen mit Einschränkungen und Standortinformationen an. Der Bericht enthält den Titel, Ressourcen-Bezeichner, Stufe, Datumsbereich und zugehörige Standorte.
-      total_count: Summe der Ressourcen mit Einschränkungen
-      total_extent: Gesamtumfang der Ressourcen mit Einschränkungen
-      identifier_prefix: Ressource
-
-    assessment_rating_report:
-      title: Begutachtungsbewertungs-Bericht
-      description: Zeigt Informationen zu Begutachtungen mit einer gewählten Bewertung in einem gewählten Bereicht. Sie müssen wenigstens einen Wert auswählen; um alle Datensätze anzuzeigen, wählen Sie alle Werte aus.
-      identifier_prefix: Begutachtung
-
-    assessment_list_report:
-      description: Alle erstellten Begutachtungs-Datensätze
-      title: Liste der Begutachtungs-Datensätze
-      identifier_prefix: Begutachtung
-
-    agent_list_report:
-      title: Liste von Namens-Datensätzen
-      description: Zeigt ausgewählte Namens-Datensätze an. Der Bericht enthält Name, Namenstyp und Quelle des Namens.
-
-    location_containers_subreport:
-      test_value: test value
-
-    location_resources_subreport:
-      test_value: test value
-
-    container_resources_accessions_subreport:
-      test_value: test value
-
-    location_report:
-      title: Standort-Bericht
-      description: Zeigt eine Liste von Standorten mit jeglichen Eingängen oder Ressourcen, die gewählten Standorten zugewiesen sind.
-      total_count: Anzahl der Standorte
-
-    location_holdings_report:
-      title: Bestände eines Standorts
-      identifier_prefix: Standort
-      description: Bericht zu Behältnissen, die an einem oder mehreren Standorten gelagert werden
-      repository_report_type: Aufbewahrungsort
-      building_report_type: Gebäude
-      single_location_report_type: Einzelner Standort
-      location_range_report_type: Bereich von Standorten
-      start_range: Erster Standort
-      end_range: Letzter Standort
-
-    location_accessions_subreport:
-      test_value: test value
-
-    shelflist_report:
-      title: Standortkatalog-Bericht
-      description: Der Standortkatalog-Bericht enthält eine Liste aller Standorte und ihrer zugeordneten Haupt-Behältnisse.
-
-    translation_defaults:
-      accession_processed_date: Datum der Bearbeitung des Eingangs
-      access_restrictions_note: Anmerkung zu Zugangsbeschränkungen
-      access_restrictions: Zugangsbeschränkungen?
-      accession_date: Eingangs-Datum
-      accession_number: Eingangs-Nummer
-      accession_processed: Eingang bearbeitet?
-      accession_report: Eingangs-Bericht
-      total_transferred: Eingänge mit übertragenen Rechten
-      acknowledgement_sent: Bestätigung gesendet?
-      acquisition_type: Erwerbstyp
-      appraisal: Bewertung
-      area: Bereicht
-      barcode: Strichcode
-      begin_date: Beginn-Datum
-      container_list: Box/Behältnis-Liste
-      building: Gebäude
-      bulk_begin_date: Massen-Beginn-Datum
-      bulk_end_date: Massen-End-Datum
-      catalog_record: Katalogdatensatz (MARC)
-      cataloged: Katalogisiert
-      classification_number: Klassifizierungs-Nummer
-      classifications: Klassifizierungen
-      control_file: Sammlungs/Kontroll-Datei
-      component_identifier: Komponenten-Bezeichner
-      component_title: Komponenten-Titel
-      condition_note: Bedingung
-      conservation_issues: Erhaltungsprobleme
-      conservation_note: Erhaltungs-Anmerkung
-      container: Behältnis
-      container_2: Behältnis 2
-      container_3: Behältnis 3
-      container_profile: Behältnisprofil
-      container_summary: Behältnis-Zusammenfassung
-      containers: Behältnisse
-      date: Datum
-      date_expression: Datumsausdruck
-      survey_end: End-Datum der Erhebung
-      survey_begin: Beginn-Datum der Erhebung
-      dates: Daten
-      deaccessions: Abgänge
-      deed_of_gift: Schenkungsurkunde
-      description: Beschreibung
-      description_note: Beschreibung
-      disposition_note: Disposition
-      end_date: End-Datum
-      exhibition_value_note: Anmerkung zum Ausstellungswert
-      existing_description_notes: Bestehende Beschreibungs-Anmerkungen
-      extent: Umfang
-      surveyed_extent: Erfasster Umfang
-      field: Feld
-      file_versions: Dateiversionen
-      finding_aid_ead: Findmittel (EAD-Enkodierung)
-      finding_aid_online: Findmittel (Online)
-      finding_aid_paper: Findmittel (Nur Papier)
-      finding_aid_spreadsheet: Findmittel (Tabelle)
-      finding_aid_word: Findmittel (Textdokument)
-      floor: Stockwerk
-      function: Funktion
-      general_assessment_note: Allgemeine Begutachtungs-Anmerkung
-      general_note: Allgemeine Anmerkung
-      id: ID
-      identifier: Bezeichner
-      ils_holding_id: ILD Bestands-ID
-      ils_item_id: ILS Element-ID
-      inactive: Inaktiv
-      instance_type: Instanztyp
-      instances: Instanzen
-      inventory: Bestandsverzeichnis
-      language: Sprache
-      level: Stufe
-      linked_records: Verknüpfte Datensätze
-      linked_resources: Verknüpfte Ressourcen
-      formats: Liste der Archivgut-Typen / Formate
-      location: Standort
-      location_barcode: Standort Strichcode
-      location_in_room: Standort im Raum
-      location_profile: Standortprofil
-      location_url: Standort-URL
-      locations: Standorte
-      monetary_value: Geldwert
-      monetary_value_note: Geldwert-Anmerkung
-      name: Name
-      name_source: Namensquelle
-      name_type: Namenstyp
-      names: Namen
-      note: Anmerkung
-      notification_sent: Benachrichtigung gesendet
-      number_of_accessions: Anzahl der Eingänge
-      total_count: Anzahl der Datensätze
-      number_with_inventories: Anzahl mit Bestandsverzeichnissen
-      object_type: Objket-Typ
-      provenance: Provenienz
-      purpose: Zweck der Begutachtung
-      rating: Bewertung
-      ratings: Rewertungen
-      record_id: Datensatz-ID
-      linked_record_type: Datensatztyp
-      related_eac_records: Verwandte EAC Datensätze
-      repository: Aufbewahrungsort
-      resource_identifier: Ressourcen-Bezeichner
-      resources: Ressourcen
-      records: Ressourcen und Eingänge
-      retention_rule: Vorhaltung
-      restrictions_apply: Gelten Einschränkungen?
-      review_note: Prüfungs-Anmerkung
-      review_required: Prüfung erforderlich?
-      reviewer: Prüfer
-      rights_transferred_note: Anmerkung zu übertragenen Rechten
-      rights_transferred: Rechte übertragen?
-      role: Rolle
-      room: Raum
-      scope: Umfang der Begutachtung
-      scoped_by_rating: Eingschränkt durch Bewertung
-      script: Schrift
-      sensitive_material: Sensitives Archivgut?
-      scoped_by_date_range: Zeige Datensätze erstellt zwischen
-      showing_values: Zeige Datensätze mit Bewertungen
-      sort_name: Sortiername
-      source: Quelle
-      special_format_note: Spezialformat-Anmerkung
-      subjects: Themen
-      surveyed_by: Erhoben von
-      term: Stichwort
-      surveyed_duration: Zeit zur Fertigstellung der Erhebung
-      record_title: Titel
-      title: Titel
-      top_container_barcode: Haupt-Behältnis Strichcode
-      top_container_indicator: Haupt-Behältnis Indikator
-      total_deaccessions_extent: Gesamtumfang der Abgänge
-      total_extent: Gesamtumfang von Datensätzen
-      type: Typ
-      total_unprocessed: Unbearbeitete Eingänge
-      uri: URI
-      use_restrictions_note: Anmerkung zu Nutzungsbeschränkungen
-      use_restrictions: Nutzungsbeschränkungen?
-      use_statement: Nutzungserklärung
-      accessions: Eingänge
-      deaccession_date: Abgangs-Datum
-      rating_note: Bewertungs-Anmerkung
-      temporary_location: Vorübergehender Standort
-      rights_statements: Rechteerklärungen
-      rights_type: Rechtetyp
-      statute_citation: Gesetz-Zitat
-      jurisdiction: Gerichtsbarkeit
-      status: Status
-      determination_date: Datum des Beschlusses
-      license_terms: Lizenzbedingungen
-      other_rights_basis: Sonstige Rechtsgrundlage
-      custom_record_type: Benutzerdefinierter Bericht für
-      digital_object: Digitales Objekt
-      is_representative: Ist repräsentativ?
-      sorted_by: Sortiert nach
-      root_record: Wurzeldatensatz
-      dimension_units: Abmessungs-Einheiten
-      depth: Tiefe
-      height: Höhe
-      width: Breite
-      template_name: Vorlagenname
-      template_description: Vorlagenbeschreibung
-      date_type: Datumstyp
-      label:  Beschriftung
-      expression: Datumsausdruck
-      standardized_type: Standardisierter Typ
-      begin_expression: Ausdruck Beginn-Datum
-      begin_standardized_type: Standardisierter Typ Beginn-Datum
-      end_expression: Ausdruck End-Datum
-      end_standardized_type: Standardisierter Typ End-Datum
-      select: Wählen
-      back: Zurück
-
-    subject_list_report:
-      title: Listen von Themendatensätzen
-      description: Zeigt gewählte Themendatensätze an. Der Bericht enthält Themenbegriff, Typ des Themenbegriffs und Quelle des Themas.
-      

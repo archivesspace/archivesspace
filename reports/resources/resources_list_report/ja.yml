@@ -1,0 +1,5 @@
+ja:
+  reports:
+    resources_list_report:
+      title: リソースリストレポート
+      description: リソースリストレポートには、リソースレコードの基本情報、日付、および範囲が含まれています。

@@ -1,0 +1,5 @@
+en:
+  reports:
+    resources_list_report:
+      title: Resources List Report
+      description: The Resources List Report includes basic information, dates, and extents for resource records.

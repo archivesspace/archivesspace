@@ -20,7 +20,11 @@
 
 <div class="row" id="notes_row">
   <div class="col-sm-9">
-    <%= render partial: 'shared/digital', locals: {:dig_objs => @dig, record: @result} %>
+    <%= render partial: 'shared/digital', locals: {
+      :dig_objs => @dig,
+      record: @result,
+      n_digital_objects: @n_digital_objects
+    } %>
     <%= render partial: 'shared/record_innards' %>
   </div>
   <div id="sidebar" class="col-sm-3 sidebar sidebar-container resizable-sidebar" <% unless @has_children %>style="display: none"<% end %>>

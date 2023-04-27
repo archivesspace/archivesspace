@@ -3,8 +3,7 @@ require 'rails_helper'
 
 describe 'Digital Objects', js: true do
   def visit_digital_object_page(title)
-    visit '/'
-    click_link 'Digital Materials'
+    visit("/search?utf8=✓&op[]=&q[]='#{title}'&limit=digital_object&field[]=&from_year[]=&to_year[]=")
     click_link title
   end
 

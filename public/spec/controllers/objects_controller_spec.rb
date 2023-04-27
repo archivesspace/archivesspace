@@ -4,6 +4,12 @@ describe ObjectsController, type: :controller do
   img_uri1 = 'http://foo.com/image.jpg'
   img_uri2 = 'http://foo.com/image2.jpg'
   img_uri3 = 'http://foo.com/image3.jpg'
+  img_uri4 = 'http://foo.com/image4.jpg'
+  img_uri5 = 'http://foo.com/image5.jpg'
+  caption1 = 'caption1'
+  caption2 = 'caption2'
+  additional_file_versions_accordion_css = '#res_accordion > .panel.panel-default > #additional_file_versions_list'
+  additional_file_version_css = '#additional_file_versions_list li[data-additional-file-version]'
 
   before(:all) do
     @repo = create(:repo, repo_code: "do_test_#{Time.now.to_i}",
@@ -21,7 +27,7 @@ describe ObjectsController, type: :controller do
           :publish => true,
           :is_representative => false,
           :file_uri => img_uri1,
-          :use_statement => 'image-service'
+          :caption => caption1,
         }),
         build(:file_version, {
           :publish => true,
@@ -34,28 +40,95 @@ describe ObjectsController, type: :controller do
           :is_representative => false,
           :file_uri => img_uri3,
           :use_statement => 'image-service'
+        }),
+        build(:file_version, {
+          :publish => true,
+          :is_representative => false,
+          :file_uri => img_uri4,
+          :use_statement => 'image-service',
+          :caption => caption2,
+        }),
+        build(:file_version, {
+          :publish => true,
+          :is_representative => false,
+          :file_uri => img_uri5,
+          :use_statement => '',
+        })
+      ])
+
+      @do3 = create(:digital_object, publish: true, :file_versions => [
+        build(:file_version, {
+          :publish => true,
+          :is_representative => false,
+          :file_uri => 'data:',
+        })
+      ])
+
+      @do4 = create(:digital_object, publish: true, :file_versions => [
+        build(:file_version, {
+          :publish => true,
+          :is_representative => false,
+          :file_uri => 'http',
+        })
+      ])
+
+      @do5 = create(:digital_object, publish: true, :file_versions => [
+        build(:file_version, {
+          :publish => true,
+          :is_representative => false,
+          :file_uri => 'not_http_or_data',
         })
       ])
 
       run_indexers
     end
 
-    it 'should display additional published File Versions not designated as representative in an Additional File Versions accordion' do
-      get(:show, params: { rid: @repo.id, obj_type: 'digital_objects', id: @do1.id })
-
+    it "shows a 'generic icon' if no representative file version is set, the "\
+       "file version is published, and the file uri starts with 'http' or 'data:'" do
+      get(:show, params: { rid: @repo.id, obj_type: 'digital_objects', id: @do3.id })
+      icon_css = '.external-digital-object__link[href="data:"]'
       page = response.body
+      expect(page).to have_css(icon_css)
 
-      additional_file_versions_accordion_css = '#res_accordion > .panel.panel-default > #additional_file_versions_list'
-      additional_file_version_css = '#additional_file_versions_list li.additional-file-version'
-      additional_file_version_1_src = "#{additional_file_version_css} img[src='#{img_uri1}']"
-      additional_file_version_2_src = "#{additional_file_version_css} img[src='#{img_uri3}']"
+      get(:show, params: { rid: @repo.id, obj_type: 'digital_objects', id: @do4.id })
+      icon_css_1 = '.external-digital-object__link[href="http"]'
+      page_1 = response.body
+      expect(page_1).to have_css(icon_css_1)
 
-      expect(page).to have_css(additional_file_versions_accordion_css)
-      expect(page).to have_css(additional_file_version_css, :count => 2)
-      expect(page).to have_css(additional_file_version_1_src)
-      expect(page).to have_css(additional_file_version_2_src)
+      get(:show, params: { rid: @repo.id, obj_type: 'digital_objects', id: @do5.id })
+      icon_css_2 = '.external-digital-object__link[href="not_http_or_data"]'
+      page_2 = response.body
+      expect(page_2).not_to have_css(icon_css_2)
     end
 
+    describe 'additional file versions' do
+      it 'not designated as representative when there is a representative, are listed '\
+         'in an Additional File Versions accordion' do
+        get(:show, params: { rid: @repo.id, obj_type: 'digital_objects', id: @do1.id })
+        page = response.body
+        expect(page).to have_css(additional_file_versions_accordion_css)
+        expect(page).to have_css(additional_file_version_css, :count => 4)
+      end
+
+      it 'with a caption should display text of caption and link to uri' do
+        get(:show, params: { rid: @repo.id, obj_type: 'digital_objects', id: @do1.id })
+        page = response.body
+        expect(page).to have_css("#{additional_file_versions_accordion_css} a[href='#{img_uri1}']", :text => caption1)
+        expect(page).to have_css("#{additional_file_versions_accordion_css} a[href='#{img_uri4}']", :text => caption2)
+      end
+
+      it 'with a use statement and no caption should display text of use statement and link to uri' do
+        get(:show, params: { rid: @repo.id, obj_type: 'digital_objects', id: @do1.id })
+        page = response.body
+        expect(page).to have_css("#{additional_file_versions_accordion_css} a[href='#{img_uri3}']", :text => 'image-service')
+      end
+
+      it 'with no caption or use statement should display text of the uri and link to the uri' do
+        get(:show, params: { rid: @repo.id, obj_type: 'digital_objects', id: @do1.id })
+        page = response.body
+        expect(page).to have_css("#{additional_file_versions_accordion_css} a[href='#{img_uri5}']", :text => img_uri5)
+      end
+    end
   end
 
   describe 'Digital Object Components' do
@@ -99,14 +172,10 @@ describe ObjectsController, type: :controller do
       page = response.body
 
       additional_file_versions_accordion_css = '#res_accordion > .panel.panel-default > #additional_file_versions_list'
-      additional_file_version_css = '#additional_file_versions_list li.additional-file-version'
-      additional_file_version_1_src = "#{additional_file_version_css} img[src='#{img_uri1}']"
-      additional_file_version_2_src = "#{additional_file_version_css} img[src='#{img_uri3}']"
+      additional_file_version_css = '#additional_file_versions_list li[data-additional-file-version]'
 
       expect(page).to have_css(additional_file_versions_accordion_css)
       expect(page).to have_css(additional_file_version_css, :count => 2)
-      expect(page).to have_css(additional_file_version_1_src)
-      expect(page).to have_css(additional_file_version_2_src)
     end
 
   end

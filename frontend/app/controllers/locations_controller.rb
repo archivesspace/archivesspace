@@ -145,6 +145,8 @@ class LocationsController < ApplicationController
 
   def batch_create
     begin
+      @action = "create"  # this seems to get lost after submit (and breaks a translation)
+
       if params[:location_batch][:record_uris] && params[:location_batch][:record_uris].length > 0
         batch = cleanup_params_for_schema(params[:location_batch], JSONModel(:location_batch_update).schema)
         @location_batch = JSONModel(:location_batch_update).from_hash(batch, false)._always_valid!

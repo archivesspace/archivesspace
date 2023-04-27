@@ -30,6 +30,9 @@ de:
     refine_search: Suche verfeinern
     backup_abbr: Zurück gehen
     search_remove_row: Die Zeile unten entfernen
+    next: Nächste
+    previous: Vorherige
+    digitized: Digitale Inhalte ansehen
   request:
     required: erforderlich
     user_name: Ihr Name
@@ -116,6 +119,8 @@ de:
       langcode: Sprache
       type_enum_s: Typ
       published_series_title_u_sstr: Serie
+      digital_object_type_enum_s: Typ
+      extent_type_enum_s: Umfang
     creators_text_contain: der <strong>Urheber</strong> enthält <span class='searchterm'>%{kw}</span>
     fewer_facets: weniger
     op:
@@ -215,6 +220,7 @@ de:
         deaccessions: Abgegangenes Archivgut
         forms_part_of: Teil-Verwandtschaft
         sibling_of: Geschwister-Verwandtschaft
+        has_part: Teil-Verwandtschaft
     _singular: Unbearbeitetes Archivgut
   repository:
     _plural: Aufbewahrungsorte
@@ -288,6 +294,7 @@ de:
   top_container:
     _plural: Behältnisse
     _singular: Behältnis
+    restricted: Eingeschränkt
   digital_object:
     _singular: Digitale Aufzeichnung
     _public:
@@ -295,6 +302,8 @@ de:
       link: Verweis zu digitalem Objekt
       badge_label: Digital %{level}
       go: Gehen Sie zur Datei
+      additional: Weitere Dateiversionen
+      browse_number_digital_objects_in_collection: Durchsuchen Sie %{num} digitale Objekte der Sammlung
     _plural: Digitales Archivgut
   subject:
     _singular: Thema

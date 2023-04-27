@@ -1,0 +1,6 @@
+ja:
+  reports:
+    accession_receipt_report:
+      title: アクセッションレシートレポート
+      description: 資料の受入を示す領収書を表示します。 レポートには、アクセッション番号、タイトル、エクステント、アクセッション日、およびリポジトリが含まれます。
+      identifier_prefix: アクセッション

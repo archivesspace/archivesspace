@@ -26,6 +26,10 @@
   flex-grow: 1;
 }
 
+.flex-shrink-0 {
+  flex-shrink: 0;
+}
+
 .mt15px {
   margin-top: var(--bootstrap-horizontal-white-space-unit);
 }
@@ -36,4 +40,17 @@
 
 .mb0 {
   margin-bottom: 0;
+}
+
+.pb1 {
+  padding-bottom: 0.5rem;
+}
+
+.rounded-bottom {
+  border-bottom-left-radius: var(--bootstrap-rounded-corner-radius);
+  border-bottom-right-radius: var(--bootstrap-rounded-corner-radius);
+}
+
+.bg-lightgray {
+  background-color: var(--bootstrap-default-card-heading-bg-color);
 }

@@ -1,0 +1,7 @@
+de:
+  reports:
+    resource_locations_list_report:
+      title: Liste der Ressourcen und Standorte
+      description: Zeigt Ressourcen und alle spezifizierten Informationen zu Standorten an. Der Bericht enhält den Titel, Ressourcen-Bezeichner, Stufe, Datumsbereich und zugehörige Standorte.
+      total_extent: Gesamtumfang der Ressourcen
+      identifier_prefix: Ressource

@@ -1,0 +1,6 @@
+en:
+  reports:
+    accession_report:
+      title: Accession Report
+      description: Displays all accessions for a given repository. Report includes data entered into basic information fields for each accession.
+      identifier_prefix: Accession

@@ -1,5 +1,4 @@
 <% if result.linked_instances.length == 0 %>
-
   <div class="result_context">
     <%= render partial: 'shared/result_breadcrumbs_repo', locals: { :result => result } %>
   </div>
@@ -9,12 +8,18 @@
   <div class="result_context">
     <%= render partial: 'shared/result_breadcrumbs_repo', locals: { :result => result } %>
     <% result.linked_instances.each do |uri, instance_record| %>
-      <% if instance_record.primary_type == 'resource' %>
+      <% if ['accession', 'resource'].include? instance_record.primary_type %>
+        <%
+          type = instance_record.primary_type
+          body = type == 'accession' ? 
+            instance_record.display_string :
+            instance_record.breadcrumb[0][:crumb]
+        %>
         <%= render partial: 'shared/result_breadcrumbs_ancestor', locals: {
-        :span_class => 'resource_name',
-        :badge_type => 'resource',
-        :body => instance_record.breadcrumb[0][:crumb],
-        :url => app_prefix(uri) } %>
+          :span_class => "#{type}_name",
+          :badge_type => type,
+          :body => body,
+          :url => app_prefix(uri) } %>
       <% elsif instance_record.primary_type == 'archival_object' %>
         <% num_crumbs = instance_record.breadcrumb.length %>
         <% instance_record.breadcrumb.each_with_index do |crumb, i| %>
@@ -30,18 +35,24 @@
 
 <% else %>
 
-  <div class="result_context" style="display: flex">
-    <strong style="flex-shrink: 0"><%= t('context') %>: </strong>
+  <div class="flex result_context">
+    <strong class="flex-shrink-0"><%= t('context') %>: </strong>
     <div>
       <%= render partial: 'shared/result_breadcrumbs_repo', locals: { :result => result, :hide_label => true } %>
       <ol class="result_linked_instances_tree">
         <% result.linked_instances.each do |uri, instance_record| %>
           <li>
-            <% if instance_record.primary_type == 'resource' %>
+            <% if ['accession', 'resource'].include? instance_record.primary_type %>
+              <%
+                type = instance_record.primary_type
+                body = type == 'accession' ?
+                  instance_record.display_string :
+                  instance_record.breadcrumb[0][:crumb]
+              %>
               <%= render partial: 'shared/result_breadcrumbs_ancestor', locals: {
-                :span_class => 'resource_name',
-                :badge_type => 'resource',
-                :body => instance_record.breadcrumb[0][:crumb],
+                :span_class => "#{type}_name",
+                :badge_type => type,
+                :body => body,
                 :url => app_prefix(uri),
                 :hide_delimiter => true } %>
             <% elsif instance_record.primary_type == 'archival_object' %>

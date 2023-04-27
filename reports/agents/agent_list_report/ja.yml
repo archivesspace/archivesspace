@@ -1,0 +1,5 @@
+ja:
+  reports:
+    agent_list_report:
+      title: 名前レコードリスト
+      description: 選択した名前レコードを表示します。 レポートには、名前、名前の種類、および名前のソースが一覧表示されます。
