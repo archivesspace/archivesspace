@@ -39,14 +39,7 @@ class Doc < Thor
     end
 
     git = Git.open('./')
-    log = git.log('a').between(previous_tag, current_tag).map do |log_entry|
-      {
-        author: log_entry.author.name,
-        desc: log_entry.message.split("\n")[0],
-        sha: log_entry.sha
-      }
-    end
-
+    log = ReleaseNotes.parse_log(git.log('a').between(previous_tag, current_tag))
     log.reject! { |log_entry| log_entry[:desc].match(/^Merge pull request/) }
     pulls_page = 1
     while((log.select { |log_entry| log_entry[:pr_number].nil? }.size > 0) && (pulls_page < options[:max_pr_pages] + 1)) do
@@ -68,6 +61,16 @@ class Doc < Thor
       end
       pulls_page = pulls_page + 1
     end
+
+    # for squash commits, try to get the PR id from the message string
+    orphans = log.select {|l| l[:pr_number].nil? }
+    orphans.each do |log_entry|
+      match = log_entry[:desc].match /\(#(\d+)\)$/
+      if match
+        log_entry[:pr_number] = match[1].to_i
+      end
+    end
+
     generator = ReleaseNotes::Generator.new(
       current_tag: current_tag,
       log: log,
