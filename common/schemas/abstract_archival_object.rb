@@ -84,7 +84,7 @@
                                  {"type" => "JSONModel(:agent_software) uri"}],
               "ifmissing" => "error"},
 
-            "is_representative" => {"type" => "boolean", "default" => false},
+            "is_primary" => {"type" => "boolean", "default" => false},
 
             "_resolved" => {
               "type" => "object",
