@@ -3,16 +3,25 @@ require 'github_api'
 
 module ReleaseNotes
 
+  def self.non_semantic_tag_suffix_regex
+    /-RC\d+[_-a-zA-Z\d]*$/
+  end
+
+  # we are going to convert the incoming current tag to a semantic tag,
+  # e.g., v3.4.0-RC1-TEST_FOR_GH-9999 --> v3.4.0
+  # then add it to our list of existing semantic tags (if not already there)
+  # then sort the list to find its semantic predecessor
   def self.find_previous_tag(current_tag)
-    current_tag = current_tag.sub(/-RC\d+[_-a-zA-Z\d]*$/, '')
+    current_tag = current_tag.sub(self.non_semantic_tag_suffix_regex, '')
     git = Git.open('./')
-    vtags = git.tags.reject {|t| t.name !~ /^v\d\.\d\.\d(-RC\d)?$/}
+    vtags = git.tags.reject {|t| t.name !~ /^v\d\.\d\.\d$/}.map { |v| v.name }
+    vtags << current_tag unless vtags.include?(current_tag)
     matched = false
-    vtags.sort_by {|v| v.name}.map {|v| v.name}.reverse.each do |tag|
+    vtags.sort.reverse.each do |tag|
       return tag if matched
-      matched = (tag.sub(/-RC\d+$/, '') == current_tag)
+      matched = (tag == current_tag)
     end
-    raise "Cannot find a previous tag using #{current_tag}!"
+    raise "Cannot find a previous tag for #{current_tag} in #{vtags.join(', ')}!"
   end
 
 
