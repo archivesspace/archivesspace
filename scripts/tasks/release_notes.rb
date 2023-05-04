@@ -4,7 +4,7 @@ require 'github_api'
 module ReleaseNotes
 
   def self.find_previous_tag(current_tag)
-    current_tag = current_tag.sub(/-RC\d+$/, '')
+    current_tag = current_tag.sub(/-RC\d+[_-a-zA-Z\d]*$/, '')
     git = Git.open('./')
     vtags = git.tags.reject {|t| t.name !~ /^v\d\.\d\.\d(-RC\d)?$/}
     matched = false
@@ -12,6 +12,7 @@ module ReleaseNotes
       return tag if matched
       matched = (tag.sub(/-RC\d+$/, '') == current_tag)
     end
+    raise "Cannot find a previous tag using #{current_tag}!"
   end
 
 
