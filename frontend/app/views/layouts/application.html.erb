@@ -25,6 +25,7 @@
     APP_PATH = "<%= j(AppConfig[:frontend_proxy_prefix]) %>";
     COOKIE_PREFIX = "<%= j(AppConfig[:cookie_prefix]) %>";
     FRONTEND_URL = "<%= j(AppConfig[:frontend_proxy_url]) %>";
+    SHOW_IDENTIFIERS_IN_TREE = <%= AppConfig[:display_identifiers_in_largetree_container] %>;
   </script>
 
   <%= javascript_include_tag "application" %>

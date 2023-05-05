@@ -3,14 +3,39 @@ require 'github_api'
 
 module ReleaseNotes
 
+  def self.non_semantic_tag_suffix_regex
+    /-RC\d+[_-a-zA-Z\d]*$/
+  end
+
+  # we are going to convert the incoming current tag to a semantic tag,
+  # e.g., v3.4.0-RC1-TEST_FOR_GH-9999 --> v3.4.0
+  # then add it to our list of existing semantic tags (if not already there)
+  # then sort the list to find its semantic predecessor
   def self.find_previous_tag(current_tag)
-    current_tag = current_tag.sub(/-RC\d+$/, '')
+    current_tag = current_tag.sub(self.non_semantic_tag_suffix_regex, '')
     git = Git.open('./')
-    vtags = git.tags.reject {|t| t.name !~ /^v\d\.\d\.\d(-RC\d)?$/}
+    vtags = git.tags.reject {|t| t.name !~ /^v\d\.\d\.\d$/}.map { |v| v.name }
+    vtags << current_tag unless vtags.include?(current_tag)
     matched = false
-    vtags.sort_by {|v| v.name}.map {|v| v.name}.reverse.each do |tag|
+    vtags.sort.reverse.each do |tag|
       return tag if matched
-      matched = (tag.sub(/-RC\d+$/, '') == current_tag)
+      matched = (tag == current_tag)
+    end
+    raise "Cannot find a previous tag for #{current_tag} in #{vtags.join(', ')}!"
+  end
+
+
+  def self.parse_log(gitlog)
+    gitlog.map do |log_entry|
+      authors = [log_entry.author.name]
+      authors += log_entry.message.split(/\n+/)
+                   .select { |line| line =~ /^Co-authored-by/ }
+                   .map { |line| line.sub(/^.*by:\s+/, '').sub(/ <.*@.*>$/, '') }
+      {
+        authors: authors,
+        desc: log_entry.message.split("\n")[0],
+        sha: log_entry.sha
+      }
     end
   end
 
@@ -51,11 +76,18 @@ module ReleaseNotes
         if data[:pr_number]
           messages << format_log_entry(data)
         end
-        next if EXCLUDE_AUTHORS.include?(data[:author])
-        next if data[:pr_number].nil?
+        next if data[:pr_title].nil? && data[:desc].nil?
         @contributions += 1
-        contributors[data[:author]] ||= []
-        contributors[data[:author]] << data[:pr_title]
+        data[:authors].each do |author|
+          next if EXCLUDE_AUTHORS.include?(author)
+          contributors[author] ||= []
+          contributors[author] << (data[:pr_title] || data[:desc])
+        end
+
+      end
+
+      contributors.each do |author, contributions|
+        contributions.uniq!
       end
       make_doc
       self
@@ -107,7 +139,7 @@ module ReleaseNotes
         msg = "- PR: #{links.compact.join(' - ')}: #{data[:pr_title]}"
       elsif style == 'verbose'
         msg = "PR: #{links.compact.join(' - ')} "
-        msg += "by #{data[:author]} accepted on #{data[:date]}\n"
+        msg += "by #{data[:authors].join(', ')} accepted on #{data[:date]}\n"
         msg += "#{data[:title]}\n"
       else
         raise "Invalid style: #{style}"
@@ -131,8 +163,28 @@ module ReleaseNotes
       result
     end
 
+    def solr_changes
+      return @solr_diff if @solr_diff
+      @solr_diff = ""
+      diff = Git.open('.').gtree("#{@previous_tag}").diff("#{@current_tag}")
+      diff.path('solr/schema.xml').patch.split("\n").each do |line|
+        next if line =~ /^\+\+\+/ || line =~ /^\-\-\-/
+        if line =~ /^@@/ && @solr_diff.empty?
+          @solr_diff << "```diff\n"
+        elsif line =~ /^@@/
+          @solr_diff << "```\n```diff\n"
+        elsif line =~ /^[\+\-].+/
+          @solr_diff << line + "\n"
+        end
+      end
+      @solr_diff << "```\n" unless @solr_diff.empty?
+      @solr_diff
+    end
+
+
     def make_doc
       doc << "# Release notes for #{current_tag}\n"
+      doc << "(Updating from #{previous_tag})"
       doc << "__TODO: add release summary__\n"
       doc << "## Configurations and Migrations\n"
       doc << "This release includes several modifications to the configuration defaults file: \n"
@@ -141,6 +193,11 @@ module ReleaseNotes
       doc << "## API Deprecations\n"
       doc << "The following API endpoints have been newly deprecated as part of this release. For the time being, they will work and you may continue to use them, however they will be removed from the core code of ArchivesSpace on or after **#{DateTime.now.next_year(1).to_date}**.  For more information see the [ArchivesSpace API documentation](https://archivesspace.github.io/archivesspace/api/).\n"
       doc << find_deprecations
+      unless solr_changes.empty?
+        doc << "## Solr Schema\n"
+        doc << "The Solr schema has changed. A rebuild and reindex of the Solr core will be required: \n"
+        doc << solr_changes
+      end
       doc << "## Other considerations (plugins etc.):\n"
       doc << "__TODO: add anything else to call out here__\n"
       doc << "## Community Contributions\n"
