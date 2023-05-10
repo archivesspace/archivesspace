@@ -468,10 +468,10 @@ AppConfig[:record_inheritance_resolves] = [
 # TODO: Clean up configuration options
 
 AppConfig[:pui_search_results_page_size] = 10
-AppConfig[:pui_branding_img] = 'archivesspace.small.png'
+AppConfig[:pui_branding_img] = 'ArchivesSpaceLogo.svg'
 AppConfig[:pui_branding_img_alt_text] = 'ArchivesSpace - a community served by Lyrasis.'
 
-AppConfig[:frontend_branding_img] = 'archivesspace/archivesspace.small.png'
+AppConfig[:frontend_branding_img] = 'archivesspace/ArchivesSpaceLogo.svg'
 AppConfig[:frontend_branding_img_alt_text] = 'ArchivesSpace - a community served by Lyrasis.'
 
 AppConfig[:pui_block_referrer] = true # patron privacy; blocks full 'referrer' when going outside the domain

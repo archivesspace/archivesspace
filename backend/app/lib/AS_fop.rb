@@ -24,7 +24,7 @@ class ASFop
     @source = source
     @output = output ? output : ASUtils.tempfile('fop.pdf')
     if pdf_image.nil?
-      @pdf_image = "file:///" + File.absolute_path(StaticAssetFinder.new(File.join('stylesheets')).find('archivesspace.small.png'))
+      @pdf_image = "file:///" + File.absolute_path(StaticAssetFinder.new(File.join('stylesheets')).find('ArchivesSpaceLogo_for_pdf.png'))
     else
       @pdf_image = pdf_image
     end
