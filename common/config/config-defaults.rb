@@ -336,7 +336,7 @@ AppConfig[:jetty_request_buffer_size_bytes] = 64 * 1024
 # Example:
 # AppConfig[:container_management_barcode_length] = {:system_default => {:min => 5, :max => 10}, 'repo' => {:min => 9, :max => 12}, 'other_repo' => {:min => 9, :max => 9} }
 
-# :container_management_extent_calculator globally defines the behavior of the exent calculator.
+# :container_management_extent_calculator globally defines the behavior of the extent calculator.
 # Use :report_volume (true/false) to define whether space should be reported in cubic
 # or linear dimensions.
 # Use :unit (:feet, :inches, :meters, :centimeters) to define the unit which the calculator
