@@ -1,17 +1,33 @@
 require 'spec_helper'
 
-# TODO: the specs here (and elsehwere) formerly asserted against a hard-coded
-# no. for 'total_hits' which was extremely annoying when adding new test data / fixtures.
-# For now using a min. threshold for 'total_hits' instead because we rarely (if ever) go
-# down. However, it may be better long term to think about what is really being tested
-# and if there's a better approach.
-
 describe SearchController, type: :controller do
-  # Since test data is created in both `spec_helper` as well as in some of the individual
-  # controller tests, predicting total numbers of results is tricky.  Just hardcoding
-  # the repo id of these new tests to '2' (the `spec_helper` test data) for now.
+  let(:as_client) { instance_double("ArchivesSpaceClient") }
+  let(:repos) { class_double("Repository").as_stubbed_const }
+  let(:solr_results) {
+    mock_solr_results(
+      (0...10).map { |i|
+        {
+          'primary_type' => 'accession',
+          'json' => {'title' => 'TITLE'},
+          'uri' => "/accessions/#{i}"
+        } })
+  }
+
+  before(:each) do
+    allow(controller).to receive(:archivesspace).and_return(as_client)
+    allow(repos).to receive(:get_repos) {
+      {
+        "/repositories/3" => { "name" => "Alpha" },
+        "/repositories/2" => { "name" => "Beta" },
+        "/repositories/1" => { "name" => "Delta" }
+      }
+    }
+  end
 
   it 'should return all records' do
+    allow(as_client).to receive(:advanced_search) { |base_search, page, criteria|
+        solr_results
+    }
     response = get(:search, params: {
       :rid => 2,
       :q => ['*'],
@@ -22,10 +38,23 @@ describe SearchController, type: :controller do
 
     expect(response).to have_http_status(200)
     expect(response).to render_template('search/search_results')
-    expect(result_data['total_hits']).to be > 30
+    expect(result_data['total_hits']).to eq 10
   end
 
-  it 'should return all digital objects when filtered' do
+  it 'accepts a :limit param and adds a filter subquery to the backend request' do
+    expect(as_client).to receive(:advanced_search) { |base_search, page, criteria|
+      advanced_query = JSON.parse(criteria['aq'])
+      filter_query = JSON.parse(criteria['filter'])
+
+      advanced_query_string = advanced_query['query']['subqueries'][1]['subqueries'][0]['subqueries'][0]['value']
+      expect(advanced_query_string).to eq("*")
+
+      filter_query_string = filter_query['query']['subqueries'][0]['subqueries'][0]['subqueries'][0]['value']
+      expect(filter_query_string).to eq('digital_object')
+
+      solr_results
+    }
+
     response = get(:search, params: {
       :rid => 2,
       :q => ['*'],
@@ -33,72 +62,70 @@ describe SearchController, type: :controller do
       :limit => 'digital_object',
       :field => ['']
     })
-    result_data = controller.instance_variable_get(:@results)
 
     expect(response).to have_http_status(200)
-    expect(response).to render_template('search/search_results')
-    expect(result_data['total_hits']).to be > 5
   end
 
-  it 'should return digital object component with identifier search' do
+  it 'supports an identifier search' do
+    expect(as_client).to receive(:advanced_search) { |base_search, page, criteria|
+      advanced_query = JSON.parse(criteria['aq'])
+      filter_query = JSON.parse(criteria['filter'])
+
+      advanced_query_string = advanced_query['query']['subqueries'][1]['subqueries'][0]['subqueries'][0]['value']
+      expect(advanced_query_string).to eq("12345")
+      advanced_query_field = advanced_query['query']['subqueries'][1]['subqueries'][0]['subqueries'][0]['field']
+      expect(advanced_query_field).to eq("identifier")
+
+      solr_results
+    }
+
     response = get(:search, params: {
      :rid => 2,
      :q => ['12345'],
      :op => ['OR'],
      :field => ['identifier']
     })
-    result_data = controller.instance_variable_get(:@results)
-
     expect(response).to have_http_status(200)
-    expect(response).to render_template('search/search_results')
-    expect(result_data['total_hits']).to eq(1)
   end
 
   it 'should return a linked resource with subject search' do
+    expect(as_client).to receive(:advanced_search) { |base_search, page, criteria|
+      advanced_query = JSON.parse(criteria['aq'])
+      filter_query = JSON.parse(criteria['filter'])
+      advanced_query_string = advanced_query['query']['subqueries'][1]['subqueries'][0]['subqueries'][0]['value']
+      expect(advanced_query_string).to eq("Term 1")
+      advanced_query_field = advanced_query['query']['subqueries'][1]['subqueries'][0]['subqueries'][0]['field']
+      expect(advanced_query_field).to eq("subjects_text")
+
+      solr_results
+    }
+
     response = get(:search, params: {
      :rid => 2,
      :q => ['Term 1'],
      :op => ['OR'],
      :field => ['subjects_text']
     })
-    result_data = controller.instance_variable_get(:@results)
-
     expect(response).to have_http_status(200)
-    expect(response).to render_template('search/search_results')
-    expect(result_data['total_hits']).to eq(2)
   end
 
   describe 'facet sorting' do
     it 'leaves facets in the order received (hit count) unless config says to sort by label' do
-      repos = class_double("Repository").
-                as_stubbed_const
-      allow(repos).to receive(:get_repos) {
-        {
-          "/repositories/3" => { "name" => "Alpha" },
-          "/repositories/2" => { "name" => "Beta" },
-          "/repositories/1" => { "name" => "Delta" }
-        }
-      }
-
-      as_client = instance_double("ArchivesSpaceClient")
       allow(as_client).to receive(:advanced_search) { |base_search, page, criteria|
-        SolrResults.new({
-                          'total_hits' => 10,
-                          'results' => (0...10).map {|i| {
-                                                       'primary_type' => 'accession',
-                                                       'json' => {'title' => 'TITLE'},
-                                                       'uri' => "/accessions/#{i}"
-                                                     } },
-                          'facets' => {
-                            'facet_fields' => {
-                              'repository' => [
-                                '/repositories/2', 6, '/repositories/1', 3, '/repositories/3', 2
-                              ]
-                            }
-                          }
-                        })
+        mock_solr_results(
+          (0...10).map {|i| {
+                          'primary_type' => 'accession',
+                          'json' => {'title' => 'TITLE'},
+                          'uri' => "/accessions/#{i}"
+                        } },
+            {'facets' => {
+               'facet_fields' => {
+                 'repository' => [
+                   '/repositories/2', 6, '/repositories/1', 3, '/repositories/3', 2
+                 ]
+               }}}
+        )
       }
-      allow(controller).to receive(:archivesspace).and_return(as_client)
 
       response = get(:search, params: {
                        :rid => 2,
@@ -108,8 +135,6 @@ describe SearchController, type: :controller do
                      })
       facets = assigns(:facets)
       expect(facets["repository"].map { |f| f.key }).to eq(["/repositories/2", "/repositories/1", "/repositories/3"])
-
-      allow(AppConfig).to receive(:[]).and_call_original
       allow(AppConfig).to receive(:[]).with(:pui_display_facets_alpha) { true }
 
       response = get(:search, params: {
@@ -125,6 +150,7 @@ describe SearchController, type: :controller do
 
   describe "search requests to api" do
     it "does not convert & into the entity &amp; when preparing a search query" do
+      allow(controller).to receive(:archivesspace).and_call_original
       expect(ArchivesSpaceClient.instance).to receive(:do_http_request) do |request, http_opts|
         query_to_backend = Rack::Utils.parse_query request.uri.query
         advanced_query = JSON.parse(query_to_backend['aq'])
@@ -149,41 +175,50 @@ describe SearchController, type: :controller do
   describe 'search action' do
     render_views
 
-    before(:all) do
-      @do_linked_to_multiple_records = create(:digital_object,
-        title: 'Digital Object linked to multiple archival records',
-        publish: true)
-      @resource_with_common_linked_instance = create(:resource,
-        title: "Resource with common linked instance",
-        publish: true,
-        instances: [build(:instance_digital,
-          digital_object: {'ref' => @do_linked_to_multiple_records.uri})
-        ])
-      @ao_with_common_linked_instance = create(:archival_object,
-        title: "Archival Object with common linked instance",
-        resource: { 'ref' => @resource_with_common_linked_instance.uri },
-        publish: true,
-        instances: [build(:instance_digital,
-          digital_object: {'ref' => @do_linked_to_multiple_records.uri})
-        ])
-      @accession_with_common_linked_instance = create(:accession,
-        title: "Accession with common linked instance",
-        publish: true,
-        instances: [build(:instance_digital,
-          digital_object: {'ref' => @do_linked_to_multiple_records.uri})
-        ])
-      @unpublished_accession_with_common_linked_instance = create(:accession,
-        title: "Unpublished Accession with common linked instance",
-        publish: false,
-        instances: [build(:instance_digital,
-          digital_object: {'ref' => @do_linked_to_multiple_records.uri})
-        ])
-      run_indexers
-    end
+    let(:solr_results) {
+      solr_results = mock_solr_results([
+        {
+          'primary_type' => 'digital_object',
+          'uri' => '/repositories/0/digital_objects/0',
+          'json' => { 'title' => 'Digital Object' },
+        }
+                                       ])
+      linked_instances = [
+        {
+          'primary_type' => 'resource',
+          'uri' => '/repositories/0/resources/0',
+          'json' => { 'title' => 'Resource'},
+        },
+        {
+          'primary_type' => 'archival_object',
+          'uri' => '/repositories/0/archival_objects/0',
+          'json' => { 'title' => 'Archival Object', 'resource' => {'ref' => '/repositories/0/resources/0'} },
+        },
+        {
+          'primary_type' => 'accession',
+          'uri' => '/repositories/0/accessions/0',
+          'json' => { 'title' => 'Accession' }
+        }
+      ].map { |raw| record_for_type(raw) }.map { |i| {i['uri'] => i}}.inject({}) { |result, item| result.merge(item) }
 
-    it 'should show breadcrumbs for all published archival records linked to a digital object' do
+      allow(solr_results.records.first).to receive(:linked_instances).and_return(linked_instances)
+      allow(solr_results.records.first).to receive(:resolved_repository).and_return({'name' => 'Repository', 'uri' => "/repositories/0"})
+      solr_results
+    }
+
+    it 'should show breadcrumbs for archival records linked to a digital object' do
+      allow(ArchivesSpaceClient).to receive(:instance).and_return(as_client)
+      allow(as_client).to receive(:advanced_search) { |base_search, page, criteria|
+        solr_results
+      }
+      allow(as_client).to receive(:get_raw_record) { |uri, search_opts = {}|
+        expect(uri).to eq "/repositories/0/resources/0/tree/node_from_root_0"
+        JSON.parse("{\"0\":[{\"node\":null,\"root_record_uri\":\"/repositories/0/resources/0\",\"offset\":0,\"jsonmodel_type\":\"resource\",\"title\":\"Resource\",\"parsed_title\":\"Resource\"}]}")
+      }
+      digital_object = solr_results.records.first
+
       get(:search, params: {
-        :q => [@do_linked_to_multiple_records.title],
+        :q => ['*'],
         :limit => 'digital_object',
         :op => ['']
       })
@@ -191,17 +226,18 @@ describe SearchController, type: :controller do
       expect(response).to render_template("digital_objects/_search_result_breadcrumbs")
 
       page = Capybara.string(response.body)
-      page.find(:css, ".recordrow[data-uri='#{@do_linked_to_multiple_records.uri}']") do |result|
+
+      page.find(:css, ".recordrow[data-uri='#{digital_object.uri}']") do |result|
         result.find(:css, 'ol.result_linked_instances_tree li:first-of-type') do |crumb1|
-          expect(crumb1).to have_css ".resource_name a[href='#{@resource_with_common_linked_instance.uri}']"
+          expect(crumb1).to have_css ".resource_name a[href='#{digital_object.linked_instances.values[0].uri}']"
         end
 
         result.find(:css, 'ol.result_linked_instances_tree li:nth-of-type(2)') do |crumb2|
-          expect(crumb2).to have_css ".resource_name + .archival_object_name a[href='#{@ao_with_common_linked_instance.uri}']"
+          expect(crumb2).to have_css ".resource_name + .archival_object_name a[href='#{digital_object.linked_instances.values[1].uri}']"
         end
 
         result.find(:css, 'ol.result_linked_instances_tree li:last-of-type') do |crumb3|
-          expect(crumb3).to have_css ".accession_name a[href='#{@accession_with_common_linked_instance.uri}']"
+          expect(crumb3).to have_css ".accession_name a[href='#{digital_object.linked_instances.values[2].uri}']"
         end
 
         expect(result).to have_css('ol.result_linked_instances_tree li', count: 3)
