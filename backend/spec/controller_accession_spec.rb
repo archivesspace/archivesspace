@@ -193,7 +193,8 @@ describe 'Accession controller' do
                                                                     {
                                                                       "role" => 'creator',
                                                                       "ref" => agent1.uri,
-                                                                      "title" => "the title"
+                                                                      "title" => "the title",
+                                                                      "is_primary" => true,
                                                                     },
                                                                     {
                                                                       "role" => 'creator',
@@ -202,16 +203,39 @@ describe 'Accession controller' do
                                                                    ]
                                                  ),
                                            :repo_id => $repo_id)
-
     acc = JSONModel(:accession).find(accession.id)
 
     expect(acc.linked_agents.length).to eq(2)
     expect(acc.linked_agents[0]['ref']).to eq(agent1.uri)
     expect(acc.linked_agents[1]['ref']).to eq(agent2.uri)
-
+    expect(acc.linked_agents[0]['is_primary']).to be true
+    expect(acc.linked_agents[1]['is_primary']).to be false
     expect(acc.linked_agents[0]['title']).to eq('the title')
   end
 
+  it "only allows one 'is_primary' linked agent" do
+    agent1 = create(:json_agent_person)
+    agent2 = create(:json_agent_person)
+
+    json = build(:json_accession,
+                  :linked_agents => [
+                    {
+                      "role" => 'creator',
+                      "ref" => agent1.uri,
+                      "title" => "the title",
+                      "is_primary" => true,
+                    },
+                    {
+                      "role" => 'creator',
+                      "ref" => agent2.uri,
+                      "is_primary" => true,
+                    }
+                                                                   ]
+                 )
+    expect {
+      Accession.create_from_json(json, :repo_id => $repo_id)
+    }.to raise_error(Sequel::ValidationFailed)
+  end
 
   it "supports saving and retrieving external IDs" do
     accession = create(:json_accession,
