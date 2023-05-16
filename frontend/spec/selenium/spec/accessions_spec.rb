@@ -220,6 +220,8 @@ describe 'Accessions' do
     expect(@driver.find_element(id: 'accession_linked_agents_').text).to match(/LinkedAgentTerm/)
   end
 
+
+
   it 'shows an error if you try to reuse an identifier' do
     @driver.find_element(:link, 'Create').click
     @driver.click_and_wait_until_gone(:link, 'Accession')
@@ -584,5 +586,40 @@ describe 'Accessions' do
     run_index_round
     @driver.navigate.refresh
     assert(5) { expect(@driver.find_element(css: '.alert.alert-info').text).to eq('No records found') }
+  end
+
+  it 'can mark a linked_agent as primary' do
+    @driver.find_element(:link, 'Create').click
+    @driver.click_and_wait_until_gone(:link, 'Accession')
+    @driver.find_hidden_element(:css, '#accession_title_').wait_for_class('initialised')
+    @driver.execute_script("$('#accession_title_').data('CodeMirror').setValue('with primary agent')")
+
+    @driver.complete_4part_id('accession_id_%d_')
+
+    @driver.click_and_wait_until_gone(css: "form#accession_form button[type='submit']")
+
+    create(:agent_person,
+           names: [build(:name_person,
+                         name_order: 'inverted',
+                         primary_name: "Subject Agent #{@me}",
+                         rest_of_name: "Subject Agent #{@me}",
+                         sort_name: "Subject Agent #{@me}")])
+    run_index_round
+
+    @driver.find_element(css: '#accession_linked_agents_ .subrecord-form-heading .btn:not(.show-all)').click
+
+    @driver.find_element(id: 'accession_linked_agents__0__role_').select_option('subject')
+
+    token_input = @driver.find_element(:id, 'token-input-accession_linked_agents__0__ref_')
+    @driver.typeahead_and_select(token_input, 'Subject Agent')
+
+    is_rep_button = @driver.find_element(css: '.is-representative-toggle')
+
+    is_rep_button.click
+
+    expect(is_rep_button.attribute('disabled')).to be_nil
+
+    @driver.click_and_wait_until_gone(css: "form#accession_form button[type='submit']")
+
   end
 end

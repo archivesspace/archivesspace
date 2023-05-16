@@ -13,11 +13,41 @@ module Agents
                              :class_callback => proc { |clz|
                                base.initialize_enum(clz)
                                base.initialize_terms(clz)
+
+                               type = base.my_jsonmodel.record_type
+                               id_field = "#{type}_id".intern
+
+                               clz.instance_eval do
+                                 plugin :validation_helpers
+
+                                 define_method(:validate) do
+                                   if self[:is_primary]
+                                     validates_unique(
+                                       [:is_primary, id_field],
+                                       message: "A #{type} can have only one primary linked agent")
+                                   end
+
+                                   super()
+                                 end
+                               end
                              })
   end
 
 
   module ClassMethods
+
+    def sequel_to_jsonmodel(objs, opts = {})
+      jsons = super
+      if self.has_primary_agents?
+        jsons.each do |json|
+          json['linked_agents'].each do |agent_link|
+            agent_link['is_primary'] = (agent_link['is_primary'] == 1)
+          end
+        end
+      end
+
+      jsons
+    end
 
     def agent_role_enum(enum_name)
       @agent_role_enum = enum_name
@@ -26,7 +56,6 @@ module Agents
     def agent_relator_enum(enum_name)
       @agent_relator_enum = enum_name
     end
-
 
     def initialize_enum(clz)
       role_enum = @agent_role_enum or raise "Missing agent_role_enum in #{self}"
@@ -96,9 +125,9 @@ module Agents
       end
     end
 
+    def has_primary_agents?
+      self.my_jsonmodel.schema['properties'].dig('linked_agents', 'items', 'properties', 'is_primary') ? true : false
+    end
+
   end
-
-
-
-
 end

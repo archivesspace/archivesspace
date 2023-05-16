@@ -102,8 +102,9 @@ describe "Deletion of Archival Records" do
 
 
   it "can delete a subject" do
-    acc = Accession.where(:title => "A test accession").first
-    expect(acc.my_relationships(:subject).count).to eq(1)
+    r = Resource.where(:title => "A test resource").first
+
+    expect(r.my_relationships(:subject).count).to eq(1)
 
     subject = Subject.where(:title => "a -- test -- subject").first
     expect(subject).not_to be_nil
@@ -112,7 +113,7 @@ describe "Deletion of Archival Records" do
 
     expect(Subject[subject.id]).to be_nil
 
-    expect(acc.my_relationships(:subject).count).to eq(0)
+    expect(r.my_relationships(:subject).count).to eq(0)
   end
 
 

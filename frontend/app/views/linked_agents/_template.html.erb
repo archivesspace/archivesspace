@@ -10,6 +10,11 @@
    ].each do |defn| %>
 
   <% define_template "#{defn[:type]}_linked_agent", jsonmodel_definition(defn[:type], "linked_agents") do |form| %>
+    <div class="subrecord-form  linked-agent-subrecord-form">
+    <h3 class="subrecord-form-heading">
+      <%= form.button_with_tooltip(I18n.t("linked_agent._frontend.action.make_primary_tooltip"), I18n.t("linked_agent.is_primary"), [], ["badge badge-info is-representative-label"], false) %>
+      <%= form.button_with_tooltip(I18n.t("linked_agent._frontend.action.make_primary_tooltip"), I18n.t("linked_agent._frontend.action.make_primary"), [], ["is-representative-toggle"]) %>
+    </h3>
     <div class="subrecord-form-fields agent_links">
       <% if defn[:role] %>
         <%= form.label_and_select("role", form.possible_options_for("role", true), :field_opts => {:class => "linked_agent_role"}) %>
@@ -28,6 +33,9 @@
         <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "terms", :heading_text => I18n.t("subject._frontend.section.terms")} %>
       </div>
 
+      <%= form.hidden_input "is_primary", form["is_primary"] %>
+
+    </div>
     </div>
   <% end %>
 
