@@ -34,9 +34,9 @@ describe 'Search', js: true do
 
     click_on('Sort')
 
+    identifiers_desc = find_all('span.component').to_a
 
-    identifiers = find_all('span.component').to_a
-
-    expect(identifiers[0].text < identifiers[1].text).to be true
+    expect(identifiers_desc[1].text > identifiers_desc[2].text).to be true
+    expect(identifiers_desc[2].text > identifiers_desc[3].text).to be true
   end
 end
