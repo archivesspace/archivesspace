@@ -68,6 +68,17 @@ class Doc < Thor
       end
       pulls_page = pulls_page + 1
     end
+
+    # for squash commits, try to get the PR id from the message string
+    orphans = log.select {|l| l[:pr_number].nil? }
+    orphans.each do |log_entry|
+      match = log_entry[:desc].match /\(#(\d+)\)$/
+      if match
+        log_entry[:pr_number] = match[1].to_i
+        log_entry[:pr_title] = log_entry[:desc]
+      end
+    end
+
     generator = ReleaseNotes::Generator.new(
       current_tag: current_tag,
       log: log,
