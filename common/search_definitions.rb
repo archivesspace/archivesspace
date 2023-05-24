@@ -2,7 +2,7 @@ AdvancedSearch.define_field(:name => 'keyword', :type => :text, :visibility => [
 AdvancedSearch.define_field(:name => 'title', :type => :text, :visibility => [:staff, :public], :solr_field => 'title')
 AdvancedSearch.define_field(:name => 'identifier', :type => :text, :visibility => [:staff, :public], :solr_field => 'identifier')
 AdvancedSearch.define_field(:name => 'creators', :type => :text, :visibility => [:staff, :public], :solr_field => 'creators_text')
-AdvancedSearch.define_field(:name => 'notes', :type => :text, :visibility => [:staff, :public], :solr_field => 'notes')
+AdvancedSearch.define_field(:name => 'notes', :type => :text, :visibility => [:staff, :public], :solr_field => 'notes', :protects_unpublished => true)
 AdvancedSearch.define_field(:name => 'subjects', :type => :text, :visibility => [:staff, :public], :solr_field => 'subjects_text')
 
 AdvancedSearch.define_field(:name => 'published', :type => :boolean, :visibility => [:staff], :solr_field => 'publish')

@@ -109,38 +109,33 @@ class Solr
 
 
     def self.create_term_query(field, term)
-      new(term_query(field, term)).use_standard_query_type
+      new(term_query(field, term))
     end
 
 
-    def self.create_advanced_search(advanced_query_json)
-      new(construct_advanced_query_string(advanced_query_json['query'])).
-        use_standard_query_type
+    def self.create_advanced_search(advanced_query_json, protect_unpublished: false)
+      query = new(construct_advanced_query_string(advanced_query_json['query'], protect_unpublished: protect_unpublished))
+      query.protect_unpublished! if protect_unpublished
+      query
     end
 
 
-    def self.construct_advanced_query_string(advanced_query, use_literal = false)
+    # AdvancedQueryString maps application's search options to Solr fields.
+    def self.construct_advanced_query_string(advanced_query, use_literal: false, protect_unpublished: false)
       if advanced_query.has_key?('subqueries')
         clauses = advanced_query['subqueries'].map {|subq|
-          construct_advanced_query_string(subq, use_literal)
+          construct_advanced_query_string(subq, use_literal: use_literal, protect_unpublished: protect_unpublished)
         }
-
-# This causes incorrect results for X NOT Y queries via the PUI, see https://github.com/archivesspace/archivesspace/issues/1699
-#        # Solr doesn't allow purely negative expression groups, so we add a
-#        # match all query to compensate when we hit one of these.
-#        if advanced_query['subqueries'].all? {|subquery| subquery['negated']}
-#          clauses << '*:*'
-#        end
-
         subqueries = clauses.join(" #{advanced_query['op']} ")
-
         "(#{subqueries})"
       else
-        AdvancedQueryString.new(advanced_query, use_literal).to_solr_s
+        AdvancedQueryString.new(advanced_query, use_literal: use_literal, protect_unpublished: protect_unpublished).to_solr_s
       end
     end
 
-
+    # The query_string parameter needs to be created before
+    # initialization (see above). Possible refactor to have that
+    # conversion happen when the instance is rendered into a Solr url.
     def initialize(query_string, opts = {})
       @solr_url = URI.parse(AppConfig[:solr_url])
 
@@ -155,6 +150,7 @@ class Solr
       @show_suppressed = false
       @show_published_only = false
       @csv_header = true
+      @protect_unpublished = opts[:protect_unpublished] || false
     end
 
     def add_solr_params_from_config
@@ -177,12 +173,6 @@ class Solr
 
     def set_solr_url(solr_url)
       @solr_url = solr_url
-      self
-    end
-
-
-    def use_standard_query_type
-      @query_type = :standard
       self
     end
 
@@ -245,7 +235,7 @@ class Solr
     def set_filter(advanced_query)
       if advanced_query
         query_string = self.class.construct_advanced_query_string(advanced_query['query'],
-                                                                  use_literal = true)
+                                                                  use_literal: true)
         add_solr_param(:fq, query_string)
       end
 
@@ -355,7 +345,11 @@ class Solr
       if @query_type == :edismax
         add_solr_param(:defType, "edismax")
         add_solr_param(:pf, "four_part_id^4")
-        add_solr_param(:qf, "identifier_ws^3 title_ws^2 finding_aid_filing_title^2 fullrecord")
+        if @protect_unpublished
+          add_solr_param(:qf, "identifier_ws^3 title_ws^2 finding_aid_filing_title^2 fullrecord_published")
+        else
+          add_solr_param(:qf, "identifier_ws^3 title_ws^2 finding_aid_filing_title^2 fullrecord")
+        end
       end
 
       # do it here so instance variables can be resolved
@@ -381,12 +375,15 @@ class Solr
     end
 
 
+    def protect_unpublished!
+      @protect_unpublished = true
+    end
+
     private
 
     def self.term_query(field, term)
       "{!term f=#{field}}#{term}"
     end
-
 
   end
 
