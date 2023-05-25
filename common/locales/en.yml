@@ -2046,6 +2046,10 @@ en:
     finding_aid_status: Finding Aid Status
     finding_aid_status_tooltip: |
         <p>Indicates the status of the finding aid.</p>
+
+    is_finding_aid_status_published: Finding Aid Status Published?
+    is_finding_aid_status_published_tooltip: |
+        <p>Determines whether Finding Aid Status is exposed publically.</p>
     finding_aid_note: Finding Aid Note
     finding_aid_note_tooltip: |
         <p>For recording any additional information about the finding aid (not the described Resource) not covered by the other finding aid data elements.</p>

@@ -67,6 +67,7 @@
       "finding_aid_edition_statement" => {"type" => "string", "maxLength" => 65000},
       "finding_aid_series_statement" => {"type" => "string", "maxLength" => 65000},
       "finding_aid_status" => {"type" => "string", "dynamic_enum" => "resource_finding_aid_status"},
+      "is_finding_aid_status_published" => {"type" => "boolean", "default" => true},
       "finding_aid_note" => {"type" => "string", "maxLength" => 65000},
 
       # Languages (overrides abstract schema)
