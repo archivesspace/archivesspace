@@ -41,6 +41,15 @@
 </head>
 
 <body>
+
+	<% ASUtils.find_local_directories('public/views/body_top.html.erb').each do |template| %>
+		<% if File.exists?(template) %>
+			<!-- Begin plugin layout -->
+			<%= render :file => template %>
+			<!-- End plugin layout -->
+		<% end %>
+	<% end %>
+
 	<%= render partial: 'shared/skipnav' %>
 
 	<div class="container-fluid no-pad">
