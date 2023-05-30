@@ -92,12 +92,30 @@ class FindingAidPDF
   end
 
   def generate
+    java_import com.lowagie.text.pdf.BaseFont;
     out_html = source_file
 
     pdf_file = Tempfile.new
     pdf_file.close
 
     renderer = org.xhtmlrenderer.pdf.ITextRenderer.new
+    resolver = renderer.getFontResolver
+
+    # ANW-1075: Use Noto Serif by defaults for open source compatibility and Unicode support for Latin, Cyrillic and Greek alphabets
+    # Additional fonts can be specified via config file and added via plugin
+
+    if AppConfig[:plugins].include?("custom-pui-pdf-font")
+      font_path = Rails.root.to_s + "/../plugins/custom-pui-pdf-font/public/app/assets/fonts/#{AppConfig[:pui_pdf_font_file]}"
+    else
+      font_path = Rails.root.to_s + "/app/assets/fonts/#{AppConfig[:pui_pdf_font_file]}"
+    end
+
+    resolver.addFont(
+      font_path,
+      "Identity-H",
+      true
+    );
+
     renderer.set_document(java.io.File.new(out_html.path))
 
     # FIXME: We'll need to test this with a reverse proxy in front of it.
