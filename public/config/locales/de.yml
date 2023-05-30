@@ -304,6 +304,7 @@ de:
       go: Gehen Sie zur Datei
       additional: Weitere Dateiversionen
       browse_number_digital_objects_in_collection: Durchsuchen Sie %{num} digitale Objekte der Sammlung
+      url_encoded_data: URL-kodierte Daten
     _plural: Digitales Archivgut
   subject:
     _singular: Thema
