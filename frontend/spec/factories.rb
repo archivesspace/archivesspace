@@ -104,6 +104,15 @@ module Factories
         extents { [build(:extent)] }
         dates { few_or_none(:date) }
       end
+
+      factory :top_container, class: JSONModel(:top_container) do
+        type { 'box' }
+        indicator { generate(:generic_id) }
+        barcode { generate(:generic_id) }
+        ils_holding_id { generate(:generic_id) }
+        ils_item_id { generate(:generic_id) }
+        exported_to_ils { DateTime.now.to_s }
+      end
     end
   end
 end
