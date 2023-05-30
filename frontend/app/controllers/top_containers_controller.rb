@@ -212,6 +212,11 @@ class TopContainersController < ApplicationController
       return render :plain => I18n.t('top_container._frontend.messages.filter_required'), :status => 500
     end
 
+    # this sets things up to make the sortable table on this view work with the standard column prefs
+    @pref_cols = browse_columns.select {|k, v| k.include? "top_container_browse_column" }.values
+    @default_sort_col = @pref_cols.find_index(browse_columns['top_container_sort_column'])
+    @default_sort_dir = browse_columns['top_container_sort_direction'] == 'asc' ? 0 : 1
+
     render_aspace_partial :partial => 'top_containers/bulk_operations/results', :locals => {:results => results}
   end
 
