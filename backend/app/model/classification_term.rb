@@ -23,7 +23,7 @@ class ClassificationTerm < Sequel::Model(:classification_term)
 
   define_relationship(:name => :classification,
                       :json_property => 'linked_records',
-                      :contains_references_to_types => proc {[Accession, Resource]})
+                      :contains_references_to_types => proc {[Accession, Resource, DigitalObject]})
 
   auto_generate :property => :display_string,
                 :generator => proc { |json|
