@@ -862,7 +862,7 @@ TreeToolbarRenderer.prototype.render = function(node) {
             if (action.isVisible == undefined || $.proxy(action.isVisible, tree)(node, tree, self)) {
                 var $btn;
                 if (action.radio) {
-                    const isChecked = initialDropBehavior() === action.radio.value;
+                    const isChecked = self.tree.dragdrop.dropBehavior === action.radio.value;
                     const inputHtml = `
                         <input
                             type="radio"
@@ -940,7 +940,9 @@ TreeToolbarRenderer.prototype.render = function(node) {
     $('input[type="radio"][name="drop-behavior"]').on('change', function() {
         const newDropBehavior = $('input[type="radio"][name="drop-behavior"]:checked').val();
         tree.dragdrop.dropBehavior = newDropBehavior;
-        if (storageAvailable()) localStorage.setItem('AS_Drop_Behavior', newDropBehavior);
+        if (tree.dragdrop.storageAvailable) {
+            localStorage.setItem('AS_Drop_Behavior', newDropBehavior);
+        }
     })
 };
 
