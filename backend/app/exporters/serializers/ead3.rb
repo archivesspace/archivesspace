@@ -1006,7 +1006,7 @@ class EAD3Serializer < EADSerializer
         xml.physdesc(atts) {
           append_note_content.(note, xml, fragments, 'physdesc')
         }
-      when 'physdesc'
+      when 'physdesc', 'physloc'
         atts[:label] = note['label'] if note['label']
         xml.send(note['type'], atts) {
           append_note_content.(note, xml, fragments, note['type'])
