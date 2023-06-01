@@ -16,12 +16,6 @@
 
     <dt><%= I18n.t('resource._public.finding_aid.title') %></dt><dd><%== process_mixed_content(record.display_string) %></dd>
 
-
-    <% if record.json['is_finding_aid_status_published'] %>
-      <dt><%= I18n.t('resource._public.finding_aid.status') %></dt><dd><%= I18n.t("enumerations.resource_finding_aid_status.#{record.finding_aid['status']}") %></dd>
-    <% end %>
-
-
     <dt><%= I18n.t('resource._public.identifier') %></dt><dd><%= record.identifier %></dd>
 
     <% record.dates.each do |date| %>
