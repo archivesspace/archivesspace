@@ -794,10 +794,16 @@ class EAD3Serializer < EADSerializer
         }
       end
 
-      unless data.finding_aid_status.nil?
+      if @include_unpublished || data.is_finding_aid_status_published
+        finding_aid_status = data.finding_aid_status
+      else
+        finding_aid_status = nil
+      end
+
+      unless finding_aid_status.nil?
         xml.localcontrol( { localtype: 'findaidstatus'} ) {
           xml.term() {
-            xml.text(data.finding_aid_status)
+            xml.text(finding_aid_status)
           }
         }
       end
