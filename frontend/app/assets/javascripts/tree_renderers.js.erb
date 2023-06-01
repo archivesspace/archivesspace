@@ -294,12 +294,12 @@ function recordTitleHandler(suppressed, title) {
 }
 
 function dragHandleMarkup() {
-  const rows = [8, 12, 16, 20, 24];
-  const cols = [10, 14, 18, 22];
+  const rows = [8, 12, 16, 20, 24, 28];
+  const cols = [10, 14, 18];
 
   return `
     <span class="drag-handle__span">
-      <svg role="presentation" viewBox="2 2 28 28">
+      <svg role="presentation" viewBox="7 4 28 28">
         <g fill="currentcolor" fill-rule="evenodd">
           ${rows.reduce((acc, y) => {
             cols.forEach((x) => {

@@ -18,6 +18,7 @@ var SHARED_TOOLBAR_ACTIONS = [
                 if ($('.cut', tree.large_tree.elt).length > 0) {
                     $('.paste-selection',toolbarRenderer.container).removeClass('disabled');
                 }
+                $('[data-radio-group="drop-behavior"]', toolbarRenderer.container).css('display', 'flex');
             }
         },
         onClick: function(event, btn, node, tree, toolbarRenderer) {
@@ -32,12 +33,13 @@ var SHARED_TOOLBAR_ACTIONS = [
                 $('.btn:not(.drag-toggle,.finish-editing)',toolbarRenderer.container).hide();
                 $('.cut-selection,.paste-selection,.move-node', toolbarRenderer.container).show();
                 $('.cut-selection,.move-node',toolbarRenderer.container).removeClass('disabled');
+                $('[data-radio-group="drop-behavior"]', toolbarRenderer.container).css('display', 'flex');
             } else {
                 $(btn).text('<%= I18n.t('actions.enable_reorder') %>');
                 location.reload(true);
                 tree.resizer.reset();
                 $('.btn',toolbarRenderer.container).show();
-                $('.cut-selection,.paste-selection,.move-node', toolbarRenderer.container).hide();
+                $('.cut-selection,.paste-selection,.move-node,[data-radio-group="drop-behavior"]', toolbarRenderer.container).hide();
                 $(btn).blur();
             }
 
@@ -125,6 +127,50 @@ var SHARED_TOOLBAR_ACTIONS = [
                     toolbarRenderer.reset();
                 });
             },
+            isEnabled: function(node, tree, toolbarRenderer) {
+                return true;
+            },
+            isVisible: function(node, tree, toolbarRenderer) {
+                return !tree.large_tree.read_only && tree.dragdrop;
+            }
+        },
+    ],
+    [
+        {
+            radio: {
+                name: 'drop-behavior',
+                value: 'before',
+                id: 'drop-before',
+            },
+            label: '<%= I18n.t("actions.drop_before") %>',
+            isEnabled: function(node, tree, toolbarRenderer) {
+                return true;
+            },
+            isVisible: function(node, tree, toolbarRenderer) {
+                return !tree.large_tree.read_only && tree.dragdrop;
+            }
+        },
+        {
+            radio: {
+                name: 'drop-behavior',
+                value: 'into',
+                id: 'drop-into',
+            },
+            label: '<%= I18n.t("actions.drop_into") %>',
+            isEnabled: function(node, tree, toolbarRenderer) {
+                return true;
+            },
+            isVisible: function(node, tree, toolbarRenderer) {
+                return !tree.large_tree.read_only && tree.dragdrop;
+            }
+        },
+        {
+            radio: {
+                name: 'drop-behavior',
+                value: 'after',
+                id: 'drop-after',
+            },
+            label: '<%= I18n.t("actions.drop_after") %>',
             isEnabled: function(node, tree, toolbarRenderer) {
                 return true;
             },
@@ -796,18 +842,51 @@ TreeToolbarRenderer.prototype.render = function(node) {
     self.reset_callbacks();
 
     actions.map(function(action_or_group) {
+        let action_group;
         if (!$.isArray(action_or_group)) {
             action_group = [action_or_group];
         } else {
             action_group = action_or_group;
         }
-        var $group = $('<div>').addClass('btn-group');
+
+        var $group;
+        if (action_group[0].radio) {
+            $group = $('<ol>').addClass('btn-group btn-group__radio').attr('data-radio-group', action_group[0].radio.name);
+        } else {
+            $group = $('<div>').addClass('btn-group');
+        }
+
         self.container.append($group);
 
         action_group.map(function(action) {
             if (action.isVisible == undefined || $.proxy(action.isVisible, tree)(node, tree, self)) {
-                var $btn = $('<a>').addClass('btn btn-xs');
-                $btn.html(action.label).addClass(action.cssClasses).attr('href', 'javascript:void(0)');
+                var $btn;
+                if (action.radio) {
+                    const isChecked = self.tree.dragdrop.dropBehavior === action.radio.value;
+                    const inputHtml = `
+                        <input
+                            type="radio"
+                            name="${action.radio.name}"
+                            id="${action.radio.id}"
+                            value="${action.radio.value}"
+                            ${isChecked ? "checked" : ''} />
+                    `;
+                    const labelHtml = `
+                        <label for="${action.radio.id}">
+                            ${action.label}
+                        </label>
+                    `;
+
+                    $btn = $(`
+                        <li>
+                            ${inputHtml}
+                            ${labelHtml}
+                        </li>
+                    `);
+                } else {
+                    $btn = $('<a>').addClass('btn btn-xs');
+                    $btn.html(action.label).addClass(action.cssClasses).attr('href', 'javascript:void(0)');
+                }
 
                 if (action.isEnabled == undefined || $.proxy(action.isEnabled, tree)(node, tree, self)) {
                     if (action.onClick) {
@@ -857,6 +936,14 @@ TreeToolbarRenderer.prototype.render = function(node) {
     $.each(self.on_toolbar_rendered_callbacks, function(i, callback) {
         callback();
     });
+
+    $('input[type="radio"][name="drop-behavior"]').on('change', function() {
+        const newDropBehavior = $('input[type="radio"][name="drop-behavior"]:checked').val();
+        tree.dragdrop.dropBehavior = newDropBehavior;
+        if (tree.dragdrop.storageAvailable) {
+            localStorage.setItem('AS_Drop_Behavior', newDropBehavior);
+        }
+    })
 };
 
 TreeToolbarRenderer.prototype.notify_form_changed = function(form) {
@@ -870,3 +957,43 @@ TreeToolbarRenderer.prototype.notify_form_loaded = function(form) {
         callback(form);
     });
 };
+
+function initialDropBehavior () {
+    const _default = 'before'
+    const dropBehavior = localStorage.getItem('AS_Drop_Behavior')
+    if (dropBehavior) {
+        return dropBehavior
+    } else {
+        if (storageAvailable()) localStorage.setItem('AS_Drop_Behavior', _default)
+        return _default
+    }
+}
+
+/**
+ * @author https://developer.mozilla.org/en-US/docs/Web/API/Web_Storage_API/Using_the_Web_Storage_API#testing_for_availability
+ * @returns {boolean}
+ */
+function storageAvailable() {
+  try {
+    const x = '__storage_test__';
+    window.localStorage.setItem(x, x);
+    window.localStorage.removeItem(x);
+    return true;
+  } catch (e) {
+    return (
+      e instanceof DOMException &&
+      // everything except Firefox
+      (e.code === 22 ||
+        // Firefox
+        e.code === 1014 ||
+        // test name field too, because code might not be present
+        // everything except Firefox
+        e.name === 'QuotaExceededError' ||
+        // Firefox
+        e.name === 'NS_ERROR_DOM_QUOTA_REACHED') &&
+      // acknowledge QuotaExceededError only if there's something already stored
+      window.localStorage &&
+      window.localStorage.length !== 0
+    );
+  }
+}

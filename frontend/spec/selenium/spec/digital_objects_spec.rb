@@ -229,7 +229,7 @@ describe 'Digital Objects' do
     grand_child = tree_node_for_title(child_title)
     expect(grand_child.attribute('class')).to include('indent-level-2')
 
-    tree_drag_and_drop(grand_child, root, 'Add Items as Children')
+    tree_drag_and_drop(grand_child, root, 'into')
 
     root = tree_node_for_title(@do.title)
     expect(root.attribute('class')).to include('root-row')
