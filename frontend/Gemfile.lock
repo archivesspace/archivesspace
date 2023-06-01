@@ -341,6 +341,7 @@ GEM
     websocket-extensions (0.1.5)
     xpath (3.2.0)
       nokogiri (~> 1.8)
+    zxcvbn-ruby (1.2.0)
 
 PLATFORMS
   java
@@ -387,6 +388,7 @@ DEPENDENCIES
   tzinfo-data
   uglifier
   web-console
+  zxcvbn-ruby (~> 1.2)
 
 BUNDLED WITH
    2.1.4

@@ -204,6 +204,9 @@ class User < Sequel::Model(:user)
       end
     end
 
+    # assume all users can edit themselves for now
+    global_permissions << 'edit_user_self'
+
     # Attach permissions in the global repository under the symbolic name too
     result[Repository.GLOBAL] = global_permissions + derived
 

@@ -562,18 +562,18 @@ AppConfig[:pui_email_enabled] = false
 
 # use the repository record email address for requests (overrides config email)
 AppConfig[:pui_request_use_repo_email] = false
-
+AppConfig[:global_email_from_address] = "noreply@yourdomain.com"
 # Example sendmail configuration:
-# AppConfig[:pui_email_delivery_method] = :sendmail
-# AppConfig[:pui_email_sendmail_settings] = {
+# AppConfig[:email_delivery_method] = :sendmail
+# AppConfig[:email_sendmail_settings] = {
 #   location: '/usr/sbin/sendmail',
 #   arguments: '-i'
 # }
-#AppConfig[:pui_email_perform_deliveries] = true
-#AppConfig[:pui_email_raise_delivery_errors] = true
+#AppConfig[:email_perform_deliveries] = true
+#AppConfig[:email_raise_delivery_errors] = true
 # Example SMTP configuration:
-#AppConfig[:pui_email_delivery_method] = :smtp
-#AppConfig[:pui_email_smtp_settings] = {
+#AppConfig[:email_delivery_method] = :smtp
+#AppConfig[:email_smtp_settings] = {
 #      address:              'smtp.gmail.com',
 #      port:                 587,
 #      domain:               'gmail.com',
@@ -582,8 +582,9 @@ AppConfig[:pui_request_use_repo_email] = false
 #      authentication:       'plain',
 #      enable_starttls_auto: true,
 #}
-#AppConfig[:pui_email_perform_deliveries] = true
-#AppConfig[:pui_email_raise_delivery_errors] = true
+#AppConfig[:email_perform_deliveries] = true
+#AppConfig[:email_raise_delivery_errors] = true
+
 
 # Add page actions via the configuration
 AppConfig[:pui_page_custom_actions] = []
@@ -731,3 +732,7 @@ AppConfig[:pui_repositories_sort] = :display_string
 # Set the font used to generate PDFs in the PUI
 AppConfig[:pui_pdf_font_file] = "NotoSerif-Regular.ttf"
 AppConfig[:pui_pdf_font_name] = "Noto Serif"
+
+# Password recovery - requires email configuration
+# See example email configuration above
+AppConfig[:allow_password_reset] = false

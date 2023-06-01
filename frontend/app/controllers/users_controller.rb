@@ -1,8 +1,11 @@
+require 'zxcvbn'
+
 class UsersController < ApplicationController
 
   set_access_control "manage_users" => [:index, :edit, :update, :delete, :activate, :deactivate],
                     "manage_repository" => [:manage_access, :edit_groups, :update_groups],
-                    :public => [:new, :create, :complete, :edit_self, :update_self]
+                    "edit_user_self" => [:edit_self, :update_self],
+                    :public => [:new, :create, :complete, :password_form, :recover_password, :update_password]
 
   before_action :account_self_service, :only => [:new, :create]
   before_action :user_needs_to_be_a_user_manager_or_new_user, :only => [:new, :create]
@@ -208,6 +211,53 @@ class UsersController < ApplicationController
       flash[:error] = I18n.t("user._frontend.messages.error_deactivate")
     end
     redirect_to :action => :index
+  end
+
+  def password_form; end
+
+  def recover_password
+    if !AppConfig[:allow_password_reset]
+      flash[:error] = I18n.t("user._frontend.messages.password_recovery_not_allowed", email: params.fetch(:email))
+    else
+      result = User.recover_password(params.fetch(:email, nil))
+      if result[:status] == :success
+        flash[:success] = I18n.t("user._frontend.messages.password_recovery_email_sent", email: params.fetch(:email))
+      else
+        flash[:error] = result[:error]
+      end
+    end
+
+    redirect_to action: :password_form
+  end
+
+  def update_password
+    user_id = JSONModel(:user).id_for(session["user_uri"])
+    unless params[:password] == params[:confirm_password]
+      flash[:error] = I18n.t('login.password_mismatch_error')
+      return redirect_to action: :password_form
+    end
+
+    # it just seems wrong to allow single character or three letter word
+    # passwords. It is still allowed; but if you forget your single
+    # character or three letter word password your punishment is this requirement.
+    # A future refactor could make these thresholds settable in AppConfig...
+    score = Zxcvbn.test(params[:password])
+    if score.entropy < 12 || score.crack_time < 2
+      flash[:error] = I18n.t('login.password_too_simple')
+      return redirect_to action: :password_form
+    end
+
+    response = JSONModel::HTTP.post_form("/users/#{user_id}/password", {
+                                           password: params[:password]
+                                         })
+    if response.code == "200"
+      reset_session
+      flash[:success] = I18n.t('login.password_update_success')
+      return redirect_to controller: :welcome, action: :index, login: true
+    else
+      flash[:error] = I18n.t('login.password_update_error')
+      return redirect_to action: :password_form, login: true
+    end
   end
 
   private

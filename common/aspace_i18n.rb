@@ -2,6 +2,10 @@ require 'i18n'
 require 'asutils'
 require 'aspace_i18n_enumeration_support'
 
+class Backend < I18n::Backend::Simple
+  include I18n::Backend::Fallbacks
+end
+
 I18n.enforce_available_locales = false # do not require locale to be in available_locales for export
 
 I18n.load_path += ASUtils.find_locales_directories("#{AppConfig[:locale]}.yml")
@@ -17,7 +21,8 @@ end
 I18n.load_path += Dir[File.join(ASUtils.find_base_directory, 'reports', '**', '*.yml')]
 
 I18n.default_locale = AppConfig[:locale]
-
+I18n::Backend::Simple.include(I18n::Backend::Fallbacks)
+I18n.fallbacks = I18n::Locale::Fallbacks.new(de: :en, es: :en, fr: :en, ja: :en)
 module I18n
 
   LOCALES = {

@@ -32,8 +32,8 @@ require_relative 'lib/request_context'
 require_relative 'lib/component_transfer'
 require_relative 'lib/progress_ticker'
 require_relative 'lib/csv_template_generator'
-
 require_relative 'lib/ark/ark_minter'
+require_relative 'lib/user_mailer'
 
 require 'barcode_check'
 require 'benchmark'

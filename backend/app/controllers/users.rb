@@ -1,4 +1,5 @@
 require_relative '../lib/auth_helpers'
+require_relative '../lib/user_mailer'
 
 class ArchivesSpaceService < Sinatra::Base
 
@@ -77,6 +78,22 @@ class ArchivesSpaceService < Sinatra::Base
     usernames = AuthenticationManager.matching_usernames(params[:query])
 
     json_response(usernames)
+  end
+
+
+  Endpoint.post('/users/recover-password')
+    .description("Initiate a password reset process by sending a one-time token to the user")
+    .params(["email", String, "The requestor's email address"])
+    .permissions([])
+    .returns([200, "password recovery email sent"]) \
+  do
+    raise NotAllowed.new unless AppConfig[:allow_password_reset]
+    user = User.find(email: params[:email])
+    raise NotFoundException.new unless user
+    username = user.username
+    token = AuthenticationManager.generate_token(username)
+    UserMailer.new.send_reset_token(username, token)
+    json_response('status' => 'reset_password_link_sent')
   end
 
 
@@ -175,6 +192,26 @@ class ArchivesSpaceService < Sinatra::Base
   end
 
 
+  Endpoint.post('/users/:id/password')
+    .description("Update user's own password")
+    .params(["id", :id],
+            ["password", String, "The user's password"])
+    .permissions([])
+    .returns([200, :updated],
+             [400, :error]) do
+
+    user = User.get_or_die(params[:id])
+
+    if (user != env[:aspace_user])
+      raise AccessDeniedException.new
+    end
+
+    DBAuth.set_password(user.username, params[:password])
+    Session.expire(session.id)
+    json_response({ success: "password updated" })
+  end
+
+
   Endpoint.post('/users/:username/login')
     .description("Log in")
     .params(["username", Username, "Your username"],
@@ -197,8 +234,6 @@ class ArchivesSpaceService < Sinatra::Base
              [403, "Login failed"]) \
   do
     username = params[:username]
-
-    user = User.first(:username => username)
 
     user = AuthenticationManager.authenticate(username, params[:password])
 
@@ -322,6 +357,29 @@ class ArchivesSpaceService < Sinatra::Base
        raise NotFoundException.new("User wasn't found")
      end
    end
+
+
+  Endpoint.post('/users/:username/:token')
+    .description("Log in with token")
+    .params(["username", Username, "Your username"],
+            ["token", String, "Your magic token"])
+    .permissions([])
+    .no_data(true)
+    .returns([200, "Login accepted"],
+             [403, "Login failed"]) \
+  do
+    username = params[:username]
+    token = params[:token]
+    user = AuthenticationManager.authenticate_token(username, token)
+    if user
+      session = create_session_for(username, true)
+      json_user = User.to_jsonmodel(user.id)
+      json_user.permissions = user.permissions
+      json_response({:session => session.id, :user => json_user})
+    else
+      json_response({:error => "Login failed"}, 403)
+    end
+  end
 
   private
 

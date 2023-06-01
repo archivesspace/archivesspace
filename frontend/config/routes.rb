@@ -30,6 +30,9 @@ ArchivesSpace::Application.routes.draw do
     match 'users/manage_access' => 'users#manage_access', :via => [:get]
     match 'users/edit_self' => 'users#edit_self', :via => [:get]
     match 'users/update_self' => 'users#update_self', :via => [:post]
+    match 'users/edit_password' => 'users#password_form', :via => [:get]
+    match 'users/recover_password' => 'users#recover_password', :via => [:post]
+    match 'users/update_password' => 'users#update_password', :via => [:post]
     match 'users/:id/edit_groups' => 'users#edit_groups', :via => [:get]
     match 'users/:id/edit' => 'users#edit', :via => [:get]
     match 'users/:id/update_groups' => 'users#update_groups', :via => [:post]
@@ -40,6 +43,7 @@ ArchivesSpace::Application.routes.draw do
     match 'users/:id/delete' => 'users#delete', :via => [:post]
     match('/users/:id/activate' => 'users#activate', :via => [:get], :as => :user_activate)
     match('/users/:id/deactivate' => 'users#deactivate', :via => [:get], :as => :user_deactivate)
+    match 'users/:username/:token' => 'session#token_login', :via => [:get]
 
     resources :users
 
