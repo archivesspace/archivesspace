@@ -18,7 +18,7 @@ class Search < Struct.new(:q, :op, :field, :limit, :from_year, :to_year, :filter
     if @@SortOpts.empty?
       @@SortOpts['relevance'] = [I18n.t('search_sorting.relevance'), ""]
       # the things we do for I18n!
-      %w(title_sort year_sort).each do |type|
+      %w(title_sort year_sort identifier).each do |type|
         %w(asc desc).each do |dir|
           @@SortOpts["#{type}_#{dir}"] = [I18n.t('search_sorting.sorting', :type => I18n.t("search_sorting.#{type}"), :direction => I18n.t("search_sorting.#{dir}")), "#{type} #{dir}"]
         end

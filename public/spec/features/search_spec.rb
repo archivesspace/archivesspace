@@ -24,4 +24,19 @@ describe 'Search', js: true do
     find('#q1').native.send_keys(:return)
     expect(page).to have_content('Showing Results')
   end
+
+  it "should sort by identifier on results page" do
+    visit('/search')
+    click_on('Add a search row')
+    find('#q1').native.send_keys(:return)
+
+    find('#sort').select("Identifier (descending)")
+
+    click_on('Sort')
+
+    identifiers_desc = find_all('span.component').to_a
+
+    expect(identifiers_desc[1].text > identifiers_desc[2].text).to be true
+    expect(identifiers_desc[2].text > identifiers_desc[3].text).to be true
+  end
 end

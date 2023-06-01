@@ -8,13 +8,9 @@ class ClassificationsController < ApplicationController
     process_slug_or_id(params)
   }
 
-  IDENTIFIER_SORT_ASC = 'identifier_sort asc, repo_sort asc, title_sort asc'
-  IDENTIFIER_SORT_DESC = 'identifier_sort desc, repo_sort desc, title_sort desc'
-
   DEFAULT_CL_TYPES = %w{pui_record_group}
   DEFAULT_CL_FACET_TYPES = %w{primary_type subjects published_agents repository resource}
   DEFAULT_CL_SEARCH_OPTS = {
-    'sort' => IDENTIFIER_SORT_ASC,
     'resolve[]' => ['repository:id', 'resource:id@compact_resource', 'ancestors:id@compact_resource'],
     'facet.mincount' => 1
   }
@@ -53,14 +49,7 @@ class ClassificationsController < ApplicationController
       @search[:text_within] = true
     end
     @sort_opts = []
-    @sort_opts << [
-      I18n.t('search_sorting.sorting', :type => I18n.t("search_sorting.classification_identifier"), :direction => I18n.t("search_sorting.asc")),
-      IDENTIFIER_SORT_ASC
-    ]
-    @sort_opts << [
-      I18n.t('search_sorting.sorting', :type => I18n.t("search_sorting.classification_identifier"), :direction => I18n.t("search_sorting.desc")),
-      IDENTIFIER_SORT_DESC
-    ]
+
     all_sorts = Search.get_sort_opts
     all_sorts.delete('relevance') unless params[:q].size > 1 || params[:q] != '*'
     all_sorts.keys.each do |type|
