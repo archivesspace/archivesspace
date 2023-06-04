@@ -15,72 +15,323 @@
 
 <%= render partial: 'resources/resource_alltabs' %>
 
-<%= javascript_include_tag 'treesync' %>
-<%= javascript_include_tag 'infinite_scroll' %>
-<%= javascript_include_tag 'largetree' %>
-<%= javascript_include_tag 'tree_renderer' %>
+<style>
+  .infinite-scroll-container {
+    overflow-y: auto;
+    scroll-behavior: smooth;
+    height: 600px;
+    /*border: 1px solid blue;*/
+  }
+
+  .infinite-scroll-container .root {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* increase content area height so bottom-most records can be
+     scrolled into view like the others */
+  .infinite-scroll-container .waypoint:last-of-type {
+    padding-bottom: 550px;
+  }
+</style>
 
 <div class="row">
-  <div class="infinite-record-wrapper col-sm-9">
-      <div class="infinite-record-container">
-          <div class="root">
-              <% waypoint_size = 20 %>
-              <% @ordered_records.each_slice(waypoint_size).each_with_index do |refs, i| %>
-                  <div class="waypoint" data-waypoint-number="<%= i %>" data-waypoint-size=<%= waypoint_size %> data-uris="<%= refs.map {|r| r['ref']}.join(';') %>">&nbsp;</div>
-              <% end %>
-          </div>
-      </div>
+  <div class="infinite-scroll-container col-sm-9">
+    <div class="root">
+      <% waypoint_size = 20 %>
+      <% @ordered_records.each_slice(waypoint_size).each_with_index do |refs, i| %>
+        <!-- add data for waypoints, starting with second waypoint (since first
+             waypoint is populated manually on page load); the data attr
+             fails w/ quotes as you would expect to use, eg `="waypoint"` -->
+        <div
+          class="waypoint"
+          data-waypoint-number="<%= i %>"
+          data-waypoint-size=<%= waypoint_size %>
+          data-uris="<%= refs.map {|r| r['ref']}.join(';') %>"
+          <%= 'data-observe=waypoint ' if i > 0 %>
+        >&nbsp;</div>
+      <% end %>
+    </div>
   </div>
-
   <div id="sidebar" class="sidebar sidebar-container col-sm-3 resizable-sidebar infinite-tree-sidebar">
-  <% if AppConfig[:pui_search_collection_from_collection_organization] %>
-    <%= render partial: 'shared/search_collection_form', :locals => {:resource_uri => @result['uri'], :action_text => t('actions.search_in', :type => t('resource._singular'))} %>
-  <% end %>
-  <div class="infinite-tree-view largetree-container" id='tree-container'></div>
+    <% if AppConfig[:pui_search_collection_from_collection_organization] %>
+      <%= render partial: 'shared/search_collection_form', :locals => {:resource_uri => @result['uri'], :action_text => t('actions.search_in', :type => t('resource._singular'))} %>
+    <% end %>
+    <div class="infinite-tree-view largetree-container" id='tree-container'>
+      <%
+        root_id = @ordered_records[0]['ref'].split('/')[4]
+        div_id = "resource_#{root_id}"
+        a_href = "#tree::resource_#{root_id}"
+        root_title = @ordered_records[0]['display_string']
+        root_identifier = " " # TODO: send data via @ordered_records
+      %>
+      <div class="table root" role="list">
+        <div
+          class="table-row root-row"
+          id="<%= div_id %>"
+          role="listitem"
+          data-record-number="0"
+        >
+          <div class="table-cell no-drag-handle"></div>
+          <div class="table-cell title">
+            <a href="<%= a_href %>" class="record-title">
+              <%= "#{root_identifier}: #{root_title}" %>
+            </a>
+          </div>
+        </div>
+
+        <!-- Commence the children -->
+        <div role="list" class="table-row-group">
+
+          <!-- no idea why this is here, but fixes a background-color issue that leaks from
+              first child to root It likely has to do with the fact that the LargeTree comes from the frontend
+              and has drag and drop capability, so they add the drag handle, but the public
+              app doesn't have drag and drop, so the drag handle is not needed
+          -->
+          <div class="table-row waypoint indent-level-1 populated" style="height: 400em;"></div>
+
+          <% all_children = @ordered_records[1..-1] %>
+          <% all_children.each_with_index do |ao, i| %>
+            <%
+              ao_depth = ao['depth']
+              ao_id = ao['ref'].split('/')[4]
+              ao_div_id = "archival_object_#{ao_id}"
+              ao_title = ao['display_string']
+              ao_title = ao['display_string']
+              ao_a_href = "#tree::archival_object_#{ao_id}"
+              ao_scrollto_href = "#record-number-#{i}"
+
+              prev_depth = nil
+              next_depth = nil
+              curr_depth = ao_depth.to_i
+              prev_depth = all_children[i-1]['depth'].to_i if i > 0
+              next_depth = all_children[i+1]['depth'].to_i if i < all_children.length - 1
+
+              curr_is_first_child = i > 0 && curr_depth > prev_depth
+              curr_is_last_child = i < all_children.length - 1 && curr_depth > next_depth
+
+              next_item_is_a_child = all_children[i+1] && (all_children[i+1]['depth'].to_i == ao_depth.to_i + 1)
+            %>
+
+            <% if curr_is_first_child %>
+              <!-- open a new table-row-group, the last child will close it -->
+              <div role="list" class="table-row-group">
+
+                <!-- this div is an unwanted legacy artifact kept for prototyping only
+                      should be deleted for production -->
+                <div class="table-row waypoint indent-level-<%= ao_depth %> populated" style="height: 400em;"></div>
+            <% end %>
+
+            <div
+              class="table-row largetree-node indent-level-<%= ao_depth %>"
+              role="listitem"
+              id="<%= ao_div_id %>"
+              data-depth="<%= ao_depth %>"
+              data-record-number="<%= i + 1 %>"
+              data-is-expanded="false"
+            >
+              <div class="table-cell drag-handle"></div>
+              <div
+                class="table-cell title"
+                title="<%= ao_title %>"
+              >
+                <span class="indentor">
+                  <button
+                    class="expandme"
+                    aria-expanded="false"
+                    style="visibility: <%= next_item_is_a_child ? 'visible' : 'hidden' %>"
+                    aria-hidden="<%= next_item_is_a_child ? 'false' : 'true' %>"
+                  >
+                    <i class="expandme-icon glyphicon glyphicon-chevron-right"></i>
+                    <span class="sr-only"><%= ao_title %></span>
+                  </button>
+                </span>
+                <!--
+                  DATA NEEDED to come via @ordered_records:
+                  - has_digital_instance
+                -->
+                <%
+                  # create a has_digital_instance variable which is a random boolean
+                  # this is just for the prototype, so we can see what it looks like
+                  # when there is a digital instance
+                  has_digital_instance = [true, false].sample
+                %>
+                <% if has_digital_instance %>
+                  <i
+                    class="has_digital_instance fa fa-file-image-o"
+                    aria-hidden="true"
+                  ></i>
+                <% end %>
+                <a class="record-title" href="<%= ao_scrollto_href %>"><%= ao_title %></a>
+              </div>
+            </div>
+
+            <% if curr_is_last_child %>
+              <!-- close the necessary number of table row groups -->
+              <% (curr_depth - next_depth).times do %>
+                </div>
+              <% end %>
+            <% end %>
+
+          <% end %>
+        </div>
+      </div>
+    </div>
   </div>
-</div>
+</div>;
+
 
 <script>
+/* here's what happens:
+   1a the sidebar nav "largetree" is fully populated on page load
+   1b on page load, the content area is a colleciton of empty containers
+     called "waypoints", the number of waypoints = number of records / 20
+   2 the first waypoint is populated via ajax manually
+   3 at the end of the ajax call the first waypoint's records
+     start getting observed to highlight the sidebar nav item corresponding
+     to the current record showing, and the remaining empty waypoints
+     start getting observed to be populated when they get close to content area
+   4 once populated, that waypoint's records start getting observed for sidebar
+     nav highlighting
+   
+   ⚠️ when a sidebar nav item is clicked, the corresponding record is scrolled
+     into view _unless_ its corresponding record belongs to an empty waypoint
+  
+*/
+  $(document).ready(function () {
+    populateWaypoints($('.waypoint')[0], initWaypointsObserver);
 
- var syncer = new TreeSync('<%= params[:rid]%>');
- window.syncer = syncer;
+    $('#tree-container').on('click', '.expandme', function(e){
+      this.setAttribute('aria-expanded', this.getAttribute('aria-expanded') === 'true' ? 'false' : 'true')
+      $(this).find('.expandme-icon').toggleClass('expanded')
+      $(this).closest('.largetree-node').attr('data-is-expanded', this.getAttribute('aria-expanded'))
+    })
 
- var scroll = new InfiniteScroll('<%= url_for(:action => :show) %>/infinite',
-                                 $('.infinite-record-wrapper'),
-                                 <%= @ordered_records.length %>,
-                                 function() {
-                                     syncer.infiniteScrollIsReady(scroll);
-                                 });
+    $('#tree-container').on('click', 'a.record-title', function(e) {
+      e.preventDefault();
 
- /* NOTE: This just here for debugging... */
- window.scroller = scroll;
+      const recordIndex = $(this).closest('[data-record-number]').attr('data-record-number');
+      const recordEl = document.querySelector(`#record-number-${recordIndex}`);
 
- var tree = new LargeTree(new TreeDataSource('<%= url_for(:action => :show) %>/tree'),
-                          $('.infinite-tree-view'),
-                          '<%= @root_uri %>',
-                          true,
-                          new SimpleRenderer(),
-                          function() {
-                              syncer.treeIsReady(tree);
-                          },
-                          function(current_node, tree) {
-                            tree.expandNode(current_node);
-                          });
-
-window.tree = tree;
-</script>
-
-<script>
-  // handle clicks on tree items
-  $('.infinite-record-wrapper').on('click', '.infinite-record-record a.record-title', function(event) {
-      // update the hash so browser-back returns user to the record they clicked
-      var $record = $(this).closest('.infinite-record-record');
-      var uri = $record.data('uri');
-      var tree_id = TreeIds.uri_to_tree_id(uri);
-      location.hash = '#tree::'+tree_id;
-
-      return true;
+      recordEl.scrollIntoView({ behavior: "smooth" });
+    })
   });
+
+  /**
+   * populateWaypoints
+   * @description Fetch and append records to waypoints
+   * @param {object} waypoints - jQuery object of one or more waypoints
+   * @param {[function]} callback - optional function to call after
+   * each waypoint is populated
+   */
+  function populateWaypoints(waypoints, callback = null) {
+    $(waypoints).each(function (i, waypoint) {
+      const waypointNumber = $(waypoint).data('waypoint-number');
+      const waypointSize = $(waypoint).data('waypoint-size');
+      const uris = $(waypoint).data('uris').split(';');
+
+      waypoint.classList.add('populated');
+
+      $.ajax('<%= url_for(:action => :show) %>/infinite/waypoints', {
+        method: 'GET',
+        data: {
+          urls: uris,
+        },
+      }).then(function (records) {
+        $(uris).each(function (i, uri) {
+          if (records[uri]) {
+            const recordNumber = waypointNumber * waypointSize + i;
+            $(waypoint).append(
+              $('<div class="infinite-record-record" />')
+                .attr('id', 'record-number-' + recordNumber)
+                .attr('data-uri', uri)
+                .attr('data-observe', 'record')
+                .attr('data-record-number', recordNumber)
+                .data('record-number', recordNumber)
+                .data('uri', uri)
+                .html(records[uri])
+            );
+          }
+        });
+      }).done(function() {
+        // actions dependent on ajax completion
+        // Watch this waypoint's records created from previous step
+        initRecordsObserver(waypointNumber);
+
+        if (callback) {
+          callback();
+        }
+      })
+    });
+  }
+
+  /**
+   * initWaypointsObserver
+   * @description Watch empty waypoint containers in the content area,
+   * populate them at 3x the viewport height away from the viewport bottom
+   */
+  function initWaypointsObserver() {
+    const options = {
+      root: document.querySelector('.infinite-scroll-container'),
+      rootMargin: '0px 0px 300% 0px',
+      threshold: 0.1
+    };
+    const observer = new IntersectionObserver(intersectionHandler, options);
+    const waypoints = document.querySelectorAll('.waypoint[data-observe="waypoint"]');
+
+    waypoints.forEach(waypoint => {
+      observer.observe(waypoint);
+    });
+
+    function intersectionHandler(entries, observer) {
+      entries.forEach((entry, i) => {
+        if (entry.isIntersecting) {
+          populateWaypoints($(entry.target));
+          observer.unobserve(entry.target);
+          entry.target.removeAttribute('data-observe');
+        }
+      });
+    }
+  }
+
+  /**
+   * initRecordsObserver
+   * @description Observe which record is currently showing at the top
+   * of the viewport and highlight the corresponding sidebar nav item
+   * wpNum can be number or string
+   * @param {(number|string)} wpNum - waypoint number
+   */
+  function initRecordsObserver(wpNum) {
+    const options = {
+      root: document.querySelector('.infinite-scroll-container'),
+      rootMargin: '-5px 0px -95% 0px' // only the top sliver
+    };
+    const observer = new IntersectionObserver(intersectionHandler, options);
+    const recordSelector = `[data-waypoint-number="${wpNum}"] > [data-observe="record"]`
+    const records = document.querySelectorAll(recordSelector);
+
+    records.forEach(record => {
+      observer.observe(record);
+    });
+
+    function intersectionHandler(entries, observer) {
+      entries.forEach((entry, i) => {
+        if (entry.isIntersecting) {
+          const recNum = entry.target.dataset.recordNumber;
+          const prevCurrent = document.querySelector('#tree-container [data-record-number].current')
+
+          if (prevCurrent) {
+            prevCurrent.classList.remove('current')
+          }
+
+          document
+            .querySelector(`#tree-container [data-record-number="${recNum}"]`)
+            .classList.add('current')
+        }
+      });
+    }
+  }
 </script>
 
 <%= render partial: 'shared/modal_actions' %>
