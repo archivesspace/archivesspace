@@ -22,9 +22,13 @@
           <div class="form-actions">
             <div class="btn-group">
               <button type="submit" class="btn btn-primary"><%= I18n.t("event._frontend.action.save") %></button>
-              <button type="submit" id="createPlusOne" name="plus_one" class="btn btn-primary createPlusOneBtn"><%= I18n.t("actions.save_plus_one") %></button>
+              <button type="submit" id="createPlusOne" name="plus_one" class="btn btn-primary createPlusOneBtn" 
+                linked_record_uri="<%= @last_linked_record_uri %>" 
+                linked_record_type="<%= @last_linked_record_type %>">
+                  <%= I18n.t("actions.save_plus_one") %> 
+              </button>
             </div>
-            <%= link_to I18n.t("actions.cancel"), :back, :class => "btn btn-cancel btn-default" %>
+            <%= link_to I18n.t("actions.cancel"), @last_linked_record_path, :class => "btn btn-cancel btn-default" %>
           </div>
         </div>
       </div>
