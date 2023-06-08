@@ -1,4 +1,5 @@
 require 'bcrypt'
+require 'base64'
 
 class DBAuth
 
@@ -30,25 +31,25 @@ class DBAuth
     username = username.downcase
 
     DB.open do |db|
-    pwhash = db[:auth_db].filter(:username => username).get(:pwhash)
+      pwhash = db[:auth_db].filter(:username => username).get(:pwhash)
 
-    if pwhash and (Password.new(pwhash) == password)
-      user = User.find(:username => username)
-      JSONModel(:user).from_hash(
-       :username => username,
-       :name => user.name,
-       :email => user.email,
-       :first_name => user.first_name,
-       :last_name => user.last_name,
-       :telephone => user.telephone,
-       :title => user.title,
-       :department => user.department,
-       :additional_contact => user.additional_contact
-      )
-    else
-      nil
+      if pwhash and (Password.new(pwhash) == password)
+        user = User.find(:username => username)
+        JSONModel(:user).from_hash(
+         :username => username,
+         :name => user.name,
+         :email => user.email,
+         :first_name => user.first_name,
+         :last_name => user.last_name,
+         :telephone => user.telephone,
+         :title => user.title,
+         :department => user.department,
+         :additional_contact => user.additional_contact
+        )
+      else
+        nil
+      end
     end
-  end
   end
 
 
@@ -72,4 +73,37 @@ class DBAuth
     end
   end
 
+
+  def self.generate_token(username)
+    user = User.find(username: username)
+    user.system_mtime = Time.now
+    user.save
+    user = User.find(username: username)
+    DB.open do |db|
+      pwhash = db[:auth_db].filter(username: username).get(:pwhash)
+      raise "Cannot generate token for passwordless users" if pwhash.nil?
+      raw_token = Password.create([user.system_mtime, pwhash].join)
+      return Base64.urlsafe_encode64(raw_token)
+    end
+  end
+
+
+  def self.authenticate_token(username, token)
+    user = User.find(username: username)
+    if user.system_mtime < Time.now - 30*60
+      return nil
+    end
+    token = Base64.urlsafe_decode64(token)
+    DB.open do |db|
+      pwhash = db[:auth_db].filter(username: username).get(:pwhash)
+      if pwhash && (Password.new(token) == [user.system_mtime, pwhash].join)
+        # void the old password and the token at the same time
+        db[:auth_db].filter(username: username).update(pwhash: token)
+        user = User.find(username: username)
+        User.to_jsonmodel(user)
+      else
+        nil
+      end
+    end
+  end
 end

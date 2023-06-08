@@ -17,7 +17,10 @@
       <h3 class="mt0"><%= I18n.t "login.login_please" %></h3>
       <%= render_aspace_partial :partial => "shared/login" %>
       <% if AppConfig[:allow_user_registration] %>
-        <p><%= I18n.t "navbar.register_prefix" %> <%= link_to I18n.t("navbar.register"), {:controller => "users", :action => "new"}, :class => "boring-link" %></p>
+        <p><%= I18n.t "navbar.register_prefix" %> <%= link_to I18n.t("navbar.register"), {controller: "users", action: "new"}, class: "boring-link" %></p>
+      <% end %>
+      <% if AppConfig[:allow_password_reset] %>
+        <p><%= I18n.t "login.lost_password" %> <%= link_to I18n.t("login.reset_password"), {controller: "users", action: "password_form"}, class: "boring-link" %></p>
       <% end %>
     </main>
   </div>

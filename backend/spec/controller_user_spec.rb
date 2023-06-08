@@ -23,7 +23,6 @@ describe 'User controller' do
   it "can give a list of users" do
     a_user = create(:user)
     users = JSONModel(:user).all(:page => 1)['results']
-
     expect(users.any? { |user| user.username == "admin" }).to be_truthy
     expect(users.any? { |user| user.username == "test1" }).to be_truthy
     expect(users.any? { |user| user.username == a_user.username }).to be_truthy
@@ -245,4 +244,59 @@ describe 'User controller' do
   end
 
 
+  it "rejects a login attempt against an unknown username" do
+    post '/users/notauserXXXXXX/login', params = { "password" => "wrongpwXXXXX"}
+    expect(last_response).not_to be_ok
+    expect(last_response.status).to eq(403)
+  end
+
+  describe "resending passwords to forgetful users" do
+
+    let(:user) {
+      user = build(:json_user, username: "murdoch", email: "murdoch@dark.city", is_admin: true)
+      user.save(:password => 'shellbeach')
+      user
+    }
+
+    before(:each) do
+      allow(AppConfig).to receive(:[]).and_call_original
+      allow(AppConfig).to receive(:[]).with(:frontend_url).and_return("http://foo.bar")
+      allow(AppConfig).to receive(:[]).with(:allow_password_reset).and_return(true)
+      allow(UserMailer).to receive(:send_reset_token).and_call_original
+    end
+
+    it "emails a user a token when they lose their password" do
+      count = ActionMailer::Base.deliveries.count
+      post "/users/recover-password", email: user.email
+      expect(last_response).to be_ok
+      expect(ActionMailer::Base.deliveries.count).to eq(count+1)
+      msg = ActionMailer::Base.deliveries.last
+      doc= Nokogiri::HTML.parse(msg.body.to_s)
+      expect(doc.xpath("//a").first.attributes["href"].value).to match(/http:\/\/foo\.bar\/users\/murdoch\/[0-9a-z]{10,100}/i)
+    end
+
+    it "creates a session when the token is used and destroys it when the password is upated" do
+      token = AuthenticationManager.generate_token(user.username)
+      post "/users/#{user.username}/#{token}"
+      expect(last_response).to be_ok
+      expect(JSON(last_response.body)["session"]).to match /^[0-9a-f]+$/
+      session_headers = {"HTTP_X_ARCHIVESSPACE_SESSION" => JSON(last_response.body)["session"]}
+
+      get '/', params = {}, session_headers
+      expect(last_response).to be_ok
+
+      new_password = "she11b3ach"
+      post "/users/#{user.id}/password", params = { password: new_password }, session_headers
+      expect(last_response).to be_ok
+
+      get '/', params = {}, session_headers
+      expect(last_response.status).to eq(412)
+    end
+
+    it "returns a 400 error if password reset is not configured" do
+      allow(AppConfig).to receive(:[]).with(:allow_password_reset).and_return(false)
+      post "/users/recover-password", email: user.email
+      expect(last_response.status).to eq(400)
+    end
+  end
 end

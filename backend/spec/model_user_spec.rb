@@ -134,7 +134,7 @@ describe 'User model' do
 
     expect(user.permissions[repo_a.uri].sort).to eq(["manage_repository", "update_location_record"])
     expect(user.permissions[repo_b.uri].sort).to eq(["update_location_record", "view_repository"])
-    expect(user.permissions[Repository.GLOBAL].sort).to eq(["update_location_record"])
+    expect(user.permissions[Repository.GLOBAL].sort).to eq(["edit_user_self", "update_location_record"])
   end
 
   it "can delete a user even if it has preferences and import jobs" do
@@ -159,5 +159,8 @@ describe 'User model' do
 
   end
 
-
+  it "lets any user edit themself" do
+    new_user = create(:user)
+    expect(new_user.permissions[Repository.GLOBAL]).to include('edit_user_self')
+  end
 end

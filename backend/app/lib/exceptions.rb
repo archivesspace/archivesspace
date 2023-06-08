@@ -111,6 +111,9 @@ class ImportException < StandardError
   end
 end
 
+class NotAllowed < StandardError
+end
+
 
 module Exceptions
 
@@ -208,6 +211,14 @@ module Exceptions
         error JSON::ParserError do
           Log.exception(request.env['sinatra.error'])
           json_response({:error => "Had some trouble parsing your request: #{request.env['sinatra.error']}"}, 400)
+        end
+
+        error NotAllowed do
+          json_response({:error => request.env['sinatra.error']}, 400)
+        end
+
+        error UserMailer::MailError do
+          json_response({:error => request.env['sinatra.error']}, 400)
         end
 
 

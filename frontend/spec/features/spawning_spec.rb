@@ -136,7 +136,7 @@ describe 'Spawning', js: true do
     click_button('Create and Link')
 
     within(id: 'accession_instances_') do
-      find('.digital_object').click
+      find('.digital_object.initialised').click
       digital_object_tab = window_opened_by {click_link('View')}
       within_window digital_object_tab do
         expect(page).to have_content("Spawned Accession")

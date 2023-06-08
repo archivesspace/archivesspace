@@ -138,4 +138,30 @@ describe 'Authentication manager' do
       expect(AuthenticationManager.authenticate(username, "world")).not_to be_nil
     end
   end
+
+  context "Lost passwords" do
+
+    it "can generate and authenticate an expiring, single-use token" do
+      username = "forgetful"
+      password = "iforget"
+      user = build(:json_user, username: username)
+      user.save(password: password)
+
+      token = AuthenticationManager.generate_token(username)
+      expect(AuthenticationManager.authenticate_token(username, token)).not_to be_nil
+      # token is single-use
+      expect(AuthenticationManager.authenticate_token(username, token)).to be_nil
+      # so let's get a new one
+      token = AuthenticationManager.generate_token(username)
+      expect(AuthenticationManager.authenticate_token(username, token)).not_to be_nil
+      # now get one and wait 5 minutes
+      token = AuthenticationManager.generate_token(username)
+      time_now = Time.now
+      allow(Time).to receive(:now).and_return(time_now + 30*60)
+      expect(AuthenticationManager.authenticate_token(username, token)).to be_nil
+      # now go back in time 5 seconds
+      allow(Time).to receive(:now).and_return(time_now + (5*60)-5)
+      expect(AuthenticationManager.authenticate_token(username, token)).not_to be_nil
+    end
+  end
 end

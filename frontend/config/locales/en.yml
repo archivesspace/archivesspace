@@ -640,8 +640,20 @@ en:
     login_success: Login Successful. Redirecting...
     username_placeholder: Username
     password_placeholder: Password
+    confirm_password: Confirm Password
     username_aria_label: User Name
     password_aria_label: User Password
+    lost_password: Forgot Password?
+    reset_password: Reset Password
+    recover_password: Recover Password
+    email_placeholder: Email Address
+    reset_form_instructions: Enter the email associated with your user account. If an account exists for that email address, a link [or verification code] to reset your password will be sent to that email address.
+    new_password: New Password
+    new_password_instructions: Create a new password for %{user} using the form, then login again.
+    password_mismatch_error: Passwords do not match.
+    password_update_success: Password successfully updated.
+    password_update_error: Password could not be updated. Try again or contact an administrator.
+    password_too_simple: This password is too easy to guess. Try adding words or use a random password generator.
 
   breadcrumb:
     home: Home
@@ -1363,6 +1375,10 @@ en:
         deactivated: User deactivated
         error_activate: User not activated
         error_deactivate: User not deactivated
+        password_recovery_email_sent: An email has been sent to %{email} with instructions for recovering your password
+        error_not_found: A username account for %{email} could not be found. Contact your administrator for help.
+        password_recovery_not_allowed: Password Recovery is not allowed. Contact your administrator.
+        password_recovery_fail: Password Recovery failed. Contact your administrator.
       section:
         manage_access: Manage User Access
         account: Account

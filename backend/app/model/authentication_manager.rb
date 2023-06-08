@@ -5,7 +5,6 @@ class AuthenticationManager
   def self.prepare_sources(sources)
     sources.map { |source|
       model = Kernel.const_get(source[:model].intern)
-
       model.new(source)
     }
   end
@@ -82,6 +81,28 @@ class AuthenticationManager
     authentication_sources.map {|source|
       source.matching_usernames(query)
     }.flatten(1).sort.uniq
+  end
+
+
+  def self.authenticate_token(username, token)
+    authentication_sources.each do |source|
+      next unless source == DBAuth
+      if (user = source.authenticate_token(username, token))
+        return user
+      end
+    end
+    nil
+  end
+
+
+  def self.generate_token(username)
+    authentication_sources.each do |source|
+      next unless source == DBAuth
+      if (token = source.generate_token(username))
+        return token
+      end
+    end
+    nil
   end
 
 

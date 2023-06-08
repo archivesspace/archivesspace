@@ -74,3 +74,5 @@ require 'asutils'
 
 # Allow plugins to provide their own Gemfiles too.
 ASUtils.load_plugin_gems(self)
+
+gem "zxcvbn-ruby", "~> 1.2"
