@@ -317,6 +317,7 @@ en:
       physdesc: Physical Description
       storage: Container Information
       additional: Additional Description
+      uri: "ID [aspace_uri]"
       finding_aid:
         head: Finding Aid & Administrative Information
         title: Title
@@ -459,6 +460,8 @@ en:
     finding_aid_written_in: Finding aid written in
     your_finding_aid_pdf: Your finding aid PDF for "%{title}"
     your_finding_aid_is_attached: The finding aid you requested is attached.
+    accessrestrict: Conditions Governing Access
+    userestrict: Conditions Governing Use
 
   readmore:
     see_more: See more

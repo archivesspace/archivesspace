@@ -4,9 +4,9 @@
 
         <style>
 
-  body {
-    font-family: <%= AppConfig[:pui_pdf_font_name] %>;
-  }
+ body {
+     font-family: <%= AppConfig[:pui_pdf_font_name] %>;
+ }
 
  .title-page {
      page-break-after: always;
@@ -18,8 +18,19 @@
      page-break-after: always;
  }
 
- .logo {
-     display: inline-block;
+span.title {
+  font-style: italic;
+  font-variant: small-caps;
+}
+
+ div.logo {
+     display: block;
+     width: 100%;
+     height: 250px;
+     background-repeat: no-repeat;
+     background-size: 100% auto; 
+     background-origin: content-box;
+     background-position: 50% 50%;
  }
 
  .logo img {
@@ -55,10 +66,49 @@
  a.record-title {
      color: black;
      text-decoration: none;
+     font-size: 17px;
+     font-weight: bold;
+ }
+
+ div.ao-summary {
+    background-color: #eee;
+    padding: 5px;
  }
 
  h3 {
      margin-top: 1em;
+     border-top: 5px #000 solid;
+     border-bottom: 1px #000 dotted;
+     padding: 10px;
+     margin-left: -10px;
+ }
+
+ h3 + p {
+    margin-left: 20px;
+ }
+
+ div#note-prefercite {
+    border: 2px #000 solid;
+    padding: 5px;
+ }
+
+ table.collection-inventory-header {
+    background-color: #fafafa;
+    font-weight: bold;  
+    width: 100%;
+    margin-top: 10px;
+    border-top: 1px solid #aaa;
+    border-bottom: 1px solid #aaa;
+ }
+
+ table.collection-inventory-header td.title {
+    width: 50%;
+    text-align: left;
+ }
+
+ table.collection-inventory-header td.instance {
+    width: 50%;
+    text-align: right;
  }
 
  dl {
@@ -68,10 +118,28 @@
  dt, dd { float: left; margin: 0; margin-top: 0.5em; }
  dt { clear: both; font-weight: bold; width: 20%; text-align: right; margin-right: 1em; }
  dd { width: 70%; }
- dt:after { content: ':'; white-space: pre; }
 
  .title-block {
-     border-bottom: solid 2px black;
+     /* border-bottom: solid 2px black; */
+ } 
+
+ div.bioghist dl {
+    width: 800px;
+ }
+
+ div.bioghist dt {
+    float: left;
+    width: 150px;
+ }
+
+ div.bioghist dd {
+    float: left;
+    width: 500px;
+    margin-left: 150px;
+ }
+
+ div.title-text-block p {
+    margin: 0;
  }
 
  .title-block h2 {
@@ -81,8 +149,7 @@
  .title-page .repository-information {
      position: absolute;
      bottom: 0;
-     border: solid 2px gray;
-      width: 95%;
+     width: 95%;
      padding: 1em;
 
  }
@@ -111,7 +178,6 @@
  }
 
  .print-record-border {
-     border-left: dashed 1px #ccc;
      padding-left: 0.5em;
      margin: 0;
 
@@ -186,10 +252,13 @@
  }
 
  @page {
-     <%
-     short_title = record.finding_aid.fetch('title', '')
-     short_title = short_title.gsub(/\n.*/, '').strip
-     %>
+    <% if record.finding_aid['title'] %>
+      <% short_title = record.finding_aid['title'] %>
+    <% else %>
+      <% short_title = record.display_string %>
+    <% end %>
+
+    <% short_title = CGI.unescapeHTML(strip_tags(short_title.gsub(/\n.*/, '').strip)) %>
 
      <% if short_title != '' %>
      @top-center {
@@ -202,7 +271,7 @@
      @bottom-center {
          font-size: 80%;
          color: #666;
-         content: '- ' counter(page) ' -';
+         content: '- Page ' counter(page) ' -';
      }
  }
 
@@ -213,4 +282,3 @@
         <% end %>
     </head>
     <body>
-
