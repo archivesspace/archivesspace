@@ -98,9 +98,7 @@
               ao_id = ao['ref'].split('/')[4]
               ao_div_id = "archival_object_#{ao_id}"
               ao_title = ao['display_string']
-              ao_title = ao['display_string']
               ao_a_href = "#tree::archival_object_#{ao_id}"
-              ao_scrollto_href = "#record-number-#{i}"
 
               prev_depth = nil
               next_depth = nil
@@ -163,7 +161,7 @@
                     aria-hidden="true"
                   ></i>
                 <% end %>
-                <a class="record-title" href="<%= ao_scrollto_href %>"><%= ao_title %></a>
+                <a class="record-title" href="<%= ao_a_href %>"><%= ao_title %></a>
               </div>
             </div>
 
@@ -179,7 +177,7 @@
       </div>
     </div>
   </div>
-</div>;
+</div>
 
 
 <script>
@@ -200,7 +198,7 @@
   
 */
   $(document).ready(function () {
-    populateWaypoints($('.waypoint')[0], initWaypointsObserver);
+    populateWaypoints([0], initWaypointsObserver);
 
     $('#tree-container').on('click', '.expandme', function(e){
       this.setAttribute('aria-expanded', this.getAttribute('aria-expanded') === 'true' ? 'false' : 'true')
@@ -208,26 +206,92 @@
       $(this).closest('.largetree-node').attr('data-is-expanded', this.getAttribute('aria-expanded'))
     })
 
+    // STUCK HERE, caught choosing between onclick or onhashchange, and stuck trying to get the href/
+    // treeId to work just to get past the first step of checking if record is present
     $('#tree-container').on('click', 'a.record-title', function(e) {
       e.preventDefault();
+      const recNum = $(this).closest('[data-record-number]').attr('data-record-number');
+      const record = document.querySelector(`.infinite-record-record[data-record-number='${recNum}']`);
+      if (!record) {
+        populateWaypoints([recordNumberToWaypointNumber(recNum)], function() {
+          // there seems to need to be some state here, eg: `is_responding_to_nav_click`, to prevent
+          // the waypoints observer from firing and populating waypoints prior to the waypoint that 
+          // contains the record that was clicked.
+          // the state should be within a higher scope, eg: `window`, and should be reset after the
+          // record is scrolled into view.
 
-      const recordIndex = $(this).closest('[data-record-number]').attr('data-record-number');
-      const recordEl = document.querySelector(`#record-number-${recordIndex}`);
+          // scroll to record
+          const record = document.querySelector(`.infinite-record-record[data-record-number='${recNum}']`);
+          record.scrollIntoView({ behavior: "smooth" });
+        });
+      } else {
+        // scroll to record
+        record.scrollIntoView({ behavior: "smooth" });
+      }
+      // - check to see if record is present / if record's waypoint is populated
+      // console.log("recordIsPresent($(this).attr('href'))", recordIsPresent($(this).attr('href')));
+      //   - if populated and present, go to next step
+      //   - if not populated, populate, then go to next step
+      // - add record id to url hash, scroll to record, and highlight corresponding nav item
+      
+      // const recNum = parseInt($(this).closest('[data-record-number]').attr('data-record-number'), 10);
+      // const recWaypointNum = Math.floor(recNum / 20);
 
-      recordEl.scrollIntoView({ behavior: "smooth" });
+      // const record = document.querySelector(`.infinite-record-record[data-record-number='${recNum}']`);
+
+      // recordEl.scrollIntoView({ behavior: "smooth" });
     })
-  });
+  })
+  /*
+    Here's what happens when you click a nav item:
+    - check to see if record is present / if record's waypoint is populated
+      - if populated and present, go to next step
+      - if not populated, populate, then go to next step
+    - add record id to url hash, scroll to record, and highlight corresponding nav item
+
+    Here's what happens when you load page
+    - check to see if location.hash
+      - if no hash, populate first and second waypoints
+      - if hash, get record's treeId from hash, get record's waypoint, populate record's waypoint
+        and the prior and next waypoints, then scroll to record, and highlight
+        the corresponding nav item
+   */
+
+  // left off before updating populateWaypoints() to accept an integer of a waypoint
+  // index to populate, then to populate prev and next waypoints.
+  const WAYPOINT_SIZE = 20;
+  let isOkToObserve = true;
+
+  function recordIsPresent(treeId) {
+    // regex to find if treeId starts with '#'
+    if (treeId.match(/^#/))  {
+      treeId = treeId.slice(1);
+    }
+    return $(`#${treeId}`).length === 1;
+  }
+
+  function waypointIsPopulated(wpNum) {
+    return $(`.waypoint[data-waypoint-number='${wpNum}']`).hasClass('populated');
+  }
+
+  function treeIdToRecordNumber(treeId) {
+    return $(`#${treeId}`).attr('[data-record-number]')
+  }
+
+  function recordNumberToWaypointNumber(recNum) {
+    return Math.floor(recNum / WAYPOINT_SIZE);
+  }
 
   /**
    * populateWaypoints
    * @description Fetch and append records to waypoints
-   * @param {object} waypoints - jQuery object of one or more waypoints
+   * @param {number[]} wpNums - array of waypoint numbers to populate
    * @param {[function]} callback - optional function to call after
    * each waypoint is populated
    */
-  function populateWaypoints(waypoints, callback = null) {
-    $(waypoints).each(function (i, waypoint) {
-      const waypointNumber = $(waypoint).data('waypoint-number');
+  function populateWaypoints(wpNums, callback = null) {
+    wpNums.forEach((wpNum, i) => {
+      const waypoint = document.querySelector(`.waypoint[data-waypoint-number='${wpNum}']:not(.populated)`);
       const waypointSize = $(waypoint).data('waypoint-size');
       const uris = $(waypoint).data('uris').split(';');
 
@@ -241,10 +305,22 @@
       }).then(function (records) {
         $(uris).each(function (i, uri) {
           if (records[uri]) {
-            const recordNumber = waypointNumber * waypointSize + i;
+            const recordNumber = wpNum * waypointSize + i;
+            const type = uri.split('/')[3].replace(/s+$/, "");
+            const id = uri.split('/')[4];
+            const treeId = `tree::${type}_${id}`;
+
+            // make the treeID the element ID for moving closer to the
+            // platform, and keeping backwards compatibility with URLs
+            // with hashes which used the treeId format. Ideally, content
+            // IDs would be treeId minus the 'tree::', and nav IDs would be
+            // 'nav_${type}_${id}`.
+            // Also, prefer data-* attributes over jquery `.data()`, so 
+            // add [data-record-number]; jquery should be refactored out
+            // in future.
             $(waypoint).append(
               $('<div class="infinite-record-record" />')
-                .attr('id', 'record-number-' + recordNumber)
+                .attr('id', treeId)
                 .attr('data-uri', uri)
                 .attr('data-observe', 'record')
                 .attr('data-record-number', recordNumber)
@@ -257,7 +333,7 @@
       }).done(function() {
         // actions dependent on ajax completion
         // Watch this waypoint's records created from previous step
-        initRecordsObserver(waypointNumber);
+        initRecordsObserver(wpNum);
 
         if (callback) {
           callback();
@@ -274,7 +350,7 @@
   function initWaypointsObserver() {
     const options = {
       root: document.querySelector('.infinite-scroll-container'),
-      rootMargin: '0px 0px 300% 0px',
+      rootMargin: '100px 0px 100px 0px',
       threshold: 0.1
     };
     const observer = new IntersectionObserver(intersectionHandler, options);
@@ -286,8 +362,8 @@
 
     function intersectionHandler(entries, observer) {
       entries.forEach((entry, i) => {
-        if (entry.isIntersecting) {
-          populateWaypoints($(entry.target));
+        if (entry.isIntersecting && isOkToObserve) {
+          populateWaypoints([$(entry.target).attr('data-waypoint-number')]);
           observer.unobserve(entry.target);
           entry.target.removeAttribute('data-observe');
         }
