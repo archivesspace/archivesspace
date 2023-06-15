@@ -381,7 +381,8 @@ class EADSerializer < ASpaceExport::Serializer
         next if !published && !@include_unpublished
 
         link['role'] == 'creator' ? role = link['role'].capitalize : role = link['role']
-        relator = link['relator']
+        relator = I18n.t("enumerations.linked_agent_archival_record_relators.#{link['relator']}")
+
         sort_name = agent['display_name']['sort_name']
         rules = agent['display_name']['rules']
         source = agent['display_name']['source']
