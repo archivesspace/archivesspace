@@ -70,7 +70,7 @@
             <unittitle>Test resource 0</unittitle>
 
             <origination label="Creator">
-              <persname authfilenumber="creator" role="cre" rules="local" source="local">Agent, Creator</persname>
+              <persname authfilenumber="creator" role="Creator" rules="local" source="local">Agent, Creator</persname>
 
     </origination>
 
@@ -292,7 +292,7 @@
               <unitid>ArchivalObject OAI test 0</unitid>
               <unitid type="aspace_uri">/repositories/3/archival_objects/1</unitid>
               <origination label="Creator">
-                <persname authfilenumber="creator" role="cre" rules="local" source="local">Agent, Creator</persname>
+                <persname authfilenumber="creator" role="Creator" rules="local" source="local">Agent, Creator</persname>
               </origination>
               <physdesc altrender="whole">
                 <extent altrender="materialtype spaceoccupied">10 Volumes</extent>
