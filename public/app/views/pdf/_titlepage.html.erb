@@ -31,9 +31,21 @@
         <%= render(:file => template, :locals => {:record => record}) if File.exists?(template) %>
     <% end %>
 
+    <% if record.resolved_repository && 
+          record.resolved_repository['agent_representation'].any? &&
+          record.resolved_repository['agent_representation']['_resolved'].any? &&
+          record.resolved_repository['agent_representation']['_resolved']['agent_contacts'].any? %>
+        <% contacts = record.resolved_repository['agent_representation']['_resolved']['agent_contacts'].first %>
+    <% else %>
+        <% contacts = nil %>
+    <% end %>
+
+    <p><%= contacts.inspect %></p>
+
     <%= render(:partial => 'publication_statement', :locals => {
         :repository_name => record.resolved_repository,
-        :repository_information => record.repository_information
+        :repository_information => record.repository_information,
+        :repository_contacts => contacts
     })
     %>
 </div>
