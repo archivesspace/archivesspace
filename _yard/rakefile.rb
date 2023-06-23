@@ -156,12 +156,48 @@ namespace :doc do
       end
     end
 
+    def drop_schema_and_correct_parent(obj)
+      obj.delete('$schema')
+      if obj['parent']
+        obj['anyOf'] = ["#/components/schemas/#{obj['parent']}", obj]
+        obj['anyOf'][1].delete 'parent'
+      end
+    end
 
     @models.values.each do |v| correct_type(v) end
+    @models.values.each do |v| drop_schema_and_correct_parent(v) end
 
     # paths - Endpoints
+    #
+    # From:  {:uri=>"/agents/corporate_entities/:id",
+    #         :description=>"Get a corporate entity by ID",
+    #         :permissions=>[],
+    #         :documentation=>nil,
+    #         :deprecated=>nil,
+    #         :deprecated_description=>nil,
+    #         :prepend_docs=>true,
+    #         :examples=>{},
+    #         :method=>[:get],
+    #         :params=>[["id", Integer, "ID of the corporate entity agent"], ["resolve", [String], "A list of references to resolve and embed in the response", {:optional=>true}]],
+    #         :paginated=>false,
+    #         :paged=>false,
+    #         :no_data=>false,
+    #         :returns=>[[200, "(:agent_corporate_entity)"], [404, "Not found"]]},
+    # TODO:
+    #  - URI needs conversion from sinatra path vars to openapi path vars, baaaasically: .gsub(%r|:([^/]+)|, '{\1}')
+    #  - foreach path:
+    #    - collect all matching definitions
+    #    - foreach method
+    #    - create an operation at that method
+    #    - process params and returns
+    #      - NOTE: distinguish location, might be a problem
+    #      - include auth header in all, optional? in some? what a pain
+    #    - examples? do if time I guess?  if you can even apply these given that they're not split the same way
 
 
+    open_api_spec['components'] = {
+      'schemas' => @models
+    }
 
     require "pry"
     binding.pry
