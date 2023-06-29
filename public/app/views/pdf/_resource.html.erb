@@ -16,7 +16,12 @@
 
     <dt><%= I18n.t('resource._public.finding_aid.title') %></dt><dd><%== process_mixed_content(record.display_string) %></dd>
 
-    <dt><%= I18n.t('resource._public.identifier') %></dt><dd><%= record.identifier %></dd>
+    <dt><%= I18n.t('resource._public.identifier_pdf') %></dt><dd><%= record.identifier %></dd>
+
+    <% if record['ark_name'] %> 
+      <dt><%= I18n.t('resource._public.identifier_ark') %></dt><dd><a href="<%= record['ark_name'].first %>"><%= I18n.t('resource._public.ark_link_name') %></a></dd>
+
+    <% end %> 
 
     <dt><%= I18n.t('resource._public.uri') %></dt>
     <dd><%= record['uri'] %></dd>
@@ -36,7 +41,7 @@
     <% end %>
 
     <% unless record.notes.include?('langmaterial') || record.lang_materials.blank? %>
-        <dt><%= t('resource._public.lang') %></dt>
+        <dt><%= t('resource._public.lang_pdf') %></dt>
         <% record.lang_materials.each do |lang_material| %>
             <dd><%= t('enumerations.language_iso639_2.' + lang_material['language'])%></dd>
         <% end %>

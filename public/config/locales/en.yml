@@ -310,9 +310,13 @@ en:
     identifier_separator: ":"
     _public:
       identifier: Identifier
+      identifier_pdf: ID
+      identifier_ark: "ID [ark]"
+      ark_link_name: "Archival Resource Key"
       extent: Extent
       dates: Dates
       lang: Language of Materials
+      lang_pdf: Language of the Material
       script: Script
       digital_object: Digital Object
       physdesc: Physical Description
