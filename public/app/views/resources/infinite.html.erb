@@ -145,7 +145,6 @@
           class="waypoint"
           data-waypoint-number="<%= i %>"
           data-uris="<%= refs.map {|r| r['ref']}.join(';') %>"
-          <%= 'data-observe=waypoint ' if i > 0 %>
         >&nbsp;</div>
       <% end %>
     </div>
@@ -293,10 +292,6 @@
      start getting observed to be populated when they get close to content area
    4 once populated, that waypoint's records start getting observed for sidebar
      nav highlighting
-   
-   ⚠️ when a sidebar nav item is clicked, the corresponding record is scrolled
-     into view _unless_ its corresponding record belongs to an empty waypoint
-  
 */
   $(document).ready(function () {
     const WAYPOINT_SIZE = parseInt($('.infinite-scroll-container').data('waypoint-size'), 10);
@@ -313,13 +308,13 @@
           const targetWpNum = recordNumberToWaypointNumber(targetRecNum)
 
           if (target.getAttribute('data-observe-prev-wp')) {
-            populateWaypoints([targetWpNum - 1], null, true, function() {
+            populateWaypoints([targetWpNum - 1], true, function() {
               target.removeAttribute('data-observe-prev-wp');
             });
             console.log('prev neighbor populated!\ntargetRecNum: ', targetRecNum, '\ntargetWpNum: ', targetWpNum);
           }
           if (target.getAttribute('data-observe-next-wp')) {
-            populateWaypoints([targetWpNum + 1], null, true, function() {
+            populateWaypoints([targetWpNum + 1], true, function() {
               target.removeAttribute('data-observe-next-wp');
             });
             console.log('next neighbor populated!\ntargetRecNum: ', targetRecNum, '\ntargetWpNum: ', targetWpNum);
@@ -334,15 +329,10 @@
     const popWpObs = new IntersectionObserver(scrollHandler, scrollOpts);
 
     let isOkToObserve = true;
-    // let wpObserverIsPopulating = false;
 
     scrollContainer.addEventListener('scrollend', () => {
       isOkToObserve = true;
     });
-
-    // let populateQueue = [];
-
-    // const wpQueuePush = new CustomEvent("queuepush");
 
     if (!window.location.hash) {
       populateWaypoints([0]);
@@ -351,7 +341,7 @@
       const treeWP = treeIdtoWaypointNumber(treeId)
       const targetWPs = neighborWaypointNums(treeWP)
 
-      populateWaypoints(targetWPs, null, true, function() {
+      populateWaypoints(targetWPs, true, function() {
         scrollToRecord(treeId);
       });
     }
@@ -371,15 +361,12 @@
 
       const recNum = parseInt($(this).closest('[data-record-number]').attr('data-record-number'), 10);
       const wpNum = recordNumberToWaypointNumber(recNum);
-      console.log('WPNUM from nav click: ', wpNum);
-      let record = document.querySelector(`.infinite-record-record[data-record-number='${recNum}']`);
+      const record = document.querySelector(`.infinite-record-record[data-record-number='${recNum}']`);
+
       if (!record) {
-        // LEFT OFF HERE!!! 2023-06-30
-        // without setting scroll option to 'instant', the second waypoint is fetched on
-        // scroll when the the last record is clicked in the nav. WTF?!
         isOkToObserve = false;
 
-        populateWaypoints(neighborWaypointNums(wpNum), null, true, function() {
+        populateWaypoints(neighborWaypointNums(wpNum), true, function() {
           scrollToRecord(recNum);
         });
       } else {
@@ -432,15 +419,11 @@
         result.push(wpNum - 1);
       }
 
-      console.log('PREV RESULT = ', result);
-
       result.push(wpNum);
-      console.log('CURR RESULT = ', result);
 
       if (wpNum < NUM_TOTAL_WAYPOINTS - 1) {
         result.push(wpNum + 1);
       }
-      console.log('NEXT RESULT = ', result);
 
       return result;
     }
@@ -496,15 +479,13 @@
      * populateWaypoints
      * @description Fetch and append records to waypoints
      * @param {number[]} wpNums - array of waypoint numbers to populate
-     * @param {[IntersectionObserver]} scrollObserver - optional IntersectionObserver to
-     * trigger new waypoint population on scroll
      * @param {[boolean]} handleModal - optional boolean that determines
      * if this function or the calling function should handle the loading modal;
      * defaults to true/this function handles it
      * @param {[function]} callback - optional function to call after
      * each waypoint is populated
      */
-    function populateWaypoints(wpNums, scrollObserver = null, handleModal = true, callback = null) {
+    function populateWaypoints(wpNums, handleModal = true, callback = null) {
       console.log('populateWaypoints', wpNums, 'this: ', this);
       wpNums.forEach((wpNum, i) => {
         const waypoint = document.querySelector(`.waypoint[data-waypoint-number='${wpNum}']:not(.populated)`);
@@ -596,121 +577,15 @@
           waypoint.removeAttribute('data-observe');
 
           if (callback) {
+            console.log('hello from callback in populateWaypoints!')
             callback();
           }
-
-          //resume observing empty waypoints
-          // setTimeout(() => {
-          //   isOkToObserve = true;
-          // }, 0);
-          // isOkToObserve = true;
 
           if (handleModal) {
             toggleModal();
           }
         })
       });
-    }
-
-    /**
-     * initNewWpObs
-     * @description Init the observer that watches target records for intersection
-     * with middle of viewport in order to populate neighboring waypoints; new targets
-     * to observe are added later via populateWaypoints().
-     * @param {number} targetRecNum - record number of target to watch
-     * @returns {IntersectionObserver} - observer object
-     */
-    function initNewWpObs(targetRecNum) {
-      const options = {
-        root: document.querySelector('.infinite-scroll-container'),
-        rootMargin: '0px',
-        threshold: 0
-      };
-      const target = document.querySelector(`.infinite-record-record[data-record-number='${targetRecNum}']`);
-      const observer = new IntersectionObserver(handler, options);
-
-      console.log('wtf?', target);
-      console.log('initNewWpObs popWpObs:', popWpObs);
-
-      function handler(entries, observer) {
-        console.log('hello from handler()!', targetRecNum);
-        console.log('entries: ', entries);
-        entries.forEach((entry) => {
-          console.log('entry: ', entry);
-        });
-      }
-
-      return new IntersectionObserver(handler, options);
-    }
-
-    /**
-    * initWaypointsObserver
-    * @description Populate empty waypoint containers when they are close
-    * to content area
-    */
-    function initWaypointsObserver() {
-      console.log('hello from initWaypointsObserver()!');
-      const options = {
-        root: document.querySelector('.infinite-scroll-container'),
-        rootMargin: '10px 0px 10px 0px',
-        threshold: [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0]
-      };
-      const observer = new IntersectionObserver(intersectionHandler, options);
-      const waypoints = document.querySelectorAll('.waypoint[data-observe="waypoint"]');
-
-      waypoints.forEach(waypoint => {
-        observer.observe(waypoint);
-      });
-
-      function intersectionHandler(entries, observer) {
-        entries.forEach((entry, i) => {
-          console.log('WPObs! i: ', i, 'entry:', entry, 'isOkToObserve: ', isOkToObserve, 'observer: ', observer);
-          const wpNum = parseInt($(entry.target).attr('data-waypoint-number'), 10);
-
-          if (entry.isIntersecting &&
-            isOkToObserve &&
-            !entry.target.classList.contains('populated')) {
-            wpObserverIsPopulating = true;
-            toggleModal();
-
-            // wpObserverIsPopulating = true;
-
-            // if (populateQueue.map(item => item.wpNum).indexOf(wpNum) === -1) {
-            //   populateQueue.push({wpNum, scrollingDown});
-            //   window.dispatchEvent(wpQueuePush);
-            // }
-
-            // if (entry.boundingClientRect.top < 0) {
-            //   // entered viewport at the top edge, hence scroll direction is up, so
-            //   // populate the next two waypoints above
-            //   populateWaypoints([wpNum, wpNum - 1], false, () => {
-            //     toggleModal();
-            //   });
-            // } else {
-            //   // left viewport at the top edge, hence scroll direction is down, populate
-            //   // only the next single waypoint
-            //   populateWaypoints([wpNum], false, () => {
-            //     toggleModal();
-            //   });
-            // }
-
-            populateWaypoints([wpNum], false, () => {
-              wpObserverIsPopulating = false;
-              toggleModal();
-            });
-
-            observer.unobserve(entry.target);
-          } else if (entry.isIntersecting &&
-            !isOkToObserve &&
-            !entry.target.classList.contains('populated') && 
-            wpObserverIsPopulating) {
-              if (populateQueue.indexOf(wpNum) === -1) {
-                populateQueue.push(wpNum);
-                // window.dispatchEvent(wpQueuePush);
-              }
-            }
-        });
-      }
     }
 
     /**
@@ -721,6 +596,9 @@
     * @param {(number|string)} wpNum - waypoint number
     */
     function initRecordsObserver(wpNum) {
+      // THIS LIKELY NEEDS REFACTORING a la the new waypoint observer,
+      // since this observer appears to be used via the approach of creating
+      // a new observer each time a waypoint is populated
       const options = {
         root: document.querySelector('.infinite-scroll-container'),
         rootMargin: '-5px 0px -95% 0px' // only the top sliver
