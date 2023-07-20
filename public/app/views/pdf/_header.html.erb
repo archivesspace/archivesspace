@@ -20,7 +20,6 @@
 
 span.title {
   font-style: italic;
-  font-variant: small-caps;
 }
 
 .title {
@@ -68,14 +67,21 @@ span.title {
 
  a.record-title {
      color: black;
-     text-decoration: none;
-     font-size: 17px;
      font-weight: bold;
  }
 
  div.ao-summary {
-    background-color: #eee;
     padding: 5px;
+    float: left;
+    text-align: left;
+    font-size: 75%;
+ }
+
+ .container-information {
+     font-size: 75%;
+     text-align: right;
+     color: black;
+     float: right;
  }
 
  h3 {
@@ -154,7 +160,6 @@ span.title {
      bottom: 0;
      width: 95%;
      padding: 1em;
-
  }
 
  .repository-information > * {
@@ -202,16 +207,16 @@ span.title {
 
  .print-record-border.print-record.level-1 { padding-top: 0; margin-top: 1em; }
 
- .print-record-border.level-1 { margin-left: 1em; }
- .print-record-border.level-2 { margin-left: 1em }
- .print-record-border.level-3 { margin-left: 1em; }
- .print-record-border.level-4 { margin-left: 1em; }
- .print-record-border.level-5 { margin-left: 1em; }
- .print-record-border.level-6 { margin-left: 1em; }
- .print-record-border.level-7 { margin-left: 1em; }
- .print-record-border.level-8 { margin-left: 1em; }
- .print-record-border.level-9 { margin-left: 1em; }
- .print-record-border.level-10 { margin-left: 1em; }
+ .print-record-border.level-1 { margin-left: 1em; display: block; margin: 5px; padding: 5px;}
+ .print-record-border.level-2 { margin-left: 1em; display: block; margin: 5px; padding: 5px;}
+ .print-record-border.level-3 { margin-left: 1em; display: block; margin: 5px; padding: 5px;}
+ .print-record-border.level-4 { margin-left: 1em; display: block; margin: 5px; padding: 5px;}
+ .print-record-border.level-5 { margin-left: 1em; display: block; margin: 5px; padding: 5px;}
+ .print-record-border.level-6 { margin-left: 1em; display: block; margin: 5px; padding: 5px;}
+ .print-record-border.level-7 { margin-left: 1em; display: block; margin: 5px; padding: 5px;}
+ .print-record-border.level-8 { margin-left: 1em; display: block; margin: 5px; padding: 5px;}
+ .print-record-border.level-9 { margin-left: 1em; display: block; margin: 5px; padding: 5px;}
+ .print-record-border.level-10 { margin-left: 1em; display: block; margin: 5px; padding: 5px;}
 
  .print-record h3 {
      margin: 0;
@@ -229,11 +234,6 @@ span.title {
      margin: 0 0 0.5em 0;
  }
 
- .container-information {
-     font-size: 90%;
-     text-align: right;
-     color: black;
- }
 
  .italic {
      font-style: italic;

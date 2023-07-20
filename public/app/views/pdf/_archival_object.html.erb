@@ -39,13 +39,6 @@ end
     <% if level == 1 %>
       </div>
 
-  <table class="collection-inventory-header">
-    <tr>
-      <td class="title">Title/Description</td>
-      <td class="instance">Instances</td>
-    </tr>
-  </table>
-
     <% end %>
         <% Array(record.instances).each do |instance| %>
             <% if instance['sub_container'] %>
