@@ -259,6 +259,7 @@ de:
       related_accessions:
         accessions: Eingangs-Aufzeichnung
         deaccessions: Abgangs-Aufzeichnung
+      uri: ID [aspace_uri]
     _plural: Sammlungen
     identifier_separator: ':'
     _singular: Sammlung
@@ -383,6 +384,8 @@ de:
     your_finding_aid_pdf: Ihr Findmittel PDF für "%{title}"
     your_finding_aid_is_attached: Das angeforderte Findmittel ist angehängt.
     administrative_information: Administrative Informationen
+    accessrestrict: Bedingungen für den Zugang
+    userestrict: Bedingungen für die Nutzung
   readmore:
     see_more: Mehr anzeigen
     see_less: Weniger anzeigen
