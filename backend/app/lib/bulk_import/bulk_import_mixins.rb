@@ -219,7 +219,7 @@ module BulkImportMixins
 
       # ANW-1296: for instance_instance_type enums, add value to list if it's not present
       if CvList::CREATE_NEW_VALUES_FOR.include?(list_name)
-        if ret_val != value
+        if ret_val.nil?
           enum = Enumeration.find(:name => cvlist_reloaded.which)
 
           if enum.editable === 1 || enum.editable == true
