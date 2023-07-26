@@ -17,7 +17,7 @@ Sequel.migration do
 
     self[:note]
       .left_join(:note_persistent_id, Sequel.qualify(:note, :id) => Sequel.qualify(:note_persistent_id, :note_id))
-      .filter(Sequel.qualify(:note_persistent_id, :persistent_id) => nil)
+      .filter(Sequel.qualify(:note_persistent_id, :note_id) => nil)
       .select(Sequel.qualify(:note, :id), :notes, *suspect_fks)
       .each do |row|
       notes = JSON.parse(row[:notes].to_s)
