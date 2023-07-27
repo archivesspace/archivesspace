@@ -119,12 +119,26 @@ class FindingAidPDF
       font_path = Rails.root.to_s + "/../plugins/custom-pui-pdf-font/public/app/assets/fonts/#{AppConfig[:pui_pdf_font_file]}"
     else
       font_path = Rails.root.to_s + "/app/assets/fonts/#{AppConfig[:pui_pdf_font_file]}"
+      bold_font_path = Rails.root.to_s + "/app/assets/fonts/#{AppConfig[:pui_pdf_bold_font_file]}"
+      italic_font_path = Rails.root.to_s + "/app/assets/fonts/#{AppConfig[:pui_pdf_italic_font_file]}"
     end
 
     resolver.addFont(
-      font_path,
-      "Identity-H",
-      true
+     font_path,
+     "Identity-H",
+     true
+    );
+
+    resolver.addFont(
+     bold_font_path,
+     "Identity-H",
+     true
+    );
+
+    resolver.addFont(
+     italic_font_path,
+     "Identity-H",
+     true
     );
 
     renderer.set_document(java.io.File.new(out_html.path))
