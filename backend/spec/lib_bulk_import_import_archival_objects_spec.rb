@@ -117,4 +117,37 @@ describe "Import Archival Objects" do
     subtree = JSONModel::HTTP.get_json("#{@resource.uri}/tree/node", {node_uri: report.rows[0].archival_object_id})
     expect(subtree["precomputed_waypoints"][report.rows[0].archival_object_id]["0"][0]["uri"]).to eq(report.rows[1].archival_object_id)
   end
+
+  it "fixes ANW-1777 and ANW-1778" do
+    2.times do
+      resource = create(:json_resource, ead_id: "tyler_001")
+      opts = { :repo_id => JSONModel(:repository).id_for(resource.repository['ref']),
+               :rid => resource.id,
+               :type => "resource",
+               :filename => "Box36UploadDIDNT_WORK_test.xlsx",
+               :filepath => BULK_FIXTURES_DIR + "/Box36UploadDIDNT_WORK_test.xlsx",
+               :load_type => "archival_object",
+               :ref_id => "",
+               :aoid => "",
+               :position => "" }
+
+      importer = ImportArchivalObjects.new(opts[:filepath], "xlsx", @current_user, opts)
+      report = importer.run
+      expect(report.terminal_error).to eq(nil)
+      expect(report.row_count).to eq(28)
+      expect(report.rows.map { |r| r.errors }.compact.flatten).to eq([])
+
+      types_in_set = report.rows.map {|row|
+        JSONModel(:archival_object).find(JSONModel(:archival_object).id_for(row.archival_object_id)).instances
+      }.compact.flatten.map { |inst| inst['instance_type'] }
+
+      expect(types_in_set.count("mixed_materials")).to eq(26)
+      expect(types_in_set.count("FOO BARS")).to eq(1)
+      resource.delete
+    end
+    enum = Enumeration.find(:name => "instance_instance_type")
+    enum_values = EnumerationValue.where(enumeration_id: enum.id).map {|e| e.values[:value]}
+    expect(enum_values).not_to include("Mixed Materials")
+    expect(enum_values).to include("FOO BARS")
+  end
 end

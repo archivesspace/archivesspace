@@ -52,7 +52,7 @@ describe "Container Instance Handler" do
     hsh = hash_it(results)
     expect(hsh["long_display_string"]).to eq("Box 1 [Barcode: 2342]")
     instances = @cih.create_container_instance("Audio", "Box", "1", "2342", @res_uri, @report)
-    expect(instances.instance_type).to eq("Audio")
+    expect(instances.instance_type).to eq("audio")
   end
   it "allows new instance_instance_type values" do
     create_top
