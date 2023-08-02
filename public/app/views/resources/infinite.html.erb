@@ -15,120 +15,20 @@
 
 <%= render partial: 'resources/resource_alltabs' %>
 
-<style>
-  .infinite-scroll-container {
-    overflow-y: auto;
-    scroll-behavior: smooth;
-    height: 600px;
-    /*border: 1px solid blue;*/
-  }
-
-  .infinite-scroll-container .root {
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-  }
-
-  /* increase content area height so bottom-most records can be
-     scrolled into view like the others */
-  .infinite-scroll-container .waypoint:last-of-type {
-    padding-bottom: 550px;
-  }
-
-  @keyframes yellowFade {
-    from {
-      background: yellow;
-    }
-    to {
-      background: transparent;
-    }
-  }
-
-  @keyframes fadeOut {
-    from {
-      opacity: 1;
-    }
-    to {
-      opacity: 0;
-    }
-  }
-
-  .item-highlight {
-    animation: yellowFade 2s;
-  }
-  .item-fadeout {
-    animation: fadeOut .5s;
-  }
-
-  .spinner-border {
-    display: inline-block;
-    width: 2rem;
-    height: 2rem;
-    vertical-align: -.125em;
-    border: .25em solid currentColor;
-      border-right-color: currentcolor;
-    border-right-color: transparent;
-    border-radius: 50%;
-    -webkit-animation: .75s linear infinite spinner-border;
-    animation: .75s linear infinite spinner-border;
-  }
-  @keyframes spinner-border {
-    to { transform: rotate(360deg); }
-  }
-  .visually-hidden, .visually-hidden-focusable:not(:focus):not(:focus-within) {
-    position: absolute !important;
-    width: 1px !important;
-    height: 1px !important;
-    padding: 0 !important;
-    margin: -1px !important;
-    overflow: hidden !important;
-    clip: rect(0,0,0,0) !important;
-    white-space: nowrap !important;
-    border: 0 !important;
-  }
-
-  .records-progress-container {
-    position: sticky;
-    top: 0;
-    margin-bottom: 1rem;
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: flex-start;
-    column-gap: .5rem;
-    background: white;
-  }
-  
-  .records-progress-label {
-    margin: 0;
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    font-style: italic;
-  }
-
-  .records-progress-button {
-    margin-left: -1px;
-    cursor: default;
-  }
-
-  .waypoint {
-    border: 1px solid red;
-  }
-</style>
 <%
-  waypoint_size = 20
+  content_waypoint_size = 20
+  sidebar_waypoint_size = 200
   num_records = @ordered_records.count
 %>
 <div class="row">
   <div class="col-sm-9 records-progress-container">
-    <p class="records-progress-label">Showing
+    <p class="records-progress-label">
       <span style="padding: .15rem;" data-showing-current>&nbsp;&nbsp;&nbsp;</span>
       of
       <span style="padding: .15rem;" data-showing-total><%= num_records %></span>
-      records
+      records in this collection have loaded onto the page below so far. Scroll down to load more, or click the <strong>&nbsp;Load all records&nbsp;</strong> button.
     </p>
-    <button class="btn btn-primary records-progress-button" data-show-all-records>Show all records</button>
+    <button class="btn btn-primary records-progress-button" data-show-all-records>Load all records</button>
   </div>
   <div class="col-sm-3">
   </div>
@@ -137,10 +37,10 @@
 <div class="row">
   <div
     class="infinite-scroll-container col-sm-9"
-    data-waypoint-size="<%= waypoint_size %>"
+    data-waypoint-size="<%= content_waypoint_size %>"
     data-total-records="<%= num_records %>">
     <div class="root">
-      <% @ordered_records.each_slice(waypoint_size).each_with_index do |refs, i| %>
+      <% @ordered_records.each_slice(content_waypoint_size).each_with_index do |refs, i| %>
         <div
           class="waypoint"
           data-waypoint-number="<%= i %>"
@@ -589,12 +489,12 @@
     }
 
     /**
-    * initRecordsObserver
-    * @description Observe which record is currently showing at the top
-    * of the viewport and highlight the corresponding sidebar nav item
-    * wpNum can be number or string
-    * @param {(number|string)} wpNum - waypoint number
-    */
+     * initRecordsObserver
+     * @description Observe which record is currently showing at the top
+     * of the viewport and highlight the corresponding sidebar nav item
+     * wpNum can be number or string
+     * @param {(number|string)} wpNum - waypoint number
+     */
     function initRecordsObserver(wpNum) {
       // THIS LIKELY NEEDS REFACTORING a la the new waypoint observer,
       // since this observer appears to be used via the approach of creating
@@ -628,7 +528,7 @@
         });
       }
     }
-  })  
+  });
 </script>
 
 <%= render partial: 'shared/modal_actions' %>
