@@ -44,22 +44,26 @@ end
             <% if instance['sub_container'] %>
                 <div class="container-information">
                     <%
-                    container_string = [
-                        format_container.call(instance['sub_container']['top_container']['_resolved']['type'],
-                                              instance['sub_container']['top_container']['_resolved']['indicator']),
-                        format_container.call(instance['sub_container']['type_2'],
-                                              instance['sub_container']['indicator_2']),
-                        format_container.call(instance['sub_container']['type_3'],
-                                              instance['sub_container']['indicator_3'])
-                    ].reject(&:empty?).join('; ')
+                      if instance['sub_container'] &&
+                         instance['sub_container']['top_container'] &&
+                         instance['sub_container']['top_container']['_resolved'] &&
+                         instance['sub_container']['top_container']['_resolved']['display_string']
+                        box_string = instance['sub_container']['top_container']['_resolved']['display_string']
+                      else
+                        box_string = ""
+                      end
+
+                      if instance['sub_container'] &&
+                         instance['sub_container']['type_2'] &&
+                         instance['sub_container']['indicator_2']
+                        folder_string = instance['sub_container']['type_2'] + " " + instance['sub_container']['indicator_2']
+                      else
+                        folder_string = ""
+                      end
                     %>
 
-                    <% unless container_string.empty? %>
-                        <%= container_string %>
-                        <% if instance['instance_type'] %>
-                            (<%= I18n.t("enumerations.instance_instance_type.#{instance['instance_type']}",
-                                        :default => instance['instance_type']) %>)
-                        <% end %>
+                    <% unless box_string.empty? || folder_string.empty? %>
+                      <%= box_string.downcase + "     " + folder_string.downcase %>
                     <% end %>
                 </div>
             <% end %>

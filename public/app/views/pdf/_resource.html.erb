@@ -5,14 +5,23 @@
     <dt><%= I18n.t('repository._singular') %>:</dt>
     <dd><%= record.resolved_repository['name'] %></dd>
 
-
+    <% if record.agents %>
+        <% record.agents.each do |role, relationships| %>
+            <% relationships.each do |relationship| %>
+                <% if role != "subject" %>
+                  <dt><%= I18n.t('enumerations.linked_agent_role.' + role.to_s) %></dt>
+                  <dd><%= relationship['_resolved']['title'] %></dd>
+                <% end %>
+            <% end %>
+        <% end %>
+    <% end %>
 
     <dt><%= I18n.t('resource._public.finding_aid.title') %>:</dt><dd><%== process_mixed_content(record.display_string) %></dd>
 
     <dt><%= I18n.t('resource._public.identifier_pdf') %>:</dt><dd><%= record.identifier %></dd>
 
     <% if record['ark_name'] %> 
-      <dt><%= I18n.t('resource._public.identifier_ark') %>:</dt><dd><a href="<%= record['ark_name'].first %>"><%= I18n.t('resource._public.ark_link_name') %></a></dd>
+      <dt><%= I18n.t('resource._public.identifier_ark') %>:</dt><dd><%= record['ark_name'].first %></dd>
 
     <% end %> 
 
@@ -84,7 +93,10 @@
     <%= render(:partial => 'digital_object_links', :locals => {
         :instances => record.instances
     }) %>
+
 </dl>
+
+    <a href="#toc">Return to Table of Contents</a>
 
     <% record.notes.each do |note_type, note| %>
         <% if note_type == 'prefercite' %>
@@ -112,6 +124,8 @@
       <p><%= n['note_text'].html_safe %></p>
     <% end %>
   <% end %>
+
+  <a href="#toc">Return to Table of Contents</a>
 </div>
 
 
@@ -128,6 +142,8 @@
     </h3>
     <p><%== process_mixed_content(n['note_text']) %></p>
   <% end %>
+
+  <a href="#toc">Return to Table of Contents</a>
 <% end %>
 
 <a id="note-arrangement"></a>
@@ -143,6 +159,8 @@
     </h3>
     <p><%== process_mixed_content(n['note_text']) %></p>
   <% end %>
+
+  <a href="#toc">Return to Table of Contents</a>
 <% end %>
 
 
@@ -219,6 +237,8 @@
   <% end %>
 <% end %>
 
+<a href="#toc">Return to Table of Contents</a>
+
 <a id="note-relatedmaterial"></a>
 
 <% unless record.notes['relatedmaterial'].nil? %>
@@ -247,11 +267,17 @@
     <% if record.agents %>
         <% record.agents.each do |role, relationships| %>
             <% relationships.each do |relationship| %>
-                <li><%= relationship['_resolved']['title'] %></li>
+                <% if role == "subject" %>
+                  <li><%= relationship['_resolved']['title'] %></li>
+                <% end %>
             <% end %>
         <% end %>
     <% end %>
+
+
   </ul>
+
+  <a href="#toc">Return to Table of Contents</a>
 <% end %>
 
 <% ASUtils.find_local_directories('public/views/_pdf_resource.html.erb').each do |template| %>
@@ -269,4 +295,5 @@
         <td class="instance">Instances</td>
       </tr>
 </table>
+
 <% end %>
