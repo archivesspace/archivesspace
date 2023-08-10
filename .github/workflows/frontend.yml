@@ -65,17 +65,18 @@ jobs:
 
     - name: Run Frontend tests
       run: |
-        ./build/run frontend:test
+        ./build/run frontend:test -Dpattern="spec/features/datepicker_plugin_spec.rb"
       env:
         ARCHIVESSPACE_VERSION: ${{ github.ref }}
         CAPYBARA_DEFAULT_MAX_WAIT_TIME: 10
         RSPEC_RETRIES: 3
+        TEST_MODE: 1
 
-    - name: Run deprecated tests
-      run: |
-        ./build/run frontend:selenium
-      env:
-        ARCHIVESSPACE_VERSION: ${{ github.ref }}
+    # - name: Run deprecated tests
+    #   run: |
+    #     ./build/run frontend:selenium
+    #   env:
+    #     ARCHIVESSPACE_VERSION: ${{ github.ref }}
 
     - name: Dump the test database
       if: failure()

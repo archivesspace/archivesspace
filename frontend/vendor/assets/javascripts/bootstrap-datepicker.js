@@ -534,6 +534,7 @@
       };
 
       const pasteHandler = () => {
+        TEST_MESSAGES.append("PASTEHANDLER START\n");
         const format = pasteFormatMap[pastePrecision].format;
         const minViewMode = pasteFormatMap[pastePrecision].minViewMode;
 
@@ -542,6 +543,7 @@
         $(inputField).datepicker('setDate', dateString);
         $(inputField).datepicker('upDate');
         $(inputField).datepicker('show');
+        TEST_MESSAGES.append("PASTEHANDLER END\n");
       };
 
       pasteHandler();

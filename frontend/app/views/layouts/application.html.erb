@@ -11,6 +11,9 @@
     <script>
       TEST_MODE = true;
       TEST_ERRORS = [];
+      TEST_MESSAGES = document.createElement("div");
+      TEST_MESSAGES.append("START JS LOG\n");
+      TEST_MESSAGES.append("-----------\n");
       window.onerror = function(errorMsg, url, lineNo) {
         TEST_ERRORS.push({
           message: errorMsg,

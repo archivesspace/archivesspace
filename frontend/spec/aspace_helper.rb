@@ -91,12 +91,12 @@ Capybara::Node::Element.class_eval do
   def click(*keys, **options)
     begin
       Timeout.timeout(Capybara.default_max_wait_time) do
-        sleep 5
+        sleep [Capybara.default_max_wait_time-1, 5].min
         break if session.evaluate_script("typeof jQuery != 'undefined' && (jQuery.active === 0)")
       end
       click_orig(*keys, **options)
       Timeout.timeout(Capybara.default_max_wait_time) do
-        sleep 5
+        sleep [Capybara.default_max_wait_time-1, 5].min
         break if session.evaluate_script("typeof jQuery != 'undefined' && (jQuery.active === 0)")
       end
     rescue Exception => e
