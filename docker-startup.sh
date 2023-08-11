@@ -2,7 +2,7 @@
 
 DATA_TMP_DIR="${APPCONFIG_DATA_DIR:-"/archivesspace/data"}/tmp"
 
-# DEPLOY_PKG (optional): [./config/config.rb, ./plugins, ./stylesheets]
+# DEPLOY_PKG (optional): [./config/config.rb, ./config/robots.txt, ./plugins, ./stylesheets]
 if [[ -v ASPACE_DEPLOY_PKG_URL ]]; then
   wget -O /archivesspace/deploy_pkg.zip $ASPACE_DEPLOY_PKG_URL
   if [[ "$?" != 0 ]]; then
@@ -11,8 +11,10 @@ if [[ -v ASPACE_DEPLOY_PKG_URL ]]; then
   else
     unzip -o /archivesspace/deploy_pkg.zip -d /archivesspace/tmp
     cp /archivesspace/tmp/config/config.rb /archivesspace/config/config.rb || true
+    cp /archivesspace/tmp/config/robots.txt /archivesspace/config/robots.txt || true
     cp -r /archivesspace/tmp/plugins/* /archivesspace/plugins/ || true
     cp -r /archivesspace/tmp/stylesheets/* /archivesspace/stylesheets/ || true
+    rm -rf /archivesspace/tmp
   fi
 fi
 
