@@ -53,123 +53,23 @@
     <% if AppConfig[:pui_search_collection_from_collection_organization] %>
       <%= render partial: 'shared/search_collection_form', :locals => {:resource_uri => @result['uri'], :action_text => t('actions.search_in', :type => t('resource._singular'))} %>
     <% end %>
-    <div class="infinite-tree-view largetree-container" id='tree-container'>
+
+    <div
+      class="infinite-tree-view largetree-container"
+      id="tree-container"
+      data-waypoint-size="<%= sidebar_waypoint_size %>"
+      data-repo-id="<%= @result['uri'].split('/')[2] %>"
+      data-resource-id="<%= @result['uri'].split('/')[4] %>"
+    >
+      <!-- load the tree root's first waypoint -->
       <%
-        root_id = @ordered_records[0]['ref'].split('/')[4]
+        root_id = @nav_tree_root['uri'].split('/')[4]
         div_id = "resource_#{root_id}"
         a_href = "#tree::resource_#{root_id}"
-        root_title = @ordered_records[0]['display_string']
-        root_identifier = " " # TODO: send data via @ordered_records
+        root_title = @nav_tree_root['title']
+        root_identifier = @nav_tree_root['identifier']
       %>
-      <div class="table root" role="list">
-        <div
-          class="table-row root-row"
-          id="<%= div_id %>"
-          role="listitem"
-          data-record-number="0"
-        >
-          <div class="table-cell no-drag-handle"></div>
-          <div class="table-cell title">
-            <a href="<%= a_href %>" class="record-title">
-              <%= "#{root_identifier}: #{root_title}" %>
-            </a>
-          </div>
-        </div>
 
-        <!-- Commence the children -->
-        <div role="list" class="table-row-group">
-
-          <!-- no idea why this is here, but fixes a background-color issue that leaks from
-              first child to root It likely has to do with the fact that the LargeTree comes from the frontend
-              and has drag and drop capability, so they add the drag handle, but the public
-              app doesn't have drag and drop, so the drag handle is not needed
-          -->
-          <div class="table-row waypoint indent-level-1 populated" style="height: 400em;"></div>
-
-          <% all_children = @ordered_records[1..-1] %>
-          <% all_children.each_with_index do |ao, i| %>
-            <%
-              ao_depth = ao['depth']
-              ao_id = ao['ref'].split('/')[4]
-              ao_div_id = "archival_object_#{ao_id}"
-              ao_title = ao['display_string']
-              ao_a_href = "#tree::archival_object_#{ao_id}"
-
-              prev_depth = nil
-              next_depth = nil
-              curr_depth = ao_depth.to_i
-              prev_depth = all_children[i-1]['depth'].to_i if i > 0
-              next_depth = all_children[i+1]['depth'].to_i if i < all_children.length - 1
-
-              curr_is_first_child = i > 0 && curr_depth > prev_depth
-              curr_is_last_child = i < all_children.length - 1 && curr_depth > next_depth
-
-              next_item_is_a_child = all_children[i+1] && (all_children[i+1]['depth'].to_i == ao_depth.to_i + 1)
-            %>
-
-            <% if curr_is_first_child %>
-              <!-- open a new table-row-group, the last child will close it -->
-              <div role="list" class="table-row-group">
-
-                <!-- this div is an unwanted legacy artifact kept for prototyping only
-                      should be deleted for production -->
-                <div class="table-row waypoint indent-level-<%= ao_depth %> populated" style="height: 400em;"></div>
-            <% end %>
-
-            <div
-              class="table-row largetree-node indent-level-<%= ao_depth %>"
-              role="listitem"
-              id="<%= ao_div_id %>"
-              data-depth="<%= ao_depth %>"
-              data-record-number="<%= i + 1 %>"
-              data-is-expanded="false"
-            >
-              <div class="table-cell drag-handle"></div>
-              <div
-                class="table-cell title"
-                title="<%= ao_title %>"
-              >
-                <span class="indentor">
-                  <button
-                    class="expandme"
-                    aria-expanded="false"
-                    style="visibility: <%= next_item_is_a_child ? 'visible' : 'hidden' %>"
-                    aria-hidden="<%= next_item_is_a_child ? 'false' : 'true' %>"
-                  >
-                    <i class="expandme-icon glyphicon glyphicon-chevron-right"></i>
-                    <span class="sr-only"><%= ao_title %></span>
-                  </button>
-                </span>
-                <!--
-                  DATA NEEDED to come via @ordered_records:
-                  - has_digital_instance
-                -->
-                <%
-                  # create a has_digital_instance variable which is a random boolean
-                  # this is just for the prototype, so we can see what it looks like
-                  # when there is a digital instance
-                  has_digital_instance = [true, false].sample
-                %>
-                <% if has_digital_instance %>
-                  <i
-                    class="has_digital_instance fa fa-file-image-o"
-                    aria-hidden="true"
-                  ></i>
-                <% end %>
-                <a class="record-title" href="<%= ao_a_href %>"><%= ao_title %></a>
-              </div>
-            </div>
-
-            <% if curr_is_last_child %>
-              <!-- close the necessary number of table row groups -->
-              <% (curr_depth - next_depth).times do %>
-                </div>
-              <% end %>
-            <% end %>
-
-          <% end %>
-        </div>
-      </div>
     </div>
   </div>
 </div>
@@ -179,6 +79,20 @@
     <span class="visually-hidden">Loading...</span>
   </div>
 </dialog>
+
+<template id="node-row-template">
+  <div class="table-row largetree-node" role="listitem">
+    <div class="table-cell title">
+      <span class="indentor">
+        <button class="expandme" aria-expanded="false">
+          <i class="expandme-icon glyphicon glyphicon-chevron-right"></i>
+          <span class="sr-only"></span>
+        </button>
+      </span>
+      <a class="record-title"></a>
+    </div>
+  </div>
+</template>
 
 <script>
 /* here's what happens:
@@ -194,6 +108,306 @@
      nav highlighting
 */
   $(document).ready(function () {
+    // nav arbitrary scroll
+
+    const NAV_WAYPOINT_SIZE = '<%= sidebar_waypoint_size %>';
+    const repoId = '<%= @result['uri'].split('/')[2] %>';
+    const resourceId = '<%= @result['uri'].split('/')[4] %>';
+    const rootNodeDivId = `resource_${resourceId}`;
+    const treeBaseUri = '<%= url_for(:action => :show) %>/tree';
+    const treeRootUri = `${treeBaseUri}/root`;
+    const treeNodeUri = `${treeBaseUri}/node`;
+    const treeWaypointUri = `${treeBaseUri}/waypoint`;
+
+    const treeContainer = document.querySelector('#tree-container');
+
+    const treeObsOpts = {
+      root: treeContainer,
+      rootMargin: '-30% 0px -30% 0px'
+    };
+    const treeWpObs = new IntersectionObserver(treeObsHandler, treeObsOpts);
+
+    fetchRootNode()
+      .done(rootNode => {
+        console.log('rootNode: ', rootNode);
+        const aHref = `#tree::resource_${resourceId}`;
+        const title = rootNode.title;
+        const identifier = rootNode.identifier;
+        const firstWPData = rootNode.precomputed_waypoints[""][0];
+
+        const tableRootFrag = new DocumentFragment();
+
+        const tableRoot = document.createElement('div');
+        tableRoot.setAttribute('role', 'list');
+        tableRoot.className = 'table root';
+
+        tableRoot.appendChild(rootRowMarkup(identifier, title));
+        tableRoot.appendChild(nodeWaypointsScaffold(
+          rootNodeDivId,
+          1,
+          rootNode.waypoints
+        ));
+
+        __populateWaypoint(
+          tableRoot.querySelector('.table-row-group'),
+          firstWPData,
+          1,
+          rootNode.waypoints > 1
+        );
+
+        tableRootFrag.appendChild(tableRoot);
+
+        treeContainer.appendChild(tableRootFrag);
+
+        if (rootNode.waypoints > 1) {
+          // now that the above work has been added to the live DOM, start observing
+          // the middle node in order to populate the next empty waypoint
+          const obsSelector = `[data-parent-id="${rootNodeDivId}"][data-waypoint-number="0"] > [data-observe-next-wp]`;
+          const obsTarget = document.querySelector(obsSelector);
+
+          treeWpObs.observe(obsTarget);
+        }
+      })
+      .fail(err => {
+        console.log('WTF?!?!?! err: ', err);
+      });
+
+    /**
+     * observeWPToPopulateNextEmptyWP
+     */
+
+    /**
+     * __populateWaypoint
+     * @description - Populate the first waypoint of a newly created
+     * nodeWaypointsScaffold
+     * @param {HTMLElement} waypoint - the empty waypoint to populate
+     * @param {array} nodes - array of node objects to populate the waypoint with
+     * @param {number} level - level of the waypoint
+     * @param {boolean} hasNextEmptyWP - whether or not there is a next empty waypoint
+     */
+    function __populateWaypoint(waypoint, nodes, level, hasNextEmptyWP) {
+      const waypointMarker = waypoint.querySelector('.waypoint');
+      const nodeRowsFrag = new DocumentFragment();
+
+      waypointMarker.classList.add('populated');
+
+      console.log('waypoint!!', waypoint);
+
+      nodes.forEach((node, i) => {
+        const observeThisNode = (i == Math.floor(NAV_WAYPOINT_SIZE / 2) - 1 && hasNextEmptyWP);
+        const markupArgs = [node, level, observeThisNode];
+
+        if (observeThisNode) {
+          const nodeParentId = waypoint.getAttribute('data-parent-id');
+          const nodeWpNum = parseInt(waypoint.getAttribute('data-waypoint-number'), 10);
+          
+          markupArgs.push(nodeParentId, nodeWpNum + 1);
+        }
+
+        nodeRowsFrag.appendChild(nodeRowMarkup(...markupArgs));
+      });
+
+      waypoint.appendChild(nodeRowsFrag);
+    }
+
+    /**
+     * nodeWaypointsScaffold
+     * @description - Build the waypoints of a node and populate the first waypoint
+     * @param {number} nodeId - id of the div containing the node whose waypoints
+     * are being scaffolded
+     * @param {number} level - level of the waypoints
+     * @param {number} numWPs - number of waypoints to create
+     * @returns {DocumentFragment} - DocumentFragment containing the waypoint
+     */
+    function nodeWaypointsScaffold(nodeId, level, numWPs) {
+      const nodeWaypointsFrag = new DocumentFragment();
+
+      for (let i = 0; i < numWPs; i++) {
+        const tableRowGroup = document.createElement('div');
+        tableRowGroup.className = 'table-row-group';
+        tableRowGroup.setAttribute('data-parent-id', nodeId);
+        tableRowGroup.setAttribute('data-waypoint-number', i);
+        tableRowGroup.setAttribute('data-waypoint-level', level);
+        // OK THE LEVEL HAS BEEN ADDED TO THE WAYPOINT EL, now
+        // the `treeObsHandler` function needs to be fleshed out more to use this
+        // data, not from the fetchWaypoint call, but earlier in the scope so that
+        // the fetchWaypoint's done() function has access to them.
+        tableRowGroup.setAttribute('role', 'list');
+
+        const tableRow = document.createElement('div');
+        tableRow.className = `table-row waypoint indent-level-${level}`;
+
+        tableRowGroup.appendChild(tableRow);
+
+        nodeWaypointsFrag.appendChild(tableRowGroup);
+      }
+
+      return nodeWaypointsFrag;
+    }
+
+    /**
+     * nodeRowMarkup
+     * @description - Build the markup for a node row
+     * @param {Object} node - node data
+     * @param {number} level - indent level of the node
+     * @param {boolean} shouldObserve - whether or not to observe the node
+     * in order to populate the next empty waypoint
+     * @param {number} [parentId=null] - optional ID of the node's parent; if null
+     * then parent is assumed to be the root resource
+     * @param {number} [offset=null] - optional offset of the next waypoint to
+     * populate; required if `shouldObserve` is true
+     * @returns {DocumentFragment} - DocumentFragment containing the node row
+     */
+    function nodeRowMarkup(node, level, shouldObserve, parentId = null, offset = null) {
+      const aoId = node.uri.split('/')[4];
+      const divId = `archival_object_${aoId}`;
+      const aoTitle = node.title;
+      const aHref = `#tree::${divId}`;
+
+      const nodeRowFrag = new DocumentFragment();
+
+      const nodeRow = document.querySelector('#node-row-template').content.cloneNode(true);
+
+      nodeRow.querySelector('.table-row').id = divId;
+      nodeRow.querySelector('.table-row').classList.add(`indent-level-${level}`);
+
+      if (shouldObserve) {
+        const parentNode = parentId.startsWith('resource')
+          ? ''
+          : `/repositories/${repoId}/archival_objects/${parentId}`;
+
+        nodeRow.querySelector('.table-row').setAttribute('data-observe-next-wp', true);
+        nodeRow.querySelector('.table-row').setAttribute('data-observe-node', parentNode);
+        nodeRow.querySelector('.table-row').setAttribute('data-observe-offset', offset);
+      }
+      
+      nodeRow.querySelector('.table-cell').setAttribute('title', aoTitle);
+
+      if (node.child_count == 0) {
+        nodeRow.querySelector('.expandme').style.visibility = 'hidden';
+        nodeRow.querySelector('.expandme').setAttribute('aria-hidden', 'true');
+      }
+      
+      nodeRow.querySelector('.sr-only').textContent = aoTitle;
+
+      if (node.has_digital_instance) {
+        const iconHtml = `<i class="has_digital_instance fa fa-file-image-o" aria-hidden="true"></i>`;
+
+        nodeRow.querySelector('.record-title').insertAdjacentHTML('beforebegin', iconHtml);
+      }
+
+      nodeRow.querySelector('.record-title').setAttribute('href', aHref);
+      nodeRow.querySelector('.record-title').textContent = aoTitle;
+
+      nodeRowFrag.appendChild(nodeRow);
+
+      return nodeRowFrag;
+    }
+
+    /**
+     * rootRowMarkup
+     * @description Append the root row to the tree container
+     * @param {string} identifier - identifier of the root node
+     * @param {string} title - title of the root node
+     * @returns {DocumentFragment} - DocumentFragment containing the root row
+     */
+    function rootRowMarkup(identifier, title) {
+      const rootRowFrag = new DocumentFragment();
+
+      const rootRow = document.createElement('div');
+      rootRow.setAttribute('role', 'listitem');
+      rootRow.id = `resource_${resourceId}`
+      rootRow.className = 'table-row root-row';
+
+      const rootTitleCell = document.createElement('div');
+      rootTitleCell.className = 'table-cell title';
+
+      const rootTitleLink = document.createElement('a');
+      rootTitleLink.href = `#tree::resource_${resourceId}`;
+      rootTitleLink.className = 'record-title';
+      rootTitleLink.innerHTML = `${identifier}: ${title}`;
+
+      rootTitleCell.appendChild(rootTitleLink);
+      rootRow.appendChild(rootTitleCell);
+      rootRowFrag.appendChild(rootRow);
+
+      return rootRowFrag;
+    }
+
+    /**
+     * fetchWaypoint
+     * @description Fetch the next waypoint of the given node
+     * @param {Object} params - object of params for the ajax call with the signature:
+     * @param {string} params.node - node url param in the form of '' or '/repositories/X/archival_objects/Y'
+     * @param {number} params.offset - offset url param
+     * @returns {Promise} - Promise that resolves with the waypoint object
+     */
+    function fetchWaypoint(params) {
+      const { node, offset } = params;
+
+      return $.ajax(treeWaypointUri, {
+        method: 'GET',
+        dataType: 'json',
+        data: {
+          node,
+          offset
+        }
+      });
+    }
+
+    function treeObsHandler(entries, observer) {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          console.log('YO entry!', entry.target)
+          const node = entry.target.getAttribute('data-observe-node');
+          const offset = entry.target.getAttribute('data-observe-offset');
+
+// add , level, hasNextEmptyWP to the following function call
+          fetchWaypoint({ node, offset})
+            .done((waypoint) => {
+              console.log('waypoint 🌲🌲🌲🌲', waypoint);
+              // LEFT OF HERE
+              // got fetching the next waypoint data working, now need to weild it
+              // kEEP IT SIMPLE!
+              // 1. GET THE PARENT WAYPOINT OF THIS NODE
+              // 2. GET THE NEXT WAYPOINT
+              // 3. POPULATE THE NEXT WAYPOINT
+              const nextWaypoint = entry.target.closest('.table-row-group').nextElementSibling;
+
+              // have to check, for the last argument in the following function call,
+              // if the next waypoint is the last waypoint of the parent node or
+              // if there is another empty waypoint after it
+              __populateWaypoint(nextWaypoint, waypoint, 1, waypoint.waypoints > 1);
+            })
+        }
+      })
+    };
+
+    /**
+     * expandParentNode
+     * @description Show the (first waypoint of) children of the given parent node
+     * via an ajax call
+     * @param {string} parentId - id of the parent node
+     */
+    function expandParentNode(parentId) {}
+
+    /**
+     * collapseParentNode
+     * @description Hide the children of the given parent node
+     * @param {string} parentId - id of the parent node
+     */
+    function collapseParentNode(parentId) {}
+
+    /**
+     * fetchRootNode
+     * @description Fetch the root node of the tree
+     * @returns {Promise} - Promise that resolves with the root node object
+     */
+    function fetchRootNode() {
+      return $.ajax(treeRootUri, { method: "GET", dataType: 'json' });
+    }
+
+    // content arbitrary scroll
     const WAYPOINT_SIZE = parseInt($('.infinite-scroll-container').data('waypoint-size'), 10);
     const NUM_TOTAL_RECORDS = parseInt($('.infinite-scroll-container').data('total-records'), 10);
     const NUM_TOTAL_WAYPOINTS = Math.ceil(NUM_TOTAL_RECORDS / WAYPOINT_SIZE);
