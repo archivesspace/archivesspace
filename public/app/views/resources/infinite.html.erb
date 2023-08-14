@@ -95,18 +95,6 @@
 </template>
 
 <script>
-/* here's what happens:
-   1a the sidebar nav "largetree" is fully populated on page load
-   1b on page load, the content area is a colleciton of empty containers
-     called "waypoints", the number of waypoints = number of records / 20
-   2 the first waypoint is populated via ajax manually
-   3 at the end of the ajax call the first waypoint's records
-     start getting observed to highlight the sidebar nav item corresponding
-     to the current record showing, and the remaining empty waypoints
-     start getting observed to be populated when they get close to content area
-   4 once populated, that waypoint's records start getting observed for sidebar
-     nav highlighting
-*/
   $(document).ready(function () {
     // nav arbitrary scroll
 
@@ -173,10 +161,6 @@
       });
 
     /**
-     * observeWPToPopulateNextEmptyWP
-     */
-
-    /**
      * __populateWaypoint
      * @description - Populate the first waypoint of a newly created
      * nodeWaypointsScaffold
@@ -194,6 +178,7 @@
       console.log('waypoint!!', waypoint);
 
       nodes.forEach((node, i) => {
+        // observe the middle node if there is a next empty waypoint
         const observeThisNode = (i == Math.floor(NAV_WAYPOINT_SIZE / 2) - 1 && hasNextEmptyWP);
         const markupArgs = [node, level, observeThisNode];
 
@@ -228,10 +213,6 @@
         tableRowGroup.setAttribute('data-parent-id', nodeId);
         tableRowGroup.setAttribute('data-waypoint-number', i);
         tableRowGroup.setAttribute('data-waypoint-level', level);
-        // OK THE LEVEL HAS BEEN ADDED TO THE WAYPOINT EL, now
-        // the `treeObsHandler` function needs to be fleshed out more to use this
-        // data, not from the fetchWaypoint call, but earlier in the scope so that
-        // the fetchWaypoint's done() function has access to them.
         tableRowGroup.setAttribute('role', 'list');
 
         const tableRow = document.createElement('div');
@@ -343,44 +324,78 @@
      * @returns {Promise} - Promise that resolves with the waypoint object
      */
     function fetchWaypoint(params) {
-      const { node, offset } = params;
-
       return $.ajax(treeWaypointUri, {
         method: 'GET',
         dataType: 'json',
-        data: {
-          node,
-          offset
-        }
+        data: params
       });
+    }
+
+    /**
+     * fetchRootNode
+     * @description Fetch the root node of the tree
+     * @returns {Promise} - Promise that resolves with the root node object
+     */
+    function fetchRootNode() {
+      return $.ajax(treeRootUri, { method: "GET", dataType: 'json' });
     }
 
     function treeObsHandler(entries, observer) {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
-          console.log('YO entry!', entry.target)
+          const thisWaypoint = entry.target.closest('.table-row-group');
+
+          if (!nextSiblingIsNextWaypoint(thisWaypoint)) {
+            return;
+          }
+
+          const nextWaypoint = thisWaypoint.nextElementSibling;
           const node = entry.target.getAttribute('data-observe-node');
           const offset = entry.target.getAttribute('data-observe-offset');
+          const level = thisWaypoint.getAttribute('data-waypoint-level');
 
-// add , level, hasNextEmptyWP to the following function call
           fetchWaypoint({ node, offset})
-            .done((waypoint) => {
-              console.log('waypoint 🌲🌲🌲🌲', waypoint);
-              // LEFT OF HERE
-              // got fetching the next waypoint data working, now need to weild it
-              // kEEP IT SIMPLE!
-              // 1. GET THE PARENT WAYPOINT OF THIS NODE
-              // 2. GET THE NEXT WAYPOINT
-              // 3. POPULATE THE NEXT WAYPOINT
-              const nextWaypoint = entry.target.closest('.table-row-group').nextElementSibling;
+            .done((nodes) => {
+              const nextWPHasNextWP = nextSiblingIsNextWaypoint(nextWaypoint);
 
-              // have to check, for the last argument in the following function call,
-              // if the next waypoint is the last waypoint of the parent node or
-              // if there is another empty waypoint after it
-              __populateWaypoint(nextWaypoint, waypoint, 1, waypoint.waypoints > 1);
+              __populateWaypoint(nextWaypoint, nodes, level, nextWPHasNextWP);
+
+              entry.target.removeAttribute('data-observe-next-wp');
+              entry.target.removeAttribute('data-observe-node');
+              entry.target.removeAttribute('data-observe-offset');
+
+              observer.unobserve(entry.target);
             })
         }
       })
+    };
+
+    /**
+     * nextSiblingIsNextWaypoint
+     * @description Determine if the next sibling of the given waypoint is
+     * the next empty waypoint of the same parent
+     * @param {HTMLElement} waypoint - waypoint to check
+     * @returns {boolean} - true if the next sibling is the next empty waypoint
+     * of the same parent
+     */
+    function nextSiblingIsNextWaypoint(waypoint) {
+      const nextSibling = waypoint.nextElementSibling;
+
+      if (!nextSibling) {
+        return false;
+      }
+
+      const thisWpParent = waypoint.getAttribute('data-parent-id');
+      const thisWpNum = parseInt(waypoint.getAttribute('data-waypoint-number'), 10);
+
+      const nextSiblingParent = nextSibling.getAttribute('data-parent-id');
+      const nextSiblingWpNum = parseInt(nextSibling.getAttribute('data-waypoint-number'), 10);
+      const nextSiblingFirstChild = nextSibling.firstElementChild;
+
+      return nextSiblingParent == thisWpParent &&
+        nextSiblingWpNum == thisWpNum + 1 &&
+        nextSiblingFirstChild.classList.contains('waypoint') &&
+        !nextSiblingFirstChild.classList.contains('populated');
     };
 
     /**
@@ -397,15 +412,6 @@
      * @param {string} parentId - id of the parent node
      */
     function collapseParentNode(parentId) {}
-
-    /**
-     * fetchRootNode
-     * @description Fetch the root node of the tree
-     * @returns {Promise} - Promise that resolves with the root node object
-     */
-    function fetchRootNode() {
-      return $.ajax(treeRootUri, { method: "GET", dataType: 'json' });
-    }
 
     // content arbitrary scroll
     const WAYPOINT_SIZE = parseInt($('.infinite-scroll-container').data('waypoint-size'), 10);
