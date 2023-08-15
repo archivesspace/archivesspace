@@ -130,7 +130,7 @@
         tableRoot.className = 'table root';
 
         tableRoot.appendChild(rootRowMarkup(identifier, title));
-        tableRoot.appendChild(nodeWaypointsScaffold(
+        tableRoot.appendChild(rootNodeWaypointsScaffold(
           rootNodeDivId,
           1,
           rootNode.waypoints
@@ -157,13 +157,13 @@
         }
       })
       .fail(err => {
-        console.log('WTF?!?!?! err: ', err);
+        console.log('root node fetch error: ', err);
       });
 
     /**
      * __populateWaypoint
      * @description - Populate the first waypoint of a newly created
-     * nodeWaypointsScaffold
+     * rootNodeWaypointsScaffold
      * @param {HTMLElement} waypoint - the empty waypoint to populate
      * @param {array} nodes - array of node objects to populate the waypoint with
      * @param {number} level - level of the waypoint
@@ -174,8 +174,6 @@
       const nodeRowsFrag = new DocumentFragment();
 
       waypointMarker.classList.add('populated');
-
-      console.log('waypoint!!', waypoint);
 
       nodes.forEach((node, i) => {
         // observe the middle node if there is a next empty waypoint
@@ -197,14 +195,49 @@
 
     /**
      * nodeWaypointsScaffold
+     * @description - Append the empty set of waypoint containers belonging to a node
+     * after the node element; append elements manually because insertAdjacentElement()
+     * @param {number} nodeId - div id of the parent node whose waypoints
+     * are being scaffolded
+     * @param {number} level - level of the waypoints
+     * @param {number} numWPs - number of waypoints to create
+     */
+    function nodeWaypointsScaffold(nodeId, level, numWPs) {
+      for (let i = 0; i < numWPs; i++) {
+        const prevSibling = i === 0
+          ? document.querySelector(`#${nodeId}`)
+          : document.querySelector(`[data-parent-id="${nodeId}"][data-waypoint-number="${i - 1}"]`);
+
+        const tableRowGroup = document.createElement('div');
+        tableRowGroup.className = 'table-row-group';
+        tableRowGroup.setAttribute('data-parent-id', nodeId);
+        tableRowGroup.setAttribute('data-waypoint-number', i);
+        tableRowGroup.setAttribute('data-waypoint-level', level);
+        tableRowGroup.setAttribute('role', 'list');
+
+        const tableRow = document.createElement('div');
+        tableRow.className = `table-row waypoint indent-level-${level}`;
+
+        prevSibling.insertAdjacentElement('afterend', tableRowGroup);
+
+        const liveTableRowGroup = document.querySelector(
+          `[data-parent-id="${nodeId}"][data-waypoint-number="${i}"]`
+        );
+
+        liveTableRowGroup.appendChild(tableRow);
+      }
+    }
+
+    /**
+     * rootNodeWaypointsScaffold
      * @description - Build the waypoints of a node and populate the first waypoint
-     * @param {number} nodeId - id of the div containing the node whose waypoints
+     * @param {number} nodeId - div id of the parent node whose waypoints
      * are being scaffolded
      * @param {number} level - level of the waypoints
      * @param {number} numWPs - number of waypoints to create
      * @returns {DocumentFragment} - DocumentFragment containing the waypoint
      */
-    function nodeWaypointsScaffold(nodeId, level, numWPs) {
+    function rootNodeWaypointsScaffold(nodeId, level, numWPs) {
       const nodeWaypointsFrag = new DocumentFragment();
 
       for (let i = 0; i < numWPs; i++) {
@@ -253,22 +286,26 @@
       nodeRow.querySelector('.table-row').classList.add(`indent-level-${level}`);
 
       if (shouldObserve) {
-        const parentNode = parentId.startsWith('resource')
+        const nodeParam = parentId.startsWith('resource')
           ? ''
-          : `/repositories/${repoId}/archival_objects/${parentId}`;
+          : `/repositories/${repoId}/archival_objects/${parentId.split('_')[2]}`;
 
         nodeRow.querySelector('.table-row').setAttribute('data-observe-next-wp', true);
-        nodeRow.querySelector('.table-row').setAttribute('data-observe-node', parentNode);
+        nodeRow.querySelector('.table-row').setAttribute('data-observe-node', nodeParam);
         nodeRow.querySelector('.table-row').setAttribute('data-observe-offset', offset);
       }
-      
+
       nodeRow.querySelector('.table-cell').setAttribute('title', aoTitle);
 
       if (node.child_count == 0) {
         nodeRow.querySelector('.expandme').style.visibility = 'hidden';
         nodeRow.querySelector('.expandme').setAttribute('aria-hidden', 'true');
+      } else if (node.child_count > 0) {
+        nodeRow.querySelector('.table-row').setAttribute('data-has-expanded', false)
+        nodeRow.querySelector('.table-row').setAttribute('data-is-expanded', false)
+        nodeRow.querySelector('.expandme').setAttribute('aria-expanded', 'false');
       }
-      
+
       nodeRow.querySelector('.sr-only').textContent = aoTitle;
 
       if (node.has_digital_instance) {
@@ -332,6 +369,22 @@
     }
 
     /**
+     * fetchNode
+     * @description Fetch the tree of the node with the given id
+     * @param {number} nodeId - id of the node, ie: 18028
+     * @returns {Promise} - Promise that resolves with the node object
+     */
+    function fetchNode(nodeId) {
+      return $.ajax(treeNodeUri, {
+        method: 'GET',
+        dataType: 'json',
+        data: {
+          node: `/repositories/${repoId}/archival_objects/${nodeId}`
+        }
+      });
+    }
+
+    /**
      * fetchRootNode
      * @description Fetch the root node of the tree
      * @returns {Promise} - Promise that resolves with the root node object
@@ -359,6 +412,12 @@
               const nextWPHasNextWP = nextSiblingIsNextWaypoint(nextWaypoint);
 
               __populateWaypoint(nextWaypoint, nodes, level, nextWPHasNextWP);
+
+              if (nextWPHasNextWP) {
+                const nextWPTarget = nextWaypoint.querySelector('[data-observe-next-wp="true"]');
+
+                observer.observe(nextWPTarget);
+              }
 
               entry.target.removeAttribute('data-observe-next-wp');
               entry.target.removeAttribute('data-observe-node');
@@ -398,13 +457,55 @@
         !nextSiblingFirstChild.classList.contains('populated');
     };
 
+    $('#tree-container').on('click', '.expandme', function(e){
+      this.setAttribute('aria-expanded', this.getAttribute('aria-expanded') === 'true' ? 'false' : 'true');
+      $(this).closest('.largetree-node').attr('data-is-expanded', this.getAttribute('aria-expanded'));
+      $(this).find('.expandme-icon').toggleClass('expanded');
+
+      if (this.closest('.largetree-node').getAttribute('data-has-expanded') === 'false') {
+        const nodeDivId = this.closest('.largetree-node').id;
+
+        initNodeChildren(nodeDivId);
+
+        this.closest('.largetree-node').setAttribute('data-has-expanded', true);
+      }
+    });
+
     /**
-     * expandParentNode
-     * @description Show the (first waypoint of) children of the given parent node
-     * via an ajax call
-     * @param {string} parentId - id of the parent node
+     * initNodeChildren
+     * @description Build a parent node's waypoint scaffold and populate the first
+     * waypoint
+     * @param {string} nodeDivId - div#id of the parent node, ie: 'archival_object_18028'
      */
-    function expandParentNode(parentId) {}
+    function initNodeChildren(nodeDivId) {
+      const parentNode = document.querySelector(`#${nodeDivId}`);
+      const nodeId = nodeDivId.split('_')[2];
+      const nodeLevel = parseInt(document
+        .querySelector(`#${nodeDivId}`)
+        .closest('.table-row-group')
+        .getAttribute('data-waypoint-level'), 10);
+
+      fetchNode(nodeId)
+        .done((node) => {
+          const nodeWpCount = node.waypoints;
+          const nodeUri = `/repositories/${repoId}/archival_objects/${nodeId}`;
+
+          nodeWaypointsScaffold(nodeDivId, nodeLevel + 1, nodeWpCount);
+
+          const firstWP = document.querySelector(`[data-parent-id="${nodeDivId}"][data-waypoint-number="0"]`);
+
+          __populateWaypoint(
+            firstWP,
+            node.precomputed_waypoints[nodeUri][0],
+            nodeLevel + 1,
+            nodeWpCount > 1
+          );
+
+          if (nodeWpCount > 1) {
+            treeWpObs.observe(firstWP.querySelector('[data-observe-next-wp]'));
+          }
+        });
+    }
 
     /**
      * collapseParentNode
@@ -468,11 +569,11 @@
 
     $('[data-show-all-records]').on('click', () => { populateAllWaypoints(); })
 
-    $('#tree-container').on('click', '.expandme', function(e){
-      this.setAttribute('aria-expanded', this.getAttribute('aria-expanded') === 'true' ? 'false' : 'true')
-      $(this).find('.expandme-icon').toggleClass('expanded')
-      $(this).closest('.largetree-node').attr('data-is-expanded', this.getAttribute('aria-expanded'))
-    })
+    // $('#tree-container').on('click', '.expandme', function(e){
+    //   this.setAttribute('aria-expanded', this.getAttribute('aria-expanded') === 'true' ? 'false' : 'true')
+    //   $(this).find('.expandme-icon').toggleClass('expanded')
+    //   $(this).closest('.largetree-node').attr('data-is-expanded', this.getAttribute('aria-expanded'))
+    // })
 
     $('#tree-container').on('click', 'a.record-title', function(e) {
       e.preventDefault();
