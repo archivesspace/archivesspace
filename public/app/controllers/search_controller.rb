@@ -2,6 +2,8 @@ class SearchController < ApplicationController
 
   include PrefixHelper
 
+  before_action :validate_params
+
   DEFAULT_SEARCH_FACET_TYPES = ['repository', 'primary_type', 'subjects', 'published_agents', 'langcode']
   DEFAULT_SEARCH_OPTS = {
 #    'sort' => 'title_sort asc',
@@ -9,7 +11,12 @@ class SearchController < ApplicationController
     'facet.mincount' => 1
   }
   DEFAULT_TYPES = %w{archival_object digital_object digital_object_component agent resource repository accession classification subject}
+  YEAR_FIELD_REGEX = /^\d{1,4}$/
 
+  class InvalidSearchParams < StandardError
+  end
+
+  rescue_from InvalidSearchParams, :with => :render_invalid_params
 
   def search
     @repo_id = params.fetch(:rid, nil)
@@ -81,6 +88,23 @@ class SearchController < ApplicationController
     end
     final_counts['resource'] = final_counts['collection']
     final_counts
+  end
+
+  def validate_params
+    ["from_year", "to_year"].each do |field|
+      next unless params[field]
+      params[field].each do |field_item|
+        next if field_item.nil? || field_item.empty?
+        next if field_item.match? YEAR_FIELD_REGEX
+        field_item = CGI::escapeHTML(URI.decode(field_item))
+        raise InvalidSearchParams.new(I18n.t('errors.invalid_search_params', value: field_item, field: I18n.t('search_results.filter.' + field)))
+      end
+    end
+  end
+
+  def render_invalid_params(error)
+    flash[:error] = error.message
+    redirect_to('/')
   end
 
 end
