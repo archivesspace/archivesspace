@@ -859,6 +859,7 @@ de:
       Beziehung bevor Sie mit dem Zusammenführen fortfahren.
     linked_to_assessment: Die Aufzeichnung kann nicht gelöscht werden, weil Sie mit
       einem Eingang verknüpft ist
+    linked_to_user: Die Aufzeichnung kann nicht gelöscht werden, weil Sie mit einem Benutzer verknüpft ist
     cannot_delete_repository_agent: Dieser Akteur ist mit einem Aufbewahrungsort verknüpft
       und kann nicht entfernt werden.
     error_403_message: Die aufgerufene Seite könnte nicht mehr existieren oder Sie

@@ -694,7 +694,7 @@ ja:
     merge_too_many_victims: 詳細なマージのために選択できるエージェントは1つだけです.
     merge_different_types: 詳細なマージのために選択されたエージェントは、同じタイプでなければなりません.
     linked_to_assessment: レコードは評価にリンクされているため削除できません
-
+    linked_to_user: レコードはユーザーにリンクされているため削除できません
     cannot_delete_repository_agent: このエージェントはリポジトリにリンクされているため、削除できません。
     merge_denied_relationship: これらのエージェントには関係があります。マージを続行する前に、関係を削除してください。
   accession:
