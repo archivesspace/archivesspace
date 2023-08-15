@@ -202,6 +202,7 @@ en:
     backend_down_message: ArchivesSpace is currently experiencing technical difficulties. We
       apologise for the inconvenience. Please try again later.
     unexpected_error: Your request could not be completed due to an unexpected error
+    invalid_search_params: "Invalid search parameter '%{value}' for field '%{field}'"
 
   boolean:
     "true": "Yes"
