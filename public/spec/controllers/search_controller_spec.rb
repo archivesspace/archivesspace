@@ -1,4 +1,5 @@
 require 'spec_helper'
+require 'uri'
 
 # TODO: the specs here (and elsehwere) formerly asserted against a hard-coded
 # no. for 'total_hits' which was extremely annoying when adding new test data / fixtures.
@@ -134,7 +135,7 @@ describe SearchController, type: :controller do
         users_query_string = advanced_query['query']['subqueries'][1]['subqueries'][0]['subqueries'][0]['value']
         expect(users_query_string).to eq("foo & bar")
 
-        Struct.new(:code, :body).new(200, "search results")
+        Struct.new(:code, :body).new(500, "doesn't matter for purpose of this test")
       end
 
       get(:search, params: {
@@ -208,4 +209,40 @@ describe SearchController, type: :controller do
       end
     end
   end
+
+  describe "xss sanitizing" do
+    render_views
+
+    it "does not let javascript appear in search date params" do
+      as_client = instance_double("ArchivesSpaceClient")
+      allow(as_client).to receive(:advanced_search) { |base_search, page, criteria|
+        SolrResults.new({
+                          'total_hits' => 0,
+                          'results' => [],
+                          'facets' => {
+                            'facet_fields' => {
+                              'repository' => [
+                                '/repositories/2', 6, '/repositories/1', 3, '/repositories/3', 2
+                              ]
+                            }
+                          }
+                        })
+      }
+      allow(controller).to receive(:archivesspace).and_return(as_client)
+
+      get(:search, params: {
+            :rid => 2,
+            :q => ['foobar'],
+            :op => ['OR'],
+            :field => [''],
+            :from_year => [URI.encode('<script>alert("boo");</script>')]
+          })
+
+      expect(response.status).to eq(302)
+      expect(controller.params["from_year"]).to eq ["%3Cscript%3Ealert(%22boo%22);%3C/script%3E"]
+      expect(URI.parse(response.redirect_url).query).to be_nil
+      expect(request.flash[:error]).to eq ("Invalid search parameter '&lt;script&gt;alert(&quot;boo&quot;);&lt;/script&gt;' for field 'From year'")
+    end
+  end
+
 end
