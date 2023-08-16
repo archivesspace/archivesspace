@@ -150,4 +150,36 @@ describe "Import Archival Objects" do
     expect(enum_values).not_to include("Mixed Materials")
     expect(enum_values).to include("FOO BARS")
   end
+
+  # see https://archivesspace.atlassian.net/browse/ANW-1777?focusedCommentId=39145
+  it "adds unrecognized container types to the enum" do
+    resource = create(:json_resource, ead_id: "9916")
+    opts = { :repo_id => JSONModel(:repository).id_for(resource.repository['ref']),
+             :rid => resource.id,
+             :type => "resource",
+             :filename => "checkingbugAug012023.xlsx",
+             :filepath => BULK_FIXTURES_DIR + "/checkingbugAug012023.xlsx",
+             :load_type => "archival_object",
+             :ref_id => "",
+             :aoid => "",
+             :position => "" }
+
+    importer = ImportArchivalObjects.new(opts[:filepath], "xlsx", @current_user, opts)
+    report = importer.run
+    expect(report.terminal_error).to eq(nil)
+    expect(report.row_count).to eq(9)
+    expect(report.rows.map { |r| r.errors }.compact.flatten).to eq([])
+    container_info = report.rows.map {|r| r.info }.flatten.compact.map
+    container_uris = container_info.map { |i| i.sub(/.*created:\s/, '') }
+    container_strings = container_info.map { |i| i.sub(/.*\[([^\]]+)\].*/, '\1') }
+    expect(container_strings).to include("carton 100")
+    expect(container_strings).to include("Volume 36")
+    expect(container_strings).to include("Page 36")
+    expect(container_strings).to include("Distinc 1")
+    enum = Enumeration.find(:name => 'container_type')
+    values = EnumerationValue.filter(enumeration_id: enum.id).map {|e| e.value }
+    expect(values).to include("Volume")
+    expect(values).to include("Page")
+    expect(values).to include("Distinc")
+  end
 end

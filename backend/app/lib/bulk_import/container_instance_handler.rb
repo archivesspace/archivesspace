@@ -35,6 +35,9 @@ class ContainerInstanceHandler < Handler
   # returns a top container JSONModel
   def get_or_create(type, indicator, barcode, resource, report)
     begin
+      if !@container_types.value(type)
+        @container_types.add_value_to_enum(type)
+      end
       top_container = build(type, indicator, barcode)
       tc_key = key_for(top_container, resource)
       # check to see if we already have fetched one from the db, or created one.

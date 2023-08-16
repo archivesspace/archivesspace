@@ -53,4 +53,15 @@ class CvList
     end
     @list_hash = list_hash
   end
+
+  def add_value_to_enum(new_value)
+    enum = Enumeration.find(:name => @which)
+    if enum.editable === 1 || enum.editable == true
+      unless @validate_only
+        new_position = enum.enumeration_value.length + 1
+        enum.add_enumeration_value(:value => new_value, :position => new_position)
+        renew
+      end
+    end
+  end
 end
