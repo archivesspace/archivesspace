@@ -71,10 +71,9 @@ span.title {
  }
 
  div.ao-summary {
-    padding: 5px;
     float: left;
     text-align: left;
-    font-size: 75%;
+    width: 400px;
  }
 
  .container-information {
@@ -105,9 +104,10 @@ span.title {
     background-color: #fafafa;
     font-weight: bold;  
     width: 100%;
-    margin-top: 10px;
+    margin-top: 30px;
     border-top: 1px solid #aaa;
     border-bottom: 1px solid #aaa;
+    font-size: 75%;
  }
 
  table.collection-inventory-header td.title {
@@ -187,11 +187,13 @@ span.title {
 
  .print-record-border {
      padding-left: 0.5em;
-     margin: 0;
+     /* border: 1px solid #f00; */
+     /* margin: 0; /*
 
      /* Get rid of annoying vertical whitespace */
-     margin-top: -8px;
-     padding-top: 8px;
+     /* margin-top: -8px; */
+     /* padding-top: 8px; */
+     /* padding-bottom: 10px !important; */
  }
 
  .avoid-break {
@@ -202,6 +204,7 @@ span.title {
 
  .print-record {
      margin-bottom: 1em;
+     display: block;
      border-top: solid 1px #dedede;
  }
 
@@ -241,6 +244,56 @@ span.title {
 
  .inherit {
      font-style: italic;
+ }
+
+ .print-record-border a.record-title {
+     color: black;
+     font-weight: normal; 
+     font-size: 75%;
+ }
+
+ .box-area {
+    /* margin-top: 5px; */
+    display: block;
+    width: 250px;
+ }
+
+ .box-string {
+    float: left;
+    text-align: left;
+    margin-right: 10px;
+    overflow: scroll;
+ }
+
+ .folder-string {
+    float: right;
+    margin-left: 10px;
+    overflow: scroll;
+ }
+ .first-post {
+    background-color: #eee;
+ }
+
+ .print-record-border.first-post a.record-title {
+    font-weight: bold !important;
+ }
+
+ .indented dl {
+    margin-top: 10px;
+    font-weight: normal !important;
+    font-size: 75% !important;
+ }
+
+ .indented dt {
+    font-weight: normal !important;
+    text-decoration: underline;
+ }
+
+ .indented a {
+    font-weight: normal !important;
+    font-size: 75% !important;
+ }
+
  }
 
  <%# Don't show headers/footers on the titlepage %>
