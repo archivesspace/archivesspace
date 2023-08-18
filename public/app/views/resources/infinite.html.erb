@@ -80,6 +80,14 @@
   </div>
 </dialog>
 
+<template id="root-row-template">
+  <div class="table-row root-row" role="listitem" data-uri="">
+    <div class="table-cell title">
+      <a class="record-title" href=""></a>
+    </div>
+  </div>
+</template>
+
 <template id="node-row-template">
   <div class="table-row largetree-node" role="listitem">
     <div class="table-cell title">
@@ -96,7 +104,7 @@
 
 <script>
   $(document).ready(function () {
-    // nav arbitrary scroll
+    // nav infinite scroll
 
     const NAV_WAYPOINT_SIZE = '<%= sidebar_waypoint_size %>';
     const repoId = '<%= @result['uri'].split('/')[2] %>';
@@ -117,7 +125,6 @@
 
     fetchRootNode()
       .done(rootNode => {
-        console.log('rootNode: ', rootNode);
         const aHref = `#tree::resource_${resourceId}`;
         const title = rootNode.title;
         const identifier = rootNode.identifier;
@@ -159,6 +166,20 @@
       .fail(err => {
         console.log('root node fetch error: ', err);
       });
+    
+    $('#tree-container').on('click', '.expandme', function(e){
+      this.setAttribute('aria-expanded', this.getAttribute('aria-expanded') === 'true' ? 'false' : 'true');
+      $(this).closest('.largetree-node').attr('data-is-expanded', this.getAttribute('aria-expanded'));
+      $(this).find('.expandme-icon').toggleClass('expanded');
+
+      if (this.closest('.largetree-node').getAttribute('data-has-expanded') === 'false') {
+        const nodeDivId = this.closest('.largetree-node').id;
+
+        initNodeChildren(nodeDivId);
+
+        this.closest('.largetree-node').setAttribute('data-has-expanded', true);
+      }
+    });
 
     /**
      * __populateWaypoint
@@ -284,6 +305,7 @@
 
       nodeRow.querySelector('.table-row').id = divId;
       nodeRow.querySelector('.table-row').classList.add(`indent-level-${level}`);
+      nodeRow.querySelector('.table-row').setAttribute('data-uri', node.uri);
 
       if (shouldObserve) {
         const nodeParam = parentId.startsWith('resource')
@@ -331,22 +353,15 @@
      */
     function rootRowMarkup(identifier, title) {
       const rootRowFrag = new DocumentFragment();
+      const rootRow = document.querySelector('#root-row-template').content.cloneNode(true);
+      const uri = `/repositories/${repoId}/resources/${resourceId}`;
 
-      const rootRow = document.createElement('div');
-      rootRow.setAttribute('role', 'listitem');
-      rootRow.id = `resource_${resourceId}`
-      rootRow.className = 'table-row root-row';
+      rootRow.querySelector('.table-row').id = `resource_${resourceId}`
+      rootRow.querySelector('.table-row').setAttribute('data-uri', uri);
 
-      const rootTitleCell = document.createElement('div');
-      rootTitleCell.className = 'table-cell title';
+      rootRow.querySelector('.record-title').href = `#tree::resource_${resourceId}`;
+      rootRow.querySelector('.record-title').innerHTML = `${identifier}: ${title}`;
 
-      const rootTitleLink = document.createElement('a');
-      rootTitleLink.href = `#tree::resource_${resourceId}`;
-      rootTitleLink.className = 'record-title';
-      rootTitleLink.innerHTML = `${identifier}: ${title}`;
-
-      rootTitleCell.appendChild(rootTitleLink);
-      rootRow.appendChild(rootTitleCell);
       rootRowFrag.appendChild(rootRow);
 
       return rootRowFrag;
@@ -457,20 +472,6 @@
         !nextSiblingFirstChild.classList.contains('populated');
     };
 
-    $('#tree-container').on('click', '.expandme', function(e){
-      this.setAttribute('aria-expanded', this.getAttribute('aria-expanded') === 'true' ? 'false' : 'true');
-      $(this).closest('.largetree-node').attr('data-is-expanded', this.getAttribute('aria-expanded'));
-      $(this).find('.expandme-icon').toggleClass('expanded');
-
-      if (this.closest('.largetree-node').getAttribute('data-has-expanded') === 'false') {
-        const nodeDivId = this.closest('.largetree-node').id;
-
-        initNodeChildren(nodeDivId);
-
-        this.closest('.largetree-node').setAttribute('data-has-expanded', true);
-      }
-    });
-
     /**
      * initNodeChildren
      * @description Build a parent node's waypoint scaffold and populate the first
@@ -507,21 +508,15 @@
         });
     }
 
-    /**
-     * collapseParentNode
-     * @description Hide the children of the given parent node
-     * @param {string} parentId - id of the parent node
-     */
-    function collapseParentNode(parentId) {}
 
-    // content arbitrary scroll
+    // content infinite scroll
     const WAYPOINT_SIZE = parseInt($('.infinite-scroll-container').data('waypoint-size'), 10);
     const NUM_TOTAL_RECORDS = parseInt($('.infinite-scroll-container').data('total-records'), 10);
     const NUM_TOTAL_WAYPOINTS = Math.ceil(NUM_TOTAL_RECORDS / WAYPOINT_SIZE);
-    const scrollContainer = document.querySelector('.infinite-scroll-container');
+    const contentScrollContainer = document.querySelector('.infinite-scroll-container');
     const modal = document.querySelector('[data-loading-modal]');
 
-    function scrollHandler(entries, observer) {
+    function contentWPScrollHandler(entries, observer) {
       entries.forEach((entry) => {
         if (entry.isIntersecting && isOkToObserve) {
           const target = entry.target;
@@ -532,26 +527,48 @@
             populateWaypoints([targetWpNum - 1], true, function() {
               target.removeAttribute('data-observe-prev-wp');
             });
-            console.log('prev neighbor populated!\ntargetRecNum: ', targetRecNum, '\ntargetWpNum: ', targetWpNum);
           }
+
           if (target.getAttribute('data-observe-next-wp')) {
             populateWaypoints([targetWpNum + 1], true, function() {
               target.removeAttribute('data-observe-next-wp');
             });
-            console.log('next neighbor populated!\ntargetRecNum: ', targetRecNum, '\ntargetWpNum: ', targetWpNum);
           }
+
+          observer.unobserve(target);
         }
       })
     };
-    const scrollOpts = {
-      root: scrollContainer,
+
+    const contentWPObs = new IntersectionObserver(contentWPScrollHandler, {
+      root: contentScrollContainer,
       rootMargin: '-30% 0px -30% 0px'
+    });
+
+    function contentRecordScrollHandler(entries, observer) {
+      entries.forEach((entry, i) => {
+        if (entry.isIntersecting) {
+          const uri = entry.target.dataset.uri;
+          const _new = document.querySelector(`#tree-container .table-row[data-uri="${uri}"]`);
+          const old = document.querySelector('#tree-container .table-row.current')
+
+          if (old) {
+            old.classList.remove('current');
+          }
+
+          _new.classList.add('current');
+        }
+      });
     };
-    const popWpObs = new IntersectionObserver(scrollHandler, scrollOpts);
+
+    const contentRecordObs = new IntersectionObserver(contentRecordScrollHandler, {
+      root: document.querySelector('.infinite-scroll-container'),
+      rootMargin: '-5px 0px -95% 0px' // only the top sliver
+    });
 
     let isOkToObserve = true;
 
-    scrollContainer.addEventListener('scrollend', () => {
+    contentScrollContainer.addEventListener('scrollend', () => {
       isOkToObserve = true;
     });
 
@@ -567,134 +584,33 @@
       });
     }
 
-    $('[data-show-all-records]').on('click', () => { populateAllWaypoints(); })
-
-    // $('#tree-container').on('click', '.expandme', function(e){
-    //   this.setAttribute('aria-expanded', this.getAttribute('aria-expanded') === 'true' ? 'false' : 'true')
-    //   $(this).find('.expandme-icon').toggleClass('expanded')
-    //   $(this).closest('.largetree-node').attr('data-is-expanded', this.getAttribute('aria-expanded'))
-    // })
+    $('[data-show-all-records]').on('click', () => { populateAllWaypoints(); });
 
     $('#tree-container').on('click', 'a.record-title', function(e) {
       e.preventDefault();
 
-      window.location.hash = this.href.split('#')[1];
+      const targetDivId = this.href.split('#')[1];
+      const recordUri = treeIdToRecordUri(targetDivId);
 
-      const recNum = parseInt($(this).closest('[data-record-number]').attr('data-record-number'), 10);
-      const wpNum = recordNumberToWaypointNumber(recNum);
-      const record = document.querySelector(`.infinite-record-record[data-record-number='${recNum}']`);
+      const recordSelector = `.infinite-record-record[data-uri='${recordUri}']`;
+      const scrollOpts = { behavior: 'smooth' };
+
+      window.location.hash = targetDivId;
+
+      const record = document.querySelector(recordSelector);
 
       if (!record) {
+        const wpNum = treeIdtoWaypointNumber(targetDivId);
+
         isOkToObserve = false;
 
         populateWaypoints(neighborWaypointNums(wpNum), true, function() {
-          scrollToRecord(recNum);
+          scrollToRecord(targetDivId);
         });
       } else {
-        record.scrollIntoView({ behavior: "smooth" });
+        record.scrollIntoView(scrollOpts);
       }
-    })
-
-    /**
-     * treeIdtoWaypointNumber
-     * @description Get the waypoint number of the record with the given treeId
-     * @param {string} treeId - treeId of the record, e.g. #tree::archival_object_123
-     * @returns {number} - waypoint number
-     */
-    function treeIdtoWaypointNumber(treeId) {
-      const recordTitle = document.querySelector(`.record-title[href='${treeId}']`);
-      const recNum = recordTitle.closest('[data-record-number]').getAttribute('data-record-number');
-
-      return recordNumberToWaypointNumber(recNum);
-    }
-
-    function recordNumberToWaypointNumber(recNum) {
-      if (typeof recNum === 'string') {
-        recNum = parseInt(recNum, 10);
-      }
-      return Math.floor(recNum / WAYPOINT_SIZE);
-    }
-
-    function scrollToRecord(recId) {
-      let record;
-      if (typeof recId === 'number') {
-        // recnum
-        record = document.querySelector(`.infinite-record-record[data-record-number='${recId}']`);
-      } else if (typeof recId === 'string') {
-        // hash/treeId
-        record = document.querySelector(`${recId.replaceAll(':', '\\:')}`);
-      }
-      record.scrollIntoView({ behavior: "smooth" });
-    }
-
-    /**
-     * neighborWaypointNums
-     * @description Get the waypoint numbers of the previous and next waypoints
-     * @param {number} wpNum - current waypoint number
-     * @returns {number[]} - array of consecutive waypoint numbers from least to greatest
-     */
-    function neighborWaypointNums(wpNum) {
-      const result = [];
-      // assumes waypoint 2 or greater since waypoint 0 is fetched on page load
-      if (wpNum > 1) {
-        result.push(wpNum - 1);
-      }
-
-      result.push(wpNum);
-
-      if (wpNum < NUM_TOTAL_WAYPOINTS - 1) {
-        result.push(wpNum + 1);
-      }
-
-      return result;
-    }
-
-    /**
-     * toggleModal
-     * @description Show spinner loading modal when fetching data
-     */
-    function toggleModal() {
-      if (modal.open) {
-        modal.close();
-      } else {
-        modal.showModal();
-      }
-    }
-
-    /**
-     * populateAllWaypoints
-     * @description Populate remaining empty waypoints
-     */
-    function populateAllWaypoints() {
-      const waypointNums = Array.from(document.querySelectorAll('.waypoint:not(.populated)'))
-        .map(waypoint => parseInt(waypoint.dataset.waypointNumber, 10));
-      
-      populateWaypoints(waypointNums);
-    }
-
-    /**
-     * updateShowingCurrent
-     * @description Update the number of records currently showing label
-     */
-    function updateShowingCurrent() {
-      const showingCurrentEl = document.querySelector('[data-showing-current]');
-      const showAllBtn = document.querySelector('[data-show-all-records]');
-      const numPresentRecords = document.querySelectorAll('.infinite-record-record').length;
-
-      showingCurrentEl.classList.add('item-highlight');
-      showingCurrentEl.textContent = numPresentRecords;
-      showingCurrentEl.onanimationend = () => {
-        showingCurrentEl.classList.remove('item-highlight');
-      }
-
-      if (numPresentRecords === NUM_TOTAL_RECORDS) {
-        showAllBtn.classList.add('item-fadeout');
-        showAllBtn.onanimationend = () => {
-          showAllBtn.style.opacity = 0;
-        }
-        showAllBtn.setAttribute('disabled', true);
-      }
-    }
+    });
 
     /**
      * populateWaypoints
@@ -755,8 +671,13 @@
           // Update current number of records showing
           updateShowingCurrent();
 
-          // Watch this waypoint's records created from previous step
-          initRecordsObserver(wpNum);
+          // Watch the new records for nav's `.current` highlight
+          const records = waypoint.querySelectorAll('.infinite-record-record');
+
+          records.forEach(record => {
+            contentRecordObs.observe(record);
+          });
+
 
           // Watch this waypoint's middle record in order to populate
           // neighboring waypoints
@@ -786,19 +707,17 @@
             if (wpHasUnpopPrevNeighbor()) {
               scrollTarget.setAttribute('data-observe-prev-wp', 'true');
             }
+
             if (wpHasUnpopNextNeighbor()) {
               scrollTarget.setAttribute('data-observe-next-wp', 'true');
             }
 
-            popWpObs.observe(scrollTarget);
+            contentWPObs.observe(scrollTarget);
           }
 
-          // Stop observing this waypoint
           waypoint.classList.add('populated');
-          waypoint.removeAttribute('data-observe');
 
           if (callback) {
-            console.log('hello from callback in populateWaypoints!')
             callback();
           }
 
@@ -810,43 +729,133 @@
     }
 
     /**
-     * initRecordsObserver
-     * @description Observe which record is currently showing at the top
-     * of the viewport and highlight the corresponding sidebar nav item
-     * wpNum can be number or string
-     * @param {(number|string)} wpNum - waypoint number
+     * treeIdtoWaypointNumber
+     * @description Get the waypoint number of the record with the given treeId
+     * @param {string} treeId - treeId of the record, e.g. #tree::archival_object_123
+     * @returns {number} - waypoint number
      */
-    function initRecordsObserver(wpNum) {
-      // THIS LIKELY NEEDS REFACTORING a la the new waypoint observer,
-      // since this observer appears to be used via the approach of creating
-      // a new observer each time a waypoint is populated
-      const options = {
-        root: document.querySelector('.infinite-scroll-container'),
-        rootMargin: '-5px 0px -95% 0px' // only the top sliver
-      };
-      const observer = new IntersectionObserver(intersectionHandler, options);
-      const recordSelector = `[data-waypoint-number="${wpNum}"] > [data-observe="record"]`
-      const records = document.querySelectorAll(recordSelector);
+    function treeIdtoWaypointNumber(treeId) {
+      return parseInt(
+        contentScrollContainer
+          .querySelector(`.waypoint[data-uris*='${treeIdToRecordUri(treeId)}']`)
+          .getAttribute('data-waypoint-number'),
+        10
+      );
+    }
 
-      records.forEach(record => {
-        observer.observe(record);
-      });
+    /**
+     * treeIdToRecordUri
+     * @description Get the uri of a record given the treeId; useful since querying the DOM
+     * for a string with `::` is messy.
+     * @param {string} treeId - treeId of the record, either `#tree::archival_object_123`
+     * OR `tree::archival_object_123`
+     * @returns {string} - record uri, e.g. /repositories/2/archival_objects/123
+     */
+    function treeIdToRecordUri(treeId) {
+      const type = treeId.includes('resource')
+        ? 'resources'
+        : 'archival_objects';
+      const id = treeId.split('_')[treeId.split('_').length - 1];
 
-      function intersectionHandler(entries, observer) {
-        entries.forEach((entry, i) => {
-          if (entry.isIntersecting) {
-            const recNum = entry.target.dataset.recordNumber;
-            const prevCurrent = document.querySelector('#tree-container [data-record-number].current')
+      return `/repositories/${repoId}/${type}/${id}`;
+    }
 
-            if (prevCurrent) {
-              prevCurrent.classList.remove('current')
-            }
+    function recordNumberToWaypointNumber(recNum) {
+      if (typeof recNum === 'string') {
+        recNum = parseInt(recNum, 10);
+      }
+      return Math.floor(recNum / WAYPOINT_SIZE);
+    }
 
-            document
-              .querySelector(`#tree-container [data-record-number="${recNum}"]`)
-              .classList.add('current')
-          }
-        });
+    /**
+     * scrollToRecord
+     * @description Scroll to the record with the given record number or treeId
+     * @param {number|string} target - record number or treeId of the record to scroll to
+     */
+    function scrollToRecord(target) {
+      let record;
+      const baseSelector = '.infinite-record-record';
+
+      if (typeof target === 'number') {
+        record = document
+          .querySelector(`${baseSelector}[data-record-number='${target}']`);
+      } else if (typeof target === 'string' && target.includes('tree::')) {
+        const uri = treeIdToRecordUri(target);
+        const selector = `${baseSelector}[data-uri='${uri}']`;
+        record = document
+          .querySelector(selector);
+      }
+
+      record.scrollIntoView({ behavior: "smooth" });
+    }
+
+    /**
+     * neighborWaypointNums
+     * @description Get the waypoint numbers of the previous and next waypoints
+     * @param {number} wpNum - current waypoint number
+     * @returns {number[]} - array of consecutive waypoint numbers from least to greatest
+     */
+    function neighborWaypointNums(wpNum) {
+      const result = [wpNum];
+      // assumes waypoint 2 or greater since waypoint 0 is fetched on page load
+      if (wpNum > 1) {
+        result.push(wpNum - 1);
+      }
+
+      // commenting this out in place of pushing wpNum first for debugging
+      // result.push(wpNum);
+
+      if (wpNum < NUM_TOTAL_WAYPOINTS - 1) {
+        result.push(wpNum + 1);
+      }
+
+      return result;
+    }
+
+    /**
+     * toggleModal
+     * @description Show spinner loading modal when fetching data
+     */
+    function toggleModal() {
+      if (modal.open) {
+        modal.close();
+      } else {
+        modal.showModal();
+      }
+    }
+
+    /**
+     * populateAllWaypoints
+     * @description Populate remaining empty waypoints
+     */
+    function populateAllWaypoints() {
+      const waypointNums = Array.from(document.querySelectorAll('.waypoint:not(.populated)'))
+        .map(waypoint => parseInt(waypoint.dataset.waypointNumber, 10));
+      
+      populateWaypoints(waypointNums);
+    }
+
+    /**
+     * updateShowingCurrent
+     * @description Update the number of records currently showing label
+     */
+    function updateShowingCurrent() {
+      const showingCurrentEl = document.querySelector('[data-showing-current]');
+      const showAllBtn = document.querySelector('[data-show-all-records]');
+      const numPresentRecords = document.querySelectorAll('.infinite-record-record').length;
+
+      showingCurrentEl.classList.add('item-highlight');
+      showingCurrentEl.textContent = numPresentRecords;
+      showingCurrentEl.onanimationend = () => {
+        showingCurrentEl.classList.remove('item-highlight');
+      }
+
+      if (numPresentRecords === NUM_TOTAL_RECORDS) {
+        showAllBtn.classList.add('item-fadeout');
+        showAllBtn.onanimationend = () => {
+          showAllBtn.style.opacity = 0;
+        }
+        showAllBtn.setAttribute('disabled', true);
       }
     }
   });
