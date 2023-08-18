@@ -68,6 +68,7 @@ class Doc < Thor
       match = log_entry[:desc].match /\(#(\d+)\)$/
       if match
         log_entry[:pr_number] = match[1].to_i
+        log_entry[:pr_title] = log_entry[:desc]
       end
     end
 
