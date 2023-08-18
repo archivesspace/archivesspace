@@ -10,6 +10,10 @@ end
 require 'config/config-distribution'
 require "db/db_migrator"
 
+if AppConfig[:db_url] =~ /jdbc:mysql/
+  require "db/sequel_mysql_timezone_workaround"
+end
+
 
 if ARGV.length > 0 and ARGV[0] == "nuke"
   if (AppConfig[:db_url] =~ /jdbc:derby:(.*?);.*aspacedemo=true$/)
