@@ -44,6 +44,11 @@ jobs:
         distribution: temurin
 
     - uses: './.github/actions/bootstrap'
+      with:
+        backend: true
+        frontend: true
+        public: true
+        indexer: true
 
     - name: Load accessibility database
       env:

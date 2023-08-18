@@ -37,8 +37,9 @@ describe 'Repositories', js: true do
     click_link('Manage Repositories')
     click_link('Create Repository')
     fill_in(id: 'repository_repository__name_', with: 'missing field test')
-    click_button('Save Repository')
-
+    within('#archivesSpaceSidebar') do
+      find("button[type='submit']").click
+    end
     expect(page).to have_content('Repository Short Name - Property is required but was missing')
   end
 
@@ -48,8 +49,9 @@ describe 'Repositories', js: true do
     click_link('Create Repository')
     fill_in(id: 'repository_repository__repo_code_', with: @test_repo_code_1)
     fill_in(id: 'repository_repository__name_', with: @test_repo_name_1)
-    click_button('Save Repository')
-
+    within('#archivesSpaceSidebar') do
+      find("button[type='submit']").click
+    end
     expect(page).to have_content('Repository Created')
   end
 
@@ -66,7 +68,9 @@ describe 'Repositories', js: true do
     click_button('Add Telephone Number')
     fill_in(id: 'repository_agent_representation__agent_contacts__0__telephones__1__number_',
         with: '123-456-7890')
-    click_button('Save Repository')
+    within('#archivesSpaceSidebar') do
+      find("button[type='submit']").click
+    end
 
     expect(page).to have_content('Repository Saved')
     expect(page).to have_content('business')
@@ -86,7 +90,9 @@ describe 'Repositories', js: true do
     visit("#{@repo.uri}/edit")
     sig = 'Yours Truly, A. Space'
     fill_in(id: 'repository_agent_representation__agent_contacts__0__email_signature_', with: sig)
-    click_button('Save Repository')
+    within('#archivesSpaceSidebar') do
+      find("button[type='submit']").click
+    end
 
     expect(page).to have_content('Repository Saved')
     expect(page).to have_content(sig)
@@ -95,7 +101,9 @@ describe 'Repositories', js: true do
   it 'will add a new contact name on save if the existing one is deleted' do
     visit("#{@repo.uri}/edit")
     fill_in('Contact Name', with: '')
-    click_button('Save Repository')
+    within('#archivesSpaceSidebar') do
+      find("button[type='submit']").click
+    end
 
     expect(page).to have_content('Repository Saved')
     expect(
@@ -164,7 +172,9 @@ describe 'Repositories', js: true do
     visit '/repositories/new'
     fill_in(id: 'repository_repository__repo_code_', with: @test_repo_code_2)
     fill_in(id: 'repository_repository__name_', with: @test_repo_name_2)
-    click_button('Save Repository')
+    within('#archivesSpaceSidebar') do
+      find("button[type='submit']").click
+    end
 
     expect(page).to have_content('Repository Created')
   end
@@ -179,6 +189,7 @@ describe 'Repositories', js: true do
 
   it 'automatically refreshes the repository list when a new repo gets added' do
     repo = create(:repo)
+    MemoryLeak::Resources.refresh(:repository)
     page.refresh
     click_link('Select Repository')
     expect(find('select', id: 'id')).to have_content(repo.repo_code)

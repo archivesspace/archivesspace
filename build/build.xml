@@ -503,6 +503,7 @@
       <env key="APPCONFIG_DATA_DIRECTORY" value="${env.ASPACE_TEST_DATA_DIRECTORY}" />
       <env key="APPCONFIG_DB_URL" value="${env.ASPACE_TEST_DB_URL}" />
       <env key="APPCONFIG_SOLR_URL" value="${env.ASPACE_TEST_SOLR_URL}" />
+      <env key="TEST_MODE" value="1" />
       <arg line="../build/gems/bin/bundle exec rspec -b --format d ${pattern-arg} ${tag-arg} ${order-arg} ${example-arg} ${spec-arg} ${extra-spec-paths}" />
     </java>
   </target>
