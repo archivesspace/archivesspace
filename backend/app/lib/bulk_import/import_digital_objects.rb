@@ -14,8 +14,15 @@ class ImportDigitalObjects < BulkImportParser
   def create_instance(ao)
     dig_instance = nil
     begin
-      dig_instance = @doh.create(@row_hash["digital_object_title"],
-                                 @row_hash["thumbnail"], @row_hash["digital_object_link"], @row_hash["digital_object_id"], @row_hash["publish"], ao, @report, @row_hash['digital_object_link_publish'], @row_hash['thumbnail_publish'])
+      dig_instance = @doh.create(
+        @row_hash["digital_object_title"],
+        @row_hash["thumbnail"],
+        @row_hash["digital_object_link"],
+        @row_hash["digital_object_id"],
+        @row_hash["publish"], ao, @report,
+        @row_hash['digital_object_link_publish'],
+        @row_hash['thumbnail_publish'],
+        @row_hash['is_representative'])
     rescue Exception => e
       @report.add_errors(e.message)
     end
@@ -33,7 +40,6 @@ class ImportDigitalObjects < BulkImportParser
   end
 
   def process_row
-    ret_str = ""
     errs = []
     begin
       resource_match(@resource, @row_hash["ead"], @row_hash["res_uri"])
