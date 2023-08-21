@@ -61,15 +61,6 @@
       data-repo-id="<%= @result['uri'].split('/')[2] %>"
       data-resource-id="<%= @result['uri'].split('/')[4] %>"
     >
-      <!-- load the tree root's first waypoint -->
-      <%
-        root_id = @nav_tree_root['uri'].split('/')[4]
-        div_id = "resource_#{root_id}"
-        a_href = "#tree::resource_#{root_id}"
-        root_title = @nav_tree_root['title']
-        root_identifier = @nav_tree_root['identifier']
-      %>
-
     </div>
   </div>
 </div>
@@ -81,7 +72,7 @@
 </dialog>
 
 <template id="root-row-template">
-  <div class="table-row root-row" role="listitem" data-uri="">
+  <div id="" class="table-row root-row" role="listitem" data-uri="">
     <div class="table-cell title">
       <a class="record-title" href=""></a>
     </div>
@@ -89,15 +80,15 @@
 </template>
 
 <template id="node-row-template">
-  <div class="table-row largetree-node" role="listitem">
-    <div class="table-cell title">
+  <div id="" class="table-row largetree-node" role="listitem" data-uri="">
+    <div class="table-cell title" title="">
       <span class="indentor">
         <button class="expandme" aria-expanded="false">
           <i class="expandme-icon glyphicon glyphicon-chevron-right"></i>
           <span class="sr-only"></span>
         </button>
       </span>
-      <a class="record-title"></a>
+      <a class="record-title" href=""></a>
     </div>
   </div>
 </template>
@@ -136,7 +127,7 @@
         tableRoot.setAttribute('role', 'list');
         tableRoot.className = 'table root';
 
-        tableRoot.appendChild(rootRowMarkup(identifier, title));
+        tableRoot.appendChild(rootRowMarkup(nodeTitle(rootNode)));
         tableRoot.appendChild(rootNodeWaypointsScaffold(
           rootNodeDivId,
           1,
@@ -296,7 +287,7 @@
     function nodeRowMarkup(node, level, shouldObserve, parentId = null, offset = null) {
       const aoId = node.uri.split('/')[4];
       const divId = `archival_object_${aoId}`;
-      const aoTitle = node.title;
+      const aoTitle = nodeTitle(node);
       const aHref = `#tree::${divId}`;
 
       const nodeRowFrag = new DocumentFragment();
@@ -317,7 +308,7 @@
         nodeRow.querySelector('.table-row').setAttribute('data-observe-offset', offset);
       }
 
-      nodeRow.querySelector('.table-cell').setAttribute('title', aoTitle);
+      nodeRow.querySelector('.title').setAttribute('title', aoTitle);
 
       if (node.child_count == 0) {
         nodeRow.querySelector('.expandme').style.visibility = 'hidden';
@@ -332,7 +323,6 @@
 
       if (node.has_digital_instance) {
         const iconHtml = `<i class="has_digital_instance fa fa-file-image-o" aria-hidden="true"></i>`;
-
         nodeRow.querySelector('.record-title').insertAdjacentHTML('beforebegin', iconHtml);
       }
 
@@ -345,13 +335,59 @@
     }
 
     /**
+     * nodeTitle
+     * @description - Build the title of a node
+     * @param {Object} node - node data
+     * @returns {string} - title of the node
+     */
+    function nodeTitle(node) {
+      const title = [];
+
+      if (SHOW_IDENTIFIERS_IN_TREE && node.identifier && node.parsed_title) {
+        const sep = '<%= I18n.t('resource.identifier_separator') %>';
+        title.push(`${node.identifier}${sep} ${node.parsed_title}`);
+      } else if (node.parsed_title) {
+        title.push(node.parsed_title);
+      }
+
+      if (node.label) {
+        title.push(node.label);
+      }
+
+      if (node.dates && node.dates.length > 0) {
+        node.dates.forEach(function(date) {
+          if (date.expression) {
+            if (date.type === 'bulk') {
+              title.push('<%= I18n.t("date_type_bulk.bulk") %>: ' + date.expression);
+            } else {
+              title.push(date.expression);
+            }
+          } else if (date.begin && date.end) {
+            if (date.type === 'bulk') {
+              title.push('<%= I18n.t("date_type_bulk.bulk") %>: ' + date.begin + '-' + date.end);
+            } else {
+              title.push(date.begin + '-' + date.end);
+            };
+          } else if (date.begin) {
+            if (date.type === 'bulk') {
+              title.push('<%= I18n.t("date_type_bulk.bulk") %>: ' + date.begin);
+            } else {
+              title.push(date.begin);
+            };
+          }
+        })
+      }
+
+      return title.join(', ');
+    }
+
+    /**
      * rootRowMarkup
      * @description Append the root row to the tree container
-     * @param {string} identifier - identifier of the root node
      * @param {string} title - title of the root node
      * @returns {DocumentFragment} - DocumentFragment containing the root row
      */
-    function rootRowMarkup(identifier, title) {
+    function rootRowMarkup(title) {
       const rootRowFrag = new DocumentFragment();
       const rootRow = document.querySelector('#root-row-template').content.cloneNode(true);
       const uri = `/repositories/${repoId}/resources/${resourceId}`;
@@ -360,7 +396,7 @@
       rootRow.querySelector('.table-row').setAttribute('data-uri', uri);
 
       rootRow.querySelector('.record-title').href = `#tree::resource_${resourceId}`;
-      rootRow.querySelector('.record-title').innerHTML = `${identifier}: ${title}`;
+      rootRow.querySelector('.record-title').innerHTML = title;
 
       rootRowFrag.appendChild(rootRow);
 

@@ -100,7 +100,7 @@ position: absolute;
 display: none;
 }
 .table-row.largetree-node[data-is-expanded='true'] + .table-row-group {
-display: block;
+display: contents;
 }
 
 .infinite-scroll-container {
