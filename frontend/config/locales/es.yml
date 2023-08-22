@@ -755,7 +755,7 @@ es:
       ser del mismo tipo.
     linked_to_assessment: El registro no se puede eliminar ya que está vinculado a
       una evaluación
-
+    linked_to_user: El registro no se puede eliminar porque está vinculado a un usuario
     merge_denied_relationship: Estos agentes tienen una relación. Elimine la relación
       antes de continuar con la fusión.
     cannot_delete_repository_agent: Este agente está vinculado a un repositorio y
