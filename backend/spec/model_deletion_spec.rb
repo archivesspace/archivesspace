@@ -160,6 +160,16 @@ describe "Deletion of Archival Records" do
   end
 
 
+  it "cannot delete a user's corresponding agent" do
+    user = create_nobody_user
+    agent = AgentPerson.to_jsonmodel(user.agent_record_id)
+
+    expect {
+      agent.delete
+    }.to raise_error(ConflictException, "linked_to_user")
+  end
+
+
   it "won't delete a system user" do
     expect {
       User[:username => "admin"].delete
