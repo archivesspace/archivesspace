@@ -816,7 +816,7 @@ de:
       deleted_merged: Gelöscht-Zusammengeführt
     _note_types: &note_type_definitions
       phystech: Physische Eigenschaften und technische Anforderungen
-      appraisal: Bewertung
+      appraisal: Beurteilung
       arrangement: Anordnung
       bibliography: Bibliografie
       bioghist: Biografisch / Historisch
@@ -942,8 +942,8 @@ de:
       ean: Internationale Artikelnummer
       bdusc: Biographical Directory of the United States Congress (United States Congress)
       fast: 'Faceted Application of Subject Terminology (Dublin, Ohio: OCLC)'
-      idref: "IdRef: le referentiel des autorites Sudoc (L'agence bibliographique de l'enseignement superieur\
-        \ (ABES))"
+      idref: "IdRef: le referentiel des autorites Sudoc (L'agence bibliographique de l'enseignement superieur
+        (ABES))"
       cantic: CANTIC (Catàleg d'autoritats de noms i títols de Catalunya) (Biblioteca de Catalunya)
       doi: Digital Object Identifier
       gnis: Geographic Names Information System (GNIS) (United States Geological Survey, Board on Geographic
@@ -1728,7 +1728,7 @@ de:
       agreement_sent: Vereinbarung gesendet
       collection: Sammlung
       agreement_signed: Vereinbarung unterzeichnet
-      appraisal: Bewertung
+      appraisal: Beurteilung
       assessment: Begutachtung
       capture: Erfassung
       cataloged: Katalogisiert
