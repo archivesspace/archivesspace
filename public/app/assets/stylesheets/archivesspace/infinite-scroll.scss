@@ -1,43 +1,43 @@
 .infinite-record-wrapper {
-height: 600px;
-overflow: hidden;
+  height: 600px;
+  overflow: hidden;
 }
 
 .infinite-record-container {
-width: 100%;
-overflow: hidden;
-will-change: transform;
+  width: 100%;
+  overflow: hidden;
+  will-change: transform;
 
-.waypoint {
-height: 1em;
-}
+  .waypoint {
+    height: 1em;
+  }
 
-.waypoint.populated {
-height: auto;
-}
+  .waypoint.populated {
+    height: auto;
+  }
 }
 
 .infinite-record-scrollbar {
-overflow: scroll;
-position: absolute;
-width: 15px;
+  overflow: scroll;
+  position: absolute;
+  width: 15px;
 }
 
 .infinite-tree-view {
-height: 600px;
-padding: 1em;
+  height: 600px;
+  padding: 1em;
 
-.resource-level,
-.resource-type,
-.resource-container {
-display: none;
-}
+  .resource-level,
+  .resource-type,
+  .resource-container {
+    display: none;
+  }
 }
 
 @media (max-width: 991px) {
-.infinite-tree-sidebar {
-display: none;
-}
+  .infinite-tree-sidebar {
+    display: none;
+  }
 }
 
 $indent-width: 20px;
@@ -46,26 +46,26 @@ $indent-width: 20px;
     90deg,
     transparent,
     transparent ($indent-width - 1),
-#eee $indent-width
-);
+    #eee $indent-width
+  );
 }
 .infinite-item {
-background-color: #fff;
+  background-color: #fff;
 
-@for $i from 2 through 12 {
+  @for $i from 2 through 12 {
     &.infinite-item-indent-#{$i} {
-margin-left: $indent-width * ($i - 1);
-padding-left: $indent-width;
-}
-}
-h3 {
-margin-top: 0;
-}
+      margin-left: $indent-width * ($i - 1);
+      padding-left: $indent-width;
+    }
+  }
+  h3 {
+    margin-top: 0;
+  }
 
-dl.dl-horizontal {
-margin-top: 5px;
-margin-bottom: 0;
-padding-bottom: 10px;
+  dl.dl-horizontal {
+    margin-top: 5px;
+    margin-bottom: 0;
+    padding-bottom: 10px;
 
     dt {
       text-align: left;
@@ -77,124 +77,126 @@ padding-bottom: 10px;
     dd {
       line-height: 1.2em;
     }
-
-}
+  }
 }
 
 .waypoint:last-child {
-.infinite-record-record:last-child {
-&::after {
-content: '';
-border-bottom: 5px solid #ccc;
-width: 90%;
-left: 5%;
-display: block;
-padding-top: 40px;
-background: #fff;
-position: absolute;
-}
-}
+  .infinite-record-record:last-child {
+    &::after {
+      content: '';
+      border-bottom: 5px solid #ccc;
+      width: 90%;
+      left: 5%;
+      display: block;
+      padding-top: 40px;
+      background: #fff;
+      position: absolute;
+    }
+  }
 }
 
 .table-row.largetree-node[data-is-expanded='false'] + .table-row-group {
-display: none;
+  display: none;
 }
 .table-row.largetree-node[data-is-expanded='true'] + .table-row-group {
-display: contents;
+  display: contents;
 }
 
 .infinite-scroll-container {
-overflow-y: auto;
-scroll-behavior: smooth;
-height: 600px;
+  overflow-y: auto;
+  scroll-behavior: smooth;
+  height: 600px;
 }
 
 .infinite-scroll-container .root {
-height: 100%;
-display: flex;
-flex-direction: column;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
 }
 
 /* increase content area height so bottom-most records can be
 scrolled into view like the others */
 .infinite-scroll-container .waypoint:last-of-type {
-padding-bottom: 550px;
+  padding-bottom: 550px;
 }
 
 @keyframes yellow-fade {
-from {
-background: yellow;
-}
-to {
-background: transparent;
-}
+  from {
+    background: yellow;
+  }
+  to {
+    background: transparent;
+  }
 }
 
 @keyframes fadeout {
-from {
-opacity: 1;
-}
-to {
-opacity: 0;
-}
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
 }
 
 .item-highlight {
-animation: yellow-fade 2s;
+  animation: yellow-fade 2s;
 }
 .item-fadeout {
-animation: fadeout .5s;
+  animation: fadeout 0.5s;
 }
 
 .spinner-border {
-display: inline-block;
-width: 2rem;
-height: 2rem;
-vertical-align: -.125em;
-border: .25em solid currentcolor;
-border-right-color: currentcolor;
-border-right-color: transparent;
-border-radius: 50%;
--webkit-animation: .75s linear infinite spinner-border;
-animation: .75s linear infinite spinner-border;
+  display: inline-block;
+  width: 2rem;
+  height: 2rem;
+  vertical-align: -0.125em;
+  border: 0.25em solid currentcolor;
+  border-right-color: currentcolor;
+  border-right-color: transparent;
+  border-radius: 50%;
+  -webkit-animation: 0.75s linear infinite spinner-border;
+  animation: 0.75s linear infinite spinner-border;
 }
 @keyframes spinner-border {
-to { transform: rotate(360deg); }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
-.visually-hidden, .visually-hidden-focusable:not(:focus):not(:focus-within) {
-position: absolute !important;
-width: 1px !important;
-height: 1px !important;
-padding: 0 !important;
-margin: -1px !important;
-overflow: hidden !important;
-clip: rect(0,0,0,0) !important;
-white-space: nowrap !important;
-border: 0 !important;
+.visually-hidden,
+.visually-hidden-focusable:not(:focus):not(:focus-within) {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
 }
 
 .records-progress-container {
-position: sticky;
-top: 0;
-margin-bottom: 1rem;
-display: flex;
-flex-wrap: wrap;
-align-items: center;
-justify-content: flex-start;
-column-gap: .5rem;
-background: white;
+  position: sticky;
+  top: 0;
+  margin-bottom: 1rem;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-start;
+  column-gap: 0.5rem;
+  background: white;
 }
 
 .records-progress-label {
-margin: 0;
-display: flex;
-align-items: center;
-justify-content: flex-end;
-font-style: italic;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  font-style: italic;
 }
 
 .records-progress-button {
-margin-left: -1px;
-cursor: default;
+  margin-left: -1px;
+  cursor: default;
 }
