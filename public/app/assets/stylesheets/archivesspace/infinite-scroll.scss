@@ -103,9 +103,10 @@ $indent-width: 20px;
 }
 
 .infinite-scroll-container {
+  position: relative;
+  height: 600px;
   overflow-y: auto;
   scroll-behavior: smooth;
-  height: 600px;
 }
 
 .infinite-scroll-container .root {
@@ -114,8 +115,7 @@ $indent-width: 20px;
   flex-direction: column;
 }
 
-/* increase content area height so bottom-most records can be
-scrolled into view like the others */
+/* allow the final record to be scrolled to the top */
 .infinite-scroll-container .waypoint:last-of-type {
   padding-bottom: 550px;
 }
