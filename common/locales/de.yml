@@ -763,7 +763,7 @@ de:
       agreement_signed: Vereinbarung unterzeichnet
       agreement_received: Vereinbarung erhalten
       agreement_sent: Vereinbarung gesendet
-      appraisal: Bewertung
+      appraisal: Beurteilung
       assessment: Begutachtung
       capture: Erfassen
       cataloged: Katalogisiert
@@ -2398,7 +2398,7 @@ de:
     deed_of_gift: Schenkungsurkunde
     existing_description_notes: Anmerkungen zu vorhandener Beschreibung
     finding_aid_paper: Findmittel (nur auf Papier)
-    appraisal: Bewertung
+    appraisal: Beurteilung
     surveyed_extent: Erfasster Umfang
     review_required_tooltip: <p>Gibt an, ob für die Sammlung aufgrund ihres Formats, ihres Gegenstands
       oder ihrer Umstände eine Überprüfung erforderlich ist.</p>
