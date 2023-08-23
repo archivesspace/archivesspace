@@ -2112,7 +2112,7 @@ de:
       action:
         create: Behältnis-Profil erstellen
         save: Behältnis-Profil speichern
-        edit: Behältnis-Profil speichern
+        edit: Behältnis-Profil bearbeiten
         space_calculator: Platz-Rechner
       bulk_operations:
         merge: Behältnis-Profile zusammenführen
