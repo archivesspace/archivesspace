@@ -170,6 +170,7 @@ de:
     backend_down: Konnte nicht mit der Datenbank verbinden
     unexpected_error: Ihre Anfrage konnte wegen einem unerwartetem Fehler nicht abgeschlossen werden
     error_404: '%{type} Aufzeichnung nicht gefunden'
+    invalid_search_params: Ungültiger Suchparameter '%{value}' für Feld '%{field}'
   boolean:
     "true": Ja
     "false": Nein
@@ -299,7 +300,7 @@ de:
   digital_object:
     _singular: Digitale Aufzeichnung
     _public:
-      thumbnail: Vorschaubild
+      thumbnail: Vorschau
       link: Verweis zu digitalem Objekt
       badge_label: Digital %{level}
       go: Gehen Sie zur Datei
