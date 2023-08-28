@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# NOTE: this spec has been ported to features/top_containers_spec.rb
+
 require_relative '../spec_helper'
 
 describe 'Resource instances and containers' do

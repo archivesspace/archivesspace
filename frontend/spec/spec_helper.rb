@@ -85,6 +85,7 @@ RSpec.configure do |config|
     require_relative 'factories'
 
     $indexer = RealtimeIndexer.new(AppConfig[:backend_url], nil)
+    $period = PeriodicIndexer.new($backend, nil, 'periodic_indexer', false)
 
     Factories.init
 

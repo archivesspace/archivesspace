@@ -444,6 +444,10 @@ en:
       asc: Ascending
       desc: Descending
       uri: URI
+      series_level_u_sstr: Series
+      collection_identifier_stored_u_sstr: Collection
+      ils_holding_id: ILS Holding ID
+      exported_to_ils: Exported to ILS
     container_profile:
       score: Relevance
       title: Title

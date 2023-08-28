@@ -229,11 +229,12 @@ BulkContainerSearch.prototype.setup_table_sorter = function () {
     // Get the most recent sort, if it exists
     currentSort = sessionStorage.getItem('top_container_sort');
     if (currentSort == null || currentSort == undefined) {
-      // default sort: Collection, Series, Indicator
+      // use default sort (the +1 to the column index is to account for the checkbox column)
       currentSort = [
-        [1, 0],
-        [2, 0],
-        [4, 0],
+        [
+          parseInt($('#default_sort_col')[0]['value']) + 1,
+          parseInt($('#default_sort_dir')[0]['value']),
+        ],
       ];
     } else {
       currentSort = JSON.parse(currentSort);

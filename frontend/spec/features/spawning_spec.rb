@@ -11,6 +11,7 @@ describe 'Spawning', js: true do
       extents: [build(:json_extent)],
       dates: [build(:json_date, date_type: "single")]
     )
+    run_all_indexers
   end
 
   before(:each) do
