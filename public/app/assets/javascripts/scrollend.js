@@ -1,5 +1,6 @@
-// Scrollend polyfill
+// Scrollend event polyfill for safari, ios, and opera
 // via https://github.com/argyleink/scrollyfills/blob/1ca96b0669743fcfbeebc4a8175724fe237a4b09/dist/scrollyfills.umd.js
+// This UMD version was built from source
 
 !(function (e, t) {
   'object' == typeof exports && 'undefined' != typeof module
