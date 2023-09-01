@@ -20,7 +20,8 @@
   sidebar_waypoint_size = 200
   num_records = @ordered_records.count
 %>
-<div class="row">
+<!-- COMMENTING OUT BELOW FOR TESTERS UNTIL A PROPER UI is created -->
+<!-- <div class="row">
   <div class="col-sm-9 records-progress-container">
     <p class="records-progress-label">
       <span style="padding: .15rem;" data-showing-current>&nbsp;&nbsp;&nbsp;</span>
@@ -32,7 +33,7 @@
   </div>
   <div class="col-sm-3">
   </div>
-</div>
+</div>-->
 
 <div class="row" style="overflow: hidden;">
   <div
@@ -111,7 +112,8 @@
     const repoId = '<%= @result['uri'].split('/')[2] %>';
     const resourceId = '<%= @result['uri'].split('/')[4] %>';
     const rootNodeDivId = `resource_${resourceId}`;
-    const treeBaseUri = '<%= url_for(:action => :show) %>/tree';
+    const apiBase = '<%= url_for(:action => :show) %>';
+    const treeBaseUri = `${apiBase}/tree`;
     const treeRootUri = `${treeBaseUri}/root`;
     const treeNodeUri = `${treeBaseUri}/node`;
     const treeWaypointUri = `${treeBaseUri}/waypoint`;
@@ -685,7 +687,13 @@
       }
     }
 
-    $('[data-show-all-records]').on('click', () => { populateAllWaypoints(); });
+    // need to set isOkToObserve = false, then remove the event listener
+    // so let's start by rewriting the below jquery using vanilla js
+    // $('[data-show-all-records]').on('click', () => { populateAllWaypoints(); });
+
+    // COMMENTING OUT BELOW FOR TESTERS UNTIL A PROPER UI is created
+    // const showAllRecordsBtn = document.querySelector('[data-show-all-records]');
+    // showAllRecordsBtn.addEventListener('click', populateAllWaypoints);
 
     $('#tree-container').on('click', 'a.record-title', largetreeLinkClickHandler);
 
@@ -854,7 +862,7 @@
         query.append('urls[]', uri);
       });
 
-      const url = `<%= url_for(:action => :show) %>/infinite/waypoints?${query}`;
+      const url = `${apiBase}/infinite/waypoints?${query}`;
 
       return fetch(url)
         .then((response) => response.json())
@@ -946,7 +954,8 @@
 
         waypointEl.classList.add('populated');
 
-        updateShowingCurrent();
+        // COMMENTING OUT BELOW FOR TESTERS UNTIL A PROPER UI is created
+        // updateShowingCurrent();
 
         clearWaypointFromDatasets(wpNum);
       });
