@@ -20,8 +20,7 @@
   sidebar_waypoint_size = 200
   num_records = @ordered_records.count
 %>
-<!-- COMMENTING OUT BELOW FOR TESTERS UNTIL A PROPER UI is created -->
-<!-- <div class="row">
+<div class="row">
   <div class="col-sm-9 records-progress-container">
     <p class="records-progress-label">
       <span style="padding: .15rem;" data-showing-current>&nbsp;&nbsp;&nbsp;</span>
@@ -33,7 +32,7 @@
   </div>
   <div class="col-sm-3">
   </div>
-</div>-->
+</div>
 
 <div class="row" style="overflow: hidden;">
   <div
@@ -563,6 +562,7 @@
     const NUM_TOTAL_WAYPOINTS = Math.ceil(NUM_TOTAL_RECORDS / WAYPOINT_SIZE);
     const contentScrollContainer = document.querySelector('.infinite-scroll-container');
     const modal = document.querySelector('[data-loading-modal]');
+    const recordsWaypointUri = `${apiBase}/infinite/waypoints`;
 
     /**
      * __renderWaypoints
@@ -642,9 +642,13 @@
 
     let isOkToObserve = true;
 
-    contentScrollContainer.addEventListener('scrollend', () => {
-      isOkToObserve = true;
-    });
+    contentScrollContainer.addEventListener(
+      'scrollend',
+      () => {
+        isOkToObserve = true;
+      }
+    );
+
 
     initRecords(window.location.hash);
 
@@ -691,9 +695,8 @@
     // so let's start by rewriting the below jquery using vanilla js
     // $('[data-show-all-records]').on('click', () => { populateAllWaypoints(); });
 
-    // COMMENTING OUT BELOW FOR TESTERS UNTIL A PROPER UI is created
-    // const showAllRecordsBtn = document.querySelector('[data-show-all-records]');
-    // showAllRecordsBtn.addEventListener('click', populateAllWaypoints);
+    const showAllRecordsBtn = document.querySelector('[data-show-all-records]');
+    showAllRecordsBtn.addEventListener('click', populateAllWaypoints);
 
     $('#tree-container').on('click', 'a.record-title', largetreeLinkClickHandler);
 
@@ -862,7 +865,7 @@
         query.append('urls[]', uri);
       });
 
-      const url = `${apiBase}/infinite/waypoints?${query}`;
+      const url = `${recordsWaypointUri}?${query}`;
 
       return fetch(url)
         .then((response) => response.json())
@@ -954,10 +957,9 @@
 
         waypointEl.classList.add('populated');
 
-        // COMMENTING OUT BELOW FOR TESTERS UNTIL A PROPER UI is created
-        // updateShowingCurrent();
-
         clearWaypointFromDatasets(wpNum);
+
+        updateShowingCurrent();
       });
     }
 
@@ -1006,17 +1008,60 @@
       }
     }
 
-
-    // NEED TO UPDATE THIS FUNCTION TO THE NEW ASYNC APPROACH
+    // THIS WORKS, and works well. The large BYU resource is a real challenge for 
+    // all browsers. Firefox works best, then safari although a bit clunky.
+    // Chrome is totally messed up, erroring out on 400+ fetches from the worker
+    // every time...not sure why. Perhaps splitting the total number of empty
+    // waypoints to populate into slices of 20 or so, and run through each slice at
+    // a time, sending data to the main thread before starting the next slice???
     /**
      * populateAllWaypoints
      * @description Populate remaining empty waypoints
      */
     function populateAllWaypoints() {
-      const waypointNums = Array.from(document.querySelectorAll('.waypoint:not(.populated)'))
-        .map(waypoint => parseInt(waypoint.dataset.waypointNumber, 10));
+      const MAX_WAYPOINTS_MAIN_THREAD = 20;
+      const resourceUri = `/repositories/${repoId}/resources/${resourceId}`;
+      const waypointNums = Array
+        .from(contentScrollContainer.querySelectorAll('.waypoint:not(.populated)'))
+        .map(waypoint => parseInt(waypoint.dataset.waypointNumber, 10));      
       
-      // populateWaypoints(waypointNums);
+      isOkToObserve = false;
+
+      contentScrollContainer.removeEventListener(
+        'scrollend',
+        () => {
+          isOkToObserve = true;
+        }
+      );
+
+      toggleModal();
+      
+      if (waypointNums.length > 0 && waypointNums.length < MAX_WAYPOINTS_MAIN_THREAD) {
+        __renderWaypoints(waypointNums);
+      } else {
+        const recordsWorker = new Worker("<%= javascript_path "worker_infinite.js" %>");
+        const waypointTuples = waypointNums.map((wpNum) => [
+            wpNum,
+            contentScrollContainer
+            .querySelector(`.waypoint[data-waypoint-number='${wpNum}']`)
+            .dataset.uris.split(';')
+          ]
+        );
+
+        recordsWorker.postMessage({ waypointTuples, resourceUri });
+
+        recordsWorker.onmessage = (e) => {
+          console.log('message event from worker: ', e);
+
+          __populateRecordWaypoints(e.data);
+
+          updateShowingCurrent();
+
+          recordsWPObs.disconnect();
+
+          toggleModal();
+        };
+      }
     }
 
     /**
