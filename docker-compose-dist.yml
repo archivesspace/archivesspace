@@ -40,7 +40,7 @@ services:
     container_name: as_dist_proxy
     build:
       args:
-        default: default.conf.dist
+        DEFAULT_CFG: default.conf.dist
       context: ./proxy
     image: archivesspace/proxy-dist:1.21
     ports:
