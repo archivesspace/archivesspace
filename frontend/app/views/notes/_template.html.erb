@@ -12,7 +12,7 @@
   <%= form.label_and_date("end") %>
   <% if form.readonly? %>
     <%# ANW-1426: don't display local access restriction type if empty to prevent it from showing for conditions governing use notes, where it is inappropriate %>
-    <% unless form.obj['local_access_restriction_type'] == [] %>
+    <% if form.obj['local_access_restriction_type'] && form.obj['local_access_restriction_type'].present? %>
       <div class="control-group">
         <%= form.label("local_access_restriction_type") %>
         <div class="controls">
