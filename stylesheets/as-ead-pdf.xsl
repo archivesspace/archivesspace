@@ -184,6 +184,7 @@
                 <fo:static-content flow-name="xsl-region-before" margin-top=".15in">
                     <fo:block color="dimgray" font-size="10pt" text-align="center">
                         <xsl:apply-templates select="ead:ead/ead:eadheader/ead:filedesc/ead:titlestmt" mode="pageHeader"/>
+                        <xsl:apply-templates select="ead:ead/ead:did/ead:unitid" mode="pageHeader"/>
                     </fo:block>
                 </fo:static-content>
                 <!-- Page footer-->
