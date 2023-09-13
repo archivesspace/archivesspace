@@ -1257,7 +1257,7 @@ class EAD3Serializer < EADSerializer
 
 
   def serialize_controlaccess(data, xml, fragments)
-    if (data.controlaccess_subjects.length + data.controlaccess_linked_agents(@include_unpublished).length) > 0
+    if (data.controlaccess_subjects.length + data.controlaccess_linked_agents(@include_unpublished).reject {|x| x.empty?}.length) > 0
       xml.controlaccess {
 
         data.controlaccess_subjects.zip(data.subjects).each do |node_data, subject|
@@ -1276,6 +1276,8 @@ class EAD3Serializer < EADSerializer
         end
 
         data.controlaccess_linked_agents(@include_unpublished).zip(data.linked_agents).each do |node_data, agent|
+
+          next if node_data.empty?
 
           if node_data[:atts][:role]
             node_data[:atts][:relator] = node_data[:atts][:role]
