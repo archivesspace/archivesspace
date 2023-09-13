@@ -401,6 +401,7 @@ class EADSerializer < ASpaceExport::Serializer
 
           xml.send(node_name, atts) {
             sanitize_mixed_content(sort_name, xml, fragments )
+            EADSerializer.run_serialize_step(agent, xml, fragments, node_name.to_sym)
           }
         }
       end
@@ -410,15 +411,17 @@ class EADSerializer < ASpaceExport::Serializer
   def serialize_controlaccess(data, xml, fragments)
     if (data.controlaccess_subjects.length + data.controlaccess_linked_agents(@include_unpublished).length) > 0
       xml.controlaccess {
-        data.controlaccess_subjects.each do |node_data|
+        data.controlaccess_subjects.zip(data.subjects).each do |node_data, subject|
           xml.send(node_data[:node_name], node_data[:atts]) {
             sanitize_mixed_content( node_data[:content], xml, fragments, ASpaceExport::Utils.include_p?(node_data[:node_name]) )
+            EADSerializer.run_serialize_step(subject['_resolved'], xml, fragments, node_data[:node_name].to_sym)
           }
         end
 
-        data.controlaccess_linked_agents(@include_unpublished).each do |node_data|
+        data.controlaccess_linked_agents(@include_unpublished).zip(data.linked_agents).each do |node_data, agent|
           xml.send(node_data[:node_name], node_data[:atts]) {
             sanitize_mixed_content( node_data[:content], xml, fragments, ASpaceExport::Utils.include_p?(node_data[:node_name]) )
+            EADSerializer.run_serialize_step(agent['_resolved'], xml, fragments, node_data[:node_name].to_sym)
           }
         end
       } #</controlaccess>
